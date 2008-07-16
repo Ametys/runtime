@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--+
+    | Copyright (c) 2007 Anyware Technologies and others.
+    | All rights reserved. This program and the accompanying materials
+    | are made available under the terms of the Eclipse Public License v1.0
+    | which accompanies this distribution, and is available at
+    | http://www.opensource.org/licenses/eclipse-1.0.php
+    | 
+    | Contributors:
+    |     Anyware Technologies - initial API and implementation
+    +-->
+    
+<!-- +
+     | This file configures the administrator page.
+     + -->
+<administrator>
+    <actions>
+        <category name="WORKSPACE_ADMIN_SECTION_SYSTEM_LABEL">
+            <item id="org.ametys.runtime.plugins.core.administrator.Password"/>
+            <item id="org.ametys.runtime.plugins.core.administrator.System"/>
+            <item id="org.ametys.runtime.plugins.core.administrator.Config"/>
+            <item id="org.ametys.runtime.plugins.core.administrator.JVMStatus"/>
+            <item id="org.ametys.runtime.plugins.core.administrator.Logs"/>
+        </category>
+
+        <category name="WORKSPACE_ADMIN_SECTION_USERSMANAGEMENT_LABEL">
+            <item id="org.ametys.runtime.plugins.core.Users"/>
+            <item id="org.ametys.runtime.plugins.core.Groups"/>
+            <item id="org.ametys.runtime.plugins.core.right.Profiles"/>
+            <item id="org.ametys.runtime.plugins.core.right.Assign"/>
+        </category>
+        
+        <category name="WORKSPACE_ADMIN_SECTION_APPLICATION_LABEL">
+            <item id="org.ametys.runtime.plugins.core.administrator.Plugins"/>
+        </category>
+    </actions>
+</administrator>

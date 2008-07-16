@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--+
+    | Copyright (c) 2007 Anyware Technologies and others.
+    | All rights reserved. This program and the accompanying materials
+    | are made available under the terms of the Eclipse Public License v1.0
+    | which accompanies this distribution, and is available at
+    | http://www.opensource.org/licenses/eclipse-1.0.php
+    | 
+    | Contributors:
+    |     Anyware Technologies - initial API and implementation
+    +-->
+<map:sitemap xmlns:map="http://apache.org/cocoon/sitemap/1.0">
+
+<!-- =========================== Components ================================ -->
+
+	<map:components>
+        <map:generators>
+            <map:generator name="version" src="org.ametys.runtime.plugins.core.administrator.version.VersionsGenerator" logger="org.ametys.runtime.workspaces.admin.sitemap.generator.versions">
+            </map:generator>
+            <map:generator name="desktop" src="org.ametys.runtime.plugins.core.ui.generator.DesktopGenerator" logger="org.ametys.runtime.workspaces.admin.sitemap.generator.desktop">
+                <element>Desktop</element>
+            </map:generator>
+        </map:generators>
+        
+		<map:actions>
+			<map:action name="authenticate" src="org.ametys.runtime.workspaces.admin.authentication.AdminAuthenticateAction" logger="org.ametys.runtime.workspaces.admin.sitemap.action.authentication"/>
+            <map:action name="set-authorization-header" src="org.ametys.runtime.workspaces.admin.authentication.SetAuthorizationHeaderAction" logger="org.ametys.runtime.workspaces.admin.sitemap.action.setheader"/>
+		</map:actions>
+        
+        <map:selectors default="exception">
+            <map:selector logger="org.ametys.runtime.workspaces.admin.sitemap.selector.exception" name="exception" src="org.apache.cocoon.selection.ExceptionSelector">
+                <exception class="org.apache.cocoon.ResourceNotFoundException" name="not-found"/>
+                <exception class="org.ametys.runtime.authentication.AccessDeniedException" name="access-denied"/>
+                <exception class="org.ametys.runtime.authentication.AuthorizationRequiredException" name="authorization-required"/>
+                <!-- The statement below tells the selector to unroll as much exceptions as possible -->
+                <exception class="java.lang.Throwable" unroll="true"/>
+            </map:selector>
+        </map:selectors>        
+	</map:components>
+
+<!-- =========================== Views =================================== -->
+
+	<map:views>
+		<map:view name="content" from-label="content">
+			<map:serialize type="xml"/>
+		</map:view>
+	</map:views>
+
+<!-- =========================== Pipelines ================================= -->
+
+	<map:pipelines>
+    
+        <map:pipeline internal-only="true">
+            <map:match pattern="homepage-desktop.xml">
+				<map:generate type="desktop" label="content">
+                    <map:parameter name="DesktopManager.ROLE" value="org.ametys.runtime.workspaces.admin.DesktopManager"/>
+				</map:generate>
+                <map:serialize type="xml"/>
+            </map:match>
+
+            <map:match pattern="homepage-versions.xml">
+                <map:generate type="version" label="content"/>
+                <map:serialize type="xml"/>
+            </map:match>
+        </map:pipeline>
+	
+		<map:pipeline>
+			<!-- redirect to application entry point -->
+			<map:match pattern="">
+				<map:redirect-to uri="index.html"/>
+			</map:match>
+			
+			<!-- pages non authentifiées -->
+			<map:match pattern="public/*.html">
+				<map:generate type="action-result"/>
+				<map:transform src="pages/public/{1}.xsl">
+					<map:parameter name="contextPath" value="{request:contextPath}"/>
+                    <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
+                    <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/>
+                    <map:parameter name="redirect" value="{request-param:uri}"/>
+				</map:transform>
+				<map:transform type="i18n">
+					<map:parameter name="locale" value="{locale:locale}"/>
+                    <map:parameter name="workspace" value="{request-attr:workspaceName}"/>
+				</map:transform>
+				<map:serialize/>
+			</map:match>
+			
+			<!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*- -->
+			<!-- Authentification -->
+			<!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*- -->			
+			<map:match pattern="**">
+				<map:act type="authenticate"/>
+			</map:match>
+			
+			<!-- Page d'index -->
+			<map:match pattern="index.html">
+                <map:aggregate element="Admin">
+                    <map:part src="cocoon:/homepage-desktop.xml"/>
+                    <map:part src="cocoon:/homepage-versions.xml"/>
+                </map:aggregate>
+				<map:transform type="xslt" src="pages/index.xsl">
+					<map:parameter name="contextPath" value="{request:contextPath}"/>
+                    <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
+                    <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/>
+				</map:transform>
+				<map:transform type="i18n">
+					<map:parameter name="locale" value="{locale:locale}"/>
+                    <map:parameter name="workspace" value="{request-attr:workspaceName}"/>
+				</map:transform>
+				<map:serialize type="html"/>
+			</map:match>
+			
+			<!-- ******* -->
+			<!-- PLUGINS -->
+			<!-- ******* -->
+			
+			<!-- Pages -->
+			<map:match pattern="plugins/*/**">
+                <map:act type="setter">
+                    <map:parameter name="pluginName" value="{1}"/>
+                </map:act>
+				<map:mount check-reload="yes" src="plugin:{1}://" uri-prefix="plugins/{1}"/>
+			</map:match>
+            
+			<map:match pattern="_plugins/*/**">
+                <map:act type="setter">
+                    <map:parameter name="pluginName" value="{1}"/>
+                </map:act>
+                
+				<map:generate src="cocoon://_plugins/{1}/{2}"/>
+				<map:transform src="pages/core/plugin.xsl">
+					<map:parameter name="contextPath" value="{request:contextPath}"/>
+                    <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
+                    <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/>
+				</map:transform>
+				<map:transform type="i18n">
+					<map:parameter name="locale" value="{locale:locale}"/>
+					<map:parameter name="plugin" value="{1}"/>
+				</map:transform>
+				<map:serialize/>
+			</map:match>
+			
+			<map:handle-errors>
+				<map:select type="exception">
+					<map:when test="not-found">
+		        		<map:generate type="exception" label="content"/>
+		          		<map:transform src="resource://org/ametys/runtime/kernel/pages/error/error.xsl">
+	    	        		<map:parameter name="contextPath" value="{request:contextPath}"/>
+		            		<map:parameter name="realpath" value="{realpath:}"/>
+		            		<map:parameter name="pageTitle" value="ADMINISTRATION - Resource not found"/>
+		            		<map:parameter name="code" value="404"/>
+		          		</map:transform>
+                        <map:transform type="i18n">
+                            <map:parameter name="locale" value="{locale:locale}"/>
+                        </map:transform>
+		          		<map:serialize status-code="404"/>		          		
+					</map:when>
+					<map:when test="authorization-required">
+						<map:act type="set-authorization-header"/>
+		        		<map:generate type="exception" label="content"/>
+		          		<map:transform src="resource://org/ametys/runtime/kernel/pages/error/error.xsl">
+	    	        		<map:parameter name="contextPath" value="{request:contextPath}"/>
+		            		<map:parameter name="realpath" value="{realpath:}"/>
+		            		<map:parameter name="code" value="401"/>
+		            		<map:parameter name="pageTitle" value="ADMINISTRATION - Authorization required"/>
+		          		</map:transform>
+                        <map:transform type="i18n">
+                            <map:parameter name="locale" value="{locale:locale}"/>
+                        </map:transform>
+		          		<map:serialize status-code="401"/>		          		
+					</map:when>
+					<map:when test="access-denied">
+		        		<map:generate type="exception" label="content"/>
+		          		<map:transform src="resource://org/ametys/runtime/kernel/pages/error/error.xsl">
+	    	        		<map:parameter name="contextPath" value="{request:contextPath}"/>
+		            		<map:parameter name="realpath" value="{realpath:}"/>
+		            		<map:parameter name="pageTitle" value="ADMINISTRATION - Access denied"/>
+		            		<map:parameter name="code" value="403"/>
+		          		</map:transform>
+                        <map:transform type="i18n">
+                            <map:parameter name="locale" value="{locale:locale}"/>
+                        </map:transform>
+		          		<map:serialize status-code="403"/>		          		
+					</map:when>
+					<map:otherwise>					
+		        		<map:generate type="exception" label="content"/>
+		          		<map:transform src="resource://org/ametys/runtime/kernel/pages/error/error.xsl">
+	    	        		<map:parameter name="contextPath" value="{request:contextPath}"/>
+		            		<map:parameter name="realpath" value="{realpath:}"/>
+		            		<map:parameter name="code" value="500"/>
+                            <map:parameter name="pageTitle" value="ADMINISTRATION - An error occured"/>
+		          		</map:transform>
+                        <map:transform type="i18n">
+                            <map:parameter name="locale" value="{locale:locale}"/>
+                        </map:transform>
+		          		<map:serialize status-code="500"/>		          		
+					</map:otherwise>
+				</map:select>
+			</map:handle-errors>
+		</map:pipeline>
+	</map:pipelines>
+</map:sitemap>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    DATASOURCE CONFIG
+    USER LDAP CONFIG
+    GROUP DRIVEN LDAP CONFIG
+ -->
+<config>
+<runtime.datasource.core.jdbc.user>Ametys_Runtime</runtime.datasource.core.jdbc.user>
+<runtime.datasource.core.jdbc.driver>com.mysql.jdbc.Driver</runtime.datasource.core.jdbc.driver>
+<runtime.datasource.core.jdbc.passwd>Ametys_Runtime</runtime.datasource.core.jdbc.passwd>
+<runtime.datasource.core.jdbc.url>jdbc:mysql://fonzy/Ametys_Runtime_Test</runtime.datasource.core.jdbc.url>
+<runtime.authentication.basic.realm>realm</runtime.authentication.basic.realm>
+
+<runtime.datasource.core.ldap.baseUrl>ldap://ldap-dev.anyware</runtime.datasource.core.ldap.baseUrl>
+<runtime.datasource.core.ldap.useSSL>false</runtime.datasource.core.ldap.useSSL>
+<runtime.datasource.core.ldap.baseDN>dc=ametys-test-users,dc=org</runtime.datasource.core.ldap.baseDN>
+<runtime.datasource.core.ldap.authMethod>none</runtime.datasource.core.ldap.authMethod>
+<runtime.datasource.core.ldap.adminDN></runtime.datasource.core.ldap.adminDN>
+<runtime.datasource.core.ldap.adminPasswd></runtime.datasource.core.ldap.adminPasswd>
+
+<runtime.users.ldap.peopleDN>ou=people</runtime.users.ldap.peopleDN>
+<runtime.users.ldap.baseFilter>(objectclass=inetOrgPerson)</runtime.users.ldap.baseFilter>
+<runtime.users.ldap.scope>sub</runtime.users.ldap.scope>
+<runtime.users.ldap.loginAttr>uid</runtime.users.ldap.loginAttr>
+<runtime.users.ldap.firstnameAttr>givenName</runtime.users.ldap.firstnameAttr>
+<runtime.users.ldap.lastnameAttr>sn</runtime.users.ldap.lastnameAttr>
+<runtime.users.ldap.emailAttr>mail</runtime.users.ldap.emailAttr>
+
+<runtime.groups.ldap.groupDN>ou=groups</runtime.groups.ldap.groupDN>
+<runtime.groups.ldap.filter>(objectclass=organizationalUnit)</runtime.groups.ldap.filter>
+<runtime.groups.ldap.scope>one</runtime.groups.ldap.scope>
+<runtime.groups.ldap.id>ou</runtime.groups.ldap.id>
+<runtime.groups.ldap.description>description</runtime.groups.ldap.description>
+<runtime.groups.ldap.memberof>memberOf</runtime.groups.ldap.memberof>
+</config>

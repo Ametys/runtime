@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<releases>
+	<release name="v1_0_0">
+<!--		<note module="kernel|core|admin" type="add|update|fix|delete">sample</note>-->
+		<note module="kernel" type="add">Implémentation initiale</note>
+	</release>
+    <release name="v1_0_1">
+        <note module="kernel" type="fix">Le catalogue i18n du groupe d'un paramètre de déploiement était lu sur l'élément 'category'</note>
+        <note module="kernel" type="add">Mise à jour des javascript STools pour traiter le drag'n'drop entre STree et SListview</note>
+        <note module="kernel" type="fix">Lorsque la configuration est incomplète les mots de passe sont conservés</note>
+        <note module="core" type="fix">Message de log de l'action hasRight corrigé</note>
+    </release>
+    <release name="v1_0_2">
+        <note module="core" type="fix">Plugins d'administration de logs fonctionnel</note>
+        <note module="core" type="fix">Quand le UsersManager ne traite pas le firstname, la mention 'null' n'apparait plus lors de la création</note>
+        <note module="kernel" type="fix">Bug sur le MenusManager lorsqu'une UIItemFactory n'a pas d'item</note>
+        <note module="core" type="fix">La boite de dialogue de changement de mot de passe peut s'ouvrir plusieurs fois</note>
+        <note module="doc" type="add">Les schémas XSD sont maintenant commentés</note>
+        <note module="kernel" type="fix">La methode privée lazyInitialize des 3 UI managers fournis est synchronisée pour éviter l'initialisation multiple</note>
+        <note module="core" type="fix">Le fichier javascript du widget calendrier est maintenant valide même si le catalogue i18n est absent</note>
+    	<note module="kernel" type="fix">Bug sur le ToolbarsManager lorsqu'une UIItemFactory n'a pas d'item</note>
+    	<note module="kernel" type="fix">La fonction Tools.loadHTML fait un vrai POST</note>
+        <note module="kernel" type="fix">Les configurations des différents éléments d'un plugin sont passés de lax à skip dans le schéma XSD pour éviter certains problèmes de validation</note>
+        <note module="core" type="fix">Correction de fautes d'orthographes dans le catalogue français</note>
+        <note module="builtin" type="update">Les serializers XML et HTML par défaut n'indentent plus</note>
+        <note module="kernel" type="fix">Ne pas créer de session dans UserHelper inutilement si le login de l'utilisateur n'est pas dans la session</note>
+        <note module="core" type="fix">La lecture de l'assignation de profil envoyait un xml éronné</note>
+        <note module="core" type="fix">Si le ModifiableJDBCUsersManager utilise un attribut de type boolean, la case à cocher en modification n'était pas correctement initalisée</note>
+        <note module="kernel" type="update">On peut spécifier un catalogue quelconque pour les labels et les descriptions des paramètres de config</note>
+    </release>
+    <release name="v1_0_3">
+        <note module="kernel" type="update">Bug dans l'affichage de la date de release du runtime</note>
+        <note module="kernel" type="update">Police par défaut dans dialog.css appliquée même aux textes racines</note>
+        <note module="admin" type="fix">Dépendance au plugin core n'était pas vérifiée</note>
+        <note module="kernel" type="fix">Bug dans le SListview sous IE après supression d'éléments</note>
+        <note module="core" type="fix">Correction du JCIFCredentialProvider qui ne pouvait pas s'initialiser</note>
+        <note module="kernel" type="fix">Bug du DesktopManager qui ne respectait pas l'API des UIItemFactory qui peuvent renvoyer null</note>
+        <note module="kernel" type="fix">CSSProof du STree</note>
+        <note module="kernel" type="fix">CSSProof du SListView</note>
+        <note module="core" type="fix">Traduction de l'aide du paramètre de configuration du LDAP: runtime.datasource.core.ldap.adminDN</note>
+        <note module="kernel" type="fix">Correction du bug SListview qui décale les icones</note>
+        <note module="kernel" type="add">Le SListview gère la touche SHIFT pour les sélections multiples</note>
+        <note module="kernel" type="add">Le IgnoreRootHandler gère également l'interface LexicalHandler</note>
+    </release>
+</releases>

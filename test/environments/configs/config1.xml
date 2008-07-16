@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    CORRECT DATASOURCE CONFIG TO MYSQL TEST BASE
+    CORRECT runtime2 config
+ -->
+<config>
+<runtime.datasource.core.jdbc.user>Ametys_Runtime</runtime.datasource.core.jdbc.user>
+<runtime.datasource.core.jdbc.driver>com.mysql.jdbc.Driver</runtime.datasource.core.jdbc.driver>
+<runtime.datasource.core.jdbc.passwd>Ametys_Runtime</runtime.datasource.core.jdbc.passwd>
+<runtime.datasource.core.jdbc.url>jdbc:mysql://fonzy/Ametys_Runtime_Test</runtime.datasource.core.jdbc.url>
+<runtime.authentication.basic.realm>realm</runtime.authentication.basic.realm>
+</config>

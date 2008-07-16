@@ -1,0 +1,1237 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--+
+    | Copyright (c) 2007 Anyware Technologies and others.
+    | All rights reserved. This program and the accompanying materials
+    | are made available under the terms of the Eclipse Public License v1.0
+    | which accompanies this distribution, and is available at
+    | http://www.opensource.org/licenses/eclipse-1.0.php
+    | 
+    | Contributors:
+    |     Anyware Technologies - initial API and implementation
+    +-->
+<plugin  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:noNamespaceSchemaLocation="http://ametys.org/Runtime/1.0/plugin.xsd">
+
+    <config>
+        <!-- +
+             | CORE DATASOURCE
+             + -->
+        <!-- JDBC -->
+        <param id="runtime.datasource.core.jdbc.driver">
+            <LabelKey>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_DRIVER_LABEL</LabelKey>
+            <DescriptionKey>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_DRIVER_DESCRIPTION</DescriptionKey>
+            <Type>string</Type>
+            <DefaultValue>com.mysql.jdbc.Driver</DefaultValue>
+            <Validation>
+                <mandatory/>
+            </Validation>
+            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE</Category>
+            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE_GROUP_CORE</Group>
+            <Order>10</Order>
+        </param>
+        <param id="runtime.datasource.core.jdbc.url">
+            <LabelKey>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_URL_LABEL</LabelKey>
+            <DescriptionKey>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_URL_DESCRIPTION</DescriptionKey>
+            <Type>string</Type>
+            <DefaultValue>jdbc:mysql://servername/basename</DefaultValue>
+            <Validation>
+                <mandatory/>
+            </Validation>
+            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE</Category>
+            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE_GROUP_CORE</Group>
+            <Order>20</Order>
+        </param>
+        <param id="runtime.datasource.core.jdbc.user">
+            <LabelKey>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_USER_LABEL</LabelKey>
+            <DescriptionKey>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_USER_DESCRIPTION</DescriptionKey>
+            <Type>string</Type>
+            <DefaultValue>username</DefaultValue>
+            <Validation>
+                <mandatory/>
+            </Validation>
+            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE</Category>
+            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE_GROUP_CORE</Group>
+            <Order>30</Order>
+        </param>
+        <param id="runtime.datasource.core.jdbc.passwd">
+            <LabelKey>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_PASSWORD_LABEL</LabelKey>
+            <DescriptionKey>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_PASSWORD_DESCRIPTION</DescriptionKey>
+            <Type>password</Type>
+            <DefaultValue>password</DefaultValue>
+            <Validation>
+                <mandatory/>
+            </Validation>
+            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE</Category>
+            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE_GROUP_CORE</Group>
+            <Order>40</Order>
+        </param>
+        
+        <!-- LDAP -->
+        <param id="runtime.datasource.core.ldap.baseUrl">
+            <LabelKey>PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEURL_LABEL</LabelKey>
+            <DescriptionKey>PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEURL_DESCRIPTION</DescriptionKey>
+            <Type>string</Type>
+            <DefaultValue>ldap://server:389</DefaultValue>
+            <Validation>
+                <mandatory/>
+            </Validation>
+            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
+            <Group>PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_CATEGORY_LDAP_GROUP_CORE</Group>
+            <Order>10</Order>
+        </param>
+        <param id="runtime.datasource.core.ldap.useSSL">
+            <LabelKey>PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_SSL_LABEL</LabelKey>
+            <DescriptionKey>PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_SSL_DESCRIPTION</DescriptionKey>
+            <Type>boolean</Type>
+            <DefaultValue>false</DefaultValue>
+            <Validation>
+                <mandatory/>
+            </Validation>
+            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
+            <Group>PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_CATEGORY_LDAP_GROUP_CORE</Group>
+            <Order>20</Order>
+        </param>
+        <param id="runtime.datasource.core.ldap.baseDN">
+            <LabelKey>PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEDN_LABEL</LabelKey>
+            <DescriptionKey>PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEDN_DESCRIPTION</DescriptionKey>
+            <Type>string</Type>
+            <DefaultValue>dc=ametys,dc=org</DefaultValue>
+            <Validation>
+                <mandatory/>
+            </Validation>
+            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
+            <Group>PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_CATEGORY_LDAP_GROUP_CORE</Group>
+            <Order>30</Order>
+        </param>
+        <param id="runtime.datasource.core.ldap.authMethod">
+            <LabelKey>PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_AUTH_METHOD_LABEL</LabelKey>
+            <DescriptionKey>PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_AUTH_METHOD_DESCRIPTION</DescriptionKey>
+            <Type>string</Type>
+            <DefaultValue>none</DefaultValue>
+            <Enumeration>
+                <none i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_AUTH_METHOD_ENUM_NONE</none>
+                <simple i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_AUTH_METHOD_ENUM_SIMPLE</simple>
+            </Enumeration>
+            <Validation>
+                <mandatory/>
+            </Validation>
+            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
+            <Group>PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_CATEGORY_LDAP_GROUP_CORE</Group>
+            <Order>40</Order>
+        </param>
+        <param id="runtime.datasource.core.ldap.adminDN">
+            <LabelKey>PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ADMINDN_LABEL</LabelKey>
+            <DescriptionKey>PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ADMINDN_DESCRIPTION</DescriptionKey>
+            <Type>string</Type>
+            <DefaultValue>cn=admin</DefaultValue>
+            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
+            <Group>PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_CATEGORY_LDAP_GROUP_CORE</Group>
+            <Order>50</Order>
+        </param>
+        <param id="runtime.datasource.core.ldap.adminPasswd">
+            <LabelKey>PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ADMINPASSWORD_LABEL</LabelKey>
+            <DescriptionKey>PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ADMINPASSWORD_DESCRIPTION</DescriptionKey>
+            <Type>password</Type>
+            <DefaultValue>password</DefaultValue>
+            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
+            <Group>PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_CATEGORY_LDAP_GROUP_CORE</Group>
+            <Order>60</Order>
+        </param>
+        
+        <!-- +
+             | USERS
+             + -->
+        <param id="runtime.users.ldap.peopleDN">
+            <LabelKey>PLUGINS_CORE_USERS_LDAPUSER_CONFIG_PEOPLEDN_LABEL</LabelKey>
+            <DescriptionKey>PLUGINS_CORE_USERS_LDAPUSER_CONFIG_PEOPLEDN_DESCRIPTION</DescriptionKey>
+            <Type>string</Type>
+            <DefaultValue>ou=people</DefaultValue>
+            <Validation>
+                <mandatory/>
+            </Validation>        
+            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
+            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS</Group>
+            <Order>10</Order>
+        </param>
+        <param id="runtime.users.ldap.baseFilter">
+            <LabelKey>PLUGINS_CORE_USERS_LDAPUSER_CONFIG_BASEFILTER_LABEL</LabelKey>
+            <DescriptionKey>PLUGINS_CORE_USERS_LDAPUSER_CONFIG_BASEFILTER_DESCRIPTION</DescriptionKey>
+            <Type>string</Type>
+            <DefaultValue>(objectclass=*)</DefaultValue>
+            <Validation>
+                <mandatory/>
+            </Validation>        
+            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
+            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS</Group>
+            <Order>20</Order>
+        </param>
+        <param id="runtime.users.ldap.scope">
+            <LabelKey>PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SEARCH_SCOPE_LABEL</LabelKey>
+            <DescriptionKey>PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SEARCH_SCOPE_DESCRIPTION</DescriptionKey>
+            <Type>string</Type>
+            <DefaultValue>one</DefaultValue>
+            <Enumeration>
+                <object i18n="true">PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SEARCH_SCOPE_ENUM_OBJECT</object>
+                <one i18n="true">PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SEARCH_SCOPE_ENUM_ONE</one>
+                <sub i18n="true">PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SEARCH_SCOPE_ENUM_SUB</sub>
+            </Enumeration>
+            <Validation>
+                <mandatory/>
+            </Validation>
+            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
+            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS</Group>
+            <Order>30</Order>
+        </param>
+        <param id="runtime.users.ldap.loginAttr">
+            <LabelKey>PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_LOGIN_LABEL</LabelKey>
+            <DescriptionKey>PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_LOGIN_DESCRIPTION</DescriptionKey>
+            <Type>string</Type>
+            <DefaultValue>uid</DefaultValue>
+            <Validation>
+                <mandatory/>
+            </Validation>
+            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
+            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS</Group>
+            <Order>40</Order>
+        </param>
+        <param id="runtime.users.ldap.firstnameAttr">
+            <LabelKey>PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_FIRSTNAME_LABEL</LabelKey>
+            <DescriptionKey>PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_FIRSTNAME_DESCRIPTION</DescriptionKey>
+            <Type>string</Type>
+            <DefaultValue>givenName</DefaultValue>
+            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
+            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS</Group>
+            <Order>50</Order>
+        </param>
+        <param id="runtime.users.ldap.lastnameAttr">
+            <LabelKey>PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_LASTNAME_LABEL</LabelKey>
+            <DescriptionKey>PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_LASTNAME_DESCRIPTION</DescriptionKey>
+            <Type>string</Type>
+            <DefaultValue>sn</DefaultValue>
+            <Validation>
+                <mandatory/>
+            </Validation>
+            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
+            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS</Group>
+            <Order>60</Order>
+        </param>
+        <param id="runtime.users.ldap.emailAttr">
+            <LabelKey>PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_EMAIL_LABEL</LabelKey>
+            <DescriptionKey>PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_EMAIL_DESCRIPTION</DescriptionKey>
+            <Type>string</Type>
+            <DefaultValue>mail</DefaultValue>
+            <Validation>
+                <mandatory/>
+            </Validation>
+            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
+            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS</Group>
+            <Order>70</Order>
+        </param>
+        
+        <!-- +
+             | GROUPS
+             + -->
+             
+        <!-- LDAP -->
+        <param id="runtime.groups.ldap.groupDN">
+            <LabelKey>PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_GROUPDN_LABEL</LabelKey>
+            <DescriptionKey>PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_GROUPDN_DESCRIPTION</DescriptionKey>
+            <Type>string</Type>
+            <DefaultValue>ou=group</DefaultValue>
+            <Validation>
+                <mandatory/>
+            </Validation>
+            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
+            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_GROUPS</Group>
+            <Order>10</Order>
+        </param>
+        <param id="runtime.groups.ldap.filter">
+            <LabelKey>PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_FILTER_LABEL</LabelKey>
+            <DescriptionKey>PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_FILTER_DESCRIPTION</DescriptionKey>
+            <Type>string</Type>
+            <DefaultValue>(objectclass=groupOfNames)</DefaultValue>
+            <Validation>
+                <mandatory/>
+            </Validation>
+            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
+            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_GROUPS</Group>
+            <Order>20</Order>
+        </param>
+        <param id="runtime.groups.ldap.scope">
+            <LabelKey>PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_SEARCH_SCOPE_LABEL</LabelKey>
+            <DescriptionKey>PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_SEARCH_SCOPE_DESCRIPTION</DescriptionKey>
+            <Type>string</Type>
+            <DefaultValue>one</DefaultValue>
+            <Enumeration>
+                <object i18n="true">PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_SEARCH_SCOPE_ENUM_OBJECT</object>
+                <one i18n="true">PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_SEARCH_SCOPE_ENUM_ONE</one>
+                <sub i18n="true">PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_SEARCH_SCOPE_ENUM_SUB</sub>
+            </Enumeration>
+            <Validation>
+                <mandatory/>
+            </Validation>
+            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
+            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_GROUPS</Group>
+            <Order>30</Order>
+        </param>        
+        <param id="runtime.groups.ldap.id">
+            <LabelKey>PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_ID_LABEL</LabelKey>
+            <DescriptionKey>PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_ID_DESCRIPTION</DescriptionKey>
+            <Type>string</Type>
+            <DefaultValue>cn</DefaultValue>
+            <Validation>
+                <mandatory/>
+            </Validation>
+            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
+            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_GROUPS</Group>
+            <Order>40</Order>
+        </param>
+        <param id="runtime.groups.ldap.description">
+            <LabelKey>PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_DESCRIPTION_LABEL</LabelKey>
+            <DescriptionKey>PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_DESCRIPTION_DESCRIPTION</DescriptionKey>
+            <Type>string</Type>
+            <DefaultValue>description</DefaultValue>
+            <Validation>
+                <mandatory/>
+            </Validation>
+            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
+            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_GROUPS</Group>
+            <Order>50</Order>
+        </param>
+        <param id="runtime.groups.ldap.member">
+            <LabelKey>PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_MEMBER_LABEL</LabelKey>
+            <DescriptionKey>PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_MEMBER_DESCRIPTION</DescriptionKey>
+            <Type>string</Type>
+            <DefaultValue>member</DefaultValue>
+            <Validation>
+                <mandatory/>
+            </Validation>
+            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
+            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_GROUPS</Group>
+            <Order>60</Order>
+        </param>
+        <param id="runtime.groups.ldap.memberof">
+            <LabelKey>PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_MEMBEROF_LABEL</LabelKey>
+            <DescriptionKey>PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_MEMBEROF_DESCRIPTION</DescriptionKey>
+            <Type>string</Type>
+            <DefaultValue>memberof</DefaultValue>
+            <Validation>
+                <mandatory/>
+            </Validation>
+            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
+            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS</Group>
+            <Order>80</Order>
+        </param>
+        
+        <!-- +
+             | AUTHENTICATION
+             + -->
+             
+        <!-- BASIC -->
+        <param id="runtime.authentication.basic.realm">
+            <LabelKey>PLUGINS_CORE_AUTHENTICATION_BASIC_CONFIG_REALM_LABEL</LabelKey>
+            <DescriptionKey>PLUGINS_CORE_AUTHENTICATION_BASIC_CONFIG_REALM_DESCRIPTION</DescriptionKey>
+            <Type>string</Type>
+            <DefaultValue>Application domain name</DefaultValue>
+            <Validation>
+                <mandatory/>
+            </Validation>
+            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION</Category>
+            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATIO_GROUP_BASIC</Group>
+            <Order>10</Order>
+        </param>
+        
+        <!-- REMOTE -->        
+        <param id="runtime.authentication.remote.realm">
+            <LabelKey>PLUGINS_CORE_AUTHENTICATION_REMOTE_CONFIG_REALM_LABEL</LabelKey>
+            <DescriptionKey>PLUGINS_CORE_AUTHENTICATION_REMOTE_CONFIG_REALM_DESCRIPTION</DescriptionKey>
+            <Type>string</Type>
+            <DefaultValue>Remote domain name</DefaultValue>
+            <Validation>
+                <mandatory/>
+            </Validation>
+            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION</Category>
+            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATIO_GROUP_REMOTE</Group>
+            <Order>10</Order>
+        </param>
+        
+        <!-- JCIFS -->
+        <param id="runtime.authentication.jcifs.production">
+            <LabelKey>PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_PRODUCTION_LABEL</LabelKey>
+            <DescriptionKey>PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_PRODUCTION_DESCRIPTION</DescriptionKey>
+            <Type>boolean</Type>
+            <DefaultValue>false</DefaultValue>
+            <Validation>
+                <mandatory/>
+            </Validation>
+            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION</Category>
+            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATIO_GROUP_JCIFS</Group>
+            <Order>10</Order>
+        </param>
+        <param id="runtime.authentication.jcifs.clientDomain">
+            <LabelKey>PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_CLIENTDOMAIN_LABEL</LabelKey>
+            <DescriptionKey>PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_CLIENTDOMAIN_DESCRIPTION</DescriptionKey>
+            <Type>string</Type>
+            <DefaultValue></DefaultValue>
+            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION</Category>
+            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATIO_GROUP_JCIFS</Group>
+            <Order>20</Order>
+        </param>
+        <param id="runtime.authentication.jcifs.netBios">
+            <LabelKey>PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_NETBIOS_LABEL</LabelKey>
+            <DescriptionKey>PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_NETBIOS_DESCRIPTION</DescriptionKey>
+            <Type>string</Type>
+            <DefaultValue></DefaultValue>
+            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION</Category>
+            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATIO_GROUP_JCIFS</Group>
+            <Order>30</Order>
+        </param>
+        <param id="runtime.authentication.jcifs.domainController">
+            <LabelKey>PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_DOMAINCONTROLLER_LABEL</LabelKey>
+            <DescriptionKey>PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_DOMAINCONTROLLER_DESCRIPTION</DescriptionKey>
+            <Type>string</Type>
+            <DefaultValue></DefaultValue>
+            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION</Category>
+            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATIO_GROUP_JCIFS</Group>
+            <Order>40</Order>
+        </param>
+        
+        <!-- CAS -->
+        <param id="runtime.authentication.cas.serverUrl">
+            <LabelKey>PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_URL_LABEL</LabelKey>
+            <DescriptionKey>PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_URL_DESCRIPTION</DescriptionKey>
+            <Type>string</Type>
+            <DefaultValue>https://servername</DefaultValue>
+            <Validation>
+                <mandatory/>
+                <regexp>^https://</regexp>
+            </Validation>
+            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION</Category>
+            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATIO_GROUP_CAS</Group>
+            <Order>10</Order>
+        </param>
+        <param id="runtime.authentication.cas.authorizedProxy">
+            <LabelKey>PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_AUTHORIZEDPROXY_LABEL</LabelKey>
+            <DescriptionKey>PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_AUTHORIZEDPROXY_DESCRIPTION</DescriptionKey>
+            <Type>string</Type>
+            <DefaultValue></DefaultValue>
+            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION</Category>
+            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATIO_GROUP_CAS</Group>
+            <Order>20</Order>
+        </param>
+    </config>
+    
+    <extension-points>
+        <extension-point id="org.ametys.runtime.ui.item.UIItemManager"
+                         class="org.ametys.runtime.ui.item.UIItemManager"/>
+                         
+        <extension-point id="org.ametys.runtime.authentication.AuthenticationManager"
+                         class="org.ametys.runtime.authentication.AuthenticationManager"/>
+                         
+        <extension-point id="org.ametys.runtime.plugins.core.right.RightsExtensionPoint"
+                         class="org.ametys.runtime.plugins.core.right.RightsExtensionPoint"/>
+
+        <extension-point id="org.apache.cocoon.components.modules.input.InputModuleSelector"
+                         class="org.ametys.runtime.cocoon.InputModulesExtensionPoint"/>
+
+        <extension-point id="org.apache.excalibur.source.SourceFactorySelector"
+                         class="org.ametys.runtime.cocoon.SourceFactoriesExtensionPoint"/>
+
+        <extension-point id="org.apache.avalon.excalibur.datasource.DataSourceComponentSelector"
+                         class="org.ametys.runtime.cocoon.DataSourceComponentsExtensionPoint"/>
+
+        <single-extension-point id="org.ametys.runtime.right.RightsManager"
+                                class="org.ametys.runtime.right.RightsManager"
+                                default-extension-id="org.ametys.runtime.plugins.core.right.Basic"/>
+
+        <single-extension-point id="org.ametys.runtime.user.UsersManager"
+                                class="org.ametys.runtime.user.UsersManager"
+                                default-extension-id="org.ametys.runtime.plugins.core.user.Static"/>
+
+        <single-extension-point id="org.ametys.runtime.group.GroupsManager"
+                                class="org.ametys.runtime.group.GroupsManager"
+                                default-extension-id="org.ametys.runtime.plugins.core.group.Empty"/>
+
+        <single-extension-point id="org.ametys.runtime.exception.ExceptionHandler"
+                                class="org.ametys.runtime.exception.ExceptionHandler"
+                                default-extension-id="org.ametys.runtime.plugins.core.exception.Default"/>
+
+        <single-extension-point id="org.ametys.runtime.authentication.CredentialsProvider"
+                                class="org.ametys.runtime.authentication.CredentialsProvider"
+                                default-extension-id="org.ametys.runtime.plugins.core.authentication.Defined"/>
+
+        <single-extension-point id="org.ametys.runtime.request.InitRequestHandler"
+                                class="org.ametys.runtime.request.InitRequestHandler"
+                                default-extension-id="org.ametys.runtime.plugins.core.request.Default"/>
+
+        <single-extension-point id="org.ametys.runtime.plugins.core.administrator.version.VersionsHandler"
+                                class="org.ametys.runtime.plugins.core.administrator.version.VersionsHandler"
+                                default-extension-id="org.ametys.runtime.plugins.core.administrator.version.Default"/>
+    </extension-points>
+    
+    <feature name="runtime.core">
+        <components>
+            <component role="org.ametys.runtime.request.RequestListenerManager" 
+                       class="org.ametys.runtime.request.RequestListenerManager"/>
+            
+            <component role="org.apache.excalibur.source.SourceResolver" 
+                       class="org.apache.excalibur.source.impl.SourceResolverImpl"/>
+        </components>
+        
+        <extensions>
+            <extension point="org.apache.cocoon.components.modules.input.InputModuleSelector"
+                       id="config"
+                       class="org.ametys.runtime.config.ConfigInputModule"
+                       logger="org.ametys.runtime.config.ConfigInputModule"/>
+            <extension point="org.apache.cocoon.components.modules.input.InputModuleSelector"
+                       id="parent-context-attr"
+                       class="org.ametys.runtime.util.cocoon.ParentContextInputModule"
+                       logger="org.ametys.runtime.util.cocoon.ParentContextInputModule"/>
+            <extension point="org.apache.cocoon.components.modules.input.InputModuleSelector"
+                       id="context-attr"
+                       class="org.ametys.runtime.util.cocoon.ContextAttributesInputModule"
+                       logger="org.ametys.runtime.util.cocoon.ContextAttributesInputModule"/>
+                       
+            <extension point="org.ametys.runtime.authentication.AuthenticationManager"
+                       id="org.ametys.runtime.plugins.core.authentication.UsersManagerAuthentication"
+                       class="org.ametys.runtime.plugins.core.authentication.UsersManagerAuthentication"
+                       logger="org.ametys.runtime.plugins.core.authentication.UsersManagerAuthentication"/>
+        </extensions>
+    </feature>
+
+    <feature name="runtime.datasource.core">
+        <config>
+            <param id="runtime.datasource.core.jdbc.driver"/>
+            <param id="runtime.datasource.core.jdbc.url"/>
+            <param id="runtime.datasource.core.jdbc.user"/>
+            <param id="runtime.datasource.core.jdbc.passwd"/>
+        </config>
+        
+        <extensions>
+            <extension point="org.apache.avalon.excalibur.datasource.DataSourceComponentSelector" 
+                       id="runtime.datasource.core.jdbc.pool"
+                       class="org.ametys.runtime.cocoon.JDBCDataSource"
+                       logger="org.ametys.runtime.datasource.core.jdbc.pool">
+                <pool-controller max="10" max-strict="true" blocking="true" timeout="0" trim-interval="60000"/>
+                <keep-alive age="5000" disabled="false">select 1</keep-alive>
+                <auto-commit>false</auto-commit>
+                <driver runtime-config-parameter="runtime.datasource.core.jdbc.driver"/>
+                <dburl runtime-config-parameter="runtime.datasource.core.jdbc.url"/>
+                <user runtime-config-parameter="runtime.datasource.core.jdbc.user"/>
+                <password runtime-config-parameter="runtime.datasource.core.jdbc.passwd"/>
+            </extension>
+        </extensions>
+    </feature>
+
+    <feature name="runtime.workspace.admin">
+        <components>
+            <component role="org.ametys.runtime.workspaces.admin.DesktopManager" 
+                class="org.ametys.runtime.ui.manager.DesktopManager" 
+                config="WEB-INF/param/workspace-admin.xml"/>
+        </components>
+    </feature>
+    
+    <feature name="runtime.admin">
+        <extensions>
+            <!-- +
+                 |  ADMIN PASSWORD
+                 + -->
+            <extension  point="org.ametys.runtime.ui.item.UIItemManager" 
+                        id="org.ametys.runtime.plugins.core.administrator.Password"
+                        class="org.ametys.runtime.plugins.core.ui.item.StaticUIItemFactory"
+                        logger="org.ametys.runtime.plugins.core.ui.administrator.password">
+                <Static>
+                    <LabelKey>PLUGINS_CORE_ADMINISTRATOR_PASSWORD_LABEL</LabelKey>
+                    <DescriptionKey>PLUGINS_CORE_ADMINISTRATOR_PASSWORD_DESCRIPTION</DescriptionKey>
+                    <Icons>
+                        <Small>img/administrator/password/icon_small.gif</Small>
+                        <Medium>img/administrator/password/icon_medium.gif</Medium>
+                        <Large>img/administrator/password/icon_large.gif</Large>
+                    </Icons>
+                    <Action type="class">
+                        <Class value="RUNTIME_Plugin_Runtime_Administrator_Password"/>
+                        <Imports>
+                            <File>js/administrator/password.js.i18n</File>
+                        </Imports>
+                    </Action>
+                </Static>
+            </extension>
+            
+            <!-- +
+                 |  ADMIN CONFIGURATION
+                 + -->
+            <extension  point="org.ametys.runtime.ui.item.UIItemManager" 
+                        id="org.ametys.runtime.plugins.core.administrator.Config"
+                        class="org.ametys.runtime.plugins.core.ui.item.StaticUIItemFactory"
+                        logger="org.ametys.runtime.plugins.core.ui.administrator.config">
+                <Static>
+                    <LabelKey>PLUGINS_CORE_ADMINISTRATOR_CONFIG_LABEL</LabelKey>
+                    <DescriptionKey>PLUGINS_CORE_ADMINISTRATOR_CONFIG_DESCRIPTION</DescriptionKey>
+                    <Icons>
+                        <Small>img/administrator/config/icon_small.gif</Small>
+                        <Medium>img/administrator/config/icon_medium.gif</Medium>
+                        <Large>img/administrator/config/icon_large.gif</Large>
+                    </Icons>
+                    <Action type="url">
+                        <Url value="administrator/config/edit.html"/>
+                    </Action>
+                </Static>
+            </extension>
+            
+            <!-- +
+                 |  ADMIN JVMSTATUS
+                 + -->
+            <extension  point="org.ametys.runtime.ui.item.UIItemManager" 
+                        id="org.ametys.runtime.plugins.core.administrator.JVMStatus"
+                        class="org.ametys.runtime.plugins.core.ui.item.StaticUIItemFactory"
+                        logger="org.ametys.runtime.plugins.core.ui.administrator.status">
+                <Static>
+                    <LabelKey>PLUGINS_CORE_ADMINISTRATOR_STATUS_LABEL</LabelKey>
+                    <DescriptionKey>PLUGINS_CORE_ADMINISTRATOR_STATUS_DESCRIPTION</DescriptionKey>
+                    <Icons>
+                        <Small>img/administrator/jvmstatus/icon_small.gif</Small>
+                        <Medium>img/administrator/jvmstatus/icon_medium.gif</Medium>
+                        <Large>img/administrator/jvmstatus/icon_large.gif</Large>
+                    </Icons>
+                    <Action type="url">
+                        <Url value="administrator/jvmstatus/view.html"/>
+                    </Action>
+                </Static>
+            </extension> 
+
+            <!-- +
+                 |  ADMIN PLUGINS
+                 + -->           
+            <extension  point="org.ametys.runtime.ui.item.UIItemManager" 
+                        id="org.ametys.runtime.plugins.core.administrator.Plugins"
+                        class="org.ametys.runtime.plugins.core.ui.item.StaticUIItemFactory"
+                        logger="org.ametys.runtime.plugins.core.ui.administrator.plugins">
+                <Static>
+                    <LabelKey>PLUGINS_CORE_ADMINISTRATOR_PLUGINS_LABEL</LabelKey>
+                    <DescriptionKey>PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DESCRIPTION</DescriptionKey>
+                    <Icons>
+                        <Small>img/administrator/plugins/icon_small.gif</Small>
+                        <Medium>img/administrator/plugins/icon_medium.gif</Medium>
+                        <Large>img/administrator/plugins/icon_large.gif</Large>
+                    </Icons>
+                    <Action type="url">
+                        <Url value="administrator/plugins/view.html"/>
+                    </Action>
+                </Static>
+            </extension> 
+            
+            <!-- +
+                 |  ADMIN LOGS
+                 + -->           
+            <extension  point="org.ametys.runtime.ui.item.UIItemManager" 
+                        id="org.ametys.runtime.plugins.core.administrator.Logs"
+                        class="org.ametys.runtime.plugins.core.ui.item.StaticUIItemFactory"
+                        logger="org.ametys.runtime.plugins.core.ui.administrator.logs">
+                <Static>
+                    <LabelKey>PLUGINS_CORE_ADMINISTRATOR_LOGS_LABEL</LabelKey>
+                    <DescriptionKey>PLUGINS_CORE_ADMINISTRATOR_LOGS_DESCRIPTION</DescriptionKey>
+                    <Icons>
+                        <Small>img/administrator/logs/icon_small.gif</Small>
+                        <Medium>img/administrator/logs/icon_medium.gif</Medium>
+                        <Large>img/administrator/logs/icon_large.gif</Large>
+                    </Icons>
+                    <Action type="url">
+                        <Url value="administrator/logs/view.html"/>
+                    </Action>
+                </Static>
+            </extension>             
+
+            <!-- +
+                 |  ADMIN SYSTEM
+                 + -->           
+            <extension  point="org.ametys.runtime.ui.item.UIItemManager" 
+                        id="org.ametys.runtime.plugins.core.administrator.System"
+                        class="org.ametys.runtime.plugins.core.ui.item.StaticUIItemFactory"
+                        logger="org.ametys.runtime.plugins.core.ui.administrator.system">
+                <Static>
+                    <LabelKey>PLUGINS_CORE_ADMINISTRATOR_SYSTEM_LABEL</LabelKey>
+                    <DescriptionKey>PLUGINS_CORE_ADMINISTRATOR_SYSTEM_DESCRIPTION</DescriptionKey>
+                    <Icons>
+                        <Small>img/administrator/system/icon_small.gif</Small>
+                        <Medium>img/administrator/system/icon_medium.gif</Medium>
+                        <Large>img/administrator/system/icon_large.gif</Large>
+                    </Icons>
+                    <Action type="url">
+                        <Url value="administrator/system/view.html"/>
+                    </Action>
+                </Static>
+            </extension>   
+               
+            <!-- +
+                 |  VERSIONS
+                 + -->           
+            <extension  point="org.ametys.runtime.plugins.core.administrator.version.VersionsHandler" 
+                        id="org.ametys.runtime.plugins.core.administrator.version.Default"
+                        class="org.ametys.runtime.plugins.core.administrator.version.DefaultVersionsHandler"
+                        logger="org.ametys.runtime.plugins.core.administrator.versions"/>
+        </extensions>
+    </feature>
+            
+     <!-- +
+         |  USERS
+         + -->   
+    <feature name="runtime.users">
+        <extensions>
+            <extension  point="org.ametys.runtime.ui.item.UIItemManager" 
+                        id="org.ametys.runtime.plugins.core.Users"
+                        class="org.ametys.runtime.plugins.core.ui.item.StaticUIItemFactory"
+                        logger="org.ametys.runtime.plugins.core.ui.users">
+                <Static>
+                    <LabelKey>PLUGINS_CORE_USERS_LABEL</LabelKey>
+                    <DescriptionKey>PLUGINS_CORE_USERS_DESCRIPTION</DescriptionKey>
+                    <Icons>
+                        <Small>img/users/icon_small.gif</Small>
+                        <Medium>img/users/icon_medium.gif</Medium>
+                        <Large>img/users/icon_large.gif</Large>
+                    </Icons>
+                    <Action type="url">
+                        <Url value="users/view.html"/>
+                    </Action>
+                    <Right>Runtime_Rights_User_Handle</Right>
+                </Static>
+            </extension>      
+        </extensions>
+    </feature>
+    
+    <feature name="runtime.users.rights">
+        <extensions>
+            <extension point="org.ametys.runtime.plugins.core.right.RightsExtensionPoint"
+                       id="runtime.use.rights.users">
+                <right id="Runtime_Rights_User_Handle">
+                    <label>PLUGINS_CORE_USERS_RIGHTS_HANDLE_LABEL</label>
+                    <description>PLUGINS_CORE_USERS_RIGHTS_HANDLE_DESCRIPTION</description>
+                    <category>PLUGINS_CORE_USERANDRIGHTS_CATEGORY</category>
+                </right>
+            </extension>
+        </extensions>
+    </feature>
+    
+    <feature name="runtime.user.impl.static">
+        <extensions>
+            <extension point="org.ametys.runtime.user.UsersManager"
+                       id="org.ametys.runtime.plugins.core.user.Static"
+                       class="org.ametys.runtime.plugins.core.user.StaticUsersManager"
+                       logger="org.ametys.runtime.plugins.core.users.static">
+                <user id="anonymous">
+                    <fullname>Anonymous user</fullname>
+                </user>
+            </extension>
+        </extensions>
+    </feature>
+    
+    <feature name="runtime.user.impl.jdbc.core" depends="runtime.datasource.core">
+        <extensions>
+            <extension point="org.ametys.runtime.user.UsersManager"
+                       id="org.ametys.runtime.plugins.core.user.CoreJdbc"
+                       class="org.ametys.runtime.plugins.core.user.jdbc.JdbcUsersManager"
+                       logger="org.ametys.runtime.plugins.core.users.jdbc.simple">
+                       
+                <pool>runtime.datasource.core.jdbc.pool</pool>
+                <table>Users</table>
+                <param id="login"/>
+                <param id="firstname"/>
+                <param id="lastname"/>
+                <param id="email"/>
+            </extension>
+        </extensions>
+    </feature>
+    
+    <feature name="runtime.user.impl.jdbc.modifiable.core" depends="runtime.datasource.core">
+        <extensions>
+            <extension point="org.ametys.runtime.user.UsersManager"
+                       id="org.ametys.runtime.plugins.core.user.CoreModifiableJdbc"
+                       class="org.ametys.runtime.plugins.core.user.jdbc.ModifiableJdbcUsersManager"
+                       logger="org.ametys.runtime.plugins.core.users.jdbc.modifiable">
+                <pool>runtime.datasource.core.jdbc.pool</pool>
+                <table>Users</table>
+                <param id="login"/>
+                <param id="firstname"/>
+                <param id="lastname"/>
+                <param id="email"/>
+            </extension>
+        </extensions>
+    </feature>
+    
+    <feature name="runtime.user.impl.jdbc.credentialsaware.core" depends="runtime.datasource.core">
+        <extensions>
+            <extension point="org.ametys.runtime.user.UsersManager"
+                       id="org.ametys.runtime.plugins.core.user.CoreCredentialsAwareJdbc"
+                       class="org.ametys.runtime.plugins.core.user.jdbc.CredentialsAwareJdbcUsersManager"
+                       logger="org.ametys.runtime.plugins.core.users.jdbc.credential">
+                <pool>runtime.datasource.core.jdbc.pool</pool>
+                <table>Users</table>
+                <param id="login"/>
+                <param id="password"/>
+                <param id="firstname"/>
+                <param id="lastname"/>
+                <param id="email"/>
+            </extension>
+        </extensions>
+    </feature>
+    
+    <feature name="runtime.user.impl.jdbc.modifiablecredentialsaware.core" depends="runtime.datasource.core">
+        <extensions>
+            <extension point="org.ametys.runtime.user.UsersManager"
+                       id="org.ametys.runtime.plugins.core.user.CoreModifiableCredentialsAwareJdbc"
+                       class="org.ametys.runtime.plugins.core.user.jdbc.ModifiableCredentialsAwareJdbcUsersManager"
+                       logger="org.ametys.runtime.plugins.core.users.jdbc.credentialmodifiable">
+                <pool>runtime.datasource.core.jdbc.pool</pool>
+                <table>Users</table>
+                <param id="login"/>
+                <param id="password"/>
+                <param id="firstname"/>
+                <param id="lastname"/>
+                <param id="email"/>
+            </extension>
+        </extensions>
+    </feature>
+    
+    <feature name="runtime.user.impl.ldap">
+        <config>
+            <param id="runtime.datasource.core.ldap.baseUrl"/>
+            <param id="runtime.datasource.core.ldap.useSSL"/>
+            <param id="runtime.datasource.core.ldap.baseDN"/>
+            <param id="runtime.datasource.core.ldap.authMethod"/>
+            <param id="runtime.datasource.core.ldap.adminDN"/>
+            <param id="runtime.datasource.core.ldap.adminPasswd"/>
+
+            <param id="runtime.users.ldap.peopleDN"/>
+            <param id="runtime.users.ldap.baseFilter"/>
+            <param id="runtime.users.ldap.scope"/>
+            <param id="runtime.users.ldap.loginAttr"/>
+            <param id="runtime.users.ldap.firstnameAttr"/>
+            <param id="runtime.users.ldap.lastnameAttr"/>
+            <param id="runtime.users.ldap.emailAttr"/>
+        </config>
+        <extensions>
+            <extension point="org.ametys.runtime.user.UsersManager"
+                       id="org.ametys.runtime.plugins.core.Ldap"
+                       class="org.ametys.runtime.plugins.core.user.ldap.LdapUsersManager"
+                       logger="org.ametys.runtime.plugins.core.user.ldap.simple">
+                <BaseUrl>runtime.datasource.core.ldap.baseUrl</BaseUrl>
+                <UseSSL>runtime.datasource.core.ldap.useSSL</UseSSL>
+                <BaseDN>runtime.datasource.core.ldap.baseDN</BaseDN>
+                <AuthenticationMethod>runtime.datasource.core.ldap.authMethod</AuthenticationMethod>
+                <AdminDN>runtime.datasource.core.ldap.adminDN</AdminDN>
+                <AdminPassword>runtime.datasource.core.ldap.adminPasswd</AdminPassword>
+
+                <RelativeDN>runtime.users.ldap.peopleDN</RelativeDN>
+                <Filter>runtime.users.ldap.baseFilter</Filter>
+                <SearchScope>runtime.users.ldap.scope</SearchScope>
+                <Login>runtime.users.ldap.loginAttr</Login>
+                <Firstname>runtime.users.ldap.firstnameAttr</Firstname>
+                <Lastname>runtime.users.ldap.lastnameAttr</Lastname>
+                <Email mandatory="false">runtime.users.ldap.emailAttr</Email>
+            </extension>
+        </extensions>
+    </feature>
+        
+    <feature name="runtime.user.impl.ldap.credentialsaware">
+        <config>
+            <param id="runtime.datasource.core.ldap.baseUrl"/>
+            <param id="runtime.datasource.core.ldap.useSSL"/>
+            <param id="runtime.datasource.core.ldap.baseDN"/>
+            <param id="runtime.datasource.core.ldap.authMethod"/>
+            <param id="runtime.datasource.core.ldap.adminDN"/>
+            <param id="runtime.datasource.core.ldap.adminPasswd"/>
+
+            <param id="runtime.users.ldap.peopleDN"/>
+            <param id="runtime.users.ldap.baseFilter"/>
+            <param id="runtime.users.ldap.scope"/>
+            <param id="runtime.users.ldap.loginAttr"/>
+            <param id="runtime.users.ldap.firstnameAttr"/>
+            <param id="runtime.users.ldap.lastnameAttr"/>
+            <param id="runtime.users.ldap.emailAttr"/>
+        </config>
+        <extensions>
+            <extension point="org.ametys.runtime.user.UsersManager"
+                       id="org.ametys.runtime.plugins.core.CredentialsAwareLdap"
+                       class="org.ametys.runtime.plugins.core.user.ldap.CredentialsAwareLdapUsersManager"
+                       logger="org.ametys.runtime.plugins.core.user.ldap.credential">
+                <BaseUrl>runtime.datasource.core.ldap.baseUrl</BaseUrl>
+                <UseSSL>runtime.datasource.core.ldap.useSSL</UseSSL>
+                <BaseDN>runtime.datasource.core.ldap.baseDN</BaseDN>
+                <AuthenticationMethod>runtime.datasource.core.ldap.authMethod</AuthenticationMethod>
+                <AdminDN>runtime.datasource.core.ldap.adminDN</AdminDN>
+                <AdminPassword>runtime.datasource.core.ldap.adminPasswd</AdminPassword>
+
+                <RelativeDN>runtime.users.ldap.peopleDN</RelativeDN>
+                <Filter>runtime.users.ldap.baseFilter</Filter>
+                <SearchScope>runtime.users.ldap.scope</SearchScope>
+                <Login>runtime.users.ldap.loginAttr</Login>
+                <Firstname>runtime.users.ldap.firstnameAttr</Firstname>
+                <Lastname>runtime.users.ldap.lastnameAttr</Lastname>
+                <Email mandatory="false">runtime.users.ldap.emailAttr</Email>
+            </extension>
+        </extensions>
+    </feature>
+        
+    <!-- +
+         |  GROUPS
+         + -->   
+    <feature name="runtime.groups">
+        <extensions>
+            <extension  point="org.ametys.runtime.ui.item.UIItemManager" 
+                        id="org.ametys.runtime.plugins.core.Groups"
+                        class="org.ametys.runtime.plugins.core.ui.item.StaticUIItemFactory"
+                        logger="org.ametys.runtime.plugins.core.ui.groups">
+                <Static>
+                    <LabelKey>PLUGINS_CORE_GROUPS_LABEL</LabelKey>
+                    <DescriptionKey>PLUGINS_CORE_GROUPS_DESCRIPTION</DescriptionKey>
+                    <Icons>
+                        <Small>img/groups/icon_small.gif</Small>
+                        <Medium>img/groups/icon_medium.gif</Medium>
+                        <Large>img/groups/icon_large.gif</Large>
+                    </Icons>
+                    <Action type="url">
+                        <Url value="groups/view.html"/>
+                    </Action>
+                    <Right>Runtime_Rights_Group_Handle</Right>
+                </Static>
+            </extension>      
+        </extensions>
+    </feature>
+    
+    <feature name="runtime.groups.rights">
+        <extensions>
+            <extension point="org.ametys.runtime.plugins.core.right.RightsExtensionPoint"
+                       id="runtime.use.rights.groups">
+                <right id="Runtime_Rights_Group_Handle">
+                    <label>PLUGINS_CORE_GROUPS_RIGHTS_HANDLE_LABEL</label>
+                    <description>PLUGINS_CORE_GROUPS_RIGHTS_HANDLE_DESCRIPTION</description>
+                    <category>PLUGINS_CORE_USERANDRIGHTS_CATEGORY</category>
+                </right>
+            </extension>
+        </extensions>
+    </feature>
+    
+    <feature name="runtime.groups.impl.empty">
+        <extensions>
+            <extension point="org.ametys.runtime.group.GroupsManager"
+                       id="org.ametys.runtime.plugins.core.group.Empty"
+                       class="org.ametys.runtime.plugins.core.group.EmptyGroupsManager"
+                       logger="org.ametys.runtime.plugins.core.group.empty"/>
+        </extensions>
+    </feature>
+    
+    <feature name="runtime.groups.impl.jdbc" depends="runtime.datasource.core">
+        <extensions>
+            <extension point="org.ametys.runtime.group.GroupsManager"
+                       id="org.ametys.runtime.plugins.core.group.ModifiableJdbcCore"
+                       class="org.ametys.runtime.plugins.core.group.jdbc.ModifiableJdbcGroupsManager"
+                       logger="org.ametys.runtime.plugins.core.group.jdbc">
+                <pool>runtime.datasource.core.jdbc.pool</pool>
+                <list>
+                    <table>Groups</table>
+                    <id>Id</id>
+                    <label>Label</label>
+                </list>
+                <composition>
+                    <table>Groups_Users</table>
+                    <group>Group_Id</group>
+                    <user>Login</user>
+                </composition>
+            </extension>                   
+        </extensions>
+    </feature>
+
+    <feature name="runtime.groups.impl.ldap.groupDriven">
+        <config>
+            <param id="runtime.datasource.core.ldap.baseUrl"/>
+            <param id="runtime.datasource.core.ldap.useSSL"/>
+            <param id="runtime.datasource.core.ldap.baseDN"/>
+            <param id="runtime.datasource.core.ldap.authMethod"/>
+            <param id="runtime.datasource.core.ldap.adminDN"/>
+            <param id="runtime.datasource.core.ldap.adminPasswd"/>
+            
+            <param id="runtime.groups.ldap.groupDN"/>
+            <param id="runtime.groups.ldap.filter"/>
+            <param id="runtime.groups.ldap.scope"/>
+            <param id="runtime.groups.ldap.id"/>
+            <param id="runtime.groups.ldap.description"/>
+            <param id="runtime.groups.ldap.member"/>
+            
+            <param id="runtime.users.ldap.peopleDN"/>
+            <param id="runtime.users.ldap.loginAttr"/>
+        </config>
+        <extensions>
+            <extension point="org.ametys.runtime.group.GroupsManager"
+                       id="org.ametys.runtime.plugins.core.group.GroupDrivenLdap"
+                       class="org.ametys.runtime.plugins.core.group.ldap.GroupDrivenLdapGroupsManager"
+                       logger="org.ametys.runtime.plugins.core.group.groupdriven">
+                <BaseUrl>runtime.datasource.core.ldap.baseUrl</BaseUrl>
+                <UseSSL>runtime.datasource.core.ldap.useSSL</UseSSL>
+                <BaseDN>runtime.datasource.core.ldap.baseDN</BaseDN>
+                <AuthenticationMethod>runtime.datasource.core.ldap.authMethod</AuthenticationMethod>
+                <AdminDN>runtime.datasource.core.ldap.adminDN</AdminDN>
+                <AdminPassword>runtime.datasource.core.ldap.adminPasswd</AdminPassword>
+                
+                <RelativeDN>runtime.groups.ldap.groupDN</RelativeDN>
+                <Filter>runtime.groups.ldap.filter</Filter>
+                <SearchScope>runtime.groups.ldap.scope</SearchScope>
+                <Id>runtime.groups.ldap.id</Id>
+                <Description>runtime.groups.ldap.description</Description>
+                <Member>runtime.groups.ldap.member</Member>
+                
+                <UsersRelativeDN>runtime.users.ldap.peopleDN</UsersRelativeDN>
+                <Login>runtime.users.ldap.loginAttr</Login>
+            </extension>
+        </extensions>
+    </feature>
+                 
+    <feature name="runtime.groups.impl.ldap.usersDriven">
+        <config>
+            <param id="runtime.datasource.core.ldap.baseUrl"/>
+            <param id="runtime.datasource.core.ldap.useSSL"/>
+            <param id="runtime.datasource.core.ldap.baseDN"/>
+            <param id="runtime.datasource.core.ldap.authMethod"/>
+            <param id="runtime.datasource.core.ldap.adminDN"/>
+            <param id="runtime.datasource.core.ldap.adminPasswd"/>
+            
+            <param id="runtime.groups.ldap.groupDN"/>
+            <param id="runtime.groups.ldap.filter"/>
+            <param id="runtime.groups.ldap.scope"/>
+            <param id="runtime.groups.ldap.id"/>
+            <param id="runtime.groups.ldap.description"/>
+            <param id="runtime.groups.ldap.memberof"/>
+            
+            <param id="runtime.users.ldap.peopleDN"/>
+            <param id="runtime.users.ldap.baseFilter"/>
+            <param id="runtime.users.ldap.scope"/>
+            <param id="runtime.users.ldap.loginAttr"/>
+        </config>
+        <extensions>
+            <extension point="org.ametys.runtime.group.GroupsManager"
+                       id="org.ametys.runtime.plugins.core.group.UsersDrivenLdap"
+                       class="org.ametys.runtime.plugins.core.group.ldap.UserDrivenLdapGroupsManager"
+                       logger="org.ametys.runtime.plugins.core.group.usersdriven">
+                <BaseUrl>runtime.datasource.core.ldap.baseUrl</BaseUrl>
+                <UseSSL>runtime.datasource.core.ldap.useSSL</UseSSL>
+                <BaseDN>runtime.datasource.core.ldap.baseDN</BaseDN>
+                <AuthenticationMethod>runtime.datasource.core.ldap.authMethod</AuthenticationMethod>
+                <AdminDN>runtime.datasource.core.ldap.adminDN</AdminDN>
+                <AdminPassword>runtime.datasource.core.ldap.adminPasswd</AdminPassword>
+                
+                <RelativeDN>runtime.groups.ldap.groupDN</RelativeDN>
+                <Filter>runtime.groups.ldap.filter</Filter>
+                <SearchScope>runtime.groups.ldap.scope</SearchScope>
+                <Id>runtime.groups.ldap.id</Id>
+                <Description>runtime.groups.ldap.description</Description>
+                <MemberOf>runtime.groups.ldap.memberof</MemberOf>
+
+                <UsersRelativeDN>runtime.users.ldap.peopleDN</UsersRelativeDN>
+                <UsersFilter>runtime.users.ldap.baseFilter</UsersFilter>
+                <UsersSearchScope>runtime.users.ldap.scope</UsersSearchScope>
+                <UsersLogin>runtime.users.ldap.loginAttr</UsersLogin>
+            </extension>
+        </extensions>
+    </feature>
+                 
+    <!-- +
+         |  RIGHTS
+         + -->   
+    <feature name="runtime.rights">
+        <extensions>
+            <extension  point="org.ametys.runtime.ui.item.UIItemManager" 
+                        id="org.ametys.runtime.plugins.core.right.Profiles"
+                        class="org.ametys.runtime.plugins.core.ui.item.StaticUIItemFactory"
+                        logger="org.ametys.runtime.plugins.core.ui.rights.profiled.profile">
+                <Static>
+                    <LabelKey>PLUGINS_CORE_RIGHTS_PROFILES_LABEL</LabelKey>
+                    <DescriptionKey>PLUGINS_CORE_RIGHTS_PROFILES_DESCRIPTION</DescriptionKey>
+                    <Icons>
+                        <Small>img/rights/profiles/icon_small.gif</Small>
+                        <Medium>img/rights/profiles/icon_medium.gif</Medium>
+                        <Large>img/rights/profiles/icon_large.gif</Large>
+                    </Icons>
+                    <Action type="url">
+                        <Url value="rights/profiles/view.html"/>
+                    </Action>
+                    <Right>Runtime_Rights_Rights_Profile_Handle</Right>
+                </Static>
+            </extension>    
+
+            <extension  point="org.ametys.runtime.ui.item.UIItemManager" 
+                        id="org.ametys.runtime.plugins.core.right.Assign"
+                        class="org.ametys.runtime.plugins.core.ui.item.StaticUIItemFactory"
+                        logger="org.ametys.runtime.plugins.core.ui.rights.profiled.right">
+                <Static>
+                    <LabelKey>PLUGINS_CORE_RIGHTS_LABEL</LabelKey>
+                    <DescriptionKey>PLUGINS_CORE_RIGHTS_DESCRIPTION</DescriptionKey>
+                    <Icons>
+                        <Small>img/rights/icon_small.gif</Small>
+                        <Medium>img/rights/icon_medium.gif</Medium>
+                        <Large>img/rights/icon_large.gif</Large>
+                    </Icons>
+                    <Action type="url">
+                        <Url value="rights/view.html"/>
+                    </Action>
+                    <Right>Runtime_Rights_Rights_Handle</Right>
+                </Static>
+            </extension>    
+        </extensions>
+    </feature>     
+           
+    <feature name="runtime.rights.rights">
+        <extensions>
+            <extension point="org.ametys.runtime.plugins.core.right.RightsExtensionPoint"
+                       id="runtime.use.rights.profile">
+                <right id="Runtime_Rights_Rights_Profile_Handle">
+                    <label>PLUGINS_CORE_PROFILE_RIGHTS_HANDLE_LABEL</label>
+                    <description>PLUGINS_CORE_PROFILE_RIGHTS_HANDLE_DESCRIPTION</description>
+                    <category>PLUGINS_CORE_USERANDRIGHTS_CATEGORY</category>
+                </right>
+                <right id="Runtime_Rights_Rights_Handle">
+                    <label>PLUGINS_CORE_RIGHTS_HANDLE_LABEL</label>
+                    <description>PLUGINS_CORE_RIGHTS_HANDLE_DESCRIPTION</description>
+                    <category>PLUGINS_CORE_USERANDRIGHTS_CATEGORY</category>
+                </right>
+            </extension>
+        </extensions>
+    </feature>
+
+    <feature name="runtime.rights.impl.basic">
+        <extensions>
+            <extension point="org.ametys.runtime.right.RightsManager"
+                       id="org.ametys.runtime.plugins.core.right.Basic"
+                       class="org.ametys.runtime.plugins.core.right.BasicRightsManager"
+                       logger="org.ametys.runtime.plugins.core.right.basic"/>
+        </extensions>
+    </feature>
+
+    <feature name="runtime.rights.impl.profil" depends="runtime.datasource.core">
+        <extensions>
+            <extension point="org.ametys.runtime.right.RightsManager"
+                       id="org.ametys.runtime.plugins.core.right.DefaultProfileBased"
+                       class="org.ametys.runtime.plugins.core.right.profile.DefaultProfileBasedRightsManager"
+                       logger="org.ametys.runtime.plugins.core.right.profil">
+                <rights config="WEB-INF/param/rights.xml"/>
+                <pool>runtime.datasource.core.jdbc.pool</pool>
+            </extension>
+        </extensions>
+    </feature>
+
+    <feature name="runtime.rights.impl.hierarchicalProfil" depends="runtime.datasource.core">
+        <extensions>
+            <extension point="org.ametys.runtime.right.RightsManager"
+                       id="org.ametys.runtime.plugins.core.right.HierarchicalProfileBased"
+                       class="org.ametys.runtime.plugins.core.right.profile.HierarchicalProfileBasedRightsManager"
+                       logger="org.ametys.runtime.plugins.core.right.hierarchicalprofil">
+                <rights config="WEB-INF/param/rights.xml"/>
+                <pool>runtime.datasource.core.jdbc.pool</pool>
+            </extension>                       
+        </extensions>
+    </feature>
+    
+    <!-- +
+         |  EXCEPTION
+         + -->
+    <feature name="runtime.exception.impl.default">
+        <extensions>
+            <extension point="org.ametys.runtime.exception.ExceptionHandler"
+                       id="org.ametys.runtime.plugins.core.exception.Default"
+                       class="org.ametys.runtime.exception.DefaultExceptionHandler"
+                       logger="org.ametys.runtime.exception.default"/>
+        </extensions>
+    </feature>
+    
+    <!-- +
+         |  AUTHENTICATION
+         + -->
+    <feature name="runtime.authentication.impl.defined">
+        <extensions>
+            <extension point="org.ametys.runtime.authentication.CredentialsProvider"
+                       id="org.ametys.runtime.plugins.core.authentication.Defined"
+                       class="org.ametys.runtime.plugins.core.authentication.DefinedCredentialsProvider"
+                       logger="org.ametys.runtime.authentication.defined">
+                <user>anonymous</user>
+            </extension>
+        </extensions>
+    </feature>
+         
+    <feature name="runtime.authentication.impl.basic">
+        <config>
+            <param id="runtime.authentication.basic.realm"/>
+        </config>
+        <extensions>
+            <extension point="org.ametys.runtime.authentication.CredentialsProvider"
+                       id="org.ametys.runtime.plugins.core.authentication.Basic"
+                       class="org.ametys.runtime.authentication.BasicCredentialsProvider"
+                       logger="org.ametys.runtime.authentication.basic"/>
+        </extensions>
+    </feature>
+
+    <feature name="runtime.authentication.impl.remote">
+        <config>
+            <param id="runtime.authentication.remote.realm"/>
+        </config>
+        <extensions>
+            <extension point="org.ametys.runtime.authentication.CredentialsProvider"
+                       id="org.ametys.runtime.plugins.core.authentication.Remote"
+                       class="org.ametys.runtime.plugins.core.authentication.RemoteUserCredentialsProvider"
+                       logger="org.ametys.runtime.plugins.core.authentication.remote"/>
+        </extensions>
+    </feature>
+        
+    <feature name="runtime.authentication.impl.jcifs">
+        <config>
+            <param id="runtime.authentication.remote.realm"/>
+            <param id="runtime.authentication.jcifs.production"/>
+            <param id="runtime.authentication.jcifs.clientDomain"/>
+            <param id="runtime.authentication.jcifs.netBios"/>
+            <param id="runtime.authentication.jcifs.domainController"/>
+        </config>
+        <extensions>
+            <extension point="org.ametys.runtime.authentication.CredentialsProvider"
+                       id="org.ametys.runtime.plugins.core.authentication.Jcifs"
+                       class="org.ametys.runtime.plugins.core.authentication.JcifsCredentialsProvider"
+                       logger="org.ametys.runtime.plugins.core.authentication.jcifs"/>
+        </extensions>
+    </feature>
+        
+    <feature name="runtime.authentication.impl.cas">
+        <config>
+            <param id="runtime.authentication.cas.serverUrl"/>
+            <param id="runtime.authentication.cas.authorizedProxy"/>
+        </config>
+        <extensions>
+            <extension point="org.ametys.runtime.authentication.CredentialsProvider"
+                       id="org.ametys.runtime.plugins.core.authentication.CAS"
+                       class="org.ametys.runtime.plugins.core.authentication.CASCredentialsProvider"
+                       logger="org.ametys.runtime.plugins.core.authentication.cas"/>
+        </extensions>
+    </feature>
+        
+    <feature name="runtime.authentication.impl.cas.gateway">
+        <config>
+            <param id="runtime.authentication.cas.serverUrl"/>
+            <param id="runtime.authentication.cas.authorizedProxy"/>
+        </config>
+        <extensions>
+            <extension point="org.ametys.runtime.authentication.CredentialsProvider"
+                       id="org.ametys.runtime.plugins.core.authentication.GatewayCAS"
+                       class="org.ametys.runtime.plugins.core.authentication.CASCredentialsProvider"
+                       logger="org.ametys.runtime.plugins.core.authentication.casgateway">
+                <gateway>true</gateway>
+            </extension>
+        </extensions>
+    </feature>
+        
+    <!-- +
+         |  InitRequestHandler
+         + -->
+    <feature name="runtime.request.impl.default">
+        <extensions>
+            <extension point="org.ametys.runtime.request.InitRequestHandler"
+                       id="org.ametys.runtime.plugins.core.request.Default"
+                       class="org.ametys.runtime.request.DefaultInitRequestHandler"
+                       logger="org.ametys.runtime.request.default"/>
+        </extensions>
+    </feature>
+        
+</plugin>
