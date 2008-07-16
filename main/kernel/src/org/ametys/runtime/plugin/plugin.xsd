@@ -1,0 +1,549 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--+
+    | Copyright (c) 2007 Anyware Technologies and others.
+    | All rights reserved. This program and the accompanying materials
+    | are made available under the terms of the Eclipse Public License v1.0
+    | which accompanies this distribution, and is available at
+    | http://www.opensource.org/licenses/eclipse-1.0.php
+    | 
+    | Contributors:
+    |     Anyware Technologies - initial API and implementation
+    +-->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:element name="plugin" type="plugin">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+                <![CDATA[
+                    The root element of the plugin file.
+                ]]>
+            </xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:complexType name="plugin">
+        <xsd:sequence>
+            <xsd:element name="config" type="config" maxOccurs="1" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            Declaration of shared config parameters.<br/>
+                            Parameters declared in this section must be referenced in an active feature to be actually used.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="extension-points" type="extension-points" maxOccurs="1" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            Declaration of extension points (single or multiple)
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="feature" type="feature" maxOccurs="unbounded" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                        	Features are the heart of plugins : it holds declarations of components, extensions (to extension points), config parameters, ...<br/>
+                        	All elements declared in a feature are somehow linked : if one extension is unactivated, the whole feature is. 
+                        	This mecanism allows to have more control on components actually loaded by application.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="version" type="xsd:string" use="optional">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                            Allows to specify the version of the plugin to check dependencies.<br/>
+                            As of Runtime version 1.2, this attribute is not actually used.
+                        ]]>
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="runtimeVersion" use="required">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                            Allows to specify the version of the plugin schema used by this plugin definition.<br/>
+                            This schema only accepts "1.2" as value.
+                        ]]>
+                </xsd:documentation>
+            </xsd:annotation>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="1.2"></xsd:enumeration>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:complexType name="feature">
+        <xsd:all>
+            <xsd:element name="config" type="config" maxOccurs="1" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            Declaration of specific config parameters or references to shared parameters.<br/>
+                            To reference a shared parameter simply put its id in the 'id' attribute of the 'param' element and keep the element empty.<br/>
+                            To declare a specific parameter, do it the same way as shared parameters (no need to reference it).
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="components" type="components" maxOccurs="1" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            Declaration of avalon components.<br/>
+                            Avalon components declared here (by opposition with thoses declared in the cocoon.xconf) can use extensions, reference parameters, ...
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="extensions" type="extensions" maxOccurs="1" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            Declaration of extensions.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:all>
+        <xsd:attribute name="name" type="xsd:string" use="required">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                        Name of the feature. Must be unique within this plugin.<br/>
+                        The full name of a feature is the concatenation of the plugin name, '/' and the feature name.
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="depends" type="xsd:string" use="optional">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                    	Declares a dependency on another feature.<br/>
+                    	If the referenced feature is declared in this plugin, you may use its local name, otherwise you must use its full name (plugin name + '/' + local feature name).<br/>
+                        If the referenced feature does not exist or is unactivated, this feature will be also unactivated.
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:complexType name="extension-points">
+        <xsd:sequence>
+            <xsd:element name="extension-point" type="extension-point" maxOccurs="unbounded" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            Declaration of a multiple extension point.<br/>
+                            A multiple extension point is a component that can "host" several extensions, declared in different plugins and features.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="single-extension-point" type="single-extension-point" maxOccurs="unbounded" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            Declaration of a single extension point.<br/>
+                            A single extension point is a component where multiple implementations may be declared but a single one will be loaded.<br/>
+                            The choice of the implementation to use is made in the runtime.xml file.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="single-extension-point">
+        <xsd:attribute name="id" type="xsd:string" use="required">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                        The unique identifier of the single extension point.<br/>
+                        This value is also the avalon role (and must be unique in this point of view)
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="class" type="xsd:string" use="required">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                        The java interface or (abstract) superclass defining the single extension point.<br/>
+                        All implementations will be tested against this value to avoid later ClassCastException.
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="default-extension-id" type="xsd:string" use="optional"> 
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                        This attribute may contains the id of the implementation to choose if no choice is done in the runtime.xml file.<br/>
+                        If this attribute is missing, the choice become mandatory in the runtime.xml file.
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:complexType name="extension-point">
+        <xsd:sequence>
+            <xsd:any processContents="skip" maxOccurs="unbounded" minOccurs="0"/>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:string" use="required">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                        The unique identifier of the extension point.<br/>
+                        This value is also the avalon role (and must be unique in this point of view)
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="class" type="xsd:string" use="required">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                        The java (concrete) class defining the extension point.<br/>
+                        Extensions declared later in this file or in others plugin files will hang on to this class through appropriate methods.
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="config" type="xsd:string" use="optional">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                        If this attributed is set, it references an external config file : an absolute value (beginning with '/') references a path relative to the webapp context path, a relative path is computed relatively to the plugin.xml file.<br/>
+                        If the attribute is not set, the configuration of the extension point is constituted by the nested tags.
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>            
+        </xsd:attribute>
+         <xsd:attribute name="logger" type="xsd:string" use="optional">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                    	The category of the logger passed to the component, if it implements the LogEnabled interface.<br/>If ommitted, the class name is used.
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>            
+        </xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:complexType name="extensions">
+        <xsd:sequence>
+            <xsd:element name="extension" type="extension" maxOccurs="unbounded" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            Declaration of an extension.<br/>
+                            It may be an implementation of a single extension point (and will so be disabled if it is not the choosen implementation).<br/>
+                            It may be an extension to a multiple extension point (and will so become available for any component).
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="extension">
+        <xsd:sequence>
+            <xsd:any processContents="skip" maxOccurs="unbounded" minOccurs="0" />
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:string" use="required">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                        The unique identifier of the extension.
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="point" type="xsd:string" use="required">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                       The id of the extension point to extend.
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="class" type="xsd:string" use="optional">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+	               <![CDATA[
+	               		An extension to a single extension point MUST define this attribute since there are always java classes. This class is an avalon compontent.<br/>
+                        For multiple extension point, this attribute may or may not exist, depending of the implementation. However, it is a good idea to use this attribute since javadoc will be automatically linked.
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="config" type="xsd:string" use="optional">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                        If this attributed is set, it references an external config file : an absolute value (beginning with '/') references a path relative to the webapp context path, a relative path is computed relatively to the plugin.xml file.<br/>
+                        If the attribute is not set, the configuration of the extension point is constituted by the nested tags.
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="logger" type="xsd:string" use="optional">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                        If this extension defines a class as an avalon component, this attribute may be used as the category af the associated logger.<br/>
+                        This behaviour is automatic for extension to single extension point, and depends on the implementation of the extension point for multiple extension points.
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>            
+        </xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:complexType name="components">
+        <xsd:sequence>
+            <xsd:element name="component" type="component" maxOccurs="unbounded" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            Declaration of an avalon component.<br/>
+                            This component may access extensions, may reference config parameters and may be unactivated if not used.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>            
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="component">
+        <xsd:sequence>
+            <xsd:any processContents="skip" maxOccurs="unbounded" minOccurs="0"/>
+        </xsd:sequence>
+        <xsd:attribute name="class" type="xsd:string" use="required">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                        The concrete java class of the avalon component.
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>            
+        </xsd:attribute>
+        <xsd:attribute name="role" type="xsd:string" use="required">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                        The avalon role of this component.
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>            
+        </xsd:attribute>
+        <xsd:attribute name="config" type="xsd:string" use="optional">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                        If this attributed is set, it references an external config file : an absolute value (beginning with '/') references a path relative to the webapp context path, a relative path is computed relatively to the plugin.xml file.<br/>
+                        If the attribute is not set, the configuration of the extension point is constituted by the nested tags.
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>            
+        </xsd:attribute>
+        <xsd:attribute name="logger" type="xsd:string" use="optional">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                    	The category of the logger passed to the component, if it implements the LogEnabled interface.<br/>If ommitted, the class name is used.
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>            
+        </xsd:attribute>
+    </xsd:complexType>
+    
+    <xsd:complexType name="config">
+        <xsd:sequence>
+            <xsd:element name="param" type="configParam" maxOccurs="unbounded" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                        	Declaration of a config parameter or reference to an existing one.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>            
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="configParam">
+        <xsd:all>
+            <xsd:element name="LabelKey" type="configKey" maxOccurs="1" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            The i18n key to use for the label of the parameter in the current catalogue.<br/>
+                            The label is a short string : a kind of name for the parameter.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>            
+            </xsd:element>
+            <xsd:element name="DescriptionKey" type="configKey" maxOccurs="1" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            The i18n key to use for the description of the parameter in the current catalogue.<br/>
+                            The description is a sentence explaining the parameter and containing samples of values.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>            
+            </xsd:element>
+            <xsd:element name="Type" type="xsd:string" maxOccurs="1" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                        The type of parameter to choose between :
+                        <ul>
+                            <li>boolean,</li>
+                            <li>string,</li>
+                            <li>password (string stored encoded and not human readable),</li>
+                            <li>long,</li>
+                            <li>double,</li>
+                            <li>date (date and time).</li>
+                        </ul>
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>            
+            </xsd:element>
+            <xsd:element name="Widget" type="xsd:string" maxOccurs="1" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            The widget to show to the user to make it change the value.<br/>
+                            Depends on the type.<br/>
+                            As of Runtime version 1.2, the builtin configuration screen only have one widget per type and will not read this value.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>            
+            </xsd:element>
+            <xsd:element name="DefaultValue" type="xsd:string" maxOccurs="1" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            The default value to present to the user the first time the parameter is edited.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="Enumeration" type="configClass" maxOccurs="1" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                        	Allows to define a list of possible values for this parameter.<br/>
+                            A class attribute can be setted to choose the class that will set the list : this class must inherit org.ametys.runtime.util.parameter.Enumerator and as an avalon component this class can receive the configuration.<br/>
+                            <br/>
+                            If this attribute is missing the org.ametys.runtime.util.parameter.StaticEnumerator is choosen.<br/>
+                            The configuration is then : an element per item which name is the value and which text is the label. The attribute 'i18n' (true by default) means the text is a key. The attribute 'catalogue' means the plugin catalogue to use (current by default).<br/>
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="Validation" type="configClass" maxOccurs="1" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                        	Allows to define a validator for this parameter.<br/>
+                            A class attribute can be setted to choose the class that will validate : this class must inherit org.ametys.runtime.util.parameter.Validator and as an avalon component this class can receive the configuration.<br/>
+                            <br/>
+                            If this attribute is missing the org.ametys.runtime.util.parameter.DefaultValidator is choosen.<br/>
+                            The configuration is then : an empty element 'mandatory' to specify that the parameter cannot be empty and an element 'regexp' that specify a java regexp that will be test against the value.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="Category" type="configKey" maxOccurs="1" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            The view for setting the configuration is mainly divided in category.<br/>
+                            You can choose the category to put this item by setting the value to an i18n key.<br/>
+                            The default catalogue is the current one but the 'catalogue' attribute may define another plugin catalogue.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="Group" type="configKey" maxOccurs="1" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            The category is subdivided in groups.<br/>
+                            You can choose the groups to put this item by setting the value to an i18n key.<br/>
+                            The default catalogue is the current one but the 'catalogue' attribute may define another plugin catalogue.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="Order" type="xsd:integer" maxOccurs="1" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            In the current group, the order value (an integer) allows to change the display order of parameters.<br/>
+                            Lower numbers are displayed first.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:all>
+        <xsd:attribute name="id" type="xsd:string" use="required">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                    	If this declaration only references an existing parameter, the id is that of the referenced parameter.<br/>
+                    	Otherwise, it must be unique.<br/>
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>            
+        </xsd:attribute>
+    </xsd:complexType>
+    
+    <xsd:complexType name="configKey">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="Catalogue" type="xsd:string" use="optional">
+                    <xsd:annotation>
+                        <xsd:documentation xml:lang="en">
+                            <![CDATA[
+                                The parent element is an i18n key of the current plugin catalogue.<br/>
+                                The attribute may reference an other existing catalogue (e.g. plugin.core)
+                            ]]>
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:attribute>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="configClass">
+        <xsd:sequence>
+            <xsd:any processContents="skip" maxOccurs="unbounded" minOccurs="0"/>
+        </xsd:sequence>
+        <xsd:attribute name="class" type="xsd:string" use="optional">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                        The parent element is implemented by a java class.<br/>
+                        If you do not want to use the default implementation, defines the java class here.<br/>
+                        See parent element documentation for more details.
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:complexType>
+</xsd:schema>

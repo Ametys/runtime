@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--+
+    | Copyright (c) 2007 Anyware Technologies and others.
+    | All rights reserved. This program and the accompanying materials
+    | are made available under the terms of the Eclipse Public License v1.0
+    | which accompanies this distribution, and is available at
+    | http://www.opensource.org/licenses/eclipse-1.0.php
+    | 
+    | Contributors:
+    |     Anyware Technologies - initial API and implementation
+    +-->
+<map:sitemap xmlns:map="http://apache.org/cocoon/sitemap/1.0">
+
+<!-- =========================== Components ================================ -->
+	<map:components>
+		<map:generators default="file">
+		    <map:generator name="file" src="org.ametys.runtime.cocoon.RuntimeFileGenerator" label="content" logger="org.ametys.runtime.kernel.sitemap.generator.file" pool-grow="4" pool-max="32" pool-min="8"/>
+		    <map:generator name="action-result" src="org.ametys.runtime.util.cocoon.ActionResultGenerator" label="content" logger="org.ametys.runtime.kernel.sitemap.generator.actionresult" pool-grow="4" pool-max="32" pool-min="8"/>
+            
+		    <map:generator name="i18nizabletext" src="org.ametys.runtime.util.cocoon.XMLizableTextGenerator" label="content" logger="org.ametys.runtime.kernel.sitemap.generator.i18ntext" pool-grow="4" pool-max="32" pool-min="8">
+		    	<tag>xml</tag>
+		    	<encoding>UTF-8</encoding>
+		    	<namespaces>xmlns:i18n="http://apache.org/cocoon/i18n/2.1"</namespaces>
+		    </map:generator>
+
+    		<map:generator name="exception" src="org.apache.cocoon.generation.ExceptionGenerator" logger="org.ametys.runtime.kernel.sitemap.generator.exception"/>
+		</map:generators>
+  
+		<map:transformers default="xslt">
+			<map:transformer name="xslt" pool-grow="4" pool-max="32" pool-min="16" src="org.apache.cocoon.transformation.TraxTransformer" logger="org.ametys.runtime.kernel.sitemap.transformer.xslt">
+				<use-session-parameters>false</use-session-parameters>
+				<use-cookie-parameters>false</use-cookie-parameters>
+				<xslt-processor-role>xalan</xslt-processor-role>
+			</map:transformer>
+    
+			<map:transformer name="i18n" src="org.ametys.runtime.cocoon.I18nTransformer" logger="org.ametys.runtime.kernel.sitemap.transformer.i18n">
+				<catalogues default="kernel">
+					<catalogue id="application" location="context://WEB-INF/i18n" name="application"/>
+                    <catalogue id="kernel" location="context://WEB-INF/i18n" name="kernel"/>
+				</catalogues>
+				<untranslated-text>untranslated</untranslated-text>
+				<cache-at-startup>true</cache-at-startup>
+			</map:transformer>
+		</map:transformers>
+  
+		<map:readers default="resource">
+			<map:reader name="resource" src="org.ametys.runtime.cocoon.RuntimeResourceReader" logger="org.ametys.runtime.kernel.sitemap.reader.resource"/>
+		</map:readers>
+    
+		<map:serializers default="html">
+			<map:serializer logger="org.ametys.runtime.kernel.sitemap.serializer.html" mime-type="text/html" name="html" src="org.apache.cocoon.serialization.HTMLSerializer">
+				<encoding>UTF-8</encoding>
+                <indent>no</indent>
+			</map:serializer>
+
+			<map:serializer logger="org.ametys.runtime.kernel.sitemap.serializer.xml" mime-type="text/xml" name="xml" pool-grow="4" pool-max="32" pool-min="16" src="org.apache.cocoon.serialization.XMLSerializer">
+				<encoding>UTF-8</encoding>
+				<indent>no</indent>
+			</map:serializer>
+
+			<map:serializer logger="org.ametys.runtime.kernel.sitemap.serializer.text" mime-type="text/plain" name="text" src="org.apache.cocoon.serialization.TextSerializer">   
+                <encoding>UTF-8</encoding>
+            </map:serializer>
+		</map:serializers>
+
+		<map:selectors default="exception">
+			<map:selector logger="org.ametys.runtime.kernel.sitemap.selector.exception" name="exception" src="org.apache.cocoon.selection.ExceptionSelector">
+				<exception class="org.apache.cocoon.ResourceNotFoundException" name="not-found"/>
+				<!-- The statement below tells the selector to unroll as much exceptions as possible -->
+				<exception class="java.lang.Throwable" unroll="true"/>
+			</map:selector>
+		</map:selectors>
+
+		<map:matchers default="wildcard">
+			<map:matcher logger="org.ametys.runtime.kernel.sitemap.matcher.wildcard" name="wildcard" src="org.apache.cocoon.matching.WildcardURIMatcher"/>
+            <map:matcher logger="org.ametys.runtime.kernel.sitemap.matcher.workspace" name="workspace" src="org.ametys.runtime.workspace.WorkspaceMatcher"/>
+		</map:matchers>
+
+		<map:actions>
+            <map:action name="setter" src="org.apache.cocoon.acting.SetterAction" logger="org.ametys.runtime.kernel.sitemap.actions.setter">
+                <parameter name="mode" value="request-attribute"/>
+            </map:action>
+            <map:action name="init-request" src="org.ametys.runtime.request.InitRequestAction" logger="org.ametys.runtime.kernel.sitemap.actions.init-request"/>
+			<map:action name="exception" src="org.ametys.runtime.exception.ExceptionAction" logger="org.ametys.runtime.kernel.sitemap.actions.exception"/>
+		</map:actions>
+
+		<map:pipes default="caching">
+			<map:pipe name="caching" src="org.apache.cocoon.components.pipeline.impl.CachingProcessingPipeline" logger="org.ametys.runtime.kernel.sitemap.pipeline.caching"/>
+			<map:pipe name="caching-point" src="org.apache.cocoon.components.pipeline.impl.CachingPointProcessingPipeline" logger="org.ametys.runtime.kernel.sitemap.pipeline.cachingPoint">
+				<autoCachingPoint>On</autoCachingPoint>
+			</map:pipe>
+			<map:pipe name="noncaching" src="org.apache.cocoon.components.pipeline.impl.NonCachingProcessingPipeline"  logger="org.ametys.runtime.kernel.sitemap.pipeline.nonCaching"/>
+		</map:pipes>
+	</map:components>
+
+<!-- =========================== Views =================================== -->
+
+	<map:views>
+		<map:view from-label="content" name="content">
+			<map:serialize type="xml"/>
+		</map:view>
+		<map:view from-label="xml" name="xml">
+			<map:serialize type="xml"/>
+		</map:view>
+	</map:views>
+
+<!-- =========================== Resources ================================= -->
+
+	<map:resources/>
+
+<!-- ========================== Action sets ================================ -->
+
+	<map:action-sets/>
+
+<!-- =========================== Pipelines ================================= -->
+
+	<map:pipelines>
+		<!-- ******* -->
+		<!-- INTERNE -->
+		<!-- ******* -->
+		<map:pipeline internal-only="true">
+			<!-- Pages de plugins importées telles quelles (en interne) -->
+			<map:match pattern="_plugins/*/**">
+                <map:act type="setter">
+                    <map:parameter name="pluginName" value="{1}"/>
+                </map:act> 
+				<map:mount check-reload="yes" src="plugin:{1}://" uri-prefix="_plugins/{1}"/>
+			</map:match>			
+		</map:pipeline>
+				
+		<map:pipeline>
+            <!-- Tous les pipelines suivants sont théoriquement servis par Apache
+                et ne sont donc pas utilisés (hors développement) -->
+            
+            <!-- Builtins -->
+            <map:match pattern="kernel/resources/**">
+                <map:read src="resources/{1}"/>
+            </map:match>
+
+            <!-- Plugins -->
+            <!-- Ressources dynamique des plugins (JS to translate) -->
+            <map:match pattern="plugins/*/resources/**.js.i18n">
+                <map:generate src="plugin:{1}://resources_dynamic/{2}.js" type="i18nizabletext"/>
+                <map:transform type="i18n">
+                    <map:parameter name="locale" value="{locale:locale}"/>
+                    <map:parameter name="plugin" value="{1}"/>
+                </map:transform>
+                <map:serialize type="text" mime-type="text/javascript;charset=utf-8"/>
+            </map:match>
+            
+            <map:match pattern="plugins/*/resources/**">
+                <map:read src="plugin:{1}://resources/{2}"/>
+            </map:match>
+            
+            <map:match pattern="**">
+                <map:act type="init-request"/>
+            </map:match>
+            
+			<!-- ********** -->
+			<!-- WORKSPACES -->
+			<!-- ********** -->
+            <map:match pattern="_*" type="workspace">
+                <map:redirect-to uri="_{1}/"/>
+            </map:match>
+            
+			<map:match pattern="_*/**" type="workspace">
+                <map:match pattern="_*/resources/**.js.i18n">
+                    <map:generate src="workspace:{1}://resources_dynamic/{2}.js" type="i18nizabletext"/>
+                    <map:transform type="i18n">
+                        <map:parameter name="locale" value="{locale:locale}"/>
+                        <map:parameter name="workspace" value="{1}"/>
+                    </map:transform>
+                    <map:serialize type="text" mime-type="text/javascript;charset=utf-8"/>
+                </map:match>
+                <map:match pattern="_*/resources/**">
+                    <map:read src="workspace:{1}://resources/{2}"/>
+                </map:match>
+            
+				<map:mount check-reload="yes" src="workspace:{workspaceName}://sitemap.xmap" uri-prefix="_{1}"/>
+			</map:match>
+			
+            <map:match pattern="**" type="workspace">
+                <map:parameter name="default" value="true"/>
+
+                <map:match pattern="resources/**.js.i18n">
+                    <map:generate src="workspace:{../workspaceName}://resources_dynamic/{1}.js" type="i18nizabletext"/>
+                    <map:transform type="i18n">
+                        <map:parameter name="locale" value="{locale:locale}"/>
+                        <map:parameter name="workspace" value="{../workspaceName}"/>
+                    </map:transform>
+                    <map:serialize type="text" mime-type="text/javascript;charset=utf-8"/>
+                </map:match>
+                <map:match pattern="resources/**">
+                    <map:read src="workspace:{../workspaceName}://resources/{1}"/>
+                </map:match>
+
+                <map:mount check-reload="yes" src="workspace:{workspaceName}://sitemap.xmap" uri-prefix=""/>
+            </map:match>
+            
+			<!-- ******* -->
+			<!-- ERREURS -->
+			<!-- ******* -->
+			<map:handle-errors>
+				<map:select type="exception">
+					<map:when test="not-found">
+						<map:act type="exception" src="404">
+			        		<map:generate type="exception" label="content"/>
+			          		<map:transform src="{xsl}">
+			            		<map:parameter name="realPath" value="{realpath:}"/>
+		    	        		<map:parameter name="contextPath" value="{request:contextPath}"/>
+			            		<map:parameter name="code" value="404"/>
+			            		<map:parameter name="pageTitle" value="Page not found"/>
+			          		</map:transform>
+			          		<map:transform type="i18n">
+			          			<map:parameter name="locale" value="{locale:locale}"/>
+			          		</map:transform>
+			          		<map:serialize status-code="404"/>
+		          		</map:act>
+					</map:when>
+					<map:otherwise>
+						<map:act type="exception" src="500">
+			        		<map:generate type="exception" label="content"/>
+			          		<map:transform src="{xsl}">
+			            		<map:parameter name="realPath" value="{realpath:}"/>
+		    	        		<map:parameter name="contextPath" value="{request:contextPath}"/>
+			            		<map:parameter name="code" value="500"/>
+			            		<map:parameter name="pageTitle" value="An error occured"/>
+			          		</map:transform>
+			          		<map:transform type="i18n">
+			          			<map:parameter name="locale" value="{locale:locale}"/>
+			          		</map:transform>
+			          		<map:serialize status-code="500"/>
+		          		</map:act>
+					</map:otherwise>
+				</map:select>
+			</map:handle-errors>
+		</map:pipeline>
+	</map:pipelines>
+</map:sitemap>

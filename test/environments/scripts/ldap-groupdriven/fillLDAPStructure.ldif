@@ -1,0 +1,15 @@
+dn: dc=ametys-test-groups,dc=org
+objectclass: dcObject
+objectclass: organization
+dc: ametys-test-groups
+o: Ametys
+
+dn: ou=people,dc=ametys-test-groups,dc=org
+objectclass: top
+objectclass: organizationalUnit
+ou: people
+
+dn: ou=groups,dc=ametys-test-groups,dc=org
+objectclass: top
+objectclass: organizationalUnit
+ou: groups
