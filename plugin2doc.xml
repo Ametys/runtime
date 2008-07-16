@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Plugin documentation for Ametys Runtime" default="plugin2doc">
+	
+    <target name="plugin2doc-prepare">
+        <property name="out"/>
+    	
+    	<copy todir="${out}">
+    		<fileset dir="resources/**">
+    		</fileset>
+    	</copy>
+    </target>
+
+    <target name="plugin2doc">
+    	<property name="pluginLocation"/>
+       	<property name="pluginName"/>
+        <property name="out"/>
+
+        <xslt in="${pluginLocation}" style="plugin2doc.xsl" out="${out}.html">
+            <param name="pluginName" expression="${pluginName}"/>
+        </xslt>
+        <xslt in="${pluginLocation}" style="plugin2doc_features.xsl" out="${out}/${pluginName}_features.html">
+            <param name="pluginName" expression="${pluginName}"/>
+        </xslt>
+        <xslt in="${pluginLocation}" style="plugin2doc_extensions.xsl" out="${out}/${pluginName}_extensions.html">
+            <param name="pluginName" expression="${pluginName}"/>
+        </xslt>
+        <xslt in="${pluginLocation}" style="plugin2doc_configuration.xsl" out="${out}/${pluginName}_configuration.html">
+            <param name="pluginName" expression="${pluginName}"/>
+        </xslt>
+        <xslt in="${pluginLocation}" style="plugin2doc_main.xsl" out="${out}/${pluginName}_main.html">
+            <param name="pluginName" expression="${pluginName}"/>
+        </xslt>
+        <xslt in="${pluginLocation}" style="plugin2doc_main_features.xsl" out="${out}/${pluginName}_main_features.html">
+            <param name="pluginName" expression="${pluginName}"/>
+        </xslt>
+        <xslt in="${pluginLocation}" style="plugin2doc_main_extensions.xsl" out="${out}/${pluginName}_main_extensions.html">
+            <param name="pluginName" expression="${pluginName}"/>
+        </xslt>
+        <xslt in="${pluginLocation}" style="plugin2doc_main_configuration.xsl" out="${out}/${pluginName}_main_configuration.html">
+            <param name="pluginName" expression="${pluginName}"/>
+        </xslt>
+    </target>
+
+</project> 

@@ -1,0 +1,105 @@
+/*
+ * Copyright (c) 2007 Anyware Technologies and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.opensource.org/licenses/eclipse-1.0.php
+ * 
+ * Contributors:
+ *     Anyware Technologies - initial API and implementation
+ */
+package org.ametys.runtime.plugins.core.authentication;
+
+import java.util.Map;
+
+import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.framework.context.Contextualizable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.cocoon.components.ContextHelper;
+import org.apache.cocoon.environment.ObjectModelHelper;
+import org.apache.cocoon.environment.Redirector;
+
+import org.ametys.runtime.authentication.Credentials;
+import org.ametys.runtime.authentication.CredentialsProvider;
+import org.ametys.runtime.config.Config;
+
+
+/**
+ * This manager gets the credentials given by an authentification J2EE filter.<br>
+ * The filter must set the 'remote user' header into the request.<br>
+ * <br>
+ * This manager can not get the password of the connected user: the user is 
+ * already authentified. This manager should not be associated with an
+ * <code>AuthenticableBaseUser</code>
+ */
+public class RemoteUserCredentialsProvider extends AbstractLogEnabled implements CredentialsProvider, Initializable, Contextualizable
+{
+    private String _realm;
+    
+    private Context _context;
+
+    public void initialize() throws Exception
+    {
+        _realm = Config.getInstance().getValueAsString("runtime.authentication.remote.realm");
+    }
+    
+    public void contextualize(Context context) throws ContextException
+    {
+        _context = context;
+    }
+    
+    public boolean validate(Redirector redirector) throws Exception
+    {
+        // ce Manager est toujours valide
+        return true;
+    }
+
+    public boolean accept()
+    {
+        // cette implémentation n'a pas de requête particulière à prendre en
+        // compte
+        return false;
+    }
+
+    public Credentials getCredentials(Redirector redirector) throws Exception
+    {
+        Map objectModel = ContextHelper.getObjectModel(_context);
+        String remoteLogin = ObjectModelHelper.getRequest(objectModel).getRemoteUser();
+        if (remoteLogin == null)
+        {
+            getLogger().error("Remote User is null ! Missing filter ?");
+            return null;
+        }
+        
+        int begin = remoteLogin.indexOf("\\");
+        if (begin <= 0)
+        {
+            /* Authentification de domaine mais non-conforme */
+            getLogger().error("Remote User '" + remoteLogin + "' does not match realm\\login");
+            return null;
+        }
+
+        String userLogin = remoteLogin.substring(begin + 1);
+        String userRealm = remoteLogin.substring(0, begin);
+
+        if (!_realm.equals(userRealm))
+        {
+            getLogger().error("Remote user realm '" + userRealm + "' does not match application realm '" + _realm + "'");
+            return null;
+        }
+
+        return new Credentials(userLogin, "");
+    }
+
+    public void notAllowed(Redirector redirector) throws Exception
+    {
+        // nothing to do
+    }
+
+    public void allowed(Redirector redirector)
+    {
+        // empty method, nothing more to do
+    }
+}

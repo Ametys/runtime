@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--+
+    | Copyright (c) 2007 Anyware Technologies and others.
+    | All rights reserved. This program and the accompanying materials
+    | are made available under the terms of the Eclipse Public License v1.0
+    | which accompanies this distribution, and is available at
+    | http://www.opensource.org/licenses/eclipse-1.0.php
+    | 
+    | Contributors:
+    |     Anyware Technologies - initial API and implementation
+    +-->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:element name="workspace" type="workspace">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+                <![CDATA[
+                    The root element of the workspace file.
+                ]]>
+            </xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:complexType name="workspace">
+        <xsd:sequence>
+            <xsd:element name="dependencies" type="dependencies" maxOccurs="1" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            The list of dependencies of the workspace
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="dependencies">
+        <xsd:sequence>
+            <xsd:element name="dependency" type="xsd:string" maxOccurs="unbounded" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            Declares a dependency on a feature.<br/>
+                    		If the referenced feature is declared in this plugin, you may use its local name, otherwise you must use its full name (plugin name + '/' + local feature name).<br/>
+                            If the referenced feature does not exist or is unactivated, the workspace will not be loaded.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="RuntimeBootstrap" default="boot">
+	<target name="init">
+		<property name="cvs-branch" value="HEAD"/>
+		<property name="tmpDir" value="/tmp"/>
+		<property name="version" value="${cvs-version}"/>
+		<property name="destDir" value="${tmpDir}/Runtime"/>
+		
+		<property name="cvsRoot" value=":extssh:PUTYOULOGINHERE@cvs:/cvs"/>
+		<property name="deliverLocation" value="produits/Ametys/Runtime"/>
+	</target>
+	
+    <target name="checkVersion" unless="cvs-version">
+        <!-- Must define the version variable -->
+        <antcall target="help"/>
+        <fail message="cvs-version not present"/>
+    </target>                                                                                                             
+    
+   	<target name="boot" depends="init, checkVersion">
+   		<delete dir="${destDir}"/>
+   		
+   		<!-- CVS tag and export --> 
+       	<cvs cvsroot="${cvsRoot}" dest="${destDir}" failonerror="true">
+       		<commandline>
+       			<argument line="rtag -F -a  -r ${cvs-branch} ${cvs-version} '${deliverLocation}'"/>
+       		</commandline>
+       		<commandline>
+       			<argument line="export -r ${cvs-version} '${deliverLocation}'"/>
+       		</commandline>
+       	</cvs>
+
+       	<!-- Appel du deliver -->
+       	<ant antfile="${destDir}/${deliverLocation}/deliver.xml" dir="${destDir}/${deliverLocation}" target="deliver"/>
+   		
+   		<delete dir="${destDir}"/>
+	</target>
+   
+   	<!-- Help -->
+	<target name="help">
+		<echo message="------------------------------------------------------------------------------------------------"/>
+		<echo message="Usage : ant -Dcvs-version=versionName -Dcvs-branch=branchName -DtmpDir=temp-dir -Dversion=version"/>
+		<echo message=""/>
+		<echo message="Parameters :"/>
+		<echo message=""/>
+		<echo message="cvs-version   : the cvs version name (ex : v4_6_7 v20020325) "/>
+		<echo message="cvsBranch : optionnaly, the branch to be delivered (default is HEAD) "/>
+		<echo message="tmpDir    : optionnaly, the temp dir (default is /tmp) "/>
+		<echo message="version    : optionnaly, the version name (ex : 1.0-dev, default is $${cvs-version}) "/>
+		<echo message="baseVersion    : optionnaly, the cvs version name to be compared with (ex : v2_1_2, default is v1_0_0) "/>
+		<echo message="------------------------------------------------------------------------------------------------"/>
+	</target>
+</project>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--+
+    | Copyright (c) 2007 Anyware Technologies and others.
+    | All rights reserved. This program and the accompanying materials
+    | are made available under the terms of the Eclipse Public License v1.0
+    | which accompanies this distribution, and is available at
+    | http://www.opensource.org/licenses/eclipse-1.0.php
+    | 
+    | Contributors:
+    |     Anyware Technologies - initial API and implementation
+    +-->
+<map:sitemap xmlns:map="http://apache.org/cocoon/sitemap/1.0">
+	<map:pipelines>
+        <!-- 
+            sample internal pipeline transforming static XML files with XSLT stylesheets
+            This pipeline is typically called by a workspace (see the sample workspace) wich apply a common skin, ...
+        -->
+        <map:pipeline internal-only="true">
+            <map:match pattern="**.html">
+                <map:generate src="pages/{1}.xml"/>
+                <map:transform src="pages/{1}.xsl">
+                    <map:parameter name="contextPath" value="{request:contextPath}"/>
+                    <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
+                    <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
+                    <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/>
+                </map:transform>
+                <!-- No i18n here, it is processed by the workspace -->
+                <map:serialize/>
+            </map:match>
+        </map:pipeline>
+        
+        <map:pipeline>
+             <!-- 
+                sample plugin pipeline transforming static XML files with XSLT stylesheets.
+                This pipeline is intended to be used standalone.
+            -->
+            <map:match pattern="**.html">
+                <map:generate src="pages/{1}.xml"/>
+                <map:transform src="pages/{1}.xsl">
+                    <map:parameter name="contextPath" value="{request:contextPath}"/>
+                    <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
+                    <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
+                    <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/>
+                </map:transform>
+                <map:transform type="i18n">
+                    <map:parameter name="locale" value="{locale:locale}"/>
+                    <map:parameter name="plugin" value="{request-attr:pluginName}"/>
+                </map:transform>
+                <map:serialize/>
+            </map:match>
+            
+             <!-- 
+                sample plugin pipeline transforming static XML files with XSLT stylesheets
+                This may be used as a Webservice, called by AJAX code, or from external apps, ...
+            -->
+            <map:match pattern="**.xml">
+                <map:generate src="pages/{1}.xml"/>
+                <map:transform src="pages/{1}.xsl">
+                    <map:parameter name="contextPath" value="{request:contextPath}"/>
+                    <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
+                    <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
+                    <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/>
+                </map:transform>
+                <map:transform type="i18n">
+                    <map:parameter name="locale" value="{locale:locale}"/>
+                    <map:parameter name="plugin" value="{request-attr:pluginName}"/>
+                </map:transform>
+                <map:serialize type="xml"/>
+            </map:match>
+        </map:pipeline>
+	</map:pipelines>
+</map:sitemap>

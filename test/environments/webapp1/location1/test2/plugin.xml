@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<plugin  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:noNamespaceSchemaLocation="http://ametys.org/Runtime/1.1/plugin.xsd" runtimeVersion="1.1">
+         
+    <config>
+        <param id="param1">
+            <Category>cat</Category>
+            <DefaultValue>value</DefaultValue>
+            <DescriptionKey>key</DescriptionKey>
+            <Group>group</Group>
+            <LabelKey>label</LabelKey>
+            <Order>1</Order>
+            <Type>string</Type>
+        </param>
+        <param id="param2">
+            <Category>cat</Category>
+            <DefaultValue>value</DefaultValue>
+            <DescriptionKey>key</DescriptionKey>
+            <Group>group</Group>
+            <LabelKey>label</LabelKey>
+            <Order>1</Order>
+            <Type>string</Type>
+        </param>
+    </config>
+    
+	<feature name="test2" depends="core/unexisting.feature">
+        <config>
+            <param id="param3">
+                <Category>cat</Category>
+                <DefaultValue>value</DefaultValue>
+                <DescriptionKey>key</DescriptionKey>
+                <Group>group</Group>
+                <LabelKey>label</LabelKey>
+                <Order>1</Order>
+                <Type>string</Type>
+            </param>
+        </config>
+    </feature>
+    
+    <feature name="test3">
+        <config>
+            <param id="param4">
+                <Category>cat</Category>
+                <DefaultValue>value</DefaultValue>
+                <DescriptionKey>key</DescriptionKey>
+                <Group>group</Group>
+                <LabelKey>label</LabelKey>
+                <Order>1</Order>
+                <Type>string</Type>
+            </param>
+            <param id="param2"/>
+        </config>
+    </feature>
+</plugin>
