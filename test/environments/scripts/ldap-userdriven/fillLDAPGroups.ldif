@@ -1,0 +1,14 @@
+dn: ou=group1,ou=groups,dc=ametys-test-users,dc=org
+objectclass: organizationalUnit
+ou: group1
+description: Group 1
+
+dn: ou=group2,ou=groups,dc=ametys-test-users,dc=org
+objectclass: organizationalUnit
+ou: group2
+description: Group 2
+
+dn: ou=group3,ou=groups,dc=ametys-test-users,dc=org
+objectclass: organizationalUnit
+ou: group3
+description: Group 3

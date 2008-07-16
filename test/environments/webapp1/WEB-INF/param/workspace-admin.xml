@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- +
+     | This file configures the administrator page.
+     + -->
+<administrator>
+    <actions>
+        <category name="WORKSPACE_ADMIN_SECTION_SYSTEM_LABEL">
+            <item id="org.ametys.runtime.plugins.core.administrator.Password"/>
+            <item id="org.ametys.runtime.plugins.core.administrator.System"/>
+            <item id="org.ametys.runtime.plugins.core.administrator.Config"/>
+            <item id="org.ametys.runtime.plugins.core.administrator.JVMStatus"/>
+            <item id="org.ametys.runtime.plugins.core.administrator.Logs"/>
+        </category>
+
+        <category name="WORKSPACE_ADMIN_SECTION_USERSMANAGEMENT_LABEL">
+            <item id="org.ametys.runtime.plugins.core.Users"/>
+            <item id="org.ametys.runtime.plugins.core.Groups"/>
+            <item id="org.ametys.runtime.plugins.core.right.Profiles"/>
+            <item id="org.ametys.runtime.plugins.core.right.Assign"/>
+        </category>
+        
+        <category name="WORKSPACE_ADMIN_SECTION_APPLICATION_LABEL">
+            <item id="org.ametys.runtime.plugins.core.administrator.Plugins"/>
+        </category>
+    </actions>
+</administrator>

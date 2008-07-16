@@ -1,0 +1,9 @@
+/.checkstyle
+/.classpath
+/.externalToolBuilders
+/.project
+/_classes
+/_target
+/mybuild.xml
+/target
+/tmp

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--+
+    | Copyright (c) 2007 Anyware Technologies and others.
+    | All rights reserved. This program and the accompanying materials
+    | are made available under the terms of the Eclipse Public License v1.0
+    | which accompanies this distribution, and is available at
+    | http://www.opensource.org/licenses/eclipse-1.0.php
+    | 
+    | Contributors:
+    |     Anyware Technologies - initial API and implementation
+    +-->
+<catalogue xml:lang="fr">
+    <message key="APPLICATION_PRODUCT_LABEL">Nom de mon application</message>
+
+    <!-- Administration category -->
+    <message key="WORKSPACE_ADMIN_SECTION_SYSTEM_LABEL">Administration système</message>
+    <message key="WORKSPACE_ADMIN_SECTION_APPLICATION_LABEL">Application</message>
+    <message key="WORKSPACE_ADMIN_SECTION_USERSMANAGEMENT_LABEL">Gestion des utilisateurs et des droits</message>
+</catalogue>

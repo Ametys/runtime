@@ -1,0 +1,6 @@
+Ametys Runtime
+Copyright 2007 Anyware Technologies
+
+This product includes software developed at The Apache Software Foundation (http://www.apache.org/).
+
+This product includes software developed by the JA-SIG Collaborative (http://www.ja-sig.org/).
