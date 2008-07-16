@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<releases>
+	<release name="v1_0_0">
+<!--		<note module="kernel|core|admin" type="add|update|fix|delete">sample</note>-->
+		<note module="kernel" type="add">Implémentation initiale</note>
+	</release>
+</releases>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+    <!--appender name="lf5-servlet" class="org.apache.log4j.lf5.LF5Appender"/-->
+    <appender name="servlet" class="biz.minaret.log4j.DatedFileAppender">
+        <param name="Directory" value="${context-root}/WEB-INF/logs"/>
+        <param name="Prefix" value="servlet-engine-"/>
+        <param name="Suffix" value=".log"/>
+        <param name="Append" value="true"/>
+		<layout class="org.apache.log4j.PatternLayout"> 
+			<param name="ConversionPattern" value="%d %-5p [%c] %m%n"/> 
+		</layout>
+	</appender>
+
+    <root>
+        <priority value="debug"/>
+        <!--appender-ref ref="lf5-servlet"/-->
+        <appender-ref ref="servlet"/>
+    </root>
+</log4j:configuration>

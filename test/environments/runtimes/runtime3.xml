@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    Init class needed for test
+    Minimal runtime that use default extensions and no db
+-->
+<runtime  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+          xsi:noNamespaceSchemaLocation="http://ametys.org/Runtime/1.0/runtime.xsd">
+    
+    <application>
+        <version>2.0.1</version>
+    </application>
+    
+    <initClass>org.ametys.runtime.test.Init</initClass>
+    
+    <plugins>
+        <exclude>
+            <feature>core/runtime.datasource.core</feature>
+        </exclude>
+    </plugins>
+    
+    <incompleteConfig>
+        <allowedURLs/>
+        <redirectURL/>
+    </incompleteConfig>
+</runtime>

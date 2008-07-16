@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--+
+    | Copyright (c) 2007 Anyware Technologies and others.
+    | All rights reserved. This program and the accompanying materials
+    | are made available under the terms of the Eclipse Public License v1.0
+    | which accompanies this distribution, and is available at
+    | http://www.opensource.org/licenses/eclipse-1.0.php
+    | 
+    | Contributors:
+    |     Anyware Technologies - initial API and implementation
+    +-->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:element name="plugin" type="plugin"/>
+
+    <xsd:complexType name="plugin">
+        <xsd:sequence>
+            <xsd:element name="config" type="config" maxOccurs="1" minOccurs="0" />
+            <xsd:element name="extension-points" type="extension-points" maxOccurs="1" minOccurs="0" />
+            <xsd:element name="feature" type="feature" maxOccurs="unbounded" minOccurs="0" />
+        </xsd:sequence>
+        <xsd:attribute name="version" type="xsd:string" use="optional"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="feature">
+        <xsd:all>
+            <xsd:element name="config" type="config" maxOccurs="1" minOccurs="0" />
+            <xsd:element name="components" type="components" maxOccurs="1" minOccurs="0" />
+            <xsd:element name="extensions" type="extensions" maxOccurs="1" minOccurs="0" />
+        </xsd:all>
+        <xsd:attribute name="name" type="xsd:string" use="required"/>
+        <xsd:attribute name="depends" type="xsd:string" use="optional"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="extension-points">
+        <xsd:sequence>
+            <xsd:element name="extension-point" type="extension-point" maxOccurs="unbounded" minOccurs="0"/>
+            <xsd:element name="single-extension-point" type="single-extension-point" maxOccurs="unbounded" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="single-extension-point">
+        <xsd:attribute name="id" type="xsd:string" use="required"/>
+        <xsd:attribute name="class" type="xsd:string" use="required"/>
+        <xsd:attribute name="default-extension-id" type="xsd:string" use="optional"/> 
+    </xsd:complexType>
+
+    <xsd:complexType name="extension-point">
+        <xsd:sequence>
+            <xsd:any processContents="lax" maxOccurs="unbounded" minOccurs="0"/>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:string" use="required"/>
+        <xsd:attribute name="class" type="xsd:string" use="required"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="extensions">
+        <xsd:sequence>
+            <xsd:element name="extension" type="extension" maxOccurs="unbounded" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="extension">
+        <xsd:sequence>
+            <xsd:any processContents="lax" maxOccurs="unbounded" minOccurs="0" />
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:string" use="required" />
+        <xsd:attribute name="point" type="xsd:string" use="required" />
+        <xsd:attribute name="class" type="xsd:string" use="optional" />
+        <xsd:attribute name="config" type="xsd:string" use="optional" />
+        <xsd:attribute name="logger" type="xsd:string" use="optional" />
+    </xsd:complexType>
+
+    <xsd:complexType name="components">
+        <xsd:sequence>
+            <xsd:element name="component" type="component" maxOccurs="unbounded" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="component">
+        <xsd:sequence>
+            <xsd:any processContents="lax" maxOccurs="unbounded" minOccurs="0"/>
+        </xsd:sequence>
+        <xsd:attribute name="class" type="xsd:string" use="required"/>
+        <xsd:attribute name="role" type="xsd:string" use="required"/>
+        <xsd:attribute name="config" type="xsd:string" use="optional"/>
+        <xsd:attribute name="logger" type="xsd:string" use="optional"/>
+    </xsd:complexType>
+    
+    <xsd:complexType name="config">
+        <xsd:sequence>
+            <xsd:element name="param" type="configParam" maxOccurs="unbounded" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="configParam">
+        <xsd:all>
+            <xsd:element name="LabelKey" type="configKey" maxOccurs="1" minOccurs="0"/>
+            <xsd:element name="DescriptionKey" type="configKey" maxOccurs="1" minOccurs="0"/>
+            <xsd:element name="Type" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+            <xsd:element name="Widget" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+            <xsd:element name="DefaultValue" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+            <xsd:element name="Enumeration" type="configClass" maxOccurs="1" minOccurs="0"/>
+            <xsd:element name="Validation" type="configClass" maxOccurs="1" minOccurs="0"/>
+            <xsd:element name="Category" type="configKey" maxOccurs="1" minOccurs="0"/>
+            <xsd:element name="Group" type="configKey" maxOccurs="1" minOccurs="0"/>
+            <xsd:element name="Order" type="xsd:integer" maxOccurs="1" minOccurs="0"/>
+        </xsd:all>
+        <xsd:attribute name="id" type="xsd:string" use="required"/>
+    </xsd:complexType>
+    
+    <xsd:complexType name="configKey">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="Catalogue" type="xsd:string" use="optional"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="configClass">
+        <xsd:sequence>
+            <xsd:any processContents="lax" maxOccurs="unbounded" minOccurs="0"/>
+        </xsd:sequence>
+        <xsd:attribute name="class" type="xsd:string" use="optional"/>
+    </xsd:complexType>
+</xsd:schema>

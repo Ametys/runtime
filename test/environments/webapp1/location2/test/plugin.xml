@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<plugin  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:noNamespaceSchemaLocation="http://ametys.org/Runtime/1.0/plugin.xsd">
+	<extension-points>
+        <extension-point class="org.ametys.runtime.test.plugins.TestExtensionPoint" id="ep-test"/>
+        <extension-point class="org.ametys.runtime.test.plugins.TestComponentBasedExtensionPoint" id="ep-component-test"/>
+        <single-extension-point class="org.ametys.runtime.test.plugins.TestSingleExtensionPoint" id="sep-test" default-extension-id="org.ametys.runtime.test.Default"/>
+        <single-extension-point class="org.ametys.runtime.test.plugins.TestSingleExtensionPoint" id="sep-test2" default-extension-id="org.ametys.runtime.test.Default"/>
+	</extension-points>
+    
+    <feature name="test-feature">
+        <extensions>
+            <extension point="sep-test" id="org.ametys.runtime.test.Default" class="org.ametys.runtime.test.plugins.TestSingleExtensionPoint"/>
+            <extension point="sep-test2" id="org.ametys.runtime.test.Default2" class="org.ametys.runtime.test.plugins.TestSingleExtensionPoint"/>
+            <extension point="ep-test" id="org.ametys.runtime.test.EP" class="org.ametys.runtime.test.plugins.TestExtension"/>
+            <extension point="ep-component-test" id="org.ametys.runtime.test.EP" class="org.ametys.runtime.test.plugins.TestExtension"/>
+        </extensions>
+    </feature>
+</plugin>
