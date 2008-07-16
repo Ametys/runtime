@@ -1,0 +1,44 @@
+<!--+
+    | Copyright (c) 2007 Anyware Technologies and others.
+    | All rights reserved. This program and the accompanying materials
+    | are made available under the terms of the Eclipse Public License v1.0
+    | which accompanies this distribution, and is available at
+    | http://www.opensource.org/licenses/eclipse-1.0.php
+    | 
+    | Contributors:
+    |     Anyware Technologies - initial API and implementation
+    +-->
+
+<!-- + 
+     | SELECTGROUP 
+     + -->
+<table id="RUNTIME_Plugin_Runtime_SelectGroup" style="display: none">
+    <tr>
+        <td class="dialog">
+            <table cellpadding="0" cellspacing="0" width="100%">
+        		<tr>
+        			<td style="text-align: right; vertical-align: top;">
+        				<i18n:text i18n:key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_FIND"/>&#160;<input type="text" onkeyup="parent.RUNTIME_Plugin_Runtime_SelectGroup.reload()" id="criteria" style="width: 200px; color: #000000; font-size: 10px; font-family: verdana;"/>
+        			</td>
+        		</tr>	
+        		<tr>
+        			<td style="padding-top: 5px; text-align: left; vertical-align: top;">
+        				<div style="width: 256px; height: 196px" id="select"/>
+        				<i18n:text i18n:key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_WARN100"/>
+        			</td>
+        		</tr>	
+        		<tr>
+        			<td style="padding-top: 5px; text-align: center; vertical-align: bottom;">
+        				<button onclick="parent.RUNTIME_Plugin_Runtime_SelectGroup.ok();">
+        					<i18n:text i18n:key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_OK"/>
+        				</button>
+        				&#160;&#160;
+        				<button onclick="parent.RUNTIME_Plugin_Runtime_SelectGroup.cancel()">
+        					<i18n:text i18n:key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_CANCEL"/>
+        				</button>
+        			</td>
+        		</tr>
+            </table>
+        </td>
+    </tr>
+</table>

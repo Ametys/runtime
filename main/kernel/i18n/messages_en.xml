@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--+
+    | Copyright (c) 2007 Anyware Technologies and others.
+    | All rights reserved. This program and the accompanying materials
+    | are made available under the terms of the Eclipse Public License v1.0
+    | which accompanies this distribution, and is available at
+    | http://www.opensource.org/licenses/eclipse-1.0.php
+    | 
+    | Contributors:
+    |     Anyware Technologies - initial API and implementation
+    +-->
+<catalogue xml:lang="en">
+
+    <message key="KERNEL_LANGUAGE_CODE">en</message>
+    
+    <!-- UI -->
+    <message key="KERNEL_UI_LISTVIEW_PREVIEW_NOTAVAILABLE">No preview available</message>
+    <message key="KERNEL_DIALOG_ERRORREADINGURL">An error occured while loading resource</message>
+
+</catalogue>

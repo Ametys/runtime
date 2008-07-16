@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Deliver Ametys Runtime" default="deliver">
+	<target name="init">		
+		<!-- GENERAL PROPERTIES -->
+		<property name="cvs-version" value="HEAD"/>
+		<property name="cvs-branch" value="HEAD"/>
+		<property name="version" value="${cvs-version}"/>
+
+		<property name="target" location="/home/production/livraison/Ametys/Runtime/${cvs-version}"/>
+		
+		<property name="baseVersion" value="v1_0_0"/>
+		<property name="baseVersionDir" location="${target}/../v1_0_0"/>
+		
+		<property name="deliver-dir" location="deliver"/>
+		<property name="templates-dir" location="templates"/>
+		<property name="appli-template-dir" location="${templates-dir}/application"/>
+
+		<property name="smtpServer" value="mail"/>
+		<property name="destinataires" value="cms-dev@lists.anyware-tech.com"/>
+		<property name="webServer" value="http://livraisons/links/Ametys/Runtime"/>
+		
+		<delete dir="${target}"/>
+		<mkdir dir="${target}"/>
+	</target>
+	
+	<target name="build-runtime">
+		<ant antfile="build.xml" target="all" inheritall="false">
+			<property name="dest-dir" location="${target}/bin"/>
+			<property name="dest-doc" location="${target}/docs"/>
+			<property name="tmp-dir" location="tmp"/>
+			<property name="cvs-branch" value="${cvs-branch}"/>
+			<property name="cvs-version" value="${cvs-version}"/>
+			<property name="version" value="${version}"/>
+		</ant>
+		
+		<!-- Release notes -->
+		<style in="releaseNotes.xml" style="${deliver-dir}/releaseNotes2html.xsl" out="${target}/docs/releaseNotes.html">
+			<param name="version" expression="${cvs-version}"/>
+		</style>
+		
+		<!-- Template -->
+		<mkdir dir="${target}/template/web"/>
+		<copy todir="${target}/template/web">
+			<fileset dir="${appli-template-dir}"/>
+		</copy>
+		
+		<!-- i18n -->
+		<mkdir dir="${target}/template/web/WEB-INF/i18n"/>
+		<copy todir="${target}/template/web/WEB-INF/i18n">
+			<fileset dir="${target}/bin/i18n"/>
+		</copy>
+		
+		<!-- JAR -->
+		<mkdir dir="${target}/template/web/WEB-INF/lib"/>
+		<copy todir="${target}/template/web/WEB-INF/lib">
+			<fileset dir="main/kernel/lib">
+				<exclude name="buildtime/**"/>
+			</fileset>
+			<fileset dir="main/plugin-core/lib"/>
+			<fileset dir="${target}/bin/jar">
+				<include name="ametys-runtime-${version}.jar"/>
+			</fileset>
+		</copy>
+		
+		<!--scripts -->
+		<mkdir dir="${target}/template/web/WEB-INF/scripts"/>
+		<copy todir="${target}/template/web/WEB-INF/scripts">
+			<fileset dir="main/plugin-core/scripts"/>
+		</copy>
+		
+		<zip destfile="${target}/template.zip" basedir="${target}/template"/>
+		
+		<delete dir="${target}/template"/>
+	</target>
+	
+	<target name="intranet">
+		<tstamp>
+			<format property="today" pattern="dd/MM/yyyy HH:mm:ss" locale="fr"/>
+	  	</tstamp>
+		
+	   	<copy file="${deliver-dir}/template.html" tofile="${target}/index.html"/>
+
+	   	<copy todir="${target}">
+	   		<fileset dir="${deliver-dir}">
+	   			<exclude name="template.html"/>
+	   			<exclude name="releaseNotes2html.xsl"/>
+	   			<exclude name="lib/**"/>
+	   			<exclude name="src/**"/>
+	   		</fileset>
+		</copy>
+		
+		<copy todir="${target}/src">
+			<fileset dir=".">
+				<exclude name="tools/"/>
+				<exclude name="docs/manual/"/>
+				<exclude name="bootDeliver.xml"/>
+				<exclude name="deliver.xml"/>
+				<exclude name="deliver/img/"/>
+				<exclude name="deliver/releaseNotes2html.xsl"/>
+				<exclude name="deliver/template.html"/>
+			</fileset>
+		</copy>
+		
+		<!-- API Diff -->
+		<mkdir dir="${target}/docs/apidiff/src"/>
+		
+		<copy todir="${target}/docs/apidiff/src">
+			<fileset dir="main/kernel/src" includes="**/*.java"/>
+			<fileset dir="main/plugin-core/src" includes="**/*.java"/>
+			<fileset dir="main/workspace-admin/src" includes="**/*.java"/>
+		</copy>
+		
+		<javadoc sourcepath="${target}/docs/apidiff/src" packagenames="org.ametys.runtime.*">
+			<doclet name="jdiff.JDiff" path="tools/jdiff/jdiff.jar">
+		    	<param name="-apiname" value="Ametys Runtime ${cvs-version}"/>
+		    	<param name="-apidir" value="${target}/docs/apidiff/src"/>
+		  	</doclet>
+		</javadoc>	
+		
+		<javadoc destdir="${target}/docs/apidiff" sourcefiles="tools/jdiff/Null.java">
+		  	<doclet name="jdiff.JDiff" path="tools/jdiff/jdiff.jar:tools/jdiff/lib/xercesImpl-2.7.1.jar:tools/jdiff/lib/xml-apis-1.3.02.jar">
+		    	<param name="-stats"/>
+		    	<param name="-oldapi" value="Ametys Runtime ${baseVersion}"/>
+		    	<param name="-oldapidir" value="${baseVersionDir}/docs/apidiff/src"/>
+		    	<param name="-newapi" value="Ametys Runtime ${cvs-version}"/>
+		    	<param name="-newapidir" value="${target}/docs/apidiff/src"/>
+		    	<param name="-javadocold" value="${baseVersionDir}/docs/api/"/>
+		    	<param name="-javadocnew" value="${target}/docs/api/"/>
+		  	</doclet>
+		</javadoc>	
+		
+		<copy file="tools/jdiff/background.gif" todir="${target}/docs/apidiff"/>
+		<copy file="tools/jdiff/black.gif" todir="${target}/docs/apidiff"/>
+		
+	  	<!-- Remplacement des constantes dans le fichier html -->
+	  	<replace file="${target}/index.html" token="DATE" value="${today}"/>
+	  	<replace file="${target}/index.html" token="VERSION" value="${version}"/>
+	  	<replace file="${target}/index.html" token="CVSBRANCH" value="${cvs-branch}"/>		
+	</target>
+	
+	<target name="mail">
+		<mail from="cms-dev@lists.anyware-tech.com" tolist="${destinataires}" mailhost="${smtpServer}" encoding="plain" subject="Livraison Ametys Runtime : ${version}" message="La nouvelle version ${version} d'Ametys Runtime est disponible.&#10;&#10;Version accessible a l'adresse : ${webServer}/${cvs-version}/"/>
+	</target>
+	
+    <target name="deliver" depends="init, build-runtime, intranet, mail"/>
+</project>

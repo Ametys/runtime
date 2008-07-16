@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<releases>
+	<release name="v1_0_0">
+<!--		<note module="kernel|core|admin" type="add|update|fix|delete">sample</note>-->
+		<note module="kernel" type="add">Implémentation initiale</note>
+	</release>
+    <release name="v1_0_1">
+        <note module="kernel" type="fix">Le catalogue i18n du groupe d'un paramètre de déploiement était lu sur l'élément 'category'</note>
+        <note module="kernel" type="add">Mise à jour des javascript STools pour traiter le drag'n'drop entre STree et SListview</note>
+        <note module="kernel" type="fix">Lorsque la configuration est incomplète les mots de passe sont conservés</note>
+        <note module="core" type="fix">Message de log de l'action hasRight corrigé</note>
+    </release>
+</releases>

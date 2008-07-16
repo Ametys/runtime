@@ -1,0 +1,46 @@
+/*
+ * Copyright (c) 2007 Anyware Technologies and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.opensource.org/licenses/eclipse-1.0.php
+ * 
+ * Contributors:
+ *     Anyware Technologies - initial API and implementation
+ */
+table.dialog form 
+{
+	padding: 0px;
+	margin: 0px;
+}
+
+table.dialog tr td *
+{
+	color: #000000;
+	font-size: 10px;
+	font-family: verdana;
+}
+
+table.dialog tr td.dialog
+{
+	padding: 10px;
+}
+
+table.dialog tr td button, 
+button.button
+{
+	width: 90px;
+	height: 20px;
+	border-top: 1px solid #ffffff;
+	border-left: 1px solid #ffffff;
+	border-bottom: 1px solid #aca899;
+	border-right: 1px solid #aca899;
+}
+
+input.file 
+{
+	border-top: 1px solid #ffffff;
+	border-left: 1px solid #ffffff;
+	border-bottom: 1px solid #aca899;
+	border-right: 1px solid #aca899;
+}

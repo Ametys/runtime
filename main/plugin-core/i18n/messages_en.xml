@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--+
+    | Copyright (c) 2007 Anyware Technologies and others.
+    | All rights reserved. This program and the accompanying materials
+    | are made available under the terms of the Eclipse Public License v1.0
+    | which accompanies this distribution, and is available at
+    | http://www.opensource.org/licenses/eclipse-1.0.php
+    | 
+    | Contributors:
+    |     Anyware Technologies - initial API and implementation
+    +-->
+<catalogue xml:lang="en">
+
+    <!-- ADMINISTRATOR PASSWORD -->
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_LABEL">Password</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_DESCRIPTION">Change password for 'admin' login</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_DIALOG_CAPTION">Change password...</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_DIALOG_OK">Ok</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_DIALOG_CANCEL">Cancel</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_LABEL">Password</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_TITLE">Password</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_OLD">Old password</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_NEW">New password</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CONFIRM">Confirm the new password</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_OK">Password has been changed.\nMake sure you give this new password to all system administrators.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_WRONG_EMPTY">The 3 fields must have a value.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_WRONG_CONFIRM">The confirmation for the new password is not correct.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR">An error has prevented any modification of password.\nMake sure that the old password is correct.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_FATAL">An error occured. The password has not been updated.</message>
+    
+    <!-- ADMINISTRATOR CONFIG -->
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_LABEL">Configuration</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_DESCRIPTION">Configuration parameters management</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_TITLE">Configuration</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE">Management</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE_SAVE">Save and restart</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE_QUIT">Quit without saving</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HELP">Help</message>    
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HELP_TEXT">This screen allows you to change the application configuration.&lt;br/&gt;&lt;br/&gt;Navigate trough the tabs and change parameters values.&lt;br/&gt;&lt;br/&gt;The application will be automatically restarted after saving to take the changes into account.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_OK">The configuration has been correctly updated</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_FATALERROR">Server is not responding or a fatal error occured during saving.\nConsult applications and servlet engines logfiles for more details.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_ERROR">An error occured on the server and parameters have not been updated.\n\nInternal error message is :\n</message>
+
+    <!-- ADMINISTRATOR JVMSTATUS -->
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_LABEL">System status</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_DESCRIPTION">Analyze system and JVM status</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TITLE">System status</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_HANDLE">Management</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_HANDLE_QUIT">Quit</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_HELP">Help</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_SYSTEM_HELP_TEXT">This screen allows you to monitor system status: memory, users...&lt;br/&gt;&lt;br/&gt;This screen will refresh every 10 seconds.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_PROPERTIES_HELP_TEXT">This screen allows you to view the JVM system properties.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL">General</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_SYS">System</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_SYS_OS">OS</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_SYS_PROC">CPU(s)</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_SYS_PROC_UNIT">CPU(s)</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_JVM">Java</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_JVM_VERSION">Version</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_JVM_VENDOR">Vendor</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_JVM_TIME">Startup</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM">Memory usage</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_HEAP">Main</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_NHEAP">Internal</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_USED_SUFFIX">Used</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_FREE_SUFFIX">Free</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_AVAILABLE_SUFFIX">Available</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_USED">Used memory</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_FREE">Free memory</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_AVAILABLE">Available memory</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_UNIT">Mo</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_FREENOW">Free memory</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE_MEMORY_HINT_HEAP">Main memory is heap memory parameterized with -Xms and -Xmx options. For example -Xms128m -Xmx512m. When rolling over the memory bar with the mouse, a message will show the exact values of the memory.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE_MEMORY_HINT_NHEAP">Internal memory is the non-heap memory parameterized with -XX:MaxPermSize. For example -XX:MaxPermSize=128m. When rolling over the memory bar with the mouse, a message will show the exact values of the memory.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE">Traitements du serveur</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE_SESSION">Open sessions</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE_SESSION_HELP">The provided number counts all servlet engine open sessions. For example, users and administrators sessions are mixed up.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE_REQUEST">Current requests</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE_REQUEST_HELP">The provided number counts HTTP requests being handled by the servlet engine (including the one used to get that number).</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE_THREAD">Running threads</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE_THREAD_HELP">The provided number counts all JVM threads (from all webapps)</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_GC_ERROR">An error occured. The memory may have not been freed and data are not up-to-date.\n\nThe screen won't refresh automatically anymore.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_REFRESH_ERROR">An error occured. Data are not up-to-date.\n\nThe screen won't refresh automatically anymore.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_SESSIONS_ERROR">? [get help]</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_SESSIONS_ERROR_HINT">Unknown sessions count.\n\nYou may have this message if the server has just started. Please close your browser then reconnect.\n If you get this message one more time, check that the 'WEB-INF/web.xml' file contains the following line under the root element:\n&lt;listener&gt;&lt;listener-class&gt;org.ametys.runtime.plugins.core.administrator.jvmstatus.SessionCountListener&lt;/listener-class&gt;&lt;/listener&gt;</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_REQUESTS_ERROR">? [get help]</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_REQUESTS_ERROR_HINT">Unknown request count.\n\nPlease check that the 'WEB-INF/web.xml' contains the following line under the root element: \n&lt;listener&gt;&lt;listener-class&gt;org.ametys.runtime.plugins.core.administrator.jvmstatus.RequestCountListener&lt;/listener-class&gt;&lt;/listener&gt;</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_THREADS_LOCK">deadlocked thread(s)</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_THREADS_ERROR_LOCK_HINT">Some threads are \"deadlocked\". CLick here to get a detailed report of the problem.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_SYSTEM">System properties</message>
+
+    <!-- ADMINISTRATOR PLUGINS -->
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_LABEL">Plugins</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DESCRIPTION">Show all applications plugins</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_HANDLE">Management</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CANCEL">Quit</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_TITLE">Plugins list</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_HELP">Help</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_HELP_TEXT">This screen shows the list of loaded plugins.&lt;br/&gt;&lt;br/&gt;You can display 2 views: &lt;br/&gt; Plugins view: this view matches the plugins' physical hierarchy.&lt;br/&gt;Extension points view: this is a logical view where plugins are grouped by type.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_NO_PLUGINS">No plugin loaded</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_PLUGINS">Plugins</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_EXTENSION_POINTS">Extension points</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_NO_EXTENSION">No extension point loaded</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_PLUGIN_VIEW">Plugins view</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_EXTENSION_POINT_VIEW">Extension points view</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_INACTIVE_SINGLE">(contains a rejected extension)</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_INACTIVE_EXCLUDED">(excluded)</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_INACTIVE_DEPENDENCY">(depends on an unavailable feature)</message>
+    
+    <!-- ADMINITRATOR LOGS -->
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_LABEL">Logs</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_DESCRIPTION">Display the application logs</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_TITLE">Logs</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP">Help</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP_TEXT">This screen allows you to display log files and remove obsolete ones.&lt;br/&gt;&lt;br/&gt;If your log files are big and you are in production, don't forget to switch to 'ERROR' log level in 'WEB-INF\\logkit.xconf' and 'WEB-INF\\log4j.xml' files.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE">Management</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_QUIT">Quit</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_VIEW">Display file</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_VIEW_CONFIRM">The file you are trying to display is big and cannot be sent without compression. Do you want to download the compressed file ?</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_DOWNLOAD">Download file(s)</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_DELETE">Delete file(s)</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_DELETE_CONFIRM">Do you really want to delete selected log files ?\n\nThe deletion may fail if one a the selected files is currently in use.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_DELETE_ERROR_GRAVE">A fatal error has occured on the server. You should refresh the current page.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_DELETE_ERROR">An error occured on the server. One or more files have not been deleted.\n\nThese files may be currently in use or have already been deleted. You should refresh the current page.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_PURGE">Remove obsolete log files</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_PURGE_CONFIRM">Do you want to delete all files older than 12 days ?</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_PURGE_ERROR_GRAVE">An error occured on the server. You should refresh the current page.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_PURGE_DONE">log files have been removed</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_COL_NAME">Name</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_COL_DATE">Date</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_COL_SIZE">Size</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_GROUP_OTHERS">Log files without date</message>
+
+    <!-- ADMINITRATOR SYSTEM -->
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_LABEL">Access</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_DESCRIPTION">System announcement</message>
+    <!-- message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_DESCRIPTION">System announcement and maintenance mode</message-->
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_TITLE">Users access</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_HELP">Help</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_HELP_TEXT">This screen allows to set up a system announcement for users.</message>
+    <!-- message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_HELP_TEXT">This screen allows to set up a system announcement for users.&lt;br/&gt;&lt;br/&gt;Activate the 'maintenance' mode so that users cannot access anymore to the application (a maintenance screen would be displayed)</message-->
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_HANDLE">Management</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_HANDLE_SAVE">Save</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_HANDLE_QUIT">Quit without saving</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_MAINTENANCE">Activate the maintenance mode</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_CHECK">Activate the system announcement</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_COL_LANG">Language</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_COL_MESSAGE">Message</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT">Announcement</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_ADD">Add</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_EDIT">Modify</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DELETE">Delete</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DELETE_CONFIRM">Do you really want to delete this announcement ?</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_CAPTION">Announcement...</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_OK">Ok</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_CANCEL">Cancel</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_LANG_HELP">Language code of the announcement message.&#13;The language code is a two letters one (eg:  fr, en, de, es, zh...).&#13;The special '*' code means all other codes.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_MESSAGE_HELP">Announcement message in the specified language</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_DEFAULTMESSAGE">Enter the announcement in the default language</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_ERROR_LANG">The language code is always two letters long.\nFor example: 'fr' for french or 'en' for english.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_ERROR_MESSAGE">The message cannot be empty.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ERROR_SAVE">An error occured on the server. Modifications have not been saved.</message>
+
+    <!-- WIDGETS -->
+    <message key="PLUGINS_CORE_WIDGET_PASSWORD_KEEPOLD">Keep old password</message>
+    <message key="PLUGINS_CORE_WIDGET_PASSWORD_HINT">Change the password</message>
+    <message key="PLUGINS_CORE_WIDGET_PASSWORD_ERROR">You have to enter twice the same password.\nPlease re-enter the same new password in the two inputs.</message>
+    <message key="PLUGINS_CORE_WIDGET_MESSAGE_DATE_CLICKHERE">Click on the icon</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_FIRSTDAYINWEEK">0</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_DAY_0">Sunday</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_DAY_1">Monday</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_DAY_2">Tuesday</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_DAY_3">Wednesday</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_DAY_4">Thursday</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_DAY_5">Friday</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_DAY_6">Saturday</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_SDAY_0">Sun</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_SDAY_1">Mon</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_SDAY_2">Tue</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_SDAY_3">Wed</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_SDAY_4">Thu</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_SDAY_5">Fry</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_SDAY_6">Sat</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_MONTH_0">January</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_MONTH_1">February</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_MONTH_2">March</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_MONTH_3">April</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_MONTH_4">May</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_MONTH_5">June</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_MONTH_6">July</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_MONTH_7">August</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_MONTH_8">September</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_MONTH_9">October</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_MONTH_10">November</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_MONTH_11">December</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_SMONTH_0">Jan</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_SMONTH_1">Feb</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_SMONTH_2">Mar</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_SMONTH_3">Apr</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_SMONTH_4">May</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_SMONTH_5">Jun</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_SMONTH_6">Jul</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_SMONTH_7">Aug</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_SMONTH_8">Sep</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_SMONTH_9">Oct</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_SMONTH_10">Nov</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_SMONTH_11">Dec</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_HELP_INFO">About the calendar</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_HELP_ABOUT">Date selection:\n- Use the \xab, \xbb buttons to select year\n- Use the " + String.fromCharCode(0x2039) + ", " + String.fromCharCode(0x203a) + " buttons to select month\n- Hold mouse button on any of the above buttons for faster selection.</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_HELP_ABOUTTIME">Time selection:\n- Click on any of the time parts to increase it\n- or Shift-click to decrease it\n- or click and drag for faster selection.</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_TIP_YEAR_PREV">Prev. year (hold for menu)</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_TIP_MONTH_PREV">Prev. month (hold for menu)</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_TIP_GOTODAY">Go Today</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_TIP_MONTH_NEXT">Next month (hold for menu)</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_TIP_YEAR_NEXT">Next year (hold for menu)</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_TIP_SETDATE">Select date</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_TIP_MOVE">Drag to move</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_TIP_TODAY">today</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_TIP_DAYFIRST">Display %s first</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_WEEKEND">0,6</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_TIP_CLOSE">Close</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_TIP_TODAY">Today</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_TIP_TIME">(Shift-)Click or drag to change value</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_SAVEDATEFORMAT">%Y-%m-%d</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_DATEFORMAT">%a, %b %e</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_TIP_WEEK_LABEL">wk.</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_TIP_TIME_LABEL">Time:</message>
+    
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE">Database</message>
+
+    <!-- DATASOURCE CORE -->
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE_GROUP_CORE">Kernel database connection</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_DRIVER_LABEL">Driver</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_DRIVER_DESCRIPTION">JDBC Driver fully qualified class name</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_URL_LABEL">Url</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_URL_DESCRIPTION">JDBC URL for connecting to the database</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_USER_LABEL">User</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_USER_DESCRIPTION">User name for connecting to the database</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_PASSWORD_LABEL">Password</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_PASSWORD_DESCRIPTION">Password associated with the user name for connecting to the database</message>
+
+    <!-- DATASOURCE LDAP -->
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_CATEGORY_LDAP_GROUP_CORE">Server</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEURL_LABEL">Url</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEURL_DESCRIPTION">LDAP server Url</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEDN_LABEL">Base DN</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEDN_DESCRIPTION">Base DN for all the LDAP directory</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ADMINDN_LABEL">Administrator's DN</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ADMINDN_DESCRIPTION">LDAP directory superuser's relative DN</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ADMINPASSWORD_LABEL">Administrator's password</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ADMINPASSWORD_DESCRIPTION">LDAP directory superuser's password</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_AUTH_METHOD_LABEL">Authentication method</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_AUTH_METHOD_DESCRIPTION">Define the authentication method between application and LDAP directory</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_AUTH_METHOD_ENUM_NONE">Anonymous</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_AUTH_METHOD_ENUM_SIMPLE">Simple</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_SSL_LABEL">Secured connection</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_SSL_DESCRIPTION">Select to use the ldaps protocol instead the ldap one</message>
+
+    <!-- USER AND RIGHTS -->
+    <message key="PLUGINS_CORE_USERANDRIGHTS_CATEGORY">Users and rights</message>
+
+	<!-- USER -->
+	<message key="PLUGINS_CORE_USERS_LABEL">Users</message>
+	<message key="PLUGINS_CORE_USERS_DESCRIPTION">Applications users management</message>
+	<message key="PLUGINS_CORE_USERS_TITLE">Users management</message>
+	<message key="PLUGINS_CORE_USERS_HANDLE_QUIT">Quitter</message>
+	<message key="PLUGINS_CORE_USERS_HELP">Help</message>
+	<message key="PLUGINS_CORE_USERS_HELP_TEXT_MODIFY">This screen allows to create or update users.&lt;br/&gt;&lt;br/&gt;You may search for existing users.&lt;br/&gt;Be careful : searches only return the 100 first results.</message>
+	<message key="PLUGINS_CORE_USERS_HELP_TEXT_READ">This screen allows to display users.&lt;br/&gt;&lt;br/&gt;You may search for existing users.&lt;br/&gt;Be careful : searches only return the 100 first results.</message>
+	<message key="PLUGINS_CORE_USERS_CANCEL">Quit</message>
+	<message key="PLUGINS_CORE_USERS_SEARCH">Search</message>
+	<message key="PLUGINS_CORE_USERS_SEARCH_CRITERIA">Name or login</message>
+	<message key="PLUGINS_CORE_USERS_SEARCH_BUTTON">Search</message>
+	<message key="PLUGINS_CORE_USERS_COL_NAME">Name</message>
+	<message key="PLUGINS_CORE_USERS_COL_ID">Login</message>
+	<message key="PLUGINS_CORE_USERS_COL_EMAIL">Email</message>
+	<message key="PLUGINS_CORE_USERS_SEARCHING_ERROR">An error occured on server while searching.</message>
+    <message key="PLUGINS_CORE_USERS_SEARCHING_NORESULT">Search did not return any result</message>
+	<message key="PLUGINS_CORE_USERS_HANDLE">Management</message>
+	<message key="PLUGINS_CORE_USERS_HANDLE_NEW">Create a user</message>
+	<message key="PLUGINS_CORE_USERS_HANDLE_EDIT">Modify</message>
+	<message key="PLUGINS_CORE_USERS_HANDLE_DEL">Remove</message>
+	<message key="PLUGINS_CORE_USERS_HANDLE_DEL_PROMPT">Do you really want to remove this user ?</message>
+	<message key="PLUGINS_CORE_USERS_DELETE_ERROR">An error occured. Unable to remove the user.</message>
+	<message key="PLUGINS_CORE_USERS_DIALOG_OK">Ok</message>
+	<message key="PLUGINS_CORE_USERS_DIALOG_CANCEL">Cancel</message>
+	<message key="PLUGINS_CORE_USERS_DIALOG_LABEL">User edition...</message>
+	<message key="PLUGINS_CORE_USERS_NEW_TITLE">User creation</message>
+	<message key="PLUGINS_CORE_USERS_DIALOG_ERROR">An error occured. Unable to create/update the user.\nThe specified login may already exists.</message>
+	<message key="PLUGINS_CORE_USERS_DIALOG_LOGIN_ERROR">The login must contains at least 3 characters and at most 16</message>
+	<message key="PLUGINS_CORE_USERS_DIALOG_EMAIL_ERROR">The email is incorrect.</message>
+	<message key="PLUGINS_CORE_USERS_DIALOG_LASTNAME_ERROR">The name cannot be empty.</message>
+	<message key="PLUGINS_CORE_USERS_DIALOG_PASSWORD_ERROR">The password cannot be empty.</message>
+    <message key="PLUGINS_CORE_USERS_RIGHTS_HANDLE_LABEL">Users</message>
+    <message key="PLUGINS_CORE_USERS_RIGHTS_HANDLE_DESCRIPTION">Users management screen</message>
+
+    <!-- SELECT USER -->
+	<message key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_CAPTION">Select a user...</message>
+	<message key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_OK">Ok</message>
+	<message key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_CANCEL">Cancel</message>
+	<message key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_ERROR_LISTING">An error occured while listing users.</message>
+	<message key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_FIND">Search</message>
+	<message key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_WARN100">At most 100 users are listed</message>
+	<message key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_ERROR_EMPTY">You must select a user to proceed.</message>
+    <message key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_NORESULT">Search did not return any result</message>
+
+    <!-- USER JDBC -->
+    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_LABEL">Login</message>
+    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_DESCRIPTION">Unique user's login&#10;3-16 characters (letters, figures or '_')</message>
+    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_LASTNAME_LABEL">Last name</message>
+    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_LASTNAME_DESCRIPTION">User's last name&#10;Cannot be empty</message>
+    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_FIRSTNAME_LABEL">First name</message>
+    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_FIRSTNAME_DESCRIPTION">User's first name&#10;Cannot be empty</message>
+    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_EMAIL_LABEL">Email</message>
+    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_EMAIL_DESCRIPTION">User's email</message>
+    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_PASSWORD_LABEL">Password</message>
+    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_PASSWORD_DESCRIPTION">User's password&#10;Cannot be empty</message>
+
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP">LDAP directory</message>
+
+    <!-- USER LDAP -->
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS">Users</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_PEOPLEDN_LABEL">People's DN</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_PEOPLEDN_DESCRIPTION">Relative DN to people branch</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_BASEFILTER_LABEL">Search filter</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_BASEFILTER_DESCRIPTION">Filter used for querying users in the LDAP directory</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SEARCH_SCOPE_LABEL">Search scope</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SEARCH_SCOPE_DESCRIPTION">Define the used search scope in the LDAP directory</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SEARCH_SCOPE_ENUM_OBJECT">Object</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SEARCH_SCOPE_ENUM_ONE">One level</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SEARCH_SCOPE_ENUM_SUB">Sub tree</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_LOGIN_LABEL">Login attribute</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_LOGIN_DESCRIPTION">Name of the attribute containing the user's login in the LDAP object</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_FIRSTNAME_LABEL">First name attribute</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_FIRSTNAME_DESCRIPTION">Name of the attribute containing the user's first name in the LDAP object</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_LASTNAME_LABEL">Last name attribute</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_LASTNAME_DESCRIPTION">Name of the attribute containing the user's last name in the LDAP object</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_EMAIL_LABEL">Email attribute</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_EMAIL_DESCRIPTION">Name of the attribute containing the user's email in the LDAP object</message>
+
+	<!-- GROUP -->
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_GROUPS">Groups</message>
+	<message key="PLUGINS_CORE_GROUPS_LABEL">Users groups</message>
+	<message key="PLUGINS_CORE_GROUPS_DESCRIPTION">Users groups management</message>
+	<message key="PLUGINS_CORE_GROUPS_HANDLE_CATEGORY">Groups management</message>
+	<message key="PLUGINS_CORE_GROUPS_HANDLE_CREATE">Create a group</message>
+	<message key="PLUGINS_CORE_GROUPS_HANDLE_VALIDATE">Validate changes</message>
+	<message key="PLUGINS_CORE_GROUPS_HANDLE_QUIT">Quit</message>
+	<message key="PLUGINS_CORE_GROUPS_HANDLE_ADDUSER">Add a user</message>
+	<message key="PLUGINS_CORE_GROUPS_HANDLE_DELETEUSER">Remove a user</message>
+	<message key="PLUGINS_CORE_GROUPS_NEW_ERROR">An error occured during creation</message>
+	<message key="PLUGINS_CORE_GROUPS_HANDLE_RENAME">Rename the group</message>
+	<message key="PLUGINS_CORE_GROUPS_RENAME_ERROR">An error occured during renaming</message>
+	<message key="PLUGINS_CORE_GROUPS_RENAME_MISSING_ERROR">The group you are trying to rename does not exist anymore. Try to refresh the page.</message>
+	<message key="PLUGINS_CORE_GROUPS_MODIFY_CONFIRM">You made unsaved changes. Do you want to save them now ?</message>
+	<message key="PLUGINS_CORE_GROUPS_MODIFY_ERROR">An error occured during saving. Do you want to try again ?</message>
+	<message key="PLUGINS_CORE_GROUPS_MODIFY_MISSING_ERROR">The group you are trying to modify does not exist. Try to refresh the page.</message>
+	<message key="PLUGINS_CORE_GROUPS_HANDLE_DELETE">Remove the group</message>
+	<message key="PLUGINS_CORE_GROUPS_DELETE_CONFIRM">Do you really want to remove this group ?</message>
+	<message key="PLUGINS_CORE_GROUPS_DELETE_ERROR">An error occured during removal.</message>
+	<message key="PLUGINS_CORE_GROUPS_HELP_CATEGORY">Help</message>
+	<message key="PLUGINS_CORE_GROUPS_HANDLE_HELP_HINT">A group is a set of users, allowing to assign rights to all its members in one operation.</message>
+	<message key="PLUGINS_CORE_GROUPS_NEWGROUP">New group</message>
+	<message key="PLUGINS_CORE_GROUPS_COLUMN">Group users</message>
+    <message key="PLUGINS_CORE_GROUPS_RIGHTS_HANDLE_LABEL">Groups</message>
+    <message key="PLUGINS_CORE_GROUPS_RIGHTS_HANDLE_DESCRIPTION">Groups management screen</message>
+	
+    <!-- SELECT GROUP -->
+    <message key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_CAPTION">Select a group...</message>
+    <message key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_OK">Ok</message>
+    <message key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_CANCEL">Cancel</message>
+    <message key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_ERROR_LISTING">An error occured while listing groups.</message>
+    <message key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_FIND">Search</message>
+    <message key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_WARN100">At most 100 groups are listed</message>
+    <message key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_ERROR_EMPTY">You must select a group to proceed.</message>
+    <message key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_NORESULT">Search did not return any result</message>
+    
+    <!-- GROUP LDAP -->
+    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_GROUPDN_LABEL">Group's DN</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_GROUPDN_DESCRIPTION">Relative DN to groups branch</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_MEMBEROF_LABEL">Groups attribute</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_MEMBEROF_DESCRIPTION">Attribute on the user's LDAP object containing the groups</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_ID_LABEL">Id attribute</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_ID_DESCRIPTION">Name of the attribute containing the group id</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_DESCRIPTION_LABEL">Description attribute</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_DESCRIPTION_DESCRIPTION">Name of the attribute containing the group description</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_FILTER_LABEL">Search filter</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_FILTER_DESCRIPTION">Filter used for querying groups in the LDAP directory</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_MEMBER_LABEL">Members attribute</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_MEMBER_DESCRIPTION">Attribute containing the group members list</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_SEARCH_SCOPE_LABEL">Search scope</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_SEARCH_SCOPE_DESCRIPTION">Define the used search scope in the LDAP directory</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_SEARCH_SCOPE_ENUM_OBJECT">Object</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_SEARCH_SCOPE_ENUM_ONE">One level</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_SEARCH_SCOPE_ENUM_SUB">Sub tree</message>
+
+	<!-- PROFILE -->
+	<message key="PLUGINS_CORE_RIGHTS_PROFILES_LABEL">Profiles</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILES_DESCRIPTION">Rights profiles management</message>
+    <message key="PLUGINS_CORE_RIGHTS_PROFILES_LABELLONG">Rights profiles management</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_CATEGORY">Profiles management</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_CREATE">Create a profile</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_VALIDATE">Validate changes</message>
+    <message key="PLUGINS_CORE_RIGHTS_PROFILES_NAMING_ERROR">A profile name must contains only letters.</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILES_NEW_ERROR">An error occured during creation.</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_RENAME">Rename the profile</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_QUIT">Quit</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILES_RENAME_ERROR">An error occured during renaming.</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILES_RENAME_MISSING_ERROR">The profile you are trying to rename does not exist anymore. Try to refresh the page.</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_CONFIRM">You made unsaved changes. Do you want to save them now ?</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_ERROR">An error occured during saving. Do you want to try again ?</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_MISSING_ERROR">The profile you are trying to modify does not exist. Try to refresh the page.</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_DELETE">Remove the profile</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILES_DELETE_CONFIRM">Do you really want to remove this profile ?</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILES_DELETE_ERROR">An error occured during removal.</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HELP_CATEGORY">Help</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_HELP_HINT">A profile is a set of rights. Each user owns a profile allowing to know its rights.&lt;br/&gt;&lt;br/&gt;You can create or update profiles by setting them rights in the right part of the screen.</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILES_NEWPROFILE">New profile</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILES_LEFTCOLUMN">Unassigned rights</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILES_RIGHTCOLUMN">Profile rights</message>
+    <message key="PLUGINS_CORE_PROFILE_RIGHTS_HANDLE_LABEL">Profiles</message>
+    <message key="PLUGINS_CORE_PROFILE_RIGHTS_HANDLE_DESCRIPTION">Profiles management screen</message>
+    
+    <!-- RIGHTS -->
+    <message key="PLUGINS_CORE_RIGHTS_LABEL">Assignment</message>
+    <message key="PLUGINS_CORE_RIGHTS_DESCRIPTION">Assigning profiles to users</message>
+    <message key="PLUGINS_CORE_RIGHTS_LABELLONG">Profiles assignment</message>
+    <message key="PLUGINS_CORE_RIGHTS_HANDLE_LABEL">Profiles assignment</message>
+    <message key="PLUGINS_CORE_RIGHTS_HANDLE_DESCRIPTION">Profiles assignments management screen</message>
+    <message key="PLUGINS_CORE_RIGHTS_ACT_CATEGORY">Assignments</message>
+    <message key="PLUGINS_CORE_RIGHTS_ACT_ADDUSER">Assign to a user</message>
+    <message key="PLUGINS_CORE_RIGHTS_ACT_ADDGROUP">Assign to a group</message>
+    <message key="PLUGINS_CORE_RIGHTS_ACT_REMOVE">Delete the assignment</message>
+    <message key="PLUGINS_CORE_RIGHTS_ACT_REMOVE_CONFIRM">Do you really want to delete these assigments ?</message>
+    <message key="PLUGINS_CORE_RIGHTS_ACT_REMOVE_ERROR">An error occured while deleting.</message>
+    <message key="PLUGINS_CORE_RIGHTS_HANDLE_QUIT">Quit</message>
+    <message key="PLUGINS_CORE_RIGHTS_PROFIL_CATEGORY">Profiles</message>
+    <message key="PLUGINS_CORE_RIGHTS_ACT_GETUSERSANDGROUPS_ERROR">An error occured. Unable to list users and groups with profiles for this context.</message>
+    <message key="PLUGINS_CORE_RIGHTS_ACT_VALIDATE">Validate changes</message>
+    <message key="PLUGINS_CORE_RIGHTS_ACT_VALID_CONFIRM">You made unsaved changes. Do you want to save them now ?</message>
+    <message key="PLUGINS_CORE_RIGHTS_ACT_VALID_ERROR">An error occured while saving. Some changes may have been lost. Try to refresh the page.</message>
+    <message key="PLUGINS_CORE_RIGHTS_USERGROUP_LABEL">Users / Groups</message>
+    <message key="PLUGINS_CORE_RIGHTS_ASSIGN_LEFTCOLUMN">Unassigned profiles</message>
+    <message key="PLUGINS_CORE_RIGHTS_ASSIGN_RIGHTCOLUMN">Assigned profiles</message>
+    <message key="PLUGINS_CORE_RIGHTS_DBL_LIST_REWIND">Remove all</message>
+    <message key="PLUGINS_CORE_RIGHTS_DBL_LIST_PREV">Remove selection</message>
+    <message key="PLUGINS_CORE_RIGHTS_DBL_LIST_NEXT">Add selection</message>
+    <message key="PLUGINS_CORE_RIGHTS_DBL_LIST_FORWARD">Add all</message>
+    
+    <message key="PLUGINS_CORE_RIGHTS_CONTEXTS_APPLICATION_LABEL">Application</message>
+    <message key="PLUGINS_CORE_RIGHTS_CONTEXTS_APPLICATION_DESCRIPTION">Assign profiles on application level</message>
+    <message key="PLUGINS_CORE_RIGHTS_CONTEXTS_APPLICATION_HELP_AFFECT">To assign profiles, add a user or group with above links or select it in the list.</message>
+    <message key="PLUGINS_CORE_RIGHTS_CONTEXTS_APPLICATION_HELP_PROFIL">Choose profile(s) to assign to the selected user or group.&lt;br/&gt;Click on the link 'Validate changes' to save the new assignments.</message>
+    
+    <!-- AUTHENTICATION -->
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION">Authentication</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATIO_GROUP_BASIC">HTTP Basic</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATIO_GROUP_REMOTE">Automatic</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATIO_GROUP_JCIFS">Windows NT domain</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATIO_GROUP_CAS">CAS server</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_BASIC_CONFIG_REALM_LABEL">Domain</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_BASIC_CONFIG_REALM_DESCRIPTION">Authentication realm</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_REMOTE_CONFIG_REALM_LABEL">Domain</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_REMOTE_CONFIG_REALM_DESCRIPTION">Remote authentication domain name</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_PRODUCTION_LABEL">Production mode</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_PRODUCTION_DESCRIPTION">In production mode, Netbios and client domain name values are used instead of domain controller</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_CLIENTDOMAIN_LABEL">Domain name</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_CLIENTDOMAIN_DESCRIPTION">Default domain name to be added to manually identified users</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_NETBIOS_LABEL">Netbios</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_NETBIOS_DESCRIPTION">WINS server address for different sub networks usages</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_DOMAINCONTROLLER_LABEL">Domain controller</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_DOMAINCONTROLLER_DESCRIPTION">Domain controller address</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_URL_LABEL">Url</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_URL_DESCRIPTION">CAS server Url</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_AUTHORIZEDPROXY_LABEL">Proxies</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_AUTHORIZEDPROXY_DESCRIPTION">CAS server authorized proxy servers</message>
+</catalogue>

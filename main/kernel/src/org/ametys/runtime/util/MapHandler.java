@@ -1,0 +1,77 @@
+/*
+ * Copyright (c) 2007 Anyware Technologies and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.opensource.org/licenses/eclipse-1.0.php
+ * 
+ * Contributors:
+ *     Anyware Technologies - initial API and implementation
+ */
+package org.ametys.runtime.util;
+
+import java.util.Map;
+
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+
+/**
+ * This class is intended to be use as a simple helper to construct Maps from
+ * SAX events. <br>
+ * The incoming SAX document must follow this structure :<br>
+ * 
+ * &lt;root> <br>
+ * &nbsp;&nbsp;&lt;Name1>value1&lt;/Name1> <br>
+ * &nbsp;&nbsp;&lt;Name2>value2&lt;/Name2> <br>
+ * &nbsp;&nbsp;... <br>
+ * &lt;/root> <br>
+ * <br>
+ * Each pair Name/Value will be put (as Strings) in the constructed Map <br>
+ */
+public class MapHandler extends DefaultHandler
+{
+    // The object being constructed
+    private Map<String, String> _map;
+
+    // level in the XML tree. Root is at level 1, and data at level 2
+    private int _level;
+
+    // current characters from SAX events
+    private StringBuffer _currentString;
+
+    /**
+     * Create a map handler
+     * @param map Map to fill
+     */
+    public MapHandler(Map<String, String> map)
+    {
+        _map = map;
+    }
+
+    @Override
+    public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException
+    {
+        _level++;
+        _currentString = new StringBuffer();
+    }
+
+    @Override
+    public void characters(char[] ch, int start, int length) throws SAXException
+    {
+        _currentString.append(ch, start, length);
+    }
+
+    @Override
+    public void endElement(String uri, String localName, String qName) throws SAXException
+    {
+        if (_level == 2)
+        {
+            // If we are at the "data" level
+            String strValue = _currentString.toString();
+            _map.put(qName, strValue);
+        }
+
+        _level--;
+    }
+}
