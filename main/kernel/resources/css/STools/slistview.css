@@ -1,0 +1,408 @@
+/*
+ * Copyright (c) 2007 Anyware Technologies and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.opensource.org/licenses/eclipse-1.0.php
+ * 
+ * Contributors:
+ *     Anyware Technologies - initial API and implementation
+ */
+div.SListView, div.SListView *, div.SListView h1 {
+	font-family: verdana;
+	font-size: 11px;
+	font-weight: normal;
+	text-decoration: none;
+	text-transform: none;
+	text-align: left;
+	text-indent: 0px;
+	padding: 0px;
+	margin: 0px;
+    cursor: default;
+    background: none;
+    border: 0px none #000000;
+}
+
+div.SListView {
+	overflow: auto;
+	width: 100%;
+	height: 100%;
+	
+	border-bottom: 1px solid #f1efe2;
+	border-right: 1px solid #f1efe2;
+	border-top: 1px solid #3c3b38;
+	border-left: 1px solid #3c3b38;
+	
+	color: #000000;;
+	background-color: #ffffff;
+}
+
+/* ****** */
+/* MOZAIC */
+/* ****** */
+div.SListView table.mosaic {
+	display: inline;
+	float: left;
+	
+	width: 220px;
+	height: 55px;
+	
+	margin: 5px;
+	padding: 0px;
+}
+
+div.SListView table.mosaic th {
+	background-image: none;
+}
+
+div.SListView table.mosaic td.img {
+	padding: 2px;
+	vertical-align: middle;
+	text-align: center;
+}
+
+div.SListView table.mosaic td.txt {
+	vertical-align: middle;
+	text-align: left;
+}
+
+div.SListView table.mosaic td.txt td {
+	color: #7f7f7f;
+}
+
+div.SListView table.mosaic td.txt td h1 {
+	color: #000000;
+}
+
+
+div.SListView table.mosaic td.txt td.selected {
+	color: #ffffff;
+	background-color: #316ac5;
+}
+
+div.SListView table.mosaic td.txt td.selected h1 {
+	color: #ffffff;
+}
+
+div.SListView table.mosaic input {
+	width: 155px;
+}
+
+/* ****** */
+/* ICON */
+/* ****** */
+div.SListView table.icon {
+	display: inline;
+    float: left;
+	width: 80px;
+	
+	margin: 5px;
+	margin-left: 10px;
+    margin-right: 10px;
+	padding: 0px;
+}
+
+div.SListView table.icon th {
+	background-image: none;
+}
+
+div.SListView table.icon td.img {
+    height: 36px;
+	padding: 2px;
+	vertical-align: middle;
+	text-align: center;
+}
+
+div.SListView table.icon td.txt {
+	vertical-align: top;
+	height: 30px;
+	text-align: center;
+}
+
+div.SListView table.icon td.txt td {
+	width: 80px;
+	color: #000000;
+	text-align: left;
+}
+
+
+div.SListView table.icon td.txt td div {
+	text-align: center;
+	width: 78px;
+	z-index: +2;
+}
+div.SListView table.icon td.txt td.selected div {
+	color: #ffffff;
+	background-color: #316ac5;
+	position: absolute;
+}
+
+div.SListView table.icon input {
+	width: 70px;
+	margin: 0px;
+	padding: 0px;
+	border: 1px solid #000000;
+}
+
+
+/* ****** */
+/* THUMB */
+/* ****** */
+div.SListView table.thumb {
+	display: inline;
+    float: left;
+	width: 100px;
+	
+	margin: 5px;
+	margin-left: 10px;
+   	margin-right: 10px;
+	padding: 0px;
+}
+
+div.SListView table.thumb th {
+	background-image: none;
+}
+
+div.SListView table.thumb td.img {
+    height: 100px;
+	padding: 2px;
+	vertical-align: middle;
+	text-align: center;
+	border: 1px solid #f1efe2;
+}
+
+div.SListView table.thumb td.txt {
+	vertical-align: top;
+	height: 30px;
+	text-align: center;
+}
+
+div.SListView table.thumb td.txt td {
+	width: 80px;
+	color: #000000;
+	text-align: left;
+}
+
+
+div.SListView table.thumb td.txt td div {
+	text-align: center;
+	width: 78px;
+}
+div.SListView table.thumb td.txt td div.thumb {
+	z-index: +2;
+}
+div.SListView table.thumb td.txt td.selected div {
+	color: #ffffff;
+	background-color: #316ac5;
+	position: absolute;
+}
+
+div.SListView table.thumb input {
+	width: 70px;
+	margin: 0px;
+	padding: 0px;
+	border: 1px solid #000000;
+}
+
+/* ****** */
+/* LIST */
+/* ****** */
+div.SListView table.list {
+	display: inline;
+	float: left;
+	width: 165px;
+
+	margin: 0px;
+	margin-bottom: -3px;
+        margin-right: 2px;
+	padding: 0px;
+}
+
+div.SListView table.list th {
+	background-image: none;
+}
+
+div.SListView table.list td.img {
+        height: 16px;
+	padding: 0px;
+	vertical-align: middle;
+	text-align: center;
+}
+
+div.SListView table.list td.txt {
+	vertical-align: middle;
+	text-align: left;
+	padding: 0px;
+}
+
+div.SListView table.list td.txt td {
+	color: #000000;
+	text-align: left
+}
+
+
+div.SListView table.list td.txt td.selected {
+	color: #ffffff;
+	background-color: #316ac5;
+}
+
+div.SListView table.list input {
+	width: 150px;
+	margin: 0px;
+	padding: 0px;
+	border: 1px solid #000000;
+}
+
+/* ****** */
+/* DETAIL */
+/* ****** */
+div.SListView table.detail {
+	width: 100%;
+	height: 100%;
+
+	border-collapse: collapse;
+	table-layout: fixed;
+	margin: 0px;
+	padding: 0px;
+	
+	overflow: auto;
+}
+
+div.SListView table.detail th {
+	height: 20px;
+	padding-left: 12px;
+	padding-right: 3px;
+	
+	text-align: left;
+	vertical-align: middle;
+	letter-spacing: -1pt;
+	overflow: hidden;
+	
+	background-color: #ece9d8;
+	background-image: url('../../img/STools/slistview_detail_bottom.gif');
+	background-position: bottom;
+	background-repeat: repeat-x;
+}
+
+div.SListView table.detail tr.resize th,
+div.SListView table.detail tr.resize th * {
+	cursor: e-resize;
+}
+
+div.SListView table.detail th.resize {
+	width: 2px;
+	padding: 0px;
+	cursor: e-resize;
+	background-image: url('../../img/STools/slistview_detail_right.gif');
+	background-position: right;
+	background-repeat: repeat-y;
+}
+
+div.SListView table.detail th.over {
+	background-color: #f1efe2;
+	background-image: url('../../img/STools/slistview_detail_activecap.gif');
+	background-position: bottom;
+	background-repeat: repeat-x;
+}
+
+div.SListView table.detail td {
+	white-space: nowrap;
+	padding-left: 3px;
+	overflow: hidden;
+}
+
+div.SListView table.detail td.sort {
+	background-color: #f7f7f7;
+}
+
+div.SListView table.detail td table {
+	border-collapse: collapse;
+	padding: 0px;
+	margin: 0px;
+}
+
+div.SListView table.detail td table td {
+	text-align: left;
+	color: #000000;
+}
+
+div.SListView table.detail td table td.selected {
+	color: #ffffff;
+	background-color: #316ac5;
+}
+
+div.SListView table.detail td table input {
+	margin: 0px;
+	padding: 0px;
+	border: 1px solid #000000;
+}
+
+/* ****** */
+/* VIEWER */
+/* ****** */
+
+div.SListView table.viewer-global {
+	width: 100%;
+	height: 100%;
+	border-collapse: collapse;
+	margin: 0px;
+	padding: 0px;
+}
+
+div.SListView table.viewer-global th {
+	background-image: none;
+}
+	
+div.SListView table.viewer-global td.viewer-preview {
+	padding: 15px;
+	background-color: #f7f7f7;
+	vertical-align: middle;
+	text-align: center;
+}
+
+div.SListView table.viewer-global td.viewer-preview div.viewer {
+	vertical-align: middle;
+	text-align: center;
+	overflow: auto;
+	padding: 0px;
+}
+
+div.SListView table.viewer-global td.viewer-command {
+	background-color: #f7f7f7;
+	text-align: center;
+	height: 30px;
+}
+
+div.SListView table.viewer-global td.viewer-mozaic {
+	text-align: left;
+	height: 170px;
+}
+
+div.SListView table.viewer-global td.viewer-mozaic div.viewer {
+	height: 170px;
+	overflow: auto;
+}
+
+div.SListView table.viewer-global td.viewer-mozaic div.viewer table.viewer {
+	height: 150px;
+}
+
+/* ***** */
+/* GROUP */
+/* ***** */
+div.SListView div.group_surround {
+	clear: left;
+	margin: 0px;
+	padding: 0px; 
+	height: 34px;
+}
+div.SListView div.group {
+	font-size: 12px;
+	font-weight: bold;
+	padding-left: 15px;
+}
+
+div.SListView img.group {
+	display: block;
+	margin: 0px;
+}

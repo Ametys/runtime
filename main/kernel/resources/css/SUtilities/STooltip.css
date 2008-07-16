@@ -1,0 +1,100 @@
+/*
+ * Copyright (c) 2007 Anyware Technologies and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.opensource.org/licenses/eclipse-1.0.php
+ * 
+ * Contributors:
+ *     Anyware Technologies - initial API and implementation
+ */
+
+/**
+  * The css classes must be as precised as possible to be not influenced by surrounding styles.
+  */
+
+/* The over element */
+div.STooltip_Over, div.STooltip_Over *
+{
+	background-color: transparent;
+	background-image: none;
+	
+	cursor: auto;
+	
+	color: infotext;
+	font-family: Arial;
+	font-size: 11px;
+	font-stretch: normal;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	letter-spacing: 0px;
+	text-decoration: none;
+	text-shadow: none;
+	text-transform: none;
+	word-spacing: 3px;
+	
+	line-height: 120%;
+	text-align: left;
+	text-indent: 0px;
+	vertical-align: top;
+	white-space: normal;
+
+  	padding: 0px;
+	margin: 0px;
+
+	border-style: none;
+	
+	scrollbar-base-color: #d4d0c8;
+	scrollbar-3dlight-color: #f1efe2;
+	scrollbar-arrow-color: #000000;
+	scrollbar-darkshadow-color: #716f64;
+	scrollbar-face-color: #d4d0c8;
+	scrollbar-highlight-color: #ffffff;
+	scrollbar-shadow-color: #aca899;
+	scrollbar-track-color: #f1efe2;
+}
+div.STooltip_Over b
+{
+	font-weight: bold;
+}
+div.STooltip_Over i
+{
+	font-style: italic;
+}
+div.STooltip_Over center
+{
+	text-align: center;
+}
+div.STooltip_Over ol
+{
+	list-style-type: decimal;
+	list-style-position: outside;
+	list-style-image: none;
+}
+div.STooltip_Over ul
+{
+	list-style-type: disc;
+	list-style-position: outside;
+	list-style-image: none;
+}
+div.STooltip_Over 
+{
+	padding-right: 2px;
+	padding-bottom: 2px;
+	filter: shadow(color: #000000, strength:2, direction:135);
+}
+
+/* The main element */
+div.STooltip_Over div.STooltip
+{
+	background-color: #ffffe1;
+	
+	padding: 1px;
+	padding-left: 2px;
+	margin: 0px;
+	
+	border-color: #000000;
+	border-style: solid;
+	border-width: 1px;
+}
