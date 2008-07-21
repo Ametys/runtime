@@ -415,7 +415,7 @@ public class JdbcGroupsTestCase extends AbstractJDBCTestCase
         assertNull(groupsManager.getGroup(group1.getId()));
     }
     
-    private void _checkListener(MyGroupListener listener1, MyGroupListener listener2, int added, int updated, int removed) throws Exception
+    private void _checkListener(MyGroupListener listener1, MyGroupListener listener2, int added, int updated, int removed)
     {
         assertEquals(added, listener1.getAddedGroups().size());
         assertEquals(updated, listener1.getUpdatedGroups().size());
