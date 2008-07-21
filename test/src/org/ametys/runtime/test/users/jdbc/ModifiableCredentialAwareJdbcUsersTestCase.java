@@ -469,7 +469,7 @@ public class ModifiableCredentialAwareJdbcUsersTestCase extends JdbcUsersTestCas
         assertEquals(user.getEmail(), "email@email.ma");
     }
     
-    private void _checkListener(MyUserListener listener1, MyUserListener listener2, int added, int updated, int removed) throws Exception
+    private void _checkListener(MyUserListener listener1, MyUserListener listener2, int added, int updated, int removed)
     {
         assertEquals(added, listener1.getAddedUsers().size());
         assertEquals(updated, listener1.getUpdatedUsers().size());
