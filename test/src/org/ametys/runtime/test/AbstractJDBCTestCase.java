@@ -25,7 +25,6 @@ import org.ametys.runtime.util.ConnectionHelper;
  * Abstract test case for jdbc Runtime test cases
  *
  */
-@SuppressWarnings("deprecation")
 public abstract class AbstractJDBCTestCase extends AbstractTestCase
 {
     /**

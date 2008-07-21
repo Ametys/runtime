@@ -31,7 +31,6 @@ import org.xml.sax.XMLReader;
  * Abstract test case for all Runtime test cases
  *
  */
-@SuppressWarnings("deprecation")
 public abstract class AbstractTestCase extends TestCase
 {
     static

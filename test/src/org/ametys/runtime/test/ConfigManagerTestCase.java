@@ -29,7 +29,6 @@ import org.ametys.runtime.util.LoggerFactory;
 /**
  * Tests the ConfigManager
  */
-@SuppressWarnings("deprecation")
 public class ConfigManagerTestCase extends AbstractTestCase
 {
     private DefaultContext _context;
