@@ -22,45 +22,39 @@ import org.apache.tools.ant.Task;
 public class SvnRevisionTask extends Task
 {
     private String _property;
-    
+
     @Override
     public void execute() throws BuildException
     {
+        String revision = "unknown";
+        
         try
         {
-        	Process process = Runtime.getRuntime().exec("svnversion .");
-        	
-        	int statusCode = process.waitFor();
-        	String revision = "unknown";
-        	
-        	if (statusCode != 0)
-        	{
-        		
-        	}
-        	else
-        	{
-        		BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-        		revision = reader.readLine();
-        		int index = revision.indexOf(":");
+            Process process = Runtime.getRuntime().exec("svnversion .");
+            process.waitFor();
 
-        		if (index != -1)
-        		{
-        			revision = revision.substring(0, index);
-        		}
-        	}
-        	
-        	getProject().setProperty(_property, revision);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            revision = reader.readLine();
+            int index = revision.indexOf(":");
+
+            if (index != -1)
+            {
+                revision = revision.substring(0, index);
+            }
         }
         catch (Exception ex)
         {
-        	getProject().log(ex.getMessage());
-        	getProject().setProperty(_property, "unknown");
+            getProject().log(ex.getMessage());
         }
+        
+        getProject().setProperty(_property, revision);
     }
-    
+
     /**
      * Set the property to populate.
-     * @param name the property name.
+     * 
+     * @param name
+     *            the property name.
      */
     public void setProperty(String name)
     {
