@@ -59,11 +59,6 @@ public final class PluginsManager
     /** Separator between pluginName and featureName */
     public static final String FEATURE_ID_SEPARATOR = "/";
     
-    /**
-     * Compatible runtime version
-     */
-    public static final String RUNTIME_VERSION = "1.1";
-
     private static final Pattern __FEATURE_ID_PATTERN = Pattern.compile("([^/]*/)?[^/]*");
 
     // shared instance
@@ -385,14 +380,11 @@ public final class PluginsManager
             InputStream is = getClass().getResourceAsStream(resourceURI);
             Configuration configuration = _getConfigurationFromStream(is, "resource:/" + resourceURI);
             
-            if (_checkRuntimeVersion(pluginName, configuration))
+            pluginsConfigurations.put(pluginName, configuration);
+            
+            if (_logger.isInfoEnabled())
             {
-                pluginsConfigurations.put(pluginName, configuration);
-                
-                if (_logger.isInfoEnabled())
-                {
-                    _logger.info("Plugin '" + pluginName + "' added at path 'resource:/" + resourceURI + "'");
-                }
+                _logger.info("Plugin '" + pluginName + "' added at path 'resource:/" + resourceURI + "'");
             }
         }
         
@@ -461,16 +453,13 @@ public final class PluginsManager
                             
                             Configuration configuration = _getConfigurationFromStream(is, pluginFile.getAbsolutePath());
 
-                            if (_checkRuntimeVersion(pluginName, configuration))
+                            pluginsConfigurations.put(pluginName, configuration);
+                            
+                            _locations.put(pluginName, location);
+                            
+                            if (_logger.isInfoEnabled())
                             {
-                                pluginsConfigurations.put(pluginName, configuration);
-                                
-                                _locations.put(pluginName, location);
-                                
-                                if (_logger.isInfoEnabled())
-                                {
-                                    _logger.info("Plugin '" + pluginName + "' added at path '" + pluginFile.getAbsolutePath() + "'");
-                                }
+                                _logger.info("Plugin '" + pluginName + "' added at path '" + pluginFile.getAbsolutePath() + "'");
                             }
                         }
                     }
@@ -531,23 +520,6 @@ public final class PluginsManager
                 }
             }
         }
-    }
-    
-    private boolean _checkRuntimeVersion(String pluginName, Configuration conf)
-    {
-        String version = conf.getAttribute("runtimeVersion", null);
-        
-        if (version == null || !RUNTIME_VERSION.equals(version))
-        {
-            if (_logger.isWarnEnabled())
-            {
-                _logger.warn("The plugin " + pluginName + " is made for runtime version '" + version + "' instead of '" + RUNTIME_VERSION + "'. It will be ignored.");
-            }
-            
-            return false;
-        }
-        
-        return true;
     }
     
     private Collection<String> _getExtensionsPoints(Map<String, Configuration> pluginsConfigurations, PluginsComponentManager manager, String contextPath) throws ComponentException

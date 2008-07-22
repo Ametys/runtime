@@ -75,6 +75,7 @@
             </xsd:annotation>
             <xsd:simpleType>
                 <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="1.1"></xsd:enumeration>
                     <xsd:enumeration value="1.2"></xsd:enumeration>
                 </xsd:restriction>
             </xsd:simpleType>
