@@ -52,9 +52,7 @@ public class SvnRevisionTask extends Task
 
     /**
      * Set the property to populate.
-     * 
-     * @param name
-     *            the property name.
+     * @param name the property name.
      */
     public void setProperty(String name)
     {
