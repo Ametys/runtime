@@ -11,8 +11,7 @@
 package org.ametys.runtime.test.users.jdbc;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 import org.ametys.runtime.authentication.Credentials;
 import org.ametys.runtime.plugins.core.user.jdbc.CredentialsAwareJdbcUsersManager;
@@ -29,6 +28,17 @@ public class CredentialAwareJdbcUsersTestCase extends JdbcUsersTestCase
     {
         _resetDB("runtime7.xml", "config1.xml");
     }
+    
+    @Override
+    protected File[] getScripts()
+    {
+    	return new File[]{new File("main/plugin-core/scripts/mysql/jdbc_users_auth.sql")};
+    }
+
+	protected File[] getFilledScripts()
+	{
+		return new File[] {new File("test/environments/scripts/fillJDBCUsersAuth.sql")};
+	}
     
     @Override
     public void testType() throws Exception
@@ -55,9 +65,7 @@ public class CredentialAwareJdbcUsersTestCase extends JdbcUsersTestCase
         assertFalse(credentialsAwareUsersManager.checkCredentials(new Credentials("test", null)));
         
         // Fill DB
-        List<File> fillscripts = new ArrayList<File>();
-        fillscripts.add(new File("test/environments/scripts/fillJDBCUsers.sql"));
-        _setDatabase(fillscripts);
+        _setDatabase(Arrays.asList(getFilledScripts()));
 
         assertFalse(credentialsAwareUsersManager.checkCredentials(new Credentials("test", "test2000")));
         assertFalse(credentialsAwareUsersManager.checkCredentials(new Credentials("test", null)));
@@ -72,9 +80,7 @@ public class CredentialAwareJdbcUsersTestCase extends JdbcUsersTestCase
         CredentialsAwareUsersManager credentialsAwareUsersManager = (CredentialsAwareUsersManager) _usersManager;
 
         // Fill DB
-        List<File> fillscripts = new ArrayList<File>();
-        fillscripts.add(new File("test/environments/scripts/fillJDBCUsers.sql"));
-        _setDatabase(fillscripts);
+        _setDatabase(Arrays.asList(getFilledScripts()));
 
         assertTrue(credentialsAwareUsersManager.checkCredentials(new Credentials("test", "test")));
         assertTrue(credentialsAwareUsersManager.checkCredentials(new Credentials("test2", "test")));

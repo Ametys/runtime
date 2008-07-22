@@ -11,22 +11,20 @@
 package org.ametys.runtime.test.users.jdbc;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import org.apache.excalibur.xml.dom.DOMHandler;
-import org.apache.excalibur.xml.dom.DOMHandlerFactory;
-import org.apache.excalibur.xml.xpath.XPathProcessor;
-import org.w3c.dom.Node;
 
 import org.ametys.runtime.plugins.core.user.jdbc.JdbcUsersManager;
 import org.ametys.runtime.test.Init;
 import org.ametys.runtime.user.CredentialsAwareUsersManager;
 import org.ametys.runtime.user.ModifiableUsersManager;
 import org.ametys.runtime.user.User;
+import org.apache.excalibur.xml.dom.DOMHandler;
+import org.apache.excalibur.xml.dom.DOMHandlerFactory;
+import org.apache.excalibur.xml.xpath.XPathProcessor;
+import org.w3c.dom.Node;
 
 /**
  * Tests the JdbcUsersManager
@@ -38,6 +36,18 @@ public class JdbcUsersTestCase extends AbstractJDBCUsersManagerTestCase
     {
         _resetDB("runtime4.xml", "config1.xml");
     }
+    
+    @Override
+    protected File[] getScripts()
+    {
+    	// Use non auth script by default
+    	return new File[]{new File("main/plugin-core/scripts/mysql/jdbc_users.sql")};
+    }
+
+	protected File[] getFilledScripts()
+	{
+		return new File[] {new File("test/environments/scripts/fillJDBCUsers.sql")};
+	}
     
     /**
      * Test the getting of users on mysql
@@ -81,9 +91,7 @@ public class JdbcUsersTestCase extends AbstractJDBCUsersManagerTestCase
         Collection<User> users = null;
 
         // Fill DB
-        List<File> fillscripts = new ArrayList<File>();
-        fillscripts.add(new File("test/environments/scripts/fillJDBCUsers.sql"));
-        _setDatabase(fillscripts);
+        _setDatabase(Arrays.asList(getFilledScripts()));
         
         // Get unexisting user
         user = _usersManager.getUser("foo");

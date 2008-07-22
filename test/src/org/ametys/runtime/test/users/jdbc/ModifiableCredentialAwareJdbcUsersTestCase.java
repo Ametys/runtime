@@ -10,6 +10,7 @@
  */
 package org.ametys.runtime.test.users.jdbc;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +35,17 @@ public class ModifiableCredentialAwareJdbcUsersTestCase extends JdbcUsersTestCas
         _resetDB("runtime6.xml", "config1.xml");
     }
     
+    @Override
+    protected File[] getScripts()
+    {
+    	return new File[]{new File("main/plugin-core/scripts/mysql/jdbc_users_auth.sql")};
+    }
+
+	protected File[] getFilledScripts()
+	{
+		return new File[] {new File("test/environments/scripts/fillJDBCUsersAuth.sql")};
+	}
+	
     @Override
     public void testType() throws Exception
     {

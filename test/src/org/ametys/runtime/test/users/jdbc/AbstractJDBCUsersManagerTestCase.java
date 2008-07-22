@@ -11,8 +11,7 @@
 package org.ametys.runtime.test.users.jdbc;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.test.AbstractJDBCTestCase;
@@ -22,7 +21,7 @@ import org.ametys.runtime.user.UsersManager;
 /**
  * Reset the jdbc user db and load the user manager 
  */
-public class AbstractJDBCUsersManagerTestCase extends AbstractJDBCTestCase
+public abstract class AbstractJDBCUsersManagerTestCase extends AbstractJDBCTestCase
 {
     /** the user manager */
     protected UsersManager _usersManager;
@@ -41,12 +40,14 @@ public class AbstractJDBCUsersManagerTestCase extends AbstractJDBCTestCase
         
         _startCocoon("test/environments/webapp1");
 
-        List<File> scripts = new ArrayList<File>();
-        scripts.add(new File("main/plugin-core/scripts/mysql/jdbc_users.sql"));
-        _setDatabase(scripts);
-
+        _setDatabase(Arrays.asList(getScripts()));
+        
         _usersManager = (UsersManager) Init.getPluginServiceManager().lookup(UsersManager.ROLE);
     }
-    
 
+    /**
+     * Provide the scripts to run before each test invocation.
+     * @return the scripts to run.
+     */
+	protected abstract File[] getScripts();
 }
