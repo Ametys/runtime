@@ -1,0 +1,47 @@
+<ivy-module version="1.0">
+  <info organisation="ametys"
+        module="runtime">
+    <license url="http://www.eclipse.org/legal/epl-v10.html" name="EPL"/>
+    <description homepage="http://www.ametys.org/">
+Open source web application framework based on Apache Cocoon.
+    </description>
+  </info>
+  <configurations>
+    <conf name="default"  description="Equivalent to runtime configuration"/>
+    <conf name="runtime" extends="default" description="Runtime configuration"/>
+    <conf name="cas" extends="default" description="CAS configuration"/>
+    <conf name="jcifs" extends="default" description="JCIFS configuration"/>
+    <conf name="compile" extends="cas,jcifs" description="Used only for compilation" visibility="private"/>
+    <conf name="test" extends="compile,runtime" description="Unit testing configuration" visibility="private"/>
+  </configurations>
+  <publications>
+    <artifact name="ametys-runtime" type="jar" ext="jar" conf="default"/>
+    <artifact name="ametys-runtime" type="javadoc" ext="jar" conf="default"/>
+    <artifact name="ametys-runtime" type="source" ext="jar" conf="default"/>
+    <artifact name="ametys-runtime-resources" type="jar" ext="jar" conf="default"/>
+    <!-- Artifact containing resources used directly by Apache HTTPD -->
+    <artifact name="ametys-runtime-resources" type="resource" ext="zip" conf="default"/>
+    <!-- TODO add SQL scripts in "sql" type -->
+  </publications>
+  <dependencies>
+    <dependency org="apache" name="cocoon" rev="2.1.10" conf="default"/>
+    <dependency org="apache" name="commons-codec" rev="1.3" conf="default"/>
+    <dependency org="apache" name="commons-lang" rev="2.4" conf="default"/>
+    <dependency org="apache" name="excalibur-datasource" rev="2.1" conf="default"/>
+    <dependency org="apache" name="ibatis" rev="2.3.0" conf="default"/>
+    <dependency org="javax.servlet" name="servlet-api" rev="2.4" conf="compile->default"/>
+
+    <!-- cas configuration -->
+    <dependency org="ja-sig" name="cas-client" rev="2.0.11" conf="cas->default"/>
+
+    <!-- jcifs configuration -->
+    <dependency org="samba" name="jcifs" rev="1.2.22" conf="jcifs->default"/>
+
+    <!-- runtime configuration -->
+    <dependency org="minaret" name="datedFileAppender" rev="1.0.2" conf="runtime->default"/>
+    
+    <!-- test configuration -->
+    <dependency org="junit" name="junit" rev="4.4" conf="test->default"/>
+    <dependency org="mysql" name="mysql-connector-java" rev="5.1.6" conf="test->default"/>
+  </dependencies>
+</ivy-module>

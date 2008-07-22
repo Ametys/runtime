@@ -6,16 +6,21 @@
 <!-- Mettre la propriété externe 'skip-docs' permet de ne pas générer la doc -->
 <!-- Mettre la propriété externe 'skip-tests' permet de ne pas exécuter les tests -->
 
-<project name="Runtime build" default="all">
+<!-- Changer la propriété 'ivy-settings' permet d'utiliser un chemin vers ivysettings.xml différent -->
+<!-- Changer la propriété 'ivy-status' permet de changer le statut de publication des artifacts ivy (release, integration, development) -->
+
+<project name="Runtime build" default="all" xmlns:ivy="antlib:org.apache.ivy.ant">
 	
 	<!-- PROPERTIES -->
+	<property name="ivy-settings" value="../../../ivyrep/ivysettings.xml"/>
+	<property name="ivy-status" value="development"/>
+	
 	<property name="dest-dir" value="target"/>
 	<property name="dest-doc" value="${dest-dir}/docs"/>
 	<property name="dest-javadoc" value="${dest-doc}/api"/>
 	
-	<property name="version" value="1.2-dev"/>
-	<property name="cvs-version" value="HEAD"/>
-	<property name="cvs-branch" value="HEAD"/>
+	<property name="version" value="1.2.0"/>
+	<basename file="${basedir}" property="svn-branch"/>
 	
 	<property name="tmp-dir" value="tmp"/>
 	<property name="tmp-javadoc" value="${tmp-dir}/javadoc"/>
@@ -39,8 +44,9 @@
 		
 		<delete dir="${dest-dir}"/>
 		<mkdir dir="${dest-dir}"/>
-		<mkdir dir="${dest-dir}/resources"/>
-		<mkdir dir="${dest-dir}/jar"/>
+		<mkdir dir="${dest-dir}/sources"/>
+		<mkdir dir="${dest-dir}/jars"/>
+		<mkdir dir="${dest-dir}/javadocs"/>
 		
 		<!-- Compilation des classes utilisées par Ant -->
 		<mkdir dir="${classes-deliver}"/>
@@ -50,7 +56,13 @@
 			<classpath>
 				<fileset dir="${deliver-dir}/lib" includes="*.jar"/>
 			</classpath>
-		</javac> 
+		</javac>
+
+    	<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant">
+			<classpath>
+				<fileset dir="${deliver-dir}/lib" includes="ivy*.jar" />
+			</classpath>
+		</taskdef>
 		
 		<taskdef resource="emma_ant.properties">
 			<classpath>
@@ -61,6 +73,8 @@
 	
 	<target name="tasks">
 		<taskdef name="resource-file" classpath="${classes-deliver}" classname="org.ametys.runtime.deliver.ResourceFileTask"/>
+		<taskdef name="svn-revision" classpath="${classes-deliver}" classname="org.ametys.runtime.deliver.SvnRevisionTask"/>
+		<taskdef name="ivy-version" classpath="${classes-deliver}" classname="org.ametys.runtime.deliver.IvyVersionTask"/>
 	</target>
 
 	<target name="clean">
@@ -80,46 +94,49 @@
 		<format property="full-timestamp" pattern="MM/dd/yyyy HH:mm:ss z" timezone="GMT"/>
   	</tstamp>
 	
+	<tstamp>
+		<format property="ivy-timestamp" pattern="yyyyMMddHHmmss" timezone="GMT"/>
+  	</tstamp>
+	
 	<target name="prepare-runtime">
-		<echo message="Building runtime..."/>
-		
 		<mkdir dir="${classes}"/>
+		
+       	<ivy:settings file="${ivy-settings}"/>
+		<ivy:resolve conf="compile" type="jar"/>
+		<ivy:cachepath conf="compile" type="jar" pathid="compile.classpath"/>
+		
+		<svn-revision property="svn-revision"/>
+		<ivy-version versionOutputProperty="ivy-version" resolverOutputProperty="ivy-resolver"
+			         status="${ivy-status}" buildRevision="${version}"
+			         svnRevision="${svn-revision}" timestamp="${ivy-timestamp}"/>
+		
+		<echo message="Building runtime version ${ivy-version}..."/>
 	</target>
 
 	<target name="runtime-compile-kernel">
 		<!-- Compilation des sources -->
 		<javac debug="true" destdir="${classes}" encoding="UTF-8">
 			<src path="${kernel-dir}/src"/>
-			<classpath>
-				<fileset dir="${kernel-dir}/lib" includes="*.jar" />
-				<fileset dir="${kernel-dir}/lib/buildtime" includes="*.jar"/>
-			</classpath>
+			<classpath refid="compile.classpath"/>
 		</javac>
 	</target>
 
 	<target name="runtime-compile-workspace" unless="skip-workspace">
 		<!-- Compilation des sources -->
 		<javac debug="true" destdir="${classes}" encoding="UTF-8">
-			<src path="${kernel-dir}/src"/>
+			<!--src path="${kernel-dir}/src"/-->
 			<src path="${workspace-dir}/src"/>
-			<classpath>
-				<fileset dir="${kernel-dir}/lib" includes="*.jar" />
-				<fileset dir="${kernel-dir}/lib/buildtime" includes="*.jar"/>
-			</classpath>
+			<classpath refid="compile.classpath"/>
 		</javac>
 	</target>
 		
 	<target name="runtime-compile-plugin" unless="skip-plugin">
 		<!-- Compilation des sources -->
 		<javac debug="true" destdir="${classes}" encoding="UTF-8">
-			<src path="${kernel-dir}/src"/>
-			<src path="${workspace-dir}/src"/>
+			<!--src path="${kernel-dir}/src"/-->
+			<!--src path="${workspace-dir}/src"/-->
 			<src path="${plugin-dir}/src"/>
-			<classpath>
-				<fileset dir="${kernel-dir}/lib" includes="*.jar" />
-				<fileset dir="${kernel-dir}/lib/buildtime" includes="*.jar"/>
-				<fileset dir="${plugin-dir}/lib" includes="*.jar" />
-			</classpath>
+			<classpath refid="compile.classpath"/>
 		</javac>
 	</target>
 
@@ -160,7 +177,7 @@
 		<copy todir="${classes}/org/ametys/runtime" file="${kernel-dir}/src/org/ametys/runtime/version.xml">
 			<filterset>
 				<filter token="DATE" value="${build-timestamp}"/>
-				<filter token="VERSION" value="${version}"/>
+				<filter token="VERSION" value="${ivy-version}"/>
 			</filterset>
 		</copy>
 		
@@ -221,19 +238,20 @@
 	
 	<target name="runtime-jar">
 		<!-- Construction du JAR avec fichier MANIFEST -->
-		<jar jarfile="${dest-dir}/jar/ametys-runtime-${version}.jar" basedir="${classes}">
+		<jar jarfile="${dest-dir}/jars/ametys-runtime.jar" basedir="${classes}">
 			<manifest>
 		      	<section name="Runtime informations">
 				 	<attribute name="Title" value="Runtime"/>
 			  	 	<attribute name="Vendor" value="Anyware Technologies"/>
-			  	 	<attribute name="Version" value="${cvs-version}"/>
+			  	 	<attribute name="Version" value="${ivy-version}"/>
 			  	 	<attribute name="Date" value="${full-timestamp}"/>
-				 	<attribute name="CVS-Branch" value="${cvs-branch}"/>
+				 	<attribute name="SVN-Revision" value="${svn-revision}"/>
+				 	<attribute name="SVN-Branch" value="${svn-branch}"/>
 		      	</section>
 			</manifest>	
 		</jar>
 		
-		<jar jarfile="${dest-dir}/jar/ametys-runtime-${version}-src.jar">
+		<jar jarfile="${dest-dir}/sources/ametys-runtime.jar">
 			<fileset dir="${kernel-dir}/src">
 				<include name="**/*.java"/>
 			</fileset>
@@ -248,9 +266,10 @@
 		      	<section name="Runtime informations">
 				 	<attribute name="Title" value="Runtime src"/>
 			  	 	<attribute name="Vendor" value="Anyware Technologies"/>
-			  	 	<attribute name="Version" value="${cvs-version}"/>
+			  	 	<attribute name="Version" value="${ivy-version}"/>
 			  	 	<attribute name="Date" value="${full-timestamp}"/>
-				 	<attribute name="CVS-Branch" value="${cvs-branch}"/>
+				 	<attribute name="SVN-Revision" value="${svn-revision}"/>
+				 	<attribute name="SVN-Branch" value="${svn-branch}"/>
 		      	</section>
 			</manifest>	
 		</jar>
@@ -289,12 +308,18 @@
 	</target>
 
 	<target name="runtime-jarresources">
-		<!-- JAR de ressources -->
-		<jar destfile="${dest-dir}/resources/ametys-runtime-${version}-resources.jar">
+		<!-- JAR des ressources -->
+		<jar destfile="${dest-dir}/jars/ametys-runtime-resources.jar">
 			<zipfileset dir="${dest-dir}/resources" prefix="org/ametys/runtime">
 				<include name="**"/>
 			</zipfileset>
 		</jar>
+		<!-- ZIP des ressources -->
+		<zip destfile="${dest-dir}/resources/ametys-runtime-resources.zip">
+			<fileset dir="${dest-dir}/resources">
+				<include name="**"/>
+			</fileset>
+		</zip>
 	</target>
 	
 	<target name="runtime-copyi18n-kernel">
@@ -355,8 +380,8 @@
 		<javadoc destdir="${dest-javadoc}"
 			sourcepath="${tmp-javadoc}"
 			packagenames="org.ametys.runtime.*"
-			windowtitle="Ametys Runtime API version ${version}"
-			doctitle="Ametys Runtime API version ${version}"
+			windowtitle="Ametys Runtime API version ${ivy-version}"
+			doctitle="Ametys Runtime API version ${ivy-version}"
 	        author="false"
 	       	version="true"
 	       	use="false"   
@@ -372,7 +397,20 @@
 			<link href="http://cocoon.apache.org/2.1/apidocs"/>
 			<link href="http://java.sun.com/j2se/1.5.0/docs/api"/>
 			<link href="http://java.sun.com/javaee/5/docs/api"/>
-		</javadoc>	
+		</javadoc>
+		
+		<jar basedir="${dest-javadoc}" destfile="${dest-dir}/javadocs/ametys-runtime.jar">
+			<manifest>
+		      	<section name="Runtime informations">
+				 	<attribute name="Title" value="Runtime javadoc"/>
+			  	 	<attribute name="Vendor" value="Anyware Technologies"/>
+			  	 	<attribute name="Version" value="${ivy-version}"/>
+			  	 	<attribute name="Date" value="${full-timestamp}"/>
+				 	<attribute name="SVN-Revision" value="${svn-revision}"/>
+				 	<attribute name="SVN-Branch" value="${svn-branch}"/>
+		      	</section>
+			</manifest>	
+		</jar>
 		
 		<delete dir="${tmp-javadoc}"/>
 	</target>	
@@ -413,7 +451,7 @@
 		
 		<unzip src="${doc-name}" dest="${tmp-unzipped-doc}"/>
 		<replace file="${tmp-unzipped-doc}/content.xml" token="@DATE@" value="${doc-timestamp}"/>
-		<replace file="${tmp-unzipped-doc}/content.xml" token="@VERSION@" value="${version}"/>
+		<replace file="${tmp-unzipped-doc}/content.xml" token="@VERSION@" value="${ivy-version}"/>
 		<zip destfile="${doc-name}" basedir="${tmp-unzipped-doc}"/>		
 		
 		<delete dir="${tmp-unzipped-doc}"/>
@@ -455,6 +493,9 @@
 		<mkdir dir="${tmp-dir}/classes-test"/>
 		<mkdir dir="${tmp-dir}/emma"/>
 		<mkdir dir="${dest-doc}/emma"/>
+		
+		<ivy:resolve conf="test" type="jar"/>
+		<ivy:cachepath conf="test" type="jar" pathid="test.classpath"/>
 
 	    <emma>
 	      <instr mode="fullcopy"
@@ -463,7 +504,7 @@
 	             merge="no">
 	      	
 	      	<instrpath>
-				<fileset dir="${dest-dir}/jar" includes="ametys-runtime-${version}.jar" />
+				<fileset dir="${dest-dir}/jars" includes="ametys-runtime.jar" />
 	      	</instrpath>
 	      	
 	        <filter includes="org.ametys.runtime.*"/>
@@ -474,12 +515,8 @@
 		<javac debug="true" destdir="${tmp-dir}/classes-test" encoding="UTF-8">
 			<src path="${tests-dir}/src"/>
 			<classpath>
-				<fileset dir="${kernel-dir}/lib" includes="*.jar" />
-				<fileset dir="${kernel-dir}/lib/buildtime" includes="*.jar"/>
-				<fileset dir="${plugin-dir}/lib" includes="*.jar" />
-				<fileset dir="${application-template-dir}/WEB-INF/lib" includes="*.jar" />
-				<fileset dir="${tests-dir}/lib" includes="*.jar" />
-				<fileset dir="${tmp-dir}/emma/lib" includes="ametys-runtime-${version}.jar" />
+				<path refid="test.classpath"/>
+				<fileset dir="${tmp-dir}/emma/lib" includes="ametys-runtime.jar" />
 			</classpath>
 		</javac>
 		
@@ -488,13 +525,9 @@
 		
 		<junit fork="true" dir="." printsummary="yes" haltonfailure="no" failureproperty="hasFailure">
 			<classpath>
-				<fileset dir="${tmp-dir}/emma/lib" includes="ametys-runtime-${version}.jar" />
+				<path refid="test.classpath"/>
+				<fileset dir="${tmp-dir}/emma/lib" includes="ametys-runtime.jar" />
 				<pathelement location="${tmp-dir}/classes-test"/>
-				<fileset dir="${kernel-dir}/lib" includes="*.jar" />
-				<fileset dir="${kernel-dir}/lib/buildtime" includes="*.jar"/>
-				<fileset dir="${plugin-dir}/lib" includes="*.jar" />
-				<fileset dir="${application-template-dir}/WEB-INF/lib" includes="*.jar" />
-				<fileset dir="${tests-dir}/lib" includes="*.jar" />
 				<fileset dir="${deliver-dir}/lib" includes="emma*.jar" />
 			</classpath>
 			<formatter type="xml"/>
@@ -518,8 +551,7 @@
 		</junitreport>
 		
 	    <emma>
-	      <report
-	              sort="+block,+name,+method,+class"
+	      <report sort="+block,+name,+method,+class"
 	              metrics="method:70,block:80,line:80,class:100">
 
 	      	<fileset dir="${tmp-dir}/emma" >
@@ -538,9 +570,28 @@
 	        	  sort="+name"/>
 	      </report>
 	    </emma>
-
-		<fail if="hasFailure" message="Echec des tests"/>
 	</target>
 	
-	<target name="all" depends="prepare, tasks, runtime, javadoc, plugin-doc, export-doc, tests, clean"/>
+	<target name="publish" depends="runtime, javadoc">
+		<!-- Better be safe than sorry: Always delete the ivy xml, it avoids timestamp issues -->
+		<delete>
+			<fileset dir="${dest-dir}" includes="ivy*.xml"/>
+		</delete>
+
+		<ivy:deliver deliverpattern="${dest-dir}/ivy.xml" pubrevision="${ivy-version}"
+		             status="${ivy-status}"/>
+		
+		<!-- FIXME publish javadoc only for release build
+		if (publishTypes.indexOf("javadoc") == -1) {
+	    Ant.replaceregexp(file : distDir + "/ivy.xml", match : '<artifact.*type="javadoc".*/>',
+	                      replace : "", byline : true)
+	    }
+	    -->
+		
+		<ivy:publish artifactspattern="${dest-dir}/[type]s/[artifact].[ext]" resolver="${ivy-resolver}"
+		             pubrevision="${ivy-version}" status="${ivy-status}" srcivypattern="${dest-dir}/ivy.xml"
+		             overwrite="true"/>
+    </target>
+	
+	<target name="all" depends="prepare, tasks, runtime, javadoc, plugin-doc, export-doc, tests, publish, clean"/>
 </project>
