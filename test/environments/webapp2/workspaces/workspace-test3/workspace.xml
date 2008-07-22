@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <workspace xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:noNamespaceSchemaLocation="http://ametys.org/Runtime/1.0/workspace.xsd">
+        xsi:noNamespaceSchemaLocation="http://ametys.org/Runtime/1.2/workspace.xsd">
 
     <dependencies>
         <dependency>core/unexisting.feature</dependency>

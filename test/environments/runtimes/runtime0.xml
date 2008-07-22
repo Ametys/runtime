@@ -2,8 +2,8 @@
 <!-- 
     INVALID SCHEMA 
 -->
-<runtime  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-          xsi:noNamespaceSchemaLocation="http://ametys.org/Runtime/1.0/runtime.xsd">
+<runtime xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:noNamespaceSchemaLocation="http://ametys.org/Runtime/1.2/runtime.xsd">
     
     <incompleteConfig>
         <allowedURLs>

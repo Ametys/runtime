@@ -4,8 +4,8 @@
     Use the LDAP User manager
     Use the LDAP UserDriven Groups Manager
 -->
-<runtime  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-          xsi:noNamespaceSchemaLocation="http://ametys.org/Runtime/1.0/runtime.xsd">
+<runtime xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:noNamespaceSchemaLocation="http://ametys.org/Runtime/1.2/runtime.xsd">
     
     <application>
         <version>2.0.1</version>
