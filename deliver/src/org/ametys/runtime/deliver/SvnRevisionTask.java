@@ -53,7 +53,8 @@ public class SvnRevisionTask extends Task
         }
         catch (Exception ex)
         {
-            throw new BuildException(ex);
+        	getProject().log(ex.getMessage());
+        	getProject().setProperty(_property, "unknown");
         }
     }
     
