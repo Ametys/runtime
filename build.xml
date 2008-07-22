@@ -186,7 +186,6 @@
 				<exclude name="sitemap.xmap"/>
 				<!--  exclude name="i18n/**"/ -->
 				<exclude name="resources/**"/>
-				<exclude name="lib/**"/>
 				<exclude name="src/**"/>
 			</fileset>
 		</copy>		
@@ -207,7 +206,6 @@
 				<exclude name="sitemap.xmap"/>
 				<!--  exclude name="i18n/**"/ -->
 				<exclude name="resources/**"/>
-				<exclude name="lib/**"/>
 				<exclude name="src/**"/>
 			</fileset>
 		</copy>
@@ -228,7 +226,6 @@
 				<exclude name="sitemap.xmap"/>
 				<!--  exclude name="i18n/**"/ -->
 				<exclude name="resources/**"/>
-				<exclude name="lib/**"/>
 				<exclude name="src/**"/>
 				<exclude name="scripts/**"/>
 			</fileset>
@@ -388,11 +385,7 @@
 			additionalparam="-quiet"
 			bottom="Copyright &#169; 2007 &lt;a href='http://www.anyware-tech.com'&gt;Anyware Technologies&lt;/a&gt;. All Rights Reserved.">
 			
-			<classpath>
-				<fileset dir="${kernel-dir}/lib" includes="*.jar" />
-				<fileset dir="${kernel-dir}/lib/buildtime" includes="*.jar"/>
-				<fileset dir="${plugin-dir}/lib" includes="*.jar" />
-			</classpath>
+			<classpath refid="compile.classpath"/>
 			<link href="http://excalibur.apache.org/apidocs"/>
 			<link href="http://cocoon.apache.org/2.1/apidocs"/>
 			<link href="http://java.sun.com/j2se/1.5.0/docs/api"/>
