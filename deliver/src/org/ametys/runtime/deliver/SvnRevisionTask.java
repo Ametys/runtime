@@ -34,12 +34,16 @@ public class SvnRevisionTask extends Task
             process.waitFor();
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            revision = reader.readLine();
-            int index = revision.indexOf(":");
+            String line = reader.readLine();
 
-            if (index != -1)
+            if (line != null)
             {
-                revision = revision.substring(0, index);
+                int index = line.indexOf(":");
+
+                if (index != -1)
+                {
+                    revision = line.substring(0, index);
+                }
             }
         }
         catch (Exception ex)
