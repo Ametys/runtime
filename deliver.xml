@@ -2,13 +2,12 @@
 <project name="Deliver Ametys Runtime" default="deliver">
 	<target name="init">		
 		<!-- GENERAL PROPERTIES -->
-		<property name="cvs-version" value="HEAD"/>
-		<property name="cvs-branch" value="HEAD"/>
-		<property name="version" value="${cvs-version}"/>
+		<property name="version" value="HEAD"/>
+		<property name="svn.branch" value="trunk"/>
         
-		<property name="target" location="/srv/production/livraison/Ametys/Runtime/${cvs-version}"/>
+		<property name="target" location="/srv/production/livraison/Ametys/Runtime/${version}"/>
 		
-		<property name="baseVersion" value="v1_1_0"/>
+		<property name="baseVersion" value="1.1.0"/>
 		<property name="baseVersionDir" location="${target}/../${baseVersion}"/>
 		
 		<property name="deliver-dir" location="deliver"/>
@@ -30,14 +29,13 @@
 			<property name="dest-dir" location="${target}/bin"/>
 			<property name="dest-doc" location="${target}/docs"/>
 			<property name="tmp-dir" location="tmp"/>
-			<property name="cvs-branch" value="${cvs-branch}"/>
-			<property name="cvs-version" value="${cvs-version}"/>
+			<property name="svn.branch" value="${svn.branch}"/>
 			<property name="version" value="${version}"/>
 		</ant>
 		
 		<!-- Release notes -->
 		<xslt in="releaseNotes.xml" style="${deliver-dir}/releaseNotes2html.xsl" out="${target}/docs/releaseNotes.html">
-			<param name="version" expression="${cvs-version}"/>
+			<param name="version" expression="${version}"/>
 		</xslt>
 		
         
@@ -87,7 +85,7 @@
 	
 	<target name="intranet">
 		<tstamp>
-			<format property="today" pattern="dd/MM/yyyy HH:mm:ss" locale="fr"/>
+			<format property="today" pattern="dd/MM/yyyy HH:mm:ss z" locale="fr"/>
 	  	</tstamp>
 		
 	   	<copy file="${deliver-dir}/template.html" tofile="${target}/index.html"/>
@@ -124,7 +122,7 @@
 		
 		<javadoc sourcepath="${target}/docs/apidiff/src" packagenames="org.ametys.runtime.*">
 			<doclet name="jdiff.JDiff" path="tools/jdiff/jdiff.jar">
-		    	<param name="-apiname" value="Ametys Runtime ${cvs-version}"/>
+		    	<param name="-apiname" value="Ametys Runtime ${version}"/>
 		    	<param name="-apidir" value="${target}/docs/apidiff/src"/>
 		  	</doclet>
 		</javadoc>	
@@ -134,7 +132,7 @@
 		    	<param name="-stats"/>
 		    	<param name="-oldapi" value="Ametys Runtime ${baseVersion}"/>
 		    	<param name="-oldapidir" value="${baseVersionDir}/docs/apidiff/src"/>
-		    	<param name="-newapi" value="Ametys Runtime ${cvs-version}"/>
+		    	<param name="-newapi" value="Ametys Runtime ${version}"/>
 		    	<param name="-newapidir" value="${target}/docs/apidiff/src"/>
 		    	<param name="-javadocold" value="${baseVersionDir}/docs/api/"/>
 		    	<param name="-javadocnew" value="${target}/docs/api/"/>
@@ -147,11 +145,11 @@
 	  	<!-- Remplacement des constantes dans le fichier html -->
 	  	<replace file="${target}/index.html" token="DATE" value="${today}"/>
 	  	<replace file="${target}/index.html" token="VERSION" value="${version}"/>
-	  	<replace file="${target}/index.html" token="CVSBRANCH" value="${cvs-branch}"/>		
+	  	<replace file="${target}/index.html" token="SVNBRANCH" value="${svn.branch}"/>		
 	</target>
 	
 	<target name="mail">
-		<mail from="cms-dev@lists.anyware-tech.com" tolist="${destinataires}" mailhost="${smtpServer}" encoding="plain" subject="Livraison Ametys Runtime : ${version}" message="La nouvelle version ${version} d'Ametys Runtime est disponible.&#10;&#10;Version accessible a l'adresse : ${webServer}/${cvs-version}/"/>
+		<mail from="cms-dev@lists.anyware-tech.com" tolist="${destinataires}" mailhost="${smtpServer}" encoding="plain" subject="Livraison Ametys Runtime : ${version}" message="La nouvelle version ${version} d'Ametys Runtime est disponible.&#10;&#10;Version accessible a l'adresse : ${webServer}/${version}/"/>
 	</target>
 	
     <target name="deliver" depends="init, build-runtime, intranet, mail"/>

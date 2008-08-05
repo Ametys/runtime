@@ -14,8 +14,7 @@
 	<property name="dest-javadoc" value="${dest-doc}/api"/>
 	
 	<property name="version" value="1.1.1-dev"/>
-	<property name="cvs-version" value="HEAD"/>
-	<property name="cvs-branch" value="HEAD"/>
+	<property name="svn.branch" value="trunk"/>
 	
 	<property name="tmp-dir" value="tmp"/>
 	<property name="tmp-javadoc" value="${tmp-dir}/javadoc"/>
@@ -226,9 +225,9 @@
 		      	<section name="Runtime informations">
 				 	<attribute name="Title" value="Runtime"/>
 			  	 	<attribute name="Vendor" value="Anyware Technologies"/>
-			  	 	<attribute name="Version" value="${cvs-version}"/>
+			  	 	<attribute name="Version" value="${version}"/>
 			  	 	<attribute name="Date" value="${full-timestamp}"/>
-				 	<attribute name="CVS-Branch" value="${cvs-branch}"/>
+				 	<attribute name="SVN-Branch" value="${svn.branch}"/>
 		      	</section>
 			</manifest>	
 		</jar>
@@ -248,9 +247,9 @@
 		      	<section name="Runtime informations">
 				 	<attribute name="Title" value="Runtime src"/>
 			  	 	<attribute name="Vendor" value="Anyware Technologies"/>
-			  	 	<attribute name="Version" value="${cvs-version}"/>
+			  	 	<attribute name="Version" value="${version}"/>
 			  	 	<attribute name="Date" value="${full-timestamp}"/>
-				 	<attribute name="CVS-Branch" value="${cvs-branch}"/>
+				 	<attribute name="SVN-Branch" value="${svn.branch}"/>
 		      	</section>
 			</manifest>	
 		</jar>
