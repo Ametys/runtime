@@ -16,13 +16,15 @@
    	<target name="boot" depends="init, checkVersion">
    		<delete dir="${destDir}"/>
 
-   		<taskdef resource="svntask.properties">
+   		<taskdef resource="org/tigris/subversion/svnant/svnantlib.xml">
 		<!--
    			<classpath>
    				<fileset dir="deliver/lib" includes="svn*.jar"/>
    			</classpath>
 		-->
    		</taskdef>
+
+   		<input message="Enter password for user ${svn.user} : " addproperty="svn.passwd"/>
    		
    		<!-- SVN tag and export --> 
    		<svn username="${svn.user}" password="${svn.passwd}">
@@ -40,12 +42,11 @@
    	<!-- Help -->
 	<target name="help">
 		<echo message="------------------------------------------------------------------------------------------------"/>
-		<echo message="Usage : ant -Dsvn.user=user -Dsvn.passwd=password [-DtmpDir=temp-dir] -Dversion=version"/>
+		<echo message="Usage : ant -Dsvn.user=user [-DtmpDir=temp-dir] -Dversion=version"/>
 		<echo message=""/>
 		<echo message="Parameters :"/>
 		<echo message=""/>
 		<echo message="svn.user : required, the user to use for retrieve the runtime "/>
-		<echo message="svn.passwd : required, the password to use for retrieve the runtime "/>
 		<echo message="version    : required, the version name (ex : 4.6.7 20020325) "/>
 		<echo message="tmpDir    : optionnaly, the temp dir (default is /tmp) "/>
 		<echo message="baseVersion    : optionnaly, the version name to be compared with (ex : 2.1.2, default is 1.1.0) "/>
