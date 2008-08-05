@@ -15,7 +15,10 @@
 	
 	<xsl:import href="../core/template.xsl"/>
     
+    <xsl:param name="contextPath"/>
+    <xsl:param name="workspaceURI"/>
     <xsl:param name="redirect"/>
+    
 	
     <xsl:template name="workspace-title"></xsl:template>
     <xsl:template name="workspace-head"></xsl:template>
@@ -36,6 +39,42 @@
                     
 					<div style="text-align: center">
                         <i18n:text i18n:key="WORKSPACE_ADMIN_NAVIGATOR_TEXT"/>
+                    </div>
+                    
+					<br/><br/>
+					
+					<script type="text/javascript">
+						<xsl:comment>
+							function forceNonSupportedNavigators()
+							{
+								// Create cookie which will expires when the browser is closed down
+								document.cookie = "ametys.accept.non.supported.navigators=on; path=<xsl:value-of select="$contextPath"/>/;";
+								
+								// Redirect
+								return true;
+							}
+						</xsl:comment>
+					</script>
+                    
+					<div style="text-align: center">
+						<i18n:text i18n:key="WORKSPACE_ADMIN_NAVIGATOR_FORCE_TEXT"/>
+					</div>
+					<div style="text-align: center; margin-top: 20px;">
+						<style>
+							a.runtime_link, a.runtime_link:visited, a.runtime_link:hover, a.runtime_link:linked, a.runtime_link:hover
+							{
+								font-weight: bold;
+								color: #00005f;
+							}
+							a.runtime_link:hover
+							{
+								text-decoration: underline;
+							}
+						</style>
+                        <a class="runtime_link" href="{$redirect}" onclick="javascript:forceNonSupportedNavigators();">
+                            <img src="{$contextPath}{$workspaceURI}/resources/img/icon/warning.gif" border="0" style="margin-right: 5px; vertical-align: middle;"/>
+                            <i18n:text i18n:key="WORKSPACE_ADMIN_NAVIGATOR_FORCE_LINK"/>
+                        </a>
                     </div>
                     
 				</td>

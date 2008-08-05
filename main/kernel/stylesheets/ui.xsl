@@ -85,6 +85,7 @@
         <xsl:param name="accept-ff-1.0">true</xsl:param>
         <xsl:param name="accept-ff-1.5">true</xsl:param>
         <xsl:param name="accept-ff-2.0">true</xsl:param>
+        <xsl:param name="accept-ff-3.0">false</xsl:param>
     
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Tools.js"><xsl:comment>empty</xsl:comment></script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/mozxpath.js"><xsl:comment>empty</xsl:comment></script>
@@ -111,9 +112,15 @@
                     <xsl:if test="$accept-ff-1.0 = 'true'">(STools.agt.indexOf("firefox/1.0")) > 0 ||</xsl:if>
                     <xsl:if test="$accept-ff-1.5 = 'true'">(STools.agt.indexOf("firefox/1.5")) > 0 ||</xsl:if>
                     <xsl:if test="$accept-ff-2.0 = 'true'">(STools.agt.indexOf("firefox/2.0")) > 0 ||</xsl:if>
+                    <xsl:if test="$accept-ff-3.0 = 'true'">(STools.agt.indexOf("firefox/3.0")) > 0 ||</xsl:if>
                     1 == 0))
                 {
-                    window.location.href = "<xsl:value-of select="$bad-navigator-redirection"/>";
+                	// Check the cookie for forcing non supported navigators
+                	var matcher = document.cookie.match("(^|;) ?ametys\.accept\.non\.supported\.navigators=([^;]*)");
+                	if (!matcher || matcher[2] != "on")
+                	{
+                 	    window.location.href = "<xsl:value-of select="$bad-navigator-redirection"/>?uri=" + encodeURIComponent(window.location.href);
+                	}
                 }
             </xsl:comment>
         </script>
