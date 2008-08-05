@@ -17,9 +17,11 @@
    		<delete dir="${destDir}"/>
 
    		<taskdef resource="svntask.properties">
+		<!--
    			<classpath>
    				<fileset dir="deliver/lib" includes="svn*.jar"/>
    			</classpath>
+		-->
    		</taskdef>
    		
    		<!-- SVN tag and export --> 
