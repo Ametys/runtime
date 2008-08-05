@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="RuntimeBootstrap" default="boot">
 	<target name="init">
-		<property name="svn.branch" value="trunk"/>
+		<property name="svn.branch" value="1.1"/>
 		<property name="tmpDir" value="/tmp"/>
 		<property name="destDir" value="${tmpDir}/runtime"/>
 		<property name="svn.url" value="https://svn.ametys.org/trunk/runtime/"/>
@@ -24,8 +24,8 @@
    		
    		<!-- SVN tag and export --> 
    		<svn username="${svn.user}" password="${svn.passwd}">
-   			<copy srcUrl="${svn.url}/${svn.branch}" dstUrl="${svn.url}/tags/${version}" revision="HEAD"
-   			      message="Releasing current ${svn.branch} into ${version} version"/>
+   			<copy srcUrl="${svn.url}/branch/${svn.branch}" dstUrl="${svn.url}/tags/${version}" revision="HEAD"
+   			      message="Releasing ${svn.branch} branch into ${version} version"/>
    			<export url="${svn.url}/tags/${version}" revision="HEAD" destPath="${destDir}"/>
    		</svn>
 
@@ -38,14 +38,13 @@
    	<!-- Help -->
 	<target name="help">
 		<echo message="------------------------------------------------------------------------------------------------"/>
-		<echo message="Usage : ant -Dsvn.user=user -Dsvn.passwd=password [-Dsvn.branch=branchName] [-DtmpDir=temp-dir] -Dversion=version"/>
+		<echo message="Usage : ant -Dsvn.user=user -Dsvn.passwd=password [-DtmpDir=temp-dir] -Dversion=version"/>
 		<echo message=""/>
 		<echo message="Parameters :"/>
 		<echo message=""/>
 		<echo message="svn.user : required, the user to use for retrieve the runtime "/>
 		<echo message="svn.passwd : required, the password to use for retrieve the runtime "/>
 		<echo message="version    : required, the version name (ex : 4.6.7 20020325) "/>
-		<echo message="svn.branch : optionnaly, the branch to be delivered (default is trunk) "/>
 		<echo message="tmpDir    : optionnaly, the temp dir (default is /tmp) "/>
 		<echo message="baseVersion    : optionnaly, the version name to be compared with (ex : 2.1.2, default is 1.1.0) "/>
 		<echo message="------------------------------------------------------------------------------------------------"/>
