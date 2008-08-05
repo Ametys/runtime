@@ -7,5 +7,6 @@
         <note module="admin" type="update">La date d'une version d'un composant s'affiche maintenant dans le fuseau horaire courant</note>
         <note module="kernel" type="add">Le IgnoreRootHandler gère également l'interface LexicalHandler</note>
         <note module="build" type="add">AMRUN-180 : Modifier le script de build pour publier des artifacts dans le repository IVY</note>
+        <note module="kernel" type="add">AMRUN-189 : Pouvoir forcer le rendu avec un navigateur non supporté</note>
     </release>
 </releases>

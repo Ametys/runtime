@@ -30,4 +30,6 @@
     <!-- Navigator -->
     <message key="WORKSPACE_ADMIN_NAVIGATOR_TITLE">Navigateur internet non supporté</message>
     <message key="WORKSPACE_ADMIN_NAVIGATOR_TEXT">L'application ne supporte par votre navigateur internet.<br/><br/>Consultez le manuel utilisateur pour obtenir la liste des navigateurs supportés.</message>
+    <message key="WORKSPACE_ADMIN_NAVIGATOR_FORCE_TEXT">Si vous souhaitez tout de même accéder à l'application avec votre navigateur actuel vous pouvez forcer l'accès en cliquant sur le lien ci-dessous.<br/>En faisant cela vous vous exposez à tomber sur des problèmes (d'affichage ou fonctionnel) : les anomalies rencontrées ne seront pas supportées.</message>
+    <message key="WORKSPACE_ADMIN_NAVIGATOR_FORCE_LINK">Forcer l'accès à l'application avec votre navigateur actuel</message>
 </catalogue>

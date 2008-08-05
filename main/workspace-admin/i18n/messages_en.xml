@@ -30,4 +30,6 @@
     <!-- Navigator -->
     <message key="WORKSPACE_ADMIN_NAVIGATOR_TITLE">Web browser not supported</message>
     <message key="WORKSPACE_ADMIN_NAVIGATOR_TEXT">This application does not support your Web browser<br/><br/>Please refer to the users manual to get the list of supported browsers</message>
+    <message key="WORKSPACE_ADMIN_NAVIGATOR_FORCE_TEXT">If you still want to access this application with your current browser you can force the access by clicking on the link below.<br/>By doing this problems may occured (in display or operational): bugs encountered in this configuration will not be supported.</message>
+    <message key="WORKSPACE_ADMIN_NAVIGATOR_FORCE_LINK">Force access to the application using current browser</message>
 </catalogue>
