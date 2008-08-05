@@ -77,7 +77,7 @@
   	</tstamp>
 	
 	<tstamp>
-		<format property="full-timestamp" pattern="MM/dd/yyyy HH:mm:ss z" timezone="GMT"/>
+		<format property="full-timestamp" pattern="MM/dd/yyyy HH:mm:ss z"/>
   	</tstamp>
 	
 	<target name="prepare-runtime">
@@ -353,6 +353,7 @@
 		
 		<mkdir dir="${dest-javadoc}"/>
 		<javadoc destdir="${dest-javadoc}"
+			charset="UTF-8"
 			sourcepath="${tmp-javadoc}"
 			packagenames="org.ametys.runtime.*"
 			windowtitle="Ametys Runtime API version ${version}"
@@ -361,6 +362,8 @@
 	       	version="true"
 	       	use="false"   
 			additionalparam="-quiet"
+			stylesheetfile="${deliver-dir}/javadoc.css"
+			header="&lt;img src='http://ametys.org/styles/telecharger/img/focus_bg.gif'/&gt;"
 			bottom="Copyright &#169; 2007 &lt;a href='http://www.anyware-tech.com'&gt;Anyware Technologies&lt;/a&gt;. All Rights Reserved.">
 			
 			<classpath>
