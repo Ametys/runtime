@@ -4,7 +4,7 @@
 		<property name="svn.branch" value="1.1"/>
 		<property name="tmpDir" value="/tmp"/>
 		<property name="destDir" value="${tmpDir}/runtime"/>
-		<property name="svn.url" value="https://svn.ametys.org/trunk/runtime/"/>
+		<property name="svn.url" value="https://svn.ametys.org/trunk/runtime"/>
 	</target>
 	
     <target name="checkVersion" unless="version">
@@ -26,9 +26,9 @@
    		
    		<!-- SVN tag and export --> 
    		<svn username="${svn.user}" password="${svn.passwd}">
-   			<copy srcUrl="${svn.url}/branch/${svn.branch}" dstUrl="${svn.url}/tags/${version}" revision="HEAD"
+   			<copy srcUrl="${svn.url}/branches/${svn.branch}" destUrl="${svn.url}/tags/${version}" revision="HEAD"
    			      message="Releasing ${svn.branch} branch into ${version} version"/>
-   			<export url="${svn.url}/tags/${version}" revision="HEAD" destPath="${destDir}"/>
+   			<export srcUrl="${svn.url}/tags/${version}" revision="HEAD" destPath="${destDir}"/>
    		</svn>
 
        	<!-- Appel du deliver -->
