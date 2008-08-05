@@ -50,6 +50,12 @@
                 </xsl:call-template>
                 <xsl:call-template name="ui-tools-load">
                     <xsl:with-param name="bad-navigator-redirection"><xsl:value-of select="$workspaceContext"/>/public/navigator.html</xsl:with-param>
+                    <!-- STools supported browser -->
+                    <xsl:with-param name="accept-ie-6">true</xsl:with-param>
+                    <xsl:with-param name="accept-ie-7">true</xsl:with-param>
+                    <xsl:with-param name="accept-ff-1.0">true</xsl:with-param>
+                    <xsl:with-param name="accept-ff-1.5">true</xsl:with-param>
+                    <xsl:with-param name="accept-ff-2.0">true</xsl:with-param>
                 </xsl:call-template>
 
 				<table class="admin_head" style="width: 100%; height: 100%; background-image: url({$contextPath}/kernel/resources/img/bg_top.gif); background-repeat: repeat-x; background-position: top; background-attachment: fixed;">

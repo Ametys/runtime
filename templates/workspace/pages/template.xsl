@@ -48,6 +48,12 @@
                 </xsl:call-template>
                 <xsl:call-template name="ui-tools-load">
                 	<xsl:with-param name="bad-navigator-redirection"><xsl:value-of select="$contextPath"/>/_admin/public/navigator.html</xsl:with-param>
+                    <!-- STools supported browser -->
+                    <xsl:with-param name="accept-ie-6">true</xsl:with-param>
+                    <xsl:with-param name="accept-ie-7">true</xsl:with-param>
+                    <xsl:with-param name="accept-ff-1.0">true</xsl:with-param>
+                    <xsl:with-param name="accept-ff-1.5">true</xsl:with-param>
+                    <xsl:with-param name="accept-ff-2.0">true</xsl:with-param>
                 </xsl:call-template>
 
                 <table width="100%" height="100%">

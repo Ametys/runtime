@@ -80,11 +80,11 @@
     
     <xsl:template name="ui-tools-load">
         <xsl:param name="bad-navigator-redirection"/>
-        <xsl:param name="accept-ie-6">true</xsl:param>
-        <xsl:param name="accept-ie-7">true</xsl:param>
-        <xsl:param name="accept-ff-1.0">true</xsl:param>
-        <xsl:param name="accept-ff-1.5">true</xsl:param>
-        <xsl:param name="accept-ff-2.0">true</xsl:param>
+        <xsl:param name="accept-ie-6">false</xsl:param>
+        <xsl:param name="accept-ie-7">false</xsl:param>
+        <xsl:param name="accept-ff-1.0">false</xsl:param>
+        <xsl:param name="accept-ff-1.5">false</xsl:param>
+        <xsl:param name="accept-ff-2.0">false</xsl:param>
         <xsl:param name="accept-ff-3.0">false</xsl:param>
     
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Tools.js"><xsl:comment>empty</xsl:comment></script>
