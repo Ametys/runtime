@@ -75,8 +75,6 @@
         <note module="kernel" type="update">Ordonner les entrées et ajouter des commentaires dans le fichier config.xml</note>
         <note module="admin" type="update">La date d'une version d'un composant s'affiche maintenant dans le fuseau horaire courant</note>
         <note module="kernel" type="add">Le IgnoreRootHandler gère également l'interface LexicalHandler</note>
-    </release>
-    <release name="v1_1_2">
         <note module="kernel" type="add">AMRUN-189 : Pouvoir forcer le rendu avec un navigateur non supporté</note>
     </release>
 </releases>
