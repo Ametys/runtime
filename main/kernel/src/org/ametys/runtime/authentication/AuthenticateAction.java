@@ -114,6 +114,10 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
             if (!authentication.login(credentials))
             {
                 _credentialsProvider.notAllowed(redirector);
+                if (redirector.hasRedirected())
+                {
+                    return true;
+                }
                 return false;
             }
         }
