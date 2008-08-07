@@ -24,11 +24,10 @@ public interface CredentialsProvider
     public static final String ROLE = CredentialsProvider.class.getName();
     
     /**
-     * Validates this AuthenticationManager.
-     * It may declares itself as invalid, due to some environment status.<br>
-     * In this cas, the whole authentication process is restarted.
+     * Validates this CredentialProvider.
+     * It may declare as invalid an already connected user
      * @param redirector the cocoon Redirector that can be used for redirecting response.
-     * @return true if this AuthenticationManager was in a valid state, false otherwise
+     * @return true if this CredentialProvider was in a valid state, false to restart authentication process
      * @throws Exception if something wrong occurs
      */
     public abstract boolean validate(Redirector redirector) throws Exception;

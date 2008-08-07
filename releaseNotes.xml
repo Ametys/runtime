@@ -41,5 +41,6 @@
         <note module="kernel" type="fix">Correction du bug SListview qui décale les icones</note>
         <note module="kernel" type="add">Le SListview gère la touche SHIFT pour les sélections multiples</note>
         <note module="kernel" type="add">Le IgnoreRootHandler gère également l'interface LexicalHandler</note>
+        <note module="kernel" type="fix">AMRUN-190 : Javadoc CredentialsProvider incorrecte</note>
     </release>
 </releases>
