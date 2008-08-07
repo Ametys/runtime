@@ -1587,7 +1587,7 @@
             		<cookieName>AmetysAuthentication</cookieName>
             	</cookie>
             	<loginUrl>login.html</loginUrl>
-            	<loginFailedUrl>login_failed.html</loginFailedUrl>
+            	<loginFailedUrl provideLoginParameter="true">login_failed.html</loginFailedUrl>
             </extension>
         </extensions>
     </feature>

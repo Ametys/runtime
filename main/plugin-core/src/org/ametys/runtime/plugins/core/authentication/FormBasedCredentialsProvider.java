@@ -30,7 +30,7 @@ import org.apache.cocoon.environment.http.HttpCookie;
  *                  - The cookie name, to retrieve info<br>
  *                  - The cookie duration (in seconds), by default set to 1 week<br>
  *                  - A login url (do not start with a "/")<br>
- *                  - A failure login url (do not start with a "/")<br><br>
+ *                  - A failure login url (do not start with a "/"). The failure Url can receive the login entered by the visitor.<br><br>
  * 
  * For example :<br>
  *               &lt;username-field&gt;Username&lt;/username-field&gt;<br>
@@ -41,7 +41,7 @@ import org.apache.cocoon.environment.http.HttpCookie;
  *                   &lt;cookieName&gt;AmetysAuthentication&lt;/cookieName&gt;<br>
  *               &lt;/cookie&gt;<br>
  *               &lt;loginUrl&gt;login.html&lt;/loginUrl&gt;<br>
- *               &lt;loginFailedUrl&gt;login_failed.html&lt;/loginFailedUrl&gt;<br>
+ *               &lt;loginFailedUrl provideLoginParameter="true"&gt;login_failed.html&lt;/loginFailedUrl&gt;<br>
  * 
  */
 public class FormBasedCredentialsProvider extends AbstractLogEnabled implements ThreadSafe, CredentialsProvider,
@@ -73,6 +73,8 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
 
     /** Redirection when the authentication fails */
     protected String _loginFailedUrl;
+    /** When redirecting on failure send the entered login */
+    protected boolean _provideLoginParameter;
 
     /** Context */
     protected Context _context;
@@ -135,7 +137,13 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
     {
         Request request = ContextHelper.getRequest(_context);
 
-        redirector.redirect(false, request.getContextPath() + request.getAttribute(WorkspaceMatcher.WORKSPACE_URI) + "/" + _loginFailedUrl);
+        StringBuffer parameters = new StringBuffer();
+        if (_provideLoginParameter)
+        {
+            parameters.append(_loginFailedUrl.indexOf('?') >= 0 ? "&" : "?");
+            parameters.append("login=" + request.getParameter(_usernameField));
+        }
+        redirector.redirect(false, request.getContextPath() + request.getAttribute(WorkspaceMatcher.WORKSPACE_URI) + "/" + _loginFailedUrl + parameters.toString());
     }
 
     public boolean validate(Redirector redirector) throws Exception
@@ -153,6 +161,7 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
         _cookieName = configuration.getChild("cookie").getChild("cookieName").getValue("AmetysAuthentication");
         _loginUrl = configuration.getChild("loginUrl").getValue("login.html");
         _loginFailedUrl = configuration.getChild("loginFailedUrl").getValue("login_failed.html");
+        _provideLoginParameter = configuration.getChild("loginFailedUrl").getAttributeAsBoolean("provideLoginParameter", false);
         
         if (getLogger().isDebugEnabled())
         {
@@ -160,7 +169,8 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
                     "FormBasedCredentialsProvider values : " + " Name field=" + _usernameField + ", Pwd field="
                             + _passwordField + ", CookieEnabled=" + _cookieEnabled + ", Cookie duration="
                             + _cookieLifetime + ", Cookie name=" + _cookieName + ", Login url=" + _loginUrl
-                            + ", Login failed url=" + _loginFailedUrl);
+                            + ", Login failed url=" + _loginFailedUrl 
+                            + " [provide login on redirection : " + _provideLoginParameter + "]");
         }
     }
 
