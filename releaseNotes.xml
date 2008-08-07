@@ -76,5 +76,6 @@
         <note module="admin" type="update">La date d'une version d'un composant s'affiche maintenant dans le fuseau horaire courant</note>
         <note module="kernel" type="add">Le IgnoreRootHandler gère également l'interface LexicalHandler</note>
         <note module="kernel" type="add">AMRUN-189 : Pouvoir forcer le rendu avec un navigateur non supporté</note>
+        <note module="kernel" type="fix">AMRUN-190 : Javadoc CredentialsProvider incorrecte</note>
     </release>
 </releases>
