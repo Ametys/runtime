@@ -42,5 +42,6 @@
         <note module="kernel" type="add">Le SListview gère la touche SHIFT pour les sélections multiples</note>
         <note module="kernel" type="add">Le IgnoreRootHandler gère également l'interface LexicalHandler</note>
         <note module="kernel" type="fix">AMRUN-190 : Javadoc CredentialsProvider incorrecte</note>
+        <note module="kernel" type="fix">AMRUN-191 : AuthenticateAction ne redirigeait pas toujours</note>
     </release>
 </releases>
