@@ -9,5 +9,6 @@
         <note module="build" type="add">AMRUN-180 : Modifier le script de build pour publier des artifacts dans le repository IVY</note>
         <note module="kernel" type="add">AMRUN-189 : Pouvoir forcer le rendu avec un navigateur non supporté</note>
         <note module="kernel" type="fix">AMRUN-190 : Javadoc CredentialsProvider incorrecte</note>
+        <note module="kernel" type="fix">AMRUN-191 : AuthenticateAction ne redirigeait pas toujours</note>
     </release>
 </releases>

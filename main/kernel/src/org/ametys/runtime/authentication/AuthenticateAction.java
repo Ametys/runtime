@@ -93,9 +93,17 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         // Utilisateur inconnu
         // On recherche ses identifiants
         Credentials credentials = _credentialsProvider.getCredentials(redirector);
+        if (redirector.hasRedirected())
+        {
+            return true;
+        }
         if (credentials == null)
         {
             _credentialsProvider.notAllowed(redirector);
+            if (redirector.hasRedirected())
+            {
+                return true;
+            }
             return false;
         }
 
