@@ -40,8 +40,8 @@ import org.apache.cocoon.environment.http.HttpCookie;
  *                   &lt;cookieLifeTime&gt;604800&lt;/cookieLifeTime&gt;<br>
  *                   &lt;cookieName&gt;AmetysAuthentication&lt;/cookieName&gt;<br>
  *               &lt;/cookie&gt;<br>
- *               &lt;loginUrl&gt;login.html&lt;/loginUrl&gt;<br>
- *               &lt;loginFailedUrl provideLoginParameter="true"&gt;login_failed.html&lt;/loginFailedUrl&gt;<br>
+ *               &lt;loginUrl internal="true"&gt;login.html&lt;/loginUrl&gt;<br>
+ *               &lt;loginFailedUrl provideLoginParameter="true" internal="true"&gt;login_failed.html&lt;/loginFailedUrl&gt;<br>
  * 
  */
 public class FormBasedCredentialsProvider extends AbstractLogEnabled implements ThreadSafe, CredentialsProvider,
@@ -73,8 +73,15 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
 
     /** Redirection when the authentication fails */
     protected String _loginFailedUrl;
+
     /** When redirecting on failure send the entered login */
     protected boolean _provideLoginParameter;
+
+    /** Indicates if the login url redirection is internal (default : false). */
+    protected boolean _loginUrlInternal;
+
+    /** Indicates if the failed login url redirection is internal or external (default : false). */
+    protected boolean _loginFailedUrlInternal;
 
     /** Context */
     protected Context _context;
@@ -129,7 +136,16 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
             return new Credentials(login, password);
         }
 
-        redirector.redirect(false, request.getContextPath() + "/" + _loginUrl);
+        String redirectUrl;
+        if (_loginUrlInternal)
+        {
+            redirectUrl = "cocoon://" + _loginUrl;
+        }
+        else
+        {
+            redirectUrl = request.getContextPath() + "/" + _loginUrl;
+        }
+        redirector.redirect(false, redirectUrl);
         return null;
     }
 
@@ -143,7 +159,17 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
             parameters.append(_loginFailedUrl.indexOf('?') >= 0 ? "&" : "?");
             parameters.append("login=" + request.getParameter(_usernameField));
         }
-        redirector.redirect(false, request.getContextPath() + request.getAttribute(WorkspaceMatcher.WORKSPACE_URI) + "/" + _loginFailedUrl + parameters.toString());
+
+        String redirectUrl;
+        if (_loginFailedUrlInternal)
+        {
+            redirectUrl = "cocoon://" + _loginFailedUrl + parameters.toString();
+        }
+        else
+        {
+            redirectUrl = request.getContextPath() + request.getAttribute(WorkspaceMatcher.WORKSPACE_URI) + "/" + _loginFailedUrl + parameters.toString();
+        }
+        redirector.redirect(false, redirectUrl);
     }
 
     public boolean validate(Redirector redirector) throws Exception
@@ -162,6 +188,8 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
         _loginUrl = configuration.getChild("loginUrl").getValue("login.html");
         _loginFailedUrl = configuration.getChild("loginFailedUrl").getValue("login_failed.html");
         _provideLoginParameter = configuration.getChild("loginFailedUrl").getAttributeAsBoolean("provideLoginParameter", false);
+        _loginUrlInternal = configuration.getChild("loginUrl").getAttributeAsBoolean("internal", false);
+        _loginFailedUrlInternal = configuration.getChild("loginFailedUrl").getAttributeAsBoolean("internal", false);
         
         if (getLogger().isDebugEnabled())
         {
@@ -169,8 +197,10 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
                     "FormBasedCredentialsProvider values : " + " Name field=" + _usernameField + ", Pwd field="
                             + _passwordField + ", CookieEnabled=" + _cookieEnabled + ", Cookie duration="
                             + _cookieLifetime + ", Cookie name=" + _cookieName + ", Login url=" + _loginUrl
+                            + " [" + (_loginUrlInternal ? "internal" : "external") + "]"
                             + ", Login failed url=" + _loginFailedUrl 
-                            + " [provide login on redirection : " + _provideLoginParameter + "]");
+                            + " [" + (_loginFailedUrlInternal ? "internal" : "external")
+                            + ", provide login on redirection : " + _provideLoginParameter + "]");
         }
     }
 

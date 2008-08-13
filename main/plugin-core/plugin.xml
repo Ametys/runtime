@@ -1586,8 +1586,8 @@
             		<cookieLifeTime>604800</cookieLifeTime>
             		<cookieName>AmetysAuthentication</cookieName>
             	</cookie>
-            	<loginUrl>login.html</loginUrl>
-            	<loginFailedUrl provideLoginParameter="true">login_failed.html</loginFailedUrl>
+            	<loginUrl internal="true">login.html</loginUrl>
+            	<loginFailedUrl provideLoginParameter="true" internal="true">login_failed.html</loginFailedUrl>
             </extension>
         </extensions>
     </feature>
