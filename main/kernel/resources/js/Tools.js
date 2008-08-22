@@ -191,7 +191,7 @@ Tools.loadScript = function (_document, url, onload)
 	if (onload != null)
 	{
 		link.onload = onload;
-		link.onreadystatechange = function () { if (/loaded|complete/.test(this.readyState)) this.onload(); }
+		link.onreadystatechange = function () { if (/complete/.test(this.readyState)) this.onload(); }
 	}
 	head.appendChild(link);
 }
