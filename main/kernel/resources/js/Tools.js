@@ -181,6 +181,7 @@ Tools.loadStyle = function (_document, url)
 	head.appendChild(link);
 }
 
+Tools.randomId = 0;
 Tools.loadScript = function (_document, url, onload)
 {
 	_document.charset = "UTF-8";
@@ -191,7 +192,16 @@ Tools.loadScript = function (_document, url, onload)
 	if (onload != null)
 	{
 		link.onload = onload;
-		link.onreadystatechange = function () { if (/complete/.test(this.readyState)) this.onload(); }
+		link.onreadystatechange = function () {
+			if (/loaded|complete/.test(this.readyState)) 
+			{
+				/** under IE, the callback is delayed because in some rare case, even in complete readystate the JS is still not available */
+				var randomId = "dynamically-loaded-script-" + Tools.randomId++;
+				
+				this.id = randomId;
+				window.setTimeout("document.getElementById('" + randomId + "').onload();", 100);
+			}
+		}
 	}
 	head.appendChild(link);
 }
