@@ -57,7 +57,10 @@
 			</fileset>
 			<fileset dir="main/plugin-core/lib"/>
 			<fileset dir="${target}/bin/jar">
-				<include name="ametys-runtime-${version}.jar"/>
+				<include name="ametys-runtime-${version}*.jar"/>
+			</fileset>
+			<fileset dir="${target}/bin/resources">
+				<include name="ametys-runtime-${version}-resources.jar"/>
 			</fileset>
 		</copy>
 		
