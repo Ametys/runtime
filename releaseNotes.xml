@@ -79,7 +79,6 @@
         <note module="kernel" type="fix">AMRUN-190 : Javadoc CredentialsProvider incorrecte</note>
         <note module="kernel" type="fix">AMRUN-191 : AuthenticateAction ne redirigeait pas toujours</note>
         <note module="kernel" type="fix">AMRUN-193 : FormBasedCredentialsProvider redirige avec le login en paramètre en cas d'erreur</note>
-        <note module="kernel" type="fix">AMRUN-196 : Le chargement de javascript dynamiquement (Tools.loadScript) appellait la fonction de callback une fois le fichier chargé mais pas toujours une fois le fichier traité.</note>
         <note module="build" type="fix">AMRUN-177 : Template de webapp incomplet.</note>
     </release>
 </releases>
