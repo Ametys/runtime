@@ -43,6 +43,5 @@
         <note module="kernel" type="add">Le IgnoreRootHandler gère également l'interface LexicalHandler</note>
         <note module="kernel" type="fix">AMRUN-190 : Javadoc CredentialsProvider incorrecte</note>
         <note module="kernel" type="fix">AMRUN-191 : AuthenticateAction ne redirigeait pas toujours</note>
-        <note module="kernel" type="fix">AMRUN-196 : Le chargement de javascript dynamiquement (Tools.loadScript) appellait la fonction de callback une fois le fichier chargé mais pas toujours une fois le fichier traité.</note>
     </release>
 </releases>
