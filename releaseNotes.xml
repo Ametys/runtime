@@ -80,6 +80,7 @@
         <note module="kernel" type="fix">AMRUN-191 : AuthenticateAction ne redirigeait pas toujours</note>
         <note module="kernel" type="fix">AMRUN-193 : FormBasedCredentialsProvider redirige avec le login en paramètre en cas d'erreur</note>
         <note module="build" type="fix">AMRUN-177 : Template de webapp incomplet.</note>
+        <note module="kernel" type="fix">AMRUN-197 : Création de sessions HTTP inutiles</note>
     </release>
     <release name="v1_1_2">
     </release>
