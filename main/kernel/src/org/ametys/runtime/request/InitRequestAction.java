@@ -54,11 +54,11 @@ public class InitRequestAction extends ServiceableAction
             
             if (redirectURL.startsWith("cocoon:/"))
             {
-                redirector.redirect(true, redirectURL);
+                redirector.redirect(false, redirectURL);
             }
             else
             {
-                redirector.redirect(true, request.getContextPath() + redirectURL);
+                redirector.redirect(false, request.getContextPath() + redirectURL);
             }
             
             return EMPTY_MAP;
