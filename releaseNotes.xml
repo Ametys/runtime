@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <releases>
-	<release name="v1_1_0">
+	<release name="1.1.0">
 <!--		<note module="kernel|core|admin" type="add|update|fix|delete">sample</note>-->
         <note module="kernel" type="fix">Le catalogue i18n du groupe d'un paramètre de déploiement était lu sur l'élément 'category'</note>
         <note module="kernel" type="add">Mise à jour des javascript STools pour traiter le drag'n'drop entre STree et SListview</note>
@@ -69,7 +69,7 @@
         <note module="kernel" type="fix">La désactivation de la feature core/runtime.upload ne lance plus de NPE. Quand les uploads sont tout de même actifs, on passe aux valeurs du web.xml.</note>
         <note module="core" type="update">Déplacement des paramètres de configuration SqlMap de "_admin" vers "WEB-INF/param/sql-map-config.xml"</note>
     </release>
-    <release name="v1_1_1">
+    <release name="1.1.1">
         <note module="kernel" type="add">Le SListview gère la touche SHIFT pour les sélections multiples</note>
         <note module="admin" type="fix">L'onglet de modification des journaux n'utilise pas la bonne icône pour le niveau warn</note>
         <note module="kernel" type="update">Ordonner les entrées et ajouter des commentaires dans le fichier config.xml</note>
@@ -82,6 +82,6 @@
         <note module="build" type="fix">AMRUN-177 : Template de webapp incomplet.</note>
         <note module="kernel" type="fix">AMRUN-197 : Création de sessions HTTP inutiles</note>
     </release>
-    <release name="v1_1_2">
+    <release name="1.1.2">
     </release>
 </releases>
