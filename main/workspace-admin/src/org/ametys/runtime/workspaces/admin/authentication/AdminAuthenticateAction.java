@@ -10,12 +10,20 @@
  */
 package org.ametys.runtime.workspaces.admin.authentication;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.security.MessageDigest;
 import java.util.Map;
 
-import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathFactory;
 
+import org.ametys.runtime.authentication.BasicCredentialsProvider;
+import org.ametys.runtime.authentication.Credentials;
+import org.ametys.runtime.authentication.CredentialsProvider;
+import org.ametys.runtime.user.User;
+import org.ametys.runtime.user.UserHelper;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
@@ -29,16 +37,7 @@ import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.Session;
 import org.apache.cocoon.environment.SourceResolver;
 import org.apache.commons.codec.binary.Base64;
-import org.w3c.dom.Document;
-
-import org.ametys.runtime.authentication.BasicCredentialsProvider;
-import org.ametys.runtime.authentication.Credentials;
-import org.ametys.runtime.authentication.CredentialsProvider;
-import org.ametys.runtime.user.User;
-import org.ametys.runtime.user.UserHelper;
-
-import com.sun.org.apache.xpath.internal.XPathAPI;
-
+import org.xml.sax.InputSource;
 
 /**
  * Cocoon action for authenticating users in the administration workspace. 
@@ -145,8 +144,38 @@ public class AdminAuthenticateAction extends AbstractAction implements ThreadSaf
                 return false;
             }
 
-            InputStream is = _envContext.getResourceAsStream(ADMINISTRATOR_PASSWORD_FILENAME);
-            if (is == null)
+            InputStream is = null;
+            
+            try
+            {
+                is = new FileInputStream(_envContext.getRealPath(ADMINISTRATOR_PASSWORD_FILENAME));
+                
+                XPath xpath = XPathFactory.newInstance().newXPath();
+                String pass = xpath.evaluate("admin/password", new InputSource(is));
+                if (pass == null || "".equals(pass))
+                {
+                    if (getLogger().isWarnEnabled())
+                    {
+                        getLogger().warn("The administrator password cannot be null at reading => authentication failed");
+                    }
+                    return false;
+                }
+
+                MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+                byte[] encryptedPasswd = messageDigest.digest(passwd.getBytes());
+
+                if (!MessageDigest.isEqual(Base64.decodeBase64(pass.getBytes()), encryptedPasswd))
+                {
+                    if (getLogger().isDebugEnabled())
+                    {
+                        getLogger().debug("The user did not give the right password => authentication failed");
+                    }
+                    return false;
+                }
+
+                return true;
+            }
+            catch (FileNotFoundException e)
             {
                 if (getLogger().isWarnEnabled())
                 {
@@ -154,34 +183,6 @@ public class AdminAuthenticateAction extends AbstractAction implements ThreadSaf
                 }
                 return "admin".equals(passwd);
             }
-
-            Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(is);
-
-            is.close();
-
-            String pass = XPathAPI.eval(document.getDocumentElement(), "password").str();
-            if (pass == null || "".equals(pass))
-            {
-                if (getLogger().isWarnEnabled())
-                {
-                    getLogger().warn("The administrator password cannot be null at reading => authentication failed");
-                }
-                return false;
-            }
-
-            MessageDigest messageDigest = MessageDigest.getInstance("MD5");
-            byte[] encryptedPasswd = messageDigest.digest(passwd.getBytes());
-
-            if (!MessageDigest.isEqual(Base64.decodeBase64(pass.getBytes()), encryptedPasswd))
-            {
-                if (getLogger().isDebugEnabled())
-                {
-                    getLogger().debug("The user did not give the right password => authentication failed");
-                }
-                return false;
-            }
-
-            return true;
         }
         catch (Exception e)
         {
