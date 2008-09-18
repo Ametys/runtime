@@ -85,4 +85,6 @@
     <release name="1.1.2">
         <note module="admin" type="fix">AMRUN-199 : NoClassDefFoundError com.sun.org.apache....XPathAPI occurs when retrieving admin password for authentication</note>
     </release>
+    <release name="1.1.3">
+    </release>
 </releases>
