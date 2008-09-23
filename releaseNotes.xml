@@ -13,5 +13,6 @@
         <note module="kernel" type="fix">AMRUN-193 : FormBasedCredentialsProvider redirige avec le login en paramètre en cas d'erreur</note>
         <note module="kernel" type="fix">AMRUN-197 : Création de sessions HTTP inutiles</note>
         <note module="admin" type="fix">AMRUN-199 : NoClassDefFoundError com.sun.org.apache....XPathAPI occurs when retrieving admin password for authentication</note>
+        <note module="admin" type="fix">AMRUN-201 : In user information window, an &gt;Enumeration&lt; parameter creates a combo with an empty value (the value is displayed next to the label)</note>
     </release>
 </releases>

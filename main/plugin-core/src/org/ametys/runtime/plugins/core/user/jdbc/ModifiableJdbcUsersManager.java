@@ -20,10 +20,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.AttributesImpl;
 
 import org.ametys.runtime.user.InvalidModificationException;
 import org.ametys.runtime.user.ModifiableUsersManager;
@@ -60,7 +60,7 @@ public class ModifiableJdbcUsersManager extends JdbcUsersManager implements Modi
         for (JdbcParameter parameter : _parameters.values())
         {
             AttributesImpl parameterAttr = new AttributesImpl();
-            parameterAttr.addAttribute("", "plugin", "plugin", "CDATA", parameter.getPluginName());
+            parameterAttr.addCDATAAttribute("plugin", parameter.getPluginName());
             XMLUtils.startElement(handler, "", parameter.getId(), parameterAttr);
     
             XMLUtils.createElement(handler, "label", parameter.getLabelKey());
@@ -84,7 +84,7 @@ public class ModifiableJdbcUsersManager extends JdbcUsersManager implements Modi
     
                     // Produit l'option
                     AttributesImpl attrs = new AttributesImpl();
-                    attrs.addAttribute("", "value", "value", "CDATA", valueAsString);
+                    attrs.addCDATAAttribute("value", valueAsString);
                     
                     XMLUtils.startElement(handler, "option", attrs);
                     label.toSAX(handler);
