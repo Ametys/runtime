@@ -86,5 +86,6 @@
         <note module="admin" type="fix">AMRUN-199 : NoClassDefFoundError com.sun.org.apache....XPathAPI occurs when retrieving admin password for authentication</note>
     </release>
     <release name="1.1.3">
+        <note module="admin" type="fix">AMRUN-201 : In user information window, an &gt;Enumeration&lt; parameter creates a combo with an empty value (the value is displayed next to the label)</note>
     </release>
 </releases>
