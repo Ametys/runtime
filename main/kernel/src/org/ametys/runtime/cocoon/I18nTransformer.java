@@ -67,11 +67,64 @@ public class I18nTransformer extends org.apache.cocoon.transformation.I18nTransf
             catalogues.addAll(cataloguesConf);
         }
 
+        _configureKernel(catalogues);
         _configurePlugins(catalogues);        
         _configureWorkspaces(catalogues);        
 
         // Chargement de la configuration
         super.configure(newConf);
+    }
+    
+    private void _configureKernel(DefaultConfiguration catalogues) throws ConfigurationException
+    {
+        SourceResolver resolver = null;
+        Source source = null;
+        try
+        {
+            resolver = (SourceResolver) manager.lookup(SourceResolver.ROLE);
+            source = resolver.resolveURI("context://WEB-INF/i18n/kernel.xml");
+            
+            if (source.exists())
+            {
+                // si le fichier existe dans le filesystem on prend celui-là
+                DefaultConfiguration catalogue = new DefaultConfiguration("catalogue");
+                catalogue.setAttribute("id", "kernel");
+                catalogue.setAttribute("name", "kernel");
+                catalogue.setAttribute("location", "context://WEB-INF/i18n");
+
+                catalogues.addChild(catalogue);
+            }
+            else
+            {
+                // sinon on prend celui du jar
+                DefaultConfiguration catalogue = new DefaultConfiguration("catalogue");
+                catalogue.setAttribute("id", "kernel");
+                catalogue.setAttribute("name", "messages");
+                catalogue.setAttribute("location", "resource://org/ametys/runtime/kernel/i18n");
+
+                catalogues.addChild(catalogue);
+            }
+        }
+        catch (IOException e)
+        {
+            String msg = "Cannot get the catalogue for kernel";
+            getLogger().error(msg);
+            throw new ConfigurationException(msg, e);
+        }
+        catch (ServiceException e)
+        {
+            String msg = "Cannot get the source resolver to check i18n catalogues";
+            getLogger().error(msg);
+            throw new ConfigurationException(msg, e);
+        }
+        finally
+        {
+            if (resolver != null)
+            {
+                resolver.release(source);
+                manager.release(resolver);
+            }
+        }
     }
     
     private void _configurePlugins(DefaultConfiguration catalogues) throws ConfigurationException
