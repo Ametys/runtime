@@ -15,5 +15,6 @@
         <note module="admin" type="fix">AMRUN-199 : NoClassDefFoundError com.sun.org.apache....XPathAPI occurs when retrieving admin password for authentication</note>
         <note module="admin" type="fix">AMRUN-201 : In user information window, an &gt;Enumeration&lt; parameter creates a combo with an empty value (the value is displayed next to the label)</note>
     	<note module="kernel" type="fix">AMRUN-203 : Loading JS with bad encoding</note>
+    	<note module="kernel" type="fix">AMRUN-205 : Kernel i18n not working</note>
     </release>
 </releases>
