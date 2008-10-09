@@ -201,7 +201,7 @@ Tools.loadScript = function (_document, url, onload)
  * Fonction issu des cocoon-forms
  * Build a query string with all form inputs
  */
-Tools.buildQueryString = function(form, submitId) {
+Tools.buildQueryString = function(form) {
     // Indicate to the server that we're in ajax mode
     var result = "cocoon-ajax=true";
     // Iterate on all form controls
