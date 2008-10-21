@@ -104,6 +104,11 @@ Tools.getFromUrl = function (url)
 
 Tools.postFromUrl = function (url, args)
 {
+	if (args == null)
+	{
+		args = "";
+	}
+	
 	var xml = Tools.create();
 	
 	xml.open ("POST", url, false);
