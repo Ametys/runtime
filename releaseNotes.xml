@@ -46,5 +46,6 @@
         <note module="kernel" type="fix">AMRUN-197 : Création de sessions HTTP inutiles</note>
         <note module="admin" type="fix">AMRUN-199 : NoClassDefFoundError com.sun.org.apache....XPathAPI occurs when retrieving admin password for authentication</note>
         <note module="kernel" type="fix">AMRUN-203 : Loading JS with bad encoding</note>
+    	<note module="kernel" type="fix">AMRUN-211 : Tools.postFromURL creates bad request</note>
     </release>
 </releases>
