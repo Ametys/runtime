@@ -91,5 +91,6 @@
     	<note module="kernel" type="fix">AMRUN-205 : Kernel i18n not working</note>
     	<note module="kernel" type="fix">AMRUN-211 : Tools.postFromURL creates bad request</note>
     	<note module="kernel" type="fix">AMRUN-212 : Fix typo for parsing Validator on config parameter</note>
+    	<note module="kernel" type="add">AMRUN-213 : Add a validator for ldap URL configuration parameter</note>
     </release>
 </releases>
