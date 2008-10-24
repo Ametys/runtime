@@ -102,6 +102,7 @@
             <DefaultValue>ldap://server:389</DefaultValue>
             <Validation>
                 <mandatory/>
+                <regexp>^ldaps?://[\w-.](:\d+)/?</regexp> 
             </Validation>
             <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
             <Group>PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_CATEGORY_LDAP_GROUP_CORE</Group>
@@ -344,33 +345,6 @@
         <!-- +
              | GROUPS
              + -->
-        <!-- +
-		 | ESUP via un WebService.
-		 + -->
-		  <param id="group.esup.wsUrl">
-            <LabelKey>GROUP_DEPLOY_ESUP_WS_URL_LABEL</LabelKey>
-            <DescriptionKey>GROUP_DEPLOY_ESUP_WS_URL_DESCRIPTION</DescriptionKey>
-            <Type>string</Type>
-            <DefaultValue>http://ent.univ.fr/uPortal/services/PortalGroups</DefaultValue>
-            <Validation>
-                <mandatory/>
-            </Validation>
-            <Category>GROUP_DEPLOY</Category>
-            <Group>GROUP_DEPLOY_ESUP</Group>
-            <Order>6</Order>
-        </param>
-        <param id="group.esup.wsRefreshInterval">
-            <LabelKey>GROUP_DEPLOY_ESUP_WS_REFRESH_LABEL</LabelKey>
-            <DescriptionKey>GROUP_DEPLOY_ESUP_WS_REFRESH_DESCRIPTION</DescriptionKey>
-            <Type>long</Type>
-            <DefaultValue>60</DefaultValue>
-            <Validation>
-                <mandatory/>
-            </Validation>
-            <Category>GROUP_DEPLOY</Category>
-            <Group>GROUP_DEPLOY_ESUP</Group>
-            <Order>6</Order>
-        </param>
          
         <!-- LDAP -->
         <param id="runtime.groups.ldap.groupDN">
@@ -1248,19 +1222,6 @@
                        id="org.ametys.runtime.plugins.core.group.Empty"
                        class="org.ametys.runtime.plugins.core.group.EmptyGroupsManager"
                        logger="org.ametys.runtime.plugins.core.group.empty"/>
-        </extensions>
-    </feature>
-    
-     <feature name="runtime.groups.impl.esup">
-        <config>
-            <param id="group.esup.wsUrl"/>
-            <param id="group.esup.wsRefreshInterval"/>
-        </config>
-        <extensions>
-            <extension point="org.ametys.runtime.group.GroupsManager"
-                       id="org.ametys.runtime.plugins.core.group.ESUP"
-                       class="org.ametys.runtime.plugins.core.group.EsupGroupsManager"
-                       logger="org.ametys.runtime.plugins.core.group.esup"/>
         </extensions>
     </feature>
     
