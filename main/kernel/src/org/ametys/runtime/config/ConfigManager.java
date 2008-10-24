@@ -34,6 +34,7 @@ import org.ametys.runtime.plugin.PluginsManager;
 import org.ametys.runtime.plugin.component.ThreadSafeComponentManager;
 import org.ametys.runtime.util.I18nizableText;
 import org.ametys.runtime.util.LoggerFactory;
+import org.ametys.runtime.util.parameter.DefaultValidator;
 import org.ametys.runtime.util.parameter.Enumerator;
 import org.ametys.runtime.util.parameter.EnumeratorValue;
 import org.ametys.runtime.util.parameter.ParameterHelper;
@@ -50,6 +51,7 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
+import org.apache.xml.serializer.OutputPropertiesFactory;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
@@ -358,21 +360,17 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             enumeratorConf = conf.getChild("Enumeration", false);
             if (enumeratorConf != null)
             {
-                String enumeratorClassName = enumeratorConf.getAttribute("class", null);
-                Class enumeratorClass = enumeratorClassName != null ? Class.forName(enumeratorClassName) : StaticEnumerator.class;
+                String enumeratorClassName = enumeratorConf.getAttribute("class", StaticEnumerator.class.getName());
+                Class enumeratorClass = Class.forName(enumeratorClassName);
                 _enumeratorManager.addComponent(info.getPluginName(), null, id, enumeratorClass, enumeratorConf);
             }
             
-            validatorConf = conf.getChild("Validator", false);
+            validatorConf = conf.getChild("Validation", false);
             if (validatorConf != null)
             {
-                String validatorClassName = validatorConf.getAttribute("class", null);
-                
-                if (validatorClassName != null)
-                {
-                    Class validatorClass = Class.forName(validatorClassName);
-                    _validatorManager.addComponent(info.getPluginName(), null, id, validatorClass, validatorConf);
-                }
+                String validatorClassName = validatorConf.getAttribute("class", DefaultValidator.class.getName());
+                Class validatorClass = Class.forName(validatorClassName);
+                _validatorManager.addComponent(info.getPluginName(), null, id, validatorClass, validatorConf);
             }
         }
         catch (Exception ex)
@@ -703,7 +701,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             format.put(OutputKeys.METHOD, "xml");
             format.put(OutputKeys.INDENT, "yes");
             format.put(OutputKeys.ENCODING, "UTF-8");
-            format.put("{http://xml.apache.org/xalan}indent-amount", "2");
+            format.put(OutputPropertiesFactory.S_KEY_INDENT_AMOUNT, "2");
             th.getTransformer().setOutputProperties(format);
 
             // sax the config into the transformer
