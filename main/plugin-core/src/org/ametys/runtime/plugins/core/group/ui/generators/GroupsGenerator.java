@@ -23,7 +23,6 @@ import org.xml.sax.SAXException;
 import org.ametys.runtime.group.GroupsManager;
 import org.ametys.runtime.group.ModifiableGroupsManager;
 import org.ametys.runtime.user.UserHelper;
-import org.ametys.runtime.user.UsersManager;
 
 
 /**
@@ -32,13 +31,11 @@ import org.ametys.runtime.user.UsersManager;
 public class GroupsGenerator extends ServiceableGenerator
 {
     private GroupsManager _groups;
-    private UsersManager _users;
     
     @Override
     public void service(ServiceManager m) throws ServiceException
     {
         super.service(m);
-        _users = (UsersManager) m.lookup(UsersManager.ROLE);
         _groups = (GroupsManager) m.lookup(GroupsManager.ROLE);
     }
     
@@ -48,7 +45,6 @@ public class GroupsGenerator extends ServiceableGenerator
         
         XMLUtils.startElement(contentHandler, "GroupsManager");
         
-        _users.toSAX(contentHandler, Integer.MAX_VALUE, 0, new HashMap());
         _groups.toSAX(contentHandler, Integer.MAX_VALUE, 0, new HashMap());
         
         XMLUtils.createElement(contentHandler, "Modifiable", _groups instanceof ModifiableGroupsManager ? "true" : "false");

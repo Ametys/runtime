@@ -128,13 +128,6 @@
 					/* ************************************
 					   *  VUE ICONE
 					   ************************************ */
-					var all = {                 
-                        <xsl:for-each select="users/user">
-                            <xsl:if test="position() != 1">, </xsl:if>
-                            "<xsl:value-of select="@login"/>": "<xsl:if test="firstname"><xsl:value-of select="firstname"/>&#160;</xsl:if><xsl:value-of select="lastname"/> (<xsl:value-of select="@login"/>)"
-				        </xsl:for-each>
-                    };
-					   
 					function listener()
 					{
 					}
@@ -148,16 +141,19 @@
     						_CategoryG.showHideElement (2, false);
                         </xsl:if>
 
-						for (var i in all)
+						var groupID = element.properties.id;
+						var result = Tools.postFromUrl (getPluginDirectUrl("<xsl:value-of select="$pluginName"/>") + "/groups/members/" + groupID + ".xml", "sitename=" + context.siteName);
+						if (result != null)
 						{
-							if (element.properties[i] != null)
+							var members = result.selectNodes("GroupMembers/User");
+							for (var i=0; i &lt; members.length; i++)
 							{
-								slistview_right.addElement(all[i], getPluginResourcesUrl("<xsl:value-of select="$pluginName"/>") + "/img/users/icon_small.gif", "", "", {"id": i});
+								var fullname = members[i][Tools.xmlTextContent];
+								var login =  members[i].getAttribute("login");
+								slistview_right.addElement(fullname + "(" + login + ")", getPluginResourcesUrl("<xsl:value-of select="$pluginName"/>") + "/img/users/icon_small.gif", "", "", {"id": login});
 							}
 							
-							//document.getElementById('doubleliste_right').style.backgroundColor = "";
 						}
-
 						slistview_right.paint();
 						
 						return true;
