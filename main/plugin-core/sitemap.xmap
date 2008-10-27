@@ -27,6 +27,7 @@
 			
 			<map:generator name="groups-view" src="org.ametys.runtime.plugins.core.group.ui.generators.GroupsGenerator" logger="org.ametys.runtime.plugins.core.group.sitemap.generator.view" label="content"/>
             <map:generator name="groups-search" src="org.ametys.runtime.plugins.core.group.ui.generators.SearchGenerator" logger="org.ametys.runtime.plugins.core.group.sitemap.generator.search" label="content"/>
+            <map:generator name="group-members" src="org.ametys.runtime.plugins.core.group.ui.generators.GroupMembersGenerator" logger="org.ametys.runtime.plugins.core.group.sitemap.generator.members" label="content"/>
 			
 			<map:generator name="rights-profiles-view" src="org.ametys.runtime.plugins.core.right.profile.generators.ProfilesGenerator" logger="org.ametys.runtime.plugins.core.right.profile.sitemap.generator.view" label="content"/>
             <map:generator name="rights-profiles-list" src="org.ametys.runtime.plugins.core.right.ui.generators.ProfilesListGenerator" logger="org.ametys.runtime.plugins.core.right.sitemap.generator.profiles" label="content"/>
@@ -391,6 +392,11 @@
                     <map:generate type="action-result"/>
                     <map:serialize type="xml"/>
                 </map:act>
+            </map:match>
+            
+            <map:match pattern="groups/members/*.xml">
+				<map:generate type="group-members" src="{1}"/>
+                <map:serialize type="xml"/>
             </map:match>
             
 			<map:match pattern="groups/view.html">
