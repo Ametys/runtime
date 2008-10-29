@@ -46,5 +46,6 @@
 		 <test xmlns="http://test/1.0">
 		 	<p>toto</p>
 		 </test>
+		 <p xml:lang="en">titi</p>
 	</body>
 </html>

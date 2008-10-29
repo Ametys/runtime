@@ -26,6 +26,9 @@ import org.xml.sax.helpers.AttributesImpl;
  * <pre>
  * &lt;omit-xml-declaration&gt;yes|no&lt;/omit-xml-declaration&gt;
  * &lt;tags-to-collapse&gt;input,meta&lt;/tags-to-collapse&gt;
+ * &lt;namespace-allowed&gt;&lt;/namespace-allowed&gt;
+ * &lt;namespace-allowed&gt;http://www.w3.org/XML/1998/namespace&lt;/namespace-allowed&gt;
+ * &lt;namespace-allowed&gt;http://www.w3.org/1999/xhtml&lt;/namespace-allowed&gt;
  * </pre>
  * Empty tags are not collapsed except the ones configured with
  * <code>tags-to-collapse</code>.<br>
@@ -35,6 +38,16 @@ import org.xml.sax.helpers.AttributesImpl;
  *   <li>img</li>
  *   <li>meta</li>
  *   <li>link</li>
+ * </ul>
+ * Namespace tags and attributes are filtered to product valid XHTML.
+ * This is configureable using <code>namespace-allowed</code>, by default
+ * the only following namespaces are allowed:
+ * <ul>
+ *   <li>"" (empty namespace)</li>
+ *   <li>"http://www.w3.org/XML/1998/namespace"</li>
+ *   <li>"http://www.w3.org/1999/xhtml"</li>
+ *   <li>"http://www.w3.org/2000/svg"</li>
+ *   <li>"http://www.w3.org/1998/Math/MathML"</li>
  * </ul>
  * Content of <code>script</code> tags will be exported in a single comment.<p>
  * Finally, if <code>omit-xml-declaration</code> is set to <code>false</code>
@@ -48,7 +61,8 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
 
     /** List of the tags to collapse. */
     private static final Set<String> __NAMESPACES_ALLOWED = new HashSet<String>(Arrays.asList(
-        new String[] {"", XHTML1_NAMESPACE, "http://www.w3.org/2000/svg", "http://www.w3.org/1998/Math/MathML"}));
+        new String[] {"", "http://www.w3.org/XML/1998/namespace", XHTML1_NAMESPACE, "http://www.w3.org/2000/svg",
+                      "http://www.w3.org/1998/Math/MathML"}));
     
     /** Script tag. */
     private static final String __SCRIPT_TAG = "script";

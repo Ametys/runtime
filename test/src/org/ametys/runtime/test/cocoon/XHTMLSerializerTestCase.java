@@ -4,7 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.ContentHandler;
 import java.util.Arrays;
 
 import javax.xml.parsers.SAXParser;
