@@ -66,9 +66,12 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
     
     /** Script tag. */
     private static final String __SCRIPT_TAG = "script";
+    
+    /** Style tag. */
+    private static final String __STYLE_TAG = "style";
 
     /** Buffer to store script tag content. */
-    private StringBuilder _bufferedScriptChars;
+    private StringBuilder _buffer;
 
     /** Buffer to store script tag content. */
     private Set<String> _tagsToCollapse;
@@ -82,8 +85,8 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
     /** Inside filtered tag: greater than 0 if we are inside a filtered tag. */
     private int _insideFilteredTag;
 
-    /** Script context: greater than 0 if we are inside a script tag. */
-    private int _isScript;
+    /** Inline resource context: greater than 0 if we are inside a style or a script tag. */
+    private int _insideInlineResourceTag;
 
     /** Meta http-equiv="Content-Type" context. True if we are inside a meta "content-type" tag.*/
     private boolean _isMetaContentType;
@@ -136,15 +139,6 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
         {
             _namespacesAllowed = __NAMESPACES_ALLOWED;
         }
-    }
-    
-    @Override
-    public void startDocument() throws SAXException
-    {
-        _isScript = 0;
-        _isMetaContentType = false;
-        _bufferedScriptChars.setLength(0);
-        super.startDocument();
     }
     
     @Override
@@ -205,9 +199,9 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
     @Override
     public void startElementImpl(String uri, String local, String qual, String[][] namespaces, String[][] attributes) throws SAXException
     {
-        if (local.equalsIgnoreCase(__SCRIPT_TAG))
+        if (local.equalsIgnoreCase(__SCRIPT_TAG) || local.equalsIgnoreCase(__STYLE_TAG))
         {
-            _isScript++;
+            _insideInlineResourceTag++;
         }
 
         // Ignore the content-type meta tag if omit xml declaration is activated
@@ -230,9 +224,9 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
     @Override
     public void charactersImpl(char[] data, int start, int length) throws SAXException
     {
-        if (_isScript > 0)
+        if (_insideInlineResourceTag > 0)
         {
-            _bufferedScriptChars.append(data, start, length);
+            _buffer.append(data, start, length);
         }
         else
         {
@@ -254,9 +248,9 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
     {
         if (_insideFilteredTag == 0)
         {
-            if (_isScript > 0)
+            if (_insideInlineResourceTag > 0)
             {
-                _bufferedScriptChars.append(data, start, length);
+                _buffer.append(data, start, length);
             }
             else
             {
@@ -300,13 +294,16 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
             namespaceUri = XHTML1_NAMESPACE;
         }
 
-        if (local.equalsIgnoreCase(__SCRIPT_TAG))
+        if (local.equalsIgnoreCase(__SCRIPT_TAG) || local.equalsIgnoreCase(__STYLE_TAG))
         {
-            _isScript--;
-            char[] scriptContent = new char[_bufferedScriptChars.length()];
-            _bufferedScriptChars.getChars(0, _bufferedScriptChars.length(), scriptContent, 0);
-            _bufferedScriptChars.setLength(0);
-            super.comment(scriptContent, 0, scriptContent.length);
+            _insideInlineResourceTag--;
+            if (_buffer.length() > 0)
+            {
+                char[] content = new char[_buffer.length()];
+                _buffer.getChars(0, _buffer.length(), content, 0);
+                _buffer.setLength(0);
+                super.comment(content, 0, content.length);
+            }
         }
 
         if (XHTML1_NAMESPACE.equals(namespaceUri))
@@ -358,21 +355,21 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
     {
         super.recycle();
         
-        if (_bufferedScriptChars == null)
+        if (_buffer == null)
         {
-            _bufferedScriptChars = new StringBuilder(512);
+            _buffer = new StringBuilder(512);
         }
         else
         {
-            if (_bufferedScriptChars.capacity() >  50 * 1024)
+            if (_buffer.capacity() >  100 * 1024)
             {
-                // Garbage collect previous buffer which is large
-                _bufferedScriptChars = new StringBuilder(512);
+                // Garbage collect previous buffer is it exceed 100 Kb
+                _buffer = new StringBuilder(512);
             }
             else
             {
                 // Clear buffer but keep capacity
-                _bufferedScriptChars.setLength(0);
+                _buffer.setLength(0);
             }
         }
         
@@ -386,7 +383,7 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
             _namespacesPrefixFiltered.clear();
         }
         _insideFilteredTag = 0;
-        _isScript = 0;
+        _insideInlineResourceTag = 0;
         _isMetaContentType = false;
     }
 }
