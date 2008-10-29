@@ -96,4 +96,6 @@
     	<note module="kernel" type="update">AMRUN-152 : Accepter Firefox 3.0 dans les navigateurs autorisés</note>
         <note module="kernel" type="add">AMRUN-200 : New XHTML serializer, based on cocoon's XHTMLSerializer which doesn't collapse most of the tags</note>
     </release>
+    <release name="1.1.4">
+    </release>
 </releases>
