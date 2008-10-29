@@ -541,14 +541,13 @@
 	    		<pathelement path="${workspace-dir}/src"/>
 	      	</sourcepath>
 
+	      	<xml outfile="${dest-doc}/emma/coverage.xml"/>
 	        <html outfile="${dest-doc}/emma/coverage.html"
 	             depth="method"
 	             columns="name,class,method,block,line"
 	        	  sort="+name"/>
 	      </report>
 	    </emma>
-
-		<fail if="hasFailure" message="Echec des tests"/>
 	</target>
 	
 	<target name="all" depends="prepare, tasks, runtime, javadoc, plugin-doc, export-doc, tests, clean"/>
