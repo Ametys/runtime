@@ -13,7 +13,7 @@
 	<property name="dest-doc" value="${dest-dir}/docs"/>
 	<property name="dest-javadoc" value="${dest-doc}/api"/>
 	
-	<property name="version" value="1.0.3-dev"/>
+	<property name="version" value="1.0-dev"/>
 	<property name="cvs-version" value="HEAD"/>
 	<property name="cvs-branch" value="HEAD"/>
 	
