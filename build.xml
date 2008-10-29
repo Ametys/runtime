@@ -13,7 +13,7 @@
 	<property name="dest-doc" value="${dest-dir}/docs"/>
 	<property name="dest-javadoc" value="${dest-doc}/api"/>
 	
-	<property name="version" value="1.1.1-dev"/>
+	<property name="version" value="1.1-dev"/>
 	<property name="svn.branch" value="trunk"/>
 	
 	<property name="tmp-dir" value="tmp"/>
