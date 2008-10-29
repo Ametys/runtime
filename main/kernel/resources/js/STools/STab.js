@@ -8,10 +8,13 @@
  * Contributors:
  *     Anyware Technologies - initial API and implementation
  */
- 
+STab.css = "resources/css/";
+STab.img = "resources/img/"; 
 
 function STab(id, config, _document, listener) {
 	if (_document == null) _document = document;
+	
+	STools.loadStyle (_document, STree.css + "stab.css")
 
 	this.listener = listener;
 	this.document = _document;
@@ -85,7 +88,7 @@ STab.prototype.paint = function() {
 			head.rows[2].cells[2].appendChild(img)
 		}
 		
-        head.rows[2].cells[2].style.whiteSpace = "nowrap";
+    head.rows[2].cells[2].style.whiteSpace = "nowrap";
 		head.rows[2].cells[2].appendChild( this.document.createTextNode(this.ui.tabs[i].caption) )
 	}
 
@@ -121,10 +124,12 @@ STab.prototype.selectTab = function(index)
 	for (var i=0; i<this.ui.headers.length; i++)
 	{
 		var head = this.ui.headers[i];
+		
 		if (i == index)
 		{		
 			head.style.marginLeft = "0px"
-			head.style.position = ""			
+			head.style.marginTop = "0px"
+    
 			STools.applyStyle (head.rows[0].cells[2], this.ui.config.headCell1SelectedStyle, this.ui.config.headCell1SelectedClass);
 			STools.applyStyle (head.rows[1].cells[1], this.ui.config.headCell1SelectedStyle, this.ui.config.headCell1SelectedClass);
 			STools.applyStyle (head.rows[2].cells[0], this.ui.config.headCell1SelectedStyle, this.ui.config.headCell1SelectedClass);
@@ -143,10 +148,8 @@ STab.prototype.selectTab = function(index)
 		else
 		{
 			head.style.marginLeft = "1px"			
-			if (!STools.is_ie) head.style.position = "relative"			
-			head.style.top = "+2"			
-			STools.applyStyle (head.rows[0].cells[2], this.ui.config.headCell1Style, this.ui.config.headCell1Class);
-			STools.applyStyle (head.rows[1].cells[1], this.ui.config.headCell1Style, this.ui.config.headCell1Class);
+			head.style.marginTop = "2px"			
+
 			STools.applyStyle (head.rows[2].cells[0], this.ui.config.headCell1Style, this.ui.config.headCell1Class);
 			STools.applyStyle (head.rows[2].cells[3], this.ui.config.headCell2Style, this.ui.config.headCell2Class);
 			STools.applyStyle (head.rows[1].cells[3], this.ui.config.headCell3Style, this.ui.config.headCell3Class);
@@ -191,13 +194,13 @@ STab.Config = function ()
 	this.imgClass = "";
 	
 	this.headTableStyle = {
-		display: "inline",
+		float: "left",
 		padding: "0px",
 		margin: "0px",
-		borderCollapse: "collapse",
-		verticalAlign: "bottom"
+		borderCollapse: "collapse"/*,
+		verticalAlign: "bottom"*/
 	}
-	this.headTableClass = "";
+	this.headTableClass = "stab_tabs";
 
 	this.headCell1Style = {
 		backgroundColor: "#ffffff"

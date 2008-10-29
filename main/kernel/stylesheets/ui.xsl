@@ -52,6 +52,7 @@
         <xsl:param name="accept-ff-1.0">true</xsl:param>
         <xsl:param name="accept-ff-1.5">true</xsl:param>
         <xsl:param name="accept-ff-2.0">true</xsl:param>
+        <xsl:param name="accept-ff-3.0">false</xsl:param>
     
         <script src="{$contextPath}/kernel/resources/js/Tools.js"><xsl:comment>empty</xsl:comment></script>
         <script src="{$contextPath}/kernel/resources/js/mozxpath.js"><xsl:comment>empty</xsl:comment></script>
@@ -75,6 +76,7 @@
                 <xsl:if test="$accept-ff-1.0 = 'true'">(STools.agt.indexOf("firefox/1.0")) > 0 ||</xsl:if>
                 <xsl:if test="$accept-ff-1.5 = 'true'">(STools.agt.indexOf("firefox/1.5")) > 0 ||</xsl:if>
                 <xsl:if test="$accept-ff-2.0 = 'true'">(STools.agt.indexOf("firefox/2.0")) > 0 ||</xsl:if>
+                <xsl:if test="$accept-ff-3.0 = 'true'">(STools.agt.indexOf("firefox/3.0")) > 0 ||</xsl:if>
                 1 == 0))
             {
                 window.location.href = "<xsl:value-of select="$bad-navigator-redirection"/>";
@@ -95,6 +97,8 @@
             SContextualPanel.css = "<xsl:value-of select="$contextPath"/>/kernel/resources/css/STools/";
             STree.css = "<xsl:value-of select="$contextPath"/>/kernel/resources/css/STools/";
             STree.img = "<xsl:value-of select="$contextPath"/>/kernel/resources/img/STools/";
+            STab.css = "<xsl:value-of select="$contextPath"/>/kernel/resources/css/STools/";
+            STab.img = "<xsl:value-of select="$contextPath"/>/kernel/resources/img/STools/";
             SListView.css = "<xsl:value-of select="$contextPath"/>/kernel/resources/css/STools/";
             SListView.viewerNoPreviewMessage = "<i18n:text i18n:key="KERNEL_UI_LISTVIEW_PREVIEW_NOTAVAILABLE" i18n:catalogue="kernel"/>";
         </script>
