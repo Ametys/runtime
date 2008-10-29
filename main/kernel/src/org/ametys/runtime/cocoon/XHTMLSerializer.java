@@ -96,8 +96,6 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
     {
         super.configure(conf);
         
-        _bufferedScriptChars = new StringBuilder();
-        
         String omitXmlDeclaration = conf.getChild("omit-xml-declaration").getValue(null);
         // Default to false (do not omit).
         this._omitXmlDeclaration = "yes".equals(omitXmlDeclaration);
@@ -138,8 +136,6 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
         {
             _namespacesAllowed = __NAMESPACES_ALLOWED;
         }
-        
-        _namespacesPrefixFiltered = new HashSet<String>();
     }
     
     @Override
@@ -361,9 +357,36 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
     public void recycle()
     {
         super.recycle();
-        _bufferedScriptChars = null;
-        _tagsToCollapse = null;
-        _namespacesAllowed = null;
-        _namespacesPrefixFiltered = null;
+        
+        if (_bufferedScriptChars == null)
+        {
+            _bufferedScriptChars = new StringBuilder(512);
+        }
+        else
+        {
+            if (_bufferedScriptChars.capacity() >  50 * 1024)
+            {
+                // Garbage collect previous buffer which is large
+                _bufferedScriptChars = new StringBuilder(512);
+            }
+            else
+            {
+                // Clear buffer but keep capacity
+                _bufferedScriptChars.setLength(0);
+            }
+        }
+        
+        // Clear parsing state aware attributes
+        if (_namespacesPrefixFiltered == null)
+        {
+            _namespacesPrefixFiltered = new HashSet<String>();
+        }
+        else
+        {
+            _namespacesPrefixFiltered.clear();
+        }
+        _insideFilteredTag = 0;
+        _isScript = 0;
+        _isMetaContentType = false;
     }
 }
