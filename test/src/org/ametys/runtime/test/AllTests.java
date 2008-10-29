@@ -15,6 +15,7 @@ import junit.framework.TestSuite;
 
 import org.ametys.runtime.test.administrator.jvmstatus.RequestCountListenerTestCase;
 import org.ametys.runtime.test.administrator.jvmstatus.SessionCountListenerTestCase;
+import org.ametys.runtime.test.cocoon.XHTMLSerializerTestCase;
 import org.ametys.runtime.test.groups.jdbc.JdbcGroupsTestCase;
 import org.ametys.runtime.test.groups.ldap.GroupDrivenLdapGroupsTestCase;
 import org.ametys.runtime.test.groups.ldap.UserDrivenLdapGroupsTestCase;
@@ -62,6 +63,8 @@ public final class AllTests
         
         suite.addTestSuite(RequestCountListenerTestCase.class);
         suite.addTestSuite(SessionCountListenerTestCase.class);
+        
+        suite.addTestSuite(XHTMLSerializerTestCase.class);
         
         suite.addTestSuite(StaticUsersTestCase.class);
         suite.addTestSuite(JdbcUsersTestCase.class);
