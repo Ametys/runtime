@@ -139,6 +139,8 @@
             SContextualPanel.css = "<xsl:value-of select="$contextPath"/>/kernel/resources/css/STools/";
             STree.css = "<xsl:value-of select="$contextPath"/>/kernel/resources/css/STools/";
             STree.img = "<xsl:value-of select="$contextPath"/>/kernel/resources/img/STools/";
+            STab.css = "<xsl:value-of select="$contextPath"/>/kernel/resources/css/STools/";
+            STab.img = "<xsl:value-of select="$contextPath"/>/kernel/resources/img/STools/";
             SListView.css = "<xsl:value-of select="$contextPath"/>/kernel/resources/css/STools/";
             SListView.viewerNoPreviewMessage = "<i18n:text i18n:key="KERNEL_UI_LISTVIEW_PREVIEW_NOTAVAILABLE" i18n:catalogue="kernel"/>";
         </script>
