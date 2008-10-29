@@ -42,16 +42,20 @@ public class XHTMLSerializerTestCase extends TestCase
      */
     public void testXHTMLSerializer() throws Exception
     {
+        XHTMLSerializer serializer = new XHTMLSerializer();
+
+        serializer.configure(_getConfiguration());
+        
         // XML content to validate
         for (String content : Arrays.asList(new String[] {"simple", "complex", "namespace"}))
         {
-            _assertSerialization(content + ".xml", content + "-result.xhtml");
+            _assertSerialization(serializer, content + ".xml", content + "-result.xhtml");
+            serializer.recycle();
         }
     }
 
-    private void _assertSerialization(String inputFilename, String outputFilename) throws Exception
+    private void _assertSerialization(XHTMLSerializer serializer, String inputFilename, String outputFilename) throws Exception
     {
-        XHTMLSerializer serializer = new XHTMLSerializer();
         InputStream inputIs = getClass().getResourceAsStream(inputFilename);
         InputStream outputIs = getClass().getResourceAsStream(outputFilename);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -61,7 +65,6 @@ public class XHTMLSerializerTestCase extends TestCase
             assertNotNull("Missing input " + inputFilename, inputIs);
             assertNotNull("Missing output " + outputFilename, outputIs);
             
-            serializer.configure(_getConfiguration());
             
             serializer.setOutputStream(baos);
             
