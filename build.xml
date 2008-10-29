@@ -515,6 +515,13 @@
 				<fileset dir="${tmp-dir}/emma/lib" includes="ametys-runtime.jar" />
 			</classpath>
 		</javac>
+
+		<!-- Copie des fichiers externes (non JAVA) -->
+		<copy todir="${tmp-dir}/classes-test">
+			<fileset dir="${tests-dir}/src">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
 		
 		<mkdir dir="${dest-doc}/junit"/>
 		<mkdir dir="${dest-doc}/junit/html"/>
