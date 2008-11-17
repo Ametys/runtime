@@ -38,6 +38,8 @@ import org.xml.sax.helpers.AttributesImpl;
  *   <li>img</li>
  *   <li>meta</li>
  *   <li>link</li>
+ *   <li>br</li>
+ *   <li>hr</li>
  * </ul>
  * Namespace tags and attributes are filtered to product valid XHTML.
  * This is configureable using <code>namespace-allowed</code>, by default
@@ -57,7 +59,7 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
 {   
     /** List of the tags to collapse. */
     private static final Set<String> __COLLAPSE_TAGS = new HashSet<String>(Arrays.asList(
-        new String[] {"input", "img", "meta", "link"}));
+        new String[] {"input", "img", "meta", "link", "hr", "br"}));
 
     /** List of the tags to collapse. */
     private static final Set<String> __NAMESPACES_ALLOWED = new HashSet<String>(Arrays.asList(
