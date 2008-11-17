@@ -100,4 +100,6 @@
         <note module="kernel" type="fix">AMRUN-218 : The XHTML serializer encodes style tag (but it shouldn't)</note>
         <note module="kernel" type="fix">AMRUN-219 : The XHTML Serializer doesn't handle br tags</note>
     </release>
+    <release name="1.1.5">
+    </release>
 </releases>
