@@ -25,5 +25,6 @@
         <note module="kernel" type="fix">AMRUN-218 : The XHTML serializer encodes style tag (but it shouldn't)</note>
         <note module="kernel" type="fix">AMRUN-219 : The XHTML Serializer doesn't handle br tags</note>
         <note module="test" type="update">AMRUN-220 : Complete XHTMLSerializer test</note>
+        <note module="kernel" type="fix">AMRUN-221 : Fixing CSS in load-configuration and unsupported navigation pages</note>
     </release>
 </releases>
