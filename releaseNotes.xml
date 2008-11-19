@@ -102,5 +102,6 @@
     </release>
     <release name="1.1.5">
         <note module="test" type="update">AMRUN-220 : Complete XHTMLSerializer test</note>
+        <note module="kernel" type="fix">AMRUN-221 : Fixing CSS in load-configuration and unsupported navigation pages</note>
     </release>
 </releases>

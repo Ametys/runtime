@@ -61,7 +61,7 @@
 					</div>
 					<div style="text-align: center; margin-top: 20px;">
 						<style>
-							a.runtime_link, a.runtime_link:visited, a.runtime_link:hover, a.runtime_link:linked, a.runtime_link:hover
+							a.runtime_link, a.runtime_link:visited, a.runtime_link:hover, a.runtime_link:hover
 							{
 								font-weight: bold;
 								color: #00005f;
