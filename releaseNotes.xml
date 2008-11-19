@@ -101,5 +101,6 @@
         <note module="kernel" type="fix">AMRUN-219 : The XHTML Serializer doesn't handle br tags</note>
     </release>
     <release name="1.1.5">
+        <note module="test" type="update">AMRUN-220 : Complete XHTMLSerializer test</note>
     </release>
 </releases>

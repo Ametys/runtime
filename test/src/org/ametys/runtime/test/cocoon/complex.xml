@@ -15,9 +15,9 @@
 	</head>
 	<body>
 	<?processing-intruction value ?>
-		<p>toto</p>
+		<p>toto<hr></hr><br/></p>
 		<p/>
-		<div>tata</div>
+		<div>tata<hr/><br></br></div>
 		<div/>
 		<input type="text" name="input" value="value"></input>
 		<textarea></textarea>
