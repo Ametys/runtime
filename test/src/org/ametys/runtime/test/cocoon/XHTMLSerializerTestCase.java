@@ -47,7 +47,7 @@ public class XHTMLSerializerTestCase extends TestCase
         serializer.configure(_getConfiguration());
         
         // XML content to validate
-        for (String content : Arrays.asList(new String[] {"simple", "complex", "namespace"}))
+        for (String content : Arrays.asList(new String[] {"simple", "complex", "namespace", "disable-output-escaping"}))
         {
             _assertSerialization(serializer, content + ".xml", content + "-result.xhtml");
             serializer.recycle();

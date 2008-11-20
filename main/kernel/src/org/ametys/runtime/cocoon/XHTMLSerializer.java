@@ -14,6 +14,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.xml.transform.Result;
+
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.xml.sax.Attributes;
@@ -53,7 +55,10 @@ import org.xml.sax.helpers.AttributesImpl;
  * </ul>
  * Content of <code>script</code> tags will be exported in a single comment.<p>
  * Finally, if <code>omit-xml-declaration</code> is set to <code>false</code>
- * (default), <code>Content-Type</code> meta tag will be dropped if present.
+ * (default), <code>Content-Type</code> meta tag will be dropped if present.<br>
+ * @since 1.1.5 this serializer is JAXP compliant with the processing instruction
+ *              <code>javax.xml.transform.*-output-escaping processing</code>.
+ * @see Result
  */
 public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XHTMLSerializer
 {   
@@ -89,6 +94,12 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
 
     /** Inline resource context: greater than 0 if we are inside a style or a script tag. */
     private int _insideInlineResourceTag;
+
+    /**
+     * Flag for disabling output escaping states encountered with
+     * <code>javax.xml.transform.*-output-escaping</code> processing instructions.
+     */
+    private boolean _disableOutputEscaping;
 
     /** Meta http-equiv="Content-Type" context. True if we are inside a meta "content-type" tag.*/
     private boolean _isMetaContentType;
@@ -219,7 +230,17 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
     {
         if (_insideFilteredTag == 0)
         {
-            super.characters(ch, start, length);
+            if (_disableOutputEscaping)
+            {
+                // Close current element if necessary
+                closeElement(false);
+                // Let content pass through unchanged
+                write(ch, start, length);
+            }
+            else
+            {
+                super.characters(ch, start, length);
+            }
         }
     }
 
@@ -266,7 +287,20 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
     {
         if (_insideFilteredTag == 0)
         {
-            super.processingInstruction(target, data);
+            if (Result.PI_DISABLE_OUTPUT_ESCAPING.equals(target))
+            {
+                // Start unescaping
+                _disableOutputEscaping = true;
+            }
+            else if (Result.PI_ENABLE_OUTPUT_ESCAPING.equals(target))
+            {
+                // Stop unescapping
+                _disableOutputEscaping = false;
+            }
+            else
+            {
+                super.processingInstruction(target, data);
+            }
         }
     }
     
@@ -386,6 +420,7 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
         }
         _insideFilteredTag = 0;
         _insideInlineResourceTag = 0;
+        _disableOutputEscaping = false;
         _isMetaContentType = false;
     }
 }
