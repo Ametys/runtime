@@ -26,6 +26,6 @@
         <note module="kernel" type="fix">AMRUN-219 : The XHTML Serializer doesn't handle br tags</note>
         <note module="test" type="update">AMRUN-220 : Complete XHTMLSerializer test</note>
         <note module="kernel" type="fix">AMRUN-221 : Fixing CSS in load-configuration and unsupported navigation pages</note>
-        <note module="kernel" type="fix">AMRUN-222 : Using Xalan transform with disable-output-escaping="yes" and the new XHTML serializer will result in xalan processing instruction with escaped content</note>
+        <note module="kernel" type="fix">AMRUN-222 : Using Xalan XSLT processor with disable-output-escaping="yes" and the new XHTML serializer will result in JAXP processing instruction with escaped content</note>
     </release>
 </releases>
