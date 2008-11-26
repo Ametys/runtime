@@ -49,4 +49,6 @@
     	<note module="kernel" type="fix">AMRUN-211 : Tools.postFromURL creates bad request</note>
     	<note module="kernel" type="update">AMRUN-152 : Accepter Firefox 3.0 dans les navigateurs autorisés</note>
     </release>
+    <release name="v1_0_4">
+    </release>
 </releases>
