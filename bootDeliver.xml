@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="RuntimeBootstrap" default="boot">
 	<target name="init">
-		<property name="svn.branch" value="trunk"/>
+		<property name="svn.branch" value="1.0"/>
 		<property name="tmpDir" value="/tmp"/>
 		<property name="destDir" value="${tmpDir}/runtime"/>
 		<property name="svn.url" value="https://svn.ametys.org/trunk/runtime"/>
