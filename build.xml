@@ -18,6 +18,7 @@
 	<property name="dest-dir" value="target"/>
 	<property name="dest-doc" value="${dest-dir}/docs"/>
 	<property name="dest-javadoc" value="${dest-doc}/api"/>
+	<property name="class-vm-target" value="1.5"/>
 	
 	<property name="version" value="1.2.0"/>
 	<basename file="${basedir}" property="svn-branch"/>
@@ -50,7 +51,7 @@
 		
 		<!-- Compilation des classes utilisées par Ant -->
 		<mkdir dir="${classes-deliver}"/>
-		<javac debug="true" destdir="${classes-deliver}" encoding="UTF-8">
+		<javac debug="true" destdir="${classes-deliver}" encoding="UTF-8" target="${class-vm-target}">
 			<src path="${deliver-dir}/src"/>
 			<include name="org/ametys/runtime/deliver/**"/>
 			<classpath>
@@ -115,7 +116,7 @@
 
 	<target name="runtime-compile-kernel">
 		<!-- Compilation des sources -->
-		<javac debug="true" destdir="${classes}" encoding="UTF-8">
+		<javac debug="true" destdir="${classes}" encoding="UTF-8" target="${class-vm-target}">
 			<src path="${kernel-dir}/src"/>
 			<classpath refid="compile.classpath"/>
 		</javac>
@@ -123,7 +124,7 @@
 
 	<target name="runtime-compile-workspace" unless="skip-workspace">
 		<!-- Compilation des sources -->
-		<javac debug="true" destdir="${classes}" encoding="UTF-8">
+		<javac debug="true" destdir="${classes}" encoding="UTF-8" target="${class-vm-target}">
 			<!--src path="${kernel-dir}/src"/-->
 			<src path="${workspace-dir}/src"/>
 			<classpath refid="compile.classpath"/>
@@ -132,7 +133,7 @@
 		
 	<target name="runtime-compile-plugin" unless="skip-plugin">
 		<!-- Compilation des sources -->
-		<javac debug="true" destdir="${classes}" encoding="UTF-8">
+		<javac debug="true" destdir="${classes}" encoding="UTF-8" target="${class-vm-target}">
 			<!--src path="${kernel-dir}/src"/-->
 			<!--src path="${workspace-dir}/src"/-->
 			<src path="${plugin-dir}/src"/>
@@ -386,7 +387,7 @@
 			additionalparam="-quiet"
 			stylesheetfile="${deliver-dir}/javadoc.css"
 			header="&lt;img src='http://ametys.org/styles/telecharger/img/focus_bg.gif'/&gt;"
-			bottom="Copyright &#169; 2007 &lt;a href='http://www.anyware-tech.com'&gt;Anyware Technologies&lt;/a&gt;. All Rights Reserved.">
+			bottom="Copyright &#169; 2008 &lt;a href='http://www.anyware-tech.com'&gt;Anyware Technologies&lt;/a&gt;. All Rights Reserved.">
 			
 			<classpath refid="compile.classpath"/>
 			<link href="http://excalibur.apache.org/apidocs"/>
@@ -508,7 +509,7 @@
 	    </emma>
 		
 		<!-- Compilation des tests -->
-		<javac debug="true" destdir="${tmp-dir}/classes-test" encoding="UTF-8">
+		<javac debug="true" destdir="${tmp-dir}/classes-test" encoding="UTF-8" target="${class-vm-target}">
 			<src path="${tests-dir}/src"/>
 			<classpath>
 				<path refid="test.classpath"/>
