@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <releases>
-	<release name="v1_0_0">
+	<release name="1.0.0">
 <!--		<note module="kernel|core|admin" type="add|update|fix|delete">sample</note>-->
 		<note module="kernel" type="add">Implémentation initiale</note>
 	</release>
-    <release name="v1_0_1">
+    <release name="1.0.1">
         <note module="kernel" type="fix">Le catalogue i18n du groupe d'un paramètre de déploiement était lu sur l'élément 'category'</note>
         <note module="kernel" type="add">Mise à jour des javascript STools pour traiter le drag'n'drop entre STree et SListview</note>
         <note module="kernel" type="fix">Lorsque la configuration est incomplète les mots de passe sont conservés</note>
         <note module="core" type="fix">Message de log de l'action hasRight corrigé</note>
     </release>
-    <release name="v1_0_2">
+    <release name="1.0.2">
         <note module="core" type="fix">Plugins d'administration de logs fonctionnel</note>
         <note module="core" type="fix">Quand le UsersManager ne traite pas le firstname, la mention 'null' n'apparait plus lors de la création</note>
         <note module="kernel" type="fix">Bug sur le MenusManager lorsqu'une UIItemFactory n'a pas d'item</note>
@@ -28,7 +28,7 @@
         <note module="core" type="fix">Si le ModifiableJDBCUsersManager utilise un attribut de type boolean, la case à cocher en modification n'était pas correctement initalisée</note>
         <note module="kernel" type="update">On peut spécifier un catalogue quelconque pour les labels et les descriptions des paramètres de config</note>
     </release>
-    <release name="v1_0_3">
+    <release name="1.0.3">
         <note module="kernel" type="update">Bug dans l'affichage de la date de release du runtime</note>
         <note module="kernel" type="update">Police par défaut dans dialog.css appliquée même aux textes racines</note>
         <note module="admin" type="fix">Dépendance au plugin core n'était pas vérifiée</note>
@@ -49,6 +49,6 @@
     	<note module="kernel" type="fix">AMRUN-211 : Tools.postFromURL creates bad request</note>
     	<note module="kernel" type="update">AMRUN-152 : Accepter Firefox 3.0 dans les navigateurs autorisés</note>
     </release>
-    <release name="v1_0_4">
+    <release name="1.0.4">
     </release>
 </releases>
