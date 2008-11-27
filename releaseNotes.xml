@@ -105,4 +105,6 @@
         <note module="kernel" type="fix">AMRUN-221 : Fixing CSS in load-configuration and unsupported navigation pages</note>
         <note module="kernel" type="fix">AMRUN-222 : Using Xalan XSLT processor with disable-output-escaping="yes" and the new XHTML serializer will result in JAXP processing instruction with escaped content</note>
     </release>
+    <release name="1.1.6">
+    </release>
 </releases>
