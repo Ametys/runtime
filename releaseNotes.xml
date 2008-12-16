@@ -106,5 +106,6 @@
         <note module="kernel" type="fix">AMRUN-222 : Using Xalan XSLT processor with disable-output-escaping="yes" and the new XHTML serializer will result in JAXP processing instruction with escaped content</note>
     </release>
     <release name="1.1.6">
+        <note module="core" type="fix">AMRUN-225 : InvalidParameterException logged (but not fatal) when using UserDrivenLdapGroupsManager and current user does not belongs to a group</note>
     </release>
 </releases>
