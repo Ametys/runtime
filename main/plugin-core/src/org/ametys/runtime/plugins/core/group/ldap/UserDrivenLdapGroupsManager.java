@@ -257,33 +257,32 @@ public class UserDrivenLdapGroupsManager extends AbstractLDAPGroupsManager imple
         {
             // Récupérer les identifiants des groupes
             Attribute groupIDsAttr = attrs.get(_usersMemberOfAttribute);
-            if (groupIDsAttr == null)
+            if (groupIDsAttr != null)
             {
-                throw new InvalidParameterException("Missing group id attribute : \"" + _usersMemberOfAttribute + "\"");
-            }
-            
-            // Récupérer les membres du groupe
-            NamingEnumeration members = groupIDsAttr.getAll();
-            while (members.hasMore())
-            {
-                String groupDN = (String) members.next();
-                Matcher matcher = _groupExtractionPattern.matcher(groupDN);
-                if (matcher.matches())
+                // Récupérer les membres du groupe
+                NamingEnumeration members = groupIDsAttr.getAll();
+                while (members.hasMore())
                 {
-                    groups.add(matcher.group(1));
-                }
-                else
-                {
-                    if (getLogger().isWarnEnabled())
+                    String groupDN = (String) members.next();
+                    Matcher matcher = _groupExtractionPattern.matcher(groupDN);
+                    if (matcher.matches())
                     {
-                        getLogger().warn("Unable to get the uid from the LDAP RDN entry : " + groupDN);
+                        groups.add(matcher.group(1));
                     }
-
-                    groups.add(groupDN);
+                    else
+                    {
+                        if (getLogger().isWarnEnabled())
+                        {
+                            getLogger().warn("Unable to get the uid from the LDAP RDN entry : " + groupDN);
+                        }
+    
+                        groups.add(groupDN);
+                    }
                 }
+                
+                members.close();
             }
             
-            members.close();
             return groups;
         }
         catch (NamingException e)

@@ -259,36 +259,34 @@ public class GroupDrivenLdapGroupsManager extends AbstractLDAPGroupsManager impl
             
             // Récupérer l'identifiant d'un groupe
             Attribute membersAttr = attrs.get(_groupsMemberAttribute);
-            if (membersAttr == null)
+            if (membersAttr != null)
             {
-                throw new IllegalArgumentException("Missing members attribute : \"" + _groupsMemberAttribute + "\"");
-            }
-            
-            // Récupérer les membres du groupe
-            NamingEnumeration members = membersAttr.getAll();
-            while (members.hasMore())
-            {
-                String userDN = (String) members.next();
-                
-                // Récuperer le login
-                Matcher matcher = _loginExtractionPattern.matcher(userDN);
-                if (matcher.matches())
+                // Récupérer les membres du groupe
+                NamingEnumeration members = membersAttr.getAll();
+                while (members.hasMore())
                 {
-                    // Ajouter le login de l'utilisateur courant
-                    group.addUser(matcher.group(1));
-                }
-                else
-                {
-                    if (getLogger().isWarnEnabled())
+                    String userDN = (String) members.next();
+                    
+                    // Récuperer le login
+                    Matcher matcher = _loginExtractionPattern.matcher(userDN);
+                    if (matcher.matches())
                     {
-                        getLogger().warn("Unable to get the uid from the LDAP RDN entry : " + userDN);
+                        // Ajouter le login de l'utilisateur courant
+                        group.addUser(matcher.group(1));
                     }
-                    // Ajouter l'utilisateur courant
-                    group.addUser(userDN);
+                    else
+                    {
+                        if (getLogger().isWarnEnabled())
+                        {
+                            getLogger().warn("Unable to get the uid from the LDAP RDN entry : " + userDN);
+                        }
+                        // Ajouter l'utilisateur courant
+                        group.addUser(userDN);
+                    }
                 }
+                
+                members.close();
             }
-            
-            members.close();
         }
         catch (NamingException e)
         {
