@@ -90,21 +90,7 @@
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Tools.js"><xsl:comment>empty</xsl:comment></script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/mozxpath.js"><xsl:comment>empty</xsl:comment></script>
         
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/SUtilities/SUtilities.js"><xsl:comment>empty</xsl:comment></script>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/SUtilities/SProtectLayer.js"><xsl:comment>empty</xsl:comment></script>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/SUtilities/STooltip.js"><xsl:comment>empty</xsl:comment></script>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/SUtilities/SFullTable.js"><xsl:comment>empty</xsl:comment></script>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/SUtilities/SDragNDrop.js"><xsl:comment>empty</xsl:comment></script>
-        <script type="text/javascript">
-            <xsl:comment>
-                SUtilities.loadStyle("<xsl:value-of select="$contextPath"/>/kernel/resources/css/SUtilities/STooltip.css");
-                SUtilities.loadStyle("<xsl:value-of select="$contextPath"/>/kernel/resources/css/SUtilities/SDragNDrop.css");
-            </xsl:comment>
-        </script>
-
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/STools/STools.js"><xsl:comment>empty</xsl:comment></script>
-        
-        <script type="text/javascript">
+        <!-- script type="text/javascript">
             <xsl:comment>
                 if (!(
                     <xsl:if test="$accept-ie-6 = 'true'">(STools.agt.indexOf("msie 6")) > 0 ||</xsl:if>
@@ -123,27 +109,7 @@
                 	}
                 }
             </xsl:comment>
-        </script>
-        
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/STools/SShortcut.js"><xsl:comment>empty</xsl:comment></script>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/STools/SToolBar.js"><xsl:comment>empty</xsl:comment></script>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/STools/SMenu.js"><xsl:comment>empty</xsl:comment></script>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/STools/SDialog.js"><xsl:comment>empty</xsl:comment></script>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/STools/STab.js"><xsl:comment>empty</xsl:comment></script>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/STools/SContextualMenu.js"><xsl:comment>empty</xsl:comment></script>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/STools/STree.js"><xsl:comment>empty</xsl:comment></script>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/STools/SContextualPanel.js"><xsl:comment>empty</xsl:comment></script>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/STools/SListView.js"><xsl:comment>empty</xsl:comment></script>
-        <script type="text/javascript">
-            STools.Ressource = "<xsl:value-of select="$contextPath"/>/kernel/resources/img/STools/";
-            SContextualPanel.css = "<xsl:value-of select="$contextPath"/>/kernel/resources/css/STools/";
-            STree.css = "<xsl:value-of select="$contextPath"/>/kernel/resources/css/STools/";
-            STree.img = "<xsl:value-of select="$contextPath"/>/kernel/resources/img/STools/";
-            STab.css = "<xsl:value-of select="$contextPath"/>/kernel/resources/css/STools/";
-            STab.img = "<xsl:value-of select="$contextPath"/>/kernel/resources/img/STools/";
-            SListView.css = "<xsl:value-of select="$contextPath"/>/kernel/resources/css/STools/";
-            SListView.viewerNoPreviewMessage = "<i18n:text i18n:key="KERNEL_UI_LISTVIEW_PREVIEW_NOTAVAILABLE" i18n:catalogue="kernel"/>";
-        </script>
+        </script-->
     </xsl:template>
 
     <xsl:template name="ui-text">
