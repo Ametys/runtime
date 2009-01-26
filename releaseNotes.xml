@@ -50,5 +50,6 @@
     	<note module="kernel" type="update">AMRUN-152 : Accepter Firefox 3.0 dans les navigateurs autorisés</note>
     </release>
     <release name="1.0.4">
+    	<note module="core" type="fix">AMRUN-233 : Contributor profiles manager : html tags in title of right elements</note>
     </release>
 </releases>
