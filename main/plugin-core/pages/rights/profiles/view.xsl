@@ -414,7 +414,7 @@
             	_Category.showHideElement (2, true);
               	var elt = eltsToTransit[i];
 
-              	newElements.push (lv2.addElement(elt.name, elt.icon16, elt.icon32, elt.icon50, elt.properties));
+              	newElements.push (lv2.addElement(elt.name, elt.icon16, elt.icon32, elt.icon50, elt.properties, elt.tooltip));
             }
             for (var i=eltsToTransit.length-1; i &gt;= 0; i--)
             {

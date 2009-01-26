@@ -107,5 +107,6 @@
     </release>
     <release name="1.1.6">
         <note module="core" type="fix">AMRUN-225 : InvalidParameterException logged (but not fatal) when using UserDrivenLdapGroupsManager and current user does not belongs to a group</note>
+    	<note module="core" type="fix">AMRUN-233 : Contributor profiles manager : html tags in title of right elements</note>
     </release>
 </releases>
