@@ -471,33 +471,77 @@ SListView.prototype.select = function (elt, controlKey, shiftKey)
     
     if (this.multipleSelection == true && shiftKey == true)
     {
-        var startIndex = -1;
-        var endIndex = -1;
-        for (var i = 0; i < this.elements.length; i++)
-        {
-            if (oldLastSelection == this.elements[i])
-            {
-                startIndex = i;
-            }
-            if (elt.element == this.elements[i])
-            {
-                endIndex = i;
-            }
-        }
-        
-        if (startIndex != -1 && endIndex != -1)
-        {
-            if (startIndex > endIndex)
-            {
-                var t = startIndex;
-                startIndex = endIndex;
-                endIndex = t;
-            }
-            for (var i = startIndex; i <= endIndex; i++)
-            {
-                toSelect.push(this.elements[i].representation);
-            }
-        }
+    	// oldLastSelection et elt.element
+		if (this.showGroup)
+		{
+			var sawOld = false;
+			var sawCurrent = false;
+			
+            var groups = this.computeGroups()
+			
+			for (var j=0; j<groups.length; j++)
+			{
+				var group = groups[j];
+				
+				for (var i=0; i<this.elements.length; i++)
+				{
+					var element = this.elements[i];
+					if (element.properties[this.group] == group)
+					{
+						var seeOld = (oldLastSelection == element);
+						var seeCurrent = (elt.element == element);
+						
+						if (seeOld)
+						{
+							sawOld = true;
+						}
+						if (seeCurrent)
+						{
+							sawCurrent = true;
+						}
+
+						if (seeOld || seeCurrent)
+						{
+							toSelect.push(element.representation);
+						}
+						else if (sawOld != sawCurrent)
+						{
+							toSelect.push(element.representation);
+						}
+					}
+				}
+			}
+		}
+		else
+		{
+	    	var startIndex = -1;
+	        var endIndex = -1;
+	        for (var i = 0; i < this.elements.length; i++)
+	        {
+	            if (oldLastSelection == this.elements[i])
+	            {
+	                startIndex = i;
+	            }
+	            if (elt.element == this.elements[i])
+	            {
+	                endIndex = i;
+	            }
+	        }
+	        
+	        if (startIndex != -1 && endIndex != -1)
+	        {
+	            if (startIndex > endIndex)
+	            {
+	                var t = startIndex;
+	                startIndex = endIndex;
+	                endIndex = t;
+	            }
+	            for (var i = startIndex; i <= endIndex; i++)
+	            {
+	                toSelect.push(this.elements[i].representation);
+	            }
+	        }
+		}
     }
     else
     {

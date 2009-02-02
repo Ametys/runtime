@@ -108,5 +108,8 @@
     <release name="1.1.6">
         <note module="core" type="fix">AMRUN-225 : InvalidParameterException logged (but not fatal) when using UserDrivenLdapGroupsManager and current user does not belongs to a group</note>
     	<note module="core" type="fix">AMRUN-233 : Contributor profiles manager : html tags in title of right elements</note>
+    	<note module="core" type="fix">AMRUN-233 : SListView : range selection doesn't work when items are grouped</note>
+    </release>
+    <release name="1.1.7">
     </release>
 </releases>
