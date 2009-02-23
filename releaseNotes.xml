@@ -112,5 +112,6 @@
     </release>
     <release name="1.1.7">
     	<note module="core" type="fix">AMRUN-234 : SToolbar cannot be painted twice</note>
+    	<note module="core" type="fix">AMRUN-185 : Boite de recherche/sélectione des utisateurs</note>
     </release>
 </releases>
