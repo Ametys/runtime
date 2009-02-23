@@ -111,5 +111,6 @@
     	<note module="core" type="fix">AMRUN-233 : SListView : range selection doesn't work when items are grouped</note>
     </release>
     <release name="1.1.7">
+    	<note module="core" type="fix">AMRUN-234 : SToolbar cannot be painted twice</note>
     </release>
 </releases>

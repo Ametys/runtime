@@ -47,7 +47,7 @@ SToolBar.prototype.paint = function() {
 	var toolBar = this.ui.table;
 	
 	while (toolBar.rows.length != 0)
-		toolBar.rows.removeChild(toolBar.rows[0])
+		toolBar.rows[0].parentNode.removeChild(toolBar.rows[0]);
 		
 	toolBar.cellPadding = "0";
 	toolBar.cellSpacing = "0";
