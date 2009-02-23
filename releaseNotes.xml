@@ -52,5 +52,6 @@
     <release name="1.0.4">
     	<note module="core" type="fix">AMRUN-233 : Contributor profiles manager : html tags in title of right elements</note>
     	<note module="core" type="fix">AMRUN-233 : SListView : range selection doesn't work when items are grouped</note>
+    	<note module="core" type="fix">AMRUN-234 : SToolbar cannot be painted twice</note>
     </release>
 </releases>
