@@ -40,7 +40,15 @@ RUNTIME_Plugin_Runtime_SelectUser.delayed_initialize = function ()
 	var _document = RUNTIME_Plugin_Runtime_SelectUser.box.ui.iframe.contentWindow.document;
 	Tools.loadStyle(_document, context.contextPath + "/kernel/resources/css/dialog.css");
 
-	RUNTIME_Plugin_Runtime_SelectUser.listview = new SListView ("select", RUNTIME_Plugin_Runtime_SelectUser.box.ui.iframe.contentWindow.document, null);
+	var selectuserlistener = {};
+	selectuserlistener.onSelect = function()
+	{
+		var _document = RUNTIME_Plugin_Runtime_SelectUser.box.ui.iframe.contentWindow.document;
+		_document.getElementById('criteria').blur();
+		return true;
+	}
+	
+	RUNTIME_Plugin_Runtime_SelectUser.listview = new SListView ("select", RUNTIME_Plugin_Runtime_SelectUser.box.ui.iframe.contentWindow.document, selectuserlistener);
 	RUNTIME_Plugin_Runtime_SelectUser.listview.setView("detail");
 	RUNTIME_Plugin_Runtime_SelectUser.listview.addColumn (null, "", null, "280px", null);
 	RUNTIME_Plugin_Runtime_SelectUser.listview.showHeaders(false);

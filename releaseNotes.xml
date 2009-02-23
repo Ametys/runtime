@@ -53,5 +53,6 @@
     	<note module="core" type="fix">AMRUN-233 : Contributor profiles manager : html tags in title of right elements</note>
     	<note module="core" type="fix">AMRUN-233 : SListView : range selection doesn't work when items are grouped</note>
     	<note module="core" type="fix">AMRUN-234 : SToolbar cannot be painted twice</note>
+    	<note module="core" type="fix">AMRUN-185 : Boite de recherche/sélectione des utisateurs</note>
     </release>
 </releases>
