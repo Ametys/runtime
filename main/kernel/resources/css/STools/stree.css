@@ -16,7 +16,12 @@ div.STree, div.STree *, table.drag *, div.STree ul li, div.STree ul li ul li {
                 position: static;
 				cursor: default;
 			}
-
+			
+			div.STree ul li, div.STree ul li ul li
+			{
+				zoom: 0;
+			}
+	
 			div.STree {
 				overflow: auto;
 				width: 100%;
