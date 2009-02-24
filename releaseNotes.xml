@@ -55,5 +55,6 @@
     	<note module="core" type="fix">AMRUN-234 : SToolbar cannot be painted twice</note>
     	<note module="core" type="fix">AMRUN-185 : Boite de recherche/sélectione des utisateurs</note>
     	<note module="kernel" type="fix">AMRUN-209 : Stree on IE6 is not css proof (zoom)</note>
+    	<note module="kernel" type="fix">AMRUN-224 : Stree :loss of symbol which permits to fold or unfold an item</note>
     </release>
 </releases>
