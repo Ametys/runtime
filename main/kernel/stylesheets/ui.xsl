@@ -87,29 +87,49 @@
         <xsl:param name="accept-ff-2.0">false</xsl:param>
         <xsl:param name="accept-ff-3.0">false</xsl:param>
     
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Tools.js"><xsl:comment>empty</xsl:comment></script>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/mozxpath.js"><xsl:comment>empty</xsl:comment></script>
-        
-        <!-- script type="text/javascript">
+    	<script type="text/javascript" src="{$contextPath}/kernel/resources/js/ExtJS/ext-base.js"><xsl:comment>empty</xsl:comment></script>
+		<script type="text/javascript" src="{$contextPath}/kernel/resources/js/ExtJS/ext-core.js"><xsl:comment>empty</xsl:comment></script>
+		<script type="text/javascript" src="{$contextPath}/kernel/resources/js/ExtJS/ext-all.js"><xsl:comment>empty</xsl:comment></script>
+	
+		<link rel="stylesheet" type="text/css" href="{$contextPath}/kernel/resources/css/ExtJS/ext-all.css" />
+		
+        <script type="text/javascript">
             <xsl:comment>
-                if (!(
-                    <xsl:if test="$accept-ie-6 = 'true'">(STools.agt.indexOf("msie 6")) > 0 ||</xsl:if>
-                    <xsl:if test="$accept-ie-7 = 'true'">(STools.agt.indexOf("msie 7")) > 0 ||</xsl:if>
-                    <xsl:if test="$accept-ff-1.0 = 'true'">(STools.agt.indexOf("firefox/1.0")) > 0 ||</xsl:if>
-                    <xsl:if test="$accept-ff-1.5 = 'true'">(STools.agt.indexOf("firefox/1.5")) > 0 ||</xsl:if>
-                    <xsl:if test="$accept-ff-2.0 = 'true'">(STools.agt.indexOf("firefox/2.0")) > 0 ||</xsl:if>
-                    <xsl:if test="$accept-ff-3.0 = 'true'">(STools.agt.indexOf("firefox/3.0")) > 0 ||</xsl:if>
-                    1 == 0))
-                {
-                	// Check the cookie for forcing non supported navigators
+            	if (! (Ext.isIE6 || Ext.isIE7 || Ext.isOpera || Ext. isSafari || Ext. isSafari2 || Ext. isSafari3 || Ext.isGecko || Ext.isGecko2 || Ext.isGecko3))
+            	{
+            		// Check the cookie for forcing non supported navigators
                 	var matcher = document.cookie.match("(^|;) ?ametys\.accept\.non\.supported\.navigators=([^;]*)");
                 	if (!matcher || matcher[2] != "on")
                 	{
                  	    window.location.href = "<xsl:value-of select="$bad-navigator-redirection"/>?uri=" + encodeURIComponent(window.location.href);
                 	}
-                }
+            	}
             </xsl:comment>
-        </script-->
+        </script>
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Tools.js"><xsl:comment>empty</xsl:comment></script>
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Runtime_InteractionActionLibrary.js"><xsl:comment>empty</xsl:comment></script>
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/mozxpath.js"><xsl:comment>empty</xsl:comment></script>
+        
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/ametys/Ext.ametys.ActionPanel.js"><xsl:comment>empty</xsl:comment></script>
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/ametys/Ext.ametys.CategoryPanel.js"><xsl:comment>empty</xsl:comment></script>
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/ametys/Ext.ametys.ContextualPanel.js"><xsl:comment>empty</xsl:comment></script>
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/ametys/Ext.ametys.DialogBox.js"><xsl:comment>empty</xsl:comment></script>
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/ametys/Ext.ametys.Form.js"><xsl:comment>empty</xsl:comment></script>
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/ametys/Ext.ametys.Field.js"><xsl:comment>empty</xsl:comment></script>
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/ametys/Ext.ametys.ListView.js"><xsl:comment>empty</xsl:comment></script>
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/ametys/Ext.ametys.EditorListView.js"><xsl:comment>empty</xsl:comment></script>
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/ametys/Ext.ametys.Tree.js"><xsl:comment>empty</xsl:comment></script>
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/ametys/Ext.ametys.Utility.js"><xsl:comment>empty</xsl:comment></script>
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/ametys/Ext.ametys.DesktopPanel.js"><xsl:comment>empty</xsl:comment></script>
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/ametys/Ext.ametys.DesktopCategory.js"><xsl:comment>empty</xsl:comment></script>
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/ametys/Ext.ametys.DesktopItem.js"><xsl:comment>empty</xsl:comment></script>
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/ametys/Ext.ametys.HtmlContainer.js"><xsl:comment></xsl:comment></script>
+        
+        <link rel="stylesheet" href="{$contextPath}/kernel/resources/css/dialog.css" type="text/css"/>
+       	<link rel="stylesheet" href="{$contextPath}/kernel/resources/css/form.css" type="text/css"/>
+        <link rel="stylesheet" href="{$contextPath}/kernel/resources/css/grid.css" type="text/css"/>
+        <link rel="stylesheet" href="{$contextPath}/kernel/resources/css/panel.css" type="text/css"/>
+        <link rel="stylesheet" href="{$contextPath}/kernel/resources/css/desktop.css" type="text/css"/> 
     </xsl:template>
 
     <xsl:template name="ui-text">
@@ -119,165 +139,22 @@
     </xsl:template>
     
     <xsl:template name="ui-toolbar-place">
-        <xsl:param name="id"/>
-
-        <table id="runtime-toolbar-{$id}"/>
     </xsl:template>
     
     <xsl:template name="ui-toolbar-begin">
-        <xsl:param name="id"/>
-        <xsl:param name="height">18px</xsl:param>
-        
-        <script type="text/javascript">
-            <xsl:comment>
-                var toolBar_<xsl:value-of select="$id"/> = new SToolBar("runtime-toolbar-<xsl:value-of select="$id"/>");
-                    toolBar_<xsl:value-of select="$id"/>.ui.config.toolBarStyle['height'] = "<xsl:value-of select="$height"/>";
-            </xsl:comment>
-        </script>
     </xsl:template>
 
     <xsl:template name="ui-toolbar-end">
-        <xsl:param name="id"/>
-        
-        <script type="text/javascript">
-            <xsl:comment>
-                toolBar_<xsl:value-of select="$id"/>.paint();
-            </xsl:comment>
-        </script>
     </xsl:template>    
 
     <xsl:template name="ui-toolbar-addmenubar">
-        <xsl:param name="toolbarId"/>
-        <xsl:param name="menuData"/>
-
-        <script type="text/javascript">
-            <xsl:comment>
-                var menuBar_<xsl:value-of select="$toolbarId"/> = toolBar_<xsl:value-of select="$toolbarId"/>.addMenuBar();
-            </xsl:comment>
-        </script>   
-        <script type="text/javascript">
-               <xsl:for-each select="$menuData/menu[.//UIItem]">
-                    <xsl:variable name="menuVar">menu_<xsl:value-of select="$toolbarId"/>_<xsl:value-of select="position()"/></xsl:variable>
-                    var <xsl:value-of select="$menuVar"/> = menuBar_<xsl:value-of select="$toolbarId"/>.addMenu("<xsl:call-template name="ui-text"><xsl:with-param name="text" select="label"/></xsl:call-template>");
-                    
-                    <xsl:call-template name="ui-toolbar-addmenubar-items">
-                        <xsl:with-param name="menuVar" select="$menuVar"/>
-                        <xsl:with-param name="itemsData" select="items"/>
-                    </xsl:call-template>
-                    
-                </xsl:for-each>
-        </script>
     </xsl:template>
     
 	<xsl:template name="ui-toolbar-addmenubar-items">
-        <xsl:param name="menuVar"/>
-        <xsl:param name="itemsData"/>
-
-        <xsl:for-each select="$itemsData/*">
-       
-            <xsl:choose>
-                
-                    <!-- ELEMENT -->
-                    <xsl:when test="local-name() = 'UIItem'">
-                        <xsl:value-of select="$menuVar"/>.addEntry(
-                            "<xsl:call-template name="ui-text"><xsl:with-param name="text" select="Label"/></xsl:call-template>",
-                            "<xsl:value-of select="$contextPath"/><xsl:value-of select="Icons/Small"/>",
-                            { 
-                                isEnabled: function (arg) {return <xsl:choose><xsl:when test="@disabled or not (Action)">false</xsl:when><xsl:otherwise>true</xsl:otherwise></xsl:choose>;}
-                                <xsl:if test="Action">,
-                                act : function () { 
-                                    var params = {<xsl:for-each select="Action/Parameters/*">
-                                                <xsl:text>"</xsl:text><xsl:value-of select="local-name()"/>" : "<xsl:value-of select="."/><xsl:text>"</xsl:text>
-                                                <xsl:if test="position() != last()">, </xsl:if>
-                                            </xsl:for-each>};
-                                    <xsl:value-of select="Action/ClassName"/>.act("<xsl:value-of select="Action/@plugin"/>", params); }</xsl:if>
-                            },
-                            <xsl:choose>
-                                <xsl:when test="Shortcut">
-                                    "<xsl:if test="Shortcut/@CTRL">Ctrl+</xsl:if><xsl:if test="Shortcut/@ALT">Alt+</xsl:if><xsl:if test="Shortcut/@SHIFT">Shift+</xsl:if><xsl:value-of select="Shortcut"/>"
-                                </xsl:when>
-                                <xsl:otherwise>
-                                null
-                                </xsl:otherwise>
-                            </xsl:choose>);
-                    </xsl:when>
-                    
-                    <!-- SEPARATEUR non inutile -->
-                    <xsl:when test="preceding-sibling::*[local-name() = 'UIItem' or (local-name() = 'menu' and .//UIItem)] and local-name() = 'separator' and following-sibling::*[position() = 1 and (local-name() = 'UIItem' or (local-name() = 'menu' and .//UIItem))]">
-                        <xsl:value-of select="$menuVar"/>.addSeparator();
-                    </xsl:when>
-
-                    <!-- SOUS-MENU non vide -->
-                    <xsl:when test="local-name() = 'menu' and .//UIItem">
-                        <xsl:variable name="subMenuVar"><xsl:value-of select="$menuVar"/>_<xsl:value-of select="position()"/></xsl:variable>
-                    
-                        var <xsl:value-of select="$subMenuVar"/> = <xsl:value-of select="$menuVar"/>.addSubMenu("<xsl:call-template name="ui-text"><xsl:with-param name="text" select="label"/></xsl:call-template>");
-                        <xsl:call-template name="ui-toolbar-addmenubar-items">
-                            <xsl:with-param name="menuVar" select="$subMenuVar"/>
-                            <xsl:with-param name="itemsData" select="items"/>
-                        </xsl:call-template>
-                    </xsl:when>
-                    
-                    <!-- OBJETS INUTILES -->
-                    <xsl:otherwise/>
-            </xsl:choose>
-            
-        </xsl:for-each>
-        
     </xsl:template>
     
     
     <xsl:template name="ui-toolbar-addinfo">
-        <xsl:param name="toolbarId"/>
-        <xsl:param name="infoData"/>
-        <xsl:param name="showLabel">true</xsl:param>
-
-        <script type="text/javascript">
-                <xsl:choose>
-                    
-                        <!-- ELEMENT -->
-                        <xsl:when test="local-name() = 'UIItem'">
-                            toolBar_<xsl:value-of select="$toolbarId"/>.addButton (
-                                "<xsl:if test="$showLabel = 'true'"><xsl:call-template name="ui-text"><xsl:with-param name="text" select="Label"/></xsl:call-template></xsl:if>",
-                                "<xsl:value-of select="$contextPath"/><xsl:value-of select="Icons/Small"/>",
-                                <xsl:choose>
-                                	<xsl:when test="Action">
-    	                            { 
-    	                                isEnabled: function (arg) {return <xsl:choose><xsl:when test="@disabled">false</xsl:when><xsl:otherwise>true</xsl:otherwise></xsl:choose>;},
-    	                                act : function () { 
-    	                                    var params = {<xsl:for-each select="Action/Parameters/*">
-    	                                                <xsl:text>"</xsl:text><xsl:value-of select="local-name()"/>" : "<xsl:value-of select="."/><xsl:text>"</xsl:text>
-    	                                                <xsl:if test="position() != last()">, </xsl:if>
-    	                                            </xsl:for-each>};
-    	                                    <xsl:value-of select="Action/ClassName"/>.act("<xsl:value-of select="Action/@plugin"/>", params); }
-    	                            }
-    	                            </xsl:when>
-    	                            <xsl:otherwise>null</xsl:otherwise>
-    	                        </xsl:choose>,
-                                <xsl:choose>
-                                    <xsl:when test="Shortcut">
-                                        "<xsl:if test="Shortcut/@CTRL">Ctrl+</xsl:if><xsl:if test="Shortcut/@ALT">Alt+</xsl:if><xsl:if test="Shortcut/@SHIFT">Shift+</xsl:if><xsl:value-of select="Shortcut"/>"
-                                    </xsl:when>
-                                    <xsl:otherwise>
-                                    null
-                                    </xsl:otherwise>
-                                </xsl:choose>,     
-                                "<xsl:call-template name="ui-text"><xsl:with-param name="text" select="Description"/></xsl:call-template>",                       
-                                null,
-                                null
-                            );
-                        </xsl:when>
-    
-                        <!-- SEPARATOR -->
-                        <xsl:when test="preceding-sibling::*[local-name() = 'UIItem'] and local-name() = 'separator' and following-sibling::*[position() = 1 and local-name() = 'UIItem']">
-                            toolBar_<xsl:value-of select="$toolbarId"/>.addSeparator();
-                        </xsl:when>
-                        
-                        <!-- OBJETS INUTILES -->
-                        <xsl:otherwise/>
-                        
-                </xsl:choose>
-        </script>
     </xsl:template>
     
 </xsl:stylesheet>
