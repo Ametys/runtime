@@ -20,7 +20,7 @@
 	<property name="dest-javadoc" value="${dest-doc}/api"/>
 	<property name="class-vm-target" value="1.5"/>
 	
-	<property name="version" value="1.2.0"/>
+	<property name="version" value="2.0.0"/>
 	<basename file="${basedir}" property="svn-branch"/>
 	
 	<property name="tmp-dir" value="tmp"/>
