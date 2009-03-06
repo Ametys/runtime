@@ -1,0 +1,29 @@
+.desktop {
+overflow:auto;
+}
+
+h2.desktop-category-title {
+font-size : 1.2em; /*voir 1.3 ou 1.4 ..*/
+font-weight: bold;
+letter-spacing: -1px;
+color: #1C58A0;
+padding: 0px;
+text-transform: uppercase;
+height: 31px;
+border-bottom: 1px solid #C8CDD0;
+margin-bottom: 27px;
+font-family: arial, sans-serif;
+padding: 0px;
+clear: left;
+}
+
+.desktop-item {
+	float: left;
+	width: 144px;
+	height: 106px;
+	text-align: center;
+	color: #842970;
+	font-size: 1.1em; /* en fonction du h2 */
+	margin-bottom: 34px;
+	cursor:pointer;
+}

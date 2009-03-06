@@ -21,6 +21,7 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_TITLE">Mot de passe</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_OLD">Ancien mot de passe</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_NEW">Nouveau mot de passe</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_MANDATORY">Ce champ est obligatoire</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CONFIRM">Confirmez le nouveau mot de passe</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_OK">Le mot de passe a été changé.\nVeillez à communiquer ce nouveau mot de passe à tous les administrateurs systèmes.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_WRONG_EMPTY">Les 3 champs doivent avoir une valeur.</message>

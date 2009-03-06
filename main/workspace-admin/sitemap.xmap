@@ -112,7 +112,7 @@
 					<map:parameter name="locale" value="{locale:locale}"/>
                     <map:parameter name="workspace" value="{request-attr:workspaceName}"/>
 				</map:transform>
-				<map:serialize type="html"/>
+				<map:serialize/>
 			</map:match>
 			
 			<!-- ******* -->

@@ -22,6 +22,7 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_OLD">Old password</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_NEW">New password</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CONFIRM">Confirm the new password</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_MANDATORY">This field is required</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_OK">Password has been changed.\nMake sure you give this new password to all system administrators.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_WRONG_EMPTY">The 3 fields must have a value.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_WRONG_CONFIRM">The confirmation for the new password is not correct.</message>
