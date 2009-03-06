@@ -10,6 +10,8 @@
  */
 package org.ametys.runtime.util;
 
+import org.apache.avalon.excalibur.logger.LoggerManager;
+import org.apache.avalon.framework.logger.Log4JLogger;
 import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.log.Hierarchy;
@@ -20,7 +22,7 @@ import org.apache.log.Hierarchy;
  */
 public final class LoggerFactory
 {
-    private static Hierarchy _hierarchy;
+    private static LoggerManager __loggerManager;
 
     private LoggerFactory()
     {
@@ -34,17 +36,16 @@ public final class LoggerFactory
      */
     public static final Logger getLoggerFor(String category)
     {
-        return new LogKitLogger(_hierarchy.getLoggerFor(category));
+        return __loggerManager.getLoggerForCategory(category);
     }
 
     /**
-     * Returns the currently used Hierarchy
-     * 
-     * @return the currently used Hierarchy
+     * Returns the logger manager.
+     * @return the logger manager.
      */
-    public static final Hierarchy getHierarchy()
+    public static final LoggerManager getLoggerManager()
     {
-        return _hierarchy;
+        return __loggerManager;
     }
 
     /**
@@ -58,11 +59,11 @@ public final class LoggerFactory
     }
 
     /**
-     * Set the <code>Hierarchy</code> to use to create Loggers.
-     * @param hierarchy the org.apache.log.Hierarchy to use
+     * Set the <code>LoggerManager</code> used for creating Loggers.
+     * @param loggerManager the logger manager to use
      */
-    public static void setup(Hierarchy hierarchy)
+    public static void setup(LoggerManager loggerManager)
     {
-        _hierarchy = hierarchy;
+        __loggerManager = loggerManager;
     }
 }

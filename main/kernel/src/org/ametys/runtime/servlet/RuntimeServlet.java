@@ -26,22 +26,20 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.apache.cocoon.Constants;
-import org.apache.cocoon.servlet.CocoonServlet;
-import org.apache.cocoon.servlet.multipart.RequestFactory;
-import org.apache.log.Hierarchy;
-import org.xml.sax.ContentHandler;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.AttributesImpl;
-
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.config.ConfigManager;
 import org.ametys.runtime.request.RequestListener;
 import org.ametys.runtime.request.RequestListenerManager;
 import org.ametys.runtime.util.LoggerFactory;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
+import org.apache.cocoon.Constants;
+import org.apache.cocoon.servlet.CocoonServlet;
+import org.apache.cocoon.servlet.multipart.RequestFactory;
+import org.xml.sax.ContentHandler;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.AttributesImpl;
 
 /**
  * Main entry point for applications.<br>
@@ -225,7 +223,7 @@ public class RuntimeServlet extends CocoonServlet
     {
         super.updateEnvironment();
 
-        LoggerFactory.setup(Hierarchy.getDefaultHierarchy());
+        LoggerFactory.setup(getLoggerManager());
 
         // Chargement du contenu de WEB-INF/param/runtime.xml
         _loadRuntimeConfig();

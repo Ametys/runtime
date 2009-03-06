@@ -1,19 +1,20 @@
 package org.ametys.runtime.plugins.core.administrator.logs;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.ametys.runtime.util.LoggerFactory;
+import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.cocoon.acting.AbstractAction;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.SourceResolver;
-import org.apache.log.Hierarchy;
-import org.apache.log.Logger;
-import org.apache.log.Priority;
-
-import org.ametys.runtime.util.LoggerFactory;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.spi.LoggerRepository;
 
 /**
  * Change the log level for specified categories.<br>
@@ -38,8 +39,9 @@ public class ChangeLogLevelAction extends AbstractAction
             getLogger().info(nbParameters + " log levels to change");
         }
 
-        Hierarchy hierarchy = LoggerFactory.getHierarchy();
-        Logger rootLogger = hierarchy.getRootLogger();
+        LoggerManager loggerManager = LoggerFactory.getLoggerManager();
+        LoggerRepository loggerRepository = (LoggerRepository) _getField(loggerManager, "m_hierarchy");
+        Logger rootLogger = loggerRepository.getRootLogger();
 
         for (int i = 0; i < nbParameters; i++)
         {
@@ -55,7 +57,7 @@ public class ChangeLogLevelAction extends AbstractAction
 
             try
             {
-                changeLogkit(hierarchy, rootLogger, category, inherited, mode);
+                changeLogkit(loggerRepository, rootLogger, category, inherited, mode);
             }
             catch (Throwable t)
             {
@@ -74,10 +76,17 @@ public class ChangeLogLevelAction extends AbstractAction
 
         return EMPTY_MAP;
     }
-
-    private void changeLogkit(Hierarchy hierarchy, Logger rootLogger, String category, boolean inherited, String mode)
+    
+    private static Object _getField(Object object, String fieldName) throws NoSuchFieldException, IllegalAccessException
     {
-        Logger logger = hierarchy.getLoggerFor(category);
+        Field field = object.getClass().getDeclaredField(fieldName);
+        field.setAccessible(true);
+        return field.get(object);
+    }
+
+    private void changeLogkit(LoggerRepository loggerRepository, Logger rootLogger, String category, boolean inherited, String mode)
+    {
+        Logger logger = loggerRepository.getLogger(category);
     
         boolean isRoot = false;
         if ("".equals(category))
@@ -87,39 +96,22 @@ public class ChangeLogLevelAction extends AbstractAction
     
         if (inherited)
         {
-            logger.unsetPriority();
-            
-            if (isRoot)
+            if (!isRoot)
             {
-                rootLogger.unsetPriority();
+                logger.setLevel(logger.getParent().getLevel());
             }
         }
         else
         {
-            Priority priority;
-            
-            if ("ERROR".equalsIgnoreCase(mode))
+            Level level = Level.toLevel(mode);
+
+            if (isRoot)
             {
-                priority = Priority.ERROR;
-            }
-            else if ("WARNING".equalsIgnoreCase(mode))
-            {
-                priority = Priority.WARN;
-            }
-            else if ("INFO".equalsIgnoreCase(mode))
-            {
-                priority = Priority.INFO;
+                rootLogger.setLevel(level);
             }
             else
             {
-                priority = Priority.DEBUG;
-            }
-
-            logger.setPriority(priority);
-            
-            if (isRoot)
-            {
-                rootLogger.setPriority(priority);
+                logger.setLevel(level);
             }
         }
     }

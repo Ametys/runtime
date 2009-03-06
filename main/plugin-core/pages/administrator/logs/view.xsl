@@ -41,12 +41,15 @@
                             </div>
 
                             <div id="logs_level" style="height: 413px; display: none;">
-                                <div style="overflow: auto; height: 413px; width: 472px;"  id="stree">
+                                <div style="overflow: auto; height: 413px; width: 472px;" id="stree">
                                     <ul>
                                         <li>
-                                            <xsl:apply-templates select="/Logger/LogLevels[@type='logkit']/logger">
-                                                <xsl:sort select="@name"/>
-                                            </xsl:apply-templates>
+                                        	Root
+		                                    <ul>
+	                                            <xsl:apply-templates select="/Logger/LogLevels/logger">
+	                                                <xsl:sort select="@category"/>
+	                                            </xsl:apply-templates>
+		                                    </ul>
                                         </li>
                                     </ul>
                                 </div>                 
@@ -73,8 +76,6 @@
                         handle2.addLink("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_INFO"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/logs/loglevel_info.gif", goInfo);
                         handle2.addLink("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_WARN"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/logs/loglevel_warn.gif", goWarning);
                         handle2.addLink("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_ERROR"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/logs/loglevel_error.gif", goError);
-                        handle2.addLink("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_INHERIT"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/logs/loglevel_inherit.gif", goInherit);
-                        handle2.addLink("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_FORCE"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/logs/loglevel_force.gif", goForce);
                         handle2.addLink("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_QUIT"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/logs/quit.gif", goBack);
                     var help = sp.addCategory("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP"/>");
                         help.addElement("&lt;div style='font-size: 11px; color: #000000'&gt;<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP_TEXT"/>&lt;/div&gt;");
@@ -136,14 +137,10 @@
                     function stree_listener() {}
                     stree_listener.onSelect = function(link)
                     {
-                        handle2.showHideElement(0, link != null &amp;&amp; (link.getAttribute("inherited") == "true" || (link.getAttribute("inherited") == "false" &amp;&amp; link.getAttribute("level") != "DEBUG")));
-                        handle2.showHideElement(1, link != null &amp;&amp; (link.getAttribute("inherited") == "true" || (link.getAttribute("inherited") == "false" &amp;&amp; link.getAttribute("level") != "INFO")));
-                        handle2.showHideElement(2, link != null &amp;&amp; (link.getAttribute("inherited") == "true" || (link.getAttribute("inherited") == "false" &amp;&amp; link.getAttribute("level") != "WARNING")));
-                        handle2.showHideElement(3, link != null &amp;&amp; (link.getAttribute("inherited") == "true" || (link.getAttribute("inherited") == "false" &amp;&amp; link.getAttribute("level") != "ERROR")));
-                        handle2.showHideElement(4, link != null &amp;&amp; link.getAttribute("category") != "" &amp;&amp; link.getAttribute("inherited") == "false");
-                        
-                        var ul = link != null &amp;&amp; SUtilities.getDirectChildrenByTagName(link.parentNode, "ul")[0] != null;
-                        handle2.showHideElement(5, link != null &amp;&amp; ul);
+                        handle2.showHideElement(0, link != null &amp;&amp; link.getAttribute("level") != "DEBUG");
+                        handle2.showHideElement(1, link != null &amp;&amp; link.getAttribute("level") != "INFO");
+                        handle2.showHideElement(2, link != null &amp;&amp; link.getAttribute("level") != "WARNING");
+                        handle2.showHideElement(3, link != null &amp;&amp; link.getAttribute("level") != "ERROR");
                     }
                     stree_listener.canDrag = false;
                     stree_listener.canRename = false;
@@ -220,12 +217,6 @@
                     function goInfo() { var r = switchTo("INFO"); store(r);  }
                     function goWarning() { var r = switchTo("WARNING"); store(r);  }
                     function goError() { var r = switchTo("ERROR"); store(r);  }
-                    function goInherit()
-                    {
-                        var parentNode = SUtilities.getDirectChildrenByTagName(stree.tree.selection.parentNode.parentNode.parentNode, "a")[0];
-                        var r = switchTo(parentNode.getAttribute("level"), null, "true");
-                        store(r);
-                    }
                     function goForce()
                     {
                         var r = switchTo(stree.tree.selection.getAttribute("level"), null, "true", true);
@@ -363,43 +354,25 @@
     </xsl:template>    
     
     <xsl:template match="logger">
-        <xsl:variable name="img-path"><xsl:text>loglevel_</xsl:text><xsl:value-of select="translate(@priority, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')"/><xsl:if test="@inherited = 'true'">_inherited</xsl:if></xsl:variable>
-        <img src="{$resourcesPath}/img/administrator/logs/{$img-path}.gif"/>
-
-        <a type="logkit" category="{@category}" level="{@priority}" inherited="{@inherited}">
-            <xsl:if test="@name = ''"><xsl:attribute name="style">font-style: italic;</xsl:attribute></xsl:if>
-            <xsl:value-of select="@name"/>
-            <xsl:if test="@name = ''"><i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_CONFIG_LOGKITROOT"/></xsl:if>
-        </a>
-        <xsl:if test="logger">
-            <ul>
-                <xsl:for-each select="logger">
-                    <xsl:sort select="@name"/>
-    
-                    <li><xsl:apply-templates select="."/></li>
-                </xsl:for-each>
-            </ul>
-      </xsl:if>
-        
-<!--     
-      <tr>
-        <td><xsl:value-of select="@name"/></td>
-        <td><xsl:value-of select="@priority"/><xsl:if test="@inherited='true'"> (inherited)</xsl:if></td>
-        <td>
-          <select name="priority_{@category}">
-            <option value="-"><xsl:if test="@inherited='true' or @priority='-'"><xsl:attribute name="selected">selected</xsl:attribute></xsl:if>inherit</option>
-            <option value="DEBUG"><xsl:if test="@inherited='false' and @priority='DEBUG'"><xsl:attribute name="selected">selected</xsl:attribute></xsl:if>DEBUG</option>
-            <option value="INFO"><xsl:if test="@inherited='false' and @priority='INFO'"><xsl:attribute name="selected">selected</xsl:attribute></xsl:if>INFO</option>
-            <option value="WARN"><xsl:if test="@inherited='false' and @priority='WARN'"><xsl:attribute name="selected">selected</xsl:attribute></xsl:if>WARN</option>
-            <option value="ERROR"><xsl:if test="@inherited='false' and @priority='ERROR'"><xsl:attribute name="selected">selected</xsl:attribute></xsl:if>ERROR</option>
-            <option value="FATAL_ERROR"><xsl:if test="@inherited='false' and @priority='FATAL_ERROR'"><xsl:attribute name="selected">selected</xsl:attribute></xsl:if>FATAL_ERROR</option>
-          </select>
-        </td>
-      </tr>
-      <xsl:apply-templates select="logger">
-        <xsl:sort select="@name"/>
-      </xsl:apply-templates>
--->
+    	<li>
+	        <xsl:variable name="img-path"><xsl:text>loglevel_</xsl:text><xsl:value-of select="translate(@priority, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')"/><xsl:if test="@inherited = 'true'">_inherited</xsl:if></xsl:variable>
+	        <img src="{$resourcesPath}/img/administrator/logs/{$img-path}.gif"/>
+	
+	        <a category="{@category}" level="{@priority}">
+	            <xsl:if test="@category = ''"><xsl:attribute name="style">font-style: italic;</xsl:attribute></xsl:if>
+	            <xsl:value-of select="@category"/>
+	            <xsl:if test="@category = ''"><i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_CONFIG_LOGKITROOT"/></xsl:if>
+	        </a>
+	        <xsl:if test="logger">
+	            <ul>
+	                <xsl:for-each select="logger">
+	                    <xsl:sort select="@name"/>
+	    
+	                    <li><xsl:apply-templates select="."/></li>
+	                </xsl:for-each>
+	            </ul>
+	    	</xsl:if>
+		</li>
     </xsl:template>
     
 </xsl:stylesheet>

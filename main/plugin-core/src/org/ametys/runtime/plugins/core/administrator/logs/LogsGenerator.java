@@ -14,25 +14,29 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.ametys.runtime.util.LoggerFactory;
+import org.ametys.runtime.util.parameter.ParameterHelper;
+import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.generation.ServiceableGenerator;
 import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
 import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.TraversableSource;
-import org.apache.log.Logger;
-import org.apache.log.Priority;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.spi.LoggerRepository;
 import org.xml.sax.SAXException;
-
-import org.ametys.runtime.util.LoggerFactory;
-import org.ametys.runtime.util.parameter.ParameterHelper;
 
 
 /**
@@ -40,7 +44,7 @@ import org.ametys.runtime.util.parameter.ParameterHelper;
  */
 public class LogsGenerator extends ServiceableGenerator
 {
-    private static final Pattern __DATED_LOG_FILENAME = Pattern.compile("(.*)((-|_)[0-9]{4}(-|_)[0-9]{2}(-|_)[0-9]{2})(.*).log");
+    private static final Pattern __DATED_LOG_FILENAME = Pattern.compile("(.*)[-_]\\d{4}[-_]\\d{2}[-_]\\d{2}.*\\.log");
     
     public void generate() throws IOException, SAXException, ProcessingException
     {
@@ -52,10 +56,8 @@ public class LogsGenerator extends ServiceableGenerator
         _logs();
         XMLUtils.endElement(contentHandler, "Logs");
 
-        AttributesImpl attrs = new AttributesImpl();
-        attrs.addCDATAAttribute("type", "logkit");
-        XMLUtils.startElement(contentHandler, "LogLevels", attrs);
-        _logkitLevels(LoggerFactory.getHierarchy().getRootLogger(), 0);
+        XMLUtils.startElement(contentHandler, "LogLevels");
+        _logkitLevels(LoggerFactory.getLoggerManager());
         XMLUtils.endElement(contentHandler, "LogLevels");
 
         XMLUtils.endElement(contentHandler, "Logger");
@@ -69,33 +71,69 @@ public class LogsGenerator extends ServiceableGenerator
         return field.get(object);
     }
     
-    private void _logkitLevels(Logger logger, int depth) throws SAXException
+    private void _logkitLevels(LoggerManager loggerManager) throws SAXException
     {
-        try 
+        try
         {
-            boolean inherited = !((Boolean) _getField(logger, "m_priorityForceSet")).booleanValue();
-            String priority = ((Priority) _getField(logger, "m_priority")).getName();
-            String fullCategory = (String) _getField(logger, "m_category");
+            LoggerRepository loggerRepository = (LoggerRepository) _getField(loggerManager, "m_hierarchy");
+            List<Logger> loggers = new ArrayList<Logger>();
+            Enumeration<org.apache.log4j.Logger> enumLogger = loggerRepository.getCurrentLoggers();
             
-            if (depth == 0 || !"".equals(fullCategory))
+            while (enumLogger.hasMoreElements())
             {
-                int last = fullCategory.lastIndexOf(Logger.CATEGORY_SEPARATOR);
-                String category = (last == -1) ? fullCategory : fullCategory.substring(last + 1);
-                      
-                AttributesImpl attrs = new AttributesImpl();
-                attrs.addAttribute("", "name", "name", "CDATA", category);
-                attrs.addAttribute("", "category", "category", "CDATA", fullCategory);
-                attrs.addAttribute("", "inherited", "inherited", "CDATA", String.valueOf(inherited));
-                attrs.addAttribute("", "priority", "priority", "CDATA", priority);
-                
-                XMLUtils.startElement(contentHandler, "logger", attrs);
-                
-                for (Logger log : logger.getChildren())
+                loggers.add(enumLogger.nextElement());
+            }
+            
+            loggers.add(loggerRepository.getRootLogger());
+            
+            Collections.sort(loggers, new Comparator<Logger>()
+            {
+                public int compare(Logger o1, Logger o2)
                 {
-                    _logkitLevels(log, depth + 1);
+                    String[] o1NameParts = o1.getName().split("\\.");
+                    String[] o2NameParts = o2.getName().split("\\.");
+                    int i = 0;
+                    
+                    for (; i < o1NameParts.length && i < o2NameParts.length; i++)
+                    {
+                        int compare = o1NameParts[i].compareTo(o2NameParts[i]);
+                        
+                        if (compare != 0)
+                        {
+                            return compare;
+                        }
+                        
+                        // Same category, continue
+                    }
+                    
+                    if (i == o1NameParts.length)
+                    {
+                        if (i != o2NameParts.length)
+                        {
+                            // o2 has a longer category
+                            return 1;
+                        }
+                    }
+                    else
+                    {
+                        // o1 has a longer category
+                        return -1;
+                    }
+                    
+                    return o1.getName().compareTo(o2.getName());
                 }
-                 
-                XMLUtils.endElement(contentHandler, "logger");
+            });
+            
+            for (Logger logger : loggers)
+            {
+                String category = logger.getName();
+                Level level = logger.getEffectiveLevel();
+                
+                AttributesImpl attrs = new AttributesImpl();
+                attrs.addCDATAAttribute("category", category);
+                attrs.addCDATAAttribute("priority", level == null ? "" : level.toString());
+                
+                XMLUtils.createElement(contentHandler, "logger", attrs);
             }
         }
         catch (SAXException e)
@@ -104,7 +142,7 @@ public class LogsGenerator extends ServiceableGenerator
         }
         catch (Exception e) 
         {
-             // rien � faire
+             // rien à faire
             getLogger().warn("Unable to access internal logger properties", e);
         }
     }
@@ -112,25 +150,33 @@ public class LogsGenerator extends ServiceableGenerator
     private void _logs() throws IOException, SAXException
     {
         TraversableSource logsDirectorySource = (TraversableSource) resolver.resolveURI("context://WEB-INF/logs");
-        Map<String, List<TraversableSource>> logs = _prepareLogs(logsDirectorySource);
         
-        for (String logname : logs.keySet())
+        try
         {
-            AttributesImpl logattrs = new AttributesImpl();
-            logattrs.addAttribute("", "name", "name", "CDATA", logname);
-            XMLUtils.startElement(contentHandler, "Log", logattrs);
+            Map<String, List<TraversableSource>> logs = _prepareLogs(logsDirectorySource);
             
-            List<TraversableSource> logSources = logs.get(logname);
-            for (TraversableSource logSource : logSources)
+            for (String logname : logs.keySet())
             {
-                XMLUtils.startElement(contentHandler, "file");
-                XMLUtils.createElement(contentHandler, "location", logSource.getURI().substring(logSource.getURI().lastIndexOf('/') + 1));
-                XMLUtils.createElement(contentHandler, "lastModified", ParameterHelper.valueToString(new Date(logSource.getLastModified())));
-                XMLUtils.createElement(contentHandler, "size", Long.toString(logSource.getContentLength()));
-                XMLUtils.endElement(contentHandler, "file");
+                AttributesImpl logattrs = new AttributesImpl();
+                logattrs.addCDATAAttribute("name", logname);
+                XMLUtils.startElement(contentHandler, "Log", logattrs);
+                
+                List<TraversableSource> logSources = logs.get(logname);
+                for (TraversableSource logSource : logSources)
+                {
+                    XMLUtils.startElement(contentHandler, "file");
+                    XMLUtils.createElement(contentHandler, "location", logSource.getURI().substring(logSource.getURI().lastIndexOf('/') + 1));
+                    XMLUtils.createElement(contentHandler, "lastModified", ParameterHelper.valueToString(new Date(logSource.getLastModified())));
+                    XMLUtils.createElement(contentHandler, "size", Long.toString(logSource.getContentLength()));
+                    XMLUtils.endElement(contentHandler, "file");
+                }
+                
+                XMLUtils.endElement(contentHandler, "Log");
             }
-            
-            XMLUtils.endElement(contentHandler, "Log");
+        }
+        finally
+        {
+            resolver.release(logsDirectorySource);
         }
     }
     

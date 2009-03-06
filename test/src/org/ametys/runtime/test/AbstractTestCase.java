@@ -22,9 +22,9 @@ import junit.framework.TestCase;
 
 import org.ametys.runtime.servlet.RuntimeConfig;
 import org.ametys.runtime.util.LoggerFactory;
+import org.apache.avalon.excalibur.logger.Log4JLoggerManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.apache.log.Hierarchy;
 import org.xml.sax.XMLReader;
 
 /**
@@ -35,7 +35,7 @@ public abstract class AbstractTestCase extends TestCase
 {
     static
     {
-        LoggerFactory.setup(Hierarchy.getDefaultHierarchy());
+        LoggerFactory.setup(new Log4JLoggerManager());
     }
     
     /**
