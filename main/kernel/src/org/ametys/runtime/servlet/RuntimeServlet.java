@@ -36,10 +36,10 @@ import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.cocoon.Constants;
 import org.apache.cocoon.servlet.CocoonServlet;
 import org.apache.cocoon.servlet.multipart.RequestFactory;
+import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.AttributesImpl;
 
 /**
  * Main entry point for applications.<br>
@@ -415,7 +415,7 @@ public class RuntimeServlet extends CocoonServlet
         }
 
         res.setStatus(500);
-        res.setContentType("text/html");
+        res.setContentType("text/html; charset=UTF-8");
 
         SAXTransformerFactory saxFactory = (SAXTransformerFactory) TransformerFactory.newInstance();
 
@@ -439,7 +439,7 @@ public class RuntimeServlet extends CocoonServlet
         TransformerHandler th = saxFactory.newTransformerHandler(templates);
         Properties format = new Properties();
         format.put(OutputKeys.METHOD, "html");
-        format.put(OutputKeys.ENCODING, "ISO-8859-1");
+        format.put(OutputKeys.ENCODING, "UTF-8");
         th.getTransformer().setOutputProperties(format);
 
         th.getTransformer().setParameter("code", 500);
@@ -453,15 +453,11 @@ public class RuntimeServlet extends CocoonServlet
 
         th.startDocument();
 
-        th.startPrefixMapping("ex", "http://apache.org/cocoon/exception/1.0");
-
-        th.startElement("http://apache.org/cocoon/exception/1.0", "exception-report", "ex:exception-report", new AttributesImpl());
-        th.startElement("http://apache.org/cocoon/exception/1.0", "message", "ex:message", new AttributesImpl());
+        XMLUtils.startElement(th, "http://apache.org/cocoon/exception/1.0", "exception-report");
+        XMLUtils.startElement(th, "http://apache.org/cocoon/exception/1.0", "message");
         saxErrorMessage(th);
-        th.endElement("http://apache.org/cocoon/exception/1.0", "message", "ex:message");
-        th.endElement("http://apache.org/cocoon/exception/1.0", "exception-report", "ex:exception-report");
-
-        th.endPrefixMapping("ex");
+        XMLUtils.endElement(th, "http://apache.org/cocoon/exception/1.0", "message");
+        XMLUtils.endElement(th, "http://apache.org/cocoon/exception/1.0", "ex:exception-report");
 
         th.endDocument();
     }
@@ -475,7 +471,7 @@ public class RuntimeServlet extends CocoonServlet
     protected void saxErrorMessage(ContentHandler ch) throws SAXException
     {
         String errorMessage = "An error occurred. Please contact the administrator of the application.";
-        ch.characters(errorMessage.toCharArray(), 0, errorMessage.length());
+        XMLUtils.data(ch, errorMessage);
     }
 
     /*
