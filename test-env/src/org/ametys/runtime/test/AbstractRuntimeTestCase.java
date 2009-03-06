@@ -36,6 +36,23 @@ public abstract class AbstractRuntimeTestCase extends TestCase
     {
         LoggerFactory.setup(new Log4JLoggerManager());
     }
+
+    /**
+     * Creates a test case.
+     */
+    public AbstractRuntimeTestCase()
+    {
+        // Nothing to do
+    }
+
+    /**
+     * Constructs a test case with the given name.
+     * @param name the test case name.
+     */
+    public AbstractRuntimeTestCase(String name)
+    {
+        super(name);
+    }
     
     /**
      * Configures the RuntimeConfig with the given file
