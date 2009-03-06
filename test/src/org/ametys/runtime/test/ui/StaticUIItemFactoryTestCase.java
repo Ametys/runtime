@@ -13,7 +13,7 @@ package org.ametys.runtime.test.ui;
 import java.util.List;
 
 import org.ametys.runtime.config.Config;
-import org.ametys.runtime.test.AbstractTestCase;
+import org.ametys.runtime.test.AbstractRuntimeTestCase;
 import org.ametys.runtime.test.Init;
 import org.ametys.runtime.ui.item.Interaction;
 import org.ametys.runtime.ui.item.UIItem;
@@ -23,7 +23,7 @@ import org.ametys.runtime.ui.item.UIItemManager;
 /**
  * Test the static ui item factory
  */
-public class StaticUIItemFactoryTestCase extends AbstractTestCase
+public class StaticUIItemFactoryTestCase extends AbstractRuntimeTestCase
 {
     /** The runtime ui item maanger */
     protected UIItemManager _uiItemsManager;

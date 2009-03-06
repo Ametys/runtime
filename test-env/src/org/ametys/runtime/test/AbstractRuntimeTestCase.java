@@ -28,10 +28,9 @@ import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.xml.sax.XMLReader;
 
 /**
- * Abstract test case for all Runtime test cases
- *
+ * Abstract test case for all Runtime test cases.
  */
-public abstract class AbstractTestCase extends TestCase
+public abstract class AbstractRuntimeTestCase extends TestCase
 {
     static
     {

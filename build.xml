@@ -27,6 +27,7 @@
 	<property name="tmp-javadoc" value="${tmp-dir}/javadoc"/>
 	<property name="tmp-unzipped-doc" value="${tmp-dir}/unzipped-tmp"/>
 	<property name="classes" value="${tmp-dir}/classes"/>
+	<property name="test-env-classes" value="${tmp-dir}/test-env-classes"/>
 	<property name="classes-deliver" value="${tmp-dir}/classes-deliver"/>
 	
 	<property name="deliver-dir" value="deliver"/>
@@ -38,6 +39,7 @@
 	<property name="kernel-dir" value="main/kernel"/>
 	<property name="plugin-dir" value="main/plugin-core"/>
 	<property name="workspace-dir" value="main/workspace-admin"/>
+	<property name="test-env-dir" value="test-env"/>
 	
 	<target name="prepare">
 		<delete dir="${tmp-dir}"/>
@@ -101,10 +103,12 @@
 	
 	<target name="prepare-runtime">
 		<mkdir dir="${classes}"/>
+		<mkdir dir="${test-env-classes}"/>
 		
        	<ivy:settings file="${ivy-settings}"/>
 		<ivy:resolve conf="compile" type="jar"/>
 		<ivy:cachepath conf="compile" type="jar" pathid="compile.classpath"/>
+		<ivy:cachepath conf="test-env" type="jar" pathid="test.env.classpath"/>
 		
 		<svn-revision property="svn-revision"/>
 		<ivy-version versionOutputProperty="ivy-version" resolverOutputProperty="ivy-resolver"
@@ -262,7 +266,7 @@
 			
 			<manifest>
 		      	<section name="Runtime informations">
-				 	<attribute name="Title" value="Runtime src"/>
+				 	<attribute name="Title" value="Runtime sources"/>
 			  	 	<attribute name="Vendor" value="Anyware Technologies"/>
 			  	 	<attribute name="Version" value="${ivy-version}"/>
 			  	 	<attribute name="Date" value="${full-timestamp}"/>
@@ -348,7 +352,55 @@
 	</target>
 
 	<target name="runtime" depends="prepare-runtime, runtime-compile-kernel, runtime-compile-workspace, runtime-compile-plugin, runtime-copy-kernel, runtime-copy-plugin, runtime-copy-workspace, runtime-kernel-file,  runtime-resources-kernel, runtime-workspace-file, runtime-resources-workspace, runtime-plugin-file, runtime-resources-plugin, runtime-jar, runtime-resources-copy-kernel, runtime-resources-copy-plugin, runtime-resources-copy-workspace, runtime-jarresources, runtime-copyi18n-kernel, runtime-copyi18n-plugin, runtime-copyi18n-workspace"/>
-	
+
+	<target name="runtime-compile-test-env">
+		<!-- Compilation des sources -->
+		<javac debug="true" destdir="${test-env-classes}" encoding="UTF-8" target="${class-vm-target}">
+			<src path="${test-env-dir}/src"/>
+			<classpath>
+				<path refid="test.env.classpath"/>
+				<fileset dir="${dest-dir}/jars" includes="ametys-runtime.jar" />
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="runtime-test-env-jar">
+		<!-- Construction du JAR avec fichier MANIFEST -->
+		<jar jarfile="${dest-dir}/jars/ametys-runtime-test-env.jar" basedir="${test-env-classes}">
+			<manifest>
+		      	<section name="Runtime informations">
+				 	<attribute name="Title" value="Runtime test environment"/>
+			  	 	<attribute name="Vendor" value="Anyware Technologies"/>
+			  	 	<attribute name="Version" value="${ivy-version}"/>
+			  	 	<attribute name="Date" value="${full-timestamp}"/>
+				 	<attribute name="SVN-Revision" value="${svn-revision}"/>
+				 	<attribute name="SVN-Branch" value="${svn-branch}"/>
+		      	</section>
+			</manifest>	
+		</jar>
+		
+		<jar jarfile="${dest-dir}/sources/ametys-runtime-test-env.jar">
+			<fileset dir="${test-env-dir}/src">
+				<include name="**/*.java"/>
+			</fileset>
+			
+			<manifest>
+		      	<section name="Runtime informations">
+				 	<attribute name="Title" value="Runtime test environment sources"/>
+			  	 	<attribute name="Vendor" value="Anyware Technologies"/>
+			  	 	<attribute name="Version" value="${ivy-version}"/>
+			  	 	<attribute name="Date" value="${full-timestamp}"/>
+				 	<attribute name="SVN-Revision" value="${svn-revision}"/>
+				 	<attribute name="SVN-Branch" value="${svn-branch}"/>
+		      	</section>
+			</manifest>	
+		</jar>
+		
+		<delete dir="${test-env-classes}"/>
+	</target>
+
+	<target name="runtime-test-env" depends="prepare-runtime, runtime-compile-test-env, runtime-test-env-jar"/>
+
 	<!-- JAVADOC -->
 	<target name="javadoc" unless="skip-docs">
 		<mkdir dir="${tmp-javadoc}"/>
@@ -387,7 +439,7 @@
 			additionalparam="-quiet"
 			stylesheetfile="${deliver-dir}/javadoc.css"
 			header="&lt;img src='http://ametys.org/styles/telecharger/img/focus_bg.gif'/&gt;"
-			bottom="Copyright &#169; 2008 &lt;a href='http://www.anyware-tech.com'&gt;Anyware Technologies&lt;/a&gt;. All Rights Reserved.">
+			bottom="Copyright &#169; 2009 &lt;a href='http://www.anyware-tech.com'&gt;Anyware Technologies&lt;/a&gt;. All Rights Reserved.">
 			
 			<classpath refid="compile.classpath"/>
 			<link href="http://excalibur.apache.org/apidocs"/>
@@ -410,7 +462,60 @@
 		</jar>
 		
 		<delete dir="${tmp-javadoc}"/>
-	</target>	
+	</target>
+
+	<!-- JAVADOC -->
+	<target name="javadoc-test-env" unless="skip-docs">
+		<mkdir dir="${tmp-javadoc}"/>
+
+		<copy todir="${tmp-javadoc}">
+			<fileset dir="${test-env-dir}/src">
+				<include name="**/*.java"/>
+				<include name="**/package.html"/>
+			</fileset>
+		</copy>
+		
+		<mkdir dir="${dest-javadoc}"/>
+		<javadoc destdir="${dest-javadoc}"
+			charset="UTF-8"
+			sourcepath="${tmp-javadoc}"
+			packagenames="org.ametys.runtime.*"
+			windowtitle="Ametys Runtime Test Environment version {ivy-version}"
+			doctitle="Ametys Runtime Test Environment version ${ivy-version}"
+	        author="false"
+	       	version="true"
+	       	use="false"   
+			additionalparam="-quiet"
+			stylesheetfile="${deliver-dir}/javadoc.css"
+			header="&lt;img src='http://ametys.org/styles/telecharger/img/focus_bg.gif'/&gt;"
+			bottom="Copyright &#169; 2009 &lt;a href='http://www.anyware-tech.com'&gt;Anyware Technologies&lt;/a&gt;. All Rights Reserved.">
+
+			<classpath>
+				<path refid="test.env.classpath"/>
+				<fileset dir="${dest-dir}/jars" includes="ametys-runtime.jar" />
+			</classpath>
+			<link href="http://excalibur.apache.org/apidocs"/>
+			<link href="http://cocoon.apache.org/2.1/apidocs"/>
+			<link href="http://java.sun.com/j2se/1.5.0/docs/api"/>
+			<link href="http://java.sun.com/javaee/5/docs/api"/>
+			<link href="http://junit.sourceforge.net/javadoc_40/"/>
+		</javadoc>
+		
+		<jar basedir="${dest-javadoc}" destfile="${dest-dir}/javadocs/ametys-runtime-test-env.jar">
+			<manifest>
+		      	<section name="Runtime informations">
+				 	<attribute name="Title" value="Runtime test environment javadoc"/>
+			  	 	<attribute name="Vendor" value="Anyware Technologies"/>
+			  	 	<attribute name="Version" value="${ivy-version}"/>
+			  	 	<attribute name="Date" value="${full-timestamp}"/>
+				 	<attribute name="SVN-Revision" value="${svn-revision}"/>
+				 	<attribute name="SVN-Branch" value="${svn-branch}"/>
+		      	</section>
+			</manifest>	
+		</jar>
+		
+		<delete dir="${tmp-javadoc}"/>
+	</target>
 
 	<!-- EXPORT DES DOCUMENTATIONS -->
 	<target name="export-doc" unless="skip-docs">
@@ -514,6 +619,7 @@
 			<classpath>
 				<path refid="test.classpath"/>
 				<fileset dir="${tmp-dir}/emma/lib" includes="ametys-runtime.jar" />
+				<fileset dir="${dest-dir}/jars" includes="ametys-runtime-test-env.jar" />
 			</classpath>
 		</javac>
 
@@ -531,6 +637,7 @@
 			<classpath>
 				<path refid="test.classpath"/>
 				<fileset dir="${tmp-dir}/emma/lib" includes="ametys-runtime.jar" />
+				<fileset dir="${dest-dir}/jars" includes="ametys-runtime-test-env.jar" />
 				<pathelement location="${tmp-dir}/classes-test"/>
 				<fileset dir="${deliver-dir}/lib" includes="emma*.jar" />
 			</classpath>
@@ -598,5 +705,5 @@
 		             overwrite="true"/>
     </target>
 	
-	<target name="all" depends="prepare, tasks, runtime, javadoc, plugin-doc, export-doc, tests, publish, clean"/>
+	<target name="all" depends="prepare, tasks, runtime, runtime-test-env, javadoc, javadoc-test-env, plugin-doc, export-doc, tests, publish, clean"/>
 </project>

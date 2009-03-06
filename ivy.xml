@@ -9,6 +9,7 @@ Open source web application framework based on Apache Cocoon.
   <configurations>
     <conf name="default"  description="Equivalent to runtime configuration"/>
     <conf name="runtime" extends="default" description="Runtime configuration"/>
+    <conf name="test-env" extends="default" description="Provides testing environment"/>
     <conf name="cas" extends="default" description="CAS configuration"/>
     <conf name="jcifs" extends="default" description="JCIFS configuration"/>
     <conf name="compile" extends="cas,jcifs" description="Used only for compilation" visibility="private"/>
@@ -18,6 +19,9 @@ Open source web application framework based on Apache Cocoon.
     <artifact name="ametys-runtime" type="jar" ext="jar" conf="default"/>
     <artifact name="ametys-runtime" type="javadoc" ext="jar" conf="default"/>
     <artifact name="ametys-runtime" type="source" ext="jar" conf="default"/>
+    <artifact name="ametys-runtime-test-env" type="jar" ext="jar" conf="test-env"/>
+    <artifact name="ametys-runtime-test-env" type="javadoc" ext="jar" conf="test-env"/>
+    <artifact name="ametys-runtime-test-env" type="source" ext="jar" conf="test-env"/>
     <artifact name="ametys-runtime-resources" type="jar" ext="jar" conf="default"/>
     <!-- Artifact containing resources used directly by Apache HTTPD -->
     <artifact name="ametys-runtime-resources" type="resource" ext="zip" conf="default"/>
@@ -41,7 +45,7 @@ Open source web application framework based on Apache Cocoon.
     <dependency org="minaret" name="datedFileAppender" rev="1.0.2" conf="runtime->default"/>
     
     <!-- test configuration -->
-    <dependency org="junit" name="junit" rev="4.4" conf="test->default"/>
+    <dependency org="junit" name="junit" rev="4.4" conf="test,test-env->default"/>
     <dependency org="mysql" name="mysql-connector-java" rev="5.1.6" conf="test->default"/>
   </dependencies>
 </ivy-module>

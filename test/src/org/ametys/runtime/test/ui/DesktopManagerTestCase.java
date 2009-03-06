@@ -10,6 +10,10 @@
  */
 package org.ametys.runtime.test.ui;
 
+import org.ametys.runtime.config.Config;
+import org.ametys.runtime.test.AbstractRuntimeTestCase;
+import org.ametys.runtime.test.Init;
+import org.ametys.runtime.ui.manager.DesktopManager;
 import org.apache.cocoon.transformation.I18nTransformer;
 import org.apache.cocoon.xml.XMLUtils;
 import org.apache.excalibur.xml.dom.DOMHandler;
@@ -18,15 +22,10 @@ import org.apache.excalibur.xml.xpath.PrefixResolver;
 import org.apache.excalibur.xml.xpath.XPathProcessor;
 import org.w3c.dom.Node;
 
-import org.ametys.runtime.config.Config;
-import org.ametys.runtime.test.AbstractTestCase;
-import org.ametys.runtime.test.Init;
-import org.ametys.runtime.ui.manager.DesktopManager;
-
 /**
  * Tests the desktop manager
  */
-public class DesktopManagerTestCase extends AbstractTestCase
+public class DesktopManagerTestCase extends AbstractRuntimeTestCase
 {
     /** The runtime desktop manager */
     protected DesktopManager _desktopManager;

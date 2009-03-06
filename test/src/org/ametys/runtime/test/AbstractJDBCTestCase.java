@@ -17,15 +17,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.List;
 
-import org.apache.excalibur.source.SourceUtil;
-
 import org.ametys.runtime.util.ConnectionHelper;
+import org.apache.excalibur.source.SourceUtil;
 
 /**
  * Abstract test case for jdbc Runtime test cases
  *
  */
-public abstract class AbstractJDBCTestCase extends AbstractTestCase
+public abstract class AbstractJDBCTestCase extends AbstractRuntimeTestCase
 {
     /**
      * Reset the database and insert the scripts. Needs the Init class.

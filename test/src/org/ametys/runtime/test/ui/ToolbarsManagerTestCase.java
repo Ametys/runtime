@@ -10,6 +10,10 @@
  */
 package org.ametys.runtime.test.ui;
 
+import org.ametys.runtime.config.Config;
+import org.ametys.runtime.test.AbstractRuntimeTestCase;
+import org.ametys.runtime.test.Init;
+import org.ametys.runtime.ui.manager.ToolbarsManager;
 import org.apache.cocoon.transformation.I18nTransformer;
 import org.apache.cocoon.xml.XMLUtils;
 import org.apache.excalibur.xml.dom.DOMHandler;
@@ -18,15 +22,10 @@ import org.apache.excalibur.xml.xpath.PrefixResolver;
 import org.apache.excalibur.xml.xpath.XPathProcessor;
 import org.w3c.dom.Node;
 
-import org.ametys.runtime.config.Config;
-import org.ametys.runtime.test.AbstractTestCase;
-import org.ametys.runtime.test.Init;
-import org.ametys.runtime.ui.manager.ToolbarsManager;
-
 /**
  * Test the toolbars manager 
  */
-public class ToolbarsManagerTestCase extends AbstractTestCase
+public class ToolbarsManagerTestCase extends AbstractRuntimeTestCase
 {
     /** The runtime menus manager */
     protected ToolbarsManager _toolbarsManager;

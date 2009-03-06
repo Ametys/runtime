@@ -10,21 +10,20 @@
  */
 package org.ametys.runtime.test.groups.others;
 
-import org.apache.excalibur.xml.dom.DOMHandler;
-import org.apache.excalibur.xml.dom.DOMHandlerFactory;
-import org.apache.excalibur.xml.xpath.XPathProcessor;
-
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.group.GroupsManager;
 import org.ametys.runtime.group.ModifiableGroupsManager;
 import org.ametys.runtime.plugins.core.group.EmptyGroupsManager;
-import org.ametys.runtime.test.AbstractTestCase;
+import org.ametys.runtime.test.AbstractRuntimeTestCase;
 import org.ametys.runtime.test.Init;
+import org.apache.excalibur.xml.dom.DOMHandler;
+import org.apache.excalibur.xml.dom.DOMHandlerFactory;
+import org.apache.excalibur.xml.xpath.XPathProcessor;
 
 /**
  * Tests the EmptyGroupsTestCase
  */
-public class EmptyGroupsTestCase extends AbstractTestCase
+public class EmptyGroupsTestCase extends AbstractRuntimeTestCase
 {
     /**
      * Check that the empty group manager is the default one and is really empty

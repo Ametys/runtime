@@ -16,7 +16,7 @@ import org.ametys.runtime.workspace.WorkspaceManager;
 /**
  * Tests WorkspacesManager
  */
-public class WorkspacesTestCase extends AbstractTestCase
+public class WorkspacesTestCase extends AbstractRuntimeTestCase
 {
     /**
      * Tests many workspaces cases : dependencies, sitemap availability, ...

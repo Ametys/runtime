@@ -16,7 +16,7 @@ import java.util.Set;
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.plugins.core.right.BasicRightsManager;
 import org.ametys.runtime.right.RightsManager;
-import org.ametys.runtime.test.AbstractTestCase;
+import org.ametys.runtime.test.AbstractRuntimeTestCase;
 import org.ametys.runtime.test.Init;
 import org.ametys.runtime.user.User;
 import org.ametys.runtime.user.UsersManager;
@@ -24,7 +24,7 @@ import org.ametys.runtime.user.UsersManager;
 /**
  * Tests the BasicRightsManagerTestCase
  */
-public class BasicRightsManagerTestCase extends AbstractTestCase
+public class BasicRightsManagerTestCase extends AbstractRuntimeTestCase
 {
     @Override
     protected void setUp() throws Exception

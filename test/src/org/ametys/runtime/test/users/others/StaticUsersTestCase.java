@@ -12,24 +12,23 @@ package org.ametys.runtime.test.users.others;
 
 import java.util.Collection;
 
-import org.apache.excalibur.xml.dom.DOMHandler;
-import org.apache.excalibur.xml.dom.DOMHandlerFactory;
-import org.apache.excalibur.xml.xpath.XPathProcessor;
-
 import org.ametys.runtime.authentication.Credentials;
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.plugins.core.user.StaticUsersManager;
 import org.ametys.runtime.plugins.core.user.jdbc.ModifiableJdbcUsersManager;
-import org.ametys.runtime.test.AbstractTestCase;
+import org.ametys.runtime.test.AbstractRuntimeTestCase;
 import org.ametys.runtime.test.Init;
 import org.ametys.runtime.user.CredentialsAwareUsersManager;
 import org.ametys.runtime.user.User;
 import org.ametys.runtime.user.UsersManager;
+import org.apache.excalibur.xml.dom.DOMHandler;
+import org.apache.excalibur.xml.dom.DOMHandlerFactory;
+import org.apache.excalibur.xml.xpath.XPathProcessor;
 
 /**
  * Tests the DefinedUsersTestCase
  */
-public class StaticUsersTestCase extends AbstractTestCase
+public class StaticUsersTestCase extends AbstractRuntimeTestCase
 {
     /**
      * Tests that the <code>StaticUsersTestCase</code> is the default <code>UsersManager</code><br/>

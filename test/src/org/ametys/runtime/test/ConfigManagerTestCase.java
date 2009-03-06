@@ -29,7 +29,7 @@ import org.ametys.runtime.util.LoggerFactory;
 /**
  * Tests the ConfigManager
  */
-public class ConfigManagerTestCase extends AbstractTestCase
+public class ConfigManagerTestCase extends AbstractRuntimeTestCase
 {
     private DefaultContext _context;
     private CocoonComponentManager _manager;

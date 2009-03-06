@@ -27,7 +27,7 @@ import org.apache.excalibur.xml.xpath.XPathProcessor;
 /**
  * Tests the RuntimeConfig
  */
-public class RuntimeConfigTestCase extends AbstractTestCase
+public class RuntimeConfigTestCase extends AbstractRuntimeTestCase
 {
     /**
      * RuntimeConfig test

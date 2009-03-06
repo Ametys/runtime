@@ -18,13 +18,13 @@ import org.ametys.runtime.plugin.PluginsManager;
 import org.ametys.runtime.plugin.PluginsManager.ActiveFeature;
 import org.ametys.runtime.plugin.PluginsManager.InactiveFeature;
 import org.ametys.runtime.plugin.PluginsManager.InactivityCause;
-import org.ametys.runtime.test.AbstractTestCase;
+import org.ametys.runtime.test.AbstractRuntimeTestCase;
 import org.ametys.runtime.test.Init;
 
 /**
  * Tests the PluginsManager
  */
-public class PluginsTestCase extends AbstractTestCase
+public class PluginsTestCase extends AbstractRuntimeTestCase
 {
     /**
      * Test that the init class is actually executed
