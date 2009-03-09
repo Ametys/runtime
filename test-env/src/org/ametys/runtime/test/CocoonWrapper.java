@@ -143,4 +143,12 @@ public class CocoonWrapper
             CocoonComponentManager.leaveEnvironment();
         }
     }
+    
+    /**
+     * Dispose current cocoon instance.
+     */
+    public void dispose()
+    {
+        _cocoon.dispose();
+    }
 }
