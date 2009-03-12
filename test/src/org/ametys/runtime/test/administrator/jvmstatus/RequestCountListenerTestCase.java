@@ -41,19 +41,22 @@ public class RequestCountListenerTestCase extends TestCase
         final int threadCount = 10000;
         final RequestCountListener requestCountListener = new RequestCountListener();
 
-        // Compteur initial
-        assertEquals(0, RequestCountListener.getRequestCount());
+        // Compteurs initiaux
+        assertEquals(0, RequestCountListener.getCurrentRequestCount());
+        assertEquals(0, RequestCountListener.getTotalRequestCount());
         
         // Tester 3 fois de suite
         for (int i = 0; i < 3; i++)
         {
             // Tester la création
             _testCount(requestCountListener, threadCount, true);
-            assertEquals(threadCount, RequestCountListener.getRequestCount());
+            assertEquals(threadCount, RequestCountListener.getCurrentRequestCount());
+            assertEquals((i + 1) * threadCount, RequestCountListener.getTotalRequestCount());
             
             // Tester la desctruction
             _testCount(requestCountListener, threadCount, false);
-            assertEquals(0, RequestCountListener.getRequestCount());
+            assertEquals(0, RequestCountListener.getCurrentRequestCount());
+            assertEquals((i + 1) * threadCount, RequestCountListener.getTotalRequestCount());
         }
     }
 
@@ -66,6 +69,7 @@ public class RequestCountListenerTestCase extends TestCase
         {
             threads.add(new Thread()
             {
+                
                 @Override
                 public void run()
                 {
@@ -93,6 +97,7 @@ public class RequestCountListenerTestCase extends TestCase
         // Lancer les threads
         for (Thread thread : threads)
         {
+            thread.setDaemon(true);
             thread.start();
         }
 

@@ -621,6 +621,9 @@
         <extension-point id="org.ametys.runtime.plugins.core.sqlmap.SqlMapExtensionPoint"
                          class="org.ametys.runtime.plugins.core.sqlmap.SqlMapExtensionPoint"/>
 
+        <extension-point id="org.ametys.runtime.plugins.core.monitoring.MonitoringExtensionPoint"
+                         class="org.ametys.runtime.plugins.core.monitoring.MonitoringExtensionPoint"/>
+
         <single-extension-point id="org.ametys.runtime.right.RightsManager"
                                 class="org.ametys.runtime.right.RightsManager"
                                 default-extension-id="org.ametys.runtime.plugins.core.right.Basic"/>
@@ -1641,6 +1644,53 @@
                        id="org.ametys.runtime.plugins.core.request.Default"
                        class="org.ametys.runtime.request.DefaultInitRequestHandler"
                        logger="org.ametys.runtime.request.default"/>
+        </extensions>
+    </feature>
+        
+    <!-- +
+         |  Monitoring
+         + -->
+    <feature name="runtime.monitoring">
+        <!-- 
+            Timer task for populating RRDs
+         -->
+        <components>
+            <component role="org.ametys.runtime.plugins.core.monitoring.RRDsFeederTimerTask"
+                       class="org.ametys.runtime.plugins.core.monitoring.RRDsFeederTimerTask"
+                       logger="org.ametys.runtime.plugins.core.monitoring.RRDsFeederTimerTask"/>
+        </components>
+        
+        <extensions>
+        	<!-- Monitor the uptime of the JVM -->
+            <extension point="org.ametys.runtime.plugins.core.monitoring.MonitoringExtensionPoint"
+                       id="org.ametys.runtime.plugins.core.monitoring.sample.UptimeSampleManager"
+                       class="org.ametys.runtime.plugins.core.monitoring.sample.UptimeSampleManager"
+                       logger="org.ametys.runtime.plugins.core.monitoring.sample.UptimeSampleManager"/>
+        	<!-- Monitor the throughput and the number of active HTTP requests -->
+            <extension point="org.ametys.runtime.plugins.core.monitoring.MonitoringExtensionPoint"
+                       id="org.ametys.runtime.plugins.core.monitoring.sample.HttpRequestSampleManager"
+                       class="org.ametys.runtime.plugins.core.monitoring.sample.HttpRequestSampleManager"
+                       logger="org.ametys.runtime.plugins.core.monitoring.sample.HttpRequestSampleManager"/>
+        	<!-- Monitor the number of active HTTP sessions -->
+            <extension point="org.ametys.runtime.plugins.core.monitoring.MonitoringExtensionPoint"
+                       id="org.ametys.runtime.plugins.core.monitoring.sample.HttpSessionSampleManager"
+                       class="org.ametys.runtime.plugins.core.monitoring.sample.HttpSessionSampleManager"
+                       logger="org.ametys.runtime.plugins.core.monitoring.sample.HttpSessionSampleManager"/>
+        	<!-- Monitor the number of live threads (total and daemon) -->
+            <extension point="org.ametys.runtime.plugins.core.monitoring.MonitoringExtensionPoint"
+                       id="org.ametys.runtime.plugins.core.monitoring.sample.ThreadSampleManager"
+                       class="org.ametys.runtime.plugins.core.monitoring.sample.ThreadSampleManager"
+                       logger="org.ametys.runtime.plugins.core.monitoring.sample.ThreadSampleManager"/>
+        	<!-- Monitor the JVM heap memory status -->
+            <extension point="org.ametys.runtime.plugins.core.monitoring.MonitoringExtensionPoint"
+                       id="org.ametys.runtime.plugins.core.monitoring.sample.HeapMemorySampleManager"
+                       class="org.ametys.runtime.plugins.core.monitoring.sample.HeapMemorySampleManager"
+                       logger="org.ametys.runtime.plugins.core.monitoring.sample.HeapMemorySampleManager"/>
+        	<!-- Monitor the JVM non heap memory status -->
+            <extension point="org.ametys.runtime.plugins.core.monitoring.MonitoringExtensionPoint"
+                       id="org.ametys.runtime.plugins.core.monitoring.sample.NonHeapMemorySampleManager"
+                       class="org.ametys.runtime.plugins.core.monitoring.sample.NonHeapMemorySampleManager"
+                       logger="org.ametys.runtime.plugins.core.monitoring.sample.NonHeapMemorySampleManager"/>
         </extensions>
     </feature>
         

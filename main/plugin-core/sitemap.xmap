@@ -33,6 +33,7 @@
             <map:generator name="rights-profiles-list" src="org.ametys.runtime.plugins.core.right.ui.generators.ProfilesListGenerator" logger="org.ametys.runtime.plugins.core.right.sitemap.generator.profiles" label="content"/>
             <map:generator name="rights-assignment" src="org.ametys.runtime.plugins.core.right.ui.generators.UsersAndGroupsGenerator" logger="org.ametys.runtime.plugins.core.right.sitemap.generator.assignment" label="content"/>
             <map:generator name="rights-context-application" src="org.ametys.runtime.plugins.core.right.ui.generators.ApplicationContextGenerator" logger="org.ametys.runtime.plugins.core.right.sitemap.generator.context.application" label="content"/>
+            <map:generator name="monitoring" src="org.ametys.runtime.plugins.core.monitoring.SampleManagersGenerator" logger="org.ametys.runtime.plugins.core.monitoring.SampleManagersGenerator" label="content"/>
         </map:generators>
         
         <map:serializers>
@@ -68,6 +69,8 @@
         
         <map:readers>
             <map:reader name="administrator-jvmstatus-threadlog" src="org.ametys.runtime.plugins.core.administrator.jvmstatus.ThreadLogReader" logger="org.ametys.runtime.plugins.core.administrator"/>
+            <map:reader name="monitoring-graph" src="org.ametys.runtime.plugins.core.monitoring.RRDGraphReader" logger="org.ametys.runtime.plugins.core.monitoring.RRDGraphReader"/>
+            <map:reader name="monitoring-export" src="org.ametys.runtime.plugins.core.monitoring.RRDXmlExportReader" logger="org.ametys.runtime.plugins.core.monitoring.RRDXmlExportReader"/>
         </map:readers>
 	</map:components>
 	
@@ -263,6 +266,38 @@
 
                 <map:generate type="action-result"/>
                 <map:serialize type="xml" status-code="500"/>
+            </map:match>
+
+            <!-- +
+                 | Monitoring
+                 + -->
+            <map:match pattern="administrator/monitoring.html">
+            	<map:generate type="monitoring"/>
+                <map:transform src="pages/monitoring/index.xsl">
+                    <map:parameter name="contextPath" value="{request:contextPath}"/>
+                    <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
+                </map:transform>
+                <map:serialize type="xhtml"/>
+            </map:match>
+            
+            <map:match pattern="administrator/monitoring/*.html">
+            	<map:generate type="monitoring"/>
+                <map:transform src="pages/monitoring/sample.xsl">
+                    <map:parameter name="contextPath" value="{request:contextPath}"/>
+                    <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
+                    <map:parameter name="sampleName" value="{1}"/>
+                </map:transform>
+                <map:serialize type="xhtml"/>
+            </map:match>
+            
+            <map:match pattern="administrator/monitoring/graph/*/*.png">
+                <map:read type="monitoring-graph" src="{1}">
+                	<map:parameter name="period" value="{2}"/>
+                </map:read>
+            </map:match>
+
+            <map:match pattern="administrator/monitoring/*.xml">
+                <map:read type="monitoring-export" src="{1}"/>
             </map:match>
             
              <!-- +
