@@ -86,7 +86,7 @@ public class JVMStatusGenerator extends ServiceableGenerator
         
         try
         {
-            XMLUtils.createElement(contentHandler, "activeRequests", String.valueOf(RequestCountListener.getRequestCount()));
+            XMLUtils.createElement(contentHandler, "activeRequests", String.valueOf(RequestCountListener.getCurrentRequestCount()));
         }
         catch (IllegalStateException e)
         {
