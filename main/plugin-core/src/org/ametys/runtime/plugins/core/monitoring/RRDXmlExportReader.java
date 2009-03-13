@@ -48,6 +48,13 @@ public class RRDXmlExportReader extends AbstractReader implements Contextualizab
         
         RrdDb rrdDb = new RrdDb(rrdFile.getPath());
         
-        rrdDb.exportXml(out);
+        try
+        {
+            rrdDb.exportXml(out);
+        }
+        finally
+        {
+            rrdDb.close();
+        }
     }
 }
