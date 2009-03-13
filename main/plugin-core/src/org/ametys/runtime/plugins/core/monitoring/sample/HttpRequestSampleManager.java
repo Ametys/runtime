@@ -12,7 +12,8 @@ import org.rrd4j.core.Sample;
 import org.rrd4j.graph.RrdGraphDef;
 
 /**
- * {@link SampleManager} for collecting the number of active HTTP requests.
+ * {@link SampleManager} for collecting the throughput and the number
+ * of active HTTP requests .
  */
 public class HttpRequestSampleManager extends AbstractSampleManager
 {
@@ -60,7 +61,6 @@ public class HttpRequestSampleManager extends AbstractSampleManager
         graphDef.gprint("current", ConsolFun.MAX, "Max current: %.0f");
         graphDef.gprint("total", ConsolFun.LAST, "Cur rate: %.0f req/s");
         graphDef.gprint("total", ConsolFun.MAX, "Max rate: %.0f req/s");
-
 
         // Do not scale units
         graphDef.setUnitsExponent(0);

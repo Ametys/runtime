@@ -1,5 +1,6 @@
 package org.ametys.runtime.plugins.core.monitoring;
 
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -100,7 +101,15 @@ public class RRDGraphReader extends ServiceableReader implements Contextualizabl
         RrdGraphDef graphDef = sampleManagerToUse.getGraph(rrdFile.getPath(), 400, 200, period);
         RrdGraph graph = new RrdGraph(graphDef);
         BufferedImage bi = new BufferedImage(graph.getRrdGraphInfo().getWidth(), graph.getRrdGraphInfo().getHeight(), BufferedImage.TYPE_INT_RGB);
-        graph.render(bi.getGraphics());
-        ImageIO.write(bi, "PNG", out);
+        Graphics graphics = bi.getGraphics();
+        try
+        {
+            graph.render(graphics);
+            ImageIO.write(bi, "PNG", out);
+        }
+        finally
+        {
+            graphics.dispose();
+        }
     }
 }
