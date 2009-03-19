@@ -25,7 +25,7 @@
    		</taskdef>
 
    		<input message="Enter password for user ${svn.user} : " addproperty="svn.passwd">
-   			<handler classname="org.apache.tools.ant.input.SecureInputHandler"/>
+   			<!--handler classname="org.apache.tools.ant.input.SecureInputHandler"/-->
    		</input>
    		
    		<!-- SVN tag and export --> 
