@@ -35,9 +35,6 @@ public class HasRightAction extends ServiceableAction implements Configurable, T
     /** The runtime rights manager */
     protected RightsManager _rightsManager;
     
-    /** The cocoon object model */
-    protected Map<String, Object> _objectModel;
-    
     private boolean _hasRight;
     
     private String _baseContext;
@@ -51,17 +48,16 @@ public class HasRightAction extends ServiceableAction implements Configurable, T
     /**
      * Return the base context when not specified
      * @param parameters The sitemap parameters
+     * @param objectModel the objectModel of the calling environment 
      * @return the base context when not specified
      */
-    protected String getBaseContext(Parameters parameters)
+    protected String getBaseContext(Parameters parameters, Map objectModel)
     {
         return _baseContext;
     }
     
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
-        _objectModel = (Map<String, Object>) objectModel;
-        
         if (_rightsManager == null)
         {
             _rightsManager = (RightsManager) manager.lookup(RightsManager.ROLE);
@@ -76,7 +72,7 @@ public class HasRightAction extends ServiceableAction implements Configurable, T
         String context = parameters.getParameter("context", null);
         if (context == null)
         {
-            context = getBaseContext(parameters);
+            context = getBaseContext(parameters, objectModel);
         }
         
         String userLogin = UserHelper.getCurrentUser(objectModel);
