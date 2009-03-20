@@ -49,5 +49,5 @@ public abstract class AbstractJDBCUsersManagerTestCase extends AbstractJDBCTestC
      * Provide the scripts to run before each test invocation.
      * @return the scripts to run.
      */
-	protected abstract File[] getScripts();
+    protected abstract File[] getScripts();
 }
