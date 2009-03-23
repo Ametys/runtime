@@ -13,275 +13,279 @@
                 xmlns:i18n="http://apache.org/cocoon/i18n/2.1" 
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
     
-	<xsl:param name="contextPath"/>
+    <xsl:param name="contextPath"/>
     <xsl:param name="pluginName"/>
+    <xsl:param name="workspaceName"/>
+    <xsl:param name="workspaceURI"/>
+
+    <xsl:variable name="workspaceContext"><xsl:value-of select="$contextPath"/><xsl:value-of select="$workspaceURI"/></xsl:variable>    
+    
+    <xsl:variable name="resourcesPath"><xsl:value-of select="$contextPath"/>/plugins/core/resources</xsl:variable>    
     
 	<xsl:template match="/UsersView">
         <html>
             <head>
-                <title>
-                    <i18n:text i18n:key="PLUGINS_CORE_USERS_TITLE"/>
-                </title>
+                <title><i18n:text i18n:key="PLUGINS_CORE_USERS_TITLE"/></title>
+                <link rel="stylesheet" href="{$resourcesPath}/css/users/view.css" type="text/css"/>
             </head>
-            <body>
-				<table id="fulltable" cellspacing="0" cellpadding="0" style="display: none;">
-                    <colgroup>
-                        <col width="231px"/>
-                        <col/>
-                    </colgroup>
-					<tr> 
-						<td id="actionset"/>
-						<td>
-							<div id="listview"/>
-						</td>
-					</tr>
-				</table>
-				
-				<script>
-					Tools.loadScript (document, getPluginResourcesUrl("<xsl:value-of select="$pluginName"/>") + "/js/users/user.js.i18n", function () {RUNTIME_Plugin_Runtime_EditUser.initialize("<xsl:value-of select="$pluginName"/>", <xsl:value-of select="count(Model/*)+count(Model/*[type='password'])"/>);});
-				
-                    function listener() {}
-                </script>
-                        
-                <xsl:call-template name="categories"/>
-    
-                <script>
-					var slistview = new SListView("listview", null, listener);
-					slistview.setView("detail");
-					slistview.setMultipleSelection(false);
-					
-					slistview.addColumn (null, "<i18n:text i18n:key="PLUGINS_CORE_USERS_COL_NAME"/>", null, STools.is_ie ? "190px" : "175px", null);
-					slistview.addColumn ("id", "<i18n:text i18n:key="PLUGINS_CORE_USERS_COL_ID"/>", null, STools.is_ie ? "100px" : "85px", null);
-					slistview.addColumn ("email", "<i18n:text i18n:key="PLUGINS_CORE_USERS_COL_EMAIL"/>", null, STools.is_ie ? "160px" : "145px", null);
-					
-					slistview.paint();
-					
-					function addElement(firstname, lastname, login, email)
-					{
-						var name = lastname + (firstname == null || firstname == '' ? '' : (' ' + firstname));
-						var elt = slistview.addElement (name, 
-												getPluginResourcesUrl("<xsl:value-of select="$pluginName"/>") + "/img/users/icon_small.gif", "/img/users/icon_medium.gif", "/img/users/icon_large.gif", 
-												{
-													"id": login,
-													"email": email
-												});
-						return elt;
-					}
-                    <xsl:if test="Model/@Modifiable = 'true'">
-					function updateElement(elt, firstname, lastname, email)
-					{
-						elt.name = lastname + (firstname == null || firstname == '' ? '' : (' ' + firstname));
-						elt.properties.email = email;
-					}
-                    </xsl:if>
+            
+            <script>
+            	<script type="text/javascript" src="{$resourcesPath}/js/users/user.js.i18n"><xsl:comment>//emty</xsl:comment></script>
+            	<script type="text/javascript">
+            			RUNTIME_Plugin_Runtime_EditUser.initialize("<xsl:value-of select="$pluginName"/>", <xsl:value-of select="count(Model/*)+count(Model/*[type='password'])"/>);
+            			
+	               		function goBack()
+	                    {
+	                        document.location.href = context.workspaceContext;
+	                    }
+	                   
+	                  	var formInputs = [];
+	                  	<xsl:for-each select="Model/node()">
+								var input;
+								var type = "<xsl:value-of select="type"/>";
+								if (type == 'string')
+								{
+									input = new Ext.ametys.TextField ({
+								        fieldLabel: "<i18n:text i18n:key="{label}"/>",
+								        desc: "<i18n:text i18n:key="{description}"/>",
+								        name: "field_<xsl:value-of select="local-name()"/>",
+								        width: 200
+									});
+								}
+								else if (type == 'password')
+								{
+									input = new Ext.ametys.PasswordField ({
+								        fieldLabel: "<i18n:text i18n:key="{label}"/>",
+								        desc: "<i18n:text i18n:key="{description}"/>",
+								        name: "field_<xsl:value-of select="local-name()"/>",
+								        inputType:"password",
+								        width: 200
+									});
+								}
+								else if (type == 'date')
+								{
+									input = new Ext.ametys.DateField ({
+								        fieldLabel: "<i18n:text i18n:key="{label}"/>",
+								        desc: "<i18n:text i18n:key="{description}"/>",
+								        name: "field_<xsl:value-of select="local-name()"/>",
+								        width: 200
+									});
+								}
+								else if (type == 'boolean')
+								{
+									input = new Ext.ametys.BooleanField ({
+								        fieldLabel: "<i18n:text i18n:key="{label}"/>",
+								        desc: "<i18n:text i18n:key="{description}"/>",
+								        name: "field_<xsl:value-of select="local-name()"/>",
+								        width: 200
+									});
+								}
+								else
+								{
+									input = new Ext.ametys.TextField ({
+								        fieldLabel: "<i18n:text i18n:key="{label}"/>",
+								        desc: "<i18n:text i18n:key="{description}"/>",
+								        name: "field_<xsl:value-of select="local-name()"/>",
+								        width: 180
+									});
+								}	
+								formInputs.push(input);																								
+						</xsl:for-each>		
+	                  	
+						function userNew()
+		                {
+		                    RUNTIME_Plugin_Runtime_EditUser.act({"mode": "new"});
+		                }
+		                
+		                function userEdit()
+		                {
+		                    var elt = listView.getSelection()[0];
+		                    RUNTIME_Plugin_Runtime_EditUser.act({"mode": "edit", "login" : elt.data.login});
+		                }
+		                
+		                function userDelete()
+	                    {
+		                    if (!confirm("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_DEL_PROMPT"/>"))
+		                        return;
+		                
+		                    var elt = listView.getSelection()[0];              
+		                    var url = getPluginDirectUrl("<xsl:value-of select="$pluginName"/>") + "/users/delete";
+		                    var args = "login=" + encodeURIComponent(elt.data.login);
+		                    
+		                    if (200 != Tools.postUrlStatusCode(url, args))
+		                    {
+		                        alert("<i18n:text i18n:key="PLUGINS_CORE_USERS_DELETE_ERROR"/>");
+		                        return;
+		                    }
+		                    
+		                    listView.removeElement(elt);                    
+						}
+						
+						function addElement(firstname, lastname, login, email)
+						{
+							listView.addElement(login, {
+									'login': login,
+									'display': firstname + " " + lastname + " (" + login + ")",
+									'firstname': firstname,
+									'lastname': lastname,
+									'email': email 
+								});	
+						}
+						
+						function updateElement (element, login, firstname, lastname, email)
+						{
+							element.set('firstname', firstname);
+							element.set('lastname', lastname);
+							element.set('email', email);
+							element.set('display', firstname + ' ' + lastname + ' (' + login + ')');
+						}
 
-                    sfulltable_onresize = function (fulltable)
-                    {
-                        var div = document.getElementById("listview");
-                        div.style.width = fulltable._width - 231;
-                        div.style.height = fulltable._height;
-                        
-                        var table = document.getElementById("fulltable");
-                        table.style.width = fulltable._width;
-                        table.style.height = fulltable._height;
-                        table.style.display = "";
-                    }                    
-                    sfulltable_create = function()
-                    {
-                        var minSize = {width: 720, height: 450};
-                        var maxSize = null;
-                        var sfulltable = new SFullTable("fulltable", minSize, maxSize);
-                        sfulltable.setEventListener("onresize", sfulltable_onresize);
-                        sfulltable_onresize(sfulltable);
-                    }
-                    window.setTimeout("sfulltable_create();", 1);
-                </script>
+						function users_search ()
+		                {
+		                	// Effacer tout
+		                	listView.getStore().removeAll();
+               				
+               				<xsl:if test="Model/@Modifiable = 'true'">
+               					handle.hideElt(2);
+								handle.hideElt(3);
+							</xsl:if>
+								
+               				//Lancer la recherche
+		                	var searchValue = searchForm.getForm().findField("searchField").getValue();
+			                
+			                var url = getPluginDirectUrl("<xsl:value-of select="$pluginName"/>") + "/users/search.xml";
+			                var arg = "criteria=" + encodeURIComponent(searchValue);
+			                
+			                var result = Tools.postFromUrl(url, arg);
+			                if (result == null)
+			                {
+			                    alert("<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCHING_ERROR"/>")
+			                    return;
+			                }
+			
+			                // Afficher les resultats
+			                var nodes = result.selectNodes("/Search/users/user");
+			                for (var i = 0; i &lt; nodes.length; i++)
+			                {
+			                    var firstnameNode = nodes[i].selectSingleNode("firstname");
+			                    var firstname = firstnameNode != null ? firstnameNode[Tools.xmlTextContent] : "";
+			                    
+			                    var lastname = nodes[i].selectSingleNode("lastname")[Tools.xmlTextContent];
+			                    var login = nodes[i].getAttribute("login");
+			                    var email = nodes[i].selectSingleNode("email")[Tools.xmlTextContent];
+			                    
+			                    addElement(firstname, lastname, login, email);
+			                }
+			                
+			                if (nodes.length == 0)
+			                {
+			                    alert("<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCHING_NORESULT"/>")
+			                    return;
+			                }
+						}
+											
+            			//Recherche
+						var search = new Ext.ametys.ActionsPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCH"/>'});
+
+						var searchField = new Ext.form.TextField ({
+							hideLabel: true,
+					        name: 'searchField',
+					        anchor:'100%',
+					        value: 'Nom ou identifiant',
+					        onFocus : function () {this.setValue('');}
+						});
+					
+						var searchForm = new Ext.ametys.Form({
+					        items: [searchField],
+					       	baseCls: 'search',
+					        buttons: [{
+					            text: '<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCH_BUTTON"/>',
+									handler : function() {
+										users_search();
+									}				            
+					        }]
+    					});					        
+				    	
+						search.add(searchForm);
+						search.addAction("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_QUIT"/>", "<xsl:value-of select="$resourcesPath"/>/img/users/quit.png", goBack);
+				    
+				    	<xsl:if test="Model/@Modifiable = 'true'">
+							// Actions
+							var handle = new Ext.ametys.ActionsPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE"/>'});
+							handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_NEW"/>", "<xsl:value-of select="$resourcesPath"/>/img/users/add_user.gif", userNew);
+							handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_EDIT"/>", "<xsl:value-of select="$resourcesPath"/>/img/users/modify_user.gif", userEdit);
+							handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_DEL"/>", "<xsl:value-of select="$resourcesPath"/>/img/users/delete.png", userDelete);
+							
+							handle.hideElt(2);
+							handle.hideElt(3);
+						</xsl:if>
+										
+						// Aide
+						var help = new Ext.ametys.TextPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_USERS_HELP"/>'});
+						help.addText("<i18n:text i18n:key="PLUGINS_CORE_USERS_HELP_TEXT_READ"/>");
+					
+						var rightPanel = new Ext.ametys.HtmlContainer({
+									region:'east',
+									border: false,
+									baseCls: 'admin-right-panel',
+									width: 277,
+								    items: [search, <xsl:if test="Model/@Modifiable = 'true'">handle, </xsl:if> help]
+						});
+							
+						var store = new Ext.data.SimpleStore({
+									id:0,
+							        fields: [
+							           {name: 'login'},
+							           {name: 'display'},
+							           {name: 'firstname'},
+							           {name: 'lastname'},
+							           {name: 'email'}
+							        ]});
+							        
+						function onSelectRow (listview, rowindex, e)
+						{
+							handle.showElt(2);
+							handle.showElt(3);
+						}
+						
+						function onUnselectRow (e)
+						{
+							handle.hideElt(2);
+							handle.hideElt(3);
+						}
+					     
+						// Grid
+						var listView = new Ext.ametys.ListView({
+							<xsl:if test="Model/@Modifiable = 'true'">listeners: {'rowclick': onSelectRow, 'mouseup' : onUnselectRow},</xsl:if>
+							baseCls : 'user-list',
+							viewConfig: {
+						        forceFit: true
+						    },
+						    store : store,
+						    columns: [
+						        {header: "<i18n:text i18n:key="PLUGINS_CORE_USERS_COL_NAME"/>", width : 200, menuDisabled : true, sortable: true, dataIndex: 'display'},
+						        {header: "<i18n:text i18n:key="PLUGINS_CORE_USERS_COL_EMAIL"/>", width : 240, menuDisabled : true, sortable: true, dataIndex: 'email'}
+						    ],
+							id: 'detailView',
+							region: 'center'
+						});							
+
+						function _getAdminPanel ()
+						{
+							return new Ext.Panel({
+								region: 'center',
+								baseCls: 'transparent-panel',
+								border: false,
+								layout: 'border',
+								autoScroll: true,
+								items: [listView, rightPanel]
+							});
+						}
+            	</script>
+            </script>
+            <body>
+				
             </body>
         </html>
     </xsl:template>
-
-    <xsl:template name="categories">
-        <script>
-            var sp = new SContextualPanel("actionset");  
-        </script>
-        
-        <xsl:call-template name="search-category"/>
-        <xsl:call-template name="action-category"/>
-        <xsl:call-template name="help-category"/>
-        
-        <script>
-            sp.paint();
-        </script>
-
-        <xsl:call-template name="search-category-after"/>
-        <xsl:call-template name="action-category-after"/>
-        <xsl:call-template name="help-category-after"/>
-    </xsl:template>
-
-    <xsl:template name="search-category">
-        <script>
-            var search = sp.addCategory("<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCH"/>");
-            search.addElement("");
-            
-            <xsl:if test="AdministratorUI = 'true'">
-                function goBack()
-                {
-                    document.location.href = context.workspaceContext;
-                }
-                
-                search.addElement("&#160;");
-                search.addLink("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_QUIT"/>",getPluginResourcesUrl("<xsl:value-of select="$pluginName"/>") + "/img/users/quit.gif", goBack);
-            </xsl:if>
-        </script>
-    </xsl:template>                        
-
-    <xsl:template name="search-category-after">
-        <xsl:call-template name="search-category-after-html"/>
-        <xsl:call-template name="search-category-after-script"/>
-    </xsl:template>
-    
-    <xsl:template name="search-category-after-html">
-        <table id="search-table" style="border-collapse: collapse; width: 181px;">
-            <tr>
-                <td style="font-size: 11px; color: #000000;">
-                    <i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCH_CRITERIA"/>
-                </td>
-            </tr>
-            <tr>
-                <td><input type="text" id="searchCrit" name="search" style="border: 1px solid #7f9db9; width: 181px; font-size: 11px;"/></td>
-            </tr>
-            <tr>
-                <td style="text-align: center; padding-top: 10px">
-                    <button onclick="users_search(); return false;" style="border: 1px solid #cdcdcd; text-align: center; font-size: 11px;"><i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCH_BUTTON"/></button>
-                </td>
-            </tr>
-        </table>
-    </xsl:template>
-        
-    <xsl:template name="search-category-after-script">
-        <script>
-            search.table.rows[1].cells[0].innerHTML = "";
-            search.table.rows[1].cells[0].appendChild(document.getElementById("search-table"));
-
-            function users_search()
-            {
-                // Effacer tout
-                while (slistview.getElements().length &gt; 0)
-                    slistview.getElements()[0].remove();
-
-                // Relancer la recherche
-                var searchValue = document.getElementById('searchCrit').value;
-                
-                var url = getPluginDirectUrl("<xsl:value-of select="$pluginName"/>") + "/users/search.xml";
-                var arg = "criteria=" + encodeURIComponent(searchValue);
-                
-                var result = Tools.postFromUrl(url, arg);
-                if (result == null)
-                {
-                    alert("<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCHING_ERROR"/>")
-                    return;
-                }
-
-                // Afficher les resultats
-                var nodes = result.selectNodes("/Search/users/user");
-                for (var i = 0; i &lt; nodes.length; i++)
-                {
-                    var firstnameNode = nodes[i].selectSingleNode("firstname");
-                    var firstname = firstnameNode != null ? firstnameNode[Tools.xmlTextContent] : "";
-                    
-                    var lastname = nodes[i].selectSingleNode("lastname")[Tools.xmlTextContent];
-                    var login = nodes[i].getAttribute("login");
-                    var email = nodes[i].selectSingleNode("email")[Tools.xmlTextContent];
-                    
-                    addElement(firstname, lastname, login, email);
-                }
-                if (nodes.length == 0)
-                {
-                    alert("<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCHING_NORESULT"/>")
-                    return;
-                }
-                slistview.paint();
-            }
-        </script>
-    </xsl:template>
-    
-    <xsl:template name="action-category">
-        <xsl:if test="Model/@Modifiable = 'true'">
-            <script>
-                function userNew()
-                {
-                    RUNTIME_Plugin_Runtime_EditUser.act({"mode": "new"});
-                }
-                
-                function userEdit()
-                {
-                    var elt = slistview.getSelection()[0];
-                    RUNTIME_Plugin_Runtime_EditUser.act({"mode": "edit", "login" : elt.properties.id});
-                }
-                
-                function userDelete()
-                {
-                    if (!confirm("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_DEL_PROMPT"/>"))
-                        return;
-                
-                    var elt = slistview.getSelection()[0];
-                    
-                    var url = getPluginDirectUrl("<xsl:value-of select="$pluginName"/>") + "/users/delete";
-                    var args = "login=" + encodeURIComponent(elt.properties.id);
-                    
-                    if (200 != Tools.postUrlStatusCode(url, args))
-                    {
-                        alert("<i18n:text i18n:key="PLUGINS_CORE_USERS_DELETE_ERROR"/>");
-                        return;
-                    }
-                    
-                    elt.remove();
-                }
-    
-                var handle = sp.addCategory("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE"/>")
-                    handle.addLink("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_NEW"/>", getPluginResourcesUrl("<xsl:value-of select="$pluginName"/>") + "/img/users/add_user.gif", userNew);
-                    handle.addLink("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_EDIT"/>", getPluginResourcesUrl("<xsl:value-of select="$pluginName"/>") + "/img/users/icon_small.gif", userEdit);
-                    handle.addLink("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_DEL"/>", getPluginResourcesUrl("<xsl:value-of select="$pluginName"/>") + "/img/users/delete.gif", userDelete);
-            </script>
-        </xsl:if>
-    </xsl:template>
-
-    <xsl:template name="action-category-after">
-        <xsl:if test="Model/@Modifiable = 'true'">
-            <script>
-                handle.showHideElement(1, false);
-                handle.showHideElement(2, false);
-
-                listener.onSelect = function(element)
-                {
-                    handle.showHideElement(1, true);
-                    handle.showHideElement(2, true);
-                return true;
-                }
-                listener.onUnselect = function(element)
-                {
-                    handle.showHideElement(1, false);
-                    handle.showHideElement(2, false);
-                }
-            </script>
-        </xsl:if>
-    </xsl:template>
-    
-    <xsl:template name="help-category">
-        <script>
-            var help = sp.addCategory("<i18n:text i18n:key="PLUGINS_CORE_USERS_HELP"/>");
-            <xsl:choose>
-                <xsl:when test="Model/@Modifiable = 'true'">
-                    help.addElement("&lt;div style='font-size: 11px; color: #000000'&gt;<i18n:text i18n:key="PLUGINS_CORE_USERS_HELP_TEXT_MODIFY"/>&lt;/div&gt;");
-                </xsl:when>
-                <xsl:otherwise>
-                    help.addElement("&lt;div style='font-size: 11px; color: #000000'&gt;<i18n:text i18n:key="PLUGINS_CORE_USERS_HELP_TEXT_READ"/>&lt;/div&gt;");
-                </xsl:otherwise>
-            </xsl:choose>
-        </script>
-    </xsl:template>
-        
-    <xsl:template name="help-category-after">
-    </xsl:template>
-        
 </xsl:stylesheet>

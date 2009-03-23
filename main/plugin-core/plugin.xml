@@ -755,7 +755,7 @@
          -->
         <components>
             <component role="org.ametys.runtime.workspaces.admin.DesktopManager" 
-                class="org.ametys.runtime.ui.manager.DesktopManager" 
+                class="org.ametys.runtime.plugins.core.ui.item.DesktopManager" 
                 config="/WEB-INF/param/workspace-admin.xml"/>
         </components>
     </feature>
@@ -770,7 +770,7 @@
                  + -->
             <extension  point="org.ametys.runtime.ui.item.UIItemManager" 
                         id="org.ametys.runtime.plugins.core.administrator.Password"
-                        class="org.ametys.runtime.plugins.core.ui.item.StaticUIItemFactory"
+                        class="org.ametys.runtime.plugins.core.ui.item.StaticAdminUIItemFactory"
                         logger="org.ametys.runtime.plugins.core.ui.administrator.password">
                 <!-- 
                     This interaction allows the administrator to change its password
@@ -779,9 +779,9 @@
                     <LabelKey>PLUGINS_CORE_ADMINISTRATOR_PASSWORD_LABEL</LabelKey>
                     <DescriptionKey>PLUGINS_CORE_ADMINISTRATOR_PASSWORD_DESCRIPTION</DescriptionKey>
                     <Icons>
-                        <Small>img/administrator/password/icon_small.gif</Small>
+                        <Small>img/administrator/password/icon_dock.png</Small>
                         <Medium>img/administrator/password/icon_medium.gif</Medium>
-                        <Large>img/administrator/password/icon_large.gif</Large>
+                        <Large>img/administrator/password/icon_large.png</Large>
                     </Icons>
                     <Action type="class">
                         <Class value="RUNTIME_Plugin_Runtime_Administrator_Password"/>
@@ -797,7 +797,7 @@
                  + -->
             <extension  point="org.ametys.runtime.ui.item.UIItemManager" 
                         id="org.ametys.runtime.plugins.core.administrator.Config"
-                        class="org.ametys.runtime.plugins.core.ui.item.StaticUIItemFactory"
+                        class="org.ametys.runtime.plugins.core.ui.item.StaticAdminUIItemFactory"
                         logger="org.ametys.runtime.plugins.core.ui.administrator.config">
                 <!-- 
                     This interaction allows the administrator to change the main configuration of the application
@@ -806,13 +806,14 @@
                     <LabelKey>PLUGINS_CORE_ADMINISTRATOR_CONFIG_LABEL</LabelKey>
                     <DescriptionKey>PLUGINS_CORE_ADMINISTRATOR_CONFIG_DESCRIPTION</DescriptionKey>
                     <Icons>
-                        <Small>img/administrator/config/icon_small.gif</Small>
+                        <Small>img/administrator/config/icon_dock.png</Small>
                         <Medium>img/administrator/config/icon_medium.gif</Medium>
-                        <Large>img/administrator/config/icon_large.gif</Large>
+                        <Large>img/administrator/config/icon_large.png</Large>
                     </Icons>
                     <Action type="url">
                         <Url value="administrator/config/edit.html"/>
                     </Action>
+                    <Url>administrator/config/edit\.html</Url>
                 </Static>
             </extension>
             
@@ -821,7 +822,7 @@
                  + -->
             <extension  point="org.ametys.runtime.ui.item.UIItemManager" 
                         id="org.ametys.runtime.plugins.core.administrator.JVMStatus"
-                        class="org.ametys.runtime.plugins.core.ui.item.StaticUIItemFactory"
+                        class="org.ametys.runtime.plugins.core.ui.item.StaticAdminUIItemFactory"
                         logger="org.ametys.runtime.plugins.core.ui.administrator.status">
                 <!-- 
                     This interaction allows the administrator to check the status of the JVM
@@ -830,13 +831,14 @@
                     <LabelKey>PLUGINS_CORE_ADMINISTRATOR_STATUS_LABEL</LabelKey>
                     <DescriptionKey>PLUGINS_CORE_ADMINISTRATOR_STATUS_DESCRIPTION</DescriptionKey>
                     <Icons>
-                        <Small>img/administrator/jvmstatus/icon_small.gif</Small>
+                        <Small>img/administrator/jvmstatus/icon_dock.png</Small>
                         <Medium>img/administrator/jvmstatus/icon_medium.gif</Medium>
-                        <Large>img/administrator/jvmstatus/icon_large.gif</Large>
+                        <Large>img/administrator/jvmstatus/icon_large.png</Large>
                     </Icons>
                     <Action type="url">
                         <Url value="administrator/jvmstatus/view.html"/>
                     </Action>
+                    <Url>administrator/jvmstatus/view\.html</Url>
                 </Static>
             </extension> 
 
@@ -845,7 +847,7 @@
                  + -->           
             <extension  point="org.ametys.runtime.ui.item.UIItemManager" 
                         id="org.ametys.runtime.plugins.core.administrator.Plugins"
-                        class="org.ametys.runtime.plugins.core.ui.item.StaticUIItemFactory"
+                        class="org.ametys.runtime.plugins.core.ui.item.StaticAdminUIItemFactory"
                         logger="org.ametys.runtime.plugins.core.ui.administrator.plugins">
                 <!-- 
                     This interaction allows the administrator to see plugins. Usefull for developpers.
@@ -854,13 +856,14 @@
                     <LabelKey>PLUGINS_CORE_ADMINISTRATOR_PLUGINS_LABEL</LabelKey>
                     <DescriptionKey>PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DESCRIPTION</DescriptionKey>
                     <Icons>
-                        <Small>img/administrator/plugins/icon_small.gif</Small>
+                        <Small>img/administrator/plugins/icon_dock.png</Small>
                         <Medium>img/administrator/plugins/icon_medium.gif</Medium>
-                        <Large>img/administrator/plugins/icon_large.gif</Large>
+                        <Large>img/administrator/plugins/icon_large.png</Large>
                     </Icons>
                     <Action type="url">
                         <Url value="administrator/plugins/view.html"/>
                     </Action>
+                    <Url>administrator/plugins/view\.html</Url>
                 </Static>
             </extension> 
             
@@ -869,7 +872,7 @@
                  + -->           
             <extension  point="org.ametys.runtime.ui.item.UIItemManager" 
                         id="org.ametys.runtime.plugins.core.administrator.Logs"
-                        class="org.ametys.runtime.plugins.core.ui.item.StaticUIItemFactory"
+                        class="org.ametys.runtime.plugins.core.ui.item.StaticAdminUIItemFactory"
                         logger="org.ametys.runtime.plugins.core.ui.administrator.logs">
                 <!-- 
                     This interaction allows the administrator to see and manage logs
@@ -878,13 +881,14 @@
                     <LabelKey>PLUGINS_CORE_ADMINISTRATOR_LOGS_LABEL</LabelKey>
                     <DescriptionKey>PLUGINS_CORE_ADMINISTRATOR_LOGS_DESCRIPTION</DescriptionKey>
                     <Icons>
-                        <Small>img/administrator/logs/icon_small.gif</Small>
+                        <Small>img/administrator/logs/icon_dock.png</Small>
                         <Medium>img/administrator/logs/icon_medium.gif</Medium>
-                        <Large>img/administrator/logs/icon_large.gif</Large>
+                        <Large>img/administrator/logs/icon_large.png</Large>
                     </Icons>
                     <Action type="url">
                         <Url value="administrator/logs/view.html"/>
                     </Action>
+                    <Url>administrator/logs/view\.html</Url>
                 </Static>
             </extension>             
 
@@ -893,7 +897,7 @@
                  + -->           
             <extension  point="org.ametys.runtime.ui.item.UIItemManager" 
                         id="org.ametys.runtime.plugins.core.administrator.System"
-                        class="org.ametys.runtime.plugins.core.ui.item.StaticUIItemFactory"
+                        class="org.ametys.runtime.plugins.core.ui.item.StaticAdminUIItemFactory"
                         logger="org.ametys.runtime.plugins.core.ui.administrator.system">
                 <!-- 
                     This interaction allows the administrator to handle the system (maintenance mode, welcome message...)
@@ -902,14 +906,15 @@
                     <LabelKey>PLUGINS_CORE_ADMINISTRATOR_SYSTEM_LABEL</LabelKey>
                     <DescriptionKey>PLUGINS_CORE_ADMINISTRATOR_SYSTEM_DESCRIPTION</DescriptionKey>
                     <Icons>
-                        <Small>img/administrator/system/icon_small.gif</Small>
+                        <Small>img/administrator/system/icon_dock.png</Small>
                         <Medium>img/administrator/system/icon_medium.gif</Medium>
-                        <Large>img/administrator/system/icon_large.gif</Large>
+                        <Large>img/administrator/system/icon_large.png</Large>
                     </Icons>
                     <Action type="url">
                         <Url value="administrator/system/view.html"/>
                     </Action>
-                </Static>
+                    <Url>administrator/system/view\.html</Url>
+           		</Static>
             </extension>   
                
         </extensions>
@@ -937,7 +942,7 @@
         <extensions>
             <extension  point="org.ametys.runtime.ui.item.UIItemManager" 
                         id="org.ametys.runtime.plugins.core.Users"
-                        class="org.ametys.runtime.plugins.core.ui.item.StaticUIItemFactory"
+                        class="org.ametys.runtime.plugins.core.ui.item.StaticAdminUIItemFactory"
                         logger="org.ametys.runtime.plugins.core.ui.users">
                 <!-- 
                     This interaction allow to handle users (read or read/write)
@@ -946,14 +951,15 @@
                     <LabelKey>PLUGINS_CORE_USERS_LABEL</LabelKey>
                     <DescriptionKey>PLUGINS_CORE_USERS_DESCRIPTION</DescriptionKey>
                     <Icons>
-                        <Small>img/users/icon_small.gif</Small>
+                        <Small>img/users/icon_dock.png</Small>
                         <Medium>img/users/icon_medium.gif</Medium>
-                        <Large>img/users/icon_large.gif</Large>
+                        <Large>img/users/icon_large.png</Large>
                     </Icons>
                     <Action type="url">
                         <Url value="users/view.html"/>
                     </Action>
                     <Right>Runtime_Rights_User_Handle</Right>
+                    <Url>users/view\.html</Url>
                 </Static>
             </extension>      
         </extensions>
@@ -1175,7 +1181,7 @@
         <extensions>
             <extension  point="org.ametys.runtime.ui.item.UIItemManager" 
                         id="org.ametys.runtime.plugins.core.Groups"
-                        class="org.ametys.runtime.plugins.core.ui.item.StaticUIItemFactory"
+                        class="org.ametys.runtime.plugins.core.ui.item.StaticAdminUIItemFactory"
                         logger="org.ametys.runtime.plugins.core.ui.groups">
                 <!-- 
                     This interaction allow to handle groups (read or read/write)
@@ -1184,14 +1190,15 @@
                     <LabelKey>PLUGINS_CORE_GROUPS_LABEL</LabelKey>
                     <DescriptionKey>PLUGINS_CORE_GROUPS_DESCRIPTION</DescriptionKey>
                     <Icons>
-                        <Small>img/groups/icon_small.gif</Small>
+                        <Small>img/groups/icon_dock.png</Small>
                         <Medium>img/groups/icon_medium.gif</Medium>
-                        <Large>img/groups/icon_large.gif</Large>
+                        <Large>img/groups/icon_large.png</Large>
                     </Icons>
                     <Action type="url">
                         <Url value="groups/view.html"/>
                     </Action>
                     <Right>Runtime_Rights_Group_Handle</Right>
+                    <Url>groups/view\.html</Url>
                 </Static>
             </extension>      
         </extensions>
@@ -1360,7 +1367,7 @@
         <extensions>
             <extension  point="org.ametys.runtime.ui.item.UIItemManager" 
                         id="org.ametys.runtime.plugins.core.right.Profiles"
-                        class="org.ametys.runtime.plugins.core.ui.item.StaticUIItemFactory"
+                        class="org.ametys.runtime.plugins.core.ui.item.StaticAdminUIItemFactory"
                         logger="org.ametys.runtime.plugins.core.ui.rights.profiled.profile">
                 <!-- 
                     This extensions display the profile screen
@@ -1369,20 +1376,21 @@
                     <LabelKey>PLUGINS_CORE_RIGHTS_PROFILES_LABEL</LabelKey>
                     <DescriptionKey>PLUGINS_CORE_RIGHTS_PROFILES_DESCRIPTION</DescriptionKey>
                     <Icons>
-                        <Small>img/rights/profiles/icon_small.gif</Small>
+                        <Small>img/rights/profiles/icon_dock.png</Small>
                         <Medium>img/rights/profiles/icon_medium.gif</Medium>
-                        <Large>img/rights/profiles/icon_large.gif</Large>
+                        <Large>img/rights/profiles/icon_large.png</Large>
                     </Icons>
                     <Action type="url">
                         <Url value="rights/profiles/view.html"/>
                     </Action>
                     <Right>Runtime_Rights_Rights_Profile_Handle</Right>
+                    <Url>rights/profiles/view\.html</Url>
                 </Static>
             </extension>    
 
             <extension  point="org.ametys.runtime.ui.item.UIItemManager" 
                         id="org.ametys.runtime.plugins.core.right.Assign"
-                        class="org.ametys.runtime.plugins.core.ui.item.StaticUIItemFactory"
+                        class="org.ametys.runtime.plugins.core.ui.item.StaticAdminUIItemFactory"
                         logger="org.ametys.runtime.plugins.core.ui.rights.profiled.right">
                 <!-- 
                     This extensions display the core affectation screen for rights
@@ -1391,14 +1399,15 @@
                     <LabelKey>PLUGINS_CORE_RIGHTS_LABEL</LabelKey>
                     <DescriptionKey>PLUGINS_CORE_RIGHTS_DESCRIPTION</DescriptionKey>
                     <Icons>
-                        <Small>img/rights/icon_small.gif</Small>
+                        <Small>img/rights/icon_dock.png</Small>
                         <Medium>img/rights/icon_medium.gif</Medium>
-                        <Large>img/rights/icon_large.gif</Large>
+                        <Large>img/rights/icon_large.png</Large>
                     </Icons>
                     <Action type="url">
                         <Url value="rights/view.html"/>
                     </Action>
                     <Right>Runtime_Rights_Rights_Handle</Right>
+                    <Url>rights/view\.html</Url>
                 </Static>
             </extension>    
         </extensions>

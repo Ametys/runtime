@@ -22,25 +22,63 @@ RUNTIME_Plugin_Runtime_Administrator_Password.initialize = function(plugin)
 
 RUNTIME_Plugin_Runtime_Administrator_Password.delayedInitialize = function()
 {
-	if (RUNTIME_Plugin_Runtime_Administrator_Password.initialized == true)
-		return true;
-  
     var plugin = RUNTIME_Plugin_Runtime_Administrator_Password.plugin;
-	
-	if (!Tools.loadHTML(getPluginDirectUrl(plugin) + "/administrator/password/dialogs.html", "<i18n:text i18n:key="KERNEL_DIALOG_ERRORREADINGURL" i18n:catalogue="kernel"/>"))
-      return false;
-
-	var config = new SDialog.Config()
-	config.innerTableClass = "dialog";
-  
-	RUNTIME_Plugin_Runtime_Administrator_Password.box = new SDialog("RUNTIME_Plugin_Runtime_Administrator_Password", 
-								"<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_DIALOG_CAPTION"/>", 
-								getPluginResourcesUrl(RUNTIME_Plugin_Runtime_Administrator_Password.plugin) + "/img/administrator/password/icon_small.gif", 
-								380, 135, config, RUNTIME_Plugin_Runtime_Administrator_Password);
-	RUNTIME_Plugin_Runtime_Administrator_Password.box.paint();
-	Tools.loadStyle(RUNTIME_Plugin_Runtime_Administrator_Password.box.ui.iframe.contentWindow.document, context.contextPath + "/kernel/resources/css/dialog.css");
-
-    RUNTIME_Plugin_Runtime_Administrator_Password.initialized = true;
+    if (!RUNTIME_Plugin_Runtime_Administrator_Password.box)
+    {
+    	RUNTIME_Plugin_Runtime_Administrator_Password.form = new Ext.FormPanel( {
+    		id : 'form-password',
+    		labelWidth :175,
+    		defaultType :'textfield',
+    		border :false,
+    		bodyStyle :'padding:10px 10px 0',
+    		items :[ new Ext.ametys.TextField({
+    			fieldLabel :"<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_OLD"/>",
+    			name :'oldPassword',
+    			width :190,
+    			allowBlank: false,
+    	        inputType:"password",
+    	        msgTarget: 'side',
+    	        blankText: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_MANDATORY"/>"
+    		}), new Ext.ametys.TextField({
+    			fieldLabel :"<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_NEW"/>",
+    			name :'newPassword',
+    			width :190,
+    			allowBlank: false,
+    	        inputType:"password",
+    	        msgTarget: 'side',
+    	        blankText: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_MANDATORY"/>"
+    		}), new Ext.ametys.TextField({
+    			fieldLabel: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CONFIRM"/>",
+    			name :'confirmPassword',
+    			width :190,
+    			allowBlank: false,
+    	        inputType:"password",
+    	        msgTarget: 'side',
+    	        blankText: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_MANDATORY"/>"
+    		})]
+    	});
+    	
+	    RUNTIME_Plugin_Runtime_Administrator_Password.box = new Ext.ametys.DialogBox( {
+			title :"<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_DIALOG_CAPTION"/>",
+			layout :'fit',
+			width :430,
+			height :180,
+			iconCls :"icon-modify-passwd", // css class for background image
+			items : [ RUNTIME_Plugin_Runtime_Administrator_Password.form ],
+			closeAction: 'hide',
+			buttons : [ {
+				text :"<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_DIALOG_OK"/>",
+				handler : function() {
+					RUNTIME_Plugin_Runtime_Administrator_Password.ok();
+				}
+			}, {
+				text :"<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_DIALOG_CANCEL"/>",
+				handler : function() {
+				RUNTIME_Plugin_Runtime_Administrator_Password.cancel();
+				}
+			} ]
+		});
+    }
     
     return true;
 }
@@ -50,47 +88,49 @@ RUNTIME_Plugin_Runtime_Administrator_Password.act = function(plugin, params)
 	if (!RUNTIME_Plugin_Runtime_Administrator_Password.delayedInitialize())
       return false;
 	
-	var _document = RUNTIME_Plugin_Runtime_Administrator_Password.box.ui.iframe.contentWindow.document;
+	RUNTIME_Plugin_Runtime_Administrator_Password.box.show();
 	
-	var oldPassword = _document.getElementById("oldPassword");
-    oldPassword.value = "";
-
-	_document.getElementById("newPassword").value = "";
-	_document.getElementById("confirmPassword").value = "";
+	var form = RUNTIME_Plugin_Runtime_Administrator_Password.form.getForm();
+	var oldPassword = form.findField('oldPassword');
+	oldPassword.setValue("");
+	form.findField('newPassword').setValue("");
+	form.findField('confirmPassword').setValue("");
 	
-	RUNTIME_Plugin_Runtime_Administrator_Password.box.showModal();
+	form.findField('oldPassword').clearInvalid();
+	form.findField('newPassword').clearInvalid();
+	form.findField('confirmPassword').clearInvalid();
 	
-	try { oldPassword.focus(); } catch (e) {}
-  
+	//try { oldPassword.focus(); } catch (e) {}
+	
     return true;
 }
 
 RUNTIME_Plugin_Runtime_Administrator_Password.ok = function()
 {
 	// VERIFICATIONS
-	var _document = RUNTIME_Plugin_Runtime_Administrator_Password.box.ui.iframe.contentWindow.document;
+	var form = RUNTIME_Plugin_Runtime_Administrator_Password.form.getForm();
 	
-	var oldPassword = _document.getElementById("oldPassword");
-	var newPassword = _document.getElementById("newPassword");
-	var confirmPassword = _document.getElementById("confirmPassword");
+	var oldPassword = form.findField("oldPassword");
+	var newPassword =  form.findField("newPassword");
+	var confirmPassword =  form.findField("confirmPassword");
 
-	if (oldPassword.value == "" || newPassword.value == "" || confirmPassword.value == "")
+	if (oldPassword.getValue() == "" || newPassword.getValue() == "" || confirmPassword.getValue() == "")
 	{
 		alert("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_WRONG_EMPTY"/>");
 		return;
 	}
 
-	if (newPassword.value != confirmPassword.value)
+	if (newPassword.getValue() != confirmPassword.getValue())
 	{
-		alert("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_WRONG_CONFIRM"/>");
+		confirmPassword.markInvalid("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_WRONG_CONFIRM"/>");
 		return;
 	}
 	
 	// ENVOIE DES DONNEES
 	var url = getPluginDirectUrl(RUNTIME_Plugin_Runtime_Administrator_Password.plugin) + "/administrator/password/set"
-	var args = "oldPassword=" + encodeURIComponent(oldPassword.value) 
-				+ "&amp;newPassword=" + encodeURIComponent(newPassword.value)
-				+ "&amp;confirmPassword=" + encodeURIComponent(confirmPassword.value);
+	var args = "oldPassword=" + encodeURIComponent(oldPassword.getValue()) 
+				+ "&amp;newPassword=" + encodeURIComponent(newPassword.getValue())
+				+ "&amp;confirmPassword=" + encodeURIComponent(confirmPassword.getValue());
 				
     var result = Tools.postFromUrl(url, args);
 	if (result == null)
@@ -104,12 +144,12 @@ RUNTIME_Plugin_Runtime_Administrator_Password.ok = function()
         return;
     }
 
-	RUNTIME_Plugin_Runtime_Administrator_Password.box.close();
+	RUNTIME_Plugin_Runtime_Administrator_Password.box.hide();
 	
 	alert("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_OK"/>");
 }
 
 RUNTIME_Plugin_Runtime_Administrator_Password.cancel = function()
 {
-	RUNTIME_Plugin_Runtime_Administrator_Password.box.close();
+	RUNTIME_Plugin_Runtime_Administrator_Password.box.hide();
 }

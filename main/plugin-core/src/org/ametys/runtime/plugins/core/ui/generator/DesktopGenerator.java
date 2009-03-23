@@ -22,7 +22,7 @@ import org.apache.cocoon.generation.ServiceableGenerator;
 import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.SAXException;
 
-import org.ametys.runtime.ui.manager.DesktopManager;
+import org.ametys.runtime.plugins.core.ui.item.DesktopManager;
 
 
 /**

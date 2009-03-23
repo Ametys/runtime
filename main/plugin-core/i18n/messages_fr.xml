@@ -21,8 +21,8 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_TITLE">Mot de passe</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_OLD">Ancien mot de passe</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_NEW">Nouveau mot de passe</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_MANDATORY">Ce champ est obligatoire</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CONFIRM">Confirmez le nouveau mot de passe</message>
+  	<message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_MANDATORY">Ce champ est obligatoire</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_OK">Le mot de passe a été changé.\nVeillez à communiquer ce nouveau mot de passe à tous les administrateurs systèmes.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_WRONG_EMPTY">Les 3 champs doivent avoir une valeur.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_WRONG_CONFIRM">La confirmation du nouveau mot de passe est incorrecte.</message>
@@ -31,6 +31,7 @@
     
     <!-- ADMINISTRATOR CONFIG -->
     <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_LABEL">Configuration</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU">Sommaire</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_DESCRIPTION">Réglage des paramètres de configuration</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_TITLE">Configuration</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE">Gestion</message>
@@ -109,11 +110,11 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_INACTIVE_DEPENDENCY">(dépend d'une feature indisponible)</message>
     
     <!-- ADMINITRATOR LOGS -->
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_LABEL">Journaux</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_LABEL">Journal</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_DESCRIPTION">Visualiser les journaux de l'application</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_TITLE">Journaux</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP">Aide</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP_TEXT">Cet écran vous permet de visualiser les fichiers de logs et aussi de supprimer les fichiers obsolètes.&lt;br/&gt;&lt;br/&gt;Si vos fichiers de logs ont une taille élevée et que vous êtes en production, pensez à augmenter le niveau de logs en mode 'ERROR' dans les fichiers WEB-INF\\logkit.xconf et WEB-INF\\log4j.xml.&lt;br/&gt;&lt;br/&gt;Vous pouvez aussi changer le niveau de log à la volée et de manière volatile dans l'onglet de configuration.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP_TEXT">Cet écran vous permet de visualiser les fichiers de logs et aussi de supprimer les fichiers obsolètes.&lt;br/&gt;&lt;br/&gt;Si vos fichiers de logs ont une taille élevée et que vous êtes en production, pensez à augmenter le niveau de logs en mode 'ERROR' dans les fichiers WEB-INF\\logkit.xconf et WEB-INF\\log4j.xml.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE">Gestion</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_QUIT">Quitter</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_TAB_VIEW">Visualisation</message>
@@ -166,7 +167,7 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_CAPTION">Annonce...</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_OK">Ok</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_CANCEL">Annuler</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_LANG_HELP">Code de langue du message d'annonce.&#13;Le code de langue est un code de 2 lettres (par exemple fr, en, de, es, zh...).&#13;Le code * signifie tous les autres codes.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_LANG_HELP">Code de langue du message d'annonce.&lt;br/&gt;Le code de langue est un code de 2 lettres (par exemple fr, en, de, es, zh...).&lt;br/&gt;Le code * signifie tous les autres codes.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_MESSAGE_HELP">Message de l'annonce écrit dans la langue spécifiée</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_DEFAULTMESSAGE">Entrez ici le message d'annonce dans la langue par défaut</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_ERROR_LANG">Le code de langue se compose toujours de 2 lettres.\nPar exemple : fr pour le français ou en pour l'anglais.</message>
@@ -325,15 +326,15 @@
     
     <!-- USER JDBC -->
     <message key="PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_LABEL">Identifiant</message>
-    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_DESCRIPTION">Identifiant unique de l'utilisateur (ou login)&#10;Entre 3 et 16 caractères (lettres, chiffres ou '_')</message>
+    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_DESCRIPTION">Identifiant unique de l'utilisateur (ou login)\nEntre 3 et 16 caractères (lettres, chiffres ou '_')</message>
     <message key="PLUGINS_CORE_USERS_JDBC_FIELD_LASTNAME_LABEL">Nom</message>
-    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_LASTNAME_DESCRIPTION">Nom réel de l'utilisateur&#10;Ne peut-être vide</message>
+    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_LASTNAME_DESCRIPTION">Nom réel de l'utilisateur\nNe peut-être vide</message>
     <message key="PLUGINS_CORE_USERS_JDBC_FIELD_FIRSTNAME_LABEL">Prénom</message>
-    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_FIRSTNAME_DESCRIPTION">Prénom réel de l'utilisateur&#10;Ne peut-être vide</message>
+    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_FIRSTNAME_DESCRIPTION">Prénom réel de l'utilisateur\nNe peut-être vide</message>
     <message key="PLUGINS_CORE_USERS_JDBC_FIELD_EMAIL_LABEL">Email</message>
     <message key="PLUGINS_CORE_USERS_JDBC_FIELD_EMAIL_DESCRIPTION">Email de l'utilisateur pour les fonctionnalités d'envoi de courrier électronique</message>
     <message key="PLUGINS_CORE_USERS_JDBC_FIELD_PASSWORD_LABEL">Mot de passe</message>
-    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_PASSWORD_DESCRIPTION">Mot de passe de l'utilisateur&#10;Ne peut-être vide</message>
+    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_PASSWORD_DESCRIPTION">Mot de passe de l'utilisateur\nNe peut-être vide</message>
 
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP">Annuaire LDAP</message>
 
@@ -366,7 +367,7 @@
 	<message key="PLUGINS_CORE_GROUPS_HANDLE_VALIDATE">Valider les modifications</message>
 	<message key="PLUGINS_CORE_GROUPS_HANDLE_QUIT">Quitter</message>
 	<message key="PLUGINS_CORE_GROUPS_HANDLE_ADDUSER">Ajouter un utilisateur</message>
-	<message key="PLUGINS_CORE_GROUPS_HANDLE_DELETEUSER">Supprimer l'utilisateur</message>
+	<message key="PLUGINS_CORE_GROUPS_HANDLE_DELETEUSER">Supprimer l'(les) utilisateur(s)</message>
 	<message key="PLUGINS_CORE_GROUPS_NEW_ERROR">Une erreur est survenue lors de la création.</message>
 	<message key="PLUGINS_CORE_GROUPS_HANDLE_RENAME">Renommer le groupe</message>
 	<message key="PLUGINS_CORE_GROUPS_RENAME_ERROR">Une erreur est survenue lors du changement de nom du groupe.</message>
@@ -415,6 +416,9 @@
 
 	<!-- PROFILE -->
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_LABEL">Profils</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILE">Profil</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILE_READ">Visualisation</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILE_EDIT">Edition</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_DESCRIPTION">Gestion des groupements de droits</message>
     <message key="PLUGINS_CORE_RIGHTS_PROFILES_LABELLONG">Gestion des profils de droits</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_CATEGORY">Gestion des profils</message>

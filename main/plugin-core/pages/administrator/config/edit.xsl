@@ -22,133 +22,19 @@
     
     <xsl:variable name="workspaceContext"><xsl:value-of select="$contextPath"/><xsl:value-of select="$workspaceURI"/></xsl:variable>
     
-    <xsl:variable name="resourcesPath"><xsl:value-of select="$contextPath"/>/plugins/<xsl:value-of select="$pluginName"/>/resources</xsl:variable>
+    <xsl:variable name="resourcesPath"><xsl:value-of select="$contextPath"/>/plugins/core/resources</xsl:variable>
     
     <xsl:template match="/">
         <html>
             <head>
                 <title><i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_TITLE"/></title>
-                <link rel="stylesheet" href="{$workspaceContext}/resources/css/homepage.css" type="text/css"/>
                 <link rel="stylesheet" href="{$resourcesPath}/css/administrator/config.css" type="text/css"/>
             </head>
             
-            <body>
-                <form name="form">
-                    <table class="admin_index_main_table" style="width: 720px; height: 450px; table-layout: fixed;">
-                        <colgroup>
-                            <col width="233px"/>
-                            <col/>
-                        </colgroup>
-                        <tr>
-                            <td id="actionset"/>
-                            <td  style="border: 1px inset #efebde; padding: 5px;">
-                               <div style="overflow: auto; height: 430px; width: 470px;">
-                                    <table id="view" style="width: 469px; height: 429px; table-layout: fixed"/>
-                               </div>
-                               
-                               <xsl:for-each select="/config/categories/category">
-                                    <div id="category_{position()}" style="overflow: auto; height: 100%; width: 460px; display: none;">
-    
-                                        <xsl:for-each select="groups/group">
-                                            <table class="config" style="width: 409px; margin: 10px;">
-                                                <caption><i18n:text i18n:catalogue="{@catalogue}" i18n:key="{@label}"/></caption>
-                                                
-                                                <colgroup>
-                                                    <col width="246px"/>
-                                                    <col width="173px"/>
-                                                </colgroup>
-                                                
-                                                <tr>
-                                                    <td colspan="2" style="height: 5px"/>
-                                                </tr>
-                                                
-                                                <xsl:for-each select="*">
-                                                    <xsl:sort select="order" data-type="number" order="ascending"/>
-                                                    
-                                                    <xsl:variable name="style">font-family: verdana; font-size: 10px; width: 167px;</xsl:variable>
-                                                    
-                                                    <tr>
-                                                        <td class="label">
-                                                            <xsl:attribute name="style">height: <xsl:choose><xsl:when test="type='password'">45px;</xsl:when><xsl:otherwise>25px;</xsl:otherwise></xsl:choose></xsl:attribute>
-
-                                                            <i18n:text i18n:catalogue="{label/@catalogue}" i18n:key="{label}"/>
-                                                            <img src="{$resourcesPath}/img/administrator/config/help.gif" i18n:attr="title" title="{description/@catalogue}:{description}"/>
-                                                        </td>
-                                                        <td style="vertical-align: middle">
-                                                        
-                                                            <xsl:choose>
-                                                                <xsl:when test="enumeration">
-                                                                    <xsl:call-template name="select-input">
-                                                                        <xsl:with-param name="name" select="local-name(.)"/>
-                                                                        <xsl:with-param name="values" select="enumeration"/>
-                                                                        <xsl:with-param name="value" select="value"/>
-                                                                        <xsl:with-param name="style" select="$style"/>
-                                                                    </xsl:call-template>
-                                                                </xsl:when>
-                                                                
-                                                                <xsl:when test="type='double'">
-                                                                    <xsl:call-template name="double-input">
-                                                                        <xsl:with-param name="name" select="local-name(.)"/>
-                                                                        <xsl:with-param name="value" select="value"/>
-                                                                        <xsl:with-param name="style" select="$style"/>
-                                                                    </xsl:call-template>
-                                                                </xsl:when>
-                                                                <xsl:when test="type='boolean'">
-                                                                    <xsl:call-template name="boolean-input">
-                                                                        <xsl:with-param name="name" select="local-name(.)"/>
-                                                                        <xsl:with-param name="value" select="value"/>
-                                                                    </xsl:call-template>
-                                                                </xsl:when>
-                                                                <xsl:when test="type='date'">
-                                                                    <xsl:call-template name="calendar-input">
-                                                                        <xsl:with-param name="name" select="local-name(.)"/>
-                                                                        <xsl:with-param name="value" select="value"/>
-                                                                        <xsl:with-param name="style" select="$style"/>
-                                                                    </xsl:call-template>
-                                                                </xsl:when>
-                                                                <xsl:when test="type='long'">
-                                                                    <xsl:call-template name="long-input">
-                                                                        <xsl:with-param name="name" select="local-name(.)"/>
-                                                                        <xsl:with-param name="value" select="value"/>
-                                                                        <xsl:with-param name="style" select="$style"/>
-                                                                    </xsl:call-template>
-                                                                </xsl:when>
-                                                                <xsl:when test="type='password'">
-                                                                    <xsl:call-template name="password-input">
-                                                                        <xsl:with-param name="name" select="local-name(.)"/>
-                                                                        <xsl:with-param name="value" select="value"/>
-                                                                        <xsl:with-param name="style" select="concat($style, '; width: 150px')"/>
-                                                                        <xsl:with-param name="styleTable" select="'height: 40px'"/>
-                                                                        <xsl:with-param name="styleText" select="'font-family: verdana; font-size: 9px; font-style: italic; height: 20px'"/>
-                                                                    </xsl:call-template>
-                                                                </xsl:when>
-                                                                <xsl:otherwise>
-                                                                    <xsl:call-template name="string-input">
-                                                                        <xsl:with-param name="name" select="local-name(.)"/>
-                                                                        <xsl:with-param name="value" select="value"/>
-                                                                        <xsl:with-param name="style" select="$style"/>
-                                                                    </xsl:call-template>
-                                                                </xsl:otherwise>
-                                                            </xsl:choose>
-                                                            
-                                                        </td>
-                                                    </tr>
-                                                </xsl:for-each>
-                                                                            
-                                            </table>
-                                        </xsl:for-each>
-                                        
-                                    </div>
-                               </xsl:for-each>
-                            </td>
-                        </tr>
-                    </table>
-                </form>
-
-                <script src="{$resourcesPath}/js/widgets.js.i18n">// empty</script>
-
-                <script>
-                    function goBack()
+            <script>
+               
+               <script type="text/javascript">
+               		function goBack()
                     {
                         document.location.href = context.workspaceContext;
                     }
@@ -156,8 +42,8 @@
                     function save()
                     {
                         var url = getPluginDirectUrl("<xsl:value-of select="$pluginName"/>") + "/administrator/config/set";
-                        var args = Tools.buildQueryString(document.forms["form"], "");
-                        
+                        var args = Tools.buildQueryString(document.getElementById("save-config"), "");
+
                         var result = Tools.postFromUrl(url, args);
                         if (result == null)
                         {
@@ -175,21 +61,219 @@
                         alert("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_OK"/>");
                         goBack();
                     }
-                
-                    var sp = new SContextualPanel("actionset");
-                    var handle = sp.addCategory("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE"/>");
-                        handle.addLink("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE_SAVE"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/config/save.gif", save);
-                        handle.addLink("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE_QUIT"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/config/nosave.gif", goBack);
-                    var help = sp.addCategory("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HELP"/>");
-                        help.addElement("&lt;div style='font-size: 11px; color: #000000'&gt;<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HELP_TEXT"/>&lt;/div&gt;");
-                    sp.paint();
                     
-                    var myTab = new STab("view");
-                    <xsl:for-each select="/config/categories/category">
-                        myTab.addTab("<i18n:text i18n:catalogue="{@catalogue}" i18n:key="{@label}"/>", "category_<xsl:value-of select="position()"/>");
-                    </xsl:for-each>
-                    myTab.paint();
-                </script>
+                   	function bindScroll()
+					{
+						bound = true;
+					}
+					function unbindScroll()
+					{
+						bound = false;
+					}
+					function calcScrollPosition()
+					{
+						if (!bound)
+							return;
+							 
+						var last;
+						var anchors = ct.select('a[name]', true);
+						var min = 0;
+						var max = centerPanel.getEl().child('div:first').dom.scrollHeight - centerPanel.getInnerHeight();
+						var scrollPosition = centerPanel.getEl().child('div:first').dom.scrollTop;
+						var p = (scrollPosition - min) / (max - min);
+						p = p * centerPanel.getInnerHeight();
+						
+						var a0 = anchors.elements[0].getTop();
+						
+						for (var i=0;  i &lt; anchors.elements.length; i++)
+						{
+							var anchor = anchors.elements[i];
+							if (i > 0) {
+								last = anchors.elements[i-1];
+							}
+							else {
+								last = anchor;
+							}
+							var posY = anchor.getTop() - a0;
+							if(posY >= scrollPosition + p)
+							{
+								activateItemMenu(last.dom.name);
+								return;
+							}
+						
+						}
+						activateItemMenu(anchors.elements[anchors.elements.length - 1].dom.name);
+					}
+					function activateItemMenu (id)
+					{
+						var btn = Ext.getCmp("a" + id);
+						if	(btn != null)
+						{	
+							Ext.getCmp("a" + id).toggle(true);
+						}
+					}
+					
+					// NAVIGATION
+						var navigation = new Ext.ametys.NavigationPanel ({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU"/>"});
+						<xsl:for-each select="config/categories/category">
+							var item = new Ext.ametys.NavigationItem ({
+								text: "<i18n:text i18n:key="{@label}" i18n:catalogue="{@catalogue}"/>",
+								divToScroll: "<xsl:value-of select="generate-id()"/>",
+								ctToScroll:  'config-inner',
+								bindScroll: bindScroll,
+								unbindScroll: unbindScroll,
+								toggleGroup : 'config-menu',
+								id : "a" + "<xsl:value-of select="generate-id()"/>"
+							});
+							navigation.add(item);
+						</xsl:for-each>
+						
+						// ACTIONS
+						var handle = new Ext.ametys.ActionsPanel({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE"/>"});
+						handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE_SAVE"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/config/save.png", save);
+						handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE_QUIT"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/config/quit.png", goBack);
+	
+						// AIDE
+						var help = new Ext.ametys.TextPanel({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HELP"/>"});
+						help.addText("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HELP_TEXT"/>");
+						
+						//Create the contextual panel
+						var rightPanel = new Ext.ametys.HtmlContainer({
+								baseCls : 'admin-right-panel',
+								region:'east',
+								border: false,
+								width: 277,
+							    items: [navigation, handle, help]
+						});
+						
+						var centerPanel = new Ext.form.FormPanel({
+								region:'center',
+								baseCls: 'transparent-panel',
+								border: false,
+								autoScroll : true,
+								id : 'config-inner',
+								formId : 'save-config',
+								labelWidth :230
+						});
+						
+						<xsl:for-each select="config/categories/category">
+							var fieldset = new Ext.ametys.Fieldset({
+								title : "<i18n:text i18n:key="{@label}" i18n:catalogue="{@catalogue}"/>",
+								id : "<xsl:value-of select="generate-id()"/>",
+								layout: 'form'
+							});
+							<xsl:for-each select="groups/group">
+								var group = new Ext.ametys.HtmlContainer ({
+									html : "<i18n:text i18n:key="{@label}" i18n:catalogue="{@catalogue}"/>",
+									baseCls: 'ametys-subcategory',
+									tag: 'h3'
+								});
+								fieldset.add(group);
+								<xsl:for-each select="node()">
+									<xsl:sort select="order"/>
+									
+									var input;
+									
+									var type = "<xsl:value-of select="type"/>";
+									var inputType;
+									if (type == 'double')
+									{
+										input = new Ext.ametys.DoubleField ({
+									        fieldLabel: "<i18n:text i18n:key="{label}" i18n:catalogue="{label/@catalogue}"/>",
+									        desc: "<i18n:text i18n:key="{description}" i18n:catalogue="{description/@catalogue}"/>",
+									        name: "<xsl:value-of select="local-name()"/>",
+									        value: "<xsl:value-of select="value"/>",
+									        msgTarget: 'under', // position du message d'erreur
+									        width: 250
+										});
+									}
+									else if (type == 'long')
+									{
+										input = new Ext.ametys.LongField ({
+									        fieldLabel: "<i18n:text i18n:key="{label}" i18n:catalogue="{label/@catalogue}"/>",
+									        desc: "<i18n:text i18n:key="{description}" i18n:catalogue="{description/@catalogue}"/>",
+									        name: "<xsl:value-of select="local-name()"/>",
+									        value: "<xsl:value-of select="value"/>",
+									        msgTarget: 'under', // position du message d'erreur 
+									        width: 250
+										});
+									}
+									else if (type == 'password')
+									{
+										input = new Ext.ametys.PasswordField ({
+									        fieldLabel: "<i18n:text i18n:key="{label}" i18n:catalogue="{label/@catalogue}"/>",
+									        desc: "<i18n:text i18n:key="{description}" i18n:catalogue="{description/@catalogue}"/>",
+									        name: "<xsl:value-of select="local-name()"/>",
+									        value: "<xsl:value-of select="value"/>",
+									        msgTarget: 'under', // position du message d'erreur 
+									        width: 250
+										});
+									}
+									else if (type == 'date')
+									{
+										input = new Ext.ametys.DateField ({
+									        fieldLabel: "<i18n:text i18n:key="{label}" i18n:catalogue="{label/@catalogue}"/>",
+									        desc: "<i18n:text i18n:key="{description}" i18n:catalogue="{description/@catalogue}"/>",
+									        name: "<xsl:value-of select="local-name()"/>",
+									        value: "<xsl:value-of select="value"/>",
+									        msgTarget: 'under', // position du message d'erreur 
+									        width: 250
+										});
+									}
+									else if (type == 'boolean')
+									{
+										input = new Ext.ametys.BooleanField ({
+									        fieldLabel: "<i18n:text i18n:key="{label}" i18n:catalogue="{label/@catalogue}"/>",
+									        desc: "<i18n:text i18n:key="{description}" i18n:catalogue="{description/@catalogue}"/>",
+									        name: "<xsl:value-of select="local-name()"/>",
+									        value: "<xsl:value-of select="value"/>",
+									        msgTarget: 'under' // position du message d'erreur 
+										});
+									}
+									else
+									{
+										input = new Ext.ametys.TextField ({
+									        fieldLabel: "<i18n:text i18n:key="{label}" i18n:catalogue="{label/@catalogue}"/>",
+									        desc: "<i18n:text i18n:key="{description}" i18n:catalogue="{description/@catalogue}"/>",
+									        name: "<xsl:value-of select="local-name()"/>",
+									        value: "<xsl:value-of select="value"/>",
+									        msgTarget: 'under', // position du message d'erreur 
+									        width: 250
+										});
+									}
+									fieldset.add(input);
+								</xsl:for-each>
+								centerPanel.add(fieldset);
+							</xsl:for-each>
+						</xsl:for-each>
+						
+					function _getAdminPanel () 
+					{
+						return new Ext.Panel({
+							region: 'center',
+							baseCls: 'transparent-panel',
+							border: false,
+							layout: 'border',
+							autoScroll: false,
+							items: [centerPanel, rightPanel]
+						});
+					}
+					
+                    var ct, bound;
+                    function onready() 
+                    {
+	               		ct = Ext.getCmp("config-inner").getEl().child("div:first").child("*:first");
+						bound = true;
+						ct.on('scroll', calcScrollPosition);
+						calcScrollPosition();
+					
+					}
+					Ext.onReady(onready);
+					
+               </script>
+			</script>
+			
+			<body>
             </body>
         </html>
     </xsl:template>

@@ -490,6 +490,8 @@
                 <map:transform src="pages/rights/profiles/view.xsl" type="xslt">
                     <map:parameter name="contextPath" value="{request:contextPath}"/>
                     <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
+                    <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/> <!-- LPR -->
+                    <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/> <!-- LPR -->            
                 </map:transform>
                 <map:serialize type="xml"/>
             </map:match>

@@ -13,454 +13,524 @@
                 xmlns:i18n="http://apache.org/cocoon/i18n/2.1" 
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
    	
-   	<xsl:param name="contextPath"/>
+    <xsl:import href="plugin:core://stylesheets/widgets.xsl"/>
+
+    <xsl:param name="contextPath"/>
     <xsl:param name="pluginName"/>
+    <xsl:param name="workspaceName"/>
+    <xsl:param name="workspaceURI"/>
+        
+    <xsl:variable name="workspaceContext"><xsl:value-of select="$contextPath"/><xsl:value-of select="$workspaceURI"/></xsl:variable>
+    
+    <xsl:variable name="resourcesPath"><xsl:value-of select="$contextPath"/>/plugins/<xsl:value-of select="$pluginName"/>/resources</xsl:variable>   
     
     <xsl:template match="/ProfilesManager">
-        <xsl:param name="initialIcons"/>
         
         <html>
             <head>
-                <title>
-                    <i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_LABELLONG"/>
-                </title>
+                <title><i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_LABELLONG"/></title>
+	            <link rel="stylesheet" href="{$resourcesPath}/css/rights/profiles.css" type="text/css"/>
             </head>
-            <body>
-                <style>
-                    div.SListView table.mosaic {
-                        margin: 0px !important;
-                    }
-                    div.SListView table.detail td table td.selected div {
-                        color: #ffffff;
-                        padding-right: 5px;
-                        background-color: #316ac5;
-                    }
-                </style>
-                <table id="fulltable" cellspacing="0" cellpadding="0" style="display: none;">
-                    <colgroup>
-                        <col width="231px"/>
-                        <col/>
-                    </colgroup>
-                    <tr>
-                        <td id="action-panel" style="overflow: auto;"/>
-                        <td>
-                            <table id="innertable">
-                                <tr>
-                                    <td>
-                                        <div id="listview"/>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="height: 235px; border-top: 1px solid threedlight; background-color: threedface; vertical-align: top; text-align: center; padding: 15px; padding-top: 10px; padding-bottom: 0px;">
-                                           <xsl:call-template name="double-liste"/>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-                <script>
-                    SListView.mosaicViewTrunc = 60;
-                    SListView.detailViewTrunc = 0.0001;
-                    
-                    <xsl:if test="AdministratorUI = 'true'">
-                    	function goBack()
-    					{
-    						document.location.href = context.workspaceContext;
-    					}
-                    </xsl:if>
-					
-            		// Ajoute une alerte sur les menus
-					var f = function (func) {
-						slistview.unselect();
-					}
-					
-					try
-					{
-						onMenuListener.push(f);
-					}
-					catch (e){};
-		
-                
-					/* ************************************
-					   *  ACTION
-					   ************************************ */
-					function menu_new ()
-					{
-						var elt = slistview.addElement("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_NEWPROFILE"/>", 
-											getPluginResourcesUrl("<xsl:value-of select="$pluginName"/>") + "/img/rights/profiles/icon_small.gif", getPluginResourcesUrl("<xsl:value-of select="$pluginName"/>") + "/img/rights/profiles/icon_medium.gif", getPluginResourcesUrl("<xsl:value-of select="$pluginName"/>") + "/img/rights/profiles/icon_large.gif",
-											{id : "new"});
-						slistview.unselect();
-						slistview.paint();
-						elt.select();
-						window.setTimeout (function () {elt.rename();}, 10);
-					}
-					function menu_rename ()
-					{
-						slistview.getSelection()[0].rename();
-					}
-					function menu_remove ()
-					{
-						if (confirm("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_DELETE_CONFIRM"/>"))
-						{
-							if (200 == Tools.postUrlStatusCode(getPluginDirectUrl("<xsl:value-of select="$pluginName"/>") + "/rights/profiles/delete", "id=" + slistview.getSelection()[0].properties.id))
-							{
-								slistview.removing = true;
-								slistview.getSelection()[0].remove();
-							}
-							else
-								alert("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_DELETE_ERROR"/>")
-						}
-					}
-				
-					/* ************************************
-					   *  MENU DE GAUCHE
-					   ************************************ */
-					var sactionpanel = new SContextualPanel ("action-panel");
-					var _Category = sactionpanel.addCategory ("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_CATEGORY"/>");
-						_Category.addLink("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_CREATE"/>", getPluginResourcesUrl("<xsl:value-of select="$pluginName"/>") +  "/img/rights/profiles/new.gif", menu_new);
-						_Category.addLink("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_RENAME"/>", getPluginResourcesUrl("<xsl:value-of select="$pluginName"/>") + "/img/rights/profiles/rename.gif", menu_rename);
-						_Category.addLink("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_VALIDATE"/>", getPluginResourcesUrl("<xsl:value-of select="$pluginName"/>") + "/img/rights/profiles/valid.gif", save_objects);
-						_Category.addLink("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_DELETE"/>", getPluginResourcesUrl("<xsl:value-of select="$pluginName"/>") + "/img/rights/profiles/delete.gif", menu_remove);
-					
-					<xsl:if test="AdministratorUI = 'true'">
-							_Category.addLink("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_QUIT"/>",getPluginResourcesUrl("<xsl:value-of select="$pluginName"/>") + "/img/rights/profiles/quit.gif", goBack);
-					</xsl:if>
-                    
-					var aideCategory = sactionpanel.addCategory ("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HELP_CATEGORY"/>");
-						aideCategory.addElement("&lt;div style='color: #000000; text-align: left; font-size: 11px; '&gt;<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_HELP_HINT"/>&lt;/div&gt;")
-						
-					sactionpanel.paint();
-
-					/* ************************************
-					   *  VUE ICONE
-					   ************************************ */
-					var all = {                 
-                        <xsl:for-each select="rights/right">
-		                    <xsl:if test="position() != 1">, </xsl:if>
-		                    "<xsl:value-of select="@id"/>": {label : "<i18n:text i18n:catalogue="{@catalogue}" i18n:key="{label}"/>", description : "<i18n:text i18n:catalogue="{@catalogue}" i18n:key="{description}"/>", category: "<i18n:text i18n:catalogue="{@catalogue}" i18n:key="{category}"/>"}
-						</xsl:for-each>
-                    };
-                      
-					function listener()
-					{
-					}
-					listener.onSelect = function(element)
-					{
-						_Category.showHideElement (1, true);
-						_Category.showHideElement (3, true);
-
-						for (var i in all)
-						{
-                            var helpImage = getPluginResourcesUrl("<xsl:value-of select="$pluginName"/>") + "/img/rights/profiles/help.gif";
-                            var label = "&lt;div&gt;&lt;img title=\"" + all[i].description + "\" src='" + helpImage + "'/&gt;&#160;" + all[i].label + "&lt;/div&gt;";
-                            
-							if (element.properties[i] == null)
-							{
-								slistview_left.addElement(label, null, null, null, {"id": i, "category": all[i].category}, all[i].label);
-							}
-							else
-							{
-								slistview_right.addElement(label, null, null, null, {"id": i, "category": all[i].category}, all[i].label);
-							}
-						}
-
-						slistview_left.paint();
-						slistview_right.paint();
-						
-						return true;
-					}
-					listener.onUnselect = function(element)
-					{
-						if (element &amp;&amp; slistview.removing != true)
-						{
-							var savedState = true;
-							
-							// Compte les objets alloués et vérifie s'ils étaient déjà affectés
-							var nbItems = 0;
-							var elts = slistview_right.getElements();
-							for (var i=0; savedState &amp;&amp; i &lt; elts.length; i++)
-							{
-								var objectId = elts[i].properties.id;
-								
-								if (element.properties[objectId] == null)
-									savedState = false;
-								else
-									nbItems++;
-							}	
-							
-							// Si tous les objets étaient déjà affectés, peut-être en a t-on retiré! 
-							// =&gt; on vérifie qu'il y en ait le même nombre
-							if (savedState)
-							{
-								var nbProperties = -1; /* -1 pq id ne compte pas comme droit */
-								for (var i in element.properties)
-									nbProperties ++;
-								savedState = (nbItems == nbProperties)
-							}																
-							
-							if (!savedState)
-							{
-								if (confirm("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_CONFIRM"/>"))
-								{
-									save_objects();
-								}
-							}
-						}
-						
-						_Category.showHideElement (1, false);
-						_Category.showHideElement (2, false);
-						_Category.showHideElement (3, false);
-						
-						slistview_left.elements = new Array();
-						slistview_left.selection = new Array();
-						slistview_left.paint();
-						slistview_right.elements = new Array();
-						slistview_right.selection = new Array();
-						slistview_right.paint();
-						// document.getElementById('doubleliste_left').style.backgroundColor = "threedface";
-						// document.getElementById('doubleliste_right').style.backgroundColor = "threedface";
-						
-						slistview.removing = false;
-					}
-                    listener.onBeforeEditLabel = function(element)
-                    {
-                        element.oldName = element.name;
-                    }
-					listener.onCancelEditLabel = function(element)
-					{
-						if (element.properties.id == "new")
-							element.remove();
-					}
-					listener.onEditLabel = function(element)
-					{
-                        if (!/^[a-z|A-Z|0-9| |-|_]*$/.test(element.name))
-                        {
-                            alert("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_NAMING_ERROR"/>")
-                            element.name = element.oldName;
-                            element.paint();
-                            return;
-                        }
-                    
-						if (element.properties.id == "new")
-						{
-							// CREER
-							var result = Tools.postFromUrl(getPluginDirectUrl("<xsl:value-of select="$pluginName"/>") + "/rights/profiles/create", "name=" + encodeURIComponent(element.name));
-							if (result == null)
-							{
-								alert("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_NEW_ERROR"/>")
-								listener.onCancelEditLabel(element);
-								return;
-							}
-							else
-							{
-								element.properties.id = Tools.getFromXML(result, "id");
-							}
-						}
-						else
-						{
-							// RENOMMER
-							var result = Tools.postFromUrl(getPluginDirectUrl("<xsl:value-of select="$pluginName"/>") + "/rights/profiles/rename", "id=" + element.properties.id + "&amp;name=" + encodeURIComponent(element.name));
-							if (result == null)
-							{
-								alert("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_RENAME_ERROR"/>");
-							}
-							else 
-							{
-								var state = Tools.getFromXML(result, "message"); 
-								if (state != null &amp;&amp; state == "missing")
-								{
-									alert("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_RENAME_MISSING_ERROR"/>");
-									element.remove();
-								}
-							}
-						}
-						
-						element.unselect();
-						slistview.paint();
-						element.select();
-					}
-
-					var slistview = new SListView ("listview", null, listener);
-					slistview.setMultipleSelection(false);
-					
-					<xsl:for-each select="profiles/profile">
-					slistview.addElement("<xsl:value-of select="label"/>", 
-							getPluginResourcesUrl("<xsl:value-of select="$pluginName"/>") + "/img/rights/profiles/icon_small.gif", getPluginResourcesUrl("<xsl:value-of select="$pluginName"/>") + "/img/rights/profiles/icon_medium.gif", getPluginResourcesUrl("<xsl:value-of select="$pluginName"/>") + "/img/rights/profiles/icon_large.gif",
-							{
-								id: "<xsl:value-of select="@id"/>"
-								<xsl:for-each select="rights/right">
-									, "<xsl:value-of select="@id"/>": ""
-								</xsl:for-each>
-							});
-					</xsl:for-each>		
-					
-					slistview.setView("icon");
-					slistview.paint();
-					
-					listener.onUnselect();
-					
-					function save_objects()
-					{
-						var element = slistview.getSelection()[0];
-						
-						// Met à jour le noeud ! et liste les droits à envoyer
-						var objects = "";
-						var newProperties = {};
-						newProperties.id = element.properties.id;
-						
-						var elts = slistview_right.getElements();
-						for (var i=0; i &lt; elts.length; i++)
-						{
-							var objectId = elts[i].properties.id;
-							newProperties[objectId] = "";
-							objects += objectId + '/';
-						}
-						element.properties = newProperties;
-						
-						// Envoie ça sur le serveur
-						var ok = false;
-						while (!ok)
-						{
-							var result = Tools.postFromUrl(getPluginDirectUrl("<xsl:value-of select="$pluginName"/>") + "/rights/profiles/modify", "id=" + element.properties.id + "&amp;objects=" + objects);
-							if (result == null)
-							{
-								if (!confirm("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_ERROR"/>"))
-								{
-									ok = true;
-								}
-							}
-							else 
-							{
-								var state = Tools.getFromXML(result, "message"); 
-								if (state != null &amp;&amp; state == "missing")
-								{
-									alert("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_MISSING_ERROR"/>");
-									if (slistview.removing == false)
-									element.remove();
-								}
-								else
-								{
-									ok = true;
-									_Category.showHideElement (2, false);
-								}
-							}
-							
-						}
-					}
-				</script>
-                
-                <script>
-                    sfulltable_onresize = function (fulltable)
-                    {
-                        var div = document.getElementById("listview");
-                        div.style.width = fulltable._width - 230;
-                        div.style.height = fulltable._height - 246;
-                        
-                        var innertable = document.getElementById("innertable");
-                        innertable.style.width = fulltable._width - 230;
-                        innertable.style.height = fulltable._height;
-
-                        var table = document.getElementById("fulltable");
-                        table.style.width = fulltable._width;
-                        table.style.height = fulltable._height;
-                        table.style.display = "";
-                        
-                        var doubleliste = document.getElementById("doubleliste");
-                        doubleliste.style.width = fulltable._width - 230 - 2*15;
-
-                        var half = (fulltable._width - 230 - 2*15 - 50) / 2 - 22 + (STools.is_ie ? 0 : - 15);
-                        slistview_left.columns = new Array();
-                        slistview_left.addColumn (null, "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_LEFTCOLUMN"/>", true, half + "px", null);
             
-                        slistview_right.columns = new Array();
-                        slistview_right.addColumn (null, "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_RIGHTCOLUMN"/>", true, half + "px", null);
-                        
-                        slistview_left.paint();
-                        slistview_right.paint();
-                    }                    
-                    sfulltable_create = function()
-                    {
-                        var minSize = {width: 720, height: 450};
-                        var maxSize = null;
-                        var sfulltable = new SFullTable("fulltable", minSize, maxSize);
-                        sfulltable.setEventListener("onresize", sfulltable_onresize);
-                        sfulltable_onresize(sfulltable);
-                    }
-                    window.setTimeout("sfulltable_create();", 1);                
-                </script>
-            </body>
+				<script>
+					<script src="{$resourcesPath}/js/ametys/rights/Ext.ametys.CheckRightEntry.js"/>
+					<script src="{$resourcesPath}/js/ametys/rights/Ext.ametys.RightEntry.js"/>
+	            	<script type="text/javascript">
+	            			//Current selected profil
+	            			var selectedElmt = null;
+	            			//If has changes
+	            			var hasChanges = false;
+	            			
+	            			var MAP_RIGHTS = function (config) { Ext.apply(this, config); } 
+							MAP_RIGHTS.prototype.toString = function() 
+							{ 
+								var str = ""
+								for (var i in this) 
+								{ 
+									str += i + "-";
+								}
+								return str;
+							};
+								
+		               		function goBack()
+		                    {
+		                        document.location.href = context.workspaceContext;
+		                    }   
+		                    
+		                   	function menu_new() 
+							{
+								var record = listview.getStore().recordType;
+								var newEntry = new record({
+														'name': "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_NEWPROFILE"/>",
+														'id': "new"
+														});
+								listview.getStore().add([newEntry]);
+								if(listview.getStore().getCount() &gt; 0)
+								{
+									listview.getSelectionModel().select(listview.getStore().getCount() -1, 0);
+								}
+								else
+								{
+									listview.getSelectionModel().select(0, 0);
+								}
+								
+								menu_rename ();
+							}
+							
+							function menu_rename ()
+	    					{
+	    						var cell = listview.getSelectionModel().getSelectedCell();
+	    						listview.startEditing(cell[0],cell[1]);
+	    					}
+							
+		                    function menu_remove ()
+							{
+								var elt = listview.getSelection()[0];		      
+								if (confirm("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_DELETE_CONFIRM"/>"))
+								{
+									if (200 == Tools.postUrlStatusCode(getPluginDirectUrl("<xsl:value-of select="$pluginName"/>") + "/rights/profiles/delete", "id=" + elt.get('id')))
+									{
+										listview.removeElement(elt);
+									}
+									else
+										alert("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_DELETE_ERROR"/>")
+								}
+							}
+		                    
+		                    function save_objects(element)
+		                    {
+								if (element == null)
+								{
+									element = listview.getSelection()[0];
+								}
+												
+								// Met à jour le noeud ! et liste les droits à envoyer
+								var objects = "";
+								
+								var newRights = new MAP_RIGHTS({});
+								
+								for (var i=0; i &lt; RIGHTS_ID.length; i++)
+								{
+									var rightElmt = Ext.getCmp(RIGHTS_ID[i]);
+									if (rightElmt.getValue())
+									{
+										newRights[rightElmt.getName()] = "";
+										objects += rightElmt.getName() + '/';
+									}
+								}
+								element.set('rights', newRights);
+							
+								
+								// Envoie ça sur le serveur
+								var ok = false;
+								while (!ok)
+								{
+									var result = Tools.postFromUrl(getPluginDirectUrl("<xsl:value-of select="$pluginName"/>") + "/rights/profiles/modify", "id=" + element.get('id') + "&amp;objects=" + objects);
+									if (result == null)
+									{
+										if (!confirm("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_ERROR"/>"))
+										{
+											ok = true;
+										}
+									}
+									else 
+									{
+										var state = Tools.getFromXML(result, "message"); 
+										if (state != null &amp;&amp; state == "missing")
+										{
+											alert("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_MISSING_ERROR"/>");
+											listview.removeElement(element);
+										}
+										else
+										{
+											ok = true;
+											_Category.hideElt(2);
+										}
+									}
+									
+								}
+								hasChanges = false;
+		                    }
+		                    
+		                    function needSave (field, newValue, oldValue)
+		                    {
+		                    	_Category.showElt(2);
+		                    	hasChanges = true;
+		                    }
+		                    
+		                    function checkBeforeQuit ()
+							{
+								if (selectedElmt != null &amp;&amp; hasChanges)
+								{
+									if (confirm("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_CONFIRM"/>"))
+									{
+										save_objects(selectedElmt);
+										//return false; //Pour rester sur la page
+									}
+								}
+							}
+							
+							function onSelectProfil (grid, rowindex, e)
+							{
+								if (selectedElmt != null &amp;&amp; hasChanges)
+								{
+									if (confirm("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_CONFIRM"/>"))
+									{
+										save_objects(selectedElmt);
+									}
+									else
+									{
+										hasChanges = false;
+									}
+								}
+								
+								_Category.showElt(1);
+								_Category.hideElt(2);
+								_Category.showElt(3);
+								
+								var elmt = listview.getSelection()[0];
+								selectedElmt = elmt; 
+								var rights = elmt.get('rights');
+								
+								for (var i=0; i &lt; RIGHTS_CATEGORY.length; i++)
+								{
+									Ext.getCmp("cat_" + RIGHTS_CATEGORY[i] + "_read").hide();
+								}
+								
+								for (var i=0; i &lt; RIGHTS_ID.length; i++)
+								{
+									//Mise de l'écran d'édition
+									var rightElmt = Ext.getCmp(RIGHTS_ID[i]);
+									rightElmt.removeListener('check', needSave);
+									var id = rightElmt.getName();
+									rightElmt.setDisabled(false);
+									rightElmt.setValue(rights[id] != null);
+									rightElmt.addListener('check', needSave);
+									
+									//Mise à jour de l'écran de visualisation
+									var cat = Ext.getCmp("cat_" + rightElmt.category + "_read");
+									var display = rights[id] != null;
+									if (display)
+									{
+										cat.show();
+									}
+									Ext.get(id + '_read').dom.style.display = display ? "" : "none";
+								}
+							}
+							
+							function beforeEditLabel (e)
+							{
+								var record = e.record;
+							}
+							
+							function validateEdit (e)
+							{
+								var record = e.record;
+								if (!/^[a-z|A-Z|0-9| |-|_]*$/.test(e.value))
+		                        {
+		                            alert("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_NAMING_ERROR"/>")
+		                            return false;
+		                        }
+                    		}
+                    		function editLabel (store, record, operation)
+                    		{
+                    			if (operation == Ext.data.Record.EDIT)
+                    			{
+									if (record.get('id') == "new")
+									{
+									
+										// CREER
+										var result = Tools.postFromUrl(getPluginDirectUrl("<xsl:value-of select="$pluginName"/>") + "/rights/profiles/create", "name=" + encodeURIComponent(record.get('name')));
+										if (result == null)
+										{
+											alert("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_NEW_ERROR"/>")
+											return;
+										}
+										else
+										{
+											record.set('id', Tools.getFromXML(result, "id"));
+											record.commit();
+										}
+									}
+									else
+									{
+										// RENOMMER
+										var result = Tools.postFromUrl(getPluginDirectUrl("<xsl:value-of select="$pluginName"/>") + "/rights/profiles/rename", "id=" + record.get('id') + "&amp;name=" + encodeURIComponent(record.get('name')));
+										if (result == null)
+										{
+											alert("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_RENAME_ERROR"/>");
+										}
+										else 
+										{
+											var state = Tools.getFromXML(result, "message"); 
+											if (state != null &amp;&amp; state == "missing")
+											{
+												alert("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_RENAME_MISSING_ERROR"/>");
+												listview.removeElement(record);
+												return;
+											}
+										}
+										record.commit();
+									}
+								}
+							}
+							
+							// Onglets
+							var _Navigation = new Ext.ametys.NavigationPanel ({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU"/>"});
+							var item1 = new Ext.ametys.NavigationItem ({
+								text: "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILE_READ"/>",
+								handlerFn: selectLayout,
+								toggleGroup : 'profile-menu',
+								pressed: true
+							})
+							_Navigation.add(item1);
+							var item2 = new Ext.ametys.NavigationItem ({
+								text: "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILE_EDIT"/>",
+								handlerFn: selectLayout,
+								toggleGroup : 'profile-menu'
+							}) 
+							_Navigation.add(item2);
+							
+							
+							// Gestion des profils
+							var _Category = new Ext.ametys.ActionsPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_CATEGORY"/>'});
+							_Category.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_CREATE"/>", "<xsl:value-of select="$resourcesPath"/>/img/rights/profiles/new.gif", menu_new);
+							_Category.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_RENAME"/>", "<xsl:value-of select="$resourcesPath"/>/img/rights/profiles/rename.gif", menu_rename);
+							_Category.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_VALIDATE"/>", "<xsl:value-of select="$resourcesPath"/>/img/rights/profiles/valid.gif", save_objects);
+							_Category.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_DELETE"/>", "<xsl:value-of select="$resourcesPath"/>/img/rights/profiles/delete.png", menu_remove);
+							
+							<xsl:if test="AdministratorUI = 'true'">
+								_Category.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_QUIT"/>", "<xsl:value-of select="$resourcesPath"/>/img/rights/profiles/quit.png", goBack);
+							</xsl:if>	
+							
+							_Category.hideElt(1);
+							_Category.hideElt(2);
+							_Category.hideElt(3);
+							
+							
+							// Help
+							var helpCategory = new Ext.ametys.TextPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HELP_CATEGORY"/>'});
+							helpCategory.addText("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_HELP_HINT"/>");
+							
+							//Profils existants
+							var dummyData = [];
+							
+							<xsl:for-each select="profiles/profile">
+								var rights = new MAP_RIGHTS({});
+								<xsl:for-each select="rights/right">
+									rights['<xsl:value-of select="@id"/>'] = "";
+								</xsl:for-each>
+								dummyData.push(['<xsl:value-of select="@id" />', '<xsl:value-of select="label" />', rights]);
+							</xsl:for-each>						
+						    
+						   	var store = new Ext.data.SimpleStore({
+						   				listeners: {'update': editLabel},
+										id:0,
+								        fields: [
+								           {name: 'id'},
+								           {name: 'name'},
+								           {name: 'rights'}
+								        ]
+									});
+						   	store.loadData(dummyData);	
+						   	
+						   	var cm = new Ext.grid.ColumnModel([{
+						           id:'name',
+						           header: "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILE"/>",
+						           dataIndex: 'name',
+						           width: 540,
+						           editor: new Ext.form.TextField({
+						               allowBlank: false
+						           })
+						        }]);
+				        	
+						   	var listview = new Ext.ametys.EditorListView({
+						   		title : 'Liste des profils',
+								listeners: {'rowclick': onSelectProfil, 'beforeedit': beforeEditLabel, 'validateedit': validateEdit},						
+							    store : store,
+								sm: new Ext.grid.CellSelectionModel({singleSelect:true}),
+								height: 150,
+								anchor: '0.5', //ascenseur
+							   	cm: cm,
+							   	clicksToEdit:2,
+								region: 'center',
+								id: 'profile-list-view',
+								baseCls: 'profile-list-view',
+								region: 'north',
+								hideHeaders: true,
+								minSize: 75,
+    							maxSize: 500,
+    							split: true,
+    							border: true
+    							
+							});	
+							
+							//Panel for edit rights profils
+							var editRights = new Ext.Panel({
+								title: 'Droits associés',
+								autoScroll:true,
+								border: false,
+								id: 'profile-edit-panel',
+								baseCls: 'profile-edit-panel'
+							});  
+							//Panel for read rights profils
+							var readRights = new Ext.Panel({ 
+								title: 'Droits associés',
+								autoScroll:true,
+								id: 'profile-read-panel',
+								baseCls: 'profile-read-panel'
+							});
+							var cardPanel = new Ext.Panel ({
+								region:'center',
+								border: false,
+								layout:'card',
+								activeItem:0,
+								minSize: 75,
+    							maxSize: 500,
+    							baseCls: 'card-panel',
+								items:[readRights, editRights]
+							});
+							
+							var RIGHTS_ID = [];
+							var RIGHTS_CATEGORY = [];
+							<xsl:for-each select="rights/right[not(category = preceding-sibling::right/category)]">
+								<xsl:variable name="category" select="category"/>
+								RIGHTS_CATEGORY.push('<xsl:value-of select="$category"/>');
+								var cat_<xsl:value-of select="$category"/> = new Ext.ametys.Fieldset({
+										title : "<i18n:text i18n:key="{$category}" i18n:catalogue="{@catalogue}"/>",
+										layout: 'form',
+										id: "cat_<xsl:value-of select="$category"/>_edit",
+										cls: 'fieldset'
+								});
+								editRights.add(cat_<xsl:value-of select="$category"/>);	
+								var cat_<xsl:value-of select="$category"/>_read = new Ext.ametys.Fieldset({
+									title : "<i18n:text i18n:key="{$category}" i18n:catalogue="{@catalogue}"/>",
+									layout: 'form',
+									id: "cat_<xsl:value-of select="$category"/>_read",
+									cls: 'fieldset'
+								});
+								readRights.add(cat_<xsl:value-of select="$category"/>_read);
+								<xsl:for-each select="../right[category = $category]">
+									var input = new Ext.ametys.CheckRightEntry ({
+										listeners: {'check': needSave},
+										width: 190,
+										boxLabel : "<i18n:text i18n:key="{label}" i18n:catalogue="{@catalogue}"/>",
+								        name: "<xsl:value-of select="@id"/>",
+								        id: "<xsl:value-of select="@id"/>",
+								        desc: "<i18n:text i18n:key="{description}" i18n:catalogue="{@catalogue}"/>",
+								        category: "<xsl:value-of select="$category"/>",
+								        hideLabel : true,
+								        disabled: true
+									});	
+									RIGHTS_ID.push("<xsl:value-of select="@id"/>");	
+									cat_<xsl:value-of select="$category"/>.add(input);
+									
+									var profileText = new Ext.ametys.RightEntry({
+										id : "<xsl:value-of select="@id"/>_read", 
+										width: 190,
+										text : "<i18n:text i18n:key="{label}" i18n:catalogue="{@catalogue}"/>", 
+										desc: "<i18n:text i18n:key="{description}" i18n:catalogue="{@catalogue}"/>"
+									});
+									cat_<xsl:value-of select="$category"/>_read.add(profileText);
+								</xsl:for-each>
+								cat_<xsl:value-of select="$category"/>_read.hide();
+							</xsl:for-each> 
+							
+							var rightPanel = new Ext.ametys.HtmlContainer({
+									region:'east',
+									border: false,
+									width: 277,
+									baseCls: 'admin-right-panel',
+								    items: [_Navigation, _Category, helpCategory]
+							});
+							
+							var centerPanel = new Ext.Panel({
+								defaults: {
+								    split: true
+								},
+								region:'center',
+								baseCls: 'transparent-panel',
+								border: false,
+								layout: 'border',
+								autoScroll : true,
+								height: 'auto',
+								items: [listview, cardPanel]
+							});
+							
+							function _getAdminPanel ()
+							{
+								return new Ext.Panel({
+									region: 'center',
+									baseCls: 'transparent-panel',
+									border: false,
+									layout: 'border',
+									autoScroll: true,
+									items: [centerPanel, rightPanel]
+								});
+							}								
+	            			
+	            			function selectLayout()
+							{
+								if (selectedElmt != null &amp;&amp; hasChanges &amp;&amp; item1.pressed)
+								{
+									if (confirm("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_CONFIRM"/>"))
+									{
+										save_objects(selectedElmt);
+									}
+									else
+									{
+										hasChanges = false;
+									}
+								}
+								var rights = selectedElmt != null ? selectedElmt.get('rights') : {};
+								
+								// Mise à jour de la vue en fonction du profil sélectionné
+								if (item1.pressed)
+								{
+									cardPanel.getLayout().setActiveItem(0);
+									for (var i=0; i &lt; RIGHTS_CATEGORY.length; i++)
+									{
+										Ext.getCmp("cat_" + RIGHTS_CATEGORY[i] + "_read").hide();
+									}
+									for (var i=0; i &lt; RIGHTS_ID.length; i++)
+									{
+										//Mise à jour de l'écran de visualisation
+										var rightElmt = Ext.getCmp(RIGHTS_ID[i]);
+										var id = rightElmt.getName();
+										var cat = Ext.getCmp("cat_" + rightElmt.category + "_read");
+										var display = rights[id] != null;
+										if (display)
+										{
+											cat.show();
+										}
+										Ext.get(id + '_read').dom.style.display = display ? "" : "none";
+									}
+								}
+								else
+								{	
+									cardPanel.getLayout().setActiveItem(1);
+									for (var i=0; i &lt; RIGHTS_ID.length; i++)
+									{
+										//Mise de l'écran d'édition
+										var rightElmt = Ext.getCmp(RIGHTS_ID[i]);
+										rightElmt.removeListener('check', needSave);
+										var id = rightElmt.getName();
+										rightElmt.setDisabled(selectedElmt == null);
+										rightElmt.setValue(rights[id] != null);
+										rightElmt.addListener('check', needSave);
+									}
+									
+								}
+							}
+							
+	            			Ext.onReady( function () {
+								window.onbeforeunload = checkBeforeQuit
+							});
+	            	</script>
+	           </script>
+	           
+	
         </html>
     </xsl:template>
-	
-    <xsl:template name="double-liste">
-    	
-        <script>
-  		var slistview_left;
-  		var slistview_right;
-
-  		function doubleList (lv1, lv2, mode)
-  		{
-	    	var eltsToTransit;
-		    if (mode == 'all')
-                          eltsToTransit = lv1.getElements();
-            else
-                          eltsToTransit = lv1.getSelection();
-
-            var newElements = new Array();
-
-            for (var i=0; i &lt; eltsToTransit.length; i++)
-            {
-            	_Category.showHideElement (2, true);
-              	var elt = eltsToTransit[i];
-
-              	newElements.push (lv2.addElement(elt.name, elt.icon16, elt.icon32, elt.icon50, elt.properties));
-            }
-            for (var i=eltsToTransit.length-1; i &gt;= 0; i--)
-            {
-              	eltsToTransit[i].remove();
-            }
-
-            lv2.unselect();
-            lv2.paint();
-
-            for (var i=0; i &lt; newElements.length; i++)
-            {
-              	newElements[i].select(true);
-            }
-  		}
-		</script>
-        <table id="doubleliste" cellpadding="0" cellspacing="0" style="height: 235px; table-layout: fixed">
-            <colgroup>
-                <col width="50%"/>
-                <col width="50px"/>
-                <col width="50%"/>
-            </colgroup>
-            <tr>
-                <td style="">
-                    <div id="list-view-left" style="height: 235px; overflow: auto"/>
-                </td>
-                <td style="text-align: center; vertical-align: middle">
-                    <img onclick="doubleList(slistview_right, slistview_left, 'all');" src="{$contextPath}/plugins/{$pluginName}/resources/img/rights/profiles/rewind.gif" style="width: 25px; height: 25px; text-align: center; display: block; margin: 5px; padding: 0px;" title="Tout passer à gauche"/>
-                    <img onclick="doubleList(slistview_right, slistview_left, 'selection');" src="{$contextPath}/plugins/{$pluginName}/resources/img/rights/profiles/previous.gif" style="width: 25px; height: 25px; text-align: center; display: block; margin: 5px; padding: 0px;" title="Passer la sélection à gauche"/>
-                    <img onclick="doubleList(slistview_left, slistview_right, 'selection');" src="{$contextPath}/plugins/{$pluginName}/resources/img/rights/profiles/next.gif" style="width: 25px; height: 25px; text-align: center; display: block; margin: 5px; padding: 0px;" title="Passer la sélection à droite"/>
-                    <img onclick="doubleList(slistview_left, slistview_right, 'all');" src="{$contextPath}/plugins/{$pluginName}/resources/img/rights/profiles/forward.gif" style="width: 25px; height: 25px; text-align: center; display: block; margin: 5px; padding: 0px;" title="Tout passer à droite"/>
-                </td>
-                <td style="">
-                    <div id="list-view-right" style="height: 235px; overflow: auto"/>
-                </td>
-            </tr>
-        </table>
-    	<script>
-	  		slistview_left = new SListView ("list-view-left", null, null);
-            slistview_left.setGroup("category");
-            slistview_left.showGroups(true);
-            slistview_left.setView("detail");
-            
-            slistview_right = new SListView ("list-view-right", null, null);
-            slistview_right.setGroup("category");
-            slistview_right.showGroups(true);
-            slistview_right.setView("detail");
-    	</script>
-    </xsl:template>
+    
 </xsl:stylesheet>
