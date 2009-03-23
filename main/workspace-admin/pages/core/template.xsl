@@ -36,13 +36,10 @@
 				
                 <link rel="icon" type="image/gif" href="{$contextPath}/kernel/resources/img/runtime_favico.gif" />
                 <link rel="shortcut icon" type="image/x-icon" href="{$contextPath}/kernel/resources/img/runtime_favico.ico" />
-				<link rel="stylesheet" href="{$workspaceContext}/resources/css/workspace.css" type="text/css"/>
-				
-                <xsl:call-template name="workspace-head"/>
-			</head>
-		
-			<!-- ****** BODY ****** -->
-			<body style="padding: 0px; margin: 0px;">
+				<link rel="stylesheet" href="{$workspaceContext}/resources/css/admin.css" type="text/css"/>
+				<link rel="stylesheet" href="{$workspaceContext}/resources/css/panel.css" type="text/css"/>
+		        <link rel="stylesheet" href="{$workspaceContext}/resources/css/form.css" type="text/css"/>
+		        
 				<!-- loading ui library -->
                 <xsl:call-template name="ui-load">
                     <xsl:with-param name="pluginsDirectContext" select="concat($workspaceContext, '/plugins')"/>
@@ -50,7 +47,7 @@
                 </xsl:call-template>
                 <xsl:call-template name="ui-tools-load">
                     <xsl:with-param name="bad-navigator-redirection"><xsl:value-of select="$workspaceContext"/>/public/navigator.html</xsl:with-param>
-                    <!-- STools supported browser -->
+
                     <xsl:with-param name="accept-ie-6">true</xsl:with-param>
                     <xsl:with-param name="accept-ie-7">true</xsl:with-param>
                     <xsl:with-param name="accept-ff-1.0">true</xsl:with-param>
@@ -58,51 +55,49 @@
                     <xsl:with-param name="accept-ff-2.0">true</xsl:with-param>
                     <xsl:with-param name="accept-ff-3.0">true</xsl:with-param>
                 </xsl:call-template>
-
-				<table class="admin_head" style="width: 100%; height: 100%; background-image: url({$contextPath}/kernel/resources/img/bg_top.gif); background-repeat: repeat-x; background-position: top; background-attachment: fixed;">
-					<!-- En-tête -->
-					<tr height="119px">
-						<td>
-							<img src="{$contextPath}/kernel/resources/img/runtime.jpg"/>
-						</td>
-                        <td class="admin_head">
-                            <span class="admin_head"><i18n:text i18n:catalogue="workspace.{$workspaceName}" i18n:key="WORKSPACE_ADMIN_LABEL_LONG"/></span>
-                        </td>
-					</tr>
-					<!-- Contenu -->
-					<tr>
-						<td colspan="2" class="admin_main_area">
-						
-							<table class="admin_main_border" style="width: 720px; height: 450px;">
-								<tr>
-									<th class="admin_main">
-                                        <xsl:variable name="title"><xsl:call-template name="workspace-title"/></xsl:variable>
-										<xsl:if test="xalan:nodeset($title)/node()">
-											<xsl:copy-of select="$title"/>
-										</xsl:if>
-									</th>
-								</tr>
-								<tr>
-									<td class="admin_main_border">
-										
-											<table class="admin_main" style="width: 720px; height: 450px;">
-												<tr>
-													<td>
-															<!-- Contenu de la page d'administration -->							
-															<xsl:call-template name="workspace-body"/>
-													</td>
-												</tr>
-											</table>
-									
-									</td>
-								</tr>
-							</table>
-						</td>
-					</tr>
-				</table>
                 
-                <!-- scripts -->
-                <xsl:call-template name="workspace-script"/>
+                <xsl:call-template name="workspace-head"/>
+                
+                <script type="text/javascript" src="{$workspaceContext}/resources/js/ametys/Ext.ametys.Fieldset.js"><xsl:comment>empty</xsl:comment></script>
+                <script type="text/javascript" src="{$workspaceContext}/resources/js/ametys/form/Ext.ametys.TextField.js"><xsl:comment>empty</xsl:comment></script>
+                <script type="text/javascript" src="{$workspaceContext}/resources/js/ametys/form/Ext.ametys.TextAreaField.js"><xsl:comment>empty</xsl:comment></script>
+		        <script type="text/javascript" src="{$workspaceContext}/resources/js/ametys/form/Ext.ametys.LongField.js"><xsl:comment>empty</xsl:comment></script>
+		        <script type="text/javascript" src="{$workspaceContext}/resources/js/ametys/form/Ext.ametys.DoubleField.js"><xsl:comment>empty</xsl:comment></script>
+		        <script type="text/javascript" src="{$workspaceContext}/resources/js/ametys/form/Ext.ametys.BooleanField.js"><xsl:comment>empty</xsl:comment></script>
+		        <script type="text/javascript" src="{$workspaceContext}/resources/js/ametys/form/Ext.ametys.PasswordField.js"><xsl:comment>empty</xsl:comment></script>
+		        <script type="text/javascript" src="{$workspaceContext}/resources/js/ametys/form/Ext.ametys.DateField.js"><xsl:comment>empty</xsl:comment></script>
+		        <script type="text/javascript" src="{$workspaceContext}/resources/js/ametys/form/Ext.ametys.ComboField.js"><xsl:comment>empty</xsl:comment></script>
+		       
+		        <script type="text/javascript" src="{$workspaceContext}/resources/js/ametys/Ext.ametys.ActionsPanel.js"><xsl:comment>empty</xsl:comment></script>
+		        <script type="text/javascript" src="{$workspaceContext}/resources/js/ametys/Ext.ametys.Action.js"><xsl:comment>empty</xsl:comment></script>
+		        <script type="text/javascript" src="{$workspaceContext}/resources/js/ametys/Ext.ametys.TextPanel.js"><xsl:comment>empty</xsl:comment></script>
+		        <script type="text/javascript" src="{$workspaceContext}/resources/js/ametys/Ext.ametys.NavigationPanel.js"><xsl:comment>empty</xsl:comment></script>
+		        <script type="text/javascript" src="{$workspaceContext}/resources/js/ametys/Ext.ametys.NavigationItem.js"><xsl:comment>empty</xsl:comment></script>
+		        
+		        <script type="text/javascript" src="{$workspaceContext}/resources/js/ametys/Ext.ametys.DockItem.js"><xsl:comment>empty</xsl:comment></script>
+		        <script type="text/javascript" src="{$workspaceContext}/resources/js/ametys/Ext.ametys.AdminTools.js"><xsl:comment>empty</xsl:comment></script>
+                <script type="text/javascript" src="{$workspaceContext}/resources/js/workspace.js"><xsl:comment>//empty</xsl:comment></script>
+                
+                <xsl:comment>[if lt IE 7]&gt;
+						&lt;script defer type="text/javascript" src="<xsl:value-of select="$workspaceContext"/>/resources/js/pngfix.js">&lt;/script&gt;
+				&lt;![endif]</xsl:comment>
+				<xsl:call-template name="workspace-script"/>
+			</head>
+		
+			<!-- ****** BODY ****** -->
+			<body>
+				<div id="logo"><xsl:comment></xsl:comment></div>
+				
+				<div id="versions">
+					<xsl:for-each select="/Admin/Versions/Component|/Plugins/Versions/Component">
+						<span class="title"><xsl:value-of select="Name"/>&#160;-&#160;</span>
+						<xsl:value-of select="Version"/>
+						<xsl:if test="Date">&#160;du <xsl:value-of select="Date"/> à <xsl:value-of select="Time"/></xsl:if>
+						<xsl:if test="position() != last()">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</xsl:if>
+					</xsl:for-each>
+				</div>
+				
+				<xsl:call-template name="workspace-body"/>
 			</body>
 		</html>		
 	</xsl:template>

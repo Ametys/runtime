@@ -10,29 +10,32 @@
  */
 
 // Ametys Namespace
-Ext.namespace('Ext.awt');
+Ext.namespace('Ext.ametys');
 
 /**
- * Ext.ametys.HomeItem
+ * Ext.ametys.Action
  *
- * @class Ext.ametys.DesktopItem
+ * @class Ext.ametys.Action
  * @extends Ext.BoxComponent
  * @constructor
  * @param {Object} config Configuration options
  */
-Ext.ametys.DesktopItem = function(config) 
+Ext.ametys.Action = function(config) 
 {
-	Ext.ametys.DesktopItem.superclass.constructor.call(this, config);
+	Ext.ametys.Action.superclass.constructor.call(this, config);
+	
 	this.addEvents(
 			/**
 		     * @event beforeclick
 		     * Fires before click processing. Return false to cancel the default action.
+		     * @param {Node} this This node
 		     * @param {Ext.EventObject} e The event object
 		    */
 		    "beforeclick",
 		    /**
 		    * @event click
 		    * Fires when this node is clicked
+		    * @param {Node} this This node
 		    * @param {Ext.EventObject} e The event object
 		    */
 		    "click",
@@ -51,11 +54,10 @@ Ext.ametys.DesktopItem = function(config)
 	);
 }; 
 
-Ext.extend(Ext.ametys.DesktopItem, Ext.BoxComponent, 
+Ext.extend(Ext.ametys.Action, Ext.BoxComponent, 
 {
-	cls: 'desktop-item',
-	//overCls : 'item-over',
-	onMouseOver : function(e)
+	cls: 'action-item',
+	overFn : function(e)
 	{
 		if(this.fireEvent("mouseover", this.node, e) !== false)
 		{
@@ -72,7 +74,7 @@ Ext.extend(Ext.ametys.DesktopItem, Ext.BoxComponent,
 	    }
 		
 	},
-	onMouseOut : function(e)
+	outFn : function(e)
 	{
 		if(this.fireEvent("mouseout", this.node, e) !== false)
 		{
@@ -93,37 +95,36 @@ Ext.extend(Ext.ametys.DesktopItem, Ext.BoxComponent,
 	{
 	    if(this.fireEvent("beforeclick", this.node, e) !== false)
 	    {
-	    	this.actionFunction(this.plugin, this.actionParams);
+	        var a = e.getTarget('a');
+	        if(!this.disabled && a)
+	        {
+	            this.fireEvent("click", this.node, e);
+		        e.preventDefault();
+	            return;
+	        }
 	        e.preventDefault();
 	    }
 	    else
 	    {
 	        e.stopEvent();
 	    }
+	    
+	    
 	},
 	onRender : function(ct, position)
 	{
-		Ext.ametys.DesktopItem.superclass.onRender.call(this, ct, position);
+		Ext.ametys.Action.superclass.onRender.call(this, ct, position);
 		
 		if(!this.el) 
 		{
 			this.el = ct.createChild({
 	            id: this.id,
-	            cls: this.cls
+	            cls: this.baseCls
 	        }, position);
 		}
 		
 		this.el.on('click', this.onClick, this);
-		this.el.on('mouseover', this.onMouseOver, this);
-		this.el.on('mouseout', this.onMouseOut, this);
-		this.el.createChild({cls: this.cls + '-img', html: '<img src="' + this.icon + '"/>'});
-		this.el.createChild({cls: this.cls + '-title', html: this.text});
-		
-		var tooltip = new Ext.ToolTip({
-	        target: this.id,
-	        html: Ext.ametys.AdminTools.DesktopItemTooltipFormater(this.text, this.desc),
-	        shadow : false
-	    });
-		//this.el.addClassOnOver(this.overCls);
+		this.el.dom.innerHTML = this.html;
+		this.el.hover(this.overFn, this.outFn, this);
 	}
 });

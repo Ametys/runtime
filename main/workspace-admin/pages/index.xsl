@@ -22,90 +22,75 @@
     
     <xsl:template name="workspace-head">
 	   <LINK rel="stylesheet" href="{$contextPath}{$workspaceURI}/resources/css/homepage.css" type="text/css"/>
-    </xsl:template>
-
-    <xsl:template name="workspace-body">
-        <!-- loading plugins -->
-        <xsl:call-template name="plugins-load">
+	   
+	   <xsl:call-template name="plugins-load">
             <xsl:with-param name="scripts" select="/Admin/Desktop/category/UIItem/Action/Imports/Import"/>
             <xsl:with-param name="actions" select="/Admin/Desktop/category/UIItem/Action/ClassName"/>
         </xsl:call-template>
-
-        <table class="admin_index_main_table">
-            <tr>
-                <td id="actionset"/>
-                <td>
-                    <div id="listview" style="width: 500px"/>
-                </td>
-            </tr>
-        </table>
     </xsl:template>
 
     <xsl:template name="workspace-script">
-        <script>
-            var sp = new SContextualPanel("actionset")
-            var c1 = sp.addCategory("<i18n:text i18n:key="WORKSPACE_ADMIN_HELP_LABEL" i18n:catalogue="workspace.{$workspaceName}"/>", true); 
-                c1.addElement("&lt;div style='color: #000000; text-indent: 20px; font-size: 11px; text-align: left;'&gt;<i18n:text i18n:key="WORKSPACE_ADMIN_HELP" i18n:catalogue="workspace.{$workspaceName}"/>&lt;/div&gt;")
-
-            <xsl:if test="/Admin/Versions/Component">
-                var c2 = sp.addCategory("<i18n:text i18n:key="WORKSPACE_ADMIN_VERSION_LABEL" i18n:catalogue="workspace.{$workspaceName}"/>", true); 
-                <xsl:for-each select="/Admin/Versions/Component">
-                        c2.addElement("&lt;span style='font-size: 11px; font-weight: bold'&gt;<xsl:value-of select="Name"/>&#160;:&lt;/span&gt;&#160;<xsl:value-of select="Version"/>");
-                        <xsl:if test="Date">
-                            c2.addElement("<i18n:text i18n:key="WORKSPACE_ADMIN_VERSION_DATED" i18n:catalogue="workspace.{$workspaceName}"/>&#160;<i18n:date src-pattern="dd/MM/yyyy" pattern="medium" value="{Date}"/>&#160;<i18n:text i18n:key="WORKSPACE_ADMIN_VERSION_DATEDTIME" i18n:catalogue="workspace.{$workspaceName}"/>&#160;<i18n:time src-pattern="HH:mm" pattern="HH:mm z" value="{Time}"/>");
-                        </xsl:if>
-                        <xsl:if test="position() != last()">
-                            c2.addElement("&#160;");
-                        </xsl:if>
-                </xsl:for-each>
-            </xsl:if>
-            
-            sp.paint();
-            
-            function slistview_listener() {}
-            slistview_listener.onSelect = function (element) {
-                if (element.properties.actionFunction == null)
-                    return false;
-                    
-                window.setTimeout( function() { element.properties.actionFunction(element.properties.plugin, element.properties.actionParams) }, 10);
-                window.setTimeout( function() { slistview.unselect() }, 200);
-                return true;
-            }
-            
-            SListView.mosaicViewTrunc = 50;
-
-            var slistview = new SListView("listview", null, slistview_listener);
-            slistview.setView("mozaic");
-            slistview.sort(false);
-            slistview.setGroup("categoryDisplay");
-            slistview.showGroups(true);
-            slistview.setMultipleSelection(false);
-            slistview.addColumn(null, "", true);
-            slistview.addColumn("description", "", true);
-
-            <xsl:for-each select="/Admin/Desktop/category">
-                <xsl:for-each select="UIItem">
-                    slistview.addElement("<xsl:call-template name="ui-text"><xsl:with-param name="text" select="Label"/></xsl:call-template>",
-                            "<xsl:value-of select="$contextPath"/><xsl:value-of select="Icons/Small"/>", "<xsl:value-of select="$contextPath"/><xsl:value-of select="Icons/Medium"/>", "<xsl:value-of select="$contextPath"/><xsl:value-of select="Icons/Large"/>",
-                            {
-                                "description" : "<xsl:call-template name="ui-text"><xsl:with-param name="text" select="Description"/></xsl:call-template>",
-                                "category" : "<xsl:value-of select="../@name"/>",
-                                "categoryDisplay" : "<i18n:text i18n:key="{../@name}" i18n:catalogue="application"/>"
-                                <xsl:if test="not(@disabled)">
-                                    , 
-                                    "plugin" : "<xsl:value-of select="Action/@plugin"/>",
-                                    "actionFunction" : <xsl:value-of select="Action/ClassName"/>.act,
-                                    "actionParams" : {<xsl:for-each select="Action/Parameters/*">
-                                                        <xsl:text>"</xsl:text><xsl:value-of select="local-name()"/>" : "<xsl:value-of select="."/><xsl:text>"</xsl:text>
-                                                        <xsl:if test="position() != last()">, </xsl:if>
-                                                    </xsl:for-each>}
-                                </xsl:if>
-                            });
-                </xsl:for-each>
-            </xsl:for-each>
-
-            slistview.paint();
-        </script>
+    	<script type="text/javascript">
+    		function workspaceBody () 
+    		{
+	    		var items = []
+	    		
+	    		var links = new Ext.ametys.HtmlContainer ({
+	    			contentEl : 'links'
+	    		});
+	    		items.push(links);
+				<xsl:for-each select="/Admin/Desktop/category">
+						var category = new Ext.ametys.DesktopCategory ({
+								text: "<i18n:text i18n:key="{@name}" i18n:catalogue="application"/>"
+						});
+						items.push(category);
+						
+						<xsl:for-each select="UIItem">
+							var item = new Ext.ametys.DesktopItem ({
+								text: "<xsl:call-template name="ui-text"><xsl:with-param name="text" select="Label"/></xsl:call-template>",
+								desc: "<xsl:call-template name="ui-text"><xsl:with-param name="text" select="Description"/></xsl:call-template>",
+								icon: "<xsl:value-of select="$contextPath"/><xsl:value-of select="Icons/Large"/>",
+								iconOver: "<xsl:value-of select="$contextPath"/><xsl:value-of select="substring-before(Icons/Large, '.')"/>_over.<xsl:value-of select="substring-after(Icons/Large, '.')"/>"
+								<xsl:if test="not(@disabled)">
+	                            	, 
+	                                "plugin" : "<xsl:value-of select="Action/@plugin"/>",
+	                                "actionFunction" : <xsl:value-of select="Action/ClassName"/>.act,
+	                                "actionParams" : {<xsl:for-each select="Action/Parameters/*">
+	                                	<xsl:text>"</xsl:text><xsl:value-of select="local-name()"/>" : "<xsl:value-of select="."/><xsl:text>"</xsl:text>
+	                                    <xsl:if test="position() != last()">, </xsl:if>
+	                                    </xsl:for-each>}
+	                                </xsl:if>
+							});
+							items.push(item);
+						</xsl:for-each>
+				</xsl:for-each>
+				
+				return new Ext.ametys.DesktopPanel({
+					items: items,
+					baseCls : 'desktop',
+					autoScroll: true
+				});
+			}
+		</script>
+    </xsl:template>
+    
+    <xsl:template name="workspace-body">
+    	<div id="links">
+            <div class="link">
+            	<div class="label">
+            		<div class="left"><xsl:comment></xsl:comment></div>
+            		<div class="text">site web</div>
+            	</div>
+            	<a href="http://www.ametys.org" target="_blank">ametys.org</a>
+            </div>
+             <div class="link">
+             	<div class="label">
+             		<div class="left"><xsl:comment></xsl:comment></div>
+            		<div class="text">documentation</div>
+            	</div>
+            	<a href="http://wiki.ametys.org" target="_blank">wiki.ametys.org</a>
+            </div>
+        </div>
     </xsl:template>
     
 </xsl:stylesheet>

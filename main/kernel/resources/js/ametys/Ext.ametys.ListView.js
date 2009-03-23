@@ -28,7 +28,6 @@ Ext.ametys.ListView = function(config)
 
 Ext.extend(Ext.ametys.ListView, Ext.grid.GridPanel, 
 {
-	iconCls: 'icon-list',
 	cls: 'list-view',
 	columnmove : false,
 	frame: true, // rendu avec bords arrondis

@@ -1,5 +1,6 @@
 .desktop {
 overflow:auto;
+position: relative;
 }
 
 h2.desktop-category-title {
@@ -9,9 +10,9 @@ letter-spacing: -1px;
 color: #1C58A0;
 padding: 0px;
 text-transform: uppercase;
-height: 31px;
+height: 28px;
 border-bottom: 1px solid #C8CDD0;
-margin-bottom: 27px;
+margin-bottom: 15px;
 font-family: arial, sans-serif;
 padding: 0px;
 clear: left;
@@ -20,10 +21,31 @@ clear: left;
 .desktop-item {
 	float: left;
 	width: 144px;
-	height: 106px;
+	height: 87px;
 	text-align: center;
 	color: #842970;
-	font-size: 1.1em; /* en fonction du h2 */
-	margin-bottom: 34px;
+	margin-bottom: 22px;
 	cursor:pointer;
 }
+
+.desktop-item img {
+height: 68px;
+}
+
+.desktop-item-tooltip {
+}
+
+.desktop-item-tooltip-title {
+	width: 190px;
+	font-weight: bold;
+	padding-left: 0px !important;
+	padding: 5px 0px 10px 0px;
+	margin: 0px 0px 5px 0px;
+	/*border-bottom: 1px solid #9bafca;*/
+	color: #1C58A0;
+}
+.desktop-item-tooltip-text {
+	width: 190px;
+	padding: 0px 0px 10px 0px;
+}
+

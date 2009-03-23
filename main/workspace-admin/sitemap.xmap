@@ -139,7 +139,11 @@
                     <map:parameter name="pluginName" value="{1}"/>
                 </map:act>
                 
-				<map:generate src="cocoon:/_internal_plugins/{1}/{2}"/>
+                <map:aggregate element="Plugins">
+                    <map:part src="cocoon:/homepage-desktop.xml"/>
+                    <map:part src="cocoon:/homepage-versions.xml"/>
+                    <map:part src="cocoon:/_internal_plugins/{1}/{2}"/>
+                </map:aggregate>
 				<map:transform src="pages/core/plugin.xsl">
 					<map:parameter name="contextPath" value="{request:contextPath}"/>
                     <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
