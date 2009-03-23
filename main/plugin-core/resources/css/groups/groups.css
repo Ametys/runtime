@@ -1,0 +1,42 @@
+.user-list .x-grid3, .group-list .x-grid3 {
+	background: none !important;
+}
+
+.user-list {
+	padding: 10px 0 15px 15px !important;
+}
+.group-list {
+    background: url(../../img/rights/profile_bg.png) top left no-repeat !important; 
+	padding: 10px 0 10px 15px !important;
+}
+
+.group-list .group-list-header, .user-list .user-list-header {
+	font-weight: bold;
+	color: #7D326B;
+	font-size: 1.2em;
+	font-family: arial, sans-serif !important;
+	margin-left: 0px;
+	padding: 0px 0px 0px 20px;
+	margin-bottom: 10px;
+	background : url(../../img/rights/bullet_expand.png) 0px 5px no-repeat !important;
+}
+
+.group-list .x-grid3-row, .user-list .x-grid3-row {
+	border:0px none !important;
+	cursor:default;
+	padding-left: 15px;
+}
+
+.group-list .x-grid3-cell-selected, .user-list .x-grid3-cell-selected {
+	background-color:#DFE8F6 !important;
+	border: 1px dotted #A3BAE9 !important;
+}
+
+.user-list {
+	padding-top: 20px;
+	background : url(../../img/groups/splitbar.png) top center no-repeat;
+}
+
+.x-grid3-row td, .x-grid3-summary-row td {
+	line-height:16px !important;
+}

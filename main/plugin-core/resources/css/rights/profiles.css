@@ -1,0 +1,88 @@
+/*
+ * Copyright (c) 2007 Anyware Technologies and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.opensource.org/licenses/eclipse-1.0.php
+ * 
+ * Contributors:
+ *     Anyware Technologies - initial API and implementation
+ */
+ 
+/* proprietes */
+.profile-edit-panel, .profile-read-panel {
+	background: none !important;
+}
+
+.profile-edit-panel-body div.fieldset, .profile-read-panel-body div.fieldset {
+}
+.profile-list-view .x-grid3 {
+	background: none !important;
+}
+
+.profile-list-view {
+	background: url(../../img/rights/profile_bg.png) top left no-repeat !important; 
+	padding: 10px 0 0 15px;
+}
+
+.profile-list-view .x-grid3-row {
+	border:0px none !important;
+	cursor:default;
+	padding-left: 15px;
+}
+
+.profile-list-view .x-grid3-cell-selected {
+	background-color:#DFE8F6 !important;
+	color:black;
+	border: 1px dotted #A3BAE9 !important;
+}
+
+.profile-list-view .profile-list-view-header {
+	font-weight: bold;
+	color: #7D326B;
+	font-size: 1.2em;
+	font-family: arial, sans-serif !important;
+	margin-left: 0px;
+	padding: 0px 0px 0px 20px;
+	margin-bottom: 10px;
+	background : url(../../img/rights/bullet_expand.png) 0px 5px no-repeat !important;
+}
+.profile-list-view .profile-list-view-header span {
+}
+
+.profile-checkbox {
+	width: 180px;
+	float:left;
+	font-size: 0.9em;
+	color: #111111;
+	margin-left: 10px;
+	white-space: nowrap;
+	font-family: arial, sans-serif !important;
+	margin-bottom: 0px !important;
+}
+
+.profile-text {
+	padding: 5px 0 2px 5px;
+	float:left;
+	width:180px;
+	white-space: nowrap;
+	font-size: 0.9em;
+	color: #111111;
+	margin-left: 5px;
+	font-family: arial, sans-serif !important;
+}
+
+.profile-read-panel-header, .profile-edit-panel-header {
+	font-weight: bold;
+	color: #1C58A0;
+	font-size: 1.2em;
+	padding: 0px 0px 5px 15px;
+}
+
+.profile-read-panel-body, .profile-edit-panel-body {
+	padding-left: 4px;
+}
+.card-panel {
+	padding-top: 25px;
+	background : url(../../img/rights/splitbar.png) top center no-repeat;
+}

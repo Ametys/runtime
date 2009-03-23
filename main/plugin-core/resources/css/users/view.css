@@ -1,0 +1,48 @@
+.user-list .x-grid3 {
+	background: none !important;
+}
+
+/* Entete */
+.user-list .x-grid3-hd-inner {
+	font-weight: bold;
+	font-family: arial, sans-serif !important;
+	font-size: 1.1em !important;
+}
+
+label {
+	font-size: 0.9em;
+	color:#404040 !important;
+}
+input {
+	font-size: 0.9em !important;
+	color:#404040 !important;
+	margin-top: 0px !important;
+	border: 1px solid #C8CDD0 !important;
+	background-color: #FFF !important;
+	background-image: none !important;
+	height: 19px !important;
+	padding: 4px 0px 0px 3px !important;
+}
+
+.search-body {
+	margin: 0 10px 0 10px;
+}
+
+.search-footer .x-panel-btns-ct {
+	text-align: right !important;
+	padding: 0 12px 0 0 !important;
+}
+
+.search-footer .x-panel-btns-ct .x-panel-btns-center table {
+	width:100%;
+}
+
+.ametys-input label, .ametys-select label  {
+	width: 80px !important; 
+}
+
+.ametys-input input, .ametys-input select {
+	width: 200px !important; 
+}
+
+

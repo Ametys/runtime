@@ -1,0 +1,40 @@
+/*
+ * Copyright (c) 2007 Anyware Technologies and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.opensource.org/licenses/eclipse-1.0.php
+ * 
+ * Contributors:
+ *     Anyware Technologies - initial API and implementation
+ */
+ 
+.detail-view-logs .x-grid3 {
+background: none !important;
+}
+
+.detail-view-logs .x-grid-group-hd {
+border-bottom: 1px solid #99BBE8 !important;
+}
+
+.detail-view-logs .x-grid-group-collapsed .x-grid-group-hd {
+border: none !important;
+}
+
+.detail-view-logs .x-grid-group-hd div {
+color: #111111 !important;
+font-size: 1.1em !important;
+font-family: arial,sans-serif !important;
+background: transparent url('../../img/administrator/config/group-expand-sprite.png') no-repeat 3px -45px !important;
+}
+
+.detail-view-logs .x-grid-group-collapsed .x-grid-group-hd div {
+background-position:3px 5px !important;
+}
+
+/* Entete */
+.detail-view-logs .x-grid3-hd-inner {
+	font-weight: bold;
+	font-family: arial, sans-serif !important;
+	font-size: 1.1em !important;
+}
