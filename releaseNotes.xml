@@ -121,4 +121,6 @@
     	<note module="kernel" type="fix">AMRUN-238 : memory leak</note>
     	<note module="kernel" type="fix">AMRUN-240 : Boîte de dialogue</note>
     </release>
+    <release name="1.1.9">
+    </release>
 </releases>
