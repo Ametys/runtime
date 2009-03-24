@@ -42,12 +42,12 @@
 	                    }     
 					</xsl:if>
 					
+					//Current selected group
+	            	var selectedElmt = null;
+					//If has changes
+	            	var hasChanges = false;
+	            		
 					<xsl:if test="Modifiable = 'true'">
-						//Current selected group
-	            		var selectedElmt = null;
-						//If has changes
-	            		var hasChanges = false;
-	            			
 						function menu_new() 
 						{
 							var record = listviewG.getStore().recordType;
