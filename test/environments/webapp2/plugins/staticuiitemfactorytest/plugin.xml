@@ -6,7 +6,7 @@
     
         <components>
         
-            <component class="org.ametys.runtime.ui.manager.DesktopManager" 
+            <component class="org.ametys.runtime.plugins.core.ui.item.DesktopManager" 
                        role="DesktopManagerTest">
                 <actions>
                     <category name="ONE">
