@@ -347,11 +347,11 @@
         	<div id="memory">
         		<div class="label"><i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_HEAP"/></div>
         		<img class="help" id="mem-heap-help-img" src="{$resourcesPath}/img/administrator/jvmstatus/help.gif"/>
-        		<img src="{$resourcesPath}/img/administrator/jvmstatus/bar-mem-left.png" width="14px" height="28px"/>
-                <img id="totalMemImg" src="{$resourcesPath}/img/administrator/jvmstatus/bar-mem-used.png" width="0px" height="28px"/>
-                <img id="freeMemImg" src="{$resourcesPath}/img/administrator/jvmstatus/bar-mem-free.png" width="0px" height="28px"/>
-                <img id="maxMemImg" src="{$resourcesPath}/img/administrator/jvmstatus/bar-mem-available.png" width="280px" height="28px"/>
-                <img src="{$resourcesPath}/img/administrator/jvmstatus/bar-mem-right.png" width="14px" height="28px"/>
+        		<img src="{$resourcesPath}/img/administrator/jvmstatus/bar-mem-left.png" width="14px" height="34px"/>
+                <img id="totalMemImg" style="background: url({$resourcesPath}/img/administrator/jvmstatus/bar-mem-used.png) repeat-x 0px 0px" src="{$resourcesPath}/img/administrator/jvmstatus/s.gif" width="0px" height="34px"/>
+                <img id="freeMemImg" style="background: url({$resourcesPath}/img/administrator/jvmstatus/bar-mem-free.png) top left repeat-x;" src="{$resourcesPath}/img/administrator/jvmstatus/s.gif" width="0px" height="34px"/>
+                <img id="maxMemImg" style="background: url({$resourcesPath}/img/administrator/jvmstatus/bar-mem-available.png) top left repeat-x;" src="{$resourcesPath}/img/administrator/jvmstatus/s.gif" width="280px" height="34px"/>
+                <img src="{$resourcesPath}/img/administrator/jvmstatus/bar-mem-right.png" width="14px" height="34px"/>
                 
                 <button onclick="refreshData(true);" title="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_FREENOW" i18n:attr="title" onmouseover="this.style.borderColor = 'threedshadow'; this.style.borderStyle = 'outset';" onmouseout="this.style.borderColor = '#f1efe2'; this.style.borderStyle = 'solid';" style="border: 1px solid #FFF; background-color: #FFF; width: 32px; height: 32px;">
                 	<img src="{$resourcesPath}/img/administrator/jvmstatus/recycle.gif"/>
@@ -367,11 +367,11 @@
         		
         		<div class="label"><i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_NHEAP"/></div>
         		<img class="help" id="mem-nheap-help-img" src="{$resourcesPath}/img/administrator/jvmstatus/help.gif"/>
-        		<img src="{$resourcesPath}/img/administrator/jvmstatus/bar-left.png" width="14px" height="26px"/>
-                <img id="totalMem2Img" src="{$resourcesPath}/img/administrator/jvmstatus/bar-used.png" width="0px" height="26px"/>
-                <img id="freeMem2Img" src="{$resourcesPath}/img/administrator/jvmstatus/bar-free.png" width="0px" height="26px"/>
-                <img id="maxMem2Img" src="{$resourcesPath}/img/administrator/jvmstatus/bar-available.png" width="280px" height="26px"/>
-                <img src="{$resourcesPath}/img/administrator/jvmstatus/bar-right.png" width="14px" height="26px"/>
+        		<img src="{$resourcesPath}/img/administrator/jvmstatus/bar-left.png" width="14px" height="28px"/>
+                <img id="totalMem2Img" style="background: url({$resourcesPath}/img/administrator/jvmstatus/bar-used.png) repeat-x 0px 0px" src="{$resourcesPath}/img/administrator/jvmstatus/s.gif" width="0px" height="28px"/>
+                <img id="freeMem2Img" style="background: url({$resourcesPath}/img/administrator/jvmstatus/bar-free.png) repeat-x 0px 0px" src="{$resourcesPath}/img/administrator/jvmstatus/s.gif" width="0px" height="28px"/>
+                <img id="maxMem2Img" style="background: url({$resourcesPath}/img/administrator/jvmstatus/bar-available.png) repeat-x 0px 0px" src="{$resourcesPath}/img/administrator/jvmstatus/s.gif" width="280px" height="28px"/>
+                <img src="{$resourcesPath}/img/administrator/jvmstatus/bar-right.png" width="14px" height="28px"/>
                 <br/>    
         		<div style="float: left; text-align: right; width: 184px">0&#160;<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_UNIT"/></div>
         		<div style="float: left; text-align: right; width: 136px"><span id="middleMem2"></span>&#160;<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_UNIT"/></div>
