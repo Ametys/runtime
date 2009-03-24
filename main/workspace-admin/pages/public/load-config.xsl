@@ -16,54 +16,93 @@
 	<xsl:import href="../core/template.xsl"/>
     
     <xsl:param name="redirect"/>
+    <xsl:param name="contextPath"/>
+    <xsl:param name="workspaceURI"/>
 	
-    <xsl:template name="workspace-title"></xsl:template>
-    <xsl:template name="workspace-head"></xsl:template>
-    <xsl:template name="workspace-script"></xsl:template>
+    <xsl:template name="workspace-script">
+           	<script type="text/javascript">
+           		var item = new Ext.ametys.DesktopItem ({
+	           			text: "<i18n:text i18n:key="WORKSPACE_ADMIN_CONFIG_ACT"/>",
+						desc: "<i18n:text i18n:key="WORKSPACE_ADMIN_CONFIG_DESCRIPTION"/>",
+						icon: "<xsl:value-of select="$contextPath"/>/plugins/core/resources/img/administrator/config/icon_large.png",
+						iconOver: "<xsl:value-of select="$contextPath"/>/plugins/core/resources/img/administrator/config/icon_large_over.png",
+						plugin: "core",
+	                    actionFunction : Runtime_InteractionActionLibrary_Link.act,
+	                    actionParams : {"Link" : "administrator/config/edit.html", "Mode" : "plugin-wrapped"}
+						
+				});
+				
+				var top = new Ext.ametys.HtmlContainer({
+					region: 'north',
+					contentEl : 'top-panel',
+					baseCls: 'top-panel',
+					border: false
+				}); 	
+				
+				var center = new Ext.Panel({
+					region: 'center',
+					baseCls: 'center-panel',
+					border: false,
+					items : [item]
+				}); 	
+				
+           		function workspaceBody ()
+           		{
+           			return new Ext.Panel({
+           				border: false,
+           				layout: 'border',
+           				autoScroll: true,
+           				baseCls: 'transparent-panel',
+						items : [top, center]
+					});
+           		}
+           	</script>
+           	
+           	<style>
+	           		.top-panel {
+	           			background: none !important;
+	           			text-align: center;
+    					color: #666; 
+    					padding-top: 30px;
+	           		}
+	           		.center-panel-body {
+	           			background: none !important;
+	           			text-align: center !important;
+	           			padding-top: 10px;
+	           			padding-bottom: 20px;
+	           		}
+	           		
+    				.top-panel .title {
+    					font-size: 1.4em; 
+    					font-weight: bold; 
+    					color: #1C58A0; 
+    					text-transform: uppercase;
+    				}
+    				
+    				.desktop-item {
+						font-weight: bold;
+						margin-left:auto;
+						margin-right:auto;
+						float: none !important;
+					}
+    		</style>
+    </xsl:template>
     
     <xsl:template name="workspace-body">
-		<!-- BODY -->
-		<table style="width: 100%; height: 100%; background-color: #efebde;">
-			<tr>
-				<td style="padding: 30px"> 
-
-					<div style="vertical-align: middle; text-align: center; FONT-SIZE: 14px; FONT-WEIGHT: BOLD; COLOR: orange;">
-                        <img src="{$contextPath}{$workspaceURI}/resources/img/icon/warning.gif" style="margin-right: 5px; vertical-align: middle;"/>
-                        <i18n:text i18n:key="WORKSPACE_ADMIN_CONFIG_TITLE"/>
-                    </div>
-                    
-					<br/><br/>
-                    
-					<div style="text-align: center">
-                        <i18n:text i18n:key="WORKSPACE_ADMIN_CONFIG_TEXT"/>
-                    </div>
-                    
-					<br/><br/>
-                    
-					<div style="text-align: center">
-						<style>
-							a.runtime_link, a.runtime_link:visited, a.runtime_link:hover, a.runtime_link:hover
-							{
-								font-weight: bold;
-								color: #00005f;
-							}
-							a.runtime_link:hover
-							{
-								text-decoration: underline;
-							}
-						</style>
-						<a class="runtime_link" href="{$contextPath}{$workspaceURI}/_plugins/{$redirect}">
-							<img src="{$contextPath}{$workspaceURI}/resources/img/icon/configuration.gif" border="0" style="margin-right: 10px;"/>
-							<i18n:text i18n:key="WORKSPACE_ADMIN_CONFIG_ACT"/>
-						</a>
-					</div>
-					
-				</td>
-			</tr>
-		</table>
+    	<div id="top-panel"> 
+			<div class="title">
+                <i18n:text i18n:key="WORKSPACE_ADMIN_CONFIG_TITLE"/>
+            </div>
+                  
+			<br/><br/>
+                  
+			<div>
+                <i18n:text i18n:key="WORKSPACE_ADMIN_CONFIG_TEXT"/>
+            </div>
+                  
+			<br/><br/>
+            
+		</div>
     </xsl:template>
-
-    <xsl:template name="ui-tools-load"/>
-    <xsl:template name="ui-load"/>
 
 </xsl:stylesheet>
