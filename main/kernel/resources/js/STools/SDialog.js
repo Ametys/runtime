@@ -147,6 +147,8 @@ SDialog.checkReturnShortcut = function (e, functionToCall)
 	}
 	
 	functionToCall();
+	
+	return true;
 }
 
 SDialog.prototype.showModal = function ()

@@ -117,4 +117,8 @@
     	<note module="kernel" type="fix">AMRUN-224 : Stree :loss of symbol which permits to fold or unfold an item</note>
     	<note module="admin" type="add">AMRUN-160 : Store monitoring data into RRD files with a XML export and graphs production</note>
     </release>
+    <release name="1.1.8">
+    	<note module="kernel" type="fix">AMRUN-238 : memory leak</note>
+    	<note module="kernel" type="fix">AMRUN-240 : Boîte de dialogue</note>
+    </release>
 </releases>
