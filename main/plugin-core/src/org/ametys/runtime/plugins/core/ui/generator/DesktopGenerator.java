@@ -22,6 +22,7 @@ import org.apache.cocoon.generation.ServiceableGenerator;
 import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.SAXException;
 
+import org.ametys.runtime.config.Config;
 import org.ametys.runtime.plugins.core.ui.item.DesktopManager;
 
 
@@ -51,21 +52,24 @@ public class DesktopGenerator extends ServiceableGenerator implements Configurab
             throw new ProcessingException(errorMessage, e);
         }
         
-        DesktopManager desktopManager = null;
-        try
-        {
-            desktopManager = (DesktopManager) manager.lookup(role);
-        }
-        catch (ServiceException e)
-        {
-            String errorMessage = "Parameter 'DesktopManager.ROLE' specify unexisting role '" + role + "'";
-            getLogger().error(errorMessage, e);
-            throw new ProcessingException(errorMessage, e);
-        }
-        
         contentHandler.startDocument();
         XMLUtils.startElement(contentHandler, _element);
-        desktopManager.toSAX(contentHandler);
+        if (Config.getInstance() != null)
+        {
+            DesktopManager desktopManager = null;
+            try
+            {
+                desktopManager = (DesktopManager) manager.lookup(role);
+            }
+            catch (ServiceException e)
+            {
+                String errorMessage = "Parameter 'DesktopManager.ROLE' specify unexisting role '" + role + "'";
+                getLogger().error(errorMessage, e);
+                throw new ProcessingException(errorMessage, e);
+            }
+            desktopManager.toSAX(contentHandler);
+            
+        }
         XMLUtils.endElement(contentHandler, _element);
         contentHandler.endDocument();
     }

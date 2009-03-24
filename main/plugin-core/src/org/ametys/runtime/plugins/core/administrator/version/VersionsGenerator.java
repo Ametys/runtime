@@ -21,6 +21,8 @@ import org.apache.cocoon.generation.ServiceableGenerator;
 import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.SAXException;
 
+import org.ametys.runtime.config.Config;
+
 /**
  * SAXes the information provided by the VersionsHandler component.<br>
  * The format is : <br>
@@ -36,48 +38,48 @@ public class VersionsGenerator extends ServiceableGenerator
 {
     public void generate() throws IOException, SAXException, ProcessingException
     {
-        VersionsHandler handler;
-        
-        try
-        {
-            handler = (VersionsHandler) manager.lookup(VersionsHandler.ROLE);
-        }
-        catch (ServiceException e)
-        {
-            String errorMessage = "Unable to get the VersionsHandler";
-            getLogger().error(errorMessage, e);
-            throw new ProcessingException(errorMessage, e);
-        }
-        
-        Collection<Version> versions = handler.getVersions();
-        
         contentHandler.startDocument();
-        
         XMLUtils.startElement(contentHandler, "Versions");
         
-        for (Version version : versions)
+        if (Config.getInstance() != null)
         {
-            XMLUtils.startElement(contentHandler, "Component");
+            VersionsHandler handler;
             
-            XMLUtils.createElement(contentHandler, "Name", version.getName());
-            XMLUtils.createElement(contentHandler, "Version", version.getVersion());
-            
-            Date date = version.getDate();
-            
-            if (date != null)
+            try
             {
-                String formattedDate = new SimpleDateFormat("dd/MM/yyyy").format(date);
-                XMLUtils.createElement(contentHandler, "Date", formattedDate);
-                
-                String formattedTime = new SimpleDateFormat("HH:mm").format(date);
-                XMLUtils.createElement(contentHandler, "Time", formattedTime);
+                handler = (VersionsHandler) manager.lookup(VersionsHandler.ROLE);
+            }
+            catch (ServiceException e)
+            {
+                String errorMessage = "Unable to get the VersionsHandler";
+                getLogger().error(errorMessage, e);
+                throw new ProcessingException(errorMessage, e);
             }
             
-            XMLUtils.endElement(contentHandler, "Component");
+            Collection<Version> versions = handler.getVersions();
+            for (Version version : versions)
+            {
+                XMLUtils.startElement(contentHandler, "Component");
+                
+                XMLUtils.createElement(contentHandler, "Name", version.getName());
+                XMLUtils.createElement(contentHandler, "Version", version.getVersion());
+                
+                Date date = version.getDate();
+                
+                if (date != null)
+                {
+                    String formattedDate = new SimpleDateFormat("dd/MM/yyyy").format(date);
+                    XMLUtils.createElement(contentHandler, "Date", formattedDate);
+                    
+                    String formattedTime = new SimpleDateFormat("HH:mm").format(date);
+                    XMLUtils.createElement(contentHandler, "Time", formattedTime);
+                }
+                
+                XMLUtils.endElement(contentHandler, "Component");
+            }
         }
         
         XMLUtils.endElement(contentHandler, "Versions");
-        
         contentHandler.endDocument();
     }
 }
