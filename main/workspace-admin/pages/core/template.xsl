@@ -79,7 +79,7 @@
                 <script type="text/javascript" src="{$workspaceContext}/resources/js/workspace.js"><xsl:comment>//empty</xsl:comment></script>
                 
                 <xsl:comment>[if lt IE 7]&gt;
-						&lt;script defer type="text/javascript" src="<xsl:value-of select="$workspaceContext"/>/resources/js/pngfix.js">&lt;/script&gt;
+						&lt;script defer="defer" type="text/javascript" src="<xsl:value-of select="$workspaceContext"/>/resources/js/pngfix.js">&lt;/script&gt;
 				&lt;![endif]</xsl:comment>
 				<xsl:call-template name="workspace-script"/>
 			</head>
