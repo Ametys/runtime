@@ -31,6 +31,7 @@
     
     <!-- ADMINISTRATOR CONFIG -->
     <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_LABEL">Configuration</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU">Table of content</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_DESCRIPTION">Configuration parameters management</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_TITLE">Configuration</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE">Management</message>
@@ -415,6 +416,9 @@
 
 	<!-- PROFILE -->
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_LABEL">Profiles</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILE">Profil</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILE_READ">Viewing</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILE_EDIT">Editing</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_DESCRIPTION">Rights profiles management</message>
     <message key="PLUGINS_CORE_RIGHTS_PROFILES_LABELLONG">Rights profiles management</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_CATEGORY">Profiles management</message>
