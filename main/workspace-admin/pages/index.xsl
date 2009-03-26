@@ -21,8 +21,6 @@
     <xsl:template name="workspace-title"/>
     
     <xsl:template name="workspace-head">
-	   <LINK rel="stylesheet" href="{$contextPath}{$workspaceURI}/resources/css/homepage.css" type="text/css"/>
-	   
 	   <xsl:call-template name="plugins-load">
             <xsl:with-param name="scripts" select="/Admin/Desktop/category/UIItem/Action/Imports/Import"/>
             <xsl:with-param name="actions" select="/Admin/Desktop/category/UIItem/Action/ClassName"/>

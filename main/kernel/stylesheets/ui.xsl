@@ -87,11 +87,11 @@
         <xsl:param name="accept-ff-2.0">false</xsl:param>
         <xsl:param name="accept-ff-3.0">false</xsl:param>
     
-    	<script type="text/javascript" src="{$contextPath}/kernel/resources/js/ExtJS/ext-base.js"><xsl:comment>empty</xsl:comment></script>
-		<script type="text/javascript" src="{$contextPath}/kernel/resources/js/ExtJS/ext-core.js"><xsl:comment>empty</xsl:comment></script>
-		<script type="text/javascript" src="{$contextPath}/kernel/resources/js/ExtJS/ext-all.js"><xsl:comment>empty</xsl:comment></script>
+    	<script type="text/javascript" src="{$contextPath}/kernel/resources/extjs/js/adapter/ext/ext-base.js"><xsl:comment>empty</xsl:comment></script>
+		<script type="text/javascript" src="{$contextPath}/kernel/resources/extjs/js/ext-core.js"><xsl:comment>empty</xsl:comment></script>
+		<script type="text/javascript" src="{$contextPath}/kernel/resources/extjs/js/ext-all.js"><xsl:comment>empty</xsl:comment></script>
 	
-		<link rel="stylesheet" type="text/css" href="{$contextPath}/kernel/resources/css/ExtJS/ext-all.css" />
+		<link rel="stylesheet" type="text/css" href="{$contextPath}/kernel/resources/extjs/css/ext-all.css" />
 		
         <script type="text/javascript">
             <xsl:comment>
