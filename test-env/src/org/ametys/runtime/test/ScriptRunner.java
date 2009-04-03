@@ -14,10 +14,27 @@ import org.apache.avalon.framework.logger.Logger;
 import org.apache.commons.io.IOUtils;
 
 /**
- * Tool to run SQL scripts.
+ * Tool to run SQL scripts.<p>
+ * Default separator for isolating statements is the semi colon
+ * character: <code>;</code>.
+ * It can be changed by using a comment like the following for using
+ * the string <code>---</code>:<br>
+ * <code>-- _separator_=---<br>
+ * begin<br>
+ * &nbsp;&nbsp;execute immediate 'DROP TABLE MYTABLE';<br>
+ * &nbsp;&nbsp;Exception when others then null;<br>
+ * end;<br>
+ * ---<br>
+ * -- _separator_=;<br>
+ * CREATE TABLE MYTABLE;<br>
+ * ...</code>
  */
 public abstract class ScriptRunner
 {
+    /** Default separator used for isolating statements. */
+    public static final String DEFAULT_SEPARATOR = ";";
+    /** Command to change the separator. */
+    public static final String CHANGE_SEPARATOR_COMMAND = "_separator_=";
     /** Logger available to subclasses. */
     protected static final Logger __LOGGER = LoggerFactory.getLoggerFor(ScriptRunner.class);
     
@@ -56,6 +73,7 @@ public abstract class ScriptRunner
      */
     public static void runScript(Connection connection, InputStream is) throws IOException, SQLException
     {
+        String separator = DEFAULT_SEPARATOR;
         StringBuilder command = new StringBuilder();
         
         try
@@ -68,10 +86,15 @@ public abstract class ScriptRunner
                 if (trimmedLine.length() == 0 || trimmedLine.startsWith("//") || trimmedLine.startsWith("--"))
                 {
                     // Ignore empty lines and comments
+                    // But search if the separator needs to be changed
+                    if (trimmedLine.contains(CHANGE_SEPARATOR_COMMAND))
+                    {
+                        separator = trimmedLine.substring(line.indexOf(CHANGE_SEPARATOR_COMMAND)).trim();
+                    }
                 }
-                else if (trimmedLine.endsWith(";"))
+                else if (trimmedLine.endsWith(separator))
                 {
-                    command.append(line.substring(0, line.lastIndexOf(";")));
+                    command.append(line.substring(0, line.lastIndexOf(separator)));
                     
                     Statement statement = connection.createStatement();
                     
