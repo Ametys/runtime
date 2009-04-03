@@ -241,7 +241,7 @@
                     <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
                     <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/>
                 </map:transform>
-                <map:serialize/>
+               <map:serialize/>
             </map:match>
 
             <!-- +

@@ -228,8 +228,8 @@
 								
 							// Annonces
 							var handleAnnouncement = new Ext.ametys.ActionsPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT"/>'});
-							handleAnnouncement.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_ADD"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/system/add.gif", announcement_add);
-							handleAnnouncement.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_EDIT"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/system/edit.gif", announcement_edit);
+							handleAnnouncement.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_ADD"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/system/add.png", announcement_add);
+							handleAnnouncement.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_EDIT"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/system/edit.png", announcement_edit);
 							handleAnnouncement.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DELETE"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/system/delete.png", announcement_remove);
 								
 							handleAnnouncement.hideElt(3);

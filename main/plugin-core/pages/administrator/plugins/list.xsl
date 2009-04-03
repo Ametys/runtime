@@ -67,7 +67,7 @@
 									autoScroll: true,
 									items: [centerPanel, rightPanel]
 								});
-							}					            			
+							}						            			
 	            			
 	            	</script>
             </script>	

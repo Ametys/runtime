@@ -109,20 +109,20 @@
 						var handleGroups = new Ext.ametys.ActionsPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_CATEGORY"/>'});
 					</xsl:if>
 					<xsl:if test="Modifiable = 'true'">
-						handleGroups.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_CREATE"/>", "<xsl:value-of select="$resourcesPath"/>/img/groups/new.gif", menu_new);
-						handleGroups.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_RENAME"/>", "<xsl:value-of select="$resourcesPath"/>/img/groups/rename.gif", menu_rename);
+						handleGroups.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_CREATE"/>", "<xsl:value-of select="$resourcesPath"/>/img/groups/add_group.png", menu_new);
+						handleGroups.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_RENAME"/>", "<xsl:value-of select="$resourcesPath"/>/img/groups/rename.png", menu_rename);
 						handleGroups.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_DELETE"/>", "<xsl:value-of select="$resourcesPath"/>/img/groups/delete.png", menu_remove);
 					</xsl:if>
 					<xsl:if test="AdministratorUI = 'true'">
-						handleGroups.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_QUIT"/>", "<xsl:value-of select="$resourcesPath"/>/img/groups/quit.gif", goBack);
+						handleGroups.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_QUIT"/>", "<xsl:value-of select="$resourcesPath"/>/img/groups/quit.png", goBack);
 					</xsl:if>
 					
 					// Menu gestion des utilisateurs
 					<xsl:if test="Modifiable = 'true'">
 						var handleUsers = new Ext.ametys.ActionsPanel({title: 'Utilisateurs' });
-						handleUsers.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_ADDUSER"/>", "<xsl:value-of select="$resourcesPath"/>/img/groups/add_user.gif", add_user);
+						handleUsers.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_ADDUSER"/>", "<xsl:value-of select="$resourcesPath"/>/img/groups/add_user.png", add_user);
 						handleUsers.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_DELETEUSER"/>", "<xsl:value-of select="$resourcesPath"/>/img/groups/delete.png", delete_user);
-						handleUsers.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_VALIDATE"/>", "<xsl:value-of select="$resourcesPath"/>/img/groups/valid.gif", save_objects);
+						handleUsers.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_VALIDATE"/>", "<xsl:value-of select="$resourcesPath"/>/img/groups/validate.png", save_objects);
 					</xsl:if>
 					
 					//Aide

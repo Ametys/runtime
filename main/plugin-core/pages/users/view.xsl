@@ -212,8 +212,8 @@
 				    	<xsl:if test="Model/@Modifiable = 'true'">
 							// Actions
 							var handle = new Ext.ametys.ActionsPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE"/>'});
-							handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_NEW"/>", "<xsl:value-of select="$resourcesPath"/>/img/users/add_user.gif", userNew);
-							handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_EDIT"/>", "<xsl:value-of select="$resourcesPath"/>/img/users/modify_user.gif", userEdit);
+							handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_NEW"/>", "<xsl:value-of select="$resourcesPath"/>/img/users/add_user.png", userNew);
+							handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_EDIT"/>", "<xsl:value-of select="$resourcesPath"/>/img/users/edit_user.png", userEdit);
 							handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_DEL"/>", "<xsl:value-of select="$resourcesPath"/>/img/users/delete.png", userDelete);
 							
 							handle.hideElt(2);

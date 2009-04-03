@@ -173,10 +173,10 @@
 	                    
 						// Gestion
 						handle = new Ext.ametys.ActionsPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE"/>'});
-						handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_VIEW"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/logs/log_16.gif", view);
-						handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_DOWNLOAD"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/logs/zip_16.gif", download);
-						handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_DELETE"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/logs/delete.gif", del);
-						handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_PURGE"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/logs/purge.gif", purge);
+						handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_VIEW"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/logs/file.png", view);
+						handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_DOWNLOAD"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/logs/download.png", download);
+						handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_DELETE"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/logs/delete.png", del);
+						handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_PURGE"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/logs/purge.png", purge);
 						handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_QUIT"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/logs/quit.png", goBack);
 
 						handle.hideElt(0);

@@ -41,10 +41,10 @@
 		                    
 							//Actions
 							var handle = new Ext.ametys.ActionsPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_ACT_CATEGORY"/>'});
-							handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_ACT_ADDUSER"/>", "<xsl:value-of select="$resourcesPath"/>/img/rights/action_add_user.gif", goBack);
-							handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_ACT_ADDGROUP"/>", "<xsl:value-of select="$resourcesPath"/>/img/rights/action_add_group.gif", goBack);
-							handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_ACT_REMOVE"/>", "<xsl:value-of select="$resourcesPath"/>/img/rights/action_delete.gif", goBack);
-							handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_HANDLE_QUIT"/>", "<xsl:value-of select="$resourcesPath"/>/img/rights/quit.gif", goBack);
+							handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_ACT_ADDUSER"/>", "<xsl:value-of select="$resourcesPath"/>/img/rights/add_user.png", goBack);
+							handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_ACT_ADDGROUP"/>", "<xsl:value-of select="$resourcesPath"/>/img/rights/add_group.png", goBack);
+							handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_ACT_REMOVE"/>", "<xsl:value-of select="$resourcesPath"/>/img/rights/delete.png", goBack);
+							handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_HANDLE_QUIT"/>", "<xsl:value-of select="$resourcesPath"/>/img/rights/quit.png", goBack);
 							//handle.addText("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_CONTEXTS_APPLICATION_HELP_AFFECT"/>");
             			
 							//Create the contextual panel
@@ -61,7 +61,7 @@
 								baseCls: 'transparent-panel',
 								border: false,
 								autoScroll : true,
-								html: '&lt;i&gt;En construction ...&lt;/i&gt;'
+								html: '&lt;i&gt;En constructions...&lt;/i&gt;'
 							});										
 							
 							function _getAdminPanel ()

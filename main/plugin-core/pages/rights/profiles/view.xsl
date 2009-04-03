@@ -294,9 +294,9 @@
 							
 							// Gestion des profils
 							var _Category = new Ext.ametys.ActionsPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_CATEGORY"/>'});
-							_Category.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_CREATE"/>", "<xsl:value-of select="$resourcesPath"/>/img/rights/profiles/new.gif", menu_new);
-							_Category.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_RENAME"/>", "<xsl:value-of select="$resourcesPath"/>/img/rights/profiles/rename.gif", menu_rename);
-							_Category.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_VALIDATE"/>", "<xsl:value-of select="$resourcesPath"/>/img/rights/profiles/valid.gif", save_objects);
+							_Category.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_CREATE"/>", "<xsl:value-of select="$resourcesPath"/>/img/rights/profiles/new.png", menu_new);
+							_Category.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_RENAME"/>", "<xsl:value-of select="$resourcesPath"/>/img/rights/profiles/rename.png", menu_rename);
+							_Category.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_VALIDATE"/>", "<xsl:value-of select="$resourcesPath"/>/img/rights/profiles/validate.png", save_objects);
 							_Category.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_DELETE"/>", "<xsl:value-of select="$resourcesPath"/>/img/rights/profiles/delete.png", menu_remove);
 							
 							<xsl:if test="AdministratorUI = 'true'">
