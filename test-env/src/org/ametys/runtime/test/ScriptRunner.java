@@ -89,7 +89,7 @@ public abstract class ScriptRunner
                         String message = String.format("Unable to execute SQL: '%s' at line %d", command, lineReader.getLineNumber());
                         SQLException wrappedException = new SQLException(message);
                         wrappedException.setNextException(e);
-                        throw e;
+                        throw wrappedException;
                     }
                     finally
                     {
