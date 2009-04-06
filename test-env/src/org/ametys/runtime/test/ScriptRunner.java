@@ -16,9 +16,9 @@ import org.apache.commons.io.IOUtils;
 /**
  * Tool to run SQL scripts.<p>
  * Default separator for isolating statements is the semi colon
- * character: <code>;</code>.
- * It can be changed by using a comment like the following for using
- * the string <code>---</code>:<br>
+ * character: <code>;</code>.<br>
+ * It can be changed by using a comment like the following snippet
+ * for using the string <code>---</code>:<br>
  * <code>-- _separator_=---<br>
  * begin<br>
  * &nbsp;&nbsp;execute immediate 'DROP TABLE MYTABLE';<br>
@@ -27,7 +27,8 @@ import org.apache.commons.io.IOUtils;
  * ---<br>
  * -- _separator_=;<br>
  * CREATE TABLE MYTABLE;<br>
- * ...</code>
+ * ...</code><br>
+ * Note that the command must be placed at the end of the comment.
  */
 public abstract class ScriptRunner
 {
@@ -82,20 +83,37 @@ public abstract class ScriptRunner
             String line = null;
             while ((line = lineReader.readLine()) != null)
             {
+                boolean processCommand = false;
                 String trimmedLine = line.trim();
                 if (trimmedLine.length() == 0 || trimmedLine.startsWith("//") || trimmedLine.startsWith("--"))
                 {
-                    // Ignore empty lines and comments
-                    // But search if the separator needs to be changed
-                    if (trimmedLine.contains(CHANGE_SEPARATOR_COMMAND))
+                    if (trimmedLine.contains(separator))
                     {
-                        separator = trimmedLine.substring(line.indexOf(CHANGE_SEPARATOR_COMMAND)).trim();
+                        // End of command but do not use current line
+                        processCommand = true;
+                    }
+                    // Search if the separator needs to be changed
+                    else if (trimmedLine.contains(CHANGE_SEPARATOR_COMMAND))
+                    {
+                        separator = trimmedLine.substring(trimmedLine.indexOf(CHANGE_SEPARATOR_COMMAND)
+                                    + CHANGE_SEPARATOR_COMMAND.length()).trim();
                     }
                 }
                 else if (trimmedLine.endsWith(separator))
                 {
+                    // End of command and use current line
+                    processCommand = true;
                     command.append(line.substring(0, line.lastIndexOf(separator)));
-                    
+                }
+                else
+                {
+                    // Append current command to the buffer
+                    command.append(line);
+                    command.append(" ");
+                }
+                
+                if (processCommand)
+                {
                     Statement statement = connection.createStatement();
                     
                     if (__LOGGER.isDebugEnabled())
@@ -121,12 +139,6 @@ public abstract class ScriptRunner
 
                     // Clear command
                     command.setLength(0);
-                }
-                else
-                {
-                    // Append current command to the buffer
-                    command.append(line);
-                    command.append(" ");
                 }
             }
             if (!connection.getAutoCommit())
