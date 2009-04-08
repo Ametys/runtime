@@ -23,20 +23,13 @@ import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 
-import org.ametys.runtime.plugin.component.AbstractThreadSafeComponentExtensionPoint;
-import org.ametys.runtime.util.ConnectionHelper;
 import org.apache.avalon.excalibur.datasource.DataSourceComponent;
-import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.ServiceSelector;
-import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
 import org.apache.excalibur.source.Source;
@@ -45,6 +38,9 @@ import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import org.ametys.runtime.plugin.component.AbstractThreadSafeComponentExtensionPoint;
+import org.ametys.runtime.util.ConnectionHelper;
 
 import com.ibatis.sqlmap.client.SqlMapClient;
 import com.ibatis.sqlmap.client.SqlMapClientBuilder;
@@ -56,7 +52,7 @@ import com.ibatis.sqlmap.engine.transaction.jdbc.JdbcTransactionConfig;
  * This extension point is used to list the SqlMap handled by the plugins or the application,
  * create these SqlMap instances and inject them in avalon components.
  */
-public class SqlMapExtensionPoint extends AbstractThreadSafeComponentExtensionPoint<SqlMapClientComponentProvider> implements Initializable, Disposable, ThreadSafe, Component, Contextualizable
+public class SqlMapExtensionPoint extends AbstractThreadSafeComponentExtensionPoint<SqlMapClientComponentProvider>
 {
     /** The avalon ROLE. */
     public static final String ROLE = SqlMapExtensionPoint.class.getName();
@@ -73,7 +69,7 @@ public class SqlMapExtensionPoint extends AbstractThreadSafeComponentExtensionPo
     private SourceResolver _sourceResolver;
     
     @Override
-    public void service(ServiceManager manager)
+    public void service(ServiceManager manager) throws ServiceException
     {
         super.service(manager);
         _cocoonManager = manager;

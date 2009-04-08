@@ -23,6 +23,7 @@ import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.thread.ThreadSafe;
@@ -51,7 +52,7 @@ public abstract class AbstractThreadSafeComponentExtensionPoint<T> extends Abstr
         _context = context;
     }
     
-    public void service(ServiceManager manager)
+    public void service(ServiceManager manager) throws ServiceException
     {
         _cocoonManager = manager;
     }
