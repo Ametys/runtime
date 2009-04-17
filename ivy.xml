@@ -1,5 +1,5 @@
 <ivy-module version="1.0">
-  <info organisation="ametys"
+  <info organisation="org.ametys.runtime"
         module="runtime">
     <license url="http://www.eclipse.org/legal/epl-v10.html" name="EPL"/>
     <description homepage="http://www.ametys.org/">
