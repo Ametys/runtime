@@ -83,21 +83,38 @@ public abstract class ScriptRunner
             String line = null;
             while ((line = lineReader.readLine()) != null)
             {
+                if (__LOGGER.isDebugEnabled())
+                {
+                    __LOGGER.debug(String.format("Reading line: '%s'", line));
+                }
+                
                 boolean processCommand = false;
                 String trimmedLine = line.trim();
                 if (trimmedLine.length() == 0 || trimmedLine.startsWith("//") || trimmedLine.startsWith("--"))
                 {
-                    if (trimmedLine.contains(separator))
-                    {
-                        // End of command but do not use current line
-                        processCommand = true;
-                    }
+                    String currentSeparator = separator;
+                    
                     // Search if the separator needs to be changed
-                    else if (trimmedLine.contains(CHANGE_SEPARATOR_COMMAND))
+                    if (trimmedLine.contains(CHANGE_SEPARATOR_COMMAND))
                     {
+                        // New separator
                         separator = trimmedLine.substring(trimmedLine.indexOf(CHANGE_SEPARATOR_COMMAND)
                                     + CHANGE_SEPARATOR_COMMAND.length()).trim();
+                        
+                        if (__LOGGER.isDebugEnabled())
+                        {
+                            __LOGGER.debug(String.format("Changing separator to: '%s'", separator));
+                        }
                     }
+                    if (trimmedLine.contains(currentSeparator))
+                    {
+                        if (command.length() > 0)
+                        {
+                            // End of command but do not use current line
+                            processCommand = true;
+                        }
+                    }
+                        
                 }
                 else if (trimmedLine.endsWith(separator))
                 {
@@ -116,9 +133,9 @@ public abstract class ScriptRunner
                 {
                     Statement statement = connection.createStatement();
                     
-                    if (__LOGGER.isDebugEnabled())
+                    if (__LOGGER.isInfoEnabled())
                     {
-                        __LOGGER.debug(String.format("Executing SQL command: '%s'", command));
+                        __LOGGER.info(String.format("Executing SQL command: '%s'", command));
                     }
 
                     try
@@ -128,9 +145,13 @@ public abstract class ScriptRunner
                     catch (SQLException e)
                     {
                         String message = String.format("Unable to execute SQL: '%s' at line %d", command, lineReader.getLineNumber());
-                        SQLException wrappedException = new SQLException(message);
-                        wrappedException.setNextException(e);
-                        throw wrappedException;
+                        
+                        if (__LOGGER.isErrorEnabled())
+                        {
+                            __LOGGER.error(message, e);
+                        }
+                        
+                        throw new SQLException(message);
                     }
                     finally
                     {
