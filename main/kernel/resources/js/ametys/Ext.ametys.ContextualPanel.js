@@ -10,7 +10,7 @@
  */
 
 // Ametys Namespace
-Ext.namespace('Ext.awt');
+Ext.namespace('Ext.ametys');
 
 /**
  * Ext.ametys.ContextualPanel

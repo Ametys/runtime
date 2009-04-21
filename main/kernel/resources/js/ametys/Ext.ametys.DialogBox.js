@@ -10,7 +10,7 @@
  */
 
 // Ametys Namespace
-Ext.namespace('Ext.awt');
+Ext.namespace('Ext.ametys');
 
 /**
  * Ext.ametys.DialogBox
@@ -29,11 +29,11 @@ Ext.extend(Ext.ametys.DialogBox, Ext.Window,
 {
 	resizable : true,
 	shadow : true,
-	awtCls : 'ametys-box',
+	ametysCls : 'ametys-box',
 	onRender : function(ct, position)
 	{
 		Ext.ametys.DialogBox.superclass.onRender.call(this, ct, position);
-		this.body.addClass(this.awtCls + '-body');
-		this.header.addClass(this.awtCls + '-header');
+		this.body.addClass(this.ametysCls + '-body');
+		this.header.addClass(this.ametysCls + '-header');
 	}
 });

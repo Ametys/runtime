@@ -10,7 +10,7 @@
  */
 
 // Ametys Namespace
-Ext.namespace('Ext.awt');
+Ext.namespace('Ext.ametys');
 
 /**
  * Ext.ametys.CategoryPanel
@@ -31,7 +31,7 @@ Ext.extend(Ext.ametys.CategoryPanel, Ext.Panel,
 	//frame: true,
 	collapsible: true,
 	cmargins: '5 0 0 0',
-	awtCls : 'category-panel',
+	ametysCls : 'category-panel',
 	cls: 'category-panel',
 	actions : [],
 	/**
@@ -73,7 +73,7 @@ Ext.extend(Ext.ametys.CategoryPanel, Ext.Panel,
      */
 	addText : function (text) 
 	{ 
-		this.add({cls: this.awtCls + '-text', html: text,  border: false });
+		this.add({cls: this.ametysCls + '-text', html: text,  border: false });
 	},
 	/**
 	 * Hide the action to the position argument
@@ -101,7 +101,7 @@ Ext.extend(Ext.ametys.CategoryPanel, Ext.Panel,
 	{
 		Ext.ametys.CategoryPanel.superclass.onRender.call(this, ct, position);
 		
-		this.header.addClass(this.awtCls + '-header');
-		this.body.addClass(this.awtCls + '-body');
+		this.header.addClass(this.ametysCls + '-header');
+		this.body.addClass(this.ametysCls + '-body');
 	}
 });
