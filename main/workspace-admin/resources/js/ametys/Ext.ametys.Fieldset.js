@@ -29,6 +29,7 @@ Ext.extend(Ext.ametys.Fieldset, Ext.Panel,
 {
 	baseCls : "ametys-fieldset",
 	collapsible: true,
+	titleCollapse: true,
 	animCollapse : false,
 	border: false,
 	onRender : function(ct, position)
