@@ -732,7 +732,7 @@
                        class="org.ametys.runtime.cocoon.JDBCDataSource"
                        logger="org.ametys.runtime.datasource.core.jdbc.pool">
                 <pool-controller max="10" max-strict="true" blocking="true" timeout="0" trim-interval="60000"/>
-                <keep-alive age="5000" disabled="false">select 1</keep-alive>
+                <keep-alive age="5000" disable="false">select 1</keep-alive>
                 <auto-commit>false</auto-commit>
                 <driver runtime-config-parameter="runtime.datasource.core.jdbc.driver"/>
                 <dburl runtime-config-parameter="runtime.datasource.core.jdbc.url"/>

@@ -11,10 +11,7 @@
 package org.ametys.runtime.util;
 
 import org.apache.avalon.excalibur.logger.LoggerManager;
-import org.apache.avalon.framework.logger.Log4JLogger;
-import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.log.Hierarchy;
 
 /**
  * Factory for LogKit <code>Loggers</code> that provides automatic setup of
