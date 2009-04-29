@@ -30,7 +30,7 @@
             </xsl:for-each>
             
             <xsl:choose>
-                <xsl:when test="* or string-length(text()) != 0">
+                <xsl:when test="string-length(text()) != 0 or *">
                     <span class="code_tag"><xsl:text>&gt;</xsl:text></span>
                     
                     <xsl:choose>
