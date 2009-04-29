@@ -14,7 +14,7 @@
 	</appender>
 
     <root>
-        <priority value="debug"/>
+        <priority value="warn"/>
         <!--appender-ref ref="lf5-servlet"/-->
         <appender-ref ref="servlet"/>
     </root>
