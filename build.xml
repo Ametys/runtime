@@ -7,7 +7,7 @@
 <!-- Mettre la propriété externe 'skip-tests' permet de ne pas exécuter les tests -->
 
 <!-- Changer la propriété 'ivy-settings' permet d'utiliser un chemin vers ivysettings.xml différent -->
-<!-- Changer la propriété 'ivy-status' permet de changer le statut de publication des artifacts ivy (release, integration, development) -->
+<!-- Changer la propriété 'ivy-status' permet de changer le statut de publication des artifacts ivy (integration, snapshot, milestone, release) -->
 
 <project name="Runtime build" default="all"
          xmlns:ametys="antlib:org.ametys.tools"
@@ -24,7 +24,7 @@
 	<property name="dest-dir" value="target"/>
 	<property name="dest-doc" value="${dest-dir}/docs"/>
 	<property name="dest-javadoc" value="${dest-doc}/api"/>
-	<property name="class-vm-target" value="1.5"/>
+	<property name="class-vm-target" value="1.6"/>
 	
 	<property name="version" value="2.0.0"/>
 	<basename file="${basedir}" property="svn-branch"/>
@@ -464,7 +464,7 @@
 			<classpath refid="compile.classpath"/>
 			<link href="http://excalibur.apache.org/apidocs"/>
 			<link href="http://cocoon.apache.org/2.1/apidocs"/>
-			<link href="http://java.sun.com/j2se/1.5.0/docs/api"/>
+			<link href="http://java.sun.com/javase/6/docs/api"/>
 			<link href="http://java.sun.com/javaee/5/docs/api"/>
 		</javadoc>
 		
@@ -516,7 +516,7 @@
 			</classpath>
 			<link href="http://excalibur.apache.org/apidocs"/>
 			<link href="http://cocoon.apache.org/2.1/apidocs"/>
-			<link href="http://java.sun.com/j2se/1.5.0/docs/api"/>
+			<link href="http://java.sun.com/javase/6/docs/api"/>
 			<link href="http://java.sun.com/javaee/5/docs/api"/>
 			<link href="http://junit.sourceforge.net/javadoc_40/"/>
 		</javadoc>
