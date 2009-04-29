@@ -512,7 +512,7 @@
 	       	version="true"
 	       	use="false"   
 			additionalparam="-quiet"
-			stylesheetfile="${deliver-dir}/javadoc.css"
+			stylesheetfile="${dest-dir}/javadoc.css"
 			header="&lt;img src='http://ametys.org/styles/telecharger/img/focus_bg.gif'/&gt;"
 			bottom="Copyright &#169; 2009 &lt;a href='http://www.anyware-tech.com'&gt;Anyware Technologies&lt;/a&gt;. All Rights Reserved.">
 
