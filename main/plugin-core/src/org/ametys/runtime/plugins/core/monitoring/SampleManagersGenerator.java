@@ -18,10 +18,10 @@ public class SampleManagersGenerator extends ServiceableGenerator implements Mon
     private MonitoringExtensionPoint _monitoringExtensionPoint;
 
     @Override
-    public void service(ServiceManager manager) throws ServiceException
+    public void service(ServiceManager smanager) throws ServiceException
     {
-        super.service(manager);
-        _monitoringExtensionPoint = (MonitoringExtensionPoint) manager.lookup(MonitoringExtensionPoint.ROLE);
+        super.service(smanager);
+        _monitoringExtensionPoint = (MonitoringExtensionPoint) smanager.lookup(MonitoringExtensionPoint.ROLE);
     }
 
     public void generate() throws IOException, SAXException, ProcessingException

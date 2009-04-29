@@ -32,6 +32,7 @@ public class StaticAdminUIItemFactory extends StaticUIItemFactory
      * @return The new interaction
      * @throws ConfigurationException if the configuration is incorrect
      */
+    @Override
     protected UIItem _configureStatic(Configuration configuration) throws ConfigurationException
     {
         // Détermine les élements de l'interaction en fonction de la

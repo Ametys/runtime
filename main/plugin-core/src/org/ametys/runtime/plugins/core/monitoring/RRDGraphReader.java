@@ -35,10 +35,10 @@ public class RRDGraphReader extends ServiceableReader implements Contextualizabl
     }
     
     @Override
-    public void service(ServiceManager manager) throws ServiceException
+    public void service(ServiceManager smanager) throws ServiceException
     {
-        super.service(manager);
-        _monitoringExtensionPoint = (MonitoringExtensionPoint) manager.lookup(MonitoringExtensionPoint.ROLE);
+        super.service(smanager);
+        _monitoringExtensionPoint = (MonitoringExtensionPoint) smanager.lookup(MonitoringExtensionPoint.ROLE);
     }
 
     @Override

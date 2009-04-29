@@ -210,7 +210,7 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
     }
 
     @Override
-    public void startElementImpl(String uri, String local, String qual, String[][] namespaces, String[][] attributes) throws SAXException
+    public void startElementImpl(String uri, String local, String qual, String[][] lNamespaces, String[][] attributes) throws SAXException
     {
         if (local.equalsIgnoreCase(__SCRIPT_TAG) || local.equalsIgnoreCase(__STYLE_TAG))
         {
@@ -221,7 +221,7 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
         _isMetaContentType = isMetaContentType(local, attributes);
         if (!_isMetaContentType || _omitXmlDeclaration)
         {
-            super.startElementImpl(uri, local, qual, namespaces, attributes);
+            super.startElementImpl(uri, local, qual, lNamespaces, attributes);
         }
     }
     
