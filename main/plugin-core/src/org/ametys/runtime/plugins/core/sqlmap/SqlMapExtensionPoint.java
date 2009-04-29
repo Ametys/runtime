@@ -418,6 +418,18 @@ public class SqlMapExtensionPoint extends AbstractThreadSafeComponentExtensionPo
         {
             _writer = out;
         }
+        
+        // JDBC 4.0
+        public boolean isWrapperFor(Class< ? > iface) throws SQLException
+        {
+            return false;
+        }
+
+        // JDBC 4.0
+        public <T> T unwrap(Class<T> iface) throws SQLException
+        {
+            throw new SQLException("DataSourceWrapper is not really a wrapper.");
+        }
     }
     
     /**
