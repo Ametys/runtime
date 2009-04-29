@@ -494,6 +494,12 @@
 				<include name="**/package.html"/>
 			</fileset>
 		</copy>
+
+		<copy todir="${dest-dir}" flatten="true" encoding="UTF-8">
+			<resources>
+				<javaresource classpathref="classpath-ametys-tools" name="org/ametys/tools/javadoc.css"/>
+			</resources>
+		</copy>
 		
 		<mkdir dir="${dest-javadoc}"/>
 		<javadoc destdir="${dest-javadoc}"
