@@ -38,14 +38,15 @@ public class ModifiableCredentialAwareJdbcUsersTestCase extends JdbcUsersTestCas
     @Override
     protected File[] getScripts()
     {
-    	return new File[]{new File("main/plugin-core/scripts/mysql/jdbc_users_auth.sql")};
+        return new File[] {new File("main/plugin-core/scripts/mysql/jdbc_users_auth.sql")};
     }
 
-	protected File[] getFilledScripts()
-	{
-		return new File[] {new File("test/environments/scripts/fillJDBCUsersAuth.sql")};
-	}
-	
+    @Override
+    protected File[] getFilledScripts()
+    {
+        return new File[] {new File("test/environments/scripts/fillJDBCUsersAuth.sql")};
+    }
+
     @Override
     public void testType() throws Exception
     {

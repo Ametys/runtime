@@ -40,14 +40,18 @@ public class JdbcUsersTestCase extends AbstractJDBCUsersManagerTestCase
     @Override
     protected File[] getScripts()
     {
-    	// Use non auth script by default
-    	return new File[]{new File("main/plugin-core/scripts/mysql/jdbc_users.sql")};
+        // Use non auth script by default
+        return new File[] {new File("main/plugin-core/scripts/mysql/jdbc_users.sql")};
     }
 
-	protected File[] getFilledScripts()
-	{
-		return new File[] {new File("test/environments/scripts/fillJDBCUsers.sql")};
-	}
+    /**
+     * Provide the scripts to run for populating database.
+     * @return the scripts to run.
+     */
+    protected File[] getFilledScripts()
+    {
+        return new File[] {new File("test/environments/scripts/fillJDBCUsers.sql")};
+    }
     
     /**
      * Test the getting of users on mysql
