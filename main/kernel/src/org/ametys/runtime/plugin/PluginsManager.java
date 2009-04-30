@@ -1155,19 +1155,12 @@ public final class PluginsManager
                         
                         if (is == null)
                         {
-                            throw new FileNotFoundException("File not found: " + configPath);
+                            throw new IllegalArgumentException("The config file '" + configPath + "' does not exist");
                         }
                     }
                 }
                 
                 return new DefaultConfigurationBuilder().build(is, configPath);
-            }
-            catch (FileNotFoundException e)
-            {
-                if (_logger.isDebugEnabled())
-                {
-                    _logger.debug("Configuration not found at URI: '" + config  + "', using initial configuration.", e);
-                }
             }
             catch (Exception ex)
             {
