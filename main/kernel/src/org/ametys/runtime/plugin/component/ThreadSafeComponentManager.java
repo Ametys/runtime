@@ -112,9 +112,7 @@ public class ThreadSafeComponentManager<T> extends AbstractLogEnabled implements
 
         if (role == null)
         {
-            String message = "ThreadSafeComponentManager attempted to retrieve component with null role.";
-            getLogger().error(message);
-            throw new ComponentException(role, message);
+            throw new ComponentException(role, "ThreadSafeComponentManager attempted to retrieve component with null role.");
         }
         
         T component = _components.get(role);
@@ -127,9 +125,7 @@ public class ThreadSafeComponentManager<T> extends AbstractLogEnabled implements
             }
             catch (Exception e)
             {
-                String errorMessage = "Unable to initialize component " + role;
-                getLogger().error(errorMessage, e);
-                throw new ComponentException(role, errorMessage, e);
+                throw new ComponentException(role, "Unable to initialize component " + role, e);
             }
             
             _components.put(role, component);
@@ -175,9 +171,7 @@ public class ThreadSafeComponentManager<T> extends AbstractLogEnabled implements
     {
         if (_initialized)
         {
-            String errorMessage = "ComponentManager has already been initialized";
-            getLogger().error(errorMessage);
-            throw new IllegalStateException(errorMessage);
+            throw new IllegalStateException("ComponentManager has already been initialized");
         }
         
         synchronized (this)
@@ -196,13 +190,8 @@ public class ThreadSafeComponentManager<T> extends AbstractLogEnabled implements
                     }
                     catch (Exception e)
                     {
-                        if (getLogger().isErrorEnabled())
-                        {
-                            getLogger().error("Caught an exception trying to initialize the component " + role, e);
-
-                            // Rethrow the exception
-                            throw e;
-                        }
+                        // Rethrow the exception
+                        throw new Exception("Caught an exception trying to initialize the component " + role, e);
                     }
                 }
             }
