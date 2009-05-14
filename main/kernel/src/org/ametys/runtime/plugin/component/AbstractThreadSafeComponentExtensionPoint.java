@@ -122,9 +122,7 @@ public abstract class AbstractThreadSafeComponentExtensionPoint<T> extends Abstr
         
         if (className == null)
         {
-            String errorMessage = "In plugin '" + pluginName + "' id '" + pluginId + "', extension '" + id + "' does not defines any class";
-            getLogger().error(errorMessage);
-            throw new ConfigurationException(errorMessage, configuration);
+            throw new ConfigurationException("In plugin '" + pluginName + "' id '" + pluginId + "', extension '" + id + "' does not defines any class", configuration);
         }
         
         Class<T> extensionClass;
@@ -135,9 +133,7 @@ public abstract class AbstractThreadSafeComponentExtensionPoint<T> extends Abstr
         }
         catch (ClassNotFoundException ex)
         {
-            String errorMessage = "Unable to instanciate class '" + className + "' for plugin '" + pluginName + "' / '" + pluginId + "'";
-            getLogger().error(errorMessage);
-            throw new ConfigurationException(errorMessage, configuration, ex);
+            throw new ConfigurationException("Unable to instanciate class '" + className + "' for plugin '" + pluginName + "' / '" + pluginId + "'", configuration, ex);
         }
         
         try
