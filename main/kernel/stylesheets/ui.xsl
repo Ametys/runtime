@@ -43,37 +43,37 @@
                     return "<xsl:value-of select="$pluginsWrappedContext"/>/" + plugin;
                 }
       
-    			function runtimeRedirectTo(link, mode, plugin)
-    			{
-    			  	function _checkLink (link)
-    			  	{
-    				  	if (link.substring(0, 1) != '/')
-    				  	{
-    				    	link = '/' + link;
-    				  	}
-    				  	return link;
-    				}
+                function runtimeRedirectTo(link, mode, plugin)
+                {
+                    function _checkLink (link)
+                    {
+                        if (link.substring(0, 1) != '/')
+                        {
+                            link = '/' + link;
+                        }
+                        return link;
+                    }
     			  	
-    			  	switch (mode)
-    			  	{
-    			  		case 'absolute': 
-    			  			break;
-    			  		case 'context':
-    			  			link = context.contextPath + _checkLink(link);
-    			  			break;
-    			  		case 'workspace':
-    			  			link = context.workspaceContext + _checkLink(link);
-    			  			break;
-    			  		case 'plugin-direct':
-    			  			link = getPluginDirectUrl(plugin) + _checkLink(link);
-    			  			break;
-    			  		case 'plugin-wrapped':
-    			  		default:
-    			  			link = getPluginWrappedUrl(plugin) + _checkLink(link);
-    			  	}
+                    switch (mode)
+                    {
+                        case 'absolute': 
+                            break;
+                        case 'context':
+                            link = context.contextPath + _checkLink(link);
+                            break;
+                        case 'workspace':
+                            link = context.workspaceContext + _checkLink(link);
+                            break;
+                        case 'plugin-direct':
+                            link = getPluginDirectUrl(plugin) + _checkLink(link);
+                            break;
+                        case 'plugin-wrapped':
+                        default:
+                            link = getPluginWrappedUrl(plugin) + _checkLink(link);
+                    }
     			
-    				window.location.href = link;
-    			}
+                    window.location.href = link;
+                }
             </xsl:comment>
         </script>
     </xsl:template>
@@ -82,34 +82,56 @@
         <xsl:param name="bad-navigator-redirection"/>
         <xsl:param name="accept-ie-6">false</xsl:param>
         <xsl:param name="accept-ie-7">false</xsl:param>
+        <xsl:param name="accept-ie-8">false</xsl:param>
         <xsl:param name="accept-ff-1.0">false</xsl:param>
         <xsl:param name="accept-ff-1.5">false</xsl:param>
         <xsl:param name="accept-ff-2.0">false</xsl:param>
         <xsl:param name="accept-ff-3.0">false</xsl:param>
-    
-    	<script type="text/javascript" src="{$contextPath}/kernel/resources/extjs/js/adapter/ext/ext-base.js"><xsl:comment>empty</xsl:comment></script>
-		<script type="text/javascript" src="{$contextPath}/kernel/resources/extjs/js/ext-core.js"><xsl:comment>empty</xsl:comment></script>
-		<script type="text/javascript" src="{$contextPath}/kernel/resources/extjs/js/ext-all.js"><xsl:comment>empty</xsl:comment></script>
-	
-		<link rel="stylesheet" type="text/css" href="{$contextPath}/kernel/resources/extjs/css/ext-all.css" />
+        <xsl:param name="accept-ff-3.5">false</xsl:param>
+        <xsl:param name="accept-sa-3">false</xsl:param>
+        <xsl:param name="accept-op-9">false</xsl:param>
+        <xsl:param name="accept-ch-1">false</xsl:param>
 		
         <script type="text/javascript">
             <xsl:comment>
-            	if (! (Ext.isIE6 || Ext.isIE7 || Ext.isOpera || Ext. isSafari || Ext. isSafari2 || Ext. isSafari3 || Ext.isGecko || Ext.isGecko2 || Ext.isGecko3))
-            	{
-            		// Check the cookie for forcing non supported navigators
-                	var matcher = document.cookie.match("(^|;) ?ametys\.accept\.non\.supported\.navigators=([^;]*)");
-                	if (!matcher || matcher[2] != "on")
-                	{
-                 	    window.location.href = "<xsl:value-of select="$bad-navigator-redirection"/>?uri=" + encodeURIComponent(window.location.href);
-                	}
-            	}
+            	var userAgent = navigator.userAgent.toLowerCase();
+                <xsl:text>if (!(</xsl:text>
+                    <xsl:if test="$accept-ie-6 = 'true'">(userAgent.indexOf("msie 6") > 0) ||</xsl:if>
+                    <xsl:if test="$accept-ie-7 = 'true'">(userAgent.indexOf("msie 7") > 0) ||</xsl:if>
+                    <xsl:if test="$accept-ie-8 = 'true'">(userAgent.indexOf("msie 8") > 0) ||</xsl:if>
+                    <xsl:if test="$accept-ff-1.0 = 'true'">(userAgent.indexOf("firefox/1.0") > 0) ||</xsl:if>
+                    <xsl:if test="$accept-ff-1.5 = 'true'">(userAgent.indexOf("firefox/1.5") > 0) ||</xsl:if>
+                    <xsl:if test="$accept-ff-2.0 = 'true'">(userAgent.indexOf("firefox/2.0") > 0) ||</xsl:if>
+                    <xsl:if test="$accept-ff-3.0 = 'true'">(userAgent.indexOf("firefox/3.0") > 0) ||</xsl:if>
+                    <xsl:if test="$accept-ff-3.5 = 'true'">(userAgent.indexOf("firefox/3.5") > 0) ||</xsl:if>
+                    <xsl:if test="$accept-sa-3 = 'true'">(userAgent.indexOf("safari/522") > 0) ||</xsl:if>
+                    <xsl:if test="$accept-sa-3 = 'true'">(userAgent.indexOf("safari/525") > 0) ||</xsl:if>
+                    <xsl:if test="$accept-op-9 = 'true'">(userAgent.indexOf("opera/9") > 0) ||</xsl:if>
+                    <xsl:if test="$accept-ch-1 = 'true'">(userAgent.indexOf("chrome/1") > 0) ||</xsl:if>
+                    <xsl:text>1 == 0))</xsl:text>
+                {
+            		<!-- Check the cookie for forcing non supported navigators -->
+                    var matcher = document.cookie.match("(^|;) ?ametys\.accept\.non\.supported\.navigators=([^;]*)");
+                    if (!matcher || matcher[2] != "on")
+                    {
+                        window.location.href = "<xsl:value-of select="$bad-navigator-redirection"/>?uri=" + encodeURIComponent(window.location.href);
+                    }
+                }
             </xsl:comment>
         </script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Tools.js"><xsl:comment>empty</xsl:comment></script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Runtime_InteractionActionLibrary.js"><xsl:comment>empty</xsl:comment></script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/mozxpath.js"><xsl:comment>empty</xsl:comment></script>
-        
+
+    	<script type="text/javascript" src="{$contextPath}/kernel/resources/extjs/js/adapter/ext/ext-base.js"><xsl:comment>empty</xsl:comment></script>
+		<script type="text/javascript" src="{$contextPath}/kernel/resources/extjs/js/ext-core.js"><xsl:comment>empty</xsl:comment></script>
+		<script type="text/javascript" src="{$contextPath}/kernel/resources/extjs/js/ext-all.js"><xsl:comment>empty</xsl:comment></script>
+		<script type="text/javascript">
+            Tools.loadScript(document, "<xsl:value-of select="$contextPath"/>/kernel/resources/extjs/js/lang/ext-lang-<i18n:text i18n:key="KERNEL_LANGUAGE_CODE" i18n:catalogue="kernel"/>.js");
+		</script>
+	
+		<link rel="stylesheet" type="text/css" href="{$contextPath}/kernel/resources/extjs/css/ext-all.css" />
+
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/ametys/Ext.ametys.ActionPanel.js"><xsl:comment>empty</xsl:comment></script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/ametys/Ext.ametys.CategoryPanel.js"><xsl:comment>empty</xsl:comment></script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/ametys/Ext.ametys.ContextualPanel.js"><xsl:comment>empty</xsl:comment></script>
