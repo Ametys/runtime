@@ -188,8 +188,6 @@ Tools.loadStyle = function (_document, url)
 
 Tools.loadScript = function (_document, url, onload)
 {
-	_document.charset = "UTF-8";
-
 	var head = _document.getElementsByTagName("head")[0];
 	var link = _document.createElement("script");
 	link.src = url;
