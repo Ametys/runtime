@@ -15,33 +15,51 @@
 
     <xsl:template name="plugins-load">
         <xsl:param name="scripts"/>
+        <xsl:param name="css"/>
         <xsl:param name="actions"/>
 
-        <xsl:for-each select="$scripts">
-            <xsl:variable name="position" select="position()"/>
-            <xsl:variable name="value" select="."/>
-            
-            <!-- check that the src was not already loaded (by another plugin for example) -->
-            <xsl:if test="not($scripts[position() &lt; $position and . = $value])">
-                <script src="{$contextPath}{.}"><xsl:comment>empty</xsl:comment></script>
-            </xsl:if>
-        </xsl:for-each>
+		<!-- Load scripts -->
+		<xsl:if test="$scripts">
+	        <xsl:for-each select="$scripts">
+	            <xsl:variable name="position" select="position()"/>
+	            <xsl:variable name="value" select="."/>
+	            
+	            <!-- check that the src was not already loaded (by another plugin for example) -->
+	            <xsl:if test="not($scripts[position() &lt; $position and . = $value])">
+	                <script src="{$contextPath}{.}"><xsl:comment>empty</xsl:comment></script>
+	            </xsl:if>
+	        </xsl:for-each>
+		</xsl:if>
 
+		<!-- Load css -->
+		<xsl:if test="$css">
+	        <xsl:for-each select="$css">
+	            <xsl:variable name="position" select="position()"/>
+	            <xsl:variable name="value" select="."/>
+	            
+	            <!-- check that the src was not already loaded (by another plugin for example) -->
+	            <xsl:if test="not($scripts[position() &lt; $position and . = $value])">
+	                <link rel="stylesheet" type="text/css" href="{$contextPath}{.}"/>
+	            </xsl:if>
+	        </xsl:for-each>
+		</xsl:if>
 
         <!-- Initialize actions -->
-        <script>
-            <xsl:for-each select="$actions">
-                <xsl:variable name="position" select="position()"/>
-                <xsl:variable name="value" select="."/>
-                
-                <!-- check that the action was not already initialized (by another plugin for example) -->
-                <xsl:if test="not($actions[position() &lt; $position and . = $value])">
-                    if (typeof <xsl:value-of select="."/>.initialize == "function") { <xsl:value-of select="."/>.initialize("<xsl:value-of select="../@plugin"/>"); }
-                    <xsl:text>
-                    </xsl:text>
-                </xsl:if>
-            </xsl:for-each>
-        </script>
+        <xsl:if test="$actions">
+	        <script>
+	            <xsl:for-each select="$actions">
+	                <xsl:variable name="position" select="position()"/>
+	                <xsl:variable name="value" select="."/>
+	                
+	                <!-- check that the action was not already initialized (by another plugin for example) -->
+	                <xsl:if test="not($actions[position() &lt; $position and . = $value])">
+	                    if (typeof <xsl:value-of select="."/>.initialize == "function") { <xsl:value-of select="."/>.initialize("<xsl:value-of select="../@plugin"/>"); }
+	                    <xsl:text>
+	                    </xsl:text>
+	                </xsl:if>
+	            </xsl:for-each>
+	        </script>
+	   	</xsl:if>
     </xsl:template>
     
 </xsl:stylesheet>
