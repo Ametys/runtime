@@ -41,8 +41,8 @@ public final class I18nizableText
     
     /**
      * Create an i18nized text
-     * @param catalogue the catalogue where the key is defined. Cannot be null.
-     * @param key the key of the text. Cannot be null.
+     * @param catalogue the catalogue where the key is defined. Can be null. Can be overloaded by the catalogue in the key.
+     * @param key the key of the text. Cannot be null. May include the catalogue using the caracter ':' as separator. CATALOG:KEY.
      */
     public I18nizableText(String catalogue, String key)
     {
@@ -51,15 +51,19 @@ public final class I18nizableText
     
     /**
      * Create an i18nized text
-     * @param catalogue the catalogue where the key is defined. Cannot be null.
-     * @param key the key of the text. Cannot be null.
+     * @param catalogue the catalogue where the key is defined. Can be null. Can be overloaded by the catalogue in the key.
+     * @param key the key of the text. Cannot be null. May include the catalogue using the caracter ':' as separator. CATALOG:KEY.
      * @param parameters the parameters of the key if any. Can be null.
      */
     public I18nizableText(String catalogue, String key, List<String> parameters)
     {
         _i18n = true;
-        _catalogue = catalogue;
-        _key = key;
+        
+        String i18nKey = key.substring(key.indexOf(":") + 1);
+        String i18nCatalogue = key.length() == key.length() ? catalogue : key.substring(0, key.length() - i18nKey.length() - 1);
+
+        _catalogue = i18nCatalogue;
+        _key = i18nKey;
         _parameters = parameters;
     }
     
@@ -141,6 +145,7 @@ public final class I18nizableText
      * @param handler The sax content handler
      * @throws SAXException
      */
+    @SuppressWarnings("null")
     public void toSAX(ContentHandler handler) throws SAXException
     {
         if (isI18n())
@@ -157,7 +162,10 @@ public final class I18nizableText
             
             AttributesImpl atts = new AttributesImpl();
             atts.addCDATAAttribute(I18nTransformer.I18N_NAMESPACE_URI, "key", "i18n:key", getKey());
-            atts.addCDATAAttribute(I18nTransformer.I18N_NAMESPACE_URI, "catalogue", "i18n:catalogue", getCatalogue());
+            if (getCatalogue() != null)
+            {
+                atts.addCDATAAttribute(I18nTransformer.I18N_NAMESPACE_URI, "catalogue", "i18n:catalogue", getCatalogue());
+            }
             
             handler.startElement(I18nTransformer.I18N_NAMESPACE_URI, "text", "i18n:text", atts);
             handler.endElement(I18nTransformer.I18N_NAMESPACE_URI, "text", "i18n:text");
