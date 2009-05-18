@@ -8,7 +8,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.ametys.runtime.util.ConnectionHelper;
+import org.ametys.runtime.datasource.ConnectionHelper;
 import org.ametys.runtime.util.LoggerFactory;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.commons.io.IOUtils;

@@ -25,6 +25,7 @@ import org.apache.excalibur.xml.xpath.XPathProcessor;
 import org.w3c.dom.Node;
 
 import org.ametys.runtime.config.Config;
+import org.ametys.runtime.datasource.ConnectionHelper;
 import org.ametys.runtime.group.Group;
 import org.ametys.runtime.group.GroupListener;
 import org.ametys.runtime.group.GroupsManager;
@@ -33,7 +34,6 @@ import org.ametys.runtime.group.ModifiableGroupsManager;
 import org.ametys.runtime.plugins.core.group.jdbc.ModifiableJdbcGroupsManager;
 import org.ametys.runtime.test.AbstractJDBCTestCase;
 import org.ametys.runtime.test.Init;
-import org.ametys.runtime.util.ConnectionHelper;
 
 /**
  * Tests the JdbcGroupsManager

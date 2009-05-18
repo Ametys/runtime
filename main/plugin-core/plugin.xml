@@ -612,8 +612,8 @@
         <extension-point id="org.apache.excalibur.source.SourceFactorySelector"
                          class="org.ametys.runtime.cocoon.SourceFactoriesExtensionPoint"/>
 
-        <extension-point id="org.apache.avalon.excalibur.datasource.DataSourceComponentSelector"
-                         class="org.ametys.runtime.cocoon.DataSourceComponentsExtensionPoint"/>
+        <extension-point id="org.ametys.runtime.datasource.DataSourceExtensionPoint"
+                         class="org.ametys.runtime.datasource.DataSourceExtensionPoint"/>
 
         <extension-point id="org.ametys.runtime.cocoon.SitemapConfigurationExtensionPoint"
                          class="org.ametys.runtime.cocoon.SitemapConfigurationExtensionPoint"/>
@@ -731,13 +731,9 @@
         </config>
         
         <extensions>
-            <extension point="org.apache.avalon.excalibur.datasource.DataSourceComponentSelector" 
+            <extension point="org.ametys.runtime.datasource.DataSourceExtensionPoint" 
                        id="runtime.datasource.core.jdbc.pool"
-                       class="org.ametys.runtime.cocoon.JDBCDataSource"
                        logger="org.ametys.runtime.datasource.core.jdbc.pool">
-                <pool-controller max="10" max-strict="true" blocking="true" timeout="0" trim-interval="60000"/>
-                <keep-alive age="5000" disable="false">select 1</keep-alive>
-                <auto-commit>false</auto-commit>
                 <driver runtime-config-parameter="runtime.datasource.core.jdbc.driver"/>
                 <dburl runtime-config-parameter="runtime.datasource.core.jdbc.url"/>
                 <user runtime-config-parameter="runtime.datasource.core.jdbc.user"/>
@@ -1187,7 +1183,7 @@
 			<extension point="org.ametys.runtime.user.CurrentUserProvider"
 			           id="org.ametys.runtime.plugins.core.user.AvalonCurrentUserProvider"
 			           class="org.ametys.runtime.plugins.core.user.AvalonCurrentUserProvider">
-				<caller default="admin"/>
+				<user default="admin"/>
 			</extension>
 		</extensions>
     </feature>

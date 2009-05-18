@@ -28,10 +28,10 @@ Open source web application framework based on Apache Cocoon.
     <!-- TODO add SQL scripts in "sql" type -->
   </publications>
   <dependencies>
-    <dependency org="apache" name="cocoon" rev="2.1.10" conf="default->serializers"/>
+    <dependency org="apache" name="commons-dbcp" rev="1.2.2" conf="default->default"/>
+    <dependency org="apache" name="cocoon" rev="2.1.11" conf="default->serializers"/>
     <dependency org="apache" name="commons-codec" rev="1.3" conf="default"/>
     <dependency org="apache" name="commons-lang" rev="2.4" conf="default"/>
-    <dependency org="apache" name="excalibur-datasource" rev="2.1" conf="default"/>
     <dependency org="apache" name="ibatis" rev="2.3.0" conf="default"/>
     <dependency org="javax.servlet" name="servlet-api" rev="2.4" conf="compile->default"/>
     <dependency org="rrd4j" name="rrd4j" rev="2.0.6" conf="default->default"/>

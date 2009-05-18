@@ -186,6 +186,11 @@ public class ThreadSafeComponentManager<T> extends AbstractLogEnabled implements
 
                     try
                     {
+                        if (getLogger().isDebugEnabled())
+                        {
+                            getLogger().debug("Instanciating component for role " + role);
+                        }
+                        
                         _components.put(role, factory.newInstance());
                     }
                     catch (Exception e)

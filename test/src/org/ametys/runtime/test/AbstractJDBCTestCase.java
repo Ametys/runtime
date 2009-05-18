@@ -15,7 +15,7 @@ import java.io.FileInputStream;
 import java.sql.Connection;
 import java.util.List;
 
-import org.ametys.runtime.util.ConnectionHelper;
+import org.ametys.runtime.datasource.ConnectionHelper;
 
 /**
  * Abstract test case for jdbc Runtime test cases.

@@ -37,8 +37,8 @@ public class AvalonCurrentUserProvider extends AbstractLogEnabled implements Cur
     
     public void configure(Configuration configuration) throws ConfigurationException
     {
-        Configuration defaultCaller = configuration.getChild("caller", true);
-        _defaultUser = defaultCaller.getAttribute("default", "unknown");
+        Configuration defaultUser = configuration.getChild("user", true);
+        _defaultUser = defaultUser.getAttribute("default", "unknown");
     }
     
     public boolean isSuperUser()

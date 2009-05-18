@@ -13,21 +13,25 @@ package org.ametys.runtime.plugins.core.right.actions;
 import java.util.Map;
 
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.cocoon.acting.AbstractAction;
+import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
+import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.SourceResolver;
 
-import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableAction;
-
+import org.ametys.runtime.workspaces.admin.authentication.AdminAuthenticateAction;
 
 /**
  * This action determines if the user is in admin.<br/>
  * Throw an IllegalStateException if not
  */
-public class IsAdminAction extends CurrentUserProviderServiceableAction 
+public class IsAdminAction extends AbstractAction 
 {
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
-        if (_isSuperUser())
+        Request request = ObjectModelHelper.getRequest(objectModel);
+        
+        if (request.getAttribute(AdminAuthenticateAction.REQUEST_ATTRIBUTE_SUPER_USER) != null)
         {
             return EMPTY_MAP;
         }

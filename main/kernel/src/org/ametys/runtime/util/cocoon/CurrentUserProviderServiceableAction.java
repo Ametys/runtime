@@ -1,7 +1,6 @@
 package org.ametys.runtime.util.cocoon;
 
 import org.apache.avalon.framework.service.ServiceException;
-import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.acting.ServiceableAction;
 
 import org.ametys.runtime.user.CurrentUserProvider;
@@ -13,13 +12,6 @@ public abstract class CurrentUserProviderServiceableAction extends ServiceableAc
 {
     /** The current user provider. */
     protected CurrentUserProvider _currentUserProvider;
-    
-    @Override
-    public void service(ServiceManager serviceManager) throws ServiceException
-    {
-        super.service(serviceManager);
-        _currentUserProvider = (CurrentUserProvider) serviceManager.lookup(CurrentUserProvider.ROLE);
-    }
 
     /**
      * Determine if current user is the super user.
@@ -28,6 +20,18 @@ public abstract class CurrentUserProviderServiceableAction extends ServiceableAc
      */
     protected boolean _isSuperUser()
     {
+        if (_currentUserProvider == null)
+        {
+            try
+            {
+                _currentUserProvider = (CurrentUserProvider) manager.lookup(CurrentUserProvider.ROLE);
+            }
+            catch (ServiceException e)
+            {
+                throw new IllegalStateException(e);
+            }
+        }
+        
         return _currentUserProvider.isSuperUser();
     }
     
@@ -37,6 +41,18 @@ public abstract class CurrentUserProviderServiceableAction extends ServiceableAc
      */
     protected String _getCurrentUser()
     {
+        if (_currentUserProvider == null)
+        {
+            try
+            {
+                _currentUserProvider = (CurrentUserProvider) manager.lookup(CurrentUserProvider.ROLE);
+            }
+            catch (ServiceException e)
+            {
+                throw new IllegalStateException(e);
+            }
+        }
+        
         return _currentUserProvider.getUser();
     }
 }

@@ -8,20 +8,21 @@
  * Contributors:
  *     Anyware Technologies - initial API and implementation
  */
-package org.ametys.runtime.util;
+package org.ametys.runtime.datasource;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.apache.avalon.excalibur.datasource.DataSourceComponent;
-import org.apache.avalon.framework.component.ComponentException;
-import org.apache.avalon.framework.component.ComponentSelector;
+import javax.sql.DataSource;
+
 import org.apache.avalon.framework.logger.Logger;
 
+import org.ametys.runtime.util.LoggerFactory;
+
 /**
- * Helper class to retrieve java.sql.Connection from Avalon pools
+ * Helper class to retrieve java.sql.Connection from pools
  */
 public final class ConnectionHelper
 {
@@ -52,8 +53,7 @@ public final class ConnectionHelper
     // Logger for traces
     private static Logger _logger = LoggerFactory.getLoggerFor(ConnectionHelper.class.getName());
 
-    // DataSourceComponent selector
-    private static ComponentSelector _selector;
+    private static DataSourceExtensionPoint _extensionPoint;
     
     private ConnectionHelper()
     {
@@ -61,12 +61,12 @@ public final class ConnectionHelper
     }
     
     /**
-     * Initializes the ComponentSelector holding the actual Connections
-     * @param selector the application DataSourceComponentSelector 
+     * Initializes the Datasources holding the actual Connections
+     * @param extensionPoint the application DataSourceExtensionPoint 
      */
-    public static void setSelector(ComponentSelector selector)
+    public static void setExtensionPoint(DataSourceExtensionPoint extensionPoint)
     {
-        _selector = selector;
+        _extensionPoint = extensionPoint;
     }
     
     /**
@@ -76,23 +76,18 @@ public final class ConnectionHelper
      */
     public static Connection getConnection(String poolName)
     {
-        if (_selector == null)
+        if (_extensionPoint == null)
         {
             throw new IllegalStateException("ComponentSelector has not been properly set up. The method setSelector(selector) must be called before getting any Connection.");
         }
 
-        DataSourceComponent dataSource;
+        DataSource dataSource;
         Connection conn = null;
 
         try
         {
-            dataSource = (DataSourceComponent) _selector.select(poolName);
+            dataSource =  _extensionPoint.getExtension(poolName);
             conn = dataSource.getConnection();
-        }
-        catch (ComponentException e)
-        {
-            _logger.error("Unable to retrieve DataSource from pool " + poolName, e);
-            throw new IllegalArgumentException("Unable to retrieve DataSource from pool " + poolName);
         }
         catch (SQLException e)
         {

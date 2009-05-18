@@ -25,10 +25,10 @@ import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
+import org.ametys.runtime.datasource.ConnectionHelper;
 import org.ametys.runtime.user.InvalidModificationException;
 import org.ametys.runtime.user.ModifiableUsersManager;
 import org.ametys.runtime.user.UserListener;
-import org.ametys.runtime.util.ConnectionHelper;
 import org.ametys.runtime.util.I18nizableText;
 import org.ametys.runtime.util.StringUtils;
 import org.ametys.runtime.util.parameter.EnumeratorValue;

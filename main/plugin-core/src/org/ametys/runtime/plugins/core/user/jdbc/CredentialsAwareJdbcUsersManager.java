@@ -16,8 +16,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.ametys.runtime.authentication.Credentials;
+import org.ametys.runtime.datasource.ConnectionHelper;
 import org.ametys.runtime.user.CredentialsAwareUsersManager;
-import org.ametys.runtime.util.ConnectionHelper;
 import org.ametys.runtime.util.StringUtils;
 import org.ametys.runtime.util.parameter.DefaultValidator;
 import org.ametys.runtime.util.parameter.ParameterHelper;

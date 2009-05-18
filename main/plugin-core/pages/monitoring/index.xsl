@@ -70,11 +70,11 @@
                 		<td>
                 			:: <xsl:value-of select="name"/><br/>
                 			<a href="monitoring/{name}.html" title="Details">
-                				<img src="{$resourcesPath}/img/monitoring/graph/{name}/hour.png" title="{name}"/>
+                				<img src="monitoring/graph/{name}/hour.png" title="{name}"/>
                 			</a>
                 			<span>&#160;&#160;</span>
                 			<a href="monitoring/{name}.html" title="Details">
-                				<img src="{$resourcesPath}/img/monitoring/graph/{name}/day.png" title="{name}"/>
+                				<img src="monitoring/graph/{name}/day.png" title="{name}"/>
                 			</a>
                 		</td>
                 	</tr>

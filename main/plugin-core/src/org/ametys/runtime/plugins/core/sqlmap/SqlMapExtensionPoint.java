@@ -4,9 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -23,13 +20,11 @@ import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 
-import org.apache.avalon.excalibur.datasource.DataSourceComponent;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.avalon.framework.service.ServiceSelector;
 import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
 import org.apache.excalibur.source.Source;
@@ -39,8 +34,9 @@ import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import org.ametys.runtime.datasource.ConnectionHelper;
+import org.ametys.runtime.datasource.DataSourceExtensionPoint;
 import org.ametys.runtime.plugin.component.AbstractThreadSafeComponentExtensionPoint;
-import org.ametys.runtime.util.ConnectionHelper;
 
 import com.ibatis.sqlmap.client.SqlMapClient;
 import com.ibatis.sqlmap.client.SqlMapClientBuilder;
@@ -134,16 +130,14 @@ public class SqlMapExtensionPoint extends AbstractThreadSafeComponentExtensionPo
         {
             Set<String> sqlMaps = _sqlMaps.get(poolName);
             
-            // Retrieve data source
-            DataSource dataSource = null;
+            DataSourceExtensionPoint dsExtPoint = (DataSourceExtensionPoint) _cocoonManager.lookup(DataSourceExtensionPoint.ROLE);
             
-            try
+            // Retrieve data source
+            DataSource dataSource = dsExtPoint.getExtension(poolName);
+            
+            if (dataSource == null)
             {
-                dataSource = new DataSourceWrapper(_getDataSourceComponent(poolName));
-            }
-            catch (ServiceException e)
-            {
-                throw new Exception("Invalid pool name: " + poolName, e);
+                throw new Exception("Invalid pool name: " + poolName);
             }
                 
             // Create config file
@@ -207,25 +201,6 @@ public class SqlMapExtensionPoint extends AbstractThreadSafeComponentExtensionPo
 
             // Inject SqlMap instances
             ((SqlMapClientsAware) component).setSqlMapClients(instances);
-        }
-    }
-
-    private DataSourceComponent _getDataSourceComponent(String poolName) throws ServiceException
-    {
-        ServiceSelector selector = null;
-        
-        try
-        {
-            selector = (ServiceSelector) _cocoonManager.lookup(DataSourceComponent.ROLE + "Selector");
-            
-            return (DataSourceComponent) selector.select(poolName);
-        }
-        finally
-        {
-            if (selector != null)
-            {
-                _cocoonManager.release(selector);
-            }
         }
     }
 
@@ -366,70 +341,6 @@ public class SqlMapExtensionPoint extends AbstractThreadSafeComponentExtensionPo
         
         
         return settingsAttrs;
-    }
-
-    /**
-     * Data source wrapper for Avalon DataSourceComponent.
-     */
-    protected static final class DataSourceWrapper implements DataSource
-    {
-        /** Wrapped data source component. */
-        protected final DataSourceComponent _datasource;
-        /** Log writer. */
-        protected PrintWriter _writer = new PrintWriter(System.out);
-        /** Timeout. */
-        protected int _timeout;
-        
-        /**
-         * Data source wrapper constructor.
-         * @param d the wrapped data source component.
-         */
-        public DataSourceWrapper(DataSourceComponent d)
-        {
-            _datasource = d;
-        }
-
-        public Connection getConnection() throws SQLException
-        {
-            return _datasource.getConnection();
-        }
-
-        public Connection getConnection(String username, String password) throws SQLException
-        {
-            return null;
-        }
-
-        public int getLoginTimeout() throws SQLException
-        {
-            return _timeout;
-        }
-
-        public PrintWriter getLogWriter() throws SQLException
-        {
-            return _writer;
-        }
-
-        public void setLoginTimeout(int seconds) throws SQLException
-        {
-            _timeout = seconds;
-        }
-
-        public void setLogWriter(PrintWriter out) throws SQLException
-        {
-            _writer = out;
-        }
-        
-        // JDBC 4.0
-        public boolean isWrapperFor(Class< ? > iface) throws SQLException
-        {
-            return false;
-        }
-
-        // JDBC 4.0
-        public <T> T unwrap(Class<T> iface) throws SQLException
-        {
-            throw new SQLException("DataSourceWrapper is not really a wrapper.");
-        }
     }
     
     /**

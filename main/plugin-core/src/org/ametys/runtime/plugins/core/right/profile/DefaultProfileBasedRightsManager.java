@@ -46,6 +46,8 @@ import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
+import org.ametys.runtime.datasource.ConnectionHelper;
+import org.ametys.runtime.datasource.ConnectionHelper.DatabaseType;
 import org.ametys.runtime.group.Group;
 import org.ametys.runtime.group.GroupListener;
 import org.ametys.runtime.group.GroupsManager;
@@ -59,8 +61,6 @@ import org.ametys.runtime.user.ModifiableUsersManager;
 import org.ametys.runtime.user.User;
 import org.ametys.runtime.user.UserListener;
 import org.ametys.runtime.user.UsersManager;
-import org.ametys.runtime.util.ConnectionHelper;
-import org.ametys.runtime.util.ConnectionHelper.DatabaseType;
 
 
 /**

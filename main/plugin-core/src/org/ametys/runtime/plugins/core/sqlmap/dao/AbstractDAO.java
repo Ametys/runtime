@@ -3,8 +3,8 @@ package org.ametys.runtime.plugins.core.sqlmap.dao;
 import java.sql.SQLException;
 import java.util.Map;
 
+import org.ametys.runtime.datasource.ConnectionHelper;
 import org.ametys.runtime.plugins.core.sqlmap.SqlMapClientsAware;
-import org.ametys.runtime.util.ConnectionHelper;
 
 import com.ibatis.sqlmap.client.SqlMapClient;
 

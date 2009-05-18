@@ -22,10 +22,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.ametys.runtime.datasource.ConnectionHelper;
 import org.ametys.runtime.plugin.component.PluginAware;
 import org.ametys.runtime.user.User;
 import org.ametys.runtime.user.UsersManager;
-import org.ametys.runtime.util.ConnectionHelper;
 import org.ametys.runtime.util.parameter.DefaultValidator;
 import org.ametys.runtime.util.parameter.ParameterHelper;
 import org.apache.avalon.framework.component.Component;
