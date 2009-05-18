@@ -13,24 +13,23 @@ package org.ametys.runtime.plugins.core.right.ui.generators;
 import java.io.IOException;
 
 import org.apache.cocoon.ProcessingException;
-import org.apache.cocoon.generation.ServiceableGenerator;
 import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.SAXException;
 
-import org.ametys.runtime.user.UserHelper;
+import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableGenerator;
 
 
 /**
- * Generate data for the assignment view screen 
+ * Generate data for the assignment view screen.
  */
-public class ApplicationContextGenerator extends ServiceableGenerator
+public class ApplicationContextGenerator extends CurrentUserProviderServiceableGenerator
 {
     public void generate() throws IOException, SAXException, ProcessingException
     {
         contentHandler.startDocument();
         XMLUtils.startElement(contentHandler, "Application");
         
-        XMLUtils.createElement(contentHandler, "AdministratorUI", UserHelper.isAdministrator(objectModel) ? "true" : "false");
+        XMLUtils.createElement(contentHandler, "AdministratorUI", _isSuperUser() ? "true" : "false");
         
         XMLUtils.endElement(contentHandler, "Application");
         contentHandler.endDocument();

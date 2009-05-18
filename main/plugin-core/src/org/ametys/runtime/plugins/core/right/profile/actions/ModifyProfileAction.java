@@ -15,7 +15,6 @@ import java.util.Map;
 
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.cocoon.ProcessingException;
-import org.apache.cocoon.acting.ServiceableAction;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
@@ -24,13 +23,13 @@ import org.apache.cocoon.environment.SourceResolver;
 import org.ametys.runtime.plugins.core.right.profile.Profile;
 import org.ametys.runtime.plugins.core.right.profile.ProfileBasedRightsManager;
 import org.ametys.runtime.right.RightsManager;
-import org.ametys.runtime.user.UserHelper;
+import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableAction;
 
 
 /**
  * This action modify the composition of the profile 'id' with the / sperated list given in 'rights' (that are request parameters)
  */
-public class ModifyProfileAction extends ServiceableAction
+public class ModifyProfileAction extends CurrentUserProviderServiceableAction
 {
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
@@ -47,13 +46,13 @@ public class ModifyProfileAction extends ServiceableAction
         {
             String userMessage = null;
             String endMessage = "is modifying the profile '" + profileId + "'";
-            if (UserHelper.isAdministrator(objectModel))
+            if (_isSuperUser())
             {
                 userMessage = "Administrator";
             }
             else
             {
-                String currentUserLogin = UserHelper.getCurrentUser(objectModel);
+                String currentUserLogin = _getCurrentUser();
                 userMessage = "User '" + currentUserLogin + "'";
             }
             

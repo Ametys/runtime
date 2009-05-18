@@ -15,7 +15,6 @@ import java.io.IOException;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.ProcessingException;
-import org.apache.cocoon.generation.ServiceableGenerator;
 import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.SAXException;
 
@@ -23,13 +22,13 @@ import org.ametys.runtime.plugins.core.right.RightsExtensionPoint;
 import org.ametys.runtime.plugins.core.right.profile.Profile;
 import org.ametys.runtime.plugins.core.right.profile.ProfileBasedRightsManager;
 import org.ametys.runtime.right.RightsManager;
-import org.ametys.runtime.user.UserHelper;
+import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableGenerator;
 
 
 /**
  * Generates profiles
  */
-public class ProfilesGenerator extends ServiceableGenerator
+public class ProfilesGenerator extends CurrentUserProviderServiceableGenerator
 {
     private RightsExtensionPoint _rights;
     private ProfileBasedRightsManager _rightsManager;
@@ -59,7 +58,7 @@ public class ProfilesGenerator extends ServiceableGenerator
         }
         XMLUtils.endElement(contentHandler, "profiles");
         
-        XMLUtils.createElement(contentHandler, "AdministratorUI", UserHelper.isAdministrator(objectModel) ? "true" : "false");
+        XMLUtils.createElement(contentHandler, "AdministratorUI", _isSuperUser() ? "true" : "false");
         
         XMLUtils.endElement(contentHandler, "ProfilesManager");
         

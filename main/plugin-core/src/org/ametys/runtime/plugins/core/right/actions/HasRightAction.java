@@ -17,12 +17,11 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.thread.ThreadSafe;
-import org.apache.cocoon.acting.ServiceableAction;
 import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.SourceResolver;
 
 import org.ametys.runtime.right.RightsManager;
-import org.ametys.runtime.user.UserHelper;
+import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableAction;
 
 
 /**
@@ -30,7 +29,7 @@ import org.ametys.runtime.user.UserHelper;
  * return EMPTY_MAP if the user has right and null otherwise<br/>
  * You can use the 'context' parameter to specify the right context. / is the default value.
  */
-public class HasRightAction extends ServiceableAction implements Configurable, ThreadSafe
+public class HasRightAction extends CurrentUserProviderServiceableAction implements Configurable, ThreadSafe
 {
     /** The runtime rights manager */
     protected RightsManager _rightsManager;
@@ -63,7 +62,7 @@ public class HasRightAction extends ServiceableAction implements Configurable, T
             _rightsManager = (RightsManager) manager.lookup(RightsManager.ROLE);
         }
 
-        if (UserHelper.isAdministrator(objectModel))
+        if (_isSuperUser())
         {
             return _hasRight ? EMPTY_MAP : null;
         }
@@ -75,7 +74,7 @@ public class HasRightAction extends ServiceableAction implements Configurable, T
             context = getBaseContext(parameters, objectModel);
         }
         
-        String userLogin = UserHelper.getCurrentUser(objectModel);
+        String userLogin = _getCurrentUser();
         if (userLogin == null)
         {
             getLogger().error("Annonymous user tried to access a privileged feature without convenient right. Should have in right between those : '" + source + "' on context '" + context + "'");

@@ -19,15 +19,11 @@ import java.util.Set;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.thread.ThreadSafe;
-import org.apache.cocoon.components.ContextHelper;
 
 import org.ametys.runtime.plugin.component.PluginAware;
 import org.ametys.runtime.right.RightsManager;
@@ -36,7 +32,7 @@ import org.ametys.runtime.ui.item.UIItemFactory;
 import org.ametys.runtime.ui.item.part.Action;
 import org.ametys.runtime.ui.item.part.IconSet;
 import org.ametys.runtime.ui.item.part.Shortcut;
-import org.ametys.runtime.user.UserHelper;
+import org.ametys.runtime.user.CurrentUserProvider;
 import org.ametys.runtime.util.I18nizableText;
 
 /**
@@ -44,7 +40,7 @@ import org.ametys.runtime.util.I18nizableText;
  * change.<br/> It can remove an entry if a given right is not defined for the
  * user.
  */
-public class StaticUIItemFactory extends AbstractLogEnabled implements UIItemFactory, Configurable, ThreadSafe, Serviceable, PluginAware, Contextualizable
+public class StaticUIItemFactory extends AbstractLogEnabled implements UIItemFactory, Configurable, ThreadSafe, Serviceable, PluginAware
 {
     /** The plugin name */
     protected String _pluginName;
@@ -61,8 +57,9 @@ public class StaticUIItemFactory extends AbstractLogEnabled implements UIItemFac
     /** The service manager */
     protected RightsManager _rightManager;
 
-    /** The avalon context */
-    protected Context _avalonContext;
+
+    /** The current user provider. */
+    protected CurrentUserProvider _currentUserProvider;
 
     public void setPluginInfo(String pluginName, String pluginId)
     {
@@ -70,15 +67,11 @@ public class StaticUIItemFactory extends AbstractLogEnabled implements UIItemFac
         _pluginName = pluginName;
     }
 
-    public void contextualize(Context avalonContext) throws ContextException
-    {
-        _avalonContext = avalonContext;
-    }
-
     public void service(ServiceManager sManager) throws ServiceException
     {
         _sManager = sManager;
         _rightManager = (RightsManager) sManager.lookup(RightsManager.ROLE);
+        _currentUserProvider = (CurrentUserProvider) sManager.lookup(CurrentUserProvider.ROLE);
     }
 
     public void configure(Configuration configuration) throws ConfigurationException
@@ -233,13 +226,13 @@ public class StaticUIItemFactory extends AbstractLogEnabled implements UIItemFac
         }
         else
         {
-            if (UserHelper.isAdministrator(ContextHelper.getObjectModel(_avalonContext)))
+            if (_currentUserProvider.isSuperUser())
             {
                 return true;
             }
             else
             {
-                String userLogin = UserHelper.getCurrentUser(ContextHelper.getObjectModel(_avalonContext));
+                String userLogin = _currentUserProvider.getUser();
                 if (userLogin == null)
                 {
                     return false;

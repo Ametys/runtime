@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.cocoon.acting.ServiceableAction;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
@@ -23,13 +22,13 @@ import org.apache.cocoon.environment.SourceResolver;
 import org.ametys.runtime.group.Group;
 import org.ametys.runtime.group.GroupsManager;
 import org.ametys.runtime.group.ModifiableGroupsManager;
-import org.ametys.runtime.user.UserHelper;
+import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableAction;
 
 
 /**
  * This action rename the profile 'id' with 'name' (that are request parameter)
  */
-public class RenameGroupAction extends ServiceableAction
+public class RenameGroupAction extends CurrentUserProviderServiceableAction
 {
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
@@ -58,13 +57,13 @@ public class RenameGroupAction extends ServiceableAction
         {
             String userMessage = null;
             String endMessage = "is renaming the group '" + groupId + "' to '" + newGroupName + "'";
-            if (UserHelper.isAdministrator(objectModel))
+            if (_isSuperUser())
             {
                 userMessage = "Administrator";
             }
             else
             {
-                String currentUserLogin = UserHelper.getCurrentUser(objectModel);
+                String currentUserLogin = _getCurrentUser();
                 userMessage = "User '" + currentUserLogin + "'";
             }
             
@@ -79,13 +78,13 @@ public class RenameGroupAction extends ServiceableAction
             {
                 String userMessage = null;
                 String endMessage = "is renaming a group '" + groupId + "' but the group does not exists";
-                if (UserHelper.isAdministrator(objectModel))
+                if (_isSuperUser())
                 {
                     userMessage = "Administrator";
                 }
                 else
                 {
-                    String currentUserLogin = UserHelper.getCurrentUser(objectModel);
+                    String currentUserLogin = _getCurrentUser();
                     userMessage = "User '" + currentUserLogin + "'";
                 }
                 

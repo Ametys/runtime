@@ -27,13 +27,14 @@ import org.apache.cocoon.components.ContextHelper;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
+import org.apache.cocoon.environment.Session;
 import org.apache.cocoon.environment.http.HttpEnvironment;
 
+import org.ametys.runtime.authentication.AuthenticateAction;
 import org.ametys.runtime.authentication.Credentials;
 import org.ametys.runtime.authentication.CredentialsProvider;
 import org.ametys.runtime.authentication.filter.RuntimeFilter;
 import org.ametys.runtime.config.Config;
-import org.ametys.runtime.user.UserHelper;
 import org.ametys.runtime.util.LoggerFactory;
 
 import edu.yale.its.tp.cas.client.filter.CASFilter;
@@ -132,8 +133,10 @@ public class CASCredentialsProvider implements CredentialsProvider, Initializabl
 
         runtimeFilter.doFilter(objectModel, redirector);
 
-        String userLoginObject = (String) request.getSession().getAttribute(CASFilter.CAS_FILTER_USER);
-        String connectedLogin = UserHelper.getCurrentUser(objectModel);
+        // FIXME do not open a session for nothing
+        Session session = request.getSession();
+        String userLoginObject = (String) session.getAttribute(CASFilter.CAS_FILTER_USER);
+        String connectedLogin = (String) session.getAttribute(AuthenticateAction.SESSION_USERLOGIN);
         return (userLoginObject != null) && userLoginObject.equals(connectedLogin);
     }
 
@@ -141,6 +144,7 @@ public class CASCredentialsProvider implements CredentialsProvider, Initializabl
     {
         Map objectModel = ContextHelper.getObjectModel(_context);
         Request request = ObjectModelHelper.getRequest(objectModel);
+        // FIXME do not open a session for nothing
         Object userLoginObject = request.getSession().getAttribute(CASFilter.CAS_FILTER_USER);
 
         if (_gateway && userLoginObject == null)
@@ -154,6 +158,7 @@ public class CASCredentialsProvider implements CredentialsProvider, Initializabl
     public Credentials getCredentials(Redirector redirector) throws Exception
     {
         Map objectModel = ContextHelper.getObjectModel(_context);
+        // FIXME do not open a session for nothing
         Object userLoginObject = ObjectModelHelper.getRequest(objectModel).getSession().getAttribute(CASFilter.CAS_FILTER_USER);
 
         if (userLoginObject == null)

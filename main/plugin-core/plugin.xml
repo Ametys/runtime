@@ -632,6 +632,10 @@
                                 class="org.ametys.runtime.user.UsersManager"
                                 default-extension-id="org.ametys.runtime.plugins.core.user.Static"/>
 
+        <single-extension-point id="org.ametys.runtime.user.CurrentUserProvider"
+                                class="org.ametys.runtime.user.CurrentUserProvider"
+                                default-extension-id="org.ametys.runtime.plugins.core.user.AvalonCurrentUserProvider"/>
+
         <single-extension-point id="org.ametys.runtime.group.GroupsManager"
                                 class="org.ametys.runtime.group.GroupsManager"
                                 default-extension-id="org.ametys.runtime.plugins.core.group.Empty"/>
@@ -1169,6 +1173,23 @@
                 <Email mandatory="false">runtime.users.ldap.emailAttr</Email>
             </extension>
         </extensions>
+    </feature>
+    
+    <!-- +
+         |  CURRENT USER PROVIDER
+         + -->   
+    <feature name="runtime.current-user">
+        <!-- 
+            This feature provides a non-null current user
+         -->
+		<extensions>
+			<!-- Default extension for providing the current user -->
+			<extension point="org.ametys.runtime.user.CurrentUserProvider"
+			           id="org.ametys.runtime.plugins.core.user.AvalonCurrentUserProvider"
+			           class="org.ametys.runtime.plugins.core.user.AvalonCurrentUserProvider">
+				<caller default="admin"/>
+			</extension>
+		</extensions>
     </feature>
         
     <!-- +

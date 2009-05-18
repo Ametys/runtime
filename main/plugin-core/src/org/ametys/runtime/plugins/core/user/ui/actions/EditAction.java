@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.cocoon.acting.ServiceableAction;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
@@ -23,14 +22,14 @@ import org.apache.cocoon.environment.SourceResolver;
 
 import org.ametys.runtime.user.InvalidModificationException;
 import org.ametys.runtime.user.ModifiableUsersManager;
-import org.ametys.runtime.user.UserHelper;
 import org.ametys.runtime.user.UsersManager;
+import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableAction;
 
 
 /**
  * Create or modify a user
  */
-public class EditAction extends ServiceableAction
+public class EditAction extends CurrentUserProviderServiceableAction
 {
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String src, Parameters parameters) throws Exception
     {
@@ -60,13 +59,13 @@ public class EditAction extends ServiceableAction
                 {
                     String userMessage = null;
                     String endMessage = "is updating information about user '" + login + "'";
-                    if (UserHelper.isAdministrator(objectModel))
+                    if (_isSuperUser())
                     {
                         userMessage = "Administrator";
                     }
                     else
                     {
-                        String currentUserLogin = UserHelper.getCurrentUser(objectModel);
+                        String currentUserLogin = _getCurrentUser();
                         userMessage = "User '" + currentUserLogin + "'";
                     }
                     
@@ -81,13 +80,13 @@ public class EditAction extends ServiceableAction
                 {
                     String userMessage = null;
                     String endMessage = "is adding a new user '" + login + "'";
-                    if (UserHelper.isAdministrator(objectModel))
+                    if (_isSuperUser())
                     {
                         userMessage = "Administrator";
                     }
                     else
                     {
-                        String currentUserLogin = UserHelper.getCurrentUser(objectModel);
+                        String currentUserLogin = _getCurrentUser();
                         userMessage = "User '" + currentUserLogin + "'";
                     }
                     
@@ -126,6 +125,7 @@ public class EditAction extends ServiceableAction
         return EMPTY_MAP;
     }
     
+    @SuppressWarnings("unchecked")
     private Map<String, String> _getRequestParameters(Request request)
     {
         Map<String, String> editParams = new HashMap<String, String>();

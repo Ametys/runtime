@@ -24,18 +24,19 @@ import org.apache.cocoon.environment.SourceResolver;
 
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.user.User;
-import org.ametys.runtime.user.UserHelper;
 import org.ametys.runtime.user.UsersManager;
 
 
 /**
- * Cocoon action to perform authentication. <br>
- * The CredentialsProvider define the authentication method and retrieves Credentials. <br>
- * The Authentication performs actual authentication. <br>
- * Finally, the Users instance extract the Principal corresponding to the Credentials.
+ * Cocoon action to perform authentication.<br>
+ * The {@link CredentialsProvider} define the authentication method and retrieves {@link Credentials}.<br>
+ * The {@link Authentication} chain performs actual authentication.<br>
+ * Finally, the Users instance extract the Principal corresponding to the {@link Credentials}.
  */
 public class AuthenticateAction extends ServiceableAction implements ThreadSafe, Initializable
 {
+    /** The session attribute name for storing the login of the connected user. */
+    public static final String SESSION_USERLOGIN = "Runtime:UserLogin";
     private CredentialsProvider _credentialsProvider;
     private AuthenticationManager _authManager;
     private UsersManager _usersManager;
@@ -82,8 +83,16 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         if (isValid)
         {
             // If user already registered, accept it.
-            String registeredUP = UserHelper.getCurrentUser(objectModel);
-            if (registeredUP != null)
+            String authenticatedUser = null;
+            Request request = ObjectModelHelper.getRequest(objectModel);
+            Session session = request.getSession(false);
+            
+            if (session != null)
+            {
+                authenticatedUser = (String) session.getAttribute(SESSION_USERLOGIN);
+            }
+
+            if (authenticatedUser != null)
             {
                 // User already authenticated
                 return true;
@@ -140,7 +149,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         // Et on enregistre l'utilisateur dans la session
         Request request = ObjectModelHelper.getRequest(objectModel);
         Session session = request.getSession(true);
-        session.setAttribute(UserHelper.SESSION_USERLOGIN, user.getName());
+        session.setAttribute(SESSION_USERLOGIN, user.getName());
         
         return true;
     }

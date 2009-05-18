@@ -14,7 +14,6 @@ import java.util.Map;
 
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.thread.ThreadSafe;
-import org.apache.cocoon.acting.ServiceableAction;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
@@ -22,13 +21,13 @@ import org.apache.cocoon.environment.SourceResolver;
 
 import org.ametys.runtime.plugins.core.right.profile.ProfileBasedRightsManager;
 import org.ametys.runtime.right.RightsManager;
-import org.ametys.runtime.user.UserHelper;
+import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableAction;
 
 
 /**
  * This class removes profiles'assignment from users and groups for a given context
  */
-public class RemoveAction extends ServiceableAction implements ThreadSafe
+public class RemoveAction extends CurrentUserProviderServiceableAction implements ThreadSafe
 {
     /** The profile base impl of rights'manager*/
     protected ProfileBasedRightsManager _rightsManager;
@@ -54,13 +53,13 @@ public class RemoveAction extends ServiceableAction implements ThreadSafe
         {
             String userMessage = null;
             String endMessage = "is removing all the rights'assignment on context '" + context + "' for Users [" + _toString(users) + "] and Groups [" + _toString(groups) + "]";
-            if (UserHelper.isAdministrator(objectModel))
+            if (_isSuperUser())
             {
                 userMessage = "Administrator";
             }
             else
             {
-                String currentUserLogin = UserHelper.getCurrentUser(objectModel);
+                String currentUserLogin = _getCurrentUser();
                 userMessage = "User '" + currentUserLogin + "'";
             }
             

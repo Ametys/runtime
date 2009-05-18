@@ -16,19 +16,18 @@ import java.util.HashMap;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.ProcessingException;
-import org.apache.cocoon.generation.ServiceableGenerator;
 import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.SAXException;
 
 import org.ametys.runtime.group.GroupsManager;
 import org.ametys.runtime.group.ModifiableGroupsManager;
-import org.ametys.runtime.user.UserHelper;
+import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableGenerator;
 
 
 /**
- * Generates groups
+ * Generates groups.
  */
-public class GroupsGenerator extends ServiceableGenerator
+public class GroupsGenerator extends CurrentUserProviderServiceableGenerator
 {
     private GroupsManager _groups;
     
@@ -48,7 +47,7 @@ public class GroupsGenerator extends ServiceableGenerator
         _groups.toSAX(contentHandler, Integer.MAX_VALUE, 0, new HashMap());
         
         XMLUtils.createElement(contentHandler, "Modifiable", _groups instanceof ModifiableGroupsManager ? "true" : "false");
-        XMLUtils.createElement(contentHandler, "AdministratorUI", UserHelper.isAdministrator(objectModel) ? "true" : "false");
+        XMLUtils.createElement(contentHandler, "AdministratorUI", _isSuperUser() ? "true" : "false");
         
         XMLUtils.endElement(contentHandler, "GroupsManager");
         

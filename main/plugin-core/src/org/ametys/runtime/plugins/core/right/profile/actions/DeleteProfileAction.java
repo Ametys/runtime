@@ -14,7 +14,6 @@ import java.util.Map;
 
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.cocoon.ProcessingException;
-import org.apache.cocoon.acting.ServiceableAction;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
@@ -23,13 +22,13 @@ import org.apache.cocoon.environment.SourceResolver;
 import org.ametys.runtime.plugins.core.right.profile.Profile;
 import org.ametys.runtime.plugins.core.right.profile.ProfileBasedRightsManager;
 import org.ametys.runtime.right.RightsManager;
-import org.ametys.runtime.user.UserHelper;
+import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableAction;
 
 
 /**
  * This action deletes the profile with id corresponding to the one specified in request
  */
-public class DeleteProfileAction extends ServiceableAction
+public class DeleteProfileAction extends CurrentUserProviderServiceableAction
 {
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
@@ -45,13 +44,13 @@ public class DeleteProfileAction extends ServiceableAction
         {
             String userMessage = null;
             String endMessage = "is removing the profile '" + profileId + "'";
-            if (UserHelper.isAdministrator(objectModel))
+            if (_isSuperUser())
             {
                 userMessage = "Administrator";
             }
             else
             {
-                String currentUserLogin = UserHelper.getCurrentUser(objectModel);
+                String currentUserLogin = _getCurrentUser();
                 userMessage = "User '" + currentUserLogin + "'";
             }
             
@@ -88,13 +87,13 @@ public class DeleteProfileAction extends ServiceableAction
         {
             String userMessage = null;
             String endMessage = "is trying to remove an unexisting profile '" + profileId + "'";
-            if (UserHelper.isAdministrator(objectModel))
+            if (_isSuperUser())
             {
                 userMessage = "Administrator";
             }
             else
             {
-                String currentUserLogin = UserHelper.getCurrentUser(objectModel);
+                String currentUserLogin = _getCurrentUser();
                 userMessage = "User '" + currentUserLogin + "'";
             }
             

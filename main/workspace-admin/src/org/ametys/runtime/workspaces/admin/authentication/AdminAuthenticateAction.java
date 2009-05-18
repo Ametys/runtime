@@ -19,11 +19,6 @@ import java.util.Map;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathFactory;
 
-import org.ametys.runtime.authentication.BasicCredentialsProvider;
-import org.ametys.runtime.authentication.Credentials;
-import org.ametys.runtime.authentication.CredentialsProvider;
-import org.ametys.runtime.user.User;
-import org.ametys.runtime.user.UserHelper;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
@@ -39,6 +34,11 @@ import org.apache.cocoon.environment.SourceResolver;
 import org.apache.commons.codec.binary.Base64;
 import org.xml.sax.InputSource;
 
+import org.ametys.runtime.authentication.BasicCredentialsProvider;
+import org.ametys.runtime.authentication.Credentials;
+import org.ametys.runtime.authentication.CredentialsProvider;
+import org.ametys.runtime.user.User;
+
 /**
  * Cocoon action for authenticating users in the administration workspace. 
  * Authentication is based on the file ADMINISTRATOR_PASSWORD_FILENAME which contains the
@@ -46,6 +46,8 @@ import org.xml.sax.InputSource;
  */
 public class AdminAuthenticateAction extends AbstractAction implements ThreadSafe, Contextualizable, Initializable
 {
+    /** The request attribute name for telling that super user is logged in. */
+    public static final String REQUEST_ATTRIBUTE_SUPER_USER = "Runtime:SuperUser";
     /** Location (from webapplication context) of the administrator password */
     public static final String ADMINISTRATOR_PASSWORD_FILENAME = "WEB-INF/data/administrator/admin.xml";
     
@@ -80,7 +82,7 @@ public class AdminAuthenticateAction extends AbstractAction implements ThreadSaf
         }
 
         Request request = ObjectModelHelper.getRequest(objectModel);
-        request.setAttribute(UserHelper.REQUEST_ATTRIBUTE_ADMINISTRATOR, Boolean.TRUE);
+        request.setAttribute(REQUEST_ATTRIBUTE_SUPER_USER, Boolean.TRUE);
         
         return EMPTY_MAP;
     }

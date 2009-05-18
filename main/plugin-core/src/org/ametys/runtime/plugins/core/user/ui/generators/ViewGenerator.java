@@ -15,22 +15,20 @@ import java.io.IOException;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.ProcessingException;
-import org.apache.cocoon.generation.ServiceableGenerator;
 import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.SAXException;
 
 import org.ametys.runtime.user.ModifiableUsersManager;
-import org.ametys.runtime.user.UserHelper;
 import org.ametys.runtime.user.UsersManager;
+import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableGenerator;
 
 
 /**
  * Generates the users' screen information.<br/>
  */
-public class ViewGenerator extends ServiceableGenerator
+public class ViewGenerator extends CurrentUserProviderServiceableGenerator
 {
-
     private UsersManager _users;
 
     @Override
@@ -44,7 +42,7 @@ public class ViewGenerator extends ServiceableGenerator
     {
         contentHandler.startDocument();
         XMLUtils.startElement(contentHandler, "UsersView");
-        XMLUtils.createElement(contentHandler, "AdministratorUI", UserHelper.isAdministrator(objectModel) ? "true" : "false");
+        XMLUtils.createElement(contentHandler, "AdministratorUI", _isSuperUser() ? "true" : "false");
         if (_users instanceof ModifiableUsersManager)
         {
             AttributesImpl attrs = new AttributesImpl();
@@ -56,7 +54,5 @@ public class ViewGenerator extends ServiceableGenerator
         }
         XMLUtils.endElement(contentHandler, "UsersView");
         contentHandler.endDocument();
-
     }
-
 }

@@ -13,7 +13,6 @@ package org.ametys.runtime.plugins.core.right.ui.actions;
 import java.util.Map;
 
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.cocoon.acting.ServiceableAction;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
@@ -21,13 +20,13 @@ import org.apache.cocoon.environment.SourceResolver;
 
 import org.ametys.runtime.plugins.core.right.profile.ProfileBasedRightsManager;
 import org.ametys.runtime.right.RightsManager;
-import org.ametys.runtime.user.UserHelper;
+import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableAction;
 
 
 /**
  * This action assigns profiles to users and groups.
  */
-public class AssignAction extends ServiceableAction
+public class AssignAction extends CurrentUserProviderServiceableAction
 {
     /** The profile base impl of rights'manager*/
     protected ProfileBasedRightsManager _rightsManager;
@@ -57,13 +56,13 @@ public class AssignAction extends ServiceableAction
                 + "'. New assignment concerns Users [" + _toString(users) + "]"
                 + "'. and Groups [" + _toString(groups) + "]"
                 + "'. with profiles [" + _toString(profiles) + "]";
-            if (UserHelper.isAdministrator(objectModel))
+            if (_isSuperUser())
             {
                 userMessage = "Administrator";
             }
             else
             {
-                String currentUserLogin = UserHelper.getCurrentUser(objectModel);
+                String currentUserLogin = _getCurrentUser();
                 userMessage = "User '" + currentUserLogin + "'";
             }
             
