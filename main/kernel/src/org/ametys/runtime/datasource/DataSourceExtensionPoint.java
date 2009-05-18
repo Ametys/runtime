@@ -42,8 +42,16 @@ public class DataSourceExtensionPoint extends AbstractExtensionPoint<DataSource>
         }
         
         GenericObjectPool connectionPool = new GenericObjectPool();
+        connectionPool.setMaxActive(-1);
+        connectionPool.setMaxIdle(10);
+        connectionPool.setMinIdle(2);
+        connectionPool.setTestOnBorrow(true);
+        connectionPool.setTestOnReturn(false);
+        connectionPool.setTestWhileIdle(true);
+        connectionPool.setTimeBetweenEvictionRunsMillis(1000 * 60 * 30);
+        
         ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(url, user, pass);
-        new PoolableConnectionFactory(connectionFactory, connectionPool, null, null, false, true);
+        new PoolableConnectionFactory(connectionFactory, connectionPool, null, _getValidationQuery(driver), false, true);
         PoolingDataSource dataSource = new PoolingDataSource(connectionPool);
         
         _extensions.put(id, dataSource);
@@ -65,6 +73,18 @@ public class DataSourceExtensionPoint extends AbstractExtensionPoint<DataSource>
         }
         
         return value;
+    }
+    
+    private String _getValidationQuery(String driver)
+    {
+        if ("oracle.jdbc.driver.OracleDriver".equals(driver))
+        {
+            return "SELECT 1 FROM DUAL";
+        }
+        else
+        {
+            return "SELECT 1";
+        }
     }
 
     public void initializeExtensions() throws Exception
