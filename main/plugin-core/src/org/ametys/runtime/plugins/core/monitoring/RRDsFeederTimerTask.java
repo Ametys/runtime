@@ -71,36 +71,39 @@ public class RRDsFeederTimerTask extends TimerTask implements Component, LogEnab
         {
             SampleManager sampleManager = _monitoringExtensionPoint.getExtension(extensionId);
             
-            String sampleName = sampleManager.getName();
-            File rrdFile = new File(_rrdStoragePath, sampleName + RRD_EXT);
-            
-            if (_logger.isInfoEnabled())
+            if (sampleManager != null)
             {
-                _logger.info("Collecting sample for: " + sampleName);
-            }
-            
-            RrdDb rrdDb = null;
-            
-            try
-            {
-                rrdDb = new RrdDb(rrdFile.getPath());
-                sampleManager.collect(rrdDb.createSample());
-            }
-            catch (Exception e)
-            {
-                _logger.error("Unable to collect sample for: " + sampleName, e);
-            }
-            finally
-            {
-                if (rrdDb != null)
+                String sampleName = sampleManager.getName();
+                File rrdFile = new File(_rrdStoragePath, sampleName + RRD_EXT);
+                
+                if (_logger.isInfoEnabled())
                 {
-                    try
+                    _logger.info("Collecting sample for: " + sampleName);
+                }
+                
+                RrdDb rrdDb = null;
+                
+                try
+                {
+                    rrdDb = new RrdDb(rrdFile.getPath());
+                    sampleManager.collect(rrdDb.createSample());
+                }
+                catch (Exception e)
+                {
+                    _logger.error("Unable to collect sample for: " + sampleName, e);
+                }
+                finally
+                {
+                    if (rrdDb != null)
                     {
-                        rrdDb.close();
-                    }
-                    catch (IOException e)
-                    {
-                        _logger.warn("Unable to close RRD file: " + rrdFile, e);
+                        try
+                        {
+                            rrdDb.close();
+                        }
+                        catch (IOException e)
+                        {
+                            _logger.warn("Unable to close RRD file: " + rrdFile, e);
+                        }
                     }
                 }
             }
