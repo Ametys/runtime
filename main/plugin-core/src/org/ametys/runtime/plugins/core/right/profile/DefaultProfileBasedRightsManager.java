@@ -400,7 +400,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         {
             // On regarde d'abord parmi les droits affectés directement aux
             // utilisateurs
-            String sql = "SELECT UR.Profile_Id " + "FROM " + _tableUserRights + " AS UR WHERE UR.Login = ? AND UR.Context = ?";
+            String sql = "SELECT UR.Profile_Id " + "FROM " + _tableUserRights + " UR WHERE UR.Login = ? AND UR.Context = ?";
 
             stmt = connection.prepareStatement(sql);
 
@@ -451,7 +451,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
         try
         {
-            String sql = "SELECT UR.Context " + "FROM " + _tableUserRights + " AS UR WHERE UR.Login = ? AND UR.Profile_Id = ?";
+            String sql = "SELECT UR.Context " + "FROM " + _tableUserRights + " UR WHERE UR.Login = ? AND UR.Profile_Id = ?";
 
             stmt = connection.prepareStatement(sql);
 
@@ -503,7 +503,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         {
             // On regarde d'abord parmi les droits affectés directement aux
             // utilisateurs
-            String sql = "SELECT GR.Profile_Id " + "FROM " + _tableGroupRights + " AS GR WHERE GR.Group_Id = ? AND GR.Context = ?";
+            String sql = "SELECT GR.Profile_Id " + "FROM " + _tableGroupRights + " GR WHERE GR.Group_Id = ? AND GR.Context = ?";
 
             stmt = connection.prepareStatement(sql);
 
@@ -554,7 +554,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
         try
         {
-            String sql = "SELECT GR.Context " + "FROM " + _tableGroupRights + " AS GR WHERE GR.Group_Id = ? AND GR.Profile_Id = ?";
+            String sql = "SELECT GR.Context " + "FROM " + _tableGroupRights + " GR WHERE GR.Group_Id = ? AND GR.Profile_Id = ?";
 
             stmt = connection.prepareStatement(sql);
 
@@ -978,7 +978,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
         try
         {
-            String sql = "SELECT UR.Login " + "FROM " + _tableProfileRights + " AS PR, " + _tableUserRights + " AS UR WHERE PR.Right_Id = ? " + "AND UR.Profile_Id = PR.Profile_Id " + "AND UR.Login = ?";
+            String sql = "SELECT UR.Login " + "FROM " + _tableProfileRights + " PR, " + _tableUserRights + " UR WHERE PR.Right_Id = ? " + "AND UR.Profile_Id = PR.Profile_Id " + "AND UR.Login = ?";
 
             stmt = connection.prepareStatement(sql);
 
@@ -1012,7 +1012,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     {
         StringBuffer sql = new StringBuffer();
         sql.append("SELECT UR.Context ");
-        sql.append("FROM " + _tableProfileRights + " AS PR, " + _tableUserRights + " AS UR ");
+        sql.append("FROM " + _tableProfileRights + " PR, " + _tableUserRights + " UR ");
         sql.append("WHERE PR.Right_Id = ? ");
         sql.append("AND UR.Profile_Id = PR.Profile_Id AND UR.Login = ? ");
         sql.append("AND (UR.Context = ? OR UR.Context LIKE ? ");
@@ -1150,7 +1150,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         {
             // On regarde d'abord parmi les droits affectés directement aux
             // utilisateurs
-            String sql = "SELECT DISTINCT UR.Login " + "FROM " + _tableProfileRights + " AS PR, " + _tableUserRights + " AS UR WHERE UR.Profile_Id = PR.Profile_Id " + "AND PR.Right_Id = ? ";
+            String sql = "SELECT DISTINCT UR.Login " + "FROM " + _tableProfileRights + " PR, " + _tableUserRights + " UR WHERE UR.Profile_Id = PR.Profile_Id " + "AND PR.Right_Id = ? ";
 
             if (context != null)
             {
@@ -1200,7 +1200,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             StringBuffer sql = new StringBuffer();
 
             sql.append("SELECT DISTINCT PR.Right_id ");
-            sql.append("FROM " + _tableProfileRights  + " AS PR, " + _tableUserRights + " AS UR ");
+            sql.append("FROM " + _tableProfileRights  + " PR, " + _tableUserRights + " UR ");
             sql.append("WHERE UR.Profile_Id = PR.Profile_Id ");
             sql.append("AND UR.Login = ? ");
             
@@ -1269,7 +1269,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
             if (groupSql != null)
             {
-                String sql = "SELECT GR.Group_Id " + "FROM " + _tableProfileRights + " AS PR, " + _tableGroupRights + " AS GR WHERE PR.Right_Id = ? " + "AND GR.Profile_Id = PR.Profile_Id " + "AND (" + groupSql + ")";
+                String sql = "SELECT GR.Group_Id " + "FROM " + _tableProfileRights + " PR, " + _tableGroupRights + " GR WHERE PR.Right_Id = ? " + "AND GR.Profile_Id = PR.Profile_Id " + "AND (" + groupSql + ")";
 
                 stmt = connection.prepareStatement(sql);
 
@@ -1304,7 +1304,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     {
         StringBuffer sql = new StringBuffer();
         sql.append("SELECT GR.Context ");
-        sql.append("FROM " + _tableProfileRights + " AS PR, " + _tableGroupRights + " AS GR ");
+        sql.append("FROM " + _tableProfileRights + " PR, " + _tableGroupRights + " GR ");
         sql.append("WHERE PR.Right_Id = ? ");
         sql.append("AND GR.Profile_Id = PR.Profile_Id ");
         sql.append("AND (GR.Context = ? OR GR.Context LIKE ? ");
@@ -1425,7 +1425,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         {
             // Puis parmi les droits affectés aux groups auxquels appartient
             // l'utilisateur
-            String sql = "SELECT DISTINCT GR.Group_Id " + "FROM " + _tableProfileRights + " AS PR, " + _tableGroupRights + " AS GR WHERE GR.Profile_Id = PR.Profile_Id " + "AND PR.Right_Id = ? ";
+            String sql = "SELECT DISTINCT GR.Group_Id " + "FROM " + _tableProfileRights + " PR, " + _tableGroupRights + " GR WHERE GR.Profile_Id = PR.Profile_Id " + "AND PR.Right_Id = ? ";
 
             if (context != null)
             {
@@ -1504,7 +1504,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
                 // Puis parmi les droits affectés aux groupes auxquels appartient l'utilisateur
                 StringBuffer sql = new StringBuffer();
                 sql.append("SELECT DISTINCT PR.Right_Id ");
-                sql.append("FROM " + _tableProfileRights + " AS PR, " + _tableGroupRights + " AS GR ");
+                sql.append("FROM " + _tableProfileRights + " PR, " + _tableGroupRights + " GR ");
                 sql.append("WHERE GR.Profile_Id = PR.Profile_Id ");
                 
                 if (context != null)
