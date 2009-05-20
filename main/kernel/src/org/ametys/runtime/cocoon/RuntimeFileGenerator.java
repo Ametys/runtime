@@ -25,6 +25,7 @@ import org.xml.sax.SAXException;
 /**
  * File generator but where the source resolver is the runtime one. 
  */
+@SuppressWarnings("deprecation")
 public class RuntimeFileGenerator extends FileGenerator
 {
     @Override

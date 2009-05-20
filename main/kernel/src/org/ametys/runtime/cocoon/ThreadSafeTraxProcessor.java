@@ -359,6 +359,7 @@ public class ThreadSafeTraxProcessor extends AbstractLogEnabled implements XSLTP
      * 
      * @throws TransformerException if an error occurs when trying to resolve the URI.
      */
+    @SuppressWarnings("deprecation")
     public javax.xml.transform.Source resolve(String href, String base) throws TransformerException
     {
         if (getLogger().isDebugEnabled())

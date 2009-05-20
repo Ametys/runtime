@@ -27,6 +27,7 @@ import org.xml.sax.SAXException;
 /**
  * Resource reader but where the source resolver is the runtime one. 
  */
+@SuppressWarnings("deprecation")
 public class RuntimeResourceReader extends ResourceReader implements Serviceable
 {
     /** the avalon service manager */

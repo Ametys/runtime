@@ -56,6 +56,7 @@ public class CocoonWrapper
         _workDir = workDir;
     }
 
+    @SuppressWarnings("deprecation")
     void initialize() throws Exception
     {
         Hierarchy hierarchy = Hierarchy.getDefaultHierarchy();

@@ -25,6 +25,7 @@ import org.ametys.runtime.authentication.AuthorizationRequiredException;
  * Simple LogTargetFactory not logging internal exceptions, such as AuthorizationRequiredException.
  * Its configuration is strictly the same as CocoonTargetFactory
  */
+@SuppressWarnings("deprecation")
 public class LogTargetFactory extends CocoonTargetFactory
 {
     @Override
