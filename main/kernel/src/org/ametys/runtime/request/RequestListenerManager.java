@@ -48,6 +48,7 @@ public class RequestListenerManager implements Contextualizable, ThreadSafe, Ini
      * Registers a RequestListener
      * @param listener the listener being registered
      */
+    @SuppressWarnings("unchecked")
     public void registerListener(RequestListener listener)
     {
         Collection<RequestListener> listeners = (Collection) _context.getAttribute(org.ametys.runtime.request.RequestListenerManager.CONTEXT_ATTRIBUTE_REQUEST_LISTENERS);
@@ -58,6 +59,7 @@ public class RequestListenerManager implements Contextualizable, ThreadSafe, Ini
      * Unregisters a RequestListener
      * @param listener the listener being unregistered
      */
+    @SuppressWarnings("unchecked")
     public void unregisterListener(RequestListener listener)
     {
         Collection<RequestListener> listeners = (Collection) _context.getAttribute(org.ametys.runtime.request.RequestListenerManager.CONTEXT_ATTRIBUTE_REQUEST_LISTENERS);

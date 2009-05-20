@@ -108,6 +108,7 @@ public abstract class AbstractThreadSafeComponentExtensionPoint<T> extends Abstr
         return _ids.contains(id);
     }
     
+    @SuppressWarnings("unchecked")
     public void addExtension(String pluginName, String pluginId, Configuration configuration) throws ConfigurationException
     {
         // Vérifie l'id de l'extension

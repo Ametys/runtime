@@ -71,6 +71,7 @@ public class LogsGenerator extends ServiceableGenerator
         return field.get(object);
     }
     
+    @SuppressWarnings("unchecked")
     private void _logkitLevels(LoggerManager loggerManager) throws SAXException
     {
         try
@@ -180,6 +181,7 @@ public class LogsGenerator extends ServiceableGenerator
         }
     }
     
+    @SuppressWarnings("unchecked")
     private Map<String, List<TraversableSource>> _prepareLogs(TraversableSource logsDirectorySource) throws SourceException
     {
         Map<String, List<TraversableSource>> logs = new HashMap<String, List<TraversableSource>>();

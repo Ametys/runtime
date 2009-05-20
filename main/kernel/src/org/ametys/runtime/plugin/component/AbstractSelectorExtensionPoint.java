@@ -59,6 +59,7 @@ public class AbstractSelectorExtensionPoint<T extends Component> extends Abstrac
         return exists;
     }
 
+    @SuppressWarnings("unchecked")
     public void release(Component component)
     {
         if (!_manager.hasComponent((T) component) && _parentSelector != null)

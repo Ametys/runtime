@@ -232,6 +232,7 @@ public class RuntimeServlet extends CocoonServlet
         Config.setFilename(servletContextPath + CONFIG_RELATIVE_PATH);
     }
 
+    @SuppressWarnings("unchecked")
     private void _fireRequestStarted(HttpServletRequest req)
     {
         Collection< ? extends RequestListener> listeners = (Collection< ? extends RequestListener>) servletContext.getAttribute(RequestListenerManager.CONTEXT_ATTRIBUTE_REQUEST_LISTENERS);
@@ -247,6 +248,7 @@ public class RuntimeServlet extends CocoonServlet
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void _fireRequestEnded(HttpServletRequest req)
     {
         Collection< ? extends RequestListener> listeners = (Collection< ? extends RequestListener>) servletContext.getAttribute(RequestListenerManager.CONTEXT_ATTRIBUTE_REQUEST_LISTENERS);

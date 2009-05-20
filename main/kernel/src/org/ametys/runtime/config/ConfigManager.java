@@ -329,6 +329,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         }
     }
     
+    @SuppressWarnings("unchecked")
     private ConfigParameter _configureParameter(ConfigParameterInfo info)
     {
         String label;

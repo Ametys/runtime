@@ -32,6 +32,7 @@ public class WorkspaceMatcher extends WildcardURIMatcher
     /** The request attribute name where the current workspace uri is saved */
     public static final String WORKSPACE_URI = "workspaceURI";
     
+    @SuppressWarnings("unchecked")
     @Override
     public Map match(String pattern, Map objectModel, Parameters parameters) throws PatternException
     {

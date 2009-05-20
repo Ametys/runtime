@@ -533,6 +533,7 @@ public final class PluginsManager
         }
     }
     
+    @SuppressWarnings("unchecked")
     private Collection<String> _getExtensionsPoints(Map<String, Configuration> pluginsConfigurations, PluginsComponentManager manager, String contextPath) throws ComponentException
     {
         Collection<String> extPoints = new ArrayList<String>();
@@ -941,6 +942,7 @@ public final class PluginsManager
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void _loadComponents(PluginsComponentManager manager, Map<String, FeatureInformation> featuresInformations, String contextPath) throws ConfigurationException, ComponentException
     {
         for (String featureId : featuresInformations.keySet())
@@ -994,6 +996,7 @@ public final class PluginsManager
         }
     }
     
+    @SuppressWarnings("unchecked")
     private Collection<String> _loadSingleExtensionsPoints(PluginsComponentManager manager, Map<String, FeatureInformation> featuresInformations, Map<String, SingleExtensionPointInformation> singleExtensionsPoints, Map<String, String> extensionsConfig, String contextPath) throws ConfigurationException, ComponentException
     {
         Collection<String> loadedSingleExtensionsPoints = new ArrayList<String>();
@@ -1067,6 +1070,7 @@ public final class PluginsManager
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void _loadRuntimeInit(PluginsComponentManager manager)
     {
         String className = RuntimeConfig.getInstance().getInitClassName();

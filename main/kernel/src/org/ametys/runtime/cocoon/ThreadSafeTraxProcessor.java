@@ -129,6 +129,7 @@ public class ThreadSafeTraxProcessor extends AbstractLogEnabled implements XSLTP
         return getTransformerHandlerAndValidity(stylesheet, null);
     }
 
+    @SuppressWarnings("unchecked")
     public TransformerHandlerAndValidity getTransformerHandlerAndValidity(Source stylesheet, XMLFilter filter) throws XSLTProcessorException
     {
         final String id = stylesheet.getURI();
