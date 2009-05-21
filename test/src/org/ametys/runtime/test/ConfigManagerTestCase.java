@@ -47,7 +47,7 @@ public class ConfigManagerTestCase extends AbstractRuntimeTestCase
     
     /**
      * Test the behaviour when the config.xml file is not present
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testConfigNotPresent() throws Exception
     {
@@ -65,7 +65,7 @@ public class ConfigManagerTestCase extends AbstractRuntimeTestCase
     
     /**
      * Test that if the datasource is unactivated, the config parameters are not necessary.
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testUnactivation() throws Exception
     {
@@ -82,7 +82,7 @@ public class ConfigManagerTestCase extends AbstractRuntimeTestCase
 
     /**
      * Test that if the datasource is activated, the config parameters are necessary.
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testParameters() throws Exception
     {
@@ -99,7 +99,7 @@ public class ConfigManagerTestCase extends AbstractRuntimeTestCase
 
     /**
      * Test parameters from plugins and features
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testConfiguration() throws Exception
     {

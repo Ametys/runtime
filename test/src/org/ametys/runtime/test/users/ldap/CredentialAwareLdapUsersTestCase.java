@@ -49,7 +49,7 @@ public class CredentialAwareLdapUsersTestCase extends LdapUsersTestCase
     
     /**
      * Test that LDAP can authentify incorrectly
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testIncorrectAuthentication() throws Exception
     {
@@ -69,7 +69,7 @@ public class CredentialAwareLdapUsersTestCase extends LdapUsersTestCase
 
     /**
      * Test that LDAP can authentify correctly
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testCorrectAuthentication() throws Exception
     {

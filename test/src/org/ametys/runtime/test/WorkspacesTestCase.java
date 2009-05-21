@@ -20,7 +20,7 @@ public class WorkspacesTestCase extends AbstractRuntimeTestCase
 {
     /**
      * Tests many workspaces cases : dependencies, sitemap availability, ...
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testValidWorkspace() throws Exception
     {
@@ -50,7 +50,7 @@ public class WorkspacesTestCase extends AbstractRuntimeTestCase
     
     /**
      * Tests an invalid workspaces set : the workspace 'admin' is defined twice
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testInvalidWorkspace() throws Exception
     {

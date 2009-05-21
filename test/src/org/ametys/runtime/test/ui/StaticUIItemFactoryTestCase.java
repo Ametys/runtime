@@ -40,7 +40,7 @@ public class StaticUIItemFactoryTestCase extends AbstractRuntimeTestCase
     
     /**
      * Check that unexisting factory goes well
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testUnexisting() throws Exception
     {
@@ -50,7 +50,7 @@ public class StaticUIItemFactoryTestCase extends AbstractRuntimeTestCase
     
     /**
      * Test the first factory
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testFactory1() throws Exception
     {
@@ -103,7 +103,7 @@ public class StaticUIItemFactoryTestCase extends AbstractRuntimeTestCase
     
     /**
      * Test the second factory
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testFactory2() throws Exception
     {
@@ -154,7 +154,7 @@ public class StaticUIItemFactoryTestCase extends AbstractRuntimeTestCase
     
     /**
      * Test the third factory
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testFactory3() throws Exception
     {
@@ -204,7 +204,7 @@ public class StaticUIItemFactoryTestCase extends AbstractRuntimeTestCase
     
     /**
      * Test the forth factory
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testFactory4() throws Exception
     {
@@ -254,7 +254,7 @@ public class StaticUIItemFactoryTestCase extends AbstractRuntimeTestCase
     
     /**
      * Test the fifth factory
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testFactory5() throws Exception
     {

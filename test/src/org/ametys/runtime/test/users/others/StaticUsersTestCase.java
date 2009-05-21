@@ -33,7 +33,7 @@ public class StaticUsersTestCase extends AbstractRuntimeTestCase
     /**
      * Tests that the <code>StaticUsersTestCase</code> is the default <code>UsersManager</code><br/>
      * Tests the values returned by it
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testStaticUsers() throws Exception
     {

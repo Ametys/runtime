@@ -37,7 +37,7 @@ public class BasicRightsManagerTestCase extends AbstractRuntimeTestCase
     /**
      * Tests that the <code>BasicRightsManager</code> is the default <code>RightsManager</code><br>
      * Tests the values returned by it
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testBasicRightsManager() throws Exception
     {

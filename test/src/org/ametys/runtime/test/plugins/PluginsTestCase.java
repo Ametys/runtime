@@ -28,7 +28,7 @@ public class PluginsTestCase extends AbstractRuntimeTestCase
 {
     /**
      * Test that the init class is actually executed
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testInit() throws Exception
     {
@@ -42,7 +42,7 @@ public class PluginsTestCase extends AbstractRuntimeTestCase
     
     /**
      * Tests embedded plugins
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testEmbeddedPlugin() throws Exception
     {
@@ -58,7 +58,7 @@ public class PluginsTestCase extends AbstractRuntimeTestCase
     
     /**
      * Tests the concept of plugin location
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testLocation() throws Exception
     {
@@ -73,7 +73,7 @@ public class PluginsTestCase extends AbstractRuntimeTestCase
     
     /**
      * Tests the declaration of extension points
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testExtensionPoint() throws Exception
     {
@@ -109,7 +109,7 @@ public class PluginsTestCase extends AbstractRuntimeTestCase
     
     /**
      * Tests active and inactive feature
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testFeatures() throws Exception
     {

@@ -143,7 +143,7 @@ public final class I18nizableText
     /**
      * SAX a text
      * @param handler The sax content handler
-     * @throws SAXException
+     * @throws SAXException if an error occurs
      */
     @SuppressWarnings("null")
     public void toSAX(ContentHandler handler) throws SAXException
@@ -195,7 +195,7 @@ public final class I18nizableText
      * SAX a text
      * @param handler The sax content handler
      * @param tagName The tag name
-     * @throws SAXException
+     * @throws SAXException if an error occurs
      */
     public void toSAX(ContentHandler handler, String tagName) throws SAXException
     {

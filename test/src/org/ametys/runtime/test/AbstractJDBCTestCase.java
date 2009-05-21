@@ -25,7 +25,7 @@ public abstract class AbstractJDBCTestCase extends AbstractRuntimeTestCase
     /**
      * Reset the database and insert the scripts. Needs the Init class.
      * @param scripts A list of script to play on db. Scripts should reset tables.
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     protected void _setDatabase(List<File> scripts) throws Exception
     {

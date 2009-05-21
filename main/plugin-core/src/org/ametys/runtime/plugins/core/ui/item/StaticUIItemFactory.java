@@ -132,10 +132,9 @@ public class StaticUIItemFactory extends AbstractLogEnabled implements UIItemFac
 
     /**
      * Configure an item
-     * 
      * @param configuration The root configuration
      * @return The new item
-     * @throws ConfigurationException
+     * @throws ConfigurationException if a configuration problem occurs
      */
     protected UIItem _configureItem(Configuration configuration) throws ConfigurationException
     {

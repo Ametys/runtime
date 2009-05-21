@@ -69,7 +69,7 @@ public class AbstractLDAPConnector extends AbstractLogEnabled implements Configu
      * @param configuration The configuration
      * @param searchScopeKey The name of the child in configuration containing the search scop parameter name
      * @return The scope between <code>SearchControls.ONELEVEL_SCOPE</code>, <code>SearchControls.SUBTREE_SCOPE</code> and <code>SearchControls.OBJECT_SCOPE</code>.
-     * @throws ConfigurationException
+     * @throws ConfigurationException if a configuration problem occurs
      */
     protected int _getSearchScope(Configuration configuration, String searchScopeKey) throws ConfigurationException
     {

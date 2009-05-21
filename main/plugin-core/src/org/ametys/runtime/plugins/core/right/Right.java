@@ -104,7 +104,7 @@ public class Right
     /**
      * Represents this Right as SAX events
      * @param ch the ContentHandler to process SAX events
-     * @throws SAXException 
+     * @throws SAXException if an error occurs
      */
     public void toSAX(ContentHandler ch) throws SAXException
     {

@@ -27,7 +27,7 @@ public class EmptyGroupsTestCase extends AbstractRuntimeTestCase
 {
     /**
      * Check that the empty group manager is the default one and is really empty
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testEmpty() throws Exception
     {

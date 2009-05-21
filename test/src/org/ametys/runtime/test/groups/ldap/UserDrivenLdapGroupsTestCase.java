@@ -34,7 +34,7 @@ public class UserDrivenLdapGroupsTestCase extends AbstractLdapGroupsTestCase
     
     /**
      * Test the choosen implementation
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testType() throws Exception
     {

@@ -26,7 +26,6 @@ import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
 
 import org.apache.avalon.framework.component.Component;
-import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.thread.ThreadSafe;
@@ -42,7 +41,7 @@ import org.ametys.runtime.user.UsersManager;
 /**
  * Use a ldap server for getting the list of users.
  */
-public class LdapUsersManager extends AbstractLDAPConnector implements UsersManager, Configurable, ThreadSafe, Component
+public class LdapUsersManager extends AbstractLDAPConnector implements UsersManager, ThreadSafe, Component
 {
     /** Relative DN for users. */
     protected String _usersRelativeDN;

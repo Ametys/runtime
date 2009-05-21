@@ -44,8 +44,7 @@ import org.apache.cocoon.environment.http.HttpCookie;
  *               &lt;loginFailedUrl provideLoginParameter="true" internal="true"&gt;login_failed.html&lt;/loginFailedUrl&gt;<br>
  * 
  */
-public class FormBasedCredentialsProvider extends AbstractLogEnabled implements ThreadSafe, CredentialsProvider,
-        Configurable, Contextualizable
+public class FormBasedCredentialsProvider extends AbstractLogEnabled implements ThreadSafe, CredentialsProvider, Configurable, Contextualizable
 {
     /** Password value in case of info retrieved from cookie */
     public static final String AUTHENTICATION_BY_COOKIE = "authentication_by_cookie";
@@ -86,12 +85,10 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
     /** Context */
     protected Context _context;
 
-    
     public boolean accept()
     {
         return false;
     }
-
     
     public void allowed(Redirector redirector)
     {
@@ -217,9 +214,8 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
     
     /**
      * Return the cookie value corresponding to the searched name
-     * 
-     * @param request
-     * @param cookieSearchedName
+     * @param request the request
+     * @param cookieSearchedName the cookie name
      * @return the value of the cookie or null if not
      */
     public static String getCookieValue(Request request, String cookieSearchedName)
@@ -236,13 +232,14 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
                 }
             }
         }
+
         return null;
     }
 
     /**
      * Checks if cookie already exists
-     * @param request
-     * @param cookieSearchedName
+     * @param request the request
+     * @param cookieSearchedName the cookie name
      * @return boolean
      */
     public static boolean isCookieAlreadySet(Request request, String cookieSearchedName)
@@ -259,16 +256,16 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
                 }
             }
         }
+
         return false;
     }
     
     /**
      * Update the cookie for client-side purpose
-     * 
-     * @param value
-     * @param cookieName
-     * @param cookieDuration
-     * @param context
+     * @param value the cookie value
+     * @param cookieName the cookie name
+     * @param cookieDuration the cookie duration
+     * @param context the avalon Context
      */
     public static void updateCookie(String value, String cookieName, int cookieDuration, Context context)
     {
@@ -279,15 +276,13 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
         cookie.setMaxAge(cookieDuration);
         response.addCookie(cookie);
     }
-
     
     /**
      * Delete the cookie
-     * 
-     * @param request
-     * @param response
-     * @param cookieName
-     * @param cookieDuration
+     * @param request the request
+     * @param response the response
+     * @param cookieName the cookie name 
+     * @param cookieDuration the cookie duration
      */
     public static void deleteCookie(Request request, Response response, String cookieName, int cookieDuration)
     {
@@ -296,6 +291,4 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
         cookie.setMaxAge(cookieDuration);
         response.addCookie(cookie);
     }
-
-
 }

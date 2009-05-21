@@ -47,7 +47,7 @@ public class InvalidModificationException extends Exception
 
     /**
      * Constructor with a message and error fields
-     * @param message
+     * @param message the message
      * @param fields The fields is having errors
      */
     public InvalidModificationException(String message, Set<String> fields)
@@ -67,7 +67,7 @@ public class InvalidModificationException extends Exception
 
     /**
      * Contructor with cause and error fields
-     * @param cause
+     * @param cause the cause
      * @param fields The fields is having errors
      */
     public InvalidModificationException(Exception cause, Set<String> fields)

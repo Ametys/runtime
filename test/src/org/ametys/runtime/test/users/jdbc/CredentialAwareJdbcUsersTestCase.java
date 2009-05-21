@@ -56,7 +56,7 @@ public class CredentialAwareJdbcUsersTestCase extends JdbcUsersTestCase
     
     /**
      * Test an incorrect credential
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testIncorrectLogin() throws Exception
     {
@@ -74,7 +74,7 @@ public class CredentialAwareJdbcUsersTestCase extends JdbcUsersTestCase
     
     /**
      * Test a correct login
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testCorrectLogin() throws Exception
     {

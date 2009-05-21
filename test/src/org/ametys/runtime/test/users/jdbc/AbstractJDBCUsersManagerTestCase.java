@@ -30,7 +30,7 @@ public abstract class AbstractJDBCUsersManagerTestCase extends AbstractJDBCTestC
      * Reset the db
      * @param runtimeFilename The file name in runtimes env dir
      * @param configFileName The file name in config env dir
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     protected void _resetDB(String runtimeFilename, String configFileName) throws Exception
     {

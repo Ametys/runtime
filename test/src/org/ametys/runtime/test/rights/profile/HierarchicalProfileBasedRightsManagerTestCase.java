@@ -37,7 +37,7 @@ public class HierarchicalProfileBasedRightsManagerTestCase extends AbstractJDBCT
      * Reset the db
      * @param runtimeFilename The file name in runtimes env dir
      * @param configFileName The file name in config env dir
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     protected void _resetDB(String runtimeFilename, String configFileName) throws Exception
     {
@@ -62,7 +62,7 @@ public class HierarchicalProfileBasedRightsManagerTestCase extends AbstractJDBCT
     
     /**
      * Check the type of the rights manager impl 
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testType() throws Exception
     {
@@ -73,7 +73,7 @@ public class HierarchicalProfileBasedRightsManagerTestCase extends AbstractJDBCT
     
     /**
      * Test an empty db
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testEmpty() throws Exception
     {
@@ -91,7 +91,7 @@ public class HierarchicalProfileBasedRightsManagerTestCase extends AbstractJDBCT
     
     /**
      * Test a filled db
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testFilled() throws Exception
     {
@@ -171,7 +171,7 @@ public class HierarchicalProfileBasedRightsManagerTestCase extends AbstractJDBCT
     
     /**
      * Test profiles methods
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testProfiles() throws Exception
     {
@@ -214,7 +214,7 @@ public class HierarchicalProfileBasedRightsManagerTestCase extends AbstractJDBCT
     
     /**
      * Test rights modifications
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testRight() throws Exception
     {

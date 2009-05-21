@@ -57,7 +57,7 @@ public class RuntimeFilter
      * 
      * @param map A map containing all filter parameters
      * @param servletContext The servlet context
-     * @throws ServletException
+     * @throws ServletException if the underlying Filter fails to initialize
      */
     public void init(Map<String, String> map, ServletContext servletContext) throws ServletException
     {
@@ -77,8 +77,8 @@ public class RuntimeFilter
      * 
      * @param objectModel The object model of Cocoon
      * @param redirect The object Redirector of Cocoon
-     * @throws ServletException
-     * @throws IOException
+     * @throws ServletException if the underlying Filter fails to process the request
+     * @throws IOException if the underlying Filter fails to process the request
      */
     public void doFilter(Map objectModel, Redirector redirect) throws ServletException, IOException
     {

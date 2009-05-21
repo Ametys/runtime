@@ -22,7 +22,6 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceResolver;
 
@@ -34,8 +33,7 @@ import org.ametys.runtime.plugin.component.AbstractThreadSafeComponentExtensionP
  * An <code>Authentication</code> is responsible for granting access to a
  * user, given its <code>Credentials</code>.
  */
-public class AuthenticationManager extends AbstractThreadSafeComponentExtensionPoint<Authentication> implements
-        ThreadSafe, Configurable
+public class AuthenticationManager extends AbstractThreadSafeComponentExtensionPoint<Authentication> implements Configurable
 {
     /** Avalon Role */
     public static final String ROLE = AuthenticationManager.class.getName();

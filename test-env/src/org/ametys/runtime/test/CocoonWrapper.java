@@ -113,7 +113,7 @@ public class CocoonWrapper
      * @param requestParameters the request parameters
      * @param requestAttributes the request attributes
      * @param requestHeaders the request headers
-     * @throws Exception 
+     * @throws Exception if an error occurs
      */
     public void processURI(String uri, ContentHandler handler, Map<String, String> requestParameters, Map<String, Object> requestAttributes, Map<String, String> requestHeaders) throws Exception
     {

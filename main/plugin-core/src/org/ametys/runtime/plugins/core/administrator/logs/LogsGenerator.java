@@ -38,7 +38,6 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.spi.LoggerRepository;
 import org.xml.sax.SAXException;
 
-
 /**
  * SAXes the list of logs
  */
@@ -48,7 +47,6 @@ public class LogsGenerator extends ServiceableGenerator
     
     public void generate() throws IOException, SAXException, ProcessingException
     {
-        
         contentHandler.startDocument();
         XMLUtils.startElement(contentHandler, "Logger");
 

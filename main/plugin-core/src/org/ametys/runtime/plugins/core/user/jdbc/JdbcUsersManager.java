@@ -131,7 +131,7 @@ public class JdbcUsersManager extends AbstractLogEnabled implements UsersManager
      * @param column Column name of the parameter
      * @param configuration Configuration of the paramter
      * @return The parameter created
-     * @throws ConfigurationException
+     * @throws ConfigurationException if a configuration problem occurs
      */
     protected JdbcParameter _configureParameter(String id, String column, Configuration configuration) throws ConfigurationException
     {

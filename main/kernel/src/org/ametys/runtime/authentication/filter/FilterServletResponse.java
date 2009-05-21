@@ -87,10 +87,6 @@ public class FilterServletResponse implements HttpServletResponse
         return _response.encodeURL(url);
     }
     
-    /**
-     * encodeURL(String url)
-     * @deprecated
-     */
     @Deprecated
     public String encodeUrl(String url)
     {
@@ -102,10 +98,6 @@ public class FilterServletResponse implements HttpServletResponse
         return _response.encodeRedirectURL(url);
     }
     
-    /**
-     * Use encodeRedirectURL(String url) instead
-     * @deprecated
-     */
     @Deprecated
     public String encodeRedirectUrl(String url)
     {
@@ -137,10 +129,6 @@ public class FilterServletResponse implements HttpServletResponse
         _response.setStatus(sc);
     }
 
-    /**
-     * Use setStatus(int sc) instead.
-     * @deprecated
-     */
     @Deprecated
     public void setStatus(int sc, String sm)
     {

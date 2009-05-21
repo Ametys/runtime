@@ -20,7 +20,6 @@ import jcifs.http.NtlmHttpFilter;
 
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.cocoon.components.ContextHelper;
 import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.servlet.CocoonServlet;
@@ -37,7 +36,7 @@ import org.ametys.runtime.config.Config;
  * already authentified. This manager should not be associated with an
  * <code>AuthenticableBaseUser</code>
  */
-public class JcifsCredentialsProvider extends RemoteUserCredentialsProvider implements Contextualizable
+public class JcifsCredentialsProvider extends RemoteUserCredentialsProvider
 {
     private RuntimeFilter _filter;
     private Context _avalonContext;

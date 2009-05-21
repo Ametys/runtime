@@ -43,7 +43,7 @@ public class DesktopManagerTestCase extends AbstractRuntimeTestCase
     
     /**
      * Test the sax
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testSax() throws Exception
     {

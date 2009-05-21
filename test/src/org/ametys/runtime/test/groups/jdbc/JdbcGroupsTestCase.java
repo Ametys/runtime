@@ -47,7 +47,7 @@ public class JdbcGroupsTestCase extends AbstractJDBCTestCase
      * Reset the db
      * @param runtimeFilename The file name in runtimes env dir
      * @param configFileName The file name in config env dir
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     protected void _resetDB(String runtimeFilename, String configFileName) throws Exception
     {
@@ -73,7 +73,7 @@ public class JdbcGroupsTestCase extends AbstractJDBCTestCase
     
     /**
      * Check that the jdbc group manager has the correct type
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testType() throws Exception
     {
@@ -86,7 +86,7 @@ public class JdbcGroupsTestCase extends AbstractJDBCTestCase
     
     /**
      * Check when the db is empty
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testEmpty() throws Exception
     {
@@ -115,7 +115,7 @@ public class JdbcGroupsTestCase extends AbstractJDBCTestCase
 
     /**
      * Check when the db is filled
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testFilled() throws Exception
     {
@@ -256,7 +256,7 @@ public class JdbcGroupsTestCase extends AbstractJDBCTestCase
 
     /**
      * Test the addition of a new user
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testCorrectAdd() throws Exception
     {
@@ -285,7 +285,7 @@ public class JdbcGroupsTestCase extends AbstractJDBCTestCase
     
     /**
      * Test the update of a user incorrectly
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testIncorrectUpdate() throws Exception
     {
@@ -314,7 +314,7 @@ public class JdbcGroupsTestCase extends AbstractJDBCTestCase
     
     /**
      * Test the update of a user
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testCorrectUpdate() throws Exception
     {
@@ -351,7 +351,7 @@ public class JdbcGroupsTestCase extends AbstractJDBCTestCase
     
     /**
      * Test incorrects remove
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testIncorrectRemove() throws Exception
     {
@@ -392,7 +392,7 @@ public class JdbcGroupsTestCase extends AbstractJDBCTestCase
     
     /**
      * Test corrects remove
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testCorrectRemove() throws Exception
     {

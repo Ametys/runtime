@@ -32,7 +32,7 @@ public abstract class AbstractLdapGroupsTestCase extends AbstractRuntimeTestCase
     
     /**
      * To avoid alltest failure
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testFilled() throws Exception
     {

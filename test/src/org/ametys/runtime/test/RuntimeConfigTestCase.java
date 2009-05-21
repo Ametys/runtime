@@ -23,7 +23,6 @@ import org.apache.excalibur.xml.dom.DOMHandler;
 import org.apache.excalibur.xml.dom.DOMHandlerFactory;
 import org.apache.excalibur.xml.xpath.XPathProcessor;
 
-
 /**
  * Tests the RuntimeConfig
  */
@@ -31,7 +30,7 @@ public class RuntimeConfigTestCase extends AbstractRuntimeTestCase
 {
     /**
      * RuntimeConfig test
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testRuntimeConfig0() throws Exception
     {
@@ -48,7 +47,7 @@ public class RuntimeConfigTestCase extends AbstractRuntimeTestCase
     
     /**
      * RuntimeConfig test
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testRuntimeConfig1() throws Exception
     {
@@ -78,7 +77,7 @@ public class RuntimeConfigTestCase extends AbstractRuntimeTestCase
     
     /**
      * RuntimeConfig test
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testRuntimeConfig2() throws Exception
     {
@@ -120,7 +119,7 @@ public class RuntimeConfigTestCase extends AbstractRuntimeTestCase
     
     /**
      * Tests the VersionGenerator and VersionHandler process
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testVersion() throws Exception
     {

@@ -22,8 +22,7 @@ public interface Init
      * Method to be implemented by user Init class. Here you should manage the
      * business part of your application init.
      * As an Avalon component, class extending this interface have access to all Cocoon-managed components, all plugins, ...
-     * 
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void init() throws Exception;
 }

@@ -62,7 +62,7 @@ public class ModifiableCredentialAwareJdbcUsersTestCase extends JdbcUsersTestCas
     
     /**
      * Test the addition of a new user that should failed
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testIncorrectAdd() throws Exception
     {
@@ -138,7 +138,7 @@ public class ModifiableCredentialAwareJdbcUsersTestCase extends JdbcUsersTestCas
     
     /**
      * Test the addition of a new user
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testCorrectAdd() throws Exception
     {
@@ -210,7 +210,7 @@ public class ModifiableCredentialAwareJdbcUsersTestCase extends JdbcUsersTestCas
     
     /**
      * Test the update of a user incorrectly
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testIncorrectUpdate() throws Exception
     {
@@ -307,7 +307,7 @@ public class ModifiableCredentialAwareJdbcUsersTestCase extends JdbcUsersTestCas
     
     /**
      * Test the update of a user
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testCorrectUpdate() throws Exception
     {
@@ -366,7 +366,7 @@ public class ModifiableCredentialAwareJdbcUsersTestCase extends JdbcUsersTestCas
     
     /**
      * Test incorrects remove
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testIncorrectRemove() throws Exception
     {
@@ -439,7 +439,7 @@ public class ModifiableCredentialAwareJdbcUsersTestCase extends JdbcUsersTestCas
     
     /**
      * Test corrects remove
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testCorrectRemove() throws Exception
     {

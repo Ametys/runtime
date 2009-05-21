@@ -55,7 +55,7 @@ public class JdbcUsersTestCase extends AbstractJDBCUsersManagerTestCase
     
     /**
      * Test the getting of users on mysql
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testType() throws Exception
     {
@@ -71,7 +71,7 @@ public class JdbcUsersTestCase extends AbstractJDBCUsersManagerTestCase
     
     /**
      * Test an empty db
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testEmpty() throws Exception
     {
@@ -87,7 +87,7 @@ public class JdbcUsersTestCase extends AbstractJDBCUsersManagerTestCase
     
     /**
      * Test a filled db
-     * @throws Exception
+     * @throws Exception if an error occurs
      */
     public void testFilled() throws Exception
     {

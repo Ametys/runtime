@@ -17,7 +17,6 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import org.apache.cocoon.util.NetUtils;
-import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceNotFoundException;
 import org.apache.excalibur.source.SourceUtil;
 import org.apache.excalibur.source.SourceValidity;
@@ -30,7 +29,7 @@ import org.apache.excalibur.source.impl.validity.NOPValidity;
  * Description of a source which is described by the resource protocol which
  * gets a resource from the classloader.
  */
-public final class ResourceSource extends AbstractSource implements Source
+public final class ResourceSource extends AbstractSource
 {
     /** Location of the resource */
     private URL _location;

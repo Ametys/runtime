@@ -109,7 +109,7 @@ public final class WorkspaceManager
      * @param excludedWorkspace the excluded workspaces, as given by the RuntimeConfig
      * @param contextPath the servlet context path
      * @param pluginsInformations all relevant information about loaded plugins or null if the application is not correctly configured
-     * @throws IOException
+     * @throws IOException if an error occurs while retrieving resources
      */
     public void init(Collection<String> excludedWorkspace, String contextPath, Map<String, FeatureInformation> pluginsInformations) throws IOException
     {
