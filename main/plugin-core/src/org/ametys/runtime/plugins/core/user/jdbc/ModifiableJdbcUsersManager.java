@@ -287,6 +287,11 @@ public class ModifiableJdbcUsersManager extends JdbcUsersManager implements Modi
             {
                 listener.userUpdated(login);
             }
+
+            if (isCacheEnabled())
+            {
+                removeObjectFromCache(login);
+            }
         }
         catch (SQLException e)
         {
@@ -396,6 +401,10 @@ public class ModifiableJdbcUsersManager extends JdbcUsersManager implements Modi
                 listener.userRemoved(login);
             }
 
+            if (isCacheEnabled())
+            {
+                removeObjectFromCache(login);
+            }
         }
         catch (SQLException e)
         {

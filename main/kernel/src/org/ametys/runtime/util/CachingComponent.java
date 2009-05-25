@@ -66,6 +66,20 @@ public class CachingComponent extends AbstractLogEnabled implements Initializabl
     }
     
     /**
+     * Removes a key/object pair in the cache.
+     * @param key the object's key.
+     */
+    protected void removeObjectFromCache(String key)
+    {
+        if (getLogger().isDebugEnabled())
+        {
+            getLogger().debug("Removing object in cache for key " + key);
+        }
+        
+        _objects.remove(key);
+    }
+    
+    /**
      * Removes all entries from the cache.
      */
     protected void clearCache()
