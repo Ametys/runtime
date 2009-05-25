@@ -18,17 +18,34 @@ Ext.namespace('Ext.ametys');
  * @class Ext.ametys.DialogBox
  * @extends Ext.Window
  * @constructor
- * @param {Object} config Configuration options
+ * @param {Object} config Configuration options. icon : path to icon.
  */
 Ext.ametys.DialogBox = function(config) 
 {
+	if (config.icon)
+	{
+		var id = "icon-dialog-" + Ext.id();
+		
+		var css = "." + id + " {background-image:url('" + config.icon + "');}"
+		Ext.util.CSS.createStyleSheet (css, id);
+		Ext.util.CSS.refreshCache();
+		
+		config.iconCls = id;
+	}
+	
 	Ext.ametys.DialogBox.superclass.constructor.call(this, config);
+	
+	if (config.icon)
+	{
+		this.addListener('close', function() { Ext.util.CSS.removeStyleSheet(config.iconCls); })
+	}
 }; 
 
 Ext.extend(Ext.ametys.DialogBox, Ext.Window, 
 {
 	resizable : true,
 	shadow : true,
+	modal: true,
 	ametysCls : 'ametys-box',
 	onRender : function(ct, position)
 	{
