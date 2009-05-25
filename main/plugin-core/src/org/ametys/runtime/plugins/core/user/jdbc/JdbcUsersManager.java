@@ -22,12 +22,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.ametys.runtime.datasource.ConnectionHelper;
-import org.ametys.runtime.plugin.component.PluginAware;
-import org.ametys.runtime.user.User;
-import org.ametys.runtime.user.UsersManager;
-import org.ametys.runtime.util.parameter.DefaultValidator;
-import org.ametys.runtime.util.parameter.ParameterHelper;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -35,7 +29,6 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
@@ -45,12 +38,19 @@ import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
+import org.ametys.runtime.datasource.ConnectionHelper;
+import org.ametys.runtime.plugin.component.PluginAware;
+import org.ametys.runtime.user.User;
+import org.ametys.runtime.user.UsersManager;
+import org.ametys.runtime.util.CachingComponent;
+import org.ametys.runtime.util.parameter.DefaultValidator;
+import org.ametys.runtime.util.parameter.ParameterHelper;
 
 /**
  * Use a jdbc driver for getting the list of users.<br/>
  * The main method to override is <code>_createUserFromResultSet</code>
  */
-public class JdbcUsersManager extends AbstractLogEnabled implements UsersManager, Configurable, ThreadSafe, Component, Serviceable, Contextualizable, PluginAware
+public class JdbcUsersManager extends CachingComponent implements UsersManager, Configurable, ThreadSafe, Component, Serviceable, Contextualizable, PluginAware
 {
     /** The base plugin (for i18n key) */
     protected static final String BASE_PLUGIN_NAME = "core";
@@ -258,6 +258,12 @@ public class JdbcUsersManager extends AbstractLogEnabled implements UsersManager
             {
                 // Ajouter un nouveau principal à la liste
                 User user = _createUserFromResultSet(rs);
+                
+                if (isCacheEnabled())
+                {
+                    addObjectInCache(user.getName(), user);
+                }
+
                 users.add(user);
             }
         }
@@ -281,6 +287,15 @@ public class JdbcUsersManager extends AbstractLogEnabled implements UsersManager
 
     public User getUser(String login)
     {
+        if (isCacheEnabled())
+        {
+            User user = (User) getObjectFromCache(login);
+            if (user != null)
+            {
+                return user;
+            }
+        }
+        
         Connection con = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -306,6 +321,12 @@ public class JdbcUsersManager extends AbstractLogEnabled implements UsersManager
             {
                 // Récupérer les informations sur l'utilisateur
                 User user = _createUserFromResultSet(rs);
+                
+                if (isCacheEnabled())
+                {
+                    addObjectInCache(login, user);
+                }
+                
                 return user;
             }
             else

@@ -115,7 +115,14 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
                     fullname.append(attributs.get(_usersLastnameAttribute));
 
                     // Ajouter un nouveau principal à la liste
-                    users.add(new User((String) attributs.get(_usersLoginAttribute), fullname.toString(), (String) attributs.get(_usersEmailAttribute)));
+                    User user = new User((String) attributs.get(_usersLoginAttribute), fullname.toString(), (String) attributs.get(_usersEmailAttribute));
+                    
+                    if (isCacheEnabled())
+                    {
+                        addObjectInCache(user.getName(), user);
+                    }
+                    
+                    users.add(user);
                 }
             }
         }
@@ -140,6 +147,15 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
 
     public User getUser(String login)
     {
+        if (isCacheEnabled())
+        {
+            User user = (User) getObjectFromCache(login);
+            if (user != null)
+            {
+                return user;
+            }
+        }
+        
         User principal = null;
 
         DirContext context = null;
@@ -183,6 +199,11 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
                 // Annuler le résultat car plusieurs correspondances pour un login
                 principal = null;
                 getLogger().error("Multiple matches for attribute '" + _usersLoginAttribute + "' and value = '" + login + "'");
+            }
+
+            if (isCacheEnabled())
+            {
+                addObjectInCache(login, principal);
             }
         }
         catch (IllegalArgumentException e)

@@ -21,14 +21,14 @@ import javax.naming.directory.SearchControls;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 import org.ametys.runtime.config.Config;
+import org.ametys.runtime.util.CachingComponent;
 
 /**
  * This abstract class contains all basic for a ldap connection using config parameters
  */
-public class AbstractLDAPConnector extends AbstractLogEnabled implements Configurable
+public class AbstractLDAPConnector extends CachingComponent implements Configurable
 {
     // Check filter look
     private static final Pattern __FILTER = Pattern.compile("\\s*\\(.*\\)\\s*");
@@ -100,7 +100,6 @@ public class AbstractLDAPConnector extends AbstractLogEnabled implements Configu
             _ldapAdminRelativeDN = _getConfigParameter(configuration, "AdminDN");
             _ldapAdminPassword = _getConfigParameter(configuration, "AdminPassword");
         }
-
     }
     
     /**

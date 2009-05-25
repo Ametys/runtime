@@ -1,0 +1,89 @@
+package org.ametys.runtime.util;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+
+/**
+ * Simple memory cache with a thread clearing the cache every day.
+ */
+public class CachingComponent extends AbstractLogEnabled implements Initializable
+{
+    private Map<String, Object> _objects = new HashMap<String, Object>();
+    
+    public void initialize() throws Exception
+    {
+        if (isCacheEnabled())
+        {
+            Timer timer = new Timer("CachingComponent", false);
+            
+            long period = 1000 * 60 * 60 * 24; // one day
+            timer.scheduleAtFixedRate(new TimerTask()
+            {
+                @Override
+                public void run()
+                {
+                    clearCache();
+                }
+            }, period, period);
+        }
+    }
+    
+    /**
+     * Returns an object from the cache, correspondong to the specified key, or null if none.
+     * @param key the object's key.
+     * @return the object from cache.
+     */
+    protected Object getObjectFromCache(String key)
+    {
+        Object object = _objects.get(key);
+        
+        if (getLogger().isDebugEnabled())
+        {
+            getLogger().debug("Getting object" + object + "from cache for key " + key);
+        }
+        
+        return object;
+    }
+    
+    /**
+     * Adds a key/object pair in the cache.
+     * @param key the object's key.
+     * @param object the object to be cached.
+     */
+    protected void addObjectInCache(String key, Object object)
+    {
+        if (getLogger().isDebugEnabled())
+        {
+            getLogger().debug("Adding object " + object + "in cache for key " + key);
+        }
+        
+        _objects.put(key, object);
+    }
+    
+    /**
+     * Removes all entries from the cache.
+     */
+    protected void clearCache()
+    {
+        if (getLogger().isDebugEnabled())
+        {
+            getLogger().debug("Clearing cache");
+        }
+        
+        _objects.clear();
+    }
+    
+    /**
+     * Returns true if the cache is enabled.
+     * @return true if the cache is enabled.
+     */
+    protected boolean isCacheEnabled()
+    {
+        return true;
+    }
+}

@@ -27,12 +27,11 @@ import org.xml.sax.helpers.AttributesImpl;
 import org.ametys.runtime.authentication.Credentials;
 import org.ametys.runtime.user.CredentialsAwareUsersManager;
 import org.ametys.runtime.user.User;
-import org.ametys.runtime.user.UsersManager;
 
 /**
  * This implementation only use predefined users 
  */
-public class StaticUsersManager implements UsersManager, Configurable, Component, CredentialsAwareUsersManager
+public class StaticUsersManager implements Configurable, Component, CredentialsAwareUsersManager
 {
     Map<String, User> _users;
     
