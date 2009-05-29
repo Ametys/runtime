@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.avalon.framework.logger.Logger;
+import org.apache.commons.lang.time.FastDateFormat;
 
 import org.ametys.runtime.util.LoggerFactory;
 
@@ -43,9 +44,10 @@ public final class ParameterHelper
         BINARY
     }
 
-    /** Constants to set date format */
-    public static final String TYPE_DATE_TYPE = "yyyy-MM-dd'T'HH:mm";
-
+    /** Constant for date time pattern (use for parsing date) */
+    public static final String DATE_TIME_PATTERN = "yyyy-MM-dd'T'HH:mm:ssZ";
+    /** Constant for date time format (use only for formating date) */
+    public static final FastDateFormat DATE_TIME_FORMAT = FastDateFormat.getInstance("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
     // Logger for traces
     private static Logger _logger = LoggerFactory.getLoggerFor(ParameterHelper.class);
 
@@ -124,7 +126,7 @@ public final class ParameterHelper
             }
             else if (type == ParameterType.DATE)
             {
-                return new SimpleDateFormat(TYPE_DATE_TYPE).parse(value);
+                return new SimpleDateFormat(DATE_TIME_PATTERN).parse(value);
             }
             else if (type == ParameterType.BINARY)
             {
@@ -162,7 +164,7 @@ public final class ParameterHelper
 
         if (value instanceof Date)
         {
-            return new SimpleDateFormat(TYPE_DATE_TYPE).format((Date) value);
+            return DATE_TIME_FORMAT.format(value);
         }
         
         if (value instanceof InputStream)
