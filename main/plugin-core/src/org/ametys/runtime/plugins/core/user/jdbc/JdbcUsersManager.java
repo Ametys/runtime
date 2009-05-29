@@ -22,6 +22,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.ametys.runtime.util.parameter.ParameterHelper.ParameterType;
+
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -144,28 +146,28 @@ public class JdbcUsersManager extends CachingComponent implements UsersManager, 
                 DefaultValidator validator = new DefaultValidator("^[\\w]{3,16}$", true);
                 validator.enableLogging(getLogger());
                 
-                parameter = new JdbcParameter(BASE_PLUGIN_NAME, id, column, "PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_LABEL", "PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_DESCRIPTION", ParameterHelper.TYPE.STRING, null, null, validator);
+                parameter = new JdbcParameter(BASE_PLUGIN_NAME, id, column, "PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_LABEL", "PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_DESCRIPTION", ParameterType.STRING, null, null, validator);
             }
             else if ("lastname".equals(id))
             {
                 DefaultValidator validator = new DefaultValidator(null, true);
                 validator.enableLogging(getLogger());
                 
-                parameter = new JdbcParameter(BASE_PLUGIN_NAME, id, column, "PLUGINS_CORE_USERS_JDBC_FIELD_LASTNAME_LABEL", "PLUGINS_CORE_USERS_JDBC_FIELD_LASTNAME_DESCRIPTION", ParameterHelper.TYPE.STRING, null, null, validator);
+                parameter = new JdbcParameter(BASE_PLUGIN_NAME, id, column, "PLUGINS_CORE_USERS_JDBC_FIELD_LASTNAME_LABEL", "PLUGINS_CORE_USERS_JDBC_FIELD_LASTNAME_DESCRIPTION", ParameterType.STRING, null, null, validator);
             }
             else if ("firstname".equals(id))
             {
                 DefaultValidator validator = new DefaultValidator(null, true);
                 validator.enableLogging(getLogger());
                 
-                parameter = new JdbcParameter(BASE_PLUGIN_NAME, id, column, "PLUGINS_CORE_USERS_JDBC_FIELD_FIRSTNAME_LABEL", "PLUGINS_CORE_USERS_JDBC_FIELD_FIRSTNAME_DESCRIPTION", ParameterHelper.TYPE.STRING, null, null, validator);
+                parameter = new JdbcParameter(BASE_PLUGIN_NAME, id, column, "PLUGINS_CORE_USERS_JDBC_FIELD_FIRSTNAME_LABEL", "PLUGINS_CORE_USERS_JDBC_FIELD_FIRSTNAME_DESCRIPTION", ParameterType.STRING, null, null, validator);
             }
             else if ("email".equals(id))
             {
                 DefaultValidator validator = new DefaultValidator("^([\\w\\-\\.])+@([\\w\\-\\.])+\\.([a-zA-Z])+$", false);
                 validator.enableLogging(getLogger());
                 
-                parameter = new JdbcParameter(BASE_PLUGIN_NAME, id, column, "PLUGINS_CORE_USERS_JDBC_FIELD_EMAIL_LABEL", "PLUGINS_CORE_USERS_JDBC_FIELD_EMAIL_DESCRIPTION", ParameterHelper.TYPE.STRING, null, null, validator);
+                parameter = new JdbcParameter(BASE_PLUGIN_NAME, id, column, "PLUGINS_CORE_USERS_JDBC_FIELD_EMAIL_LABEL", "PLUGINS_CORE_USERS_JDBC_FIELD_EMAIL_DESCRIPTION", ParameterType.STRING, null, null, validator);
             }
             else
             {
@@ -507,24 +509,24 @@ public class JdbcUsersManager extends CachingComponent implements UsersManager, 
                 JdbcParameter parameter = _parameters.get(id);
                 Object typedValue; 
                 
-                if (parameter.getType() == ParameterHelper.TYPE.BOOLEAN)
+                if (parameter.getType() == ParameterType.BOOLEAN)
                 {
                     typedValue = rs.getBoolean(parameter.getColumn());
                 }
-                else if (parameter.getType() == ParameterHelper.TYPE.DATE)
+                else if (parameter.getType() == ParameterType.DATE)
                 {
                     java.sql.Date date = rs.getDate(parameter.getColumn());
                     typedValue = date != null ? new Date(date.getTime()) : null;
                 }
-                else if (parameter.getType() == ParameterHelper.TYPE.DOUBLE)
+                else if (parameter.getType() == ParameterType.DOUBLE)
                 {
                     typedValue = rs.getDouble(parameter.getColumn());
                 }
-                else if (parameter.getType() == ParameterHelper.TYPE.LONG)
+                else if (parameter.getType() == ParameterType.LONG)
                 {
                     typedValue = rs.getLong(parameter.getColumn());
                 }
-                else if (parameter.getType() == ParameterHelper.TYPE.PASSWORD)
+                else if (parameter.getType() == ParameterType.PASSWORD)
                 {
                     typedValue = "PASSWORD";
                 }

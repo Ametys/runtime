@@ -40,6 +40,8 @@ import org.ametys.runtime.util.parameter.EnumeratorValue;
 import org.ametys.runtime.util.parameter.ParameterHelper;
 import org.ametys.runtime.util.parameter.StaticEnumerator;
 import org.ametys.runtime.util.parameter.Validator;
+import org.ametys.runtime.util.parameter.ParameterHelper.ParameterType;
+
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -334,7 +336,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
     {
         String label;
         String description;
-        ParameterHelper.TYPE type;
+        ParameterType type;
         Object defaultValue;
         String widget;
         String displayCategory;
@@ -622,7 +624,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         String untypedValue = ParameterHelper.valueToString(typedValue);
         if (untypedValue != null)
         {
-            if (untypedValue.length() > 0 && param.getType() == ParameterHelper.TYPE.PASSWORD)
+            if (untypedValue.length() > 0 && param.getType() == ParameterType.PASSWORD)
             {
                 untypedValue = "PASSWORD";
             }
@@ -666,7 +668,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             String untypedValue = untypedValues.get(id);
             
             Object typedValue = ParameterHelper.castValue(untypedValue, _params.get(id).getType());
-            if (typedValue == null && _params.get(id).getType() == ParameterHelper.TYPE.PASSWORD)
+            if (typedValue == null && _params.get(id).getType() == ParameterType.PASSWORD)
             {
                 if (Config.getInstance() != null)
                 {
@@ -841,7 +843,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         return catalogue + PluginsManager.FEATURE_ID_SEPARATOR + descriptionKey;
     }
     
-    private ParameterHelper.TYPE _configureType(Configuration configuration) throws ConfigurationException
+    private ParameterType _configureType(Configuration configuration) throws ConfigurationException
     {
         String typeAsString = configuration.getChild("Type").getValue("");
         
@@ -850,7 +852,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             throw new ConfigurationException("The mandatory element 'Type' is missing or empty", configuration);
         }
         
-        ParameterHelper.TYPE type;
+        ParameterType type;
         
         try
         {
@@ -864,7 +866,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         return type;
     }
     
-    private Object _configureDefaultValue(Configuration configuration, String id, ParameterHelper.TYPE type) throws ConfigurationException
+    private Object _configureDefaultValue(Configuration configuration, String id, ParameterHelper.ParameterType type) throws ConfigurationException
     {
         String defaultValueAsString = configuration.getChild("DefaultValue").getValue(null);
         
@@ -956,7 +958,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         private String _id;
         private String _label;
         private String _description;
-        private ParameterHelper.TYPE _type;
+        private ParameterType _type;
         private Object _defaultValue;
         private String _widget;
         private String _displayCategory;
@@ -965,7 +967,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         private boolean _hasEnumerator;
         private boolean _hasValidator;
 
-        ConfigParameter(String id, String pluginName, String label, String description, ParameterHelper.TYPE type, Object defaultValue, String widget, String displayCategory, String displayGroup, int order, boolean hasEnumerator, boolean hasValidator)
+        ConfigParameter(String id, String pluginName, String label, String description, ParameterType type, Object defaultValue, String widget, String displayCategory, String displayGroup, int order, boolean hasEnumerator, boolean hasValidator)
         {
             _id = id;
             _pluginName = pluginName;
@@ -1006,7 +1008,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             return _id;
         }
 
-        ParameterHelper.TYPE getType()
+        ParameterType getType()
         {
             return _type;
         }

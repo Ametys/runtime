@@ -11,10 +11,11 @@
 package org.ametys.runtime.util.parameter;
 
 import org.ametys.runtime.util.I18nizableText;
+import org.ametys.runtime.util.parameter.ParameterHelper.ParameterType;
 
 /**
  * Value for an <code>Enumerator</code> containing both value and i18nizable label.<br>
- * The value is a java.lang.Object which actual type is one of {@link ParameterHelper.TYPE}
+ * The value is a java.lang.Object which actual type is one of {@link ParameterType}
  */
 public final class EnumeratorValue
 {

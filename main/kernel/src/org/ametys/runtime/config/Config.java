@@ -22,6 +22,7 @@ import org.apache.avalon.framework.logger.Logger;
 import org.ametys.runtime.util.LoggerFactory;
 import org.ametys.runtime.util.MapHandler;
 import org.ametys.runtime.util.parameter.ParameterHelper;
+import org.ametys.runtime.util.parameter.ParameterHelper.ParameterType;
 
 
 /**
@@ -131,7 +132,7 @@ public final class Config
     {
         String value = _values.get(id);
         
-        return (Date) ParameterHelper.castValue(value, ParameterHelper.TYPE.DATE);
+        return (Date) ParameterHelper.castValue(value, ParameterType.DATE);
     }
 
     /**
@@ -143,7 +144,7 @@ public final class Config
     {
         String value = _values.get(id);
         
-        return (Long) ParameterHelper.castValue(value, ParameterHelper.TYPE.LONG);
+        return (Long) ParameterHelper.castValue(value, ParameterType.LONG);
     }
 
     /**
@@ -155,7 +156,7 @@ public final class Config
     {
         String value = _values.get(id);
         
-        return (Boolean) ParameterHelper.castValue(value, ParameterHelper.TYPE.BOOLEAN);
+        return (Boolean) ParameterHelper.castValue(value, ParameterType.BOOLEAN);
     }
 
     /**
@@ -167,7 +168,7 @@ public final class Config
     {
         String value = _values.get(id);
         
-        return (Double) ParameterHelper.castValue(value, ParameterHelper.TYPE.DOUBLE);
+        return (Double) ParameterHelper.castValue(value, ParameterType.DOUBLE);
     }
 
     /**

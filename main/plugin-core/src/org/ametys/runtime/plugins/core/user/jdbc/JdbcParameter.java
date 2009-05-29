@@ -24,6 +24,7 @@ import org.ametys.runtime.util.parameter.Enumerator;
 import org.ametys.runtime.util.parameter.ParameterHelper;
 import org.ametys.runtime.util.parameter.StaticEnumerator;
 import org.ametys.runtime.util.parameter.Validator;
+import org.ametys.runtime.util.parameter.ParameterHelper.ParameterType;
 
 
 /**
@@ -40,7 +41,7 @@ public class JdbcParameter
     private String _labelKey;
     private String _descriptionKey;
     private String _column;
-    private ParameterHelper.TYPE _type;
+    private ParameterType _type;
     private String _widget;
     private Enumerator _enumerator;
     private Validator _validator;
@@ -81,7 +82,7 @@ public class JdbcParameter
      * @param enumerator Enumerator of possible values
      * @param validator Validator of entered value
      */
-    public JdbcParameter(String pluginName, String id, String column, String labelKey, String descriptionKey, ParameterHelper.TYPE type, String widget, Enumerator enumerator, Validator validator)
+    public JdbcParameter(String pluginName, String id, String column, String labelKey, String descriptionKey, ParameterType type, String widget, Enumerator enumerator, Validator validator)
     {
         _pluginName = pluginName;
         _id = id;
@@ -114,7 +115,7 @@ public class JdbcParameter
         return descriptionKey;
     }
     
-    private ParameterHelper.TYPE _configureType(Configuration configuration) throws ConfigurationException
+    private ParameterType _configureType(Configuration configuration) throws ConfigurationException
     {
         String typeAsString = configuration.getChild("Type").getValue("");
         if (typeAsString.length() == 0)
@@ -122,7 +123,7 @@ public class JdbcParameter
             throw new ConfigurationException("The mandatory element 'Type' is missing or empty", configuration);
         }
         
-        ParameterHelper.TYPE type;
+        ParameterType type;
         try
         {
             type = ParameterHelper.stringToType(typeAsString);
@@ -245,7 +246,7 @@ public class JdbcParameter
      * Get the type.
      * @return Returns the type.
      */
-    public ParameterHelper.TYPE getType()
+    public ParameterType getType()
     {
         return _type;
     }

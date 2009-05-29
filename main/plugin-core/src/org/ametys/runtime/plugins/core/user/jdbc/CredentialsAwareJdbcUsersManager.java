@@ -20,7 +20,8 @@ import org.ametys.runtime.datasource.ConnectionHelper;
 import org.ametys.runtime.user.CredentialsAwareUsersManager;
 import org.ametys.runtime.util.StringUtils;
 import org.ametys.runtime.util.parameter.DefaultValidator;
-import org.ametys.runtime.util.parameter.ParameterHelper;
+import org.ametys.runtime.util.parameter.ParameterHelper.ParameterType;
+
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 
@@ -61,7 +62,7 @@ public class CredentialsAwareJdbcUsersManager extends JdbcUsersManager implement
                 DefaultValidator validator = new DefaultValidator(null, true);
                 validator.enableLogging(getLogger());
                 
-                parameter = new JdbcParameter(BASE_PLUGIN_NAME, id, column, "PLUGINS_CORE_USERS_JDBC_FIELD_PASSWORD_LABEL", "PLUGINS_CORE_USERS_JDBC_FIELD_PASSWORD_DESCRIPTION", ParameterHelper.TYPE.PASSWORD, null, null, validator);
+                parameter = new JdbcParameter(BASE_PLUGIN_NAME, id, column, "PLUGINS_CORE_USERS_JDBC_FIELD_PASSWORD_LABEL", "PLUGINS_CORE_USERS_JDBC_FIELD_PASSWORD_DESCRIPTION", ParameterType.PASSWORD, null, null, validator);
             }
             else
             {

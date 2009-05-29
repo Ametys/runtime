@@ -33,6 +33,7 @@ import org.ametys.runtime.util.I18nizableText;
 import org.ametys.runtime.util.StringUtils;
 import org.ametys.runtime.util.parameter.EnumeratorValue;
 import org.ametys.runtime.util.parameter.ParameterHelper;
+import org.ametys.runtime.util.parameter.ParameterHelper.ParameterType;
 
 
 /**
@@ -204,7 +205,7 @@ public class ModifiableJdbcUsersManager extends JdbcUsersManager implements Modi
         int i = 1;
         for (JdbcParameter parameter : _parameters.values())
         {
-            if (parameter.getType() == ParameterHelper.TYPE.PASSWORD)
+            if (parameter.getType() == ParameterType.PASSWORD)
             {
                 String encryptedPassword = StringUtils.md5Base64(userInformation.get(parameter.getId()));
                 if (encryptedPassword == null)
@@ -316,7 +317,7 @@ public class ModifiableJdbcUsersManager extends JdbcUsersManager implements Modi
         for (String id : userInformation.keySet())
         {
             JdbcParameter parameter = _parameters.get(id);
-            if (parameter != null && !"login".equals(id) && !(parameter.getType() == ParameterHelper.TYPE.PASSWORD && (userInformation.get(parameter.getId()) == null)))
+            if (parameter != null && !"login".equals(id) && !(parameter.getType() == ParameterType.PASSWORD && (userInformation.get(parameter.getId()) == null)))
             {
                 if (columnNames.length() > 0)
                 {
@@ -347,7 +348,7 @@ public class ModifiableJdbcUsersManager extends JdbcUsersManager implements Modi
             JdbcParameter parameter = _parameters.get(id);
             if (parameter != null && !"login".equals(id))
             {
-                if (parameter.getType() == ParameterHelper.TYPE.PASSWORD)
+                if (parameter.getType() == ParameterType.PASSWORD)
                 {
                     if (userInformation.get(parameter.getId()) != null)
                     {

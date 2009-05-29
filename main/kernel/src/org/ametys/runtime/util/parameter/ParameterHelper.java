@@ -25,7 +25,7 @@ import org.ametys.runtime.util.LoggerFactory;
 public final class ParameterHelper
 {
     /** Enumeration of supported types */
-    public static enum TYPE 
+    public static enum ParameterType 
     {
         /** boolean values */
         BOOLEAN,
@@ -61,7 +61,7 @@ public final class ParameterHelper
      * @return Returns the name of the type
      * @throws IllegalArgumentException If the type is unknwon
      */
-    public static String typeToString(TYPE type)
+    public static String typeToString(ParameterType type)
     {
         return type.name().toLowerCase();
     }
@@ -73,11 +73,11 @@ public final class ParameterHelper
      * @return Type 
      * @throws IllegalArgumentException if the type is unknown
      */
-    public static TYPE stringToType(String type)
+    public static ParameterType stringToType(String type)
     {
         try
         {
-            return TYPE.valueOf(type.toUpperCase());
+            return ParameterType.valueOf(type.toUpperCase());
         }
         catch (IllegalArgumentException e)
         {
@@ -93,7 +93,7 @@ public final class ParameterHelper
      * @return An object of the type 'type' with value 'value', or null if type
      *         is unknown or value cannot be cast
      */
-    public static Object castValue(String value, TYPE type)
+    public static Object castValue(String value, ParameterType type)
     {
         if (value == null)
         {
@@ -102,31 +102,31 @@ public final class ParameterHelper
 
         try
         {
-            if (type == TYPE.BOOLEAN)
+            if (type == ParameterType.BOOLEAN)
             {
                 return new Boolean(value);
             }
-            else if (type == TYPE.STRING)
+            else if (type == ParameterType.STRING)
             {
                 return value;
             }
-            else if (type == TYPE.PASSWORD)
+            else if (type == ParameterType.PASSWORD)
             {
                 return value;
             }
-            else if (type == TYPE.LONG)
+            else if (type == ParameterType.LONG)
             {
                 return new Long(value);
             }
-            else if (type == TYPE.DOUBLE)
+            else if (type == ParameterType.DOUBLE)
             {
                 return new Double(value);
             }
-            else if (type == TYPE.DATE)
+            else if (type == ParameterType.DATE)
             {
                 return new SimpleDateFormat(TYPE_DATE_TYPE).parse(value);
             }
-            else if (type == TYPE.BINARY)
+            else if (type == ParameterType.BINARY)
             {
                 return null;
             }
