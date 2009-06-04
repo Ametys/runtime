@@ -60,7 +60,7 @@ public final class I18nizableText
         _i18n = true;
         
         String i18nKey = key.substring(key.indexOf(":") + 1);
-        String i18nCatalogue = key.length() == key.length() ? catalogue : key.substring(0, key.length() - i18nKey.length() - 1);
+        String i18nCatalogue = i18nKey.length() == key.length() ? catalogue : key.substring(0, key.length() - i18nKey.length() - 1);
 
         _catalogue = i18nCatalogue;
         _key = i18nKey;
