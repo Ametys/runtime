@@ -26,9 +26,13 @@ Ext.ametys.DialogBox = function(config)
 	{
 		var id = "icon-dialog-" + Ext.id();
 		
-		var css = "." + id + " {background-image:url('" + config.icon + "');}"
-		Ext.util.CSS.createStyleSheet (css, id);
-		Ext.util.CSS.refreshCache();
+		try
+		{
+			var css = "." + id + " {background-image:url('" + config.icon + "');}"
+			Ext.util.CSS.createStyleSheet (css, id);
+			Ext.util.CSS.refreshCache();
+		}
+		catch(e) {}
 		
 		config.iconCls = id;
 	}
