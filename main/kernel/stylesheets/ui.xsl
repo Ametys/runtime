@@ -125,8 +125,7 @@
 
     	<script type="text/javascript" src="{$contextPath}/kernel/resources/extjs/js/adapter/ext/ext-base.js"><xsl:comment>empty</xsl:comment></script>
 		<script type="text/javascript" src="{$contextPath}/kernel/resources/extjs/js/ext-core.js"><xsl:comment>empty</xsl:comment></script>
-		<!--<script type="text/javascript" src="{$contextPath}/kernel/resources/extjs/js/ext-all.js"><xsl:comment>empty</xsl:comment></script>-->
-		<script type="text/javascript" src="{$contextPath}/kernel/resources/extjs/js/ext-all-debug.js"><xsl:comment>empty</xsl:comment></script>
+		<script type="text/javascript" src="{$contextPath}/kernel/resources/extjs/js/ext-all.js"><xsl:comment>empty</xsl:comment></script>
 		
 		<script type="text/javascript">
 			<xsl:comment>
