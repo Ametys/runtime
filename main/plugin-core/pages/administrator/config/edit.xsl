@@ -153,7 +153,8 @@
 								autoScroll : true,
 								id : 'config-inner',
 								formId : 'save-config',
-								labelWidth :230
+								labelWidth :230,
+								bodyStyle: 'position:relative;'
 						});
 						
 						<xsl:for-each select="config/categories/category">
