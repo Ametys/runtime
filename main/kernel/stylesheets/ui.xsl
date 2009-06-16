@@ -125,7 +125,27 @@
 
     	<script type="text/javascript" src="{$contextPath}/kernel/resources/extjs/js/adapter/ext/ext-base.js"><xsl:comment>empty</xsl:comment></script>
 		<script type="text/javascript" src="{$contextPath}/kernel/resources/extjs/js/ext-core.js"><xsl:comment>empty</xsl:comment></script>
-		<script type="text/javascript" src="{$contextPath}/kernel/resources/extjs/js/ext-all.js"><xsl:comment>empty</xsl:comment></script>
+		<!--<script type="text/javascript" src="{$contextPath}/kernel/resources/extjs/js/ext-all.js"><xsl:comment>empty</xsl:comment></script>-->
+		<script type="text/javascript" src="{$contextPath}/kernel/resources/extjs/js/ext-all-debug.js"><xsl:comment>empty</xsl:comment></script>
+		
+		<script type="text/javascript">
+			<xsl:comment>
+				Date.patterns = {
+				    ISO8601Long:"Y-m-d\\TH:i:s.uP",
+				    ISO8601Short:"Y-m-d",
+				    ShortDate: "n/j/Y",
+				    LongDate: "l, F d, Y",
+				    FullDateTime: "l, F d, Y g:i:s A",
+				    MonthDay: "F d",
+				    ShortTime: "g:i A",
+				    LongTime: "g:i:s A",
+				    SortableDateTime: "Y-m-d\\TH:i:s",
+				    UniversalSortableDateTime: "Y-m-d H:i:sO",
+				    YearMonth: "F, Y"
+				};
+			</xsl:comment>
+		</script>
+		
 		<script type="text/javascript">
             Tools.loadScript(document, "<xsl:value-of select="$contextPath"/>/kernel/resources/extjs/js/lang/ext-lang-<i18n:text i18n:key="KERNEL_LANGUAGE_CODE" i18n:catalogue="kernel"/>.js");
 		</script>
