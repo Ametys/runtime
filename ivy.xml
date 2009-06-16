@@ -13,7 +13,7 @@ Open source web application framework based on Apache Cocoon.
     <conf name="cas" extends="default" description="CAS configuration"/>
     <conf name="jcifs" extends="default" description="JCIFS configuration"/>
     <conf name="fop" extends="default" description="FOP configuration"/>
-    <conf name="compile" extends="cas,jcifs" description="Used only for compilation" visibility="private"/>
+    <conf name="compile" extends="cas,jcifs,fop" description="Used only for compilation" visibility="private"/>
     <conf name="test" extends="compile,runtime" description="Unit testing configuration" visibility="private"/>
   </configurations>
   <publications>
