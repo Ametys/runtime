@@ -131,18 +131,15 @@
 		</map:pipeline>
 				
 		<map:pipeline>
-            <!-- Tous les pipelines suivants sont théoriquement servis par Apache
-                et ne sont donc pas utilisés (hors développement) -->
-            
             <!-- Builtins -->
             <map:match pattern="kernel/resources/**">
                 <map:read src="resources/{1}"/>
             </map:match>
 
             <!-- Plugins -->
-            <!-- Ressources dynamique des plugins (JS to translate) -->
-            <map:match pattern="plugins/*/resources/**.js.i18n">
-                <map:generate src="plugin:{1}://resources_dynamic/{2}.js" type="i18nizabletext"/>
+            <!-- Plugins dynamic resources (i18n aware JS) -->
+            <map:match pattern="plugins/*/resources/**.i18n.js">
+                <map:generate src="plugin:{1}://resources/{2}.i18n.js" type="i18nizabletext"/>
                 <map:transform type="i18n">
                     <map:parameter name="locale" value="{locale:locale}"/>
                     <map:parameter name="plugin" value="{1}"/>
@@ -166,35 +163,11 @@
             </map:match>
             
 			<map:match pattern="_*/**" type="workspace">
-                <map:match pattern="_*/resources/**.js.i18n">
-                    <map:generate src="workspace:{1}://resources_dynamic/{2}.js" type="i18nizabletext"/>
-                    <map:transform type="i18n">
-                        <map:parameter name="locale" value="{locale:locale}"/>
-                        <map:parameter name="workspace" value="{1}"/>
-                    </map:transform>
-                    <map:serialize type="text" mime-type="text/javascript;charset=utf-8"/>
-                </map:match>
-                <map:match pattern="_*/resources/**">
-                    <map:read src="workspace:{1}://resources/{2}"/>
-                </map:match>
-            
 				<map:mount check-reload="yes" src="workspace:{workspaceName}://sitemap.xmap" uri-prefix="_{1}"/>
 			</map:match>
 			
             <map:match pattern="**" type="workspace">
                 <map:parameter name="default" value="true"/>
-
-                <map:match pattern="resources/**.js.i18n">
-                    <map:generate src="workspace:{../workspaceName}://resources_dynamic/{1}.js" type="i18nizabletext"/>
-                    <map:transform type="i18n">
-                        <map:parameter name="locale" value="{locale:locale}"/>
-                        <map:parameter name="workspace" value="{../workspaceName}"/>
-                    </map:transform>
-                    <map:serialize type="text" mime-type="text/javascript;charset=utf-8"/>
-                </map:match>
-                <map:match pattern="resources/**">
-                    <map:read src="workspace:{../workspaceName}://resources/{1}"/>
-                </map:match>
 
                 <map:mount check-reload="yes" src="workspace:{workspaceName}://sitemap.xmap" uri-prefix=""/>
             </map:match>

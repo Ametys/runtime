@@ -23,7 +23,7 @@
             <head>
                 <link type="text/css" href="{$contextPath}/plugins/{$pluginName}/resources/css/sample.css" rel="stylesheet"/>
                 <script src="{$contextPath}/plugins/{$pluginName}/resources/js/sample.js">// empty</script>
-                <script src="{$contextPath}/plugins/{$pluginName}/resources/js/sample.js.i18n">// empty</script>
+                <script src="{$contextPath}/plugins/{$pluginName}/resources/js/sample.i18n.js">// empty</script>
             </head>
             <body>
                 <img src="{$contextPath}/plugins/{$pluginName}/resources/img/sample.jpg" width="400px" height="50px"/>

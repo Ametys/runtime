@@ -31,7 +31,7 @@
             </head>
             
             <script>
-            	<script type="text/javascript" src="{$resourcesPath}/js/users/selectuser.js.i18n"><xsl:comment>//emty</xsl:comment></script>
+            	<script type="text/javascript" src="{$resourcesPath}/js/users/selectuser.i18n.js"><xsl:comment>//emty</xsl:comment></script>
             	<script type="text/javascript">
             		RUNTIME_Plugin_Runtime_SelectUser.initialize("<xsl:value-of select="$pluginName"/>");
             		

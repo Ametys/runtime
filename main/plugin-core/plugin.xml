@@ -786,7 +786,7 @@
                     <Action type="class">
                         <Class value="RUNTIME_Plugin_Runtime_Administrator_Password"/>
                         <Imports>
-                            <File>js/administrator/password.js.i18n</File>
+                            <File>js/administrator/password.i18n.js</File>
                         </Imports>
                     </Action>
                 </Static>

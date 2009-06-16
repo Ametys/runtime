@@ -67,6 +67,22 @@
                 <map:serialize type="xml"/>
             </map:match>
         </map:pipeline>
+        
+        <!-- Resources -->
+        <map:pipeline>
+            <map:match pattern="resources/**.i18n.js">
+                <map:generate src="resources/{1}.i18n.js" type="i18nizabletext"/>
+                <map:transform type="i18n">
+                    <map:parameter name="locale" value="{locale:locale}"/>
+                    <map:parameter name="workspace" value="{request-attr:workspaceName}"/>
+                </map:transform>
+                <map:serialize type="text" mime-type="text/javascript;charset=utf-8"/>
+            </map:match>
+            
+            <map:match pattern="resources/**">
+                <map:read src="resources/{1}"/>
+            </map:match>
+        </map:pipeline>
 	
 		<map:pipeline>
 			<!-- redirect to application entry point -->
@@ -74,7 +90,7 @@
 				<map:redirect-to uri="index.html"/>
 			</map:match>
 			
-			<!-- pages non authentifiées -->
+			<!-- unauthenticated pages -->
 			<map:match pattern="public/*.html">
 				<map:generate type="action-result"/>
 				<map:transform src="pages/public/{1}.xsl">
@@ -91,12 +107,12 @@
 			</map:match>
 			
 			<!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*- -->
-			<!-- Authentification -->
+			<!-- Authentication -->
 			<!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*- -->			
 			<map:match pattern="**">
 				<map:act type="authenticate"/>
 			</map:match>
-			
+            
 			<!-- Page d'index -->
 			<map:match pattern="index.html">
                 <map:aggregate element="Admin">

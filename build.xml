@@ -203,11 +203,14 @@
 		<copy todir="${classes}/org/ametys/runtime/kernel">
 			<fileset dir="${kernel-dir}/">
 				<exclude name="sitemap.xmap"/>
-				<!--  exclude name="i18n/**"/ -->
 				<exclude name="resources/**"/>
 				<exclude name="src/**"/>
 			</fileset>
+            <fileset dir="${kernel-dir}/">
+                <include name="resources/**/*.i18n.js"/>
+            </fileset>
 		</copy>		
+		
         <move file="${classes}/org/ametys/runtime/kernel/i18n/messages_en.xml" tofile="${classes}/org/ametys/runtime/kernel/i18n/messages.xml"/>
 	</target>
 		
@@ -223,11 +226,14 @@
 			<fileset dir="${workspace-dir}">
 				<exclude name="workspace.xml"/>
 				<exclude name="sitemap.xmap"/>
-				<!--  exclude name="i18n/**"/ -->
 				<exclude name="resources/**"/>
 				<exclude name="src/**"/>
 			</fileset>
+            <fileset dir="${workspace-dir}">
+                <include name="resources/**/*.i18n.js"/>
+            </fileset>
 		</copy>
+		
         <move file="${classes}/org/ametys/runtime/workspaces/admin/i18n/messages_en.xml" tofile="${classes}/org/ametys/runtime/workspaces/admin/i18n/messages.xml"/>
 	</target>
 	
@@ -243,12 +249,15 @@
 			<fileset dir="${plugin-dir}">
 				<exclude name="plugin.xml"/>
 				<exclude name="sitemap.xmap"/>
-				<!--  exclude name="i18n/**"/ -->
 				<exclude name="resources/**"/>
 				<exclude name="src/**"/>
 				<exclude name="scripts/**"/>
 			</fileset>
+            <fileset dir="${plugin-dir}">
+                <include name="resources/**/*.i18n.js"/>
+            </fileset>
 		</copy>		
+		
         <move file="${classes}/org/ametys/runtime/plugins/core/i18n/messages_en.xml" tofile="${classes}/org/ametys/runtime/plugins/core/i18n/messages.xml"/>
 	</target>
 	
@@ -294,17 +303,17 @@
 	</target>
 			
 	<target name="runtime-resources-copy-kernel">
-		<copy todir="${dest-dir}/resources/kernel/resources">
+		<copy todir="${dest-dir}/resources/kernel/resources" includeEmptyDirs="false">
 			<fileset dir="${kernel-dir}/resources">
-				<include name="**"/>
+                <exclude name="**/*.i18n.js"/>
 			</fileset>
 		</copy>
 	</target>
 			
 	<target name="runtime-resources-copy-plugin" unless="skip-plugin">
-		<copy todir="${dest-dir}/resources/plugins/core/resources">
+		<copy todir="${dest-dir}/resources/plugins/core/resources" includeEmptyDirs="false">
 			<fileset dir="${plugin-dir}/resources">
-				<include name="**"/>
+                <exclude name="**/*.i18n.js"/>
 			</fileset>
 		</copy>
 		
@@ -316,9 +325,9 @@
 	</target>
 			
 	<target name="runtime-resources-copy-workspace" unless="skip-workspace">
-		<copy todir="${dest-dir}/resources/workspaces/admin/resources">
+		<copy todir="${dest-dir}/resources/workspaces/admin/resources" includeEmptyDirs="false">
 			<fileset dir="${workspace-dir}/resources">
-				<include name="**"/>
+                <exclude name="**/*.i18n.js"/>
 			</fileset>
 		</copy>
 	</target>

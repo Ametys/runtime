@@ -1,6 +1,5 @@
 package org.ametys.runtime.cocoon;
 
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,9 +34,7 @@ import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 
 /**
- * FOP 0.93 (and newer) based serializer.
- * 
- * @version $Id: FOPNGSerializer.java,v 1.1 2009-06-15 15:38:31 laurence Exp $
+ * FOP 0.95 (and newer) based serializer.
  */
 public class FOPNGSerializer extends AbstractSerializer implements Configurable, CacheableProcessingComponent, Serviceable, URIResolver, Disposable
 {
@@ -178,12 +175,7 @@ public class FOPNGSerializer extends AbstractSerializer implements Configurable,
         return _mimetype;
     }
 
-    /**
-     * Create the FOP driver Set the <code>OutputStream</code> where the XML
-     * should be serialized.
-     * 
-     * @throws IOException
-     */
+    @SuppressWarnings("unchecked")
     @Override
     public void setOutputStream(OutputStream out) throws IOException
     {
@@ -285,7 +277,7 @@ public class FOPNGSerializer extends AbstractSerializer implements Configurable,
                 {
                     File parent = new File(base.substring(5));
                     File parent2 = new File(parent.getParentFile(), href);
-                    source = _resolver.resolveURI(parent2.toURL().toExternalForm());
+                    source = _resolver.resolveURI(parent2.toURI().toURL().toExternalForm());
                 }
             }
 
@@ -342,7 +334,7 @@ public class FOPNGSerializer extends AbstractSerializer implements Configurable,
      * An InputStream which releases the Cocoon/Avalon source from which the
      * InputStream has been retrieved when the stream is closed.
      */
-    public static class ReleaseSourceInputStream extends InputStream
+    public static final class ReleaseSourceInputStream extends InputStream
     {
         private InputStream _delegate;
 
@@ -350,7 +342,7 @@ public class FOPNGSerializer extends AbstractSerializer implements Configurable,
 
         private SourceResolver _sourceResolver;
 
-        private ReleaseSourceInputStream(InputStream delegate, Source source, SourceResolver sourceResolver)
+        ReleaseSourceInputStream(InputStream delegate, Source source, SourceResolver sourceResolver)
         {
             this._delegate = delegate;
             this._source = source;

@@ -40,7 +40,7 @@ function runtime_loadCalendarScripts_2()
 }
 function runtime_loadCalendarScripts_3()
 {
-	parent_window.Tools.loadScript(parent_document, parent_window.getPluginResourcesUrl("core") + "/js/calendar/calendar.js.i18n", (parent_document != runtime_document) ? runtime_loadCalendarScripts_4 : runtime_initAllCalendar);
+	parent_window.Tools.loadScript(parent_document, parent_window.getPluginResourcesUrl("core") + "/js/calendar/calendar.i18n.js", (parent_document != runtime_document) ? runtime_loadCalendarScripts_4 : runtime_initAllCalendar);
 }
 function runtime_loadCalendarScripts_4()
 {
@@ -52,7 +52,7 @@ function runtime_loadCalendarScripts_5()
 }
 function runtime_loadCalendarScripts_6()
 {
-	parent_window.Tools.loadScript(runtime_document, parent_window.getPluginResourcesUrl("core") + "/js/calendar/calendar.js.i18n", runtime_initAllCalendar);
+	parent_window.Tools.loadScript(runtime_document, parent_window.getPluginResourcesUrl("core") + "/js/calendar/calendar.i18n.js", runtime_initAllCalendar);
 }
 function runtime_initAllCalendar ()
 {

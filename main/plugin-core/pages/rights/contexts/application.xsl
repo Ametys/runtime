@@ -66,7 +66,7 @@
                     </tr>
                 </table>
                 
-                <script src="{$contextPath}/plugins/{$pluginName}/resources/js/rights/rights.js.i18n">// empty</script>
+                <script src="{$contextPath}/plugins/{$pluginName}/resources/js/rights/rights.i18n.js">// empty</script>
                 <script>
                         onresize.push(function (width, height)
                         {

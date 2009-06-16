@@ -30,7 +30,7 @@
             </head>
             
             <script>
-            	<script type="text/javascript" src="{$resourcesPath}/js/users/user.js.i18n"><xsl:comment>//emty</xsl:comment></script>
+            	<script type="text/javascript" src="{$resourcesPath}/js/users/user.i18n.js"><xsl:comment>//emty</xsl:comment></script>
             	<script type="text/javascript">
             			RUNTIME_Plugin_Runtime_EditUser.initialize("<xsl:value-of select="$pluginName"/>", <xsl:value-of select="count(Model/*)+count(Model/*[type='password'])"/>);
             			
