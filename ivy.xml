@@ -12,6 +12,7 @@ Open source web application framework based on Apache Cocoon.
     <conf name="test-env" extends="default" description="Provides testing environment"/>
     <conf name="cas" extends="default" description="CAS configuration"/>
     <conf name="jcifs" extends="default" description="JCIFS configuration"/>
+    <conf name="fop" extends="default" description="FOP configuration"/>
     <conf name="compile" extends="cas,jcifs" description="Used only for compilation" visibility="private"/>
     <conf name="test" extends="compile,runtime" description="Unit testing configuration" visibility="private"/>
   </configurations>
@@ -38,7 +39,7 @@ Open source web application framework based on Apache Cocoon.
     <dependency org="rrd4j" name="rrd4j" rev="2.0.6" conf="default->default"/>
 
 	<!-- fop configuration -->
-	<dependency org="apache" name="fop" rev="0.95" conf="runtime->default"/>
+	<dependency org="apache" name="fop" rev="0.95" conf="fop->default"/>
 	
     <!-- cas configuration -->
     <dependency org="ja-sig" name="cas-client" rev="2.0.11" conf="cas->default"/>
