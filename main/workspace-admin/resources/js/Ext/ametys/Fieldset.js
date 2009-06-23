@@ -15,7 +15,7 @@ Ext.namespace('Ext.ametys');
 /**
  * Ext.ametys.Fieldset
  *
- * @class Ext.ametys.Fieldset
+ * @class This class provides a collapsible panel 
  * @extends Ext.Panel
  * @constructor
  * @param {Object} config Configuration options
@@ -31,16 +31,17 @@ Ext.extend(Ext.ametys.Fieldset, Ext.Panel,
 	collapsible: true,
 	titleCollapse: true,
 	animCollapse : false,
-	border: false,
-	onRender : function(ct, position)
-	{
-		Ext.ametys.Fieldset.superclass.onRender.call(this, ct, position);
-		
-		//this.header.addClass(this.awtCls + '-header');
-		//this.body.addClass(this.awtCls + '-body');
-		
-		this.el.insertFirst({tag: "a", name :this.id});
-	}
+	border: false
 });
+
+Ext.ametys.Fieldset.prototype.onRender : function(ct, position)
+{
+	Ext.ametys.Fieldset.superclass.onRender.call(this, ct, position);
+	
+	//this.header.addClass(this.awtCls + '-header');
+	//this.body.addClass(this.awtCls + '-body');
+	
+	this.el.insertFirst({tag: "a", name :this.id});
+}
 
 

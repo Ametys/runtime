@@ -13,21 +13,18 @@
 Ext.namespace('Ext.ametys');
 
 /**
- * Ext.ametys.Field
+ * Ext.ametys.Tree
  *
- * @class Ext.ametys.Field
- * @extends Ext.form.Field
+ * @class This class simply extends the {@link Ext.tree.Panel}
+ * @extends Ext.tree.TreePanel
  * @constructor
  * @param {Object} config Configuration options
  */
-Ext.ametys.Field = function(config) 
+Ext.ametys.Tree = function(config) 
 {
-	Ext.ametys.Field.superclass.constructor.call(this, config);
+	Ext.ametys.Tree.superclass.constructor.call(this, config);
 }; 
 
-Ext.extend(Ext.ametys.Field, Ext.form.Field, 
-{
-	msgTarget: 'side'
-});
+Ext.extend(Ext.ametys.Tree, Ext.tree.TreePanel, {});
 
 

@@ -45,7 +45,7 @@
 								var type = "<xsl:value-of select="type"/>";
 								if (type == 'string')
 								{
-									input = new Ext.ametys.TextField ({
+									input = new Ext.ametys.form.TextField ({
 								        fieldLabel: "<i18n:text i18n:key="{label}"/>",
 								        desc: "<i18n:text i18n:key="{description}"/>",
 								        name: "field_<xsl:value-of select="local-name()"/>",
@@ -54,7 +54,7 @@
 								}
 								else if (type == 'password')
 								{
-									input = new Ext.ametys.PasswordField ({
+									input = new Ext.ametys.form.PasswordField ({
 								        fieldLabel: "<i18n:text i18n:key="{label}"/>",
 								        desc: "<i18n:text i18n:key="{description}"/>",
 								        name: "field_<xsl:value-of select="local-name()"/>",
@@ -64,7 +64,7 @@
 								}
 								else if (type == 'date')
 								{
-									input = new Ext.ametys.DateField ({
+									input = new Ext.ametys.form.DateField ({
 								        fieldLabel: "<i18n:text i18n:key="{label}"/>",
 								        desc: "<i18n:text i18n:key="{description}"/>",
 								        name: "field_<xsl:value-of select="local-name()"/>",
@@ -73,7 +73,7 @@
 								}
 								else if (type == 'boolean')
 								{
-									input = new Ext.ametys.BooleanField ({
+									input = new Ext.ametys.form.BooleanField ({
 								        fieldLabel: "<i18n:text i18n:key="{label}"/>",
 								        desc: "<i18n:text i18n:key="{description}"/>",
 								        name: "field_<xsl:value-of select="local-name()"/>",
@@ -82,7 +82,7 @@
 								}
 								else
 								{
-									input = new Ext.ametys.TextField ({
+									input = new Ext.ametys.form.TextField ({
 								        fieldLabel: "<i18n:text i18n:key="{label}"/>",
 								        desc: "<i18n:text i18n:key="{description}"/>",
 								        name: "field_<xsl:value-of select="local-name()"/>",
@@ -195,7 +195,7 @@
 					        onFocus : function () {this.setValue('');}
 						});
 					
-						var searchForm = new Ext.ametys.Form({
+						var searchForm = new Ext.form.FormPanel({
 					        items: [searchField],
 					       	baseCls: 'search',
 					        buttons: [{

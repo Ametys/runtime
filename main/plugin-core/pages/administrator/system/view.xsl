@@ -116,7 +116,7 @@
 
 		                    RUNTIME_Plugin_Runtime_Administrator_System_Announcement.initialize = function ()
 		                    {
-		                    	var langCodeInput = new Ext.ametys.TextField ({
+		                    	var langCodeInput = new Ext.ametys.form.TextField ({
 									fieldLabel: '<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_COL_LANG"/>',
 									desc: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_LANG_HELP"/>",
 							        name: 'languageCode',
@@ -124,7 +124,7 @@
 									anchor:'90%'
 								});	
 								
-								var message = new Ext.ametys.TextAreaField ({
+								var message = new Ext.ametys.form.TextAreaField ({
 									fieldLabel :'<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_COL_MESSAGE"/>',
 									desc: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_MESSAGE_HELP"/>",
 									name: 'message',

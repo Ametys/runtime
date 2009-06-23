@@ -14,8 +14,8 @@ Ext.namespace('Ext.ametys');
 
 /**
  * Ext.ametys.DesktopPanel
- * @class Ext.ametys.DesktopPanel
- * @extends Ext.BoxComponent
+ * @class This class provides a container for {@link Ext.ametys.DesktopItem}
+ * @extends Ext.Container
  * @constructor
  * @param {Object} config Configuration options
  */
@@ -27,19 +27,20 @@ Ext.ametys.DesktopPanel = function(config)
 Ext.extend(Ext.ametys.DesktopPanel, Ext.Container, 
 {
 	border: false,
-	autoscroll: true, 
-	onRender : function(ct, position)
+	autoscroll: true
+}
+
+Ext.ametys.DesktopPanel.prototype.onRender = function(ct, position)
+{
+	Ext.ametys.DesktopPanel.superclass.onRender.call(this, ct, position);
+	
+	if(!this.el) 
 	{
-		Ext.ametys.DesktopPanel.superclass.onRender.call(this, ct, position);
-		
-		if(!this.el) 
-		{
-			this.el = ct.createChild({
-	            id: this.id,
-	            cls: this.baseCls
-	        }, position);
-		}
+		this.el = ct.createChild({
+            id: this.id,
+            cls: this.baseCls
+        }, position);
 	}
-});
+}
 
 

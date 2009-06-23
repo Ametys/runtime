@@ -15,7 +15,7 @@ Ext.namespace('Ext.ametys');
 /**
  * Ext.ametys.DesktopCategory
  *
- * @class Ext.ametys.DesktopCategory
+ * @class This class represents a category of {@link Ext.ametys.DesktopItem}
  * @extends Ext.BoxComponent
  * @constructor
  * @param {Object} config Configuration options
@@ -28,19 +28,20 @@ Ext.ametys.DesktopCategory = function(config)
 Ext.extend(Ext.ametys.DesktopCategory, Ext.BoxComponent, 
 {
 	cls: 'desktop-category-title',
-	border: false,
-	onRender : function(ct, position)
-	{
-		Ext.ametys.DesktopCategory.superclass.onRender.call(this, ct, position);
-		
-		if(!this.el) 
-		{
-			this.el = ct.createChild({
-	            id: this.id,
-	            cls: this.cls,
-	            html: this.text,
-	            tag: 'h2'
-	        }, position);
-		}
-	}
+	border: false
 });
+
+Ext.ametys.DesktopCategory.prototype.onRender : function(ct, position)
+{
+	Ext.ametys.DesktopCategory.superclass.onRender.call(this, ct, position);
+	
+	if(!this.el) 
+	{
+		this.el = ct.createChild({
+            id: this.id,
+            cls: this.cls,
+            html: this.text,
+            tag: 'h2'
+        }, position);
+	}
+}

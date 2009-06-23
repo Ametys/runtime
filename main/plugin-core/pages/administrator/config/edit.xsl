@@ -41,6 +41,9 @@
                     
                     function save()
                     {
+                    	if (!centerPanel.getForm().isValid())
+                    		return;
+                        
                         var url = getPluginDirectUrl("<xsl:value-of select="$pluginName"/>") + "/administrator/config/set";
                         var args = Tools.buildQueryString(document.getElementById("save-config"), "");
 
@@ -179,7 +182,7 @@
 									var inputType;
 									if (type == 'double')
 									{
-										input = new Ext.ametys.DoubleField ({
+										input = new Ext.ametys.form.DoubleField ({
 									        fieldLabel: "<i18n:text i18n:key="{label}" i18n:catalogue="{label/@catalogue}"/>",
 									        desc: "<i18n:text i18n:key="{description}" i18n:catalogue="{description/@catalogue}"/>",
 									        name: "<xsl:value-of select="local-name()"/>",
@@ -190,7 +193,7 @@
 									}
 									else if (type == 'long')
 									{
-										input = new Ext.ametys.LongField ({
+										input = new Ext.ametys.form.LongField ({
 									        fieldLabel: "<i18n:text i18n:key="{label}" i18n:catalogue="{label/@catalogue}"/>",
 									        desc: "<i18n:text i18n:key="{description}" i18n:catalogue="{description/@catalogue}"/>",
 									        name: "<xsl:value-of select="local-name()"/>",
@@ -201,18 +204,17 @@
 									}
 									else if (type == 'password')
 									{
-										input = new Ext.ametys.PasswordField ({
+										input = new Ext.ametys.form.PasswordWidget ({
 									        fieldLabel: "<i18n:text i18n:key="{label}" i18n:catalogue="{label/@catalogue}"/>",
 									        desc: "<i18n:text i18n:key="{description}" i18n:catalogue="{description/@catalogue}"/>",
 									        name: "<xsl:value-of select="local-name()"/>",
 									        value: "<xsl:value-of select="value"/>",
-									        msgTarget: 'under', // position du message d'erreur 
-									        width: 250
+									        labelWidth :230
 										});
 									}
 									else if (type == 'date')
 									{
-										input = new Ext.ametys.DateField ({
+										input = new Ext.ametys.form.DateField ({
 									        fieldLabel: "<i18n:text i18n:key="{label}" i18n:catalogue="{label/@catalogue}"/>",
 									        desc: "<i18n:text i18n:key="{description}" i18n:catalogue="{description/@catalogue}"/>",
 									        name: "<xsl:value-of select="local-name()"/>",
@@ -223,7 +225,7 @@
 									}
 									else if (type == 'boolean')
 									{
-										input = new Ext.ametys.BooleanField ({
+										input = new Ext.ametys.form.BooleanField ({
 									        fieldLabel: "<i18n:text i18n:key="{label}" i18n:catalogue="{label/@catalogue}"/>",
 									        desc: "<i18n:text i18n:key="{description}" i18n:catalogue="{description/@catalogue}"/>",
 									        name: "<xsl:value-of select="local-name()"/>",
@@ -233,7 +235,7 @@
 									}
 									else
 									{
-										input = new Ext.ametys.TextField ({
+										input = new Ext.ametys.form.TextField ({
 									        fieldLabel: "<i18n:text i18n:key="{label}" i18n:catalogue="{label/@catalogue}"/>",
 									        desc: "<i18n:text i18n:key="{description}" i18n:catalogue="{description/@catalogue}"/>",
 									        name: "<xsl:value-of select="local-name()"/>",

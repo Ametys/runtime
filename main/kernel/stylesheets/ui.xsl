@@ -125,7 +125,8 @@
 
     	<script type="text/javascript" src="{$contextPath}/kernel/resources/extjs/js/adapter/ext/ext-base.js"><xsl:comment>empty</xsl:comment></script>
 		<script type="text/javascript" src="{$contextPath}/kernel/resources/extjs/js/ext-core.js"><xsl:comment>empty</xsl:comment></script>
-		<script type="text/javascript" src="{$contextPath}/kernel/resources/extjs/js/ext-all.js"><xsl:comment>empty</xsl:comment></script>
+		<!--<script type="text/javascript" src="{$contextPath}/kernel/resources/extjs/js/ext-all.js"><xsl:comment>empty</xsl:comment></script>-->
+		<script type="text/javascript" src="{$contextPath}/kernel/resources/extjs/js/ext-all-debug.js"><xsl:comment>empty</xsl:comment></script>
 		
 		<script type="text/javascript">
 			<xsl:comment>
@@ -151,20 +152,15 @@
 	
 		<link rel="stylesheet" type="text/css" href="{$contextPath}/kernel/resources/extjs/css/ext-all.css" />
 
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/ametys/Ext.ametys.ActionPanel.js"><xsl:comment>empty</xsl:comment></script>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/ametys/Ext.ametys.CategoryPanel.js"><xsl:comment>empty</xsl:comment></script>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/ametys/Ext.ametys.ContextualPanel.js"><xsl:comment>empty</xsl:comment></script>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/ametys/Ext.ametys.DialogBox.js"><xsl:comment>empty</xsl:comment></script>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/ametys/Ext.ametys.Form.js"><xsl:comment>empty</xsl:comment></script>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/ametys/Ext.ametys.Field.js"><xsl:comment>empty</xsl:comment></script>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/ametys/Ext.ametys.ListView.js"><xsl:comment>empty</xsl:comment></script>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/ametys/Ext.ametys.EditorListView.js"><xsl:comment>empty</xsl:comment></script>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/ametys/Ext.ametys.Tree.js"><xsl:comment>empty</xsl:comment></script>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/ametys/Ext.ametys.Utility.js"><xsl:comment>empty</xsl:comment></script>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/ametys/Ext.ametys.DesktopPanel.js"><xsl:comment>empty</xsl:comment></script>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/ametys/Ext.ametys.DesktopCategory.js"><xsl:comment>empty</xsl:comment></script>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/ametys/Ext.ametys.DesktopItem.js"><xsl:comment>empty</xsl:comment></script>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/ametys/Ext.ametys.HtmlContainer.js"><xsl:comment></xsl:comment></script>
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Ext/ametys/DialogBox.js"><xsl:comment>empty</xsl:comment></script>
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Ext/ametys/ListView.js"><xsl:comment>empty</xsl:comment></script>
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Ext/ametys/EditorListView.js"><xsl:comment>empty</xsl:comment></script>
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Ext/ametys/Tree.js"><xsl:comment>empty</xsl:comment></script>
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Ext/ametys/Utility.js"><xsl:comment>empty</xsl:comment></script>
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Ext/ametys/DesktopPanel.js"><xsl:comment>empty</xsl:comment></script>
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Ext/ametys/DesktopCategory.js"><xsl:comment>empty</xsl:comment></script>
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Ext/ametys/DesktopItem.js"><xsl:comment>empty</xsl:comment></script>
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Ext/ametys/HtmlContainer.js"><xsl:comment></xsl:comment></script>
         
         <link rel="stylesheet" href="{$contextPath}/kernel/resources/css/dialog.css" type="text/css"/>
        	<link rel="stylesheet" href="{$contextPath}/kernel/resources/css/form.css" type="text/css"/>

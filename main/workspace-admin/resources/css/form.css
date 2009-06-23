@@ -97,3 +97,20 @@ h3.ametys-subcategory {
 .ametys-select .x-form-trigger .x-form-arrow-trigger {
 	height: 19px !important;
 }
+
+.ametys-password-field-body {
+	margin: 0;
+	padding: 0;
+}
+
+.ametys-password-button-cancel {
+	width: 30px !important;
+	height: 20px;
+	float:left;
+}
+
+.ametys-password-button-cancel button {
+	background-repeat: no-repeat;
+	padding-left: 3px !important;
+	padding-right: 3px !important
+}

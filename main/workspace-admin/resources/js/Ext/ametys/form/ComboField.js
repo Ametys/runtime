@@ -10,41 +10,41 @@
  */
 
 // Ametys Namespace
-Ext.namespace('Ext.ametys');
+Ext.namespace('Ext.ametys.form');
 
 /**
- * Ext.ametys.PasswordField
+ * Ext.ametys.form.ComboField
  *
- * @class Ext.ametys.PasswordField
- * @extends Ext.form.TextField
+ * @class This class provides a combo field width a help icon. Use the <code>desc</option> to add the help icon.
+ * @extends Ext.form.ComboBox
  * @constructor
  * @param {Object} config Configuration options
  */
-Ext.ametys.PasswordField = function(config) 
+Ext.ametys.form.ComboField = function(config) 
 {
-	Ext.ametys.PasswordField.superclass.constructor.call(this, config);
+	config.itemCls = "ametys-select";
+	config.labelSeparator = '';
+	
+	Ext.ametys.form.ComboField.superclass.constructor.call(this, config);
 }; 
 
-Ext.extend(Ext.ametys.PasswordField, Ext.form.TextField, 
+Ext.extend(Ext.ametys.form.ComboField, Ext.form.ComboBox, {});
+
+Ext.ametys.form.ComboField.prototype.onRender = function(ct, position)
 {
-	itemCls : "ametys-input",
-	inputType: 'password',
-	labelSeparator: '',
-	onRender : function(ct, position)
+	Ext.ametys.form.ComboField.superclass.onRender.call(this, ct, position);
+	
+	if (this.desc)
 	{
-		Ext.ametys.PasswordField.superclass.onRender.call(this, ct, position);
-		
 		this.el.insertSibling({
 			id: this.name + '-img',
 			tag:'img',
 			style: 'padding-left: 9px; padding-top : 7px;',
-			src: context.contextPath + '/plugins/core/resources/img/administrator/config/help.gif'}, 'after');
-
+			src: getPluginResourcesUrl('core') + '/img/administrator/config/help.gif'}, 'after');
+	
 		var tooltip = new Ext.ToolTip({
 	        target: this.name + '-img',
 	        html: this.desc
 	    });
 	}
-});
-
-
+}

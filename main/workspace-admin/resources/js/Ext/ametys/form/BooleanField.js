@@ -10,41 +10,45 @@
  */
 
 // Ametys Namespace
-Ext.namespace('Ext.ametys');
+Ext.namespace('Ext.ametys.form');
 
 /**
- * Ext.ametys.BooleanField
+ * Ext.ametys.form.BooleanField
  *
- * @class Ext.ametys.BooleanField
+ * @class This class provides a checkbox field width a help icon. Use the <code>desc</option> to add the help icon.
  * @extends Ext.form.Checkbox
  * @constructor
  * @param {Object} config Configuration options
  */
-Ext.ametys.BooleanField = function(config) 
+Ext.ametys.form.BooleanField = function(config) 
 {
-	Ext.ametys.BooleanField.superclass.constructor.call(this, config);
+	config.itemCls = "ametys-input";
+	config.labelSeparator = '';
+	
+	Ext.ametys.form.BooleanField.superclass.constructor.call(this, config);
 }; 
 
-Ext.extend(Ext.ametys.BooleanField,  Ext.form.Checkbox, 
+Ext.extend(Ext.ametys.form.BooleanField, Ext.form.Checkbox, {});
+
+Ext.ametys.form.BooleanField.prototype.onRender = function(ct, position)
 {
-	itemCls : "ametys-input",
-	labelSeparator: '',
-	onRender : function(ct, position)
+	Ext.ametys.form.BooleanField.superclass.onRender.call(this, ct, position);
+	
+	if (this.desc)
 	{
-		Ext.ametys.BooleanField.superclass.onRender.call(this, ct, position);
-		
-		this.el.parent().insertSibling({
+		this.el.insertSibling({
 			id: this.name + '-img',
 			tag:'img',
 			style: 'padding-left: 9px; padding-top : 7px;',
-			src: context.contextPath + '/plugins/core/resources/img/administrator/config/help.gif'}, 'after');
-		
+			src: getPluginResourcesUrl('core') + '/img/administrator/config/help.gif'}, 'after');
+	
 		var tooltip = new Ext.ToolTip({
 	        target: this.name + '-img',
 	        html: this.desc
 	    });
-
 	}
-});
+}
+
+
 
 

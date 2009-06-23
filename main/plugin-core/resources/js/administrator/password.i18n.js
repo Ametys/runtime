@@ -31,7 +31,7 @@ RUNTIME_Plugin_Runtime_Administrator_Password.delayedInitialize = function()
     		defaultType :'textfield',
     		border :false,
     		bodyStyle :'padding:10px 10px 0',
-    		items :[ new Ext.ametys.TextField({
+    		items :[ new Ext.ametys.form.TextField({
     			fieldLabel :"<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_OLD"/>",
     			name :'oldPassword',
     			width :190,
@@ -39,7 +39,7 @@ RUNTIME_Plugin_Runtime_Administrator_Password.delayedInitialize = function()
     	        inputType:"password",
     	        msgTarget: 'side',
     	        blankText: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_MANDATORY"/>"
-    		}), new Ext.ametys.TextField({
+    		}), new Ext.ametys.form.TextField({
     			fieldLabel :"<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_NEW"/>",
     			name :'newPassword',
     			width :190,
@@ -47,7 +47,7 @@ RUNTIME_Plugin_Runtime_Administrator_Password.delayedInitialize = function()
     	        inputType:"password",
     	        msgTarget: 'side',
     	        blankText: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_MANDATORY"/>"
-    		}), new Ext.ametys.TextField({
+    		}), new Ext.ametys.form.TextField({
     			fieldLabel: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CONFIRM"/>",
     			name :'confirmPassword',
     			width :190,

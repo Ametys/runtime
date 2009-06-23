@@ -10,42 +10,42 @@
  */
 
 // Ametys Namespace
-Ext.namespace('Ext.ametys');
+Ext.namespace('Ext.ametys.form');
 
 /**
- * Ext.ametys.LongField
+ * Ext.ametys.form.DateField
  *
- * @class Ext.ametys.LongField
- * @extends Ext.form.NumberField
+ * @class This class provides a calendar field width a help icon. Use the <code>desc</option> to add the help icon.
+ * @extends Ext.form.DateField
  * @constructor
  * @param {Object} config Configuration options
  */
-Ext.ametys.LongField = function(config) 
+Ext.ametys.form.DateField = function(config) 
 {
-	Ext.ametys.LongField.superclass.constructor.call(this, config);
+	config.itemCls = "ametys-input";
+	config.labelSeparator = '';
+	
+	Ext.ametys.form.DateField.superclass.constructor.call(this, config);
 }; 
 
-Ext.extend(Ext.ametys.LongField, Ext.form.NumberField, 
+
+Ext.extend(Ext.ametys.form.DateField, Ext.form.DateField, {});
+
+Ext.ametys.form.DateField.prototype.onRender = function(ct, position)
 {
-	itemCls : "ametys-input",
-	allowDecimals : false,
-	labelSeparator: '',
-	onRender : function(ct, position)
+	Ext.ametys.form.DateField.superclass.onRender.call(this, ct, position);
+	
+	if (this.desc)
 	{
-		Ext.ametys.LongField.superclass.onRender.call(this, ct, position);
-		
 		this.el.insertSibling({
 			id: this.name + '-img',
 			tag:'img',
 			style: 'padding-left: 9px; padding-top : 7px;',
-			src: context.contextPath + '/plugins/core/resources/img/administrator/config/help.gif'}, 'after');
-		
+			src: getPluginResourcesUrl('core') + '/img/administrator/config/help.gif'}, 'after');
+	
 		var tooltip = new Ext.ToolTip({
 	        target: this.name + '-img',
 	        html: this.desc
 	    });
-
 	}
-});
-
-
+}
