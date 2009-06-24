@@ -28,7 +28,7 @@ Ext.extend(Ext.ametys.DesktopPanel, Ext.Container,
 {
 	border: false,
 	autoscroll: true
-}
+});
 
 Ext.ametys.DesktopPanel.prototype.onRender = function(ct, position)
 {

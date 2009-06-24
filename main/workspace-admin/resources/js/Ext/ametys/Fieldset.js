@@ -34,7 +34,7 @@ Ext.extend(Ext.ametys.Fieldset, Ext.Panel,
 	border: false
 });
 
-Ext.ametys.Fieldset.prototype.onRender : function(ct, position)
+Ext.ametys.Fieldset.prototype.onRender = function(ct, position)
 {
 	Ext.ametys.Fieldset.superclass.onRender.call(this, ct, position);
 	

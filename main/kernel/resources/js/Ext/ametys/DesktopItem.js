@@ -94,7 +94,7 @@ Ext.ametys.DesktopItem.prototype._onMouseOver = function(e)
 * @param e The event object
 * @private
 */
-Ext.ametys.DesktopItem.prototype._onMouseOut : function(e)
+Ext.ametys.DesktopItem.prototype._onMouseOut = function(e)
 {
 	if(this.fireEvent("mouseout", this.node, e) !== false)
 	{

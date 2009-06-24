@@ -53,7 +53,7 @@ Ext.extend(Ext.ametys.NavigationPanel, Ext.Panel,
  * @param {String} text The text of the item
  * @param act The function to call on click event
  */
-Ext.ametys.NavigationPanel.prototype.addItems : function (text, act) 
+Ext.ametys.NavigationPanel.prototype.addItems = function (text, act) 
 { 
 	var span = document.createElement("span");
 	
@@ -74,7 +74,7 @@ Ext.ametys.NavigationPanel.prototype.addItems : function (text, act)
 }
 
 
-Ext.ametys.NavigationPanel.prototype.onRender : function(ct, position)
+Ext.ametys.NavigationPanel.prototype.onRender = function(ct, position)
 {
 	Ext.ametys.NavigationPanel.superclass.onRender.call(this, ct, position);
 	

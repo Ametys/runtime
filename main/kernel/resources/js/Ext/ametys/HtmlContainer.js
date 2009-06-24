@@ -41,7 +41,7 @@ Ext.extend(Ext.ametys.HtmlContainer, Ext.Container,
 });
 
 
-Ext.ametys.HtmlContainer.prototype.onRender : function(ct, position)
+Ext.ametys.HtmlContainer.prototype.onRender = function(ct, position)
 {
 	Ext.ametys.HtmlContainer.superclass.onRender.call(this, ct, position);
 	

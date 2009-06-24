@@ -51,13 +51,13 @@ Ext.extend(Ext.ametys.DockItem, Ext.Button,
             '</div>')
 });
 	
-Ext.ametys.DockItem.prototype.handler: function ()
+Ext.ametys.DockItem.prototype.handler = function ()
 {
 	this.actionFunction(this.plugin, this.actionParams);
 }
 
 
-Ext.ametys.DockItem.prototype.onRender : function(ct, position)
+Ext.ametys.DockItem.prototype.onRender = function(ct, position)
 {
 	Ext.ametys.DockItem.superclass.onRender.call(this, ct, position);
 	if (this.desc)

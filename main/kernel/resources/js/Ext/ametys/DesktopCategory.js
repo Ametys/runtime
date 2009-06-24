@@ -31,7 +31,7 @@ Ext.extend(Ext.ametys.DesktopCategory, Ext.BoxComponent,
 	border: false
 });
 
-Ext.ametys.DesktopCategory.prototype.onRender : function(ct, position)
+Ext.ametys.DesktopCategory.prototype.onRender = function(ct, position)
 {
 	Ext.ametys.DesktopCategory.superclass.onRender.call(this, ct, position);
 	

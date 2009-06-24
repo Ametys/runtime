@@ -130,7 +130,7 @@ Ext.ametys.Action.prototype._onClick = function(e)
     }
 }
 
-Ext.ametys.Action.prototype.onRender : function(ct, position)
+Ext.ametys.Action.prototype.onRender = function(ct, position)
 {
 	Ext.ametys.Action.superclass.onRender.call(this, ct, position);
 	

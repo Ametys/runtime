@@ -67,11 +67,11 @@ Ext.extend(Ext.ametys.DialogBox, Ext.Window,
 	resizable : true,
 	shadow : true,
 	modal: true,
-	ametysCls : 'ametys-box',
+	ametysCls : 'ametys-box'
 });
 
 
-Ext.ametys.DialogBox.prototype.onRender : function(ct, position)
+Ext.ametys.DialogBox.prototype.onRender = function(ct, position)
 {
 	Ext.ametys.DialogBox.superclass.onRender.call(this, ct, position);
 	this.body.addClass(this.ametysCls + '-body');

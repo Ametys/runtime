@@ -52,7 +52,7 @@ Ext.extend(Ext.ametys.NavigationItem, Ext.Button,
 });
 
 
-Ext.ametys.NavigationItem.prototype.handler: function ()
+Ext.ametys.NavigationItem.prototype.handler = function ()
 {
 	if (this.divToScroll)
 	{
@@ -81,7 +81,7 @@ Ext.ametys.NavigationItem.prototype.handler: function ()
 	}
 }
 
-Ext.ametys.NavigationItem.prototype.onRender : function(ct, position)
+Ext.ametys.NavigationItem.prototype.onRender = function(ct, position)
 {
 	Ext.ametys.NavigationItem.superclass.onRender.call(this, ct, position);
 	this.ctToScroll = Ext.getCmp(this.ctToScroll);
