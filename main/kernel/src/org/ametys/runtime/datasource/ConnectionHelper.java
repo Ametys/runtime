@@ -91,8 +91,7 @@ public final class ConnectionHelper
         }
         catch (SQLException e)
         {
-            _logger.error("Unable to get Connection from pool " + poolName, e);
-            throw new IllegalArgumentException("Unable to get Connection from pool " + poolName);
+            throw new RuntimeException("Unable to get Connection from pool " + poolName, e);
         }
 
         return conn;
