@@ -142,6 +142,12 @@ public class RuntimeServlet extends CocoonServlet
     @Override
     protected synchronized void createCocoon() throws ServletException
     {
+        // Set this property in order to avoid a System.err.println (CatalogManager.java)
+        if (System.getProperty("xml.catalog.ignoreMissing") == null)
+        {
+            System.setProperty("xml.catalog.ignoreMissing", "true");
+        }
+        
         super.createCocoon();
         
         if (ConfigManager.getInstance().isComplete())

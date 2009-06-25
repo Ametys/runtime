@@ -87,6 +87,12 @@ public abstract class AbstractRuntimeTestCase extends TestCase
      */
     protected CocoonWrapper _startCocoon(String applicationPath) throws Exception
     {
+        // Set this property in order to avoid a System.err.println (CatalogManager.java)
+        if (System.getProperty("xml.catalog.ignoreMissing") == null)
+        {
+            System.setProperty("xml.catalog.ignoreMissing", "true");
+        }
+        
         CocoonWrapper cocoon = new CocoonWrapper(applicationPath, "tmp/work");
         cocoon.initialize();
         
