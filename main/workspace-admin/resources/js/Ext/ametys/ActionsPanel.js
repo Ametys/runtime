@@ -37,7 +37,7 @@ Ext.extend(Ext.ametys.ActionsPanel, Ext.Panel,
 	awtCls : 'actions-panel',
 	cls: 'actions-panel',
 	actions : [],
-	elements: 'body,footer',
+	elements: 'body,footer'
 });
 
 
