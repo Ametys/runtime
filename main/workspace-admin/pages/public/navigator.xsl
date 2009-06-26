@@ -19,67 +19,85 @@
     <xsl:param name="workspaceURI"/>
     <xsl:param name="redirect"/>
     
-	
-    <xsl:template name="workspace-title"></xsl:template>
-    <xsl:template name="workspace-head"></xsl:template>
-    <xsl:template name="workspace-script"></xsl:template>
-    
-    <xsl:template name="workspace-body">
-		<!-- BODY -->
-		<table style="width: 100%; height: 100%; background-color: #efebde;">
-			<tr>
-				<td style="padding: 30px"> 
-
-					<div style="vertical-align: middle; text-align: center; FONT-SIZE: 14px; FONT-WEIGHT: BOLD; COLOR: orange;">
-                        <img src="{$contextPath}{$workspaceURI}/resources/img/icon/warning.gif" style="margin-right: 5px; vertical-align: middle;"/>
-                        <i18n:text i18n:key="WORKSPACE_ADMIN_NAVIGATOR_TITLE"/>
-                    </div>
-                    
-					<br/><br/>
-                    
-					<div style="text-align: center">
-                        <i18n:text i18n:key="WORKSPACE_ADMIN_NAVIGATOR_TEXT"/>
-                    </div>
-                    
-					<br/><br/>
+	<xsl:template name="workspace-script">
+		<script type="text/javascript">
+        	<xsl:comment>
+				var center = new Ext.ametys.HtmlContainer({
+					region: 'center',
+					contentEl : 'top-panel',
+					baseCls: 'top-panel',
+					border: false
+				}); 	
+				
+           		function workspaceBody ()
+           		{
+           			return new Ext.Panel({
+           				border: false,
+           				layout: 'border',
+           				autoScroll: true,
+           				baseCls: 'transparent-panel',
+						items : [center]
+					});
+           		}
+			</xsl:comment>
+		</script>
+           	
+        <script type="text/javascript">
+			<xsl:comment>
+				function forceNonSupportedNavigators()
+				{
+					// Create cookie which will expires when the browser is closed down
+					document.cookie = "ametys.accept.non.supported.navigators=on; path=<xsl:value-of select="$contextPath"/>/;";
 					
-					<script type="text/javascript">
-						<xsl:comment>
-							function forceNonSupportedNavigators()
-							{
-								// Create cookie which will expires when the browser is closed down
-								document.cookie = "ametys.accept.non.supported.navigators=on; path=<xsl:value-of select="$contextPath"/>/;";
-								
-								// Redirect
-								return true;
-							}
-						</xsl:comment>
-					</script>
-                    
-					<div style="text-align: center">
-						<i18n:text i18n:key="WORKSPACE_ADMIN_NAVIGATOR_FORCE_TEXT"/>
-					</div>
-					<div style="text-align: center; margin-top: 20px;">
-						<style>
-							a.runtime_link, a.runtime_link:visited, a.runtime_link:hover, a.runtime_link:hover
-							{
-								font-weight: bold;
-								color: #00005f;
-							}
-							a.runtime_link:hover
-							{
-								text-decoration: underline;
-							}
-						</style>
-                        <a class="runtime_link" href="{$redirect}" onclick="javascript:forceNonSupportedNavigators();">
-                            <img src="{$contextPath}{$workspaceURI}/resources/img/icon/warning.gif" border="0" style="margin-right: 5px; vertical-align: middle;"/>
-                            <i18n:text i18n:key="WORKSPACE_ADMIN_NAVIGATOR_FORCE_LINK"/>
-                        </a>
-                    </div>
-                    
-				</td>
-			</tr>
-		</table>
+					// Redirect
+					return true;
+				}
+			</xsl:comment>
+		</script>
+           	
+       	<style>
+       		.top-panel {
+       			background: none !important;
+       			text-align: center;
+				color: #666; 
+				padding-top: 30px;
+       		}
+       		.center-panel-body {
+       			background: none !important;
+       			text-align: center !important;
+       			padding-top: 10px;
+       			padding-bottom: 20px;
+       		}
+       		
+			.top-panel .title {
+				font-size: 1.4em; 
+				font-weight: bold; 
+				color: #1C58A0; 
+				text-transform: uppercase;
+			}
+		</style>
+    </xsl:template>
+    
+     <xsl:template name="workspace-body">
+    	<div id="top-panel"> 
+			<div class="title">
+               <i18n:text i18n:key="WORKSPACE_ADMIN_NAVIGATOR_TITLE"/>
+            </div>
+                  
+			<br/><br/>
+                  
+			<div>
+                <i18n:text i18n:key="WORKSPACE_ADMIN_NAVIGATOR_TEXT"/>
+                
+                <a href="{$redirect}" onclick="javascript:forceNonSupportedNavigators();">
+                	<img src="{$contextPath}{$workspaceURI}/resources/img/icon/warning.gif" border="0" style="margin-right: 5px; vertical-align: middle;"/>
+                   	<i18n:text i18n:key="WORKSPACE_ADMIN_NAVIGATOR_FORCE_LINK"/>
+                </a>
+            </div>
+                  
+			<br/><br/>
+            
+		</div>
     </xsl:template>
     
     <xsl:template name="ui-tools-load"/>
