@@ -123,9 +123,10 @@
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Runtime_InteractionActionLibrary.js"><xsl:comment>empty</xsl:comment></script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/mozxpath.js"><xsl:comment>empty</xsl:comment></script>
 
-    	<script type="text/javascript" src="{$contextPath}/kernel/resources/extjs_3.0_4569/js/adapter/ext/ext-base.js"><xsl:comment>empty</xsl:comment></script>
-		<script type="text/javascript" src="{$contextPath}/kernel/resources/extjs_3.0_4569/js/ext-all.js"><xsl:comment>empty</xsl:comment></script>
-<!--		<script type="text/javascript" src="{$contextPath}/kernel/resources/extjs_3.0_4569/js/ext-all-debug.js"><xsl:comment>empty</xsl:comment></script>-->
+    	<script type="text/javascript" src="{$contextPath}/kernel/resources/extjs/js/adapter/ext/ext-base.js"><xsl:comment>empty</xsl:comment></script>
+		<script type="text/javascript" src="{$contextPath}/kernel/resources/extjs/js/ext-core.js"><xsl:comment>empty</xsl:comment></script>
+		<!--<script type="text/javascript" src="{$contextPath}/kernel/resources/extjs/js/ext-all.js"><xsl:comment>empty</xsl:comment></script>-->
+		<script type="text/javascript" src="{$contextPath}/kernel/resources/extjs/js/ext-all-debug.js"><xsl:comment>empty</xsl:comment></script>
 		
 		<script type="text/javascript">
 			<xsl:comment>
@@ -145,13 +146,11 @@
 			</xsl:comment>
 		</script>
 		
-		<!-- NO LOCALE ON V3 TRUNK 
 		<script type="text/javascript">
             Tools.loadScript(document, "<xsl:value-of select="$contextPath"/>/kernel/resources/extjs/js/lang/ext-lang-<i18n:text i18n:key="KERNEL_LANGUAGE_CODE" i18n:catalogue="kernel"/>.js");
 		</script>
-		 -->
 	
-		<link rel="stylesheet" type="text/css" href="{$contextPath}/kernel/resources/extjs_3.0_4569/css/ext-all.css" />
+		<link rel="stylesheet" type="text/css" href="{$contextPath}/kernel/resources/extjs/css/ext-all.css" />
 
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Ext/ametys/DialogBox.js"><xsl:comment>empty</xsl:comment></script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Ext/ametys/ListView.js"><xsl:comment>empty</xsl:comment></script>
