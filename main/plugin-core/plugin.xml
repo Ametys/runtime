@@ -9,8 +9,10 @@
     | Contributors:
     |     Anyware Technologies - initial API and implementation
     +-->
-<plugin  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ametys.org/Runtime/1.2/plugin.xsd"
-         runtimeVersion="1.2" version="1.2">
+<plugin xmlns="http://www.ametys.org/schema/plugin"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.ametys.org/schema/plugin http://www.ametys.org/schema/plugin-2.0.xsd"
+        runtimeVersion="2.0" version="2.0">
 	<!--
 		This is the mandatory plugin included in runtime that comes with :
 		<ul>

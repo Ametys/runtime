@@ -9,7 +9,13 @@
     | Contributors:
     |     Anyware Technologies - initial API and implementation
     +-->
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<xsd:schema xmlns="http://www.ametys.org/schema/plugin"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://www.ametys.org/schema/plugin"
+            elementFormDefault="qualified"
+            attributeFormDefault="unqualified">
+
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
 
     <xsd:element name="plugin" type="plugin">
         <xsd:annotation>
@@ -59,7 +65,7 @@
                 <xsd:documentation xml:lang="en">
                     <![CDATA[
                             Allows to specify the version of the plugin to check dependencies.<br/>
-                            As of Runtime version 1.2, this attribute is not actually used.
+                            As of Runtime version 2.0, this attribute is not actually used.
                         ]]>
                 </xsd:documentation>
             </xsd:annotation>
@@ -69,7 +75,7 @@
                 <xsd:documentation xml:lang="en">
                     <![CDATA[
                             Allows to specify the version of the plugin schema used by this plugin definition.<br/>
-                            This schema only accepts "1.2" as value.
+                            This schema only accepts "2.0" as value.
                         ]]>
                 </xsd:documentation>
             </xsd:annotation>
@@ -199,7 +205,7 @@
 
     <xsd:complexType name="extension-point">
         <xsd:sequence>
-            <xsd:any processContents="skip" maxOccurs="unbounded" minOccurs="0"/>
+            <xsd:any processContents="lax" maxOccurs="unbounded" minOccurs="0"/>
         </xsd:sequence>
         <xsd:attribute name="id" type="xsd:string" use="required">
             <xsd:annotation>
@@ -329,7 +335,7 @@
 
     <xsd:complexType name="component">
         <xsd:sequence>
-            <xsd:any processContents="skip" maxOccurs="unbounded" minOccurs="0"/>
+            <xsd:any processContents="lax" maxOccurs="unbounded" minOccurs="0"/>
         </xsd:sequence>
         <xsd:attribute name="class" type="xsd:string" use="required">
             <xsd:annotation>

@@ -242,6 +242,7 @@
 		<copy file="${plugin-dir}/sitemap.xmap" todir="${classes}/org/ametys/runtime/plugins/core"/>
 		
 		<ametys:resource-file destFile="${classes}/META-INF/runtime-plugin" name="core" uri="/org/ametys/runtime/plugins/core"/>
+		<ametys:resource-file destFile="${classes}/META-INF/runtime-schema" name="http://www.ametys.org/schema/plugin-2.0.xsd" uri="/org/ametys/runtime/plugin/plugin.xsd"/>
 	</target>
 	
 	<target name="runtime-resources-plugin" unless="skip-plugin">

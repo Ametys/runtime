@@ -31,15 +31,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.xml.parsers.SAXParserFactory;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
 
-import org.ametys.runtime.config.ConfigManager;
-import org.ametys.runtime.plugin.component.PluginsComponentManager;
-import org.ametys.runtime.servlet.RuntimeConfig;
-import org.ametys.runtime.util.LoggerFactory;
-import org.ametys.runtime.util.StringUtils;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -48,7 +40,18 @@ import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.WrapperServiceManager;
+import org.apache.commons.io.IOUtils;
+import org.apache.xerces.jaxp.JAXPConstants;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
+
+import org.ametys.runtime.config.ConfigManager;
+import org.ametys.runtime.plugin.component.PluginsComponentManager;
+import org.ametys.runtime.servlet.RuntimeConfig;
+import org.ametys.runtime.util.LoggerFactory;
+import org.ametys.runtime.util.StringUtils;
 
 /**
  * The PluginManager is in charge to load and initialize plugins. <br>
@@ -88,8 +91,12 @@ public final class PluginsManager
     // Extension points' roles
     private Collection<String> _extensionPointsRoles;
     
+    // Entity resolver for resolving XML schemas
+    private LocalEntityResolver _entityResolver;
+
     // Logger for traces
     private Logger _logger = LoggerFactory.getLoggerFor(PluginsManager.class);
+
 
     private PluginsManager()
     {
@@ -217,19 +224,58 @@ public final class PluginsManager
             URL pluginResource = pluginResources.nextElement();
             BufferedReader br = new BufferedReader(new InputStreamReader(pluginResource.openStream(), "UTF-8"));
             
-            String pluginName = br.readLine();            
-            String pluginResourceURI = br.readLine();
-            
-            if (getClass().getResource(pluginResourceURI + "/" + __PLUGIN_FILENAME) != null)
+            try
             {
-                _baseURIs.put(pluginName, pluginResourceURI);
+                String pluginName = br.readLine();            
+                String pluginResourceURI = br.readLine();
+                
+                if (getClass().getResource(pluginResourceURI + "/" + __PLUGIN_FILENAME) != null)
+                {
+                    _baseURIs.put(pluginName, pluginResourceURI);
+                }
+                else if (_logger.isWarnEnabled())
+                {
+                    _logger.warn("A plugin '" + pluginName + "' is declared in a library, but no file '" + __PLUGIN_FILENAME + "' can be found at '" + pluginResourceURI + "'. It will be ignored.");
+                }
+
             }
-            else if (_logger.isWarnEnabled())
+            finally
             {
-                _logger.warn("A plugin '" + pluginName + "' is declared in a library, but no file '" + __PLUGIN_FILENAME + "' can be found at '" + pluginResourceURI + "'. It will be ignored.");
+                IOUtils.closeQuietly(br);
             }
+        }
+    }
+    
+    // Recherche les schemas embarqués dans les jar
+    // Ils possèdent un fichier text META-INF/runtime-schema
+    // contenant l'identifiant du schema et son chemin d'accès
+    private void _initSchemas() throws IOException
+    {
+        Enumeration<URL> shemasResources = getClass().getClassLoader().getResources("META-INF/runtime-schema");
+        
+        while (shemasResources.hasMoreElements())
+        {
+            URL shemasResource = shemasResources.nextElement();
+            BufferedReader br = new BufferedReader(new InputStreamReader(shemasResource.openStream(), "UTF-8"));
             
-            br.close();
+            try
+            {
+                String systemId = br.readLine();            
+                String schemaResourceURI = br.readLine();
+                
+                if (getClass().getResource(schemaResourceURI) != null)
+                {
+                    _entityResolver.addSchema(systemId, schemaResourceURI);
+                }
+                else if (_logger.isWarnEnabled())
+                {
+                    _logger.warn("A schema is declared in a library, but no file can be found at '" + schemaResourceURI + "'. It will be ignored.");
+                }
+            }
+            finally
+            {
+                IOUtils.closeQuietly(br);
+            }
         }
     }
     
@@ -247,6 +293,7 @@ public final class PluginsManager
         _inactiveFeatures = new HashMap<String, InactiveFeature>();
         _activeFeatures = new HashMap<String, ActiveFeature>();
         _locations = new HashMap<String, String>();
+        _entityResolver = new LocalEntityResolver();
         
         // Localisation des plugins embarqués dans des librairies
         try
@@ -255,9 +302,19 @@ public final class PluginsManager
         }
         catch (IOException e)
         {
-            _logger.error("Unable to locate embedded plugins", e);
             throw new RuntimeException("Unable to locate embedded plugins", e);
         }
+        
+        // Localisation des schemas embarqués dans des librairies
+        try
+        {
+            _initSchemas();
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException("Unable to locate embedded schemas", e);
+        }
+
         
         // Les emplacements de plugins (ie les répertoires contenant des répertoires de plugins)
         Collection<String> locations = RuntimeConfig.getInstance().getPluginsLocations();
@@ -294,10 +351,9 @@ public final class PluginsManager
             configManager.service(new WrapperServiceManager(manager));
             configManager.initialize();
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            _logger.error("Exception while setting up ConfigManager", ex);
-            throw new RuntimeException("Exception while setting up ConfigManager", ex);
+            throw new RuntimeException("Exception while setting up ConfigManager", e);
         }
         
         try
@@ -316,10 +372,9 @@ public final class PluginsManager
                 configManager.addConfig(info.getPluginName(), info.getFeatureName(), info.getConfiguration());
             }
         }
-        catch (ConfigurationException ex)
+        catch (ConfigurationException e)
         {
-            _logger.error("Exception while reading Config configuration", ex);
-            throw new RuntimeException("Exception while reading Config configuration", ex);
+            throw new RuntimeException("Exception while reading Config configuration", e);
         }
         
         configManager.validate();
@@ -339,7 +394,6 @@ public final class PluginsManager
         }
         catch (ConfigurationException e)
         {
-            _logger.error("Exception while loading components", e);
             throw new RuntimeException("Exception while loading components", e);
         }
         
@@ -483,42 +537,24 @@ public final class PluginsManager
     
     private Configuration _getConfigurationFromStream(InputStream is, String path)
     {
-        InputStream xsd = null;
-        
         try
         {
-            // Validation du plugin.xml sur le schéma plugin.xsd
-            xsd = getClass().getResourceAsStream("/org/ametys/runtime/plugin/plugin.xsd");
-            Schema schema = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema").newSchema(new StreamSource(xsd));
-            
             SAXParserFactory factory = SAXParserFactory.newInstance();
-            factory.setSchema(schema);
+            factory.setValidating(true);
             factory.setNamespaceAware(true);
             XMLReader reader = factory.newSAXParser().getXMLReader();
-            
+            reader.setProperty(JAXPConstants.JAXP_SCHEMA_LANGUAGE, JAXPConstants.W3C_XML_SCHEMA);
+            reader.setEntityResolver(_entityResolver);
             DefaultConfigurationBuilder confBuilder = new DefaultConfigurationBuilder(reader);
             
             return confBuilder.build(is, path);
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            _logger.error("Unable to access to plugin at " + path, ex);
-            throw new RuntimeException("Unable to access to plugin at " + path, ex);
+            throw new RuntimeException("Unable to access to plugin at " + path, e);
         }
         finally
         {
-            if (xsd != null)
-            {
-                try
-                {
-                    xsd.close();
-                }
-                catch (IOException e)
-                {
-                    throw new RuntimeException("Exception closing stream : " + path, e);
-                }
-            }
-            
             if (is != null)
             {
                 try
@@ -582,15 +618,11 @@ public final class PluginsManager
                     }
                     catch (ClassNotFoundException e)
                     {
-                        String errorMessage = "Unable to load class '" + clazz + "' for extension point '" + id + "' in plugin " + pluginName;
-                        _logger.error(errorMessage, e);
-                        throw new IllegalArgumentException(errorMessage, e);
+                        throw new IllegalArgumentException("Unable to load class '" + clazz + "' for extension point '" + id + "' in plugin " + pluginName, e);
                     }
                     catch (ConfigurationException e)
                     {
-                        String errorMessage = "Unable to load configuration for extension point '" + id + "' in plugin " + pluginName;
-                        _logger.error(errorMessage, e);
-                        throw new IllegalArgumentException(errorMessage, e);
+                        throw new IllegalArgumentException("Unable to load configuration for extension point '" + id + "' in plugin " + pluginName, e);
                     }
                     
                     extPoints.add(id);
@@ -1290,6 +1322,40 @@ public final class PluginsManager
          * Constant for plugins disabled due to missing dependencies
          */
         DEPENDENCY
+    }
+    
+    private static class LocalEntityResolver implements EntityResolver
+    {
+        private Map<String, String> _schemas = new HashMap<String, String>();
+        
+        LocalEntityResolver()
+        {
+            // Nothing to do
+        }
+        
+        public void addSchema(String systemId, String resourceUri)
+        {
+            _schemas.put(systemId, resourceUri);
+        }
+        
+        public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException
+        {
+            if (systemId.endsWith(".xsd"))
+            {
+                String resourceUri = _schemas.get(systemId);
+
+                if (resourceUri != null)
+                {
+                    InputStream is = getClass().getResourceAsStream(resourceUri);
+                    
+                    if (is != null)
+                    {
+                        return new InputSource(is);
+                    }
+                }
+            }
+            return null;
+        }
     }
     
     /**
