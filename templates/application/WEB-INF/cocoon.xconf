@@ -134,8 +134,6 @@
         +-->
     <component-instance class="org.apache.excalibur.source.impl.FileSourceFactory" name="file"/>
     
-    <!-- Uncomment one of the 'resource-explorer' SourceFactory to access resource explorer -->
-    <component-instance class="org.apache.excalibur.source.impl.FileSourceFactory" name="resources-explorer"/>
     <component-instance class="org.apache.cocoon.components.source.impl.PartSourceFactory" name="upload"/>
 
     <!--+
