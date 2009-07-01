@@ -14,11 +14,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
@@ -31,8 +29,10 @@ import org.ametys.runtime.user.ModifiableUsersManager;
 import org.ametys.runtime.user.UserListener;
 import org.ametys.runtime.util.I18nizableText;
 import org.ametys.runtime.util.StringUtils;
-import org.ametys.runtime.util.parameter.EnumeratorValue;
+import org.ametys.runtime.util.parameter.Enumerator;
+import org.ametys.runtime.util.parameter.Errors;
 import org.ametys.runtime.util.parameter.ParameterHelper;
+import org.ametys.runtime.util.parameter.Validator;
 import org.ametys.runtime.util.parameter.ParameterHelper.ParameterType;
 
 
@@ -64,33 +64,51 @@ public class ModifiableJdbcUsersManager extends JdbcUsersManager implements Modi
             parameterAttr.addCDATAAttribute("plugin", parameter.getPluginName());
             XMLUtils.startElement(handler, "", parameter.getId(), parameterAttr);
     
-            XMLUtils.createElement(handler, "label", parameter.getLabelKey());
-            XMLUtils.createElement(handler, "description", parameter.getDescriptionKey());
-            XMLUtils.createElement(handler, "type", parameter.getTypeAsString());
+            parameter.getLabel().toSAX(handler, "label");
+            parameter.getDescription().toSAX(handler, "description");
+            XMLUtils.createElement(handler, "type", ParameterHelper.typeToString(parameter.getType()));
             
             if (parameter.getWidget() != null)
             {
                 XMLUtils.createElement(handler, "widget", parameter.getWidget());
             }
             
-            if (parameter.getEnumerator() != null)
+            Enumerator enumerator = parameter.getEnumerator();
+            
+            if (enumerator != null)
             {
                 XMLUtils.startElement(handler, "enumeration");
-                Collection<EnumeratorValue> values = parameter.getEnumerator().getValues();
-                for (EnumeratorValue enumeratorValue : values)
+                
+                try
                 {
-                    Object value = enumeratorValue.getValue();
-                    String valueAsString = ParameterHelper.valueToString(value);
-                    I18nizableText label = enumeratorValue.getLabel();
+                    for (Map.Entry<Object, I18nizableText> entry : enumerator.getEntries().entrySet())
+                    {
+                        String valueAsString = ParameterHelper.valueToString(entry.getKey());
+                        I18nizableText label = entry.getValue();
     
-                    // Produit l'option
-                    AttributesImpl attrs = new AttributesImpl();
-                    attrs.addCDATAAttribute("value", valueAsString);
-                    
-                    XMLUtils.startElement(handler, "option", attrs);
-                    label.toSAX(handler);
-                    XMLUtils.endElement(handler, "option");
+                        // Produit l'option
+                        AttributesImpl attrs = new AttributesImpl();
+                        attrs.addCDATAAttribute("value", valueAsString);
+                        
+                        XMLUtils.startElement(handler, "option", attrs);
+                        
+                        if (label != null)
+                        {
+                            label.toSAX(handler);
+                        }
+                        else
+                        {
+                            XMLUtils.data(handler, valueAsString);
+                        }
+                        
+                        XMLUtils.endElement(handler, "option");
+                    }
                 }
+                catch (Exception e)
+                {
+                    throw new SAXException("Unable to enumerate entries from enumerator: " + enumerator, e);
+                }
+                
                 XMLUtils.endElement(handler, "enumeration");
             }
 
@@ -115,20 +133,26 @@ public class ModifiableJdbcUsersManager extends JdbcUsersManager implements Modi
         }
         
         // Vérifie la présence de tous les paramètres
-        Set<String> errorFields = new HashSet<String>();
+        Map<String, Errors> errorFields = new HashMap<String, Errors>();
         for (JdbcParameter parameter : _parameters.values())
         {
             String untypedvalue = userInformation.get(parameter.getId());
             Object typedvalue = ParameterHelper.castValue(untypedvalue, parameter.getType());
-            if (parameter.getValidator() != null)
+            Validator validator = parameter.getValidator();
+            
+            if (validator != null)
             {
-                if (!parameter.getValidator().validate(typedvalue))
+                Errors errors = new Errors();
+                validator.validate(typedvalue, errors);
+                
+                if (errors.hasErrors())
                 {
                     if (getLogger().isDebugEnabled())
                     {
                         getLogger().debug("The field '" + parameter.getId() + "' is not valid");
                     }
-                    errorFields.add(parameter.getId());
+                   
+                    errorFields.put(parameter.getId(), errors);
                 }
             }
         }
@@ -237,7 +261,7 @@ public class ModifiableJdbcUsersManager extends JdbcUsersManager implements Modi
         Connection con = null;
         PreparedStatement stmt = null;
 
-        Set<String> errorFields = new HashSet<String>();
+        Map<String, Errors> errorFields = new HashMap<String, Errors>();
         for (String id : userInformation.keySet())
         {
             JdbcParameter parameter = _parameters.get(id);
@@ -245,15 +269,21 @@ public class ModifiableJdbcUsersManager extends JdbcUsersManager implements Modi
             {
                 String untypedvalue = userInformation.get(parameter.getId());
                 Object typedvalue = ParameterHelper.castValue(untypedvalue, parameter.getType());
-                if (parameter.getValidator() != null)
+                Validator validator = parameter.getValidator();
+                
+                if (validator != null)
                 {
-                    if (!parameter.getValidator().validate(typedvalue))
+                    Errors errors = new Errors();
+                    validator.validate(typedvalue, errors);
+                    
+                    if (errors.hasErrors())
                     {
                         if (getLogger().isDebugEnabled())
                         {
                             getLogger().debug("The field '" + parameter.getId() + "' is not valid");
                         }
-                        errorFields.add(parameter.getId());
+                        
+                        errorFields.put(parameter.getId(), errors);
                     }
                 }
             }

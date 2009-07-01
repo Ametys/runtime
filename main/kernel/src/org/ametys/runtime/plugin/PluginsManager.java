@@ -347,7 +347,6 @@ public final class PluginsManager
         
         try
         {
-            configManager.contextualize(context);
             configManager.service(new WrapperServiceManager(manager));
             configManager.initialize();
         }
@@ -457,77 +456,9 @@ public final class PluginsManager
                     }
                 });
                 
-                for (int i = 0; i < pluginDirs.length; i++)
+                for (File pluginDir : pluginDirs)
                 {
-                    File pluginDir = pluginDirs[i];
-                    File pluginFile = new File(pluginDir, __PLUGIN_FILENAME);
-                    
-                    String pluginName = pluginDir.getName();
-
-                    if (!pluginFile.exists())
-                    {
-                        // Ignore CVS and .svn
-                        if (pluginDir.getName().equals("CVS") || pluginDir.getName().equals(".svn"))
-                        {
-                            if (_logger.isDebugEnabled())
-                            {
-                                _logger.debug("There is no file named " + __PLUGIN_FILENAME + " in the directory " + pluginDir.getAbsolutePath() + ". It will be ignored.");
-                            }
-                        }
-                        else
-                        {
-                            if (_logger.isWarnEnabled())
-                            {
-                                _logger.warn("There is no file named " + __PLUGIN_FILENAME + " in the directory " + pluginDir.getAbsolutePath() + ". It will be ignored.");
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (!pluginName.matches("[a-zA-Z0-9]|([a-zA-Z0-9][a-zA-Z0-9-_.]*[a-zA-Z0-9])"))
-                        {
-                            if (_logger.isWarnEnabled())
-                            {
-                                _logger.warn(pluginName + " is an incorrect plugin directory name. It will be ignored.");
-                            }
-                        }
-                        else if (pluginsConfigurations.containsKey(pluginName))
-                        {
-                            if (_logger.isWarnEnabled())
-                            {
-                                _logger.warn("The plugin " + pluginName + " at " + pluginFile.getAbsolutePath() + " is already declared. It will be ignored.");
-                            }
-                        }
-                        else
-                        {
-                            if (_logger.isDebugEnabled())
-                            {
-                                _logger.debug("Reading plugin configuration at " + pluginFile.getAbsolutePath());
-                            }
-
-                            InputStream is = null;
-                            try
-                            {
-                                is = new FileInputStream(pluginFile);
-                            }
-                            catch (FileNotFoundException e)
-                            {
-                                // Normalement, ca ne peut pas arriver, puisqu'on teste l'existence avant
-                                throw new IllegalStateException("File not found", e);
-                            }
-                            
-                            Configuration configuration = _getConfigurationFromStream(is, pluginFile.getAbsolutePath());
-
-                            pluginsConfigurations.put(pluginName, configuration);
-                            
-                            _locations.put(pluginName, location);
-                            
-                            if (_logger.isInfoEnabled())
-                            {
-                                _logger.info("Plugin '" + pluginName + "' added at path '" + pluginFile.getAbsolutePath() + "'");
-                            }
-                        }
-                    }
+                    _addPluginConfiguration(pluginsConfigurations, location, pluginDir);
                 }
             }
         }
@@ -535,6 +466,78 @@ public final class PluginsManager
         return pluginsConfigurations;
     }
     
+    private void _addPluginConfiguration(Map<String, Configuration> pluginsConfigurations, String location, File pluginDir)
+    {
+        String pluginName = pluginDir.getName();
+        File pluginFile = new File(pluginDir, __PLUGIN_FILENAME);
+        
+        if (!pluginFile.exists())
+        {
+            // Ignore CVS and .svn
+            if (pluginDir.getName().equals("CVS") || pluginDir.getName().equals(".svn"))
+            {
+                if (_logger.isDebugEnabled())
+                {
+                    _logger.debug("There is no file named " + __PLUGIN_FILENAME + " in the directory " + pluginDir.getAbsolutePath() + ". It will be ignored.");
+                }
+            }
+            else
+            {
+                if (_logger.isWarnEnabled())
+                {
+                    _logger.warn("There is no file named " + __PLUGIN_FILENAME + " in the directory " + pluginDir.getAbsolutePath() + ". It will be ignored.");
+                }
+            }
+        }
+        else
+        {
+            if (!pluginName.matches("[a-zA-Z0-9]|([a-zA-Z0-9][a-zA-Z0-9-_.]*[a-zA-Z0-9])"))
+            {
+                if (_logger.isWarnEnabled())
+                {
+                    _logger.warn(pluginName + " is an incorrect plugin directory name. It will be ignored.");
+                }
+            }
+            else if (pluginsConfigurations.containsKey(pluginName))
+            {
+                if (_logger.isWarnEnabled())
+                {
+                    _logger.warn("The plugin " + pluginName + " at " + pluginFile.getAbsolutePath() + " is already declared. It will be ignored.");
+                }
+            }
+            else
+            {
+                if (_logger.isDebugEnabled())
+                {
+                    _logger.debug("Reading plugin configuration at " + pluginFile.getAbsolutePath());
+                }
+
+                InputStream is = null;
+                
+                try
+                {
+                    is = new FileInputStream(pluginFile);
+                }
+                catch (FileNotFoundException e)
+                {
+                    // Normalement, ca ne peut pas arriver, puisqu'on teste l'existence avant
+                    throw new IllegalStateException("File not found", e);
+                }
+                
+                Configuration configuration = _getConfigurationFromStream(is, pluginFile.getAbsolutePath());
+
+                pluginsConfigurations.put(pluginName, configuration);
+                
+                _locations.put(pluginName, location);
+                
+                if (_logger.isInfoEnabled())
+                {
+                    _logger.info("Plugin '" + pluginName + "' added at path '" + pluginFile.getAbsolutePath() + "'");
+                }
+            }
+        }
+    }
+
     private Configuration _getConfigurationFromStream(InputStream is, String path)
     {
         try

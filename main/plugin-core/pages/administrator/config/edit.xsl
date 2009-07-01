@@ -120,7 +120,7 @@
 						var navigation = new Ext.ametys.NavigationPanel ({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU"/>"});
 						<xsl:for-each select="config/categories/category">
 							var item = new Ext.ametys.NavigationItem ({
-								text: "<i18n:text i18n:key="{@label}" i18n:catalogue="{@catalogue}"/>",
+								text: "<xsl:copy-of select="label/node()"/>",
 								divToScroll: "<xsl:value-of select="generate-id()"/>",
 								ctToScroll:  'config-inner',
 								bindScroll: bindScroll,
@@ -162,18 +162,18 @@
 						
 						<xsl:for-each select="config/categories/category">
 							var fieldset = new Ext.ametys.Fieldset({
-								title : "<i18n:text i18n:key="{@label}" i18n:catalogue="{@catalogue}"/>",
+								title : "<xsl:copy-of select="label/node()"/>",
 								id : "<xsl:value-of select="generate-id()"/>",
 								layout: 'form'
 							});
 							<xsl:for-each select="groups/group">
 								var group = new Ext.ametys.HtmlContainer ({
-									html : "<i18n:text i18n:key="{@label}" i18n:catalogue="{@catalogue}"/>",
+									html : "<xsl:copy-of select="label/node()"/>",
 									baseCls: 'ametys-subcategory',
 									tag: 'h3'
 								});
 								fieldset.add(group);
-								<xsl:for-each select="node()">
+								<xsl:for-each select="parameters/*">
 									<xsl:sort select="order"/>
 									
 									var input;
@@ -183,8 +183,8 @@
 									if (type == 'double')
 									{
 										input = new Ext.ametys.form.DoubleField ({
-									        fieldLabel: "<i18n:text i18n:key="{label}" i18n:catalogue="{label/@catalogue}"/>",
-									        desc: "<i18n:text i18n:key="{description}" i18n:catalogue="{description/@catalogue}"/>",
+									        fieldLabel: "<xsl:copy-of select="label/node()"/>",
+									        desc: "<xsl:copy-of select="description/node()"/>",
 									        name: "<xsl:value-of select="local-name()"/>",
 									        value: "<xsl:value-of select="value"/>",
 									        msgTarget: 'under', // position du message d'erreur
@@ -194,8 +194,8 @@
 									else if (type == 'long')
 									{
 										input = new Ext.ametys.form.LongField ({
-									        fieldLabel: "<i18n:text i18n:key="{label}" i18n:catalogue="{label/@catalogue}"/>",
-									        desc: "<i18n:text i18n:key="{description}" i18n:catalogue="{description/@catalogue}"/>",
+									        fieldLabel: "<xsl:copy-of select="label/node()"/>",
+									        desc: "<xsl:copy-of select="description/node()"/>",
 									        name: "<xsl:value-of select="local-name()"/>",
 									        value: "<xsl:value-of select="value"/>",
 									        msgTarget: 'under', // position du message d'erreur 
@@ -205,8 +205,8 @@
 									else if (type == 'password')
 									{
 										input = new Ext.ametys.form.PasswordWidget ({
-									        fieldLabel: "<i18n:text i18n:key="{label}" i18n:catalogue="{label/@catalogue}"/>",
-									        desc: "<i18n:text i18n:key="{description}" i18n:catalogue="{description/@catalogue}"/>",
+									        fieldLabel: "<xsl:copy-of select="label/node()"/>",
+									        desc: "<xsl:copy-of select="description/node()"/>",
 									        name: "<xsl:value-of select="local-name()"/>",
 									        value: "<xsl:value-of select="value"/>",
 									        labelWidth :230
@@ -215,8 +215,8 @@
 									else if (type == 'date')
 									{
 										input = new Ext.ametys.form.DateField ({
-									        fieldLabel: "<i18n:text i18n:key="{label}" i18n:catalogue="{label/@catalogue}"/>",
-									        desc: "<i18n:text i18n:key="{description}" i18n:catalogue="{description/@catalogue}"/>",
+									        fieldLabel: "<xsl:copy-of select="label/node()"/>",
+									        desc: "<xsl:copy-of select="description/node()"/>",
 									        name: "<xsl:value-of select="local-name()"/>",
 									        value: "<xsl:value-of select="value"/>",
 									        msgTarget: 'under', // position du message d'erreur 
@@ -226,8 +226,8 @@
 									else if (type == 'boolean')
 									{
 										input = new Ext.ametys.form.BooleanField ({
-									        fieldLabel: "<i18n:text i18n:key="{label}" i18n:catalogue="{label/@catalogue}"/>",
-									        desc: "<i18n:text i18n:key="{description}" i18n:catalogue="{description/@catalogue}"/>",
+									        fieldLabel: "<xsl:copy-of select="label/node()"/>",
+									        desc: "<xsl:copy-of select="description/node()"/>",
 									        name: "<xsl:value-of select="local-name()"/>",
 									        value: "<xsl:value-of select="value"/>",
 									        msgTarget: 'under' // position du message d'erreur 
@@ -236,8 +236,8 @@
 									else
 									{
 										input = new Ext.ametys.form.TextField ({
-									        fieldLabel: "<i18n:text i18n:key="{label}" i18n:catalogue="{label/@catalogue}"/>",
-									        desc: "<i18n:text i18n:key="{description}" i18n:catalogue="{description/@catalogue}"/>",
+									        fieldLabel: "<xsl:copy-of select="label/node()"/>",
+									        desc: "<xsl:copy-of select="description/node()"/>",
 									        name: "<xsl:value-of select="local-name()"/>",
 									        value: "<xsl:value-of select="value"/>",
 									        msgTarget: 'under', // position du message d'erreur 

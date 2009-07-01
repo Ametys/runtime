@@ -17,4 +17,8 @@
     <message key="KERNEL_UI_LISTVIEW_PREVIEW_NOTAVAILABLE">No preview available</message>
     <message key="KERNEL_DIALOG_ERRORREADINGURL">An error occured while loading resource</message>
 
+    <!-- DEFAULT VALIDATOR -->
+    <message key="KERNEL_DEFAULT_VALIDATOR_MANDATORY">This field is mandatory</message>
+    <message key="KERNEL_DEFAULT_VALIDATOR_PATTERN_FAILED">The field's value is not valid</message>
+
 </catalogue>

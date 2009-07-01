@@ -17,4 +17,8 @@
     <message key="KERNEL_UI_LISTVIEW_PREVIEW_NOTAVAILABLE">Pas d'aperçu disponible</message>
     <message key="KERNEL_DIALOG_ERRORREADINGURL">Une erreur est survenue lors du téléchargement de la ressource</message>
 
+    <!-- DEFAULT VALIDATOR -->
+    <message key="KERNEL_DEFAULT_VALIDATOR_MANDATORY">Ce champ est obligatoire</message>
+    <message key="KERNEL_DEFAULT_VALIDATOR_PATTERN_FAILED">La valeur de ce champ n'est pas valide</message>
+
 </catalogue>

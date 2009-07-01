@@ -29,7 +29,7 @@
 
     <xsd:complexType name="plugin">
         <xsd:sequence>
-            <xsd:element name="config" type="config" maxOccurs="1" minOccurs="0">
+            <xsd:element name="config" type="config-definition" maxOccurs="1" minOccurs="0">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">
                         <![CDATA[
@@ -90,7 +90,7 @@
 
     <xsd:complexType name="feature">
         <xsd:all>
-            <xsd:element name="config" type="config" maxOccurs="1" minOccurs="0">
+            <xsd:element name="config" type="config-definition-and-references" maxOccurs="1" minOccurs="0">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">
                         <![CDATA[
@@ -266,7 +266,7 @@
 
     <xsd:complexType name="extension">
         <xsd:sequence>
-            <xsd:any processContents="skip" maxOccurs="unbounded" minOccurs="0" />
+            <xsd:any processContents="lax" maxOccurs="unbounded" minOccurs="0" />
         </xsd:sequence>
         <xsd:attribute name="id" type="xsd:string" use="required">
             <xsd:annotation>
@@ -376,9 +376,9 @@
         </xsd:attribute>
     </xsd:complexType>
     
-    <xsd:complexType name="config">
+    <xsd:complexType name="config-definition">
         <xsd:sequence>
-            <xsd:element name="param" type="configParam" maxOccurs="unbounded" minOccurs="0">
+            <xsd:element name="param" type="config-parameter" maxOccurs="unbounded" minOccurs="0">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">
                         <![CDATA[
@@ -389,10 +389,28 @@
             </xsd:element>
         </xsd:sequence>
     </xsd:complexType>
+    
+    <xsd:complexType name="config-definition-and-references">
+    	<xsd:complexContent>
+    		<xsd:extension base="config-definition">
+    			<xsd:sequence>
+    				<xsd:element name="param-ref" type="config-parameter-reference" maxOccurs="unbounded" minOccurs="0">
+		                <xsd:annotation>
+		                    <xsd:documentation xml:lang="en">
+		                        <![CDATA[
+		                        	Declaration of a config parameter or reference to an existing one.
+		                        ]]>
+		                    </xsd:documentation>
+		                </xsd:annotation>            
+		            </xsd:element>
+    			</xsd:sequence>
+    		</xsd:extension>
+    	</xsd:complexContent>
+    </xsd:complexType>
 
-    <xsd:complexType name="configParam">
-        <xsd:all>
-            <xsd:element name="LabelKey" type="configKey" maxOccurs="1" minOccurs="0">
+    <xsd:complexType name="parameter">
+        <xsd:sequence>
+            <xsd:element name="label" type="i18n-entry" maxOccurs="1" minOccurs="1">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">
                         <![CDATA[
@@ -402,7 +420,7 @@
                     </xsd:documentation>
                 </xsd:annotation>            
             </xsd:element>
-            <xsd:element name="DescriptionKey" type="configKey" maxOccurs="1" minOccurs="0">
+            <xsd:element name="description" type="i18n-entry" maxOccurs="1" minOccurs="1">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">
                         <![CDATA[
@@ -412,24 +430,7 @@
                     </xsd:documentation>
                 </xsd:annotation>            
             </xsd:element>
-            <xsd:element name="Type" type="xsd:string" maxOccurs="1" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation xml:lang="en">
-                        <![CDATA[
-                        The type of parameter to choose between :
-                        <ul>
-                            <li>boolean,</li>
-                            <li>string,</li>
-                            <li>password (string stored encoded and not human readable),</li>
-                            <li>long,</li>
-                            <li>double,</li>
-                            <li>date (date and time).</li>
-                        </ul>
-                        ]]>
-                    </xsd:documentation>
-                </xsd:annotation>            
-            </xsd:element>
-            <xsd:element name="Widget" type="xsd:string" maxOccurs="1" minOccurs="0">
+            <xsd:element name="widget" type="xsd:string" maxOccurs="1" minOccurs="0">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">
                         <![CDATA[
@@ -440,94 +441,248 @@
                     </xsd:documentation>
                 </xsd:annotation>            
             </xsd:element>
-            <xsd:element name="DefaultValue" type="xsd:string" maxOccurs="1" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation xml:lang="en">
-                        <![CDATA[
-                            The default value to present to the user the first time the parameter is edited.
-                        ]]>
-                    </xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="Enumeration" type="configClass" maxOccurs="1" minOccurs="0">
+            <xsd:element name="enumeration" type="enumeration" maxOccurs="1" minOccurs="0">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">
                         <![CDATA[
                         	Allows to define a list of possible values for this parameter.<br/>
-                            A class attribute can be setted to choose the class that will set the list : this class must inherit org.ametys.runtime.util.parameter.Enumerator and as an avalon component this class can receive the configuration.<br/>
-                            <br/>
-                            If this attribute is missing the org.ametys.runtime.util.parameter.StaticEnumerator is choosen.<br/>
-                            The configuration is then : an element per item which name is the value and which text is the label. The attribute 'i18n' (true by default) means the text is a key. The attribute 'catalogue' means the plugin catalogue to use (current by default).<br/>
+                            A custom enumerator can be used to choose the values in Java:
+                            the class must inherit org.ametys.runtime.util.parameter.Enumerator.
                         ]]>
                     </xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="Validation" type="configClass" maxOccurs="1" minOccurs="0">
+            <xsd:element name="validation" type="validation" maxOccurs="1" minOccurs="0">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">
                         <![CDATA[
-                        	Allows to define a validator for this parameter.<br/>
-                            A class attribute can be setted to choose the class that will validate : this class must inherit org.ametys.runtime.util.parameter.Validator and as an avalon component this class can receive the configuration.<br/>
-                            <br/>
-                            If this attribute is missing the org.ametys.runtime.util.parameter.DefaultValidator is choosen.<br/>
-                            The configuration is then : an empty element 'mandatory' to specify that the parameter cannot be empty and an element 'regexp' that specify a java regexp that will be test against the value.
+                        	Allows to define validation for this parameter.<br/>
+                            A custom validator can be used to validate the value in Java:
+                            the class must inherit org.ametys.runtime.util.parameter.Validator.
                         ]]>
                     </xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="Category" type="configKey" maxOccurs="1" minOccurs="0">
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="enumeration">
+    	<xsd:choice>
+   			<xsd:element name="entry" type="enumeration-entry" maxOccurs="unbounded" minOccurs="0">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">
                         <![CDATA[
-                            The view for setting the configuration is mainly divided in category.<br/>
-                            You can choose the category to put this item by setting the value to an i18n key.<br/>
-                            The default catalogue is the current one but the 'catalogue' attribute may define another plugin catalogue.
+                        	Allows to define a list of possible values for this parameter.<br/>
+                            A custom enumerator can be used to choose the values in Java:
+                            the class must inherit <code>org.ametys.runtime.util.parameter.Enumerator.
                         ]]>
                     </xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="Group" type="configKey" maxOccurs="1" minOccurs="0">
+            <xsd:element name="custom-enumerator" type="local-component" maxOccurs="1" minOccurs="0">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">
                         <![CDATA[
-                            The category is subdivided in groups.<br/>
-                            You can choose the groups to put this item by setting the value to an i18n key.<br/>
-                            The default catalogue is the current one but the 'catalogue' attribute may define another plugin catalogue.
+                        	Declaration of the Avalon component to use.<br/>
+                            The custom enumerator class must inherit <code>org.ametys.runtime.util.parameter.Enumerator</code>.
                         ]]>
                     </xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="Order" type="xsd:integer" maxOccurs="1" minOccurs="0">
+    	</xsd:choice>
+    </xsd:complexType>
+    
+    <xsd:complexType name="enumeration-entry">
+    	<xsd:sequence>
+    		<xsd:element name="label" type="i18n-entry" maxOccurs="1" minOccurs="0">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">
                         <![CDATA[
-                            In the current group, the order value (an integer) allows to change the display order of parameters.<br/>
-                            Lower numbers are displayed first.
+                        	The label to display when this entry is selected.
                         ]]>
                     </xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-        </xsd:all>
-        <xsd:attribute name="id" type="xsd:string" use="required">
+    		<xsd:element name="value" type="xsd:string" maxOccurs="1" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                        	The value to store when this entry is selected.<br/>
+                        	If the label element is not used, this value will be displayed.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="validation">
+    	<xsd:choice>
+    		<xsd:sequence>
+	   			<xsd:element name="mandatory" maxOccurs="1" minOccurs="0">
+	                <xsd:annotation>
+	                    <xsd:documentation xml:lang="en">
+	                        <![CDATA[
+	                        	The value is mandatory and therefore can not be empty.
+	                        ]]>
+	                    </xsd:documentation>
+	                </xsd:annotation>
+	            </xsd:element>
+	            <xsd:element name="regexp" type="xsd:string" maxOccurs="1" minOccurs="0">
+	                <xsd:annotation>
+	                    <xsd:documentation xml:lang="en">
+	                        <![CDATA[
+	                        	The regexp pattern to use for validating the value.
+	                        ]]>
+	                    </xsd:documentation>
+	                </xsd:annotation>
+	            </xsd:element>
+    		</xsd:sequence>
+            <xsd:element name="custom-validator" type="local-component" maxOccurs="1" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                        	Declaration of the Avalon component to use.<br/>
+                            The custom validator class must inherit <code>org.ametys.runtime.util.parameter.Enumerator</code>.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+    	</xsd:choice>
+    </xsd:complexType>
+    
+    <xsd:complexType name="local-component">
+        <xsd:sequence>
+            <xsd:any processContents="lax" maxOccurs="unbounded" minOccurs="0"/>
+        </xsd:sequence>
+        <xsd:attribute name="class" type="xsd:string" use="required">
             <xsd:annotation>
                 <xsd:documentation xml:lang="en">
                     <![CDATA[
-                    	If this declaration only references an existing parameter, the id is that of the referenced parameter.<br/>
-                    	Otherwise, it must be unique.<br/>
+                        The concrete java class of the avalon component.
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>            
+        </xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:complexType name="config-parameter">
+    	<xsd:complexContent>
+    		<xsd:extension base="parameter">
+		    	<xsd:sequence>
+		            <xsd:element name="default-value" type="xsd:string" maxOccurs="1" minOccurs="0">
+		                <xsd:annotation>
+		                    <xsd:documentation xml:lang="en">
+		                        <![CDATA[
+		                            The default value to present to the user the first time the parameter is edited.
+		                        ]]>
+		                    </xsd:documentation>
+		                </xsd:annotation>
+		            </xsd:element>
+		            <xsd:element name="category" type="i18n-entry" maxOccurs="1" minOccurs="1">
+		                <xsd:annotation>
+		                    <xsd:documentation xml:lang="en">
+		                        <![CDATA[
+		                            The view for setting the configuration is mainly divided in category.<br/>
+		                            You can choose the category to put this item by setting the value to an i18n key.<br/>
+		                            The default catalogue is the current one but the 'catalogue' attribute may define another plugin catalogue.
+		                        ]]>
+		                    </xsd:documentation>
+		                </xsd:annotation>
+		            </xsd:element>
+		            <xsd:element name="group" type="i18n-entry" maxOccurs="1" minOccurs="1">
+		                <xsd:annotation>
+		                    <xsd:documentation xml:lang="en">
+		                        <![CDATA[
+		                            The category is subdivided in groups.<br/>
+		                            You can choose the groups to put this item by setting the value to an i18n key.<br/>
+		                            The default catalogue is the current one but the 'catalogue' attribute may define another plugin catalogue.
+		                        ]]>
+		                    </xsd:documentation>
+		                </xsd:annotation>
+		            </xsd:element>
+		            <xsd:element name="order" type="xsd:integer" maxOccurs="1" minOccurs="0">
+		                <xsd:annotation>
+		                    <xsd:documentation xml:lang="en">
+		                        <![CDATA[
+		                            In the current group, the order value (an integer) allows to change the display order of parameters.<br/>
+		                            Lower numbers are displayed first.
+		                        ]]>
+		                    </xsd:documentation>
+		                </xsd:annotation>
+		            </xsd:element>
+		        </xsd:sequence>
+		        <xsd:attribute name="id" type="xsd:ID" use="required">
+		            <xsd:annotation>
+		                <xsd:documentation xml:lang="en">
+		                    <![CDATA[
+		                    	The id of the parameter, must be unique.
+		                    ]]>
+		                </xsd:documentation>
+		            </xsd:annotation>            
+		        </xsd:attribute>
+		        <xsd:attribute name="type" use="required">
+		            <xsd:annotation>
+		                <xsd:documentation xml:lang="en">
+		                    <![CDATA[
+		                    	The type of parameter.
+		                        <ul>
+		                            <li>boolean</li>
+		                            <li>string</li>
+		                            <li>password (string stored encoded and not human readable)</li>
+		                            <li>long</li>
+		                            <li>double</li>
+		                            <li>date (date and time)</li>
+		                        </ul>
+		                    ]]>
+		                </xsd:documentation>
+		            </xsd:annotation>
+		            <xsd:simpleType>
+	                	<xsd:restriction base="xsd:string">
+	                		<xsd:enumeration value="boolean"/>
+	                		<xsd:enumeration value="string"/>
+	                		<xsd:enumeration value="password"/>
+	                		<xsd:enumeration value="long"/>
+	                		<xsd:enumeration value="double"/>
+	                		<xsd:enumeration value="date"/>
+	                	</xsd:restriction>
+	                </xsd:simpleType>
+		        </xsd:attribute>
+    		</xsd:extension>
+    	</xsd:complexContent>
+    </xsd:complexType>
+    
+    <xsd:complexType name="config-parameter-reference">
+        <xsd:attribute name="id" type="xsd:IDREF" use="required">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                    	The id to the referenced parameter.
                     ]]>
                 </xsd:documentation>
             </xsd:annotation>            
         </xsd:attribute>
     </xsd:complexType>
     
-    <xsd:complexType name="configKey">
+    <xsd:complexType name="i18n-entry">
         <xsd:simpleContent>
             <xsd:extension base="xsd:string">
-                <xsd:attribute name="Catalogue" type="xsd:string" use="optional">
+                <xsd:attribute name="i18n" type="xsd:boolean" use="optional" default="false">
                     <xsd:annotation>
                         <xsd:documentation xml:lang="en">
                             <![CDATA[
-                                The parent element is an i18n key of the current plugin catalogue.<br/>
+                                If <code>true</code> the value is a i18n key, <code>false</code> if the value is used without substitution.<br/>
+                                The i18n key can contains the catalogue like <code>plugins.core:key</code> and then override the optional
+                                <code>catalogue</code> attribute.
+                            ]]>
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:attribute>
+                <xsd:attribute name="catalogue" type="xsd:string" use="optional">
+                    <xsd:annotation>
+                        <xsd:documentation xml:lang="en">
+                            <![CDATA[
+                                The catalogue to use for the i18n key, default is to use the current plugin catalogue.<br/>
                                 The attribute may reference an other existing catalogue (e.g. plugin.core)
                             ]]>
                         </xsd:documentation>
@@ -535,22 +690,5 @@
                 </xsd:attribute>
             </xsd:extension>
         </xsd:simpleContent>
-    </xsd:complexType>
-
-    <xsd:complexType name="configClass">
-        <xsd:sequence>
-            <xsd:any processContents="skip" maxOccurs="unbounded" minOccurs="0"/>
-        </xsd:sequence>
-        <xsd:attribute name="class" type="xsd:string" use="optional">
-            <xsd:annotation>
-                <xsd:documentation xml:lang="en">
-                    <![CDATA[
-                        The parent element is implemented by a java class.<br/>
-                        If you do not want to use the default implementation, defines the java class here.<br/>
-                        See parent element documentation for more details.
-                    ]]>
-                </xsd:documentation>
-            </xsd:annotation>
-        </xsd:attribute>
     </xsd:complexType>
 </xsd:schema>

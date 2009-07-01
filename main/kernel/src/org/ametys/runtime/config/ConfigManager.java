@@ -14,7 +14,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -30,20 +29,7 @@ import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 
-import org.ametys.runtime.plugin.PluginsManager;
-import org.ametys.runtime.plugin.component.ThreadSafeComponentManager;
-import org.ametys.runtime.util.I18nizableText;
-import org.ametys.runtime.util.LoggerFactory;
-import org.ametys.runtime.util.parameter.DefaultValidator;
-import org.ametys.runtime.util.parameter.Enumerator;
-import org.ametys.runtime.util.parameter.EnumeratorValue;
-import org.ametys.runtime.util.parameter.ParameterHelper;
-import org.ametys.runtime.util.parameter.StaticEnumerator;
-import org.ametys.runtime.util.parameter.Validator;
-import org.ametys.runtime.util.parameter.ParameterHelper.ParameterType;
-
 import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
@@ -56,6 +42,17 @@ import org.apache.cocoon.xml.XMLUtils;
 import org.apache.xml.serializer.OutputPropertiesFactory;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
+
+import org.ametys.runtime.plugin.PluginsManager;
+import org.ametys.runtime.plugin.component.ThreadSafeComponentManager;
+import org.ametys.runtime.util.I18nizableText;
+import org.ametys.runtime.util.LoggerFactory;
+import org.ametys.runtime.util.parameter.AbstractParameterParser;
+import org.ametys.runtime.util.parameter.Enumerator;
+import org.ametys.runtime.util.parameter.Parameter;
+import org.ametys.runtime.util.parameter.ParameterHelper;
+import org.ametys.runtime.util.parameter.Validator;
+import org.ametys.runtime.util.parameter.ParameterHelper.ParameterType;
 
 /**
  * This manager handle the parameters of the application that have to be stored, by the plugins.
@@ -87,10 +84,10 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
     // Determines if all parameters are valued
     private boolean _isComplete;
     
-    // ComponentManager pour les TypedParameterValidator
+    // ComponentManager pour les Validator
     private ThreadSafeComponentManager<Validator> _validatorManager;
     
-    //ComponentManager pour les TypedParameterValuesEnumerator
+    //ComponentManager pour les Enumerator
     private ThreadSafeComponentManager<Enumerator> _enumeratorManager;
 
     private ConfigManager()
@@ -135,7 +132,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
     {
         _usedParamsName = new HashMap<String, String>();
         _declaredParams = new HashMap<String, ConfigParameterInfo>();
-        _params = new HashMap<String, ConfigParameter>();        
+        _params = new HashMap<String, ConfigParameter>();
         
         _validatorManager = new ThreadSafeComponentManager<Validator>();
         _validatorManager.enableLogging(LoggerFactory.getLoggerFor("runtime.plugin.threadsafecomponent"));
@@ -166,19 +163,16 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         for (int i = 0; i < params.length; i++)
         {
             String id = params[i].getAttribute("id", null);
+            
             if (id == null)
             {
-                String errorMessage = "The mandatory attribute 'id' is missing on the config tag, in plugin '" + pluginName + "'";
-                _logger.error(errorMessage);
-                throw new ConfigurationException(errorMessage, configuration);
+                throw new ConfigurationException("The mandatory attribute 'id' is missing on the config tag, in plugin '" + pluginName + "'", configuration);
             }
 
             // Check the parameter is not already declared
-            if (_declaredParams.get(id) != null)
+            if (_declaredParams.containsKey(id))
             {
-                String msg = "The parameter '" + id + "' is already declared. Parameters ids must be unique.";
-                _logger.error(msg);
-                throw new ConfigurationException(msg, configuration);
+                throw new ConfigurationException("The parameter '" + id + "' is already declared. Parameters ids must be unique", configuration);
             }
 
             // Add the new parameter to the list of the unused parameters
@@ -186,13 +180,13 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
 
             if (_logger.isDebugEnabled())
             {
-                _logger.debug("Parameter added : " + id);
+                _logger.debug("Parameter added: " + id);
             }
         }
 
         if (_logger.isDebugEnabled())
         {
-            _logger.debug(params.length + " parameter(s) added.");
+            _logger.debug(params.length + " parameter(s) added");
         }
     }
 
@@ -210,21 +204,37 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             _logger.debug("Selecting parameters");
         }
 
-        Configuration[] params = configuration.getChild("config").getChildren("param");
+        Configuration config = configuration.getChild("config");
+        Configuration[] paramsConfig = config.getChildren("param");
 
-        for (int i = 0; i < params.length; i++)
+        for (Configuration paramConfig : paramsConfig)
         {
-            String id = params[i].getAttribute("id", null);
+            String id = paramConfig.getAttribute("id", null);
+           
             if (id == null)
             {
-                String errorMessage = "The mandatory attribute 'id' is missing on the config tag, in feature '" + pluginName + "/" + featureName + "'";
-                _logger.error(errorMessage);
-                throw new ConfigurationException(errorMessage, configuration);
+                throw new ConfigurationException("The mandatory attribute 'id' is missing on the config tag, in feature '" + pluginName + "/" + featureName + "'", configuration);
+            }
+            
+            // Check the parameter is not already declared
+            if (_declaredParams.containsKey(id))
+            {
+                throw new ConfigurationException("The parameter '" + id + "' is already declared. Parameters ids must be unique", configuration);
             }
 
-            if (params[i].getChildren().length > 0)
+            _declaredParams.put(id, new ConfigParameterInfo(id, pluginName, paramConfig));
+            _usedParamsName.put(id, pluginName + PluginsManager.FEATURE_ID_SEPARATOR + featureName);
+        }
+        
+        Configuration[] refParamsConfig = config.getChildren("param-ref");
+
+        for (Configuration refParamConfig : refParamsConfig)
+        {
+            String id = refParamConfig.getAttribute("id", null);
+           
+            if (id == null)
             {
-                _declaredParams.put(id, new ConfigParameterInfo(id, pluginName, params[i]));
+                throw new ConfigurationException("The mandatory attribute 'id' is missing on the config tag, in feature '" + pluginName + "/" + featureName + "'", configuration);
             }
 
             _usedParamsName.put(id, pluginName + PluginsManager.FEATURE_ID_SEPARATOR + featureName);
@@ -232,7 +242,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
 
         if (_logger.isDebugEnabled())
         {
-            _logger.debug(params.length + " parameter(s) selected.");
+            _logger.debug((paramsConfig.length + refParamsConfig.length) + " parameter(s) selected.");
         }
     }
 
@@ -268,6 +278,8 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             
             _isComplete = false;
         }
+        
+        ConfigParameterParser configParamParser = new ConfigParameterParser(_enumeratorManager, _validatorManager);
 
         for (String id : _usedParamsName.keySet())
         {
@@ -276,14 +288,22 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             {
                 // Move the parameter from the unused list, to the used list
                 ConfigParameterInfo info = _declaredParams.get(id);
+                
                 if (info == null)
                 {
-                    String message = "The parameter '" + id + "' is used but not declared.";
-                    _logger.error(message);
-                    throw new IllegalArgumentException(message);
+                    throw new RuntimeException("The parameter '" + id + "' is used but not declared");
                 }
                 
-                ConfigParameter parameter = _configureParameter(info);
+                ConfigParameter parameter = null;
+                
+                try
+                {
+                    parameter = configParamParser.parseParameter(_manager, info.getPluginName(), info.getConfiguration());
+                }
+                catch (ConfigurationException ex)
+                {
+                    throw new RuntimeException("Unable to configure the config parameter : " + id, ex);
+                }
                 
                 _params.put(id, parameter);
 
@@ -329,61 +349,6 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         {
             _logger.debug("Initialization ended");
         }
-    }
-    
-    @SuppressWarnings("unchecked")
-    private ConfigParameter _configureParameter(ConfigParameterInfo info)
-    {
-        String label;
-        String description;
-        ParameterType type;
-        Object defaultValue;
-        String widget;
-        String displayCategory;
-        String displayGroup;
-        int order;
-        Configuration enumeratorConf;
-        Configuration validatorConf;
-        
-        Configuration conf = info.getConfiguration();
-        String id = info.getId();
-        
-        try
-        {
-            label = _configureLabel(conf, info.getPluginName());
-            description = _configureDescription(conf, info.getPluginName());
-            type = _configureType(conf);
-            defaultValue = _configureDefaultValue(conf, info.getId(), type);
-            widget = _configureWidget(conf);
-            displayCategory = _configureCategory(conf, info.getPluginName());
-            displayGroup = _configureGroup(conf, info.getPluginName());
-            order = _configureOrder(conf);
-
-            // Add components if needed
-            enumeratorConf = conf.getChild("Enumeration", false);
-            if (enumeratorConf != null)
-            {
-                String enumeratorClassName = enumeratorConf.getAttribute("class", StaticEnumerator.class.getName());
-                Class enumeratorClass = Class.forName(enumeratorClassName);
-                _enumeratorManager.addComponent(info.getPluginName(), null, id, enumeratorClass, enumeratorConf);
-            }
-            
-            validatorConf = conf.getChild("Validation", false);
-            if (validatorConf != null)
-            {
-                String validatorClassName = validatorConf.getAttribute("class", DefaultValidator.class.getName());
-                Class validatorClass = Class.forName(validatorClassName);
-                _validatorManager.addComponent(info.getPluginName(), null, id, validatorClass, validatorConf);
-            }
-        }
-        catch (Exception ex)
-        {
-            String errorMessage = "Unable to configure the config parameter : " + id;
-            _logger.error(errorMessage);
-            throw new RuntimeException(errorMessage, ex);
-        }
-        
-        return new ConfigParameter(id, info.getPluginName(), label, description, type, defaultValue, widget, displayCategory, displayGroup, order, enumeratorConf != null, validatorConf != null);
     }
 
     /**
@@ -436,13 +401,12 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
      */
     public void toSAX(ContentHandler handler) throws SAXException
     {
-        Map<String, Map<String, List<ConfigParameter>>> categories = _categorizeParameters();
-        _saxParameters(categories, handler);
+        _saxParameters(_categorizeParameters(), handler);
     }
 
-    private Map<String, Map<String, List<ConfigParameter>>> _categorizeParameters()
+    private Map<I18nizableText, Map<I18nizableText, List<ConfigParameter>>> _categorizeParameters()
     {
-        Map<String, Map<String, List<ConfigParameter>>> categories = new HashMap<String, Map<String, List<ConfigParameter>>>();
+        Map<I18nizableText, Map<I18nizableText, List<ConfigParameter>>> categories = new HashMap<I18nizableText, Map<I18nizableText, List<ConfigParameter>>>();
 
         // Classe les paramètres par catégorie et par groupe
         Iterator<String> it = _params.keySet().iterator();
@@ -451,14 +415,14 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             String key = it.next();
             ConfigParameter param = get(key);
 
-            String categoryName = param.getDisplayCategory();
-            String groupName = param.getDisplayGroup();
+            I18nizableText categoryName = param.getDisplayCategory();
+            I18nizableText groupName = param.getDisplayGroup();
 
             // Get the map of groups of the category
-            Map<String, List<ConfigParameter>> category = categories.get(categoryName);
+            Map<I18nizableText, List<ConfigParameter>> category = categories.get(categoryName);
             if (category == null)
             {
-                category = new HashMap<String, List<ConfigParameter>>();
+                category = new HashMap<I18nizableText, List<ConfigParameter>>();
                 categories.put(categoryName, category);
             }
 
@@ -475,7 +439,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         return categories;
     }
 
-    private void _saxParameters(Map<String, Map<String, List<ConfigParameter>>> categories, ContentHandler handler) throws SAXException
+    private void _saxParameters(Map<I18nizableText, Map<I18nizableText, List<ConfigParameter>>> categories, ContentHandler handler) throws SAXException
     {
         // Récupère les paramètres
         Map<String, String> untypedValues;
@@ -496,35 +460,29 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         // Sax les paramètres classés
         XMLUtils.startElement(handler, "categories");
 
-        Iterator<String> catIt = categories.keySet().iterator();
-        while (catIt.hasNext())
+        for (I18nizableText categoryKey : categories.keySet())
         {
-            String categoryKey = catIt.next();
-            Map<String, List<ConfigParameter>> category = categories.get(categoryKey);
+            Map<I18nizableText, List<ConfigParameter>> category = categories.get(categoryKey);
 
-            AttributesImpl catAttrs = new AttributesImpl();
-            catAttrs.addCDATAAttribute("label", categoryKey.substring(categoryKey.indexOf(PluginsManager.FEATURE_ID_SEPARATOR) + PluginsManager.FEATURE_ID_SEPARATOR.length()));
-            catAttrs.addCDATAAttribute("catalogue", categoryKey.substring(0, categoryKey.indexOf(PluginsManager.FEATURE_ID_SEPARATOR)));
-            XMLUtils.startElement(handler, "category", catAttrs);
+            XMLUtils.startElement(handler, "category");
+            categoryKey.toSAX(handler, "label");
 
             XMLUtils.startElement(handler, "groups");
 
-            Iterator<String> groupIt = category.keySet().iterator();
-            while (groupIt.hasNext())
+            for (I18nizableText groupKey : category.keySet())
             {
-                String groupKey = groupIt.next();
                 List<ConfigParameter> group = category.get(groupKey);
 
-                AttributesImpl gpAttrs = new AttributesImpl();
-                gpAttrs.addCDATAAttribute("label", groupKey.substring(groupKey.indexOf(PluginsManager.FEATURE_ID_SEPARATOR) + PluginsManager.FEATURE_ID_SEPARATOR.length()));
-                gpAttrs.addCDATAAttribute("catalogue", groupKey.substring(0, groupKey.indexOf(PluginsManager.FEATURE_ID_SEPARATOR)));
-                XMLUtils.startElement(handler, "group", gpAttrs);
+                XMLUtils.startElement(handler, "group");
+                categoryKey.toSAX(handler, "label");
 
+                XMLUtils.startElement(handler, "parameters");
                 Iterator<ConfigParameter> gIt = group.iterator();
                 while (gIt.hasNext())
                 {
                     _saxParameter(handler, gIt.next(), untypedValues);
                 }
+                XMLUtils.endElement(handler, "parameters");
 
                 XMLUtils.endElement(handler, "group");
             }
@@ -543,15 +501,10 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         parameterAttr.addAttribute("", "plugin", "plugin", "CDATA", param.getPluginName());
         XMLUtils.startElement(handler, param.getId(), parameterAttr);
         
-        AttributesImpl labelAttrs = new AttributesImpl();
-        labelAttrs.addAttribute("", "catalogue", "catalogue", "CDATA", param.getLabel().substring(0, param.getLabel().indexOf(PluginsManager.FEATURE_ID_SEPARATOR)));
-        XMLUtils.createElement(handler, "label", labelAttrs, param.getLabel().substring(param.getLabel().indexOf(PluginsManager.FEATURE_ID_SEPARATOR) + PluginsManager.FEATURE_ID_SEPARATOR.length()));
+        param.getLabel().toSAX(handler, "label");
+        param.getDescription().toSAX(handler, "description");
         
-        AttributesImpl descAttrs = new AttributesImpl();
-        descAttrs.addAttribute("", "catalogue", "catalogue", "CDATA", param.getDescription().substring(0, param.getDescription().indexOf(PluginsManager.FEATURE_ID_SEPARATOR)));
-        XMLUtils.createElement(handler, "description", descAttrs, param.getDescription().substring(param.getDescription().indexOf(PluginsManager.FEATURE_ID_SEPARATOR) + PluginsManager.FEATURE_ID_SEPARATOR.length()));
-        
-        XMLUtils.createElement(handler, "type", param.getTypeAsString());
+        XMLUtils.createElement(handler, "type", ParameterHelper.typeToString(param.getType()));
         
         if (param.getWidget() != null)
         {
@@ -564,36 +517,40 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         _saxValue(handler, param, untypedValues);
 
         // Les types énumérés
-        if (param.hasEnumerator())
+        Enumerator enumerator = param.getEnumerator();
+        
+        if (enumerator != null)
         {
-            Enumerator enumerator;
-            try
-            {
-                enumerator = _enumeratorManager.lookup(param.getId());
-            }
-            catch (ComponentException e)
-            {
-                String errorMessage = "Unable to get ValueEnumerator for config parameter " + param.getId();
-                _logger.error(errorMessage, e);
-                throw new SAXException(errorMessage, e);
-            }
-            
             XMLUtils.startElement(handler, "enumeration");
 
-            Collection<EnumeratorValue> values = enumerator.getValues();
-            for (EnumeratorValue enumeratorValue : values)
+            try
             {
-                Object value = enumeratorValue.getValue();
-                String valueAsString = ParameterHelper.valueToString(value);
-                I18nizableText label = enumeratorValue.getLabel();
-
-                // Produit l'option
-                AttributesImpl attrs = new AttributesImpl();
-                attrs.addAttribute("", "value", "value", "CDATA", valueAsString);
-                
-                XMLUtils.startElement(handler, "option", attrs);
-                label.toSAX(handler);
-                XMLUtils.endElement(handler, "option");
+                for (Map.Entry<Object, I18nizableText> entry : enumerator.getEntries().entrySet())
+                {
+                    String valueAsString = ParameterHelper.valueToString(entry.getKey());
+                    I18nizableText label = entry.getValue();
+    
+                    // Produit l'option
+                    AttributesImpl attrs = new AttributesImpl();
+                    attrs.addCDATAAttribute("value", valueAsString);
+                    
+                    XMLUtils.startElement(handler, "option", attrs);
+                    
+                    if (label != null)
+                    {
+                        label.toSAX(handler);
+                    }
+                    else
+                    {
+                        XMLUtils.data(handler, valueAsString);
+                    }
+                    
+                    XMLUtils.endElement(handler, "option");
+                }
+            }
+            catch (Exception e)
+            {
+                throw new SAXException("Unable to enumerate entries with enumerator: " + enumerator, e);
             }
 
             XMLUtils.endElement(handler, "enumeration");
@@ -620,7 +577,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             typedValue = param.getDefaultValue();
         }
         
-        // Untype value
+        // Untyped value
         String untypedValue = ParameterHelper.valueToString(typedValue);
         if (untypedValue != null)
         {
@@ -734,15 +691,15 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         handler.startDocument();
         XMLUtils.startElement(handler, "config");
         
-        Map<String, Map<String, List<ConfigParameter>>> categories = _categorizeParameters();
-        Iterator<String> catIt = categories.keySet().iterator();
+        Map<I18nizableText, Map<I18nizableText, List<ConfigParameter>>> categories = _categorizeParameters();
+        Iterator<I18nizableText> catIt = categories.keySet().iterator();
         while (catIt.hasNext())
         {
-            String categoryKey = catIt.next();
-            Map<String, List<ConfigParameter>> category = categories.get(categoryKey);
+            I18nizableText categoryKey = catIt.next();
+            Map<I18nizableText, List<ConfigParameter>> category = categories.get(categoryKey);
             StringBuilder categoryLabel = new StringBuilder();
             categoryLabel.append("+\n      | ");
-            categoryLabel.append(categoryKey.substring(categoryKey.indexOf(PluginsManager.FEATURE_ID_SEPARATOR) + PluginsManager.FEATURE_ID_SEPARATOR.length()));
+            categoryLabel.append(categoryKey.toString());
             categoryLabel.append("\n      +");
             
             // Commentaire de la categorie courante
@@ -751,13 +708,13 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             XMLUtils.data(handler, "\n");
             XMLUtils.data(handler, "\n");
 
-            Iterator<String> groupIt = category.keySet().iterator();
+            Iterator<I18nizableText> groupIt = category.keySet().iterator();
             while (groupIt.hasNext())
             {
-                String groupKey = groupIt.next();
+                I18nizableText groupKey = groupIt.next();
                 StringBuilder groupLabel = new StringBuilder();
                 groupLabel.append(" ");
-                groupLabel.append(groupKey.substring(groupKey.indexOf(PluginsManager.FEATURE_ID_SEPARATOR) + PluginsManager.FEATURE_ID_SEPARATOR.length()));
+                groupLabel.append(groupKey.toString());
                 groupLabel.append(" ");
 
                 // Commentaire du group courant
@@ -815,112 +772,6 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         handler.endDocument();
     }
     
-    private String _configureLabel(Configuration configuration, String pluginName) throws ConfigurationException
-    {
-        String labelKey = configuration.getChild("LabelKey").getValue("");
-        
-        if (labelKey.length() == 0)
-        {
-            throw new ConfigurationException("The mandatory element 'LabelKey' is missing or empty", configuration);
-        }
-        
-        String catalogue = configuration.getChild("LabelKey").getAttribute("Catalogue", "plugin." + pluginName);
-        
-        return catalogue + PluginsManager.FEATURE_ID_SEPARATOR + labelKey;
-    }
-
-    private String _configureDescription(Configuration configuration, String pluginName) throws ConfigurationException
-    {
-        String descriptionKey = configuration.getChild("DescriptionKey").getValue("");
-        
-        if (descriptionKey.length() == 0)
-        {
-            throw new ConfigurationException("The mandatory element 'DescriptionKey' is missing or empty", configuration);
-        }
-        
-        String catalogue = configuration.getChild("DescriptionKey").getAttribute("Catalogue", "plugin." + pluginName);
-        
-        return catalogue + PluginsManager.FEATURE_ID_SEPARATOR + descriptionKey;
-    }
-    
-    private ParameterType _configureType(Configuration configuration) throws ConfigurationException
-    {
-        String typeAsString = configuration.getChild("Type").getValue("");
-        
-        if (typeAsString.length() == 0)
-        {
-            throw new ConfigurationException("The mandatory element 'Type' is missing or empty", configuration);
-        }
-        
-        ParameterType type;
-        
-        try
-        {
-            type = ParameterHelper.stringToType(typeAsString);
-        }
-        catch (IllegalArgumentException e)
-        {
-            throw new ConfigurationException("The mandatory element 'Type' references an unknown type", configuration, e);
-        }
-        
-        return type;
-    }
-    
-    private Object _configureDefaultValue(Configuration configuration, String id, ParameterHelper.ParameterType type) throws ConfigurationException
-    {
-        String defaultValueAsString = configuration.getChild("DefaultValue").getValue(null);
-        
-        try
-        {
-            Object defaultValue = ParameterHelper.castValue(defaultValueAsString, type);
-            return defaultValue;
-        }
-        catch (Exception e)
-        {
-            throw new ConfigurationException("The default value '" + (defaultValueAsString != null ? defaultValueAsString : "[null]") + "' for parameter with id '" + id + "' cannot be cast in its type '" + ParameterHelper.typeToString(type) + "'", configuration);
-        }
-    }
-    
-    private String _configureWidget(Configuration configuration)
-    {
-        String widget = configuration.getChild("Widget").getValue(null);
-        return widget;
-    }
-    
-    private String _configureCategory(Configuration configuration, String pluginName) throws ConfigurationException
-    {
-        String categoryKey = configuration.getChild("Category").getValue("");
-        
-        if (categoryKey.length() == 0)
-        {
-            throw new ConfigurationException("The mandatory element 'Category' is missing or empty", configuration);
-        }
-        
-        String catalogue = configuration.getChild("Category").getAttribute("Catalogue", "plugin." + pluginName);
-        
-        return catalogue + PluginsManager.FEATURE_ID_SEPARATOR + categoryKey;
-    }
-    
-    private String _configureGroup(Configuration configuration, String pluginName) throws ConfigurationException
-    {
-        String groupKey = configuration.getChild("Group").getValue("");
-        
-        if (groupKey.length() == 0)
-        {
-            throw new ConfigurationException("The mandatory element 'Group' is missing or empty", configuration);
-        }
-        
-        String catalogue = configuration.getChild("Group").getAttribute("Catalogue", "plugin." + pluginName);
-        
-        return catalogue + PluginsManager.FEATURE_ID_SEPARATOR + groupKey;
-    }
-    
-    private int _configureOrder(Configuration configuration)
-    {
-        int order = configuration.getChild("Order").getValueAsInteger(0);
-        return order;
-    }
-    
     class ConfigParameterInfo
     {
         private String _id;
@@ -950,110 +801,102 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         }
     }
     
-    class ConfigParameter
+    class ConfigParameter extends Parameter<ParameterType>
     {
-        // Nom du plugin déclarant
-        private String _pluginName;
-
         private String _id;
-        private String _label;
-        private String _description;
-        private ParameterType _type;
-        private Object _defaultValue;
-        private String _widget;
-        private String _displayCategory;
-        private String _displayGroup;
+        private I18nizableText _displayCategory;
+        private I18nizableText _displayGroup;
         private int _order;
-        private boolean _hasEnumerator;
-        private boolean _hasValidator;
 
-        ConfigParameter(String id, String pluginName, String label, String description, ParameterType type, Object defaultValue, String widget, String displayCategory, String displayGroup, int order, boolean hasEnumerator, boolean hasValidator)
-        {
-            _id = id;
-            _pluginName = pluginName;
-            _label = label;
-            _description = description;
-            _type = type;
-            _defaultValue = defaultValue;
-            _widget = widget;
-            _displayCategory = displayCategory;
-            _displayGroup = displayGroup;
-            _order = order;
-            _hasEnumerator = hasEnumerator;
-            _hasValidator = hasValidator;
-        }
-        
-        Object getDefaultValue()
-        {
-            return _defaultValue;
-        }
-
-        String getLabel()
-        {
-            return _label;
-        }
-
-        String getDescription()
-        {
-            return _description;
-        }
-
-        String getWidget()
-        {
-            return _widget;
-        }
-        
         String getId()
         {
             return _id;
         }
 
-        ParameterType getType()
+        void setId(String id)
         {
-            return _type;
+            _id = id;
         }
 
-        String getTypeAsString()
-        {
-            try
-            {
-                return ParameterHelper.typeToString(_type);
-            }
-            catch (IllegalArgumentException e)
-            {
-                _logger.error("A config parameter as an unknown type : " + _type, e);
-                return "unknown";
-            }
-        }
-
-        String getDisplayCategory()
+        I18nizableText getDisplayCategory()
         {
             return _displayCategory;
         }
+        
+        void setDisplayCategory(I18nizableText displayCategory)
+        {
+            _displayCategory = displayCategory;
+        }
 
-        String getDisplayGroup()
+        I18nizableText getDisplayGroup()
         {
             return _displayGroup;
+        }
+        
+        void setDisplayGroup(I18nizableText displayGroup)
+        {
+            _displayGroup = displayGroup;
         }
         
         int getOrder()
         {
             return _order;
         }
+        
+        void setOrder(int order)
+        {
+            _order = order;
+        }
+    }
+    
+    class ConfigParameterParser extends AbstractParameterParser<ConfigParameter, ParameterType>
+    {
+        public ConfigParameterParser(ThreadSafeComponentManager<Enumerator> enumeratorManager, ThreadSafeComponentManager<Validator> validatorManager)
+        {
+            super(enumeratorManager, validatorManager);
+        }
 
-        String getPluginName()
+        @Override
+        protected ConfigParameter _createParameter()
         {
-            return _pluginName;
+            return new ConfigParameter();
         }
         
-        boolean hasEnumerator()
+        @Override
+        protected String _parseId(Configuration parameterConfig) throws ConfigurationException
         {
-            return _hasEnumerator;
+            return parameterConfig.getAttribute("id");
         }
         
-        boolean hasValidator()
+        @Override
+        protected ParameterType _parseType(Configuration parameterConfig) throws ConfigurationException
         {
-            return _hasValidator;
+            try
+            {
+                return ParameterType.valueOf(parameterConfig.getAttribute("type").toUpperCase());
+            }
+            catch (IllegalArgumentException e)
+            {
+                throw new ConfigurationException("Invalid type", parameterConfig, e);
+            }
+        }
+        
+        @Override
+        protected Object _parseDefaultValue(Configuration parameterConfig, ConfigParameter parameter)
+        {
+            String defaultValue = parameterConfig.getChild("default-value").getValue(null);
+            return ParameterHelper.castValue(defaultValue, parameter.getType());
+        }
+        
+        @Override
+        protected void _additionalParsing(ServiceManager manager, String pluginName, Configuration parameterConfig, String parameterId, ConfigParameter parameter) throws ConfigurationException
+        {
+            super._additionalParsing(manager, pluginName, parameterConfig, parameterId, parameter);
+            
+            parameter.setId(parameterId);
+            parameter.setDisplayCategory(_parseI18nizableText(parameterConfig, pluginName, "category"));
+            parameter.setDisplayGroup(_parseI18nizableText(parameterConfig, pluginName, "group"));
+            parameter.setOrder(parameterConfig.getChild("order").getValueAsInteger(0));
         }
     }
 }

@@ -18,6 +18,7 @@ import java.sql.SQLException;
 import org.ametys.runtime.authentication.Credentials;
 import org.ametys.runtime.datasource.ConnectionHelper;
 import org.ametys.runtime.user.CredentialsAwareUsersManager;
+import org.ametys.runtime.util.I18nizableText;
 import org.ametys.runtime.util.StringUtils;
 import org.ametys.runtime.util.parameter.DefaultValidator;
 import org.ametys.runtime.util.parameter.ParameterHelper.ParameterType;
@@ -50,7 +51,7 @@ public class ModifiableCredentialsAwareJdbcUsersManager extends ModifiableJdbcUs
     }
 
     @Override
-    protected JdbcParameter _configureParameter(String id, String column, Configuration configuration) throws ConfigurationException
+    protected JdbcParameter _configureParameter(JdbcParameterParser jdbcParameterParser, String id, String column, Configuration configuration) throws ConfigurationException
     {
         JdbcParameter parameter = null;
         
@@ -58,21 +59,23 @@ public class ModifiableCredentialsAwareJdbcUsersManager extends ModifiableJdbcUs
         {
             if ("password".equals(id))
             {
-                DefaultValidator validator = new DefaultValidator(null, true);
-                validator.enableLogging(getLogger());
-                
-                parameter = new JdbcParameter(BASE_PLUGIN_NAME, id, column, "PLUGINS_CORE_USERS_JDBC_FIELD_PASSWORD_LABEL", "PLUGINS_CORE_USERS_JDBC_FIELD_PASSWORD_DESCRIPTION", ParameterType.PASSWORD, null, null, validator);
+                parameter = new JdbcParameter();
+                parameter.setId(id);
+                parameter.setPluginName(BASE_PLUGIN_NAME);
+                parameter.setColumn(column);
+                parameter.setLabel(new I18nizableText("plugin." + BASE_PLUGIN_NAME, "PLUGINS_CORE_USERS_JDBC_FIELD_PASSWORD_LABEL"));
+                parameter.setDescription(new I18nizableText("plugin." + BASE_PLUGIN_NAME, "PLUGINS_CORE_USERS_JDBC_FIELD_PASSWORD_DESCRIPTION"));
+                parameter.setType(ParameterType.PASSWORD);
+                parameter.setValidator(new DefaultValidator(null, true));
             }
             else
             {
-                parameter = super._configureParameter(id, column, configuration);
+                parameter = super._configureParameter(jdbcParameterParser, id, column, configuration);
             }
         }
         catch (Exception e)
         {
-            String message = "Configuration for parameter '" + id + "' is invalid";
-            getLogger().error(message, e);
-            throw new ConfigurationException(message, configuration, e);
+            throw new ConfigurationException("Configuration for parameter '" + id + "' is invalid", configuration, e);
         }
 
         return parameter;

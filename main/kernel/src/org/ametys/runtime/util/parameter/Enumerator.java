@@ -10,17 +10,28 @@
  */
 package org.ametys.runtime.util.parameter;
 
-import java.util.Collection;
+import java.util.Map;
+
+import org.ametys.runtime.util.I18nizableText;
 
 /**
- * Enumerator for parameters values.<br>
- * Such values usually depends on environment (directory listing, ...)
+ * Enumerator for listing values.<p>
+ * Such values usually depends on environment (directory listing, DB table, ...).
  */
 public interface Enumerator
 {
     /**
-     * Returns a Collection&lt;EnumeratorValue> corresponding to all allowed values for a parameter.
-     * @return a not null Collection&lt;EnumeratorValue>
+     * Retrieves a single label from a value.
+     * @param value the value.
+     * @return the label or <code>null</code> if not found.
+     * @throws Exception if an error occurs.
      */
-    public Collection<EnumeratorValue> getValues();
+    public I18nizableText getEntry(String value) throws Exception;
+    
+    /**
+     * Provides the enumerated values with their optional label.
+     * @return the enumerated values and their label.
+     * @throws Exception if an error occurs.
+     */
+    public Map<Object, I18nizableText> getEntries() throws Exception;
 }

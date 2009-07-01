@@ -16,9 +16,9 @@ package org.ametys.runtime.util.parameter;
 public interface Validator
 {
     /**
-     * Validate the parameter value
-     * @param value The value to validate (may be null)
-     * @return true if the parameter is valid or false otherwise
+     * Validates a value.
+     * @param value the value to validate (can be <code>null</code>).
+     * @param errors the structure to populate if the validation failed.
      */
-    public boolean validate(Object value); 
+    public void validate(Object value, Errors errors);
 }

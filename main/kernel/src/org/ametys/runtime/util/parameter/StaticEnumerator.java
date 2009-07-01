@@ -10,73 +10,36 @@
  */
 package org.ametys.runtime.util.parameter;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
-
-import org.ametys.runtime.plugin.component.PluginAware;
 import org.ametys.runtime.util.I18nizableText;
 
 
 /**
  * This implementation enumerate the static configured elements
  */
-public class StaticEnumerator extends AbstractLogEnabled implements Enumerator, Configurable, PluginAware
+public class StaticEnumerator implements Enumerator
 {
-    private Collection<EnumeratorValue> _staticValues;
-    private String _pluginName;
-    
-    public Collection<EnumeratorValue> getValues()
+    private Map<Object, I18nizableText> _entries = new LinkedHashMap<Object, I18nizableText>();
+
+    /**
+     * Adds a new entry.
+     * @param label the entry label.
+     * @param value the entry value.
+     */
+    public void add(I18nizableText label, String value)
     {
-        return _staticValues;
+        _entries.put(value, label);
     }
     
-    public void setPluginInfo(String pluginName, String featureName)
+    public I18nizableText getEntry(String value)
     {
-        _pluginName = pluginName;
+        return _entries.get(value);
     }
     
-    public void configure(Configuration configuration) throws ConfigurationException
+    public Map<Object, I18nizableText> getEntries()
     {
-        if (getLogger().isDebugEnabled())
-        {
-            getLogger().debug("Configuring a " + StaticEnumerator.class.getName() + " in plugin '" + _pluginName + "'");
-        }
-        
-        Collection<EnumeratorValue> values = new ArrayList<EnumeratorValue>();
-        
-        Configuration[] valuesConfigurations = configuration.getChildren();
-        for (Configuration valueConfiguration : valuesConfigurations)
-        {
-            String value = valueConfiguration.getName();
-            I18nizableText text = null;
-            
-            boolean i18n = valueConfiguration.getAttributeAsBoolean("i18n", true);
-            if (i18n)
-            {
-                String key = valueConfiguration.getValue("");
-                String catalogue = valueConfiguration.getAttribute("catalogue", "plugin." + _pluginName);
-                text = new I18nizableText(catalogue, key);
-            }
-            else
-            {
-                String label = valueConfiguration.getValue("");
-                text = new I18nizableText(label);
-            }
-            
-            values.add(new EnumeratorValue(value, text));
-        }
-        
-        _staticValues = Collections.unmodifiableCollection(values);
-        
-        if (getLogger().isDebugEnabled())
-        {
-            getLogger().debug(StaticEnumerator.class.getName() + " in plugin '" + _pluginName + "' is configured with " + _staticValues.size() + " value(s)");
-        }
+        return _entries;
     }
 }

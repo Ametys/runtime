@@ -30,238 +30,230 @@
              | CORE DATASOURCE
              + -->
         <!-- JDBC -->
-        <param id="runtime.datasource.core.jdbc.driver">
+        <param id="runtime.datasource.core.jdbc.driver" type="string">
             <!-- 
                 This parameter contains the jdbc driver class to load to connect the core database pool.
              -->
-            <LabelKey>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_DRIVER_LABEL</LabelKey>
-            <DescriptionKey>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_DRIVER_DESCRIPTION</DescriptionKey>
-            <Type>string</Type>
-            <DefaultValue>com.mysql.jdbc.Driver</DefaultValue>
-            <Validation>
+            <label i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_DRIVER_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_DRIVER_DESCRIPTION</description>
+            <validation>
                 <mandatory/>
-            </Validation>
-            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE</Category>
-            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE_GROUP_CORE</Group>
-            <Order>10</Order>
+            </validation>
+            <default-value>com.mysql.jdbc.Driver</default-value>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE_GROUP_CORE</group>
+            <order>10</order>
         </param>
-        <param id="runtime.datasource.core.jdbc.url">
+        <param id="runtime.datasource.core.jdbc.url" type="string">
             <!-- 
                 This parameter contains the jdbc url to connect the core database pool.
              -->
-            <LabelKey>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_URL_LABEL</LabelKey>
-            <DescriptionKey>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_URL_DESCRIPTION</DescriptionKey>
-            <Type>string</Type>
-            <DefaultValue>jdbc:mysql://servername/basename</DefaultValue>
-            <Validation>
+            <label i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_URL_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_URL_DESCRIPTION</description>
+            <validation>
                 <mandatory/>
-            </Validation>
-            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE</Category>
-            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE_GROUP_CORE</Group>
-            <Order>20</Order>
+            </validation>
+            <default-value>jdbc:mysql://servername/basename</default-value>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE_GROUP_CORE</group>
+            <order>20</order>
         </param>
-        <param id="runtime.datasource.core.jdbc.user">
+        <param id="runtime.datasource.core.jdbc.user" type="string">
             <!-- 
                 This parameter contains the jdbc username to connect the core database pool.
                 @see:plugin{config/runtime.datasource.core.jdbc.passwd}
              -->
-            <LabelKey>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_USER_LABEL</LabelKey>
-            <DescriptionKey>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_USER_DESCRIPTION</DescriptionKey>
-            <Type>string</Type>
-            <DefaultValue>username</DefaultValue>
-            <Validation>
+            <label i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_USER_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_USER_DESCRIPTION</description>
+            <validation>
                 <mandatory/>
-            </Validation>
-            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE</Category>
-            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE_GROUP_CORE</Group>
-            <Order>30</Order>
+            </validation>
+            <default-value>username</default-value>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE_GROUP_CORE</group>
+            <order>30</order>
         </param>
-        <param id="runtime.datasource.core.jdbc.passwd">
+        <param id="runtime.datasource.core.jdbc.passwd" type="password">
             <!-- 
                 This parameter contains the jdbc password to connect the core database pool.
                 @see:plugin{config/runtime.datasource.core.jdbc.user}
              -->
-            <LabelKey>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_PASSWORD_LABEL</LabelKey>
-            <DescriptionKey>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_PASSWORD_DESCRIPTION</DescriptionKey>
-            <Type>password</Type>
-            <DefaultValue>password</DefaultValue>
-            <Validation>
+            <label i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_PASSWORD_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_PASSWORD_DESCRIPTION</description>
+            <validation>
                 <mandatory/>
-            </Validation>
-            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE</Category>
-            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE_GROUP_CORE</Group>
-            <Order>40</Order>
+            </validation>
+            <default-value>password</default-value>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE_GROUP_CORE</group>
+            <order>40</order>
         </param>
         
         <!-- LDAP -->
-        <param id="runtime.datasource.core.ldap.baseUrl">
+        <param id="runtime.datasource.core.ldap.baseUrl" type="string">
             <!-- 
                 This parameter contains the base url (protocol + server name + port) to connect to the core ldap connection.
              -->
-            <LabelKey>PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEURL_LABEL</LabelKey>
-            <DescriptionKey>PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEURL_DESCRIPTION</DescriptionKey>
-            <Type>string</Type>
-            <DefaultValue>ldap://server:389</DefaultValue>
-            <Validation>
+            <label i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEURL_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEURL_DESCRIPTION</description>
+            <validation>
                 <mandatory/>
                 <regexp>^ldaps?://[\w-.](:\d+)/?</regexp> 
-            </Validation>
-            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
-            <Group>PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_CATEGORY_LDAP_GROUP_CORE</Group>
-            <Order>10</Order>
+            </validation>
+            <default-value>ldap://server:389</default-value>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_CATEGORY_LDAP_GROUP_CORE</group>
+            <order>10</order>
         </param>
-        <param id="runtime.datasource.core.ldap.useSSL">
+        <param id="runtime.datasource.core.ldap.useSSL" type="boolean">
             <!-- 
                 This parameter determines if the connection to the ldap server is secured or not.<br/>
                 Depending on the JVM, the use of 'ldaps' in the protocol is not supported.
              -->
-            <LabelKey>PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_SSL_LABEL</LabelKey>
-            <DescriptionKey>PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_SSL_DESCRIPTION</DescriptionKey>
-            <Type>boolean</Type>
-            <DefaultValue>false</DefaultValue>
-            <Validation>
+            <label i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_SSL_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_SSL_DESCRIPTION</description>
+            <validation>
                 <mandatory/>
-            </Validation>
-            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
-            <Group>PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_CATEGORY_LDAP_GROUP_CORE</Group>
-            <Order>20</Order>
+            </validation>
+            <default-value>false</default-value>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_CATEGORY_LDAP_GROUP_CORE</group>
+            <order>20</order>
         </param>
-        <param id="runtime.datasource.core.ldap.baseDN">
+        <param id="runtime.datasource.core.ldap.baseDN" type="string">
             <!-- 
                 This parameter contains the base of the DN to add to all search.
                 <br/>May be empty if search have to be done in several branches.
              -->
-            <LabelKey>PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEDN_LABEL</LabelKey>
-            <DescriptionKey>PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEDN_DESCRIPTION</DescriptionKey>
-            <Type>string</Type>
-            <DefaultValue>dc=ametys,dc=org</DefaultValue>
-            <Validation>
+            <label i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEDN_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEDN_DESCRIPTION</description>
+            <validation>
                 <mandatory/>
-            </Validation>
-            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
-            <Group>PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_CATEGORY_LDAP_GROUP_CORE</Group>
-            <Order>30</Order>
+            </validation>
+            <default-value>dc=ametys,dc=org</default-value>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_CATEGORY_LDAP_GROUP_CORE</group>
+            <order>30</order>
         </param>
-        <param id="runtime.datasource.core.ldap.authMethod">
+        <param id="runtime.datasource.core.ldap.authMethod" type="string">
             <!-- 
                 This parameter determines if the connection to LDAP can be anonymous.
                 @see:plugin{config/runtime.datasource.core.ldap.adminDN}
                 @see:plugin{config/runtime.datasource.core.ldap.adminPasswd}
              -->
-            <LabelKey>PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_AUTH_METHOD_LABEL</LabelKey>
-            <DescriptionKey>PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_AUTH_METHOD_DESCRIPTION</DescriptionKey>
-            <Type>string</Type>
-            <DefaultValue>none</DefaultValue>
-            <Enumeration>
-                <none i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_AUTH_METHOD_ENUM_NONE</none>
-                <simple i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_AUTH_METHOD_ENUM_SIMPLE</simple>
-            </Enumeration>
-            <Validation>
+            <label i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_AUTH_METHOD_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_AUTH_METHOD_DESCRIPTION</description>
+            <enumeration>
+            	<entry>
+            		<label i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_AUTH_METHOD_ENUM_NONE</label>
+            		<value>none</value>
+            	</entry>
+            	<entry>
+            		<label i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_AUTH_METHOD_ENUM_SIMPLE</label>
+            		<value>simple</value>
+            	</entry>
+            </enumeration>
+            <validation>
                 <mandatory/>
-            </Validation>
-            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
-            <Group>PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_CATEGORY_LDAP_GROUP_CORE</Group>
-            <Order>40</Order>
+            </validation>
+            <default-value>none</default-value>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_CATEGORY_LDAP_GROUP_CORE</group>
+            <order>40</order>
         </param>
-        <param id="runtime.datasource.core.ldap.adminDN">
+        <param id="runtime.datasource.core.ldap.adminDN" type="string">
             <!-- 
                 If the authMethod is not anonymous, this parameter contains the DN of the user to use to connect to the LDAP.
                 @see:plugin{config/runtime.datasource.core.ldap.authMethod}
                 @see:plugin{config/runtime.datasource.core.ldap.adminPasswd}
              -->
-            <LabelKey>PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ADMINDN_LABEL</LabelKey>
-            <DescriptionKey>PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ADMINDN_DESCRIPTION</DescriptionKey>
-            <Type>string</Type>
-            <DefaultValue>cn=admin</DefaultValue>
-            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
-            <Group>PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_CATEGORY_LDAP_GROUP_CORE</Group>
-            <Order>50</Order>
+            <label i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ADMINDN_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ADMINDN_DESCRIPTION</description>
+            <default-value>cn=admin</default-value>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_CATEGORY_LDAP_GROUP_CORE</group>
+            <order>50</order>
         </param>
-        <param id="runtime.datasource.core.ldap.adminPasswd">
+        <param id="runtime.datasource.core.ldap.adminPasswd" type="password">
             <!-- 
                 If the authMethod is not anonymous, this parameter contains the password of the user to use to connect to the LDAP.
                 @see:plugin{config/runtime.datasource.core.ldap.authMethod}
                 @see:plugin{config/runtime.datasource.core.ldap.adminDN}
              -->
-            <LabelKey>PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ADMINPASSWORD_LABEL</LabelKey>
-            <DescriptionKey>PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ADMINPASSWORD_DESCRIPTION</DescriptionKey>
-            <Type>password</Type>
-            <DefaultValue>password</DefaultValue>
-            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
-            <Group>PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_CATEGORY_LDAP_GROUP_CORE</Group>
-            <Order>60</Order>
+            <label i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ADMINPASSWORD_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ADMINPASSWORD_DESCRIPTION</description>
+            <default-value>password</default-value>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_CATEGORY_LDAP_GROUP_CORE</group>
+            <order>60</order>
         </param>
         
         
         <!-- +
              | UPLOAD
              + -->
-        <param id="runtime.upload.max-size">
+        <param id="runtime.upload.max-size" type="long">
             <!-- 
                 The max size of uploaded files.
              -->
-            <LabelKey>PLUGINS_CORE_UPLOAD_CONFIG_MAXSIZE_LABEL</LabelKey>
-            <DescriptionKey>PLUGINS_CORE_UPLOAD_CONFIG_MAXSIZE_DESCRIPTION</DescriptionKey>
-            <Type>long</Type>
-            <DefaultValue>10000000</DefaultValue>
-            <Validation>
+            <label i18n="true">PLUGINS_CORE_UPLOAD_CONFIG_MAXSIZE_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_UPLOAD_CONFIG_MAXSIZE_DESCRIPTION</description>
+            <validation>
                 <mandatory/>
-            </Validation>        
-            <Category>PLUGINS_CORE_UPLOAD_CONFIG_CATEGORY</Category>
-            <Group>PLUGINS_CORE_UPLOAD_CONFIG_GROUP_UPLOAD</Group>
-            <Order>10</Order>
+            </validation>        
+            <default-value>10000000</default-value>
+            <category i18n="true">PLUGINS_CORE_UPLOAD_CONFIG_CATEGORY</category>
+            <group i18n="true">PLUGINS_CORE_UPLOAD_CONFIG_GROUP_UPLOAD</group>
+            <order>10</order>
         </param>
-        <param id="runtime.upload.dir">
+        <param id="runtime.upload.dir" type="string">
             <!-- 
                 The destination directory for uploaded files.
              -->
-            <LabelKey>PLUGINS_CORE_UPLOAD_CONFIG_DIR_LABEL</LabelKey>
-            <DescriptionKey>PLUGINS_CORE_UPLOAD_CONFIG_DIR_DESCRIPTION</DescriptionKey>
-            <Type>String</Type>
-            <DefaultValue>WEB-INF/data/uploads</DefaultValue>
-            <Validation>
+            <label i18n="true">PLUGINS_CORE_UPLOAD_CONFIG_DIR_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_UPLOAD_CONFIG_DIR_DESCRIPTION</description>
+            <validation>
                 <mandatory/>
-            </Validation>        
-            <Category>PLUGINS_CORE_UPLOAD_CONFIG_CATEGORY</Category>
-            <Group>PLUGINS_CORE_UPLOAD_CONFIG_GROUP_UPLOAD</Group>
-            <Order>20</Order>
+            </validation>        
+            <default-value>WEB-INF/data/uploads</default-value>
+            <category i18n="true">PLUGINS_CORE_UPLOAD_CONFIG_CATEGORY</category>
+            <group i18n="true">PLUGINS_CORE_UPLOAD_CONFIG_GROUP_UPLOAD</group>
+            <order>20</order>
         </param>
         
         <!-- +
              | USERS
              + -->
-        <param id="runtime.users.ldap.peopleDN">
+        <param id="runtime.users.ldap.peopleDN" type="string">
             <!-- 
                 When users are handled in the LDAP, this parameter contains the DN to append to the base DN to guide to users.
                 @see:plugin{config/runtime.datasource.core.ldap.baseDN}
              -->
-            <LabelKey>PLUGINS_CORE_USERS_LDAPUSER_CONFIG_PEOPLEDN_LABEL</LabelKey>
-            <DescriptionKey>PLUGINS_CORE_USERS_LDAPUSER_CONFIG_PEOPLEDN_DESCRIPTION</DescriptionKey>
-            <Type>string</Type>
-            <DefaultValue>ou=people</DefaultValue>
-            <Validation>
+            <label i18n="true">PLUGINS_CORE_USERS_LDAPUSER_CONFIG_PEOPLEDN_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_USERS_LDAPUSER_CONFIG_PEOPLEDN_DESCRIPTION</description>
+            <validation>
                 <mandatory/>
-            </Validation>        
-            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
-            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS</Group>
-            <Order>10</Order>
+            </validation>        
+            <default-value>ou=people</default-value>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS</group>
+            <order>10</order>
         </param>
-        <param id="runtime.users.ldap.baseFilter">
+        <param id="runtime.users.ldap.baseFilter" type="string">
             <!-- 
                 When users are handled in the LDAP, this parameter contains the filter to find users objects in the current DN.
              -->
-            <LabelKey>PLUGINS_CORE_USERS_LDAPUSER_CONFIG_BASEFILTER_LABEL</LabelKey>
-            <DescriptionKey>PLUGINS_CORE_USERS_LDAPUSER_CONFIG_BASEFILTER_DESCRIPTION</DescriptionKey>
-            <Type>string</Type>
-            <DefaultValue>(objectclass=*)</DefaultValue>
-            <Validation>
+            <label i18n="true">PLUGINS_CORE_USERS_LDAPUSER_CONFIG_BASEFILTER_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_USERS_LDAPUSER_CONFIG_BASEFILTER_DESCRIPTION</description>
+            <validation>
                 <mandatory/>
-            </Validation>        
-            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
-            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS</Group>
-            <Order>20</Order>
+            </validation>        
+            <default-value>(objectclass=*)</default-value>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS</group>
+            <order>20</order>
         </param>
-        <param id="runtime.users.ldap.scope">
+        <param id="runtime.users.ldap.scope" type="string">
             <!-- 
                 When users are handled in the LDAP, this parameter determine where to look for users objects in the current DN.
                 <ul>
@@ -270,78 +262,71 @@
                     <li>In the current DN and all sub branches (sub) - low perf</li>
                 </ul>
              -->
-            <LabelKey>PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SEARCH_SCOPE_LABEL</LabelKey>
-            <DescriptionKey>PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SEARCH_SCOPE_DESCRIPTION</DescriptionKey>
-            <Type>string</Type>
-            <DefaultValue>one</DefaultValue>
-            <Enumeration>
-                <object i18n="true">PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SEARCH_SCOPE_ENUM_OBJECT</object>
-                <one i18n="true">PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SEARCH_SCOPE_ENUM_ONE</one>
-                <sub i18n="true">PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SEARCH_SCOPE_ENUM_SUB</sub>
-            </Enumeration>
-            <Validation>
+            <label i18n="true">PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SEARCH_SCOPE_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SEARCH_SCOPE_DESCRIPTION</description>
+            <enumeration>
+            	<custom-enumerator class="org.ametys.runtime.plugins.core.util.ldap.ScopeEnumerator"/>
+            </enumeration>
+            <validation>
                 <mandatory/>
-            </Validation>
-            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
-            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS</Group>
-            <Order>30</Order>
+            </validation>
+            <default-value>one</default-value>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS</group>
+            <order>30</order>
         </param>
-        <param id="runtime.users.ldap.loginAttr">
+        <param id="runtime.users.ldap.loginAttr" type="string">
             <!-- 
                 When users are handled in the LDAP, this parameter contains the name of the attribute on users objects handling the login
              -->
-            <LabelKey>PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_LOGIN_LABEL</LabelKey>
-            <DescriptionKey>PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_LOGIN_DESCRIPTION</DescriptionKey>
-            <Type>string</Type>
-            <DefaultValue>uid</DefaultValue>
-            <Validation>
+            <label i18n="true">PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_LOGIN_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_LOGIN_DESCRIPTION</description>
+            <validation>
                 <mandatory/>
-            </Validation>
-            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
-            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS</Group>
-            <Order>40</Order>
+            </validation>
+            <default-value>uid</default-value>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS</group>
+            <order>40</order>
         </param>
-        <param id="runtime.users.ldap.firstnameAttr">
+        <param id="runtime.users.ldap.firstnameAttr" type="string">
             <!-- 
                 When users are handled in the LDAP, this parameter contains the name of the attribute on users objects handling the firstname
              -->
-            <LabelKey>PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_FIRSTNAME_LABEL</LabelKey>
-            <DescriptionKey>PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_FIRSTNAME_DESCRIPTION</DescriptionKey>
-            <Type>string</Type>
-            <DefaultValue>givenName</DefaultValue>
-            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
-            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS</Group>
-            <Order>50</Order>
+            <label i18n="true">PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_FIRSTNAME_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_FIRSTNAME_DESCRIPTION</description>
+            <default-value>givenName</default-value>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS</group>
+            <order>50</order>
         </param>
-        <param id="runtime.users.ldap.lastnameAttr">
+        <param id="runtime.users.ldap.lastnameAttr" type="string">
             <!-- 
                 When users are handled in the LDAP, this parameter contains the name of the attribute on users objects handling the lastname
              -->
-            <LabelKey>PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_LASTNAME_LABEL</LabelKey>
-            <DescriptionKey>PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_LASTNAME_DESCRIPTION</DescriptionKey>
-            <Type>string</Type>
-            <DefaultValue>sn</DefaultValue>
-            <Validation>
+            <label i18n="true">PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_LASTNAME_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_LASTNAME_DESCRIPTION</description>
+            <validation>
                 <mandatory/>
-            </Validation>
-            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
-            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS</Group>
-            <Order>60</Order>
+            </validation>
+            <default-value>sn</default-value>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS</group>
+            <order>60</order>
         </param>
-        <param id="runtime.users.ldap.emailAttr">
+        <param id="runtime.users.ldap.emailAttr" type="string">
             <!-- 
                 When users are handled in the LDAP, this parameter contains the name of the attribute on users objects handling the email
              -->
-            <LabelKey>PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_EMAIL_LABEL</LabelKey>
-            <DescriptionKey>PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_EMAIL_DESCRIPTION</DescriptionKey>
-            <Type>string</Type>
-            <DefaultValue>mail</DefaultValue>
-            <Validation>
+            <label i18n="true">PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_EMAIL_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_EMAIL_DESCRIPTION</description>
+            <validation>
                 <mandatory/>
-            </Validation>
-            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
-            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS</Group>
-            <Order>70</Order>
+            </validation>
+            <default-value>mail</default-value>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS</group>
+            <order>70</order>
         </param>
         
         <!-- +
@@ -349,38 +334,36 @@
              + -->
          
         <!-- LDAP -->
-        <param id="runtime.groups.ldap.groupDN">
+        <param id="runtime.groups.ldap.groupDN" type="string">
             <!-- 
                 When groups are handled in the LDAP, this parameter the DN to append to the base DN to guide to groups.
                 @see:plugin{config/runtime.datasource.core.ldap.baseDN}
              -->
-            <LabelKey>PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_GROUPDN_LABEL</LabelKey>
-            <DescriptionKey>PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_GROUPDN_DESCRIPTION</DescriptionKey>
-            <Type>string</Type>
-            <DefaultValue>ou=group</DefaultValue>
-            <Validation>
+            <label i18n="true">PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_GROUPDN_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_GROUPDN_DESCRIPTION</description>
+            <validation>
                 <mandatory/>
-            </Validation>
-            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
-            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_GROUPS</Group>
-            <Order>10</Order>
+            </validation>
+            <default-value>ou=group</default-value>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_GROUPS</group>
+            <order>10</order>
         </param>
-        <param id="runtime.groups.ldap.filter">
+        <param id="runtime.groups.ldap.filter" type="string">
             <!-- 
                 When groups are handled in the LDAP, this parameter contains the filter to find groups objects in the current DN.
              -->
-            <LabelKey>PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_FILTER_LABEL</LabelKey>
-            <DescriptionKey>PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_FILTER_DESCRIPTION</DescriptionKey>
-            <Type>string</Type>
-            <DefaultValue>(objectclass=groupOfNames)</DefaultValue>
-            <Validation>
+            <label i18n="true">PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_FILTER_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_FILTER_DESCRIPTION</description>
+            <validation>
                 <mandatory/>
-            </Validation>
-            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
-            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_GROUPS</Group>
-            <Order>20</Order>
+            </validation>
+            <default-value>(objectclass=groupOfNames)</default-value>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_GROUPS</group>
+            <order>20</order>
         </param>
-        <param id="runtime.groups.ldap.scope">
+        <param id="runtime.groups.ldap.scope" type="string">
             <!-- 
                 When groups are handled in the LDAP, this parameter determine where to look for groups objects in the current DN.
                 <ul>
@@ -389,53 +372,48 @@
                     <li>In the current DN and all sub branches (sub) - low perf</li>
                 </ul>
              -->
-            <LabelKey>PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_SEARCH_SCOPE_LABEL</LabelKey>
-            <DescriptionKey>PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_SEARCH_SCOPE_DESCRIPTION</DescriptionKey>
-            <Type>string</Type>
-            <DefaultValue>one</DefaultValue>
-            <Enumeration>
-                <object i18n="true">PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_SEARCH_SCOPE_ENUM_OBJECT</object>
-                <one i18n="true">PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_SEARCH_SCOPE_ENUM_ONE</one>
-                <sub i18n="true">PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_SEARCH_SCOPE_ENUM_SUB</sub>
-            </Enumeration>
-            <Validation>
+            <label i18n="true">PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_SEARCH_SCOPE_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_SEARCH_SCOPE_DESCRIPTION</description>
+            <enumeration>
+            	<custom-enumerator class="org.ametys.runtime.plugins.core.util.ldap.ScopeEnumerator"/>
+            </enumeration>
+            <validation>
                 <mandatory/>
-            </Validation>
-            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
-            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_GROUPS</Group>
-            <Order>30</Order>
+            </validation>
+            <default-value>one</default-value>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_GROUPS</group>
+            <order>30</order>
         </param>        
-        <param id="runtime.groups.ldap.id">
+        <param id="runtime.groups.ldap.id" type="string">
             <!-- 
                 When groups are handled in the LDAP, this parameter contains the name of the attribute on groups objects handling the identifier
              -->
-            <LabelKey>PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_ID_LABEL</LabelKey>
-            <DescriptionKey>PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_ID_DESCRIPTION</DescriptionKey>
-            <Type>string</Type>
-            <DefaultValue>cn</DefaultValue>
-            <Validation>
+            <label i18n="true">PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_ID_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_ID_DESCRIPTION</description>
+            <validation>
                 <mandatory/>
-            </Validation>
-            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
-            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_GROUPS</Group>
-            <Order>40</Order>
+            </validation>
+            <default-value>cn</default-value>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_GROUPS</group>
+            <order>40</order>
         </param>
-        <param id="runtime.groups.ldap.description">
+        <param id="runtime.groups.ldap.description" type="string">
             <!-- 
                 When groups are handled in the LDAP, this parameter contains the name of the attribute on groups objects handling the description (or readable name)
              -->
-            <LabelKey>PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_DESCRIPTION_LABEL</LabelKey>
-            <DescriptionKey>PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_DESCRIPTION_DESCRIPTION</DescriptionKey>
-            <Type>string</Type>
-            <DefaultValue>description</DefaultValue>
-            <Validation>
+            <label i18n="true">PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_DESCRIPTION_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_DESCRIPTION_DESCRIPTION</description>
+            <validation>
                 <mandatory/>
-            </Validation>
-            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
-            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_GROUPS</Group>
-            <Order>50</Order>
+            </validation>
+            <default-value>description</default-value>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_GROUPS</group>
+            <order>50</order>
         </param>
-        <param id="runtime.groups.ldap.member">
+        <param id="runtime.groups.ldap.member" type="string">
             <!-- 
                 When groups are handled in the LDAP, this parameter contains the name of the attribute on groups objects handling the assocation with users.<br/>
                 This attribute is multiple and will contain the login of users.<br/>
@@ -443,18 +421,17 @@
                 @see:plugin{config/runtime.users.ldap.peopleDN}
                 @see:plugin{config/runtime.users.ldap.loginAttr}
              -->
-            <LabelKey>PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_MEMBER_LABEL</LabelKey>
-            <DescriptionKey>PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_MEMBER_DESCRIPTION</DescriptionKey>
-            <Type>string</Type>
-            <DefaultValue>member</DefaultValue>
-            <Validation>
+            <label i18n="true">PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_MEMBER_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_MEMBER_DESCRIPTION</description>
+            <validation>
                 <mandatory/>
-            </Validation>
-            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
-            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_GROUPS</Group>
-            <Order>60</Order>
+            </validation>
+            <default-value>member</default-value>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_GROUPS</group>
+            <order>60</order>
         </param>
-        <param id="runtime.groups.ldap.memberof">
+        <param id="runtime.groups.ldap.memberof" type="string">
             <!-- 
                 When groups are handled in the LDAP, this parameter contains the name of the attribute on users objects (implying users to be handled in LDAP also) 
                 handling the reverse association to the groups.
@@ -464,16 +441,15 @@
                 @see:plugin{config/runtime.users.ldap.scope}
                 @see:plugin{config/runtime.users.ldap.loginAttr}
              -->
-            <LabelKey>PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_MEMBEROF_LABEL</LabelKey>
-            <DescriptionKey>PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_MEMBEROF_DESCRIPTION</DescriptionKey>
-            <Type>string</Type>
-            <DefaultValue>memberof</DefaultValue>
-            <Validation>
+            <label i18n="true">PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_MEMBEROF_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_MEMBEROF_DESCRIPTION</description>
+            <validation>
                 <mandatory/>
-            </Validation>
-            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</Category>
-            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS</Group>
-            <Order>80</Order>
+            </validation>
+            <default-value>memberof</default-value>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS</group>
+            <order>80</order>
         </param>
         
         <!-- +
@@ -481,120 +457,109 @@
              + -->
              
         <!-- BASIC -->
-        <param id="runtime.authentication.basic.realm">
+        <param id="runtime.authentication.basic.realm" type="string">
             <!-- 
                 This parameter contains the realm name for basic authentication purposes
              -->
-            <LabelKey>PLUGINS_CORE_AUTHENTICATION_BASIC_CONFIG_REALM_LABEL</LabelKey>
-            <DescriptionKey>PLUGINS_CORE_AUTHENTICATION_BASIC_CONFIG_REALM_DESCRIPTION</DescriptionKey>
-            <Type>string</Type>
-            <DefaultValue>Application domain name</DefaultValue>
-            <Validation>
+            <label i18n="true">PLUGINS_CORE_AUTHENTICATION_BASIC_CONFIG_REALM_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_AUTHENTICATION_BASIC_CONFIG_REALM_DESCRIPTION</description>
+            <validation>
                 <mandatory/>
-            </Validation>
-            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION</Category>
-            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION_GROUP_BASIC</Group>
-            <Order>10</Order>
+            </validation>
+            <default-value>Application domain name</default-value>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION_GROUP_BASIC</group>
+            <order>10</order>
         </param>
         
         <!-- REMOTE -->
-        <param id="runtime.authentication.remote.realm">
+        <param id="runtime.authentication.remote.realm" type="string">
             <!-- 
                 This parameter contains the realm name for remote authentication purposes
              -->
-            <LabelKey>PLUGINS_CORE_AUTHENTICATION_REMOTE_CONFIG_REALM_LABEL</LabelKey>
-            <DescriptionKey>PLUGINS_CORE_AUTHENTICATION_REMOTE_CONFIG_REALM_DESCRIPTION</DescriptionKey>
-            <Type>string</Type>
-            <DefaultValue>Remote domain name</DefaultValue>
-            <Validation>
+            <label i18n="true">PLUGINS_CORE_AUTHENTICATION_REMOTE_CONFIG_REALM_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_AUTHENTICATION_REMOTE_CONFIG_REALM_DESCRIPTION</description>
+            <validation>
                 <mandatory/>
-            </Validation>
-            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION</Category>
-            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION_GROUP_REMOTE</Group>
-            <Order>10</Order>
+            </validation>
+            <default-value>Remote domain name</default-value>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION_GROUP_REMOTE</group>
+            <order>10</order>
         </param>
         
         <!-- JCIFS -->
-        <param id="runtime.authentication.jcifs.production">
+        <param id="runtime.authentication.jcifs.production" type="boolean">
             <!-- 
                 This parameter parametrize the JCIFs client in production mode or not determining which other parameters to take in account.
              -->
-            <LabelKey>PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_PRODUCTION_LABEL</LabelKey>
-            <DescriptionKey>PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_PRODUCTION_DESCRIPTION</DescriptionKey>
-            <Type>boolean</Type>
-            <DefaultValue>false</DefaultValue>
-            <Validation>
+            <label i18n="true">PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_PRODUCTION_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_PRODUCTION_DESCRIPTION</description>
+            <validation>
                 <mandatory/>
-            </Validation>
-            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION</Category>
-            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION_GROUP_JCIFS</Group>
-            <Order>10</Order>
+            </validation>
+            <default-value>false</default-value>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION_GROUP_JCIFS</group>
+            <order>10</order>
         </param>
-        <param id="runtime.authentication.jcifs.clientDomain">
+        <param id="runtime.authentication.jcifs.clientDomain" type="string">
             <!-- 
                 This parameter contains the clien domain name.
              -->
-            <LabelKey>PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_CLIENTDOMAIN_LABEL</LabelKey>
-            <DescriptionKey>PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_CLIENTDOMAIN_DESCRIPTION</DescriptionKey>
-            <Type>string</Type>
-            <DefaultValue></DefaultValue>
-            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION</Category>
-            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION_GROUP_JCIFS</Group>
-            <Order>20</Order>
+            <label i18n="true">PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_CLIENTDOMAIN_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_CLIENTDOMAIN_DESCRIPTION</description>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION_GROUP_JCIFS</group>
+            <order>20</order>
         </param>
-        <param id="runtime.authentication.jcifs.netBios">
+        <param id="runtime.authentication.jcifs.netBios" type="string">
             <!-- 
                 This parameter contains the ip of the net bios server
              -->
-            <LabelKey>PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_NETBIOS_LABEL</LabelKey>
-            <DescriptionKey>PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_NETBIOS_DESCRIPTION</DescriptionKey>
-            <Type>string</Type>
-            <DefaultValue></DefaultValue>
-            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION</Category>
-            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION_GROUP_JCIFS</Group>
-            <Order>30</Order>
+            <label i18n="true">PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_NETBIOS_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_NETBIOS_DESCRIPTION</description>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION_GROUP_JCIFS</group>
+            <order>30</order>
         </param>
-        <param id="runtime.authentication.jcifs.domainController">
+        <param id="runtime.authentication.jcifs.domainController" type="string">
             <!-- 
                 This parameter contains the ip of the domain controller
              -->
-            <LabelKey>PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_DOMAINCONTROLLER_LABEL</LabelKey>
-            <DescriptionKey>PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_DOMAINCONTROLLER_DESCRIPTION</DescriptionKey>
-            <Type>string</Type>
-            <DefaultValue></DefaultValue>
-            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION</Category>
-            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION_GROUP_JCIFS</Group>
-            <Order>40</Order>
+            <label i18n="true">PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_DOMAINCONTROLLER_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_DOMAINCONTROLLER_DESCRIPTION</description>
+            <default-value></default-value>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION_GROUP_JCIFS</group>
+            <order>40</order>
         </param>
         
         <!-- CAS -->
-        <param id="runtime.authentication.cas.serverUrl">
+        <param id="runtime.authentication.cas.serverUrl" type="string">
             <!-- 
                 This parameter contains the url to reach the CAS server
              -->
-            <LabelKey>PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_URL_LABEL</LabelKey>
-            <DescriptionKey>PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_URL_DESCRIPTION</DescriptionKey>
-            <Type>string</Type>
-            <DefaultValue>https://servername</DefaultValue>
-            <Validation>
+            <label i18n="true">PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_URL_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_URL_DESCRIPTION</description>
+            <validation>
                 <mandatory/>
                 <regexp>^https://</regexp>
-            </Validation>
-            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION</Category>
-            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION_GROUP_CAS</Group>
-            <Order>10</Order>
+            </validation>
+            <default-value>https://servername</default-value>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION_GROUP_CAS</group>
+            <order>10</order>
         </param>
-        <param id="runtime.authentication.cas.authorizedProxy">
+        <param id="runtime.authentication.cas.authorizedProxy" type="string">
             <!-- 
                 This parameter contains the url of the authorized proxies for CAS
              -->
-            <LabelKey>PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_AUTHORIZEDPROXY_LABEL</LabelKey>
-            <DescriptionKey>PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_AUTHORIZEDPROXY_DESCRIPTION</DescriptionKey>
-            <Type>string</Type>
-            <DefaultValue></DefaultValue>
-            <Category>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION</Category>
-            <Group>PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION_GROUP_CAS</Group>
-            <Order>20</Order>
+            <label i18n="true">PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_AUTHORIZEDPROXY_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_AUTHORIZEDPROXY_DESCRIPTION</description>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION_GROUP_CAS</group>
+            <order>20</order>
         </param>
     </config>
     
@@ -726,10 +691,10 @@
             This feature defines the pool of connection to the database.
          -->
         <config>
-            <param id="runtime.datasource.core.jdbc.driver"/>
-            <param id="runtime.datasource.core.jdbc.url"/>
-            <param id="runtime.datasource.core.jdbc.user"/>
-            <param id="runtime.datasource.core.jdbc.passwd"/>
+            <param-ref id="runtime.datasource.core.jdbc.driver"/>
+            <param-ref id="runtime.datasource.core.jdbc.url"/>
+            <param-ref id="runtime.datasource.core.jdbc.user"/>
+            <param-ref id="runtime.datasource.core.jdbc.passwd"/>
         </config>
         
         <extensions>
@@ -746,8 +711,8 @@
     
     <feature name="runtime.upload">
         <config>
-            <param id="runtime.upload.max-size"/>
-            <param id="runtime.upload.dir"/>
+            <param-ref id="runtime.upload.max-size"/>
+            <param-ref id="runtime.upload.dir"/>
         </config>
     </feature>
 
@@ -1011,7 +976,6 @@
                        id="org.ametys.runtime.plugins.core.user.CoreJdbc"
                        class="org.ametys.runtime.plugins.core.user.jdbc.JdbcUsersManager"
                        logger="org.ametys.runtime.plugins.core.users.jdbc.simple">
-                       
                 <pool>runtime.datasource.core.jdbc.pool</pool>
                 <table>Users</table>
                 <param id="login"/>
@@ -1091,20 +1055,20 @@
             This features defines the base ldap implementation of users
          -->
         <config>
-            <param id="runtime.datasource.core.ldap.baseUrl"/>
-            <param id="runtime.datasource.core.ldap.useSSL"/>
-            <param id="runtime.datasource.core.ldap.baseDN"/>
-            <param id="runtime.datasource.core.ldap.authMethod"/>
-            <param id="runtime.datasource.core.ldap.adminDN"/>
-            <param id="runtime.datasource.core.ldap.adminPasswd"/>
+            <param-ref id="runtime.datasource.core.ldap.baseUrl"/>
+            <param-ref id="runtime.datasource.core.ldap.useSSL"/>
+            <param-ref id="runtime.datasource.core.ldap.baseDN"/>
+            <param-ref id="runtime.datasource.core.ldap.authMethod"/>
+            <param-ref id="runtime.datasource.core.ldap.adminDN"/>
+            <param-ref id="runtime.datasource.core.ldap.adminPasswd"/>
 
-            <param id="runtime.users.ldap.peopleDN"/>
-            <param id="runtime.users.ldap.baseFilter"/>
-            <param id="runtime.users.ldap.scope"/>
-            <param id="runtime.users.ldap.loginAttr"/>
-            <param id="runtime.users.ldap.firstnameAttr"/>
-            <param id="runtime.users.ldap.lastnameAttr"/>
-            <param id="runtime.users.ldap.emailAttr"/>
+            <param-ref id="runtime.users.ldap.peopleDN"/>
+            <param-ref id="runtime.users.ldap.baseFilter"/>
+            <param-ref id="runtime.users.ldap.scope"/>
+            <param-ref id="runtime.users.ldap.loginAttr"/>
+            <param-ref id="runtime.users.ldap.firstnameAttr"/>
+            <param-ref id="runtime.users.ldap.lastnameAttr"/>
+            <param-ref id="runtime.users.ldap.emailAttr"/>
         </config>
         <extensions>
             <extension point="org.ametys.runtime.user.UsersManager"
@@ -1135,20 +1099,20 @@
             @see:plugin{feature/runtime.user.impl.ldap}
          -->
         <config>
-            <param id="runtime.datasource.core.ldap.baseUrl"/>
-            <param id="runtime.datasource.core.ldap.useSSL"/>
-            <param id="runtime.datasource.core.ldap.baseDN"/>
-            <param id="runtime.datasource.core.ldap.authMethod"/>
-            <param id="runtime.datasource.core.ldap.adminDN"/>
-            <param id="runtime.datasource.core.ldap.adminPasswd"/>
+            <param-ref id="runtime.datasource.core.ldap.baseUrl"/>
+            <param-ref id="runtime.datasource.core.ldap.useSSL"/>
+            <param-ref id="runtime.datasource.core.ldap.baseDN"/>
+            <param-ref id="runtime.datasource.core.ldap.authMethod"/>
+            <param-ref id="runtime.datasource.core.ldap.adminDN"/>
+            <param-ref id="runtime.datasource.core.ldap.adminPasswd"/>
 
-            <param id="runtime.users.ldap.peopleDN"/>
-            <param id="runtime.users.ldap.baseFilter"/>
-            <param id="runtime.users.ldap.scope"/>
-            <param id="runtime.users.ldap.loginAttr"/>
-            <param id="runtime.users.ldap.firstnameAttr"/>
-            <param id="runtime.users.ldap.lastnameAttr"/>
-            <param id="runtime.users.ldap.emailAttr"/>
+            <param-ref id="runtime.users.ldap.peopleDN"/>
+            <param-ref id="runtime.users.ldap.baseFilter"/>
+            <param-ref id="runtime.users.ldap.scope"/>
+            <param-ref id="runtime.users.ldap.loginAttr"/>
+            <param-ref id="runtime.users.ldap.firstnameAttr"/>
+            <param-ref id="runtime.users.ldap.lastnameAttr"/>
+            <param-ref id="runtime.users.ldap.emailAttr"/>
         </config>
         <extensions>
             <extension point="org.ametys.runtime.user.UsersManager"
@@ -1171,6 +1135,16 @@
                 <Email mandatory="false">runtime.users.ldap.emailAttr</Email>
             </extension>
         </extensions>
+    </feature>
+    
+    <feature name="runtime.util.ldap.scope.enumerator">
+        <!-- 
+            This feature provides a LDAP scope enumerator
+         -->
+    	<components>
+    		<component role="org.ametys.runtime.plugins.core.util.ldap.ScopeEnumerator"
+    		           class="org.ametys.runtime.plugins.core.util.ldap.ScopeEnumerator"/>
+    	</components>
     </feature>
     
     <!-- +
@@ -1283,22 +1257,22 @@
             This features defines the base ldap implementation of groups where the group information is handle by the group object
          -->
         <config>
-            <param id="runtime.datasource.core.ldap.baseUrl"/>
-            <param id="runtime.datasource.core.ldap.useSSL"/>
-            <param id="runtime.datasource.core.ldap.baseDN"/>
-            <param id="runtime.datasource.core.ldap.authMethod"/>
-            <param id="runtime.datasource.core.ldap.adminDN"/>
-            <param id="runtime.datasource.core.ldap.adminPasswd"/>
+            <param-ref id="runtime.datasource.core.ldap.baseUrl"/>
+            <param-ref id="runtime.datasource.core.ldap.useSSL"/>
+            <param-ref id="runtime.datasource.core.ldap.baseDN"/>
+            <param-ref id="runtime.datasource.core.ldap.authMethod"/>
+            <param-ref id="runtime.datasource.core.ldap.adminDN"/>
+            <param-ref id="runtime.datasource.core.ldap.adminPasswd"/>
             
-            <param id="runtime.groups.ldap.groupDN"/>
-            <param id="runtime.groups.ldap.filter"/>
-            <param id="runtime.groups.ldap.scope"/>
-            <param id="runtime.groups.ldap.id"/>
-            <param id="runtime.groups.ldap.description"/>
-            <param id="runtime.groups.ldap.member"/>
+            <param-ref id="runtime.groups.ldap.groupDN"/>
+            <param-ref id="runtime.groups.ldap.filter"/>
+            <param-ref id="runtime.groups.ldap.scope"/>
+            <param-ref id="runtime.groups.ldap.id"/>
+            <param-ref id="runtime.groups.ldap.description"/>
+            <param-ref id="runtime.groups.ldap.member"/>
             
-            <param id="runtime.users.ldap.peopleDN"/>
-            <param id="runtime.users.ldap.loginAttr"/>
+            <param-ref id="runtime.users.ldap.peopleDN"/>
+            <param-ref id="runtime.users.ldap.loginAttr"/>
         </config>
         <extensions>
             <extension point="org.ametys.runtime.group.GroupsManager"
@@ -1330,24 +1304,24 @@
             This features defines the base ldap implementation of groups where the group information is handle by the user object
          -->
         <config>
-            <param id="runtime.datasource.core.ldap.baseUrl"/>
-            <param id="runtime.datasource.core.ldap.useSSL"/>
-            <param id="runtime.datasource.core.ldap.baseDN"/>
-            <param id="runtime.datasource.core.ldap.authMethod"/>
-            <param id="runtime.datasource.core.ldap.adminDN"/>
-            <param id="runtime.datasource.core.ldap.adminPasswd"/>
+            <param-ref id="runtime.datasource.core.ldap.baseUrl"/>
+            <param-ref id="runtime.datasource.core.ldap.useSSL"/>
+            <param-ref id="runtime.datasource.core.ldap.baseDN"/>
+            <param-ref id="runtime.datasource.core.ldap.authMethod"/>
+            <param-ref id="runtime.datasource.core.ldap.adminDN"/>
+            <param-ref id="runtime.datasource.core.ldap.adminPasswd"/>
             
-            <param id="runtime.groups.ldap.groupDN"/>
-            <param id="runtime.groups.ldap.filter"/>
-            <param id="runtime.groups.ldap.scope"/>
-            <param id="runtime.groups.ldap.id"/>
-            <param id="runtime.groups.ldap.description"/>
-            <param id="runtime.groups.ldap.memberof"/>
+            <param-ref id="runtime.groups.ldap.groupDN"/>
+            <param-ref id="runtime.groups.ldap.filter"/>
+            <param-ref id="runtime.groups.ldap.scope"/>
+            <param-ref id="runtime.groups.ldap.id"/>
+            <param-ref id="runtime.groups.ldap.description"/>
+            <param-ref id="runtime.groups.ldap.memberof"/>
             
-            <param id="runtime.users.ldap.peopleDN"/>
-            <param id="runtime.users.ldap.baseFilter"/>
-            <param id="runtime.users.ldap.scope"/>
-            <param id="runtime.users.ldap.loginAttr"/>
+            <param-ref id="runtime.users.ldap.peopleDN"/>
+            <param-ref id="runtime.users.ldap.baseFilter"/>
+            <param-ref id="runtime.users.ldap.scope"/>
+            <param-ref id="runtime.users.ldap.loginAttr"/>
         </config>
         <extensions>
             <extension point="org.ametys.runtime.group.GroupsManager"
@@ -1550,7 +1524,7 @@
             by the navigator - the incomming values are not trusted)
          -->
         <config>
-            <param id="runtime.authentication.basic.realm"/>
+            <param-ref id="runtime.authentication.basic.realm"/>
         </config>
         <extensions>
             <extension point="org.ametys.runtime.authentication.CredentialsProvider"
@@ -1590,7 +1564,7 @@
             by environment in the REMOTE_USER variable)
          -->
         <config>
-            <param id="runtime.authentication.remote.realm"/>
+            <param-ref id="runtime.authentication.remote.realm"/>
         </config>
         <extensions>
             <extension point="org.ametys.runtime.authentication.CredentialsProvider"
@@ -1607,11 +1581,11 @@
             user is authenticated externally and trusted by the NT environment.
          -->
         <config>
-            <param id="runtime.authentication.remote.realm"/>
-            <param id="runtime.authentication.jcifs.production"/>
-            <param id="runtime.authentication.jcifs.clientDomain"/>
-            <param id="runtime.authentication.jcifs.netBios"/>
-            <param id="runtime.authentication.jcifs.domainController"/>
+            <param-ref id="runtime.authentication.remote.realm"/>
+            <param-ref id="runtime.authentication.jcifs.production"/>
+            <param-ref id="runtime.authentication.jcifs.clientDomain"/>
+            <param-ref id="runtime.authentication.jcifs.netBios"/>
+            <param-ref id="runtime.authentication.jcifs.domainController"/>
         </config>
         <extensions>
             <extension point="org.ametys.runtime.authentication.CredentialsProvider"
@@ -1627,8 +1601,8 @@
             trusted by a CAS Server)
          -->
         <config>
-            <param id="runtime.authentication.cas.serverUrl"/>
-            <param id="runtime.authentication.cas.authorizedProxy"/>
+            <param-ref id="runtime.authentication.cas.serverUrl"/>
+            <param-ref id="runtime.authentication.cas.authorizedProxy"/>
         </config>
         <extensions>
             <extension point="org.ametys.runtime.authentication.CredentialsProvider"
@@ -1647,8 +1621,8 @@
             @see:plugin{config/runtime.authentication.cas.serverUrl}
          -->
         <config>
-            <param id="runtime.authentication.cas.serverUrl"/>
-            <param id="runtime.authentication.cas.authorizedProxy"/>
+            <param-ref id="runtime.authentication.cas.serverUrl"/>
+            <param-ref id="runtime.authentication.cas.authorizedProxy"/>
         </config>
         <extensions>
             <extension point="org.ametys.runtime.authentication.CredentialsProvider"

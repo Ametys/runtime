@@ -24,6 +24,7 @@ import org.ametys.runtime.user.InvalidModificationException;
 import org.ametys.runtime.user.ModifiableUsersManager;
 import org.ametys.runtime.user.UsersManager;
 import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableAction;
+import org.ametys.runtime.util.parameter.Errors;
 
 
 /**
@@ -98,10 +99,12 @@ public class EditAction extends CurrentUserProviderServiceableAction
         }
         catch (InvalidModificationException e)
         {
-            if (e.getFields() != null && e.getFields().size() > 0)
+            Map<String, Errors> fieldErrors = e.getFieldErrors();
+            
+            if (fieldErrors != null && fieldErrors.size() > 0)
             {
                 StringBuffer fields = new StringBuffer();
-                for (String field : e.getFields())
+                for (String field : fieldErrors.keySet())
                 {
                     fields.append(",");
                     fields.append(field);

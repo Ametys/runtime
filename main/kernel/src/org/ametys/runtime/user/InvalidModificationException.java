@@ -10,14 +10,16 @@
  */
 package org.ametys.runtime.user;
 
-import java.util.Set;
+import java.util.Map;
+
+import org.ametys.runtime.util.parameter.Errors;
 
 /**
  * Exception for bad modification of the users list.
  */
 public class InvalidModificationException extends Exception
 {
-    Set<String> _fields;
+    private Map<String, Errors>  _fields;
     
     /**
      * Default constructor.
@@ -31,7 +33,7 @@ public class InvalidModificationException extends Exception
      * Constructor with error fields
      * @param fields The fields is having errors
      */
-    public InvalidModificationException(Set<String> fields)
+    public InvalidModificationException(Map<String, Errors> fields)
     {
         _fields = fields;
     }
@@ -50,7 +52,7 @@ public class InvalidModificationException extends Exception
      * @param message the message
      * @param fields The fields is having errors
      */
-    public InvalidModificationException(String message, Set<String> fields)
+    public InvalidModificationException(String message, Map<String, Errors> fields)
     {
         super(message);
         _fields = fields;
@@ -66,11 +68,11 @@ public class InvalidModificationException extends Exception
     }
 
     /**
-     * Contructor with cause and error fields
+     * Constructor with cause and error fields
      * @param cause the cause
      * @param fields The fields is having errors
      */
-    public InvalidModificationException(Exception cause, Set<String> fields)
+    public InvalidModificationException(Exception cause, Map<String, Errors> fields)
     {
         super(cause);
         _fields = fields;
@@ -87,12 +89,12 @@ public class InvalidModificationException extends Exception
     }
 
     /**
-     * Cosntructor with a message, a cause and a set of error fields
+     * Constructor with a message, a cause and a set of error fields
      * @param message The message.
      * @param cause The cause.
      * @param fields The fields is having errors
      */
-    public InvalidModificationException(String message, Exception cause, Set<String> fields)
+    public InvalidModificationException(String message, Exception cause, Map<String, Errors> fields)
     {
         super(message, cause);
         _fields = fields;
@@ -104,7 +106,7 @@ public class InvalidModificationException extends Exception
         if (_fields != null && _fields.size() > 0)
         {
             StringBuffer fields = new StringBuffer(" [");
-            for (String field : _fields)
+            for (String field : _fields.keySet())
             {
                 if (fields.length() > 2)
                 {
@@ -121,7 +123,7 @@ public class InvalidModificationException extends Exception
      * Get the error fields
      * @return fields as a set of ids (may be null or empty)
      */
-    public Set<String> getFields()
+    public Map<String, Errors> getFieldErrors()
     {
         return _fields;
     }

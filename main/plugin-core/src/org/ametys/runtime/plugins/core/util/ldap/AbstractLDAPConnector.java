@@ -16,7 +16,6 @@ import java.util.regex.Pattern;
 import javax.naming.Context;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
-import javax.naming.directory.SearchControls;
 
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -74,17 +73,14 @@ public class AbstractLDAPConnector extends CachingComponent implements Configura
     protected int _getSearchScope(Configuration configuration, String searchScopeKey) throws ConfigurationException
     {
         String usersSearchScope = _getConfigParameter(configuration, searchScopeKey);
-        if ("one".equals(usersSearchScope))
+        
+        try
         {
-            return SearchControls.ONELEVEL_SCOPE;
+            return ScopeEnumerator.parseScope(usersSearchScope);
         }
-        else if ("sub".equals(usersSearchScope))
+        catch (IllegalArgumentException e)
         {
-            return SearchControls.SUBTREE_SCOPE;
-        }
-        else
-        {
-            return SearchControls.OBJECT_SCOPE;
+            throw new ConfigurationException("Unable to parse scope", e);
         }
     }
 

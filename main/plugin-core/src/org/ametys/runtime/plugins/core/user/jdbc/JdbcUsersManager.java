@@ -22,8 +22,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.ametys.runtime.util.parameter.ParameterHelper.ParameterType;
-
+import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -42,17 +41,23 @@ import org.xml.sax.helpers.AttributesImpl;
 
 import org.ametys.runtime.datasource.ConnectionHelper;
 import org.ametys.runtime.plugin.component.PluginAware;
+import org.ametys.runtime.plugin.component.ThreadSafeComponentManager;
 import org.ametys.runtime.user.User;
 import org.ametys.runtime.user.UsersManager;
 import org.ametys.runtime.util.CachingComponent;
+import org.ametys.runtime.util.I18nizableText;
+import org.ametys.runtime.util.parameter.AbstractParameterParser;
 import org.ametys.runtime.util.parameter.DefaultValidator;
+import org.ametys.runtime.util.parameter.Enumerator;
 import org.ametys.runtime.util.parameter.ParameterHelper;
+import org.ametys.runtime.util.parameter.Validator;
+import org.ametys.runtime.util.parameter.ParameterHelper.ParameterType;
 
 /**
  * Use a jdbc driver for getting the list of users.<br/>
  * The main method to override is <code>_createUserFromResultSet</code>
  */
-public class JdbcUsersManager extends CachingComponent implements UsersManager, Configurable, ThreadSafe, Component, Serviceable, Contextualizable, PluginAware
+public class JdbcUsersManager extends CachingComponent implements UsersManager, Configurable, ThreadSafe, Component, Serviceable, Contextualizable, PluginAware, Disposable
 {
     /** The base plugin (for i18n key) */
     protected static final String BASE_PLUGIN_NAME = "core";
@@ -75,6 +80,12 @@ public class JdbcUsersManager extends CachingComponent implements UsersManager, 
     /** The avalon context */
     protected Context _context;
     
+    // ComponentManager pour les Validator
+    private ThreadSafeComponentManager<Validator> _validatorManager;
+    
+    //ComponentManager pour les Enumerator
+    private ThreadSafeComponentManager<Enumerator> _enumeratorManager;
+    
     public void setPluginInfo(String pluginName, String featureName)
     {
         _pluginName = pluginName;
@@ -90,12 +101,30 @@ public class JdbcUsersManager extends CachingComponent implements UsersManager, 
         _manager = manager;
     }
     
+    @Override
+    public void initialize() throws Exception
+    {
+        super.initialize();
+
+        _validatorManager = new ThreadSafeComponentManager<Validator>();
+        _validatorManager.enableLogging(getLogger());
+        _validatorManager.contextualize(_context);
+        _validatorManager.service(_manager);
+        
+        _enumeratorManager = new ThreadSafeComponentManager<Enumerator>();
+        _enumeratorManager.enableLogging(getLogger());
+        _enumeratorManager.contextualize(_context);
+        _enumeratorManager.service(_manager);
+    }
+    
     public void configure(Configuration configuration) throws ConfigurationException
     {
         _poolName = configuration.getChild("pool").getValue();
         _tableName = configuration.getChild("table").getValue("Users");
 
         _parameters = new LinkedHashMap<String, JdbcParameter>();
+        
+        JdbcParameterParser jdbcParameterParser = new JdbcParameterParser(_enumeratorManager, _validatorManager);
 
         Configuration[] parametersConfigurations = configuration.getChildren("param");
         for (Configuration parameterConfiguration : parametersConfigurations)
@@ -103,82 +132,92 @@ public class JdbcUsersManager extends CachingComponent implements UsersManager, 
             String id = parameterConfiguration.getAttribute("id");
             String column = parameterConfiguration.getAttribute("column", id);
 
-            JdbcParameter parameter = _configureParameter(id, column, parameterConfiguration);
+            JdbcParameter parameter = _configureParameter(jdbcParameterParser, id, column, parameterConfiguration);
             _parameters.put(parameter.getId(), parameter);
         }
 
         if (!_parameters.containsKey("login"))
         {
-            String message = "Missing the mandatory parameter 'login'";
-            getLogger().error(message);
-            throw new ConfigurationException(message, configuration);
+            throw new ConfigurationException("Missing the mandatory parameter 'login'", configuration);
         }
         if (!_parameters.containsKey("lastname"))
         {
-            String message = "Missing the mandatory parameter 'lastname'";
-            getLogger().error(message);
-            throw new ConfigurationException(message, configuration);
+            throw new ConfigurationException("Missing the mandatory parameter 'lastname'", configuration);
         }
         if (!_parameters.containsKey("email"))
         {
-            String message = "Missing the mandatory parameter 'email'";
-            getLogger().error(message);
-            throw new ConfigurationException(message, configuration);
+            throw new ConfigurationException("Missing the mandatory parameter 'email'", configuration);
         }
+    }
+    
+    public void dispose()
+    {
+        _enumeratorManager.dispose();
+        _enumeratorManager = null;
+        
+        _validatorManager.dispose();
+        _validatorManager = null;
     }
 
     /**
      * Configure the parameter (for special handling)
-     * @param id Id the of the paramter
+     * @param jdbcParameterParser the {@link JdbcParameter} parser.
+     * @param id Id the of the parameter
      * @param column Column name of the parameter
-     * @param configuration Configuration of the paramter
+     * @param configuration Configuration of the parameter
      * @return The parameter created
      * @throws ConfigurationException if a configuration problem occurs
      */
-    protected JdbcParameter _configureParameter(String id, String column, Configuration configuration) throws ConfigurationException
+    protected JdbcParameter _configureParameter(JdbcParameterParser jdbcParameterParser, String id, final String column, Configuration configuration) throws ConfigurationException
     {
-        JdbcParameter parameter = null;
+        JdbcParameter parameter = new JdbcParameter();
 
         try
         {
+            parameter.setId(id);
+            parameter.setColumn(column);
+            
             if ("login".equals(id))
             {
-                DefaultValidator validator = new DefaultValidator("^[\\w]{3,16}$", true);
-                validator.enableLogging(getLogger());
-                
-                parameter = new JdbcParameter(BASE_PLUGIN_NAME, id, column, "PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_LABEL", "PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_DESCRIPTION", ParameterType.STRING, null, null, validator);
+                parameter.setPluginName(BASE_PLUGIN_NAME);
+                parameter.setLabel(new I18nizableText("plugin." + BASE_PLUGIN_NAME, "PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_LABEL"));
+                parameter.setDescription(new I18nizableText("plugin." + BASE_PLUGIN_NAME, "PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_DESCRIPTION"));
+                parameter.setType(ParameterType.STRING);
+                parameter.setValidator(new DefaultValidator("^[\\w]{3,16}$", true));
             }
             else if ("lastname".equals(id))
             {
-                DefaultValidator validator = new DefaultValidator(null, true);
-                validator.enableLogging(getLogger());
-                
-                parameter = new JdbcParameter(BASE_PLUGIN_NAME, id, column, "PLUGINS_CORE_USERS_JDBC_FIELD_LASTNAME_LABEL", "PLUGINS_CORE_USERS_JDBC_FIELD_LASTNAME_DESCRIPTION", ParameterType.STRING, null, null, validator);
+                parameter.setPluginName(BASE_PLUGIN_NAME);
+                parameter.setLabel(new I18nizableText("plugin." + BASE_PLUGIN_NAME, "PLUGINS_CORE_USERS_JDBC_FIELD_LASTNAME_LABEL"));
+                parameter.setDescription(new I18nizableText("plugin." + BASE_PLUGIN_NAME, "PLUGINS_CORE_USERS_JDBC_FIELD_LASTNAME_DESCRIPTION"));
+                parameter.setType(ParameterType.STRING);
+                parameter.setValidator(new DefaultValidator(null, true));
             }
             else if ("firstname".equals(id))
             {
-                DefaultValidator validator = new DefaultValidator(null, true);
-                validator.enableLogging(getLogger());
-                
-                parameter = new JdbcParameter(BASE_PLUGIN_NAME, id, column, "PLUGINS_CORE_USERS_JDBC_FIELD_FIRSTNAME_LABEL", "PLUGINS_CORE_USERS_JDBC_FIELD_FIRSTNAME_DESCRIPTION", ParameterType.STRING, null, null, validator);
+                parameter.setPluginName(BASE_PLUGIN_NAME);
+                parameter.setLabel(new I18nizableText("plugin." + BASE_PLUGIN_NAME, "PLUGINS_CORE_USERS_JDBC_FIELD_FIRSTNAME_LABEL"));
+                parameter.setDescription(new I18nizableText("plugin." + BASE_PLUGIN_NAME, "PLUGINS_CORE_USERS_JDBC_FIELD_FIRSTNAME_DESCRIPTION"));
+                parameter.setType(ParameterType.STRING);
+                parameter.setValidator(new DefaultValidator(null, true));
             }
             else if ("email".equals(id))
             {
-                DefaultValidator validator = new DefaultValidator("^([\\w\\-\\.])+@([\\w\\-\\.])+\\.([a-zA-Z])+$", false);
-                validator.enableLogging(getLogger());
-                
-                parameter = new JdbcParameter(BASE_PLUGIN_NAME, id, column, "PLUGINS_CORE_USERS_JDBC_FIELD_EMAIL_LABEL", "PLUGINS_CORE_USERS_JDBC_FIELD_EMAIL_DESCRIPTION", ParameterType.STRING, null, null, validator);
+                parameter.setPluginName(BASE_PLUGIN_NAME);
+                parameter.setColumn(column);
+                parameter.setLabel(new I18nizableText("plugin." + BASE_PLUGIN_NAME, "PLUGINS_CORE_USERS_JDBC_FIELD_EMAIL_LABEL"));
+                parameter.setDescription(new I18nizableText("plugin." + BASE_PLUGIN_NAME, "PLUGINS_CORE_USERS_JDBC_FIELD_EMAIL_DESCRIPTION"));
+                parameter.setType(ParameterType.STRING);
+                parameter.setValidator(new DefaultValidator("^([\\w\\-\\.])+@([\\w\\-\\.])+\\.([a-zA-Z])+$", false));
             }
             else
             {
-                parameter = new JdbcParameter(_pluginName, id, column, configuration, _context, _manager);
+                parameter = jdbcParameterParser.parseParameter(_manager, _pluginName, configuration);
             }
         }
         catch (Exception e)
         {
-            String message = "Configuration for parameter '" + id + "' is invalid";
-            getLogger().error(message, e);
-            throw new ConfigurationException(message, configuration, e);
+            throw new ConfigurationException("Configuration for parameter '" + id + "' is invalid", configuration, e);
         }
         
         return parameter;
@@ -659,5 +698,48 @@ public class JdbcUsersManager extends CachingComponent implements UsersManager, 
             ConnectionHelper.cleanup(stmt);
             ConnectionHelper.cleanup(con);
         }        
+    }
+    
+    /**
+     * {@link AbstractParameterParser} for parsing {@link JdbcParameter}.
+     */
+    protected static class JdbcParameterParser extends AbstractParameterParser<JdbcParameter, ParameterType>
+    {
+        JdbcParameterParser(ThreadSafeComponentManager<Enumerator> enumeratorManager, ThreadSafeComponentManager<Validator> validatorManager)
+        {
+            super(enumeratorManager, validatorManager);
+        }
+        
+        @Override
+        protected JdbcParameter _createParameter()
+        {
+            return new JdbcParameter();
+        }
+        
+        @Override
+        protected String _parseId(Configuration parameterConfig) throws ConfigurationException
+        {
+            return parameterConfig.getAttribute("id");
+        }
+        
+        @Override
+        protected ParameterType _parseType(Configuration parameterConfig) throws ConfigurationException
+        {
+            try
+            {
+                return ParameterType.valueOf(parameterConfig.getAttribute("type").toUpperCase());
+            }
+            catch (IllegalArgumentException e)
+            {
+                throw new ConfigurationException("Invalid type", parameterConfig, e);
+            }
+        }
+        
+        @Override
+        protected Object _parseDefaultValue(Configuration parameterConfig, JdbcParameter jdbcParameter)
+        {
+            String defaultValue = parameterConfig.getChild("default-value").getValue(null);
+            return ParameterHelper.castValue(defaultValue, jdbcParameter.getType());
+        }
     }
 }

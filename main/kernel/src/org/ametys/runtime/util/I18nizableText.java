@@ -15,6 +15,8 @@ import java.util.List;
 import org.apache.cocoon.transformation.I18nTransformer;
 import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
@@ -236,5 +238,78 @@ public final class I18nizableText
             result = getLabel();
         }
         return result;
+    }
+    
+    @Override
+    public int hashCode()
+    {
+        HashCodeBuilder hashCodeBuilder = new HashCodeBuilder();
+        hashCodeBuilder.append(_i18n);
+        hashCodeBuilder.append(_key);
+        hashCodeBuilder.append(_catalogue);
+        hashCodeBuilder.append(_directLabel);
+        
+        if (_parameters == null)
+        {
+            hashCodeBuilder.append((Object) null);
+        }
+        else
+        {
+            hashCodeBuilder.append(_parameters.toArray(new String[_parameters.size()]));
+        }
+        
+        return hashCodeBuilder.toHashCode();
+    }
+    
+    @Override
+    public boolean equals(Object obj)
+    { 
+        if (obj == null)
+        {
+            return false;
+        }
+
+        if (!(obj instanceof I18nizableText))
+        {
+            return false;
+        }
+        
+        if (this == obj)
+        {
+            return true;
+        }
+        
+        I18nizableText i18nObj = (I18nizableText) obj;
+        EqualsBuilder equalsBuilder = new EqualsBuilder();
+        equalsBuilder.append(_i18n, i18nObj._i18n);
+        
+        if (_i18n)
+        {
+            equalsBuilder.append(_key, i18nObj._key);
+            equalsBuilder.append(_catalogue, i18nObj._catalogue);
+            
+            if (_parameters == null)
+            {
+                equalsBuilder.append(_parameters, i18nObj._parameters);
+            }
+            else
+            {
+                String[] otherParameters = null;
+                
+                if (i18nObj._parameters != null)
+                {
+                    otherParameters = i18nObj._parameters.toArray(new String[i18nObj._parameters.size()]);
+                }
+                
+                equalsBuilder.append(_parameters.toArray(new String[_parameters.size()]),
+                                     otherParameters);
+            }
+        }
+        else
+        {
+            equalsBuilder.append(_directLabel, i18nObj._directLabel);
+        }
+
+        return equalsBuilder.isEquals();
     }
 }

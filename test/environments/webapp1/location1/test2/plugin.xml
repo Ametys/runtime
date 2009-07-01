@@ -5,52 +5,48 @@
         runtimeVersion="2.0" version="2.0">
          
     <config>
-        <param id="param1">
-            <Category>cat</Category>
-            <DefaultValue>value</DefaultValue>
-            <DescriptionKey>key</DescriptionKey>
-            <Group>group</Group>
-            <LabelKey>label</LabelKey>
-            <Order>1</Order>
-            <Type>string</Type>
+        <param id="param1" type="string">
+            <label>label</label>
+            <description>key</description>
+            <default-value>value</default-value>
+            <category>cat</category>
+            <group>group</group>
+            <order>1</order>
         </param>
-        <param id="param2">
-            <Category>cat</Category>
-            <DefaultValue>value</DefaultValue>
-            <DescriptionKey>key</DescriptionKey>
-            <Group>group</Group>
-            <LabelKey>label</LabelKey>
-            <Order>1</Order>
-            <Type>string</Type>
+        <param id="param2" type="string">
+            <label>label</label>
+            <description i18n="true">key</description>
+            <default-value>value</default-value>
+            <category>cat</category>
+            <group>group</group>
+            <order>1</order>
         </param>
     </config>
     
 	<feature name="test2" depends="core/unexisting.feature">
         <config>
-            <param id="param3">
-                <Category>cat</Category>
-                <DefaultValue>value</DefaultValue>
-                <DescriptionKey>key</DescriptionKey>
-                <Group>group</Group>
-                <LabelKey>label</LabelKey>
-                <Order>1</Order>
-                <Type>string</Type>
+            <param id="param3" type="string">
+                <label>label</label>
+                <description>key</description>
+                <default-value>value</default-value>
+                <category>cat</category>
+                <group>group</group>
+                <order>1</order>
             </param>
         </config>
     </feature>
     
     <feature name="test3">
         <config>
-            <param id="param4">
-                <Category>cat</Category>
-                <DefaultValue>value</DefaultValue>
-                <DescriptionKey>key</DescriptionKey>
-                <Group>group</Group>
-                <LabelKey>label</LabelKey>
-                <Order>1</Order>
-                <Type>string</Type>
+            <param id="param4" type="string">
+                <label>label</label>
+                <description>key</description>
+                <default-value>value</default-value>
+                <category>cat</category>
+                <group>group</group>
+                <order>1</order>
             </param>
-            <param id="param2"/>
+            <param-ref id="param2"/>
         </config>
     </feature>
 </plugin>

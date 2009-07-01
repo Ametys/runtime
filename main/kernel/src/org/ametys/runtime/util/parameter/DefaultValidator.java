@@ -13,36 +13,27 @@ package org.ametys.runtime.util.parameter;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import org.ametys.runtime.plugin.component.PluginAware;
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.logger.Logger;
+
+import org.ametys.runtime.util.I18nizableText;
+import org.ametys.runtime.util.LoggerFactory;
 
 
 /**
- * This default implementation validates the following configurable stuffs :<br/>
+ * This default implementation validates the following configurable stuff:
  * <ul>
- *  <li>mandatory : check the parameter is set</li>
- *  <li>regexp : check the string parameter respect a regexp</li>
+ *  <li>mandatory: check the parameter is set</li>
+ *  <li>regexp: check the string parameter matches a regexp</li>
  * </ul> 
  */
-public class DefaultValidator extends AbstractLogEnabled implements Validator, Configurable, PluginAware
+public class DefaultValidator implements Validator
 {
+    private static final Logger __LOGGER = LoggerFactory.getLoggerFor(DefaultValidator.class);
+    private static final String __KERNEL_CATALOG = "kernel";
     /** The validator will check if value is not null */
-    protected boolean _mandatory;
+    private boolean _mandatory;
     /** The validator will check if the value match the following pattern */
-    protected Pattern _pattern;
-
-    private String _pluginName;
-    
-    /**
-     * Default constructor
-     */
-    public DefaultValidator()
-    {
-        // empty default constructor
-    }
+    private Pattern _pattern;
     
     /**
      * Constructor.
@@ -60,67 +51,44 @@ public class DefaultValidator extends AbstractLogEnabled implements Validator, C
         }
     }
     
-
-    public void setPluginInfo(String pluginName, String featureName)
+    /**
+     * Tests if current validator test if the value is mandatory.
+     * @return the mandatory status.
+     */
+    public boolean isMandatory()
     {
-        _pluginName = pluginName;        
+        return _mandatory;
     }
     
-    public void configure(Configuration configuration) throws ConfigurationException
+    /**
+     * Retrieves the pattern to check.
+     * @return the pattern to check or <code>null</code> if none.
+     */
+    public Pattern getPattern()
     {
-        if (getLogger().isDebugEnabled())
-        {
-            getLogger().debug("Configuring a " + DefaultValidator.class.getName() + " in plugin '" + _pluginName + "'");
-        }
-        
-        _mandatory = configuration.getChild("mandatory", false) != null;
-        
-        String regexp = configuration.getChild("regexp").getValue("");
-        if (regexp.length() == 0)
-        {
-            _pattern = null;
-        }
-        else
-        {
-            try
-            {
-                _pattern = Pattern.compile(regexp);
-            }
-            catch (PatternSyntaxException e)
-            {
-                String errorMessage = "The configuration of the default validator of config parameters use an incorrect 'regexp'. Initialisation will stop.";
-                ConfigurationException ce = new ConfigurationException(errorMessage, configuration, e); 
-                getLogger().error(errorMessage, ce);
-                throw ce;
-            }
-        }
-
-        if (getLogger().isDebugEnabled())
-        {
-            getLogger().debug(DefaultValidator.class.getName() + " configured in plugin '" + _pluginName + "' with mandatory : " + _mandatory  + " and regexp : " + (_pattern != null));
-        }
+        return _pattern;
     }
     
-    public boolean validate(Object value)
+    public void validate(Object value, Errors errors)
     {
         if (_mandatory && (value == null || value.toString().length() == 0))
         {
-            if (getLogger().isWarnEnabled())
+            if (__LOGGER.isDebugEnabled())
             {
-                getLogger().warn("The validator refused a missing or empty value for a mandatory parameter");
+                __LOGGER.debug("The validator refused a missing or empty value for a mandatory parameter");
             }
-            return false;
+            
+            errors.addError(new I18nizableText(__KERNEL_CATALOG, "KERNEL_DEFAULT_VALIDATOR_MANDATORY"));
         }
         
         if (_pattern != null && value != null && value.toString().length() != 0 && !_pattern.matcher(value.toString()).matches())
         {
-            if (getLogger().isWarnEnabled())
+            if (__LOGGER.isDebugEnabled())
             {
-                getLogger().warn("The validator refused a value for a parameter that should respect a regexep");
+                __LOGGER.debug("The validator refused a value for a parameter that should respect a regexep");
             }
-            return false;
+
+            errors.addError(new I18nizableText(__KERNEL_CATALOG, "KERNEL_DEFAULT_VALIDATOR_PATTERN_FAILED"));
         }
-        
-        return true;
     }
 }
