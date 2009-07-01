@@ -10,15 +10,13 @@ function onreadyfunction()
 	
 	var contentLeft = new Ext.ametys.HtmlContainer( {
 		region :'west',
-		width :PADDLE_WIDTH,
-		baseCls :'',
+		width: PADDLE_WIDTH,
 		id :'content_left'
 	});
 	
 	var contentRight = new Ext.ametys.HtmlContainer( {
 		region :'east',
-		width :PADDLE_WIDTH,
-		baseCls :'',
+		width: PADDLE_WIDTH,
 		id :'content_right'
 	});
 	
@@ -28,8 +26,7 @@ function onreadyfunction()
 				region :'north',
 				id :'top',
 				height :TOP_HEIGHT,
-				baseCls: '',
-				contentEl :'logo'
+				renderTo: 'logo'
 			});
 	
 	/** Contenu principal */
@@ -38,7 +35,6 @@ function onreadyfunction()
 		id :'main',
 		layout: 'fit',
 		autoScroll: false,
-		baseCls: '',
 		items : [ workspaceBody() ]
 	});
 	
@@ -47,8 +43,7 @@ function onreadyfunction()
 		region :'south',
 		height: FOOTER_HEIGHT,
 		id :'footer',
-		baseCls: '',
-		contentEl : 'versions'
+		renderTo : 'versions'
 	});
 	
 	var contentCenter = new Ext.ametys.HtmlContainer( {
@@ -63,7 +58,6 @@ function onreadyfunction()
 		layout :'border',
 		id :'wrapper',
 		width: MAIN_WIDTH,
-		baseCls :'',
 		region :'center',
 		items : [ contentLeft, contentCenter, contentRight ]
 	})
@@ -75,7 +69,6 @@ function onreadyfunction()
 	});
 	var rightColumn = new Ext.ametys.HtmlContainer( {
 		id :'column-right',
-		baseCls :'',
 		region :'east'
 	});
 

@@ -45,8 +45,8 @@
 						
 						<xsl:for-each select="UIItem">
 							var item = new Ext.ametys.DesktopItem ({
-								text: "<xsl:call-template name="ui-text"><xsl:with-param name="text" select="Label"/></xsl:call-template>",
-								desc: "<xsl:call-template name="ui-text"><xsl:with-param name="text" select="Description"/></xsl:call-template>",
+								text: "<xsl:copy-of select="Label"/>",
+								desc: "<xsl:copy-of select="Description"/>",
 								icon: "<xsl:value-of select="$contextPath"/><xsl:value-of select="Icons/Large"/>",
 								iconOver: "<xsl:value-of select="$contextPath"/><xsl:value-of select="substring-before(Icons/Large, '.')"/>_over.<xsl:value-of select="substring-after(Icons/Large, '.')"/>"
 								<xsl:if test="not(@disabled)">

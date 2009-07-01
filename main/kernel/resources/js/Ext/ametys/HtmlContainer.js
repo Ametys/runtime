@@ -20,8 +20,7 @@ Ext.namespace('Ext.ametys');
  * @example
  * new Ext.ametys.HtmlContainer ({
  *	id : 'my-id',
- * 	tag: 'div',
- * 	baseCls : 'my-css-class',
+ * 	cls : 'my-css-class',
  * 	html : '&lt;p&gt;The HTML content for the div&lt;/p&gt;'
  * });<br/>
  * <b>done :</b><br/>
@@ -45,17 +44,9 @@ Ext.ametys.HtmlContainer.prototype.onRender = function(ct, position)
 {
 	Ext.ametys.HtmlContainer.superclass.onRender.call(this, ct, position);
 	
-	if(!this.el) 
-	{
-		this.el = ct.createChild({
-            id: this.id,
-            cls: this.baseCls,
-            tag: this.tag
-        }, position);
-	}
 	if (this.html)
 	{
-		this.el.dom.innerHTML = this.html;
+		this.el.update(this.html);
 	}
 	if (this.contentEl)
 	{
@@ -64,5 +55,3 @@ Ext.ametys.HtmlContainer.prototype.onRender = function(ct, position)
 	}
 	
 }
-
-

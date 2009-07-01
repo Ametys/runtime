@@ -35,7 +35,7 @@
 				var top = new Ext.ametys.HtmlContainer({
 					region: 'north',
 					contentEl : 'top-panel',
-					baseCls: 'top-panel',
+					cls: 'top-panel',
 					border: false
 				}); 	
 				
@@ -57,35 +57,7 @@
 					});
            		}
            	</script>
-           	
-           	<style>
-	           		.top-panel {
-	           			background: none !important;
-	           			text-align: center;
-    					color: #666; 
-    					padding-top: 30px;
-	           		}
-	           		.center-panel-body {
-	           			background: none !important;
-	           			text-align: center !important;
-	           			padding-top: 10px;
-	           			padding-bottom: 20px;
-	           		}
-	           		
-    				.top-panel .title {
-    					font-size: 1.4em; 
-    					font-weight: bold; 
-    					color: #1C58A0; 
-    					text-transform: uppercase;
-    				}
-    				
-    				.desktop-item {
-						font-weight: bold;
-						margin-left:auto;
-						margin-right:auto;
-						float: none !important;
-					}
-    		</style>
+           	<link type="text/css" href="{$contextPath}{$workspaceURI}/resources/css/public.css" rel="stylesheet" />
     </xsl:template>
     
     <xsl:template name="workspace-body">

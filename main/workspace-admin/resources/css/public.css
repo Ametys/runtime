@@ -1,0 +1,30 @@
+.top-panel 
+{
+   	background-image: none !important;
+   	text-align: center;
+	color: #060606; 
+	padding-top: 30px;
+}
+.center-panel-body 
+{
+	background-image: none !important;
+	text-align: center !important;
+	padding-top: 10px;
+	padding-bottom: 20px;
+}
+       		
+.top-panel .title 
+{
+	font-size: 1.4em; 
+	font-weight: bold; 
+	color: #1C58A0; 
+	text-transform: uppercase;
+}
+			
+.desktop-item 
+{
+	font-weight: bold;
+	margin-left:auto;
+	margin-right:auto;
+	float: none !important;
+}

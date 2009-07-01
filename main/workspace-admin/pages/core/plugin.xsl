@@ -84,7 +84,7 @@
 				<xsl:for-each select="/Plugins/Desktop/category">
 					<xsl:for-each select="UIItem">
 						var item = new Ext.ametys.DockItem ({
-							tooltip: Ext.ametys.AdminTools.DockTooltipFormater("<xsl:call-template name="ui-text"><xsl:with-param name="text" select="Label"/></xsl:call-template>", "<xsl:value-of select="$contextPath"/><xsl:value-of select="Icons/Large"/>", "<xsl:call-template name="ui-text"><xsl:with-param name="text" select="Description"/></xsl:call-template>"),
+							tooltip: Ext.ametys.AdminTools.DockTooltipFormater("<xsl:copy-of select="Label"/>", "<xsl:value-of select="$contextPath"/><xsl:value-of select="Icons/Large"/>", "<xsl:copy-of select="Description"/>"),
 						 	icon : "<xsl:value-of select="$contextPath"/><xsl:value-of select="Icons/Small"/>"
 						 	<xsl:if test="../CurrentUIItem/@position = position()">,pressed: true</xsl:if>
 						 	<xsl:if test="not(@disabled)">
