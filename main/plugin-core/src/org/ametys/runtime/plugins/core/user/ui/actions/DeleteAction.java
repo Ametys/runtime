@@ -13,7 +13,9 @@ package org.ametys.runtime.plugins.core.user.ui.actions;
 import java.util.Map;
 
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
+import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.SourceResolver;
 
 import org.ametys.runtime.user.ModifiableUsersManager;
@@ -28,7 +30,8 @@ public class DeleteAction extends CurrentUserProviderServiceableAction
 {
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String src, Parameters params) throws Exception
     {
-        String login = src;
+        Request request = ObjectModelHelper.getRequest(objectModel);
+        String[] login = request.getParameterValues("login");
         
         if (getLogger().isDebugEnabled())
         {
@@ -43,25 +46,28 @@ public class DeleteAction extends CurrentUserProviderServiceableAction
         
         ModifiableUsersManager users = (ModifiableUsersManager) u;
         
-        if (getLogger().isInfoEnabled())
+        for (int i = 0; i < login.length; i++)
         {
-            String userMessage = null;
-            String endMessage = "is removing user '" + login + "' from the application";
-            if (_isSuperUser())
+            if (getLogger().isInfoEnabled())
             {
-                userMessage = "Administrator";
+                String userMessage = null;
+                String endMessage = "is removing user '" + login[i] + "' from the application";
+                if (_isSuperUser())
+                {
+                    userMessage = "Administrator";
+                }
+                else
+                {
+                    String currentUserLogin = _getCurrentUser();
+                    userMessage = "User '" + currentUserLogin + "'";
+                }
+                
+                getLogger().info(userMessage + " " + endMessage);
             }
-            else
-            {
-                String currentUserLogin = _getCurrentUser();
-                userMessage = "User '" + currentUserLogin + "'";
-            }
-            
-            getLogger().info(userMessage + " " + endMessage);
-        }
 
-        users.remove(login);
-        
+            users.remove(login[i]);
+        }
+       
         if (getLogger().isDebugEnabled())
         {
             getLogger().debug("Ending user's removal");
