@@ -35,13 +35,8 @@ Ext.ametys.DesktopCategory.prototype.onRender = function(ct, position)
 {
 	Ext.ametys.DesktopCategory.superclass.onRender.call(this, ct, position);
 	
-	if(!this.el) 
+	if (this.text)
 	{
-		this.el = ct.createChild({
-            id: this.id,
-            cls: this.cls,
-            html: this.text,
-            tag: 'h2'
-        }, position);
+		this.el.update(this.text);
 	}
 }

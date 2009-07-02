@@ -43,7 +43,7 @@
             				var rightPanel = new Ext.ametys.HtmlContainer({
 									region:'east',
 									border: false,
-									baseCls: 'admin-right-panel',
+									cls: 'admin-right-panel',
 									width: 277,
 								    items: [handle, help]
 							});

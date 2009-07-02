@@ -42,11 +42,10 @@ Ext.extend(Ext.ametys.NavigationItem, Ext.Button,
 	cls : "navigation-item",
 	overCls: "over",
 	border: false,
-	width: '100%',
 	enableToggle : true,
 	allowDepress : true,
 	template : new Ext.Template(
-            '<div>',
+            '<div class="{3}">',
             '<button class="navigation-item-button" type="{1}">{0}</button>',
             '</div>')
 });
@@ -68,6 +67,10 @@ Ext.ametys.NavigationItem.prototype.handler = function ()
 			this.ctToScroll.animConfig.anim.stop();
 		}
 		this.ctToScroll.getEl().child("div:first").child("*:first").scrollTo('top', div.offsetTop, this.ctToScroll.animConfig);
+	}
+	else if (this.activeItem != null)
+	{
+		Ext.getCmp(this.cardLayout).getLayout().setActiveItem(this.activeItem);
 	}
 	else if (this.idToHide)
 	{

@@ -115,7 +115,10 @@
 }
 
 .navigation-item button.navigation-item-button {
-	color: #404040 ;
+	color: #404040;
+	font-size: 0.9em;
+	border: none;
+	background-color: transparent;
 }
 
 .navigation-item.x-btn-pressed {

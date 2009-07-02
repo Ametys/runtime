@@ -38,7 +38,7 @@
 	            <xsl:variable name="value" select="."/>
 	            
 	            <!-- check that the src was not already loaded (by another plugin for example) -->
-	            <xsl:if test="not($scripts[position() &lt; $position and . = $value])">
+	            <xsl:if test="not($css[position() &lt; $position and . = $value])">
 	                <link rel="stylesheet" type="text/css" href="{$contextPath}{.}"/>
 	            </xsl:if>
 	        </xsl:for-each>

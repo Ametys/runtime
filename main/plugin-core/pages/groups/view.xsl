@@ -408,7 +408,7 @@
 								region:'east',
 								border: false,
 								width: 277,
-								baseCls: 'admin-right-panel',
+								cls: 'admin-right-panel',
 							    items: [<xsl:if test="Modifiable = 'true'">handleGroups, </xsl:if>
 						    	<xsl:if test="Modifiable = 'true'">handleUsers, </xsl:if> help]
 					});

@@ -121,7 +121,7 @@ RUNTIME_Plugin_Runtime_EditUser.act2 = function()
 	        elt.setValue(fieldValue);
 	    }
     }
-    //TODO focus()
+    // TODO focus()
 }
 
 RUNTIME_Plugin_Runtime_EditUser.act = function()
@@ -158,6 +158,7 @@ RUNTIME_Plugin_Runtime_EditUser.ok = function ()
     // passe les erreurs en rouges
 	var fieldsString = Tools.getFromXML(result, "error");
     if (fieldsString != null &amp;&amp; fieldsString.length &gt; 0)
+    {
       var fields = fieldsString.split(",");
       for (var i = 0; i &lt; fields.length; i++)
       {
@@ -178,11 +179,11 @@ RUNTIME_Plugin_Runtime_EditUser.ok = function ()
     // mise à jour graphique
     function getValue(name)
     {
-      var e = form.findField("field_" + name);
-      if (e == null)
-        return null;
-      else
-        return e.getValue();
+    	var e = form.findField("field_" + name);
+    	if (e == null)
+    		return null;
+    	else
+    		return e.getValue();
     }
 
     var firstname = getValue("firstname");

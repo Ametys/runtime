@@ -176,6 +176,8 @@ button.dock-item-button {
 	height: 24px;
 	background-position: 0px 0px !important;
 	margin-bottom: 4px !important;
+	border: none;
+	background-color: transparent;
 }
 
 .x-btn-click button.dock-item-button{

@@ -46,7 +46,7 @@
 	margin-bottom: 20px;
 }
 
-h3.ametys-subcategory {
+.ametys-subcategory {
 	font-weight:bold;
 	padding : 0 0 10px 13px;
 	color: #858D92;
@@ -112,5 +112,7 @@ h3.ametys-subcategory {
 .ametys-password-button-cancel button {
 	background-repeat: no-repeat;
 	padding-left: 3px !important;
-	padding-right: 3px !important
+	padding-right: 3px !important;
+	border: none;
+	background-color: transparent;
 }

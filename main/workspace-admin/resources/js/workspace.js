@@ -26,7 +26,7 @@ function onreadyfunction()
 				region :'north',
 				id :'top',
 				height :TOP_HEIGHT,
-				renderTo: 'logo'
+				contentEl: 'logo'
 			});
 	
 	/** Contenu principal */
@@ -43,7 +43,7 @@ function onreadyfunction()
 		region :'south',
 		height: FOOTER_HEIGHT,
 		id :'footer',
-		renderTo : 'versions'
+		contentEl : 'versions'
 	});
 	
 	var contentCenter = new Ext.ametys.HtmlContainer( {

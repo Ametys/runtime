@@ -41,35 +41,40 @@
 	                        var elt = logview.getSelection()[0];
 	                        if (elt.get('size') > 1024 * 1024)
 	                        {
-	                            if (confirm("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_VIEW_CONFIRM"/>"))
-	                            {
-	                                download();
-	                            }
+	                        	Ext.Msg.confirm ("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_VIEW"/>", "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_VIEW_CONFIRM"/>", download);
 	                        }
 	                        else
 	                        {
 								window.location.href = getPluginDirectUrl('<xsl:value-of select="$pluginName"/>') + "/administrator/logs/view/" + encodeURIComponent(elt.get('location'));
 	                        }
 	                    }
-	                    function download()
-	                    {
-	                        var url = getPluginDirectUrl('<xsl:value-of select="$pluginName"/>') + "/administrator/logs/download.zip";
-	                        var args = "";
 	                    
-	                        var elts = logview.getSelection();
-	                        for (var i = 0; i &lt; elts.length; i++)
-	                        {
-	                            var elt = elts[i];
-	                            args += "file=" + encodeURIComponent(elt.get('location')) + "&amp;";
-	                        }
-	                        
-	                        window.location.href = url + "?" + args;
+	                    function download(btn)
+	                    {
+	                    	if (btn == 'yes')
+	                    	{
+		                        var url = getPluginDirectUrl('<xsl:value-of select="$pluginName"/>') + "/administrator/logs/download.zip";
+		                        var args = "";
+		                    
+		                        var elts = logview.getSelection();
+		                        for (var i = 0; i &lt; elts.length; i++)
+		                        {
+		                            var elt = elts[i];
+		                            args += "file=" + encodeURIComponent(elt.get('location')) + "&amp;";
+		                        }
+		                        
+		                        window.location.href = url + "?" + args;
+							}
                         }
                        
 
-	                   function del()
-	                    {
-	                        if (confirm("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_DELETE_CONFIRM"/>"))
+	                   	function del()
+	                   	{
+	                   		Ext.Msg.confirm ("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_DELETE"/>", "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_DELETE_CONFIRM"/>", deleteCb);
+	               		}
+	               		function deleteCb (btn)
+	               		{
+	                        if (btn == 'yes')
 	                        {
 								var url = getPluginDirectUrl('<xsl:value-of select="$pluginName"/>') + "/administrator/logs/delete";
 	                            var args = "";
@@ -84,7 +89,12 @@
 	                            var result = Tools.postFromUrl(url, args);
 	                            if (result == null)
 	                            {
-	                                alert("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_DELETE_ERROR_GRAVE"/>")
+	                            	Ext.Msg.show({
+										title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_DELETE"/>",
+										msg: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_DELETE_ERROR_GRAVE"/>",
+										buttons: Ext.Msg.OK,
+										icon: Ext.MessageBox.ERROR
+									});
 	                                return;
 	                            }
 	                            
@@ -101,7 +111,12 @@
 	                            
 	                            if (failuresString.length &gt; 0)
 	                            {
-	                                alert("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_DELETE_ERROR"/>");
+	                            	Ext.Msg.show({
+										title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_DELETE"/>",
+										msg: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_DELETE_ERROR"/>",
+										buttons: Ext.Msg.OK,
+										icon: Ext.MessageBox.ERROR
+									});
 	                            }
 	                        }
 	                    }
@@ -109,14 +124,23 @@
 
 	                    function purge()
 	                    {
-	                    	if (confirm("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_PURGE_CONFIRM"/>"))
+	                    	Ext.Msg.confirm ("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_PURGE"/>", "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_PURGE_CONFIRM"/>", purgeCb);
+	              		}
+	              		function purgeCb(btn)
+	                    {
+	                    	if (btn == 'yes')
 	                        {
 	                            var url = getPluginDirectUrl('<xsl:value-of select="$pluginName"/>') + "/administrator/logs/purge";
 	
 	                            var result = Tools.postFromUrl(url, "");
 	                            if (result == null)
 	                            {
-	                                alert("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_PURGE_ERROR_GRAVE"/>")
+	                            	Ext.Msg.show({
+										title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_PURGE"/>",
+										msg: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_PURGE_ERROR_GRAVE"/>",
+										buttons: Ext.Msg.OK,
+										icon: Ext.MessageBox.ERROR
+									});
 	                                return;
 	                            }
 	                            
@@ -134,7 +158,12 @@
 	                                }
 	                            }      
 	                            
-	                            alert(nb + " <i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_PURGE_DONE"/>")                      
+	                            Ext.Msg.show({
+										title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_PURGE"/>",
+										msg: nb + " " + "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_PURGE_DONE"/>",
+										buttons: Ext.Msg.OK,
+										icon: Ext.MessageBox.INFO
+									});
 	                        }
 	                    }
 	                    
@@ -190,7 +219,7 @@
 						var rightPanel = new Ext.ametys.HtmlContainer({
 									region:'east',
 									border: false,
-									baseCls: 'admin-right-panel',
+									cls: 'admin-right-panel',
 									autoScroll: true,
 									width: 277,
 								    items: [handle, help]

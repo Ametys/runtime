@@ -142,7 +142,7 @@
 						
 						//Create the contextual panel
 						var rightPanel = new Ext.ametys.HtmlContainer({
-								baseCls : 'admin-right-panel',
+								cls : 'admin-right-panel',
 								region:'east',
 								border: false,
 								width: 277,
@@ -169,8 +169,7 @@
 							<xsl:for-each select="groups/group">
 								var group = new Ext.ametys.HtmlContainer ({
 									html : "<xsl:copy-of select="label/node()"/>",
-									baseCls: 'ametys-subcategory',
-									tag: 'h3'
+									cls: 'ametys-subcategory'
 								});
 								fieldset.add(group);
 								<xsl:for-each select="parameters/*">

@@ -30,7 +30,7 @@
             </head>
             
             <script>
-            	<script type="text/javascript" src="{$resourcesPath}/js/users/user.i18n.js"><xsl:comment>//emty</xsl:comment></script>
+            	<script type="text/javascript" src="{$resourcesPath}/js/users/user.i18n.js"><xsl:comment>//empty</xsl:comment></script>
             	<script type="text/javascript">
             			RUNTIME_Plugin_Runtime_EditUser.initialize("<xsl:value-of select="$pluginName"/>", <xsl:value-of select="count(Model/*)+count(Model/*[type='password'])"/>);
             			
@@ -198,11 +198,10 @@
 						var searchForm = new Ext.form.FormPanel({
 					        items: [searchField],
 					       	baseCls: 'search',
+					       	buttonAlign: 'right',
 					        buttons: [{
 					            text: '<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCH_BUTTON"/>',
-									handler : function() {
-										users_search();
-									}				            
+								handler : users_search	            
 					        }]
     					});					        
 				    	
@@ -227,7 +226,7 @@
 						var rightPanel = new Ext.ametys.HtmlContainer({
 									region:'east',
 									border: false,
-									baseCls: 'admin-right-panel',
+									cls: 'admin-right-panel',
 									width: 277,
 								    items: [search, <xsl:if test="Model/@Modifiable = 'true'">handle, </xsl:if> help]
 						});

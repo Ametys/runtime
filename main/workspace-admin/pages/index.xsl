@@ -37,6 +37,7 @@
 	    			contentEl : 'links'
 	    		});
 	    		items.push(links);
+	    		
 				<xsl:for-each select="/Admin/Desktop/category">
 						var category = new Ext.ametys.DesktopCategory ({
 								text: "<i18n:text i18n:key="{@name}" i18n:catalogue="application"/>"
@@ -45,8 +46,8 @@
 						
 						<xsl:for-each select="UIItem">
 							var item = new Ext.ametys.DesktopItem ({
-								text: "<xsl:copy-of select="Label"/>",
-								desc: "<xsl:copy-of select="Description"/>",
+								text: "<xsl:copy-of select="Label/node()"/>",
+								desc: "<xsl:copy-of select="Description/node()"/>",
 								icon: "<xsl:value-of select="$contextPath"/><xsl:value-of select="Icons/Large"/>",
 								iconOver: "<xsl:value-of select="$contextPath"/><xsl:value-of select="substring-before(Icons/Large, '.')"/>_over.<xsl:value-of select="substring-after(Icons/Large, '.')"/>"
 								<xsl:if test="not(@disabled)">

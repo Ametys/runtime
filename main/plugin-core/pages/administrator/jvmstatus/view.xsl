@@ -149,16 +149,16 @@
 		                    var navigation = new Ext.ametys.NavigationPanel ({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU"/>"});
 							var item1 = new Ext.ametys.NavigationItem ({
 								text: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL"/>",
-								idToHide : 'properties-panel',
-								idToShow : 'general-panel',
+								activeItem: 0,
+								cardLayout: 'system-card-panel',
 								toggleGroup : 'system-menu',
 								pressed: true
 							});
 							navigation.add(item1);
 							var item2 = new Ext.ametys.NavigationItem ({
 								text: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_SYSTEM"/>",
-								idToHide : 'general-panel',
-								idToShow : 'properties-panel',
+								activeItem: 1,
+								cardLayout: 'system-card-panel',
 								toggleGroup : 'system-menu'
 							});
 							navigation.add(item2);
@@ -174,7 +174,7 @@
 							var rightPanel = new Ext.ametys.HtmlContainer({
 									region:'east',
 									border: false,
-									baseCls: 'admin-right-panel',
+									cls: 'admin-right-panel',
 									width: 277,
 								    items: [navigation, handle, help]
 							});
@@ -259,6 +259,9 @@
 							generalPanel.add(serverFd);
 							  
 							var centerPanel = new Ext.Panel({
+								id:'system-card-panel',
+								layout:'card',
+								activeItem: 0,
 								region:'center',
 								baseCls: 'transparent-panel',
 								border: false,

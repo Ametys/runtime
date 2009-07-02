@@ -277,6 +277,9 @@ public final class PluginsManager
                 IOUtils.closeQuietly(br);
             }
         }
+
+        _entityResolver.addSchema("http://www.ametys.org/schema/plugin-2.0.xsd", "/org/ametys/runtime/plugin/plugin.xsd");
+        _entityResolver.addSchema("http://www.ametys.org/schema/cms-3.0.xsd", "/org/ametys/cms/cms.xsd");
     }
     
     /**

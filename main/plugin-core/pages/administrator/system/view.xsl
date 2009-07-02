@@ -77,6 +77,7 @@
 		                            langCodeInput.focus();
 		                        } catch(e) {}
 		                    }
+		                    
 		                    function announcement_edit()
 		                    {
 		                        RUNTIME_Plugin_Runtime_Administrator_System_Announcement.modeAdd = false;
@@ -95,14 +96,20 @@
 		                            messageTextarea.select();
 		                        } catch(e) {}
 		                    }
+		                    
 		                    function announcement_remove()
 		                    {
-		                        if (confirm("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DELETE_CONFIRM"/>"))
-		                        {
+		                    	Ext.Msg.confirm ("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DELETE"/>", "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DELETE_CONFIRM"/>", removeCb);
+		                    }
+		                    function removeCb (btn)
+		                    {
+		                    	if (btn == 'yes')
+		                    	{
 		                            var element = listview.getSelection()[0];
 		                            listview.removeElement(element);	
-		                        }
+		                    	}
 		                    }
+		                    
 		                    
 		                    var RUNTIME_Plugin_Runtime_Administrator_System_Announcement = {};
                     		RUNTIME_Plugin_Runtime_Administrator_System_Announcement.plugin = "<xsl:value-of select="$pluginName"/>";
@@ -148,19 +155,15 @@
 										layout :'fit',
 										width :380,
 										height :200,
-										iconCls : 'icon-announcement-box',
+										icon: getPluginResourcesUrl('core') + '/img/administrator/system/announce_16.png',
 										items : [ RUNTIME_Plugin_Runtime_Administrator_System_Announcement.form ],
 										closeAction: 'close',
 										buttons : [ {
 											text :'<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_OK"/>',
-											handler : function() {
-												RUNTIME_Plugin_Runtime_Administrator_System_Announcement.ok();
-											}
+											handler : RUNTIME_Plugin_Runtime_Administrator_System_Announcement.ok
 										}, {
 											text :'<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_CANCEL"/>',
-											handler : function() {
-												RUNTIME_Plugin_Runtime_Administrator_System_Announcement.cancel();
-											}
+											handler : RUNTIME_Plugin_Runtime_Administrator_System_Announcement.cancel
 										} ]
 									});
                     		}
@@ -290,7 +293,7 @@
 									region:'east',
 									border: false,
 									width: 277,
-									baseCls: 'admin-right-panel',
+									cls: 'admin-right-panel',
 								    items: [handle, handleAnnouncement, help]
 							});
 							

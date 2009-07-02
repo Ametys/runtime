@@ -119,6 +119,7 @@
                     <map:part src="cocoon:/homepage-desktop.xml"/>
                     <map:part src="cocoon:/homepage-versions.xml"/>
                 </map:aggregate>
+               
 				<map:transform type="xslt" src="pages/index.xsl">
 					<map:parameter name="contextPath" value="{request:contextPath}"/>
                     <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
