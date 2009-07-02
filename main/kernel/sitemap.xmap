@@ -132,10 +132,18 @@
 				
 		<map:pipeline>
             <!-- Builtins -->
+             <map:match pattern="kernel/resources/**.i18n.js">
+                <map:generate src="resources/{1}.i18n.js" type="i18nizabletext"/>
+                <map:transform type="i18n">
+                    <map:parameter name="locale" value="{locale:locale}"/>
+                </map:transform>
+                <map:serialize type="text" mime-type="text/javascript;charset=utf-8"/>
+            </map:match>
+            
             <map:match pattern="kernel/resources/**">
                 <map:read src="resources/{1}"/>
             </map:match>
-
+            					
             <!-- Plugins -->
             <!-- Plugins dynamic resources (i18n aware JS) -->
             <map:match pattern="plugins/*/resources/**.i18n.js">

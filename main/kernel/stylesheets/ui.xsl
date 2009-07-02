@@ -163,6 +163,17 @@
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Ext/ametys/DesktopItem.js"><xsl:comment>empty</xsl:comment></script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Ext/ametys/HtmlContainer.js"><xsl:comment></xsl:comment></script>
         
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Ext/ametys/form/TextField.js"><xsl:comment>empty</xsl:comment></script>
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Ext/ametys/form/TextAreaField.js"><xsl:comment>empty</xsl:comment></script>
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Ext/ametys/form/LongField.js"><xsl:comment>empty</xsl:comment></script>
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Ext/ametys/form/DoubleField.js"><xsl:comment>empty</xsl:comment></script>
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Ext/ametys/form/BooleanField.js"><xsl:comment>empty</xsl:comment></script>
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Ext/ametys/form/PasswordField.js"><xsl:comment>empty</xsl:comment></script>
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Ext/ametys/form/PasswordWidget.i18n.js"><xsl:comment>empty</xsl:comment></script>
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Ext/ametys/form/DateField.js"><xsl:comment>empty</xsl:comment></script>
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Ext/ametys/form/ComboField.js"><xsl:comment>empty</xsl:comment></script>
+		       
+		       
         <link rel="stylesheet" href="{$contextPath}/kernel/resources/css/dialog.css" type="text/css"/>
        	<link rel="stylesheet" href="{$contextPath}/kernel/resources/css/form.css" type="text/css"/>
         <link rel="stylesheet" href="{$contextPath}/kernel/resources/css/grid.css" type="text/css"/>

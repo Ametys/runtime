@@ -48,16 +48,77 @@ Ext.ametys.form.PasswordWidget = function(config)
 		desc : config.desc
 	});
 	
-	this._marginLeft = 'margin-left:' + (config.labelWidth + 10) + 'px'
-	this._editBtn = this._createChangePwdBtn();
+	this._marginLeft = 'margin-left:' + (config.labelWidth + 10) + 'px';
 	
-	this.items = [this._pwdField, this._pwd, this._editBtn]
-
+	if (!config.value || config.value == '')
+	{
+		this._pwdConfirm = this._createConfirmPwdField();
+		this.items = [this._pwdField, this._pwd, this._pwdConfirm];
+		this._pwd.enable();
+	}
+	else
+	{
+		this._editBtn = this._createChangePwdBtn();
+		this.items = [this._pwdField, this._pwd, this._editBtn];
+	}
+	
 	Ext.ametys.form.PasswordWidget.superclass.constructor.call(this, config);
 };
 
 
 Ext.extend(Ext.ametys.form.PasswordWidget, Ext.Panel, {});
+
+/**
+ * Set the value of password field. Use it only to initialize the widget.
+ */
+Ext.ametys.form.PasswordWidget.prototype.setValue = function (value)
+{
+	this._pwd.setValue(value);
+	if (value != '')
+	{
+		this.remove(this._pwdConfirm, true);
+		
+		if (!this._editBtn)
+		{
+			this._editBtn = this._createChangePwdBtn();
+			this.add(this._editBtn);
+		}
+		
+		this._pwd.disable();
+		
+		this.doLayout();
+	}
+	else
+	{
+		if (!this._pwdConfirm)
+		{
+			this._pwdConfirm = this._createConfirmPwdField();
+			this.add(this._pwdConfirm);
+		}
+		if (this._editBtn)
+		{
+			this.remove(this._editBtn, true);
+		}
+		this._pwdConfirm.setValue(value);
+		this._pwdConfirm.clearInvalid();
+		this._pwd.enable();
+		
+		this.doLayout();
+	}
+}
+
+
+/**
+ * Mark this widget as invalid.
+ * @param msg The message to display. Can be null. If null the default message is used. 
+ */
+Ext.ametys.form.PasswordWidget.prototype.markInvalid = function (msg)
+{
+	if (msg)
+		this._pwdConfirm.markInvalid(msg);
+	else
+		this._pwdConfirm.markInvalid("<i18n:text i18n:key="PLUGINS_CORE_WIDGET_PASSWORD_ERROR" i18n:catalogue="plugin.core"/>");
+}
 
 /**
  * Create the confirm password field

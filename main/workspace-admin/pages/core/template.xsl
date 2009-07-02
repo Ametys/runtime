@@ -38,7 +38,6 @@
                 <link rel="shortcut icon" type="image/x-icon" href="{$contextPath}/kernel/resources/img/runtime_favico.ico" />
 				<link rel="stylesheet" href="{$workspaceContext}/resources/css/admin.css" type="text/css"/>
 				<link rel="stylesheet" href="{$workspaceContext}/resources/css/panel.css" type="text/css"/>
-		        <link rel="stylesheet" href="{$workspaceContext}/resources/css/form.css" type="text/css"/>
 		        
 				<!-- loading ui library -->
                 <xsl:call-template name="ui-load">
@@ -59,16 +58,6 @@
                 <xsl:call-template name="workspace-head"/>
                 
                 <script type="text/javascript" src="{$workspaceContext}/resources/js/Ext/ametys/Fieldset.js"><xsl:comment>empty</xsl:comment></script>
-                <script type="text/javascript" src="{$workspaceContext}/resources/js/Ext/ametys/form/TextField.js"><xsl:comment>empty</xsl:comment></script>
-                <script type="text/javascript" src="{$workspaceContext}/resources/js/Ext/ametys/form/TextAreaField.js"><xsl:comment>empty</xsl:comment></script>
-		        <script type="text/javascript" src="{$workspaceContext}/resources/js/Ext/ametys/form/LongField.js"><xsl:comment>empty</xsl:comment></script>
-		        <script type="text/javascript" src="{$workspaceContext}/resources/js/Ext/ametys/form/DoubleField.js"><xsl:comment>empty</xsl:comment></script>
-		        <script type="text/javascript" src="{$workspaceContext}/resources/js/Ext/ametys/form/BooleanField.js"><xsl:comment>empty</xsl:comment></script>
-		        <script type="text/javascript" src="{$workspaceContext}/resources/js/Ext/ametys/form/PasswordField.js"><xsl:comment>empty</xsl:comment></script>
-		        <script type="text/javascript" src="{$workspaceContext}/resources/js/Ext/ametys/form/PasswordWidget.i18n.js"><xsl:comment>empty</xsl:comment></script>
-		        <script type="text/javascript" src="{$workspaceContext}/resources/js/Ext/ametys/form/DateField.js"><xsl:comment>empty</xsl:comment></script>
-		        <script type="text/javascript" src="{$workspaceContext}/resources/js/Ext/ametys/form/ComboField.js"><xsl:comment>empty</xsl:comment></script>
-		       
 		        <script type="text/javascript" src="{$workspaceContext}/resources/js/Ext/ametys/ActionsPanel.js"><xsl:comment>empty</xsl:comment></script>
 		        <script type="text/javascript" src="{$workspaceContext}/resources/js/Ext/ametys/Action.js"><xsl:comment>empty</xsl:comment></script>
 		        <script type="text/javascript" src="{$workspaceContext}/resources/js/Ext/ametys/TextPanel.js"><xsl:comment>empty</xsl:comment></script>
