@@ -22,7 +22,7 @@
         
 			<map:generator name="users-view" src="org.ametys.runtime.plugins.core.user.ui.generators.ViewGenerator" logger="org.ametys.runtime.plugins.core.user.sitemap.generator.view" label="content"/>
             <map:generator name="users-search" src="org.ametys.runtime.plugins.core.user.ui.generators.SearchGenerator" logger="org.ametys.runtime.plugins.core.user.sitemap.generator.search" label="content"/>
-            <map:generator name="users-details" src="org.ametys.runtime.plugins.core.user.ui.generators.DetailGenerator" logger="org.ametys.runtime.plugins.core.user.sitemap.generator.detail" label="content"/>
+            <map:generator name="users-info" src="org.ametys.runtime.plugins.core.user.ui.generators.UserInformationGenerator" logger="org.ametys.runtime.plugins.core.user.sitemap.generator.detail" label="content"/>
             <map:generator name="users-model" src="org.ametys.runtime.plugins.core.user.ui.generators.ModelGenerator" logger="org.ametys.runtime.plugins.core.user.sitemap.generator.model" label="content"/>
 			
 			<map:generator name="groups-view" src="org.ametys.runtime.plugins.core.group.ui.generators.GroupsGenerator" logger="org.ametys.runtime.plugins.core.group.sitemap.generator.view" label="content"/>
@@ -324,8 +324,8 @@
                 <map:act type="has-not-right" src="Runtime_Rights_User_Handle"/>
             </map:match>
                 
-            <map:match pattern="users/details.xml">
-                <map:generate type="users-details" src="{request-param:login}"/>
+            <map:match pattern="users/info">
+                <map:generate type="users-info" src="{request-param:login}"/>
                 <map:serialize type="xml"/>
             </map:match>
             
@@ -341,7 +341,7 @@
             </map:match>
             
             <map:match pattern="users/delete">
-                <map:act type="users-delete" src="{request-param:login}">
+                <map:act type="users-delete">
                     <map:generate type="action-result"/>
                     <map:serialize type="xml"/>
                 </map:act>
@@ -370,6 +370,16 @@
 				</map:transform>
 				<map:serialize type="xml"/>
 			</map:match>
+			
+			<map:match pattern="users-model">
+                <map:generate type="users-model"/>
+                <map:transform src="pages/users/model.xsl" type="xslt"/>
+                <map:transform type="i18n">
+					<map:parameter name="locale" value="{locale:locale}"/>
+					<map:parameter name="default-catalogue-id" value="plugin.core"/>
+				</map:transform>
+                <map:serialize type="xml"/>
+            </map:match>
 			
 			<!-- +
                  | Groupes

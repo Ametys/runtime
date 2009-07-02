@@ -97,7 +97,7 @@ RUNTIME_Plugin_Runtime_EditUser.act2 = function()
     {
     	RUNTIME_Plugin_Runtime_EditUser.form.findField('field_login').setDisabled(true);
       
-	    var url = getPluginDirectUrl(RUNTIME_Plugin_Runtime_EditUser.plugin) + "/users/details.xml";
+	    var url = getPluginDirectUrl(RUNTIME_Plugin_Runtime_EditUser.plugin) + "/users/info";
 	    var arg = "login=" + params['login'];
 	      
 	    var nodes = Tools.postFromUrl(url, arg);
@@ -106,7 +106,7 @@ RUNTIME_Plugin_Runtime_EditUser.act2 = function()
 	    	alert("<i18n:text i18n:key="PLUGINS_CORE_USERS_DIALOG_ERROR"/>");
 	        return;
 	    }
-	    var userInfo = nodes.selectSingleNode("/UsersDetail/users/user[@login='" + params['login'] + "']");
+	    var userInfo = nodes.selectSingleNode("/users-info/users/user[@login='" + params['login'] + "']");
 	      
 	    RUNTIME_Plugin_Runtime_EditUser.form.findField('field_login').setValue(userInfo.getAttribute("login"));
 	   
@@ -124,11 +124,12 @@ RUNTIME_Plugin_Runtime_EditUser.act2 = function()
     //TODO focus()
 }
 
-RUNTIME_Plugin_Runtime_EditUser.act = function(params)
+RUNTIME_Plugin_Runtime_EditUser.act = function()
 {
-    RUNTIME_Plugin_Runtime_EditUser.params = params;
 	if (!RUNTIME_Plugin_Runtime_EditUser.delayedInitialize())
         return;
+	
+	RUNTIME_Plugin_Runtime_EditUser.form.reset();
 	RUNTIME_Plugin_Runtime_EditUser.box.show();
 	RUNTIME_Plugin_Runtime_EditUser.act2 ();
 }
@@ -157,16 +158,18 @@ RUNTIME_Plugin_Runtime_EditUser.ok = function ()
     // passe les erreurs en rouges
 	var fieldsString = Tools.getFromXML(result, "error");
     if (fieldsString != null &amp;&amp; fieldsString.length &gt; 0)
-    {
       var fields = fieldsString.split(",");
       for (var i = 0; i &lt; fields.length; i++)
       {
         var field = fields[i];
+        
         if (field.length &gt; 0)
         {
           var elt = form.findField("field_"+ field);
           if (elt != null)
+          {
             elt.markInvalid("Ce champ est invalide");
+          }
         }
       }
       return;
