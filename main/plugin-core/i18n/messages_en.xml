@@ -298,8 +298,8 @@
     <message key="PLUGINS_CORE_USERS_SEARCHING_NORESULT">Search did not return any result</message>
 	<message key="PLUGINS_CORE_USERS_HANDLE">Management</message>
 	<message key="PLUGINS_CORE_USERS_HANDLE_NEW">Create a user</message>
-	<message key="PLUGINS_CORE_USERS_HANDLE_EDIT">Modify</message>
-	<message key="PLUGINS_CORE_USERS_HANDLE_DEL">Remove</message>
+	<message key="PLUGINS_CORE_USERS_HANDLE_EDIT">Modify a user</message>
+	<message key="PLUGINS_CORE_USERS_HANDLE_DEL">Remove a user</message>
 	<message key="PLUGINS_CORE_USERS_HANDLE_DEL_PROMPT">Do you really want to remove this user ?</message>
 	<message key="PLUGINS_CORE_USERS_DELETE_ERROR">An error occured. Unable to remove the user.</message>
 	<message key="PLUGINS_CORE_USERS_DIALOG_OK">Ok</message>

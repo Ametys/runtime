@@ -300,13 +300,18 @@
 	<message key="PLUGINS_CORE_USERS_HANDLE_NEW">Créer un utilisateur</message>
 	<message key="PLUGINS_CORE_USERS_HANDLE_EDIT">Modifier</message>
 	<message key="PLUGINS_CORE_USERS_HANDLE_DEL">Supprimer</message>
+	<message key="PLUGINS_CORE_USERS_HANDLE_DEL_TITLE">Supprimer des utilisateurs</message>
+	<message key="PLUGINS_CORE_USERS_HANDLE_DEL_MULTI_PROMPT">Etes-vous sûrs de vouloir supprimer ce ou ces utilisateur(s) ?</message>
 	<message key="PLUGINS_CORE_USERS_HANDLE_DEL_PROMPT">Etes-vous sûrs de vouloir supprimer cet utilisateur ?</message>
 	<message key="PLUGINS_CORE_USERS_DELETE_ERROR">Une erreur est survenue sur le serveur. Impossible de supprimer l'utilisateur.</message>
+	<message key="PLUGINS_CORE_USERS_DELETE_MULTI_ERROR">Une erreur est survenue sur le serveur. Impossible de supprimer le ou les utilisateur(s).</message>
 	<message key="PLUGINS_CORE_USERS_DIALOG_OK">Ok</message>
 	<message key="PLUGINS_CORE_USERS_DIALOG_CANCEL">Annuler</message>
 	<message key="PLUGINS_CORE_USERS_DIALOG_LABEL">Edition d'un utilisateur...</message>
 	<message key="PLUGINS_CORE_USERS_NEW_TITLE">Création d'un nouvel utilisateur</message>
-	<message key="PLUGINS_CORE_USERS_DIALOG_ERROR">Une erreur est survenue. Impossible de créer/modifier l'utilisateur.\nUne des causes de l'erreur peut-être que l'identifiant existe déjà</message>
+	<message key="PLUGINS_CORE_USERS_NEW_SUCCESS">L'utilisateur a bien été créé</message>
+	<message key="PLUGINS_CORE_USERS_DIALOG_SUCCESS">L'utilisateur a bien été modifié</message>
+	<message key="PLUGINS_CORE_USERS_DIALOG_ERROR">Une erreur est survenue. Impossible de créer/modifier l'utilisateur.&lt;br/&gt;Une des causes de l'erreur peut-être que l'identifiant existe déjà</message>
 	<message key="PLUGINS_CORE_USERS_DIALOG_LOGIN_ERROR">L'identifiant doit comporter entre 3 et 16 caractères.</message>
 	<message key="PLUGINS_CORE_USERS_DIALOG_EMAIL_ERROR">L'email est incorrect.</message>
 	<message key="PLUGINS_CORE_USERS_DIALOG_LASTNAME_ERROR">Le nom ne peut être vide.</message>
@@ -326,15 +331,15 @@
     
     <!-- USER JDBC -->
     <message key="PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_LABEL">Identifiant</message>
-    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_DESCRIPTION">Identifiant unique de l'utilisateur (ou login)\nEntre 3 et 16 caractères (lettres, chiffres ou '_')</message>
+    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_DESCRIPTION">Identifiant unique de l'utilisateur (ou login)&lt;br/&gt;Entre 3 et 16 caractères (lettres, chiffres ou '_')</message>
     <message key="PLUGINS_CORE_USERS_JDBC_FIELD_LASTNAME_LABEL">Nom</message>
-    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_LASTNAME_DESCRIPTION">Nom réel de l'utilisateur\nNe peut-être vide</message>
+    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_LASTNAME_DESCRIPTION">Nom réel de l'utilisateur&lt;br/&gt;Ne peut-être vide</message>
     <message key="PLUGINS_CORE_USERS_JDBC_FIELD_FIRSTNAME_LABEL">Prénom</message>
-    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_FIRSTNAME_DESCRIPTION">Prénom réel de l'utilisateur\nNe peut-être vide</message>
+    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_FIRSTNAME_DESCRIPTION">Prénom réel de l'utilisateur&lt;br/&gt;Ne peut-être vide</message>
     <message key="PLUGINS_CORE_USERS_JDBC_FIELD_EMAIL_LABEL">Email</message>
     <message key="PLUGINS_CORE_USERS_JDBC_FIELD_EMAIL_DESCRIPTION">Email de l'utilisateur pour les fonctionnalités d'envoi de courrier électronique</message>
     <message key="PLUGINS_CORE_USERS_JDBC_FIELD_PASSWORD_LABEL">Mot de passe</message>
-    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_PASSWORD_DESCRIPTION">Mot de passe de l'utilisateur\nNe peut-être vide</message>
+    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_PASSWORD_DESCRIPTION">Mot de passe de l'utilisateur&lt;br/&gt;Ne peut-être vide</message>
 
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP">Annuaire LDAP</message>
 
