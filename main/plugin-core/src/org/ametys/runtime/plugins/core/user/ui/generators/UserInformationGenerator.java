@@ -28,7 +28,7 @@ import org.ametys.runtime.user.UsersManager;
 /**
  * Generate information to view or edit one user 
  */
-public class DetailGenerator extends ServiceableGenerator
+public class UserInformationGenerator extends ServiceableGenerator
 {
     private UsersManager _users;
     
@@ -45,7 +45,7 @@ public class DetailGenerator extends ServiceableGenerator
         contentHandler.startDocument();
         
         AttributesImpl attrs = new AttributesImpl();
-        XMLUtils.startElement(contentHandler, "UsersDetail", attrs);
+        XMLUtils.startElement(contentHandler, "users-info", attrs);
         
         if (source != null && source.length() != 0)
         {
@@ -54,7 +54,7 @@ public class DetailGenerator extends ServiceableGenerator
             _users.toSAX(contentHandler, Integer.MAX_VALUE, 0, params);
         }
 
-        XMLUtils.endElement(contentHandler, "UsersDetail");
+        XMLUtils.endElement(contentHandler, "users-info");
         
         contentHandler.endDocument();
     }
