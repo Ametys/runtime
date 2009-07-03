@@ -222,7 +222,6 @@
 								title : "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_SYS"/>"
 							});
 							var system = new Ext.ametys.HtmlContainer ({
-								baseCls : '',
 								contentEl : 'system'
 							});
 							systemFd.add(system);
@@ -232,7 +231,6 @@
 								title : "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_JVM"/>"
 							});
 							var java = new Ext.ametys.HtmlContainer ({
-								baseCls : '',
 								contentEl : 'java'
 							});
 							javaFd.add(java);
@@ -242,7 +240,6 @@
 								title : "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM"/>"
 							});
 							var memory = new Ext.ametys.HtmlContainer ({
-								baseCls : '',
 								contentEl : 'memory'
 							});
 							memoryFd.add(memory);
@@ -252,7 +249,6 @@
 								title : "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE"/>"
 							});
 							var server = new Ext.ametys.HtmlContainer ({
-								baseCls : '',
 								contentEl : 'server'
 							});
 							serverFd.add(server);

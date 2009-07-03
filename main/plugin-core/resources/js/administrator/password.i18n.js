@@ -62,8 +62,8 @@ RUNTIME_Plugin_Runtime_Administrator_Password.delayedInitialize = function()
 			title :"<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_DIALOG_CAPTION"/>",
 			layout :'fit',
 			width :430,
-			height :180,
-			iconCls :"icon-modify-passwd", // css class for background image
+			height :190,
+			icon : getPluginResourcesUrl('core') + "/img/administrator/password/password_16.png",
 			items : [ RUNTIME_Plugin_Runtime_Administrator_Password.form ],
 			closeAction: 'hide',
 			buttons : [ {

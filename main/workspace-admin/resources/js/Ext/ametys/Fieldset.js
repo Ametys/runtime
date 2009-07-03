@@ -30,9 +30,24 @@ Ext.extend(Ext.ametys.Fieldset, Ext.Panel,
 	baseCls : "ametys-fieldset",
 	collapsible: true,
 	titleCollapse: true,
-	animCollapse : false,
+	animCollapse : true,
 	border: false
 });
+
+Ext.ametys.Fieldset.prototype._onCollapse = function (panel)
+{
+	if (panel.ownerCt.ownerCt)
+		panel.ownerCt.ownerCt.doLayout();
+	else
+		panel.ownerCt.doLayout();
+}
+Ext.ametys.Fieldset.prototype._onExpand = function (panel)
+{
+	if (panel.ownerCt.ownerCt)
+		panel.ownerCt.ownerCt.doLayout();
+	else
+		panel.ownerCt.doLayout();
+}
 
 Ext.ametys.Fieldset.prototype.onRender = function(ct, position)
 {
@@ -42,6 +57,9 @@ Ext.ametys.Fieldset.prototype.onRender = function(ct, position)
 	//this.body.addClass(this.awtCls + '-body');
 	
 	this.el.insertFirst({tag: "a", name :this.id});
+	
+	this.addListener('collapse', this._onCollapse, this);
+	this.addListener('expand', this._onExpand, this);
 }
 
 

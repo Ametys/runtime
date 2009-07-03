@@ -204,11 +204,11 @@
 									else if (type == 'password')
 									{
 										input = new Ext.ametys.form.PasswordWidget ({
-									        fieldLabel: "<xsl:copy-of select="label/node()"/>",
+									        fdLabel: "<xsl:copy-of select="label/node()"/>",
 									        desc: "<xsl:copy-of select="description/node()"/>",
 									        name: "<xsl:value-of select="local-name()"/>",
 									        value: "<xsl:value-of select="value"/>",
-									        labelWidth :230
+									        fdLabelWidth :230
 										});
 									}
 									else if (type == 'date')

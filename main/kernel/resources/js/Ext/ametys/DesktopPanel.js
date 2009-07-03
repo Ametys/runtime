@@ -26,6 +26,7 @@ Ext.ametys.DesktopPanel = function(config)
 
 Ext.extend(Ext.ametys.DesktopPanel, Ext.Container, 
 {
+	cls: 'desktop',
 	border: false,
 	autoscroll: true
 });
@@ -33,14 +34,6 @@ Ext.extend(Ext.ametys.DesktopPanel, Ext.Container,
 Ext.ametys.DesktopPanel.prototype.onRender = function(ct, position)
 {
 	Ext.ametys.DesktopPanel.superclass.onRender.call(this, ct, position);
-	
-	if(!this.el) 
-	{
-		this.el = ct.createChild({
-            id: this.id,
-            cls: this.baseCls
-        }, position);
-	}
 }
 
 

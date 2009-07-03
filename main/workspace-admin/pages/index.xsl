@@ -65,9 +65,7 @@
 				</xsl:for-each>
 				
 				return new Ext.ametys.DesktopPanel({
-					items: items,
-					baseCls : 'desktop',
-					autoScroll: true
+					items: items
 				});
 			}
 		</script>

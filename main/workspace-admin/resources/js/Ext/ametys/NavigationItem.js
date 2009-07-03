@@ -62,7 +62,7 @@ Ext.ametys.NavigationItem.prototype.handler = function ()
 		{
 			this.ctToScroll.animConfig = {callback: this.bindScroll};
 		}
-		else if (this.ctToScroll.animConfig.anim.isAnimated())
+		else if (this.ctToScroll.animConfig.anim.isAnimated)
 		{
 			this.ctToScroll.animConfig.anim.stop();
 		}
