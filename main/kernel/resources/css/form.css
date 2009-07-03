@@ -103,6 +103,12 @@
 	padding: 0;
 }
 
+.ametys-password-button button {
+	border: none;
+	background-color: transparent;
+}
+
+
 .ametys-password-button-cancel {
 	width: 30px !important;
 	height: 20px;

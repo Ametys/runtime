@@ -26,9 +26,9 @@ Ext.ametys.form.PasswordWidget = function(config)
 	this._name =  config.name;
 	config.baseCls = 'ametys-password-field';
 	config.border = false;
-	if (!config.labelWidth)
+	if (!config.fdLabelWidth)
 	{
-		config.labelWidth = 180;
+		config.fdLabelWidth = 180;
 	}
 	config.labelAlign = 'right';
 	config.height= 75;
@@ -42,13 +42,13 @@ Ext.ametys.form.PasswordWidget = function(config)
 	this._pwd = new Ext.ametys.form.PasswordField({
 		name : this._name + '_pwd',
 		inputType : 'password',
-		fieldLabel: config.fieldLabel,
+		fieldLabel: config.fdLabel,
 		value: config.value,
 		disabled: true,
 		desc : config.desc
 	});
 	
-	this._marginLeft = 'margin-left:' + (config.labelWidth + 10) + 'px';
+	this._marginLeft = 'margin-left:' + (config.fdLabelWidth + 10) + 'px';
 	
 	if (!config.value || config.value == '')
 	{
@@ -146,7 +146,7 @@ Ext.ametys.form.PasswordWidget.prototype._createChangePwdBtn = function ()
 	return new Ext.Button({
 		text: "<i18n:text i18n:key="PLUGINS_CORE_WIDGET_PASSWORD_HINT" i18n:catalogue="plugin.core"/>",
 		template : new Ext.Template(
-				'&lt;div class="ametys-password-button" style="' + this._marginLeft + '"&gt;',
+				'&lt;div class="ametys-password-button x-btn {3}" style="' + this._marginLeft + '"&gt;',
 	            	'&lt;button type="{1}"&gt;{0}&lt;/button&gt;',
 	            '&lt;/div&gt;'),
 	    handler: this._changePassword,
