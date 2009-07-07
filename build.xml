@@ -1,32 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- ANT 1.7 -->
+<!-- Set 'ivy.settings' property for selecting the ivysettings.xml path to use -->
 
-<!-- Mettre la propriété externe 'skip-plugin' permet de ne pas générer le plugin -->
-<!-- Mettre la propriété externe 'skip-workspace' permet de ne pas générer le workspace (doit être associé à 'skip-plugin') -->
-<!-- Mettre la propriété externe 'skip-docs' permet de ne pas générer la doc -->
-<!-- Mettre la propriété externe 'skip-tests' permet de ne pas exécuter les tests -->
+<!-- Use 'project.status' property for selecting the kind of Ivy release
+     integration (default), snapshot, milestone, release) -->
+<!-- Use 'generate.doc' property in order to generate doc -->
 
-<!-- Changer la propriété 'ivy-settings' permet d'utiliser un chemin vers ivysettings.xml différent -->
-<!-- Changer la propriété 'ivy-status' permet de changer le statut de publication des artifacts ivy (integration, snapshot, milestone, release) -->
-
-<project name="Runtime build" default="all"
+<project name="runtime" default="build-and-publish"
          xmlns:ametys="antlib:org.ametys.tools"
          xmlns:ivy="antlib:org.apache.ivy.ant">
 	
 	<!-- PROPERTIES -->
 	<property environment="env"/>
 
-	<property name="ivy-settings" value="../../../ivyrep/ivysettings.xml"/>
-	<property name="ivy-status" value="integration"/>
-	<property name="build-number" value="${env.BUILD_NUMBER}"/>
-	<property name="build-qualifier" value="SNAPSHOT"/>
+	<property name="project.status" value="integration"/>
+	<property name="project.version" value="2.0.0"/>
+	<property name="project.version.qualifier" value="SNAPSHOT"/>
+	<property name="project.version.buildNumber" value="${env.BUILD_NUMBER}"/>
+	<property name="project.name" value="${ant.project.name}"/>
 	
 	<property name="dest-dir" value="target"/>
 	<property name="dest-doc" value="${dest-dir}/docs"/>
 	<property name="dest-javadoc" value="${dest-doc}/api"/>
 	<property name="class-vm-target" value="1.6"/>
 	
-	<property name="version" value="2.0.0"/>
 	<basename file="${basedir}" property="svn-branch"/>
 	
 	<property name="tmp-dir" value="tmp"/>
@@ -46,6 +42,9 @@
 	<property name="plugin-dir" value="main/plugin-core"/>
 	<property name="workspace-dir" value="main/workspace-admin"/>
 	<property name="test-env-dir" value="test-env"/>
+
+	<!-- Ivy properties -->
+	<property name="ivy.settings" value="../../../ivyrep/ivysettings.xml"/>
 
 	<!-- Classpath used for common tasks and for copying common resources -->
 	<path id="classpath-ametys-tools">
@@ -116,16 +115,16 @@
 		<mkdir dir="${classes}"/>
 		<mkdir dir="${test-env-classes}"/>
 		
-       	<ivy:settings file="${ivy-settings}"/>
+       	<ivy:settings file="${ivy.settings}"/>
 		<ivy:resolve conf="compile" type="jar"/>
 		<ivy:cachepath conf="compile" type="jar" pathid="compile.classpath"/>
 		<ivy:cachepath conf="test-env" type="jar" pathid="test.env.classpath"/>
 		
 		<ametys:svn-revision property="svn-revision"/>
 		<ametys:ivy-version versionOutputProperty="ivy-version" resolverOutputProperty="ivy-resolver"
-			            status="${ivy-status}" buildRevision="${version}"
+			            status="${project.status}" buildRevision="${project.version}"
 			            svnRevision="${svn-revision}" timestamp="${ivy-timestamp}"
-			            buildNumber="${build-number}" buildQualifier="${build-qualifier}"/>
+			            buildNumber="${project.version.buildNumber}" buildQualifier="${project.version.qualifier}"/>
 		
 		<echo message="Building runtime version ${ivy-version}..."/>
 	</target>
@@ -138,7 +137,7 @@
 		</javac>
 	</target>
 
-	<target name="runtime-compile-workspace" unless="skip-workspace">
+	<target name="runtime-compile-workspace">
 		<!-- Compilation des sources -->
 		<javac debug="true" destdir="${classes}" encoding="UTF-8" target="${class-vm-target}">
 			<!--src path="${kernel-dir}/src"/-->
@@ -147,7 +146,7 @@
 		</javac>
 	</target>
 		
-	<target name="runtime-compile-plugin" unless="skip-plugin">
+	<target name="runtime-compile-plugin">
 		<!-- Compilation des sources -->
 		<javac debug="true" destdir="${classes}" encoding="UTF-8" target="${class-vm-target}">
 			<!--src path="${kernel-dir}/src"/-->
@@ -166,7 +165,7 @@
 		</copy>
 	</target>
 		
-	<target name="runtime-copy-plugin" unless="skip-plugin">
+	<target name="runtime-copy-plugin">
 		<!-- Copie des fichiers externes (non JAVA) -->
 		<copy todir="${classes}">
 			<fileset dir="${plugin-dir}/src">
@@ -175,7 +174,7 @@
 		</copy>
 	</target>
 		
-	<target name="runtime-copy-workspace" unless="skip-workspace">
+	<target name="runtime-copy-workspace">
 		<!-- Copie des fichiers externes (non JAVA) -->
 		<copy todir="${classes}">
 			<fileset dir="${workspace-dir}/src">
@@ -214,14 +213,14 @@
         <move file="${classes}/org/ametys/runtime/kernel/i18n/messages_en.xml" tofile="${classes}/org/ametys/runtime/kernel/i18n/messages.xml"/>
 	</target>
 		
-	<target name="runtime-workspace-file" unless="skip-workspace">
+	<target name="runtime-workspace-file">
 		<copy file="${workspace-dir}/workspace.xml" todir="${classes}/org/ametys/runtime/workspaces/admin"/>
 		<copy file="${workspace-dir}/sitemap.xmap" todir="${classes}/org/ametys/runtime/workspaces/admin"/>
 		
 		<ametys:resource-file destFile="${classes}/META-INF/runtime-workspace" name="admin" uri="/org/ametys/runtime/workspaces/admin"/>
 	</target>
 	
-	<target name="runtime-resources-workspace" unless="skip-workspace">
+	<target name="runtime-resources-workspace">
 		<copy todir="${classes}/org/ametys/runtime/workspaces/admin">
 			<fileset dir="${workspace-dir}">
 				<exclude name="workspace.xml"/>
@@ -237,7 +236,7 @@
         <move file="${classes}/org/ametys/runtime/workspaces/admin/i18n/messages_en.xml" tofile="${classes}/org/ametys/runtime/workspaces/admin/i18n/messages.xml"/>
 	</target>
 	
-	<target name="runtime-plugin-file" unless="skip-plugin">
+	<target name="runtime-plugin-file">
 		<copy file="${plugin-dir}/plugin.xml" todir="${classes}/org/ametys/runtime/plugins/core"/>
 		<copy file="${plugin-dir}/sitemap.xmap" todir="${classes}/org/ametys/runtime/plugins/core"/>
 		
@@ -311,7 +310,7 @@
 		</copy>
 	</target>
 			
-	<target name="runtime-resources-copy-plugin" unless="skip-plugin">
+	<target name="runtime-resources-copy-plugin">
 		<copy todir="${dest-dir}/resources/plugins/core/resources" includeEmptyDirs="false">
 			<fileset dir="${plugin-dir}/resources">
                 <exclude name="**/*.i18n.js"/>
@@ -325,7 +324,7 @@
 		</copy>
 	</target>
 			
-	<target name="runtime-resources-copy-workspace" unless="skip-workspace">
+	<target name="runtime-resources-copy-workspace">
 		<copy todir="${dest-dir}/resources/workspaces/admin/resources" includeEmptyDirs="false">
 			<fileset dir="${workspace-dir}/resources">
                 <exclude name="**/*.i18n.js"/>
@@ -357,7 +356,7 @@
 		<move file="${dest-dir}/i18n/kernel_en.xml" tofile="${dest-dir}/i18n/kernel.xml"/>
 	</target>
 
-	<target name="runtime-copyi18n-plugin" unless="skip-plugin">
+	<target name="runtime-copyi18n-plugin">
 		<mkdir dir="${dest-dir}/i18n/plugins"/>
 		<copy todir="${dest-dir}/i18n/plugins">
 			<fileset dir="${plugin-dir}/i18n"/>
@@ -366,7 +365,7 @@
 		<move file="${dest-dir}/i18n/plugins/core_en.xml" tofile="${dest-dir}/i18n/plugins/core.xml"/>
 	</target>
 
-	<target name="runtime-copyi18n-workspace" unless="skip-workspace">
+	<target name="runtime-copyi18n-workspace">
 		<mkdir dir="${dest-dir}/i18n/workspaces"/>
 		<copy todir="${dest-dir}/i18n/workspaces">
 			<fileset dir="${workspace-dir}/i18n"/>
@@ -426,7 +425,7 @@
 	<target name="runtime-test-env" depends="prepare-runtime, runtime-compile-test-env, runtime-test-env-jar"/>
 
 	<!-- JAVADOC -->
-	<target name="javadoc" unless="skip-docs">
+	<target name="javadoc" if="generate.doc">
 		<mkdir dir="${tmp-javadoc}"/>
 
 		<copy todir="${tmp-javadoc}">
@@ -495,7 +494,7 @@
 	</target>
 
 	<!-- JAVADOC -->
-	<target name="javadoc-test-env" unless="skip-docs">
+	<target name="javadoc-test-env"  if="generate.doc">
 		<mkdir dir="${tmp-javadoc}"/>
 
 		<copy todir="${tmp-javadoc}">
@@ -554,7 +553,7 @@
 	</target>
 
 	<!-- EXPORT DES DOCUMENTATIONS -->
-	<target name="export-doc" unless="skip-docs">
+	<target name="export-doc" if="generate.doc">
 		<!--
 		<antcall target="launch-replace-doc"/>
 		
@@ -595,7 +594,7 @@
 		<delete dir="${tmp-unzipped-doc}"/>
 	</target>
     
-    <target name="plugin-doc" unless="skip-docs">
+    <target name="plugin-doc" if="generate.doc">
         <property name="pluginName" value="core"/>
     
         <xslt in="${plugin-dir}/plugin.xml" style="${deliver-dir}/plugindoc/plugin2doc.xsl" out="${dest-doc}/plugin/index.html">
@@ -627,7 +626,7 @@
         </copy>
     </target>
 	
-	<target name="tests" unless="skip-tests">
+	<target name="tests">
 		<mkdir dir="${tmp-dir}/classes-test"/>
 		<mkdir dir="${tmp-dir}/emma"/>
 		<mkdir dir="${dest-doc}/emma"/>
@@ -720,7 +719,7 @@
 	    </emma>
 	</target>
 
-	<target name="remove-javadoc-publishing" if="skip-docs">
+	<target name="remove-javadoc-publishing" unless="generate.doc">
 		<replaceregexp file="${dest-dir}/ivy/ivy.xml" match="&lt;artifact.*type=&quot;javadoc&quot;.*/>"
 		               replace="" byline="true"/>
 	</target>
@@ -736,12 +735,14 @@
 	<!--target name="publish" depends="runtime, javadoc"-->
 	<target name="publish">
 		<ivy:deliver deliverpattern="${dest-dir}/ivy/ivy.xml" pubrevision="${ivy-version}"
-		             status="${ivy-status}"/>
+		             status="${project.status}"/>
 		<antcall target="remove-javadoc-publishing"/>
 		<ivy:publish artifactspattern="${dest-dir}/ivy/[type]s/[artifact].[ext]" resolver="${ivy-resolver}"
-		             pubrevision="${ivy-version}" status="${ivy-status}" srcivypattern="${dest-dir}/ivy/ivy.xml"
+		             pubrevision="${ivy-version}" status="${project.status}" srcivypattern="${dest-dir}/ivy/ivy.xml"
 		             overwrite="true"/>
 	</target>
 	
-	<target name="all" depends="prepare, runtime, runtime-test-env, javadoc, javadoc-test-env, plugin-doc, export-doc, tests, publish-if-failed, publish-if-not-failed, clean"/>
+	<target name="build" depends="prepare, runtime, runtime-test-env, javadoc, javadoc-test-env, plugin-doc, export-doc"/>
+	<target name="build-and-publish" depends="build, publish, clean"/>
+	<target name="test-and-publish" depends="build, tests, publish-if-failed, publish-if-not-failed, clean"/>
 </project>
