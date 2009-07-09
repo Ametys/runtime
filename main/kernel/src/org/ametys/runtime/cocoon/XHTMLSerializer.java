@@ -54,8 +54,10 @@ import org.xml.sax.helpers.AttributesImpl;
  *   <li>"http://www.w3.org/1998/Math/MathML"</li>
  * </ul>
  * Content of <code>script</code> tags will be exported in a single comment.<p>
- * Finally, if <code>omit-xml-declaration</code> is set to <code>false</code>
- * (default), <code>Content-Type</code> meta tag will be dropped if present.<br>
+ * <code>omit-xml-declaration</code> is set to <code>yes</code> by default for
+ * compatibility purpose (IE 6).
+ * If <code>omit-xml-declaration</code> is set to <code>no</code>,
+ * <code>Content-Type</code> meta tag will be dropped if present.<br>
  * @since 1.1.5 this serializer is JAXP compliant with the processing instruction
  *              <code>javax.xml.transform.*-output-escaping processing</code>.
  * @see Result
@@ -71,9 +73,18 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
         new String[] {"", "http://www.w3.org/XML/1998/namespace", XHTML1_NAMESPACE, "http://www.w3.org/2000/svg",
                       "http://www.w3.org/1998/Math/MathML"}));
     
+    /** Head tag. */
+    private static final String __HEAD_TAG = "head";
+    /** Meta tag. */
+    private static final String __META_TAG = "meta";
+    /** Meta HTTP equiv attribute name. */
+    private static final String __META_HTTP_EQUIV_ATTR = "http-equiv";
+    /** Meta HTTP equiv attribute value for content type. */
+    private static final String __META_HTTP_EQUIV_CTYPE_VALUE = "Content-Type";
+    /** Meta content attribute name. */
+    private static final String __META_CONTENT_ATTR = "content";
     /** Script tag. */
     private static final String __SCRIPT_TAG = "script";
-    
     /** Style tag. */
     private static final String __STYLE_TAG = "style";
 
@@ -101,11 +112,11 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
      */
     private boolean _disableOutputEscaping;
 
-    /** Meta http-equiv="Content-Type" context. True if we are inside a meta "content-type" tag.*/
-    private boolean _isMetaContentType;
-
     /** Define whether to put XML declaration in the head of the document. */
     private boolean _omitXmlDeclaration;
+
+    /** Meta http-equiv="Content-Type" context. True if we are inside a meta "content-type" tag.*/
+    private boolean _isMetaContentType;
 
     @Override
     public void configure(Configuration conf) throws ConfigurationException
@@ -113,8 +124,8 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
         super.configure(conf);
         
         String omitXmlDeclaration = conf.getChild("omit-xml-declaration").getValue(null);
-        // Default to false (do not omit).
-        this._omitXmlDeclaration = "yes".equals(omitXmlDeclaration);
+        // Default to yes (omit).
+        this._omitXmlDeclaration = !"no".equals(omitXmlDeclaration);
         
         // Tags to collapse
         String tagsToCollapse = conf.getChild("tags-to-collapse").getValue(null);
@@ -217,11 +228,34 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
             _insideInlineResourceTag++;
         }
 
-        // Ignore the content-type meta tag if omit xml declaration is activated
         _isMetaContentType = isMetaContentType(local, attributes);
-        if (!_isMetaContentType || _omitXmlDeclaration)
+
+        // Always ignore the content-type meta tag because we do not want
+        // it in non omit mode and because we create it in omit mode (see below)
+        if (!_isMetaContentType)
         {
             super.startElementImpl(uri, local, qual, lNamespaces, attributes);
+        }
+        
+        // Create our own content-type meta tag in omit mode
+        if (_omitXmlDeclaration && local.equalsIgnoreCase(__HEAD_TAG))
+        {
+            // Create our own meta content type element as Xalan creates one but
+            // places it in the last children (after an potential title)
+            String qua = namespaces.qualify(XHTML1_NAMESPACE, __META_TAG, __META_TAG);
+            String[][] attrs = new String[2][ATTRIBUTE_LENGTH];
+
+            attrs[0][ATTRIBUTE_NSURI] = "";
+            attrs[0][ATTRIBUTE_LOCAL] = __META_HTTP_EQUIV_ATTR;
+            attrs[0][ATTRIBUTE_QNAME] = __META_HTTP_EQUIV_ATTR;
+            attrs[0][ATTRIBUTE_VALUE] = __META_HTTP_EQUIV_CTYPE_VALUE;
+            attrs[1][ATTRIBUTE_NSURI] = "";
+            attrs[1][ATTRIBUTE_LOCAL] = __META_CONTENT_ATTR;
+            attrs[1][ATTRIBUTE_QNAME] = __META_CONTENT_ATTR;
+            attrs[1][ATTRIBUTE_VALUE] = this.getMimeType();
+
+            super.startElementImpl(XHTML1_NAMESPACE, __META_TAG, qua, new String[0][0], attrs);
+            super.endElementImpl(XHTML1_NAMESPACE, __META_TAG, qua);
         }
     }
     
@@ -351,8 +385,8 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
             }
         }
         
-        // Ignore the content-type meta tag if xml declaration is present
-        if (!_isMetaContentType || _omitXmlDeclaration)
+        // Ignore the content-type meta tag, see startElementImpl
+        if (!_isMetaContentType)
         {
             super.endElementImpl(namespaceUri, local, qual);
         }
@@ -373,11 +407,12 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
 
     private boolean isMetaContentType(String local, String[][] attributes)
     {
-        if (local.equalsIgnoreCase("meta"))
+        if (local.equalsIgnoreCase(__META_TAG))
         {
             for (String[] attr : attributes)
             {
-                if (attr[ATTRIBUTE_LOCAL].equalsIgnoreCase("http-equiv") && attr[ATTRIBUTE_VALUE].equalsIgnoreCase("Content-Type"))
+                if (attr[ATTRIBUTE_LOCAL].equalsIgnoreCase(__META_HTTP_EQUIV_ATTR)
+                        && attr[ATTRIBUTE_VALUE].equalsIgnoreCase(__META_HTTP_EQUIV_CTYPE_VALUE))
                 {
                     return true;
                 }

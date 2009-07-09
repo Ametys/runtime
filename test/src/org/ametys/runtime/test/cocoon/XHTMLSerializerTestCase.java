@@ -40,11 +40,29 @@ public class XHTMLSerializerTestCase extends TestCase
      * Test XHTMLSerializer.
      * @throws Exception if an error occurs.
      */
-    public void testXHTMLSerializer() throws Exception
+    public void testXHTMLSerializerWithOmitXmlDecl() throws Exception
     {
         XHTMLSerializer serializer = new XHTMLSerializer();
 
-        serializer.configure(_getConfiguration());
+        serializer.configure(_getConfiguration(true));
+        
+        // XML content to validate
+        for (String content : Arrays.asList(new String[] {"simple", "complex", "namespace", "disable-output-escaping"}))
+        {
+            _assertSerialization(serializer, content + ".xml", content + "-omit-result.xhtml");
+            serializer.recycle();
+        }
+    }
+    
+    /**
+     * Test XHTMLSerializer.
+     * @throws Exception if an error occurs.
+     */
+    public void testXHTMLSerializerWithoutOmitXmlDecl() throws Exception
+    {
+        XHTMLSerializer serializer = new XHTMLSerializer();
+
+        serializer.configure(_getConfiguration(false));
         
         // XML content to validate
         for (String content : Arrays.asList(new String[] {"simple", "complex", "namespace", "disable-output-escaping"}))
@@ -94,7 +112,7 @@ public class XHTMLSerializerTestCase extends TestCase
         }
     }
 
-    private Configuration _getConfiguration()
+    private Configuration _getConfiguration(boolean omitXmlDeclaration)
     {
         DefaultConfiguration configuration = new DefaultConfiguration("serializer");
         
@@ -106,11 +124,11 @@ public class XHTMLSerializerTestCase extends TestCase
         DefaultConfiguration methodConfig = new DefaultConfiguration("method");
         methodConfig.setValue("xhtml");
         DefaultConfiguration doctypePublicConfig = new DefaultConfiguration("doctype-public");
-        methodConfig.setValue("-//W3C//DTD XHTML 1.0 Transitional//EN");
+        doctypePublicConfig.setValue("-//W3C//DTD XHTML 1.0 Transitional//EN");
         DefaultConfiguration doctypeSystemConfig = new DefaultConfiguration("doctype-system");
-        methodConfig.setValue("http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd");
+        doctypeSystemConfig.setValue("http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd");
         DefaultConfiguration omitXmlDeclarationConfig = new DefaultConfiguration("omit-xml-declaration");
-        methodConfig.setValue("no");
+        omitXmlDeclarationConfig.setValue(omitXmlDeclaration ? "yes" : "no");
 
         configuration.addChild(encodingConfig);
         configuration.addChild(methodConfig);
