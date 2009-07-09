@@ -249,10 +249,11 @@ public final class PluginsManager
     // Recherche les schemas embarqués dans les jar
     // Ils possèdent un fichier text META-INF/runtime-schema
     // contenant l'identifiant du schema et son chemin d'accès
-    private void _initSchemas() throws IOException
+    private void _initSchemas(String contextPath, Collection<String> locations) throws IOException
     {
         Enumeration<URL> shemasResources = getClass().getClassLoader().getResources("META-INF/runtime-schema");
         
+        // Embedded schemas
         while (shemasResources.hasMoreElements())
         {
             URL shemasResource = shemasResources.nextElement();
@@ -265,7 +266,7 @@ public final class PluginsManager
                 
                 if (getClass().getResource(schemaResourceURI) != null)
                 {
-                    _entityResolver.addSchema(systemId, schemaResourceURI);
+                    _entityResolver.addEmbeddedSchema(systemId, schemaResourceURI);
                 }
                 else if (_logger.isWarnEnabled())
                 {
@@ -275,6 +276,46 @@ public final class PluginsManager
             finally
             {
                 IOUtils.closeQuietly(br);
+            }
+        }
+
+        // Local schemas
+        for (String location : locations)
+        {
+            File locationBase = new File(contextPath, location);
+
+            if (locationBase.exists() && locationBase.isDirectory())
+            {
+                File[] pluginDirs = locationBase.listFiles(new FileFilter() 
+                {
+                    public boolean accept(File pathname)
+                    {
+                        return pathname.isDirectory();
+                    }
+                });
+                
+                for (File pluginDir : pluginDirs)
+                {
+                    File[] schemaFiles = pluginDir.listFiles(new FileFilter() 
+                    {
+                        public boolean accept(File pathname)
+                        {
+                            return pathname.isFile() && pathname.getName().endsWith(".xsd");
+                        }
+                    });
+                    
+                    if (schemaFiles != null && schemaFiles.length > 0)
+                    {
+                        for (File schemaFile : schemaFiles)
+                        {
+                            // Local schema convention is to put a myschema-1.0.xsd file into
+                            // the plugin directory in order to declare the schema of namespace
+                            // http://www.ametys.org/schema/myschema with the schema location
+                            // http://www.ametys.org/schema/myschema-1.0.xsd
+                            _entityResolver.addLocalSchema("http://www.ametys.org/schema/" + schemaFile.getName(), schemaFile);
+                        }
+                    }
+                }
             }
         }
     }
@@ -305,19 +346,18 @@ public final class PluginsManager
             throw new RuntimeException("Unable to locate embedded plugins", e);
         }
         
-        // Localisation des schemas embarqués dans des librairies
+        // Les emplacements de plugins (ie les répertoires contenant des répertoires de plugins)
+        Collection<String> locations = RuntimeConfig.getInstance().getPluginsLocations();
+        
+        // Récupération des schemas
         try
         {
-            _initSchemas();
+            _initSchemas(contextPath, locations);
         }
         catch (IOException e)
         {
-            throw new RuntimeException("Unable to locate embedded schemas", e);
+            throw new RuntimeException("Unable to locate XML schemas", e);
         }
-
-        
-        // Les emplacements de plugins (ie les répertoires contenant des répertoires de plugins)
-        Collection<String> locations = RuntimeConfig.getInstance().getPluginsLocations();
         
         // Les configurations de tous les plugin.xml du système
         Map<String, Configuration> pluginsConfigurations = _getConfigurations(contextPath, locations);
@@ -1329,23 +1369,38 @@ public final class PluginsManager
     
     private static class LocalEntityResolver implements EntityResolver
     {
-        private Map<String, String> _schemas = new HashMap<String, String>();
+        private Map<String, String> _embeddedSchemas = new HashMap<String, String>();
+        private Map<String, File> _localSchemas = new HashMap<String, File>();
         
         LocalEntityResolver()
         {
             // Nothing to do
         }
         
-        public void addSchema(String systemId, String resourceUri)
+        public void addEmbeddedSchema(String systemId, String resourceUri)
         {
-            _schemas.put(systemId, resourceUri);
+            _embeddedSchemas.put(systemId, resourceUri);
+        }
+        
+        public void addLocalSchema(String systemId, File schemaFile)
+        {
+            _localSchemas.put(systemId, schemaFile);
         }
         
         public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException
         {
             if (systemId.endsWith(".xsd"))
             {
-                String resourceUri = _schemas.get(systemId);
+                // Check first into local schemas
+                File localSchema = _localSchemas.get(systemId);
+                
+                if (localSchema != null)
+                {
+                    return new InputSource(new FileInputStream(localSchema));
+                }
+
+                // Then into embedded schemas
+                String resourceUri = _embeddedSchemas.get(systemId);
 
                 if (resourceUri != null)
                 {
@@ -1357,6 +1412,7 @@ public final class PluginsManager
                     }
                 }
             }
+            
             return null;
         }
     }
