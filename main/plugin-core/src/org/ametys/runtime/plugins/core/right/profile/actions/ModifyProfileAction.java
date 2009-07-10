@@ -40,7 +40,7 @@ public class ModifyProfileAction extends CurrentUserProviderServiceableAction
         
         Request request = ObjectModelHelper.getRequest(objectModel);
         String profileId = request.getParameter("id");
-        String rightsList = request.getParameter("objects");
+        String[] rights = request.getParameterValues("objects");
         
         if (getLogger().isInfoEnabled())
         {
@@ -92,15 +92,11 @@ public class ModifyProfileAction extends CurrentUserProviderServiceableAction
             // ... effacer les droits actuels
             profile.removeRights();
              
-            if (rightsList != null && !"".equals(rightsList))
+            if (rights != null && rights.length > 0)
             {
-                // Liste des droits composant désormais le profil
-                String[] rightsId = rightsList.split("/");
-                
-                // ... insérer les nouveaux droits
-                for (int i = 0; i < rightsId.length; i++)
+                for (int i = 0; i < rights.length; i++)
                 {
-                    profile.addRight(rightsId[i]);
+                    profile.addRight(rights[i]);
                 }
             }
         }

@@ -49,14 +49,14 @@ public class SearchGenerator extends ServiceableGenerator
         saxParameters.put("pattern", source);
         
         // Nombre de résultats max
-        int count = parameters.getParameterAsInteger("count", _DEFAULT_COUNT_VALUE);
+        int count = parameters.getParameterAsInteger("limit", _DEFAULT_COUNT_VALUE);
         if (count == -1)
         {
             count = Integer.MAX_VALUE;
         }
 
         // Décalage des résultats
-        int offset = parameters.getParameterAsInteger("offset", _DEFAULT_OFFSET_VALUE);
+        int offset = parameters.getParameterAsInteger("start", _DEFAULT_OFFSET_VALUE);
         
         contentHandler.startDocument();
         XMLUtils.startElement(contentHandler, "Search");

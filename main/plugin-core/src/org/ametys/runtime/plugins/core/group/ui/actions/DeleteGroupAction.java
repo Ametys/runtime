@@ -36,7 +36,7 @@ public class DeleteGroupAction extends CurrentUserProviderServiceableAction
         }
         
         Request request = ObjectModelHelper.getRequest(objectModel);
-        String groupId = request.getParameter("id");
+        String[] groudIds = request.getParameterValues("id");
         
         // Suppression du groupe
         GroupsManager gm = (GroupsManager) manager.lookup(GroupsManager.ROLE);
@@ -45,31 +45,33 @@ public class DeleteGroupAction extends CurrentUserProviderServiceableAction
             throw new IllegalArgumentException("The group manager used is not modifiable");
         }
 
-        if (getLogger().isInfoEnabled())
+        for (int i = 0; i < groudIds.length; i++)
         {
-            String userMessage = null;
-            String endMessage = "is removing the group '" + groupId + "'";
-            if (_isSuperUser())
+            if (getLogger().isInfoEnabled())
             {
-                userMessage = "Administrator";
-            }
-            else
-            {
-                String currentUserLogin = _getCurrentUser();
-                userMessage = "User '" + currentUserLogin + "'";
+                String userMessage = null;
+                String endMessage = "is removing the group '" + groudIds[i] + "'";
+                if (_isSuperUser())
+                {
+                    userMessage = "Administrator";
+                }
+                else
+                {
+                    String currentUserLogin = _getCurrentUser();
+                    userMessage = "User '" + currentUserLogin + "'";
+                }
+                
+                getLogger().info(userMessage + " " + endMessage);
             }
             
-            getLogger().info(userMessage + " " + endMessage);
+            ModifiableGroupsManager mgm = (ModifiableGroupsManager) gm;
+            mgm.remove(groudIds[i]);
+            
+            if (getLogger().isDebugEnabled())
+            {
+                getLogger().debug("Ending group removal");
+            }
         }
-        
-        ModifiableGroupsManager mgm = (ModifiableGroupsManager) gm;
-        mgm.remove(groupId);
-        
-        if (getLogger().isDebugEnabled())
-        {
-            getLogger().debug("Ending group removal");
-        }
-
         return EMPTY_MAP;
     }
 }

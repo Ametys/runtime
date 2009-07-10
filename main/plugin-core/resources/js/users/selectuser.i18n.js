@@ -55,18 +55,23 @@ RUNTIME_Plugin_Runtime_SelectUser.delayed_initialize = function ()
 		id: 'select-user-list',
 		baseCls: 'select-user-list',
 		autoScroll: true,
-	    height:300
+	    height:200
 	});	
 	RUNTIME_Plugin_Runtime_SelectUser.listview.setMultipleSelection(true);
+	
+	var warning = new Ext.ametys.HtmlContainer ({
+		html: "<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_WARN100"/>",
+		cls: 'select-user-warning'
+	});
 	
 	RUNTIME_Plugin_Runtime_SelectUser.box = new Ext.ametys.DialogBox({
 					title :"<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_CAPTION"/>",
 					layout :'anchor',
 					width :280,
-					height : 305,
+					height : 340,
 					cls : 'select-user-box',
-					iconCls : 'select-user-box-icon',
-					items : [form, RUNTIME_Plugin_Runtime_SelectUser.listview ],
+					icon: getPluginResourcesUrl('core') + '/img/users/icon_small.png',
+					items : [form, RUNTIME_Plugin_Runtime_SelectUser.listview, warning],
 					closeAction: 'hide',
 					buttons : [ {
 						text :"<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_OK"/>",
@@ -117,14 +122,16 @@ RUNTIME_Plugin_Runtime_SelectUser.load = function ()
 
 	var criteria = RUNTIME_Plugin_Runtime_SelectUser.criteria.getValue();
 
-	//RUNTIME_Plugin_Runtime_SelectUser.listview.elements = new Array();
-	//RUNTIME_Plugin_Runtime_SelectUser.listview.selection = new Array();
-
 	// Recupere la liste des users 
 	var result = Tools.postFromUrl(getPluginDirectUrl(RUNTIME_Plugin_Runtime_SelectUser.plugin) + "/users/search.xml", "criteria=" + criteria + "&amp;count=100" + "&amp;offset=0");
 	if (result == null)
 	{
-		alert("<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_ERROR_LISTING"/>")
+		Ext.Msg.show({
+			   title: "<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_CAPTION"/>",
+			   msg: "<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_ERROR_LISTING"/>",
+			   buttons: Ext.Msg.OK,
+			   icon: Ext.MessageBox.ERROR
+			});
 		return;
 	}	
 
@@ -139,7 +146,12 @@ RUNTIME_Plugin_Runtime_SelectUser.load = function ()
 	}
 	if (users.length == 0)
     {
-       alert("<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_NORESULT"/>");
+		Ext.Msg.show({
+			   title: "<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_CAPTION"/>",
+			   msg: "<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_NORESULT"/>",
+			   buttons: Ext.Msg.OK,
+			   icon: Ext.MessageBox.INFO
+			});
     }
 }
 // --------------------------------
@@ -152,7 +164,12 @@ RUNTIME_Plugin_Runtime_SelectUser.ok = function ()
 		var selection = RUNTIME_Plugin_Runtime_SelectUser.listview.getSelection();
 		if (selection.length == 0)
 		{
-			alert("<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_ERROR_EMPTY"/>");
+			Ext.Msg.show({
+				   title: "<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_CAPTION"/>",
+				   msg: "<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_ERROR_EMPTY"/>",
+				   buttons: Ext.Msg.OK,
+				   icon: Ext.MessageBox.INFO
+				});
 			return;
 		}
 

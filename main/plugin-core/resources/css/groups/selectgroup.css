@@ -1,0 +1,24 @@
+.select-group-box-icon {
+	background : url(../../img/users/icon_small.gif) top left no-repeat !important;
+}
+
+.select-group-box form {
+	padding: 7px 0px 5px 10px;
+	border-bottom: 1px solid #C8CDD0 !important;
+}
+.select-group-box form input {
+	font-size: 0.9em;
+	border: 1px solid #C8CDD0 !important;
+	background-color: #FFF !important;
+	background-image: none !important;
+}
+
+.select-group-list {
+}
+
+.select-group-warning {
+	padding: 5px;
+	text-align: center;
+	color:#FF8A00;
+	border-top: 1px solid #C8CDD0;
+}

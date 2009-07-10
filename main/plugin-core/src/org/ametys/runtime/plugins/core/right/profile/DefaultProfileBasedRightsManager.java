@@ -379,7 +379,6 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     }
 
     /* METHODES AJOUTEES PAR LE RIGHT MANAGER */
-
     /**
      * Returns a Set containing all profiles for a given user and a context
      * 
@@ -433,6 +432,116 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         return profiles;
     }
 
+    /**
+     * Returns a Set containing all users for a context and a profile
+     * 
+     * @param profileID The profile id
+     * @param context The context
+     * @return a Set containing all users for a context and a profile
+     */
+    public Set<User> getUsersByContextAndProfile(String profileID, String context)
+    {
+        Set<User> users = new HashSet<User>();
+
+        Connection connection = ConnectionHelper.getConnection(_poolName);
+
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try
+        {
+            String sql = "SELECT DISTINCT Login " + "FROM " + _tableUserRights + " WHERE Profile_Id = ? AND Context = ?";
+            
+            stmt = connection.prepareStatement(sql);
+
+            stmt.setString(1, profileID);
+            stmt.setString(2, context);
+
+            // Logger la requête
+            getLogger().info(sql + "\n[" + profileID + ", " + context + "]");
+
+            rs = stmt.executeQuery();
+
+            while (rs.next())
+            {
+                String login = rs.getString(1);
+                User user = _usersManager.getUser(login);
+                if (user != null)
+                {
+                    users.add(user);
+                }
+            }
+        }
+        catch (SQLException ex)
+        {
+            getLogger().error("Error in sql query", ex);
+
+        }
+        finally
+        {
+            ConnectionHelper.cleanup(rs);
+            ConnectionHelper.cleanup(stmt);
+            ConnectionHelper.cleanup(connection);
+        }
+
+        return users;
+    }
+    
+    /**
+     * Returns a Set containing groups explicitly linked with the given Context and profile
+     * 
+     * @param profileID The profile id
+     * @param context the context
+     * @return a Set containing groups explicitly linked with the given Context and profile
+     */
+    public Set<Group> getGroupsByContextAndProfile(String profileID, String context)
+    {
+        Set<Group> groups = new HashSet<Group>();
+
+        Connection connection = ConnectionHelper.getConnection(_poolName);
+
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try
+        {
+            String sql = "SELECT DISTINCT Group_Id " + "FROM " + _tableGroupRights + " WHERE Profile_Id = ? AND Context = ? ";
+            
+            stmt = connection.prepareStatement(sql);
+
+            stmt.setString(1, profileID);
+            stmt.setString(2, context);
+
+            // Logger la requête
+            getLogger().info(sql + "\n[" + profileID + ", " + context + "]");
+
+            rs = stmt.executeQuery();
+
+            while (rs.next())
+            {
+                String groupId = rs.getString(1);
+                Group group = _groupsManager.getGroup(groupId);
+                if (group != null)
+                {
+                    groups.add(group);
+                }
+            }
+        }
+        catch (SQLException ex)
+        {
+            getLogger().error("Error in sql query", ex);
+
+        }
+        finally
+        {
+            ConnectionHelper.cleanup(rs);
+            ConnectionHelper.cleanup(stmt);
+            ConnectionHelper.cleanup(connection);
+        }
+
+        return groups;
+    }
+    
     /**
      * Returns a Set containing all contexts for an user and a profile
      * 

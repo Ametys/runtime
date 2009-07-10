@@ -29,6 +29,8 @@ import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableGenerator;
  */
 public class GroupsGenerator extends CurrentUserProviderServiceableGenerator
 {
+    private static final int _DEFAULT_COUNT_VALUE = Integer.MAX_VALUE;
+    private static final int _DEFAULT_OFFSET_VALUE = 0;
     private GroupsManager _groups;
     
     @Override
@@ -42,10 +44,21 @@ public class GroupsGenerator extends CurrentUserProviderServiceableGenerator
     {
         contentHandler.startDocument();
         
+        // Nombre de résultats max
+        int count = parameters.getParameterAsInteger("limit", _DEFAULT_COUNT_VALUE);
+        if (count == -1)
+        {
+            count = Integer.MAX_VALUE;
+        }
+
+        // Décalage des résultats
+        int offset = parameters.getParameterAsInteger("start", _DEFAULT_OFFSET_VALUE);
+        
         XMLUtils.startElement(contentHandler, "GroupsManager");
         
-        _groups.toSAX(contentHandler, Integer.MAX_VALUE, 0, new HashMap());
+        _groups.toSAX(contentHandler, count, offset, new HashMap());
         
+        XMLUtils.createElement(contentHandler, "total", String.valueOf(_groups.getGroups().size()));
         XMLUtils.createElement(contentHandler, "Modifiable", _groups instanceof ModifiableGroupsManager ? "true" : "false");
         XMLUtils.createElement(contentHandler, "AdministratorUI", _isSuperUser() ? "true" : "false");
         

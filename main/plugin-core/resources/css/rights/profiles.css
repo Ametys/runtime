@@ -15,6 +15,7 @@
 }
 
 .profile-edit-panel-body div.fieldset, .profile-read-panel-body div.fieldset {
+	clear: left;
 }
 .profile-list-view .x-grid3 {
 	background: none !important;
@@ -61,17 +62,6 @@
 	margin-bottom: 0px !important;
 }
 
-.profile-text {
-	padding: 5px 0 2px 5px;
-	float:left;
-	width:180px;
-	white-space: nowrap;
-	font-size: 0.9em;
-	color: #111111;
-	margin-left: 5px;
-	font-family: arial, sans-serif !important;
-}
-
 .profile-read-panel-header, .profile-edit-panel-header {
 	font-weight: bold;
 	color: #1C58A0;
@@ -86,3 +76,71 @@
 	padding-top: 25px;
 	background : url(../../img/rights/splitbar.png) top center no-repeat;
 }
+
+
+
+/** Rights on profile */
+.rights-fieldset {
+	clear: left;
+}
+
+.rights-fieldset-header {
+	background : none !important;
+	border: 0 none !important;
+	margin-left: 10px;
+	padding :5px 3px 4px 0px !important;
+	font-size: 11px !important;
+	font-weight: bold !important;
+	color: #111 !important;
+	font-family: arial,sans-serif !important;
+}
+
+.x-panel-collapsed .rights-fieldset-header {
+	border: 0 none !important;
+}
+
+.rights-fieldset-header span {
+	padding-left : 6px;
+}
+
+.rights-fieldset-header .x-tool-toggle {
+	background-position:3px -48px !important;
+}
+
+.x-panel-collapsed .rights-fieldset-header .x-tool-toggle {
+	background-position:3px 2px !important;
+}
+
+.rights-fieldset-header .x-tool {
+	background: transparent url('../../img/icon/group-expand-sprite.png') no-repeat scroll 0 0;
+	cursor:pointer;
+	float:left !important;
+	height:15px;
+	margin-left:0px !important;
+	margin-right:3px !important;
+	overflow:hidden;
+	width:15px;
+}
+
+.right-entry, .check-right-entry {
+	font-family: arial, sans-serif !important;
+	padding: 5px 0 5px 5px;
+	float:left;
+	white-space: nowrap;
+	font-size: 11px;
+	color: #111111;
+	margin-left: 5px;
+}
+
+.right-entry-img, .check-right-entry-img {
+	float:left;
+	padding-left: 5px; 
+	padding-top : 2px;
+	margin-right: 5px;
+}
+
+.right-entry-text {
+	float:left;
+}
+
+

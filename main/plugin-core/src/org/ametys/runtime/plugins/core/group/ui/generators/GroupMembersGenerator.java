@@ -52,7 +52,9 @@ public class GroupMembersGenerator extends ServiceableGenerator
                 {
                     attr = new AttributesImpl();
                     attr.addAttribute("", "login", "login", "CDATA", login);
-                    XMLUtils.createElement(contentHandler, "User", attr, user.getFullName());
+                    XMLUtils.startElement(contentHandler, "User", attr);
+                    XMLUtils.createElement(contentHandler, "FullName", user.getFullName());
+                    XMLUtils.endElement(contentHandler, "User");
                 }
             }
         }

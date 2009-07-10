@@ -13,6 +13,8 @@ package org.ametys.runtime.plugins.core.right.ui.actions;
 import java.util.Map;
 
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
@@ -31,6 +33,13 @@ public class AssignAction extends CurrentUserProviderServiceableAction
     /** The profile base impl of rights'manager*/
     protected ProfileBasedRightsManager _rightsManager;
     
+    @Override
+    public void service(ServiceManager smanager) throws ServiceException
+    {
+        super.service(smanager);
+        _rightsManager = (ProfileBasedRightsManager) manager.lookup(RightsManager.ROLE);
+    }
+    
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
         if (getLogger().isDebugEnabled())
@@ -38,15 +47,10 @@ public class AssignAction extends CurrentUserProviderServiceableAction
             getLogger().debug("Starting assignment");
         }
 
-        if (_rightsManager == null)
-        {
-            _rightsManager = (ProfileBasedRightsManager) manager.lookup(RightsManager.ROLE);
-        }
-        
         Request request = ObjectModelHelper.getRequest(objectModel);
-        String[] users = _getList(request.getParameter("users"));
-        String[] groups = _getList(request.getParameter("groups"));
-        String[] profiles = _getList(request.getParameter("profiles"));
+        String[] users = request.getParameterValues("users");
+        String[] groups = request.getParameterValues("groups");
+        String[] profiles = request.getParameterValues("profiles");
         String context = request.getParameter("context");
         
         if (getLogger().isInfoEnabled())
@@ -68,9 +72,6 @@ public class AssignAction extends CurrentUserProviderServiceableAction
             
             getLogger().info(userMessage + " " + endMessage);
         }
-        
-        // Retire les profils existants
-        _removeProfiles (users, groups, context);
         
         // Ajoute les nouveau profils
         _addProfiles (users, groups, context, profiles);
@@ -113,30 +114,6 @@ public class AssignAction extends CurrentUserProviderServiceableAction
             {
                 _rightsManager.addGroupRight(groups[i], context, profiles[j]);
             }
-        }
-    }
-    
-    private void _removeProfiles(String[] users, String[] groups, String context)
-    {
-        for (int i = 0; users != null && i < users.length; i++)
-        {
-            _rightsManager.removeUserProfiles(users[i], context);
-        }
-        for (int i = 0; groups != null && i < groups.length; i++)
-        {
-            _rightsManager.removeGroupProfiles(groups[i], context);
-        }
-    }
-
-    static String[] _getList(String list)
-    {
-        if (list.length() > 0)
-        {
-            return list.split("/");
-        }
-        else
-        {
-            return null;
         }
     }
 }

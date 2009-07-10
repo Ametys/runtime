@@ -33,10 +33,10 @@
             </head>
             
 				<script>
-					<script src="{$resourcesPath}/js/ametys/rights/Ext.ametys.CheckRightEntry.js"/>
-					<script src="{$resourcesPath}/js/ametys/rights/Ext.ametys.RightEntry.js"/>
+					<script src="{$resourcesPath}/js/Ext/ametys/rights/CheckRightEntry.js"/>
+					<script src="{$resourcesPath}/js/Ext/ametys/rights/RightEntry.js"/>
 	            	<script type="text/javascript">
-	            			//Current selected profil
+	            			//Current selected profile
 	            			var selectedElmt = null;
 	            			//If has changes
 	            			var hasChanges = false;
@@ -199,7 +199,7 @@
 								
 								for (var i=0; i &lt; RIGHTS_ID.length; i++)
 								{
-									//Mise de l'écran d'édition
+									//Mise à jour de l'écran d'édition
 									var rightElmt = Ext.getCmp(RIGHTS_ID[i]);
 									rightElmt.removeListener('check', needSave);
 									var id = rightElmt.getName();
@@ -214,7 +214,10 @@
 									{
 										cat.show();
 									}
-									Ext.get(id + '_read').dom.style.display = display ? "" : "none";
+									if (Ext.get(id + '_read') != null)
+									{
+										Ext.get(id + '_read').dom.style.display = display ? "" : "none";
+									}
 								}
 							}
 							
@@ -280,6 +283,8 @@
 							var item1 = new Ext.ametys.NavigationItem ({
 								text: "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILE_READ"/>",
 								handlerFn: selectLayout,
+								activeItem: 0,
+								cardLayout: 'profile-card-panel',
 								toggleGroup : 'profile-menu',
 								pressed: true
 							})
@@ -287,6 +292,8 @@
 							var item2 = new Ext.ametys.NavigationItem ({
 								text: "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILE_EDIT"/>",
 								handlerFn: selectLayout,
+								activeItem: 1,
+								cardLayout: 'profile-card-panel',
 								toggleGroup : 'profile-menu'
 							}) 
 							_Navigation.add(item2);
@@ -381,6 +388,7 @@
 								baseCls: 'profile-read-panel'
 							});
 							var cardPanel = new Ext.Panel ({
+								id:'profile-card-panel',
 								region:'center',
 								border: false,
 								layout:'card',
@@ -411,13 +419,13 @@
 								});
 								readRights.add(cat_<xsl:value-of select="$category"/>_read);
 								<xsl:for-each select="../right[category = $category]">
-									var input = new Ext.ametys.CheckRightEntry ({
+									var input = new Ext.ametys.rights.CheckRightEntry ({
 										listeners: {'check': needSave},
 										width: 190,
-										boxLabel : "<i18n:text i18n:key="{label}" i18n:catalogue="{@catalogue}"/>",
+										text : "<i18n:text i18n:key="{label}" i18n:catalogue="{@catalogue}"/>",
 								        name: "<xsl:value-of select="@id"/>",
 								        id: "<xsl:value-of select="@id"/>",
-								        desc: "<i18n:text i18n:key="{description}" i18n:catalogue="{@catalogue}"/>",
+								        description: "<i18n:text i18n:key="{description}" i18n:catalogue="{@catalogue}"/>",
 								        category: "<xsl:value-of select="$category"/>",
 								        hideLabel : true,
 								        disabled: true
@@ -425,11 +433,11 @@
 									RIGHTS_ID.push("<xsl:value-of select="@id"/>");	
 									cat_<xsl:value-of select="$category"/>.add(input);
 									
-									var profileText = new Ext.ametys.RightEntry({
+									var profileText = new Ext.ametys.rights.RightEntry({
 										id : "<xsl:value-of select="@id"/>_read", 
 										width: 190,
 										text : "<i18n:text i18n:key="{label}" i18n:catalogue="{@catalogue}"/>", 
-										desc: "<i18n:text i18n:key="{description}" i18n:catalogue="{@catalogue}"/>"
+										description: "<i18n:text i18n:key="{description}" i18n:catalogue="{@catalogue}"/>"
 									});
 									cat_<xsl:value-of select="$category"/>_read.add(profileText);
 								</xsl:for-each>
@@ -503,7 +511,10 @@
 										{
 											cat.show();
 										}
-										Ext.get(id + '_read').dom.style.display = display ? "" : "none";
+										if (Ext.get(id + '_read') != null)
+										{
+											Ext.get(id + '_read').dom.style.display = display ? "" : "none";
+										}
 									}
 								}
 								else

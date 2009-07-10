@@ -45,9 +45,10 @@ public class RemoveAction extends CurrentUserProviderServiceableAction implement
         }
         
         Request request = ObjectModelHelper.getRequest(objectModel);
-        String[] users = AssignAction._getList(request.getParameter("users"));
-        String[] groups = AssignAction._getList(request.getParameter("groups"));
+        String[] users = request.getParameterValues("users");
+        String[] groups = request.getParameterValues("groups");
         String context = request.getParameter("context");
+        String profileId = request.getParameter("profileId");
         
         if (getLogger().isInfoEnabled())
         {
@@ -67,7 +68,7 @@ public class RemoveAction extends CurrentUserProviderServiceableAction implement
         }
         
         // Retire les profils existants
-        _removeProfiles (users, groups, context);
+        _removeProfile (users, groups, profileId, context);
 
         if (getLogger().isDebugEnabled())
         {
@@ -77,15 +78,15 @@ public class RemoveAction extends CurrentUserProviderServiceableAction implement
         return EMPTY_MAP;
     }
     
-    private void _removeProfiles(String[] users, String[] groups, String context)
+    private void _removeProfile(String[] users, String[] groups, String profileId, String context)
     {
         for (int i = 0; users != null && i < users.length; i++)
         {
-            _rightsManager.removeUserProfiles(users[i], context);
+            _rightsManager.removeUserProfile(users[i], profileId, context);
         }
         for (int i = 0; groups != null && i < groups.length; i++)
         {
-            _rightsManager.removeGroupProfiles(groups[i], context);
+            _rightsManager.removeGroupProfile(groups[i], profileId, context);
         }
     }
     

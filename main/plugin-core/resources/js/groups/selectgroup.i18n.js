@@ -15,18 +15,7 @@ function RUNTIME_Plugin_Runtime_SelectGroup()
 {
 }
 // --------------------------------
-RUNTIME_Plugin_Runtime_SelectGroup.listener = {};
 RUNTIME_Plugin_Runtime_SelectGroup.initialized = false;
-// --------------------------------
-RUNTIME_Plugin_Runtime_SelectGroup.listener.ok = function() 
-{
-	RUNTIME_Plugin_Runtime_SelectGroup.ok();
-}
-// --------------------------------
-RUNTIME_Plugin_Runtime_SelectGroup.cancel = function() 
-{
-	RUNTIME_Plugin_Runtime_SelectGroup.cancel();
-}
 // --------------------------------
 RUNTIME_Plugin_Runtime_SelectGroup.delayed_initialize = function ()
 {
@@ -36,25 +25,66 @@ RUNTIME_Plugin_Runtime_SelectGroup.delayed_initialize = function ()
 
 	var plugin = RUNTIME_Plugin_Runtime_SelectGroup.plugin;
 
-	// Recupere les boites de dialogue
-    if (!Tools.loadHTML(getPluginDirectUrl(plugin) + "/groups/selectgroup/dialog.html", "<i18n:text i18n:key="KERNEL_DIALOG_ERRORREADINGURL" i18n:catalogue="kernel"/>"))
-        return false;
-        
-	var config = new SDialog.Config()
-	config.innerTableClass = "dialog";
-	RUNTIME_Plugin_Runtime_SelectGroup.box = new SDialog("RUNTIME_Plugin_Runtime_SelectGroup", 
-								"<i18n:text i18n:key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_CAPTION"/>", 
-								getPluginResourcesUrl(plugin) + "/img/groups/new.gif", 
-								280, 305, config, RUNTIME_Plugin_Runtime_SelectGroup.listener);
-	RUNTIME_Plugin_Runtime_SelectGroup.box.paint();
+	RUNTIME_Plugin_Runtime_SelectGroup.criteria = new Ext.form.TextField ({
+		 listeners: {'keyup': RUNTIME_Plugin_Runtime_SelectGroup.reload},
+		 fieldLabel: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_FIND"/>",
+		 name: "criteria",
+		 width: 140,
+		 enableKeyEvents: true,
+		 value: ""
+	});
 	
-	var _document = RUNTIME_Plugin_Runtime_SelectGroup.box.ui.iframe.contentWindow.document;
-	Tools.loadStyle(_document, context.contextPath + "/kernel/resources/css/dialog.css");
-
-	RUNTIME_Plugin_Runtime_SelectGroup.listview = new SListView ("select", RUNTIME_Plugin_Runtime_SelectGroup.box.ui.iframe.contentWindow.document, null);
-	RUNTIME_Plugin_Runtime_SelectGroup.listview.setView("detail");
-	RUNTIME_Plugin_Runtime_SelectGroup.listview.addColumn (null, "", null, "280px", null);
-	RUNTIME_Plugin_Runtime_SelectGroup.listview.showHeaders(false);
+	var form = new Ext.FormPanel( {
+		formId : 'select-group-form',
+		labelWidth :70,
+		border: false,
+		items: [RUNTIME_Plugin_Runtime_SelectGroup.criteria]
+	});
+	
+	RUNTIME_Plugin_Runtime_SelectGroup.listview = new Ext.ametys.ListView({
+	    store : new Ext.data.SimpleStore({
+			id:0,
+	        fields: [
+	           {name: 'label'}
+	        ]
+	    }),
+	    hideHeaders : true,
+	    columns: [
+	        {header: "Nom", width : 240, menuDisabled : true, sortable: true, dataIndex: 'label'},
+	    ],
+		id: 'select-group-list',
+		baseCls: 'select-group-list',
+		autoScroll: true,
+	    height:200
+	});	
+	RUNTIME_Plugin_Runtime_SelectGroup.listview.setMultipleSelection(true);
+	
+	var warning = new Ext.ametys.HtmlContainer ({
+		html: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_WARN100"/>",
+		cls: 'select-group-warning'
+	});
+	
+	RUNTIME_Plugin_Runtime_SelectGroup.box = new Ext.ametys.DialogBox({
+		title :"<i18n:text i18n:key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_CAPTION"/>",
+		layout :'anchor',
+		width :280,
+		height : 340,
+		cls : 'select-group-box',
+		icon: getPluginResourcesUrl('core') + '/img/groups/icon_small.png',
+		items : [form, RUNTIME_Plugin_Runtime_SelectGroup.listview, warning ],
+		closeAction: 'hide',
+		buttons : [ {
+			text :"<i18n:text i18n:key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_OK"/>",
+			handler : function() {
+			RUNTIME_Plugin_Runtime_SelectGroup.ok();
+			}
+		}, {
+			text :"<i18n:text i18n:key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_CANCEL"/>",
+			handler : function() {
+			RUNTIME_Plugin_Runtime_SelectGroup.cancel();
+			}
+		} ]
+	});
 }
 // --------------------------------
 RUNTIME_Plugin_Runtime_SelectGroup.initialize = function (plugin)
@@ -68,19 +98,17 @@ RUNTIME_Plugin_Runtime_SelectGroup.act = function (callback, cancelCallback)
 	RUNTIME_Plugin_Runtime_SelectGroup.callback = callback;
 	RUNTIME_Plugin_Runtime_SelectGroup.cancelCallback = cancelCallback;
 	
-	var _document = RUNTIME_Plugin_Runtime_SelectGroup.box.ui.iframe.contentWindow.document;
-	_document.getElementById('criteria').value = "";
-
+	RUNTIME_Plugin_Runtime_SelectGroup.criteria.setValue("");
 	RUNTIME_Plugin_Runtime_SelectGroup.load();
 
-	RUNTIME_Plugin_Runtime_SelectGroup.box.showModal();
+	RUNTIME_Plugin_Runtime_SelectGroup.box.show();
 	try
 	{
-		_document.getElementById('criteria').focus();
+		RUNTIME_Plugin_Runtime_SelectGroup.criteria.focus();
 	} catch (e) {}
 }
 // --------------------------------
-RUNTIME_Plugin_Runtime_SelectGroup.reload = function ()
+RUNTIME_Plugin_Runtime_SelectGroup.reload = function (field, newValue, oldValue)
 {
 	if (RUNTIME_Plugin_Runtime_SelectGroup.reloadTimer != null)
 		window.clearTimeout(RUNTIME_Plugin_Runtime_SelectGroup.reloadTimer);
@@ -91,13 +119,8 @@ RUNTIME_Plugin_Runtime_SelectGroup.load = function ()
 {
 	RUNTIME_Plugin_Runtime_SelectGroup.reloadTimer = null;
 
-	var _document = RUNTIME_Plugin_Runtime_SelectGroup.box.ui.iframe.contentWindow.document;
-	var criteria = _document.getElementById('criteria').value;
+	var criteria = RUNTIME_Plugin_Runtime_SelectGroup.criteria.getValue();
 
-	RUNTIME_Plugin_Runtime_SelectGroup.listview.elements = new Array();
-	RUNTIME_Plugin_Runtime_SelectGroup.listview.selection = new Array();
-
-	// Recupere la liste des groups 
 	var result = Tools.postFromUrl(getPluginDirectUrl(RUNTIME_Plugin_Runtime_SelectGroup.plugin) + "/groups/selectgroup/search.xml", "criteria=" + criteria + "&amp;count=100" + "&amp;offset=0");
 	if (result == null)
 	{
@@ -105,20 +128,19 @@ RUNTIME_Plugin_Runtime_SelectGroup.load = function ()
 		return;
 	}	
 
+	RUNTIME_Plugin_Runtime_SelectGroup.listview.getStore().removeAll();
+	
 	var groups = result.selectNodes("/Search/groups/group");
 
 	for (var i=0; i &lt; groups.length; i++)
 	{
-		RUNTIME_Plugin_Runtime_SelectGroup.listview.addElement(groups[i].selectSingleNode('label')[Tools.xmlTextContent] + " (" + groups[i].getAttribute('id') + ")", 
-						getPluginResourcesUrl(RUNTIME_Plugin_Runtime_SelectGroup.plugin) + "/img/groups/icon_small.gif", getPluginResourcesUrl(RUNTIME_Plugin_Runtime_SelectGroup.plugin) + "/img/groups/icon_medium.gif", getPluginResourcesUrl(RUNTIME_Plugin_Runtime_SelectGroup.plugin) + "/img/groups/icon_large.gif", 
-						{id: groups[i].getAttribute('id')});
+		var label = groups[i].selectSingleNode('label')[Tools.xmlTextContent] + " (" + groups[i].getAttribute('id') + ")";
+		RUNTIME_Plugin_Runtime_SelectGroup.listview.addElement(groups[i].getAttribute('id'), {label: label});
 	}
 	if (groups.length == 0)
     {
        alert("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_NORESULT"/>");
     }
-  
-	RUNTIME_Plugin_Runtime_SelectGroup.listview.paint();
 }
 // --------------------------------
 RUNTIME_Plugin_Runtime_SelectGroup.ok = function ()
@@ -134,27 +156,26 @@ RUNTIME_Plugin_Runtime_SelectGroup.ok = function ()
 			return;
 		}
 
-		RUNTIME_Plugin_Runtime_SelectGroup.box.close();
+		RUNTIME_Plugin_Runtime_SelectGroup.box.hide();
 		
 		for (var i=0; i &lt; selection.length; i++)
 		{
 			var opt = selection[i];
-
-			addedgroups[opt.properties.id] = opt.name;
+			addedgroups[opt.id] = opt.get('name');
 		}
 	
 		RUNTIME_Plugin_Runtime_SelectGroup.callback(addedgroups);
 	}
 	else
 	{
-		RUNTIME_Plugin_Runtime_SelectGroup.box.close();
+		RUNTIME_Plugin_Runtime_SelectGroup.box.hide();
 	}
 }
 	
 // --------------------------------
 RUNTIME_Plugin_Runtime_SelectGroup.cancel = function ()
 {
-	RUNTIME_Plugin_Runtime_SelectGroup.box.close();
+	RUNTIME_Plugin_Runtime_SelectGroup.box.hide();
 
 	if (RUNTIME_Plugin_Runtime_SelectGroup.cancelCallback != null)
 	{

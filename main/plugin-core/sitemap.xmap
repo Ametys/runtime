@@ -31,13 +31,25 @@
 			
 			<map:generator name="rights-profiles-view" src="org.ametys.runtime.plugins.core.right.profile.generators.ProfilesGenerator" logger="org.ametys.runtime.plugins.core.right.profile.sitemap.generator.view" label="content"/>
             <map:generator name="rights-profiles-list" src="org.ametys.runtime.plugins.core.right.ui.generators.ProfilesListGenerator" logger="org.ametys.runtime.plugins.core.right.sitemap.generator.profiles" label="content"/>
-            <map:generator name="rights-assignment" src="org.ametys.runtime.plugins.core.right.ui.generators.UsersAndGroupsGenerator" logger="org.ametys.runtime.plugins.core.right.sitemap.generator.assignment" label="content"/>
+           	<map:generator name="rights-rights-list" src="org.ametys.runtime.plugins.core.right.ui.generators.RightsListGenerator" logger="org.ametys.runtime.plugins.core.right.sitemap.generator.profiles" label="content"/>
+            <map:generator name="rights-profile-assignment" src="org.ametys.runtime.plugins.core.right.ui.generators.ProfileAssignationGenerator" logger="org.ametys.runtime.plugins.core.right.sitemap.generator.assignment" label="content"/>
             <map:generator name="rights-context-application" src="org.ametys.runtime.plugins.core.right.ui.generators.ApplicationContextGenerator" logger="org.ametys.runtime.plugins.core.right.sitemap.generator.context.application" label="content"/>
             <map:generator name="monitoring" src="org.ametys.runtime.plugins.core.monitoring.SampleManagersGenerator" logger="org.ametys.runtime.plugins.core.monitoring.SampleManagersGenerator" label="content"/>
         </map:generators>
         
         <map:serializers>
             <map:serializer name="zip" src="org.apache.cocoon.serialization.ZipArchiveSerializer" logger="org.ametys.runtime.plugins.core.administrator.sitemap.serializer.zip"/>
+       		
+       		<map:serializer name="json" mime-type="application/json" pool-grow="4" pool-max="32" pool-min="16" src="org.ametys.runtime.plugins.core.cocoon.JSONSerializer" logger="org.ametys.runtime.plugins.json.serializer.json">
+				<encoding>UTF-8</encoding>
+				<indent>no</indent>
+			</map:serializer>
+				
+			<map:serializer name="json-escaperoot" mime-type="application/json" pool-grow="4" pool-max="32" pool-min="16" src="org.ametys.runtime.plugins.core.cocoon.JSONSerializer" logger="org.ametys.runtime.plugins.json.serializer.json">
+				<encoding>UTF-8</encoding>
+				<indent>no</indent>
+				<escapeRoot>true</escapeRoot>
+			</map:serializer>
         </map:serializers>
         
 		<map:actions>
@@ -57,6 +69,7 @@
 			<map:action name="group-create" src="org.ametys.runtime.plugins.core.group.ui.actions.CreateGroupAction" logger="org.ametys.runtime.plugins.core.group.sitemap.action.create"/>
 			<map:action name="group-rename" src="org.ametys.runtime.plugins.core.group.ui.actions.RenameGroupAction" logger="org.ametys.runtime.plugins.core.group.sitemap.action.rename"/>
 			<map:action name="group-modify" src="org.ametys.runtime.plugins.core.group.ui.actions.UpdateGroupAction" logger="org.ametys.runtime.plugins.core.group.sitemap.action.update"/>
+			<map:action name="group-modify-users" src="org.ametys.runtime.plugins.core.group.ui.actions.UpdateUsersGroupAction" logger="org.ametys.runtime.plugins.core.group.sitemap.action.update"/>
 			<map:action name="group-delete" src="org.ametys.runtime.plugins.core.group.ui.actions.DeleteGroupAction" logger="org.ametys.runtime.plugins.core.group.sitemap.action.delete"/>
 			
 			<map:action name="rights-profile-create" src="org.ametys.runtime.plugins.core.right.profile.actions.CreateProfileAction" logger="org.ametys.runtime.plugins.core.right.profile.sitemap.action.view"/>
@@ -72,6 +85,7 @@
             <map:reader name="monitoring-graph" src="org.ametys.runtime.plugins.core.monitoring.RRDGraphReader" logger="org.ametys.runtime.plugins.core.monitoring.RRDGraphReader"/>
             <map:reader name="monitoring-export" src="org.ametys.runtime.plugins.core.monitoring.RRDXmlExportReader" logger="org.ametys.runtime.plugins.core.monitoring.RRDXmlExportReader"/>
         </map:readers>
+        
 	</map:components>
 	
 	<map:views>
@@ -320,11 +334,11 @@
                 <map:serialize type="xml"/>
             </map:match>
                 
-            <map:match pattern="users/**">
+            <!--<map:match pattern="users/**">
                 <map:act type="has-not-right" src="Runtime_Rights_User_Handle"/>
             </map:match>
                 
-            <map:match pattern="users/info">
+            --><map:match pattern="users/info">
                 <map:generate type="users-info" src="{request-param:login}"/>
                 <map:serialize type="xml"/>
             </map:match>
@@ -373,7 +387,6 @@
 			
 			<map:match pattern="users-model">
                 <map:generate type="users-model"/>
-                <map:transform src="pages/users/model.xsl" type="xslt"/>
                 <map:transform type="i18n">
 					<map:parameter name="locale" value="{locale:locale}"/>
 					<map:parameter name="default-catalogue-id" value="plugin.core"/>
@@ -401,11 +414,11 @@
                 <map:serialize type="xml"/>
             </map:match>
                 
-            <map:match pattern="groups/**">
+            <!--<map:match pattern="groups/**">
                 <map:act type="has-not-right" src="Runtime_Rights_Group_Handle"/>
             </map:match>
     
-            <map:match pattern="groups/create">
+            --><map:match pattern="groups/create">
                 <map:act type="group-create">
                     <map:generate type="action-result">
                         <map:parameter name="id" value="{id}"/>
@@ -423,6 +436,13 @@
                 </map:act>
             </map:match>
             
+            <map:match pattern="groups/delete">
+                <map:act type="group-delete">
+                    <map:generate type="action-result"/>
+                    <map:serialize type="xml"/>
+                </map:act>
+            </map:match>
+            
             <map:match pattern="groups/modify">
                 <map:act type="group-modify">
                     <map:generate type="action-result">
@@ -432,15 +452,28 @@
                 </map:act>
             </map:match>
             
-            <map:match pattern="groups/delete">
-                <map:act type="group-delete">
-                    <map:generate type="action-result"/>
+            <map:match pattern="groups/add-users">
+                <map:act type="group-modify-users">
+                	<map:parameter name="add" value="true"/>
+                    <map:generate type="action-result">
+                        <map:parameter name="message" value="{message}"/>
+                    </map:generate>
                     <map:serialize type="xml"/>
                 </map:act>
             </map:match>
             
-            <map:match pattern="groups/members/*.xml">
-				<map:generate type="group-members" src="{1}"/>
+             <map:match pattern="groups/remove-users">
+                <map:act type="group-modify-users">
+                	<map:parameter name="add" value="false"/>
+                    <map:generate type="action-result">
+                        <map:parameter name="message" value="{message}"/>
+                    </map:generate>
+                    <map:serialize type="xml"/>
+                </map:act>
+            </map:match>
+            
+            <map:match pattern="groups/members">
+				<map:generate type="group-members" src="{request-param:groupID}"/>
                 <map:serialize type="xml"/>
             </map:match>
             
@@ -453,15 +486,20 @@
 				<map:serialize type="xml"/>
 			</map:match>
 			
+			<map:match pattern="groups/list.xml">
+				<map:generate type="groups-view"/>
+				<map:serialize type="xml"/>
+			</map:match>
+			
 			
 			<!-- +
                  | Rights
                  + -->
-            <map:match pattern="rights/profiles/**">
+            <!--<map:match pattern="rights/profiles/**">
                 <map:act type="has-not-right" src="Runtime_Rights_Rights_Profile_Handle"/>
             </map:match>
 
-			<map:match pattern="rights/profiles/create">
+			--><map:match pattern="rights/profiles/create">
 				<map:act type="rights-profile-create">
 					<map:generate type="action-result">
 						<map:parameter name="id" value="{id}"/>
@@ -506,14 +544,26 @@
                 <map:serialize type="xml"/>
             </map:match>
             
+            
             <!-- *** -->
             
-            <map:match pattern="rights/**">
+            <!--<map:match pattern="rights/**">
                 <map:act type="has-not-right" src="Runtime_Rights_Rights_Handle"/>
             </map:match>
             
-            <map:match pattern="rights/profiles.xml">
+            
+            --><map:match pattern="rights/profiles.xml">
                 <map:generate type="rights-profiles-list"/>
+                <map:serialize type="xml"/>
+            </map:match>
+            
+            <map:match pattern="rights/rights.xml">
+                <map:generate type="rights-rights-list"/>
+                <map:transform type="xslt" src="pages/rights/profiles/rights.xsl"/>
+                <map:transform type="i18n">
+					<map:parameter name="locale" value="{locale:locale}"/>
+					<map:parameter name="default-catalogue-id" value="plugin.core"/>
+				</map:transform>
                 <map:serialize type="xml"/>
             </map:match>
 
@@ -539,11 +589,11 @@
                 <map:serialize/>
             </map:match>
             
-            <map:match pattern="rights/assignment.xml">
-                <map:generate type="rights-assignment"/>
+            <map:match pattern="rights/profile-assignment.xml">
+                <map:generate type="rights-profile-assignment"/>
                 <map:serialize type="xml"/>
             </map:match>
-
+            
             <map:match pattern="rights/assign">
                 <map:act type="rights-assign">
                     <map:generate type="action-result"/>

@@ -175,13 +175,13 @@
 						var group = grid.getStore().getAt(rowindex);
 						selectedElmt = group; 
 				        var groupID = group.get('id');
-						var result = Tools.postFromUrl (getPluginDirectUrl("<xsl:value-of select="$pluginName"/>") + "/groups/members/" + groupID + ".xml", "sitename=" + context.siteName);
+						var result = Tools.postFromUrl (getPluginDirectUrl("<xsl:value-of select="$pluginName"/>") + "/groups/members", "groupID=" + groupID + "&amp;sitename=" + context.siteName);
 						if (result != null)
 						{
 							var members = result.selectNodes("GroupMembers/User");
 							for (var i=0; i &lt; members.length; i++)
 							{
-								var fullname = members[i][Tools.xmlTextContent];
+								var fullname = members[i].selectSingleNode("FullName")[Tools.xmlTextContent];
 								var login =  members[i].getAttribute("login");
 								listviewU.addElement(login, {user: fullname + "(" + login + ")"});
 							}

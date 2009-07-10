@@ -26,7 +26,7 @@ import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableAction;
 
 
 /**
- * This action modify the composition of the profile 'id' with the / sperated
+ * This action modify the composition of the profile 'id' with the / separated
  * list given in 'rights' (that are request parameters)
  */
 public class UpdateGroupAction extends CurrentUserProviderServiceableAction
