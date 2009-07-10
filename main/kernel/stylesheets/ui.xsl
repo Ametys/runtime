@@ -145,7 +145,7 @@
 		</script>
 		
 		<script type="text/javascript">
-            Tools.loadScript(document, "<xsl:value-of select="$contextPath"/>/plugins/extjs/resources/extjs/js/locale/ext-lang-<i18n:text i18n:key="KERNEL_LANGUAGE_CODE" i18n:catalogue="kernel"/>.js");
+            Tools.loadScript(document, "<xsl:value-of select="$contextPath"/>/plugins/extjs/resources/js/locale/ext-lang-<i18n:text i18n:key="KERNEL_LANGUAGE_CODE" i18n:catalogue="kernel"/>.js");
 		</script>
 	
 		<link rel="stylesheet" type="text/css" href="{$contextPath}/plugins/extjs/resources/css/ext-all.css" />
