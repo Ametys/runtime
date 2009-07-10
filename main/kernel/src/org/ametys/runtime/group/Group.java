@@ -72,6 +72,15 @@ public class Group
     }
     
     /**
+     * Removes an user to this group
+     * @param login the login of the user to remove to this group
+     */
+    public void removeUser(String login)
+    {
+        _users.remove(login);
+    }
+    
+    /**
      * Returns all users of this group.
      * @return Users as a Set of String (login).
      */
