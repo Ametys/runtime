@@ -221,7 +221,7 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
     }
 
     @Override
-    public void startElementImpl(String uri, String local, String qual, String[][] namespaces, String[][] attributes) throws SAXException
+    public void startElementImpl(String uri, String local, String qual, String[][] lNamespaces, String[][] attributes) throws SAXException
     {
         if (local.equalsIgnoreCase(__SCRIPT_TAG) || local.equalsIgnoreCase(__STYLE_TAG))
         {
@@ -234,7 +234,7 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
         // it in non omit mode and because we create it in omit mode (see below)
         if (!_isMetaContentType)
         {
-            super.startElementImpl(uri, local, qual, namespaces, attributes);
+            super.startElementImpl(uri, local, qual, lNamespaces, attributes);
         }
         
         // Create our own content-type meta tag in omit mode
