@@ -101,24 +101,25 @@ public class JdbcUsersManager extends CachingComponent implements UsersManager, 
         _manager = manager;
     }
     
-    @Override
-    public void initialize() throws Exception
-    {
-        super.initialize();
-
-        _validatorManager = new ThreadSafeComponentManager<Validator>();
-        _validatorManager.enableLogging(getLogger());
-        _validatorManager.contextualize(_context);
-        _validatorManager.service(_manager);
-        
-        _enumeratorManager = new ThreadSafeComponentManager<Enumerator>();
-        _enumeratorManager.enableLogging(getLogger());
-        _enumeratorManager.contextualize(_context);
-        _enumeratorManager.service(_manager);
-    }
-    
     public void configure(Configuration configuration) throws ConfigurationException
     {
+        try
+        {
+            _validatorManager = new ThreadSafeComponentManager<Validator>();
+            _validatorManager.enableLogging(getLogger());
+            _validatorManager.contextualize(_context);
+            _validatorManager.service(_manager);
+            
+            _enumeratorManager = new ThreadSafeComponentManager<Enumerator>();
+            _enumeratorManager.enableLogging(getLogger());
+            _enumeratorManager.contextualize(_context);
+            _enumeratorManager.service(_manager);
+        }
+        catch (ServiceException e)
+        {
+            throw new ConfigurationException("Unable to create local component managers", configuration, e);
+        }
+        
         _poolName = configuration.getChild("pool").getValue();
         _tableName = configuration.getChild("table").getValue("Users");
 
@@ -134,6 +135,15 @@ public class JdbcUsersManager extends CachingComponent implements UsersManager, 
 
             JdbcParameter parameter = _configureParameter(jdbcParameterParser, id, column, parameterConfiguration);
             _parameters.put(parameter.getId(), parameter);
+        }
+
+        try
+        {
+            jdbcParameterParser.lookupComponents();
+        }
+        catch (Exception e)
+        {
+            throw new ConfigurationException("Unable to lookup parameter local components", configuration, e);
         }
 
         if (!_parameters.containsKey("login"))

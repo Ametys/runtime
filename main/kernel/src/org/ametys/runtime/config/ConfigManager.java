@@ -327,14 +327,11 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
 
         try
         {
-            _validatorManager.initialize();
-            _enumeratorManager.initialize();
+            configParamParser.lookupComponents();
         }
         catch (Exception e)
         {
-            String errorMessage = "Exception while initializing components";
-            _logger.error(errorMessage);
-            throw new RuntimeException(errorMessage, e);
+            throw new RuntimeException("Unable to lookup parameter local components", e);
         }
         
         // On libère les ressources

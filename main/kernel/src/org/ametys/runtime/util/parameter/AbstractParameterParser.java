@@ -10,8 +10,11 @@
  */
 package org.ametys.runtime.util.parameter;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.PatternSyntaxException;
 
+import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.service.ServiceManager;
@@ -30,6 +33,8 @@ public abstract class AbstractParameterParser<P extends Parameter<T>, T>
     protected ThreadSafeComponentManager<Enumerator> _enumeratorManager;
     /** The validators component manager. */
     protected ThreadSafeComponentManager<Validator> _validatorManager;
+    private Map<P, String> _validatorsToLookup = new HashMap<P, String>();
+    private Map<P, String> _enumeratorsToLookup = new HashMap<P, String>();
 
     /**
      * Creates an AbstractParameterParser.
@@ -60,13 +65,54 @@ public abstract class AbstractParameterParser<P extends Parameter<T>, T>
         parameter.setDescription(_parseI18nizableText(parameterConfig, pluginName, "description"));
         parameter.setType(_parseType(parameterConfig));
         parameter.setWidget(_parseWidget(parameterConfig));
-        parameter.setEnumerator(_parseEnumerator(pluginName, parameterId, parameterConfig));
-        parameter.setValidator(_parseValidator(pluginName, parameterId, parameterConfig));
+        _parseAndSetEnumerator(pluginName, parameter, parameterId, parameterConfig);
+        _parseAndSetValidator(pluginName, parameter, parameterId, parameterConfig);
         parameter.setDefaultValue(_parseDefaultValue(parameterConfig, parameter));
         
         _additionalParsing(manager, pluginName, parameterConfig, parameterId, parameter);
         
         return parameter;
+    }
+
+    /**
+     * Retrieves local validators and enumerators components and set them into
+     * previous parameter parsed.
+     * @throws Exception if an error occurs.
+     */
+    public void lookupComponents() throws Exception
+    {
+        _validatorManager.initialize();
+        _enumeratorManager.initialize();
+        
+        for (Map.Entry<P, String> entry : _validatorsToLookup.entrySet())
+        {
+            P parameter = entry.getKey();
+            String validatorRole = entry.getValue();
+            
+            try
+            {
+                parameter.setValidator(_validatorManager.lookup(validatorRole));
+            }
+            catch (ComponentException e)
+            {
+                throw new Exception("Unable to lookup validator role: '" + validatorRole + "' for parameter: " + parameter, e);
+            }
+        }
+        
+        for (Map.Entry<P, String> entry : _enumeratorsToLookup.entrySet())
+        {
+            P parameter = entry.getKey();
+            String enumeratorRole = entry.getValue();
+            
+            try
+            {
+                parameter.setEnumerator(_enumeratorManager.lookup(enumeratorRole));
+            }
+            catch (ComponentException e)
+            {
+                throw new Exception("Unable to lookup enumerator role: '" + enumeratorRole + "' for parameter: " + parameter, e);
+            }
+        }
     }
 
     /**
@@ -136,15 +182,14 @@ public abstract class AbstractParameterParser<P extends Parameter<T>, T>
     /**
      * Parses the enumerator.
      * @param pluginName the plugin name.
+     * @param parameter the parameter.
      * @param parameterId the parameter id.
      * @param parameterConfig the parameter configuration.
-     * @return the enumerator or <code>null</code> if none defined.
      * @throws ConfigurationException if the configuration is not valid.
      */
     @SuppressWarnings("unchecked")
-    protected Enumerator _parseEnumerator(String pluginName, String parameterId, Configuration parameterConfig) throws ConfigurationException
+    protected void _parseAndSetEnumerator(String pluginName, P parameter, String parameterId, Configuration parameterConfig) throws ConfigurationException
     {
-        Enumerator enumerator = null;
         Configuration enumeratorConfig = parameterConfig.getChild("enumeration", false);
         
         if (enumeratorConfig != null)
@@ -159,12 +204,16 @@ public abstract class AbstractParameterParser<P extends Parameter<T>, T>
                 {
                     Class enumeratorClass = Class.forName(enumeratorClassName);
                     _enumeratorManager.addComponent(pluginName, null, parameterId, enumeratorClass, parameterConfig);
-                    return _enumeratorManager.lookup(parameterId);
                 }
                 catch (Exception e)
                 {
                     throw new ConfigurationException("Unable to instantiate enumerator for class: " + enumeratorClassName, e);
                 }
+
+                // This enumerator will be affected later when validatorManager
+                // will be initialized in lookupComponents() call
+                _enumeratorsToLookup.put(parameter, parameterId);
+                
             }
             else
             {
@@ -183,25 +232,22 @@ public abstract class AbstractParameterParser<P extends Parameter<T>, T>
                     staticEnumerator.add(label, value);
                 }
                 
-                enumerator = staticEnumerator;
+                parameter.setEnumerator(staticEnumerator);
             }
         }
-        
-        return enumerator;
     }
 
     /**
      * Parses the validator.
      * @param pluginName the plugin name.
+     * @param parameter the parameter.
      * @param parameterId the parameter id.
      * @param parameterConfig the parameter configuration.
-     * @return the validator or <code>null</code> if none defined.
      * @throws ConfigurationException if the configuration is not valid.
      */
     @SuppressWarnings("unchecked")
-    protected Validator _parseValidator(String pluginName, String parameterId, Configuration parameterConfig) throws ConfigurationException
+    protected void _parseAndSetValidator(String pluginName, P parameter, String parameterId, Configuration parameterConfig) throws ConfigurationException
     {
-        Validator validator = null;
         Configuration validatorConfig = parameterConfig.getChild("validation", false);
         
         if (validatorConfig != null)
@@ -216,12 +262,15 @@ public abstract class AbstractParameterParser<P extends Parameter<T>, T>
                 {
                     Class validatorClass = Class.forName(validatorClassName);
                     _validatorManager.addComponent(pluginName, null, parameterId, validatorClass, parameterConfig);
-                    return _validatorManager.lookup(parameterId);
                 }
                 catch (Exception e)
                 {
                     throw new ConfigurationException("Unable to instantiate validator for class: " + validatorClassName, e);
                 }
+
+                // Will be affected later when validatorManager will be initialized
+                // in lookupComponents() call
+                _validatorsToLookup.put(parameter, parameterId);
             }
             else
             {
@@ -231,7 +280,7 @@ public abstract class AbstractParameterParser<P extends Parameter<T>, T>
 
                 try
                 {
-                    validator = new DefaultValidator(regexp, isMandatory);
+                    parameter.setValidator(new DefaultValidator(regexp, isMandatory));
                 }
                 catch (PatternSyntaxException e)
                 {
@@ -239,8 +288,6 @@ public abstract class AbstractParameterParser<P extends Parameter<T>, T>
                 }
             }
         }
-        
-        return validator;
     }
 
     /**
