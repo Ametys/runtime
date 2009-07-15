@@ -39,17 +39,6 @@
         
         <map:serializers>
             <map:serializer name="zip" src="org.apache.cocoon.serialization.ZipArchiveSerializer" logger="org.ametys.runtime.plugins.core.administrator.sitemap.serializer.zip"/>
-       		
-       		<map:serializer name="json" mime-type="application/json" pool-grow="4" pool-max="32" pool-min="16" src="org.ametys.runtime.plugins.core.cocoon.JSONSerializer" logger="org.ametys.runtime.plugins.json.serializer.json">
-				<encoding>UTF-8</encoding>
-				<indent>no</indent>
-			</map:serializer>
-				
-			<map:serializer name="json-escaperoot" mime-type="application/json" pool-grow="4" pool-max="32" pool-min="16" src="org.ametys.runtime.plugins.core.cocoon.JSONSerializer" logger="org.ametys.runtime.plugins.json.serializer.json">
-				<encoding>UTF-8</encoding>
-				<indent>no</indent>
-				<escapeRoot>true</escapeRoot>
-			</map:serializer>
         </map:serializers>
         
 		<map:actions>
