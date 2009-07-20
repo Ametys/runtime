@@ -170,12 +170,7 @@
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Ext/ametys/form/DateField.js"><xsl:comment>empty</xsl:comment></script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Ext/ametys/form/ComboField.js"><xsl:comment>empty</xsl:comment></script>
 		       
-		       
-        <link rel="stylesheet" href="{$contextPath}/kernel/resources/css/dialog.css" type="text/css"/>
-       	<link rel="stylesheet" href="{$contextPath}/kernel/resources/css/form.css" type="text/css"/>
-        <link rel="stylesheet" href="{$contextPath}/kernel/resources/css/grid.css" type="text/css"/>
-        <link rel="stylesheet" href="{$contextPath}/kernel/resources/css/panel.css" type="text/css"/>
-        <link rel="stylesheet" href="{$contextPath}/kernel/resources/css/desktop.css" type="text/css"/> 
+		<link rel="stylesheet" href="{$contextPath}/kernel/resources/css/import.css" type="text/css"/>
     </xsl:template>
 
 </xsl:stylesheet>
