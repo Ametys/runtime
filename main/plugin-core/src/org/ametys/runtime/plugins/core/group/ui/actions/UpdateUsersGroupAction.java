@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceException;
-import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
@@ -24,15 +23,20 @@ public class UpdateUsersGroupAction extends CurrentUserProviderServiceableAction
 {
     private GroupsManager _groupsManager;
     
-    @Override
-    public void service(ServiceManager smanager) throws ServiceException
-    {
-        super.service(smanager);
-        _groupsManager = (GroupsManager) smanager.lookup(GroupsManager.ROLE);
-    }
-    
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
+        if (_groupsManager == null)
+        {
+            try
+            {
+                _groupsManager = (GroupsManager) manager.lookup(GroupsManager.ROLE);
+            }
+            catch (ServiceException e)
+            {
+                throw new IllegalStateException(e);
+            }
+        }
+        
         Request request = ObjectModelHelper.getRequest(objectModel);
         String groupId = request.getParameter("id");
         String[] usersList = request.getParameterValues("objects");

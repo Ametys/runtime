@@ -13,8 +13,6 @@ package org.ametys.runtime.plugins.core.right.ui.actions;
 import java.util.Map;
 
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.framework.service.ServiceException;
-import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
@@ -33,18 +31,16 @@ public class AssignAction extends CurrentUserProviderServiceableAction
     /** The profile base impl of rights'manager*/
     protected ProfileBasedRightsManager _rightsManager;
     
-    @Override
-    public void service(ServiceManager smanager) throws ServiceException
-    {
-        super.service(smanager);
-        _rightsManager = (ProfileBasedRightsManager) manager.lookup(RightsManager.ROLE);
-    }
-    
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
         if (getLogger().isDebugEnabled())
         {
             getLogger().debug("Starting assignment");
+        }
+        
+        if (_rightsManager == null)
+        {
+            _rightsManager = (ProfileBasedRightsManager) manager.lookup(RightsManager.ROLE);
         }
 
         Request request = ObjectModelHelper.getRequest(objectModel);
