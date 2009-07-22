@@ -1935,6 +1935,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             //FIXME Write query working with all database
             if (DatabaseType.DATABASE_MYSQL.equals(ConnectionHelper.getDatabaseType(connection)))
             {
+                statement = connection.prepareStatement("SELECT Id FROM " + _tableProfile + " WHERE Id = last_insert_id()");
                 rs = statement.executeQuery();
                 if (rs.next())
                 {
