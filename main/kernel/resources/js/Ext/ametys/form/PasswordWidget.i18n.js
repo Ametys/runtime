@@ -128,12 +128,18 @@ Ext.ametys.form.PasswordWidget.prototype._createConfirmPwdField = function ()
 {
 	var field = new Ext.ametys.form.PasswordField({
 		name : this._name + "_confirm",
+		widget:this,
+		enableKeyEvents: true,
 		msgTarget : 'side',
 		fieldLabel: '',
 		value: '',
-		labelSeparator: ''
+		labelSeparator: '',
+		validateValue : function(value){
+			return this.getValue() == this.widget._pwd.getValue();
+    	}
 	});
 	field.addListener('change', this._onChange, this);
+	
 	return field;
 }
 
@@ -217,7 +223,7 @@ Ext.ametys.form.PasswordWidget.prototype._cancelChange = function ()
  */
 Ext.ametys.form.PasswordWidget.prototype._onChange = function (field)
 {
-	if (field.getValue() != this._pwd.getValue())
+	if (!field.isValid())
 	{
 		field.markInvalid("<i18n:text i18n:key="PLUGINS_CORE_WIDGET_PASSWORD_ERROR" i18n:catalogue="plugin.core"/>");
 	}

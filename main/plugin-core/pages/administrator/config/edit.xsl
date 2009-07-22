@@ -39,13 +39,40 @@
                         document.location.href = context.workspaceContext;
                     }
                     
+                    function _getParams (form)
+                    {
+                    	var args = "";
+                    	for (var i=0; i &lt; CONFIG_FIELDS.length; i++)
+						{
+							var field = form.findField(CONFIG_FIELDS[i]);
+							if (field.getXType() == 'datefield' &amp;&amp; field.getValue() != '')
+							{
+								args += "&amp;" + field.getName() + "=" + field.getValue().format(Date.patterns.ISO8601Long);
+							}
+							else if (field.getXType() == 'hidden')
+							{
+								if (field.getValue() != '')
+								{
+									args += "&amp;" + field.getName() + "=" + field.getValue();
+								}
+							}
+							else
+							{
+								args += "&amp;" + field.getName() + "=" + field.getValue();
+							}
+						}
+						return args;
+                    }
+                    
                     function save()
                     {
                     	if (!centerPanel.getForm().isValid())
+                    	{
                     		return;
+                        }
                         
                         var url = getPluginDirectUrl("<xsl:value-of select="$pluginName"/>") + "/administrator/config/set";
-                        var args = Tools.buildQueryString(document.getElementById("save-config"), "");
+                        var args = _getParams (centerPanel.getForm());
 
                         var result = Tools.postFromUrl(url, args);
                         if (result == null)
@@ -160,6 +187,7 @@
 								bodyStyle: 'position:relative;'
 						});
 						
+						var CONFIG_FIELDS = []
 						<xsl:for-each select="config/categories/category">
 							var fieldset = new Ext.ametys.Fieldset({
 								title : "<xsl:copy-of select="label/node()"/>",
@@ -178,14 +206,19 @@
 									var input;
 									
 									var type = "<xsl:value-of select="type"/>";
+									var name = "<xsl:value-of select="local-name()"/>";
+									var label =  "<xsl:copy-of select="label/node()"/>";
+									var desc =  "<xsl:copy-of select="description/node()"/>";
+									var value = "<xsl:value-of select="value"/>";
+									
 									var inputType;
 									if (type == 'double')
 									{
 										input = new Ext.ametys.form.DoubleField ({
-									        fieldLabel: "<xsl:copy-of select="label/node()"/>",
-									        desc: "<xsl:copy-of select="description/node()"/>",
-									        name: "<xsl:value-of select="local-name()"/>",
-									        value: "<xsl:value-of select="value"/>",
+									        fieldLabel: label,
+									        desc: desc,
+									        name: name,
+									        value: value,
 									        msgTarget: 'under', // position du message d'erreur
 									        width: 250
 										});
@@ -193,10 +226,10 @@
 									else if (type == 'long')
 									{
 										input = new Ext.ametys.form.LongField ({
-									        fieldLabel: "<xsl:copy-of select="label/node()"/>",
-									        desc: "<xsl:copy-of select="description/node()"/>",
-									        name: "<xsl:value-of select="local-name()"/>",
-									        value: "<xsl:value-of select="value"/>",
+									        fieldLabel: label,
+									        desc: desc,
+									        name: name,
+									        value: value,
 									        msgTarget: 'under', // position du message d'erreur 
 									        width: 250
 										});
@@ -204,20 +237,20 @@
 									else if (type == 'password')
 									{
 										input = new Ext.ametys.form.PasswordWidget ({
-									        fdLabel: "<xsl:copy-of select="label/node()"/>",
-									        desc: "<xsl:copy-of select="description/node()"/>",
-									        name: "<xsl:value-of select="local-name()"/>",
-									        value: "<xsl:value-of select="value"/>",
+									        fdLabel: label,
+									        desc: desc,
+									        name: name,
+									        value: value,
 									        fdLabelWidth :230
 										});
 									}
 									else if (type == 'date')
 									{
 										input = new Ext.ametys.form.DateField ({
-									        fieldLabel: "<xsl:copy-of select="label/node()"/>",
-									        desc: "<xsl:copy-of select="description/node()"/>",
-									        name: "<xsl:value-of select="local-name()"/>",
-									        value: "<xsl:value-of select="value"/>",
+									        fieldLabel: label,
+									        desc: desc,
+									        name: name,
+									        value: value,
 									        msgTarget: 'under', // position du message d'erreur 
 									        width: 250
 										});
@@ -225,25 +258,26 @@
 									else if (type == 'boolean')
 									{
 										input = new Ext.ametys.form.BooleanField ({
-									        fieldLabel: "<xsl:copy-of select="label/node()"/>",
-									        desc: "<xsl:copy-of select="description/node()"/>",
-									        name: "<xsl:value-of select="local-name()"/>",
-									        value: "<xsl:value-of select="value"/>",
+									        fieldLabel: label,
+									        desc: desc,
+									        name: name,
+									        checked: (value == "true"),
 									        msgTarget: 'under' // position du message d'erreur 
 										});
 									}
 									else
 									{
 										input = new Ext.ametys.form.TextField ({
-									        fieldLabel: "<xsl:copy-of select="label/node()"/>",
-									        desc: "<xsl:copy-of select="description/node()"/>",
-									        name: "<xsl:value-of select="local-name()"/>",
-									        value: "<xsl:value-of select="value"/>",
+									        fieldLabel: label,
+									        desc: desc,
+									        name: name,
+									        value: value,
 									        msgTarget: 'under', // position du message d'erreur 
 									        width: 250
 										});
 									}
 									fieldset.add(input);
+									CONFIG_FIELDS.push(name);
 								</xsl:for-each>
 								centerPanel.add(fieldset);
 							</xsl:for-each>
