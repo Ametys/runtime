@@ -1904,7 +1904,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     
     public Profile addProfile(String name)
     {
-        String id;
+        String id = null;
         
         Connection connection = null;
         PreparedStatement statement = null;
@@ -1914,35 +1914,43 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         {
             connection = ConnectionHelper.getConnection(_poolName);
             
-            statement = connection.prepareStatement("INSERT INTO " + _tableProfile + " (Label) VALUES(?)");
-            statement.setString(1, name);
+            if (!DatabaseType.DATABASE_MYSQL.equals(ConnectionHelper.getDatabaseType(connection)))
+            {
+                statement = connection.prepareStatement("SELECT seq_rights_profile.nextval FROM dual");
+                rs = statement.executeQuery();
+                if (rs.next())
+                {
+                    id = rs.getString(1);
+                }
+                ConnectionHelper.cleanup(rs);
+                ConnectionHelper.cleanup(statement);
+            } 
+            
+            statement = connection.prepareStatement("INSERT INTO " + _tableProfile + " (Id, Label) VALUES(?, ?)");
+            statement.setString(1, id);
+            statement.setString(2, name);
             statement.executeUpdate();
             ConnectionHelper.cleanup(statement);
             
-            if (DatabaseType.DATABASE_POSTGRES.equals(ConnectionHelper.getDatabaseType(connection)))
+            //FIXME Write query working with all database
+            if (DatabaseType.DATABASE_MYSQL.equals(ConnectionHelper.getDatabaseType(connection)))
             {
-                statement = connection.prepareStatement("SELECT Id FROM " + _tableProfile + " WHERE Id = (SELECT MAX(Id) from " + _tableProfile + ")");
-            }
-            else
-            {
-                statement = connection.prepareStatement("SELECT Id FROM " + _tableProfile + " WHERE Id = last_insert_id()");
-            }
-            
-            rs = statement.executeQuery();
-            if (rs.next())
-            {
-                id = rs.getString("Id");
-            }
-            else
-            {
-                if (connection.getAutoCommit())
+                rs = statement.executeQuery();
+                if (rs.next())
                 {
-                    throw new RuntimeException("Cannot retrieve inserted profile. Profile was created but method did not return it. Application may be inconsistent.");
+                    id = rs.getString("Id");
                 }
                 else
                 {
-                    connection.rollback();
-                    throw new RuntimeException("Cannot retrieve inserted profile. Rolling back");
+                    if (connection.getAutoCommit())
+                    {
+                        throw new RuntimeException("Cannot retrieve inserted profile. Profile was created but method did not return it. Application may be inconsistent.");
+                    }
+                    else
+                    {
+                        connection.rollback();
+                        throw new RuntimeException("Cannot retrieve inserted profile. Rolling back");
+                    }
                 }
             }
         }

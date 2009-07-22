@@ -365,47 +365,54 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
         PreparedStatement statement = null;
         ResultSet rs = null;
         
-        String id;
+        String id = null;
 
         try
         {
             connection = ConnectionHelper.getConnection(_poolName);
             
-            statement = connection.prepareStatement("INSERT INTO " + _groupsListTable + " (" + _groupsListColLabel + ") VALUES (?)");
-            statement.setString(1, name);
-            statement.executeUpdate();
-            ConnectionHelper.cleanup(statement);       
-            if (DatabaseType.DATABASE_POSTGRES.equals(ConnectionHelper.getDatabaseType(connection)))
+            if (!DatabaseType.DATABASE_MYSQL.equals(ConnectionHelper.getDatabaseType(connection)))
             {
-                statement = connection.prepareStatement("SELECT " + _groupsListColId + " FROM " + _groupsListTable + " WHERE " + _groupsListColId + " = (SELECT MAX(" + _groupsListColId + ") from " + _groupsListTable + ")");
-            }
-            else
-            {
-                statement = connection.prepareStatement("SELECT " + _groupsListColId + " FROM " + _groupsListTable + " WHERE " + _groupsListColId + " = last_insert_id()");    
+                statement = connection.prepareStatement("SELECT seq_groups.nextval FROM dual");
+                rs = statement.executeQuery();
+                if (rs.next())
+                {
+                    id = rs.getString(1);
+                }
+                ConnectionHelper.cleanup(rs);
+                ConnectionHelper.cleanup(statement);
             }
             
-            rs = statement.executeQuery();
-            if (rs.next())
+            statement = connection.prepareStatement("INSERT INTO " + _groupsListTable + " (" + _groupsListColId + ", " + _groupsListColLabel + ") VALUES (?, ?)");
+            statement.setString(1, id);
+            statement.setString(2, name);
+            statement.executeUpdate();
+            ConnectionHelper.cleanup(statement);       
+            if (DatabaseType.DATABASE_MYSQL.equals(ConnectionHelper.getDatabaseType(connection)))
             {
-                id = rs.getString(_groupsListColId);
-                for (GroupListener listener : _listeners)
+                statement = connection.prepareStatement("SELECT " + _groupsListColId + " FROM " + _groupsListTable + " WHERE " + _groupsListColId + " = last_insert_id()");    
+                rs = statement.executeQuery();
+                if (rs.next())
                 {
-                    listener.groupAdded(id);
-                }
-            }
-            else
-            {
-                if (connection.getAutoCommit())
-                {
-                    throw new InvalidModificationException("Cannot retrieve inserted group. Group was created but listeners not called : base may be inconsistant");
+                    id = rs.getString(_groupsListColId);
+                    for (GroupListener listener : _listeners)
+                    {
+                        listener.groupAdded(id);
+                    }
                 }
                 else
                 {
-                    connection.rollback();
-                    throw new InvalidModificationException("Cannot retrieve inserted group. Rolling back");
+                    if (connection.getAutoCommit())
+                    {
+                        throw new InvalidModificationException("Cannot retrieve inserted group. Group was created but listeners not called : base may be inconsistant");
+                    }
+                    else
+                    {
+                        connection.rollback();
+                        throw new InvalidModificationException("Cannot retrieve inserted group. Rolling back");
+                    }
                 }
             }
-
         }
         catch (SQLException ex)
         {
