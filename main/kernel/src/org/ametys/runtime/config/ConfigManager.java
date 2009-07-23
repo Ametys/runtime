@@ -471,7 +471,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                 List<ConfigParameter> group = category.get(groupKey);
 
                 XMLUtils.startElement(handler, "group");
-                categoryKey.toSAX(handler, "label");
+                groupKey.toSAX(handler, "label");
 
                 XMLUtils.startElement(handler, "parameters");
                 Iterator<ConfigParameter> gIt = group.iterator();
