@@ -297,7 +297,7 @@ public abstract class AbstractParameterParser<P extends Parameter<T>, T>
      * @return the default value or <code>null</code> if none defined.
      * @throws ConfigurationException if the configuration is not valid.
      */
-    protected abstract Object _parseDefaultValue(Configuration parameterConfig, P parameter);
+    protected abstract Object _parseDefaultValue(Configuration parameterConfig, P parameter) throws ConfigurationException;
 
     /**
      * Called for additional parsing.<br>

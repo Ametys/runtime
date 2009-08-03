@@ -720,7 +720,7 @@ public final class PluginsManager
                     {
                         Class c = Class.forName(clazz);
                         
-                        extPoints.put(id, new SingleExtensionPointInformation(id, c, defaultExtensionId));
+                        extPoints.put(id, new SingleExtensionPointInformation(c, defaultExtensionId));
                     }
                 }
             }
@@ -1469,13 +1469,11 @@ public final class PluginsManager
     
     private class SingleExtensionPointInformation
     {
-        private String _id;
         private Class _clazz;
         private String _defaultExtensionId;
         
-        SingleExtensionPointInformation(String id, Class clazz, String defaultExtensionId)
+        SingleExtensionPointInformation(Class clazz, String defaultExtensionId)
         {
-            _id = id;
             _clazz = clazz;
             _defaultExtensionId = defaultExtensionId;
         }
@@ -1488,11 +1486,6 @@ public final class PluginsManager
         String getDefaultExtensionId()
         {
             return _defaultExtensionId;
-        }
-
-        String getId()
-        {
-            return _id;
         }
     }
     
