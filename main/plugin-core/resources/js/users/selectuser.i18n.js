@@ -50,7 +50,7 @@ RUNTIME_Plugin_Runtime_SelectUser.delayed_initialize = function ()
 	    }),
 	    hideHeaders : true,
 	    columns: [
-	        {header: "Nom", width : 240, menuDisabled : true, sortable: true, dataIndex: 'name'},
+	        {header: "Nom", width : 240, menuDisabled : true, sortable: true, dataIndex: 'name'}
 	    ],
 		id: 'select-user-list',
 		baseCls: 'select-user-list',

@@ -50,7 +50,7 @@ RUNTIME_Plugin_Runtime_SelectGroup.delayed_initialize = function ()
 	    }),
 	    hideHeaders : true,
 	    columns: [
-	        {header: "Nom", width : 240, menuDisabled : true, sortable: true, dataIndex: 'label'},
+	        {header: "Nom", width : 240, menuDisabled : true, sortable: true, dataIndex: 'label'}
 	    ],
 		id: 'select-group-list',
 		baseCls: 'select-group-list',
