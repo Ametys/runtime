@@ -86,24 +86,28 @@ Ext.extend(Ext.ametys.JsonTreeLoader, Ext.tree.TreeLoader, {
         {
         	attr.id = eval('attr.' + nodeId);
         }
-        //If the attribute @leaf is present in JSON response, use it for leaf attribute
-        if (attr.@leaf)
-        {
-        	attr.leaf = attr.@leaf;
-        }
         
-        //Icone définie par défaut ?
-        if (this.defaultIcon)
+        if (attr.icon == null)
         {
         	attr.icon = this.defaultIcon;
         }
-        if (attr.@icon)
+       
+        //If the attribute @leaf is present in JSON response, use it for leaf attribute
+        if (attr.leaf)
         {
-        	attr.icon = attr.@icon;
+        	attr.leaf = true;
         }
-        return(attr.leaf ?
-                        new Ext.tree.TreeNode(attr) :
-                        new Ext.tree.AsyncTreeNode(attr));
+        
+        //Icone définie par défaut ?
+        /*if (this.defaultIcon)
+        {
+        	attr.icon = this.defaultIcon;
+        }
+        */
+        
+        return new Ext.tree.AsyncTreeNode(attr);
+                      //  new Ext.tree.TreeNode(attr) :
+                      //  new Ext.tree.AsyncTreeNode(attr));
     },
     
     
