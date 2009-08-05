@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -381,6 +382,7 @@ public final class PluginsManager
         
         // Résolution des dépendences
         _checkDependencies(featuresInformations);
+        featuresInformations = _computeDependencies(featuresInformations);
         
         // Chargement de la config
         ConfigManager configManager = ConfigManager.getInstance();
@@ -878,6 +880,57 @@ public final class PluginsManager
             FeatureInformation info = featuresInformations.remove(featureToRemove);
             _inactiveFeatures.put(info.getFeatureId(), new InactiveFeature(info.getPluginName(), info.getFeatureName(), InactivityCause.DEPENDENCY));
         }
+    }
+    
+    private Map<String, FeatureInformation> _computeDependencies(Map<String, FeatureInformation> featuresInformations)
+    {
+        LinkedHashMap<String, FeatureInformation> result = new LinkedHashMap<String, FeatureInformation>();
+        
+        for (String featureId : featuresInformations.keySet())
+        {
+            _computeDependencies(featureId, featuresInformations, result, featureId);
+        }
+        
+        return result;
+    }
+    
+    private void _computeDependencies(String featureId, Map<String, FeatureInformation> featuresInformations, Map<String, FeatureInformation> result, String initialFeatureId)
+    {
+        FeatureInformation info = featuresInformations.get(featureId);
+        Configuration conf = info.getConfiguration();
+        String depends = conf.getAttribute("depends", "");
+        Collection<String> features = StringUtils.stringToCollection(depends);
+        
+        for (String feature : features)
+        {
+            Matcher featureIdMatcher = __FEATURE_ID_PATTERN.matcher(feature);
+            if (featureIdMatcher.matches())
+            {
+                String dependingFeatureId = feature;
+                
+                String prefix = featureIdMatcher.group(1);
+                if (prefix == null || prefix.length() == 0)
+                {
+                    dependingFeatureId = info.getPluginName() + FEATURE_ID_SEPARATOR + feature;
+                }
+
+                if (initialFeatureId.equals(dependingFeatureId))
+                {
+                    throw new RuntimeException("Circular dependency detected for feature: " + feature);
+                }
+                
+                _computeDependencies(dependingFeatureId, featuresInformations, result, initialFeatureId);
+            }
+            else
+            {
+                if (_logger.isWarnEnabled())
+                {
+                    _logger.warn("The feature '" + featureId + "' depends on '" + feature + "' which is not a valid feature id. This dependency will be ignored.");
+                }
+            }
+        }
+        
+        result.put(featureId, info);
     }
     
     private void _checkExtensionsIds(Map<String, Collection<String>> extensionsIds, Configuration conf, String pluginName)
