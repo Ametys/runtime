@@ -51,6 +51,20 @@
 		<fileset dir="${deliver-dir}/lib" includes="ametys-tools*.jar"/>
 	</path>
 
+	<taskdef resource="org/ametys/tools/antlib.xml" uri="antlib:org.ametys.tools"
+	         classpathref="classpath-ametys-tools"/>
+
+	<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant">
+		<classpath>
+			<fileset dir="${deliver-dir}/lib" includes="ivy*.jar" />
+		</classpath>
+	</taskdef>
+	
+	<taskdef resource="emma_ant.properties">
+		<classpath>
+			<fileset dir="${deliver-dir}/lib" includes="emma*.jar" />
+		</classpath>
+	</taskdef>
 	
 	<target name="prepare">
 		<delete dir="${tmp-dir}"/>
@@ -73,21 +87,6 @@
 				<fileset dir="${deliver-dir}/lib" includes="*.jar"/>
 			</classpath>
 		</javac>
-
-		<taskdef resource="org/ametys/tools/antlib.xml" uri="antlib:org.ametys.tools"
-		         classpathref="classpath-ametys-tools"/>
-
-		<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant">
-			<classpath>
-				<fileset dir="${deliver-dir}/lib" includes="ivy*.jar" />
-			</classpath>
-		</taskdef>
-		
-		<taskdef resource="emma_ant.properties">
-			<classpath>
-				<fileset dir="${deliver-dir}/lib" includes="emma*.jar" />
-			</classpath>
-		</taskdef>
 	</target>
 	
 	<target name="clean">
