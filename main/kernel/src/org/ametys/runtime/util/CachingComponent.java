@@ -19,7 +19,7 @@ public class CachingComponent extends AbstractLogEnabled implements Initializabl
     {
         if (isCacheEnabled())
         {
-            Timer timer = new Timer("CachingComponent", false);
+            Timer timer = new Timer("CachingComponent", true);
             
             long period = 1000 * 60 * 60 * 24; // one day
             timer.scheduleAtFixedRate(new TimerTask()
