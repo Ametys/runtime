@@ -166,10 +166,12 @@ public final class I18nizableText
             {
                 for (String parameter : parameters)
                 {
-                    
-                    handler.startElement(I18nTransformer.I18N_NAMESPACE_URI, "param", "i18n:param", new AttributesImpl());
-                    handler.characters(parameter.toCharArray(), 0, parameter.length());
-                    handler.endElement(I18nTransformer.I18N_NAMESPACE_URI, "param", "i18n:param");
+                    if (parameter != null)
+                    {
+                        handler.startElement(I18nTransformer.I18N_NAMESPACE_URI, "param", "i18n:param", new AttributesImpl());
+                        handler.characters(parameter.toCharArray(), 0, parameter.length());
+                        handler.endElement(I18nTransformer.I18N_NAMESPACE_URI, "param", "i18n:param");
+                    }
                 }
                 
                 handler.endElement(I18nTransformer.I18N_NAMESPACE_URI, "translate", "i18n:translate");
