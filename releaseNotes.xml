@@ -124,5 +124,6 @@
     <release name="1.1.9">
     	<note module="kernel" type="fix">AMRUN-255 : Loading JS dynamically</note>
     	<note module="kernel" type="fix">RUNTIME-245 : Omit xml declaration by default and force content-type meta with Serializer XHTML</note>
+    	<note module="kernel" type="fix">RUNTIME-276 : An I18nizableText parameter can be null and produce a NPE in toSax method</note>
     </release>
 </releases>
