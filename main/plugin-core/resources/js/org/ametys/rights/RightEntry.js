@@ -10,34 +10,34 @@
  */
 
 // Ametys Namespace
-Ext.namespace('Ext.ametys.rights');
+Ext.namespace('org.ametys.rights');
 
 /**
- * Ext.ametys.rights.RightEntry
+ * org.ametys.rights.RightEntry
  * @class This class provides a simple container text with a help icon for a right. If the right text is too long, it will be automatically cut with '...'.
  * @extends Ext.Container
  * @constructor
  * @param {Object} config Configuration options
  * @example
- * var right = new Ext.ametys.right.RightEntry({
+ * var right = new org.ametys.right.RightEntry({
  * 	text: "&lt;i18n:text i18n:key="PLUGINS_CORE_RIGHTS_HANDLE_LABEL"/&gt;",
  * 	description: "&lt;i18n:text i18n:key="PLUGINS_CORE_RIGHTS_HANDLE_DESCRIPTION"/&gt;",
  * 	id: 'RIGHT_Runtime_Rights_Rights_Handle',
  * 	width: 190
  * });
  */
-Ext.ametys.rights.RightEntry = function(config) 
+org.ametys.rights.RightEntry = function(config) 
 {
 	config.cls = "right-entry";
-	Ext.ametys.rights.RightEntry.superclass.constructor.call(this, config);
+	org.ametys.rights.RightEntry.superclass.constructor.call(this, config);
 }; 
 
-Ext.extend(Ext.ametys.rights.RightEntry, Ext.Container, {});
+Ext.extend(org.ametys.rights.RightEntry, Ext.Container, {});
 
 /**
  * Set the text of this right entry. The text will be automatically cut with '...' if it is too long
  */
-Ext.ametys.rights.RightEntry.prototype.setText = function (text)
+org.ametys.rights.RightEntry.prototype.setText = function (text)
 {
 	if(this.el)
     {
@@ -53,9 +53,9 @@ Ext.ametys.rights.RightEntry.prototype.setText = function (text)
     this.text = text;
 }
 
-Ext.ametys.rights.RightEntry.prototype.onRender = function(ct, position)
+org.ametys.rights.RightEntry.prototype.onRender = function(ct, position)
 {
-	Ext.ametys.rights.RightEntry.superclass.onRender.call(this, ct, position);
+	org.ametys.rights.RightEntry.superclass.onRender.call(this, ct, position);
 	
 	// Help icon
 	if (this.description)

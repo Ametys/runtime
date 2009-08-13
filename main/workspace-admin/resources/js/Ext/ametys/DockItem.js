@@ -10,21 +10,21 @@
  */
 
 // Ametys Namespace
-Ext.namespace('Ext.ametys');
+Ext.namespace('org.ametys');
 
 /**
- * Ext.ametys.DockItem
+ * org.ametys.DockItem
  *
  * @class This class handles an item for the dock
  * @extends Ext.Button
  * @constructor
  * @param {Object} config Configuration options
  * @example
- * var tooltip = Ext.ametys.AdminTools.DockTooltipFormater('Configuration', 
+ * var tooltip = org.ametys.AdminTools.DockTooltipFormater('Configuration', 
  * 	'/config/icon_large.png', 
  * 	'Réglage des paramètres de configuration');
  * 
- * var item = new Ext.ametys.DockItem ({
+ * var item = new org.ametys.DockItem ({
  *	tooltip: tooltip,
  *	icon : getPluginResourcesUrl('core') + '/img/config/icon_dock.png',
  *	pressed: false,
@@ -33,12 +33,12 @@ Ext.namespace('Ext.ametys');
  *	actionParams : {'Link' : 'administrator/config/edit.html', 'Mode' : 'plugin-wrapped'}
  * });
  */
-Ext.ametys.DockItem = function(config) 
+org.ametys.DockItem = function(config) 
 {
-	Ext.ametys.DockItem.superclass.constructor.call(this, config);
+	org.ametys.DockItem.superclass.constructor.call(this, config);
 }; 
 
-Ext.extend(Ext.ametys.DockItem, Ext.Button, 
+Ext.extend(org.ametys.DockItem, Ext.Button, 
 {
 	cls : "dock-item",
 	overCls: "over",
@@ -51,15 +51,15 @@ Ext.extend(Ext.ametys.DockItem, Ext.Button,
             '</div>')
 });
 	
-Ext.ametys.DockItem.prototype.handler = function ()
+org.ametys.DockItem.prototype.handler = function ()
 {
 	this.actionFunction(this.plugin, this.actionParams);
 }
 
 
-Ext.ametys.DockItem.prototype.onRender = function(ct, position)
+org.ametys.DockItem.prototype.onRender = function(ct, position)
 {
-	Ext.ametys.DockItem.superclass.onRender.call(this, ct, position);
+	org.ametys.DockItem.superclass.onRender.call(this, ct, position);
 	if (this.desc)
 	{
 		var tooltip = new Ext.ToolTip({

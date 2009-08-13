@@ -123,7 +123,7 @@
 
 		                    RUNTIME_Plugin_Runtime_Administrator_System_Announcement.initialize = function ()
 		                    {
-		                    	var langCodeInput = new Ext.ametys.form.TextField ({
+		                    	var langCodeInput = new org.ametys.form.TextField ({
 									fieldLabel: '<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_COL_LANG"/>',
 									desc: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_LANG_HELP"/>",
 							        name: 'languageCode',
@@ -131,7 +131,7 @@
 									anchor:'90%'
 								});	
 								
-								var message = new Ext.ametys.form.TextAreaField ({
+								var message = new org.ametys.form.TextAreaField ({
 									fieldLabel :'<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_COL_MESSAGE"/>',
 									desc: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_MESSAGE_HELP"/>",
 									name: 'message',
@@ -150,7 +150,7 @@
 								});
 								
 								
-                            	RUNTIME_Plugin_Runtime_Administrator_System_Announcement.box = new Ext.ametys.DialogBox({
+                            	RUNTIME_Plugin_Runtime_Administrator_System_Announcement.box = new org.ametys.DialogBox({
 										title :'<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_CAPTION"/>',
 										layout :'fit',
 										width :380,
@@ -225,12 +225,12 @@
 			                }
 		                    
 							// Actions
-							var handle = new Ext.ametys.ActionsPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_HANDLE"/>'});
+							var handle = new org.ametys.ActionsPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_HANDLE"/>'});
 							handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_HANDLE_SAVE"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/system/save.png", save);
 							handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_HANDLE_QUIT"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/system/quit.png", goBack);
 								
 							// Annonces
-							var handleAnnouncement = new Ext.ametys.ActionsPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT"/>'});
+							var handleAnnouncement = new org.ametys.ActionsPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT"/>'});
 							handleAnnouncement.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_ADD"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/system/add.png", announcement_add);
 							handleAnnouncement.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_EDIT"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/system/edit.png", announcement_edit);
 							handleAnnouncement.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DELETE"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/system/delete.png", announcement_remove);
@@ -239,10 +239,10 @@
 							handleAnnouncement.hideElt(4);
 								
 							// Aide
-							var help = new Ext.ametys.TextPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_HELP"/>'});
+							var help = new org.ametys.TextPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_HELP"/>'});
 							help.addText("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_HELP_TEXT"/>");
 	            			
-							var listview = new Ext.ametys.ListView({
+							var listview = new org.ametys.ListView({
 									listeners: {'rowclick': onSelectAnnouncement},
 									autoScroll: true,	
 									viewConfig: {
@@ -289,7 +289,7 @@
 								items : [ listview ]
 							});
 								
-							var rightPanel = new Ext.ametys.HtmlContainer({
+							var rightPanel = new org.ametys.HtmlContainer({
 									region:'east',
 									border: false,
 									width: 277,

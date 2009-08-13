@@ -10,11 +10,11 @@
  */
 
 // Ametys Namespace
-Ext.namespace('Ext.ametys');
+Ext.namespace('org.ametys');
 
-Ext.ametys.AdminTools = {}
+org.ametys.AdminTools = {}
 
-Ext.ametys.AdminTools.DockTooltipFormater = function (title, image, text)
+org.ametys.AdminTools.DockTooltipFormater = function (title, image, text)
 {
 	return "<div class='dock-button-tooltip'>" 
 		+ "<div class='dock-button-tooltip-img'>"
@@ -28,7 +28,7 @@ Ext.ametys.AdminTools.DockTooltipFormater = function (title, image, text)
 		+ "</div>";
 }
 
-Ext.ametys.AdminTools.DesktopItemTooltipFormater = function (title, text)
+org.ametys.AdminTools.DesktopItemTooltipFormater = function (title, text)
 {
 	return "<div class='desktop-item-tooltip'>" 
 		+ (title ? "<div class='desktop-item-tooltip-title'>" + title + "</div>" : "")

@@ -44,7 +44,7 @@
         
     	<script type="text/javascript">
     		
-	    	var topPanel = new Ext.ametys.HtmlContainer ({
+	    	var topPanel = new org.ametys.HtmlContainer ({
 		    					border: false,
 		    					region:'north',
 		    					height: 43,
@@ -72,10 +72,10 @@
 			
 			function showPaddle() 
 			{
-				var dockTop = new Ext.ametys.HtmlContainer ({
+				var dockTop = new org.ametys.HtmlContainer ({
 					cls: 'dock-top'
 				});
-				var dockBottom = new Ext.ametys.HtmlContainer ({
+				var dockBottom = new org.ametys.HtmlContainer ({
 					cls: 'dock-bottom'
 				});
 				
@@ -83,8 +83,8 @@
 				
 				<xsl:for-each select="/Plugins/Desktop/category">
 					<xsl:for-each select="UIItem">
-						var item = new Ext.ametys.DockItem ({
-							tooltip: Ext.ametys.AdminTools.DockTooltipFormater("<xsl:copy-of select="Label/node()"/>", "<xsl:value-of select="$contextPath"/><xsl:value-of select="Icons/Large"/>", "<xsl:copy-of select="Description/node()"/>"),
+						var item = new org.ametys.DockItem ({
+							tooltip: org.ametys.AdminTools.DockTooltipFormater("<xsl:copy-of select="Label/node()"/>", "<xsl:value-of select="$contextPath"/><xsl:value-of select="Icons/Large"/>", "<xsl:copy-of select="Description/node()"/>"),
 						 	icon : "<xsl:value-of select="$contextPath"/><xsl:value-of select="Icons/Small"/>"
 						 	<xsl:if test="../CurrentUIItem/@position = position()">,pressed: true</xsl:if>
 						 	<xsl:if test="not(@disabled)">
@@ -100,7 +100,7 @@
 						items.push(item);
 					</xsl:for-each>
 					<xsl:if test="position() != last()">
-						var tile = new Ext.ametys.HtmlContainer ({
+						var tile = new org.ametys.HtmlContainer ({
 								cls: 'dock-tile'
 						});
 						items.push(tile);

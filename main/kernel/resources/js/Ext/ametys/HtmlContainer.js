@@ -10,7 +10,7 @@
  */
 
 // Ametys Namespace
-Ext.namespace('Ext.ametys');
+Ext.namespace('org.ametys');
 
 /**
  * @class Use to create a simple div with optional id (id) and css class (baseCls)
@@ -18,7 +18,7 @@ Ext.namespace('Ext.ametys');
  * @constructor
  * @param {Object} config Configuration options
  * @example
- * new Ext.ametys.HtmlContainer ({
+ * new org.ametys.HtmlContainer ({
  *	id : 'my-id',
  * 	cls : 'my-css-class',
  * 	html : '&lt;p&gt;The HTML content for the div&lt;/p&gt;'
@@ -28,21 +28,21 @@ Ext.namespace('Ext.ametys');
  * 	&lt;p&gt;The HTML content for the div&lt;/p&gt;
  * &lt;/div&gt;
  */
-Ext.ametys.HtmlContainer = function(config) 
+org.ametys.HtmlContainer = function(config) 
 {
-	Ext.ametys.HtmlContainer.superclass.constructor.call(this, config);
+	org.ametys.HtmlContainer.superclass.constructor.call(this, config);
 }; 
 
-Ext.extend(Ext.ametys.HtmlContainer, Ext.Container, 
+Ext.extend(org.ametys.HtmlContainer, Ext.Container, 
 {
 	border: false,
 	autoscroll: true
 });
 
 
-Ext.ametys.HtmlContainer.prototype.onRender = function(ct, position)
+org.ametys.HtmlContainer.prototype.onRender = function(ct, position)
 {
-	Ext.ametys.HtmlContainer.superclass.onRender.call(this, ct, position);
+	org.ametys.HtmlContainer.superclass.onRender.call(this, ct, position);
 	
 	if (this.html)
 	{

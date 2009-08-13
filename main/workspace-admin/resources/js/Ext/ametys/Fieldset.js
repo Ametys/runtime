@@ -10,22 +10,22 @@
  */
 
 // Ametys Namespace
-Ext.namespace('Ext.ametys');
+Ext.namespace('org.ametys');
 
 /**
- * Ext.ametys.Fieldset
+ * org.ametys.Fieldset
  *
  * @class This class provides a collapsible panel 
  * @extends Ext.Panel
  * @constructor
  * @param {Object} config Configuration options
  */
-Ext.ametys.Fieldset = function(config) 
+org.ametys.Fieldset = function(config) 
 {
-	Ext.ametys.Fieldset.superclass.constructor.call(this, config);
+	org.ametys.Fieldset.superclass.constructor.call(this, config);
 }; 
 
-Ext.extend(Ext.ametys.Fieldset, Ext.Panel, 
+Ext.extend(org.ametys.Fieldset, Ext.Panel, 
 {
 	baseCls : "ametys-fieldset",
 	collapsible: true,
@@ -34,14 +34,14 @@ Ext.extend(Ext.ametys.Fieldset, Ext.Panel,
 	border: false
 });
 
-Ext.ametys.Fieldset.prototype._onCollapse = function (panel)
+org.ametys.Fieldset.prototype._onCollapse = function (panel)
 {
 	if (panel.ownerCt.ownerCt)
 		panel.ownerCt.ownerCt.doLayout();
 	else
 		panel.ownerCt.doLayout();
 }
-Ext.ametys.Fieldset.prototype._onExpand = function (panel)
+org.ametys.Fieldset.prototype._onExpand = function (panel)
 {
 	if (panel.ownerCt.ownerCt)
 		panel.ownerCt.ownerCt.doLayout();
@@ -49,9 +49,9 @@ Ext.ametys.Fieldset.prototype._onExpand = function (panel)
 		panel.ownerCt.doLayout();
 }
 
-Ext.ametys.Fieldset.prototype.onRender = function(ct, position)
+org.ametys.Fieldset.prototype.onRender = function(ct, position)
 {
-	Ext.ametys.Fieldset.superclass.onRender.call(this, ct, position);
+	org.ametys.Fieldset.superclass.onRender.call(this, ct, position);
 	
 	//this.header.addClass(this.awtCls + '-header');
 	//this.body.addClass(this.awtCls + '-body');

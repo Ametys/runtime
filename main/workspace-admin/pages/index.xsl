@@ -33,19 +33,19 @@
     		{
 	    		var items = []
 	    		
-	    		var links = new Ext.ametys.HtmlContainer ({
+	    		var links = new org.ametys.HtmlContainer ({
 	    			contentEl : 'links'
 	    		});
 	    		items.push(links);
 	    		
 				<xsl:for-each select="/Admin/Desktop/category">
-						var category = new Ext.ametys.DesktopCategory ({
+						var category = new org.ametys.DesktopCategory ({
 								text: "<i18n:text i18n:key="{@name}" i18n:catalogue="application"/>"
 						});
 						items.push(category);
 						
 						<xsl:for-each select="UIItem">
-							var item = new Ext.ametys.DesktopItem ({
+							var item = new org.ametys.DesktopItem ({
 								text: "<xsl:copy-of select="Label/node()"/>",
 								desc: "<xsl:copy-of select="Description/node()"/>",
 								icon: "<xsl:value-of select="$contextPath"/><xsl:value-of select="Icons/Large"/>",
@@ -64,7 +64,7 @@
 						</xsl:for-each>
 				</xsl:for-each>
 				
-				return new Ext.ametys.DesktopPanel({
+				return new org.ametys.DesktopPanel({
 					items: items
 				});
 			}

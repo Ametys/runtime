@@ -10,17 +10,17 @@
  */
 
 // Ametys Namespace
-Ext.namespace('Ext.ametys.form');
+Ext.namespace('org.ametys.form');
 
 /**
- * Ext.ametys.form.PasswordField
+ * org.ametys.form.PasswordField
  *
  * @class This class provides a password field width a help icon. Use the <code>desc</option> to add the help icon.
  * @extends Ext.form.TextField
  * @constructor
  * @param {Object} config Configuration options
  */
-Ext.ametys.form.PasswordField = function(config) 
+org.ametys.form.PasswordField = function(config) 
 {
 	config.itemCls = "ametys-input";
 	if (!config.labelSeparator)
@@ -28,14 +28,14 @@ Ext.ametys.form.PasswordField = function(config)
 		config.labelSeparator = '';
 	}
 	config.inputType = "password";
-	Ext.ametys.form.PasswordField.superclass.constructor.call(this, config);
+	org.ametys.form.PasswordField.superclass.constructor.call(this, config);
 }; 
 
-Ext.extend(Ext.ametys.form.PasswordField, Ext.form.TextField, {});
+Ext.extend(org.ametys.form.PasswordField, Ext.form.TextField, {});
 
-Ext.ametys.form.PasswordField.prototype.onRender = function(ct, position)
+org.ametys.form.PasswordField.prototype.onRender = function(ct, position)
 {
-	Ext.ametys.form.PasswordField.superclass.onRender.call(this, ct, position);
+	org.ametys.form.PasswordField.superclass.onRender.call(this, ct, position);
 	
 	if (this.desc)
 	{

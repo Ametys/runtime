@@ -13,15 +13,15 @@
 Ext.namespace('Ext.awt');
 
 /**
- * Ext.ametys.NavigationPanel
+ * org.ametys.NavigationPanel
  *
- * @class Ext.ametys.NavigationPanel
+ * @class org.ametys.NavigationPanel
  * @extends Ext.Panel
  * @constructor
  * @param {Object} config Configuration options
  * @example
- * var navigation = new Ext.ametys.NavigationPanel ({title: "Sommaire"});
- * var item = new Ext.ametys.NavigationItem ({
+ * var navigation = new org.ametys.NavigationPanel ({title: "Sommaire"});
+ * var item = new org.ametys.NavigationItem ({
  * 	text: 'Base de données',
  *	divToScroll: 'ext-125554',
  * 	ctToScroll:  'config-inner',
@@ -32,12 +32,12 @@ Ext.namespace('Ext.awt');
  * });
  * navigation.add(item);
  */
-Ext.ametys.NavigationPanel = function(config) 
+org.ametys.NavigationPanel = function(config) 
 {
-	Ext.ametys.NavigationPanel.superclass.constructor.call(this, config);
+	org.ametys.NavigationPanel.superclass.constructor.call(this, config);
 }; 
 
-Ext.extend(Ext.ametys.NavigationPanel, Ext.Panel, 
+Ext.extend(org.ametys.NavigationPanel, Ext.Panel, 
 {
 	autoDestroy: false,
 	collapsible: false,
@@ -49,11 +49,11 @@ Ext.extend(Ext.ametys.NavigationPanel, Ext.Panel,
 });
 
 /**
- * Adds an item of navigation to this panel (see {@link Ext.ametys.NavigationItem}).  
+ * Adds an item of navigation to this panel (see {@link org.ametys.NavigationItem}).  
  * @param {String} text The text of the item
  * @param act The function to call on click event
  */
-Ext.ametys.NavigationPanel.prototype.addItems = function (text, act) 
+org.ametys.NavigationPanel.prototype.addItems = function (text, act) 
 { 
 	var span = document.createElement("span");
 	
@@ -63,7 +63,7 @@ Ext.ametys.NavigationPanel.prototype.addItems = function (text, act)
     link.className = "link"
     span.appendChild (link);
 
-    var navitem = new Ext.ametys.NavigationItem ({ 
+    var navitem = new org.ametys.NavigationItem ({ 
 		border: false,
 		html : span.innerHTML,
 		listeners: {"click" : act}
@@ -74,9 +74,9 @@ Ext.ametys.NavigationPanel.prototype.addItems = function (text, act)
 }
 
 
-Ext.ametys.NavigationPanel.prototype.onRender = function(ct, position)
+org.ametys.NavigationPanel.prototype.onRender = function(ct, position)
 {
-	Ext.ametys.NavigationPanel.superclass.onRender.call(this, ct, position);
+	org.ametys.NavigationPanel.superclass.onRender.call(this, ct, position);
 	
 	this.header.addClass(this.awtCls + '-header');
 	this.body.addClass(this.awtCls + '-body');

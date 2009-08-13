@@ -10,29 +10,29 @@
  */
 
 // Ametys Namespace
-Ext.namespace('Ext.ametys');
+Ext.namespace('org.ametys');
 
 /**
- * Ext.ametys.TextPanel
+ * org.ametys.TextPanel
  *
  * @class This action provide a contextual text panel.<br/>Use the <code>addText</code> to add html text to this panel.
  * @extends Ext.Panel
  * @constructor
  * @param {Object} config Configuration options
  * @example
- * var help = new Ext.ametys.TextPanel({
+ * var help = new org.ametys.TextPanel({
  * 	title: "&lt;i18n:text i18n:key="ADMINISTRATOR_CONFIG_HELP"/&gt;"
  * });
  * help.addText("Cet écran vous permet de modifier la configuration système de l'application.
  * 	&lt;br/&gt;&lt;br/&gt;Naviguez en utilisant &lt;b&gt;les onglets&lt;/b&gt; et modifiez 
  * 	les valeurs des paramètres.");
  */
-Ext.ametys.TextPanel = function(config) 
+org.ametys.TextPanel = function(config) 
 {
-	Ext.ametys.TextPanel.superclass.constructor.call(this, config);
+	org.ametys.TextPanel.superclass.constructor.call(this, config);
 }; 
 
-Ext.extend(Ext.ametys.TextPanel, Ext.Panel, 
+Ext.extend(org.ametys.TextPanel, Ext.Panel, 
 {
 	autoDestroy: false,
 	collapsible: false,
@@ -46,14 +46,14 @@ Ext.extend(Ext.ametys.TextPanel, Ext.Panel,
  * Adds a text to this panel.  
  * @param {String} text The html text
  */
-Ext.ametys.TextPanel.prototype.addText = function (text)
+org.ametys.TextPanel.prototype.addText = function (text)
 {
 	this.add({cls: this.awtCls + '-content', html: text,  border: false });
 }
 	
-Ext.ametys.TextPanel.prototype.onRender = function(ct, position)
+org.ametys.TextPanel.prototype.onRender = function(ct, position)
 {
-	Ext.ametys.TextPanel.superclass.onRender.call(this, ct, position);
+	org.ametys.TextPanel.superclass.onRender.call(this, ct, position);
 	
 	this.header.addClass(this.awtCls + '-header');
 	this.body.addClass(this.awtCls + '-body');

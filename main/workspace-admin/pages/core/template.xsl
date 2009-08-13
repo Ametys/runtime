@@ -57,15 +57,15 @@
                 
                 <xsl:call-template name="workspace-head"/>
                 
-                <script type="text/javascript" src="{$workspaceContext}/resources/js/Ext/ametys/Fieldset.js"><xsl:comment>empty</xsl:comment></script>
-		        <script type="text/javascript" src="{$workspaceContext}/resources/js/Ext/ametys/ActionsPanel.js"><xsl:comment>empty</xsl:comment></script>
-		        <script type="text/javascript" src="{$workspaceContext}/resources/js/Ext/ametys/Action.js"><xsl:comment>empty</xsl:comment></script>
-		        <script type="text/javascript" src="{$workspaceContext}/resources/js/Ext/ametys/TextPanel.js"><xsl:comment>empty</xsl:comment></script>
-		        <script type="text/javascript" src="{$workspaceContext}/resources/js/Ext/ametys/NavigationPanel.js"><xsl:comment>empty</xsl:comment></script>
-		        <script type="text/javascript" src="{$workspaceContext}/resources/js/Ext/ametys/NavigationItem.js"><xsl:comment>empty</xsl:comment></script>
+                <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/Fieldset.js"><xsl:comment>empty</xsl:comment></script>
+		        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/ActionsPanel.js"><xsl:comment>empty</xsl:comment></script>
+		        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/Action.js"><xsl:comment>empty</xsl:comment></script>
+		        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/TextPanel.js"><xsl:comment>empty</xsl:comment></script>
+		        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/NavigationPanel.js"><xsl:comment>empty</xsl:comment></script>
+		        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/NavigationItem.js"><xsl:comment>empty</xsl:comment></script>
 		        
-		        <script type="text/javascript" src="{$workspaceContext}/resources/js/Ext/ametys/DockItem.js"><xsl:comment>empty</xsl:comment></script>
-		        <script type="text/javascript" src="{$workspaceContext}/resources/js/Ext/ametys/AdminTools.js"><xsl:comment>empty</xsl:comment></script>
+		        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/DockItem.js"><xsl:comment>empty</xsl:comment></script>
+		        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/AdminTools.js"><xsl:comment>empty</xsl:comment></script>
                 <script type="text/javascript" src="{$workspaceContext}/resources/js/workspace.js"><xsl:comment>//empty</xsl:comment></script>
                 
                 <xsl:comment>[if lt IE 7]&gt;

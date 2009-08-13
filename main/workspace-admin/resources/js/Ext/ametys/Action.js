@@ -10,19 +10,19 @@
  */
 
 // Ametys Namespace
-Ext.namespace('Ext.ametys');
+Ext.namespace('org.ametys');
 
 /**
- * Ext.ametys.Action
+ * org.ametys.Action
  *
- * @class This class provides an action item. Do not use this constructor, use the <code>addAction</code> function on a {@link Ext.ametys.ActionsPanel} instead
+ * @class This class provides an action item. Do not use this constructor, use the <code>addAction</code> function on a {@link org.ametys.ActionsPanel} instead
  * @extends Ext.BoxComponent
  * @constructor
  * @param {Object} config Configuration options
  */
-Ext.ametys.Action = function(config) 
+org.ametys.Action = function(config) 
 {
-	Ext.ametys.Action.superclass.constructor.call(this, config);
+	org.ametys.Action.superclass.constructor.call(this, config);
 	
 	this.addEvents(
 			/**
@@ -54,7 +54,7 @@ Ext.ametys.Action = function(config)
 	);
 }; 
 
-Ext.extend(Ext.ametys.Action, Ext.BoxComponent, 
+Ext.extend(org.ametys.Action, Ext.BoxComponent, 
 {
 	cls: 'action-item'
 });
@@ -65,7 +65,7 @@ Ext.extend(Ext.ametys.Action, Ext.BoxComponent,
  * @param e The event object
  * @private
  */
-Ext.ametys.Action.prototype._overFn = function(e)
+org.ametys.Action.prototype._overFn = function(e)
 {
 	if(this.fireEvent("mouseover", this.node, e) !== false)
 	{
@@ -88,7 +88,7 @@ Ext.ametys.Action.prototype._overFn = function(e)
  * @param e The event object
  * @private
  */
-Ext.ametys.Action.prototype._outFn = function(e)
+org.ametys.Action.prototype._outFn = function(e)
 {
 	if(this.fireEvent("mouseout", this.node, e) !== false)
 	{
@@ -111,7 +111,7 @@ Ext.ametys.Action.prototype._outFn = function(e)
  * @param e The event object
  * @private
  */
-Ext.ametys.Action.prototype._onClick = function(e)
+org.ametys.Action.prototype._onClick = function(e)
 {
     if(this.fireEvent("beforeclick", this.node, e) !== false)
     {
@@ -130,9 +130,9 @@ Ext.ametys.Action.prototype._onClick = function(e)
     }
 }
 
-Ext.ametys.Action.prototype.onRender = function(ct, position)
+org.ametys.Action.prototype.onRender = function(ct, position)
 {
-	Ext.ametys.Action.superclass.onRender.call(this, ct, position);
+	org.ametys.Action.superclass.onRender.call(this, ct, position);
 	
 	if(!this.el) 
 	{

@@ -22,7 +22,7 @@
 	<xsl:template name="workspace-script">
 		<script type="text/javascript">
         	<xsl:comment>
-				var center = new Ext.ametys.HtmlContainer({
+				var center = new org.ametys.HtmlContainer({
 					region: 'center',
 					contentEl : 'top-panel',
 					baseCls: 'top-panel',

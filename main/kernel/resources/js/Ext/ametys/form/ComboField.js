@@ -10,29 +10,29 @@
  */
 
 // Ametys Namespace
-Ext.namespace('Ext.ametys.form');
+Ext.namespace('org.ametys.form');
 
 /**
- * Ext.ametys.form.ComboField
+ * org.ametys.form.ComboField
  *
  * @class This class provides a combo field width a help icon. Use the <code>desc</option> to add the help icon.
  * @extends Ext.form.ComboBox
  * @constructor
  * @param {Object} config Configuration options
  */
-Ext.ametys.form.ComboField = function(config) 
+org.ametys.form.ComboField = function(config) 
 {
 	config.itemCls = "ametys-select";
 	config.labelSeparator = '';
 	
-	Ext.ametys.form.ComboField.superclass.constructor.call(this, config);
+	org.ametys.form.ComboField.superclass.constructor.call(this, config);
 }; 
 
-Ext.extend(Ext.ametys.form.ComboField, Ext.form.ComboBox, {});
+Ext.extend(org.ametys.form.ComboField, Ext.form.ComboBox, {});
 
-Ext.ametys.form.ComboField.prototype.onRender = function(ct, position)
+org.ametys.form.ComboField.prototype.onRender = function(ct, position)
 {
-	Ext.ametys.form.ComboField.superclass.onRender.call(this, ct, position);
+	org.ametys.form.ComboField.superclass.onRender.call(this, ct, position);
 	
 	if (this.desc)
 	{

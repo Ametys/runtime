@@ -10,21 +10,21 @@
  */
 
 // Ametys Namespace
-Ext.namespace('Ext.ametys');
+Ext.namespace('org.ametys');
 
 /**
- * Ext.ametys.Tree
+ * org.ametys.Tree
  *
  * @class This class simply extends the {@link Ext.tree.Panel}
  * @extends Ext.tree.TreePanel
  * @constructor
  * @param {Object} config Configuration options
  */
-Ext.ametys.Tree = function(config) 
+org.ametys.Tree = function(config) 
 {
-	Ext.ametys.Tree.superclass.constructor.call(this, config);
+	org.ametys.Tree.superclass.constructor.call(this, config);
 }; 
 
-Ext.extend(Ext.ametys.Tree, Ext.tree.TreePanel, {});
+Ext.extend(org.ametys.Tree, Ext.tree.TreePanel, {});
 
 

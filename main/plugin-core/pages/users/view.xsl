@@ -45,7 +45,7 @@
 								var type = "<xsl:value-of select="type"/>";
 								if (type == 'string')
 								{
-									input = new Ext.ametys.form.TextField ({
+									input = new org.ametys.form.TextField ({
 								        fieldLabel: "<i18n:text i18n:key="{label}"/>",
 								        desc: "<i18n:text i18n:key="{description}"/>",
 								        name: "field_<xsl:value-of select="local-name()"/>",
@@ -54,7 +54,7 @@
 								}
 								else if (type == 'password')
 								{
-									input = new Ext.ametys.form.PasswordField ({
+									input = new org.ametys.form.PasswordField ({
 								        fieldLabel: "<i18n:text i18n:key="{label}"/>",
 								        desc: "<i18n:text i18n:key="{description}"/>",
 								        name: "field_<xsl:value-of select="local-name()"/>",
@@ -64,7 +64,7 @@
 								}
 								else if (type == 'date')
 								{
-									input = new Ext.ametys.form.DateField ({
+									input = new org.ametys.form.DateField ({
 								        fieldLabel: "<i18n:text i18n:key="{label}"/>",
 								        desc: "<i18n:text i18n:key="{description}"/>",
 								        name: "field_<xsl:value-of select="local-name()"/>",
@@ -73,7 +73,7 @@
 								}
 								else if (type == 'boolean')
 								{
-									input = new Ext.ametys.form.BooleanField ({
+									input = new org.ametys.form.BooleanField ({
 								        fieldLabel: "<i18n:text i18n:key="{label}"/>",
 								        desc: "<i18n:text i18n:key="{description}"/>",
 								        name: "field_<xsl:value-of select="local-name()"/>",
@@ -82,7 +82,7 @@
 								}
 								else
 								{
-									input = new Ext.ametys.form.TextField ({
+									input = new org.ametys.form.TextField ({
 								        fieldLabel: "<i18n:text i18n:key="{label}"/>",
 								        desc: "<i18n:text i18n:key="{description}"/>",
 								        name: "field_<xsl:value-of select="local-name()"/>",
@@ -185,7 +185,7 @@
 						}
 											
             			//Recherche
-						var search = new Ext.ametys.ActionsPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCH"/>'});
+						var search = new org.ametys.ActionsPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCH"/>'});
 
 						var searchField = new Ext.form.TextField ({
 							hideLabel: true,
@@ -210,7 +210,7 @@
 				    
 				    	<xsl:if test="Model/@Modifiable = 'true'">
 							// Actions
-							var handle = new Ext.ametys.ActionsPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE"/>'});
+							var handle = new org.ametys.ActionsPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE"/>'});
 							handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_NEW"/>", "<xsl:value-of select="$resourcesPath"/>/img/users/add_user.png", userNew);
 							handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_EDIT"/>", "<xsl:value-of select="$resourcesPath"/>/img/users/edit_user.png", userEdit);
 							handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_DEL"/>", "<xsl:value-of select="$resourcesPath"/>/img/users/delete.png", userDelete);
@@ -220,10 +220,10 @@
 						</xsl:if>
 										
 						// Aide
-						var help = new Ext.ametys.TextPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_USERS_HELP"/>'});
+						var help = new org.ametys.TextPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_USERS_HELP"/>'});
 						help.addText("<i18n:text i18n:key="PLUGINS_CORE_USERS_HELP_TEXT_READ"/>");
 					
-						var rightPanel = new Ext.ametys.HtmlContainer({
+						var rightPanel = new org.ametys.HtmlContainer({
 									region:'east',
 									border: false,
 									cls: 'admin-right-panel',
@@ -254,7 +254,7 @@
 						}
 					     
 						// Grid
-						var listView = new Ext.ametys.ListView({
+						var listView = new org.ametys.ListView({
 							<xsl:if test="Model/@Modifiable = 'true'">listeners: {'rowclick': onSelectRow, 'mouseup' : onUnselectRow},</xsl:if>
 							baseCls : 'user-list',
 							viewConfig: {

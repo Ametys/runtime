@@ -146,8 +146,8 @@
 		                    }   
 		                    
 		                    //Navigation 
-		                    var navigation = new Ext.ametys.NavigationPanel ({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU"/>"});
-							var item1 = new Ext.ametys.NavigationItem ({
+		                    var navigation = new org.ametys.NavigationPanel ({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU"/>"});
+							var item1 = new org.ametys.NavigationItem ({
 								text: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL"/>",
 								activeItem: 0,
 								cardLayout: 'system-card-panel',
@@ -155,7 +155,7 @@
 								pressed: true
 							});
 							navigation.add(item1);
-							var item2 = new Ext.ametys.NavigationItem ({
+							var item2 = new org.ametys.NavigationItem ({
 								text: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_SYSTEM"/>",
 								activeItem: 1,
 								cardLayout: 'system-card-panel',
@@ -164,14 +164,14 @@
 							navigation.add(item2);
 							
 							//Actions
-							var handle = new Ext.ametys.ActionsPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_HANDLE"/>'});
+							var handle = new org.ametys.ActionsPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_HANDLE"/>'});
 							handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_HANDLE_QUIT"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/jvmstatus/quit.png", goBack);
 							
 							//Help
-							var help = new Ext.ametys.TextPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_HELP"/>'});
+							var help = new org.ametys.TextPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_HELP"/>'});
 							help.addText("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_PROPERTIES_HELP_TEXT"/>");
 							
-							var rightPanel = new Ext.ametys.HtmlContainer({
+							var rightPanel = new org.ametys.HtmlContainer({
 									region:'east',
 									border: false,
 									cls: 'admin-right-panel',
@@ -199,7 +199,7 @@
 								
 							store.loadData(dummyData);
 							//Create the list View Group
-							var properties = new Ext.ametys.ListView({
+							var properties = new org.ametys.ListView({
 									id : 'properties-panel',
 								    store : store,
 									hideHeaders : true,
@@ -218,37 +218,37 @@
 								id : 'general-panel',
 								border: false
 							});
-							var systemFd = new Ext.ametys.Fieldset({
+							var systemFd = new org.ametys.Fieldset({
 								title : "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_SYS"/>"
 							});
-							var system = new Ext.ametys.HtmlContainer ({
+							var system = new org.ametys.HtmlContainer ({
 								contentEl : 'system'
 							});
 							systemFd.add(system);
 							generalPanel.add(systemFd);  
 						
-							var javaFd = new Ext.ametys.Fieldset({
+							var javaFd = new org.ametys.Fieldset({
 								title : "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_JVM"/>"
 							});
-							var java = new Ext.ametys.HtmlContainer ({
+							var java = new org.ametys.HtmlContainer ({
 								contentEl : 'java'
 							});
 							javaFd.add(java);
 							generalPanel.add(javaFd);  
 							   
-							var memoryFd = new Ext.ametys.Fieldset({
+							var memoryFd = new org.ametys.Fieldset({
 								title : "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM"/>"
 							});
-							var memory = new Ext.ametys.HtmlContainer ({
+							var memory = new org.ametys.HtmlContainer ({
 								contentEl : 'memory'
 							});
 							memoryFd.add(memory);
 							generalPanel.add(memoryFd);
 							
-							var serverFd = new Ext.ametys.Fieldset({
+							var serverFd = new org.ametys.Fieldset({
 								title : "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE"/>"
 							});
-							var server = new Ext.ametys.HtmlContainer ({
+							var server = new org.ametys.HtmlContainer ({
 								contentEl : 'server'
 							});
 							serverFd.add(server);

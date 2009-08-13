@@ -10,10 +10,10 @@
  */
 
 // Ametys Namespace
-Ext.namespace('Ext.ametys.form');
+Ext.namespace('org.ametys.form');
 /**
  * 
- * Ext.ametys.form.PasswordWidget
+ * org.ametys.form.PasswordWidget
  *
  * @class This class handles a widget to password field
  * @extends Ext.Panel
@@ -21,7 +21,7 @@ Ext.namespace('Ext.ametys.form');
  * 
  * @param {Object} config Configuration options
  */
-Ext.ametys.form.PasswordWidget = function(config) 
+org.ametys.form.PasswordWidget = function(config) 
 {
 	this._name =  config.name;
 	config.baseCls = 'ametys-password-field';
@@ -39,7 +39,7 @@ Ext.ametys.form.PasswordWidget = function(config)
 		inputType : 'hidden'
 	});
 	
-	this._pwd = new Ext.ametys.form.PasswordField({
+	this._pwd = new org.ametys.form.PasswordField({
 		name : this._name + '_pwd',
 		inputType : 'password',
 		fieldLabel: config.fdLabel,
@@ -62,16 +62,16 @@ Ext.ametys.form.PasswordWidget = function(config)
 		this.items = [this._pwdField, this._pwd, this._editBtn];
 	}
 	
-	Ext.ametys.form.PasswordWidget.superclass.constructor.call(this, config);
+	org.ametys.form.PasswordWidget.superclass.constructor.call(this, config);
 };
 
 
-Ext.extend(Ext.ametys.form.PasswordWidget, Ext.Panel, {});
+Ext.extend(org.ametys.form.PasswordWidget, Ext.Panel, {});
 
 /**
  * Set the value of password field. Use it only to initialize the widget.
  */
-Ext.ametys.form.PasswordWidget.prototype.setValue = function (value)
+org.ametys.form.PasswordWidget.prototype.setValue = function (value)
 {
 	this._pwd.setValue(value);
 	if (value != '')
@@ -112,7 +112,7 @@ Ext.ametys.form.PasswordWidget.prototype.setValue = function (value)
  * Mark this widget as invalid.
  * @param msg The message to display. Can be null. If null the default message is used. 
  */
-Ext.ametys.form.PasswordWidget.prototype.markInvalid = function (msg)
+org.ametys.form.PasswordWidget.prototype.markInvalid = function (msg)
 {
 	if (msg)
 		this._pwdConfirm.markInvalid(msg);
@@ -124,9 +124,9 @@ Ext.ametys.form.PasswordWidget.prototype.markInvalid = function (msg)
  * Create the confirm password field
  * @private
  */
-Ext.ametys.form.PasswordWidget.prototype._createConfirmPwdField = function ()
+org.ametys.form.PasswordWidget.prototype._createConfirmPwdField = function ()
 {
-	var field = new Ext.ametys.form.PasswordField({
+	var field = new org.ametys.form.PasswordField({
 		name : this._name + "_confirm",
 		widget:this,
 		enableKeyEvents: true,
@@ -147,7 +147,7 @@ Ext.ametys.form.PasswordWidget.prototype._createConfirmPwdField = function ()
  * Create the button to change the password
  * @private
  */
-Ext.ametys.form.PasswordWidget.prototype._createChangePwdBtn = function ()
+org.ametys.form.PasswordWidget.prototype._createChangePwdBtn = function ()
 {
 	return new Ext.Button({
 		text: "<i18n:text i18n:key="PLUGINS_CORE_WIDGET_PASSWORD_HINT" i18n:catalogue="plugin.core"/>",
@@ -164,7 +164,7 @@ Ext.ametys.form.PasswordWidget.prototype._createChangePwdBtn = function ()
  * Create the button to cancel the change
  * @private
  */
-Ext.ametys.form.PasswordWidget.prototype._createCancelBtn = function ()
+org.ametys.form.PasswordWidget.prototype._createCancelBtn = function ()
 {
 	return new Ext.Button({
 		icon : getPluginResourcesUrl('purge') + "/img/delete.gif",
@@ -182,7 +182,7 @@ Ext.ametys.form.PasswordWidget.prototype._createCancelBtn = function ()
  * Edit the password fields
  * @private
  */
-Ext.ametys.form.PasswordWidget.prototype._changePassword = function ()
+org.ametys.form.PasswordWidget.prototype._changePassword = function ()
 {
 	this.remove(this._editBtn, true);
 	
@@ -202,7 +202,7 @@ Ext.ametys.form.PasswordWidget.prototype._changePassword = function ()
  * Cancel the edition
  * @private
  */
-Ext.ametys.form.PasswordWidget.prototype._cancelChange = function ()
+org.ametys.form.PasswordWidget.prototype._cancelChange = function ()
 {
 	this.remove(this._pwdConfirm, true);
 	this.remove(this._cancelBtn, true);
@@ -221,7 +221,7 @@ Ext.ametys.form.PasswordWidget.prototype._cancelChange = function ()
  * This function is called when the password was edited
  * @private
  */
-Ext.ametys.form.PasswordWidget.prototype._onChange = function (field)
+org.ametys.form.PasswordWidget.prototype._onChange = function (field)
 {
 	if (!field.isValid())
 	{
@@ -233,7 +233,7 @@ Ext.ametys.form.PasswordWidget.prototype._onChange = function (field)
 	}
 }
 
-Ext.ametys.form.PasswordWidget.prototype.onRender = function(ct, position)
+org.ametys.form.PasswordWidget.prototype.onRender = function(ct, position)
 {
-	Ext.ametys.form.PasswordWidget.superclass.onRender.call(this, ct, position);
+	org.ametys.form.PasswordWidget.superclass.onRender.call(this, ct, position);
 }

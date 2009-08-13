@@ -10,23 +10,23 @@
  */
 
 // Ametys Namespace
-Ext.namespace('Ext.ametys');
+Ext.namespace('org.ametys');
 
 /**
- * Ext.ametys.EditorListView
+ * org.ametys.EditorListView
  *
  * @class This class extends the EditorGridPanel to provide functions to simply add or remove records
  * @extends Ext.EditorGridPanel
  * @constructor
  * @param {Object} config Configuration options
  */
-Ext.ametys.EditorListView = function(config) 
+org.ametys.EditorListView = function(config) 
 {
 	config.sm = new Ext.grid.CellSelectionModel({singleSelect: true});
-	Ext.ametys.EditorListView.superclass.constructor.call(this, config);
+	org.ametys.EditorListView.superclass.constructor.call(this, config);
 }; 
 
-Ext.extend(Ext.ametys.EditorListView, Ext.grid.EditorGridPanel, 
+Ext.extend(org.ametys.EditorListView, Ext.grid.EditorGridPanel, 
 {
 	iconCls: 'icon-list',
 	cls: 'list-view',
@@ -38,7 +38,7 @@ Ext.extend(Ext.ametys.EditorListView, Ext.grid.EditorGridPanel,
  * Set the multiple selection to true or false
  * @param multiple true for multiple selection
  */
-Ext.ametys.EditorListView.prototype.setMultipleSelection = function (multiple)
+org.ametys.EditorListView.prototype.setMultipleSelection = function (multiple)
 {
 	this.getSelectionModel().singleSelect = !multiple;
 }
@@ -49,7 +49,7 @@ Ext.ametys.EditorListView.prototype.setMultipleSelection = function (multiple)
  * @param idElmt The record id. Can be null to be generated
  * @param elmtMap The record element in a map {columnid: value, columnid: value, ...}
  */
-Ext.ametys.EditorListView.prototype.addElement = function (idElmt, elmtMap)
+org.ametys.EditorListView.prototype.addElement = function (idElmt, elmtMap)
 {
 	var record = this.store.recordType;
 	var newEntry = new record(elmtMap, idElmt);
@@ -60,7 +60,7 @@ Ext.ametys.EditorListView.prototype.addElement = function (idElmt, elmtMap)
  * Remove an existing record in the grid by its position
  * @param position The element position in the grid
  */
-Ext.ametys.EditorListView.prototype.removeElementByPosition = function (position)
+org.ametys.EditorListView.prototype.removeElementByPosition = function (position)
 {
 	var elmt = this.store.getAt(position);
 	if (elmt != null)
@@ -73,7 +73,7 @@ Ext.ametys.EditorListView.prototype.removeElementByPosition = function (position
  * Remove an existing element in the grid
  * @param id The element's id
  */
-Ext.ametys.EditorListView.prototype.removeElementById = function (id)
+org.ametys.EditorListView.prototype.removeElementById = function (id)
 {
 	var elmt = this.store.getById(id);
 	if (elmt != null)
@@ -86,7 +86,7 @@ Ext.ametys.EditorListView.prototype.removeElementById = function (id)
  * Remove an element
  * @param elmt The element to remove
  */
-Ext.ametys.EditorListView.prototype.removeElement = function (elmt)
+org.ametys.EditorListView.prototype.removeElement = function (elmt)
 {
 	if (elmt != null)
 	{
@@ -98,7 +98,7 @@ Ext.ametys.EditorListView.prototype.removeElement = function (elmt)
  * Get the selected elements in the list
  * @returns The selected elements in an Array
  */
-Ext.ametys.EditorListView.prototype.getSelection = function ()
+org.ametys.EditorListView.prototype.getSelection = function ()
 {
 	var selections = [];
 	var record = this.getSelectionModel().selection.record;
@@ -111,13 +111,13 @@ Ext.ametys.EditorListView.prototype.getSelection = function ()
  * Get the record in the list
  * @returns The elements in an Array
  */
-Ext.ametys.EditorListView.prototype.getElements = function ()
+org.ametys.EditorListView.prototype.getElements = function ()
 {
 	return this.getStore().data.items;
 }
 
-Ext.ametys.EditorListView.prototype.onRender = function(ct, position)
+org.ametys.EditorListView.prototype.onRender = function(ct, position)
 {
-	Ext.ametys.EditorListView.superclass.onRender.call(this, ct, position);
+	org.ametys.EditorListView.superclass.onRender.call(this, ct, position);
 	this.body.addClass(this.cls + "-body");
 }

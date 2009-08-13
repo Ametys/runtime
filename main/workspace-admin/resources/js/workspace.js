@@ -8,20 +8,20 @@ function onreadyfunction()
 	var MAIN_WIDTH = 1018;
 	var CONTENT_WIDTH = 930;
 	
-	var contentLeft = new Ext.ametys.HtmlContainer( {
+	var contentLeft = new org.ametys.HtmlContainer( {
 		region :'west',
 		width: PADDLE_WIDTH,
 		id :'content_left'
 	});
 	
-	var contentRight = new Ext.ametys.HtmlContainer( {
+	var contentRight = new org.ametys.HtmlContainer( {
 		region :'east',
 		width: PADDLE_WIDTH,
 		id :'content_right'
 	});
 	
 	/** Bandeau */
-	var top = new Ext.ametys.HtmlContainer(
+	var top = new org.ametys.HtmlContainer(
 			{
 				region :'north',
 				id :'top',
@@ -30,7 +30,7 @@ function onreadyfunction()
 			});
 	
 	/** Contenu principal */
-	var main = new Ext.ametys.HtmlContainer( {
+	var main = new org.ametys.HtmlContainer( {
 		region :'center',
 		id :'main',
 		layout: 'fit',
@@ -39,14 +39,14 @@ function onreadyfunction()
 	});
 	
 	/** Pied de page (versions) */
-	var footer = new Ext.ametys.HtmlContainer( {
+	var footer = new org.ametys.HtmlContainer( {
 		region :'south',
 		height: FOOTER_HEIGHT,
 		id :'footer',
 		contentEl : 'versions'
 	});
 	
-	var contentCenter = new Ext.ametys.HtmlContainer( {
+	var contentCenter = new org.ametys.HtmlContainer( {
 		region :'center',
 		id :'content_center',
 		width: CONTENT_WIDTH,
@@ -54,7 +54,7 @@ function onreadyfunction()
 		items : [top, main, footer]
 	});
 
-	var mainContent = new Ext.ametys.HtmlContainer( {
+	var mainContent = new org.ametys.HtmlContainer( {
 		layout :'border',
 		id :'wrapper',
 		width: MAIN_WIDTH,
@@ -62,12 +62,12 @@ function onreadyfunction()
 		items : [ contentLeft, contentCenter, contentRight ]
 	})
 
-	var leftColumn = new Ext.ametys.HtmlContainer( {
+	var leftColumn = new org.ametys.HtmlContainer( {
 		id :'column-left',
 		baseCls :'',
 		region :'west'
 	});
-	var rightColumn = new Ext.ametys.HtmlContainer( {
+	var rightColumn = new org.ametys.HtmlContainer( {
 		id :'column-right',
 		region :'east'
 	});

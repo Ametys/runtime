@@ -33,8 +33,8 @@
             </head>
             
 				<script>
-					<script src="{$resourcesPath}/js/Ext/ametys/rights/CheckRightEntry.js"/>
-					<script src="{$resourcesPath}/js/Ext/ametys/rights/RightEntry.js"/>
+					<script src="{$resourcesPath}/js/org/ametys/rights/CheckRightEntry.js"/>
+					<script src="{$resourcesPath}/js/org/ametys/rights/RightEntry.js"/>
 	            	<script type="text/javascript">
 	            			//Current selected profile
 	            			var selectedElmt = null;
@@ -279,8 +279,8 @@
 							}
 							
 							// Onglets
-							var _Navigation = new Ext.ametys.NavigationPanel ({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU"/>"});
-							var item1 = new Ext.ametys.NavigationItem ({
+							var _Navigation = new org.ametys.NavigationPanel ({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU"/>"});
+							var item1 = new org.ametys.NavigationItem ({
 								text: "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILE_READ"/>",
 								handlerFn: selectLayout,
 								activeItem: 0,
@@ -289,7 +289,7 @@
 								pressed: true
 							})
 							_Navigation.add(item1);
-							var item2 = new Ext.ametys.NavigationItem ({
+							var item2 = new org.ametys.NavigationItem ({
 								text: "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILE_EDIT"/>",
 								handlerFn: selectLayout,
 								activeItem: 1,
@@ -300,7 +300,7 @@
 							
 							
 							// Gestion des profils
-							var _Category = new Ext.ametys.ActionsPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_CATEGORY"/>'});
+							var _Category = new org.ametys.ActionsPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_CATEGORY"/>'});
 							_Category.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_CREATE"/>", "<xsl:value-of select="$resourcesPath"/>/img/rights/profiles/new.png", menu_new);
 							_Category.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_RENAME"/>", "<xsl:value-of select="$resourcesPath"/>/img/rights/profiles/rename.png", menu_rename);
 							_Category.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_VALIDATE"/>", "<xsl:value-of select="$resourcesPath"/>/img/rights/profiles/validate.png", save_objects);
@@ -316,7 +316,7 @@
 							
 							
 							// Help
-							var helpCategory = new Ext.ametys.TextPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HELP_CATEGORY"/>'});
+							var helpCategory = new org.ametys.TextPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HELP_CATEGORY"/>'});
 							helpCategory.addText("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_HELP_HINT"/>");
 							
 							//Profils existants
@@ -351,7 +351,7 @@
 						           })
 						        }]);
 				        	
-						   	var listview = new Ext.ametys.EditorListView({
+						   	var listview = new org.ametys.EditorListView({
 						   		title : 'Liste des profils',
 								listeners: {'rowclick': onSelectProfil, 'beforeedit': beforeEditLabel, 'validateedit': validateEdit},						
 							    store : store,
@@ -404,14 +404,14 @@
 							<xsl:for-each select="rights/right[not(category = preceding-sibling::right/category)]">
 								<xsl:variable name="category" select="category"/>
 								RIGHTS_CATEGORY.push('<xsl:value-of select="$category"/>');
-								var cat_<xsl:value-of select="$category"/> = new Ext.ametys.Fieldset({
+								var cat_<xsl:value-of select="$category"/> = new org.ametys.Fieldset({
 										title : "<i18n:text i18n:key="{$category}" i18n:catalogue="{@catalogue}"/>",
 										layout: 'form',
 										id: "cat_<xsl:value-of select="$category"/>_edit",
 										cls: 'fieldset'
 								});
 								editRights.add(cat_<xsl:value-of select="$category"/>);	
-								var cat_<xsl:value-of select="$category"/>_read = new Ext.ametys.Fieldset({
+								var cat_<xsl:value-of select="$category"/>_read = new org.ametys.Fieldset({
 									title : "<i18n:text i18n:key="{$category}" i18n:catalogue="{@catalogue}"/>",
 									layout: 'form',
 									id: "cat_<xsl:value-of select="$category"/>_read",
@@ -419,7 +419,7 @@
 								});
 								readRights.add(cat_<xsl:value-of select="$category"/>_read);
 								<xsl:for-each select="../right[category = $category]">
-									var input = new Ext.ametys.rights.CheckRightEntry ({
+									var input = new org.ametys.rights.CheckRightEntry ({
 										listeners: {'check': needSave},
 										width: 190,
 										text : "<i18n:text i18n:key="{label}" i18n:catalogue="{@catalogue}"/>",
@@ -433,7 +433,7 @@
 									RIGHTS_ID.push("<xsl:value-of select="@id"/>");	
 									cat_<xsl:value-of select="$category"/>.add(input);
 									
-									var profileText = new Ext.ametys.rights.RightEntry({
+									var profileText = new org.ametys.rights.RightEntry({
 										id : "<xsl:value-of select="@id"/>_read", 
 										width: 190,
 										text : "<i18n:text i18n:key="{label}" i18n:catalogue="{@catalogue}"/>", 
@@ -444,7 +444,7 @@
 								cat_<xsl:value-of select="$category"/>_read.hide();
 							</xsl:for-each> 
 							
-							var rightPanel = new Ext.ametys.HtmlContainer({
+							var rightPanel = new org.ametys.HtmlContainer({
 									region:'east',
 									border: false,
 									width: 277,

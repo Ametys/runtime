@@ -106,7 +106,7 @@
 					
 					// Menu gestion des groupes
 					<xsl:if test="Modifiable = 'true' or AdministratorUI = 'true'">
-						var handleGroups = new Ext.ametys.ActionsPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_CATEGORY"/>'});
+						var handleGroups = new org.ametys.ActionsPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_CATEGORY"/>'});
 					</xsl:if>
 					<xsl:if test="Modifiable = 'true'">
 						handleGroups.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_CREATE"/>", "<xsl:value-of select="$resourcesPath"/>/img/groups/add_group.png", menu_new);
@@ -119,14 +119,14 @@
 					
 					// Menu gestion des utilisateurs
 					<xsl:if test="Modifiable = 'true'">
-						var handleUsers = new Ext.ametys.ActionsPanel({title: 'Utilisateurs' });
+						var handleUsers = new org.ametys.ActionsPanel({title: 'Utilisateurs' });
 						handleUsers.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_ADDUSER"/>", "<xsl:value-of select="$resourcesPath"/>/img/groups/add_user.png", add_user);
 						handleUsers.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_DELETEUSER"/>", "<xsl:value-of select="$resourcesPath"/>/img/groups/delete.png", delete_user);
 						handleUsers.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_VALIDATE"/>", "<xsl:value-of select="$resourcesPath"/>/img/groups/validate.png", save_objects);
 					</xsl:if>
 					
 					//Aide
-					var help = new Ext.ametys.TextPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HELP_CATEGORY"/>'});
+					var help = new org.ametys.TextPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HELP_CATEGORY"/>'});
 					help.addText("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_HELP_HINT"/>");	
 					
 					
@@ -243,7 +243,7 @@
 				           })
 				        }]);
 				                
-					var listviewG = new Ext.ametys.EditorListView({
+					var listviewG = new org.ametys.EditorListView({
 							title : "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_LABEL"/>",
 							listeners: {'rowclick': onSelectGroup, 'validateedit': validateEdit},						
 						    store : new Ext.data.SimpleStore({
@@ -275,7 +275,7 @@
                                 });
                     </xsl:for-each>	
 						
-					var listviewU = new Ext.ametys.ListView({
+					var listviewU = new org.ametys.ListView({
 							title : "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_COLUMN"/>",
 						    store : new Ext.data.SimpleStore({
 									id:0,
@@ -404,7 +404,7 @@
 						}
 					}
 													
-					var rightPanel = new Ext.ametys.HtmlContainer({
+					var rightPanel = new org.ametys.HtmlContainer({
 								region:'east',
 								border: false,
 								width: 277,

@@ -10,30 +10,30 @@
  */
 
 // Ametys Namespace
-Ext.namespace('Ext.ametys.form');
+Ext.namespace('org.ametys.form');
 
 /**
- * Ext.ametys.form.LongField
+ * org.ametys.form.LongField
  *
  * @class This class provides a text field, width a help icon. Use the <code>desc</option> to add the help icon.<br/>Only decimal or no decimal values are accepted.
  * @extends Ext.form.NumberField
  * @constructor
  * @param {Object} config Configuration options
  */
-Ext.ametys.form.DoubleField = function(config) 
+org.ametys.form.DoubleField = function(config) 
 {
 	config.itemCls = "ametys-input";
 	config.labelSeparator = '';
 	config.allowDecimals = true,
 	
-	Ext.ametys.form.DoubleField.superclass.constructor.call(this, config);
+	org.ametys.form.DoubleField.superclass.constructor.call(this, config);
 }; 
 
-Ext.extend(Ext.ametys.form.DoubleField, Ext.form.NumberField, {});
+Ext.extend(org.ametys.form.DoubleField, Ext.form.NumberField, {});
 
-Ext.ametys.form.DoubleField.prototype.onRender = function(ct, position)
+org.ametys.form.DoubleField.prototype.onRender = function(ct, position)
 {
-	Ext.ametys.form.DoubleField.superclass.onRender.call(this, ct, position);
+	org.ametys.form.DoubleField.superclass.onRender.call(this, ct, position);
 	
 	if (this.desc)
 	{

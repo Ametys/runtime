@@ -10,10 +10,10 @@
  */
 
 // Ametys Namespace
-Ext.namespace('Ext.ametys');
+Ext.namespace('org.ametys');
 
 /**
- * Ext.ametys.DialogBox
+ * org.ametys.DialogBox
  * 
  * @class This class provides a window panel. See {@link Ext.Window} for other
  *        configuration options.<br/> You can define a absolute path by 'icon'
@@ -22,7 +22,7 @@ Ext.namespace('Ext.ametys');
  * @constructor
  * @param {Object}
  *            config Configuration options. icon : path to icon.
- * @example RUNTIME_Announcement.box = new Ext.ametys.DialogBox({ title
+ * @example RUNTIME_Announcement.box = new org.ametys.DialogBox({ title
  *          :'&lt;i18n:text
  *          i18n:key="PLUGINS_SYSTEM_ANNOUNCEMENT_DIALOG_CAPTION"/&gt;', width
  *          :380, height :200, icon : getPluginResourcesUrl(pluginName) +
@@ -33,7 +33,7 @@ Ext.namespace('Ext.ametys');
  *          i18n:key="PLUGINS_ANNOUNCEMENT_DIALOG_CANCEL"/&gt;', handler :
  *          RUNTIME_Announcement.cancel }] });
  */
-Ext.ametys.DialogBox = function(config) {
+org.ametys.DialogBox = function(config) {
 	if (config.icon) {
 		var id = "icon-dialog-" + Ext.id();
 
@@ -48,7 +48,7 @@ Ext.ametys.DialogBox = function(config) {
 		config.iconCls = id;
 	}
 
-	Ext.ametys.DialogBox.superclass.constructor.call(this, config);
+	org.ametys.DialogBox.superclass.constructor.call(this, config);
 
 	if (config.icon) {
 		this.addListener('close', function() {
@@ -57,7 +57,7 @@ Ext.ametys.DialogBox = function(config) {
 	}
 };
 
-Ext.extend(Ext.ametys.DialogBox, Ext.Window, {
+Ext.extend(org.ametys.DialogBox, Ext.Window, {
 	resizable :true,
 	shadow :true,
 	modal :true,
@@ -70,7 +70,7 @@ Ext.extend(Ext.ametys.DialogBox, Ext.Window, {
  * @param {String}
  *            icon The icon path
  */
-Ext.ametys.DialogBox.prototype.setIconPath = function(icon) {
+org.ametys.DialogBox.prototype.setIconPath = function(icon) {
 	var id = "icon-dialog-" + Ext.id();
 
 	try {
@@ -83,8 +83,8 @@ Ext.ametys.DialogBox.prototype.setIconPath = function(icon) {
 	this.setIconClass(id);
 }
 
-Ext.ametys.DialogBox.prototype.onRender = function(ct, position) {
-	Ext.ametys.DialogBox.superclass.onRender.call(this, ct, position);
+org.ametys.DialogBox.prototype.onRender = function(ct, position) {
+	org.ametys.DialogBox.superclass.onRender.call(this, ct, position);
 	this.body.addClass(this.ametysCls + '-body');
 	this.header.addClass(this.ametysCls + '-header');
 }

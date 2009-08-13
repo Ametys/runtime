@@ -10,18 +10,18 @@
  */
 
 // Ametys Namespace
-Ext.namespace('Ext.ametys');
+Ext.namespace('org.ametys');
 
 /**
- * Ext.ametys.NavigationItem
+ * org.ametys.NavigationItem
  *
  * @class This class handles an item of navigation
  * @extends Ext.Button
  * @constructor
  * @param {Object} config Configuration options
  * @example
- * var navigation = new Ext.ametys.NavigationPanel ({title: "Sommaire"});
- * var item = new Ext.ametys.NavigationItem ({
+ * var navigation = new org.ametys.NavigationPanel ({title: "Sommaire"});
+ * var item = new org.ametys.NavigationItem ({
  * 	text: 'Base de données',
  *	divToScroll: 'ext-125554',
  * 	ctToScroll:  'config-inner',
@@ -32,12 +32,12 @@ Ext.namespace('Ext.ametys');
  * });
  * navigation.add(item);
  */
-Ext.ametys.NavigationItem = function(config) 
+org.ametys.NavigationItem = function(config) 
 {
-	Ext.ametys.NavigationItem.superclass.constructor.call(this, config);
+	org.ametys.NavigationItem.superclass.constructor.call(this, config);
 }; 
 
-Ext.extend(Ext.ametys.NavigationItem, Ext.Button, 
+Ext.extend(org.ametys.NavigationItem, Ext.Button, 
 {
 	cls : "navigation-item",
 	overCls: "over",
@@ -51,7 +51,7 @@ Ext.extend(Ext.ametys.NavigationItem, Ext.Button,
 });
 
 
-Ext.ametys.NavigationItem.prototype.handler = function ()
+org.ametys.NavigationItem.prototype.handler = function ()
 {
 	if (this.divToScroll)
 	{
@@ -84,8 +84,8 @@ Ext.ametys.NavigationItem.prototype.handler = function ()
 	}
 }
 
-Ext.ametys.NavigationItem.prototype.onRender = function(ct, position)
+org.ametys.NavigationItem.prototype.onRender = function(ct, position)
 {
-	Ext.ametys.NavigationItem.superclass.onRender.call(this, ct, position);
+	org.ametys.NavigationItem.superclass.onRender.call(this, ct, position);
 	this.ctToScroll = Ext.getCmp(this.ctToScroll);
 }

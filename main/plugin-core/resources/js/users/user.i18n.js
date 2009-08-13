@@ -41,7 +41,7 @@ RUNTIME_Plugin_Runtime_EditUser.delayedInitialize = function()
 	
 	RUNTIME_Plugin_Runtime_EditUser.form = formPanel.getForm();
 	
-	RUNTIME_Plugin_Runtime_EditUser.box = new Ext.ametys.DialogBox({
+	RUNTIME_Plugin_Runtime_EditUser.box = new org.ametys.DialogBox({
 		title :"<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_NEW"/>",
 		layout :'fit',
 		width :380,

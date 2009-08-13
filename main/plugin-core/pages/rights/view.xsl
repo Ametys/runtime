@@ -40,7 +40,7 @@
 		                    var listView;
 		                    
 							//Actions
-							var handle = new Ext.ametys.ActionsPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_ACT_CATEGORY"/>'});
+							var handle = new org.ametys.ActionsPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_ACT_CATEGORY"/>'});
 							handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_ACT_ADDUSER"/>", "<xsl:value-of select="$resourcesPath"/>/img/rights/add_user.png", goBack);
 							handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_ACT_ADDGROUP"/>", "<xsl:value-of select="$resourcesPath"/>/img/rights/add_group.png", goBack);
 							handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_ACT_REMOVE"/>", "<xsl:value-of select="$resourcesPath"/>/img/rights/delete.png", goBack);
@@ -48,7 +48,7 @@
 							//handle.addText("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_CONTEXTS_APPLICATION_HELP_AFFECT"/>");
             			
 							//Create the contextual panel
-							var rightPanel = new Ext.ametys.HtmlContainer({
+							var rightPanel = new org.ametys.HtmlContainer({
 									region:'east',
 									border: false,
 									baseCls: 'admin-right-panel',

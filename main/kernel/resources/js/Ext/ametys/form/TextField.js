@@ -10,22 +10,22 @@
  */
 
 // Ametys Namespace
-Ext.namespace('Ext.ametys.form');
+Ext.namespace('org.ametys.form');
 
 /**
- * Ext.ametys.form.TextField
+ * org.ametys.form.TextField
  *
  * @class This class provides a text field width a help icon. Use the <code>desc</option> to add the help icon.
  * @extends Ext.form.TextField
  * @constructor
  * @param {Object} config Configuration options
  */
-Ext.ametys.form.TextField = function(config) 
+org.ametys.form.TextField = function(config) 
 {
 	config.itemCls = "ametys-input";
 	config.labelSeparator = '';
 	
-	Ext.ametys.form.TextField.superclass.constructor.call(this, config);
+	org.ametys.form.TextField.superclass.constructor.call(this, config);
 	
 	this.addEvents(
 			/**
@@ -38,11 +38,11 @@ Ext.ametys.form.TextField = function(config)
 	);
 }; 
 
-Ext.extend(Ext.ametys.form.TextField, Ext.form.TextField, {});
+Ext.extend(org.ametys.form.TextField, Ext.form.TextField, {});
 
-Ext.ametys.form.TextField.prototype.onRender = function(ct, position)
+org.ametys.form.TextField.prototype.onRender = function(ct, position)
 {
-	Ext.ametys.form.TextField.superclass.onRender.call(this, ct, position);
+	org.ametys.form.TextField.superclass.onRender.call(this, ct, position);
 	
 	if (this.desc)
 	{

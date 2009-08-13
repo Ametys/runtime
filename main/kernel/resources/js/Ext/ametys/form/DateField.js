@@ -10,30 +10,30 @@
  */
 
 // Ametys Namespace
-Ext.namespace('Ext.ametys.form');
+Ext.namespace('org.ametys.form');
 
 /**
- * Ext.ametys.form.DateField
+ * org.ametys.form.DateField
  *
  * @class This class provides a calendar field width a help icon. Use the <code>desc</option> to add the help icon.
  * @extends Ext.form.DateField
  * @constructor
  * @param {Object} config Configuration options
  */
-Ext.ametys.form.DateField = function(config) 
+org.ametys.form.DateField = function(config) 
 {
 	config.itemCls = "ametys-input";
 	config.labelSeparator = '';
 	
-	Ext.ametys.form.DateField.superclass.constructor.call(this, config);
+	org.ametys.form.DateField.superclass.constructor.call(this, config);
 }; 
 
 
-Ext.extend(Ext.ametys.form.DateField, Ext.form.DateField, {});
+Ext.extend(org.ametys.form.DateField, Ext.form.DateField, {});
 
-Ext.ametys.form.DateField.prototype.onRender = function(ct, position)
+org.ametys.form.DateField.prototype.onRender = function(ct, position)
 {
-	Ext.ametys.form.DateField.superclass.onRender.call(this, ct, position);
+	org.ametys.form.DateField.superclass.onRender.call(this, ct, position);
 	
 	if (this.desc)
 	{

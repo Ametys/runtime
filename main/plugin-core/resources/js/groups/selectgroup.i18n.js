@@ -41,7 +41,7 @@ RUNTIME_Plugin_Runtime_SelectGroup.delayed_initialize = function ()
 		items: [RUNTIME_Plugin_Runtime_SelectGroup.criteria]
 	});
 	
-	RUNTIME_Plugin_Runtime_SelectGroup.listview = new Ext.ametys.ListView({
+	RUNTIME_Plugin_Runtime_SelectGroup.listview = new org.ametys.ListView({
 	    store : new Ext.data.SimpleStore({
 			id:0,
 	        fields: [
@@ -59,12 +59,12 @@ RUNTIME_Plugin_Runtime_SelectGroup.delayed_initialize = function ()
 	});	
 	RUNTIME_Plugin_Runtime_SelectGroup.listview.setMultipleSelection(true);
 	
-	var warning = new Ext.ametys.HtmlContainer ({
+	var warning = new org.ametys.HtmlContainer ({
 		html: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_WARN100"/>",
 		cls: 'select-group-warning'
 	});
 	
-	RUNTIME_Plugin_Runtime_SelectGroup.box = new Ext.ametys.DialogBox({
+	RUNTIME_Plugin_Runtime_SelectGroup.box = new org.ametys.DialogBox({
 		title :"<i18n:text i18n:key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_CAPTION"/>",
 		layout :'anchor',
 		width :280,

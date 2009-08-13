@@ -10,22 +10,22 @@
  */
 
 // Ametys Namespace
-Ext.namespace('Ext.ametys');
+Ext.namespace('org.ametys');
 
 /**
- * Ext.ametys.JsonTreeLoader
+ * org.ametys.JsonTreeLoader
  *
- * @class Ext.ametys.JsonTreeLoader
+ * @class org.ametys.JsonTreeLoader
  * @extends Ext.tree.TreeLoader
  * @constructor
  * @param {Object} config Configuration options
  */
-Ext.ametys.JsonTreeLoader = function(config) 
+org.ametys.JsonTreeLoader = function(config) 
 {
-	Ext.ametys.JsonTreeLoader.superclass.constructor.call(this, config);
+	org.ametys.JsonTreeLoader.superclass.constructor.call(this, config);
 }
 
-Ext.extend(Ext.ametys.JsonTreeLoader, Ext.tree.TreeLoader, {
+Ext.extend(org.ametys.JsonTreeLoader, Ext.tree.TreeLoader, {
     processResponse : function(response, node, callback)
     {
         var json = response.responseText;
@@ -113,6 +113,6 @@ Ext.extend(Ext.ametys.JsonTreeLoader, Ext.tree.TreeLoader, {
     
     initComponent : function()
     {
-    	Ext.ametys.JsonTreeLoader.superclass.initComponent.call(this);
+    	org.ametys.JsonTreeLoader.superclass.initComponent.call(this);
     }    
 });

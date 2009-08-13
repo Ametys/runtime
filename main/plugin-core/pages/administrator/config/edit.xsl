@@ -144,9 +144,9 @@
 					}
 					
 					// NAVIGATION
-						var navigation = new Ext.ametys.NavigationPanel ({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU"/>"});
+						var navigation = new org.ametys.NavigationPanel ({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU"/>"});
 						<xsl:for-each select="config/categories/category">
-							var item = new Ext.ametys.NavigationItem ({
+							var item = new org.ametys.NavigationItem ({
 								text: "<xsl:copy-of select="label/node()"/>",
 								divToScroll: "<xsl:value-of select="generate-id()"/>",
 								ctToScroll:  'config-inner',
@@ -159,16 +159,16 @@
 						</xsl:for-each>
 						
 						// ACTIONS
-						var handle = new Ext.ametys.ActionsPanel({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE"/>"});
+						var handle = new org.ametys.ActionsPanel({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE"/>"});
 						handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE_SAVE"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/config/save.png", save);
 						handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE_QUIT"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/config/quit.png", goBack);
 	
 						// AIDE
-						var help = new Ext.ametys.TextPanel({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HELP"/>"});
+						var help = new org.ametys.TextPanel({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HELP"/>"});
 						help.addText("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HELP_TEXT"/>");
 						
 						//Create the contextual panel
-						var rightPanel = new Ext.ametys.HtmlContainer({
+						var rightPanel = new org.ametys.HtmlContainer({
 								cls : 'admin-right-panel',
 								region:'east',
 								border: false,
@@ -189,13 +189,13 @@
 						
 						var CONFIG_FIELDS = []
 						<xsl:for-each select="config/categories/category">
-							var fieldset = new Ext.ametys.Fieldset({
+							var fieldset = new org.ametys.Fieldset({
 								title : "<xsl:copy-of select="label/node()"/>",
 								id : "<xsl:value-of select="generate-id()"/>",
 								layout: 'form'
 							});
 							<xsl:for-each select="groups/group">
-								var group = new Ext.ametys.HtmlContainer ({
+								var group = new org.ametys.HtmlContainer ({
 									html : "<xsl:copy-of select="label/node()"/>",
 									cls: 'ametys-subcategory'
 								});
@@ -214,7 +214,7 @@
 									var inputType;
 									if (type == 'double')
 									{
-										input = new Ext.ametys.form.DoubleField ({
+										input = new org.ametys.form.DoubleField ({
 									        fieldLabel: label,
 									        desc: desc,
 									        name: name,
@@ -225,7 +225,7 @@
 									}
 									else if (type == 'long')
 									{
-										input = new Ext.ametys.form.LongField ({
+										input = new org.ametys.form.LongField ({
 									        fieldLabel: label,
 									        desc: desc,
 									        name: name,
@@ -236,7 +236,7 @@
 									}
 									else if (type == 'password')
 									{
-										input = new Ext.ametys.form.PasswordWidget ({
+										input = new org.ametys.form.PasswordWidget ({
 									        fdLabel: label,
 									        desc: desc,
 									        name: name,
@@ -246,7 +246,7 @@
 									}
 									else if (type == 'date')
 									{
-										input = new Ext.ametys.form.DateField ({
+										input = new org.ametys.form.DateField ({
 									        fieldLabel: label,
 									        desc: desc,
 									        name: name,
@@ -257,7 +257,7 @@
 									}
 									else if (type == 'boolean')
 									{
-										input = new Ext.ametys.form.BooleanField ({
+										input = new org.ametys.form.BooleanField ({
 									        fieldLabel: label,
 									        desc: desc,
 									        name: name,
@@ -267,7 +267,7 @@
 									}
 									else
 									{
-										input = new Ext.ametys.form.TextField ({
+										input = new org.ametys.form.TextField ({
 									        fieldLabel: label,
 									        desc: desc,
 									        name: name,

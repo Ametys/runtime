@@ -21,7 +21,7 @@
 	
     <xsl:template name="workspace-script">
            	<script type="text/javascript">
-           		var item = new Ext.ametys.DesktopItem ({
+           		var item = new org.ametys.DesktopItem ({
 	           			text: "<i18n:text i18n:key="WORKSPACE_ADMIN_CONFIG_ACT"/>",
 						desc: "<i18n:text i18n:key="WORKSPACE_ADMIN_CONFIG_DESCRIPTION"/>",
 						icon: "<xsl:value-of select="$contextPath"/>/plugins/core/resources/img/administrator/config/icon_large.png",
@@ -32,7 +32,7 @@
 						
 				});
 				
-				var top = new Ext.ametys.HtmlContainer({
+				var top = new org.ametys.HtmlContainer({
 					region: 'north',
 					contentEl : 'top-panel',
 					cls: 'top-panel',

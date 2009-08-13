@@ -13,23 +13,23 @@
 Ext.namespace('Ext.awt');
 
 /**
- * Ext.ametys.ActionsPanel
+ * org.ametys.ActionsPanel
  *
  * @class This action provides a contextual panel for link actions.<br/>Use the <code>addAction</code> to add a new link action to this panel.
  * @extends Ext.Panel
  * @constructor
  * @param {Object} config Configuration options
  * @example
- * var handle = new Ext.ametys.ActionsPanel({title: "&lt;i18n:text i18n:key="CONFIG_HANDLE"/&gt;"});
+ * var handle = new org.ametys.ActionsPanel({title: "&lt;i18n:text i18n:key="CONFIG_HANDLE"/&gt;"});
  *	handle.addAction("&lt;i18n:text i18n:key="CONFIG_HANDLE_SAVE"/&gt;", "/img/save.png", save);
  *	handle.addAction("&lt;i18n:text i18n:key="CONFIG_HANDLE_QUIT"/&gt;", "/img/quit.png", goBack);
  */
-Ext.ametys.ActionsPanel = function(config) 
+org.ametys.ActionsPanel = function(config) 
 {
-	Ext.ametys.ActionsPanel.superclass.constructor.call(this, config);
+	org.ametys.ActionsPanel.superclass.constructor.call(this, config);
 }; 
 
-Ext.extend(Ext.ametys.ActionsPanel, Ext.Panel, 
+Ext.extend(org.ametys.ActionsPanel, Ext.Panel, 
 {
 	autoDestroy: false,
 	collapsible: false,
@@ -42,12 +42,12 @@ Ext.extend(Ext.ametys.ActionsPanel, Ext.Panel,
 
 
 /**
- * Adds an action (see <code>Ext.ametys.Action</code> to this panel.  
+ * Adds an action (see <code>org.ametys.Action</code> to this panel.  
  * @param {String} text The text of the action
  * @param {String} icon The absolute url of the icon. Can be null
  * @param {Function} act The function to be called on click event 
  */
-Ext.ametys.ActionsPanel.prototype.addAction = function (text, icon, act) 
+org.ametys.ActionsPanel.prototype.addAction = function (text, icon, act) 
 { 
 	var span = document.createElement("span");
 	if (icon)
@@ -64,7 +64,7 @@ Ext.ametys.ActionsPanel.prototype.addAction = function (text, icon, act)
     link.className = "link"
     span.appendChild (link);
 
-    var action = new Ext.ametys.Action ({ 
+    var action = new org.ametys.Action ({ 
 		border: false,
 		html : span.innerHTML,
 		listeners: {"click" : act},
@@ -79,7 +79,7 @@ Ext.ametys.ActionsPanel.prototype.addAction = function (text, icon, act)
  * Hide the action to the position argument
  * @param position The position of the action to hide in the panel
  */
-Ext.ametys.ActionsPanel.prototype.hideElt = function (position) 
+org.ametys.ActionsPanel.prototype.hideElt = function (position) 
 { 
 	var act = this.actions[position];
 	if(act != null)
@@ -92,7 +92,7 @@ Ext.ametys.ActionsPanel.prototype.hideElt = function (position)
  * Show the action to the position argument
  *  @param position The position of the action to show in the panel
  */
-Ext.ametys.ActionsPanel.prototype.showElt = function (position) 
+org.ametys.ActionsPanel.prototype.showElt = function (position) 
 { 
 	var act = this.actions[position];
 	if(act != null)
@@ -100,9 +100,9 @@ Ext.ametys.ActionsPanel.prototype.showElt = function (position)
 		act.setVisible(true);
 	}
 }
-Ext.ametys.ActionsPanel.prototype.onRender = function(ct, position)
+org.ametys.ActionsPanel.prototype.onRender = function(ct, position)
 {
-	Ext.ametys.ActionsPanel.superclass.onRender.call(this, ct, position);
+	org.ametys.ActionsPanel.superclass.onRender.call(this, ct, position);
 	
 	this.header.addClass(this.awtCls + '-header');
 	this.body.addClass(this.awtCls + '-body');

@@ -30,10 +30,10 @@
             </head>
             <script>
             	<script type="text/javascript">
-					var help = new Ext.ametys.TextPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_HELP"/>'});
+					var help = new org.ametys.TextPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_HELP"/>'});
 					help.addText("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_HELP_TEXT"/>");
           			
-          			var rightPanel = new Ext.ametys.HtmlContainer({
+          			var rightPanel = new org.ametys.HtmlContainer({
 						region:'east',
 						border: false,
 						baseCls: 'admin-right-panel',

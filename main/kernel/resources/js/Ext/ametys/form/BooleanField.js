@@ -10,29 +10,29 @@
  */
 
 // Ametys Namespace
-Ext.namespace('Ext.ametys.form');
+Ext.namespace('org.ametys.form');
 
 /**
- * Ext.ametys.form.BooleanField
+ * org.ametys.form.BooleanField
  *
  * @class This class provides a checkbox field width a help icon. Use the <code>desc</option> to add the help icon.
  * @extends Ext.form.Checkbox
  * @constructor
  * @param {Object} config Configuration options
  */
-Ext.ametys.form.BooleanField = function(config) 
+org.ametys.form.BooleanField = function(config) 
 {
 	config.itemCls = "ametys-input";
 	config.labelSeparator = '';
 	
-	Ext.ametys.form.BooleanField.superclass.constructor.call(this, config);
+	org.ametys.form.BooleanField.superclass.constructor.call(this, config);
 }; 
 
-Ext.extend(Ext.ametys.form.BooleanField, Ext.form.Checkbox, {});
+Ext.extend(org.ametys.form.BooleanField, Ext.form.Checkbox, {});
 
-Ext.ametys.form.BooleanField.prototype.onRender = function(ct, position)
+org.ametys.form.BooleanField.prototype.onRender = function(ct, position)
 {
-	Ext.ametys.form.BooleanField.superclass.onRender.call(this, ct, position);
+	org.ametys.form.BooleanField.superclass.onRender.call(this, ct, position);
 	
 	if (this.desc)
 	{

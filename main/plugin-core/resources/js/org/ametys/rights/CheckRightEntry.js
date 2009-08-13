@@ -10,16 +10,16 @@
  */
 
 // Ametys Namespace
-Ext.namespace('Ext.ametys.rights');
+Ext.namespace('org.ametys.rights');
 
 /**
- * Ext.ametys.rights.CheckRightEntry
+ * org.ametys.rights.CheckRightEntry
  * @class This class provides a checkbox with a help icon for a right. If the right text is too long, it will be automatically cut with '...'.
  * @extends Ext.form.Checkbox
  * @constructor
  * @param {Object} config Configuration options
  * @example
- * var right = new Ext.ametys.right.CheckRightEntry({
+ * var right = new org.ametys.right.CheckRightEntry({
  * 	text: "&lt;i18n:text i18n:key="PLUGINS_CORE_RIGHTS_HANDLE_LABEL"/&gt;",
  * 	description: "&lt;i18n:text i18n:key="PLUGINS_CORE_RIGHTS_HANDLE_DESCRIPTION"/&gt;",
  *  category: "<xsl:value-of select="$category"/>",
@@ -28,18 +28,18 @@ Ext.namespace('Ext.ametys.rights');
  * 	width: 190
  * });
  */
-Ext.ametys.rights.CheckRightEntry = function(config) 
+org.ametys.rights.CheckRightEntry = function(config) 
 {
 	config.boxLabel = config.text;
 	config.itemCls = 'check-right-entry';
-	Ext.ametys.rights.CheckRightEntry.superclass.constructor.call(this, config);
+	org.ametys.rights.CheckRightEntry.superclass.constructor.call(this, config);
 }; 
 
-Ext.extend(Ext.ametys.rights.CheckRightEntry,  Ext.form.Checkbox, {});
+Ext.extend(org.ametys.rights.CheckRightEntry,  Ext.form.Checkbox, {});
 
-Ext.ametys.rights.CheckRightEntry.prototype.onRender = function (ct, position)
+org.ametys.rights.CheckRightEntry.prototype.onRender = function (ct, position)
 {
-	Ext.ametys.rights.CheckRightEntry.superclass.onRender.call(this, ct, position);
+	org.ametys.rights.CheckRightEntry.superclass.onRender.call(this, ct, position);
 	
 	// Help icon
 	if (this.description)

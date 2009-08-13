@@ -201,7 +201,7 @@
 	                    var handle;
 	                    
 						// Gestion
-						handle = new Ext.ametys.ActionsPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE"/>'});
+						handle = new org.ametys.ActionsPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE"/>'});
 						handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_VIEW"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/logs/file.png", view);
 						handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_DOWNLOAD"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/logs/download.png", download);
 						handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_DELETE"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/logs/delete.png", del);
@@ -213,10 +213,10 @@
 						handle.hideElt(2);
 						
 						// Aide
-						var help = new Ext.ametys.TextPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP"/>'});
+						var help = new org.ametys.TextPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP"/>'});
 						help.addText("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP_TEXT"/>");
 						
-						var rightPanel = new Ext.ametys.HtmlContainer({
+						var rightPanel = new org.ametys.HtmlContainer({
 									region:'east',
 									border: false,
 									cls: 'admin-right-panel',
@@ -254,7 +254,7 @@
 					        groupField:'file'
 					    });
 						
-						logview = new Ext.ametys.ListView({
+						logview = new org.ametys.ListView({
 							listeners: {'rowclick': onSelectLog},	
 							animCollapse: true,					
 						    store : gpStore,

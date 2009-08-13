@@ -10,17 +10,17 @@
  */
 
 // Ametys Namespace
-Ext.namespace('Ext.ametys.form');
+Ext.namespace('org.ametys.form');
 
 /**
- * Ext.ametys.form.LongField
+ * org.ametys.form.LongField
  *
  * @class This class provides a text field, width a help icon. Use the <code>desc</option> to add the help icon.<br/>Only non decimal values are authorized.
  * @extends Ext.form.NumberField
  * @constructor
  * @param {Object} config Configuration options
  * @example
- * var input = new Ext.ametys.form.LongField ({
+ * var input = new org.ametys.form.LongField ({
  *	fieldLabel: "Time period before automatic unlocking",
  *	desc: "Time period before automatic unlocking",
  *	name: "period",
@@ -28,20 +28,20 @@ Ext.namespace('Ext.ametys.form');
  *	width: 250
  *	});
  */
-Ext.ametys.form.LongField = function(config) 
+org.ametys.form.LongField = function(config) 
 {
 	config.itemCls = "ametys-input";
 	config.labelSeparator = '';
 	config.allowDecimals = false,
 	
-	Ext.ametys.form.LongField.superclass.constructor.call(this, config);
+	org.ametys.form.LongField.superclass.constructor.call(this, config);
 }; 
 
-Ext.extend(Ext.ametys.form.LongField, Ext.form.NumberField, {});
+Ext.extend(org.ametys.form.LongField, Ext.form.NumberField, {});
 
-Ext.ametys.form.LongField.prototype.onRender = function(ct, position)
+org.ametys.form.LongField.prototype.onRender = function(ct, position)
 {
-	Ext.ametys.form.LongField.superclass.onRender.call(this, ct, position);
+	org.ametys.form.LongField.superclass.onRender.call(this, ct, position);
 	
 	if (this.desc)
 	{

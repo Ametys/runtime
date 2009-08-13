@@ -10,30 +10,30 @@
  */
 
 // Ametys Namespace
-Ext.namespace('Ext.ametys');
+Ext.namespace('org.ametys');
 
 /**
- * Ext.ametys.DesktopPanel
- * @class This class provides a container for {@link Ext.ametys.DesktopItem}
+ * org.ametys.DesktopPanel
+ * @class This class provides a container for {@link org.ametys.DesktopItem}
  * @extends Ext.Container
  * @constructor
  * @param {Object} config Configuration options
  */
-Ext.ametys.DesktopPanel = function(config) 
+org.ametys.DesktopPanel = function(config) 
 {
-	Ext.ametys.DesktopPanel.superclass.constructor.call(this, config);
+	org.ametys.DesktopPanel.superclass.constructor.call(this, config);
 }; 
 
-Ext.extend(Ext.ametys.DesktopPanel, Ext.Container, 
+Ext.extend(org.ametys.DesktopPanel, Ext.Container, 
 {
 	cls: 'desktop',
 	border: false,
 	autoscroll: true
 });
 
-Ext.ametys.DesktopPanel.prototype.onRender = function(ct, position)
+org.ametys.DesktopPanel.prototype.onRender = function(ct, position)
 {
-	Ext.ametys.DesktopPanel.superclass.onRender.call(this, ct, position);
+	org.ametys.DesktopPanel.superclass.onRender.call(this, ct, position);
 }
 
 
