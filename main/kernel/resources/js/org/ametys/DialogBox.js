@@ -40,18 +40,6 @@ org.ametys.DialogBox = function(config) {
 	}
 
 	org.ametys.DialogBox.superclass.constructor.call(this, config);
-
-	if (config.icon) 
-	{
-		this.addListener
-		(
-			'close', 
-			function() 
-			{
-				Ext.util.CSS.removeStyleSheet(config.iconCls);
-			}
-		)
-	}
 };
 
 Ext.extend(
