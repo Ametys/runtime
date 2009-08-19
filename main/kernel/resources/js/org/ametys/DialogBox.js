@@ -34,35 +34,44 @@ Ext.namespace('org.ametys');
  *          RUNTIME_Announcement.cancel }] });
  */
 org.ametys.DialogBox = function(config) {
-	if (config.icon) {
-		var id = "icon-dialog-" + Ext.id();
-
-		try {
-			var css = "." + id + " {background-image:url('" + config.icon
-					+ "');}"
-			Ext.util.CSS.createStyleSheet(css, id);
-			Ext.util.CSS.refreshCache();
-		} catch (e) {
-		}
-
-		config.iconCls = id;
+	if (config.icon) 
+	{
+		config.iconCls = "instyleicon";
 	}
 
 	org.ametys.DialogBox.superclass.constructor.call(this, config);
 
-	if (config.icon) {
-		this.addListener('close', function() {
-			Ext.util.CSS.removeStyleSheet(config.iconCls);
-		})
+	if (config.icon) 
+	{
+		this.addListener
+		(
+			'close', 
+			function() 
+			{
+				Ext.util.CSS.removeStyleSheet(config.iconCls);
+			}
+		)
 	}
 };
 
-Ext.extend(org.ametys.DialogBox, Ext.Window, {
-	resizable :true,
-	shadow :true,
-	modal :true,
-	ametysCls :'ametys-box'
-});
+Ext.extend(
+	org.ametys.DialogBox, 
+	Ext.Window, 
+	{
+		resizable :true,
+		shadow :true,
+		modal :true,
+		ametysCls :'ametys-box'
+	}
+);
+
+org.ametys.DialogBox.prototype.onRender = function(ct, position) 
+{
+	org.ametys.DialogBox.superclass.onRender.call(this, ct, position);
+	
+	this.body.addClass(this.ametysCls + '-body');
+	this.header.addClass(this.ametysCls + '-header');
+}
 
 /**
  * Set the icon image for this dialog box
@@ -70,21 +79,26 @@ Ext.extend(org.ametys.DialogBox, Ext.Window, {
  * @param {String}
  *            icon The icon path
  */
-org.ametys.DialogBox.prototype.setIconPath = function(icon) {
-	var id = "icon-dialog-" + Ext.id();
-
-	try {
-		var css = "." + id + " {background-image:url('" + icon + "');}"
-		Ext.util.CSS.createStyleSheet(css, id);
-		Ext.util.CSS.refreshCache();
-	} catch (e) {
-	}
-
-	this.setIconClass(id);
+org.ametys.DialogBox.prototype.setIconPath = function(icon) 
+{
+	this.icon = icon;
+	this.setIconClass(this.iconCls);
 }
 
-org.ametys.DialogBox.prototype.onRender = function(ct, position) {
-	org.ametys.DialogBox.superclass.onRender.call(this, ct, position);
-	this.body.addClass(this.ametysCls + '-body');
-	this.header.addClass(this.ametysCls + '-header');
+org.ametys.DialogBox.prototype.setIconClass = function(cls)
+{
+	org.ametys.DialogBox.superclass.setIconClass.call(this, cls);
+	
+    if(this.rendered && this.header)
+    {
+        if(this.frame)
+        {
+        	this.header.dom.style.backgroundImage = "url('" + this.icon + "')";
+        }
+        else
+        {
+            var img = hd.firstChild && String(hd.firstChild.tagName).toLowerCase() == 'img' ? hd.firstChild : null;
+            img.style.backgroundImage = this.icon;
+        }
+    }
 }
