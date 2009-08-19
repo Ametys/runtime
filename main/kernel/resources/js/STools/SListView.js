@@ -629,6 +629,7 @@ SListView.prototype.create_mozaic = function (element)
 	// Image
 	td_img.className = "img";
 	var pre_img = this.ui.document.createElement("img");
+		pre_img.src = STools.Ressource + "transp.gif";
 		pre_img.style.width = "60px";
 		pre_img.style.height = "1px";
 		pre_img.style.display = "block";
@@ -639,6 +640,7 @@ SListView.prototype.create_mozaic = function (element)
 	
 	// Texte
 	var pre_img2 = this.ui.document.createElement("img");
+		pre_img2.src = STools.Ressource + "transp.gif";
 		pre_img2.style.width = "160px";
 		pre_img2.style.height = "1px";
 		pre_img2.style.display = "block";
@@ -752,6 +754,7 @@ SListView.prototype.create_icon = function (element)
 	// Image
 	td_img.className = "img";
 	var pre_img = this.ui.document.createElement("img");
+		pre_img.src = STools.Ressource + "transp.gif";
 		pre_img.style.width = "32px";
 		pre_img.style.height = "1px";
 		pre_img.style.display = "block";
@@ -762,6 +765,7 @@ SListView.prototype.create_icon = function (element)
 	
 	// Texte
 	var pre_img2 = this.ui.document.createElement("img");
+		pre_img2.src = STools.Ressource + "transp.gif";
 		pre_img2.style.width = "80px";
 		pre_img2.style.height = "1px";
 		pre_img2.style.display = "block";
@@ -884,6 +888,7 @@ SListView.prototype.create_thumb = function (element)
 	td_img.innerHTML = thumb;
 	
 	var pre_img = this.ui.document.createElement("img");
+		pre_img.src = STools.Ressource + "transp.gif";
 		pre_img.style.width = "100px";
 		pre_img.style.height = "1px";
 		pre_img.style.display = "block";
@@ -891,6 +896,7 @@ SListView.prototype.create_thumb = function (element)
 	
 	// Texte
 	var pre_img2 = this.ui.document.createElement("img");
+		pre_img2.src = STools.Ressource + "transp.gif";
 		pre_img2.style.width = "100px";
 		pre_img2.style.height = "1px";
 		pre_img2.style.display = "block";
@@ -1013,6 +1019,7 @@ SListView.prototype.create_viewer = function (element, where)
 	td_img.innerHTML = thumb;
 	
 	var pre_img = this.ui.document.createElement("img");
+		pre_img.src = STools.Ressource + "transp.gif";
 		pre_img.style.width = "100px";
 		pre_img.style.height = "1px";
 		pre_img.style.display = "block";
@@ -1020,6 +1027,7 @@ SListView.prototype.create_viewer = function (element, where)
 	
 	// Texte
 	var pre_img2 = this.ui.document.createElement("img");
+		pre_img2.src = STools.Ressource + "transp.gif";
 		pre_img2.style.width = "100px";
 		pre_img2.style.height = "1px";
 		pre_img2.style.display = "block";
@@ -1130,6 +1138,7 @@ SListView.prototype.create_list = function (element)
 	// Image
 	td_img.className = "img";
 	var pre_img = this.ui.document.createElement("img");
+		pre_img.src = STools.Ressource + "transp.gif";
 		pre_img.style.width = "16px";
 		pre_img.style.height = "1px";
 		pre_img.style.display = "block";
@@ -1140,6 +1149,7 @@ SListView.prototype.create_list = function (element)
 	
 	// Texte
 	var pre_img2 = this.ui.document.createElement("img");
+		pre_img2.src = STools.Ressource + "transp.gif";
 		pre_img2.style.width = "140px";
 		pre_img2.style.height = "1px";
 		pre_img2.style.display = "block";
@@ -1317,8 +1327,11 @@ SListView.prototype.create_detail = function (element, table)
     			
 			var iimg = this.ui.document.createElement("img");
             if (element.icon16 == null || element.icon16 == "")
+            {
+              iimg.src = STools.Ressource + "transp.gif";
               iimg.style.width = "0px";
-             else
+            }
+            else
               iimg.src = element.icon16;
 			itd_1.style.textAlign = "center";
 			itd_1.appendChild(iimg);
@@ -1560,6 +1573,7 @@ SListView.prototype.paint = function (forceSort)
 		td_command.className = "viewer-command"
 		row_command.appendChild(td_command);
 		var img_command = this.ui.document.createElement("img");
+		img_command.src = STools.Ressource + "transp.gif";
 		img_command.width = "1px";
 		img_command.height = "30px";
 		td_command.appendChild(img_command);
@@ -1583,6 +1597,7 @@ SListView.prototype.paint = function (forceSort)
 		var innerTd = this.ui.document.createElement("td");
 		innerTd.width = "1px";
 		var img_mozaic = this.ui.document.createElement("img");
+		img_mozaic.src = STools.Ressource + "transp.gif";
 		img_mozaic.width = "1px";
 		img_mozaic.height = "170px";
 		innerTd.appendChild(img_mozaic);
@@ -1635,6 +1650,7 @@ SListView.prototype.paint = function (forceSort)
 				th.style.width = this.columns[r].size;
 				
 				var preImg = this.ui.document.createElement("img");
+				preImg.src = STools.Ressource + "transp.gif";
 				preImg.style.height = "1px";
 				preImg.style.width = this.columns[r].size;
 				preImg.style.display = "block";
@@ -1913,6 +1929,7 @@ SListView.prototype.paintGroup = function (group, here)
 	megadiv.className = "group_surround";
 	
 	var imgS1 = this.ui.document.createElement("img");
+	imgS1.src = STools.Ressource + "transp.gif";
 	imgS1.className = "group";
 	imgS1.style.width = "1px";
 	imgS1.style.height = "10px";
@@ -1931,6 +1948,7 @@ SListView.prototype.paintGroup = function (group, here)
 	megadiv.appendChild(img);
 	
 	var imgS2 = this.ui.document.createElement("img");
+	imgS2.src = STools.Ressource + "transp.gif";
 	imgS2.className = "group";
 	imgS2.style.width = "1px";
 	imgS2.style.height = "10px";
@@ -1947,6 +1965,7 @@ SListView.prototype.paintGroupAfter = function (group, here)
 		here = this.ui.mainElement;
 
 	var imgS1 = this.ui.document.createElement("img");
+	imgS1.src = STools.Ressource + "transp.gif";
 	imgS1.className = "group";
 	imgS1.style.width = "1px";
 	imgS1.style.height = "10px";

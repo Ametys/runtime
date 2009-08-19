@@ -126,4 +126,7 @@
     	<note module="kernel" type="fix">RUNTIME-245 : Omit xml declaration by default and force content-type meta with Serializer XHTML</note>
     	<note module="kernel" type="fix">RUNTIME-276 : An I18nizableText parameter can be null and produce a NPE in toSax method</note>
     </release>
+    <release name="1.1.10">
+    	<note module="kernel" type="fix">RUNTIME-287: Design of the administration panel is damaged with IE8</note>
+    </release>
 </releases>
