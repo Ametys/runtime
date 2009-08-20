@@ -82,10 +82,12 @@
         <xsl:param name="bad-navigator-redirection"/>
         <xsl:param name="accept-ie-6">true</xsl:param>
         <xsl:param name="accept-ie-7">true</xsl:param>
+        <xsl:param name="accept-ie-8">false</xsl:param>
         <xsl:param name="accept-ff-1.0">true</xsl:param>
         <xsl:param name="accept-ff-1.5">true</xsl:param>
         <xsl:param name="accept-ff-2.0">true</xsl:param>
         <xsl:param name="accept-ff-3.0">false</xsl:param>
+        <xsl:param name="accept-ff-3.5">false</xsl:param>
     
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Tools.js"><xsl:comment>empty</xsl:comment></script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/mozxpath.js"><xsl:comment>empty</xsl:comment></script>
@@ -109,10 +111,12 @@
                 if (!(
                     <xsl:if test="$accept-ie-6 = 'true'">(STools.agt.indexOf("msie 6")) > 0 ||</xsl:if>
                     <xsl:if test="$accept-ie-7 = 'true'">(STools.agt.indexOf("msie 7")) > 0 ||</xsl:if>
+                    <xsl:if test="$accept-ie-8 = 'true'">(STools.agt.indexOf("msie 8")) > 0 ||</xsl:if>
                     <xsl:if test="$accept-ff-1.0 = 'true'">(STools.agt.indexOf("firefox/1.0")) > 0 ||</xsl:if>
                     <xsl:if test="$accept-ff-1.5 = 'true'">(STools.agt.indexOf("firefox/1.5")) > 0 ||</xsl:if>
                     <xsl:if test="$accept-ff-2.0 = 'true'">(STools.agt.indexOf("firefox/2.0")) > 0 ||</xsl:if>
                     <xsl:if test="$accept-ff-3.0 = 'true'">(STools.agt.indexOf("firefox/3.0")) > 0 ||</xsl:if>
+                    <xsl:if test="$accept-ff-3.5 = 'true'">(STools.agt.indexOf("firefox/3.5")) > 0 ||</xsl:if>
                     1 == 0))
                 {
                 	// Check the cookie for forcing non supported navigators

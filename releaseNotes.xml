@@ -128,5 +128,6 @@
     </release>
     <release name="1.1.10">
     	<note module="kernel" type="fix">RUNTIME-287: Design of the administration panel is damaged with IE8</note>
+    	<note module="kernel" type="update">RUNTIME-288 : Add IE8 and FF3.5 to list of accetable browsers</note>
     </release>
 </releases>
