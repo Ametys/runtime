@@ -37,9 +37,9 @@ Ext.extend(org.ametys.Fieldset, Ext.Panel,
 org.ametys.Fieldset.prototype._onCollapse = function (panel)
 {
 	if (panel.ownerCt.ownerCt)
-		panel.ownerCt.ownerCt.doLayout();
+		panel.ownerCt.ownerCt.doLayout.defer(100, panel.ownerCt.ownerCt);
 	else
-		panel.ownerCt.doLayout();
+		panel.ownerCt.doLayout.defer(100, panel.ownerCt);
 }
 org.ametys.Fieldset.prototype._onExpand = function (panel)
 {

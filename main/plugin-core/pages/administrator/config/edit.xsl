@@ -210,12 +210,15 @@
 								layout: 'form',
 								width: 595
 							});
+							
+							var height = 0; // padding-bottom
 							<xsl:for-each select="groups/group">
 								var group = new org.ametys.HtmlContainer ({
 									html : "<xsl:copy-of select="label/node()"/>",
 									cls: 'ametys-subcategory'
 								});
 								fieldset.add(group);
+								height += 24;
 								<xsl:for-each select="parameters/*">
 									<xsl:sort select="order"/>
 									
@@ -238,6 +241,7 @@
 									        msgTarget: 'under', // position du message d'erreur
 									        width: 250
 										});
+										height += 36;
 									}
 									else if (type == 'long')
 									{
@@ -249,6 +253,7 @@
 									        msgTarget: 'under', // position du message d'erreur 
 									        width: 250
 										});
+										height += 36;
 									}
 									else if (type == 'password')
 									{
@@ -259,6 +264,7 @@
 									        value: value,
 									        fdLabelWidth :230
 										});
+										height += 75;
 									}
 									else if (type == 'date')
 									{
@@ -270,6 +276,7 @@
 									        msgTarget: 'under', // position du message d'erreur 
 									        width: 250
 										});
+										height += 36;
 									}
 									else if (type == 'boolean')
 									{
@@ -280,6 +287,7 @@
 									        checked: (value == "true"),
 									        msgTarget: 'under' // position du message d'erreur 
 										});
+										height += 22;
 									}
 									else
 									{
@@ -291,10 +299,12 @@
 									        msgTarget: 'under', // position du message d'erreur 
 									        width: 250
 										});
+										height += 36;
 									}
 									fieldset.add(input);
 									CONFIG_FIELDS.push(name);
 								</xsl:for-each>
+								fieldset.setHeight(height);
 								centerPanel.add(fieldset);
 							</xsl:for-each>
 						</xsl:for-each>
