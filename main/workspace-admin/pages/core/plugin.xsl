@@ -72,51 +72,53 @@
 			
 			function showPaddle() 
 			{
-				var dockTop = new org.ametys.HtmlContainer ({
-					cls: 'dock-top'
-				});
-				var dockBottom = new org.ametys.HtmlContainer ({
-					cls: 'dock-bottom'
-				});
-				
-				var items = [];
-				
-				<xsl:for-each select="/Plugins/Desktop/category">
-					<xsl:for-each select="UIItem">
-						var item = new org.ametys.DockItem ({
-							tooltip: org.ametys.AdminTools.DockTooltipFormater("<xsl:copy-of select="Label/node()"/>", "<xsl:value-of select="$contextPath"/><xsl:value-of select="Icons/Large"/>", "<xsl:copy-of select="Description/node()"/>"),
-						 	icon : "<xsl:value-of select="$contextPath"/><xsl:value-of select="Icons/Small"/>"
-						 	<xsl:if test="../CurrentUIItem/@position = position()">,pressed: true</xsl:if>
-						 	<xsl:if test="not(@disabled)">
-                            	, 
-                                "plugin" : "<xsl:value-of select="Action/@plugin"/>",
-                                "actionFunction" : <xsl:value-of select="Action/ClassName"/>.act,
-                                "actionParams" : {<xsl:for-each select="Action/Parameters/*">
-                                	<xsl:text>"</xsl:text><xsl:value-of select="local-name()"/>" : "<xsl:value-of select="."/><xsl:text>"</xsl:text>
-                                    <xsl:if test="position() != last()">, </xsl:if>
-                                    </xsl:for-each>}
-	                       </xsl:if>
-						});
-						items.push(item);
+				<xsl:if test="/Plugins/Desktop/category">
+					var dockTop = new org.ametys.HtmlContainer ({
+						cls: 'dock-top'
+					});
+					var dockBottom = new org.ametys.HtmlContainer ({
+						cls: 'dock-bottom'
+					});
+					
+					var items = [];
+					
+					<xsl:for-each select="/Plugins/Desktop/category">
+						<xsl:for-each select="UIItem">
+							var item = new org.ametys.DockItem ({
+								tooltip: org.ametys.AdminTools.DockTooltipFormater("<xsl:copy-of select="Label/node()"/>", "<xsl:value-of select="$contextPath"/><xsl:value-of select="Icons/Large"/>", "<xsl:copy-of select="Description/node()"/>"),
+							 	icon : "<xsl:value-of select="$contextPath"/><xsl:value-of select="Icons/Small"/>"
+							 	<xsl:if test="../CurrentUIItem/@position = position()">,pressed: true</xsl:if>
+							 	<xsl:if test="not(@disabled)">
+	                            	, 
+	                                "plugin" : "<xsl:value-of select="Action/@plugin"/>",
+	                                "actionFunction" : <xsl:value-of select="Action/ClassName"/>.act,
+	                                "actionParams" : {<xsl:for-each select="Action/Parameters/*">
+	                                	<xsl:text>"</xsl:text><xsl:value-of select="local-name()"/>" : "<xsl:value-of select="."/><xsl:text>"</xsl:text>
+	                                    <xsl:if test="position() != last()">, </xsl:if>
+	                                    </xsl:for-each>}
+		                       </xsl:if>
+							});
+							items.push(item);
+						</xsl:for-each>
+						<xsl:if test="position() != last()">
+							var tile = new org.ametys.HtmlContainer ({
+									cls: 'dock-tile'
+							});
+							items.push(tile);
+						</xsl:if>
 					</xsl:for-each>
-					<xsl:if test="position() != last()">
-						var tile = new org.ametys.HtmlContainer ({
-								cls: 'dock-tile'
-						});
-						items.push(tile);
-					</xsl:if>
-				</xsl:for-each>
-				
-				var dockCenter = new Ext.Panel ({
-					baseCls: 'dock-center',
-					items: items
-				})
-				
-				var dock = new Ext.Panel({
-					baseCls: 'paddle',
-					renderTo: 'content_left',
-					items: [dockTop, dockCenter, dockBottom]
-				});
+					
+					var dockCenter = new Ext.Panel ({
+						baseCls: 'dock-center',
+						items: items
+					})
+					
+					var dock = new Ext.Panel({
+						baseCls: 'paddle',
+						renderTo: 'content_left',
+						items: [dockTop, dockCenter, dockBottom]
+					});
+				</xsl:if>
 			}
 			Ext.onReady(showPaddle);
 		</script>
