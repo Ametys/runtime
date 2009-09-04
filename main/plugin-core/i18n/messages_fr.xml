@@ -81,6 +81,7 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE_REQUEST_HELP">Le nombre indiqué ici comptabilise les requêtes HTTP traitées en ce moment par le serveur (y compris celle qui est faite pour récupérer cette valeur)</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE_THREAD">Threads en cours</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE_THREAD_HELP">Le nombre indiqué ici comptabilise tous les threads de la JVM (toutes applications web confondues)</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_ERROR">Erreur</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_GC_ERROR">Une erreur est survenue. La mémoire n'a peut-être pas été libérée et les données affichées ne sont pas à jour.\n\nL'écran ne va plus se rafraichir automatiquement.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_REFRESH_ERROR">Une erreur est survenue. Les données affichées ne sont pas à jour.\n\nL'écran ne va plus se rafraichir automatiquement.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_SESSIONS_ERROR">? [obtenir de l'aide]</message>
@@ -172,6 +173,7 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_DEFAULTMESSAGE">Entrez ici le message d'annonce dans la langue par défaut</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_ERROR_LANG">Le code de langue se compose toujours de 2 lettres.\nPar exemple : fr pour le français ou en pour l'anglais.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_ERROR_MESSAGE">Le message doit être non vide.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ERROR">Erreur</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ERROR_SAVE">Une erreur est survenue sur le serveur. Les modifications n'ont pas été enregistrées.</message>
 
     <!-- WIDGETS -->
@@ -294,6 +296,7 @@
 	<message key="PLUGINS_CORE_USERS_COL_NAME">Nom</message>
 	<message key="PLUGINS_CORE_USERS_COL_ID">Identifiant</message>
 	<message key="PLUGINS_CORE_USERS_COL_EMAIL">Email</message>
+	<message key="PLUGINS_CORE_USERS_SEARCHING">Recherche</message>
 	<message key="PLUGINS_CORE_USERS_SEARCHING_ERROR">Une erreur est survenue sur le serveur lors de la recherche.</message>
     <message key="PLUGINS_CORE_USERS_SEARCHING_NORESULT">La recherche n'a renvoyé aucun résultat</message>
 	<message key="PLUGINS_CORE_USERS_HANDLE">Gestion</message>
@@ -394,7 +397,7 @@
 	<message key="PLUGINS_CORE_GROUPS_COLUMN">Utilisateurs du groupe</message>
     <message key="PLUGINS_CORE_GROUPS_RIGHTS_HANDLE_LABEL">Groupes</message>
     <message key="PLUGINS_CORE_GROUPS_RIGHTS_HANDLE_DESCRIPTION">Accès à l'écran de gestion des groupes</message>
-	
+    
     <!-- SELECT GROUP -->
     <message key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_CAPTION">Sélectionner un groupe...</message>
     <message key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_OK">Ok</message>
@@ -520,4 +523,7 @@
  	<message key="GROUP_DEPLOY_ESUP_WS_URL_DESCRPTION">URL du WebService :</message>
 	<message key="GROUP_DEPLOY_ESUP_WS_REFRESH_LABEL">Intervalle de rafraichissement du cache (en minutes)</message>
 	<message key="GROUP_DEPLOY_ESUP_WS_REFRESH_DESCRIPTION">Intervalle de rafraichissement du cache (en minutes)</message>
+	
+	<message key="PLUGINS_CORE_ERROR_DIALOG_TITLE">Erreur</message>
+	<message key="PLUGINS_CORE_SAVE_DIALOG_TITLE">Sauvegarde</message>
 </catalogue>

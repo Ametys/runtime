@@ -103,7 +103,12 @@ RUNTIME_Plugin_Runtime_EditUser.act2 = function()
 	    var nodes = Tools.postFromUrl(url, arg);
 	    if (nodes == null)
 	    {
-	    	alert("<i18n:text i18n:key="PLUGINS_CORE_USERS_DIALOG_ERROR"/>");
+	    	Ext.Msg.show ({
+        		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
+        		msg: "<i18n:text i18n:key="PLUGINS_CORE_USERS_DIALOG_ERROR"/>",
+        		buttons: Ext.Msg.OK,
+				icon: Ext.MessageBox.ERROR
+        	});
 	        return;
 	    }
 	    var userInfo = nodes.selectSingleNode("/users-info/users/user[@login='" + params['login'] + "']");
@@ -151,7 +156,12 @@ RUNTIME_Plugin_Runtime_EditUser.ok = function ()
 
 	if (result == null)
 	{
-		alert("<i18n:text i18n:key="PLUGINS_CORE_USERS_DIALOG_ERROR"/>")
+		Ext.Msg.show ({
+    		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
+    		msg: "<i18n:text i18n:key="PLUGINS_CORE_USERS_DIALOG_ERROR"/>",
+    		buttons: Ext.Msg.OK,
+			icon: Ext.MessageBox.ERROR
+    	});
 		return;
 	}
   

@@ -105,10 +105,11 @@
                         }
                         function RUNTIME_Plugin_Runtime_Save_Assignment_For_Application(force)
                         {
-
                             if (force == false)
                             {
-                                if ((profilAppliCategory.table.rows[0+1].style.display == "" &amp;&amp; !confirm("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_ACT_VALID_CONFIRM" i18n:catalogue="plugin.{$pluginName}"/>")) || profilAppliCategory.table.rows[0+1].style.display != "")
+                            	var save = false;
+                            	Ext.Msg.confirm ("<i18n:text i18n:key="PLUGINS_CORE_SAVE_DIALOG_TITLE"/>", "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_ACT_VALID_CONFIRM"/>", function (button) { if (button != 'yes') save = true});
+                                if ((profilAppliCategory.table.rows[0+1].style.display == "" &amp;&amp; !save) || profilAppliCategory.table.rows[0+1].style.display != "")
                                 {
                                     profilAppliCategory.showHideElement(0, false);
                                     return;                             

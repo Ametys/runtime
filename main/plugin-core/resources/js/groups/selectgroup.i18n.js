@@ -124,7 +124,12 @@ RUNTIME_Plugin_Runtime_SelectGroup.load = function ()
 	var result = Tools.postFromUrl(getPluginDirectUrl(RUNTIME_Plugin_Runtime_SelectGroup.plugin) + "/groups/selectgroup/search.xml", "criteria=" + criteria + "&amp;count=100" + "&amp;offset=0");
 	if (result == null)
 	{
-		alert("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_ERROR_LISTING"/>")
+		Ext.Msg.show ({
+    		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
+    		msg: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_ERROR_LISTING"/>",
+    		buttons: Ext.Msg.OK,
+			icon: Ext.MessageBox.ERROR
+		});
 		return;
 	}	
 
@@ -139,7 +144,12 @@ RUNTIME_Plugin_Runtime_SelectGroup.load = function ()
 	}
 	if (groups.length == 0)
     {
-       alert("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_NORESULT"/>");
+		Ext.Msg.show ({
+    		title: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_FIND"/>",
+    		msg: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_NORESULT"/>",
+    		buttons: Ext.Msg.OK,
+			icon: Ext.MessageBox.INFO
+		});
     }
 }
 // --------------------------------
@@ -152,7 +162,12 @@ RUNTIME_Plugin_Runtime_SelectGroup.ok = function ()
 		var selection = RUNTIME_Plugin_Runtime_SelectGroup.listview.getSelection();
 		if (selection.length == 0)
 		{
-			alert("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_ERROR_EMPTY"/>");
+			Ext.Msg.show ({
+        		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
+        		msg: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_ERROR_EMPTY"/>",
+        		buttons: Ext.Msg.OK,
+				icon: Ext.MessageBox.ERROR
+        	});
 			return;
 		}
 

@@ -105,20 +105,29 @@
 		                
 		                function userDelete()
 	                    {
-		                    if (!confirm("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_DEL_PROMPT"/>"))
-		                        return;
-		                
-		                    var elt = listView.getSelection()[0];              
-		                    var url = getPluginDirectUrl("<xsl:value-of select="$pluginName"/>") + "/users/delete";
-		                    var args = "login=" + encodeURIComponent(elt.data.login);
-		                    
-		                    if (200 != Tools.postUrlStatusCode(url, args))
-		                    {
-		                        alert("<i18n:text i18n:key="PLUGINS_CORE_USERS_DELETE_ERROR"/>");
-		                        return;
-		                    }
-		                    
-		                    listView.removeElement(elt);                    
+	                    	Ext.Msg.confirm ("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_DELETE"/>", "<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_DEL_PROMPT"/>", user_delete_confirm);
+	                    }
+	                    function user_delete_confirm (button)
+	                    {
+	                    	if (button == 'yes')
+	                    	{
+			                    var elt = listView.getSelection()[0];              
+			                    var url = getPluginDirectUrl("<xsl:value-of select="$pluginName"/>") + "/users/delete";
+			                    var args = "login=" + encodeURIComponent(elt.data.login);
+			                    
+			                    if (200 != Tools.postUrlStatusCode(url, args))
+			                    {
+			                    	Ext.Msg.show ({
+			                        		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
+			                        		msg: "<i18n:text i18n:key="PLUGINS_CORE_USERS_DELETE_ERROR"/>",
+			                        		buttons: Ext.Msg.OK,
+						   					icon: Ext.MessageBox.ERROR
+			                        });
+			                        return;
+			                    }
+			                    
+			                    listView.removeElement(elt);    
+			                }                
 						}
 						
 						function addElement(firstname, lastname, login, email)
@@ -159,7 +168,12 @@
 			                var result = Tools.postFromUrl(url, arg);
 			                if (result == null)
 			                {
-			                    alert("<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCHING_ERROR"/>")
+			                	Ext.Msg.show ({
+		                        		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
+		                        		msg: "<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCHING_ERROR"/>",
+		                        		buttons: Ext.Msg.OK,
+					   					icon: Ext.MessageBox.ERROR
+		                        });
 			                    return;
 			                }
 			
@@ -179,7 +193,12 @@
 			                
 			                if (nodes.length == 0)
 			                {
-			                    alert("<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCHING_NORESULT"/>")
+			                	Ext.Msg.show ({
+		                        		title: "<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCHING"/>",
+		                        		msg: "<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCHING_NORESULT"/>",
+		                        		buttons: Ext.Msg.OK,
+					   					icon: Ext.MessageBox.INFO
+		                        });
 			                    return;
 			                }
 						}

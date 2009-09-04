@@ -55,7 +55,12 @@
 		                        var result = Tools.postFromUrl(url, args);
 		                        if (result == null)
 		                        {
-		                            alert("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ERROR_SAVE"/>")
+		                        	Ext.Msg.show ({
+		                        		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
+		                        		msg: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ERROR_SAVE"/>",
+		                        		buttons: Ext.Msg.OK,
+					   					icon: Ext.MessageBox.ERROR
+		                        	});
 		                            return;
 		                        }
                         

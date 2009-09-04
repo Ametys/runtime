@@ -507,4 +507,6 @@
  	<message key="GROUP_DEPLOY_ESUP_WS_URL_DESCRPTION">WebService URL:</message>
 	<message key="GROUP_DEPLOY_ESUP_WS_REFRESH_LABEL">Cache update interval (minutes)</message>
 	<message key="GROUP_DEPLOY_ESUP_WS_REFRESH_DESCRIPTION">Cache update interval (minutes)</message>
+	
+	<message key="PLUGINS_CORE_ERROR_DIALOG_TITLE">Error</message>
 </catalogue>

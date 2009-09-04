@@ -50,9 +50,22 @@
 		                        {
 		                            window.clearInterval(at);
 		                            if (gc)
-		                                alert("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_GC_ERROR"/>");
-		                            else
-		                                alert("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_REFRESH_ERROR"/>");
+		                            {
+		                            	Ext.Msg.show ({
+				                        		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
+				                        		msg: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_GC_ERROR"/>",
+				                        		buttons: Ext.Msg.OK,
+							   					icon: Ext.MessageBox.ERROR
+				                        });
+		                            }
+		                            else {
+		                            	Ext.Msg.show ({
+				                        		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
+				                        		msg: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_REFRESH_ERROR"/>",
+				                        		buttons: Ext.Msg.OK,
+							   					icon: Ext.MessageBox.ERROR
+				                        });
+		                            }
 		                            return false;
 		                        }
 		                        
@@ -132,12 +145,22 @@
 		                    
 		                    function helpsessions()
 		                    {
-		                        alert("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_SESSIONS_ERROR_HINT"/>");
+		                    	Ext.Msg.show ({
+		                        		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
+		                        		msg: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_SESSIONS_ERROR_HINT"/>",
+		                        		buttons: Ext.Msg.OK,
+					   					icon: Ext.MessageBox.WARNING
+		                        });
 		                    }
 		                
 		                    function helprequests()
 		                    {
-		                        alert("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_REQUESTS_ERROR_HINT"/>");
+		                    	Ext.Msg.show ({
+		                        		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
+		                        		msg: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_REQUESTS_ERROR_HINT"/>",
+		                        		buttons: Ext.Msg.OK,
+					   					icon: Ext.MessageBox.ERROR
+		                        });
 		                    }
                     
 		               		function goBack()

@@ -77,18 +77,33 @@
                         var result = Tools.postFromUrl(url, args);
                         if (result == null)
                         {
-                            alert("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_FATALERROR"/>");
+                        	Ext.Msg.show ({
+                        		title: "<i18n:text i18n:key="PLUGINS_CORE_SAVE_DIALOG_TITLE"/>",
+                        		msg: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_FATALERROR"/>",
+                        		buttons: Ext.Msg.OK,
+			   					icon: Ext.MessageBox.ERROR
+                        	});
                             return;
                         }
                         
                         var error = Tools.getFromXML(result, "error");
                         if (error != null &amp;&amp; error != "")
                         {
-                            alert("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_ERROR"/>" + error)
+                        	Ext.Msg.show ({
+                        		title: "<i18n:text i18n:key="PLUGINS_CORE_SAVE_DIALOG_TITLE"/>",
+                        		msg: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_ERROR"/>",
+                        		buttons: Ext.Msg.OK,
+			   					icon: Ext.MessageBox.ERROR
+                        	});
                             return;
                         }
                         
-                        alert("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_OK"/>");
+                        Ext.Msg.show ({
+                        		title: "<i18n:text i18n:key="PLUGINS_CORE_SAVE_DIALOG_TITLE"/>",
+                        		msg: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_OK"/>",
+                        		buttons: Ext.Msg.OK,
+			   					icon: Ext.MessageBox.INFO
+                        });
                         goBack();
                     }
                     

@@ -76,27 +76,35 @@
     					
     					function menu_remove() 
     					{
- 							var elt = listviewG.getSelection()[0];		                        
-		                        
-		                   	if (confirm("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_DELETE_CONFIRM"/>"))
-    						{
-    							if (200 == Tools.postUrlStatusCode(getPluginDirectUrl("<xsl:value-of select="$pluginName"/>") + "/groups/delete", "id=" + elt.get('id')))
+    						Ext.Msg.confirm ("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_DELETE"/>", "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_DELETE_CONFIRM"/>", menu_remove_confirm);
+    					}
+    					function menu_remove_confirm (button)
+		                {
+		                	if (button == 'yes')
+		                	{
+		                		var elt = listviewG.getSelection()[0];
+		                    	if (200 == Tools.postUrlStatusCode(getPluginDirectUrl("<xsl:value-of select="$pluginName"/>") + "/groups/delete", "id=" + elt.get('id')))
     							{
     								listviewG.removeElement(elt);
     							}
     							else
     							{
-    								alert("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_DELETE_ERROR"/>")
+    								Ext.Msg.show ({
+		                        		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
+		                        		msg: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_DELETE_ERROR"/>",
+		                        		buttons: Ext.Msg.OK,
+					   					icon: Ext.MessageBox.ERROR
+		                        	});
     							}
-    						}	
-    						
-    						listviewU.getStore().removeAll();
-    						<xsl:if test="Modifiable = 'true'">
-    							handleUsers.setVisible(false);
-    							handleGroups.showElt(0);
-								handleGroups.hideElt(1);
-								handleGroups.hideElt(2);
-    						</xsl:if>	                        
+    							
+    							listviewU.getStore().removeAll();
+	    						<xsl:if test="Modifiable = 'true'">
+	    							handleUsers.setVisible(false);
+	    							handleGroups.showElt(0);
+									handleGroups.hideElt(1);
+									handleGroups.hideElt(2);
+	    						</xsl:if>	
+		                    }
 						}
 					</xsl:if>	
 					
@@ -147,18 +155,22 @@
 					/*		LISTE DES GROUPES	     */
 					/*********************************/
 					
+					function save_object_confirm (button, selectedElmt)
+					{
+						if (button == 'yes')
+						{
+							save_objects(selectedElmt);
+						}
+						else
+						{
+							hasChanges = false;
+						}
+					}
 					function onSelectGroup (grid, rowindex, e)
 					{
 						if (selectedElmt != null &amp;&amp; hasChanges)
 						{
-							if (confirm("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_CONFIRM"/>"))
-							{
-								save_objects(selectedElmt);
-							}
-							else
-							{
-								hasChanges = false;
-							}
+							Ext.Msg.confirm ("<i18n:text i18n:key="PLUGINS_CORE_SAVE_DIALOG_TITLE"/>", "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_MODIFY_CONFIRM"/>", function (button) {save_object_confirm (button, selectedElmt)});
 						}
 								
 						<xsl:if test="Modifiable = 'true'">
@@ -202,7 +214,12 @@
 								var result = Tools.postFromUrl(getPluginDirectUrl("<xsl:value-of select="$pluginName"/>") + "/groups/create", "name=" + encodeURIComponent(record.get('name')));
 								if (result == null)
 								{
-									alert("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_NEW_ERROR"/>")
+									Ext.Msg.show ({
+		                        		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
+		                        		msg: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_NEW_ERROR"/>",
+		                        		buttons: Ext.Msg.OK,
+					   					icon: Ext.MessageBox.ERROR
+		                        	});
 									return false;
 								}
 								else
@@ -217,14 +234,24 @@
 								var result = Tools.postFromUrl(getPluginDirectUrl("<xsl:value-of select="$pluginName"/>") + "/groups/rename", "id=" + record.data.id + "&amp;name=" + encodeURIComponent(record.get('name')));
 								if (result == null)
 								{
-									alert("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_RENAME_ERROR"/>");
+									Ext.Msg.show ({
+		                        		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
+		                        		msg: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_RENAME_ERROR"/>",
+		                        		buttons: Ext.Msg.OK,
+					   					icon: Ext.MessageBox.ERROR
+		                        	});
 								}
 								else
 								{
 									var state = Tools.getFromXML(result, "message"); 
 									if (state != null &amp;&amp; state == "missing")
 									{
-										alert("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_RENAME_MISSING_ERROR"/>");
+										Ext.Msg.show ({
+			                        		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
+			                        		msg: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_RENAME_MISSING_ERROR"/>",
+			                        		buttons: Ext.Msg.OK,
+						   					icon: Ext.MessageBox.ERROR
+			                        	});
 										listviewG.removeElement(record);
 									}
 								}
@@ -357,17 +384,19 @@
 							var result = Tools.postFromUrl(getPluginDirectUrl("<xsl:value-of select="$pluginName"/>") + "/groups/modify", "id=" +group.id + "&amp;objects=" + objects);
 							if (result == null)
 							{
-								if (!confirm("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_MODIFY_ERROR"/>"))
-								{
-									ok = true;
-								}
+								Ext.Msg.confirm ("<i18n:text i18n:key="PLUGINS_CORE_SAVE_DIALOG_TITLE"/>", "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_MODIFY_ERROR"/>", function (button) { if (button != 'yes') ok =true});
 							}
 							else 
 							{
 								var state = Tools.getFromXML(result, "message"); 
 								if (state != null &amp;&amp; state == "missing")
 								{
-									alert("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_MODIFY_MISSING_ERROR"/>");
+									Ext.Msg.show ({
+			                        		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
+			                        		msg: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_MODIFY_MISSING_ERROR"/>",
+			                        		buttons: Ext.Msg.OK,
+						   					icon: Ext.MessageBox.ERROR
+			                        });
 									listviewG.removeElement(group);
 								}
 								else
@@ -392,15 +421,7 @@
 					{
 						if (selectedElmt != null &amp;&amp; hasChanges)
 						{
-							if (confirm("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_CONFIRM"/>"))
-							{
-								save_objects(selectedElmt);
-								//return false; //Pour rester sur la page
-							}
-							else
-							{
-								hasChanges = false;
-							}
+							Ext.Msg.confirm ("<i18n:text i18n:key="PLUGINS_CORE_SAVE_DIALOG_TITLE"/>", "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_MODIFY_CONFIRM"/>", function (button) {save_object_confirm (button, selectedElmt)});
 						}
 					}
 													
