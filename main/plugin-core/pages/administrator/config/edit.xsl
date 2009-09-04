@@ -207,7 +207,8 @@
 							var fieldset = new org.ametys.Fieldset({
 								title : "<xsl:copy-of select="label/node()"/>",
 								id : "<xsl:value-of select="generate-id()"/>",
-								layout: 'form'
+								layout: 'form',
+								width: 595
 							});
 							<xsl:for-each select="groups/group">
 								var group = new org.ametys.HtmlContainer ({
