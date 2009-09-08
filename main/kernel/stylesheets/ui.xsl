@@ -91,6 +91,7 @@
         <xsl:param name="accept-sa-3">false</xsl:param>
         <xsl:param name="accept-op-9">false</xsl:param>
         <xsl:param name="accept-ch-1">false</xsl:param>
+        <xsl:param name="debug-mode">false</xsl:param>
 		
         <script type="text/javascript">
             <xsl:comment>
@@ -123,8 +124,9 @@
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Runtime_InteractionActionLibrary.js"><xsl:comment>empty</xsl:comment></script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/mozxpath.js"><xsl:comment>empty</xsl:comment></script>
 
-    	<script type="text/javascript" src="{$contextPath}/plugins/extjs/resources/js/adapter/ext/ext-base.js"><xsl:comment>empty</xsl:comment></script>
-		<script type="text/javascript" src="{$contextPath}/plugins/extjs/resources/js/ext-all.js"><xsl:comment>empty</xsl:comment></script>
+		<xsl:variable name="extjs-debug-suffix"><xsl:if test="debug-mode = 'true'">-debug</xsl:if></xsl:variable>
+    	<script type="text/javascript" src="{$contextPath}/plugins/extjs/resources/js/adapter/ext/ext-base{$extjs-debug-suffix}.js"><xsl:comment>empty</xsl:comment></script>
+		<script type="text/javascript" src="{$contextPath}/plugins/extjs/resources/js/ext-all{$extjs-debug-suffix}.js"><xsl:comment>empty</xsl:comment></script>
 		
 		<script type="text/javascript">
 			<xsl:comment>
