@@ -854,7 +854,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         }
 
         @Override
-        protected ConfigParameter _createParameter()
+        protected ConfigParameter _createParameter(Configuration parameterConfig) throws ConfigurationException
         {
             return new ConfigParameter();
         }

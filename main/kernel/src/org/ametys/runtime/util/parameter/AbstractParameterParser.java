@@ -57,7 +57,7 @@ public abstract class AbstractParameterParser<P extends Parameter<T>, T>
      */
     public P parseParameter(ServiceManager manager, String pluginName, Configuration parameterConfig) throws ConfigurationException
     {
-        P parameter = _createParameter();
+        P parameter = _createParameter(parameterConfig);
         String parameterId = _parseId(parameterConfig);
         
         parameter.setPluginName(pluginName);
@@ -117,9 +117,11 @@ public abstract class AbstractParameterParser<P extends Parameter<T>, T>
 
     /**
      * Create the parameter to populate it.
+     * @param parameterConfig the parameter configuration to use.
      * @return the parameter instantiated.
+     * @throws ConfigurationException if the configuration is not valid.
      */
-    protected abstract P _createParameter();
+    protected abstract P _createParameter(Configuration parameterConfig) throws ConfigurationException;
     
     /**
      * Parses the id.

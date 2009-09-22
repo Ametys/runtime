@@ -721,7 +721,7 @@ public class JdbcUsersManager extends CachingComponent implements UsersManager, 
         }
         
         @Override
-        protected JdbcParameter _createParameter()
+        protected JdbcParameter _createParameter(Configuration parameterConfig) throws ConfigurationException
         {
             return new JdbcParameter();
         }
