@@ -34,7 +34,10 @@
            	<map:generator name="rights-rights-list" src="org.ametys.runtime.plugins.core.right.ui.generators.RightsListGenerator" logger="org.ametys.runtime.plugins.core.right.sitemap.generator.profiles" label="content"/>
             <map:generator name="rights-profile-assignment" src="org.ametys.runtime.plugins.core.right.ui.generators.ProfileAssignationGenerator" logger="org.ametys.runtime.plugins.core.right.sitemap.generator.assignment" label="content"/>
             <map:generator name="rights-context-application" src="org.ametys.runtime.plugins.core.right.ui.generators.ApplicationContextGenerator" logger="org.ametys.runtime.plugins.core.right.sitemap.generator.context.application" label="content"/>
+            
             <map:generator name="monitoring" src="org.ametys.runtime.plugins.core.monitoring.SampleManagersGenerator" logger="org.ametys.runtime.plugins.core.monitoring.SampleManagersGenerator" label="content"/>
+            
+            <map:generator name="upload-result" src="org.ametys.runtime.plugins.core.upload.generators.UploadResultGenerator" logger="org.ametys.runtime.plugins.core.upload.generators.UploadResultGenerator" label="content"/>
         </map:generators>
         
         <map:serializers>
@@ -67,12 +70,15 @@
 			<map:action name="rights-profile-delete" src="org.ametys.runtime.plugins.core.right.profile.actions.DeleteProfileAction" logger="org.ametys.runtime.plugins.core.right.profile.sitemap.action.view"/>
             <map:action name="rights-assign" src="org.ametys.runtime.plugins.core.right.ui.actions.AssignAction" logger="org.ametys.runtime.plugins.core.right.sitemap.action.assign"/>
             <map:action name="rights-remove" src="org.ametys.runtime.plugins.core.right.ui.actions.RemoveAction" logger="org.ametys.runtime.plugins.core.right.sitemap.action.remove"/>
+            
+            <map:action name="upload-store" src="org.ametys.runtime.plugins.core.upload.actions.UploadAction" logger="org.ametys.runtime.plugins.core.upload.actions.UploadAction"/>
 		</map:actions>
         
         <map:readers>
             <map:reader name="administrator-jvmstatus-threadlog" src="org.ametys.runtime.plugins.core.administrator.jvmstatus.ThreadLogReader" logger="org.ametys.runtime.plugins.core.administrator"/>
             <map:reader name="monitoring-graph" src="org.ametys.runtime.plugins.core.monitoring.RRDGraphReader" logger="org.ametys.runtime.plugins.core.monitoring.RRDGraphReader"/>
             <map:reader name="monitoring-export" src="org.ametys.runtime.plugins.core.monitoring.RRDXmlExportReader" logger="org.ametys.runtime.plugins.core.monitoring.RRDXmlExportReader"/>
+            <map:reader name="upload-reader" src="org.ametys.runtime.plugins.core.upload.readers.UploadReader" logger="org.ametys.runtime.plugins.core.upload.readers.UploadReader"/>
         </map:readers>
         
 	</map:components>
@@ -595,6 +601,23 @@
                     <map:generate type="action-result"/>
                     <map:serialize type="xml"/>
                 </map:act>
+            </map:match>
+			
+			
+			<!-- +
+                 | Uploads
+                 + -->
+            <map:match pattern="upload/store">
+                <map:act type="upload-store">
+                    <map:generate type="upload-result">
+                    	<map:parameter name="result" value="{result}"/>
+                    </map:generate>
+                    <map:serialize type="xml"/>
+                </map:act>
+            </map:match>
+            
+            <map:match pattern="upload/get/**">
+                <map:read type="upload-reader" src="{1}"/>
             </map:match>
         </map:pipeline>
 	</map:pipelines>

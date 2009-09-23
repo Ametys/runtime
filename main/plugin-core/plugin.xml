@@ -622,6 +622,10 @@
         <single-extension-point id="org.ametys.runtime.plugins.core.administrator.version.VersionsHandler"
                                 class="org.ametys.runtime.plugins.core.administrator.version.VersionsHandler"
                                 default-extension-id="org.ametys.runtime.plugins.core.administrator.version.Default"/>
+
+        <single-extension-point id="org.ametys.runtime.upload.UploadManager"
+                                class="org.ametys.runtime.upload.UploadManager"
+                                default-extension-id="org.ametys.runtime.plugins.core.upload.FSUploadManager"/>
     </extension-points>
     
     <feature name="runtime.core">
@@ -715,6 +719,21 @@
             <param-ref id="runtime.upload.dir"/>
         </config>
     </feature>
+    
+    <feature name="runtime.upload.manager.fs">
+        <!--
+            This feature defines components needed by the file system upload manager
+         -->
+        <extensions>
+        	<extension point="org.ametys.runtime.upload.UploadManager"
+        	           id="org.ametys.runtime.plugins.core.upload.FSUploadManager"
+        	           class="org.ametys.runtime.plugins.core.upload.FSUploadManager">
+        		<!-- UploadManager for storing uploaded files into /WEB-INF/data/uploads-user -->
+        	</extension>
+        </extensions>
+    </feature>
+    
+    
 
     <feature name="runtime.workspace.admin">
         <!--
