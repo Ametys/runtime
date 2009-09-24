@@ -12,6 +12,7 @@ package org.ametys.runtime.plugin.component;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.avalon.excalibur.pool.Poolable;
@@ -63,7 +64,7 @@ public class ThreadSafeComponentManager<T> extends AbstractLogEnabled implements
     protected ServiceManager _manager;
     
     // Map<role, component>
-    Map<String, T> _components = new HashMap<String, T>();
+    Map<String, T> _components = new LinkedHashMap<String, T>();
 
     /** The application context for components */
     Context _context;

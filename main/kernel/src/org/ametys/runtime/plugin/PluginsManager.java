@@ -1214,7 +1214,7 @@ public final class PluginsManager
                 
                 Class<?> initClass = Class.forName(className);
                 
-                if (initClass.isAssignableFrom(Init.class))
+                if (!Init.class.isAssignableFrom(initClass))
                 {
                     throw new IllegalArgumentException("Provided init class " + initClass + " does not implement org.ametys.runtime.plugin.Init");
                 }

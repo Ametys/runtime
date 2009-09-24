@@ -10,7 +10,7 @@
  */
 package org.ametys.runtime.plugin.component;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.apache.avalon.framework.activity.Disposable;
@@ -45,7 +45,7 @@ public abstract class AbstractThreadSafeComponentExtensionPoint<T> extends Abstr
     /** Avalon context */
     protected Context _context;
     
-    private Set<String> _ids = new HashSet<String>();
+    private Set<String> _ids = new LinkedHashSet<String>();
     
     public void contextualize(Context context) throws ContextException
     {
