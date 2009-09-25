@@ -289,7 +289,7 @@
 								items: [generalPanel, properties]
 							});		
 		                    
-		                    function _getAdminPanel ()
+		                    org.ametys.runtime.administrator.Panel.createPanel = function () 
 							{
 								return new Ext.Panel({
 									region: 'center',
@@ -376,7 +376,7 @@
                 <img src="{$resourcesPath}/img/administrator/jvmstatus/bar-mem-right.png" width="14px" height="34px"/>
                 
                 <button onclick="refreshData(true);" title="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_FREENOW" i18n:attr="title" onmouseover="this.style.borderColor = 'threedshadow'; this.style.borderStyle = 'outset';" onmouseout="this.style.borderColor = '#f1efe2'; this.style.borderStyle = 'solid';" style="border: 1px solid #FFF; background-color: #FFF; width: 32px; height: 32px;">
-                	<img src="{$resourcesPath}/img/administrator/jvmstatus/recycle.gif"/>
+                	<img src="{$resourcesPath}/img/administrator/jvmstatus/recycle.png"/>
                 </button>
                 
         		<br/>

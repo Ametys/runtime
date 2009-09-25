@@ -69,10 +69,10 @@
 }
 
 .ametys-select div.x-form-element {
-	padding-left: 203px !important; /* largeur du label 200 + padding 3 + img 21*/
+	/*padding-left: 203px !important; /* largeur du label 200 + padding 3 + img 21*/
 }
 
-.ametys-input input, .ametys-select input {
+.ametys-input input {
 	/*width: 250px !important; */
 	font-size: 0.9em;
 	margin-top: 0px !important;
@@ -82,6 +82,14 @@
 	padding: 4px 0px 0px 9px !important;
 	height: 20px !important;
 	float: left;
+}
+
+.ametys-select input {
+	font-size: 0.9em;
+	border: 1px solid #C8CDD0 !important;
+	background-color: #FFF !important;
+	background-image: none !important;
+	height: 20px !important;
 }
 
 .ametys-input textarea {
@@ -94,8 +102,8 @@
 	float: left;
 }
 
-.ametys-select .x-form-trigger .x-form-arrow-trigger {
-	height: 19px !important;
+.ametys-select .x-form-trigger.x-form-arrow-trigger {
+	height: 23px !important;
 }
 
 .ametys-password-field-body {

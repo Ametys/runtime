@@ -309,7 +309,7 @@
 							</xsl:for-each>
 						</xsl:for-each>
 						
-					function _getAdminPanel () 
+					org.ametys.runtime.administrator.Panel.createPanel = function () 
 					{
 						return new Ext.Panel({
 							region: 'center',

@@ -36,6 +36,7 @@
 				
                 <link rel="icon" type="image/gif" href="{$contextPath}/kernel/resources/img/runtime_favico.gif" />
                 <link rel="shortcut icon" type="image/x-icon" href="{$contextPath}/kernel/resources/img/runtime_favico.ico" />
+                <link rel="stylesheet" href="{$contextPath}/kernel/resources/css/homepage/view.css" type="text/css"/>
 				<link rel="stylesheet" href="{$workspaceContext}/resources/css/admin.css" type="text/css"/>
 				<link rel="stylesheet" href="{$workspaceContext}/resources/css/panel.css" type="text/css"/>
 		        
@@ -66,7 +67,16 @@
 		        
 		        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/DockItem.js"><xsl:comment>empty</xsl:comment></script>
 		        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/AdminTools.js"><xsl:comment>empty</xsl:comment></script>
-                <script type="text/javascript" src="{$workspaceContext}/resources/js/workspace.js"><xsl:comment>//empty</xsl:comment></script>
+                <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/runtime/HomePage.js"><xsl:comment>//empty</xsl:comment></script>
+                
+                <script type="text/javascript">
+              		org.ametys.runtime.HomePage.drawFooterPanel = function ()
+					{
+						return new org.ametys.HtmlContainer ({
+			    			contentEl : 'versions'
+			    		});
+					}
+                </script>
                 
                 <xsl:comment>[if lt IE 7]&gt;
 						&lt;script defer="defer" type="text/javascript" src="<xsl:value-of select="$workspaceContext"/>/resources/js/pngfix.js">&lt;/script&gt;
@@ -76,8 +86,8 @@
 		
 			<!-- ****** BODY ****** -->
 			<body>
-				<div id="logo"><xsl:comment></xsl:comment></div>
 				
+	    		
 				<div id="versions">
 					<xsl:for-each select="/Admin/Versions/Component|/Plugins/Versions/Component">
 						<span class="title"><xsl:value-of select="Name"/>&#160;-&#160;</span>

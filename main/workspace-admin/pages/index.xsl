@@ -29,7 +29,7 @@
 
     <xsl:template name="workspace-script">
     	<script type="text/javascript">
-    		function workspaceBody () 
+    		org.ametys.runtime.HomePage.createPanel = function ()
     		{
 	    		var items = []
 	    		
@@ -68,6 +68,7 @@
 					items: items
 				});
 			}
+			
 		</script>
     </xsl:template>
     

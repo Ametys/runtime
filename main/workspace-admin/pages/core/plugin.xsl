@@ -43,43 +43,48 @@
         </xsl:call-template>
         
     	<script type="text/javascript">
+    		Ext.namespace('org.ametys.runtime.administrator');
     		
-	    	var topPanel = new org.ametys.HtmlContainer ({
-		    					border: false,
-		    					region:'north',
-		    					height: 43,
-		    					baseCls: '',
-		    					contentEl: 'admin-top-panel'
-		    });
-		    
-		    function workspaceBody () 
+    		org.ametys.runtime.administrator.Panel = function ()
+    		{
+    		}
+    		
+    		org.ametys.runtime.administrator.Panel.createPanel = function ()
+    		{
+    			return new org.ametys.HtmlContainer ({
+					html: '&lt;p&gt;&lt;i&gt;Override the &lt;b&gt;org.ametys.runtime.administrator.Panel.createPanel&lt;/b&gt; function to create your own administration tool here ...&lt;/i&gt;&lt;/p&gt;'
+				});
+    		}
+    		
+		    org.ametys.runtime.HomePage.createPanel = function ()
 			{
-				
-				var globalPanel =  new Ext.Panel({
+				return new Ext.Panel({
 					id: 'admin-panel',
 					baseCls: 'admin-panel',
 					border: false,
 					layout: 'border',
 					autoScroll: false,
-					height: 'auto'
+					height: 'auto',
+					
+					items : [
+						// Title
+						new org.ametys.HtmlContainer ({
+		    					border: false,
+		    					region:'north',
+		    					height: 43,
+		    					baseCls: '',
+		    					contentEl: 'admin-top-panel'
+		    			}),
+		    			
+		    			// Administration tool panel
+		    			org.ametys.runtime.administrator.Panel.createPanel ()
+					]
 				});
-				
-				globalPanel.add(topPanel);
-				globalPanel.add(_getAdminPanel ());
-										
-				return globalPanel;
 			}
 			
-			function showPaddle() 
+			org.ametys.runtime.administrator.Panel.drawPaddle = function ()
 			{
 				<xsl:if test="/Plugins/Desktop/category">
-					var dockTop = new org.ametys.HtmlContainer ({
-						cls: 'dock-top'
-					});
-					var dockBottom = new org.ametys.HtmlContainer ({
-						cls: 'dock-bottom'
-					});
-					
 					var items = [];
 					
 					<xsl:for-each select="/Plugins/Desktop/category">
@@ -108,19 +113,25 @@
 						</xsl:if>
 					</xsl:for-each>
 					
-					var dockCenter = new Ext.Panel ({
-						baseCls: 'dock-center',
-						items: items
-					})
-					
 					var dock = new Ext.Panel({
 						baseCls: 'paddle',
 						renderTo: 'content_left',
-						items: [dockTop, dockCenter, dockBottom]
+						items: [new org.ametys.HtmlContainer ({
+									cls: 'dock-top'
+								}), 
+								new Ext.Panel ({
+									baseCls: 'dock-center',
+									items: items
+								}), 
+								new org.ametys.HtmlContainer ({
+									cls: 'dock-bottom'
+								})
+						]
 					});
 				</xsl:if>
 			}
-			Ext.onReady(showPaddle);
+			
+			Ext.onReady(org.ametys.runtime.administrator.Panel.drawPaddle);
 		</script>
 		
    		<xsl:copy-of select="/Plugins/html/script/node()"/>
