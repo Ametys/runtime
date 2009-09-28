@@ -31,6 +31,7 @@ import org.apache.cocoon.Constants;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.filefilter.AbstractFileFilter;
+import org.apache.commons.io.filefilter.DirectoryFileFilter;
 import org.apache.commons.io.filefilter.FalseFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 
@@ -81,7 +82,7 @@ public class FSUploadManager extends TimerTask implements UploadManager, ThreadS
         // Daemon thread
         _timer = new Timer(false);
         // Start in 15 minutes and refresh each 24 hours
-        _timer.scheduleAtFixedRate(this, 15 * 60 * 1000, 24 * 60 * 60 * 1000);
+        _timer.scheduleAtFixedRate(this, 1 * 20 * 1000, 24 * 60 * 60 * 1000);
     }
     
     @Override
@@ -100,43 +101,55 @@ public class FSUploadManager extends TimerTask implements UploadManager, ThreadS
             final long yesterday = calendar.getTimeInMillis();
             
             // Retrieve login directories
-            Collection<File> loginDirs = FileUtils.listFiles(_globalUploadsDir, FalseFileFilter.INSTANCE,
-                                                             TrueFileFilter.INSTANCE);
+            String[] loginDirs = _globalUploadsDir.list(DirectoryFileFilter.INSTANCE);
             
-            for (File loginDir : loginDirs)
+            if (loginDirs != null)
             {
-                // Compute upload directories to remove
-                Collection<File> dirsToRemove = FileUtils.listFiles(loginDir, FalseFileFilter.INSTANCE,
-                        new AbstractFileFilter()
-                        {
-                            @Override
-                            public boolean accept(File uploadDir)
-                            {
-                                Collection<File> uploadFiles = FileUtils.listFiles(uploadDir, FalseFileFilter.INSTANCE, FalseFileFilter.INSTANCE);
-        
-                                if (uploadFiles.isEmpty())
-                                {
-                                    // Remove empty directory
-                                    return true;
-                                }
-                                else
-                                {
-                                    File firstFile = uploadFiles.iterator().next();
-        
-                                    // Remove directory if the first file is one day old
-                                    return firstFile.lastModified() < yesterday;
-                                }
-                            }
-                        });
-                
-                for (File dirToRemove : dirsToRemove)
+                for (String loginDir : loginDirs)
                 {
-                    if (_logger.isDebugEnabled())
+                    File effectiveLoginDir = new File(_globalUploadsDir, loginDir);
+                    // Compute upload directories to remove
+                    String[] dirsToRemove = effectiveLoginDir.list(new AbstractFileFilter()
                     {
-                        _logger.debug("Removing directory: " + dirsToRemove);
-                    }
+                        @Override
+                        public boolean accept(File file)
+                        {
+                            if (!file.isDirectory())
+                            {
+                                return false;
+                            }
+                            
+                            Collection<File> uploadFiles = FileUtils.listFiles(file, TrueFileFilter.INSTANCE, null);
     
-                    FileUtils.deleteDirectory(dirToRemove);
+                            if (uploadFiles.isEmpty())
+                            {
+                                // Remove empty directory
+                                return true;
+                            }
+                            else
+                            {
+                                File firstFile = uploadFiles.iterator().next();
+    
+                                // Remove directory if the first file is one day old
+                                return firstFile.lastModified() < yesterday;
+                            }
+                        }
+                    });
+                    
+                    if (dirsToRemove != null)
+                    {
+                        for (String dirToRemove : dirsToRemove)
+                        {
+                            File uploadDir = new File(effectiveLoginDir, dirToRemove);
+                            
+                            if (_logger.isDebugEnabled())
+                            {
+                                _logger.debug("Removing directory: " + uploadDir);
+                            }
+            
+                            FileUtils.deleteDirectory(uploadDir);
+                        }
+                    }
                 }
             }
         }
