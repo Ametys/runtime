@@ -28,47 +28,16 @@
                 <title><i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_TITLE"/></title>
             </head>
 				<script>
+					<script type="text/javascript" src="{$contextPath}/plugins/{$pluginName}/resources/js/org/ametys/administration/Plugins.i18n.js"><xsl:comment>empty</xsl:comment></script>
 	            	<script type="text/javascript">
-		               		function goBack()
-		                    {
-		                        document.location.href = context.workspaceContext;
-		                    }   
-		                    
-							var handle = new org.ametys.ActionsPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_HANDLE"/>'});
-							handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CANCEL"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/plugins/quit.png", goBack);
-            			
-							var help = new org.ametys.TextPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_HELP"/>'});
-							help.addText("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_HELP_TEXT"/>");
-            			
-            				var rightPanel = new org.ametys.HtmlContainer({
-									region:'east',
-									border: false,
-									cls: 'admin-right-panel',
-									width: 277,
-								    items: [handle, help]
-							});
+						org.ametys.administration.Plugins.initialize ("<xsl:value-of select="$pluginName"/>");
 						
-							var centerPanel = new Ext.Panel({
-								region:'center',
-								baseCls: 'transparent-panel',
-								border: false,
-								autoScroll : true,
-								html: '&lt;i&gt;En construction ...&lt;/i&gt;'
-							});		
-						
+						var mainPanel = org.ametys.administration.Plugins.createPanel ();
 							
-							org.ametys.runtime.administrator.Panel.createPanel = function () 
-							{
-								return new Ext.Panel({
-									region: 'center',
-									baseCls: 'transparent-panel',
-									border: false,
-									layout: 'border',
-									autoScroll: true,
-									items: [centerPanel, rightPanel]
-								});
-							}						            			
-	            			
+						org.ametys.runtime.administrator.Panel.createPanel = function () 
+						{
+							return mainPanel;
+						}						            			
 	            	</script>
             </script>	
             

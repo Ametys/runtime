@@ -32,306 +32,60 @@
             </head>
             
             <script>
+               <script type="text/javascript" src="{$contextPath}/plugins/{$pluginName}/resources/js/org/ametys/administration/Config.i18n.js"><xsl:comment>empty</xsl:comment></script>
                
                <script type="text/javascript">
-               		function goBack()
-                    {
-                        document.location.href = context.workspaceContext;
-                    }
-                    
-                    function _getParams (form)
-                    {
-                    	var args = "";
-                    	for (var i=0; i &lt; CONFIG_FIELDS.length; i++)
-						{
-							var field = form.findField(CONFIG_FIELDS[i]);
-							if (field.getXType() == 'datefield' &amp;&amp; field.getValue() != '')
-							{
-								args += "&amp;" + field.getName() + "=" + field.getValue().format(Date.patterns.ISO8601Long);
-							}
-							else if (field.getXType() == 'hidden')
-							{
-								if (field.getValue() != '')
-								{
-									args += "&amp;" + field.getName() + "=" + field.getValue();
-								}
-							}
-							else
-							{
-								args += "&amp;" + field.getName() + "=" + field.getValue();
-							}
-						}
-						return args;
-                    }
-                    
-                    function save()
-                    {
-                    	if (!centerPanel.getForm().isValid())
-                    	{
-                    		return;
-                        }
-                        
-                        var url = getPluginDirectUrl("<xsl:value-of select="$pluginName"/>") + "/administrator/config/set";
-                        var args = _getParams (centerPanel.getForm());
-
-                        var result = Tools.postFromUrl(url, args);
-                        if (result == null)
-                        {
-                        	Ext.Msg.show ({
-                        		title: "<i18n:text i18n:key="PLUGINS_CORE_SAVE_DIALOG_TITLE"/>",
-                        		msg: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_FATALERROR"/>",
-                        		buttons: Ext.Msg.OK,
-			   					icon: Ext.MessageBox.ERROR
-                        	});
-                            return;
-                        }
-                        
-                        var error = Tools.getFromXML(result, "error");
-                        if (error != null &amp;&amp; error != "")
-                        {
-                        	Ext.Msg.show ({
-                        		title: "<i18n:text i18n:key="PLUGINS_CORE_SAVE_DIALOG_TITLE"/>",
-                        		msg: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_ERROR"/>",
-                        		buttons: Ext.Msg.OK,
-			   					icon: Ext.MessageBox.ERROR
-                        	});
-                            return;
-                        }
-                        
-                        Ext.Msg.show ({
-                        		title: "<i18n:text i18n:key="PLUGINS_CORE_SAVE_DIALOG_TITLE"/>",
-                        		msg: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_OK"/>",
-                        		buttons: Ext.Msg.OK,
-			   					icon: Ext.MessageBox.INFO
-                        });
-                        goBack();
-                    }
-                    
-                   	function bindScroll()
-					{
-						bound = true;
-					}
-					function unbindScroll()
-					{
-						bound = false;
-					}
-					function calcScrollPosition()
-					{
-						if (!bound)
-							return;
-							 
-						var last;
-						var anchors = ct.select('a[name]', true);
-						var min = 0;
-						var max = centerPanel.getEl().child('div:first').dom.scrollHeight - centerPanel.getInnerHeight();
-						var scrollPosition = centerPanel.getEl().child('div:first').dom.scrollTop;
-						var p = (scrollPosition - min) / (max - min);
-						p = p * centerPanel.getInnerHeight();
-						
-						var a0 = anchors.elements[0].getTop();
-						
-						for (var i=0;  i &lt; anchors.elements.length; i++)
-						{
-							var anchor = anchors.elements[i];
-							if (i > 0) {
-								last = anchors.elements[i-1];
-							}
-							else {
-								last = anchor;
-							}
-							var posY = anchor.getTop() - a0;
-							if(posY >= scrollPosition + p)
-							{
-								activateItemMenu(last.dom.name);
-								return;
-							}
-						
-						}
-						activateItemMenu(anchors.elements[anchors.elements.length - 1].dom.name);
-					}
-					function activateItemMenu (id)
-					{
-						var btn = Ext.getCmp("a" + id);
-						if	(btn != null)
-						{	
-							Ext.getCmp("a" + id).toggle(true);
-						}
-					}
+               
+               		org.ametys.administration.Config.initialize ("<xsl:value-of select="$pluginName"/>");
+               		
+					org.ametys.administration.Config._navItems = [];
 					
-					// NAVIGATION
-						var navigation = new org.ametys.NavigationPanel ({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU"/>"});
-						<xsl:for-each select="config/categories/category">
-							var item = new org.ametys.NavigationItem ({
-								text: "<xsl:copy-of select="label/node()"/>",
-								divToScroll: "<xsl:value-of select="generate-id()"/>",
-								ctToScroll:  'config-inner',
-								bindScroll: bindScroll,
-								unbindScroll: unbindScroll,
-								toggleGroup : 'config-menu',
-								id : "a" + "<xsl:value-of select="generate-id()"/>"
-							});
-							navigation.add(item);
-						</xsl:for-each>
-						
-						// ACTIONS
-						var handle = new org.ametys.ActionsPanel({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE"/>"});
-						handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE_SAVE"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/config/save.png", save);
-						handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE_QUIT"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/config/quit.png", goBack);
-	
-						// AIDE
-						var help = new org.ametys.TextPanel({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HELP"/>"});
-						help.addText("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HELP_TEXT"/>");
-						
-						//Create the contextual panel
-						var rightPanel = new org.ametys.HtmlContainer({
-								cls : 'admin-right-panel',
-								region:'east',
-								border: false,
-								width: 277,
-							    items: [navigation, handle, help]
+					<xsl:for-each select="config/categories/category">
+						org.ametys.administration.Config._navItems.push({
+							id: "<xsl:value-of select="generate-id()"/>",
+							label: "<xsl:copy-of select="label/node()"/>"
 						});
+					</xsl:for-each>
+					
+					// Create the tool panel
+					var panel = org.ametys.administration.Config.createPanel ();
+					
+					org.ametys.administration.Config._fields = [];
+					
+					<xsl:for-each select="config/categories/category">
 						
-						var centerPanel = new Ext.form.FormPanel({
-								region:'center',
-								baseCls: 'transparent-panel',
-								border: false,
-								autoScroll : true,
-								id : 'config-inner',
-								formId : 'save-config',
-								labelWidth :230,
-								bodyStyle: 'position:relative;'
-						});
-						
-						var CONFIG_FIELDS = []
-						<xsl:for-each select="config/categories/category">
-							var fieldset = new org.ametys.Fieldset({
-								title : "<xsl:copy-of select="label/node()"/>",
-								id : "<xsl:value-of select="generate-id()"/>",
-								layout: 'form',
-								width: 595
-							});
+						var fieldSet = org.ametys.administration.Config.createFieldSet ("<xsl:value-of select="generate-id()"/>", "<xsl:copy-of select="label/node()"/>");
 							
-							var height = 0; // padding-bottom
-							<xsl:for-each select="groups/group">
-								var group = new org.ametys.HtmlContainer ({
-									html : "<xsl:copy-of select="label/node()"/>",
-									cls: 'ametys-subcategory'
-								});
-								fieldset.add(group);
-								height += 24;
-								<xsl:for-each select="parameters/*">
-									<xsl:sort select="order"/>
-									
-									var input;
-									
-									var type = "<xsl:value-of select="type"/>";
-									var name = "<xsl:value-of select="local-name()"/>";
-									var label =  "<xsl:copy-of select="label/node()"/>";
-									var desc =  "<xsl:copy-of select="description/node()"/>";
-									var value = "<xsl:value-of select="value"/>";
-									
-									var inputType;
-									if (type == 'double')
-									{
-										input = new org.ametys.form.DoubleField ({
-									        fieldLabel: label,
-									        desc: desc,
-									        name: name,
-									        value: value,
-									        msgTarget: 'under', // position du message d'erreur
-									        width: 250
-										});
-										height += 36;
-									}
-									else if (type == 'long')
-									{
-										input = new org.ametys.form.LongField ({
-									        fieldLabel: label,
-									        desc: desc,
-									        name: name,
-									        value: value,
-									        msgTarget: 'under', // position du message d'erreur 
-									        width: 250
-										});
-										height += 36;
-									}
-									else if (type == 'password')
-									{
-										input = new org.ametys.form.PasswordWidget ({
-									        fdLabel: label,
-									        desc: desc,
-									        name: name,
-									        value: value,
-									        fdLabelWidth :230
-										});
-										height += 75;
-									}
-									else if (type == 'date')
-									{
-										input = new org.ametys.form.DateField ({
-									        fieldLabel: label,
-									        desc: desc,
-									        name: name,
-									        value: value,
-									        msgTarget: 'under', // position du message d'erreur 
-									        width: 250
-										});
-										height += 36;
-									}
-									else if (type == 'boolean')
-									{
-										input = new org.ametys.form.BooleanField ({
-									        fieldLabel: label,
-									        desc: desc,
-									        name: name,
-									        checked: (value == "true"),
-									        msgTarget: 'under' // position du message d'erreur 
-										});
-										height += 22;
-									}
-									else
-									{
-										input = new org.ametys.form.TextField ({
-									        fieldLabel: label,
-									        desc: desc,
-									        name: name,
-									        value: value,
-									        msgTarget: 'under', // position du message d'erreur 
-									        width: 250
-										});
-										height += 36;
-									}
-									fieldset.add(input);
-									CONFIG_FIELDS.push(name);
-								</xsl:for-each>
-								fieldset.setHeight(height);
-								centerPanel.add(fieldset);
+						var height = 0; // padding-bottom
+						
+						
+						<xsl:for-each select="groups/group">
+						
+							org.ametys.administration.Config.addGroupCategory (fieldSet, "<xsl:copy-of select="label/node()"/>");
+							height += 24;
+							
+							<xsl:for-each select="parameters/*">
+								<xsl:sort select="order"/>
+									var input = org.ametys.administration.Config.addInputField (fieldSet, 
+										"<xsl:value-of select="type"/>", 
+										"<xsl:value-of select="local-name()"/>", 
+										"<xsl:value-of select="value"/>", 
+										"<xsl:copy-of select="label/node()"/>", 
+										"<xsl:copy-of select="description/node()"/>");
+									height += org.ametys.administration.Config.getInputHeight (input);
 							</xsl:for-each>
+							
+							// Set the height
+							fieldSet.setHeight(height);
+								
+							org.ametys.administration.Config._form.add(fieldSet);
 						</xsl:for-each>
+					</xsl:for-each>
 						
 					org.ametys.runtime.administrator.Panel.createPanel = function () 
 					{
-						return new Ext.Panel({
-							region: 'center',
-							baseCls: 'transparent-panel',
-							border: false,
-							layout: 'border',
-							autoScroll: false,
-							items: [centerPanel, rightPanel]
-						});
+						return panel;
 					}
-					
-                    var ct, bound;
-                    function onready() 
-                    {
-	               		ct = Ext.getCmp("config-inner").getEl().child("div:first").child("*:first");
-						bound = true;
-						ct.on('scroll', calcScrollPosition);
-						calcScrollPosition();
-					
-					}
-					Ext.onReady(onready);
-					
                </script>
 			</script>
 			

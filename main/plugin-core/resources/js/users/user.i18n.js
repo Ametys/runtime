@@ -129,8 +129,11 @@ RUNTIME_Plugin_Runtime_EditUser.act2 = function()
     // TODO focus()
 }
 
-RUNTIME_Plugin_Runtime_EditUser.act = function()
+RUNTIME_Plugin_Runtime_EditUser.act = function(params, callback)
 {
+	RUNTIME_Plugin_Runtime_EditUser.params = params;
+	RUNTIME_Plugin_Runtime_EditUser.callback = callback;
+	
 	if (!RUNTIME_Plugin_Runtime_EditUser.delayedInitialize())
         return;
 	
@@ -201,16 +204,10 @@ RUNTIME_Plugin_Runtime_EditUser.ok = function ()
     var login = getValue("login");
     var email = getValue("email");
 
-	// update view
-	if (RUNTIME_Plugin_Runtime_EditUser.params['mode'] == "new")
-	{
-		addElement(firstname, lastname, login, email);
-	}
-	else
-	{
-		var element = listView.getSelection()[0];
-		updateElement (element, login, firstname, lastname, email);
-	}
-  
+    if (typeof RUNTIME_Plugin_Runtime_EditUser.callback == 'function')
+    {
+    	RUNTIME_Plugin_Runtime_EditUser.callback (login, firstname, lastname, email);
+    }
+	
 	RUNTIME_Plugin_Runtime_EditUser.box.hide();
 }

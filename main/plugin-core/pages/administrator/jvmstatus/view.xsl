@@ -30,179 +30,23 @@
                 <link rel="stylesheet" href="{$resourcesPath}/css/administrator/jvmstatus.css" type="text/css"/>    
             </head>
 				<script>
+					 <script type="text/javascript" src="{$contextPath}/plugins/{$pluginName}/resources/js/org/ametys/administration/JVMStatus.i18n.js"><xsl:comment>empty</xsl:comment></script>
+					 
 	            	<script type="text/javascript">
-	            			function refreshData(gc)
-		                    {
-		                        var url = getPluginDirectUrl("<xsl:value-of select="$pluginName"/>") + "/administrator/jvmstatus/refresh";
-		                        var args = gc ? "gc=gc" : "";
-		                        
-		                        var result;
-		                        try
-		                        {
-		                            result = Tools.postFromUrl(url, args);
-		                        }
-		                        catch (e)
-		                        {
-		                            result = null;
-		                        }
-		                        
-		                        if (result == null)
-		                        {
-		                            window.clearInterval(at);
-		                            if (gc)
-		                            {
-		                            	Ext.Msg.show ({
-				                        		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
-				                        		msg: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_GC_ERROR"/>",
-				                        		buttons: Ext.Msg.OK,
-							   					icon: Ext.MessageBox.ERROR
-				                        });
-		                            }
-		                            else {
-		                            	Ext.Msg.show ({
-				                        		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
-				                        		msg: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_REFRESH_ERROR"/>",
-				                        		buttons: Ext.Msg.OK,
-							   					icon: Ext.MessageBox.ERROR
-				                        });
-		                            }
-		                            return false;
-		                        }
-		                        
-		                        // HEAP MEMORY
-		                        var commitedMem = result.selectSingleNode("/status/general/memory/heap/commited")[Tools.xmlTextContent];
-		                        var usedMem = result.selectSingleNode("/status/general/memory/heap/used")[Tools.xmlTextContent];
-		                        var maxMem = result.selectSingleNode("/status/general/memory/heap/max")[Tools.xmlTextContent];
-		                        
-		                        var tip  = "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_USED"/> : " + Math.round(usedMem / (1024*1024) * 10) / 10 + " <i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_UNIT"/>"
-		                                + "\n<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_FREE"/> : " + Math.round((commitedMem - usedMem) / (1024*1024) * 10) / 10 + " <i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_UNIT"/>"
-		                                + "\n<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_AVAILABLE"/> : " + Math.round((maxMem-commitedMem) / (1024*1024) * 10) / 10  + " <i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_UNIT"/>";
-		                        document.getElementById("totalMemImg").title = tip;
-		                        document.getElementById("freeMemImg").title = tip;
-		                        document.getElementById("maxMemImg").title = tip;
-		                        
-		                        document.getElementById("middleMem").innerHTML = Math.round((maxMem/2) / (1024*1024));
-		                        document.getElementById("maxiMem").innerHTML = Math.round((maxMem) / (1024*1024));
-		
-		                        var v1 = Math.round(usedMem/maxMem * 280);
-		                        var v2 = Math.round((commitedMem - usedMem)/maxMem * 280);
-		                        document.getElementById("totalMemImg").width = v1;
-		                        document.getElementById("freeMemImg").width = v2;
-		                        document.getElementById("maxMemImg").width = 280 - v1 - v2;
-		                        
-		                        // non HEAP MEMORY
-		                        var commitedMem = result.selectSingleNode("/status/general/memory/nonHeap/commited")[Tools.xmlTextContent];
-		                        var usedMem = result.selectSingleNode("/status/general/memory/nonHeap/used")[Tools.xmlTextContent];
-		                        var maxMem = result.selectSingleNode("/status/general/memory/nonHeap/max")[Tools.xmlTextContent];
-		                        
-		                        var tip  = "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_USED"/> : " + Math.round(usedMem / (1024*1024) * 10) / 10 + " <i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_UNIT"/>"
-		                                + "\n<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_FREE"/> : " + Math.round((commitedMem - usedMem) / (1024*1024) * 10) / 10 + " <i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_UNIT"/>"
-		                                + "\n<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_AVAILABLE"/> : " + Math.round((maxMem-commitedMem) / (1024*1024) * 10) / 10  + " <i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_UNIT"/>";
-		                        document.getElementById("totalMem2Img").title = tip;
-		                        document.getElementById("freeMem2Img").title = tip;
-		                        document.getElementById("maxMem2Img").title = tip;
-		
-		                        document.getElementById("middleMem2").innerHTML = Math.round((maxMem/2) / (1024*1024));
-		                        document.getElementById("maxiMem2").innerHTML = Math.round((maxMem) / (1024*1024));
-		
-		                        var v1 = Math.round(usedMem/maxMem * 280);
-		                        var v2 = Math.round((commitedMem - usedMem)/maxMem * 280);
-		                        document.getElementById("totalMem2Img").width = v1;
-		                        document.getElementById("freeMem2Img").width = v2;
-		                        document.getElementById("maxMem2Img").width = 280 - v1 - v2;
-		                        
-		                        // ACTIVE SESSION
-		                        var sessions = result.selectSingleNode("/status/general/activeSessions");
-		                        if (sessions == null) 
-		                            document.getElementById("activeSession").innerHTML = "&lt;a href='#' onclick='helpsessions(); return false;'&gt;<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_SESSIONS_ERROR"/>&lt;/a&gt;";
-		                        else
-		                            document.getElementById("activeSession").innerHTML = sessions[Tools.xmlTextContent];
-		
-		                        // ACTIVE REQUEST
-		                        var sessions = result.selectSingleNode("/status/general/activeRequests");
-		                        if (sessions == null) 
-		                            document.getElementById("activeRequest").innerHTML = "&lt;a href='#' onclick='helprequests(); return false;'&gt;<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_REQUESTS_ERROR"/>&lt;/a&gt;";
-		                        else
-		                            document.getElementById("activeRequest").innerHTML = sessions[Tools.xmlTextContent];
-		
-		                        // ACTIVE THREAD
-		                        document.getElementById("activeThread").innerHTML = result.selectSingleNode("/status/general/activeThreads")[Tools.xmlTextContent];
-		                        var locked = result.selectSingleNode("/status/general/deadlockThreads")[Tools.xmlTextContent];
-		                        if (locked != "0")
-		                            document.getElementById("deadlockThread").innerHTML = "(&lt;a href='#' title='<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_THREADS_ERROR_LOCK_HINT"/>' style='color: red; font-weight: bold' onclick='deadlock()'&gt;" + locked + " <i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_THREADS_LOCK"/>&lt;/a&gt;)";
-		                        
-		                        return true;
-		                    }
-		                    
-		                    function deadlock()
-		                    {
-		                        var d = new Date();
-		                        var year = d.getFullYear();
-		                        var month = d.getMonth() + 1;
-		                        var day = d.getDate();
-		                        window.location.href = getPluginDirectUrl('<xsl:value-of select="$pluginName"/>') + "/administrator/jvmstatus/threads_" + year + "-" + (day.length == 1 ? '0' : '') + month + "-" + (month.length == 1 ? '0' : '') + day + "-T-" + d.getHours() + "-" + d.getMinutes() + ".log";
-		                    }
-		                    
-		                    function helpsessions()
-		                    {
-		                    	Ext.Msg.show ({
-		                        		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
-		                        		msg: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_SESSIONS_ERROR_HINT"/>",
-		                        		buttons: Ext.Msg.OK,
-					   					icon: Ext.MessageBox.WARNING
-		                        });
-		                    }
-		                
-		                    function helprequests()
-		                    {
-		                    	Ext.Msg.show ({
-		                        		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
-		                        		msg: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_REQUESTS_ERROR_HINT"/>",
-		                        		buttons: Ext.Msg.OK,
-					   					icon: Ext.MessageBox.ERROR
-		                        });
-		                    }
-                    
-		               		function goBack()
-		                    {
-		                        document.location.href = context.workspaceContext;
-		                    }   
-		                    
-		                    //Navigation 
-		                    var navigation = new org.ametys.NavigationPanel ({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU"/>"});
-							var item1 = new org.ametys.NavigationItem ({
-								text: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL"/>",
-								activeItem: 0,
-								cardLayout: 'system-card-panel',
-								toggleGroup : 'system-menu',
-								pressed: true
-							});
-							navigation.add(item1);
-							var item2 = new org.ametys.NavigationItem ({
-								text: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_SYSTEM"/>",
-								activeItem: 1,
-								cardLayout: 'system-card-panel',
-								toggleGroup : 'system-menu'
-							});
-							navigation.add(item2);
+	            			
+		                org.ametys.administration.JVMStatus.initialize ("<xsl:value-of select="$pluginName"/>");
+               		
+						org.ametys.administration.JVMStatus._navItems = [];
+		                  
+		                org.ametys.administration.JVMStatus._navItems.push ({label: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL"/>"}); 
+		                org.ametys.administration.JVMStatus._navItems.push ({label: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_SYSTEM"/>"});                        
 							
-							//Actions
-							var handle = new org.ametys.ActionsPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_HANDLE"/>'});
-							handle.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_HANDLE_QUIT"/>", "<xsl:value-of select="$resourcesPath"/>/img/administrator/jvmstatus/quit.png", goBack);
 							
-							//Help
-							var help = new org.ametys.TextPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_HELP"/>'});
-							help.addText("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_PROPERTIES_HELP_TEXT"/>");
-							
-							var rightPanel = new org.ametys.HtmlContainer({
-									region:'east',
-									border: false,
-									cls: 'admin-right-panel',
-									width: 277,
-								    items: [navigation, handle, help]
-							});
+						var toolPanel = org.ametys.administration.JVMStatus.createPanel ();
 						
-							var dummyData = [
+						
+						// Load properties data
+						var data = [
 								<xsl:for-each select="properties/node()">
 									['<xsl:value-of select="local-name()" />',
 									'<xsl:value-of select="escaper:escape(.)"/>']
@@ -210,128 +54,36 @@
 										<xsl:text>,</xsl:text>
 									</xsl:if>								
 								</xsl:for-each>
-							              ];
-							              
-							var store = new Ext.data.SimpleStore({
-										id:0,
-								        fields: [
-								           {name: 'name'},
-								           {name: 'value'}
-								        ]
-								});
-								
-							store.loadData(dummyData);
-							//Create the list View Group
-							var properties = new org.ametys.ListView({
-									id : 'properties-panel',
-								    store : store,
-									hideHeaders : true,
-								    columns: [
-								        {width : 250, menuDisabled : true, sortable: true, dataIndex: 'name'},
-								        {width : 360, menuDisabled : true, sortable: true, dataIndex: 'value'}
-								    ],
-									region: 'center',
-									baseCls: 'properties-view'
-							});		
-							properties.hide();
-							
-							var generalPanel =  new Ext.Panel ({
-								baseCls: 'transparent-panel',
-								autoScroll: true,
-								id : 'general-panel',
-								border: false
-							});
-							var systemFd = new org.ametys.Fieldset({
-								title : "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_SYS"/>"
-							});
-							var system = new org.ametys.HtmlContainer ({
-								contentEl : 'system'
-							});
-							systemFd.add(system);
-							generalPanel.add(systemFd);  
+						];
 						
-							var javaFd = new org.ametys.Fieldset({
-								title : "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_JVM"/>"
-							});
-							var java = new org.ametys.HtmlContainer ({
-								contentEl : 'java'
-							});
-							javaFd.add(java);
-							generalPanel.add(javaFd);  
-							   
-							var memoryFd = new org.ametys.Fieldset({
-								title : "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM"/>"
-							});
-							var memory = new org.ametys.HtmlContainer ({
-								contentEl : 'memory'
-							});
-							memoryFd.add(memory);
-							generalPanel.add(memoryFd);
+						org.ametys.administration.JVMStatus.loadProperties (data);
+						
+						org.ametys.administration.JVMStatus.addFieldSet (
+							"<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_SYS"/>",
+							'system'
+						);
+						
+						org.ametys.administration.JVMStatus.addFieldSet (
+							"<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_JVM"/>",
+							'java'
+						);
+						
+						org.ametys.administration.JVMStatus.addFieldSet (
+							"<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM"/>",
+							'memory'
+						);
 							
-							var serverFd = new org.ametys.Fieldset({
-								title : "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE"/>"
-							});
-							var server = new org.ametys.HtmlContainer ({
-								contentEl : 'server'
-							});
-							serverFd.add(server);
-							generalPanel.add(serverFd);
-							  
-							var centerPanel = new Ext.Panel({
-								id:'system-card-panel',
-								layout:'card',
-								activeItem: 0,
-								region:'center',
-								baseCls: 'transparent-panel',
-								border: false,
-								autoScroll : true,
-								height: 'auto',
-								items: [generalPanel, properties]
-							});		
-		                    
-		                    org.ametys.runtime.administrator.Panel.createPanel = function () 
-							{
-								return new Ext.Panel({
-									region: 'center',
-									baseCls: 'transparent-panel',
-									border: false,
-									layout: 'border',
-									autoScroll: true,
-									items: [centerPanel, rightPanel]
-								});
-							}
+						org.ametys.administration.JVMStatus.addFieldSet (
+							"<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE"/>",
+							'server'
+						);
 							
-		    
-							var at;
-							function onready() 
-		                    {
-			               		if (refreshData())
-			                    {
-			                        at = window.setInterval("refreshData()", 10000);
-			                    }
-			                    
-			                    new Ext.ToolTip({
-							        target: 'mem-heap-help-img',
-							        html: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE_MEMORY_HINT_HEAP"/>"
-							    });
-							    new Ext.ToolTip({
-							        target: 'mem-nheap-help-img',
-							        html: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE_MEMORY_HINT_NHEAP"/>"
-							    });
-							    new Ext.ToolTip({
-							        target: 'handle-session-help-img',
-							        html: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE_SESSION_HELP"/>"
-							    });
-							    new Ext.ToolTip({
-							        target: 'handle-request-help-img',
-							        html: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE_REQUEST_HELP"/>"
-							    });
-							    new Ext.ToolTip({
-							        target: 'handle-thread-help-img',
-							        html: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE_THREAD_HELP"/>"
-							    });
-							}
-							Ext.onReady(onready);
+	                    org.ametys.runtime.administrator.Panel.createPanel = function () 
+						{
+							return toolPanel;
+						}
+						
+						Ext.onReady(org.ametys.administration.JVMStatus.onReady);
 	            	</script>
             </script>	
         
@@ -375,7 +127,7 @@
                 <img id="maxMemImg" style="background: url({$resourcesPath}/img/administrator/jvmstatus/bar-mem-available.png) top left repeat-x;" src="{$resourcesPath}/img/administrator/jvmstatus/s.gif" width="280px" height="34px"/>
                 <img src="{$resourcesPath}/img/administrator/jvmstatus/bar-mem-right.png" width="14px" height="34px"/>
                 
-                <button onclick="refreshData(true);" title="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_FREENOW" i18n:attr="title" onmouseover="this.style.borderColor = 'threedshadow'; this.style.borderStyle = 'outset';" onmouseout="this.style.borderColor = '#f1efe2'; this.style.borderStyle = 'solid';" style="border: 1px solid #FFF; background-color: #FFF; width: 32px; height: 32px;">
+                <button onclick="org.ametys.administration.JVMStatus.refreshData(true);" title="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_FREENOW" i18n:attr="title" onmouseover="this.style.borderColor = 'threedshadow'; this.style.borderStyle = 'outset';" onmouseout="this.style.borderColor = '#f1efe2'; this.style.borderStyle = 'solid';" style="border: 1px solid #FFF; background-color: #FFF; width: 32px; height: 32px;">
                 	<img src="{$resourcesPath}/img/administrator/jvmstatus/recycle.png"/>
                 </button>
                 

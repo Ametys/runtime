@@ -770,9 +770,9 @@
                         <Large>img/administrator/password/icon_large.png</Large>
                     </Icons>
                     <Action type="class">
-                        <Class value="RUNTIME_Plugin_Runtime_Administrator_Password"/>
+                        <Class value="org.ametys.administration.Password"/>
                         <Imports>
-                            <File>js/administrator/password.i18n.js</File>
+                            <File>js/org/ametys/administration/Password.i18n.js</File>
                         </Imports>
                     </Action>
                 </Static>

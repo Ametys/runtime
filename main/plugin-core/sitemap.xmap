@@ -373,10 +373,18 @@
             
             <map:match pattern="users/view.html">
 				<map:generate type="users-view"/>
+				<map:transform type="i18n">
+                    <map:parameter name="locale" value="{locale:locale}"/>
+                    <map:parameter name="plugin" value="{request-attr:pluginName}"/>
+                </map:transform>
 				<map:transform type="xslt" src="pages/users/view.xsl">
                     <map:parameter name="contextPath" value="{request:contextPath}"/>
                     <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
 				</map:transform>
+				<map:transform type="i18n">
+                    <map:parameter name="locale" value="{locale:locale}"/>
+                    <map:parameter name="plugin" value="{request-attr:pluginName}"/>
+                </map:transform>
 				<map:serialize type="xml"/>
 			</map:match>
 			
