@@ -54,6 +54,7 @@
                     <xsl:with-param name="accept-ff-1.5">true</xsl:with-param>
                     <xsl:with-param name="accept-ff-2.0">true</xsl:with-param>
                     <xsl:with-param name="accept-ff-3.0">true</xsl:with-param>
+                     <xsl:with-param name="debug-mode">true</xsl:with-param>
                 </xsl:call-template>
                 
                 <xsl:call-template name="workspace-head"/>
@@ -70,8 +71,40 @@
                 <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/runtime/HomePage.js"><xsl:comment>//empty</xsl:comment></script>
                 
                 <script type="text/javascript">
+                	var data = {versions : []};
+                	<xsl:for-each select="/Admin/Versions/Component|/Plugins/Versions/Component">
+                		data.versions.push({
+                			name : "<xsl:value-of select="Name"/>",
+                			version: "<xsl:value-of select="Version"/>",
+                			date : "<xsl:if test="Date">&#160;du <xsl:value-of select="Date"/> à <xsl:value-of select="Time"/></xsl:if><xsl:if test="position() != last()">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</xsl:if>"
+                		});
+                	</xsl:for-each>
+                	org.ametys.runtime.HomePage._tplFooter = new Ext.XTemplate (
+                		'&lt;div id="versions"&gt;',
+                		'&lt;tpl for="versions"&gt;',
+                		'&lt;span class="title"&gt;{name}&#160;-&#160;&lt;/span&gt;',
+                		'{version}',
+                		'{date}',
+                		'&lt;/tpl&gt;',
+                		'&lt;/div&gt;'
+                	);
+                	
+                	org.ametys.runtime.HomePage._tplFooter.compile();
+                	
               		org.ametys.runtime.HomePage.drawFooterPanel = function ()
 					{
+						return new org.ametys.HtmlContainer (
+						{
+		   					border: false,
+		   					html : '',
+		   					listeners: {
+						        'render' : function(p) {
+						        	org.ametys.runtime.HomePage._tplFooter.overwrite(p.getEl(), data);
+						        }
+		    				}
+		
+						})
+						
 						return new org.ametys.HtmlContainer ({
 			    			contentEl : 'versions'
 			    		});
@@ -88,7 +121,7 @@
 			<body>
 				
 	    		
-				<div id="versions">
+				<!--<div id="versions">
 					<xsl:for-each select="/Admin/Versions/Component|/Plugins/Versions/Component">
 						<span class="title"><xsl:value-of select="Name"/>&#160;-&#160;</span>
 						<xsl:value-of select="Version"/>
@@ -97,7 +130,7 @@
 					</xsl:for-each>
 				</div>
 				
-				<xsl:call-template name="workspace-body"/>
+				--><xsl:call-template name="workspace-body"/>
 			</body>
 		</html>		
 	</xsl:template>

@@ -22,17 +22,6 @@
     <xsl:template name="workspace-head"><xsl:copy-of select="/Plugins/html/head/*[local-name(.) != 'title']"/></xsl:template>
 
     <xsl:template name="workspace-body">
-    	<!-- Fil ariane et titre -->
-    	<div id="admin-top-panel">
-			<xsl:variable name="title"><xsl:call-template name="workspace-title"/></xsl:variable>
-			<div id="admin-path">
-				<xsl:if test="xalan:nodeset($title)/node()">
-					<a href="{$workspaceContext}"><i18n:text i18n:key="WORKSPACE_ADMIN_HOME" i18n:catalogue="workspace.{$workspaceName}" /></a> &gt; <xsl:copy-of select="$title"/>
-				</xsl:if>
-			</div>
-			<h2 class="admin-panel-title"><xsl:copy-of select="$title"/></h2>
-		</div>
-				
     	<xsl:copy-of select="/Plugins/html/body/node()"/>
     </xsl:template>
     
@@ -52,12 +41,25 @@
     		org.ametys.runtime.administrator.Panel.createPanel = function ()
     		{
     			return new org.ametys.HtmlContainer ({
+    				region: 'center',
 					html: '&lt;p&gt;&lt;i&gt;Override the &lt;b&gt;org.ametys.runtime.administrator.Panel.createPanel&lt;/b&gt; function to create your own administration tool here ...&lt;/i&gt;&lt;/p&gt;'
 				});
     		}
     		
+    		org.ametys.runtime.administrator.Panel._tpl = new Ext.Template (
+	    			'&lt;div id="admin-top-panel"&gt;',
+	    			'&lt;div id="admin-path"&gt;',
+	    			'&lt;a href="{workspaceContext}"&gt;{homeTitle}&lt;/a&gt; &gt; {title}',
+	    			'&lt;/div&gt;',
+	    			'&lt;h2 class="admin-panel-title"&gt;{title}&lt;/h2&gt;',
+	    			'&lt;/div&gt;'
+    		);
+    		org.ametys.runtime.administrator.Panel._tpl.compile();
+    			
 		    org.ametys.runtime.HomePage.createPanel = function ()
 			{
+				<xsl:variable name="title"><xsl:call-template name="workspace-title"/></xsl:variable>
+				
 				return new Ext.Panel({
 					id: 'admin-panel',
 					baseCls: 'admin-panel',
@@ -67,15 +69,25 @@
 					height: 'auto',
 					
 					items : [
-						// Title
-						new org.ametys.HtmlContainer ({
-		    					border: false,
-		    					region:'north',
-		    					height: 43,
-		    					baseCls: '',
-		    					contentEl: 'admin-top-panel'
-		    			}),
-		    			
+						// Administration tool title
+		    			new org.ametys.HtmlContainer (
+						{
+		   					border: false,
+		   					region:'north',
+		   					height: 43,
+		   					baseCls: '',
+		   					html : '',
+		   					listeners: {
+						        'render' : function(p) {
+						        	org.ametys.runtime.administrator.Panel._tpl.overwrite(p.getEl(), { 
+										workspaceContext : "<xsl:value-of select="$workspaceContext"/>",
+										homeTitle : "<i18n:text i18n:key="WORKSPACE_ADMIN_HOME" i18n:catalogue="workspace.{$workspaceName}" />",
+										title: "<xsl:copy-of select="$title"/>"
+									});
+						        }
+		    				}
+		
+						}),
 		    			// Administration tool panel
 		    			org.ametys.runtime.administrator.Panel.createPanel ()
 					]

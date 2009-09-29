@@ -46,7 +46,7 @@
 					items : [item]
 				}); 	
 				
-           		function workspaceBody ()
+           		org.ametys.runtime.HomePage.createPanel = function ()
            		{
            			return new Ext.Panel({
            				border: false,
