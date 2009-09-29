@@ -20,7 +20,19 @@
 	color: #1C58A0; 
 	text-transform: uppercase;
 }
-			
+
+.top-panel a 
+{
+	color: #842970;
+	font-weight: bold;
+	text-decoration: none;
+}
+	
+.top-panel a:hover
+{
+	color: #1C58A0;
+	text-decoration: none;
+}		
 .desktop-item 
 {
 	font-weight: bold;

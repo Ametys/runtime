@@ -21,7 +21,7 @@ body {
 
 #logo {
 	background: url(../../img/home/logo.gif) top left;
-	position:absolute;
+	position:relative;
 	top:32px;
 	left:25px;
 	height: 36px;

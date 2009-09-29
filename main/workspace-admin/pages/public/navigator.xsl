@@ -20,26 +20,7 @@
     <xsl:param name="workspaceURI"/>
     
 	<xsl:template name="workspace-script">
-		<script type="text/javascript">
-				var center = new org.ametys.HtmlContainer({
-					region: 'center',
-					contentEl : 'top-panel',
-					cls: 'top-panel',
-					border: false
-				}); 	
-				
-           		function workspaceBody ()
-           		{
-           			return new Ext.Panel({
-           				border: false,
-           				layout: 'border',
-           				autoScroll: true,
-           				baseCls: 'transparent-panel',
-						items : [center]
-					});
-           		}
-		</script>
-           	
+		<link type="text/css" href="{$contextPath}{$workspaceURI}/resources/css/public.css" rel="stylesheet" />
         <script type="text/javascript">
 			<xsl:comment>
 				function forceNonSupportedNavigators()
@@ -52,29 +33,50 @@
 				}
 			</xsl:comment>
 		</script>
-     	<link type="text/css" href="{$contextPath}{$workspaceURI}/resources/css/public.css" rel="stylesheet" />
     </xsl:template>
     
      <xsl:template name="workspace-body">
-    	<div id="top-panel"> 
-			<div class="title">
-               <i18n:text i18n:key="WORKSPACE_ADMIN_NAVIGATOR_TITLE"/>
-            </div>
+     	<div id="wrapper" class="" style="width: 930px; margin-right: auto; margin-left: auto;">
+     		<div id="content_left" style="width: 44px;"><xsl:comment></xsl:comment></div>
+     		
+     		<div id="content_center" style="width: 930px;">
+     			<div id="top" style="height: 90px; width: 930px;">
+					<div id="logo"><xsl:comment></xsl:comment></div>
+				</div>
+				
+				<div id="main">
+					<div id="top-panel" class="top-panel"> 
+						<div class="title">
+			               <i18n:text i18n:key="WORKSPACE_ADMIN_NAVIGATOR_TITLE"/>
+			            </div>
                   
-			<br/><br/>
+						<br/><br/>
                   
-			<div>
-               TOTO <i18n:text i18n:key="WORKSPACE_ADMIN_NAVIGATOR_TEXT"/>
-                
-                <a href="{$redirect}" onclick="javascript:forceNonSupportedNavigators();">
-                	<img src="{$contextPath}{$workspaceURI}/resources/img/icon/warning.gif" border="0" style="margin-right: 5px; vertical-align: middle;"/>
-                   	<i18n:text i18n:key="WORKSPACE_ADMIN_NAVIGATOR_FORCE_LINK"/>
-                </a>
-            </div>
+						<div>
+			               <i18n:text i18n:key="WORKSPACE_ADMIN_NAVIGATOR_TEXT"/>
+			                
+			                <br/><br/>
+			                <br/><br/>
+			                 
+			                <a href="{$redirect}" onclick="javascript:forceNonSupportedNavigators();">
+			                	<img src="{$contextPath}{$workspaceURI}/resources/img/icon/warning.gif" border="0" style="margin-right: 5px; vertical-align: middle;"/>
+			                   	<i18n:text i18n:key="WORKSPACE_ADMIN_NAVIGATOR_FORCE_LINK"/>
+			                </a>
+			                
+			                 <br/><br/>
+			               	 <br/><br/>
+			            </div>
                   
-			<br/><br/>
+						<br/><br/>
             
-		</div>
+					</div>
+				</div>
+				
+				<div id="footer" style="height: 35px; width: 930px;">
+     			</div>
+     		</div>
+     	</div>
+     	<div id="column-right" style="width: 100%;"/>
     </xsl:template>
     
     <xsl:template name="ui-tools-load"/>
