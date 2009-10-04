@@ -48,9 +48,9 @@ public class UploadReader extends ServiceableReader
     }
     
     @Override
-    public void setup(SourceResolver resolver, Map objectModel, String src, Parameters par) throws ProcessingException, SAXException, IOException
+    public void setup(SourceResolver res, Map objModel, String src, Parameters par) throws ProcessingException, SAXException, IOException
     {
-        super.setup(resolver, objectModel, src, par);
+        super.setup(res, objModel, src, par);
         String uploadId = source;
         
         if (uploadId.indexOf('/') != -1)
