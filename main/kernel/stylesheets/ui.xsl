@@ -90,7 +90,10 @@
         <xsl:param name="accept-ff-3.5">false</xsl:param>
         <xsl:param name="accept-sa-3">false</xsl:param>
         <xsl:param name="accept-op-9">false</xsl:param>
+        <xsl:param name="accept-op-10">false</xsl:param>
         <xsl:param name="accept-ch-1">false</xsl:param>
+        <xsl:param name="accept-ch-2">false</xsl:param>
+        <xsl:param name="accept-ch-3">false</xsl:param>
         <xsl:param name="debug-mode">false</xsl:param>
 		
         <script type="text/javascript">
@@ -108,7 +111,10 @@
                     <xsl:if test="$accept-sa-3 = 'true'">(userAgent.indexOf("safari/522") > 0) ||</xsl:if>
                     <xsl:if test="$accept-sa-3 = 'true'">(userAgent.indexOf("safari/525") > 0) ||</xsl:if>
                     <xsl:if test="$accept-op-9 = 'true'">(userAgent.indexOf("opera/9") > 0) ||</xsl:if>
+                    <xsl:if test="$accept-op-10 = 'true'">(userAgent.indexOf("opera/10") > 0) ||</xsl:if>
                     <xsl:if test="$accept-ch-1 = 'true'">(userAgent.indexOf("chrome/1") > 0) ||</xsl:if>
+                    <xsl:if test="$accept-ch-2 = 'true'">(userAgent.indexOf("chrome/2") > 0) ||</xsl:if>
+                    <xsl:if test="$accept-ch-3 = 'true'">(userAgent.indexOf("chrome/3") > 0) ||</xsl:if>
                     <xsl:text>1 == 0))</xsl:text>
                 {
             		<!-- Check the cookie for forcing non supported navigators -->
