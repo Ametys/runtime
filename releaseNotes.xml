@@ -133,5 +133,6 @@
     	<note module="kernel" type="update">RUNTIME-290 : Accept IE8 in admin</note>
     </release>
     <release name="1.1.11">
+    	<note module="kernel" type="update">RUNTIME-290 : Accept IE8 in admin</note>
     </release>
 </releases>
