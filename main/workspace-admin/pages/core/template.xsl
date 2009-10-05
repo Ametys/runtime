@@ -50,6 +50,7 @@
 
                     <xsl:with-param name="accept-ie-6">true</xsl:with-param>
                     <xsl:with-param name="accept-ie-7">true</xsl:with-param>
+                    <xsl:with-param name="accept-ie-8">true</xsl:with-param>
                     <xsl:with-param name="accept-ff-1.0">false</xsl:with-param>
                     <xsl:with-param name="accept-ff-1.5">true</xsl:with-param>
                     <xsl:with-param name="accept-ff-2.0">true</xsl:with-param>
@@ -57,7 +58,10 @@
                     <xsl:with-param name="accept-ff-3.5">true</xsl:with-param>
 	                <xsl:with-param name="accept-sa-3">true</xsl:with-param>
 	                <xsl:with-param name="accept-op-9">true</xsl:with-param>
+	                <xsl:with-param name="accept-op-10">true</xsl:with-param>
 	                <xsl:with-param name="accept-ch-1">true</xsl:with-param>
+	                <xsl:with-param name="accept-ch-2">true</xsl:with-param>
+	                <xsl:with-param name="accept-ch-3">true</xsl:with-param>
                 </xsl:call-template>
                 
                 <xsl:call-template name="workspace-head"/>
