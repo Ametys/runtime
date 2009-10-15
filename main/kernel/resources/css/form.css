@@ -53,12 +53,12 @@
 	font-size: 0.9em;
 }
 
-.ametys-input {
+.ametys-input, .ametys-file {
 	width: 100%;
 	margin-bottom: 10px;
 }
 
-.ametys-input label, .ametys-select label  {
+.ametys-input label, .ametys-select label, .ametys-file label  {
 	float:left !important;
 	/*width: 230px !important; */
 	text-align: right !important;
@@ -73,7 +73,6 @@
 }
 
 .ametys-input input {
-	/*width: 250px !important; */
 	font-size: 0.9em;
 	margin-top: 0px !important;
 	border: 1px solid #C8CDD0 !important;
@@ -82,6 +81,17 @@
 	padding: 4px 0px 0px 9px !important;
 	height: 20px !important;
 	float: left;
+}
+
+.ametys-file input {
+	font-size: 0.9em;
+	margin-top: 0px !important;
+	border: 1px solid #C8CDD0 !important;
+	background-color: #FFF !important;
+	background-image: none !important;
+	padding: 4px 0px 0px 9px !important;
+	float: left;
+	margin-left: 5px;
 }
 
 .ametys-select input {
