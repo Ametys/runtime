@@ -16,6 +16,7 @@ import java.util.Set;
 
 /**
  * This class handle all the action aspect of a widget
+ * @deprecated
  */
 public class Action
 {

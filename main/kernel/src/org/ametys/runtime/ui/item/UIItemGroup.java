@@ -18,6 +18,7 @@ import org.ametys.runtime.util.I18nizableText;
 
 /**
  * Groups item 
+ * @deprecated
  */
 public class UIItemGroup implements UIItem
 {

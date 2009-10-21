@@ -14,6 +14,7 @@ import org.ametys.runtime.plugin.component.AbstractThreadSafeComponentExtensionP
 
 /**
  * This extension point is the pool of interactions 
+ * @deprecated
  */
 public class UIItemManager extends AbstractThreadSafeComponentExtensionPoint<UIItemFactory>
 {

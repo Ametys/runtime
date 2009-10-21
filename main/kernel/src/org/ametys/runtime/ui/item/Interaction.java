@@ -17,6 +17,7 @@ import org.ametys.runtime.util.I18nizableText;
 
 /**
  * This interface represent any hmi interaction widget : icon, button, information, menu entry...
+ * @deprecated
  */
 public class Interaction implements UIItem
 {    
