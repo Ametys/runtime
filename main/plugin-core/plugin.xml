@@ -628,6 +628,13 @@
                                 default-extension-id="org.ametys.runtime.plugins.core.upload.FSUploadManager"/>
     </extension-points>
     
+    <feature name="saxclienthelper">
+    	<components>
+    		<component class="org.ametys.runtime.ui.SAXClientSideElementHelper" 
+    				   role="org.ametys.runtime.ui.SAXClientSideElementHelper"/>
+    	</components>
+    </feature>
+    
     <feature name="runtime.core">
         <!-- 
             This feature is a mandatory feature of the runtime defining basic tools
