@@ -16,6 +16,7 @@ import org.ametys.runtime.util.I18nizableText;
 
 /**
  * This interaction also handle a right
+ * @deprecated
  */
 public class RightInteraction extends Interaction
 {
