@@ -27,8 +27,8 @@ import org.ametys.runtime.util.I18nizableText;
 
 /**
  * This utility class contains helper to sax ui items 
- * @deprecated
  */
+@Deprecated
 public final class SaxUIHelper
 {
     private SaxUIHelper()

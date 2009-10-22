@@ -16,8 +16,8 @@ import java.util.Set;
 
 /**
  * This class handle all the action aspect of a widget
- * @deprecated
  */
+@Deprecated
 public class Action
 {
     /** The plugin */

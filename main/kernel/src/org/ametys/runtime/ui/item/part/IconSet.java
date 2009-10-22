@@ -13,8 +13,8 @@ package org.ametys.runtime.ui.item.part;
 /**
  * This class handle an icon set.<br/>
  * A icon set, is the same icon in 3 different size.
- * @deprecated
  */
+@Deprecated
 public class IconSet
 {
     /** The small size icon path */

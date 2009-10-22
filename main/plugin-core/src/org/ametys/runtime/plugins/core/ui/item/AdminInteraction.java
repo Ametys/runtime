@@ -4,8 +4,8 @@ import java.util.regex.Pattern;
 
 /**
  * This interface encapsulate all interactions for admin 
- * @deprecated
  */
+@Deprecated
 public interface AdminInteraction
 {
     /**

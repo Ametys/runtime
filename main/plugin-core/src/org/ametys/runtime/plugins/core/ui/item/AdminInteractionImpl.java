@@ -7,8 +7,8 @@ import org.ametys.runtime.util.I18nizableText;
 
 /**
  * This interaction also handle a regexp url
- * @deprecated
  */
+@Deprecated
 public class AdminInteractionImpl extends RightInteraction implements AdminInteraction
 {
     /** The regexp url */

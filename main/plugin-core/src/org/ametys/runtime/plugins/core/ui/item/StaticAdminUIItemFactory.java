@@ -21,8 +21,8 @@ import org.ametys.runtime.util.I18nizableText;
  * This factory handle interactions that is fully configured and that never
  * change.<br/> It can remove an entry if a given right is not defined for the
  * user.
- * @deprecated
  */
+@Deprecated
 public class StaticAdminUIItemFactory extends StaticUIItemFactory
 {
    

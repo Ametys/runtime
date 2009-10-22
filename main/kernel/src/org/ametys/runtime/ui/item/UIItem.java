@@ -12,8 +12,8 @@ package org.ametys.runtime.ui.item;
 
 /**
  * This interface encapsulate all interactions 
- * @deprecated
  */
+@Deprecated
 public interface UIItem
 {
     /**

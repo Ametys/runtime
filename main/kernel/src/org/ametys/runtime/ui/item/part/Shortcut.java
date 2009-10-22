@@ -12,8 +12,8 @@ package org.ametys.runtime.ui.item.part;
 
 /**
  * This class wrap a keyboard shortcut
- * @deprecated
  */
+@Deprecated
 public final class Shortcut
 {
     private boolean _ctrl;

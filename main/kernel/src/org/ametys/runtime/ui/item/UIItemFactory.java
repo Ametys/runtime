@@ -15,8 +15,8 @@ import java.util.List;
 /**
  * An interaction factory is able to serve (by creating or picking) 'Interaction' 
  * to a manager possibly depending on the current environment.
- * @deprecated
  */
+@Deprecated
 public interface UIItemFactory
 {
     /**
