@@ -48,7 +48,7 @@ body {
 }
 
 #footer #box {
-	width: 928px;
+	/* width: 928px; */
 	height: 15px;
 	border: 1px solid #0B5180;
 	background-color:#04416A;
