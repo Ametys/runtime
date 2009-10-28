@@ -35,6 +35,9 @@ RUNTIME_Plugin_Runtime_SelectUser.delayed_initialize = function ()
 	});
 	
 	var form = new Ext.FormPanel( {
+		region: 'north',
+		height: 30,
+		
 		formId : 'select-user-form',
 		labelWidth :70,
 		border: false,
@@ -42,6 +45,8 @@ RUNTIME_Plugin_Runtime_SelectUser.delayed_initialize = function ()
 	});
 	
 	RUNTIME_Plugin_Runtime_SelectUser.listview = new org.ametys.ListView({
+		region: 'center',
+		
 	    store : new Ext.data.SimpleStore({
 			id:0,
 	        fields: [
@@ -54,19 +59,21 @@ RUNTIME_Plugin_Runtime_SelectUser.delayed_initialize = function ()
 	    ],
 		id: 'select-user-list',
 		baseCls: 'select-user-list',
-		autoScroll: true,
-	    height:200
+		autoScroll: true
 	});	
 	RUNTIME_Plugin_Runtime_SelectUser.listview.setMultipleSelection(true);
 	
 	var warning = new org.ametys.HtmlContainer ({
-		html: "<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_WARN100"/>",
-		cls: 'select-user-warning'
+		region: 'south',
+		height: 40,
+		cls: 'select-user-warning',
+		
+		html: "<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_WARN100"/>"
 	});
 	
 	RUNTIME_Plugin_Runtime_SelectUser.box = new org.ametys.DialogBox({
 					title :"<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_CAPTION"/>",
-					layout :'anchor',
+					layout :'border',
 					width :280,
 					height : 340,
 					cls : 'select-user-box',
