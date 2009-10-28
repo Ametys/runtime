@@ -119,6 +119,7 @@
 	font-size: 0.9em;
 	border: none;
 	background-color: transparent;
+	text-align: left; /* IE 6*/
 }
 
 .navigation-item.x-btn-pressed {

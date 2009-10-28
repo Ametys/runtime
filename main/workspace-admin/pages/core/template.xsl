@@ -112,11 +112,7 @@
 							        }
 			    				}
 			
-							})
-							
-							return new org.ametys.HtmlContainer ({
-				    			contentEl : 'versions'
-				    		});
+							});
 						}
 					</xsl:if>
                 </script>

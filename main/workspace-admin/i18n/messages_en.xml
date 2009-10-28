@@ -14,7 +14,7 @@
     <!-- Template -->
     <message key="WORKSPACE_ADMIN_LABEL_SHORT">Administration</message>
     <message key="WORKSPACE_ADMIN_LABEL_LONG">Administrator area</message>
-    <message key="WORKSPACE_ADMIN_HOME">Accueil</message>
+    <message key="WORKSPACE_ADMIN_HOME">Home</message>
     
     <!-- Home page -->
     <message key="WORKSPACE_ADMIN_HELP_LABEL">Help</message>

@@ -111,7 +111,7 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_INACTIVE_DEPENDENCY">(dépend d'une feature indisponible)</message>
     
     <!-- ADMINITRATOR LOGS -->
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_LABEL">Journal</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_LABEL">Journaux</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_DESCRIPTION">Visualiser les journaux de l'application</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_TITLE">Journaux</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP">Aide</message>

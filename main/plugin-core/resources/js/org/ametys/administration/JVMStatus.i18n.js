@@ -73,6 +73,9 @@ org.ametys.administration.JVMStatus._drawPropertiesPanel = function ()
 	org.ametys.administration.JVMStatus._propertyPanel = new org.ametys.ListView({
 		region: 'center',
 		
+		width: 625,
+		autoScroll: true,
+		
 		baseCls: 'properties-view',
 		id : 'properties-panel',
 		

@@ -129,7 +129,10 @@ public class JVMStatusGenerator extends ServiceableGenerator
         Map<String, String> properties = rBean.getSystemProperties();
         for (String key : properties.keySet())
         {
-            XMLUtils.createElement(contentHandler, key, properties.get(key));
+            if (key.indexOf(":") == -1)
+            {
+                XMLUtils.createElement(contentHandler, key, properties.get(key));
+            }
         }
         
         XMLUtils.endElement(contentHandler, "properties");

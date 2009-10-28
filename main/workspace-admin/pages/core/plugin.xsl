@@ -140,6 +140,12 @@
 								})
 						]
 					});
+					
+					/** IE 6 */
+					if (window.pngFix)
+					{
+						pngFix.fixAllByTagName(["button"]);
+					}
 				</xsl:if>
 			}
 			

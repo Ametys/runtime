@@ -27,6 +27,9 @@ org.ametys.administration.Logs.createPanel = function ()
 	org.ametys.administration.Logs._logs = new org.ametys.ListView({
 		region: 'center',
 		
+		width: 610,
+		autoWidth: true,
+		autoScroll: true,
 		id: 'detail-view-logs',
 		baseCls: 'detail-view-logs',
 		
@@ -66,14 +69,19 @@ org.ametys.administration.Logs.createPanel = function ()
 	return new Ext.Panel({
 		region: 'center',
 		
-		autoScroll: false,
+		autoScroll: true,
 		
 		baseCls: 'transparent-panel',
 		border: false,
 		layout: 'border',
 		
 		items: [org.ametys.administration.Logs._logs , 
-		        org.ametys.administration.Logs._contextualPanel]
+		        org.ametys.administration.Logs._contextualPanel],
+		
+		layoutConfig: {
+        	autoWidth: true
+    	}
+
 	});
 	
 }
