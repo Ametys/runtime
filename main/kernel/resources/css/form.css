@@ -12,6 +12,7 @@
 	font-weight: bold !important;
 	color: #111 !important;
 	font-family: arial,sans-serif !important;
+	clear: left;
 }
 
 .x-panel-collapsed .ametys-fieldset-header {
@@ -75,12 +76,17 @@
 .ametys-input input {
 	font-size: 0.9em;
 	margin-top: 0px !important;
+	margin-bottom: 0px !important; /* ie 6 margin-bottom bug */
 	border: 1px solid #C8CDD0 !important;
 	background-color: #FFF !important;
 	background-image: none !important;
 	padding: 4px 0px 0px 9px !important;
 	height: 20px !important;
 	float: left;
+}
+
+.ametys-input input.x-form-checkbox  {
+	border: 0px solid #C8CDD0 !important;
 }
 
 .ametys-file input {
