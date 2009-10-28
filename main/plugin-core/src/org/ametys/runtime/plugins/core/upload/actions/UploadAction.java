@@ -19,36 +19,41 @@ import org.ametys.runtime.upload.UploadManager;
 import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableAction;
 
 /**
- * {@link Action} for uploading a file and store it using the
- * {@link UploadManager}.
+ * {@link Action} for uploading a file and store it using the {@link UploadManager}.
  */
 public class UploadAction extends CurrentUserProviderServiceableAction
 {
     private UploadManager _uploadManager;
+    private boolean _initialized = false;
 
     @Override
     public void service(ServiceManager serviceManager) throws ServiceException
     {
         super.service(serviceManager);
-        _uploadManager = (UploadManager) serviceManager.lookup(UploadManager.ROLE);
     }
-    
+
     @Override
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
+        //Lazy initialize the upload manager because it cannot be found if the config is not complete  
+        if (!_initialized)
+        {
+            _uploadManager = (UploadManager) manager.lookup(UploadManager.ROLE);
+            _initialized = true;
+        }
         Request request = ObjectModelHelper.getRequest(objectModel);
         Part partUploaded = (Part) request.get("file");
-        
+
         if (partUploaded == null)
         {
             throw new Exception("Missing request parameter file");
         }
-        
+
         if (partUploaded.isRejected())
         {
             return Collections.singletonMap("result", "ko");
         }
-        
+
         Upload upload = null;
 
         try
@@ -60,7 +65,7 @@ public class UploadAction extends CurrentUserProviderServiceableAction
         {
             throw new Exception("Unable to store uploaded file: " + partUploaded, e);
         }
-        
+
         request.setAttribute("upload", upload);
         return Collections.singletonMap("result", "ok");
     }
