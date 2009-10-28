@@ -167,12 +167,12 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_CAPTION">Announcement...</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_OK">Ok</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_CANCEL">Cancel</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_LANG_HELP">Language code of the announcement message.&#13;The language code is a two letters one (eg:  fr, en, de, es, zh...).&#13;The special '*' code means all other codes.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_LANG_HELP">Language code of the announcement message.&lt;br/&gt;The language code is a two letters one (eg:  fr, en, de, es, zh...).&lt;br/&gt;The special * code means all other codes.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_MESSAGE_HELP">Announcement message in the specified language</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_DEFAULTMESSAGE">Enter the announcement in the default language</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_ERROR_LANG">The language code is always two letters long.\nFor example: 'fr' for french or 'en' for english.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_ERROR_MESSAGE">The message cannot be empty.</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ERROR_SAVE">An error occured on the server. Modifications have not been saved.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ERROR_SAVE">An error occurred on the server. Modifications have not been saved.</message>
 
     <!-- WIDGETS -->
     <message key="PLUGINS_CORE_WIDGET_PASSWORD_KEEPOLD">Keep old password</message>
@@ -283,7 +283,7 @@
 	<message key="PLUGINS_CORE_USERS_LABEL">Users</message>
 	<message key="PLUGINS_CORE_USERS_DESCRIPTION">Applications users management</message>
 	<message key="PLUGINS_CORE_USERS_TITLE">Users management</message>
-	<message key="PLUGINS_CORE_USERS_HANDLE_QUIT">Quitter</message>
+	<message key="PLUGINS_CORE_USERS_HANDLE_QUIT">Quit</message>
 	<message key="PLUGINS_CORE_USERS_HELP">Help</message>
 	<message key="PLUGINS_CORE_USERS_HELP_TEXT_MODIFY">This screen allows to create or update users.&lt;br/&gt;&lt;br/&gt;You may search for existing users.&lt;br/&gt;Be careful : searches only return the 100 first results.</message>
 	<message key="PLUGINS_CORE_USERS_HELP_TEXT_READ">This screen allows to display users.&lt;br/&gt;&lt;br/&gt;You may search for existing users.&lt;br/&gt;Be careful : searches only return the 100 first results.</message>
