@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -130,9 +131,9 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
     
     public void initialize() throws Exception
     {
-        _usedParamsName = new HashMap<String, String>();
-        _declaredParams = new HashMap<String, ConfigParameterInfo>();
-        _params = new HashMap<String, ConfigParameter>();
+        _usedParamsName = new LinkedHashMap<String, String>();
+        _declaredParams = new LinkedHashMap<String, ConfigParameterInfo>();
+        _params = new LinkedHashMap<String, ConfigParameter>();
         
         _validatorManager = new ThreadSafeComponentManager<Validator>();
         _validatorManager.enableLogging(LoggerFactory.getLoggerFor("runtime.plugin.threadsafecomponent"));
@@ -583,6 +584,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                 untypedValue = "PASSWORD";
             }
             
+            untypedValue = untypedValue.replaceAll("\\\\", "\\\\\\\\");
             handler.characters(untypedValue.toCharArray(), 0, untypedValue.length());
         }
         
