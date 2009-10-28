@@ -59,7 +59,6 @@
 			                <br/><br/>
 			                 
 			                <a href="{$redirect}" onclick="javascript:forceNonSupportedNavigators();">
-			                	<img src="{$contextPath}{$workspaceURI}/resources/img/icon/warning.gif" border="0" style="margin-right: 5px; vertical-align: middle;"/>
 			                   	<i18n:text i18n:key="WORKSPACE_ADMIN_NAVIGATOR_FORCE_LINK"/>
 			                </a>
 			                
