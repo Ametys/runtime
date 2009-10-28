@@ -206,7 +206,17 @@ function onreadyfunction()
 	});
 
 	Ext.QuickTips.init();
+	
+	/** IE 6*/
+	pngFixFn();
 }
 
-
 Ext.onReady(onreadyfunction);
+
+function pngFixFn() 
+{
+	if (window.pngFix)
+	{
+		pngFix.fixAllByTagName(["img", "div"]);
+	}
+}

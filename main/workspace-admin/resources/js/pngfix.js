@@ -114,4 +114,3 @@ var pngFix = {
     }
 }
 
-pngFix.fixAllByTagName(["img", "div", "td"]);
