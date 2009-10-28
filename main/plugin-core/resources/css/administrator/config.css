@@ -8,3 +8,6 @@
  * Contributors:
  *     Anyware Technologies - initial API and implementation
  */
+.ametys-input, .ametys-file {
+	width:580px;
+}
