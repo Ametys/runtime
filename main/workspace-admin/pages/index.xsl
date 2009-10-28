@@ -33,9 +33,44 @@
     		{
 	    		var items = []
 	    		
-	    		var links = new org.ametys.HtmlContainer ({
-	    			contentEl : 'links'
-	    		});
+	    		var linkData = {links : []};
+	    		linkData.links.push ({
+	            	text : "site web",
+	                url: "http://www.ametys.org",
+	                name : "ametys.org",
+	                width: 42 // ie 6
+	            });
+	            linkData.links.push ({
+	            	text : "documentation",
+	                url: "http://wiki.ametys.org",
+	                name : "wiki.ametys.org",
+	                width: 75 // ie 6
+	            });
+	            
+	            var tplLink = new Ext.XTemplate (
+	                		'&lt;div id="links"&gt;',
+	                		'&lt;tpl for="links"&gt;',
+	                			'&lt;div class="link"&gt;',
+	                				'&lt;div class="label"&gt;',
+	                					'&lt;div class="left"&gt;&lt;!----&gt;&lt;/div&gt;',
+	                					'&lt;div class="text" style="width:{width}px"&gt;{text}&lt;/div&gt;',
+	                				'&lt;/div&gt;',
+	                				'&lt;a href="{url}" target="_blank"&gt;{name}&lt;/a&gt;',
+	                			'&lt;/div&gt;',
+	                		'&lt;/tpl&gt;',
+	                		'&lt;/div&gt;'
+	            );
+	            tplLink.compile();
+	           	var links = new org.ametys.HtmlContainer ({
+   					border: false,
+   					html : '',
+   					listeners: {
+				        'render' : function(p) {
+				        	tplLink.overwrite(p.getEl(), linkData);
+				        }
+    				}
+				});
+	    		
 	    		items.push(links);
 	    		
 				<xsl:for-each select="/Admin/Desktop/category">
@@ -70,25 +105,6 @@
 			}
 			
 		</script>
-    </xsl:template>
-    
-    <xsl:template name="workspace-body">
-    	<div id="links">
-            <div class="link">
-            	<div class="label">
-            		<div class="left"><xsl:comment></xsl:comment></div>
-            		<div class="text">site web</div>
-            	</div>
-            	<a href="http://www.ametys.org" target="_blank">ametys.org</a>
-            </div>
-             <div class="link">
-             	<div class="label">
-             		<div class="left"><xsl:comment></xsl:comment></div>
-            		<div class="text">documentation</div>
-            	</div>
-            	<a href="http://wiki.ametys.org" target="_blank">wiki.ametys.org</a>
-            </div>
-        </div>
     </xsl:template>
     
 </xsl:stylesheet>
