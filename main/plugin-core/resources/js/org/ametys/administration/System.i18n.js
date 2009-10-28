@@ -226,7 +226,7 @@ org.ametys.administration.System.remove = function ()
 }
 org.ametys.administration.System.doRemove = function (answer)
 {
-	if (answer == 'button')
+	if (answer == 'yes')
 	{
 		var element = org.ametys.administration.System._listView.getSelection()[0];
 		org.ametys.administration.System._listView.removeElement(element);
