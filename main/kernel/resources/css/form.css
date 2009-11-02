@@ -73,6 +73,14 @@
 	/*padding-left: 203px !important; /* largeur du label 200 + padding 3 + img 21*/
 }
 
+.ametys-input img.x-form-date-trigger {
+	height: 24px;
+}
+
+.ametys-input div.x-form-field-trigger-wrap, .ametys-select div.x-form-field-trigger-wrap {
+	float:left;
+}
+
 .ametys-input input {
 	font-size: 0.9em;
 	margin-top: 0px !important;
