@@ -14,8 +14,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -38,7 +36,7 @@ import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-import org.apache.cocoon.xml.AttributesImpl;
+import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.xml.XMLUtils;
 import org.apache.xml.serializer.OutputPropertiesFactory;
 import org.xml.sax.ContentHandler;
@@ -393,11 +391,12 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
     }
 
     /**
-     * SAX the config parameters and values into a content handler
+     * SAX the configuration parameters and values into a content handler
      * @param handler Handler for sax events
-     * @throws SAXException if an error occured
+     * @throws SAXException if an error occurred
+     * @throws ProcessingException if an error occurred
      */
-    public void toSAX(ContentHandler handler) throws SAXException
+    public void toSAX(ContentHandler handler) throws SAXException, ProcessingException
     {
         _saxParameters(_categorizeParameters(), handler);
     }
@@ -406,7 +405,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
     {
         Map<I18nizableText, Map<I18nizableText, List<ConfigParameter>>> categories = new HashMap<I18nizableText, Map<I18nizableText, List<ConfigParameter>>>();
 
-        // Classe les paramètres par catégorie et par groupe
+        // Classify parameters by groups and categories
         Iterator<String> it = _params.keySet().iterator();
         while (it.hasNext())
         {
@@ -437,9 +436,9 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         return categories;
     }
 
-    private void _saxParameters(Map<I18nizableText, Map<I18nizableText, List<ConfigParameter>>> categories, ContentHandler handler) throws SAXException
+    private void _saxParameters(Map<I18nizableText, Map<I18nizableText, List<ConfigParameter>>> categories, ContentHandler handler) throws SAXException, ProcessingException
     {
-        // Récupère les paramètres
+        // Get configuration parameters
         Map<String, String> untypedValues;
         try
         {
@@ -455,7 +454,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             untypedValues = new HashMap<String, String>();
         }
 
-        // Sax les paramètres classés
+        // SAX classified parameters
         XMLUtils.startElement(handler, "categories");
 
         for (I18nizableText categoryKey : categories.keySet())
@@ -478,7 +477,9 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                 Iterator<ConfigParameter> gIt = group.iterator();
                 while (gIt.hasNext())
                 {
-                    _saxParameter(handler, gIt.next(), untypedValues);
+                    ConfigParameter param = gIt.next();
+                    Object value = _getValue (param.getId(), param.getType(), untypedValues);
+                    ParameterHelper.toSAXParameter (handler, param, value);
                 }
                 XMLUtils.endElement(handler, "parameters");
 
@@ -493,106 +494,27 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         XMLUtils.endElement(handler, "categories");
     }
 
-    private void _saxParameter(ContentHandler handler, ConfigParameter param, Map<String, String> untypedValues) throws SAXException
+    private Object _getValue (String paramID, ParameterType type, Map<String, String> untypedValues)
     {
-        AttributesImpl parameterAttr = new AttributesImpl();
-        parameterAttr.addAttribute("", "plugin", "plugin", "CDATA", param.getPluginName());
-        XMLUtils.startElement(handler, param.getId(), parameterAttr);
+        final String unverifiedUntypedValue = untypedValues.get(paramID);
+        Object typedValue = ParameterHelper.castValue(unverifiedUntypedValue, type);
         
-        param.getLabel().toSAX(handler, "label");
-        param.getDescription().toSAX(handler, "description");
-        
-        XMLUtils.createElement(handler, "type", ParameterHelper.typeToString(param.getType()));
-        
-        if (param.getWidget() != null)
+        if (type.equals(ParameterType.PASSWORD) && typedValue != null && ((String) typedValue).length() > 0)
         {
-            XMLUtils.createElement(handler, "widget", param.getWidget());
+            typedValue = "PASSWORD";
         }
         
-        XMLUtils.createElement(handler, "order", Integer.toString(param.getOrder()));
-
-        // Le plus complexe: envoyer la valeur
-        _saxValue(handler, param, untypedValues);
-
-        // Les types énumérés
-        Enumerator enumerator = param.getEnumerator();
-        
-        if (enumerator != null)
+        if (type.equals(ParameterType.STRING) && typedValue != null && ((String) typedValue).length() > 0)
         {
-            XMLUtils.startElement(handler, "enumeration");
-
-            try
-            {
-                for (Map.Entry<Object, I18nizableText> entry : enumerator.getEntries().entrySet())
-                {
-                    String valueAsString = ParameterHelper.valueToString(entry.getKey());
-                    I18nizableText label = entry.getValue();
-    
-                    // Produit l'option
-                    AttributesImpl attrs = new AttributesImpl();
-                    attrs.addCDATAAttribute("value", valueAsString);
-                    
-                    XMLUtils.startElement(handler, "option", attrs);
-                    
-                    if (label != null)
-                    {
-                        label.toSAX(handler);
-                    }
-                    else
-                    {
-                        XMLUtils.data(handler, valueAsString);
-                    }
-                    
-                    XMLUtils.endElement(handler, "option");
-                }
-            }
-            catch (Exception e)
-            {
-                throw new SAXException("Unable to enumerate entries with enumerator: " + enumerator, e);
-            }
-
-            XMLUtils.endElement(handler, "enumeration");
+            typedValue = ((String) typedValue).replaceAll("\\\\", "\\\\\\\\");
         }
         
-        /* TODO en 1.1 gérer le validator = envoyer le message d'erreur */
-
-        XMLUtils.endElement(handler, param.getId());
+        return typedValue;
     }
 
-    private void _saxValue(ContentHandler handler, ConfigParameter param, Map<String, String> untypedValues) throws SAXException
-    {
-        XMLUtils.startElement(handler, "value");
-
-        // Get the typed value selon si elle existe dans le fichier ou pas
-        Object typedValue;
-        if (untypedValues.keySet().contains(param.getId()))
-        {
-            final String unverifiedUntypedValue = untypedValues.get(param.getId());
-            typedValue = ParameterHelper.castValue(unverifiedUntypedValue, param.getType());
-        }
-        else
-        {
-            typedValue = param.getDefaultValue();
-        }
-        
-        // Untyped value
-        String untypedValue = ParameterHelper.valueToString(typedValue);
-        if (untypedValue != null)
-        {
-            if (untypedValue.length() > 0 && param.getType() == ParameterType.PASSWORD)
-            {
-                untypedValue = "PASSWORD";
-            }
-            
-            untypedValue = untypedValue.replaceAll("\\\\", "\\\\\\\\");
-            handler.characters(untypedValue.toCharArray(), 0, untypedValue.length());
-        }
-        
-        XMLUtils.endElement(handler, "value");
-    }
 
     /**
-     * Update the config file with the given values<br>
+     * Update the configuartion file with the given values<br>
      * Values are untyped (all are of type String) and might be null.
      * @param untypedValues A map (key, untyped value).
      * @param fileName the config file absolute path
@@ -722,27 +644,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                 XMLUtils.data(handler, "\n  ");
 
                 List<ConfigParameter> group = category.get(groupKey);
-                // Trier les paramètres
-                Collections.sort(group, new Comparator<ConfigParameter>()
-                {
-                    public int compare(ConfigParameter param1, ConfigParameter param2)
-                    {
-                        int order1 = param1 != null ? param1.getOrder() : 0;
-                        int order2 = param2 != null ? param2.getOrder() : 0;
-                        
-                        if (order1 < order2)
-                        {
-                            return -1;
-                        }
-                        
-                        if (order1 == order2)
-                        {
-                            return 0;
-                        }
-                        
-                        return 1;
-                    }
-                });
+                
                 Iterator<ConfigParameter> gIt = group.iterator();
                 while (gIt.hasNext())
                 {
@@ -802,20 +704,9 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
     
     class ConfigParameter extends Parameter<ParameterType>
     {
-        private String _id;
         private I18nizableText _displayCategory;
         private I18nizableText _displayGroup;
-        private int _order;
 
-        String getId()
-        {
-            return _id;
-        }
-
-        void setId(String id)
-        {
-            _id = id;
-        }
 
         I18nizableText getDisplayCategory()
         {
@@ -835,16 +726,6 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         void setDisplayGroup(I18nizableText displayGroup)
         {
             _displayGroup = displayGroup;
-        }
-        
-        int getOrder()
-        {
-            return _order;
-        }
-        
-        void setOrder(int order)
-        {
-            _order = order;
         }
     }
     
@@ -895,7 +776,6 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             parameter.setId(parameterId);
             parameter.setDisplayCategory(_parseI18nizableText(parameterConfig, pluginName, "category"));
             parameter.setDisplayGroup(_parseI18nizableText(parameterConfig, pluginName, "group"));
-            parameter.setOrder(parameterConfig.getChild("order").getValueAsInteger(0));
         }
     }
 }

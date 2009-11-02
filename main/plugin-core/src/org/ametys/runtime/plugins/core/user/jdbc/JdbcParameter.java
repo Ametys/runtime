@@ -20,27 +20,8 @@ import org.ametys.runtime.util.parameter.ParameterHelper.ParameterType;
  */
 public class JdbcParameter extends Parameter<ParameterType>
 {
-    private String _id;
     private String _column;
     
-    /**
-     * Get the id.
-     * @return the id.
-     */
-    public String getId()
-    {
-        return _id;
-    }
-    
-    /**
-     * Set the id.
-     * @param id the id.
-     */
-    public void setId(String id)
-    {
-        _id = id;
-    }
-
     /**
      * Get the JDBC column.
      * @return the JDBC column.

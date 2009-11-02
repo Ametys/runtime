@@ -12,11 +12,19 @@ package org.ametys.runtime.util.parameter;
 
 import java.io.InputStream;
 import java.util.Date;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.apache.avalon.framework.logger.Logger;
+import org.apache.cocoon.ProcessingException;
+import org.apache.cocoon.xml.AttributesImpl;
+import org.apache.cocoon.xml.XMLUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
+import org.xml.sax.ContentHandler;
+import org.xml.sax.SAXException;
 
+import org.ametys.runtime.util.I18nizableText;
 import org.ametys.runtime.util.LoggerFactory;
 
 
@@ -169,5 +177,134 @@ public final class ParameterHelper
         }
 
         return value.toString();
+    }
+    
+    /**
+     * SAX a parameter
+     * @param handler The content handler where to SAX
+     * @param parameter The parameter to SAX
+     * @param value The parameter value. Can be null.
+     * @throws SAXException If an error occurred while SAXing
+     * @throws ProcessingException If an error occurred
+     */
+    public static void toSAXParameter (ContentHandler handler, Parameter parameter, Object value) throws SAXException, ProcessingException
+    {
+        AttributesImpl parameterAttr = new AttributesImpl();
+        parameterAttr.addAttribute("", "plugin", "plugin", "CDATA", parameter.getPluginName());
+        XMLUtils.startElement(handler, parameter.getId(), parameterAttr);
+        
+        parameter.getLabel().toSAX(handler, "label");
+        parameter.getDescription().toSAX(handler, "description");
+        
+        XMLUtils.createElement(handler, "type", ParameterHelper.typeToString((ParameterType) parameter.getType()));
+        
+        Object defaultValue = parameter.getDefaultValue();
+        
+        if (defaultValue != null)
+        {
+            XMLUtils.createElement(handler, "defaultValue", ParameterHelper.valueToString(defaultValue));
+        }
+        
+        if (value != null)
+        {
+            XMLUtils.createElement(handler, "value", ParameterHelper.valueToString(value));
+        }
+        else if (defaultValue != null)
+        {
+            XMLUtils.createElement(handler, "value", ParameterHelper.valueToString(defaultValue));
+        }
+        
+        if (parameter.getWidget() != null)
+        {
+            XMLUtils.createElement(handler, "widget", parameter.getWidget());
+        }
+        
+        Enumerator enumerator = parameter.getEnumerator();
+        if (enumerator != null)
+        {
+            toSAXEnumerator(handler, enumerator);
+        }
+        
+        Validator validator = parameter.getValidator();
+        if (validator != null)
+        {
+            toSAXValidator(handler, validator);
+        }
+        
+        XMLUtils.endElement(handler, parameter.getId());
+    }
+    
+    /**
+     * SAX parameter enumerator
+     * @param handler The content handler where to SAX
+     * @param enumerator The enumerator to SAX
+     * @throws SAXException If an error occurred to SAX
+     * @throws ProcessingException If an error occurred
+     */
+    public static void toSAXEnumerator (ContentHandler handler, Enumerator enumerator) throws SAXException, ProcessingException
+    {
+        XMLUtils.startElement(handler, "enumeration");
+        
+        try
+        {
+            for (Map.Entry<Object, I18nizableText> entry : enumerator.getEntries().entrySet())
+            {
+                String valueAsString = ParameterHelper.valueToString(entry.getKey());
+                I18nizableText label = entry.getValue();
+
+                // Produit l'option
+                AttributesImpl attrs = new AttributesImpl();
+                attrs.addCDATAAttribute("value", valueAsString);
+                
+                XMLUtils.startElement(handler, "option", attrs);
+                
+                if (label != null)
+                {
+                    label.toSAX(handler);
+                }
+                else
+                {
+                    XMLUtils.data(handler, valueAsString);
+                }
+                
+                XMLUtils.endElement(handler, "option");
+            }
+        }
+        catch (Exception e)
+        {
+            throw new ProcessingException("Unable to enumerate entries with enumerator: " + enumerator, e);
+        } 
+
+        XMLUtils.endElement(handler, "enumeration");
+    }
+    
+    /**
+     * SAX parameter validator
+     * @param handler The content handler where to SAX
+     * @param validator The validator to SAX
+     * @throws SAXException If an error occurred while SAXing
+     */
+    public static void toSAXValidator (ContentHandler handler, Validator validator) throws SAXException
+    {
+        XMLUtils.startElement(handler, "validation");
+        
+        if (validator instanceof DefaultValidator)
+        {
+            DefaultValidator defaultValidator = (DefaultValidator) validator;
+            Pattern pattern = defaultValidator.getPattern();
+            XMLUtils.createElement(handler, "mandatory", String.valueOf(defaultValidator.isMandatory()));
+            
+            if (pattern != null)
+            {
+                XMLUtils.createElement(handler, "regexp", pattern.toString());
+            }
+        }
+        else
+        {
+            // TODO provide JS export of the validator
+            XMLUtils.data(handler, validator.getClass().getName());
+        }
+        
+        XMLUtils.endElement(handler, "validation");
     }
 }

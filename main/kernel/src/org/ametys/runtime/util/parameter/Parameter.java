@@ -38,6 +38,7 @@ import org.ametys.runtime.util.I18nizableText;
  */
 public class Parameter<T>
 {
+    private String _id;
     private String _pluginName;
     private I18nizableText _label;
     private I18nizableText _description;
@@ -47,6 +48,25 @@ public class Parameter<T>
     private Validator _validator;
     private Object _defaultValue;
 
+    /**
+     * Get the id.
+     * @return Returns the id.
+     */
+    public String getId()
+    {
+        return _id;
+    }
+
+    /**
+     * Set the id.
+     * @param id the id.
+     */
+    public void setId(String id)
+    {
+        _id = id;
+    }
+
+    
     /**
      * Retrieves the name of the plugin declaring this parameter.
      * @return the plugin name.
