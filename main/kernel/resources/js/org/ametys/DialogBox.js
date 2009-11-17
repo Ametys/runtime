@@ -46,7 +46,7 @@ Ext.extend(
 	org.ametys.DialogBox, 
 	Ext.Window, 
 	{
-		resizable :true,
+		resizable :false,
 		shadow :true,
 		modal :true,
 		ametysCls :'ametys-box'
