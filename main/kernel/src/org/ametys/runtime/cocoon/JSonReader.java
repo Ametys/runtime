@@ -28,7 +28,7 @@ public class JSonReader extends AbstractReader
     @Override
     public String getMimeType()
     {
-        return "text/plain";
+        return "text/html";
     }
     
     @SuppressWarnings("unchecked")
