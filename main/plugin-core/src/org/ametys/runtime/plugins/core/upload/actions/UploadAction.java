@@ -5,8 +5,6 @@ import java.util.Collections;
 import java.util.Map;
 
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.framework.service.ServiceException;
-import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.acting.Action;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
@@ -24,23 +22,16 @@ import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableAction;
 public class UploadAction extends CurrentUserProviderServiceableAction
 {
     private UploadManager _uploadManager;
-    private boolean _initialized = false;
-
-    @Override
-    public void service(ServiceManager serviceManager) throws ServiceException
-    {
-        super.service(serviceManager);
-    }
 
     @Override
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
         //Lazy initialize the upload manager because it cannot be found if the config is not complete  
-        if (!_initialized)
+        if (_uploadManager == null)
         {
             _uploadManager = (UploadManager) manager.lookup(UploadManager.ROLE);
-            _initialized = true;
         }
+        
         Request request = ObjectModelHelper.getRequest(objectModel);
         Part partUploaded = (Part) request.get("file");
 
@@ -58,8 +49,7 @@ public class UploadAction extends CurrentUserProviderServiceableAction
 
         try
         {
-            upload = _uploadManager.storeUpload(_getCurrentUser(), partUploaded.getFileName(),
-                                                partUploaded.getInputStream());
+            upload = _uploadManager.storeUpload(_getCurrentUser(), partUploaded.getFileName(), partUploaded.getInputStream());
         }
         catch (IOException e)
         {
