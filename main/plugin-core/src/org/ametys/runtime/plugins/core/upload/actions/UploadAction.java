@@ -15,7 +15,6 @@ import org.apache.cocoon.servlet.multipart.Part;
 import org.apache.commons.lang.exception.ExceptionUtils;
 
 import org.ametys.runtime.cocoon.JSonReader;
-import org.ametys.runtime.plugin.component.PluginAware;
 import org.ametys.runtime.upload.Upload;
 import org.ametys.runtime.upload.UploadManager;
 import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableAction;
