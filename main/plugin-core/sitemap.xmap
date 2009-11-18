@@ -36,8 +36,6 @@
             <map:generator name="rights-context-application" src="org.ametys.runtime.plugins.core.right.ui.generators.ApplicationContextGenerator" logger="org.ametys.runtime.plugins.core.right.sitemap.generator.context.application" label="content"/>
             
             <map:generator name="monitoring" src="org.ametys.runtime.plugins.core.monitoring.SampleManagersGenerator" logger="org.ametys.runtime.plugins.core.monitoring.SampleManagersGenerator" label="content"/>
-            
-            <map:generator name="upload-result" src="org.ametys.runtime.plugins.core.upload.generators.UploadResultGenerator" logger="org.ametys.runtime.plugins.core.upload.generators.UploadResultGenerator" label="content"/>
         </map:generators>
         
         <map:serializers>
@@ -617,15 +615,12 @@
                  + -->
             <map:match pattern="upload/store">
                 <map:act type="upload-store">
-                    <map:generate type="upload-result">
-                    	<map:parameter name="result" value="{result}"/>
-                    </map:generate>
-                    <map:serialize type="xml"/>
+                    <map:read type="json"/>
                 </map:act>
             </map:match>
             
-            <map:match pattern="upload/get/**">
-                <map:read type="upload-reader" src="{1}"/>
+            <map:match pattern="upload/get">
+                <map:read type="upload-reader"/>
             </map:match>
         </map:pipeline>
 	</map:pipelines>

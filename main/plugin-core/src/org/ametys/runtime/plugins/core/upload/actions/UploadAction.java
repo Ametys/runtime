@@ -1,7 +1,8 @@
 package org.ametys.runtime.plugins.core.upload.actions;
 
 import java.io.IOException;
-import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.avalon.framework.parameters.Parameters;
@@ -11,7 +12,10 @@ import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.SourceResolver;
 import org.apache.cocoon.servlet.multipart.Part;
+import org.apache.commons.lang.exception.ExceptionUtils;
 
+import org.ametys.runtime.cocoon.JSonReader;
+import org.ametys.runtime.plugin.component.PluginAware;
 import org.ametys.runtime.upload.Upload;
 import org.ametys.runtime.upload.UploadManager;
 import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableAction;
@@ -19,21 +23,30 @@ import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableAction;
 /**
  * {@link Action} for uploading a file and store it using the {@link UploadManager}.
  */
-public class UploadAction extends CurrentUserProviderServiceableAction
+public class UploadAction extends CurrentUserProviderServiceableAction implements PluginAware
 {
     private UploadManager _uploadManager;
-
+    private String _pluginName;
+    
+    @Override
+    public void setPluginInfo(String pluginName, String featureName)
+    {
+        _pluginName = pluginName;
+    }
+    
     @Override
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
+        Request request = ObjectModelHelper.getRequest(objectModel);
+
         //Lazy initialize the upload manager because it cannot be found if the config is not complete  
         if (_uploadManager == null)
         {
             _uploadManager = (UploadManager) manager.lookup(UploadManager.ROLE);
         }
         
-        Request request = ObjectModelHelper.getRequest(objectModel);
         Part partUploaded = (Part) request.get("file");
+        Map<String, Object> result = new LinkedHashMap<String, Object>();
 
         if (partUploaded == null)
         {
@@ -42,21 +55,39 @@ public class UploadAction extends CurrentUserProviderServiceableAction
 
         if (partUploaded.isRejected())
         {
-            return Collections.singletonMap("result", "ko");
+            result.put("success", false);
+            result.put("error", "rejected");
         }
-
-        Upload upload = null;
-
-        try
+        else
         {
-            upload = _uploadManager.storeUpload(_getCurrentUser(), partUploaded.getFileName(), partUploaded.getInputStream());
-        }
-        catch (IOException e)
-        {
-            throw new Exception("Unable to store uploaded file: " + partUploaded, e);
-        }
+            Upload upload = null;
+    
+            try
+            {
+                upload = _uploadManager.storeUpload(_getCurrentUser(), partUploaded.getFileName(), partUploaded.getInputStream());
+                
+                result.put("success", true);
+                result.put("id", upload.getId());
+                result.put("filename", upload.getFilename());
+                result.put("size", upload.getLength());
+                result.put("href", "/plugins/" + _pluginName + "/upload/get?id=" + upload.getId());
+            }
+            catch (IOException e)
+            {
+                getLogger().error("Unable to store uploaded file: " + partUploaded, e);
+                
+                result.put("success", false);
+                
+                Map<String, String> ex = new HashMap<String, String>();
+                ex.put("message", e.getMessage());
+                ex.put("stacktrace", ExceptionUtils.getFullStackTrace(e));
 
-        request.setAttribute("upload", upload);
-        return Collections.singletonMap("result", "ok");
+                result.put("error", ex);
+            }
+        }
+        
+        request.setAttribute(JSonReader.MAP_TO_READ, result);
+
+        return EMPTY_MAP;
     }
 }

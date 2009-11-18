@@ -12,6 +12,7 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.ResourceNotFoundException;
 import org.apache.cocoon.environment.ObjectModelHelper;
+import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.Response;
 import org.apache.cocoon.environment.SourceResolver;
 import org.apache.cocoon.reading.ServiceableReader;
@@ -51,13 +52,10 @@ public class UploadReader extends ServiceableReader
     public void setup(SourceResolver res, Map objModel, String src, Parameters par) throws ProcessingException, SAXException, IOException
     {
         super.setup(res, objModel, src, par);
-        String uploadId = source;
         
-        if (uploadId.indexOf('/') != -1)
-        {
-            uploadId = uploadId.substring(0, uploadId.indexOf('/'));
-        }
-        
+        Request request = ObjectModelHelper.getRequest(objModel);
+        String uploadId = request.getParameter("id");
+
         try
         {
             _upload = _uploadManager.getUpload(_currentUserProvider.getUser(), uploadId);
@@ -65,6 +63,7 @@ public class UploadReader extends ServiceableReader
         catch (NoSuchElementException e)
         {
             // Invalid upload id
+            getLogger().warn("Cannot find the temporary uploaded file with id " + (uploadId != null ? "'" + uploadId + "'" : "<null>"));
         }
     }
     

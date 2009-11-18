@@ -45,6 +45,7 @@
   
 		<map:readers default="resource">
 			<map:reader name="resource" src="org.ametys.runtime.cocoon.RuntimeResourceReader" logger="org.ametys.runtime.kernel.sitemap.reader.resource"/>
+			<map:reader name="json" src="org.ametys.runtime.cocoon.JSonReader" logger="org.ametys.runtime.kernel.sitemap.reader.json"/>
 		</map:readers>
     
 		<map:serializers default="xhtml">
