@@ -23,16 +23,9 @@ import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableAction;
 /**
  * {@link Action} for uploading a file and store it using the {@link UploadManager}.
  */
-public class UploadAction extends CurrentUserProviderServiceableAction implements PluginAware
+public class UploadAction extends CurrentUserProviderServiceableAction
 {
     private UploadManager _uploadManager;
-    private String _pluginName;
-    
-    @Override
-    public void setPluginInfo(String pluginName, String featureName)
-    {
-        _pluginName = pluginName;
-    }
     
     @Override
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
@@ -70,7 +63,7 @@ public class UploadAction extends CurrentUserProviderServiceableAction implement
                 result.put("id", upload.getId());
                 result.put("filename", upload.getFilename());
                 result.put("size", upload.getLength());
-                result.put("href", "/plugins/" + _pluginName + "/upload/get?id=" + upload.getId());
+                result.put("href", "/plugins/core/upload/get?id=" + upload.getId());
             }
             catch (IOException e)
             {
