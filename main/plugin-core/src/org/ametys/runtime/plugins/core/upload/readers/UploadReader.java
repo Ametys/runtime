@@ -99,6 +99,12 @@ public class UploadReader extends ServiceableReader
         
         Response response = ObjectModelHelper.getResponse(objectModel);
         response.setHeader("Content-Length", Long.toString(_upload.getLength()));
+        
+        if (parameters.getParameterAsBoolean("download", false))
+        {
+            response.setHeader("Content-Disposition", "attachment; filename=\"" + _upload.getFilename() + "\"");
+        }
+        
         InputStream is = _upload.getInputStream();
         
         try

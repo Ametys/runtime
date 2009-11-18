@@ -62,7 +62,8 @@ public class UploadAction extends CurrentUserProviderServiceableAction
                 result.put("id", upload.getId());
                 result.put("filename", upload.getFilename());
                 result.put("size", upload.getLength());
-                result.put("href", "/plugins/core/upload/get?id=" + upload.getId());
+                result.put("viewHref", "/plugins/core/upload/view?id=" + upload.getId());
+                result.put("downloadHref", "/plugins/core/upload/download?id=" + upload.getId());
             }
             catch (IOException e)
             {
