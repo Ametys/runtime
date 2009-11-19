@@ -235,7 +235,7 @@ public class RuntimeServlet extends CocoonServlet
         _loadRuntimeConfig();
 
         // Emplacement de la configuration
-        Config.setFilename(servletContextPath + CONFIG_RELATIVE_PATH);
+        Config.setFilename(servletContext.getRealPath(CONFIG_RELATIVE_PATH));
     }
 
     @SuppressWarnings("unchecked")
