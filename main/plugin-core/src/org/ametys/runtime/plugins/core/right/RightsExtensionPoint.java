@@ -25,6 +25,7 @@ import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
 import org.ametys.runtime.plugin.ExtensionPoint;
+import org.ametys.runtime.util.I18nizableText;
 
 
 /**
@@ -91,18 +92,21 @@ public class RightsExtensionPoint extends AbstractLogEnabled implements Extensio
         {
             throw new ConfigurationException("Right declaration is incorrect since no 'label' element is specified (or may be empty)", configuration);
         }
+        I18nizableText i18nLabel = new I18nizableText("plugin." + pluginName, label);
         
         String description = configuration.getChild("description").getValue("");
         if (description.length() == 0)
         {
             throw new ConfigurationException("Right declaration is incorrect since no 'description' element is specified (or may be empty)", configuration);
         }
+        I18nizableText i18nDescription = new I18nizableText("plugin." + pluginName, description);
         
         String category = configuration.getChild("category").getValue("");
         if (category.length() == 0)
         {
             throw new ConfigurationException("Right declaration is incorrect since no 'category' element is specified (or may be empty)", configuration);
         }
+        I18nizableText i18nCategory = new I18nizableText("plugin." + pluginName, category);
         
         if (_rights.containsKey(id))
         {
@@ -115,7 +119,7 @@ public class RightsExtensionPoint extends AbstractLogEnabled implements Extensio
             getLogger().debug("Adding right ID : " + id);
         }
 
-        Right right = new Right(id, label, description, category, "plugin." + pluginName, "Declared by plugin '" + pluginName + "'");
+        Right right = new Right(id, i18nLabel, i18nDescription, i18nCategory, "Declared by plugin '" + pluginName + "'");
         if (_rights.containsKey(id))
         {
             Right oldright = _rights.get(id);
@@ -133,7 +137,7 @@ public class RightsExtensionPoint extends AbstractLogEnabled implements Extensio
      * @param catalogue The catalogue full identifier (not null or empty)
      * @throws IllegalArgumentException if the id is already declared
      */
-    public void addRight(String id, String labelKey, String descriptionKey,  String categoryKey, String catalogue) throws IllegalArgumentException
+    public void addRight(String id, I18nizableText labelKey, I18nizableText descriptionKey,  I18nizableText categoryKey) throws IllegalArgumentException
     {
         if (getLogger().isDebugEnabled())
         {
@@ -146,7 +150,7 @@ public class RightsExtensionPoint extends AbstractLogEnabled implements Extensio
             throw new IllegalArgumentException("Right with id '" + id + "' is already declared : '" + right.getDeclaration() + "'. This second declaration is ignored.");
         }
 
-        Right right = new Right(id, labelKey, descriptionKey, categoryKey, catalogue, "Declared by API");
+        Right right = new Right(id, labelKey, descriptionKey, categoryKey, "Declared by API");
         _rights.put(id, right);
     }
 

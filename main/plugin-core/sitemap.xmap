@@ -550,10 +550,10 @@
             
             <!--<map:match pattern="rights/**">
                 <map:act type="has-not-right" src="Runtime_Rights_Rights_Handle"/>
-            </map:match>
+            </map:match>-->
             
             
-            --><map:match pattern="rights/profiles.xml">
+            <map:match pattern="rights/profiles.xml">
                 <map:generate type="rights-profiles-list"/>
                 <map:serialize type="xml"/>
             </map:match>

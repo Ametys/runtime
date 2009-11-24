@@ -10,10 +10,12 @@
  */
 package org.ametys.runtime.plugins.core.right;
 
+import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.AttributesImpl;
+
+import org.ametys.runtime.util.I18nizableText;
 
 /**
  * A right in a runtime application.<br>
@@ -22,10 +24,9 @@ import org.xml.sax.helpers.AttributesImpl;
 public class Right
 {
     private String _id;
-    private String _label;
-    private String _description;
-    private String _category;
-    private String _catalogue;
+    private I18nizableText _label;
+    private I18nizableText _description;
+    private I18nizableText _category;
     private String _declaration;
     
     /**
@@ -37,13 +38,12 @@ public class Right
      * @param catalogue the full catalogue identifier
      * @param declaration the declaration source (for debug purposes)
      */
-    Right(String id, String label, String description, String category, String catalogue, String declaration)
+    Right(String id, I18nizableText label, I18nizableText description, I18nizableText category, String declaration)
     {
         _id = id;
         _label = label;
         _description = description;
         _category = category;
-        _catalogue = catalogue;
         _declaration = declaration;
     }
 
@@ -60,7 +60,7 @@ public class Right
      * Returns the i18n label of this Right
      * @return the i18n label of this Right
      */
-    public String getLabel()
+    public I18nizableText getLabel()
     {
         return _label;
     }
@@ -69,7 +69,7 @@ public class Right
      * Returns the i18n description of this Right
      * @return the i18n description of this Right
      */
-    public String getDescription()
+    public I18nizableText getDescription()
     {
         return _description;
     }
@@ -78,18 +78,9 @@ public class Right
      * Returns the i18n category of this Right
      * @return the i18n category of this Right
      */
-    public String getCategory()
+    public I18nizableText getCategory()
     {
         return _category;
-    }
-    
-    /**
-     * Returns the i18n label of this Right
-     * @return the i18n label of this Right
-     */
-    public String getCatalogue()
-    {
-        return _catalogue;
     }
     
     /**
@@ -109,13 +100,17 @@ public class Right
     public void toSAX(ContentHandler ch) throws SAXException
     {
         AttributesImpl atts = new AttributesImpl();
-        atts.addAttribute("", "id", "id", "CDATA", _id);
-        atts.addAttribute("", "catalogue", "catalogue", "CDATA", _catalogue);
-        
+        atts.addCDATAAttribute("id", _id);
         XMLUtils.startElement(ch, "right", atts);
-        XMLUtils.createElement(ch, "label", _label);
-        XMLUtils.createElement(ch, "description", _description);
-        XMLUtils.createElement(ch, "category", _category);
+        _label.toSAX(ch, "label");
+        _description.toSAX(ch, "description");
+        
+        AttributesImpl attrs = new AttributesImpl();
+        attrs.addCDATAAttribute("id", _category.toString().replaceAll("[^a-zA-Z0-9]", "_"));
+        XMLUtils.startElement(ch, "category", attrs);
+        _category.toSAX(ch);
+        XMLUtils.endElement(ch, "category");
+
         XMLUtils.endElement(ch, "right");
     }
     

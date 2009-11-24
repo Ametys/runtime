@@ -15,20 +15,21 @@
       
 	<xsl:template match="rights">
     	<rights>
-    		<xsl:for-each select="right[not(category = preceding-sibling::right/category)]">
-				<xsl:variable name="category" select="category"/>
-					<category id="{category}">
-						<label><i18n:text i18n:key="{category}" i18n:catalogue="{@catalogue}"/></label>
-						
-						<xsl:for-each select="../right[category = $category]">
-							<right id="{@id}">
-								<label><i18n:text i18n:key="{label}" i18n:catalogue="{@catalogue}"/></label>
-								<description><i18n:text i18n:key="{description}" i18n:catalogue="{@catalogue}"/></description>
-								<category><xsl:value-of select="category"/></category>
-							</right>
-						</xsl:for-each>
-					</category>		
-				
+    		<xsl:for-each select="right[not(category/@id = preceding-sibling::right/category/@id)]">
+				<xsl:variable name="category" select="category/@id"/>
+				<xsl:variable name="categoryKey" select="category"/>
+
+				<category id="{$category}">
+					<label><xsl:copy-of select="$categoryKey/*"/></label>
+					
+					<xsl:for-each select="../right[category/@id = $category]">
+						<right id="{@id}">
+							<xsl:copy-of select="label"/>
+							<xsl:copy-of select="description"/>
+							<xsl:copy-of select="$categoryKey"/>
+						</right>
+					</xsl:for-each>
+				</category>		
 			</xsl:for-each>
     	</rights>
     </xsl:template>          

@@ -61,6 +61,7 @@ import org.ametys.runtime.user.ModifiableUsersManager;
 import org.ametys.runtime.user.User;
 import org.ametys.runtime.user.UserListener;
 import org.ametys.runtime.user.UsersManager;
+import org.ametys.runtime.util.I18nizableText;
 
 
 /**
@@ -223,9 +224,15 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         for (Configuration rightConf : rights)
         {
             String id = rightConf.getAttribute("id", "");
+            
             String label = rightConf.getChild("label").getValue("");
+            I18nizableText i18nLabel = new I18nizableText("application", label);
+            
             String description = rightConf.getChild("description").getValue("");
+            I18nizableText i18nDescription = new I18nizableText("application", description);
+
             String category = rightConf.getChild("category").getValue("");
+            I18nizableText i18nCategory = new I18nizableText("application", category);
             
             if (id.length() == 0 || label.length() == 0 || description.length() == 0 || category.length() == 0)
             {
@@ -234,7 +241,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
                 throw new ConfigurationException(message, configuration);
             }
 
-            _rightsEP.addRight(id, label, description, category, "application");
+            _rightsEP.addRight(id, i18nLabel, i18nDescription, i18nCategory);
         }
     }
     
