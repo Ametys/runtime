@@ -127,6 +127,10 @@
                  + -->
             <map:match pattern="administrator/config/edit.html">
                 <map:generate type="administrator-config"/>
+				<map:transform type="i18n">
+					<map:parameter name="locale" value="{locale:locale}"/>
+					<map:parameter name="plugin" value="{request-attr:pluginName}"/>
+				</map:transform>
                 <map:transform type="xslt" src="pages/administrator/config/edit.xsl">
                     <map:parameter name="contextPath" value="{request:contextPath}"/>
                     <map:parameter name="pluginName" value="{request-attr:pluginName}"/>

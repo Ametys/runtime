@@ -41,6 +41,8 @@
 					org.ametys.administration.Config._navItems = [];
 					
 					<xsl:for-each select="config/categories/category">
+						<xsl:sort select="label/node()" data-type="text" order="ascending"/>
+
 						org.ametys.administration.Config._navItems.push({
 							id: "<xsl:value-of select="generate-id()"/>",
 							label: "<xsl:copy-of select="label/node()"/>"
@@ -53,6 +55,7 @@
 					org.ametys.administration.Config._fields = [];
 					
 					<xsl:for-each select="config/categories/category">
+						<xsl:sort select="label/node()" data-type="text" order="ascending"/>
 						
 						var fieldSet = org.ametys.administration.Config.createFieldSet ("<xsl:value-of select="generate-id()"/>", "<xsl:copy-of select="label/node()"/>");
 							
@@ -60,12 +63,11 @@
 						
 						
 						<xsl:for-each select="groups/group">
-						
 							org.ametys.administration.Config.addGroupCategory (fieldSet, "<xsl:copy-of select="label/node()"/>");
 							height += 24;
 							
 							<xsl:for-each select="parameters/*">
-								<xsl:sort select="order"/>
+								<xsl:sort select="order" data-type="number"/>
 									var input = org.ametys.administration.Config.addInputField (fieldSet, 
 										"<xsl:value-of select="type"/>", 
 										"<xsl:value-of select="local-name()"/>", 

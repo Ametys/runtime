@@ -419,7 +419,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             Map<I18nizableText, List<ConfigParameter>> category = categories.get(categoryName);
             if (category == null)
             {
-                category = new HashMap<I18nizableText, List<ConfigParameter>>();
+                category = new LinkedHashMap<I18nizableText, List<ConfigParameter>>();
                 categories.put(categoryName, category);
             }
 
