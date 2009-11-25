@@ -57,6 +57,8 @@ org.ametys.administration.Panel.prototype.remove = function (comp, autoDestroy)
  */
 org.ametys.form.PasswordWidget = function(config) 
 {
+	this._rndVal = Math.floor(Math.random() * 100);
+	
 	this._name =  config.name;
 	config.baseCls = 'ametys-password-field';
 	config.border = false;
@@ -78,6 +80,7 @@ org.ametys.form.PasswordWidget = function(config)
 		inputType : 'password',
 		fieldLabel: config.fdLabel,
 		value: config.value,
+		tabIndex: this._rndVal,
 		disabled: true,
 		desc : config.desc
 	});
@@ -167,6 +170,7 @@ org.ametys.form.PasswordWidget.prototype._createConfirmPwdField = function ()
 		msgTarget : 'side',
 		fieldLabel: '',
 		value: '',
+		tabIndex: this._rndVal + 1,
 		labelSeparator: '',
 		validateValue : function(value){
 			return this.getValue() == this.widget._pwd.getValue();
@@ -204,7 +208,7 @@ org.ametys.form.PasswordWidget.prototype._createCancelBtn = function ()
 		icon : getPluginResourcesUrl('purge') + "/img/delete.gif",
 		tooltip : "<i18n:text i18n:key="PLUGINS_CORE_WIDGET_PASSWORD_KEEPOLD" i18n:catalogue="plugin.core"/>",
 		template : new Ext.Template(
-				'&lt;div class="ametys-password-button-cancel" style="' + this._marginLeft + '"&gt;',
+				'&lt;div class="ametys-password-button-cancel" style="margin-left: 388px; margin-top: 4px; position: absolute"&gt;',
 	            	'&lt;button type="{1}"&gt;{0}&lt;/button&gt;',
 	            '&lt;/div&gt;'),
 	    handler: this._cancelChange,
@@ -220,16 +224,18 @@ org.ametys.form.PasswordWidget.prototype._changePassword = function ()
 {
 	this.remove(this._editBtn, true);
 	
-	this._pwdConfirm = this._createConfirmPwdField ();
-	this.add(this._pwdConfirm);
-	
 	this._cancelBtn = this._createCancelBtn();
 	this.add(this._cancelBtn);
+
+	this._pwdConfirm = this._createConfirmPwdField ();
+	this.add(this._pwdConfirm);
 	
 	this._pwd.enable();
 	this._pwd.setValue('');
 	
 	this.doLayout();
+	
+	this._pwd.focus(10);
 }
 
 /**
