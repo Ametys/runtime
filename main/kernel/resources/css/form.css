@@ -32,7 +32,7 @@
 }
 
 .ametys-fieldset-header .x-tool {
-	background: transparent url('../img/icon/group-expand-sprite.png') no-repeat scroll 0 0;
+	background: transparent url('../../../_admin/resources/img/icon/group-expand-sprite.png') no-repeat scroll 0 0;
 	cursor:pointer;
 	float:left !important;
 	height:15px;
