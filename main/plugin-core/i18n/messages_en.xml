@@ -296,6 +296,12 @@
 	<message key="PLUGINS_CORE_USERS_COL_EMAIL">Email</message>
 	<message key="PLUGINS_CORE_USERS_SEARCHING_ERROR">An error occured on server while searching.</message>
     <message key="PLUGINS_CORE_USERS_SEARCHING_NORESULT">Search did not return any result</message>
+    <message key="PLUGINS_CORE_USERS_IMPERSONATE">Impersonate</message>
+	<message key="PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS_TITLE">Impersonation successful</message>
+	<message key="PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS">You are now connected with the following ids: </message>
+	<message key="PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS_2">You are going to be redirected to the application.</message>
+	<message key="PLUGINS_CORE_USERS_IMPERSONATE_ERROR_TITLE">An error occured</message>
+	<message key="PLUGINS_CORE_USERS_IMPERSONATE_ERROR">An error occured. Impersonation failed.</message>
 	<message key="PLUGINS_CORE_USERS_HANDLE">Management</message>
 	<message key="PLUGINS_CORE_USERS_HANDLE_NEW">Create a user</message>
 	<message key="PLUGINS_CORE_USERS_HANDLE_EDIT">Modify a user</message>
@@ -311,6 +317,7 @@
 	<message key="PLUGINS_CORE_USERS_DIALOG_EMAIL_ERROR">The email is incorrect.</message>
 	<message key="PLUGINS_CORE_USERS_DIALOG_LASTNAME_ERROR">The name cannot be empty.</message>
 	<message key="PLUGINS_CORE_USERS_DIALOG_PASSWORD_ERROR">The password cannot be empty.</message>
+	<message key="PLUGINS_CORE_USERS_DIALOG_INVALID_FIELD">This field is invalid</message>
     <message key="PLUGINS_CORE_USERS_RIGHTS_HANDLE_LABEL">Users</message>
     <message key="PLUGINS_CORE_USERS_RIGHTS_HANDLE_DESCRIPTION">Users management screen</message>
 
