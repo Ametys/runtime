@@ -318,7 +318,6 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     public void grantAllPrivileges(String login, String context)
     {
         // On crée un profile
-        /** FIXME ne pas recréer si existe déjà */
         Profile adminProfile = addProfile(__INITIAL_PROFILE_ID);
 
         // On lui met tous les droits
