@@ -55,6 +55,7 @@
 		
 			<map:action name="users-edit" src="org.ametys.runtime.plugins.core.user.ui.actions.EditAction" logger="org.ametys.runtime.plugins.core.user.sitemap.action.edit"/>
 			<map:action name="users-delete" src="org.ametys.runtime.plugins.core.user.ui.actions.DeleteAction" logger="org.ametys.runtime.plugins.core.user.sitemap.action.delete"/>
+			<map:action name="users-impersonate" src="org.ametys.runtime.plugins.core.user.ui.actions.ImpersonateAction" logger="org.ametys.runtime.plugins.core.user.sitemap.action.impersonate"/>
 			
 			<map:action name="group-create" src="org.ametys.runtime.plugins.core.group.ui.actions.CreateGroupAction" logger="org.ametys.runtime.plugins.core.group.sitemap.action.create"/>
 			<map:action name="group-rename" src="org.ametys.runtime.plugins.core.group.ui.actions.RenameGroupAction" logger="org.ametys.runtime.plugins.core.group.sitemap.action.rename"/>
@@ -329,9 +330,9 @@
                 
             <!--<map:match pattern="users/**">
                 <map:act type="has-not-right" src="Runtime_Rights_User_Handle"/>
-            </map:match>
+            </map:match>-->
                 
-            --><map:match pattern="users/info">
+            <map:match pattern="users/info">
                 <map:generate type="users-info" src="{request-param:login}"/>
                 <map:serialize type="xml"/>
             </map:match>
@@ -355,6 +356,22 @@
                 <map:generate type="action-result"/>
                 <map:serialize type="xml" status-code="500"/>
             </map:match>
+            
+            <map:match pattern="administrator/users/impersonate">
+                <map:act type="users-impersonate">
+                	<map:parameter name="login" value="{request-param:login}"/>
+                
+                    <map:generate type="action-result">
+                        <map:parameter name="error" value="{error}"/>
+                        <map:parameter name="name" value="{name}"/>
+                        <map:parameter name="login" value="{login}"/>
+                    </map:generate>
+                    <map:serialize type="xml"/>
+                </map:act>
+                <map:generate type="action-result"/>
+                <map:serialize type="xml" status-code="500"/>
+            </map:match>
+            
             
             <map:match pattern="users/dialog.html">
                 <map:generate type="users-model"/>

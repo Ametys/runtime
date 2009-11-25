@@ -60,7 +60,7 @@ org.ametys.ActionsPanel.prototype.addAction = function (text, icon, act)
 
 	var link = document.createElement("a");
     link.innerHTML = text;
-    link.href = "#";
+    link.href = "javacsript: void(0)";
     link.className = "link"
     span.appendChild (link);
 

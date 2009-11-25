@@ -42,11 +42,8 @@ org.ametys.administration.Users.createPanel = function ()
 	    ]
 	});		
 	
-	if (org.ametys.administration.Users._modifiable)
-	{
-		org.ametys.administration.Users._listView.addListener ('rowclick', org.ametys.administration.Users._selectUser, this);
-		org.ametys.administration.Users._listView.addListener ('mouseup', org.ametys.administration.Users._unSelectUser, this);
-	}
+	org.ametys.administration.Users._listView.addListener ('rowclick', org.ametys.administration.Users._selectUser, this);
+	org.ametys.administration.Users._listView.addListener ('mouseup', org.ametys.administration.Users._unSelectUser, this);
 	
 	
 	org.ametys.administration.Users._contextualPanel = new org.ametys.HtmlContainer({
@@ -59,10 +56,7 @@ org.ametys.administration.Users.createPanel = function ()
 		items: [org.ametys.administration.Users._drawSearchPanel ()]
 	});
 	
-	if (org.ametys.administration.Users._modifiable)
-	{
-		org.ametys.administration.Users._contextualPanel.add (org.ametys.administration.Users._drawActionsPanel ());
-	}
+	org.ametys.administration.Users._contextualPanel.add (org.ametys.administration.Users._drawActionsPanel ());
 	org.ametys.administration.Users._contextualPanel.add (org.ametys.administration.Users._drawHelpPanel ());
 	
 	return new Ext.Panel({
@@ -82,14 +76,30 @@ org.ametys.administration.Users.createPanel = function ()
 
 org.ametys.administration.Users._selectUser = function  (listview, rowindex, e)
 {
-	org.ametys.administration.Users._actions.showElt(2);
-	org.ametys.administration.Users._actions.showElt(3);
+	if (org.ametys.administration.Users._modifiable)
+	{
+		org.ametys.administration.Users._actions.showElt(2);
+		org.ametys.administration.Users._actions.showElt(3);
+		org.ametys.administration.Users._actions.showElt(4);
+	}
+	else
+	{
+		org.ametys.administration.Users._actions.show();
+	}
 }
 
 org.ametys.administration.Users._unSelectUser = function  (e)
 {
-	org.ametys.administration.Users._actions.hideElt(2);
-	org.ametys.administration.Users._actions.hideElt(3);
+	if (org.ametys.administration.Users._modifiable)
+	{
+		org.ametys.administration.Users._actions.hideElt(2);
+		org.ametys.administration.Users._actions.hideElt(3);
+		org.ametys.administration.Users._actions.hideElt(4);
+	}
+	else
+	{
+		org.ametys.administration.Users._actions.hide();
+	}
 }
 
 /**
@@ -109,9 +119,10 @@ org.ametys.administration.Users._drawSearchPanel = function ()
             name: 'searchField',
             
             anchor:'100%',
-            value: 'Nom ou identifiant',
+            value: '<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCH_CRITERIA"/>',
             
-            onFocus : function () {this.setValue('');}
+            onFocus : function () {if (this.getValue() == '<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCH_CRITERIA"/>') this.setValue(''); },
+            onBlur : function () {if (this.getValue() == '') this.setValue('<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCH_CRITERIA"/>'); }
     	})],
        	
        	buttonAlign: 'right',
@@ -138,32 +149,49 @@ org.ametys.administration.Users._drawSearchPanel = function ()
  */
 org.ametys.administration.Users._drawActionsPanel = function ()
 {
-	if (!org.ametys.administration.Users._modifiable)
-		return null;
-	
 	org.ametys.administration.Users._actions = new org.ametys.ActionsPanel({title: "<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE"/>"});
-	
-	// Add user
-	org.ametys.administration.Users._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_NEW"/>",
-			getPluginResourcesUrl(org.ametys.administration.Users.pluginName) + '/img/users/add_user.png', 
-			org.ametys.administration.Users.add);
+
+	if (org.ametys.administration.Users._modifiable)
+	{
+		// Add user
+		org.ametys.administration.Users._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_NEW"/>",
+				getPluginResourcesUrl(org.ametys.administration.Users.pluginName) + '/img/users/add_user.png', 
+				org.ametys.administration.Users.add);
+	}
 	
 	// Edit 
-	org.ametys.administration.Users._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_EDIT"/>",
-			getPluginResourcesUrl(org.ametys.administration.Users.pluginName) + '/img/users/edit_user.png', 
-			org.ametys.administration.Users.edit);
+	org.ametys.administration.Users._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_USERS_IMPERSONATE"/>",
+			getPluginResourcesUrl(org.ametys.administration.Users.pluginName) + '/img/users/impersonate_user.png', 
+			org.ametys.administration.Users.impersonate);
+
+	if (org.ametys.administration.Users._modifiable)
+	{
+		// Edit 
+		org.ametys.administration.Users._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_EDIT"/>",
+				getPluginResourcesUrl(org.ametys.administration.Users.pluginName) + '/img/users/edit_user.png', 
+				org.ametys.administration.Users.edit);
+	}
 	
-	// Delete 
-	org.ametys.administration.Users._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_DEL"/>",
-			getPluginResourcesUrl(org.ametys.administration.Users.pluginName) + '/img/users/delete.png', 
-			org.ametys.administration.Users.remove);
+	if (org.ametys.administration.Users._modifiable)
+	{
+		// Delete 
+		org.ametys.administration.Users._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_DEL"/>",
+				getPluginResourcesUrl(org.ametys.administration.Users.pluginName) + '/img/users/delete.png', 
+				org.ametys.administration.Users.remove);
+	}	
 	
-	
-	org.ametys.administration.Users._actions.hideElt(2);
-	org.ametys.administration.Users._actions.hideElt(3);
+	if (org.ametys.administration.Users._modifiable)
+	{
+		org.ametys.administration.Users._actions.hideElt(2);
+		org.ametys.administration.Users._actions.hideElt(3);
+		org.ametys.administration.Users._actions.hideElt(4);
+	}
+	else
+	{
+		org.ametys.administration.Users._actions.hide();
+	}
 	
 	return org.ametys.administration.Users._actions;
-	
 }
 
 /**
@@ -177,6 +205,42 @@ org.ametys.administration.Users._drawHelpPanel = function ()
 	helpPanel.addText("<i18n:text i18n:key="PLUGINS_CORE_USERS_HELP_TEXT_READ"/>");
 	
 	return helpPanel;
+}
+
+/**
+ * Add an user
+ */
+org.ametys.administration.Users.impersonate = function ()
+{
+	var elt = org.ametys.administration.Users._listView.getSelection()[0];
+
+	var url = getPluginDirectUrl("core") + "/administrator/users/impersonate";
+	var args = "login=" + encodeURIComponent(elt.data.login);
+    var result = Tools.postFromUrl(url, args);
+    
+    if (result == null || Tools.getFromXML(result, "error") != "")
+    {
+    	var error = result == null ? "" : ("&lt;br/&gt;" + Tools.getFromXML(result, "error"));
+		Ext.Msg.show ({
+    		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
+    		msg: "<i18n:text i18n:key="PLUGINS_CORE_USERS_IMPERSONATE_ERROR"/>" + error,
+    		buttons: Ext.Msg.OK,
+			icon: Ext.MessageBox.ERROR
+    	});
+    	return;
+    }
+    else
+    {
+    	var login = Tools.getFromXML(result, "login");
+    	var name = Tools.getFromXML(result, "name");
+		Ext.Msg.show ({
+    		title: "<i18n:text i18n:key='PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS_TITLE'/>",
+    		msg: "<i18n:text i18n:key='PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS'/> " + name + " (" + login + ")&lt;br/&gt;&lt;br/&gt;<i18n:text i18n:key='PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS_2'/>",
+    		buttons: Ext.Msg.OK,
+			icon: Ext.MessageBox.INFO,
+			fn: function() { window.open(context.contextPath + "/"); }
+    	});
+    }
 }
 
 /**
@@ -251,10 +315,17 @@ org.ametys.administration.Users.search = function ()
 	{
 		org.ametys.administration.Users._actions.hideElt(2);
 		org.ametys.administration.Users._actions.hideElt(3);
+		org.ametys.administration.Users._actions.hideElt(4);
 	}
+	else
+	{
+		org.ametys.administration.Users._actions.hide();
+	}
+
 	
-	var searchValue = org.ametys.administration.Users._searchForm.getForm().findField("searchField").getValue();
-    
+	var searchField = org.ametys.administration.Users._searchForm.getForm().findField("searchField");
+	var searchValue = searchField.getValue() == '<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCH_CRITERIA"/>' ? '' : searchField;
+	
     var url = getPluginDirectUrl(org.ametys.administration.Users.pluginName) + "/users/search.xml";
     var arg = "criteria=" + encodeURIComponent(searchValue);
     
@@ -281,7 +352,7 @@ org.ametys.administration.Users.search = function ()
         var login = nodes[i].getAttribute("login");
         var email = nodes[i].selectSingleNode("email")[Tools.xmlTextContent];
         
-        org.ametys.administration.Users._addElement(firstname, lastname, login, email);
+        org.ametys.administration.Users._addElement(login, firstname, lastname, email);
     }
     
     if (nodes.length == 0)

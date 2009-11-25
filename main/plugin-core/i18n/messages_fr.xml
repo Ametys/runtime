@@ -299,6 +299,12 @@
 	<message key="PLUGINS_CORE_USERS_SEARCHING">Recherche</message>
 	<message key="PLUGINS_CORE_USERS_SEARCHING_ERROR">Une erreur est survenue sur le serveur lors de la recherche.</message>
     <message key="PLUGINS_CORE_USERS_SEARCHING_NORESULT">La recherche n'a renvoyé aucun résultat</message>
+    <message key="PLUGINS_CORE_USERS_IMPERSONATE">Prendre le contrôle</message>
+	<message key="PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS_TITLE">Prise de contrôle réussie</message>
+	<message key="PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS">Vous êtes maintenant connecté avec les identifiants suivants : </message>
+	<message key="PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS_2">Vous allez être redirigé vers l'application.</message>
+	<message key="PLUGINS_CORE_USERS_IMPERSONATE_ERROR_TITLE">Une erreur est survenue</message>
+	<message key="PLUGINS_CORE_USERS_IMPERSONATE_ERROR">Une erreur est survenue. La prise de contrôle a échoué.</message>
 	<message key="PLUGINS_CORE_USERS_HANDLE">Gestion</message>
 	<message key="PLUGINS_CORE_USERS_HANDLE_NEW">Créer un utilisateur</message>
 	<message key="PLUGINS_CORE_USERS_HANDLE_EDIT">Modifier</message>
@@ -319,6 +325,7 @@
 	<message key="PLUGINS_CORE_USERS_DIALOG_EMAIL_ERROR">L'email est incorrect.</message>
 	<message key="PLUGINS_CORE_USERS_DIALOG_LASTNAME_ERROR">Le nom ne peut être vide.</message>
 	<message key="PLUGINS_CORE_USERS_DIALOG_PASSWORD_ERROR">Le mot de passe ne peut être vide.</message>
+	<message key="PLUGINS_CORE_USERS_DIALOG_INVALID_FIELD">Ce champ est invalide</message>
     <message key="PLUGINS_CORE_USERS_RIGHTS_HANDLE_LABEL">Utilisateurs</message>
     <message key="PLUGINS_CORE_USERS_RIGHTS_HANDLE_DESCRIPTION">Accès à l'écran de gestion des utilisateurs</message>
 

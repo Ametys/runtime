@@ -182,7 +182,7 @@ RUNTIME_Plugin_Runtime_EditUser.ok = function ()
           var elt = form.findField("field_"+ field);
           if (elt != null)
           {
-            elt.markInvalid("Ce champ est invalide");
+            elt.markInvalid("<i18n:text i18n:key='PLUGINS_CORE_USERS_DIALOG_INVALID_FIELD'/>");
           }
         }
       }
