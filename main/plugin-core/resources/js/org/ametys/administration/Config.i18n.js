@@ -379,9 +379,9 @@ org.ametys.administration.Config._calcScrollPosition = function ()
 	var last;
 	var anchors = org.ametys.administration.Config._ct.select('a[name]', true);
 	var min = 0;
-	var max = org.ametys.administration.Config._form.getEl().child('div:first').dom.scrollHeight - org.ametys.administration.Config._form.getInnerHeight();
+	var max = org.ametys.administration.Config._form.getEl().child('form').dom.scrollHeight - org.ametys.administration.Config._form.getEl().child('form').getHeight();
 	
-	var scrollPosition = org.ametys.administration.Config._form.getEl().child('div:first').dom.scrollTop;
+	var scrollPosition = org.ametys.administration.Config._form.getEl().child('form').dom.scrollTop;
 	var p = (scrollPosition - min) / (max - min);
 	p = p * org.ametys.administration.Config._form.getInnerHeight();
 	
