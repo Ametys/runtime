@@ -238,6 +238,8 @@ org.ametys.form.PasswordWidget.prototype._changePassword = function ()
  */
 org.ametys.form.PasswordWidget.prototype._cancelChange = function ()
 {
+	this._pwdConfirm.clearInvalid();
+	
 	this.remove(this._pwdConfirm, true);
 	this.remove(this._cancelBtn, true);
 	
