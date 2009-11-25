@@ -55,6 +55,11 @@ public class ImpersonateAction extends CurrentUserProviderServiceableAction
             
             result.put("login", login);
             result.put("name", user.getFullName());
+            
+            if (getLogger().isInfoEnabled())
+            {
+                getLogger().info("Impersonification of user '" + login + "' from IP " + request.getRemoteAddr());
+            }
         }
         
         return result;
