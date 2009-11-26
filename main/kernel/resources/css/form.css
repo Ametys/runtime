@@ -69,6 +69,10 @@
 	padding: 5px 9px 3px 3px !important;
 }
 
+.ametys-input label.x-form-cb-label {
+	padding: 0px !important;
+}
+
 .ametys-select div.x-form-element {
 	/*padding-left: 203px !important; /* largeur du label 200 + padding 3 + img 21*/
 }
