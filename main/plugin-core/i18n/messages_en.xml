@@ -81,6 +81,7 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE_REQUEST_HELP">The provided number counts HTTP requests being handled by the servlet engine (including the one used to get that number).</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE_THREAD">Running threads</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE_THREAD_HELP">The provided number counts all JVM threads (from all webapps)</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_ERROR">Error</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_GC_ERROR">An error occured. The memory may have not been freed and data are not up-to-date.\n\nThe screen won't refresh automatically anymore.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_REFRESH_ERROR">An error occured. Data are not up-to-date.\n\nThe screen won't refresh automatically anymore.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_SESSIONS_ERROR">? [get help]</message>
@@ -172,6 +173,7 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_DEFAULTMESSAGE">Enter the announcement in the default language</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_ERROR_LANG">The language code is always two letters long.\nFor example: 'fr' for french or 'en' for english.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_ERROR_MESSAGE">The message cannot be empty.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ERROR">Error</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ERROR_SAVE">An error occurred on the server. Modifications have not been saved.</message>
 
     <!-- WIDGETS -->
@@ -294,6 +296,7 @@
 	<message key="PLUGINS_CORE_USERS_COL_NAME">Name</message>
 	<message key="PLUGINS_CORE_USERS_COL_ID">Login</message>
 	<message key="PLUGINS_CORE_USERS_COL_EMAIL">Email</message>
+	<message key="PLUGINS_CORE_USERS_SEARCHING">Searching</message>
 	<message key="PLUGINS_CORE_USERS_SEARCHING_ERROR">An error occured on server while searching.</message>
     <message key="PLUGINS_CORE_USERS_SEARCHING_NORESULT">Search did not return any result</message>
     <message key="PLUGINS_CORE_USERS_IMPERSONATE">Impersonate</message>
@@ -306,12 +309,17 @@
 	<message key="PLUGINS_CORE_USERS_HANDLE_NEW">Create a user</message>
 	<message key="PLUGINS_CORE_USERS_HANDLE_EDIT">Modify a user</message>
 	<message key="PLUGINS_CORE_USERS_HANDLE_DEL">Remove a user</message>
+	<message key="PLUGINS_CORE_USERS_HANDLE_DEL_TITLE">Remove several users</message>
+	<message key="PLUGINS_CORE_USERS_HANDLE_DEL_MULTI_PROMPT">Do you really want to remove these(s) user(s)?</message>
 	<message key="PLUGINS_CORE_USERS_HANDLE_DEL_PROMPT">Do you really want to remove this user ?</message>
 	<message key="PLUGINS_CORE_USERS_DELETE_ERROR">An error occured. Unable to remove the user.</message>
+	<message key="PLUGINS_CORE_USERS_DELETE_MULTI_ERROR">An error occured. Unable to remove the user(s).</message>
 	<message key="PLUGINS_CORE_USERS_DIALOG_OK">Ok</message>
 	<message key="PLUGINS_CORE_USERS_DIALOG_CANCEL">Cancel</message>
 	<message key="PLUGINS_CORE_USERS_DIALOG_LABEL">User edition...</message>
 	<message key="PLUGINS_CORE_USERS_NEW_TITLE">User creation</message>
+	<message key="PLUGINS_CORE_USERS_NEW_SUCCESS">The user was correctly created</message>
+	<message key="PLUGINS_CORE_USERS_DIALOG_SUCCESS">The user was correctly edited</message>
 	<message key="PLUGINS_CORE_USERS_DIALOG_ERROR">An error occured. Unable to create/update the user.\nThe specified login may already exists.</message>
 	<message key="PLUGINS_CORE_USERS_DIALOG_LOGIN_ERROR">The login must contains at least 3 characters and at most 16</message>
 	<message key="PLUGINS_CORE_USERS_DIALOG_EMAIL_ERROR">The email is incorrect.</message>
@@ -371,15 +379,20 @@
 	<message key="PLUGINS_CORE_GROUPS_DESCRIPTION">Users groups management</message>
 	<message key="PLUGINS_CORE_GROUPS_HANDLE_CATEGORY">Groups management</message>
 	<message key="PLUGINS_CORE_GROUPS_HANDLE_CREATE">Create a group</message>
+	<message key="PLUGINS_CORE_GROUPS_HANDLE_NAME">Group name</message>
+	<message key="PLUGINS_CORE_GROUPS_HANDLE_CREATE_SUCCESS">The group was sucessfully created</message>
 	<message key="PLUGINS_CORE_GROUPS_HANDLE_VALIDATE">Validate changes</message>
 	<message key="PLUGINS_CORE_GROUPS_HANDLE_QUIT">Quit</message>
 	<message key="PLUGINS_CORE_GROUPS_HANDLE_ADDUSER">Add a user</message>
 	<message key="PLUGINS_CORE_GROUPS_HANDLE_DELETEUSER">Remove a user</message>
 	<message key="PLUGINS_CORE_GROUPS_NEW_ERROR">An error occured during creation</message>
 	<message key="PLUGINS_CORE_GROUPS_HANDLE_RENAME">Rename the group</message>
+	<message key="PLUGINS_CORE_GROUPS_HANDLE_RENAME_SUCCESS">The group was successfully renamed</message>
 	<message key="PLUGINS_CORE_GROUPS_RENAME_ERROR">An error occured during renaming</message>
 	<message key="PLUGINS_CORE_GROUPS_RENAME_MISSING_ERROR">The group you are trying to rename does not exist anymore. Try to refresh the page.</message>
+	<message key="PLUGINS_CORE_GROUPS_MODIFY_MISSING_SUCCESS">The group was successfully modified</message>
 	<message key="PLUGINS_CORE_GROUPS_MODIFY_CONFIRM">You made unsaved changes. Do you want to save them now ?</message>
+	<message key="PLUGINS_CORE_GROUPS_UPDATE_ERROR">An error occured while updating group information.</message>
 	<message key="PLUGINS_CORE_GROUPS_MODIFY_ERROR">An error occured during saving. Do you want to try again ?</message>
 	<message key="PLUGINS_CORE_GROUPS_MODIFY_MISSING_ERROR">The group you are trying to modify does not exist. Try to refresh the page.</message>
 	<message key="PLUGINS_CORE_GROUPS_HANDLE_DELETE">Remove the group</message>
@@ -433,8 +446,10 @@
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_VALIDATE">Validate changes</message>
     <message key="PLUGINS_CORE_RIGHTS_PROFILES_NAMING_ERROR">A profile name must contains only letters.</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_NEW_ERROR">An error occured during creation.</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILES_NEW_SUCCESS">Profile was successfully created</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_RENAME">Rename the profile</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_QUIT">Quit</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILES_RENAME_SUCCESS">Profile was successfully renamed</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_RENAME_ERROR">An error occured during renaming.</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_RENAME_MISSING_ERROR">The profile you are trying to rename does not exist anymore. Try to refresh the page.</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_CONFIRM">You made unsaved changes. Do you want to save them now ?</message>
@@ -446,6 +461,7 @@
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HELP_CATEGORY">Help</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_HELP_HINT">A profile is a set of rights. Each user owns a profile allowing to know its rights.&lt;br/&gt;&lt;br/&gt;You can create or update profiles by setting them rights in the right part of the screen.</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_NEWPROFILE">New profile</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILES_PROFILE_NAME">Profile name</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_LEFTCOLUMN">Unassigned rights</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_RIGHTCOLUMN">Profile rights</message>
     <message key="PLUGINS_CORE_PROFILE_RIGHTS_HANDLE_LABEL">Profiles</message>
@@ -516,4 +532,5 @@
 	<message key="GROUP_DEPLOY_ESUP_WS_REFRESH_DESCRIPTION">Cache update interval (minutes)</message>
 	
 	<message key="PLUGINS_CORE_ERROR_DIALOG_TITLE">Error</message>
+	<message key="PLUGINS_CORE_SAVE_DIALOG_TITLE">Save</message>
 </catalogue>
