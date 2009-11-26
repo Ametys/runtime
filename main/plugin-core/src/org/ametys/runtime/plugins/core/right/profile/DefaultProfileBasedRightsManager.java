@@ -280,16 +280,16 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         rlm.registerListener(this);
     }
 
-    public Set<String> getGrantedUsers(String right, String rawContext)
+    public Set<String> getGrantedUsers(String right, String context)
     {
-        String context = rawContext.toLowerCase();
+        String lcContext = context != null ? context.toLowerCase() : null;
 
         Set<String> logins = new HashSet<String>();
 
         try
         {
-            logins.addAll(getGrantedUsersOnly(right, context));
-            logins.addAll(getGrantedGroupsOnly(right, context));
+            logins.addAll(getGrantedUsersOnly(right, lcContext));
+            logins.addAll(getGrantedGroupsOnly(right, lcContext));
         }
         catch (SQLException ex)
         {
@@ -302,7 +302,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
     public Set<String> getUserRights(String login, String context)
     {
-        String lcContext = context.toLowerCase();
+        String lcContext = context != null ? context.toLowerCase() : null;
 
         Set<String> rights = new HashSet<String>();
 
@@ -321,7 +321,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
     public void grantAllPrivileges(String login, String context)
     {
-        String lcContext = context.toLowerCase();
+        String lcContext = context != null ? context.toLowerCase() : null;
 
         // On crée un profile
         Profile adminProfile = addProfile(__INITIAL_PROFILE_ID);
@@ -342,7 +342,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
     public RightResult hasRight(String userLogin, String right, String context)
     {
-        String lcContext = context.toLowerCase();
+        String lcContext = context != null ? context.toLowerCase() : null;
 
         try
         {
@@ -402,7 +402,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      */
     public Set<String> getProfilesByUser(String login, String context)
     {
-        String lcContext = context.toLowerCase();
+        String lcContext = context != null ? context.toLowerCase() : null;
 
         Set<String> profiles = new HashSet<String>();
 
@@ -457,7 +457,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      */
     public Set<User> getUsersByContextAndProfile(String profileID, String context)
     {
-        String lcContext = context.toLowerCase();
+        String lcContext = context != null ? context.toLowerCase() : null;
 
         Set<User> users = new HashSet<User>();
 
@@ -514,7 +514,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      */
     public Set<Group> getGroupsByContextAndProfile(String profileID, String context)
     {
-        String lcContext = context.toLowerCase();
+        String lcContext = context != null ? context.toLowerCase() : null;
 
         Set<Group> groups = new HashSet<Group>();
 
@@ -621,7 +621,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      */
     public Set<String> getProfilesByGroup(String groupId, String context)
     {
-        String lcContext = context.toLowerCase();
+        String lcContext = context != null ? context.toLowerCase() : null;
 
         Set<String> profiles = new HashSet<String>();
 
@@ -720,9 +720,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         return contexts;
     }
 
-    public void addUserRight(String login, String rawContext, String profileId)
+    public void addUserRight(String login, String context, String profileId)
     {
-        String context = rawContext.toLowerCase();
+        String lcContext = context != null ? context.toLowerCase() : null;
 
         Connection connection = ConnectionHelper.getConnection(_poolName);
 
@@ -738,10 +738,10 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
             stmt.setString(1, profileId);
             stmt.setString(2, login);
-            stmt.setString(3, context);
+            stmt.setString(3, lcContext);
 
             // Logger la requête
-            getLogger().info(sql + "\n[" + profileId + ", " + login + ", " + context + "]");
+            getLogger().info(sql + "\n[" + profileId + ", " + login + ", " + lcContext + "]");
 
             stmt.executeUpdate();
         }
@@ -757,9 +757,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         }
     }
 
-    public void addGroupRight(String groupId, String rawContext, String profileId)
+    public void addGroupRight(String groupId, String context, String profileId)
     {
-        String context = rawContext.toLowerCase();
+        String lcContext = context != null ? context.toLowerCase() : null;
         
         Connection connection = ConnectionHelper.getConnection(_poolName);
 
@@ -775,10 +775,10 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
             stmt.setString(1, profileId);
             stmt.setString(2, groupId);
-            stmt.setString(3, context);
+            stmt.setString(3, lcContext);
 
             // Logger la requête
-            getLogger().info(sql + "\n[" + profileId + ", " + groupId + ", " + context + "]");
+            getLogger().info(sql + "\n[" + profileId + ", " + groupId + ", " + lcContext + "]");
 
             stmt.executeUpdate();
         }
@@ -796,7 +796,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
     public void removeUserProfile(String login, String profile, String context)
     {
-        String lcContext = context.toLowerCase();
+        String lcContext = context != null ? context.toLowerCase() : null;
 
         Connection connection = ConnectionHelper.getConnection(_poolName);
 
@@ -833,7 +833,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
     public void removeUserProfiles(String login, String context)
     {
-        String lcContext = context.toLowerCase();
+        String lcContext = context != null ? context.toLowerCase() : null;
 
         Connection connection = ConnectionHelper.getConnection(_poolName);
 
@@ -877,7 +877,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
   
     public void removeAll(String context)
     {
-        String lcContext = context.toLowerCase();
+        String lcContext = context != null ? context.toLowerCase() : null;
 
         Connection connection = ConnectionHelper.getConnection(_poolName);
 
@@ -916,7 +916,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
     public void removeGroupProfile(String groupId, String profile, String context)
     {
-        String lcContext = context.toLowerCase();
+        String lcContext = context != null ? context.toLowerCase() : null;
 
         Connection connection = ConnectionHelper.getConnection(_poolName);
 
@@ -951,7 +951,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
     public void removeGroupProfiles(String groupId, String context)
     {
-        String lcContext = context.toLowerCase();
+        String lcContext = context != null ? context.toLowerCase() : null;
 
         Connection connection = ConnectionHelper.getConnection(_poolName);
 
@@ -1000,7 +1000,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      */
     public Set<User> getUsersByContext(String context)
     {
-        String lcContext = context.toLowerCase();
+        String lcContext = context != null ? context.toLowerCase() : null;
 
         Set<User> users = new HashSet<User>();
 
@@ -1056,7 +1056,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      */
     public Set<Group> getGroupsByContext(String context)
     {
-        String lcContext = context.toLowerCase();
+        String lcContext = context != null ? context.toLowerCase() : null;
 
         Set<Group> groups = new HashSet<Group>();
 
