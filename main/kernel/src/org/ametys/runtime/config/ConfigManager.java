@@ -48,6 +48,7 @@ import org.ametys.runtime.util.I18nizableText;
 import org.ametys.runtime.util.LoggerFactory;
 import org.ametys.runtime.util.parameter.AbstractParameterParser;
 import org.ametys.runtime.util.parameter.Enumerator;
+import org.ametys.runtime.util.parameter.Errors;
 import org.ametys.runtime.util.parameter.Parameter;
 import org.ametys.runtime.util.parameter.ParameterHelper;
 import org.ametys.runtime.util.parameter.Validator;
@@ -263,7 +264,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         // On réinitialise la config pour éviter des fuites de mémoire
         Config.dispose();
         
-        Map untypedValues = null;
+        Map<String, String> untypedValues = null;
         try
         {
             untypedValues = Config.read();
@@ -309,17 +310,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                 // check if parameter is valued
                 if (_isComplete && untypedValues != null)
                 {
-                    Object value = ParameterHelper.castValue((String) untypedValues.get(id), parameter.getType());
-
-                    if (value == null)
-                    {
-                        if (_logger.isWarnEnabled())
-                        {
-                            _logger.warn("The parameter '" + id + "' is not valued. Configuration is not initialized.");
-                        }
-                        
-                        _isComplete = false;
-                    }
+                    _validateParameter(untypedValues, id, parameter);
                 }
             }
         }
@@ -344,6 +335,47 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         if (_logger.isDebugEnabled())
         {
             _logger.debug("Initialization ended");
+        }
+    }
+    
+    private void _validateParameter(Map<String, String> untypedValues, String id, ConfigParameter parameter)
+    {
+        Object value = ParameterHelper.castValue(untypedValues.get(id), parameter.getType());
+
+        if (value == null)
+        {
+            if (_logger.isWarnEnabled())
+            {
+                _logger.warn("The parameter '" + id + "' is not valued. Configuration is not initialized.");
+            }
+            
+            _isComplete = false;
+        }
+        else
+        {
+            Validator v = parameter.getValidator();
+            Errors validationErrors = new Errors();
+            if (v != null)
+            {
+                v.validate(value, validationErrors);
+            }
+            
+            if (validationErrors.getErrors().size() > 0)
+            {
+                if (_logger.isWarnEnabled())
+                {
+                    StringBuffer sb = new StringBuffer("The parameter '" + id + "' is not valid with value '" + untypedValues.get(id) + "' :");
+                    for (I18nizableText error : validationErrors.getErrors())
+                    {
+                        sb.append("\n* " + error.toString());
+                    }
+                    sb.append("\nConfiguration is not initialized");
+                    
+                    _logger.warn(sb.toString());
+                }
+                
+                _isComplete = false;
+            }
         }
     }
 

@@ -98,7 +98,7 @@
             <description i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEURL_DESCRIPTION</description>
             <validation>
                 <mandatory/>
-                <regexp>^ldaps?://[\w-.](:\d+)/?</regexp> 
+                <regexp>^ldaps?://[\w-.]*(:\d+)?</regexp> 
             </validation>
             <default-value>ldap://server:389</default-value>
             <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>
@@ -127,9 +127,7 @@
              -->
             <label i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEDN_LABEL</label>
             <description i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEDN_DESCRIPTION</description>
-            <validation>
-                <mandatory/>
-            </validation>
+            <validation/>
             <default-value>dc=ametys,dc=org</default-value>
             <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>
             <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_CATEGORY_LDAP_GROUP_CORE</group>
@@ -247,6 +245,7 @@
             <description i18n="true">PLUGINS_CORE_USERS_LDAPUSER_CONFIG_BASEFILTER_DESCRIPTION</description>
             <validation>
                 <mandatory/>
+                <regexp>\s*\(.*\)\s*</regexp>
             </validation>        
             <default-value>(objectclass=*)</default-value>
             <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>
@@ -357,6 +356,7 @@
             <description i18n="true">PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_FILTER_DESCRIPTION</description>
             <validation>
                 <mandatory/>
+                <regexp>\s*\(.*\)\s*</regexp>
             </validation>
             <default-value>(objectclass=groupOfNames)</default-value>
             <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>
