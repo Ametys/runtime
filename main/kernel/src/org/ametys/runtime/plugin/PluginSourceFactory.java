@@ -39,9 +39,9 @@ public class PluginSourceFactory extends AbstractLogEnabled implements SourceFac
 {
     private static final Pattern __SOURCE_PATTERN = Pattern.compile("^[\\w]+:(" + PluginsManager.PLUGIN_NAME_REGEXP + ")://(.*)$");
     
-    private String _path;
-    
     private SourceResolver _resolver;
+    
+    private org.apache.cocoon.environment.Context _cocoonContext;
     
     public Source getSource(String location, Map parameters) throws IOException
     {
@@ -74,7 +74,7 @@ public class PluginSourceFactory extends AbstractLogEnabled implements SourceFac
                 pluginLocation += '/';
             }
             
-            return new FileSource("file://" + _path + pluginLocation + pluginName + path);
+            return new FileSource("file://" + _cocoonContext.getRealPath(pluginLocation + pluginName + path));
         }
         else
         {
@@ -89,8 +89,7 @@ public class PluginSourceFactory extends AbstractLogEnabled implements SourceFac
 
     public void contextualize(Context context) throws ContextException
     {
-        org.apache.cocoon.environment.Context cocoonContext = (org.apache.cocoon.environment.Context) context.get(Constants.CONTEXT_ENVIRONMENT_CONTEXT);
-        _path = cocoonContext.getRealPath("/");
+        _cocoonContext = (org.apache.cocoon.environment.Context) context.get(Constants.CONTEXT_ENVIRONMENT_CONTEXT);
     }
     
     public void service(ServiceManager manager) throws ServiceException
