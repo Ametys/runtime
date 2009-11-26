@@ -40,6 +40,8 @@ org.ametys.DialogBox = function(config) {
 	}
 
 	org.ametys.DialogBox.superclass.constructor.call(this, config);
+	
+	this.on('show', this._onShow, this);
 };
 
 Ext.extend(
@@ -89,4 +91,21 @@ org.ametys.DialogBox.prototype.setIconClass = function(cls)
             img.style.backgroundImage = this.icon;
         }
     }
+}
+
+/**
+ * @private
+ * Listener when the window shows to place it correctly in the screen
+ */
+org.ametys.DialogBox.prototype._onShow = function()
+{
+	var pos = this.getPosition();
+	var size = this.getSize();
+	
+	var viewportSize = this.getEl().getViewSize();
+	
+	pos[0] = Math.max(0, Math.min(pos[0], Ext.getBody().getWidth() - size.width));
+	pos[1] = Math.max(0, Math.min(pos[1], Ext.getBody().getHeight() - size.height));
+	
+	this.setPosition(pos[0], pos[1]);
 }
