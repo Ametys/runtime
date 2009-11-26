@@ -22,6 +22,7 @@ import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.environment.Source;
 import org.apache.cocoon.environment.SourceResolver;
 import org.apache.cocoon.reading.ResourceReader;
+import org.apache.excalibur.source.SourceNotFoundException;
 import org.xml.sax.SAXException;
 
 /**
@@ -54,6 +55,17 @@ public class RuntimeResourceReader extends ResourceReader implements Serviceable
         }
         
         super.setup(new SourceResolverWrapper(runtimeResolver), cocoonObjectModel, src, par);
+    }
+    
+    @Override
+    public void generate() throws IOException, ProcessingException
+    {
+        if (!inputSource.exists())
+        {
+            throw new SourceNotFoundException("Resource not found for URI : "+ inputSource.getURI());
+        }
+        
+        super.generate();
     }
     
     class SourceResolverWrapper implements org.apache.cocoon.environment.SourceResolver
