@@ -63,6 +63,9 @@ public final class PluginsManager
     /** Separator between pluginName and featureName */
     public static final String FEATURE_ID_SEPARATOR = "/";
     
+    /** The regexp to determine if a plugin name is correct (add ^ and $ as delimiters if this is your only test) */
+    public static final String PLUGIN_NAME_REGEXP = "\\w[\\w-_\\.]*\\w?";
+    
     private static final Pattern __FEATURE_ID_PATTERN = Pattern.compile("([^/]*/)?[^/]*");
 
     // shared instance
@@ -533,7 +536,7 @@ public final class PluginsManager
         }
         else
         {
-            if (!pluginName.matches("[a-zA-Z0-9]|([a-zA-Z0-9][a-zA-Z0-9-_.]*[a-zA-Z0-9])"))
+            if (!pluginName.matches("^" + PLUGIN_NAME_REGEXP + "$"))
             {
                 if (_logger.isWarnEnabled())
                 {
