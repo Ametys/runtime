@@ -13,6 +13,8 @@ package org.ametys.runtime.plugin;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
@@ -35,7 +37,7 @@ import org.apache.excalibur.source.impl.FileSource;
  */
 public class PluginSourceFactory extends AbstractLogEnabled implements SourceFactory, Contextualizable, Serviceable
 {
-    private static final String __PROTOCOL_SEPARATOR = "://"; 
+    private static final Pattern __SOURCE_PATTERN = Pattern.compile("^[\\w]+:(" + PluginsManager.PLUGIN_NAME_REGEXP + ")://(.*)$");
     
     private String _path;
     
@@ -43,24 +45,14 @@ public class PluginSourceFactory extends AbstractLogEnabled implements SourceFac
     
     public Source getSource(String location, Map parameters) throws IOException
     {
-        int protocolIndex = location.indexOf(__PROTOCOL_SEPARATOR);
-        
-        if (protocolIndex == -1)
+        Matcher m = __SOURCE_PATTERN.matcher(location);
+        if (!m.matches())
         {
-            throw new MalformedURLException("URI must be like plugin:<plugin name>://path/to/resource. Location was '" + location + "'");
+            throw new MalformedURLException("URI must be like protocol:<plugin name>://path/to/resource. Location was '" + location + "'");
         }
         
-        int index = location.indexOf(':');
-        
-        if (index == protocolIndex)
-        {
-            throw new MalformedURLException("URI must be like plugin:<plugin name>://path/to/resource. Location was '" + location + "'");
-        }
-        
-        // 2 = __PROTOCOL_SEPARATOR.length - 1 (pour garder le / du début de chaine)
-        String path = location.substring(protocolIndex + 2); 
-        
-        String pluginName = location.substring(index + 1, protocolIndex);
+        String pluginName = m.group(1);
+        String path = "/" + m.group(2); 
         
         String resourceURI = PluginsManager.getInstance().getBaseURI(pluginName);
         
