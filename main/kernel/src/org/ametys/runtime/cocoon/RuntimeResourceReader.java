@@ -19,10 +19,10 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.cocoon.ProcessingException;
+import org.apache.cocoon.ResourceNotFoundException;
 import org.apache.cocoon.environment.Source;
 import org.apache.cocoon.environment.SourceResolver;
 import org.apache.cocoon.reading.ResourceReader;
-import org.apache.excalibur.source.SourceNotFoundException;
 import org.xml.sax.SAXException;
 
 /**
@@ -62,7 +62,7 @@ public class RuntimeResourceReader extends ResourceReader implements Serviceable
     {
         if (!inputSource.exists())
         {
-            throw new SourceNotFoundException("Resource not found for URI : "+ inputSource.getURI());
+            throw new ResourceNotFoundException("Resource not found for URI : " + inputSource.getURI());
         }
         
         super.generate();
