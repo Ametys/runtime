@@ -26,11 +26,6 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
-import org.ametys.runtime.config.Config;
-import org.ametys.runtime.config.ConfigManager;
-import org.ametys.runtime.request.RequestListener;
-import org.ametys.runtime.request.RequestListenerManager;
-import org.ametys.runtime.util.LoggerFactory;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.cocoon.Constants;
@@ -40,6 +35,12 @@ import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
+
+import org.ametys.runtime.config.Config;
+import org.ametys.runtime.config.ConfigManager;
+import org.ametys.runtime.request.RequestListener;
+import org.ametys.runtime.request.RequestListenerManager;
+import org.ametys.runtime.util.LoggerFactory;
 
 /**
  * Main entry point for applications.<br>
@@ -60,9 +61,27 @@ public class RuntimeServlet extends CocoonServlet
     }
 
     private static RunMode _mode = RunMode.NORMAL;
-
+    
+    
     @Override
-    public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException
+    /**
+     * Force the encoding to UTF-8 and delegates the actual processing to _doService
+     */
+    public final void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException
+    {
+        req.setCharacterEncoding("UTF-8");
+        
+        _doService(req, res);
+    }
+
+    /**
+     * Process the HTTP request.
+     * @param req the request
+     * @param res the response
+     * @throws ServletException if the HTTP request cannot be handled
+     * @throws IOException if an I/O error occurs
+     */
+    protected void _doService(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException
     {
         req.setCharacterEncoding("UTF-8");
         
