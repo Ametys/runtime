@@ -57,6 +57,29 @@ public final class SystemHelper
             throw new RuntimeException("Unable to get system announcements", e);
         }
     }
+    
+    /**
+     * Return the date of the last modification of the annonce
+     * @param contextPath the webapp context path
+     * @return The date of the last modification or 0 if there is no announce file
+     */
+    public static long getSystemAnnoucementLastModificationDate(String contextPath)
+    {
+        try
+        {
+            File systemFile = new File(contextPath, ADMINISTRATOR_SYSTEM_FILE);
+            if (!systemFile.exists() || !systemFile.isFile())
+            {
+                return 0;
+            }
+            
+            return systemFile.lastModified();
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException("Unable to get system announcements", e);
+        }
+    }
 
     /**
      * Returns the system announcement for the given language code, or for the default language code if there is no specified announcement for the given language code.<br>
