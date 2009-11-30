@@ -57,6 +57,30 @@ Ext.ux.form.FileUploadField = Ext.extend(Ext.form.TextField,  {
             'fileselected'
         );
     },
+    
+    reset: function()
+    {
+        if (this.fileInput)
+    	{
+            Ext.ux.form.FileUploadField.superclass.reset.call(this);
+    		Ext.destroy(this.fileInput);
+    	}
+    	
+        this.fileInput = this.button.getEl().insertSibling({
+            id: this.getFileInputId(),
+            name: this.name||this.getId(),
+            cls: 'x-form-file',
+            tag: 'input',
+            type: 'file',
+            size: 1
+        }, 'before');
+
+        this.fileInput.on('change', function(){
+            var v = this.fileInput.dom.value;
+            this.setValue(v);
+            this.fireEvent('fileselected', this, v);
+        }, this);
+    },
 
     // private
     onRender : function(ct, position){
@@ -65,15 +89,6 @@ Ext.ux.form.FileUploadField = Ext.extend(Ext.form.TextField,  {
         this.wrap = this.el.wrap({cls:'x-form-field-wrap x-form-file-wrap'});
         this.el.addClass('x-form-file-text');
         this.el.dom.removeAttribute('name');
-
-        this.fileInput = this.wrap.createChild({
-            id: this.getFileInputId(),
-            name: this.name||this.getId(),
-            cls: 'x-form-file',
-            tag: 'input',
-            type: 'file',
-            size: 1
-        });
 
         var btnCfg = Ext.applyIf(this.buttonCfg || {}, {
             text: this.buttonText
@@ -88,11 +103,7 @@ Ext.ux.form.FileUploadField = Ext.extend(Ext.form.TextField,  {
             this.wrap.setWidth(this.button.getEl().getWidth());
         }
 
-        this.fileInput.on('change', function(){
-            var v = this.fileInput.dom.value;
-            this.setValue(v);
-            this.fireEvent('fileselected', this, v);
-        }, this);
+        this.reset();
     },
 
     // private
