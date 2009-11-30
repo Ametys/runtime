@@ -83,8 +83,6 @@ public class RuntimeServlet extends CocoonServlet
      */
     protected void _doService(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException
     {
-        req.setCharacterEncoding("UTF-8");
-        
         // Error mode
         if (exception != null)
         {
