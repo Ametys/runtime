@@ -14,7 +14,7 @@
 <runtime.upload.max-size>10000000</runtime.upload.max-size>
 <runtime.upload.dir>WEB-INF/data/uploads</runtime.upload.dir>
 
-<runtime.datasource.core.ldap.baseUrl>ldap://ldap-dev.anyware</runtime.datasource.core.ldap.baseUrl>
+<runtime.datasource.core.ldap.baseUrl>ldap://ldap-dev.anyware.corp</runtime.datasource.core.ldap.baseUrl>
 <runtime.datasource.core.ldap.useSSL>false</runtime.datasource.core.ldap.useSSL>
 <runtime.datasource.core.ldap.baseDN>dc=ametys-test-groups,dc=org</runtime.datasource.core.ldap.baseDN>
 <runtime.datasource.core.ldap.authMethod>none</runtime.datasource.core.ldap.authMethod>
