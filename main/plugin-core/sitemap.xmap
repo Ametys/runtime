@@ -92,8 +92,6 @@
 	
 	<map:pipelines>
 		<map:pipeline>
-            <map:parameter name="outputBufferSize" value="8192"/>
-        
             <map:match pattern="administrator/**">
                 <map:act type="administrator-is-system-user"/>
             </map:match>
@@ -198,13 +196,14 @@
                 <map:serialize type="xml"/>
             </map:match>
         
+		</map:pipeline>
+		<map:pipeline type="noncaching">
             <map:match pattern="administrator/logs/view/*.log">
                 <map:act type="set-header"> 
                     <map:parameter name="Content-Disposition" value="attachment"/> 
                 </map:act>
                 <map:read src="context://WEB-INF/logs/{1}.log"/>
             </map:match>
-
             <map:match pattern="administrator/logs/download.zip">
                 <map:act type="set-header"> 
                     <map:parameter name="Content-Disposition" value="attachment"/> 
@@ -213,7 +212,8 @@
                 <map:generate type="administrator-logs-downloadzip"/>
                 <map:serialize type="zip"/>
             </map:match>
-
+		</map:pipeline>
+		<map:pipeline>
             <map:match pattern="administrator/logs/delete">
                 <map:act type="administrator-logs-delete">
                     <map:generate type="action-result">

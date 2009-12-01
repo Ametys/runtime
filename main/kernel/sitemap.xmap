@@ -88,11 +88,16 @@
 		</map:actions>
 
 		<map:pipes default="caching">
-			<map:pipe name="caching" src="org.apache.cocoon.components.pipeline.impl.CachingProcessingPipeline" logger="org.ametys.runtime.kernel.sitemap.pipeline.caching"/>
-			<map:pipe name="caching-point" src="org.apache.cocoon.components.pipeline.impl.CachingPointProcessingPipeline" logger="org.ametys.runtime.kernel.sitemap.pipeline.cachingPoint">
-				<autoCachingPoint>On</autoCachingPoint>
+			<map:pipe name="caching" src="org.apache.cocoon.components.pipeline.impl.CachingProcessingPipeline" logger="org.ametys.runtime.kernel.sitemap.pipeline.caching">
+	            <map:parameter name="outputBufferSize" value="8192"/>
 			</map:pipe>
-			<map:pipe name="noncaching" src="org.apache.cocoon.components.pipeline.impl.NonCachingProcessingPipeline"  logger="org.ametys.runtime.kernel.sitemap.pipeline.nonCaching"/>
+			<map:pipe name="caching-point" src="org.apache.cocoon.components.pipeline.impl.CachingPointProcessingPipeline" logger="org.ametys.runtime.kernel.sitemap.pipeline.cachingPoint">
+	            <map:parameter name="outputBufferSize" value="8192"/>
+	            <map:parameter name="autoCachingPoint" value="On"/>
+			</map:pipe>
+			<map:pipe name="noncaching" src="org.apache.cocoon.components.pipeline.impl.NonCachingProcessingPipeline"  logger="org.ametys.runtime.kernel.sitemap.pipeline.nonCaching">
+	            <map:parameter name="outputBufferSize" value="8192"/>
+			</map:pipe>
 		</map:pipes>
 	</map:components>
 

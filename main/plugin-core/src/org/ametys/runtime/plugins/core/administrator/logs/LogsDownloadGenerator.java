@@ -41,7 +41,7 @@ public class LogsDownloadGenerator extends AbstractGenerator
         {
             AttributesImpl zipAttrs = new AttributesImpl();
             zipAttrs.addAttribute("", "name", "name", "CDATA", file);
-            zipAttrs.addAttribute("", "src", "src", "CDATA", "cocoon:/administrator/logs/view/" + file);
+            zipAttrs.addAttribute("", "src", "src", "CDATA", "context://WEB-INF/logs/" + file);
             XMLUtils.startElement(contentHandler, ZipArchiveSerializer.ZIP_NAMESPACE, "entry", zipAttrs);
             XMLUtils.endElement(contentHandler, ZipArchiveSerializer.ZIP_NAMESPACE, "entry");
         }
