@@ -50,7 +50,7 @@ Open source web application framework based on Apache Cocoon.
 
     <!-- runtime configuration -->
     <dependency org="minaret" name="datedFileAppender" rev="1.0.2" conf="runtime->default"/>
-    <dependency org="ext" name="extjs" rev="3.0.1.20090908-1600-patch" conf="runtime->default"/>
+    <dependency org="ext" name="extjs" rev="3.0.3" conf="runtime->default"/>
     
     <!-- test configuration -->
     <dependency org="junit" name="junit" rev="4.4" conf="test,test-env->default"/>
