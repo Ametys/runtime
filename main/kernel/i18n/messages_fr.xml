@@ -21,4 +21,36 @@
     <message key="KERNEL_DEFAULT_VALIDATOR_MANDATORY">Ce champ est obligatoire</message>
     <message key="KERNEL_DEFAULT_VALIDATOR_PATTERN_FAILED">La valeur de ce champ n'est pas valide</message>
 
+	 <!-- +
+    	 | ServerComm.js
+    	 + -->
+    <message key="KERNEL_SERVERCOMM_ERROR_TITLE">Erreur de traitement</message>
+    <message key="KERNEL_SERVERCOMM_ERROR_DESC">Une erreur est survenue dans le traitement de la réponse serveur</message>
+    <message key="KERNEL_SERVERCOMM_BADRESPONSE_TITLE">Pas de réponse du serveur</message>
+    <message key="KERNEL_SERVERCOMM_BADRESPONSE_DESC">La réponse du serveur est incomplète et ne contient pas les information permetant de continuer le traitement correctement.</message>
+    <message key="KERNEL_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE">Le serveur est actuellement indisponible.\nAttendez quelques instants et cliquez sur OK. Sinon cliquez sur annuler mais vous perdrez peut-être vos données en cours d'enregistrement.</message>
+    <message key="KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_1">La connexion avec le serveur a été perdue</message>
+    <message key="KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_2">L'application s'est retrouvée dans un état instable et a été arretée</message>
+    <message key="KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_3">Cliquez ici pour redémarrer l'application.</message>
+    
+    <!-- +
+    	 | TimeoutDialog.js
+    	 + -->
+    <message key="KERNEL_SERVERCOMM_TIMEOUTDIALOG_TITLE">Le serveur ne répond pas</message>	 
+    <message key="KERNEL_SERVERCOMM_TIMEOUTDIALOG_TEXT1">Une demande est partie en direction du serveur depuis quelques secondes mais aucune réponse n'a été encore obtenue.</message>
+    <message key="KERNEL_SERVERCOMM_TIMEOUTDIALOG_TEXT2">Vous pouvez choisir d'annuler cette requête ou d'attendre quelques secondes de plus.</message>
+    <message key="KERNEL_SERVERCOMM_TIMEOUTDIALOG_WAIT">Attendre</message>	
+    <message key="KERNEL_SERVERCOMM_TIMEOUTDIALOG_CANCEL">Annuler</message>	
+    <message key="KERNEL_SERVERCOMM_TIMEOUTDIALOG_DETAILS">Détails</message>	
+    
+    <!-- +
+    	 | ErrorDialog.js
+    	 + -->
+    <message key="KERNEL_MSG_ERRORDIALOG_ERROR_MSG">Erreur : </message>	 	 
+    <message key="KERNEL_MSG_ERRORDIALOG_OK">Ok</message>
+    <message key="KERNEL_MSG_ERRORDIALOG_SPLITBUTTON_OK">Ok</message>
+    <message key="KERNEL_MSG_ERRORDIALOG_IGNOREERRORS">Ignore tous les messages d'erreur en attente</message>
+    <message key="KERNEL_MSG_ERRORDIALOG_DETAILS">Détails</message>
+    <message key="KERNEL_MSG_ERRORDIALOG_OTHERSERRORS">autre(s) erreur(s)</message>
+    
 </catalogue>

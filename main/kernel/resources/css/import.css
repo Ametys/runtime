@@ -3,3 +3,5 @@
 @import url('form.css');
 @import url('grid.css');
 @import url('panel.css');
+@import url('error.css');
+@import url('timeout.css');

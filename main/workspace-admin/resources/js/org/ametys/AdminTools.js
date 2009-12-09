@@ -27,13 +27,3 @@ org.ametys.AdminTools.DockTooltipFormater = function (title, image, text)
 		+ "<div class='x-clear'/>"
 		+ "</div>";
 }
-
-org.ametys.AdminTools.DesktopItemTooltipFormater = function (title, text)
-{
-	return "<div class='desktop-item-tooltip'>" 
-		+ (title ? "<div class='desktop-item-tooltip-title'>" + title + "</div>" : "")
-		+ "<div class='desktop-item-tooltip-text'>"
-		+    text 
-		+ "</div>"
-		+ "</div>";
-}

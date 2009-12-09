@@ -37,6 +37,7 @@
             <map:generator name="rights-context-application" src="org.ametys.runtime.plugins.core.right.ui.generators.ApplicationContextGenerator" logger="org.ametys.runtime.plugins.core.right.sitemap.generator.context.application" label="content"/>
             
             <map:generator name="monitoring" src="org.ametys.runtime.plugins.core.monitoring.SampleManagersGenerator" logger="org.ametys.runtime.plugins.core.monitoring.SampleManagersGenerator" label="content"/>
+        	<map:generator name="dispatcher" src="org.ametys.runtime.plugins.core.dispatcher.DispatchGenerator"/>
         </map:generators>
         
         <map:serializers>
@@ -91,6 +92,15 @@
 
 	
 	<map:pipelines>
+	
+		<!-- Dispatcher -->
+		<map:pipeline>
+			<map:match pattern="servercomm/messages.xml">
+				<map:generate type="dispatcher"/>
+				<map:serialize type="xml"/>
+			</map:match>
+		</map:pipeline>
+		
 		<map:pipeline>
             <map:match pattern="administrator/**">
                 <map:act type="administrator-is-system-user"/>

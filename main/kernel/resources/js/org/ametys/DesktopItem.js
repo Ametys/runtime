@@ -150,8 +150,24 @@ org.ametys.DesktopItem.prototype.onRender = function(ct, position)
 	
 	var tooltip = new Ext.ToolTip({
         target: this.id,
-        html: org.ametys.AdminTools.DesktopItemTooltipFormater(this.text, this.desc),
+        html: org.ametys.DesktopHelper.createDesktopItemTooltip (this.text, this.desc),
         shadow : false
     });
 	//this.el.addClassOnOver(this.overCls);
+}
+
+// -----------------------------------------------------
+//-----------------------------------------------------
+org.ametys.DesktopHelper = function ()
+{
+}
+
+org.ametys.DesktopHelper.createDesktopItemTooltip = function (title, text)
+{
+	return "<div class='desktop-item-tooltip'>" 
+		+ (title ? "<div class='desktop-item-tooltip-title'>" + title + "</div>" : "")
+		+ "<div class='desktop-item-tooltip-text'>"
+		+    text 
+		+ "</div>"
+		+ "</div>";
 }

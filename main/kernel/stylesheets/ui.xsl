@@ -180,6 +180,15 @@
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/DateField.js"><xsl:comment>empty</xsl:comment></script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/ComboField.js"><xsl:comment>empty</xsl:comment></script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/FileUploadField.js"><xsl:comment>empty</xsl:comment></script>
+
+ 		<script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/tree/XmlTreeLoader.js"><xsl:comment>empty</xsl:comment></script>
+				
+		<script type="text/javascript"  src="{$contextPath}/kernel/resources/js/org/ametys/servercomm/TimeoutDialog.i18n.js"><xsl:comment>empty</xsl:comment></script>
+		<script type="text/javascript"  src="{$contextPath}/kernel/resources/js/org/ametys/servercomm/ServerComm.i18n.js"><xsl:comment>empty</xsl:comment></script>
+		<script type="text/javascript"  src="{$contextPath}/kernel/resources/js/org/ametys/servercomm/ServerMessage.js"><xsl:comment>empty</xsl:comment></script>
+		<script type="text/javascript"  src="{$contextPath}/kernel/resources/js/org/ametys/log/LoggerManager.js"><xsl:comment>empty</xsl:comment></script>
+		<script type="text/javascript"  src="{$contextPath}/kernel/resources/js/org/ametys/log/LoggerEntry.js"><xsl:comment>empty</xsl:comment></script>
+		<script type="text/javascript"  src="{$contextPath}/kernel/resources/js/org/ametys/msg/ErrorDialog.i18n.js"><xsl:comment>empty</xsl:comment></script>
 		       
 		<link rel="stylesheet" href="{$contextPath}/kernel/resources/css/import.css" type="text/css"/>
     </xsl:template>
