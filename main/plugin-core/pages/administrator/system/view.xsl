@@ -38,8 +38,8 @@
                    
                    	var mainPanel = org.ametys.administration.System.createPanel ();
                    
-                   	<xsl:if test="announcements/@state != 'on'">
-                   		org.ametys.administration.System._fieldSet.collapse();
+                   	<xsl:if test="not(announcements/@state = 'on')">
+                   		org.ametys.administration.System._fieldSet.collapsed = true;
                    	</xsl:if>
 		                   
 					<xsl:choose>

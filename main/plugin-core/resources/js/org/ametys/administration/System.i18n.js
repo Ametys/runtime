@@ -62,7 +62,7 @@ org.ametys.administration.System.createPanel = function ()
 		region:'center',
 		
 		title : "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_CHECK"/>",
-		checkboxToggle:true,
+		checkboxToggle: true,
 		
 		items : [ org.ametys.administration.System._listView ]
 	});
