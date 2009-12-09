@@ -8,10 +8,11 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.ametys.runtime.datasource.ConnectionHelper;
-import org.ametys.runtime.util.LoggerFactory;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.commons.io.IOUtils;
+
+import org.ametys.runtime.datasource.ConnectionHelper;
+import org.ametys.runtime.util.LoggerFactory;
 
 /**
  * Tool to run SQL scripts.<p>
@@ -129,38 +130,7 @@ public abstract class ScriptRunner
                     command.append(" ");
                 }
                 
-                if (processCommand)
-                {
-                    Statement statement = connection.createStatement();
-                    
-                    if (__LOGGER.isInfoEnabled())
-                    {
-                        __LOGGER.info(String.format("Executing SQL command: '%s'", command));
-                    }
-
-                    try
-                    {
-                        statement.execute(command.toString());
-                    }
-                    catch (SQLException e)
-                    {
-                        String message = String.format("Unable to execute SQL: '%s' at line %d", command, lineReader.getLineNumber());
-                        
-                        if (__LOGGER.isErrorEnabled())
-                        {
-                            __LOGGER.error(message, e);
-                        }
-                        
-                        throw new SQLException(message);
-                    }
-                    finally
-                    {
-                        ConnectionHelper.cleanup(statement);
-                    }
-
-                    // Clear command
-                    command.setLength(0);
-                }
+                _process(processCommand, connection, command, lineReader.getLineNumber());
             }
             if (!connection.getAutoCommit())
             {
@@ -184,5 +154,42 @@ public abstract class ScriptRunner
             
             IOUtils.closeQuietly(is);
         }
+    }
+    
+    private static void _process(boolean processCommand, Connection connection, StringBuilder command, int lineNumber) throws SQLException
+    {
+        if (processCommand)
+        {
+            if (__LOGGER.isInfoEnabled())
+            {
+                __LOGGER.info(String.format("Executing SQL command: '%s'", command));
+            }
+            
+            _execute(connection, command.toString(), lineNumber);
+
+            // Clear command
+            command.setLength(0);
+        }
+    }
+    private static void _execute(Connection connection, String command, int lineNumber) throws SQLException
+    {
+        Statement statement = null;
+        try
+        {
+            statement = connection.createStatement();
+            statement.execute(command);
+        }
+        catch (SQLException e)
+        {
+            String message = String.format("Unable to execute SQL: '%s' at line %d", command, lineNumber);
+            __LOGGER.error(message, e);
+            
+            throw new SQLException(message);
+        }
+        finally
+        {
+            ConnectionHelper.cleanup(statement);
+        }
+
     }
 }
