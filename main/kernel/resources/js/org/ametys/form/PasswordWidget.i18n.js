@@ -12,39 +12,6 @@
 // Ametys Namespace
 Ext.namespace('org.ametys.form');
 
-//Bug on EXTJS 3.0.1, fixed on 3.0.2 and above
-Ext.namespace('org.ametys.administration');
-
-org.ametys.administration.Panel = function(config) 
-{
-	org.ametys.administration.Panel.superclass.constructor.call(this, config);
-}
-
-Ext.extend(org.ametys.administration.Panel, Ext.Panel, {});
-
-org.ametys.administration.Panel.prototype.remove = function (comp, autoDestroy)
-{
-    this.initItems();
-    
-    var c = this.getComponent(comp);
-    
-    if(c &amp;&amp; this.fireEvent('beforeremove', this, c) !== false)
-    {
-        this.items.remove(c);
-        delete c.ownerCt;
-        if(this.layout &amp;&amp; this.rendered){
-            // this.layout.onRemove(c);
-        }
-        this.onRemove(c);
-        if(autoDestroy === true || (autoDestroy !== false &amp;&amp; this.autoDestroy)){
-            c.destroy();
-        }
-        this.fireEvent('remove', this, c);
-    }
-    return c;
-}
-// bug fix
-
 /**
  * 
  * org.ametys.form.PasswordWidget
@@ -103,7 +70,7 @@ org.ametys.form.PasswordWidget = function(config)
 };
 
 
-Ext.extend(org.ametys.form.PasswordWidget, org.ametys.administration.Panel, {});
+Ext.extend(org.ametys.form.PasswordWidget, Ext.Panel, {});
 
 /**
  * Set the value of password field. Use it only to initialize the widget.
@@ -276,9 +243,4 @@ org.ametys.form.PasswordWidget.prototype._onChange = function (field)
 	{
 		this._pwdField.setValue(field.getValue());
 	}
-}
-
-org.ametys.form.PasswordWidget.prototype.onRender = function(ct, position)
-{
-	org.ametys.form.PasswordWidget.superclass.onRender.call(this, ct, position);
 }

@@ -29,7 +29,7 @@ org.ametys.administration.Config.initialize = function (pluginName)
 org.ametys.administration.Config.createPanel = function ()
 {
 	// The form
-	org.ametys.administration.Config._form  = new org.ametys.administration.form.FormPanel({
+	org.ametys.administration.Config._form  = new Ext.form.FormPanel({
 		region:'center',
 		
 		baseCls: 'transparent-panel',
@@ -430,37 +430,3 @@ org.ametys.administration.Config.onready = function ()
 
 }
 Ext.onReady(org.ametys.administration.Config.onready);
-
-
-
-// Bug on EXTJS 3.0.1, fixed on 3.0.2 and above
-Ext.namespace('org.ametys.administration.form');
-
-org.ametys.administration.form.FormPanel = function(config) 
-{
-	org.ametys.administration.form.FormPanel.superclass.constructor.call(this, config);
-}
-
-Ext.extend(org.ametys.administration.form.FormPanel, Ext.form.FormPanel, {});
-
-org.ametys.administration.form.FormPanel.prototype.remove = function (comp, autoDestroy)
-{
-    this.initItems();
-    
-    var c = this.getComponent(comp);
-    
-    if(c &amp;&amp; this.fireEvent('beforeremove', this, c) !== false)
-    {
-        this.items.remove(c);
-        delete c.ownerCt;
-        if(this.layout &amp;&amp; this.rendered){
-            // this.layout.onRemove(c);
-        }
-        this.onRemove(c);
-        if(autoDestroy === true || (autoDestroy !== false &amp;&amp; this.autoDestroy)){
-            c.destroy();
-        }
-        this.fireEvent('remove', this, c);
-    }
-    return c;
-}
