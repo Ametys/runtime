@@ -115,7 +115,7 @@
             
 			<!-- Page d'index -->
 			<map:match pattern="index.html">
-                <map:aggregate element="Admin">
+                <map:aggregate element="Admin" label="content">
                     <map:part src="cocoon:/homepage-desktop.xml"/>
                     <map:part src="cocoon:/homepage-versions.xml"/>
                 </map:aggregate>

@@ -27,7 +27,7 @@
 						icon: "<xsl:value-of select="$contextPath"/>/plugins/core/resources/img/administrator/config/icon_large.png",
 						iconOver: "<xsl:value-of select="$contextPath"/>/plugins/core/resources/img/administrator/config/icon_large_over.png",
 						plugin: "core",
-	                    actionFunction : Runtime_InteractionActionLibrary_Link.act,
+	                    actionFunction : org.ametys.runtime.Link,
 	                    actionParams : {"Link" : "administrator/config/edit.html", "Mode" : "plugin-wrapped"}
 						
 				});

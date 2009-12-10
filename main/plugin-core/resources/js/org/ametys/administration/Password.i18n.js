@@ -18,11 +18,6 @@ org.ametys.administration.Password = function ()
 {
 }
 
-org.ametys.administration.Password.initialize = function(pluginName)
-{
-	org.ametys.administration.Password.pluginName = pluginName;
-}
-
 org.ametys.administration.Password._initialized;
 
 org.ametys.administration.Password.delayedInitialize = function ()
@@ -104,6 +99,8 @@ org.ametys.administration.Password.delayedInitialize = function ()
 
 org.ametys.administration.Password.act = function(pluginName, params)
 {
+	org.ametys.administration.Password.pluginName = pluginName;
+
 	if (!org.ametys.administration.Password.delayedInitialize())
       return false;
 	

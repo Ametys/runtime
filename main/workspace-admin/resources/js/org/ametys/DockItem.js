@@ -28,7 +28,6 @@ Ext.namespace('org.ametys');
  *	tooltip: tooltip,
  *	icon : getPluginResourcesUrl('core') + '/img/config/icon_dock.png',
  *	pressed: false,
- *	plugin: 'core',
  *	actionFunction: Runtime_InteractionActionLibrary_Link.act,
  *	actionParams : {'Link' : 'administrator/config/edit.html', 'Mode' : 'plugin-wrapped'}
  * });
@@ -41,12 +40,11 @@ org.ametys.DockItem = function(config)
 Ext.extend(org.ametys.DockItem, Ext.Button, 
 {
 	cls : "dock-item",
-	overCls: "over",
 	border: false,
 	width: '100%',
 	enableToggle : false,
 	template : new Ext.Template(
-            '<div>',
+            '<div class="{3}">',
             '<button class="dock-item-button" type="{1}">{0}</button>',
             '</div>')
 });

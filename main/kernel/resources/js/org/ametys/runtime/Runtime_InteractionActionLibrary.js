@@ -8,16 +8,18 @@
  * Contributors:
  *     Anyware Technologies - initial API and implementation
  */
-package org.ametys.runtime.ui.item;
 
-import org.ametys.runtime.plugin.component.AbstractThreadSafeComponentExtensionPoint;
+Ext.namespace('org.ametys.runtime');
 
 /**
- * This extension point is the pool of interactions 
- */
-@Deprecated
-public class UIItemManager extends AbstractThreadSafeComponentExtensionPoint<UIItemFactory>
+  * This class allow a plugin to define a simple context path  
+  * relative url by emulating a class around it
+  */
+
+org.ametys.runtime.Link = function (plugin, parameters)
 {
-    /** Avalon role */
-    public static final String ROLE = UIItemManager.class.getName();
+  	var link = parameters['Link'];
+  	var mode = parameters['Mode'];
+  	
+  	runtimeRedirectTo(link, mode, plugin);
 }

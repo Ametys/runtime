@@ -4,206 +4,78 @@
         xsi:schemaLocation="http://www.ametys.org/schema/plugin http://www.ametys.org/schema/plugin-2.0.xsd"
         runtimeVersion="2.0" version="2.0">
          
+    <extension-points>
+        <extension-point id="DesktopManagerTest" 
+                		 class="org.ametys.runtime.plugins.core.ui.item.DesktopManager">
+               <actions>
+                   <category name="ONE">
+                       <item id="staticuiitemfactorytest.1"/>
+                   </category>
+           
+                   <category name="TWO">
+                       <item id="staticuiitemfactorytest.3"/>
+                       <item id="staticuiitemfactorytest.4"/>
+                   </category>
+                   
+                   <category name="FOUR">
+                       <separator/>
+                   </category>
+               </actions>                
+        </extension-point>
+    </extension-points>
+         
     <feature name="staticuiitemfactorytest">
-    
-        <components>
-        
-            <component class="org.ametys.runtime.plugins.core.ui.item.DesktopManager" 
-                       role="DesktopManagerTest">
-                <actions>
-                    <category name="ONE">
-                        <item id="staticuiitemfactorytest.1"/>
-                        <item id="staticuiitemfactorytest.2"/>
-                    </category>
-            
-                    <category name="TWO">
-                        <item id="staticuiitemfactorytest.3"/>
-                        <item id="staticuiitemfactorytest.4"/>
-                    </category>
-                    
-                    <category name="FOUR">
-                        <separator/>
-                    </category>
-                </actions>                
-            </component>
-        
-            <component class="org.ametys.runtime.ui.manager.MenusManager" 
-                       role="MenusManagerTest">
-                       
-                <menu label="MENU1">
-                    <item id="staticuiitemfactorytest.1"/>
-                    <separator/>
-                    <item id="staticuiitemfactorytest.2"/>
-                    <separator/>
-                    <menu label="SUBMENU1">
-                        <separator/>
-                    </menu>
-                    <separator/>
-                </menu>                
-
-                <menu label="MENU2">
-                    <item id="staticuiitemfactorytest.3"/>
-                    <separator/>
-                    <menu label="SUBMENU2">
-                        <item id="staticuiitemfactorytest.4"/>
-                    </menu>
-                    <separator/>
-                    <item id="staticuiitemfactorytest.5"/>
-                </menu>                
-
-                <menu label="MENU3">
-                    <separator/>
-                </menu>                
-
-            </component>
-        
-            <component class="org.ametys.runtime.ui.manager.ToolbarsManager" 
-                       role="ToolbarsManagerTest">
-                       
-                <item id="staticuiitemfactorytest.1"/>
-                <separator/>
-                <item id="staticuiitemfactorytest.2"/>
-                <separator/>
-                <item id="staticuiitemfactorytest.3"/>
-                <separator/>
-                <separator/>
-                <item id="staticuiitemfactorytest.4"/>
-                <separator/>
-                <item id="staticuiitemfactorytest.5"/>
-
-            </component>
-                       
-        </components>
-        
         <extensions>
             <!-- Single class item -->
-            <extension point="org.ametys.runtime.ui.item.UIItemManager" 
+            <extension point="DesktopManagerTest" 
                        id="staticuiitemfactorytest.1"
-                       class="org.ametys.runtime.plugins.core.ui.item.StaticUIItemFactory"
+                       class="org.ametys.runtime.ui.impl.StaticClientSideElement"
                        logger="tests.staticuiitemfactory">
-                <Static>
-                    <LabelKey>label</LabelKey>
-                    <DescriptionKey>description</DescriptionKey>
-                    <Icons>
-                        <Small>img/icon_small.gif</Small>
-                        <Medium>img/icon_medium.gif</Medium>
-                        <Large>img/icon_large.gif</Large>
-                    </Icons>
-                    <Action type="class">
-                        <Class value="JavascriptClass"/>
-                        <Imports>
-                            <File>js/script.js</File>
-                        </Imports>
-                    </Action>
-                    <Shortcut shift="true">A</Shortcut>
-                </Static>
+                
+                <action class="JavascriptClass">
+					<param name="label" i18n="true">label</param>
+					<param name="default-description" i18n="true">description</param>
+					<param name="icon-small" file="true">img/icon_small.gif</param>
+					<param name="icon-medium" file="true">img/icon_medium.gif</param>
+					<param name="icon-large" file="true">img/icon_large.gif</param>
+				</action>   
+				<scripts>
+					<file>js/script.js</file>
+				</scripts> 
             </extension>
 
-            <!-- Single function item -->
-            <extension point="org.ametys.runtime.ui.item.UIItemManager" 
-                       id="staticuiitemfactorytest.2"
-                       class="org.ametys.runtime.plugins.core.ui.item.StaticUIItemFactory"
-                       logger="tests.staticuiitemfactory">
-                <Static>
-                    <LabelKey>label</LabelKey>
-                    <DescriptionKey>description</DescriptionKey>
-                    <Icons>
-                        <Small>img/icon_small.gif</Small>
-                        <Medium>img/icon_medium.gif</Medium>
-                        <Large>img/icon_large.gif</Large>
-                    </Icons>
-                    <Action type="function">
-                        <Function value="JavascriptFunction"/>
-                        <Imports>
-                            <File>js/script.js</File>
-                        </Imports>
-                    </Action>
-                </Static>
-            </extension>
-            
             <!-- Single link item -->
-            <extension point="org.ametys.runtime.ui.item.UIItemManager" 
+            <extension point="DesktopManagerTest" 
                        id="staticuiitemfactorytest.3"
-                       class="org.ametys.runtime.plugins.core.ui.item.StaticUIItemFactory"
+                       class="org.ametys.runtime.ui.impl.StaticClientSideElement"
                        logger="tests.staticuiitemfactory">
-                <Static>
-                    <LabelKey>label</LabelKey>
-                    <DescriptionKey>description</DescriptionKey>
-                    <Icons>
-                        <Small>img/icon_small.gif</Small>
-                        <Medium>img/icon_medium.gif</Medium>
-                        <Large>img/icon_large.gif</Large>
-                    </Icons>
-                    <Action type="url">
-                        <Url value="myurl.html"/>
-                    </Action>
-                </Static>
+                <action class="org.ametys.runtime.Link">
+					<param name="Link">myurl.html</param>
+					<param name="Mode">plugin-wrapped</param>
+
+					<param name="label" i18n="true">label</param>
+					<param name="default-description" i18n="true">description</param>
+					<param name="icon-small" file="true">img/icon_small.gif</param>
+					<param name="icon-medium" file="true">img/icon_medium.gif</param>
+					<param name="icon-large" file="true">img/icon_large.gif</param>
+				</action>    
             </extension>
             
             <!-- Other plugin items -->
-            <extension point="org.ametys.runtime.ui.item.UIItemManager" 
+            <extension point="DesktopManagerTest" 
                        id="staticuiitemfactorytest.4"
-                       class="org.ametys.runtime.plugins.core.ui.item.StaticUIItemFactory"
+                       class="org.ametys.runtime.ui.impl.StaticClientSideElement"
                        logger="tests.staticuiitemfactory">
-                <Static>
-                    <LabelKey Catalogue="othercatalogue">label</LabelKey>
-                    <DescriptionKey Catalogue="plugin.otherplugin">description</DescriptionKey>
-                    <Icons>
-                        <Small>../../core/resources/img/icon_small.gif</Small>
-                        <Medium>../../core/resources/img/icon_medium.gif</Medium>
-                        <Large>../../core/resources/img/icon_large.gif</Large>
-                    </Icons>
-                    <Action type="class">
-                        <Class value="OtherJavascriptClass"/>
-                        <Imports>
-                            <File>../../core/resources/js/script.js</File>
-                        </Imports>
-                    </Action>
-                </Static>
-            </extension>
-            
-            <!-- Multiple items -->
-            <extension point="org.ametys.runtime.ui.item.UIItemManager" 
-                       id="staticuiitemfactorytest.5"
-                       class="org.ametys.runtime.plugins.core.ui.item.StaticUIItemFactory"
-                       logger="tests.staticuiitemfactory">
-                <Separator type="bar"/>
-
-                <Static>
-                    <LabelKey>label</LabelKey>
-                    <DescriptionKey>description</DescriptionKey>
-                    <Icons>
-                        <Small>img/icon_small.gif</Small>
-                        <Medium>img/icon_medium.gif</Medium>
-                        <Large>img/icon_large.gif</Large>
-                    </Icons>
-                    <Action type="class">
-                        <Class value="JavascriptClass"/>
-                        <Imports>
-                            <File>js/script.js</File>
-                        </Imports>
-                    </Action>
-                </Static>
-                
-                <Separator type="space"/>
-                
-                <Static>
-                    <LabelKey>label</LabelKey>
-                    <DescriptionKey>description</DescriptionKey>
-                    <Icons>
-                        <Small>img/icon_small.gif</Small>
-                        <Medium>img/icon_medium.gif</Medium>
-                        <Large>img/icon_large.gif</Large>
-                    </Icons>
-                    <Action type="class">
-                        <Class value="JavascriptClass"/>
-                        <Imports>
-                            <File>js/script.js</File>
-                        </Imports>
-                    </Action>
-                </Static>
-                
-                <Separator type="bar"/>
+                <action class="OtherJavascriptClass">
+					<param name="label" i18n="true">othercatalogue:label</param>
+					<param name="default-description" i18n="true">plugin.otherplugin:description</param>
+					<param name="icon-small" file="true" plugin="core">img/icon_small.gif</param>
+					<param name="icon-medium" file="true" plugin="core">img/icon_medium.gif</param>
+					<param name="icon-large" file="true" plugin="core">img/icon_large.gif</param>
+				</action>
+				<scripts>
+					<file plugin="core">js/script.js</file>
+				</scripts> 
             </extension>
         </extensions>
     

@@ -11,24 +11,18 @@
 package org.ametys.runtime.plugins.core.ui.item;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.avalon.framework.service.Serviceable;
-import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.cocoon.components.ContextHelper;
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.xml.XMLUtils;
@@ -36,51 +30,38 @@ import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
-import org.ametys.runtime.ui.item.Interaction;
-import org.ametys.runtime.ui.item.UIItem;
-import org.ametys.runtime.ui.item.UIItemFactory;
-import org.ametys.runtime.ui.item.UIItemManager;
-import org.ametys.runtime.ui.manager.SaxUIHelper;
+import org.ametys.runtime.plugin.component.AbstractThreadSafeComponentExtensionPoint;
+import org.ametys.runtime.ui.ClientSideElement;
+import org.ametys.runtime.ui.SAXClientSideElementHelper;
 
 
 /**
  * This manager handles the home page of spaces
  */
-public class DesktopManager extends AbstractLogEnabled implements Serviceable, Configurable, ThreadSafe, Disposable, Component, Contextualizable
+public class DesktopManager extends AbstractThreadSafeComponentExtensionPoint<ClientSideElement> implements Configurable, Component
 {
-    /** The avalon service manager */
-    protected ServiceManager _manager;
-    
-    /** The ui item extension point */
-    protected UIItemManager _uiItemManager;
+    /** helper to sax client side elements */
+    protected SAXClientSideElementHelper _saxClientSideElementHelper;
 
     /** The items configured */
     protected Map<String, List<String>> _categorizedItemsIds;
     
-    private Context _context;
-    
-    private boolean _initialized;
-    
+    @Override
     public void service(ServiceManager manager) throws ServiceException
     {
-        _manager = manager;
-        _uiItemManager = (UIItemManager) manager.lookup(UIItemManager.ROLE);
+        super.service(manager);
+        _saxClientSideElementHelper = (SAXClientSideElementHelper) manager.lookup(SAXClientSideElementHelper.ROLE);
     }
     
+    @Override
     public void dispose()
     {
-        _manager.release(_uiItemManager);
-    }
-    
-    public void contextualize(Context context) throws ContextException
-    {
-        _context = context;
+        _cocoonManager.release(_saxClientSideElementHelper);
+        super.dispose();
     }
     
     public void configure(Configuration configuration) throws ConfigurationException
     {
-        _initialized = false;
-        
         Configuration actionsConfiguration = configuration.getChild("actions", false);
         if (actionsConfiguration != null)
         {
@@ -98,21 +79,19 @@ public class DesktopManager extends AbstractLogEnabled implements Serviceable, C
      * Check that the configuration was correct
      * @throws IllegalStateException if an item does not exists
      */
-    private synchronized void _lazyInitialize() 
+    @Override
+    public void initializeExtensions() throws Exception
     {
-        if (_initialized)
-        {
-            return;
-        }
-        
+        super.initializeExtensions();
+
         // check that all refered items does exist
         for (List<String> itemsIds : _categorizedItemsIds.values())
         {
             for (String itemId : itemsIds)
             {
                 // Vérifie qu'il s'agit bien d'une factory valide
-                UIItemFactory factory = _uiItemManager.getExtension(itemId);
-                if (factory == null)
+                ClientSideElement element = this.getExtension(itemId);
+                if (element == null)
                 {
                     String errorMessage = "An item referes an unexisting item factory with id '" + itemId + "'";
                     getLogger().error(errorMessage);
@@ -120,8 +99,6 @@ public class DesktopManager extends AbstractLogEnabled implements Serviceable, C
                 }
             }
         }
-
-        _initialized = true;
     }
     
     private void _configureActions(Configuration configuration) throws ConfigurationException
@@ -176,21 +153,18 @@ public class DesktopManager extends AbstractLogEnabled implements Serviceable, C
      */
     public void toSAX(ContentHandler handler) throws SAXException
     {
-        _lazyInitialize();
-        
         // Transforme la liste d'identifiant en liste d'items
         for (String categoryName : _categorizedItemsIds.keySet())
         {
-            List<UIItem> items = new ArrayList<UIItem>();
+            Map<String, ClientSideElement> items = new LinkedHashMap<String, ClientSideElement>();
 
             List<String> itemsIds = _categorizedItemsIds.get(categoryName);
             for (String itemId : itemsIds)
             {
-                UIItemFactory factory = _uiItemManager.getExtension(itemId);
-                List<UIItem> factoryItems = factory.getUIItems();
-                if (factoryItems != null)
+                ClientSideElement element = this.getExtension(itemId);
+                if (element != null)
                 {
-                    items.addAll(factoryItems);
+                    items.put(itemId, element);
                 }
             }
          
@@ -206,7 +180,7 @@ public class DesktopManager extends AbstractLogEnabled implements Serviceable, C
      * @throws SAXException If an error occured
      * @throws IllegalArgumentException If one of the items is not an Interaction
      */
-    protected void toSAX(ContentHandler handler, String categoryName, List<UIItem> items) throws SAXException
+    protected void toSAX(ContentHandler handler, String categoryName, Map<String, ClientSideElement> items) throws SAXException
     {
         if (categoryName == null || categoryName.length() == 0 || items == null || items.size() == 0)
         {
@@ -218,22 +192,16 @@ public class DesktopManager extends AbstractLogEnabled implements Serviceable, C
         XMLUtils.startElement(handler, "category", atts);
         
         int position = 0;
-        for (UIItem item : items)
+        for (String itemId : items.keySet())
         {
+            ClientSideElement item = items.get(itemId);
             position++;
-            if (!(item instanceof Interaction))
-            {
-                String message = "DesktopManager allows only Interaction for UIItem. Error occured for category " + categoryName;
-                getLogger().error(message);
-                throw new IllegalArgumentException(message);
-            }
             
-            Interaction interaction = (Interaction) item;
-            SaxUIHelper.toSAX(handler, interaction);
+            _saxClientSideElementHelper.saxDefinition(itemId, "DesktopItem", item, handler, new HashMap<String, Object>());
             
-            if (item instanceof AdminInteraction)
+            if (item instanceof AdminClientSideElement)
             {
-                Pattern pattern = ((AdminInteraction) item).getUrl();
+                Pattern pattern = ((AdminClientSideElement) item).getUrl();
                 
                 Request request = ContextHelper.getRequest(_context);
                 String uri = request.getRequestURI();

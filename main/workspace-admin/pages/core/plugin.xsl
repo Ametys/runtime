@@ -27,8 +27,8 @@
     
     <xsl:template name="workspace-script">
     	<xsl:call-template name="plugins-load">
-            <xsl:with-param name="scripts" select="/Plugins/Desktop/category/UIItem/Action/Imports/Import"/>
-            <xsl:with-param name="actions" select="/Plugins/Desktop/category/UIItem/Action/ClassName"/>
+            <xsl:with-param name="scripts" select="/Plugins/Desktop/category/DesktopItem/scripts/file"/>
+            <xsl:with-param name="css" select="/Plugins/Desktop/category/DesktopItem/css/file"/>
         </xsl:call-template>
         
     	<script type="text/javascript">
@@ -100,20 +100,20 @@
 					var items = [];
 					
 					<xsl:for-each select="/Plugins/Desktop/category">
-						<xsl:for-each select="UIItem">
+						<xsl:for-each select="DesktopItem">
 							var item = new org.ametys.DockItem ({
-								tooltip: org.ametys.AdminTools.DockTooltipFormater("<xsl:copy-of select="Label/node()"/>", "<xsl:value-of select="$contextPath"/><xsl:value-of select="Icons/Large"/>", "<xsl:copy-of select="Description/node()"/>"),
-							 	icon : "<xsl:value-of select="$contextPath"/><xsl:value-of select="Icons/Small"/>"
-							 	<xsl:if test="../CurrentUIItem/@position = position()">,pressed: true</xsl:if>
-							 	<xsl:if test="not(@disabled)">
+								tooltip: org.ametys.AdminTools.DockTooltipFormater("<xsl:copy-of select="action/param[@name='label']/node()"/>", "<xsl:value-of select="$contextPath"/><xsl:value-of select="action/param[@name='icon-large']"/>", "<xsl:copy-of select="action/param[@name='default-description']/node()"/>"),
+								icon: "<xsl:value-of select="$contextPath"/><xsl:value-of select="action/param[@name='icon-small']"/>"
+							 	<xsl:if test="../CurrentUIItem/@position = position()">, pressed: true</xsl:if>
+								<xsl:if test="not(@disabled)">
 	                            	, 
-	                                "plugin" : "<xsl:value-of select="Action/@plugin"/>",
-	                                "actionFunction" : <xsl:value-of select="Action/ClassName"/>.act,
-	                                "actionParams" : {<xsl:for-each select="Action/Parameters/*">
-	                                	<xsl:text>"</xsl:text><xsl:value-of select="local-name()"/>" : "<xsl:value-of select="."/><xsl:text>"</xsl:text>
+	                                "plugin" : "<xsl:value-of select="@plugin"/>",
+	                                "actionFunction" : <xsl:value-of select="action/@class"/>,
+	                                "actionParams" : {<xsl:for-each select="action/param">
+	                                	<xsl:text>"</xsl:text><xsl:value-of select="@name"/>" : "<xsl:copy-of select="./node()"/><xsl:text>"</xsl:text>
 	                                    <xsl:if test="position() != last()">, </xsl:if>
 	                                    </xsl:for-each>}
-		                       </xsl:if>
+	                                </xsl:if>
 							});
 							items.push(item);
 						</xsl:for-each>

@@ -43,23 +43,6 @@
 	            </xsl:if>
 	        </xsl:for-each>
 		</xsl:if>
-
-        <!-- Initialize actions -->
-        <xsl:if test="$actions">
-	        <script>
-	            <xsl:for-each select="$actions">
-	                <xsl:variable name="position" select="position()"/>
-	                <xsl:variable name="value" select="."/>
-	                
-	                <!-- check that the action was not already initialized (by another plugin for example) -->
-	                <xsl:if test="not($actions[position() &lt; $position and . = $value])">
-	                    if (typeof <xsl:value-of select="."/>.initialize == "function") { <xsl:value-of select="."/>.initialize("<xsl:value-of select="../@plugin"/>"); }
-	                    <xsl:text>
-	                    </xsl:text>
-	                </xsl:if>
-	            </xsl:for-each>
-	        </script>
-	   	</xsl:if>
     </xsl:template>
     
 </xsl:stylesheet>

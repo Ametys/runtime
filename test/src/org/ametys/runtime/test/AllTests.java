@@ -25,9 +25,7 @@ import org.ametys.runtime.test.rights.basic.BasicRightsManagerTestCase;
 import org.ametys.runtime.test.rights.profile.DefaultProfileBasedRightsManagerTestCase;
 import org.ametys.runtime.test.rights.profile.HierarchicalProfileBasedRightsManagerTestCase;
 import org.ametys.runtime.test.ui.DesktopManagerTestCase;
-import org.ametys.runtime.test.ui.MenusManagerTestCase;
 import org.ametys.runtime.test.ui.StaticUIItemFactoryTestCase;
-import org.ametys.runtime.test.ui.ToolbarsManagerTestCase;
 import org.ametys.runtime.test.users.jdbc.CredentialAwareJdbcUsersTestCase;
 import org.ametys.runtime.test.users.jdbc.JdbcUsersTestCase;
 import org.ametys.runtime.test.users.jdbc.ModifiableCredentialAwareJdbcUsersTestCase;
@@ -86,8 +84,6 @@ public final class AllTests
         
         suite.addTestSuite(StaticUIItemFactoryTestCase.class);
         suite.addTestSuite(DesktopManagerTestCase.class);
-        suite.addTestSuite(MenusManagerTestCase.class);
-        suite.addTestSuite(ToolbarsManagerTestCase.class);
 
         suite.addTestSuite(DateConversionTestCase.class);
         //$JUnit-END$

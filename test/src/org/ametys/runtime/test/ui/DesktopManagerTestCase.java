@@ -83,72 +83,38 @@ public class DesktopManagerTestCase extends AbstractRuntimeTestCase
         testNode = xpath.selectSingleNode(handler.getDocument(), "/categories/category[1]");
         assertNotNull(testNode);
         assertEquals("ONE", xpath.evaluateAsString(testNode, "@name"));
-        assertEquals(2.0, xpath.evaluateAsNumber(testNode, "count(*)"));
-        assertEquals(2.0, xpath.evaluateAsNumber(testNode, "count(UIItem)"));
+        assertEquals(1.0, xpath.evaluateAsNumber(testNode, "count(*)"));
+        assertEquals(1.0, xpath.evaluateAsNumber(testNode, "count(DesktopItem)"));
         
-        Node itemNode1 = xpath.selectSingleNode(testNode, "UIItem[1]");
-        assertEquals(0.0, xpath.evaluateAsNumber(itemNode1, "count(@*)"));
-        assertEquals(5.0, xpath.evaluateAsNumber(itemNode1, "count(*)"));
+        Node itemNode1 = xpath.selectSingleNode(testNode, "DesktopItem[1]");
+        assertEquals(2.0, xpath.evaluateAsNumber(itemNode1, "count(@*)"));
+        assertEquals(3.0, xpath.evaluateAsNumber(itemNode1, "count(*)"));
         // label
-        assertNotNull(xpath.evaluateAsString(itemNode1, "Label/i18n:text", i18nResolver));
-        assertEquals("plugin.staticuiitemfactorytest", xpath.evaluateAsString(itemNode1, "Label/i18n:text/@i18n:catalogue", i18nResolver));
-        assertEquals("label", xpath.evaluateAsString(itemNode1, "Label/i18n:text/@i18n:key", i18nResolver));
+        assertNotNull(xpath.evaluateAsString(itemNode1, "action/param[@name='label']/i18n:text", i18nResolver));
+        assertEquals("plugin.staticuiitemfactorytest", xpath.evaluateAsString(itemNode1, "action/param[@name='label']/i18n:text/@i18n:catalogue", i18nResolver));
+        assertEquals("label", xpath.evaluateAsString(itemNode1, "action/param[@name='label']/i18n:text/@i18n:key", i18nResolver));
         // description
-        assertNotNull(xpath.evaluateAsString(itemNode1, "Description/i18n:text", i18nResolver));
-        assertEquals("plugin.staticuiitemfactorytest", xpath.evaluateAsString(itemNode1, "Description/i18n:text/@i18n:catalogue", i18nResolver));
-        assertEquals("description", xpath.evaluateAsString(itemNode1, "Description/i18n:text/@i18n:key", i18nResolver));
+        assertNotNull(xpath.evaluateAsString(itemNode1, "action/param[@name='default-description']/i18n:text", i18nResolver));
+        assertEquals("plugin.staticuiitemfactorytest", xpath.evaluateAsString(itemNode1, "action/param[@name='default-description']/i18n:text/@i18n:catalogue", i18nResolver));
+        assertEquals("description", xpath.evaluateAsString(itemNode1, "action/param[@name='default-description']/i18n:text/@i18n:key", i18nResolver));
         // icons
-        assertEquals(3.0, xpath.evaluateAsNumber(itemNode1, "count(Icons/*)"));
-        assertEquals("/plugins/staticuiitemfactorytest/resources/img/icon_small.gif", xpath.evaluateAsString(itemNode1, "Icons/Small"));
-        assertEquals("/plugins/staticuiitemfactorytest/resources/img/icon_medium.gif", xpath.evaluateAsString(itemNode1, "Icons/Medium"));
-        assertEquals("/plugins/staticuiitemfactorytest/resources/img/icon_large.gif", xpath.evaluateAsString(itemNode1, "Icons/Large"));
+        assertEquals("/plugins/staticuiitemfactorytest/resources/img/icon_small.gif", xpath.evaluateAsString(itemNode1, "action/param[@name='icon-small']"));
+        assertEquals("/plugins/staticuiitemfactorytest/resources/img/icon_medium.gif", xpath.evaluateAsString(itemNode1, "action/param[@name='icon-medium']"));
+        assertEquals("/plugins/staticuiitemfactorytest/resources/img/icon_large.gif", xpath.evaluateAsString(itemNode1, "action/param[@name='icon-large']"));
         // action
-        assertEquals(1.0, xpath.evaluateAsNumber(itemNode1, "count(Action/@*)"));
-        assertEquals("staticuiitemfactorytest", xpath.evaluateAsString(itemNode1, "Action/@plugin"));
-        assertEquals(3.0, xpath.evaluateAsNumber(itemNode1, "count(Action/*)"));
-        assertEquals("JavascriptClass", xpath.evaluateAsString(itemNode1, "Action/ClassName"));
-        assertEquals(1.0, xpath.evaluateAsNumber(itemNode1, "count(Action/Parameters[count(*) = 0])"));
-        assertEquals(1.0, xpath.evaluateAsNumber(itemNode1, "count(Action/Imports/Import)"));
-        assertEquals("/plugins/staticuiitemfactorytest/resources/js/script.js", xpath.evaluateAsString(itemNode1, "Action/Imports/Import"));
-        // shortcut
-        assertEquals("A", xpath.evaluateAsString(itemNode1, "Shortcut"));
-        assertEquals(1.0, xpath.evaluateAsNumber(itemNode1, "count(Shortcut/@*)"));
-        assertEquals("SHIFT", xpath.evaluateAsString(itemNode1, "Shortcut/@SHIFT"));
+        assertEquals("staticuiitemfactorytest", xpath.evaluateAsString(itemNode1, "@plugin"));
+        assertEquals(1.0, xpath.evaluateAsNumber(itemNode1, "count(action/@*)"));
+        assertEquals("JavascriptClass", xpath.evaluateAsString(itemNode1, "action/@class"));
+        assertEquals(5.0, xpath.evaluateAsNumber(itemNode1, "count(action/*)"));
+        assertEquals(3.0, xpath.evaluateAsNumber(itemNode1, "count(action/param[count(*) = 0])"));
+        assertEquals(1.0, xpath.evaluateAsNumber(itemNode1, "count(scripts/file)"));
+        assertEquals("/plugins/staticuiitemfactorytest/resources/js/script.js", xpath.evaluateAsString(itemNode1, "scripts/file"));
 
-        Node itemNode2 = xpath.selectSingleNode(testNode, "UIItem[2]");
-        assertEquals(0.0, xpath.evaluateAsNumber(itemNode2, "count(@*)"));
-        assertEquals(4.0, xpath.evaluateAsNumber(itemNode2, "count(*)"));
-        // label
-        assertNotNull(xpath.selectSingleNode(itemNode2, "Label/i18n:text", i18nResolver));
-        assertEquals("plugin.staticuiitemfactorytest", xpath.evaluateAsString(itemNode2, "Label/i18n:text/@i18n:catalogue", i18nResolver));
-        assertEquals("label", xpath.evaluateAsString(itemNode2, "Label/i18n:text/@i18n:key", i18nResolver));
-        // description
-        assertNotNull(xpath.evaluateAsString(itemNode2, "Description/i18n:text", i18nResolver));
-        assertEquals("plugin.staticuiitemfactorytest", xpath.evaluateAsString(itemNode2, "Description/i18n:text/@i18n:catalogue", i18nResolver));
-        assertEquals("description", xpath.evaluateAsString(itemNode2, "Description/i18n:text/@i18n:key", i18nResolver));
-        // icons
-        assertEquals(3.0, xpath.evaluateAsNumber(itemNode2, "count(Icons/*)"));
-        assertEquals("/plugins/staticuiitemfactorytest/resources/img/icon_small.gif", xpath.evaluateAsString(itemNode2, "Icons/Small"));
-        assertEquals("/plugins/staticuiitemfactorytest/resources/img/icon_medium.gif", xpath.evaluateAsString(itemNode2, "Icons/Medium"));
-        assertEquals("/plugins/staticuiitemfactorytest/resources/img/icon_large.gif", xpath.evaluateAsString(itemNode2, "Icons/Large"));
-        // action
-        assertEquals(1.0, xpath.evaluateAsNumber(itemNode2, "count(Action/@*)"));
-        assertEquals("staticuiitemfactorytest", xpath.evaluateAsString(itemNode2, "Action/@plugin"));
-        assertEquals(3.0, xpath.evaluateAsNumber(itemNode2, "count(Action/*)"));
-        assertEquals("Runtime_InteractionActionLibrary_FunctionToClass", xpath.evaluateAsString(itemNode2, "Action/ClassName"));
-        assertEquals(1.0, xpath.evaluateAsNumber(itemNode2, "count(Action/Parameters[count(*) = 1])"));
-        assertEquals("JavascriptFunction", xpath.evaluateAsString(itemNode2, "Action/Parameters/FunctionName"));
-        assertEquals(2.0, xpath.evaluateAsNumber(itemNode2, "count(Action/Imports/Import)"));
-        assertEquals(1.0, xpath.evaluateAsNumber(itemNode2, "count(Action/Imports[Import = '/plugins/staticuiitemfactorytest/resources/js/script.js'])"));
-        assertEquals(1.0, xpath.evaluateAsNumber(itemNode2, "count(Action/Imports[Import = '/kernel/resources/js/Runtime_InteractionActionLibrary.js'])"));
-        // shortcut
-        assertEquals(0.0, xpath.evaluateAsNumber(itemNode2, "count(Shortcut)"));
-        
         testNode = xpath.selectSingleNode(handler.getDocument(), "/categories/category[1]");
         assertNotNull(testNode);
         assertEquals("ONE", xpath.evaluateAsString(testNode, "@name"));
-        assertEquals(2.0, xpath.evaluateAsNumber(testNode, "count(*)"));
-        assertEquals(2.0, xpath.evaluateAsNumber(testNode, "count(UIItem)"));
+        assertEquals(1.0, xpath.evaluateAsNumber(testNode, "count(*)"));
+        assertEquals(1.0, xpath.evaluateAsNumber(testNode, "count(DesktopItem)"));
         
         /**
          * SECOND CATEGORY
@@ -157,62 +123,54 @@ public class DesktopManagerTestCase extends AbstractRuntimeTestCase
         assertNotNull(testNode);
         assertEquals("TWO", xpath.evaluateAsString(testNode, "@name"));
         assertEquals(2.0, xpath.evaluateAsNumber(testNode, "count(*)"));
-        assertEquals(2.0, xpath.evaluateAsNumber(testNode, "count(UIItem)"));
+        assertEquals(2.0, xpath.evaluateAsNumber(testNode, "count(DesktopItem)"));
         
-        itemNode1 = xpath.selectSingleNode(testNode, "UIItem[1]");
-        assertEquals(0.0, xpath.evaluateAsNumber(itemNode1, "count(@*)"));
-        assertEquals(4.0, xpath.evaluateAsNumber(itemNode1, "count(*)"));
+        itemNode1 = xpath.selectSingleNode(testNode, "DesktopItem[1]");
+        assertEquals(2.0, xpath.evaluateAsNumber(itemNode1, "count(@*)"));
+        assertEquals(3.0, xpath.evaluateAsNumber(itemNode1, "count(*)"));
         // label
-        assertNotNull(xpath.selectSingleNode(itemNode1, "Label/i18n:text", i18nResolver));
-        assertEquals("plugin.staticuiitemfactorytest", xpath.evaluateAsString(itemNode1, "Label/i18n:text/@i18n:catalogue", i18nResolver));
-        assertEquals("label", xpath.evaluateAsString(itemNode1, "Label/i18n:text/@i18n:key", i18nResolver));
+        assertNotNull(xpath.selectSingleNode(itemNode1, "action/param[@name='label']/i18n:text", i18nResolver));
+        assertEquals("plugin.staticuiitemfactorytest", xpath.evaluateAsString(itemNode1, "action/param[@name='label']/i18n:text/@i18n:catalogue", i18nResolver));
+        assertEquals("label", xpath.evaluateAsString(itemNode1, "action/param[@name='label']/i18n:text/@i18n:key", i18nResolver));
         // description
-        assertNotNull(xpath.selectSingleNode(itemNode1, "Description/i18n:text", i18nResolver));
-        assertEquals("plugin.staticuiitemfactorytest", xpath.evaluateAsString(itemNode1, "Description/i18n:text/@i18n:catalogue", i18nResolver));
-        assertEquals("description", xpath.evaluateAsString(itemNode1, "Description/i18n:text/@i18n:key", i18nResolver));
+        assertNotNull(xpath.selectSingleNode(itemNode1, "action/param[@name='default-description']/i18n:text", i18nResolver));
+        assertEquals("plugin.staticuiitemfactorytest", xpath.evaluateAsString(itemNode1, "action/param[@name='default-description']/i18n:text/@i18n:catalogue", i18nResolver));
+        assertEquals("description", xpath.evaluateAsString(itemNode1, "action/param[@name='default-description']/i18n:text/@i18n:key", i18nResolver));
         // icons
-        assertEquals(3.0, xpath.evaluateAsNumber(itemNode1, "count(Icons/*)"));
-        assertEquals("/plugins/staticuiitemfactorytest/resources/img/icon_small.gif", xpath.evaluateAsString(itemNode1, "Icons/Small"));
-        assertEquals("/plugins/staticuiitemfactorytest/resources/img/icon_medium.gif", xpath.evaluateAsString(itemNode1, "Icons/Medium"));
-        assertEquals("/plugins/staticuiitemfactorytest/resources/img/icon_large.gif", xpath.evaluateAsString(itemNode1, "Icons/Large"));
+        assertEquals("/plugins/staticuiitemfactorytest/resources/img/icon_small.gif", xpath.evaluateAsString(itemNode1, "action/param[@name='icon-small']"));
+        assertEquals("/plugins/staticuiitemfactorytest/resources/img/icon_medium.gif", xpath.evaluateAsString(itemNode1, "action/param[@name='icon-medium']"));
+        assertEquals("/plugins/staticuiitemfactorytest/resources/img/icon_large.gif", xpath.evaluateAsString(itemNode1, "action/param[@name='icon-large']"));
         // action
-        assertEquals(1.0, xpath.evaluateAsNumber(itemNode1, "count(Action/@*)"));
-        assertEquals("staticuiitemfactorytest", xpath.evaluateAsString(itemNode1, "Action/@plugin"));
-        assertEquals(3.0, xpath.evaluateAsNumber(itemNode1, "count(Action/*)"));
-        assertEquals("Runtime_InteractionActionLibrary_Link", xpath.evaluateAsString(itemNode1, "Action/ClassName"));
-        assertEquals(2.0, xpath.evaluateAsNumber(itemNode1, "count(Action/Parameters/*)"));
-        assertEquals("myurl.html", xpath.evaluateAsString(itemNode1, "Action/Parameters/Link"));
-        assertEquals(1.0, xpath.evaluateAsNumber(itemNode1, "count(Action/Imports/Import)"));
-        assertEquals(1.0, xpath.evaluateAsNumber(itemNode1, "count(Action/Imports/Import)"));
-        assertEquals(1.0, xpath.evaluateAsNumber(itemNode1, "count(Action/Imports[Import = '/kernel/resources/js/Runtime_InteractionActionLibrary.js'])"));
-        // shortcut
-        assertEquals(0.0, xpath.evaluateAsNumber(itemNode1, "count(Shortcut)"));
+        assertEquals("staticuiitemfactorytest", xpath.evaluateAsString(itemNode1, "@plugin"));
+        assertEquals(1.0, xpath.evaluateAsNumber(itemNode1, "count(action/@*)"));
+        assertEquals("org.ametys.runtime.Link", xpath.evaluateAsString(itemNode1, "action/@class"));
+        assertEquals(7.0, xpath.evaluateAsNumber(itemNode1, "count(action/*)"));
+        assertEquals(2.0, xpath.evaluateAsNumber(itemNode1, "count(action/param/*)"));
+        assertEquals("myurl.html", xpath.evaluateAsString(itemNode1, "action/param[@name='Link']"));
+        assertEquals(0.0, xpath.evaluateAsNumber(itemNode1, "count(action/scripts/file)"));
 
-        itemNode2 = xpath.selectSingleNode(testNode, "UIItem[2]");
-        assertEquals(0.0, xpath.evaluateAsNumber(itemNode2, "count(@*)"));
-        assertEquals(4.0, xpath.evaluateAsNumber(itemNode2, "count(*)"));
+        Node itemNode2 = xpath.selectSingleNode(testNode, "DesktopItem[2]");
+        assertEquals(2.0, xpath.evaluateAsNumber(itemNode2, "count(@*)"));
+        assertEquals(3.0, xpath.evaluateAsNumber(itemNode2, "count(*)"));
         // label
-        assertNotNull(xpath.evaluateAsString(itemNode2, "Label/i18n:text/@i18n:catalogue", i18nResolver));
-        assertEquals("othercatalogue", xpath.evaluateAsString(itemNode2, "Label/i18n:text/@i18n:catalogue", i18nResolver));
-        assertEquals("label", xpath.evaluateAsString(itemNode2, "Label/i18n:text/@i18n:key", i18nResolver));
+        assertNotNull(xpath.evaluateAsString(itemNode2, "action/param[@name='label']/i18n:text/@i18n:catalogue", i18nResolver));
+        assertEquals("othercatalogue", xpath.evaluateAsString(itemNode2, "action/param[@name='label']/i18n:text/@i18n:catalogue", i18nResolver));
+        assertEquals("label", xpath.evaluateAsString(itemNode2, "action/param[@name='label']/i18n:text/@i18n:key", i18nResolver));
         // description
-        assertNotNull(xpath.evaluateAsString(itemNode2, "Description/i18n:text/@i18n:catalogue", i18nResolver));
-        assertEquals("plugin.otherplugin", xpath.evaluateAsString(itemNode2, "Description/i18n:text/@i18n:catalogue", i18nResolver));
-        assertEquals("description", xpath.evaluateAsString(itemNode2, "Description/i18n:text/@i18n:key", i18nResolver));
+        assertNotNull(xpath.evaluateAsString(itemNode2, "action/param[@name='default-description']/i18n:text/@i18n:catalogue", i18nResolver));
+        assertEquals("plugin.otherplugin", xpath.evaluateAsString(itemNode2, "action/param[@name='default-description']/i18n:text/@i18n:catalogue", i18nResolver));
+        assertEquals("description", xpath.evaluateAsString(itemNode2, "action/param[@name='default-description']/i18n:text/@i18n:key", i18nResolver));
         // icons
-        assertEquals(3.0, xpath.evaluateAsNumber(itemNode2, "count(Icons/*)"));
-        assertEquals("/plugins/staticuiitemfactorytest/resources/../../core/resources/img/icon_small.gif", xpath.evaluateAsString(itemNode2, "Icons/Small"));
-        assertEquals("/plugins/staticuiitemfactorytest/resources/../../core/resources/img/icon_medium.gif", xpath.evaluateAsString(itemNode2, "Icons/Medium"));
-        assertEquals("/plugins/staticuiitemfactorytest/resources/../../core/resources/img/icon_large.gif", xpath.evaluateAsString(itemNode2, "Icons/Large"));
+        assertEquals("/plugins/core/resources/img/icon_small.gif", xpath.evaluateAsString(itemNode2, "action/param[@name='icon-small']"));
+        assertEquals("/plugins/core/resources/img/icon_medium.gif", xpath.evaluateAsString(itemNode2, "action/param[@name='icon-medium']"));
+        assertEquals("/plugins/core/resources/img/icon_large.gif", xpath.evaluateAsString(itemNode2, "action/param[@name='icon-large']"));
         // action
-        assertEquals(1.0, xpath.evaluateAsNumber(itemNode2, "count(Action/@*)"));
-        assertEquals("staticuiitemfactorytest", xpath.evaluateAsString(itemNode2, "Action/@plugin"));
-        assertEquals(3.0, xpath.evaluateAsNumber(itemNode2, "count(Action/*)"));
-        assertEquals("OtherJavascriptClass", xpath.evaluateAsString(itemNode2, "Action/ClassName"));
-        assertEquals(1.0, xpath.evaluateAsNumber(itemNode2, "count(Action/Parameters[count(*) = 0])"));
-        assertEquals(1.0, xpath.evaluateAsNumber(itemNode2, "count(Action/Imports/Import)"));
-        assertEquals("/plugins/staticuiitemfactorytest/resources/../../core/resources/js/script.js", xpath.evaluateAsString(itemNode2, "Action/Imports/Import"));
-        // shortcut
-        assertEquals(0.0, xpath.evaluateAsNumber(itemNode2, "count(Shortcut)"));
+        assertEquals("staticuiitemfactorytest", xpath.evaluateAsString(itemNode2, "@plugin"));
+        assertEquals(1.0, xpath.evaluateAsNumber(itemNode2, "count(action/@*)"));
+        assertEquals("OtherJavascriptClass", xpath.evaluateAsString(itemNode2, "action/@class"));
+        assertEquals(5.0, xpath.evaluateAsNumber(itemNode2, "count(action/*)"));
+        assertEquals(3.0, xpath.evaluateAsNumber(itemNode2, "count(action/param[count(*) = 0])"));
+        assertEquals(1.0, xpath.evaluateAsNumber(itemNode2, "count(scripts/file)"));
+        assertEquals("/plugins/core/resources/js/script.js", xpath.evaluateAsString(itemNode2, "scripts/file"));
     }
 }

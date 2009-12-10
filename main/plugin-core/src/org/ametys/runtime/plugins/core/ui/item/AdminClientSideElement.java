@@ -2,11 +2,12 @@ package org.ametys.runtime.plugins.core.ui.item;
 
 import java.util.regex.Pattern;
 
+import org.ametys.runtime.ui.ClientSideElement;
+
 /**
- * This interface encapsulate all interactions for admin 
+ * Client side element for administration workspace handle urls to be able to tell which component is currently used in the left bar
  */
-@Deprecated
-public interface AdminInteraction
+public interface AdminClientSideElement extends ClientSideElement
 {
     /**
      * Get the url.
