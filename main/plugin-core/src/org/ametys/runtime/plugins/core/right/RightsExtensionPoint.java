@@ -134,7 +134,6 @@ public class RightsExtensionPoint extends AbstractLogEnabled implements Extensio
      * @param labelKey The label of the right (i18n key) (not null or empty)
      * @param descriptionKey The description of the right (i18n key) (not null or empty)
      * @param categoryKey The category of the right (i18n key) (not null or empty)
-     * @param catalogue The catalogue full identifier (not null or empty)
      * @throws IllegalArgumentException if the id is already declared
      */
     public void addRight(String id, I18nizableText labelKey, I18nizableText descriptionKey,  I18nizableText categoryKey) throws IllegalArgumentException
