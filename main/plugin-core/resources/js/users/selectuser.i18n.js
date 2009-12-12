@@ -36,7 +36,7 @@ RUNTIME_Plugin_Runtime_SelectUser.delayed_initialize = function ()
 	
 	var form = new Ext.FormPanel( {
 		region: 'north',
-		height: 30,
+		height: 37,
 		
 		formId : 'select-user-form',
 		labelWidth :70,
@@ -65,7 +65,7 @@ RUNTIME_Plugin_Runtime_SelectUser.delayed_initialize = function ()
 	
 	var warning = new org.ametys.HtmlContainer ({
 		region: 'south',
-		height: 40,
+		height: 26,
 		cls: 'select-user-warning',
 		
 		html: "<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_WARN100"/>"

@@ -22,3 +22,8 @@
 	color:#FF8A00;
 	border-top: 1px solid #C8CDD0;
 }
+
+.ext-ie6 .select-user-list-body .x-grid3
+{
+	height: 202px;
+}
