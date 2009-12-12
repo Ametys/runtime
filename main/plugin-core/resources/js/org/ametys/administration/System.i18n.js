@@ -64,7 +64,11 @@ org.ametys.administration.System.createPanel = function ()
 		title : "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_CHECK"/>",
 		checkboxToggle: true,
 		
-		items : [ org.ametys.administration.System._listView ]
+		items : [ org.ametys.administration.System._listView ],
+		
+		listeners: { 'collapse': org.ametys.administration.System._onCollapse,
+					 'expand': org.ametys.administration.System._onExpand }
+
 	});
 	
 	return new Ext.Panel({
@@ -79,6 +83,17 @@ org.ametys.administration.System.createPanel = function ()
 	});
 	
 }
+
+org.ametys.administration.System._onExpand = function()
+{
+	org.ametys.administration.System._actions.show();	
+}
+
+org.ametys.administration.System._onCollapse = function()
+{
+	org.ametys.administration.System._actions.hide();
+}
+
 
 /**
  * Draw the actions panel.
