@@ -89,6 +89,7 @@
         <xsl:param name="accept-ff-3.0">false</xsl:param>
         <xsl:param name="accept-ff-3.5">false</xsl:param>
         <xsl:param name="accept-sa-3">false</xsl:param>
+        <xsl:param name="accept-sa-4">false</xsl:param>
         <xsl:param name="accept-op-9">false</xsl:param>
         <xsl:param name="accept-op-10">false</xsl:param>
         <xsl:param name="accept-ch-1">false</xsl:param>
@@ -110,8 +111,9 @@
                     <xsl:if test="$accept-ff-3.5 = 'true'">(userAgent.indexOf("firefox/3.5") > 0) ||</xsl:if>
                     <xsl:if test="$accept-sa-3 = 'true'">(userAgent.indexOf("safari/522") > 0) ||</xsl:if>
                     <xsl:if test="$accept-sa-3 = 'true'">(userAgent.indexOf("safari/525") > 0) ||</xsl:if>
-                    <xsl:if test="$accept-op-9 = 'true'">(userAgent.indexOf("opera/9") > 0) ||</xsl:if>
-                    <xsl:if test="$accept-op-10 = 'true'">(userAgent.indexOf("opera/10") > 0) ||</xsl:if>
+                    <xsl:if test="$accept-sa-4 = 'true'">(userAgent.indexOf("safari/528") > 0) ||</xsl:if>
+                    <xsl:if test="$accept-op-9 = 'true'">(userAgent.indexOf("opera/9.") > 0 &amp;&amp; userAgent.indexOf("version/10.") == -1) ||</xsl:if>
+                    <xsl:if test="$accept-op-10 = 'true'">(userAgent.indexOf("opera/9.8") > 0 &amp;&amp;  &amp;&amp; userAgent.indexOf("version/10.") > 0) ||</xsl:if>
                     <xsl:if test="$accept-ch-1 = 'true'">(userAgent.indexOf("chrome/1") > 0) ||</xsl:if>
                     <xsl:if test="$accept-ch-2 = 'true'">(userAgent.indexOf("chrome/2") > 0) ||</xsl:if>
                     <xsl:if test="$accept-ch-3 = 'true'">(userAgent.indexOf("chrome/3") > 0) ||</xsl:if>
