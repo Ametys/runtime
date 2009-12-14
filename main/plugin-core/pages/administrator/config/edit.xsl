@@ -73,7 +73,8 @@
 										"<xsl:value-of select="local-name()"/>", 
 										"<xsl:value-of select="value"/>", 
 										"<xsl:copy-of select="label/node()"/>", 
-										"<xsl:copy-of select="description/node()"/>");
+										"<xsl:copy-of select="description/node()"/>",
+										<xsl:call-template name="enumeration"/>);
 									height += org.ametys.administration.Config.getInputHeight (input);
 							</xsl:for-each>
 							
@@ -94,5 +95,22 @@
 			<body>
             </body>
         </html>
+    </xsl:template>
+    
+    <xsl:template name="enumeration">
+    	<xsl:choose>
+    		<xsl:when test="enumeration">
+    			<xsl:text>[</xsl:text> 
+    			<xsl:for-each select="enumeration/option">
+    				<xsl:if test="position() != 1">, </xsl:if>
+    				<xsl:text>["</xsl:text><xsl:value-of select="@value"/><xsl:text>", "</xsl:text><xsl:copy-of select="node()"/><xsl:text>"]</xsl:text>
+    			</xsl:for-each>
+    			<xsl:text>]</xsl:text> 
+    		</xsl:when>
+    		
+    		<xsl:otherwise>
+    			<xsl:text>null</xsl:text>
+    		</xsl:otherwise>
+    	</xsl:choose>
     </xsl:template>
 </xsl:stylesheet>

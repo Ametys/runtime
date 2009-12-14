@@ -91,27 +91,35 @@ org.ametys.administration.Config.addGroupCategory = function (fd, name)
 	}));
 }
 
-org.ametys.administration.Config.addInputField = function (ct, type, name, value, label, description)
+org.ametys.administration.Config.addInputField = function (ct, type, name, value, label, description, enumeration)
 {
-	switch (type) {
-		case 'double':
-			ct.add(org.ametys.administration.Config._createDoubleField (name, value, label, description));
-			break;
-		case 'long':
-			ct.add(org.ametys.administration.Config._createLongField (name, value, label, description));
-			break;
-		case 'password':
-			ct.add(org.ametys.administration.Config._createPasswordField (name, value, label, description));
-			break;
-		case 'date':
-			ct.add(org.ametys.administration.Config._createDateField (name, value, label, description));
-			break;
-		case 'boolean':
-			ct.add(org.ametys.administration.Config._createBooleanField (name, value, label, description));
-			break;
-		default:
-			ct.add(org.ametys.administration.Config._createTextField (name, value, label, description));
-			break;
+	if (enumeration != null)
+	{
+		ct.add(org.ametys.administration.Config._createTextField (name, value, label, description, enumeration));
+	}
+	else
+	{
+		switch (type) 
+		{
+			case 'double':
+				ct.add(org.ametys.administration.Config._createDoubleField (name, value, label, description));
+				break;
+			case 'long':
+				ct.add(org.ametys.administration.Config._createLongField (name, value, label, description));
+				break;
+			case 'password':
+				ct.add(org.ametys.administration.Config._createPasswordField (name, value, label, description));
+				break;
+			case 'date':
+				ct.add(org.ametys.administration.Config._createDateField (name, value, label, description));
+				break;
+			case 'boolean':
+				ct.add(org.ametys.administration.Config._createBooleanField (name, value, label, description));
+				break;
+			default:
+				ct.add(org.ametys.administration.Config._createTextField (name, value, label, description));
+				break;
+		}
 	}
 	
 	org.ametys.administration.Config._fields.push(name);
@@ -200,17 +208,43 @@ org.ametys.administration.Config._createBooleanField = function (name, value, la
 	});
 }
 
-org.ametys.administration.Config._createTextField = function (name, value, label, description)
+org.ametys.administration.Config._createTextField = function (name, value, label, description, enumeration)
 {
-	return new org.ametys.form.TextField ({
-		name: name,
-		
-        fieldLabel: label,
-        desc: description,
-        value: value,
-        
-        width: 250
-	});
+	if (enumeration != null)
+	{
+		return new org.ametys.form.ComboField ({
+			name: name,
+			
+	        fieldLabel: label,
+	        desc: description,
+	        value: value,
+	        width: 250,
+	        
+	        mode: 'local',
+	        editable: false,
+	        forceSelection: true,
+			triggerAction: 'all',
+	        store: new Ext.data.SimpleStore({
+	            id: 0,
+	            fields: [ 'value', 'text'],
+	            data: enumeration
+	        }),
+	        valueField: 'value',
+	        displayField: 'text'
+		});
+	}
+	else
+	{
+		return new org.ametys.form.TextField ({
+			name: name,
+			
+	        fieldLabel: label,
+	        desc: description,
+	        value: value,
+	        
+	        width: 250
+		});
+	}
 }
 
 /**
