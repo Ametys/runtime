@@ -101,22 +101,22 @@
             <xsl:comment>
             	var userAgent = navigator.userAgent.toLowerCase();
                 <xsl:text>if (!(</xsl:text>
-                    <xsl:if test="$accept-ie-6 = 'true'">(userAgent.indexOf("msie 6") > 0) ||</xsl:if>
-                    <xsl:if test="$accept-ie-7 = 'true'">(userAgent.indexOf("msie 7") > 0) ||</xsl:if>
-                    <xsl:if test="$accept-ie-8 = 'true'">(userAgent.indexOf("msie 8") > 0) ||</xsl:if>
-                    <xsl:if test="$accept-ff-1.0 = 'true'">(userAgent.indexOf("firefox/1.0") > 0) ||</xsl:if>
-                    <xsl:if test="$accept-ff-1.5 = 'true'">(userAgent.indexOf("firefox/1.5") > 0) ||</xsl:if>
-                    <xsl:if test="$accept-ff-2.0 = 'true'">(userAgent.indexOf("firefox/2.0") > 0) ||</xsl:if>
-                    <xsl:if test="$accept-ff-3.0 = 'true'">(userAgent.indexOf("firefox/3.0") > 0) ||</xsl:if>
-                    <xsl:if test="$accept-ff-3.5 = 'true'">(userAgent.indexOf("firefox/3.5") > 0) ||</xsl:if>
-                    <xsl:if test="$accept-sa-3 = 'true'">(userAgent.indexOf("safari/522") > 0) ||</xsl:if>
-                    <xsl:if test="$accept-sa-3 = 'true'">(userAgent.indexOf("safari/525") > 0) ||</xsl:if>
-                    <xsl:if test="$accept-sa-4 = 'true'">(userAgent.indexOf("safari/528") > 0) ||</xsl:if>
-                    <xsl:if test="$accept-op-9 = 'true'">(userAgent.indexOf("opera/9.") > 0 &amp;&amp; userAgent.indexOf("version/10.") == -1) ||</xsl:if>
-                    <xsl:if test="$accept-op-10 = 'true'">(userAgent.indexOf("opera/9.8") > 0 &amp;&amp; userAgent.indexOf("version/10.") > 0) ||</xsl:if>
-                    <xsl:if test="$accept-ch-1 = 'true'">(userAgent.indexOf("chrome/1") > 0) ||</xsl:if>
-                    <xsl:if test="$accept-ch-2 = 'true'">(userAgent.indexOf("chrome/2") > 0) ||</xsl:if>
-                    <xsl:if test="$accept-ch-3 = 'true'">(userAgent.indexOf("chrome/3") > 0) ||</xsl:if>
+                    <xsl:if test="$accept-ie-6 = 'true'">(userAgent.indexOf("msie 6") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-ie-7 = 'true'">(userAgent.indexOf("msie 7") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-ie-8 = 'true'">(userAgent.indexOf("msie 8") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-ff-1.0 = 'true'">(userAgent.indexOf("firefox/1.0") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-ff-1.5 = 'true'">(userAgent.indexOf("firefox/1.5") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-ff-2.0 = 'true'">(userAgent.indexOf("firefox/2.0") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-ff-3.0 = 'true'">(userAgent.indexOf("firefox/3.0") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-ff-3.5 = 'true'">(userAgent.indexOf("firefox/3.5") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-sa-3 = 'true'">(userAgent.indexOf("safari/522") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-sa-3 = 'true'">(userAgent.indexOf("safari/525") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-sa-4 = 'true'">(userAgent.indexOf("safari/528") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-op-9 = 'true'">(userAgent.indexOf("opera/9.") >= 0 &amp;&amp; userAgent.indexOf("version/10.") == -1) ||</xsl:if>
+                    <xsl:if test="$accept-op-10 = 'true'">(userAgent.indexOf("opera/9.8") >= 0 &amp;&amp; userAgent.indexOf("version/10.") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-ch-1 = 'true'">(userAgent.indexOf("chrome/1") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-ch-2 = 'true'">(userAgent.indexOf("chrome/2") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-ch-3 = 'true'">(userAgent.indexOf("chrome/3") >= 0) ||</xsl:if>
                     <xsl:text>1 == 0))</xsl:text>
                 {
             		<!-- Check the cookie for forcing non supported navigators -->
