@@ -271,9 +271,9 @@ org.ametys.administration.System.delayedInitialize = function ()
 	org.ametys.administration.System._form = new Ext.FormPanel({
 		id : 'form-announcement',
 		
-		labelWidth :70,
-		width :350,
-		border :false,
+		labelWidth: 70,
+		width: 'auto',
+		border: false,
 		bodyStyle :'padding:10px 10px 0',
 		
 		items : [ new org.ametys.form.TextField ({
@@ -298,8 +298,8 @@ org.ametys.administration.System.delayedInitialize = function ()
 		title :"<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_CAPTION"/>",
 		
 		layout :'fit',
-		width :380,
-		height :200,
+		width: 450,
+		height: 205,
 		
 		icon: getPluginResourcesUrl(org.ametys.administration.System.pluginName) + '/img/administrator/system/announce_16.png',
 		
