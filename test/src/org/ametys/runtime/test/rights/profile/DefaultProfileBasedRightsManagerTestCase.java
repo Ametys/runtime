@@ -237,8 +237,8 @@ public class DefaultProfileBasedRightsManagerTestCase extends AbstractJDBCTestCa
         Profile profile2 = profileRightsManager.addProfile("MyProfil2");
         profile2.addRight("right3");
 
-        // USER
-        profileRightsManager.addUserRight("test", "/test", profile1.getId());
+        // USER (case sensitive test)
+        profileRightsManager.addUserRight("test", "/Test", profile1.getId());
         rights = profileRightsManager.getUserRights("test", null);
         assertEquals(2, rights.size());
         
