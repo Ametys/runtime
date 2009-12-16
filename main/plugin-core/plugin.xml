@@ -121,7 +121,6 @@
              -->
             <label i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEDN_LABEL</label>
             <description i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEDN_DESCRIPTION</description>
-            <validation/>
             <default-value>dc=ametys,dc=org</default-value>
             <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>
             <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_CATEGORY_LDAP_GROUP_CORE</group>
@@ -223,9 +222,6 @@
              -->
             <label i18n="true">PLUGINS_CORE_USERS_LDAPUSER_CONFIG_PEOPLEDN_LABEL</label>
             <description i18n="true">PLUGINS_CORE_USERS_LDAPUSER_CONFIG_PEOPLEDN_DESCRIPTION</description>
-            <validation>
-                <mandatory/>
-            </validation>        
             <default-value>ou=people</default-value>
             <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>
             <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS</group>
@@ -334,9 +330,6 @@
              -->
             <label i18n="true">PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_GROUPDN_LABEL</label>
             <description i18n="true">PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_GROUPDN_DESCRIPTION</description>
-            <validation>
-                <mandatory/>
-            </validation>
             <default-value>ou=group</default-value>
             <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>
             <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_GROUPS</group>
