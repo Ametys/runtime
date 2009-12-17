@@ -15,4 +15,4 @@ CREATE TABLE Users (
   lastname varchar(64) NOT NULL,
   email varchar(64)  NOT NULL,
   password varchar(128)  NOT NULL
-);
+)ENGINE=innodb;

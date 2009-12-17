@@ -11,24 +11,28 @@
 drop table if exists Rights_Profile;
 CREATE TABLE Rights_Profile(
 Id int PRIMARY KEY NOT NULL auto_increment, 
-Label VARCHAR(200));
+Label VARCHAR(200)
+)ENGINE=innodb;
 
 drop table if exists Rights_ProfileRights;
 CREATE TABLE Rights_ProfileRights(
 Profile_Id int NOT NULL, 
 Right_Id VARCHAR(200) NOT NULL, 
-PRIMARY KEY(Profile_Id, Right_Id));
+PRIMARY KEY(Profile_Id, Right_Id)
+)ENGINE=innodb;
 
 drop table if exists Rights_GroupRights;
 CREATE TABLE Rights_GroupRights(
 Profile_Id int NOT NULL, 
 Group_Id VARCHAR(200) NOT NULL, 
 Context VARCHAR(200) NOT NULL, 
-PRIMARY KEY(Profile_Id, Group_Id, Context));
+PRIMARY KEY(Profile_Id, Group_Id, Context)
+)ENGINE=innodb;
 
 drop table if exists Rights_UserRights;
 CREATE TABLE Rights_UserRights(
 Profile_Id int NOT NULL, 
 Login VARCHAR(200) NOT NULL, 
 Context VARCHAR(200) NOT NULL, 
-PRIMARY KEY(Profile_Id, Login, Context));
+PRIMARY KEY(Profile_Id, Login, Context)
+)ENGINE=innodb;

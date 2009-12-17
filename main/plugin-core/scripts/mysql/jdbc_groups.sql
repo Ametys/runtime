@@ -11,10 +11,12 @@
 drop table if exists Groups;
 CREATE TABLE Groups(
   Id int PRIMARY KEY NOT NULL auto_increment, 
-  Label VARCHAR(200));
+  Label VARCHAR(200)
+)ENGINE=innodb;
   
 drop table if exists Groups_Users;
 CREATE TABLE Groups_Users(
   Group_Id int NOT NULL, 
   Login VARCHAR (200) NOT NULL, 
-  PRIMARY KEY (Group_Id, Login));
+  PRIMARY KEY (Group_Id, Login)
+ )ENGINE=innodb;
