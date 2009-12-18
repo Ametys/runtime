@@ -27,7 +27,10 @@
 	background: none !important;
 }
 
-.actions-panel-body .action-item a {
+.actions-panel-body .action-item a, 
+.actions-panel-body .action-item a:link,
+.actions-panel-body .action-item a:visited,
+.actions-panel-body .action-item a:active {
 	color: #404040 !important;
 	text-decoration: none;
 	padding-top: 5px;

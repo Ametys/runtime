@@ -21,63 +21,97 @@
 
     <xsl:variable name="backslashedRealpath" select="translate($realpath, '\', '/')" />
 
-    <xsl:template match="/ex:exception-report">
-        <html>
-            <!-- ****** HEAD ****** -->
-            <head>
-                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<xsl:template match="/ex:exception-report">
+		<html>
+			<!-- ****** HEAD ****** -->
+			<head> 
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
                 <title>
                     <xsl:value-of select="$pageTitle" />
                 </title>
+
                 <link rel="stylesheet" href="{$contextPath}/kernel/resources/css/error/error.css" type="text/css" />
-                <style>h1 { font-size: 200%; color: #336699; text-align: left; margin: 0px 0px 30px 0px; padding: 0px; border-width: 0px 0px 1px 0px; border-style: solid; border-color: #336699; } p.message { margin: 10px; padding: 10px 30px 10px 30px; font-weight: bold; font-size: 110%; border-width: 1px; border-style: dashed; border-color: #336699; }</style>
-            </head>
+                <link rel="stylesheet" href="{$contextPath}/kernel/resources/css/homepage/view.css" type="text/css" />
 
-            <!-- ****** BODY ****** -->
-            <body>
-                <table class="error_head" style="background-image: url({$contextPath}/kernel/resources/img/bg_top.gif);">
-                    <!-- En-tête -->
-                    <tr height="119px">
-                        <td width="275px">
-                            <IMG src="{$contextPath}/kernel/resources/img/runtime.jpg" />
-                        </td>
-                        <td class="error_head">
-                            <span class="error_head">
-                                <xsl:value-of select="$pageTitle" />
-                                [ERROR]
-                            </span>
-                        </td>
-                    </tr>
-                    <!-- Contenu -->
-                    <tr>
-                        <td colspan="2" class="error_main_area">
-                            <xsl:if test="$code = '500'">
-                                <p class="message">
-                                    <xsl:if test="@class">
-                                        <xsl:value-of select="@class" />
-                                    </xsl:if>
-                                    <xsl:if test="string-length (ex:message) != 0">
-                                        <xsl:if test="@class">:</xsl:if>
-                                        <xsl:value-of select="ex:message" />
-                                        <xsl:if test="ex:location">
-                                            <br />
-                                            <span style="font-weight: normal">
-                                                <xsl:apply-templates select="ex:location" />
-                                            </span>
-                                        </xsl:if>
-                                    </xsl:if>
-                                </p>
+                <link rel="icon" type="image/gif" href="{$contextPath}/kernel/resources/img/runtime_favico.gif" />
+                <link rel="shortcut icon" type="image/x-icon" href="{$contextPath}/kernel/resources/img/runtime_favico.ico" />
+		        
+                <xsl:comment>[if lt IE 7]&gt;
+						&lt;script defer="defer" type="text/javascript" src="_admin/resources/js/pngfix.js">&lt;/script&gt;
+				&lt;![endif]</xsl:comment>
+				
+				<script>
+					<xsl:comment>
+						function toggleDetails()
+						{
+							var button = document.getElementById('details-button');
+							var text = document.getElementById('details-place');
+							
+							if (text.style.display == 'none')
+							{
+								button.innerHTML = 'Hide details ';
+								text.style.display = '';
+							}
+							else
+							{
+								button.innerHTML = 'Show details';
+								text.style.display = 'none';
+							}
+						}
+					</xsl:comment>
+				</script>
+			</head>
+		
+			<!-- ****** BODY ****** -->
+			<body>
+		     	<div id="wrapper" class="" style="width: 930px; margin-right: auto; margin-left: auto;">
+		     		<div id="content_left" style="width: 44px;"><xsl:comment></xsl:comment></div>
+		     		
+		     		<div id="content_center" style="width: 930px;">
+		     			<div id="top" style="height: 90px; width: 930px;">
+							<div id="logo"><xsl:comment></xsl:comment></div>
+						</div>
+						
+						<div id="main">
+							<div id="top-panel" class="top-panel"> 
 
-                                <xsl:comment>
-                                    <xsl:copy-of select="/" />
-                                </xsl:comment>
-                            </xsl:if>
-                        </td>
-                    </tr>
-                </table>
-            </body>
-        </html>
-    </xsl:template>
+								<div class="title">
+	 								<xsl:value-of select="$pageTitle" />
+	 							</div>
+ 
+								<p class="message">
+									<xsl:if test="@class">
+										<xsl:value-of select="@class" />
+									</xsl:if>
+									<xsl:if test="string-length (ex:message) != 0">
+										<xsl:if test="@class">
+											:
+										</xsl:if>
+										<xsl:value-of select="ex:message" />
+										<xsl:if test="ex:location">
+											<br />
+											<span style="font-weight: normal">
+												<xsl:apply-templates select="ex:location" />
+											</span>
+										</xsl:if>
+									</xsl:if>
+								</p>
+									
+								<div class="details"><a id="details-button" href="javascript: toggleDetails();">Show details</a></div>
+								<div class="details-place" id="details-place" style="display: none;">
+									<xsl:value-of select="/" />
+								</div>
+							</div>
+						</div>
+						
+						<div id="footer" style="height: 35px; width: 930px;">
+		     			</div>
+		     		</div>
+		     	</div>
+		     	<div id="column-right" style="width: 100%;"/>			
+			</body>
+		</html>		
+	</xsl:template>
 
     <xsl:template match="ex:location">
         <xsl:if test="string-length(.) > 0">

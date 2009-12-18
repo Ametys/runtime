@@ -1,69 +1,81 @@
-/*
- * Copyright (c) 2007 Anyware Technologies and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.opensource.org/licenses/eclipse-1.0.php
- * 
- * Contributors:
- *     Anyware Technologies - initial API and implementation
- */
-* {
-    COLOR: #000000;
-	FONT-FAMILY: Verdana, Arial;
-	FONT-SIZE: 12px;
-	FONT-STRECH: normal;
-	FONT-STYLE: normal;
-	FONT-VARIANT: normal;
-	FONT-WEIGHT: normal;
-	LETTER-SPACING: /* default */;
-	TEXT-ALIGN: left;
-	TEXT-DECORATION: none;
-	TEXT-IDENT: 0px;
-	TEXT-TRANSFORM: none;
-	VERTICAL-ALIGN: top;
-	WORD-SPACING: /* default */;
-
-	PADDING: 0px;
-	MARGIN: 0px;
+#top {
+	background: url(../../img/error/top.jpg) repeat scroll left top !important;
 }
-
-body {
-	background-repeat: no-repeat; 
-	background-position: bottom left; 
-	background-attachment: fixed;
-}
-
-table {
-	border-collapse: collapse;
-}
-
-table.error_head {
-	background-repeat: repeat-x; 
-	background-position: top; 
-	background-attachment: fixed;
-	WIDTH: 100%;
-	HEIGHT: 100%;
-}
-
-table.error_head td.error_head{
-	TEXT-ALIGN: right;
-	VERTICAL-ALIGN: bottom;
 	
-	PADDING-RIGHT: 30px;
-	PADDING-BOTTOM: 40px;
+.transparent-panel-body {
+	background: none !important;
+	margin: 10px;
 }
 
-span.error_head {
-	COLOR: #0e3787;
-	FONT-FAMILY: Arial, Helvetica;
-	FONT-SIZE: 18px;
-	FONT-WEIGHT: BOLD;
-	LETTER-SPACING: 5px;
-	TEXT-DECORATION: none;
-	TEXT-TRANSFORM: uppercase;
+.top-panel 
+{
+   	background-image: none !important;
+   	text-align: center;
+	color: #060606; 
+	padding-top: 30px;
+}
+.top-panel .title 
+{
+	font-size: 1.4em; 
+	font-weight: bold; 
+	color: #1C58A0; 
+	text-transform: uppercase;
+}
+.top-panel a, 
+.top-panel a:link,
+.top-panel a:visited,
+.top-panel a:active
+{
+	color: #842970;
+	font-weight: bold;
+	text-decoration: none;
+}	
+.top-panel a:hover
+{
+	color: #1C58A0;
+	text-decoration: none;
+}
+.top-panel .details
+{
+	text-align: left;
+}
+.top-panel .details-place
+{
+	text-align: left;
+	white-space: pre; 
+	border: 1px solid #1C58A0;
+	overflow: scroll;
 }
 
-td.error_main_area {
-	TEXT-ALIGN: center;
+.message
+{
+	text-align: left;
+}
+
+.intro {
+	font-family: arial, sans-serif;
+	font-size: 12px;
+	color: #023A69;
+	padding: 10px 0 10px 0px;
+}
+
+.empty {
+	color: #023A69;
+	font-weight: bold;
+	font-family: arial, sans-serif;
+	font-size: 12px;
+	text-align:center;
+	padding: 30px 0 10px 0px;
+}
+
+.footer {
+	font-family: arial, sans-serif;
+	font-size: 12px;
+	color: #023A69;
+	padding: 10px 0 10px 20px;
+	text-align: center;
+}
+
+#projects-view .x-panel-body {
+	color: #404040;
 }

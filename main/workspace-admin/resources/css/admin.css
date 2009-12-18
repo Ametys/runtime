@@ -37,7 +37,10 @@
 	padding-top: 1px;
 }
 
-#links .link a {
+#links .link a, 
+#links .link a:link,
+#links .link a:visited,
+#links .link a:active {
 	text-decoration: none;
 	color: #943192;
 }
@@ -60,7 +63,10 @@
 	font-size: 0.8em;
 }
 
-#admin-path a {
+#admin-path a, 
+#admin-path a:link,
+#admin-path a:visited,
+#admin-path a:active {
 	text-decoration: none;
 	color: #943192;
 }

@@ -21,7 +21,10 @@
 	text-transform: uppercase;
 }
 
-.top-panel a 
+.top-panel a, 
+.top-panel a:link,
+.top-panel a:visited,
+.top-panel a:active
 {
 	color: #842970;
 	font-weight: bold;
