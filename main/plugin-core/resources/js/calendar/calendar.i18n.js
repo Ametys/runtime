@@ -1,25 +1,18 @@
-<!--+
-    | Copyright (c) 2007 Anyware Technologies and others.
-    | All rights reserved. This program and the accompanying materials
-    | are made available under the terms of the Eclipse Public License v1.0
-    | which accompanies this distribution, and is available at
-    | http://www.opensource.org/licenses/eclipse-1.0.php
-    | 
-    | Contributors:
-    |     Anyware Technologies - initial API and implementation
-    +-->
-// ** I18N
-
-// Calendar EN language
-// Author: Mihai Bazon, &lt;mihai_bazon@yahoo.com&gt;
-// Encoding: any
-// Distributed under the same terms as the calendar itself.
-
-// For translators: please use UTF-8 if possible.  We strongly believe that
-// Unicode is the answer to a real internationalized world.  Also please
-// include your contact information in the header, as can be seen above.
-
-// Translator: David Duret, &lt;pilgrim@mala-template.net&gt; from previous french version
+/*
+ *  Copyright 2009 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 
 // full day names
 Calendar._DN = new Array
