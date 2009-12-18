@@ -198,7 +198,7 @@
 			            		<map:parameter name="realPath" value="{realpath:}"/>
 		    	        		<map:parameter name="contextPath" value="{request:contextPath}"/>
 			            		<map:parameter name="code" value="404"/>
-			            		<map:parameter name="pageTitle" value="Page not found"/>
+			            		<map:parameter name="pageTitle" value="Ametys - Resource not found"/>
 			          		</map:transform>
 			          		<map:transform type="i18n">
 			          			<map:parameter name="locale" value="{locale:locale}"/>
@@ -213,7 +213,7 @@
 			            		<map:parameter name="realPath" value="{realpath:}"/>
 		    	        		<map:parameter name="contextPath" value="{request:contextPath}"/>
 			            		<map:parameter name="code" value="500"/>
-			            		<map:parameter name="pageTitle" value="An error occured"/>
+			            		<map:parameter name="pageTitle" value="Ametys - An error occured"/>
 			          		</map:transform>
 			          		<map:transform type="i18n">
 			          			<map:parameter name="locale" value="{locale:locale}"/>
