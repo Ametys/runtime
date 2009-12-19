@@ -22,7 +22,7 @@
             <map:generator name="administrator-jvmstatus" src="org.ametys.runtime.plugins.core.administrator.jvmstatus.JVMStatusGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.jvmstatus" label="content"/>
             <map:generator name="administrator-logs" src="org.ametys.runtime.plugins.core.administrator.logs.LogsGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.logs" label="content"/>
             <map:generator name="administrator-logs-downloadzip" src="org.ametys.runtime.plugins.core.administrator.logs.LogsDownloadGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.logsDownload" label="content"/>
-            <map:generator name="administrator-plugins-list" src="org.ametys.runtime.plugin.PluginsGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.listPlugins" label="content"/>
+            <map:generator name="administrator-plugins-list" src="org.ametys.runtime.plugin.PluginsAndWorkspacesGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.listPlugins" label="content"/>
             <map:generator name="administrator-system" src="org.ametys.runtime.plugins.core.administrator.system.SystemGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.system" label="content"/>
             <map:generator name="administrator-system-announcement" src="org.ametys.runtime.plugins.core.administrator.system.SystemAnnouncementGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.systemannouncement" label="content"/>
         

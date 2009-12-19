@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -34,12 +35,13 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
-import org.ametys.runtime.plugin.PluginsManager.FeatureInformation;
-import org.ametys.runtime.util.LoggerFactory;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.logger.Logger;
 import org.xml.sax.XMLReader;
+
+import org.ametys.runtime.plugin.PluginsManager.FeatureInformation;
+import org.ametys.runtime.util.LoggerFactory;
 
 
 /**
@@ -52,6 +54,17 @@ public final class WorkspaceManager
     
     private static final String __WORKSPACE_FILENAME = "workspace.xml";
 
+    /**
+     * Cause of the deactivation of a feature
+     */
+    public enum InactivityCause
+    {
+        /**
+         * Constant for workspaces disabled due to missing dependencies
+         */
+        DEPENDENCY
+    }
+    
     // Map<workspaceName, baseURI>
     private Map<String, String> _workspaces = new HashMap<String, String>(); 
     
@@ -59,7 +72,10 @@ public final class WorkspaceManager
     // _workspaceNames is NOT the same as _workspaces.keySet(), which only contains embedded workspaces
     private Set<String> _workspaceNames = new HashSet<String>();
     
+    private Map<String, InactiveWorkspace> _inactiveWorkspaces = new HashMap<String, InactiveWorkspace>();
+
     private Logger _logger = LoggerFactory.getLoggerFor(WorkspaceManager.class); 
+
     
     private WorkspaceManager()
     {
@@ -87,6 +103,15 @@ public final class WorkspaceManager
     public Set<String> getWorkspaceNames()
     {
         return _workspaceNames;
+    }
+    
+    /** 
+     * Return the inactive workspaces
+     * @return All the inactive workspaces
+     */
+    public Map<String, InactiveWorkspace> getInactiveWorkspaces()
+    {
+        return Collections.unmodifiableMap(_inactiveWorkspaces);
     }
     
     /**
@@ -299,11 +324,51 @@ public final class WorkspaceManager
                         _logger.warn("The workspace '" + workspaceName + "' depends on feature " + dependency + " which is not loaded. It will be ignored.");
                     }
                     
+                    _inactiveWorkspaces.put(workspaceName, new InactiveWorkspace(workspaceName, InactivityCause.DEPENDENCY));
                     return false;
                 }
             }
         }
         
         return true;
+    }
+    
+    /**
+     * Represents an inactive workspace for the current runtime.
+     */
+    public class InactiveWorkspace
+    {
+        private InactivityCause _cause;
+        private String _workspaceName;
+        
+        InactiveWorkspace(String workspaceName, InactivityCause cause)
+        {
+            _workspaceName = workspaceName;
+            _cause = cause;
+        }
+        
+        /**
+         * Returns the declaring workspace name
+         * @return the declaring workspace name
+         */
+        public String getWorkspaceName()
+        {
+            return _workspaceName;
+        }
+        
+        /**
+         * Returns the cause of the deactivation of this feature
+         * @return the cause of the deactivation of this feature
+         */
+        public InactivityCause getCause()
+        {
+            return _cause;
+        }
+        
+        @Override
+        public String toString()
+        {
+            return _workspaceName;
+        }
     }
 }

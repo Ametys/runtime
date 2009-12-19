@@ -25,7 +25,7 @@ org.ametys.administration.Plugins.initialize = function (pluginName)
 	org.ametys.administration.Plugins.pluginName = pluginName;
 }
 
-org.ametys.administration.Plugins.createPanel = function ()
+org.ametys.administration.Plugins.createPanel = function (rootNode, rootNode2, rootNode3)
 {
 	org.ametys.administration.Plugins._contextualPanel = new org.ametys.HtmlContainer({
 		region:'east',
@@ -34,18 +34,37 @@ org.ametys.administration.Plugins.createPanel = function ()
 		cls: 'admin-right-panel',
 		width: 277,
 	    
-		items: [org.ametys.administration.Plugins._drawActionPanel (), 
+		items: [org.ametys.administration.Plugins._drawNavigationPanel(),
+		        org.ametys.administration.Plugins._drawActionPanel (), 
 		        org.ametys.administration.Plugins._drawHelpPanel ()]
 	});
 	
+	org.ametys.administration.Plugins._tree = new Ext.tree.TreePanel({
+		autoScroll: true,
+		root: rootNode
+	});
+
+	org.ametys.administration.Plugins._tree2 = new Ext.tree.TreePanel({
+		autoScroll: true,
+		root: rootNode2
+	});
+
+	org.ametys.administration.Plugins._tree3 = new Ext.tree.TreePanel({
+		autoScroll: true,
+		root: rootNode3
+	});
+
 	org.ametys.administration.Plugins._mainPanel = new Ext.Panel({
 		region:'center',
-		
+		id:'plugin-card-panel',
 		baseCls: 'transparent-panel',
 		border: false,
 		autoScroll : true,
+		height: 'auto',
+		layout: 'card',
+		activeItem: 0,
 		
-		html: '&lt;i&gt;En construction ...&lt;/i&gt;'
+		items: [org.ametys.administration.Plugins._tree, org.ametys.administration.Plugins._tree2, org.ametys.administration.Plugins._tree3]
 	});		
 	
 	return new Ext.Panel({
@@ -60,6 +79,38 @@ org.ametys.administration.Plugins.createPanel = function ()
 		        org.ametys.administration.Plugins._contextualPanel]
 	});
 	
+}
+
+org.ametys.administration.Plugins._drawNavigationPanel = function ()
+{
+	org.ametys.administration.Plugins._nav = new org.ametys.NavigationPanel ({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU"/>"});
+	
+	org.ametys.administration.Plugins._nav.add(
+		new org.ametys.NavigationItem ({
+			text: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_PLUGIN_VIEW"/>",
+			activeItem: 0,
+			cardLayout: 'plugin-card-panel',
+			toggleGroup : 'plugin-menu'
+		})
+	);
+	org.ametys.administration.Plugins._nav.add(
+		new org.ametys.NavigationItem ({
+			text: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_EXTENSION_POINT_VIEW"/>",
+			activeItem: 1,
+			cardLayout: 'plugin-card-panel',
+			toggleGroup : 'plugin-menu'
+		})
+	);
+	org.ametys.administration.Plugins._nav.add(
+		new org.ametys.NavigationItem ({
+			text: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_WORKSPACE_VIEW"/>",
+			activeItem: 2,
+			cardLayout: 'plugin-card-panel',
+			toggleGroup : 'plugin-menu'
+		})
+	);
+	
+	return org.ametys.administration.Plugins._nav;
 }
 
 org.ametys.administration.Plugins._drawActionPanel = function ()

@@ -98,19 +98,21 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_SYSTEM">Propriétés système</message>
 
     <!-- ADMINISTRATOR PLUGINS -->
-    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_LABEL">Plugins</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DESCRIPTION">Affiche tous les plugins de l'application</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_LABEL">Plugins et Workspaces</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DESCRIPTION">Affiche tous les plugins et workspaces de l'application</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_HANDLE">Gestion</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CANCEL">Quitter</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_TITLE">Liste des plugins</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_TITLE">Liste des plugins et workspaces</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_HELP">Aide</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_HELP_TEXT">Cet écran affiche la liste des plugins qui ont été chargés au démarrage de l'application.&lt;br/&gt;&lt;br/&gt;Vous pouvez afficher 2 vues en sélectionnant les onglets :&lt;br/&gt;Par plugins : cette vue correspond à l'arborescence physique des plugins sur le disque.&lt;br/&gt;Par point d'extension : il s'agit d'une vue logique où les plugins sont regroupés par type.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_HELP_TEXT">Cet écran affiche la liste des plugins et workspaces qui ont été chargés au démarrage de l'application.&lt;br/&gt;&lt;br/&gt;Vous pouvez afficher 3 vues en sélectionnant les onglets dans le sommaire :&lt;br/&gt;Par plugins : cette vue correspond à l'arborescence physique des plugins sur le disque.&lt;br/&gt;Par point d'extension : il s'agit d'une vue logique où les plugins sont regroupés par type.&lt;br/&gt;Par workspace : il s'agit de la liste des workspaces.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_NO_PLUGINS">Aucun plugin n'est enregistré</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_PLUGINS">Plugins</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_EXTENSION_POINTS">Points d'extension</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_NO_EXTENSION">Aucun point d'extension n'est enregistré</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_PLUGIN_VIEW">Vue par plugins</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_EXTENSION_POINT_VIEW">Vue par point d'extension</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_PLUGIN_VIEW">Plugins</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_EXTENSION_POINT_VIEW">Plugins par point d'extension</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_WORKSPACE_VIEW">Workspaces</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_NO_WORKSPACE">Aucun workspace n'est enregistré</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_INACTIVE_SINGLE">(contient une extension non choisie)</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_INACTIVE_EXCLUDED">(désactivé)</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_INACTIVE_DEPENDENCY">(dépend d'une feature indisponible)</message>

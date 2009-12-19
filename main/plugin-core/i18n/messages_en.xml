@@ -109,8 +109,10 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_PLUGINS">Plugins</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_EXTENSION_POINTS">Extension points</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_NO_EXTENSION">No extension point loaded</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_PLUGIN_VIEW">Plugins view</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_EXTENSION_POINT_VIEW">Extension points view</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_PLUGIN_VIEW">Plugins</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_EXTENSION_POINT_VIEW">Plugins by extension points</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_WORKSPACE_VIEW">Workspaces</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_NO_WORKSPACE">No workspace loaded</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_INACTIVE_SINGLE">(contains a rejected extension)</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_INACTIVE_EXCLUDED">(excluded)</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_INACTIVE_DEPENDENCY">(depends on an unavailable feature)</message>
