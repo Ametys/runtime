@@ -20,6 +20,7 @@
 <!-- Use 'project.status' property for selecting the kind of Ivy release
      integration (default), snapshot, milestone, release) -->
 <!-- Use 'generate.doc' property in order to generate doc -->
+<!-- Use 'check.licence' property in order to check licence-->
 <project name="runtime" default="build-and-publish"
          xmlns:ametys="antlib:org.ametys.tools"
          xmlns:ivy="antlib:org.apache.ivy.ant">
@@ -64,6 +65,7 @@
 	<!-- Classpath used for common tasks and for copying common resources -->
 	<path id="classpath-ametys-tools">
 		<fileset dir="${deliver-dir}/lib" includes="ametys-tools*.jar"/>
+		<fileset dir="${deliver-dir}/lib" includes="commons-io-*.jar"/>
 	</path>
 
 	<taskdef resource="org/ametys/tools/antlib.xml" uri="antlib:org.ametys.tools"
@@ -745,6 +747,27 @@
 	<target name="publish-if-not-failed" unless="junit-failed">
 		<antcall target="publish" inheritRefs="true"/>
 	</target>
+
+	<target name="check-licence" if="check.licence">
+		<ametys:licence-check licencedir="${deliver-dir}/licence-check">
+			<fileset dir="${kernel-dir}">
+			    <exclude name="**/*.gif"/>
+			    <exclude name="**/*.jpg"/>
+			    <exclude name="**/*.png"/>
+			    <exclude name="**/*.ico"/>
+			    <exclude name="main/kernel/src/org/ametys/runtime/cocoon/treeprocessor-builtins.xml"/>
+			</fileset>
+			<fileset dir="${plugin-dir}">
+			    <exclude name="**/*.png"/>
+			    <exclude name="**/*.gif"/>
+			</fileset>
+			<fileset dir="${workspace-dir}">
+			    <exclude name="**/*.gif"/>
+			    <exclude name="**/*.jpg"/>
+			    <exclude name="**/*.png"/>
+			</fileset>
+		</ametys:licence-check>
+	</target>
 	
 	<!--target name="publish" depends="runtime, javadoc"-->
 	<target name="publish">
@@ -755,8 +778,8 @@
 		             pubrevision="${ivy-version}" status="${project.status}" srcivypattern="${dest-dir}/ivy/ivy.xml"
 		             overwrite="true"/>
 	</target>
-	
-	<target name="build" depends="prepare, runtime, runtime-test-env, javadoc, javadoc-test-env, plugin-doc, export-doc"/>
+
+	<target name="build" depends="prepare, check-licence, runtime, runtime-test-env, javadoc, javadoc-test-env, plugin-doc, export-doc"/>
 	<target name="build-and-publish" depends="build, publish, clean"/>
 	<target name="test-and-publish" depends="build, tests, publish-if-failed, publish-if-not-failed, clean"/>
 </project>

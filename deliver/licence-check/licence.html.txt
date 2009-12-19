@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!--
    Copyright 2009 Anyware Services
 
@@ -14,10 +13,3 @@
    See the License for the specific language governing permissions and
    limitations under the License.
    -->
-<workspace xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:noNamespaceSchemaLocation="http://ametys.org/Runtime/1.2/workspace.xsd">
-        
-        <dependencies>
-            <dependency>core/runtime.workspace.admin</dependency>
-        </dependencies>
-</workspace>
