@@ -1,5 +1,8 @@
 /.*
 /bin
+deliver/lib/ametys-tools-*.jar
+deliver/lib/ant-*jar
+deliver/lib/commons-io-*.jar
 /target
 test/environments/webapp1/WEB-INF/data
 test/environments/webapp2/WEB-INF/data
