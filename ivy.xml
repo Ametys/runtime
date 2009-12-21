@@ -47,6 +47,7 @@ Open source web application framework based on Apache Cocoon.
   </publications>
   <dependencies>
     <dependency org="org.ametys.tools" name="tools" rev="latest.integration" conf="deliver->default"/>
+    <dependency org="apache" name="ant" rev="latest.integration" conf="deliver->default"/>
     
     <dependency org="apache" name="commons-dbcp" rev="1.2.2" conf="default->default"/>
     <dependency org="apache" name="cocoon" rev="2.1.11" conf="default->serializers"/>
