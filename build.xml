@@ -46,7 +46,6 @@
 	<property name="tmp-unzipped-doc" value="${tmp-dir}/unzipped-tmp"/>
 	<property name="classes" value="${tmp-dir}/classes"/>
 	<property name="test-env-classes" value="${tmp-dir}/test-env-classes"/>
-	<property name="classes-deliver" value="${tmp-dir}/classes-deliver"/>
 	
 	<property name="deliver-dir" value="deliver"/>
 	<property name="docs-dir" value="docs"/>
@@ -87,15 +86,6 @@
 		<mkdir dir="${dest-dir}/ivy/resources"/>
 		
 		<!-- Compilation des classes utilisées par Ant -->
-		<mkdir dir="${classes-deliver}"/>
-		<javac debug="true" destdir="${classes-deliver}" encoding="UTF-8" target="${class-vm-target}">
-			<src path="${deliver-dir}/src"/>
-			<include name="org/ametys/runtime/deliver/**"/>
-			<classpath>
-				<fileset dir="${deliver-dir}/lib" includes="*.jar"/>
-			</classpath>
-		</javac>
-
 	    <ivy:settings file="${ivy.settings}"/>
         <ivy:cachepath conf="deliver" type="jar" pathid="classpath-ametys-tools"/>
         
