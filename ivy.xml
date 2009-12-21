@@ -31,6 +31,7 @@ Open source web application framework based on Apache Cocoon.
     <conf name="fop" extends="default" description="FOP configuration"/>
     <conf name="compile" extends="cas,jcifs,fop" description="Used only for compilation" visibility="private"/>
     <conf name="test" extends="compile,runtime" description="Unit testing configuration" visibility="private"/>
+    <conf name="deliver" visibility="private"/>
   </configurations>
   <publications>
     <artifact name="ametys-runtime" type="jar" ext="jar" conf="default"/>
@@ -45,6 +46,8 @@ Open source web application framework based on Apache Cocoon.
     <!-- TODO add SQL scripts in "sql" type -->
   </publications>
   <dependencies>
+    <dependency org="org.ametys.tools" name="tools" rev="latest.integration" conf="deliver->default"/>
+    
     <dependency org="apache" name="commons-dbcp" rev="1.2.2" conf="default->default"/>
     <dependency org="apache" name="cocoon" rev="2.1.11" conf="default->serializers"/>
     <dependency org="apache" name="commons-codec" rev="1.3" conf="default"/>
