@@ -83,7 +83,7 @@ org.ametys.servercomm.TimeoutDialog = function (details, index)
 		    	}
 		    },
 			{
-				text : "<i18n:text i18n:key='KERNEL_SERVERCOMM_TIMEOUTDIALOG_DETAILS'/>" + " &gt;&gt;", // FIXME i18n
+				text : "<i18n:text i18n:key='KERNEL_SERVERCOMM_TIMEOUTDIALOG_DETAILS'/>" + " &gt;&gt;", 
 				handler : function() 
 				{
 	    			var currentTimeoutDialog = org.ametys.servercomm.TimeoutDialog._stack[0];

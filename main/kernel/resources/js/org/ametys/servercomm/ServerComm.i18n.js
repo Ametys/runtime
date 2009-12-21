@@ -522,7 +522,6 @@ org.ametys.servercomm.ServerComm.prototype._onRequestComplete = function(respons
 				}
 				throwException.defer(1, this, [e]);
 
-				// FIXME i18n
 				new org.ametys.msg.ErrorDialog("<i18n:text i18n:key='KERNEL_SERVERCOMM_ERROR_TITLE'/>",
 						"<i18n:text i18n:key='KERNEL_SERVERCOMM_ERROR_DESC'/>",
                         e + '',
@@ -578,7 +577,7 @@ org.ametys.servercomm.ServerComm.handleBadResponse = function(message, response,
 	if (response == null || response.getAttribute("code") == "500" || response.getAttribute("code") == "404")
 	{
 		if (response == null)
-		{ // FIXME i18n
+		{
 			new org.ametys.msg.ErrorDialog(
 					"<i18n:text i18n:key='KERNEL_SERVERCOMM_BADRESPONSE_TITLE'/>", 
 					message,
