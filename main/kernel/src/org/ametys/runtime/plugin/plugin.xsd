@@ -617,7 +617,7 @@
 		                </xsd:annotation>
 		            </xsd:element>
 		        </xsd:sequence>
-		        <xsd:attribute name="id" type="xsd:ID" use="required">
+		        <xsd:attribute name="id" type="xsd:string" use="required">
 		            <xsd:annotation>
 		                <xsd:documentation xml:lang="en">
 		                    <![CDATA[
@@ -658,7 +658,7 @@
     </xsd:complexType>
     
     <xsd:complexType name="config-parameter-reference">
-        <xsd:attribute name="id" type="xsd:IDREF" use="required">
+        <xsd:attribute name="id" type="xsd:string" use="required">
             <xsd:annotation>
                 <xsd:documentation xml:lang="en">
                     <![CDATA[
