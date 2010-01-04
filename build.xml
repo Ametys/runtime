@@ -734,7 +734,7 @@
 	</target>
 
 	<target name="check-licence" if="check.licence">
-		<ametys:licence-check licencedir="${deliver-dir}/licence-check">
+		<ametys:licence-check>
 			<fileset dir="${kernel-dir}">
 			    <exclude name="**/*.gif"/>
 			    <exclude name="**/*.jpg"/>
