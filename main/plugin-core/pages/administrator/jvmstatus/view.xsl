@@ -32,11 +32,13 @@
             <head>
                 <title><i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TITLE"/></title>
                 <link rel="stylesheet" href="{$resourcesPath}/css/administrator/jvmstatus.css" type="text/css"/>    
+			</head>
+
+			<script>
 				<script type="text/javascript" src="{$contextPath}/plugins/{$pluginName}/resources/js/org/ametys/administration/JVMStatus.i18n.js"><xsl:comment>empty</xsl:comment></script>
-				 
-                <script type="text/javascript">
-                    org.ametys.administration.JVMStatus.initialize ("<xsl:value-of select="$pluginName"/>");
-           		
+	            <script type="text/javascript">
+	                org.ametys.administration.JVMStatus.initialize ("<xsl:value-of select="$pluginName"/>");
+	          		
 					org.ametys.administration.JVMStatus._navItems = [];
 	                  
 	                org.ametys.administration.JVMStatus._navItems.push ({label: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL"/>"}); 
@@ -45,7 +47,7 @@
 					var toolPanel = org.ametys.administration.JVMStatus.createPanel ();
 					
 					// Load properties data
-					var data = [
+					var jvmdata = [
 							<xsl:for-each select="properties/node()">
 								['<xsl:value-of select="local-name()" />',
 								'<xsl:value-of select="escaper:escape(.)"/>']
@@ -55,7 +57,7 @@
 							</xsl:for-each>
 					];
 					
-					org.ametys.administration.JVMStatus.loadProperties (data);
+					org.ametys.administration.JVMStatus.loadProperties (jvmdata);
 					
 					org.ametys.administration.JVMStatus.addFieldSet (
 						"<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_SYS"/>",
@@ -77,14 +79,14 @@
 						'server'
 					);
 						
-                    org.ametys.runtime.administrator.Panel.createPanel = function () 
+	                   org.ametys.runtime.administrator.Panel.createPanel = function () 
 					{
 						return toolPanel;
 					}
 					
 					Ext.onReady(org.ametys.administration.JVMStatus.onReady);
-            	</script>
-            </head>
+	           	</script>
+			</script>
         
             <body>
             	<div style="display:none">
