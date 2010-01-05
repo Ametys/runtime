@@ -60,7 +60,7 @@
 	text-align: left;
 	white-space: pre; 
 	border: 1px solid #1C58A0;
-	overflow: scroll;
+	overflow: auto;
 }
 
 .message
