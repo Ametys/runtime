@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-	²Ext.namespace('org.ametys.administration.JVMStatus');
+Ext.namespace('org.ametys.administration.JVMStatus');
 
 org.ametys.administration.JVMStatus = function ()
 {
