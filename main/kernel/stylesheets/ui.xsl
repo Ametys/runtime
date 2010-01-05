@@ -171,9 +171,6 @@
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/EditorListView.js"><xsl:comment>empty</xsl:comment></script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/Tree.js"><xsl:comment>empty</xsl:comment></script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/Utility.js"><xsl:comment>empty</xsl:comment></script>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/DesktopPanel.js"><xsl:comment>empty</xsl:comment></script>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/DesktopCategory.js"><xsl:comment>empty</xsl:comment></script>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/DesktopItem.js"><xsl:comment>empty</xsl:comment></script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/HtmlContainer.js"><xsl:comment></xsl:comment></script>
         
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Ext/ux/form/FileUploadField.js"><xsl:comment>empty</xsl:comment></script>

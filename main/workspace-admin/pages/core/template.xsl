@@ -79,6 +79,9 @@
 		        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/TextPanel.js"><xsl:comment>empty</xsl:comment></script>
 		        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/NavigationPanel.js"><xsl:comment>empty</xsl:comment></script>
 		        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/NavigationItem.js"><xsl:comment>empty</xsl:comment></script>
+		        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/DesktopPanel.js"><xsl:comment>empty</xsl:comment></script>
+		        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/DesktopCategory.js"><xsl:comment>empty</xsl:comment></script>
+		        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/DesktopItem.js"><xsl:comment>empty</xsl:comment></script>
 		        
 		        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/DockItem.js"><xsl:comment>empty</xsl:comment></script>
 		        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/AdminTools.js"><xsl:comment>empty</xsl:comment></script>
@@ -127,6 +130,7 @@
                 <xsl:comment>[if lt IE 7]&gt;
 						&lt;script defer="defer" type="text/javascript" src="<xsl:value-of select="$workspaceContext"/>/resources/js/pngfix.js">&lt;/script&gt;
 				&lt;![endif]</xsl:comment>
+
 				<xsl:call-template name="workspace-script"/>
 			</head>
 		
