@@ -44,13 +44,14 @@ org.ametys.NavigationItem = function(config)
 Ext.extend(org.ametys.NavigationItem, Ext.Button, 
 {
 	cls : "navigation-item",
+	iconCls: "navigation-item-button",
 	overCls: "over",
 	border: false,
 	enableToggle : true,
 	allowDepress : true,
 	template : new Ext.Template(
             '<div class="{3}">',
-            '<button class="navigation-item-button" type="{1}">{0}</button>',
+            '<button type="{1}">{0}</button>',
             '</div>')
 });
 

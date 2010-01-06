@@ -44,12 +44,13 @@ org.ametys.DockItem = function(config)
 Ext.extend(org.ametys.DockItem, Ext.Button, 
 {
 	cls : "dock-item",
+	iconCls: "dock-item-button",
 	border: false,
 	width: '100%',
 	enableToggle : false,
 	template : new Ext.Template(
             '<div class="{3}">',
-            '<button class="dock-item-button" type="{1}">{0}</button>',
+            '<button type="{1}">{0}</button>',
             '</div>')
 });
 	
