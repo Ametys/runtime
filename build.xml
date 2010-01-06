@@ -45,7 +45,8 @@
     	<property name="dest-doc" value="${dest-dir}/docs"/>
         <property name="dest-junit" value="${dest-doc}/junit"/>
         <property name="dest-clover" value="${dest-doc}/clover"/>
-    	<property name="dest-javadoc" value="${dest-doc}/api"/>
+        <property name="dest-javadoc" value="${dest-doc}/api"/>
+        <property name="dest-javadoc-test" value="${dest-doc}/api-test"/>
     	<property name="class-vm-target" value="1.6"/>
     	
     	<basename file="${basedir}" property="svn-branch"/>
@@ -507,8 +508,8 @@
 			</resources>
 		</copy>
 		
-		<mkdir dir="${dest-javadoc}"/>
-		<javadoc destdir="${dest-javadoc}"
+		<mkdir dir="${dest-javadoc-test}"/>
+		<javadoc destdir="${dest-javadoc-test}"
 			charset="UTF-8"
 			sourcepath="${tmp-javadoc}"
 			packagenames="org.ametys.runtime.*"
@@ -520,7 +521,7 @@
 			additionalparam="-quiet"
 			stylesheetfile="${dest-dir}/javadoc.css"
 			header="&lt;img src='http://ametys.org/styles/telecharger/img/focus_bg.gif'/&gt;"
-			bottom="Copyright &#169; 2009 &lt;a href='http://www.anyware-tech.com'&gt;Anyware Services&lt;/a&gt;. All Rights Reserved.">
+			bottom="Copyright &#169; 2009 &lt;a href='http://www.anyware-services.com'&gt;Anyware Services&lt;/a&gt;. All Rights Reserved.">
 
 			<classpath>
 				<path refid="test.env.classpath"/>
@@ -533,7 +534,7 @@
 			<link href="http://junit.sourceforge.net/javadoc_40/"/>
 		</javadoc>
 		
-		<jar basedir="${dest-javadoc}" destfile="${dest-dir}/ivy/javadocs/ametys-runtime-test-env.jar">
+		<jar basedir="${dest-javadoc-test}" destfile="${dest-dir}/ivy/javadocs/ametys-runtime-test-env.jar">
 			<manifest>
 		      	<section name="Runtime informations">
 				 	<attribute name="Title" value="Runtime test environment javadoc"/>
