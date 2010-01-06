@@ -678,5 +678,5 @@
 
     <target name="runtime-test-env" depends="runtime-compile-test-env, runtime-test-env-jar"/>
 
-    <target name="build" depends="prepare, check-license, clover-prepare, runtime, runtime-test-env, javadoc, javadoc-test-env, plugin-doc, tests, publish-if-failed, publish-if-not-failed, clean"/>
+    <target name="build" depends="prepare, check-license, clover-prepare, runtime, runtime-test-env, javadoc, javadoc-test-env, tests, publish-if-failed, publish-if-not-failed, clean"/>
 </project>
