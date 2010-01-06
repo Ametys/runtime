@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright 2009 Anyware Services
+   Copyright 2010 Anyware Services
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -20,60 +20,77 @@
 <!-- Use 'project.status' property for selecting the kind of Ivy release
      integration (default), snapshot, milestone, release) -->
 <!-- Use 'generate.doc' property in order to generate doc -->
-<!-- Use 'check.licence' property in order to check licence-->
-<project name="runtime" default="build-and-publish"
+<!-- Use 'skip.tests' property in order to skip tests -->
+<!-- Use 'check.license' property in order to check licenses -->
+<project name="runtime" default="build"
          xmlns:ametys="antlib:org.ametys.tools"
+         xmlns:clover="antlib:com.atlassian.clover"
          xmlns:ivy="antlib:org.apache.ivy.ant">
+    
+    <!--import file="common-build.xml"/-->
 	
-	<!-- PROPERTIES -->
-	<property environment="env"/>
-
-	<property name="project.status" value="integration"/>
-	<property name="project.version" value="2.0.0"/>
-	<property name="project.version.qualifier" value="SNAPSHOT"/>
-	<property name="project.version.buildNumber" value="${env.BUILD_NUMBER}"/>
-	<property name="project.name" value="${ant.project.name}"/>
+    <target name="prepare">
+    	<!-- Common properties -->
+    	<property environment="env"/>
+        
+    	<property name="project.status" value="integration"/>
+    	<property name="project.version" value="2.0.0"/>
+    	<property name="project.version.qualifier" value="SNAPSHOT"/>
+    	<property name="project.version.buildNumber" value="${env.BUILD_NUMBER}"/>
+    	<property name="project.name" value="${ant.project.name}"/>
+    	
+    	<property name="dest-dir" value="target"/>
+    	<property name="dest-doc" value="${dest-dir}/docs"/>
+        <property name="dest-junit" value="${dest-doc}/junit"/>
+        <property name="dest-clover" value="${dest-doc}/clover"/>
+    	<property name="dest-javadoc" value="${dest-doc}/api"/>
+    	<property name="class-vm-target" value="1.6"/>
+    	
+    	<basename file="${basedir}" property="svn-branch"/>
+    	
+        <property name="tmp-dir" value="tmp"/>
+        <property name="tmp-clover" value="${tmp-dir}/clover"/>
+    	<property name="tmp-javadoc" value="${tmp-dir}/javadoc"/>
+    	<property name="classes" value="${tmp-dir}/classes"/>
+    	<property name="test-env-classes" value="${tmp-dir}/test-env-classes"/>
+    	
+    	<property name="deliver-dir" value="deliver"/>
+    	<property name="docs-dir" value="docs"/>
+    	<property name="tests-dir" value="test"/>
+    	<property name="template-dir" value="templates"/>
+    	<property name="application-template-dir" value="${template-dir}/application"/>
+    	
+    	<property name="kernel-dir" value="main/kernel"/>
+    	<property name="plugin-dir" value="main/plugin-core"/>
+    	<property name="workspace-dir" value="main/workspace-admin"/>
+    	<property name="test-env-dir" value="test-env"/>
+    
+    	<!-- Ivy properties -->
+    	<property name="ivy.settings" value="../../../ivyrep/ivysettings.xml"/>
+    
+    	<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant">
+    		<classpath>
+    			<fileset dir="${deliver-dir}/lib" includes="ivy*.jar" />
+    		</classpath>
+    	</taskdef>
 	
-	<property name="dest-dir" value="target"/>
-	<property name="dest-doc" value="${dest-dir}/docs"/>
-	<property name="dest-javadoc" value="${dest-doc}/api"/>
-	<property name="class-vm-target" value="1.6"/>
-	
-	<basename file="${basedir}" property="svn-branch"/>
-	
-	<property name="tmp-dir" value="tmp"/>
-	<property name="tmp-javadoc" value="${tmp-dir}/javadoc"/>
-	<property name="tmp-unzipped-doc" value="${tmp-dir}/unzipped-tmp"/>
-	<property name="classes" value="${tmp-dir}/classes"/>
-	<property name="test-env-classes" value="${tmp-dir}/test-env-classes"/>
-	
-	<property name="deliver-dir" value="deliver"/>
-	<property name="docs-dir" value="docs"/>
-	<property name="tests-dir" value="test"/>
-	<property name="template-dir" value="templates"/>
-	<property name="application-template-dir" value="${template-dir}/application"/>
-	
-	<property name="kernel-dir" value="main/kernel"/>
-	<property name="plugin-dir" value="main/plugin-core"/>
-	<property name="workspace-dir" value="main/workspace-admin"/>
-	<property name="test-env-dir" value="test-env"/>
-
-	<!-- Ivy properties -->
-	<property name="ivy.settings" value="../../../ivyrep/ivysettings.xml"/>
-
-	<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant">
-		<classpath>
-			<fileset dir="${deliver-dir}/lib" includes="ivy*.jar" />
-		</classpath>
-	</taskdef>
-	
-	<taskdef resource="emma_ant.properties">
-		<classpath>
-			<fileset dir="${deliver-dir}/lib" includes="emma*.jar" />
-		</classpath>
-	</taskdef>
-	
-	<target name="prepare">
+        <!-- Date du jour -->
+        <tstamp>
+            <format property="build-timestamp" pattern="yyyyMMdd'T'HHmmz"/>
+        </tstamp>
+        
+        <tstamp>
+            <format property="doc-timestamp" pattern="dd/MM/yyyy"/>
+        </tstamp>
+        
+        <tstamp>
+            <format property="full-timestamp" pattern="MM/dd/yyyy HH:mm:ss z"/>
+        </tstamp>
+        
+        <tstamp>
+            <format property="ivy-timestamp" pattern="yyyyMMdd-HHmm" timezone="GMT"/>
+        </tstamp>
+        
 		<delete dir="${tmp-dir}"/>
 		<mkdir dir="${tmp-dir}"/>
 		
@@ -85,184 +102,185 @@
 		<mkdir dir="${dest-dir}/ivy/javadocs"/>
 		<mkdir dir="${dest-dir}/ivy/resources"/>
 		
-		<!-- Compilation des classes utilisées par Ant -->
 	    <ivy:settings file="${ivy.settings}"/>
         <ivy:cachepath conf="deliver" type="jar" pathid="classpath-ametys-tools"/>
         
         <taskdef resource="org/ametys/tools/antlib.xml" uri="antlib:org.ametys.tools"
                  classpathref="classpath-ametys-tools"/>
-	</target>
-	
-	<target name="clean">
-		<delete dir="${tmp-dir}"/>
-	</target>
-	
-	<!-- Date du jour -->
-	<tstamp>
-		<format property="build-timestamp" pattern="yyyyMMdd'T'HHmmz"/>
-  	</tstamp>
-	
-	<tstamp>
-		<format property="doc-timestamp" pattern="dd/MM/yyyy"/>
-  	</tstamp>
-	
-	<tstamp>
-		<format property="full-timestamp" pattern="MM/dd/yyyy HH:mm:ss z"/>
-  	</tstamp>
-	
-	<tstamp>
-		<format property="ivy-timestamp" pattern="yyyyMMdd-HHmm" timezone="GMT"/>
-  	</tstamp>
-	
-	<target name="prepare-runtime">
-		<mkdir dir="${classes}"/>
-		<mkdir dir="${test-env-classes}"/>
-		
-		<ivy:cachepath conf="compile" type="jar" pathid="compile.classpath"/>
+	    
+        <taskdef resource="cloverlib.xml" uri="antlib:com.atlassian.clover"
+                 classpathref="classpath-ametys-tools"/>
+        
+        <mkdir dir="${classes}"/>
+        <mkdir dir="${test-env-classes}"/>
+        
+        <ivy:cachepath conf="compile" type="jar" pathid="compile.classpath"/>
         <ivy:cachepath conf="test-env" type="jar" pathid="test.env.classpath"/>
 
-	    <ametys:svn-revision property="svn-revision"/>
-		<ametys:ivy-version versionOutputProperty="ivy-version" resolverOutputProperty="ivy-resolver"
-			            status="${project.status}" buildRevision="${project.version}"
-			            svnRevision="${svn-revision}" timestamp="${ivy-timestamp}"
-			            buildNumber="${project.version.buildNumber}" buildQualifier="${project.version.qualifier}"/>
-		
-		<echo message="Building runtime version ${ivy-version}..."/>
+        <ametys:svn-revision property="svn-revision"/>
+        <ametys:ivy-version versionOutputProperty="ivy-version" resolverOutputProperty="ivy-resolver"
+                        status="${project.status}" buildRevision="${project.version}"
+                        svnRevision="${svn-revision}" timestamp="${ivy-timestamp}"
+                        buildNumber="${project.version.buildNumber}" buildQualifier="${project.version.qualifier}"/>
+        
+        <echo message="Building runtime version ${ivy-version}..."/>
 	</target>
 
-	<target name="runtime-compile-kernel">
-		<!-- Compilation des sources -->
-		<javac debug="true" destdir="${classes}" encoding="UTF-8" target="${class-vm-target}">
-			<src path="${kernel-dir}/src"/>
-			<classpath refid="compile.classpath"/>
-		</javac>
-	</target>
+    <target name="check-license" if="check.license">
+        <ametys:licence-check>
+            <fileset dir="${kernel-dir}">
+                <exclude name="**/*.gif"/>
+                <exclude name="**/*.jpg"/>
+                <exclude name="**/*.png"/>
+                <exclude name="**/*.ico"/>
+                <exclude name="src/org/ametys/runtime/cocoon/treeprocessor-builtins.xml"/>
+            </fileset>
+            <fileset dir="${plugin-dir}">
+                <exclude name="**/*.png"/>
+                <exclude name="**/*.gif"/>
+            </fileset>
+            <fileset dir="${workspace-dir}">
+                <exclude name="**/*.gif"/>
+                <exclude name="**/*.jpg"/>
+                <exclude name="**/*.png"/>
+            </fileset>
+        </ametys:licence-check>
+    </target>
+    
+    <target name="clover-prepare" unless="skip.tests">
+        <clover:clover-instr destdir="${tmp-clover}/src">
+            <fileset dir="${kernel-dir}/src" includes="**/*.java"/>
+            <fileset dir="${plugin-dir}/src" includes="**/*.java"/>
+            <fileset dir="${workspace-dir}/src" includes="**/*.java"/>
+        </clover:clover-instr>
+        
+        <mkdir dir="${tmp-clover}/classes"/>
+        
+        <javac debug="true" destdir="${tmp-clover}/classes" encoding="UTF-8" target="${class-vm-target}">
+            <src path="${tmp-clover}/src"/>
+            <classpath refid="classpath-ametys-tools"/>
+            <classpath refid="compile.classpath"/>
+        </javac>
+        
+        <copy todir="${tmp-clover}/classes">
+            <fileset dir="${kernel-dir}/src">
+                <exclude name="**/*.java"/>
+            </fileset>
+            <fileset dir="${plugin-dir}/src">
+                <exclude name="**/*.java"/>
+            </fileset>
+            <fileset dir="${workspace-dir}/src">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
 
-	<target name="runtime-compile-workspace">
-		<!-- Compilation des sources -->
-		<javac debug="true" destdir="${classes}" encoding="UTF-8" target="${class-vm-target}">
-			<!--src path="${kernel-dir}/src"/-->
-			<src path="${workspace-dir}/src"/>
-			<classpath refid="compile.classpath"/>
-		</javac>
-	</target>
-		
-	<target name="runtime-compile-plugin">
-		<!-- Compilation des sources -->
-		<javac debug="true" destdir="${classes}" encoding="UTF-8" target="${class-vm-target}">
-			<!--src path="${kernel-dir}/src"/-->
-			<!--src path="${workspace-dir}/src"/-->
-			<src path="${plugin-dir}/src"/>
-			<classpath refid="compile.classpath"/>
-		</javac>
-	</target>
+        <copy file="${kernel-dir}/sitemap.xmap" todir="${tmp-clover}/classes/org/ametys/runtime/kernel"/>
+        
+        <copy file="${workspace-dir}/workspace.xml" todir="${tmp-clover}/classes/org/ametys/runtime/workspaces/admin"/>
+        <copy file="${workspace-dir}/sitemap.xmap" todir="${tmp-clover}/classes/org/ametys/runtime/workspaces/admin"/>
+        
+        <ametys:resource-file destFile="${tmp-clover}/classes/META-INF/runtime-workspace" name="admin" uri="/org/ametys/runtime/workspaces/admin"/>
+        
+        <copy file="${plugin-dir}/plugin.xml" todir="${tmp-clover}/classes/org/ametys/runtime/plugins/core"/>
+        <copy file="${plugin-dir}/sitemap.xmap" todir="${tmp-clover}/classes/org/ametys/runtime/plugins/core"/>
+        
+        <ametys:resource-file destFile="${tmp-clover}/classes/META-INF/runtime-plugin" name="core" uri="/org/ametys/runtime/plugins/core"/>
+        <ametys:resource-file destFile="${tmp-clover}/classes/META-INF/runtime-schema" name="http://www.ametys.org/schema/plugin-2.0.xsd" uri="/org/ametys/runtime/plugin/plugin.xsd"/>
+    </target>
+    
+    <target name="compile">
+        <javac debug="true" destdir="${classes}" encoding="UTF-8" target="${class-vm-target}">
+            <src path="${kernel-dir}/src"/>
+            <src path="${plugin-dir}/src"/>
+            <src path="${workspace-dir}/src"/>
+            <classpath refid="compile.classpath"/>
+        </javac>
+    </target>
+    
+    <target name="copy-files">
+        <copy todir="${classes}">
+            <fileset dir="${kernel-dir}/src">
+                <exclude name="**/*.java"/>
+            </fileset>
+            <fileset dir="${plugin-dir}/src">
+                <exclude name="**/*.java"/>
+            </fileset>
+            <fileset dir="${workspace-dir}/src">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    
+    <target name="ametys-files">
+        <copy file="${kernel-dir}/sitemap.xmap" todir="${classes}/org/ametys/runtime/kernel"/>
 
-	<target name="runtime-copy-kernel">
-		<!-- Copie des fichiers externes (non JAVA) -->
-		<copy todir="${classes}">
-			<fileset dir="${kernel-dir}/src">
-				<exclude name="**/*.java"/>
-			</fileset>
-		</copy>
-	</target>
-		
-	<target name="runtime-copy-plugin">
-		<!-- Copie des fichiers externes (non JAVA) -->
-		<copy todir="${classes}">
-			<fileset dir="${plugin-dir}/src">
-				<exclude name="**/*.java"/>
-			</fileset>
-		</copy>
-	</target>
-		
-	<target name="runtime-copy-workspace">
-		<!-- Copie des fichiers externes (non JAVA) -->
-		<copy todir="${classes}">
-			<fileset dir="${workspace-dir}/src">
-				<exclude name="**/*.java"/>
-			</fileset>
-		</copy>
-	</target>
-	
-	<target name="runtime-kernel-file">
-		<copy file="${kernel-dir}/sitemap.xmap" todir="${classes}/org/ametys/runtime/kernel"/>
-	</target>
-	
-	<target name="runtime-resources-kernel">
-		<!-- resources dynamiques -->
-		<copy todir="${classes}/org/ametys/runtime" flatten="true" encoding="UTF-8">
-			<resources>
-				<javaresource classpathref="classpath-ametys-tools" name="org/ametys/tools/version.xml"/>
-			</resources>
-			<filterset>
-				<filter token="DATE" value="${build-timestamp}"/>
-				<filter token="VERSION" value="${ivy-version}"/>
-			</filterset>
-		</copy>
-		
-		<copy todir="${classes}/org/ametys/runtime/kernel">
-			<fileset dir="${kernel-dir}/">
-				<exclude name="sitemap.xmap"/>
-				<exclude name="resources/**"/>
-				<exclude name="src/**"/>
-			</fileset>
+        <copy file="${plugin-dir}/plugin.xml" todir="${classes}/org/ametys/runtime/plugins/core"/>
+        <copy file="${plugin-dir}/sitemap.xmap" todir="${classes}/org/ametys/runtime/plugins/core"/>
+        
+        <ametys:resource-file destFile="${classes}/META-INF/runtime-plugin" name="core" uri="/org/ametys/runtime/plugins/core"/>
+        <ametys:resource-file destFile="${classes}/META-INF/runtime-schema" name="http://www.ametys.org/schema/plugin-2.0.xsd" uri="/org/ametys/runtime/plugin/plugin.xsd"/>
+
+        <copy file="${workspace-dir}/workspace.xml" todir="${classes}/org/ametys/runtime/workspaces/admin"/>
+        <copy file="${workspace-dir}/sitemap.xmap" todir="${classes}/org/ametys/runtime/workspaces/admin"/>
+        
+        <ametys:resource-file destFile="${classes}/META-INF/runtime-workspace" name="admin" uri="/org/ametys/runtime/workspaces/admin"/>
+    </target>
+
+    <target name="static-resources">
+        <copy todir="${classes}/org/ametys/runtime" flatten="true" encoding="UTF-8">
+            <resources>
+                <javaresource classpathref="classpath-ametys-tools" name="org/ametys/tools/version.xml"/>
+            </resources>
+            <filterset>
+                <filter token="DATE" value="${build-timestamp}"/>
+                <filter token="VERSION" value="${ivy-version}"/>
+            </filterset>
+        </copy>
+        
+        <copy todir="${classes}/org/ametys/runtime/kernel">
+            <fileset dir="${kernel-dir}/">
+                <exclude name="sitemap.xmap"/>
+                <exclude name="resources/**"/>
+                <exclude name="src/**"/>
+            </fileset>
             <fileset dir="${kernel-dir}/">
                 <include name="resources/**/*.i18n.js"/>
             </fileset>
-		</copy>		
-		
+        </copy>     
+        
         <move file="${classes}/org/ametys/runtime/kernel/i18n/messages_en.xml" tofile="${classes}/org/ametys/runtime/kernel/i18n/messages.xml"/>
-	</target>
-		
-	<target name="runtime-workspace-file">
-		<copy file="${workspace-dir}/workspace.xml" todir="${classes}/org/ametys/runtime/workspaces/admin"/>
-		<copy file="${workspace-dir}/sitemap.xmap" todir="${classes}/org/ametys/runtime/workspaces/admin"/>
-		
-		<ametys:resource-file destFile="${classes}/META-INF/runtime-workspace" name="admin" uri="/org/ametys/runtime/workspaces/admin"/>
-	</target>
-	
-	<target name="runtime-resources-workspace">
-		<copy todir="${classes}/org/ametys/runtime/workspaces/admin">
-			<fileset dir="${workspace-dir}">
-				<exclude name="workspace.xml"/>
-				<exclude name="sitemap.xmap"/>
-				<exclude name="resources/**"/>
-				<exclude name="src/**"/>
-			</fileset>
-            <fileset dir="${workspace-dir}">
-                <include name="resources/**/*.i18n.js"/>
+
+        <copy todir="${classes}/org/ametys/runtime/plugins/core">
+            <fileset dir="${plugin-dir}">
+                <exclude name="plugin.xml"/>
+                <exclude name="sitemap.xmap"/>
+                <exclude name="resources/**"/>
+                <exclude name="src/**"/>
+                <exclude name="scripts/**"/>
             </fileset>
-		</copy>
-		
-        <move file="${classes}/org/ametys/runtime/workspaces/admin/i18n/messages_en.xml" tofile="${classes}/org/ametys/runtime/workspaces/admin/i18n/messages.xml"/>
-	</target>
-	
-	<target name="runtime-plugin-file">
-		<copy file="${plugin-dir}/plugin.xml" todir="${classes}/org/ametys/runtime/plugins/core"/>
-		<copy file="${plugin-dir}/sitemap.xmap" todir="${classes}/org/ametys/runtime/plugins/core"/>
-		
-		<ametys:resource-file destFile="${classes}/META-INF/runtime-plugin" name="core" uri="/org/ametys/runtime/plugins/core"/>
-		<ametys:resource-file destFile="${classes}/META-INF/runtime-schema" name="http://www.ametys.org/schema/plugin-2.0.xsd" uri="/org/ametys/runtime/plugin/plugin.xsd"/>
-	</target>
-	
-	<target name="runtime-resources-plugin" unless="skip-plugin">
-		<copy todir="${classes}/org/ametys/runtime/plugins/core">
-			<fileset dir="${plugin-dir}">
-				<exclude name="plugin.xml"/>
-				<exclude name="sitemap.xmap"/>
-				<exclude name="resources/**"/>
-				<exclude name="src/**"/>
-				<exclude name="scripts/**"/>
-			</fileset>
             <fileset dir="${plugin-dir}">
                 <include name="resources/**/*.i18n.js"/>
             </fileset>
-		</copy>		
-		
+        </copy>     
+        
         <move file="${classes}/org/ametys/runtime/plugins/core/i18n/messages_en.xml" tofile="${classes}/org/ametys/runtime/plugins/core/i18n/messages.xml"/>
-	</target>
-	
-	<target name="runtime-jar">
+
+        <copy todir="${classes}/org/ametys/runtime/workspaces/admin">
+            <fileset dir="${workspace-dir}">
+                <exclude name="workspace.xml"/>
+                <exclude name="sitemap.xmap"/>
+                <exclude name="resources/**"/>
+                <exclude name="src/**"/>
+            </fileset>
+            <fileset dir="${workspace-dir}">
+                <include name="resources/**/*.i18n.js"/>
+            </fileset>
+        </copy>
+        
+        <move file="${classes}/org/ametys/runtime/workspaces/admin/i18n/messages_en.xml" tofile="${classes}/org/ametys/runtime/workspaces/admin/i18n/messages.xml"/>
+    </target>
+
+	<target name="jar">
 		<!-- Construction du JAR avec fichier MANIFEST -->
 		<jar jarfile="${dest-dir}/ivy/jars/ametys-runtime.jar" basedir="${classes}">
 			<manifest>
@@ -303,37 +321,33 @@
 		<delete dir="${classes}"/>
 	</target>
 			
-	<target name="runtime-resources-copy-kernel">
-		<copy todir="${dest-dir}/resources/kernel/resources" includeEmptyDirs="false">
-			<fileset dir="${kernel-dir}/resources">
+    <target name="copy-resources">
+        <copy todir="${dest-dir}/resources/kernel/resources" includeEmptyDirs="false">
+            <fileset dir="${kernel-dir}/resources">
                 <exclude name="**/*.i18n.js"/>
-			</fileset>
-		</copy>
-	</target>
-			
-	<target name="runtime-resources-copy-plugin">
-		<copy todir="${dest-dir}/resources/plugins/core/resources" includeEmptyDirs="false">
-			<fileset dir="${plugin-dir}/resources">
-                <exclude name="**/*.i18n.js"/>
-			</fileset>
-		</copy>
-		
-		<copy todir="${dest-dir}/scripts">
-			<fileset dir="${plugin-dir}/scripts">
-				<include name="**"/>
-			</fileset>
-		</copy>
-	</target>
-			
-	<target name="runtime-resources-copy-workspace">
-		<copy todir="${dest-dir}/resources/workspaces/admin/resources" includeEmptyDirs="false">
-			<fileset dir="${workspace-dir}/resources">
-                <exclude name="**/*.i18n.js"/>
-			</fileset>
-		</copy>
-	</target>
+            </fileset>
+        </copy>
 
-	<target name="runtime-jarresources">
+        <copy todir="${dest-dir}/resources/plugins/core/resources" includeEmptyDirs="false">
+            <fileset dir="${plugin-dir}/resources">
+                <exclude name="**/*.i18n.js"/>
+            </fileset>
+        </copy>
+        
+        <copy todir="${dest-dir}/scripts">
+            <fileset dir="${plugin-dir}/scripts">
+                <include name="**"/>
+            </fileset>
+        </copy>
+
+        <copy todir="${dest-dir}/resources/workspaces/admin/resources" includeEmptyDirs="false">
+            <fileset dir="${workspace-dir}/resources">
+                <exclude name="**/*.i18n.js"/>
+            </fileset>
+        </copy>
+    </target>
+			
+	<target name="jarresources">
 		<!-- JAR des ressources -->
 		<jar destfile="${dest-dir}/ivy/jars/ametys-runtime-resources.jar">
 			<zipfileset dir="${dest-dir}/resources" prefix="org/ametys/runtime">
@@ -347,36 +361,30 @@
 			</fileset>
 		</zip>
 	</target>
+    
+    <target name="copy-i18n">
+        <mkdir dir="${dest-dir}/i18n"/>
+        <copy todir="${dest-dir}/i18n">
+            <fileset dir="${kernel-dir}/i18n"/>
+            <globmapper from="messages_*.xml" to="kernel_*.xml"/>
+        </copy>
+        <move file="${dest-dir}/i18n/kernel_en.xml" tofile="${dest-dir}/i18n/kernel.xml"/>
+
+        <mkdir dir="${dest-dir}/i18n/plugins"/>
+        <copy todir="${dest-dir}/i18n/plugins">
+            <fileset dir="${plugin-dir}/i18n"/>
+            <globmapper from="messages_*.xml" to="core_*.xml"/>
+        </copy>
+        <move file="${dest-dir}/i18n/plugins/core_en.xml" tofile="${dest-dir}/i18n/plugins/core.xml"/>
+
+        <mkdir dir="${dest-dir}/i18n/workspaces"/>
+        <copy todir="${dest-dir}/i18n/workspaces">
+            <fileset dir="${workspace-dir}/i18n"/>
+            <globmapper from="messages_*.xml" to="admin_*.xml"/>
+        </copy>
+        <move file="${dest-dir}/i18n/workspaces/admin_en.xml" tofile="${dest-dir}/i18n/workspaces/admin.xml"/>
+    </target>
 	
-	<target name="runtime-copyi18n-kernel">
-		<mkdir dir="${dest-dir}/i18n"/>
-		<copy todir="${dest-dir}/i18n">
-			<fileset dir="${kernel-dir}/i18n"/>
-			<globmapper from="messages_*.xml" to="kernel_*.xml"/>
-		</copy>
-		<move file="${dest-dir}/i18n/kernel_en.xml" tofile="${dest-dir}/i18n/kernel.xml"/>
-	</target>
-
-	<target name="runtime-copyi18n-plugin">
-		<mkdir dir="${dest-dir}/i18n/plugins"/>
-		<copy todir="${dest-dir}/i18n/plugins">
-			<fileset dir="${plugin-dir}/i18n"/>
-			<globmapper from="messages_*.xml" to="core_*.xml"/>
-		</copy>
-		<move file="${dest-dir}/i18n/plugins/core_en.xml" tofile="${dest-dir}/i18n/plugins/core.xml"/>
-	</target>
-
-	<target name="runtime-copyi18n-workspace">
-		<mkdir dir="${dest-dir}/i18n/workspaces"/>
-		<copy todir="${dest-dir}/i18n/workspaces">
-			<fileset dir="${workspace-dir}/i18n"/>
-			<globmapper from="messages_*.xml" to="admin_*.xml"/>
-		</copy>
-		<move file="${dest-dir}/i18n/workspaces/admin_en.xml" tofile="${dest-dir}/i18n/workspaces/admin.xml"/>
-	</target>
-
-	<target name="runtime" depends="prepare-runtime, runtime-compile-kernel, runtime-compile-workspace, runtime-compile-plugin, runtime-copy-kernel, runtime-copy-plugin, runtime-copy-workspace, runtime-kernel-file,  runtime-resources-kernel, runtime-workspace-file, runtime-resources-workspace, runtime-plugin-file, runtime-resources-plugin, runtime-jar, runtime-resources-copy-kernel, runtime-resources-copy-plugin, runtime-resources-copy-workspace, runtime-jarresources, runtime-copyi18n-kernel, runtime-copyi18n-plugin, runtime-copyi18n-workspace"/>
-
 	<target name="runtime-compile-test-env">
 		<!-- Compilation des sources -->
 		<javac debug="true" destdir="${test-env-classes}" encoding="UTF-8" target="${class-vm-target}">
@@ -423,8 +431,6 @@
 		<delete dir="${test-env-classes}"/>
 	</target>
 
-	<target name="runtime-test-env" depends="prepare-runtime, runtime-compile-test-env, runtime-test-env-jar"/>
-
 	<!-- JAVADOC -->
 	<target name="javadoc" if="generate.doc">
 		<mkdir dir="${tmp-javadoc}"/>
@@ -469,7 +475,7 @@
 			additionalparam="-quiet"
 			stylesheetfile="${dest-dir}/javadoc.css"
 			header="&lt;img src='http://ametys.org/styles/telecharger/img/focus_bg.gif'/&gt;"
-			bottom="Copyright &#169; 2009 &lt;a href='http://www.anyware-tech.com'&gt;Anyware Technologies&lt;/a&gt;. All Rights Reserved.">
+			bottom="Copyright &#169; 2009 &lt;a href='http://www.anyware-services.com'&gt;Anyware Services&lt;/a&gt;. All Rights Reserved.">
 			
 			<classpath refid="compile.classpath"/>
 			<link href="http://excalibur.apache.org/apidocs"/>
@@ -482,7 +488,7 @@
 			<manifest>
 		      	<section name="Runtime informations">
 				 	<attribute name="Title" value="Runtime javadoc"/>
-			  	 	<attribute name="Vendor" value="Anyware Technologies"/>
+			  	 	<attribute name="Vendor" value="Anyware Services"/>
 			  	 	<attribute name="Version" value="${ivy-version}"/>
 			  	 	<attribute name="Date" value="${full-timestamp}"/>
 				 	<attribute name="SVN-Revision" value="${svn-revision}"/>
@@ -553,48 +559,6 @@
 		<delete dir="${tmp-javadoc}"/>
 	</target>
 
-	<!-- EXPORT DES DOCUMENTATIONS -->
-	<target name="export-doc" if="generate.doc">
-		<!--
-		<antcall target="launch-replace-doc"/>
-		
-		<taskdef name="export-sxw" classname="org.ametys.runtime.deliver.OOo2PDFTask">
-			<classpath>
-		    	<fileset dir="deliver/lib"/>
-				<pathelement path="${tmp-dir}/classes-deliver"/>
-			</classpath>
-		</taskdef>
-		
-		<export-sxw docDir="${dest-doc}"/>
-		-->
-	</target>	
-	
-	<target name="launch-replace-doc">
-		<mkdir dir="${dest-doc}"/>
-		
-		<copy todir="${dest-doc}">
-			<fileset dir="${docs-dir}/manual">
-				<include name="manual.sxw"/>
-			</fileset>
-		</copy>
-		
-		<antcall target="replace-doc">
-			<param name="doc-name" value="${dest-doc}/manual.sxw"/>
-		</antcall>
-	</target>
-	
-	<!-- on remplace dans les docs la date et la version -->
-	<target name="replace-doc">
-		<mkdir dir="${tmp-unzipped-doc}"/>
-		
-		<unzip src="${doc-name}" dest="${tmp-unzipped-doc}"/>
-		<replace file="${tmp-unzipped-doc}/content.xml" token="@DATE@" value="${doc-timestamp}"/>
-		<replace file="${tmp-unzipped-doc}/content.xml" token="@VERSION@" value="${ivy-version}"/>
-		<zip destfile="${doc-name}" basedir="${tmp-unzipped-doc}"/>		
-		
-		<delete dir="${tmp-unzipped-doc}"/>
-	</target>
-    
     <target name="plugin-doc" if="generate.doc">
         <property name="pluginName" value="core"/>
     
@@ -627,34 +591,17 @@
         </copy>
     </target>
 	
-	<target name="tests">
+	<target name="tests" unless="skip.tests">
 		<mkdir dir="${tmp-dir}/classes-test"/>
-		<mkdir dir="${tmp-dir}/emma"/>
-		<mkdir dir="${dest-doc}/emma"/>
 		
-		<ivy:resolve conf="test" type="jar"/>
 		<ivy:cachepath conf="test" type="jar" pathid="test.classpath"/>
 
-	    <emma>
-	      <instr mode="fullcopy"
-	             destdir="${tmp-dir}/emma"	       
-	             metadatafile="${tmp-dir}/emma/metadata.emma"
-	             merge="no">
-	      	
-	      	<instrpath>
-				<fileset dir="${dest-dir}/ivy/jars" includes="ametys-runtime.jar" />
-	      	</instrpath>
-	      	
-	        <filter includes="org.ametys.runtime.*"/>
-	      </instr>
-	    </emma>
-		
 		<!-- Compilation des tests -->
 		<javac debug="true" destdir="${tmp-dir}/classes-test" encoding="UTF-8" target="${class-vm-target}">
 			<src path="${tests-dir}/src"/>
 			<classpath>
 				<path refid="test.classpath"/>
-				<fileset dir="${tmp-dir}/emma/lib" includes="ametys-runtime.jar" />
+                <fileset dir="${dest-dir}/ivy/jars" includes="ametys-runtime.jar" />
 				<fileset dir="${dest-dir}/ivy/jars" includes="ametys-runtime-test-env.jar" />
 			</classpath>
 		</javac>
@@ -666,58 +613,39 @@
 			</fileset>
 		</copy>
 		
-		<mkdir dir="${dest-doc}/junit"/>
-		<mkdir dir="${dest-doc}/junit/html"/>
+		<mkdir dir="${dest-junit}"/>
+		<mkdir dir="${dest-junit}/html"/>
 		
 		<junit fork="true" dir="." printsummary="yes" haltonfailure="no" failureproperty="junit-failed">
 			<classpath>
-				<path refid="test.classpath"/>
-				<fileset dir="${tmp-dir}/emma/lib" includes="ametys-runtime.jar" />
+                <path refid="test.classpath"/>
+                <path refid="classpath-ametys-tools"/>
 				<fileset dir="${dest-dir}/ivy/jars" includes="ametys-runtime-test-env.jar" />
-				<pathelement location="${tmp-dir}/classes-test"/>
-				<fileset dir="${deliver-dir}/lib" includes="emma*.jar" />
+                <pathelement location="${tmp-dir}/classes-test"/>
+                <pathelement location="${tmp-clover}/classes"/>
 			</classpath>
 			<formatter type="xml"/>
-			<batchtest todir="${dest-doc}/junit">
+			<batchtest todir="${dest-junit}">
 				<fileset dir="${tests-dir}/src">
 					<include name="**/*TestCase.java"/>
 					<exclude name="**/Abstract*.java"/>
 					<exclude name="**/AllTests.java"/>
 				</fileset>
 			</batchtest>
-			
-	      	<jvmarg value="-Demma.coverage.out.file=${tmp-dir}/emma/coverage.emma" />
-	      	<!--jvmarg value="-Demma.coverage.out.merge=false" /-->
 		</junit>
 		
-		<junitreport todir="${dest-doc}/junit">
-		  	<fileset dir="${dest-doc}/junit">
+		<junitreport todir="${dest-junit}">
+		  	<fileset dir="${dest-junit}">
 		    	<include name="TEST-*.xml"/>
 		  	</fileset>
-		  	<report format="frames" todir="${dest-doc}/junit/html"/>
+		  	<report format="frames" todir="${dest-junit}/html"/>
 		</junitreport>
 		
-	    <emma>
-	      <report sort="+block,+name,+method,+class"
-	              metrics="method:70,block:80,line:80,class:100">
-
-	      	<fileset dir="${tmp-dir}/emma" >
-	          <include name="*.emma" />
-	        </fileset>
-	      	
-	      	<sourcepath>
-		    	<pathelement path="${kernel-dir}/src"/>
-		    	<pathelement path="${plugin-dir}/src"/>
-	    		<pathelement path="${workspace-dir}/src"/>
-	      	</sourcepath>
-
-	      	<xml outfile="${dest-doc}/emma/coverage.xml"/>
-	        <html outfile="${dest-doc}/emma/coverage.html"
-	             depth="method"
-	             columns="name,class,method,block,line"
-	        	  sort="+name"/>
-	      </report>
-	    </emma>
+	    <clover:clover-html-report outdir="${dest-clover}" testresultsdir="${dest-junit}"/>
+	    
+	    <clover:clover-report> 
+	        <current outfile="${dest-clover}/current.xml"/> 
+	    </clover:clover-report>
 	</target>
 
 	<target name="remove-javadoc-publishing" unless="generate.doc">
@@ -733,28 +661,6 @@
 		<antcall target="publish" inheritRefs="true"/>
 	</target>
 
-	<target name="check-licence" if="check.licence">
-		<ametys:licence-check>
-			<fileset dir="${kernel-dir}">
-			    <exclude name="**/*.gif"/>
-			    <exclude name="**/*.jpg"/>
-			    <exclude name="**/*.png"/>
-			    <exclude name="**/*.ico"/>
-			    <exclude name="src/org/ametys/runtime/cocoon/treeprocessor-builtins.xml"/>
-			</fileset>
-			<fileset dir="${plugin-dir}">
-			    <exclude name="**/*.png"/>
-			    <exclude name="**/*.gif"/>
-			</fileset>
-			<fileset dir="${workspace-dir}">
-			    <exclude name="**/*.gif"/>
-			    <exclude name="**/*.jpg"/>
-			    <exclude name="**/*.png"/>
-			</fileset>
-		</ametys:licence-check>
-	</target>
-	
-	<!--target name="publish" depends="runtime, javadoc"-->
 	<target name="publish">
 		<ivy:deliver deliverpattern="${dest-dir}/ivy/ivy.xml" pubrevision="${ivy-version}"
 		             status="${project.status}"/>
@@ -764,7 +670,13 @@
 		             overwrite="true"/>
 	</target>
 
-	<target name="build" depends="prepare, check-licence, runtime, runtime-test-env, javadoc, javadoc-test-env, plugin-doc, export-doc"/>
-	<target name="build-and-publish" depends="build, publish, clean"/>
-	<target name="test-and-publish" depends="build, tests, publish-if-failed, publish-if-not-failed, clean"/>
+    <target name="clean">
+        <delete dir="${tmp-dir}"/>
+    </target>
+    
+    <target name="runtime" depends="compile, copy-files, ametys-files, static-resources, jar, copy-resources, jarresources, copy-i18n"/>
+
+    <target name="runtime-test-env" depends="runtime-compile-test-env, runtime-test-env-jar"/>
+
+    <target name="build" depends="prepare, check-license, clover-prepare, runtime, runtime-test-env, javadoc, javadoc-test-env, plugin-doc, tests, publish-if-failed, publish-if-not-failed, clean"/>
 </project>
