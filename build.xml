@@ -15,7 +15,9 @@
    limitations under the License.
    -->
 
+<!-- Set 'common-build' property for selecting the common-build.xml path to use -->
 <!-- Set 'ivy.settings' property for selecting the ivysettings.xml path to use -->
+<!-- Set 'clover.license.path' property for selecting your clover license, if any -->
 
 <!-- Use 'project.status' property for selecting the kind of Ivy release
      integration (default), snapshot, milestone, release) -->
@@ -27,7 +29,7 @@
          xmlns:clover="antlib:com.atlassian.clover"
          xmlns:ivy="antlib:org.apache.ivy.ant">
     
-    <!--import file="common-build.xml"/-->
+    <import file="${common-build}"/>
 	
     <target name="prepare">
     	<!-- Common properties -->
@@ -163,30 +165,17 @@
             <classpath refid="compile.classpath"/>
         </javac>
         
-        <copy todir="${tmp-clover}/classes">
-            <fileset dir="${kernel-dir}/src">
-                <exclude name="**/*.java"/>
-            </fileset>
-            <fileset dir="${plugin-dir}/src">
-                <exclude name="**/*.java"/>
-            </fileset>
-            <fileset dir="${workspace-dir}/src">
-                <exclude name="**/*.java"/>
-            </fileset>
-        </copy>
-
-        <copy file="${kernel-dir}/sitemap.xmap" todir="${tmp-clover}/classes/org/ametys/runtime/kernel"/>
+        <antcall target="copy-files" inheritrefs="true">
+            <param name="classes" value="${tmp-clover}/classes"/>
+        </antcall>
         
-        <copy file="${workspace-dir}/workspace.xml" todir="${tmp-clover}/classes/org/ametys/runtime/workspaces/admin"/>
-        <copy file="${workspace-dir}/sitemap.xmap" todir="${tmp-clover}/classes/org/ametys/runtime/workspaces/admin"/>
+        <antcall target="ametys-files" inheritrefs="true">
+            <param name="classes" value="${tmp-clover}/classes"/>
+        </antcall>
         
-        <ametys:resource-file destFile="${tmp-clover}/classes/META-INF/runtime-workspace" name="admin" uri="/org/ametys/runtime/workspaces/admin"/>
-        
-        <copy file="${plugin-dir}/plugin.xml" todir="${tmp-clover}/classes/org/ametys/runtime/plugins/core"/>
-        <copy file="${plugin-dir}/sitemap.xmap" todir="${tmp-clover}/classes/org/ametys/runtime/plugins/core"/>
-        
-        <ametys:resource-file destFile="${tmp-clover}/classes/META-INF/runtime-plugin" name="core" uri="/org/ametys/runtime/plugins/core"/>
-        <ametys:resource-file destFile="${tmp-clover}/classes/META-INF/runtime-schema" name="http://www.ametys.org/schema/plugin-2.0.xsd" uri="/org/ametys/runtime/plugin/plugin.xsd"/>
+        <antcall target="static-resources" inheritrefs="true">
+            <param name="classes" value="${tmp-clover}/classes"/>
+        </antcall>
     </target>
     
     <target name="compile">
@@ -287,7 +276,7 @@
 			<manifest>
 		      	<section name="Runtime informations">
 				 	<attribute name="Title" value="Runtime"/>
-			  	 	<attribute name="Vendor" value="Anyware Technologies"/>
+			  	 	<attribute name="Vendor" value="Anyware Services"/>
 			  	 	<attribute name="Version" value="${ivy-version}"/>
 			  	 	<attribute name="Date" value="${full-timestamp}"/>
 				 	<attribute name="SVN-Revision" value="${svn-revision}"/>
@@ -295,7 +284,7 @@
 		      	</section>
 			</manifest>	
 		</jar>
-		
+	    
 		<jar jarfile="${dest-dir}/ivy/sources/ametys-runtime.jar">
 			<fileset dir="${kernel-dir}/src">
 				<include name="**/*.java"/>
@@ -310,7 +299,7 @@
 			<manifest>
 		      	<section name="Runtime informations">
 				 	<attribute name="Title" value="Runtime sources"/>
-			  	 	<attribute name="Vendor" value="Anyware Technologies"/>
+			  	 	<attribute name="Vendor" value="Anyware Services"/>
 			  	 	<attribute name="Version" value="${ivy-version}"/>
 			  	 	<attribute name="Date" value="${full-timestamp}"/>
 				 	<attribute name="SVN-Revision" value="${svn-revision}"/>
@@ -403,7 +392,7 @@
 			<manifest>
 		      	<section name="Runtime informations">
 				 	<attribute name="Title" value="Runtime test environment"/>
-			  	 	<attribute name="Vendor" value="Anyware Technologies"/>
+			  	 	<attribute name="Vendor" value="Anyware Services"/>
 			  	 	<attribute name="Version" value="${ivy-version}"/>
 			  	 	<attribute name="Date" value="${full-timestamp}"/>
 				 	<attribute name="SVN-Revision" value="${svn-revision}"/>
@@ -420,7 +409,7 @@
 			<manifest>
 		      	<section name="Runtime informations">
 				 	<attribute name="Title" value="Runtime test environment sources"/>
-			  	 	<attribute name="Vendor" value="Anyware Technologies"/>
+			  	 	<attribute name="Vendor" value="Anyware Services"/>
 			  	 	<attribute name="Version" value="${ivy-version}"/>
 			  	 	<attribute name="Date" value="${full-timestamp}"/>
 				 	<attribute name="SVN-Revision" value="${svn-revision}"/>
@@ -531,7 +520,7 @@
 			additionalparam="-quiet"
 			stylesheetfile="${dest-dir}/javadoc.css"
 			header="&lt;img src='http://ametys.org/styles/telecharger/img/focus_bg.gif'/&gt;"
-			bottom="Copyright &#169; 2009 &lt;a href='http://www.anyware-tech.com'&gt;Anyware Technologies&lt;/a&gt;. All Rights Reserved.">
+			bottom="Copyright &#169; 2009 &lt;a href='http://www.anyware-tech.com'&gt;Anyware Services&lt;/a&gt;. All Rights Reserved.">
 
 			<classpath>
 				<path refid="test.env.classpath"/>
@@ -548,7 +537,7 @@
 			<manifest>
 		      	<section name="Runtime informations">
 				 	<attribute name="Title" value="Runtime test environment javadoc"/>
-			  	 	<attribute name="Vendor" value="Anyware Technologies"/>
+			  	 	<attribute name="Vendor" value="Anyware Services"/>
 			  	 	<attribute name="Version" value="${ivy-version}"/>
 			  	 	<attribute name="Date" value="${full-timestamp}"/>
 				 	<attribute name="SVN-Revision" value="${svn-revision}"/>
