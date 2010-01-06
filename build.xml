@@ -134,6 +134,7 @@
                 <exclude name="**/*.png"/>
                 <exclude name="**/*.ico"/>
                 <exclude name="src/org/ametys/runtime/cocoon/treeprocessor-builtins.xml"/>
+            	<exclude name="resources/js/mozxpath.js"/>
             </fileset>
             <fileset dir="${plugin-dir}">
                 <exclude name="**/*.png"/>
