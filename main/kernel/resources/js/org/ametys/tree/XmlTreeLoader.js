@@ -22,8 +22,23 @@ Ext.namespace('org.ametys.tree');
  */
 org.ametys.tree.XmlTreeLoader = Ext.extend(Ext.ux.tree.XmlTreeLoader, {});
 
-org.ametys.tree.XmlTreeLoader.prototype.processAttributes = function(attr, node)
+org.ametys.tree.XmlTreeLoader.prototype._nodeTags;
+
+org.ametys.tree.XmlTreeLoader.prototype.createNode = function(node)
 {
+	this._currentXMLNode = node;
+	
+	var treeNode = org.ametys.tree.XmlTreeLoader.superclass.createNode.call(this, node);
+	
+	delete this._currentXMLNode;
+	
+	return treeNode;
+};
+
+org.ametys.tree.XmlTreeLoader.prototype.processAttributes = function(attr)
+{
+	var node = this._currentXMLNode;
+	
 	Ext.each(node.childNodes, 
 		function(n) 
 		{
@@ -36,4 +51,43 @@ org.ametys.tree.XmlTreeLoader.prototype.processAttributes = function(attr, node)
 			}
 		}, 
 		this);
+}
+
+org.ametys.tree.XmlTreeLoader.prototype.parseXml = function(node) 
+{
+	var nodes = [];
+	
+	Ext.each(
+		node.childNodes, 
+		function(n) 
+		{
+			if (n.nodeType == this.XML_NODE_ELEMENT && (this._nodeTags == null || (this._nodeTags != null && this._nodeTags[n.tagName] != null))) 
+			{
+				var treeNode = this.createNode(n);
+				if (n.childNodes.length > 0) 
+				{
+					var child = this.parseXml(n);
+					if (typeof child == 'string') 
+					{
+						treeNode.attributes.innerText = child;
+					}
+					else 
+					{
+						treeNode.appendChild(child);
+					}
+				}
+				nodes.push(treeNode);
+			} 
+			else if (n.nodeType == this.XML_NODE_TEXT) 
+			{
+				var text = n.nodeValue.trim();
+				if (text.length > 0) 
+				{
+					return nodes = text;
+				}
+			}
+		}, 
+		this);
+
+	return nodes;
 }
