@@ -173,7 +173,8 @@
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/Utility.js"><xsl:comment>empty</xsl:comment></script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/HtmlContainer.js"><xsl:comment></xsl:comment></script>
         
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Ext/ux/form/FileUploadField.js"><xsl:comment>empty</xsl:comment></script>
+ 		<script type="text/javascript" src="{$contextPath}/plugins/extjs/resources/ux/js/XmlTreeLoader.js"><xsl:comment>empty</xsl:comment></script>
+        <script type="text/javascript" src="{$contextPath}/plugins/extjs/resources/ux/js/fileuploadfield/FileUploadField.js"><xsl:comment>empty</xsl:comment></script>
         
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/TextField.js"><xsl:comment>empty</xsl:comment></script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/TextAreaField.js"><xsl:comment>empty</xsl:comment></script>
@@ -185,8 +186,6 @@
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/DateField.js"><xsl:comment>empty</xsl:comment></script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/ComboField.js"><xsl:comment>empty</xsl:comment></script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/FileUploadField.js"><xsl:comment>empty</xsl:comment></script>
-
- 		<script type="text/javascript" src="{$contextPath}/plugins/extjs/resources/ux/js/XmlTreeLoader.js"><xsl:comment>empty</xsl:comment></script>
  		<script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/tree/XmlTreeLoader.js"><xsl:comment>empty</xsl:comment></script>
 				
 		<script type="text/javascript"  src="{$contextPath}/kernel/resources/js/org/ametys/servercomm/TimeoutDialog.i18n.js"><xsl:comment>empty</xsl:comment></script>
