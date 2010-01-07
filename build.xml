@@ -550,38 +550,6 @@
 		<delete dir="${tmp-javadoc}"/>
 	</target>
 
-    <target name="plugin-doc" if="generate.doc">
-        <property name="pluginName" value="core"/>
-    
-        <xslt in="${plugin-dir}/plugin.xml" style="${deliver-dir}/plugindoc/plugin2doc.xsl" out="${dest-doc}/plugin/index.html">
-            <param name="pluginName" expression="${pluginName}"/>
-        </xslt>
-        <xslt in="${plugin-dir}/plugin.xml" style="${deliver-dir}/plugindoc/plugin2doc_main.xsl" out="${dest-doc}/plugin/${pluginName}_main.html">
-            <param name="pluginName" expression="${pluginName}"/>
-        </xslt>
-        <xslt in="${plugin-dir}/plugin.xml" style="${deliver-dir}/plugindoc/plugin2doc_main_configuration.xsl" out="${dest-doc}/plugin/${pluginName}_main_configuration.html">
-            <param name="pluginName" expression="${pluginName}"/>
-        </xslt>
-        <xslt in="${plugin-dir}/plugin.xml" style="${deliver-dir}/plugindoc/plugin2doc_main_extensions.xsl" out="${dest-doc}/plugin/${pluginName}_main_extensions.html">
-            <param name="pluginName" expression="${pluginName}"/>
-        </xslt>
-        <xslt in="${plugin-dir}/plugin.xml" style="${deliver-dir}/plugindoc/plugin2doc_main_features.xsl" out="${dest-doc}/plugin/${pluginName}_main_features.html">
-            <param name="pluginName" expression="${pluginName}"/>
-        </xslt>
-        <xslt in="${plugin-dir}/plugin.xml" style="${deliver-dir}/plugindoc/plugin2doc_configuration.xsl" out="${dest-doc}/plugin/${pluginName}_configuration.html">
-            <param name="pluginName" expression="${pluginName}"/>
-        </xslt>
-        <xslt in="${plugin-dir}/plugin.xml" style="${deliver-dir}/plugindoc/plugin2doc_extensions.xsl" out="${dest-doc}/plugin/${pluginName}_extensions.html">
-            <param name="pluginName" expression="${pluginName}"/>
-        </xslt>
-        <xslt in="${plugin-dir}/plugin.xml" style="${deliver-dir}/plugindoc/plugin2doc_features.xsl" out="${dest-doc}/plugin/${pluginName}_features.html">
-            <param name="pluginName" expression="${pluginName}"/>
-        </xslt>
-        <copy todir="${dest-doc}/plugin/resources">
-            <fileset dir="${deliver-dir}/plugindoc/resources"/>
-        </copy>
-    </target>
-	
 	<target name="tests" unless="skip.tests">
 		<mkdir dir="${tmp-dir}/classes-test"/>
 		
@@ -665,9 +633,9 @@
         <delete dir="${tmp-dir}"/>
     </target>
     
-    <target name="runtime" depends="compile, copy-files, ametys-files, static-resources, jar, copy-resources, jarresources, copy-i18n"/>
+    <target name="runtime" depends="compile, copy-files, ametys-files, static-resources, jar, copy-resources, jarresources, copy-i18n, javadoc"/>
 
-    <target name="runtime-test-env" depends="runtime-compile-test-env, runtime-test-env-jar"/>
+    <target name="runtime-test-env" depends="runtime-compile-test-env, runtime-test-env-jar, javadoc-test-env"/>
 
-    <target name="build" depends="prepare, check-license, clover-prepare, runtime, runtime-test-env, javadoc, javadoc-test-env, tests, publish-if-failed, publish-if-not-failed, clean"/>
+    <target name="build" depends="prepare, check-license, clover-prepare, runtime, runtime-test-env, tests, publish-if-failed, publish-if-not-failed, clean"/>
 </project>
