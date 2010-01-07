@@ -25,10 +25,11 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 /**
  * Simple memory cache with a thread clearing the cache every day.
+ * @param <T> the type of objects cached by this component.
  */
-public class CachingComponent extends AbstractLogEnabled implements Initializable
+public class CachingComponent<T> extends AbstractLogEnabled implements Initializable
 {
-    private Map<String, Object> _objects = new HashMap<String, Object>();
+    private Map<String, T> _objects = new HashMap<String, T>();
     
     public void initialize() throws Exception
     {
@@ -53,9 +54,9 @@ public class CachingComponent extends AbstractLogEnabled implements Initializabl
      * @param key the object's key.
      * @return the object from cache.
      */
-    protected Object getObjectFromCache(String key)
+    protected T getObjectFromCache(String key)
     {
-        Object object = _objects.get(key);
+        T object = _objects.get(key);
         
         if (getLogger().isDebugEnabled())
         {
@@ -70,7 +71,7 @@ public class CachingComponent extends AbstractLogEnabled implements Initializabl
      * @param key the object's key.
      * @param object the object to be cached.
      */
-    protected void addObjectInCache(String key, Object object)
+    protected void addObjectInCache(String key, T object)
     {
         if (getLogger().isDebugEnabled())
         {
