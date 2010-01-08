@@ -24,7 +24,7 @@
 <!-- Use 'generate.doc' property in order to generate doc -->
 <!-- Use 'skip.tests' property in order to skip tests -->
 <!-- Use 'check.license' property in order to check licenses -->
-<project name="runtime" default="build"
+<project name="runtime" default="build-and-publish"
          xmlns:ametys="antlib:org.ametys.tools"
          xmlns:clover="antlib:com.atlassian.clover"
          xmlns:ivy="antlib:org.apache.ivy.ant">
