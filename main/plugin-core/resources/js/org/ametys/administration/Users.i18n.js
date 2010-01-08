@@ -340,7 +340,7 @@ org.ametys.administration.Users.search = function ()
 
 	
 	var searchField = org.ametys.administration.Users._searchForm.getForm().findField("searchField");
-	var searchValue = searchField.getValue() == '<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCH_CRITERIA"/>' ? '' : searchField;
+	var searchValue = searchField.getValue() == '<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCH_CRITERIA"/>' ? '' : searchField.getValue();
 	
     var url = getPluginDirectUrl(org.ametys.administration.Users.pluginName) + "/users/search.xml";
     var arg = "criteria=" + encodeURIComponent(searchValue);
