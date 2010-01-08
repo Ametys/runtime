@@ -15,13 +15,12 @@
    limitations under the License.
    -->
 
-<!-- Set 'common-build' property for selecting the common-build.xml path to use -->
 <!-- Set 'ivy.settings' property for selecting the ivysettings.xml path to use -->
 <!-- Set 'clover.license.path' property for selecting your clover license, if any -->
 
 <!-- Use 'project.status' property for selecting the kind of Ivy release
      integration (default), snapshot, milestone, release) -->
-<!-- Use 'generate.doc' property in order to generate doc -->
+<!-- Use 'skip.docs' property in order to skip docs -->
 <!-- Use 'skip.tests' property in order to skip tests -->
 <!-- Use 'check.license' property in order to check licenses -->
 <project name="runtime" default="build-and-publish"
@@ -29,8 +28,6 @@
          xmlns:clover="antlib:com.atlassian.clover"
          xmlns:ivy="antlib:org.apache.ivy.ant">
     
-    <import file="${common-build}"/>
-	
     <target name="prepare">
     	<!-- Common properties -->
     	<property environment="env"/>
@@ -423,7 +420,7 @@
 	</target>
 
 	<!-- JAVADOC -->
-	<target name="javadoc" if="generate.doc">
+	<target name="javadoc" unless="skip.docs">
 		<mkdir dir="${tmp-javadoc}"/>
 
 		<copy todir="${tmp-javadoc}">
@@ -492,7 +489,7 @@
 	</target>
 
 	<!-- JAVADOC -->
-	<target name="javadoc-test-env"  if="generate.doc">
+	<target name="javadoc-test-env"  unless="skip.docs">
 		<mkdir dir="${tmp-javadoc}"/>
 
 		<copy todir="${tmp-javadoc}">
@@ -607,7 +604,7 @@
 	    </clover:clover-report>
 	</target>
 
-	<target name="remove-javadoc-publishing" unless="generate.doc">
+	<target name="remove-javadoc-publishing" if="skip.docs">
 		<replaceregexp file="${dest-dir}/ivy/ivy.xml" match="&lt;artifact.*type=&quot;javadoc&quot;.*/>"
 		               replace="" byline="true"/>
 	</target>
