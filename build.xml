@@ -633,9 +633,9 @@
         <delete dir="${tmp-dir}"/>
     </target>
     
-    <target name="runtime" depends="compile, copy-files, ametys-files, static-resources, jar, copy-resources, jarresources, copy-i18n, javadoc"/>
+    <target name="build" depends="compile, copy-files, ametys-files, static-resources, jar, copy-resources, jarresources, copy-i18n, javadoc"/>
 
     <target name="runtime-test-env" depends="runtime-compile-test-env, runtime-test-env-jar, javadoc-test-env"/>
 
-    <target name="build" depends="prepare, check-license, clover-prepare, runtime, runtime-test-env, tests, publish-if-failed, publish-if-not-failed, clean"/>
+    <target name="build-and-publish" depends="prepare, check-license, clover-prepare, build, runtime-test-env, tests, publish-if-failed, publish-if-not-failed, clean"/>
 </project>
