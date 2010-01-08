@@ -134,6 +134,7 @@
 	background-color: #FFF !important;
 	background-image: none !important;
 	height: 20px !important;
+	padding: 4px 0px 0px 9px !important;
 }
 
 .ametys-input textarea {
