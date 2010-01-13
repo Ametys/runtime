@@ -250,9 +250,9 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
     }
     
     @Override
-    public Script getScript()
+    public Script getScript(Map<String, Object> contextParameters)
     {
-        if (!hasRight(getRight()))
+        if (!hasRight(getRight(contextParameters)))
         {
             return null;
         }
@@ -260,7 +260,7 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
     }
 
     @Override
-    public String getRight()
+    public String getRight(Map<String, Object> contextParameters)
     {
         return _right;
     }

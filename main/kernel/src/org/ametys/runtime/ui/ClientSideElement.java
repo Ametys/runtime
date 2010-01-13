@@ -28,16 +28,18 @@ public interface ClientSideElement
     /**
      * This method return the script that will be used on client side.
      * This class will be parametrized by initial and current parameters.
+     * @param contextParameters Contextuals parameters transmitted by the environment.
      * @return The script. Can not be null.
      */
-    public Script getScript();
+    public Script getScript(Map<String, Object> contextParameters);
     
     /**
      * This method return the right that will be needed on client side.
      * This class will be parametrized by initial and current parameters.
+     * @param contextParameters Contextuals parameters transmitted by the environment.
      * @return The right. Can be null.
      */
-    public String getRight();
+    public String getRight(Map<String, Object> contextParameters);
     
     /**
      * This method returns the parameters initially given to the control script class.

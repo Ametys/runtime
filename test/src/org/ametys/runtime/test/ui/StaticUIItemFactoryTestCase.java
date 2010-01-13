@@ -63,13 +63,13 @@ public class StaticUIItemFactoryTestCase extends AbstractRuntimeTestCase
         assertNotNull(itemFactory1);
         assertTrue(itemFactory1 instanceof StaticClientSideElement);
         // action
-        assertNotNull(itemFactory1.getScript().getScriptClassname());
+        assertNotNull(itemFactory1.getScript(null).getScriptClassname());
         assertNotNull(itemFactory1.getParameters(null));
         assertEquals(5, itemFactory1.getParameters(null).size());
-        assertEquals("JavascriptClass", itemFactory1.getScript().getScriptClassname());
-        assertNotNull(itemFactory1.getScript().getScriptFiles());
-        assertEquals(1, itemFactory1.getScript().getScriptFiles().size());
-        assertEquals("/plugins/staticuiitemfactorytest/resources/js/script.js", itemFactory1.getScript().getScriptFiles().iterator().next());
+        assertEquals("JavascriptClass", itemFactory1.getScript(null).getScriptClassname());
+        assertNotNull(itemFactory1.getScript(null).getScriptFiles());
+        assertEquals(1, itemFactory1.getScript(null).getScriptFiles().size());
+        assertEquals("/plugins/staticuiitemfactorytest/resources/js/script.js", itemFactory1.getScript(null).getScriptFiles().iterator().next());
         // label
         assertNotNull(itemFactory1.getParameters(null).get("label"));
         assertTrue(itemFactory1.getParameters(null).get("label").isI18n());
@@ -102,12 +102,12 @@ public class StaticUIItemFactoryTestCase extends AbstractRuntimeTestCase
         assertNotNull(itemFactory3);
         assertTrue(itemFactory3 instanceof StaticClientSideElement);
         // action
-        assertNotNull(itemFactory3.getScript().getScriptClassname());
+        assertNotNull(itemFactory3.getScript(null).getScriptClassname());
         assertNotNull(itemFactory3.getParameters(null));
         assertEquals(7, itemFactory3.getParameters(null).size());
         assertEquals("myurl.html", itemFactory3.getParameters(null).get("Link").toString());
-        assertNotNull(itemFactory3.getScript().getScriptFiles());
-        assertEquals(0, itemFactory3.getScript().getScriptFiles().size());
+        assertNotNull(itemFactory3.getScript(null).getScriptFiles());
+        assertEquals(0, itemFactory3.getScript(null).getScriptFiles().size());
         // label
         assertNotNull(itemFactory3.getParameters(null).get("label"));
         assertTrue(itemFactory3.getParameters(null).get("label").isI18n());
@@ -139,13 +139,13 @@ public class StaticUIItemFactoryTestCase extends AbstractRuntimeTestCase
         assertNotNull(itemFactory4);
         assertTrue(itemFactory4 instanceof StaticClientSideElement);
         // action
-        assertNotNull(itemFactory4.getScript().getScriptClassname());
+        assertNotNull(itemFactory4.getScript(null).getScriptClassname());
         assertNotNull(itemFactory4.getParameters(null));
         assertEquals(5, itemFactory4.getParameters(null).size());
-        assertEquals("OtherJavascriptClass", itemFactory4.getScript().getScriptClassname());
-        assertNotNull(itemFactory4.getScript().getScriptFiles());
-        assertEquals(1, itemFactory4.getScript().getScriptFiles().size());
-        assertEquals("/plugins/core/resources/js/script.js", itemFactory4.getScript().getScriptFiles().iterator().next());
+        assertEquals("OtherJavascriptClass", itemFactory4.getScript(null).getScriptClassname());
+        assertNotNull(itemFactory4.getScript(null).getScriptFiles());
+        assertEquals(1, itemFactory4.getScript(null).getScriptFiles().size());
+        assertEquals("/plugins/core/resources/js/script.js", itemFactory4.getScript(null).getScriptFiles().iterator().next());
         assertEquals("staticuiitemfactorytest", itemFactory4.getPluginName());
         // label
         assertNotNull(itemFactory4.getParameters(null).get("label"));

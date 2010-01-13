@@ -60,7 +60,7 @@ public class SAXClientSideElementHelper extends AbstractLogEnabled implements Co
      */
     public void saxDefinition(String clientSideElementId, String tagName, ClientSideElement element, ContentHandler handler, Map<String, Object> contextualParameters) throws SAXException
     {
-        Script script = element.getScript();
+        Script script = element.getScript(contextualParameters);
         
         if (script != null)
         {
