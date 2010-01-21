@@ -29,6 +29,10 @@
 	margin-right: 7px;
 }
 
+fieldset.system .x-fieldset-body  {
+	background: none !important;
+}
+
 .list-view .x-grid3 {
 	background: none !important;
 }

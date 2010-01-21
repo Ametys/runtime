@@ -48,8 +48,8 @@ org.ametys.administration.System.createPanel = function ()
 		id: 'list-view-announce',
 		
 		baseCls : 'list-view',
-	    width : 500,
-	    height: 400,
+	    /*width : 500,
+	    height: 400,*/
 		autoScroll: true,	
 		
 		viewConfig: {
@@ -76,6 +76,8 @@ org.ametys.administration.System.createPanel = function ()
 	
 	org.ametys.administration.System._fieldSet = new Ext.form.FieldSet({
 		region:'center',
+		layout: 'border',
+		cls: 'system',
 		
 		title : "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_CHECK"/>",
 		checkboxToggle: true,
@@ -93,16 +95,16 @@ org.ametys.administration.System.createPanel = function ()
 		
 		baseCls: 'transparent-panel',
 		border: false,
-		autoScroll: true,
 		
 		items: [org.ametys.administration.System._fieldSet, org.ametys.administration.System._contextualPanel]
 	});
 	
 }
 
-org.ametys.administration.System._onExpand = function()
+org.ametys.administration.System._onExpand = function(panel)
 {
 	org.ametys.administration.System._actions.show();	
+	panel.doLayout();
 }
 
 org.ametys.administration.System._onCollapse = function()
