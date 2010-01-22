@@ -134,5 +134,6 @@
     </release>
     <release name="1.1.11">
     	<note module="kernel" type="update">RUNTIME-290 : Accept IE8 in admin</note>
+    	<note module="kernel" type="update">RUNTIME-399 : Add Firefox 3.6 to the list of acceptable browsers</note>
     </release>
 </releases>

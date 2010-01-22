@@ -88,6 +88,7 @@
         <xsl:param name="accept-ff-2.0">true</xsl:param>
         <xsl:param name="accept-ff-3.0">false</xsl:param>
         <xsl:param name="accept-ff-3.5">false</xsl:param>
+        <xsl:param name="accept-ff-3.6">false</xsl:param>
     
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Tools.js"><xsl:comment>empty</xsl:comment></script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/mozxpath.js"><xsl:comment>empty</xsl:comment></script>
@@ -117,6 +118,7 @@
                     <xsl:if test="$accept-ff-2.0 = 'true'">(STools.agt.indexOf("firefox/2.0")) > 0 ||</xsl:if>
                     <xsl:if test="$accept-ff-3.0 = 'true'">(STools.agt.indexOf("firefox/3.0")) > 0 ||</xsl:if>
                     <xsl:if test="$accept-ff-3.5 = 'true'">(STools.agt.indexOf("firefox/3.5")) > 0 ||</xsl:if>
+                    <xsl:if test="$accept-ff-3.6 = 'true'">(STools.agt.indexOf("firefox/3.6")) > 0 ||</xsl:if>
                     1 == 0))
                 {
                 	// Check the cookie for forcing non supported navigators
