@@ -61,6 +61,7 @@
                     <xsl:with-param name="accept-ff-2.0">true</xsl:with-param>
                     <xsl:with-param name="accept-ff-3.0">true</xsl:with-param>
                     <xsl:with-param name="accept-ff-3.5">true</xsl:with-param>
+                    <xsl:with-param name="accept-ff-3.6">true</xsl:with-param>
 	                <xsl:with-param name="accept-sa-3">true</xsl:with-param>
 	                <xsl:with-param name="accept-sa-4">true</xsl:with-param>
 	                <xsl:with-param name="accept-op-9">true</xsl:with-param>
