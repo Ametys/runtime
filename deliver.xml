@@ -17,7 +17,7 @@
         <property name="workspace-template-dir" location="${templates-dir}/workspace"/>
 
 		<property name="smtpServer" value="mail"/>
-		<property name="destinataires" value="cms-dev@lists.anyware-tech.com"/>
+		<property name="destinataires" value="dev@lists.anyware-services.com"/>
 		<property name="webServer" value="http://livraisons/links/Ametys/Runtime"/>
 		
 		<delete dir="${target}"/>
