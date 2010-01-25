@@ -191,7 +191,12 @@
                             link.setAttribute("inherited", "" + inherited);
                             link.setAttribute("level", mode.toUpperCase());
                         
-                            SUtilities.getDirectChildrenByTagName(link.parentNode, "img")[0].src = "<xsl:value-of select="$resourcesPath"/>/img/administrator/logs/loglevel_" + mode.toLowerCase() + (inherited == "true" ? "_inherited" : "") + ".gif";
+                        	var imgSuffix = mode.toLowerCase();
+                        	if (imgSuffix == "warning")
+                        	{
+                        		imgSuffix = "warn";
+                        	}
+                            SUtilities.getDirectChildrenByTagName(link.parentNode, "img")[0].src = "<xsl:value-of select="$resourcesPath"/>/img/administrator/logs/loglevel_" + imgSuffix + (inherited == "true" ? "_inherited" : "") + ".gif";
                         }
                         
                         if (selection)
