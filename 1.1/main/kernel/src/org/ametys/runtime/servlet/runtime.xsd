@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--+
+    | Copyright (c) 2007 Anyware Technologies and others.
+    | All rights reserved. This program and the accompanying materials
+    | are made available under the terms of the Eclipse Public License v1.0
+    | which accompanies this distribution, and is available at
+    | http://www.opensource.org/licenses/eclipse-1.0.php
+    | 
+    | Contributors:
+    |     Anyware Technologies - initial API and implementation
+    +-->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:element name="runtime" type="runtime">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+                <![CDATA[
+                    The root element of the runtime file.
+                ]]>
+            </xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:complexType name="runtime">
+        <xsd:all>
+            <xsd:element name="application" type="application">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            Information about the current application.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="initClass" maxOccurs="1" minOccurs="0" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                        	Optional reference to a class that will be executed once the initialisation of the application is over.<br/>
+                            The class is an avalon component that must inherit org.ametys.runtime.plugin.Init
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="incompleteConfig" type="config">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            Configuration of the behavior of a starting application that is not configured.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="plugins" type="plugins" maxOccurs="1" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            Configuration of the plugins engine.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="workspaces" type="workspaces" maxOccurs="1" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            Configuration of the workspaces engine.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="extensions" type="extensions" maxOccurs="1" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            Choosen implementations for the single extension points.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:all>
+    </xsd:complexType>
+
+    <xsd:complexType name="application">
+        <xsd:all>
+            <xsd:element name="version" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            Version of the current application (e.g. '1.0.0').<br/>
+                            You can get this value using org.ametys.runtime.servlet.RuntimeConfig.getInstance().getApplicationVersion()
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="date" type="xsd:string" maxOccurs="1" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            Date of the release of the current application. The format is yyyyMMdd'T'HHmm (e.g. 20070601T1530 for the 1st of june 2007 at 3:30pm)<br/>
+                            You can get this value using org.ametys.runtime.servlet.RuntimeConfig.getInstance().getApplicationBuildDate()
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:all>
+    </xsd:complexType>
+
+    <xsd:complexType name="extensions">
+		<xsd:sequence>
+			<xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="workspaces">
+        <xsd:all>
+            <xsd:element name="exclude" type="excludedWorkspace" maxOccurs="1" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            Workspaces to disable.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:all>
+        <xsd:attribute name="default" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                        This attribute defines the default workspace, that can be accessed directly (without the '_<workspaceName>'). 
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>        
+    </xsd:complexType>
+    
+    <xsd:complexType name="plugins">
+        <xsd:all>
+            <xsd:element name="exclude" type="excludedFeatures" maxOccurs="1" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                        	Disabled features.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="locations" type="pluginsLocations" maxOccurs="1" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                        	Location of plugins directories in the webapp context.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:all>
+    </xsd:complexType>
+
+    <xsd:complexType name="excludedWorkspace">
+        <xsd:sequence>
+            <xsd:element name="workspace" type="xsd:string" maxOccurs="unbounded" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            Name of a workspace to disable.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="excludedFeatures">
+        <xsd:sequence>
+            <xsd:element name="feature" type="xsd:string" maxOccurs="unbounded" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                        	Full name of a feature that will be disabled.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="pluginsLocations">
+        <xsd:sequence>
+            <xsd:element name="location" type="xsd:string" maxOccurs="unbounded" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            Name of a directory where to look for plugins, in addition to the default 'plugins' directory.<br/>
+                            The directory is relative to the webapp.<br/>
+                            There is no particular need to define many different plugins locations, except to classify them.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="config">
+        <xsd:all>
+            <xsd:element name="redirectURL" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            Internal URL used to redirect the client when the application is started incompletly.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="allowedURLs" type="allowedURLs">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            Contains the list of authorized URLs when the application is started incompletly.<br/>
+                            Resources url and configuration view url must be part of it.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:all>
+    </xsd:complexType>
+
+    <xsd:complexType name="allowedURLs">
+        <xsd:sequence>
+            <xsd:element name="allowedURL" type="xsd:string" maxOccurs="unbounded" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            An authorized URL that will be handled even if the application configuration is not complete.<br/>
+                            Be careful to test this URL in these case because when the application is not started correctly most of the components are not loaded.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

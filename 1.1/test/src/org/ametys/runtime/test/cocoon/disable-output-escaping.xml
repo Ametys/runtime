@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html>
+	<head>
+	</head>
+	<body>
+		<p>toto</p>
+		<div><?javax.xml.transform.disable-output-escaping ?>&lt;p&gt;mon contenu&lt;/p&gt;<?javax.xml.transform.enable-output-escaping ?></div>
+		<span>titi</span>
+		<div>non escaped <?javax.xml.transform.disable-output-escaping ?>&lt;textarea/&gt;&lt;div/&gt;<?javax.xml.transform.enable-output-escaping ?>and escaped</div>
+		<div>tata</div>
+	</body>
+</html>

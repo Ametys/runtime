@@ -1,0 +1,130 @@
+dn: uid=user1,ou=people,dc=ametys-test-groups,dc=org
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+sn: USER1
+cn: USER1 User1
+givenName: User1
+uid: user1
+mail: user1@ametys.org
+userPassword: user1
+
+dn: uid=user2,ou=people,dc=ametys-test-groups,dc=org
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+sn: USER2
+cn: USER2 User2
+givenName: User2
+uid: user2
+mail: user2@ametys.org
+userPassword: user2
+
+dn: uid=user3,ou=people,dc=ametys-test-groups,dc=org
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+sn: USER3
+cn: USER3 User3
+givenName: User3
+uid: user3
+mail: user3@ametys.org
+userPassword: user3
+
+dn: uid=user4,ou=people,dc=ametys-test-groups,dc=org
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+sn: USER4
+cn: USER4 User4
+givenName: User4
+uid: user4
+mail: user4@ametys.org
+userPassword: user4
+
+dn: uid=user5,ou=people,dc=ametys-test-groups,dc=org
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+sn: USER5
+cn: USER5 User5
+givenName: User5
+uid: user5
+mail: user5@ametys.org
+userPassword: user5
+
+dn: uid=user6,ou=people,dc=ametys-test-groups,dc=org
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+sn: USER6
+cn: USER6 User6
+givenName: User6
+uid: user6
+mail: user6@ametys.org
+userPassword: user6
+
+dn: uid=user7,ou=people,dc=ametys-test-groups,dc=org
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+sn: USER7
+cn: USER7 User7
+givenName: User7
+uid: user7
+mail: user7@ametys.org
+userPassword: user7
+
+dn: uid=user8,ou=people,dc=ametys-test-groups,dc=org
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+sn: USER8
+cn: USER8 User8
+givenName: User8
+uid: user8
+mail: user8@ametys.org
+userPassword: user8
+
+dn: uid=user9,ou=people,dc=ametys-test-groups,dc=org
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+sn: USER9
+cn: USER9 User9
+givenName: User9
+uid: user9
+mail: user9@ametys.org
+userPassword: user9
+
+dn: uid=user10,ou=people,dc=ametys-test-groups,dc=org
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+sn: USER10
+cn: USER10 User10
+givenName: User10
+uid: user10
+mail: user10@ametys.org
+userPassword: user10
+
+dn: uid=user0,ou=people,dc=ametys-test-groups,dc=org
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+sn: USER0
+cn: USER0 User0
+givenName: User0
+mail: user0@ametys.org
+userPassword: user0

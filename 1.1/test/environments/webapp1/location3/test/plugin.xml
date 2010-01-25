@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<plugin  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:noNamespaceSchemaLocation="http://ametys.org/Runtime/1.1/plugin.xsd" runtimeVersion="1.1">
+    <feature name="test-feature" depends="core/unexisting.feature"/>
+    <feature name="test-feature2" depends="core/runtime.core"/>
+    <feature name="test-feature3"/>
+    <feature name="test-feature4">
+        <extensions>
+            <extension point="org.ametys.runtime.right.RightsManager" id="test"></extension>
+        </extensions>
+    </feature>
+    <feature name="test-feature5"/>
+</plugin>

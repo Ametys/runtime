@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<releases>
+	<release name="1.1.0">
+<!--		<note module="kernel|core|admin" type="add|update|fix|delete">sample</note>-->
+        <note module="kernel" type="fix">Le catalogue i18n du groupe d'un paramètre de déploiement était lu sur l'élément 'category'</note>
+        <note module="kernel" type="add">Mise à jour des javascript STools pour traiter le drag'n'drop entre STree et SListview</note>
+        <note module="kernel" type="fix">Lorsque la configuration est incomplète les mots de passe sont conservés</note>
+        <note module="core" type="fix">Message de log de l'action hasRight corrigé</note>
+        <note module="core" type="fix">Plugins d'administration de logs fonctionnel</note>
+        <note module="core" type="fix">Quand le UsersManager ne traite pas le firstname, la mention 'null' n'apparait plus lors de la création</note>
+        <note module="kernel" type="fix">Bug sur le MenusManager lorsqu'une UIItemFactory n'a pas d'item</note>
+        <note module="core" type="fix">La boite de dialogue de changement de mot de passe peut s'ouvrir plusieurs fois</note>
+        <note module="admin" type="fix">Impossible de relire le fichier qui stocke le mot de passe administrateur avec Jetty (ServletContext#getResourceAsStream => ServletContext#getRealPath)</note>
+        <note module="doc" type="add">Les schémas XSD sont maintenant commentés</note>
+        <note module="kernel" type="update">StringUtils.md5Base64 ne fait plus de NoShuchAlgorithm mais peut renvoyer null</note>
+        <note module="kernel" type="fix">La methode privée lazyInitialize des 3 UI managers fournis est synchronisée pour éviter l'initialisation multiple</note>
+        <note module="core" type="fix">Le fichier javascript du widget calendrier est maintenant valide même si le catalogue i18n est absent</note>
+        <note module="kernel" type="fix">Bug sur le ToolbarsManager lorsqu'une UIItemFactory n'a pas d'item</note>
+        <note module="kernel" type="fix">La fonction Tools.loadHTML fait un vrai POST</note>
+    	<note module="kernel" type="add">Modification d'une action de type link pour accepter plusieurs type de liens (=mode): wrapped, direct, workspace, context</note>
+    	<note module="kernel" type="fix">Bug sur l'ajout d'un Item dans une Toolbar si le bouton n'a pas d'action</note>
+    	<note module="kernel" type="add">Ajout du parametres 'showLabel' pour l'affichage ou non du libellé d'un Item</note>
+        <note module="kernel" type="fix">Les configurations des différents éléments d'un plugin sont passés de lax à skip dans le schéma XSD pour éviter certains problèmes de validation</note>
+        <note module="core" type="fix">Correction de fautes d'orthographes dans le catalogue français</note>
+        <note module="kernel" type="update">Les serializers XML et HTML par défaut n'indentent plus</note>
+        <note module="kernel" type="fix">Ne pas créer de session dans UserHelper inutilement si le login de l'utilisateur n'est pas dans la session</note>
+        <note module="core" type="update">Renommage de clef i18n d'authentification</note>
+        <note module="kernel" type="update">L'utf-8 n'est plus ajouté aux services AJAX mais déplacé dans la servlet</note>
+		<note module="core" type="fix">La lecture de l'assignation de profil envoyait un xml éronné</note>
+		<note module="kernel" type="update">Le DefaultValidator a un constructeur non vide pour éviter de passer par une configuration Avalon</note>
+		<note module="kernel" type="fix">Le schéma XSD des déclarations de points d'extensions offre la possibilité d'affecter un logger au composant</note>
+		<note module="kernel" type="update">Les messages "Looking up component on an uninitialized ThreadSafeComponentManager [role]" sont loggués en debug et plus en warning</note>
+		<note module="kernel" type="add">Un nouveau point d'extension "org.ametys.runtime.cocoon.SitemapConfigurationExtensionPoint" permet de déclarer des composants de sitemap insérés automatiquement dans la sitemap racine.</note>
+        <note module="core" type="fix">Si le ModifiableJDBCUsersManager utilise un attribut de type boolean, la case à cocher en modification n'était pas correctement initalisée</note>
+        <note module="kernel" type="udpate">Les workspaces doivent implémenter la fonction JS runtimeRedirectTo() pour gérer les actions de type lien. La XSL ui.xsl fournit une implémentation par défaut.</note>
+        <note module="kernel" type="add">La méthode getUIItemsDefinitions() a été ajoutée à la StaticUIItemFactory pour récupérer les items déclarés, sans aucune vérification préalable.</note>
+        <note module="admin" type="update">Les dates des différentes version affichées sur l'accueil de l'admin le sont en GMT</note>
+        <note module="kernel" type="update">On peut spécifier un catalogue quelconque pour les labels et les descriptions des paramètres de config</note>
+        <note module="kernel" type="update">La taille maximum et l'emplacement des fichiers uploadés sont maintenant paramétrables via la config</note>
+        <note module="kernel" type="add">Ajout de la méthode saxUser() dans UsersManager et ses implémentations</note>
+        <note module="kernel" type="update">Mise à jour des STools : le SDialog permet d'ouvrir plusieurs fenêtres.</note>
+        <note module="kernel" type="add">Ajout de l'attribut "runtimeVersion" au schéma d'un plugin, pour vérifier au démarrage que les fichiers de plugin sont dans la bonne version</note>
+        <note module="kernel" type="add">Ajout d'un ThreadSafeTraxProcessor au plugin core pour pouvoir utiliser les composants internes depuis les feuilles de style XSLT</note>
+        <note module="kernel" type="update">Les requêtes entrantes sont considérées encodées en UTF-8</note>
+        <note module="kernel" type="fix">Le TreeProcessor ne 'disposait' pas correctement</note>
+    	<note module="core" type="add">Ajout du FormBasedCredentialProvider, qui recupère les infos d'un formulaire et peut créer un cookie pour les enregistrer</note>
+        <note module="kernel" type="update">Police par défaut dans dialog.css appliquée même aux textes racines</note>
+        <note module="kernel" type="add">Ajout du RuntimeResourceReader qui permet d'utiliser le source resolver du Runtime Utilisé par défaut dans la sitemap racine.</note>
+        <note module="kernel" type="add">Ajout du RuntimeFileGenerator qui permet d'utiliser le source resolver du Runtime Utilisé par défaut dans la sitemap racine.</note>
+        <note module="admin" type="fix">Dépendance au plugin core n'était pas vérifiée</note>
+        <note module="core" type="fix">Le commit ou le rollback en fin de transaction avec SqlMap est maintenant forcé</note>
+        <note module="core" type="add">Ajout de paramètre de configuration pour SqlMap</note>
+        <note module="kernel" type="fix">Bug dans le SListview sous IE après supression d'éléments</note>
+        <note module="kernel" type="add">Portage de la gestion des utilisateurs sous Postgresql 8.2</note>
+        <note module="core" type="add">Ajout de HasRightManager qui vérifie qu'un utilisateur ait au moins un droit</note>
+        <note module="core" type="add">La has-right action est définie dans la sitemap racine par le point d'extension sitemap afin de pouvoir être remplacée</note>
+        <note module="core" type="add">La StaticUIItemFactory accepte de chercher les images et les actions dans d'autres plugins</note>
+        <note module="core" type="fix">Changement d'API du RuntimeFilter pour être utilisable pendant l'initialisation</note>
+        <note module="core" type="add">Configuration des logs LOGKIT à la volée</note>
+        <note module="kernel" type="fix">Bug du DesktopManager qui ne respectait pas l'API des UIItemFactory qui peuvent renvoyer null</note>
+        <note module="kernel" type="fix">CSSProof du STree</note>
+        <note module="kernel" type="fix">CSSProof du SListView</note>
+        <note module="core" type="fix">Traduction de l'aide du paramètre de configuration du LDAP: runtime.datasource.core.ldap.adminDN</note>
+        <note module="core" type="add">Ajout de la gestion des groupes via ESUP org.ametys.runtime.plugins.core.group.ESUP</note>
+        <note module="kernel" type="add">Les catalogues i18n des plugins et workspaces sous forme de JAR sont pris dans le JAR si absents de WEB-INF/i18n/plugins ou WEB-INF/i18n/workspaces</note>
+        <note module="kernel" type="add">Ajout du listener d'ouverture et fermeture des noeuds du STree</note>
+        <note module="kernel" type="fix">Correction du bug SListview qui décale les icones</note>
+        <note module="admin" type="fix">Le comptage de requête et de session est maintenant thread-safe</note>
+        <note module="kernel" type="fix">La désactivation de la feature core/runtime.upload ne lance plus de NPE. Quand les uploads sont tout de même actifs, on passe aux valeurs du web.xml.</note>
+        <note module="core" type="update">Déplacement des paramètres de configuration SqlMap de "_admin" vers "WEB-INF/param/sql-map-config.xml"</note>
+    </release>
+    <release name="1.1.1">
+        <note module="kernel" type="add">Le SListview gère la touche SHIFT pour les sélections multiples</note>
+        <note module="admin" type="fix">L'onglet de modification des journaux n'utilise pas la bonne icône pour le niveau warn</note>
+        <note module="kernel" type="update">Ordonner les entrées et ajouter des commentaires dans le fichier config.xml</note>
+        <note module="admin" type="update">La date d'une version d'un composant s'affiche maintenant dans le fuseau horaire courant</note>
+        <note module="kernel" type="add">Le IgnoreRootHandler gère également l'interface LexicalHandler</note>
+        <note module="kernel" type="add">AMRUN-189 : Pouvoir forcer le rendu avec un navigateur non supporté</note>
+        <note module="kernel" type="fix">AMRUN-190 : Javadoc CredentialsProvider incorrecte</note>
+        <note module="kernel" type="fix">AMRUN-191 : AuthenticateAction ne redirigeait pas toujours</note>
+        <note module="kernel" type="fix">AMRUN-193 : FormBasedCredentialsProvider redirige avec le login en paramètre en cas d'erreur</note>
+        <note module="build" type="fix">AMRUN-177 : Template de webapp incomplet.</note>
+        <note module="kernel" type="fix">AMRUN-197 : Création de sessions HTTP inutiles</note>
+    </release>
+    <release name="1.1.2">
+        <note module="admin" type="fix">AMRUN-199 : NoClassDefFoundError com.sun.org.apache....XPathAPI occurs when retrieving admin password for authentication</note>
+    </release>
+    <release name="1.1.3">
+        <note module="admin" type="fix">AMRUN-201 : In user information window, an &gt;Enumeration&lt; parameter creates a combo with an empty value (the value is displayed next to the label)</note>
+    	<note module="kernel" type="fix">AMRUN-203 : Loading JS with bad encoding</note>
+    	<note module="kernel" type="fix">AMRUN-205 : Kernel i18n not working</note>
+    	<note module="kernel" type="fix">AMRUN-211 : Tools.postFromURL creates bad request</note>
+    	<note module="kernel" type="fix">AMRUN-212 : Fix typo for parsing Validator on config parameter</note>
+    	<note module="kernel" type="add">AMRUN-213 : Add a validator for ldap URL configuration parameter</note>
+    	<note module="core" type="fix">AMRUN-210 : Get the group members on selection</note>
+    	<note module="kernel" type="update">AMRUN-152 : Accepter Firefox 3.0 dans les navigateurs autorisés</note>
+        <note module="kernel" type="fix">AMRUN-200 : New XHTML serializer, based on cocoon's XHTMLSerializer which doesn't collapse most of the tags</note>
+    </release>
+    <release name="1.1.4">
+        <note module="kernel" type="fix">AMRUN-218 : The XHTML serializer encodes style tag (but it shouldn't)</note>
+        <note module="kernel" type="fix">AMRUN-219 : The XHTML Serializer doesn't handle br tags</note>
+    </release>
+    <release name="1.1.5">
+        <note module="test" type="update">AMRUN-220 : Complete XHTMLSerializer test</note>
+        <note module="kernel" type="fix">AMRUN-221 : Fixing CSS in load-configuration and unsupported navigation pages</note>
+        <note module="kernel" type="fix">AMRUN-222 : Using Xalan XSLT processor with disable-output-escaping="yes" and the new XHTML serializer will result in JAXP processing instruction with escaped content</note>
+    </release>
+    <release name="1.1.6">
+        <note module="core" type="fix">AMRUN-225 : InvalidParameterException logged (but not fatal) when using UserDrivenLdapGroupsManager and current user does not belongs to a group</note>
+    	<note module="core" type="fix">AMRUN-233 : Contributor profiles manager : html tags in title of right elements</note>
+    	<note module="core" type="fix">AMRUN-233 : SListView : range selection doesn't work when items are grouped</note>
+    </release>
+    <release name="1.1.7">
+    	<note module="core" type="fix">AMRUN-234 : SToolbar cannot be painted twice</note>
+    	<note module="core" type="fix">AMRUN-185 : Boite de recherche/sélectione des utisateurs</note>
+    	<note module="kernel" type="fix">AMRUN-209 : Stree on IE6 is not css proof (zoom)</note>
+    	<note module="kernel" type="fix">AMRUN-224 : Stree :loss of symbol which permits to fold or unfold an item</note>
+    	<note module="admin" type="add">AMRUN-160 : Store monitoring data into RRD files with a XML export and graphs production</note>
+    </release>
+    <release name="1.1.8">
+    	<note module="kernel" type="fix">AMRUN-238 : memory leak</note>
+    	<note module="kernel" type="fix">AMRUN-240 : Boîte de dialogue</note>
+    </release>
+    <release name="1.1.9">
+    	<note module="kernel" type="fix">AMRUN-255 : Loading JS dynamically</note>
+    	<note module="kernel" type="fix">RUNTIME-245 : Omit xml declaration by default and force content-type meta with Serializer XHTML</note>
+    	<note module="kernel" type="fix">RUNTIME-276 : An I18nizableText parameter can be null and produce a NPE in toSax method</note>
+    </release>
+    <release name="1.1.10">
+    	<note module="kernel" type="fix">RUNTIME-287: Design of the administration panel is damaged with IE8</note>
+    	<note module="kernel" type="update">RUNTIME-288 : Add IE8 and FF3.5 to list of accetable browsers</note>
+    	<note module="kernel" type="update">RUNTIME-289 : Accepte FF3.5 in admin</note>
+    	<note module="kernel" type="update">RUNTIME-290 : Accept IE8 in admin</note>
+    </release>
+    <release name="1.1.11">
+    	<note module="kernel" type="update">RUNTIME-290 : Accept IE8 in admin</note>
+    	<note module="kernel" type="update">RUNTIME-399 : Add Firefox 3.6 to the list of acceptable browsers</note>
+    	<note module="kernel" type="update">RUNTIME-400 Accept Firefox 3.6 in admin workspace</note>
+    	<note module="kernel" type="fix">RUNTIME-401 : Javascript added in a HTML expert content is not interpreted once generated</note>
+    	<note module="kernel" type="fix">RUNTIME-228 : Date widget : "untranslated" text when no date is selected (english catalog)</note>
+    	<note module="kernel" type="fix">RUNTIME-251 : Warning Icon in the administration log view is broken</note>
+    </release>
+    <release name="1.1.12">
+    </release>
+</releases>

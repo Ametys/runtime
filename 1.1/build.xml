@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ANT 1.7 -->
+
+<!-- Mettre la propriété externe 'skip-plugin' permet de ne pas générer le plugin -->
+<!-- Mettre la propriété externe 'skip-workspace' permet de ne pas générer le workspace (doit être associé à 'skip-plugin') -->
+<!-- Mettre la propriété externe 'skip-docs' permet de ne pas générer la doc -->
+<!-- Mettre la propriété externe 'skip-tests' permet de ne pas exécuter les tests -->
+
+<project name="Runtime build" default="all">
+	
+	<!-- PROPERTIES -->
+	<property name="dest-dir" value="target"/>
+	<property name="dest-doc" value="${dest-dir}/docs"/>
+	<property name="dest-javadoc" value="${dest-doc}/api"/>
+	<property name="class-vm-target" value="1.5"/>
+	
+	<property name="version" value="1.1-dev"/>
+	<property name="svn.branch" value="trunk"/>
+	
+	<property name="tmp-dir" value="tmp"/>
+	<property name="tmp-javadoc" value="${tmp-dir}/javadoc"/>
+	<property name="tmp-unzipped-doc" value="${tmp-dir}/unzipped-tmp"/>
+	<property name="classes" value="${tmp-dir}/classes"/>
+	<property name="classes-deliver" value="${tmp-dir}/classes-deliver"/>
+	
+	<property name="deliver-dir" value="deliver"/>
+	<property name="docs-dir" value="docs"/>
+	<property name="tests-dir" value="test"/>
+	<property name="template-dir" value="templates"/>
+	<property name="application-template-dir" value="${template-dir}/application"/>
+	
+	<property name="kernel-dir" value="main/kernel"/>
+	<property name="plugin-dir" value="main/plugin-core"/>
+	<property name="workspace-dir" value="main/workspace-admin"/>
+	
+	<target name="prepare">
+		<delete dir="${tmp-dir}"/>
+		<mkdir dir="${tmp-dir}"/>
+		
+		<delete dir="${dest-dir}"/>
+		<mkdir dir="${dest-dir}"/>
+		<mkdir dir="${dest-dir}/resources"/>
+		<mkdir dir="${dest-dir}/jar"/>
+		
+		<!-- Compilation des classes utilisées par Ant -->
+		<mkdir dir="${classes-deliver}"/>
+		<javac debug="true" destdir="${classes-deliver}" encoding="UTF-8" target="${class-vm-target}">
+			<src path="${deliver-dir}/src"/>
+			<include name="org/ametys/runtime/deliver/**"/>
+			<classpath>
+				<fileset dir="${deliver-dir}/lib" includes="*.jar"/>
+			</classpath>
+		</javac> 
+		
+		<taskdef resource="emma_ant.properties">
+			<classpath>
+				<fileset dir="${deliver-dir}/lib" includes="emma*.jar" />
+			</classpath>
+		</taskdef>
+	</target>
+	
+	<target name="tasks">
+		<taskdef name="resource-file" classpath="${classes-deliver}" classname="org.ametys.runtime.deliver.ResourceFileTask"/>
+	</target>
+
+	<target name="clean">
+		<delete dir="${tmp-dir}"/>
+	</target>
+	
+	<!-- Date du jour -->
+	<tstamp>
+		<format property="build-timestamp" pattern="yyyyMMdd'T'HHmmz"/>
+  	</tstamp>
+	
+	<tstamp>
+		<format property="doc-timestamp" pattern="dd/MM/yyyy"/>
+  	</tstamp>
+	
+	<tstamp>
+		<format property="full-timestamp" pattern="MM/dd/yyyy HH:mm:ss z"/>
+  	</tstamp>
+	
+	<target name="prepare-runtime">
+		<echo message="Building runtime..."/>
+		
+		<mkdir dir="${classes}"/>
+	</target>
+
+	<target name="runtime-compile-kernel">
+		<!-- Compilation des sources -->
+		<javac debug="true" destdir="${classes}" encoding="UTF-8" target="${class-vm-target}">
+			<src path="${kernel-dir}/src"/>
+			<classpath>
+				<fileset dir="${kernel-dir}/lib" includes="*.jar" />
+				<fileset dir="${kernel-dir}/lib/buildtime" includes="*.jar"/>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="runtime-compile-workspace" unless="skip-workspace">
+		<!-- Compilation des sources -->
+		<javac debug="true" destdir="${classes}" encoding="UTF-8" target="${class-vm-target}">
+			<src path="${kernel-dir}/src"/>
+			<src path="${workspace-dir}/src"/>
+			<classpath>
+				<fileset dir="${kernel-dir}/lib" includes="*.jar" />
+				<fileset dir="${kernel-dir}/lib/buildtime" includes="*.jar"/>
+			</classpath>
+		</javac>
+	</target>
+		
+	<target name="runtime-compile-plugin" unless="skip-plugin">
+		<!-- Compilation des sources -->
+		<javac debug="true" destdir="${classes}" encoding="UTF-8" target="${class-vm-target}">
+			<src path="${kernel-dir}/src"/>
+			<src path="${workspace-dir}/src"/>
+			<src path="${plugin-dir}/src"/>
+			<classpath>
+				<fileset dir="${kernel-dir}/lib" includes="*.jar" />
+				<fileset dir="${kernel-dir}/lib/buildtime" includes="*.jar"/>
+				<fileset dir="${plugin-dir}/lib" includes="*.jar" />
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="runtime-copy-kernel">
+		<!-- Copie des fichiers externes (non JAVA) -->
+		<copy todir="${classes}">
+			<fileset dir="${kernel-dir}/src">
+				<exclude name="**/*.java"/>
+				<exclude name="org/ametys/runtime/version.xml"/>
+			</fileset>
+		</copy>
+	</target>
+		
+	<target name="runtime-copy-plugin" unless="skip-plugin">
+		<!-- Copie des fichiers externes (non JAVA) -->
+		<copy todir="${classes}">
+			<fileset dir="${plugin-dir}/src">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+	</target>
+		
+	<target name="runtime-copy-workspace" unless="skip-workspace">
+		<!-- Copie des fichiers externes (non JAVA) -->
+		<copy todir="${classes}">
+			<fileset dir="${workspace-dir}/src">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="runtime-kernel-file">
+		<copy file="${kernel-dir}/sitemap.xmap" todir="${classes}/org/ametys/runtime/kernel"/>
+	</target>
+	
+	<target name="runtime-resources-kernel">
+		<!-- resources dynamiques -->
+		<copy todir="${classes}/org/ametys/runtime" file="${kernel-dir}/src/org/ametys/runtime/version.xml">
+			<filterset>
+				<filter token="DATE" value="${build-timestamp}"/>
+				<filter token="VERSION" value="${version}"/>
+			</filterset>
+		</copy>
+		
+		<copy todir="${classes}/org/ametys/runtime/kernel">
+			<fileset dir="${kernel-dir}/">
+				<exclude name="sitemap.xmap"/>
+				<!--  exclude name="i18n/**"/ -->
+				<exclude name="resources/**"/>
+				<exclude name="lib/**"/>
+				<exclude name="src/**"/>
+			</fileset>
+		</copy>		
+        <move file="${classes}/org/ametys/runtime/kernel/i18n/messages_en.xml" tofile="${classes}/org/ametys/runtime/kernel/i18n/messages.xml"/>
+	</target>
+		
+	<target name="runtime-workspace-file" unless="skip-workspace">
+		<copy file="${workspace-dir}/workspace.xml" todir="${classes}/org/ametys/runtime/workspaces/admin"/>
+		<copy file="${workspace-dir}/sitemap.xmap" todir="${classes}/org/ametys/runtime/workspaces/admin"/>
+		
+		<resource-file destFile="${classes}/META-INF/runtime-workspace" name="admin" uri="/org/ametys/runtime/workspaces/admin"/>
+	</target>
+	
+	<target name="runtime-resources-workspace" unless="skip-workspace">
+		<copy todir="${classes}/org/ametys/runtime/workspaces/admin">
+			<fileset dir="${workspace-dir}">
+				<exclude name="workspace.xml"/>
+				<exclude name="sitemap.xmap"/>
+				<!--  exclude name="i18n/**"/ -->
+				<exclude name="resources/**"/>
+				<exclude name="lib/**"/>
+				<exclude name="src/**"/>
+			</fileset>
+		</copy>
+        <move file="${classes}/org/ametys/runtime/workspaces/admin/i18n/messages_en.xml" tofile="${classes}/org/ametys/runtime/workspaces/admin/i18n/messages.xml"/>
+	</target>
+	
+	<target name="runtime-plugin-file" unless="skip-plugin">
+		<copy file="${plugin-dir}/plugin.xml" todir="${classes}/org/ametys/runtime/plugins/core"/>
+		<copy file="${plugin-dir}/sitemap.xmap" todir="${classes}/org/ametys/runtime/plugins/core"/>
+		
+		<resource-file destFile="${classes}/META-INF/runtime-plugin" name="core" uri="/org/ametys/runtime/plugins/core"/>
+	</target>
+	
+	<target name="runtime-resources-plugin" unless="skip-plugin">
+		<copy todir="${classes}/org/ametys/runtime/plugins/core">
+			<fileset dir="${plugin-dir}">
+				<exclude name="plugin.xml"/>
+				<exclude name="sitemap.xmap"/>
+				<!--  exclude name="i18n/**"/ -->
+				<exclude name="resources/**"/>
+				<exclude name="lib/**"/>
+				<exclude name="src/**"/>
+				<exclude name="scripts/**"/>
+			</fileset>
+		</copy>		
+        <move file="${classes}/org/ametys/runtime/plugins/core/i18n/messages_en.xml" tofile="${classes}/org/ametys/runtime/plugins/core/i18n/messages.xml"/>
+	</target>
+	
+	<target name="runtime-jar">
+		<!-- Construction du JAR avec fichier MANIFEST -->
+		<jar jarfile="${dest-dir}/jar/ametys-runtime-${version}.jar" basedir="${classes}">
+			<manifest>
+		      	<section name="Runtime informations">
+				 	<attribute name="Title" value="Runtime"/>
+			  	 	<attribute name="Vendor" value="Anyware Technologies"/>
+			  	 	<attribute name="Version" value="${version}"/>
+			  	 	<attribute name="Date" value="${full-timestamp}"/>
+				 	<attribute name="SVN-Branch" value="${svn.branch}"/>
+		      	</section>
+			</manifest>	
+		</jar>
+		
+		<jar jarfile="${dest-dir}/jar/ametys-runtime-${version}-src.jar">
+			<fileset dir="${kernel-dir}/src">
+				<include name="**/*.java"/>
+			</fileset>
+			<fileset dir="${plugin-dir}/src">
+				<include name="**/*.java"/>
+			</fileset>
+			<fileset dir="${workspace-dir}/src">
+				<include name="**/*.java"/>
+			</fileset>
+			
+			<manifest>
+		      	<section name="Runtime informations">
+				 	<attribute name="Title" value="Runtime src"/>
+			  	 	<attribute name="Vendor" value="Anyware Technologies"/>
+			  	 	<attribute name="Version" value="${version}"/>
+			  	 	<attribute name="Date" value="${full-timestamp}"/>
+				 	<attribute name="SVN-Branch" value="${svn.branch}"/>
+		      	</section>
+			</manifest>	
+		</jar>
+		
+		<delete dir="${classes}"/>
+	</target>
+			
+	<target name="runtime-resources-copy-kernel">
+		<copy todir="${dest-dir}/resources/kernel/resources">
+			<fileset dir="${kernel-dir}/resources">
+				<include name="**"/>
+			</fileset>
+		</copy>
+	</target>
+			
+	<target name="runtime-resources-copy-plugin" unless="skip-plugin">
+		<copy todir="${dest-dir}/resources/plugins/core/resources">
+			<fileset dir="${plugin-dir}/resources">
+				<include name="**"/>
+			</fileset>
+		</copy>
+		
+		<copy todir="${dest-dir}/scripts">
+			<fileset dir="${plugin-dir}/scripts">
+				<include name="**"/>
+			</fileset>
+		</copy>
+	</target>
+			
+	<target name="runtime-resources-copy-workspace" unless="skip-workspace">
+		<copy todir="${dest-dir}/resources/workspaces/admin/resources">
+			<fileset dir="${workspace-dir}/resources">
+				<include name="**"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="runtime-jarresources">
+		<!-- JAR de ressources -->
+		<jar destfile="${dest-dir}/resources/ametys-runtime-${version}-resources.jar">
+			<zipfileset dir="${dest-dir}/resources" prefix="org/ametys/runtime">
+				<include name="**"/>
+			</zipfileset>
+		</jar>
+	</target>
+	
+	<target name="runtime-copyi18n-kernel">
+		<mkdir dir="${dest-dir}/i18n"/>
+		<copy todir="${dest-dir}/i18n">
+			<fileset dir="${kernel-dir}/i18n"/>
+			<globmapper from="messages_*.xml" to="kernel_*.xml"/>
+		</copy>
+		<move file="${dest-dir}/i18n/kernel_en.xml" tofile="${dest-dir}/i18n/kernel.xml"/>
+	</target>
+
+	<target name="runtime-copyi18n-plugin" unless="skip-plugin">
+		<mkdir dir="${dest-dir}/i18n/plugins"/>
+		<copy todir="${dest-dir}/i18n/plugins">
+			<fileset dir="${plugin-dir}/i18n"/>
+			<globmapper from="messages_*.xml" to="core_*.xml"/>
+		</copy>
+		<move file="${dest-dir}/i18n/plugins/core_en.xml" tofile="${dest-dir}/i18n/plugins/core.xml"/>
+	</target>
+
+	<target name="runtime-copyi18n-workspace" unless="skip-workspace">
+		<mkdir dir="${dest-dir}/i18n/workspaces"/>
+		<copy todir="${dest-dir}/i18n/workspaces">
+			<fileset dir="${workspace-dir}/i18n"/>
+			<globmapper from="messages_*.xml" to="admin_*.xml"/>
+		</copy>
+		<move file="${dest-dir}/i18n/workspaces/admin_en.xml" tofile="${dest-dir}/i18n/workspaces/admin.xml"/>
+	</target>
+
+	<target name="runtime" depends="prepare-runtime, runtime-compile-kernel, runtime-compile-workspace, runtime-compile-plugin, runtime-copy-kernel, runtime-copy-plugin, runtime-copy-workspace, runtime-kernel-file,  runtime-resources-kernel, runtime-workspace-file, runtime-resources-workspace, runtime-plugin-file, runtime-resources-plugin, runtime-jar, runtime-resources-copy-kernel, runtime-resources-copy-plugin, runtime-resources-copy-workspace, runtime-jarresources, runtime-copyi18n-kernel, runtime-copyi18n-plugin, runtime-copyi18n-workspace"/>
+	
+	<!-- JAVADOC -->
+	<target name="javadoc" unless="skip-docs">
+		<mkdir dir="${tmp-javadoc}"/>
+
+		<copy todir="${tmp-javadoc}">
+			<fileset dir="${kernel-dir}/src">
+				<include name="**/*.java"/>
+				<include name="**/package.html"/>
+			</fileset>
+		</copy>
+
+		<copy todir="${tmp-javadoc}">
+			<fileset dir="${plugin-dir}/src">
+				<include name="**/*.java"/>
+				<include name="**/package.html"/>
+			</fileset>
+		</copy>
+		
+		<copy todir="${tmp-javadoc}">
+			<fileset dir="${workspace-dir}/src">
+				<include name="**/*.java"/>
+				<include name="**/package.html"/>
+			</fileset>
+		</copy>
+		
+		<mkdir dir="${dest-javadoc}"/>
+		<javadoc destdir="${dest-javadoc}"
+			charset="UTF-8"
+			sourcepath="${tmp-javadoc}"
+			packagenames="org.ametys.runtime.*"
+			windowtitle="Ametys Runtime API version ${version}"
+			doctitle="Ametys Runtime API version ${version}"
+	        author="false"
+	       	version="true"
+	       	use="false"   
+			additionalparam="-quiet"
+			stylesheetfile="${deliver-dir}/javadoc.css"
+			header="&lt;img src='http://ametys.org/styles/telecharger/img/focus_bg.gif'/&gt;"
+			bottom="Copyright &#169; 2008 &lt;a href='http://www.anyware-tech.com'&gt;Anyware Technologies&lt;/a&gt;. All Rights Reserved.">
+			
+			<classpath>
+				<fileset dir="${kernel-dir}/lib" includes="*.jar" />
+				<fileset dir="${kernel-dir}/lib/buildtime" includes="*.jar"/>
+				<fileset dir="${plugin-dir}/lib" includes="*.jar" />
+			</classpath>
+			<link href="http://excalibur.apache.org/apidocs"/>
+			<link href="http://cocoon.apache.org/2.1/apidocs"/>
+			<link href="http://java.sun.com/j2se/1.5.0/docs/api"/>
+			<link href="http://java.sun.com/javaee/5/docs/api"/>
+		</javadoc>	
+		
+		<delete dir="${tmp-javadoc}"/>
+	</target>	
+
+	<!-- EXPORT DES DOCUMENTATIONS -->
+	<target name="export-doc" unless="skip-docs">
+		<!--
+		<antcall target="launch-replace-doc"/>
+		
+		<taskdef name="export-sxw" classname="org.ametys.runtime.deliver.OOo2PDFTask">
+			<classpath>
+		    	<fileset dir="deliver/lib"/>
+				<pathelement path="${tmp-dir}/classes-deliver"/>
+			</classpath>
+		</taskdef>
+		
+		<export-sxw docDir="${dest-doc}"/>
+		-->
+	</target>	
+	
+	<target name="launch-replace-doc">
+		<mkdir dir="${dest-doc}"/>
+		
+		<copy todir="${dest-doc}">
+			<fileset dir="${docs-dir}/manual">
+				<include name="manual.sxw"/>
+			</fileset>
+		</copy>
+		
+		<antcall target="replace-doc">
+			<param name="doc-name" value="${dest-doc}/manual.sxw"/>
+		</antcall>
+	</target>
+	
+	<!-- on remplace dans les docs la date et la version -->
+	<target name="replace-doc">
+		<mkdir dir="${tmp-unzipped-doc}"/>
+		
+		<unzip src="${doc-name}" dest="${tmp-unzipped-doc}"/>
+		<replace file="${tmp-unzipped-doc}/content.xml" token="@DATE@" value="${doc-timestamp}"/>
+		<replace file="${tmp-unzipped-doc}/content.xml" token="@VERSION@" value="${version}"/>
+		<zip destfile="${doc-name}" basedir="${tmp-unzipped-doc}"/>		
+		
+		<delete dir="${tmp-unzipped-doc}"/>
+	</target>
+    
+    <target name="plugin-doc" unless="skip-docs">
+        <property name="pluginName" value="core"/>
+    
+        <xslt in="${plugin-dir}/plugin.xml" style="${deliver-dir}/plugindoc/plugin2doc.xsl" out="${dest-doc}/plugin/index.html">
+            <param name="pluginName" expression="${pluginName}"/>
+        </xslt>
+        <xslt in="${plugin-dir}/plugin.xml" style="${deliver-dir}/plugindoc/plugin2doc_main.xsl" out="${dest-doc}/plugin/${pluginName}_main.html">
+            <param name="pluginName" expression="${pluginName}"/>
+        </xslt>
+        <xslt in="${plugin-dir}/plugin.xml" style="${deliver-dir}/plugindoc/plugin2doc_main_configuration.xsl" out="${dest-doc}/plugin/${pluginName}_main_configuration.html">
+            <param name="pluginName" expression="${pluginName}"/>
+        </xslt>
+        <xslt in="${plugin-dir}/plugin.xml" style="${deliver-dir}/plugindoc/plugin2doc_main_extensions.xsl" out="${dest-doc}/plugin/${pluginName}_main_extensions.html">
+            <param name="pluginName" expression="${pluginName}"/>
+        </xslt>
+        <xslt in="${plugin-dir}/plugin.xml" style="${deliver-dir}/plugindoc/plugin2doc_main_features.xsl" out="${dest-doc}/plugin/${pluginName}_main_features.html">
+            <param name="pluginName" expression="${pluginName}"/>
+        </xslt>
+        <xslt in="${plugin-dir}/plugin.xml" style="${deliver-dir}/plugindoc/plugin2doc_configuration.xsl" out="${dest-doc}/plugin/${pluginName}_configuration.html">
+            <param name="pluginName" expression="${pluginName}"/>
+        </xslt>
+        <xslt in="${plugin-dir}/plugin.xml" style="${deliver-dir}/plugindoc/plugin2doc_extensions.xsl" out="${dest-doc}/plugin/${pluginName}_extensions.html">
+            <param name="pluginName" expression="${pluginName}"/>
+        </xslt>
+        <xslt in="${plugin-dir}/plugin.xml" style="${deliver-dir}/plugindoc/plugin2doc_features.xsl" out="${dest-doc}/plugin/${pluginName}_features.html">
+            <param name="pluginName" expression="${pluginName}"/>
+        </xslt>
+        <copy todir="${dest-doc}/plugin/resources">
+            <fileset dir="${deliver-dir}/plugindoc/resources"/>
+        </copy>
+    </target>
+	
+	<target name="tests" unless="skip-tests">
+		<mkdir dir="${tmp-dir}/classes-test"/>
+		<mkdir dir="${tmp-dir}/emma"/>
+		<mkdir dir="${dest-doc}/emma"/>
+
+	    <emma>
+	      <instr mode="fullcopy"
+	             destdir="${tmp-dir}/emma"	       
+	             metadatafile="${tmp-dir}/emma/metadata.emma"
+	             merge="no">
+	      	
+	      	<instrpath>
+				<fileset dir="${dest-dir}/jar" includes="ametys-runtime-${version}.jar" />
+	      	</instrpath>
+	      	
+	        <filter includes="org.ametys.runtime.*"/>
+	      </instr>
+	    </emma>
+		
+		<!-- Compilation des tests -->
+		<javac debug="true" destdir="${tmp-dir}/classes-test" encoding="UTF-8" target="${class-vm-target}">
+			<src path="${tests-dir}/src"/>
+			<classpath>
+				<fileset dir="${kernel-dir}/lib" includes="*.jar" />
+				<fileset dir="${kernel-dir}/lib/buildtime" includes="*.jar"/>
+				<fileset dir="${plugin-dir}/lib" includes="*.jar" />
+				<fileset dir="${application-template-dir}/WEB-INF/lib" includes="*.jar" />
+				<fileset dir="${tests-dir}/lib" includes="*.jar" />
+				<fileset dir="${tmp-dir}/emma/lib" includes="ametys-runtime-${version}.jar" />
+			</classpath>
+		</javac>
+
+		<!-- Copie des fichiers externes (non JAVA) -->
+		<copy todir="${tmp-dir}/classes-test">
+			<fileset dir="${tests-dir}/src">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+		
+		<mkdir dir="${dest-doc}/junit"/>
+		<mkdir dir="${dest-doc}/junit/html"/>
+		
+		<junit fork="true" dir="." printsummary="yes" haltonfailure="no" failureproperty="hasFailure">
+			<classpath>
+				<fileset dir="${tmp-dir}/emma/lib" includes="ametys-runtime-${version}.jar" />
+				<pathelement location="${tmp-dir}/classes-test"/>
+				<fileset dir="${kernel-dir}/lib" includes="*.jar" />
+				<fileset dir="${kernel-dir}/lib/buildtime" includes="*.jar"/>
+				<fileset dir="${plugin-dir}/lib" includes="*.jar" />
+				<fileset dir="${application-template-dir}/WEB-INF/lib" includes="*.jar" />
+				<fileset dir="${tests-dir}/lib" includes="*.jar" />
+				<fileset dir="${deliver-dir}/lib" includes="emma*.jar" />
+			</classpath>
+			<formatter type="xml"/>
+			<batchtest todir="${dest-doc}/junit">
+				<fileset dir="${tests-dir}/src">
+					<include name="**/*TestCase.java"/>
+					<exclude name="**/Abstract*.java"/>
+					<exclude name="**/AllTests.java"/>
+				</fileset>
+			</batchtest>
+			
+	      	<jvmarg value="-Demma.coverage.out.file=${tmp-dir}/emma/coverage.emma" />
+	      	<!--jvmarg value="-Demma.coverage.out.merge=false" /-->
+		</junit>
+		
+		<junitreport todir="${dest-doc}/junit">
+		  	<fileset dir="${dest-doc}/junit">
+		    	<include name="TEST-*.xml"/>
+		  	</fileset>
+		  	<report format="frames" todir="${dest-doc}/junit/html"/>
+		</junitreport>
+		
+	    <emma>
+	      <report
+	              sort="+block,+name,+method,+class"
+	              metrics="method:70,block:80,line:80,class:100">
+
+	      	<fileset dir="${tmp-dir}/emma" >
+	          <include name="*.emma" />
+	        </fileset>
+	      	
+	      	<sourcepath>
+		    	<pathelement path="${kernel-dir}/src"/>
+		    	<pathelement path="${plugin-dir}/src"/>
+	    		<pathelement path="${workspace-dir}/src"/>
+	      	</sourcepath>
+
+	      	<xml outfile="${dest-doc}/emma/coverage.xml"/>
+	        <html outfile="${dest-doc}/emma/coverage.html"
+	             depth="method"
+	             columns="name,class,method,block,line"
+	        	  sort="+name"/>
+	      </report>
+	    </emma>
+	</target>
+	
+	<target name="all" depends="prepare, tasks, runtime, javadoc, plugin-doc, export-doc, tests, clean"/>
+</project>

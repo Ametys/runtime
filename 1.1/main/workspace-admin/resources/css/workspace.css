@@ -1,0 +1,93 @@
+/*
+ * Copyright (c) 2007 Anyware Technologies and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.opensource.org/licenses/eclipse-1.0.php
+ * 
+ * Contributors:
+ *     Anyware Technologies - initial API and implementation
+ */
+ 
+/* Administration */
+
+/* ------------------------ */
+/* DEFAUT - DEFAUT - DEFAUT */
+/* ------------------------ */
+
+* {
+    COLOR: #000000;
+	FONT-FAMILY: Verdana, Arial;
+	FONT-SIZE: 11px;
+	FONT-STRETCH: normal;
+	FONT-STYLE: normal;
+	FONT-VARIANT: normal;
+	FONT-WEIGHT: normal;
+	TEXT-ALIGN: left;
+	TEXT-DECORATION: none;
+	TEXT-INDENT: 0px;
+	TEXT-TRANSFORM: none;
+	VERTICAL-ALIGN: top;
+
+	PADDING: 0px;
+	MARGIN: 0px;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table.admin_main
+{
+	border: 5px solid #ece9d8;
+}
+th.admin_main
+{
+	font-style: italic;
+	font-family: Verdana;
+	font-size: 15px;
+	font-weight: bold;
+	padding-bottom: 1px;
+}
+
+/* ------------------- */
+/* IHM --- IHM --- IHM */
+/* ------------------- */
+
+table.admin_head td.admin_head{
+	TEXT-ALIGN: right;
+	VERTICAL-ALIGN: bottom;
+	
+	PADDING-RIGHT: 30px;
+	PADDING-BOTTOM: 90px;
+}
+
+span.admin_head {
+	COLOR: #0e3787;
+	FONT-FAMILY: Arial, Helvetica;
+	FONT-SIZE: 18px;
+	FONT-WEIGHT: BOLD;
+	LETTER-SPACING: 5px;
+	TEXT-DECORATION: none;
+	TEXT-TRANSFORM: uppercase;
+}
+
+td.admin_main_area {
+	TEXT-ALIGN: left;
+	padding-left: 40px;
+}
+
+table.admin_main_border
+{
+	margin-top: 20px;
+	margin-left: 230px;
+}
+td.admin_main_border
+{
+	border-style: solid;
+	border-top-color: #f1efe2;
+	border-left-color: #f1efe2;
+	border-right-color: #716f64;
+	border-bottom-color: #716f64;
+	border-width: 1px;
+}

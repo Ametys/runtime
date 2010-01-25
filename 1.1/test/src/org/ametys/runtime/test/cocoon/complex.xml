@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html>
+	<head>
+	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>Content 2</title>
+	    <meta http-equiv="Keywords" content="keyword"></meta>
+		<link rel="icon" type="image/png" href="favicon.png"></link>
+		<link rel="shortcut icon" href="favicon.ico"/>
+		<style type="text/css"/>
+		<style type="text/css">
+.toto {
+	background-image: url("../images/icon.png");
+}		
+		</style>
+	</head>
+	<body>
+	<?processing-intruction value ?>
+		<p>toto<hr></hr><br/></p>
+		<p/>
+		<div>tata<hr/><br></br></div>
+		<div/>
+		<input type="text" name="input" value="value"></input>
+		<textarea></textarea>
+		<img src="img.gif"></img>
+		<img src="img2.gif"/>
+		<script>
+		alert("test");
+		</script>
+		<script>
+		<!-- 
+		alert("test2");
+		 -->
+		</script>
+	</body>
+</html>

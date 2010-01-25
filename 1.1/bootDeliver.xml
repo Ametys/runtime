@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="RuntimeBootstrap" default="boot">
+	<target name="init">
+		<property name="svn.branch" value="1.1"/>
+		<property name="tmpDir" value="/tmp"/>
+		<property name="destDir" value="${tmpDir}/runtime"/>
+		<property name="svn.url" value="https://svn.ametys.org/trunk/runtime"/>
+	</target>
+	
+    <target name="checkVersion" unless="version">
+        <!-- Must define the version variable -->
+        <antcall target="help"/>
+        <fail message="version not present"/>
+    </target>                                                                                                             
+    
+   	<target name="boot" depends="init, checkVersion">
+   		<delete dir="${destDir}"/>
+
+   		<taskdef resource="org/tigris/subversion/svnant/svnantlib.xml">
+		<!--
+   			<classpath>
+   				<fileset dir="deliver/lib" includes="svn*.jar"/>
+   			</classpath>
+		-->
+   		</taskdef>
+
+   		<input message="Enter password for user ${svn.user} : " addproperty="svn.passwd">
+   			<!--handler classname="org.apache.tools.ant.input.SecureInputHandler"/-->
+   		</input>
+   		
+   		<!-- SVN tag and export --> 
+   		<svn username="${svn.user}" password="${svn.passwd}">
+   			<copy srcUrl="${svn.url}/branches/${svn.branch}" destUrl="${svn.url}/tags/${version}" revision="HEAD"
+   			      message="Releasing ${svn.branch} branch into ${version} version"/>
+   			<export srcUrl="${svn.url}/tags/${version}" revision="HEAD" destPath="${destDir}"/>
+   		</svn>
+
+       	<!-- Appel du deliver -->
+       	<ant antfile="${destDir}/deliver.xml" dir="${destDir}" target="deliver"/>
+   		
+   		<delete dir="${destDir}"/>
+	</target>
+   
+   	<!-- Help -->
+	<target name="help">
+		<echo message="------------------------------------------------------------------------------------------------"/>
+		<echo message="Usage : ant -Dsvn.user=user [-DtmpDir=temp-dir] -Dversion=version"/>
+		<echo message=""/>
+		<echo message="Parameters :"/>
+		<echo message=""/>
+		<echo message="svn.user : required, the user to use for retrieve the runtime "/>
+		<echo message="version    : required, the version name (ex : 4.6.7 20020325) "/>
+		<echo message="tmpDir    : optionnaly, the temp dir (default is /tmp) "/>
+		<echo message="baseVersion    : optionnaly, the version name to be compared with (ex : 2.1.2, default is 1.1.0) "/>
+		<echo message="------------------------------------------------------------------------------------------------"/>
+	</target>
+</project>
