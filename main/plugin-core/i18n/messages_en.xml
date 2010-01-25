@@ -176,7 +176,7 @@
     <message key="PLUGINS_CORE_WIDGET_PASSWORD_KEEPOLD">Keep old password</message>
     <message key="PLUGINS_CORE_WIDGET_PASSWORD_HINT">Change the password</message>
     <message key="PLUGINS_CORE_WIDGET_PASSWORD_ERROR">You have to enter twice the same password.\nPlease re-enter the same new password in the two inputs.</message>
-    <message key="PLUGINS_CORE_WIDGET_MESSAGE_DATE_CLICKHERE">Click on the icon</message>
+    <message key="PLUGINS_CORE_WIDGET_DATE_MESSAGE_CLICKHERE">Click on the icon</message>
     <message key="PLUGINS_CORE_WIDGET_DATE_FIRSTDAYINWEEK">0</message>
     <message key="PLUGINS_CORE_WIDGET_DATE_DAY_0">Sunday</message>
     <message key="PLUGINS_CORE_WIDGET_DATE_DAY_1">Monday</message>
