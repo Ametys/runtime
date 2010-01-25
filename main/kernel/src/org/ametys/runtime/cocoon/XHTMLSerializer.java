@@ -374,8 +374,10 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
             _insideInlineResourceTag--;
             if (_buffer.length() > 0)
             {
-                char[] content = new char[_buffer.length()];
-                _buffer.getChars(0, _buffer.length(), content, 0);
+                char[] content = new char[_buffer.length() + 2];
+                content[0] = '\n';
+                content[content.length - 1] = '\n';
+                _buffer.getChars(0, _buffer.length(), content, 1);
                 _buffer.setLength(0);
                 super.comment(content, 0, content.length);
             }
