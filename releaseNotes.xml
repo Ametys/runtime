@@ -136,5 +136,6 @@
     	<note module="kernel" type="update">RUNTIME-290 : Accept IE8 in admin</note>
     	<note module="kernel" type="update">RUNTIME-399 : Add Firefox 3.6 to the list of acceptable browsers</note>
     	<note module="kernel" type="update">RUNTIME-400 Accept Firefox 3.6 in admin workspace</note>
+    	<note module="kernel" type="fix">RUNTIME-401 : Javascript added in a HTML expert content is not interpreted once generated</note>
     </release>
 </releases>
