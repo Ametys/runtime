@@ -158,6 +158,14 @@ public class XHTMLSerializerTestCase extends TestCase
     {
         String expected = IOUtils.toString(expectedIs, "UTF-8");
         String result = IOUtils.toString(resultIs, "UTF-8");
+        
+        for (int i = 0; i < result.length(); i++)
+        {
+            if (result.charAt(i) != expected.charAt(i))
+            {
+                throw new IOException ("Character " + i + " not equals : " + new Byte(String.valueOf(result.charAt(i))).byteValue() +  " excepted " + new Byte(String.valueOf(expected.charAt(i))).byteValue());
+            }
+        }
 
         assertEquals("XML output differs", expected, result);
     }
