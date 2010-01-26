@@ -163,7 +163,17 @@ public class XHTMLSerializerTestCase extends TestCase
         {
             if (result.charAt(i) != expected.charAt(i))
             {
-                throw new IOException ("Character " + i + " not equals : " + (byte) result.charAt(i) +  " excepted " + (byte) expected.charAt(i));
+                int begin = 0;
+                int end = result.length() - 1;
+                if (i > 7)
+                {
+                    begin = i - 7;
+                }
+                if (i + 7 < end)
+                {
+                    end = i + 7;
+                }
+                throw new IOException ("'" + result.substring(begin, end) + "' :  character " + i + " not equals : " + (byte) result.charAt(i) +  " excepted " + (byte) expected.charAt(i));
             }
         }
 
