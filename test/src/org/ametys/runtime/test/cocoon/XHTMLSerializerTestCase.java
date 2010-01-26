@@ -156,8 +156,8 @@ public class XHTMLSerializerTestCase extends TestCase
     
     private void _assertEquals(InputStream expectedIs, ByteArrayInputStream resultIs) throws IOException
     {
-        String expected = IOUtils.toString(expectedIs, "UTF-8");
-        String result = IOUtils.toString(resultIs, "UTF-8");
+        String expected = IOUtils.toString(expectedIs, "UTF-8").replaceAll("\r", "");
+        String result = IOUtils.toString(resultIs, "UTF-8").replaceAll("\r", "");
         
         for (int i = 0; i < result.length(); i++)
         {
