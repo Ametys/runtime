@@ -873,7 +873,10 @@
 					<param name="icon-small" file="true">img/administrator/system/icon_dock.png</param>
 					<param name="icon-medium" file="true">img/administrator/system/icon_medium.gif</param>
 					<param name="icon-large" file="true">img/administrator/system/icon_large.png</param>
-				</action>    				   
+				</action>   
+				<css>
+					<file>css/system.css</file>
+				</css> 				   
                 <Url>administrator/system/view\.html</Url>
             </extension>   
                
