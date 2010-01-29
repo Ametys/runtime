@@ -74,7 +74,11 @@
 	margin-bottom: 10px;
 }
 
-.ametys-input label, .ametys-select label, .ametys-file label  {
+.ametys-multi-select {
+	overflow: visible !important;
+}
+
+.ametys-input label, .ametys-select label, .ametys-file label, .ametys-multi-select label  {
 	float:left !important;
 	/*width: 230px !important; */
 	text-align: right !important;
@@ -93,8 +97,16 @@
 	/*padding-left: 203px !important; /* largeur du label 200 + padding 3 + img 21*/
 }
 
+.ametys-multi-select div.x-form-element .x-form-field {
+	float: left;
+}
+
+.ametys-multi-select div.x-form-element fieldset .x-fieldset-body {
+	overflow: auto;
+}
+
 .ametys-input img.x-form-date-trigger {
-	height: 24px;
+	/* height: 24px; */
 }
 
 .ametys-input div.x-form-field-trigger-wrap, .ametys-select div.x-form-field-trigger-wrap {
@@ -109,12 +121,7 @@
 	background-color: #FFF !important;
 	background-image: none !important;
 	padding: 4px 0px 0px 9px !important;
-	height: 20px !important;
 	float: left;
-}
-
-.ametys-input input.x-form-checkbox  {
-	border: 0px solid #C8CDD0 !important;
 }
 
 .ametys-file input {
@@ -133,7 +140,6 @@
 	border: 1px solid #C8CDD0 !important;
 	background-color: #FFF !important;
 	background-image: none !important;
-	height: 20px !important;
 	padding: 4px 0px 0px 9px !important;
 }
 
@@ -147,8 +153,13 @@
 	float: left;
 }
 
+.ametys-input input.x-form-checkbox  {
+	border: 0px solid #C8CDD0 !important;
+	margin-top: 6px !important;
+}
+
 .ametys-select .x-form-trigger.x-form-arrow-trigger {
-	height: 23px !important;
+	/* height: 23px !important; */
 }
 
 .ametys-password-field-body {

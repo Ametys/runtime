@@ -177,6 +177,7 @@
         
  		<script type="text/javascript" src="{$contextPath}/plugins/extjs/resources/ux/js/XmlTreeLoader.js"><xsl:comment>empty</xsl:comment></script>
         <script type="text/javascript" src="{$contextPath}/plugins/extjs/resources/ux/js/fileuploadfield/FileUploadField.js"><xsl:comment>empty</xsl:comment></script>
+        <script type="text/javascript" src="{$contextPath}/plugins/extjs/resources/ux/js/MultiSelect.js"><xsl:comment>empty</xsl:comment></script>
         
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/TextField.js"><xsl:comment>empty</xsl:comment></script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/TextAreaField.js"><xsl:comment>empty</xsl:comment></script>
@@ -187,6 +188,7 @@
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/PasswordWidget.i18n.js"><xsl:comment>empty</xsl:comment></script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/DateField.js"><xsl:comment>empty</xsl:comment></script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/ComboField.js"><xsl:comment>empty</xsl:comment></script>
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/MultiSelectField.js"><xsl:comment>empty</xsl:comment></script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/FileUploadField.js"><xsl:comment>empty</xsl:comment></script>
  		<script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/tree/XmlTreeLoader.js"><xsl:comment>empty</xsl:comment></script>
 				
