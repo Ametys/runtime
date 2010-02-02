@@ -15,7 +15,7 @@
    -->
 
 <!-- 
-  This sample of js will be xmlized so you cannot use xml specialcaracters 
+  This sample of js will be xmlized so you cannot use xml special characters 
   This comment will not be part of the output
   The url to call this file is 'resources/js/sample.i18n.js'
   
