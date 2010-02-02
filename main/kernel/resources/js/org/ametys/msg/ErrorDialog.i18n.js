@@ -68,7 +68,7 @@ org.ametys.msg.ErrorDialog = function (title, text, details, category)
 		    	handler : org.ametys.msg.ErrorDialog._okMessage
 		    },
 		    new Ext.SplitButton({
-		    	// A bug of extjs imply to set space caracter. If not the menu zone is too big.
+		    	// A bug of extjs imply to set space character. If not the menu zone is too big.
 		    	text :"&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;" + "<i18n:text i18n:key='KERNEL_MSG_ERRORDIALOG_SPLITBUTTON_OK'/>" + "&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;",
 		    	menu: 
 		    	{
