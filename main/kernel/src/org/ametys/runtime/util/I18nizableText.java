@@ -49,7 +49,7 @@ public final class I18nizableText
     /**
      * Create an i18nized text
      * @param catalogue the catalogue where the key is defined. Can be null. Can be overloaded by the catalogue in the key.
-     * @param key the key of the text. Cannot be null. May include the catalogue using the caracter ':' as separator. CATALOG:KEY.
+     * @param key the key of the text. Cannot be null. May include the catalogue using the character ':' as separator. CATALOG:KEY.
      */
     public I18nizableText(String catalogue, String key)
     {
@@ -59,7 +59,7 @@ public final class I18nizableText
     /**
      * Create an i18nized text
      * @param catalogue the catalogue where the key is defined. Can be null. Can be overloaded by the catalogue in the key.
-     * @param key the key of the text. Cannot be null. May include the catalogue using the caracter ':' as separator. CATALOG:KEY.
+     * @param key the key of the text. Cannot be null. May include the catalogue using the character ':' as separator. CATALOG:KEY.
      * @param parameters the parameters of the key if any. Can be null.
      */
     public I18nizableText(String catalogue, String key, List<String> parameters)
