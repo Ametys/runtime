@@ -32,7 +32,7 @@ org.ametys.msg.ErrorDialog = function (title, text, details, category)
     	cls: 'error-dialog-text',
     	autoScroll: true,
     	border: false,
-    	height: 40
+    	height: 47
     });
 	var detailledMsg = new Ext.Panel({
     	html: "&lt;div style='white-space: nowrap'&gt;" + details.replace(/\n?\n/g, '&lt;br/&gt;').replace(/\t/g, '&amp;#160;&amp;#160;&amp;#160;&amp;#160;') + "&lt;/div&gt;",
