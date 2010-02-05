@@ -27,6 +27,12 @@
     <xsl:param name="workspaceURI"/>
     
     <xsl:variable name="workspaceContext"><xsl:value-of select="$contextPath"/><xsl:value-of select="$workspaceURI"/></xsl:variable>
+    
+    <xsl:template name="administrator-css">
+		<style type="text/css">
+			#top { background: url('<xsl:value-of select="$workspaceContext"/>/resources/img/top_<i18n:text i18n:key="KERNEL_LANGUAGE_CODE" i18n:catalogue="kernel"/>.jpg'); } 
+		</style>
+    </xsl:template>
 
 	<xsl:template match="/">
 		<html>
@@ -45,6 +51,8 @@
 				<link rel="stylesheet" href="{$workspaceContext}/resources/css/admin.css" type="text/css"/>
 				<link rel="stylesheet" href="{$workspaceContext}/resources/css/panel.css" type="text/css"/>
 		        
+		        <xsl:call-template name="administrator-css"/>
+				
 				<!-- loading ui library -->
                 <xsl:call-template name="ui-load">
                     <xsl:with-param name="pluginsDirectContext" select="concat($workspaceContext, '/plugins')"/>

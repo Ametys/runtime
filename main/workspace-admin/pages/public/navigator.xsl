@@ -20,10 +20,12 @@
 	
 	<xsl:import href="../core/template.xsl"/>
     
-   <xsl:param name="redirect"/>
+    <xsl:param name="redirect"/>
     <xsl:param name="contextPath"/>
     <xsl:param name="workspaceURI"/>
     
+    <xsl:template name="administrator-css"/>
+        
 	<xsl:template name="workspace-script">
 		<link type="text/css" href="{$contextPath}{$workspaceURI}/resources/css/public.css" rel="stylesheet" />
         <script type="text/javascript">
