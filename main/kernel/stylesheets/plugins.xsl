@@ -31,7 +31,7 @@
 	            
 	            <!-- check that the src was not already loaded (by another plugin for example) -->
 	            <xsl:if test="not($scripts[position() &lt; $position and . = $value])">
-	                <script src="{$contextPath}{.}"><xsl:comment>empty</xsl:comment></script>
+	                <script src="{$contextPath}{.}"></script>
 	            </xsl:if>
 	        </xsl:for-each>
 		</xsl:if>
