@@ -30,7 +30,7 @@
     
     <xsl:template name="administrator-css">
 		<style type="text/css">
-			#top { background: url('<xsl:value-of select="$workspaceContext"/>/resources/img/top_<i18n:text i18n:key="KERNEL_LANGUAGE_CODE" i18n:catalogue="kernel"/>.jpg'); } 
+			#top { background-image: url('<xsl:value-of select="$workspaceContext"/>/resources/img/top_<i18n:text i18n:key="KERNEL_LANGUAGE_CODE" i18n:catalogue="kernel"/>.jpg'); } 
 		</style>
     </xsl:template>
 
