@@ -82,18 +82,18 @@
                 
                 <xsl:call-template name="workspace-head"/>
                 
-                <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/Fieldset.js"><xsl:comment>empty</xsl:comment></script>
-		        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/ActionsPanel.js"><xsl:comment>empty</xsl:comment></script>
-		        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/Action.js"><xsl:comment>empty</xsl:comment></script>
-		        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/TextPanel.js"><xsl:comment>empty</xsl:comment></script>
-		        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/NavigationPanel.js"><xsl:comment>empty</xsl:comment></script>
-		        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/NavigationItem.js"><xsl:comment>empty</xsl:comment></script>
-		        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/DesktopPanel.js"><xsl:comment>empty</xsl:comment></script>
-		        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/DesktopCategory.js"><xsl:comment>empty</xsl:comment></script>
-		        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/DesktopItem.js"><xsl:comment>empty</xsl:comment></script>
+                <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/Fieldset.js"></script>
+		        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/ActionsPanel.js"></script>
+		        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/Action.js"></script>
+		        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/TextPanel.js"></script>
+		        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/NavigationPanel.js"></script>
+		        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/NavigationItem.js"></script>
+		        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/DesktopPanel.js"></script>
+		        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/DesktopCategory.js"></script>
+		        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/DesktopItem.js"></script>
 		        
-		        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/DockItem.js"><xsl:comment>empty</xsl:comment></script>
-		        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/AdminTools.js"><xsl:comment>empty</xsl:comment></script>
+		        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/DockItem.js"></script>
+		        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/AdminTools.js"></script>
                 <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/runtime/HomePage.js"><xsl:comment>//empty</xsl:comment></script>
                 
                 <script type="text/javascript">
