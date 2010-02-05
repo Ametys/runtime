@@ -17,7 +17,7 @@
 <ivy-module version="1.0">
   <info organisation="org.ametys.runtime"
         module="runtime">
-    <license url="http://www.eclipse.org/legal/epl-v10.html" name="EPL"/>
+    <license url="http://www.apache.org/licenses/LICENSE-2.0" name="ASL2"/>
     <description homepage="http://www.ametys.org/">
 Open source web application framework based on Apache Cocoon.
     </description>
