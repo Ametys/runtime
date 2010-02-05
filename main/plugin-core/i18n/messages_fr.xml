@@ -413,6 +413,7 @@
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_RIGHTCOLUMN">Droits du profils</message>
     <message key="PLUGINS_CORE_PROFILE_RIGHTS_HANDLE_LABEL">Profils</message>
     <message key="PLUGINS_CORE_PROFILE_RIGHTS_HANDLE_DESCRIPTION">Accès à l'écran de gestion des profils</message>
+    <message key="PLUGINS_CORE_RIGHTS_PROFILES_ERROR">Une erreur est survenue</message>
     
     <!-- RIGHTS -->
     <message key="PLUGINS_CORE_RIGHTS_LABEL">Assignation</message>

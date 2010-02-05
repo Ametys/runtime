@@ -587,6 +587,10 @@
         <single-extension-point id="org.ametys.runtime.right.RightsManager"
                                 class="org.ametys.runtime.right.RightsManager"
                                 default-extension-id="org.ametys.runtime.plugins.core.right.Basic"/>
+        
+        <single-extension-point id="org.ametys.runtime.right.RightsContextPrefixExtensionPoint"
+                                class="org.ametys.runtime.right.RightsContextPrefixExtensionPoint"
+                                default-extension-id="org.ametys.runtime.plugins.core.right.context.Default"/>
 
         <single-extension-point id="org.ametys.runtime.user.UsersManager"
                                 class="org.ametys.runtime.user.UsersManager"
@@ -1422,6 +1426,17 @@
         </extensions>
     </feature>
 
+	<feature name="runtime.rights.context.impl.default">
+        <!-- 
+            This feature declares the default rights context manager
+         -->
+        <extensions>
+            <extension point="org.ametys.runtime.right.RightsContextPrefixExtensionPoint"
+                       id="org.ametys.runtime.plugins.core.right.context.Default"
+                       class="org.ametys.runtime.right.DefaultRightsContextPrefix"
+                       logger="org.ametys.runtime.plugins.core.right.context.default"/>
+        </extensions>
+    </feature>
                                 
     <feature name="runtime.rights.impl.basic">
         <!-- 

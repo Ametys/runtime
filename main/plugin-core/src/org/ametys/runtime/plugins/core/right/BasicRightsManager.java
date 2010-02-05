@@ -25,6 +25,7 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.thread.ThreadSafe;
 
+import org.ametys.runtime.right.RightsContextPrefixExtensionPoint;
 import org.ametys.runtime.right.RightsManager;
 import org.ametys.runtime.user.User;
 import org.ametys.runtime.user.UsersManager;

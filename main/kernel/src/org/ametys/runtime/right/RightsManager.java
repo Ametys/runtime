@@ -19,6 +19,7 @@ import java.util.Set;
 
 /**
  * Abstraction for testing a right associated with a resource and an user from a single source.
+ * The implementations of {@link RightsManager} have to prefix all the given contexts by application the rights' context prefix except if null.
  */
 public interface RightsManager
 {
@@ -48,6 +49,7 @@ public interface RightsManager
     
     /**
      * Check a permission for a user, in a given context.<br>
+     * The implementations have to prefix the given context by the application rights' context prefix except if null.
      * This method returns : 
      * <ul>
      * <li>Right.RIGHT_OK if there is at least one combination of profiles/groups
@@ -57,6 +59,7 @@ public interface RightsManager
      *     Right.RIGHT_UNKNOWN is returned and the interpretation is left
      *     to the application.
      * </ul>
+     * The implementations of {@link RightsManager} must concat the given context by the context prefix.
      * @param userLogin The user's login. Cannot be null.
      * @param right the name of the right to check. Cannot be null.
      * @param context a String representing the context of the call.<br>
@@ -69,6 +72,7 @@ public interface RightsManager
     
     /**
      * Get the list of users that have a particular right in a particular context.
+     * The implementations have to prefix the given context by the application rights' context prefix except if null.
      * @param right The name of the right to use. Cannot be null.
      * @param context The context to test the right.<br>May be null, in which case the returned Set contains all granted users, whatever the context.
      * @return The list of users granted with that right as a Set of String (login).
@@ -78,6 +82,7 @@ public interface RightsManager
     /**
      * Get the list of a user's rights in a particular context.
      * The user's rights and the rights of the user's groups are returned.
+     * The implementations have to prefix the given context by the application rights' context prefix except if null.
      * @param login the user's login. Cannot be null.
      * @param context The context to test the right.<br>May be null, in which case the returned Set contains all granted rights, whatever the context.
      * <br>Wilcards may also be used (eg. "ctx/*") to get all granted rights in the given context and all subcontexts.

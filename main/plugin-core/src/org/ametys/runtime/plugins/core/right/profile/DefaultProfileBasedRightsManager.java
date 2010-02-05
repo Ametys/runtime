@@ -62,6 +62,7 @@ import org.ametys.runtime.request.RequestListener;
 import org.ametys.runtime.request.RequestListenerManager;
 import org.ametys.runtime.right.HierarchicalRightsHelper;
 import org.ametys.runtime.right.InitializableRightsManager;
+import org.ametys.runtime.right.RightsContextPrefixExtensionPoint;
 import org.ametys.runtime.user.ModifiableUsersManager;
 import org.ametys.runtime.user.User;
 import org.ametys.runtime.user.UserListener;
@@ -81,6 +82,8 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     
     /** The rights' list container */
     protected RightsExtensionPoint _rightsEP;
+    /** The rights' context manager */
+    protected RightsContextPrefixExtensionPoint _rightsContextPrefixEP;
     
     /** The users manager */
     protected UsersManager _usersManager;
@@ -138,6 +141,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     {
         _manager = manager;
         _rightsEP = (RightsExtensionPoint) _manager.lookup(RightsExtensionPoint.ROLE);
+        _rightsContextPrefixEP = (RightsContextPrefixExtensionPoint) manager.lookup(RightsContextPrefixExtensionPoint.ROLE);
         _usersManager = (UsersManager) _manager.lookup(UsersManager.ROLE);
         _groupsManager = (GroupsManager) _manager.lookup(GroupsManager.ROLE);
     }
@@ -287,7 +291,8 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
     public Set<String> getGrantedUsers(String right, String context)
     {
-        String lcContext = context != null ? context.toLowerCase() : null;
+        String contextPrefix = _rightsContextPrefixEP.getContextPrefix();
+        String lcContext = context != null ? contextPrefix + context.toLowerCase() : null;
 
         Set<String> logins = new HashSet<String>();
 
@@ -307,7 +312,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
     public Set<String> getUserRights(String login, String context)
     {
-        String lcContext = context != null ? context.toLowerCase() : null;
+        String lcContext = context != null ? _rightsContextPrefixEP.getContextPrefix() + context.toLowerCase() : null;
 
         Set<String> rights = new HashSet<String>();
 
@@ -347,7 +352,8 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
     public RightResult hasRight(String userLogin, String right, String context)
     {
-        String lcContext = context != null ? context.toLowerCase() : null;
+        String contextPrefix = _rightsContextPrefixEP.getContextPrefix();
+        String lcContext = context != null ? contextPrefix + context.toLowerCase() : null;
 
         try
         {
