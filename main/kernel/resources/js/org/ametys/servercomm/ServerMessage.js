@@ -23,7 +23,7 @@ Ext.namespace('org.ametys.servercomm');
  * @param {String} plugin The name of the server plugin targeted. Can be null to send to server root.
  * @param {String} url The url on the server relative to the plugin
  * @param {Map<String, String>} parameters The parameters to send to the server
- * @param {integer} priority The priority of the message. Use org.ametys.servercomm.ServerComm.PRIORITY_MAJOR, org.ametys.servercomm.ServerComm.PRIORITY_NORMAL, or org.ametys.servercomm.ServerComm.PRIORITY_MINOR.
+ * @param {integer} priority The priority of the message. Use org.ametys.servercomm.ServerComm.PRIORITY_*.
  * @param {function} callback The function to call when the message will come back. 
  * First argument will be the xml parent node of the response. This node can be null or empty on fatal error. An attribute 'code' is available on this node with the http code. This reponse has an extra method 'getText' that get the text from a node in parameter of the response.
  * Second argument is the 'callbackarguments' array
@@ -87,11 +87,11 @@ org.ametys.servercomm.ServerMessage.prototype.getParameters = function()
 
 /**
  * @private
- * @property {integer} _priority The priority of the message. Use org.ametys.servercomm.ServerComm.PRIORITY_MAJOR, org.ametys.servercomm.ServerComm.PRIORITY_NORMAL, or org.ametys.servercomm.ServerComm.PRIORITY_MINOR.
+ * @property {integer} _priority The priority of the message. Use org.ametys.servercomm.ServerComm.PRIORITY_*.
  */
 org.ametys.servercomm.ServerMessage.prototype._priority;
 /**
- * Get the priority of the message. org.ametys.servercomm.ServerComm.PRIORITY_MAJOR, org.ametys.servercomm.ServerComm.PRIORITY_NORMAL, or org.ametys.servercomm.ServerComm.PRIORITY_MINOR.
+ * Get the priority of the message. org.ametys.servercomm.ServerComm.PRIORITY_*.
  * @return {integer} The priority of the message
  */
 org.ametys.servercomm.ServerMessage.prototype.getPriority = function()

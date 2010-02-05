@@ -22,9 +22,11 @@ Ext.namespace('org.ametys.servercomm');
  * @class This class creates a dialog box of timeout message
  * @param {String} details The technical details to display  
  * @param {Integer} index The index in ServerComm._runningRequests
+ * @param {Integer} timeout Optional new timeout value
  */
-org.ametys.servercomm.TimeoutDialog = function (details, index)
+org.ametys.servercomm.TimeoutDialog = function (details, index, timeout)
 {
+	timeout = timeout || org.ametys.servercomm.TimeoutDialog.TIMEOUT;
 	var title = "<i18n:text i18n:key='KERNEL_SERVERCOMM_TIMEOUTDIALOG_TITLE'/>"
 	var text = "<i18n:text i18n:key='KERNEL_SERVERCOMM_TIMEOUTDIALOG_TEXT1'/>" + "&lt;br/&gt;" + "<i18n:text i18n:key='KERNEL_SERVERCOMM_TIMEOUTDIALOG_TEXT2'/>"
 		
@@ -64,13 +66,14 @@ org.ametys.servercomm.TimeoutDialog = function (details, index)
 		    {
 		    	text :"<i18n:text i18n:key='KERNEL_SERVERCOMM_TIMEOUTDIALOG_WAIT'/>",
 		    	id: waitId,
+		    	timeout: timeout,
 		    	handler : function() 
 		    	{
 					var currentTimeoutDialog = org.ametys.servercomm.TimeoutDialog._stack[0];
 
 					currentTimeoutDialog.businessWrapper.kill();
 					currentTimeoutDialog.businessWrapper.getRequestOptions()._timeoutDialog = null;
-					currentTimeoutDialog.businessWrapper.getRequestOptions()._timeout = window.setTimeout("org.ametys.servercomm.ServerComm._onRequestTimeout ('" + currentTimeoutDialog.businessWrapper._runningRequestIndex + "');", org.ametys.servercomm.TimeoutDialog.TIMEOUT);
+					currentTimeoutDialog.businessWrapper.getRequestOptions()._timeout = window.setTimeout("org.ametys.servercomm.ServerComm._onRequestTimeout ('" + currentTimeoutDialog.businessWrapper._runningRequestIndex + "');", this.timeout);
 		    	}
 		    },
 		    {

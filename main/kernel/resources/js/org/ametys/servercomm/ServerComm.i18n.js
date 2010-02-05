@@ -56,6 +56,15 @@ org.ametys.servercomm.ServerComm.getInstance = function()
 
 /**
  * The enumeration for message priority : The message will leave now regardless of the queue and of the suspend.
+ * The request will have a 10x longer timeout.
+ * The request will be alone.
+ * Sample: creating a long search message.
+ * @type {integer}
+ * @constant  
+ */
+org.ametys.servercomm.ServerComm.PRIORITY_LONG_REQUEST = -2;
+/**
+ * The enumeration for message priority : The message will leave now regardless of the queue and of the suspend.
  * The send method will become blocking and will return the response.
  * Callback and callback parameters are simply ignored.
  * Sample: creating a target message.
@@ -161,6 +170,10 @@ org.ametys.servercomm.ServerComm.prototype.send = function(message)
 	if (message.getPriority() == org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS)
 	{
 		return this._sendSynchronousMessage(message.toRequest());
+	}
+	else if (message.getPriority() == org.ametys.servercomm.ServerComm.PRIORITY_LONG_REQUEST)
+	{
+		org.ametys.servercomm.ServerComm.prototype._sendMessages(message);
 	}
 	else
 	{
@@ -331,32 +344,43 @@ org.ametys.servercomm.ServerComm.xmlTextContent = Ext.isIE ? 'text' : 'textConte
 
 /**
  * Send the waiting messages to the server
+ * @param m A optional message. If null the method will empty the queue, else it will send only this message.
  * @private
  */
-org.ametys.servercomm.ServerComm.prototype._sendMessages = function()
+org.ametys.servercomm.ServerComm.prototype._sendMessages = function(m)
 {
-	clearTimeout(this._sendTask);
-	this._sendTask = null;
-	this._nextTimer = null;
+	var timeout = org.ametys.servercomm.TimeoutDialog.TIMEOUT;
 	
-	if (this._suspended &gt; 0)
+	if (m == null)
 	{
-		// communication is suspended - messages will be sent as soon as possible
-		return;
-	}
+		clearTimeout(this._sendTask);
+		this._sendTask = null;
+		this._nextTimer = null;
+		
+		if (this._suspended &gt; 0)
+		{
+			// communication is suspended - messages will be sent as soon as possible
+			return;
+		}
+		
+		if (this._messages.length == 0)
+		{
+			return;
+		}
 	
-	if (this._messages.length == 0)
-	{
-		return;
+		// Effectively send messages
+		var parameters = {};
+		var count = 0;
+		for (var i = 0; i &lt; this._messages.length; i++)
+		{
+			var message = this._messages[i];
+			parameters[count++] = message.toRequest();
+		}
 	}
-
-	// Effectively send messages
-	var parameters = {};
-	var count = 0;
-	for (var i = 0; i &lt; this._messages.length; i++)
+	else
 	{
-		var message = this._messages[i];
-		parameters[count++] = message.toRequest();
+		timeout *= 10;
+		var parameters = {0: m.toRequest()};
 	}
 	
 	var sendOptions = {};
@@ -370,7 +394,7 @@ org.ametys.servercomm.ServerComm.prototype._sendMessages = function()
 	sendOptions.params = "content=" + encodeURIComponent(Ext.util.JSON.encode(parameters));
 	sendOptions.messages = this._messages;
 	sendOptions._timeoutIndex = index;
-	sendOptions._timeout = window.setTimeout("org.ametys.servercomm.ServerComm._onRequestTimeout ('" + index + "');", org.ametys.servercomm.TimeoutDialog.TIMEOUT);
+	sendOptions._timeout = window.setTimeout("org.ametys.servercomm.ServerComm._onRequestTimeout ('" + index + "', " + timeout + ");", timeout);
 
 	this._messages = [];
 
@@ -455,12 +479,13 @@ org.ametys.servercomm.ServerComm._runningRequestsIndex = 0;
  * @static
  * When a request times out
  * @param {integer} index The index of the request in the _runningRequest map.
+ * @param {integer} timeout The timeout value
  */
-org.ametys.servercomm.ServerComm._onRequestTimeout = function(index)
+org.ametys.servercomm.ServerComm._onRequestTimeout = function(index, timeout)
 {
 	var sendOptions = org.ametys.servercomm.ServerComm._runningRequests[index];
 	sendOptions._timeout = null;
-	sendOptions._timeoutDialog = new org.ametys.servercomm.TimeoutDialog(sendOptions.params, index);
+	sendOptions._timeoutDialog = new org.ametys.servercomm.TimeoutDialog(sendOptions.params, index, timeout);
 }
 
 /**
