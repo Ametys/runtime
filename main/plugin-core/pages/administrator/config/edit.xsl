@@ -36,7 +36,7 @@
             </head>
             
             <script>
-               <script type="text/javascript" src="{$contextPath}/plugins/{$pluginName}/resources/js/org/ametys/administration/Config.i18n.js"><xsl:comment>empty</xsl:comment></script>
+               <script type="text/javascript" src="{$contextPath}/plugins/{$pluginName}/resources/js/org/ametys/administration/Config.i18n.js"/>
                
                <script type="text/javascript">
                

@@ -37,7 +37,7 @@
             
             <script>
             	<script type="text/javascript" src="{$resourcesPath}/js/users/selectuser.i18n.js"><xsl:comment>//emty</xsl:comment></script>
-            	<script type="text/javascript" src="{$contextPath}/plugins/{$pluginName}/resources/js/org/ametys/administration/Groups.i18n.js"><xsl:comment>empty</xsl:comment></script>
+            	<script type="text/javascript" src="{$contextPath}/plugins/{$pluginName}/resources/js/org/ametys/administration/Groups.i18n.js"></script>
             	
             	<script type="text/javascript">
             		RUNTIME_Plugin_Runtime_SelectUser.initialize("<xsl:value-of select="$pluginName"/>");

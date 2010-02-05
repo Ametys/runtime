@@ -36,7 +36,7 @@
             
             <script>
             	<script type="text/javascript" src="{$resourcesPath}/js/users/user.i18n.js"><xsl:comment>//empty</xsl:comment></script>
-            	<script type="text/javascript" src="{$contextPath}/plugins/{$pluginName}/resources/js/org/ametys/administration/Users.i18n.js"><xsl:comment>empty</xsl:comment></script>
+            	<script type="text/javascript" src="{$contextPath}/plugins/{$pluginName}/resources/js/org/ametys/administration/Users.i18n.js"></script>
             	
             	<script type="text/javascript">
             			RUNTIME_Plugin_Runtime_EditUser.initialize("<xsl:value-of select="$pluginName"/>", <xsl:value-of select="count(Model/*)+count(Model/*[type='password'])"/>);
