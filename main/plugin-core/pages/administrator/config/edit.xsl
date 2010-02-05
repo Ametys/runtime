@@ -16,6 +16,7 @@
    -->
 <xsl:stylesheet version="1.0" 
                 xmlns:i18n="http://apache.org/cocoon/i18n/2.1" 
+                xmlns:jsencoder="org.ametys.runtime.ui.JavascriptEncoder" 
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
     
     <xsl:param name="contextPath"/>
@@ -74,7 +75,7 @@
 									var input = org.ametys.administration.Config.addInputField (fieldSet, 
 										"<xsl:value-of select="type"/>", 
 										"<xsl:value-of select="local-name()"/>", 
-										"<xsl:value-of select="value"/>", 
+										"<xsl:value-of select="jsencoder:encode(value)"/>", 
 										"<xsl:copy-of select="label/node()"/>", 
 										"<xsl:copy-of select="description/node()"/>",
 										<xsl:call-template name="enumeration"/>);
@@ -106,7 +107,7 @@
     			<xsl:text>[</xsl:text> 
     			<xsl:for-each select="enumeration/option">
     				<xsl:if test="position() != 1">, </xsl:if>
-    				<xsl:text>["</xsl:text><xsl:value-of select="@value"/><xsl:text>", "</xsl:text><xsl:copy-of select="node()"/><xsl:text>"]</xsl:text>
+    				<xsl:text>["</xsl:text><xsl:value-of select="jsencoder:encode(@value)"/><xsl:text>", "</xsl:text><xsl:copy-of select="node()"/><xsl:text>"]</xsl:text>
     			</xsl:for-each>
     			<xsl:text>]</xsl:text> 
     		</xsl:when>
