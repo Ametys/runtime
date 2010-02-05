@@ -53,7 +53,7 @@ public class DefaultVersionsHandler extends AbstractLogEnabled implements Versio
         
         if (_runtimeVersion == null)
         {
-            _runtimeVersion = _getVersionFromCLasspath("/org/ametys/runtime/version.xml", "Runtime");
+            _runtimeVersion = _getVersionFromClasspath("/org/ametys/runtime/version.xml", "Runtime");
         }
         
         versions.add(_applicationVersion);
@@ -97,7 +97,7 @@ public class DefaultVersionsHandler extends AbstractLogEnabled implements Versio
      * @param versionName the name of the Version to create
      * @return the created Version
      */
-    protected final Version _getVersionFromCLasspath(String path, String versionName)
+    protected final Version _getVersionFromClasspath(String path, String versionName)
     {
         Map<String, String> config = new HashMap<String, String>();
         Date date = null;
