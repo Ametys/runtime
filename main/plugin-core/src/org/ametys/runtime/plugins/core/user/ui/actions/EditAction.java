@@ -24,6 +24,7 @@ import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.SourceResolver;
+import org.apache.commons.lang.StringUtils;
 
 import org.ametys.runtime.user.InvalidModificationException;
 import org.ametys.runtime.user.ModifiableUsersManager;
@@ -108,15 +109,8 @@ public class EditAction extends CurrentUserProviderServiceableAction
             
             if (fieldErrors != null && fieldErrors.size() > 0)
             {
-                StringBuffer fields = new StringBuffer();
-                for (String field : fieldErrors.keySet())
-                {
-                    fields.append(",");
-                    fields.append(field);
-                }
-                
                 Map<String, String> result = new HashMap<String, String>();
-                result.put("error", fields.toString());
+                result.put("error", StringUtils.join(fieldErrors.keySet(), ","));
                 return result;
             }
             else
