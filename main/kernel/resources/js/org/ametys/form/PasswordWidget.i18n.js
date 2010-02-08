@@ -98,21 +98,30 @@ org.ametys.form.PasswordWidget.prototype.setValue = function (value)
 	}
 	else
 	{
-		if (!this._pwdConfirm)
-		{
-			this._pwdConfirm = this._createConfirmPwdField();
-			this.add(this._pwdConfirm);
-		}
+		this._pwdConfirm = this._createConfirmPwdField();
+		this.add(this._pwdConfirm);
+		
 		if (this._editBtn)
 		{
 			this.remove(this._editBtn, true);
 		}
+		this._pwdConfirm.enable();
 		this._pwdConfirm.setValue(value);
 		this._pwdConfirm.clearInvalid();
 		this._pwd.enable();
 		
 		this.doLayout();
 	}
+}
+
+org.ametys.form.PasswordWidget.prototype.getValue = function ()
+{
+	return this._pwd.getValue();
+}
+
+org.ametys.form.PasswordWidget.prototype.getName = function ()
+{
+	return this._name;
 }
 
 
