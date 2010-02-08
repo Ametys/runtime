@@ -29,7 +29,7 @@ public interface ClientSideElement
      * This method return the script that will be used on client side.
      * This class will be parametrized by initial and current parameters.
      * @param contextParameters Contextuals parameters transmitted by the environment.
-     * @return The script. Can not be null.
+     * @return The script or null.
      */
     public Script getScript(Map<String, Object> contextParameters);
     
