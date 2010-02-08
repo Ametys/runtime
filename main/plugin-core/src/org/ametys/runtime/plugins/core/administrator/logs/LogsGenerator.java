@@ -90,43 +90,7 @@ public class LogsGenerator extends ServiceableGenerator
             
             loggers.add(loggerRepository.getRootLogger());
             
-            Collections.sort(loggers, new Comparator<Logger>()
-            {
-                public int compare(Logger o1, Logger o2)
-                {
-                    String[] o1NameParts = o1.getName().split("\\.");
-                    String[] o2NameParts = o2.getName().split("\\.");
-                    int i = 0;
-                    
-                    for (; i < o1NameParts.length && i < o2NameParts.length; i++)
-                    {
-                        int compare = o1NameParts[i].compareTo(o2NameParts[i]);
-                        
-                        if (compare != 0)
-                        {
-                            return compare;
-                        }
-                        
-                        // Same category, continue
-                    }
-                    
-                    if (i == o1NameParts.length)
-                    {
-                        if (i != o2NameParts.length)
-                        {
-                            // o2 has a longer category
-                            return 1;
-                        }
-                    }
-                    else
-                    {
-                        // o1 has a longer category
-                        return -1;
-                    }
-                    
-                    return o1.getName().compareTo(o2.getName());
-                }
-            });
+            Collections.sort(loggers, new LoggerComparator());
             
             for (Logger logger : loggers)
             {
@@ -227,6 +191,47 @@ public class LogsGenerator extends ServiceableGenerator
         else
         {
             return null;
+        }
+    }
+    
+    /**
+     * Comparator to compare two loggers by their name 
+     */
+    public class LoggerComparator implements Comparator<Logger>
+    {
+        public int compare(Logger o1, Logger o2)
+        {
+            String[] o1NameParts = o1.getName().split("\\.");
+            String[] o2NameParts = o2.getName().split("\\.");
+            int i = 0;
+            
+            for (; i < o1NameParts.length && i < o2NameParts.length; i++)
+            {
+                int compare = o1NameParts[i].compareTo(o2NameParts[i]);
+                
+                if (compare != 0)
+                {
+                    return compare;
+                }
+                
+                // Same category, continue
+            }
+            
+            if (i == o1NameParts.length)
+            {
+                if (i != o2NameParts.length)
+                {
+                    // o2 has a longer category
+                    return 1;
+                }
+            }
+            else
+            {
+                // o1 has a longer category
+                return -1;
+            }
+            
+            return o1.getName().compareTo(o2.getName());
         }
     }
 }
