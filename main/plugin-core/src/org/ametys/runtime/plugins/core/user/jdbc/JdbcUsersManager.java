@@ -62,7 +62,7 @@ import org.ametys.runtime.util.parameter.ParameterHelper.ParameterType;
  * Use a jdbc driver for getting the list of users.<br/>
  * The main method to override is <code>_createUserFromResultSet</code>
  */
-public class JdbcUsersManager extends CachingComponent implements UsersManager, Configurable, ThreadSafe, Component, Serviceable, Contextualizable, PluginAware, Disposable
+public class JdbcUsersManager extends CachingComponent<User> implements UsersManager, Configurable, ThreadSafe, Component, Serviceable, Contextualizable, PluginAware, Disposable
 {
     /** The base plugin (for i18n key) */
     protected static final String BASE_PLUGIN_NAME = "core";
@@ -345,7 +345,7 @@ public class JdbcUsersManager extends CachingComponent implements UsersManager, 
     {
         if (isCacheEnabled())
         {
-            User user = (User) getObjectFromCache(login);
+            User user = getObjectFromCache(login);
             if (user != null)
             {
                 return user;
