@@ -192,21 +192,8 @@ public class DispatchGenerator extends ServiceableGenerator
             }
             finally
             {
-                if (is != null)
-                {
-                    try
-                    {
-                        is.close();
-                    }
-                    catch (IOException e)
-                    {
-                        // do nothing
-                    }
-                }
-                if (response != null)
-                {
-                    _resolver.release(response);
-                }
+                IOUtils.closeQuietly(is);
+                _resolver.release(response);
             }
         }
     }
