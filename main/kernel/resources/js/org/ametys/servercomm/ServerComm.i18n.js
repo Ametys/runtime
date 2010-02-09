@@ -272,7 +272,7 @@ org.ametys.servercomm.ServerComm.prototype._sendSynchronousMessage = function(me
 	
     var connection = getConnectionObject();
 
-    connection.conn.open("POST", context.contextPath + "/plugins/core/servercomm/messages.xml", false);
+    connection.conn.open("POST", context.workspaceContext + "/plugins/core/servercomm/messages.xml", false);
 
     if (pub.useDefaultXhrHeader) 
     {                    
@@ -387,7 +387,7 @@ org.ametys.servercomm.ServerComm.prototype._sendMessages = function(m)
 	var index = org.ametys.servercomm.ServerComm._runningRequestsIndex ++;
 	org.ametys.servercomm.ServerComm._runningRequests[index] = sendOptions;
 	
-	sendOptions.url = context.contextPath + "/plugins/core/servercomm/messages.xml";
+	sendOptions.url = context.workspaceContext + "/plugins/core/servercomm/messages.xml";
 	sendOptions.success = this._onRequestComplete;
 	sendOptions.failure = this._onRequestFailure;
 	sendOptions.scope = this;
