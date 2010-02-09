@@ -96,6 +96,10 @@ public class DataSourceExtensionPoint extends AbstractExtensionPoint<DataSource>
         {
             return "SELECT 1 FROM DUAL";
         }
+        else if ("org.apache.derby.jdbc.EmbeddedDriver".equals(driver))
+        {
+            return "SELECT 1 FROM SYS.SYSTABLES";
+        }
         else
         {
             return "SELECT 1";

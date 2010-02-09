@@ -52,7 +52,10 @@ public final class ConnectionHelper
         DATABASE_ORACLE, 
               
         /** Database type is Postgres */
-        DATABASE_POSTGRES
+        DATABASE_POSTGRES,
+        
+        /** Database type is Derby */
+        DATABASE_DERBY
     }
     
     // Logger for traces
@@ -210,6 +213,10 @@ public final class ConnectionHelper
         else if (jdbcURL.trim().startsWith("jdbc:postgresql"))
         {
             return DatabaseType.DATABASE_POSTGRES;
+        }
+        else if (jdbcURL.trim().startsWith("jdbc:derby"))
+        {
+            return DatabaseType.DATABASE_DERBY;
         }
         else
         {

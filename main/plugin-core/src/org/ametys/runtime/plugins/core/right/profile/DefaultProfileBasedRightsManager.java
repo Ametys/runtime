@@ -330,8 +330,6 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
     public void grantAllPrivileges(String login, String context)
     {
-        String lcContext = getFullContext (context);
-
         // On crée un profile
         Profile adminProfile = addProfile(__INITIAL_PROFILE_ID);
 
@@ -346,7 +344,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         }
         
         // On affecte le profil
-        addUserRight(login, lcContext, adminProfile.getId());
+        addUserRight(login, context, adminProfile.getId());
     }
 
     public RightResult hasRight(String userLogin, String right, String context)
@@ -697,7 +695,6 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             String sql = "SELECT GR.Context " + "FROM " + _tableGroupRights + " GR WHERE GR.Group_Id = ? AND GR.Profile_Id = ?";
 
             stmt = connection.prepareStatement(sql);
-
             stmt.setString(1, groupID);
             stmt.setString(2, profileID);
 
@@ -1963,7 +1960,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         {
             connection = ConnectionHelper.getConnection(_poolName);
             
-            if (!DatabaseType.DATABASE_MYSQL.equals(ConnectionHelper.getDatabaseType(connection)))
+            if (DatabaseType.DATABASE_ORACLE.equals(ConnectionHelper.getDatabaseType(connection)))
             {
                 statement = connection.prepareStatement("SELECT seq_rights_profile.nextval FROM dual");
                 rs = statement.executeQuery();
@@ -1973,11 +1970,17 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
                 }
                 ConnectionHelper.cleanup(rs);
                 ConnectionHelper.cleanup(statement);
+                
+                statement = connection.prepareStatement("INSERT INTO " + _tableProfile + " (Id, Label) VALUES(?, ?)");
+                statement.setString(1, id);
+                statement.setString(2, name);
             } 
+            else
+            {
+                statement = connection.prepareStatement("INSERT INTO " + _tableProfile + " (Label) VALUES(?)");
+                statement.setString(1, name);
+            }
             
-            statement = connection.prepareStatement("INSERT INTO " + _tableProfile + " (Id, Label) VALUES(?, ?)");
-            statement.setString(1, id);
-            statement.setString(2, name);
             statement.executeUpdate();
             ConnectionHelper.cleanup(statement);
             
@@ -2003,6 +2006,17 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
                     }
                 }
             }
+            else if (DatabaseType.DATABASE_DERBY.equals(ConnectionHelper.getDatabaseType(connection)))
+            {
+                statement = connection.prepareStatement("VALUES IDENTITY_VAL_LOCAL ()");
+                rs = statement.executeQuery();
+                if (rs.next())
+                {
+                    id = rs.getString(1);
+                }
+            }
+            
+            // TODO if (DatabaseType.DATABASE_POSTGRES.equals(ConnectionHelper.getDatabaseType(connection)))
         }
         catch (SQLException ex)
         {
