@@ -51,11 +51,9 @@ input {
 
 
 .ametys-input label, .ametys-select label  {
-	width: 80px !important; 
 }
 
 .ametys-input input, .ametys-input select {
-	width: 200px !important; 
 }
 
 .search-footer .x-panel-btns .x-panel-fbar .x-toolbar-ct {

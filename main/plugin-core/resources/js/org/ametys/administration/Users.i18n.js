@@ -447,7 +447,7 @@ org.ametys.administration.Users._createDoubleField = function (name, label, desc
         fieldLabel: label,
         desc: description,
         
-        width: 250
+        width: 200
 	});
 }
 
@@ -458,7 +458,7 @@ org.ametys.administration.Users._createLongField = function (name, label, descri
 		fieldLabel: label,
         desc: description,
         
-        width: 250
+        width: 200
 	});
 }
 
@@ -470,7 +470,7 @@ org.ametys.administration.Users._createPasswordField = function (name, label, de
 	    fdLabel: label,
 	    desc: description,
 	    
-	    fdLabelWidth :230
+	    fdLabelWidth :200
 	});
 }
 
@@ -482,7 +482,7 @@ org.ametys.administration.Users._createDateField = function (name, label, descri
         fieldLabel: label,
         desc: description,
         
-        width: 250
+        width: 200
 	});
 }
 
@@ -507,6 +507,6 @@ org.ametys.administration.Users._createTextField = function (name, label, descri
         fieldLabel: label,
         desc: description,
         
-        width: 250
+        width: 200
 	});
 }

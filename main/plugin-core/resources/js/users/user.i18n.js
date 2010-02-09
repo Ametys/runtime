@@ -36,7 +36,6 @@ RUNTIME_Plugin_Runtime_EditUser.delayedInitialize = function()
 		formId : 'edit-user-form',
 		bodyStyle : 'padding:10px',
 		labelWidth :100,
-		width :300,
 		defaultType :'textfield'
 	});
 	
@@ -48,22 +47,23 @@ RUNTIME_Plugin_Runtime_EditUser.delayedInitialize = function()
 	RUNTIME_Plugin_Runtime_EditUser.form = formPanel.getForm();
 	
 	RUNTIME_Plugin_Runtime_EditUser.box = new org.ametys.DialogBox({
-		title :"<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_NEW"/>",
-		layout :'fit',
-		width :380,
-		height : (80 + 25*RUNTIME_Plugin_Runtime_EditUser.fieldsNum),
+		
+		title: "<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_NEW"/>",
+		icon: getPluginResourcesUrl('core') + '/img/users/icon_small.png',
+		
+		width : 430,
+		height : (80 + 30 * RUNTIME_Plugin_Runtime_EditUser.fieldsNum),
+		autoScroll: true,
+		
 		items : [ formPanel ],
+		
 		closeAction: 'hide',
 		buttons : [ {
 			text :"<i18n:text i18n:key="PLUGINS_CORE_USERS_DIALOG_OK"/>",
-			handler : function() {
-			RUNTIME_Plugin_Runtime_EditUser.ok();
-			}
+			handler : RUNTIME_Plugin_Runtime_EditUser.ok
 		}, {
 			text :"<i18n:text i18n:key="PLUGINS_CORE_USERS_DIALOG_CANCEL"/>",
-			handler : function() {
-			RUNTIME_Plugin_Runtime_EditUser.cancel();
-			}
+			handler : RUNTIME_Plugin_Runtime_EditUser.cancel
 		} ]
 	});
 	
