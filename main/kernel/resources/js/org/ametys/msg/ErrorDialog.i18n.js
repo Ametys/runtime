@@ -56,7 +56,7 @@ org.ametys.msg.ErrorDialog = function (title, text, details, category)
 		width: 450,
 		height: 110,
 		autoScroll: true,
-		icon: context.workspaceContext + "/resources/img/uitool/error_16.gif",
+		icon: context.contextPath + "/kernel/resources/img/error_16.gif",
 		items: [ centralMsg, detailledMsg ],
 		closeAction: 'close',
 		closable: false,
