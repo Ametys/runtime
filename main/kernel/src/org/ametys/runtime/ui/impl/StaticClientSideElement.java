@@ -243,7 +243,7 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
                 }
                 else
                 {
-                    return _rightsManager.hasRight(userLogin, right, "") == RightsManager.RightResult.RIGHT_OK;
+                    return _rightsManager.hasRight(userLogin, right, "/contributor") == RightsManager.RightResult.RIGHT_OK;
                 }
             }
         }
