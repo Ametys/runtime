@@ -89,6 +89,7 @@
                 <parameter name="mode" value="request-attribute"/>
             </map:action>
             <map:action name="init-request" src="org.ametys.runtime.request.InitRequestAction" logger="org.ametys.runtime.kernel.sitemap.actions.init-request"/>
+            <map:action name="plugin-exists" src="org.ametys.runtime.plugin.PluginExistsAction" logger="org.ametys.runtime.kernel.sitemap.actions.plugin-exists"/>
 			<map:action name="exception" src="org.ametys.runtime.exception.ExceptionAction" logger="org.ametys.runtime.kernel.sitemap.actions.exception"/>
 		</map:actions>
 
@@ -158,16 +159,20 @@
             <!-- Plugins -->
             <!-- Plugins dynamic resources (i18n aware JS) -->
             <map:match pattern="plugins/*/resources/**.i18n.js">
-                <map:generate src="plugin:{1}://resources/{2}.i18n.js" type="i18nizabletext"/>
-                <map:transform type="i18n">
-                    <map:parameter name="locale" value="{locale:locale}"/>
-                    <map:parameter name="plugin" value="{1}"/>
-                </map:transform>
-                <map:serialize type="text" mime-type="text/javascript;charset=utf-8"/>
+                <map:act type="plugin-exists" src="{1}">
+                    <map:generate src="plugin:{../1}://resources/{../2}.i18n.js" type="i18nizabletext"/>
+                    <map:transform type="i18n">
+                        <map:parameter name="locale" value="{locale:locale}"/>
+                        <map:parameter name="plugin" value="{../1}"/>
+                    </map:transform>
+                    <map:serialize type="text" mime-type="text/javascript;charset=utf-8"/>
+                </map:act>
             </map:match>
             
             <map:match pattern="plugins/*/resources/**">
-                <map:read src="plugin:{1}://resources/{2}"/>
+                <map:act type="plugin-exists" src="{1}">
+                    <map:read src="plugin:{../1}://resources/{../2}"/>
+                </map:act>
             </map:match>
             
             <map:match pattern="**">
