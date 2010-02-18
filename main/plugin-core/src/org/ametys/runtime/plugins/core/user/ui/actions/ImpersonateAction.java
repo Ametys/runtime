@@ -79,5 +79,4 @@ public class ImpersonateAction extends CurrentUserProviderServiceableAction
         
         return result;
     }
-
 }
