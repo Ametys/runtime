@@ -57,7 +57,9 @@ org.ametys.form.LongField.prototype.onRender = function(ct, position)
 	
 		var tooltip = new Ext.ToolTip({
 	        target: this.name + '-img',
-	        html: this.desc
+	        html: this.desc,
+	        
+	        dismissDelay: 0 // disable automatic hiding
 	    });
 	}
 }
