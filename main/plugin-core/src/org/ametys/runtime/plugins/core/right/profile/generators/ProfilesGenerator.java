@@ -36,14 +36,14 @@ import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableGenerator;
 public class ProfilesGenerator extends CurrentUserProviderServiceableGenerator
 {
     private RightsExtensionPoint _rights;
-    private ProfileBasedRightsManager _rightsManager;
+    private RightsManager _rightsManager;
     
     @Override
     public void service(ServiceManager m) throws ServiceException
     {
         super.service(m);
         _rights = (RightsExtensionPoint) m.lookup(RightsExtensionPoint.ROLE);
-        _rightsManager = (ProfileBasedRightsManager) m.lookup(RightsManager.ROLE);
+        _rightsManager = (RightsManager) m.lookup(RightsManager.ROLE);
     }
     
     public void generate() throws IOException, SAXException, ProcessingException
@@ -56,12 +56,20 @@ public class ProfilesGenerator extends CurrentUserProviderServiceableGenerator
         _rights.toSAX(contentHandler);
         XMLUtils.endElement(contentHandler, "rights");
         
-        XMLUtils.startElement(contentHandler, "profiles");
-        for (Profile profile : _rightsManager.getProfiles())
+        if (_rightsManager instanceof ProfileBasedRightsManager)
         {
-            profile.toSAX(contentHandler);
+            XMLUtils.startElement(contentHandler, "profiles");
+            for (Profile profile : ((ProfileBasedRightsManager) _rightsManager).getProfiles())
+            {
+                profile.toSAX(contentHandler);
+            }
+            XMLUtils.endElement(contentHandler, "profiles");
         }
-        XMLUtils.endElement(contentHandler, "profiles");
+        else
+        {
+            XMLUtils.createElement(contentHandler, "not-supported");
+        }
+        
         
         XMLUtils.createElement(contentHandler, "AdministratorUI", _isSuperUser() ? "true" : "false");
         

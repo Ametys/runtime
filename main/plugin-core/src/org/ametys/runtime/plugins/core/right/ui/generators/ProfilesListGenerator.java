@@ -34,13 +34,13 @@ import org.ametys.runtime.right.RightsManager;
  */
 public class ProfilesListGenerator extends ServiceableGenerator
 {
-    private ProfileBasedRightsManager _rightsManager;
+    private RightsManager _rightsManager;
     
     @Override
     public void service(ServiceManager m) throws ServiceException
     {
         super.service(m);
-        _rightsManager = (ProfileBasedRightsManager) m.lookup(RightsManager.ROLE);
+        _rightsManager = (RightsManager) m.lookup(RightsManager.ROLE);
     }
 
     public void generate() throws IOException, SAXException, ProcessingException
@@ -48,10 +48,15 @@ public class ProfilesListGenerator extends ServiceableGenerator
         contentHandler.startDocument();
 
         XMLUtils.startElement(contentHandler, "Profiles");
-        for (Profile profile : _rightsManager.getProfiles())
+        
+        if (_rightsManager instanceof ProfileBasedRightsManager)
         {
-            profile.toSAX(contentHandler);
+            for (Profile profile : ((ProfileBasedRightsManager) _rightsManager).getProfiles())
+            {
+                profile.toSAX(contentHandler);
+            }
         }
+        
         XMLUtils.endElement(contentHandler, "Profiles");
         
         contentHandler.endDocument();
