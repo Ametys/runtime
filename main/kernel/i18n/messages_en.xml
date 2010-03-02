@@ -26,4 +26,36 @@
     <message key="KERNEL_DEFAULT_VALIDATOR_MANDATORY">This field is mandatory</message>
     <message key="KERNEL_DEFAULT_VALIDATOR_PATTERN_FAILED">The field's value is invalid</message>
 
+    <!-- +
+    	 | ServerComm.js
+    	 + -->
+    <message key="KERNEL_SERVERCOMM_ERROR_TITLE">Process error</message>
+    <message key="KERNEL_SERVERCOMM_ERROR_DESC">An error occurud while processing server response</message>
+    <message key="KERNEL_SERVERCOMM_BADRESPONSE_TITLE">No response from the serveur</message>
+    <message key="KERNEL_SERVERCOMM_BADRESPONSE_DESC">Server response is incomplete and has no information to continue the process correctly.</message>
+    <message key="KERNEL_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE">The server is currenlty not available.\nWait a few seconds and click on OK. You can also cancel but you may loose the data you were saving.</message>
+    <message key="KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_1">The connection with the server was lost</message>
+    <message key="KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_2">The application became unstable and has stopped</message>
+    <message key="KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_3">Click here to restart the application.</message>
+    
+    <!-- +
+    	 | TimeoutDialog.js
+    	 + -->
+    <message key="KERNEL_SERVERCOMM_TIMEOUTDIALOG_TITLE">There is no response from the server</message>	 
+    <message key="KERNEL_SERVERCOMM_TIMEOUTDIALOG_TEXT1">A request left to the server from a few seconds but no response came back.</message>
+    <message key="KERNEL_SERVERCOMM_TIMEOUTDIALOG_TEXT2">You can cancel this request or you can wait for a few more seconds.</message>
+    <message key="KERNEL_SERVERCOMM_TIMEOUTDIALOG_WAIT">Wait</message>	
+    <message key="KERNEL_SERVERCOMM_TIMEOUTDIALOG_CANCEL">Cancel</message>	
+    <message key="KERNEL_SERVERCOMM_TIMEOUTDIALOG_DETAILS">Details</message>	
+    
+    <!-- +
+    	 | ErrorDialog.js
+    	 + -->
+    <message key="KERNEL_MSG_ERRORDIALOG_ERROR_MSG">Error: </message>	 	 
+    <message key="KERNEL_MSG_ERRORDIALOG_OK">Ok</message>
+    <message key="KERNEL_MSG_ERRORDIALOG_SPLITBUTTON_OK">Ok</message>
+    <message key="KERNEL_MSG_ERRORDIALOG_IGNOREERRORS">Ignore all waiting error messages</message>
+    <message key="KERNEL_MSG_ERRORDIALOG_DETAILS">Details</message>
+    <message key="KERNEL_MSG_ERRORDIALOG_OTHERSERRORS">other(s) error(s)</message>
+    
 </catalogue>
