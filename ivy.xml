@@ -25,6 +25,7 @@ Open source web application framework based on Apache Cocoon.
   <configurations>
     <conf name="default"  description="Equivalent to runtime configuration"/>
     <conf name="runtime" extends="default" description="Runtime configuration"/>
+    <conf name="resources" extends="runtime" description="Runtime configuration with resources"/>
     <conf name="test-env" extends="default" description="Provides testing environment"/>
     <conf name="cas" extends="default" description="CAS configuration"/>
     <conf name="jcifs" extends="default" description="JCIFS configuration"/>
@@ -40,9 +41,10 @@ Open source web application framework based on Apache Cocoon.
     <artifact name="ametys-runtime-test-env" type="jar" ext="jar" conf="test-env"/>
     <artifact name="ametys-runtime-test-env" type="javadoc" ext="jar" conf="test-env"/>
     <artifact name="ametys-runtime-test-env" type="source" ext="jar" conf="test-env"/>
-    <artifact name="ametys-runtime-resources" type="jar" ext="jar" conf="default"/>
+    <artifact name="ametys-runtime-resources" type="jar" ext="jar" conf="resources"/>
+    
     <!-- Artifact containing resources used directly by Apache HTTPD -->
-    <artifact name="ametys-runtime-resources" type="resource" ext="zip" conf="default"/>
+    <artifact name="ametys-runtime-resources" type="resource" ext="zip" conf="resources"/>
     <!-- TODO add SQL scripts in "sql" type -->
   </publications>
   <dependencies>
