@@ -618,7 +618,7 @@ org.ametys.servercomm.ServerComm.handleBadResponse = function(message, response,
 			var hasStk = intStk != null &amp;&amp; intStk != "";
 				
 			new org.ametys.msg.ErrorDialog(
-					"Le serveur a échoué (code " + response.getAttribute("code") + ")", 
+					"<i18n:text i18n:key='KERNEL_SERVERCOMM_SERVER_FAILED_DESC'/>" + response.getAttribute("code") + ")", 
 					message,
 					(hasMsg ? intMsg : "")
 					+ (hasMsg &amp;&amp; hasStk ? "&lt;br/&gt;&lt;br/&gt;" : "")
