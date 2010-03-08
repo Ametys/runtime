@@ -1,5 +1,5 @@
 /*
- *  Copyright 2009 Anyware Services
+ *  Copyright 2010 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -31,7 +31,6 @@ import org.ametys.runtime.config.Config;
 import org.ametys.runtime.user.User;
 import org.ametys.runtime.user.UsersManager;
 
-
 /**
  * Cocoon action to perform authentication.<br>
  * The {@link CredentialsProvider} define the authentication method and retrieves {@link Credentials}.<br>
@@ -42,13 +41,17 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
 {
     /** The session attribute name for storing the login of the connected user. */
     public static final String SESSION_USERLOGIN = "Runtime:UserLogin";
+    
+    /** The request attribute name for indicating that the authentication process has been made. */
+    public static final String REQUEST_AUTHENTICATED = "Runtime:RequestAuthenticated";
+    
     private CredentialsProvider _credentialsProvider;
     private AuthenticationManager _authManager;
     private UsersManager _usersManager;
     
     public void initialize() throws Exception
     {
-        // Si l'appli n'a pas démarrée, il ne faut pas démarrer cette action non plus
+        // If the application in not configured yet, do not initialize this action
         if (Config.getInstance() == null)
         {
             return;
@@ -61,7 +64,19 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
 
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
-        if (!_checkAuth(objectModel, redirector))
+        Request request = ObjectModelHelper.getRequest(objectModel);
+        if ("true".equals(request.getAttribute(REQUEST_AUTHENTICATED)))
+        {
+            // If the authentication has already been processed, don't do it twice.
+            return EMPTY_MAP;
+        }
+        
+        boolean authenticated = _checkAuth(objectModel, redirector);
+        
+        // Set the flag indicating the authentication as processed
+        request.setAttribute(REQUEST_AUTHENTICATED, "true");
+
+        if (!authenticated)
         {
             throw new AccessDeniedException();
         }
@@ -69,7 +84,14 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         return EMPTY_MAP;
     }
 
-    private boolean _checkAuth(Map objectModel, Redirector redirector) throws Exception
+    /**
+     * Process the actual authentication.
+     * @param objectModel the current objectModel
+     * @param redirector the Cocoon redirector
+     * @return true if the current user is authenticated, false otherwise
+     * @throws Exception if an error occures during the authentication process
+     */
+    protected boolean _checkAuth(Map objectModel, Redirector redirector) throws Exception
     {
         boolean isValid = _credentialsProvider.validate(redirector);
         
@@ -80,8 +102,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         
         if (_credentialsProvider.accept())
         {
-            // Laisser passer la requête
-            // Ne pas demander de credentials
+            // The request does not need authentication, don't ask for credentials
             return true;
         }
         
@@ -104,13 +125,13 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
             }
         }
         
-        // Utilisateur inconnu
-        // On recherche ses identifiants
+        // Unknown user, looking for his credentials
         Credentials credentials = _credentialsProvider.getCredentials(redirector);
         if (redirector.hasRedirected())
         {
             return true;
         }
+        
         if (credentials == null)
         {
             _credentialsProvider.notAllowed(redirector);
@@ -118,10 +139,11 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
             {
                 return true;
             }
+            
             return false;
         }
 
-        // On teste ses authentification
+        // Testing all configured Authentications
         for (String authId : _authManager.getExtensionsIds())
         {
             Authentication authentication = _authManager.getExtension(authId);
@@ -132,11 +154,12 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
                 {
                     return true;
                 }
+                
                 return false;
             }
         }
 
-        // Il faut enfin que l'utilisateur soit connu par la base utilisateur.
+        // The user must be known by the UsersManager
         User user = _usersManager.getUser(credentials.getLogin());
         if (user == null)
         {
@@ -144,14 +167,14 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
             {
                 getLogger().warn("The user '" + credentials.getLogin() + "' was authentified and authorized by authentications, but it can not be found by the user manager. It is so refused.");
             }
+            
             return false;
         }
 
-        // L'authentification a réussi
-        // On laisse une dernière fois la main au CredentialsProvider
+        // Authentication succeeded
         _credentialsProvider.allowed(redirector);
 
-        // Et on enregistre l'utilisateur dans la session
+        // Then register the user in the HTTP Session
         Request request = ObjectModelHelper.getRequest(objectModel);
         Session session = request.getSession(true);
         session.setAttribute(SESSION_USERLOGIN, user.getName());
