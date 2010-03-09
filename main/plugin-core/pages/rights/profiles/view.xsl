@@ -357,14 +357,14 @@
 							helpCategory.addText("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_HELP_HINT"/>");
 							
 							//Profils existants
-							var dummyData = [];
+							var profileData = [];
 							
 							<xsl:for-each select="profiles/profile">
 								var rights = new MAP_RIGHTS({});
 								<xsl:for-each select="rights/right">
 									rights['<xsl:value-of select="@id"/>'] = "";
 								</xsl:for-each>
-								dummyData.push(['<xsl:value-of select="@id" />', '<xsl:value-of select="label" />', rights]);
+								profileData.push(['<xsl:value-of select="@id" />', '<xsl:value-of select="label" />', rights]);
 							</xsl:for-each>						
 						    
 						   	var store = new Ext.data.SimpleStore({
@@ -376,7 +376,7 @@
 								           {name: 'rights'}
 								        ]
 									});
-						   	store.loadData(dummyData);	
+						   	store.loadData(profileData);	
 						   	
 						   	var cm = new Ext.grid.ColumnModel([{
 						           id:'name',

@@ -18,6 +18,10 @@
 .profile-edit-panel, .profile-read-panel {
 	background: none !important;
 }
+.profile-edit-panel label,
+.profile-edit-panel .x-form-element {
+	position: static;
+}
 
 .profile-edit-panel-body div.fieldset, .profile-read-panel-body div.fieldset {
 	clear: left;
