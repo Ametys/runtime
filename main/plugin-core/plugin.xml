@@ -878,9 +878,6 @@
 					<param name="icon-medium" file="true">img/administrator/system/icon_medium.gif</param>
 					<param name="icon-large" file="true">img/administrator/system/icon_large.png</param>
 				</action>   
-				<css>
-					<file>css/system.css</file>
-				</css> 				   
                 <Url>administrator/system/view\.html</Url>
             </extension>   
                
