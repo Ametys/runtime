@@ -169,6 +169,7 @@
 		</script>
 	
 		<link rel="stylesheet" type="text/css" href="{$contextPath}/plugins/extjs/resources/css/ext-all.css" />
+		<link rel="stylesheet" type="text/css" href="{$contextPath}/plugins/extjs/resources/ux/css/ux-all.css" />
 
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/DialogBox.js"></script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/ListView.js"></script>
