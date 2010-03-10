@@ -168,8 +168,7 @@
             Tools.loadScript(document, "<xsl:value-of select="$contextPath"/>/plugins/extjs/resources/js/locale/ext-lang-<i18n:text i18n:key="KERNEL_LANGUAGE_CODE" i18n:catalogue="kernel"/>.js");
 		</script>
 	
-		<link rel="stylesheet" type="text/css" href="{$contextPath}/plugins/extjs/resources/css/ext-all.css" />
-		<link rel="stylesheet" type="text/css" href="{$contextPath}/plugins/extjs/resources/ux/css/ux-all.css" />
+		<link rel="stylesheet" href="{$contextPath}/kernel/resources/css/import.css" type="text/css"/>
 
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/DialogBox.js"></script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/ListView.js"></script>
@@ -202,7 +201,6 @@
 		<script type="text/javascript"  src="{$contextPath}/kernel/resources/js/org/ametys/log/LoggerEntry.js"></script>
 		<script type="text/javascript"  src="{$contextPath}/kernel/resources/js/org/ametys/msg/ErrorDialog.i18n.js"></script>
 		       
-		<link rel="stylesheet" href="{$contextPath}/kernel/resources/css/import.css" type="text/css"/>
     </xsl:template>
 
 </xsl:stylesheet>
