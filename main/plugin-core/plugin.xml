@@ -553,6 +553,64 @@
             <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION_GROUP_CAS</group>
             <order>20</order>
         </param>
+        
+        <!-- +
+             | MAIL
+             + -->
+        <param type="string" id="smtp.mail.host">
+        	<!-- 
+                This parameter contains the server name for sending mail
+             -->
+            <label i18n="true">PLUGINS_CORE_MAIL_CONFIG_HOST</label>
+            <description i18n="true">PLUGINS_CORE_MAIL_CONFIG_HOST_DESCRIPTION</description>
+            <validation>
+            	<mandatory/>
+        	</validation>
+            <category i18n="true">PLUGINS_CORE_MAIL_CONFIG_CATEGORY</category>
+            <group i18n="true">PLUGINS_CORE_MAIL_CONFIG_GROUP</group>
+            <order>1</order>
+        </param>
+        <param type="long" id="smtp.mail.port">
+        	<!-- 
+                This parameter contains the server port for sending mail. Defaults to 993.
+             -->
+            <label i18n="true">PLUGINS_CORE_MAIL_CONFIG_PORT</label>
+            <description i18n="true">PLUGINS_CORE_MAIL_CONFIG_PORT_DESCRIPTION</description>
+            <default-value>993</default-value>
+            <category i18n="true">PLUGINS_CORE_MAIL_CONFIG_CATEGORY</category>
+            <group i18n="true">PLUGINS_CORE_MAIL_CONFIG_GROUP</group>
+            <order>2</order>
+        </param>
+        <param type="string" id="smtp.mail.user">
+        	<!-- 
+                This parameter contains the user's password for sending mail
+             -->
+            <label i18n="true">PLUGINS_CORE_MAIL_CONFIG_USER</label>
+            <description i18n="true">PLUGINS_CORE_MAIL_CONFIG_USER_DESCRIPTION</description>
+            <category i18n="true">PLUGINS_CORE_MAIL_CONFIG_CATEGORY</category>
+            <group i18n="true">PLUGINS_CORE_MAIL_CONFIG_GROUP</group>
+            <order>3</order>
+        </param>
+        <param type="password" id="smtp.mail.password">
+        	<!-- 
+                This parameter contains the user's password for sending mail
+             -->
+            <label i18n="true">PLUGINS_CORE_MAIL_CONFIG_PASSWORD</label>
+            <description i18n="true">PLUGINS_CORE_MAIL_CONFIG_PASSWORD_DESCRIPTION</description>
+            <category i18n="true">PLUGINS_CORE_MAIL_CONFIG_CATEGORY</category>
+            <group i18n="true">PLUGINS_CORE_MAIL_CONFIG_GROUP</group>
+            <order>4</order>
+        </param>
+        <param type="string" id="smtp.mail.webmaster">
+        	<!-- 
+                This parameter contains the webmaster address used as default sender
+             -->
+            <label i18n="true">PLUGINS_CORE_MAIL_CONFIG_WEBMASTER_ADDRESS</label>
+            <description i18n="true">PLUGINS_CORE_MAIL_CONFIG_WEBMASTER_ADDRESS_DESCRIPTION</description>
+            <category i18n="true">PLUGINS_CORE_MAIL_CONFIG_CATEGORY</category>
+            <group i18n="true">PLUGINS_CORE_MAIL_CONFIG_GROUP</group>
+            <order>5</order>
+        </param>
     </config>
     
     <extension-points>
@@ -1636,6 +1694,19 @@
                 <gateway>true</gateway>
             </extension>
         </extensions>
+    </feature>
+    
+    <feature name="runtime.sending.mail">
+        <!-- 
+            This feature provides configuration parameters for sending mail
+         -->
+        <config>
+            <param-ref id="smtp.mail.host"/>
+            <param-ref id="smtp.mail.port"/>
+            <param-ref id="smtp.mail.user"/>
+            <param-ref id="smtp.mail.password"/>
+            <param-ref id="smtp.mail.webmaster"/>
+        </config>
     </feature>
         
     <!-- +

@@ -183,6 +183,20 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ERROR">Error</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ERROR_SAVE">An error occurred on the server. Modifications have not been saved.</message>
 
+	<!-- MAILING -->
+	<message key="PLUGINS_CORE_MAIL_CONFIG_CATEGORY">Mails</message>
+	<message key="PLUGINS_CORE_MAIL_CONFIG_GROUP">Server parameters</message>
+	<message key="PLUGINS_CORE_MAIL_CONFIG_HOST">Server name</message>
+	<message key="PLUGINS_CORE_MAIL_CONFIG_HOST_DESCRIPTION">SMTP server name</message>
+	<message key="PLUGINS_CORE_MAIL_CONFIG_PORT">Port</message>
+	<message key="PLUGINS_CORE_MAIL_CONFIG_PORT_DESCRIPTION">Port</message>
+	<message key="PLUGINS_CORE_MAIL_CONFIG_USER">User name</message>
+	<message key="PLUGINS_CORE_MAIL_CONFIG_USER_DESCRIPTION">The user name. Leave blank if no authentication is required.</message>
+	<message key="PLUGINS_CORE_MAIL_CONFIG_PASSWORD">The user password</message>
+	<message key="PLUGINS_CORE_MAIL_CONFIG_PASSWORD_DESCRIPTION">The user password. Leave blank if no authentication is required.</message>
+	<message key="PLUGINS_CORE_MAIL_CONFIG_WEBMASTER_ADDRESS">Webmaster email</message>
+	<message key="PLUGINS_CORE_MAIL_CONFIG_WEBMASTER_ADDRESS_DESCRIPTION">Webmaster e-mail address used by default for the sender of the mails.</message>
+	
     <!-- WIDGETS -->
     <message key="PLUGINS_CORE_WIDGET_PASSWORD_KEEPOLD">Keep old password</message>
     <message key="PLUGINS_CORE_WIDGET_PASSWORD_HINT">Change the password</message>
