@@ -17,6 +17,7 @@ package org.ametys.runtime.datasource;
 
 import javax.sql.DataSource;
 
+import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.commons.dbcp.ConnectionFactory;
@@ -31,7 +32,7 @@ import org.ametys.runtime.plugin.AbstractExtensionPoint;
 /**
  * Extension point for declaring JDBC Datasources.
  */
-public class DataSourceExtensionPoint extends AbstractExtensionPoint<DataSource>
+public class DataSourceExtensionPoint extends AbstractExtensionPoint<DataSource> implements Component
 {
     /** Avalon Role */
     public static final String ROLE = DataSourceExtensionPoint.class.getName();
