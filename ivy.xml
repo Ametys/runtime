@@ -60,7 +60,8 @@ Open source web application framework based on Apache Cocoon.
     <dependency org="joda-time" name="joda-time" rev="1.6" conf="default->default"/>
     <dependency org="rrd4j" name="rrd4j" rev="2.0.6" conf="default->default"/>
     <dependency org="codehaus" name="jackson" rev="1.0.0" conf="default->default"/>
-
+	<dependency org="javax.mail" name="mail" rev="1.4.3" conf="default->default;"/>
+	
 	<!-- fop configuration -->
 	<dependency org="apache" name="fop" rev="0.95" conf="fop->default"/>
 	
