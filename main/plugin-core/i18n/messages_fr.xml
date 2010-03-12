@@ -55,8 +55,9 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_HANDLE">Gestion</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_HANDLE_QUIT">Quitter</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_HELP">Aide</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_SYSTEM_HELP_TEXT">Cet écran vous permet de visualiser l'état du système : mémoire, utilisateurs...&lt;br/&gt;&lt;br/&gt;Cet écran se rafraîchit toutes les 10 secondes.</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_PROPERTIES_HELP_TEXT">Cet écran vous permet de visualiser les propriétés système de lancement de la machine virtuelle java.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_GENERAL_HELP_TEXT">Cet écran vous permet de consulter l'état du système. Il est divisé en deux onglets :&lt;br/&gt;&#160;</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_SYSTEM_HELP_TEXT">L'onglet 'Général' vous permet de visualiser l'état du système : mémoire, utilisateurs...&lt;br/&gt;Cet écran se rafraîchit toutes les 10 secondes.&lt;br/&gt;&#160;</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_PROPERTIES_HELP_TEXT">L'onglet 'Propriétés système' vous permet de visualiser les propriétés système de lancement de la machine virtuelle java.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL">Général</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_SYS">Système</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_SYS_OS">OS</message>

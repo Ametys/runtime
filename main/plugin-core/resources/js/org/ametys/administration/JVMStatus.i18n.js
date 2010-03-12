@@ -165,6 +165,8 @@ org.ametys.administration.JVMStatus._drawActionsPanel = function ()
 org.ametys.administration.JVMStatus._drawHelpPanel = function ()
 {
 	var helpPanel = new org.ametys.TextPanel({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_HELP"/>"});
+	helpPanel.addText("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_GENERAL_HELP_TEXT"/>");
+	helpPanel.addText("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_SYSTEM_HELP_TEXT"/>");
 	helpPanel.addText("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_PROPERTIES_HELP_TEXT"/>");
 	
 	return helpPanel;

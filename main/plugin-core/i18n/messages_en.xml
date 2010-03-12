@@ -55,8 +55,9 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_HANDLE">Management</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_HANDLE_QUIT">Quit</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_HELP">Help</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_SYSTEM_HELP_TEXT">This screen allows you to monitor system status: memory, users...&lt;br/&gt;&lt;br/&gt;This screen will refresh every 10 seconds.</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_PROPERTIES_HELP_TEXT">This screen allows you to view the JVM system properties.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_GENERAL_HELP_TEXT">This screen allows you to see the system state. It is divided into two tabs:&lt;br/&gt;&#160;</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_SYSTEM_HELP_TEXT">The tab 'General' allows you to monitor system status: memory, users...&lt;br/&gt;This screen will refresh every 10 seconds.&lt;br/&gt;&#160;</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_PROPERTIES_HELP_TEXT">The tab 'System properties' allows you to view the JVM system properties.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL">General</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_SYS">System</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_SYS_OS">OS</message>
