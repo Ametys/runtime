@@ -1,5 +1,5 @@
 /*
- *  Copyright 2009 Anyware Services
+ *  Copyright 2010 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -221,9 +221,8 @@ public final class PluginsManager
         return _locations.get(pluginName);
     }
     
-    // Recherche les plugins embarqués dans les jar
-    // Ils possèdent un fichier text META-INF/runtime-plugin
-    // contenant le nom du plugin et le chemin d'accès au plugins.xml
+    // Look for plugins embedded in jars
+    // They have a META-INF/runtime-plugin plain text file containing plugin name and path to plugin.xml
     private void _initBaseURIs() throws IOException
     {
         Enumeration<URL> pluginResources = getClass().getClassLoader().getResources("META-INF/runtime-plugin");
@@ -255,9 +254,8 @@ public final class PluginsManager
         }
     }
     
-    // Recherche les schemas embarqués dans les jar
-    // Ils possèdent un fichier text META-INF/runtime-schema
-    // contenant l'identifiant du schema et son chemin d'accès
+    // Look for XML schemas embedded in jars
+    // They have a META-INF/runtime-plugin plain text file containing schema identifier and path to the actual XSD file
     private void _initSchemas(String contextPath, Collection<String> locations) throws IOException
     {
         Enumeration<URL> shemasResources = getClass().getClassLoader().getResources("META-INF/runtime-schema");
@@ -345,7 +343,7 @@ public final class PluginsManager
         _locations = new HashMap<String, String>();
         _entityResolver = new LocalEntityResolver();
         
-        // Localisation des plugins embarqués dans des librairies
+        // Embedded plugins locations
         try
         {
             _initBaseURIs();
@@ -355,10 +353,10 @@ public final class PluginsManager
             throw new RuntimeException("Unable to locate embedded plugins", e);
         }
         
-        // Les emplacements de plugins (ie les répertoires contenant des répertoires de plugins)
+        // Plugins root directories (directories containing plugins directories)
         Collection<String> locations = RuntimeConfig.getInstance().getPluginsLocations();
         
-        // Récupération des schemas
+        // Schemas locations
         try
         {
             _initSchemas(contextPath, locations);
@@ -368,31 +366,32 @@ public final class PluginsManager
             throw new RuntimeException("Unable to locate XML schemas", e);
         }
         
-        // Les configurations de tous les plugin.xml du système
+        // All plugin.xml Configurations
         Map<String, Configuration> pluginsConfigurations = _getConfigurations(contextPath, locations);
         
         _pluginNames = pluginsConfigurations.keySet();
         
-        // La liste des points d'extensions singles déclarés par les plugins
+        // Single extension points declared by plugins
         Map<String, SingleExtensionPointInformation> singleExtensionsPoints = _getSingleExtensionsPoints(pluginsConfigurations);
         _singleExtensionPointsRoles = singleExtensionsPoints.keySet();
         
-        // La liste des extensions choisies parmi les singles
+        // List of chosen extension points among single extension points
         Map<String, String> extensionsConfig = RuntimeConfig.getInstance().getExtensionsPoints();
         
+        // Check if all single extension point have a valid extension
         _checkDefaultSingleExtensionsPoints(singleExtensionsPoints, extensionsConfig);
         
-        // La liste des features désactivés manuellement
+        // List of manually excluded features
         Collection<String> excludedFeatures = RuntimeConfig.getInstance().getExcludedFeatures();
-        
-        // Les configurations des plugins actifs
+
+        // Active features configurations
         Map<String, FeatureInformation> featuresInformations = _getActiveFeaturesInformations(pluginsConfigurations, singleExtensionsPoints, extensionsConfig, excludedFeatures);
         
-        // Résolution des dépendences
-        _checkDependencies(featuresInformations);
-        featuresInformations = _computeDependencies(featuresInformations);
+        // Handling of features dependencies
+        _checkFeaturesDependencies(featuresInformations);
+        featuresInformations = _computeFeaturesDependencies(featuresInformations);
         
-        // Chargement de la config
+        // Config loading
         ConfigManager configManager = ConfigManager.getInstance();
         
         try
@@ -407,14 +406,14 @@ public final class PluginsManager
         
         try
         {
-            // Chargement des configurations "globales"
+            // Global config parameter loading
             for (String pluginName : pluginsConfigurations.keySet())
             {
                 Configuration conf = pluginsConfigurations.get(pluginName);
                 configManager.addGlobalConfig(pluginName, conf);
             }
             
-            // Chargement des configurations "locales"
+            // "local" config parameter loading
             for (String featureId : featuresInformations.keySet())
             {
                 FeatureInformation info = featuresInformations.get(featureId);
@@ -426,6 +425,7 @@ public final class PluginsManager
             throw new RuntimeException("Exception while reading Config configuration", e);
         }
         
+        // check if the config is complete and valid
         configManager.validate();
         
         if (!configManager.isComplete())
@@ -433,7 +433,7 @@ public final class PluginsManager
             return null;
         }
         
-        // Chargement des composants Avalon et des points d'extensions single
+        // Avalon components and single extension point loading
         try
         {
             _loadComponents(manager, featuresInformations, contextPath);
@@ -446,7 +446,7 @@ public final class PluginsManager
             throw new RuntimeException("Exception while loading components", e);
         }
         
-        // La liste des points d'extensions déclarés par les plugins
+        // List of declared extension points
         _extensionPointsRoles = _getExtensionsPoints(pluginsConfigurations, manager, contextPath);
         
         return featuresInformations;
@@ -468,7 +468,7 @@ public final class PluginsManager
             extPoints.put(role, extPoint);
         }
         
-        // Chargement des features actives
+        // Active features loading
         _loadFeatures(extPoints, info, contextPath);
     }
     
@@ -476,7 +476,7 @@ public final class PluginsManager
     {
         Map<String, Configuration> pluginsConfigurations = new HashMap<String, Configuration>();
         
-        // Récupération des configurations des plugins embarqués
+        // Embedded plugins configurations loading
         for (String pluginName : _baseURIs.keySet())
         {
             String resourceURI = _baseURIs.get(pluginName) + "/" + __PLUGIN_FILENAME;
@@ -491,7 +491,7 @@ public final class PluginsManager
             }
         }
         
-        // Récupération des configurations des plugins de tous les emplacements de plugins
+        // Other plugins configuration loading
         for (String location : locations)
         {
             File locationBase = new File(contextPath, location);
@@ -570,7 +570,7 @@ public final class PluginsManager
                 }
                 catch (FileNotFoundException e)
                 {
-                    // Normalement, ca ne peut pas arriver, puisqu'on teste l'existence avant
+                    // Should not happen, as existence is checked before
                     throw new IllegalStateException("File not found", e);
                 }
                 
@@ -771,14 +771,14 @@ public final class PluginsManager
     {
         Map<String, FeatureInformation> featuresInformations = new HashMap<String, FeatureInformation>();
         
-        // Map interne à cette méthode permettant de vérifier l'unicité des id des extensions
+        // internal Map to check unicity of extensions ids
         Map<String, Collection<String>> extensionsIds = new HashMap<String, Collection<String>>();
         
         for (String pluginName : pluginsConfigurations.keySet())
         {
             Configuration[] pluginsConf = pluginsConfigurations.get(pluginName).getChildren("feature");
             
-            // Boucle sur la configuration de chaque plugin
+            // Loop on each plugin Configuration
             for (Configuration conf : pluginsConf)
             {
                 String name = conf.getAttribute("name", null);
@@ -830,7 +830,7 @@ public final class PluginsManager
         return featuresInformations;
     }
     
-    private void _checkDependencies(Map<String, FeatureInformation> featuresInformations)
+    private void _checkFeaturesDependencies(Map<String, FeatureInformation> featuresInformations)
     {
         boolean process = true;
         Set<String> featuresToRemove = new HashSet<String>();
@@ -882,7 +882,7 @@ public final class PluginsManager
             }
         }
         
-        // On supprime finalement les plugins ignorés
+        // Finally remove ignored features
         for (String featureToRemove : featuresToRemove)
         {
             FeatureInformation info = featuresInformations.remove(featureToRemove);
@@ -890,19 +890,19 @@ public final class PluginsManager
         }
     }
     
-    private Map<String, FeatureInformation> _computeDependencies(Map<String, FeatureInformation> featuresInformations)
+    private Map<String, FeatureInformation> _computeFeaturesDependencies(Map<String, FeatureInformation> featuresInformations)
     {
         LinkedHashMap<String, FeatureInformation> result = new LinkedHashMap<String, FeatureInformation>();
         
         for (String featureId : featuresInformations.keySet())
         {
-            _computeDependencies(featureId, featuresInformations, result, featureId);
+            _computeFeaturesDependencies(featureId, featuresInformations, result, featureId);
         }
         
         return result;
     }
     
-    private void _computeDependencies(String featureId, Map<String, FeatureInformation> featuresInformations, Map<String, FeatureInformation> result, String initialFeatureId)
+    private void _computeFeaturesDependencies(String featureId, Map<String, FeatureInformation> featuresInformations, Map<String, FeatureInformation> result, String initialFeatureId)
     {
         FeatureInformation info = featuresInformations.get(featureId);
         Configuration conf = info.getConfiguration();
@@ -927,7 +927,11 @@ public final class PluginsManager
                     throw new RuntimeException("Circular dependency detected for feature: " + feature);
                 }
                 
-                _computeDependencies(dependingFeatureId, featuresInformations, result, initialFeatureId);
+                // do not process the feature if it has already been processed
+                if (!result.containsKey(dependingFeatureId))
+                {
+                    _computeFeaturesDependencies(dependingFeatureId, featuresInformations, result, initialFeatureId);
+                }
             }
             else
             {
@@ -955,7 +959,7 @@ public final class PluginsManager
             
             if (id != null && point != null)
             {
-                // On ne génère pas de warnings ici, ça sera fait dans la passe de chargement des extensions
+                // No warnings are generated here, it's already done during extensions loading phase
                 Collection<String> ids = extensionsIds.get(point);
                 
                 if (ids == null)
@@ -988,15 +992,13 @@ public final class PluginsManager
             
             if (id != null && point != null)
             {
-                // On ne génère pas de warnings ici, ça sera fait dans la passe suivante de chargement des extensions
+                // No warnings are generated here, it's already done during extensions loading phase
                 if (singleExtensionsPoints.containsKey(point))
                 {
-                    // C'est bien une extension single
-                    // On la compare avec le paramétrage
+                    // It's a single extension point, compare it with the parameterized value
                     if (!id.equals(extensionsConfig.get(point)))
                     {
-                        // Cette extension n'est pas sélectionnée
-                        // On invalide le plugin, ie on ne le charge pas
+                        // This extension is not selected, the feature is invalidated
                         return false;
                     }
                     else if (extConf.getAttribute("class", null) == null)
@@ -1022,14 +1024,14 @@ public final class PluginsManager
             
             ActiveFeature feature = _getActiveFeature(info.getPluginName(), info.getFeatureName());
 
-            // Boucle sur chaque extension
+            // Loop on each extension
             for (Configuration extConf : extsConf)
             {
                 _loadExtensions(feature, extConf, extPoints, contextPath);
             }
         }
         
-        // Initialisation finale des points d'extension
+        // final initialization of extension points
         for (ExtensionPoint extPoint : extPoints.values())
         {
             extPoint.initializeExtensions();
@@ -1086,7 +1088,7 @@ public final class PluginsManager
             FeatureInformation info = featuresInformations.get(featureId);
             Configuration conf = info.getConfiguration();
             
-            // Chargement des composants Avalon
+            // Avalon components loading
             Configuration[] componentsConf = conf.getChild("components").getChildren("component");
             
             for (Configuration componentConf : componentsConf)
@@ -1141,28 +1143,26 @@ public final class PluginsManager
             FeatureInformation info = featuresInformations.get(featureId);
             Configuration conf = info.getConfiguration();
             
-            // Chargement des points d'extensions
+            // extension points loading
             Configuration[] extsConf = conf.getChild("extensions").getChildren("extension");
             
-            // Boucle sur chaque extension
+            // loop on each extension
             for (Configuration extConf : extsConf)
             {
                 String id = extConf.getAttribute("id", null);
                 String point = extConf.getAttribute("point", null);
                 
-                // On vérifie qu'il s'agit d'un point d'extension single (sinon, ca ne nous concerne pas pour l'instant)
-                // et que l'extension courante soit bien celle qui est sélectionnée pour le point en question.
-                // A noter que cette dernière vérification doit être inutile, puisque si l'id ne correspondait pas, le plugin ne serait pas chargé.
-                // ... Mais deux vérifications valent mieux qu'une.
+                // Verify that it is a single extension point (else it'll  be handled later) and that the current extension is the selected one
+                // Note that this last check should be useless, as the feature would have not been loaded if ids doesn't match
                 if (id != null && point != null && singleExtensionsPoints.containsKey(point) && id.equals(extensionsConfig.get(point)))
                 {
-                    // On ne génère pas de warnings ici, ça sera fait dans la passe suivante de chargement des extensions
+                    // No warnings are generated here, it's already done during extensions loading phase
                     SingleExtensionPointInformation extInfo = singleExtensionsPoints.get(point);
                     Class<?> extInterface = extInfo.getExtensionPointClass();
                     
                     String clazz = extConf.getAttribute("class", null);
                     
-                    // clazz n'est pas nul, sinon, il y aurait eu une IllegalArgumentException dans _includePlugin()
+                    // clazz is not null, else an IllegalArgumentException would have been raised in _includePlugin()
                     try
                     {
                         Class c = Class.forName(clazz);
@@ -1217,7 +1217,7 @@ public final class PluginsManager
             {
                 if (_logger.isInfoEnabled())
                 {
-                    _logger.info("Loading init class ");
+                    _logger.info("Loading init class '" + className + "' for application");
                 }
                 
                 Class<?> initClass = Class.forName(className);
@@ -1264,14 +1264,14 @@ public final class PluginsManager
                 // Si l'attribut config est présent, c'est soit un chemin relatif au plugin, soit absolu depuis la racine du contexte web, vers un fichier de conf
                 if (config.startsWith("/"))
                 {
-                    // chemin absolu
+                    // absolute path
                     File configFile = new File(contextPath, config);
                     configPath = configFile.getAbsolutePath();
                     is = new FileInputStream(configFile);
                 }
                 else
                 {
-                    // chemin relatif
+                    // relative path
                     String baseUri = _baseURIs.get(pluginName);
                     if (baseUri == null)
                     {
