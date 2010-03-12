@@ -51,4 +51,10 @@
 <runtime.groups.ldap.id>cn</runtime.groups.ldap.id>
 <runtime.groups.ldap.description>description</runtime.groups.ldap.description>
 <runtime.groups.ldap.member>member</runtime.groups.ldap.member>
+
+<smtp.mail.host>smtp.anyware.corp</smtp.mail.host>
+<smtp.mail.port>993</smtp.mail.port>
+<smtp.mail.user></smtp.mail.user>
+<smtp.mail.password></smtp.mail.password>
+<smtp.mail.webmaster>test@ametys.org</smtp.mail.webmaster>
 </config>
