@@ -21,6 +21,9 @@
     <message key="WORKSPACE_ADMIN_LABEL_LONG">Espace administrateur</message>
     <message key="WORKSPACE_ADMIN_HOME">Accueil</message>
     
+    <!-- Version -->
+    <message key="WORKSPACE_ADMIN_VERSION_UNKNOWN">N/A</message>
+    
     <!-- Home page -->
     <message key="WORKSPACE_ADMIN_HELP_LABEL">Aide</message>
     <message key="WORKSPACE_ADMIN_HELP">Cet espace de travail, réservé aux administrateurs systèmes, permet de paramétrer le déploiement de l'application (répertoires, accès aux bases de données, ...), de surveiller l'état de la machine virtuelle...</message>

@@ -67,7 +67,11 @@ public class VersionsGenerator extends ServiceableGenerator
                 XMLUtils.startElement(contentHandler, "Component");
                 
                 XMLUtils.createElement(contentHandler, "Name", version.getName());
-                XMLUtils.createElement(contentHandler, "Version", version.getVersion());
+                
+                if (version.getVersion() != null)
+                {
+                    XMLUtils.createElement(contentHandler, "Version", version.getVersion());
+                }
                 
                 Date date = version.getDate();
                 

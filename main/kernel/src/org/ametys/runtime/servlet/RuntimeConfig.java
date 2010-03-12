@@ -171,11 +171,15 @@ public final class RuntimeConfig
     
     private static void _configureApplication(Configuration config)
     {
-        __config._version = config.getChild("version").getValue("");
+        String version = config.getChild("version").getValue("");
+        if (!"@VERSION@".equals(version) && !"VERSION".equals(version))
+        {
+            __config._version = version;
+        }
         
         String strDate = config.getChild("date").getValue(null);
         
-        if (strDate != null && !"".equals(strDate))
+        if (strDate != null && !"".equals(strDate) && !"@DATE@".equals(strDate) && !"DATE".equals(strDate))
         {
             try
             {

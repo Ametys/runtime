@@ -21,6 +21,9 @@
     <message key="WORKSPACE_ADMIN_LABEL_LONG">Administrator area</message>
     <message key="WORKSPACE_ADMIN_HOME">Home</message>
     
+    <!-- Version -->
+    <message key="WORKSPACE_ADMIN_VERSION_UNKNOWN">N/A</message>
+    
     <!-- Home page -->
     <message key="WORKSPACE_ADMIN_HELP_LABEL">Help</message>
     <message key="WORKSPACE_ADMIN_HELP">This area is restricted to application administrators. It allows you to set-up deployment (directories, database access, ...), monitor the JVM, ...</message>
