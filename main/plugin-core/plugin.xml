@@ -618,6 +618,9 @@
                 		 class="org.ametys.runtime.plugins.core.ui.item.DesktopManager" 
                 		 config="/WEB-INF/param/workspace-admin.xml"/>
 
+        <extension-point id="org.ametys.runtime.cocoon.InitExtensionPoint"
+                         class="org.ametys.runtime.cocoon.InitExtensionPoint"/>
+                         
         <extension-point id="org.ametys.runtime.authentication.AuthenticationManager"
                          class="org.ametys.runtime.authentication.AuthenticationManager"/>
                          

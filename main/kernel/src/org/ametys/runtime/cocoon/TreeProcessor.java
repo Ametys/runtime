@@ -1,5 +1,5 @@
 /*
- *  Copyright 2009 Anyware Services
+ *  Copyright 2010 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -44,32 +44,39 @@ public class TreeProcessor extends org.apache.cocoon.components.treeprocessor.Tr
     {
         try
         {
-            // On "intercale" notre CM entre celui de la sitemap et le CocoonECM
+            // Insert our CM between the sitemap one and the Cocoon one
             PluginsComponentManager pluginCM = new PluginsComponentManager(componentManager);
             ContainerUtil.enableLogging(pluginCM, LoggerFactory.getLoggerFor("org.ametys.runtime.plugin.manager"));
             ContainerUtil.contextualize(pluginCM, context);
             ContainerUtil.service(pluginCM, new WrapperServiceManager(pluginCM));
             
-            // le context path
+            // store the context path
             Context ctx = (Context) context.get(Constants.CONTEXT_ENVIRONMENT_CONTEXT);
             
             String contextPath = ctx.getRealPath("/");
             
-            // Chargement des plugins
             Map<String, FeatureInformation> info = PluginsManager.getInstance().init(pluginCM, context, contextPath);
             
             if (info != null)
             {
                 ContainerUtil.initialize(pluginCM);
 
-                // Chargement des extensions
+                // Extensions loading
                 PluginsManager.getInstance().initExtensions(pluginCM, info, contextPath);
                 
-                // Le remplacement effectif du CM de Cocoon par le nôtre
+                // Effective substitution of the Cocoon CM
                 super.compose(pluginCM);
                 _pluginCM = pluginCM;
                 
-                // Exécution de la classe d'init si elle existe
+                // Plugins Init class execution
+                InitExtensionPoint initExtensionPoint = (InitExtensionPoint) pluginCM.lookup(InitExtensionPoint.ROLE);
+                for (String id : initExtensionPoint.getExtensionsIds())
+                {
+                    Init init = initExtensionPoint.getExtension(id);
+                    init.init();
+                }
+                
+                // Application Init class execution if available
                 if (pluginCM.hasComponent(Init.ROLE))
                 {
                     Init init = (Init) pluginCM.lookup(Init.ROLE);
@@ -78,11 +85,11 @@ public class TreeProcessor extends org.apache.cocoon.components.treeprocessor.Tr
             }
             else
             {
-                // Si la config n'est pas chargée, on n'utilise pas nos composants
+                // In case of incomplete config, don't use our components
                 super.compose(componentManager);
             }
             
-            // Chargement du WorkspaceManager
+            // WorkspaceManager loading
             WorkspaceManager.getInstance().init(RuntimeConfig.getInstance().getExcludedWorkspaces(), contextPath, info);
         }
         catch (ComponentException e)
