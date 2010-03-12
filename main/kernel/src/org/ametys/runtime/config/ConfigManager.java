@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -26,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.TreeMap;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.TransformerFactory;
@@ -456,7 +458,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             Map<I18nizableText, List<ConfigParameter>> category = categories.get(categoryName);
             if (category == null)
             {
-                category = new LinkedHashMap<I18nizableText, List<ConfigParameter>>();
+                category = new TreeMap<I18nizableText, List<ConfigParameter>>(new I18nizableTextComparator());
                 categories.put(categoryName, category);
             }
 
@@ -708,6 +710,15 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
 
         XMLUtils.endElement(handler, "config");
         handler.endDocument();
+    }
+    
+    class I18nizableTextComparator implements Comparator<I18nizableText>
+    {
+        @Override
+        public int compare(I18nizableText t1, I18nizableText t2)
+        {
+            return t1.toString().compareTo(t2.toString());
+        }
     }
     
     class ConfigParameterInfo
