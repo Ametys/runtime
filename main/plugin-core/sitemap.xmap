@@ -186,6 +186,16 @@
                 <map:generate type="administrator-jvmstatus" label="content">
                     <map:parameter name="properties" value="false"/>
                 </map:generate>
+                <map:transform type="xslt" src="pages/administrator/jvmstatus/refresh.xsl">
+                    <map:parameter name="contextPath" value="{request:contextPath}"/>
+                    <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
+                    <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
+                    <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/>
+                </map:transform>
+                <map:transform type="i18n">
+                    <map:parameter name="locale" value="{locale:locale}"/>
+                    <map:parameter name="plugin" value="{request-attr:pluginName}"/>
+                </map:transform>
                 <map:serialize type="xml"/>
             </map:match>
             

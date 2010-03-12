@@ -106,6 +106,10 @@
     	                 <i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_SYS_PROC_UNIT"/>
     	                 <xsl:text> </xsl:text>
     	                 <xsl:value-of select="/status/caracteristics/architecture"/>
+
+    	        		 <br/>
+    	        		 <div class="label"><i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_SYS_TIME"/></div>
+    	        		 <span id="osTime"><i18n:date pattern="long" src-pattern="yyyy-MM-dd'T'HH:mm" value="{/status/general/osTime}"/>&#160;<i18n:time pattern="short" src-pattern="yyyy-MM-dd'T'HH:mm" value="{/status/general/osTime}"/></span>
     	        	</div>
     	        	
     	        	<div id="java">
@@ -116,7 +120,7 @@
     	        		<xsl:value-of select="/status/caracteristics/javaVendor"/>
     	        		<br/>
     	        		<div class="label"><i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_JVM_TIME"/></div>
-    	        		<i18n:date-time pattern="EEEE dd MMMM yyyy HH:mm" src-pattern="yyyy-MM-dd'T'hh:mm" value="{/status/caracteristics/startTime}"/>
+    	        		<i18n:date pattern="long" src-pattern="yyyy-MM-dd'T'HH:mm" value="{/status/caracteristics/startTime}"/>&#160;<i18n:time pattern="short" src-pattern="yyyy-MM-dd'T'HH:mm" value="{/status/caracteristics/startTime}"/>
     	        	</div>
     	        	
     	        	<div id="memory">

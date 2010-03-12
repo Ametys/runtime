@@ -80,6 +80,8 @@ public class JVMStatusGenerator extends ServiceableGenerator
     {
         XMLUtils.startElement(contentHandler, "general");
 
+        XMLUtils.createElement(contentHandler, "osTime", ParameterHelper.valueToString(new Date()));
+
         try
         {
             XMLUtils.createElement(contentHandler, "activeSessions", String.valueOf(SessionCountListener.getSessionCount()));

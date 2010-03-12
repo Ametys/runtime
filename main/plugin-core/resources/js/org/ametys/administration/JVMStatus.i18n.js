@@ -221,7 +221,7 @@ org.ametys.administration.JVMStatus.refreshData = function (gc)
     
     if (result == null)
     {
-        window.clearInterval(at);
+        window.clearInterval(org.ametys.administration.JVMStatus._at);
         if (gc)
         {
         	Ext.Msg.show ({
@@ -304,6 +304,9 @@ org.ametys.administration.JVMStatus.refreshData = function (gc)
     var locked = result.selectSingleNode("/status/general/deadlockThreads")[Tools.xmlTextContent];
     if (locked != "0")
         document.getElementById("deadlockThread").innerHTML = "(&lt;a href='#' title='<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_THREADS_ERROR_LOCK_HINT"/>' style='color: red; font-weight: bold' onclick='org.ametys.administration.JVMStatus.deadLock()'&gt;" + locked + " <i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_THREADS_LOCK"/>&lt;/a&gt;)";
+    
+    // TIME
+    document.getElementById("osTime").innerHTML = result.selectSingleNode("/status/general/osTime")[Tools.xmlTextContent];
     
     return true;
 }
