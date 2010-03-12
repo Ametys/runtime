@@ -76,7 +76,7 @@ public class RuntimeConfigTestCase extends AbstractRuntimeTestCase
         assertTrue(config.getExtensionsPoints().containsKey("org.ametys.runtime.right.RightsManager"));
         assertEquals(config.getExtensionsPoints().get("org.ametys.runtime.right.RightsManager"), "org.ametys.runtime.plugins.core.right.DefaultProfileBased");
         
-        assertEquals(config.getApplicationVersion(), "VERSION");
+        assertEquals(config.getApplicationVersion(), null);
         assertNull(config.getApplicationBuildDate());
     }
     
