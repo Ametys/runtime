@@ -81,15 +81,7 @@ public final class SendMailHelper
         message.setSentDate(new Date());
         message.setSubject(subject);
         
-        Multipart multipart = new MimeMultipart();
-        
-        if (htmlBody != null)
-        {
-            MimeBodyPart htmlBodyPart = new MimeBodyPart();
-            htmlBodyPart.setContent(htmlBody, "text/html;charset=utf-8");
-            htmlBodyPart.addHeader("Content-Type", "text/html;charset=utf-8");
-            multipart.addBodyPart(htmlBodyPart);
-        }
+        Multipart multipart = new MimeMultipart("alternative");
         
         if (textBody != null)
         {
@@ -97,6 +89,14 @@ public final class SendMailHelper
             textBodyPart.setContent(textBody, "text/plain;charset=utf-8");
             textBodyPart.addHeader("Content-Type", "text/plain;charset=utf-8");
             multipart.addBodyPart(textBodyPart);
+        }
+        
+        if (htmlBody != null)
+        {
+            MimeBodyPart htmlBodyPart = new MimeBodyPart();
+            htmlBodyPart.setContent(htmlBody, "text/html;charset=utf-8");
+            htmlBodyPart.addHeader("Content-Type", "text/html;charset=utf-8");
+            multipart.addBodyPart(htmlBodyPart);
         }
         
         message.setContent(multipart);
