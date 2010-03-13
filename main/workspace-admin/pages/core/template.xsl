@@ -104,7 +104,7 @@
 	                		data.versions.push({
 	                			name : "<xsl:value-of select="Name"/>",
 	                			version: "<xsl:choose><xsl:when test="Version"><xsl:value-of select="Version"/></xsl:when><xsl:otherwise><i18n:text i18n:key="WORKSPACE_ADMIN_VERSION_UNKNOWN" i18n:catalogue="workspace.{$workspaceName}"/></xsl:otherwise></xsl:choose>",
-	                			date : "<xsl:if test="Date">&#160;du <xsl:value-of select="Date"/> à <xsl:value-of select="Time"/></xsl:if><xsl:if test="position() != last()">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</xsl:if>"
+	                			date : "<xsl:if test="Date">&#160;<i18n:text i18n:key="WORKSPACE_ADMIN_VERSION_DATED" i18n:catalogue="workspace.{$workspaceName}"/>&#160;<xsl:value-of select="Date"/>&#160;<i18n:text i18n:key="WORKSPACE_ADMIN_VERSION_DATEDTIME" i18n:catalogue="workspace.{$workspaceName}"/>&#160;<xsl:value-of select="Time"/></xsl:if><xsl:if test="position() != last()">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</xsl:if>"
 	                		});
 	                	</xsl:for-each>
 	                	org.ametys.runtime.HomePage._tplFooter = new Ext.XTemplate (

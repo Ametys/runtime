@@ -21,15 +21,16 @@
     <message key="WORKSPACE_ADMIN_LABEL_LONG">Espace administrateur</message>
     <message key="WORKSPACE_ADMIN_HOME">Accueil</message>
     
-    <!-- Version -->
-    <message key="WORKSPACE_ADMIN_VERSION_UNKNOWN">N/A</message>
-    
     <!-- Home page -->
     <message key="WORKSPACE_ADMIN_HELP_LABEL">Aide</message>
     <message key="WORKSPACE_ADMIN_HELP">Cet espace de travail, réservé aux administrateurs systèmes, permet de paramétrer le déploiement de l'application (répertoires, accès aux bases de données, ...), de surveiller l'état de la machine virtuelle...</message>
     <message key="WORKSPACE_ADMIN_VERSION_LABEL">Versions</message>
     <message key="WORKSPACE_ADMIN_VERSION_DATED">du</message>
     <message key="WORKSPACE_ADMIN_VERSION_DATEDTIME">à</message>
+    <message key="WORKSPACE_ADMIN_VERSION_UNKNOWN">N/A</message>
+	<message key="WORKSPACE_ADMIN_LINK_WEBSITE">site web</message>
+	<message key="WORKSPACE_ADMIN_LINK_DOCUMENTATION">documentation</message>
+	<message key="WORKSPACE_ADMIN_LINK_ISSUE">suivi de tickets</message>
 
     <!-- No config -->    
     <message key="WORKSPACE_ADMIN_CONFIG_TITLE">Impossible de charger la configuration</message>

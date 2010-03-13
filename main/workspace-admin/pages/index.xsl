@@ -40,16 +40,22 @@
 	    		
 	    		var linkData = {links : []};
 	    		linkData.links.push ({
-	            	text : "site web",
+	            	text : "<i18n:text i18n:key="WORKSPACE_ADMIN_LINK_WEBSITE" i18n:catalogue="workspace.{$workspaceName}"/>",
 	                url: "http://www.ametys.org",
 	                name : "ametys.org",
-	                width: 42 // ie 6
+	                width: 42 // ie6
 	            });
 	            linkData.links.push ({
-	            	text : "documentation",
+	            	text : "<i18n:text i18n:key="WORKSPACE_ADMIN_LINK_DOCUMENTATION" i18n:catalogue="workspace.{$workspaceName}"/>",
 	                url: "http://wiki.ametys.org",
 	                name : "wiki.ametys.org",
 	                width: 75 // ie 6
+	            });
+	            linkData.links.push ({
+	            	text : "<i18n:text i18n:key="WORKSPACE_ADMIN_LINK_ISSUE" i18n:catalogue="workspace.{$workspaceName}"/>",
+	                url: "https://issues.ametys.org",
+	                name : "issues.ametys.org",
+	                width: 80// ie6
 	            });
 	            
 	            var tplLink = new Ext.XTemplate (
