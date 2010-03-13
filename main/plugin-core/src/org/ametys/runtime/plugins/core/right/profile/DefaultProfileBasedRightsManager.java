@@ -330,10 +330,22 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
     public void grantAllPrivileges(String login, String context)
     {
-        // On crée un profile
-        Profile adminProfile = addProfile(__INITIAL_PROFILE_ID);
+        // Create or get the temporary admin profile
+        Profile adminProfile = null;
+        for (Profile profile : getProfiles())
+        {
+            if (__INITIAL_PROFILE_ID.equals(profile.getName()))
+            {
+                adminProfile = profile;
+                break;
+            }
+        }
+        if (adminProfile == null)
+        {
+            adminProfile = addProfile(__INITIAL_PROFILE_ID);
+        }
 
-        // On lui met tous les droits
+        // Set all rights
         Collection currentRights = adminProfile.getRights();
         for (Object rightId : _rightsEP.getExtensionsIds())
         {
@@ -343,7 +355,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             }
         }
         
-        // On affecte le profil
+        // Assign the profile
         addUserRight(login, context, adminProfile.getId());
     }
 
