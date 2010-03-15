@@ -208,46 +208,19 @@ org.ametys.administration.JVMStatus.addFieldSet = function (title, contentEl)
  */
 org.ametys.administration.JVMStatus.refreshData = function (gc)
 {
-	var url = getPluginDirectUrl(org.ametys.administration.JVMStatus.pluginName) + "/administrator/jvmstatus/refresh";
-    var args = gc ? "gc=gc" : "";
-    
-    var result;
-    try
+	var serverMessage = new org.ametys.servercomm.ServerMessage(org.ametys.administration.JVMStatus.pluginName, "administrator/jvmstatus/refresh", gc ? { gc: "gc" } : {}, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+	var result = org.ametys.servercomm.ServerComm.getInstance().send(serverMessage);
+
+    if (org.ametys.servercomm.ServerComm.handleBadResponse(gc ? "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_GC_ERROR"/>" : "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_REFRESH_ERROR"/>", result, "org.ametys.administration.JVMStatus.refreshData"))
     {
-        result = Tools.postFromUrl(url, args);
+       window.clearInterval(org.ametys.administration.JVMStatus._at);
+       return false;
     }
-    catch (e)
-    {
-        result = null;
-    }
-    
-    if (result == null)
-    {
-        window.clearInterval(org.ametys.administration.JVMStatus._at);
-        if (gc)
-        {
-        	Ext.Msg.show ({
-            		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
-            		msg: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_GC_ERROR"/>",
-            		buttons: Ext.Msg.OK,
-   					icon: Ext.MessageBox.ERROR
-            });
-        }
-        else {
-        	Ext.Msg.show ({
-            		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
-            		msg: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_REFRESH_ERROR"/>",
-            		buttons: Ext.Msg.OK,
-   					icon: Ext.MessageBox.ERROR
-            });
-        }
-        return false;
-    }
-    
+
     // HEAP MEMORY
-    var commitedMem = result.selectSingleNode("/status/general/memory/heap/commited")[Tools.xmlTextContent];
-    var usedMem = result.selectSingleNode("/status/general/memory/heap/used")[Tools.xmlTextContent];
-    var maxMem = result.selectSingleNode("/status/general/memory/heap/max")[Tools.xmlTextContent];
+    var commitedMem = result.selectSingleNode("status/general/memory/heap/commited")[org.ametys.servercomm.ServerComm.xmlTextContent];
+    var usedMem = result.selectSingleNode("status/general/memory/heap/used")[org.ametys.servercomm.ServerComm.xmlTextContent];
+    var maxMem = result.selectSingleNode("status/general/memory/heap/max")[org.ametys.servercomm.ServerComm.xmlTextContent];
     
     var tip  = "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_USED"/> : " + Math.round(usedMem / (1024*1024) * 10) / 10 + " <i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_UNIT"/>"
             + "\n<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_FREE"/> : " + Math.round((commitedMem - usedMem) / (1024*1024) * 10) / 10 + " <i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_UNIT"/>"
@@ -267,9 +240,9 @@ org.ametys.administration.JVMStatus.refreshData = function (gc)
     document.getElementById("maxMemImg").width = 280 - v1 - v2;
     
     // non HEAP MEMORY
-    var commitedMem = result.selectSingleNode("/status/general/memory/nonHeap/commited")[Tools.xmlTextContent];
-    var usedMem = result.selectSingleNode("/status/general/memory/nonHeap/used")[Tools.xmlTextContent];
-    var maxMem = result.selectSingleNode("/status/general/memory/nonHeap/max")[Tools.xmlTextContent];
+    var commitedMem = result.selectSingleNode("status/general/memory/nonHeap/commited")[org.ametys.servercomm.ServerComm.xmlTextContent];
+    var usedMem = result.selectSingleNode("status/general/memory/nonHeap/used")[org.ametys.servercomm.ServerComm.xmlTextContent];
+    var maxMem = result.selectSingleNode("status/general/memory/nonHeap/max")[org.ametys.servercomm.ServerComm.xmlTextContent];
     
     var tip  = "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_USED"/> : " + Math.round(usedMem / (1024*1024) * 10) / 10 + " <i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_UNIT"/>"
             + "\n<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_FREE"/> : " + Math.round((commitedMem - usedMem) / (1024*1024) * 10) / 10 + " <i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_UNIT"/>"
@@ -288,27 +261,27 @@ org.ametys.administration.JVMStatus.refreshData = function (gc)
     document.getElementById("maxMem2Img").width = 280 - v1 - v2;
     
     // ACTIVE SESSION
-    var sessions = result.selectSingleNode("/status/general/activeSessions");
+    var sessions = result.selectSingleNode("status/general/activeSessions");
     if (sessions == null) 
         document.getElementById("activeSession").innerHTML = "&lt;a href='#' onclick='org.ametys.administration.JVMStatus.helpSessions(); return false;'&gt;<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_SESSIONS_ERROR"/>&lt;/a&gt;";
     else
-        document.getElementById("activeSession").innerHTML = sessions[Tools.xmlTextContent];
+        document.getElementById("activeSession").innerHTML = sessions[org.ametys.servercomm.ServerComm.xmlTextContent];
 
     // ACTIVE REQUEST
-    var sessions = result.selectSingleNode("/status/general/activeRequests");
+    var sessions = result.selectSingleNode("status/general/activeRequests");
     if (sessions == null) 
         document.getElementById("activeRequest").innerHTML = "&lt;a href='#' onclick='org.ametys.administration.JVMStatus.helpRequests(); return false;'&gt;<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_REQUESTS_ERROR"/>&lt;/a&gt;";
     else
-        document.getElementById("activeRequest").innerHTML = sessions[Tools.xmlTextContent];
+        document.getElementById("activeRequest").innerHTML = sessions[org.ametys.servercomm.ServerComm.xmlTextContent];
 
     // ACTIVE THREAD
-    document.getElementById("activeThread").innerHTML = result.selectSingleNode("/status/general/activeThreads")[Tools.xmlTextContent];
-    var locked = result.selectSingleNode("/status/general/deadlockThreads")[Tools.xmlTextContent];
+    document.getElementById("activeThread").innerHTML = result.selectSingleNode("status/general/activeThreads")[org.ametys.servercomm.ServerComm.xmlTextContent];
+    var locked = result.selectSingleNode("status/general/deadlockThreads")[org.ametys.servercomm.ServerComm.xmlTextContent];
     if (locked != "0")
         document.getElementById("deadlockThread").innerHTML = "(&lt;a href='#' title='<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_THREADS_ERROR_LOCK_HINT"/>' style='color: red; font-weight: bold' onclick='org.ametys.administration.JVMStatus.deadLock()'&gt;" + locked + " <i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_THREADS_LOCK"/>&lt;/a&gt;)";
     
     // TIME
-    document.getElementById("osTime").innerHTML = result.selectSingleNode("/status/general/osTime")[Tools.xmlTextContent];
+    document.getElementById("osTime").innerHTML = result.selectSingleNode("status/general/osTime")[org.ametys.servercomm.ServerComm.xmlTextContent];
     
     return true;
 }

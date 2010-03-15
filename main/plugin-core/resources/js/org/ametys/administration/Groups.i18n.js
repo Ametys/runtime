@@ -178,18 +178,20 @@ org.ametys.administration.Groups._selectGroup = function (grid, rowindex, e)
 	var group = org.ametys.administration.Groups._listViewGp.getStore().getAt(rowindex);
 	org.ametys.administration.Groups._currentGroup = group; 
     
-	var groupID = group.get('id');
-	var result = Tools.postFromUrl (getPluginDirectUrl(org.ametys.administration.Groups.pluginName) + "/groups/members", "groupID=" + groupID + "&amp;sitename=" + context.siteName);
-	
-	if (result != null)
+	var serverMessage = new org.ametys.servercomm.ServerMessage(org.ametys.administration.Groups.pluginName, "/groups/members", { groupID: group.get('id'), sitename: context.siteName }, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+	var result = org.ametys.servercomm.ServerComm.getInstance().send(serverMessage);
+
+    if (org.ametys.servercomm.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CMS_PROFILES_ERROR_TITLE"/>", result, "org.ametys.administration.Groups._selectGroup"))
+    {
+       throw "org.ametys.administration.Groups._selectGroup request failed";
+    }
+   
+	var members = result.selectNodes("GroupMembers/User");
+	for (var i=0; i &lt; members.length; i++)
 	{
-		var members = result.selectNodes("GroupMembers/User");
-		for (var i=0; i &lt; members.length; i++)
-		{
-			var fullname = members[i].selectSingleNode("FullName")[Tools.xmlTextContent];
-			var login =  members[i].getAttribute("login");
-			org.ametys.administration.Groups._listViewU.addElement(login, {user: fullname + "(" + login + ")"});
-		}
+		var fullname = members[i].selectSingleNode("FullName")[org.ametys.servercomm.ServerComm.xmlTextContent];
+		var login =  members[i].getAttribute("login");
+		org.ametys.administration.Groups._listViewU.addElement(login, {user: fullname + "(" + login + ")"});
 	}
 }
 
@@ -222,17 +224,13 @@ org.ametys.administration.Groups._editGroupLabel = function (store, record, oper
 		if (record.get('id') == "new")
 		{
 			// Create group
-			var result = Tools.postFromUrl(getPluginDirectUrl(org.ametys.administration.Groups.pluginName) + "/groups/create", "name=" + encodeURIComponent(record.get('name')));
-			if (result == null)
-			{
-				Ext.Msg.show ({
-            		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
-            		msg: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_NEW_ERROR"/>",
-            		buttons: Ext.Msg.OK,
-   					icon: Ext.MessageBox.ERROR
-            	});
-				return false;
-			}
+			var serverMessage = new org.ametys.servercomm.ServerMessage(org.ametys.administration.Groups.pluginName, "/groups/create", { name: record.get('name') }, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+			var result = org.ametys.servercomm.ServerComm.getInstance().send(serverMessage);
+
+		    if (org.ametys.servercomm.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_NEW_ERROR"/>", result, "org.ametys.administration.Groups._editGroupLabel"))
+		    {
+		       return false;
+		    }
 			else
 			{
 				record.set('id', Tools.getFromXML(result, "id"));
@@ -242,16 +240,13 @@ org.ametys.administration.Groups._editGroupLabel = function (store, record, oper
 		else
 		{
 			// Rename
-			var result = Tools.postFromUrl(getPluginDirectUrl(org.ametys.administration.Groups.pluginName) + "/groups/rename", "id=" + record.data.id + "&amp;name=" + encodeURIComponent(record.get('name')));
-			if (result == null)
-			{
-				Ext.Msg.show ({
-            		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
-            		msg: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_RENAME_ERROR"/>",
-            		buttons: Ext.Msg.OK,
-   					icon: Ext.MessageBox.ERROR
-            	});
-			}
+			var serverMessage = new org.ametys.servercomm.ServerMessage(org.ametys.administration.Groups.pluginName, "/groups/rename", { id: record.data.id, name: record.get('name') }, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+			var result = org.ametys.servercomm.ServerComm.getInstance().send(serverMessage);
+
+		    if (org.ametys.servercomm.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_RENAME_ERROR"/>", result, "org.ametys.administration.Groups._editGroupLabel"))
+		    {
+		       // nothing
+		    }
 			else
 			{
 				var state = Tools.getFromXML(result, "message"); 
@@ -348,13 +343,13 @@ org.ametys.administration.Groups.save = function (group)
 	var ok = false;
 	while (!ok)
 	{
-		var result = Tools.postFromUrl(getPluginDirectUrl(org.ametys.administration.Groups.pluginName) + '/groups/modify', "id=" + group.id + "&amp;objects=" + objects);
-		if (result == null)
-		{
-			Ext.Msg.confirm ("<i18n:text i18n:key="PLUGINS_CORE_SAVE_DIALOG_TITLE"/>", 
-							 "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_MODIFY_ERROR"/>", 
-							 function (button) { if (button != 'yes') ok =true });
-		}
+		var serverMessage = new org.ametys.servercomm.ServerMessage(org.ametys.administration.Groups.pluginName, "/groups/modify", { id: group.id, objects: objects }, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+		var result = org.ametys.servercomm.ServerComm.getInstance().send(serverMessage);
+
+	    if (org.ametys.servercomm.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_MODIFY_ERROR"/>", result, "org.ametys.administration.Groups.save"))
+	    {
+	       // nothing
+	    }
 		else 
 		{
 			var state = Tools.getFromXML(result, "message"); 

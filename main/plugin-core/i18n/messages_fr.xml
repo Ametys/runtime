@@ -416,7 +416,7 @@
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_RENAME_ERROR">Une erreur est survenue lors du changement de nom du profil.</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_RENAME_MISSING_ERROR">Le profil que vous essayez de renommer n'existe plus.</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_CONFIRM">Vous avez fait des modifications dans les droits attribués. Souhaitez-vous les sauvegarder ?</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_ERROR">Une erreur est survenue lors de la sauvegarde. Souhaitez-vous réessayer ?</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_ERROR">Une erreur est survenue lors de la sauvegarde.</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_MISSING_ERROR">Le profil que vous essayez de modifier n'existe plus.</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_DELETE">Supprimer le profil</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_DELETE_CONFIRM">Etes-vous sûr de vouloir supprimer ce profil ?</message>

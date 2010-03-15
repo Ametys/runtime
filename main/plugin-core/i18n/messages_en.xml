@@ -304,15 +304,15 @@
 
     <!-- USER JDBC -->
     <message key="PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_LABEL">Login</message>
-    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_DESCRIPTION">Unique user's login&#10;3-16 characters (letters, figures or '_')</message>
+    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_DESCRIPTION">Unique user's login&lt;br/&gt;3-16 characters (letters, figures or '_')</message>
     <message key="PLUGINS_CORE_USERS_JDBC_FIELD_LASTNAME_LABEL">Last name</message>
-    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_LASTNAME_DESCRIPTION">User's last name&#10;Cannot be empty</message>
+    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_LASTNAME_DESCRIPTION">User's last name&lt;br/&gt;Cannot be empty</message>
     <message key="PLUGINS_CORE_USERS_JDBC_FIELD_FIRSTNAME_LABEL">First name</message>
-    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_FIRSTNAME_DESCRIPTION">User's first name&#10;Cannot be empty</message>
+    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_FIRSTNAME_DESCRIPTION">User's first name&lt;br/&gt;Cannot be empty</message>
     <message key="PLUGINS_CORE_USERS_JDBC_FIELD_EMAIL_LABEL">Email</message>
     <message key="PLUGINS_CORE_USERS_JDBC_FIELD_EMAIL_DESCRIPTION">User's email</message>
     <message key="PLUGINS_CORE_USERS_JDBC_FIELD_PASSWORD_LABEL">Password</message>
-    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_PASSWORD_DESCRIPTION">User's password&#10;Cannot be empty</message>
+    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_PASSWORD_DESCRIPTION">User's password&lt;br/&gt;Cannot be empty</message>
 
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP">LDAP directory</message>
 
@@ -416,7 +416,7 @@
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_RENAME_ERROR">An error occured during renaming.</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_RENAME_MISSING_ERROR">The profile you are trying to rename does not exist anymore. Try to refresh the page.</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_CONFIRM">You made unsaved changes. Do you want to save them now ?</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_ERROR">An error occured during saving. Do you want to try again ?</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_ERROR">An error occured during saving.</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_MISSING_ERROR">The profile you are trying to modify does not exist. Try to refresh the page.</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_DELETE">Remove the profile</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_DELETE_CONFIRM">Do you really want to remove this profile ?</message>

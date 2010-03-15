@@ -139,12 +139,14 @@
 								var ok = false;
 								while (!ok)
 								{
-									var result = Tools.postFromUrl(getPluginDirectUrl("<xsl:value-of select="$pluginName"/>") + "/rights/profiles/modify", "id=" + element.get('id') + "&amp;objects=" + objects);
-									if (result == null)
-									{
-										Ext.Msg.confirm ("<i18n:text i18n:key="PLUGINS_CORE_SAVE_DIALOG_TITLE"/>", "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_ERROR"/>", function (button) { if (button != 'yes') ok =true});
-									}
-									else 
+									var serverMessage = new org.ametys.servercomm.ServerMessage("<xsl:value-of select="$pluginName"/>", "/rights/profiles/modify", { id: element.get('id'), objects: objects }, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+									var result = org.ametys.servercomm.ServerComm.getInstance().send(serverMessage);
+								
+								    if (org.ametys.servercomm.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_ERROR"/>", result, "save_objects"))
+								    {
+										return;
+								    }
+								    else
 									{
 										var state = Tools.getFromXML(result, "message"); 
 										if (state != null &amp;&amp; state == "missing")
@@ -265,17 +267,13 @@
 									{
 									
 										// CREER
-										var result = Tools.postFromUrl(getPluginDirectUrl("<xsl:value-of select="$pluginName"/>") + "/rights/profiles/create", "name=" + encodeURIComponent(record.get('name')));
-										if (result == null)
-										{
-											Ext.Msg.show ({
-				                        		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
-				                        		msg: "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_NEW_ERROR"/>",
-				                        		buttons: Ext.Msg.OK,
-							   					icon: Ext.MessageBox.ERROR
-				                        	});
-											return;
-										}
+										var serverMessage = new org.ametys.servercomm.ServerMessage("<xsl:value-of select="$pluginName"/>", "/rights/profiles/create", {name: record.get('name') }, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+										var result = org.ametys.servercomm.ServerComm.getInstance().send(serverMessage);
+									
+									    if (org.ametys.servercomm.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_NEW_ERROR"/>", result, "editLabel"))
+									    {
+									       return;
+									    }
 										else
 										{
 											record.set('id', Tools.getFromXML(result, "id"));
@@ -285,27 +283,19 @@
 									else
 									{
 										// RENOMMER
-										var result = Tools.postFromUrl(getPluginDirectUrl("<xsl:value-of select="$pluginName"/>") + "/rights/profiles/rename", "id=" + record.get('id') + "&amp;name=" + encodeURIComponent(record.get('name')));
-										if (result == null)
-										{
-											Ext.Msg.show ({
-				                        		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
-				                        		msg: "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_RENAME_ERROR"/>",
-				                        		buttons: Ext.Msg.OK,
-							   					icon: Ext.MessageBox.ERROR
-				                        	});
-										}
+										var serverMessage = new org.ametys.servercomm.ServerMessage("<xsl:value-of select="$pluginName"/>", "/rights/profiles/rename", { id: record.get('id'), name: record.get('name') }, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+										var result = org.ametys.servercomm.ServerComm.getInstance().send(serverMessage);
+									
+									    if (org.ametys.servercomm.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_RENAME_ERROR"/>", result, "editLabel"))
+									    {
+									       return;
+									    }
 										else 
 										{
 											var state = Tools.getFromXML(result, "message"); 
 											if (state != null &amp;&amp; state == "missing")
 											{
-												Ext.Msg.show ({
-					                        		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
-					                        		msg: "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_RENAME_MISSING_ERROR"/>",
-					                        		buttons: Ext.Msg.OK,
-								   					icon: Ext.MessageBox.ERROR
-					                        	});
+												new org.ametys.msg.ErrorDialog ("<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>", "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_RENAME_MISSING_ERROR"/>", "state is missing", "editLabel");
 												listview.removeElement(record);
 												return;
 											}

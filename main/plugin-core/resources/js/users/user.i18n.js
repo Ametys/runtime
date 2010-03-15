@@ -103,21 +103,16 @@ RUNTIME_Plugin_Runtime_EditUser.act2 = function()
     {
     	RUNTIME_Plugin_Runtime_EditUser.form.findField('field_login').setDisabled(true);
       
-	    var url = getPluginDirectUrl(RUNTIME_Plugin_Runtime_EditUser.plugin) + "/users/info";
-	    var arg = "login=" + params['login'];
-	      
-	    var nodes = Tools.postFromUrl(url, arg);
-	    if (nodes == null)
-	    {
-	    	Ext.Msg.show ({
-        		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
-        		msg: "<i18n:text i18n:key="PLUGINS_CORE_USERS_DIALOG_ERROR"/>",
-        		buttons: Ext.Msg.OK,
-				icon: Ext.MessageBox.ERROR
-        	});
-	        return;
-	    }
-	    var userInfo = nodes.selectSingleNode("/users-info/users/user[@login='" + params['login'] + "']");
+    	
+    	var serverMessage = new org.ametys.servercomm.ServerMessage(RUNTIME_Plugin_Runtime_EditUser.plugin, "/users/info", { login: params['login'] }, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+    	var nodes = org.ametys.servercomm.ServerComm.getInstance().send(serverMessage);
+
+        if (org.ametys.servercomm.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_USERS_DIALOG_ERROR"/>", nodes, "RUNTIME_Plugin_Runtime_EditUser.delayedInitialize"))
+        {
+           return;
+        }
+
+	    var userInfo = nodes.selectSingleNode("users-info/users/user[@login='" + params['login'] + "']");
 	      
 	    RUNTIME_Plugin_Runtime_EditUser.form.findField('field_login').setValue(userInfo.getAttribute("login"));
 	   
@@ -126,7 +121,7 @@ RUNTIME_Plugin_Runtime_EditUser.act2 = function()
 	    {
 	    	var field = fields[i];
 	        var fieldName = fields[i].nodeName;
-	        var fieldValue = fields[i][Tools.xmlTextContent];
+	        var fieldValue = fields[i][org.ametys.servercomm.ServerComm.xmlTextContent];
 	        
 	        var elt = RUNTIME_Plugin_Runtime_EditUser.form.findField('field_' + fieldName);
 	        elt.setValue(fieldValue);
@@ -156,23 +151,18 @@ RUNTIME_Plugin_Runtime_EditUser.cancel = function ()
 RUNTIME_Plugin_Runtime_EditUser.ok = function ()
 {
 	var form = RUNTIME_Plugin_Runtime_EditUser.form;
-  
-	var url = getPluginDirectUrl(RUNTIME_Plugin_Runtime_EditUser.plugin) + "/users/edit";
+
 	var args = Tools.buildQueryString(form.getEl().dom);
     args += "&amp;field_login=" + form.findField('field_login').getValue();
     args += "&amp;mode=" + RUNTIME_Plugin_Runtime_EditUser.params['mode'];
-    var result = Tools.postFromUrl(url, args);
 
-	if (result == null)
-	{
-		Ext.Msg.show ({
-    		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
-    		msg: "<i18n:text i18n:key="PLUGINS_CORE_USERS_DIALOG_ERROR"/>",
-    		buttons: Ext.Msg.OK,
-			icon: Ext.MessageBox.ERROR
-    	});
-		return;
-	}
+	var serverMessage = new org.ametys.servercomm.ServerMessage(RUNTIME_Plugin_Runtime_EditUser.plugin, "users/edit?" + args, {}, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+	var result = org.ametys.servercomm.ServerComm.getInstance().send(serverMessage);
+
+    if (org.ametys.servercomm.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_USERS_DIALOG_ERROR"/>", result, "org.ametys.cms.tool.profile.ProfilesTool"))
+    {
+       return;
+    }
   
     // passe les erreurs en rouges
 	var fieldsString = Tools.getFromXML(result, "error");

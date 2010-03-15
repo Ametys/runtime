@@ -15,7 +15,7 @@
    limitations under the License.
    -->
 <xsl:stylesheet version="1.0" 
-                xmlns:i18n="http://apache.org/cocoon/i18n/2.1" 
+                xmlns:i18n="http://apache.org/cocoon/i18n/2.1"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
     
     <xsl:param name="contextPath"/>

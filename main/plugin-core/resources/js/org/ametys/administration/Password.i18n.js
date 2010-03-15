@@ -157,22 +157,14 @@ org.ametys.administration.Password.ok = function()
 	}
 	
 	// ENVOIE DES DONNEES
-	var url = getPluginDirectUrl(org.ametys.administration.Password.pluginName) + "/administrator/password/set"
-	var args = "oldPassword=" + encodeURIComponent(oldPassword.getValue()) 
-				+ "&amp;newPassword=" + encodeURIComponent(newPassword.getValue())
-				+ "&amp;confirmPassword=" + encodeURIComponent(confirmPassword.getValue());
-				
-    var result = Tools.postFromUrl(url, args);
-	if (result == null)
-	{
-		Ext.Msg.show ({
-    		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
-    		msg: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_FATAL"/>",
-    		buttons: Ext.Msg.OK,
-			icon: Ext.MessageBox.ERROR
-		});
-		return;
-	}
+	var serverMessage = new org.ametys.servercomm.ServerMessage(org.ametys.administration.Password.pluginName, "/administrator/password/set", { oldPassword: oldPassword.getValue(), newPassword: newPassword.getValue(), confirmPassword: confirmPassword.getValue() }, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+	var result = org.ametys.servercomm.ServerComm.getInstance().send(serverMessage);
+
+    if (org.ametys.servercomm.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_FATAL"/>", result, "org.ametys.administration.Password.ok"))
+    {
+       return;
+    }
+	
     if (Tools.getFromXML(result, "result") != "SUCCESS")
     {
     	Ext.Msg.show ({

@@ -127,17 +127,13 @@ RUNTIME_Plugin_Runtime_SelectGroup.load = function ()
 
 	var criteria = RUNTIME_Plugin_Runtime_SelectGroup.criteria.getValue();
 
-	var result = Tools.postFromUrl(getPluginDirectUrl(RUNTIME_Plugin_Runtime_SelectGroup.plugin) + "/groups/selectgroup/search.xml", "criteria=" + criteria + "&amp;count=100" + "&amp;offset=0");
-	if (result == null)
-	{
-		Ext.Msg.show ({
-    		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
-    		msg: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_ERROR_LISTING"/>",
-    		buttons: Ext.Msg.OK,
-			icon: Ext.MessageBox.ERROR
-		});
-		return;
-	}	
+	var serverMessage = new org.ametys.servercomm.ServerMessage(RUNTIME_Plugin_Runtime_SelectGroup.plugin, "groups/selectgroup/search.xml", { criteria: criteria, count: 100, offset: 0 }, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+	var responseXML = org.ametys.servercomm.ServerComm.getInstance().send(serverMessage);
+
+    if (org.ametys.servercomm.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_ERROR_LISTING"/>", responseXML, "RUNTIME_Plugin_Runtime_SelectGroup.load"))
+    {
+       return;
+    }
 
 	RUNTIME_Plugin_Runtime_SelectGroup.listview.getStore().removeAll();
 	
@@ -145,7 +141,7 @@ RUNTIME_Plugin_Runtime_SelectGroup.load = function ()
 
 	for (var i=0; i &lt; groups.length; i++)
 	{
-		var label = groups[i].selectSingleNode('label')[Tools.xmlTextContent] + " (" + groups[i].getAttribute('id') + ")";
+		var label = groups[i].selectSingleNode('label')[org.ametys.servercomm.ServerComm.xmlTextContent] + " (" + groups[i].getAttribute('id') + ")";
 		RUNTIME_Plugin_Runtime_SelectGroup.listview.addElement(groups[i].getAttribute('id'), {label: label});
 	}
 	if (groups.length == 0)

@@ -136,25 +136,21 @@ RUNTIME_Plugin_Runtime_SelectUser.load = function ()
 	var criteria = RUNTIME_Plugin_Runtime_SelectUser.criteria.getValue();
 
 	// Recupere la liste des users 
-	var result = Tools.postFromUrl(getPluginDirectUrl(RUNTIME_Plugin_Runtime_SelectUser.plugin) + "/users/search.xml", "criteria=" + criteria + "&amp;count=100" + "&amp;offset=0");
-	if (result == null)
-	{
-		Ext.Msg.show({
-			   title: "<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_CAPTION"/>",
-			   msg: "<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_ERROR_LISTING"/>",
-			   buttons: Ext.Msg.OK,
-			   icon: Ext.MessageBox.ERROR
-			});
-		return;
-	}	
+	var serverMessage = new org.ametys.servercomm.ServerMessage(RUNTIME_Plugin_Runtime_SelectUser.plugin, "users/search.xml", { criteria: criteria, count: 100, offset: 0 }, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+	var result = org.ametys.servercomm.ServerComm.getInstance().send(serverMessage);
+
+    if (org.ametys.servercomm.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_ERROR_LISTING"/>", result, "RUNTIME_Plugin_Runtime_SelectUser.load"))
+    {
+       return;
+    }
 
 	RUNTIME_Plugin_Runtime_SelectUser.listview.getStore().removeAll();
 	
-	var users = result.selectNodes("/Search/users/user");
+	var users = result.selectNodes("Search/users/user");
 
 	for (var i=0; i &lt; users.length; i++)
 	{
-		var fullname = (users[i].selectSingleNode('firstname') != null ? users[i].selectSingleNode('firstname')[Tools.xmlTextContent] + " " + users[i].selectSingleNode('lastname')[Tools.xmlTextContent] : users[i].selectSingleNode('lastname')[Tools.xmlTextContent]) + " (" + users[i].getAttribute('login') + ")";
+		var fullname = (users[i].selectSingleNode('firstname') != null ? users[i].selectSingleNode('firstname')[org.ametys.servercomm.ServerComm.xmlTextContent] + " " + users[i].selectSingleNode('lastname')[org.ametys.servercomm.ServerComm.xmlTextContent] : users[i].selectSingleNode('lastname')[org.ametys.servercomm.ServerComm.xmlTextContent]) + " (" + users[i].getAttribute('login') + ")";
 		RUNTIME_Plugin_Runtime_SelectUser.listview.addElement(users[i].getAttribute('login'), {name: fullname});
 	}
 	if (users.length == 0)

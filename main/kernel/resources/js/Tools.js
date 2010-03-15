@@ -133,7 +133,7 @@ Tools.postFromUrl = function (url, args)
 
 Tools.getFromXML = function(xml, tag)
 {
-  var node = xml.selectSingleNode("/*/" + tag);
+  var node = xml.selectSingleNode("*/" + tag);
   return node != null ? node[Tools.xmlTextContent] : null;
 }
 

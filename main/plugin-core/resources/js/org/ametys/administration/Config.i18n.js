@@ -346,20 +346,14 @@ org.ametys.administration.Config.save = function ()
 		return;
     }
     
-	// TODO Use servercomm api
-    var url = getPluginDirectUrl(org.ametys.administration.Config.pluginName) + "/administrator/config/set";
     var args = org.ametys.administration.Config._getFormParameters (org.ametys.administration.Config._form.getForm());
+    
+	var serverMessage = new org.ametys.servercomm.ServerMessage(org.ametys.administration.Config.pluginName, "/administrator/config/set?" + args, {}, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+	var result = org.ametys.servercomm.ServerComm.getInstance().send(serverMessage);
 
-    var result = Tools.postFromUrl(url, args);
-    if (result == null)
+    if (org.ametys.servercomm.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_FATALERROR"/>", result, "org.ametys.administration.Config.save"))
     {
-    	Ext.Msg.show ({
-    		title: "<i18n:text i18n:key="PLUGINS_CORE_SAVE_DIALOG_TITLE"/>",
-    		msg: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_FATALERROR"/>",
-    		buttons: Ext.Msg.OK,
-			icon: Ext.MessageBox.ERROR
-    	});
-        return;
+       return;
     }
     
     var error = Tools.getFromXML(result, "error");

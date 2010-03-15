@@ -201,30 +201,25 @@ org.ametys.administration.System.goBack = function ()
  */
 org.ametys.administration.System.save = function ()
 {
-	var url = getPluginDirectUrl(org.ametys.administration.System.pluginName) + "/administrator/system/update";
-	var args = "";
+	var args = {};
 
-	// args += "&amp;maintenance=" + (document.getElementById('maintenance').checked ? "true" : "false");
-	args += "&amp;announcement=" + (org.ametys.administration.System._fieldSet.checkbox.dom.checked ? "true" : "false");
+	// args.announcement = (document.getElementById('maintenance').checked ? "true" : "false");
+	args.announcement = org.ametys.administration.System._fieldSet.checkbox.dom.checked ? "true" : "false";
 
 	var elmts = org.ametys.administration.System._listView.getElements();
     for (var i = 0; i &lt; elmts.length; i++)
     {
         var element = elmts[i];
-        args += "&amp;lang=" + element.get('lang');
-        args += "&amp;message_" + element.get('lang') + "=" + encodeURIComponent(Tools.textareaToHTML(element.get('message')));
+        args.lang = element.get('lang');
+        args['message_' + element.get('lang')] = Tools.textareaToHTML(element.get('message'));
     }
+    
+	var serverMessage = new org.ametys.servercomm.ServerMessage(org.ametys.administration.System.pluginName, "/administrator/system/update", args, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+	var result = org.ametys.servercomm.ServerComm.getInstance().send(serverMessage);
 
-    var result = Tools.postFromUrl(url, args);
-    if (result == null)
+    if (org.ametys.servercomm.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ERROR_SAVE"/>", result, "org.ametys.administration.System.save"))
     {
-    	Ext.Msg.show ({
-    		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
-    		msg: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ERROR_SAVE"/>",
-    		buttons: Ext.Msg.OK,
-			icon: Ext.MessageBox.ERROR
-    	});
-        return;
+       return;
     }
 
     org.ametys.administration.System.goBack ();

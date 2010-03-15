@@ -220,28 +220,23 @@ org.ametys.administration.Logs.doDelete = function (answer)
 {
 	if (answer == 'yes')
     {
-		var url = getPluginDirectUrl(org.ametys.administration.Logs.pluginName) + "/administrator/logs/delete";
-        var args = "";
+        var files = [];
     
         var elts = org.ametys.administration.Logs._logs.getSelection();
         for (var i = 0; i &lt; elts.length; i++)
         {
             var elt = elts[i];
-            args += "file=" + encodeURIComponent(elt.get('location')) + "&amp;";
+            files.push(elt.get('location'));
         }
         
-        var result = Tools.postFromUrl(url, args);
-        if (result == null)
+    	var serverMessage = new org.ametys.servercomm.ServerMessage(org.ametys.administration.Logs.pluginName, "administrator/logs/delete", { file: files }, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+    	var result = org.ametys.servercomm.ServerComm.getInstance().send(serverMessage);
+
+        if (org.ametys.servercomm.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_DELETE_ERROR_GRAVE"/>", result, "org.ametys.administration.Logs.doDelete"))
         {
-        	Ext.Msg.show({
-				title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_DELETE"/>",
-				msg: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_DELETE_ERROR_GRAVE"/>",
-				buttons: Ext.Msg.OK,
-				icon: Ext.MessageBox.ERROR
-			});
-            return;
+           return;
         }
-        
+
         var failuresString = Tools.getFromXML(result, "failure");
         
         for (var i = 0; i &lt; elts.length; i++)
@@ -278,18 +273,12 @@ org.ametys.administration.Logs.doPurge = function (anwser)
 {
 	if (anwser == 'yes')
     {
-        var url = getPluginDirectUrl(org.ametys.administration.Logs.pluginName) + "/administrator/logs/purge";
+    	var serverMessage = new org.ametys.servercomm.ServerMessage(org.ametys.administration.Logs.pluginName, "administrator/logs/purge", {}, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+    	var result = org.ametys.servercomm.ServerComm.getInstance().send(serverMessage);
 
-        var result = Tools.postFromUrl(url, "");
-        if (result == null)
+        if (org.ametys.servercomm.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_PURGE_ERROR_GRAVE"/>", result, "org.ametys.administration.Logs.doPurge"))
         {
-        	Ext.Msg.show({
-				title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_PURGE"/>",
-				msg: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_PURGE_ERROR_GRAVE"/>",
-				buttons: Ext.Msg.OK,
-				icon: Ext.MessageBox.ERROR
-			});
-            return;
+           return;
         }
         
         var doneString = Tools.getFromXML(result, "done");

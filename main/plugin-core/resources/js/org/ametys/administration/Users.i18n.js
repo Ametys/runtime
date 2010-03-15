@@ -230,20 +230,13 @@ org.ametys.administration.Users.impersonate = function ()
 {
 	var elt = org.ametys.administration.Users._listView.getSelection()[0];
 
-	var url = getPluginDirectUrl("core") + "/administrator/users/impersonate";
-	var args = "login=" + encodeURIComponent(elt.data.login);
-    var result = Tools.postFromUrl(url, args);
-    
-    if (result == null || Tools.getFromXML(result, "error") != "")
+	
+	var serverMessage = new org.ametys.servercomm.ServerMessage("core", "administrator/users/impersonate", { login: elt.data.login }, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+	var result = org.ametys.servercomm.ServerComm.getInstance().send(serverMessage);
+
+    if (org.ametys.servercomm.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_USERS_IMPERSONATE_ERROR"/>", (result == null || Tools.getFromXML(result, "error") != "") ? null : result, "org.ametys.administration.Users.impersonate"))
     {
-    	var error = result == null ? "" : ("&lt;br/&gt;" + Tools.getFromXML(result, "error"));
-		Ext.Msg.show ({
-    		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
-    		msg: "<i18n:text i18n:key="PLUGINS_CORE_USERS_IMPERSONATE_ERROR"/>" + error,
-    		buttons: Ext.Msg.OK,
-			icon: Ext.MessageBox.ERROR
-    	});
-    	return;
+       return;
     }
     else
     {
@@ -342,31 +335,24 @@ org.ametys.administration.Users.search = function ()
 	var searchField = org.ametys.administration.Users._searchForm.getForm().findField("searchField");
 	var searchValue = searchField.getValue() == '<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCH_CRITERIA"/>' ? '' : searchField.getValue();
 	
-    var url = getPluginDirectUrl(org.ametys.administration.Users.pluginName) + "/users/search.xml";
-    var arg = "criteria=" + encodeURIComponent(searchValue);
-    
-    var result = Tools.postFromUrl(url, arg);
-    if (result == null)
+	var serverMessage = new org.ametys.servercomm.ServerMessage(org.ametys.administration.Users.pluginName, "users/search.xml", { criteria : searchValue }, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+	var result = org.ametys.servercomm.ServerComm.getInstance().send(serverMessage);
+
+    if (org.ametys.servercomm.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCHING_ERROR"/>", result, "org.ametys.administration.Users.search"))
     {
-    	Ext.Msg.show ({
-        		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
-        		msg: "<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCHING_ERROR"/>",
-        		buttons: Ext.Msg.OK,
-					icon: Ext.MessageBox.ERROR
-        });
-        return;
+       return;
     }
 
     // Afficher les resultats
-    var nodes = result.selectNodes("/Search/users/user");
+    var nodes = result.selectNodes("Search/users/user");
     for (var i = 0; i &lt; nodes.length; i++)
     {
         var firstnameNode = nodes[i].selectSingleNode("firstname");
-        var firstname = firstnameNode != null ? firstnameNode[Tools.xmlTextContent] : "";
+        var firstname = firstnameNode != null ? firstnameNode[org.ametys.servercomm.ServerComm.xmlTextContent] : "";
         
-        var lastname = nodes[i].selectSingleNode("lastname")[Tools.xmlTextContent];
+        var lastname = nodes[i].selectSingleNode("lastname")[org.ametys.servercomm.ServerComm.xmlTextContent];
         var login = nodes[i].getAttribute("login");
-        var email = nodes[i].selectSingleNode("email")[Tools.xmlTextContent];
+        var email = nodes[i].selectSingleNode("email")[org.ametys.servercomm.ServerComm.xmlTextContent];
         
         org.ametys.administration.Users._addElement(login, firstname, lastname, email);
     }
