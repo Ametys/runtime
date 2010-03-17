@@ -65,6 +65,7 @@ public abstract class AbstractParameterParser<P extends Parameter<T>, T>
         P parameter = _createParameter(parameterConfig);
         String parameterId = _parseId(parameterConfig);
         
+        parameter.setId(parameterId);
         parameter.setPluginName(pluginName);
         parameter.setLabel(_parseI18nizableText(parameterConfig, pluginName, "label"));
         parameter.setDescription(_parseI18nizableText(parameterConfig, pluginName, "description"));
