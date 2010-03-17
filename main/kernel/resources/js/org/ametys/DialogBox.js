@@ -99,6 +99,26 @@ org.ametys.DialogBox.prototype.setIconClass = function(cls)
 }
 
 /**
+ * Show a waiting message
+ * @param {String} msg The message to display
+ */
+org.ametys.DialogBox.prototype.showWaitMsg = function (msg)
+{
+	this._mask = new org.ametys.msg.Mask (this.getEl(), msg);
+}
+
+/**
+ * Hides the waiting message 
+ */
+org.ametys.DialogBox.prototype.hideWaitMsg = function ()
+{
+	if (this._mask)
+	{
+		this._mask.hide();
+	}
+}
+
+/**
  * @private
  * Listener when the window shows to place it correctly in the screen
  */

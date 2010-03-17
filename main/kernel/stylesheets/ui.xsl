@@ -200,6 +200,7 @@
 		<script type="text/javascript"  src="{$contextPath}/kernel/resources/js/org/ametys/log/LoggerManager.js"></script>
 		<script type="text/javascript"  src="{$contextPath}/kernel/resources/js/org/ametys/log/LoggerEntry.js"></script>
 		<script type="text/javascript"  src="{$contextPath}/kernel/resources/js/org/ametys/msg/ErrorDialog.i18n.js"></script>
+		<script type="text/javascript"  src="{$contextPath}/kernel/resources/js/org/ametys/msg/Mask.i18n.js"></script>
 		       
     </xsl:template>
 

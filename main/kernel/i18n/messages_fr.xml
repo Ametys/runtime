@@ -59,4 +59,8 @@
     <message key="KERNEL_MSG_ERRORDIALOG_DETAILS">Détails</message>
     <message key="KERNEL_MSG_ERRORDIALOG_OTHERSERRORS">autre(s) erreur(s)</message>
     
+    <!-- +
+    	 | Mask.js 
+    	 + -->
+   	<message key="KERNEL_LOADMASK_DEFAULT_MESSAGE">Traitement en cours ...</message>
 </catalogue>
