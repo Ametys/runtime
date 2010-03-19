@@ -137,7 +137,6 @@
                 }
             </xsl:comment>
         </script>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/Tools.js"></script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/mozxpath.js"></script>
 
 		<xsl:variable name="extjs-debug-suffix"><xsl:if test="$debug-mode = 'true'">-debug</xsl:if></xsl:variable>
@@ -164,10 +163,6 @@
 			</xsl:comment>
 		</script>
 		
-		<script type="text/javascript">
-            Tools.loadScript(document, "<xsl:value-of select="$contextPath"/>/plugins/extjs/resources/js/locale/ext-lang-<i18n:text i18n:key="KERNEL_LANGUAGE_CODE" i18n:catalogue="kernel"/>.js");
-		</script>
-	
 		<link rel="stylesheet" href="{$contextPath}/kernel/resources/css/import.css" type="text/css"/>
 
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/DialogBox.js"></script>
@@ -203,6 +198,9 @@
 		<script type="text/javascript"  src="{$contextPath}/kernel/resources/js/org/ametys/msg/ErrorDialog.i18n.js"></script>
 		<script type="text/javascript"  src="{$contextPath}/kernel/resources/js/org/ametys/msg/Mask.i18n.js"></script>
 		       
+		<script type="text/javascript">
+            Utils.loadScript("<xsl:value-of select="$contextPath"/>/plugins/extjs/resources/js/locale/ext-lang-<i18n:text i18n:key="KERNEL_LANGUAGE_CODE" i18n:catalogue="kernel"/>.js");
+		</script>
     </xsl:template>
 
 </xsl:stylesheet>

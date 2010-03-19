@@ -121,3 +121,27 @@ Utils.textareaToHTML = function (s)
     s = s.replace(/'/g, "&#039;");
     return s;
 }
+
+Utils.loadStyle = function (url)
+{
+	var head = document.getElementsByTagName("head")[0];
+	var link = document.createElement("link");
+	link.rel = "stylesheet";
+	link.href = url;
+	link.type = "text/css";
+	head.appendChild(link);
+}
+
+Utils.loadScript = function (url, onload)
+{
+	var head = document.getElementsByTagName("head")[0];
+	var link = document.createElement("script");
+	link.src = url;
+	link.charset = "UTF-8";
+	if (onload != null)
+	{
+		link.onload = onload;
+		link.onreadystatechange = function () { if (/loaded|complete/.test(this.readyState)) this.onload(); }
+	}
+	head.appendChild(link);
+}
