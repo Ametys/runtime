@@ -195,6 +195,7 @@
  		<script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/tree/XmlTreeLoader.js"></script>
 				
 		<script type="text/javascript"  src="{$contextPath}/kernel/resources/js/org/ametys/servercomm/TimeoutDialog.i18n.js"></script>
+		<script type="text/javascript"  src="{$contextPath}/kernel/resources/js/org/ametys/servercomm/DirectComm.i18n.js"></script>
 		<script type="text/javascript"  src="{$contextPath}/kernel/resources/js/org/ametys/servercomm/ServerComm.i18n.js"></script>
 		<script type="text/javascript"  src="{$contextPath}/kernel/resources/js/org/ametys/servercomm/ServerMessage.js"></script>
 		<script type="text/javascript"  src="{$contextPath}/kernel/resources/js/org/ametys/log/LoggerManager.js"></script>

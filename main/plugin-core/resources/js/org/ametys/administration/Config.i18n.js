@@ -346,15 +346,29 @@ org.ametys.administration.Config.save = function ()
 		return;
     }
     
+    var url = getPluginDirectUrl(org.ametys.administration.Config.pluginName) + "/administrator/config/set";
     var args = org.ametys.administration.Config._getFormParameters (org.ametys.administration.Config._form.getForm());
-    
-	var serverMessage = new org.ametys.servercomm.ServerMessage(org.ametys.administration.Config.pluginName, "/administrator/config/set?" + args, {}, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
-	var result = org.ametys.servercomm.ServerComm.getInstance().send(serverMessage);
 
-    if (org.ametys.servercomm.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_FATALERROR"/>", result, "org.ametys.administration.Config.save"))
+    var result = null;
+    var ex = "";
+    try
     {
-       return;
+    	result = org.ametys.servercomm.DirectComm.getInstance().sendSynchronousRequest(url, args);
     }
+    catch (e)
+    {
+    	ex = "" + e;
+    }
+    
+    if (result == null)
+    {
+    	new org.ametys.msg.ErrorDialog("<i18n:text i18n:key="PLUGINS_CORE_SAVE_DIALOG_TITLE"/>", 
+    			"<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_FATALERROR"/>",
+    			ex,
+    			"org.ametys.administration.Config.save");
+        return;
+    }
+    result = result.responseXML;
     
     var error = Tools.getFromXML(result, "error");
     if (error != null &amp;&amp; error != "")

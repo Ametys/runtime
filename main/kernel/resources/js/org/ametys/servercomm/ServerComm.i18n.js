@@ -202,93 +202,6 @@ org.ametys.servercomm.ServerComm.prototype.send = function(message)
  */
 org.ametys.servercomm.ServerComm.prototype._sendSynchronousMessage = function(messageRequest)
 {
-    var activeX = ['MSXML2.XMLHTTP.3.0',
-		           'MSXML2.XMLHTTP',
-		           'Microsoft.XMLHTTP'],
-        CONTENTTYPE = 'Content-Type';
-	var pub = Ext.lib.Ajax;
-	
-    // private
-    function getConnectionObject() {
-        var o;      	
-
-        try {
-            if (o = createXhrObject(pub.transactionId)) {
-            	pub.transactionId++;
-            }
-        } catch(e) {
-        } finally {
-            return o;
-        }
-    }
-       
-    // private
-    function createXhrObject(transactionId) {
-        var http;
-        	
-        try {
-            http = new XMLHttpRequest();                
-        } catch(e) {
-            for (var i = 0; i &lt; activeX.length; ++i) {	            
-                try {
-                    http = new ActiveXObject(activeX[i]);                        
-                    break;
-                } catch(e) {}
-            }
-        } finally {
-            return {conn : http, tId : transactionId};
-        }
-    }
-    
-    // private 
-    function initHeader(label, value) {         
-		(pub.headers = pub.headers || {})[label] = value;			            
-    }
-    
-	function setHeader(o) {
-        var conn = o.conn,
-        	prop;
-        
-        function setTheHeaders(conn, headers){
-	     	for (prop in headers) {
-                if (headers.hasOwnProperty(prop)) {
-                    conn.setRequestHeader(prop, headers[prop]);
-                }
-            }   
-        }		
-        
-        if (pub.defaultHeaders) {
-            setTheHeaders(conn, pub.defaultHeaders);
-        }
-
-        if (pub.headers) {
-			setTheHeaders(conn, pub.headers);
-            delete pub.headers;                
-        }
-    }    
-    
-    
-	var postData = "content=" + encodeURIComponent(Ext.util.JSON.encode({0: messageRequest}));
-	
-    var connection = getConnectionObject();
-
-    connection.conn.open("POST", context.workspaceContext + "/plugins/core/servercomm/messages.xml", false);
-
-    if (pub.useDefaultXhrHeader) 
-    {                    
-    	initHeader('X-Requested-With', pub.defaultXhrHeader);
-    }
-
-    if(postData &amp;&amp; pub.useDefaultHeader &amp;&amp; (!pub.headers || !pub.headers[CONTENTTYPE]))
-    {
-        initHeader(CONTENTTYPE, pub.defaultPostHeader);
-    }
-
-    if (pub.defaultHeaders || pub.headers) 
-    {
-        setHeader(connection);
-    }
-
 	if (typeof this._observer.onSyncRequestDeparture == "function")
 	{
 		try
@@ -301,9 +214,12 @@ org.ametys.servercomm.ServerComm.prototype._sendSynchronousMessage = function(me
 		}
 	}
 
+	var postData = "content=" + encodeURIComponent(Ext.util.JSON.encode({0: messageRequest}));
+	var conn = null;
+	
 	try
 	{
-		connection.conn.send(postData || null);
+		conn = org.ametys.servercomm.DirectComm.getInstance().sendSynchronousRequest(context.workspaceContext + "/plugins/core/servercomm/messages.xml", postData);
 	}
 	catch(e)
 	{
@@ -334,7 +250,7 @@ org.ametys.servercomm.ServerComm.prototype._sendSynchronousMessage = function(me
 		}
 	}
 
-    return connection.conn.responseXML.selectSingleNode("/responses/response[@id='0']");
+	return conn.responseXML.selectSingleNode("/responses/response[@id='0']");
 }
 
 /**
