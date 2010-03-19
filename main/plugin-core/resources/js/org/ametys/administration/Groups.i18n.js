@@ -525,7 +525,7 @@ org.ametys.administration.Groups.doRemove = function (answer)
 	if (answer == 'yes')
 	{
 		var elt = org.ametys.administration.Groups._listViewGp.getSelection()[0];
-    	if (200 == Tools.postUrlStatusCode(getPluginDirectUrl(org.ametys.administration.Groups.pluginName) + "/groups/delete", "id=" + elt.get('id')))
+    	if (200 == org.ametys.servercomm.DirectComm.getInstance().sendSynchronousRequest(getPluginDirectUrl(org.ametys.administration.Groups.pluginName) + "/groups/delete", "id=" + elt.get('id')).status)
 		{
     		org.ametys.administration.Groups._listViewGp.removeElement(elt);
 		}

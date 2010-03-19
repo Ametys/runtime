@@ -284,7 +284,7 @@ org.ametys.administration.Users._editCb = function (login, firstname, lastname, 
  */
 org.ametys.administration.Users.remove = function ()
 {
-	Ext.Msg.confirm ("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_DELETE"/>", 
+	Ext.Msg.confirm ("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_DEL_TITLE"/>", 
 					 "<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_DEL_PROMPT"/>", 
 					 org.ametys.administration.Users.doRemove);
 } 
@@ -297,7 +297,7 @@ org.ametys.administration.Users.doRemove = function (answer)
         var url = getPluginDirectUrl(org.ametys.administration.Users.pluginName) + "/users/delete";
         var args = "login=" + encodeURIComponent(elt.data.login);
         
-        if (200 != Tools.postUrlStatusCode(url, args))
+        if (200 != org.ametys.servercomm.DirectComm.getInstance().sendSynchronousRequest(url, args).status)
         {
         	Ext.Msg.show ({
             		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",

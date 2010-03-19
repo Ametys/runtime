@@ -95,7 +95,7 @@
 								if (button == 'yes')
 								{
 									var elt = listview.getSelection()[0];		      
-									if (200 == Tools.postUrlStatusCode(getPluginDirectUrl("<xsl:value-of select="$pluginName"/>") + "/rights/profiles/delete", "id=" + elt.get('id')))
+									if (200 == org.ametys.servercomm.DirectComm.getInstance().sendSynchronousRequest(getPluginDirectUrl("<xsl:value-of select="$pluginName"/>") + "/rights/profiles/delete", "id=" + elt.get('id')).status)
 									{
 										listview.removeElement(elt);
 									}
