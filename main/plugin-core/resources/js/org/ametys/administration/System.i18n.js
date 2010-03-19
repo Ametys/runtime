@@ -211,7 +211,7 @@ org.ametys.administration.System.save = function ()
     {
         var element = elmts[i];
         args.lang = element.get('lang');
-        args['message_' + element.get('lang')] = Tools.textareaToHTML(element.get('message'));
+        args['message_' + element.get('lang')] = Utils.textareaToHTML(element.get('message'));
     }
     
 	var serverMessage = new org.ametys.servercomm.ServerMessage(org.ametys.administration.System.pluginName, "/administrator/system/update", args, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
@@ -357,7 +357,7 @@ org.ametys.administration.System._initForm = function ()
 
 		lang.setDisabled(element.get('lang') == "*");
 		lang.setValue(element.get('lang'));
-		message.setValue(Tools.htmlToTextarea(element.get('message')));
+		message.setValue(Utils.htmlToTextarea(element.get('message')));
 		try {
 			message.focus();
 			message.select();

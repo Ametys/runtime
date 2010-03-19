@@ -52,7 +52,7 @@
 	                    	<xsl:for-each select="/System/announcements/announcement">
 	                        	org.ametys.administration.System._listView.addElement(null, 
 	                                                    { lang : "<xsl:choose><xsl:when test="@lang"><xsl:value-of select="@lang"/></xsl:when><xsl:otherwise>*</xsl:otherwise></xsl:choose>",
-	                                                      message : "<xsl:value-of select="."/>"});
+	                                                      message : Utils.htmlToTextarea("<xsl:value-of select="."/>")});
 							</xsl:for-each>
 						</xsl:when>
 	                    <xsl:otherwise>

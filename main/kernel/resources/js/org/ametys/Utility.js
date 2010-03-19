@@ -59,8 +59,6 @@ function Utils()
 Utils.buildParams = function (form, submitId) 
 {
 	var result = {};
-	// Indicate to the server that we're in ajax mode
-	result['cocoon-ajax'] = 'true';
 	
     // Iterate on all form controls
     for (var i = 0; i < form.elements.length; i++) 
@@ -104,3 +102,22 @@ Utils.buildParams = function (form, submitId)
     }
     return result;
 } 
+
+Utils.htmlToTextarea = function(s)
+{
+    s = s.replace(/<br\/>/g, "\r\n");
+    s = s.replace(/&#034;/g, "\"");
+    s = s.replace(/&#039;/g, "'");
+    s = s.replace(/&lt;/g, "<");
+    s = s.replace(/&gt;/g, ">");
+    s = s.replace(/&amp;/g, "&");
+    return s;
+}
+
+Utils.textareaToHTML = function (s)
+{
+    s = s.replace(/\r?\n/g, "<br/>");
+    s = s.replace(/"/g, "&#034;");
+    s = s.replace(/'/g, "&#039;");
+    return s;
+}
