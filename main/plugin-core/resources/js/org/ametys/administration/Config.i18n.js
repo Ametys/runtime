@@ -370,7 +370,7 @@ org.ametys.administration.Config.save = function ()
     }
     result = result.responseXML;
     
-    var error = Tools.getFromXML(result, "error");
+    var error = org.ametys.servercomm.ServerComm.handleResponse(result, "error");
     if (error != null &amp;&amp; error != "")
     {
     	Ext.Msg.show ({

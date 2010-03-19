@@ -165,7 +165,7 @@ org.ametys.administration.Password.ok = function()
        return;
     }
 	
-    if (Tools.getFromXML(result, "result") != "SUCCESS")
+    if (org.ametys.servercomm.ServerComm.handleResponse(result, "result") != "SUCCESS")
     {
     	Ext.Msg.show ({
     		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",

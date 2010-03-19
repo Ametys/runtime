@@ -237,7 +237,7 @@ org.ametys.administration.Logs.doDelete = function (answer)
            return;
         }
 
-        var failuresString = Tools.getFromXML(result, "failure");
+        var failuresString = org.ametys.servercomm.ServerComm.handleResponse(result, "failure");
         
         for (var i = 0; i &lt; elts.length; i++)
         {
@@ -281,7 +281,7 @@ org.ametys.administration.Logs.doPurge = function (anwser)
            return;
         }
         
-        var doneString = Tools.getFromXML(result, "done");
+        var doneString = org.ametys.servercomm.ServerComm.handleResponse(result, "done");
         
         var nb = 0;
         var elts = org.ametys.administration.Logs._logs.getElements();

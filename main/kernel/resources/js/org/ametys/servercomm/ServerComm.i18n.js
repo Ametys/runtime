@@ -507,6 +507,35 @@ org.ametys.servercomm.ServerComm.prototype._onRequestFailure = function(response
 
 /**
  * @static
+ * Call this method to handle a response by searching a tag.
+ * This method is made to match a special xml pattern returned by the action-result-generator.
+ * It should looks like : &lt;rootTag&gt; &lt;tag1&gt;value&lt;tag1&gt; &lt;tag2&gt;value&lt;tag2&gt; &lt;/rootTag&gt;
+ * @param {Object} response The xml response received
+ * @param {String} tagname The tag to get
+ * @return {String} The value of the tag or null if something get wrong.
+ */
+org.ametys.servercomm.ServerComm.handleResponse = function(response, tagname)
+{
+	if (response == null)
+	{
+		return null;
+	}
+	else
+	{
+		var node = response.selectSingleNode("*/" + tagname);
+		if (node == null)
+		{
+			return null;
+		}
+		else
+		{
+			return node[org.ametys.servercomm.ServerComm.xmlTextContent];
+		}
+	}
+}
+
+/**
+ * @static
  * Call this method to handle a bad response for you. Test for a null response or a 404 or a 500.
  * @param {String} message The error message to display if the response is bad
  * @param {Object} response The response received

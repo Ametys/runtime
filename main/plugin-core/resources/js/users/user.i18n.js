@@ -165,7 +165,7 @@ RUNTIME_Plugin_Runtime_EditUser.ok = function ()
     }
   
     // passe les erreurs en rouges
-	var fieldsString = Tools.getFromXML(result, "error");
+	var fieldsString = org.ametys.servercomm.ServerComm.handleResponse(result, "error");
     if (fieldsString != null &amp;&amp; fieldsString.length &gt; 0)
     {
       var fields = fieldsString.split(",");

@@ -234,14 +234,14 @@ org.ametys.administration.Users.impersonate = function ()
 	var serverMessage = new org.ametys.servercomm.ServerMessage("core", "administrator/users/impersonate", { login: elt.data.login }, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
 	var result = org.ametys.servercomm.ServerComm.getInstance().send(serverMessage);
 
-    if (org.ametys.servercomm.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_USERS_IMPERSONATE_ERROR"/>", (result == null || Tools.getFromXML(result, "error") != "") ? null : result, "org.ametys.administration.Users.impersonate"))
+    if (org.ametys.servercomm.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_USERS_IMPERSONATE_ERROR"/>", (result == null || org.ametys.servercomm.ServerComm.handleResponse(result, "error") != "") ? null : result, "org.ametys.administration.Users.impersonate"))
     {
        return;
     }
     else
     {
-    	var login = Tools.getFromXML(result, "login");
-    	var name = Tools.getFromXML(result, "name");
+    	var login = org.ametys.servercomm.ServerComm.handleResponse(result, "login");
+    	var name = org.ametys.servercomm.ServerComm.handleResponse(result, "name");
 		Ext.Msg.show ({
     		title: "<i18n:text i18n:key='PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS_TITLE'/>",
     		msg: "<i18n:text i18n:key='PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS'/> " + name + " (" + login + ")&lt;br/&gt;&lt;br/&gt;<i18n:text i18n:key='PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS_2'/>",

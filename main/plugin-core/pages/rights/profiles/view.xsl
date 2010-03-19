@@ -148,7 +148,7 @@
 								    }
 								    else
 									{
-										var state = Tools.getFromXML(result, "message"); 
+										var state = org.ametys.servercomm.ServerComm.handleResponse(result, "message"); 
 										if (state != null &amp;&amp; state == "missing")
 										{
 											Ext.Msg.show ({
@@ -276,7 +276,7 @@
 									    }
 										else
 										{
-											record.set('id', Tools.getFromXML(result, "id"));
+											record.set('id', org.ametys.servercomm.ServerComm.handleResponse(result, "id"));
 											record.commit();
 										}
 									}
@@ -292,7 +292,7 @@
 									    }
 										else 
 										{
-											var state = Tools.getFromXML(result, "message"); 
+											var state = org.ametys.servercomm.ServerComm.handleResponse(result, "message"); 
 											if (state != null &amp;&amp; state == "missing")
 											{
 												new org.ametys.msg.ErrorDialog ("<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>", "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_RENAME_MISSING_ERROR"/>", "state is missing", "editLabel");

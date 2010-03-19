@@ -233,7 +233,7 @@ org.ametys.administration.Groups._editGroupLabel = function (store, record, oper
 		    }
 			else
 			{
-				record.set('id', Tools.getFromXML(result, "id"));
+				record.set('id', org.ametys.servercomm.ServerComm.handleResponse(result, "id"));
 				record.commit();
 			}
 		}
@@ -249,7 +249,7 @@ org.ametys.administration.Groups._editGroupLabel = function (store, record, oper
 		    }
 			else
 			{
-				var state = Tools.getFromXML(result, "message"); 
+				var state = org.ametys.servercomm.ServerComm.handleResponse(result, "message"); 
 				if (state != null &amp;&amp; state == "missing")
 				{
 					Ext.Msg.show ({
@@ -352,7 +352,7 @@ org.ametys.administration.Groups.save = function (group)
 	    }
 		else 
 		{
-			var state = Tools.getFromXML(result, "message"); 
+			var state = org.ametys.servercomm.ServerComm.handleResponse(result, "message"); 
 			if (state != null &amp;&amp; state == "missing")
 			{
 				Ext.Msg.show ({
