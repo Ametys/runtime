@@ -152,11 +152,11 @@ RUNTIME_Plugin_Runtime_EditUser.ok = function ()
 {
 	var form = RUNTIME_Plugin_Runtime_EditUser.form;
 
-	var args = Tools.buildQueryString(form.getEl().dom);
-    args += "&amp;field_login=" + form.findField('field_login').getValue();
-    args += "&amp;mode=" + RUNTIME_Plugin_Runtime_EditUser.params['mode'];
+	var args = Utils.buildParams(form.getEl().dom);
+    args['field_login'] = form.findField('field_login').getValue();
+    args['mode'] = RUNTIME_Plugin_Runtime_EditUser.params['mode'];
 
-	var serverMessage = new org.ametys.servercomm.ServerMessage(RUNTIME_Plugin_Runtime_EditUser.plugin, "users/edit?" + args, {}, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+	var serverMessage = new org.ametys.servercomm.ServerMessage(RUNTIME_Plugin_Runtime_EditUser.plugin, "users/edit", args, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
 	var result = org.ametys.servercomm.ServerComm.getInstance().send(serverMessage);
 
     if (org.ametys.servercomm.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_USERS_DIALOG_ERROR"/>", result, "org.ametys.cms.tool.profile.ProfilesTool"))
