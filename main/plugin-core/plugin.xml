@@ -572,11 +572,11 @@
         </param>
         <param type="long" id="smtp.mail.port">
         	<!-- 
-                This parameter contains the server port for sending mail. Defaults to 993.
+                This parameter contains the server port for sending mail. Defaults to 25.
              -->
             <label i18n="true">PLUGINS_CORE_MAIL_CONFIG_PORT</label>
             <description i18n="true">PLUGINS_CORE_MAIL_CONFIG_PORT_DESCRIPTION</description>
-            <default-value>993</default-value>
+            <default-value>25</default-value>
             <category i18n="true">PLUGINS_CORE_MAIL_CONFIG_CATEGORY</category>
             <group i18n="true">PLUGINS_CORE_MAIL_CONFIG_GROUP</group>
             <order>2</order>
