@@ -36,7 +36,10 @@ RUNTIME_Plugin_Runtime_EditUser.delayedInitialize = function()
 		formId : 'edit-user-form',
 		bodyStyle : 'padding:10px',
 		labelWidth :100,
-		defaultType :'textfield'
+		defaultType :'textfield',
+		defaults: {
+			msgTarget: 'side'
+		}
 	});
 	
 	for (var i=0; i &lt; formInputs.length; i++)
