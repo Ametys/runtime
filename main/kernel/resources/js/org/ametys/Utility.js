@@ -56,7 +56,7 @@ function Utils()
 {
 }
 
-Utils.buildParams = function (form, submitId) 
+Utils.buildParams = function (form) 
 {
 	var result = {};
 	
