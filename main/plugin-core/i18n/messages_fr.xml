@@ -288,7 +288,7 @@
 	<message key="PLUGINS_CORE_USERS_DIALOG_EMAIL_ERROR">L'email est incorrect.</message>
 	<message key="PLUGINS_CORE_USERS_DIALOG_LASTNAME_ERROR">Le nom ne peut être vide.</message>
 	<message key="PLUGINS_CORE_USERS_DIALOG_PASSWORD_ERROR">Le mot de passe ne peut être vide.</message>
-	<message key="PLUGINS_CORE_USERS_DIALOG_INVALID_FIELD">Ce champ est invalide</message>
+	<message key="PLUGINS_CORE_USERS_DIALOG_INVALID_FIELD">Ce champ est invalide. Consulter l'aide pour plus d'information.</message>
     <message key="PLUGINS_CORE_USERS_RIGHTS_HANDLE_LABEL">Utilisateurs</message>
     <message key="PLUGINS_CORE_USERS_RIGHTS_HANDLE_DESCRIPTION">Accès à l'écran de gestion des utilisateurs</message>
 

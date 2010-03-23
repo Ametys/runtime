@@ -42,7 +42,7 @@ RUNTIME_Plugin_Runtime_EditUser.delayedInitialize = function()
 		}
 	});
 	
-	for (var i=0; i &lt; formInputs.length; i++)
+	for (var i in formInputs)
 	{
 		formPanel.add(formInputs[i]);
 	}
@@ -178,7 +178,7 @@ RUNTIME_Plugin_Runtime_EditUser.ok = function ()
         
         if (field.length &gt; 0)
         {
-          var elt = form.findField("field_"+ field);
+          var elt = formInputs[field];
           if (elt != null)
           {
             elt.markInvalid("<i18n:text i18n:key='PLUGINS_CORE_USERS_DIALOG_INVALID_FIELD'/>");

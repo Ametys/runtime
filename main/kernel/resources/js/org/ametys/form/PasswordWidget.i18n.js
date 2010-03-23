@@ -55,7 +55,7 @@ org.ametys.form.PasswordWidget = function(config)
 		disabled: true,
 		desc : config.desc
 	});
-	
+
 	this._marginLeft = 'margin-left:' + (config.fdLabelWidth + 10) + 'px';
 	
 	if (!config.value || config.value == '')
@@ -251,6 +251,7 @@ org.ametys.form.PasswordWidget.prototype._onChange = function (field)
 	if (!field.isValid())
 	{
 		field.markInvalid("<i18n:text i18n:key="PLUGINS_CORE_WIDGET_PASSWORD_ERROR" i18n:catalogue="plugin.core"/>");
+		this._pwdField.setValue("");
 	}
 	else
 	{

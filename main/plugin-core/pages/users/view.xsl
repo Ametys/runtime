@@ -49,7 +49,7 @@
             			
             			var mainPanel = org.ametys.administration.Users.createPanel ();
             			
-	                  	var formInputs = [];
+	                  	var formInputs = {};
 	                  	<xsl:for-each select="Model/node()">
 	                  		
 	                  		var input = org.ametys.administration.Users.addInputField (
@@ -59,7 +59,7 @@
 	                  			"<xsl:value-of select="description/node()"/>"
 	                  		);
 	                  		
-							formInputs.push(input);																								
+							formInputs["<xsl:value-of select="local-name()"/>"] = input;																								
 						</xsl:for-each>		
 						
 					     
