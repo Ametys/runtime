@@ -84,6 +84,15 @@ public class SAXClientSideElementHelper extends AbstractLogEnabled implements Co
                 XMLUtils.endElement(handler, "param");
             }
             
+            // SAX needed right
+            String right = element.getRight(contextualParameters);
+            if (right != null)
+            {
+                AttributesImpl paramAttrs = new AttributesImpl();
+                paramAttrs.addCDATAAttribute("name", "right-id");
+                XMLUtils.createElement(handler, "param", paramAttrs, right);
+            }
+            
             XMLUtils.endElement(handler, "action");
             
             // SAX Scripts
