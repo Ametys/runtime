@@ -137,7 +137,7 @@ RUNTIME_Plugin_Runtime_SelectGroup.load = function ()
 
 	RUNTIME_Plugin_Runtime_SelectGroup.listview.getStore().removeAll();
 	
-	var groups = result.selectNodes("/Search/groups/group");
+	var groups = result.selectNodes("Search/groups/group");
 
 	for (var i=0; i &lt; groups.length; i++)
 	{
