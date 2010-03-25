@@ -30,16 +30,6 @@ org.ametys.form.TextField = function(config)
 	config.labelSeparator = '';
 	
 	org.ametys.form.TextField.superclass.constructor.call(this, config);
-	
-	this.addEvents(
-			/**
-		     * @event beforeclick
-		     * Fires before click processing. Return false to cancel the default action.
-		     * @param {Node} this This node
-		     * @param {Ext.EventObject} e The event object
-		    */
-		    "keyup"
-	);
 }; 
 
 Ext.extend(org.ametys.form.TextField, Ext.form.TextField, {});
