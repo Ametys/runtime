@@ -62,5 +62,5 @@
     <!-- +
     	 | Mask.js 
     	 + -->
-   	<message key="KERNEL_LOADMASK_DEFAULT_MESSAGE">Traitement en cours ...</message>
+   	<message key="KERNEL_LOADMASK_DEFAULT_MESSAGE">Traitement en cours. Veuillez patienter ...</message>
 </catalogue>
