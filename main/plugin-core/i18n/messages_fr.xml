@@ -173,7 +173,7 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_ADD">Ajouter</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_EDIT">Modifier</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DELETE">Supprimer</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DELETE_CONFIRM">Etes-vous sûrs de vouloir supprimer cette annonce ?</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DELETE_CONFIRM">Etes-vous sûr de vouloir supprimer cette annonce ?</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_CAPTION">Annonce...</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_OK">Ok</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_CANCEL">Annuler</message>
@@ -273,8 +273,8 @@
 	<message key="PLUGINS_CORE_USERS_HANDLE_EDIT">Modifier</message>
 	<message key="PLUGINS_CORE_USERS_HANDLE_DEL">Supprimer</message>
 	<message key="PLUGINS_CORE_USERS_HANDLE_DEL_TITLE">Supprimer des utilisateurs</message>
-	<message key="PLUGINS_CORE_USERS_HANDLE_DEL_MULTI_PROMPT">Etes-vous sûrs de vouloir supprimer ce ou ces utilisateur(s) ?</message>
-	<message key="PLUGINS_CORE_USERS_HANDLE_DEL_PROMPT">Etes-vous sûrs de vouloir supprimer cet utilisateur ?</message>
+	<message key="PLUGINS_CORE_USERS_HANDLE_DEL_MULTI_PROMPT">Etes-vous sûr de vouloir supprimer ce ou ces utilisateur(s) ?</message>
+	<message key="PLUGINS_CORE_USERS_HANDLE_DEL_PROMPT">Etes-vous sûr de vouloir supprimer cet utilisateur ?</message>
 	<message key="PLUGINS_CORE_USERS_DELETE_ERROR">Une erreur est survenue sur le serveur. Impossible de supprimer l'utilisateur.</message>
 	<message key="PLUGINS_CORE_USERS_DELETE_MULTI_ERROR">Une erreur est survenue sur le serveur. Impossible de supprimer le ou les utilisateur(s).</message>
 	<message key="PLUGINS_CORE_USERS_DIALOG_OK">Ok</message>
@@ -441,7 +441,7 @@
     <message key="PLUGINS_CORE_RIGHTS_ACT_ADDUSER">Affecter à un utilisateur</message>
     <message key="PLUGINS_CORE_RIGHTS_ACT_ADDGROUP">Affecter à un groupe</message>
     <message key="PLUGINS_CORE_RIGHTS_ACT_REMOVE">Supprimer l'affectation</message>
-    <message key="PLUGINS_CORE_RIGHTS_ACT_REMOVE_CONFIRM">Etes-vous sûrs de vouloir supprimer cette ou ces affectations ?</message>
+    <message key="PLUGINS_CORE_RIGHTS_ACT_REMOVE_CONFIRM">Etes-vous sûr de vouloir supprimer cette ou ces affectations ?</message>
     <message key="PLUGINS_CORE_RIGHTS_ACT_REMOVE_ERROR">Une erreur est survenue lors de la suppression.</message>
     <message key="PLUGINS_CORE_RIGHTS_HANDLE_QUIT">Quitter</message>
     <message key="PLUGINS_CORE_RIGHTS_PROFIL_CATEGORY">Profils</message>
