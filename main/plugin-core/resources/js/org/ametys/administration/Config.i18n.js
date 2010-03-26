@@ -351,6 +351,11 @@ org.ametys.administration.Config.save = function ()
 		return;
     }
     
+    org.ametys.administration.Config.save._mask = new org.ametys.msg.Mask();
+    org.ametys.administration.Config.save2.defer(1);
+}
+org.ametys.administration.Config.save2 = function ()
+{
     var url = getPluginDirectUrl(org.ametys.administration.Config.pluginName) + "/administrator/config/set";
     
     var args = "";
@@ -360,8 +365,6 @@ org.ametys.administration.Config.save = function ()
     	args += "&amp;" + i + "=" + encodeURIComponent(argsObj[i]);
     }
 
-    var mask = new org.ametys.msg.Mask();
-    
     var result = null;
     var ex = "";
     try
@@ -373,7 +376,7 @@ org.ametys.administration.Config.save = function ()
     	ex = "" + e;
     }
     
-	mask.hide();
+    org.ametys.administration.Config.save._mask.hide();
 
 	if (result == null)
     {
