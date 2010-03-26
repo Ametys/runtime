@@ -47,6 +47,8 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_OK">La configuration a été sauvée correctement</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_FATALERROR">Le serveur ne répond pas ou une erreur grave est survenue lors de la sauvegarde.\nConsultez les journaux de l'application et du moteur de servlet pour plus de détails.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_ERROR">Une erreur est survenue sur le serveur et les paramètres n'ont pas été sauvegardés.\n\nLe message d'erreur interne est :\n</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_INVALID_TITLE">Le formulaire contient des erreurs</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_INVALID">Un ou plusieurs champs du formulaire sont incorrects. Veuillez les corriger avant de recommencer une sauvegarde.</message>
 
     <!-- ADMINISTRATOR JVMSTATUS -->
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_LABEL">Etat du système</message>

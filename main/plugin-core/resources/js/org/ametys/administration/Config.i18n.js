@@ -57,7 +57,7 @@ org.ametys.administration.Config.createPanel = function ()
 		
 		id : 'config-inner',
 		formId : 'save-config',
-		
+
 		html: ''
 	});
 	
@@ -143,7 +143,7 @@ org.ametys.administration.Config.addInputField = function (ct, type, name, value
 
 org.ametys.administration.Config.getInputHeight = function (input)
 {
-	if (typeof input == 'org.ametys.form.PasswordWidget')
+	if (typeof input == 'org.ametys.form.PasswordCreationField')
 	{
 		return 75;
 	}
@@ -186,15 +186,14 @@ org.ametys.administration.Config._createLongField = function (name, value, label
 
 org.ametys.administration.Config._createPasswordField = function (name, value, label, description)
 {
-	return new org.ametys.form.PasswordWidget ({
+	return new org.ametys.form.PasswordCreationField ({
 		name: name,
-		
-	    fdLabel: label,
+		fieldLabel: label,
 	    desc: description,
 	    
 	    value: value,
 	    
-	    fdLabelWidth :230
+	    width: 250
 	});
 }
 
@@ -331,8 +330,12 @@ org.ametys.administration.Config._drawHelpPanel = function ()
 /**
  * Quit
  */
-org.ametys.administration.Config.goBack = function ()
+org.ametys.administration.Config.goBack = function (mask)
 {
+	if (mask)
+	{
+		new org.ametys.msg.Mask(Ext.getBody());
+	}
     document.location.href = context.workspaceContext;
 }
 
@@ -343,12 +346,22 @@ org.ametys.administration.Config.save = function ()
 {
 	if (!org.ametys.administration.Config._form.getForm().isValid())
 	{
+		Ext.MessageBox.alert("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_INVALID_TITLE"/>", "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_INVALID"/>", this.el.focus.createCallback(this.el));
+		org.ametys.administration.Config._form.getForm().markInvalid();
 		return;
     }
     
     var url = getPluginDirectUrl(org.ametys.administration.Config.pluginName) + "/administrator/config/set";
-    var args = org.ametys.administration.Config._getFormParameters (org.ametys.administration.Config._form.getForm());
+    
+    var args = "";
+    var argsObj = Utils.buildParams(org.ametys.administration.Config._form.getForm().el.dom);
+    for (var i in argsObj)
+    {
+    	args += "&amp;" + i + "=" + encodeURIComponent(argsObj[i]);
+    }
 
+    var mask = new org.ametys.msg.Mask(Ext.getBody());
+    
     var result = null;
     var ex = "";
     try
@@ -360,7 +373,9 @@ org.ametys.administration.Config.save = function ()
     	ex = "" + e;
     }
     
-    if (result == null)
+	mask.hide();
+
+	if (result == null)
     {
     	new org.ametys.msg.ErrorDialog("<i18n:text i18n:key="PLUGINS_CORE_SAVE_DIALOG_TITLE"/>", 
     			"<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_FATALERROR"/>",
@@ -386,36 +401,9 @@ org.ametys.administration.Config.save = function ()
     		title: "<i18n:text i18n:key="PLUGINS_CORE_SAVE_DIALOG_TITLE"/>",
     		msg: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_OK"/>",
     		buttons: Ext.Msg.OK,
-				icon: Ext.MessageBox.INFO
+			icon: Ext.MessageBox.INFO,
+			fn: org.ametys.administration.Config.goBack.createCallback(this, true)
     });
-    
-    // Back
-    org.ametys.administration.Config.goBack();
-}
-
-org.ametys.administration.Config._getFormParameters = function (form)
-{
-	var args = "";
-	for (var i=0; i &lt; org.ametys.administration.Config._fields.length; i++)
-	{
-		var field = form.findField(org.ametys.administration.Config._fields[i]);
-		if (field.getXType() == 'datefield' &amp;&amp; field.getValue() != '')
-		{
-			args += "&amp;" + field.getName() + "=" + field.getValue().format(Date.patterns.ISO8601Long);
-		}
-		else if (field.getXType() == 'hidden')
-		{
-			if (field.getValue() != '')
-			{
-				args += "&amp;" + field.getName() + "=" + field.getValue();
-			}
-		}
-		else
-		{
-			args += "&amp;" + field.getName() + "=" + field.getValue();
-		}
-	}
-	return args;
 }
 
 org.ametys.administration.Config._bound;

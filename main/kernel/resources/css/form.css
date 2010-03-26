@@ -162,28 +162,40 @@
 	/* height: 23px !important; */
 }
 
-.ametys-password-field-body {
-	margin: 0;
-	padding: 0;
+
+
+
+
+/* PASSWORD */
+.ametys-input div.ametys-input-password
+{
+	float: left;
 }
 
-.ametys-password-button button {
-	border: none;
+.ametys-input div.ametys-input-password input.ametys-input-password-confirmation
+{
+	margin-top: 2px !important;
+}
+
+.ametys-input div.ametys-input-password button
+{
 	background-color: transparent;
+	border-style: none;
+	cursor: pointer;
+	font-size: 10px;
+	height: 18px;
+	margin-top: 2px;
+	text-align: left;
 }
 
-
-.ametys-password-button-cancel {
-	width: 30px !important;
-	height: 20px;
-	float: right;
-}
-
-.ametys-password-button-cancel button {
-	background-repeat: no-repeat;
-	padding-left: 3px !important;
-	padding-right: 3px !important;
-	width: 16px;
-	border: none;
+.ametys-input div.ametys-input-password-connector
+{
+	border: 1px solid #C8CDD0;
+	border-left-style: none;
 	background-color: transparent;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 1px;
+	margin-right: 1px;
+	float: left;
 }

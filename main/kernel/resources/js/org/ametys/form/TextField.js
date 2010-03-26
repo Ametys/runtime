@@ -19,7 +19,7 @@ Ext.namespace('org.ametys.form');
 /**
  * org.ametys.form.TextField
  *
- * @class This class provides a text field width a help icon. Use the <code>desc</option> to add the help icon.
+ * @class This class provides a text field with a help icon. Use the <code>desc</option> to add the help icon.
  * @extends Ext.form.TextField
  * @constructor
  * @param {Object} config Configuration options
@@ -27,7 +27,10 @@ Ext.namespace('org.ametys.form');
 org.ametys.form.TextField = function(config) 
 {
 	config.itemCls = "ametys-input";
-	config.labelSeparator = '';
+	if (!config.labelSeparator)
+	{
+		config.labelSeparator = '';
+	}
 	
 	org.ametys.form.TextField.superclass.constructor.call(this, config);
 }; 
@@ -40,7 +43,7 @@ org.ametys.form.TextField.prototype.onRender = function(ct, position)
 	
 	if (this.desc)
 	{
-		this.el.insertSibling({
+		this.helpEl = this.el.insertSibling({
 			id: this.name + '-img',
 			tag:'img',
 			style: 'padding-left: 20px; padding-top : 7px; float: left;',

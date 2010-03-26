@@ -47,6 +47,8 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_OK">The configuration has been correctly updated</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_FATALERROR">Server is not responding or a fatal error occured during saving.\nConsult applications and servlet engines logfiles for more details.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_ERROR">An error occured on the server and parameters have not been updated.\n\nInternal error message is :\n</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_INVALID_TITLE">The form contains errors</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_INVALID">One or more fields in the form are incorrect. Please modify them and then save the form.</message>
 
     <!-- ADMINISTRATOR JVMSTATUS -->
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_LABEL">System status</message>
@@ -429,6 +431,7 @@
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_RIGHTCOLUMN">Profile rights</message>
     <message key="PLUGINS_CORE_PROFILE_RIGHTS_HANDLE_LABEL">Profiles</message>
     <message key="PLUGINS_CORE_PROFILE_RIGHTS_HANDLE_DESCRIPTION">Profiles management screen</message>
+    <message key="PLUGINS_CORE_RIGHTS_PROFILES_ERROR">An error occured</message>
     
     <!-- RIGHTS -->
     <message key="PLUGINS_CORE_RIGHTS_LABEL">Assignment</message>
