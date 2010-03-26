@@ -554,6 +554,7 @@
 		      	</section>
 			</manifest>	
 		</jar>
+		<copy file="${dest-dir}/ivy/javadocs/ametys-runtime.jar" tofile="${dest-dir}/ivy/javadocs/ametys-runtime-dev-kernelonly.jar"/>
 		
 		<delete dir="${tmp-javadoc}"/>
 	</target>
