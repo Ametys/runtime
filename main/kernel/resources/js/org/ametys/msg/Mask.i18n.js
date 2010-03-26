@@ -19,8 +19,8 @@ Ext.namespace('org.ametys.msg');
  * Creates and displays directly a load mask for waiting message during loading
  * @constructor
  * @class This class creates a {@link Ext.LoadMask} and shows it
- * @param el The element or DOM node, or its id
- * @param msg The text to display in a centered loading message box 
+ * @param el The element or DOM node, or its id. Can be null to get the body.
+ * @param msg The text to display in a centered loading message box. Can be null to get a default message.
  */
 org.ametys.msg.Mask = function (el, msg)
 {
@@ -29,6 +29,11 @@ org.ametys.msg.Mask = function (el, msg)
 		// Default message
 		msg = "<i18n:text i18n:key="KERNEL_LOADMASK_DEFAULT_MESSAGE"/>";
 	}
+	if (el == null)
+	{
+		el = Ext.getBody();
+	}
+	
 	var loadMask = new Ext.LoadMask(el, {msg: msg, removeMask: true});
 	loadMask.show ();
 	return loadMask;

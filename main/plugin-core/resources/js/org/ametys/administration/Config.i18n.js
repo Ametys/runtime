@@ -334,7 +334,7 @@ org.ametys.administration.Config.goBack = function (mask)
 {
 	if (mask)
 	{
-		new org.ametys.msg.Mask(Ext.getBody());
+		new org.ametys.msg.Mask();
 	}
     document.location.href = context.workspaceContext;
 }
@@ -360,7 +360,7 @@ org.ametys.administration.Config.save = function ()
     	args += "&amp;" + i + "=" + encodeURIComponent(argsObj[i]);
     }
 
-    var mask = new org.ametys.msg.Mask(Ext.getBody());
+    var mask = new org.ametys.msg.Mask();
     
     var result = null;
     var ex = "";
