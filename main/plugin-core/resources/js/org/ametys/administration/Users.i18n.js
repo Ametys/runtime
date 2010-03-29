@@ -450,13 +450,13 @@ org.ametys.administration.Users._createLongField = function (name, label, descri
 
 org.ametys.administration.Users._createPasswordField = function (name, label, description)
 {
-	return new org.ametys.form.PasswordWidget ({
+	return new org.ametys.form.PasswordCreationField ({
 		name: name,
 		
-	    fdLabel: label,
+	    fieldLabel: label,
 	    desc: description,
 	    
-	    fdLabelWidth :200
+	    width: 200
 	});
 }
 
