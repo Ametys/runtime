@@ -25,11 +25,6 @@ import org.ametys.runtime.plugins.core.monitoring.SampleManager;
  */
 public class NonHeapMemorySampleManager extends AbstractMemorySampleManager
 {
-    public String getName()
-    {
-        return "memory-non-heap";
-    }
-    
     @Override
     protected MemoryUsage _getMemoryUsage(MemoryMXBean memoryMXBean)
     {

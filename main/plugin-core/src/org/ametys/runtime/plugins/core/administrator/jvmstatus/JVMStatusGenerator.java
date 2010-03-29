@@ -24,12 +24,17 @@ import java.lang.management.ThreadMXBean;
 import java.util.Date;
 import java.util.Map;
 
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.generation.ServiceableGenerator;
+import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.AttributesImpl;
 
+import org.ametys.runtime.plugins.core.monitoring.MonitoringExtensionPoint;
+import org.ametys.runtime.plugins.core.monitoring.SampleManager;
+import org.ametys.runtime.plugins.core.monitoring.MonitoringConstants.Period;
 import org.ametys.runtime.util.parameter.ParameterHelper;
 
 
@@ -38,6 +43,15 @@ import org.ametys.runtime.util.parameter.ParameterHelper;
  */
 public class JVMStatusGenerator extends ServiceableGenerator
 {
+    private MonitoringExtensionPoint _monitoringExtensionPoint;
+
+    @Override
+    public void service(ServiceManager smanager) throws ServiceException
+    {
+        super.service(smanager);
+        _monitoringExtensionPoint = (MonitoringExtensionPoint) smanager.lookup(MonitoringExtensionPoint.ROLE);
+    }
+    
     public void generate() throws IOException, SAXException, ProcessingException
     {
         
@@ -49,6 +63,7 @@ public class JVMStatusGenerator extends ServiceableGenerator
         {
             _caracteristics();
             _properties();
+            _samples();
         }
         
         contentHandler.endElement("", "status", "status");
@@ -143,5 +158,31 @@ public class JVMStatusGenerator extends ServiceableGenerator
         }
         
         XMLUtils.endElement(contentHandler, "properties");
+    }
+    
+    private void _samples() throws SAXException
+    {
+        XMLUtils.startElement(contentHandler, "samples");
+
+        XMLUtils.startElement(contentHandler, "periods");
+        for (Period period : Period.values())
+        {
+            XMLUtils.createElement(contentHandler, "period", period.toString());
+        }
+        XMLUtils.endElement(contentHandler, "periods");
+        
+        for (String extensionId : _monitoringExtensionPoint.getExtensionsIds())
+        {
+            SampleManager sampleManager = _monitoringExtensionPoint.getExtension(extensionId);
+
+            AttributesImpl attrs = new AttributesImpl();
+            attrs.addCDATAAttribute("id", sampleManager.getId());
+            XMLUtils.startElement(contentHandler, "sample", attrs);
+            sampleManager.getLabel().toSAX(contentHandler, "label");
+            sampleManager.getDescription().toSAX(contentHandler, "description");
+            XMLUtils.endElement(contentHandler, "sample");
+        }
+        
+        XMLUtils.endElement(contentHandler, "samples");
     }
 }

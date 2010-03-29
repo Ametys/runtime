@@ -26,6 +26,7 @@ import org.rrd4j.ConsolFun;
 import org.rrd4j.DsType;
 import org.rrd4j.core.RrdDef;
 import org.rrd4j.core.Sample;
+import org.rrd4j.graph.RrdGraphConstants;
 import org.rrd4j.graph.RrdGraphDef;
 
 /**
@@ -66,12 +67,19 @@ public abstract class AbstractMemorySampleManager extends AbstractSampleManager
         graphDef.datasource("used", rrdFilePath, "used", ConsolFun.AVERAGE);
         graphDef.datasource("max", rrdFilePath, "max", ConsolFun.AVERAGE);
 
-        graphDef.area("max", Color.BLUE, "Max");
-        graphDef.area("commited", Color.GREEN, "Commited");
-        graphDef.area("used", Color.RED, "Used");
+        graphDef.area("max", new Color(229, 229, 229), "Max");
+        graphDef.area("commited", new Color(28, 76, 128), "Commited");
+        graphDef.area("used", new Color(148, 30, 109), "Used");
 
         graphDef.setVerticalLabel("bytes");
-
+        graphDef.setColor(RrdGraphConstants.COLOR_BACK, new Color(255, 255, 255));
+        graphDef.setColor(RrdGraphConstants.COLOR_CANVAS, new Color(255, 255, 255));
+        graphDef.setColor(RrdGraphConstants.COLOR_FRAME, new Color(255, 255, 255));
+        graphDef.setColor(RrdGraphConstants.COLOR_MGRID, new Color(128, 128, 128));
+        graphDef.setColor(RrdGraphConstants.COLOR_GRID, new Color(220, 220, 220));
+        graphDef.setColor(RrdGraphConstants.COLOR_SHADEA, new Color(220, 220, 220));
+        graphDef.setColor(RrdGraphConstants.COLOR_SHADEB, new Color(220, 220, 220));        
+        
         graphDef.gprint("used", ConsolFun.LAST, "Cur used: %4.0f %s");
         graphDef.gprint("used", ConsolFun.MAX, "Max used: %4.0f %S");
         graphDef.gprint("commited", ConsolFun.LAST, "Cur commited: %4.0f %S");

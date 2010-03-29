@@ -24,6 +24,7 @@ import org.rrd4j.ConsolFun;
 import org.rrd4j.DsType;
 import org.rrd4j.core.RrdDef;
 import org.rrd4j.core.Sample;
+import org.rrd4j.graph.RrdGraphConstants;
 import org.rrd4j.graph.RrdGraphDef;
 
 /**
@@ -32,16 +33,12 @@ import org.rrd4j.graph.RrdGraphDef;
  */
 public class HttpRequestSampleManager extends AbstractSampleManager
 {
-    public String getName()
-    {
-        return "http-request";
-    }
+    private long _lastCount;
     
     @Override
     protected void _configureDatasources(RrdDef rrdDef)
     {
-        _registerDatasources(rrdDef, "current", DsType.GAUGE, 0, Double.NaN);
-        _registerDatasources(rrdDef, "total", DsType.COUNTER, 0, Double.NaN);
+        _registerDatasources(rrdDef, "processed", DsType.GAUGE, 0, Double.NaN);
     }
 
     @Override
@@ -49,13 +46,13 @@ public class HttpRequestSampleManager extends AbstractSampleManager
     {
         try
         {
-            sample.setValue("current", RequestCountListener.getCurrentRequestCount());
-            sample.setValue("total", RequestCountListener.getTotalRequestCount());
+            sample.setValue("processed", RequestCountListener.getTotalRequestCount() - _lastCount);
         }
         catch (IllegalStateException e)
         {
             // empty : no value means an error
         }
+        _lastCount = RequestCountListener.getTotalRequestCount();
     }
 
     @Override
@@ -67,18 +64,21 @@ public class HttpRequestSampleManager extends AbstractSampleManager
     @Override
     protected void _populateGraphDefinition(RrdGraphDef graphDef, String rrdFilePath)
     {
-        graphDef.datasource("current", rrdFilePath, "current", ConsolFun.AVERAGE);
-        graphDef.datasource("total", rrdFilePath, "total", ConsolFun.AVERAGE);
-        graphDef.line("current", Color.BLUE, "Active HTTP request count", 2);
-        graphDef.line("total", Color.GREEN, "HTTP request throughput", 2);
+        graphDef.datasource("processed", rrdFilePath, "processed", ConsolFun.AVERAGE);
+        graphDef.area("processed", new Color(148, 30, 109), "HTTP request processed");
         
-        graphDef.gprint("current", ConsolFun.LAST, "Cur current: %.0f");
-        graphDef.gprint("current", ConsolFun.MAX, "Max current: %.0f");
-        graphDef.gprint("total", ConsolFun.LAST, "Cur rate: %.0f req/s");
-        graphDef.gprint("total", ConsolFun.MAX, "Max rate: %.0f req/s");
+        graphDef.gprint("processed", ConsolFun.LAST, "Cur current: %.0f");
+        graphDef.gprint("processed", ConsolFun.MAX, "Max current: %.0f");
 
         // Do not scale units
         graphDef.setUnitsExponent(0);
-        graphDef.setVerticalLabel("request count ; request per second");
+        graphDef.setVerticalLabel("request processed");
+        graphDef.setColor(RrdGraphConstants.COLOR_BACK, new Color(255, 255, 255));
+        graphDef.setColor(RrdGraphConstants.COLOR_CANVAS, new Color(255, 255, 255));
+        graphDef.setColor(RrdGraphConstants.COLOR_FRAME, new Color(255, 255, 255));
+        graphDef.setColor(RrdGraphConstants.COLOR_MGRID, new Color(128, 128, 128));
+        graphDef.setColor(RrdGraphConstants.COLOR_GRID, new Color(220, 220, 220));
+        graphDef.setColor(RrdGraphConstants.COLOR_SHADEA, new Color(220, 220, 220));
+        graphDef.setColor(RrdGraphConstants.COLOR_SHADEB, new Color(220, 220, 220));
     }
 }

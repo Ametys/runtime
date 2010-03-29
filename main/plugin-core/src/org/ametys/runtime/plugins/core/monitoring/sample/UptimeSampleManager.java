@@ -19,23 +19,20 @@ import java.awt.Color;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 
-import org.ametys.runtime.plugins.core.monitoring.SampleManager;
 import org.rrd4j.ConsolFun;
 import org.rrd4j.DsType;
 import org.rrd4j.core.RrdDef;
 import org.rrd4j.core.Sample;
+import org.rrd4j.graph.RrdGraphConstants;
 import org.rrd4j.graph.RrdGraphDef;
+
+import org.ametys.runtime.plugins.core.monitoring.SampleManager;
 
 /**
  * {@link SampleManager} for collecting the uptime of the JVM.
  */
 public class UptimeSampleManager extends AbstractSampleManager
 {
-    public String getName()
-    {
-        return "uptime";
-    }
-    
     @Override
     protected void _configureDatasources(RrdDef rrdDef)
     {
@@ -60,7 +57,7 @@ public class UptimeSampleManager extends AbstractSampleManager
         graphDef.datasource("uptime", rrdFilePath, "uptime", ConsolFun.AVERAGE);
         // Divide uptime by 24*60*60*1000
         graphDef.datasource("uptime_in_days", "uptime,1000,60,60,24,*,*,*,/");
-        graphDef.area("uptime_in_days", Color.GREEN, "Uptime");
+        graphDef.line("uptime_in_days", new Color(148, 30, 109), "Uptime", 2);
         
         graphDef.gprint("uptime_in_days", ConsolFun.LAST, "Cur: %.0f day(s)");
         graphDef.gprint("uptime_in_days", ConsolFun.MAX, "Max: %.0f day(s)");
@@ -68,5 +65,12 @@ public class UptimeSampleManager extends AbstractSampleManager
         // Do not scale units
         graphDef.setUnitsExponent(0);
         graphDef.setVerticalLabel("days");
+        graphDef.setColor(RrdGraphConstants.COLOR_BACK, new Color(255, 255, 255));
+        graphDef.setColor(RrdGraphConstants.COLOR_CANVAS, new Color(255, 255, 255));
+        graphDef.setColor(RrdGraphConstants.COLOR_FRAME, new Color(255, 255, 255));
+        graphDef.setColor(RrdGraphConstants.COLOR_MGRID, new Color(128, 128, 128));
+        graphDef.setColor(RrdGraphConstants.COLOR_GRID, new Color(220, 220, 220));
+        graphDef.setColor(RrdGraphConstants.COLOR_SHADEA, new Color(220, 220, 220));
+        graphDef.setColor(RrdGraphConstants.COLOR_SHADEB, new Color(220, 220, 220));
     }
 }

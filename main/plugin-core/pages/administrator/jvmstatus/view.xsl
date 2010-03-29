@@ -43,7 +43,18 @@
 	                  
 	                org.ametys.administration.JVMStatus._navItems.push ({label: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL"/>"}); 
 	                org.ametys.administration.JVMStatus._navItems.push ({label: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_SYSTEM"/>"});                        
-						
+					org.ametys.administration.JVMStatus._navItems.push ({label: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_MONITORING"/>"});                        
+					
+					org.ametys.administration.JVMStatus.periods = [];
+					<xsl:for-each select="samples/periods/period">
+						org.ametys.administration.JVMStatus.periods.push("<xsl:value-of select="."/>");
+					</xsl:for-each>
+
+					org.ametys.administration.JVMStatus.samples = [];
+					<xsl:for-each select="samples/sample">
+						org.ametys.administration.JVMStatus.samples.push({id: "<xsl:value-of select="@id"/>", label: "<xsl:copy-of select="label/node()"/>", description: "<xsl:copy-of select="description/node()"/>"});
+					</xsl:for-each>
+	          			
 					var toolPanel = org.ametys.administration.JVMStatus.createPanel ();
 					
 					// Load properties data

@@ -18,6 +18,8 @@ package org.ametys.runtime.plugins.core.monitoring;
 import java.io.IOException;
 
 import org.ametys.runtime.plugins.core.monitoring.MonitoringConstants.Period;
+import org.ametys.runtime.util.I18nizableText;
+
 import org.rrd4j.core.RrdDef;
 import org.rrd4j.core.Sample;
 import org.rrd4j.graph.RrdGraphDef;
@@ -28,11 +30,23 @@ import org.rrd4j.graph.RrdGraphDef;
 public interface SampleManager
 {
     /**
-     * Provides the human readable name to use.<br>
+     * Provides the id of this manager.<br>
      * Must be unique in the application.
+     * @return the id.
+     */
+    String getId();
+    
+    /**
+     * Provides the human readable name to use.<br>
      * @return the human readable name.
      */
-    String getName();
+    I18nizableText getLabel();
+    
+    /**
+     * Provides the human readable description.<br>
+     * @return the human readable description.
+     */
+    I18nizableText getDescription();
     
     /**
      * Provides the definition to use for this RRD file.
@@ -40,7 +54,7 @@ public interface SampleManager
      * created.
      * @param rrdDef the Round Robin Database definition.
      */
-    void configure(RrdDef rrdDef);
+    void configureRRDDef(RrdDef rrdDef);
     
     /**
      * Collect data into the Round Robin Database.

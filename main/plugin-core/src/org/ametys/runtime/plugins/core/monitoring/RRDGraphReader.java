@@ -92,7 +92,7 @@ public class RRDGraphReader extends ServiceableReader implements Contextualizabl
         for (String extensionId : _monitoringExtensionPoint.getExtensionsIds())
         {
             SampleManager sampleManager = _monitoringExtensionPoint.getExtension(extensionId);
-            String sampleName = sampleManager.getName();
+            String sampleName = sampleManager.getId();
             
             if (sampleName.equals(source))
             {
@@ -106,7 +106,7 @@ public class RRDGraphReader extends ServiceableReader implements Contextualizabl
             throw new ProcessingException("");
         }
         
-        File rrdFile = new File(_rrdStoragePath, sampleManagerToUse.getName() + RRD_EXT);
+        File rrdFile = new File(_rrdStoragePath, sampleManagerToUse.getId() + RRD_EXT);
         
         if (getLogger().isDebugEnabled())
         {

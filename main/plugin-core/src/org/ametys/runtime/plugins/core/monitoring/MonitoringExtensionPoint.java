@@ -54,7 +54,7 @@ public class MonitoringExtensionPoint extends AbstractThreadSafeComponentExtensi
         {
             SampleManager sampleManager = getExtension(extensionId);
             
-            String sampleName = sampleManager.getName();
+            String sampleName = sampleManager.getId();
             File rrdFile = new File(rrdStorageDir, sampleName + RRD_EXT);
             
             if (getLogger().isInfoEnabled())
@@ -66,7 +66,7 @@ public class MonitoringExtensionPoint extends AbstractThreadSafeComponentExtensi
             {
                 RrdDef rrdDef = new RrdDef(rrdFile.getPath(), FEEDING_PERIOD);
                 
-                sampleManager.configure(rrdDef);
+                sampleManager.configureRRDDef(rrdDef);
                 
                 try
                 {

@@ -1745,32 +1745,65 @@
             <extension point="org.ametys.runtime.plugins.core.monitoring.MonitoringExtensionPoint"
                        id="org.ametys.runtime.plugins.core.monitoring.sample.UptimeSampleManager"
                        class="org.ametys.runtime.plugins.core.monitoring.sample.UptimeSampleManager"
-                       logger="org.ametys.runtime.plugins.core.monitoring.sample.UptimeSampleManager"/>
+                       logger="org.ametys.runtime.plugins.core.monitoring.sample.UptimeSampleManager">
+            	<id>uptime</id>
+            	<label i18n="true">PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_UPTIME_LABEL</label>
+            	<description i18n="true">PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_UPTIME_DESCRIPTION</description>
+            </extension>
         	<!-- Monitor the throughput and the number of active HTTP requests -->
             <extension point="org.ametys.runtime.plugins.core.monitoring.MonitoringExtensionPoint"
                        id="org.ametys.runtime.plugins.core.monitoring.sample.HttpRequestSampleManager"
                        class="org.ametys.runtime.plugins.core.monitoring.sample.HttpRequestSampleManager"
-                       logger="org.ametys.runtime.plugins.core.monitoring.sample.HttpRequestSampleManager"/>
+                       logger="org.ametys.runtime.plugins.core.monitoring.sample.HttpRequestSampleManager">
+            	<id>http-request</id>
+            	<label i18n="true">PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_HTTPREQUEST_LABEL</label>
+            	<description i18n="true">PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_HTTPREQUEST_DESCRIPTION</description>
+            </extension>
         	<!-- Monitor the number of active HTTP sessions -->
             <extension point="org.ametys.runtime.plugins.core.monitoring.MonitoringExtensionPoint"
                        id="org.ametys.runtime.plugins.core.monitoring.sample.HttpSessionSampleManager"
                        class="org.ametys.runtime.plugins.core.monitoring.sample.HttpSessionSampleManager"
-                       logger="org.ametys.runtime.plugins.core.monitoring.sample.HttpSessionSampleManager"/>
+                       logger="org.ametys.runtime.plugins.core.monitoring.sample.HttpSessionSampleManager">
+            	<id>http-session</id>
+            	<label i18n="true">PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_HTTPSESSION_LABEL</label>
+            	<description i18n="true">PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_HTTPSESSION_DESCRIPTION</description>
+			</extension>
         	<!-- Monitor the number of live threads (total and daemon) -->
             <extension point="org.ametys.runtime.plugins.core.monitoring.MonitoringExtensionPoint"
                        id="org.ametys.runtime.plugins.core.monitoring.sample.ThreadSampleManager"
                        class="org.ametys.runtime.plugins.core.monitoring.sample.ThreadSampleManager"
-                       logger="org.ametys.runtime.plugins.core.monitoring.sample.ThreadSampleManager"/>
+                       logger="org.ametys.runtime.plugins.core.monitoring.sample.ThreadSampleManager">
+            	<id>thread</id>
+            	<label i18n="true">PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_THREAD_LABEL</label>
+            	<description i18n="true">PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_THREAD_DESCRIPTION</description>
+            </extension>
         	<!-- Monitor the JVM heap memory status -->
             <extension point="org.ametys.runtime.plugins.core.monitoring.MonitoringExtensionPoint"
                        id="org.ametys.runtime.plugins.core.monitoring.sample.HeapMemorySampleManager"
                        class="org.ametys.runtime.plugins.core.monitoring.sample.HeapMemorySampleManager"
-                       logger="org.ametys.runtime.plugins.core.monitoring.sample.HeapMemorySampleManager"/>
+                       logger="org.ametys.runtime.plugins.core.monitoring.sample.HeapMemorySampleManager">
+            	<id>memory-heap</id>
+            	<label i18n="true">PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_MEMORYHEAP_LABEL</label>
+            	<description i18n="true">PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_MEMORYHEAP_DESCRIPTION</description>
+            </extension>
         	<!-- Monitor the JVM non heap memory status -->
             <extension point="org.ametys.runtime.plugins.core.monitoring.MonitoringExtensionPoint"
                        id="org.ametys.runtime.plugins.core.monitoring.sample.NonHeapMemorySampleManager"
                        class="org.ametys.runtime.plugins.core.monitoring.sample.NonHeapMemorySampleManager"
-                       logger="org.ametys.runtime.plugins.core.monitoring.sample.NonHeapMemorySampleManager"/>
+                       logger="org.ametys.runtime.plugins.core.monitoring.sample.NonHeapMemorySampleManager">
+            	<id>memory-non-heap</id>
+            	<label i18n="true">PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_MEMORYNONHEAP_LABEL</label>
+            	<description i18n="true">PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_MEMORYNONHEAP_DESCRIPTION</description>
+            </extension>
+        	<!-- Monitor the JVM non heap memory status -->
+            <extension point="org.ametys.runtime.plugins.core.monitoring.MonitoringExtensionPoint"
+                       id="org.ametys.runtime.plugins.core.monitoring.sample.CPUSampleManager"
+                       class="org.ametys.runtime.plugins.core.monitoring.sample.CPUSampleManager"
+                       logger="org.ametys.runtime.plugins.core.monitoring.sample.CPUSampleManager">
+            	<id>cpu</id>
+            	<label i18n="true">PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_CPU_LABEL</label>
+            	<description i18n="true">PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_CPU_DESCRIPTION</description>
+            </extension>
         </extensions>
     </feature>
         

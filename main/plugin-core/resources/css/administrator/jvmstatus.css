@@ -66,3 +66,22 @@ margin-left: 10px;
 .properties-view .x-grid3 {
 background: none !important;
 }
+
+
+.monitoring {
+	text-align: center;
+	vertical-align: top;
+}
+
+.monitoring img {
+	vertical-align: top;
+	width: 491px;
+	height: 273px;
+}
+
+.monitoring button {
+	background-color: #ffffff; 
+	border: 2px solid #dcdcdc; 
+	width: 30px; 
+	height: 273px;
+}

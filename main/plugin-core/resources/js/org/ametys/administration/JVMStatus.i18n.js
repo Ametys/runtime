@@ -39,7 +39,8 @@ org.ametys.administration.JVMStatus.createPanel = function ()
 		height: 'auto',
 		
 		items: [org.ametys.administration.JVMStatus._drawStatusPanel (),
-		        org.ametys.administration.JVMStatus._drawPropertiesPanel ()
+		        org.ametys.administration.JVMStatus._drawPropertiesPanel (),
+		        org.ametys.administration.JVMStatus._drawMonitoringPanel ()
 		]
 	});		
 	
@@ -113,6 +114,76 @@ org.ametys.administration.JVMStatus._drawPropertiesPanel = function ()
 	return org.ametys.administration.JVMStatus._propertyPanel;
 }
 
+org.ametys.administration.JVMStatus._nextImg = function(id, dir)
+{
+	var img = Ext.get('img-' + id);
+	var src = img.dom.src;
+	
+	var currentPeriod = src.substring(src.lastIndexOf("/") + 1, src.length - 4);
+	
+	src = src.substring(0, src.lastIndexOf("/") + 1);
+	for (var i = 0; i &lt; org.ametys.administration.JVMStatus.periods.length; i++)
+	{
+		if (org.ametys.administration.JVMStatus.periods[i] == currentPeriod)
+		{
+			src += org.ametys.administration.JVMStatus.periods[i + dir]
+            if (i + dir == 0)
+            {
+            	Ext.get("btn-" + id + "-left").hide();
+            	Ext.get("btn-" + id + "-right").show();
+            }
+            else if (i + dir == org.ametys.administration.JVMStatus.periods.length - 1)
+            {
+            	Ext.get("btn-" + id + "-left").show();
+            	Ext.get("btn-" + id + "-right").hide();
+            }
+            else
+            {
+            	Ext.get("btn-" + id + "-left").show();
+            	Ext.get("btn-" + id + "-right").show();
+            }
+			break;
+		}
+	}
+	src += '.png';
+		
+	img.dom.src = src;
+}
+
+org.ametys.administration.JVMStatus._drawMonitoringPanel = function ()
+{
+	var items = [];
+	for (var i = 0; i &lt; org.ametys.administration.JVMStatus.samples.length; i++)
+	{
+		var id = org.ametys.administration.JVMStatus.samples[i].id;
+		var label = org.ametys.administration.JVMStatus.samples[i].label;
+		var description = org.ametys.administration.JVMStatus.samples[i].description;
+		
+	    items.push(new org.ametys.Fieldset({
+	    	title : label,
+	    		
+	    	html: '&lt;div class="monitoring"&gt;'
+	    		+ '    &lt;button style="border-left-style: none;" id="btn-' + id + '-left" onclick="org.ametys.administration.JVMStatus._nextImg(\'' + id + '\', -1); return false;"&gt;&amp;lt;&amp;lt;&lt;/button&gt;'
+	    		+ '    &lt;img id="img-' + id + '" src="' + getPluginDirectUrl("core") + '/administrator/jvmstatus/monitoring/' + id + '/' + org.ametys.administration.JVMStatus.periods[1] + '.png" title="' + description + '"/&gt;'
+	    		+ '    &lt;button style="border-right-style: none;" id="btn-' + id + '-right"  onclick="org.ametys.administration.JVMStatus._nextImg(\'' + id + '\', +1); return false;"&gt;&amp;gt;&amp;gt;&lt;/button&gt;'
+	    		+ '&lt;br/&gt;&lt;a target="_blank" href="' + getPluginDirectUrl("core") + '/administrator/jvmstatus/monitoring/' + id + '.xml"&gt;<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_MONITORING_EXPORT"/>&lt;a&gt;'
+	    	    + '&lt;/div&gt;'
+	    }));
+	}
+	
+	org.ametys.administration.JVMStatus._monitoringPanel = new Ext.Panel({
+		id: 'monitoring-panel',
+		
+		baseCls: 'transparent-panel',
+		border: false,
+		autoScroll: true,
+		
+		items: items
+	});
+
+	return org.ametys.administration.JVMStatus._monitoringPanel;
+}
+
 org.ametys.administration.JVMStatus._navItems;
 /**
  * Draw the navigation panel. This function needs the org.ametys.administration.JVMStatus._navItems was filled first.
@@ -168,6 +239,7 @@ org.ametys.administration.JVMStatus._drawHelpPanel = function ()
 	helpPanel.addText("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_GENERAL_HELP_TEXT"/>");
 	helpPanel.addText("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_SYSTEM_HELP_TEXT"/>");
 	helpPanel.addText("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_PROPERTIES_HELP_TEXT"/>");
+	helpPanel.addText("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_HELP_TEXT"/>");
 	
 	return helpPanel;
 }

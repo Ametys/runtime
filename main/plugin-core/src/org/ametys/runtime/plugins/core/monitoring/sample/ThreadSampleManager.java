@@ -25,6 +25,7 @@ import org.rrd4j.ConsolFun;
 import org.rrd4j.DsType;
 import org.rrd4j.core.RrdDef;
 import org.rrd4j.core.Sample;
+import org.rrd4j.graph.RrdGraphConstants;
 import org.rrd4j.graph.RrdGraphDef;
 
 /**
@@ -32,11 +33,6 @@ import org.rrd4j.graph.RrdGraphDef;
  */
 public class ThreadSampleManager extends AbstractSampleManager
 {
-    public String getName()
-    {
-        return "thread";
-    }
-    
     @Override
     protected void _configureDatasources(RrdDef rrdDef)
     {
@@ -68,9 +64,9 @@ public class ThreadSampleManager extends AbstractSampleManager
         graphDef.datasource("user", "total,daemon,-");
         
 
-        graphDef.line("user", Color.RED, "User thread count", 2);
-        graphDef.line("daemon", Color.BLUE, "Daemon thread count", 2);
-        graphDef.line("total", Color.GREEN, "Total thread count", 2);
+        graphDef.area("total", new Color(229, 229, 229), "Total thread count");
+        graphDef.line("daemon", new Color(28, 76, 128), "Daemon thread count", 2);
+        graphDef.line("user", new Color(148, 30, 109), "User thread count", 2);
 
         graphDef.gprint("user", ConsolFun.LAST, "Cur user: %.0f");
         graphDef.gprint("user", ConsolFun.MAX, "Max user: %.0f");
@@ -82,5 +78,12 @@ public class ThreadSampleManager extends AbstractSampleManager
         // Do not scale units
         graphDef.setUnitsExponent(0);
         graphDef.setVerticalLabel("thread count");
+        graphDef.setColor(RrdGraphConstants.COLOR_BACK, new Color(255, 255, 255));
+        graphDef.setColor(RrdGraphConstants.COLOR_CANVAS, new Color(255, 255, 255));
+        graphDef.setColor(RrdGraphConstants.COLOR_FRAME, new Color(255, 255, 255));
+        graphDef.setColor(RrdGraphConstants.COLOR_MGRID, new Color(128, 128, 128));
+        graphDef.setColor(RrdGraphConstants.COLOR_GRID, new Color(220, 220, 220));
+        graphDef.setColor(RrdGraphConstants.COLOR_SHADEA, new Color(220, 220, 220));
+        graphDef.setColor(RrdGraphConstants.COLOR_SHADEB, new Color(220, 220, 220));          
     }
 }

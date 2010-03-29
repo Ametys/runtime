@@ -24,6 +24,7 @@ import org.rrd4j.ConsolFun;
 import org.rrd4j.DsType;
 import org.rrd4j.core.RrdDef;
 import org.rrd4j.core.Sample;
+import org.rrd4j.graph.RrdGraphConstants;
 import org.rrd4j.graph.RrdGraphDef;
 
 /**
@@ -31,15 +32,10 @@ import org.rrd4j.graph.RrdGraphDef;
  */
 public class HttpSessionSampleManager extends AbstractSampleManager
 {
-    public String getName()
-    {
-        return "http-session";
-    }
-    
     @Override
     protected void _configureDatasources(RrdDef rrdDef)
     {
-        _registerDatasources(rrdDef, "count", DsType.GAUGE, 0, Double.NaN);
+        _registerDatasources(rrdDef, "count", DsType.COUNTER, 0, Double.NaN);
     }
 
     @Override
@@ -65,7 +61,7 @@ public class HttpSessionSampleManager extends AbstractSampleManager
     protected void _populateGraphDefinition(RrdGraphDef graphDef, String rrdFilePath)
     {
         graphDef.datasource("count", rrdFilePath, "count", ConsolFun.AVERAGE);
-        graphDef.line("count", Color.GREEN, "Active HTTP session count", 2);
+        graphDef.area("count", new Color(148, 30, 109), "Active HTTP session count");
 
         graphDef.gprint("count", ConsolFun.LAST, "Cur: %.0f");
         graphDef.gprint("count", ConsolFun.MAX, "Max: %.0f");
@@ -73,5 +69,12 @@ public class HttpSessionSampleManager extends AbstractSampleManager
         // Do not scale units
         graphDef.setUnitsExponent(0);
         graphDef.setVerticalLabel("session count");
+        graphDef.setColor(RrdGraphConstants.COLOR_BACK, new Color(255, 255, 255));
+        graphDef.setColor(RrdGraphConstants.COLOR_CANVAS, new Color(255, 255, 255));
+        graphDef.setColor(RrdGraphConstants.COLOR_FRAME, new Color(255, 255, 255));
+        graphDef.setColor(RrdGraphConstants.COLOR_MGRID, new Color(128, 128, 128));
+        graphDef.setColor(RrdGraphConstants.COLOR_GRID, new Color(220, 220, 220));
+        graphDef.setColor(RrdGraphConstants.COLOR_SHADEA, new Color(220, 220, 220));
+        graphDef.setColor(RrdGraphConstants.COLOR_SHADEB, new Color(220, 220, 220));        
     }
 }

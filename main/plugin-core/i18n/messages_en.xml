@@ -59,7 +59,8 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_HELP">Help</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_GENERAL_HELP_TEXT">This screen allows you to see the system state. It is divided into two tabs:&lt;br/&gt;&#160;</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_SYSTEM_HELP_TEXT">The tab 'General' allows you to monitor system status: memory, users...&lt;br/&gt;This screen will refresh every 10 seconds.&lt;br/&gt;&#160;</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_PROPERTIES_HELP_TEXT">The tab 'System properties' allows you to view the JVM system properties.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_PROPERTIES_HELP_TEXT">The tab 'System properties' allows you to view the JVM system properties.&lt;br/&gt;&#160;</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_HELP_TEXT">The tab 'Monitoring' allows you to view system state graphs.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL">General</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_SYS">System</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_SYS_OS">OS</message>
@@ -100,6 +101,24 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_THREADS_LOCK">deadlocked thread(s)</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_THREADS_ERROR_LOCK_HINT">Some threads are \"deadlocked\". CLick here to get a detailed report of the problem.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_SYSTEM">System properties</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_MONITORING">Monitoring</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_MONITORING_EXPORT">Export (RRD XML format)</message>
+
+    <!-- ADMINISTRATOR JVMSTATUS MONITORING -->
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_UPTIME_LABEL">Time since application startup</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_UPTIME_DESCRIPTION">This graph displays the time since the application has started up. It will increase regularly but is reset to 0 each time the application is started.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_HTTPREQUEST_LABEL">HTTP requests executed</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_HTTPREQUEST_DESCRIPTION">This graph display the number of HTTP requests executed during a sample of time.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_HTTPSESSION_LABEL">Running HTTP sessions</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_HTTPSESSION_DESCRIPTION">This graph displays the running HTTP sessions count. A session is created each time a client connect (to the servlet engine in general and not particularly to this application) and is kept for X minutes  after its last use (where X is a servlet engine configured value that worth 20 in general)</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_THREAD_LABEL">Running threads</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_THREAD_DESCRIPTION">This graph display the count of running java thread (shared between the whole servlet engine). A thread is a request processing or background task. By default, most servlet engine create X threads in prevision : most threads are just idle.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_MEMORYHEAP_LABEL">Main memory (HEAP)</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_MEMORYHEAP_DESCRIPTION">This graph displays the main memory use by the application. It is divided in 3 parts: total memory (that is the memory used at OS level, it grows to its maximal configured value but is never released, used memory (that is the memory really used by the applciation of the engine) and free memory (thath is the differnce between the two preceding and that is the memory given by the OS but not used by the application)</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_MEMORYNONHEAP_LABEL">Internal memory (NON-HEAD)</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_MEMORYNONHEAP_DESCRIPTION">This graph display the internal memory use. This memory is static and contains the libraries: it is never free and may only grow until all libraries are loaded.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_CPU_LABEL">Processor use</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_CPU_DESCRIPTION">This graph display the processor use.</message>
 
     <!-- ADMINISTRATOR PLUGINS -->
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_LABEL">Plugins</message>

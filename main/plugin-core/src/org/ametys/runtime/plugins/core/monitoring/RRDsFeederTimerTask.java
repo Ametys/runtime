@@ -88,7 +88,7 @@ public class RRDsFeederTimerTask extends TimerTask implements Component, LogEnab
             
             if (sampleManager != null)
             {
-                String sampleName = sampleManager.getName();
+                String sampleName = sampleManager.getId();
                 File rrdFile = new File(_rrdStoragePath, sampleName + RRD_EXT);
                 
                 if (_logger.isInfoEnabled())

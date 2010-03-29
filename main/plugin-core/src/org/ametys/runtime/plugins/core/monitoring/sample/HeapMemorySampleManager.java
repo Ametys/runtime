@@ -25,11 +25,6 @@ import org.ametys.runtime.plugins.core.monitoring.SampleManager;
  */
 public class HeapMemorySampleManager extends AbstractMemorySampleManager
 {
-    public String getName()
-    {
-        return "memory-heap";
-    }
-    
     @Override
     protected MemoryUsage _getMemoryUsage(MemoryMXBean memoryMXBean)
     {
