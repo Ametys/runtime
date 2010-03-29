@@ -80,12 +80,11 @@
 
 .ametys-input label, .ametys-select label, .ametys-file label, .ametys-multi-select label  {
 	float:left !important;
-	/*width: 230px !important; */
 	text-align: right !important;
 	margin-bottom: 0px !important;
 	font-size: 0.9em;
 	color:#404040 !important;
-	padding: 5px 9px 3px 3px !important;
+	padding: 4px 9px 3px 3px !important;
 }
 
 .ametys-input label.x-form-cb-label {
@@ -106,7 +105,6 @@
 }
 
 .ametys-input img.x-form-date-trigger {
-	/* height: 24px; */
 }
 
 .ametys-input div.x-form-field-trigger-wrap, .ametys-select div.x-form-field-trigger-wrap {
@@ -115,23 +113,25 @@
 
 .ametys-input input {
 	font-size: 0.9em;
-	margin-top: 0px !important;
-	margin-bottom: 0px !important; /* ie 6 margin-bottom bug */
 	border: 1px solid #C8CDD0 !important;
 	background-color: #FFF !important;
 	background-image: none !important;
-	padding: 4px 0px 0px 9px !important;
+	height: 18px;
+	padding: 0px 0px 2px 6px !important;
+	margin-top: 0px !important;
+	margin-bottom: 0px !important; /* ie 6 margin-bottom bug */
 	float: left;
 }
 
 .ametys-file input {
 	font-size: 0.9em;
-	margin-top: 0px !important;
 	border: 1px solid #C8CDD0 !important;
 	background-color: #FFF !important;
 	background-image: none !important;
-	padding: 4px 0px 0px 9px !important;
+	height: 18px;
+	padding: 0px 0px 2px 6px !important;
 	float: left;
+	margin-top: 0px !important;
 	margin-left: 5px;
 }
 
@@ -140,7 +140,8 @@
 	border: 1px solid #C8CDD0 !important;
 	background-color: #FFF !important;
 	background-image: none !important;
-	padding: 4px 0px 0px 9px !important;
+	height: 18px;
+	padding: 0px 0px 2px 6px !important;
 }
 
 .ametys-input textarea {
@@ -149,13 +150,14 @@
 	border: 1px solid #C8CDD0 !important;
 	background-color: #FFF !important;
 	background-image: none !important;
-	padding: 4px 0px 0px 9px !important;
+	height: 18px;
+	padding: 4px 0px 1px 6px !important;
 	float: left;
 }
 
 .ametys-input input.x-form-checkbox  {
 	border: 0px solid #C8CDD0 !important;
-	margin-top: 6px !important;
+	margin-top: 3px !important;
 }
 
 .ametys-select .x-form-trigger.x-form-arrow-trigger {

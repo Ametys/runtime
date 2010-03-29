@@ -52,7 +52,7 @@ org.ametys.form.LongField.prototype.onRender = function(ct, position)
 		this.el.insertSibling({
 			id: this.name + '-img',
 			tag:'img',
-			style: 'padding-left: 20px; padding-top : 7px;',
+			style: 'padding-left: 20px; padding-top : 6px;',
 			src: getPluginResourcesUrl('core') + '/img/administrator/config/help.gif'}, 'after');
 	
 		var tooltip = new Ext.ToolTip({
