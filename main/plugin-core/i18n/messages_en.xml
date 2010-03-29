@@ -118,7 +118,7 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_MEMORYNONHEAP_LABEL">Internal memory (NON-HEAD)</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_MEMORYNONHEAP_DESCRIPTION">This graph display the internal memory use. This memory is static and contains the libraries: it is never free and may only grow until all libraries are loaded.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_CPU_LABEL">Processor use</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_CPU_DESCRIPTION">This graph display the processor use.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_CPU_DESCRIPTION">This graph display the processor use (works only with Sun JVM).</message>
 
     <!-- ADMINISTRATOR PLUGINS -->
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_LABEL">Plugins</message>
