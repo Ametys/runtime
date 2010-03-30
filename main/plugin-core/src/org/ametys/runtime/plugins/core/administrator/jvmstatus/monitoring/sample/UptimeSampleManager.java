@@ -13,13 +13,12 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.ametys.runtime.plugins.core.monitoring.sample;
+package org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.sample;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.lang.management.ManagementFactory;
 
-import org.ametys.runtime.plugins.core.administrator.jvmstatus.RequestCountListener;
-import org.ametys.runtime.plugins.core.monitoring.SampleManager;
 import org.rrd4j.ConsolFun;
 import org.rrd4j.DsType;
 import org.rrd4j.core.RrdDef;
@@ -27,52 +26,45 @@ import org.rrd4j.core.Sample;
 import org.rrd4j.graph.RrdGraphConstants;
 import org.rrd4j.graph.RrdGraphDef;
 
+import org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.SampleManager;
+
 /**
- * {@link SampleManager} for collecting the throughput and the number
- * of active HTTP requests .
+ * {@link SampleManager} for collecting the uptime of the JVM.
  */
-public class HttpRequestSampleManager extends AbstractSampleManager
+public class UptimeSampleManager extends AbstractSampleManager
 {
-    private long _lastCount;
-    
     @Override
     protected void _configureDatasources(RrdDef rrdDef)
     {
-        _registerDatasources(rrdDef, "processed", DsType.GAUGE, 0, Double.NaN);
+        _registerDatasources(rrdDef, "uptime", DsType.GAUGE, 0, Double.NaN);
     }
 
     @Override
     protected void _internalCollect(Sample sample) throws IOException
     {
-        try
-        {
-            sample.setValue("processed", RequestCountListener.getTotalRequestCount() - _lastCount);
-        }
-        catch (IllegalStateException e)
-        {
-            // empty : no value means an error
-        }
-        _lastCount = RequestCountListener.getTotalRequestCount();
+        sample.setValue("uptime", ManagementFactory.getRuntimeMXBean().getUptime());
     }
 
     @Override
     protected String _getGraphTitle()
     {
-        return "HTTP request";
+        return "Uptime";
     }
     
     @Override
     protected void _populateGraphDefinition(RrdGraphDef graphDef, String rrdFilePath)
     {
-        graphDef.datasource("processed", rrdFilePath, "processed", ConsolFun.AVERAGE);
-        graphDef.area("processed", new Color(148, 30, 109), "HTTP request processed");
+        graphDef.datasource("uptime", rrdFilePath, "uptime", ConsolFun.AVERAGE);
+        // Divide uptime by 24*60*60*1000
+        graphDef.datasource("uptime_in_days", "uptime,1000,60,60,24,*,*,*,/");
+        graphDef.line("uptime_in_days", new Color(148, 30, 109), "Uptime", 2);
         
-        graphDef.gprint("processed", ConsolFun.LAST, "Cur current: %.0f");
-        graphDef.gprint("processed", ConsolFun.MAX, "Max current: %.0f");
-
+        graphDef.gprint("uptime_in_days", ConsolFun.LAST, "Cur: %.0f day(s)");
+        graphDef.gprint("uptime_in_days", ConsolFun.MAX, "Max: %.0f day(s)");
+        
         // Do not scale units
         graphDef.setUnitsExponent(0);
-        graphDef.setVerticalLabel("request processed");
+        graphDef.setVerticalLabel("days");
         graphDef.setColor(RrdGraphConstants.COLOR_BACK, new Color(255, 255, 255));
         graphDef.setColor(RrdGraphConstants.COLOR_CANVAS, new Color(255, 255, 255));
         graphDef.setColor(RrdGraphConstants.COLOR_FRAME, new Color(255, 255, 255));

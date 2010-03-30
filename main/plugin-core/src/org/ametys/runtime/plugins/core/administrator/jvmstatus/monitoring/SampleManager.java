@@ -13,11 +13,11 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.ametys.runtime.plugins.core.monitoring;
+package org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring;
 
 import java.io.IOException;
 
-import org.ametys.runtime.plugins.core.monitoring.MonitoringConstants.Period;
+import org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.MonitoringConstants.Period;
 import org.ametys.runtime.util.I18nizableText;
 
 import org.rrd4j.core.RrdDef;

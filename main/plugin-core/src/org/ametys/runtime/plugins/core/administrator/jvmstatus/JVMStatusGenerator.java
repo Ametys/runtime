@@ -32,9 +32,9 @@ import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.SAXException;
 
-import org.ametys.runtime.plugins.core.monitoring.MonitoringExtensionPoint;
-import org.ametys.runtime.plugins.core.monitoring.SampleManager;
-import org.ametys.runtime.plugins.core.monitoring.MonitoringConstants.Period;
+import org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.MonitoringExtensionPoint;
+import org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.SampleManager;
+import org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.MonitoringConstants.Period;
 import org.ametys.runtime.util.parameter.ParameterHelper;
 
 

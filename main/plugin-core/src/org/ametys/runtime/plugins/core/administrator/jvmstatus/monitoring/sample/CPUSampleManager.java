@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.ametys.runtime.plugins.core.monitoring.sample;
+package org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.sample;
 
 import java.awt.Color;
 import java.io.IOException;
@@ -26,7 +26,7 @@ import org.rrd4j.core.Sample;
 import org.rrd4j.graph.RrdGraphConstants;
 import org.rrd4j.graph.RrdGraphDef;
 
-import org.ametys.runtime.plugins.core.monitoring.SampleManager;
+import org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.SampleManager;
 
 import com.sun.management.OperatingSystemMXBean;
 

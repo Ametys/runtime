@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.ametys.runtime.plugins.core.monitoring;
+package org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;

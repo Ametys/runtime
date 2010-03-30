@@ -81,8 +81,8 @@
         
         <map:readers>
             <map:reader name="administrator-jvmstatus-threadlog" src="org.ametys.runtime.plugins.core.administrator.jvmstatus.ThreadLogReader" logger="org.ametys.runtime.plugins.core.administrator"/>
-            <map:reader name="administrator-jvmstatus-monitoring-graph" src="org.ametys.runtime.plugins.core.monitoring.RRDGraphReader" logger="org.ametys.runtime.plugins.core.monitoring.RRDGraphReader"/>
-            <map:reader name="administrator-jvmstatus-monitoring-export" src="org.ametys.runtime.plugins.core.monitoring.RRDXmlExportReader" logger="org.ametys.runtime.plugins.core.monitoring.RRDXmlExportReader"/>
+            <map:reader name="administrator-jvmstatus-monitoring-graph" src="org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.RRDGraphReader" logger="org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.RRDGraphReader"/>
+            <map:reader name="administrator-jvmstatus-monitoring-export" src="org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.RRDXmlExportReader" logger="org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.RRDXmlExportReader"/>
             <map:reader name="upload-reader" src="org.ametys.runtime.plugins.core.upload.readers.UploadReader" logger="org.ametys.runtime.plugins.core.upload.readers.UploadReader"/>
         </map:readers>
         

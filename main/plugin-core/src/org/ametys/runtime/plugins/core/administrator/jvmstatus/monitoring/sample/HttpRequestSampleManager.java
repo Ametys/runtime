@@ -13,13 +13,14 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.ametys.runtime.plugins.core.monitoring.sample;
+package org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.sample;
 
 import java.awt.Color;
 import java.io.IOException;
 
-import org.ametys.runtime.plugins.core.administrator.jvmstatus.SessionCountListener;
-import org.ametys.runtime.plugins.core.monitoring.SampleManager;
+import org.ametys.runtime.plugins.core.administrator.jvmstatus.RequestCountListener;
+import org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.SampleManager;
+
 import org.rrd4j.ConsolFun;
 import org.rrd4j.DsType;
 import org.rrd4j.core.RrdDef;
@@ -28,14 +29,17 @@ import org.rrd4j.graph.RrdGraphConstants;
 import org.rrd4j.graph.RrdGraphDef;
 
 /**
- * {@link SampleManager} for collecting the number of active HTTP sessions.
+ * {@link SampleManager} for collecting the throughput and the number
+ * of active HTTP requests .
  */
-public class HttpSessionSampleManager extends AbstractSampleManager
+public class HttpRequestSampleManager extends AbstractSampleManager
 {
+    private long _lastCount;
+    
     @Override
     protected void _configureDatasources(RrdDef rrdDef)
     {
-        _registerDatasources(rrdDef, "count", DsType.COUNTER, 0, Double.NaN);
+        _registerDatasources(rrdDef, "processed", DsType.GAUGE, 0, Double.NaN);
     }
 
     @Override
@@ -43,38 +47,39 @@ public class HttpSessionSampleManager extends AbstractSampleManager
     {
         try
         {
-            sample.setValue("count", SessionCountListener.getSessionCount());
+            sample.setValue("processed", RequestCountListener.getTotalRequestCount() - _lastCount);
         }
         catch (IllegalStateException e)
         {
             // empty : no value means an error
         }
+        _lastCount = RequestCountListener.getTotalRequestCount();
     }
 
     @Override
     protected String _getGraphTitle()
     {
-        return "Active HTTP session";
+        return "HTTP request";
     }
     
     @Override
     protected void _populateGraphDefinition(RrdGraphDef graphDef, String rrdFilePath)
     {
-        graphDef.datasource("count", rrdFilePath, "count", ConsolFun.AVERAGE);
-        graphDef.area("count", new Color(148, 30, 109), "Active HTTP session count");
-
-        graphDef.gprint("count", ConsolFun.LAST, "Cur: %.0f");
-        graphDef.gprint("count", ConsolFun.MAX, "Max: %.0f");
+        graphDef.datasource("processed", rrdFilePath, "processed", ConsolFun.AVERAGE);
+        graphDef.area("processed", new Color(148, 30, 109), "HTTP request processed");
+        
+        graphDef.gprint("processed", ConsolFun.LAST, "Cur current: %.0f");
+        graphDef.gprint("processed", ConsolFun.MAX, "Max current: %.0f");
 
         // Do not scale units
         graphDef.setUnitsExponent(0);
-        graphDef.setVerticalLabel("session count");
+        graphDef.setVerticalLabel("request processed");
         graphDef.setColor(RrdGraphConstants.COLOR_BACK, new Color(255, 255, 255));
         graphDef.setColor(RrdGraphConstants.COLOR_CANVAS, new Color(255, 255, 255));
         graphDef.setColor(RrdGraphConstants.COLOR_FRAME, new Color(255, 255, 255));
         graphDef.setColor(RrdGraphConstants.COLOR_MGRID, new Color(128, 128, 128));
         graphDef.setColor(RrdGraphConstants.COLOR_GRID, new Color(220, 220, 220));
         graphDef.setColor(RrdGraphConstants.COLOR_SHADEA, new Color(220, 220, 220));
-        graphDef.setColor(RrdGraphConstants.COLOR_SHADEB, new Color(220, 220, 220));        
+        graphDef.setColor(RrdGraphConstants.COLOR_SHADEB, new Color(220, 220, 220));
     }
 }

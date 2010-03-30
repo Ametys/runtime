@@ -13,14 +13,14 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.ametys.runtime.plugins.core.monitoring.sample;
+package org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.sample;
 
 import java.io.IOException;
 import java.util.Date;
 
 import org.ametys.runtime.plugin.component.PluginAware;
-import org.ametys.runtime.plugins.core.monitoring.MonitoringConstants;
-import org.ametys.runtime.plugins.core.monitoring.SampleManager;
+import org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.MonitoringConstants;
+import org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.SampleManager;
 import org.ametys.runtime.util.I18nizableText;
 
 import org.apache.avalon.framework.configuration.Configurable;

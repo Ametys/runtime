@@ -13,27 +13,27 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.ametys.runtime.plugins.core.monitoring.sample;
+package org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.sample;
 
 import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryUsage;
 
-import org.ametys.runtime.plugins.core.monitoring.SampleManager;
+import org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.SampleManager;
 
 /**
- * {@link SampleManager} for collecting JVM heap memory status.
+ * {@link SampleManager} for collecting JVM non heap memory status.
  */
-public class HeapMemorySampleManager extends AbstractMemorySampleManager
+public class NonHeapMemorySampleManager extends AbstractMemorySampleManager
 {
     @Override
     protected MemoryUsage _getMemoryUsage(MemoryMXBean memoryMXBean)
     {
-        return  memoryMXBean.getHeapMemoryUsage();
+        return  memoryMXBean.getNonHeapMemoryUsage();
     }
 
     @Override
     protected String _getGraphTitle()
     {
-        return "JVM Heap Memory";
+        return "JVM Non Heap Memory";
     }
 }
