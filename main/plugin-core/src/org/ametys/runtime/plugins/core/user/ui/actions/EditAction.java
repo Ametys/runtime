@@ -115,7 +115,7 @@ public class EditAction extends CurrentUserProviderServiceableAction
             }
             else
             {
-                return null;
+                throw e;
             }
         }
 
