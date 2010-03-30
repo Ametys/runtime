@@ -154,6 +154,10 @@
 	float: left;
 }
 
+.ametys-radio-group {
+	float: left;
+}
+
 .ametys-input input.x-form-checkbox  {
 	border: 0px solid #C8CDD0 !important;
 	margin-top: 3px !important;
