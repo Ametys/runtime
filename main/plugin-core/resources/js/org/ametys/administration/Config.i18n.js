@@ -357,9 +357,18 @@ org.ametys.administration.Config.save = function ()
 org.ametys.administration.Config.save2 = function ()
 {
     var url = getPluginDirectUrl(org.ametys.administration.Config.pluginName) + "/administrator/config/set";
-    
+
     var args = "";
-    var argsObj = Utils.buildParams(org.ametys.administration.Config._form.getForm().el.dom);
+    var argsObj = org.ametys.administration.Config._form.getForm().getFieldValues();
+    for (var f in argsObj)
+    {
+    	if (argsObj[f] == null)
+    	{
+    		delete argsObj[f];
+    	}
+    };
+
+    
     for (var i in argsObj)
     {
     	args += "&amp;" + i + "=" + encodeURIComponent(argsObj[i]);

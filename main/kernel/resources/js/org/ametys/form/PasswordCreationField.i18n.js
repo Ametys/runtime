@@ -149,6 +149,18 @@ org.ametys.form.PasswordCreationField.prototype._blurConfirmation = function()
 	}
 }
 
+org.ametys.form.PasswordCreationField.prototype.getValue = function()
+{
+	if (this.el &amp;&amp; this.el.dom.disabled)
+	{
+		return null;
+	}
+	else
+	{
+		return org.ametys.form.PasswordCreationField.superclass.getValue.call(this);
+	}
+}
+
 org.ametys.form.PasswordCreationField.prototype.setValue = function(v)
 {
 	org.ametys.form.PasswordCreationField.superclass.setValue.call(this, v);
