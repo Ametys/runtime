@@ -130,8 +130,8 @@ public class DispatchGenerator extends ServiceableGenerator
                 }
 
                 response = _resolver.resolveURI(url, null, requestParameters);
-                
-                ResponseHandler responseHandler = new ResponseHandler(contentHandler, parameterKey);
+
+                ResponseHandler responseHandler = new ResponseHandler(contentHandler, parameterKey, "200");
                 is = response.getInputStream();
                 
                 if ("xml".equalsIgnoreCase(responseType))
@@ -286,17 +286,20 @@ public class DispatchGenerator extends ServiceableGenerator
     {
         private String _parameterKey;
         private ContentHandler _handler;
+        private String _code;
         
         /**
          * Create the wrapper
          * @param handler The content handler to wrap
          * @param parameterKey The id of the response
+         * @param code The status code of the response
          */
-        public ResponseHandler(ContentHandler handler, String parameterKey)
+        public ResponseHandler(ContentHandler handler, String parameterKey, String code)
         {
             super(handler);
             _handler = handler;
             _parameterKey = parameterKey;
+            _code = code;
         }
         
         @Override
