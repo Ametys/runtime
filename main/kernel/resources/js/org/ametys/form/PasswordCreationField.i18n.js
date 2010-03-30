@@ -151,8 +151,15 @@ org.ametys.form.PasswordCreationField.prototype._blurConfirmation = function()
 
 org.ametys.form.PasswordCreationField.prototype.setValue = function(v)
 {
-	this.originalValue = v;
 	org.ametys.form.PasswordCreationField.superclass.setValue.call(this, v);
+
+	if (!this.el2)
+	{
+		return;
+	}
+	
+	this.originalValue = v;
+
 	if (v == "")
 	{
 		this._setPassword();
