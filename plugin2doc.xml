@@ -16,42 +16,41 @@
    -->
 <project name="Plugin documentation for Ametys Runtime" default="plugin2doc">
 	
-    <target name="plugin2doc-prepare">
-        <property name="out"/>
-    	
-    	<copy todir="${out}">
-    		<fileset dir="resources/**">
-    		</fileset>
+	<property name="pluginDocLocation" value="deliver/plugindoc"/>
+	<property name="pluginLocation" value=""/>
+   	<property name="pluginName" value=""/>
+    <property name="out" value=""/>
+
+	<target name="plugin2doc-prepare">
+		<delete dir="${out}"/>
+    	<copy todir="${out}/resources">
+    		<fileset dir="${pluginDocLocation}/resources"/>
     	</copy>
     </target>
 
-    <target name="plugin2doc">
-    	<property name="pluginLocation"/>
-       	<property name="pluginName"/>
-        <property name="out"/>
-
-        <xslt in="${pluginLocation}" style="plugin2doc.xsl" out="${out}.html">
+    <target name="plugin2doc" depends="plugin2doc-prepare">
+        <xslt in="${pluginLocation}" style="${pluginDocLocation}/plugin2doc.xsl" out="${out}/${out}.html">
             <param name="pluginName" expression="${pluginName}"/>
         </xslt>
-        <xslt in="${pluginLocation}" style="plugin2doc_features.xsl" out="${out}/${pluginName}_features.html">
+        <xslt in="${pluginLocation}" style="${pluginDocLocation}/plugin2doc_features.xsl" out="${out}/${pluginName}_features.html">
             <param name="pluginName" expression="${pluginName}"/>
         </xslt>
-        <xslt in="${pluginLocation}" style="plugin2doc_extensions.xsl" out="${out}/${pluginName}_extensions.html">
+        <xslt in="${pluginLocation}" style="${pluginDocLocation}/plugin2doc_extensions.xsl" out="${out}/${pluginName}_extensions.html">
             <param name="pluginName" expression="${pluginName}"/>
         </xslt>
-        <xslt in="${pluginLocation}" style="plugin2doc_configuration.xsl" out="${out}/${pluginName}_configuration.html">
+        <xslt in="${pluginLocation}" style="${pluginDocLocation}/plugin2doc_configuration.xsl" out="${out}/${pluginName}_configuration.html">
             <param name="pluginName" expression="${pluginName}"/>
         </xslt>
-        <xslt in="${pluginLocation}" style="plugin2doc_main.xsl" out="${out}/${pluginName}_main.html">
+        <xslt in="${pluginLocation}" style="${pluginDocLocation}/plugin2doc_main.xsl" out="${out}/${pluginName}_main.html">
             <param name="pluginName" expression="${pluginName}"/>
         </xslt>
-        <xslt in="${pluginLocation}" style="plugin2doc_main_features.xsl" out="${out}/${pluginName}_main_features.html">
+        <xslt in="${pluginLocation}" style="${pluginDocLocation}/plugin2doc_main_features.xsl" out="${out}/${pluginName}_main_features.html">
             <param name="pluginName" expression="${pluginName}"/>
         </xslt>
-        <xslt in="${pluginLocation}" style="plugin2doc_main_extensions.xsl" out="${out}/${pluginName}_main_extensions.html">
+        <xslt in="${pluginLocation}" style="${pluginDocLocation}/plugin2doc_main_extensions.xsl" out="${out}/${pluginName}_main_extensions.html">
             <param name="pluginName" expression="${pluginName}"/>
         </xslt>
-        <xslt in="${pluginLocation}" style="plugin2doc_main_configuration.xsl" out="${out}/${pluginName}_main_configuration.html">
+        <xslt in="${pluginLocation}" style="${pluginDocLocation}/plugin2doc_main_configuration.xsl" out="${out}/${pluginName}_main_configuration.html">
             <param name="pluginName" expression="${pluginName}"/>
         </xslt>
     </target>
