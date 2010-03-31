@@ -15,8 +15,66 @@
 	</appender>
 
     <root>
-        <priority value="warn"/>
+        <priority value="info"/>
         <!--appender-ref ref="lf5-servlet"/-->
         <appender-ref ref="servlet"/>
     </root>
+    
+    <!-- iBatis logs as debug -->
+	<!-- 
+	<category name="java.sql" additivity="false">
+		<priority value="debug"/>
+        <appender-ref ref="lf5-servlet"/>
+        <appender-ref ref="servlet"/>
+	</category>
+    -->
+    
+    <!-- All runtime and runtime plugins logs -->
+    <category name="org.ametys.runtime" additivity="false">
+		<priority value="info"/>
+        <!--appender-ref ref="lf5-servlet"/-->
+        <appender-ref ref="servlet"/>
+    </category>
+
+    <!-- Administration logs -->
+    <category name="org.ametys.runtime.plugins.core.administrator.sitemap" additivity="false">
+		<priority value="info"/>
+        <!--appender-ref ref="lf5-servlet"/-->
+        <appender-ref ref="servlet"/>
+    </category>
+
+    <!-- Users plugin logs -->
+    <category name="org.ametys.runtime.plugins.core.user.sitemap" additivity="false">
+		<priority value="info"/>
+        <!--appender-ref ref="lf5-servlet"/-->
+        <appender-ref ref="servlet"/>
+    </category>
+
+    <!-- Groups plugin logs -->
+    <category name="org.ametys.runtime.plugins.core.group.sitemap" additivity="false">
+		<priority value="info"/>
+        <!--appender-ref ref="lf5-servlet"/-->
+        <appender-ref ref="servlet"/>
+    </category>
+    
+    <!-- Profiles plugin logs -->
+    <category name="org.ametys.runtime.plugins.core.right.profile.sitemap" additivity="false">
+		<priority value="info"/>
+        <!--appender-ref ref="lf5-servlet"/-->
+        <appender-ref ref="servlet"/>
+    </category>
+    
+    <!-- Right assignment logs -->
+    <category name="org.ametys.runtime.plugins.core.right.sitemap" additivity="false">
+		<priority value="info"/>
+        <!--appender-ref ref="lf5-servlet"/-->
+        <appender-ref ref="servlet"/>
+    </category>
+    
+    <!-- Monitoring -->
+    <category name="org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring" additivity="false">
+		<priority value="warn"/>
+        <!--appender-ref ref="lf5-servlet"/-->
+        <appender-ref ref="servlet"/>
+	</category>    
 </log4j:configuration>
