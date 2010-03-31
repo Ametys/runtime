@@ -309,7 +309,7 @@ public class DispatchGenerator extends ServiceableGenerator
 
             AttributesImpl attrs = new AttributesImpl();
             attrs.addCDATAAttribute("id", _parameterKey);
-            attrs.addCDATAAttribute("code", "200");
+            attrs.addCDATAAttribute("code", _code);
 
             XMLUtils.startElement(_handler, "response", attrs);
         }
