@@ -129,7 +129,6 @@
 					<map:parameter name="contextPath" value="{request:contextPath}"/>
                     <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
                     <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/>
-                    <map:parameter name="max-upload-size" value="{config:runtime.upload.max-size}"/>
 				</map:transform>
 				<map:transform type="i18n">
 					<map:parameter name="locale" value="{locale:locale}"/>
@@ -171,7 +170,6 @@
 					<map:parameter name="contextPath" value="{request:contextPath}"/>
                     <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
                     <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/>
-                    <map:parameter name="max-upload-size" value="{config:runtime.upload.max-size}"/>
 				</map:transform>
 				<map:transform type="i18n">
 					<map:parameter name="locale" value="{locale:locale}"/>
