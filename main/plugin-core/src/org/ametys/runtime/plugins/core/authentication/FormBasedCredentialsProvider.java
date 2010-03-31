@@ -15,9 +15,9 @@
  */
 package org.ametys.runtime.plugins.core.authentication;
 
-import org.ametys.runtime.authentication.Credentials;
-import org.ametys.runtime.authentication.CredentialsProvider;
-import org.ametys.runtime.workspace.WorkspaceMatcher;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -33,6 +33,11 @@ import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.Response;
 import org.apache.cocoon.environment.http.HttpCookie;
+import org.apache.commons.lang.StringUtils;
+
+import org.ametys.runtime.authentication.Credentials;
+import org.ametys.runtime.authentication.CredentialsProvider;
+import org.ametys.runtime.workspace.WorkspaceMatcher;
 
 /**
  * This manager gets the credentials coming from an authentification form. <br>
@@ -45,7 +50,8 @@ import org.apache.cocoon.environment.http.HttpCookie;
  *                  - The cookie name, to retrieve info<br>
  *                  - The cookie duration (in seconds), by default set to 1 week<br>
  *                  - A login url (do not start with a "/")<br>
- *                  - A failure login url (do not start with a "/"). The failure Url can receive the login entered by the visitor.<br><br>
+ *                  - A failure login url (do not start with a "/"). The failure Url can receive the login entered by the visitor.<br>
+ *                  - A list of URL prefixes that are accessible without authentication. The login and failure URLs are always accessible without authentication.<br><br>
  * 
  * For example :<br>
  *               &lt;username-field&gt;Username&lt;/username-field&gt;<br>
@@ -57,6 +63,10 @@ import org.apache.cocoon.environment.http.HttpCookie;
  *               &lt;/cookie&gt;<br>
  *               &lt;loginUrl internal="true"&gt;login.html&lt;/loginUrl&gt;<br>
  *               &lt;loginFailedUrl provideLoginParameter="true" internal="true"&gt;login_failed.html&lt;/loginFailedUrl&gt;<br>
+ *               &lt;unauthenticated&gt;<br>
+ *                   &lt;urlPrefix&gt;subscribe/&lt;/urlPrefix&gt;<br>
+ *                   &lt;urlPrefix&gt;lostPassword/&lt;/urlPrefix&gt;<br>
+ *               &lt;/unauthenticated&gt;<br>
  * 
  */
 public class FormBasedCredentialsProvider extends AbstractLogEnabled implements ThreadSafe, CredentialsProvider, Configurable, Contextualizable
@@ -97,12 +107,46 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
     /** Indicates if the failed login url redirection is internal or external (default : false). */
     protected boolean _loginFailedUrlInternal;
 
+    /** Set of accepted url prefixes (default : empty). */
+    protected Set<String> _acceptedUrlPrefixes;
+    
     /** Context */
     protected Context _context;
-
+    
     public boolean accept()
     {
-        return false;
+        Request request = ContextHelper.getRequest(_context);
+        
+        boolean accept = false;
+        
+        String login = request.getParameter(_usernameField);
+        String password = request.getParameter(_passwordField);
+        
+        if (login == null || password == null)
+        {
+            String url = request.getRequestURI().substring(request.getContextPath().length() + 1);
+            
+            accept = _loginUrl.equals(url) || _loginFailedUrl.equals(url);
+            
+            if (!accept)
+            {
+                for (String prefix : _acceptedUrlPrefixes)
+                {
+                    if (url.startsWith(prefix))
+                    {
+                        accept = true;
+                        break;
+                    }
+                }
+            }
+            
+            if (accept && getLogger().isInfoEnabled())
+            {
+                getLogger().info("URL accepted : " + url);
+            }
+        }
+        
+        return accept;
     }
     
     public void allowed(Redirector redirector)
@@ -202,6 +246,19 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
         _provideLoginParameter = configuration.getChild("loginFailedUrl").getAttributeAsBoolean("provideLoginParameter", false);
         _loginUrlInternal = configuration.getChild("loginUrl").getAttributeAsBoolean("internal", false);
         _loginFailedUrlInternal = configuration.getChild("loginFailedUrl").getAttributeAsBoolean("internal", false);
+        _acceptedUrlPrefixes = new HashSet<String>();
+        for (Configuration prefixConf : configuration.getChild("unauthenticated").getChildren("urlPrefix"))
+        {
+            String prefix = prefixConf.getValue(null);
+            if (prefix != null)
+            {
+                if (!prefix.endsWith("/"))
+                {
+                    prefix = prefix + "/";
+                }
+                _acceptedUrlPrefixes.add(prefix);
+            }
+        }
         
         if (getLogger().isDebugEnabled())
         {
@@ -212,7 +269,8 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
                             + " [" + (_loginUrlInternal ? "internal" : "external") + "]"
                             + ", Login failed url=" + _loginFailedUrl 
                             + " [" + (_loginFailedUrlInternal ? "internal" : "external")
-                            + ", provide login on redirection : " + _provideLoginParameter + "]");
+                            + ", provide login on redirection : " + _provideLoginParameter + "]"
+                            + ", accepted prefixes : [" + StringUtils.join(_acceptedUrlPrefixes, ", ") + "]");
         }
     }
 
