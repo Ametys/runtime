@@ -18,6 +18,8 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
     xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
 
+	<xsl:param name="max-upload-size"/>
+
     <!-- +
          | Load and initialize all scripts for UI
          + -->
@@ -32,6 +34,7 @@
                 context.contextPath = "<xsl:value-of select="$contextPath"/>";
                 context.workspaceName = "<xsl:value-of select="$workspaceName"/>";
                 context.workspaceContext = "<xsl:value-of select="$contextPath"/><xsl:value-of select="$workspaceURI"/>";
+                context.maxUploadSize = "<xsl:value-of select="$max-upload-size"/>";
                 
                 function getPluginDirectUrl(plugin)
                 {
@@ -187,7 +190,7 @@
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/ComboField.js"></script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/RadioGroupField.js"></script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/MultiSelectField.js"></script>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/FileUploadField.js"></script>
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/FileUploadField.i18n.js"></script>
  		<script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/tree/XmlTreeLoader.js"></script>
 				
 		<script type="text/javascript"  src="{$contextPath}/kernel/resources/js/org/ametys/servercomm/TimeoutDialog.i18n.js"></script>

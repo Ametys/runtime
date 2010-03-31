@@ -122,6 +122,11 @@
 	float: left;
 }
 
+.ametys-file div.x-form-element {
+	float: left;
+	padding-left: 0px !important;
+}
+
 .ametys-file input {
 	font-size: 0.9em;
 	border: 1px solid #C8CDD0 !important;
@@ -132,6 +137,11 @@
 	float: left;
 	margin-top: 0px !important;
 	margin-left: 5px;
+}
+.ametys-file .ametys-file-hint {
+	font-size: 0.8em;
+	color: #7f7f7f;
+	padding-left: 10px;
 }
 
 .ametys-select input {

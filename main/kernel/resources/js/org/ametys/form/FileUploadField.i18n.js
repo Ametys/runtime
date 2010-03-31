@@ -17,7 +17,7 @@
 Ext.namespace('org.ametys.form');
 
 /**
- * @class This class provides a file upload field width a help icon. Use the <code>desc</option> to add the help icon.
+ * @class This class provides a file upload field width a help icon. Use the &lt;code&gt;desc&lt;/option&gt; to add the help icon.
  * @extends Ext.ux.form.FileUploadField
  * @constructor
  * @param {Object} config Configuration options
@@ -51,5 +51,10 @@ org.ametys.form.FileUploadField.prototype.onRender = function(ct, position)
 	        
 	        dismissDelay: 0 // disable automatic hiding
 	    });
+	}
+	
+	if (context != null &amp;&amp; context.maxUploadSize != null &amp;&amp; context.maxUploadSize != '')
+	{
+		Ext.get(this.el.dom.parentNode).insertSibling({cls: 'ametys-file-hint', html: "(<i18n:text i18n:key="KERNEL_UPLOAD_HINT"/>" + Ext.util.Format.fileSize(context.maxUploadSize) + ")"}, 'after');
 	}
 }

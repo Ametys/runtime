@@ -29,6 +29,7 @@
     <message key="KERNEL_PASSWORD_VALIDATOR">Le mot de passe et sa confirmation ne sont pas identiques</message>
     <message key="KERNEL_PASSWORD_CLEAR">Remettre le mot de passe à sa valeur initiale</message>
 	<message key="KERNEL_PASSWORD_CHANGE">Cliquez ici pour changer le mot de passe</message>
+	<message key="KERNEL_UPLOAD_HINT">La taille maximale autorisée est de </message>
 
 	 <!-- +
     	 | ServerComm.js

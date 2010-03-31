@@ -197,7 +197,7 @@
             <validation>
                 <mandatory/>
             </validation>        
-            <default-value>10000000</default-value>
+            <default-value>10485760</default-value>
             <category i18n="true">PLUGINS_CORE_UPLOAD_CONFIG_CATEGORY</category>
             <group i18n="true">PLUGINS_CORE_UPLOAD_CONFIG_GROUP_UPLOAD</group>
             <order>10</order>
