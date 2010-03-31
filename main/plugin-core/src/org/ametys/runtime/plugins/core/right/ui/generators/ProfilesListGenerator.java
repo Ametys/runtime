@@ -49,12 +49,14 @@ public class ProfilesListGenerator extends ServiceableGenerator
 
         XMLUtils.startElement(contentHandler, "Profiles");
         
-        if (_rightsManager instanceof ProfileBasedRightsManager)
+        if (!(_rightsManager instanceof ProfileBasedRightsManager))
         {
-            for (Profile profile : ((ProfileBasedRightsManager) _rightsManager).getProfiles())
-            {
-                profile.toSAX(contentHandler);
-            }
+            throw new IllegalStateException("You cannot display/edit profiles with the current rights manager '" + _rightsManager.getClass().getName() + "'");
+        }
+        
+        for (Profile profile : ((ProfileBasedRightsManager) _rightsManager).getProfiles())
+        {
+            profile.toSAX(contentHandler);
         }
         
         XMLUtils.endElement(contentHandler, "Profiles");
