@@ -27,6 +27,69 @@ org.ametys.administration.Logs.initialize = function (pluginName)
 
 org.ametys.administration.Logs.createPanel = function ()
 {
+	org.ametys.administration.Logs._cardPanel = new Ext.Panel({
+		region:'center',
+		layout:'card',
+		activeItem: 0,
+		
+		id:'system-card-panel',
+		baseCls: 'transparent-panel',
+		border: false,
+		autoScroll : true,
+		height: 'auto',
+		
+		items: [org.ametys.administration.Logs._drawLogsPanel(),
+		        org.ametys.administration.Logs._drawConfPanel()]
+	});		
+	
+	org.ametys.administration.Logs._contextualPanel = new org.ametys.HtmlContainer({
+		region:'east',
+	
+		cls : 'admin-right-panel',
+		border: false,
+		width: 277,
+	    
+		items: [org.ametys.administration.Logs._drawNavigationPanel (),
+		        org.ametys.administration.Logs._drawActionsPanel (),
+		        org.ametys.administration.Logs._drawHelpPanel ()]
+	});
+	
+	return new Ext.Panel({
+		region: 'center',
+		
+		autoScroll: true,
+		
+		baseCls: 'transparent-panel',
+		border: false,
+		layout: 'border',
+		
+		items: [org.ametys.administration.Logs._cardPanel, 
+		        org.ametys.administration.Logs._contextualPanel],
+		
+		layoutConfig: {
+        	autoWidth: true
+    	}
+
+	});
+	
+}
+
+org.ametys.administration.Logs._onLogsPanelShow = function()
+{
+	org.ametys.administration.Logs._helpPanel.items.get(0).show();
+	org.ametys.administration.Logs._onSelectLog();
+	org.ametys.administration.Logs._actions.showElt(3);
+}
+org.ametys.administration.Logs._onLogsPanelHide = function()
+{
+	org.ametys.administration.Logs._actions.hideElt(0);
+	org.ametys.administration.Logs._actions.hideElt(1);
+	org.ametys.administration.Logs._actions.hideElt(2);
+	org.ametys.administration.Logs._actions.hideElt(3);
+	org.ametys.administration.Logs._helpPanel.items.get(0).hide();
+}
+org.ametys.administration.Logs._drawLogsPanel = function()
+{
 	var reader = new Ext.data.ArrayReader({}, [
 	                					       {name: 'location'},
 	                					       {name: 'date', type: 'date', dateFormat: 'Y-m-dTH:i'},
@@ -51,7 +114,10 @@ org.ametys.administration.Logs.createPanel = function ()
 		
 		animCollapse: true,
 		
-		listeners: {'rowclick': org.ametys.administration.Logs._onSelectLog},
+		listeners: {'rowclick': org.ametys.administration.Logs._onSelectLog,
+					'hide': org.ametys.administration.Logs._onLogsPanelHide,
+					'show': org.ametys.administration.Logs._onLogsPanelShow
+		},
 		
 	    store : store,
 		
@@ -71,35 +137,56 @@ org.ametys.administration.Logs.createPanel = function ()
 	
 	org.ametys.administration.Logs._logs.setMultipleSelection(true);		
 	
-	org.ametys.administration.Logs._contextualPanel = new org.ametys.HtmlContainer({
-		region:'east',
-	
-		cls : 'admin-right-panel',
-		border: false,
-		width: 277,
-	    
-		items: [org.ametys.administration.Logs._drawActionsPanel (),
-		        org.ametys.administration.Logs._drawHelpPanel ()]
-	});
-	
-	return new Ext.Panel({
-		region: 'center',
+	return org.ametys.administration.Logs._logs;
+}
+
+org.ametys.administration.Logs._onConfShow = function()
+{
+	org.ametys.administration.Logs._helpPanel.items.get(1).show();
+}
+org.ametys.administration.Logs._onConfHide = function()
+{
+	org.ametys.administration.Logs._helpPanel.items.get(1).hide();
+}
+
+org.ametys.administration.Logs._drawConfPanel = function()
+{
+	function createNode(name, category)
+	{
+		var childNodes = [];
+		for (var c in category.child)
+		{
+			childNodes.push(createNode(c, category.child[c]));
+		}
+
+		var node = {
+	   		icon: getPluginResourcesUrl("core") + "/img/administrator/logs/loglevel_" + category.level + ".gif",
+	   		text: name,
+	   		leaf: childNodes.length == 0
+		};
 		
-		autoScroll: true,
+			node.children = childNodes;
+		
+		return node;
+	}
+	
+	var rootNodeConf = createNode("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_CONFIG_LOGKITROOT"/>", logcategories);
+	rootNodeConf.expanded = true;
+	
+	var rootNode = new Ext.tree.AsyncTreeNode(rootNodeConf);
+	
+	return 	new Ext.tree.TreePanel({
+		id: 'monitoring-panel',
+		root: rootNode,
 		
 		baseCls: 'transparent-panel',
 		border: false,
-		layout: 'border',
+		autoScroll: true,
 		
-		items: [org.ametys.administration.Logs._logs , 
-		        org.ametys.administration.Logs._contextualPanel],
-		
-		layoutConfig: {
-        	autoWidth: true
-    	}
-
+		listeners: {'show': org.ametys.administration.Logs._onConfShow,
+		            'hide': org.ametys.administration.Logs._onConfHide 
+		}
 	});
-	
 }
 
 org.ametys.administration.Logs.load = function (data)
@@ -107,7 +194,34 @@ org.ametys.administration.Logs.load = function (data)
 	org.ametys.administration.Logs._logs.getStore().loadData(data);
 }
 
-
+org.ametys.administration.Logs._navItems = [
+	{label: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_TAB_VIEW"/>"},
+	{label: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_TAB_LEVEL"/>"}];
+/**
+ * Draw the navigation panel. This function needs the org.ametys.administration.JVMStatus._navItems was filled first.
+ * @return {org.ametys.NavigationPanel} The navigation panel
+ * @private
+ */
+org.ametys.administration.Logs._drawNavigationPanel = function ()
+{
+	org.ametys.administration.Logs._nav = new org.ametys.NavigationPanel ({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU"/>"});
+	
+	for (var i=0; i &lt; org.ametys.administration.Logs._navItems.length; i++)
+	{
+		var item = new org.ametys.NavigationItem ({
+			text: org.ametys.administration.Logs._navItems[i].label,
+			
+			activeItem: i,
+			
+			cardLayout: 'system-card-panel',
+			toggleGroup : 'system-menu'
+		});
+		
+		org.ametys.administration.Logs._nav.add(item);
+	}
+	
+	return org.ametys.administration.Logs._nav;
+}
 /**
  * Draw the actions panel.
  * @return {org.ametys.ActionsPanel} The action panel
@@ -142,9 +256,7 @@ org.ametys.administration.Logs._drawActionsPanel = function ()
 			 getPluginResourcesUrl(org.ametys.administration.Logs.pluginName) + '/img/administrator/logs/quit.png', 
 			 org.ametys.administration.Logs.goBack);
 
-	org.ametys.administration.Logs._actions.hideElt(0);
-	org.ametys.administration.Logs._actions.hideElt(1);
-	org.ametys.administration.Logs._actions.hideElt(2);
+	org.ametys.administration.Logs._onSelectLog();
 	
 	return org.ametys.administration.Logs._actions;
 }
@@ -156,10 +268,16 @@ org.ametys.administration.Logs._drawActionsPanel = function ()
  */
 org.ametys.administration.Logs._drawHelpPanel = function ()
 {
-	var helpPanel = new org.ametys.TextPanel({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP"/>"});
-	helpPanel.addText("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP_TEXT"/>");
+	org.ametys.administration.Logs._helpPanel = new org.ametys.TextPanel({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP"/>"});
+	org.ametys.administration.Logs._helpPanel.addText("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP_TEXT"/>");
+	org.ametys.administration.Logs._helpPanel.addText("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP2_TEXT"/>");
 	
-	return helpPanel;
+	for (var i = 0; i &lt; org.ametys.administration.Logs._helpPanel.items.length; i++)
+	{
+		org.ametys.administration.Logs._helpPanel.items.get(i).hide();
+	}
+	
+	return org.ametys.administration.Logs._helpPanel;
 }
 
 /**
@@ -306,9 +424,19 @@ org.ametys.administration.Logs.doPurge = function (anwser)
 
 org.ametys.administration.Logs._onSelectLog = function (grid, rowindex, e)
 {
-	org.ametys.administration.Logs._actions.showElt(0);
-	org.ametys.administration.Logs._actions.showElt(1);
-	org.ametys.administration.Logs._actions.showElt(2);
+	var hasSelection  = org.ametys.administration.Logs._logs.getSelection().length &gt; 0;
+	if (hasSelection)
+	{
+		org.ametys.administration.Logs._actions.showElt(0);
+		org.ametys.administration.Logs._actions.showElt(1);
+		org.ametys.administration.Logs._actions.showElt(2);
+	}
+	else
+	{
+		org.ametys.administration.Logs._actions.hideElt(0);
+		org.ametys.administration.Logs._actions.hideElt(1);
+		org.ametys.administration.Logs._actions.hideElt(2);
+	}
 }
 
 /**

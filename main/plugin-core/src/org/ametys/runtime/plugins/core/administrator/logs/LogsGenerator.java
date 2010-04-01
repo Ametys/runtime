@@ -60,7 +60,7 @@ public class LogsGenerator extends ServiceableGenerator
         XMLUtils.endElement(contentHandler, "Logs");
 
         XMLUtils.startElement(contentHandler, "LogLevels");
-        _logkitLevels(LoggerFactory.getLoggerManager());
+        _log4jLevels(LoggerFactory.getLoggerManager());
         XMLUtils.endElement(contentHandler, "LogLevels");
 
         XMLUtils.endElement(contentHandler, "Logger");
@@ -75,7 +75,7 @@ public class LogsGenerator extends ServiceableGenerator
     }
     
     @SuppressWarnings("unchecked")
-    private void _logkitLevels(LoggerManager loggerManager) throws SAXException
+    private void _log4jLevels(LoggerManager loggerManager) throws SAXException
     {
         try
         {

@@ -145,7 +145,7 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_DESCRIPTION">Visualiser les journaux de l'application</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_TITLE">Journaux</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP">Aide</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP_TEXT">Cet écran vous permet de visualiser les fichiers de logs et aussi de supprimer les fichiers obsolètes.&lt;br/&gt;&lt;br/&gt;Si vos fichiers de logs ont une taille élevée et que vous êtes en production, pensez à augmenter le niveau de logs en mode 'ERROR' dans les fichiers WEB-INF\\logkit.xconf et WEB-INF\\log4j.xml.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP_TEXT">Cet écran vous permet de visualiser les fichiers de logs et aussi de supprimer les fichiers obsolètes.&lt;br/&gt;&lt;br/&gt;Si vos fichiers de logs ont une taille élevée et que vous êtes en production, pensez à augmenter le niveau de logs en mode 'ERROR' dans le fichier WEB-INF\\log4j.xml.&lt;br/&gt;&lt;br/&gt;Vous pouvez aussi changer temporairement le niveau de log pour l'execution en utilisant le bouton Configuration.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE">Gestion</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_QUIT">Quitter</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_TAB_VIEW">Visualisation</message>
@@ -164,16 +164,15 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_COL_DATE">Date</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_COL_SIZE">Taille</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_GROUP_OTHERS">Journaux non datés</message>
-<!--    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_TAB_LEVEL">Configuration</message>-->
-<!--    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP2_TEXT">Cet écran vous permet de modifier pour le temps de l'execution le niveau de logs categorie par categorie.&lt;br/&gt;&lt;br/&gt;Une icone translucide indique un niveau de logs hérité.&lt;br/&gt;&lt;br/&gt;Pour modifier de manière permanente le niveau de logs, configurez les fichiers WEB-INF\\logkit.xconf et WEB-INF\\log4j.xml.</message>-->
-<!--    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_CONFIG_LOGKITROOT">Racine LOGKIT</message>-->
-<!--    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_DEBUG">Passer en DEBUG</message>-->
-<!--    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_INFO">Passer en INFO</message>-->
-<!--    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_WARN">Passer en WARNING</message>-->
-<!--    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_ERROR">Passer en ERROR</message>-->
-<!--    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_INHERIT">Hériter le mode</message>-->
-<!--    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_FORCE">Forcer l'héritage</message>-->
-<!--    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_ERROR">Une erreur est survenue : les modifications n'ont peut-être pas été prises en compte.\nLa page va être rechargée pour éviter les incohéreances.</message>-->
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_TAB_LEVEL">Configuration</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP2_TEXT">Cet écran vous permet de modifier pour le temps de l'execution le niveau de logs categorie par categorie.&lt;br/&gt;&lt;br/&gt;Pour modifier de manière permanente le niveau de logs, configurez le fichier WEB-INF\\log4j.xml.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_CONFIG_LOGKITROOT">Racine</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_DEBUG">Passer en DEBUG</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_INFO">Passer en INFO</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_WARN">Passer en WARNING</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_ERROR">Passer en ERROR</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_FORCE">Forcer l'héritage</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_ERROR">Une erreur est survenue : les modifications n'ont peut-être pas été prises en compte.\nLa page va être rechargée pour éviter les incohéreances.</message>
 
     <!-- ADMINITRATOR SYSTEM -->
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_LABEL">Accès</message>

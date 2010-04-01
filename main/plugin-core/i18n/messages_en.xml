@@ -145,7 +145,7 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_DESCRIPTION">Display the application logs</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_TITLE">Logs</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP">Help</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP_TEXT">This screen allows you to display log files and remove obsolete ones.&lt;br/&gt;&lt;br/&gt;If your log files are large and you are in production, remember to switch to 'ERROR' log level in 'WEB-INF\\logkit.xconf' and 'WEB-INF\\log4j.xml' files.</message><!--  &lt;br/&gt;&lt;br/&gt;You can also change log level temporally at runtime using the configuration tab.</message> -->
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP_TEXT">This screen allows you to display log files and remove obsolete ones.&lt;br/&gt;&lt;br/&gt;If your log files are large and you are in production, remember to switch to 'ERROR' log level in 'WEB-INF\\log4j.xml' files.&lt;br/&gt;&lt;br/&gt;You can also change log level temporally at runtime using the configuration button.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE">Management</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_QUIT">Quit</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_TAB_VIEW">View</message>
@@ -164,16 +164,15 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_COL_DATE">Date</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_COL_SIZE">Size</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_GROUP_OTHERS">Log files with no date</message>
-<!--    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_TAB_LEVEL">Configuration</message>-->
-<!--    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP2_TEXT">This screen allows you to modify for the runtime the log level category by category.&lt;br/&gt;&lt;br/&gt;A translucent icon display an inherited log level.&lt;br/&gt;&lt;br/&gt;To modify permanently the log level you can configure 'WEB-INF\\logkit.xconf' and 'WEB-INF\\log4j.xml' files.</message>-->
-<!--    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_CONFIG_LOGKITROOT">LOGKIT Root</message>-->
-<!--    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_DEBUG">Go DEBUG</message>-->
-<!--    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_INFO">Go INFO</message>-->
-<!--    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_WARN">Go WARNING</message>-->
-<!--    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_ERROR">Go ERROR</message>-->
-<!--    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_INHERIT">Inherit mode</message>-->
-<!--    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_FORCE">Force inheritance</message>-->
-<!--    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_ERROR">An error occured: modifications may not have been done.\nTo avoid this consistency, current page is gone to be reloaded.</message>-->
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_TAB_LEVEL">Configuration</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP2_TEXT">This screen allows you to modify for the runtime the log level category by category.&lt;br/&gt;&lt;br/&gt;To modify permanently the log level you can configure the 'WEB-INF\\log4j.xml' file.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_CONFIG_LOGKITROOT">Root</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_DEBUG">Go DEBUG</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_INFO">Go INFO</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_WARN">Go WARNING</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_ERROR">Go ERROR</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_FORCE">Force inheritance</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_ERROR">An error occured: modifications may not have been done.\nTo avoid this consistency, current page is gone to be reloaded.</message>
     
     <!-- ADMINITRATOR SYSTEM -->
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_LABEL">Access</message>

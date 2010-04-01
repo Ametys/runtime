@@ -41,6 +41,33 @@
 	                    
 	                    org.ametys.administration.Logs.initialize ("<xsl:value-of select="$pluginName"/>");
 					
+						function createCategory(categories, parentLevel, catName, level) 
+						{
+							var i = catName.indexOf("."); 
+							if (i != -1)
+							{
+								var parentCat = catName.substring(0, i);
+								var childCat = catName.substring(i + 1);
+								
+								if (categories[parentCat] == null)
+								{
+									categories[parentCat] = {child: {}, level: parentLevel};
+								}
+								
+								createCategory(categories[parentCat].child, categories[parentCat].level, childCat, level);
+							}
+							else
+							{
+								categories[catName] = {child: {}, level: level};
+							}
+						}
+						
+						var logcategories = {child: {}, level: "<xsl:value-of select="LogLevels/logger[@category='root']/@priority"/>"};
+						<xsl:for-each select="LogLevels/logger[@category != 'root']">
+							<xsl:sort select="@category"/>
+						<xsl:text></xsl:text>createCategory(logcategories.child, logcategories.level, "<xsl:value-of select="@category"/>", "<xsl:value-of select="@priority"/>");
+						</xsl:for-each>
+												              
 						var panel = org.ametys.administration.Logs.createPanel ();
 						
 						var logs = [
@@ -57,9 +84,8 @@
 								</xsl:if>								
 							</xsl:for-each>						
 						];	
-						
 						org.ametys.administration.Logs.load(logs);
-						              
+						
 						org.ametys.runtime.administrator.Panel.createPanel = function () 
 						{
 							return panel;
