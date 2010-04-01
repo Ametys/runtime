@@ -20,6 +20,12 @@ org.ametys.administration.Logs = function ()
 {
 }
 
+org.ametys.administration.Logs.LOGS_VIEW_VIEW = 0;
+org.ametys.administration.Logs.LOGS_VIEW_DOWNLOAD = 1;
+org.ametys.administration.Logs.LOGS_VIEW_DELETE = 2;
+org.ametys.administration.Logs.LOGS_VIEW_PURGE = 3;
+org.ametys.administration.Logs.LOGS_OTHER_QUIT = 4;
+
 org.ametys.administration.Logs.initialize = function (pluginName)
 {
 	org.ametys.administration.Logs.pluginName = pluginName;
@@ -78,14 +84,13 @@ org.ametys.administration.Logs._onLogsPanelShow = function()
 {
 	org.ametys.administration.Logs._helpPanel.items.get(0).show();
 	org.ametys.administration.Logs._onSelectLog();
-	org.ametys.administration.Logs._actions.showElt(3);
 }
 org.ametys.administration.Logs._onLogsPanelHide = function()
 {
-	org.ametys.administration.Logs._actions.hideElt(0);
-	org.ametys.administration.Logs._actions.hideElt(1);
-	org.ametys.administration.Logs._actions.hideElt(2);
-	org.ametys.administration.Logs._actions.hideElt(3);
+	org.ametys.administration.Logs._actions.hideElt(org.ametys.administration.Logs.LOGS_VIEW_VIEW);
+	org.ametys.administration.Logs._actions.hideElt(org.ametys.administration.Logs.LOGS_VIEW_DOWNLOAD);
+	org.ametys.administration.Logs._actions.hideElt(org.ametys.administration.Logs.LOGS_VIEW_DELETE);
+	org.ametys.administration.Logs._actions.hideElt(org.ametys.administration.Logs.LOGS_VIEW_PURGE);
 	org.ametys.administration.Logs._helpPanel.items.get(0).hide();
 }
 org.ametys.administration.Logs._drawLogsPanel = function()
@@ -160,7 +165,7 @@ org.ametys.administration.Logs._drawConfPanel = function()
 		}
 
 		var node = {
-	   		icon: getPluginResourcesUrl("core") + "/img/administrator/logs/loglevel_" + category.level + ".gif",
+	   		icon: getPluginResourcesUrl("core") + "/img/administrator/logs/loglevel_" + category.level + ".png",
 	   		text: name,
 	   		leaf: childNodes.length == 0
 		};
@@ -430,12 +435,14 @@ org.ametys.administration.Logs._onSelectLog = function (grid, rowindex, e)
 		org.ametys.administration.Logs._actions.showElt(0);
 		org.ametys.administration.Logs._actions.showElt(1);
 		org.ametys.administration.Logs._actions.showElt(2);
+		org.ametys.administration.Logs._actions.showElt(3);
 	}
 	else
 	{
 		org.ametys.administration.Logs._actions.hideElt(0);
 		org.ametys.administration.Logs._actions.hideElt(1);
 		org.ametys.administration.Logs._actions.hideElt(2);
+		org.ametys.administration.Logs._actions.showElt(3);
 	}
 }
 
