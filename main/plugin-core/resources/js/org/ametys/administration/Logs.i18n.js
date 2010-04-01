@@ -97,14 +97,14 @@ org.ametys.administration.Logs._drawLogsPanel = function()
 {
 	var reader = new Ext.data.ArrayReader({}, [
 	                					       {name: 'location'},
-	                					       {name: 'date', type: 'date', dateFormat: 'Y-m-dTH:i'},
+	                					       {name: 'date', type: 'date', dateFormat: Date.patterns.ISO8601Long},
 	                					       {name: 'size', type: 'int'},
 	                					       {name: 'file'}
 	                					    ]);
 	
 	var store =  new Ext.data.GroupingStore({
 	        reader: reader,
-	        sortInfo:{field: 'location', direction: "ASC"},
+	        sortInfo:{field: 'date', direction: "DESC"},
 	        groupField:'file'
 	});
 	 
