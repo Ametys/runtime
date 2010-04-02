@@ -170,6 +170,12 @@ org.ametys.administration.Logs._onConfHide = function()
 
 org.ametys.administration.Logs._onSelectCategory = function()
 {
+	org.ametys.administration.Logs._actions.actions[org.ametys.administration.Logs.LOGS_CONF_DEBUG].enable();
+	org.ametys.administration.Logs._actions.actions[org.ametys.administration.Logs.LOGS_CONF_INFO].enable();
+	org.ametys.administration.Logs._actions.actions[org.ametys.administration.Logs.LOGS_CONF_WARN].enable();
+	org.ametys.administration.Logs._actions.actions[org.ametys.administration.Logs.LOGS_CONF_ERROR].enable();
+	org.ametys.administration.Logs._actions.actions[org.ametys.administration.Logs.LOGS_CONF_FORCE].enable();
+
 	var selectedNode = org.ametys.administration.Logs._categoryTree.getSelectionModel().getSelectedNode();
 	if (selectedNode == null)
 	{
@@ -189,10 +195,10 @@ org.ametys.administration.Logs._onSelectCategory = function()
 
 		switch (selectedNode.attributes.level)
 		{
-			case "DEBUG": org.ametys.administration.Logs._actions.hideElt(org.ametys.administration.Logs.LOGS_CONF_DEBUG); break;
-			case "INFO": org.ametys.administration.Logs._actions.hideElt(org.ametys.administration.Logs.LOGS_CONF_INFO); break;
-			case "WARN": org.ametys.administration.Logs._actions.hideElt(org.ametys.administration.Logs.LOGS_CONF_WARN); break;
-			case "ERROR": org.ametys.administration.Logs._actions.hideElt(org.ametys.administration.Logs.LOGS_CONF_ERROR); break;
+			case "DEBUG": org.ametys.administration.Logs._actions.actions[org.ametys.administration.Logs.LOGS_CONF_DEBUG].disable(); break;
+			case "INFO": org.ametys.administration.Logs._actions.actions[org.ametys.administration.Logs.LOGS_CONF_INFO].disable(); break;
+			case "WARN": org.ametys.administration.Logs._actions.actions[org.ametys.administration.Logs.LOGS_CONF_WARN].disable(); break;
+			case "ERROR": org.ametys.administration.Logs._actions.actions[org.ametys.administration.Logs.LOGS_CONF_ERROR].disable(); break;
 		}
 	}
 }
@@ -226,8 +232,46 @@ org.ametys.administration.Logs._changeLogLevelCB = function (response, argsArray
        return;
     }
 	
-	selectedNode.attributes.level = args.level;
-	Ext.get(selectedNode.ui.elNode).child("img:last").dom.src = getPluginResourcesUrl("core") + "/img/administrator/logs/loglevel_" + args.level + ".png",
+	function changeNode(node, level, recursive)
+	{
+		Ext.get(node.ui.elNode).child("img:last").dom.src = getPluginResourcesUrl("core") + "/img/administrator/logs/loglevel_" + level + ".png";
+		
+		if (recursive)
+		{
+			for (var i = 0; i &lt; node.childNodes.length; i++)
+			{
+				var childNode = node.childNodes[i];
+				changeNode(childNode, level, recursive);
+			}
+		}
+	}
+	
+	function changeSNode(node, level, recursive)
+	{
+		node.level = level;
+		node.icon = getPluginResourcesUrl("core") + "/img/administrator/logs/loglevel_" + level + ".png";
+		
+		if (recursive)
+		{
+			for (var i = 0; i &lt; node.children.length; i++)
+			{
+				var childNode = node.children[i];
+				changeSNode(childNode, level, recursive);
+			}
+		}
+	}
+
+	if (args.level == 'INHERIT')
+	{
+		changeNode(selectedNode, selectedNode.attributes.level, true);
+		changeSNode(selectedNode.attributes, selectedNode.attributes.level, true);
+	}
+	else
+	{
+		changeNode(selectedNode, args.level, false);
+		changeSNode(selectedNode.attributes, args.level, false);
+	}
+	
 	org.ametys.administration.Logs._onSelectCategory();
 }
 
@@ -249,7 +293,7 @@ org.ametys.administration.Logs._drawConfPanel = function()
 	   		leaf: childNodes.length == 0
 		};
 		
-			node.children = childNodes;
+		node.children = childNodes;
 		
 		return node;
 	}
@@ -362,7 +406,7 @@ org.ametys.administration.Logs._drawActionsPanel = function ()
 	// Force
 	org.ametys.administration.Logs._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_FORCE"/>", 
 			 getPluginResourcesUrl(org.ametys.administration.Logs.pluginName) + '/img/administrator/logs/loglevel_btn_force.png', 
-			 function() {alert('inherit');});
+			 org.ametys.administration.Logs._changeLogLevel.createDelegate(this, ['INHERIT']));
 	
 	// Quit
 	org.ametys.administration.Logs._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_QUIT"/>", 
