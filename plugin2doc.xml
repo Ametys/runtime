@@ -18,7 +18,6 @@
 	
 	<property name="pluginDocLocation" value="deliver/plugindoc"/>
 	<property name="pluginLocation" value=""/>
-   	<property name="pluginName" value=""/>
     <property name="out" value=""/>
 
 	<target name="plugin2doc-prepare">
@@ -29,29 +28,36 @@
     </target>
 
     <target name="plugin2doc" depends="plugin2doc-prepare">
-        <xslt in="${pluginLocation}" style="${pluginDocLocation}/plugin2doc.xsl" out="${out}/${out}.html">
-            <param name="pluginName" expression="${pluginName}"/>
+        <xslt in="${pluginLocation}" style="${pluginDocLocation}/plugin2doc.xsl" out="${out}/index.html"/>
+        <xslt in="${pluginLocation}" style="${pluginDocLocation}/plugin2doc_main.xsl" out="${out}/main.html"/>
+        <xslt in="${pluginLocation}" style="${pluginDocLocation}/plugin2doc_main_features.xsl" out="${out}/main_features.html"/>
+        <xslt in="${pluginLocation}" style="${pluginDocLocation}/plugin2doc_main_extensions.xsl" out="${out}/main_extensions.html"/>
+        <xslt in="${pluginLocation}" style="${pluginDocLocation}/plugin2doc_main_configuration.xsl" out="${out}/main_configuration.html"/>
+
+    	<xslt in="${pluginLocation}" style="${pluginDocLocation}/plugin2doc_main.xsl" out="${out}/core_main.html">
+            <param name="pluginName" expression="core"/>
         </xslt>
-        <xslt in="${pluginLocation}" style="${pluginDocLocation}/plugin2doc_features.xsl" out="${out}/${pluginName}_features.html">
-            <param name="pluginName" expression="${pluginName}"/>
+    	<xslt in="${pluginLocation}" style="${pluginDocLocation}/plugin2doc_features.xsl" out="${out}/core_features.html">
+            <param name="pluginName" expression="core"/>
         </xslt>
-        <xslt in="${pluginLocation}" style="${pluginDocLocation}/plugin2doc_extensions.xsl" out="${out}/${pluginName}_extensions.html">
-            <param name="pluginName" expression="${pluginName}"/>
+        <xslt in="${pluginLocation}" style="${pluginDocLocation}/plugin2doc_extensions.xsl" out="${out}/core_extensions.html">
+            <param name="pluginName" expression="core"/>
         </xslt>
-        <xslt in="${pluginLocation}" style="${pluginDocLocation}/plugin2doc_configuration.xsl" out="${out}/${pluginName}_configuration.html">
-            <param name="pluginName" expression="${pluginName}"/>
+        <xslt in="${pluginLocation}" style="${pluginDocLocation}/plugin2doc_configuration.xsl" out="${out}/core_configuration.html">
+            <param name="pluginName" expression="core"/>
         </xslt>
-        <xslt in="${pluginLocation}" style="${pluginDocLocation}/plugin2doc_main.xsl" out="${out}/${pluginName}_main.html">
-            <param name="pluginName" expression="${pluginName}"/>
+
+    	<xslt in="${pluginLocation}" style="${pluginDocLocation}/plugin2doc_main.xsl" out="${out}/repository_main.html">
+            <param name="pluginName" expression="repository"/>
         </xslt>
-        <xslt in="${pluginLocation}" style="${pluginDocLocation}/plugin2doc_main_features.xsl" out="${out}/${pluginName}_main_features.html">
-            <param name="pluginName" expression="${pluginName}"/>
+    	<xslt in="${pluginLocation}" style="${pluginDocLocation}/plugin2doc_features.xsl" out="${out}/repository_features.html">
+            <param name="pluginName" expression="repository"/>
         </xslt>
-        <xslt in="${pluginLocation}" style="${pluginDocLocation}/plugin2doc_main_extensions.xsl" out="${out}/${pluginName}_main_extensions.html">
-            <param name="pluginName" expression="${pluginName}"/>
+        <xslt in="${pluginLocation}" style="${pluginDocLocation}/plugin2doc_extensions.xsl" out="${out}/repository_extensions.html">
+            <param name="pluginName" expression="repository"/>
         </xslt>
-        <xslt in="${pluginLocation}" style="${pluginDocLocation}/plugin2doc_main_configuration.xsl" out="${out}/${pluginName}_main_configuration.html">
-            <param name="pluginName" expression="${pluginName}"/>
+        <xslt in="${pluginLocation}" style="${pluginDocLocation}/plugin2doc_configuration.xsl" out="${out}/repository_configuration.html">
+            <param name="pluginName" expression="repository"/>
         </xslt>
     </target>
 

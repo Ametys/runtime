@@ -16,18 +16,18 @@
     <xsl:import href="extensions.xsl"/>
     <xsl:import href="features.xsl"/>
 
-    <xsl:param name="pluginName">unknown</xsl:param>
+    <xsl:param name="pluginName"/>
  
-    <xsl:template match="/plugin:plugin">
-        <xsl:variable name="config" select="boolean(plugin:config/plugin:param|plugin:feature/plugin:config/plugin:param[*])"/>
-        <xsl:variable name="extension" select="boolean(plugin:extension-points/plugin:single-extension-point|plugin:extension-points/plugin:extension-point)"/>
-        <xsl:variable name="feature" select="boolean(plugin:feature)"/>
+    <xsl:template match="/plugins">
+        <xsl:variable name="config" select="boolean(plugin:plugin/plugin:config/plugin:param|plugin:plugin/plugin:feature/plugin:config/plugin:param[*])"/>
+        <xsl:variable name="extension" select="boolean(plugin:plugin/plugin:extension-points/plugin:single-extension-point|plugin:plugin/plugin:extension-points/plugin:extension-point)"/>
+        <xsl:variable name="feature" select="boolean(plugin:plugin/plugin:feature)"/>
 
         <html>   
             <head>
                 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
                 <meta content="Ametys" name="generator"/>
-                <title>Ametys Runtime 1.1 - <xsl:value-of select="$pluginName"/></title>
+                <title>Ametys Plugin Doc</title>
             </head>
             <frameset cols="350px,*">
                 <xsl:attribute name="col"><xsl:if test="$config or $extension or $feature">350px,</xsl:if>*</xsl:attribute>
@@ -43,18 +43,18 @@
                             </xsl:choose>
                         </xsl:attribute>
                     
-                        <xsl:if test="plugin:config/plugin:param|plugin:feature/plugin:config/plugin:param[*]">
-                            <frame src="{$pluginName}_main_configuration.html" name="Configuration"/>
+                        <xsl:if test="plugin:plugin/plugin:config/plugin:param|plugin:plugin/plugin:feature/plugin:config/plugin:param[*]">
+                            <frame src="main_configuration.html" name="Configuration"/>
                         </xsl:if>
-                        <xsl:if test="plugin:extension-points/plugin:single-extension-point|plugin:extension-points/plugin:extension-point">
-                            <frame src="{$pluginName}_main_extensions.html" name="Extensions"/>
+                        <xsl:if test="plugin:plugin/plugin:extension-points/plugin:single-extension-point|plugin:plugin/plugin:extension-points/plugin:extension-point">
+                            <frame src="main_extensions.html" name="Extensions"/>
                         </xsl:if>
-                        <xsl:if test="plugin:feature">
-                            <frame src="{$pluginName}_main_features.html" name="Features"/>
+                        <xsl:if test="plugin:plugin/plugin:feature">
+                            <frame src="main_features.html" name="Features"/>
                         </xsl:if>
                     </frameset>
                 </xsl:if>
-                <frame src="{$pluginName}_main.html" name="Navigation"/>
+                <frame src="main.html" name="Navigation"/>
             </frameset>
         </html>
     </xsl:template>

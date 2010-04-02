@@ -16,14 +16,50 @@
     <xsl:import href="extensions.xsl"/>
     <xsl:import href="features.xsl"/>
 
-    <xsl:param name="pluginName">unknown</xsl:param>
+    <xsl:param name="pluginName"/>
  
-    <xsl:template match="/plugin:plugin">
+	<xsl:template match="/plugins[$pluginName='']">
         <html>   
             <head>
                 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
                 <meta content="Ametys" name="generator"/>
-                <title>Ametys Runtime 1.1 - <xsl:value-of select="$pluginName"/></title>
+                <title>Ametys</title>
+                <link rel="stylesheet" type="text/css" href="resources/css/plugindoc.css" title="Style"/>
+            </head>
+            <body class="head">
+		        <h1 class="head">
+		        	<img src="resources/img/runtime.jpg" style="float: left"/>
+		            <a name="top">All Plugins</a>
+		            <br/>
+	            	<xsl:for-each select="plugin:plugin">
+	            		<xsl:sort select="@name"/>
+	            		<a href="#{@name}"><xsl:value-of select="@name"/></a>
+	            		<xsl:if test="position() != last()"><xsl:text>, </xsl:text></xsl:if>
+	            	</xsl:for-each>.
+		        </h1>
+            	
+            	<xsl:for-each select="plugin:plugin">
+                     <xsl:sort select="@name"/>
+
+					<h2><a name="{@name}" href="{@name}_main.html" style="color: #ffffff !important"><xsl:value-of select="@name"/></a></h2>
+			        <div class="content">
+			            <xsl:call-template name="comment"/>   
+			        </div>
+                </xsl:for-each>
+            </body>
+        </html>
+ 	</xsl:template>
+ 	
+	<xsl:template match="/plugins[$pluginName!='']">
+ 		<xsl:apply-templates select="plugin:plugin[@name=$pluginName]"/>
+ 	</xsl:template>
+
+    <xsl:template match="plugin:plugin">
+        <html>   
+            <head>
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+                <meta content="Ametys" name="generator"/>
+                <title>Ametys</title>
                 <link rel="stylesheet" type="text/css" href="resources/css/plugindoc.css" title="Style"/>
             </head>
             <body class="head">
@@ -58,6 +94,9 @@
                 <xsl:when test="@version and @version != ''"><xsl:value-of select="@version"/></xsl:when>
                 <xsl:otherwise>Not specified</xsl:otherwise>
             </xsl:choose>
+            <br/>
+            <br/>
+            <a href="main.html">Go back to all plugins</a>
         </p>
         
         <h2>Description</h2>

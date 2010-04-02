@@ -17,34 +17,42 @@
     <xsl:template name="extension-points-left-summary">
         <xsl:param name="target"/>
         
-        <h1>        
-        <a href="{$pluginName}_main.html" target="{$target}">Plugin <xsl:value-of select="$pluginName"/></a>
-        <xsl:text> - </xsl:text>
-        <a href="{$pluginName}_extensions.html" target="{$target}" title="See main configuration parameters">Extension points</a>
-        </h1>
+        <xsl:for-each select="plugin:plugin">
+            <xsl:sort select="@name"/>
 
-        <xsl:if test="plugin:extension-points/plugin:single-extension-point">
-            <b>Single extensions points :</b><br/>
-            <hr/>
-    
-            <xsl:for-each select="plugin:extension-points/plugin:single-extension-point">
-                 <xsl:sort select="@id"/>
-    
-                <a href="{$pluginName}_extensions.html#extension_point_{@id}" style="display: block" target="{$target}" title="More details on {@id}"><xsl:value-of select="@id"/></a>
-            </xsl:for-each>
-            <br/>
-        </xsl:if>
-        
-        <xsl:if test="plugin:extension-points/plugin:extension-point">    
-            <b>Multiple extensions points :</b><br/>
-            <hr/>
-    
-            <xsl:for-each select="plugin:extension-points/plugin:extension-point">
-                 <xsl:sort select="@id"/>
-    
-                <a href="{$pluginName}_extensions.html#extension_point_{@id}" style="display: block" target="{$target}" title="More details on {@id}"><xsl:value-of select="@id"/></a>
-            </xsl:for-each>
-        </xsl:if>
+            <h1>Extensions points <a href="{@name}_main.html" target="{$target}"><xsl:value-of select="@name"/></a></h1>
+
+			<xsl:choose>
+				<xsl:when test="plugin:extension-points/plugin:single-extension-point|plugin:extension-points/plugin:extension-point">
+			        <xsl:if test="plugin:extension-points/plugin:single-extension-point">
+			            <b>Single extensions points :</b><br/>
+			            <hr/>
+			    
+			            <xsl:for-each select="plugin:extension-points/plugin:single-extension-point">
+			                 <xsl:sort select="@id"/>
+			    
+			                <a href="{../../@name}_extensions.html#extension_point_{@id}" style="display: block" target="{$target}" title="More details on {@id}"><xsl:value-of select="@id"/></a>
+			            </xsl:for-each>
+			            <br/>
+			        </xsl:if>
+			        
+			        <xsl:if test="plugin:extension-points/plugin:extension-point">    
+			            <b>Multiple extensions points :</b><br/>
+			            <hr/>
+			    
+			            <xsl:for-each select="plugin:extension-points/plugin:extension-point">
+			                 <xsl:sort select="@id"/>
+			    
+			                <a href="{../../@name}_extensions.html#extension_point_{@id}" style="display: block" target="{$target}" title="More details on {@id}"><xsl:value-of select="@id"/></a>
+			            </xsl:for-each>
+			        </xsl:if>
+				</xsl:when>
+				<xsl:otherwise>
+					<p>n/a</p>
+				</xsl:otherwise>
+			</xsl:choose>
+			<br/>
+		</xsl:for-each>
     </xsl:template>
     
     <!-- +
@@ -123,15 +131,15 @@
     <xsl:template name="extention-point-use">
         <xsl:variable name="point-id" select="current()/@id"/>
     
-        <xsl:if test="/plugin:plugin/plugin:feature/plugin:extensions/plugin:extension[@point = $point-id]">
+        <xsl:if test="/plugins/plugin:plugin/plugin:feature/plugin:extensions/plugin:extension[@point = $point-id]">
             <p style="text-indent: -20px; padding-left: 20px;">
                 <b>Known implementations:</b><br/>
                 
-                <xsl:variable name="total" select="count(/plugin:plugin/plugin:feature/plugin:extensions/plugin:extension[@point = $point-id])"/>
-                <xsl:for-each select="/plugin:plugin/plugin:feature/plugin:extensions[plugin:extension[@point = $point-id]]">
+                <xsl:variable name="total" select="count(/plugins/plugin:plugin/plugin:feature/plugin:extensions/plugin:extension[@point = $point-id])"/>
+                <xsl:for-each select="/plugins/plugin:plugin/plugin:feature/plugin:extensions[plugin:extension[@point = $point-id]]">
                     <xsl:variable name="last" select="position() = last()"/>
                     <xsl:for-each select="plugin:extension[@point = $point-id]">
-                        <a href="{$pluginName}_features.html#feature_{../../@name}_extension_{@id}"><xsl:value-of select="@id"/></a>
+                        <a href="{../../../@name}_features.html#feature_{../../@name}_extension_{@id}"><xsl:value-of select="@id"/></a>
                         <xsl:if test="position() != last() or not($last)"><xsl:text>, </xsl:text></xsl:if>
                     </xsl:for-each>
                 </xsl:for-each>

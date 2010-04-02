@@ -16,14 +16,12 @@
     <xsl:import href="extensions.xsl"/>
     <xsl:import href="features.xsl"/>
 
-    <xsl:param name="pluginName">unknown</xsl:param>
- 
-    <xsl:template match="/plugin:plugin">    
+    <xsl:template match="/plugins">    
         <html>   
             <head>
                 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
                 <meta content="Ametys" name="generator"/>
-                <title>Ametys Runtime 1.1 - <xsl:value-of select="$pluginName"/></title>
+                <title>Ametys Configuration</title>
                 <link rel="stylesheet" type="text/css" href="resources/css/plugindoc.css" title="Style"/>
                 <link rel="stylesheet" type="text/css" href="resources/css/plugindoc_main.css" title="Style"/>
             </head>

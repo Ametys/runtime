@@ -17,27 +17,35 @@
     <xsl:template name="configuration-left-summary">
         <xsl:param name="target"/>
         
-        <h1>        
-        <a href="{$pluginName}_main.html" target="{$target}">Plugin <xsl:value-of select="$pluginName"/></a>
-        <xsl:text> - </xsl:text>
-        <a href="{$pluginName}_configuration.html" target="{$target}" title="See main configuration parameters">Main configuration parameters</a>
-        </h1>
+        <xsl:for-each select="plugin:plugin">
+            <xsl:sort select="@name"/>
 
-        <xsl:for-each select="plugin:config/plugin:param">
-             <xsl:sort select="@id"/>
+            <h1>Main configuration parameters <a href="{@name}_main.html" target="{$target}"><xsl:value-of select="@name"/></a></h1>
 
-            <a href="{$pluginName}_configuration.html#config_{@id}" target="{$target}" style="display: block" title="More details on {@id}"><xsl:value-of select="@id"/></a>
-        </xsl:for-each>
+			<xsl:choose>
+				<xsl:when test="plugin:config/plugin:param">
+			        <xsl:for-each select="plugin:config/plugin:param">
+			            <xsl:sort select="@id"/>
+			
+			            <a href="{../../@name}_configuration.html#config_{@id}" target="{$target}" style="display: block" title="More details on {@id}"><xsl:value-of select="@id"/></a>
+			        </xsl:for-each>
+				</xsl:when>
+				<xsl:otherwise>
+					<p>n/a</p>
+				</xsl:otherwise>
+			</xsl:choose>
+			<br/>
+		</xsl:for-each>
     </xsl:template>
 
     <!-- +
          | Display the summary of all configuration parameters
          + -->
     <xsl:template name="configuration-summary">
-        <xsl:if test="plugin:config/plugin:param|plugin:feature/plugin:config/plugin:param[*]">
+        <xsl:if test="plugin:config/plugin:param|plugin:feature/plugin:config/plugin:param">
             <h2>Configuration parameters summary</h2>
             <table>
-                <xsl:for-each select="plugin:config/plugin:param|plugin:feature/plugin:config/plugin:param[*]">
+                <xsl:for-each select="plugin:config/plugin:param|plugin:feature/plugin:config/plugin:param">
                      <xsl:sort select="@id"/>
 
                     <tr class="row_{position() mod 2}">

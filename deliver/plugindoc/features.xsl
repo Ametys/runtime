@@ -11,22 +11,33 @@
     +-->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:plugin="http://www.ametys.org/schema/plugin">
 
-    <!-- +
+   <xsl:param name="pluginName"/>
+ 
+     <!-- +
          | Display the left summary of the features in the current xpath
          + -->
     <xsl:template name="features-left-summary">
         <xsl:param name="target"/>
         
-        <h1>        
-        <a href="{$pluginName}_main.html" target="{$target}">Plugin <xsl:value-of select="$pluginName"/></a>
-        <xsl:text> - </xsl:text>
-        <a href="{$pluginName}_configuration.html" target="{$target}" title="See main configuration parameters">Features</a>
-        </h1>
+        <xsl:for-each select="plugin:plugin">
+            <xsl:sort select="@name"/>
 
-        <xsl:for-each select="plugin:feature">
-             <xsl:sort select="@id"/>
+            <h1>Features <a href="{@name}_main.html" target="{$target}"><xsl:value-of select="@name"/></a></h1>
 
-            <a href="{$pluginName}_features.html#feature_{@name}" target="{$target}" style="display: block" title="More details on {@name}"><xsl:value-of select="@name"/></a>
+			<xsl:choose>
+				<xsl:when test="plugin:feature">
+			        <xsl:for-each select="plugin:feature">
+			            <xsl:sort select="@name"/>
+			             
+			            <a href="{../@name}_features.html#feature_{@name}" target="{$target}" style="display: block" title="More details on {@name}"><xsl:value-of select="../@name"/>/<xsl:value-of select="@name"/></a>
+			    	</xsl:for-each>
+				</xsl:when>
+				<xsl:otherwise>
+					<p>n/a</p>
+				</xsl:otherwise>
+			</xsl:choose>
+			
+			<br/>
         </xsl:for-each>
     </xsl:template>
     
@@ -39,7 +50,7 @@
                 <table>
                     <xsl:for-each select="plugin:feature">
                         <tr class="row_{position() mod 2}">
-                            <td><a href="{$pluginName}_features.html#feature_{@name}" title="More details on {@name}"><xsl:value-of select="@name"/></a></td>
+                            <td><a href="{$pluginName}_features.html#feature_{@name}" title="More details on {@name}"><xsl:value-of select="$pluginName"/>/<xsl:value-of select="@name"/></a></td>
                             <td>
                                 <div style="height: 20px; overflow: hidden">
                                     <xsl:call-template name="comment-content"/>
@@ -58,7 +69,7 @@
         <xsl:if test="plugin:feature">
             <h2>Features detail</h2>
             <xsl:for-each select="plugin:feature">
-                <h4><a name="feature_{@name}"><xsl:value-of select="@name"/></a></h4>
+                <h4><a name="feature_{@name}"><xsl:value-of select="$pluginName"/>/<xsl:value-of select="@name"/></a></h4>
                     <div class="content">
                         <xsl:call-template name="comment"/>
                         
@@ -88,7 +99,7 @@
                         <a href="{substring-before(@depends, '/')}_features.html#{substring-after(@depends, '/')}"><xsl:value-of select="substring-after(@depends, '/')"/></a>
                     </xsl:when>
                     <xsl:otherwise>
-                        <a href="{$pluginName}_features#feature_{@depends}"><xsl:value-of select="@depends"/></a>
+                        <a href="{$pluginName}_features.html#feature_{@depends}"><xsl:value-of select="$pluginName"/>/<xsl:value-of select="@depends"/></a>
                     </xsl:otherwise>
                 </xsl:choose>
            </p>
@@ -99,11 +110,11 @@
          | Display the list of the main (shared) configuration parameters used
          + -->
     <xsl:template name="feature-config-link">
-        <xsl:if test="plugin:config/plugin:param[not(*)]">
+        <xsl:if test="plugin:config/plugin:param-ref">
             <p style="text-indent: -20px; padding-left: 20px;">
                 <b>Use shared configuration parameters:</b><br/>
-                <xsl:for-each select="plugin:config/plugin:param[not(*)]">
-                    <a href="{$pluginName}_configuration#config_{@id}"><xsl:value-of select="@id"/></a>
+                <xsl:for-each select="plugin:config/plugin:param-ref">
+                    <a href="{$pluginName}_configuration.html#config_{@id}"><xsl:value-of select="@id"/></a>
                     <xsl:if test="position() != last()"><xsl:text>, </xsl:text></xsl:if>
                 </xsl:for-each>
             </p>
@@ -114,11 +125,11 @@
          | Display the configuration parameters specific to the current feature
          + -->
     <xsl:template name="feature-config">
-        <xsl:if test="plugin:config/plugin:param[*]">
+        <xsl:if test="plugin:config/plugin:param">
             <p style="text-indent: -20px; padding-left: 20px;">
                 <b>Specific configuration parameters detail:</b><br/>
             </p>
-            <xsl:for-each select="plugin:config/plugin:param[*]">
+            <xsl:for-each select="plugin:config/plugin:param">
                 <h5><a name="config_{@id}"><xsl:value-of select="@id"/></a></h5>
                 <xsl:call-template name="configuration-detail">
                     <xsl:with-param name="known-uses" select="false()"/>
