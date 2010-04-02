@@ -146,63 +146,26 @@ public final class WorkspaceManager
         _workspaces.clear();
         _workspaceNames.clear();
         
-        // On commence par les workspaces dans le classpath
+        // Begin with workspace embedded in jars
         Enumeration<URL> workspaceResources = getClass().getClassLoader().getResources("META-INF/runtime-workspace");
         while (workspaceResources.hasMoreElements())
         {
             URL workspaceResource = workspaceResources.nextElement();
-            _initResourceWorkspace(excludedWorkspace, workspaceResource);
+            _initResourceWorkspace(contextPath, excludedWorkspace, workspaceResource, pluginsInformations);
         }
 
-        // Puis les workspaces du répertoire "<context>/workspaces"
+        // Then workspace from the "<context>/workspaces" directory
         File workspacesDir = new File(contextPath, "workspaces");
         if (workspacesDir.exists() && workspacesDir.isDirectory())
         {
             for (File workspace : new File(contextPath, "workspaces").listFiles())
             {
-                if (workspace.exists() && workspace.isDirectory() && new File(workspace, __WORKSPACE_FILENAME).exists() && new File(workspace, "sitemap.xmap").exists() && !excludedWorkspace.contains(workspace.getName()))
-                {
-                    if (_workspaceNames.contains(workspace.getName()))
-                    {
-                        String errorMessage = "The workspace named " + workspace.getName() + " already exists";
-                        _logger.error(errorMessage);
-                        throw new IllegalArgumentException(errorMessage);
-                    }
-                    
-                    String workspaceName = workspace.getName();
-                    
-                    boolean addWorkspace = true;
-                    
-                    try
-                    {
-                        // Si la configuration n'est pas complète, aucun plugin n'est chargé, il est inutile de tester les dépendences
-                        if (pluginsInformations != null)
-                        {
-                            addWorkspace = _checkDependencies(workspaceName, pluginsInformations, contextPath);
-                        }
-                        
-                        if (addWorkspace)
-                        {
-                            _workspaceNames.add(workspaceName);
-                            
-                            if (_logger.isInfoEnabled())
-                            {
-                                _logger.info("Workspace '" + workspaceName + "' registered at 'context://workspaces/" + workspaceName + "'");
-                            }
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        String errorMessage = "Exception while loading workspace " + workspaceName;
-                        _logger.error(errorMessage, e);
-                        throw new RuntimeException(errorMessage, e);
-                    }
-                }   
+                _initFileWorkspaces(workspace, contextPath, excludedWorkspace, pluginsInformations);
             }
         }
     }
     
-    private void _initResourceWorkspace(Collection<String> excludedWorkspace, URL workspaceResource) throws IOException
+    private void _initResourceWorkspace(String contextPath, Collection<String> excludedWorkspace, URL workspaceResource, Map<String, FeatureInformation> pluginsInformations) throws IOException
     {
         BufferedReader br = new BufferedReader(new InputStreamReader(workspaceResource.openStream(), "UTF-8"));
         
@@ -218,29 +181,82 @@ public final class WorkspaceManager
                 throw new IllegalArgumentException(errorMessage);
             }
             
-            if (getClass().getResource(workspaceBaseURI + "/" + __WORKSPACE_FILENAME) != null)
+            if (getClass().getResource(workspaceBaseURI + "/" + __WORKSPACE_FILENAME) == null)
+            {
+                if (_logger.isWarnEnabled())
+                {
+                    _logger.warn("A workspace '" + workspaceName + "' is declared in a library, but no file '" + __WORKSPACE_FILENAME + "' can be found at '" + workspaceBaseURI + "'. Workspace will be ignored.");
+                    return;
+                }
+            }
+            
+            boolean addWorkspace = true;
+            
+            if (pluginsInformations != null)
+            {
+                // If the configuration is incomplete, plugins are not loaded, it's useless to check dependencies
+                addWorkspace = _checkDependencies(workspaceName, workspaceBaseURI, pluginsInformations, contextPath);
+            }
+            
+            if (addWorkspace)
             {
                 _workspaceNames.add(workspaceName);
                 _workspaces.put(workspaceName, workspaceBaseURI);
-            }
-            else if (_logger.isWarnEnabled())
-            {
-                _logger.warn("A workspace '" + workspaceName + "' is declared in a library, but no file '" + __WORKSPACE_FILENAME + "' can be found at '" + workspaceBaseURI + "'. Workspace will be ignored.");
+                
+                if (_logger.isInfoEnabled())
+                {
+                    _logger.info("Workspace '" + workspaceName + "' registered at '" + workspaceBaseURI + "'");
+                }
             }
         }
         
         br.close();
-        
-        if (_logger.isInfoEnabled())
-        {
-            _logger.info("Workspace '" + workspaceName + "' registered at '" + workspaceBaseURI + "'");
-        }
     }
     
-    private boolean _checkDependencies(String workspaceName, Map<String, FeatureInformation> pluginsInformations, String contextPath)
+    private void _initFileWorkspaces(File workspace, String contextPath, Collection<String> excludedWorkspace, Map<String, FeatureInformation> pluginsInformations)
     {
-        String workspaceBaseURI = _workspaces.get(workspaceName);
-        
+        if (workspace.exists() && workspace.isDirectory() && new File(workspace, __WORKSPACE_FILENAME).exists() && new File(workspace, "sitemap.xmap").exists() && !excludedWorkspace.contains(workspace.getName()))
+        {
+            if (_workspaceNames.contains(workspace.getName()))
+            {
+                String errorMessage = "The workspace named " + workspace.getName() + " already exists";
+                _logger.error(errorMessage);
+                throw new IllegalArgumentException(errorMessage);
+            }
+            
+            String workspaceName = workspace.getName();
+            
+            boolean addWorkspace = true;
+            
+            try
+            {
+                // If the configuration is incomplete, plugins are not loaded, it's useless to check dependencies
+                if (pluginsInformations != null)
+                {
+                    addWorkspace = _checkDependencies(workspaceName, null, pluginsInformations, contextPath);
+                }
+                
+                if (addWorkspace)
+                {
+                    _workspaceNames.add(workspaceName);
+                    
+                    if (_logger.isInfoEnabled())
+                    {
+                        _logger.info("Workspace '" + workspaceName + "' registered at 'context://workspaces/" + workspaceName + "'");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                String errorMessage = "Exception while loading workspace " + workspaceName;
+                _logger.error(errorMessage, e);
+                throw new RuntimeException(errorMessage, e);
+            }
+        }   
+    }
+    
+    private boolean _checkDependencies(String workspaceName, String workspaceBaseURI, Map<String, FeatureInformation> pluginsInformations, String contextPath)
+    {
         InputStream is = null;
         InputStream xsd = null;
         String configPath = null;
@@ -250,19 +266,19 @@ public final class WorkspaceManager
         {
             if (workspaceBaseURI == null)
             {
-                // workspace dans le filesystem
+                // workspace in filesystem
                 File configFile = new File(contextPath, "workspaces/" + workspaceName + "/" + __WORKSPACE_FILENAME);
                 configPath = configFile.getAbsolutePath();
                 is = new FileInputStream(configFile);
             }
             else
             {
-                // workspace dans le classpath
+                // workspace in classpath
                 configPath = "resource:/" + workspaceBaseURI + "/" + __WORKSPACE_FILENAME;
                 is = getClass().getResourceAsStream(workspaceBaseURI + "/" + __WORKSPACE_FILENAME);
             }
             
-            // Validation du workspace.xml sur le schéma workspace.xsd
+            // XML schema validation
             xsd = getClass().getResourceAsStream("/org/ametys/runtime/workspace/workspace.xsd");
             Schema schema = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema").newSchema(new StreamSource(xsd));
             
