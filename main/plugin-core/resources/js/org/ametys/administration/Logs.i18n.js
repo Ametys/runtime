@@ -197,19 +197,54 @@ org.ametys.administration.Logs._onSelectCategory = function()
 	}
 }
 
+org.ametys.administration.Logs._changeLogLevel = function(level)
+{
+	var selectedNode = org.ametys.administration.Logs._categoryTree.getSelectionModel().getSelectedNode();
+	if (selectedNode == null || selectedNode.attributes.level == level)
+	{
+		// should not happend... no node was selecting or the node selected already has the right level
+		org.ametys.administration.Logs._onSelectCategory();
+	}
+	else
+	{
+		org.ametys.administration.Logs._mask = new org.ametys.msg.Mask();
+
+		var args = {level: level, category: selectedNode.attributes.fullname };
+		var serverMessage = new org.ametys.servercomm.ServerMessage(org.ametys.administration.Logs.pluginName, "administrator/logs/change-levels", args, org.ametys.servercomm.ServerComm.PRIORITY_MAJOR, org.ametys.administration.Logs._changeLogLevelCB, this, [args, selectedNode]);
+		org.ametys.servercomm.ServerComm.getInstance().send(serverMessage);
+	}
+}
+org.ametys.administration.Logs._changeLogLevelCB = function (response, argsArray)
+{
+	var args = argsArray[0];
+	var selectedNode = argsArray[1];
+	
+	org.ametys.administration.Logs._mask.hide();
+
+    if (org.ametys.servercomm.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_ERROR"/>", response, "org.ametys.administration.Groups._selectGroup"))
+    {
+       return;
+    }
+	
+	selectedNode.attributes.level = args.level;
+	Ext.get(selectedNode.ui.elNode).child("img:last").dom.src = getPluginResourcesUrl("core") + "/img/administrator/logs/loglevel_" + args.level + ".png",
+	org.ametys.administration.Logs._onSelectCategory();
+}
+
 org.ametys.administration.Logs._drawConfPanel = function()
 {
-	function createNode(name, category)
+	function createNode(name, fullname, category)
 	{
 		var childNodes = [];
 		for (var c in category.child)
 		{
-			childNodes.push(createNode(c, category.child[c]));
+			childNodes.push(createNode(c, (fullname != "" ? fullname + "." : "") + c, category.child[c]));
 		}
 
 		var node = {
 	   		icon: getPluginResourcesUrl("core") + "/img/administrator/logs/loglevel_" + category.level + ".png",
 	   		text: name,
+	   		fullname: fullname != "" ? fullname : "root",
 	   		level: category.level,
 	   		leaf: childNodes.length == 0
 		};
@@ -219,7 +254,7 @@ org.ametys.administration.Logs._drawConfPanel = function()
 		return node;
 	}
 	
-	var rootNodeConf = createNode("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_CONFIG_LOGKITROOT"/>", logcategories);
+	var rootNodeConf = createNode("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_CONFIG_LOGKITROOT"/>", "", logcategories);
 	rootNodeConf.expanded = true;
 	
 	var rootNode = new Ext.tree.AsyncTreeNode(rootNodeConf);
@@ -307,22 +342,22 @@ org.ametys.administration.Logs._drawActionsPanel = function ()
 	// Conf debug
 	org.ametys.administration.Logs._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_DEBUG"/>", 
 			 getPluginResourcesUrl(org.ametys.administration.Logs.pluginName) + '/img/administrator/logs/loglevel_btn_debug.png', 
-			 function() {alert('debug');});
+			 org.ametys.administration.Logs._changeLogLevel.createDelegate(this, ['DEBUG']));
 	
 	// Conf info
 	org.ametys.administration.Logs._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_INFO"/>", 
 			 getPluginResourcesUrl(org.ametys.administration.Logs.pluginName) + '/img/administrator/logs/loglevel_btn_info.png', 
-			 function() {alert('info');});
+			 org.ametys.administration.Logs._changeLogLevel.createDelegate(this, ['INFO']));
 	
 	// Conf warn
 	org.ametys.administration.Logs._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_WARN"/>", 
 			 getPluginResourcesUrl(org.ametys.administration.Logs.pluginName) + '/img/administrator/logs/loglevel_btn_warn.png', 
-			 function() {alert('warn');});
+			 org.ametys.administration.Logs._changeLogLevel.createDelegate(this, ['WARN']));
 	
 	// Conf error
 	org.ametys.administration.Logs._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_ERROR"/>", 
 			 getPluginResourcesUrl(org.ametys.administration.Logs.pluginName) + '/img/administrator/logs/loglevel_btn_error.png', 
-			 function() {alert('error');});
+			 org.ametys.administration.Logs._changeLogLevel.createDelegate(this, ['ERROR']));
 	
 	// Force
 	org.ametys.administration.Logs._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_FORCE"/>", 

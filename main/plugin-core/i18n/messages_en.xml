@@ -172,7 +172,7 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_WARN">Go WARNING</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_ERROR">Go ERROR</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_FORCE">Apply to sub categories</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_ERROR">An error occured: modifications may not have been done.\nTo avoid this consistency, current page is gone to be reloaded.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_ERROR">An error occured: modifications may not have been done.\nThe current page should be refreshed.</message>
     
     <!-- ADMINITRATOR SYSTEM -->
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_LABEL">Access</message>
