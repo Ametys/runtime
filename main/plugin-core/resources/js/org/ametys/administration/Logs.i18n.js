@@ -24,7 +24,12 @@ org.ametys.administration.Logs.LOGS_VIEW_VIEW = 0;
 org.ametys.administration.Logs.LOGS_VIEW_DOWNLOAD = 1;
 org.ametys.administration.Logs.LOGS_VIEW_DELETE = 2;
 org.ametys.administration.Logs.LOGS_VIEW_PURGE = 3;
-org.ametys.administration.Logs.LOGS_OTHER_QUIT = 4;
+org.ametys.administration.Logs.LOGS_CONF_DEBUG = 4;
+org.ametys.administration.Logs.LOGS_CONF_INFO = 5;
+org.ametys.administration.Logs.LOGS_CONF_WARN = 6;
+org.ametys.administration.Logs.LOGS_CONF_ERROR = 7;
+org.ametys.administration.Logs.LOGS_CONF_FORCE = 8;
+org.ametys.administration.Logs.LOGS_OTHER_QUIT = 9;
 
 org.ametys.administration.Logs.initialize = function (pluginName)
 {
@@ -59,6 +64,9 @@ org.ametys.administration.Logs.createPanel = function ()
 		        org.ametys.administration.Logs._drawActionsPanel (),
 		        org.ametys.administration.Logs._drawHelpPanel ()]
 	});
+	
+	org.ametys.administration.Logs._onLogsPanelShow();
+	org.ametys.administration.Logs._onConfHide();
 	
 	return new Ext.Panel({
 		region: 'center',
@@ -148,10 +156,45 @@ org.ametys.administration.Logs._drawLogsPanel = function()
 org.ametys.administration.Logs._onConfShow = function()
 {
 	org.ametys.administration.Logs._helpPanel.items.get(1).show();
+	org.ametys.administration.Logs._onSelectCategory();
 }
 org.ametys.administration.Logs._onConfHide = function()
 {
 	org.ametys.administration.Logs._helpPanel.items.get(1).hide();
+	org.ametys.administration.Logs._actions.hideElt(org.ametys.administration.Logs.LOGS_CONF_DEBUG);
+	org.ametys.administration.Logs._actions.hideElt(org.ametys.administration.Logs.LOGS_CONF_INFO);
+	org.ametys.administration.Logs._actions.hideElt(org.ametys.administration.Logs.LOGS_CONF_WARN);
+	org.ametys.administration.Logs._actions.hideElt(org.ametys.administration.Logs.LOGS_CONF_ERROR);
+	org.ametys.administration.Logs._actions.hideElt(org.ametys.administration.Logs.LOGS_CONF_FORCE);
+}
+
+org.ametys.administration.Logs._onSelectCategory = function()
+{
+	var selectedNode = org.ametys.administration.Logs._categoryTree.getSelectionModel().getSelectedNode();
+	if (selectedNode == null)
+	{
+		org.ametys.administration.Logs._actions.hideElt(org.ametys.administration.Logs.LOGS_CONF_DEBUG);
+		org.ametys.administration.Logs._actions.hideElt(org.ametys.administration.Logs.LOGS_CONF_INFO);
+		org.ametys.administration.Logs._actions.hideElt(org.ametys.administration.Logs.LOGS_CONF_WARN);
+		org.ametys.administration.Logs._actions.hideElt(org.ametys.administration.Logs.LOGS_CONF_ERROR);
+		org.ametys.administration.Logs._actions.hideElt(org.ametys.administration.Logs.LOGS_CONF_FORCE);
+	}
+	else
+	{
+		org.ametys.administration.Logs._actions.showElt(org.ametys.administration.Logs.LOGS_CONF_DEBUG);
+		org.ametys.administration.Logs._actions.showElt(org.ametys.administration.Logs.LOGS_CONF_INFO);
+		org.ametys.administration.Logs._actions.showElt(org.ametys.administration.Logs.LOGS_CONF_WARN);
+		org.ametys.administration.Logs._actions.showElt(org.ametys.administration.Logs.LOGS_CONF_ERROR);
+		org.ametys.administration.Logs._actions.showElt(org.ametys.administration.Logs.LOGS_CONF_FORCE);
+
+		switch (selectedNode.attributes.level)
+		{
+			case "DEBUG": org.ametys.administration.Logs._actions.hideElt(org.ametys.administration.Logs.LOGS_CONF_DEBUG); break;
+			case "INFO": org.ametys.administration.Logs._actions.hideElt(org.ametys.administration.Logs.LOGS_CONF_INFO); break;
+			case "WARN": org.ametys.administration.Logs._actions.hideElt(org.ametys.administration.Logs.LOGS_CONF_WARN); break;
+			case "ERROR": org.ametys.administration.Logs._actions.hideElt(org.ametys.administration.Logs.LOGS_CONF_ERROR); break;
+		}
+	}
 }
 
 org.ametys.administration.Logs._drawConfPanel = function()
@@ -167,6 +210,7 @@ org.ametys.administration.Logs._drawConfPanel = function()
 		var node = {
 	   		icon: getPluginResourcesUrl("core") + "/img/administrator/logs/loglevel_" + category.level + ".png",
 	   		text: name,
+	   		level: category.level,
 	   		leaf: childNodes.length == 0
 		};
 		
@@ -180,7 +224,7 @@ org.ametys.administration.Logs._drawConfPanel = function()
 	
 	var rootNode = new Ext.tree.AsyncTreeNode(rootNodeConf);
 	
-	return 	new Ext.tree.TreePanel({
+	org.ametys.administration.Logs._categoryTree = new Ext.tree.TreePanel({
 		id: 'monitoring-panel',
 		root: rootNode,
 		
@@ -192,6 +236,10 @@ org.ametys.administration.Logs._drawConfPanel = function()
 		            'hide': org.ametys.administration.Logs._onConfHide 
 		}
 	});
+	
+	org.ametys.administration.Logs._categoryTree.getSelectionModel().addListener("selectionchange", org.ametys.administration.Logs._onSelectCategory);
+	
+	return org.ametys.administration.Logs._categoryTree;
 }
 
 org.ametys.administration.Logs.load = function (data)
@@ -256,13 +304,36 @@ org.ametys.administration.Logs._drawActionsPanel = function ()
 			 getPluginResourcesUrl(org.ametys.administration.Logs.pluginName) + '/img/administrator/logs/purge.png', 
 			 org.ametys.administration.Logs.purgeFiles);
 	
+	// Conf debug
+	org.ametys.administration.Logs._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_DEBUG"/>", 
+			 getPluginResourcesUrl(org.ametys.administration.Logs.pluginName) + '/img/administrator/logs/loglevel_btn_debug.png', 
+			 function() {alert('debug');});
+	
+	// Conf info
+	org.ametys.administration.Logs._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_INFO"/>", 
+			 getPluginResourcesUrl(org.ametys.administration.Logs.pluginName) + '/img/administrator/logs/loglevel_btn_info.png', 
+			 function() {alert('info');});
+	
+	// Conf warn
+	org.ametys.administration.Logs._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_WARN"/>", 
+			 getPluginResourcesUrl(org.ametys.administration.Logs.pluginName) + '/img/administrator/logs/loglevel_btn_warn.png', 
+			 function() {alert('warn');});
+	
+	// Conf error
+	org.ametys.administration.Logs._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_ERROR"/>", 
+			 getPluginResourcesUrl(org.ametys.administration.Logs.pluginName) + '/img/administrator/logs/loglevel_btn_error.png', 
+			 function() {alert('error');});
+	
+	// Force
+	org.ametys.administration.Logs._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_FORCE"/>", 
+			 getPluginResourcesUrl(org.ametys.administration.Logs.pluginName) + '/img/administrator/logs/loglevel_btn_force.png', 
+			 function() {alert('inherit');});
+	
 	// Quit
 	org.ametys.administration.Logs._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_QUIT"/>", 
 			 getPluginResourcesUrl(org.ametys.administration.Logs.pluginName) + '/img/administrator/logs/quit.png', 
 			 org.ametys.administration.Logs.goBack);
 
-	org.ametys.administration.Logs._onSelectLog();
-	
 	return org.ametys.administration.Logs._actions;
 }
 

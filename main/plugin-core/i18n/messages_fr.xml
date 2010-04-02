@@ -171,7 +171,7 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_INFO">Passer en INFO</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_WARN">Passer en WARNING</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_ERROR">Passer en ERROR</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_FORCE">Forcer l'héritage</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_FORCE">Appliquer aux sous-catégories</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_ERROR">Une erreur est survenue : les modifications n'ont peut-être pas été prises en compte.\nLa page va être rechargée pour éviter les incohéreances.</message>
 
     <!-- ADMINITRATOR SYSTEM -->
