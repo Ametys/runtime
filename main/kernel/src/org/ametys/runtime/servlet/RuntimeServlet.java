@@ -44,6 +44,7 @@ import org.apache.cocoon.Constants;
 import org.apache.cocoon.servlet.CocoonServlet;
 import org.apache.cocoon.servlet.multipart.RequestFactory;
 import org.apache.cocoon.xml.XMLUtils;
+import org.slf4j.MDC;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
@@ -115,6 +116,8 @@ public class RuntimeServlet extends CocoonServlet
 
             return;
         }
+        
+        MDC.put("requestURI", req.getRequestURI());
 
         // if (getRunMode() == RunMode.MAINTENANCE && !_accept(req))
         // {
