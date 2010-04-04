@@ -68,8 +68,8 @@ public class HttpRequestSampleManager extends AbstractSampleManager
         graphDef.datasource("processed", rrdFilePath, "processed", ConsolFun.AVERAGE);
         graphDef.area("processed", new Color(148, 30, 109), "HTTP request processed");
         
-        graphDef.gprint("processed", ConsolFun.LAST, "Cur current: %.0f");
-        graphDef.gprint("processed", ConsolFun.MAX, "Max current: %.0f");
+        graphDef.gprint("processed", ConsolFun.LAST, "Cur processed: %.0f");
+        graphDef.gprint("processed", ConsolFun.MAX, "Max processed: %.0f");
 
         // Do not scale units
         graphDef.setUnitsExponent(0);
