@@ -28,6 +28,9 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.cocoon.Constants;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.environment.Context;
+import org.apache.cocoon.xml.AttributesImpl;
+import org.apache.cocoon.xml.ParamSaxBuffer;
+import org.apache.cocoon.xml.XMLUtils;
 import org.apache.excalibur.source.SourceResolver;
 import org.apache.excalibur.source.Source;
 import org.xml.sax.SAXException;
@@ -343,5 +346,35 @@ public class I18nTransformer extends org.apache.cocoon.transformation.I18nTransf
         }
         
         super.setup(resolver, objModel, source, newParam);
+    }
+    
+    @Override
+    protected ParamSaxBuffer getMessage(String catalogueID, String key)
+    {
+        ParamSaxBuffer message = super.getMessage(catalogueID, key);
+        if (message == null)
+        {
+            if (getLogger().isWarnEnabled())
+            {
+                getLogger().warn("Translation not found for key " + key + " in catalogue " + catalogueID);
+            }
+            
+            try
+            {
+                ParamSaxBuffer paramSaxBuffer = new ParamSaxBuffer();
+                
+                AttributesImpl atts = new AttributesImpl();
+                atts.addCDATAAttribute("key", key);
+                XMLUtils.createElement(paramSaxBuffer, "message", atts, catalogueID + ':' + key);
+
+                return paramSaxBuffer;
+            }
+            catch (SAXException e)
+            {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return message;
     }
 }
