@@ -16,7 +16,6 @@
 package org.ametys.runtime.plugins.core.administrator.logs;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -29,9 +28,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.ametys.runtime.util.LoggerFactory;
-import org.ametys.runtime.util.parameter.ParameterHelper;
-import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.generation.ServiceableGenerator;
 import org.apache.cocoon.xml.AttributesImpl;
@@ -39,9 +35,12 @@ import org.apache.cocoon.xml.XMLUtils;
 import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.TraversableSource;
 import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.spi.LoggerRepository;
 import org.xml.sax.SAXException;
+
+import org.ametys.runtime.util.parameter.ParameterHelper;
 
 /**
  * SAXes the list of logs
@@ -60,26 +59,19 @@ public class LogsGenerator extends ServiceableGenerator
         XMLUtils.endElement(contentHandler, "Logs");
 
         XMLUtils.startElement(contentHandler, "LogLevels");
-        _log4jLevels(LoggerFactory.getLoggerManager());
+        _log4jLevels();
         XMLUtils.endElement(contentHandler, "LogLevels");
 
         XMLUtils.endElement(contentHandler, "Logger");
         contentHandler.endDocument();
     }
     
-    private static Object _getField(Object object, String fieldName) throws NoSuchFieldException, IllegalAccessException
-    {
-        Field field = object.getClass().getDeclaredField(fieldName);
-        field.setAccessible(true);
-        return field.get(object);
-    }
-    
     @SuppressWarnings("unchecked")
-    private void _log4jLevels(LoggerManager loggerManager) throws SAXException
+    private void _log4jLevels() throws SAXException
     {
         try
         {
-            LoggerRepository loggerRepository = (LoggerRepository) _getField(loggerManager, "m_hierarchy");
+            LoggerRepository loggerRepository = LogManager.getLoggerRepository();
             List<Logger> loggers = new ArrayList<Logger>();
             Enumeration<org.apache.log4j.Logger> enumLogger = loggerRepository.getCurrentLoggers();
             
@@ -95,11 +87,11 @@ public class LogsGenerator extends ServiceableGenerator
             for (Logger logger : loggers)
             {
                 String category = logger.getName();
-                Level level = logger.getEffectiveLevel();
+                Level level = logger.getLevel();
                 
                 AttributesImpl attrs = new AttributesImpl();
                 attrs.addCDATAAttribute("category", category);
-                attrs.addCDATAAttribute("priority", level == null ? "" : level.toString());
+                attrs.addCDATAAttribute("priority", level == null ? "inherit" : level.toString());
                 
                 XMLUtils.createElement(contentHandler, "logger", attrs);
             }
