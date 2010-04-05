@@ -23,6 +23,7 @@
 <!-- Use 'skip.docs' property in order to skip docs -->
 <!-- Use 'skip.tests' property in order to skip tests -->
 <!-- Use 'check.license' property in order to check licenses -->
+<!-- Use 'check.i18n' property in order to check i18n keys -->
 <project name="runtime" default="build-and-publish"
          xmlns:ametys="antlib:org.ametys.tools"
          xmlns:clover="antlib:com.atlassian.clover"
@@ -148,6 +149,13 @@
                 <exclude name="**/*.png"/>
             </fileset>
         </ametys:licence-check>
+    </target>
+    
+    <target name="check-18n" if="check.i18n">
+        <ametys:i18n-check directory="${kernel-dir}/i18n" catalogue="messages"/>
+        <ametys:i18n-check directory="${plugin-dir}/i18n" catalogue="messages"/>
+        <ametys:i18n-check directory="${workspace-dir}/i18n" catalogue="messages"/>
+        <ametys:i18n-check directory="${application-template-dir}/WEB-INF/i18n" catalogue="application"/>
     </target>
     
     <target name="clover-prepare" unless="skip.tests">
