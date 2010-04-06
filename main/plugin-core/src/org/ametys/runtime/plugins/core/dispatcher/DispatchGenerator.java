@@ -206,12 +206,16 @@ public class DispatchGenerator extends ServiceableGenerator
         {
             url.append("_plugins/");
             url.append(plugin);
-        }
-        if (relativeUrl.length() == 0 || relativeUrl.charAt(0) != '/')
-        {
             url.append("/");
         }
-        url.append(relativeUrl);
+        if (relativeUrl.length() != 0 && relativeUrl.charAt(0) == '/')
+        {
+            url.append(relativeUrl.substring(1));
+        }
+        else
+        {
+            url.append(relativeUrl);
+        }
         
         if (relativeUrl.indexOf("?") == -1 && requestParameters != null)
         {
