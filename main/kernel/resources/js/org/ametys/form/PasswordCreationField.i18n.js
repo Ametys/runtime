@@ -101,6 +101,7 @@ org.ametys.form.PasswordCreationField.prototype._drawFields = function(component
 	this.elConnection = this.elParent.insertSibling({cls: 'ametys-input-password-connector'}, 'after');
 	this.elConnection.setHeight(this.elParent.getHeight() - 20);
 	this.elConnection.setWidth((org.ametys.form.PasswordCreationField.SIZE - 3) + 'px');
+	this.elConnection.setVisibilityMode(Ext.Element.DISPLAY);
 	
 	// reset password
 	this.resetBtn = this.elConnection.next().insertSibling({
@@ -188,6 +189,7 @@ org.ametys.form.PasswordCreationField.prototype._setPassword = function()
 	this.clearInvalid();
 	this.setDisabled(false);
 	this.el.setWidth(this.width);
+	this.elParent.setWidth(this.el.getWidth());
 	this.changeBtn.hide();
 	this.el2.show();
 	this.elConnection.show();
@@ -202,9 +204,10 @@ org.ametys.form.PasswordCreationField.prototype._resetPassword = function()
 	this.clearInvalid();
 	this.setDisabled(true);
 	this.el.setWidth(this.width + org.ametys.form.PasswordCreationField.SIZE);
+	this.elConnection.hide();
+	this.elParent.setWidth(this.el.getWidth());
 	this.el.dom.value = this.originalValue;
 	this.el2.hide();
-	this.elConnection.hide();
 	this.resetBtn.hide();
 	this.changeBtn.show();
 }

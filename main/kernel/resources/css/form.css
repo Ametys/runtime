@@ -113,7 +113,7 @@
 .ametys-input input {
 	font-size: 0.9em;
 	border: 1px solid #C8CDD0 !important;
-	background-color: #FFF !important;
+	background-color: #FFFFF !important;
 	background-image: none !important;
 	height: 18px;
 	padding: 0px 0px 2px 6px !important;
@@ -173,6 +173,12 @@
 	margin-top: 3px !important;
 	background-color: transparent !important;
 }
+.ext-opera .ametys-input input.x-form-checkbox
+{
+	border: inherit !important;
+	padding: 0px !important;
+}
+
 
 /* PASSWORD */
 .ametys-input div.ametys-input-password

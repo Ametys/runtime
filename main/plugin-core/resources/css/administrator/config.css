@@ -17,3 +17,8 @@
 .ametys-input, .ametys-file {
 	width:580px;
 }
+
+.x-form-element 
+{
+	padding-left: 0px !important;
+}

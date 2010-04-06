@@ -83,7 +83,7 @@
 							</xsl:for-each>
 							
 							// Set the height
-							fieldSet.setHeight(height);
+							//fieldSet.setHeight(height);
 								
 							org.ametys.administration.Config._form.add(fieldSet);
 						</xsl:for-each>
