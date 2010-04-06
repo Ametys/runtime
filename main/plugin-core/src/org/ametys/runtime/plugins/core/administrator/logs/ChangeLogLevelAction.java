@@ -15,6 +15,7 @@
  */
 package org.ametys.runtime.plugins.core.administrator.logs;
 
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,24 +47,22 @@ public class ChangeLogLevelAction extends AbstractAction
         }
 
         LoggerRepository loggerRepository = LogManager.getLoggerRepository();
-        Logger rootLogger = loggerRepository.getRootLogger();
         
         String category = request.getParameter("category");
         String level = request.getParameter("level");
-        boolean inherited = "INHERIT".equals(level);
 
         if (getLogger().isInfoEnabled())
         {
-            getLogger().info("Log level changing category '" + category + "' " + (inherited ? "to inherited" : ("to level " + level)));
+            getLogger().info("Log level changing category '" + category + "' " + level);
         }
 
         try
         {
-            changeLogkit(loggerRepository, rootLogger, category, inherited, level);
+            changeLogLevel(loggerRepository, category, level);
         }
         catch (Throwable t)
         {
-            String errorMessage = "Cannot change log level correctly : changing category '" + category + "' " + (inherited ? "to inherited" : ("to level " + level));
+            String errorMessage = "Cannot change log level correctly : changing category '" + category + "'";
             getLogger().error(errorMessage, t);
             Map<String, String> results = new HashMap<String, String>();
             results.put("error", "error");
@@ -73,8 +72,12 @@ public class ChangeLogLevelAction extends AbstractAction
         return EMPTY_MAP;
     }
     
-    private void changeLogkit(LoggerRepository loggerRepository, Logger rootLogger, String category, boolean inherited, String mode)
+    @SuppressWarnings("unchecked")
+    private void changeLogLevel(LoggerRepository loggerRepository, String category, String mode)
     {
+        boolean inherited = "INHERIT".equals(mode) || "INHERITFORCED".equals(mode);
+        boolean force = "FORCE".equals(mode) || "INHERITFORCED".equals(mode);
+
         Logger logger = loggerRepository.getLogger(category);
     
         boolean isRoot = false;
@@ -90,18 +93,24 @@ public class ChangeLogLevelAction extends AbstractAction
                 logger.setLevel(null);
             }
         }
-        else
+        
+        if (force)
+        {
+            Enumeration<Logger> e = loggerRepository.getCurrentLoggers();
+            while (e.hasMoreElements())
+            {
+                Logger l = e.nextElement();
+                if (l.getParent() == logger)
+                {
+                    changeLogLevel(loggerRepository, l.getName(), "INHERITFORCED");
+                }
+            }
+        }
+
+        if (!inherited && !force)
         {
             Level level = Level.toLevel(mode);
-
-            if (isRoot)
-            {
-                rootLogger.setLevel(level);
-            }
-            else
-            {
-                logger.setLevel(level);
-            }
+            logger.setLevel(level);
         }
     }
 }

@@ -28,8 +28,9 @@ org.ametys.administration.Logs.LOGS_CONF_DEBUG = 4;
 org.ametys.administration.Logs.LOGS_CONF_INFO = 5;
 org.ametys.administration.Logs.LOGS_CONF_WARN = 6;
 org.ametys.administration.Logs.LOGS_CONF_ERROR = 7;
-org.ametys.administration.Logs.LOGS_CONF_FORCE = 8;
-org.ametys.administration.Logs.LOGS_OTHER_QUIT = 9;
+org.ametys.administration.Logs.LOGS_CONF_INHERIT = 8;
+org.ametys.administration.Logs.LOGS_CONF_FORCE = 9;
+org.ametys.administration.Logs.LOGS_OTHER_QUIT = 10;
 
 org.ametys.administration.Logs.initialize = function (pluginName)
 {
@@ -165,6 +166,7 @@ org.ametys.administration.Logs._onConfHide = function()
 	org.ametys.administration.Logs._actions.hideElt(org.ametys.administration.Logs.LOGS_CONF_INFO);
 	org.ametys.administration.Logs._actions.hideElt(org.ametys.administration.Logs.LOGS_CONF_WARN);
 	org.ametys.administration.Logs._actions.hideElt(org.ametys.administration.Logs.LOGS_CONF_ERROR);
+	org.ametys.administration.Logs._actions.hideElt(org.ametys.administration.Logs.LOGS_CONF_INHERIT);
 	org.ametys.administration.Logs._actions.hideElt(org.ametys.administration.Logs.LOGS_CONF_FORCE);
 }
 
@@ -174,6 +176,7 @@ org.ametys.administration.Logs._onSelectCategory = function()
 	org.ametys.administration.Logs._actions.actions[org.ametys.administration.Logs.LOGS_CONF_INFO].enable();
 	org.ametys.administration.Logs._actions.actions[org.ametys.administration.Logs.LOGS_CONF_WARN].enable();
 	org.ametys.administration.Logs._actions.actions[org.ametys.administration.Logs.LOGS_CONF_ERROR].enable();
+	org.ametys.administration.Logs._actions.actions[org.ametys.administration.Logs.LOGS_CONF_INHERIT].enable();
 	org.ametys.administration.Logs._actions.actions[org.ametys.administration.Logs.LOGS_CONF_FORCE].enable();
 
 	var selectedNode = org.ametys.administration.Logs._categoryTree.getSelectionModel().getSelectedNode();
@@ -183,6 +186,7 @@ org.ametys.administration.Logs._onSelectCategory = function()
 		org.ametys.administration.Logs._actions.hideElt(org.ametys.administration.Logs.LOGS_CONF_INFO);
 		org.ametys.administration.Logs._actions.hideElt(org.ametys.administration.Logs.LOGS_CONF_WARN);
 		org.ametys.administration.Logs._actions.hideElt(org.ametys.administration.Logs.LOGS_CONF_ERROR);
+		org.ametys.administration.Logs._actions.hideElt(org.ametys.administration.Logs.LOGS_CONF_INHERIT);
 		org.ametys.administration.Logs._actions.hideElt(org.ametys.administration.Logs.LOGS_CONF_FORCE);
 	}
 	else
@@ -191,14 +195,21 @@ org.ametys.administration.Logs._onSelectCategory = function()
 		org.ametys.administration.Logs._actions.showElt(org.ametys.administration.Logs.LOGS_CONF_INFO);
 		org.ametys.administration.Logs._actions.showElt(org.ametys.administration.Logs.LOGS_CONF_WARN);
 		org.ametys.administration.Logs._actions.showElt(org.ametys.administration.Logs.LOGS_CONF_ERROR);
+		org.ametys.administration.Logs._actions.showElt(org.ametys.administration.Logs.LOGS_CONF_INHERIT);
 		org.ametys.administration.Logs._actions.showElt(org.ametys.administration.Logs.LOGS_CONF_FORCE);
-
+		
 		switch (selectedNode.attributes.level)
 		{
 			case "DEBUG": org.ametys.administration.Logs._actions.actions[org.ametys.administration.Logs.LOGS_CONF_DEBUG].disable(); break;
 			case "INFO": org.ametys.administration.Logs._actions.actions[org.ametys.administration.Logs.LOGS_CONF_INFO].disable(); break;
 			case "WARN": org.ametys.administration.Logs._actions.actions[org.ametys.administration.Logs.LOGS_CONF_WARN].disable(); break;
 			case "ERROR": org.ametys.administration.Logs._actions.actions[org.ametys.administration.Logs.LOGS_CONF_ERROR].disable(); break;
+			case "inherit": org.ametys.administration.Logs._actions.actions[org.ametys.administration.Logs.LOGS_CONF_INHERIT].disable(); break;
+		}
+		
+		if (selectedNode.getDepth() == 0)
+		{
+			org.ametys.administration.Logs._actions.actions[org.ametys.administration.Logs.LOGS_CONF_INHERIT].disable();
 		}
 	}
 }
@@ -231,45 +242,79 @@ org.ametys.administration.Logs._changeLogLevelCB = function (response, argsArray
     {
        return;
     }
-	
-	function changeNode(node, level, recursive)
+    
+    function getLevel(node)
+    {
+    	if (node.attributes.level != 'inherit')
+    	{
+    		return node.attributes.level;
+    	}
+    	else
+    	{
+    		return getLevel(node.parentNode);
+    	}
+    }
+
+    
+	function changeNode(node, level, inherited, force)
 	{
-		Ext.get(node.ui.elNode).child("img:last").dom.src = getPluginResourcesUrl("core") + "/img/administrator/logs/loglevel_" + level + ".png";
-		
-		if (recursive)
+        var selection = node == null;
+        inherited = inherited == true;
+        node = node != null ? node : selectedNode;
+
+        if (!selection || !force)
+        {
+    		Ext.get(node.ui.elNode).child("img:last").dom.src = getPluginResourcesUrl("core") + "/img/administrator/logs/loglevel_" + level + (inherited ? "-inherit" : "") + ".png";
+        }
+
+		for (var i = 0; i &lt; node.childNodes.length; i++)
 		{
-			for (var i = 0; i &lt; node.childNodes.length; i++)
+			var childNode = node.childNodes[i];
+			if (childNode.attributes.level == "inherit" || force)
 			{
-				var childNode = node.childNodes[i];
-				changeNode(childNode, level, recursive);
+				changeNode(childNode, level, true, force);
 			}
 		}
 	}
 	
-	function changeSNode(node, level, recursive)
+	function changeSNode(node, level, inherited, force)
 	{
-		node.level = level;
-		node.icon = getPluginResourcesUrl("core") + "/img/administrator/logs/loglevel_" + level + ".png";
+        var selection = node == null;
+        inherited = inherited == true;
+        node = node != null ? node : selectedNode.attributes;
+
+        if (!selection || !force)
+        {
+    		node.level = inherited ? "inherit" : level;
+    		node.icon = getPluginResourcesUrl("core") + "/img/administrator/logs/loglevel_" + level + (inherited ? "-inherit" : "") + ".png";
+        }		
 		
-		if (recursive)
+		for (var i = 0; i &lt; node.children.length; i++)
 		{
-			for (var i = 0; i &lt; node.children.length; i++)
+			var childNode = node.children[i];
+			if (childNode.level == "inherit" || force)
 			{
-				var childNode = node.children[i];
-				changeSNode(childNode, level, recursive);
+				changeSNode(childNode, level, true, force);
 			}
 		}
 	}
 
-	if (args.level == 'INHERIT')
+	if (args.level == 'FORCE')
 	{
-		changeNode(selectedNode, selectedNode.attributes.level, true);
-		changeSNode(selectedNode.attributes, selectedNode.attributes.level, true);
+		var level = getLevel(selectedNode);
+		changeNode(null, level, true, true);
+		changeSNode(null, level, true, true);
+	}
+	else if (args.level == 'INHERIT')
+	{
+		var level = getLevel(selectedNode.parentNode);
+		changeNode(null, level, true, false);
+		changeSNode(null, level, true, false);
 	}
 	else
 	{
-		changeNode(selectedNode, args.level, false);
-		changeSNode(selectedNode.attributes, args.level, false);
+		changeNode(null, args.level, false, false);
+		changeSNode(null, args.level, false, false);
 	}
 	
 	org.ametys.administration.Logs._onSelectCategory();
@@ -277,16 +322,18 @@ org.ametys.administration.Logs._changeLogLevelCB = function (response, argsArray
 
 org.ametys.administration.Logs._drawConfPanel = function()
 {
-	function createNode(name, fullname, category)
+	function createNode(name, fullname, category, parentLevel)
 	{
+		parentLevel = category.level == "inherit" ? parentLevel : category.level;
+		
 		var childNodes = [];
 		for (var c in category.child)
 		{
-			childNodes.push(createNode(c, (fullname != "" ? fullname + "." : "") + c, category.child[c]));
+			childNodes.push(createNode(c, (fullname != "" ? fullname + "." : "") + c, category.child[c], parentLevel));
 		}
 
 		var node = {
-	   		icon: getPluginResourcesUrl("core") + "/img/administrator/logs/loglevel_" + category.level + ".png",
+	   		icon: getPluginResourcesUrl("core") + "/img/administrator/logs/loglevel_" + (category.level == "inherit" ? parentLevel + "-inherit": category.level) + ".png",
 	   		text: name,
 	   		fullname: fullname != "" ? fullname : "root",
 	   		level: category.level,
@@ -403,10 +450,15 @@ org.ametys.administration.Logs._drawActionsPanel = function ()
 			 getPluginResourcesUrl(org.ametys.administration.Logs.pluginName) + '/img/administrator/logs/loglevel_btn_error.png', 
 			 org.ametys.administration.Logs._changeLogLevel.createDelegate(this, ['ERROR']));
 	
+	// Inherit
+	org.ametys.administration.Logs._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_INHERIT"/>", 
+			 getPluginResourcesUrl(org.ametys.administration.Logs.pluginName) + '/img/administrator/logs/loglevel_btn_inherit.png', 
+			 org.ametys.administration.Logs._changeLogLevel.createDelegate(this, ['INHERIT']));
+	
 	// Force
 	org.ametys.administration.Logs._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_FORCE"/>", 
 			 getPluginResourcesUrl(org.ametys.administration.Logs.pluginName) + '/img/administrator/logs/loglevel_btn_force.png', 
-			 org.ametys.administration.Logs._changeLogLevel.createDelegate(this, ['INHERIT']));
+			 org.ametys.administration.Logs._changeLogLevel.createDelegate(this, ['FORCE']));
 	
 	// Quit
 	org.ametys.administration.Logs._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_QUIT"/>", 
