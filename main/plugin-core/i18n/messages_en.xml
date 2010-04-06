@@ -22,7 +22,6 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_DIALOG_CAPTION">Change password...</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_DIALOG_OK">Ok</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_DIALOG_CANCEL">Cancel</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_LABEL">Password</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_TITLE">Password</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_OLD">Old password</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_NEW">New password</message>
