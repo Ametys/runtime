@@ -57,15 +57,15 @@ import org.ametys.runtime.workspace.WorkspaceMatcher;
  *               &lt;username-field&gt;Username&lt;/username-field&gt;<br>
  *               &lt;password-field&gt;Password&lt;/password-field&gt;<br>
  *               &lt;cookie&gt;<br>
- *                   &lt;cookieEnabled&gt;true&lt;/cookieEnabled&gt;<br>
- *                   &lt;cookieLifeTime&gt;604800&lt;/cookieLifeTime&gt;<br>
- *                   &lt;cookieName&gt;AmetysAuthentication&lt;/cookieName&gt;<br>
+ *                   &nbsp;&nbsp;&lt;cookieEnabled&gt;true&lt;/cookieEnabled&gt;<br>
+ *                   &nbsp;&nbsp;&lt;cookieLifeTime&gt;604800&lt;/cookieLifeTime&gt;<br>
+ *                   &nbsp;&nbsp;&lt;cookieName&gt;AmetysAuthentication&lt;/cookieName&gt;<br>
  *               &lt;/cookie&gt;<br>
  *               &lt;loginUrl internal="true"&gt;login.html&lt;/loginUrl&gt;<br>
  *               &lt;loginFailedUrl provideLoginParameter="true" internal="true"&gt;login_failed.html&lt;/loginFailedUrl&gt;<br>
  *               &lt;unauthenticated&gt;<br>
- *                   &lt;urlPrefix&gt;subscribe/&lt;/urlPrefix&gt;<br>
- *                   &lt;urlPrefix&gt;lostPassword/&lt;/urlPrefix&gt;<br>
+ *                   &nbsp;&nbsp;&lt;urlPrefix&gt;subscribe.html&lt;/urlPrefix&gt;<br>
+ *                   &nbsp;&nbsp;&lt;urlPrefix&gt;lostPassword/&lt;/urlPrefix&gt;<br>
  *               &lt;/unauthenticated&gt;<br>
  * 
  */
@@ -124,7 +124,12 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
         
         if (login == null || password == null)
         {
-            String url = request.getRequestURI().substring(request.getContextPath().length() + 1);
+            // URL without server context and leading slash.
+            String url = request.getRequestURI();
+            if (url.startsWith(request.getContextPath()))
+            {
+                url = url.substring(request.getContextPath().length() + 1);
+            }
             
             accept = _loginUrl.equals(url) || _loginFailedUrl.equals(url);
             
@@ -252,10 +257,6 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
             String prefix = prefixConf.getValue(null);
             if (prefix != null)
             {
-                if (!prefix.endsWith("/"))
-                {
-                    prefix = prefix + "/";
-                }
                 _acceptedUrlPrefixes.add(prefix);
             }
         }
@@ -278,8 +279,6 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
     {
         this._context = context;
     }
-    
-    
     
    /************************************************************************************************
     *    COOKIE EXCHANGES MANAGEMENT
