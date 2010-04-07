@@ -131,10 +131,14 @@ public class JVMStatusGenerator extends ServiceableGenerator
         XMLUtils.createElement(contentHandler, "commited", String.valueOf(mBean.getHeapMemoryUsage().getCommitted()));
         XMLUtils.endElement(contentHandler, "heap");
 
+        long nonHeapUsed = mBean.getNonHeapMemoryUsage().getUsed();
+        long nonHeapCommited = mBean.getNonHeapMemoryUsage().getCommitted();
+        long nonHeapMax = Math.max(mBean.getNonHeapMemoryUsage().getMax(), nonHeapCommited);
+
         XMLUtils.startElement(contentHandler, "nonHeap");
-        XMLUtils.createElement(contentHandler, "max", String.valueOf(mBean.getNonHeapMemoryUsage().getMax()));
-        XMLUtils.createElement(contentHandler, "used", String.valueOf(mBean.getNonHeapMemoryUsage().getUsed()));
-        XMLUtils.createElement(contentHandler, "commited", String.valueOf(mBean.getNonHeapMemoryUsage().getCommitted()));
+        XMLUtils.createElement(contentHandler, "max", String.valueOf(nonHeapMax));
+        XMLUtils.createElement(contentHandler, "used", String.valueOf(nonHeapUsed));
+        XMLUtils.createElement(contentHandler, "commited", String.valueOf(nonHeapCommited));
         XMLUtils.endElement(contentHandler, "nonHeap");
 
         XMLUtils.endElement(contentHandler, "memory");
