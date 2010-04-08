@@ -56,4 +56,5 @@
 <smtp.mail.user></smtp.mail.user>
 <smtp.mail.password></smtp.mail.password>
 <smtp.mail.from>test@ametys.org</smtp.mail.from>
+<smtp.mail.sysadminto>ametys@ametys.org</smtp.mail.sysadminto>
 </config>

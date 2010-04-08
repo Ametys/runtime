@@ -608,8 +608,18 @@
             <label i18n="true">PLUGINS_CORE_MAIL_CONFIG_FROM_ADDRESS</label>
             <description i18n="true">PLUGINS_CORE_MAIL_CONFIG_FROM_ADDRESS_DESCRIPTION</description>
             <category i18n="true">PLUGINS_CORE_MAIL_CONFIG_CATEGORY</category>
-            <group i18n="true">PLUGINS_CORE_MAIL_CONFIG_GROUP</group>
-            <order>5</order>
+            <group i18n="true">PLUGINS_CORE_MAIL_CONFIG_ADDRESS_GROUP</group>
+            <order>1</order>
+        </param>
+        <param type="string" id="smtp.mail.sysadminto">
+        	<!-- 
+                This parameter contains the email address of the system administrator for alert purposes
+             -->
+            <label i18n="true">PLUGINS_CORE_MAIL_CONFIG_SYSADMINTO_ADDRESS</label>
+            <description i18n="true">PLUGINS_CORE_MAIL_CONFIG_SYSADMINTO_ADDRESS_DESCRIPTION</description>
+            <category i18n="true">PLUGINS_CORE_MAIL_CONFIG_CATEGORY</category>
+            <group i18n="true">PLUGINS_CORE_MAIL_CONFIG_ADDRESS_GROUP</group>
+            <order>1</order>
         </param>
     </config>
     
@@ -1709,6 +1719,7 @@
             <param-ref id="smtp.mail.user"/>
             <param-ref id="smtp.mail.password"/>
             <param-ref id="smtp.mail.from"/>
+            <param-ref id="smtp.mail.sysadminto"/>
         </config>
     </feature>
         
