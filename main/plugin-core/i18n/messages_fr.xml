@@ -216,8 +216,8 @@
 	<message key="PLUGINS_CORE_MAIL_CONFIG_USER_DESCRIPTION">Nom d'utilisateur. Laissez vide si aucune authentification n'est requise.</message>
 	<message key="PLUGINS_CORE_MAIL_CONFIG_PASSWORD">Mot de passe</message>
 	<message key="PLUGINS_CORE_MAIL_CONFIG_PASSWORD_DESCRIPTION">Mot de passe. Laissez vide si aucune authentification n'est requise.</message>
-	<message key="PLUGINS_CORE_MAIL_CONFIG_WEBMASTER_ADDRESS">Email du webmaster</message>
-	<message key="PLUGINS_CORE_MAIL_CONFIG_WEBMASTER_ADDRESS_DESCRIPTION">Adresse e-mail utilisée par défaut pour l'expéditeur des mails.</message>
+	<message key="PLUGINS_CORE_MAIL_CONFIG_FROM_ADDRESS">Email d'envoie</message>
+	<message key="PLUGINS_CORE_MAIL_CONFIG_FROM_ADDRESS_DESCRIPTION">Adresse e-mail utilisée par défaut pour l'expéditeur des mails.</message>
 	
     <!-- WIDGETS -->
     <message key="PLUGINS_CORE_WIDGET_PASSWORD_KEEPOLD">Conserver l'ancien mot de passe</message>
