@@ -379,7 +379,7 @@
 						        }]);
 				        	
 						   	var listview = new org.ametys.EditorListView({
-						   		title : 'Liste des profils',
+						   		title : '<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_LIST"/>',
 								listeners: {'rowclick': onSelectProfil, 'beforeedit': beforeEditLabel, 'validateedit': validateEdit},						
 							    store : store,
 								sm: new Ext.grid.CellSelectionModel({singleSelect:true}),
@@ -401,7 +401,7 @@
 							
 							//Panel for edit rights profils
 							var editRights = new Ext.Panel({
-								title: 'Droits associés',
+								title: '<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_RIGHTS"/>',
 								autoScroll:true,
 								border: false,
 								id: 'profile-edit-panel',

@@ -422,6 +422,8 @@
 	<message key="PLUGINS_CORE_RIGHTS_PROFILE">Profile</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILE_READ">Viewing</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILE_EDIT">Editing</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILES_LIST">Profiles list</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILES_RIGHTS">Associated rights</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_DESCRIPTION">Rights profiles administration</message>
     <message key="PLUGINS_CORE_RIGHTS_PROFILES_LABELLONG">Rights profiles administration</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_CATEGORY">Profiles administration</message>
