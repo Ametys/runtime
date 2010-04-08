@@ -119,7 +119,7 @@
 								}
 												
 								// Met à jour le noeud ! et liste les droits à envoyer
-								var objects = "";
+								var objects = [];
 								
 								var newRights = new MAP_RIGHTS({});
 								
@@ -129,7 +129,7 @@
 									if (rightElmt.getValue())
 									{
 										newRights[rightElmt.getName()] = "";
-										objects += rightElmt.getName() + '/';
+										objects.push(rightElmt.getName());
 									}
 								}
 								element.set('rights', newRights);
