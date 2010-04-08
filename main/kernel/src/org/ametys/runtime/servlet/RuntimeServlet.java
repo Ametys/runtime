@@ -195,7 +195,7 @@ public class RuntimeServlet extends CocoonServlet
                 if (maxUploadSizeParam == null)
                 {
                     // la feature core/runtime.upload est désactivée, on repasse à la valeur du web.xml et sinon à 10Mo par défaut
-                    maxUploadSize = getInitParameterAsInteger("upload-max-size", 10000000);
+                    maxUploadSize = getInitParameterAsInteger("upload-max-size", 1073741824);
                 }
                 else
                 {
