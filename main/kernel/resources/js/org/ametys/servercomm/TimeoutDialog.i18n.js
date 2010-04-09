@@ -121,7 +121,7 @@ org.ametys.servercomm.TimeoutDialog = function (details, index, timeout)
  * @type {Integer}
  * The time out between dialog calls (in milliseconds) 
  */
-org.ametys.servercomm.TimeoutDialog.TIMEOUT = 30000;
+org.ametys.servercomm.TimeoutDialog.TIMEOUT = 60000;
 
 /**
  * @private
