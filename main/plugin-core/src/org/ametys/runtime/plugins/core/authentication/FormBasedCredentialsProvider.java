@@ -122,16 +122,24 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
         String login = request.getParameter(_usernameField);
         String password = request.getParameter(_passwordField);
         
+        // URL without server context and leading slash.
+        String url = request.getRequestURI();
+        if (url.startsWith(request.getContextPath()))
+        {
+            url = url.substring(request.getContextPath().length() + 1);
+        }
+        
+        // Always accept the login failed page.
+        accept = _loginFailedUrl.equals(url);
+        
+        // Accept the other urls only if the user didn't provide credentials
+        // (if credentials are provided, the user is trying to connect). 
         if (login == null || password == null)
         {
-            // URL without server context and leading slash.
-            String url = request.getRequestURI();
-            if (url.startsWith(request.getContextPath()))
+            if (!accept)
             {
-                url = url.substring(request.getContextPath().length() + 1);
+                accept = _loginUrl.equals(url);
             }
-            
-            accept = _loginUrl.equals(url) || _loginFailedUrl.equals(url);
             
             if (!accept)
             {
@@ -144,11 +152,11 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
                     }
                 }
             }
-            
-            if (accept && getLogger().isInfoEnabled())
-            {
-                getLogger().info("URL accepted : " + url);
-            }
+        }
+        
+        if (accept && getLogger().isInfoEnabled())
+        {
+            getLogger().info("URL accepted : " + url);
         }
         
         return accept;
