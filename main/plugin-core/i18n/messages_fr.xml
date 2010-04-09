@@ -262,7 +262,7 @@
     <message key="PLUGINS_CORE_UPLOAD_CONFIG_MAXSIZE_LABEL">Taille maximale</message>
     <message key="PLUGINS_CORE_UPLOAD_CONFIG_MAXSIZE_DESCRIPTION">La taille maximale (en octets) des fichiers uploadés</message>
     <message key="PLUGINS_CORE_UPLOAD_CONFIG_DIR_LABEL">Répertoire de destination</message>
-    <message key="PLUGINS_CORE_UPLOAD_CONFIG_DIR_DESCRIPTION">Répertoire de destination des fichiers uploadés. Ce répertoire peut être absolu ou relatif au contexte web.</message>
+    <message key="PLUGINS_CORE_UPLOAD_CONFIG_DIR_DESCRIPTION">Répertoire de destination des fichiers uploadés. Vous pouvez utiliser un chemin relatif à l'application web. Le chemin ne doit pas finir par '/'.&lt;br/&gt;Exemple : '/home/cms/data/uploads' ou 'WEB-INF/data/uploads'.</message>
 
     <!-- USER AND RIGHTS -->
     <message key="PLUGINS_CORE_USERANDRIGHTS_CATEGORY">Utilisateurs et droits</message>
