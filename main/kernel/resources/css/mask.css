@@ -18,6 +18,7 @@
 	background-color: #FFFFFF !important;
 	background-image: none !important;
 	padding: 5px !important;
+	z-index: 101;
 }
 
 .ext-el-mask-msg div {

@@ -295,7 +295,7 @@ org.ametys.servercomm.ServerComm.prototype._sendMessages = function(m)
 	}
 	else
 	{
-		timeout *= 10;
+		timeout *= 600;
 		var parameters = {0: m.toRequest()};
 	}
 	

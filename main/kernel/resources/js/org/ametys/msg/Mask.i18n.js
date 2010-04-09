@@ -21,8 +21,9 @@ Ext.namespace('org.ametys.msg');
  * @class This class creates a {@link Ext.LoadMask} and shows it
  * @param el The element or DOM node, or its id. Can be null to get the body.
  * @param msg The text to display in a centered loading message box. Can be null to get a default message.
+ * @param noHourglass true to remove the clocking animation. default to false
  */
-org.ametys.msg.Mask = function (el, msg)
+org.ametys.msg.Mask = function (el, msg, noHourglass)
 {
 	if (msg == null)
 	{
@@ -34,7 +35,13 @@ org.ametys.msg.Mask = function (el, msg)
 		el = Ext.getBody();
 	}
 	
-	var loadMask = new Ext.LoadMask(el, {msg: msg, removeMask: true});
+	var config = {msg: msg, removeMask: true};
+	if (noHourglass == true)
+	{
+		config.msgCls = '';
+	}
+	
+	var loadMask = new Ext.LoadMask(el, config);
 	loadMask.show ();
 	return loadMask;
 }
