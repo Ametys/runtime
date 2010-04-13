@@ -108,9 +108,6 @@
 								</div>
 							</div>
 						</div>
-						
-						<div id="footer" style="height: 35px; width: 930px;">
-		     			</div>
 		     		</div>
 		     	</div>
 		     	<div id="column-right" style="width: 100%;"/>			

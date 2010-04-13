@@ -61,6 +61,7 @@
 	white-space: pre; 
 	border: 1px solid #1C58A0;
 	overflow: auto;
+	height: 500px;
 }
 
 .message
