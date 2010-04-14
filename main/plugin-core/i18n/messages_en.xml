@@ -127,7 +127,6 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CANCEL">Quit</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_TITLE">Plugins list</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_HELP">Help</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_HELP_TEXT">Cet écran affiche la liste des plugins et workspaces qui ont été chargés au démarrage de l'application.&lt;br/&gt;&lt;br/&gt;Vous pouvez afficher 3 vues en sélectionnant les onglets dans le sommaire :&lt;br/&gt;Par plugins : cette vue correspond à l'arborescence physique des plugins sur le disque.&lt;br/&gt;Pr/&gt;Par workspace : il s'agit de la liste des workspaces.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_HELP_TEXT">This screen shows the list of loaded plugins and workspaces.&lt;br/&gt;&lt;br/&gt;You can display 3 views by selecting the tab in the table of content: &lt;br/&gt; Plugins view: this view matches the plugin's physical hierarchy.&lt;br/&gt;Extension points view: this is a logical view where plugins are grouped by type.&lt;br/&gt;Workspace view: this is a list of workspaces.&lt;br/&gt;&lt;br/&gt;The button documentation allows you to see the documentation of the plugins. It is a contextual action, so you can select a specific node and click on documentation to see the specific part of the documentation.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_NO_PLUGINS">No plugin loaded</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_PLUGINS">Plugins</message>
