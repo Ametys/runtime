@@ -11,28 +11,29 @@
     +-->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:plugin="http://www.ametys.org/schema/plugin">
  
-    <xsl:import href="utils.xsl"/>
+    <xsl:import href="utils.xsl"/> 
     <xsl:import href="configuration.xsl"/>
     <xsl:import href="extensions.xsl"/>
     <xsl:import href="features.xsl"/>
 
-    <xsl:template match="/plugins">
+    <xsl:template match="/plugins">    
         <html>   
             <head>
                 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
                 <meta content="Ametys" name="generator"/>
-                <title>Ametys Features</title>
-                <link rel="stylesheet" type="text/css" href="resources/css/plugindoc.css" title="Style"/>
-                <link rel="stylesheet" type="text/css" href="resources/css/plugindoc_main.css" title="Style"/>
+                <title>Ametys Configuration</title>
+                <link rel="stylesheet" type="text/css" href="{$resourcesPath}/css/administrator/plugindoc.css" title="Style"/>
+                <link rel="stylesheet" type="text/css" href="{$resourcesPath}/css/administrator/plugindoc_main.css" title="Style"/>
             </head>
-            <body>  
-              
-                <xsl:call-template name="features-left-summary">
+            <body>
+                <!-- SUMMARY -->
+                
+                <xsl:call-template name="configuration-left-summary">
                     <xsl:with-param name="target">Navigation</xsl:with-param>
                 </xsl:call-template>
-                  
+
             </body>
         </html>
-    </xsl:template>
-         
+    </xsl:template> 
+    
 </xsl:stylesheet>

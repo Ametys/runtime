@@ -96,7 +96,7 @@ td p
 
 body.head
 {
-	background-image: url('../img/bg_top.gif');
+	background-image: url('../../img/administrator/plugins/doc/bg_top.gif');
 	background-repeat: repeat-x;
 }
 h1.head

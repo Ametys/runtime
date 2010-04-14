@@ -16,6 +16,13 @@
     <xsl:import href="utils-comment.xsl"/>
     <xsl:import href="utils-link.xsl"/>
 
+	<xsl:param name="contextPath"/>
+	<xsl:param name="pluginName"/>
+	<xsl:param name="workspaceName"/>
+	<xsl:param name="workspaceURI"/>
+    
+    <xsl:variable name="resourcesPath"><xsl:value-of select="$contextPath"/>/plugins/<xsl:value-of select="$pluginName"/>/resources</xsl:variable>
+
     <!-- +
          | Display the current path with color highlight
          + -->

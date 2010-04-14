@@ -16,7 +16,8 @@
     <xsl:import href="extensions.xsl"/>
     <xsl:import href="features.xsl"/>
 
-    <xsl:param name="pluginName"/>
+    <xsl:param name="zoom"/>
+    <xsl:param name="currentPluginName"/>
  
     <xsl:template match="/plugins">
         <xsl:variable name="config" select="boolean(plugin:plugin/plugin:config/plugin:param|plugin:plugin/plugin:feature/plugin:config/plugin:param[*])"/>
@@ -44,17 +45,20 @@
                         </xsl:attribute>
                     
                         <xsl:if test="plugin:plugin/plugin:config/plugin:param|plugin:plugin/plugin:feature/plugin:config/plugin:param[*]">
-                            <frame src="main_configuration.html" name="Configuration"/>
+                            <frame src="main-configuration.html" name="Configuration"/>
                         </xsl:if>
                         <xsl:if test="plugin:plugin/plugin:extension-points/plugin:single-extension-point|plugin:plugin/plugin:extension-points/plugin:extension-point">
-                            <frame src="main_extensions.html" name="Extensions"/>
+                            <frame src="main-extensions.html" name="Extensions"/>
                         </xsl:if>
                         <xsl:if test="plugin:plugin/plugin:feature">
-                            <frame src="main_features.html" name="Features"/>
+                            <frame src="main-features.html" name="Features"/>
                         </xsl:if>
                     </frameset>
                 </xsl:if>
-                <frame src="main.html" name="Navigation"/>
+                
+                <frame name="Navigation">
+	                <xsl:attribute name="src"><xsl:choose><xsl:when test="$zoom=''">main.html</xsl:when><xsl:otherwise><xsl:value-of select="$zoom"/></xsl:otherwise></xsl:choose></xsl:attribute>
+                </frame>
             </frameset>
         </html>
     </xsl:template>

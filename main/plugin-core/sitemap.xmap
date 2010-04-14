@@ -23,6 +23,7 @@
             <map:generator name="administrator-logs" src="org.ametys.runtime.plugins.core.administrator.logs.LogsGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.logs" label="content"/>
             <map:generator name="administrator-logs-downloadzip" src="org.ametys.runtime.plugins.core.administrator.logs.LogsDownloadGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.logsDownload" label="content"/>
             <map:generator name="administrator-plugins-list" src="org.ametys.runtime.plugin.PluginsAndWorkspacesGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.listPlugins" label="content"/>
+            <map:generator name="administrator-plugins-doc" src="org.ametys.runtime.plugins.core.administrator.plugins.doc.PluginDocGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.plugindoc" label="content"/>
             <map:generator name="administrator-system" src="org.ametys.runtime.plugins.core.administrator.system.SystemGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.system" label="content"/>
             <map:generator name="administrator-system-announcement" src="org.ametys.runtime.plugins.core.administrator.system.SystemAnnouncementGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.systemannouncement" label="content"/>
         
@@ -281,8 +282,21 @@
             <!-- +
                  | Listes des plugins
                  + -->
+            <map:match pattern="administrator/plugins/list.xml">
+                <map:generate type="administrator-plugins-list"/>
+                <map:serialize type="xml"/>
+            </map:match>
+            <map:match pattern="administrator/plugins/plugins.xml">
+                <map:generate type="administrator-plugins-doc"/>
+                <map:serialize type="xml"/>
+            </map:match>
+
+
             <map:match pattern="administrator/plugins/view.html">
-                <map:generate type="administrator-plugins-list" label="content"/>
+                <map:aggregate element="root" label="content">
+                	<map:part src="cocoon:/administrator/plugins/list.xml"/>
+                	<map:part src="cocoon:/administrator/plugins/plugins.xml"/>
+                </map:aggregate>
                 <map:transform src="pages/administrator/plugins/list.xsl">
                     <map:parameter name="contextPath" value="{request:contextPath}"/>
                     <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
@@ -290,6 +304,31 @@
                     <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/>
                 </map:transform>
                <map:serialize/>
+            </map:match>
+
+			<!-- Plugins individual frames -->
+            <map:match pattern="administrator/plugins/doc/*_*.html">
+            	<map:generate type="administrator-plugins-doc"/>
+            	<map:transform src="pages/administrator/plugins/doc/plugin2doc_{2}.xsl">
+                    <map:parameter name="contextPath" value="{request:contextPath}"/>
+                    <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
+                    <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
+                    <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/>
+                    <map:parameter name="currentPluginName" value="{1}"/>
+                </map:transform>
+            	<map:serialize/>
+            </map:match>
+			<!-- Plugins main frames -->
+            <map:match pattern="administrator/plugins/doc/*.html">
+            	<map:generate type="administrator-plugins-doc"/>
+            	<map:transform src="pages/administrator/plugins/doc/plugin2doc_{1}.xsl">
+                    <map:parameter name="contextPath" value="{request:contextPath}"/>
+                    <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
+                    <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
+                    <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/>
+                    <map:parameter name="zoom" value="{request-param:zoom}"/>
+                </map:transform>
+            	<map:serialize/>
             </map:match>
 
             <!-- +

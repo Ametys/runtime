@@ -118,6 +118,11 @@ org.ametys.administration.Plugins._drawActionPanel = function ()
 	org.ametys.administration.Plugins._actions = new org.ametys.ActionsPanel({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_HANDLE"/>"});
 	
 	// Quit
+	org.ametys.administration.Plugins._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DOC"/>", 
+														 getPluginResourcesUrl(org.ametys.administration.Plugins.pluginName) + '/img/administrator/plugins/doc.png', 
+														 org.ametys.administration.Plugins.openDoc);
+	
+	// Quit
 	org.ametys.administration.Plugins._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CANCEL"/>", 
 														 getPluginResourcesUrl(org.ametys.administration.Plugins.pluginName) + '/img/administrator/plugins/quit.png', 
 														 org.ametys.administration.Plugins.goBack);
@@ -132,6 +137,50 @@ org.ametys.administration.Plugins._drawHelpPanel = function ()
 	
 	return helpPanel;
 }
+
+/**
+ * Open the plugin doc
+ */
+org.ametys.administration.Plugins.openDoc = function()
+{
+	var zoom = "";
+	
+	if (org.ametys.administration.Plugins._mainPanel.layout.activeItem == org.ametys.administration.Plugins._tree)
+	{
+		node = org.ametys.administration.Plugins._tree.getSelectionModel().getSelectedNode();
+	}
+	else if (org.ametys.administration.Plugins._mainPanel.layout.activeItem == org.ametys.administration.Plugins._tree2)
+	{
+		node = org.ametys.administration.Plugins._tree2.getSelectionModel().getSelectedNode();
+	}
+	
+	if (node != null)
+	{
+		if (node.attributes.type == "plugin")
+		{
+			zoom = node.attributes.pluginName + "_main.html";
+		}
+		else if (node.attributes.type == "feature")
+		{
+			zoom = node.attributes.pluginName + "_features.html%23feature_" + node.attributes.featureName;
+		}
+		else if (node.attributes.type == "component")
+		{
+			zoom = node.attributes.pluginName + "_features.html%23feature_" + node.attributes.featureName + "_component_" + node.attributes.componentName;
+		}
+		else if (node.attributes.type == "extension-point")
+		{
+			zoom = node.attributes.pluginName + "_extensions.html%23extension_point_" + node.attributes.extensionPointName;
+		}
+		else if (node.attributes.type == "extension")
+		{
+			zoom = node.attributes.pluginName + "_features.html%23feature_" + node.attributes.featureName + "_extension_" + node.attributes.extensionId;
+		}
+	}
+	
+	window.open(getPluginDirectUrl(org.ametys.administration.Plugins.pluginName) + "/administrator/plugins/doc/index.html?zoom=" + zoom, "plugindoc", "");
+}
+
 /**
  * Back to the adminsitration home page
  */

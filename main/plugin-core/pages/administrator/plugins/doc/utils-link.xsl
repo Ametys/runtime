@@ -74,7 +74,7 @@
         <xsl:param name="plugin"/>
         <xsl:param name="content"/>
         
-        <xsl:variable name="pluginRef"><xsl:value-of select="$plugin"/><xsl:if test="$plugin = ''"><xsl:value-of select="$pluginName"/></xsl:if>.html</xsl:variable>
+        <xsl:variable name="pluginRef"><xsl:value-of select="$plugin"/><xsl:if test="$plugin = ''"><xsl:value-of select="$currentPluginName"/></xsl:if>.html</xsl:variable>
         
         <xsl:choose>
             <xsl:when test="$content != ''">
@@ -103,7 +103,7 @@
                     </xsl:when>
                     <xsl:otherwise>
                         <xsl:choose>
-                            <xsl:when test="$plugin = ''"><xsl:value-of select="$pluginName"/></xsl:when>
+                            <xsl:when test="$plugin = ''"><xsl:value-of select="$currentPluginName"/></xsl:when>
                             <xsl:otherwise><xsl:value-of select="$plugin"/></xsl:otherwise>
                         </xsl:choose>
                         <xsl:text> </xsl:text><xsl:value-of select="$content"/>
@@ -111,7 +111,7 @@
                 </xsl:choose>
             </xsl:when>
             <xsl:otherwise>
-                <a title="Plugin" href="{$pluginRef}#top"><xsl:value-of select="$plugin"/><xsl:if test="$plugin = ''"><xsl:value-of select="$pluginName"/></xsl:if></a>
+                <a title="Plugin" href="{$pluginRef}#top"><xsl:value-of select="$plugin"/><xsl:if test="$plugin = ''"><xsl:value-of select="$currentPluginName"/></xsl:if></a>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
@@ -142,7 +142,7 @@
                     </xsl:when>
                     <xsl:otherwise>
                         <xsl:choose>
-                            <xsl:when test="$plugin = ''"><xsl:value-of select="$pluginName"/></xsl:when>
+                            <xsl:when test="$plugin = ''"><xsl:value-of select="$currentPluginName"/></xsl:when>
                             <xsl:otherwise><xsl:value-of select="$plugin"/></xsl:otherwise>
                         </xsl:choose>
                         <xsl:value-of select="$featureName"/>

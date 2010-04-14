@@ -11,7 +11,7 @@
     +-->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:plugin="http://www.ametys.org/schema/plugin">
 
-   <xsl:param name="pluginName"/>
+   <xsl:param name="currentPluginName"/>
  
      <!-- +
          | Display the left summary of the features in the current xpath
@@ -50,7 +50,7 @@
                 <table>
                     <xsl:for-each select="plugin:feature">
                         <tr class="row_{position() mod 2}">
-                            <td><a href="{$pluginName}_features.html#feature_{@name}" title="More details on {@name}"><xsl:value-of select="$pluginName"/>/<xsl:value-of select="@name"/></a></td>
+                            <td><a href="{$currentPluginName}_features.html#feature_{@name}" title="More details on {@name}"><xsl:value-of select="$currentPluginName"/>/<xsl:value-of select="@name"/></a></td>
                             <td>
                                 <div style="height: 20px; overflow: hidden">
                                     <xsl:call-template name="comment-content"/>
@@ -69,7 +69,7 @@
         <xsl:if test="plugin:feature">
             <h2>Features detail</h2>
             <xsl:for-each select="plugin:feature">
-                <h4><a name="feature_{@name}"><xsl:value-of select="$pluginName"/>/<xsl:value-of select="@name"/></a></h4>
+                <h4><a name="feature_{@name}"><xsl:value-of select="$currentPluginName"/>/<xsl:value-of select="@name"/></a></h4>
                     <div class="content">
                         <xsl:call-template name="comment"/>
                         
@@ -99,7 +99,7 @@
                         <a href="{substring-before(@depends, '/')}_features.html#{substring-after(@depends, '/')}"><xsl:value-of select="substring-after(@depends, '/')"/></a>
                     </xsl:when>
                     <xsl:otherwise>
-                        <a href="{$pluginName}_features.html#feature_{@depends}"><xsl:value-of select="$pluginName"/>/<xsl:value-of select="@depends"/></a>
+                        <a href="{$currentPluginName}_features.html#feature_{@depends}"><xsl:value-of select="$currentPluginName"/>/<xsl:value-of select="@depends"/></a>
                     </xsl:otherwise>
                 </xsl:choose>
            </p>
@@ -114,7 +114,7 @@
             <p style="text-indent: -20px; padding-left: 20px;">
                 <b>Use shared configuration parameters:</b><br/>
                 <xsl:for-each select="plugin:config/plugin:param-ref">
-                    <a href="{$pluginName}_configuration.html#config_{@id}"><xsl:value-of select="@id"/></a>
+                    <a href="{$currentPluginName}_configuration.html#config_{@id}"><xsl:value-of select="@id"/></a>
                     <xsl:if test="position() != last()"><xsl:text>, </xsl:text></xsl:if>
                 </xsl:for-each>
             </p>
@@ -183,7 +183,8 @@
                     <p style="text-indent: -20px; padding-left: 20px;">
                         <b>Extension point extended:</b><br/>
                         <a>
-                            <xsl:attribute name="href"><xsl:value-of select="$pluginName"/>_extensions.html#extension_point_<xsl:value-of select="@point"/></xsl:attribute>
+                        	<xsl:variable name="id" select="@point"/>
+                            <xsl:attribute name="href"><xsl:value-of select="/plugins/plugin:plugin[plugin:extension-points/*[@id=$id]]/@name"/>_extensions.html#extension_point_<xsl:value-of select="@point"/></xsl:attribute>
                             <xsl:value-of select="@point"/>
                         </a>
                     </p>

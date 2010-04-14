@@ -21,18 +21,18 @@
             <head>
                 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
                 <meta content="Ametys" name="generator"/>
-                <title>Ametys Extensions</title>
-                <link rel="stylesheet" type="text/css" href="resources/css/plugindoc.css" title="Style"/>
-                <link rel="stylesheet" type="text/css" href="resources/css/plugindoc_main.css" title="Style"/>
+                <title>Ametys Features</title>
+                <link rel="stylesheet" type="text/css" href="{$resourcesPath}/css/administrator/plugindoc.css" title="Style"/>
+                <link rel="stylesheet" type="text/css" href="{$resourcesPath}/css/administrator/plugindoc_main.css" title="Style"/>
             </head>
-            <body>
+            <body>  
               
-                <xsl:call-template name="extension-points-left-summary">
+                <xsl:call-template name="features-left-summary">
                     <xsl:with-param name="target">Navigation</xsl:with-param>
                 </xsl:call-template>
-                
+                  
             </body>
         </html>
     </xsl:template>
-    
+         
 </xsl:stylesheet>

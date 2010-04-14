@@ -52,10 +52,10 @@
                         <td>
                             <xsl:choose>
                                 <xsl:when test="local-name(../..) = 'feature'">
-                                    <a href="{$pluginName}_features.html#config_{@id}" title="More details on {@id}"><xsl:value-of select="@id"/></a>
+                                    <a href="{$currentPluginName}_features.html#config_{@id}" title="More details on {@id}"><xsl:value-of select="@id"/></a>
                                 </xsl:when>
                                 <xsl:otherwise>
-                                    <a href="{$pluginName}_configuration.html#config_{@id}" title="More details on {@id}"><xsl:value-of select="@id"/></a>
+                                    <a href="{$currentPluginName}_configuration.html#config_{@id}" title="More details on {@id}"><xsl:value-of select="@id"/></a>
                                 </xsl:otherwise>
                             </xsl:choose>
                         </td>
@@ -99,7 +99,7 @@
                     <b>Konwn uses:</b>
                     <br/>
                     <xsl:for-each select="/plugin:plugin/plugin:feature[plugin:config/plugin:param-ref/@id = current()/@id]">
-                        <a href="{$pluginName}_features.html#feature_{@name}"><xsl:value-of select="@name"/></a>
+                        <a href="{$currentPluginName}_features.html#feature_{@name}"><xsl:value-of select="@name"/></a>
                         <xsl:if test="position() != last()"><xsl:text>, </xsl:text></xsl:if>
                     </xsl:for-each>
                 </p>
@@ -118,10 +118,10 @@
                     <xsl:for-each select="/plugin:plugin/plugin:config/plugin:param[plugin:Category=current()/plugin:Category and plugin:Group = current()/plugin:Group and @id != current()/@id]|/plugin:plugin/plugin:feature/plugin:config/plugin:param[plugin:Category=current()/plugin:Category and plugin:Group = current()/plugin:Group and @id != current()/@id]">
                         <xsl:choose>
                             <xsl:when test="local-name(../..) = 'feature'">
-                                <a href="{$pluginName}_features.html#config_{@id}"><xsl:value-of select="@id"/></a>
+                                <a href="{$currentPluginName}_features.html#config_{@id}"><xsl:value-of select="@id"/></a>
                             </xsl:when>
                             <xsl:otherwise>
-                                <a href="{$pluginName}_configuration.html#config_{@id}"><xsl:value-of select="@id"/></a>
+                                <a href="{$currentPluginName}_configuration.html#config_{@id}"><xsl:value-of select="@id"/></a>
                             </xsl:otherwise>
                         </xsl:choose>
 
@@ -138,10 +138,10 @@
                     <xsl:for-each select="/plugin:plugin/plugin:config/plugin:param[plugin:Category=current()/plugin:Category and plugin:Group != current()/plugin:Group and @id != current()/@id]|/plugin:plugin/plugin:feature/plugin:config/plugin:param[plugin:Category=current()/plugin:Category and Group != current()/plugin:Group and @id != current()/@id]">
                         <xsl:choose>
                             <xsl:when test="local-name(../..) = 'feature'">
-                                <a href="{$pluginName}_features.html#config_{@id}"><xsl:value-of select="@id"/></a>
+                                <a href="{$currentPluginName}_features.html#config_{@id}"><xsl:value-of select="@id"/></a>
                             </xsl:when>
                             <xsl:otherwise>
-                                <a href="{$pluginName}_configuration.html#config_{@id}"><xsl:value-of select="@id"/></a>
+                                <a href="{$currentPluginName}_configuration.html#config_{@id}"><xsl:value-of select="@id"/></a>
                             </xsl:otherwise>
                         </xsl:choose>
 

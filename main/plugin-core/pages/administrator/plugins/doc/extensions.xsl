@@ -67,7 +67,7 @@
                 <table>
                     <xsl:for-each select="plugin:extension-points/plugin:single-extension-point">
                         <tr class="row_{position() mod 2}">
-                            <td><a href="{$pluginName}_extensions.html#extension_point_{@id}" title="More details on {@id}"><xsl:value-of select="@id"/></a></td>
+                            <td><a href="{$currentPluginName}_extensions.html#extension_point_{@id}" title="More details on {@id}"><xsl:value-of select="@id"/></a></td>
                             <td>
                                 <div style="height: 20px; overflow: hidden">
                                     <xsl:call-template name="comment-content"/>
@@ -83,7 +83,7 @@
                 <table>
                     <xsl:for-each select="plugin:extension-points/plugin:extension-point">
                         <tr class="row_{position() mod 2}">
-                            <td><a href="{$pluginName}_extensions.html#extension_point_{@id}" title="More details on {@id}"><xsl:value-of select="@id"/></a></td>
+                            <td><a href="{$currentPluginName}_extensions.html#extension_point_{@id}" title="More details on {@id}"><xsl:value-of select="@id"/></a></td>
                             <td>
                                 <div style="height: 20px; overflow: hidden">
                                     <xsl:call-template name="comment-content"/>

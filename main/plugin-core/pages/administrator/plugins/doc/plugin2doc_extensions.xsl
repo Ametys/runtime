@@ -16,10 +16,10 @@
     <xsl:import href="extensions.xsl"/>
     <xsl:import href="features.xsl"/>
 
-    <xsl:param name="pluginName"/>
+    <xsl:param name="currentPluginName"/>
   
 	<xsl:template match="/plugins">
- 		<xsl:apply-templates select="plugin:plugin[@name=$pluginName]"/>
+ 		<xsl:apply-templates select="plugin:plugin[@name=$currentPluginName]"/>
  	</xsl:template>
  	
     <xsl:template match="plugin:plugin">
@@ -28,7 +28,7 @@
                 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
                 <meta content="Ametys" name="generator"/>
                 <title>Ametys</title>
-                <link rel="stylesheet" type="text/css" href="resources/css/plugindoc.css" title="Style"/>
+                <link rel="stylesheet" type="text/css" href="{$resourcesPath}/css/administrator/plugindoc.css" title="Style"/>
             </head>
             <body class="head">
                 <xsl:call-template name="main-information"/>
@@ -43,8 +43,8 @@
          + --> 
     <xsl:template name="main-information">
         <h1 class="head">
-            <img src="resources/img/runtime.jpg" style="float: left"/>
-            <a href="{$pluginName}_main.html">Plugin <xsl:value-of select="$pluginName"/></a>
+            <img src="{$resourcesPath}/img/administrator/plugins/doc/runtime.jpg" style="float: left"/>
+            <a href="{$currentPluginName}_main.html">Plugin <xsl:value-of select="$currentPluginName"/></a>
         </h1>
         
         <p>
