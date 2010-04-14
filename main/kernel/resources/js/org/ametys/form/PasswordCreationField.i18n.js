@@ -104,14 +104,23 @@ org.ametys.form.PasswordCreationField.prototype._drawFields = function(component
 	this.elConnection.setVisibilityMode(Ext.Element.DISPLAY);
 	
 	// reset password
-	this.resetBtn = this.elConnection.next().insertSibling({
-		id: Ext.id(),
-		tag:'img',
-		style: 'padding-left: 20px; padding-top : 7px; display: block; cursor: pointer;',
-		src: getPluginResourcesUrl('core') + '/img/administrator/config/password_reset.png'}, 'after');
+	var ressetBtnConf = {
+			id: Ext.id(),
+			tag:'img',
+			style: 'padding-left: 20px; padding-top : 7px; display: block; cursor: pointer;',
+			src: getPluginResourcesUrl('core') + '/img/administrator/config/password_reset.png'
+	};
+	if (this.helpEl)
+	{
+		this.resetBtn = this.helpEl.insertSibling(ressetBtnConf, 'after');
+		this.helpEl.setStyle('float', '');
+	}
+	else
+	{
+		this.resetBtn = this.elConnection.insertSibling(ressetBtnConf, 'after');
+	}
 	this.resetBtn.addListener('click', this._resetPassword, this);
 	this.resetBtn.hide();
-	this.helpEl.setStyle('float', '');
 
 	var tooltip = new Ext.ToolTip({
         target: this.resetBtn.id,
