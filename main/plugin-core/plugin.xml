@@ -1078,9 +1078,6 @@
             The same as runtime.user.impl.jdbc.core but where users can be authentified through the API
             @see:plugin{feature/runtime.user.impl.jdbc.core}
          -->
-         <components>
-         <component role="org.ametys.runtime.plugins.core.util.ldap.ScopeEnumerator"
-    		           class="org.ametys.runtime.plugins.core.util.ldap.ScopeEnumerator"/></components>
         <extensions>
             <extension point="org.ametys.runtime.user.UsersManager"
                        id="org.ametys.runtime.plugins.core.user.CoreCredentialsAwareJdbc"
