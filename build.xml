@@ -142,6 +142,7 @@
             <fileset dir="${plugin-dir}">
                 <exclude name="**/*.png"/>
                 <exclude name="**/*.gif"/>
+                <exclude name="**/*.jpg"/>
             </fileset>
             <fileset dir="${workspace-dir}">
                 <exclude name="**/*.gif"/>
