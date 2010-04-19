@@ -32,7 +32,6 @@
             <map:action name="set-authorization-header" src="org.ametys.runtime.workspaces.admin.authentication.SetAuthorizationHeaderAction" logger="org.ametys.runtime.workspaces.admin.sitemap.action.setheader"/>
             <map:action name="has-not-right" src="org.ametys.runtime.plugins.core.right.actions.HasRightAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.hasRight">
                 <has-right>false</has-right>
-                <base-context>/application</base-context>
             </map:action>
 		</map:actions>
         

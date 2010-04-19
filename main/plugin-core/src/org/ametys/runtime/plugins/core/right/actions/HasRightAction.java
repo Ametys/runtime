@@ -46,7 +46,7 @@ public class HasRightAction extends CurrentUserProviderServiceableAction impleme
     public void configure(Configuration configuration) throws ConfigurationException
     {
         _hasRight = "true".equals(configuration.getChild("has-right").getValue("true"));
-        _baseContext = configuration.getChild("base-context").getValue("/application");
+        _baseContext = configuration.getChild("base-context").getValue("");
     }
     
     /**
@@ -82,7 +82,7 @@ public class HasRightAction extends CurrentUserProviderServiceableAction impleme
         String userLogin = _getCurrentUser();
         if (userLogin == null)
         {
-            getLogger().error("Annonymous user tried to access a privileged feature without convenient right. Should have in right between those : '" + source + "' on context '" + context + "'");
+            getLogger().error("Anonymous user tried to access a privileged feature without convenient right. Should have in right between those : '" + source + "' on context '" + context + "'");
             throw new IllegalStateException("You have no right to access this feature.");
         }
         else
