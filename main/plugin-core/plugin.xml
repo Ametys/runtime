@@ -700,6 +700,8 @@
     	<components>
     		<component class="org.ametys.runtime.ui.SAXClientSideElementHelper" 
     				   role="org.ametys.runtime.ui.SAXClientSideElementHelper"/>
+    		<component class="org.ametys.runtime.plugins.core.ui.css.AllCSSComponent" 
+    				   role="org.ametys.runtime.plugins.core.ui.css.AllCSSComponent"/>
     	</components>
     </feature>
     

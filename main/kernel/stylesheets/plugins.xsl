@@ -16,12 +16,14 @@
    -->
 <xsl:stylesheet version="1.0" 
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
-    xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
+    xmlns:i18n="http://apache.org/cocoon/i18n/2.1"
+    xmlns:csscomponent="org.ametys.runtime.plugins.core.ui.css.AllCSSComponent">
 
     <xsl:template name="plugins-load">
         <xsl:param name="scripts"/>
         <xsl:param name="css"/>
         <xsl:param name="actions"/>
+        <xsl:param name="debug-mode">false</xsl:param>
 
 		<!-- Load scripts -->
 		<xsl:if test="$scripts">
@@ -38,15 +40,17 @@
 
 		<!-- Load css -->
 		<xsl:if test="$css">
+			<xsl:value-of select="csscomponent:resetCSSFilesList()"/>
 	        <xsl:for-each select="$css">
 	            <xsl:variable name="position" select="position()"/>
 	            <xsl:variable name="value" select="."/>
 	            
 	            <!-- check that the src was not already loaded (by another plugin for example) -->
 	            <xsl:if test="not($css[position() &lt; $position and . = $value])">
-	                <link rel="stylesheet" type="text/css" href="{$contextPath}{.}"/>
+	            	<xsl:value-of select="csscomponent:addCSSFile(.)"/>
 	            </xsl:if>
 	        </xsl:for-each>
+            <link rel="stylesheet" type="text/css" href="{$contextPath}/plugins/core/cssfilelist/{csscomponent:getHashCode()}-{$debug-mode}.css"/>
 		</xsl:if>
     </xsl:template>
     
