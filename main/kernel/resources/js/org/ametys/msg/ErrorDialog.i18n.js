@@ -91,7 +91,7 @@ org.ametys.msg.ErrorDialog = function (title, text, details, category)
 		    			detailledMsg.setHeight(100);
 		    			detailledMsg.show();
 		    			this.setText("&lt;&lt; <i18n:text i18n:key='KERNEL_MSG_ERRORDIALOG_DETAILS'/>");
-		    			currentErrorDialog.setHeight(210)
+		    			currentErrorDialog.setHeight(221)
 		    		}
 		    		else
 		    		{
