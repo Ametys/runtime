@@ -495,6 +495,10 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
                 sql = new StringBuffer("select " + selectClause.toString() + " from (select rownum r, " + selectClause.toString() + " from (" + sql.toString()
                         + ")) where r BETWEEN " + offset + " AND " + (offset + length - 1));
             }
+            else if (ConnectionHelper.getDatabaseType(con) == ConnectionHelper.DatabaseType.DATABASE_DERBY)
+            {
+                getLogger().warn("Derby does not support the LIMIT and OFFSET function");
+            }
             else if (getLogger().isWarnEnabled())
             {
                 getLogger().warn("The request will not have the limit and offet set, since its type is unknown");
@@ -507,7 +511,7 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
                 getLogger().debug(sqlRequest);
             }
             stmt = con.prepareStatement(sqlRequest);
-
+            
             // Value les parametres s'il y a un pattern
             if (pattern != null)
             {
