@@ -122,6 +122,12 @@
 	float: left;
 }
 
+.ext-ie8 .ametys-input input {
+	padding-top: 3px !important;
+	padding-bottom: 0px !important;
+	height: 17px !important;
+}
+
 .ametys-file div.x-form-element {
 	float: left;
 	padding-left: 0px !important;
@@ -138,6 +144,12 @@
 	margin-top: 0px !important;
 	margin-left: 5px;
 }
+
+.ext-ie8 .ametys-file input {
+	padding-top: 2px !important;
+	padding-bottom: 0px !important;
+}
+
 .ametys-file .ametys-file-hint {
 	font-size: 0.8em;
 	color: #7f7f7f;
@@ -153,13 +165,18 @@
 	padding: 0px 0px 2px 6px !important;
 }
 
+.ext-ie8 .ametys-select input {
+	padding-top: 3px !important;
+	padding-bottom: 0px !important;
+	height: 17px !important;
+}
+
 .ametys-input textarea {
 	font-size: 0.9em;
 	margin-top: 0px !important;
 	border: 1px solid #C8CDD0 !important;
 	background-color: #FFFFFF !important;
 	background-image: none !important;
-	height: 18px;
 	padding: 4px 0px 1px 6px !important;
 	float: left;
 }
