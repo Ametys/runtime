@@ -376,7 +376,7 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
         {
             connection = ConnectionHelper.getConnection(_poolName);
             
-            if (!DatabaseType.DATABASE_MYSQL.equals(ConnectionHelper.getDatabaseType(connection)))
+            if (DatabaseType.DATABASE_ORACLE.equals(ConnectionHelper.getDatabaseType(connection)))
             {
                 statement = connection.prepareStatement("SELECT seq_groups.nextval FROM dual");
                 rs = statement.executeQuery();
@@ -386,13 +386,21 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
                 }
                 ConnectionHelper.cleanup(rs);
                 ConnectionHelper.cleanup(statement);
+                
+                statement = connection.prepareStatement("INSERT INTO " + _groupsListTable + " (Id, Label) VALUES(?, ?)");
+                statement.setString(1, id);
+                statement.setString(2, name);
+            }
+            else
+            {
+                statement = connection.prepareStatement("INSERT INTO " + _groupsListTable + " (" + _groupsListColLabel + ") VALUES (?)");
+                statement.setString(1, name);
             }
             
-            statement = connection.prepareStatement("INSERT INTO " + _groupsListTable + " (" + _groupsListColId + ", " + _groupsListColLabel + ") VALUES (?, ?)");
-            statement.setString(1, id);
-            statement.setString(2, name);
             statement.executeUpdate();
-            ConnectionHelper.cleanup(statement);       
+            ConnectionHelper.cleanup(statement);
+            
+            //FIXME Write query working with all database
             if (DatabaseType.DATABASE_MYSQL.equals(ConnectionHelper.getDatabaseType(connection)))
             {
                 statement = connection.prepareStatement("SELECT " + _groupsListColId + " FROM " + _groupsListTable + " WHERE " + _groupsListColId + " = last_insert_id()");    
@@ -418,6 +426,17 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
                     }
                 }
             }
+            else if (DatabaseType.DATABASE_DERBY.equals(ConnectionHelper.getDatabaseType(connection)))
+            {
+                statement = connection.prepareStatement("VALUES IDENTITY_VAL_LOCAL ()");
+                rs = statement.executeQuery();
+                if (rs.next())
+                {
+                    id = rs.getString(1);
+                }
+            }
+            
+            // TODO if (DatabaseType.DATABASE_POSTGRES.equals(ConnectionHelper.getDatabaseType(connection)))
         }
         catch (SQLException ex)
         {
