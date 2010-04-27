@@ -16,7 +16,9 @@
 package org.ametys.runtime.plugins.core.right;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.avalon.framework.component.Component;
@@ -60,6 +62,14 @@ public class BasicRightsManager implements RightsManager, Serviceable, ThreadSaf
     public Set<String> getUserRights(String login, String context)
     {
         return _rightsExtensionPoint.getExtensionsIds();
+    }
+    
+    @Override
+    public Map<String, Set<String>> getUsersRights(String login)
+    {
+        Map<String, Set<String>> rights = new HashMap<String, Set<String>>();
+        rights.put("/", _rightsExtensionPoint.getExtensionsIds());
+        return rights;
     }
 
     public RightResult hasRight(String userLogin, String right, String context)

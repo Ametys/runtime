@@ -15,6 +15,7 @@
  */
 package org.ametys.runtime.right;
 
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -89,4 +90,13 @@ public interface RightsManager
      * @return The list of rights as a Set of String (id).
      */
     public Set<String> getUserRights(String login, String context);
+    
+    /**
+     * Get the list of a user's rights by context
+     * The user's rights and the rights of the user's groups are returned.
+     * The implementations have to prefix the given context by the application rights' context prefix except if null.
+     * @param login the user's login. Cannot be null.
+     * @return The user rights as a Map of String (context), Set (rights' id)
+     */
+    public Map<String, Set<String>> getUsersRights (String login);
 }
