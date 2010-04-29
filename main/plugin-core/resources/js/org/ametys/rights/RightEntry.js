@@ -82,7 +82,7 @@ org.ametys.rights.RightEntry.prototype.onRender = function(ct, position)
 	var carWidth = Math.floor(textWidth / nbCars);//Taille moyenne d'un caractères
 	if (textWidth > maxWidth)
 	{
-		this.text = this.text.substring(0, (Math.floor(maxWidth /carWidth) - 3*carWidth)) + "...";
+		this.text = this.text.substring(0, (Math.floor(maxWidth /carWidth) - 3)) + "...";
 	}
 	
 	var divText = this.getEl().createChild({
