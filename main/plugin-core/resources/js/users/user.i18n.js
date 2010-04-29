@@ -55,7 +55,7 @@ RUNTIME_Plugin_Runtime_EditUser.delayedInitialize = function()
 		icon: getPluginResourcesUrl('core') + '/img/users/icon_small.png',
 		
 		width : 430,
-		height : (80 + 30 * RUNTIME_Plugin_Runtime_EditUser.fieldsNum),
+		height : (80 + 32 * RUNTIME_Plugin_Runtime_EditUser.fieldsNum),
 		autoScroll: true,
 		
 		items : [ formPanel ],
