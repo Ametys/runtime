@@ -39,6 +39,7 @@
 			<!-- ****** HEAD ****** -->
 			<head> 
                 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+				<meta http-equiv="X-UA-Compatible" content="IE=8" />
 				<title>
 					<i18n:text i18n:catalogue="workspace.{$workspaceName}" i18n:key="WORKSPACE_ADMIN_LABEL_SHORT"/>
 					<xsl:text> </xsl:text>
