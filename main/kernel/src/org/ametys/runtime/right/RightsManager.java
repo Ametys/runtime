@@ -98,5 +98,6 @@ public interface RightsManager
      * @param login the user's login. Cannot be null.
      * @return The user rights as a Map of String (context), Set (rights' id)
      */
-    public Map<String, Set<String>> getUsersRights (String login);
+    public Map<String, Set<String>> getUserRights (String login);
+    
 }

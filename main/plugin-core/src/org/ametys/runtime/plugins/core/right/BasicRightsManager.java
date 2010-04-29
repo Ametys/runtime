@@ -65,13 +65,13 @@ public class BasicRightsManager implements RightsManager, Serviceable, ThreadSaf
     }
     
     @Override
-    public Map<String, Set<String>> getUsersRights(String login)
+    public Map<String, Set<String>> getUserRights(String login)
     {
         Map<String, Set<String>> rights = new HashMap<String, Set<String>>();
         rights.put("/", _rightsExtensionPoint.getExtensionsIds());
         return rights;
     }
-
+    
     public RightResult hasRight(String userLogin, String right, String context)
     {
         return RightsManager.RightResult.RIGHT_OK;

@@ -329,7 +329,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     }
     
     @Override
-    public Map<String, Set<String>> getUsersRights(String login)
+    public Map<String, Set<String>> getUserRights(String login)
     {
         try
         {
@@ -494,7 +494,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
         return profiles;
     }
-
+    
     /**
      * Returns a Set containing all users for a context and a profile
      * 
@@ -657,6 +657,39 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         }
 
         return contexts;
+    }
+    
+    /**
+     * Returns a Map containing all profiles and context for a given user
+     * 
+     * @param login the login of the concerned user
+     * @return a Map as (Profile Id, set of context)
+     */
+    public Map<String, Set<String>> getProfilesAndContextByUser (String login)
+    {
+        try
+        {
+            Map<String, Set<String>> userProfiles = getUsersOnlyProfiles(login);
+            Map<String, Set<String>> groupProfiles = getGroupsOnlyProfiles(login);
+            
+            for (String context : groupProfiles.keySet())
+            {
+                if (!userProfiles.containsKey(context))
+                {
+                    userProfiles.put(context, new HashSet<String>());
+                }
+                userProfiles.get(context).addAll(groupProfiles.get(context));
+            }
+            
+            return userProfiles;
+        }
+        
+        catch (SQLException ex)
+        {
+            getLogger().error("Error in sql query", ex);
+        }
+        
+        return new HashMap<String, Set<String>>();
     }
 
     /**
@@ -1483,6 +1516,53 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             ConnectionHelper.cleanup(connection);
         }
     }
+    
+    private Map<String, Set<String>> getUsersOnlyProfiles(String login) throws SQLException
+    {
+        Map<String, Set<String>> profiles = new HashMap<String, Set<String>>();
+
+        Connection connection = ConnectionHelper.getConnection(_poolName);
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try
+        {
+            // On regarde d'abord parmi les droits affectés directement aux utilisateurs
+            StringBuffer sql = new StringBuffer();
+                
+            sql.append("SELECT DISTINCT Profile_Id, Context ");
+            sql.append("FROM " + _tableUserRights  + " ");
+            sql.append("WHERE Login = ?");
+            
+            stmt = connection.prepareStatement(sql.toString());
+            stmt.setString(1, login);
+
+            // Logger la requête
+            getLogger().info(sql + "\n[" + login + "]");
+
+            rs = stmt.executeQuery();
+
+            while (rs.next())
+            {
+                String profileId = rs.getString(1);
+                String context = rs.getString(2);
+                
+                if (!profiles.containsKey(profileId))
+                {
+                    profiles.put(profileId, new HashSet<String>());
+                }
+                profiles.get(profileId).add(context);
+            }
+
+            return profiles;
+        }
+        finally
+        {
+            ConnectionHelper.cleanup(rs);
+            ConnectionHelper.cleanup(stmt);
+            ConnectionHelper.cleanup(connection);
+        }
+    }
 
     /* ----------------------------- */
     /* METHODES INTERNES DES GROUPES */
@@ -1877,7 +1957,82 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             ConnectionHelper.cleanup(connection);
         }
     }
+    
+    private Map<String, Set<String>> getGroupsOnlyProfiles(String login) throws SQLException
+    {
+        Map<String, Set<String>> profiles = new HashMap<String, Set<String>>();
 
+        Connection connection = ConnectionHelper.getConnection(_poolName);
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try
+        {
+            // Récupère la liste des groupes du user
+            Set<String> userSGroup = _groupsManager.getUserGroups(login);
+            if (userSGroup != null && userSGroup.size() != 0)
+            {
+                // Construit le bout de sql pour tous les groupes
+                StringBuffer groupSql = new StringBuffer();
+
+                for (int i = 0; i < userSGroup.size(); i++)
+                {
+                    if (i != 0)
+                    {
+                        groupSql.append(" OR ");
+                    }
+                    
+                    groupSql.append("GR.Group_Id = ?");
+                }
+
+                // Puis parmi les profils affectés aux groupes auxquels appartient l'utilisateur
+                StringBuffer sql = new StringBuffer();
+                
+                sql.append("SELECT DISTINCT GR.Profile_Id, GR.Context ");
+                sql.append("FROM Rights_GroupRights GR ");
+                sql.append("WHERE ");
+                sql.append(groupSql);
+
+                stmt = connection.prepareStatement(sql.toString());
+
+                Iterator groupSqlIterator = userSGroup.iterator();
+                int i = 1;
+
+                while (groupSqlIterator.hasNext())
+                {
+                    String groupId = (String) groupSqlIterator.next();
+                    stmt.setString(i, groupId);
+                    i++;
+                }
+
+                // Logger la requête
+                getLogger().info(sql + "\n[" + login + "]");
+
+                rs = stmt.executeQuery();
+
+                while (rs.next())
+                {
+                    String profileId = rs.getString(1);
+                    String context = rs.getString(2);
+                    
+                    if (!profiles.containsKey(profileId))
+                    {
+                        profiles.put(profileId, new HashSet<String>());
+                    }
+                    profiles.get(profileId).add(context);
+                }
+            }
+
+            return profiles;
+        }
+        finally
+        {
+            ConnectionHelper.cleanup(rs);
+            ConnectionHelper.cleanup(stmt);
+            ConnectionHelper.cleanup(connection);
+        }
+    }
+    
     private String _getCondition(String context)
     {
         if (context.indexOf("*") >= 0)
