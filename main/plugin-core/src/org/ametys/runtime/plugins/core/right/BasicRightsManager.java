@@ -27,6 +27,7 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.thread.ThreadSafe;
 
+import org.ametys.runtime.right.RightsContextPrefixExtensionPoint;
 import org.ametys.runtime.right.RightsManager;
 import org.ametys.runtime.user.User;
 import org.ametys.runtime.user.UsersManager;
@@ -39,11 +40,13 @@ public class BasicRightsManager implements RightsManager, Serviceable, ThreadSaf
 {
     private UsersManager _users;
     private RightsExtensionPoint _rightsExtensionPoint;
+    private RightsContextPrefixExtensionPoint _rightsContextPrefixEP;
     
     public void service(ServiceManager manager) throws ServiceException
     {
         _users = (UsersManager) manager.lookup(UsersManager.ROLE);
         _rightsExtensionPoint = (RightsExtensionPoint) manager.lookup(RightsExtensionPoint.ROLE);
+        _rightsContextPrefixEP = (RightsContextPrefixExtensionPoint) manager.lookup(RightsContextPrefixExtensionPoint.ROLE);
     }
     
     public Set<String> getGrantedUsers(String right, String context)
@@ -71,6 +74,15 @@ public class BasicRightsManager implements RightsManager, Serviceable, ThreadSaf
         rights.put("/", _rightsExtensionPoint.getExtensionsIds());
         return rights;
     }
+    
+    @Override
+    public Set<String> getUserRightContexts(String login, String rightId)
+    {
+        Set<String> contexts = new HashSet<String>();
+        contexts.add(_rightsContextPrefixEP.getContextPrefix());
+        return contexts;
+    }
+    
     
     public RightResult hasRight(String userLogin, String right, String context)
     {

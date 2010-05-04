@@ -355,6 +355,50 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         
         return new HashMap<String, Set<String>>();
     }
+    
+    @Override
+    public Set<String> getUserRightContexts(String login, String rightId)
+    {
+        Set<String> contexts = new HashSet<String>();
+
+        Connection connection = ConnectionHelper.getConnection(_poolName);
+
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try
+        {
+            String sql = "SELECT UR.Context " + "FROM " + _tableUserRights + " UR, " + _tableProfileRights + " PR WHERE UR.Login = ? AND PR.Right_Id = ? AND UR.Profile_Id = PR.Profile_Id";
+
+            stmt = connection.prepareStatement(sql);
+
+            stmt.setString(1, login);
+            stmt.setString(2, rightId);
+
+            // Logger la requête
+            getLogger().info(sql + "\n[" + login + ", " + rightId + "]");
+
+            rs = stmt.executeQuery();
+
+            while (rs.next())
+            {
+                contexts.add(rs.getString(1));
+            }
+        }
+        catch (SQLException ex)
+        {
+            getLogger().error("Error in sql query", ex);
+
+        }
+        finally
+        {
+            ConnectionHelper.cleanup(rs);
+            ConnectionHelper.cleanup(stmt);
+            ConnectionHelper.cleanup(connection);
+        }
+
+        return contexts;
+    }
 
     public void grantAllPrivileges(String login, String context)
     {
@@ -658,6 +702,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
         return contexts;
     }
+    
     
     /**
      * Returns a Map containing all profiles and context for a given user

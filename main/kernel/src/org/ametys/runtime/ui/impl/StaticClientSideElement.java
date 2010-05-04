@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -29,6 +30,7 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 
 import org.ametys.runtime.plugin.component.PluginAware;
+import org.ametys.runtime.right.RightsContextPrefixExtensionPoint;
 import org.ametys.runtime.right.RightsManager;
 import org.ametys.runtime.ui.ClientSideElement;
 import org.ametys.runtime.user.CurrentUserProvider;
@@ -43,6 +45,8 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
     protected CurrentUserProvider _currentUserProvider;
     /** The rights manager */
     protected RightsManager _rightsManager;
+    /** The rights context prefix */
+    protected RightsContextPrefixExtensionPoint _rightsContextPrefixEP;
     /** The element id */
     protected String _id;
     /** The script configured */
@@ -62,6 +66,7 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
     {
         _currentUserProvider = (CurrentUserProvider) smanager.lookup(CurrentUserProvider.ROLE);
         _rightsManager = (RightsManager) smanager.lookup(RightsManager.ROLE);
+        _rightsContextPrefixEP = (RightsContextPrefixExtensionPoint) smanager.lookup(RightsContextPrefixExtensionPoint.ROLE);
     }
     
     @Override
@@ -243,7 +248,16 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
                 }
                 else
                 {
-                    return _rightsManager.hasRight(userLogin, right, "/contributor") == RightsManager.RightResult.RIGHT_OK;
+                    // Check the user has at least the right on a current context
+                    Set<String> contexts = _rightsManager.getUserRightContexts(userLogin, right);
+                    for (String context : contexts)
+                    {
+                        if (context.startsWith(_rightsContextPrefixEP.getContextPrefix()))
+                        {
+                            return true;
+                        }
+                    }
+                    return false;
                 }
             }
         }
