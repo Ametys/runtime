@@ -187,6 +187,7 @@
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/PasswordField.js"></script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/PasswordCreationField.i18n.js"></script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/DateField.js"></script>
+        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/TimeField.js"></script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/ComboField.js"></script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/RadioGroupField.js"></script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/MultiSelectField.js"></script>

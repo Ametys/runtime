@@ -185,7 +185,7 @@
 	float: left;
 }
 
-.ametys-input input.x-form-checkbox  {
+.ametys-input input.x-form-checkbox, .ametys-input input.x-form-radio {
 	border: 0px solid #C8CDD0 !important;
 	margin-top: 3px !important;
 	background-color: transparent !important;
