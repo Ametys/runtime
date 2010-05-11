@@ -123,6 +123,10 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_LABEL">Plugins et Workspaces</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DESCRIPTION">Affiche tous les plugins et workspaces de l'application</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_HANDLE">Gestion</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHOOSE">Sélectionner</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_ACTIVATE">Activer</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DEACTIVATE">Désactiver</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES">Changements</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DOC">Documentation</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CANCEL">Quitter</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_TITLE">Liste des plugins et workspaces</message>
@@ -139,6 +143,15 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_INACTIVE_SINGLE">(contient une extension non choisie)</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_INACTIVE_EXCLUDED">(désactivé)</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_INACTIVE_DEPENDENCY">(dépend d'une feature indisponible)</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_ALERT_TEXT">Le changement ne sera effectif que lorsque vous aurez confirmé tous vos changements.&lt;br/&gt;Pour cela, cliquez sur l'action 'Changements'.&lt;br/&gt;&lt;br/&gt;Aucun élément graphique des arbres de plugins ne sera modifié tant que vos changements ne seront pas validés.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_ALERT_TITLE">Changement...</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_CONFIRM_TITLE">Changements...</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_CONFIRM_TEXT_START">Vous avez le(s) changement(s) suivant(s) en attente :&lt;br/&gt;&lt;br/&gt;</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_CONFIRM_TEXT_END">&lt;br/&gt;Souhaitez-vous les appliquer maintenant ?</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_SEP">Points d'extensions simples</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_EP">Points d'extensions multiples</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_BEWARE_TITLE">Dégagement</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_BEWARE_TEXT">Attention! Les changements de configuration peuvent empécher votre serveur de démarrer.&lt;br/&gt;Le fichier suivant va être modifié 'WEB-INF/param/runtime.xml'. En cas de problèmes vous pouvez restaurer la copie de sauvegarde 'WEB-INF/param/runtime.bak'.</message>
     
     <!-- ADMINITRATOR LOGS -->
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_LABEL">Journaux</message>

@@ -123,6 +123,10 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_LABEL">Plugins</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DESCRIPTION">Show all applications plugins</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_HANDLE">Management</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHOOSE">Select</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_ACTIVATE">Activate</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DEACTIVATE">Deactivate</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES">Changes</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DOC">Documentation</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CANCEL">Quit</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_TITLE">Plugins list</message>
@@ -139,6 +143,15 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_INACTIVE_SINGLE">(contains a rejected extension)</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_INACTIVE_EXCLUDED">(excluded)</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_INACTIVE_DEPENDENCY">(depends on an unavailable feature)</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_ALERT_TEXT">The change will be effective only when you will confirm all the changes.&lt;br/&gt;To do so, please click on the 'Changes' action.&lt;br/&gt;&lt;br/&gt;No graphical element of the plugins tree will be modified until you validate your changes.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_ALERT_TITLE">Change...</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_CONFIRM_TITLE">Changes...</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_CONFIRM_TEXT_START">You have the following waiting change(s):&lt;br/&gt;&lt;br/&gt;</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_CONFIRM_TEXT_END">&lt;br/&gt;Do you want to apply them now?</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_SEP">Single extensions points</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_EP">Multiple extensions points</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_BEWARE_TITLE">Disclaimer</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_BEWARE_TEXT">Becarefull! The configuration changes can break your server.&lt;br/&gt;The following file will be modified 'WEB-INF/param/runtime.xml'. If you have problems you can restore the backup copy 'WEB-INF/param/runtime.bak'.</message>
     
     <!-- ADMINITRATOR LOGS -->
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_LABEL">Logs</message>
