@@ -60,6 +60,7 @@
             <map:action name="administrator-change-levels" src="org.ametys.runtime.plugins.core.administrator.logs.ChangeLogLevelAction" logger="org.ametys.runtime.plugins.core.administrator.logs.ChangeLogLevelAction"/>
             <map:action name="administrator-system-update" src="org.ametys.runtime.plugins.core.administrator.system.UpdateSystemAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.updateSystem"/>
             <map:action name="administrator-config-save" src="org.ametys.runtime.plugins.core.administrator.configuration.SaveConfigAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.saveConfig"/>
+            <map:action name="administrator-change-plugins" src="org.ametys.runtime.plugins.core.administrator.plugins.ChangePlugins" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.changePlugins"/>
 		
 			<map:action name="users-edit" src="org.ametys.runtime.plugins.core.user.ui.actions.EditAction" logger="org.ametys.runtime.plugins.core.user.sitemap.action.edit"/>
 			<map:action name="users-delete" src="org.ametys.runtime.plugins.core.user.ui.actions.DeleteAction" logger="org.ametys.runtime.plugins.core.user.sitemap.action.delete"/>
@@ -297,6 +298,12 @@
                 <map:serialize type="xml"/>
             </map:match>
 
+            <map:match pattern="administrator/plugins/change">
+            	<map:act type="administrator-change-plugins">
+                    <map:generate type="action-result"/>
+                    <map:serialize type="xml"/>
+            	</map:act>
+            </map:match>
 
             <map:match pattern="administrator/plugins/view.html">
                 <map:aggregate element="root" label="content">

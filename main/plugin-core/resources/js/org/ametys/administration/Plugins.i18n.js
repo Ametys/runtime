@@ -173,7 +173,6 @@ org.ametys.administration.Plugins._drawHelpPanel = function ()
 
 org.ametys.administration.Plugins._computeShowHide = function()
 {
-	return;
 	var node = null;
 	if (org.ametys.administration.Plugins._mainPanel.layout.activeItem == org.ametys.administration.Plugins._tree)
 	{
@@ -295,10 +294,7 @@ org.ametys.administration.Plugins.select = function ()
 		org.ametys.administration.Plugins._SEP[node.parentNode.attributes.extensionPointName] = node.attributes.extensionId;
 		org.ametys.administration.Plugins._actions.showElt(org.ametys.administration.Plugins._ACTION_CHANGES);
 		
-		if (!org.ametys.administration.Plugins._changes)
-		{
-			Ext.MessageBox.alert("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_ALERT_TITLE"/>", "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_ALERT_TEXT"/>");
-		}
+		Ext.MessageBox.alert("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_ALERT_TITLE"/>", "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_ALERT_TEXT"/>");
 		org.ametys.administration.Plugins._changes = true;
 	}
 }
@@ -325,11 +321,7 @@ org.ametys.administration.Plugins.activate = function (status)
 		org.ametys.administration.Plugins._EP[node.attributes.pluginName + "/" + node.attributes.featureName] = status;
 		org.ametys.administration.Plugins._actions.showElt(org.ametys.administration.Plugins._ACTION_CHANGES);
 		
-		if (!org.ametys.administration.Plugins._changes)
-		{
-			Ext.MessageBox.alert("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_ALERT_TITLE"/>", "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_ALERT_TEXT"/>");
-		}
-		org.ametys.administration.Plugins._changes = true;
+		Ext.MessageBox.alert("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_ALERT_TITLE"/>", "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_ALERT_TEXT"/>");
 	}
 }
 
@@ -383,7 +375,29 @@ org.ametys.administration.Plugins.changes = function ()
 }
 org.ametys.administration.Plugins._changesNow = function()
 {
-	alert("do it")
+	var params = {};
+	params.EP = org.ametys.administration.Plugins._EP;
+	params.SEP = org.ametys.administration.Plugins._SEP;
+	
+	var serverMessage = new org.ametys.servercomm.ServerMessage(org.ametys.administration.Plugins.pluginName, "administrator/plugins/change", params, org.ametys.servercomm.ServerComm.PRIORITY_MAJOR, org.ametys.administration.Plugins._changesNowCB, this);
+	org.ametys.servercomm.ServerComm.getInstance().send(serverMessage);
+
+    org.ametys.administration.Plugins._mask = new org.ametys.msg.Mask();
+}
+
+org.ametys.administration.Plugins._changesNowCB = function(response)
+{
+	org.ametys.administration.Plugins._mask.hide();
+
+    if (org.ametys.servercomm.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_ERROR"/>", response, "org.ametys.administration.Groups._selectGroup"))
+    {
+       return;
+    }
+
+    alert("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_DONE"/>");
+
+    org.ametys.administration.Plugins._mask = new org.ametys.msg.Mask();
+    document.location.reload(true);
 }
 
 /**

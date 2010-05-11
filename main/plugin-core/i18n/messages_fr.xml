@@ -151,7 +151,9 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_SEP">Points d'extensions simples</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_EP">Points d'extensions multiples</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_BEWARE_TITLE">Dégagement</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_BEWARE_TEXT">Attention! Les changements de configuration peuvent empécher votre serveur de démarrer.&lt;br/&gt;Le fichier suivant va être modifié 'WEB-INF/param/runtime.xml'. En cas de problèmes vous pouvez restaurer la copie de sauvegarde 'WEB-INF/param/runtime.bak'.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_BEWARE_TEXT">Attention! Les changements de configuration peuvent empécher votre serveur de démarrer.&lt;br/&gt;Le fichier suivant va être modifié 'WEB-INF/param/runtime.xml'. En cas de problèmes vous pouvez restaurer la copie de sauvegarde 'WEB-INF/param/runtime.bak'.&lt;br/&gt;&lt;br/&gt;Modifier ce fichier implique de redémarrer le serveur (cela sera fait automatiquement quand vous appliquerez vos modification)</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_DONE">Les changements ont été effectués et le serveur est en train de redémarrer. Fermer cette boite de dialogue pour recharger cette page.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_ERROR">Les changements n'ont pas été effectués.</message>
     
     <!-- ADMINITRATOR LOGS -->
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_LABEL">Journaux</message>
