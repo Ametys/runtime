@@ -18,6 +18,11 @@ package org.ametys.runtime.util;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import javax.imageio.ImageIO;
 
 /**
  * Helper for manipulating images.
@@ -27,6 +32,25 @@ public final class ImageHelper
     private ImageHelper()
     {
         // empty constructor
+    }
+    
+    /**
+     * Generates a thumbnail from a source InputStream.
+     * @param is the source.
+     * @param os the destination.
+     * @param format the image format. Must be one of "gif", "png" or "jpg".
+     * @param height the specified height. Ignored if negative.
+     * @param width the specified width. Ignored if negative.
+     * @param maxHeight the maximum image height. Ignored if height or width is specified.
+     * @param maxWidth the maximum image width. Ignored if height or width is specified.
+     * @throws IOException if an error occurs when manipulating streams.
+     */
+    public static void generateThumbnail(InputStream is, OutputStream os, String format, int height, int width, int maxHeight, int maxWidth) throws IOException
+    {
+        BufferedImage src = ImageIO.read(is);
+        BufferedImage dest = generateThumbnail(src, height, width, maxHeight, maxWidth);
+        
+        ImageIO.write(dest, format, os);
     }
     
     /**
