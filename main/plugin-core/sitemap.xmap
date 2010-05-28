@@ -701,15 +701,13 @@
                 </map:act>
             </map:match>
             
-            <map:match pattern="upload/view">
+            <map:match pattern="upload/file">
                 <map:read type="upload-reader">
-					<map:parameter name="download" value="false"/>
-                </map:read>
-            </map:match>
-
-            <map:match pattern="upload/download">
-                <map:read type="upload-reader">
-					<map:parameter name="download" value="true"/>
+					<map:parameter name="download" value="{request-param:download}"/>
+					<map:parameter name="height" value="{request-param:height}"/>
+					<map:parameter name="width" value="{request-param:width}"/>
+					<map:parameter name="maxHeight" value="{request-param:maxHeight}"/>
+					<map:parameter name="maxWidth" value="{request-param:maxWidth}"/>
                 </map:read>
             </map:match>
         </map:pipeline>

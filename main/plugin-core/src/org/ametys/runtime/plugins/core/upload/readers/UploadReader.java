@@ -37,6 +37,7 @@ import org.xml.sax.SAXException;
 import org.ametys.runtime.upload.Upload;
 import org.ametys.runtime.upload.UploadManager;
 import org.ametys.runtime.user.CurrentUserProvider;
+import org.ametys.runtime.util.ImageHelper;
 
 /**
  * {@link Reader} for generating binary output of previously
@@ -47,6 +48,13 @@ public class UploadReader extends ServiceableReader
     private CurrentUserProvider _currentUserProvider;
     private UploadManager _uploadManager;
     private Upload _upload;
+    
+    private int _width;
+    private int _height;
+    private int _maxWidth;
+    private int _maxHeight;
+    
+    private boolean _readForDownload;
 
     @Override
     public void service(ServiceManager serviceManager) throws ServiceException
@@ -80,6 +88,14 @@ public class UploadReader extends ServiceableReader
             // Invalid upload id
             getLogger().warn("Cannot find the temporary uploaded file with id " + (uploadId != null ? "'" + uploadId + "'" : "<null>"));
         }
+        
+        _readForDownload = par.getParameterAsBoolean("download", false);
+        
+        // parameters for image resizing
+        _width = par.getParameterAsInteger("width", 0);
+        _height = par.getParameterAsInteger("height", 0);
+        _maxWidth = par.getParameterAsInteger("maxWidth", 0);
+        _maxHeight = par.getParameterAsInteger("maxHeight", 0);
     }
     
     @Override
@@ -115,7 +131,7 @@ public class UploadReader extends ServiceableReader
         Response response = ObjectModelHelper.getResponse(objectModel);
         response.setHeader("Content-Length", Long.toString(_upload.getLength()));
         
-        if (parameters.getParameterAsBoolean("download", false))
+        if (_readForDownload)
         {
             response.setHeader("Content-Disposition", "attachment; filename=\"" + _upload.getFilename() + "\"");
         }
@@ -124,8 +140,19 @@ public class UploadReader extends ServiceableReader
         
         try
         {
-            // Copy data in response
-            IOUtils.copy(is, out);
+            if (_width > 0 || _height > 0 || _maxHeight > 0 || _maxWidth > 0)
+            {
+                // it's an image, which must be resized
+                int i = _upload.getFilename().lastIndexOf('.');
+                String format = _upload.getFilename().substring(i + 1);
+                ImageHelper.generateThumbnail(is, out, format, _height, _width, _maxHeight, _maxWidth);
+            }
+            else
+            {
+             // Copy data in response
+                IOUtils.copy(is, out);
+            }
+            
         }
         finally
         {
