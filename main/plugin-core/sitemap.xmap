@@ -24,6 +24,7 @@
             <map:generator name="administrator-logs-downloadzip" src="org.ametys.runtime.plugins.core.administrator.logs.LogsDownloadGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.logsDownload" label="content"/>
             <map:generator name="administrator-plugins-list" src="org.ametys.runtime.plugin.PluginsAndWorkspacesGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.listPlugins" label="content"/>
             <map:generator name="administrator-plugins-doc" src="org.ametys.runtime.plugins.core.administrator.plugins.doc.PluginDocGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.plugindoc" label="content"/>
+            <map:generator name="administrator-plugins-change-runtime" src="org.ametys.runtime.plugins.core.administrator.plugins.ChangeRuntime" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.ChangeRuntimePlugins" label="content"/>
             <map:generator name="administrator-system" src="org.ametys.runtime.plugins.core.administrator.system.SystemGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.system" label="content"/>
             <map:generator name="administrator-system-announcement" src="org.ametys.runtime.plugins.core.administrator.system.SystemAnnouncementGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.systemannouncement" label="content"/>
         
@@ -303,6 +304,12 @@
                     <map:generate type="action-result"/>
                     <map:serialize type="xml"/>
             	</map:act>
+            </map:match>
+
+            <map:match pattern="administrator/plugins/change-runtime">
+            	<map:generate type="administrator-plugins-change-runtime"/>
+            	<map:transform src="pages/administrator/plugins/runtime.xsl"/>
+            	<map:serialize type="xml"/>
             </map:match>
 
             <map:match pattern="administrator/plugins/view.html">

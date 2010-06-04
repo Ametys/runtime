@@ -22,7 +22,10 @@ import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.cocoon.acting.ServiceableAction;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
+import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.SourceResolver;
+import org.apache.excalibur.source.Source;
+import org.apache.excalibur.source.SourceUtil;
 
 /**
  * Change the plugins (activate/deactivate)
@@ -53,10 +56,44 @@ public class ChangePlugins extends ServiceableAction
             getLogger().debug("Applying preceding changes");
         }
 
-        // TODO implements
-        throw new UnsupportedOperationException("not implemented yet");
+        // 1 - save current runtime.xml file to runtime.bak
+        Source bakFile = null;
+        Source currentFile = null;
+        try
+        {
+            bakFile = resolver.resolveURI("context://WEB-INF/param/runtime.bak");
+            currentFile = resolver.resolveURI("context://WEB-INF/param/runtime.xml");
+            
+            SourceUtil.copy(currentFile, bakFile);
+        }
+        finally
+        {
+            resolver.release(bakFile);
+            resolver.release(currentFile);
+        }
+        
+        Source src = null;
+        try
+        {
+            currentFile = resolver.resolveURI("context://WEB-INF/param/runtime.xml");
+            src = resolver.resolveURI("cocoon:/administrator/plugins/change-runtime", null, jsParameters);
+            
+            SourceUtil.copy(src, currentFile);
+        }
+        finally
+        {
+            resolver.release(src);
+            resolver.release(currentFile);
+        }
 
-        // return EMPTY_MAP;
+        // Positionne l'attribut sur la requête pour le redémarrage de Cocoon
+        if (getLogger().isDebugEnabled())
+        {
+            getLogger().debug("Positionning org.ametys.runtime.reload=true for Cocoon reloading");
+        }
+        Request request = ObjectModelHelper.getRequest(objectModel);
+        request.setAttribute("org.ametys.runtime.reload", "true");
+
+        return EMPTY_MAP;
     }
-
 }
