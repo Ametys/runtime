@@ -37,6 +37,8 @@
             <map:generator name="groups-search" src="org.ametys.runtime.plugins.core.group.ui.generators.SearchGenerator" logger="org.ametys.runtime.plugins.core.group.sitemap.generator.search" label="content"/>
             <map:generator name="group-members" src="org.ametys.runtime.plugins.core.group.ui.generators.GroupMembersGenerator" logger="org.ametys.runtime.plugins.core.group.sitemap.generator.members" label="content"/>
 			
+			<map:generator name="rights-profiles-context" src="org.ametys.runtime.plugins.core.right.profile.generators.ProfilesByContextGenerator" logger="org.ametys.runtime.plugins.core.right.profile.sitemap.generator" label="content"/>
+			<map:generator name="rights-profile-rights" src="org.ametys.runtime.plugins.core.right.profile.generators.ProfileRightsGenerator" logger="org.ametys.runtime.plugins.core.right.profile.sitemap.generator" label="content"/>
 			<map:generator name="rights-profiles-view" src="org.ametys.runtime.plugins.core.right.profile.generators.ProfilesGenerator" logger="org.ametys.runtime.plugins.core.right.profile.sitemap.generator.view" label="content"/>
             <map:generator name="rights-profiles-list" src="org.ametys.runtime.plugins.core.right.ui.generators.ProfilesListGenerator" logger="org.ametys.runtime.plugins.core.right.sitemap.generator.profiles" label="content"/>
            	<map:generator name="rights-rights-list" src="org.ametys.runtime.plugins.core.right.ui.generators.RightsListGenerator" logger="org.ametys.runtime.plugins.core.right.sitemap.generator.profiles" label="content"/>
@@ -646,6 +648,21 @@
                 <map:generate type="rights-profiles-list"/>
                 <map:serialize type="xml"/>
             </map:match>
+            
+            <map:match pattern="rights/profiles-context.xml">
+				<map:generate type="rights-profiles-context"/>
+				<map:serialize type="xml"/>
+			</map:match>
+			
+			<map:match pattern="rights/profile.xml">
+				<map:generate type="rights-profile-rights"/>
+				<map:transform src="pages/profiles/rights.xsl"/>
+				<map:transform type="i18n">
+					<map:parameter name="locale" value="{locale:locale}"/>
+					<map:parameter name="default-catalogue-id" value="plugin.core"/>
+				</map:transform>
+				<map:serialize type="xml"/>
+			</map:match>
             
             <map:match pattern="rights/rights.xml">
                 <map:generate type="rights-rights-list"/>

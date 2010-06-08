@@ -503,6 +503,27 @@
     <message key="PLUGINS_CORE_RIGHTS_CONTEXTS_APPLICATION_HELP_AFFECT">Pour assigner des droits, ajoutez un utilisateur ou un groupe en cliquant sur les liens ci-dessus, ou sélectionnez directement un groupe ou un utilisateur dans la liste de droite.</message>
     <message key="PLUGINS_CORE_RIGHTS_CONTEXTS_APPLICATION_HELP_PROFIL">Choisissez le ou les profils à appliquer à l'utilisateur ou au groupe sélectionné.&lt;br/&gt;Cliquer sur le lien 'Valider les modifications' pour sauvegarder la nouvelle affectation.</message>
     
+    <message key="PROFILES_TREEPANEL_FILTER_BY_NAME">Filtrer par utilisateur(s) ou groupe(s) ...</message>
+	<message key="PROFILES_TREEPANEL_ROOT_NODE">Profils de droits</message>
+	<message key="PROFILES_TREEPANEL_BTN_INHERITANCE_TOOLTIP">Voir les utilisateurs et groupes par héritage</message>
+	<message key="PROFILES_TREEPANEL_BTN_UPTOCONTEXT_TOOLTIP">Remonter au context parent</message>
+	<message key="PROFILES_TREEPANEL_BTN_EXPAND_TOOTIP">Déplier tout</message>
+	<message key="PROFILES_TREEPANEL_BTN_COLLAPSE_TOOTIP">Replier tout</message>
+	<message key="PROFILES_TREEPANEL_CONTEXT_TOOLTIP">Context</message>
+	
+	<message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDUSER_LABEL">Affecter à un utilisateur</message>
+    <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDUSER_DESCRIPTION">Ajoute une nouvelle affectation au profil sélectionné sur le context courant</message>
+    <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDUSER_ERROR">Une erreur est survenue : la nouvelle affectation n'a pu être prise en compte.</message>
+    <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDGROUP_LABEL">Affecter à un groupe</message>
+    <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDGROUP_DESCRIPTION">Ajoute une nouvelle affectation au profil sélectionné sur le context courant</message>
+    <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDGROUP_ERROR">Une erreur est survenue : la nouvelle affectation n'a pu être prise en compte.</message>
+    <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_LABEL">Supprimer l'affectation</message>
+    <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_DESCRIPTION">Supprimer l'affectation sur le profil sélectionné</message>
+    <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_CONFIRM">Etes-vous sûr de vouloir supprimer cette ou ces affectation(s) ?</message>
+    <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_SUCCESS">L'affectation a bien été supprimée</message>
+    <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_ERROR">Une erreur est survenue lors de la suppression.</message>	
+	<message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ERROR_TITLE">Une erreur est survenue</message>
+ 
     <!-- AUTHENTICATION -->
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION">Authentification</message>
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION_GROUP_BASIC">HTTP Basique</message>
