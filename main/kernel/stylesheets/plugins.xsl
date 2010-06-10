@@ -50,7 +50,7 @@
 	            	<xsl:value-of select="csscomponent:addCSSFile(.)"/>
 	            </xsl:if>
 	        </xsl:for-each>
-            <link rel="stylesheet" type="text/css" href="{$contextPath}/plugins/core/cssfilelist/{csscomponent:getHashCode()}-{$debug-mode}.css"/>
+            <link rel="stylesheet" type="text/css" href="{$contextPath}{$workspaceURI}/plugins/core/cssfilelist/{csscomponent:getHashCode()}-{$debug-mode}.css"/>
 		</xsl:if>
     </xsl:template>
     
