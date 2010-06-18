@@ -385,6 +385,7 @@
 	<message key="PLUGINS_CORE_GROUPS_HANDLE_CREATE_SUCCESS">The group was sucessfully created</message>
 	<message key="PLUGINS_CORE_GROUPS_HANDLE_VALIDATE">Confirm changes</message>
 	<message key="PLUGINS_CORE_GROUPS_HANDLE_QUIT">Quit</message>
+	<message key="PLUGINS_CORE_GROUPS_USERS_HANDLE_CATEGORY">Utilisateurs</message>
 	<message key="PLUGINS_CORE_GROUPS_HANDLE_ADDUSER">Add user</message>
 	<message key="PLUGINS_CORE_GROUPS_HANDLE_DELETEUSER">Remove user</message>
 	<message key="PLUGINS_CORE_GROUPS_NEW_ERROR">An error occured during the adding process</message>
