@@ -135,7 +135,7 @@ public class FSUploadManager extends TimerTask implements UploadManager, ThreadS
                             }
                             
                             Collection<File> uploadFiles = FileUtils.listFiles(file, TrueFileFilter.INSTANCE, null);
-    
+
                             if (uploadFiles.isEmpty())
                             {
                                 // Remove empty directory

@@ -74,7 +74,6 @@ public class RequestCountListenerTestCase extends TestCase
         {
             threads.add(new Thread()
             {
-                
                 @Override
                 public void run()
                 {
