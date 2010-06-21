@@ -103,5 +103,13 @@ public interface ProfileBasedRightsManager extends RightsManager
      * @param context Context concerned
      */
     public void removeAll(String context);
+    
+    /**
+     * This method has to ensure that the user identified by its login will have all power by assigning a profile containing all rights.
+     * @param login The login of the user that will obtain all privilege on the right manager.
+     * @param context The context of the right (cannot be null)
+     * @param profileName The name of the profile to affect
+     */
+    public void grantAllPrivileges(String login, String context, String profileName);
 
 }

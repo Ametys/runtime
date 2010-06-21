@@ -400,13 +400,14 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         return contexts;
     }
 
-    public void grantAllPrivileges(String login, String context)
+    @Override
+    public void grantAllPrivileges(String login, String context, String profileName)
     {
         // Create or get the temporary admin profile
         Profile adminProfile = null;
         for (Profile profile : getProfiles())
         {
-            if (__INITIAL_PROFILE_ID.equals(profile.getName()))
+            if (profileName.equals(profile.getName()))
             {
                 adminProfile = profile;
                 break;
@@ -414,7 +415,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         }
         if (adminProfile == null)
         {
-            adminProfile = addProfile(__INITIAL_PROFILE_ID);
+            adminProfile = addProfile(profileName);
         }
 
         // Set all rights
@@ -429,6 +430,12 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         
         // Assign the profile
         addUserRight(login, context, adminProfile.getId());
+        
+    }
+    
+    public void grantAllPrivileges(String login, String context)
+    {
+        grantAllPrivileges(login, context, __INITIAL_PROFILE_ID);
     }
 
     public RightResult hasRight(String userLogin, String right, String context)
