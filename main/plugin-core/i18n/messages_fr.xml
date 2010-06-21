@@ -271,7 +271,7 @@
     <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_AUTH_METHOD_ENUM_NONE">Anonyme</message>
     <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_AUTH_METHOD_ENUM_SIMPLE">Simple</message>
     <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_SSL_LABEL">Connexion sécurisée</message>
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_SSL_DESCRIPTION">Activer cet option pour utiliser le protocole ldaps au lieu de ldap</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_SSL_DESCRIPTION">Activer cette option pour utiliser le protocole ldaps au lieu de ldap</message>
 
     <message key="PLUGINS_CORE_UPLOAD_CONFIG_CATEGORY">Uploads</message>
     <message key="PLUGINS_CORE_UPLOAD_CONFIG_GROUP_UPLOAD">Gestion des uploads</message>
