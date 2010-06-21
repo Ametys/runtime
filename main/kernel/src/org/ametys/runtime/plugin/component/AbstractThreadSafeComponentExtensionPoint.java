@@ -114,21 +114,21 @@ public abstract class AbstractThreadSafeComponentExtensionPoint<T> extends Abstr
     }
     
     @SuppressWarnings("unchecked")
-    public void addExtension(String pluginName, String pluginId, Configuration configuration) throws ConfigurationException
+    public void addExtension(String pluginName, String featureName, Configuration configuration) throws ConfigurationException
     {
         // Vérifie l'id de l'extension
         String id = configuration.getAttribute("id");
         
         if (getLogger().isDebugEnabled())
         {
-            getLogger().debug("Configuring extension '" + id + "' in plugin '" + pluginName + "' id '" + pluginId + "'.");
+            getLogger().debug("Configuring extension '" + id + "' in plugin '" + pluginName + "' id '" + featureName + "'.");
         }
         
         String className = configuration.getAttribute("class", null);
         
         if (className == null)
         {
-            throw new ConfigurationException("In plugin '" + pluginName + "' id '" + pluginId + "', extension '" + id + "' does not defines any class", configuration);
+            throw new ConfigurationException("In plugin '" + pluginName + "' id '" + featureName + "', extension '" + id + "' does not defines any class", configuration);
         }
         
         Class<T> extensionClass;
@@ -139,12 +139,12 @@ public abstract class AbstractThreadSafeComponentExtensionPoint<T> extends Abstr
         }
         catch (ClassNotFoundException ex)
         {
-            throw new ConfigurationException("Unable to instanciate class '" + className + "' for plugin '" + pluginName + "' / '" + pluginId + "'", configuration, ex);
+            throw new ConfigurationException("Unable to instanciate class '" + className + "' for plugin '" + pluginName + "' / '" + featureName + "'", configuration, ex);
         }
         
         try
         {
-            addComponent(pluginName, pluginId, id, extensionClass, configuration);
+            addComponent(pluginName, featureName, id, extensionClass, configuration);
         }
         catch (ComponentException e)
         {
