@@ -133,6 +133,11 @@ public class AbstractComponentExtensionPoint<T> extends AbstractLogEnabled imple
 
         try
         {
+            if (t instanceof PluginAware)
+            {
+                ((PluginAware) t).setPluginInfo(ec.getPluginName(), ec.getFeatureName());
+            }
+            
             LifecycleHelper.setupComponent(t, getLogger(), _context, _manager, ec.getConfiguration(), true);
         }
         catch (Exception e)
