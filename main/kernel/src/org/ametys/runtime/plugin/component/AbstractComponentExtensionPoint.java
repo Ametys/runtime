@@ -76,7 +76,7 @@ public class AbstractComponentExtensionPoint<T> extends AbstractLogEnabled imple
     @Override
     public void addExtension(String pluginName, String featureName, Configuration configuration) throws ConfigurationException
     {
-        // Vérifie l'id de l'extension
+        // Check extension id
         String id = configuration.getAttribute("id");
         
         if (getLogger().isDebugEnabled())

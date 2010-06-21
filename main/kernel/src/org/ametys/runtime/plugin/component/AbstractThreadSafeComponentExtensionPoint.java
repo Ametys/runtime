@@ -116,7 +116,7 @@ public abstract class AbstractThreadSafeComponentExtensionPoint<T> extends Abstr
     @SuppressWarnings("unchecked")
     public void addExtension(String pluginName, String featureName, Configuration configuration) throws ConfigurationException
     {
-        // Vérifie l'id de l'extension
+        // Check extension id
         String id = configuration.getAttribute("id");
         
         if (getLogger().isDebugEnabled())
