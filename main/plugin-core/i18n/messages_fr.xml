@@ -507,7 +507,7 @@
     <message key="PROFILES_TREEPANEL_FILTER_BY_NAME">Filtrer par utilisateur(s) ou groupe(s) ...</message>
 	<message key="PROFILES_TREEPANEL_ROOT_NODE">Profils de droits</message>
 	<message key="PROFILES_TREEPANEL_BTN_INHERITANCE_TOOLTIP">Voir les utilisateurs et groupes par héritage</message>
-	<message key="PROFILES_TREEPANEL_BTN_UPTOCONTEXT_TOOLTIP">Remonter au context parent</message>
+	<message key="PROFILES_TREEPANEL_BTN_UPTOCONTEXT_TOOLTIP">Remonter au contexte parent</message>
 	<message key="PROFILES_TREEPANEL_BTN_EXPAND_TOOTIP">Déplier tout</message>
 	<message key="PROFILES_TREEPANEL_BTN_COLLAPSE_TOOTIP">Replier tout</message>
 	<message key="PROFILES_TREEPANEL_CONTEXT_TOOLTIP">Context</message>
