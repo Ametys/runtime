@@ -73,10 +73,12 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         
         boolean authenticated = _checkAuth(objectModel, redirector);
         
-        // Set the flag indicating the authentication as processed
-        request.setAttribute(REQUEST_AUTHENTICATED, "true");
-
-        if (!authenticated)
+        if (authenticated)
+        {
+            // Set the flag indicating the authentication as processed
+            request.setAttribute(REQUEST_AUTHENTICATED, "true");
+        }
+        else
         {
             throw new AccessDeniedException();
         }
