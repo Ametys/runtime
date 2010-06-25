@@ -173,7 +173,7 @@ org.ametys.servercomm.ServerComm.prototype.send = function(message)
 	}
 	else if (message.getPriority() == org.ametys.servercomm.ServerComm.PRIORITY_LONG_REQUEST)
 	{
-		org.ametys.servercomm.ServerComm.prototype._sendMessages(message);
+		this._sendMessages(message);
 	}
 	else
 	{
@@ -308,11 +308,14 @@ org.ametys.servercomm.ServerComm.prototype._sendMessages = function(m)
 	sendOptions.failure = this._onRequestFailure;
 	sendOptions.scope = this;
 	sendOptions.params = "content=" + encodeURIComponent(Ext.util.JSON.encode(parameters));
-	sendOptions.messages = this._messages;
+	sendOptions.messages = m != null ? [m] : this._messages;
 	sendOptions._timeoutIndex = index;
 	sendOptions._timeout = window.setTimeout("org.ametys.servercomm.ServerComm._onRequestTimeout ('" + index + "', " + timeout + ");", timeout);
 
-	this._messages = [];
+	if (m == null)
+	{
+		this._messages = [];
+	}
 
 	sendOptions._transactionId = this._connection.request(sendOptions);
 
