@@ -44,6 +44,7 @@ import org.apache.cocoon.Constants;
 import org.apache.cocoon.servlet.CocoonServlet;
 import org.apache.cocoon.servlet.multipart.RequestFactory;
 import org.apache.cocoon.xml.XMLUtils;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.slf4j.MDC;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
@@ -105,12 +106,12 @@ public class RuntimeServlet extends CocoonServlet
             }
             catch (ServletException e)
             {
-                // La, on peut vraiment plus rien faire
+                // Nothing to do anymore
                 throw e;
             }
             catch (Exception e)
             {
-                // La, on peut vraiment plus rien faire non plus
+                // Nothing to do as well
                 throw new ServletException(e);
             }
 
@@ -194,7 +195,7 @@ public class RuntimeServlet extends CocoonServlet
                 Long maxUploadSizeParam = Config.getInstance().getValueAsLong("runtime.upload.max-size");
                 if (maxUploadSizeParam == null)
                 {
-                    // la feature core/runtime.upload est désactivée, on repasse à la valeur du web.xml et sinon à 10Mo par défaut
+                    // feature core/runtime.upload is deactivated, back to the web.xml value or 10 Mb by default
                     maxUploadSize = getInitParameterAsInteger("upload-max-size", 1073741824);
                 }
                 else
@@ -210,7 +211,8 @@ public class RuntimeServlet extends CocoonServlet
                 String uploadDirParam = Config.getInstance().getValueAsString("runtime.upload.dir");
                 if (uploadDirParam == null)
                 {
-                    // la feature core/runtime.upload est désactivée, on repasse à la valeur du web.xml et sinon à WEB-INF/data/uploads par défaut
+                    
+                    // feature core/runtime.upload is deactivated, back to the web.xml value or "WEB-INF/data/uploads" by default
                     uploadDirParam = getInitParameter("upload-directory", "WEB-INF/data/uploads");
                 }
                 
@@ -289,7 +291,7 @@ public class RuntimeServlet extends CocoonServlet
     @SuppressWarnings("unchecked")
     private void _fireRequestEnded(HttpServletRequest req)
     {
-        Collection< ? extends RequestListener> listeners = (Collection< ? extends RequestListener>) servletContext.getAttribute(RequestListenerManager.CONTEXT_ATTRIBUTE_REQUEST_LISTENERS);
+        Collection<? extends RequestListener> listeners = (Collection< ? extends RequestListener>) servletContext.getAttribute(RequestListenerManager.CONTEXT_ATTRIBUTE_REQUEST_LISTENERS);
 
         if (listeners == null)
         {
@@ -497,6 +499,10 @@ public class RuntimeServlet extends CocoonServlet
         XMLUtils.startElement(th, "http://apache.org/cocoon/exception/1.0", "message");
         saxErrorMessage(th);
         XMLUtils.endElement(th, "http://apache.org/cocoon/exception/1.0", "message");
+        
+        XMLUtils.startElement(th, "http://apache.org/cocoon/exception/1.0", "stacktrace");
+        XMLUtils.data(th, ExceptionUtils.getStackTrace(exception));
+        XMLUtils.endElement(th, "http://apache.org/cocoon/exception/1.0", "stacktrace");
         XMLUtils.endElement(th, "http://apache.org/cocoon/exception/1.0", "ex:exception-report");
 
         th.endDocument();
@@ -510,7 +516,7 @@ public class RuntimeServlet extends CocoonServlet
      */
     protected void saxErrorMessage(ContentHandler ch) throws SAXException
     {
-        String errorMessage = "An error occurred. Please contact the administrator of the application.";
+        String errorMessage = "An error occured. Please contact the administrator of the application.";
         XMLUtils.data(ch, errorMessage);
     }
 
