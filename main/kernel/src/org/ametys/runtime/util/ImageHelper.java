@@ -121,7 +121,7 @@ public final class ImageHelper
             destHeight = srcHeight * destWidth / srcWidth;
         }
         
-        BufferedImage thumbImage = new BufferedImage(destWidth, destHeight, BufferedImage.TYPE_INT_RGB);
+        BufferedImage thumbImage = new BufferedImage(destWidth, destHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics2D graphics2D = thumbImage.createGraphics();
         graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         graphics2D.drawImage(src, 0, 0, destWidth, destHeight, null);
