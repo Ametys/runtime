@@ -140,6 +140,7 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_EXTENSION_POINT_VIEW">Plugins by extension points</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_WORKSPACE_VIEW">Workspaces</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_NO_WORKSPACE">No workspace loaded</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_INACTIVE">(ERROR there is no reason for that feature to be inactive)</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_INACTIVE_SINGLE">(contains a rejected extension)</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_INACTIVE_EXCLUDED">(excluded)</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_INACTIVE_DEPENDENCY">(depends on an unavailable feature)</message>

@@ -69,7 +69,7 @@
 				            text: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_EXTENSION_POINTS"/>",
 				            children: [
                                 <xsl:choose>
-                                    <xsl:when test="count(extension-points/extension-point) = 0">
+                                    <xsl:when test="count(extension-points/*) = 0">
                                     	{
                                     		icon: "<xsl:value-of select="$resourcesPath"/>/img/administrator/plugins/extension-point.png",
                                     		text: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_NO_EXTENSION"/>",
@@ -77,12 +77,34 @@
                                     	}
                                     </xsl:when>
                                  	<xsl:otherwise>
-							            <xsl:for-each select="extension-points/*">
-							             	<xsl:sort select="@id"/>
-							             	
-							             	<xsl:if test="position() != 1">,</xsl:if> 
-							             	<xsl:call-template name="tree2-extensionpoint"/>
-							            </xsl:for-each>
+                                 		{
+                                    		icon: "<xsl:value-of select="$resourcesPath"/>/img/administrator/plugins/extension-point.png",
+                                    		text: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_SEP"/>",
+                                    		leaf: <xsl:value-of select="count(extension-points/single-extension-point)"/> == 0,
+                                    		children: [
+									            <xsl:for-each select="extension-points/single-extension-point">
+									             	<xsl:sort select="@id"/>
+									             	
+									             	<xsl:if test="position() != 1">,</xsl:if> 
+									             	<xsl:call-template name="tree2-extensionpoint"/>
+									            </xsl:for-each>
+                                    		]
+                                    	}
+                                    	,
+                                    		
+                                 		{
+                                    		icon: "<xsl:value-of select="$resourcesPath"/>/img/administrator/plugins/extension-point-multiple.png",
+                                    		text: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_EP"/>",
+                                    		leaf: <xsl:value-of select="count(extension-points/extension-point)"/> == 0,
+                                    		children: [
+									            <xsl:for-each select="extension-points/extension-point">
+									             	<xsl:sort select="@id"/>
+									             	
+									             	<xsl:if test="position() != 1">,</xsl:if> 
+									             	<xsl:call-template name="tree2-extensionpoint"/>
+									            </xsl:for-each>
+									        ]
+									    }
 					            	</xsl:otherwise>
 					            </xsl:choose>
 				            ]
