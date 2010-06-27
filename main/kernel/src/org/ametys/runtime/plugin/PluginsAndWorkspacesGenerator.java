@@ -31,6 +31,7 @@ import org.xml.sax.SAXException;
 
 import org.ametys.runtime.plugin.PluginsManager.ActiveFeature;
 import org.ametys.runtime.plugin.PluginsManager.InactiveFeature;
+import org.ametys.runtime.servlet.RuntimeConfig;
 import org.ametys.runtime.workspace.WorkspaceManager;
 import org.ametys.runtime.workspace.WorkspaceManager.InactiveWorkspace;
 
@@ -179,7 +180,10 @@ public class PluginsAndWorkspacesGenerator extends AbstractGenerator
     
     private void _saxWorkspaces() throws SAXException
     {
-        XMLUtils.startElement(contentHandler, "workspaces");
+        String defaultWorkspace = RuntimeConfig.getInstance().getDefaultWorkspace();
+        AttributesImpl attrs2 = new AttributesImpl();
+        attrs2.addCDATAAttribute("default", defaultWorkspace);
+        XMLUtils.startElement(contentHandler, "workspaces", attrs2);
         
         for (String workspaceName : WorkspaceManager.getInstance().getWorkspaceNames())
         {

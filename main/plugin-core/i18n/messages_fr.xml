@@ -133,13 +133,14 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_HELP">Aide</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_HELP_TEXT">Cet écran affiche la liste des plugins et workspaces qui ont été chargés au démarrage de l'application.&lt;br/&gt;&lt;br/&gt;Vous pouvez afficher 3 vues en sélectionnant les onglets dans le sommaire :&lt;br/&gt;Par plugins : cette vue correspond à l'arborescence physique des plugins sur le disque.&lt;br/&gt;Par point d'extension : il s'agit d'une vue logique où les plugins sont regroupés par type.&lt;br/&gt;Par workspace : il s'agit de la liste des workspaces.&lt;br/&gt;&lt;br/&gt;Le bouton documentation vous permet de voir la documentation des plugins. C'est une action contextuelle, en selection un noeud donné dans l'arbre vous obtiendrez la documentation rattachée.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_NO_PLUGINS">Aucun plugin n'est enregistré</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_PLUGINS">Plugins</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_PLUGINS">Plugins par fichiers</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_EXTENSION_POINTS">Points d'extension</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_NO_EXTENSION">Aucun point d'extension n'est enregistré</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_PLUGIN_VIEW">Plugins</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_EXTENSION_POINT_VIEW">Plugins par point d'extension</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_WORKSPACE_VIEW">Workspaces</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_NO_WORKSPACE">Aucun workspace n'est enregistré</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_WORKSPACE_DEFAULT">(Workspace par défaut)</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_INACTIVE">(ERREUR il n'y a pas de raison que cette feature soit inactive)</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_INACTIVE_SINGLE">(contient une extension non choisie)</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_INACTIVE_EXCLUDED">(désactivé)</message>

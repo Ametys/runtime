@@ -438,7 +438,7 @@
     <xsl:template name="tree3-workspace">
 		{
 			icon: "<xsl:value-of select="$resourcesPath"/>/img/administrator/plugins/workspace<xsl:if test="@inactive = 'true'">-inactive</xsl:if>.png",
-			text: "<xsl:value-of select="." /><xsl:if test="@inactive = 'true'"> &lt;span style='font-style: italic; color: #7f7f7f'&gt;<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_INACTIVE_{@cause}"/>&lt;/span&gt;</xsl:if>",
+			text: "<xsl:value-of select="." /><xsl:if test="@inactive = 'true'"> &lt;span style='font-style: italic; color: #7f7f7f'&gt;<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_INACTIVE_{@cause}"/>&lt;/span&gt;</xsl:if><xsl:if test=". = ../@default"> &lt;span style='font-style: italic; color: #7f7f7f'&gt;<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_WORKSPACE_DEFAULT"/>&lt;/span&gt;</xsl:if>",
 			leaf: true
     	}
     </xsl:template>
