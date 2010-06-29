@@ -701,7 +701,7 @@
 		<ivy:deliver deliverpattern="${dest-dir}/ivy/ivy.xml" pubrevision="${ivy-version}"
 		             status="${project.status}"/>
 		<antcall target="remove-javadoc-publishing"/>
-		<ivy:publish artifactspattern="${dest-dir}/ivy/[type]s/[artifact].[ext]" resolver="ametys-product-chain"
+		<ivy:publish artifactspattern="${dest-dir}/ivy/[type]s/[artifact].[ext]" resolver="${ivy-resolver}"
 		             pubrevision="${ivy-version}" status="${project.status}" srcivypattern="${dest-dir}/ivy/ivy.xml"
 		             overwrite="true"/>
 	</target>
