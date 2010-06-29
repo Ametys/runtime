@@ -28,8 +28,7 @@ org.ametys.form.FileUploadField = function(config)
 	config.labelSeparator = '';
 	
 	org.ametys.form.FileUploadField.superclass.constructor.call(this, config);
-	
-}; 
+}
 
 Ext.extend(org.ametys.form.FileUploadField, Ext.ux.form.FileUploadField, {});
 
@@ -57,4 +56,40 @@ org.ametys.form.FileUploadField.prototype.onRender = function(ct, position)
 	{
 		Ext.get(this.el.dom.parentNode).insertSibling({cls: 'ametys-file-hint', html: "(<i18n:text i18n:key="KERNEL_UPLOAD_HINT"/>" + Ext.util.Format.fileSize(context.maxUploadSize) + ")"}, 'after');
 	}
+}
+
+/**
+ * Override the bindLisners method to prevent file path such as 'C:\fakepath\6_b.jpg' (IE)
+ */
+org.ametys.form.FileUploadField.prototype.bindListeners = function()
+{
+    this.fileInput.on({
+        scope: this,
+        mouseenter: function() {
+            this.button.addClass(['x-btn-over','x-btn-focus'])
+        },
+        mouseleave: function(){
+            this.button.removeClass(['x-btn-over','x-btn-focus','x-btn-click'])
+        },
+        mousedown: function(){
+            this.button.addClass('x-btn-click')
+        },
+        mouseup: function(){
+            this.button.removeClass(['x-btn-over','x-btn-focus','x-btn-click'])
+        },
+        change: function(){
+            var v = this.fileInput.dom.value;
+            
+            if (v.lastIndexOf('/') > 0)
+            {
+            	v = v.substring(v.lastIndexOf('/') + 1);
+            }
+            else if (v.lastIndexOf('\\') > 0)
+            {
+            	v = v.substring(v.lastIndexOf('\\') + 1);
+            }
+            this.setValue(v);
+            this.fireEvent('fileselected', this, v);    
+        }
+    }); 
 }
