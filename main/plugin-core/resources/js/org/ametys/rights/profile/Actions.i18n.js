@@ -65,7 +65,7 @@ org.ametys.rights.profile.AddUsers._callback = function (response, args)
  */
 org.ametys.rights.profile.AddGroups = function (profileId, groups, context, callback, additionalParams)
 {
-	var params = {'profiles': id, 'groups': groups};
+	var params = {'profiles': profileId, 'groups': groups};
 	params.context = context;
 	
 	if (additionalParams != null)
@@ -76,7 +76,7 @@ org.ametys.rights.profile.AddGroups = function (profileId, groups, context, call
 		}
 	}
 	
-	var serverMessage = new org.ametys.servercomm.ServerMessage('core', '/rights/assign', params, org.ametys.servercomm.ServerComm.PRIORITY_MAJOR, org.ametys.rights.profile.AddGroups, this, [profileId, callback]);
+	var serverMessage = new org.ametys.servercomm.ServerMessage('core', '/rights/assign', params, org.ametys.servercomm.ServerComm.PRIORITY_MAJOR, org.ametys.rights.profile.AddGroups._callBack, this, [profileId, callback]);
 	org.ametys.servercomm.ServerComm.getInstance().send(serverMessage); 
 }
 
