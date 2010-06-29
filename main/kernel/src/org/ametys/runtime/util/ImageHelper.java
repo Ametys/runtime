@@ -121,27 +121,13 @@ public final class ImageHelper
             destHeight = srcHeight * destWidth / srcWidth;
         }
         
-        BufferedImage thumbImage = new BufferedImage(destWidth, destHeight, BufferedImage.TYPE_INT_ARGB);
+        int type = src.getType() != 0 ? src.getType() : (src.getColorModel().hasAlpha() ? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB);
+        BufferedImage thumbImage = new BufferedImage(destWidth, destHeight, type);
+        
         Graphics2D graphics2D = thumbImage.createGraphics();
         graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         
-//        Boolean finished = false;
-//        ImageObserver observer = new ImageObserver()
-//        {
-//            @Override
-//            public boolean imageUpdate(Image img, int infoflags, int x, int y, int w, int h)
-//            {
-//                finished = (infoflags & ImageObserver.ALLBITS) != 0;
-//                return finished;
-//            }
-//        };
-
-        boolean finished = graphics2D.drawImage(src, 0, 0, destWidth, destHeight, null);
-        
-        if (!finished)
-        {
-            LoggerFactory.getLoggerFor(ImageHelper.class.getName()).warn("drawImage not finished for image " + src);
-        }
+        graphics2D.drawImage(src, 0, 0, destWidth, destHeight, null);
         
         return thumbImage;
     }
