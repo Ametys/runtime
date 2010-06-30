@@ -186,8 +186,8 @@ public class DispatchGenerator extends ServiceableGenerator
                 String exceptionMessage = t.getMessage();
                 
                 XMLUtils.startElement(contentHandler, "response", attrs);
-                XMLUtils.createElement(contentHandler, "message", exceptionMessage != null ? exceptionMessage : "");
-                XMLUtils.createElement(contentHandler, "stacktrace", ExceptionUtils.getFullStackTrace(t));
+                XMLUtils.createElement(contentHandler, "message", _escape(exceptionMessage != null ? exceptionMessage : ""));
+                XMLUtils.createElement(contentHandler, "stacktrace", _escape(ExceptionUtils.getFullStackTrace(t)));
                 XMLUtils.endElement(contentHandler, "response");
             }
             finally
@@ -196,6 +196,11 @@ public class DispatchGenerator extends ServiceableGenerator
                 _resolver.release(response);
             }
         }
+    }
+    
+    private String _escape(String value)
+    {
+        return value.replaceAll("&", "&amp;").replaceAll("<", "&lt;".replaceAll(">", "&gt;"));
     }
     
     @SuppressWarnings("unchecked")
