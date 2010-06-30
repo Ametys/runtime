@@ -15,6 +15,9 @@
  */
 package org.ametys.runtime.plugins.core.mail;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Properties;
 
@@ -38,26 +41,51 @@ public final class SendMailHelper
     {
         // Nothing
     }
+    
     /**
-     * Sends mail without authentication
+     * Sends mail without authentication or attachments.
      * @param subject The mail subject
      * @param htmlBody The HTML mail body. Can be null.
      * @param textBody The text mail body. Can be null.
      * @param recipient The recipient address
      * @param sender The sender address
      * @param host The server mail host
-     * @throws MessagingException
+     * @throws MessagingException If an error occurred while preparing or sending email
      */
     public static void sendMail(String subject, String htmlBody, String textBody, String recipient, String sender, String host) throws MessagingException
     {
-        sendMail(subject, htmlBody, textBody, recipient, sender, host, null, null);
+        try
+        {
+            sendMail(subject, htmlBody, textBody, null, recipient, sender, host, null, null);
+        }
+        catch (IOException e)
+        {
+            // Should never happen, as IOException can only be thrown where there are attachments.
+        }
     }
     
     /**
-     * Sends mail with authentication
+     * Sends mail without authentication, with attachments.
      * @param subject The mail subject
-     * @param htmlBody The HTML mail body
-     * @param textBody The text mail body
+     * @param htmlBody The HTML mail body. Can be null.
+     * @param textBody The text mail body. Can be null.
+     * @param attachments the file attachments. Can be null.
+     * @param recipient The recipient address
+     * @param sender The sender address
+     * @param host The server mail host
+     * @throws MessagingException If an error occurred while preparing or sending email
+     * @throws IOException if an error occurs while attaching a file.
+     */
+    public static void sendMail(String subject, String htmlBody, String textBody, Collection<File> attachments, String recipient, String sender, String host) throws MessagingException, IOException
+    {
+        sendMail(subject, htmlBody, textBody, attachments, recipient, sender, host, null, null);
+    }
+    
+    /**
+     * Sends mail with authentication, without attachments.
+     * @param subject The mail subject
+     * @param htmlBody The HTML mail body. Can be null.
+     * @param textBody The text mail body. Can be null.
      * @param recipient The recipient address
      * @param sender The sender address
      * @param host The server mail host
@@ -66,6 +94,32 @@ public final class SendMailHelper
      * @throws MessagingException If an error occurred while preparing or sending email
      */
     public static void sendMail(String subject, String htmlBody, String textBody, String recipient, String sender, String host, String user, String password) throws MessagingException
+    {
+        try
+        {
+            sendMail(subject, htmlBody, textBody, null, recipient, sender, host, user, password);
+        }
+        catch (IOException e)
+        {
+            // Should never happen, as IOException can only be thrown where there are attachments.
+        }
+    }
+    
+    /**
+     * Sends mail with authentication and attachments.
+     * @param subject The mail subject
+     * @param htmlBody The HTML mail body. Can be null.
+     * @param textBody The text mail body. Can be null.
+     * @param attachments the file attachments. Can be null.
+     * @param recipient The recipient address
+     * @param sender The sender address
+     * @param host The server mail host
+     * @param user The user name
+     * @param password The user password
+     * @throws MessagingException If an error occurred while preparing or sending email
+     * @throws IOException if an error occurs while attaching a file.
+     */
+    public static void sendMail(String subject, String htmlBody, String textBody, Collection<File> attachments, String recipient, String sender, String host, String user, String password) throws MessagingException, IOException
     {
         Properties props = new Properties();
 
@@ -81,14 +135,21 @@ public final class SendMailHelper
         message.setSentDate(new Date());
         message.setSubject(subject);
         
-        Multipart multipart = new MimeMultipart("alternative");
+        // Root multipart
+        Multipart multipart = new MimeMultipart("mixed");
+        
+        // Message body part.
+        Multipart messageMultipart = new MimeMultipart("alternative");
+        MimeBodyPart messagePart = new MimeBodyPart();
+        messagePart.setContent(messageMultipart);
+        multipart.addBodyPart(messagePart);
         
         if (textBody != null)
         {
             MimeBodyPart textBodyPart = new MimeBodyPart();
             textBodyPart.setContent(textBody, "text/plain;charset=utf-8");
             textBodyPart.addHeader("Content-Type", "text/plain;charset=utf-8");
-            multipart.addBodyPart(textBodyPart);
+            messageMultipart.addBodyPart(textBodyPart);
         }
         
         if (htmlBody != null)
@@ -96,7 +157,17 @@ public final class SendMailHelper
             MimeBodyPart htmlBodyPart = new MimeBodyPart();
             htmlBodyPart.setContent(htmlBody, "text/html;charset=utf-8");
             htmlBodyPart.addHeader("Content-Type", "text/html;charset=utf-8");
-            multipart.addBodyPart(htmlBodyPart);
+            messageMultipart.addBodyPart(htmlBodyPart);
+        }
+        
+        if (attachments != null)
+        {
+            for (File attachment : attachments)
+            {
+                MimeBodyPart fileBodyPart = new MimeBodyPart();
+                fileBodyPart.attachFile(attachment);
+                multipart.addBodyPart(fileBodyPart);
+            }
         }
         
         message.setContent(multipart);
