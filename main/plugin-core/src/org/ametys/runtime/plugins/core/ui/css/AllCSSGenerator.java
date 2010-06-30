@@ -17,7 +17,6 @@
 package org.ametys.runtime.plugins.core.ui.css;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 import org.apache.avalon.framework.service.ServiceException;
@@ -27,9 +26,6 @@ import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.generation.ServiceableGenerator;
 import org.apache.cocoon.xml.XMLUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.excalibur.source.Source;
-import org.apache.excalibur.source.SourceResolver;
 import org.xml.sax.SAXException;
 
 /**
@@ -39,14 +35,14 @@ import org.xml.sax.SAXException;
 public class AllCSSGenerator extends ServiceableGenerator
 {
     private AllCSSComponent _allCSSComponent;
-    private SourceResolver _resolver;
+//    private SourceResolver _resolver;
     
     @Override
     public void service(ServiceManager smanager) throws ServiceException
     {
         super.service(smanager);
         _allCSSComponent = (AllCSSComponent) smanager.lookup(AllCSSComponent.ROLE);
-        _resolver = (SourceResolver) smanager.lookup(SourceResolver.ROLE);
+//        _resolver = (SourceResolver) smanager.lookup(SourceResolver.ROLE);
     }
     
     @Override
@@ -55,47 +51,52 @@ public class AllCSSGenerator extends ServiceableGenerator
         StringBuffer sb = new StringBuffer("/* automatically generated file with hascode '" + source + "' */\n");
         
         Request request = ObjectModelHelper.getRequest(objectModel);
-        boolean importMode = parameters.getParameterAsBoolean("import", false);
+//        boolean importMode = parameters.getParameterAsBoolean("import", false);
 
         List<String> cssFiles = _allCSSComponent.getCSSFilesList(source);
         if (cssFiles != null) 
         {
             for (String cssFile : cssFiles)
             {
-                if (importMode)
-                {
-                    sb.append("@import \"");
-                    sb.append(request.getContextPath());
-                    sb.append(cssFile);
-                    sb.append("\";\n");
-                }
-                else
-                {
-                    sb.append("\n/* import ");
-                    sb.append(cssFile);
-                    sb.append(" */\n"); 
-                    
-                    Source csssource = null;
-                    InputStream is = null;
-                    try
-                    {
-                        csssource = _resolver.resolveURI("cocoon://" + cssFile);
-                        is = csssource.getInputStream();
-                        
-                        String s = IOUtils.toString(is).replaceAll("/\\*([^*]|\\*[^/])*\\*/", "").replaceAll("\r?\n", " ").trim();
-                        sb.append(s);
-                        sb.append("\n");
-                    }
-                    catch (Exception e)
-                    {
-                        sb.append("/** " + e.getMessage() + "*/");
-                    }
-                    finally
-                    {
-                        IOUtils.closeQuietly(is);
-                        _resolver.release(csssource);
-                    }
-                }
+                sb.append("@import \"");
+                sb.append(request.getContextPath());
+                sb.append(cssFile);
+                sb.append("\";\n");
+// SEE RUNTIME-419
+//                if (importMode)
+//                {
+//                    sb.append("@import \"");
+//                    sb.append(request.getContextPath());
+//                    sb.append(cssFile);
+//                    sb.append("\";\n");
+//                }
+//                else
+//                {
+//                    sb.append("\n/* import ");
+//                    sb.append(cssFile);
+//                    sb.append(" */\n"); 
+//                    
+//                    Source csssource = null;
+//                    InputStream is = null;
+//                    try
+//                    {
+//                        csssource = _resolver.resolveURI("cocoon://" + cssFile);
+//                        is = csssource.getInputStream();
+//                        
+//                        String s = IOUtils.toString(is).replaceAll("/\\*([^*]|\\*[^/])*\\*/", "").replaceAll("\r?\n", " ").trim();
+//                        sb.append(s);
+//                        sb.append("\n");
+//                    }
+//                    catch (Exception e)
+//                    {
+//                        sb.append("/** " + e.getMessage() + "*/");
+//                    }
+//                    finally
+//                    {
+//                        IOUtils.closeQuietly(is);
+//                        _resolver.release(csssource);
+//                    }
+//                }
             }
         } 
                 
