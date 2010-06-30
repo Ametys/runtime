@@ -221,48 +221,29 @@ org.ametys.administration.Groups._editGroupLabel = function (store, record, oper
 {
 	if (operation == Ext.data.Record.EDIT)
 	{
-		if (record.get('id') == "new")
-		{
-			// Create group
-			var serverMessage = new org.ametys.servercomm.ServerMessage(org.ametys.administration.Groups.pluginName, "/groups/create", { name: record.get('name') }, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
-			var result = org.ametys.servercomm.ServerComm.getInstance().send(serverMessage);
+		// Rename
+		var serverMessage = new org.ametys.servercomm.ServerMessage(org.ametys.administration.Groups.pluginName, "/groups/rename", { id: record.data.id, name: record.get('name') }, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+		var result = org.ametys.servercomm.ServerComm.getInstance().send(serverMessage);
 
-		    if (org.ametys.servercomm.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_NEW_ERROR"/>", result, "org.ametys.administration.Groups._editGroupLabel"))
-		    {
-		       return false;
-		    }
-			else
-			{
-				record.set('id', org.ametys.servercomm.ServerComm.handleResponse(result, "id"));
-				record.commit();
-			}
-		}
+	    if (org.ametys.servercomm.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_RENAME_ERROR"/>", result, "org.ametys.administration.Groups._editGroupLabel"))
+	    {
+	       // nothing
+	    }
 		else
 		{
-			// Rename
-			var serverMessage = new org.ametys.servercomm.ServerMessage(org.ametys.administration.Groups.pluginName, "/groups/rename", { id: record.data.id, name: record.get('name') }, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
-			var result = org.ametys.servercomm.ServerComm.getInstance().send(serverMessage);
-
-		    if (org.ametys.servercomm.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_RENAME_ERROR"/>", result, "org.ametys.administration.Groups._editGroupLabel"))
-		    {
-		       // nothing
-		    }
-			else
+			var state = org.ametys.servercomm.ServerComm.handleResponse(result, "message"); 
+			if (state != null &amp;&amp; state == "missing")
 			{
-				var state = org.ametys.servercomm.ServerComm.handleResponse(result, "message"); 
-				if (state != null &amp;&amp; state == "missing")
-				{
-					Ext.Msg.show ({
-                		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
-                		msg: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_RENAME_MISSING_ERROR"/>",
-                		buttons: Ext.Msg.OK,
-	   					icon: Ext.MessageBox.ERROR
-                	});
-					org.ametys.administration.Groups._listViewGp.removeElement(record);
-				}
+				Ext.Msg.show ({
+            		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
+            		msg: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_RENAME_MISSING_ERROR"/>",
+            		buttons: Ext.Msg.OK,
+   					icon: Ext.MessageBox.ERROR
+            	});
+				org.ametys.administration.Groups._listViewGp.removeElement(record);
 			}
-			record.commit();
 		}
+		record.commit();
 	}
 }
 
@@ -484,13 +465,23 @@ org.ametys.administration.Groups._drawHelpPanel = function ()
  */
 org.ametys.administration.Groups.add = function ()
 {
+	// Create group
+	var serverMessage = new org.ametys.servercomm.ServerMessage(org.ametys.administration.Groups.pluginName, "/groups/create", { name: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_NEWGROUP"/>" }, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+	var result = org.ametys.servercomm.ServerComm.getInstance().send(serverMessage);
+
+    if (org.ametys.servercomm.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_NEW_ERROR"/>", result, "org.ametys.administration.Groups._editGroupLabel"))
+    {
+       return false;
+    }
+    
+    var id = org.ametys.servercomm.ServerComm.handleResponse(result, "id");
+    
 	var record = org.ametys.administration.Groups._listViewGp.getStore().recordType;
 	
 	var newEntry = new record({
 		name: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_NEWGROUP"/>",
-		id: "new"
-	});
-	
+		id: id
+	}, id);
 	
 	org.ametys.administration.Groups._listViewGp.getStore().add([newEntry]);
 	org.ametys.administration.Groups._listViewU.getStore().removeAll();
