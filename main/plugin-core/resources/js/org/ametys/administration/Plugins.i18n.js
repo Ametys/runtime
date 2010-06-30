@@ -94,7 +94,8 @@ org.ametys.administration.Plugins._drawNavigationPanel = function ()
 			text: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_PLUGIN_VIEW"/>",
 			activeItem: 0,
 			cardLayout: 'plugin-card-panel',
-			toggleGroup : 'plugin-menu'
+			toggleGroup : 'plugin-menu',
+			pressed: true
 		})
 	);
 	org.ametys.administration.Plugins._nav.add(

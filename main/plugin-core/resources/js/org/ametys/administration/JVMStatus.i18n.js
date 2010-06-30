@@ -202,7 +202,9 @@ org.ametys.administration.JVMStatus._drawNavigationPanel = function ()
 			activeItem: i,
 			
 			cardLayout: 'system-card-panel',
-			toggleGroup : 'system-menu'
+			toggleGroup : 'system-menu',
+			
+			pressed: i == 0
 		});
 		
 		org.ametys.administration.JVMStatus._nav.add(item);
