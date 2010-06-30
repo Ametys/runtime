@@ -230,3 +230,16 @@
 	margin-right: 1px;
 	float: left;
 }
+
+.ext-ie7 div.x-window-bwrap,
+.ext-ie7 div.x-window-bwrap div.x-window-ml,
+.ext-ie7 div.x-window-bwrap div.x-window-ml div.x-window-mr,
+.ext-ie7 div.x-window-bwrap div.x-window-ml div.x-window-mc,
+.ext-ie7 div.x-window-bwrap div.x-window-ml div.x-window-mc div.x-window-body,
+.ext-ie7 div.x-window-bwrap div.x-window-ml div.x-window-mc div.x-window-body div.x-panel,
+.ext-ie7 div.x-window-bwrap div.x-window-ml div.x-window-mc div.x-window-body div.x-panel div.x-panel-bwrap,
+.ext-ie7 div.x-window-bwrap div.x-window-ml div.x-window-mc div.x-window-body div.x-panel div.x-panel-bwrap div,
+.ext-ie7 div.x-window-bwrap div.x-window-ml div.x-window-mc div.x-window-body div.x-panel div.x-panel-bwrap div label
+{
+	position: static !important;
+}
