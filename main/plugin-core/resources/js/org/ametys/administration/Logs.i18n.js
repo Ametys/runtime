@@ -264,7 +264,7 @@ org.ametys.administration.Logs._changeLogLevelCB = function (response, argsArray
 
         if (!selection || !force)
         {
-    		Ext.get(node.ui.elNode).child("img:last").dom.src = getPluginResourcesUrl("core") + "/img/administrator/logs/loglevel_" + level + (inherited ? "-inherit" : "") + ".png";
+    		Ext.get(node.ui.elNode).child("img:last").dom.src = getPluginResourcesUrl("core") + "/img/administrator/logs/loglevel_" + level.toLowerCase() + (inherited ? "-inherit" : "") + ".png";
         }
 
 		for (var i = 0; i &lt; node.childNodes.length; i++)
@@ -286,7 +286,7 @@ org.ametys.administration.Logs._changeLogLevelCB = function (response, argsArray
         if (!selection || !force)
         {
     		node.level = inherited ? "inherit" : level;
-    		node.icon = getPluginResourcesUrl("core") + "/img/administrator/logs/loglevel_" + level + (inherited ? "-inherit" : "") + ".png";
+    		node.icon = getPluginResourcesUrl("core") + "/img/administrator/logs/loglevel_" + level.toLowerCase() + (inherited ? "-inherit" : "") + ".png";
         }		
 		
 		for (var i = 0; i &lt; node.children.length; i++)
@@ -333,7 +333,7 @@ org.ametys.administration.Logs._drawConfPanel = function()
 		}
 
 		var node = {
-	   		icon: getPluginResourcesUrl("core") + "/img/administrator/logs/loglevel_" + (category.level == "inherit" ? parentLevel + "-inherit": category.level) + ".png",
+	   		icon: getPluginResourcesUrl("core") + "/img/administrator/logs/loglevel_" + (category.level == "inherit" ? parentLevel.toLowerCase() + "-inherit": category.level.toLowerCase()) + ".png",
 	   		text: name,
 	   		fullname: fullname != "" ? fullname : "root",
 	   		level: category.level,
@@ -393,7 +393,9 @@ org.ametys.administration.Logs._drawNavigationPanel = function ()
 			activeItem: i,
 			
 			cardLayout: 'system-card-panel',
-			toggleGroup : 'system-menu'
+			toggleGroup : 'system-menu',
+			
+			pressed: i == 0
 		});
 		
 		org.ametys.administration.Logs._nav.add(item);
