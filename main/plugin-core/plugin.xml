@@ -743,9 +743,9 @@
                        logger="org.ametys.runtime.plugins.core.authentication.UsersManagerAuthentication"/>
                        
             <extension point="org.ametys.runtime.authentication.AuthenticationManager"
-                       id="org.ametys.runtime.plugins.core.authentication.HasRightManager"
-                       class="org.ametys.runtime.plugins.core.authentication.HasRightManager"
-                       logger="org.ametys.runtime.plugins.core.authentication.HasRightManager"/>
+                       id="org.ametys.runtime.plugins.core.authentication.HasRightAuthentication"
+                       class="org.ametys.runtime.plugins.core.authentication.HasRightAuthentication"
+                       logger="org.ametys.runtime.plugins.core.authentication.HasRightAuthentication"/>
         </extensions>
     </feature>
     
