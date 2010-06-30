@@ -66,7 +66,7 @@
 								baseCls: 'transparent-panel',
 								border: false,
 								autoScroll : true,
-								html: '&lt;i&gt;En constructions...&lt;/i&gt;'
+								html: '&lt;i&gt;Under construction...&lt;/i&gt;'
 							});										
 							
 							org.ametys.runtime.administrator.Panel.createPanel = function () 
