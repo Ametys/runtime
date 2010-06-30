@@ -512,11 +512,11 @@ public class RuntimeServlet extends CocoonServlet
      * In error mode, send error information as SAX events.<br>
      * 
      * @param ch the contentHandler receiving the message
-     * @throws SAXException if an error occured while send SAX events
+     * @throws SAXException if an error occurred while send SAX events
      */
     protected void saxErrorMessage(ContentHandler ch) throws SAXException
     {
-        String errorMessage = "An error occured. Please contact the administrator of the application.";
+        String errorMessage = "An error occurred. Please contact the administrator of the application.";
         XMLUtils.data(ch, errorMessage);
     }
 
