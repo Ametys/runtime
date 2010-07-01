@@ -238,8 +238,13 @@
 .ext-ie7 div.x-window-bwrap div.x-window-ml div.x-window-mc div.x-window-body,
 .ext-ie7 div.x-window-bwrap div.x-window-ml div.x-window-mc div.x-window-body div.x-panel,
 .ext-ie7 div.x-window-bwrap div.x-window-ml div.x-window-mc div.x-window-body div.x-panel div.x-panel-bwrap,
-.ext-ie7 div.x-window-bwrap div.x-window-ml div.x-window-mc div.x-window-body div.x-panel div.x-panel-bwrap div,
-.ext-ie7 div.x-window-bwrap div.x-window-ml div.x-window-mc div.x-window-body div.x-panel div.x-panel-bwrap div label
+.ext-ie7 form div,
+.ext-ie7 form label.x-form-item-label,
 {
 	position: static !important;
+}
+
+.ext-ie7 form div.x-form-item div.x-form-element div.x-form-field-wrap.x-form-field-trigger-wrap
+{
+	position: relative !important;
 }
