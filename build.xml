@@ -707,6 +707,7 @@
 	</target>
 
 	<target name="publish">
+    	<ivy:cachepath conf="*" type="jar" pathid="tmp-ametys-tools"/>
 		<ivy:deliver deliverpattern="${dest-dir}/ivy/ivy.xml" pubrevision="${ivy-version}"
 		             status="${project.status}"/>
 		<antcall target="remove-javadoc-publishing"/>
