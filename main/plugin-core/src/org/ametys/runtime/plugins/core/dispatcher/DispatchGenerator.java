@@ -62,6 +62,7 @@ public class DispatchGenerator extends ServiceableGenerator
 
     private SourceResolver _resolver;
     private SAXParser _saxParser;
+    private DispatchPostProcessExtensionPoint _dispatchPostProcessExtensionPoint;
 
     @Override
     public void service(ServiceManager smanager) throws ServiceException
@@ -70,6 +71,7 @@ public class DispatchGenerator extends ServiceableGenerator
         
         _resolver = (SourceResolver) smanager.lookup(org.apache.excalibur.source.SourceResolver.ROLE);
         _saxParser = (SAXParser) manager.lookup(SAXParser.ROLE);
+        _dispatchPostProcessExtensionPoint = (DispatchPostProcessExtensionPoint) manager.lookup(DispatchPostProcessExtensionPoint.ROLE);
     }
     
     @Override
@@ -199,6 +201,12 @@ public class DispatchGenerator extends ServiceableGenerator
             {
                 IOUtils.closeQuietly(is);
                 _resolver.release(response);
+                
+                for (String extension : _dispatchPostProcessExtensionPoint.getExtensionsIds())
+                {
+                    DispatchRequestPostProcess processor = _dispatchPostProcessExtensionPoint.getExtension(extension);
+                    processor.process(ObjectModelHelper.getRequest(objectModel));
+                }
             }
         }
         
