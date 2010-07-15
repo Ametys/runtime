@@ -35,6 +35,8 @@ org.ametys.servercomm.ServerComm = function()
 	this._observer = {};
 }
 
+org.ametys.servercomm.ServerComm.SERVERCOMM_URL = context.workspaceContext + "/plugins/core/servercomm/messages.xml";
+
 /**
  * @property {org.ametys.servercomm.ServerComm} _instance Unique instance.
  * @private
@@ -219,7 +221,7 @@ org.ametys.servercomm.ServerComm.prototype._sendSynchronousMessage = function(me
 	
 	try
 	{
-		conn = org.ametys.servercomm.DirectComm.getInstance().sendSynchronousRequest(context.workspaceContext + "/plugins/core/servercomm/messages.xml", postData);
+		conn = org.ametys.servercomm.DirectComm.getInstance().sendSynchronousRequest(org.ametys.servercomm.ServerComm.SERVERCOMM_URL, postData);
 	}
 	catch(e)
 	{
@@ -303,7 +305,7 @@ org.ametys.servercomm.ServerComm.prototype._sendMessages = function(m)
 	var index = org.ametys.servercomm.ServerComm._runningRequestsIndex ++;
 	org.ametys.servercomm.ServerComm._runningRequests[index] = sendOptions;
 	
-	sendOptions.url = context.workspaceContext + "/plugins/core/servercomm/messages.xml";
+	sendOptions.url = org.ametys.servercomm.ServerComm.SERVERCOMM_URL;
 	sendOptions.success = this._onRequestComplete;
 	sendOptions.failure = this._onRequestFailure;
 	sendOptions.scope = this;
