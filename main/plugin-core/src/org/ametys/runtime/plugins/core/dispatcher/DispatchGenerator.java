@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.util.Collections;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +30,7 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.ResourceNotFoundException;
 import org.apache.cocoon.environment.ObjectModelHelper;
+import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.generation.ServiceableGenerator;
 import org.apache.cocoon.util.location.LocatedException;
 import org.apache.cocoon.xml.AttributesImpl;
@@ -107,6 +110,8 @@ public class DispatchGenerator extends ServiceableGenerator
     @SuppressWarnings("unchecked")
     private void _dispatching(Map<String, Object> parametersAsMap) throws SAXException
     {
+        Map<String, Object> attributes = _saveRequestAttributes();
+        
         for (String parameterKey : parametersAsMap.keySet())
         {
             Map<String, Object> parameterObject = (Map<String, Object>) parametersAsMap.get(parameterKey);
@@ -196,8 +201,57 @@ public class DispatchGenerator extends ServiceableGenerator
                 _resolver.release(response);
             }
         }
+        
+        _restoreRequestAttributes(attributes);
     }
     
+    /**
+     * Clean the requests attributes abd add those in the map
+     * @param attributes
+     */
+    @SuppressWarnings("unchecked")
+    private void _restoreRequestAttributes(Map<String, Object> attributes)
+    {
+        Request request = ObjectModelHelper.getRequest(objectModel);
+
+        Enumeration<String> attrNames = request.getAttributeNames();
+        while (attrNames.hasMoreElements())
+        {
+            String attrName = attrNames.nextElement();
+            request.removeAttribute(attrName);
+        }
+        
+        for (String attrName : attributes.keySet())
+        {
+            request.setAttribute(attrName, attributes.get(attrName));
+        }
+    }
+
+    /**
+     * Transforms the request attributes into a map and clean the attributes
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    private Map<String, Object> _saveRequestAttributes()
+    {
+        Map<String, Object> attrs = new HashMap<String, Object>();
+        
+        Request request = ObjectModelHelper.getRequest(objectModel);
+        
+        Enumeration<String> attrNames = request.getAttributeNames();
+        while (attrNames.hasMoreElements())
+        {
+            String attrName = attrNames.nextElement();
+            Object value = request.getAttribute(attrName);
+            
+            request.removeAttribute(attrName);
+            
+            attrs.put(attrName, value);
+        }
+
+        return attrs;
+    }
+
     private String _escape(String value)
     {
         return value.replaceAll("&", "&amp;").replaceAll("<", "&lt;".replaceAll(">", "&gt;"));
