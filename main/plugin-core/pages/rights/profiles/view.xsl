@@ -192,7 +192,11 @@
 							{
 								if (selectedElmt != null &amp;&amp; hasChanges)
 								{
-									Ext.Msg.confirm ("<i18n:text i18n:key="PLUGINS_CORE_SAVE_DIALOG_TITLE"/>", "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_CONFIRM"/>", function (button) {save_object_confirm (button, selectedElmt)});
+									if (confirm ("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_CONFIRM"/>"))
+									{
+										save_object_confirm ('yes', selectedElmt);
+										
+									}
 								}
 							}
 							
