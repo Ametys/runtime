@@ -453,7 +453,7 @@
 								<xsl:for-each select="../right[category/@id = $category]">
 									var input = new org.ametys.rights.CheckRightEntry ({
 										listeners: {'check': needSave},
-										width: 190,
+										width: 185,
 										text : "<xsl:copy-of select="label/*"/>",
 								        name: "<xsl:value-of select="@id"/>",
 								        id: "<xsl:value-of select="@id"/>",
