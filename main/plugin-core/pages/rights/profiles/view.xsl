@@ -413,7 +413,7 @@
 							});  
 							//Panel for read rights profils
 							var readRights = new Ext.Panel({ 
-								title: 'Droits associés',
+								title: '<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_RIGHTS"/>',
 								autoScroll:true,
 								id: 'profile-read-panel',
 								baseCls: 'profile-read-panel'
