@@ -207,10 +207,10 @@ public class DispatchGenerator extends ServiceableGenerator
                     DispatchRequestPostProcess processor = _dispatchPostProcessExtensionPoint.getExtension(extension);
                     processor.process(ObjectModelHelper.getRequest(objectModel));
                 }
+                
+                _restoreRequestAttributes(attributes);
             }
         }
-        
-        _restoreRequestAttributes(attributes);
     }
     
     /**
@@ -251,8 +251,6 @@ public class DispatchGenerator extends ServiceableGenerator
         {
             String attrName = attrNames.nextElement();
             Object value = request.getAttribute(attrName);
-            
-            request.removeAttribute(attrName);
             
             attrs.put(attrName, value);
         }
