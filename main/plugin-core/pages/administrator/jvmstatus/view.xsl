@@ -60,6 +60,8 @@
 					// Load properties data
 					var jvmdata = [
 							<xsl:for-each select="properties/node()">
+								<xsl:sort select="local-name()"/>
+							
 								['<xsl:value-of select="local-name()" />',
 								'<xsl:value-of select="escaper:escape(.)"/>']
 								<xsl:if test="not(position()=last())">
