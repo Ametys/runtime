@@ -184,12 +184,12 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_TAB_LEVEL">Configuration</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP2_TEXT">This screen allows you to modify for the runtime the log level category by category.&lt;br/&gt;&lt;br/&gt;To modify permanently the log level you can configure the 'WEB-INF\\log4j.xml' file.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_CONFIG_LOGKITROOT">Root</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_DEBUG">Go DEBUG</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_INFO">Go INFO</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_WARN">Go WARNING</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_ERROR">Go ERROR</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_DEBUG">Change to DEBUG</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_INFO">Change to INFO</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_WARN">Change to WARNING</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_ERROR">Change to ERROR</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_INHERIT">Inherit mode</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_FORCE">Force heritage</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_FORCE">Force inheritance</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_ERROR">An error occured: modifications may not have been done.\nThe current page should be refreshed.</message>
     
     <!-- ADMINITRATOR SYSTEM -->
