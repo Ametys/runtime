@@ -217,13 +217,15 @@ public class DispatchGenerator extends ServiceableGenerator
      * Clean the requests attributes abd add those in the map
      * @param attributes
      */
+    @SuppressWarnings("unchecked")
     private void _restoreRequestAttributes(Map<String, Object> attributes)
     {
         Request request = ObjectModelHelper.getRequest(objectModel);
 
-        while (request.getAttributeNames().hasMoreElements())
+        
+        List<String> attrNames = Collections.list(request.getAttributeNames());
+        for (String attrName : attrNames)
         {
-            String attrName = (String) request.getAttributeNames().nextElement();
             request.removeAttribute(attrName);
         }
         
