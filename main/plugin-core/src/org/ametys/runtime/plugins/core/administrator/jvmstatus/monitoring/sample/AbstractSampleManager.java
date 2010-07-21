@@ -185,9 +185,9 @@ public abstract class AbstractSampleManager implements SampleManager, Monitoring
         
         _internalCollect(sample);
         
-        if (_logger.isInfoEnabled())
+        if (_logger.isDebugEnabled())
         {
-            _logger.info("Data collected: " + sample.dump());
+            _logger.debug("Data collected: " + sample.dump());
         }
         
         sample.update();
