@@ -23,13 +23,29 @@ import org.apache.cocoon.environment.Redirector;
 import org.ametys.runtime.authentication.Credentials;
 import org.ametys.runtime.authentication.CredentialsProvider;
 
-
 /**
  * This implementation will always provide the same crentials
  */
 public class DefinedCredentialsProvider implements CredentialsProvider, Configurable
 {
     private Credentials _credentials;
+    
+    /**
+     * Default constructor.
+     */
+    public DefinedCredentialsProvider()
+    {
+        // default constructor for avalon
+    }
+    
+    /**
+     * Creates a credentials provider with a given login.
+     * @param login the login.
+     */
+    public DefinedCredentialsProvider(String login)
+    {
+        _credentials = new Credentials(login, null);
+    }
  
     public void configure(Configuration configuration) throws ConfigurationException
     {
