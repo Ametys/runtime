@@ -150,6 +150,8 @@
 		
 		<script type="text/javascript">
 			<xsl:comment>
+				Ext.BLANK_IMAGE_URL = "<xsl:value-of select="$contextPath"/>/plugins/extjs/resources/images/default/s.gif";
+			
 				Date.patterns = {
 				    ISO8601Long:"Y-m-d\\TH:i:s.uP",
 				    ISO8601Short:"Y-m-d",
