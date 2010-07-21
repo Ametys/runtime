@@ -221,7 +221,7 @@ public class DispatchGenerator extends ServiceableGenerator
      * Transforms the request attributes into a map and clean the attributes
      * @return
      */
-    @SuppressWarnings("unchecked")
+//    @SuppressWarnings("unchecked")
     private Map<String, Object> _saveRequestAttributes()
     {
         Map<String, Object> attrs = new HashMap<String, Object>();
