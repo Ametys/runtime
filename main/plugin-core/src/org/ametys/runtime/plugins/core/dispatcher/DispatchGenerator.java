@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.util.Collections;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -30,7 +29,6 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.ResourceNotFoundException;
 import org.apache.cocoon.environment.ObjectModelHelper;
-import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.generation.ServiceableGenerator;
 import org.apache.cocoon.util.location.LocatedException;
 import org.apache.cocoon.xml.AttributesImpl;
@@ -92,21 +90,6 @@ public class DispatchGenerator extends ServiceableGenerator
     private String _getRequestBody()
     {
         return ObjectModelHelper.getRequest(objectModel).getParameter("content");
-        /** FIXME Inputstream is empty
-        HttpRequest request = (HttpRequest) ObjectModelHelper.getRequest(objectModel);
-        
-        try
-        {
-            ByteArrayOutputStream os = new ByteArrayOutputStream();
-
-            SourceUtil.copy(request.getInputStream(), os);
-            
-            return os.toString("utf-8");
-        }
-        catch (IOException e)
-        {
-            throw new RuntimeException("Cannot read body request", e);
-        }*/
     }
 
     @SuppressWarnings("unchecked")
@@ -217,22 +200,21 @@ public class DispatchGenerator extends ServiceableGenerator
      * Clean the requests attributes abd add those in the map
      * @param attributes
      */
-    @SuppressWarnings("unchecked")
+//    @SuppressWarnings("unchecked")
     private void _restoreRequestAttributes(Map<String, Object> attributes)
     {
-        Request request = ObjectModelHelper.getRequest(objectModel);
-
-        
-        List<String> attrNames = Collections.list(request.getAttributeNames());
-        for (String attrName : attrNames)
-        {
-            request.removeAttribute(attrName);
-        }
-        
-        for (String attrName : attributes.keySet())
-        {
-            request.setAttribute(attrName, attributes.get(attrName));
-        }
+//        Request request = ObjectModelHelper.getRequest(objectModel);
+//
+//        List<String> attrNames = Collections.list(request.getAttributeNames());
+//        for (String attrName : attrNames)
+//        {
+//            request.removeAttribute(attrName);
+//        }
+//        
+//        for (String attrName : attributes.keySet())
+//        {
+//            request.setAttribute(attrName, attributes.get(attrName));
+//        }
     }
 
     /**
@@ -244,16 +226,16 @@ public class DispatchGenerator extends ServiceableGenerator
     {
         Map<String, Object> attrs = new HashMap<String, Object>();
         
-        Request request = ObjectModelHelper.getRequest(objectModel);
-        
-        Enumeration<String> attrNames = request.getAttributeNames();
-        while (attrNames.hasMoreElements())
-        {
-            String attrName = attrNames.nextElement();
-            Object value = request.getAttribute(attrName);
-            
-            attrs.put(attrName, value);
-        }
+//        Request request = ObjectModelHelper.getRequest(objectModel);
+//        
+//        Enumeration<String> attrNames = request.getAttributeNames();
+//        while (attrNames.hasMoreElements())
+//        {
+//            String attrName = attrNames.nextElement();
+//            Object value = request.getAttribute(attrName);
+//            
+//            attrs.put(attrName, value);
+//        }
 
         return attrs;
     }
