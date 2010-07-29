@@ -607,6 +607,10 @@
              -->
             <label i18n="true">PLUGINS_CORE_MAIL_CONFIG_FROM_ADDRESS</label>
             <description i18n="true">PLUGINS_CORE_MAIL_CONFIG_FROM_ADDRESS_DESCRIPTION</description>
+            <validation>
+            	<mandatory/>
+        	</validation>
+            <default-value>sender@ametys.org</default-value>
             <category i18n="true">PLUGINS_CORE_MAIL_CONFIG_CATEGORY</category>
             <group i18n="true">PLUGINS_CORE_MAIL_CONFIG_ADDRESS_GROUP</group>
             <order>1</order>
