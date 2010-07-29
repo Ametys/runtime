@@ -127,7 +127,7 @@ public final class SendMailHelper
         props.put("mail.smtp.host", host);
 
         // Get session
-        Session session = Session.getDefaultInstance(props, null);
+        Session session = Session.getInstance(props, null);
 
         // Define message
         MimeMessage message = new MimeMessage(session);
