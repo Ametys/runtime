@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -29,6 +30,7 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.ResourceNotFoundException;
 import org.apache.cocoon.environment.ObjectModelHelper;
+import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.generation.ServiceableGenerator;
 import org.apache.cocoon.util.location.LocatedException;
 import org.apache.cocoon.xml.AttributesImpl;
@@ -201,20 +203,21 @@ public class DispatchGenerator extends ServiceableGenerator
      * @param attributes
      */
 //    @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
     private void _restoreRequestAttributes(Map<String, Object> attributes)
     {
-//        Request request = ObjectModelHelper.getRequest(objectModel);
-//
-//        List<String> attrNames = Collections.list(request.getAttributeNames());
-//        for (String attrName : attrNames)
-//        {
-//            request.removeAttribute(attrName);
-//        }
-//        
-//        for (String attrName : attributes.keySet())
-//        {
-//            request.setAttribute(attrName, attributes.get(attrName));
-//        }
+        Request request = ObjectModelHelper.getRequest(objectModel);
+
+        List<String> attrNames = Collections.list(request.getAttributeNames());
+        for (String attrName : attrNames)
+        {
+            request.removeAttribute(attrName);
+        }
+        
+        for (String attrName : attributes.keySet())
+        {
+            request.setAttribute(attrName, attributes.get(attrName));
+        }
     }
 
     /**
@@ -222,20 +225,21 @@ public class DispatchGenerator extends ServiceableGenerator
      * @return
      */
 //    @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
     private Map<String, Object> _saveRequestAttributes()
     {
         Map<String, Object> attrs = new HashMap<String, Object>();
         
-//        Request request = ObjectModelHelper.getRequest(objectModel);
-//        
-//        Enumeration<String> attrNames = request.getAttributeNames();
-//        while (attrNames.hasMoreElements())
-//        {
-//            String attrName = attrNames.nextElement();
-//            Object value = request.getAttribute(attrName);
-//            
-//            attrs.put(attrName, value);
-//        }
+        Request request = ObjectModelHelper.getRequest(objectModel);
+        
+        Enumeration<String> attrNames = request.getAttributeNames();
+        while (attrNames.hasMoreElements())
+        {
+            String attrName = attrNames.nextElement();
+            Object value = request.getAttribute(attrName);
+            
+            attrs.put(attrName, value);
+        }
 
         return attrs;
     }
