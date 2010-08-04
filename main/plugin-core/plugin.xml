@@ -1219,6 +1219,58 @@
         </extensions>
     </feature>
     
+    <feature name="runtime.user.impl.ldap.and.jdbc.credentialsaware">
+        <config>
+            <param-ref id="runtime.datasource.core.ldap.baseUrl"/>
+            <param-ref id="runtime.datasource.core.ldap.useSSL"/>
+            <param-ref id="runtime.datasource.core.ldap.baseDN"/>
+            <param-ref id="runtime.datasource.core.ldap.authMethod"/>
+            <param-ref id="runtime.datasource.core.ldap.adminDN"/>
+            <param-ref id="runtime.datasource.core.ldap.adminPasswd"/>
+            
+            <param-ref id="runtime.users.ldap.peopleDN"/>
+            <param-ref id="runtime.users.ldap.baseFilter"/>
+            <param-ref id="runtime.users.ldap.scope"/>
+            <param-ref id="runtime.users.ldap.loginAttr"/>
+            <param-ref id="runtime.users.ldap.firstnameAttr"/>
+            <param-ref id="runtime.users.ldap.lastnameAttr"/>
+            <param-ref id="runtime.users.ldap.emailAttr"/>
+        </config>
+        <extensions>
+            <extension point="org.ametys.runtime.user.UsersManager"
+                       id="org.ametys.runtime.plugins.core.CredentialsAwareLdapAndJdbc"
+                       class="org.ametys.runtime.plugins.core.user.mixed.CredentialsAwareLdapAndJdbcUsersManager"
+                       logger="org.ametys.runtime.plugins.core.user.mixed.ldap.and.jdbc.credential">
+                <BaseUrl>runtime.datasource.core.ldap.baseUrl</BaseUrl>
+                <UseSSL>runtime.datasource.core.ldap.useSSL</UseSSL>
+                <BaseDN>runtime.datasource.core.ldap.baseDN</BaseDN>
+                <AuthenticationMethod>runtime.datasource.core.ldap.authMethod</AuthenticationMethod>
+                <AdminDN>runtime.datasource.core.ldap.adminDN</AdminDN>
+                <AdminPassword>runtime.datasource.core.ldap.adminPasswd</AdminPassword>
+                
+                <RelativeDN>runtime.users.ldap.peopleDN</RelativeDN>
+                <Filter>runtime.users.ldap.baseFilter</Filter>
+                <SearchScope>runtime.users.ldap.scope</SearchScope>
+                <Login>runtime.users.ldap.loginAttr</Login>
+                <Firstname>runtime.users.ldap.firstnameAttr</Firstname>
+                <Lastname>runtime.users.ldap.lastnameAttr</Lastname>
+                <Email mandatory="false">runtime.users.ldap.emailAttr</Email>
+                
+                <!-- Fallback users manager configuration. -->
+                <FallbackUsersManagerConfiguration>
+                    <pool>runtime.datasource.core.jdbc.pool</pool>
+                    <table>Users</table>
+                    <param id="login"/>
+                    <param id="password"/>
+                    <param id="firstname"/>
+                    <param id="lastname"/>
+                    <param id="email"/>
+                </FallbackUsersManagerConfiguration>
+                
+            </extension>
+        </extensions>
+    </feature>
+    
     <feature name="runtime.util.ldap.scope.enumerator">
         <!-- 
             This feature provides a LDAP scope enumerator
