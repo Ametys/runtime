@@ -749,6 +749,12 @@
                        class="org.ametys.runtime.plugins.core.authentication.UsersManagerAuthentication"
                        logger="org.ametys.runtime.plugins.core.authentication.UsersManagerAuthentication"/>
                        
+            <!-- Mixed source users manager authentication. To be used with CASBasicCredentialsProvider. -->
+            <extension point="org.ametys.runtime.authentication.AuthenticationManager"
+                       id="org.ametys.runtime.plugins.core.authentication.mixed.MixedSourceUsersManagerAuthentication"
+                       class="org.ametys.runtime.plugins.core.authentication.mixed.MixedSourceUsersManagerAuthentication"
+                       logger="org.ametys.runtime.plugins.core.authentication.mixed.MixedSourceUsersManagerAuthentication"/>
+                       
             <extension point="org.ametys.runtime.authentication.AuthenticationManager"
                        id="org.ametys.runtime.plugins.core.authentication.HasRightAuthentication"
                        class="org.ametys.runtime.plugins.core.authentication.HasRightAuthentication"
@@ -1713,6 +1719,25 @@
                        id="org.ametys.runtime.plugins.core.authentication.GatewayCAS"
                        class="org.ametys.runtime.plugins.core.authentication.CASCredentialsProvider"
                        logger="org.ametys.runtime.plugins.core.authentication.casgateway">
+                <gateway>true</gateway>
+            </extension>
+        </extensions>
+    </feature>
+    
+    <feature name="runtime.authentication.impl.cas.gateway.and.basic">
+        <config>
+            <!-- CAS parameters -->
+            <param-ref id="runtime.authentication.cas.serverUrl"/>
+            <param-ref id="runtime.authentication.cas.authorizedProxyChain"/>
+            <!-- Basic parameters. -->
+            <param-ref id="runtime.authentication.basic.realm"/>
+        </config>
+        <extensions>
+            <!-- Mixed CAS-gateway/Basic credentials provider. -->
+            <extension point="org.ametys.runtime.authentication.CredentialsProvider"
+                       id="org.ametys.runtime.plugins.core.authentication.GatewayCASBasic"
+                       class="org.ametys.runtime.plugins.core.authentication.mixed.CASBasicCredentialsProvider"
+                       logger="org.ametys.runtime.plugins.core.authentication.casgateway.and.basic">
                 <gateway>true</gateway>
             </extension>
         </extensions>
