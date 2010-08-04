@@ -1,5 +1,5 @@
 /*
- *  Copyright 2009 Anyware Services
+ *  Copyright 2010 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,7 +15,9 @@
  */
 package org.ametys.runtime.plugins.core.authentication;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
@@ -34,6 +36,11 @@ import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.Session;
 import org.apache.cocoon.environment.http.HttpEnvironment;
+import org.jasig.cas.client.authentication.AuthenticationFilter;
+import org.jasig.cas.client.util.AbstractCasFilter;
+import org.jasig.cas.client.util.HttpServletRequestWrapperFilter;
+import org.jasig.cas.client.validation.Assertion;
+import org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter;
 
 import org.ametys.runtime.authentication.AuthenticateAction;
 import org.ametys.runtime.authentication.Credentials;
@@ -42,36 +49,38 @@ import org.ametys.runtime.authentication.filter.RuntimeFilter;
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.util.LoggerFactory;
 
-import edu.yale.its.tp.cas.client.filter.CASFilter;
-
 /**
- * This manager gets the credentials given by an authentification CAS filter.
+ * This manager gets the credentials given by an authentication CAS filter.
  * <br>
  * The filter must set the 'remote user' header into the request. <br>
  * <br>
  * This manager can not get the password of the connected user: the user is
- * already authentified. This manager should not be associated with an
- * <code>AuthenticableBaseUser</code>
+ * already authentified. This manager should not be associated with a
+ * <code>UsersManagerAuthentication</code>
  */
 public class CASCredentialsProvider implements CredentialsProvider, Initializable, Configurable, Contextualizable
 {
-    // Logger for traces
+    /** Logger for traces. */
     private static Logger _logger = LoggerFactory.getLoggerFor(CASCredentialsProvider.class);
+    
+    /** Using gateway feature. */ 
+    protected boolean _gateway;
+    
+    /** List of filter wrappers for a server. */
+    private Map<String, List<RuntimeFilter>> _filters;
 
-    private Map<String, RuntimeFilter> _filters;
-
-    // Cas server URL with context (https://cas-server ou https://cas-server/cas)
+    /** Cas server URL with context (https://cas-server ou https://cas-server/cas) */
     private String _serverUrl;
     
-    //Using gateway feature. 
-    private boolean _gateway;
-    
-    // The avalon context
+    /** The avalon context. */
     private Context _context;
     
-    // A whitespace-delimited list of valid proxy URLs.
-    // Only one URL needs to match for the login to be successful. 
-    private String _authorizedProxy;
+    /**
+     *  A newline-delimited list of acceptable proxy chains.
+     *  A proxy chain includes a whitespace-delimited list of valid proxy URLs.
+     *  Only one proxy chain needs to match for the login to be successful.
+     */
+    private String _authorizedProxyChains;
     
     public void contextualize(Context context) throws ContextException
     {
@@ -85,14 +94,14 @@ public class CASCredentialsProvider implements CredentialsProvider, Initializabl
 
     public void initialize() throws Exception
     {
-        _filters = new HashMap<String, RuntimeFilter>();
+        _filters = new HashMap<String, List<RuntimeFilter>>();
         
         _serverUrl = Config.getInstance().getValueAsString("runtime.authentication.cas.serverUrl");
         
-        _authorizedProxy = Config.getInstance().getValueAsString("runtime.authentication.cas.authorizedProxy");
-        if (_authorizedProxy == null || _authorizedProxy.trim().length() == 0)
+        _authorizedProxyChains = Config.getInstance().getValueAsString("runtime.authentication.cas.authorizedProxyChain");
+        if (_authorizedProxyChains == null || _authorizedProxyChains.trim().length() == 0)
         {
-            _authorizedProxy = "";
+            _authorizedProxyChains = "";
         }
     }
 
@@ -118,42 +127,79 @@ public class CASCredentialsProvider implements CredentialsProvider, Initializabl
                 serverName.append(":");
                 serverName.append(request.getServerPort());
             }
-            
         }
         
-        RuntimeFilter runtimeFilter = _filters.get(serverName);
-        if (runtimeFilter == null)
+        List<RuntimeFilter> runtimeFilters = _filters.get(serverName);
+        if (runtimeFilters == null)
         {
+            // Create the filter chain.
+            runtimeFilters = new ArrayList<RuntimeFilter>();
+            _filters.put(serverName.toString(), runtimeFilters);
+            
+            ServletContext servletContext = (ServletContext) objectModel.get(HttpEnvironment.HTTP_SERVLET_CONTEXT);
             Map<String, String> parameters = new HashMap<String, String>();
-            parameters.put("edu.yale.its.tp.cas.client.filter.loginUrl", _serverUrl + "/login");
-            parameters.put("edu.yale.its.tp.cas.client.filter.validateUrl", _serverUrl + "/proxyValidate");
-            parameters.put("edu.yale.its.tp.cas.client.filter.serverName", serverName.toString());
-            parameters.put("edu.yale.its.tp.cas.client.filter.authorizedProxy", _authorizedProxy);
-            parameters.put("edu.yale.its.tp.cas.client.filter.gateway", String.valueOf(_gateway));
-
-            runtimeFilter = new RuntimeFilter(new CASFilter());
-            runtimeFilter.init(parameters, (ServletContext) objectModel.get(HttpEnvironment.HTTP_SERVLET_CONTEXT));
-            _filters.put(serverName.toString(), runtimeFilter);
+            
+            // Authentication filter.
+            parameters.put("casServerLoginUrl", _serverUrl + "/login");
+            parameters.put("serverName", serverName.toString());
+            parameters.put("gateway", String.valueOf(_gateway));
+            RuntimeFilter runtimeFilter = new RuntimeFilter(new AuthenticationFilter());
+            runtimeFilter.init(parameters, servletContext);
+            runtimeFilters.add(runtimeFilter);
+            
+            // Ticket validation filter.
+            parameters.clear();
+            parameters.put("casServerUrlPrefix", _serverUrl);
+            parameters.put("serverName", serverName.toString());
+            parameters.put("allowedProxyChains", _authorizedProxyChains);
+            runtimeFilter = new RuntimeFilter(new Cas20ProxyReceivingTicketValidationFilter());
+            runtimeFilter.init(parameters, servletContext);
+            runtimeFilters.add(runtimeFilter);
+            
+            // Ticket validation filter.
+            parameters.clear();
+            runtimeFilter = new RuntimeFilter(new HttpServletRequestWrapperFilter());
+            runtimeFilter.init(parameters, servletContext);
+            runtimeFilters.add(runtimeFilter);
         }
-
-        runtimeFilter.doFilter(objectModel, redirector);
-
-        // FIXME do not open a session for nothing
-        Session session = request.getSession();
-        String userLoginObject = (String) session.getAttribute(CASFilter.CAS_FILTER_USER);
-        String connectedLogin = (String) session.getAttribute(AuthenticateAction.SESSION_USERLOGIN);
-        return (userLoginObject != null) && userLoginObject.equals(connectedLogin);
+        
+        if (_logger.isDebugEnabled())
+        {
+            _logger.debug("Executing CAS filter chain...");
+        }
+        
+        // Execute the filter chain.
+        for (RuntimeFilter filter : runtimeFilters)
+        {
+            filter.doFilter(objectModel, redirector);
+        }
+        
+        boolean valid = true;
+        
+        // If a redirect was sent, the getSession call won't work.
+        if (!redirector.hasRedirected())
+        {
+            Session session = request.getSession(false);
+            String userLogin = _getLogin(request);
+            String connectedLogin = session == null ? null : (String) session.getAttribute(AuthenticateAction.SESSION_USERLOGIN);
+            valid = (userLogin != null) && userLogin.equals(connectedLogin);
+        }
+        
+        return valid;
     }
 
     public boolean accept()
     {
         Map objectModel = ContextHelper.getObjectModel(_context);
         Request request = ObjectModelHelper.getRequest(objectModel);
-        // FIXME do not open a session for nothing
-        Object userLoginObject = request.getSession().getAttribute(CASFilter.CAS_FILTER_USER);
-
-        if (_gateway && userLoginObject == null)
+        String userLogin = _getLogin(request);
+        
+        if (_gateway && userLogin == null)
         {
+            if (_logger.isDebugEnabled())
+            {
+                _logger.debug("Gateway CAS : unauthenticated user, letting him through.");
+            }
             return true;
         }
         
@@ -163,14 +209,14 @@ public class CASCredentialsProvider implements CredentialsProvider, Initializabl
     public Credentials getCredentials(Redirector redirector) throws Exception
     {
         Map objectModel = ContextHelper.getObjectModel(_context);
-        // FIXME do not open a session for nothing
-        Object userLoginObject = ObjectModelHelper.getRequest(objectModel).getSession().getAttribute(CASFilter.CAS_FILTER_USER);
+        Request request = ObjectModelHelper.getRequest(objectModel);
+        String userLogin = _getLogin(request);
 
-        if (userLoginObject == null)
+        if (userLogin == null)
         {
             if (!_gateway)
             {
-                String errorMessage = "CAS authentication needs a CAS filter to be configured into the WEB-INF/web.xml file. Please see documentation for more details. It is recommendanded to use the filter: " + CASFilter.class.getName();
+                String errorMessage = "CAS authentication needs a CAS filter to be configured into the WEB-INF/web.xml file. Please see documentation for more details. It is recommanded to use the filter: " + AuthenticationFilter.class.getName();
                 _logger.error(errorMessage);
                 throw new IllegalStateException(errorMessage);
             }
@@ -179,19 +225,42 @@ public class CASCredentialsProvider implements CredentialsProvider, Initializabl
                 return null;
             }
         }
-
-        String userLogin = userLoginObject.toString();
-
+        
+        if (_logger.isDebugEnabled())
+        {
+            _logger.debug("User authenticated by CAS : " + userLogin);
+        }
+        
         return new Credentials(userLogin, "");
     }
 
     public void notAllowed(Redirector redirector) throws Exception
     {
-        // nothing to do
+        // Nothing to do.
     }
 
     public void allowed(Redirector redirector)
     {
-        // empty method, nothing more to do
+        // Empty method, nothing more to do.
+    }
+    
+    /**
+     * Get the connected user login from the request or session.
+     * @param request the request object.
+     * @return the connected user login or null.
+     */
+    protected String _getLogin(Request request)
+    {
+        String userLogin = null;
+        
+        Session session = request.getSession(false);
+        
+        final Assertion assertion = (Assertion) (session == null ? request.getAttribute(AbstractCasFilter.CONST_CAS_ASSERTION) : session.getAttribute(AbstractCasFilter.CONST_CAS_ASSERTION));
+        
+        if (assertion != null)
+        {
+            userLogin = assertion.getPrincipal().getName();
+        }
+        return userLogin;
     }
 }

@@ -73,7 +73,7 @@ Open source web application framework based on Apache Cocoon.
 	<dependency org="apache" name="fop" rev="0.95" conf="fop->default;dev-kernel-resources->default"/>
 	
     <!-- cas configuration -->
-    <dependency org="ja-sig" name="cas-client" rev="2.0.11" conf="cas->default;dev-kernel-resources->default"/>
+    <dependency org="ja-sig" name="cas-client-core" rev="3.1.10" conf="cas->default;dev-kernel-resources->default"/>
 
     <!-- jcifs configuration -->
     <dependency org="samba" name="jcifs" rev="1.2.22" conf="jcifs->default;dev-kernel-resources->default"/>

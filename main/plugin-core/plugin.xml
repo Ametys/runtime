@@ -543,9 +543,9 @@
             <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION_GROUP_CAS</group>
             <order>10</order>
         </param>
-        <param id="runtime.authentication.cas.authorizedProxy" type="string">
+        <param id="runtime.authentication.cas.authorizedProxyChain" type="string">
             <!-- 
-                This parameter contains the url of the authorized proxies for CAS
+                This parameter contains the authorized proxy chain for CAS
              -->
             <label i18n="true">PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_AUTHORIZEDPROXY_LABEL</label>
             <description i18n="true">PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_AUTHORIZEDPROXY_DESCRIPTION</description>
@@ -1686,7 +1686,7 @@
          -->
         <config>
             <param-ref id="runtime.authentication.cas.serverUrl"/>
-            <param-ref id="runtime.authentication.cas.authorizedProxy"/>
+            <param-ref id="runtime.authentication.cas.authorizedProxyChain"/>
         </config>
         <extensions>
             <extension point="org.ametys.runtime.authentication.CredentialsProvider"
@@ -1706,7 +1706,7 @@
          -->
         <config>
             <param-ref id="runtime.authentication.cas.serverUrl"/>
-            <param-ref id="runtime.authentication.cas.authorizedProxy"/>
+            <param-ref id="runtime.authentication.cas.authorizedProxyChain"/>
         </config>
         <extensions>
             <extension point="org.ametys.runtime.authentication.CredentialsProvider"
