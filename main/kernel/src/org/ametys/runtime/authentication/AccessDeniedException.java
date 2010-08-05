@@ -20,5 +20,20 @@ package org.ametys.runtime.authentication;
  */
 public class AccessDeniedException extends Exception
 {
-    // empty class
+    /**
+     * Constructs a new AccessDeniedException.
+     */
+    public AccessDeniedException()
+    {
+        super();
+    }
+    
+    /**
+     * Constructs a new AccessDeniedException with the specified cause.
+     * @param message the cause of the exception.
+     */
+    public AccessDeniedException(String message)
+    {
+        super(message);
+    }
 }
