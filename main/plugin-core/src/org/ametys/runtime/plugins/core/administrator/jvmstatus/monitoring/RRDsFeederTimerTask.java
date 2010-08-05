@@ -80,7 +80,10 @@ public class RRDsFeederTimerTask extends TimerTask implements Component, LogEnab
     @Override
     public void run()
     {
-        _logger.info("Time to collect data");
+        if (_logger.isDebugEnabled())
+        {
+            _logger.debug("Time to collect data");
+        }
         
         for (String extensionId : _monitoringExtensionPoint.getExtensionsIds())
         {
