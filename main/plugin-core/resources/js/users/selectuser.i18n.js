@@ -21,6 +21,7 @@ function RUNTIME_Plugin_Runtime_SelectUser()
 {
 }
 // --------------------------------
+RUNTIME_Plugin_Runtime_SelectUser.usersManagerRole = null;
 RUNTIME_Plugin_Runtime_SelectUser.initialized = false;
 // --------------------------------
 RUNTIME_Plugin_Runtime_SelectUser.delayed_initialize = function ()
@@ -78,26 +79,26 @@ RUNTIME_Plugin_Runtime_SelectUser.delayed_initialize = function ()
 	});
 	
 	RUNTIME_Plugin_Runtime_SelectUser.box = new org.ametys.DialogBox({
-					title :"<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_CAPTION"/>",
-					layout :'border',
-					width :280,
-					height : 340,
-					cls : 'select-user-box',
-					icon: getPluginResourcesUrl('core') + '/img/users/icon_small.png',
-					items : [form, RUNTIME_Plugin_Runtime_SelectUser.listview, warning],
-					closeAction: 'hide',
-					buttons : [ {
-						text :"<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_OK"/>",
-						handler : function() {
-						RUNTIME_Plugin_Runtime_SelectUser.ok();
-						}
-					}, {
-						text :"<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_CANCEL"/>",
-						handler : function() {
-						RUNTIME_Plugin_Runtime_SelectUser.cancel();
-						}
-					} ]
-				});
+		title :"<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_CAPTION"/>",
+		layout :'border',
+		width :280,
+		height : 340,
+		cls : 'select-user-box',
+		icon: getPluginResourcesUrl('core') + '/img/users/icon_small.png',
+		items : [form, RUNTIME_Plugin_Runtime_SelectUser.listview, warning],
+		closeAction: 'hide',
+		buttons : [ {
+			text :"<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_OK"/>",
+			handler : function() {
+			RUNTIME_Plugin_Runtime_SelectUser.ok();
+			}
+		}, {
+			text :"<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_CANCEL"/>",
+			handler : function() {
+			RUNTIME_Plugin_Runtime_SelectUser.cancel();
+			}
+		} ]
+	});
 }
 // --------------------------------
 RUNTIME_Plugin_Runtime_SelectUser.initialize = function (plugin)
@@ -105,11 +106,17 @@ RUNTIME_Plugin_Runtime_SelectUser.initialize = function (plugin)
 	RUNTIME_Plugin_Runtime_SelectUser.plugin = plugin;
 }
 // --------------------------------
-RUNTIME_Plugin_Runtime_SelectUser.act = function (callback, cancelCallback)
+/**
+ * {Function}
+ * {Function}
+ * {String} the avalon role of the users manager which will be called to get the user list, or null to call the default users manager.
+ */
+RUNTIME_Plugin_Runtime_SelectUser.act = function (callback, cancelCallback, usersManagerRole)
 {
 	RUNTIME_Plugin_Runtime_SelectUser.delayed_initialize();
 	RUNTIME_Plugin_Runtime_SelectUser.callback = callback;
 	RUNTIME_Plugin_Runtime_SelectUser.cancelCallback = cancelCallback;
+    RUNTIME_Plugin_Runtime_SelectUser.usersManagerRole = usersManagerRole;
 	
 	RUNTIME_Plugin_Runtime_SelectUser.criteria.setValue("");
 
@@ -135,8 +142,9 @@ RUNTIME_Plugin_Runtime_SelectUser.load = function ()
 
 	var criteria = RUNTIME_Plugin_Runtime_SelectUser.criteria.getValue();
 
-	// Recupere la liste des users 
-	var serverMessage = new org.ametys.servercomm.ServerMessage(RUNTIME_Plugin_Runtime_SelectUser.plugin, "users/search.xml", { criteria: criteria, count: 100, offset: 0 }, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+	// Get the user list from the UsersManager.
+	var params = { criteria: criteria, count: 100, offset: 0, usersManagerRole: RUNTIME_Plugin_Runtime_SelectUser.usersManagerRole };
+	var serverMessage = new org.ametys.servercomm.ServerMessage(RUNTIME_Plugin_Runtime_SelectUser.plugin, "users/search.xml", params, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
 	var result = org.ametys.servercomm.ServerComm.getInstance().send(serverMessage);
 
     if (org.ametys.servercomm.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_ERROR_LISTING"/>", result, "RUNTIME_Plugin_Runtime_SelectUser.load"))

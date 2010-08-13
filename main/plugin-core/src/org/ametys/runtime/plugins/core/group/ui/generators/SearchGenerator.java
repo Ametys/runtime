@@ -20,14 +20,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.avalon.framework.service.ServiceException;
-import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.generation.ServiceableGenerator;
 import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.SAXException;
 
 import org.ametys.runtime.group.GroupsManager;
-
 
 /**
  * Generates the result of a search in the users. 
@@ -37,16 +35,6 @@ public class SearchGenerator extends ServiceableGenerator
     private static final int _DEFAULT_COUNT_VALUE = 100;
     private static final int _DEFAULT_OFFSET_VALUE = 0;
 
-    /** The runtime users'manager */
-    protected GroupsManager _groups;
-    
-    @Override
-    public void service(ServiceManager m) throws ServiceException
-    {
-        super.service(m);
-        _groups = (GroupsManager) m.lookup(GroupsManager.ROLE);
-    }
-    
     public void generate() throws IOException, SAXException, ProcessingException
     {
         // Critère de recherche
@@ -63,10 +51,33 @@ public class SearchGenerator extends ServiceableGenerator
         // Décalage des résultats
         int offset = parameters.getParameterAsInteger("offset", _DEFAULT_OFFSET_VALUE);
         
-        contentHandler.startDocument();
-        XMLUtils.startElement(contentHandler, "Search");
-        _groups.toSAX(contentHandler, count, offset, saxParameters);
-        XMLUtils.endElement(contentHandler, "Search");
-        contentHandler.endDocument();
+        // Get the wanted GroupsManager avalon role, defaults to runtime-declared GroupsManager.
+        String role = parameters.getParameter("groupsManagerRole", GroupsManager.ROLE);
+        if (role.length() == 0)
+        {
+            role = GroupsManager.ROLE;
+        }
+        
+        GroupsManager groupsManager = null;
+        
+        try
+        {
+            groupsManager = (GroupsManager) manager.lookup(role);
+            
+            contentHandler.startDocument();
+            XMLUtils.startElement(contentHandler, "Search");
+            groupsManager.toSAX(contentHandler, count, offset, saxParameters);
+            XMLUtils.endElement(contentHandler, "Search");
+            contentHandler.endDocument();
+        }
+        catch (ServiceException e)
+        {
+            getLogger().error("Error looking up GroupsManager of role " + role, e);
+            throw new ProcessingException("Error looking up GroupsManager of role " + role, e);
+        }
+        finally
+        {
+            manager.release(groupsManager);
+        }
     }
 }

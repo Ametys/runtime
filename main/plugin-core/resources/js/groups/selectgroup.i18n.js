@@ -21,6 +21,7 @@ function RUNTIME_Plugin_Runtime_SelectGroup()
 {
 }
 // --------------------------------
+RUNTIME_Plugin_Runtime_SelectGroup.groupsManagerRole = null;
 RUNTIME_Plugin_Runtime_SelectGroup.initialized = false;
 // --------------------------------
 RUNTIME_Plugin_Runtime_SelectGroup.delayed_initialize = function ()
@@ -98,11 +99,17 @@ RUNTIME_Plugin_Runtime_SelectGroup.initialize = function (plugin)
 	RUNTIME_Plugin_Runtime_SelectGroup.plugin = plugin;
 }
 // --------------------------------
-RUNTIME_Plugin_Runtime_SelectGroup.act = function (callback, cancelCallback)
+/**
+ * {Function}
+ * {Function}
+ * {String} the avalon role of the users manager which will be called to get the user list, or null to call the default users manager.
+ */
+RUNTIME_Plugin_Runtime_SelectGroup.act = function (callback, cancelCallback, groupsManagerRole)
 {
 	RUNTIME_Plugin_Runtime_SelectGroup.delayed_initialize();
 	RUNTIME_Plugin_Runtime_SelectGroup.callback = callback;
 	RUNTIME_Plugin_Runtime_SelectGroup.cancelCallback = cancelCallback;
+    RUNTIME_Plugin_Runtime_SelectGroup.groupsManagerRole = groupsManagerRole;
 	
 	RUNTIME_Plugin_Runtime_SelectGroup.criteria.setValue("");
 	RUNTIME_Plugin_Runtime_SelectGroup.load();
@@ -127,7 +134,9 @@ RUNTIME_Plugin_Runtime_SelectGroup.load = function ()
 
 	var criteria = RUNTIME_Plugin_Runtime_SelectGroup.criteria.getValue();
 
-	var serverMessage = new org.ametys.servercomm.ServerMessage(RUNTIME_Plugin_Runtime_SelectGroup.plugin, "groups/selectgroup/search.xml", { criteria: criteria, count: 100, offset: 0 }, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+    // Get the group list from the GroupsManager.
+    var params = { criteria: criteria, count: 100, offset: 0, groupsManagerRole: RUNTIME_Plugin_Runtime_SelectGroup.groupsManagerRole };
+	var serverMessage = new org.ametys.servercomm.ServerMessage(RUNTIME_Plugin_Runtime_SelectGroup.plugin, "groups/selectgroup/search.xml", params, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
 	var responseXML = org.ametys.servercomm.ServerComm.getInstance().send(serverMessage);
 
     if (org.ametys.servercomm.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_ERROR_LISTING"/>", responseXML, "RUNTIME_Plugin_Runtime_SelectGroup.load"))

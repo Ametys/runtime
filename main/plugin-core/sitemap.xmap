@@ -398,6 +398,7 @@
                 <map:generate type="users-search" src="{request-param:criteria}">
                     <map:parameter name="count" value="{request-param:count}"/>
                     <map:parameter name="offset" value="{request-param:offset}"/>
+                    <map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
                 </map:generate>
                 <map:serialize type="xml"/>
             </map:match>
@@ -502,6 +503,7 @@
                 <map:generate type="groups-search" src="{request-param:criteria}">
                     <map:parameter name="count" value="{request-param:count}"/>
                     <map:parameter name="offset" value="{request-param:offset}"/>
+                    <map:parameter name="groupsManagerRole" value="{request-param:groupsManagerRole}"/>
                 </map:generate>
                 <map:serialize type="xml"/>
             </map:match>

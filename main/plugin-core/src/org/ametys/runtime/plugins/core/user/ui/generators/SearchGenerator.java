@@ -20,14 +20,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.avalon.framework.service.ServiceException;
-import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.generation.ServiceableGenerator;
 import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.SAXException;
 
 import org.ametys.runtime.user.UsersManager;
-
 
 /**
  * Generates the result of a search in the users. 
@@ -37,22 +35,12 @@ public class SearchGenerator extends ServiceableGenerator
     private static final int _DEFAULT_COUNT_VALUE = 100;
     private static final int _DEFAULT_OFFSET_VALUE = 0;
 
-    /** The runtime users'manager */
-    protected UsersManager _users;
-    
-    @Override
-    public void service(ServiceManager m) throws ServiceException
-    {
-        super.service(m);
-        _users = (UsersManager) m.lookup(UsersManager.ROLE);
-    }
-    
     public void generate() throws IOException, SAXException, ProcessingException
     {
         // Critère de recherche
         Map<String, String> saxParameters = new HashMap<String, String>();
         saxParameters.put("pattern", source);
-        
+
         // Nombre de résultats max
         int count = parameters.getParameterAsInteger("limit", _DEFAULT_COUNT_VALUE);
         if (count == -1)
@@ -63,10 +51,33 @@ public class SearchGenerator extends ServiceableGenerator
         // Décalage des résultats
         int offset = parameters.getParameterAsInteger("start", _DEFAULT_OFFSET_VALUE);
         
-        contentHandler.startDocument();
-        XMLUtils.startElement(contentHandler, "Search");
-        _users.toSAX(contentHandler, count, offset, saxParameters);
-        XMLUtils.endElement(contentHandler, "Search");
-        contentHandler.endDocument();
+        // Get the wanted UsersManager avalon role, defaults to runtime-declared UsersManager.
+        String role = parameters.getParameter("usersManagerRole", UsersManager.ROLE);
+        if (role.length() == 0)
+        {
+            role = UsersManager.ROLE;
+        }
+        
+        UsersManager usersManager = null;
+        
+        try
+        {
+            usersManager = (UsersManager) manager.lookup(role);
+            
+            contentHandler.startDocument();
+            XMLUtils.startElement(contentHandler, "Search");
+            usersManager.toSAX(contentHandler, count, offset, saxParameters);
+            XMLUtils.endElement(contentHandler, "Search");
+            contentHandler.endDocument();
+        }
+        catch (ServiceException e)
+        {
+            getLogger().error("Error looking up UsersManager of role " + role, e);
+            throw new ProcessingException("Error looking up UsersManager of role " + role, e);
+        }
+        finally
+        {
+            manager.release(usersManager);
+        }
     }
 }
