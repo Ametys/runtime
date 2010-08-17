@@ -28,7 +28,7 @@ org.ametys.form.DoubleField = function(config)
 {
 	config.itemCls = "ametys-input";
 	config.labelSeparator = '';
-	config.allowDecimals = true,
+	config.allowDecimals = true;
 	
 	org.ametys.form.DoubleField.superclass.constructor.call(this, config);
 }; 
