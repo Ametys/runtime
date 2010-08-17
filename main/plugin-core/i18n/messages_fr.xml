@@ -223,6 +223,13 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ERROR">Erreur</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ERROR_SAVE">Une erreur est survenue sur le serveur. Les modifications n'ont pas été enregistrées.</message>
 
+	<!-- ADMINISTRATOR SUPER USER -->
+	<message key="PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_LABEL">Super utilisateur</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_DESCRIPTION">Définir un ou des gestionaire(s) : utilisateurs ayant tous les droits</message>
+	<message key="PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_AFFECT_ERROR">Une erreur est survenue : l'affectation a échoué.</message>
+	<message key="PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_AFFECT_TITLE">Super utilisateur</message>
+	<message key="PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_AFFECT_SUCCESS">L'affectation a été effectuée</message>
+	
 	<!-- MAILING -->
 	<message key="PLUGINS_CORE_MAIL_CONFIG_CATEGORY">Envoi de mail</message>
 	<message key="PLUGINS_CORE_MAIL_CONFIG_GROUP">Paramètres serveur</message>

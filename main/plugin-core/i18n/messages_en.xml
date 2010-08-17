@@ -223,6 +223,13 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ERROR">Error</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ERROR_SAVE">An error occurred on the server. Modifications have not been saved.</message>
 
+	<!-- ADMINISTRATOR SUPER USER -->
+	<message key="PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_LABEL">Super user</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_DESCRIPTION">Define temporary administrator(s) with all rights</message>
+	<message key="PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_AFFECT_ERROR">An error occurred : assignment failed.</message>
+	<message key="PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_AFFECT_TITLE">Super user</message>
+	<message key="PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_AFFECT_SUCCESS">Assignment succeed</message>
+	
 	<!-- MAILING -->
 	<message key="PLUGINS_CORE_MAIL_CONFIG_CATEGORY">EMails</message>
 	<message key="PLUGINS_CORE_MAIL_CONFIG_GROUP">Server parameters</message>

@@ -966,6 +966,32 @@
 				</action>   
                 <Url>administrator/system/view\.html</Url>
             </extension>   
+            
+            <!-- +
+                 |  ADMIN SUPER USER
+                 + -->           
+            <extension  point="org.ametys.runtime.workspaces.admin.DesktopManager" 
+                        id="org.ametys.runtime.plugins.core.administrator.SuperUser"
+                        class="org.ametys.runtime.plugins.core.ui.item.StaticAdminClientSideElement"
+                        logger="org.ametys.runtime.plugins.core.ui.administrator.superuser">
+                <!-- 
+                    This interaction allows the administrator to handle the system (maintenance mode, welcome message...)
+                 -->
+				<action class="org.ametys.administration.SuperUser.act">
+					<param name="label" i18n="true">PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_LABEL</param>
+					<param name="default-description" i18n="true">PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_DESCRIPTION</param>
+					<param name="icon-small" file="true">img/administrator/superuser/icon_dock.png</param>
+					<param name="icon-medium" file="true">img/administrator/superuser/icon_medium.gif</param>
+					<param name="icon-large" file="true">img/administrator/superuser/icon_large.png</param>
+				</action>   
+                <scripts>
+                    <file>js/org/ametys/administration/SuperUser.i18n.js</file>
+                    <file plugin="core">js/users/selectuser.i18n.js</file>
+				</scripts> 	
+				<css>
+					<file plugin="core">css/users/selectuser.css</file>
+				</css> 		
+            </extension>   
                
         </extensions>
     </feature>

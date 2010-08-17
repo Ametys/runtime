@@ -64,7 +64,8 @@
             <map:action name="administrator-system-update" src="org.ametys.runtime.plugins.core.administrator.system.UpdateSystemAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.updateSystem"/>
             <map:action name="administrator-config-save" src="org.ametys.runtime.plugins.core.administrator.configuration.SaveConfigAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.saveConfig"/>
             <map:action name="administrator-change-plugins" src="org.ametys.runtime.plugins.core.administrator.plugins.ChangePlugins" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.changePlugins"/>
-		
+			<map:action name="administrator-affect-superuser" src="org.ametys.runtime.plugins.core.administrator.superuser.AffectSuperUserAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.superUser"/>
+			
 			<map:action name="users-edit" src="org.ametys.runtime.plugins.core.user.ui.actions.EditAction" logger="org.ametys.runtime.plugins.core.user.sitemap.action.edit"/>
 			<map:action name="users-delete" src="org.ametys.runtime.plugins.core.user.ui.actions.DeleteAction" logger="org.ametys.runtime.plugins.core.user.sitemap.action.delete"/>
 			<map:action name="users-impersonate" src="org.ametys.runtime.plugins.core.user.ui.actions.ImpersonateAction" logger="org.ametys.runtime.plugins.core.user.sitemap.action.impersonate"/>
@@ -381,6 +382,18 @@
                 <map:generate type="action-result"/>
                 <map:serialize type="xml" status-code="500"/>
             </map:match>
+            
+            <!-- +
+                 | Super utilisateur
+                 + -->
+           	<map:match pattern="administrator/superuser/affect">
+           		<map:act type="administrator-affect-superuser">
+           			<map:generate type="action-result"/>
+                    <map:serialize type="xml"/>
+           		</map:act>
+           		<map:generate type="action-result"/>
+                <map:serialize type="xml" status-code="500"/>
+           	</map:match>
 
              <!-- +
                  | Utilisateur
