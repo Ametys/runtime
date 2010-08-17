@@ -28,6 +28,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
+import org.apache.commons.lang.StringUtils;
 
 import org.ametys.runtime.plugin.component.PluginAware;
 import org.ametys.runtime.right.RightsContextPrefixExtensionPoint;
@@ -248,15 +249,23 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
                 }
                 else
                 {
-                    // Check the user has at least the right on a current context
-                    Set<String> contexts = _rightsManager.getUserRightContexts(userLogin, right);
-                    for (String context : contexts)
+                    String[] rights = right.split("\\|");
+                    for (String rightToCheck : rights)
                     {
-                        if (context.startsWith(_rightsContextPrefixEP.getContextPrefix()))
+                        if (StringUtils.isNotEmpty(rightToCheck))
                         {
-                            return true;
+                            // Check the user has at least the right on a current context
+                            Set<String> contexts = _rightsManager.getUserRightContexts(userLogin, rightToCheck);
+                            for (String context : contexts)
+                            {
+                                if (context.startsWith(_rightsContextPrefixEP.getContextPrefix()))
+                                {
+                                    return true;
+                                }
+                            }
                         }
                     }
+                    
                     return false;
                 }
             }
