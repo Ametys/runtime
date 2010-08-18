@@ -77,6 +77,14 @@
 	overflow: visible !important;
 }
 
+.ametys-multi-select {
+	overflow: visible !important;
+}
+
+.ametys-multi-select .x-list-selected {
+	background-color: #BCE8F3 !important;
+}
+
 .ametys-input label, .ametys-select label, .ametys-file label, .ametys-multi-select label  {
 	float:left !important;
 	text-align: right !important;
@@ -173,7 +181,7 @@
 
 .ametys-input textarea {
 	font-size: 0.9em;
-	margin-top: 0px !important;
+	margin-top: 0px;
 	border: 1px solid #C8CDD0 !important;
 	background-color: #FFFFFF !important;
 	background-image: none !important;
