@@ -156,7 +156,7 @@ public class DispatchGenerator extends ServiceableGenerator
                     responseHandler.endDocument();
                 }
             }
-            catch (Exception e)
+            catch (Throwable e)
             {
                 String message = String.format("Can not dispatch request '%s' : '%s' '%s' '%s'",  parameterKey , plugin,  relativeUrl,  requestParameters);
                 // Ensure SAXException are unrolled the right way
