@@ -59,7 +59,10 @@ public class DefaultValidator extends AbstractLogEnabled implements Validator, C
     public DefaultValidator(String regexp, boolean mandatory)
     {
         _isMandatory = mandatory;
-        _regexp = Pattern.compile(regexp);
+        if (regexp != null)
+        {
+            _regexp = Pattern.compile(regexp);
+        }
         enableLogging(LoggerFactory.getLoggerFor(this.getClass()));
     }
     
