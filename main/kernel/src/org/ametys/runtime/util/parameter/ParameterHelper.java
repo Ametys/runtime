@@ -18,7 +18,6 @@ package org.ametys.runtime.util.parameter;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.cocoon.ProcessingException;
@@ -291,25 +290,13 @@ public final class ParameterHelper
      */
     public static void toSAXValidator (ContentHandler handler, Validator validator) throws SAXException
     {
-        XMLUtils.startElement(handler, "validation");
-        
-        if (validator instanceof DefaultValidator)
+        if (validator != null)
         {
-            DefaultValidator defaultValidator = (DefaultValidator) validator;
-            Pattern pattern = defaultValidator.getPattern();
-            XMLUtils.createElement(handler, "mandatory", String.valueOf(defaultValidator.isMandatory()));
+            XMLUtils.startElement(handler, "validation");
             
-            if (pattern != null)
-            {
-                XMLUtils.createElement(handler, "regexp", pattern.toString());
-            }
+            validator.saxConfiguration(handler);
+            
+            XMLUtils.endElement(handler, "validation");
         }
-        else
-        {
-            // TODO provide JS export of the validator
-            XMLUtils.data(handler, validator.getClass().getName());
-        }
-        
-        XMLUtils.endElement(handler, "validation");
     }
 }

@@ -17,7 +17,6 @@ package org.ametys.runtime.util.parameter;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.PatternSyntaxException;
 
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -262,39 +261,25 @@ public abstract class AbstractParameterParser<P extends Parameter<T>, T>
         {
             Configuration customValidator = validatorConfig.getChild("custom-validator", false);
             
+            String validatorClassName = DefaultValidator.class.getName();
             if (customValidator != null)
             {
-                String validatorClassName = customValidator.getAttribute("class");
-                
-                try
-                {
-                    Class validatorClass = Class.forName(validatorClassName);
-                    _validatorManager.addComponent(pluginName, null, parameterId, validatorClass, parameterConfig);
-                }
-                catch (Exception e)
-                {
-                    throw new ConfigurationException("Unable to instantiate validator for class: " + validatorClassName, e);
-                }
-
-                // Will be affected later when validatorManager will be initialized
-                // in lookupComponents() call
-                _validatorsToLookup.put(parameter, parameterId);
+                validatorClassName = customValidator.getAttribute("class");
             }
-            else
+            
+            try
             {
-                
-                boolean isMandatory = validatorConfig.getChild("mandatory", false) != null;
-                String regexp = validatorConfig.getChild("regexp").getValue(null);
-
-                try
-                {
-                    parameter.setValidator(new DefaultValidator(regexp, isMandatory));
-                }
-                catch (PatternSyntaxException e)
-                {
-                    throw new ConfigurationException("Parameter configuration contains a invalid regexp", validatorConfig, e);
-                }
+                Class validatorClass = Class.forName(validatorClassName);
+                _validatorManager.addComponent(pluginName, null, parameterId, validatorClass, parameterConfig);
             }
+            catch (Exception e)
+            {
+                throw new ConfigurationException("Unable to instantiate validator for class: " + validatorClassName, e);
+            }
+
+            // Will be affected later when validatorManager will be initialized
+            // in lookupComponents() call
+            _validatorsToLookup.put(parameter, parameterId);
         }
     }
 

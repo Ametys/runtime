@@ -15,6 +15,9 @@
  */
 package org.ametys.runtime.util.parameter;
 
+import org.xml.sax.ContentHandler;
+import org.xml.sax.SAXException;
+
 /**
  * Validator for parameters values 
  */
@@ -26,4 +29,11 @@ public interface Validator
      * @param errors the structure to populate if the validation failed.
      */
     public void validate(Object value, Errors errors);
+    
+    /**
+     * Sax the configuration of the validator to allow the client side to prevalidate
+     * @param handler The content handler where to sax parameters
+     * @throws SAXException if an error occured
+     */
+    public void saxConfiguration(ContentHandler handler) throws SAXException;
 }
