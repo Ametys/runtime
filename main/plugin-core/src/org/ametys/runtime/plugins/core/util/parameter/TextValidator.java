@@ -72,7 +72,7 @@ public class TextValidator extends DefaultValidator
     {
         super.validate(value, errors);
         
-        if (_maxLength != null && value != null && value.toString().length() > _maxLength)
+        if (_maxLength != null && value != null && getText(value).length() > _maxLength)
         {
             if (getLogger().isDebugEnabled())
             {
@@ -82,5 +82,14 @@ public class TextValidator extends DefaultValidator
             errors.addError(new I18nizableText("plugin.core", "PLUGINS_CORE_VALIDATOR_TEXT_MAXLENGTH"));
         }
     }
-
+    
+    /**
+     * Get the text
+     * @param value The value to convert to text
+     * @return the value converted
+     */
+    protected String getText(Object value)
+    {
+        return value.toString();
+    }
 }
