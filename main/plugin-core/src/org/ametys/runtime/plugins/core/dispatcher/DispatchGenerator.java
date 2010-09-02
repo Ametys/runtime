@@ -80,10 +80,13 @@ public class DispatchGenerator extends ServiceableGenerator
         String parametersAsJSONString = _getRequestBody();
         Map<String, Object> parametersAsMap = _getMapFromJsonString(parametersAsJSONString);
         
+        String contextAsJSONString = _getRequestContext();
+        Map<String, Object> contextAsMap = _getMapFromJsonString(contextAsJSONString);
+
         contentHandler.startDocument();
         XMLUtils.startElement(contentHandler, "responses");
         
-        _dispatching(parametersAsMap);
+        _dispatching(parametersAsMap, contextAsMap);
         
         XMLUtils.endElement(contentHandler, "responses");
         contentHandler.endDocument();
@@ -94,15 +97,22 @@ public class DispatchGenerator extends ServiceableGenerator
         return ObjectModelHelper.getRequest(objectModel).getParameter("content");
     }
 
+    private String _getRequestContext()
+    {
+        return ObjectModelHelper.getRequest(objectModel).getParameter("context.parameters");
+    }
+
     @SuppressWarnings("unchecked")
-    private void _dispatching(Map<String, Object> parametersAsMap) throws SAXException
+    private void _dispatching(Map<String, Object> parametersAsMap, Map<String, Object> contextAsMap) throws SAXException
     {
         Map<String, Object> attributes = _saveRequestAttributes();
         
         for (String parameterKey : parametersAsMap.keySet())
         {
+            _setContextInRequestAttributes(contextAsMap);
+
             Map<String, Object> parameterObject = (Map<String, Object>) parametersAsMap.get(parameterKey);
-            
+
             String plugin = (String) parameterObject.get("plugin");
             String relativeUrl = (String) parameterObject.get("url");
             String responseType = (String) parameterObject.get("responseType");
@@ -217,6 +227,16 @@ public class DispatchGenerator extends ServiceableGenerator
         for (String attrName : attributes.keySet())
         {
             request.setAttribute(attrName, attributes.get(attrName));
+        }
+    }
+    
+    private void _setContextInRequestAttributes(Map<String, Object> contextAsMap)
+    {
+        Request request = ObjectModelHelper.getRequest(objectModel);
+
+        for (String name : contextAsMap.keySet())
+        {
+            request.setAttribute(name, contextAsMap.get(name));
         }
     }
 

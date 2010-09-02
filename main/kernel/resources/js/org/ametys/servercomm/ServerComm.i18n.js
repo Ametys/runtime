@@ -309,7 +309,11 @@ org.ametys.servercomm.ServerComm.prototype._sendMessages = function(m)
 	sendOptions.success = this._onRequestComplete;
 	sendOptions.failure = this._onRequestFailure;
 	sendOptions.scope = this;
-	sendOptions.params = "content=" + encodeURIComponent(Ext.util.JSON.encode(parameters));
+	sendOptions.params = "content=" + encodeURIComponent(Ext.util.JSON.encode(parameters)) 
+	if (context &amp;&amp; context.parameters)
+	{
+		sendOptions.params += "&amp;context.parameters=" + encodeURIComponent(Ext.util.JSON.encode(context.parameters));
+	}
 	sendOptions.messages = m != null ? [m] : this._messages;
 	sendOptions._timeoutIndex = index;
 	sendOptions._timeout = window.setTimeout("org.ametys.servercomm.ServerComm._onRequestTimeout ('" + index + "', " + timeout + ");", timeout);

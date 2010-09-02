@@ -177,6 +177,15 @@ org.ametys.servercomm.DirectComm.prototype.sendSynchronousRequest = function(url
         this._setHeader(connection);
     }
 
+	if (context &amp;&amp; context.parameters)
+	{
+		if (!postData)
+		{
+			postData = "";
+		}
+		postData += "&amp;context.parameters=" + encodeURIComponent(Ext.util.JSON.encode(context.parameters));
+	}
+    
 	connection.conn.send(postData || null);
 
     return connection.conn;
