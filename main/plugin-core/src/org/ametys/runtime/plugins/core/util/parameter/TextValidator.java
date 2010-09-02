@@ -59,7 +59,7 @@ public class TextValidator extends DefaultValidator
     @Override
     public void saxConfiguration(ContentHandler handler) throws SAXException
     {
-        saxConfiguration(handler);
+        super.saxConfiguration(handler);
         
         if (_maxLength != null)
         {
@@ -70,7 +70,7 @@ public class TextValidator extends DefaultValidator
     @Override
     public void validate(Object value, Errors errors)
     {
-        validate(value, errors);
+        super.validate(value, errors);
         
         if (_maxLength != null && value != null && value.toString().length() > _maxLength)
         {
