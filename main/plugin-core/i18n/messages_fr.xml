@@ -252,9 +252,12 @@
     <message key="PLUGINS_CORE_WIDGET_PASSWORD_HINT">Changer le mot de passe</message>
     <message key="PLUGINS_CORE_WIDGET_PASSWORD_ERROR">Vous devez saisir 2 fois le même mot de passe.\nVeuillez saisir à nouveau le mot de passe en 2 exemplaires</message>
 
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE">Base de données</message>
+    <message key="PLUGINS_CORE_VALIDATOR_TEXT_MAXLENGTH">La valeur de ce champ est trop longue</message>
+
 
     <!-- DATASOURCE CORE -->
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE">Base de données</message>
+
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE_GROUP_CORE">Connexion à la base de données noyau</message>
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_DRIVER_LABEL">Pilote</message>
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_DRIVER_DESCRIPTION">Nom complet de la classe driver JDBC à charger</message>

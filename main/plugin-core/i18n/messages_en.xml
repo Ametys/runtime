@@ -252,9 +252,11 @@
     <message key="PLUGINS_CORE_WIDGET_PASSWORD_HINT">Change password</message>
     <message key="PLUGINS_CORE_WIDGET_PASSWORD_ERROR">The same password has to be entered twice.\nPlease enter the new password in both boxes.</message>
     
-    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE">Database</message>
+    <message key="PLUGINS_CORE_VALIDATOR_TEXT_MAXLENGTH">La valeur de ce champ est trop longue</message>
 
     <!-- DATASOURCE CORE -->
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE">Database</message>
+
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE_GROUP_CORE">Kernel database connection</message>
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_DRIVER_LABEL">Driver</message>
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_DRIVER_DESCRIPTION">JDBC Driver fully qualified class name</message>
