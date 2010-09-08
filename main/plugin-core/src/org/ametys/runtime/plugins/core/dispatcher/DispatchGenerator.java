@@ -232,11 +232,14 @@ public class DispatchGenerator extends ServiceableGenerator
     
     private void _setContextInRequestAttributes(Map<String, Object> contextAsMap)
     {
-        Request request = ObjectModelHelper.getRequest(objectModel);
-
-        for (String name : contextAsMap.keySet())
+        if (contextAsMap != null)
         {
-            request.setAttribute(name, contextAsMap.get(name));
+            Request request = ObjectModelHelper.getRequest(objectModel);
+    
+            for (String name : contextAsMap.keySet())
+            {
+                request.setAttribute(name, contextAsMap.get(name));
+            }
         }
     }
 
