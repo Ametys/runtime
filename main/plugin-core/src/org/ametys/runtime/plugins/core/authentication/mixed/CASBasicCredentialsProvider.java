@@ -17,13 +17,10 @@ package org.ametys.runtime.plugins.core.authentication.mixed;
 
 import java.util.Map;
 
-import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.cocoon.components.ContextHelper;
 import org.apache.cocoon.environment.ObjectModelHelper;
@@ -34,7 +31,6 @@ import org.apache.cocoon.environment.Session;
 import org.ametys.runtime.authentication.AuthenticateAction;
 import org.ametys.runtime.authentication.BasicCredentialsProvider;
 import org.ametys.runtime.authentication.Credentials;
-import org.ametys.runtime.authentication.CredentialsProvider;
 import org.ametys.runtime.plugins.core.authentication.CASCredentialsProvider;
 import org.ametys.runtime.util.LoggerFactory;
 
@@ -47,7 +43,7 @@ import org.ametys.runtime.util.LoggerFactory;
  * exists for this purpose, {@link MixedSourceUsersManagerAuthentication}, which tries to
  * authenticate only users with HTTP Basic credentials.
  */
-public class CASBasicCredentialsProvider extends CASCredentialsProvider implements CredentialsProvider, Initializable, Configurable, Contextualizable
+public class CASBasicCredentialsProvider extends CASCredentialsProvider
 {
     /** The logger. */
     protected static Logger _logger = LoggerFactory.getLoggerFor(CASBasicCredentialsProvider.class);

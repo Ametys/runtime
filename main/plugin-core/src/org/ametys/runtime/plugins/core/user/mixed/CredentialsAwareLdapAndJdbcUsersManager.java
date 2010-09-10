@@ -21,7 +21,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
@@ -39,7 +38,6 @@ import org.ametys.runtime.authentication.Credentials;
 import org.ametys.runtime.plugin.component.PluginAware;
 import org.ametys.runtime.plugins.core.user.jdbc.ModifiableCredentialsAwareJdbcUsersManager;
 import org.ametys.runtime.plugins.core.user.ldap.CredentialsAwareLdapUsersManager;
-import org.ametys.runtime.user.CredentialsAwareUsersManager;
 import org.ametys.runtime.user.InvalidModificationException;
 import org.ametys.runtime.user.ModifiableUsersManager;
 import org.ametys.runtime.user.User;
@@ -49,7 +47,7 @@ import org.ametys.runtime.util.IgnoreRootHandler;
 /**
  * Try to find the user in the LDAP directory first. If not found, try to find him in the DBMS.
  */
-public class CredentialsAwareLdapAndJdbcUsersManager extends CredentialsAwareLdapUsersManager implements ModifiableUsersManager, CredentialsAwareUsersManager, Configurable, Serviceable, Contextualizable, PluginAware, Disposable
+public class CredentialsAwareLdapAndJdbcUsersManager extends CredentialsAwareLdapUsersManager implements ModifiableUsersManager, Serviceable, Contextualizable, PluginAware, Disposable
 {
     /** Fallback users manager. */
     protected ModifiableCredentialsAwareJdbcUsersManager _fallbackUsersManager;
