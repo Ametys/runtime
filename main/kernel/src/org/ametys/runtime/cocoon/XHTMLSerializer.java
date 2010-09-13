@@ -25,6 +25,9 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -69,17 +72,12 @@ import org.xml.sax.helpers.AttributesImpl;
  *              <code>javax.xml.transform.*-output-escaping processing</code>.
  * @see Result
  */
-public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XHTMLSerializer implements LogEnabled
+public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XHTMLSerializer implements LogEnabled, Serviceable
 {   
     /** List of the tags to collapse. */
     private static final Set<String> __COLLAPSE_TAGS = new HashSet<String>(Arrays.asList(
         new String[] {"input", "img", "meta", "link", "hr", "br"}));
 
-    /** List of the tags to collapse. */
-    private static final Set<String> __NAMESPACES_ALLOWED = new HashSet<String>(Arrays.asList(
-        new String[] {"", "http://www.w3.org/XML/1998/namespace", XHTML1_NAMESPACE, "http://www.w3.org/2000/svg",
-                      "http://www.w3.org/1998/Math/MathML"}));
-    
     /** Head tag. */
     private static final String __HEAD_TAG = "head";
     /** Meta tag. */
@@ -94,6 +92,9 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
     private static final String __SCRIPT_TAG = "script";
     /** Style tag. */
     private static final String __STYLE_TAG = "style";
+    
+    /** The XHTMLSerializerExtensionPoint instance */
+    protected XHTMLSerializerExtensionPoint _xhtmlSerializerExtensionPoint;
 
     /** Buffer to store script tag content. */
     private StringBuilder _buffer;
@@ -133,7 +134,13 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
     {
         _logger = logger;
     }
-
+    
+    @Override
+    public void service(ServiceManager manager) throws ServiceException
+    {
+        _xhtmlSerializerExtensionPoint = (XHTMLSerializerExtensionPoint) manager.lookup(XHTMLSerializerExtensionPoint.ROLE);
+    }
+    
     @Override
     public void configure(Configuration conf) throws ConfigurationException
     {
@@ -173,7 +180,7 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
         }
         else
         {
-            _namespacesAllowed = __NAMESPACES_ALLOWED;
+            _namespacesAllowed = _xhtmlSerializerExtensionPoint.getAllowedNamespaces();
         }
     }
     

@@ -661,7 +661,10 @@
 
         <extension-point id="org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.MonitoringExtensionPoint"
                          class="org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.MonitoringExtensionPoint"/>
-
+                         
+        <extension-point id="org.ametys.runtime.cocoon.XHTMLSerializerExtensionPoint"
+                         class="org.ametys.runtime.cocoon.XHTMLSerializerExtensionPoint"/>
+                         
         <single-extension-point id="org.ametys.runtime.right.RightsManager"
                                 class="org.ametys.runtime.right.RightsManager"
                                 default-extension-id="org.ametys.runtime.plugins.core.right.Basic"/>
@@ -707,9 +710,50 @@
     	<components>
     		<component class="org.ametys.runtime.ui.SAXClientSideElementHelper" 
     				   role="org.ametys.runtime.ui.SAXClientSideElementHelper"/>
-    		<component class="org.ametys.runtime.plugins.core.ui.css.AllCSSComponent" 
-    				   role="org.ametys.runtime.plugins.core.ui.css.AllCSSComponent"/>
     	</components>
+    </feature>
+    
+    <feature name="allcsscomponent">
+    	<components>
+    		<component class="org.ametys.runtime.plugins.core.ui.css.AllCSSComponent" 
+			   role="org.ametys.runtime.plugins.core.ui.css.AllCSSComponent"/>
+    	</components>
+    </feature>
+
+    <feature name="xhtmlserializer-empty">
+    	<extensions>
+    		<extension id="org.ametys.runtime.cocoon.XHTMLSerializerExtensionPoint.empty" point="org.ametys.runtime.cocoon.XHTMLSerializerExtensionPoint">
+    			<namespace-allowed></namespace-allowed>
+    		</extension>
+    	</extensions>
+    </feature>
+    <feature name="xhtmlserializer-xhtml">
+    	<extensions>
+    		<extension id="org.ametys.runtime.cocoon.XHTMLSerializerExtensionPoint.xhtml" point="org.ametys.runtime.cocoon.XHTMLSerializerExtensionPoint">
+    			<namespace-allowed>http://www.w3.org/1999/xhtml</namespace-allowed>
+    		</extension>
+    	</extensions>
+    </feature>
+    <feature name="xhtmlserializer-xml">
+    	<extensions>
+    		<extension id="org.ametys.runtime.cocoon.XHTMLSerializerExtensionPoint.xml" point="org.ametys.runtime.cocoon.XHTMLSerializerExtensionPoint">
+    			<namespace-allowed>http://www.w3.org/XML/1998/namespace</namespace-allowed>
+    		</extension>
+    	</extensions>
+    </feature>
+    <feature name="xhtmlserializer-svg">
+    	<extensions>
+    		<extension id="org.ametys.runtime.cocoon.XHTMLSerializerExtensionPoint.svg" point="org.ametys.runtime.cocoon.XHTMLSerializerExtensionPoint">
+    			<namespace-allowed>http://www.w3.org/2000/svg</namespace-allowed>
+    		</extension>
+    	</extensions>
+    </feature>
+    <feature name="xhtmlserializer-mathml">
+    	<extensions>
+    		<extension id="org.ametys.runtime.cocoon.XHTMLSerializerExtensionPoint.mathml" point="org.ametys.runtime.cocoon.XHTMLSerializerExtensionPoint">
+    			<namespace-allowed>http://www.w3.org/1998/Math/MathML</namespace-allowed>
+    		</extension>
+    	</extensions>
     </feature>
     
     <feature name="runtime.core">
