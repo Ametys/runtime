@@ -99,7 +99,7 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
     /** Buffer to store script tag content. */
     private StringBuilder _buffer;
 
-    /** Buffer to store script tag content. */
+    /** Buffer to store tag to collapse. */
     private Set<String> _tagsToCollapse;
     
     /** Namespaces allowed. */
