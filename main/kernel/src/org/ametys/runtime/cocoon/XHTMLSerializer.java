@@ -23,6 +23,8 @@ import javax.xml.transform.Result;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.logger.LogEnabled;
+import org.apache.avalon.framework.logger.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -67,7 +69,7 @@ import org.xml.sax.helpers.AttributesImpl;
  *              <code>javax.xml.transform.*-output-escaping processing</code>.
  * @see Result
  */
-public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XHTMLSerializer
+public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XHTMLSerializer implements LogEnabled
 {   
     /** List of the tags to collapse. */
     private static final Set<String> __COLLAPSE_TAGS = new HashSet<String>(Arrays.asList(
@@ -110,6 +112,7 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
 
     /** Inline resource context: greater than 0 if we are inside a style or a script tag. */
     private int _insideInlineResourceTag;
+    private int _tagsInsideInlineResourceTag;
 
     /**
      * Flag for disabling output escaping states encountered with
@@ -122,6 +125,14 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
 
     /** Meta http-equiv="Content-Type" context. True if we are inside a meta "content-type" tag.*/
     private boolean _isMetaContentType;
+    
+    private Logger _logger;
+
+    @Override
+    public void enableLogging(Logger logger)
+    {
+        _logger = logger;
+    }
 
     @Override
     public void configure(Configuration conf) throws ConfigurationException
@@ -186,7 +197,16 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
     @Override
     public void startElement(String nsuri, String local, String qual, Attributes attributes) throws SAXException
     {
-        if (_namespacesAllowed.contains(nsuri))
+        if  (_insideInlineResourceTag > 0)
+        {
+            if (_logger.isWarnEnabled())
+            {
+                _logger.warn("Tags are forbidden inside a <script> or <style> tag : <" + local + ">");
+            }
+            
+            _tagsInsideInlineResourceTag++;
+        }
+        else if (_namespacesAllowed.contains(nsuri))
         {
             if (_insideFilteredTag == 0)
             {
@@ -346,7 +366,11 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
     @Override
     public void endElement(String nsuri, String local, String qual) throws SAXException
     {
-        if (_namespacesAllowed.contains(nsuri))
+        if (_tagsInsideInlineResourceTag > 0)
+        {
+            _tagsInsideInlineResourceTag--;
+        }
+        else if (_namespacesAllowed.contains(nsuri))
         {
             if (_insideFilteredTag == 0)
             {
