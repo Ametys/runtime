@@ -167,12 +167,8 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
             _namespacesAllowed = new HashSet<String>();
             for (Configuration namespaceAllowed : namespacesAllowed)
             {
-                String namespace = namespaceAllowed.getValue(null);
-                
-                if (namespace != null)
-                {
-                    _namespacesAllowed.add(namespace.trim());
-                }
+                String namespace = namespaceAllowed.getValue("");
+                _namespacesAllowed.add(namespace.trim());
             }
         }
         else
