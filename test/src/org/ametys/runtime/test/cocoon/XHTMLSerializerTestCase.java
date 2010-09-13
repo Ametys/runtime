@@ -145,11 +145,27 @@ public class XHTMLSerializerTestCase extends TestCase
         DefaultConfiguration omitXmlDeclarationConfig = new DefaultConfiguration("omit-xml-declaration");
         omitXmlDeclarationConfig.setValue(omitXmlDeclaration ? "yes" : "no");
 
+        DefaultConfiguration ns1 = new DefaultConfiguration("namespace-allowed");
+        ns1.setValue("");
+        DefaultConfiguration ns2 = new DefaultConfiguration("namespace-allowed");
+        ns2.setValue("http://www.w3.org/1999/xhtml");
+        DefaultConfiguration ns3 = new DefaultConfiguration("namespace-allowed");
+        ns3.setValue("http://www.w3.org/XML/1998/namespace");
+        DefaultConfiguration ns4 = new DefaultConfiguration("namespace-allowed");
+        ns4.setValue("http://www.w3.org/2000/svg");
+        DefaultConfiguration ns5 = new DefaultConfiguration("namespace-allowed");
+        ns5.setValue("http://www.w3.org/1998/Math/MathML");
+        
         configuration.addChild(encodingConfig);
         configuration.addChild(methodConfig);
         configuration.addChild(doctypePublicConfig);
         configuration.addChild(doctypeSystemConfig);
         configuration.addChild(omitXmlDeclarationConfig);
+        configuration.addChild(ns1);
+        configuration.addChild(ns2);
+        configuration.addChild(ns3);
+        configuration.addChild(ns4);
+        configuration.addChild(ns5);
         
         return configuration;
     }
