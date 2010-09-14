@@ -75,6 +75,11 @@ import org.xml.sax.helpers.AttributesImpl;
 public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XHTMLSerializer implements LogEnabled, Serviceable
 {   
     /** List of the tags to collapse. */
+    private static final Set<String> __NAMESPACES_ALLOWED = new HashSet<String>(Arrays.asList(
+        new String[] {"", "http://www.w3.org/XML/1998/namespace", XHTML1_NAMESPACE, "http://www.w3.org/2000/svg",
+                      "http://www.w3.org/1998/Math/MathML"}));
+    
+    /** List of the tags to collapse. */
     private static final Set<String> __COLLAPSE_TAGS = new HashSet<String>(Arrays.asList(
         new String[] {"input", "img", "meta", "link", "hr", "br"}));
 
@@ -138,7 +143,10 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
     @Override
     public void service(ServiceManager manager) throws ServiceException
     {
-        _xhtmlSerializerExtensionPoint = (XHTMLSerializerExtensionPoint) manager.lookup(XHTMLSerializerExtensionPoint.ROLE);
+        if (manager.hasService(XHTMLSerializerExtensionPoint.ROLE))
+        {
+            _xhtmlSerializerExtensionPoint = (XHTMLSerializerExtensionPoint) manager.lookup(XHTMLSerializerExtensionPoint.ROLE);
+        }
     }
     
     @Override
@@ -178,9 +186,13 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
                 _namespacesAllowed.add(namespace.trim());
             }
         }
-        else
+        else if (_xhtmlSerializerExtensionPoint != null)
         {
             _namespacesAllowed = _xhtmlSerializerExtensionPoint.getAllowedNamespaces();
+        }
+        else
+        {
+            _namespacesAllowed = __NAMESPACES_ALLOWED;
         }
     }
     
