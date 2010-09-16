@@ -47,6 +47,7 @@
             
         	<map:generator name="dispatcher" src="org.ametys.runtime.plugins.core.dispatcher.DispatchGenerator"/>
         	<map:generator name="css" src="org.ametys.runtime.plugins.core.ui.css.AllCSSGenerator"/>
+        	<map:generator name="i18n" src="org.ametys.runtime.util.I18nGenerator"/>
         </map:generators>
         
         <map:serializers>
@@ -103,7 +104,16 @@
 
 	
 	<map:pipelines>
-	
+
+		<map:pipeline internal-only="true">
+			<map:match pattern="i18n">
+				<map:generate type="i18n" src="i18n"/>
+				<map:transform type="i18n">
+					<map:parameter name="locale" value="{parent-context-attr:locale}"/>
+				</map:transform>
+				<map:serialize type="text"/>
+			</map:match>
+		</map:pipeline>	
 		<map:pipeline>
 			<!-- Dispatcher -->
 			<map:match pattern="servercomm/messages.xml">

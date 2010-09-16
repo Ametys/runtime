@@ -31,6 +31,8 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import org.ametys.runtime.config.Config;
+
 /**
  * Helper for sending mail
  *
@@ -40,6 +42,31 @@ public final class SendMailHelper
     private SendMailHelper ()
     {
         // Nothing
+    }
+    
+    /**
+     * Sends mail without authentication or attachments.
+     * @param subject The mail subject
+     * @param htmlBody The HTML mail body. Can be null.
+     * @param textBody The text mail body. Can be null.
+     * @param recipient The recipient address
+     * @param sender The sender address
+     * @throws MessagingException If an error occurred while preparing or sending email
+     */
+    public static void sendMail(String subject, String htmlBody, String textBody, String recipient, String sender) throws MessagingException
+    {
+        String smtpHost = Config.getInstance().getValueAsString("smtp.mail.host");
+        String smtpUser = Config.getInstance().getValueAsString("smtp.mail.user");
+        String smtpPass = Config.getInstance().getValueAsString("smtp.mail.password");
+
+        try
+        {
+            sendMail(subject, htmlBody, textBody, null, recipient, sender, smtpHost, smtpUser, smtpPass);
+        }
+        catch (IOException e)
+        {
+            // Should never happen, as IOException can only be thrown where there are attachments.
+        }
     }
     
     /**
@@ -64,6 +91,27 @@ public final class SendMailHelper
         }
     }
     
+    /**
+     * Sends mail without authentication, with attachments.
+     * @param subject The mail subject
+     * @param htmlBody The HTML mail body. Can be null.
+     * @param textBody The text mail body. Can be null.
+     * @param attachments the file attachments. Can be null.
+     * @param recipient The recipient address
+     * @param sender The sender address
+     * @throws MessagingException If an error occurred while preparing or sending email
+     * @throws IOException if an error occurs while attaching a file.
+     */
+    public static void sendMail(String subject, String htmlBody, String textBody, Collection<File> attachments, String recipient, String sender) throws MessagingException, IOException
+    {
+        String smtpHost = Config.getInstance().getValueAsString("smtp.mail.host");
+        String smtpUser = Config.getInstance().getValueAsString("smtp.mail.user");
+        String smtpPass = Config.getInstance().getValueAsString("smtp.mail.password");
+
+        sendMail(subject, htmlBody, textBody, attachments, recipient, sender, smtpHost, smtpUser, smtpPass);
+    }
+    
+
     /**
      * Sends mail without authentication, with attachments.
      * @param subject The mail subject

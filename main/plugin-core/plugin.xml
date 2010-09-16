@@ -713,6 +713,13 @@
     	</components>
     </feature>
     
+    <feature name="i18nutils">
+    	<components>
+    		<component class="org.ametys.runtime.util.I18nUtils" 
+    				   role="org.ametys.runtime.util.I18nUtils"/>
+    	</components>
+    </feature>
+    
     <feature name="allcsscomponent">
     	<components>
     		<component class="org.ametys.runtime.plugins.core.ui.css.AllCSSComponent" 
