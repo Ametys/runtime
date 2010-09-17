@@ -20,7 +20,25 @@ Ext.namespace('org.ametys.tree');
  * @class org.ametys.web.XmlTreeLoader
  * @extends Ext.ux.tree.XmlTreeLoader
  */
-org.ametys.tree.XmlTreeLoader = Ext.extend(Ext.ux.tree.XmlTreeLoader, {});
+org.ametys.tree.XmlTreeLoader = function (config)
+{
+	if (config.baseParams == null)
+	{
+		config.baseParams = {};
+	}
+	
+	if (context.parameters)
+	{
+		for (var i in context.parameters)
+		{
+			config.baseParams[i] = encodeURIComponent(context.parameters[i]);
+		}
+	}
+
+	org.ametys.tree.XmlTreeLoader.superclass.constructor.call(this, config);
+}
+
+Ext.extend(org.ametys.tree.XmlTreeLoader, Ext.ux.tree.XmlTreeLoader, {});
 
 org.ametys.tree.XmlTreeLoader.prototype._nodeTags;
 
