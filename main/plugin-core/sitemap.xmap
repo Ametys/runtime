@@ -107,9 +107,9 @@
 
 		<map:pipeline internal-only="true">
 			<map:match pattern="i18n">
-				<map:generate type="i18n" src="i18n"/>
+				<map:generate type="i18n"/>
 				<map:transform type="i18n">
-					<map:parameter name="locale" value="{parent-context-attr:locale}"/>
+					<map:parameter name="locale" value="{request-attr:locale}"/>
 				</map:transform>
 				<map:serialize type="text"/>
 			</map:match>

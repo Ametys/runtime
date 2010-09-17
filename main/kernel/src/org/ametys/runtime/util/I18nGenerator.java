@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.environment.ObjectModelHelper;
+import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.generation.AbstractGenerator;
 import org.xml.sax.SAXException;
 
@@ -33,7 +34,10 @@ public class I18nGenerator extends AbstractGenerator
     public void generate() throws IOException, SAXException, ProcessingException
     {
         Map parentContextAttr = (Map) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
-        I18nizableText i18nizableText = (I18nizableText) parentContextAttr.get(source);
+        I18nizableText i18nizableText = (I18nizableText) parentContextAttr.get("i18n");
+        
+        Request request = ObjectModelHelper.getRequest(objectModel);
+        request.setAttribute("locale", parentContextAttr.get("locale"));
         
         contentHandler.startDocument();
         i18nizableText.toSAX(contentHandler, "i18n");
