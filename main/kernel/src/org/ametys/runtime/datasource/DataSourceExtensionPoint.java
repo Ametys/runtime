@@ -32,7 +32,7 @@ import org.ametys.runtime.plugin.AbstractExtensionPoint;
 /**
  * Extension point for declaring JDBC Datasources.
  */
-public class DataSourceExtensionPoint extends AbstractExtensionPoint<DataSource> implements Component
+public class DataSourceExtensionPoint extends AbstractExtensionPoint<DataSource>
 {
     /** Avalon Role */
     public static final String ROLE = DataSourceExtensionPoint.class.getName();
