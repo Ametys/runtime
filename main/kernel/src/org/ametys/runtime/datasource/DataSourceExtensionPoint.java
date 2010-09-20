@@ -17,7 +17,6 @@ package org.ametys.runtime.datasource;
 
 import javax.sql.DataSource;
 
-import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.commons.dbcp.ConnectionFactory;
