@@ -31,6 +31,7 @@
 	<message key="WORKSPACE_ADMIN_LINK_WEBSITE">site web</message>
 	<message key="WORKSPACE_ADMIN_LINK_DOCUMENTATION">documentation</message>
 	<message key="WORKSPACE_ADMIN_LINK_ISSUE">suivi de tickets</message>
+	<message key="WORKSPACE_ADMIN_ERROR_NOJS">Pour utiliser cette application, vous devez activer les scripts Javascript.</message>
 
     <!-- No config -->    
     <message key="WORKSPACE_ADMIN_CONFIG_TITLE">Impossible de charger la configuration</message>

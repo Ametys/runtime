@@ -13,6 +13,16 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+#no-script {
+	color: #1C58A0;
+	background-color: #F0F0F0;
+	font-family: arial,sans-serif;
+	font-size:1.2em;
+	margin: auto;
+	width: 891px;
+	margin-top: 40px;
+	padding: 10px;
+}
 
 #footer #box .title {
 	color: #66C2FF;

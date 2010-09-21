@@ -147,6 +147,8 @@
 			<!-- ****** BODY ****** -->
 			<body>
 				<xsl:call-template name="workspace-body"/>
+				
+				<noscript><div id="no-script"><i18n:text i18n:key="WORKSPACE_ADMIN_ERROR_NOJS" i18n:catalogue="workspace.{$workspaceName}"/></div></noscript>
 			</body>
 		</html>		
 	</xsl:template>
