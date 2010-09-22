@@ -44,6 +44,7 @@ import org.apache.cocoon.Constants;
 import org.apache.cocoon.servlet.CocoonServlet;
 import org.apache.cocoon.servlet.multipart.RequestFactory;
 import org.apache.cocoon.xml.XMLUtils;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.slf4j.MDC;
 import org.xml.sax.ContentHandler;
@@ -264,11 +265,25 @@ public class RuntimeServlet extends CocoonServlet
         super.updateEnvironment();
 
         LoggerFactory.setup(getLoggerManager());
+        
+        // Create temp dir if it does not exist
+        File tmpDir = new File(System.getProperty("java.io.tmpdir"));
+        if (!tmpDir.exists())
+        {
+            try
+            {
+                FileUtils.forceMkdir(tmpDir);
+            }
+            catch (IOException e)
+            {
+                LoggerFactory.getLoggerFor(getClass()).warn("Unable to create temp directory", e);
+            }
+        }
 
-        // Chargement du contenu de WEB-INF/param/runtime.xml
+        // WEB-INF/param/runtime.xml loading
         _loadRuntimeConfig();
 
-        // Emplacement de la configuration
+        // Configuration file
         Config.setFilename(servletContext.getRealPath(CONFIG_RELATIVE_PATH));
     }
 
