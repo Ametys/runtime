@@ -128,7 +128,7 @@ public class AvalonCurrentUserProvider extends AbstractLogEnabled implements Cur
             getLogger().info("Current user not found, use default user: " + _defaultUser);
         }
         
-        // Current user not found, use default caller
+        // Current user not found, use default user
         return _defaultUser;
     }
 }
