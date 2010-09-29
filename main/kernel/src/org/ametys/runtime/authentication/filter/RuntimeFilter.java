@@ -27,27 +27,20 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.http.HttpEnvironment;
 
-import org.ametys.runtime.util.LoggerFactory;
-
 
 /**
- * This class is a generic filter between Tomcat and Cocoon. It will be used
- * during authentication with CAS e.g.
+ * This class is a generic filter wrapping an actual {@link Filter}. 
+ * {@link RuntimeFilter} are used to filter requests from inside the application, instead of inside the servlet engine.
  */
-
 public class RuntimeFilter
 {
     private Filter _filter;
 
-    private Logger _logger = LoggerFactory.getLoggerFor(RuntimeFilter.class);
-
     /**
      * Constructor
-     * 
      * @param filter A filter to apply
      */
     public RuntimeFilter(Filter filter)
@@ -56,11 +49,10 @@ public class RuntimeFilter
     }
 
     /**
-     * Enables to init config parameters using a FilterConfig
-     * 
-     * @param map A map containing all filter parameters
-     * @param servletContext The servlet context
-     * @throws ServletException if the underlying Filter fails to initialize
+     * Enables to init config parameters using a FilterConfig.
+     * @param map a map containing all filter parameters.
+     * @param servletContext the servlet context.
+     * @throws ServletException if the underlying Filter fails to initialize.
      */
     public void init(Map<String, String> map, ServletContext servletContext) throws ServletException
     {
@@ -70,18 +62,16 @@ public class RuntimeFilter
         }
         catch (Exception e)
         {
-            _logger.error("Impossible to init the filter.", e);
-            throw new ServletException("Impossible to init the filter.", e);
+            throw new ServletException("Impossible to initialize the filter.", e);
         }
     }
 
     /**
-     * Applies the filter
-     * 
-     * @param objectModel The object model of Cocoon
-     * @param redirect The object Redirector of Cocoon
-     * @throws ServletException if the underlying Filter fails to process the request
-     * @throws IOException if the underlying Filter fails to process the request
+     * Applies the filter.
+     * @param objectModel the Cocoon's object model.
+     * @param redirect the Cocoon's redirector.
+     * @throws ServletException if the underlying Filter fails to process the request.
+     * @throws IOException if the underlying Filter fails to process the request.
      */
     public void doFilter(Map objectModel, Redirector redirect) throws ServletException, IOException
     {
@@ -89,26 +79,15 @@ public class RuntimeFilter
         HttpServletResponse response = (HttpServletResponse) objectModel.get(HttpEnvironment.HTTP_RESPONSE_OBJECT);
         FilterServletResponse filteredResponse = new FilterServletResponse(response, redirect);
 
-        InternFilterChain chain = new InternFilterChain();
+        FilterChain chain = new FilterChain()
+        {
+            @Override
+            public void doFilter(ServletRequest req, ServletResponse res) throws IOException, ServletException
+            {
+             // does nothing
+            }
+        };
+        
         _filter.doFilter(request, filteredResponse, chain);
-    }
-
-    private class InternFilterChain implements FilterChain
-    {
-        /**
-         * Constructor
-         */
-        public InternFilterChain()
-        {
-            /** empty */
-        }
-
-        /**
-         * applies the filter
-         */
-        public void doFilter(ServletRequest req, ServletResponse reponse)
-        {
-            /** empty */
-        }
     }
 }

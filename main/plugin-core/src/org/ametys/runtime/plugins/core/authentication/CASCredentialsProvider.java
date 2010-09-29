@@ -129,19 +129,21 @@ public class CASCredentialsProvider implements CredentialsProvider, Initializabl
             }
         }
         
-        List<RuntimeFilter> runtimeFilters = _filters.get(serverName);
+        String name = serverName.toString();
+        
+        List<RuntimeFilter> runtimeFilters = _filters.get(name);
         if (runtimeFilters == null)
         {
             // Create the filter chain.
             runtimeFilters = new ArrayList<RuntimeFilter>();
-            _filters.put(serverName.toString(), runtimeFilters);
+            _filters.put(name, runtimeFilters);
             
             ServletContext servletContext = (ServletContext) objectModel.get(HttpEnvironment.HTTP_SERVLET_CONTEXT);
             Map<String, String> parameters = new HashMap<String, String>();
             
             // Authentication filter.
             parameters.put("casServerLoginUrl", _serverUrl + "/login");
-            parameters.put("serverName", serverName.toString());
+            parameters.put("serverName", name);
             parameters.put("gateway", String.valueOf(_gateway));
             RuntimeFilter runtimeFilter = new RuntimeFilter(new AuthenticationFilter());
             runtimeFilter.init(parameters, servletContext);
@@ -150,7 +152,7 @@ public class CASCredentialsProvider implements CredentialsProvider, Initializabl
             // Ticket validation filter.
             parameters.clear();
             parameters.put("casServerUrlPrefix", _serverUrl);
-            parameters.put("serverName", serverName.toString());
+            parameters.put("serverName", name);
             parameters.put("allowedProxyChains", _authorizedProxyChains);
             runtimeFilter = new RuntimeFilter(new Cas20ProxyReceivingTicketValidationFilter());
             runtimeFilter.init(parameters, servletContext);
