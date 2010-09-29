@@ -2447,7 +2447,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     protected String getFullContext (String context)
     {
         String contextPrefix = _rightsContextPrefixEP.getContextPrefix();
-        return context != null ? contextPrefix + context.toLowerCase() : null;
+        return context != null ? (contextPrefix + context).toLowerCase() : null;
     }
     
     public void userAdded(String login)

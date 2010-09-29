@@ -39,6 +39,8 @@ org.ametys.form.DateField.prototype.onRender = function(ct, position)
 {
 	org.ametys.form.DateField.superclass.onRender.call(this, ct, position);
 	
+	var el = this.itemCt.child('div.x-form-element div.x-form-field-wrap');
+	
 	if (this.desc)
 	{
 		this.itemCt.child('div.x-form-element div.x-form-field-wrap').insertSibling({
