@@ -36,9 +36,7 @@ import org.ametys.runtime.util.LoggerFactory;
 
 /**
  * This class is a generic filter between Tomcat and Cocoon. It will be used
- * during authentification with CAS e.g.
- * 
- * @author flat
+ * during authentication with CAS e.g.
  */
 
 public class RuntimeFilter
