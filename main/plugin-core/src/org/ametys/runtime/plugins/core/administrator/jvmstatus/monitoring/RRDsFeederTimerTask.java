@@ -72,7 +72,7 @@ public class RRDsFeederTimerTask extends TimerTask implements Component, LogEnab
     {
         _logger.debug("Starting timer");
         // Daemon thread
-        _timer = new Timer(false);
+        _timer = new Timer("RRDFeeder", true);
         // Start in 30s and refresh each minutes
         _timer.scheduleAtFixedRate(this, 30000, FEEDING_PERIOD * 1000);
     }

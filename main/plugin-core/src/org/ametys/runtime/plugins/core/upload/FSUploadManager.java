@@ -95,7 +95,8 @@ public class FSUploadManager extends TimerTask implements UploadManager, ThreadS
         }
         
         // Daemon thread
-        _timer = new Timer(false);
+        _timer = new Timer("FSUploadManager", true);
+        
         // Start in 15 minutes and refresh each 24 hours
         _timer.scheduleAtFixedRate(this, 15 * 60 * 1000, 24 * 60 * 60 * 1000);
     }
