@@ -41,7 +41,6 @@
 			<map:transformer name="i18n" src="org.ametys.runtime.cocoon.I18nTransformer" logger="org.ametys.runtime.kernel.sitemap.transformer.i18n">
 				<catalogues default="kernel">
 					<catalogue id="application" location="context://WEB-INF/i18n" name="application"/>
-                    <catalogue id="kernel" location="context://WEB-INF/i18n" name="kernel"/>
 				</catalogues>
 				<untranslated-text>untranslated</untranslated-text>
 				<cache-at-startup>true</cache-at-startup>
