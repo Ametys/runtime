@@ -89,7 +89,7 @@ public final class RuntimeConfig
         _configureWorkspaces(conf.getChild("workspaces"));
         _configurePlugins(conf.getChild("plugins"));
         _configureExtensions(conf.getChild("extensions"));
-        _configureConfig(conf.getChild("incompleteConfig"));
+        _configureConfig(conf.getChild("incompleteConfig", false));
         _configureApplication(conf.getChild("application"));
     }
     
@@ -155,8 +155,21 @@ public final class RuntimeConfig
     
     private static void _configureConfig(Configuration config)
     {
-        __config._configRedirectURL = config.getChild("redirectURL").getValue("");
         __config._configAllowedURLs = new ArrayList<String>();
+
+        if (config == null)
+        {
+            __config._configRedirectURL = "cocoon://_admin/public/load-config.html?uri=core/administrator/config/edit.html";
+            
+            __config._configAllowedURLs.add("_admin/public");
+            __config._configAllowedURLs.add("_admin/resources");
+            __config._configAllowedURLs.add("_admin/_plugins/core/administrator/config");
+            __config._configAllowedURLs.add("_admin/plugins/core/administrator/config");
+            
+            return;
+        }
+        
+        __config._configRedirectURL = config.getChild("redirectURL").getValue("");
         
         for (Configuration allowedURLConf : config.getChild("allowedURLs").getChildren("allowedURL"))
         {

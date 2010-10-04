@@ -46,7 +46,7 @@
                     </xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="incompleteConfig" type="config">
+            <xsd:element name="incompleteConfig" type="config" minOccurs="0" maxOccurs="1">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">
                         <![CDATA[
