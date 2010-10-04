@@ -86,14 +86,14 @@ public class PluginsComponentManager extends ThreadSafeComponentManager<Object> 
     }
     
     @Override
-    ComponentFactory getComponentFactory(String pluginName, String featureName, String role, Class<Object> componentClass, Configuration configuration)
+    ComponentFactory getComponentFactory(String pluginName, String featureName, String role, Class<? extends Object> componentClass, Configuration configuration)
     {
         return new ProxyComponentFactory(pluginName, featureName, role, componentClass, configuration, _manager, getLogger());
     }
     
     private class ProxyComponentFactory extends ComponentFactory
     {
-        ProxyComponentFactory(String pluginName, String featureName, String role, Class<Object> componentClass, Configuration configuration, ServiceManager serviceManager, Logger logger)
+        ProxyComponentFactory(String pluginName, String featureName, String role, Class<? extends Object> componentClass, Configuration configuration, ServiceManager serviceManager, Logger logger)
         {
             super(pluginName, featureName, role, componentClass, configuration, serviceManager, logger);
         }

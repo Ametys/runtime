@@ -255,7 +255,7 @@ public class ThreadSafeComponentManager<T> extends AbstractLogEnabled implements
      * @param configuration the configuration for this component.
      * @throws ComponentException if an error occured setting up component 
      */
-    public void addComponent(String pluginName, String featureName, String role, Class<T> component, Configuration configuration) throws ComponentException
+    public void addComponent(String pluginName, String featureName, String role, Class<? extends T> component, Configuration configuration) throws ComponentException
     {
         if (_initialized)
         {
@@ -290,7 +290,7 @@ public class ThreadSafeComponentManager<T> extends AbstractLogEnabled implements
         }
     }
     
-    ComponentFactory getComponentFactory(String pluginName, String featureName, String role, Class<T> componentClass, Configuration configuration)
+    ComponentFactory getComponentFactory(String pluginName, String featureName, String role, Class<? extends T> componentClass, Configuration configuration)
     {
         return new ComponentFactory(pluginName, featureName, role, componentClass, configuration, _manager, getLogger());
     }
@@ -303,7 +303,7 @@ public class ThreadSafeComponentManager<T> extends AbstractLogEnabled implements
 
         String _role;
 
-        Class<T> _componentClass;
+        Class<? extends T> _componentClass;
 
         Configuration _configuration;
 
@@ -311,7 +311,7 @@ public class ThreadSafeComponentManager<T> extends AbstractLogEnabled implements
 
         Logger _logger;
 
-        ComponentFactory(String pluginName, String featureName, String role, Class<T> componentClass, Configuration configuration, ServiceManager serviceManager, Logger logger)
+        ComponentFactory(String pluginName, String featureName, String role, Class<? extends T> componentClass, Configuration configuration, ServiceManager serviceManager, Logger logger)
         {
             _pluginName = pluginName;
             _featureName = featureName;

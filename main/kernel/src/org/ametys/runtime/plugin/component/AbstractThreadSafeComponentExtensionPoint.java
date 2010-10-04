@@ -85,7 +85,7 @@ public abstract class AbstractThreadSafeComponentExtensionPoint<T> extends Abstr
      * @param configuration the configuration of the component
      * @throws ComponentException if an error occured whil setting up components
      */
-    protected void addComponent(String pluginName, String pluginId, String role, Class<T> clazz, Configuration configuration) throws ComponentException
+    protected void addComponent(String pluginName, String pluginId, String role, Class<? extends T> clazz, Configuration configuration) throws ComponentException
     {
         _ids.add(role);
         _manager.addComponent(pluginName, pluginId, role, clazz, configuration);

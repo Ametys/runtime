@@ -1206,7 +1206,6 @@ public final class PluginsManager
         }
     }
 
-    @SuppressWarnings("unchecked")
     private void _loadRuntimeInit(PluginsComponentManager manager)
     {
         String className = RuntimeConfig.getInstance().getInitClassName();
@@ -1227,7 +1226,7 @@ public final class PluginsManager
                     throw new IllegalArgumentException("Provided init class " + initClass + " does not implement org.ametys.runtime.plugin.Init");
                 }
                 
-                manager.addComponent(null, null, Init.ROLE, (Class<Object>) initClass, new DefaultConfiguration("component"));
+                manager.addComponent(null, null, Init.ROLE, initClass, new DefaultConfiguration("component"));
                 if (_logger.isInfoEnabled())
                 {
                     _logger.info("Init class " + className + " loaded");

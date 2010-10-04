@@ -98,7 +98,7 @@ public class SqlMapExtensionPoint extends AbstractThreadSafeComponentExtensionPo
     }
     
     @Override
-    protected void addComponent(String pluginName, String featureName, String role, Class<SqlMapClientComponentProvider> clazz, Configuration configuration) throws ComponentException
+    protected void addComponent(String pluginName, String featureName, String role, Class<? extends SqlMapClientComponentProvider> clazz, Configuration configuration) throws ComponentException
     {
         Set<String> dataSources = new HashSet<String>();
         
