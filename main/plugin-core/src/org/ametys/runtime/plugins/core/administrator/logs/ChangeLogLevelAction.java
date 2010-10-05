@@ -78,20 +78,22 @@ public class ChangeLogLevelAction extends AbstractAction
         boolean inherited = "INHERIT".equals(mode) || "INHERITFORCED".equals(mode);
         boolean force = "FORCE".equals(mode) || "INHERITFORCED".equals(mode);
 
-        Logger logger = loggerRepository.getLogger(category);
-    
+        Logger logger;
         boolean isRoot = false;
-        if ("".equals(category))
+        
+        if ("root".equals(category))
         {
             isRoot = true;
+            logger = loggerRepository.getRootLogger();
+        }
+        else
+        {
+            logger = loggerRepository.getLogger(category);
         }
     
-        if (inherited)
+        if (inherited && !isRoot)
         {
-            if (!isRoot)
-            {
-                logger.setLevel(null);
-            }
+            logger.setLevel(null);
         }
         
         if (force)
