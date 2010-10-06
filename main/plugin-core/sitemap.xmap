@@ -66,6 +66,7 @@
             <map:action name="administrator-config-save" src="org.ametys.runtime.plugins.core.administrator.configuration.SaveConfigAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.saveConfig"/>
             <map:action name="administrator-change-plugins" src="org.ametys.runtime.plugins.core.administrator.plugins.ChangePlugins" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.changePlugins"/>
 			<map:action name="administrator-affect-superuser" src="org.ametys.runtime.plugins.core.administrator.superuser.AffectSuperUserAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.superUser"/>
+			<map:action name="administrator-restart" src="org.ametys.runtime.plugins.core.administrator.RestartAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.restart"/>
 			
 			<map:action name="users-edit" src="org.ametys.runtime.plugins.core.user.ui.actions.EditAction" logger="org.ametys.runtime.plugins.core.user.sitemap.action.edit"/>
 			<map:action name="users-delete" src="org.ametys.runtime.plugins.core.user.ui.actions.DeleteAction" logger="org.ametys.runtime.plugins.core.user.sitemap.action.delete"/>
@@ -130,6 +131,15 @@
 
             <map:match pattern="administrator/**">
                 <map:act type="administrator-is-system-user"/>
+            </map:match>
+            
+            <map:match pattern="administrator/restart">
+            	<map:act type="administrator-restart">
+            		<map:generate type="action-result">
+                        <map:parameter name="result" value="{result}"/>
+                    </map:generate>
+					<map:serialize type="xml"/>
+            	</map:act>
             </map:match>
         
 			<!-- +

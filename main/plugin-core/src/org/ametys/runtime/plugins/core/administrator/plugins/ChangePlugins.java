@@ -91,8 +91,6 @@ public class ChangePlugins extends ServiceableAction
         {
             getLogger().debug("Positionning org.ametys.runtime.reload=true for Cocoon reloading");
         }
-        Request request = ObjectModelHelper.getRequest(objectModel);
-        request.setAttribute("org.ametys.runtime.reload", "true");
 
         return EMPTY_MAP;
     }

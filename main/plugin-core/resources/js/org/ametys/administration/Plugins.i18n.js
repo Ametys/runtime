@@ -382,8 +382,8 @@ org.ametys.administration.Plugins._changesNow = function()
 	
 	var serverMessage = new org.ametys.servercomm.ServerMessage(org.ametys.administration.Plugins.pluginName, "administrator/plugins/change", params, org.ametys.servercomm.ServerComm.PRIORITY_MAJOR, org.ametys.administration.Plugins._changesNowCB, this);
 	org.ametys.servercomm.ServerComm.getInstance().send(serverMessage);
-
-    org.ametys.administration.Plugins._mask = new org.ametys.msg.Mask();
+	
+	org.ametys.administration.Plugins._mask = new org.ametys.msg.Mask();
 }
 
 org.ametys.administration.Plugins._changesNowCB = function(response)
@@ -398,6 +398,11 @@ org.ametys.administration.Plugins._changesNowCB = function(response)
     alert("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_DONE"/>");
 
     org.ametys.administration.Plugins._mask = new org.ametys.msg.Mask();
+    
+    // Restart
+    var url = getPluginDirectUrl(org.ametys.administration.Plugins.pluginName) + "/administrator/restart";
+    org.ametys.servercomm.DirectComm.getInstance().sendSynchronousRequest(url, "");
+    
     document.location.reload(true);
 }
 
