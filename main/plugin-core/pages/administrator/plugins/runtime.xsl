@@ -17,7 +17,8 @@
 <xsl:stylesheet version="1.0" 
                 xmlns:i18n="http://apache.org/cocoon/i18n/2.1" 
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:plugin="http://www.ametys.org/schema/plugin">
+                xmlns:plugin="http://www.ametys.org/schema/plugin"
+                exclude-result-prefixes="i18n plugin">
 
 	<xsl:template match="CMS">
 		<xsl:apply-templates select="runtime|comment()"/>
