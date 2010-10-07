@@ -27,6 +27,9 @@ org.ametys.form.FileUploadField = function(config)
 	config.itemCls = "ametys-file";
 	config.labelSeparator = '';
 	
+	if (!config.buttonOffset)
+		config.buttonOffset = 6;
+	
 	org.ametys.form.FileUploadField.superclass.constructor.call(this, config);
 }
 
