@@ -69,7 +69,6 @@
 }
 
 .ametys-input, .ametys-file {
-	width: 100%;
 	margin-bottom: 10px;
 }
 
@@ -227,7 +226,6 @@
 	height: 18px;
 	margin-top: 2px;
 	text-align: left;
-	padding-left:0px;
 }
 
 .ametys-input div.ametys-input-password-connector
@@ -250,7 +248,7 @@
 .ext-ie7 div.x-window-bwrap div.x-window-ml div.x-window-mc div.x-window-body div.x-panel,
 .ext-ie7 div.x-window-bwrap div.x-window-ml div.x-window-mc div.x-window-body div.x-panel div.x-panel-bwrap,
 .ext-ie7 form div,
-.ext-ie7 form label.x-form-item-label,
+.ext-ie7 form label.x-form-item-label
 {
 	position: static !important;
 }
