@@ -227,6 +227,7 @@
 	height: 18px;
 	margin-top: 2px;
 	text-align: left;
+	padding-left:0px;
 }
 
 .ametys-input div.ametys-input-password-connector
