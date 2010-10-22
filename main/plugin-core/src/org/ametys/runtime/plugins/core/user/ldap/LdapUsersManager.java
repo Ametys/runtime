@@ -15,9 +15,11 @@
  */
 package org.ametys.runtime.plugins.core.user.ldap;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +31,10 @@ import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
+import javax.naming.ldap.Control;
+import javax.naming.ldap.InitialLdapContext;
+import javax.naming.ldap.LdapContext;
+import javax.naming.ldap.SortControl;
 
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -106,21 +112,21 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
             // Remplir la liste des utilisateurs
             while (results.hasMoreElements())
             {
-                Map<String, Object> attributs = _getAttributes((SearchResult) results.nextElement());
-                if (attributs != null)
+                Map<String, Object> attributes = _getAttributes((SearchResult) results.nextElement());
+                if (attributes != null)
                 {
                     // Récupérer le nom complet
                     StringBuffer fullname = new StringBuffer();
 
                     if (_usersFirstnameAttribute != null)
                     {
-                        fullname.append(attributs.get(_usersFirstnameAttribute) + " ");
+                        fullname.append(attributes.get(_usersFirstnameAttribute) + " ");
                     }
 
-                    fullname.append(attributs.get(_usersLastnameAttribute));
+                    fullname.append(attributes.get(_usersLastnameAttribute));
 
                     // Ajouter un nouveau principal à la liste
-                    User user = new User((String) attributs.get(_usersLoginAttribute), fullname.toString(), (String) attributs.get(_usersEmailAttribute));
+                    User user = new User((String) attributes.get(_usersLoginAttribute), fullname.toString(), (String) attributes.get(_usersEmailAttribute));
                     
                     if (isCacheEnabled())
                     {
@@ -251,7 +257,7 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
             if (results.hasMoreElements())
             {
                 SearchResult  result = (SearchResult) results.nextElement();
-                _entryToSAX(handler, result);
+                _entryToSAX(handler, _getAttributes(result));
             }
 
             if (results.hasMoreElements())
@@ -303,7 +309,9 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
         XMLUtils.startElement(handler, "users");
         if (count != 0)
         {
-            int currentOffset = _toSAXInternal(handler, count, offset >= 0 ? offset : 0, pattern, 0);
+            Map<String, Map<String, Object>> entries = new LinkedHashMap<String, Map<String, Object>>();
+            
+            int currentOffset = _toSAXInternal(handler, entries, count, offset >= 0 ? offset : 0, pattern, 0);
             if (count == -1 || currentOffset == -1)
             {
                 String total = "" + currentOffset;
@@ -316,88 +324,92 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
     /**
      * Sax LDAP results
      * @param handler The content handler to sax in
+     * @param entries where to store entries
      * @param count The count limit (cannot be 0, but can be -1)
-     * @param offset The offset
+     * @param offset The offset for starting search
      * @param pattern The pattern
      * @param results The LDAP seach result
-     * @param knownErrors To know if correct number is send
+     * @param possibleErrors The number of additionnal results that stand for errors
      * @return the current offset at the end
      * @throws SAXException if an error occured
      * @throws IllegalArgumentException if an error occured
      */
-    private int _sax(ContentHandler handler, int count, int offset, String pattern, NamingEnumeration results, int knownErrors) throws SAXException
+    private int _sax(ContentHandler handler, Map<String, Map<String, Object>> entries, int count, int offset, String pattern, NamingEnumeration results, int possibleErrors) throws SAXException
     {
-        int currentOffset = 0;
-        int saxed = 0;
-        int errors = 0;
-        boolean hasMoreElement;
+        int nbResults = 0;
+        
+        boolean hasMoreElement = results.hasMoreElements();
         
         // First loop on the items to ignore (before the offset)
-        hasMoreElement = results.hasMoreElements();
-        while (count != -1 && currentOffset < offset && hasMoreElement)
+        while ((count == -1 || nbResults < offset) && hasMoreElement)
         {
-            // Passer à l'entrée suivante
-            SearchResult result = (SearchResult) results.nextElement();
-            if (_getAttributes(result) != null)
-            {
-                currentOffset++;
-            }
-            else
-            {
-                errors++;
-            }
+            nbResults++;
+            
+            // FIXME we should check that this element has really attributes to count it as an real offset
+            results.nextElement();
+
             hasMoreElement = results.hasMoreElements();
-        }
-
-        // Second loop on the valuable items (between offset and count)
-        while (hasMoreElement && (currentOffset < offset + count || count == -1))
-        {
-            SearchResult result = (SearchResult) results.nextElement();
-
-            // Saxer l'entrée courante
-            if (_entryToSAX(handler, result))
-            {
-                currentOffset++;
-                saxed++;
-            }
-            else
-            {
-                errors++;
-            }
-            hasMoreElement = results.hasMoreElements();
-        }
-
-        // Errors have to be repaired
-        // we only do that when errors equals exactly the numbers of missing results
-        // because this means that more items may pottentially exists
-        if (count != -1 && (errors != knownErrors) && ((offset + count + knownErrors) == (currentOffset + errors)))
-        {
-            saxed += _toSAXInternal(handler, count - saxed, offset + saxed, pattern, errors);
         }
         
-        return saxed;
+        // Second loop to work
+        while ((count == -1 || entries.size() < count) && hasMoreElement)
+        {
+            nbResults++;
+            
+            // Passer à l'entrée suivante
+            SearchResult result = (SearchResult) results.nextElement();
+            Map<String, Object> attrs = _getAttributes(result);
+            if (attrs != null)
+            {
+                entries.put((String) attrs.get(_usersLoginAttribute), attrs);
+            }
+
+            hasMoreElement = results.hasMoreElements();
+        }
+
+
+        // If we have less results than expected
+        // can be due to errors (null attributes)
+        // can be due to max results is less than wanted results
+        if (entries.size() < count && nbResults == count + offset + possibleErrors)
+        {
+            double nbErrors = count + possibleErrors - entries.size();
+            double askedResultsSize = possibleErrors + count;
+            int newPossibleErrors = Math.max(possibleErrors + count - entries.size(), (int) Math.ceil((nbErrors / askedResultsSize + 1) * nbErrors));
+            return _toSAXInternal(handler, entries, count, offset, pattern, newPossibleErrors);
+        }
+        else
+        {
+            for (Map<String, Object> attributes : entries.values())
+            {
+                _entryToSAX(handler, attributes);
+            }
+            return entries.size();
+        }
     }
 
     /**
      * Sax the user list.
      * 
      * @param handler The content handler to sax in.
+     * @param entries Where to store entries
      * @param count The maximum number of users to sax. Cannot be 0. Can be -1 to all.
-     * @param offset The offset to start with, first is 0.
+     * @param offset The results to ignore
      * @param pattern The pattern to match.
-     * @param knownErrors the number of errors detected in a previous loop 
+     * @param possibleErrors This number will be added to count to set the max of the request, but count results will still be returned. The difference stands for errors.
      * @return the final offset
      * @throws SAXException If an error occurs while saxing.
      */
-    protected int _toSAXInternal(ContentHandler handler, int count, int offset, String pattern, int knownErrors) throws SAXException
-    {
-        DirContext context = null;
+    protected int _toSAXInternal(ContentHandler handler, Map<String, Map<String, Object>> entries, int count, int offset, String pattern, int possibleErrors) throws SAXException
+    {        
+        LdapContext context = null;
         NamingEnumeration results = null;
 
         try
         {
             // Connexion au serveur ldap
-            context = new InitialDirContext(_getContextEnv());
+            context = new InitialLdapContext(_getContextEnv(), null);
+            context.setRequestControls(_getSortControls());
 
             Map filter = _getPatternFilter(pattern);
 
@@ -405,10 +417,10 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
             results = context.search(_usersRelativeDN, 
                                     (String) filter.get("filter"), 
                                     (Object[]) filter.get("params"), 
-                                    _getSearchConstraint(count == -1 ? 0 : (count + knownErrors + offset)));
+                                    _getSearchConstraint(count == -1 ? 0 : (count + offset + possibleErrors)));
 
             // Sax results
-            return _sax(handler, count, offset, pattern, results, knownErrors);
+            return _sax(handler, entries, count, offset, pattern, results, possibleErrors);
         }
         catch (IllegalArgumentException e)
         {
@@ -424,6 +436,25 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
         {
             // Fermer les ressources de connexion
             _cleanup(context, results);
+        }
+    }
+    
+    /**
+     * Get the sort control.
+     * @return the sort controls. May be empty if a small error occurs
+     * @throws SAXException if a fatal error occurs
+     */
+    protected Control[] _getSortControls() throws SAXException
+    {
+        try
+        {
+            SortControl sortControl = new SortControl(new String[] {_usersLastnameAttribute, _usersFirstnameAttribute, _usersLoginAttribute}, Control.NONCRITICAL);
+            return new Control[] {sortControl};
+        }
+        catch (IOException e)
+        {
+            getLogger().warn("Cannot sort request on LDAP", e);
+            return new Control[0];
         }
     }
 
@@ -525,14 +556,13 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
      * Sax an ldap entry.
      * 
      * @param handler The content handler to sax in.
-     * @param entry The ldap entry to sax.
+     * @param attributes The ldap attributes of the entry to sax.
      * @return true is the entry is correct
      * @throws IllegalArgumentException If a needed attribute is missing in the entry.
      * @throws SAXException If a problem occurs while saxing.
      */
-    protected boolean _entryToSAX(ContentHandler handler, SearchResult entry) throws SAXException
+    protected boolean _entryToSAX(ContentHandler handler, Map<String, Object> attributes) throws SAXException
     {
-        Map<String, Object> attributes = _getAttributes(entry);
         if (attributes == null)
         {
             return false;
