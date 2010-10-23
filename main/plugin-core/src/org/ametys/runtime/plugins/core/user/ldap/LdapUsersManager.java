@@ -341,7 +341,7 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
         boolean hasMoreElement = results.hasMoreElements();
         
         // First loop on the items to ignore (before the offset)
-        while ((count == -1 || nbResults < offset) && hasMoreElement)
+        while (nbResults < offset && hasMoreElement)
         {
             nbResults++;
             
