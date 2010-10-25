@@ -29,73 +29,49 @@
          xmlns:clover="antlib:com.atlassian.clover"
          xmlns:ivy="antlib:org.apache.ivy.ant">
     
+    <!-- Common properties -->
+    <property environment="env"/>
+    
+    <property name="project.status" value="integration"/>
+    <property name="project.version" value="2.1.0"/>
+    <property name="project.version.qualifier" value="SNAPSHOT"/>
+    <property name="project.version.buildNumber" value="${env.BUILD_NUMBER}"/>
+    <property name="project.name" value="${ant.project.name}"/>
+    
+    <property name="dest-dir" value="target"/>
+    <property name="dest-doc" value="${dest-dir}/docs"/>
+    <property name="dest-junit" value="${dest-doc}/junit"/>
+    <property name="dest-clover" value="${dest-doc}/clover"/>
+    <property name="dest-javadoc" value="${dest-doc}/api"/>
+    <property name="dest-javadoc-test" value="${dest-doc}/api-test"/>
+    <property name="class-vm-target" value="1.6"/>
+    
+    <basename file="${basedir}" property="svn-branch"/>
+    
+    <property name="tmp-dir" value="tmp"/>
+    <property name="tmp-clover" value="${tmp-dir}/clover"/>
+    <property name="tmp-javadoc" value="${tmp-dir}/javadoc"/>
+    <property name="classes" value="${tmp-dir}/classes"/>
+    <property name="classes2" value="${tmp-dir}/classes2"/>
+    <property name="test-env-classes" value="${tmp-dir}/test-env-classes"/>
+    
+    <property name="deliver-dir" value="deliver"/>
+    <property name="docs-dir" value="docs"/>
+    <property name="tests-dir" value="test"/>
+    <property name="template-dir" value="templates"/>
+    <property name="application-template-dir" value="${template-dir}/application"/>
+    
+    <property name="kernel-dir" value="main/kernel"/>
+    <property name="plugin-dir" value="main/plugin-core"/>
+    <property name="workspace-dir" value="main/workspace-admin"/>
+    <property name="test-env-dir" value="test-env"/>
+
+    <property name="ivy.dep.file" value="${dest-dir}/ivy.xml"/>
+
+        <!-- Ivy properties -->
+    <property name="ivy.settings" value="../../../ivyrep/ivysettings.xml"/>
+
     <target name="init">
-    	<!-- Common properties -->
-    	<property environment="env"/>
-        
-    	<property name="project.status" value="integration"/>
-    	<property name="project.version" value="2.1.0"/>
-    	<property name="project.version.qualifier" value="SNAPSHOT"/>
-    	<property name="project.version.buildNumber" value="${env.BUILD_NUMBER}"/>
-    	<property name="project.name" value="${ant.project.name}"/>
-    	
-    	<property name="dest-dir" value="target"/>
-    	<property name="dest-doc" value="${dest-dir}/docs"/>
-        <property name="dest-junit" value="${dest-doc}/junit"/>
-        <property name="dest-clover" value="${dest-doc}/clover"/>
-        <property name="dest-javadoc" value="${dest-doc}/api"/>
-        <property name="dest-javadoc-test" value="${dest-doc}/api-test"/>
-    	<property name="class-vm-target" value="1.6"/>
-    	
-    	<basename file="${basedir}" property="svn-branch"/>
-    	
-        <property name="tmp-dir" value="tmp"/>
-        <property name="tmp-clover" value="${tmp-dir}/clover"/>
-    	<property name="tmp-javadoc" value="${tmp-dir}/javadoc"/>
-    	<property name="classes" value="${tmp-dir}/classes"/>
-    	<property name="classes2" value="${tmp-dir}/classes2"/>
-    	<property name="test-env-classes" value="${tmp-dir}/test-env-classes"/>
-    	
-    	<property name="deliver-dir" value="deliver"/>
-    	<property name="docs-dir" value="docs"/>
-    	<property name="tests-dir" value="test"/>
-    	<property name="template-dir" value="templates"/>
-    	<property name="application-template-dir" value="${template-dir}/application"/>
-    	
-    	<property name="kernel-dir" value="main/kernel"/>
-    	<property name="plugin-dir" value="main/plugin-core"/>
-    	<property name="workspace-dir" value="main/workspace-admin"/>
-    	<property name="test-env-dir" value="test-env"/>
-    
-    	<property name="ivy.dep.file" value="${dest-dir}/ivy.xml"/>
-
-    		<!-- Ivy properties -->
-    	<property name="ivy.settings" value="../../../ivyrep/ivysettings.xml"/>
-    
-    	<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant">
-    		<classpath>
-    			<fileset dir="${deliver-dir}/lib" includes="ivy*.jar" />
-    		</classpath>
-    	</taskdef>
-	
-	    <ivy:settings file="${ivy.settings}"/>
-
-        <!-- Copy ivy.xml in order to modify it -->
-        <copy file="ivy.xml" tofile="${ivy.dep.file}"/>
-        <!-- Replace latest.integration or latest.snapshot with latest.[status-to-build] -->
-        <replaceregexp file="${ivy.dep.file}" match="latest\.(integration|snapshot)"
-                       replace="latest.${project.status}" byline="true" encoding="UTF-8"/>
-
-    	<ivy:cachepath conf="deliver" type="jar" pathid="classpath-ametys-tools"/>
-        
-        <taskdef resource="org/ametys/tools/antlib.xml" uri="antlib:org.ametys.tools"
-                 classpathref="classpath-ametys-tools"/>
-	    
-        <taskdef resource="cloverlib.xml" uri="antlib:com.atlassian.clover"
-                 classpathref="classpath-ametys-tools"/>
-	</target>
-    
-    <target name="prepare" depends="init">
         <!-- Date du jour -->
         <tstamp>
             <format property="build-timestamp" pattern="yyyyMMdd'T'HHmmz"/>
@@ -127,7 +103,33 @@
         <mkdir dir="${classes}"/>
         <mkdir dir="${classes2}"/>
         <mkdir dir="${test-env-classes}"/>
+    </target>
+    
+    <target name="tasks">
+        <taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant">
+            <classpath>
+                <fileset dir="${deliver-dir}/lib" includes="ivy*.jar" />
+            </classpath>
+        </taskdef>
+    
+        <ivy:settings file="${ivy.settings}"/>
+
+        <!-- Copy ivy.xml in order to modify it -->
+        <copy file="ivy.xml" tofile="${ivy.dep.file}"/>
+        <!-- Replace latest.integration or latest.snapshot with latest.[status-to-build] -->
+        <replaceregexp file="${ivy.dep.file}" match="latest\.(integration|snapshot)"
+                       replace="latest.${project.status}" byline="true" encoding="UTF-8"/>
+
+        <ivy:cachepath conf="deliver" type="jar" pathid="classpath-ametys-tools"/>
         
+        <taskdef resource="org/ametys/tools/antlib.xml" uri="antlib:org.ametys.tools"
+                 classpathref="classpath-ametys-tools"/>
+        
+        <taskdef resource="cloverlib.xml" uri="antlib:com.atlassian.clover"
+                 classpathref="classpath-ametys-tools"/>
+    </target>
+    
+    <target name="prepare" depends="init, tasks">
         <ivy:cachepath conf="compile" type="jar" pathid="compile.classpath"/>
         <ivy:cachepath conf="test-env" type="jar" pathid="test.env.classpath"/>
 
@@ -231,7 +233,7 @@
         </copy>
     </target>
     
-    <target name="ametys-files" depends="init">
+    <target name="ametys-files" depends="tasks">
         <copy file="${kernel-dir}/sitemap.xmap" todir="${classes}/org/ametys/runtime/kernel"/>
         <copy file="${kernel-dir}/sitemap.xmap" todir="${classes2}/org/ametys/runtime/kernel"/>
 
