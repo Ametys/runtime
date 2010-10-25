@@ -643,6 +643,10 @@
                          
         <extension-point id="org.ametys.runtime.plugins.core.right.RightsExtensionPoint"
                          class="org.ametys.runtime.plugins.core.right.RightsExtensionPoint"/>
+                         
+        <extension-point id="org.ametys.runtime.plugins.core.right.RightContextConvertorExtentionPoint"
+        				 class="org.ametys.runtime.plugins.core.right.RightContextConvertorExtentionPoint">
+        </extension-point>
 
         <extension-point id="org.apache.cocoon.components.modules.input.InputModuleSelector"
                          class="org.ametys.runtime.cocoon.InputModulesExtensionPoint"/>
