@@ -57,6 +57,8 @@ import org.ametys.runtime.group.Group;
 import org.ametys.runtime.group.GroupListener;
 import org.ametys.runtime.group.GroupsManager;
 import org.ametys.runtime.group.ModifiableGroupsManager;
+import org.ametys.runtime.plugins.core.right.RightContextConvertor;
+import org.ametys.runtime.plugins.core.right.RightContextConvertorExtentionPoint;
 import org.ametys.runtime.plugins.core.right.RightsExtensionPoint;
 import org.ametys.runtime.request.RequestListener;
 import org.ametys.runtime.request.RequestListenerManager;
@@ -84,7 +86,8 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     protected RightsExtensionPoint _rightsEP;
     /** The rights' context manager */
     protected RightsContextPrefixExtensionPoint _rightsContextPrefixEP;
-    
+    /** The rights' alias manager */
+    protected RightContextConvertorExtentionPoint _rightContextConvertorExtPt;
     /** The users manager */
     protected UsersManager _usersManager;
     
@@ -144,6 +147,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         _rightsContextPrefixEP = (RightsContextPrefixExtensionPoint) manager.lookup(RightsContextPrefixExtensionPoint.ROLE);
         _usersManager = (UsersManager) _manager.lookup(UsersManager.ROLE);
         _groupsManager = (GroupsManager) _manager.lookup(GroupsManager.ROLE);
+        _rightContextConvertorExtPt = (RightContextConvertorExtentionPoint) _manager.lookup(RightContextConvertorExtentionPoint.ROLE);
     }
     
     public void configure(Configuration configuration) throws ConfigurationException
@@ -288,8 +292,29 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         RequestListenerManager rlm = (RequestListenerManager) _manager.lookup(RequestListenerManager.ROLE);
         rlm.registerListener(this);
     }
-
+    
+    @Override
     public Set<String> getGrantedUsers(String right, String context)
+    {
+        Set<String> users = new HashSet<String>();
+
+        Set<String> convertedContexts = getAliasContext(context);
+        for (String convertContext : convertedContexts)
+        {
+            Set<String> addUsers = internalGetGrantedUsers(right, convertContext);
+            users.addAll(addUsers);
+        }
+        
+        return users;
+    }
+
+    /**
+     * Get the list of users that have the given right on the given context.
+     * @param right The name of the right to use. Cannot be null.
+     * @param context The context to test the right.<br>May be null, in which case the returned Set contains all granted users, whatever the context.
+     * @return The list of users granted with that right as a Set of String (login).
+     */
+    protected Set<String> internalGetGrantedUsers(String right, String context)
     {
         String lcContext = getFullContext (context);
 
@@ -311,6 +336,26 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
     public Set<String> getUserRights(String login, String context)
     {
+        Set<String> rights = new HashSet<String>();
+        
+        Set<String> convertedContexts = getAliasContext(context);
+        for (String convertContext : convertedContexts)
+        {
+            Set<String> addUsers = internalGetUserRights(login, convertContext);
+            rights.addAll(addUsers);
+        }
+        
+        return rights;
+    }
+    
+    /**
+     * Get the list of a user's rights in a particular context.
+     * @param login the user's login. Cannot be null.
+     * @param context The context to test the right
+     * @return The list of rights as a Set of String (id).
+     */
+    protected Set<String> internalGetUserRights(String login, String context)
+    {
         String lcContext = getFullContext (context);
 
         Set<String> rights = new HashSet<String>();
@@ -327,7 +372,6 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
         return rights;
     }
-    
     @Override
     public Map<String, Set<String>> getUserRights(String login)
     {
@@ -438,7 +482,30 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         grantAllPrivileges(login, context, __INITIAL_PROFILE_ID);
     }
 
+    @Override
     public RightResult hasRight(String userLogin, String right, String context)
+    {
+        Set<String> convertedContexts = getAliasContext(context);
+        for (String convertContext : convertedContexts)
+        {
+            RightResult hasRight = internalHasRight(userLogin, right, convertContext);
+            if (hasRight == RightResult.RIGHT_OK)
+            {
+                return RightResult.RIGHT_OK;
+            }
+        }
+        
+        return RightResult.RIGHT_NOK;
+    }
+    
+    /**
+     * Check a permission for a user, in a given context.<br>
+     * @param userLogin The user's login. Cannot be null.
+     * @param right the name of the right to check. Cannot be null.
+     * @param context the right context
+     * @return RIGHT_OK, RIGHT_NOK or RIGHT_UNKNOWN
+     */
+    protected RightResult internalHasRight(String userLogin, String right, String context)
     {
         String lcContext = getFullContext (context);
 
@@ -489,8 +556,29 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             return RightResult.RIGHT_NOK;
         }
     }
-
+    
     /* METHODES AJOUTEES PAR LE RIGHT MANAGER */
+    
+    /**
+     * Get a Set of alias for the given context
+     * @param initialContext The initial context
+     * @return alias for the given context
+     */
+    protected Set<String> getAliasContext (String initialContext)
+    {
+        Set<String> convertedContexts = new HashSet<String>();
+        convertedContexts.add(initialContext);
+        
+        Set<String> ids = _rightContextConvertorExtPt.getExtensionsIds();
+        for (String id : ids)
+        {
+            RightContextConvertor convertor = _rightContextConvertorExtPt.getExtension(id);
+            convertedContexts.addAll(convertor.convertContext(initialContext));
+        }
+        
+        return convertedContexts;
+    }
+    
     /**
      * Returns a Set containing all profiles for a given user and a context
      * 

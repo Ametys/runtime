@@ -36,15 +36,19 @@ public class HierarchicalProfileBasedRightsManager extends DefaultProfileBasedRi
         else
         {
             Set<String> users = new HashSet<String>();
-            
-            String transiantContext = context;
-            
-            while (transiantContext != null)
+
+            Set<String> convertedContexts = getAliasContext(context);
+            for (String convertContext : convertedContexts)
             {
-                Set<String> addUsers = super.getGrantedUsers(right, transiantContext);
-                users.addAll(addUsers);
+                String transiantContext = convertContext;
                 
-                transiantContext = HierarchicalRightsHelper.getParentContext(transiantContext);
+                while (transiantContext != null)
+                {
+                    Set<String> addUsers = internalGetGrantedUsers(right, transiantContext);
+                    users.addAll(addUsers);
+                    
+                    transiantContext = HierarchicalRightsHelper.getParentContext(transiantContext);
+                }
             }
             
             return users;
@@ -62,35 +66,46 @@ public class HierarchicalProfileBasedRightsManager extends DefaultProfileBasedRi
         {
             Set<String> rights = new HashSet<String>();
             
-            String transiantContext = context;
-            
-            while (transiantContext != null)
+            Set<String> convertedContexts = getAliasContext(context);
+            for (String convertContext : convertedContexts)
             {
-                Set<String> addRights = super.getUserRights(login, transiantContext);
-                rights.addAll(addRights);
-    
-                transiantContext = HierarchicalRightsHelper.getParentContext(transiantContext);
+                String transiantContext = convertContext;
+                
+                while (transiantContext != null)
+                {
+                    Set<String> addRights = internalGetUserRights(login, transiantContext);
+                    rights.addAll(addRights);
+        
+                    transiantContext = HierarchicalRightsHelper.getParentContext(transiantContext);
+                }
             }
             
             return rights;
         }
+        
     }
     
     @Override
     public RightResult hasRight(String userLogin, String right, String context)
     {
-        RightResult hasRight = super.hasRight(userLogin, right, context);
-        if (hasRight == RightResult.RIGHT_OK)
+        Set<String> convertedContexts = getAliasContext(context);
+        for (String convertContext : convertedContexts)
         {
-            return RightResult.RIGHT_OK;
+            String transiantContext = convertContext;
+            
+            while (transiantContext != null && transiantContext.length() != 0)
+            {
+                RightResult hasRight = internalHasRight(userLogin, right, transiantContext);
+                
+                if (hasRight == RightResult.RIGHT_OK)
+                {
+                    return RightResult.RIGHT_OK;
+                }
+                
+                transiantContext = HierarchicalRightsHelper.getParentContext(transiantContext);
+            }
         }
-    
-        String parentContext = HierarchicalRightsHelper.getParentContext(context);
-        if (parentContext == null || parentContext.length() == 0)
-        {
-            return RightResult.RIGHT_NOK;
-        }
-
-        return hasRight(userLogin, right, parentContext);
+        
+        return RightResult.RIGHT_NOK;
     }
 }
