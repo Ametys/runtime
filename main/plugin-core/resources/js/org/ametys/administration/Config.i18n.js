@@ -107,7 +107,7 @@ org.ametys.administration.Config.addGroupCategory = function (fd, name)
 	}));
 }
 
-org.ametys.administration.Config.addInputField = function (ct, type, name, value, label, description, enumeration)
+org.ametys.administration.Config.addInputField = function (ct, type, name, value, label, description, enumeration, widget)
 {
 	if (enumeration != null)
 	{
@@ -133,7 +133,14 @@ org.ametys.administration.Config.addInputField = function (ct, type, name, value
 				ct.add(org.ametys.administration.Config._createBooleanField (name, value, label, description));
 				break;
 			default:
-				ct.add(org.ametys.administration.Config._createTextField (name, value, label, description));
+				if (widget == 'time')
+				{
+					ct.add(org.ametys.administration.Config._createTimeField (name, value, label, description));
+				}
+				else
+				{
+					ct.add(org.ametys.administration.Config._createTextField (name, value, label, description));
+				}
 				break;
 		}
 	}
@@ -207,6 +214,21 @@ org.ametys.administration.Config._createDateField = function (name, value, label
         value: value,
         
         width: 250
+	});
+}
+
+org.ametys.administration.Config._createTimeField = function (name, value, label, description)
+{
+	return new org.ametys.form.TimeField ({
+		name: name,
+		 
+        fieldLabel: label,
+        desc: description,
+        value: value,
+        
+        increment: 60,
+        
+        width: 100
 	});
 }
 

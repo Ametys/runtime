@@ -616,6 +616,15 @@
 		                    </xsd:documentation>
 		                </xsd:annotation>
 		            </xsd:element>
+		            <xsd:element name="widget" type="xsd:string" maxOccurs="1" minOccurs="0">
+		                <xsd:annotation>
+		                    <xsd:documentation xml:lang="en">
+		                        <![CDATA[
+		                            The widget to use to edit the parameter.
+		                        ]]>
+		                    </xsd:documentation>
+		                </xsd:annotation>
+		            </xsd:element>
 		        </xsd:sequence>
 		        <xsd:attribute name="id" type="xsd:string" use="required">
 		            <xsd:annotation>

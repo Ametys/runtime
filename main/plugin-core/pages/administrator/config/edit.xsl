@@ -78,7 +78,8 @@
 										"<xsl:value-of select="jsencoder:encode(value)"/>", 
 										"<xsl:copy-of select="label/node()"/>", 
 										"<xsl:copy-of select="description/node()"/>",
-										<xsl:call-template name="enumeration"/>);
+										<xsl:call-template name="enumeration"/>,
+										"<xsl:value-of select="widget"/>");
 									height += org.ametys.administration.Config.getInputHeight (input);
 							</xsl:for-each>
 							
