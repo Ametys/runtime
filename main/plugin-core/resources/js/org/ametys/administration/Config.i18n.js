@@ -137,6 +137,10 @@ org.ametys.administration.Config.addInputField = function (ct, type, name, value
 				{
 					ct.add(org.ametys.administration.Config._createTimeField (name, value, label, description));
 				}
+				else if (widget == 'hour')
+				{
+					ct.add(org.ametys.administration.Config._createHourField (name, value, label, description));
+				}
 				else
 				{
 					ct.add(org.ametys.administration.Config._createTextField (name, value, label, description));
@@ -214,6 +218,22 @@ org.ametys.administration.Config._createDateField = function (name, value, label
         value: value,
         
         width: 250
+	});
+}
+
+org.ametys.administration.Config._createHourField = function (name, value, label, description)
+{
+	return new org.ametys.form.TimeField ({
+		name: name,
+		 
+        fieldLabel: label,
+        desc: description,
+        value: value,
+        
+        increment: 60,
+        editable: false,
+        
+        width: 100
 	});
 }
 
