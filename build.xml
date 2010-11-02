@@ -145,6 +145,7 @@
                 <exclude name="**/*.jpg"/>
                 <exclude name="**/*.png"/>
                 <exclude name="**/*.ico"/>
+                <exclude name="release-notes.txt"/>
                 <exclude name="src/org/ametys/runtime/cocoon/treeprocessor-builtins.xml"/>
             	<exclude name="resources/js/mozxpath.js"/>
             </fileset>
