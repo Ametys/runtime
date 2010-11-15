@@ -404,6 +404,23 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     public Set<String> getUserRightContexts(String login, String rightId)
     {
         Set<String> contexts = new HashSet<String>();
+        
+        try
+        {
+            contexts.addAll(getOnlyUserRightContexts(login, rightId));
+            contexts.addAll(getOnlyGroupRightContexts(login, rightId));
+        }
+        catch (SQLException ex)
+        {
+            getLogger().error("Error in sql query", ex);
+        }
+        
+        return contexts;
+    }
+    
+    private Set<String> getOnlyUserRightContexts (String login, String rightId) throws SQLException
+    {
+        Set<String> contexts = new HashSet<String>();
 
         Connection connection = ConnectionHelper.getConnection(_poolName);
 
@@ -429,11 +446,6 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
                 contexts.add(rs.getString(1));
             }
         }
-        catch (SQLException ex)
-        {
-            getLogger().error("Error in sql query", ex);
-
-        }
         finally
         {
             ConnectionHelper.cleanup(rs);
@@ -444,6 +456,80 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         return contexts;
     }
 
+    private Set<String> getOnlyGroupRightContexts (String login, String rightId) throws SQLException
+    {
+        Set<String> contexts = new HashSet<String>();
+
+        Connection connection = ConnectionHelper.getConnection(_poolName);
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try
+        {
+            // Récupère la liste des groupes du user
+            Set<String> userSGroup = _groupsManager.getUserGroups(login);
+            if (userSGroup != null && userSGroup.size() != 0)
+            {
+                // Construit le bout de sql pour tous les groupes
+                StringBuffer groupSql = new StringBuffer();
+
+                for (int i = 0; i < userSGroup.size(); i++)
+                {
+                    if (i != 0)
+                    {
+                        groupSql.append(" OR ");
+                    }
+                    
+                    groupSql.append("GR.Group_Id = ?");
+                }
+
+                // Puis parmi les droits affectés aux groupes auxquels appartient l'utilisateur
+                StringBuffer sql = new StringBuffer();
+                sql.append("SELECT DISTINCT GR.Context ");
+                sql.append("FROM " + _tableProfileRights + " PR, " + _tableGroupRights + " GR ");
+                sql.append("WHERE GR.Profile_Id = PR.Profile_Id ");
+                sql.append("AND PR.Right_Id = ? ");
+                
+                sql.append("AND (");
+                sql.append(groupSql);
+                sql.append(")");
+
+                stmt = connection.prepareStatement(sql.toString());
+                
+                Iterator groupSqlIterator = userSGroup.iterator();
+                int i = 1;
+                
+                stmt.setString(1, rightId);
+                i++;
+                
+                while (groupSqlIterator.hasNext())
+                {
+                    String groupId = (String) groupSqlIterator.next();
+                    stmt.setString(i, groupId);
+                    i++;
+                }
+
+                // Logger la requête
+                getLogger().info(sql + "\n[" + rightId + "]");
+
+                rs = stmt.executeQuery();
+
+                while (rs.next())
+                {
+                    contexts.add(rs.getString(1));
+                }
+            }
+
+            return contexts;
+        }
+        finally
+        {
+            ConnectionHelper.cleanup(rs);
+            ConnectionHelper.cleanup(stmt);
+            ConnectionHelper.cleanup(connection);
+        }
+    }
+    
     @Override
     public void grantAllPrivileges(String login, String context, String profileName)
     {
