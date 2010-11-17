@@ -120,9 +120,10 @@ RUNTIME_Plugin_Runtime_SelectUser.act = function (callback, cancelCallback, user
 	
 	RUNTIME_Plugin_Runtime_SelectUser.criteria.setValue("");
 
-	RUNTIME_Plugin_Runtime_SelectUser.load();
-
 	RUNTIME_Plugin_Runtime_SelectUser.box.show();
+	
+	RUNTIME_Plugin_Runtime_SelectUser.load();
+	
 	try
 	{
 		RUNTIME_Plugin_Runtime_SelectUser.criteria.focus();
