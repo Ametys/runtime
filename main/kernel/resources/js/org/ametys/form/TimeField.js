@@ -33,7 +33,9 @@ org.ametys.form.TimeField = function(config)
 }; 
 
 
-Ext.extend(org.ametys.form.TimeField, Ext.form.TimeField, {});
+Ext.extend(org.ametys.form.TimeField, Ext.form.TimeField, {
+	format: 'H:i'
+});
 
 org.ametys.form.TimeField.prototype.onRender = function(ct, position)
 {
