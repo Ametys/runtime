@@ -53,7 +53,7 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
     /** The script configured */
     protected Script _script;
     /** The right configured. Can be null */
-    protected String _right;
+    protected Map<String, String> _rights;
     /** The parameters configured for initial element creation */
     protected Map<String, I18nizableText> _initialParameters;
     
@@ -87,7 +87,8 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
         }
         
         _script = _configureScript(configuration);
-        _right = _configureRight(configuration);
+        _rights = _configureRights(configuration);
+        
         _initialParameters = configureInitialParameters(configuration);
     }
     
@@ -198,21 +199,50 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
      * @return The right name or null.
      * @throws ConfigurationException if a right element is present but empty
      */
-    protected String _configureRight(Configuration configuration) throws ConfigurationException
+    protected Map<String, String> _configureRights(Configuration configuration) throws ConfigurationException
     {
-        Configuration rightConf = configuration.getChild("right", false);
-        if (rightConf != null)
+        _rights = new HashMap<String, String>();
+        
+        Configuration[] rightsConf = configuration.getChildren("right");
+        for (Configuration rightConf : rightsConf)
         {
             String right = rightConf.getValue("");
             if (right.length() != 0)
             {
-                return right;
+                String prefix = rightConf.getAttribute("context-prefix", null);
+                _rights.put(right, prefix);
             }
             else
             {
                 String message = "The optional right element is empty.";
                 getLogger().error(message);
                 throw new ConfigurationException(message, configuration);
+            }
+        }
+        
+        return _rights;
+    }
+    
+    /**
+     * Configure the right following the configuration
+     * 
+     * @param configuration The root configuration
+     * @return The right name or null.
+     * @throws ConfigurationException if a right element is present but empty
+     */
+    protected String _configureRightContextPrefix(Configuration configuration) throws ConfigurationException
+    {
+        Configuration rightConf = configuration.getChild("right", false);
+        if (rightConf != null)
+        {
+            String prefix = rightConf.getAttribute("context-prefix", "");
+            if (prefix.length() != 0)
+            {
+                return prefix;
+            }
+            else
+            {
+                return null;
             }
         }
         else
@@ -224,12 +254,12 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
     /**
      * Determine following the right parameter if the user has right to access this feature
      * 
-     * @param right The right name to check. Can be null.
+     * @param rights The rights (name, context) to check. Can be empty.
      * @return true if the user has the right or if there is not right and false otherwise
      */
-    protected boolean hasRight(String right)
+    protected boolean hasRight(Map<String, String> rights)
     {
-        if (right == null)
+        if (rights.isEmpty())
         {
             return true;
         }
@@ -249,8 +279,8 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
                 }
                 else
                 {
-                    String[] rights = right.split("\\|");
-                    for (String rightToCheck : rights)
+                    Set<String> rightsToCheck = rights.keySet();
+                    for (String rightToCheck : rightsToCheck)
                     {
                         if (StringUtils.isNotEmpty(rightToCheck))
                         {
@@ -258,7 +288,7 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
                             Set<String> contexts = _rightsManager.getUserRightContexts(userLogin, rightToCheck);
                             for (String context : contexts)
                             {
-                                if (context.startsWith(_rightsContextPrefixEP.getContextPrefix()))
+                                if (context.startsWith(_rightsContextPrefixEP.getContextPrefix() + (rights.get(rightToCheck) != null ? rights.get(rightToCheck) : "")))
                                 {
                                     return true;
                                 }
@@ -275,7 +305,7 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
     @Override
     public Script getScript(Map<String, Object> contextParameters)
     {
-        if (!hasRight(getRight(contextParameters)))
+        if (!hasRight(getRights(contextParameters)))
         {
             return null;
         }
@@ -283,9 +313,9 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
     }
 
     @Override
-    public String getRight(Map<String, Object> contextParameters)
+    public Map<String, String> getRights(Map<String, Object> contextParameters)
     {
-        return _right;
+        return _rights;
     }
     
     @Override

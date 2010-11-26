@@ -37,9 +37,9 @@ public interface ClientSideElement
      * This method return the right that will be needed on client side.
      * This class will be parametrized by initial and current parameters.
      * @param contextParameters Contextuals parameters transmitted by the environment.
-     * @return The right. Can be null.
+     * @return The rights in a Map of (rightId, context). Can be empty.
      */
-    public String getRight(Map<String, Object> contextParameters);
+    public Map<String, String> getRights(Map<String, Object> contextParameters);
     
     /**
      * This method returns the parameters initially given to the control script class.

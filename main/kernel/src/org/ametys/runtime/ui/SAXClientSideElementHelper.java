@@ -27,6 +27,7 @@ import org.apache.cocoon.components.ContextHelper;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
+import org.apache.commons.lang.StringUtils;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
@@ -85,12 +86,13 @@ public class SAXClientSideElementHelper extends AbstractLogEnabled implements Co
             }
             
             // SAX needed right
-            String right = element.getRight(contextualParameters);
-            if (right != null)
+            Map<String, String> rights = element.getRights(contextualParameters);
+            if (!rights.isEmpty())
             {
+                String rightsId = StringUtils.join(rights.keySet(), "|");
                 AttributesImpl paramAttrs = new AttributesImpl();
                 paramAttrs.addCDATAAttribute("name", "right-id");
-                XMLUtils.createElement(handler, "param", paramAttrs, right);
+                XMLUtils.createElement(handler, "param", paramAttrs, rightsId);
             }
             
             XMLUtils.endElement(handler, "action");
