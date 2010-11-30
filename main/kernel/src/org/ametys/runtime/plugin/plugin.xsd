@@ -295,7 +295,7 @@
             <xsd:annotation>
                 <xsd:documentation xml:lang="en">
 	               <![CDATA[
-	               		An extension to a single extension point MUST define this attribute since there are always java classes. This class is an avalon compontent.<br/>
+	               		An extension to a single extension point MUST define this attribute since there are always java classes. This class is an avalon component.<br/>
                         For multiple extension point, this attribute may or may not exist, depending of the implementation. However, it is a good idea to use this attribute since javadoc will be automatically linked.
                     ]]>
                 </xsd:documentation>
