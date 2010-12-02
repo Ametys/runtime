@@ -51,7 +51,7 @@ Open source web application framework based on Apache Cocoon.
     
     <!-- Artifact containing resources used directly by Apache HTTPD -->
     <artifact name="ametys-runtime-resources" type="resource" ext="zip" conf="resources"/>
-    <!-- TODO add SQL scripts in "sql" type -->
+    <artifact name="ametys-runtime-scripts" type="script" ext="zip" conf="runtime"/>
   </publications>
   <dependencies>
     <dependency org="org.ametys.tools" name="tools" rev="latest.integration" conf="deliver->default"/>

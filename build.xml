@@ -392,7 +392,25 @@
 		<delete dir="${classes}"/>
 		<delete dir="${classes2}"/>
 	</target>
-			
+
+    <target name="copy-scripts">
+        <mkdir dir="${dest-dir}/scripts"/>
+    	
+    	<copy todir="${dest-dir}/scripts" failonerror="false">
+            <fileset dir="${plugin-dir}/scripts">
+                <include name="**"/>
+            </fileset>
+        </copy>
+
+        <mkdir dir="${dest-dir}/ivy/scripts"/>
+
+        <zip destfile="${dest-dir}/ivy/scripts/ametys-runtime-scripts.zip">
+            <fileset dir="${dest-dir}/scripts">
+                <include name="**"/>
+            </fileset>
+        </zip>
+	</target>
+
     <target name="copy-resources">
         <copy todir="${dest-dir}/resources/kernel/resources" includeEmptyDirs="false">
             <fileset dir="${kernel-dir}/resources">
@@ -403,12 +421,6 @@
         <copy todir="${dest-dir}/resources/plugins/core/resources" includeEmptyDirs="false">
             <fileset dir="${plugin-dir}/resources">
                 <exclude name="**/*.i18n.js"/>
-            </fileset>
-        </copy>
-        
-        <copy todir="${dest-dir}/scripts">
-            <fileset dir="${plugin-dir}/scripts">
-                <include name="**"/>
             </fileset>
         </copy>
 
@@ -721,7 +733,7 @@
         <delete dir="${tmp-dir}"/>
     </target>
     
-    <target name="build" depends="compile, copy-files, ametys-files, static-resources, jar, copy-resources, jarresources, copy-i18n, javadoc"/>
+    <target name="build" depends="compile, copy-files, ametys-files, static-resources, jar, copy-scripts, copy-resources, jarresources, copy-i18n, javadoc"/>
 
     <target name="runtime-test-env" depends="runtime-compile-test-env, runtime-test-env-jar, javadoc-test-env"/>
 
