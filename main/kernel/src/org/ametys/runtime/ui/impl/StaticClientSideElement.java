@@ -210,7 +210,11 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
             if (right.length() != 0)
             {
                 String prefix = rightConf.getAttribute("context-prefix", null);
-                _rights.put(right, prefix);
+                String[] rightIds = right.split("|");
+                for (String rightId : rightIds)
+                {
+                    _rights.put(rightId, prefix);
+                }
             }
             else
             {
