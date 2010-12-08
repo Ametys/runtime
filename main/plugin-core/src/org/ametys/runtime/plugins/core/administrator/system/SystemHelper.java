@@ -16,11 +16,14 @@
 package org.ametys.runtime.plugins.core.administrator.system;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.commons.io.IOUtils;
 import org.w3c.dom.Document;
 
 /**
@@ -43,6 +46,8 @@ public final class SystemHelper
      */
     public static boolean isSystemAnnouncementAvailable(String contextPath)
     {
+        InputStream is = null;
+        
         try
         {
             File systemFile = new File(contextPath, ADMINISTRATOR_SYSTEM_FILE);
@@ -51,7 +56,9 @@ public final class SystemHelper
                 return false;
             }
             
-            Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(systemFile);
+            is = new FileInputStream(systemFile);
+            
+            Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(is);
             XPath xpath = XPathFactory.newInstance().newXPath();
             String state = xpath.evaluate("/announcements/@state", document);
             
@@ -60,6 +67,10 @@ public final class SystemHelper
         catch (Exception e)
         {
             throw new RuntimeException("Unable to get system announcements", e);
+        }
+        finally
+        {
+            IOUtils.closeQuietly(is);
         }
     }
     
@@ -95,6 +106,8 @@ public final class SystemHelper
      */
     public static String getSystemAnnouncement(String languageCode, String contextPath)
     {
+        InputStream is = null;
+        
         try
         {
             File systemFile = new File(contextPath, ADMINISTRATOR_SYSTEM_FILE);
@@ -103,7 +116,9 @@ public final class SystemHelper
                 return null;
             }
             
-            Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(systemFile);
+            is = new FileInputStream(systemFile);
+            
+            Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(is);
             XPath xpath = XPathFactory.newInstance().newXPath();
             String state = xpath.evaluate("/announcements/@state", document);
             
@@ -133,6 +148,10 @@ public final class SystemHelper
         catch (Exception e)
         {
             throw new RuntimeException("Unable to get system announcements", e);
+        }
+        finally
+        {
+            IOUtils.closeQuietly(is);
         }
     }
 }
