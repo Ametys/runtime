@@ -15,6 +15,8 @@
  */
 package org.ametys.runtime.util;
 
+import java.net.SocketException;
+
 import org.apache.log4j.spi.Filter;
 import org.apache.log4j.spi.LoggingEvent;
 import org.apache.log4j.spi.ThrowableInformation;
@@ -34,6 +36,11 @@ public class AmetysExceptionFilter extends Filter
         {
             Throwable t = info.getThrowable();
             if (t instanceof AuthorizationRequiredException)
+            {
+                return Filter.DENY;
+            }
+            
+            if (t instanceof SocketException)
             {
                 return Filter.DENY;
             }
