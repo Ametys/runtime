@@ -25,3 +25,7 @@
 	font-style: italic;
 	border: 0px none !important;
 }
+
+.ext-el-mask-msg.ametys-mask-unloading div {
+	cursor: auto !important;
+}
