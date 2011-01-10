@@ -141,6 +141,10 @@ org.ametys.administration.Config.addInputField = function (ct, type, name, value
 				{
 					ct.add(org.ametys.administration.Config._createHourField (name, value, label, description));
 				}
+				else if (widget == 'textarea')
+				{
+				    ct.add(org.ametys.administration.Config._createTextAreaField(name, value, label, description));
+				}
 				else
 				{
 					ct.add(org.ametys.administration.Config._createTextField (name, value, label, description));
@@ -161,6 +165,10 @@ org.ametys.administration.Config.getInputHeight = function (input)
 	else if (typeof input == 'org.ametys.form.BooleanField')
 	{
 		return 22;
+	}
+	else if (typeof input == 'org.ametys.form.TextAreaField')
+	{
+	    return 90;
 	}
 	else
 	{
@@ -210,12 +218,18 @@ org.ametys.administration.Config._createPasswordField = function (name, value, l
 
 org.ametys.administration.Config._createDateField = function (name, value, label, description)
 {
+    var dateValue = value;
+    if (typeof value == 'string')
+    {
+        dateValue = Date.parseDate(value, 'c');
+    }
+    
 	return new org.ametys.form.DateField ({
 		name: name,
 		 
         fieldLabel: label,
         desc: description,
-        value: value,
+        value: dateValue,
         
         width: 250
 	});
@@ -263,6 +277,17 @@ org.ametys.administration.Config._createBooleanField = function (name, value, la
         checked: (value == "true")
         
 	});
+}
+org.ametys.administration.Config._createTextAreaField = function(name, value, label, description)
+{
+    return new org.ametys.form.TextAreaField({
+        name: name,
+        fieldLabel: label,
+        desc: description,
+        value: value,
+        width: 250,
+        height: 80
+    });
 }
 
 org.ametys.administration.Config._createTextField = function (name, value, label, description, enumeration)
