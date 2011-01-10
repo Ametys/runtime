@@ -15,15 +15,102 @@
  */
 package org.ametys.runtime.request;
 
+import java.io.IOException;
+
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.framework.context.Contextualizable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.cocoon.ProcessingException;
+import org.apache.cocoon.components.ContextHelper;
 import org.apache.cocoon.environment.Redirector;
+import org.apache.cocoon.environment.Request;
+
+import org.ametys.runtime.config.ConfigManager;
+import org.ametys.runtime.servlet.RuntimeConfig;
 
 /**
- * Default implementation of a InitRequestHandler, simply doing nothing...
+ * Default implementation of a {@link InitRequestHandler}, checking the CMS
+ * configuration and redirecting if it's missing or incomplete.
  */
-public class DefaultInitRequestHandler implements InitRequestHandler
+public class DefaultInitRequestHandler extends AbstractLogEnabled implements InitRequestHandler, Contextualizable
 {
+    
+    /** The avalon context. */
+    protected Context _context;
+    
+    @Override
+    public void contextualize(Context context) throws ContextException
+    {
+        _context = context;
+    }
+    
     public void initRequest(Redirector redirector)
     {
-        // this implementation does nothing ...
+        Request request = ContextHelper.getRequest(_context);
+        String uri = _checkURI(request.getSitemapURI());
+        
+        // Vérification de la configuration
+        // Si elle n'existe pas ou si elle est incomplète (ie le modèle a changé), on redirige vers l'admin
+        ConfigManager configManager = ConfigManager.getInstance();
+        if (!configManager.isComplete())
+        {
+            // Si c'est une URL autorisée, on laisse passer
+            for (String allowedURL : RuntimeConfig.getInstance().getIncompleteConfigAllowedURLs())
+            {
+                if (uri.startsWith(allowedURL))
+                {
+                    return;
+                }
+            }
+            
+            // Sinon, on redirige
+            String redirectURL = RuntimeConfig.getInstance().getIncompleteConfigRedirectURL();
+            
+            try
+            {
+                if (redirectURL.startsWith("cocoon:/"))
+                {
+                    redirector.redirect(false, redirectURL);
+                }
+                else
+                {
+                    redirector.redirect(false, request.getContextPath() + redirectURL);
+                }
+            }
+            catch (ProcessingException e)
+            {
+                throw new RuntimeException("Cannot redirect to the configuration screen.", e);
+            }
+            catch (IOException e)
+            {
+                throw new RuntimeException("Cannot redirect to the configuration screen.", e);
+            }
+            
+            return;
+        }
     }
+    
+    /**
+     * Normalize the URI, trimming the potential slashes at the beginning and end.
+     * @param uri the URI to normalize.
+     * @return the normalized URI.
+     */
+    protected String _checkURI(String uri)
+    {
+        String checkedUri = uri;
+
+        if (checkedUri.startsWith("/"))
+        {
+            checkedUri = checkedUri.substring(1);
+        }
+
+        if (checkedUri.endsWith("/"))
+        {
+            checkedUri = checkedUri.substring(0, checkedUri.length() - 1);
+        }
+
+        return checkedUri;
+    }
+    
 }
