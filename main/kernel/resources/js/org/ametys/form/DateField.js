@@ -33,7 +33,9 @@ org.ametys.form.DateField = function(config)
 }; 
 
 
-Ext.extend(org.ametys.form.DateField, Ext.form.DateField, {});
+Ext.extend(org.ametys.form.DateField, Ext.form.DateField, {
+	xtype: 'datefield'
+});
 
 org.ametys.form.DateField.prototype.onRender = function(ct, position)
 {

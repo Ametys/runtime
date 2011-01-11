@@ -32,7 +32,9 @@ org.ametys.form.BooleanField = function(config)
 	org.ametys.form.BooleanField.superclass.constructor.call(this, config);
 }; 
 
-Ext.extend(org.ametys.form.BooleanField, Ext.form.Checkbox, {});
+Ext.extend(org.ametys.form.BooleanField, Ext.form.Checkbox, {
+	xtype: 'checkbox'
+});
 
 org.ametys.form.BooleanField.prototype.onRender = function(ct, position)
 {

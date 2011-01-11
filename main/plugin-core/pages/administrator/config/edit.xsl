@@ -79,7 +79,9 @@
 										"<xsl:copy-of select="label/node()"/>", 
 										"<xsl:copy-of select="description/node()"/>",
 										<xsl:call-template name="enumeration"/>,
-										"<xsl:value-of select="widget"/>");
+										"<xsl:value-of select="widget"/>",
+										"<xsl:value-of select="validation/mandatory"/>",
+                                        "<xsl:value-of select="validation/regexp"/>");
 									height += org.ametys.administration.Config.getInputHeight (input);
 							</xsl:for-each>
 							
