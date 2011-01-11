@@ -1,8 +1,5 @@
 /.*
 /bin
-deliver/lib/ametys-tools-*.jar
-deliver/lib/ant-*jar
-deliver/lib/commons-io-*.jar
 /junit4514.properties
 /junit47495.properties
 /junitvmwatcher4513.properties
