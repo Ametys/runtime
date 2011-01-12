@@ -19,8 +19,13 @@ import java.util.Map;
 
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.cocoon.acting.ServiceableAction;
+import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
+import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.SourceResolver;
+
+import org.ametys.runtime.config.ConfigManager;
+import org.ametys.runtime.servlet.RuntimeConfig;
 
 
 /**
@@ -30,6 +35,39 @@ public class InitRequestAction extends ServiceableAction
 {
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
+        Request request = ObjectModelHelper.getRequest(objectModel);
+        String uri = _checkURI(request.getSitemapURI());
+        
+        // check configuration first
+        // if do not exist or is complete redirect to administration 
+        ConfigManager configManager = ConfigManager.getInstance();
+        if (!configManager.isComplete())
+        {
+            // if this is a allowed url, do nothing 
+            for (String allowedURL : RuntimeConfig.getInstance().getIncompleteConfigAllowedURLs())
+            {
+                if (uri.startsWith(allowedURL))
+                {
+                    return EMPTY_MAP;
+                }
+            }
+            
+            // else, redirect
+            String redirectURL = RuntimeConfig.getInstance().getIncompleteConfigRedirectURL();
+            
+            if (redirectURL.startsWith("cocoon:/"))
+            {
+                redirector.redirect(false, redirectURL);
+            }
+            else
+            {
+                redirector.redirect(false, request.getContextPath() + redirectURL);
+            }
+            
+            return EMPTY_MAP;
+        }
+        
+        // then call the init request handler 
         InitRequestHandler requestHandler = (InitRequestHandler) manager.lookup(InitRequestHandler.ROLE);
         
         requestHandler.initRequest(redirector);
@@ -37,4 +75,20 @@ public class InitRequestAction extends ServiceableAction
         return EMPTY_MAP;
     }
 
+    private String _checkURI(String uri)
+    {
+        String checkedUri = uri;
+
+        if (checkedUri.startsWith("/"))
+        {
+            checkedUri = checkedUri.substring(1);
+        }
+
+        if (checkedUri.endsWith("/"))
+        {
+            checkedUri = checkedUri.substring(0, checkedUri.length() - 1);
+        }
+
+        return checkedUri;
+    }
 }
