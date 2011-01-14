@@ -542,6 +542,15 @@
 	                    </xsd:documentation>
 	                </xsd:annotation>
 	            </xsd:element>
+	            <xsd:element name="invalidText" type="i18n-entry" maxOccurs="1" minOccurs="0">
+	                <xsd:annotation>
+	                    <xsd:documentation xml:lang="en">
+	                        <![CDATA[
+	                        	The text error to use if regexp fails.
+	                        ]]>
+	                    </xsd:documentation>
+	                </xsd:annotation>
+	            </xsd:element>
     		</xsd:sequence>
             <xsd:element name="custom-validator" type="local-component" maxOccurs="1" minOccurs="0">
                 <xsd:annotation>

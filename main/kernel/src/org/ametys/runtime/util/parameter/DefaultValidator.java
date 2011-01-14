@@ -25,6 +25,7 @@ import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
+import org.ametys.runtime.plugin.component.PluginAware;
 import org.ametys.runtime.util.I18nizableText;
 import org.ametys.runtime.util.LoggerFactory;
 
@@ -36,13 +37,17 @@ import org.ametys.runtime.util.LoggerFactory;
  *  <li>regexp: check the string parameter matches a regexp</li>
  * </ul> 
  */
-public class DefaultValidator extends AbstractLogEnabled implements Validator, Configurable
+public class DefaultValidator extends AbstractLogEnabled implements Validator, Configurable, PluginAware
 {
     /** Is the value mandatory ? */
     protected boolean _isMandatory;
     /** Does the value need to match a regexp */
     protected Pattern _regexp;
-
+    /** The error text to display if regexp fails */
+    protected I18nizableText _invalidText;
+    /** The plugin name */
+    protected String _pluginName;
+    
     /**
      * Default constructor for avalon
      */
@@ -66,6 +71,29 @@ public class DefaultValidator extends AbstractLogEnabled implements Validator, C
         enableLogging(LoggerFactory.getLoggerFor(this.getClass()));
     }
     
+    /**
+     * Manual constructor
+     * @param regexp The regexp to check or null
+     * @param invalidText The error text to display
+     * @param mandatory Is the value mandatory 
+     */
+    public DefaultValidator(String regexp, I18nizableText invalidText, boolean mandatory)
+    {
+        _isMandatory = mandatory;
+        if (regexp != null)
+        {
+            _regexp = Pattern.compile(regexp);
+        }
+        _invalidText = invalidText;
+        
+        enableLogging(LoggerFactory.getLoggerFor(this.getClass()));
+    }
+    
+    @Override
+    public void setPluginInfo(String pluginName, String featureName)
+    {
+        _pluginName = pluginName;
+    }
     
     @Override
     public void configure(Configuration configuration) throws ConfigurationException
@@ -79,6 +107,27 @@ public class DefaultValidator extends AbstractLogEnabled implements Validator, C
         {
             _regexp = Pattern.compile(regexp);
         }
+        
+        Configuration textConfig = validatorConfig.getChild("invalidText", false);
+        if (textConfig != null)
+        {
+            boolean i18nSupported = textConfig.getAttributeAsBoolean("i18n", false);
+            String text = textConfig.getValue();
+            
+            if (i18nSupported)
+            {
+                String catalogue = textConfig.getAttribute("catalogue", null);
+                if (catalogue == null)
+                {
+                    catalogue = "plugin." + _pluginName;
+                }
+                _invalidText = new I18nizableText(catalogue, text);
+            }
+            else
+            {
+                _invalidText = new I18nizableText(text);
+            }
+        }
     }
     
     @Override
@@ -89,6 +138,11 @@ public class DefaultValidator extends AbstractLogEnabled implements Validator, C
         if (_regexp != null)
         {
             XMLUtils.createElement(handler, "regexp", _regexp.toString());
+        }
+        
+        if (_invalidText != null)
+        {
+            _invalidText.toSAX(handler, "invalidText");
         }
     }
     
