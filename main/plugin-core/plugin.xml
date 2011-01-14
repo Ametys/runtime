@@ -97,7 +97,7 @@
             <description i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEURL_DESCRIPTION</description>
             <validation>
                 <mandatory/>
-                <regexp>^ldaps?://[\w-.]*(:\d+)?</regexp> 
+                <regexp>^ldaps?://[\w\-.]*(:\d+)?</regexp> 
             </validation>
             <default-value>ldap://server:389</default-value>
             <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>

@@ -137,13 +137,18 @@ public class DefaultValidator extends AbstractLogEnabled implements Validator, C
         
         if (_regexp != null)
         {
-            XMLUtils.createElement(handler, "regexp", _regexp.toString());
+            XMLUtils.createElement(handler, "regexp", _escapeForJS(_regexp.toString()));
         }
         
         if (_invalidText != null)
         {
             _invalidText.toSAX(handler, "invalidText");
         }
+    }
+    
+    private String _escapeForJS (String value)
+    {
+        return value.replaceAll("\\\\", "\\\\\\\\");
     }
     
     @Override
