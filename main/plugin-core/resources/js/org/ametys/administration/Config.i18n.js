@@ -107,7 +107,7 @@ org.ametys.administration.Config.addGroupCategory = function (fd, name)
 	}));
 }
 
-org.ametys.administration.Config.addInputField = function (ct, type, name, value, label, description, enumeration, widget, mandatory, regexp)
+org.ametys.administration.Config.addInputField = function (ct, type, name, value, label, description, enumeration, widget, mandatory, regexp, invalidText)
 {
 	if (enumeration != null)
 	{
@@ -118,16 +118,16 @@ org.ametys.administration.Config.addInputField = function (ct, type, name, value
 		switch (type) 
 		{
 			case 'double':
-				ct.add(org.ametys.administration.Config._createDoubleField (name, value, label, description, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null));
+				ct.add(org.ametys.administration.Config._createDoubleField (name, value, label, description, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null, invalidText));
 				break;
 			case 'long':
-				ct.add(org.ametys.administration.Config._createLongField (name, value, label, description, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null));
+				ct.add(org.ametys.administration.Config._createLongField (name, value, label, description, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null, invalidText));
 				break;
 			case 'password':
 				ct.add(org.ametys.administration.Config._createPasswordField (name, value, label, description));
 				break;
 			case 'date':
-				ct.add(org.ametys.administration.Config._createDateField (name, value, label, description, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null));
+				ct.add(org.ametys.administration.Config._createDateField (name, value, label, description, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null, invalidText));
 				break;
 			case 'boolean':
 				ct.add(org.ametys.administration.Config._createBooleanField (name, value, label, description));
@@ -135,19 +135,19 @@ org.ametys.administration.Config.addInputField = function (ct, type, name, value
 			default:
 				if (widget == 'time')
 				{
-					ct.add(org.ametys.administration.Config._createTimeField (name, value, label, description, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null));
+					ct.add(org.ametys.administration.Config._createTimeField (name, value, label, description, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null, invalidText));
 				}
 				else if (widget == 'hour')
 				{
-					ct.add(org.ametys.administration.Config._createHourField (name, value, label, description, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null));
+					ct.add(org.ametys.administration.Config._createHourField (name, value, label, description, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null, invalidText));
 				}
 				else if (widget == 'textarea')
 				{
-				    ct.add(org.ametys.administration.Config._createTextAreaField(name, value, label, description, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null));
+				    ct.add(org.ametys.administration.Config._createTextAreaField(name, value, label, description, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null, invalidText));
 				}
 				else
 				{
-					ct.add(org.ametys.administration.Config._createTextField (name, value, label, description, null, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null));
+					ct.add(org.ametys.administration.Config._createTextField (name, value, label, description, null, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null, invalidText));
 				}
 				break;
 		}
@@ -177,7 +177,7 @@ org.ametys.administration.Config.getInputHeight = function (input)
 		
 }
 
-org.ametys.administration.Config._createDoubleField = function (name, value, label, description, mandatory, regexp)
+org.ametys.administration.Config._createDoubleField = function (name, value, label, description, mandatory, regexp, invalidText)
 {
 	return new org.ametys.form.DoubleField ({
 		name: name,
@@ -193,9 +193,13 @@ org.ametys.administration.Config._createDoubleField = function (name, value, lab
 			{
 				return true;
 			}
+			else if (!this.allowBlank &amp;&amp; (value.length &lt; 1 || value === this.emptyText))
+			{
+				return this.blankText;
+			}
 			else if (this.validatorRegexp &amp;&amp; !this.validatorRegexp.test(value))
 			{
-				return this.regexText;
+				return this.invalidText != null ? this.invalidText : this.regexText;
 			}
 			else
 			{
@@ -203,13 +207,14 @@ org.ametys.administration.Config._createDoubleField = function (name, value, lab
 			}
 		},
 		regexText: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP"/>" + regexp,
+		invalidText: invalidText != null ? invalidText : null,
         msgTarget: 'side',
         
         width: 250
 	});
 }
 
-org.ametys.administration.Config._createLongField = function (name, value, label, description, mandatory, regexp)
+org.ametys.administration.Config._createLongField = function (name, value, label, description, mandatory, regexp, invalidText)
 {
 	return new org.ametys.form.LongField ({
 		name: name,
@@ -225,9 +230,13 @@ org.ametys.administration.Config._createLongField = function (name, value, label
 			{
 				return true;
 			}
+			else if (!this.allowBlank &amp;&amp; (value.length &lt; 1 || value === this.emptyText))
+			{
+				return this.blankText;
+			}
 			else if (this.validatorRegexp &amp;&amp; !this.validatorRegexp.test(value))
 			{
-				return this.regexText;
+				return this.invalidText != null ? this.invalidText : this.regexText;
 			}
 			else
 			{
@@ -235,6 +244,7 @@ org.ametys.administration.Config._createLongField = function (name, value, label
 			}
 		},
 		regexText: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP"/>" + regexp,
+		invalidText: invalidText != null ? invalidText : null,
 		msgTarget: 'side',
 		
         width: 250
@@ -254,7 +264,7 @@ org.ametys.administration.Config._createPasswordField = function (name, value, l
 	});
 }
 
-org.ametys.administration.Config._createDateField = function (name, value, label, description, mandatory, regexp)
+org.ametys.administration.Config._createDateField = function (name, value, label, description, mandatory, regexp, invalidText)
 {
     var dateValue = value;
     if (typeof value == 'string')
@@ -277,9 +287,13 @@ org.ametys.administration.Config._createDateField = function (name, value, label
 			{
 				return true;
 			}
+			else if (!this.allowBlank &amp;&amp; (value.length &lt; 1 || value === this.emptyText))
+			{
+				return this.blankText;
+			}
 			else if (this.validatorRegexp &amp;&amp; !this.validatorRegexp.test(value))
 			{
-				return this.regexText;
+				return this.invalidText != null ? this.invalidText : this.regexText;
 			}
 			else
 			{
@@ -287,13 +301,14 @@ org.ametys.administration.Config._createDateField = function (name, value, label
 			}
 		},
 		regexText: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP"/>" + regexp,
+		invalidText: invalidText != null ? invalidText : null,
 		msgTarget: 'side',
 		
         width: 250
 	});
 }
 
-org.ametys.administration.Config._createHourField = function (name, value, label, description, mandatory, regexp)
+org.ametys.administration.Config._createHourField = function (name, value, label, description, mandatory, regexp, invalidText)
 {
 	return new org.ametys.form.TimeField ({
 		name: name,
@@ -312,9 +327,13 @@ org.ametys.administration.Config._createHourField = function (name, value, label
 			{
 				return true;
 			}
+			else if (!this.allowBlank &amp;&amp; (value.length &lt; 1 || value === this.emptyText))
+			{
+				return this.blankText;
+			}
 			else if (this.validatorRegexp &amp;&amp; !this.validatorRegexp.test(value))
 			{
-				return this.regexText;
+				return this.invalidText != null ? this.invalidText : this.regexText;
 			}
 			else
 			{
@@ -322,13 +341,14 @@ org.ametys.administration.Config._createHourField = function (name, value, label
 			}
 		},
 		regexText: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP"/>" + regexp,
+		invalidText: invalidText != null ? invalidText : null,
 		msgTarget: 'side',
 		
         width: 100
 	});
 }
 
-org.ametys.administration.Config._createTimeField = function (name, value, label, description, mandatory, regexp)
+org.ametys.administration.Config._createTimeField = function (name, value, label, description, mandatory, regexp, invalidText)
 {
 	return new org.ametys.form.TimeField ({
 		name: name,
@@ -346,9 +366,13 @@ org.ametys.administration.Config._createTimeField = function (name, value, label
 			{
 				return true;
 			}
+			else if (!this.allowBlank &amp;&amp; (value.length &lt; 1 || value === this.emptyText))
+			{
+				return this.blankText;
+			}
 			else if (this.validatorRegexp &amp;&amp; !this.validatorRegexp.test(value))
 			{
-				return this.regexText;
+				return this.invalidText != null ? this.invalidText : this.regexText;
 			}
 			else
 			{
@@ -356,6 +380,7 @@ org.ametys.administration.Config._createTimeField = function (name, value, label
 			}
 		},
 		regexText: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP"/>" + regexp,
+		invalidText: invalidText != null ? invalidText : null,
 		msgTarget: 'side',
 		
         width: 100
@@ -374,7 +399,7 @@ org.ametys.administration.Config._createBooleanField = function (name, value, la
         
 	});
 }
-org.ametys.administration.Config._createTextAreaField = function(name, value, label, description, mandatory, regexp)
+org.ametys.administration.Config._createTextAreaField = function(name, value, label, description, mandatory, regexp, invalidText)
 {
     return new org.ametys.form.TextAreaField({
         name: name,
@@ -390,13 +415,17 @@ org.ametys.administration.Config._createTextAreaField = function(name, value, la
         validatorRegexp: regexp,
         validator: function(value)
 		{
-			if (this.allowBlank &amp;&amp; (value.length &lt; 1 || value === this.emptyText))
+	    	if (this.allowBlank &amp;&amp; (value.length &lt; 1 || value === this.emptyText))
 			{
 				return true;
 			}
+			else if (!this.allowBlank &amp;&amp; (value.length &lt; 1 || value === this.emptyText))
+			{
+				return this.blankText;
+			}
 			else if (this.validatorRegexp &amp;&amp; !this.validatorRegexp.test(value))
 			{
-				return this.regexText;
+				return this.invalidText != null ? this.invalidText : this.regexText;
 			}
 			else
 			{
@@ -404,11 +433,12 @@ org.ametys.administration.Config._createTextAreaField = function(name, value, la
 			}
 		},
 		regexText: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP"/>" + regexp,
+		invalidText: invalidText != null ? invalidText : null,
 		msgTarget: 'side'
     });
 }
 
-org.ametys.administration.Config._createTextField = function (name, value, label, description, enumeration, mandatory, regexp)
+org.ametys.administration.Config._createTextField = function (name, value, label, description, enumeration, mandatory, regexp, invalidText)
 {
 	if (enumeration != null)
 	{
@@ -455,9 +485,13 @@ org.ametys.administration.Config._createTextField = function (name, value, label
 				{
 					return true;
 				}
+				else if (!this.allowBlank &amp;&amp; (value.length &lt; 1 || value === this.emptyText))
+				{
+					return this.blankText;
+				}
 				else if (this.validatorRegexp &amp;&amp; !this.validatorRegexp.test(value))
 				{
-					return this.regexText;
+					return this.invalidText != null ? this.invalidText : this.regexText;
 				}
 				else
 				{
@@ -465,6 +499,7 @@ org.ametys.administration.Config._createTextField = function (name, value, label
 				}
 			},
 			regexText: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP"/>" + regexp,
+			invalidText: invalidText != null ? invalidText : null,
 			msgTarget: 'side'
 		});
 	}

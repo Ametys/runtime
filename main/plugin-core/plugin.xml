@@ -98,6 +98,7 @@
             <validation>
                 <mandatory/>
                 <regexp>^ldaps?://[\w\-.]*(:\d+)?</regexp> 
+                <invalidText i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEURL_INVALID</invalidText>
             </validation>
             <default-value>ldap://server:389</default-value>
             <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>
@@ -537,6 +538,7 @@
             <validation>
                 <mandatory/>
                 <regexp>^https?://.*$</regexp>
+                <invalidText i18n="true">PLUGINS_CORE_REGEXP_INVALID_URL</invalidText>
             </validation>
             <default-value>https://servername</default-value>
             <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION</category>
@@ -609,6 +611,8 @@
             <description i18n="true">PLUGINS_CORE_MAIL_CONFIG_FROM_ADDRESS_DESCRIPTION</description>
             <validation>
             	<mandatory/>
+            	<regexp>^(\w+)([\-+.][\w]+)*@(\w[\-\w]*\.){1,5}([A-Za-z]){2,4}$</regexp>
+            	<invalidText i18n="true">PLUGINS_CORE_REGEXP_INVALID_MAIL</invalidText>
         	</validation>
             <default-value>sender@ametys.org</default-value>
             <category i18n="true">PLUGINS_CORE_MAIL_CONFIG_CATEGORY</category>
@@ -621,6 +625,10 @@
              -->
             <label i18n="true">PLUGINS_CORE_MAIL_CONFIG_SYSADMINTO_ADDRESS</label>
             <description i18n="true">PLUGINS_CORE_MAIL_CONFIG_SYSADMINTO_ADDRESS_DESCRIPTION</description>
+            <validation>
+            	<regexp>^(\w+)([\-+.][\w]+)*@(\w[\-\w]*\.){1,5}([A-Za-z]){2,4}$</regexp>
+            	<invalidText i18n="true">PLUGINS_CORE_REGEXP_INVALID_MAIL</invalidText>
+            </validation>
             <category i18n="true">PLUGINS_CORE_MAIL_CONFIG_CATEGORY</category>
             <group i18n="true">PLUGINS_CORE_MAIL_CONFIG_ADDRESS_GROUP</group>
             <order>1</order>

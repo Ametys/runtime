@@ -272,6 +272,7 @@
     <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_CATEGORY_LDAP_GROUP_CORE">Server</message>
     <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEURL_LABEL">Url</message>
     <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEURL_DESCRIPTION">Url for LDAP server</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEURL_INVALID">The url of the LDAP server is invalid. It must be like 'ldap://server:389' or 'ldaps://server:389'.</message>
     <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEDN_LABEL">Base DN</message>
     <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEDN_DESCRIPTION">Base DN for the entire LDAP directory</message>
     <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ADMINDN_LABEL">Administrator's DN</message>
@@ -572,4 +573,8 @@
 	
 	<message key="PLUGINS_CORE_ERROR_DIALOG_TITLE">Error</message>
 	<message key="PLUGINS_CORE_SAVE_DIALOG_TITLE">Save</message>
+	
+	<!-- RegExp -->
+	<message key="PLUGINS_CORE_REGEXP_INVALID_MAIL">The address is not a valid email address</message>
+	<message key="PLUGINS_CORE_REGEXP_INVALID_URL">The url is invalid. It must started with http:// or https: / /</message>
 </catalogue>

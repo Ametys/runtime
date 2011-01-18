@@ -81,7 +81,8 @@
 										<xsl:call-template name="enumeration"/>,
 										"<xsl:value-of select="widget"/>",
 										"<xsl:value-of select="validation/mandatory"/>",
-                                        "<xsl:value-of select="jsencoder:encode(validation/regexp)"/>");
+                                        "<xsl:value-of select="jsencoder:encode(validation/regexp)"/>"
+                                        <xsl:if test="validation/invalidText != ''">,"<xsl:value-of select="validation/invalidText"/>"</xsl:if>);
 									height += org.ametys.administration.Config.getInputHeight (input);
 							</xsl:for-each>
 							
