@@ -35,17 +35,31 @@ public class AmetysExceptionFilter extends Filter
         if (info != null && info.getThrowable() != null)
         {
             Throwable t = info.getThrowable();
-            if (t instanceof AuthorizationRequiredException)
+            if (_unroll(t) instanceof AuthorizationRequiredException)
             {
                 return Filter.DENY;
             }
             
-            if (t instanceof SocketException)
+            if (_unroll(t) instanceof SocketException)
             {
                 return Filter.DENY;
             }
         }
         
         return Filter.NEUTRAL;
+    }
+    
+    private Throwable _unroll(Throwable t)
+    {
+        Throwable cause = t.getCause();
+        
+        if (cause == null)
+        {
+            return t;
+        }
+        else
+        {
+            return _unroll(cause);
+        }
     }
 }
