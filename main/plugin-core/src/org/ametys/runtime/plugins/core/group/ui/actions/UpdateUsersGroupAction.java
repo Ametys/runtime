@@ -32,7 +32,6 @@ import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableAction;
 
 /**
  * Add or remove users from an existing group
- *
  */
 public class UpdateUsersGroupAction extends CurrentUserProviderServiceableAction
 {

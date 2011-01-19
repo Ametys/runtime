@@ -16,6 +16,7 @@
 package org.ametys.runtime.util.cocoon;
 
 import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.cocoon.acting.ServiceableAction;
 
 import org.ametys.runtime.user.CurrentUserProvider;
@@ -23,7 +24,7 @@ import org.ametys.runtime.user.CurrentUserProvider;
 /**
  * {@link ServiceableAction} which provides the current user if necessary.
  */
-public abstract class CurrentUserProviderServiceableAction extends ServiceableAction
+public abstract class CurrentUserProviderServiceableAction extends ServiceableAction implements ThreadSafe
 {
     /** The current user provider. */
     protected CurrentUserProvider _currentUserProvider;

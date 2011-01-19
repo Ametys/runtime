@@ -18,7 +18,11 @@ package org.ametys.runtime.request;
 import java.util.Map;
 
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.cocoon.acting.ServiceableAction;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.framework.thread.ThreadSafe;
+import org.apache.cocoon.acting.AbstractAction;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
@@ -27,12 +31,19 @@ import org.apache.cocoon.environment.SourceResolver;
 import org.ametys.runtime.config.ConfigManager;
 import org.ametys.runtime.servlet.RuntimeConfig;
 
-
 /**
  * Action executed on the beginning of each request, responsible for executing the InitRequestHandler if specified.
  */
-public class InitRequestAction extends ServiceableAction
+public class InitRequestAction extends AbstractAction implements ThreadSafe, Serviceable
 {
+    private InitRequestHandler _requestHandler;
+    
+    @Override
+    public void service(ServiceManager manager) throws ServiceException
+    {
+        _requestHandler = (InitRequestHandler) manager.lookup(InitRequestHandler.ROLE);
+    }
+    
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
         Request request = ObjectModelHelper.getRequest(objectModel);
@@ -68,9 +79,7 @@ public class InitRequestAction extends ServiceableAction
         }
         
         // then call the init request handler 
-        InitRequestHandler requestHandler = (InitRequestHandler) manager.lookup(InitRequestHandler.ROLE);
-        
-        requestHandler.initRequest(redirector);
+        _requestHandler.initRequest(redirector);
         
         return EMPTY_MAP;
     }

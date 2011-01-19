@@ -19,7 +19,8 @@ package org.ametys.runtime.plugins.core.administrator.plugins;
 import java.util.Map;
 
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.cocoon.acting.ServiceableAction;
+import org.apache.avalon.framework.thread.ThreadSafe;
+import org.apache.cocoon.acting.AbstractAction;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.SourceResolver;
@@ -29,7 +30,7 @@ import org.apache.excalibur.source.SourceUtil;
 /**
  * Change the plugins (activate/deactivate)
  */
-public class ChangePlugins extends ServiceableAction
+public class ChangePlugins extends AbstractAction implements ThreadSafe
 {
     @SuppressWarnings("unchecked")
     @Override

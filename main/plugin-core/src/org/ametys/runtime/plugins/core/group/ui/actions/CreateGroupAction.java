@@ -29,7 +29,6 @@ import org.ametys.runtime.group.GroupsManager;
 import org.ametys.runtime.group.ModifiableGroupsManager;
 import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableAction;
 
-
 /**
  * This action creates a new profile with name given in request parameter, and return its id
  */

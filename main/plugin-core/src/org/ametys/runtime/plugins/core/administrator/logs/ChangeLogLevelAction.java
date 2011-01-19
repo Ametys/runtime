@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.cocoon.acting.AbstractAction;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
@@ -35,7 +36,7 @@ import org.apache.log4j.spi.LoggerRepository;
  * The categories are specified through request parameters with the following syntax :
  * priority_&lt;my.log.category>=&lt;log-level>
  */
-public class ChangeLogLevelAction extends AbstractAction
+public class ChangeLogLevelAction extends AbstractAction implements ThreadSafe
 {
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {

@@ -27,7 +27,6 @@ import org.ametys.runtime.plugins.core.right.profile.ProfileBasedRightsManager;
 import org.ametys.runtime.right.RightsManager;
 import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableAction;
 
-
 /**
  * This action assigns profiles to users and groups.
  */

@@ -18,6 +18,7 @@ package org.ametys.runtime.plugins.core.administrator;
 import java.util.Map;
 
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.cocoon.acting.AbstractAction;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
@@ -27,7 +28,7 @@ import org.apache.cocoon.environment.SourceResolver;
 /**
  * Action for reloading application
  */
-public class RestartAction extends AbstractAction
+public class RestartAction extends AbstractAction implements ThreadSafe
 {
     @Override
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception

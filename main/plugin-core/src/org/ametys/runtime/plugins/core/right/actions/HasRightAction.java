@@ -21,7 +21,6 @@ import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.SourceResolver;
 
@@ -34,7 +33,7 @@ import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableAction;
  * return EMPTY_MAP if the user has right and null otherwise<br/>
  * You can use the 'context' parameter to specify the right context. / is the default value.
  */
-public class HasRightAction extends CurrentUserProviderServiceableAction implements Configurable, ThreadSafe
+public class HasRightAction extends CurrentUserProviderServiceableAction implements Configurable
 {
     /** The runtime rights manager */
     protected RightsManager _rightsManager;

@@ -18,7 +18,6 @@ package org.ametys.runtime.plugins.core.right.ui.actions;
 import java.util.Map;
 
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
@@ -28,11 +27,10 @@ import org.ametys.runtime.plugins.core.right.profile.ProfileBasedRightsManager;
 import org.ametys.runtime.right.RightsManager;
 import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableAction;
 
-
 /**
  * This class removes profiles'assignment from users and groups for a given context
  */
-public class RemoveAction extends CurrentUserProviderServiceableAction implements ThreadSafe
+public class RemoveAction extends CurrentUserProviderServiceableAction
 {
     /** The profile base impl of rights'manager*/
     protected ProfileBasedRightsManager _rightsManager;

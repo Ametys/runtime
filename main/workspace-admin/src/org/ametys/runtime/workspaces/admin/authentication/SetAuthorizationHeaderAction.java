@@ -18,6 +18,7 @@ package org.ametys.runtime.workspaces.admin.authentication;
 import java.util.Map;
 
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.cocoon.acting.AbstractAction;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
@@ -30,7 +31,7 @@ import org.ametys.runtime.authentication.AuthorizationRequiredException;
 /**
  * Action setting the response Header for 401 reponse
  */
-public class SetAuthorizationHeaderAction extends AbstractAction
+public class SetAuthorizationHeaderAction extends AbstractAction implements ThreadSafe
 {
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {

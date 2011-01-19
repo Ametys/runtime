@@ -18,6 +18,7 @@ package org.ametys.runtime.plugins.core.right.actions;
 import java.util.Map;
 
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.cocoon.acting.AbstractAction;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
@@ -30,7 +31,7 @@ import org.ametys.runtime.workspaces.admin.authentication.AdminAuthenticateActio
  * This action determines if the user is in admin.<br/>
  * Throw an IllegalStateException if not
  */
-public class IsAdminAction extends AbstractAction 
+public class IsAdminAction extends AbstractAction implements ThreadSafe
 {
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {

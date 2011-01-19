@@ -28,8 +28,8 @@ import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.cocoon.acting.AbstractAction;
 import org.apache.cocoon.components.source.SourceUtil;
 import org.apache.cocoon.environment.ObjectModelHelper;
@@ -38,7 +38,6 @@ import org.apache.cocoon.environment.SourceResolver;
 import org.apache.cocoon.xml.XMLUtils;
 import org.apache.excalibur.source.Source;
 
-import org.ametys.runtime.util.LoggerFactory;
 import org.ametys.runtime.util.MapHandler;
 import org.ametys.runtime.util.StringUtils;
 import org.ametys.runtime.workspaces.admin.authentication.AdminAuthenticateAction;
@@ -53,16 +52,13 @@ import org.ametys.runtime.workspaces.admin.authentication.AdminAuthenticateActio
  * oldPassword, newPassword and confirmPassword. <br>
  * The action can returns null on error or an empty map on success
  */
-public class SetPasswordAction extends AbstractAction
+public class SetPasswordAction extends AbstractAction implements ThreadSafe
 {
-    // Logger for traces
-    private Logger _logger = LoggerFactory.getLoggerFor(SetPasswordAction.class);
-
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String src, Parameters parameters) throws Exception
     {
-        if (_logger.isInfoEnabled())
+        if (getLogger().isInfoEnabled())
         {
-            _logger.info("Starting SetPassword");
+            getLogger().info("Starting SetPassword");
         }
 
         try
@@ -120,7 +116,7 @@ public class SetPasswordAction extends AbstractAction
         }
         catch (Exception e)
         {
-            _logger.error("An unknown error occured while changing the password", e);
+            getLogger().error("An unknown error occured while changing the password", e);
 
             Map<String, String> results = new HashMap<String, String>();
             results.put("result", "FAILED");

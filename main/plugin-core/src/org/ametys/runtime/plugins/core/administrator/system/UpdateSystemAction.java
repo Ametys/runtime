@@ -30,6 +30,7 @@ import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.cocoon.acting.AbstractAction;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
@@ -43,15 +44,13 @@ import org.xml.sax.helpers.AttributesImpl;
 /**
  * This action update the system info.
  */
-public class UpdateSystemAction extends AbstractAction
+public class UpdateSystemAction extends AbstractAction implements ThreadSafe
 {
     private Pattern _langPattern = Pattern.compile("[a-zA-Z]{2}");
     
-    private Request _request;
-    
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
-        _request = ObjectModelHelper.getRequest(objectModel);
+        Request request = ObjectModelHelper.getRequest(objectModel);
         
         // The map to keep the messages
         Map<String, String> messages = new HashMap<String, String>();
@@ -60,10 +59,10 @@ public class UpdateSystemAction extends AbstractAction
         // boolean maintenace = "true".equals(_request.getParameter("maintenance"));
         
         // Is announcement
-        boolean announcement = "true".equals(_request.getParameter("announcement"));
+        boolean announcement = "true".equals(request.getParameter("announcement"));
         
         // Get the language codes and announcement messages and check them
-        if (!_getMessages(messages))
+        if (!_getMessages(messages, request))
         {
             return null;
         }
@@ -101,9 +100,9 @@ public class UpdateSystemAction extends AbstractAction
         return EMPTY_MAP;
     }
     
-    private boolean _getMessages(Map<String, String> messages)
+    private boolean _getMessages(Map<String, String> messages, Request request)
     {
-        String[] langCodes = _request.getParameterValues("lang");
+        String[] langCodes = request.getParameterValues("lang");
         
         for (String lang : langCodes)
         {
@@ -120,7 +119,7 @@ public class UpdateSystemAction extends AbstractAction
             }
 
             // message
-            String message = _request.getParameter("message_" + lang);
+            String message = request.getParameter("message_" + lang);
             if (message == null || message.length() == 0)
             {
                 getLogger().error("No message specified for language '" + lang + "'. Unable to save administrator's announcements.");

@@ -18,6 +18,7 @@ package org.ametys.runtime.plugins.core.administrator.jvmstatus;
 import java.util.Map;
 
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.cocoon.acting.AbstractAction;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
@@ -28,7 +29,7 @@ import org.apache.cocoon.environment.SourceResolver;
  * Simple action calling System.gc().<br>
  * Used in admin section.
  */
-public class GCAction extends AbstractAction
+public class GCAction extends AbstractAction implements ThreadSafe
 {
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {

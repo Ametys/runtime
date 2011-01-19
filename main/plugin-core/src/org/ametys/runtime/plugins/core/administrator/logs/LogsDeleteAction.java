@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.acting.ServiceableAction;
 import org.apache.cocoon.environment.ObjectModelHelper;
@@ -39,9 +40,8 @@ import org.apache.excalibur.source.TraversableSource;
 /**
  * Delete given logs
  */
-public class LogsDeleteAction extends ServiceableAction
+public class LogsDeleteAction extends ServiceableAction implements ThreadSafe
 {
-
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
         StringBuffer failure = new StringBuffer(); 

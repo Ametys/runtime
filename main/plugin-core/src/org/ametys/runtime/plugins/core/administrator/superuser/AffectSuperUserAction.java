@@ -21,6 +21,7 @@ import java.util.Map;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.cocoon.acting.ServiceableAction;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
@@ -32,7 +33,7 @@ import org.ametys.runtime.right.RightsManager;
 /**
  * Give all rights to given users on context '/application'
  */
-public class AffectSuperUserAction extends ServiceableAction
+public class AffectSuperUserAction extends ServiceableAction implements ThreadSafe
 {
     /** The service manager */
     protected ServiceManager _sManager;

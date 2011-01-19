@@ -31,8 +31,6 @@ import org.xml.sax.SAXException;
  */
 public class LogsDownloadGenerator extends AbstractGenerator
 {
-    
-    
     public void generate() throws IOException, SAXException, ProcessingException
     {
         Request request = ObjectModelHelper.getRequest(objectModel);
