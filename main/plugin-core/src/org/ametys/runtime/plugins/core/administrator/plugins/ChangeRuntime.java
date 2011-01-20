@@ -22,7 +22,6 @@ import java.util.Map;
 
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.generation.ServiceableGenerator;
@@ -39,7 +38,7 @@ import org.ametys.runtime.util.IgnoreRootHandler;
 /**
  * Generates the runtime file with the list of the modifications
  */
-public class ChangeRuntime extends ServiceableGenerator implements ThreadSafe
+public class ChangeRuntime extends ServiceableGenerator
 {
     private SAXParser _saxParser;
     
