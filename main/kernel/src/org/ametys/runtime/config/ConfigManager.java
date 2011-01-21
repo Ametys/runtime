@@ -543,11 +543,6 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             typedValue = "PASSWORD";
         }
         
-        if (type.equals(ParameterType.STRING) && typedValue != null && ((String) typedValue).length() > 0)
-        {
-            typedValue = ((String) typedValue).replaceAll("\\\\", "\\\\\\\\");
-        }
-        
         return typedValue;
     }
 

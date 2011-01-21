@@ -37,6 +37,6 @@ public final class JavascriptEncoder
             return null;
         }
         
-        return value.replaceAll("\\\\", "\\\\").replaceAll("\r", "\\\r").replaceAll("\n", "\\\n").replaceAll("\"", "\\\\\\\"").replaceAll("'", "\\\\\\'");
+        return value.replaceAll("\\\\", "\\\\\\\\").replaceAll("\r", "\\\r").replaceAll("\n", "\\\n").replaceAll("\"", "\\\\\\\"").replaceAll("'", "\\\\\\'");
     }
 }
