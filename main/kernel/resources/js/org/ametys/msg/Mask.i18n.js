@@ -38,7 +38,7 @@ org.ametys.msg.Mask = function (el, msg, noHourglass)
 	var config = {msg: msg, removeMask: true};
 	if (noHourglass == true)
 	{
-		config.msgCls = '';
+		config.msgCls = 'ametys-mask-unloading';
 	}
 	
 	var loadMask = new Ext.LoadMask(el, config);
