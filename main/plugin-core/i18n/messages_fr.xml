@@ -578,4 +578,9 @@
 	<!--  RegExp -->
 	<message key="PLUGINS_CORE_REGEXP_INVALID_MAIL">L'adresse saisie n'est pas une adresse mail valide</message>
 	<message key="PLUGINS_CORE_REGEXP_INVALID_URL">L'url est invalide. Elle doit commencée par http:// ou https://</message>
+    
+    <!-- User preferences -->
+    <message key="PLUGINS_CORE_USER_PREFERENCES_INVALID_TYPE">Vous devez entrer une valeur valide pour cette préférence.</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_PWD_CONFIRMATION_DOESNT_MATCH">Le mot de passe et sa confirmation ne correspondent pas.</message>
+    
 </catalogue>

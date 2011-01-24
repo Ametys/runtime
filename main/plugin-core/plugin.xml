@@ -655,7 +655,12 @@
         <extension-point id="org.ametys.runtime.plugins.core.right.RightContextConvertorExtentionPoint"
         				 class="org.ametys.runtime.plugins.core.right.RightContextConvertorExtentionPoint">
         </extension-point>
-
+        
+        <extension-point id="org.ametys.runtime.plugins.core.userpref.UserPreferencesExtensionPoint"
+                         class="org.ametys.runtime.plugins.core.userpref.UserPreferencesExtensionPoint"
+                         logger="org.ametys.runtime.plugins.core.userpref.UserPreferencesExtensionPoint">
+        </extension-point>
+        
         <extension-point id="org.apache.cocoon.components.modules.input.InputModuleSelector"
                          class="org.ametys.runtime.cocoon.InputModulesExtensionPoint"/>
 
@@ -1991,6 +1996,16 @@
             	<description i18n="true">PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_CPU_DESCRIPTION</description>
             </extension>
         </extensions>
+    </feature>
+    
+    <feature name="runtime.user.preferences">
+        <components>
+            <component role="org.ametys.runtime.plugins.core.userpref.UserPreferencesManager"
+                       class="org.ametys.runtime.plugins.core.userpref.UserPreferencesManager"
+                       logger="org.ametys.runtime.plugins.core.userpref.UserPreferencesManager">
+                <table>UserPreferences</table>
+            </component>
+        </components>
     </feature>
         
 </plugin>
