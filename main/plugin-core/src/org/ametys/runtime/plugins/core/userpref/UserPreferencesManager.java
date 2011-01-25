@@ -375,7 +375,11 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Compon
             
             for (Entry<String, String> preference : preferences.entrySet())
             {
-                XMLUtils.createElement(handler, preference.getKey(), preference.getValue());
+                String value = preference.getValue();
+                if (value != null)
+                {
+                    XMLUtils.createElement(handler, preference.getKey(), preference.getValue());
+                }
             }
             
             XMLUtils.endElement(handler, "UserPreferences");

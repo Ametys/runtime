@@ -93,12 +93,10 @@ public class SetUserPreferencesAction extends CurrentUserProviderServiceableActi
             {
                 _userPrefManager.setUserPreferences(username, context, values);
                 results.put("status", "success");
-//                return EMPTY_MAP;
             }
             else
             {
                 request.setAttribute("user-prefs-errors", errors);
-//                return null;
             }
         }
         
