@@ -65,7 +65,7 @@ public class UserPreferencesGenerator extends CurrentUserProviderServiceableGene
         
         if (StringUtils.isBlank(context))
         {
-            throw new ProcessingException("Context can't be blank");
+            throw new ProcessingException("Preferences context can't be blank");
         }
         
         try
@@ -145,8 +145,6 @@ public class UserPreferencesGenerator extends CurrentUserProviderServiceableGene
         
         preference.getLabel().toSAX(contentHandler, "label");
         preference.getDescription().toSAX(contentHandler, "description");
-        
-//        XMLUtils.createElement(contentHandler, "type", ParameterHelper.typeToString(preference.getType()));
         
         Object defaultValue = preference.getDefaultValue();
         

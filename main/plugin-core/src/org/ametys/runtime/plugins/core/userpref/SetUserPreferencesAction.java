@@ -80,11 +80,12 @@ public class SetUserPreferencesAction extends CurrentUserProviderServiceableActi
         {
             results.put("status", "error");
             
-            Map<String, String> oldValues = _userPrefManager.getUserPreferencesAsStrings(username, context);
+            Map<String, String> values = _userPrefManager.getUserPreferencesAsStrings(username, context);
             
             UserPreferencesErrors errors = new UserPreferencesErrors();
             
-            Map<String, String> values = _getValues(request, oldValues, errors);
+            // Override the old values with the new ones, but keep old values when new preferences are not in the request.
+            values.putAll(_getValues(request, errors));
             
             // Validate the user preferences, filling in potential errors.
             _userPrefEP.validatePreferences(values, errors);
@@ -106,11 +107,10 @@ public class SetUserPreferencesAction extends CurrentUserProviderServiceableActi
     /**
      * Get the preferences values from the request.
      * @param request the request.
-     * @param oldValues the old preference values (used to avoid resetting password values).
      * @param errors the errors object to fill in.
      * @return the user preferences values as a Map.
      */
-    protected Map<String, String> _getValues(Request request, Map<String, String> oldValues, UserPreferencesErrors errors)
+    protected Map<String, String> _getValues(Request request, UserPreferencesErrors errors)
     {
         Map<String, String> preferences = new HashMap<String, String>();
         
@@ -149,10 +149,6 @@ public class SetUserPreferencesAction extends CurrentUserProviderServiceableActi
                         errors.addError(id, new I18nizableText("plugin.core", "PLUGINS_CORE_USER_PREFERENCES_PWD_CONFIRMATION_DOESNT_MATCH"));
                     }
                     preferences.put(id, value);
-                }
-                else
-                {
-                    preferences.put(id, oldValues.get(id));
                 }
             }
             else
