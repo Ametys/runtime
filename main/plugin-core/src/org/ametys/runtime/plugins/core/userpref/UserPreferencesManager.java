@@ -60,7 +60,6 @@ import org.ametys.runtime.util.parameter.ParameterHelper.ParameterType;
  */
 public class UserPreferencesManager extends AbstractLogEnabled implements Component, Configurable, Serviceable
 {
-
     /** The avalon role. */
     public static final String ROLE = UserPreferencesManager.class.getName();
     
@@ -93,9 +92,63 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Compon
      * @return the user preference values as a Map of String indexed by preference ID.
      * @throws UserPreferencesException if an error occurs getting the preferences.
      */
-    public Map<String, String> getUserPreferencesAsStrings(String login, String context) throws UserPreferencesException
+    public Map<String, String> getUnTypedUserPrefs(String login, String context) throws UserPreferencesException
     {
-        return _getUserPreferences(login, context);
+        Map<String, String> prefs = new HashMap<String, String>();
+        
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        InputStream dataIs = null;
+        
+        try
+        {
+            connection = ConnectionHelper.getConnection(ConnectionHelper.CORE_POOL_NAME);
+            
+            stmt = connection.prepareStatement("SELECT * FROM " + _databaseTable + " WHERE login = ? AND context = ?");
+            
+            stmt.setString(1, login);
+            stmt.setString(2, context);
+            
+            rs = stmt.executeQuery();
+            
+            if (rs.next())
+            {
+                Blob data = rs.getBlob("data");
+                dataIs = data.getBinaryStream();
+                
+                // Create the handler and fill the Map by parsing the configuration.
+                MapHandler handler = new MapHandler(prefs);
+                _saxParser.parse(new InputSource(dataIs), handler);
+            }
+            
+            return prefs;
+        }
+        catch (SQLException e)
+        {
+            String message = "Database error trying to access the preferences of user '" + login + "' in context '" + context + "'.";
+            getLogger().error(message, e);
+            throw new UserPreferencesException(message, e);
+        }
+        catch (SAXException e)
+        {
+            String message = "Error parsing the preferences of user '" + login + "' in context '" + context + "'.";
+            getLogger().error(message, e);
+            throw new UserPreferencesException(message, e);
+        }
+        catch (IOException e)
+        {
+            String message = "Error parsing the preferences of user '" + login + "' in context '" + context + "'.";
+            getLogger().error(message, e);
+            throw new UserPreferencesException(message, e);
+        }
+        finally
+        {
+            IOUtils.closeQuietly(dataIs);
+            ConnectionHelper.cleanup(rs);
+            ConnectionHelper.cleanup(stmt);
+            ConnectionHelper.cleanup(connection);
+        }
     }
     
     /**
@@ -105,9 +158,59 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Compon
      * @return the user preference values as a Map of Object indexed by preference ID.
      * @throws UserPreferencesException if an error occurs getting the preferences.
      */
-    public Map<String, Object> getUserPreferences(String login, String context) throws UserPreferencesException
+    public Map<String, Object> getTypedUserPrefs(String login, String context) throws UserPreferencesException
     {
-        return _castValues(_getUserPreferences(login, context));
+        Map<String, String> unTypedUserPrefs = getUnTypedUserPrefs(login, context);
+        
+        return _castValues(unTypedUserPrefs);
+    }
+    
+    /**
+     * Add a user preference 
+     * @param login the user login
+     * @param context the preferences context.
+     * @param name the user pref name
+     * @param value the user pref value
+     * @throws UserPreferencesException
+     */
+    public void addUserPreference (String login, String context, String name, String value) throws UserPreferencesException
+    {
+        Map<String, String> userPrefs = getUnTypedUserPrefs(login, context);
+        userPrefs.put(name, value);
+        
+        setUserPreferences(login, context, userPrefs);
+    }
+    
+    /**
+     * Add a user preference 
+     * @param login the user login
+     * @param context the preferences context.
+     * @param values the user prefs to add
+     * @throws UserPreferencesException
+     */
+    public void addUserPreferences (String login, String context, Map<String, String> values) throws UserPreferencesException
+    {
+        Map<String, String> userPrefs = getUnTypedUserPrefs(login, context);
+        userPrefs.putAll(values);
+        
+        setUserPreferences(login, context, userPrefs);
+    }
+    
+    /**
+     * Remove a user preference 
+     * @param login the user login
+     * @param context the preferences context.
+     * @param name the user pref name
+     * @throws UserPreferencesException
+     */
+    public void removeUserPreference (String login, String context, String name) throws UserPreferencesException
+    {
+        Map<String, String> userPrefs = getUnTypedUserPrefs(login, context);
+        if (userPrefs.containsKey(name))
+        {
+            userPrefs.remove(name);
+        }
+        setUserPreferences(login, context, userPrefs);
     }
     
     /**
@@ -192,7 +295,7 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Compon
     {
         String value = null;
         
-        Map<String, String> values = _getUserPreferences(login, context);
+        Map<String, String> values = getUnTypedUserPrefs(login, context);
         if (values.containsKey(id))
         {
             value = values.get(id);
@@ -213,7 +316,7 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Compon
     {
         Long value = null;
         
-        Map<String, String> values = _getUserPreferences(login, context);
+        Map<String, String> values = getUnTypedUserPrefs(login, context);
         if (values.containsKey(id))
         {
             value = (Long) ParameterHelper.castValue(values.get(id), ParameterType.LONG);
@@ -235,7 +338,7 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Compon
     {
         Date value = null;
         
-        Map<String, String> values = _getUserPreferences(login, context);
+        Map<String, String> values = getUnTypedUserPrefs(login, context);
         if (values.containsKey(id))
         {
             value = (Date) ParameterHelper.castValue(values.get(id), ParameterType.DATE);
@@ -256,7 +359,7 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Compon
     {
         Boolean value = null;
         
-        Map<String, String> values = _getUserPreferences(login, context);
+        Map<String, String> values = getUnTypedUserPrefs(login, context);
         if (values.containsKey(id))
         {
             value = (Boolean) ParameterHelper.castValue(values.get(id), ParameterType.BOOLEAN);
@@ -277,79 +380,13 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Compon
     {
         Double value = null;
         
-        Map<String, String> values = _getUserPreferences(login, context);
+        Map<String, String> values = getUnTypedUserPrefs(login, context);
         if (values.containsKey(id))
         {
             value = (Double) ParameterHelper.castValue(values.get(id), ParameterType.DOUBLE);
         }
         
         return value;
-    }
-    
-    /**
-     * Get the user preference values from the database.
-     * @param login the user login.
-     * @param context the preferences context.
-     * @return the user preferences string values as a Map.
-     * @throws UserPreferencesException if an error occurs getting the preferences data.
-     */
-    protected Map<String, String> _getUserPreferences(String login, String context) throws UserPreferencesException
-    {
-        Map<String, String> prefs = new HashMap<String, String>();
-        
-        Connection connection = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        InputStream dataIs = null;
-        
-        try
-        {
-            connection = ConnectionHelper.getConnection(ConnectionHelper.CORE_POOL_NAME);
-            
-            stmt = connection.prepareStatement("SELECT * FROM " + _databaseTable + " WHERE login = ? AND context = ?");
-            
-            stmt.setString(1, login);
-            stmt.setString(2, context);
-            
-            rs = stmt.executeQuery();
-            
-            if (rs.next())
-            {
-                Blob data = rs.getBlob("data");
-                dataIs = data.getBinaryStream();
-                
-                // Create the handler and fill the Map by parsing the configuration.
-                MapHandler handler = new MapHandler(prefs);
-                _saxParser.parse(new InputSource(dataIs), handler);
-            }
-            
-            return prefs;
-        }
-        catch (SQLException e)
-        {
-            String message = "Database error trying to access the preferences of user '" + login + "' in context '" + context + "'.";
-            getLogger().error(message, e);
-            throw new UserPreferencesException(message, e);
-        }
-        catch (SAXException e)
-        {
-            String message = "Error parsing the preferences of user '" + login + "' in context '" + context + "'.";
-            getLogger().error(message, e);
-            throw new UserPreferencesException(message, e);
-        }
-        catch (IOException e)
-        {
-            String message = "Error parsing the preferences of user '" + login + "' in context '" + context + "'.";
-            getLogger().error(message, e);
-            throw new UserPreferencesException(message, e);
-        }
-        finally
-        {
-            IOUtils.closeQuietly(dataIs);
-            ConnectionHelper.cleanup(rs);
-            ConnectionHelper.cleanup(stmt);
-            ConnectionHelper.cleanup(connection);
-        }
     }
     
     /**
@@ -401,24 +438,28 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Compon
 
     /**
      * Cast the preference values as their real type.
-     * @param values the preference values as Strings.
-     * @return a Map of preference values as their respective type.
+     * @param untypedValues the untyped user preferences
+     * @return typed user preferences
      */
-    protected Map<String, Object> _castValues(Map<String, String> values)
+    protected Map<String, Object> _castValues(Map<String, String> untypedValues)
     {
-        Map<String, Object> preferences = new HashMap<String, Object>(values.size());
+        Map<String, Object> typedValues = new HashMap<String, Object>(untypedValues.size());
         
-        for (Entry<String, String> entry : values.entrySet())
+        for (Entry<String, String> entry : untypedValues.entrySet())
         {
-            UserPreference preference = _userPrefEP.getExtension(entry.getKey());
-            if (preference != null)
+            UserPreference userPref = _userPrefEP.getExtension(entry.getKey());
+            if (userPref != null)
             {
-                Object value = ParameterHelper.castValue(entry.getValue(), preference.getType());
-                preferences.put(preference.getId(), value);
+                Object value = ParameterHelper.castValue(entry.getValue(), userPref.getType());
+                typedValues.put(userPref.getId(), value);
+            }
+            else
+            {
+                typedValues.put(entry.getKey(), entry.getValue());
             }
         }
         
-        return preferences;
+        return typedValues;
     }
     
 }

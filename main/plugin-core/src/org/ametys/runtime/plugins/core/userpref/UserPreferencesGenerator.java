@@ -101,7 +101,7 @@ public class UserPreferencesGenerator extends CurrentUserProviderServiceableGene
     protected void _saxPreferences(String context, String username) throws ProcessingException, SAXException, UserPreferencesException
     {
         Map<I18nizableText, List<UserPreference>> groups = _userPrefEP.getCategorizedPreferences();
-        Map<String, String> prefValues = _userPrefManager.getUserPreferencesAsStrings(username, context);
+        Map<String, String> prefValues = _userPrefManager.getUnTypedUserPrefs(username, context);
         
         XMLUtils.startElement(contentHandler, "groups");
         

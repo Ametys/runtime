@@ -80,7 +80,7 @@ public class SetUserPreferencesAction extends CurrentUserProviderServiceableActi
         {
             results.put("status", "error");
             
-            Map<String, String> values = _userPrefManager.getUserPreferencesAsStrings(username, context);
+            Map<String, String> values = _userPrefManager.getUnTypedUserPrefs(username, context);
             
             UserPreferencesErrors errors = new UserPreferencesErrors();
             
