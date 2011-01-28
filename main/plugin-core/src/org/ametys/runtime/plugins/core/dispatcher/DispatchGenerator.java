@@ -17,11 +17,9 @@ package org.ametys.runtime.plugins.core.dispatcher;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringReader;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,14 +34,10 @@ import org.apache.cocoon.util.location.LocatedException;
 import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceResolver;
 import org.apache.excalibur.xml.sax.SAXParser;
-import org.codehaus.jackson.JsonFactory;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -58,9 +52,6 @@ import org.ametys.runtime.util.JSONUtils;
  */
 public class DispatchGenerator extends ServiceableGenerator
 {
-    private static JsonFactory _jsonFactory = new JsonFactory();
-    private static ObjectMapper _objectMapper = new ObjectMapper();
-
     private SourceResolver _resolver;
     private SAXParser _saxParser;
     private DispatchPostProcessExtensionPoint _dispatchPostProcessExtensionPoint;
