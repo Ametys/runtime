@@ -49,6 +49,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import org.ametys.runtime.util.IgnoreRootHandler;
+import org.ametys.runtime.util.JSONUtils;
 
 /**
  * This generator read the request incoming from the client org.ametys.servercomm.ServerComm component,
@@ -78,10 +79,10 @@ public class DispatchGenerator extends ServiceableGenerator
     public void generate() throws IOException, SAXException, ProcessingException
     {
         String parametersAsJSONString = _getRequestBody();
-        Map<String, Object> parametersAsMap = _getMapFromJsonString(parametersAsJSONString);
+        Map<String, Object> parametersAsMap = JSONUtils.parse(parametersAsJSONString); //_getMapFromJsonString(parametersAsJSONString);
         
         String contextAsJSONString = _getRequestContext();
-        Map<String, Object> contextAsMap = _getMapFromJsonString(contextAsJSONString);
+        Map<String, Object> contextAsMap = JSONUtils.parse(contextAsJSONString); // _getMapFromJsonString(contextAsJSONString);
 
         contentHandler.startDocument();
         XMLUtils.startElement(contentHandler, "responses");
@@ -321,39 +322,6 @@ public class DispatchGenerator extends ServiceableGenerator
         }
         
         return url.toString();
-    }
-
-    @SuppressWarnings("unchecked")
-    private Map<String, Object> _getMapFromJsonString(String jsonString)
-    {
-        try 
-        {
-            if (StringUtils.isNotBlank(jsonString)) 
-            {
-                if (getLogger().isDebugEnabled())
-                {
-                    getLogger().debug("Transforming json string into map '" + jsonString + "'");
-                }
-
-                JsonParser jParser = _jsonFactory.createJsonParser(new StringReader(jsonString));
-                Map<String, Object> map = _objectMapper.readValue(jParser, LinkedHashMap.class);
-                return map;
-            } 
-            else 
-            {
-                if (getLogger().isDebugEnabled())
-                {
-                    getLogger().debug("Transforming empty or null json string into map.");
-                }
-
-                return Collections.EMPTY_MAP;
-            }
-        } 
-        catch (Exception e) 
-        {
-            getLogger().error("An error occured while transforming jsonstring into map '" + jsonString + "'", e);
-            return Collections.EMPTY_MAP;
-        }
     }
     
     /**
