@@ -79,10 +79,10 @@ public class DispatchGenerator extends ServiceableGenerator
     public void generate() throws IOException, SAXException, ProcessingException
     {
         String parametersAsJSONString = _getRequestBody();
-        Map<String, Object> parametersAsMap = JSONUtils.parse(parametersAsJSONString); //_getMapFromJsonString(parametersAsJSONString);
+        Map<String, Object> parametersAsMap = JSONUtils.parse(parametersAsJSONString);
         
         String contextAsJSONString = _getRequestContext();
-        Map<String, Object> contextAsMap = JSONUtils.parse(contextAsJSONString); // _getMapFromJsonString(contextAsJSONString);
+        Map<String, Object> contextAsMap = JSONUtils.parse(contextAsJSONString);
 
         contentHandler.startDocument();
         XMLUtils.startElement(contentHandler, "responses");
