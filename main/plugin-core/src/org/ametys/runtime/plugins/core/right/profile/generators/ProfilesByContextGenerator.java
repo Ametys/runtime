@@ -88,7 +88,7 @@ public class ProfilesByContextGenerator extends ServiceableGenerator
     private void _saxProfile(Profile profile, String context) throws SAXException
     {
         AttributesImpl attr = new AttributesImpl();
-        attr.addAttribute("", "id", "id", "CDATA", profile.getId());
+        attr.addAttribute("", "id", "id", "CDATA", "profile-" + profile.getId());
         attr.addAttribute("", "label", "label", "CDATA", profile.getName());
         XMLUtils.startElement(contentHandler, "profile", attr);
 
@@ -161,7 +161,7 @@ public class ProfilesByContextGenerator extends ServiceableGenerator
     private void _saxGroup(Group group, String context, boolean inherit) throws SAXException
     {
         AttributesImpl attr = new AttributesImpl();
-        attr.addAttribute("", "id", "id", "CDATA", group.getId());
+        attr.addAttribute("", "id", "id", "CDATA", "group-" + group.getId());
         attr.addAttribute("", "label", "label", "CDATA", group.getLabel());
         attr.addAttribute("", "context", "context", "CDATA", context);
         attr.addAttribute("", "inherit", "inherit", "CDATA", String.valueOf(inherit));
