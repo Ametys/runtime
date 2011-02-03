@@ -170,7 +170,7 @@ org.ametys.rights.profile.ProfilesTreePanel.prototype._onBeforeLoad = function (
 	
 	if (node != null &amp;&amp; node.id != this.getRootNode().id)
 	{
-		loader.baseParams.profile = node.attributes.id;
+		loader.baseParams.profile = node.attributes.id.substring('profile-'.length);
 	}
 	else
 	{
@@ -240,7 +240,7 @@ org.ametys.rights.profile.ProfilesTreePanel.prototype._createTooltip = function 
 	{
 		var html = "";
 		
-		var serverMessage = new org.ametys.servercomm.ServerMessage('core', '/rights/profile.xml', {id: attributes.id}, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+		var serverMessage = new org.ametys.servercomm.ServerMessage('core', '/rights/profile.xml', {id: attributes.id.substring('profile-'.length)}, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
 		var response = org.ametys.servercomm.ServerComm.getInstance().send(serverMessage); 
 		
 		var nodes = response.selectNodes ("profile/category");
