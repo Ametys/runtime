@@ -28,11 +28,9 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.cocoon.Constants;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.environment.Context;
-import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.ParamSaxBuffer;
-import org.apache.cocoon.xml.XMLUtils;
-import org.apache.excalibur.source.SourceResolver;
 import org.apache.excalibur.source.Source;
+import org.apache.excalibur.source.SourceResolver;
 import org.xml.sax.SAXException;
 
 import org.ametys.runtime.plugin.PluginsManager;
@@ -361,11 +359,9 @@ public class I18nTransformer extends org.apache.cocoon.transformation.I18nTransf
             
             try
             {
+                String value = catalogueID + ':' + key;
                 ParamSaxBuffer paramSaxBuffer = new ParamSaxBuffer();
-                
-                AttributesImpl atts = new AttributesImpl();
-                atts.addCDATAAttribute("key", key);
-                XMLUtils.createElement(paramSaxBuffer, "message", atts, catalogueID + ':' + key);
+                paramSaxBuffer.characters(value.toCharArray(), 0, value.length());
 
                 return paramSaxBuffer;
             }
