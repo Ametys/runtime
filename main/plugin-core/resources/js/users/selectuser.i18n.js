@@ -116,7 +116,7 @@ RUNTIME_Plugin_Runtime_SelectUser.act = function (callback, cancelCallback, user
 	RUNTIME_Plugin_Runtime_SelectUser.delayed_initialize();
 	RUNTIME_Plugin_Runtime_SelectUser.callback = callback;
 	RUNTIME_Plugin_Runtime_SelectUser.cancelCallback = cancelCallback;
-    RUNTIME_Plugin_Runtime_SelectUser.usersManagerRole = usersManagerRole;
+    RUNTIME_Plugin_Runtime_SelectUser.usersManagerRole = usersManagerRole || '';
 	
 	RUNTIME_Plugin_Runtime_SelectUser.criteria.setValue("");
 
