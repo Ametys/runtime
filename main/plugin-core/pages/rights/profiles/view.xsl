@@ -68,7 +68,22 @@
 														'id': "new",
                                                         'rights': {}
 														});
+                                
+                                var serverMessage = new org.ametys.servercomm.ServerMessage("<xsl:value-of select="$pluginName"/>", "/rights/profiles/create", {name: newEntry.get('name') }, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+                                var result = org.ametys.servercomm.ServerComm.getInstance().send(serverMessage);
+                                
+                                if (org.ametys.servercomm.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_NEW_ERROR"/>", result, "editLabel"))
+                                {
+                                    return;
+                                }
+                                else
+                                {
+                                    newEntry.set('id', org.ametys.servercomm.ServerComm.handleResponse(result, 'id'));
+                                    newEntry.commit();
+                                }
+                                
 								listview.getStore().add([newEntry]);
+                                
 								if(listview.getStore().getCount() &gt; 0)
 								{
 									listview.getSelectionModel().select(listview.getStore().getCount() -1, 0);
@@ -77,7 +92,7 @@
 								{
 									listview.getSelectionModel().select(0, 0);
 								}
-                                selectedElmt = newEntry; 
+                                selectedElmt = newEntry;
 								
 								menu_rename ();
 							}
@@ -372,7 +387,7 @@
 								           {name: 'rights'}
 								        ]
 									});
-						   	store.loadData(profileData);	
+						   	store.loadData(profileData);
 						   	
 						   	var cm = new Ext.grid.ColumnModel([{
 						           id:'name',
@@ -404,7 +419,7 @@
     							border: true
     							
 							});	
-							
+                            
 							//Panel for edit rights profils
 							var editRights = new Ext.Panel({
 								title: '<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_RIGHTS"/>',
