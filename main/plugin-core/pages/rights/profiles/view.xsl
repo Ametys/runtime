@@ -65,7 +65,8 @@
 								var record = listview.getStore().recordType;
 								var newEntry = new record({
 														'name': "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_NEWPROFILE"/>",
-														'id': "new"
+														'id': "new",
+                                                        'rights': {}
 														});
 								listview.getStore().add([newEntry]);
 								if(listview.getStore().getCount() &gt; 0)
@@ -76,6 +77,7 @@
 								{
 									listview.getSelectionModel().select(0, 0);
 								}
+                                selectedElmt = newEntry; 
 								
 								menu_rename ();
 							}
@@ -94,22 +96,22 @@
 							{
 								if (button == 'yes')
 								{
-									var elt = listview.getSelection()[0];		      
+									var elt = listview.getSelection()[0];
 									if (200 == org.ametys.servercomm.DirectComm.getInstance().sendSynchronousRequest(getPluginDirectUrl("<xsl:value-of select="$pluginName"/>") + "/rights/profiles/delete", "id=" + elt.get('id')).status)
-									{
-										listview.removeElement(elt);
-									}
-									else
-									{
-										Ext.Msg.show ({
-			                        		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
-			                        		msg: "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_ERROR"/>",
-			                        		buttons: Ext.Msg.OK,
-						   					icon: Ext.MessageBox.ERROR
-			                        	});
-									}
+    									{
+    										listview.removeElement(elt);
+    									}
+    									else
+    									{
+    										Ext.Msg.show ({
+    			                        		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
+    			                        		msg: "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_ERROR"/>",
+    			                        		buttons: Ext.Msg.OK,
+    						   					icon: Ext.MessageBox.ERROR
+    			                        	});
+    									}
+                                    }
 								}
-							}
 		                    
 		                    function save_objects(element)
 		                    {
@@ -213,7 +215,7 @@
 								
 								var elmt = listview.getSelection()[0];
 								selectedElmt = elmt; 
-								var rights = elmt.get('rights');
+								var rights = elmt.get('rights') || {};
 								
 								for (var i=0; i &lt; RIGHTS_CATEGORY.length; i++)
 								{
