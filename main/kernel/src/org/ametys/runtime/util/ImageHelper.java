@@ -121,6 +121,12 @@ public final class ImageHelper
             destHeight = srcHeight * destWidth / srcWidth;
         }
         
+        if (destHeight == srcHeight && destWidth == srcWidth)
+        {
+            // already the good format, don't change anything
+            return src;
+        }
+        
         int type = src.getType() != 0 ? src.getType() : (src.getColorModel().hasAlpha() ? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB);
         BufferedImage thumbImage = new BufferedImage(destWidth, destHeight, type);
         
@@ -131,6 +137,4 @@ public final class ImageHelper
         
         return thumbImage;
     }
-    
-    
 }
