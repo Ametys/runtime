@@ -17,6 +17,7 @@ package org.ametys.runtime.plugins.core.sqlmap;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -40,8 +41,11 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.cocoon.Constants;
+import org.apache.cocoon.environment.Context;
 import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceResolver;
 import org.xml.sax.Attributes;
@@ -51,6 +55,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import org.ametys.runtime.datasource.ConnectionHelper;
 import org.ametys.runtime.datasource.DataSourceExtensionPoint;
+import org.ametys.runtime.plugin.PluginsManager;
 import org.ametys.runtime.plugin.component.AbstractThreadSafeComponentExtensionPoint;
 
 import com.ibatis.sqlmap.client.SqlMapClient;
@@ -68,10 +73,12 @@ public class SqlMapExtensionPoint extends AbstractThreadSafeComponentExtensionPo
     /** The avalon ROLE. */
     public static final String ROLE = SqlMapExtensionPoint.class.getName();
     
+    /** The root context path. */
+    String _contextPath;
     /** The service manager. */
     private ServiceManager _cocoonManager;
     /** The SqlMaps defined as extensions grouped by pool. */
-    private Map<String, Set<String>> _sqlMaps;
+    private Map<String, Set<SqlMap>> _sqlMaps;
     /** The SqlMapClients grouped by pool. */
     private Map<String, SqlMapClient> _sqlMapsClients;
     /** The extensions with their data sources. */
@@ -91,10 +98,13 @@ public class SqlMapExtensionPoint extends AbstractThreadSafeComponentExtensionPo
     {
         super.initialize();
         
-        _sqlMaps = new HashMap<String, Set<String>>();
+        _sqlMaps = new HashMap<String, Set<SqlMap>>();
         _sqlMapsClients = new HashMap<String, SqlMapClient>();
         _extensions = new HashMap<String, Set<String>>();
         _sourceResolver = (SourceResolver) _cocoonManager.lookup(SourceResolver.ROLE);
+        
+        Context ctx = (Context) _context.get(Constants.CONTEXT_ENVIRONMENT_CONTEXT);
+        _contextPath = ctx.getRealPath("/");
     }
     
     @Override
@@ -106,20 +116,47 @@ public class SqlMapExtensionPoint extends AbstractThreadSafeComponentExtensionPo
         {
             Configuration[] sqlMaps = configuration.getChildren("sqlMap");
             
-            for (Configuration sqlMap : sqlMaps)
+            for (Configuration sqlMapConf : sqlMaps)
             {
-                String dataSource = sqlMap.getAttribute("datasource", ConnectionHelper.CORE_POOL_NAME);
-                String src = sqlMap.getAttribute("resource");
-                Set<String> sqlMapsForCurrentDataSource = _sqlMaps.get(dataSource);
+                String dataSource = sqlMapConf.getAttribute("datasource", ConnectionHelper.CORE_POOL_NAME);
+                
+                String resourceSrc = sqlMapConf.getAttribute("resource", "");
+                String configSrc = sqlMapConf.getAttribute("config", "");
+                
+                if (StringUtils.isBlank(resourceSrc) && StringUtils.isBlank(configSrc))
+                {
+                    throw new ConfigurationException("The sqlmap configuration must have a 'resource' or 'config' attribute.", sqlMapConf);
+                }
+                if (StringUtils.isNotBlank(resourceSrc) && StringUtils.isNotBlank(configSrc))
+                {
+                    throw new ConfigurationException("The sqlmap configuration can't have both 'resource' and 'config' attributes.", sqlMapConf);
+                }
+                
+                Set<SqlMap> sqlMapsForCurrentDataSource = _sqlMaps.get(dataSource);
                 
                 if (sqlMapsForCurrentDataSource == null)
                 {
-                    sqlMapsForCurrentDataSource = new HashSet<String>();
+                    sqlMapsForCurrentDataSource = new HashSet<SqlMap>();
                     
                     _sqlMaps.put(dataSource, sqlMapsForCurrentDataSource);
                 }
                 
-                sqlMapsForCurrentDataSource.add(src);
+                SqlMap sqlMap = new SqlMap();
+                sqlMap.setPluginName(pluginName);
+                
+                if (StringUtils.isNotBlank(configSrc))
+                {
+                    sqlMap.setSource(configSrc);
+                    sqlMap.setSourceType("config");
+                }
+                else
+                {
+                    sqlMap.setSource(resourceSrc);
+                    sqlMap.setSourceType("resource");
+                }
+                
+                sqlMapsForCurrentDataSource.add(sqlMap);
+                
                 dataSources.add(dataSource);
             }
         }
@@ -143,7 +180,7 @@ public class SqlMapExtensionPoint extends AbstractThreadSafeComponentExtensionPo
         
         for (String poolName : _sqlMaps.keySet())
         {
-            Set<String> sqlMaps = _sqlMaps.get(poolName);
+            Set<SqlMap> sqlMaps = _sqlMaps.get(poolName);
             
             DataSourceExtensionPoint dsExtPoint = (DataSourceExtensionPoint) _cocoonManager.lookup(DataSourceExtensionPoint.ROLE);
             
@@ -219,7 +256,7 @@ public class SqlMapExtensionPoint extends AbstractThreadSafeComponentExtensionPo
         }
     }
 
-    private InputStream _createConfigFile(Set<String> sqlMaps) throws Exception
+    private InputStream _createConfigFile(Set<SqlMap> sqlMaps) throws Exception
     {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         
@@ -260,20 +297,16 @@ public class SqlMapExtensionPoint extends AbstractThreadSafeComponentExtensionPo
         }
     }
 
-    private void _saxConfig(ContentHandler ch, Set<String> sqlMaps) throws Exception
+    private void _saxConfig(ContentHandler ch, Set<SqlMap> sqlMaps) throws Exception
     {
         ch.startDocument();
         XMLUtils.startElement(ch, "sqlMapConfig");
         
         XMLUtils.createElement(ch, "settings", _getSettingsAttributes());
         
-        for (String source : sqlMaps)
+        for (SqlMap sqlMap : sqlMaps)
         {
-            AttributesImpl sqlMapAttrs = new AttributesImpl();
-            
-            sqlMapAttrs.addCDATAAttribute("resource", source);
-            
-            XMLUtils.createElement(ch, "sqlMap", sqlMapAttrs);
+            sqlMap.toSax(ch);
         }
         
         XMLUtils.endElement(ch, "sqlMapConfig");
@@ -399,4 +432,146 @@ public class SqlMapExtensionPoint extends AbstractThreadSafeComponentExtensionPo
             _level--;
         }
     }
+    
+    /**
+     * Class representing an SqlMap configuration.<br>
+     * It can be directly SAXed into the sql map configuration content handler, will generate a &lt;sqlmap resource="..."&gt; or &lt;sqlmap url="..."&gt; depending on the source type.
+     * <ul>
+     *   <li>If the source type is "resource", the source is searched relatively to the class path and included in the "resource" attribute.</li>
+     *   <li>If the source type is "config", the source is computed either from the root application context path if the source begins with "/", or from the declaring plugin folder if the source doesn't begin with "/". The computed path will be generated as the "url" sqlmap attribute, prepended with the "file://" protocol.</li>
+     * </ul>  
+     */
+    protected class SqlMap
+    {
+        
+        /** The source path. The base path depends on the source type. */
+        protected String _source;
+        
+        /** The source type, can be "resource" or "config". */
+        protected String _sourceType;
+        
+        /** The name of the plugin in which the SqlMap is declared, used to build the source path. */
+        protected String _pluginName;
+        
+        /**
+         * Build a SqlMap object.
+         */
+        public SqlMap()
+        {
+            this(null, null, null);
+        }
+        
+        /**
+         * Build a SqlMap object.
+         * @param source the source path.
+         * @param sourceType the source type, "resource" or "config".
+         * @param pluginName the plugin name.
+         */
+        public SqlMap(String source, String sourceType, String pluginName)
+        {
+            super();
+            this._source = source;
+            this._sourceType = sourceType;
+            this._pluginName = pluginName;
+        }
+        
+        /**
+         * Get the source.
+         * @return the source
+         */
+        public String getSource()
+        {
+            return _source;
+        }
+        
+        /**
+         * Set the source.
+         * @param source the source to set
+         */
+        public void setSource(String source)
+        {
+            this._source = source;
+        }
+        
+        /**
+         * Get the sourceType.
+         * @return the sourceType
+         */
+        public String getSourceType()
+        {
+            return _sourceType;
+        }
+        
+        /**
+         * Set the sourceType.
+         * @param sourceType the sourceType to set
+         */
+        public void setSourceType(String sourceType)
+        {
+            this._sourceType = sourceType;
+        }
+        
+        /**
+         * Get the pluginName.
+         * @return the pluginName
+         */
+        public String getPluginName()
+        {
+            return _pluginName;
+        }
+        
+        /**
+         * Set the pluginName.
+         * @param pluginName the pluginName to set
+         */
+        public void setPluginName(String pluginName)
+        {
+            this._pluginName = pluginName;
+        }
+        
+        /**
+         * Generate the SqlMap configuration.
+         * @param handler the content handler to generate into.
+         * @throws SAXException if an error occurs generating the XML events.
+         */
+        public void toSax(ContentHandler handler) throws SAXException
+        {
+            if ("config".equals(_sourceType))
+            {
+                String absPath = null;
+                if (_source.startsWith("/"))
+                {
+                    // Absolute path (from the root context path).
+                    File sourceFile = new File(_contextPath, _source);
+                    absPath = sourceFile.getAbsolutePath();
+                }
+                else
+                {
+                    // Relative path
+                    String pluginPath = PluginsManager.getInstance().getPluginLocation(_pluginName);
+                    
+                    String filePath = pluginPath + (pluginPath.endsWith("/") ? "" : "/") + _pluginName + "/" + _source;
+                    
+                    File sourceFile = new File(_contextPath, filePath);
+                    absPath = sourceFile.getAbsolutePath();
+                }
+                
+                AttributesImpl sqlMapAttrs = new AttributesImpl();
+                
+                sqlMapAttrs.addCDATAAttribute("url", "file://" + absPath);
+                
+                XMLUtils.createElement(handler, "sqlMap", sqlMapAttrs);
+            }
+            else
+            {
+                AttributesImpl sqlMapAttrs = new AttributesImpl();
+                
+                sqlMapAttrs.addCDATAAttribute("resource", _source);
+                
+                XMLUtils.createElement(handler, "sqlMap", sqlMapAttrs);
+            }
+        }
+        
+    }
+    
 }
