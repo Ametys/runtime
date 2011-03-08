@@ -538,12 +538,11 @@ public class SqlMapExtensionPoint extends AbstractThreadSafeComponentExtensionPo
         {
             if ("config".equals(_sourceType))
             {
-                String absPath = null;
+                File file = null;
                 if (_source.startsWith("/"))
                 {
                     // Absolute path (from the root context path).
-                    File sourceFile = new File(_contextPath, _source);
-                    absPath = sourceFile.getAbsolutePath();
+                    file = new File(_contextPath, _source);
                 }
                 else
                 {
@@ -552,13 +551,12 @@ public class SqlMapExtensionPoint extends AbstractThreadSafeComponentExtensionPo
                     
                     String filePath = pluginPath + (pluginPath.endsWith("/") ? "" : "/") + _pluginName + "/" + _source;
                     
-                    File sourceFile = new File(_contextPath, filePath);
-                    absPath = sourceFile.getAbsolutePath();
+                    file = new File(_contextPath, filePath);
                 }
                 
                 AttributesImpl sqlMapAttrs = new AttributesImpl();
                 
-                sqlMapAttrs.addCDATAAttribute("url", "file://" + absPath);
+                sqlMapAttrs.addCDATAAttribute("url", file.toURI().toASCIIString());
                 
                 XMLUtils.createElement(handler, "sqlMap", sqlMapAttrs);
             }
