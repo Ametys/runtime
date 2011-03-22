@@ -1,48 +1,25 @@
-Runtime - Version 2.1 (December 10, 2010)
+Runtime - Version 2.2 (March 23, 2011)
 
-Tasks:
-  RUNTIME-511 : Upgrade Extjs
-  RUNTIME-512 : Upgrade CodeMiror
-  RUNTIME-513 : Upgrade CAS client library to latest version
-  RUNTIME-516 : Modify the CAS CredentialsProvider to use the new CAS client API
+New Feature:
+  RUNTIME-217 : Add user preferences management
 
-New Features:
-  RUNTIME-514 : Create a mixed CAS+HTTPBasic credentials provider
-  RUNTIME-515 : Create a mixed LDAP+DBMS users manager
-  RUNTIME-528 : Configure allowed namespaces of XHTMLSerializer
-  RUNTIME-530 : Translate an i18n key in java
-
-Improvements:
-  RUNTIME-505 : The incomplete config configuration should be by default
-  RUNTIME-506 : Make the parameter "smtp.mail.from" as mandatory
-  RUNTIME-517 : Ability to provide a manager role to the "select user" and "select group" boxes
-  RUNTIME-519 : Add possibility to check user rights on multiple rights ('OR' condition) on static client side element 
-  RUNTIME-521 : Validator for parameters : make the default validator a component
-  RUNTIME-522 : Add a TextValidator
-  RUNTIME-523 : ServerComm should transmit context parameters
-  RUNTIME-532 : Create temp directory when it does not exists
-  RUNTIME-547 : Possibility to have a widget to select time in configuration parameters
-  RUNTIME-553 : Add the possibilty to define a context on which to check rights for a ClientSideElement
+Improvement:
+  RUNTIME-560 : Add textarea widget support for configuration parameters
+  RUNTIME-561 : Move the configuration validity check from the InitRequestAction to the DefaultInitRequestHandler
+  RUNTIME-562 : Handle validators on configuration parameters
+  RUNTIME-565 : Parameters validation : add the possibility to define your personalized invalid message
+  RUNTIME-567 : Handle invalid text message for configuration parameters
+  RUNTIME-568 : Add a pipeline to check user rights on given context
+  RUNTIME-575 : Possibility to specify a sqlmap file relatively to the context or plugin in SqlMapExtensionPoint
 
 Bug fixes:
-  RUNTIME-468 : Default Pop-up to create a user contains a scrollbar
-  RUNTIME-504 : DispatchGenerator : Remove attributes in between
-  RUNTIME-507 : SendMailHelper and host change
-  RUNTIME-508 : Overload xhtml serializer with <namespace-allowed> arguments
-  RUNTIME-509 : Right part and scroll bar needs width
-  RUNTIME-520 : In a multiselection combo box, the selected elements are not well highlighted
-  RUNTIME-527 : XHTMLSerializer should refuse to sax tags into a <script>
-  RUNTIME-529 : Noscript alternative for admin
-  RUNTIME-531 : The configuration is not updated automatically: the application does not restart when I modify an extension point (for example)
-  RUNTIME-534 : CASCredentialsProvider initializes one thread by call
-  RUNTIME-535 : The right contexts should be always in lower case
-  RUNTIME-537 : Changing log levels doesn't work anymore
-  RUNTIME-538 : Desactive features : namespaces are added 
-  RUNTIME-539 : In file upload dialog box, the button offset is too short
-  RUNTIME-544 : LDAP connector may fail to retrieve correctly when ldap has many errors
-  RUNTIME-545 : Try to sort ldap results
-  RUNTIME-546 : Move RightContextConvertorExtensionPoint to Runtime
-  RUNTIME-549 : Rights of a user in a group managed by ModifiableJdbcGroupsManager does not work
-  RUNTIME-550 : At the opening of the search users dialog, if there is no result, the alert message is behind the dialog box
-  RUNTIME-551 : Save TimeField hour value on 2 digit (00 to 23)
-  RUNTIME-556 : Users authentication script for mysql and keyword password
+  RUNTIME-541 : Create and edit a profile in a row
+  RUNTIME-558 : When the mouse over a mask, the cursor style is 'wait' even if this is not a waiting or loading message
+  RUNTIME-559 : Declaring a date configuration parameter makes it impossible to have a valid configuration
+  RUNTIME-563 : Unable to start application if the configuration is incomplete
+  RUNTIME-564 : Unable to access administration screen because of a ldap url regexp
+  RUNTIME-566 : JavascriptEncoder does not escape '\'
+  RUNTIME-569 : [User preferences] If user prefs are not edited in a same form, they are lost
+  RUNTIME-572 : I18nTransformer sax the untranslated key in a <message> tag
+  RUNTIME-573 : Profile management screen: bugs when a profile is created but not renamed
+  RUNTIME-577 : The group-driven LDAP group manager should accept relative DNs on membership attribute
