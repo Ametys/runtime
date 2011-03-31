@@ -95,6 +95,24 @@ public class DefaultValidator extends AbstractLogEnabled implements Validator, C
     @Override
     public void validate(Object value, Errors errors)
     {
+        boolean isArray = value != null && value.getClass().isArray();
+        if (isArray)
+        {
+            validateArrayValues((Object[]) value, errors); 
+        }
+        else
+        {
+            validateSingleValue (value, errors);
+        }
+    }
+    
+    /**
+     * Validates a single value.
+     * @param value the value to validate (can be <code>null</code>).
+     * @param errors the structure to populate if the validation failed.
+     */
+    protected void validateSingleValue (Object value, Errors errors)
+    {
         if (_isMandatory && (value == null || value.toString().length() == 0))
         {
             if (getLogger().isDebugEnabled())
@@ -114,5 +132,45 @@ public class DefaultValidator extends AbstractLogEnabled implements Validator, C
 
             errors.addError(new I18nizableText("kernel", "KERNEL_DEFAULT_VALIDATOR_PATTERN_FAILED"));
         }
+    }
+    
+    /**
+     * Validates a array of values.
+     * @param values the values to validate
+     * @param errors the structure to populate if the validation failed.
+     */
+    protected void validateArrayValues (Object[] values, Errors errors)
+    {
+        if (_isMandatory && (values == null || values.length == 0))
+        {
+            if (getLogger().isDebugEnabled())
+            {
+                getLogger().debug("The validator refused a missing or empty value for a mandatory parameter");
+            }
+            
+            errors.addError(new I18nizableText("kernel", "KERNEL_DEFAULT_VALIDATOR_MANDATORY"));
+        }
+        
+        if (_regexp != null && values != null && !_matchRegexp(values))
+        {
+            if (getLogger().isDebugEnabled())
+            {
+                getLogger().debug("The validator refused a value for a parameter that should respect a regexep");
+            }
+
+            errors.addError(new I18nizableText("kernel", "KERNEL_DEFAULT_VALIDATOR_PATTERN_FAILED"));
+        }
+    }
+    
+    private boolean _matchRegexp (Object[] values)
+    {
+        for (Object value : values)
+        {
+            if (!_regexp.matcher(value.toString()).matches())
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }
