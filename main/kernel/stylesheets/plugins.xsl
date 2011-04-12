@@ -24,7 +24,8 @@
         <xsl:param name="css"/>
         <xsl:param name="actions"/>
         <xsl:param name="debug-mode">false</xsl:param>
-
+		<xsl:param name="load-cb"/>
+		 
 		<!-- Load scripts -->
 		<xsl:if test="$scripts">
 	        <xsl:for-each select="$scripts">
@@ -34,6 +35,7 @@
 	            <!-- check that the src was not already loaded (by another plugin for example) -->
 	            <xsl:if test="not($scripts[position() &lt; $position and . = $value])">
 	                <script src="{$contextPath}{.}"></script>
+	                <xsl:copy-of select="$load-cb"/>
 	            </xsl:if>
 	        </xsl:for-each>
 		</xsl:if>
@@ -48,9 +50,11 @@
 	            <!-- check that the src was not already loaded (by another plugin for example) -->
 	            <xsl:if test="not($css[position() &lt; $position and . = $value])">
 	            	<xsl:value-of select="csscomponent:addCSSFile(.)"/>
+	            	<xsl:copy-of select="$load-cb"/>
 	            </xsl:if>
 	        </xsl:for-each>
             <link rel="stylesheet" type="text/css" href="{$contextPath}{$workspaceURI}/plugins/core/cssfilelist/{csscomponent:getHashCode()}-{$debug-mode}.css"/>
+            <xsl:copy-of select="$load-cb"/>
 		</xsl:if>
     </xsl:template>
     

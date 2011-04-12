@@ -105,6 +105,7 @@
         <xsl:param name="accept-ch-2">false</xsl:param>
         <xsl:param name="accept-ch-3">false</xsl:param>
         <xsl:param name="debug-mode">false</xsl:param>
+        <xsl:param name="load-cb"/>
 		
         <script type="text/javascript">
             <xsl:comment>
@@ -141,12 +142,15 @@
             </xsl:comment>
         </script>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/mozxpath.js"></script>
-
+		<xsl:copy-of select="$load-cb"/>
+		
 		<xsl:variable name="extjs-debug-suffix"><xsl:if test="$debug-mode = 'true'">-debug</xsl:if></xsl:variable>
     	<script type="text/javascript" src="{$contextPath}/plugins/extjs/resources/js/adapter/ext/ext-base{$extjs-debug-suffix}.js"></script>
+    	<xsl:copy-of select="$load-cb"/>
 		<script type="text/javascript" src="{$contextPath}/plugins/extjs/resources/js/ext-all{$extjs-debug-suffix}.js"></script>
-
+		<xsl:copy-of select="$load-cb"/>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/runtime/Runtime_InteractionActionLibrary.js"></script>
+		<xsl:copy-of select="$load-cb"/>
 		
 		<script type="text/javascript">
 			<xsl:comment>
@@ -169,45 +173,76 @@
 		</script>
 		
 		<link rel="stylesheet" href="{$contextPath}/kernel/resources/css/import.css" type="text/css"/>
-
+		<xsl:copy-of select="$load-cb"/>
+		
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/DialogBox.js"></script>
+        <xsl:copy-of select="$load-cb"/>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/ListView.js"></script>
+        <xsl:copy-of select="$load-cb"/>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/EditorListView.js"></script>
+        <xsl:copy-of select="$load-cb"/>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/Tree.js"></script>
+        <xsl:copy-of select="$load-cb"/>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/Utility.js"></script>
+        <xsl:copy-of select="$load-cb"/>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/HtmlContainer.js"><xsl:comment></xsl:comment></script>
-        
+        <xsl:copy-of select="$load-cb"/>
  		<script type="text/javascript" src="{$contextPath}/plugins/extjs/resources/ux/js/XmlTreeLoader.js"></script>
+ 		<xsl:copy-of select="$load-cb"/>
         <script type="text/javascript" src="{$contextPath}/plugins/extjs/resources/ux/js/fileuploadfield/FileUploadField.js"></script>
+        <xsl:copy-of select="$load-cb"/>
         <script type="text/javascript" src="{$contextPath}/plugins/extjs/resources/ux/js/MultiSelect.js"></script>
-        
+        <xsl:copy-of select="$load-cb"/>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/TextField.js"></script>
+        <xsl:copy-of select="$load-cb"/>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/TextAreaField.js"></script>
+        <xsl:copy-of select="$load-cb"/>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/LongField.js"></script>
+        <xsl:copy-of select="$load-cb"/>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/DoubleField.js"></script>
+        <xsl:copy-of select="$load-cb"/>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/BooleanField.js"></script>
+        <xsl:copy-of select="$load-cb"/>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/PasswordField.js"></script>
+        <xsl:copy-of select="$load-cb"/>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/PasswordCreationField.i18n.js"></script>
+        <xsl:copy-of select="$load-cb"/>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/DateField.js"></script>
+        <xsl:copy-of select="$load-cb"/>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/TimeField.js"></script>
+        <xsl:copy-of select="$load-cb"/>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/ComboField.js"></script>
+        <xsl:copy-of select="$load-cb"/>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/RadioGroupField.js"></script>
+        <xsl:copy-of select="$load-cb"/>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/MultiSelectField.js"></script>
+        <xsl:copy-of select="$load-cb"/>
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/FileUploadField.i18n.js"></script>
+        <xsl:copy-of select="$load-cb"/>
  		<script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/tree/XmlTreeLoader.js"></script>
+ 		<xsl:copy-of select="$load-cb"/>
 				
 		<script type="text/javascript"  src="{$contextPath}/kernel/resources/js/org/ametys/servercomm/TimeoutDialog.i18n.js"></script>
+		<xsl:copy-of select="$load-cb"/>
 		<script type="text/javascript"  src="{$contextPath}/kernel/resources/js/org/ametys/servercomm/DirectComm.i18n.js"></script>
+		<xsl:copy-of select="$load-cb"/>
 		<script type="text/javascript"  src="{$contextPath}/kernel/resources/js/org/ametys/servercomm/ServerComm.i18n.js"></script>
+		<xsl:copy-of select="$load-cb"/>
 		<script type="text/javascript"  src="{$contextPath}/kernel/resources/js/org/ametys/servercomm/ServerMessage.js"></script>
+		<xsl:copy-of select="$load-cb"/>
 		<script type="text/javascript"  src="{$contextPath}/kernel/resources/js/org/ametys/log/LoggerManager.js"></script>
+		<xsl:copy-of select="$load-cb"/>
 		<script type="text/javascript"  src="{$contextPath}/kernel/resources/js/org/ametys/log/LoggerEntry.js"></script>
+		<xsl:copy-of select="$load-cb"/>
 		<script type="text/javascript"  src="{$contextPath}/kernel/resources/js/org/ametys/msg/ErrorDialog.i18n.js"></script>
+		<xsl:copy-of select="$load-cb"/>
 		<script type="text/javascript"  src="{$contextPath}/kernel/resources/js/org/ametys/msg/Mask.i18n.js"></script>
+		<xsl:copy-of select="$load-cb"/>
 		       
 		<script type="text/javascript">
             Utils.loadScript("<xsl:value-of select="$contextPath"/>/plugins/extjs/resources/js/locale/ext-lang-<i18n:text i18n:key="KERNEL_LANGUAGE_CODE" i18n:catalogue="kernel"/>.js");
 		</script>
+		<xsl:copy-of select="$load-cb"/>
     </xsl:template>
 
 </xsl:stylesheet>
