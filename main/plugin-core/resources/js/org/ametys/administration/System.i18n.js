@@ -318,6 +318,7 @@ org.ametys.administration.System.delayedInitialize = function ()
 		
 		items : [ org.ametys.administration.System._form ],
 		
+		defaultButton: org.ametys.administration.System._form.getForm().findField('message'),
 		closeAction: 'hide',
 		
 		buttons : [{

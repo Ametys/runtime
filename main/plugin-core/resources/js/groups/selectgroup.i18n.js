@@ -79,6 +79,7 @@ RUNTIME_Plugin_Runtime_SelectGroup.delayed_initialize = function ()
 		cls : 'select-group-box',
 		icon: getPluginResourcesUrl('core') + '/img/groups/icon_small.png',
 		items : [form, RUNTIME_Plugin_Runtime_SelectGroup.listview, warning ],
+		defaultButton: RUNTIME_Plugin_Runtime_SelectGroup.criteria,
 		closeAction: 'hide',
 		buttons : [ {
 			text :"<i18n:text i18n:key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_OK"/>",

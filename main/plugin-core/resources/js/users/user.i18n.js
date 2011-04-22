@@ -60,6 +60,7 @@ RUNTIME_Plugin_Runtime_EditUser.delayedInitialize = function()
 		
 		items : [ formPanel ],
 		
+		defaultButton: formPanel.getForm().items.get(0),
 		closeAction: 'hide',
 		buttons : [ {
 			text :"<i18n:text i18n:key="PLUGINS_CORE_USERS_DIALOG_OK"/>",

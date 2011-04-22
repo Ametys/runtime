@@ -87,6 +87,7 @@ org.ametys.administration.Password.delayedInitialize = function ()
 			
 		items : [ org.ametys.administration.Password._form ],
 		
+		defaultButton: org.ametys.administration.Password._form.getForm().findField('oldPassword'),
 		closeAction: 'hide',
 		buttons : [ {
 				text :"<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_DIALOG_OK"/>",

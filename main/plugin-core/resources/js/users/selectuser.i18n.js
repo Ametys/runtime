@@ -86,6 +86,7 @@ RUNTIME_Plugin_Runtime_SelectUser.delayed_initialize = function ()
 		cls : 'select-user-box',
 		icon: getPluginResourcesUrl('core') + '/img/users/icon_small.png',
 		items : [form, RUNTIME_Plugin_Runtime_SelectUser.listview, warning],
+		defaultButton: RUNTIME_Plugin_Runtime_SelectUser.criteria,
 		closeAction: 'hide',
 		buttons : [ {
 			text :"<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_OK"/>",
@@ -123,11 +124,6 @@ RUNTIME_Plugin_Runtime_SelectUser.act = function (callback, cancelCallback, user
 	RUNTIME_Plugin_Runtime_SelectUser.box.show();
 	
 	RUNTIME_Plugin_Runtime_SelectUser.load();
-	
-	try
-	{
-		RUNTIME_Plugin_Runtime_SelectUser.criteria.focus();
-	} catch (e) {}
 }
 // --------------------------------
 RUNTIME_Plugin_Runtime_SelectUser.reload = function (field, newValue, oldValue)
