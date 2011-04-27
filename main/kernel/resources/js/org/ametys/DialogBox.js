@@ -60,6 +60,34 @@ Ext.extend(
 	}
 );
 
+org.ametys.DialogBox.prototype.initEvents = function() 
+{
+	org.ametys.DialogBox.superclass.initEvents.call(this);
+
+    var km = this.getKeyMap();
+    km.on(Ext.EventObject.ENTER, this.onEnter, this);
+    km.disable();
+}
+
+org.ametys.DialogBox.prototype.onEnter = function(k, e)
+{
+	// only works for input (plz avoid textarea) or div (when the focus is on the dialog itself)
+	// but we want to avoid all others cases (buttons for exemple - if not a button with focus may double click)
+	if (/input|div/i.test(e.target.tagName))
+	{
+		e.stopEvent();
+		this.validateAction();
+	}
+}
+
+org.ametys.DialogBox.prototype.validateAction = function() 
+{
+	if (this.buttons.length >= 1)
+	{
+		this.buttons[0].btnEl.dom.click();
+	}
+}
+
 org.ametys.DialogBox.prototype.onRender = function(ct, position) 
 {
 	org.ametys.DialogBox.superclass.onRender.call(this, ct, position);
