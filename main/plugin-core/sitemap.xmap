@@ -46,7 +46,6 @@
             <map:generator name="rights-context-application" src="org.ametys.runtime.plugins.core.right.ui.generators.ApplicationContextGenerator" logger="org.ametys.runtime.plugins.core.right.sitemap.generator.context.application" label="content"/>
             
         	<map:generator name="dispatcher" src="org.ametys.runtime.plugins.core.dispatcher.DispatchGenerator"/>
-        	<map:generator name="css" src="org.ametys.runtime.plugins.core.ui.css.AllCSSGenerator"/>
         	<map:generator name="i18n" src="org.ametys.runtime.util.I18nGenerator"/>
         </map:generators>
         
@@ -97,6 +96,7 @@
             <map:reader name="administrator-jvmstatus-monitoring-graph" src="org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.RRDGraphReader" logger="org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.RRDGraphReader"/>
             <map:reader name="administrator-jvmstatus-monitoring-export" src="org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.RRDXmlExportReader" logger="org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.RRDXmlExportReader"/>
             <map:reader name="upload-reader" src="org.ametys.runtime.plugins.core.upload.readers.UploadReader" logger="org.ametys.runtime.plugins.core.upload.readers.UploadReader"/>
+        	<map:reader name="css" src="org.ametys.runtime.plugins.core.ui.css.AllCSSReader"/>
         </map:readers>
         
 	</map:components>
@@ -127,10 +127,9 @@
 			</map:match>
 			
 			<map:match pattern="cssfilelist/*-*.css">
-				<map:generate type="css" src="{1}">
+				<map:read type="css" src="{1}">
 					<map:parameter name="import" value="{2}"/>
-				</map:generate>
-				<map:serialize type="text" mime-type="text/css"/>
+				</map:read>
 			</map:match>
 
             <map:match pattern="administrator/**">

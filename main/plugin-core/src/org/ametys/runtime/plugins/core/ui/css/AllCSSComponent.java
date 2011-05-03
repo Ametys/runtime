@@ -25,6 +25,7 @@ import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.cocoon.components.ContextHelper;
+import org.apache.cocoon.environment.Session;
 
 /**
  * This component handles the lists of CSS files for each request
@@ -72,14 +73,17 @@ public class AllCSSComponent implements ThreadSafe, Contextualizable, Component
     @SuppressWarnings("unchecked")
     public static int getHashCode()
     {
-        List<String> cssFilesList = (List<String>) ContextHelper.getRequest(_context).getSession(true).getAttribute(AllCSSComponent.class.getName());
+        Session session = ContextHelper.getRequest(_context).getSession(true);
+        List<String> cssFilesList = (List<String>) session.getAttribute(AllCSSComponent.class.getName());
         if (cssFilesList == null)
         {
             return 0; 
         }
         else
         {
-            return cssFilesList.hashCode();
+            int hashCode = cssFilesList.hashCode();
+            session.setAttribute(AllCSSComponent.class.getName() + "-" + hashCode, cssFilesList);
+            return hashCode;
         }
     }
     
@@ -91,12 +95,12 @@ public class AllCSSComponent implements ThreadSafe, Contextualizable, Component
     @SuppressWarnings("unchecked")
     public List<String> getCSSFilesList(String hashCodeAsString)
     {
-        int hashCode = Integer.parseInt(hashCodeAsString);
+        List<String> list = (List<String>) ContextHelper.getRequest(_context).getSession(true).getAttribute(AllCSSComponent.class.getName() + "-" + hashCodeAsString);
         
-        if (hashCode != getHashCode())
+        if (list == null)
         {
             throw new IllegalStateException("The css files list has a different hash code compared to the one required.");
         }
-        return (List<String>) ContextHelper.getRequest(_context).getSession(true).getAttribute(AllCSSComponent.class.getName());
+        return list;
     }
 }

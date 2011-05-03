@@ -16,7 +16,8 @@
    -->
 <xsl:stylesheet version="1.0" 
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
-    xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
+    xmlns:i18n="http://apache.org/cocoon/i18n/2.1"
+    xmlns:csscomponent="org.ametys.runtime.plugins.core.ui.css.AllCSSComponent">
 
 	<xsl:param name="max-upload-size"/>
 
@@ -106,6 +107,7 @@
         <xsl:param name="accept-ch-3">false</xsl:param>
         <xsl:param name="debug-mode">false</xsl:param>
         <xsl:param name="load-cb"/>
+        <xsl:param name="reuse-css-component">false</xsl:param>
 		
         <script type="text/javascript">
             <xsl:comment>
@@ -171,9 +173,25 @@
 				};
 			</xsl:comment>
 		</script>
+
+		<xsl:if test="$reuse-css-component = 'false'">
+			<xsl:value-of select="csscomponent:resetCSSFilesList()"/>
+		</xsl:if>
+      	<xsl:value-of select="csscomponent:addCSSFile('/plugins/extjs/resources/css/ext-all.css')"/>
+      	<xsl:value-of select="csscomponent:addCSSFile('/plugins/extjs/resources/ux/css/ux-all.css')"/>
+      	<xsl:value-of select="csscomponent:addCSSFile('/kernel/resources/css/desktop.css')"/>
+      	<xsl:value-of select="csscomponent:addCSSFile('/kernel/resources/css/dialog.css')"/>
+      	<xsl:value-of select="csscomponent:addCSSFile('/kernel/resources/css/form.css')"/>
+      	<xsl:value-of select="csscomponent:addCSSFile('/kernel/resources/css/grid.css')"/>
+      	<xsl:value-of select="csscomponent:addCSSFile('/kernel/resources/css/panel.css')"/>
+      	<xsl:value-of select="csscomponent:addCSSFile('/kernel/resources/css/error.css')"/>
+      	<xsl:value-of select="csscomponent:addCSSFile('/kernel/resources/css/timeout.css')"/>
+      	<xsl:value-of select="csscomponent:addCSSFile('/kernel/resources/css/mask.css')"/>
+		<xsl:if test="$reuse-css-component = 'false'">
+            <link rel="stylesheet" type="text/css" href="{$contextPath}{$workspaceURI}/plugins/core/cssfilelist/{csscomponent:getHashCode()}-{$debug-mode}.css"/>
+			<xsl:copy-of select="$load-cb"/>
+		</xsl:if>
 		
-		<link rel="stylesheet" href="{$contextPath}/kernel/resources/css/import.css" type="text/css"/>
-		<xsl:copy-of select="$load-cb"/>
 		
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/DialogBox.js"></script>
         <xsl:copy-of select="$load-cb"/>
