@@ -35,6 +35,25 @@
              | CORE DATASOURCE
              + -->
         <!-- JDBC -->
+        <param id="runtime.debug.ui" type="boolean">
+            <!-- 
+                This parameter allows to load UI in debug mode (i.e. load CSS/JS not minified)
+             -->
+            <label i18n="true">PLUGINS_CORE_DEBUG_UI_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_DEBUG_UI_DESCRIPTION</description>
+            <validation>
+                <mandatory/>
+            </validation>
+            <default-value>false</default-value>
+            <category i18n="true">PLUGINS_CORE_SYSTEM_CONFIG_CATEGORY</category>
+            <group i18n="true">PLUGINS_CORE_DEBUG_GROUP</group>
+            <order>20</order>
+        </param>
+
+        <!-- +
+             | CORE DATASOURCE
+             + -->
+        <!-- JDBC -->
         <param id="runtime.datasource.core.jdbc.driver" type="string">
             <!-- 
                 This parameter contains the jdbc driver class to load to connect the core database pool.
@@ -199,8 +218,8 @@
                 <mandatory/>
             </validation>        
             <default-value>10485760</default-value>
-            <category i18n="true">PLUGINS_CORE_UPLOAD_CONFIG_CATEGORY</category>
-            <group i18n="true">PLUGINS_CORE_UPLOAD_CONFIG_GROUP_UPLOAD</group>
+            <category i18n="true">PLUGINS_CORE_SYSTEM_CONFIG_CATEGORY</category>
+            <group i18n="true">PLUGINS_CORE_UPLOAD_CONFIG_GROUP</group>
             <order>10</order>
         </param>
         <param id="runtime.upload.dir" type="string">
@@ -213,8 +232,8 @@
                 <mandatory/>
             </validation>        
             <default-value>WEB-INF/data/uploads</default-value>
-            <category i18n="true">PLUGINS_CORE_UPLOAD_CONFIG_CATEGORY</category>
-            <group i18n="true">PLUGINS_CORE_UPLOAD_CONFIG_GROUP_UPLOAD</group>
+            <category i18n="true">PLUGINS_CORE_SYSTEM_CONFIG_CATEGORY</category>
+            <group i18n="true">PLUGINS_CORE_UPLOAD_CONFIG_GROUP</group>
             <order>20</order>
         </param>
         
@@ -877,6 +896,12 @@
             <param-ref id="runtime.upload.dir"/>
         </config>
     </feature>
+    
+    <feature name="runtime.debug">
+        <config>
+		    <param-ref id="runtime.debug.ui"/>
+		</config>
+	</feature>
     
     <feature name="runtime.upload.manager.fs">
         <!--

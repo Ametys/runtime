@@ -107,6 +107,7 @@
         <xsl:param name="accept-ch-3">false</xsl:param>
         <xsl:param name="debug-mode">false</xsl:param>
         <xsl:param name="load-cb"/>
+        <xsl:param name="use-css-component">true</xsl:param>
         <xsl:param name="reuse-css-component">false</xsl:param>
 		
         <script type="text/javascript">
@@ -174,23 +175,24 @@
 			</xsl:comment>
 		</script>
 
-		<xsl:if test="$reuse-css-component = 'false'">
-			<xsl:value-of select="csscomponent:resetCSSFilesList()"/>
-		</xsl:if>
-      	<xsl:value-of select="csscomponent:addCSSFile('/plugins/extjs/resources/css/ext-all.css')"/>
-      	<xsl:value-of select="csscomponent:addCSSFile('/plugins/extjs/resources/ux/css/ux-all.css')"/>
-      	<xsl:value-of select="csscomponent:addCSSFile('/kernel/resources/css/desktop.css')"/>
-      	<xsl:value-of select="csscomponent:addCSSFile('/kernel/resources/css/dialog.css')"/>
-      	<xsl:value-of select="csscomponent:addCSSFile('/kernel/resources/css/form.css')"/>
-      	<xsl:value-of select="csscomponent:addCSSFile('/kernel/resources/css/grid.css')"/>
-      	<xsl:value-of select="csscomponent:addCSSFile('/kernel/resources/css/panel.css')"/>
-      	<xsl:value-of select="csscomponent:addCSSFile('/kernel/resources/css/error.css')"/>
-      	<xsl:value-of select="csscomponent:addCSSFile('/kernel/resources/css/timeout.css')"/>
-      	<xsl:value-of select="csscomponent:addCSSFile('/kernel/resources/css/mask.css')"/>
-		<xsl:if test="$reuse-css-component = 'false'">
-            <link rel="stylesheet" type="text/css" href="{$contextPath}{$workspaceURI}/plugins/core/cssfilelist/{csscomponent:getHashCode()}-{$debug-mode}.css"/>
-			<xsl:copy-of select="$load-cb"/>
-		</xsl:if>
+		<xsl:choose>
+			<xsl:when test="$use-css-component != 'true'">
+					<link rel="stylesheet" href="{$contextPath}/kernel/resources/css/all.css" type="text/css"/>
+					<xsl:copy-of select="$load-cb"/>
+			</xsl:when>
+			<xsl:otherwise>
+					<xsl:if test="$reuse-css-component = 'false'">
+						<xsl:value-of select="csscomponent:resetCSSFilesList()"/>
+					</xsl:if>
+					
+			      	<xsl:value-of select="csscomponent:addCSSFile('/kernel/resources/css/all.css')"/>
+			      	
+					<xsl:if test="$reuse-css-component = 'false'">
+			            <link rel="stylesheet" type="text/css" href="{$contextPath}{$workspaceURI}/plugins/core/cssfilelist/{csscomponent:getHashCode()}-{$debug-mode}.css"/>
+						<xsl:copy-of select="$load-cb"/>
+					</xsl:if>
+			</xsl:otherwise>
+		</xsl:choose>
 		
 		
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/DialogBox.js"></script>

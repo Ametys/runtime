@@ -25,6 +25,7 @@
         <xsl:param name="actions"/>
         <xsl:param name="debug-mode">false</xsl:param>
 		<xsl:param name="load-cb"/>
+        <xsl:param name="use-css-component">true</xsl:param>
 		<xsl:param name="reuse-css-component">false</xsl:param>
 		 
 		<!-- Load scripts -->
@@ -43,22 +44,38 @@
 
 		<!-- Load css -->
 		<xsl:if test="$css">
-			<xsl:if test="$reuse-css-component = 'false'">
-				<xsl:value-of select="csscomponent:resetCSSFilesList()"/>
-			</xsl:if>
-	        <xsl:for-each select="$css">
-	            <xsl:variable name="position" select="position()"/>
-	            <xsl:variable name="value" select="."/>
-	            
-	            <!-- check that the src was not already loaded (by another plugin for example) -->
-	            <xsl:if test="not($css[position() &lt; $position and . = $value])">
-	            	<xsl:value-of select="csscomponent:addCSSFile(.)"/>
-	            </xsl:if>
-	        </xsl:for-each>
-			<xsl:if test="$reuse-css-component = 'false'">
-    	        <link rel="stylesheet" type="text/css" href="{$contextPath}{$workspaceURI}/plugins/core/cssfilelist/{csscomponent:getHashCode()}-{$debug-mode}.css"/>
-        	    <xsl:copy-of select="$load-cb"/>
-        	</xsl:if>
+			<xsl:choose>
+				<xsl:when test="$use-css-component != 'true'">
+				        <xsl:for-each select="$css">
+				            <xsl:variable name="position" select="position()"/>
+				            <xsl:variable name="value" select="."/>
+				            
+				            <!-- check that the src was not already loaded (by another plugin for example) -->
+				            <xsl:if test="not($css[position() &lt; $position and . = $value])">
+				                <link rel="stylesheet" type="text/css" href="{$contextPath}{.}"/>
+				        	    <xsl:copy-of select="$load-cb"/>
+				            </xsl:if>
+				        </xsl:for-each>
+				</xsl:when>
+				<xsl:otherwise>
+						<xsl:if test="$reuse-css-component = 'false'">
+							<xsl:value-of select="csscomponent:resetCSSFilesList()"/>
+						</xsl:if>
+				        <xsl:for-each select="$css">
+				            <xsl:variable name="position" select="position()"/>
+				            <xsl:variable name="value" select="."/>
+				            
+				            <!-- check that the src was not already loaded (by another plugin for example) -->
+				            <xsl:if test="not($css[position() &lt; $position and . = $value])">
+				            	<xsl:value-of select="csscomponent:addCSSFile(.)"/>
+				            </xsl:if>
+				        </xsl:for-each>
+						<xsl:if test="$reuse-css-component = 'false'">
+			    	        <link rel="stylesheet" type="text/css" href="{$contextPath}{$workspaceURI}/plugins/core/cssfilelist/{csscomponent:getHashCode()}-{$debug-mode}.css"/>
+			        	    <xsl:copy-of select="$load-cb"/>
+			        	</xsl:if>
+				</xsl:otherwise>
+			</xsl:choose>
 		</xsl:if>
     </xsl:template>
     

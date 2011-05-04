@@ -144,8 +144,8 @@ public class AllCSSReader extends ServiceableReader implements CacheableProcessi
                 {
                     cssPath = cssFile.substring(0, cssFile.lastIndexOf("/") + 1);
                 }
-                
-                csssource = _resolver.resolveURI("cocoon://" + cssFile);
+
+                csssource = _resolver.resolveURI("cocoon://" + org.apache.cocoon.util.NetUtils.normalize(cssFile));
                 is = csssource.getInputStream();
                 
                 // Initial file
@@ -257,7 +257,7 @@ public class AllCSSReader extends ServiceableReader implements CacheableProcessi
             }
             else
             {
-                return initialString.substring(0, j + 1) + "../../.." + currentPath + initialString.substring(j + 1, i + 4) + __resolveImages(currentPath, initialString.substring(i + 4));
+                return initialString.substring(0, j + 1) + org.apache.cocoon.util.NetUtils.normalize("../../.." + currentPath + initialString.substring(j + 1, i + 4)) + __resolveImages(currentPath, initialString.substring(i + 4));
             }
         }
     }

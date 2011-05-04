@@ -78,6 +78,8 @@
 	                <xsl:with-param name="accept-ch-1">true</xsl:with-param>
 	                <xsl:with-param name="accept-ch-2">true</xsl:with-param>
 	                <xsl:with-param name="accept-ch-3">true</xsl:with-param>
+	                <xsl:with-param name="use-css-component">false</xsl:with-param>
+	                <xsl:with-param name="debug-mode">true</xsl:with-param>
                 </xsl:call-template>
                 
                 <xsl:call-template name="workspace-head"/>

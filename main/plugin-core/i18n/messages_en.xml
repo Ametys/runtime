@@ -286,8 +286,13 @@
     <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_SSL_LABEL">Secured connection</message>
     <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_SSL_DESCRIPTION">Select to use the secure LDAP (ldaps)</message>
 
-    <message key="PLUGINS_CORE_UPLOAD_CONFIG_CATEGORY">Uploads</message>
-    <message key="PLUGINS_CORE_UPLOAD_CONFIG_GROUP_UPLOAD">Uploads management</message>
+    <message key="PLUGINS_CORE_SYSTEM_CONFIG_CATEGORY">Uploads</message>
+    
+    <message key="PLUGINS_CORE_DEBUG_GROUP">Developer mode</message>
+    <message key="PLUGINS_CORE_DEBUG_UI_LABEL">User interfaces</message>
+    <message key="PLUGINS_CORE_DEBUG_UI_DESCRIPTION">Set user interface in developer mode (CSS/JS not minified...)</message>
+
+    <message key="PLUGINS_CORE_UPLOAD_CONFIG_GROUP">Uploads management</message>
     <message key="PLUGINS_CORE_UPLOAD_CONFIG_MAXSIZE_LABEL">Maximum size</message>
     <message key="PLUGINS_CORE_UPLOAD_CONFIG_MAXSIZE_DESCRIPTION">The maximum size (in bytes) of uploaded files</message>
     <message key="PLUGINS_CORE_UPLOAD_CONFIG_DIR_LABEL">Destination directory</message>
