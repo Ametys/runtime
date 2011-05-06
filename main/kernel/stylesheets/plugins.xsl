@@ -36,7 +36,7 @@
 	            
 	            <!-- check that the src was not already loaded (by another plugin for example) -->
 	            <xsl:if test="not($scripts[position() &lt; $position and . = $value])">
-	                <script src="{$contextPath}{.}"></script>
+	                <script type="text/javascript" src="{$contextPath}{.}"></script>
 	                <xsl:copy-of select="$load-cb"/>
 	            </xsl:if>
 	        </xsl:for-each>

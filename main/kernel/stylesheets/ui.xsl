@@ -262,7 +262,6 @@
 		<script type="text/javascript">
             Utils.loadScript("<xsl:value-of select="$contextPath"/>/plugins/extjs/resources/js/locale/ext-lang-<i18n:text i18n:key="KERNEL_LANGUAGE_CODE" i18n:catalogue="kernel"/>.js");
 		</script>
-		<xsl:copy-of select="$load-cb"/>
     </xsl:template>
 
 </xsl:stylesheet>
