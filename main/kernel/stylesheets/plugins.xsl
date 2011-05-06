@@ -25,7 +25,7 @@
         <xsl:param name="actions"/>
         <xsl:param name="debug-mode">false</xsl:param>
 		<xsl:param name="load-cb"/>
-        <xsl:param name="use-css-component">false</xsl:param>
+        <xsl:param name="use-css-component">true</xsl:param>
 		<xsl:param name="reuse-css-component">false</xsl:param>
 		 
 		<!-- Load scripts -->
