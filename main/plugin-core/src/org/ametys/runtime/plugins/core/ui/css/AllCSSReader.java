@@ -117,6 +117,7 @@ public class AllCSSReader extends ServiceableReader implements CacheableProcessi
         } 
              
         IOUtils.write(sb.toString(), out);
+        IOUtils.closeQuietly(out);
     }
     
     private String _handleFile(String cssFile)
