@@ -38,11 +38,13 @@ public class DesktopGenerator extends ServiceableGenerator implements Configurab
 {
     private String _element;
     
+    @Override
     public void configure(Configuration configuration) throws ConfigurationException
     {
         _element = configuration.getChild("element").getValue("Desktop");
     }
     
+    @Override
     public void generate() throws IOException, SAXException, ProcessingException
     {
         String role = null;
