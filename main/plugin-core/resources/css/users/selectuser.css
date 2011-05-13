@@ -29,6 +29,12 @@
 	background-image: none !important;
 }
 
+.select-user-box .buttons .x-panel-body {
+	background-color:#eeeeee !important;
+}
+.select-user-box .buttons .x-btn {
+	margin: 5px 10px;
+}
 .select-user-list {
 }
 
