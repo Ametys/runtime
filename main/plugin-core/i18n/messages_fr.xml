@@ -359,6 +359,9 @@
 	<message key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_WARN100">Au maximum 100 utilisateurs sont listés</message>
 	<message key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_ERROR_EMPTY">Vous devez sélectionner au moins un utilisateur dans la liste avant de continuer.</message>
     <message key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_NORESULT">La recherche n'a renvoyé aucun résultat</message>
+    <message key="PLUGINS_CORE_USERS_SELECTUSERS_DIALOG_CAPTION">Sélectionner des utilisateurs ...</message>
+    <message key="PLUGINS_CORE_USERS_SELECTUSERS_BTN_ADDUSER">Ajouter</message>
+    <message key="PLUGINS_CORE_USERS_SELECTUSERS_BTN_DELETEUSERS">Supprimer</message>
     
     <!-- USER JDBC -->
     <message key="PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_LABEL">Identifiant</message>

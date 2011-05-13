@@ -358,7 +358,10 @@
 	<message key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_WARN100">Only the first 100 users are displayed</message>
 	<message key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_ERROR_EMPTY">Please select a user, in order to proceed.</message>
     <message key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_NORESULT">Sorry, your search produced no results</message>
-
+	<message key="PLUGINS_CORE_USERS_SELECTUSERS_DIALOG_CAPTION">Select users...</message>
+    <message key="PLUGINS_CORE_USERS_SELECTUSERS_BTN_ADDUSER">Add</message>
+    <message key="PLUGINS_CORE_USERS_SELECTUSERS_BTN_DELETEUSERS">Delete</message>
+    
     <!-- USER JDBC -->
     <message key="PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_LABEL">Login ID</message>
     <message key="PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_DESCRIPTION">Unique login ID for user&lt;br/&gt;3-16 characters (letters, digits or '_')</message>

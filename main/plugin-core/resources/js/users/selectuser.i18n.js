@@ -68,7 +68,7 @@ RUNTIME_Plugin_Runtime_SelectUser.delayed_initialize = function ()
 		baseCls: 'select-user-list',
 		autoScroll: true
 	});	
-	RUNTIME_Plugin_Runtime_SelectUser.listview.setMultipleSelection(true);
+	RUNTIME_Plugin_Runtime_SelectUser.listview.setMultipleSelection(false);
 	
 	var warning = new org.ametys.HtmlContainer ({
 		region: 'south',
