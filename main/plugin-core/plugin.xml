@@ -762,6 +762,12 @@
 			   role="org.ametys.runtime.plugins.core.ui.css.AllCSSComponent"/>
     	</components>
     </feature>
+    <feature name="alljscomponent">
+    	<components>
+    		<component class="org.ametys.runtime.plugins.core.ui.js.AllJSComponent" 
+			   role="org.ametys.runtime.plugins.core.ui.js.AllJSComponent"/>
+    	</components>
+    </feature>
 
     <feature name="xhtmlserializer-empty">
     	<extensions>

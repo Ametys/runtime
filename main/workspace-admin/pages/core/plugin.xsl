@@ -35,6 +35,7 @@
             <xsl:with-param name="scripts" select="/Plugins/Desktop/category/DesktopItem/scripts/file"/>
             <xsl:with-param name="css" select="/Plugins/Desktop/category/DesktopItem/css/file"/>
             <xsl:with-param name="use-css-component">false</xsl:with-param>
+            <xsl:with-param name="use-js-component">false</xsl:with-param>
             <xsl:with-param name="debug-mode">true</xsl:with-param>
         </xsl:call-template>
         

@@ -17,7 +17,9 @@
 <xsl:stylesheet version="1.0" 
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
     xmlns:i18n="http://apache.org/cocoon/i18n/2.1"
-    xmlns:csscomponent="org.ametys.runtime.plugins.core.ui.css.AllCSSComponent">
+    xmlns:exslt="http://exslt.org/common"
+    xmlns:csscomponent="org.ametys.runtime.plugins.core.ui.css.AllCSSComponent"
+    xmlns:jscomponent="org.ametys.runtime.plugins.core.ui.js.AllJSComponent">
 
 	<xsl:param name="max-upload-size"/>
 
@@ -92,47 +94,115 @@
         <xsl:param name="accept-ie-6">false</xsl:param>
         <xsl:param name="accept-ie-7">false</xsl:param>
         <xsl:param name="accept-ie-8">false</xsl:param>
+        <xsl:param name="accept-ie-9">false</xsl:param>
         <xsl:param name="accept-ff-1.0">false</xsl:param>
         <xsl:param name="accept-ff-1.5">false</xsl:param>
         <xsl:param name="accept-ff-2.0">false</xsl:param>
         <xsl:param name="accept-ff-3.0">false</xsl:param>
         <xsl:param name="accept-ff-3.5">false</xsl:param>
         <xsl:param name="accept-ff-3.6">false</xsl:param>
+        <xsl:param name="accept-ff-4.0">false</xsl:param>
         <xsl:param name="accept-sa-3">false</xsl:param>
         <xsl:param name="accept-sa-4">false</xsl:param>
+        <xsl:param name="accept-sa-5.0">false</xsl:param>
         <xsl:param name="accept-op-9">false</xsl:param>
         <xsl:param name="accept-op-10">false</xsl:param>
+        <xsl:param name="accept-op-11">false</xsl:param>
         <xsl:param name="accept-ch-1">false</xsl:param>
         <xsl:param name="accept-ch-2">false</xsl:param>
         <xsl:param name="accept-ch-3">false</xsl:param>
+        <xsl:param name="accept-ch-4">false</xsl:param>
+        <xsl:param name="accept-ch-5">false</xsl:param>
+        <xsl:param name="accept-ch-6">false</xsl:param>
+        <xsl:param name="accept-ch-7">false</xsl:param>
+        <xsl:param name="accept-ch-8">false</xsl:param>
+        <xsl:param name="accept-ch-9">false</xsl:param>
+        <xsl:param name="accept-ch-10">false</xsl:param>
+        <xsl:param name="accept-ch-11">false</xsl:param>
         <xsl:param name="debug-mode">false</xsl:param>
         <xsl:param name="load-cb"/>
         <xsl:param name="use-css-component">true</xsl:param>
         <xsl:param name="reuse-css-component">false</xsl:param>
+        <xsl:param name="use-js-component">true</xsl:param>
+        <xsl:param name="reuse-js-component">false</xsl:param>
 		
+		<xsl:variable name="extjs-debug-suffix"><xsl:if test="$debug-mode = 'true'">-debug</xsl:if></xsl:variable>
+		<xsl:variable name="scripts-to-load-raw">
+			<script>/kernel/resources/js/mozxpath.js</script>
+	    	<script>/plugins/extjs/resources/js/adapter/ext/ext-base<xsl:value-of select="$extjs-debug-suffix"/>.js</script>
+			<script>/plugins/extjs/resources/js/ext-all<xsl:value-of select="$extjs-debug-suffix"/>.js</script>
+	        <script>/kernel/resources/js/org/ametys/runtime/Runtime_InteractionActionLibrary.js</script>
+	        <script>/kernel/resources/js/org/ametys/DialogBox.js</script>
+	        <script>/kernel/resources/js/org/ametys/ListView.js</script>
+	        <script>/kernel/resources/js/org/ametys/EditorListView.js</script>
+	        <script>/kernel/resources/js/org/ametys/Tree.js</script>
+	        <script>/kernel/resources/js/org/ametys/Utility.js</script>
+	        <script>/kernel/resources/js/org/ametys/Ext-param.i18n.js</script>
+	        <script>/kernel/resources/js/org/ametys/HtmlContainer.js</script>
+	 		<script>/plugins/extjs/resources/ux/js/XmlTreeLoader.js</script>
+	        <script>/plugins/extjs/resources/ux/js/fileuploadfield/FileUploadField.js</script>
+	        <script>/plugins/extjs/resources/ux/js/MultiSelect.js</script>
+	        <script>/kernel/resources/js/org/ametys/form/TextField.js</script>
+	        <script>/kernel/resources/js/org/ametys/form/TextAreaField.js</script>
+	        <script>/kernel/resources/js/org/ametys/form/LongField.js</script>
+	        <script>/kernel/resources/js/org/ametys/form/DoubleField.js</script>
+	        <script>/kernel/resources/js/org/ametys/form/BooleanField.js</script>
+	        <script>/kernel/resources/js/org/ametys/form/PasswordField.js</script>
+	        <script>/kernel/resources/js/org/ametys/form/PasswordCreationField.i18n.js</script>
+	        <script>/kernel/resources/js/org/ametys/form/DateField.js</script>
+	        <script>/kernel/resources/js/org/ametys/form/TimeField.js</script>
+	        <script>/kernel/resources/js/org/ametys/form/ComboField.js</script>
+	        <script>/kernel/resources/js/org/ametys/form/RadioGroupField.js</script>
+	        <script>/kernel/resources/js/org/ametys/form/MultiSelectField.js</script>
+	        <script>/kernel/resources/js/org/ametys/form/FileUploadField.i18n.js</script>
+	 		<script>/kernel/resources/js/org/ametys/tree/XmlTreeLoader.js</script>
+			<script>/kernel/resources/js/org/ametys/servercomm/TimeoutDialog.i18n.js</script>
+			<script>/kernel/resources/js/org/ametys/servercomm/DirectComm.i18n.js</script>
+			<script>/kernel/resources/js/org/ametys/servercomm/ServerComm.i18n.js</script>
+			<script>/kernel/resources/js/org/ametys/servercomm/ServerMessage.js</script>
+			<script>/kernel/resources/js/org/ametys/log/LoggerManager.js</script>
+			<script>/kernel/resources/js/org/ametys/log/LoggerEntry.js</script>
+			<script>/kernel/resources/js/org/ametys/msg/ErrorDialog.i18n.js</script>
+			<script>/kernel/resources/js/org/ametys/msg/Mask.i18n.js</script>
+		</xsl:variable>
+		<xsl:variable name="scripts-to-load" select="exslt:node-set($scripts-to-load-raw)"/>
+
         <script type="text/javascript">
             <xsl:comment>
             	var userAgent = navigator.userAgent.toLowerCase();
                 <xsl:text>if (!(</xsl:text>
-                    <xsl:if test="$accept-ie-6 = 'true'">(userAgent.indexOf("msie 6") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-ie-7 = 'true'">(userAgent.indexOf("msie 7") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-ie-8 = 'true'">(userAgent.indexOf("msie 8") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-ie-6   = 'true'">(userAgent.indexOf("msie 6") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-ie-7   = 'true'">(userAgent.indexOf("msie 7") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-ie-8   = 'true'">(userAgent.indexOf("msie 8") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-ie-9   = 'true'">(userAgent.indexOf("msie 9") >= 0) ||</xsl:if>
+                    
                     <xsl:if test="$accept-ff-1.0 = 'true'">(userAgent.indexOf("firefox/1.0") >= 0) ||</xsl:if>
                     <xsl:if test="$accept-ff-1.5 = 'true'">(userAgent.indexOf("firefox/1.5") >= 0) ||</xsl:if>
                     <xsl:if test="$accept-ff-2.0 = 'true'">(userAgent.indexOf("firefox/2.0") >= 0) ||</xsl:if>
                     <xsl:if test="$accept-ff-3.0 = 'true'">(userAgent.indexOf("firefox/3.0") >= 0) ||</xsl:if>
                     <xsl:if test="$accept-ff-3.5 = 'true'">(userAgent.indexOf("firefox/3.5") >= 0) ||</xsl:if>
                     <xsl:if test="$accept-ff-3.6 = 'true'">(userAgent.indexOf("firefox/3.6") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-sa-3 = 'true'">(userAgent.indexOf("safari/522") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-sa-3 = 'true'">(userAgent.indexOf("safari/525") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-sa-4 = 'true'">(userAgent.indexOf("safari/528") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-sa-4 = 'true'">(userAgent.indexOf("safari/530") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-sa-4 = 'true'">(userAgent.indexOf("safari/531") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-op-9 = 'true'">(userAgent.indexOf("opera/9.") >= 0 &amp;&amp; userAgent.indexOf("version/10.") == -1) ||</xsl:if>
-                    <xsl:if test="$accept-op-10 = 'true'">(userAgent.indexOf("opera/9.8") >= 0 &amp;&amp; userAgent.indexOf("version/10.") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-ch-1 = 'true'">(userAgent.indexOf("chrome/1") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-ch-2 = 'true'">(userAgent.indexOf("chrome/2") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-ch-3 = 'true'">(userAgent.indexOf("chrome/3") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-ff-4.0 = 'true'">(userAgent.indexOf("firefox/4.0") >= 0) ||</xsl:if>
+                    
+                    <xsl:if test="$accept-sa-3   = 'true'">(userAgent.indexOf("safari/") >= 0 &amp;&amp; userAgent.indexOf("version/3.") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-sa-4   = 'true'">(userAgent.indexOf("safari/") >= 0 &amp;&amp; userAgent.indexOf("version/4.") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-sa-5.0 = 'true'">(userAgent.indexOf("safari/") >= 0 &amp;&amp; userAgent.indexOf("version/5.0") >= 0) ||</xsl:if>
+                    
+                    <xsl:if test="$accept-op-9   = 'true'">(userAgent.indexOf("opera/9.") >= 0 &amp;&amp; userAgent.indexOf("version/10.") == -1) ||</xsl:if>
+                    <xsl:if test="$accept-op-10  = 'true'">(userAgent.indexOf("opera/9.8") >= 0 &amp;&amp; userAgent.indexOf("version/10.") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-op-11  = 'true'">(userAgent.indexOf("opera/9.8") >= 0 &amp;&amp; userAgent.indexOf("version/11.") >= 0) ||</xsl:if>
+                    
+                    <xsl:if test="$accept-ch-1   = 'true'">(userAgent.indexOf("chrome/1.") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-ch-2   = 'true'">(userAgent.indexOf("chrome/2.") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-ch-3   = 'true'">(userAgent.indexOf("chrome/3.") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-ch-4   = 'true'">(userAgent.indexOf("chrome/4.") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-ch-5   = 'true'">(userAgent.indexOf("chrome/5.") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-ch-6   = 'true'">(userAgent.indexOf("chrome/6.") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-ch-7   = 'true'">(userAgent.indexOf("chrome/7.") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-ch-8   = 'true'">(userAgent.indexOf("chrome/8.") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-ch-9   = 'true'">(userAgent.indexOf("chrome/9.") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-ch-10  = 'true'">(userAgent.indexOf("chrome/10.") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-ch-11  = 'true'">(userAgent.indexOf("chrome/11.") >= 0) ||</xsl:if>
                     <xsl:text>1 == 0))</xsl:text>
                 {
             		<!-- Check the cookie for forcing non supported navigators -->
@@ -144,37 +214,32 @@
                 }
             </xsl:comment>
         </script>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/mozxpath.js"></script>
-		<xsl:copy-of select="$load-cb"/>
-		
-		<xsl:variable name="extjs-debug-suffix"><xsl:if test="$debug-mode = 'true'">-debug</xsl:if></xsl:variable>
-    	<script type="text/javascript" src="{$contextPath}/plugins/extjs/resources/js/adapter/ext/ext-base{$extjs-debug-suffix}.js"></script>
-    	<xsl:copy-of select="$load-cb"/>
-		<script type="text/javascript" src="{$contextPath}/plugins/extjs/resources/js/ext-all{$extjs-debug-suffix}.js"></script>
-		<xsl:copy-of select="$load-cb"/>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/runtime/Runtime_InteractionActionLibrary.js"></script>
-		<xsl:copy-of select="$load-cb"/>
-		
-		<script type="text/javascript">
-			<xsl:comment>
-				Ext.BLANK_IMAGE_URL = "<xsl:value-of select="$contextPath"/>/plugins/extjs/resources/images/default/s.gif";
-			
-				Date.patterns = {
-				    ISO8601Long:"Y-m-d\\TH:i:s.uP",
-				    ISO8601Short:"Y-m-d",
-				    ShortDate: "n/j/Y",
-				    LongDate: "l, F d, Y",
-				    FullDateTime: "l, F d, Y g:i:s A",
-				    MonthDay: "F d",
-				    ShortTime: "g:i A",
-				    LongTime: "g:i:s A",
-				    SortableDateTime: "Y-m-d\\TH:i:s",
-				    UniversalSortableDateTime: "Y-m-d H:i:sO",
-				    YearMonth: "F, Y"
-				};
-			</xsl:comment>
-		</script>
 
+		<!-- LOAD JS -->
+		<xsl:choose>
+			<xsl:when test="$use-css-component != 'true'">
+					<xsl:for-each select="$scripts-to-load/script">
+						<script src="{$contextPath}{.}"/>
+						<xsl:copy-of select="$load-cb"/>
+			      	</xsl:for-each>
+			</xsl:when>
+			<xsl:otherwise>
+					<xsl:if test="$reuse-js-component = 'false'">
+						<xsl:value-of select="jscomponent:resetJSFilesList()"/>
+					</xsl:if>
+					
+					<xsl:for-each select="$scripts-to-load/script">
+			      		<xsl:value-of select="jscomponent:addJSFile(.)"/>
+			      	</xsl:for-each>
+
+					<xsl:if test="$reuse-js-component = 'false'">
+				        <script type="text/javascript" src="{$contextPath}{$workspaceURI}/plugins/core/jsfilelist/{jscomponent:getHashCode()}-{$debug-mode}.js"></script>
+						<xsl:copy-of select="$load-cb"/>
+					</xsl:if>
+			</xsl:otherwise>
+		</xsl:choose>
+		
+		<!--  LOAD CSS -->		
 		<xsl:choose>
 			<xsl:when test="$use-css-component != 'true'">
 					<link rel="stylesheet" href="{$contextPath}/kernel/resources/css/all.css" type="text/css"/>
@@ -184,7 +249,7 @@
 					<xsl:if test="$reuse-css-component = 'false'">
 						<xsl:value-of select="csscomponent:resetCSSFilesList()"/>
 					</xsl:if>
-					
+
 			      	<xsl:value-of select="csscomponent:addCSSFile('/kernel/resources/css/all.css')"/>
 			      	
 					<xsl:if test="$reuse-css-component = 'false'">
@@ -193,75 +258,7 @@
 					</xsl:if>
 			</xsl:otherwise>
 		</xsl:choose>
-		
-		
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/DialogBox.js"></script>
-        <xsl:copy-of select="$load-cb"/>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/ListView.js"></script>
-        <xsl:copy-of select="$load-cb"/>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/EditorListView.js"></script>
-        <xsl:copy-of select="$load-cb"/>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/Tree.js"></script>
-        <xsl:copy-of select="$load-cb"/>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/Utility.js"></script>
-        <xsl:copy-of select="$load-cb"/>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/HtmlContainer.js"><xsl:comment></xsl:comment></script>
-        <xsl:copy-of select="$load-cb"/>
- 		<script type="text/javascript" src="{$contextPath}/plugins/extjs/resources/ux/js/XmlTreeLoader.js"></script>
- 		<xsl:copy-of select="$load-cb"/>
-        <script type="text/javascript" src="{$contextPath}/plugins/extjs/resources/ux/js/fileuploadfield/FileUploadField.js"></script>
-        <xsl:copy-of select="$load-cb"/>
-        <script type="text/javascript" src="{$contextPath}/plugins/extjs/resources/ux/js/MultiSelect.js"></script>
-        <xsl:copy-of select="$load-cb"/>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/TextField.js"></script>
-        <xsl:copy-of select="$load-cb"/>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/TextAreaField.js"></script>
-        <xsl:copy-of select="$load-cb"/>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/LongField.js"></script>
-        <xsl:copy-of select="$load-cb"/>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/DoubleField.js"></script>
-        <xsl:copy-of select="$load-cb"/>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/BooleanField.js"></script>
-        <xsl:copy-of select="$load-cb"/>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/PasswordField.js"></script>
-        <xsl:copy-of select="$load-cb"/>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/PasswordCreationField.i18n.js"></script>
-        <xsl:copy-of select="$load-cb"/>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/DateField.js"></script>
-        <xsl:copy-of select="$load-cb"/>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/TimeField.js"></script>
-        <xsl:copy-of select="$load-cb"/>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/ComboField.js"></script>
-        <xsl:copy-of select="$load-cb"/>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/RadioGroupField.js"></script>
-        <xsl:copy-of select="$load-cb"/>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/MultiSelectField.js"></script>
-        <xsl:copy-of select="$load-cb"/>
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/form/FileUploadField.i18n.js"></script>
-        <xsl:copy-of select="$load-cb"/>
- 		<script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/tree/XmlTreeLoader.js"></script>
- 		<xsl:copy-of select="$load-cb"/>
-				
-		<script type="text/javascript"  src="{$contextPath}/kernel/resources/js/org/ametys/servercomm/TimeoutDialog.i18n.js"></script>
-		<xsl:copy-of select="$load-cb"/>
-		<script type="text/javascript"  src="{$contextPath}/kernel/resources/js/org/ametys/servercomm/DirectComm.i18n.js"></script>
-		<xsl:copy-of select="$load-cb"/>
-		<script type="text/javascript"  src="{$contextPath}/kernel/resources/js/org/ametys/servercomm/ServerComm.i18n.js"></script>
-		<xsl:copy-of select="$load-cb"/>
-		<script type="text/javascript"  src="{$contextPath}/kernel/resources/js/org/ametys/servercomm/ServerMessage.js"></script>
-		<xsl:copy-of select="$load-cb"/>
-		<script type="text/javascript"  src="{$contextPath}/kernel/resources/js/org/ametys/log/LoggerManager.js"></script>
-		<xsl:copy-of select="$load-cb"/>
-		<script type="text/javascript"  src="{$contextPath}/kernel/resources/js/org/ametys/log/LoggerEntry.js"></script>
-		<xsl:copy-of select="$load-cb"/>
-		<script type="text/javascript"  src="{$contextPath}/kernel/resources/js/org/ametys/msg/ErrorDialog.i18n.js"></script>
-		<xsl:copy-of select="$load-cb"/>
-		<script type="text/javascript"  src="{$contextPath}/kernel/resources/js/org/ametys/msg/Mask.i18n.js"></script>
-		<xsl:copy-of select="$load-cb"/>
-		       
-		<script type="text/javascript">
-            Utils.loadScript("<xsl:value-of select="$contextPath"/>/plugins/extjs/resources/js/locale/ext-lang-<i18n:text i18n:key="KERNEL_LANGUAGE_CODE" i18n:catalogue="kernel"/>.js");
-		</script>
+
     </xsl:template>
 
 </xsl:stylesheet>

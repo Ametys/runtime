@@ -65,20 +65,32 @@
                     <xsl:with-param name="accept-ie-6">true</xsl:with-param>
                     <xsl:with-param name="accept-ie-7">true</xsl:with-param>
                     <xsl:with-param name="accept-ie-8">true</xsl:with-param>
+                    <xsl:with-param name="accept-ie-9">true</xsl:with-param>
                     <xsl:with-param name="accept-ff-1.0">false</xsl:with-param>
                     <xsl:with-param name="accept-ff-1.5">true</xsl:with-param>
                     <xsl:with-param name="accept-ff-2.0">true</xsl:with-param>
                     <xsl:with-param name="accept-ff-3.0">true</xsl:with-param>
                     <xsl:with-param name="accept-ff-3.5">true</xsl:with-param>
                     <xsl:with-param name="accept-ff-3.6">true</xsl:with-param>
+                    <xsl:with-param name="accept-ff-4.0">true</xsl:with-param>
 	                <xsl:with-param name="accept-sa-3">true</xsl:with-param>
 	                <xsl:with-param name="accept-sa-4">true</xsl:with-param>
+	                <xsl:with-param name="accept-sa-5">true</xsl:with-param>
 	                <xsl:with-param name="accept-op-9">true</xsl:with-param>
 	                <xsl:with-param name="accept-op-10">true</xsl:with-param>
 	                <xsl:with-param name="accept-ch-1">true</xsl:with-param>
 	                <xsl:with-param name="accept-ch-2">true</xsl:with-param>
 	                <xsl:with-param name="accept-ch-3">true</xsl:with-param>
+	                <xsl:with-param name="accept-ch-4">true</xsl:with-param>
+	                <xsl:with-param name="accept-ch-5">true</xsl:with-param>
+	                <xsl:with-param name="accept-ch-6">true</xsl:with-param>
+	                <xsl:with-param name="accept-ch-7">true</xsl:with-param>
+	                <xsl:with-param name="accept-ch-8">true</xsl:with-param>
+	                <xsl:with-param name="accept-ch-9">true</xsl:with-param>
+	                <xsl:with-param name="accept-ch-10">true</xsl:with-param>
+	                <xsl:with-param name="accept-ch-11">true</xsl:with-param>
 	                <xsl:with-param name="use-css-component">false</xsl:with-param>
+	                <xsl:with-param name="use-js-component">false</xsl:with-param>
 	                <xsl:with-param name="debug-mode">true</xsl:with-param>
                 </xsl:call-template>
                 

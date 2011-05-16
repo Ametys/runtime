@@ -17,7 +17,8 @@
 <xsl:stylesheet version="1.0" 
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
     xmlns:i18n="http://apache.org/cocoon/i18n/2.1"
-    xmlns:csscomponent="org.ametys.runtime.plugins.core.ui.css.AllCSSComponent">
+    xmlns:csscomponent="org.ametys.runtime.plugins.core.ui.css.AllCSSComponent"
+    xmlns:jscomponent="org.ametys.runtime.plugins.core.ui.js.AllJSComponent">
 
     <xsl:template name="plugins-load">
         <xsl:param name="scripts"/>
@@ -27,19 +28,43 @@
 		<xsl:param name="load-cb"/>
         <xsl:param name="use-css-component">true</xsl:param>
 		<xsl:param name="reuse-css-component">false</xsl:param>
+		<xsl:param name="use-js-component">true</xsl:param>
+        <xsl:param name="reuse-js-component">false</xsl:param>
 		 
 		<!-- Load scripts -->
 		<xsl:if test="$scripts">
-	        <xsl:for-each select="$scripts">
-	            <xsl:variable name="position" select="position()"/>
-	            <xsl:variable name="value" select="."/>
-	            
-	            <!-- check that the src was not already loaded (by another plugin for example) -->
-	            <xsl:if test="not($scripts[position() &lt; $position and . = $value])">
-	                <script type="text/javascript" src="{$contextPath}{.}"></script>
-	                <xsl:copy-of select="$load-cb"/>
-	            </xsl:if>
-	        </xsl:for-each>
+			<xsl:choose>
+				<xsl:when test="$use-js-component != 'true'">
+				        <xsl:for-each select="$scripts">
+				            <xsl:variable name="position" select="position()"/>
+				            <xsl:variable name="value" select="."/>
+				            
+				            <!-- check that the src was not already loaded (by another plugin for example) -->
+				            <xsl:if test="not($scripts[position() &lt; $position and . = $value])">
+				            	<script type="text/javascript" src="{$contextPath}{.}"/>
+				        	    <xsl:copy-of select="$load-cb"/>
+				            </xsl:if>
+				        </xsl:for-each>
+				</xsl:when>
+				<xsl:otherwise>
+						<xsl:if test="$reuse-js-component = 'false'">
+							<xsl:value-of select="jscomponent:resetJSFilesList()"/>
+						</xsl:if>
+				        <xsl:for-each select="$scripts">
+				            <xsl:variable name="position" select="position()"/>
+				            <xsl:variable name="value" select="."/>
+				            
+				            <!-- check that the src was not already loaded (by another plugin for example) -->
+				            <xsl:if test="not($scripts[position() &lt; $position and . = $value])">
+				            	<xsl:value-of select="jscomponent:addJSFile(.)"/>
+				            </xsl:if>
+				        </xsl:for-each>
+						<xsl:if test="$reuse-js-component = 'false'">
+			            	<script type="text/javascript" src="{$contextPath}{$workspaceURI}/plugins/core/jsfilelist/{jscomponent:getHashCode()}-{$debug-mode}.js"/>
+			        	    <xsl:copy-of select="$load-cb"/>
+			        	</xsl:if>
+				</xsl:otherwise>
+			</xsl:choose>
 		</xsl:if>
 
 		<!-- Load css -->
