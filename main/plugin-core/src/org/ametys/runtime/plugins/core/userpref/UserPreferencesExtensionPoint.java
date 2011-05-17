@@ -179,25 +179,28 @@ public class UserPreferencesExtensionPoint extends AbstractThreadSafeComponentEx
     {
         for (Entry<String, String> entry : values.entrySet())
         {
-            UserPreference pref = _preferences.get(entry.getKey());
-            String value = entry.getValue();
-            
-            Object castValue = ParameterHelper.castValue(value, pref.getType());
-            if (StringUtils.isNotEmpty(value) && castValue == null)
+            if (hasExtension(entry.getKey()))
             {
-                errors.addError(pref.getId(), new I18nizableText("plugin.core", "PLUGINS_CORE_USER_PREFERENCES_INVALID_TYPE"));
-            }
-            else
-            {
-                Validator validator = pref.getValidator();
-                if (validator != null)
+                UserPreference pref = _preferences.get(entry.getKey());
+                String value = entry.getValue();
+                
+                Object castValue = ParameterHelper.castValue(value, pref.getType());
+                if (StringUtils.isNotEmpty(value) && castValue == null)
                 {
-                    Errors fieldErrors = new Errors();
-                    pref.getValidator().validate(castValue == null ? value : castValue, fieldErrors);
-                    
-                    if (fieldErrors.hasErrors())
+                    errors.addError(pref.getId(), new I18nizableText("plugin.core", "PLUGINS_CORE_USER_PREFERENCES_INVALID_TYPE"));
+                }
+                else
+                {
+                    Validator validator = pref.getValidator();
+                    if (validator != null)
                     {
-                        errors.addErrors(pref.getId(), fieldErrors.getErrors());
+                        Errors fieldErrors = new Errors();
+                        pref.getValidator().validate(castValue == null ? value : castValue, fieldErrors);
+                        
+                        if (fieldErrors.hasErrors())
+                        {
+                            errors.addErrors(pref.getId(), fieldErrors.getErrors());
+                        }
                     }
                 }
             }
