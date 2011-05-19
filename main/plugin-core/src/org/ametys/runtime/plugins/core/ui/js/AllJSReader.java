@@ -30,6 +30,8 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.caching.CacheableProcessingComponent;
+import org.apache.cocoon.environment.ObjectModelHelper;
+import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.reading.ServiceableReader;
 import org.apache.commons.io.IOUtils;
 import org.apache.excalibur.source.Source;
@@ -124,40 +126,29 @@ public class AllJSReader extends ServiceableReader implements CacheableProcessin
     
     private String _handleFile(String jsFile)
     {
+        Request request = ObjectModelHelper.getRequest(objectModel);
+        
         StringBuffer sb = new StringBuffer();
         
         boolean importMode = parameters.getParameterAsBoolean("import", false);
 
         String s = "";
         
-        Source jssource = null;
-        InputStream is = null;
-        try
-        {
-            jssource = _resolver.resolveURI("cocoon://" + org.apache.cocoon.util.NetUtils.normalize(jsFile));
-            is = jssource.getInputStream();
-            
-            s = IOUtils.toString(is);
-        }
-        catch (Exception e)
-        {
-            getLogger().error("Cannot open JS for aggregation " + jsFile, e);
-            sb.append("/** ERROR " + e.getMessage() + "*/");
-        }
-        finally
-        {
-            IOUtils.closeQuietly(is);
-            _resolver.release(jssource);
-        }
-
         if (importMode)
         {
-            sb.append(s);
+            sb.append("document.write(\"<script type='text/javascript' src='" + request.getContextPath() + org.apache.cocoon.util.NetUtils.normalize(jsFile) + "'><!-- import --></script>\");\n");
         }
         else
         {
+            Source jssource = null;
+            InputStream is = null;
             try
             {
+                jssource = _resolver.resolveURI("cocoon://" + org.apache.cocoon.util.NetUtils.normalize(jsFile));
+                is = jssource.getInputStream();
+                
+                s = IOUtils.toString(is);
+
                 Reader r = new StringReader(s);
                 JavaScriptCompressor compressor = new JavaScriptCompressor(r, new LoggerErrorReporter(getLogger()));
                 r.close();
