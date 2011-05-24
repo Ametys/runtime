@@ -508,7 +508,7 @@ org.ametys.administration.Logs.viewFile = function ()
     {
     	Ext.Msg.confirm ("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_VIEW"/>", 
     					 "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_VIEW_CONFIRM"/>", 
-    					 org.ametys.administration.download);
+    					 function () {org.ametys.administration.Logs.downloadFile (elt)});
     }
     else
     {
@@ -516,6 +516,13 @@ org.ametys.administration.Logs.viewFile = function ()
     }
 }
 
+org.ametys.administration.Logs.downloadFile = function (elt)
+{
+	var url = getPluginDirectUrl(org.ametys.administration.Logs.pluginName) + "/administrator/logs/download.zip";
+    var args = "file=" + encodeURIComponent(elt.get('location'));
+    
+    window.location.href = url + "?" + args;
+}
 /**
  * Download the selected file logs
  */
