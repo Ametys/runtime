@@ -50,7 +50,11 @@ public class UserPreferencesValuesGenerator extends CurrentUserProviderServiceab
     public void generate() throws IOException, SAXException, ProcessingException
     {
         Request request = ObjectModelHelper.getRequest(objectModel);
-        String context = parameters.getParameter("prefContext", request.getParameter("prefContext"));
+        String context = request.getParameter("prefContext");
+        if (context == null)
+        {
+            context = parameters.getParameter("prefContext", null);
+        }
         String username = parameters.getParameter("username", _getCurrentUser());
         
         contentHandler.startDocument();
@@ -61,7 +65,12 @@ public class UserPreferencesValuesGenerator extends CurrentUserProviderServiceab
             Map<String, String> prefValues = _userPrefManager.getUnTypedUserPrefs(username, context);
             
             Map<String, Object> jsParameters = (Map<String, Object>) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
-            List<String> userprefs = (List<String>) jsParameters.get("userprefs");
+            List<String> userprefs = null;
+            
+            if (jsParameters != null)
+            {
+                userprefs = (List<String>) jsParameters.get("userprefs");
+            }
             
             if (userprefs != null && userprefs.size() > 0)
             {
