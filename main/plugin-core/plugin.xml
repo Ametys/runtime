@@ -355,7 +355,7 @@
              -->
             <label i18n="true">PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_GROUPDN_LABEL</label>
             <description i18n="true">PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_GROUPDN_DESCRIPTION</description>
-            <default-value>ou=group</default-value>
+            <default-value>ou=groups</default-value>
             <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>
             <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_GROUPS</group>
             <order>10</order>
