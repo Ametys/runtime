@@ -42,6 +42,7 @@ public class DefaultVersionsHandler extends AbstractLogEnabled implements Versio
     private Version _runtimeVersion;
     private Version _applicationVersion;
     
+    @Override
     public final Collection<Version> getVersions()
     {
         ArrayList<Version> versions = new ArrayList<Version>();
@@ -106,6 +107,12 @@ public class DefaultVersionsHandler extends AbstractLogEnabled implements Versio
         try
         {
             is = getClass().getResourceAsStream(path);
+            if (is == null)
+            {
+                getLogger().warn(versionName + " version is unavailable");
+                return new Version(versionName, null, null);
+            }
+            
             SAXParserFactory.newInstance().newSAXParser().parse(is, new MapHandler(config));
             
             String strDate = config.get("date");
@@ -113,7 +120,7 @@ public class DefaultVersionsHandler extends AbstractLogEnabled implements Versio
         }
         catch (Exception ex)
         {
-            getLogger().warn("Unable to load version values", ex);
+            getLogger().warn("Unable to get version number for " + versionName, ex);
         }
         finally
         {
