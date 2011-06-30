@@ -102,6 +102,7 @@
         <xsl:param name="accept-ff-3.5">false</xsl:param>
         <xsl:param name="accept-ff-3.6">false</xsl:param>
         <xsl:param name="accept-ff-4.0">false</xsl:param>
+        <xsl:param name="accept-ff-5.0">false</xsl:param>
         <xsl:param name="accept-sa-3">false</xsl:param>
         <xsl:param name="accept-sa-4">false</xsl:param>
         <xsl:param name="accept-sa-5.0">false</xsl:param>
@@ -119,6 +120,7 @@
         <xsl:param name="accept-ch-9">false</xsl:param>
         <xsl:param name="accept-ch-10">false</xsl:param>
         <xsl:param name="accept-ch-11">false</xsl:param>
+        <xsl:param name="accept-ch-12">false</xsl:param>
         <xsl:param name="debug-mode">false</xsl:param>
         <xsl:param name="load-cb"/>
         <xsl:param name="use-css-component">true</xsl:param>
@@ -183,6 +185,7 @@
                     <xsl:if test="$accept-ff-3.5 = 'true'">(userAgent.indexOf("firefox/3.5") >= 0) ||</xsl:if>
                     <xsl:if test="$accept-ff-3.6 = 'true'">(userAgent.indexOf("firefox/3.6") >= 0) ||</xsl:if>
                     <xsl:if test="$accept-ff-4.0 = 'true'">(userAgent.indexOf("firefox/4.0") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-ff-5.0 = 'true'">(userAgent.indexOf("firefox/5.0") >= 0) ||</xsl:if>
                     
                     <xsl:if test="$accept-sa-3   = 'true'">(userAgent.indexOf("safari/") >= 0 &amp;&amp; userAgent.indexOf("version/3.") >= 0) ||</xsl:if>
                     <xsl:if test="$accept-sa-4   = 'true'">(userAgent.indexOf("safari/") >= 0 &amp;&amp; userAgent.indexOf("version/4.") >= 0) ||</xsl:if>
@@ -203,6 +206,7 @@
                     <xsl:if test="$accept-ch-9   = 'true'">(userAgent.indexOf("chrome/9.") >= 0) ||</xsl:if>
                     <xsl:if test="$accept-ch-10  = 'true'">(userAgent.indexOf("chrome/10.") >= 0) ||</xsl:if>
                     <xsl:if test="$accept-ch-11  = 'true'">(userAgent.indexOf("chrome/11.") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-ch-12  = 'true'">(userAgent.indexOf("chrome/12.") >= 0) ||</xsl:if>
                     <xsl:text>1 == 0))</xsl:text>
                 {
             		<!-- Check the cookie for forcing non supported navigators -->
