@@ -1,5 +1,5 @@
 /*
- *  Copyright 2009 Anyware Services
+ *  Copyright 2011 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -237,7 +237,15 @@ org.ametys.servercomm.ServerComm.prototype._sendSynchronousMessage = function(me
 			}
 		}
 		
-		return null;
+		if (confirm("<i18n:text i18n:key="KERNEL_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE"/>") &amp;&amp; !this._off)
+		{
+			return this._sendSynchronousMessage(messageRequest);
+		}
+		else
+		{
+			this._shutdown();
+			return null;
+		}
 	}
     
 	if (typeof this._observer.onSyncRequestArrival == "function")
@@ -251,8 +259,39 @@ org.ametys.servercomm.ServerComm.prototype._sendSynchronousMessage = function(me
 			alert("Exception in org.ametys.servercomm.ServerComm._observer.onSyncRequestArrival: " + e);
 		}
 	}
+	
+	if (conn.responseXML == null)
+	{
 
-	return conn.responseXML.selectSingleNode("/responses/response[@id='0']");
+		if (confirm("<i18n:text i18n:key="KERNEL_SERVERCOMM_NOTXML_DESC"/>") &amp;&amp; !this._off)
+		{
+			return this._sendSynchronousMessage(messageRequest);
+		}
+		else
+		{
+			this._shutdown();
+			return null;
+		}
+	}
+	else
+	{
+		return conn.responseXML.selectSingleNode("/responses/response[@id='0']");
+	}
+}
+
+/**
+ * @private
+ * Shut the application because the server is down
+ */
+org.ametys.servercomm.ServerComm.prototype._shutdown = function(m)
+{
+	this._off = true;
+	this.suspend();
+	
+	org.ametys.msg.ErrorDialog._okMessages();
+	org.ametys.msg.ErrorDialog = function() {};
+	
+	document.body.innerHTML = "&lt;h1&gt;" + "<i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_1'/>" + "&lt;/h1&gt; &lt;p&gt;" + "<i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_2'/>" +"&lt;/p&gt;&lt;p&gt;&lt;a href='index.html'&gt;" + "<i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_3'/>" + "&lt;/a&gt;&lt;/p&gt;"
 }
 
 /**
@@ -453,30 +492,45 @@ org.ametys.servercomm.ServerComm.prototype._onRequestComplete = function(respons
 	}
 
 	this._cancelTimeout(options);
-
-	// for each message call the handler
-	for (var i = 0; i &lt; options.messages.length; i++)
+	
+	if (response.responseXML == null)
 	{
-			var message = options.messages[i];
 
-			var node = response.responseXML.selectSingleNode("/responses/response[@id='" + i + "']");
-			try
-			{
-				message.getCallback().apply(message.getCallbackScope(), [node, message.getCallbackArguments()]);
-			}
-			catch (e)
-			{
-				function throwException(e) 
-				{ 
-					throw e; 
+		if (confirm("<i18n:text i18n:key="KERNEL_SERVERCOMM_NOTXML_DESC"/>"))
+		{
+			this._sendMessages(options.messages);
+		}
+		else
+		{
+			this._shutdown();
+		}
+	}
+	else
+	{
+		// for each message call the handler
+		for (var i = 0; i &lt; options.messages.length; i++)
+		{
+				var message = options.messages[i];
+	
+				var node = response.responseXML.selectSingleNode("/responses/response[@id='" + i + "']");
+				try
+				{
+					message.getCallback().apply(message.getCallbackScope(), [node, message.getCallbackArguments()]);
 				}
-				throwException.defer(1, this, [e]);
-
-				new org.ametys.msg.ErrorDialog("<i18n:text i18n:key='KERNEL_SERVERCOMM_ERROR_TITLE'/>",
-						"<i18n:text i18n:key='KERNEL_SERVERCOMM_ERROR_DESC'/>",
-                        e + '',
-                        "org.ametys.servercomm.ServerComm");
-			}
+				catch (e)
+				{
+					function throwException(e) 
+					{ 
+						throw e; 
+					}
+					throwException.defer(1, this, [e]);
+	
+					new org.ametys.msg.ErrorDialog("<i18n:text i18n:key='KERNEL_SERVERCOMM_ERROR_TITLE'/>",
+							"<i18n:text i18n:key='KERNEL_SERVERCOMM_ERROR_DESC'/>",
+	                        e + '',
+	                        "org.ametys.servercomm.ServerComm");
+				}
+		}
 	}
 }
 
@@ -502,15 +556,13 @@ org.ametys.servercomm.ServerComm.prototype._onRequestFailure = function(response
 		}
 	}
 
-
 	if (confirm("<i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE'/>") &amp;&amp; !this._off)
 	{
 		this._connection.request(options);
 	}
 	else
 	{
-		this._off = true;
-		document.body.innerHTML = "&lt;h1&gt;" + "<i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_1'/>" + "&lt;/h1&gt; &lt;p&gt;" + "<i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_2'/>" +"&lt;/p&gt;&lt;p&gt;&lt;a href='index.html'&gt;" + "<i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_3'/>" + "&lt;/a&gt;&lt;/p&gt;"
+		this._shutdown();
 	}
 }
 
