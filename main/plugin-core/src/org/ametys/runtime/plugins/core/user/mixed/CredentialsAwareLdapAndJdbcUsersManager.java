@@ -98,13 +98,24 @@ public class CredentialsAwareLdapAndJdbcUsersManager extends CredentialsAwareLda
         super.initialize();
         
         // Create the fallback UsersManager and execute all its lifecycle operations.
-        _fallbackUsersManager = new ModifiableCredentialsAwareJdbcUsersManager();
-        _fallbackUsersManager.contextualize(_context);
-        _fallbackUsersManager.setPluginInfo(_pluginName, _featureName);
-        _fallbackUsersManager.service(_serviceManager);
-        _fallbackUsersManager.configure(_fbConfiguration);
-        _fallbackUsersManager.initialize();
-        _fallbackUsersManager.enableLogging(getLogger());
+        _fallbackUsersManager = _createJDBCUserManager();
+    }
+    
+    /**
+     * Create the impl for jdbc user manager
+     * @return The instance. Cannot be null.
+     * @throws Exception If an error occured during instanciation
+     */
+    protected ModifiableCredentialsAwareJdbcUsersManager _createJDBCUserManager() throws Exception
+    {
+        ModifiableCredentialsAwareJdbcUsersManager jdbcUM = new ModifiableCredentialsAwareJdbcUsersManager();
+        jdbcUM.contextualize(_context);
+        jdbcUM.setPluginInfo(_pluginName, _featureName);
+        jdbcUM.service(_serviceManager);
+        jdbcUM.configure(_fbConfiguration);
+        jdbcUM.initialize();
+        jdbcUM.enableLogging(getLogger());
+        return jdbcUM;
     }
     
     @Override
