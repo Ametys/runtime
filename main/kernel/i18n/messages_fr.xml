@@ -38,8 +38,9 @@
     <message key="KERNEL_SERVERCOMM_ERROR_DESC">Une erreur est survenue dans le traitement de la réponse serveur</message>
     <message key="KERNEL_SERVERCOMM_BADRESPONSE_TITLE">Pas de réponse du serveur</message>
     <message key="KERNEL_SERVERCOMM_BADRESPONSE_DESC">La réponse du serveur est incomplète et ne contient pas les informations permettant de continuer le traitement correctement.</message>
+    <message key="KERNEL_SERVERCOMM_NOTXML_DESC">La réponse du serveur est inchoérente et cela peut provenir :\n* soit de l'expiration de votre authentification,\n* soit d'une anomalie imprévue sur le serveur.\nVous pouvez essayer de vous authentifier à nouveau avant de ré-essayer.\n\nSouhaitez-vous essayer à nouveau maintenant ?\n\nSinon cliquez sur annuler mais vous perdrez vos données non-enregistrées et l'application sera arrêtée.</message>
     <message key="KERNEL_SERVERCOMM_SERVER_FAILED_DESC">Le serveur a échoué (code </message>
-    <message key="KERNEL_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE">Le serveur est actuellement indisponible.\nAttendez quelques instants et cliquez sur OK. Sinon cliquez sur annuler mais vous perdrez peut-être vos données en cours d'enregistrement.</message>
+    <message key="KERNEL_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE">Le serveur est actuellement indisponible.\nAttendez quelques instants et cliquez sur OK. Sinon cliquez sur annuler mais vous perdrez vos données non-enregistrées et l'application sera arrêtée.\n\nPour essayer de ne pas perdre le travail en cours, contactez l'administrateur système pour savoir dans combien de temps le serveur sera à nouveau opérationnel et cliquez sur OK à ce moment là.</message>
     <message key="KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_1">La connexion avec le serveur a été perdue</message>
     <message key="KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_2">L'application s'est retrouvée dans un état instable et a été arretée</message>
     <message key="KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_3">Cliquez ici pour redémarrer l'application.</message>
