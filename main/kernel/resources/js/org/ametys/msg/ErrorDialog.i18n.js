@@ -130,7 +130,10 @@ org.ametys.msg.ErrorDialog._okMessage = function()
 
 org.ametys.msg.ErrorDialog._okMessages = function()
 {
-	org.ametys.msg.ErrorDialog._stack[0].close();
+	if (org.ametys.msg.ErrorDialog._stack.length &gt; 0)
+	{
+		org.ametys.msg.ErrorDialog._stack[0].close();
+	}
 	org.ametys.msg.ErrorDialog._stack = [];
 }
 
