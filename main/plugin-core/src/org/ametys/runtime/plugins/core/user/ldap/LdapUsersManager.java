@@ -93,6 +93,7 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
         _userEmailIsMandatory = configuration.getChild("Email").getAttributeAsBoolean("mandatory", false);
     }
     
+    @Override
     public Collection<User> getUsers()
     {
         // Créer une liste d'utilisateurs
@@ -115,18 +116,8 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
                 Map<String, Object> attributes = _getAttributes((SearchResult) results.nextElement());
                 if (attributes != null)
                 {
-                    // Récupérer le nom complet
-                    StringBuffer fullname = new StringBuffer();
-
-                    if (_usersFirstnameAttribute != null)
-                    {
-                        fullname.append(attributes.get(_usersFirstnameAttribute) + " ");
-                    }
-
-                    fullname.append(attributes.get(_usersLastnameAttribute));
-
                     // Ajouter un nouveau principal à la liste
-                    User user = new User((String) attributes.get(_usersLoginAttribute), fullname.toString(), (String) attributes.get(_usersEmailAttribute));
+                    User user = _createUser (attributes);
                     
                     if (isCacheEnabled())
                     {
@@ -156,6 +147,7 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
         return users;
     }
 
+    @Override
     public User getUser(String login)
     {
         if (isCacheEnabled())
@@ -190,18 +182,8 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
                 Map<String, Object> attributes = _getAttributes((SearchResult) results.nextElement());
                 if (attributes != null)
                 {
-                    // Récupérer le nom complet
-                    StringBuffer fullname = new StringBuffer();
-
-                    if (_usersFirstnameAttribute != null)
-                    {
-                        fullname.append(attributes.get(_usersFirstnameAttribute) + " ");
-                    }
-
-                    fullname.append(attributes.get(_usersLastnameAttribute));
-
                     // Ajouter un nouveau principal à la liste
-                    principal = new User((String) attributes.get(_usersLoginAttribute), fullname.toString(), (String) attributes.get(_usersEmailAttribute));
+                    principal = _createUser (attributes);
                 }
             }
 
@@ -236,6 +218,27 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
         return principal;
     }
     
+    /**
+     * Create a new user from LDAP attributes
+     * @param attributes the LDAP attributes
+     * @return the user
+     */
+    protected User _createUser (Map<String, Object> attributes)
+    {
+        // Récupérer le nom complet
+        StringBuffer fullname = new StringBuffer();
+
+        if (_usersFirstnameAttribute != null)
+        {
+            fullname.append(attributes.get(_usersFirstnameAttribute) + " ");
+        }
+
+        fullname.append(attributes.get(_usersLastnameAttribute));
+
+        return new User((String) attributes.get(_usersLoginAttribute), fullname.toString(), (String) attributes.get(_usersEmailAttribute));
+    }
+    
+    @Override
     public void saxUser(String login, ContentHandler handler) throws SAXException
     {
         DirContext context = null;
@@ -298,6 +301,7 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
      *            </ul>
      * @throws SAXException If an error occurs while saxing.
      */
+    @Override
     public void toSAX(ContentHandler handler, int count, int offset, Map parameters) throws SAXException
     {
         String pattern = (String) parameters.get("pattern");
