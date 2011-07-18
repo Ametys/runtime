@@ -88,6 +88,24 @@ public class AllCSSComponent implements ThreadSafe, Contextualizable, Component
     }
     
     /**
+     * Get the number of part needed to load all CSS files. Only usefull in debug mode to stay under the max imports authorized
+     * @param hashCodeAsString The hash code of the list. This will not retrieve the right list, but will ensure that the current list in the session is the same as the one required
+     * @return The number of parts. From 1 to n. 
+     */
+    @SuppressWarnings("unchecked")
+    public static int getNumberOfParts(String hashCodeAsString)
+    {
+        List<String> list = (List<String>) ContextHelper.getRequest(_context).getSession(true).getAttribute(AllCSSComponent.class.getName() + "-" + hashCodeAsString);
+        
+        if (list == null)
+        {
+            throw new IllegalStateException("The css files list has a different hash code compared to the one required.");
+        }
+
+        return (int) Math.ceil(list.size() / (float) AllCSSReader.__PACKET_SIZE);
+    }
+    
+    /**
      * Get the list of css files
      * @param hashCodeAsString The hash code of the list. This will not retrieve the right list, but will ensure that the current list in the session is the same as the one required
      * @return A list of files (relative to context path). Can be null 

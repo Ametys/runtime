@@ -42,6 +42,9 @@ import org.xml.sax.SAXException;
  */
 public class AllCSSReader extends ServiceableReader implements CacheableProcessingComponent
 {
+    /** The max number allowed of css files to import */
+    public static final int __PACKET_SIZE = 31;
+
     private static final String[] __START_OF_IMAGE_FILE = new String[] {"(", "'", ":", " "};
     private static final String[] __END_OF_IMAGE_FILE = new String[] {".gif", ".jpg", ".jpeg", ".png"};
 
@@ -110,9 +113,26 @@ public class AllCSSReader extends ServiceableReader implements CacheableProcessi
         List<String> cssFiles = _allCSSComponent.getCSSFilesList(source);
         if (cssFiles != null) 
         {
-            for (String cssFile : cssFiles)
+            boolean importMode = parameters.getParameterAsBoolean("import", false);
+
+            if (importMode)
             {
-                sb.append(_handleFile(cssFile));
+                // a sub part of the css file list is required ?
+                int packetNum = parameters.getParameterAsInteger("packet-num", -1);
+                
+                List<String> cssFilesToImport = packetNum == -1 ? cssFiles : cssFiles.subList(__PACKET_SIZE * packetNum, Math.min(__PACKET_SIZE * (packetNum + 1), cssFiles.size()));
+                for (String cssFile : cssFilesToImport)
+                {
+                    sb.append(_handleFileImport(cssFile));
+                }
+            }
+            else
+            {
+                for (String cssFile : cssFiles)
+                {
+                    sb.append(_handleFileDirect(cssFile));
+                }
+                
             }
         } 
              
@@ -120,67 +140,68 @@ public class AllCSSReader extends ServiceableReader implements CacheableProcessi
         IOUtils.closeQuietly(out);
     }
     
-    private String _handleFile(String cssFile)
+    private String _handleFileImport(String cssFile)
+    {
+        StringBuffer sb = new StringBuffer();
+
+        Request request = ObjectModelHelper.getRequest(objectModel);
+
+        sb.append("@import \"");
+        sb.append(request.getContextPath());
+        sb.append(cssFile);
+        sb.append("\";\n");
+        
+        return sb.toString();
+    }
+    
+    private String _handleFileDirect(String cssFile)
     {
         StringBuffer sb = new StringBuffer();
         
-        Request request = ObjectModelHelper.getRequest(objectModel);
-        boolean importMode = parameters.getParameterAsBoolean("import", false);
-
-        if (importMode)
+        Source csssource = null;
+        InputStream is = null;
+        try
         {
-            sb.append("@import \"");
-            sb.append(request.getContextPath());
-            sb.append(cssFile);
-            sb.append("\";\n");
+            String cssPath = "/";
+            if (cssFile.lastIndexOf("/") != -1)
+            {
+                cssPath = cssFile.substring(0, cssFile.lastIndexOf("/") + 1);
+            }
+
+            csssource = _resolver.resolveURI("cocoon://" + org.apache.cocoon.util.NetUtils.normalize(cssFile));
+            is = csssource.getInputStream();
+            
+            // Initial file
+            String s0 = IOUtils.toString(is);
+            // Removing comments
+            String s1 = __removeComment(s0);
+            // Resolve images
+            String s2 = __resolveImages(cssPath, s1);
+            // resolving internal imports
+            String s3 = __resolveImports(cssPath, s2);
+            // Removing break line
+            String s4 = s3.replaceAll("\r?\n|\t", " ");
+            // Removing other
+            String s5 = s4.replaceAll("  ", " ");
+            String s6 = s5.replaceAll("\\{ ", "{");
+            String s7 = s6.replaceAll(" \\}", "}");
+            String s8 = s7.replaceAll(" :", ":");
+            String s9 = s8.replaceAll(": ", ":");
+            String s10 = s9.replaceAll(" ;", ";");
+            String s11 = s10.replaceAll("; ", ";");
+            
+            sb.append(s11.trim());
+            sb.append("\n");
         }
-        else
+        catch (Exception e)
         {
-            Source csssource = null;
-            InputStream is = null;
-            try
-            {
-                String cssPath = "/";
-                if (cssFile.lastIndexOf("/") != -1)
-                {
-                    cssPath = cssFile.substring(0, cssFile.lastIndexOf("/") + 1);
-                }
-
-                csssource = _resolver.resolveURI("cocoon://" + org.apache.cocoon.util.NetUtils.normalize(cssFile));
-                is = csssource.getInputStream();
-                
-                // Initial file
-                String s0 = IOUtils.toString(is);
-                // Removing comments
-                String s1 = __removeComment(s0);
-                // Resolve images
-                String s2 = __resolveImages(cssPath, s1);
-                // resolving internal imports
-                String s3 = __resolveImports(cssPath, s2);
-                // Removing break line
-                String s4 = s3.replaceAll("\r?\n|\t", " ");
-                // Removing other
-                String s5 = s4.replaceAll("  ", " ");
-                String s6 = s5.replaceAll("\\{ ", "{");
-                String s7 = s6.replaceAll(" \\}", "}");
-                String s8 = s7.replaceAll(" :", ":");
-                String s9 = s8.replaceAll(": ", ":");
-                String s10 = s9.replaceAll(" ;", ";");
-                String s11 = s10.replaceAll("; ", ";");
-                
-                sb.append(s11.trim());
-                sb.append("\n");
-            }
-            catch (Exception e)
-            {
-                getLogger().error("Cannot open CSS for aggregation " + cssFile, e);
-                sb.append("/** ERROR " + e.getMessage() + "*/");
-            }
-            finally
-            {
-                IOUtils.closeQuietly(is);
-                _resolver.release(csssource);
-            }
+            getLogger().error("Cannot open CSS for aggregation " + cssFile, e);
+            sb.append("/** ERROR " + e.getMessage() + "*/");
+        }
+        finally
+        {
+            IOUtils.closeQuietly(is);
+            _resolver.release(csssource);
         }
         
         return sb.toString();
@@ -225,7 +246,7 @@ public class AllCSSReader extends ServiceableReader implements CacheableProcessi
                 }
                 fileToImport = currentPath + fileToImport.replaceAll("[(');\t ]", "");
                 
-                return initialString.substring(0, i) + "\n" + _handleFile(fileToImport) + "\n" + __resolveImports(currentPath, endOfString.substring(j + 1));
+                return initialString.substring(0, i) + "\n" + _handleFileDirect(fileToImport) + "\n" + __resolveImports(currentPath, endOfString.substring(j + 1));
             }
         }
     }

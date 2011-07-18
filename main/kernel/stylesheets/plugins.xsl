@@ -19,6 +19,8 @@
     xmlns:i18n="http://apache.org/cocoon/i18n/2.1"
     xmlns:csscomponent="org.ametys.runtime.plugins.core.ui.css.AllCSSComponent"
     xmlns:jscomponent="org.ametys.runtime.plugins.core.ui.js.AllJSComponent">
+    
+    <xsl:import href="ui.xsl"/>
 
     <xsl:template name="plugins-load">
         <xsl:param name="scripts"/>
@@ -96,8 +98,10 @@
 				            </xsl:if>
 				        </xsl:for-each>
 						<xsl:if test="$reuse-css-component = 'false'">
-			    	        <link rel="stylesheet" type="text/css" href="{$contextPath}{$workspaceURI}/plugins/core/cssfilelist/{csscomponent:getHashCode()}-{$debug-mode}.css"/>
-			        	    <xsl:copy-of select="$load-cb"/>
+							<xsl:call-template name="ui-load-css">
+								<xsl:with-param name="load-cb" select="$load-cb"/>
+								<xsl:with-param name="debug-mode" select="$debug-mode"/>
+							</xsl:call-template>
 			        	</xsl:if>
 				</xsl:otherwise>
 			</xsl:choose>

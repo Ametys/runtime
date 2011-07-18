@@ -257,12 +257,51 @@
 			      	<xsl:value-of select="csscomponent:addCSSFile('/kernel/resources/css/all.css')"/>
 			      	
 					<xsl:if test="$reuse-css-component = 'false'">
-			            <link rel="stylesheet" type="text/css" href="{$contextPath}{$workspaceURI}/plugins/core/cssfilelist/{csscomponent:getHashCode()}-{$debug-mode}.css"/>
-						<xsl:copy-of select="$load-cb"/>
+						<xsl:call-template name="ui-load-css">
+							<xsl:with-param name="load-cb" select="$load-cb"/>
+							<xsl:with-param name="debug-mode" select="$debug-mode"/>
+						</xsl:call-template>
 					</xsl:if>
 			</xsl:otherwise>
 		</xsl:choose>
 
     </xsl:template>
 
+    <xsl:template name="ui-load-css">
+        <xsl:param name="load-cb"/>
+        <xsl:param name="debug-mode"/>
+        
+        	<xsl:choose>
+        		<xsl:when test="$debug-mode = 'true'">
+        			<xsl:variable name="hashcode" select="csscomponent:getHashCode()"/>
+        		
+				    <xsl:call-template name="ui-load-css-recurse">
+					    <xsl:with-param name="max" select="csscomponent:getNumberOfParts($hashcode)"/>
+					    <xsl:with-param name="hashcode" select="$hashcode"/>
+				    </xsl:call-template>
+				    
+					<xsl:copy-of select="$load-cb"/>
+        		</xsl:when>
+        		<xsl:otherwise>
+		        	<link rel="stylesheet" type="text/css" href="{$contextPath}{$workspaceURI}/plugins/core/cssfilelist/{csscomponent:getHashCode()}.css"/>
+					<xsl:copy-of select="$load-cb"/>
+        		</xsl:otherwise>
+        	</xsl:choose>
+        
+	</xsl:template>
+
+    <xsl:template name="ui-load-css-recurse">
+        <xsl:param name="num" select="0"/>
+        <xsl:param name="max"/>
+        <xsl:param name="hashcode"/>
+    
+    	<xsl:if test="$num &lt; $max">
+        	<link rel="stylesheet" type="text/css" href="{$contextPath}{$workspaceURI}/plugins/core/cssfilelist/debug/{$hashcode}/{$num}.css"/>
+		    <xsl:call-template name="ui-load-css-recurse">
+			    <xsl:with-param name="num" select="$num + 1"/>
+			    <xsl:with-param name="max" select="$max"/>
+			    <xsl:with-param name="hashcode" select="$hashcode"/>
+		    </xsl:call-template>
+        </xsl:if>
+    </xsl:template>
 </xsl:stylesheet>

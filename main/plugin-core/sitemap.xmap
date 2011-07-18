@@ -128,11 +128,26 @@
 				<map:serialize type="xml"/>
 			</map:match>
 			
+			<map:match pattern="cssfilelist/debug/*/*.css">
+				<map:read type="css" src="{1}">
+					<map:parameter name="import" value="true"/>
+					<map:parameter name="packet-num" value="{2}"/>
+				</map:read>
+			</map:match>
+			<map:match pattern="cssfilelist/*.css">
+				<map:read type="css" src="{1}">
+					<map:parameter name="import" value="false"/>
+				</map:read>
+			</map:match>
+			
+			<!-- DEPRECATED -->
 			<map:match pattern="cssfilelist/*-*.css">
 				<map:read type="css" src="{1}">
 					<map:parameter name="import" value="{2}"/>
 				</map:read>
 			</map:match>
+			<!-- DEPRECATED -->
+			
 			<map:match pattern="jsfilelist/*-*.js">
 				<map:read type="js" src="{1}">
 					<map:parameter name="import" value="{2}"/>
