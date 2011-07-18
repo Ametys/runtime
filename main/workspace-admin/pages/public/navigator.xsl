@@ -85,7 +85,7 @@
      	<div id="column-right" style="width: 100%;"/>
     </xsl:template>
     
-    <xsl:template name="ui-tools-load"/>
-    <xsl:template name="ui-load"/>
+    <xsl:template name="workspace-ui-load"/>
+    <xsl:template name="workspace-head-scripts"/>
     
 </xsl:stylesheet>
