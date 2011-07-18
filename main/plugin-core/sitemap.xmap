@@ -144,6 +144,7 @@
 			<map:match pattern="cssfilelist/*-*.css">
 				<map:read type="css" src="{1}">
 					<map:parameter name="import" value="{2}"/>
+					<map:parameter name="packet-num" value="-1"/>
 				</map:read>
 			</map:match>
 			<!-- DEPRECATED -->
