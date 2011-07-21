@@ -15,77 +15,12 @@
  */
 package org.ametys.runtime.util.cocoon;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Map;
-
-import org.apache.cocoon.ProcessingException;
-import org.apache.cocoon.environment.ObjectModelHelper;
-import org.apache.cocoon.environment.Request;
-import org.apache.cocoon.generation.AbstractGenerator;
-import org.apache.cocoon.xml.XMLUtils;
-import org.xml.sax.SAXException;
-
-import org.ametys.runtime.util.I18nizableText;
-import org.ametys.runtime.util.parameter.Errors;
 
 /**
  * Generator for SAXing a map.
+ * @deprecated
  */
-public class ActionMapResultGenerator extends AbstractGenerator
+public class ActionMapResultGenerator extends ActionResultGenerator
 {
-    /** Request attribute name containing the map to use. */
-    public static final String MAP_REQUEST_ATTR = ActionMapResultGenerator.class.getName() + ";map";
-    
-    @SuppressWarnings("unchecked")
-    public void generate() throws IOException, SAXException, ProcessingException
-    {
-        Request request = ObjectModelHelper.getRequest(objectModel);
-        Map<String, Object> map = (Map<String, Object>) request.getAttribute(MAP_REQUEST_ATTR);
-        
-        contentHandler.startDocument();
-        XMLUtils.startElement(contentHandler, "ActionResult");
-
-        for (Map.Entry<String, Object> entry : map.entrySet())
-        {
-            String key = entry.getKey();
-            Object value = entry.getValue();
-
-            if (value instanceof Errors)
-            {
-                XMLUtils.startElement(contentHandler, key);
-                
-                for (I18nizableText errorLabel : ((Errors) value).getErrors())
-                {
-                    errorLabel.toSAX(contentHandler, "error");
-                }
-                
-                XMLUtils.endElement(contentHandler, key);
-            }
-            else if (value instanceof Collection)
-            {
-                for (Object item : (Collection) value)
-                {
-                    if (item != null)
-                    {
-                        XMLUtils.createElement(contentHandler, key, item.toString());
-                    }
-                }
-            }
-            else
-            {
-                String stringValue = "";
-                
-                if (entry.getValue() != null)
-                {
-                    stringValue = entry.getValue().toString();
-                }
-                
-                XMLUtils.createElement(contentHandler, key, stringValue);
-            }
-        }
-        
-        XMLUtils.endElement(contentHandler, "ActionResult");
-        contentHandler.endDocument();
-    }
+    // Nothing
 }
