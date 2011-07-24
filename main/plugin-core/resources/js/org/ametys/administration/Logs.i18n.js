@@ -395,6 +395,7 @@ org.ametys.administration.Logs._drawNavigationPanel = function ()
 			cardLayout: 'system-card-panel',
 			toggleGroup : 'system-menu',
 			
+			allowDepress: false,
 			pressed: i == 0
 		});
 		
