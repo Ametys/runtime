@@ -1,3 +1,30 @@
+Runtime - Version 2.2.1 (July 29, 2011)
+
+New Feature:
+  RUNTIME-394 : XSL helper functions library
+
+Improvement:
+  RUNTIME-419 : Reduce number of CSS import for IE
+  RUNTIME-490 : Import CSS and cache
+  RUNTIME-582 : Support FF4
+  RUNTIME-592 : GZIP support
+  RUNTIME-601 : Extending CredentialsAwareLdapAndJdbcUsersManager : change JdbcUsersManager
+  RUNTIME-602 : LdapUsersManager not enough flexible (as JdbcUsersManager)
+  RUNTIME-606 : Merge ActionMapResultGenerator and ActionResultGenerator
+  RUNTIME-608 : Add a saxing for url in ActionResultGenerator
+
+Bug:
+  RUNTIME-569 : [User preferences] If user prefs are not edited in a same form, they are lost
+  RUNTIME-580 : NPE when saving user preferences on FO
+  RUNTIME-583 : The default validator can not valid array of values
+  RUNTIME-586 : CSS error
+  RUNTIME-588 : Provide dialog box to select several users
+  RUNTIME-591 : [Logs] Nothing appends when clicking to see a big log file 
+  RUNTIME-595 : An NPE is logged in warning when trying to load versions
+  RUNTIME-597 : Support of FF5
+  RUNTIME-599 : NPE on ServerComm when server redirects
+  RUNTIME-600 : Unable to complete configuration after the "unsupported browser" screen
+
 Runtime - Version 2.2 (March 23, 2011)
 
 New Feature:
