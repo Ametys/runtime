@@ -37,6 +37,10 @@ import org.apache.log.Hierarchy;
 import org.apache.log.Priority;
 import org.xml.sax.ContentHandler;
 
+import org.ametys.runtime.cocoon.InitExtensionPoint;
+import org.ametys.runtime.plugin.Init;
+import org.ametys.runtime.plugin.component.PluginsComponentManager;
+
 /**
  * The Cocoon Wrapper simplifies usage of the Cocoon object. Allows to create, configure Cocoon instance and process single requests.
  * 
@@ -108,6 +112,23 @@ public class CocoonWrapper
             ContainerUtil.contextualize(_cocoon, appContext);
             _cocoon.setLoggerManager(logManager);
             ContainerUtil.initialize(_cocoon);
+            
+            PluginsComponentManager pluginCM = (PluginsComponentManager) _cliContext.getAttribute("PluginsComponentManager");
+            
+            // Plugins Init class execution
+            InitExtensionPoint initExtensionPoint = (InitExtensionPoint) pluginCM.lookup(InitExtensionPoint.ROLE);
+            for (String id : initExtensionPoint.getExtensionsIds())
+            {
+                Init init = initExtensionPoint.getExtension(id);
+                init.init();
+            }
+            
+            // Application Init class execution if available
+            if (pluginCM.hasComponent(Init.ROLE))
+            {
+                Init init = (Init) pluginCM.lookup(Init.ROLE);
+                init.init();
+            }
             
             CommandLineSession.invalidateSession();
         }
