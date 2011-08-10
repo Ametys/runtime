@@ -15,7 +15,7 @@
    limitations under the License.
    -->
 <ivy-module version="1.0">
-  <info organisation="org.ametys.runtime" module="runtime" branch="2.2.x">
+  <info organisation="org.ametys.runtime" module="runtime" branch="2.3.x">
     <license url="http://www.apache.org/licenses/LICENSE-2.0" name="ASL2"/>
     <description homepage="http://www.ametys.org/">
 Open source web application framework based on Apache Cocoon.
@@ -26,10 +26,7 @@ Open source web application framework based on Apache Cocoon.
     <conf name="runtime" extends="default" description="Runtime configuration"/>
     <conf name="resources" extends="runtime" description="Runtime configuration with resources"/>
     <conf name="test-env" extends="default" description="Provides testing environment"/>
-    <conf name="cas" extends="default" description="CAS configuration"/>
-    <conf name="jcifs" extends="default" description="JCIFS configuration"/>
-    <conf name="fop" extends="default" description="FOP configuration"/>
-    <conf name="compile" extends="cas,jcifs,fop" description="Used only for compilation" visibility="private"/>
+    <conf name="compile" extends="default" description="Used only for compilation" visibility="private"/>
     <conf name="test" extends="compile,runtime" description="Unit testing configuration" visibility="private"/>
     <conf name="dev-kernel-resources"  description="Developper version with kernel only (and kernel resources)"/>
     <conf name="deliver" visibility="private"/>
@@ -47,7 +44,6 @@ Open source web application framework based on Apache Cocoon.
     <artifact name="ametys-runtime-dev-kernelonly" type="source" ext="jar" conf="dev-kernel-resources"/>
     <artifact name="ametys-runtime-dev-kernelonly" type="javadoc" ext="jar" conf="dev-kernel-resources"/>
     
-    
     <!-- Artifact containing resources used directly by Apache HTTPD -->
     <artifact name="ametys-runtime-resources" type="resource" ext="zip" conf="resources"/>
     <artifact name="ametys-runtime-scripts" type="script" ext="zip" conf="runtime"/>
@@ -57,7 +53,7 @@ Open source web application framework based on Apache Cocoon.
     <dependency org="atlassian" name="clover" rev="2.6.3" conf="deliver->default"/>
     
     <dependency org="apache" name="commons-dbcp" rev="1.4" conf="default->default;dev-kernel-resources->default"/>
-    <dependency org="apache" name="cocoon" rev="2.1.11-ametys" conf="default->serializers;dev-kernel-resources->serializers"/>
+    <dependency org="apache" name="cocoon" rev="2.1.11-ametys-2" conf="default,dev-kernel-resources->serializers,html"/>
     <dependency org="apache" name="commons-codec" rev="1.3" conf="default;dev-kernel-resources->default"/>
     <dependency org="apache" name="commons-lang" rev="2.4" conf="default;dev-kernel-resources->default"/>
     <dependency org="apache" name="ibatis" rev="2.3.0" conf="default;dev-kernel-resources->default"/>
@@ -70,13 +66,13 @@ Open source web application framework based on Apache Cocoon.
 	<dependency org="yahoo" name="yuicompressor" rev="2.4.6" conf="default->default"/>
 	
 	<!-- fop configuration -->
-	<dependency org="apache" name="fop" rev="0.95" conf="fop->default;dev-kernel-resources->default"/>
+	<dependency org="apache" name="fop" rev="0.95" conf="compile->default"/>
 	
     <!-- cas configuration -->
-    <dependency org="ja-sig" name="cas-client-core" rev="3.1.10" conf="cas->default;dev-kernel-resources->default"/>
+    <dependency org="ja-sig" name="cas-client-core" rev="3.1.10" conf="compile->default"/>
 
     <!-- jcifs configuration -->
-    <dependency org="samba" name="jcifs" rev="1.2.22" conf="jcifs->default;dev-kernel-resources->default"/>
+    <dependency org="samba" name="jcifs" rev="1.2.22" conf="compile->default"/>
 
     <!-- runtime configuration -->
     <dependency org="minaret" name="datedFileAppender" rev="1.0.2" conf="runtime->default;dev-kernel-resources->default"/>
