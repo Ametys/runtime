@@ -42,7 +42,6 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.cocoon.Constants;
 import org.apache.cocoon.servlet.CocoonServlet;
-import org.apache.cocoon.servlet.multipart.RequestFactory;
 import org.apache.cocoon.xml.XMLUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
@@ -51,8 +50,11 @@ import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
+import org.ametys.runtime.cocoon.InitExtensionPoint;
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.config.ConfigManager;
+import org.ametys.runtime.plugin.Init;
+import org.ametys.runtime.plugin.component.PluginsComponentManager;
 import org.ametys.runtime.request.RequestListener;
 import org.ametys.runtime.request.RequestListenerManager;
 import org.ametys.runtime.util.LoggerFactory;
@@ -146,9 +148,33 @@ public class RuntimeServlet extends CocoonServlet
     @Override
     public final void init(ServletConfig conf) throws ServletException
     {
+        // Set this property in order to avoid a System.err.println (CatalogManager.java)
+        if (System.getProperty("xml.catalog.ignoreMissing") == null)
+        {
+            System.setProperty("xml.catalog.ignoreMissing", "true");
+        }
+        
         try
         {
             super.init(conf);
+            
+            PluginsComponentManager pluginCM = (PluginsComponentManager) servletContext.getAttribute("PluginsComponentManager");
+            
+            // Plugins Init class execution
+            InitExtensionPoint initExtensionPoint = (InitExtensionPoint) pluginCM.lookup(InitExtensionPoint.ROLE);
+            for (String id : initExtensionPoint.getExtensionsIds())
+            {
+                Init init = initExtensionPoint.getExtension(id);
+                init.init();
+            }
+            
+            // Application Init class execution if available
+            if (pluginCM.hasComponent(Init.ROLE))
+            {
+                Init init = (Init) pluginCM.lookup(Init.ROLE);
+                init.init();
+            }
+
         }
         catch (Throwable t)
         {
@@ -176,23 +202,12 @@ public class RuntimeServlet extends CocoonServlet
     @Override
     protected synchronized void createCocoon() throws ServletException
     {
-        // Set this property in order to avoid a System.err.println (CatalogManager.java)
-        if (System.getProperty("xml.catalog.ignoreMissing") == null)
-        {
-            System.setProperty("xml.catalog.ignoreMissing", "true");
-        }
-        
         super.createCocoon();
         
         if (ConfigManager.getInstance().isComplete())
         {
-            // Reprise de la gestion de l'upload pour ne plus reposer sur le web.xml
-            // Le code ici reprend en partie celui de la CocoonServlet (tout est privé)
-            boolean enableUploads = getInitParameterAsBoolean("enable-uploads", false);
-            
             if (enableUploads)
             {
-                int maxUploadSize;
                 Long maxUploadSizeParam = Config.getInstance().getValueAsLong("runtime.upload.max-size");
                 if (maxUploadSizeParam == null)
                 {
@@ -204,11 +219,6 @@ public class RuntimeServlet extends CocoonServlet
                     maxUploadSize = (int) maxUploadSizeParam.longValue();
                 }
                 
-                boolean autoSaveUploads = getInitParameterAsBoolean("autosave-uploads", true);
-                String overwriteParam = getInitParameter("overwrite-uploads", "rename");
-                String containerEncoding = getInitParameter("container-encoding", "ISO-8859-1");
-
-                File uploadDir;
                 String uploadDirParam = Config.getInstance().getValueAsString("runtime.upload.dir");
                 if (uploadDirParam == null)
                 {
@@ -233,38 +243,23 @@ public class RuntimeServlet extends CocoonServlet
                 uploadDir.mkdirs();
                 appContext.put(Constants.CONTEXT_UPLOAD_DIR, uploadDir);
 
-                boolean allowOverwrite;
-                boolean silentlyRename;
-
-                // accepted values are deny|allow|rename - rename is default.
-                if ("deny".equalsIgnoreCase(overwriteParam))
-                {
-                    allowOverwrite = false;
-                    silentlyRename = false;
-                }
-                else if ("allow".equalsIgnoreCase(overwriteParam))
-                {
-                    allowOverwrite = true;
-                    silentlyRename = false; // ignored in this case
-                }
-                else
-                {
-                    // either rename is specified or unsupported value - default to rename.
-                    allowOverwrite = false;
-                    silentlyRename = true;
-                }
-
-                requestFactory = new RequestFactory(autoSaveUploads, uploadDir, allowOverwrite, silentlyRename, maxUploadSize, containerEncoding);
+                createRequestFactory();
             }
         }
+    }
+    
+    @Override
+    protected void initLogger()
+    {
+        super.initLogger();
+        
+        LoggerFactory.setup(getLoggerManager());
     }
 
     @Override
     protected void updateEnvironment() throws ServletException
     {
         super.updateEnvironment();
-
-        LoggerFactory.setup(getLoggerManager());
         
         // Create temp dir if it does not exist
         File tmpDir = new File(System.getProperty("java.io.tmpdir"));

@@ -17,19 +17,19 @@ package org.ametys.runtime.cocoon;
 
 import java.util.Map;
 
-import org.ametys.runtime.plugin.Init;
-import org.ametys.runtime.plugin.PluginsManager;
-import org.ametys.runtime.plugin.PluginsManager.FeatureInformation;
-import org.ametys.runtime.plugin.component.PluginsComponentManager;
-import org.ametys.runtime.servlet.RuntimeConfig;
-import org.ametys.runtime.util.LoggerFactory;
-import org.ametys.runtime.workspace.WorkspaceManager;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.service.WrapperServiceManager;
 import org.apache.cocoon.Constants;
 import org.apache.cocoon.environment.Context;
+
+import org.ametys.runtime.plugin.PluginsManager;
+import org.ametys.runtime.plugin.PluginsManager.FeatureInformation;
+import org.ametys.runtime.plugin.component.PluginsComponentManager;
+import org.ametys.runtime.servlet.RuntimeConfig;
+import org.ametys.runtime.util.LoggerFactory;
+import org.ametys.runtime.workspace.WorkspaceManager;
 
 /**
  * Own TreeProcessor implementation used to initialize plugin stuff.<br>
@@ -68,20 +68,9 @@ public class TreeProcessor extends org.apache.cocoon.components.treeprocessor.Tr
                 super.compose(pluginCM);
                 _pluginCM = pluginCM;
                 
-                // Plugins Init class execution
-                InitExtensionPoint initExtensionPoint = (InitExtensionPoint) pluginCM.lookup(InitExtensionPoint.ROLE);
-                for (String id : initExtensionPoint.getExtensionsIds())
-                {
-                    Init init = initExtensionPoint.getExtension(id);
-                    init.init();
-                }
-                
-                // Application Init class execution if available
-                if (pluginCM.hasComponent(Init.ROLE))
-                {
-                    Init init = (Init) pluginCM.lookup(Init.ROLE);
-                    init.init();
-                }
+                // Set the new ComponentManager in the servlet context so that it can be retrieved bt the Servlet 
+                Context cocoonContext = (Context) context.get(Constants.CONTEXT_ENVIRONMENT_CONTEXT);
+                cocoonContext.setAttribute("PluginsComponentManager", pluginCM);
             }
             else
             {
