@@ -1245,7 +1245,7 @@ public final class PluginsManager
         }
         else if (_logger.isInfoEnabled())
         {
-            _logger.info("No init class used");
+            _logger.info("No init class configured");
         }
     }
     
