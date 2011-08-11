@@ -115,19 +115,22 @@ public class CocoonWrapper
             
             PluginsComponentManager pluginCM = (PluginsComponentManager) _cliContext.getAttribute("PluginsComponentManager");
             
-            // Plugins Init class execution
-            InitExtensionPoint initExtensionPoint = (InitExtensionPoint) pluginCM.lookup(InitExtensionPoint.ROLE);
-            for (String id : initExtensionPoint.getExtensionsIds())
+            if (pluginCM != null)
             {
-                Init init = initExtensionPoint.getExtension(id);
-                init.init();
-            }
-            
-            // Application Init class execution if available
-            if (pluginCM.hasComponent(Init.ROLE))
-            {
-                Init init = (Init) pluginCM.lookup(Init.ROLE);
-                init.init();
+                // Plugins Init class execution
+                InitExtensionPoint initExtensionPoint = (InitExtensionPoint) pluginCM.lookup(InitExtensionPoint.ROLE);
+                for (String id : initExtensionPoint.getExtensionsIds())
+                {
+                    Init init = initExtensionPoint.getExtension(id);
+                    init.init();
+                }
+                
+                // Application Init class execution if available
+                if (pluginCM.hasComponent(Init.ROLE))
+                {
+                    Init init = (Init) pluginCM.lookup(Init.ROLE);
+                    init.init();
+                }
             }
             
             CommandLineSession.invalidateSession();
