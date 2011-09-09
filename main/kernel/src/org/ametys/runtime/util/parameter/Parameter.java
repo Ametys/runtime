@@ -20,24 +20,24 @@ import org.ametys.runtime.util.I18nizableText;
 /**
  * A parameter is defined with the following properties:
  * <dl>
- *  <dd>id</dd>
- *  <dt>id of the parameter, must be unique</dt>
- *  <dd>pluginName</dd>
- *  <dt>the plugin name defining this parameter</dt>
- *  <dd>label</dd>
- *  <dt>the label (can be i18nized)</dt>
- *  <dd>description</dd>
- *  <dt>the description (can be i18nized)</dt>
- *  <dd>type</dd>
- *  <dt>the type</dt>
- *  <dd>widget</dd>
- *  <dt>the optional widget to use for rendering</dt>
- *  <dd>enumerator</dd>
- *  <dt>the optional enumerator</dt>
- *  <dd>validator</dd>
- *  <dt>the optional validator</dt>
- *  <dd>defaultValue</dd>
- *  <dt>the default value</dt>
+ *  <dd>id
+ *  <dt>id of the parameter, must be unique
+ *  <dd>pluginName
+ *  <dt>the plugin name defining this parameter
+ *  <dd>label
+ *  <dt>the label (can be i18nized)
+ *  <dd>description
+ *  <dt>the description (can be i18nized)
+ *  <dd>type
+ *  <dt>the type
+ *  <dd>widget
+ *  <dt>the optional widget to use for rendering
+ *  <dd>enumerator
+ *  <dt>the optional enumerator
+ *  <dd>validator
+ *  <dt>the optional validator
+ *  <dd>defaultValue
+ *  <dt>the default value
  * </dl>
  * @param <T> the actual parameter type.
  */
