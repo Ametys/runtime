@@ -37,9 +37,10 @@ import org.xml.sax.SAXException;
  * The following file:<br>
  * I am a <i18n:text i18n:key="test"/>.<br>
  * Will be read as:<br>
- * <?xml version="1.0" encoding="UTF-8"><xml
- * xmlns:i18n="http://apache.org/cocoon/i18n/2.1">I am a <i18n:text
- * i18n:key="test"/>.</xml><br>
+ * <?xml version="1.0" encoding="UTF-8">
+ * &lt;xml xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
+ * I am a &lt;i18n:text i18n:key="test"/>.
+ * &lt;/xml><br>
  * And so will sax events correctly.
  */
 public class XMLizableTextGenerator extends FileGenerator implements Configurable
