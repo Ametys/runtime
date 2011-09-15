@@ -160,19 +160,23 @@ public class RuntimeServlet extends CocoonServlet
             
             PluginsComponentManager pluginCM = (PluginsComponentManager) servletContext.getAttribute("PluginsComponentManager");
             
-            // Plugins Init class execution
-            InitExtensionPoint initExtensionPoint = (InitExtensionPoint) pluginCM.lookup(InitExtensionPoint.ROLE);
-            for (String id : initExtensionPoint.getExtensionsIds())
+            // There's no PluginsComponentManager if the config is not ok
+            if (pluginCM != null)
             {
-                Init init = initExtensionPoint.getExtension(id);
-                init.init();
-            }
-            
-            // Application Init class execution if available
-            if (pluginCM.hasComponent(Init.ROLE))
-            {
-                Init init = (Init) pluginCM.lookup(Init.ROLE);
-                init.init();
+                // Plugins Init class execution
+                InitExtensionPoint initExtensionPoint = (InitExtensionPoint) pluginCM.lookup(InitExtensionPoint.ROLE);
+                for (String id : initExtensionPoint.getExtensionsIds())
+                {
+                    Init init = initExtensionPoint.getExtension(id);
+                    init.init();
+                }
+                
+                // Application Init class execution if available
+                if (pluginCM.hasComponent(Init.ROLE))
+                {
+                    Init init = (Init) pluginCM.lookup(Init.ROLE);
+                    init.init();
+                }
             }
 
         }
