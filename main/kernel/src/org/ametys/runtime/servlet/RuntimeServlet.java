@@ -141,7 +141,16 @@ public class RuntimeServlet extends CocoonServlet
             disposeCocoon();
             initLogger();
             createCocoon();
-            _initPlugins();
+            
+            try
+            {
+                _initPlugins();
+            }
+            catch (Exception e)
+            {
+                getLogger().error("Error while reloading plugins. Entering in error mode.", e);
+                this.exception = e;
+            }
         }
         // }
     }
