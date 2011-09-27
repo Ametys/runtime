@@ -141,6 +141,7 @@ public class RuntimeServlet extends CocoonServlet
             disposeCocoon();
             initLogger();
             createCocoon();
+            _initPlugins();
         }
         // }
     }
@@ -158,27 +159,7 @@ public class RuntimeServlet extends CocoonServlet
         {
             super.init(conf);
             
-            PluginsComponentManager pluginCM = (PluginsComponentManager) servletContext.getAttribute("PluginsComponentManager");
-            
-            // There's no PluginsComponentManager if the config is not ok
-            if (pluginCM != null)
-            {
-                // Plugins Init class execution
-                InitExtensionPoint initExtensionPoint = (InitExtensionPoint) pluginCM.lookup(InitExtensionPoint.ROLE);
-                for (String id : initExtensionPoint.getExtensionsIds())
-                {
-                    Init init = initExtensionPoint.getExtension(id);
-                    init.init();
-                }
-                
-                // Application Init class execution if available
-                if (pluginCM.hasComponent(Init.ROLE))
-                {
-                    Init init = (Init) pluginCM.lookup(Init.ROLE);
-                    init.init();
-                }
-            }
-
+            _initPlugins();
         }
         catch (Throwable t)
         {
@@ -199,6 +180,30 @@ public class RuntimeServlet extends CocoonServlet
                 {
                     this.exception = new Exception(t);
                 }
+            }
+        }
+    }
+    
+    private void _initPlugins() throws Exception
+    {
+        PluginsComponentManager pluginCM = (PluginsComponentManager) servletContext.getAttribute("PluginsComponentManager");
+        
+        // There's no PluginsComponentManager if the config is not ok
+        if (pluginCM != null)
+        {
+            // Plugins Init class execution
+            InitExtensionPoint initExtensionPoint = (InitExtensionPoint) pluginCM.lookup(InitExtensionPoint.ROLE);
+            for (String id : initExtensionPoint.getExtensionsIds())
+            {
+                Init init = initExtensionPoint.getExtension(id);
+                init.init();
+            }
+            
+            // Application Init class execution if available
+            if (pluginCM.hasComponent(Init.ROLE))
+            {
+                Init init = (Init) pluginCM.lookup(Init.ROLE);
+                init.init();
             }
         }
     }
