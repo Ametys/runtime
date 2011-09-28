@@ -125,7 +125,6 @@ public class SAXClientSideElementHelper extends AbstractLogEnabled implements Co
      * @param handler The handler where to sax
      * @throws SAXException If an error occured
      */
-    @SuppressWarnings("unchecked")
     public void saxCurrentState(String clientSideElementId, String tagName, ContextualClientSideElement element, ContentHandler handler) throws SAXException
     {
         Map objectModel = ContextHelper.getObjectModel(_context);

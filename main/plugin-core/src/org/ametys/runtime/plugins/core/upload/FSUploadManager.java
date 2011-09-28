@@ -102,7 +102,6 @@ public class FSUploadManager extends TimerTask implements UploadManager, ThreadS
     }
     
     @Override
-    @SuppressWarnings("unchecked")
     public void run()
     {
         if (_logger.isInfoEnabled())
@@ -226,7 +225,6 @@ public class FSUploadManager extends TimerTask implements UploadManager, ThreadS
     }
     
     @Override
-    @SuppressWarnings("unchecked")
     public Upload getUpload(String login, String id) throws NoSuchElementException
     {
         File uploadDir = _getUploadDir(login, id);

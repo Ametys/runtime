@@ -49,7 +49,6 @@ public class ChangeRuntime extends ServiceableGenerator
         _saxParser = (SAXParser) manager.lookup(SAXParser.ROLE);
     }
     
-    @SuppressWarnings("unchecked")
     @Override
     public void generate() throws IOException, SAXException, ProcessingException
     {

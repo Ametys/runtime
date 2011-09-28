@@ -45,7 +45,6 @@ public class UserPreferencesValuesGenerator extends CurrentUserProviderServiceab
         _userPrefManager = (UserPreferencesManager) serviceManager.lookup(UserPreferencesManager.ROLE);
     }
     
-    @SuppressWarnings("unchecked")
     @Override
     public void generate() throws IOException, SAXException, ProcessingException
     {

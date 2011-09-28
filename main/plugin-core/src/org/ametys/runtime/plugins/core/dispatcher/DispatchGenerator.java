@@ -94,7 +94,6 @@ public class DispatchGenerator extends ServiceableGenerator
         return ObjectModelHelper.getRequest(objectModel).getParameter("context.parameters");
     }
 
-    @SuppressWarnings("unchecked")
     private void _dispatching(Map<String, Object> parametersAsMap, Map<String, Object> contextAsMap) throws SAXException
     {
         Map<String, Object> attributes = _saveRequestAttributes();
@@ -239,7 +238,6 @@ public class DispatchGenerator extends ServiceableGenerator
      * Transforms the request attributes into a map and clean the attributes
      * @return
      */
-    @SuppressWarnings("unchecked")
     private Map<String, Object> _saveRequestAttributes()
     {
         Map<String, Object> attrs = new HashMap<String, Object>();

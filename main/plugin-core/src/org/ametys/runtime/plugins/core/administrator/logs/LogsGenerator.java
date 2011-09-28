@@ -66,7 +66,6 @@ public class LogsGenerator extends ServiceableGenerator
         contentHandler.endDocument();
     }
     
-    @SuppressWarnings("unchecked")
     private void _log4jLevels() throws SAXException
     {
         try
@@ -140,7 +139,6 @@ public class LogsGenerator extends ServiceableGenerator
         }
     }
     
-    @SuppressWarnings("unchecked")
     private Map<String, List<TraversableSource>> _prepareLogs(TraversableSource logsDirectorySource) throws SourceException
     {
         Map<String, List<TraversableSource>> logs = new HashMap<String, List<TraversableSource>>();

@@ -190,7 +190,6 @@ public class FOPNGSerializer extends AbstractSerializer implements Configurable,
         return _mimetype;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void setOutputStream(OutputStream out) throws IOException
     {

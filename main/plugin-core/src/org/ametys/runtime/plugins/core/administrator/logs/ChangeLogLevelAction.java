@@ -73,7 +73,6 @@ public class ChangeLogLevelAction extends AbstractAction implements ThreadSafe
         return EMPTY_MAP;
     }
     
-    @SuppressWarnings("unchecked")
     private void changeLogLevel(LoggerRepository loggerRepository, String category, String mode)
     {
         boolean inherited = "INHERIT".equals(mode) || "INHERITFORCED".equals(mode);
