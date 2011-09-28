@@ -127,7 +127,6 @@ public class EditAction extends CurrentUserProviderServiceableAction
         return EMPTY_MAP;
     }
     
-    @SuppressWarnings("unchecked")
     private Map<String, String> _getRequestParameters(Request request)
     {
         Map<String, String> editParams = new HashMap<String, String>();

@@ -26,7 +26,6 @@ import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.commandline.CommandLineRequest;
 import org.apache.cocoon.environment.commandline.CommandLineResponse;
 
-@SuppressWarnings("unchecked")
 class TestEnvironment extends AbstractEnvironment
 {
     TestEnvironment(String uri, Map requestParameters, Map requestAttributes, Map requestHeaders, Context ctx, Logger logger) throws MalformedURLException

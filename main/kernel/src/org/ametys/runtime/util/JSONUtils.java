@@ -44,7 +44,6 @@ public final class JSONUtils
      * @param jsonString the string to parse
      * @return object 
      */
-    @SuppressWarnings("unchecked")
     public static Map<String, Object> parse (String jsonString)
     {
         try 

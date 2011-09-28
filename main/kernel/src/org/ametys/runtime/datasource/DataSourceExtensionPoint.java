@@ -38,6 +38,7 @@ public class DataSourceExtensionPoint extends AbstractExtensionPoint<DataSource>
     
     private static final String __CONFIG_ATTRIBUTE_NAME = "runtime-config-parameter";
     
+    @SuppressWarnings("unused")
     public void addExtension(String pluginName, String featureName, Configuration configuration) throws ConfigurationException
     {
         String id = configuration.getAttribute("id");

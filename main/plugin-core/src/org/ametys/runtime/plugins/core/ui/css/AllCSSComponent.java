@@ -56,7 +56,6 @@ public class AllCSSComponent implements ThreadSafe, Contextualizable, Component
      * resetCSSFilesList method has to be called before the first call
      * @param filename A filename (relative to context path)
      */
-    @SuppressWarnings("unchecked")
     public static void addCSSFile(String filename)
     {
         List<String> cssFilesList = (List<String>) ContextHelper.getRequest(_context).getSession(true).getAttribute(AllCSSComponent.class.getName());
@@ -70,7 +69,6 @@ public class AllCSSComponent implements ThreadSafe, Contextualizable, Component
      * This is needed to get the list back.
      * @return A hash code.
      */
-    @SuppressWarnings("unchecked")
     public static int getHashCode()
     {
         Session session = ContextHelper.getRequest(_context).getSession(true);
@@ -92,7 +90,6 @@ public class AllCSSComponent implements ThreadSafe, Contextualizable, Component
      * @param hashCodeAsString The hash code of the list. This will not retrieve the right list, but will ensure that the current list in the session is the same as the one required
      * @return The number of parts. From 1 to n. 
      */
-    @SuppressWarnings("unchecked")
     public static int getNumberOfParts(String hashCodeAsString)
     {
         List<String> list = (List<String>) ContextHelper.getRequest(_context).getSession(true).getAttribute(AllCSSComponent.class.getName() + "-" + hashCodeAsString);
@@ -110,7 +107,6 @@ public class AllCSSComponent implements ThreadSafe, Contextualizable, Component
      * @param hashCodeAsString The hash code of the list. This will not retrieve the right list, but will ensure that the current list in the session is the same as the one required
      * @return A list of files (relative to context path). Can be null 
      */
-    @SuppressWarnings("unchecked")
     public List<String> getCSSFilesList(String hashCodeAsString)
     {
         List<String> list = (List<String>) ContextHelper.getRequest(_context).getSession(true).getAttribute(AllCSSComponent.class.getName() + "-" + hashCodeAsString);

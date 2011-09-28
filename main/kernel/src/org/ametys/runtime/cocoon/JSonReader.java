@@ -46,7 +46,6 @@ public class JSonReader extends AbstractReader
         return "text/html";
     }
     
-    @SuppressWarnings("unchecked")
     @Override
     public void generate() throws IOException, SAXException, ProcessingException
     {

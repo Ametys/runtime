@@ -72,7 +72,6 @@ public class AbstractComponentExtensionPoint<T> extends AbstractLogEnabled imple
         _extensions = null;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void addExtension(String pluginName, String featureName, Configuration configuration) throws ConfigurationException
     {

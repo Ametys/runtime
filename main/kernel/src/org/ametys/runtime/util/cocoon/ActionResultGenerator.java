@@ -182,7 +182,6 @@ public class ActionResultGenerator extends AbstractGenerator
      * @throws SAXException on error
      * @throws ProcessingException on error
      */
-    @SuppressWarnings("unchecked")
     protected void saxMap() throws IOException, SAXException, ProcessingException
     {
         Request request = ObjectModelHelper.getRequest(objectModel);

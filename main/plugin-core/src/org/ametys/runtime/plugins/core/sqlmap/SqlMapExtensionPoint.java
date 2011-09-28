@@ -36,11 +36,13 @@ import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 
+import org.ametys.runtime.datasource.ConnectionHelper;
+import org.ametys.runtime.datasource.DataSourceExtensionPoint;
+import org.ametys.runtime.plugin.PluginsManager;
+import org.ametys.runtime.plugin.component.AbstractThreadSafeComponentExtensionPoint;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.service.ServiceException;
-import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.Constants;
 import org.apache.cocoon.environment.Context;
 import org.apache.cocoon.xml.AttributesImpl;
@@ -52,11 +54,6 @@ import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-
-import org.ametys.runtime.datasource.ConnectionHelper;
-import org.ametys.runtime.datasource.DataSourceExtensionPoint;
-import org.ametys.runtime.plugin.PluginsManager;
-import org.ametys.runtime.plugin.component.AbstractThreadSafeComponentExtensionPoint;
 
 import com.ibatis.sqlmap.client.SqlMapClient;
 import com.ibatis.sqlmap.client.SqlMapClientBuilder;
@@ -75,8 +72,6 @@ public class SqlMapExtensionPoint extends AbstractThreadSafeComponentExtensionPo
     
     /** The root context path. */
     String _contextPath;
-    /** The service manager. */
-    private ServiceManager _cocoonManager;
     /** The SqlMaps defined as extensions grouped by pool. */
     private Map<String, Set<SqlMap>> _sqlMaps;
     /** The SqlMapClients grouped by pool. */
@@ -85,13 +80,6 @@ public class SqlMapExtensionPoint extends AbstractThreadSafeComponentExtensionPo
     private Map<String, Set<String>> _extensions;
     /** Source resolver. */
     private SourceResolver _sourceResolver;
-    
-    @Override
-    public void service(ServiceManager manager) throws ServiceException
-    {
-        super.service(manager);
-        _cocoonManager = manager;
-    }
     
     @Override
     public void initialize() throws Exception
