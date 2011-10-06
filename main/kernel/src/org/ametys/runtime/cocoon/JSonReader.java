@@ -58,4 +58,3 @@ public class JSonReader extends AbstractReader
         IOUtils.closeQuietly(out);
     }
 }
-
