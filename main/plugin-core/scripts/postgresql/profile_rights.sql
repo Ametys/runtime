@@ -22,7 +22,8 @@ DROP TABLE IF EXISTS Rights_UserRights;
 
 CREATE TABLE Rights_Profile(
 Id SERIAL PRIMARY KEY , 
-Label VARCHAR(200));
+Label VARCHAR(200),
+Context VARCHAR(200));
 
 
 CREATE TABLE Rights_ProfileRights(

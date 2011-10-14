@@ -42,7 +42,8 @@ import org.ametys.runtime.user.User;
  */
 public class ProfilesByContextGenerator extends ServiceableGenerator
 {
-    private DefaultProfileBasedRightsManager _rightsManager;
+    /** The rights manager */
+    protected DefaultProfileBasedRightsManager _rightsManager;
 
     @Override
     public void service(ServiceManager m) throws ServiceException
@@ -85,7 +86,13 @@ public class ProfilesByContextGenerator extends ServiceableGenerator
         contentHandler.endDocument();
     }
 
-    private void _saxProfile(Profile profile, String context) throws SAXException
+    /**
+     * SAX Profile
+     * @param profile the profile to SAX
+     * @param context the context of right
+     * @throws SAXException
+     */
+    protected void _saxProfile(Profile profile, String context) throws SAXException
     {
         AttributesImpl attr = new AttributesImpl();
         attr.addAttribute("", "id", "id", "CDATA", "profile-" + profile.getId());

@@ -16,7 +16,8 @@
 drop table if exists Rights_Profile;
 CREATE TABLE Rights_Profile(
 Id int PRIMARY KEY NOT NULL auto_increment, 
-Label VARCHAR(200)
+Label VARCHAR(200),
+Context VARCHAR(200)
 )ENGINE=innodb;
 
 drop table if exists Rights_ProfileRights;

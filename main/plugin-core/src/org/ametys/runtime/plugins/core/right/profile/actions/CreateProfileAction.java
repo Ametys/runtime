@@ -87,8 +87,10 @@ public class CreateProfileAction extends CurrentUserProviderServiceableAction
             throw new ProcessingException(message, e);
         }
 
+        String context = request.getParameter("context");
+        
         // Création du profil
-        Profile profile = profileBasedRightsManager.addProfile(newProfilesName);
+        Profile profile = profileBasedRightsManager.addProfile(newProfilesName, context);
         if (getLogger().isDebugEnabled())
         {
             getLogger().debug("Ending profile creation");

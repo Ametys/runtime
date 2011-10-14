@@ -38,6 +38,12 @@ public interface Profile
     public String getName();
     
     /**
+     * Returns the context of this profile
+     * @return the context of this profile. Can be null.
+     */
+    public String getContext();
+    
+    /**
      * Adds a Right to this Profile
      * @param rightId the Right to add to this profile
      */

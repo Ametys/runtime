@@ -2469,7 +2469,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         try
         {
             connection = ConnectionHelper.getConnection(_poolName);
-            statement = connection.prepareStatement("SELECT Label FROM " + _tableProfile + " WHERE Id = ?");
+            statement = connection.prepareStatement("SELECT Label, Context FROM " + _tableProfile + " WHERE Id = ?");
             statement.setInt(1, Integer.parseInt(id));
             
             rs = statement.executeQuery();
@@ -2477,7 +2477,8 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             if (rs.next())
             {
                 String label = rs.getString("Label");
-                return new DefaultProfile(id, label);
+                String context = rs.getString("Context");
+                return new DefaultProfile(id, label, context);
             }
             
             return null;
@@ -2494,7 +2495,13 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         }
     }
     
+    @Override
     public Profile addProfile(String name)
+    {
+        return addProfile(name, null);
+    }
+    
+    public Profile addProfile(String name, String context)
     {
         String id = null;
         
@@ -2517,14 +2524,16 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
                 ConnectionHelper.cleanup(rs);
                 ConnectionHelper.cleanup(statement);
                 
-                statement = connection.prepareStatement("INSERT INTO " + _tableProfile + " (Id, Label) VALUES(?, ?)");
+                statement = connection.prepareStatement("INSERT INTO " + _tableProfile + " (Id, Label, Context) VALUES(?, ?, ?)");
                 statement.setString(1, id);
                 statement.setString(2, name);
+                statement.setString(3, context);
             } 
             else
             {
-                statement = connection.prepareStatement("INSERT INTO " + _tableProfile + " (Label) VALUES(?)");
+                statement = connection.prepareStatement("INSERT INTO " + _tableProfile + " (Label, Context) VALUES(?, ?)");
                 statement.setString(1, name);
+                statement.setString(2, context);
             }
             
             statement.executeUpdate();
@@ -2575,10 +2584,61 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             ConnectionHelper.cleanup(connection);
         }
         
-        return new DefaultProfile(id, name);
+        return new DefaultProfile(id, name, context);
     }
     
+    @Override
     public Set<Profile> getProfiles()
+    {
+        return getProfiles(null);
+    }
+    
+    @Override
+    public Set<Profile> getProfiles(String context)
+    {
+        Set<Profile> profiles = new HashSet<Profile>();
+        
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        try
+        {
+            connection = ConnectionHelper.getConnection(_poolName);
+            if (context == null)
+            {
+                stmt = connection.prepareStatement("SELECT Id, Label FROM " + _tableProfile + " WHERE Context is null");
+            }
+            else
+            {
+                stmt = connection.prepareStatement("SELECT Id, Label FROM " + _tableProfile + " WHERE Context=?");
+                stmt.setString(1, context);
+            }
+            
+            rs = stmt.executeQuery();
+            
+            while (rs.next())
+            {
+                String id = rs.getString("Id");
+                String label = rs.getString("Label");
+                profiles.add(new DefaultProfile(id, label, context));
+            }
+        }
+        catch (SQLException ex)
+        {
+            throw new RuntimeException(ex);
+        }
+        finally
+        {
+            ConnectionHelper.cleanup(rs);
+            ConnectionHelper.cleanup(stmt);
+            ConnectionHelper.cleanup(connection);
+        }
+        
+        return profiles;
+    }
+    
+    public Set<Profile> getAllProfiles()
     {
         Set<Profile> profiles = new HashSet<Profile>();
         
@@ -2590,13 +2650,14 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         {
             connection = ConnectionHelper.getConnection(_poolName);
             stmt = connection.createStatement();
-            rs = stmt.executeQuery("SELECT Id, Label FROM " + _tableProfile);
+            rs = stmt.executeQuery("SELECT Id, Label, Context FROM " + _tableProfile);
             
             while (rs.next())
             {
                 String id = rs.getString("Id");
                 String label = rs.getString("Label");
-                profiles.add(new DefaultProfile(id, label));
+                String context = rs.getString("Context");
+                profiles.add(new DefaultProfile(id, label, context));
             }
         }
         catch (SQLException ex)
@@ -2706,6 +2767,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     {
         private String _id;
         private String _name;
+        private String _context;
         
         /**
          * Constructor.
@@ -2716,7 +2778,22 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         {
             _id = id;
             _name = name;
+            _context = null;
         }
+        
+        /**
+         * Constructor.
+         * @param id the unique id of this profile
+         * @param name the name of this profile
+         * @param context the context
+         */
+        public DefaultProfile(String id, String name, String context)
+        {
+            _id = id;
+            _name = name;
+            _context = context;
+        }
+        
         
         public String getId()
         {
@@ -2726,6 +2803,12 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         public String getName()
         {
             return _name;
+        }
+        
+        @Override
+        public String getContext()
+        {
+            return _context;
         }
         
         public void addRight(String rightId)
@@ -2930,7 +3013,13 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             XMLUtils.startElement(handler, "profile", atts);
 
             XMLUtils.createElement(handler, "label", _name);
-                    
+            
+            String context = getContext();
+            if (context != null)
+            {
+                XMLUtils.createElement(handler, "context", context);
+            }
+            
             handler.startElement("", "rights", "rights", new AttributesImpl());
 
             for (String right : getRights())

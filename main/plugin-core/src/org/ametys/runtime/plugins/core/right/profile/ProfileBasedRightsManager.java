@@ -33,6 +33,14 @@ public interface ProfileBasedRightsManager extends RightsManager
     public Profile addProfile(String name);
     
     /**
+     * Add a new Profile
+     * @param name the name of the new Profile
+     * @param context the context. Can be null.
+     * @return the newly created Profile
+     */
+    public Profile addProfile(String name, String context);
+    
+    /**
      * Returns the Profile with the given Id
      * @param id the id oif the wanted Profile
      * @return the Profile with the given Id
@@ -43,7 +51,20 @@ public interface ProfileBasedRightsManager extends RightsManager
      * Returns all known profiles
      * @return all known profiles
      */
+    public Set<Profile> getAllProfiles();
+    
+    /**
+     * Returns profiles with no context
+     * @return profiles with no context
+     */
     public Set<Profile> getProfiles();
+    
+    /**
+     * Returns profiles of a given context
+     * @param context The context. Can be null. If null, the profiles with no context are returned.
+     * @return profiles of a given context 
+     */
+    public Set<Profile> getProfiles(String context);
 
     /**
      * Associates a profile with a group for a given Context

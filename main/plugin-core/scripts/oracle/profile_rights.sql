@@ -17,6 +17,7 @@ CREATE TABLE Rights_Profile
 (
 	Id number, 
 	Label VARCHAR(200),
+	Context VARCHAR(200),
 	PRIMARY KEY (Id)
 );
 

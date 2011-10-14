@@ -31,7 +31,7 @@ import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableGenerator;
 
 
 /**
- * Generates profiles
+ * Generates default profiles
  */
 public class ProfilesGenerator extends CurrentUserProviderServiceableGenerator
 {
