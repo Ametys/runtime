@@ -20,10 +20,7 @@ org.ametys.rights.profile.ProfilesTreePanel = function(config)
 {
 	this._context = config.context;
 	
-	var loader = new org.ametys.rights.profile.ProfilesXmlLoader ({
-        dataUrl: getPluginDirectUrl('core') + '/rights/profiles-context.xml',
-        syncMode: true // synchronous mode for filters
-    });
+	var loader = this._getLoader();
 	loader.addListener('beforeload', this._onBeforeLoad, this);
 	loader.addListener('load', this._onLoad, this);
     
@@ -102,6 +99,7 @@ org.ametys.rights.profile.ProfilesTreePanel = function(config)
     org.ametys.rights.profile.ProfilesTreePanel.superclass.constructor.call(this, config);
 }; 
 
+
 Ext.extend(org.ametys.rights.profile.ProfilesTreePanel, Ext.tree.TreePanel, {
 	
 	autoScroll:true,
@@ -148,6 +146,14 @@ org.ametys.rights.profile.ProfilesTreePanel.prototype.updateContextHelperText = 
 	{
 		this._contextHelperPanel.update(text);
 	}
+}
+
+org.ametys.rights.profile.ProfilesTreePanel.prototype._getLoader = function ()
+{
+	return new org.ametys.rights.profile.ProfilesXmlLoader ({
+        dataUrl: getPluginDirectUrl('core') + '/rights/profiles-context.xml',
+        syncMode: true // synchronous mode for filters
+    });
 }
 
 /**
