@@ -60,7 +60,7 @@ org.ametys.rights.CheckRightEntry.prototype.onRender = function (ct, position)
 	    });
 	}
 	
-	var maxWidth = this.width - 10 - 20; //padding + image
+	var maxWidth = this.width - 0; //padding + image
 	var textMesurer = Ext.util.TextMetrics.createInstance(this.el);
 	var textWidth = textMesurer.getWidth(this.boxLabel); // Taille en pixel
 	var nbCars = this.boxLabel.length; // Nombre de caractères

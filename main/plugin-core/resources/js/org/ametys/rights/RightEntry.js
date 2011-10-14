@@ -48,7 +48,7 @@ org.ametys.rights.RightEntry.prototype.setText = function (text)
 		var textMesurer = Ext.util.TextMetrics.createInstance(this.el);
 		var textWidth = textMesurer.getWidth(text); // Taille en pixel
 		var nbCars = text.length; // Nombre de caractères
-		var carWidth = Math.floor(textWidth / nbCars);//Taille moyenne d'un caractères
+		var carWidth = Math.floor(textWidth / nbCars); //Taille moyenne d'un caractères
 		if (textWidth > this.width)
 		{
 			text = text.substring(0, Math.floor(maxWidth /carWidth)) + "...";
@@ -75,7 +75,7 @@ org.ametys.rights.RightEntry.prototype.onRender = function(ct, position)
 	    });
 	}
 	
-	var maxWidth = this.width - 10 - 20; //padding + image
+	var maxWidth = this.width - 5 - 20; //padding + image
 	var textMesurer = Ext.util.TextMetrics.createInstance(this.el);
 	var textWidth = textMesurer.getWidth(this.text); // Taille en pixel
 	var nbCars = this.text.length; // Nombre de caractères
