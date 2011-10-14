@@ -490,8 +490,10 @@
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_PROFILE_NAME">Profile name</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_LEFTCOLUMN">Unassigned rights</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_RIGHTCOLUMN">Profile rights</message>
-    <message key="PLUGINS_CORE_PROFILE_RIGHTS_HANDLE_LABEL">Profiles</message>
-    <message key="PLUGINS_CORE_PROFILE_RIGHTS_HANDLE_DESCRIPTION">Window for profiles administration</message>
+	<message key="PLUGINS_CORE_PROFILE_RIGHTS_SEE_LABEL">See profiles</message>
+    <message key="PLUGINS_CORE_PROFILE_RIGHTS_SEE_DESCRIPTION">Allow to see the rights of profiles</message>
+    <message key="PLUGINS_CORE_PROFILE_RIGHTS_HANDLE_LABEL">Handle profiles</message>
+    <message key="PLUGINS_CORE_PROFILE_RIGHTS_HANDLE_DESCRIPTION">Allow to manage profiles</message>
     <message key="PLUGINS_CORE_RIGHTS_PROFILES_ERROR">An error occured</message>
     
     <!-- RIGHTS -->

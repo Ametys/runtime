@@ -491,7 +491,9 @@
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_PROFILE_NAME">Nom du profil</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_LEFTCOLUMN">Droits non affectés</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_RIGHTCOLUMN">Droits du profils</message>
-    <message key="PLUGINS_CORE_PROFILE_RIGHTS_HANDLE_LABEL">Profils</message>
+    <message key="PLUGINS_CORE_PROFILE_RIGHTS_SEE_LABEL">Voir les profils</message>
+    <message key="PLUGINS_CORE_PROFILE_RIGHTS_SEE_DESCRIPTION">Permet de voir les droits des profils</message>
+    <message key="PLUGINS_CORE_PROFILE_RIGHTS_HANDLE_LABEL">Gestion des profils</message>
     <message key="PLUGINS_CORE_PROFILE_RIGHTS_HANDLE_DESCRIPTION">Accès à l'écran de gestion des profils</message>
     <message key="PLUGINS_CORE_RIGHTS_PROFILES_ERROR">Une erreur est survenue</message>
     
