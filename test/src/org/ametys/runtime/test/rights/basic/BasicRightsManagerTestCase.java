@@ -53,11 +53,12 @@ public class BasicRightsManagerTestCase extends AbstractRuntimeTestCase
         
         // GET USER RIGHTS
         Set<String> rightsIds = rightsManager.getUserRights("any", "any");
-        assertEquals(4, rightsIds.size());
+        assertEquals(5, rightsIds.size());
         assertTrue(rightsIds.contains("Runtime_Rights_User_Handle"));
         assertTrue(rightsIds.contains("Runtime_Rights_Group_Handle"));
         assertTrue(rightsIds.contains("Runtime_Rights_Rights_Profile_Handle"));
         assertTrue(rightsIds.contains("Runtime_Rights_Rights_Handle"));
+        assertTrue(rightsIds.contains("Runtime_Rights_Rights_Profile_See"));
         
         // GET GRANTED USERS
         Set<String> usersIds = rightsManager.getGrantedUsers("any", "any");
