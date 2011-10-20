@@ -223,6 +223,19 @@ public final class ParameterHelper
             XMLUtils.createElement(handler, "widget", parameter.getWidget());
         }
         
+        Map<String, I18nizableText> widgetParameters = parameter.getWidgetParameters();
+        if (widgetParameters.size() > 0)
+        {
+            XMLUtils.startElement(handler, "widget-params");
+            for (String paramName : widgetParameters.keySet())
+            {
+                XMLUtils.startElement(handler, paramName);
+                widgetParameters.get(paramName).toSAX(handler);
+                XMLUtils.endElement(handler, paramName);
+            }
+            XMLUtils.endElement(handler, "widget-params");
+        }
+        
         Enumerator enumerator = parameter.getEnumerator();
         if (enumerator != null)
         {

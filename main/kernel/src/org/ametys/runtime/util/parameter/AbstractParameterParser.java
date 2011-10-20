@@ -70,6 +70,7 @@ public abstract class AbstractParameterParser<P extends Parameter<T>, T>
         parameter.setDescription(_parseI18nizableText(parameterConfig, pluginName, "description"));
         parameter.setType(_parseType(parameterConfig));
         parameter.setWidget(_parseWidget(parameterConfig));
+        parameter.setWidgetParameters(_parseWidgetParameters(parameterConfig, pluginName));
         _parseAndSetEnumerator(pluginName, parameter, parameterId, parameterConfig);
         _parseAndSetValidator(pluginName, parameter, parameterId, parameterConfig);
         parameter.setDefaultValue(_parseDefaultValue(parameterConfig, parameter));
@@ -184,6 +185,45 @@ public abstract class AbstractParameterParser<P extends Parameter<T>, T>
     protected String _parseWidget(Configuration parameterConfig) throws ConfigurationException
     {
         return parameterConfig.getChild("widget").getValue(null);
+    }
+    
+    /**
+     * Parses the widget's parameters
+     * @param parameterConfig the parameter configuration to use.
+     * @param pluginName the current plugin name.
+     * @return the widget's parameters in a Map
+     * @throws ConfigurationException if the configuration is not valid.
+     */
+    protected Map<String, I18nizableText> _parseWidgetParameters(Configuration parameterConfig, String pluginName) throws ConfigurationException
+    {
+        Map<String, I18nizableText> widgetParams = new HashMap<String, I18nizableText>();
+        
+        Configuration widgetParamsConfig = parameterConfig.getChild("widget-params", false);
+        if (widgetParamsConfig != null)
+        {
+            Configuration[] params = widgetParamsConfig.getChildren("param");
+            for (Configuration paramConfig : params)
+            {
+                boolean i18nSupported = paramConfig.getAttributeAsBoolean("i18n", false);
+                if (i18nSupported)
+                {
+                    String catalogue = paramConfig.getAttribute("catalogue", null);
+                    
+                    if (catalogue == null)
+                    {
+                        catalogue = "plugin." + pluginName;
+                    }
+                    
+                    widgetParams.put(paramConfig.getAttribute("name"), new I18nizableText(catalogue, paramConfig.getValue()));
+                }
+                else
+                {
+                    widgetParams.put(paramConfig.getAttribute("name"), new I18nizableText(paramConfig.getValue("")));
+                }
+            }
+        }
+        
+        return widgetParams;
     }
 
     /**

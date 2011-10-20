@@ -15,6 +15,8 @@
  */
 package org.ametys.runtime.util.parameter;
 
+import java.util.Map;
+
 import org.ametys.runtime.util.I18nizableText;
 
 /**
@@ -49,6 +51,7 @@ public class Parameter<T>
     private I18nizableText _description;
     private T _type;
     private String _widget;
+    private Map<String, I18nizableText> _widgetParams;
     private Enumerator _enumerator;
     private Validator _validator;
     private Object _defaultValue;
@@ -160,6 +163,24 @@ public class Parameter<T>
     public void setWidget(String widget)
     {
         _widget = widget;
+    }
+    
+    /**
+     * Get the widget's parameters
+     * @return the widget's parameters
+     */
+    public Map<String, I18nizableText> getWidgetParameters()
+    {
+        return _widgetParams;
+    }
+    
+    /**
+     * Set the widget's parameters
+     * @param params the parameters to set
+     */
+    public void setWidgetParameters (Map<String, I18nizableText> params)
+    {
+        _widgetParams = params;
     }
     
     /**

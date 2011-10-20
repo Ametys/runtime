@@ -446,6 +446,15 @@
                     </xsd:documentation>
                 </xsd:annotation>            
             </xsd:element>
+            <xsd:element name="widget-params" type="widget-parameters" maxOccurs="1" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            The optional widget's parameters.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>            
+            </xsd:element>
             <xsd:element name="enumeration" type="enumeration" maxOccurs="1" minOccurs="0">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">
@@ -469,6 +478,57 @@
                 </xsd:annotation>
             </xsd:element>
         </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="widget-parameters">
+ 		<xsd:sequence>
+ 			<xsd:element name="param" type="widget-parameter" maxOccurs="unbounded" minOccurs="0">
+               <xsd:annotation>
+                   <xsd:documentation xml:lang="en">
+                       <![CDATA[
+                       	Declaration of a widget parameter
+                       ]]>
+                   </xsd:documentation>
+               </xsd:annotation>            
+           </xsd:element>
+ 		</xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="widget-parameter">
+    	<xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+		        <xsd:attribute name="name" type="xsd:string" use="required">
+		            <xsd:annotation>
+		                <xsd:documentation xml:lang="en">
+		                    <![CDATA[
+		                        The name of parameter
+		                    ]]>
+		                </xsd:documentation>
+		            </xsd:annotation>            
+		        </xsd:attribute>
+		        <xsd:attribute name="i18n" type="xsd:boolean" use="optional" default="false">
+		            <xsd:annotation>
+		                <xsd:documentation xml:lang="en">
+		                    <![CDATA[
+		                        If <code>true</code> the value is a i18n key, <code>false</code> if the value is used without substitution.<br/>
+		                        The i18n key can contains the catalogue like <code>plugins.core:key</code> and then override the optional
+		                        <code>catalogue</code> attribute.
+		                    ]]>
+		                </xsd:documentation>
+		            </xsd:annotation>
+		        </xsd:attribute>
+		        <xsd:attribute name="catalogue" type="xsd:string" use="optional">
+		            <xsd:annotation>
+		                <xsd:documentation xml:lang="en">
+		                    <![CDATA[
+		                        The catalogue to use for the i18n key, default is to use the current plugin catalogue.<br/>
+		                        The attribute may reference an other existing catalogue (e.g. plugin.core)
+		                    ]]>
+		                </xsd:documentation>
+		            </xsd:annotation>
+		        </xsd:attribute>
+			</xsd:extension>
+		</xsd:simpleContent>
     </xsd:complexType>
     
     <xsd:complexType name="enumeration">

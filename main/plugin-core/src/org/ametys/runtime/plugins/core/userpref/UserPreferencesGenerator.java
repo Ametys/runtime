@@ -167,6 +167,19 @@ public class UserPreferencesGenerator extends CurrentUserProviderServiceableGene
             XMLUtils.createElement(contentHandler, "widget", preference.getWidget());
         }
         
+        Map<String, I18nizableText> widgetParameters = preference.getWidgetParameters();
+        if (widgetParameters.size() > 0)
+        {
+            XMLUtils.startElement(contentHandler, "widget-params");
+            for (String paramName : widgetParameters.keySet())
+            {
+                XMLUtils.startElement(contentHandler, paramName);
+                widgetParameters.get(paramName).toSAX(contentHandler);
+                XMLUtils.endElement(contentHandler, paramName);
+            }
+            XMLUtils.endElement(contentHandler, "widget-params");
+        }
+        
         Enumerator enumerator = preference.getEnumerator();
         if (enumerator != null)
         {
