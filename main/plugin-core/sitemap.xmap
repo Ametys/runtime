@@ -47,7 +47,7 @@
             <map:generator name="rights-context-application" src="org.ametys.runtime.plugins.core.right.ui.generators.ApplicationContextGenerator" logger="org.ametys.runtime.plugins.core.right.sitemap.generator.context.application" label="content"/>
             
         	<map:generator name="dispatcher" src="org.ametys.runtime.plugins.core.dispatcher.DispatchGenerator"/>
-        	<map:generator name="i18n" src="org.ametys.runtime.util.I18nGenerator"/>
+        	<map:generator name="i18n" src="org.ametys.runtime.util.I18nGenerator" logger="org.ametys.runtime.util.I18nGenerator"/>
         </map:generators>
         
         <map:serializers>
@@ -116,7 +116,7 @@
 			<map:match pattern="i18n">
 				<map:generate type="i18n"/>
 				<map:transform type="i18n">
-					<map:parameter name="locale" value="{request-attr:locale}"/>
+					<map:parameter name="locale" value="{parent-context-attr:locale}"/>
 				</map:transform>
 				<map:serialize type="text"/>
 			</map:match>

@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
@@ -40,15 +41,20 @@ import org.apache.excalibur.source.SourceUtil;
 /**
  * Utils for i18n
  */
-public class I18nUtils extends AbstractLogEnabled implements Component, Serviceable, Contextualizable
+public class I18nUtils extends AbstractLogEnabled implements Component, Serviceable, Contextualizable, Initializable
 {
     /** The avalon role */
     public static final String ROLE = I18nUtils.class.getName();
+    
+    private static I18nUtils _instance;
     
     /** The excalibur source resolver */
     protected SourceResolver _sourceResolver;
     /** The avalon context */
     protected Context _context;
+    
+    // Map<language, Map<text, translatedValue>>
+    private Map<String, Map<I18nizableText, String>> _cache;
     
     @Override
     public void contextualize(Context context) throws ContextException
@@ -60,6 +66,22 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
     public void service(ServiceManager manager) throws ServiceException
     {
         _sourceResolver = (SourceResolver) manager.lookup(SourceResolver.ROLE);
+    }
+    
+    @Override
+    public void initialize() throws Exception
+    {
+        _cache = new HashMap<String, Map<I18nizableText, String>>();
+        _instance = this;
+    }
+    
+    /**
+     * Get the unique instance
+     * @return the unique instance
+     */
+    public static I18nUtils getInstance()
+    {
+        return _instance;
     }
     
     /**
@@ -84,7 +106,69 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
      * @return The translation
      * @throws IllegalStateException if an error occured
      */
-    public String translate(I18nizableText text, String language)throws IllegalStateException
+    public String translate(I18nizableText text, String language) throws IllegalStateException
+    {
+        Map<I18nizableText, String> values = getLangCache(language);
+        
+        String value = null;
+        
+        if (values.containsKey(text))
+        {
+            value = values.get(text);
+        }
+        else
+        {
+            value = _translate(text, language);
+            
+            if (value != null)
+            {
+                values.put(text, value);
+            }
+        }
+
+        return value;
+    }
+    
+    /**
+     * Clear the i18n cache.
+     */
+    public void clearCache()
+    {
+        _cache.clear();
+    }
+    
+    /**
+     * Get the translation cache for a language.
+     * @param language the language.
+     * @return the translation cache for the given language.
+     */
+    protected Map<I18nizableText, String> getLangCache(String language)
+    {
+        Map<I18nizableText, String> langCache;
+        
+        if (_cache.containsKey(language))
+        {
+            langCache = _cache.get(language);
+        }
+        else
+        {
+            langCache = new HashMap<I18nizableText, String>();
+            _cache.put(language, langCache);
+        }
+        
+        return langCache;
+    }
+    
+    /**
+     * Get the translation of the key.
+     * This method is slow.
+     * Only use in very specific cases (send mail for example)
+     * @param text The i18n key to translate
+     * @param language The language code to use for translation. Can be null.
+     * @return The translation
+     * @throws IllegalStateException if an error occured
+     */
+    protected String _translate(I18nizableText text, String language) throws IllegalStateException
     {
         if (!text.isI18n())
         {            
