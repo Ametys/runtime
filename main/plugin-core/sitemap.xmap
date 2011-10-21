@@ -87,6 +87,8 @@
             
             <map:action name="upload-store" src="org.ametys.runtime.plugins.core.upload.actions.UploadAction" logger="org.ametys.runtime.plugins.core.upload.actions.UploadAction"/>
             
+            <map:action name="get-parent-context-attr" src="org.ametys.runtime.util.GetParentContextAttributeAction" logger="org.ametys.runtime.util.GetParentContextAttributeAction"/>
+            
              <map:action name="has-right" src="org.ametys.runtime.plugins.core.right.actions.HasRightAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.hasRight">
                 <has-right>true</has-right>
             </map:action>
@@ -114,11 +116,15 @@
 
 		<map:pipeline internal-only="true">
 			<map:match pattern="i18n">
-				<map:generate type="i18n"/>
-				<map:transform type="i18n">
-					<map:parameter name="locale" value="{parent-context-attr:locale}"/>
-				</map:transform>
-				<map:serialize type="text"/>
+                <map:act type="get-parent-context-attr">
+                    <map:parameter name="attributes" value="locale"/>
+                    
+    				<map:generate type="i18n"/>
+    				<map:transform type="i18n">
+    					<map:parameter name="locale" value="{locale}"/>
+    				</map:transform>
+    				<map:serialize type="text"/>
+                </map:act>
 			</map:match>
 		</map:pipeline>	
 		<map:pipeline>
