@@ -133,17 +133,9 @@ org.ametys.administration.Config.addInputField = function (ct, type, name, value
 				ct.add(org.ametys.administration.Config._createBooleanField (name, value, label, description));
 				break;
 			default:
-				if (widget == 'time')
+				if (widget != '')
 				{
-					ct.add(org.ametys.administration.Config._createTimeField (name, value, label, description, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null, invalidText));
-				}
-				else if (widget == 'hour')
-				{
-					ct.add(org.ametys.administration.Config._createHourField (name, value, label, description, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null, invalidText));
-				}
-				else if (widget == 'textarea')
-				{
-				    ct.add(org.ametys.administration.Config._createTextAreaField(name, value, label, description, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null, invalidText));
+					 ct.add(org.ametys.administration.Config._createWidgetField(widget, name, value, label, description, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null, invalidText));
 				}
 				else
 				{
@@ -154,6 +146,12 @@ org.ametys.administration.Config.addInputField = function (ct, type, name, value
 	}
 	
 	org.ametys.administration.Config._fields.push(name);
+}
+
+org.ametys.administration.Config._widgets = [];
+org.ametys.administration.Config.registerWidget = function (widgetId, widgetJSClass)
+{
+	org.ametys.administration.Config._widgets[widgetId] = widgetJSClass;
 }
 
 org.ametys.administration.Config.getInputHeight = function (input)
@@ -308,85 +306,47 @@ org.ametys.administration.Config._createDateField = function (name, value, label
 	});
 }
 
-org.ametys.administration.Config._createHourField = function (name, value, label, description, mandatory, regexp, invalidText)
+Ext.namespace('org.ametys.administration.widget');
+
+/** ------------------- Hour Widget -------------------------*/
+org.ametys.administration.widget.HourWidget = function (config)
 {
-	return new org.ametys.form.TimeField ({
-		name: name,
-		 
-        fieldLabel: label,
-        desc: description,
-        value: value,
-        
-        increment: 60,
-        editable: false,
-        allowBlank: !mandatory,
-        validatorRegexp: regexp,
-        validator: function(value)
-		{
-			if (this.allowBlank &amp;&amp; (value.length &lt; 1 || value === this.emptyText))
-			{
-				return true;
-			}
-			else if (!this.allowBlank &amp;&amp; (value.length &lt; 1 || value === this.emptyText))
-			{
-				return this.blankText;
-			}
-			else if (this.validatorRegexp &amp;&amp; !this.validatorRegexp.test(value))
-			{
-				return this.invalidText != null ? this.invalidText : this.regexText;
-			}
-			else
-			{
-				return true;
-			}
-		},
-		regexText: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP"/>" + regexp,
-		invalidText: invalidText != null ? invalidText : null,
-		msgTarget: 'side',
-		
-        width: 100
-	});
+	org.ametys.administration.widget.HourWidget.superclass.constructor.call (this, config);
 }
 
-org.ametys.administration.Config._createTimeField = function (name, value, label, description, mandatory, regexp, invalidText)
+Ext.extend(org.ametys.administration.widget.HourWidget, org.ametys.form.TimeField, {
+	increment: 60,
+    editable: false,
+	width: 100
+});
+org.ametys.administration.Config.registerWidget ('hour', 'org.ametys.administration.widget.HourWidget');
+
+/** ------------------- Time Widget -------------------------*/
+org.ametys.administration.widget.TimeWidget = function (config)
 {
-	return new org.ametys.form.TimeField ({
-		name: name,
-		 
-        fieldLabel: label,
-        desc: description,
-        value: value,
-        
-        increment: 60,
-        allowBlank: !mandatory,
-        validatorRegexp: regexp,
-        validator: function(value)
-		{
-			if (this.allowBlank &amp;&amp; (value.length &lt; 1 || value === this.emptyText))
-			{
-				return true;
-			}
-			else if (!this.allowBlank &amp;&amp; (value.length &lt; 1 || value === this.emptyText))
-			{
-				return this.blankText;
-			}
-			else if (this.validatorRegexp &amp;&amp; !this.validatorRegexp.test(value))
-			{
-				return this.invalidText != null ? this.invalidText : this.regexText;
-			}
-			else
-			{
-				return true;
-			}
-		},
-		regexText: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP"/>" + regexp,
-		invalidText: invalidText != null ? invalidText : null,
-		msgTarget: 'side',
-		
-        width: 100
-	});
+	org.ametys.administration.widget.TimeWidget.superclass.constructor.call (this, config);
 }
 
+Ext.extend(org.ametys.administration.widget.TimeWidget, org.ametys.form.TimeField, {
+	increment: 60,
+	width: 100
+});
+org.ametys.administration.Config.registerWidget ('time', 'org.ametys.administration.widget.TimeWidget');
+
+/** ------------------- TextArea Widget -------------------------*/
+org.ametys.administration.widget.TextAreaWidget = function (config)
+{
+	org.ametys.administration.widget.TextAreaWidget.superclass.constructor.call (this, config);
+}
+
+Ext.extend(org.ametys.administration.widget.TextAreaWidget, org.ametys.form.TextAreaField, {
+	width: 250,
+    height: 80
+});
+org.ametys.administration.Config.registerWidget ('textarea', 'org.ametys.administration.widget.TextAreaWidget');
+
+
+/** ------------------- Boolean Widget -------------------------*/
 org.ametys.administration.Config._createBooleanField = function (name, value, label, description)
 {
 	return new org.ametys.form.BooleanField ({
@@ -398,44 +358,6 @@ org.ametys.administration.Config._createBooleanField = function (name, value, la
         checked: (value == "true")
         
 	});
-}
-org.ametys.administration.Config._createTextAreaField = function(name, value, label, description, mandatory, regexp, invalidText)
-{
-    return new org.ametys.form.TextAreaField({
-        name: name,
-        fieldLabel: label,
-        desc: description,
-        
-        value: value,
-        
-        width: 250,
-        height: 80,
-        
-        allowBlank: !mandatory,
-        validatorRegexp: regexp,
-        validator: function(value)
-		{
-	    	if (this.allowBlank &amp;&amp; (value.length &lt; 1 || value === this.emptyText))
-			{
-				return true;
-			}
-			else if (!this.allowBlank &amp;&amp; (value.length &lt; 1 || value === this.emptyText))
-			{
-				return this.blankText;
-			}
-			else if (this.validatorRegexp &amp;&amp; !this.validatorRegexp.test(value))
-			{
-				return this.invalidText != null ? this.invalidText : this.regexText;
-			}
-			else
-			{
-				return true;
-			}
-		},
-		regexText: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP"/>" + regexp,
-		invalidText: invalidText != null ? invalidText : null,
-		msgTarget: 'side'
-    });
 }
 
 org.ametys.administration.Config._createTextField = function (name, value, label, description, enumeration, mandatory, regexp, invalidText)
@@ -503,6 +425,44 @@ org.ametys.administration.Config._createTextField = function (name, value, label
 			msgTarget: 'side'
 		});
 	}
+}
+
+org.ametys.administration.Config._createWidgetField = function (widgetId, name, value, label, description, mandatory, regexp, invalidText)
+{
+	var widgetCfg = {
+			name: name,
+	        fieldLabel: label,
+	        desc: description,
+	        
+	        value: value,
+	        allowBlank: !mandatory,
+	        validatorRegexp: regexp,
+	        validator: function(value)
+			{
+				if (this.allowBlank &amp;&amp; (value.length &lt; 1 || value === this.emptyText))
+				{
+					return true;
+				}
+				else if (!this.allowBlank &amp;&amp; (value.length &lt; 1 || value === this.emptyText))
+				{
+					return this.blankText;
+				}
+				else if (this.validatorRegexp &amp;&amp; !this.validatorRegexp.test(value))
+				{
+					return this.invalidText != null ? this.invalidText : this.regexText;
+				}
+				else
+				{
+					return true;
+				}
+			},
+			regexText: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP"/>" + regexp,
+			invalidText: invalidText != null ? invalidText : null,
+	        msgTarget: 'side'
+	};
+	
+	var widgetClass = org.ametys.administration.Config._widgets[widgetId];
+	return eval('new ' + widgetClass + '(widgetCfg)');
 }
 
 /**
