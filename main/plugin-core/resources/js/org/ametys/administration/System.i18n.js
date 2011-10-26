@@ -184,8 +184,24 @@ org.ametys.administration.System._drawHelpPanel = function ()
 
 org.ametys.administration.System._selectAnnouncement = function ()
 {
-	org.ametys.administration.System._actions.showElt(3);
-	org.ametys.administration.System._actions.showElt(4);		                    
+	var element = org.ametys.administration.System._listView.getSelection()[0];
+	if (element == null)
+	{
+		org.ametys.administration.System._actions.hideElt(3);
+		org.ametys.administration.System._actions.hideElt(4);		  
+	}
+	else
+	{
+		org.ametys.administration.System._actions.showElt(3);
+		if (element.get('lang') == '*')
+		{
+			org.ametys.administration.System._actions.hideElt(4);		  
+		}
+		else
+		{
+			org.ametys.administration.System._actions.showElt(4);		      
+		}     
+	}
 }
 
 /**
@@ -202,7 +218,8 @@ org.ametys.administration.System.goBack = function ()
 org.ametys.administration.System.save = function ()
 {
 	var args = {};
-
+	args.lang = [];
+	
 	// args.announcement = (document.getElementById('maintenance').checked ? "true" : "false");
 	args.announcement = org.ametys.administration.System._fieldSet.checkbox.dom.checked ? "true" : "false";
 
@@ -210,7 +227,8 @@ org.ametys.administration.System.save = function ()
     for (var i = 0; i &lt; elmts.length; i++)
     {
         var element = elmts[i];
-        args.lang = element.get('lang');
+        var lang = element.get('lang');
+        args.lang.push(element.get('lang'));
         args['message_' + element.get('lang')] = Utils.textareaToHTML(element.get('message'));
     }
     
@@ -248,6 +266,10 @@ org.ametys.administration.System.edit = function ()
  */
 org.ametys.administration.System.remove = function ()
 {
+	var element = org.ametys.administration.System._listView.getSelection()[0];
+	if (element.get('lang') == '*')
+		return;
+	
 	Ext.Msg.confirm ("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DELETE"/>", 
 			         "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DELETE_CONFIRM"/>", 
 			         org.ametys.administration.System.doRemove);
