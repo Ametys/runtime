@@ -58,8 +58,8 @@ import org.ametys.runtime.util.parameter.Enumerator;
 import org.ametys.runtime.util.parameter.Errors;
 import org.ametys.runtime.util.parameter.Parameter;
 import org.ametys.runtime.util.parameter.ParameterHelper;
-import org.ametys.runtime.util.parameter.Validator;
 import org.ametys.runtime.util.parameter.ParameterHelper.ParameterType;
+import org.ametys.runtime.util.parameter.Validator;
 
 /**
  * This manager handle the parameters of the application that have to be stored, by the plugins.
@@ -807,9 +807,20 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         @Override
         protected Object _parseDefaultValue(Configuration parameterConfig, ConfigParameter parameter)
         {
-            String defaultValue = parameterConfig.getChild("default-value").getValue(null);
-            return ParameterHelper.castValue(defaultValue, parameter.getType());
-        }
+            String value;
+            
+            Configuration childNode = parameterConfig.getChild("default-value", false);
+            if (childNode == null)
+            {
+                value = null;
+            }
+            else
+            {
+                value = childNode.getValue("");
+            }
+            
+            return ParameterHelper.castValue(value, parameter.getType());
+        }        
         
         @Override
         protected void _additionalParsing(ServiceManager manager, String pluginName, Configuration parameterConfig, String parameterId, ConfigParameter parameter) throws ConfigurationException
