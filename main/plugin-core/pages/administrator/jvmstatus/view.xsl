@@ -17,7 +17,7 @@
 <xsl:stylesheet version="1.0" 
                 xmlns:i18n="http://apache.org/cocoon/i18n/2.1" 
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:escaper="org.ametys.runtime.util.EscapeForJavascript">
+                xmlns:escaper="org.apache.commons.lang.StringEscapeUtils">
     
     <xsl:param name="contextPath"/>
     <xsl:param name="pluginName"/>
@@ -63,7 +63,7 @@
 								<xsl:sort select="local-name()"/>
 							
 								['<xsl:value-of select="local-name()" />',
-								'<xsl:value-of select="escaper:escape(.)"/>']
+								'<xsl:value-of select="escaper:escapeJavaScript(.)"/>']
 								<xsl:if test="not(position()=last())">
 									<xsl:text>,</xsl:text>
 								</xsl:if>								

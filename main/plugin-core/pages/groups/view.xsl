@@ -16,6 +16,7 @@
    -->
 <xsl:stylesheet version="1.0" 
                 xmlns:i18n="http://apache.org/cocoon/i18n/2.1" 
+                xmlns:escaper="org.apache.commons.lang.StringEscapeUtils"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
     
     <xsl:param name="contextPath"/>
@@ -55,7 +56,7 @@
                         org.ametys.administration.Groups._listViewGp.addElement("<xsl:value-of select="@id"/>", 
                                 {
                                     id: "<xsl:value-of select="@id"/>",
-                                    name : "<xsl:value-of select="label"/>"
+                                    name : "<xsl:value-of select="escaper:escapeJavaScript(label)"/>"
                                 });
                     </xsl:for-each>	
 					

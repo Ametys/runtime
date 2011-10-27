@@ -103,6 +103,11 @@ public class UpdateSystemAction extends AbstractAction implements ThreadSafe
     private boolean _getMessages(Map<String, String> messages, Request request)
     {
         String[] langCodes = request.getParameterValues("lang");
+        if (langCodes == null)
+        {
+            // All messages have be deleted (this should not be possible)
+            return true;
+        }
         
         for (String lang : langCodes)
         {
