@@ -68,8 +68,9 @@ public interface RightsManager
      * If null the context is not test, only the user and the right
      * are tested.
      * @return RIGHT_OK, RIGHT_NOK or RIGHT_UNKNOWN
+     * @throws RightsException if an error occurs.
      */
-    public RightResult hasRight(String userLogin, String right, String context);
+    public RightResult hasRight(String userLogin, String right, String context) throws RightsException;
     
     /**
      * Get the list of users that have a particular right in a particular context.
@@ -77,8 +78,9 @@ public interface RightsManager
      * @param right The name of the right to use. Cannot be null.
      * @param context The context to test the right.<br>May be null, in which case the returned Set contains all granted users, whatever the context.
      * @return The list of users granted with that right as a Set of String (login).
+     * @throws RightsException if an error occurs.
      */
-    public Set<String> getGrantedUsers(String right, String context);
+    public Set<String> getGrantedUsers(String right, String context) throws RightsException;
     
     /**
      * Get the list of a user's rights in a particular context.
@@ -88,8 +90,9 @@ public interface RightsManager
      * @param context The context to test the right.<br>May be null, in which case the returned Set contains all granted rights, whatever the context.
      * <br>Wilcards may also be used (eg. "ctx/*") to get all granted rights in the given context and all subcontexts.
      * @return The list of rights as a Set of String (id).
+     * @throws RightsException if an error occurs.
      */
-    public Set<String> getUserRights(String login, String context);
+    public Set<String> getUserRights(String login, String context) throws RightsException;
     
     /**
      * Get the list of a user's rights by context
@@ -97,15 +100,17 @@ public interface RightsManager
      * The implementations have to prefix the given context by the application rights' context prefix except if null.
      * @param login the user's login. Cannot be null.
      * @return The user rights as a Map of String (context), Set (rights' id)
+     * @throws RightsException if an error occurs.
      */
-    public Map<String, Set<String>> getUserRights (String login);
+    public Map<String, Set<String>> getUserRights (String login) throws RightsException;
     
     /**
      * Get the list of contexts on which an user has the given right
      * @param login The user's login. Cannot be null.
      * @param rightId the id of the right to check. Cannot be null.
      * @return The Set containing the contexts
+     * @throws RightsException if an error occurs.
      */
-    public Set<String> getUserRightContexts (String login, String rightId);
+    public Set<String> getUserRightContexts (String login, String rightId) throws RightsException;
     
 }

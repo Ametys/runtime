@@ -28,6 +28,7 @@ import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.thread.ThreadSafe;
 
 import org.ametys.runtime.right.RightsContextPrefixExtensionPoint;
+import org.ametys.runtime.right.RightsException;
 import org.ametys.runtime.right.RightsManager;
 import org.ametys.runtime.user.User;
 import org.ametys.runtime.user.UsersManager;
@@ -49,7 +50,7 @@ public class BasicRightsManager implements RightsManager, Serviceable, ThreadSaf
         _rightsContextPrefixEP = (RightsContextPrefixExtensionPoint) manager.lookup(RightsContextPrefixExtensionPoint.ROLE);
     }
     
-    public Set<String> getGrantedUsers(String right, String context)
+    public Set<String> getGrantedUsers(String right, String context) throws RightsException
     {
         Set<String> usersLogin = new HashSet<String>();
         
@@ -68,7 +69,7 @@ public class BasicRightsManager implements RightsManager, Serviceable, ThreadSaf
     }
     
     @Override
-    public Map<String, Set<String>> getUserRights(String login)
+    public Map<String, Set<String>> getUserRights(String login) throws RightsException
     {
         Map<String, Set<String>> rights = new HashMap<String, Set<String>>();
         rights.put("/", _rightsExtensionPoint.getExtensionsIds());
@@ -76,7 +77,7 @@ public class BasicRightsManager implements RightsManager, Serviceable, ThreadSaf
     }
     
     @Override
-    public Set<String> getUserRightContexts(String login, String rightId)
+    public Set<String> getUserRightContexts(String login, String rightId) throws RightsException
     {
         Set<String> contexts = new HashSet<String>();
         contexts.add(_rightsContextPrefixEP.getContextPrefix());
@@ -84,7 +85,7 @@ public class BasicRightsManager implements RightsManager, Serviceable, ThreadSaf
     }
     
     
-    public RightResult hasRight(String userLogin, String right, String context)
+    public RightResult hasRight(String userLogin, String right, String context) throws RightsException
     {
         return RightsManager.RightResult.RIGHT_OK;
     }

@@ -65,6 +65,7 @@ import org.ametys.runtime.request.RequestListenerManager;
 import org.ametys.runtime.right.HierarchicalRightsHelper;
 import org.ametys.runtime.right.InitializableRightsManager;
 import org.ametys.runtime.right.RightsContextPrefixExtensionPoint;
+import org.ametys.runtime.right.RightsException;
 import org.ametys.runtime.user.ModifiableUsersManager;
 import org.ametys.runtime.user.User;
 import org.ametys.runtime.user.UserListener;
@@ -294,18 +295,26 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     }
     
     @Override
-    public Set<String> getGrantedUsers(String right, String context)
+    public Set<String> getGrantedUsers(String right, String context) throws RightsException
     {
-        Set<String> users = new HashSet<String>();
-
-        Set<String> convertedContexts = getAliasContext(context);
-        for (String convertContext : convertedContexts)
+        try
         {
-            Set<String> addUsers = internalGetGrantedUsers(right, convertContext);
-            users.addAll(addUsers);
+            Set<String> users = new HashSet<String>();
+            
+            Set<String> convertedContexts = getAliasContext(context);
+            for (String convertContext : convertedContexts)
+            {
+                Set<String> addUsers = internalGetGrantedUsers(right, convertContext);
+                users.addAll(addUsers);
+            }
+            
+            return users;
         }
-        
-        return users;
+        catch (SQLException ex)
+        {
+            getLogger().error("Error in sql query", ex);
+            throw new RightsException("Error in sql query", ex);
+        }
     }
 
     /**
@@ -313,39 +322,40 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      * @param right The name of the right to use. Cannot be null.
      * @param context The context to test the right.<br>May be null, in which case the returned Set contains all granted users, whatever the context.
      * @return The list of users granted with that right as a Set of String (login).
+     * @throws SQLException if an error occurs retrieving the rights from the database.
      */
-    protected Set<String> internalGetGrantedUsers(String right, String context)
+    protected Set<String> internalGetGrantedUsers(String right, String context) throws SQLException
     {
         String lcContext = getFullContext (context);
 
         Set<String> logins = new HashSet<String>();
+        
+        logins.addAll(getGrantedUsersOnly(right, lcContext));
+        logins.addAll(getGrantedGroupsOnly(right, lcContext));
+        
+        return logins;
+    }
 
+    public Set<String> getUserRights(String login, String context) throws RightsException
+    {
         try
         {
-            logins.addAll(getGrantedUsersOnly(right, lcContext));
-            logins.addAll(getGrantedGroupsOnly(right, lcContext));
+            Set<String> rights = new HashSet<String>();
+            
+            Set<String> convertedContexts = getAliasContext(context);
+            for (String convertContext : convertedContexts)
+            {
+                Set<String> addUsers = internalGetUserRights(login, convertContext);
+                rights.addAll(addUsers);
+            }
+            
+            return rights;
         }
         catch (SQLException ex)
         {
             getLogger().error("Error in sql query", ex);
-
+            throw new RightsException("Error in sql query", ex);
         }
-
-        return logins;
-    }
-
-    public Set<String> getUserRights(String login, String context)
-    {
-        Set<String> rights = new HashSet<String>();
-        
-        Set<String> convertedContexts = getAliasContext(context);
-        for (String convertContext : convertedContexts)
-        {
-            Set<String> addUsers = internalGetUserRights(login, convertContext);
-            rights.addAll(addUsers);
-        }
-        
-        return rights;
     }
     
     /**
@@ -353,27 +363,21 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      * @param login the user's login. Cannot be null.
      * @param context The context to test the right
      * @return The list of rights as a Set of String (id).
+     * @throws SQLException if an error occurs executing the queries.
      */
-    protected Set<String> internalGetUserRights(String login, String context)
+    protected Set<String> internalGetUserRights(String login, String context) throws SQLException
     {
         String lcContext = getFullContext (context);
 
         Set<String> rights = new HashSet<String>();
 
-        try
-        {
-            rights.addAll(getUsersOnlyRights(login, lcContext));
-            rights.addAll(getGroupsOnlyRights(login, lcContext));
-        }
-        catch (SQLException ex)
-        {
-            getLogger().error("Error in sql query", ex);
-        }
+        rights.addAll(getUsersOnlyRights(login, lcContext));
+        rights.addAll(getGroupsOnlyRights(login, lcContext));
 
         return rights;
     }
     @Override
-    public Map<String, Set<String>> getUserRights(String login)
+    public Map<String, Set<String>> getUserRights(String login) throws RightsException
     {
         try
         {
@@ -391,17 +395,15 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             
             return rights;
         }
-        
         catch (SQLException ex)
         {
             getLogger().error("Error in sql query", ex);
+            throw new RightsException("Error in sql query", ex);
         }
-        
-        return new HashMap<String, Set<String>>();
     }
     
     @Override
-    public Set<String> getUserRightContexts(String login, String rightId)
+    public Set<String> getUserRightContexts(String login, String rightId) throws RightsException
     {
         Set<String> contexts = new HashSet<String>();
         
@@ -413,6 +415,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         catch (SQLException ex)
         {
             getLogger().error("Error in sql query", ex);
+            throw new RightsException("Error in sql query", ex);
         }
         
         return contexts;
@@ -590,8 +593,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      * @param right the name of the right to check. Cannot be null.
      * @param context the right context
      * @return RIGHT_OK, RIGHT_NOK or RIGHT_UNKNOWN
+     * @throws RightsException if an error occurs.
      */
-    protected RightResult internalHasRight(String userLogin, String right, String context)
+    protected RightResult internalHasRight(String userLogin, String right, String context) throws RightsException
     {
         String lcContext = getFullContext (context);
 
@@ -637,9 +641,8 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         }
         catch (SQLException se)
         {
-            getLogger().error("Error communication with database", se);
-            // Refuser par sécurité
-            return RightResult.RIGHT_NOK;
+            getLogger().error("Error communicating with database", se);
+            throw new RightsException("Error communicating with database", se);
         }
     }
     
@@ -671,8 +674,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      * @param login the login of the concerned user
      * @param context the context
      * @return a Set containing all profiles for a given user and a context
+     * @throws RightsException if an error occurs.
      */
-    public Set<String> getProfilesByUser(String login, String context)
+    public Set<String> getProfilesByUser(String login, String context) throws RightsException
     {
         String lcContext = getFullContext (context);
 
@@ -708,7 +712,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         catch (SQLException ex)
         {
             getLogger().error("Error in sql query", ex);
-
+            throw new RightsException("Error in sql query", ex);
         }
         finally
         {
@@ -726,8 +730,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      * @param profileID The profile id
      * @param context The context
      * @return a Set containing all users for a context and a profile
+     * @throws RightsException if an error occurs.
      */
-    public Set<User> getUsersByContextAndProfile(String profileID, String context)
+    public Set<User> getUsersByContextAndProfile(String profileID, String context) throws RightsException
     {
         String lcContext = getFullContext (context);
 
@@ -765,7 +770,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         catch (SQLException ex)
         {
             getLogger().error("Error in sql query", ex);
-
+            throw new RightsException("Error in sql query", ex);
         }
         finally
         {
@@ -783,8 +788,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      * @param profileID The profile id
      * @param context the context
      * @return a Set containing groups explicitly linked with the given Context and profile
+     * @throws RightsException if an error occurs.
      */
-    public Set<Group> getGroupsByContextAndProfile(String profileID, String context)
+    public Set<Group> getGroupsByContextAndProfile(String profileID, String context) throws RightsException
     {
         String lcContext = getFullContext (context);
 
@@ -822,7 +828,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         catch (SQLException ex)
         {
             getLogger().error("Error in sql query", ex);
-
+            throw new RightsException("Error in sql query", ex);
         }
         finally
         {
@@ -840,8 +846,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      * @param login The user's login
      * @param profileID The profile
      * @return a Set containing all contexts for an user and a profile
+     * @throws RightsException if an error occurs.
      */
-    public Set<String> getContextByUserAndProfile(String login, String profileID)
+    public Set<String> getContextByUserAndProfile(String login, String profileID) throws RightsException
     {
         Set<String> contexts = new HashSet<String>();
 
@@ -872,7 +879,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         catch (SQLException ex)
         {
             getLogger().error("Error in sql query", ex);
-
+            throw new RightsException("Error in sql query", ex);
         }
         finally
         {
@@ -890,8 +897,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      * 
      * @param login the login of the concerned user
      * @return a Map as (Profile Id, set of context)
+     * @throws RightsException if an error occurs.
      */
-    public Map<String, Set<String>> getProfilesAndContextByUser (String login)
+    public Map<String, Set<String>> getProfilesAndContextByUser (String login) throws RightsException
     {
         try
         {
@@ -913,9 +921,8 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         catch (SQLException ex)
         {
             getLogger().error("Error in sql query", ex);
+            throw new RightsException("Error in sql query", ex);
         }
-        
-        return new HashMap<String, Set<String>>();
     }
 
     /**
@@ -924,8 +931,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      * @param groupId the group
      * @param context the context
      * @return a Set containing all profiles for a group and a context
+     * @throws RightsException if an error occurs.
      */
-    public Set<String> getProfilesByGroup(String groupId, String context)
+    public Set<String> getProfilesByGroup(String groupId, String context) throws RightsException
     {
         String lcContext = getFullContext (context);
 
@@ -961,7 +969,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         catch (SQLException ex)
         {
             getLogger().error("Error in sql query", ex);
-
+            throw new RightsException("Error in sql query", ex);
         }
         finally
         {
@@ -979,8 +987,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      * @param groupID The group ID
      * @param profileID The profile
      * @return a Set containing all contexts for a user and a profile
+     * @throws RightsException if an error occurs.
      */
-    public Set<String> getContextByGroupAndProfile(String groupID, String profileID)
+    public Set<String> getContextByGroupAndProfile(String groupID, String profileID) throws RightsException
     {
         Set<String> contexts = new HashSet<String>();
 
@@ -1013,7 +1022,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         catch (SQLException ex)
         {
             getLogger().error("Error in sql query", ex);
-
+            throw new RightsException("Error in sql query", ex);
         }
         finally
         {
@@ -1025,7 +1034,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         return contexts;
     }
 
-    public void addUserRight(String login, String context, String profileId)
+    public void addUserRight(String login, String context, String profileId) throws RightsException
     {
         String lcContext = getFullContext (context);
 
@@ -1053,7 +1062,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         catch (SQLException ex)
         {
             getLogger().error("Error in sql query", ex);
-
+            throw new RightsException("Error in sql query", ex);
         }
         finally
         {
@@ -1062,7 +1071,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         }
     }
 
-    public void addGroupRight(String groupId, String context, String profileId)
+    public void addGroupRight(String groupId, String context, String profileId) throws RightsException
     {
         String lcContext = getFullContext (context);
         
@@ -1090,7 +1099,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         catch (SQLException ex)
         {
             getLogger().error("Error in sql query", ex);
-
+            throw new RightsException("Error in sql query", ex);
         }
         finally
         {
@@ -1099,7 +1108,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         }
     }
 
-    public void removeUserProfile(String login, String profile, String context)
+    public void removeUserProfile(String login, String profile, String context) throws RightsException
     {
         String lcContext = getFullContext (context);
 
@@ -1127,7 +1136,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         catch (SQLException ex)
         {
             getLogger().error("Error in sql query", ex);
-
+            throw new RightsException("Error in sql query", ex);
         }
         finally
         {
@@ -1136,7 +1145,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         }
     }
 
-    public void removeUserProfiles(String login, String context)
+    public void removeUserProfiles(String login, String context) throws RightsException
     {
         String lcContext = getFullContext (context);
         
@@ -1170,7 +1179,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         catch (SQLException ex)
         {
             getLogger().error("Error in sql query", ex);
-
+            throw new RightsException("Error in sql query", ex);
         }
         finally
         {
@@ -1180,7 +1189,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     }
 
   
-    public void removeAll(String context)
+    public void removeAll(String context) throws RightsException
     {
         String lcContext = getFullContext (context);
 
@@ -1209,7 +1218,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         catch (SQLException ex)
         {
             getLogger().error("Error in sql query", ex);
-
+            throw new RightsException("Error in sql query", ex);
         }
         finally
         {
@@ -1219,7 +1228,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
     }
 
-    public void removeGroupProfile(String groupId, String profile, String context)
+    public void removeGroupProfile(String groupId, String profile, String context) throws RightsException
     {
         String lcContext = getFullContext (context);
 
@@ -1245,7 +1254,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         catch (SQLException ex)
         {
             getLogger().error("Error in sql query", ex);
-
+            throw new RightsException("Error in sql query", ex);
         }
         finally
         {
@@ -1254,7 +1263,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         }
     }
 
-    public void removeGroupProfiles(String groupId, String context)
+    public void removeGroupProfiles(String groupId, String context) throws RightsException
     {
         String lcContext = getFullContext (context);
 
@@ -1289,7 +1298,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         catch (SQLException ex)
         {
             getLogger().error("Error in sql query", ex);
-
+            throw new RightsException("Error in sql query", ex);
         }
         finally
         {
@@ -1302,8 +1311,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      * Returns a Set containing users explicitly linked with the given Context
      * @param context the context
      * @return a Set containing users explicitly linked with the given Context
+     * @throws RightsException if an error occurs.
      */
-    public Set<User> getUsersByContext(String context)
+    public Set<User> getUsersByContext(String context) throws RightsException
     {
         String lcContext = getFullContext (context);
 
@@ -1342,6 +1352,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         catch (SQLException ex)
         {
             getLogger().error("Error in sql query", ex);
+            throw new RightsException("Error in sql query", ex);
         }
         finally
         {
@@ -1358,8 +1369,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      * 
      * @param context the context
      * @return a Set containing groups explicitly linked with the given Context
+     * @throws RightsException if an error occurs.
      */
-    public Set<Group> getGroupsByContext(String context)
+    public Set<Group> getGroupsByContext(String context) throws RightsException
     {
         String lcContext = getFullContext (context);
 
@@ -1398,6 +1410,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         catch (SQLException ex)
         {
             getLogger().error("Error in sql query", ex);
+            throw new RightsException("Error in sql query", ex);
         }
         finally
         {

@@ -15,10 +15,12 @@
  */
 package org.ametys.runtime.plugins.core.right.profile;
 
+import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.ametys.runtime.right.HierarchicalRightsHelper;
+import org.ametys.runtime.right.RightsException;
 
 
 /**
@@ -27,66 +29,81 @@ import org.ametys.runtime.right.HierarchicalRightsHelper;
 public class HierarchicalProfileBasedRightsManager extends DefaultProfileBasedRightsManager
 {
     @Override
-    public Set<String> getGrantedUsers(String right, String context)
+    public Set<String> getGrantedUsers(String right, String context) throws RightsException
     {
-        if (context == null)
+        try
         {
-            return super.getGrantedUsers(right, context);
-        }
-        else
-        {
-            Set<String> users = new HashSet<String>();
-
-            Set<String> convertedContexts = getAliasContext(context);
-            for (String convertContext : convertedContexts)
+            if (context == null)
             {
-                String transiantContext = convertContext;
-                
-                while (transiantContext != null)
+                return super.getGrantedUsers(right, context);
+            }
+            else
+            {
+                Set<String> users = new HashSet<String>();
+    
+                Set<String> convertedContexts = getAliasContext(context);
+                for (String convertContext : convertedContexts)
                 {
-                    Set<String> addUsers = internalGetGrantedUsers(right, transiantContext);
-                    users.addAll(addUsers);
+                    String transiantContext = convertContext;
                     
-                    transiantContext = HierarchicalRightsHelper.getParentContext(transiantContext);
+                    while (transiantContext != null)
+                    {
+                        Set<String> addUsers = internalGetGrantedUsers(right, transiantContext);
+                        users.addAll(addUsers);
+                        
+                        transiantContext = HierarchicalRightsHelper.getParentContext(transiantContext);
+                    }
                 }
-            }
-            
-            return users;
-        }
-    }
-    
-    @Override
-    public Set<String> getUserRights(String login, String context)
-    {
-        if (context == null)
-        {
-            return super.getUserRights(login, context);
-        }
-        else
-        {
-            Set<String> rights = new HashSet<String>();
-            
-            Set<String> convertedContexts = getAliasContext(context);
-            for (String convertContext : convertedContexts)
-            {
-                String transiantContext = convertContext;
                 
-                while (transiantContext != null)
-                {
-                    Set<String> addRights = internalGetUserRights(login, transiantContext);
-                    rights.addAll(addRights);
-        
-                    transiantContext = HierarchicalRightsHelper.getParentContext(transiantContext);
-                }
+                return users;
             }
-            
-            return rights;
         }
-        
+        catch (SQLException ex)
+        {
+            getLogger().error("Error in sql query", ex);
+            throw new RightsException("Error in sql query", ex);
+        }
     }
     
     @Override
-    public RightResult hasRight(String userLogin, String right, String context)
+    public Set<String> getUserRights(String login, String context) throws RightsException
+    {
+        try
+        {
+            if (context == null)
+            {
+                return super.getUserRights(login, context);
+            }
+            else
+            {
+                Set<String> rights = new HashSet<String>();
+                
+                Set<String> convertedContexts = getAliasContext(context);
+                for (String convertContext : convertedContexts)
+                {
+                    String transiantContext = convertContext;
+                    
+                    while (transiantContext != null)
+                    {
+                        Set<String> addRights = internalGetUserRights(login, transiantContext);
+                        rights.addAll(addRights);
+            
+                        transiantContext = HierarchicalRightsHelper.getParentContext(transiantContext);
+                    }
+                }
+                
+                return rights;
+            }
+        }
+        catch (SQLException ex)
+        {
+            getLogger().error("Error in sql query", ex);
+            throw new RightsException("Error in sql query", ex);
+        }
+    }
+    
+    @Override
+    public RightResult hasRight(String userLogin, String right, String context) throws RightsException
     {
         Set<String> convertedContexts = getAliasContext(context);
         for (String convertContext : convertedContexts)
