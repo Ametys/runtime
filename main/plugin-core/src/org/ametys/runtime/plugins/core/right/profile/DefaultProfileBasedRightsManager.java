@@ -2649,7 +2649,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             ConnectionHelper.cleanup(connection);
         }
         
-        if (id != null)
+        if (id == null)
         {
             throw new RightsException("Error generating a new profile ID, the profile was not created");
         }
