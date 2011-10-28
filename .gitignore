@@ -4,6 +4,7 @@
 /junit47495.properties
 /junitvmwatcher4513.properties
 /junitvmwatcher47494.properties
+/svnmerge-commit-message.txt
 /target
 test/environments/webapp1/WEB-INF/data
 test/environments/webapp2/WEB-INF/data
