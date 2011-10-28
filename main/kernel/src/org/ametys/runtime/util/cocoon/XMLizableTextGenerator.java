@@ -439,6 +439,7 @@ public class XMLizableTextGenerator extends FileGenerator implements Configurabl
             {
                 // Réalise le skip
                 _cursorPosition += n;
+                
                 // Vérifie le dépassement
                 long notSkippedYet = _cursorPosition - _prefix.length();
 

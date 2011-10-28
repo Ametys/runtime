@@ -44,6 +44,7 @@ public class ChangePlugins extends AbstractAction implements ThreadSafe
         if (getLogger().isDebugEnabled())
         {
             getLogger().debug("Applying following changes");
+            
             for (String extensionPoint : extensionPoints.keySet())
             {
                 getLogger().debug("EP " + extensionPoint + " " + extensionPoints.get(extensionPoint));
@@ -52,6 +53,7 @@ public class ChangePlugins extends AbstractAction implements ThreadSafe
             {
                 getLogger().debug("SEP " + extensionPoint + " " + singleExtensionPoints.get(extensionPoint));
             }
+            
             getLogger().debug("Applying preceding changes");
         }
 
@@ -83,12 +85,6 @@ public class ChangePlugins extends AbstractAction implements ThreadSafe
         {
             resolver.release(src);
             resolver.release(currentFile);
-        }
-
-        // Positionne l'attribut sur la requête pour le redémarrage de Cocoon
-        if (getLogger().isDebugEnabled())
-        {
-            getLogger().debug("Positionning org.ametys.runtime.reload=true for Cocoon reloading");
         }
 
         return EMPTY_MAP;

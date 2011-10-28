@@ -13,6 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+
 package org.ametys.runtime.plugins.core.administrator.system;
 
 import java.io.OutputStream;
@@ -152,7 +153,7 @@ public class UpdateSystemAction extends AbstractAction implements ThreadSafe
         format.put(OutputKeys.ENCODING, "UTF-8");
         th.getTransformer().setOutputProperties(format);
 
-        // Envoi des événements sax
+        // Send SAX events
         th.startDocument();
 
         AttributesImpl announcementsAttrs = new AttributesImpl();
@@ -166,6 +167,7 @@ public class UpdateSystemAction extends AbstractAction implements ThreadSafe
             {
                 announcementAttrs.addAttribute("", "lang", "lang", "CDATA", id);
             }
+            
             XMLUtils.createElement(th, "announcement", announcementAttrs, messages.get(id));
         }
         

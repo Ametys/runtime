@@ -13,6 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+
 package org.ametys.runtime.plugins.core.user.ui.actions;
 
 import java.util.Enumeration;
@@ -31,7 +32,6 @@ import org.ametys.runtime.user.ModifiableUsersManager;
 import org.ametys.runtime.user.UsersManager;
 import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableAction;
 import org.ametys.runtime.util.parameter.Errors;
-
 
 /**
  * Create or modify a user

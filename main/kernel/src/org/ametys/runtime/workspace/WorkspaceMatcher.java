@@ -13,6 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+
 package org.ametys.runtime.workspace;
 
 import java.util.Map;
@@ -24,7 +25,6 @@ import org.apache.cocoon.matching.WildcardURIMatcher;
 import org.apache.cocoon.sitemap.PatternException;
 
 import org.ametys.runtime.servlet.RuntimeConfig;
-
 
 /**
  * Workspace aware Cocoon matcher.<br>

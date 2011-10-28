@@ -73,6 +73,7 @@ public class AllJSComponent implements ThreadSafe, Contextualizable, Component
     {
         Session session = ContextHelper.getRequest(_context).getSession(true);
         List<String> jsFilesList = (List<String>) session.getAttribute(AllJSComponent.class.getName());
+        
         if (jsFilesList == null)
         {
             return 0; 
@@ -98,6 +99,7 @@ public class AllJSComponent implements ThreadSafe, Contextualizable, Component
         {
             throw new IllegalStateException("The js files list has a different hash code compared to the one required.");
         }
+        
         return list;
     }
 }

@@ -150,6 +150,7 @@ public class DispatchGenerator extends ServiceableGenerator
             catch (Throwable e)
             {
                 String message = String.format("Can not dispatch request '%s' : '%s' '%s' '%s'",  parameterKey , plugin,  relativeUrl,  requestParameters);
+                
                 // Ensure SAXException are unrolled the right way
                 getLogger().error(message, new LocatedException(message, e));
                 
@@ -203,7 +204,6 @@ public class DispatchGenerator extends ServiceableGenerator
      * Clean the requests attributes abd add those in the map
      * @param attributes
      */
-//    @SuppressWarnings("unchecked")
     @SuppressWarnings("unchecked")
     private void _restoreRequestAttributes(Map<String, Object> attributes)
     {
@@ -307,7 +307,8 @@ public class DispatchGenerator extends ServiceableGenerator
                     url.append("&");
                 }
             }
-            // TODO Faire l'opération inverse : paramètres de requetes présents => create map
+            
+            // TODO Do the opposite : request parameters => create a map
         }
         
         return url.toString();

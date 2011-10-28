@@ -375,7 +375,6 @@ public class SqlMapExtensionPoint extends AbstractThreadSafeComponentExtensionPo
             settingsAttrs.addCDATAAttribute(entry.getKey(), entry.getValue());
         }
         
-        
         return settingsAttrs;
     }
     
@@ -431,7 +430,6 @@ public class SqlMapExtensionPoint extends AbstractThreadSafeComponentExtensionPo
      */
     protected class SqlMap
     {
-        
         /** The source path. The base path depends on the source type. */
         protected String _source;
         
@@ -557,7 +555,5 @@ public class SqlMapExtensionPoint extends AbstractThreadSafeComponentExtensionPo
                 XMLUtils.createElement(handler, "sqlMap", sqlMapAttrs);
             }
         }
-        
     }
-    
 }
