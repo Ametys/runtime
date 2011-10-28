@@ -39,7 +39,7 @@ import org.ametys.runtime.util.parameter.Errors;
 public class ActionResultGenerator extends AbstractGenerator
 {
     /** Request attribute name containing the map to use. */
-    public static final String MAP_REQUEST_ATTR = ActionMapResultGenerator.class.getName() + ";map";
+    public static final String MAP_REQUEST_ATTR = ActionResultGenerator.class.getName() + ";map";
 
     public void generate() throws IOException, SAXException, ProcessingException
     {
