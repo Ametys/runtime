@@ -17,7 +17,7 @@
    
 <config>
     <runtime.datasource.core.jdbc.driver>org.apache.derby.jdbc.EmbeddedDriver</runtime.datasource.core.jdbc.driver>
-    <runtime.datasource.core.jdbc.url>jdbc:derby:WEB-INF/data/derby;create=true</runtime.datasource.core.jdbc.url>
+    <runtime.datasource.core.jdbc.url>jdbc:derby:tmp/derby;create=true</runtime.datasource.core.jdbc.url>
     <runtime.datasource.core.jdbc.user/>
     <runtime.datasource.core.jdbc.passwd/>
     <runtime.authentication.basic.realm>realm</runtime.authentication.basic.realm>
