@@ -34,7 +34,6 @@ import org.ametys.runtime.user.UserListener;
 /**
  * Tests the ModifiableCredentialAwareJdbcUsersTestCase
  */
-//public abstract class AbstractModifiableCredentialAwareJdbcUsersTestCase extends AbstractJdbcUnmodifiableUsersTestCase
 public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extends AbstractJDBCUsersManagerTestCase
 {
     
