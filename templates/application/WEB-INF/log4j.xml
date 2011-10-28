@@ -14,12 +14,6 @@
         <filter class="org.ametys.runtime.util.AmetysExceptionFilter"/>
 	</appender>
 
-    <root>
-        <priority value="info"/>
-        <!--appender-ref ref="lf5-servlet"/-->
-        <appender-ref ref="servlet"/>
-    </root>
-    
     <!-- iBatis logs as debug -->
 	<!-- 
 	<category name="java.sql" additivity="false">
@@ -77,4 +71,10 @@
         <!--appender-ref ref="lf5-servlet"/-->
         <appender-ref ref="servlet"/>
 	</category>    
+    
+    <root>
+        <priority value="info"/>
+        <!--appender-ref ref="lf5-servlet"/-->
+        <appender-ref ref="servlet"/>
+    </root>
 </log4j:configuration>
