@@ -20,6 +20,7 @@ package org.ametys.runtime.util.cocoon;
  * Generator for SAXing a map.
  * @deprecated
  */
+@Deprecated
 public class ActionMapResultGenerator extends ActionResultGenerator
 {
     // Nothing
