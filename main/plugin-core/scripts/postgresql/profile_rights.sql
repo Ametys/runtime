@@ -15,32 +15,39 @@
 --
 BEGIN;
 
+DROP SEQUENCE IF EXISTS seq_rights_profile;
 DROP TABLE IF EXISTS Rights_Profile;
 DROP TABLE IF EXISTS Rights_ProfileRights;
 DROP TABLE IF EXISTS Rights_GroupRights;
 DROP TABLE IF EXISTS Rights_UserRights;
 
 CREATE TABLE Rights_Profile(
-Id SERIAL PRIMARY KEY , 
-Label VARCHAR(200),
-Context VARCHAR(200));
+	Id int PRIMARY KEY , 
+	Label VARCHAR(200),
+	Context VARCHAR(200)
+);
 
 
 CREATE TABLE Rights_ProfileRights(
-Profile_Id VARCHAR(200) NOT NULL, 
-Right_Id VARCHAR(200) NOT NULL, 
-PRIMARY KEY(Profile_Id, Right_Id));
+	Profile_Id int NOT NULL,
+	Right_Id VARCHAR(200) NOT NULL,
+	PRIMARY KEY(Profile_Id, Right_Id)
+);
 
 CREATE TABLE Rights_GroupRights(
-Profile_Id VARCHAR(200) NOT NULL, 
-Group_Id VARCHAR(200) NOT NULL, 
-Context VARCHAR(200) NOT NULL, 
-PRIMARY KEY(Profile_Id, Group_Id, Context));
+	Profile_Id int NOT NULL, 
+	Group_Id VARCHAR(200) NOT NULL,
+	Context VARCHAR(200) NOT NULL, 
+	PRIMARY KEY(Profile_Id, Group_Id, Context)
+);
 
 CREATE TABLE Rights_UserRights(
-Profile_Id VARCHAR(200) NOT NULL, 
-Login VARCHAR(200) NOT NULL, 
-Context VARCHAR(200) NOT NULL, 
-PRIMARY KEY(Profile_Id, Login, Context));
+	Profile_Id int NOT NULL, 
+	Login VARCHAR(200) NOT NULL, 
+	Context VARCHAR(200) NOT NULL, 
+	PRIMARY KEY(Profile_Id, Login, Context)
+);
+
+CREATE SEQUENCE seq_rights_profile;
 
 COMMIT;

@@ -142,8 +142,8 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
             
             String sql = "SELECT " + _groupsListColLabel + " FROM " + _groupsListTable + " WHERE " + _groupsListColId + " =  ?";
             stmt = connection.prepareStatement(sql);
-            stmt.setString(1, groupID);
-
+            stmt.setInt(1, Integer.parseInt(groupID));
+            
             if (getLogger().isDebugEnabled())
             {
                 getLogger().debug(sql);
@@ -158,6 +158,11 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
 
                 _fillGroup(group, connection);
             }
+        }
+        catch (NumberFormatException e)
+        {
+            getLogger().error("Group ID must be an integer.", e);
+            return null;
         }
         catch (SQLException e)
         {
@@ -343,8 +348,9 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
             String sql = "SELECT " + _groupsCompositionColUser + " FROM " + _groupsCompositionTable + " WHERE " + _groupsCompositionColGroup + " = ?";
             
             stmt = connection.prepareStatement(sql);
-            stmt.setString(1, group.getId());
-
+            
+            stmt.setInt(1, Integer.parseInt(group.getId()));
+            
             if (getLogger().isDebugEnabled())
             {
                 getLogger().debug(sql);
@@ -359,8 +365,8 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
         }
         finally
         {
-            ConnectionHelper.cleanup(rs);       
-            ConnectionHelper.cleanup(stmt);       
+            ConnectionHelper.cleanup(rs);
+            ConnectionHelper.cleanup(stmt);
         }
     }
 
@@ -398,6 +404,7 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
             }
             
             statement.executeUpdate();
+            
             ConnectionHelper.cleanup(statement);
             
             //FIXME Write query working with all database
@@ -408,10 +415,6 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
                 if (rs.next())
                 {
                     id = rs.getString(_groupsListColId);
-                    for (GroupListener listener : _listeners)
-                    {
-                        listener.groupAdded(id);
-                    }
                 }
                 else
                 {
@@ -435,8 +438,23 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
                     id = rs.getString(1);
                 }
             }
+            else if (DatabaseType.DATABASE_POSTGRES.equals(ConnectionHelper.getDatabaseType(connection)))
+            {
+                statement = connection.prepareStatement("SELECT currval('groups_id_seq')");
+                rs = statement.executeQuery();
+                if (rs.next())
+                {
+                    id = rs.getString(1);
+                }
+            }
             
-            // TODO if (DatabaseType.DATABASE_POSTGRES.equals(ConnectionHelper.getDatabaseType(connection)))
+            if (id != null)
+            {
+                for (GroupListener listener : _listeners)
+                {
+                    listener.groupAdded(id);
+                }
+            }
         }
         catch (SQLException ex)
         {
@@ -462,7 +480,8 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
             connection = ConnectionHelper.getConnection(_poolName);
             
             statement = connection.prepareStatement("DELETE FROM " + _groupsListTable + " WHERE " + _groupsListColId + " = ?");
-            statement.setString(1, groupID);
+            statement.setInt(1, Integer.parseInt(groupID));
+            
             if (statement.executeUpdate() == 0)
             {
                 throw new InvalidModificationException("No group with id '" + groupID + "' may be removed");
@@ -470,13 +489,18 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
             ConnectionHelper.cleanup(statement);       
 
             statement = connection.prepareStatement("DELETE FROM " + _groupsCompositionTable + " WHERE " + _groupsCompositionColGroup + " = ?");
-            statement.setString(1, groupID);
+            statement.setInt(1, Integer.parseInt(groupID));
+            
             statement.executeUpdate();
 
             for (GroupListener listener : _listeners)
             {
                 listener.groupRemoved(groupID);
             }
+        }
+        catch (NumberFormatException ex)
+        {
+            throw new InvalidModificationException("No group with id '" + groupID + "' may be removed, the ID must be a number.", ex);
         }
         catch (SQLException ex)
         {
@@ -500,17 +524,19 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
             
             statement = connection.prepareStatement("UPDATE " + _groupsListTable + " SET " + _groupsListColLabel + "=? WHERE " + _groupsListColId + " = ?");
             statement.setString(1, userGroup.getLabel());
-            statement.setString(2, userGroup.getId());
+            statement.setInt(2, Integer.parseInt(userGroup.getId()));
+            
             if (statement.executeUpdate() == 0)
             {
                 throw new InvalidModificationException("No group with id '" + userGroup.getId() + "' may be removed");
             }
-            ConnectionHelper.cleanup(statement);       
+            ConnectionHelper.cleanup(statement);
 
             statement = connection.prepareStatement("DELETE FROM " + _groupsCompositionTable + " WHERE " + _groupsCompositionColGroup + " = ?");
-            statement.setString(1, userGroup.getId());
+            statement.setInt(1, Integer.parseInt(userGroup.getId()));
+            
             statement.executeUpdate();
-            ConnectionHelper.cleanup(statement);       
+            ConnectionHelper.cleanup(statement);
 
             Iterator userIt = userGroup.getUsers().iterator();
             while (userIt.hasNext())
@@ -518,8 +544,9 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
                 String login = (String) userIt.next();
 
                 statement = connection.prepareStatement("INSERT INTO " + _groupsCompositionTable + " (" + _groupsCompositionColGroup + ", " + _groupsCompositionColUser + ") VALUES (?, ?)");
-                statement.setString(1, userGroup.getId());
+                statement.setInt(1, Integer.parseInt(userGroup.getId()));
                 statement.setString(2, login);
+                
                 statement.executeUpdate();
                 ConnectionHelper.cleanup(statement);
             }
@@ -529,6 +556,10 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
                 listener.groupUpdated(userGroup.getId());
             }
 
+        }
+        catch (NumberFormatException ex)
+        {
+            throw new InvalidModificationException("No group with id '" + userGroup.getId() + "' may be removed", ex);
         }
         catch (SQLException ex)
         {

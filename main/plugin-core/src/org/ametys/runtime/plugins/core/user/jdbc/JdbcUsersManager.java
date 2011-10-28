@@ -219,7 +219,6 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
             else if ("email".equals(id))
             {
                 parameter.setPluginName(BASE_PLUGIN_NAME);
-                parameter.setColumn(column);
                 parameter.setLabel(new I18nizableText("plugin." + BASE_PLUGIN_NAME, "PLUGINS_CORE_USERS_JDBC_FIELD_EMAIL_LABEL"));
                 parameter.setDescription(new I18nizableText("plugin." + BASE_PLUGIN_NAME, "PLUGINS_CORE_USERS_JDBC_FIELD_EMAIL_DESCRIPTION"));
                 parameter.setType(ParameterType.STRING);
@@ -497,7 +496,10 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
             }
             else if (ConnectionHelper.getDatabaseType(con) == ConnectionHelper.DatabaseType.DATABASE_DERBY)
             {
-                getLogger().warn("Derby does not support the LIMIT and OFFSET function");
+                sql = new StringBuffer("select ").append(selectClause.toString())
+                        .append(" from (select ROW_NUMBER() OVER () AS ROWNUM, ").append(selectClause.toString())
+                        .append(" from (").append(sql.toString()).append(") AS TR ) AS TRR where ROWNUM BETWEEN ")
+                        .append(offset).append(" AND ").append(offset + length - 1);
             }
             else if (getLogger().isWarnEnabled())
             {

@@ -46,6 +46,13 @@ public class DesktopManagerTestCase extends AbstractRuntimeTestCase
         _desktopManager = (DesktopManager) Init.getPluginServiceManager().lookup("DesktopManagerTest");
     }
     
+    @Override
+    protected void tearDown() throws Exception
+    {
+        _cocoon.dispose();
+        super.tearDown();
+    }
+    
     /**
      * Test the sax
      * @throws Exception if an error occurs

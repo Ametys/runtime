@@ -28,6 +28,7 @@ import org.ametys.runtime.user.UsersManager;
  */
 public class CredentialAwareLdapUsersTestCase extends LdapUsersTestCase
 {
+    
     @Override
     protected void setUp() throws Exception
     {
@@ -37,6 +38,13 @@ public class CredentialAwareLdapUsersTestCase extends LdapUsersTestCase
         _startCocoon("test/environments/webapp1");
 
         _usersManager = (UsersManager) Init.getPluginServiceManager().lookup(UsersManager.ROLE);
+    }
+    
+    @Override
+    protected void tearDown() throws Exception
+    {
+        _cocoon.dispose();
+        super.tearDown();
     }
     
     @Override

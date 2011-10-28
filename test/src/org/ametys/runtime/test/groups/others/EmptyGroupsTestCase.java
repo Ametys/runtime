@@ -20,6 +20,7 @@ import org.ametys.runtime.group.GroupsManager;
 import org.ametys.runtime.group.ModifiableGroupsManager;
 import org.ametys.runtime.plugins.core.group.EmptyGroupsManager;
 import org.ametys.runtime.test.AbstractRuntimeTestCase;
+import org.ametys.runtime.test.CocoonWrapper;
 import org.ametys.runtime.test.Init;
 import org.apache.excalibur.xml.dom.DOMHandler;
 import org.apache.excalibur.xml.dom.DOMHandlerFactory;
@@ -38,7 +39,7 @@ public class EmptyGroupsTestCase extends AbstractRuntimeTestCase
     {
         _configureRuntime("test/environments/runtimes/runtime3.xml");
         Config.setFilename("test/environments/configs/config1.xml");
-        _startCocoon("test/environments/webapp1");
+        CocoonWrapper cocoon = _startCocoon("test/environments/webapp1");
         
         GroupsManager groupsManager = (GroupsManager) Init.getPluginServiceManager().lookup(GroupsManager.ROLE);
         
@@ -68,5 +69,7 @@ public class EmptyGroupsTestCase extends AbstractRuntimeTestCase
         assertEquals(1.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/*)"));
         assertEquals(1.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/groups)"));
         assertEquals(0.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/groups/*)"));
+        
+        cocoon.dispose();
     }
 }

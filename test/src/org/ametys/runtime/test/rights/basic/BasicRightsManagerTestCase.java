@@ -39,6 +39,13 @@ public class BasicRightsManagerTestCase extends AbstractRuntimeTestCase
         _startCocoon("test/environments/webapp1");
     }
     
+    @Override
+    protected void tearDown() throws Exception
+    {
+        _cocoon.dispose();
+        super.tearDown();
+    }
+    
     /**
      * Tests that the <code>BasicRightsManager</code> is the default <code>RightsManager</code><br>
      * Tests the values returned by it

@@ -25,12 +25,13 @@ import javax.xml.validation.SchemaFactory;
 
 import junit.framework.TestCase;
 
-import org.ametys.runtime.servlet.RuntimeConfig;
-import org.ametys.runtime.util.LoggerFactory;
 import org.apache.avalon.excalibur.logger.Log4JLoggerManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.xml.sax.XMLReader;
+
+import org.ametys.runtime.servlet.RuntimeConfig;
+import org.ametys.runtime.util.LoggerFactory;
 
 /**
  * Abstract test case for all Runtime test cases.
@@ -41,6 +42,9 @@ public abstract class AbstractRuntimeTestCase extends TestCase
     {
         LoggerFactory.setup(new Log4JLoggerManager());
     }
+    
+    /** The cocoon wrapper. */
+    protected CocoonWrapper _cocoon;
 
     /**
      * Creates a test case.
@@ -98,9 +102,10 @@ public abstract class AbstractRuntimeTestCase extends TestCase
             System.setProperty("xml.catalog.ignoreMissing", "true");
         }
         
-        CocoonWrapper cocoon = new CocoonWrapper(applicationPath, "tmp/work");
-        cocoon.initialize();
+        _cocoon = new CocoonWrapper(applicationPath, "tmp/work");
+        _cocoon.initialize();
         
-        return cocoon;
+        return _cocoon;
     }
+    
 }

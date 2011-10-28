@@ -20,6 +20,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -43,10 +44,22 @@ import org.ametys.runtime.test.Init;
 /**
  * Tests the JdbcGroupsManager
  */
-public class JdbcGroupsTestCase extends AbstractJDBCTestCase
+public abstract class AbstractJdbcGroupsTestCase extends AbstractJDBCTestCase
 {
     /** the groups manager */
     protected GroupsManager _groupsManager;
+    
+    /**
+     * Provide the scripts to run before each test invocation.
+     * @return the scripts to run.
+     */
+    protected abstract File[] getScripts();
+    
+    /**
+     * Provide the scripts to run to populate the database.
+     * @return the scripts to run.
+     */
+    protected abstract File[] getPopulateScripts();
     
     /**
      * Reset the db
@@ -58,22 +71,14 @@ public class JdbcGroupsTestCase extends AbstractJDBCTestCase
     {
         _configureRuntime("test/environments/runtimes/" + runtimeFilename);
         Config.setFilename("test/environments/configs/" + configFileName);
+        
         super.setUp();
         
         _startCocoon("test/environments/webapp1");
-
-        List<File> scripts = new ArrayList<File>();
-        scripts.add(new File("main/plugin-core/scripts/mysql/jdbc_users.sql"));
-        scripts.add(new File("main/plugin-core/scripts/mysql/jdbc_groups.sql"));
-        _setDatabase(scripts);
+        
+        _setDatabase(Arrays.asList(getScripts()));
 
         _groupsManager = (GroupsManager) Init.getPluginServiceManager().lookup(GroupsManager.ROLE);
-    }
-    
-    @Override
-    protected void setUp() throws Exception
-    {
-        _resetDB("runtime4.xml", "config1.xml");
     }
     
     /**
@@ -128,9 +133,7 @@ public class JdbcGroupsTestCase extends AbstractJDBCTestCase
         Group group;
         
         // Fill DB
-        List<File> fillscripts = new ArrayList<File>();
-        fillscripts.add(new File("test/environments/scripts/fillJDBCUsersAndGroups.sql"));
-        _setDatabase(fillscripts);
+        _setDatabase(Arrays.asList(getPopulateScripts()));
         
         List<String> groupsIds = _getGroupsIds();
         

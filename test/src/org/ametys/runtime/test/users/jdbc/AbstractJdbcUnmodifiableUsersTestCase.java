@@ -21,42 +21,28 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.ametys.runtime.plugins.core.user.jdbc.JdbcUsersManager;
-import org.ametys.runtime.test.Init;
-import org.ametys.runtime.user.CredentialsAwareUsersManager;
-import org.ametys.runtime.user.ModifiableUsersManager;
-import org.ametys.runtime.user.User;
 import org.apache.excalibur.xml.dom.DOMHandler;
 import org.apache.excalibur.xml.dom.DOMHandlerFactory;
 import org.apache.excalibur.xml.xpath.XPathProcessor;
 import org.w3c.dom.Node;
 
+import org.ametys.runtime.plugins.core.user.jdbc.JdbcUsersManager;
+import org.ametys.runtime.test.Init;
+import org.ametys.runtime.user.CredentialsAwareUsersManager;
+import org.ametys.runtime.user.ModifiableUsersManager;
+import org.ametys.runtime.user.User;
+
 /**
  * Tests the JdbcUsersManager
  */
-public class JdbcUsersTestCase extends AbstractJDBCUsersManagerTestCase
+public abstract class AbstractJdbcUnmodifiableUsersTestCase extends AbstractJDBCUsersManagerTestCase
 {
-    @Override
-    protected void setUp() throws Exception
-    {
-        _resetDB("runtime4.xml", "config1.xml");
-    }
     
-    @Override
-    protected File[] getScripts()
-    {
-        // Use non auth script by default
-        return new File[] {new File("main/plugin-core/scripts/mysql/jdbc_users.sql")};
-    }
-
     /**
      * Provide the scripts to run for populating database.
      * @return the scripts to run.
      */
-    protected File[] getFilledScripts()
-    {
-        return new File[] {new File("test/environments/scripts/fillJDBCUsers.sql")};
-    }
+    protected abstract File[] getPopulateScripts();
     
     /**
      * Test the getting of users on mysql
@@ -100,7 +86,7 @@ public class JdbcUsersTestCase extends AbstractJDBCUsersManagerTestCase
         Collection<User> users = null;
 
         // Fill DB
-        _setDatabase(Arrays.asList(getFilledScripts()));
+        _setDatabase(Arrays.asList(getPopulateScripts()));
         
         // Get unexisting user
         user = _usersManager.getUser("foo");

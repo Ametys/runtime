@@ -142,5 +142,7 @@ public class RuntimeConfigTestCase extends AbstractRuntimeTestCase
         
         XPathProcessor xpath = (XPathProcessor) Init.getPluginServiceManager().lookup(XPathProcessor.ROLE);
         assertEquals("2.0.1", xpath.evaluateAsString(handler.getDocument(), "/Versions/Component[Name='Application']/Version"));
+        
+        cocoon.dispose();
     }
 }

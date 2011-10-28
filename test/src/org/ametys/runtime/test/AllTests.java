@@ -21,20 +21,20 @@ import junit.framework.TestSuite;
 import org.ametys.runtime.test.administrator.jvmstatus.RequestCountListenerTestCase;
 import org.ametys.runtime.test.administrator.jvmstatus.SessionCountListenerTestCase;
 import org.ametys.runtime.test.cocoon.XHTMLSerializerTestCase;
-import org.ametys.runtime.test.groups.jdbc.JdbcGroupsTestCase;
+import org.ametys.runtime.test.groups.jdbc.AllGroupsTestSuite;
 import org.ametys.runtime.test.groups.ldap.GroupDrivenLdapGroupsTestCase;
 import org.ametys.runtime.test.groups.ldap.UserDrivenLdapGroupsTestCase;
 import org.ametys.runtime.test.groups.others.EmptyGroupsTestCase;
 import org.ametys.runtime.test.plugins.PluginsTestCase;
 import org.ametys.runtime.test.rights.basic.BasicRightsManagerTestCase;
-import org.ametys.runtime.test.rights.profile.DefaultProfileBasedRightsManagerTestCase;
-import org.ametys.runtime.test.rights.profile.HierarchicalProfileBasedRightsManagerTestCase;
+import org.ametys.runtime.test.rights.profile.AllProfileBasedRightsManagerTestSuite;
+import org.ametys.runtime.test.rights.profile.hierarchical.AllHierarchicalProfileBasedRightsManagerTestSuite;
 import org.ametys.runtime.test.ui.DesktopManagerTestCase;
 import org.ametys.runtime.test.ui.StaticUIItemFactoryTestCase;
-import org.ametys.runtime.test.users.jdbc.CredentialAwareJdbcUsersTestCase;
-import org.ametys.runtime.test.users.jdbc.JdbcUsersTestCase;
-import org.ametys.runtime.test.users.jdbc.ModifiableCredentialAwareJdbcUsersTestCase;
-import org.ametys.runtime.test.users.jdbc.ModifiableJdbcUsersTestCase;
+import org.ametys.runtime.test.users.jdbc.AllUsersTestSuite;
+import org.ametys.runtime.test.users.jdbc.credentialsaware.AllCredentialsAwareJdbcUsersTestSuite;
+import org.ametys.runtime.test.users.jdbc.modifiable.AllModifiableUsersTestSuite;
+import org.ametys.runtime.test.users.jdbc.modifiablecredentialsaware.AllModifiableCredentialsAwareJdbcUsersTestCase;
 import org.ametys.runtime.test.users.ldap.CredentialAwareLdapUsersTestCase;
 import org.ametys.runtime.test.users.ldap.LdapUsersTestCase;
 import org.ametys.runtime.test.users.others.StaticUsersTestCase;
@@ -71,21 +71,21 @@ public final class AllTests
         suite.addTestSuite(XHTMLSerializerTestCase.class);
         
         suite.addTestSuite(StaticUsersTestCase.class);
-        suite.addTestSuite(JdbcUsersTestCase.class);
-        suite.addTestSuite(ModifiableJdbcUsersTestCase.class);
-        suite.addTestSuite(ModifiableCredentialAwareJdbcUsersTestCase.class);
-        suite.addTestSuite(CredentialAwareJdbcUsersTestCase.class);
+        suite.addTest(AllUsersTestSuite.suite());
+        suite.addTest(AllModifiableUsersTestSuite.suite());
+        suite.addTest(AllCredentialsAwareJdbcUsersTestSuite.suite());
+        suite.addTest(AllModifiableCredentialsAwareJdbcUsersTestCase.suite());
         suite.addTestSuite(LdapUsersTestCase.class);
         suite.addTestSuite(CredentialAwareLdapUsersTestCase.class);
 
         suite.addTestSuite(EmptyGroupsTestCase.class);
-        suite.addTestSuite(JdbcGroupsTestCase.class);
+        suite.addTest(AllGroupsTestSuite.suite());
         suite.addTestSuite(GroupDrivenLdapGroupsTestCase.class);
         suite.addTestSuite(UserDrivenLdapGroupsTestCase.class);
 
         suite.addTestSuite(BasicRightsManagerTestCase.class);
-        suite.addTestSuite(DefaultProfileBasedRightsManagerTestCase.class);
-        suite.addTestSuite(HierarchicalProfileBasedRightsManagerTestCase.class);
+        suite.addTest(AllProfileBasedRightsManagerTestSuite.suite());
+        suite.addTest(AllHierarchicalProfileBasedRightsManagerTestSuite.suite());
         
         suite.addTestSuite(StaticUIItemFactoryTestCase.class);
         suite.addTestSuite(DesktopManagerTestCase.class);

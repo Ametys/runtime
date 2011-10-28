@@ -13,11 +13,10 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.ametys.runtime.test.rights.profile;
+package org.ametys.runtime.test.rights.profile.hierarchical;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 import java.util.Set;
 
 import org.ametys.runtime.config.Config;
@@ -32,11 +31,23 @@ import org.ametys.runtime.test.AbstractJDBCTestCase;
 import org.ametys.runtime.test.Init;
 
 /**
- * Tests the ProfileBasedRightsManager
+ * Tests the HierarchicalProfileBasedRightsManagerTestCase
  */
-public class DefaultProfileBasedRightsManagerTestCase extends AbstractJDBCTestCase
+public abstract class AbstractHierarchicalProfileBasedRightsManagerTestCase extends AbstractJDBCTestCase
 {
     private RightsManager _rightsManager;
+    
+    /**
+     * Provide the scripts to run before each test invocation.
+     * @return the scripts to run.
+     */
+    protected abstract File[] getScripts();
+    
+    /**
+     * Provide the scripts to run to populate the database.
+     * @return the scripts to run.
+     */
+    protected abstract File[] getPopulateScripts();
     
     /**
      * Reset the db
@@ -52,17 +63,9 @@ public class DefaultProfileBasedRightsManagerTestCase extends AbstractJDBCTestCa
         
         _startCocoon("test/environments/webapp1");
 
-        List<File> scripts = new ArrayList<File>();
-        scripts.add(new File("main/plugin-core/scripts/mysql/profile_rights.sql"));
-        _setDatabase(scripts);
+        _setDatabase(Arrays.asList(getScripts()));
 
         _rightsManager = (RightsManager) Init.getPluginServiceManager().lookup(RightsManager.ROLE);
-    }
-    
-    @Override
-    protected void setUp() throws Exception
-    {
-        _resetDB("runtime4.xml", "config1.xml");
     }
     
     /**
@@ -73,7 +76,7 @@ public class DefaultProfileBasedRightsManagerTestCase extends AbstractJDBCTestCa
     {
         assertTrue(_rightsManager instanceof DefaultProfileBasedRightsManager);
         assertTrue(_rightsManager instanceof ProfileBasedRightsManager);
-        assertFalse(_rightsManager instanceof HierarchicalProfileBasedRightsManager);
+        assertTrue(_rightsManager instanceof HierarchicalProfileBasedRightsManager);
     }
     
     /**
@@ -105,9 +108,7 @@ public class DefaultProfileBasedRightsManagerTestCase extends AbstractJDBCTestCa
         Set<String> users;
         
         // Fill DB
-        List<File> fillscripts = new ArrayList<File>();
-        fillscripts.add(new File("test/environments/scripts/fillProfileRights.sql"));
-        _setDatabase(fillscripts);
+        _setDatabase(Arrays.asList(getPopulateScripts()));
 
         users = profileRightsManager.getGrantedUsers("right1", null);
         assertEquals(1, users.size());
@@ -116,14 +117,14 @@ public class DefaultProfileBasedRightsManagerTestCase extends AbstractJDBCTestCa
         assertEquals(1, users.size());
         assertTrue(users.contains("test"));
         users = profileRightsManager.getGrantedUsers("right1", "/test/test");
-        assertEquals(0, users.size());
+        assertEquals(1, users.size());
         users = profileRightsManager.getGrantedUsers("right1", "/test2");
         assertEquals(0, users.size());
         users = profileRightsManager.getGrantedUsers("right1", "/test2/test2");
         assertEquals(1, users.size());
         assertTrue(users.contains("test"));
         users = profileRightsManager.getGrantedUsers("right1", "/test2/test2/test2");
-        assertEquals(0, users.size());
+        assertEquals(1, users.size());
         users = profileRightsManager.getGrantedUsers("right1", "/test3");
         assertEquals(1, users.size());
         assertTrue(users.contains("test"));
@@ -149,7 +150,7 @@ public class DefaultProfileBasedRightsManagerTestCase extends AbstractJDBCTestCa
         rights = profileRightsManager.getUserRights("test", "/test");
         assertEquals(2, rights.size());
         rights = profileRightsManager.getUserRights("test", "/test/test");
-        assertEquals(0, rights.size());
+        assertEquals(2, rights.size());
         rights = profileRightsManager.getUserRights("test", "/test2");
         assertEquals(0, rights.size());
         rights = profileRightsManager.getUserRights("test", "/test2/test2");
@@ -157,7 +158,7 @@ public class DefaultProfileBasedRightsManagerTestCase extends AbstractJDBCTestCa
         rights = profileRightsManager.getUserRights("test", "/test3");
         assertEquals(3, rights.size());
         rights = profileRightsManager.getUserRights("test", "/test3/test3");
-        assertEquals(0, rights.size());
+        assertEquals(3, rights.size());
         rights = profileRightsManager.getUserRights("test2", null);
         assertEquals(1, rights.size());
         rights = profileRightsManager.getUserRights("test2", "/test");
@@ -225,9 +226,7 @@ public class DefaultProfileBasedRightsManagerTestCase extends AbstractJDBCTestCa
     {
         ProfileBasedRightsManager profileRightsManager = (ProfileBasedRightsManager) _rightsManager;
 
-        List<File> fillscripts = new ArrayList<File>();
-        fillscripts.add(new File("test/environments/scripts/fillProfileRights.sql"));
-        _setDatabase(fillscripts);
+        _setDatabase(Arrays.asList(getPopulateScripts()));
         
         Set<String> rights;
         
@@ -242,8 +241,8 @@ public class DefaultProfileBasedRightsManagerTestCase extends AbstractJDBCTestCa
         Profile profile2 = profileRightsManager.addProfile("MyProfil2");
         profile2.addRight("right3");
 
-        // USER (case sensitive test)
-        profileRightsManager.addUserRight("test", "/Test", profile1.getId());
+        // USER
+        profileRightsManager.addUserRight("test", "/test", profile1.getId());
         rights = profileRightsManager.getUserRights("test", null);
         assertEquals(2, rights.size());
         

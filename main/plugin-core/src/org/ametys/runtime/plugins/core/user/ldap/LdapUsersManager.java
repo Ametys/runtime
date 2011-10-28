@@ -468,7 +468,7 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
      * @param pattern The pattern to match.
      * @return The result as a Map containing the filter and the parameters.
      */
-    protected Map _getPatternFilter(String pattern)
+    protected Map<String, Object> _getPatternFilter(String pattern)
     {
         Map<String, Object> result = new HashMap<String, Object>();
 

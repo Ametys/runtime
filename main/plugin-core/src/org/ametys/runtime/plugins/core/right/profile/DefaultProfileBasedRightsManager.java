@@ -749,7 +749,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             
             stmt = connection.prepareStatement(sql);
 
-            stmt.setString(1, profileID);
+            stmt.setInt(1, Integer.parseInt(profileID));
             stmt.setString(2, lcContext);
 
             // Logger la requête
@@ -766,6 +766,11 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
                     users.add(user);
                 }
             }
+        }
+        catch (NumberFormatException ex)
+        {
+            getLogger().error("Profile ID must be an integer.", ex);
+            throw new RightsException("Profile ID must be an integer.", ex);
         }
         catch (SQLException ex)
         {
@@ -807,7 +812,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             
             stmt = connection.prepareStatement(sql);
 
-            stmt.setString(1, profileID);
+            stmt.setInt(1, Integer.parseInt(profileID));
             stmt.setString(2, lcContext);
 
             // Logger la requête
@@ -824,6 +829,11 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
                     groups.add(group);
                 }
             }
+        }
+        catch (NumberFormatException ex)
+        {
+            getLogger().error("Profile ID must be an integer.", ex);
+            throw new RightsException("Profile ID must be an integer.", ex);
         }
         catch (SQLException ex)
         {
@@ -864,7 +874,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             stmt = connection.prepareStatement(sql);
 
             stmt.setString(1, login);
-            stmt.setString(2, profileID);
+            stmt.setInt(2, Integer.parseInt(profileID));
 
             // Logger la requête
             getLogger().info(sql + "\n[" + login + ", " + profileID + "]");
@@ -875,6 +885,11 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             {
                 contexts.add(rs.getString(1));
             }
+        }
+        catch (NumberFormatException ex)
+        {
+            getLogger().error("Profile ID must be an integer.", ex);
+            throw new RightsException("Profile ID must be an integer.", ex);
         }
         catch (SQLException ex)
         {
@@ -1004,7 +1019,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, groupID);
-            stmt.setString(2, profileID);
+            stmt.setInt(2, Integer.parseInt(profileID));
 
             // Logger la requête
             if (getLogger().isInfoEnabled())
@@ -1018,6 +1033,11 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             {
                 contexts.add(rs.getString(1));
             }
+        }
+        catch (NumberFormatException ex)
+        {
+            getLogger().error("Profile ID must be an integer.", ex);
+            throw new RightsException("Profile ID must be an integer.", ex);
         }
         catch (SQLException ex)
         {
@@ -1050,7 +1070,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
             stmt = connection.prepareStatement(sql);
 
-            stmt.setString(1, profileId);
+            stmt.setInt(1, Integer.parseInt(profileId));
             stmt.setString(2, login);
             stmt.setString(3, lcContext);
 
@@ -1058,6 +1078,11 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             getLogger().info(sql + "\n[" + profileId + ", " + login + ", " + lcContext + "]");
 
             stmt.executeUpdate();
+        }
+        catch (NumberFormatException ex)
+        {
+            getLogger().error("Profile ID must be an integer.", ex);
+            throw new RightsException("Profile ID must be an integer.", ex);
         }
         catch (SQLException ex)
         {
@@ -1087,7 +1112,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
             stmt = connection.prepareStatement(sql);
 
-            stmt.setString(1, profileId);
+            stmt.setInt(1, Integer.parseInt(profileId));
             stmt.setString(2, groupId);
             stmt.setString(3, lcContext);
 
@@ -1095,6 +1120,11 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             getLogger().info(sql + "\n[" + profileId + ", " + groupId + ", " + lcContext + "]");
 
             stmt.executeUpdate();
+        }
+        catch (NumberFormatException ex)
+        {
+            getLogger().error("Profile ID must be an integer.", ex);
+            throw new RightsException("Profile ID must be an integer.", ex);
         }
         catch (SQLException ex)
         {
@@ -1108,7 +1138,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         }
     }
 
-    public void removeUserProfile(String login, String profile, String context) throws RightsException
+    public void removeUserProfile(String login, String profileId, String context) throws RightsException
     {
         String lcContext = getFullContext (context);
 
@@ -1125,13 +1155,18 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             stmt = connection.prepareStatement(sql);
 
             stmt.setString(1, login);
-            stmt.setString(2, profile);
+            stmt.setInt(2, Integer.parseInt(profileId));
             stmt.setString(3, lcContext);
 
             // Logger la requête
-            getLogger().info(sql + "\n[" + login + ", " + profile + ", " + lcContext + "]");
+            getLogger().info(sql + "\n[" + login + ", " + profileId + ", " + lcContext + "]");
 
             stmt.executeUpdate();
+        }
+        catch (NumberFormatException ex)
+        {
+            getLogger().error("Profile ID must be an integer.", ex);
+            throw new RightsException("Profile ID must be an integer.", ex);
         }
         catch (SQLException ex)
         {
@@ -1160,7 +1195,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             String sql = "DELETE FROM " + _tableUserRights + " WHERE Login = ?";
             if (lcContext != null)
             {
-                sql += " AND LOWER(Context) = ?;";
+                sql += " AND LOWER(Context) = ?";
             }
 
             stmt = connection.prepareStatement(sql);
@@ -1228,7 +1263,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
     }
 
-    public void removeGroupProfile(String groupId, String profile, String context) throws RightsException
+    public void removeGroupProfile(String groupId, String profileId, String context) throws RightsException
     {
         String lcContext = getFullContext (context);
 
@@ -1243,13 +1278,18 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             stmt = connection.prepareStatement(sql);
 
             stmt.setString(1, groupId);
-            stmt.setString(2, profile);
+            stmt.setInt(2, Integer.parseInt(profileId));
             stmt.setString(3, lcContext);
 
             // Logger la requête
-            getLogger().info(sql + "\n[" + groupId + ", " + profile + ", " + lcContext + "]");
+            getLogger().info(sql + "\n[" + groupId + ", " + profileId + ", " + lcContext + "]");
 
             stmt.executeUpdate();
+        }
+        catch (NumberFormatException ex)
+        {
+            getLogger().error("Profile ID must be an integer.", ex);
+            throw new RightsException("Profile ID must be an integer.", ex);
         }
         catch (SQLException ex)
         {
@@ -2516,7 +2556,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     
     public Profile addProfile(String name, String context)
     {
-        String id = null;
+        Integer id = null;
         
         Connection connection = null;
         PreparedStatement statement = null;
@@ -2525,23 +2565,32 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         try
         {
             connection = ConnectionHelper.getConnection(_poolName);
+            DatabaseType dbType = ConnectionHelper.getDatabaseType(connection);
             
-            if (DatabaseType.DATABASE_ORACLE.equals(ConnectionHelper.getDatabaseType(connection)))
+            if (DatabaseType.DATABASE_ORACLE.equals(dbType) || DatabaseType.DATABASE_POSTGRES.equals(dbType))
             {
-                statement = connection.prepareStatement("SELECT seq_rights_profile.nextval FROM dual");
+                if (DatabaseType.DATABASE_ORACLE.equals(dbType))
+                {
+                    statement = connection.prepareStatement("SELECT seq_rights_profile.nextval FROM dual");
+                }
+                else // if (DatabaseType.DATABASE_POSTGRES.equals(dbType))
+                {
+                    statement = connection.prepareStatement("SELECT nextval('seq_rights_profile')");
+                }
+                
                 rs = statement.executeQuery();
                 if (rs.next())
                 {
-                    id = rs.getString(1);
+                    id = rs.getInt(1);
                 }
                 ConnectionHelper.cleanup(rs);
                 ConnectionHelper.cleanup(statement);
                 
                 statement = connection.prepareStatement("INSERT INTO " + _tableProfile + " (Id, Label, Context) VALUES(?, ?, ?)");
-                statement.setString(1, id);
+                statement.setInt(1, id);
                 statement.setString(2, name);
                 statement.setString(3, context);
-            } 
+            }
             else
             {
                 statement = connection.prepareStatement("INSERT INTO " + _tableProfile + " (Label, Context) VALUES(?, ?)");
@@ -2553,13 +2602,13 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             ConnectionHelper.cleanup(statement);
             
             //FIXME Write query working with all database
-            if (DatabaseType.DATABASE_MYSQL.equals(ConnectionHelper.getDatabaseType(connection)))
+            if (DatabaseType.DATABASE_MYSQL.equals(dbType))
             {
                 statement = connection.prepareStatement("SELECT Id FROM " + _tableProfile + " WHERE Id = last_insert_id()");
                 rs = statement.executeQuery();
                 if (rs.next())
                 {
-                    id = rs.getString("Id");
+                    id = rs.getInt("Id");
                 }
                 else
                 {
@@ -2574,17 +2623,15 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
                     }
                 }
             }
-            else if (DatabaseType.DATABASE_DERBY.equals(ConnectionHelper.getDatabaseType(connection)))
+            else if (DatabaseType.DATABASE_DERBY.equals(dbType))
             {
                 statement = connection.prepareStatement("VALUES IDENTITY_VAL_LOCAL ()");
                 rs = statement.executeQuery();
                 if (rs.next())
                 {
-                    id = rs.getString(1);
+                    id = rs.getInt(1);
                 }
             }
-            
-            // TODO if (DatabaseType.DATABASE_POSTGRES.equals(ConnectionHelper.getDatabaseType(connection)))
         }
         catch (SQLException ex)
         {
@@ -2597,7 +2644,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             ConnectionHelper.cleanup(connection);
         }
         
-        return new DefaultProfile(id, name, context);
+        return new DefaultProfile(Integer.toString(id), name, context);
     }
     
     @Override
@@ -2831,7 +2878,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             try
             {
                 PreparedStatement statement = connection.prepareStatement("INSERT INTO " + _tableProfileRights + " (Profile_Id, Right_Id) VALUES(?, ?)");
-                statement.setString(1, _id);
+                statement.setInt(1, Integer.parseInt(_id));
                 statement.setString(2, rightId);
                 statement.executeUpdate();
             }
@@ -2868,8 +2915,12 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             {
                 PreparedStatement statement = connection.prepareStatement("UPDATE " + _tableProfile + " SET label = ? WHERE Id = ?");
                 statement.setString(1, newName);
-                statement.setString(2, _id);
+                statement.setInt(2, Integer.parseInt(_id));
                 statement.executeUpdate();
+            }
+            catch (NumberFormatException ex)
+            {
+                throw new RuntimeException(ex);
             }
             catch (SQLException ex)
             {
@@ -2905,7 +2956,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             try
             {
                 PreparedStatement statement = connection.prepareStatement("SELECT Right_Id FROM " + _tableProfileRights + " WHERE profile_Id = ?");
-                statement.setString(1, _id);
+                statement.setInt(1, Integer.parseInt(_id));
                 ResultSet rs = statement.executeQuery();
                 
                 while (rs.next())
@@ -2948,7 +2999,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             try
             {
                 PreparedStatement statement = connection.prepareStatement("DELETE FROM " + _tableProfileRights + " WHERE Profile_Id = ?");
-                statement.setString(1, _id);
+                statement.setInt(1, Integer.parseInt(_id));
                 statement.executeUpdate();
             }
             catch (SQLException ex)
@@ -2989,19 +3040,19 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
                 connection = ConnectionHelper.getConnection(_poolName);
                 
                 statement = connection.prepareStatement("DELETE FROM " + _tableProfile + " WHERE Id = ?");
-                statement.setString(1, _id);
+                statement.setInt(1, Integer.parseInt(_id));
                 statement.executeUpdate();
                 
                 statement2 = connection.prepareStatement("DELETE FROM " + _tableProfileRights + " WHERE Profile_Id = ?");
-                statement2.setString(1, _id);
+                statement2.setInt(1, Integer.parseInt(_id));
                 statement2.executeUpdate();
 
                 statement3 = connection.prepareStatement("DELETE FROM " + _tableUserRights + " WHERE Profile_Id = ?");
-                statement3.setString(1, _id);
+                statement3.setInt(1, Integer.parseInt(_id));
                 statement3.executeUpdate();
 
                 statement4 = connection.prepareStatement("DELETE FROM " + _tableGroupRights + " WHERE Profile_Id = ?");
-                statement4.setString(1, _id);
+                statement4.setInt(1, Integer.parseInt(_id));
                 statement4.executeUpdate();
             }
             catch (SQLException ex)

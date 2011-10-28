@@ -32,7 +32,7 @@ public class WorkspacesTestCase extends AbstractRuntimeTestCase
         _configureRuntime("test/environments/runtimes/runtime10.xml");
         Config.setFilename("test/environments/configs/config1.xml");
         
-        _startCocoon("test/environments/webapp2");
+        CocoonWrapper cocoon = _startCocoon("test/environments/webapp2");
         
         assertTrue(WorkspaceManager.getInstance().getEmbeddedWorskpacesIds().contains("admin"));
         assertTrue(WorkspaceManager.getInstance().getWorkspaceNames().contains("admin"));
@@ -48,9 +48,13 @@ public class WorkspacesTestCase extends AbstractRuntimeTestCase
         assertFalse(WorkspaceManager.getInstance().getWorkspaceNames().contains("workspace-test3"));
     
         // Restart
+        cocoon.dispose();
+        
         _configureRuntime("test/environments/runtimes/runtime3.xml");
         Config.setFilename("test/environments/configs/config1.xml");
-        _startCocoon("test/environments/webapp2");
+        cocoon = _startCocoon("test/environments/webapp2");
+        
+        cocoon.dispose();
     }
     
     /**
@@ -59,17 +63,26 @@ public class WorkspacesTestCase extends AbstractRuntimeTestCase
      */
     public void testInvalidWorkspace() throws Exception
     {
+        CocoonWrapper cocoon = null;
+        
         _configureRuntime("test/environments/runtimes/runtime10.xml");
         Config.setFilename("test/environments/configs/config1.xml");
         
         try
         {
-            _startCocoon("test/environments/webapp3");
+            cocoon = _startCocoon("test/environments/webapp3");
             fail("WorskpaceManager must have failed");
         }
         catch (IllegalArgumentException e)
         {
             // it is ok
+        }
+        finally
+        {
+            if (cocoon != null)
+            {
+                cocoon.dispose();
+            }
         }
     }
 }

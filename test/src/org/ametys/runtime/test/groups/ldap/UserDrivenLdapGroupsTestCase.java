@@ -37,6 +37,13 @@ public class UserDrivenLdapGroupsTestCase extends AbstractLdapGroupsTestCase
         _groupsManager = (GroupsManager) Init.getPluginServiceManager().lookup(GroupsManager.ROLE);
     }
     
+    @Override
+    protected void tearDown() throws Exception
+    {
+        _cocoon.dispose();
+        super.tearDown();
+    }
+    
     /**
      * Test the choosen implementation
      * @throws Exception if an error occurs

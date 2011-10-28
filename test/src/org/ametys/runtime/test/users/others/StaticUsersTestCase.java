@@ -17,6 +17,10 @@ package org.ametys.runtime.test.users.others;
 
 import java.util.Collection;
 
+import org.apache.excalibur.xml.dom.DOMHandler;
+import org.apache.excalibur.xml.dom.DOMHandlerFactory;
+import org.apache.excalibur.xml.xpath.XPathProcessor;
+
 import org.ametys.runtime.authentication.Credentials;
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.plugins.core.user.StaticUsersManager;
@@ -26,15 +30,31 @@ import org.ametys.runtime.test.Init;
 import org.ametys.runtime.user.CredentialsAwareUsersManager;
 import org.ametys.runtime.user.User;
 import org.ametys.runtime.user.UsersManager;
-import org.apache.excalibur.xml.dom.DOMHandler;
-import org.apache.excalibur.xml.dom.DOMHandlerFactory;
-import org.apache.excalibur.xml.xpath.XPathProcessor;
 
 /**
  * Tests the DefinedUsersTestCase
  */
 public class StaticUsersTestCase extends AbstractRuntimeTestCase
 {
+    
+    @Override
+    protected void setUp() throws Exception
+    {
+        super.setUp();
+        
+        _configureRuntime("test/environments/runtimes/runtime3.xml");
+        Config.setFilename("test/environments/configs/config1.xml");
+        
+        _startCocoon("test/environments/webapp1");
+    }
+    
+    @Override
+    protected void tearDown() throws Exception
+    {
+        _cocoon.dispose();
+        super.tearDown();
+    }
+    
     /**
      * Tests that the <code>StaticUsersTestCase</code> is the default <code>UsersManager</code><br/>
      * Tests the values returned by it
@@ -42,10 +62,6 @@ public class StaticUsersTestCase extends AbstractRuntimeTestCase
      */
     public void testStaticUsers() throws Exception
     {
-        _configureRuntime("test/environments/runtimes/runtime3.xml");
-        Config.setFilename("test/environments/configs/config1.xml");
-        _startCocoon("test/environments/webapp1");
-        
         UsersManager usersManager = (UsersManager) Init.getPluginServiceManager().lookup(UsersManager.ROLE);
         
         // DEFAULT IMPL

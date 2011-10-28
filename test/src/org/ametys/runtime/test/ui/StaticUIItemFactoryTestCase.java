@@ -40,6 +40,13 @@ public class StaticUIItemFactoryTestCase extends AbstractRuntimeTestCase
         _desktopManager = (DesktopManager) Init.getPluginServiceManager().lookup("DesktopManagerTest");
     }
     
+    @Override
+    protected void tearDown() throws Exception
+    {
+        _cocoon.dispose();
+        super.tearDown();
+    }
+    
     /**
      * Check that unexisting factory goes well
      * @throws Exception if an error occurs

@@ -21,6 +21,12 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.excalibur.xml.dom.DOMHandler;
+import org.apache.excalibur.xml.dom.DOMHandlerFactory;
+import org.apache.excalibur.xml.xpath.XPathProcessor;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.plugins.core.user.ldap.LdapUsersManager;
 import org.ametys.runtime.test.AbstractRuntimeTestCase;
@@ -29,11 +35,6 @@ import org.ametys.runtime.user.CredentialsAwareUsersManager;
 import org.ametys.runtime.user.ModifiableUsersManager;
 import org.ametys.runtime.user.User;
 import org.ametys.runtime.user.UsersManager;
-import org.apache.excalibur.xml.dom.DOMHandler;
-import org.apache.excalibur.xml.dom.DOMHandlerFactory;
-import org.apache.excalibur.xml.xpath.XPathProcessor;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  * Tests the LdapUsersManager
@@ -52,6 +53,13 @@ public class LdapUsersTestCase extends AbstractRuntimeTestCase
         _startCocoon("test/environments/webapp1");
 
         _usersManager = (UsersManager) Init.getPluginServiceManager().lookup(UsersManager.ROLE);
+    }
+    
+    @Override
+    protected void tearDown() throws Exception
+    {
+        _cocoon.dispose();
+        super.tearDown();
     }
     
     /**

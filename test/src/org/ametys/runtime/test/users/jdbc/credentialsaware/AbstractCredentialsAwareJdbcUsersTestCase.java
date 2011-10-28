@@ -13,40 +13,33 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.ametys.runtime.test.users.jdbc;
+package org.ametys.runtime.test.users.jdbc.credentialsaware;
 
 import java.io.File;
 import java.util.Arrays;
 
 import org.ametys.runtime.authentication.Credentials;
 import org.ametys.runtime.plugins.core.user.jdbc.CredentialsAwareJdbcUsersManager;
+import org.ametys.runtime.test.users.jdbc.AbstractJDBCUsersManagerTestCase;
 import org.ametys.runtime.user.CredentialsAwareUsersManager;
 import org.ametys.runtime.user.ModifiableUsersManager;
 
 /**
  * Tests the CredentialAwareJdbcUsersTestCase
  */
-public class CredentialAwareJdbcUsersTestCase extends JdbcUsersTestCase
+public abstract class AbstractCredentialsAwareJdbcUsersTestCase extends AbstractJDBCUsersManagerTestCase
 {
-    @Override
-    protected void setUp() throws Exception
-    {
-        _resetDB("runtime7.xml", "config1.xml");
-    }
     
-    @Override
-    protected File[] getScripts()
-    {
-        return new File[] {new File("main/plugin-core/scripts/mysql/jdbc_users_auth.sql")};
-    }
-
-    @Override
-    protected File[] getFilledScripts()
-    {
-        return new File[] {new File("test/environments/scripts/fillJDBCUsersAuth.sql")};
-    }
+    /**
+     * Provide the scripts to run for populating database.
+     * @return the scripts to run.
+     */
+    protected abstract File[] getPopulateScripts();
     
-    @Override
+    /**
+     * Test the getting of users on mysql
+     * @throws Exception if an error occurs
+     */
     public void testType() throws Exception
     {
         // JDBC IMPL
@@ -71,7 +64,7 @@ public class CredentialAwareJdbcUsersTestCase extends JdbcUsersTestCase
         assertFalse(credentialsAwareUsersManager.checkCredentials(new Credentials("test", null)));
         
         // Fill DB
-        _setDatabase(Arrays.asList(getFilledScripts()));
+        _setDatabase(Arrays.asList(getPopulateScripts()));
 
         assertFalse(credentialsAwareUsersManager.checkCredentials(new Credentials("test", "test2000")));
         assertFalse(credentialsAwareUsersManager.checkCredentials(new Credentials("test", null)));
@@ -86,9 +79,10 @@ public class CredentialAwareJdbcUsersTestCase extends JdbcUsersTestCase
         CredentialsAwareUsersManager credentialsAwareUsersManager = (CredentialsAwareUsersManager) _usersManager;
 
         // Fill DB
-        _setDatabase(Arrays.asList(getFilledScripts()));
+        _setDatabase(Arrays.asList(getPopulateScripts()));
 
         assertTrue(credentialsAwareUsersManager.checkCredentials(new Credentials("test", "test")));
         assertTrue(credentialsAwareUsersManager.checkCredentials(new Credentials("test2", "test")));
     }
+    
 }

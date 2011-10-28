@@ -24,6 +24,7 @@ import org.ametys.runtime.plugin.PluginsManager.ActiveFeature;
 import org.ametys.runtime.plugin.PluginsManager.InactiveFeature;
 import org.ametys.runtime.plugin.PluginsManager.InactivityCause;
 import org.ametys.runtime.test.AbstractRuntimeTestCase;
+import org.ametys.runtime.test.CocoonWrapper;
 import org.ametys.runtime.test.Init;
 
 /**
@@ -40,9 +41,11 @@ public class PluginsTestCase extends AbstractRuntimeTestCase
         _configureRuntime("test/environments/runtimes/runtime2.xml");
         Config.setFilename("test/environments/configs/config1.xml");
         
-        _startCocoon("test/environments/webapp1");
+        CocoonWrapper cocoon = _startCocoon("test/environments/webapp1");
         
         assertTrue(Init.isOk());
+        
+        cocoon.dispose();
     }
     
     /**
@@ -54,11 +57,13 @@ public class PluginsTestCase extends AbstractRuntimeTestCase
         _configureRuntime("test/environments/runtimes/runtime2.xml");
         Config.setFilename("test/environments/configs/config1.xml");
         
-        _startCocoon("test/environments/webapp1");
+        CocoonWrapper cocoon = _startCocoon("test/environments/webapp1");
         
         assertTrue(PluginsManager.getInstance().getEmbeddedPluginsIds().contains("core"));
         assertTrue(PluginsManager.getInstance().getPluginNames().contains("core"));
         assertEquals("resource://org/ametys/runtime/plugins/core", PluginsManager.getInstance().getBaseURI("core"));
+        
+        cocoon.dispose();
     }
     
     /**
@@ -70,10 +75,12 @@ public class PluginsTestCase extends AbstractRuntimeTestCase
         _configureRuntime("test/environments/runtimes/runtime10.xml");
         Config.setFilename("test/environments/configs/config1.xml");
         
-        _startCocoon("test/environments/webapp1");
+        CocoonWrapper cocoon = _startCocoon("test/environments/webapp1");
         
         assertTrue(PluginsManager.getInstance().getPluginNames().contains("test"));
         assertEquals("location1", PluginsManager.getInstance().getPluginLocation("test"));
+        
+        cocoon.dispose();
     }
     
     /**
@@ -85,7 +92,7 @@ public class PluginsTestCase extends AbstractRuntimeTestCase
         _configureRuntime("test/environments/runtimes/runtime11.xml");
         Config.setFilename("test/environments/configs/config1.xml");
         
-        _startCocoon("test/environments/webapp1");
+        CocoonWrapper cocoon = _startCocoon("test/environments/webapp1");
         
         assertTrue(PluginsManager.getInstance().getPluginNames().contains("test"));
 
@@ -110,6 +117,8 @@ public class PluginsTestCase extends AbstractRuntimeTestCase
         TestExtension ext2 = (TestExtension) testCEP.getExtension("org.ametys.runtime.test.EP");
         assertNotNull(ext2);
         assertNotNull(ext2.getContext());
+        
+        cocoon.dispose();
     }
     
     /**
@@ -121,7 +130,7 @@ public class PluginsTestCase extends AbstractRuntimeTestCase
         _configureRuntime("test/environments/runtimes/runtime12.xml");
         Config.setFilename("test/environments/configs/config1.xml");
         
-        _startCocoon("test/environments/webapp1");
+        CocoonWrapper cocoon = _startCocoon("test/environments/webapp1");
         
         Map<String, ActiveFeature> activeFeatures = PluginsManager.getInstance().getActiveFeatures();
         Map<String, InactiveFeature> inactiveFeatures = PluginsManager.getInstance().getInactiveFeatures();
@@ -143,5 +152,7 @@ public class PluginsTestCase extends AbstractRuntimeTestCase
         assertTrue(inactiveFeatures.containsKey("test/test-feature5"));
         feature = inactiveFeatures.get("test/test-feature5");
         assertEquals(feature.getCause(), InactivityCause.EXCLUDED);
+        
+        cocoon.dispose();
     }
 }

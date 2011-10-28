@@ -31,7 +31,7 @@ CREATE TABLE Rights_ProfileRights
 CREATE TABLE Rights_GroupRights
 (
 	Profile_Id number NOT NULL, 
-	Group_Id VARCHAR(200) NOT NULL, 
+	Group_Id VARCHAR(200) NOT NULL,
 	Context VARCHAR(200) NOT NULL, 
 	PRIMARY KEY(Profile_Id, Group_Id, Context)
 );

@@ -55,4 +55,5 @@ public abstract class AbstractJDBCUsersManagerTestCase extends AbstractJDBCTestC
      * @return the scripts to run.
      */
     protected abstract File[] getScripts();
+    
 }

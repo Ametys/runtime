@@ -44,12 +44,19 @@ import org.ametys.runtime.util.LoggerFactory;
  * -- _separator_=;<br>
  * CREATE TABLE MYTABLE;<br>
  * ...</code><br>
- * Note that the command must be placed at the end of the comment.
+ * Note that the command must be placed at the end of the comment.<br><br>
+ * The runner can be configured to ignore SQLExceptions. This can be useful
+ * to execute DROP statements when it's unknown if the tables exist:<br>
+ * <code>--_ignore_exceptions_=on<br>
+ * DROP TABLE MYTABLE;<br>
+ * --_ignore_exceptions_=off</code>
  */
 public abstract class ScriptRunner
 {
     /** Default separator used for isolating statements. */
     public static final String DEFAULT_SEPARATOR = ";";
+    /** Command to ignore sql exceptions. */
+    public static final String IGNORE_EXCEPTIONS_COMMAND = "_ignore_exceptions_=";
     /** Command to change the separator. */
     public static final String CHANGE_SEPARATOR_COMMAND = "_separator_=";
     /** Logger available to subclasses. */
@@ -91,6 +98,7 @@ public abstract class ScriptRunner
     public static void runScript(Connection connection, InputStream is) throws IOException, SQLException
     {
         String separator = DEFAULT_SEPARATOR;
+        boolean ignoreExceptions = false;
         StringBuilder command = new StringBuilder();
         
         try
@@ -122,6 +130,19 @@ public abstract class ScriptRunner
                             __LOGGER.debug(String.format("Changing separator to: '%s'", separator));
                         }
                     }
+                    else if (trimmedLine.contains(IGNORE_EXCEPTIONS_COMMAND))
+                    {
+                        String ignoreStr = trimmedLine.substring(trimmedLine.indexOf(IGNORE_EXCEPTIONS_COMMAND)
+                                    + IGNORE_EXCEPTIONS_COMMAND.length()).trim();
+                        
+                        ignoreExceptions = "on".equals(ignoreStr);
+                        
+                        if (__LOGGER.isDebugEnabled())
+                        {
+                            __LOGGER.debug(String.format("Ignore exceptions: '%s'", ignoreExceptions ? "on" : "off"));
+                        }
+                    }
+                    
                     if (trimmedLine.contains(currentSeparator))
                     {
                         if (command.length() > 0)
@@ -145,8 +166,17 @@ public abstract class ScriptRunner
                     command.append(" ");
                 }
                 
-                _process(processCommand, connection, command, lineReader.getLineNumber());
+                if (processCommand)
+                {
+                    _process(connection, command, lineReader.getLineNumber(), ignoreExceptions);
+                }
             }
+            
+            if (command.length() > 0)
+            {
+                _process(connection, command, lineReader.getLineNumber(), ignoreExceptions);
+            }
+            
             if (!connection.getAutoCommit())
             {
                 connection.commit();
@@ -171,22 +201,20 @@ public abstract class ScriptRunner
         }
     }
     
-    private static void _process(boolean processCommand, Connection connection, StringBuilder command, int lineNumber) throws SQLException
+    private static void _process(Connection connection, StringBuilder command, int lineNumber, boolean ignoreExceptions) throws SQLException
     {
-        if (processCommand)
+        if (__LOGGER.isInfoEnabled())
         {
-            if (__LOGGER.isInfoEnabled())
-            {
-                __LOGGER.info(String.format("Executing SQL command: '%s'", command));
-            }
-            
-            _execute(connection, command.toString(), lineNumber);
-
-            // Clear command
-            command.setLength(0);
+            __LOGGER.info(String.format("Executing SQL command: '%s'", command));
         }
+        
+        _execute(connection, command.toString(), lineNumber, ignoreExceptions);
+
+        // Clear command
+        command.setLength(0);
     }
-    private static void _execute(Connection connection, String command, int lineNumber) throws SQLException
+    
+    private static void _execute(Connection connection, String command, int lineNumber, boolean ignoreExceptions) throws SQLException
     {
         Statement statement = null;
         try
@@ -196,10 +224,13 @@ public abstract class ScriptRunner
         }
         catch (SQLException e)
         {
-            String message = String.format("Unable to execute SQL: '%s' at line %d", command, lineNumber);
-            __LOGGER.error(message, e);
-            
-            throw new SQLException(message);
+            if (!ignoreExceptions)
+            {
+                String message = String.format("Unable to execute SQL: '%s' at line %d", command, lineNumber);
+                __LOGGER.error(message, e);
+                
+                throw new SQLException(message);
+            }
         }
         finally
         {

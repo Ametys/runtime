@@ -13,16 +13,18 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.ametys.runtime.test.users.jdbc;
+package org.ametys.runtime.test.users.jdbc.modifiablecredentialsaware;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import junit.framework.ComparisonFailure;
+
 import org.ametys.runtime.authentication.Credentials;
 import org.ametys.runtime.plugins.core.user.jdbc.ModifiableCredentialsAwareJdbcUsersManager;
+import org.ametys.runtime.test.users.jdbc.AbstractJDBCUsersManagerTestCase;
 import org.ametys.runtime.user.CredentialsAwareUsersManager;
 import org.ametys.runtime.user.InvalidModificationException;
 import org.ametys.runtime.user.ModifiableUsersManager;
@@ -32,27 +34,14 @@ import org.ametys.runtime.user.UserListener;
 /**
  * Tests the ModifiableCredentialAwareJdbcUsersTestCase
  */
-public class ModifiableCredentialAwareJdbcUsersTestCase extends JdbcUsersTestCase
+//public abstract class AbstractModifiableCredentialAwareJdbcUsersTestCase extends AbstractJdbcUnmodifiableUsersTestCase
+public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extends AbstractJDBCUsersManagerTestCase
 {
-    @Override
-    protected void setUp() throws Exception
-    {
-        _resetDB("runtime6.xml", "config1.xml");
-    }
     
-    @Override
-    protected File[] getScripts()
-    {
-        return new File[] {new File("main/plugin-core/scripts/mysql/jdbc_users_auth.sql")};
-    }
-
-    @Override
-    protected File[] getFilledScripts()
-    {
-        return new File[] {new File("test/environments/scripts/fillJDBCUsersAuth.sql")};
-    }
-
-    @Override
+    /**
+     * Test the getting of users on mysql
+     * @throws Exception if an error occurs
+     */
     public void testType() throws Exception
     {
         // JDBC IMPL
@@ -187,7 +176,10 @@ public class ModifiableCredentialAwareJdbcUsersTestCase extends JdbcUsersTestCas
         assertNotNull(user);
         assertEquals(user.getName(), "test");
         assertEquals(user.getFullName(), "Test TEST");
-        assertEquals(user.getEmail(), "");
+        if (user.getEmail() != null && !user.getEmail().equals(""))
+        {
+            throw new ComparisonFailure(null, "null or ''", user.getEmail());
+        }
 
         user = _usersManager.getUser("test2");
         assertNotNull(user);

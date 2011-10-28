@@ -13,10 +13,15 @@
 --  See the License for the specific language governing permissions and
 --  limitations under the License.
 --
+BEGIN;
+
 DROP TABLE IF EXISTS UserPreferences;
+
 CREATE TABLE UserPreferences(
   login varchar(32) NOT NULL, 
   context varchar(128) NOT NULL,
-  data BLOB,
+  data OID,
   PRIMARY KEY(login, context)
-)
+);
+
+COMMIT;

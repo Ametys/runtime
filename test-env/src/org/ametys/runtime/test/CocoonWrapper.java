@@ -186,6 +186,14 @@ public class CocoonWrapper
      */
     public void dispose()
     {
+        // Dispose the plugins component manager.
+        PluginsComponentManager pluginCM = (PluginsComponentManager) _cliContext.getAttribute("PluginsComponentManager");
+        if (pluginCM != null)
+        {
+            pluginCM.dispose();
+        }
+        
+        // Dispose the cocoon instance.
         _cocoon.dispose();
     }
 }
