@@ -2554,7 +2554,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         return addProfile(name, null);
     }
     
-    public Profile addProfile(String name, String context)
+    public Profile addProfile(String name, String context) throws RightsException
     {
         Integer id = null;
         
@@ -2583,6 +2583,11 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
                 {
                     id = rs.getInt(1);
                 }
+                else
+                {
+                    throw new RightsException("Error generating a new profile ID, the profile was not created");
+                }
+                
                 ConnectionHelper.cleanup(rs);
                 ConnectionHelper.cleanup(statement);
                 
@@ -2642,6 +2647,11 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             ConnectionHelper.cleanup(rs);
             ConnectionHelper.cleanup(statement);
             ConnectionHelper.cleanup(connection);
+        }
+        
+        if (id != null)
+        {
+            throw new RightsException("Error generating a new profile ID, the profile was not created");
         }
         
         return new DefaultProfile(Integer.toString(id), name, context);

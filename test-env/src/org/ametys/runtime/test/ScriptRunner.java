@@ -97,8 +97,7 @@ public abstract class ScriptRunner
      */
     public static void runScript(Connection connection, InputStream is) throws IOException, SQLException
     {
-        String separator = DEFAULT_SEPARATOR;
-        boolean ignoreExceptions = false;
+        ScriptContext scriptContext = new ScriptContext();
         StringBuilder command = new StringBuilder();
         
         try
@@ -114,67 +113,22 @@ public abstract class ScriptRunner
                 
                 boolean processCommand = false;
                 String trimmedLine = line.trim();
-                if (trimmedLine.length() == 0 || trimmedLine.startsWith("//") || trimmedLine.startsWith("--"))
-                {
-                    String currentSeparator = separator;
-                    
-                    // Search if the separator needs to be changed
-                    if (trimmedLine.contains(CHANGE_SEPARATOR_COMMAND))
-                    {
-                        // New separator
-                        separator = trimmedLine.substring(trimmedLine.indexOf(CHANGE_SEPARATOR_COMMAND)
-                                    + CHANGE_SEPARATOR_COMMAND.length()).trim();
-                        
-                        if (__LOGGER.isDebugEnabled())
-                        {
-                            __LOGGER.debug(String.format("Changing separator to: '%s'", separator));
-                        }
-                    }
-                    else if (trimmedLine.contains(IGNORE_EXCEPTIONS_COMMAND))
-                    {
-                        String ignoreStr = trimmedLine.substring(trimmedLine.indexOf(IGNORE_EXCEPTIONS_COMMAND)
-                                    + IGNORE_EXCEPTIONS_COMMAND.length()).trim();
-                        
-                        ignoreExceptions = "on".equals(ignoreStr);
-                        
-                        if (__LOGGER.isDebugEnabled())
-                        {
-                            __LOGGER.debug(String.format("Ignore exceptions: '%s'", ignoreExceptions ? "on" : "off"));
-                        }
-                    }
-                    
-                    if (trimmedLine.contains(currentSeparator))
-                    {
-                        if (command.length() > 0)
-                        {
-                            // End of command but do not use current line
-                            processCommand = true;
-                        }
-                    }
-                        
-                }
-                else if (trimmedLine.endsWith(separator))
-                {
-                    // End of command and use current line
-                    processCommand = true;
-                    command.append(line.substring(0, line.lastIndexOf(separator)));
-                }
-                else
-                {
-                    // Append current command to the buffer
-                    command.append(line);
-                    command.append(" ");
-                }
                 
-                if (processCommand)
+                if (trimmedLine.length() > 0)
                 {
-                    _process(connection, command, lineReader.getLineNumber(), ignoreExceptions);
+                    processCommand = processScriptLine(trimmedLine, command, scriptContext);
+                    
+                    if (processCommand)
+                    {
+                        _processCommand(connection, command, lineReader.getLineNumber(), scriptContext);
+                    }
                 }
             }
             
+            // If the entire file was processed and the command buffer is not empty, execute the current buffer.
             if (command.length() > 0)
             {
-                _process(connection, command, lineReader.getLineNumber(), ignoreExceptions);
+                _processCommand(connection, command, lineReader.getLineNumber(), scriptContext);
             }
             
             if (!connection.getAutoCommit())
@@ -200,21 +154,90 @@ public abstract class ScriptRunner
             IOUtils.closeQuietly(is);
         }
     }
+
+    /**
+     * Process a script line.
+     * @param line the line to process.
+     * @param commandBuffer the command buffer.
+     * @param scriptContext the script execution context.
+     * @return true to immediately process the command (a separator was found), false to process it later.
+     */
+    protected static boolean processScriptLine(String line, StringBuilder commandBuffer, ScriptContext scriptContext)
+    {
+        boolean processCommand = false;
+        
+        if (line.startsWith("//") || line.startsWith("--"))
+        {
+            String currentSeparator = scriptContext.getSeparator();
+            
+            // Search if the separator needs to be changed
+            if (line.contains(CHANGE_SEPARATOR_COMMAND))
+            {
+                // New separator
+                String newSeparator = line.substring(line.indexOf(CHANGE_SEPARATOR_COMMAND)
+                            + CHANGE_SEPARATOR_COMMAND.length()).trim();
+                
+                scriptContext.setSeparator(newSeparator);
+                
+                if (__LOGGER.isDebugEnabled())
+                {
+                    __LOGGER.debug(String.format("Changing separator to: '%s'", newSeparator));
+                }
+            }
+            else if (line.contains(IGNORE_EXCEPTIONS_COMMAND))
+            {
+                String ignoreStr = line.substring(line.indexOf(IGNORE_EXCEPTIONS_COMMAND)
+                            + IGNORE_EXCEPTIONS_COMMAND.length()).trim();
+                
+                boolean ignoreExceptions = "on".equals(ignoreStr);
+                
+                scriptContext.setIgnoreExceptions(ignoreExceptions);
+                
+                if (__LOGGER.isDebugEnabled())
+                {
+                    __LOGGER.debug(String.format("Ignore exceptions: '%s'", ignoreExceptions ? "on" : "off"));
+                }
+            }
+            
+            if (line.contains(currentSeparator))
+            {
+                if (commandBuffer.length() > 0)
+                {
+                    // End of command but do not use current line
+                    processCommand = true;
+                }
+            }
+        }
+        else if (line.endsWith(scriptContext.getSeparator()))
+        {
+            // End of command and use current line
+            processCommand = true;
+            commandBuffer.append(line.substring(0, line.lastIndexOf(scriptContext.getSeparator())));
+        }
+        else
+        {
+            // Append current command to the buffer
+            commandBuffer.append(line);
+            commandBuffer.append(" ");
+        }
+        
+        return processCommand;
+    }
     
-    private static void _process(Connection connection, StringBuilder command, int lineNumber, boolean ignoreExceptions) throws SQLException
+    private static void _processCommand(Connection connection, StringBuilder command, int lineNumber, ScriptContext scriptContext) throws SQLException
     {
         if (__LOGGER.isInfoEnabled())
         {
             __LOGGER.info(String.format("Executing SQL command: '%s'", command));
         }
         
-        _execute(connection, command.toString(), lineNumber, ignoreExceptions);
+        _execute(connection, command.toString(), lineNumber, scriptContext);
 
         // Clear command
         command.setLength(0);
     }
     
-    private static void _execute(Connection connection, String command, int lineNumber, boolean ignoreExceptions) throws SQLException
+    private static void _execute(Connection connection, String command, int lineNumber, ScriptContext scriptContext) throws SQLException
     {
         Statement statement = null;
         try
@@ -224,7 +247,7 @@ public abstract class ScriptRunner
         }
         catch (SQLException e)
         {
-            if (!ignoreExceptions)
+            if (!scriptContext.ignoreExceptions())
             {
                 String message = String.format("Unable to execute SQL: '%s' at line %d", command, lineNumber);
                 __LOGGER.error(message, e);
@@ -236,6 +259,75 @@ public abstract class ScriptRunner
         {
             ConnectionHelper.cleanup(statement);
         }
-
     }
+    
+    /**
+     * Script execution context.
+     */
+    protected static class ScriptContext
+    {
+        
+        /** The current script execution block separator. */
+        protected String _separator;
+        
+        /** True to ignore sql exceptions. */
+        protected boolean _ignoreExceptions;
+        
+        /**
+         * Default ScriptContext object.
+         */
+        public ScriptContext()
+        {
+            this(DEFAULT_SEPARATOR, false);
+        }
+        
+        /**
+         * Build a ScriptContext object.
+         * @param separator the separator
+         * @param ignoreExceptions true to ignore exceptions.
+         */
+        public ScriptContext(String separator, boolean ignoreExceptions)
+        {
+            this._separator = separator;
+            this._ignoreExceptions = ignoreExceptions;
+        }
+        
+        /**
+         * Get the separator.
+         * @return the separator
+         */
+        public String getSeparator()
+        {
+            return _separator;
+        }
+        
+        /**
+         * Set the separator.
+         * @param separator the separator to set
+         */
+        public void setSeparator(String separator)
+        {
+            this._separator = separator;
+        }
+        
+        /**
+         * Get the ignoreExceptions.
+         * @return the ignoreExceptions
+         */
+        public boolean ignoreExceptions()
+        {
+            return _ignoreExceptions;
+        }
+        
+        /**
+         * Set the ignoreExceptions.
+         * @param ignoreExceptions the ignoreExceptions to set
+         */
+        public void setIgnoreExceptions(boolean ignoreExceptions)
+        {
+            this._ignoreExceptions = ignoreExceptions;
+        }
+        
+    }
+    
 }
