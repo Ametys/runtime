@@ -101,7 +101,7 @@ public class LogsGenerator extends ServiceableGenerator
         }
         catch (Exception e) 
         {
-             // rien à faire
+             // nothing to do
             getLogger().warn("Unable to access internal logger properties", e);
         }
     }
@@ -159,6 +159,7 @@ public class LogsGenerator extends ServiceableGenerator
                         underLogs = new ArrayList<TraversableSource>();
                         logs.put(canonicalName, underLogs);
                     }
+                    
                     underLogs.add(logSource);
                 }
             }

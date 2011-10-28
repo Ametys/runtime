@@ -73,6 +73,7 @@ public class AllCSSComponent implements ThreadSafe, Contextualizable, Component
     {
         Session session = ContextHelper.getRequest(_context).getSession(true);
         List<String> cssFilesList = (List<String>) session.getAttribute(AllCSSComponent.class.getName());
+        
         if (cssFilesList == null)
         {
             return 0; 
@@ -115,6 +116,7 @@ public class AllCSSComponent implements ThreadSafe, Contextualizable, Component
         {
             throw new IllegalStateException("The css files list has a different hash code compared to the one required.");
         }
+        
         return list;
     }
 }

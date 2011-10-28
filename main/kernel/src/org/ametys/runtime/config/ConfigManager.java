@@ -76,13 +76,13 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
     private ServiceManager _manager;
     private Context _context;
 
-    // Paramètres utilisés (Map<id, featureId>)
+    // Used parameters (Map<id, featureId>)
     private Map<String, String> _usedParamsName;
 
-    // Paramètres déclarés (Map<id, configuration>)
+    // Declared parameters (Map<id, configuration>)
     private Map<String, ConfigParameterInfo> _declaredParams;
 
-    // Map de paramètres typés (ConfigParameter)
+    // Typed parameters
     private Map<String, ConfigParameter> _params;
 
     // Determines if the extension point is initialized

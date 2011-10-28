@@ -78,27 +78,29 @@ public class ChangeRuntime extends ServiceableGenerator
             
             Map<String, Boolean> extensionPoints = (Map<String, Boolean>) parentContextParameters.get("EP");
             XMLUtils.startElement(contentHandler, "features");
+            
             for (String ep : extensionPoints.keySet())
             {
                 AttributesImpl attrs = new AttributesImpl();
                 attrs.addCDATAAttribute("name", ep);
                 XMLUtils.createElement(contentHandler, "feature", attrs, extensionPoints.get(ep).toString());
             }
+            
             XMLUtils.endElement(contentHandler, "features");
 
             Map<String, String> singleExtensionPoints = (Map<String, String>) parentContextParameters.get("SEP");
             XMLUtils.startElement(contentHandler, "extensions");
+            
             for (String ep : singleExtensionPoints.keySet())
             {
                 XMLUtils.createElement(contentHandler, ep, singleExtensionPoints.get(ep));
             }
+            
             XMLUtils.endElement(contentHandler, "extensions");
-
             XMLUtils.endElement(contentHandler, "transformations");
         }
         
         XMLUtils.endElement(contentHandler, "CMS");
         contentHandler.endDocument();
     }
-
 }

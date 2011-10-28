@@ -31,7 +31,6 @@ import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableGenerator;
 
 /**
  * SAX user preferences values
- *
  */
 public class UserPreferencesValuesGenerator extends CurrentUserProviderServiceableGenerator
 {
@@ -98,5 +97,4 @@ public class UserPreferencesValuesGenerator extends CurrentUserProviderServiceab
         XMLUtils.endElement(contentHandler, "userprefs");
         contentHandler.endDocument();
     }
-
 }

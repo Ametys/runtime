@@ -33,6 +33,12 @@ public class RestartAction extends AbstractAction implements ThreadSafe
     @Override
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
+        // Set the request attribute for Cocoon reloading
+        if (getLogger().isDebugEnabled())
+        {
+            getLogger().debug("Positionning org.ametys.runtime.reload=true for Cocoon reloading");
+        }
+        
         Request request = ObjectModelHelper.getRequest(objectModel);
         request.setAttribute("org.ametys.runtime.reload", "true");
         

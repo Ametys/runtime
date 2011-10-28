@@ -191,8 +191,8 @@ public class AbstractComponentExtensionPoint<T> extends AbstractLogEnabled imple
         }
         
         /**
-         * The exntesion class
-         * @return the _extensionClass
+         * Returns the extension class
+         * @return the extension class
          */
         public Class<T> getExtensionClass()
         {
@@ -200,8 +200,8 @@ public class AbstractComponentExtensionPoint<T> extends AbstractLogEnabled imple
         }
         
         /**
-         * The configuration
-         * @return the _configuration
+         * Returns the configuration
+         * @return the configuration
          */
         public Configuration getConfiguration()
         {
@@ -209,8 +209,8 @@ public class AbstractComponentExtensionPoint<T> extends AbstractLogEnabled imple
         }
         
         /**
-         * The feature name
-         * @return the _featureName
+         * Returns the feature name
+         * @return the feature name
          */
         public String getFeatureName()
         {
@@ -218,8 +218,8 @@ public class AbstractComponentExtensionPoint<T> extends AbstractLogEnabled imple
         }
         
         /**
-         * The plugin name
-         * @return the _pluginName
+         * Returns the plugin name
+         * @return the plugin name
          */
         public String getPluginName()
         {
