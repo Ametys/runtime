@@ -280,7 +280,7 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Compon
                 
                 stmt.setString(1, login);
                 stmt.setString(2, context);
-                if (DatabaseType.DATABASE_POSTGRES.equals(dbType))
+                if (DatabaseType.DATABASE_POSTGRES.equals(dbType) || DatabaseType.DATABASE_ORACLE.equals(dbType))
                 {
                     stmt.setBinaryStream(3, dataIs, prefBytes.length);
                 }
