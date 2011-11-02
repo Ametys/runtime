@@ -260,13 +260,13 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Compon
                 // If there's already a record, update it with the new data.
                 stmt = connection.prepareStatement("UPDATE " + _databaseTable + " SET data = ? WHERE login = ? AND context = ?");
                 
-                if (DatabaseType.DATABASE_POSTGRES.equals(dbType))
+                if (DatabaseType.DATABASE_POSTGRES.equals(dbType) || DatabaseType.DATABASE_ORACLE.equals(dbType))
                 {
                     stmt.setBinaryStream(1, dataIs, prefBytes.length);
                 }
                 else
                 {
-                    stmt.setBlob(1, dataIs);
+                    stmt.setBlob(1, dataIs, prefBytes.length);
                 }
                 stmt.setString(2, login);
                 stmt.setString(3, context);
