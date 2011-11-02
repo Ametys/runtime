@@ -51,6 +51,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import org.ametys.runtime.datasource.ConnectionHelper;
+import org.ametys.runtime.datasource.ConnectionHelper.DatabaseType;
 import org.ametys.runtime.util.MapHandler;
 import org.ametys.runtime.util.parameter.ParameterHelper;
 import org.ametys.runtime.util.parameter.ParameterHelper.ParameterType;
@@ -104,6 +105,7 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Compon
         try
         {
             connection = ConnectionHelper.getConnection(ConnectionHelper.CORE_POOL_NAME);
+            DatabaseType dbType = ConnectionHelper.getDatabaseType(connection);
             
             stmt = connection.prepareStatement("SELECT * FROM " + _databaseTable + " WHERE login = ? AND context = ?");
             
@@ -114,8 +116,15 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Compon
             
             if (rs.next())
             {
-                Blob data = rs.getBlob("data");
-                dataIs = data.getBinaryStream();
+                if (DatabaseType.DATABASE_POSTGRES.equals(dbType))
+                {
+                    dataIs = rs.getBinaryStream("data");
+                }
+                else
+                {
+                    Blob data = rs.getBlob("data");
+                    dataIs = data.getBinaryStream();
+                }
                 
                 // Create the handler and fill the Map by parsing the configuration.
                 MapHandler handler = new MapHandler(prefs);
@@ -230,9 +239,11 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Compon
         
         try
         {
-            dataIs = _getPreferencesXmlInputStream(preferences);
+            byte[] prefBytes = _getPreferencesXmlBytes(preferences);
+            dataIs = new ByteArrayInputStream(prefBytes);
             
             connection = ConnectionHelper.getConnection(ConnectionHelper.CORE_POOL_NAME);
+            DatabaseType dbType = ConnectionHelper.getDatabaseType(connection);
             
             // Test if the preferences already exist.
             stmt = connection.prepareStatement("SELECT count(*) FROM " + _databaseTable + " WHERE login = ? AND context = ?");
@@ -249,7 +260,14 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Compon
                 // If there's already a record, update it with the new data.
                 stmt = connection.prepareStatement("UPDATE " + _databaseTable + " SET data = ? WHERE login = ? AND context = ?");
                 
-                stmt.setBlob(1, dataIs);
+                if (DatabaseType.DATABASE_POSTGRES.equals(dbType) || DatabaseType.DATABASE_ORACLE.equals(dbType))
+                {
+                    stmt.setBinaryStream(1, dataIs, prefBytes.length);
+                }
+                else
+                {
+                    stmt.setBlob(1, dataIs, prefBytes.length);
+                }
                 stmt.setString(2, login);
                 stmt.setString(3, context);
                 
@@ -262,7 +280,14 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Compon
                 
                 stmt.setString(1, login);
                 stmt.setString(2, context);
-                stmt.setBlob(3, dataIs);
+                if (DatabaseType.DATABASE_POSTGRES.equals(dbType) || DatabaseType.DATABASE_ORACLE.equals(dbType))
+                {
+                    stmt.setBinaryStream(3, dataIs, prefBytes.length);
+                }
+                else
+                {
+                    stmt.setBlob(3, dataIs);
+                }
                 
                 stmt.executeUpdate();
             }
@@ -395,7 +420,7 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Compon
      * @return an InputStream on the preferences as XML.
      * @throws UserPreferencesException
      */
-    protected InputStream _getPreferencesXmlInputStream(Map<String, String> preferences) throws UserPreferencesException
+    protected byte[] _getPreferencesXmlBytes(Map<String, String> preferences) throws UserPreferencesException
     {
         try
         {
@@ -422,9 +447,7 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Compon
             XMLUtils.endElement(handler, "UserPreferences");
             handler.endDocument();
             
-            byte[] xmlBuffer = bos.toByteArray();
-            
-            return new ByteArrayInputStream(xmlBuffer);
+            return bos.toByteArray();
         }
         catch (TransformerException e)
         {
