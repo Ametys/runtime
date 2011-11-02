@@ -42,7 +42,7 @@ public class TraxTransformer extends org.apache.cocoon.transformation.TraxTransf
         }
         catch (ServiceException e)
         {
-            String errorMessage = "The runtime resource reader cannot be setup : the runtime source resolver cannot be retrived";
+            String errorMessage = "The runtime TraxTransformer cannot be setup : the runtime source resolver cannot be retrived";
             getLogger().error(errorMessage);
             throw new ProcessingException(errorMessage, e);
         }
