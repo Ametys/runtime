@@ -21,6 +21,7 @@ import junit.framework.TestSuite;
 import org.ametys.runtime.test.groups.jdbc.MysqlJdbcGroupsTestCase;
 import org.ametys.runtime.test.rights.profile.MysqlProfileBasedRightsManagerTestCase;
 import org.ametys.runtime.test.rights.profile.hierarchical.MysqlHierarchicalProfileBasedRightsManagerTestCase;
+import org.ametys.runtime.test.userpref.MysqlUserPreferencesTestCase;
 import org.ametys.runtime.test.users.jdbc.MysqlJdbcUsersTestCase;
 import org.ametys.runtime.test.users.jdbc.credentialsaware.MysqlCredentialsAwareJdbcUsersTestCase;
 import org.ametys.runtime.test.users.jdbc.modifiable.MysqlModifiableJdbcUsersTestCase;
@@ -54,6 +55,8 @@ public final class AllMysqlTestSuite
         
         suite.addTestSuite(MysqlProfileBasedRightsManagerTestCase.class);
         suite.addTestSuite(MysqlHierarchicalProfileBasedRightsManagerTestCase.class);
+        
+        suite.addTestSuite(MysqlUserPreferencesTestCase.class);
         //$JUnit-END$
         
         return suite;

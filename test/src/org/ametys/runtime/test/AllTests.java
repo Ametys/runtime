@@ -31,6 +31,7 @@ import org.ametys.runtime.test.rights.profile.AllProfileBasedRightsManagerTestSu
 import org.ametys.runtime.test.rights.profile.hierarchical.AllHierarchicalProfileBasedRightsManagerTestSuite;
 import org.ametys.runtime.test.ui.DesktopManagerTestCase;
 import org.ametys.runtime.test.ui.StaticUIItemFactoryTestCase;
+import org.ametys.runtime.test.userpref.AllUserPreferencesTestSuite;
 import org.ametys.runtime.test.users.jdbc.AllUsersTestSuite;
 import org.ametys.runtime.test.users.jdbc.credentialsaware.AllCredentialsAwareJdbcUsersTestSuite;
 import org.ametys.runtime.test.users.jdbc.modifiable.AllModifiableUsersTestSuite;
@@ -86,6 +87,8 @@ public final class AllTests
         suite.addTestSuite(BasicRightsManagerTestCase.class);
         suite.addTest(AllProfileBasedRightsManagerTestSuite.suite());
         suite.addTest(AllHierarchicalProfileBasedRightsManagerTestSuite.suite());
+        
+        suite.addTest(AllUserPreferencesTestSuite.suite());
         
         suite.addTestSuite(StaticUIItemFactoryTestCase.class);
         suite.addTestSuite(DesktopManagerTestCase.class);

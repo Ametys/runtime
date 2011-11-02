@@ -21,6 +21,7 @@ import junit.framework.TestSuite;
 import org.ametys.runtime.test.groups.jdbc.PostgresJdbcGroupsTestCase;
 import org.ametys.runtime.test.rights.profile.PostgresProfileBasedRightsManagerTestCase;
 import org.ametys.runtime.test.rights.profile.hierarchical.PostgresHierarchicalProfileBasedRightsManagerTestCase;
+import org.ametys.runtime.test.userpref.PostgresUserPreferencesTestCase;
 import org.ametys.runtime.test.users.jdbc.PostgresJdbcUsersTestCase;
 import org.ametys.runtime.test.users.jdbc.credentialsaware.PostgresCredentialsAwareJdbcUsersTestCase;
 import org.ametys.runtime.test.users.jdbc.modifiable.PostgresModifiableJdbcUsersTestCase;
@@ -54,6 +55,8 @@ public final class AllPostgresTestSuite
         
         suite.addTestSuite(PostgresProfileBasedRightsManagerTestCase.class);
         suite.addTestSuite(PostgresHierarchicalProfileBasedRightsManagerTestCase.class);
+        
+        suite.addTestSuite(PostgresUserPreferencesTestCase.class);
         //$JUnit-END$
         
         return suite;
