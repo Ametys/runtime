@@ -1674,7 +1674,7 @@
                  -->
                 <right id="Runtime_Rights_Rights_Profile_See">
                     <label>PLUGINS_CORE_PROFILE_RIGHTS_SEE_LABEL</label>
-                    <description>PLUGINS_CORE_PROFILE_SEE_HANDLE_DESCRIPTION</description>
+                    <description>PLUGINS_CORE_PROFILE_RIGHTS_SEE_DESCRIPTION</description>
                     <category>PLUGINS_CORE_USERANDRIGHTS_CATEGORY</category>
                 </right>
                 <right id="Runtime_Rights_Rights_Profile_Handle">
