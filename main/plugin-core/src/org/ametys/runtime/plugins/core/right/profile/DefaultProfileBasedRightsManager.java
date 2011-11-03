@@ -1061,12 +1061,29 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         Connection connection = ConnectionHelper.getConnection(_poolName);
 
         PreparedStatement stmt = null;
-
+        ResultSet rs = null;
         try
         {
-            // On regarde d'abord parmi les droits affectés directement aux
-            // utilisateurs
-            String sql = "INSERT INTO " + _tableUserRights + " (Profile_Id, Login, Context) VALUES(?, ?, ?)";
+            // Check if already exists
+            String sql = "SELECT Profile_Id FROM " + _tableUserRights + " WHERE Profile_Id=? and Login=? and Context=?";
+            stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, Integer.parseInt(profileId));
+            stmt.setString(2, login);
+            stmt.setString(3, lcContext);
+            
+            rs = stmt.executeQuery();
+            if (rs.next())
+            {
+                if (getLogger().isDebugEnabled())
+                {
+                    getLogger().debug("Login " + login + " has already profile " + profileId + " on context " +  lcContext + "");
+                }
+                return;
+            }
+            
+            ConnectionHelper.cleanup(stmt);
+            
+            sql = "INSERT INTO " + _tableUserRights + " (Profile_Id, Login, Context) VALUES(?, ?, ?)";
 
             stmt = connection.prepareStatement(sql);
 
@@ -1091,6 +1108,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         }
         finally
         {
+            ConnectionHelper.cleanup(rs);
             ConnectionHelper.cleanup(stmt);
             ConnectionHelper.cleanup(connection);
         }
@@ -1103,12 +1121,29 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         Connection connection = ConnectionHelper.getConnection(_poolName);
 
         PreparedStatement stmt = null;
-
+        ResultSet rs = null;
         try
         {
-            // On regarde d'abord parmi les droits affectés directement aux
-            // utilisateurs
-            String sql = "INSERT INTO " + _tableGroupRights + " (Profile_Id, Group_Id, Context) VALUES(?, ?, ?)";
+            // Check if already exists
+            String sql = "SELECT Profile_Id FROM " + _tableGroupRights + " WHERE Profile_Id=? and Group_Id=? and Context=?";
+            stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, Integer.parseInt(profileId));
+            stmt.setString(2, groupId);
+            stmt.setString(3, lcContext);
+            
+            rs = stmt.executeQuery();
+            if (rs.next())
+            {
+                if (getLogger().isDebugEnabled())
+                {
+                    getLogger().debug("Group of id " + groupId + " has already profile " + profileId + " on context " +  lcContext + "");
+                }
+                return;
+            }
+
+            ConnectionHelper.cleanup(stmt);
+            
+            sql = "INSERT INTO " + _tableGroupRights + " (Profile_Id, Group_Id, Context) VALUES(?, ?, ?)";
 
             stmt = connection.prepareStatement(sql);
 
@@ -1133,6 +1168,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         }
         finally
         {
+            ConnectionHelper.cleanup(rs);
             ConnectionHelper.cleanup(stmt);
             ConnectionHelper.cleanup(connection);
         }
