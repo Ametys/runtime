@@ -56,12 +56,13 @@ public final class SendMailHelper
     public static void sendMail(String subject, String htmlBody, String textBody, String recipient, String sender) throws MessagingException
     {
         String smtpHost = Config.getInstance().getValueAsString("smtp.mail.host");
+        long smtpPort = Config.getInstance().getValueAsLong("smtp.mail.port");
         String smtpUser = Config.getInstance().getValueAsString("smtp.mail.user");
         String smtpPass = Config.getInstance().getValueAsString("smtp.mail.password");
 
         try
         {
-            sendMail(subject, htmlBody, textBody, null, recipient, sender, smtpHost, smtpUser, smtpPass);
+            sendMail(subject, htmlBody, textBody, null, recipient, sender, smtpHost, smtpPort, smtpUser, smtpPass);
         }
         catch (IOException e)
         {
@@ -77,13 +78,40 @@ public final class SendMailHelper
      * @param recipient The recipient address
      * @param sender The sender address
      * @param host The server mail host
+     * @param port The server mail port
      * @throws MessagingException If an error occurred while preparing or sending email
      */
-    public static void sendMail(String subject, String htmlBody, String textBody, String recipient, String sender, String host) throws MessagingException
+    public static void sendMail(String subject, String htmlBody, String textBody, String recipient, String sender, String host, long port) throws MessagingException
     {
         try
         {
-            sendMail(subject, htmlBody, textBody, null, recipient, sender, host, null, null);
+            sendMail(subject, htmlBody, textBody, null, recipient, sender, host, port, null, null);
+        }
+        catch (IOException e)
+        {
+            // Should never happen, as IOException can only be thrown where there are attachments.
+        }
+    }
+    
+    
+    /**
+     * Sends mail with authentication, without attachments.
+     * @param subject The mail subject
+     * @param htmlBody The HTML mail body. Can be null.
+     * @param textBody The text mail body. Can be null.
+     * @param recipient The recipient address
+     * @param sender The sender address
+     * @param host The server mail host
+     * @param port The server port
+     * @param user The user name
+     * @param password The user password
+     * @throws MessagingException If an error occurred while preparing or sending email
+     */
+    public static void sendMail(String subject, String htmlBody, String textBody, String recipient, String sender, String host, long port, String user, String password) throws MessagingException
+    {
+        try
+        {
+            sendMail(subject, htmlBody, textBody, null, recipient, sender, host, port, user, password);
         }
         catch (IOException e)
         {
@@ -105,13 +133,13 @@ public final class SendMailHelper
     public static void sendMail(String subject, String htmlBody, String textBody, Collection<File> attachments, String recipient, String sender) throws MessagingException, IOException
     {
         String smtpHost = Config.getInstance().getValueAsString("smtp.mail.host");
+        long smtpPort = Config.getInstance().getValueAsLong("smtp.mail.port");
         String smtpUser = Config.getInstance().getValueAsString("smtp.mail.user");
         String smtpPass = Config.getInstance().getValueAsString("smtp.mail.password");
 
-        sendMail(subject, htmlBody, textBody, attachments, recipient, sender, smtpHost, smtpUser, smtpPass);
+        sendMail(subject, htmlBody, textBody, attachments, recipient, sender, smtpHost, smtpPort, smtpUser, smtpPass);
     }
     
-
     /**
      * Sends mail without authentication, with attachments.
      * @param subject The mail subject
@@ -121,36 +149,13 @@ public final class SendMailHelper
      * @param recipient The recipient address
      * @param sender The sender address
      * @param host The server mail host
+     * @param port The server port
      * @throws MessagingException If an error occurred while preparing or sending email
      * @throws IOException if an error occurs while attaching a file.
      */
-    public static void sendMail(String subject, String htmlBody, String textBody, Collection<File> attachments, String recipient, String sender, String host) throws MessagingException, IOException
+    public static void sendMail(String subject, String htmlBody, String textBody, Collection<File> attachments, String recipient, String sender, String host, long port) throws MessagingException, IOException
     {
-        sendMail(subject, htmlBody, textBody, attachments, recipient, sender, host, null, null);
-    }
-    
-    /**
-     * Sends mail with authentication, without attachments.
-     * @param subject The mail subject
-     * @param htmlBody The HTML mail body. Can be null.
-     * @param textBody The text mail body. Can be null.
-     * @param recipient The recipient address
-     * @param sender The sender address
-     * @param host The server mail host
-     * @param user The user name
-     * @param password The user password
-     * @throws MessagingException If an error occurred while preparing or sending email
-     */
-    public static void sendMail(String subject, String htmlBody, String textBody, String recipient, String sender, String host, String user, String password) throws MessagingException
-    {
-        try
-        {
-            sendMail(subject, htmlBody, textBody, null, recipient, sender, host, user, password);
-        }
-        catch (IOException e)
-        {
-            // Should never happen, as IOException can only be thrown where there are attachments.
-        }
+        sendMail(subject, htmlBody, textBody, attachments, recipient, sender, host, port, null, null);
     }
     
     /**
@@ -162,17 +167,19 @@ public final class SendMailHelper
      * @param recipient The recipient address
      * @param sender The sender address
      * @param host The server mail host
+     * @param port The server port
      * @param user The user name
      * @param password The user password
      * @throws MessagingException If an error occurred while preparing or sending email
      * @throws IOException if an error occurs while attaching a file.
      */
-    public static void sendMail(String subject, String htmlBody, String textBody, Collection<File> attachments, String recipient, String sender, String host, String user, String password) throws MessagingException, IOException
+    public static void sendMail(String subject, String htmlBody, String textBody, Collection<File> attachments, String recipient, String sender, String host, long port, String user, String password) throws MessagingException, IOException
     {
         Properties props = new Properties();
 
         // Setup mail server
         props.put("mail.smtp.host", host);
+        props.put("mail.smtp.port", port);
 
         // Get session
         Session session = Session.getInstance(props, null);
