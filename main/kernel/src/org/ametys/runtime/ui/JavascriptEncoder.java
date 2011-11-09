@@ -15,9 +15,13 @@
  */
 package org.ametys.runtime.ui;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 /**
  * Contains helper to encode javascript caracters for strings
+ * @deprecated use {@link StringEscapeUtils} instead.
  */
+@Deprecated
 public final class JavascriptEncoder
 {
     private JavascriptEncoder()
