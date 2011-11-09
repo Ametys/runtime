@@ -16,8 +16,9 @@
    -->
 <xsl:stylesheet version="1.0" 
                 xmlns:i18n="http://apache.org/cocoon/i18n/2.1" 
-                xmlns:jsencoder="org.ametys.runtime.ui.JavascriptEncoder" 
-                xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+                xmlns:escape="org.apache.commons.lang.StringEscapeUtils"
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+                exclude-result-prefixes="escape">
     
     <xsl:param name="contextPath"/>
     <xsl:param name="pluginName"/>
@@ -75,13 +76,13 @@
 									var input = org.ametys.administration.Config.addInputField (fieldSet, 
 										"<xsl:value-of select="type"/>", 
 										"<xsl:value-of select="local-name()"/>", 
-										"<xsl:value-of select="jsencoder:encode(value)"/>", 
+										"<xsl:value-of select="escape:escapeJavaScript(value)"/>", 
 										"<xsl:copy-of select="label/node()"/>", 
 										"<xsl:copy-of select="description/node()"/>",
 										<xsl:call-template name="enumeration"/>,
 										"<xsl:value-of select="widget"/>",
 										"<xsl:value-of select="validation/mandatory"/>",
-                                        "<xsl:value-of select="jsencoder:encode(validation/regexp)"/>"
+                                        "<xsl:value-of select="escape:escapeJavaScript(validation/regexp)"/>"
                                         <xsl:if test="validation/invalidText != ''">,"<xsl:value-of select="validation/invalidText"/>"</xsl:if>);
 									height += org.ametys.administration.Config.getInputHeight (input);
 							</xsl:for-each>
@@ -111,7 +112,7 @@
     			<xsl:text>[</xsl:text> 
     			<xsl:for-each select="enumeration/option">
     				<xsl:if test="position() != 1">, </xsl:if>
-    				<xsl:text>["</xsl:text><xsl:value-of select="jsencoder:encode(@value)"/><xsl:text>", "</xsl:text><xsl:copy-of select="node()"/><xsl:text>"]</xsl:text>
+    				<xsl:text>["</xsl:text><xsl:value-of select="escape:escapeJavaScript(@value)"/><xsl:text>", "</xsl:text><xsl:copy-of select="node()"/><xsl:text>"]</xsl:text>
     			</xsl:for-each>
     			<xsl:text>]</xsl:text> 
     		</xsl:when>
