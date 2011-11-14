@@ -18,6 +18,8 @@ package org.ametys.runtime.plugins.core.upload.readers;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -55,6 +57,7 @@ public class UploadReader extends ServiceableReader
     private int _maxHeight;
     
     private boolean _readForDownload;
+    private Collection<String> _allowedFormats = Arrays.asList(new String[]{"png", "gif", "jpg", "jpeg"});
 
     @Override
     public void service(ServiceManager serviceManager) throws ServiceException
@@ -144,7 +147,9 @@ public class UploadReader extends ServiceableReader
             {
                 // it's an image, which must be resized
                 int i = _upload.getFilename().lastIndexOf('.');
-                String format = _upload.getFilename().substring(i + 1);
+                String format = i != -1 ? _upload.getFilename().substring(i + 1) : "png";
+                format = _allowedFormats.contains(format) ? format : "png";
+                
                 ImageHelper.generateThumbnail(is, out, format, _height, _width, _maxHeight, _maxWidth);
             }
             else
@@ -152,7 +157,6 @@ public class UploadReader extends ServiceableReader
              // Copy data in response
                 IOUtils.copy(is, out);
             }
-            
         }
         finally
         {
