@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Properties;
+import java.util.StringTokenizer;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -30,6 +31,12 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+
+import org.apache.commons.lang.StringUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import org.ametys.runtime.config.Config;
 
@@ -210,7 +217,7 @@ public final class SendMailHelper
         if (htmlBody != null)
         {
             MimeBodyPart htmlBodyPart = new MimeBodyPart();
-            htmlBodyPart.setContent(htmlBody, "text/html;charset=utf-8");
+            htmlBodyPart.setContent(inlineCSS(htmlBody), "text/html;charset=utf-8");
             htmlBodyPart.addHeader("Content-Type", "text/html;charset=utf-8");
             messageMultipart.addBodyPart(htmlBodyPart);
         }
@@ -245,4 +252,73 @@ public final class SendMailHelper
         tr.sendMessage(message, message.getAllRecipients());
         tr.close();
     }
+    
+    /**
+     * This method inline css in <style> tags directly in the appropriates tags. e.g. : <style>h1 {color: red;}</style> <h1>a</h1> becomes <h1 style="color: red">a</h1>
+     * @param html The initial non null html
+     * @return The inlined html
+     */
+    public static String inlineCSS(String html)
+    {
+        Document doc = Jsoup.parse(html); 
+        Elements els = doc.select("style");
+        
+        for (Element e : els) 
+        { 
+            String styleRules = e.getAllElements().get(0).data();
+            styleRules = styleRules.replaceAll("\t|\n", "");
+            
+            styleRules = _removeComments(styleRules);
+
+            styleRules = styleRules.trim();
+            
+            StringTokenizer st = new StringTokenizer(styleRules, "{}"); 
+            while (st.countTokens() > 1) 
+            { 
+                String selectors = st.nextToken();
+                String properties = st.nextToken();
+
+                String[] selector = selectors.split(",");
+                for (String s : selector)
+                {
+                    if (StringUtils.isNotEmpty(s) && !s.contains(":"))
+                    {
+                        Elements selectedElements = doc.select(s); 
+                        for (Element selElem : selectedElements) 
+                        { 
+                            String oldProperties = selElem.attr("style"); 
+                            selElem.attr("style", oldProperties.length() > 0 ? concatenateProperties(oldProperties, properties) : properties); 
+                        } 
+                        
+                    }
+                }
+            } 
+            e.remove(); 
+        }
+        
+        return doc.toString();
+    }
+    
+    private static String _removeComments(String styleRules)
+    {
+        int i = styleRules.indexOf("/*");
+        int j = styleRules.indexOf("*/");
+        
+        if (i >= 0 && j > i)
+        {
+            return styleRules.substring(0, i) + _removeComments(styleRules.substring(j + 2));
+        }
+        
+        return styleRules;
+    }
+    
+    private static String concatenateProperties(String oldProp, String newProp) 
+    { 
+        String between = "";
+        if (!newProp.endsWith(";"))
+        {
+            between += ";";
+        }
+        return newProp + between + oldProp.trim(); // The existing (old) properties should take precedence. 
+    } 
 }
