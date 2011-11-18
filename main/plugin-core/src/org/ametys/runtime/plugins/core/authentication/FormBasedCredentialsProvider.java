@@ -113,6 +113,24 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
     /** Context */
     protected Context _context;
     
+    /**
+     * Get the login url
+     * @return the login url
+     */
+    protected String getLoginURL()
+    {
+        return _loginUrl;
+    }
+    
+    /**
+     * Get the login failed url
+     * @return the login failed url
+     */
+    protected String getLoginFailedURL()
+    {
+        return _loginFailedUrl;
+    }
+    
     public boolean accept()
     {
         Request request = ContextHelper.getRequest(_context);
@@ -130,7 +148,7 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
         }
         
         // Always accept the login failed page.
-        accept = _loginFailedUrl.equals(url);
+        accept = getLoginFailedURL().equals(url);
         
         // Accept the other urls only if the user didn't provide credentials
         // (if credentials are provided, the user is trying to connect). 
@@ -138,7 +156,7 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
         {
             if (!accept)
             {
-                accept = _loginUrl.equals(url);
+                accept = getLoginURL().equals(url);
             }
             
             if (!accept)
@@ -208,11 +226,11 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
         String redirectUrl;
         if (_loginUrlInternal)
         {
-            redirectUrl = "cocoon://" + _loginUrl;
+            redirectUrl = "cocoon://" + getLoginURL();
         }
         else
         {
-            redirectUrl = request.getContextPath() + "/" + _loginUrl;
+            redirectUrl = request.getContextPath() + "/" + getLoginURL();
         }
         redirector.redirect(false, redirectUrl);
         return null;
@@ -225,18 +243,18 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
         StringBuffer parameters = new StringBuffer();
         if (_provideLoginParameter)
         {
-            parameters.append(_loginFailedUrl.indexOf('?') >= 0 ? "&" : "?");
+            parameters.append(getLoginFailedURL().indexOf('?') >= 0 ? "&" : "?");
             parameters.append("login=" + request.getParameter(_usernameField));
         }
 
         String redirectUrl;
         if (_loginFailedUrlInternal)
         {
-            redirectUrl = "cocoon://" + _loginFailedUrl + parameters.toString();
+            redirectUrl = "cocoon://" + getLoginFailedURL() + parameters.toString();
         }
         else
         {
-            redirectUrl = request.getContextPath() + request.getAttribute(WorkspaceMatcher.WORKSPACE_URI) + "/" + _loginFailedUrl + parameters.toString();
+            redirectUrl = request.getContextPath() + request.getAttribute(WorkspaceMatcher.WORKSPACE_URI) + "/" + getLoginFailedURL() + parameters.toString();
         }
         redirector.redirect(false, redirectUrl);
     }
@@ -274,9 +292,9 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
             getLogger().debug(
                     "FormBasedCredentialsProvider values : " + " Name field=" + _usernameField + ", Pwd field="
                             + _passwordField + ", CookieEnabled=" + _cookieEnabled + ", Cookie duration="
-                            + _cookieLifetime + ", Cookie name=" + _cookieName + ", Login url=" + _loginUrl
+                            + _cookieLifetime + ", Cookie name=" + _cookieName + ", Login url=" + getLoginURL()
                             + " [" + (_loginUrlInternal ? "internal" : "external") + "]"
-                            + ", Login failed url=" + _loginFailedUrl 
+                            + ", Login failed url=" + getLoginFailedURL() 
                             + " [" + (_loginFailedUrlInternal ? "internal" : "external")
                             + ", provide login on redirection : " + _provideLoginParameter + "]"
                             + ", accepted prefixes : [" + StringUtils.join(_acceptedUrlPrefixes, ", ") + "]");
