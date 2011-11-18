@@ -259,7 +259,7 @@ public final class SendMailHelper
         for (Element e : els) 
         { 
             String styleRules = e.getAllElements().get(0).data();
-            styleRules = styleRules.replaceAll("\t|\n", "");
+            styleRules = styleRules.replaceAll("\t|\n", "").replaceAll("<!--", "").replaceAll("-->", "");
             
             styleRules = _removeComments(styleRules);
 
