@@ -43,7 +43,13 @@ public class DeleteAction extends CurrentUserProviderServiceableAction
             getLogger().debug("Starting user's removal");
         }
 
-        UsersManager u = (UsersManager) manager.lookup(UsersManager.ROLE);
+        String role = params.getParameter("usersManagerRole", UsersManager.ROLE);
+        if (role.length() == 0)
+        {
+            role = UsersManager.ROLE;
+        }
+        
+        UsersManager u = (UsersManager) manager.lookup(role);
         if (!(u instanceof ModifiableUsersManager))
         {
             return null;

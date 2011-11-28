@@ -45,12 +45,19 @@ public class EditAction extends CurrentUserProviderServiceableAction
             getLogger().debug("Starting user's edition");
         }
         
-        UsersManager u = (UsersManager) manager.lookup(UsersManager.ROLE);
+        String role = parameters.getParameter("usersManagerRole", UsersManager.ROLE);
+        if (role.length() == 0)
+        {
+            role = UsersManager.ROLE;
+        }
+        
+        UsersManager u = (UsersManager) manager.lookup(role);
         if (!(u instanceof ModifiableUsersManager))
         {
             getLogger().error("Users are not modifiable !");
             return null;
         }
+        
         ModifiableUsersManager users = (ModifiableUsersManager) u;
         
         Request request = ObjectModelHelper.getRequest(objectModel);

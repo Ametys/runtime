@@ -18,7 +18,6 @@ package org.ametys.runtime.plugins.core.user.ui.generators;
 import java.io.IOException;
 
 import org.apache.avalon.framework.service.ServiceException;
-import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.generation.ServiceableGenerator;
 import org.apache.cocoon.xml.XMLUtils;
@@ -33,31 +32,36 @@ import org.ametys.runtime.user.UsersManager;
  */
 public class ModelGenerator extends ServiceableGenerator
 {
-    private ModifiableUsersManager _users;
-    
-    @Override
-    public void service(ServiceManager m) throws ServiceException
-    {
-        super.service(m);
-        
-        UsersManager um = (UsersManager) m.lookup(UsersManager.ROLE);
-        if (!(um instanceof ModifiableUsersManager))
-        {
-            throw new ServiceException(UsersManager.ROLE, "The component [" + UsersManager.ROLE + "] is not instanceof ModifiableUsersManager");
-        }
-        _users = (ModifiableUsersManager) um;
-    }
-    
     public void generate() throws IOException, SAXException, ProcessingException
     {
-        // Envoie les données
-        contentHandler.startDocument();
+        String role = parameters.getParameter("usersManagerRole", UsersManager.ROLE);
+        if (role.length() == 0)
+        {
+            role = UsersManager.ROLE;
+        }
         
-        XMLUtils.startElement(contentHandler, "Model");
-        _users.saxModel(contentHandler);
-        XMLUtils.endElement(contentHandler, "Model");
-        
-        contentHandler.endDocument();
+        try
+        {
+            UsersManager u = (UsersManager) manager.lookup(role);
+            if (!(u instanceof ModifiableUsersManager))
+            {
+                throw new IllegalArgumentException("Users are not modifiable !");
+            }
+            
+            ModifiableUsersManager users = (ModifiableUsersManager) u;
+            
+            contentHandler.startDocument();
+            
+            XMLUtils.startElement(contentHandler, "Model");
+            users.saxModel(contentHandler);
+            XMLUtils.endElement(contentHandler, "Model");
+            
+            contentHandler.endDocument();
+        }
+        catch (ServiceException e)
+        {
+            throw new ProcessingException(e);
+        }
     }
 
 }

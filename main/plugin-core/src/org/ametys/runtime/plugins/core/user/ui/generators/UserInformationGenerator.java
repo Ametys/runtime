@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.avalon.framework.service.ServiceException;
-import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.generation.ServiceableGenerator;
 import org.apache.cocoon.xml.XMLUtils;
@@ -35,33 +34,38 @@ import org.ametys.runtime.user.UsersManager;
  */
 public class UserInformationGenerator extends ServiceableGenerator
 {
-    private UsersManager _users;
-    
-    @Override
-    public void service(ServiceManager m) throws ServiceException
-    {
-        super.service(m);
-        _users = (UsersManager) m.lookup(UsersManager.ROLE);
-    }
-    
     public void generate() throws IOException, SAXException, ProcessingException
     {
-        // Envoie les données
-        contentHandler.startDocument();
-        
-        AttributesImpl attrs = new AttributesImpl();
-        XMLUtils.startElement(contentHandler, "users-info", attrs);
-        
-        if (source != null && source.length() != 0)
+        String role = parameters.getParameter("usersManagerRole", UsersManager.ROLE);
+        if (role.length() == 0)
         {
-            Map<String, String> params = new HashMap<String, String>();
-            params.put("pattern", source);
-            _users.toSAX(contentHandler, Integer.MAX_VALUE, 0, params);
+            role = UsersManager.ROLE;
         }
-
-        XMLUtils.endElement(contentHandler, "users-info");
         
-        contentHandler.endDocument();
+        try
+        {
+            UsersManager users = (UsersManager) manager.lookup(role);
+            
+            contentHandler.startDocument();
+            
+            AttributesImpl attrs = new AttributesImpl();
+            XMLUtils.startElement(contentHandler, "users-info", attrs);
+            
+            if (source != null && source.length() != 0)
+            {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("pattern", source);
+                users.toSAX(contentHandler, Integer.MAX_VALUE, 0, params);
+            }
+
+            XMLUtils.endElement(contentHandler, "users-info");
+            
+            contentHandler.endDocument();
+        }
+        catch (ServiceException e)
+        {
+            throw new ProcessingException(e);
+        }
     }
 
 }

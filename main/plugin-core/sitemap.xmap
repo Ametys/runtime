@@ -479,12 +479,16 @@
             </map:match>-->
                 
             <map:match pattern="users/info">
-                <map:generate type="users-info" src="{request-param:login}"/>
+                <map:generate type="users-info" src="{request-param:login}">
+                	<map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
+                </map:generate>
                 <map:serialize type="xml"/>
             </map:match>
             
             <map:match pattern="users/edit">
                 <map:act type="users-edit">
+                	<map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
+                	
                     <map:generate type="action-result">
                         <map:parameter name="error" value="{error}"/>
                     </map:generate>
@@ -496,6 +500,8 @@
             
             <map:match pattern="users/delete">
                 <map:act type="users-delete">
+                	<map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
+                	
                     <map:generate type="action-result"/>
                     <map:serialize type="xml"/>
                 </map:act>
@@ -520,7 +526,9 @@
             
             
             <map:match pattern="users/dialog.html">
-                <map:generate type="users-model"/>
+                <map:generate type="users-model">
+                	<map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
+                </map:generate>
                 <map:transform src="pages/users/dialog.xsl">
                     <map:parameter name="contextPath" value="{request:contextPath}"/>
                     <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
@@ -550,7 +558,9 @@
 			</map:match>
 			
 			<map:match pattern="users-model">
-                <map:generate type="users-model"/>
+                <map:generate type="users-model">
+                	<map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
+                </map:generate>
                 <map:transform type="i18n">
 					<map:parameter name="locale" value="{locale:locale}"/>
 					<map:parameter name="default-catalogue-id" value="plugin.core"/>
