@@ -18,7 +18,7 @@ BEGIN;
 DROP TABLE IF EXISTS Users;
 
 CREATE TABLE Users (
-  login varchar(32) PRIMARY KEY NOT NULL,
+  login varchar(64) PRIMARY KEY NOT NULL,
   firstname varchar(64) default NULL,
   lastname varchar(64) NOT NULL,
   email varchar(64) DEFAULT NULL
