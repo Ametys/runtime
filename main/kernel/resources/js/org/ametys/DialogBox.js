@@ -73,7 +73,7 @@ org.ametys.DialogBox.prototype.onEnter = function(k, e)
 {
 	// only works for input (plz avoid textarea) or div (when the focus is on the dialog itself) or span (when focus is on a tree node)
 	// but we want to avoid all others cases (buttons for exemple - if not a button with focus may double click)
-	if (/input|div|span/i.test(e.target.tagName))
+	if (/input|div|span/i.test(e.target.tagName) && e.target.getAttribute('donotsubmitonenter') == null)
 	{
 		e.stopEvent();
 		this.validateAction();
