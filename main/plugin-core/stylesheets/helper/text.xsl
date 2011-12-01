@@ -54,6 +54,8 @@
     <!-- Newline to br tag. -->
     <xsl:template name="text.nl2br">
         <xsl:param name="input"/>
+        <xsl:param name="forjs" select="false()"/>
+        
         <xsl:param name="s1"><xsl:text>
 </xsl:text></xsl:param>
         <xsl:choose>
@@ -65,7 +67,10 @@
                     </xsl:call-template>
                 </xsl:variable>
                 <xsl:value-of select="substring-before($input, $s1)"/>
-                <br/>
+                <xsl:choose>
+                	<xsl:when test="$forjs"><xsl:text>&lt;br/&gt;</xsl:text></xsl:when>
+                	<xsl:otherwise><br/></xsl:otherwise>
+                </xsl:choose>
                 <xsl:copy-of select="$rest"/>
             </xsl:when>
             <xsl:otherwise>
