@@ -349,7 +349,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
     {
         Object value = ParameterHelper.castValue(untypedValues.get(id), parameter.getType());
 
-        if (value == null)
+        if (value == null && !"".equals(untypedValues.get(id)))
         {
             if (_logger.isWarnEnabled())
             {
