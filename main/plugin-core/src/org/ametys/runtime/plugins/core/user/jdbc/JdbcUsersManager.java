@@ -198,7 +198,7 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
                 parameter.setLabel(new I18nizableText("plugin." + BASE_PLUGIN_NAME, "PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_LABEL"));
                 parameter.setDescription(new I18nizableText("plugin." + BASE_PLUGIN_NAME, "PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_DESCRIPTION"));
                 parameter.setType(ParameterType.STRING);
-                parameter.setValidator(new DefaultValidator("^[\\w]{3,16}$", true));
+                parameter.setValidator(new DefaultValidator("^[a-zA-Z0-9_\\-\\.@]{3,64}$", true));
             }
             else if ("lastname".equals(id))
             {
@@ -283,6 +283,7 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
         User user = new User(login, fullname.toString(), email);
         return user;
     }
+    
 
     public Collection<User> getUsers()
     {
@@ -437,7 +438,31 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
 
         XMLUtils.endElement(handler, "users");
     }
+    
+    /**
+     * Get the pattern to match user login
+     * @param pattern the pattern
+     * @return the pattern to match user login
+     */
+    protected String _getPatternToMatch (String pattern)
+    {
+        if (pattern != null)
+        {
+            return "%" + pattern + "%";
+        }
+        return null;
+    }
 
+    /**
+     * Get the pattern to match user login
+     * @param pattern the pattern
+     * @return the pattern to match user login
+     */
+    protected String _getPatternToMatchLogin (String pattern)
+    {
+        return _getPatternToMatch (pattern);
+    }
+    
     /**
      * Sax the user list.
      * 
@@ -474,10 +499,17 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
             StringBuffer sql = new StringBuffer("SELECT " + selectClause.toString() + " FROM " + _tableName);
 
             // Ajoute le pattern
-            if (pattern != null)
+            String patternToMatchLogin = _getPatternToMatchLogin (pattern);
+            if (patternToMatchLogin != null)
             {
                 sql.append(" WHERE " + _parameters.get("login").getColumn() + " LIKE ? ");
-                sql.append(" OR " + _parameters.get("lastname").getColumn() + " LIKE ? ");
+            }
+            
+            String patternToMatch = _getPatternToMatch (pattern);
+            if (patternToMatch != null)
+            {
+                sql.append(patternToMatchLogin != null ? " OR " : " WHERE ");
+                sql.append(_parameters.get("lastname").getColumn() + " LIKE ? ");
                 if (_parameters.containsKey("firstname"))
                 {
                     sql.append(" OR " + _parameters.get("firstname").getColumn() + " LIKE ? ");
@@ -512,13 +544,14 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
             }
             stmt = con.prepareStatement(sqlRequest);
             
+            int i = 1;
             // Value les parametres s'il y a un pattern
-            if (pattern != null)
+            if (patternToMatchLogin != null)
             {
-                int i = 1;
-                String patternToMatch = "%" + pattern + "%";
-
-                stmt.setString(i++, patternToMatch);
+                stmt.setString(i++, patternToMatchLogin);
+            }
+            if (patternToMatch != null)
+            {
                 stmt.setString(i++, patternToMatch);
                 if (_parameters.containsKey("firstname"))
                 {
@@ -545,6 +578,17 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
             ConnectionHelper.cleanup(con);
         }
     }
+    
+    /**
+     * Get attributes from a result set
+     * @param attr the attributes
+     * @param rs The result set to sax
+     * @throws SQLException If an error occurs while getting result information.
+     */
+    protected void getUserAttributesFromResultSet (AttributesImpl attr, ResultSet rs) throws SQLException
+    {
+        attr.addAttribute("", "login", "login", "CDATA", rs.getString(_parameters.get("login").getColumn()));
+    }
 
     /**
      * Sax a result set from a database.
@@ -557,7 +601,7 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
     protected void resultSetToSAX(ContentHandler handler, ResultSet rs) throws SAXException, SQLException
     {
         AttributesImpl attr = new AttributesImpl();
-        attr.addAttribute("", "login", "login", "CDATA", rs.getString(_parameters.get("login").getColumn()));
+        getUserAttributesFromResultSet (attr, rs);
         XMLUtils.startElement(handler, "user", attr);
 
         for (String id : _parameters.keySet())
