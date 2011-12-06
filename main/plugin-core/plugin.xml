@@ -1488,7 +1488,7 @@
     
     <feature name="runtime.groups.impl.jdbc" depends="runtime.datasource.core">
         <!-- 
-            This features defines the base jdbc implementation of users (based on core database pool)
+            This features defines the base jdbc implementation of groups (based on core database pool)
          -->
         <extensions>
             <extension point="org.ametys.runtime.group.GroupsManager"
