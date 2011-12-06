@@ -54,6 +54,7 @@ Open source web application framework based on Apache Cocoon.
     
     <dependency org="apache" name="commons-dbcp" rev="1.4" conf="default->default;dev-kernel-resources->default"/>
     <dependency org="apache" name="cocoon" rev="2.1.11-ametys-2" conf="default,dev-kernel-resources->serializers,html"/>
+    <dependency org="apache" name="commons-compress" rev="1.1" conf="default;dev-kernel-resources->default"/>
     <dependency org="apache" name="commons-codec" rev="1.3" conf="default;dev-kernel-resources->default"/>
     <dependency org="apache" name="commons-lang" rev="2.4" conf="default;dev-kernel-resources->default"/>
     <dependency org="apache" name="ibatis" rev="2.3.0" conf="default;dev-kernel-resources->default"/>
@@ -83,6 +84,7 @@ Open source web application framework based on Apache Cocoon.
     <dependency org="junit" name="junit" rev="4.4" conf="test,test-env->default"/>
     <dependency org="mysql" name="mysql-connector-java" rev="5.1.6" conf="test->default"/>
     <dependency org="oracle" name="oracle-connector-java" rev="10.2.0.4.0" conf="test->default"/>
+<!--     <dependency org="oracle" name="oracle-connector-java" rev="11.2.0.1.0" conf="test->default"/> -->
     <dependency org="postgres" name="postgres-connector-java" rev="8.4-702" conf="test->default"/>
     <dependency org="apache" name="derby" rev="10.5.3.0_1" conf="test->default"/>
   </dependencies>

@@ -51,7 +51,7 @@
         </map:generators>
         
         <map:serializers>
-            <map:serializer name="zip" src="org.apache.cocoon.serialization.ZipArchiveSerializer" logger="org.ametys.runtime.plugins.core.administrator.sitemap.serializer.zip"/>
+            <map:serializer name="zip" src="org.ametys.runtime.cocoon.ZipArchiveNGSerializer" logger="org.ametys.runtime.plugins.core.administrator.sitemap.serializer.zip"/>
         </map:serializers>
         
 		<map:actions>
