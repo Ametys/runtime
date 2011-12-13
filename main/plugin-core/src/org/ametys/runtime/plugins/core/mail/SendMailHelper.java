@@ -231,7 +231,7 @@ public final class SendMailHelper
         message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
 
         Transport tr = session.getTransport("smtp");
-        if (user != null)
+        if (StringUtils.isNotEmpty(user))
         {
             tr.connect(host, user, password);
         }
