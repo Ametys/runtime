@@ -232,23 +232,24 @@ public class AllCSSReader extends ServiceableReader implements CacheableProcessi
         }
         else
         {
+            boolean eof = false;
             String endOfString = initialString.substring(i + 7);
             int j = endOfString.indexOf("\n");
             if (j == -1)
             {
-                return initialString;
+                // We reach the end of file
+                j = endOfString.length();
+                eof = true;
             }
-            else
+            
+            String fileToImport = endOfString.substring(0, j).trim();
+            if (fileToImport.startsWith("url"))
             {
-                String fileToImport = endOfString.substring(0, j).trim();
-                if (fileToImport.startsWith("url"))
-                {
-                    fileToImport = fileToImport.substring(3);
-                }
-                fileToImport = currentPath + fileToImport.replaceAll("[(');\t ]", "");
-                
-                return initialString.substring(0, i) + "\n" + _handleFileDirect(fileToImport) + "\n" + __resolveImports(currentPath, endOfString.substring(j + 1));
+                fileToImport = fileToImport.substring(3);
             }
+            fileToImport = currentPath + fileToImport.replaceAll("[(');\t ]", "");
+            
+            return initialString.substring(0, i) + "\n" + _handleFileDirect(fileToImport) + "\n" + (eof ? "" : __resolveImports(currentPath, endOfString.substring(j + 1)));
         }
     }
     
