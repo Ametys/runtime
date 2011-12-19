@@ -228,7 +228,7 @@ public abstract class AbstractParameterParser<P extends Parameter<T>, T>
                 
                 for (Configuration entryConfig : enumeratorConfig.getChildren("entry"))
                 {
-                    String value = entryConfig.getChild("value").getValue();
+                    String value = entryConfig.getChild("value").getValue("");
                     I18nizableText label = null;
                     
                     if (entryConfig.getChild("label", false) != null)
