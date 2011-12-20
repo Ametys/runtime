@@ -229,25 +229,25 @@ public final class SendMailHelper
         
         // Recipient
         message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-
+        
         Transport tr = session.getTransport("smtp");
+
         if (StringUtils.isNotBlank(user))
         {
-            tr.connect(host, user, password);
+            tr.connect(user, password);
         }
         else
         {
             tr.connect();
         }
         
-
         message.saveChanges();
         tr.sendMessage(message, message.getAllRecipients());
         tr.close();
     }
     
     /**
-     * This method inline css in <style> tags directly in the appropriates tags. e.g. : <style>h1 {color: red;}</style> <h1>a</h1> becomes <h1 style="color: red">a</h1>
+     * This method inline css in &lt;style&gt; tags directly in the appropriates tags. e.g. : <style>h1 {color: red;}</style> <h1>a</h1> becomes <h1 style="color: red">a</h1>
      * @param html The initial non null html
      * @return The inlined html
      */
