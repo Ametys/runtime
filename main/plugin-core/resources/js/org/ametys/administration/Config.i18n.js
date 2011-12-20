@@ -391,7 +391,8 @@ org.ametys.administration.Config._createTextField = function (name, value, label
 	        store: new Ext.data.SimpleStore({
 	            id: 0,
 	            fields: [ 'value', 'text'],
-	            data: enumeration
+	            data: enumeration,
+	            sortInfo: {field: 'text'} // default order
 	        }),
 	        valueField: 'value',
 	        displayField: 'text'
