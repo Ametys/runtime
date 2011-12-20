@@ -109,43 +109,52 @@ org.ametys.administration.Config.addGroupCategory = function (fd, name)
 
 org.ametys.administration.Config.addInputField = function (ct, type, name, value, label, description, enumeration, widget, mandatory, regexp, invalidText)
 {
+    var field = null;
+    
 	if (enumeration != null)
 	{
-		ct.add(org.ametys.administration.Config._createTextField (name, value, label, description, enumeration, mandatory == 'true', null));
+	    field = org.ametys.administration.Config._createTextField (name, value, label, description, enumeration, mandatory == 'true', null);
 	}
 	else
 	{
 		switch (type) 
 		{
 			case 'double':
-				ct.add(org.ametys.administration.Config._createDoubleField (name, value, label, description, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null, invalidText));
+				field = org.ametys.administration.Config._createDoubleField (name, value, label, description, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null, invalidText);
 				break;
 			case 'long':
-				ct.add(org.ametys.administration.Config._createLongField (name, value, label, description, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null, invalidText));
+				field = org.ametys.administration.Config._createLongField (name, value, label, description, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null, invalidText);
 				break;
 			case 'password':
-				ct.add(org.ametys.administration.Config._createPasswordField (name, value, label, description));
+				field = org.ametys.administration.Config._createPasswordField (name, value, label, description);
 				break;
 			case 'date':
-				ct.add(org.ametys.administration.Config._createDateField (name, value, label, description, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null, invalidText));
+				field = org.ametys.administration.Config._createDateField (name, value, label, description, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null, invalidText);
 				break;
 			case 'boolean':
-				ct.add(org.ametys.administration.Config._createBooleanField (name, value, label, description));
+				field = org.ametys.administration.Config._createBooleanField (name, value, label, description);
 				break;
 			default:
 				if (widget != '')
 				{
-					 ct.add(org.ametys.administration.Config._createWidgetField(widget, name, value, label, description, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null, invalidText));
+					 field = org.ametys.administration.Config._createWidgetField(widget, name, value, label, description, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null, invalidText);
 				}
 				else
 				{
-					ct.add(org.ametys.administration.Config._createTextField (name, value, label, description, null, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null, invalidText));
+					field = org.ametys.administration.Config._createTextField (name, value, label, description, null, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null, invalidText);
 				}
 				break;
 		}
 	}
 	
+	if (field != null)
+    {
+	    ct.add(field);
+    }
+	
 	org.ametys.administration.Config._fields.push(name);
+	
+	return field;
 }
 
 org.ametys.administration.Config._widgets = [];
