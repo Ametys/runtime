@@ -1,3 +1,25 @@
+Runtime - Version 2.2.2 (December 21, 2011)
+
+Improvement:
+  RUNTIME-645 : Make UserPreferences compatible with oracle JDBC drivers older than version 11
+  RUNTIME-649 : Support of FF8
+  RUNTIME-650 : SendMailHelper should inline css on html messages
+  RUNTIME-651 : Makes FormBasedCredentialProvider class extensible
+
+Bug:
+  RUNTIME-616 : On JdbcUsersManager, login parameter is limited to 16 characters by a regexp, it is a problem when login is an email address.
+  RUNTIME-619 : org.ametys.runtime.plugins.core.EscapeForJavascript does not works
+  RUNTIME-630 : CSS style in profile.css override all form inputs
+  RUNTIME-634 : LDAP Groups
+  RUNTIME-636 : Unable to add more than one system announcement
+  RUNTIME-637 : If you delete the defaut system annoucement with language "*" you can not recreate it
+  RUNTIME-646 : Affect a user twice
+  RUNTIME-654 : JdbcUsersManager do not accept '@' character in login
+  RUNTIME-657 : When a Long admin parameter has no value, the application does not works, even if this parameter is not mandatory.
+  RUNTIME-658 : Send mail failed with a empty user value
+  RUNTIME-661 : Exception when declaring a static enumerator with a blank value in a parameter
+  RUNTIME-663 : [Configuration parameters] Use alphabetical order by default for combo list
+
 Runtime - Version 2.2.1 (July 29, 2011)
 
 New Feature:
