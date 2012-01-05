@@ -400,6 +400,7 @@ org.ametys.administration.Users._updateElement = function (element, login, first
 	element.set('lastname', lastname);
 	element.set('email', email);
 	element.set('display', firstname + ' ' + lastname + ' (' + login + ')');
+	element.commit();
 }
 
 org.ametys.administration.Users.addInputField = function (type, name, label, description)
