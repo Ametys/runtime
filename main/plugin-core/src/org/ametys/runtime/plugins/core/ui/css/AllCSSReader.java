@@ -120,8 +120,8 @@ public class AllCSSReader extends ServiceableReader implements CacheableProcessi
                 // a sub part of the css file list is required ?
                 int packetNum = parameters.getParameterAsInteger("packet-num", 0);
                 
-                // TODO deprecated In this code, the -1 value return all css files, but this should be remove with the sitemap pipeline marked deprecated (the one that can call this with -1 pack-num arg)  
-                List<String> cssFilesToImport = packetNum == -1 ? cssFiles : cssFiles.subList(__PACKET_SIZE * packetNum, Math.min(__PACKET_SIZE * (packetNum + 1), cssFiles.size()));
+                List<String> cssFilesToImport = cssFiles.subList(__PACKET_SIZE * packetNum, Math.min(__PACKET_SIZE * (packetNum + 1), cssFiles.size())); 
+                                                
                 for (String cssFile : cssFilesToImport)
                 {
                     sb.append(_handleFileImport(cssFile));
