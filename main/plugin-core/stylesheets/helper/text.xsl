@@ -51,6 +51,21 @@
         <func:result select="$string and normalize-space($string) != ''"/>
     </func:function>
     
+    <func:function name="text:substring-after-last">
+        <xsl:param name="str"/>
+        <xsl:param name="delim"/>
+        <func:result>
+            <xsl:choose>
+                <xsl:when test="contains($str, $delim)">
+                    <xsl:value-of select="text:substring-after-last(substring-after($str, $delim), $delim)"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="$str"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </func:result>
+    </func:function>
+    
     <!-- Newline to br tag. -->
     <xsl:template name="text.nl2br">
         <xsl:param name="input"/>
