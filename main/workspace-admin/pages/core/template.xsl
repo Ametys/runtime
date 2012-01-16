@@ -105,7 +105,7 @@
             <xsl:with-param name="accept-ff-9.0">true</xsl:with-param>
             <xsl:with-param name="accept-sa-3">true</xsl:with-param>
             <xsl:with-param name="accept-sa-4">true</xsl:with-param>
-            <xsl:with-param name="accept-sa-5">true</xsl:with-param>
+            <xsl:with-param name="accept-sa-5.0">true</xsl:with-param>
             <xsl:with-param name="accept-op-9">true</xsl:with-param>
             <xsl:with-param name="accept-op-10">true</xsl:with-param>
             <xsl:with-param name="accept-ch-1">true</xsl:with-param>
