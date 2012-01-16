@@ -139,6 +139,7 @@ public class RuntimeServlet extends CocoonServlet
         {
             ConfigManager.getInstance().dispose();
             disposeCocoon();
+            servletContext.removeAttribute("PluginsComponentManager");
             initLogger();
             createCocoon();
             
