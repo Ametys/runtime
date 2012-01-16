@@ -516,27 +516,7 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
             }
 
             // Ajoute les filtres de taille
-            if ((ConnectionHelper.getDatabaseType(con) == ConnectionHelper.DatabaseType.DATABASE_MYSQL)  
-                    || ConnectionHelper.getDatabaseType(con) == ConnectionHelper.DatabaseType.DATABASE_POSTGRES)
-            {
-                sql.append(" LIMIT " + length + " OFFSET " + offset);
-            }
-            else if (ConnectionHelper.getDatabaseType(con) == ConnectionHelper.DatabaseType.DATABASE_ORACLE)
-            {
-                sql = new StringBuffer("select " + selectClause.toString() + " from (select rownum r, " + selectClause.toString() + " from (" + sql.toString()
-                        + ")) where r BETWEEN " + offset + " AND " + (offset + length - 1));
-            }
-            else if (ConnectionHelper.getDatabaseType(con) == ConnectionHelper.DatabaseType.DATABASE_DERBY)
-            {
-                sql = new StringBuffer("select ").append(selectClause.toString())
-                        .append(" from (select ROW_NUMBER() OVER () AS ROWNUM, ").append(selectClause.toString())
-                        .append(" from (").append(sql.toString()).append(") AS TR ) AS TRR where ROWNUM BETWEEN ")
-                        .append(offset).append(" AND ").append(offset + length - 1);
-            }
-            else if (getLogger().isWarnEnabled())
-            {
-                getLogger().warn("The request will not have the limit and offet set, since its type is unknown");
-            }
+            sql = _addQuerySize(length, offset, con, selectClause, sql);
 
             // Crée la requette elle-meme
             String sqlRequest = sql.toString();
@@ -579,6 +559,41 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
             ConnectionHelper.cleanup(stmt);
             ConnectionHelper.cleanup(con);
         }
+    }
+
+    /**
+     * @param length
+     * @param offset
+     * @param con
+     * @param selectClause
+     * @param sql
+     * @return
+     */
+    private StringBuffer _addQuerySize(int length, int offset, Connection con, StringBuffer selectClause, StringBuffer sql)
+    {
+        if ((ConnectionHelper.getDatabaseType(con) == ConnectionHelper.DatabaseType.DATABASE_MYSQL)  
+                || ConnectionHelper.getDatabaseType(con) == ConnectionHelper.DatabaseType.DATABASE_POSTGRES)
+        {
+            sql.append(" LIMIT " + length + " OFFSET " + offset);
+            return sql;
+        }
+        else if (ConnectionHelper.getDatabaseType(con) == ConnectionHelper.DatabaseType.DATABASE_ORACLE)
+        {
+            return new StringBuffer("select " + selectClause.toString() + " from (select rownum r, " + selectClause.toString() + " from (" + sql.toString()
+                    + ")) where r BETWEEN " + offset + " AND " + (offset + length - 1));
+        }
+        else if (ConnectionHelper.getDatabaseType(con) == ConnectionHelper.DatabaseType.DATABASE_DERBY)
+        {
+            return new StringBuffer("select ").append(selectClause.toString())
+                    .append(" from (select ROW_NUMBER() OVER () AS ROWNUM, ").append(selectClause.toString())
+                    .append(" from (").append(sql.toString()).append(") AS TR ) AS TRR where ROWNUM BETWEEN ")
+                    .append(offset).append(" AND ").append(offset + length - 1);
+        }
+        else if (getLogger().isWarnEnabled())
+        {
+            getLogger().warn("The request will not have the limit and offet set, since its type is unknown");
+        }
+        return sql;
     }
     
     /**

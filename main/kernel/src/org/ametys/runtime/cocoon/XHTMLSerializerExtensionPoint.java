@@ -21,7 +21,6 @@ import java.util.Set;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 
 import org.ametys.runtime.plugin.AbstractExtensionPoint;
@@ -29,7 +28,7 @@ import org.ametys.runtime.plugin.AbstractExtensionPoint;
 /**
  * This extension point allows to configure the xhtml serializer by adding new plugins
  */
-public class XHTMLSerializerExtensionPoint extends AbstractExtensionPoint<String> implements LogEnabled
+public class XHTMLSerializerExtensionPoint extends AbstractExtensionPoint<String>
 {
     /** The avalon role */
     public static final String ROLE = XHTMLSerializerExtensionPoint.class.getName(); 
