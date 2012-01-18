@@ -15,14 +15,16 @@
  */
 package org.ametys.runtime.util;
 
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
 import javax.imageio.ImageIO;
+
+import net.coobird.thumbnailator.makers.FixedSizeThumbnailMaker;
+import net.coobird.thumbnailator.resizers.ResizerFactory;
 
 /**
  * Helper for manipulating images.
@@ -67,8 +69,10 @@ public final class ImageHelper
         int srcHeight = src.getHeight();
         int srcWidth = src.getWidth();
         
-        int destHeight = srcHeight;
-        int destWidth = srcWidth;
+        int destHeight = 0;
+        int destWidth = 0;
+        
+        boolean keepAspectRatio = true;
         
         if (height > 0)
         {
@@ -79,6 +83,7 @@ public final class ImageHelper
             {
                 // additionnally, height is also specified
                 destWidth = width;
+                keepAspectRatio = false;
             }
             else
             {
@@ -96,27 +101,35 @@ public final class ImageHelper
         {
             if (maxWidth > 0)
             {
-                double destRatio = 1.0 * maxWidth / maxHeight;
-                double srcRatio = 1.0 * srcWidth / srcHeight;
-                if (destRatio < srcRatio)
+                if (srcHeight < maxHeight && srcWidth < maxWidth)
                 {
-                    destWidth = maxWidth;
-                    destHeight = srcHeight * destWidth / srcWidth;
+                    // the source image is already smaller than the destination box
+                    return src;
                 }
-                else
-                {
-                    destHeight = maxHeight;
-                    destWidth = srcWidth * destHeight / srcHeight;
-                }
+                
+                destWidth = maxWidth;
+                destHeight = maxHeight;
             }
             else
             {
+                if (srcHeight < maxHeight)
+                {
+                    // the source image is already smaller than the destination box
+                    return src;
+                }
+                
                 destHeight = maxHeight;
                 destWidth = srcWidth * destHeight / srcHeight;
             }
         }
         else if (maxWidth > 0)
         {
+            if (srcWidth < maxWidth)
+            {
+                // the source image is already smaller than the destination box
+                return src;
+            }
+            
             destWidth = maxWidth;
             destHeight = srcHeight * destWidth / srcWidth;
         }
@@ -127,13 +140,13 @@ public final class ImageHelper
             return src;
         }
         
-        int type = src.getType() != 0 ? src.getType() : (src.getColorModel().hasAlpha() ? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB);
-        BufferedImage thumbImage = new BufferedImage(destWidth, destHeight, type);
+        Dimension srcDimension = new Dimension(srcWidth, srcHeight);
+        Dimension thumbnailDimension = new Dimension(destWidth, destHeight);
         
-        Graphics2D graphics2D = thumbImage.createGraphics();
-        graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        
-        graphics2D.drawImage(src, 0, 0, destWidth, destHeight, null);
+        BufferedImage thumbImage = new FixedSizeThumbnailMaker(destWidth, destHeight, keepAspectRatio)
+                                   .resizer(ResizerFactory.getResizer(srcDimension, thumbnailDimension))
+                                   .imageType(src.getType() != BufferedImage.TYPE_CUSTOM ? src.getType() : BufferedImage.TYPE_INT_ARGB)
+                                   .make(src); 
         
         return thumbImage;
     }
