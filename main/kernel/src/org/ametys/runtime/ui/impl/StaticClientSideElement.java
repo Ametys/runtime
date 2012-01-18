@@ -201,7 +201,7 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
      */
     protected Map<String, String> _configureRights(Configuration configuration) throws ConfigurationException
     {
-        _rights = new HashMap<String, String>();
+        Map<String, String> rights = new HashMap<String, String>();
         
         Configuration[] rightsConf = configuration.getChildren("right");
         for (Configuration rightConf : rightsConf)
@@ -213,7 +213,7 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
                 String[] rightIds = right.split("\\|");
                 for (String rightId : rightIds)
                 {
-                    _rights.put(rightId, prefix);
+                    rights.put(rightId, prefix);
                 }
             }
             else
@@ -224,7 +224,7 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
             }
         }
         
-        return _rights;
+        return rights;
     }
     
     /**
