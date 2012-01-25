@@ -361,17 +361,6 @@ org.ametys.administration.Groups._needSave = function (field, newValue, oldValue
 	org.ametys.administration.Groups._hasChanges = true;
 }
 
-org.ametys.administration.Groups._checkBeforeQuit = function ()
-{
-	if (org.ametys.administration.Groups._currentGroup != null &amp;&amp; org.ametys.administration.Groups._hasChanges)
-	{
-		Ext.Msg.confirm ("<i18n:text i18n:key="PLUGINS_CORE_SAVE_DIALOG_TITLE"/>", 
-						 "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_MODIFY_CONFIRM"/>", 
-						 function (button) {org.ametys.administration.Groups._saveConfirm (button, org.ametys.administration.Groups._currentGroup)});
-	}
-}
-	
-
 /**
  * Draw the actions panel.
  * @return {org.ametys.ActionsPanel} The action panel
