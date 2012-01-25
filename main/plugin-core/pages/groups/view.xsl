@@ -64,10 +64,21 @@
 					{
 						return mainPanel;
 					}
-            			
-            		Ext.onReady( function() {
-						window.onbeforeunload = org.ametys.administration.Groups._checkBeforeQuit
-					});	
+                    
+                    org.ametys.administration.Groups.checkBeforeQuit = function()
+                    {
+                        if (org.ametys.administration.Groups._currentGroup != null &amp;&amp; org.ametys.administration.Groups._hasChanges)
+                        {
+                            if (confirm("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_MODIFY_CONFIRM"/>"))
+                            {
+                                org.ametys.administration.Groups._saveConfirm('yes', org.ametys.administration.Groups._currentGroup);
+                            }
+                        }
+                    }
+                    
+                    Ext.onReady( function () {
+                        window.onbeforeunload = org.ametys.administration.Groups.checkBeforeQuit;
+                    });
             	</script>
             </script>
             <body></body>
