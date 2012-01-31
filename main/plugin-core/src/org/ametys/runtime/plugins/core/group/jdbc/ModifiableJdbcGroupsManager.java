@@ -179,6 +179,15 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
         // Retourner le groupe trouvé ou null
         return group;
     }
+    
+    /**
+     * Get the sql clause that gets all groups
+     * @return A non null sql clause (e.g. "select ... from ... where ...")
+     */
+    protected String _createGetGroupsClause()
+    {
+        return "SELECT " + _groupsListColId + ", " + _groupsListColLabel + " FROM " + _groupsListTable;
+    }
 
     public Set<Group> getGroups()
     {
@@ -193,7 +202,7 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
             connection = ConnectionHelper.getConnection(_poolName);
             
             stmt = connection.createStatement();
-            String sql = "SELECT " + _groupsListColId + ", " + _groupsListColLabel + " FROM " + _groupsListTable;
+            String sql = _createGetGroupsClause();
 
             if (getLogger().isDebugEnabled())
             {
