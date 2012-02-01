@@ -107,6 +107,7 @@
         <xsl:param name="accept-ff-7.0">false</xsl:param>
         <xsl:param name="accept-ff-8.0">false</xsl:param>
         <xsl:param name="accept-ff-9.0">false</xsl:param>
+        <xsl:param name="accept-ff-10.0">false</xsl:param>
         <xsl:param name="accept-sa-3">false</xsl:param>
         <xsl:param name="accept-sa-4">false</xsl:param>
         <xsl:param name="accept-sa-5.0">false</xsl:param>
@@ -197,6 +198,7 @@
                     <xsl:if test="$accept-ff-7.0 = 'true'">(userAgent.indexOf("firefox/7.0") >= 0) ||</xsl:if>
                     <xsl:if test="$accept-ff-8.0 = 'true'">(userAgent.indexOf("firefox/8.0") >= 0) ||</xsl:if>
                     <xsl:if test="$accept-ff-9.0 = 'true'">(userAgent.indexOf("firefox/9.0") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-ff-10.0 = 'true'">(userAgent.indexOf("firefox/10.0") >= 0) ||</xsl:if>
                     
                     <xsl:if test="$accept-sa-3   = 'true'">(userAgent.indexOf("safari/") >= 0 &amp;&amp; userAgent.indexOf("version/3.") >= 0) ||</xsl:if>
                     <xsl:if test="$accept-sa-4   = 'true'">(userAgent.indexOf("safari/") >= 0 &amp;&amp; userAgent.indexOf("version/4.") >= 0) ||</xsl:if>
