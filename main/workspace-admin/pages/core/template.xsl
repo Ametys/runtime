@@ -103,6 +103,7 @@
             <xsl:with-param name="accept-ff-7.0">true</xsl:with-param>
             <xsl:with-param name="accept-ff-8.0">true</xsl:with-param>
             <xsl:with-param name="accept-ff-9.0">true</xsl:with-param>
+            <xsl:with-param name="accept-ff-10.0">true</xsl:with-param>
             <xsl:with-param name="accept-sa-3">true</xsl:with-param>
             <xsl:with-param name="accept-sa-4">true</xsl:with-param>
             <xsl:with-param name="accept-sa-5.0">true</xsl:with-param>
