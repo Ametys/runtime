@@ -73,6 +73,8 @@
 		<map:selectors default="exception">
 			<map:selector logger="org.ametys.runtime.kernel.sitemap.selector.exception" name="exception" src="org.apache.cocoon.selection.ExceptionSelector">
 				<exception class="org.apache.cocoon.ResourceNotFoundException" name="not-found"/>
+				<exception class="org.ametys.runtime.authentication.AccessDeniedException" name="access-denied"/>
+                <exception class="org.ametys.runtime.authentication.AuthorizationRequiredException" name="authorization-required"/>
 				<!-- The statement below tells the selector to unroll as much exceptions as possible -->
 				<exception class="java.lang.Throwable" unroll="true"/>
 			</map:selector>
@@ -213,6 +215,36 @@
 			          			<map:parameter name="locale" value="{locale:locale}"/>
 			          		</map:transform>
 			          		<map:serialize status-code="404"/>
+		          		</map:act>
+					</map:when>
+					<map:when test="access-denied">
+						<map:act type="exception" src="403">
+			        		<map:generate type="exception" label="content"/>
+			          		<map:transform src="{xsl}">
+			            		<map:parameter name="realPath" value="{realpath:}"/>
+		    	        		<map:parameter name="contextPath" value="{request:contextPath}"/>
+			            		<map:parameter name="code" value="403"/>
+			            		<map:parameter name="pageTitle" value="Ametys - Access denied"/>
+			          		</map:transform>
+			          		<map:transform type="i18n">
+			          			<map:parameter name="locale" value="{locale:locale}"/>
+			          		</map:transform>
+			          		<map:serialize status-code="403"/>
+		          		</map:act>
+					</map:when>
+					<map:when test="authorization-required">
+						<map:act type="exception" src="401">
+			        		<map:generate type="exception" label="content"/>
+			          		<map:transform src="{xsl}">
+			            		<map:parameter name="realPath" value="{realpath:}"/>
+		    	        		<map:parameter name="contextPath" value="{request:contextPath}"/>
+			            		<map:parameter name="code" value="401"/>
+			            		<map:parameter name="pageTitle" value="Ametys - Authorization required"/>
+			          		</map:transform>
+			          		<map:transform type="i18n">
+			          			<map:parameter name="locale" value="{locale:locale}"/>
+			          		</map:transform>
+			          		<map:serialize status-code="401"/>
 		          		</map:act>
 					</map:when>
 					<map:otherwise>
