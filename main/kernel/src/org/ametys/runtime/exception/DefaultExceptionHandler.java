@@ -15,17 +15,46 @@
  */
 package org.ametys.runtime.exception;
 
+import java.io.IOException;
+
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.thread.ThreadSafe;
+import org.apache.cocoon.Constants;
+import org.apache.excalibur.source.impl.FileSource;
 
 /**
  * Simple ExceptionHandler pointing to the default error XSL.<br>
- * In the runtime jar in <code>pages/error/error.xsl</code>
+ * In <code>WEB-INF/stylesheets/error</code> or in the runtime jar in <code>pages/error/error.xsl</code>
  */
-public class DefaultExceptionHandler extends AbstractLogEnabled implements ExceptionHandler, ThreadSafe
+public class DefaultExceptionHandler extends AbstractLogEnabled implements ExceptionHandler, ThreadSafe, Contextualizable
 {
+    private org.apache.cocoon.environment.Context _cocoonContext;
+    
+    @Override
+    public void contextualize(Context context) throws ContextException
+    {
+        _cocoonContext = (org.apache.cocoon.environment.Context) context.get(Constants.CONTEXT_ENVIRONMENT_CONTEXT);
+    }
+    
     public String getExceptionXSLURI(String code)
     {
+        String uri = null;
+        try
+        {
+            uri = "file://" + _cocoonContext.getRealPath("WEB-INF/stylesheets/error/error_" + code + ".xsl");
+            if (new FileSource(uri).exists())
+            {
+                return uri;
+            }
+        }
+        catch (IOException e)
+        {
+            getLogger().warn("Unable to find XSL error '" + uri + "'", e);
+        }
+        
         return "resource://org/ametys/runtime/kernel/pages/error/error.xsl";
     }
 }
