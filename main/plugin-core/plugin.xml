@@ -740,6 +740,10 @@
         <single-extension-point id="org.ametys.runtime.upload.UploadManager"
                                 class="org.ametys.runtime.upload.UploadManager"
                                 default-extension-id="org.ametys.runtime.plugins.core.upload.FSUploadManager"/>
+                                
+        <single-extension-point id="org.ametys.runtime.plugins.core.userpref.UserPreferencesManager"
+                                class="org.ametys.runtime.plugins.core.userpref.UserPreferencesManager"
+                                default-extension-id="org.ametys.runtime.plugins.core.userpref.DefaultUserPreferencesManager"/>
     </extension-points>
     
     <feature name="saxclienthelper">
@@ -2034,14 +2038,23 @@
         </extensions>
     </feature>
     
-    <feature name="runtime.user.preferences" depends="runtime.datasource.core">
-        <components>
-            <component role="org.ametys.runtime.plugins.core.userpref.UserPreferencesManager"
-                       class="org.ametys.runtime.plugins.core.userpref.UserPreferencesManager"
-                       logger="org.ametys.runtime.plugins.core.userpref.UserPreferencesManager">
-                <table>UserPreferences</table>
-            </component>
-        </components>
+    <feature name="runtime.user.preferences.empty">
+    	<extensions>
+    		<extension point="org.ametys.runtime.plugins.core.userpref.UserPreferencesManager"
+        	           id="org.ametys.runtime.plugins.core.userpref.EmptyUserPreferencesManager"
+        	           class="org.ametys.runtime.plugins.core.userpref.EmptyUserPreferencesManager">
+        	</extension>
+    	</extensions>
+    </feature>
+    
+    <feature name="runtime.user.preferences.default" depends="runtime.datasource.core">
+    	<extensions>
+    		<extension point="org.ametys.runtime.plugins.core.userpref.UserPreferencesManager"
+        	           id="org.ametys.runtime.plugins.core.userpref.DefaultUserPreferencesManager"
+        	           class="org.ametys.runtime.plugins.core.userpref.DefaultUserPreferencesManager">
+        		<table>UserPreferences</table>
+        	</extension>
+    	</extensions>
     </feature>
         
 </plugin>
