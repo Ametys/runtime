@@ -256,7 +256,7 @@ public class GroupDrivenLdapGroupsManager extends AbstractLDAPGroupsManager impl
             Attribute groupDESCAttr = attrs.get(_groupsDescriptionAttribute);
             if (groupDESCAttr == null)
             {
-                throw new IllegalArgumentException("Missing group description attribute : \"" + _groupsIdAttribute + "\"");
+                throw new IllegalArgumentException("Missing group description attribute : \"" + _groupsDescriptionAttribute + "\"");
             }
             String groupDesc = (String) groupDESCAttr.get();
 
