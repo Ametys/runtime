@@ -2034,7 +2034,7 @@
         </extensions>
     </feature>
     
-    <feature name="runtime.user.preferences">
+    <feature name="runtime.user.preferences" depends="runtime.datasource.core">
         <components>
             <component role="org.ametys.runtime.plugins.core.userpref.UserPreferencesManager"
                        class="org.ametys.runtime.plugins.core.userpref.UserPreferencesManager"
