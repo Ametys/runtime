@@ -39,4 +39,8 @@
         <allowedURLs/>
         <redirectURL/>
     </incompleteConfig>
+    
+    <extensions>
+    	<org.ametys.runtime.plugins.core.userpref.UserPreferencesManager>org.ametys.runtime.plugins.core.userpref.EmptyUserPreferencesManager</org.ametys.runtime.plugins.core.userpref.UserPreferencesManager>
+    </extensions>
 </runtime>
