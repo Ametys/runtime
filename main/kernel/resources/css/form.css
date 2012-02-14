@@ -257,3 +257,10 @@
 {
 	position: relative !important;
 }
+
+.ext-ie7 div.x-window-bwrap div.x-window-ml div.x-window-mc div.x-window-body.x-border-layout-ct,
+.ext-ie7 div.x-window-bwrap div.x-window-ml div.x-window-mc div.x-window-body.x-border-layout-ct div.x-border-panel,
+.ext-ie7 div.x-window-bwrap div.x-window-ml div.x-window-mc div.x-window-body div.x-border-layout-ct div.x-border-panel
+{
+	position: absolute !important;	
+}
