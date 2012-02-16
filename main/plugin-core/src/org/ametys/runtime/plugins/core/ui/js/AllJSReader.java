@@ -144,7 +144,7 @@ public class AllJSReader extends ServiceableReader implements CacheableProcessin
             InputStream is = null;
             try
             {
-                jssource = _resolver.resolveURI("cocoon://" + org.apache.cocoon.util.NetUtils.normalize(jsFile));
+                jssource = _resolver.resolveURI("cocoon:/" + org.apache.cocoon.util.NetUtils.normalize(jsFile));
                 is = jssource.getInputStream();
                 
                 s = IOUtils.toString(is);
