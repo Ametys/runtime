@@ -169,7 +169,7 @@ public class AllCSSReader extends ServiceableReader implements CacheableProcessi
                 cssPath = cssFile.substring(0, cssFile.lastIndexOf("/") + 1);
             }
 
-            csssource = _resolver.resolveURI("cocoon://" + org.apache.cocoon.util.NetUtils.normalize(cssFile));
+            csssource = _resolver.resolveURI("cocoon:/" + org.apache.cocoon.util.NetUtils.normalize(cssFile));
             is = csssource.getInputStream();
             
             // Initial file
