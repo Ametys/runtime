@@ -92,6 +92,7 @@
             <map:action name="init-request" src="org.ametys.runtime.request.InitRequestAction" logger="org.ametys.runtime.kernel.sitemap.actions.init-request"/>
             <map:action name="plugin-exists" src="org.ametys.runtime.plugin.PluginExistsAction" logger="org.ametys.runtime.kernel.sitemap.actions.plugin-exists"/>
 			<map:action name="exception" src="org.ametys.runtime.exception.ExceptionAction" logger="org.ametys.runtime.kernel.sitemap.actions.exception"/>
+            <map:action name="set-authorization-header" src="org.ametys.runtime.authentication.SetAuthorizationHeaderAction" logger="workspace.action.setauthheader"/>
 		</map:actions>
 
 		<map:pipes default="caching">
@@ -234,6 +235,7 @@
 					</map:when>
 					<map:when test="authorization-required">
 						<map:act type="exception" src="401">
+                            <map:act type="set-authorization-header"/>
 			        		<map:generate type="exception" label="content"/>
 			          		<map:transform src="{xsl}">
 			            		<map:parameter name="realPath" value="{realpath:}"/>
