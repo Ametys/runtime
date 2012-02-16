@@ -145,7 +145,7 @@ public final class ImageHelper
         
         BufferedImage thumbImage = new FixedSizeThumbnailMaker(destWidth, destHeight, keepAspectRatio)
                                    .resizer(ResizerFactory.getResizer(srcDimension, thumbnailDimension))
-                                   .imageType(src.getType() != BufferedImage.TYPE_CUSTOM ? src.getType() : BufferedImage.TYPE_INT_ARGB)
+                                   .imageType(src.getColorModel().hasAlpha() ? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB)
                                    .make(src); 
         
         return thumbImage;
