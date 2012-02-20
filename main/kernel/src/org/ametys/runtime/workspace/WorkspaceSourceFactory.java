@@ -15,6 +15,7 @@
  */
 package org.ametys.runtime.workspace;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Map;
@@ -85,6 +86,10 @@ public class WorkspaceSourceFactory implements SourceFactory, Contextualizable, 
     {
         org.apache.cocoon.environment.Context cocoonContext = (org.apache.cocoon.environment.Context) context.get(Constants.CONTEXT_ENVIRONMENT_CONTEXT);
         _path = cocoonContext.getRealPath("/");
+        if (!_path.endsWith(File.separator))
+        {
+            _path += File.separator;
+        }
     }
     
     public void service(ServiceManager manager) throws ServiceException
