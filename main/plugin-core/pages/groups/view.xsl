@@ -53,9 +53,9 @@
 					var mainPanel = org.ametys.administration.Groups.createPanel ();
 				                
 					<xsl:for-each select="groups/group">
-                        org.ametys.administration.Groups._listViewGp.addElement("<xsl:value-of select="@id"/>", 
+                        org.ametys.administration.Groups._listViewGp.addElement("<xsl:value-of select="escaper:escapeJavaScript(@id)"/>", 
                                 {
-                                    id: "<xsl:value-of select="@id"/>",
+                                    id: "<xsl:value-of select="escaper:escapeJavaScript(@id)"/>",
                                     name : "<xsl:value-of select="escaper:escapeJavaScript(label)"/>"
                                 });
                     </xsl:for-each>	
