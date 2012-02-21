@@ -108,6 +108,8 @@ public class AllCSSReader extends ServiceableReader implements CacheableProcessi
     @Override
     public void generate() throws IOException, SAXException, ProcessingException
     {
+        String rootRelativePath = _getRootRelativePath();
+        
         StringBuffer sb = new StringBuffer("");
         
         List<String> cssFiles = _allCSSComponent.getCSSFilesList(source);
@@ -131,7 +133,7 @@ public class AllCSSReader extends ServiceableReader implements CacheableProcessi
             {
                 for (String cssFile : cssFiles)
                 {
-                    sb.append(_handleFileDirect(cssFile));
+                    sb.append(_handleFileDirect(rootRelativePath, cssFile));
                 }
                 
             }
@@ -155,7 +157,7 @@ public class AllCSSReader extends ServiceableReader implements CacheableProcessi
         return sb.toString();
     }
     
-    private String _handleFileDirect(String cssFile)
+    private String _handleFileDirect(String rootRelativePath, String cssFile)
     {
         StringBuffer sb = new StringBuffer();
         
@@ -177,9 +179,9 @@ public class AllCSSReader extends ServiceableReader implements CacheableProcessi
             // Removing comments
             String s1 = __removeComment(s0);
             // Resolve images
-            String s2 = __resolveImages(cssPath, s1);
+            String s2 = __resolveImages(rootRelativePath, cssPath, s1);
             // resolving internal imports
-            String s3 = __resolveImports(cssPath, s2);
+            String s3 = __resolveImports(rootRelativePath, cssPath, s2);
             // Removing break line
             String s4 = s3.replaceAll("\r?\n|\t", " ");
             // Removing other
@@ -223,7 +225,7 @@ public class AllCSSReader extends ServiceableReader implements CacheableProcessi
         }
     }
     
-    private String __resolveImports(String currentPath, String initialString)
+    private String __resolveImports(String rootRelativePath, String currentPath, String initialString)
     {
         int i = initialString.indexOf("@import");
         if (i == -1)
@@ -249,11 +251,11 @@ public class AllCSSReader extends ServiceableReader implements CacheableProcessi
             }
             fileToImport = currentPath + fileToImport.replaceAll("[(');\t ]", "");
             
-            return initialString.substring(0, i) + "\n" + _handleFileDirect(fileToImport) + "\n" + (eof ? "" : __resolveImports(currentPath, endOfString.substring(j + 1)));
+            return initialString.substring(0, i) + "\n" + _handleFileDirect(rootRelativePath, fileToImport) + "\n" + (eof ? "" : __resolveImports(rootRelativePath, currentPath, endOfString.substring(j + 1)));
         }
     }
     
-    private String __resolveImages(String currentPath, String initialString)
+    private String __resolveImages(String rootRelativePath, String currentPath, String initialString)
     {
         String initialStringLC = initialString.toLowerCase();
 
@@ -281,8 +283,30 @@ public class AllCSSReader extends ServiceableReader implements CacheableProcessi
             }
             else
             {
-                return initialString.substring(0, j + 1) + org.apache.cocoon.util.NetUtils.normalize("../../.." + currentPath + initialString.substring(j + 1, i + 4)) + __resolveImages(currentPath, initialString.substring(i + 4));
+                return initialString.substring(0, j + 1) + org.apache.cocoon.util.NetUtils.normalize(rootRelativePath + currentPath + initialString.substring(j + 1, i + 4)) + __resolveImages(rootRelativePath, currentPath, initialString.substring(i + 4));
             }
         }
+    }
+    
+    private String _getRootRelativePath ()
+    {
+        Request request = ObjectModelHelper.getRequest(objectModel);
+        String contextPath = request.getContextPath();
+        String requestURI = request.getRequestURI();
+        
+        String requestPath = requestURI.substring(contextPath.length());
+        int depth = StringUtils.countMatches(requestPath, "/");
+        
+        String relativePath = "";
+        for (int i = 0; i < depth - 1; i++)
+        {
+            if (i != 0)
+            {
+                relativePath += "/";
+            }
+            relativePath += "..";
+        }
+        
+        return relativePath;
     }
 }
