@@ -78,27 +78,44 @@ public class SetUserPreferencesAction extends CurrentUserProviderServiceableActi
         
         if ("true".equals(submit))
         {
-            results.put("status", "error");
-            
-            Map<String, String> values = _userPrefManager.getUnTypedUserPrefs(username, context);
-            
-            UserPreferencesErrors errors = new UserPreferencesErrors();
-            
-            // Override the old values with the new ones, but keep old values when new preferences are not in the request.
-            values.putAll(_getValues(request, errors));
-            
-            // Validate the user preferences, filling in potential errors.
-            _userPrefEP.validatePreferences(values, errors);
-            
-            if (!errors.hasErrors())
-            {
-                _userPrefManager.setUserPreferences(username, context, values);
-                results.put("status", "success");
-            }
-            else
-            {
-                request.setAttribute("user-prefs-errors", errors);
-            }
+            results = setUserPreferences(request, context, username);
+        }
+        
+        return results;
+    }
+    
+    /**
+     * Set user preferences.
+     * @param request the request.
+     * @param context the preferences context.
+     * @param username the user name.
+     * @return the results.
+     * @throws UserPreferencesException
+     */
+    protected Map<String, String> setUserPreferences(Request request, String context, String username) throws UserPreferencesException
+    {
+        Map<String, String> results = new HashMap<String, String>();
+        
+        results.put("status", "error");
+        
+        Map<String, String> values = _userPrefManager.getUnTypedUserPrefs(username, context);
+        
+        UserPreferencesErrors errors = new UserPreferencesErrors();
+        
+        // Override the old values with the new ones, but keep old values when new preferences are not in the request.
+        values.putAll(_getValues(request, errors));
+        
+        // Validate the user preferences, filling in potential errors.
+        _userPrefEP.validatePreferences(values, errors);
+        
+        if (!errors.hasErrors())
+        {
+            _userPrefManager.setUserPreferences(username, context, values);
+            results.put("status", "success");
+        }
+        else
+        {
+            request.setAttribute("user-prefs-errors", errors);
         }
         
         return results;
