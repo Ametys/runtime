@@ -61,7 +61,7 @@ public class UserPreferencesGenerator extends CurrentUserProviderServiceableGene
     {
         Request request = ObjectModelHelper.getRequest(objectModel);
         String context = parameters.getParameter("prefContext", request.getParameter("prefContext"));
-        String username = parameters.getParameter("username", _getCurrentUser());
+        String username = getUsername();
         
         if (StringUtils.isBlank(context))
         {
@@ -89,7 +89,16 @@ public class UserPreferencesGenerator extends CurrentUserProviderServiceableGene
             throw new ProcessingException("Cannot get user preferences.", e);
         }
     }
-
+    
+    /**
+     * Get the user name in the user manager.
+     * @return the user name (login).
+     */
+    protected String getUsername()
+    {
+        return parameters.getParameter("username", _getCurrentUser());
+    }
+    
     /**
      * Generate the list of user preferences for a given user and context.
      * @param context the preferences context.
