@@ -18,8 +18,12 @@ package org.ametys.runtime.exception;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.thread.ThreadSafe;
+import org.apache.cocoon.Constants;
 import org.apache.cocoon.acting.ServiceableAction;
 import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.SourceResolver;
@@ -28,8 +32,16 @@ import org.apache.cocoon.environment.SourceResolver;
 /**
  * This action determines which xsl will display the exception.
  */
-public class ExceptionAction extends ServiceableAction implements ThreadSafe
+public class ExceptionAction extends ServiceableAction implements ThreadSafe, Contextualizable
 {
+    private Context _context;
+
+    @Override
+    public void contextualize(Context context) throws ContextException
+    {
+        _context = context;
+    }
+    
     public Map<String, String> act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
         // Le composant peut ne pas exister si le pluginManager n'est pas chargé
@@ -41,7 +53,7 @@ public class ExceptionAction extends ServiceableAction implements ThreadSafe
         }
         else
         {
-            exceptionHandler = new DefaultExceptionHandler();
+            exceptionHandler = new DefaultExceptionHandler((org.apache.cocoon.environment.Context) _context.get(Constants.CONTEXT_ENVIRONMENT_CONTEXT));
         }
         
         String uri = exceptionHandler.getExceptionXSLURI(source);

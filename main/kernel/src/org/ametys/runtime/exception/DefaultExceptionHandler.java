@@ -33,6 +33,23 @@ public class DefaultExceptionHandler extends AbstractLogEnabled implements Excep
 {
     private org.apache.cocoon.environment.Context _cocoonContext;
     
+    /**
+     * Constructor as component
+     */
+    public DefaultExceptionHandler()
+    {
+        // empty
+    }
+    
+    /**
+     * Constructor for default behavior when application is not starting
+     * @param context The cocoon context
+     */
+    DefaultExceptionHandler(org.apache.cocoon.environment.Context context)
+    {
+        _cocoonContext = context;
+    }
+    
     @Override
     public void contextualize(Context context) throws ContextException
     {
