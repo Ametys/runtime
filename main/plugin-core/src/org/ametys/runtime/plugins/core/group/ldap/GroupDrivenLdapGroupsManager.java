@@ -167,11 +167,14 @@ public class GroupDrivenLdapGroupsManager extends AbstractLDAPGroupsManager impl
             // Créer le filtre de recherche
             StringBuffer filter = new StringBuffer("(&");
             filter.append(_groupsObjectFilter);
-            filter.append("(");
+            filter.append("(|(");
             filter.append(_groupsMemberAttribute);
             filter.append("=" + _usersLoginAttribute + "={0},");
             filter.append(_usersRelativeDN + (_usersRelativeDN.length() > 0 && _ldapBaseDN.length() > 0 ? "," : "") + _ldapBaseDN);
-            filter.append("))");
+            filter.append(")(");
+            filter.append(_groupsMemberAttribute);
+            filter.append("=" + _usersLoginAttribute + "={0}");
+            filter.append(")))");
 
             // Effectuer la recherche
             results = context.search(_groupsRelativeDN, filter.toString(),
