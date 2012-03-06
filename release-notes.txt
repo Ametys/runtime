@@ -1,3 +1,77 @@
+Runtime - Version 2.3 (March 06, 2012)
+
+Task:
+  RUNTIME-643 : Support PostgreSQL
+  RUNTIME-671 : Support of FF10
+
+New Feature:
+  RUNTIME-644 : Add a unit test on user preferences
+  RUNTIME-678 : The default implementation of userpref should be a static one
+
+Improvement:
+  RUNTIME-581 : Support IE9
+  RUNTIME-604 : Remove deprecated css concat pipeline
+  RUNTIME-607 : Remove deprecated ActionMapResultGenerator
+  RUNTIME-625 : Add a context on profile
+  RUNTIME-626 : Separate right to see profiles' rights and to manage profiles' rights
+  RUNTIME-627 : Make the ProfilesTreePanel more extensible
+  RUNTIME-628 : Labels of profiles are truncated too much on edition mode
+  RUNTIME-629 : Accept FF6 and FF7
+  RUNTIME-631 : Add a datetime form field
+  RUNTIME-632 : Add a cache to i18nUtils
+  RUNTIME-633 : Handle parameters of widget
+  RUNTIME-642 : Improve the runtime tests and make all the components pass the tests
+  RUNTIME-645 : Make UserPreferences compatible with oracle JDBC drivers older than version 11
+  RUNTIME-649 : Support of FF8
+  RUNTIME-650 : SendMailHelper should inline css on html messages
+  RUNTIME-651 : Makes FormBasedCredentialProvider class extensible
+  RUNTIME-655 : [Dialog box] Submit dialog on pressing "Enter" key needs to be skipped for some inputs
+  RUNTIME-656 : Enhance text.nl2br to generate <br/> tags as &lt;br/&gt;
+  RUNTIME-664 : Support of FF9 and Chrome to 14
+  RUNTIME-666 : Add substring-after-last to the text XSL helper functions
+  RUNTIME-670 : Add entry points to ModifiableJdbcGroupsManager
+  RUNTIME-684 : Refactor User Preferences generator and action to be able to extend it
+  RUNTIME-686 : Fields an LDAP directory group: renaming "description" in "libellé"
+
+Bug:
+  RUNTIME-605 : Init class can not use cocoon components
+  RUNTIME-615 : The ZipArchiveSerializer doesn't support UTF-8 encoded names
+  RUNTIME-616 : On JdbcUsersManager, login parameter is limited to 16 characters by a regexp, it is a problem when login is an email address.
+  RUNTIME-618 : NPE when configuration is invalid
+  RUNTIME-619 : org.ametys.runtime.plugins.core.EscapeForJavascript does not work
+  RUNTIME-623 : [Administrator area] : error when deleting a message in the system announcement
+  RUNTIME-630 : CSS style in profile.css override all form inputs
+  RUNTIME-634 : LDAP Groups
+  RUNTIME-636 : Unable to add more than one system announcement
+  RUNTIME-637 : If you delete the defaut system announcement with language "*" you can not recreate it
+  RUNTIME-639 : DefaultProfileBasedRightsManager logs exceptions without re-throwing it
+  RUNTIME-640 : Parameters : Empty default value is stored as null
+  RUNTIME-646 : Affect a user twice
+  RUNTIME-647 : SendMailHelper and port number
+  RUNTIME-648 : Remove the deprecated JavascriptEncoder
+  RUNTIME-652 : Admin, plugins, change the selected single EP and restart fails
+  RUNTIME-653 : Admin, Users modification
+  RUNTIME-654 : JdbcUsersManager do not accept '@' character in login
+  RUNTIME-657 : When a Long admin parameter has no value, the application does not work, even if this parameter is not mandatory.
+  RUNTIME-658 : Send mail failed with a empty user value
+  RUNTIME-661 : Exception when declaring a static enumerator with a blank value in a parameter
+  RUNTIME-662 : Config.addInputField should return the field
+  RUNTIME-663 : [Configuration parameters] Use alphabetical order by default for combo list
+  RUNTIME-665 : Spell mistake in the list of plugins
+  RUNTIME-667 : StaticClientSideElement method _configureRights set and return _rights
+  RUNTIME-668 : After adding users, don't save the modifications 
+  RUNTIME-673 : Selector for exceptions does not support "Authorization required" (401) and "Access denied" exception
+  RUNTIME-674 : DefaultExceptionHandler does not authorize to override XSL errors
+  RUNTIME-675 : UserPreferences does not depends on datasource
+  RUNTIME-676 : GroupDrivenLDAP error message
+  RUNTIME-679 : UserPreferencesManager should be a single extension point
+  RUNTIME-680 : CSS for IE7 override too much <div> position
+  RUNTIME-681 : AllJSReader cannot resolve cocoonURI because of three slash 
+  RUNTIME-682 : Cannot have a workspace directory with Jetty
+  RUNTIME-683 : AllCSSReader does not take into account the default workspace
+  RUNTIME-685 : An unstarting application cannot display errors
+  RUNTIME-688 : The getUserGroups of the GroupDrivenLdapGroupsManager is not working with relative DNs
+
 Runtime - Version 2.2.1 (July 29, 2011)
 
 New Feature:
