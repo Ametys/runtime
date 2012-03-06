@@ -1,10 +1,16 @@
-Runtime - Version 2.2.2 (December 21, 2011)
+Runtime - Version 2.2.2 (March 06, 2012)
 
 Improvement:
+  RUNTIME-581 : Support IE9
   RUNTIME-645 : Make UserPreferences compatible with oracle JDBC drivers older than version 11
   RUNTIME-649 : Support of FF8
   RUNTIME-650 : SendMailHelper should inline css on html messages
   RUNTIME-651 : Makes FormBasedCredentialProvider class extensible
+  RUNTIME-664 : Support of FF9 and Chrome to 14
+  RUNTIME-666 : Add substring-after-last to the text XSL helper functions
+  RUNTIME-671 : Support of FF10
+  RUNTIME-684 : Refactor User Preferences generator and action to be able to extend it
+  RUNTIME-686 : Fields an LDAP directory group: renaming "description" in "libellé"
 
 Bug:
   RUNTIME-616 : On JdbcUsersManager, login parameter is limited to 16 characters by a regexp, it is a problem when login is an email address.
@@ -14,11 +20,25 @@ Bug:
   RUNTIME-636 : Unable to add more than one system announcement
   RUNTIME-637 : If you delete the defaut system annoucement with language "*" you can not recreate it
   RUNTIME-646 : Affect a user twice
+  RUNTIME-652 : Admin, plugins, change the selected single EP and restart fails
+  RUNTIME-653 : Admin, Users modification
   RUNTIME-654 : JdbcUsersManager do not accept '@' character in login
-  RUNTIME-657 : When a Long admin parameter has no value, the application does not works, even if this parameter is not mandatory.
+  RUNTIME-657 : When a Long admin parameter has no value, the application does not work, even if this parameter is not mandatory.
   RUNTIME-658 : Send mail failed with a empty user value
   RUNTIME-661 : Exception when declaring a static enumerator with a blank value in a parameter
   RUNTIME-663 : [Configuration parameters] Use alphabetical order by default for combo list
+  RUNTIME-665 : Spell mistake in the list of plugins
+  RUNTIME-667 : StaticClientSideElement method _configureRights set and return _rights
+  RUNTIME-668 : After adding users, don't save the modifications 
+  RUNTIME-672 : The parameter accept-ff-9.0 on ui.xsl is declared but not used during the transformation
+  RUNTIME-673 : Selector for exceptions does not support "Authorization required" (401) and "Access denied" exception
+  RUNTIME-674 : DefaultExceptionHandler does not authorize to override XSL errors
+  RUNTIME-676 : GroupDrivenLDAP error message
+  RUNTIME-681 : AllJSReader cannot resolve cocoonURI because of three slash 
+  RUNTIME-682 : Cannot have a workspace directory with Jetty
+  RUNTIME-683 : AllCSSReader does not take into account the default workspace
+  RUNTIME-685 : An unstarting application cannot display errors
+  RUNTIME-688 : The getUserGroups of the GroupDrivenLdapGroupsManager is not working with relative DNS
 
 Runtime - Version 2.2.1 (July 29, 2011)
 
