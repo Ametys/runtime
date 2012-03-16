@@ -252,7 +252,7 @@ public abstract class ScriptRunner
                 String message = String.format("Unable to execute SQL: '%s' at line %d", command, lineNumber);
                 __LOGGER.error(message, e);
                 
-                throw new SQLException(message);
+                throw new SQLException(message, e);
             }
         }
         finally
