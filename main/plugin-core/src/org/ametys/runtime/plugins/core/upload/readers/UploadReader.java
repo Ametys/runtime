@@ -15,6 +15,9 @@
  */
 package org.ametys.runtime.plugins.core.upload.readers;
 
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
@@ -132,7 +135,6 @@ public class UploadReader extends ServiceableReader
         }
         
         Response response = ObjectModelHelper.getResponse(objectModel);
-        response.setHeader("Content-Length", Long.toString(_upload.getLength()));
         
         if (_readForDownload)
         {
@@ -154,7 +156,8 @@ public class UploadReader extends ServiceableReader
             }
             else
             {
-             // Copy data in response
+                // Copy data in response
+                response.setHeader("Content-Length", Long.toString(_upload.getLength()));
                 IOUtils.copy(is, out);
             }
         }
