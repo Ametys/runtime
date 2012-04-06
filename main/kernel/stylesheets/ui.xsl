@@ -91,6 +91,7 @@
     
     <xsl:template name="ui-tools-load">
         <xsl:param name="bad-navigator-redirection"/>
+        <xsl:param name="skip-navigator-compatibility">false</xsl:param>
         <xsl:param name="accept-ie-6">false</xsl:param>
         <xsl:param name="accept-ie-7">false</xsl:param>
         <xsl:param name="accept-ie-8">false</xsl:param>
@@ -177,62 +178,64 @@
 		</xsl:variable>
 		<xsl:variable name="scripts-to-load" select="exslt:node-set($scripts-to-load-raw)"/>
 
-        <script type="text/javascript">
-            <xsl:comment>
-            	var userAgent = navigator.userAgent.toLowerCase();
-                <xsl:text>if (!(</xsl:text>
-                    <xsl:if test="$accept-ie-6   = 'true'">(userAgent.indexOf("msie 6") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-ie-7   = 'true'">(userAgent.indexOf("msie 7") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-ie-8   = 'true'">(userAgent.indexOf("msie 8") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-ie-9   = 'true'">(userAgent.indexOf("msie 9") >= 0) ||</xsl:if>
-                    
-                    <xsl:if test="$accept-ff-1.0 = 'true'">(userAgent.indexOf("firefox/1.0") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-ff-1.5 = 'true'">(userAgent.indexOf("firefox/1.5") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-ff-2.0 = 'true'">(userAgent.indexOf("firefox/2.0") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-ff-3.0 = 'true'">(userAgent.indexOf("firefox/3.0") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-ff-3.5 = 'true'">(userAgent.indexOf("firefox/3.5") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-ff-3.6 = 'true'">(userAgent.indexOf("firefox/3.6") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-ff-4.0 = 'true'">(userAgent.indexOf("firefox/4.0") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-ff-5.0 = 'true'">(userAgent.indexOf("firefox/5.0") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-ff-6.0 = 'true'">(userAgent.indexOf("firefox/6.0") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-ff-7.0 = 'true'">(userAgent.indexOf("firefox/7.0") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-ff-8.0 = 'true'">(userAgent.indexOf("firefox/8.0") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-ff-9.0 = 'true'">(userAgent.indexOf("firefox/9.0") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-ff-10.0 = 'true'">(userAgent.indexOf("firefox/10.0") >= 0) ||</xsl:if>
-                    
-                    <xsl:if test="$accept-sa-3   = 'true'">(userAgent.indexOf("safari/") >= 0 &amp;&amp; userAgent.indexOf("version/3.") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-sa-4   = 'true'">(userAgent.indexOf("safari/") >= 0 &amp;&amp; userAgent.indexOf("version/4.") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-sa-5.0 = 'true'">(userAgent.indexOf("safari/") >= 0 &amp;&amp; userAgent.indexOf("version/5.0") >= 0) ||</xsl:if>
-                    
-                    <xsl:if test="$accept-op-9   = 'true'">(userAgent.indexOf("opera/9.") >= 0 &amp;&amp; userAgent.indexOf("version/10.") == -1) ||</xsl:if>
-                    <xsl:if test="$accept-op-10  = 'true'">(userAgent.indexOf("opera/9.8") >= 0 &amp;&amp; userAgent.indexOf("version/10.") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-op-11  = 'true'">(userAgent.indexOf("opera/9.8") >= 0 &amp;&amp; userAgent.indexOf("version/11.") >= 0) ||</xsl:if>
-                    
-                    <xsl:if test="$accept-ch-1   = 'true'">(userAgent.indexOf("chrome/1.") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-ch-2   = 'true'">(userAgent.indexOf("chrome/2.") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-ch-3   = 'true'">(userAgent.indexOf("chrome/3.") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-ch-4   = 'true'">(userAgent.indexOf("chrome/4.") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-ch-5   = 'true'">(userAgent.indexOf("chrome/5.") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-ch-6   = 'true'">(userAgent.indexOf("chrome/6.") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-ch-7   = 'true'">(userAgent.indexOf("chrome/7.") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-ch-8   = 'true'">(userAgent.indexOf("chrome/8.") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-ch-9   = 'true'">(userAgent.indexOf("chrome/9.") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-ch-10  = 'true'">(userAgent.indexOf("chrome/10.") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-ch-11  = 'true'">(userAgent.indexOf("chrome/11.") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-ch-12  = 'true'">(userAgent.indexOf("chrome/12.") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-ch-13  = 'true'">(userAgent.indexOf("chrome/13.") >= 0) ||</xsl:if>
-                    <xsl:if test="$accept-ch-14  = 'true'">(userAgent.indexOf("chrome/14.") >= 0) ||</xsl:if>
-                    <xsl:text>1 == 0))</xsl:text>
-                {
-            		<!-- Check the cookie for forcing non supported navigators -->
-                    var matcher = document.cookie.match("(^|;) ?ametys\.accept\.non\.supported\.navigators=([^;]*)");
-                    if (!matcher || matcher[2] != "on")
-                    {
-                        window.location.href = "<xsl:value-of select="$bad-navigator-redirection"/>?uri=" + encodeURIComponent(window.location.href);
-                    }
-                }
-            </xsl:comment>
-        </script>
+		<xsl:if test="$skip-navigator-compatibility != 'true'">
+	        <script type="text/javascript">
+	            <xsl:comment>
+	            	var userAgent = navigator.userAgent.toLowerCase();
+	                <xsl:text>if (!(</xsl:text>
+	                    <xsl:if test="$accept-ie-6   = 'true'">(userAgent.indexOf("msie 6") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ie-7   = 'true'">(userAgent.indexOf("msie 7") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ie-8   = 'true'">(userAgent.indexOf("msie 8") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ie-9   = 'true'">(userAgent.indexOf("msie 9") >= 0) ||</xsl:if>
+	                    
+	                    <xsl:if test="$accept-ff-1.0 = 'true'">(userAgent.indexOf("firefox/1.0") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ff-1.5 = 'true'">(userAgent.indexOf("firefox/1.5") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ff-2.0 = 'true'">(userAgent.indexOf("firefox/2.0") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ff-3.0 = 'true'">(userAgent.indexOf("firefox/3.0") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ff-3.5 = 'true'">(userAgent.indexOf("firefox/3.5") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ff-3.6 = 'true'">(userAgent.indexOf("firefox/3.6") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ff-4.0 = 'true'">(userAgent.indexOf("firefox/4.0") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ff-5.0 = 'true'">(userAgent.indexOf("firefox/5.0") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ff-6.0 = 'true'">(userAgent.indexOf("firefox/6.0") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ff-7.0 = 'true'">(userAgent.indexOf("firefox/7.0") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ff-8.0 = 'true'">(userAgent.indexOf("firefox/8.0") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ff-9.0 = 'true'">(userAgent.indexOf("firefox/9.0") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ff-10.0 = 'true'">(userAgent.indexOf("firefox/10.0") >= 0) ||</xsl:if>
+	                    
+	                    <xsl:if test="$accept-sa-3   = 'true'">(userAgent.indexOf("safari/") >= 0 &amp;&amp; userAgent.indexOf("version/3.") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-sa-4   = 'true'">(userAgent.indexOf("safari/") >= 0 &amp;&amp; userAgent.indexOf("version/4.") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-sa-5.0 = 'true'">(userAgent.indexOf("safari/") >= 0 &amp;&amp; userAgent.indexOf("version/5.0") >= 0) ||</xsl:if>
+	                    
+	                    <xsl:if test="$accept-op-9   = 'true'">(userAgent.indexOf("opera/9.") >= 0 &amp;&amp; userAgent.indexOf("version/10.") == -1) ||</xsl:if>
+	                    <xsl:if test="$accept-op-10  = 'true'">(userAgent.indexOf("opera/9.8") >= 0 &amp;&amp; userAgent.indexOf("version/10.") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-op-11  = 'true'">(userAgent.indexOf("opera/9.8") >= 0 &amp;&amp; userAgent.indexOf("version/11.") >= 0) ||</xsl:if>
+	                    
+	                    <xsl:if test="$accept-ch-1   = 'true'">(userAgent.indexOf("chrome/1.") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ch-2   = 'true'">(userAgent.indexOf("chrome/2.") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ch-3   = 'true'">(userAgent.indexOf("chrome/3.") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ch-4   = 'true'">(userAgent.indexOf("chrome/4.") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ch-5   = 'true'">(userAgent.indexOf("chrome/5.") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ch-6   = 'true'">(userAgent.indexOf("chrome/6.") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ch-7   = 'true'">(userAgent.indexOf("chrome/7.") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ch-8   = 'true'">(userAgent.indexOf("chrome/8.") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ch-9   = 'true'">(userAgent.indexOf("chrome/9.") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ch-10  = 'true'">(userAgent.indexOf("chrome/10.") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ch-11  = 'true'">(userAgent.indexOf("chrome/11.") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ch-12  = 'true'">(userAgent.indexOf("chrome/12.") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ch-13  = 'true'">(userAgent.indexOf("chrome/13.") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ch-14  = 'true'">(userAgent.indexOf("chrome/14.") >= 0) ||</xsl:if>
+	                    <xsl:text>1 == 0))</xsl:text>
+	                {
+	            		<!-- Check the cookie for forcing non supported navigators -->
+	                    var matcher = document.cookie.match("(^|;) ?ametys\.accept\.non\.supported\.navigators=([^;]*)");
+	                    if (!matcher || matcher[2] != "on")
+	                    {
+	                        window.location.href = "<xsl:value-of select="$bad-navigator-redirection"/>?uri=" + encodeURIComponent(window.location.href);
+	                    }
+	                }
+	            </xsl:comment>
+	        </script>
+	    </xsl:if>
 
 		<!-- LOAD JS -->
 		<xsl:choose>
