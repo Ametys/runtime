@@ -46,6 +46,7 @@ public class DataSourceExtensionPoint extends AbstractExtensionPoint<DataSource>
     
     private Map<String, ObjectPool> _pools = new HashMap<String, ObjectPool>();
 
+    @SuppressWarnings("unused")
     public void addExtension(String pluginName, String featureName, Configuration configuration) throws ConfigurationException
     {
         String id = configuration.getAttribute("id");
