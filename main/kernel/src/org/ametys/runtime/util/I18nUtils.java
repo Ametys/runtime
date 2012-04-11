@@ -108,7 +108,16 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
      */
     public String translate(I18nizableText text, String language) throws IllegalStateException
     {
-        Map<I18nizableText, String> values = getLangCache(language);
+        // Check language
+        String langCode = language;
+        if (langCode == null)
+        {
+            Map objectModel = ContextHelper.getObjectModel(_context);
+            Locale locale = org.apache.cocoon.i18n.I18nUtils.findLocale(objectModel, "locale", null, Locale.getDefault(), true);
+            langCode = locale.toString();
+        }
+        
+        Map<I18nizableText, String> values = getLangCache(langCode);
         
         String value = null;
         
@@ -118,7 +127,7 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
         }
         else
         {
-            value = _translate(text, language);
+            value = _translate(text, langCode);
             
             if (value != null)
             {
@@ -175,22 +184,13 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
             return text.getLabel();
         }
         
-        // Check language
-        String langCode = language;
-        if (langCode == null)
-        {
-            Map objectModel = ContextHelper.getObjectModel(_context);
-            Locale locale = org.apache.cocoon.i18n.I18nUtils.findLocale(objectModel, "locale", null, Locale.getDefault(), true);
-            langCode = locale.toString();
-        }
-            
         Source source = null;
         InputStream is = null;
         try
         {
             Map<String, Object> parameters = new HashMap<String, Object>();
             parameters.put("i18n", text);
-            parameters.put("locale", langCode);
+            parameters.put("locale", language);
 
             String uri = "cocoon://_plugins/core/i18n";
             source = _sourceResolver.resolveURI(uri, null, parameters);
@@ -203,7 +203,7 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
         }
         catch (IOException e)
         {
-            throw new IllegalStateException("Cannot translate '" + text.toString() + "' into '" + langCode + "'", e);
+            throw new IllegalStateException("Cannot translate '" + text.toString() + "' into '" + language + "'", e);
         }
         finally
         {
