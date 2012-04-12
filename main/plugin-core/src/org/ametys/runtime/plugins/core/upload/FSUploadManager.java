@@ -275,7 +275,8 @@ public class FSUploadManager extends TimerTask implements UploadManager, ThreadS
     {
         try
         {
-            return new File(new File(_globalUploadsDir, URLEncoder.encode(login, "UTF-8")), id);
+            String fileName = login != null ? URLEncoder.encode(login, "UTF-8") : "_Anonymous";
+            return new File(new File(_globalUploadsDir, fileName), id);
         }
         catch (UnsupportedEncodingException e)
         {
