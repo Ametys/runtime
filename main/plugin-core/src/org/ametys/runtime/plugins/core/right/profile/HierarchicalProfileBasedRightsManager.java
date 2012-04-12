@@ -20,14 +20,30 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.ametys.runtime.right.HierarchicalRightsHelper;
+import org.ametys.runtime.right.HierarchicalRightsManager;
 import org.ametys.runtime.right.RightsException;
 
 
 /**
  * This right manager looks for right in content and in parent context 
  */
-public class HierarchicalProfileBasedRightsManager extends DefaultProfileBasedRightsManager
+public class HierarchicalProfileBasedRightsManager extends DefaultProfileBasedRightsManager implements HierarchicalRightsManager
 {
+    @Override
+    public RightResult hasRightOnContextPrefix(String userLogin, String right, String contextPrefix) throws RightsException
+    {
+        if (userLogin == null)
+        {
+            return RightResult.RIGHT_NOK;
+        }
+        
+        if (getDeclaredContexts(userLogin, right, contextPrefix).isEmpty())
+        {
+            return RightResult.RIGHT_NOK;
+        }
+        return RightResult.RIGHT_OK;
+    }
+    
     @Override
     public Set<String> getGrantedUsers(String right, String context) throws RightsException
     {
@@ -70,7 +86,11 @@ public class HierarchicalProfileBasedRightsManager extends DefaultProfileBasedRi
     {
         try
         {
-            if (context == null)
+            if (login == null)
+            {
+                return new HashSet<String>();
+            }
+            else if (context == null)
             {
                 return super.getUserRights(login, context);
             }
@@ -105,12 +125,17 @@ public class HierarchicalProfileBasedRightsManager extends DefaultProfileBasedRi
     @Override
     public RightResult hasRight(String userLogin, String right, String context) throws RightsException
     {
+        if (userLogin == null)
+        {
+            return RightResult.RIGHT_NOK;
+        }
+        
         Set<String> convertedContexts = getAliasContext(context);
         for (String convertContext : convertedContexts)
         {
             String transiantContext = convertContext;
             
-            while (transiantContext != null && transiantContext.length() != 0)
+            while (transiantContext != null) // && transiantContext.length() != 0)
             {
                 RightResult hasRight = internalHasRight(userLogin, right, transiantContext);
                 

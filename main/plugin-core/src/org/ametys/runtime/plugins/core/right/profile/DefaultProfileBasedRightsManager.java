@@ -45,6 +45,7 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.cocoon.xml.XMLUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceResolver;
 import org.xml.sax.ContentHandler;
@@ -342,6 +343,11 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         {
             Set<String> rights = new HashSet<String>();
             
+            if (login == null)
+            {
+                return rights;
+            }
+            
             Set<String> convertedContexts = getAliasContext(context);
             for (String convertContext : convertedContexts)
             {
@@ -376,9 +382,15 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
         return rights;
     }
+    
     @Override
     public Map<String, Set<String>> getUserRights(String login) throws RightsException
     {
+        if (login == null)
+        {
+            return new HashMap<String, Set<String>>();
+        }
+        
         try
         {
             Map<String, Set<String>> rights = getUsersOnlyRights(login);
@@ -399,137 +411,6 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         {
             getLogger().error("Error in sql query", ex);
             throw new RightsException("Error in sql query", ex);
-        }
-    }
-    
-    @Override
-    public Set<String> getUserRightContexts(String login, String rightId) throws RightsException
-    {
-        Set<String> contexts = new HashSet<String>();
-        
-        try
-        {
-            contexts.addAll(getOnlyUserRightContexts(login, rightId));
-            contexts.addAll(getOnlyGroupRightContexts(login, rightId));
-        }
-        catch (SQLException ex)
-        {
-            getLogger().error("Error in sql query", ex);
-            throw new RightsException("Error in sql query", ex);
-        }
-        
-        return contexts;
-    }
-    
-    private Set<String> getOnlyUserRightContexts (String login, String rightId) throws SQLException
-    {
-        Set<String> contexts = new HashSet<String>();
-
-        Connection connection = ConnectionHelper.getConnection(_poolName);
-
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-        try
-        {
-            String sql = "SELECT UR.Context " + "FROM " + _tableUserRights + " UR, " + _tableProfileRights + " PR WHERE UR.Login = ? AND PR.Right_Id = ? AND UR.Profile_Id = PR.Profile_Id";
-
-            stmt = connection.prepareStatement(sql);
-
-            stmt.setString(1, login);
-            stmt.setString(2, rightId);
-
-            // Logger la requête
-            getLogger().info(sql + "\n[" + login + ", " + rightId + "]");
-
-            rs = stmt.executeQuery();
-
-            while (rs.next())
-            {
-                contexts.add(rs.getString(1));
-            }
-        }
-        finally
-        {
-            ConnectionHelper.cleanup(rs);
-            ConnectionHelper.cleanup(stmt);
-            ConnectionHelper.cleanup(connection);
-        }
-
-        return contexts;
-    }
-
-    private Set<String> getOnlyGroupRightContexts (String login, String rightId) throws SQLException
-    {
-        Set<String> contexts = new HashSet<String>();
-
-        Connection connection = ConnectionHelper.getConnection(_poolName);
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-        try
-        {
-            // Récupère la liste des groupes du user
-            Set<String> userSGroup = _groupsManager.getUserGroups(login);
-            if (userSGroup != null && userSGroup.size() != 0)
-            {
-                // Construit le bout de sql pour tous les groupes
-                StringBuffer groupSql = new StringBuffer();
-
-                for (int i = 0; i < userSGroup.size(); i++)
-                {
-                    if (i != 0)
-                    {
-                        groupSql.append(" OR ");
-                    }
-                    
-                    groupSql.append("GR.Group_Id = ?");
-                }
-
-                // Puis parmi les droits affectés aux groupes auxquels appartient l'utilisateur
-                StringBuffer sql = new StringBuffer();
-                sql.append("SELECT DISTINCT GR.Context ");
-                sql.append("FROM " + _tableProfileRights + " PR, " + _tableGroupRights + " GR ");
-                sql.append("WHERE GR.Profile_Id = PR.Profile_Id ");
-                sql.append("AND PR.Right_Id = ? ");
-                
-                sql.append("AND (");
-                sql.append(groupSql);
-                sql.append(")");
-
-                stmt = connection.prepareStatement(sql.toString());
-                
-                Iterator groupSqlIterator = userSGroup.iterator();
-                int i = 1;
-                
-                stmt.setString(1, rightId);
-                i++;
-                
-                while (groupSqlIterator.hasNext())
-                {
-                    String groupId = (String) groupSqlIterator.next();
-                    stmt.setString(i, groupId);
-                    i++;
-                }
-
-                // Logger la requête
-                getLogger().info(sql + "\n[" + rightId + "]");
-
-                rs = stmt.executeQuery();
-
-                while (rs.next())
-                {
-                    contexts.add(rs.getString(1));
-                }
-            }
-
-            return contexts;
-        }
-        finally
-        {
-            ConnectionHelper.cleanup(rs);
-            ConnectionHelper.cleanup(stmt);
-            ConnectionHelper.cleanup(connection);
         }
     }
     
@@ -574,6 +455,11 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     @Override
     public RightResult hasRight(String userLogin, String right, String context)
     {
+        if (userLogin == null)
+        {
+            return RightResult.RIGHT_NOK;
+        }
+        
         Set<String> convertedContexts = getAliasContext(context);
         for (String convertContext : convertedContexts)
         {
@@ -681,7 +567,12 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         String lcContext = getFullContext (context);
 
         Set<String> profiles = new HashSet<String>();
-
+        
+        if (login == null)
+        {
+            return new HashSet<String>();
+        }
+        
         Connection connection = ConnectionHelper.getConnection(_poolName);
 
         PreparedStatement stmt = null;
@@ -862,6 +753,11 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     {
         Set<String> contexts = new HashSet<String>();
 
+        if (login == null)
+        {
+            return contexts;
+        }
+        
         Connection connection = ConnectionHelper.getConnection(_poolName);
 
         PreparedStatement stmt = null;
@@ -918,6 +814,11 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     {
         try
         {
+            if (login == null)
+            {
+                return new HashMap<String, Set<String>>();
+            }
+            
             Map<String, Set<String>> userProfiles = getUsersOnlyProfiles(login);
             Map<String, Set<String>> groupProfiles = getGroupsOnlyProfiles(login);
             
@@ -1732,7 +1633,12 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     private Set<String> getUsersOnlyRights(String login, String context) throws SQLException
     {
         Set<String> rights = new HashSet<String>();
-
+        
+        if (login == null)
+        {
+            return rights;
+        }
+        
         Connection connection = ConnectionHelper.getConnection(_poolName);
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -1835,7 +1741,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     private Map<String, Set<String>> getUsersOnlyProfiles(String login) throws SQLException
     {
         Map<String, Set<String>> profiles = new HashMap<String, Set<String>>();
-
+        
         Connection connection = ConnectionHelper.getConnection(_poolName);
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -2547,6 +2453,44 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         }
 
         return mapContext;
+    }
+    
+    /**
+    * Get the list of declared contexts on which an user has the given right
+    * @param login The user's login. Cannot be null.
+    * @param rightId the id of the right to check. Cannot be null.
+    * @param initialContext the initial context to filter the results. Cannot be null.
+    * @return The Set containing the contexts
+    * @throws RightsException if an error occurs.
+    */
+    protected Set<String> getDeclaredContexts(String login, String rightId, String initialContext)
+    {
+        HashSet<String> contexts = new HashSet<String>();
+        
+        RightResult result = hasRight(login, rightId, initialContext);
+        if (result == RightResult.RIGHT_OK)
+        {
+            contexts.add(initialContext);
+        }
+        
+        String prefix = _rightsContextPrefixEP.getContextPrefix() + "/" + (StringUtils.isNotEmpty(initialContext) ? initialContext + "/" : "");
+        // The cache is necessarily filled has we first call 'hasRight' method
+        Map<String, List<String>> cacheContext = getCacheContext(login, rightId);
+        for (String rootCtx : cacheContext.keySet())
+        {
+            List<String> subContexts = cacheContext.get(rootCtx);
+            for (String subCtx : subContexts)
+            {
+                String ctx = rootCtx + "/" + subCtx;
+                if (ctx.startsWith(prefix))
+                {
+                    contexts.add(ctx);
+                }
+                
+            }
+        }
+        
+        return contexts;
     }
     
     public Profile getProfile(String id)

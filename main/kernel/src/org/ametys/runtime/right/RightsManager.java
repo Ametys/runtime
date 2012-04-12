@@ -103,14 +103,4 @@ public interface RightsManager
      * @throws RightsException if an error occurs.
      */
     public Map<String, Set<String>> getUserRights (String login) throws RightsException;
-    
-    /**
-     * Get the list of contexts on which an user has the given right
-     * @param login The user's login. Cannot be null.
-     * @param rightId the id of the right to check. Cannot be null.
-     * @return The Set containing the contexts
-     * @throws RightsException if an error occurs.
-     */
-    public Set<String> getUserRightContexts (String login, String rightId) throws RightsException;
-    
 }
