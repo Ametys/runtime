@@ -31,8 +31,10 @@ import org.apache.avalon.framework.service.Serviceable;
 import org.apache.commons.lang.StringUtils;
 
 import org.ametys.runtime.plugin.component.PluginAware;
+import org.ametys.runtime.right.HierarchicalRightsManager;
 import org.ametys.runtime.right.RightsContextPrefixExtensionPoint;
 import org.ametys.runtime.right.RightsManager;
+import org.ametys.runtime.right.RightsManager.RightResult;
 import org.ametys.runtime.ui.ClientSideElement;
 import org.ametys.runtime.user.CurrentUserProvider;
 import org.ametys.runtime.util.I18nizableText;
@@ -277,31 +279,32 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
             else
             {
                 String userLogin = _currentUserProvider.getUser();
-                if (userLogin == null)
+                Set<String> rightsToCheck = rights.keySet();
+                for (String rightToCheck : rightsToCheck)
                 {
-                    return false;
-                }
-                else
-                {
-                    Set<String> rightsToCheck = rights.keySet();
-                    for (String rightToCheck : rightsToCheck)
+                    if (StringUtils.isNotEmpty(rightToCheck))
                     {
-                        if (StringUtils.isNotEmpty(rightToCheck))
+                        String rightContext = rights.get(rightToCheck) != null ? rights.get(rightToCheck) : "";
+                        if (_rightsManager instanceof HierarchicalRightsManager)
                         {
-                            // Check the user has at least the right on a current context
-                            Set<String> contexts = _rightsManager.getUserRightContexts(userLogin, rightToCheck);
-                            for (String context : contexts)
+                            // Check right on context/*
+                            if (((HierarchicalRightsManager) _rightsManager).hasRightOnContextPrefix(userLogin, rightToCheck, rightContext) == RightResult.RIGHT_OK)
                             {
-                                if (context.startsWith(_rightsContextPrefixEP.getContextPrefix() + (rights.get(rightToCheck) != null ? rights.get(rightToCheck) : "")))
-                                {
-                                    return true;
-                                }
+                                return true;
+                            }
+                        }
+                        else
+                        {
+                            // Check right on exact context
+                            if (_rightsManager.hasRight(userLogin, rightToCheck, rightContext) == RightResult.RIGHT_OK)
+                            {
+                                return true;
                             }
                         }
                     }
-                    
-                    return false;
                 }
+                
+                return false;
             }
         }
     }
