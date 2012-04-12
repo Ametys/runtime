@@ -36,8 +36,8 @@ public interface CurrentUserProvider
     boolean isSuperUser();
     
     /**
-     * Provides the login of the current user.
-     * @return the login which cannot be <code>null</code>.
+     * Provides the login of the current logged user.
+     * @return the login of current user or <code>null</code> if there is no logged user.
      */
     String getUser();
 }
