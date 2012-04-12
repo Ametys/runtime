@@ -20,7 +20,7 @@ Ext.namespace('org.ametys.servercomm');
  * Creates a message for the server
  * @constructor
  * @class This class is a message for the server
- * @param {String} plugin The name of the server plugin targeted. Can be null to send to server root.
+ * @param {String} pluginOrWorkspace The name of the server plugin or workpace targeted. Can be null to send to current workspace. Prefix by '_' to target a specific workspace.
  * @param {String} url The url on the server relative to the plugin
  * @param {Map<String, String>} parameters The parameters to send to the server
  * @param {integer} priority The priority of the message. Use org.ametys.servercomm.ServerComm.PRIORITY_*.
@@ -31,9 +31,9 @@ Ext.namespace('org.ametys.servercomm');
  * @param {String[]} callbackarguments An array of string that will be given as arguments of the callback. Optionnal
  * @param {String} responseType Can be "xml" (default) to have a xml response, "text" to have a single text node response or "xml2text" to have a single text node response where xml prologue as text is removed
  */
-org.ametys.servercomm.ServerMessage = function(plugin, url, parameters, priority, callback, callbackscope, callbackarguments, responseType)
+org.ametys.servercomm.ServerMessage = function(pluginOrWorkspace, url, parameters, priority, callback, callbackscope, callbackarguments, responseType)
 {
-	this._plugin = plugin;
+	this._pluginOrWorkspace = pluginOrWorkspace;
 	this._url = url;
 	this._parameters = parameters;
 	this._priority = priority;
@@ -47,14 +47,14 @@ org.ametys.servercomm.ServerMessage = function(plugin, url, parameters, priority
  * @private
  * @property {String} _plugin The name of the server plugin targeted. Can be null to send to server root.
  */
-org.ametys.servercomm.ServerMessage.prototype._plugin;
+org.ametys.servercomm.ServerMessage.prototype._pluginOrWorkspace;
 /**
  * Get the name of the server plugin targeted.
  * @return {String} The name of the server plugin targeted. Can be null to send to server root.
  */
 org.ametys.servercomm.ServerMessage.prototype.getPlugin = function()
 {
-	return this._plugin;
+	return this._pluginOrWorkspace;
 }
 
 /**
@@ -163,11 +163,7 @@ org.ametys.servercomm.ServerMessage.prototype.toRequest = function()
 {
 	var m = {};
 	
-	if (this._plugin != null)
-	{
-		m.plugin = this._plugin;
-	}
-	
+	m.pluginOrWorkspace = this._pluginOrWorkspace != null ? this._pluginOrWorkspace : '_' + context.workspaceName;
 	m.responseType = this._responseType;
 	m.url = this._url;
 	m.parameters = this._parameters;

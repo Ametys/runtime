@@ -104,7 +104,7 @@ public class DispatchGenerator extends ServiceableGenerator
 
             Map<String, Object> parameterObject = (Map<String, Object>) parametersAsMap.get(parameterKey);
 
-            String plugin = (String) parameterObject.get("plugin");
+            String pluginOrWorkspace = (String) parameterObject.get("pluginOrWorkspace");
             String relativeUrl = (String) parameterObject.get("url");
             String responseType = (String) parameterObject.get("responseType");
             
@@ -115,7 +115,7 @@ public class DispatchGenerator extends ServiceableGenerator
 
             try
             {
-                String url = _createUrl(plugin, relativeUrl, requestParameters);
+                String url = _createUrl(pluginOrWorkspace, relativeUrl, requestParameters);
                 
                 if (getLogger().isInfoEnabled())
                 {
@@ -149,7 +149,7 @@ public class DispatchGenerator extends ServiceableGenerator
             }
             catch (Throwable e)
             {
-                String message = String.format("Can not dispatch request '%s' : '%s' '%s' '%s'",  parameterKey , plugin,  relativeUrl,  requestParameters);
+                String message = String.format("Can not dispatch request '%s' : '%s' '%s' '%s'",  parameterKey , pluginOrWorkspace,  relativeUrl,  requestParameters);
                 
                 // Ensure SAXException are unrolled the right way
                 getLogger().error(message, new LocatedException(message, e));
@@ -261,16 +261,21 @@ public class DispatchGenerator extends ServiceableGenerator
         return value.replaceAll("&", "&amp;").replaceAll("<", "&lt;".replaceAll(">", "&gt;"));
     }
     
+    /**
+     * Create url to call
+     * @param pluginOrWorkspace the plugin or workspace name
+     * @param relativeUrl the relative url
+     * @param requestParameters the request parameters
+     * @return the full url
+     */
     @SuppressWarnings("unchecked")
-    private String _createUrl(String plugin, String relativeUrl, Map<String, Object> requestParameters)
+    protected String _createUrl(String pluginOrWorkspace, String relativeUrl, Map<String, Object> requestParameters)
     {
-        StringBuffer url = new StringBuffer("cocoon://");
-        if (plugin != null)
-        {
-            url.append("_plugins/");
-            url.append(plugin);
-            url.append("/");
-        }
+        StringBuffer url = new StringBuffer();
+        
+        String urlPrefix = _getUrlPrefix(pluginOrWorkspace);
+        url.append(urlPrefix);
+               
         if (relativeUrl.length() != 0 && relativeUrl.charAt(0) == '/')
         {
             url.append(relativeUrl.substring(1));
@@ -309,6 +314,29 @@ public class DispatchGenerator extends ServiceableGenerator
             }
             
             // TODO Do the opposite : request parameters => create a map
+        }
+        
+        return url.toString();
+    }
+    
+    /**
+     * Get the url prefix
+     * @param pluginOrWorkspace the plugin or workspace name
+     * @return the url prefix
+     */
+    protected String _getUrlPrefix (String pluginOrWorkspace)
+    {
+        StringBuffer url = new StringBuffer("cocoon://");
+        if (pluginOrWorkspace != null && !pluginOrWorkspace.startsWith("_"))
+        {
+            url.append("_plugins/");
+            url.append(pluginOrWorkspace);
+            url.append("/");
+        }
+        else if (pluginOrWorkspace != null)
+        {
+            url.append(pluginOrWorkspace);
+            url.append("/");
         }
         
         return url.toString();
