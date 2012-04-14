@@ -561,14 +561,6 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
         }
     }
 
-    /**
-     * @param length
-     * @param offset
-     * @param con
-     * @param selectClause
-     * @param sql
-     * @return
-     */
     private StringBuffer _addQuerySize(int length, int offset, Connection con, StringBuffer selectClause, StringBuffer sql)
     {
         if ((ConnectionHelper.getDatabaseType(con) == ConnectionHelper.DatabaseType.DATABASE_MYSQL)  
