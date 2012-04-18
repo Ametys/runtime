@@ -152,7 +152,8 @@
 	float:left;
 }
 
-.x-form-check-wrap {
+.ametys-fieldset-body .x-form-check-wrap,
+.rights-fieldset-body .x-form-check-wrap {
 	line-height: 14px;
 }
 .check-right-entry.x-form-item  
