@@ -55,3 +55,12 @@ org.ametys.form.MultiSelectField.prototype.onRender = function(ct, position)
 	    });
 	}
 }
+
+org.ametys.form.MultiSelectField.prototype.setWidth = function (width)
+{
+	org.ametys.form.MultiSelectField.superclass.setWidth.call(this, width);
+	if (this.fs != null)
+	{
+		this.fs.setWidth(width);
+	}
+}
