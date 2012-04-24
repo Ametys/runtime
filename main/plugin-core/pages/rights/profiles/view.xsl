@@ -217,6 +217,40 @@
 								}
 							}
 							
+							function select_all (id)
+							{
+								if (id != null)
+								{
+									var fd = Ext.getCmp(id);
+									fd.items.each (function (item) {item.setValue(true)});
+								}
+								else
+								{
+									for (var i=0; i &lt; RIGHTS_ID.length; i++)
+									{
+										var rightElmt = Ext.getCmp(RIGHTS_ID[i]);
+										rightElmt.setValue(true);
+									}
+								}
+							}
+							
+							function unselect_all (id)
+							{
+								if (id != null)
+								{
+									var fd = Ext.getCmp(id);
+									fd.items.each (function (item) {item.setValue(false)});
+								}
+								else
+								{
+									for (var i=0; i &lt; RIGHTS_ID.length; i++)
+									{
+										var rightElmt = Ext.getCmp(RIGHTS_ID[i]);
+										rightElmt.setValue(false);
+									}
+								}
+							}
+							
 							function onSelectProfil (grid, rowindex, e)
 							{
 								if (selectedElmt != null &amp;&amp; hasChanges)
@@ -362,6 +396,11 @@
 							_Category.hideElt(2);
 							_Category.hideElt(3);
 							
+							// Utils
+							var _utilsCategory = new org.ametys.ActionsPanel({title: 'Droits'});
+							_utilsCategory.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_SELECT_ALL"/>", "<xsl:value-of select="$resourcesPath"/>/img/rights/profiles/select_all.png", select_all);
+							_utilsCategory.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_UNSELECT_ALL"/>", "<xsl:value-of select="$resourcesPath"/>/img/rights/profiles/unselect_all.png", unselect_all);
+							_utilsCategory.setVisible(false);
 							
 							// Help
 							var helpCategory = new org.ametys.TextPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HELP_CATEGORY"/>'});
@@ -453,11 +492,19 @@
 								<xsl:variable name="category" select="category/@id"/>
 								<xsl:variable name="categoryKey" select="category"/>
 								RIGHTS_CATEGORY.push('<xsl:value-of select="$category"/>');
-								var cat_<xsl:value-of select="$category"/> = new org.ametys.Fieldset({
+								var cat_<xsl:value-of select="$category"/> = new org.ametys.TBarFieldset({
 										title : "<xsl:copy-of select="$categoryKey/*"/>",
 										layout: 'form',
 										id: "cat_<xsl:value-of select="$category"/>_edit",
-										cls: 'fieldset'
+										bbar: [new Ext.Button({
+											icon: '<xsl:value-of select="$resourcesPath"/>/img/rights/profiles/select_16.png',
+											tooltip: '<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_CATEGORY_SELECT_ALL"/>',
+											handler: function (){select_all ('cat_<xsl:value-of select="$category"/>_edit')}
+									    }), new Ext.Button({
+											icon: '<xsl:value-of select="$resourcesPath"/>/img/rights/profiles/unselect_16.png',
+											tooltip: '<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_CATEGORY_UNSELECT_ALL"/>',
+											handler: function (){unselect_all ('cat_<xsl:value-of select="$category"/>_edit')}
+									    })]
 								});
 								editRights.add(cat_<xsl:value-of select="$category"/>);	
 								var cat_<xsl:value-of select="$category"/>_read = new org.ametys.Fieldset({
@@ -498,7 +545,7 @@
 									border: false,
 									width: 277,
 									baseCls: 'admin-right-panel',
-								    items: [_Navigation, _Category, helpCategory]
+								    items: [_Navigation, _Category, _utilsCategory, helpCategory]
 							});
 							
 							var centerPanel = new Ext.Panel({
@@ -558,6 +605,7 @@
 											Ext.get(id + '_read').dom.style.display = display ? "" : "none";
 										}
 									}
+									_utilsCategory.setVisible(false);
 								}
 								else
 								{	
@@ -572,7 +620,7 @@
 										rightElmt.setValue(rights[id] != null);
 										rightElmt.addListener('check', needSave);
 									}
-									
+									_utilsCategory.setVisible(true);
 								}
 							}
 							

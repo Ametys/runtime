@@ -160,3 +160,21 @@
 {
 	margin-bottom: 0px;
 }
+
+.ametys-tbar-fieldset .ametys-fieldset-bbar {
+	clear: left;
+}
+
+.ametys-tbar-fieldset .ametys-fieldset-body {
+	clear: right;
+}
+.ametys-tbar-fieldset .ametys-fieldset-bbar .x-toolbar {
+	background: transparent none;
+	border: 0 none;
+    top: -25px;
+    display: inline;
+    float: right;
+    width: auto !important;
+    height: 0;
+    overflow: visible;
+}
