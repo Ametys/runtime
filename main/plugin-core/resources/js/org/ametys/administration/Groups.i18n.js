@@ -38,7 +38,6 @@ org.ametys.administration.Groups.createPanel = function ()
         dataIndex: 'name',
         
         width: 500,
-        
         editor: new Ext.form.TextField({
             allowBlank: false
         })
@@ -62,8 +61,10 @@ org.ametys.administration.Groups.createPanel = function ()
 	        fields: [
 	        	{name: 'id'},
 	        	{name: 'name'}
-	        ]
+	        ],
+	        sortInfo: {field : 'name', direction: "ASC"}
 		}),
+		
 		
 		hideHeaders: true,
 		sm: new Ext.grid.CellSelectionModel({singleSelect:true}),
@@ -86,9 +87,10 @@ org.ametys.administration.Groups.createPanel = function ()
 		store : new Ext.data.SimpleStore({
 				id:0,
 	        	fields: [
-	           	{name: 'user'},
-	           	{name: 'type'}
-	        ]
+	        	         {name: 'user'},
+	        	         {name: 'type'}
+	           	],
+	           	sortInfo: {field : 'user', direction: "ASC"}
 		}),
 		
 		hideHeaders: true,
@@ -191,7 +193,7 @@ org.ametys.administration.Groups._selectGroup = function (grid, rowindex, e)
 	{
 		var fullname = members[i].selectSingleNode("FullName")[org.ametys.servercomm.ServerComm.xmlTextContent];
 		var login =  members[i].getAttribute("login");
-		org.ametys.administration.Groups._listViewU.addElement(login, {user: fullname + "(" + login + ")"});
+		org.ametys.administration.Groups._listViewU.addElement(login, {user: fullname + "(" + login + ")"}, true);
 	}
 }
 
@@ -244,6 +246,8 @@ org.ametys.administration.Groups._editGroupLabel = function (store, record, oper
 			}
 		}
 		record.commit();
+		// Sort
+		org.ametys.administration.Groups._listViewGp.getStore().sort('name', 'ASC');
 	}
 }
 
@@ -280,7 +284,7 @@ org.ametys.administration.Groups.addUser = function ()
 			var e = seek(existingElements, i);
 			
 			if (e == null)
-				e = org.ametys.administration.Groups._listViewU.addElement(i, {"user": users[i], "type": "user"});
+				e = org.ametys.administration.Groups._listViewU.addElement(i, {"user": users[i], "type": "user"}, true);
 			selectedElements.push(e);
 		}
 		org.ametys.administration.Groups._needSave();
@@ -472,12 +476,13 @@ org.ametys.administration.Groups.add = function ()
 		id: id
 	}, id);
 	
-	org.ametys.administration.Groups._listViewGp.getStore().add([newEntry]);
+	org.ametys.administration.Groups._listViewGp.getStore().addSorted(newEntry);
 	org.ametys.administration.Groups._listViewU.getStore().removeAll();
 	
 	if(org.ametys.administration.Groups._listViewGp.getStore().getCount() &gt; 0)
 	{
-		org.ametys.administration.Groups._listViewGp.getSelectionModel().select(org.ametys.administration.Groups._listViewGp.getStore().getCount() -1, 0);
+		var index = org.ametys.administration.Groups._listViewGp.getStore().indexOfId(id);
+		org.ametys.administration.Groups._listViewGp.getSelectionModel().select(index, 0);
 	}
 	else
 	{
