@@ -49,16 +49,19 @@
 						org.ametys.administration.Groups._modifiable = true;
 					</xsl:if>
 					
-					
-					var mainPanel = org.ametys.administration.Groups.createPanel ();
-				                
-					<xsl:for-each select="groups/group">
+					function fillGroups ()
+					{
+						<xsl:for-each select="groups/group">
                         org.ametys.administration.Groups._listViewGp.addElement("<xsl:value-of select="escaper:escapeJavaScript(@id)"/>", 
                                 {
                                     id: "<xsl:value-of select="escaper:escapeJavaScript(@id)"/>",
                                     name : "<xsl:value-of select="escaper:escapeJavaScript(label)"/>"
-                                });
-                    </xsl:for-each>	
+                                }, true);
+                    	</xsl:for-each>	
+					}
+					var mainPanel = org.ametys.administration.Groups.createPanel ();
+				    
+				    org.ametys.administration.Groups._listViewGp.addListener('render', fillGroups, org.ametys.administration.Groups._listViewGp);         
 					
 					org.ametys.runtime.administrator.Panel.createPanel = function () 
 					{
