@@ -53,12 +53,21 @@ org.ametys.EditorListView.prototype.setMultipleSelection = function (multiple)
  * Add a new record in the grid
  * @param idElmt The record id. Can be null to be generated
  * @param elmtMap The record element in a map {columnid: value, columnid: value, ...}
+ * @param sorted true to insert element basing on the current sort information
  */
-org.ametys.EditorListView.prototype.addElement = function (idElmt, elmtMap)
+org.ametys.EditorListView.prototype.addElement = function (idElmt, elmtMap, sorted)
 {
 	var record = this.store.recordType;
 	var newEntry = new record(elmtMap, idElmt);
-	this.store.add([newEntry]);
+	
+	if (sorted)
+	{
+		this.store.addSorted(newEntry);
+	}
+	else
+	{
+		this.store.add([newEntry]);
+	}
 }
 
 /**
