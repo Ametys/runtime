@@ -296,5 +296,18 @@ public abstract class AbstractProfileBasedRightsManagerTestCase extends Abstract
         profileRightsManager.removeGroupProfiles(group.getId(), null);
         rights = profileRightsManager.getUserRights(userLogin, null);
         assertEquals(0, rights.size());
+        
+        // Context update and removal.
+        profileRightsManager.addUserRight("test", "/context", profile2.getId());
+        
+        profileRightsManager.updateContext("/context", "/newcontext");
+        rights = profileRightsManager.getUserRights("test", "/context");
+        assertEquals(0, rights.size());
+        rights = profileRightsManager.getUserRights("test", "/newcontext");
+        assertEquals(1, rights.size());
+        
+        profileRightsManager.removeAll("/newcontext");
+        rights = profileRightsManager.getUserRights("test", "/newcontext");
+        assertEquals(0, rights.size());
     }
 }

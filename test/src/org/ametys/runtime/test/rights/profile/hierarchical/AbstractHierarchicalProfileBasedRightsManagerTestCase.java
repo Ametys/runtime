@@ -27,6 +27,7 @@ import org.ametys.runtime.plugins.core.right.profile.HierarchicalProfileBasedRig
 import org.ametys.runtime.plugins.core.right.profile.Profile;
 import org.ametys.runtime.plugins.core.right.profile.ProfileBasedRightsManager;
 import org.ametys.runtime.right.RightsManager;
+import org.ametys.runtime.right.RightsManager.RightResult;
 import org.ametys.runtime.test.AbstractJDBCTestCase;
 import org.ametys.runtime.test.Init;
 
@@ -229,6 +230,7 @@ public abstract class AbstractHierarchicalProfileBasedRightsManagerTestCase exte
         _setDatabase(Arrays.asList(getPopulateScripts()));
         
         Set<String> rights;
+        RightResult result;
         
         for (Profile profile : profileRightsManager.getProfiles())
         {
@@ -294,6 +296,81 @@ public abstract class AbstractHierarchicalProfileBasedRightsManagerTestCase exte
 
         profileRightsManager.removeGroupProfiles(group.getId(), null);
         rights = profileRightsManager.getUserRights(userLogin, null);
+        assertEquals(0, rights.size());
+        
+        
+        // Context update and removal.
+        Profile profile = profileRightsManager.addProfile("MyProfile");
+        profile.addRight("myright");
+        Profile profileA = profileRightsManager.addProfile("ProfileA");
+        Profile profileB = profileRightsManager.addProfile("ProfileB");
+        Profile profileC = profileRightsManager.addProfile("ProfileC");
+        Profile profileD = profileRightsManager.addProfile("ProfileD");
+        Profile profileE = profileRightsManager.addProfile("ProfileE");
+        profileA.addRight("rightA");
+        profileB.addRight("rightB");
+        profileC.addRight("rightC");
+        profileD.addRight("rightD");
+        profileE.addRight("rightE");
+        
+        profileRightsManager.addUserRight("test", "/context", profile.getId());
+        profileRightsManager.addUserRight("test", "/context/a", profileA.getId());
+        profileRightsManager.addUserRight("test", "/context/a/b", profileB.getId());
+        profileRightsManager.addUserRight("test", "/context/a/b/c", profileC.getId());
+        profileRightsManager.addUserRight("test", "/context/aaa", profileD.getId());
+        profileRightsManager.addUserRight("test", "/context/aaa/bbb", profileE.getId());
+        profileRightsManager.addUserRight("test", "/context/ddd", profileD.getId());
+        
+        rights = profileRightsManager.getUserRights("test", "/context");
+        assertEquals(1, rights.size());
+        
+        profileRightsManager.updateContext("/context", "/newcontext");
+        rights = profileRightsManager.getUserRights("test", "/context");
+        assertEquals(0, rights.size());
+        rights = profileRightsManager.getUserRights("test", "/context/a/b/c");
+        assertEquals(0, rights.size());
+        rights = profileRightsManager.getUserRights("test", "/newcontext");
+        assertEquals(1, rights.size());
+        rights = profileRightsManager.getUserRights("test", "/newcontext/a/b/c");
+        assertEquals(4, rights.size());
+        
+        profileRightsManager.removeUserProfile("test", profile.getId(), "/newcontext");
+        
+        profileRightsManager.updateContext("/newcontext/a", "/newcontext/d");
+        
+        rights = profileRightsManager.getUserRights("test", "/newcontext/a");
+        assertEquals(0, rights.size());
+        rights = profileRightsManager.getUserRights("test", "/newcontext/d");
+        assertEquals(1, rights.size());
+        rights = profileRightsManager.getUserRights("test", "/newcontext/aaa");
+        assertEquals(1, rights.size());
+        
+        result = profileRightsManager.hasRight("test", "rightA", "/newcontext/a");
+        assertEquals(RightResult.RIGHT_NOK, result);
+        
+        result = profileRightsManager.hasRight("test", "rightA", "/newcontext/d");
+        assertEquals(RightResult.RIGHT_OK, result);
+        
+        result = profileRightsManager.hasRight("test", "rightC", "/newcontext/a/b/c");
+        assertEquals(RightResult.RIGHT_NOK, result);
+        
+        result = profileRightsManager.hasRight("test", "rightC", "/newcontext/d/b/c");
+        assertEquals(RightResult.RIGHT_OK, result);
+        
+        result = profileRightsManager.hasRight("test", "rightD", "/newcontext/aaa");
+        assertEquals(RightResult.RIGHT_OK, result);
+        
+        result = profileRightsManager.hasRight("test", "rightE", "/newcontext/aaa/bbb");
+        assertEquals(RightResult.RIGHT_OK, result);
+        
+        profileRightsManager.removeAll("/newcontext/d");
+        rights = profileRightsManager.getUserRights("test", "/newcontext/ddd");
+        assertEquals(1, rights.size());
+        
+        profileRightsManager.removeAll("/newcontext");
+        rights = profileRightsManager.getUserRights("test", "/newcontext/ddd");
+        assertEquals(0, rights.size());
+        rights = profileRightsManager.getUserRights("test", "/newcontext");
         assertEquals(0, rights.size());
     }
 }

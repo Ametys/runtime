@@ -39,7 +39,11 @@ public class MysqlProfileBasedRightsManagerTestCase extends AbstractProfileBased
     @Override
     protected File[] getScripts()
     {
-        return new File[] {new File("main/plugin-core/scripts/mysql/profile_rights.sql")};
+        return new File[] {
+            new File("main/plugin-core/scripts/mysql/jdbc_users.sql"),
+            new File("main/plugin-core/scripts/mysql/jdbc_groups.sql"),
+            new File("main/plugin-core/scripts/mysql/profile_rights.sql")
+        };
     }
     
     @Override
