@@ -204,6 +204,8 @@
                     <xsl:if test="$accept-ff-8.0 = 'true'">(userAgent.indexOf("firefox/8.0") >= 0) ||</xsl:if>
                     <xsl:if test="$accept-ff-9.0 = 'true'">(userAgent.indexOf("firefox/9.0") >= 0) ||</xsl:if>
                     <xsl:if test="$accept-ff-10.0 = 'true'">(userAgent.indexOf("firefox/10.0") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-ff-11.0 = 'true'">(userAgent.indexOf("firefox/10.0") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-ff-12.0 = 'true'">(userAgent.indexOf("firefox/10.0") >= 0) ||</xsl:if>
                     
                     <xsl:if test="$accept-sa-3   = 'true'">(userAgent.indexOf("safari/") >= 0 &amp;&amp; userAgent.indexOf("version/3.") >= 0) ||</xsl:if>
                     <xsl:if test="$accept-sa-4   = 'true'">(userAgent.indexOf("safari/") >= 0 &amp;&amp; userAgent.indexOf("version/4.") >= 0) ||</xsl:if>
@@ -225,6 +227,12 @@
                     <xsl:if test="$accept-ch-10  = 'true'">(userAgent.indexOf("chrome/10.") >= 0) ||</xsl:if>
                     <xsl:if test="$accept-ch-11  = 'true'">(userAgent.indexOf("chrome/11.") >= 0) ||</xsl:if>
                     <xsl:if test="$accept-ch-12  = 'true'">(userAgent.indexOf("chrome/12.") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-ch-13  = 'true'">(userAgent.indexOf("chrome/12.") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-ch-14  = 'true'">(userAgent.indexOf("chrome/12.") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-ch-15  = 'true'">(userAgent.indexOf("chrome/12.") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-ch-16  = 'true'">(userAgent.indexOf("chrome/12.") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-ch-17  = 'true'">(userAgent.indexOf("chrome/12.") >= 0) ||</xsl:if>
+                    <xsl:if test="$accept-ch-18  = 'true'">(userAgent.indexOf("chrome/12.") >= 0) ||</xsl:if>
                     <xsl:text>1 == 0))</xsl:text>
                 {
             		<!-- Check the cookie for forcing non supported navigators -->
