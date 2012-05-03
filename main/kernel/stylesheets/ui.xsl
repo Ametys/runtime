@@ -109,6 +109,8 @@
         <xsl:param name="accept-ff-8.0">false</xsl:param>
         <xsl:param name="accept-ff-9.0">false</xsl:param>
         <xsl:param name="accept-ff-10.0">false</xsl:param>
+        <xsl:param name="accept-ff-11.0">false</xsl:param>
+        <xsl:param name="accept-ff-12.0">false</xsl:param>
         <xsl:param name="accept-sa-3">false</xsl:param>
         <xsl:param name="accept-sa-4">false</xsl:param>
         <xsl:param name="accept-sa-5.0">false</xsl:param>
@@ -129,6 +131,10 @@
         <xsl:param name="accept-ch-12">false</xsl:param>
         <xsl:param name="accept-ch-13">false</xsl:param>
         <xsl:param name="accept-ch-14">false</xsl:param>
+        <xsl:param name="accept-ch-15">false</xsl:param>
+        <xsl:param name="accept-ch-16">false</xsl:param>
+        <xsl:param name="accept-ch-17">false</xsl:param>
+        <xsl:param name="accept-ch-18">false</xsl:param>
         <xsl:param name="debug-mode">false</xsl:param>
         <xsl:param name="load-cb"/>
         <xsl:param name="use-css-component">true</xsl:param>
@@ -201,6 +207,8 @@
 	                    <xsl:if test="$accept-ff-8.0 = 'true'">(userAgent.indexOf("firefox/8.0") >= 0) ||</xsl:if>
 	                    <xsl:if test="$accept-ff-9.0 = 'true'">(userAgent.indexOf("firefox/9.0") >= 0) ||</xsl:if>
 	                    <xsl:if test="$accept-ff-10.0 = 'true'">(userAgent.indexOf("firefox/10.0") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ff-11.0 = 'true'">(userAgent.indexOf("firefox/11.0") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ff-12.0 = 'true'">(userAgent.indexOf("firefox/12.0") >= 0) ||</xsl:if>
 	                    
 	                    <xsl:if test="$accept-sa-3   = 'true'">(userAgent.indexOf("safari/") >= 0 &amp;&amp; userAgent.indexOf("version/3.") >= 0) ||</xsl:if>
 	                    <xsl:if test="$accept-sa-4   = 'true'">(userAgent.indexOf("safari/") >= 0 &amp;&amp; userAgent.indexOf("version/4.") >= 0) ||</xsl:if>
@@ -224,6 +232,10 @@
 	                    <xsl:if test="$accept-ch-12  = 'true'">(userAgent.indexOf("chrome/12.") >= 0) ||</xsl:if>
 	                    <xsl:if test="$accept-ch-13  = 'true'">(userAgent.indexOf("chrome/13.") >= 0) ||</xsl:if>
 	                    <xsl:if test="$accept-ch-14  = 'true'">(userAgent.indexOf("chrome/14.") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ch-14  = 'true'">(userAgent.indexOf("chrome/15.") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ch-14  = 'true'">(userAgent.indexOf("chrome/16.") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ch-14  = 'true'">(userAgent.indexOf("chrome/17.") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ch-14  = 'true'">(userAgent.indexOf("chrome/18.") >= 0) ||</xsl:if>
 	                    <xsl:text>1 == 0))</xsl:text>
 	                {
 	            		<!-- Check the cookie for forcing non supported navigators -->
