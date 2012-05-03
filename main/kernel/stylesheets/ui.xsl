@@ -232,10 +232,10 @@
 	                    <xsl:if test="$accept-ch-12  = 'true'">(userAgent.indexOf("chrome/12.") >= 0) ||</xsl:if>
 	                    <xsl:if test="$accept-ch-13  = 'true'">(userAgent.indexOf("chrome/13.") >= 0) ||</xsl:if>
 	                    <xsl:if test="$accept-ch-14  = 'true'">(userAgent.indexOf("chrome/14.") >= 0) ||</xsl:if>
-	                    <xsl:if test="$accept-ch-14  = 'true'">(userAgent.indexOf("chrome/15.") >= 0) ||</xsl:if>
-	                    <xsl:if test="$accept-ch-14  = 'true'">(userAgent.indexOf("chrome/16.") >= 0) ||</xsl:if>
-	                    <xsl:if test="$accept-ch-14  = 'true'">(userAgent.indexOf("chrome/17.") >= 0) ||</xsl:if>
-	                    <xsl:if test="$accept-ch-14  = 'true'">(userAgent.indexOf("chrome/18.") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ch-15  = 'true'">(userAgent.indexOf("chrome/15.") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ch-16  = 'true'">(userAgent.indexOf("chrome/16.") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ch-17  = 'true'">(userAgent.indexOf("chrome/17.") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ch-18  = 'true'">(userAgent.indexOf("chrome/18.") >= 0) ||</xsl:if>
 	                    <xsl:text>1 == 0))</xsl:text>
 	                {
 	            		<!-- Check the cookie for forcing non supported navigators -->
