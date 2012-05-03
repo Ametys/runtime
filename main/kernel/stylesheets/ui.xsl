@@ -108,6 +108,8 @@
         <xsl:param name="accept-ff-8.0">false</xsl:param>
         <xsl:param name="accept-ff-9.0">false</xsl:param>
         <xsl:param name="accept-ff-10.0">false</xsl:param>
+        <xsl:param name="accept-ff-11.0">false</xsl:param>
+        <xsl:param name="accept-ff-12.0">false</xsl:param>
         <xsl:param name="accept-sa-3">false</xsl:param>
         <xsl:param name="accept-sa-4">false</xsl:param>
         <xsl:param name="accept-sa-5.0">false</xsl:param>
@@ -128,6 +130,10 @@
         <xsl:param name="accept-ch-12">false</xsl:param>
         <xsl:param name="accept-ch-13">false</xsl:param>
         <xsl:param name="accept-ch-14">false</xsl:param>
+        <xsl:param name="accept-ch-15">false</xsl:param>
+        <xsl:param name="accept-ch-16">false</xsl:param>
+        <xsl:param name="accept-ch-17">false</xsl:param>
+        <xsl:param name="accept-ch-18">false</xsl:param>
         <xsl:param name="debug-mode">false</xsl:param>
         <xsl:param name="load-cb"/>
         <xsl:param name="use-css-component">true</xsl:param>
