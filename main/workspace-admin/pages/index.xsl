@@ -18,7 +18,7 @@
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
                 xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
 	
-	<xsl:import href="resource://org/ametys/runtime/kernel/stylesheets/plugins.xsl"/>
+	<xsl:import href="kernel://stylesheets/plugins.xsl"/>
     <xsl:import href="core/template.xsl"/>
     
     <xsl:param name="workspaceName"/>

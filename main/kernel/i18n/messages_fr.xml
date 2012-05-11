@@ -25,7 +25,6 @@
     <!-- DEFAULT VALIDATOR -->
     <message key="KERNEL_DEFAULT_VALIDATOR_MANDATORY">Ce champ est obligatoire</message>
     <message key="KERNEL_DEFAULT_VALIDATOR_PATTERN_FAILED">La valeur de ce champ n'est pas valide</message>
-    <message key="KERNEL_PASSWORD_VALIDATOR_TITLE">Mot de passe invalide</message>
     <message key="KERNEL_PASSWORD_VALIDATOR">Le mot de passe et sa confirmation ne sont pas identiques</message>
     <message key="KERNEL_PASSWORD_CLEAR">Remettre le mot de passe à sa valeur initiale</message>
 	<message key="KERNEL_PASSWORD_CHANGE">Cliquez ici pour changer le mot de passe</message>

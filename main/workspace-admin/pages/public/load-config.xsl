@@ -25,43 +25,43 @@
     <xsl:param name="workspaceURI"/>
 	
     <xsl:template name="workspace-script">
-           	<script type="text/javascript">
-           		var item = new org.ametys.DesktopItem ({
-	           			text: "<i18n:text i18n:key="WORKSPACE_ADMIN_CONFIG_ACT"/>",
-						desc: "<i18n:text i18n:key="WORKSPACE_ADMIN_CONFIG_DESCRIPTION"/>",
-						icon: "<xsl:value-of select="$contextPath"/>/plugins/core/resources/img/administrator/config/icon_large.png",
-						iconOver: "<xsl:value-of select="$contextPath"/>/plugins/core/resources/img/administrator/config/icon_large_over.png",
-						plugin: "core",
-	                    actionFunction : org.ametys.runtime.Link,
-	                    actionParams : {"Link" : "administrator/config/edit.html", "Mode" : "plugin-wrapped"}
+<!--            	<script type="text/javascript"> -->
+<!--            		var item = new org.ametys.DesktopItem ({ -->
+<!-- 	           			text: "<i18n:text i18n:key="WORKSPACE_ADMIN_CONFIG_ACT"/>", -->
+<!-- 						desc: "<i18n:text i18n:key="WORKSPACE_ADMIN_CONFIG_DESCRIPTION"/>", -->
+<!-- 						icon: "<xsl:value-of select="$contextPath"/>/plugins/core/resources/img/administrator/config/icon_large.png", -->
+<!-- 						iconOver: "<xsl:value-of select="$contextPath"/>/plugins/core/resources/img/administrator/config/icon_large_over.png", -->
+<!-- 						plugin: "core", -->
+<!-- 	                    actionFunction : org.ametys.runtime.Link, -->
+<!-- 	                    actionParams : {"Link" : "administrator/config/edit.html", "Mode" : "plugin-wrapped"} -->
 						
-				});
+<!-- 				}); -->
 				
-				var top = new org.ametys.HtmlContainer({
-					region: 'north',
-					contentEl : 'top-panel',
-					cls: 'top-panel',
-					border: false
-				}); 	
+<!-- 				var top = new org.ametys.HtmlContainer({ -->
+<!-- 					region: 'north', -->
+<!-- 					contentEl : 'top-panel', -->
+<!-- 					cls: 'top-panel', -->
+<!-- 					border: false -->
+<!-- 				}); 	 -->
 				
-				var center = new Ext.Panel({
-					region: 'center',
-					baseCls: 'center-panel',
-					border: false,
-					items : [item]
-				}); 	
+<!-- 				var center = new Ext.Panel({ -->
+<!-- 					region: 'center', -->
+<!-- 					baseCls: 'center-panel', -->
+<!-- 					border: false, -->
+<!-- 					items : [item] -->
+<!-- 				}); 	 -->
 				
-           		org.ametys.runtime.HomePage.createPanel = function ()
-           		{
-           			return new Ext.Panel({
-           				border: false,
-           				layout: 'border',
-           				autoScroll: true,
-           				baseCls: 'transparent-panel',
-						items : [top, center]
-					});
-           		}
-           	</script>
+<!--            		org.ametys.runtime.HomePage.createPanel = function () -->
+<!--            		{ -->
+<!--            			return new Ext.Panel({ -->
+<!--            				border: false, -->
+<!--            				layout: 'border', -->
+<!--            				autoScroll: true, -->
+<!--            				baseCls: 'transparent-panel', -->
+<!-- 						items : [top, center] -->
+<!-- 					}); -->
+<!--            		} -->
+<!--            	</script> -->
            	<link type="text/css" href="{$contextPath}{$workspaceURI}/resources/css/public.css" rel="stylesheet" />
     </xsl:template>
     

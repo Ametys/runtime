@@ -21,7 +21,6 @@
     <!-- UI -->
     <message key="KERNEL_UI_LISTVIEW_PREVIEW_NOTAVAILABLE">No preview available</message>
     <message key="KERNEL_DIALOG_ERRORREADINGURL">An error occurred during loading of resource</message>
-    <message key="KERNEL_PASSWORD_VALIDATOR_TITLE">Invalid password</message>
     <message key="KERNEL_PASSWORD_VALIDATOR">The password and the confirmation are not the same</message>
     <message key="KERNEL_PASSWORD_CLEAR">Reset password to previous value</message>
 	<message key="KERNEL_PASSWORD_CHANGE">Click here to change the password</message>

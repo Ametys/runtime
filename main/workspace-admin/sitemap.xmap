@@ -181,7 +181,7 @@
 				<map:select type="exception">
 					<map:when test="not-found">
 		        		<map:generate type="exception" label="content"/>
-		          		<map:transform src="resource://org/ametys/runtime/kernel/pages/error/error.xsl">
+		          		<map:transform src="kernel://pages/error/error.xsl">
 	    	        		<map:parameter name="contextPath" value="{request:contextPath}"/>
 		            		<map:parameter name="realpath" value="{realpath:}"/>
 		            		<map:parameter name="pageTitle" value="ADMINISTRATION - Resource not found"/>
@@ -195,7 +195,7 @@
 					<map:when test="authorization-required">
 						<map:act type="set-authorization-header"/>
 		        		<map:generate type="exception" label="content"/>
-		          		<map:transform src="resource://org/ametys/runtime/kernel/pages/error/error.xsl">
+		          		<map:transform src="kernel://pages/error/error.xsl">
 	    	        		<map:parameter name="contextPath" value="{request:contextPath}"/>
 		            		<map:parameter name="realpath" value="{realpath:}"/>
 		            		<map:parameter name="code" value="401"/>
@@ -208,7 +208,7 @@
 					</map:when>
 					<map:when test="access-denied">
 		        		<map:generate type="exception" label="content"/>
-		          		<map:transform src="resource://org/ametys/runtime/kernel/pages/error/error.xsl">
+		          		<map:transform src="kernel://pages/error/error.xsl">
 	    	        		<map:parameter name="contextPath" value="{request:contextPath}"/>
 		            		<map:parameter name="realpath" value="{realpath:}"/>
 		            		<map:parameter name="pageTitle" value="ADMINISTRATION - Access denied"/>
@@ -221,7 +221,7 @@
 					</map:when>
 					<map:otherwise>					
 		        		<map:generate type="exception" label="content"/>
-		          		<map:transform src="resource://org/ametys/runtime/kernel/pages/error/error.xsl">
+		          		<map:transform src="kernel://pages/error/error.xsl">
 	    	        		<map:parameter name="contextPath" value="{request:contextPath}"/>
 		            		<map:parameter name="realpath" value="{realpath:}"/>
 		            		<map:parameter name="code" value="500"/>

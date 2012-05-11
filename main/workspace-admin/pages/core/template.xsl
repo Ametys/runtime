@@ -20,13 +20,13 @@
                 xmlns:xalan="http://xml.apache.org/xalan"
                 exclude-result-prefixes="xalan">
 	
-    <xsl:import href="resource://org/ametys/runtime/kernel/stylesheets/ui.xsl"/>
+    <xsl:import href="kernel://stylesheets/kernel.xsl"/>
     
     <xsl:param name="contextPath"/>
     <xsl:param name="workspaceName"/>
     <xsl:param name="workspaceURI"/>
     
-    <xsl:variable name="workspaceContext"><xsl:value-of select="$contextPath"/><xsl:value-of select="$workspaceURI"/></xsl:variable>
+    <xsl:variable name="workspaceContext" select="concat($contextPath, '/', $workspaceURI)"/>
     
     <xsl:template name="administrator-css">
 		<style type="text/css">
@@ -78,112 +78,131 @@
 	
 	<xsl:template name="workspace-ui-load">
 		<!-- loading ui library -->
-        <xsl:call-template name="ui-load">
-            <xsl:with-param name="pluginsDirectContext" select="concat($workspaceContext, '/plugins')"/>
-            <xsl:with-param name="pluginsWrappedContext" select="concat($workspaceContext, '/_plugins')"/>
+        <xsl:call-template name="kernel-base">
+            <xsl:with-param name="plugins-direct-prefix" select="'/plugins'"/>
+            <xsl:with-param name="plugins-wrapped-prefix" select="'/_plugins'"/>
+            <xsl:with-param name="debug-mode">true</xsl:with-param>
+            <xsl:with-param name="context-path" select="$contextPath"/>
+            <xsl:with-param name="workspace-name" select="$workspaceName"/>
+            <xsl:with-param name="workspace-prefix" select="$workspaceURI"/>
+            <xsl:with-param name="max-upload-size" select="''"/>
+            <xsl:with-param name="authorized-browsers">{ 
+            	'supported': { 'ie': '7-9', 'ff': '4-12', 'sa': '5', 'op': '10-11.9'}, 
+            	'not-supported': {'ie': '0-6', 'ff': '0-3.5', 'ch': '0-9', 'sa': '0-4', 'op': '0-9.9'}, 
+            	'warning-redirection': '<xsl:value-of select="$workspaceURI"/>/public/navigator.html', 
+            	'failure-redirection': '<xsl:value-of select="$workspaceURI"/>/public/navigator.html'
+            }</xsl:with-param>
+            <xsl:with-param name="use-css-component">false</xsl:with-param>
+            <xsl:with-param name="use-js-component">false</xsl:with-param>
         </xsl:call-template>
         
         <!-- Check navigator is supported -->
-        <xsl:call-template name="ui-tools-load">
-            <xsl:with-param name="bad-navigator-redirection"><xsl:value-of select="$workspaceContext"/>/public/navigator.html</xsl:with-param>
+<!--         <xsl:call-template name="ui-tools-load"> -->
+<!--             <xsl:with-param name="bad-navigator-redirection"><xsl:value-of select="$workspaceContext"/>/public/navigator.html</xsl:with-param> -->
 
-            <xsl:with-param name="accept-ie-6">true</xsl:with-param>
-            <xsl:with-param name="accept-ie-7">true</xsl:with-param>
-            <xsl:with-param name="accept-ie-8">true</xsl:with-param>
-            <xsl:with-param name="accept-ie-9">true</xsl:with-param>
-            <xsl:with-param name="accept-ff-1.0">false</xsl:with-param>
-            <xsl:with-param name="accept-ff-1.5">true</xsl:with-param>
-            <xsl:with-param name="accept-ff-2.0">true</xsl:with-param>
-            <xsl:with-param name="accept-ff-3.0">true</xsl:with-param>
-            <xsl:with-param name="accept-ff-3.5">true</xsl:with-param>
-            <xsl:with-param name="accept-ff-3.6">true</xsl:with-param>
-            <xsl:with-param name="accept-ff-4.0">true</xsl:with-param>
-            <xsl:with-param name="accept-ff-5.0">true</xsl:with-param>
-            <xsl:with-param name="accept-ff-6.0">true</xsl:with-param>
-            <xsl:with-param name="accept-ff-7.0">true</xsl:with-param>
-            <xsl:with-param name="accept-ff-8.0">true</xsl:with-param>
-            <xsl:with-param name="accept-ff-9.0">true</xsl:with-param>
-            <xsl:with-param name="accept-ff-10.0">true</xsl:with-param>
-            <xsl:with-param name="accept-sa-3">true</xsl:with-param>
-            <xsl:with-param name="accept-sa-4">true</xsl:with-param>
-            <xsl:with-param name="accept-sa-5.0">true</xsl:with-param>
-            <xsl:with-param name="accept-op-9">true</xsl:with-param>
-            <xsl:with-param name="accept-op-10">true</xsl:with-param>
-            <xsl:with-param name="accept-ch-1">true</xsl:with-param>
-            <xsl:with-param name="accept-ch-2">true</xsl:with-param>
-            <xsl:with-param name="accept-ch-3">true</xsl:with-param>
-            <xsl:with-param name="accept-ch-4">true</xsl:with-param>
-            <xsl:with-param name="accept-ch-5">true</xsl:with-param>
-            <xsl:with-param name="accept-ch-6">true</xsl:with-param>
-            <xsl:with-param name="accept-ch-7">true</xsl:with-param>
-            <xsl:with-param name="accept-ch-8">true</xsl:with-param>
-            <xsl:with-param name="accept-ch-9">true</xsl:with-param>
-            <xsl:with-param name="accept-ch-10">true</xsl:with-param>
-            <xsl:with-param name="accept-ch-11">true</xsl:with-param>
-            <xsl:with-param name="accept-ch-12">true</xsl:with-param>
-            <xsl:with-param name="accept-ch-13">true</xsl:with-param>
-            <xsl:with-param name="accept-ch-14">true</xsl:with-param>
-            <xsl:with-param name="use-css-component">false</xsl:with-param>
-            <xsl:with-param name="use-js-component">false</xsl:with-param>
-            <xsl:with-param name="debug-mode">true</xsl:with-param>
-    	</xsl:call-template>
+<!--             <xsl:with-param name="accept-ie-6">true</xsl:with-param> -->
+<!--             <xsl:with-param name="accept-ie-7">true</xsl:with-param> -->
+<!--             <xsl:with-param name="accept-ie-8">true</xsl:with-param> -->
+<!--             <xsl:with-param name="accept-ie-9">true</xsl:with-param> -->
+<!--             <xsl:with-param name="accept-ff-1.0">false</xsl:with-param> -->
+<!--             <xsl:with-param name="accept-ff-1.5">true</xsl:with-param> -->
+<!--             <xsl:with-param name="accept-ff-2.0">true</xsl:with-param> -->
+<!--             <xsl:with-param name="accept-ff-3.0">true</xsl:with-param> -->
+<!--             <xsl:with-param name="accept-ff-3.5">true</xsl:with-param> -->
+<!--             <xsl:with-param name="accept-ff-3.6">true</xsl:with-param> -->
+<!--             <xsl:with-param name="accept-ff-4.0">true</xsl:with-param> -->
+<!--             <xsl:with-param name="accept-ff-5.0">true</xsl:with-param> -->
+<!--             <xsl:with-param name="accept-ff-6.0">true</xsl:with-param> -->
+<!--             <xsl:with-param name="accept-ff-7.0">true</xsl:with-param> -->
+<!--             <xsl:with-param name="accept-ff-8.0">true</xsl:with-param> -->
+<!--             <xsl:with-param name="accept-ff-9.0">true</xsl:with-param> -->
+<!--             <xsl:with-param name="accept-ff-10.0">true</xsl:with-param> -->
+<!--            <xsl:with-param name="accept-ff-11.0">true</xsl:with-param>-->
+<!--            <xsl:with-param name="accept-ff-12.0">true</xsl:with-param>-->
+<!--             <xsl:with-param name="accept-sa-3">true</xsl:with-param> -->
+<!--             <xsl:with-param name="accept-sa-4">true</xsl:with-param> -->
+<!--             <xsl:with-param name="accept-sa-5.0">true</xsl:with-param> -->
+<!--             <xsl:with-param name="accept-op-9">true</xsl:with-param> -->
+<!--             <xsl:with-param name="accept-op-10">true</xsl:with-param> -->
+<!--             <xsl:with-param name="accept-ch-1">true</xsl:with-param> -->
+<!--             <xsl:with-param name="accept-ch-2">true</xsl:with-param> -->
+<!--             <xsl:with-param name="accept-ch-3">true</xsl:with-param> -->
+<!--             <xsl:with-param name="accept-ch-4">true</xsl:with-param> -->
+<!--             <xsl:with-param name="accept-ch-5">true</xsl:with-param> -->
+<!--             <xsl:with-param name="accept-ch-6">true</xsl:with-param> -->
+<!--             <xsl:with-param name="accept-ch-7">true</xsl:with-param> -->
+<!--             <xsl:with-param name="accept-ch-8">true</xsl:with-param> -->
+<!--             <xsl:with-param name="accept-ch-9">true</xsl:with-param> -->
+<!--             <xsl:with-param name="accept-ch-10">true</xsl:with-param> -->
+<!--             <xsl:with-param name="accept-ch-11">true</xsl:with-param> -->
+<!--             <xsl:with-param name="accept-ch-12">true</xsl:with-param> -->
+<!--             <xsl:with-param name="accept-ch-13">true</xsl:with-param> -->
+<!--             <xsl:with-param name="accept-ch-14">true</xsl:with-param> -->
+<!--            <xsl:with-param name="accept-ch-15">true</xsl:with-param> -->
+<!--            <xsl:with-param name="accept-ch-16">true</xsl:with-param> -->
+<!--            <xsl:with-param name="accept-ch-17">true</xsl:with-param> -->
+<!--            <xsl:with-param name="accept-ch-18">true</xsl:with-param> -->
+<!--             <xsl:with-param name="use-css-component">false</xsl:with-param> -->
+<!--             <xsl:with-param name="use-js-component">false</xsl:with-param> -->
+<!--             <xsl:with-param name="debug-mode">true</xsl:with-param> -->
+<!--     	</xsl:call-template> -->
 	</xsl:template>
     
     <xsl:template name="workspace-head-scripts">
-    	<script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/Fieldset.js"></script>
-        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/ActionsPanel.js"></script>
-        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/Action.js"></script>
-        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/TextPanel.js"></script>
-        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/NavigationPanel.js"></script>
-        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/NavigationItem.js"></script>
-        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/DesktopPanel.js"></script>
-        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/DesktopCategory.js"></script>
-        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/DesktopItem.js"></script>
+<!--     	<script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/Fieldset.js"></script> -->
+<!--         <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/ActionsPanel.js"></script> -->
+<!--         <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/Action.js"></script> -->
+<!--         <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/TextPanel.js"></script> -->
+<!--         <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/NavigationPanel.js"></script> -->
+<!--         <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/NavigationItem.js"></script> -->
+<!--         <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/DesktopPanel.js"></script> -->
+<!--         <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/DesktopCategory.js"></script> -->
+<!--         <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/DesktopItem.js"></script> -->
         
-        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/DockItem.js"></script>
-        <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/AdminTools.js"></script>
+<!--         <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/DockItem.js"></script> -->
+<!--         <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/AdminTools.js"></script> -->
         
-        <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/runtime/HomePage.js"><xsl:comment>//empty</xsl:comment></script>
+<!--         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/runtime/HomePage.js"><xsl:comment>//empty</xsl:comment></script> -->
                 
-        <script type="text/javascript">
-        	<xsl:if test="/Admin/Versions/Component|/Plugins/Versions/Component">
+<!--         <script type="text/javascript"> -->
+<!--         	<xsl:if test="/Admin/Versions/Component|/Plugins/Versions/Component"> -->
               	
-              	var data = {versions : []};
-              	<xsl:for-each select="/Admin/Versions/Component|/Plugins/Versions/Component">
-              		data.versions.push({
-              			name : "<xsl:value-of select="Name"/>",
-              			version: "<xsl:choose><xsl:when test="Version"><xsl:value-of select="Version"/></xsl:when><xsl:otherwise><i18n:text i18n:key="WORKSPACE_ADMIN_VERSION_UNKNOWN" i18n:catalogue="workspace.{$workspaceName}"/></xsl:otherwise></xsl:choose>",
-              			date : "<xsl:if test="Date">&#160;<i18n:text i18n:key="WORKSPACE_ADMIN_VERSION_DATED" i18n:catalogue="workspace.{$workspaceName}"/>&#160;<xsl:value-of select="Date"/>&#160;<i18n:text i18n:key="WORKSPACE_ADMIN_VERSION_DATEDTIME" i18n:catalogue="workspace.{$workspaceName}"/>&#160;<xsl:value-of select="Time"/></xsl:if><xsl:if test="position() != last()">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</xsl:if>"
-              		});
-              	</xsl:for-each>
-              	org.ametys.runtime.HomePage._tplFooter = new Ext.XTemplate (
-              		'&lt;div id="versions"&gt;',
-              		'&lt;tpl for="versions"&gt;',
-              		'&lt;span class="title"&gt;{name}&#160;-&#160;&lt;/span&gt;',
-              		'{version}',
-              		'{date}',
-              		'&lt;/tpl&gt;',
-              		'&lt;/div&gt;'
-              	);
+<!--               	var data = {versions : []}; -->
+<!--               	<xsl:for-each select="/Admin/Versions/Component|/Plugins/Versions/Component"> -->
+<!--               		data.versions.push({ -->
+<!--               			name : "<xsl:value-of select="Name"/>", -->
+<!--               			version: "<xsl:choose><xsl:when test="Version"><xsl:value-of select="Version"/></xsl:when><xsl:otherwise><i18n:text i18n:key="WORKSPACE_ADMIN_VERSION_UNKNOWN" i18n:catalogue="workspace.{$workspaceName}"/></xsl:otherwise></xsl:choose>", -->
+<!--               			date : "<xsl:if test="Date">&#160;<i18n:text i18n:key="WORKSPACE_ADMIN_VERSION_DATED" i18n:catalogue="workspace.{$workspaceName}"/>&#160;<xsl:value-of select="Date"/>&#160;<i18n:text i18n:key="WORKSPACE_ADMIN_VERSION_DATEDTIME" i18n:catalogue="workspace.{$workspaceName}"/>&#160;<xsl:value-of select="Time"/></xsl:if><xsl:if test="position() != last()">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</xsl:if>" -->
+<!--               		}); -->
+<!--               	</xsl:for-each> -->
+<!--               	org.ametys.runtime.HomePage._tplFooter = new Ext.XTemplate ( -->
+<!--               		'&lt;div id="versions"&gt;', -->
+<!--               		'&lt;tpl for="versions"&gt;', -->
+<!--               		'&lt;span class="title"&gt;{name}&#160;-&#160;&lt;/span&gt;', -->
+<!--               		'{version}', -->
+<!--               		'{date}', -->
+<!--               		'&lt;/tpl&gt;', -->
+<!--               		'&lt;/div&gt;' -->
+<!--               	); -->
               	
-              	org.ametys.runtime.HomePage._tplFooter.compile();
+<!--               	org.ametys.runtime.HomePage._tplFooter.compile(); -->
               	
-            	org.ametys.runtime.HomePage.drawFooterPanel = function ()
-				{
-					return new org.ametys.HtmlContainer (
-					{
-	   					border: false,
-	   					html : '',
-	   					listeners: {
-					        'render' : function(p) {
-					        	org.ametys.runtime.HomePage._tplFooter.overwrite(p.getEl(), data);
-					        }
-	    				}
+<!--             	org.ametys.runtime.HomePage.drawFooterPanel = function () -->
+<!-- 				{ -->
+<!-- 					return new org.ametys.HtmlContainer ( -->
+<!-- 					{ -->
+<!-- 	   					border: false, -->
+<!-- 	   					html : '', -->
+<!-- 	   					listeners: { -->
+<!-- 					        'render' : function(p) { -->
+<!-- 					        	org.ametys.runtime.HomePage._tplFooter.overwrite(p.getEl(), data); -->
+<!-- 					        } -->
+<!-- 	    				} -->
 	
-					});
-				}
-			</xsl:if>
-    	</script>
+<!-- 					}); -->
+<!-- 				} -->
+<!-- 			</xsl:if> -->
+<!--     	</script> -->
     </xsl:template>
     
     <xsl:template name="workspace-head"/>

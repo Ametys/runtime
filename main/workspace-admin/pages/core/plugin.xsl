@@ -20,7 +20,7 @@
                 xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
 	
 	<xsl:import href="template.xsl"/>
-	<xsl:import href="resource://org/ametys/runtime/kernel/stylesheets/plugins.xsl"/>
+	<xsl:import href="kernel://stylesheets/plugins.xsl"/>
 	
     <xsl:template name="workspace-title"><xsl:copy-of select="/Plugins/html/head/title/node()"/></xsl:template>
 
