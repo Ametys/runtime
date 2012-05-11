@@ -1159,33 +1159,18 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             ConnectionHelper.cleanup(connection);
         }
     }
-
-  
-    public void removeAll(String context) throws RightsException
+    
+    @Override
+    public void updateContext(String oldContext, String newContext) throws RightsException
     {
-        String lcContext = getFullContext (context);
-
+        String lcOldContext = getFullContext(oldContext);
+        String lcNewContext = getFullContext(newContext);
+        
         Connection connection = ConnectionHelper.getConnection(_poolName);
-
-        PreparedStatement stmt = null;
-
+        
         try
         {
-            String sql;
-
-            sql = "DELETE FROM " + _tableGroupRights + " WHERE LOWER(Context) = ?";
-            stmt = connection.prepareStatement(sql);
-            stmt.setString(1, lcContext);
-            getLogger().info(sql + "\n[" + lcContext + "]");
-            stmt.executeUpdate();
-
-            ConnectionHelper.cleanup(stmt);
-
-            sql = "DELETE FROM " + _tableUserRights + " WHERE LOWER(Context) = ?";
-            stmt = connection.prepareStatement(sql);
-            stmt.setString(1, lcContext);
-            getLogger().info(sql + "\n[" + lcContext + "]");
-            stmt.executeUpdate();
+            updateContext(lcOldContext, lcNewContext, connection);
         }
         catch (SQLException ex)
         {
@@ -1194,12 +1179,32 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         }
         finally
         {
-            ConnectionHelper.cleanup(stmt);
             ConnectionHelper.cleanup(connection);
         }
-
     }
-
+    
+    @Override
+    public void removeAll(String context) throws RightsException
+    {
+        String lcContext = getFullContext(context);
+        
+        Connection connection = ConnectionHelper.getConnection(_poolName);
+        
+        try
+        {
+            removeAll(lcContext, connection);
+        }
+        catch (SQLException ex)
+        {
+            getLogger().error("Error in sql query", ex);
+            throw new RightsException("Error in sql query", ex);
+        }
+        finally
+        {
+            ConnectionHelper.cleanup(connection);
+        }
+    }
+    
     public void removeGroupProfile(String groupId, String profileId, String context) throws RightsException
     {
         String lcContext = getFullContext (context);
@@ -1398,7 +1403,87 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
         return groups;
     }
-
+    
+    /**
+     * Modify a context for all users and groups with any profile.
+     * @param fullOldContext the context to modify, full version.
+     * @param fullNewContext the new context, full version.
+     * @param connection a connection on the database.
+     * @throws SQLException if an error occurs.
+     */
+    protected void updateContext(String fullOldContext, String fullNewContext, Connection connection) throws SQLException
+    {
+        PreparedStatement stmt = null;
+        
+        try
+        {
+            String sql = "UPDATE " + _tableGroupRights + " SET Context = ? WHERE LOWER(Context) = ?";
+            stmt = connection.prepareStatement(sql);
+            stmt.setString(1, fullNewContext);
+            stmt.setString(2, fullOldContext);
+            
+            if (getLogger().isInfoEnabled())
+            {
+                getLogger().info(sql + "\n[" + fullNewContext + ", " + fullOldContext + "]");
+            }
+            stmt.executeUpdate();
+            
+            ConnectionHelper.cleanup(stmt);
+            
+            sql = "UPDATE " + _tableUserRights + " SET Context = ? WHERE LOWER(Context) = ?";
+            stmt = connection.prepareStatement(sql);
+            stmt.setString(1, fullNewContext);
+            stmt.setString(2, fullOldContext);
+            
+            if (getLogger().isInfoEnabled())
+            {
+                getLogger().info(sql + "\n[" + fullNewContext + ", " + fullOldContext + "]");
+            }
+            stmt.executeUpdate();
+        }
+        finally
+        {
+            ConnectionHelper.cleanup(stmt);
+        }
+    }
+    
+    /**
+     * Remove all the assignments for a given right context.
+     * @param fullContext the full context to remove.
+     * @param connection the database connection.
+     * @throws SQLException if an error occurs.
+     */
+    protected void removeAll(String fullContext, Connection connection) throws SQLException
+    {
+        PreparedStatement stmt = null;
+        
+        try
+        {
+            String sql = "DELETE FROM " + _tableGroupRights + " WHERE LOWER(Context) = ?";
+            stmt = connection.prepareStatement(sql);
+            stmt.setString(1, fullContext);
+            getLogger().info(sql + "\n[" + fullContext + "]");
+            stmt.executeUpdate();
+            
+            ConnectionHelper.cleanup(stmt);
+            
+            sql = "DELETE FROM " + _tableUserRights + " WHERE LOWER(Context) = ?";
+            stmt = connection.prepareStatement(sql);
+            stmt.setString(1, fullContext);
+            getLogger().info(sql + "\n[" + fullContext + "]");
+            stmt.executeUpdate();
+        }
+        catch (SQLException ex)
+        {
+            getLogger().error("Error in sql query", ex);
+            throw new RightsException("Error in sql query", ex);
+        }
+        finally
+        {
+            ConnectionHelper.cleanup(stmt);
+        }
+    }
+    
     /* -------------------------------------- */
     /* METHODES PRIVEES POUR LES UTILISATEURS */
     /* -------------------------------------- */

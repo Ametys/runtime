@@ -57,3 +57,22 @@ org.ametys.Fieldset.prototype.onRender = function(ct, position)
 		this.addListener('expand', this._onExpand, this);
 	}
 }
+
+//----------------------------------------------------------------------------------
+org.ametys.TBarFieldset = function(config) 
+{
+	org.ametys.TBarFieldset.superclass.constructor.call(this, config);
+}; 
+
+Ext.extend(org.ametys.TBarFieldset, org.ametys.Fieldset, 
+{
+	cls : "ametys-tbar-fieldset"
+});
+
+org.ametys.TBarFieldset.prototype.onRender = function(ct, position)
+{
+	org.ametys.TBarFieldset.superclass.onRender.call(this, ct, position);
+	
+	// move bbar before body
+	this.bwrap.dom.appendChild(this.bwrap.dom.firstChild);
+}

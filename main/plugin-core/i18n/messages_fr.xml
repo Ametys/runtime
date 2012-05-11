@@ -491,6 +491,10 @@
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_PROFILE_NAME">Nom du profil</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_LEFTCOLUMN">Droits non affectés</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_RIGHTCOLUMN">Droits du profils</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILES_SELECT_ALL">Sélectionner tout</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILES_UNSELECT_ALL">Désélectionner tout</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILES_CATEGORY_SELECT_ALL">Sélectionner tous les droits de la catégorie</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILES_CATEGORY_UNSELECT_ALL">Désélectionner tous les droits de la catégorie</message>
     <message key="PLUGINS_CORE_PROFILE_RIGHTS_SEE_LABEL">Voir les profils</message>
     <message key="PLUGINS_CORE_PROFILE_RIGHTS_SEE_DESCRIPTION">Permet de voir les droits des profils</message>
     <message key="PLUGINS_CORE_PROFILE_RIGHTS_HANDLE_LABEL">Gestion des profils</message>

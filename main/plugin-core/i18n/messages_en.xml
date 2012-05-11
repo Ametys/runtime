@@ -490,6 +490,10 @@
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_PROFILE_NAME">Profile name</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_LEFTCOLUMN">Unassigned rights</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_RIGHTCOLUMN">Profile rights</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILES_SELECT_ALL">Select all</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILES_UNSELECT_ALL">Unselect all</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILES_CATEGORY_SELECT_ALL">Select all the rights of the category</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILES_CATEGORY_UNSELECT_ALL">Unselect all the rights of the category</message>
 	<message key="PLUGINS_CORE_PROFILE_RIGHTS_SEE_LABEL">See profiles</message>
     <message key="PLUGINS_CORE_PROFILE_RIGHTS_SEE_DESCRIPTION">Allow to see the rights of profiles</message>
     <message key="PLUGINS_CORE_PROFILE_RIGHTS_HANDLE_LABEL">Handle profiles</message>

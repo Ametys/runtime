@@ -132,6 +132,15 @@ public interface ProfileBasedRightsManager extends RightsManager
     public void removeGroupProfiles(String groupId, String context) throws RightsException;
     
     /**
+     * Move all profiles on a given context to a new context.
+     * 
+     * @param oldContext the old context.
+     * @param newContext the new context.
+     * @throws RightsException if an error occurs.
+     */
+    public void updateContext(String oldContext, String newContext) throws RightsException;
+    
+    /**
      * Remove all profiles that concerned a given context.
      * 
      * @param context Context concerned

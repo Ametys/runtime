@@ -77,8 +77,8 @@ public class UploadAction extends CurrentUserProviderServiceableAction
                 result.put("id", upload.getId());
                 result.put("filename", upload.getFilename());
                 result.put("size", upload.getLength());
-                result.put("viewHref", "/plugins/core/upload/file?id=" + upload.getId());
-                result.put("downloadHref", "/plugins/core/upload/file?id=" + upload.getId() + "&download=true");
+                result.put("viewHref", _getUrlForView(upload));
+                result.put("downloadHref", _getUrlForDownload(upload));
             }
             catch (IOException e)
             {
@@ -97,5 +97,25 @@ public class UploadAction extends CurrentUserProviderServiceableAction
         request.setAttribute(JSonReader.MAP_TO_READ, result);
 
         return EMPTY_MAP;
+    }
+    
+    /**
+     * Get the url for view the uploaded file
+     * @param upload The file uploaded
+     * @return The url for view
+     */
+    protected String _getUrlForView (Upload upload)
+    {
+        return "/plugins/core/upload/file?id=" + upload.getId();
+    }
+    
+    /**
+     * Get the url for download the uploaded file
+     * @param upload The file uploaded
+     * @return The url for view
+     */
+    protected String _getUrlForDownload (Upload upload)
+    {
+        return "/plugins/core/upload/file?id=" + upload.getId() + "&download=true";
     }
 }
