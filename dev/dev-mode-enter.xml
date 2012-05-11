@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright 2010 Anyware Services
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   -->
+<project name="ametys-dev-mode-enter" default="create-links">
+
+	<property environment="env"/>
+	<property name="runtime-dir" location=".."/>
+	
+	<import file="dev-mode-leave.xml"/>
+	
+	<condition property="isWindows">
+    	<os family="windows" />
+  	</condition>
+
+  	<condition property="isUnix">
+    	<os family="unix" />
+  	</condition>
+  	
+  	<!-- LINKS -->
+
+	<target name="create-links">
+		<antcall target="remove-links"/>
+		<antcall target="create-links-app"/>
+		<antcall target="classpath-dev"/>
+	</target>
+
+	<target name="create-links-app">
+		<antcall target="create-link"><param name="new-link" location="${runtime-dir}/templates/application/kernel"/>						<param name="original-dir" location="${runtime-dir}/main/kernel"/></antcall>
+
+		<mkdir dir="${runtime-dir}/templates/application/plugins"/>
+		<antcall target="create-link"><param name="new-link" location="${runtime-dir}/templates/application/plugins/core"/>					<param name="original-dir" location="${runtime-dir}/main/plugin-core"/></antcall>
+		
+		<mkdir dir="${runtime-dir}/templates/application/workspaces"/>
+		<antcall target="create-link"><param name="new-link" location="${runtime-dir}/templates/application/workspaces/admin"/>				<param name="original-dir" location="${runtime-dir}/main/workspace-admin"/></antcall>
+	</target>
+
+
+	<!-- +
+	     | TASKS
+	     + -->	
+	     
+	<target name="create-link">
+		<antcall target="create-link-for-windows"/>
+		<antcall target="create-link-for-unix"/>
+	</target>
+
+	<target name="create-link-for-windows" if="isWindows">
+		<echo file="mklink.bat">mklink %1 %2 %3</echo>
+		<exec executable="mklink.bat">
+			<arg value="/j"/>
+			<arg value="${new-link}"/>
+			<arg value="${original-dir}"/>
+		</exec>
+		<delete file="mklink.bat"/>
+	</target>
+
+	<target name="create-link-for-unix" if="isUnix">
+		<symlink link="${new-link}" resource="${original-dir}"/>
+	</target>
+
+	<target name="classpath-dev">
+		<antcall target="classpath-dev-before"/>
+		<antcall target="classpath-dev-content"/>
+		<antcall target="classpath-dev-after"/>
+	</target>
+		
+	<target name="classpath-dev-before">
+		<echo file="../.classpath">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+			&lt;classpath&gt;
+				&lt;classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/&gt;
+				&lt;classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?ivyXmlPath=ivy.xml&amp;amp;confs=compile_dependencies,test&amp;amp;doRetrieve=true&amp;amp;retrievePattern=templates%2Fapplication%2FWEB-INF%2Flib%2F%5Bartifact%5D-%5Brevision%5D.%5Bext%5D&amp;amp;retrieveSync=true&amp;amp;retrieveConfs=runtime_dependencies&amp;amp;retrieveTypes=jar"/&gt;
+				&lt;classpathentry kind="output" path="templates/application/WEB-INF/classes"/&gt;
+		</echo>
+	</target>
+
+	<target name="classpath-dev-content">
+		<echo file="../.classpath" append="true">
+				&lt;classpathentry kind="src" path="main/kernel/src"/&gt;
+				&lt;classpathentry kind="src" path="main/plugin-core/src"/&gt;
+				&lt;classpathentry kind="src" path="main/workspace-admin/src"/&gt;
+		</echo>
+	</target>
+
+	<target name="classpath-dev-after">
+		<echo file="../.classpath" append="true">
+			&lt;/classpath&gt;
+		</echo>
+	</target>
+</project>

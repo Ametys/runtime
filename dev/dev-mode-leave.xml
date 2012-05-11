@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright 2010 Anyware Services
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   -->
+<project name="ametys-dev-mode-leave" default="remove-links">
+	<property environment="env"/>
+	<property name="runtime-dir" location=".."/>
+	
+	<condition property="isWindows">
+    	<os family="windows" />
+  	</condition>
+
+  	<condition property="isUnix">
+    	<os family="unix" />
+  	</condition>
+  	
+  	<!-- LINKS -->
+
+	<target name="remove-links">
+		<antcall target="remove-links-app"/>
+		<antcall target="classpath-normal"/>
+	</target>
+	
+	<target name="remove-links-app">
+		<antcall target="remove-link"><param name="link" location="${runtime-dir}/templates/application/kernel"/></antcall>
+		<antcall target="remove-link"><param name="link" location="${runtime-dir}/templates/application/plugins/core"/></antcall>
+		<antcall target="remove-link"><param name="link" location="${runtime-dir}/templates/application/workspaces/admin"/></antcall>
+	</target>
+	
+	<!-- +
+	     | TASKS
+	     + -->	
+	     
+	<target name="remove-link">
+		<antcall target="remove-link-for-windows"/>
+		<antcall target="remove-link-for-unix"/>
+	</target>
+
+	<target name="remove-link-for-windows" if="isWindows">
+		<echo file="rd.bat">rd %1</echo>
+		<exec executable="rd.bat">
+			<arg value="${link}"/>
+		</exec>
+		<delete file="rd.bat"/>
+	</target>
+
+	<target name="remove-link-for-unix" if="isUnix">
+		<symlink action="delete" link="${link}" failonerror="false"/>
+	</target>
+	
+	<target name="classpath-normal">
+		<echo file="../.classpath">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+			&lt;classpath&gt;
+				&lt;classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/&gt;
+				&lt;classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?ivyXmlPath=ivy.xml&amp;amp;confs=compile_dependencies,test&amp;amp;doRetrieve=false"/&gt;
+			
+				&lt;classpathentry kind="src" path="main/kernel/src"/&gt;
+				&lt;classpathentry kind="src" path="main/plugin-core/src"/&gt;
+				&lt;classpathentry kind="src" path="main/workspace-admin/src"/&gt;
+			
+				&lt;classpathentry kind="output" path="bin"/&gt;
+			&lt;/classpath&gt;
+		</echo>
+	</target>
+</project>
