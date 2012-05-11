@@ -1,0 +1,75 @@
+/*
+ *  Copyright 2009 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+body {
+	background-image: url(../../img/home/bg.gif) !important;
+	background-repeat: repeat-x !important; 
+	background-position: top; 
+	background-color:#033059 !important;
+	margin: 0 auto;
+	padding: 0;
+	font-size: 76%;
+	font-family: arial, sans-serif;
+}
+
+#wrapper{
+	background: none !important;
+}
+
+#top {
+	background: url(../../img/home/top.jpg) top left;
+	width:930px;
+	height:90px;
+}
+
+#logo {
+	background: url(../../img/home/logo.gif) top left;
+	position:relative;
+	top:32px;
+	left:25px;
+	height: 36px;
+	width: 144px;
+}
+
+#main {
+	width:891px; /* total 930 - 4px de border - 50px (2x25px) de padding intérieur */
+	border:2px solid #FFF;
+	padding:19px 10px 9px 25px; /* Modif 30px */
+	background-color:#F0F0F0;
+	background-image: url(../../img/home/mainbg.gif) !important;
+	background-repeat: repeat-x !important; 
+	background-position: top left;
+	margin-bottom: 17px;
+}
+
+#content_center {
+	background: none !important;
+}
+
+#footer {
+	margin-top: 7px; /* Modif 15px */
+}
+
+#footer #box {
+	/* width: 928px; */
+	height: 15px;
+	border: 1px solid #0B5180;
+	background-color:#04416A;
+	text-align: center;
+	padding-top: 3px;
+	color: #1592E5;
+	font-size: 0.8em;
+}
