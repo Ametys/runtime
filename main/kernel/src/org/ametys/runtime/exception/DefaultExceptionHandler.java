@@ -72,6 +72,6 @@ public class DefaultExceptionHandler extends AbstractLogEnabled implements Excep
             getLogger().warn("Unable to find XSL error '" + uri + "'", e);
         }
         
-        return "resource://org/ametys/runtime/kernel/pages/error/error.xsl";
+        return "kernel://pages/error/error.xsl";
     }
 }

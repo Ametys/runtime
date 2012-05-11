@@ -490,8 +490,7 @@ public class RuntimeServlet extends CocoonServlet
 
         InputStream is;
 
-        File errorXSL = new File(config.getServletContext().getRealPath("error/error.xsl"));
-
+        File errorXSL = new File(config.getServletContext().getRealPath("kernel/pages/error/error.xsl"));
         if (errorXSL.exists())
         {
             is = new FileInputStream(errorXSL);

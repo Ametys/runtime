@@ -106,7 +106,7 @@ public class I18nTransformer extends org.apache.cocoon.transformation.I18nTransf
                 DefaultConfiguration catalogue = new DefaultConfiguration("catalogue");
                 catalogue.setAttribute("id", "kernel");
                 catalogue.setAttribute("name", "messages");
-                catalogue.setAttribute("location", "resource://org/ametys/runtime/kernel/i18n");
+                catalogue.setAttribute("location", "kernel://i18n");
 
                 catalogues.addChild(catalogue);
             }
