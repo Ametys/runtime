@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright 2009 Anyware Services
+   Copyright 2010 Anyware Services
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
    limitations under the License.
    -->
 <runtime  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-          xsi:noNamespaceSchemaLocation="http://ametys.org/Runtime/1.2/runtime.xsd">
+          xsi:noNamespaceSchemaLocation="http://ametys.org/Runtime/2.0/runtime.xsd">
     
     <application>
         <version>@VERSION@</version>
@@ -23,18 +23,25 @@
     </application>
     
     <plugins>
+        <locations>
+            <location>modules</location>
+        </locations>
     	<exclude>
-    		<feature>core/runtime.sqlmap</feature>
     	</exclude>
     </plugins>
 
-    <workspaces default="myworkspace"/>
+    <incompleteConfig>
+        <allowedURLs>
+            <allowedURL>_admin/public</allowedURL>
+        	<allowedURL>_admin/resources</allowedURL>
+        	<allowedURL>_admin/_plugins/core/administrator/config</allowedURL>
+        	<allowedURL>_admin/plugins/core/administrator/config</allowedURL>
+        </allowedURLs>
+        <redirectURL>cocoon://_admin/public/load-config.html?uri=core/administrator/config/edit.html</redirectURL>
+    </incompleteConfig>
+    
+    <workspaces default="site"/>
     
     <extensions>
-        <org.ametys.runtime.right.RightsManager>org.ametys.runtime.plugins.core.right.DefaultProfileBased</org.ametys.runtime.right.RightsManager>
-        <org.ametys.runtime.exception.ExceptionHandler>org.ametys.runtime.plugins.core.exception.Default</org.ametys.runtime.exception.ExceptionHandler>
-        <org.ametys.runtime.group.GroupsManager>org.ametys.runtime.plugins.core.group.Empty</org.ametys.runtime.group.GroupsManager>
-        <org.ametys.runtime.authentication.CredentialsProvider>org.ametys.runtime.plugins.core.authentication.Basic</org.ametys.runtime.authentication.CredentialsProvider>
-        <org.ametys.runtime.user.UsersManager>org.ametys.runtime.plugins.core.user.CoreModifiableCredentialsAwareJdbc</org.ametys.runtime.user.UsersManager>
     </extensions>
 </runtime>

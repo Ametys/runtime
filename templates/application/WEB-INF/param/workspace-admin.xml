@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright 2009 Anyware Services
+   Copyright 2010 Anyware Services
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -14,7 +14,6 @@
    See the License for the specific language governing permissions and
    limitations under the License.
    -->
-    
 <!-- +
      | This file configures the administrator page.
      + -->
@@ -31,8 +30,6 @@
         <category name="WORKSPACE_ADMIN_SECTION_USERSMANAGEMENT_LABEL">
             <item id="org.ametys.runtime.plugins.core.Users"/>
             <item id="org.ametys.runtime.plugins.core.Groups"/>
-            <item id="org.ametys.runtime.plugins.core.right.Profiles"/>
-            <item id="org.ametys.runtime.plugins.core.right.Assign"/>
         </category>
         
         <category name="WORKSPACE_ADMIN_SECTION_APPLICATION_LABEL">
