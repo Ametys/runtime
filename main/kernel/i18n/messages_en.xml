@@ -24,6 +24,7 @@
     <message key="KERNEL_PASSWORD_VALIDATOR">The password and the confirmation are not the same</message>
     <message key="KERNEL_PASSWORD_CLEAR">Reset password to previous value</message>
 	<message key="KERNEL_PASSWORD_CHANGE">Click here to change the password</message>
+	<message key="KERNEL_UPLOAD_BUTTON">Browse...</message>
 	<message key="KERNEL_UPLOAD_HINT">Maximal authorized size is </message>
 
     <!-- DEFAULT VALIDATOR -->

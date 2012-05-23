@@ -15,7 +15,7 @@
  */
 
 /**
-  * Root for all Ametys objects and methods.<br/>
+  * Root for all Ametys objects and methods. Also contains application parameters.<br/>
   * <br/>
   * Before loading this class you have to initialize the window.ametys_opt variable:
   * <code>		
@@ -40,8 +40,10 @@
   * <li>Ext.Date.patterns are initialize to suitable values,</li>
   * <li>Ext.BLANK_IMAGE_URL is associated to the correct url,</li>
   * <li>Ext.SSL_SECURE_URL is associated to the correct url,</li>
-  * <li>Removing window.ametys_opts from global scope</li>
-  * <li>Adding support for 'description' config on fields and field container (that draws a ? image on the right of the fields)</li>
+  * <li>Removing window.ametys_opts from global scope,</li>
+  * <li>Adding support for 'ametysDescription' config on fields and field container (that draws a ? image on the right of the fields),</li>
+  * <li>Doing some localization work,</li>
+  * <li>Changing Ext.Ajax default request method from GET to POST.</li>
   * </ul>
   */
 
@@ -105,6 +107,33 @@ Ext.define(
 		 * @private
 		 */
 		PLUGINS_WRAPPED_PREFIX: ametys_opts["plugins-wrapped-prefix"],
+		
+		/**
+		 * Application parameters. Theses parameters are set by the application, and are added to all requests.
+		 * They can also be used for local purposes.
+		 * @type Object
+		 * @private
+		 */
+		appParameters: {},
+		
+		/**
+		 * Add an application parameter. Theses parameters are automatically added to all request, but are of course also added for local purposes.
+		 * @param {String} name The key of the parameter
+		 * @param {Object} value The value of the parameter. The object have to be encodable using Ext.JSON.encode
+		 */
+		setAppParameter: function(name, value) {
+			this.appParameters[name] = value;
+			Ext.Ajax.extraParams = "context.parameters=" + encodeURIComponent(Ext.JSON.encode(this.appParameters));
+		},
+		
+		/**
+		 * Get an application parameter.
+		 * @param {String} name The key of the parameter
+		 * @return {Object} The value associated to the parameter name, or undefined if it does not exists.
+		 */
+		getAppParameter: function(name) {
+			return appParameters[name];
+		},
 	                
 		/**
 		 * Get the url prefix for direct connection to a plugin (e.g. for ajax connections)
@@ -125,7 +154,50 @@ Ext.define(
 		 * @param {String} plugin The plugin name. Cannot be null or empty.
 		 * @return {String} The url prefix for accessing plugin resources (e.g. js, css or images files). E.g. '/MyContext/plugins/MyPlugin/resources'
 		 */
-		getPluginResourcesPrefix: function (plugin) { return Ametys.CONTEXT_PATH + "/plugins/" + plugin + "/resources"; }
+		getPluginResourcesPrefix: function (plugin) { return Ametys.CONTEXT_PATH + "/plugins/" + plugin + "/resources"; },
+		
+		/**
+		 * Convert html tags to textare.
+		 * @param {String} s The string to convert containing text with some br tags
+		 * @return {String} The textare compliant string with 0x13 characters
+		 */
+		convertHtmlToTextarea: function(s)
+		{
+		    s = s.replace(/&lt;br\/&gt;/g, "\r\n");
+		    s = s.replace(/&amp;#034;/g, "\"");
+		    s = s.replace(/&amp;#039;/g, "'");
+		    s = s.replace(/&amp;lt;/g, "&lt;");
+		    s = s.replace(/&amp;gt;/g, "&gt;");
+		    s = s.replace(/&amp;amp;/g, "&amp;");
+		    return s;
+		},
+
+		/**
+		 * The opposite of {@link #convertHtmlToTextarea}
+		 * @param {String} s The string to convert containing text with some 0x13 characters
+		 * @return {String} The html compliant string with br tags
+		 */
+		convertTextareaToHtml: function (s)
+		{
+		    s = s.replace(/\r?\n/g, "&lt;br/&gt;");
+		    s = s.replace(/"/g, "&amp;#034;");
+		    s = s.replace(/'/g, "&amp;#039;");
+		    return s;
+		},
+
+		/**
+		 * Load a css file
+		 * @param {String} url The url of the css file to load
+		 */
+		loadStyle: function (url)
+		{
+			var head = document.getElementsByTagName("head")[0];
+			var link = document.createElement("link");
+			link.rel = "stylesheet";
+			link.href = url;
+			link.type = "text/css";
+			head.appendChild(link);
+		}
    	}
 );
 
@@ -149,7 +221,7 @@ Ext.Date.patterns = {
 /*
  * Initialize blank image url
  */
-Ext.BLANK_IMAGE_URL = Ametys.getPluginResourcesPrefix('extjs4') + "/images/default/s.gif";
+Ext.BLANK_IMAGE_URL = Ametys.getPluginResourcesPrefix('extjs4') + "/themes/images/default/tree/s.gif";
 
 /*
  * Initialize ssl empty file url
@@ -160,6 +232,18 @@ Ext.SSL_SECURE_URL = Ext.BLANK_IMAGE_URL;
  * Load localization for extjs
  */
 {
+	// This is because a bug of extjs that do not translate this
+    Ext.define("Ext.locale.fr.field.File", {
+        override: "Ext.form.field.File",
+        buttonText: "<i18n:text i18n:key='KERNEL_UPLOAD_BUTTON' i18n:catalogue='kernel'/>"
+    });
+    
+    // This is to change default value
+    Ext.define("Ext.locale.fr.LoadMask", {
+        override: "Ext.LoadMask",
+        msg: "<i18n:text i18n:key='KERNEL_LOADMASK_DEFAULT_MESSAGE' i18n:catalogue='kernel'/>"
+    });
+	
 	var link = document.createElement("script");
 		link.src = Ametys.getPluginResourcesPrefix('extjs4') + "/js/locale/ext-lang-" + Ametys.LANGUAGE_CODE + ".js";
 		link.charset = "UTF-8";
@@ -168,37 +252,40 @@ Ext.SSL_SECURE_URL = Ext.BLANK_IMAGE_URL;
 }
 
 /*
- * Support for description on all fields
+ * Supports for ametysDescription on fields and fields containers
  */
-Ext.form.field.Base.prototype._onRender = Ext.form.field.Base.prototype.onRender;
-Ext.form.FieldContainer.prototype._onRender = Ext.form.FieldContainer.prototype.onRender;
-
-Ext.form.FieldContainer.prototype.onRender = 
-Ext.form.field.Base.prototype.onRender = 
-function()
+/**
+ * @class Ext.form.field.Base
+ * @cfg {String} ametysDescription A help image is added with the given description as a tooltip
+ */
+/**
+ * @class Ext.form.FieldContainer
+ * @cfg {String} ametysDescription A help image is added with the given description as a tooltip
+ */
 {
-	this._onRender(arguments);
-	
-	/**
-	 * @class Ext.form.field.Base
-	 * @cfg {String} ametysDescription A help image is added with the given description as tooltip
-	 */
-	if (this.ametysDescription)
+	function getLabelableRenderData () 
 	{
-				var helpEl = this.bodyEl.insertSibling({
-					tag: 'td',
-					cls: 'ametys-description'
-				}, 'after');
-				helpEl;
-				
-				var tooltip = new Ext.ToolTip({
-					        target: helpEl,
-					        html: this.ametysDescription,
-					        dismissDelay: 0 // disable automatic hiding
-	    		});
+		var data = this.callParent(arguments);
+		data.ametysDescription = this.ametysDescription;
+		
+		this.getInsertionRenderData(data, this.labelableInsertions);
+		
+		return data;
 	}
-}		
+	var afterSubTpl = [ '&lt;tpl if="ametysDescription"&gt;',
+	                    	'&lt;/td&gt;',
+	                    	'&lt;td class="ametys-description" data-qtip="{ametysDescription}"&gt;',
+	                    	'&lt;/tpl&gt;'
+	];
 
+	Ext.define("Ametys.form.Labelable", { override: "Ext.form.field.Base", afterSubTpl: afterSubTpl, getLabelableRenderData: getLabelableRenderData	});
+	Ext.define("Ametys.form.FieldContainer", { override: "Ext.form.FieldContainer", afterSubTpl: afterSubTpl, getLabelableRenderData: getLabelableRenderData });
+}
+
+/*
+ * Changing default ajax method to POST
+ */
+Ext.Ajax.setOptions({method: 'POST'})
 
 /*
  * Remove ametys_opts object

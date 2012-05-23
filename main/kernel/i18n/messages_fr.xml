@@ -28,7 +28,10 @@
     <message key="KERNEL_PASSWORD_VALIDATOR">Le mot de passe et sa confirmation ne sont pas identiques</message>
     <message key="KERNEL_PASSWORD_CLEAR">Remettre le mot de passe à sa valeur initiale</message>
 	<message key="KERNEL_PASSWORD_CHANGE">Cliquez ici pour changer le mot de passe</message>
+	<message key="KERNEL_UPLOAD_BUTTON">Parcourir...</message>
 	<message key="KERNEL_UPLOAD_HINT">La taille maximale autorisée est de </message>
+
+   	<message key="KERNEL_LOADMASK_DEFAULT_MESSAGE">Traitement en cours. Veuillez patienter ...</message>
 
 	 <!-- +
     	 | ServerComm.js
@@ -64,8 +67,4 @@
     <message key="KERNEL_MSG_ERRORDIALOG_DETAILS">Détails</message>
     <message key="KERNEL_MSG_ERRORDIALOG_OTHERSERRORS">autre(s) erreur(s)</message>
     
-    <!-- +
-    	 | Mask.js 
-    	 + -->
-   	<message key="KERNEL_LOADMASK_DEFAULT_MESSAGE">Traitement en cours. Veuillez patienter ...</message>
 </catalogue>

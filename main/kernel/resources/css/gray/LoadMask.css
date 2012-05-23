@@ -13,21 +13,19 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+.x-mask-msg {
+	background-color: #FFFFFF !important;
+	border-color:#811788 !important;
+}
 
-Ext.namespace('org.ametys.form');
+.x-mask-msg div {
+	background-color: #FFFFFF !important;
+	border: 0px none !important;
+	font-style: italic;
+}
 
-/**
- * org.ametys.form.PasswordField
- *
- * @class This class provides a password field with a help icon. Use the <code>desc</option> to add the help icon.
- * @extends Ext.form.TextField
- * @constructor
- * @param {Object} config Configuration options
- */
-org.ametys.form.PasswordField = function(config) 
-{
-	config.inputType = "password";
-	org.ametys.form.PasswordField.superclass.constructor.call(this, config);
-}; 
-
-Ext.extend(org.ametys.form.PasswordField, org.ametys.form.TextField, {});
+.x-mask-msg.ametys-mask-unloading div {
+	background-image: none !important;
+	cursor: auto !important;
+	padding: 5px !important;
+}

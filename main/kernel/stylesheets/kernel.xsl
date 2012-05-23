@@ -86,14 +86,31 @@
         
        	<xsl:variable name="scripts-to-load-raw">
        		<script>/plugins/extjs4/resources/js/ext-all<xsl:if test="$debug-mode">-debug</xsl:if>.js</script>
-			<script>/kernel/resources/js/Ametys.js</script>
-       	
-	        <script>/kernel/resources/js/Ametys/window/DialogBox.js</script>
        		<script>/plugins/extjs4/resources/ux/js/form/MultiSelect.js</script>
        		<script>/plugins/extjs4/resources/ux/js/form/ItemSelector.js</script>
+
+			<script>/kernel/resources/js/Ametys.i18n.js</script>
+	        <script>/kernel/resources/js/Ametys/window/DialogBox.js</script>
 	        <script>/kernel/resources/js/Ametys/form/AbstractFieldWrapper.js</script>
 	        <script>/kernel/resources/js/Ametys/form/field/DateTime.js</script>
 	        <script>/kernel/resources/js/Ametys/form/field/ChangePassword.i18n.js</script>
+
+<!-- File pour ajouter la limite d'upload -->
+
+<!-- 	        <script>/kernel/resources/js/org/ametys/ListView.js</script> -->
+<!-- 	        <script>/kernel/resources/js/org/ametys/EditorListView.js</script> -->
+<!-- 	        <script>/kernel/resources/js/org/ametys/Tree.js</script> -->
+
+<!-- 	 		<script>/plugins/extjs/resources/ux/js/XmlTreeLoader.js</script> -->
+<!-- 	 		<script>/kernel/resources/js/org/ametys/tree/XmlTreeLoader.js</script> -->
+	 		
+<!-- 			<script>/kernel/resources/js/org/ametys/servercomm/TimeoutDialog.i18n.js</script> -->
+<!-- 			<script>/kernel/resources/js/org/ametys/servercomm/ServerComm.i18n.js</script> -->
+<!-- 			<script>/kernel/resources/js/org/ametys/servercomm/ServerMessage.js</script> -->
+<!-- 			<script>/kernel/resources/js/org/ametys/log/LoggerManager.js</script> -->
+<!-- 			<script>/kernel/resources/js/org/ametys/log/LoggerEntry.js</script> -->
+<!-- 			<script>/kernel/resources/js/org/ametys/msg/ErrorDialog.i18n.js</script> -->
+
 	    </xsl:variable>
 		<xsl:variable name="scripts-to-load" select="exslt:node-set($scripts-to-load-raw)"/>
 		
@@ -185,12 +202,13 @@
 			        		'title': 'toto', 
 			        		'icon': '<xsl:value-of select="$context-path"/>/kernel/resources/img/error_16.gif',
 			        		'layout': 'anchor',
+			        		id: 'blues',
 			        		defaultButton: 'a',
 			        		'items' : [
-				        		 new Ext.form.Panel({ id: 'tata', items: [
+				        		 new Ext.form.Panel({ id: 'tata', defaults: {labelSeparator: ''}, items: [
 				        			new Ext.Component({ html: 'test' }),
-				        			new Ext.form.field.Text({fieldLabel: 'hello1', ametysDescription: 'test', id: 'a', width: 350}),
-				        			new Ext.form.field.Number({fieldLabel: 'hello2', ametysDescription: 'test', width: 350}),
+				        			new Ext.form.field.Text({fieldLabel: 'hello1', id: 'a', width: 350}),
+				        			new Ext.form.field.Number({fieldLabel: 'hello2', id:'toto', ametysDescription: '', width: 350 }),
 									
 									Ext.create('Ametys.form.field.DateTime', {
 									    fieldLabel: 'Choose State',
@@ -198,7 +216,7 @@
 									    name: 'toto2',
 									    width: 350,
 									    allowBlank: false,
-									    ametysDescription: 'test'
+								    	ametysDescription: 'test'
 									}),
 
 
@@ -211,6 +229,12 @@
 
 				        			new Ext.form.field.Text({fieldLabel: 'hello3', ametysDescription: 'test', allowBlank: false, width: 350}),
 				        			
+				        			Ext.create('Ext.form.field.File', {
+									    fieldLabel: 'Choose State 5',
+									    width: 350,
+									    ametysDescription: 'test'
+									}),
+
 				        			Ext.create('Ametys.form.field.ChangePassword', {
 									    fieldLabel: 'Choose State4',
 									    width: 350,
@@ -246,6 +270,13 @@
 			        				} 
 			        			},
 			        			{
+			        				text:'Mask', 
+			        				handler: function() {
+				        				var a = Ext.Ajax.request({url: "_sites.xml", params: "toto=1", async: false, method: "GET"});
+				        				var a = Ext.Ajax.request({url: "_sites.xml", params: "toto=1", async: false});
+			        				} 
+			        			},
+			        			{
 			        				text:'Enable/Disable', 
 			        				handler: function() {
 				        				var form = Ext.getCmp('tata').getForm()
@@ -266,6 +297,8 @@
 			        ).show();
 			    }
 			});
+			
+			Ametys.setAppParameter('jojo', 'estpasbo');
 		</script>
     </xsl:template>
  
