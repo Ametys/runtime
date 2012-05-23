@@ -43,7 +43,7 @@
   * <li>Removing window.ametys_opts from global scope,</li>
   * <li>Adding support for 'ametysDescription' config on fields and field container (that draws a ? image on the right of the fields),</li>
   * <li>Doing some localization work,</li>
-  * <li>Changing Ext.Ajax default request method from GET to POST.</li>
+  * <li>Changing Ext.Ajax default request method from GET to POST, and setting timeout to 0.</li>
   * </ul>
   */
 
@@ -55,48 +55,56 @@ Ext.define(
 		/**
 		 * The application context path. Can be empty for the root context path. E.g. '/MyContext'.
 		 * @type String
+		 * @readonly
 		 */
 		CONTEXT_PATH: ametys_opts["context-path"],
 	
 		/**
 		 * The name of the current ametys workspace. Cannot be empty. E.g. 'admin'
 		 * @type String
+		 * @readonly
 		 */
 		WORKSPACE_NAME: ametys_opts["workspace-name"],
 	
 		/**
 		 * The prefix of the current workspace (so not starting with the context path). If the workspace is the default one, this can be empty. E.g. '', '/_MyWorkspace'
 		 * @type String
+		 * @readonly
 		 */
 		WORKSPACE_PREFIX: ametys_opts["workspace-prefix"],
 	           	
 		/**
 		 * The URI to go the current workspace (starting with the context path). If the context path is ROOT and the workspace is the default one, this can be empty. E.g. '', '/MyContext', '/MyContext/_MyWorkspace', '/_MyWorkspace'
 		 * @type String
+		 * @readonly
 		 */
 		WORKSPACE_URI: ametys_opts["context-path"] + ametys_opts["workspace-prefix"],
 	           	
 		/**
 		 * The parametrized max size for upadloding file to the server. In Bytes. E.g. 10670080 for 10 MB. Can be empty if unknown.
 		 * @type String
+		 * @readonly
 		 */
 		MAX_UPLOAD_SIZE: ametys_opts["max-upload-size"],
 	            
 		/**
 	     * Load JS files in debug mode when available.
 		 * @type Boolean
+		 * @readonly
 		 */
 		DEBUG_MODE: ametys_opts["debug-mode"],
 		
 		/**
 		 * The language code supported when loading the application. E.g. 'en' or 'fr'
 		 * @type String
+		 * @readonly
 		 */
 		LANGUAGE_CODE: ametys_opts["language-code"],
 		
 		/**
 		 * Prefix for direct url to plugins (used for AJAX connections) with leading '/' nor context path. e.g. '/_plugins'
 		 * @type String
+		 * @readonly
 		 * @private
 		 */
 		PLUGINS_DIRECT_PREFIX: ametys_opts["plugins-direct-prefix"],
@@ -104,6 +112,7 @@ Ext.define(
 		/**
 		 * Prefix for wrapped url to plugins (used for redirections) with leading '/' nor context path. e.g. '/plugins'
 		 * @type String
+		 * @readonly
 		 * @private
 		 */
 		PLUGINS_WRAPPED_PREFIX: ametys_opts["plugins-wrapped-prefix"],
@@ -138,16 +147,16 @@ Ext.define(
 		/**
 		 * Get the url prefix for direct connection to a plugin (e.g. for ajax connections)
 		 * @param {String} plugin The plugin name. Cannot be null or empty.
-		 * @return {String} The url prefix for accessing directly plugins (e.g. for ajax connections). E.g. '/MyContext/_plugins/MyPlugin'
+		 * @return {String} The url prefix for accessing directly plugins (e.g. for ajax connections). E.g. '/MyContext/_MyWorkspace/_plugins/MyPlugin'
 		 */
-		getPluginDirectPrefix: function (plugin) { return Ametys.CONTEXT_PATH + Ametys.PLUGINS_DIRECT_PREFIX + '/' + plugin;},
+		getPluginDirectPrefix: function (plugin) { return Ametys.WORKSPACE_URI + Ametys.PLUGINS_DIRECT_PREFIX + '/' + plugin;},
 	            
 		/**
 		 * Get the url prefix for wrapped connection to a plugin (e.g. for redirections to this plugin)
 		 * @param {String} plugin The plugin name. Cannot be null or empty.
-		 * @return {String} The url prefix for accessing directly plugins (e.g. for ajax connections). E.g. '/MyContext/plugins/MyPlugin'
+		 * @return {String} The url prefix for accessing plugins for displaying (e.g. to display a page rendered by the plugin). E.g. '/MyContext/_MyWorkspace/plugins/MyPlugin'
 		 */
-		getPluginWrapperPrefix: function(plugin) { return Ametys.CONTEXT_PATH + Ametys.PLUGINS_WRAPPED_PREFIX + '/' + plugin;},
+		getPluginWrapperPrefix: function(plugin) { return Ametys.WORKSPACE_URI + Ametys.PLUGINS_WRAPPED_PREFIX + '/' + plugin;},
 	            
 		/**
 		 * Get the url prefix for downloading resource file of a plugin. The use of Ametys.getPluginResourcesPrefix('test') + '/img/image.png' will return '/MyContext/plugins/test/resources/img/image.png' 
@@ -197,6 +206,44 @@ Ext.define(
 			link.href = url;
 			link.type = "text/css";
 			head.appendChild(link);
+		},
+		
+		/**
+		 * Shutdown all the application and display a standard error message.<br/>
+		 * Will cut all known crons, requests...<br/>
+		 * Do not do anything after this call.
+		 */
+		shutdown: function() {
+			// Shutdown request
+			Ametys.data.ServerComm._shutdown();
+			
+			// Close error dialogs
+			org.ametys.msg.ErrorDialog._okMessages();
+			org.ametys.msg.ErrorDialog = function() {};
+			
+			// Display error message
+			
+			// remove all css
+			var links = document.getElementsByTagName("link");
+			for (var i = 0; i &lt; links.length; i++)
+			{
+				if (links[i].type == "text/css")
+				{
+					links[i].parentNode.removeChild(links[i]);
+				}
+			}
+			var styles = document.getElementsByTagName("style");
+			for (var i = 0; i &lt; styles.length; i++)
+			{
+				if (styles[i].type == "text/css")
+				{
+					styles[i].parentNode.removeChild(styles[i]);
+				}
+			}
+			
+			document.body.style.backgroundColor = "#FFFFFF";
+			document.body.style.color = "#000000";
+			document.body.innerHTML = "&lt;h1&gt;" + "<i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_1'/>" + "&lt;/h1&gt; &lt;p&gt;" + "<i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_2'/>" +"&lt;/p&gt;&lt;p&gt;&lt;a href='index.html'&gt;" + "<i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_3'/>" + "&lt;/a&gt;&lt;/p&gt;"
 		}
    	}
 );
@@ -285,7 +332,7 @@ Ext.SSL_SECURE_URL = Ext.BLANK_IMAGE_URL;
 /*
  * Changing default ajax method to POST
  */
-Ext.Ajax.setOptions({method: 'POST'})
+Ext.Ajax.setOptions({method: 'POST', timeout: 0})
 
 /*
  * Remove ametys_opts object

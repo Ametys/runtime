@@ -1,0 +1,24 @@
+Remplacer HTMLContainer par new Ext.Component({ html: 'test' }), (évetnuellement autoscroll à false, mais pas sur)
+
+Pour les fields, utiliser les normaux avec "ametysDescription" pour l'aide, + cls: 'ametys' + mettre le labelSerator à vide
+	Pour le password, utiliser text avec inputType à "password";
+	Pour la création de mot de passe utiliser le nouveau field
+	Pour le datetime utiliser le nouveau field
+	Pour le long utiliser allowDecimals = false
+	Pour le boolean utiliser CheckBoxField
+	pour le double utiliser NumberField
+	
+Pour les masks new Ext.LoadMask(a, {msgCls: 'ametys-mask-unloading'}).show();
+
+Les Utils.textareaToHTML et consorts sont sur Ametys.convertTexteareaToHtml (sauf le loadScript qui existe sur Ext.Load.loadScript
+
+DirectComm remplacé par var a = Ext.Ajax.request({url: "_sites.xml", params: "toto=1", async: false});
+
+les selectNode, selectNodes et xmlTextContent n'existent plus donc pour traiter du XML
+node.selectNodes => Ext.dom.Query.select("query xpath ou css", node)
+node.selectSingleNode => Ext.dom.Query.selectNode("query xpath ou css", node)
+xmlTextContent => Ext.dom.Query.selectValue("query xpath ou css", node, defaultValue) ou selectNumber si un chiffre est attendu (ou simplement node.nodeValue)
+
+ServerComm.handleResponse devient selectValue("*/" + tagname)
+
+new org.ametys.msg.ErrorDialog devient Ametys.log.ErrorDialog.display

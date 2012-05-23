@@ -94,6 +94,9 @@
 	        <script>/kernel/resources/js/Ametys/form/AbstractFieldWrapper.js</script>
 	        <script>/kernel/resources/js/Ametys/form/field/DateTime.js</script>
 	        <script>/kernel/resources/js/Ametys/form/field/ChangePassword.i18n.js</script>
+	        <script>/kernel/resources/js/Ametys/data/ServerComm.i18n.js</script>
+	        <script>/kernel/resources/js/Ametys/data/ServerComm/TimeoutDialog.i18n.js</script>
+	        <script>/kernel/resources/js/Ametys/log/ErrorDialog.i18n.js</script>
 
 <!-- File pour ajouter la limite d'upload -->
 
@@ -104,7 +107,6 @@
 <!-- 	 		<script>/plugins/extjs/resources/ux/js/XmlTreeLoader.js</script> -->
 <!-- 	 		<script>/kernel/resources/js/org/ametys/tree/XmlTreeLoader.js</script> -->
 	 		
-<!-- 			<script>/kernel/resources/js/org/ametys/servercomm/TimeoutDialog.i18n.js</script> -->
 <!-- 			<script>/kernel/resources/js/org/ametys/servercomm/ServerComm.i18n.js</script> -->
 <!-- 			<script>/kernel/resources/js/org/ametys/servercomm/ServerMessage.js</script> -->
 <!-- 			<script>/kernel/resources/js/org/ametys/log/LoggerManager.js</script> -->
@@ -272,8 +274,11 @@
 			        			{
 			        				text:'Mask', 
 			        				handler: function() {
-				        				var a = Ext.Ajax.request({url: "_sites.xml", params: "toto=1", async: false, method: "GET"});
-				        				var a = Ext.Ajax.request({url: "_sites.xml", params: "toto=1", async: false});
+			        				
+ 										Ext.create("Ametys.data.ServerComm.TimeoutDialog", 'a', 0);
+ 
+				        			//	var a = Ext.Ajax.request({url: "_sites.xml", params: "toto=1", async: false, method: "GET"});
+				        			//	var a = Ext.Ajax.request({url: "_sites.xml", params: "toto=1", async: false});
 			        				} 
 			        			},
 			        			{

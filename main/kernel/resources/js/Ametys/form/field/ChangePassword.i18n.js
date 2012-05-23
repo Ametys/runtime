@@ -23,11 +23,57 @@ Ext.define('Ametys.form.field.ChangePassword', {
     alias: 'widget.changepasswordfield',
     alternateClassName: ['Ext.form.ChangePasswordField', 'Ext.form.ChangePassword', 'Ext.form.field.ChangePassword'],
     
+    statics: {
+        /**
+         * @protected
+         * @readonly
+         * @property {Number} INDEX_MAIN_FIELD index for the main field in the items
+         */
+        INDEX_MAIN_FIELD: 0,
+        /**
+         * @protected
+         * @readonly
+         * @property {Number} INDEX_CONFIRMATION_FIELD index for the confirmation field in the items
+         */
+        INDEX_CONFIRMATION_FIELD: 1,
+        /**
+         * @protected
+         * @readonly
+         * @property {Number} INDEX_CHANGEPASSWORD_BUTTON index for the change password button in the items
+         */
+        INDEX_CHANGEPASSWORD_BUTTON: 3,
+        /**
+         * @protected
+         * @readonly
+         * @property {Number} INDEX_RESETPASSWORD_BUTTON index for the change password button in the items
+         */
+        INDEX_RESETPASSWORD_BUTTON: 2,
+
+        /**
+         * @protected
+         * @readonly
+         * @property {Number} MODE_SETPASSWORD the mode when setting a password for the first time
+         */
+        MODE_SETPASSWORD: 0,
+        /**
+         * @protected
+         * @readonly
+         * @property {Number} MODE_SEEPASSWORD the mode when displaying a password
+         */
+        MODE_SEEPASSWORD: 1,
+        /**
+         * @protected
+         * @readonly
+         * @property {Number} MODE_CHANGEPASSWORD the mode when changing a existing password 
+         */
+        MODE_CHANGEPASSWORD: 2
+    },
+    
     /**
      * @cfg {Object} passwordConfig The configuration object for the first text field. Note that many configuration can be setted directly here and will we broadcasted to underlying field (allowBlank...)
      */
     /**
-     * @cfg {Object} confirmConfig The configuration object for the second text field. Note that many configuration can be setted directly here and will we broadcasted to underlying field (allowBlank...). Default to {@link #passwordCondig}.
+     * @cfg {Object} confirmConfig The configuration object for the second text field. Note that many configuration can be setted directly here and will we broadcasted to underlying field (allowBlank...). Default to {@link #passwordConfig}.
      */
     /**
      * @cfg {Object} buttonConfig The configuration object for the button to change password.
@@ -92,45 +138,9 @@ Ext.define('Ametys.form.field.ChangePassword', {
     layout: {type: 'table', columns: 2},
     cls: 'ametys-changepassword',
 
-    /**
-     * @protected
-     * @property {Integer} INDEX_MAIN_FIELD index for the main field in the items
-     */
-    INDEX_MAIN_FIELD: 0,
-    /**
-     * @protected
-     * @property {Integer} INDEX_CONFIRMATION_FIELD index for the confirmation field in the items
-     */
-    INDEX_CONFIRMATION_FIELD: 1,
-    /**
-     * @protected
-     * @property {Integer} INDEX_CHANGEPASSWORD_BUTTON index for the change password button in the items
-     */
-    INDEX_CHANGEPASSWORD_BUTTON: 3,
-    /**
-     * @protected
-     * @property {Integer} INDEX_RESETPASSWORD_BUTTON index for the change password button in the items
-     */
-    INDEX_RESETPASSWORD_BUTTON: 2,
-	
 	/**
-	 * @property {Integer} mode The current mode of the widget. One of MODE_SETPASSWORD, MODE_SEEPASSWORD and MODE_CHANGEPASSWORD.
+	 * @property {Number} mode The current mode of the widget. One of MODE_SETPASSWORD, MODE_SEEPASSWORD and MODE_CHANGEPASSWORD.
 	 */
-    /**
-     * @protected
-     * @property {Integer} MODE_SETPASSWORD the mode when setting a password for the first time
-     */
-    MODE_SETPASSWORD: 0,
-    /**
-     * @protected
-     * @property {Integer} MODE_SEEPASSWORD the mode when displaying a password
-     */
-    MODE_SEEPASSWORD: 1,
-    /**
-     * @protected
-     * @property {Integer} MODE_CHANGEPASSWORD the mode when changing a existing password 
-     */
-    MODE_CHANGEPASSWORD: 2,
 
     /**
      * @cfg {String} modificationBodyCls CSS class used when on mode 0 or 1. Default value is 'ametys-changepassword-body' that display a little connector between the two fields.
@@ -159,13 +169,13 @@ Ext.define('Ametys.form.field.ChangePassword', {
     	Ext.applyIf(buttonConfig, {
     		text: "<i18n:text i18n:key='KERNEL_PASSWORD_CHANGE' i18n:catalogue='kernel'/>",
     		cls: 'ametys-changepassword-change',
-    		handler: Ext.bind(this._setToMode, this, [this.MODE_CHANGEPASSWORD]),
+    		handler: Ext.bind(this._setToMode, this, [Ametys.form.field.ChangePassword.MODE_CHANGEPASSWORD]),
     		colspan: 2
     	});
     	var button1 = Ext.create('Ext.button.Button', buttonConfig);
 
     	var button2Config = {
-    		handler: Ext.bind(this._setToMode, this, [this.MODE_SEEPASSWORD]),
+    		handler: Ext.bind(this._setToMode, this, [Ametys.form.field.ChangePassword.MODE_SEEPASSWORD]),
     		tooltip: "<i18n:text i18n:key='KERNEL_PASSWORD_CLEAR' i18n:catalogue='kernel'/>",
     		cls: 'ametys-changepassword-reset'
     	};
@@ -174,7 +184,7 @@ Ext.define('Ametys.form.field.ChangePassword', {
     	this.items = [field1, field2, button2, button1];
     	this.resetPasswordBtn = button2;
     	
-    	this.mode = this.MODE_SETPASSWORD;
+    	this.mode = Ametys.form.field.ChangePassword.MODE_SETPASSWORD;
     	
     	this.on('afterrender', this._adaptRenderToMode, this);
     	
@@ -202,19 +212,19 @@ Ext.define('Ametys.form.field.ChangePassword', {
 		
 		switch (this.mode)
 		{
-			case this.MODE_SETPASSWORD:
-			case this.MODE_CHANGEPASSWORD:
+			case Ametys.form.field.ChangePassword.MODE_SETPASSWORD:
+			case Ametys.form.field.ChangePassword.MODE_CHANGEPASSWORD:
 				if (width)
 				{
-					sizes[this.INDEX_MAIN_FIELD].width = width - 8; // 8 is the width of the background image for 'connecting' both fields
-					sizes[this.INDEX_CONFIRMATION_FIELD].width = width - 8;
+					sizes[Ametys.form.field.ChangePassword.INDEX_MAIN_FIELD].width = width - 8; // 8 is the width of the background image for 'connecting' both fields
+					sizes[Ametys.form.field.ChangePassword.INDEX_CONFIRMATION_FIELD].width = width - 8;
 				}
 				break;
-			case this.MODE_SEEPASSWORD:
+			case Ametys.form.field.ChangePassword.MODE_SEEPASSWORD:
 				if (width)
 				{
-					sizes[this.INDEX_MAIN_FIELD].width = width;
-					sizes[this.INDEX_CHANGEPASSWORD_BUTTON].width = width;
+					sizes[Ametys.form.field.ChangePassword.INDEX_MAIN_FIELD].width = width;
+					sizes[Ametys.form.field.ChangePassword.INDEX_CHANGEPASSWORD_BUTTON].width = width;
 				}
 				break;
 		}
@@ -226,7 +236,7 @@ Ext.define('Ametys.form.field.ChangePassword', {
     	var a = this.callParent(arguments);
 
     	if (arguments.length == 1 &amp;&amp; value == undefined
-    			|| arguments.length == 0 &amp;&amp; this.items.get(this.INDEX_MAIN_FIELD).getValue() != this.items.get(this.INDEX_CONFIRMATION_FIELD).getValue())
+    			|| arguments.length == 0 &amp;&amp; this.items.get(Ametys.form.field.ChangePassword.INDEX_MAIN_FIELD).getValue() != this.items.get(Ametys.form.field.ChangePassword.INDEX_CONFIRMATION_FIELD).getValue())
     	{
     		a.push("<i18n:text key='KERNEL_PASSWORD_VALIDATOR' catalogue='kernel'/>");
     	}
@@ -254,11 +264,11 @@ Ext.define('Ametys.form.field.ChangePassword', {
     {
     	if (value == undefined || value == '')
     	{
-    		this._setToMode(this.MODE_SETPASSWORD);
+    		this._setToMode(Ametys.form.field.ChangePassword.MODE_SETPASSWORD);
     	}
     	else
     	{
-    		this._setToMode(this.MODE_SEEPASSWORD);
+    		this._setToMode(Ametys.form.field.ChangePassword.MODE_SEEPASSWORD);
     	}
     	
     	this.callParent(arguments);
@@ -266,19 +276,19 @@ Ext.define('Ametys.form.field.ChangePassword', {
 
     /**
      * @private
-     * @param {Interger} mode The mode to set (see {@link #cfg-mode}). The render is modified.
+     * @param {Number} mode The mode to set (see {@link #property-mode}). The render is modified.
      */
     _setToMode: function(mode) {
-    	if (this.mode == this.MODE_SEEPASSWORD)
+    	if (this.mode == Ametys.form.field.ChangePassword.MODE_SEEPASSWORD)
     	{
-        	this.previousValue = this.items.get(this.INDEX_MAIN_FIELD).getValue();
+        	this.previousValue = this.items.get(Ametys.form.field.ChangePassword.INDEX_MAIN_FIELD).getValue();
     	}
     	
     	this.mode = mode;
 
-    	if (mode == this.MODE_SEEPASSWORD)
+    	if (mode == Ametys.form.field.ChangePassword.MODE_SEEPASSWORD)
     	{
-    		this.items.get(this.INDEX_MAIN_FIELD).setValue(this.previousValue);
+    		this.items.get(Ametys.form.field.ChangePassword.INDEX_MAIN_FIELD).setValue(this.previousValue);
     	}
 
     	this._adaptRenderToMode();
@@ -299,32 +309,32 @@ Ext.define('Ametys.form.field.ChangePassword', {
     	
     	switch (this.mode)
     	{
-    		case this.MODE_CHANGEPASSWORD:
+    		case Ametys.form.field.ChangePassword.MODE_CHANGEPASSWORD:
     	    	this.resetPasswordBtn.show();
     	    	
-    		case this.MODE_SETPASSWORD:
-    			this.items.get(this.INDEX_MAIN_FIELD).setValue('');
-    			this.items.get(this.INDEX_CONFIRMATION_FIELD).setValue('');
+    		case Ametys.form.field.ChangePassword.MODE_SETPASSWORD:
+    			this.items.get(Ametys.form.field.ChangePassword.INDEX_MAIN_FIELD).setValue('');
+    			this.items.get(Ametys.form.field.ChangePassword.INDEX_CONFIRMATION_FIELD).setValue('');
     			
             	this.bodyEl.addCls(this.modificationBodyCls);
             	
-            	this.items.get(this.INDEX_MAIN_FIELD).setDisabled(this.disabled);
+            	this.items.get(Ametys.form.field.ChangePassword.INDEX_MAIN_FIELD).setDisabled(this.disabled);
             	
-            	this.items.get(this.INDEX_CONFIRMATION_FIELD).setDisabled(this.disabled);
-            	this.items.get(this.INDEX_CONFIRMATION_FIELD).show();
+            	this.items.get(Ametys.form.field.ChangePassword.INDEX_CONFIRMATION_FIELD).setDisabled(this.disabled);
+            	this.items.get(Ametys.form.field.ChangePassword.INDEX_CONFIRMATION_FIELD).show();
             	
-            	this.items.get(this.INDEX_CHANGEPASSWORD_BUTTON).hide();
+            	this.items.get(Ametys.form.field.ChangePassword.INDEX_CHANGEPASSWORD_BUTTON).hide();
 
             	break;
-    		case this.MODE_SEEPASSWORD:
+    		case Ametys.form.field.ChangePassword.MODE_SEEPASSWORD:
     			this.bodyEl.removeCls(this.modificationBodyCls);
             	
-    			this.items.get(this.INDEX_MAIN_FIELD).setDisabled(true);
+    			this.items.get(Ametys.form.field.ChangePassword.INDEX_MAIN_FIELD).setDisabled(true);
             	
-    			this.items.get(this.INDEX_CONFIRMATION_FIELD).setDisabled(true);
-            	this.items.get(this.INDEX_CONFIRMATION_FIELD).hide();
+    			this.items.get(Ametys.form.field.ChangePassword.INDEX_CONFIRMATION_FIELD).setDisabled(true);
+            	this.items.get(Ametys.form.field.ChangePassword.INDEX_CONFIRMATION_FIELD).hide();
 
-            	this.items.get(this.INDEX_CHANGEPASSWORD_BUTTON).show();
+            	this.items.get(Ametys.form.field.ChangePassword.INDEX_CHANGEPASSWORD_BUTTON).show();
 
             	break;
     	}

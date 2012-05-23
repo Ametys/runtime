@@ -13,19 +13,13 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-.ext-el-mask-msg {
-	border-color:#811788 !important;
-	background-color: #FFFFFF !important;
-	background-image: none !important;
-	padding: 5px !important;
-	z-index: 101;
+
+.timeout-dialog-text {
+	padding: 5px;
 }
 
-.ext-el-mask-msg div {
-	font-style: italic;
-	border: 0px none !important;
-}
-
-.ext-el-mask-msg.ametys-mask-unloading div {
-	cursor: auto !important;
+.timeout-dialog-details {
+	border-top: 1px solid #C8CDD0;
+	padding: 5px;
+	color: #404040;
 }

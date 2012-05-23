@@ -18,8 +18,8 @@
  * Abstract class to creates a field that wraps several fields.<br/>
  * You have to implement {@link #splitValue}, {@link #concatValues} and {@link #splitSize}.<br/>
  * Default layout is column.<br/>
- * To handle global errors override {@link getErrors}.<br/>
- * To make your field compatible with form, if your are not returning strings, see {@link getSubmitData}
+ * To handle global errors override {@link #getErrors}.<br/>
+ * To make your field compatible with form, if your are not returning strings, see {@link #getSubmitData}
  * <code>
  *      // A component to enter a number (&gt; 5) with spinner and a two chars text
  * 		Ext.define('Ametys.toto', {
