@@ -28,12 +28,14 @@ Ext.define(
 			/**
 			 * @property {Number}
 			 * @readonly
+			 * @static
 			 * The time out between dialog calls (in milliseconds) 
 			 */
 			TIMEOUT: 60000,
 
 			/**
 			 * @private
+			 * @static
 			 * An array of currently opened dialogs
 			 * @property {Ametys.data.ServerComm.TimeoutDialog[]}
 			 */

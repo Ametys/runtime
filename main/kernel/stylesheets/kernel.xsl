@@ -96,6 +96,8 @@
 	        <script>/kernel/resources/js/Ametys/form/field/ChangePassword.i18n.js</script>
 	        <script>/kernel/resources/js/Ametys/data/ServerComm.i18n.js</script>
 	        <script>/kernel/resources/js/Ametys/data/ServerComm/TimeoutDialog.i18n.js</script>
+	        <script>/kernel/resources/js/Ametys/log/Logger.js</script>
+	        <script>/kernel/resources/js/Ametys/log/Logger/Entry.js</script>
 	        <script>/kernel/resources/js/Ametys/log/ErrorDialog.i18n.js</script>
 
 <!-- File pour ajouter la limite d'upload -->

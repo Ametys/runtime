@@ -27,24 +27,28 @@ Ext.define('Ametys.form.field.ChangePassword', {
         /**
          * @protected
          * @readonly
+		 * @static
          * @property {Number} INDEX_MAIN_FIELD index for the main field in the items
          */
         INDEX_MAIN_FIELD: 0,
         /**
          * @protected
          * @readonly
+		 * @static
          * @property {Number} INDEX_CONFIRMATION_FIELD index for the confirmation field in the items
          */
         INDEX_CONFIRMATION_FIELD: 1,
         /**
          * @protected
          * @readonly
+		 * @static
          * @property {Number} INDEX_CHANGEPASSWORD_BUTTON index for the change password button in the items
          */
         INDEX_CHANGEPASSWORD_BUTTON: 3,
         /**
          * @protected
          * @readonly
+		 * @static
          * @property {Number} INDEX_RESETPASSWORD_BUTTON index for the change password button in the items
          */
         INDEX_RESETPASSWORD_BUTTON: 2,
@@ -52,18 +56,21 @@ Ext.define('Ametys.form.field.ChangePassword', {
         /**
          * @protected
          * @readonly
+		 * @static
          * @property {Number} MODE_SETPASSWORD the mode when setting a password for the first time
          */
         MODE_SETPASSWORD: 0,
         /**
          * @protected
          * @readonly
+		 * @static
          * @property {Number} MODE_SEEPASSWORD the mode when displaying a password
          */
         MODE_SEEPASSWORD: 1,
         /**
          * @protected
          * @readonly
+		 * @static
          * @property {Number} MODE_CHANGEPASSWORD the mode when changing a existing password 
          */
         MODE_CHANGEPASSWORD: 2

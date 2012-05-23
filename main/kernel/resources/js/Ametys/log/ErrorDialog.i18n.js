@@ -80,7 +80,7 @@ Ext.define(
 			
 			if (category)
 			{
-				org.ametys.log.LoggerManager.error(category, centralMsg, detailledMsg);
+				Ametys.log.Logger.error(category, centralMsg, detailledMsg);
 			}
 			
 			var okId = Ext.id();
