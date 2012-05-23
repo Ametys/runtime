@@ -109,11 +109,6 @@
 <!-- 	 		<script>/plugins/extjs/resources/ux/js/XmlTreeLoader.js</script> -->
 <!-- 	 		<script>/kernel/resources/js/org/ametys/tree/XmlTreeLoader.js</script> -->
 	 		
-<!-- 			<script>/kernel/resources/js/org/ametys/servercomm/ServerComm.i18n.js</script> -->
-<!-- 			<script>/kernel/resources/js/org/ametys/servercomm/ServerMessage.js</script> -->
-<!-- 			<script>/kernel/resources/js/org/ametys/log/LoggerManager.js</script> -->
-<!-- 			<script>/kernel/resources/js/org/ametys/log/LoggerEntry.js</script> -->
-<!-- 			<script>/kernel/resources/js/org/ametys/msg/ErrorDialog.i18n.js</script> -->
 
 	    </xsl:variable>
 		<xsl:variable name="scripts-to-load" select="exslt:node-set($scripts-to-load-raw)"/>
