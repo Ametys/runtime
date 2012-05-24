@@ -22,3 +22,7 @@ xmlTextContent => Ext.dom.Query.selectValue("query xpath ou css", node, defaultV
 ServerComm.handleResponse devient selectValue("*/" + tagname)
 
 new org.ametys.msg.ErrorDialog devient Ametys.log.ErrorDialog.display
+
+EditorListView et ListView ont disparu => faire à la mano
+
+XMLTreeLoader est censé être natif... proxy type xml

@@ -100,11 +100,8 @@
 	        <script>/kernel/resources/js/Ametys/log/Logger/Entry.js</script>
 	        <script>/kernel/resources/js/Ametys/log/ErrorDialog.i18n.js</script>
 
-<!-- File pour ajouter la limite d'upload -->
-
 <!-- 	        <script>/kernel/resources/js/org/ametys/ListView.js</script> -->
 <!-- 	        <script>/kernel/resources/js/org/ametys/EditorListView.js</script> -->
-<!-- 	        <script>/kernel/resources/js/org/ametys/Tree.js</script> -->
 
 <!-- 	 		<script>/plugins/extjs/resources/ux/js/XmlTreeLoader.js</script> -->
 <!-- 	 		<script>/kernel/resources/js/org/ametys/tree/XmlTreeLoader.js</script> -->
