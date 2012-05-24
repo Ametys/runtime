@@ -99,14 +99,6 @@
 	        <script>/kernel/resources/js/Ametys/log/Logger.js</script>
 	        <script>/kernel/resources/js/Ametys/log/Logger/Entry.js</script>
 	        <script>/kernel/resources/js/Ametys/log/ErrorDialog.i18n.js</script>
-
-<!-- 	        <script>/kernel/resources/js/org/ametys/ListView.js</script> -->
-<!-- 	        <script>/kernel/resources/js/org/ametys/EditorListView.js</script> -->
-
-<!-- 	 		<script>/plugins/extjs/resources/ux/js/XmlTreeLoader.js</script> -->
-<!-- 	 		<script>/kernel/resources/js/org/ametys/tree/XmlTreeLoader.js</script> -->
-	 		
-
 	    </xsl:variable>
 		<xsl:variable name="scripts-to-load" select="exslt:node-set($scripts-to-load-raw)"/>
 		
@@ -157,153 +149,20 @@
 			      	</xsl:for-each>
 			      	
 					<xsl:if test="$reuse-css-component = 'false'">
-						<xsl:call-template name="ui-load-css">
+						<xsl:call-template name="kernel-base-load-css">
 							<xsl:with-param name="load-cb" select="$load-cb"/>
 							<xsl:with-param name="debug-mode" select="$debug-mode"/>
 						</xsl:call-template>
 					</xsl:if>
 			</xsl:otherwise>
 		</xsl:choose>
-		
-		<script type="text/javascript">
-		
-		var states = Ext.create('Ext.data.Store', {
-    fields: ['abbr', 'name'],
-    data : [
-        {"abbr":"AL", "name":"Alabama"},
-        {"abbr":"AK", "name":"Alaska"},
-        {"abbr":"AZ", "name":"Arizona"}
-        //...
-    ]
-});
-		
-		
-		
-		
-			Ext.application({
-			    name: 'AM',
-			
-			    appFolder: 'app',
-			
-			    launch: function() {
-			        Ext.create('Ext.container.Viewport', {
-			            layout: 'fit',
-			            items: [
-		                    
-			            ]
-			        });
-			        
-			        Ext.create("Ametys.window.DialogBox", 
-			        	{
-			        		'title': 'toto', 
-			        		'icon': '<xsl:value-of select="$context-path"/>/kernel/resources/img/error_16.gif',
-			        		'layout': 'anchor',
-			        		id: 'blues',
-			        		defaultButton: 'a',
-			        		'items' : [
-				        		 new Ext.form.Panel({ id: 'tata', defaults: {labelSeparator: ''}, items: [
-				        			new Ext.Component({ html: 'test' }),
-				        			new Ext.form.field.Text({fieldLabel: 'hello1', id: 'a', width: 350}),
-				        			new Ext.form.field.Number({fieldLabel: 'hello2', id:'toto', ametysDescription: '', width: 350 }),
-									
-									Ext.create('Ametys.form.field.DateTime', {
-									    fieldLabel: 'Choose State',
-									    id: 'toto2',
-									    name: 'toto2',
-									    width: 350,
-									    allowBlank: false,
-								    	ametysDescription: 'test'
-									}),
-
-
-									Ext.create('Ametys.form.field.ChangePassword', {
-									    fieldLabel: 'Choose State2',
-									    width: 350,
-									    allowBlank: false,
-									    ametysDescription: 'test'
-									}),
-
-				        			new Ext.form.field.Text({fieldLabel: 'hello3', ametysDescription: 'test', allowBlank: false, width: 350}),
-				        			
-				        			Ext.create('Ext.form.field.File', {
-									    fieldLabel: 'Choose State 5',
-									    width: 350,
-									    allowBlank: false,
-									    ametysDescription: 'test'
-									}),
-
-				        			Ext.create('Ametys.form.field.ChangePassword', {
-									    fieldLabel: 'Choose State4',
-									    width: 350,
-									    allowBlank: false,
-									    value: 'password',
-									    ametysDescription: 'test'
-									})
-				        			
-				        		 ]})
-			        		],
-			        		width: 500,
-			        		height: 400,
-			        		buttons: [ 
-			        			{
-			        				text:'OK', 
-			        				handler: function() {
-				        				var form = Ext.getCmp('tata').getForm()
-				        				
-				        				console.log(form.getFieldValues());
-				        				
-				        				if (form.isValid())
-				        				{
-				        				form.getFields().each(function(t) {console.log(t.getSubmitData())})
-				        					this.up('dialog').hide();
-				        				} 
-			        				} 
-			        			},
-			        			{
-			        				text:'Clear', 
-			        				handler: function() {
-				        				var form = Ext.getCmp('tata').getForm()
-				        					form.clearInvalid();
-			        				} 
-			        			},
-			        			{
-			        				text:'Mask', 
-			        				handler: function() {
-			        				
- 										Ext.create("Ametys.data.ServerComm.TimeoutDialog", 'a', 0);
- 
-				        			//	var a = Ext.Ajax.request({url: "_sites.xml", params: "toto=1", async: false, method: "GET"});
-				        			//	var a = Ext.Ajax.request({url: "_sites.xml", params: "toto=1", async: false});
-			        				} 
-			        			},
-			        			{
-			        				text:'Enable/Disable', 
-			        				handler: function() {
-				        				var form = Ext.getCmp('tata').getForm()
-				        				form.getFields().each(function (field) {
-				        					if (field.isDisabled())
-				        					{
-				        						field.enable();
-				        					}
-				        					else
-				        					{
-				        						field.disable();
-				        					}
-				        				});
-			        				} 
-			        			}
-			        		]
-			        	}
-			        ).show();
-			    }
-			});
-			
-			Ametys.setAppParameter('jojo', 'estpasbo');
-		</script>
     </xsl:template>
  
-
-    <xsl:template name="ui-load-css">
+	<!-- +
+	     | private
+	     | css load is not just a call to a link tag (as it is for js), because we need to cut it in several files for IE 
+	     + -->
+    <xsl:template name="kernel-base-load-css">
         <xsl:param name="load-cb"/>
         <xsl:param name="debug-mode"/>
         
@@ -311,7 +170,7 @@
         		<xsl:when test="$debug-mode = 'true'">
         			<xsl:variable name="hashcode" select="csscomponent:getHashCode()"/>
         		
-				    <xsl:call-template name="ui-load-css-recurse">
+				    <xsl:call-template name="kernel-base-load-css-recurse">
 					    <xsl:with-param name="max" select="csscomponent:getNumberOfParts($hashcode)"/>
 					    <xsl:with-param name="hashcode" select="$hashcode"/>
 				    </xsl:call-template>
@@ -325,14 +184,17 @@
         	</xsl:choose>
 	</xsl:template>
 
-    <xsl:template name="ui-load-css-recurse">
+	<!-- +
+	     | private
+	     + -->
+    <xsl:template name="kernel-base-load-css-recurse">
         <xsl:param name="num" select="0"/>
         <xsl:param name="max"/>
         <xsl:param name="hashcode"/>
     
     	<xsl:if test="$num &lt; $max">
         	<link rel="stylesheet" type="text/css" href="{$contextPath}{$workspaceURI}/plugins/core/cssfilelist/debug/{$hashcode}/{$num}.css"/>
-		    <xsl:call-template name="ui-load-css-recurse">
+		    <xsl:call-template name="kernel-base-load-css-recurse">
 			    <xsl:with-param name="num" select="$num + 1"/>
 			    <xsl:with-param name="max" select="$max"/>
 			    <xsl:with-param name="hashcode" select="$hashcode"/>
