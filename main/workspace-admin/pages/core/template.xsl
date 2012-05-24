@@ -83,6 +83,7 @@
             <xsl:with-param name="plugins-wrapped-prefix" select="'/_plugins'"/>
             <xsl:with-param name="debug-mode">true</xsl:with-param>
             <xsl:with-param name="context-path" select="$contextPath"/>
+		    <xsl:with-param name="plugin-core-url" select="concat($contextPath, $workspaceURI, '/plugins/core')"/>
             <xsl:with-param name="workspace-name" select="$workspaceName"/>
             <xsl:with-param name="workspace-prefix" select="$workspaceURI"/>
             <xsl:with-param name="max-upload-size" select="''"/>
@@ -95,57 +96,6 @@
             <xsl:with-param name="use-css-component">false</xsl:with-param>
             <xsl:with-param name="use-js-component">false</xsl:with-param>
         </xsl:call-template>
-        
-        <!-- Check navigator is supported -->
-<!--         <xsl:call-template name="ui-tools-load"> -->
-<!--             <xsl:with-param name="bad-navigator-redirection"><xsl:value-of select="$workspaceContext"/>/public/navigator.html</xsl:with-param> -->
-
-<!--             <xsl:with-param name="accept-ie-6">true</xsl:with-param> -->
-<!--             <xsl:with-param name="accept-ie-7">true</xsl:with-param> -->
-<!--             <xsl:with-param name="accept-ie-8">true</xsl:with-param> -->
-<!--             <xsl:with-param name="accept-ie-9">true</xsl:with-param> -->
-<!--             <xsl:with-param name="accept-ff-1.0">false</xsl:with-param> -->
-<!--             <xsl:with-param name="accept-ff-1.5">true</xsl:with-param> -->
-<!--             <xsl:with-param name="accept-ff-2.0">true</xsl:with-param> -->
-<!--             <xsl:with-param name="accept-ff-3.0">true</xsl:with-param> -->
-<!--             <xsl:with-param name="accept-ff-3.5">true</xsl:with-param> -->
-<!--             <xsl:with-param name="accept-ff-3.6">true</xsl:with-param> -->
-<!--             <xsl:with-param name="accept-ff-4.0">true</xsl:with-param> -->
-<!--             <xsl:with-param name="accept-ff-5.0">true</xsl:with-param> -->
-<!--             <xsl:with-param name="accept-ff-6.0">true</xsl:with-param> -->
-<!--             <xsl:with-param name="accept-ff-7.0">true</xsl:with-param> -->
-<!--             <xsl:with-param name="accept-ff-8.0">true</xsl:with-param> -->
-<!--             <xsl:with-param name="accept-ff-9.0">true</xsl:with-param> -->
-<!--             <xsl:with-param name="accept-ff-10.0">true</xsl:with-param> -->
-<!--            <xsl:with-param name="accept-ff-11.0">true</xsl:with-param>-->
-<!--            <xsl:with-param name="accept-ff-12.0">true</xsl:with-param>-->
-<!--             <xsl:with-param name="accept-sa-3">true</xsl:with-param> -->
-<!--             <xsl:with-param name="accept-sa-4">true</xsl:with-param> -->
-<!--             <xsl:with-param name="accept-sa-5.0">true</xsl:with-param> -->
-<!--             <xsl:with-param name="accept-op-9">true</xsl:with-param> -->
-<!--             <xsl:with-param name="accept-op-10">true</xsl:with-param> -->
-<!--             <xsl:with-param name="accept-ch-1">true</xsl:with-param> -->
-<!--             <xsl:with-param name="accept-ch-2">true</xsl:with-param> -->
-<!--             <xsl:with-param name="accept-ch-3">true</xsl:with-param> -->
-<!--             <xsl:with-param name="accept-ch-4">true</xsl:with-param> -->
-<!--             <xsl:with-param name="accept-ch-5">true</xsl:with-param> -->
-<!--             <xsl:with-param name="accept-ch-6">true</xsl:with-param> -->
-<!--             <xsl:with-param name="accept-ch-7">true</xsl:with-param> -->
-<!--             <xsl:with-param name="accept-ch-8">true</xsl:with-param> -->
-<!--             <xsl:with-param name="accept-ch-9">true</xsl:with-param> -->
-<!--             <xsl:with-param name="accept-ch-10">true</xsl:with-param> -->
-<!--             <xsl:with-param name="accept-ch-11">true</xsl:with-param> -->
-<!--             <xsl:with-param name="accept-ch-12">true</xsl:with-param> -->
-<!--             <xsl:with-param name="accept-ch-13">true</xsl:with-param> -->
-<!--             <xsl:with-param name="accept-ch-14">true</xsl:with-param> -->
-<!--            <xsl:with-param name="accept-ch-15">true</xsl:with-param> -->
-<!--            <xsl:with-param name="accept-ch-16">true</xsl:with-param> -->
-<!--            <xsl:with-param name="accept-ch-17">true</xsl:with-param> -->
-<!--            <xsl:with-param name="accept-ch-18">true</xsl:with-param> -->
-<!--             <xsl:with-param name="use-css-component">false</xsl:with-param> -->
-<!--             <xsl:with-param name="use-js-component">false</xsl:with-param> -->
-<!--             <xsl:with-param name="debug-mode">true</xsl:with-param> -->
-<!--     	</xsl:call-template> -->
 	</xsl:template>
     
     <xsl:template name="workspace-head-scripts">

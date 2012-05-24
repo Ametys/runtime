@@ -18,7 +18,11 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
     xmlns:i18n="http://apache.org/cocoon/i18n/2.1"
     xmlns:exslt="http://exslt.org/common">
-
+	
+	<!-- +
+	     | @private
+	     | Add the javascript code that checks the current browser version
+	 	 + -->
 	<xsl:template name="kernel-browsers">
 		<xsl:param name="authorized-browsers"/>
 		<xsl:param name="context-path"/>
