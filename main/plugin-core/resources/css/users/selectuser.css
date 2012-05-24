@@ -45,7 +45,17 @@
 	border-top: 1px solid #C8CDD0;
 }
 
-.ext-ie6 .select-user-list-body .x-grid3
+.ext-ie6 .select-user-list-body .x-grid3,
+.ext-ie7 .select-user-list-body,
+.ext-ie7 .select-user-list-body .x-grid3
 {
 	height: 202px;
+}
+
+.ext-ie7 .select-user-box .select-user-list,
+.ext-ie7 .select-user-box .x-window-body.x-border-layout-ct,
+.ext-ie7 .select-user-box .x-window-body.x-border-layout-ct .x-border-panel,
+.ext-ie7 .select-user-box .x-window-body .x-border-layout-ct .x-border-panel
+{
+    position: static !important;  
 }
