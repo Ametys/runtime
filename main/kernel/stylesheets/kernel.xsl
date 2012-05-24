@@ -231,6 +231,7 @@
 				        			Ext.create('Ext.form.field.File', {
 									    fieldLabel: 'Choose State 5',
 									    width: 350,
+									    allowBlank: false,
 									    ametysDescription: 'test'
 									}),
 

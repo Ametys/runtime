@@ -13,12 +13,11 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-
-@import url('../../../../plugins/extjs4/resources/css/ext-all-gray.css');
-@import url('ChangePassword.css');
-@import url('ErrorDialog.css');
-@import url('Field.css');
-@import url('File.css');
-@import url('LoadMask.css');
-@import url('TimeoutDialog.css');
-@import url('Window.css');
+ 
+.x-form-file-wrap .ametys-file-hint {
+	font-size: 0.9em;
+	color: #7f7f7f;
+	padding-left: 5px;
+	padding-top: 2px;
+	font-style:italic;
+}

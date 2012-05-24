@@ -43,6 +43,7 @@
   * <li>Removing window.ametys_opts from global scope,</li>
   * <li>Adding support for 'ametysDescription' config on fields and field container (that draws a ? image on the right of the fields),</li>
   * <li>Doing some localization work,</li>
+  * <li>Display an hint under File field to display max upload size,</li>
   * <li>Changing Ext.Ajax default request method from GET to POST, and setting timeout to 0.</li>
   * </ul>
   */
@@ -85,7 +86,7 @@ Ext.define(
 		 * @type String
 		 * @readonly
 		 */
-		MAX_UPLOAD_SIZE: ametys_opts["max-upload-size"],
+		MAX_UPLOAD_SIZE: 1000000,//ametys_opts["max-upload-size"],
 	            
 		/**
 	     * Load JS files in debug mode when available.
@@ -327,6 +328,33 @@ Ext.SSL_SECURE_URL = Ext.BLANK_IMAGE_URL;
 
 	Ext.define("Ametys.form.Labelable", { override: "Ext.form.field.Base", afterSubTpl: afterSubTpl, getLabelableRenderData: getLabelableRenderData	});
 	Ext.define("Ametys.form.FieldContainer", { override: "Ext.form.FieldContainer", afterSubTpl: afterSubTpl, getLabelableRenderData: getLabelableRenderData });
+}
+
+/*
+ * Support for optionnal label on files to indicate max allowed size 
+ */
+{
+    Ext.define("Ametys.form.field.File", {
+        override: "Ext.form.field.File",
+        
+        getTriggerMarkup: function() {
+        	var result = this.callParent(arguments);
+        	
+        	/**
+        	 * @class Ext.form.field.File
+        	 * @cfg {Boolean} ametysShowMaxUploadSizeHint false to hide to max size hint under the field. true by default
+        	 */
+        	if (Ametys.MAX_UPLOAD_SIZE != undefined &amp;&amp; Ametys.MAX_UPLOAD_SIZE != '' &amp;&amp; this.ametysShowMaxUploadSizeHint !== false)
+        	{
+        		result += '&lt;/tr&gt;&lt;tr id="' + this.id + '-uploadsize" class="ametys-file-hint"&gt;&lt;td colspan="2"&gt;'
+        		    + '(<i18n:text i18n:key="KERNEL_UPLOAD_HINT"/>'
+        		    + Ext.util.Format.fileSize(Ametys.MAX_UPLOAD_SIZE)
+        			+ ')&lt;/td&gt;';
+        	}
+        	
+        	return result;
+        }
+    });
 }
 
 /*
