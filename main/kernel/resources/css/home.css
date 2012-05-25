@@ -26,7 +26,7 @@ body
 	background-color: #033059;
 	color: #FFFFFF;
 
-	background-image: url('../../img/home/bg.gif');
+	background-image: url('../img/home/bg.gif');
 	background-position: top;
 	background-repeat: repeat-x;
 	
@@ -54,7 +54,7 @@ body
 
 .home-wrapper .home-header
 {
-	background-image: url('../../img/home/bg_top.jpg');
+	background-image: url('../img/home/bg_top.jpg');
 	background-position: center;
 	background-repeat: no-repeat;
 	
@@ -107,6 +107,36 @@ body
 {
 	background-color: #F0F0F0;
 	color: #000000;
+	padding: 30px;
+}
+
+.home-wrapper .home-main .home-col-main h1 
+{
+	color: #1C58A0;
+	font-size: 1.4em;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.home-wrapper .home-main .home-col-main p
+{
+	text-align: left;
+}
+
+.home-wrapper .home-main .home-col-main a, 
+.home-wrapper .home-main .home-col-main a:link,
+.home-wrapper .home-main .home-col-main a:visited,
+.home-wrapper .home-main .home-col-main a:active
+{
+	color: #842970;
+	font-weight: bold;
+	text-decoration: none;
+}
+	
+.home-wrapper .home-main .home-col-main a:hover 
+{
+	color: #1C58A0;
+	text-decoration: none;
 }
 
 .home-wrapper .home-footer
