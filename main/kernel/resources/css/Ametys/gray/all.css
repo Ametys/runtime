@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-@import url('../../../../plugins/extjs4/resources/css/ext-all-gray.css');
+@import url('../../../../../plugins/extjs4/resources/css/ext-all-gray.css');
 @import url('ChangePassword.css');
 @import url('ErrorDialog.css');
 @import url('Field.css');

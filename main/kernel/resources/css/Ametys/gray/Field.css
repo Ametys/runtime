@@ -17,7 +17,7 @@
 .ametys-description
 {
 	width: 20px; 
-	background-image: url('../../img/Ametys/theme/gray/description.gif'); 
+	background-image: url('../../../img/Ametys/theme/gray/description.gif'); 
 	background-repeat: no-repeat; 
 	background-position: center 6px;
 }
