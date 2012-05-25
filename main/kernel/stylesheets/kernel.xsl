@@ -60,7 +60,7 @@
 		<xsl:param name="workspace-prefix"/>
 		<xsl:param name="max-upload-size"/>
 		<xsl:param name="language-code"><i18n:text i18n:key='KERNEL_LANGUAGE_CODE' i18n:catalogue='kernel'/></xsl:param>
-		<xsl:param name="authorized-browsers">undefined</xsl:param>
+		<xsl:param name="authorized-browsers"/>
 
         <xsl:param name="load-cb"/>
         <xsl:param name="use-css-component">true</xsl:param>
@@ -107,7 +107,7 @@
 	    </xsl:variable>
 		
 		<xsl:variable name="css">
-			<css>/kernel/resources/css/gray/all.css</css>
+			<css>/kernel/resources/css/Ametys/gray/all.css</css>
 		</xsl:variable>
 
 		<xsl:call-template name="kernel-load">
