@@ -18,68 +18,50 @@
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
                 xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
 	
-	<xsl:import href="../core/template.xsl"/>
+	<xsl:import href="kernel://pages/home/home.xsl"/>
     
     <xsl:param name="redirect"/>
     <xsl:param name="contextPath"/>
+    <xsl:param name="workspaceName"/>
     <xsl:param name="workspaceURI"/>
 	
-    <xsl:template name="workspace-script">
-<!--            	<script type="text/javascript"> -->
-<!--            		var item = new org.ametys.DesktopItem ({ -->
-<!-- 	           			text: "<i18n:text i18n:key="WORKSPACE_ADMIN_CONFIG_ACT"/>", -->
-<!-- 						desc: "<i18n:text i18n:key="WORKSPACE_ADMIN_CONFIG_DESCRIPTION"/>", -->
-<!-- 						icon: "<xsl:value-of select="$contextPath"/>/plugins/core/resources/img/administrator/config/icon_large.png", -->
-<!-- 						iconOver: "<xsl:value-of select="$contextPath"/>/plugins/core/resources/img/administrator/config/icon_large_over.png", -->
-<!-- 						plugin: "core", -->
-<!-- 	                    actionFunction : org.ametys.runtime.Link, -->
-<!-- 	                    actionParams : {"Link" : "administrator/config/edit.html", "Mode" : "plugin-wrapped"} -->
-						
-<!-- 				}); -->
-				
-<!-- 				var top = new org.ametys.HtmlContainer({ -->
-<!-- 					region: 'north', -->
-<!-- 					contentEl : 'top-panel', -->
-<!-- 					cls: 'top-panel', -->
-<!-- 					border: false -->
-<!-- 				}); 	 -->
-				
-<!-- 				var center = new Ext.Panel({ -->
-<!-- 					region: 'center', -->
-<!-- 					baseCls: 'center-panel', -->
-<!-- 					border: false, -->
-<!-- 					items : [item] -->
-<!-- 				}); 	 -->
-				
-<!--            		org.ametys.runtime.HomePage.createPanel = function () -->
-<!--            		{ -->
-<!--            			return new Ext.Panel({ -->
-<!--            				border: false, -->
-<!--            				layout: 'border', -->
-<!--            				autoScroll: true, -->
-<!--            				baseCls: 'transparent-panel', -->
-<!-- 						items : [top, center] -->
-<!-- 					}); -->
-<!--            		} -->
-<!--            	</script> -->
-           	<link type="text/css" href="{$contextPath}{$workspaceURI}/resources/css/public.css" rel="stylesheet" />
-    </xsl:template>
-    
-    <xsl:template name="workspace-body">
-    	<div id="top-panel"> 
-			<div class="title">
-                <i18n:text i18n:key="WORKSPACE_ADMIN_CONFIG_TITLE"/>
-            </div>
-                  
-			<br/><br/>
-                  
-			<div>
-                <i18n:text i18n:key="WORKSPACE_ADMIN_CONFIG_TEXT"/>
-            </div>
-                  
-			<br/><br/>
-            
-		</div>
+    <xsl:template match="/">
+    	<xsl:call-template name="home">
+		    <xsl:with-param name="needs-kernel-ui" select="false()"/>
+		    <xsl:with-param name="context-path" select="$contextPath"/>
+		    <xsl:with-param name="workspace-name" select="$workspaceName"/>
+		    <xsl:with-param name="workspace-prefix" select="$workspaceURI"/>
+		    
+		    <xsl:with-param name="head-title">
+					<i18n:text i18n:catalogue="workspace.{$workspaceName}" i18n:key="WORKSPACE_ADMIN_LABEL_SHORT"/>
+					<xsl:text> </xsl:text>
+					<i18n:text i18n:catalogue="application" i18n:key="APPLICATION_PRODUCT_LABEL"/>
+		    </xsl:with-param>
+		    
+		    <xsl:with-param name="head-meta">
+		    	<link rel="stylesheet" href="{$contextPath}{$workspaceURI}/resources/css/load-config.css" type="text/css"/>
+		    </xsl:with-param>
+
+		    <xsl:with-param name="body-title">
+		    	<img src="{$contextPath}{$workspaceURI}/resources/img/Admin_fr.png" alt="WORKSPACE_ADMIN_LABEL_LONG" i18n:attr="alt"/>
+			</xsl:with-param>
+		    
+		    <xsl:with-param name="body-col-main">
+		    	<h1>
+		    		<i18n:text i18n:key="WORKSPACE_ADMIN_CONFIG_TITLE"/>
+		    	</h1>
+		    	
+		    	<p class="hint">
+                	<i18n:text i18n:key="WORKSPACE_ADMIN_CONFIG_TEXT"/>
+                </p>
+                
+                <div class="link">
+                	<a href="{$contextPath}{$workspaceURI}/plugins/{$redirect}" title="WORKSPACE_ADMIN_CONFIG_DESCRIPTION" i18n:attr="href title">
+                		<i18n:text i18n:key="WORKSPACE_ADMIN_CONFIG_ACT"/>
+                	</a>
+                </div>
+		    </xsl:with-param>
+    	</xsl:call-template>
     </xsl:template>
 
 </xsl:stylesheet>

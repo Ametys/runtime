@@ -35,9 +35,9 @@
    
     <!-- No config -->    
     <message key="WORKSPACE_ADMIN_CONFIG_TITLE">Unable to load configuration</message>
-    <message key="WORKSPACE_ADMIN_CONFIG_DESCRIPTION">Configuration parameters managemen</message>
     <message key="WORKSPACE_ADMIN_CONFIG_TEXT">The application configuration is incomplete or incorrect<br/>You must configure the application before using it.</message>
     <message key="WORKSPACE_ADMIN_CONFIG_ACT">Configure the application</message>
+    <message key="WORKSPACE_ADMIN_CONFIG_DESCRIPTION">Go to the application parameters management screen</message>
     
     <!-- Navigator -->
     <message key="WORKSPACE_ADMIN_NAVIGATOR_TITLE">Web browser not supported</message>
