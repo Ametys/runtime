@@ -19,103 +19,98 @@
                 xmlns:ex="http://apache.org/cocoon/exception/1.0" 
                 exclude-result-prefixes="ex">
 
+    <xsl:import href="../home/home.xsl"/>
+    
     <xsl:param name="pageTitle">An error has occurred</xsl:param>
     <xsl:param name="contextPath" />
     <xsl:param name="realpath" />
     <xsl:param name="code" />
 
     <xsl:variable name="backslashedRealpath" select="translate($realpath, '\', '/')" />
+    
 
-	<xsl:template match="/ex:exception-report">
-		<html>
-			<!-- ****** HEAD ****** -->
-			<head> 
-                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-				<meta http-equiv="X-UA-Compatible" content="IE=8" />
-                <title>
-                    <xsl:value-of select="$pageTitle" />
-                </title>
-
-                <link rel="stylesheet" href="{$contextPath}/kernel/resources/css/error/error.css" type="text/css" />
-                <link rel="stylesheet" href="{$contextPath}/kernel/resources/css/homepage/view.css" type="text/css" />
-
-                <link rel="icon" type="image/gif" href="{$contextPath}/kernel/resources/img/runtime_favico.gif" />
-                <link rel="shortcut icon" type="image/x-icon" href="{$contextPath}/kernel/resources/img/runtime_favico.ico" />
-		        
-                <xsl:comment>[if lt IE 7]&gt;
-						&lt;script defer="defer" type="text/javascript" src="_admin/resources/js/pngfix.js">&lt;/script&gt;
-				&lt;![endif]</xsl:comment>
-				
-				<script>
+    <xsl:template match="/ex:exception-report">
+    	<xsl:call-template name="home">
+		    <xsl:with-param name="needs-kernel-ui" select="false()"/>
+		    <xsl:with-param name="context-path" select="$contextPath"/>
+		    
+		    <xsl:with-param name="head-title">
+			    <xsl:value-of select="$pageTitle" />
+			</xsl:with-param>
+			
+		    <xsl:with-param name="head-meta">
+		    	<link rel="stylesheet" href="{$contextPath}/kernel/resources/css/error.css" type="text/css"/>
+				<script type="text/javascript">
 					<xsl:comment>
-						function toggleDetails()
+						function toggleDetails(start)
 						{
 							var button = document.getElementById('details-button');
 							var text = document.getElementById('details-place');
 							
-							if (text.style.display == 'none')
+							if (text.style.display == 'none' &amp;&amp; start !== true)
 							{
 								button.innerHTML = 'Hide details ';
 								text.style.display = '';
 							}
 							else
 							{
+								button.href = "javascript: toggleDetails();";
 								button.innerHTML = 'Show details';
 								text.style.display = 'none';
 							}
 						}
 					</xsl:comment>
 				</script>
-			</head>
-		
-			<!-- ****** BODY ****** -->
-			<body>
-		     	<div id="wrapper" class="" style="width: 930px; margin-right: auto; margin-left: auto;">
-		     		<div id="content_left" style="width: 44px;"><xsl:comment></xsl:comment></div>
-		     		
-		     		<div id="content_center" style="width: 930px;">
-		     			<div id="top" style="height: 90px; width: 930px;">
-							<div id="logo"><xsl:comment></xsl:comment></div>
-						</div>
-						
-						<div id="main">
-							<div id="top-panel" class="top-panel"> 
+		    </xsl:with-param>
 
-								<div class="title">
-	 								<xsl:value-of select="$pageTitle" />
-	 							</div>
- 
-								<p class="message">
+		    <xsl:with-param name="body-col-main">
+		    	<table class="error">
+		    		<tr>
+		    			<td>
+							<h1>
+								<xsl:value-of select="$pageTitle" />
+							</h1>
+			
+							<p class="message">
+								<xsl:if test="@class">
+									<xsl:value-of select="@class" />
+								</xsl:if>
+								<xsl:if test="string-length (ex:message) != 0">
 									<xsl:if test="@class">
-										<xsl:value-of select="@class" />
+										:
 									</xsl:if>
-									<xsl:if test="string-length (ex:message) != 0">
-										<xsl:if test="@class">
-											:
-										</xsl:if>
-										<xsl:value-of select="ex:message" />
-										<xsl:if test="ex:location">
-											<br />
-											<span style="font-weight: normal">
-												<xsl:apply-templates select="ex:location" />
-											</span>
-										</xsl:if>
+									<xsl:value-of select="ex:message" />
+									<xsl:if test="ex:location">
+										<br />
+										<span style="font-weight: normal">
+											<xsl:apply-templates select="ex:location" />
+										</span>
 									</xsl:if>
-								</p>
-									
-								<div class="details"><a id="details-button" href="javascript: toggleDetails();">Show details</a></div>
-								<div class="details-place" id="details-place" style="display: none;">
+								</xsl:if>
+							</p>
+								
+							<p class="details">
+								<a id="details-button"></a>
+							</p>
+		    			</td>
+		    		</tr>
+		    		<tr class="details">
+		    			<td>
+							<div class="details-place" id="details-place">
+								<script type="text/javascript">
+									toggleDetails(true);
+								</script>
+								<p>
 									<xsl:value-of select="/" />
-								</div>
+								</p>
 							</div>
-						</div>
-		     		</div>
-		     	</div>
-		     	<div id="column-right" style="width: 100%;"/>			
-			</body>
-		</html>		
-	</xsl:template>
-
+		    			</td>
+		    		</tr>
+		    	</table>
+		    </xsl:with-param>
+    	</xsl:call-template>
+    </xsl:template>
+    
     <xsl:template match="ex:location">
         <xsl:if test="string-length(.) > 0">
             <em>

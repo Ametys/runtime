@@ -112,7 +112,7 @@
 		        </xsl:if>
 		               
 		        <!-- TODO load this CSS using the component if activated -->
-                <link rel="stylesheet" href="{$contextPath}/kernel/resources/css/home/home.css" type="text/css"/>
+                <link rel="stylesheet" href="{$contextPath}/kernel/resources/css/home.css" type="text/css"/>
                 
                 <xsl:copy-of select="$head-meta"/>
 			</head>
