@@ -98,7 +98,7 @@
 		    			<td>
 							<div class="details-place" id="details-place">
 								<script type="text/javascript">
-									toggleDetails(true);
+									//toggleDetails(true);
 								</script>
 								<p>
 									<xsl:value-of select="/" />

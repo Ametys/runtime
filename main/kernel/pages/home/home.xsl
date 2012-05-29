@@ -119,7 +119,6 @@
 			
 			<!-- ****** BODY ****** -->
 			<body>
-				
 				<table class="home-wrapper">
 					<tr class="home-header">
 						<td/>

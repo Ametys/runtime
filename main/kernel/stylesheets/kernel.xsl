@@ -38,7 +38,7 @@
   		 |                     'supported': { 'ie' : '7-9'}, 					// List of supported browsers with their versions
 		 | 					   'not-supported': { 'ie' : '0-6', ch : '10-0'},	// List of non supported browsers with their versions
  		 | 					   'warning-redirection': "warning.html",			// Redirection when the browser may be supported
-		 | 					   'failure-redirection': "failure.html"			// Redirection when the browser is not supported
+		 | 					   'failure-redirection': "failure.html" }			// Redirection when the browser is not supported
 		 |					If window.ametys_authorized_browsers is undefined, no browser test will be done.<br/>
  		 | 					When a supported browser is detected, everything goes on normally.<br/>
 		 | 					When a not-supported browser is detected, the application is redirected to the failure rediction url. Where a message should indicates to use a supported browser.<br/>

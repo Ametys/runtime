@@ -28,7 +28,7 @@ table.error td
 	vertical-align: top
 }
 
-table.error tr.details
+table.error tr.details td
 {
 	height: 100%;
 }

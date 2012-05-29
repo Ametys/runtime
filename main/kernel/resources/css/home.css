@@ -52,16 +52,17 @@ body
 	padding: 0;
 }
 
-.home-wrapper .home-header
+.home-wrapper .home-header td
+{
+	height: 90px;
+}
+
+.home-wrapper .home-header .home-col-main
 {
 	background-image: url('../img/home/bg_top.jpg');
 	background-position: center;
 	background-repeat: no-repeat;
 	
-	height: 90px;
-}
-.home-wrapper .home-header .home-col-main
-{
 	width: 930px;
 	height: 90px;
 	margin-left: auto;
@@ -108,6 +109,7 @@ body
 	background-color: #F0F0F0;
 	color: #000000;
 	padding: 30px;
+	height: 100%; 
 }
 
 .home-wrapper .home-main .home-col-main h1 
@@ -116,6 +118,7 @@ body
 	font-size: 1.4em;
 	font-weight: bold;
 	text-transform: uppercase;
+	margin-bottom: 40px;
 }
 
 .home-wrapper .home-main .home-col-main p
@@ -139,7 +142,7 @@ body
 	text-decoration: none;
 }
 
-.home-wrapper .home-footer
+.home-wrapper .home-footer td
 {
 	height: 35px;
 }
