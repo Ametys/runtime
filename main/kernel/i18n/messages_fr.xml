@@ -32,6 +32,7 @@
 	<message key="KERNEL_UPLOAD_HINT">La taille maximale autorisée est de </message>
 
    	<message key="KERNEL_LOADMASK_DEFAULT_MESSAGE">Traitement en cours. Veuillez patienter ...</message>
+   	<message key="KERNEL_NOSCRIPT">Vous devez activer le javascript pour utiliser cette application.</message>
 
 	 <!-- +
     	 | ServerComm.js

@@ -136,7 +136,12 @@
 					</tr>
 					<tr class="home-main">
 						<td class="home-col-left"><xsl:copy-of select="$body-col-left"/></td>
-						<td class="home-col-main"><xsl:copy-of select="$body-col-main"/></td>
+						<td class="home-col-main">
+							<xsl:if test="$needs-kernel-ui">
+								<noscript><p><i18n:text i18n:key="KERNEL_NOSCRIPT" i18n:catalogue="kernel"/></p></noscript>
+							</xsl:if>
+							<xsl:copy-of select="$body-col-main"/>
+						</td>
 						<td class="home-col-right"><xsl:copy-of select="$body-col-right"/></td>
 					</tr>
 					<tr class="home-footer">
