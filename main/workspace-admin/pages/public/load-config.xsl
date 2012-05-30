@@ -59,7 +59,7 @@
                 </p>
                 
                 <div class="link">
-                	<a href="{$contextPath}{$workspaceURI}/plugins/{$redirect}" title="WORKSPACE_ADMIN_CONFIG_DESCRIPTION" i18n:attr="href title">
+                	<a href="{$contextPath}{$workspaceURI}/plugins/{$redirect}" title="WORKSPACE_ADMIN_CONFIG_DESCRIPTION" i18n:attr="title">
                 		<i18n:text i18n:key="WORKSPACE_ADMIN_CONFIG_ACT"/>
                 	</a>
                 </div>
