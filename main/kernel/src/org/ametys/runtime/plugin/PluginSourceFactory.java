@@ -66,7 +66,7 @@ public class PluginSourceFactory extends AbstractLogEnabled implements SourceFac
             String pluginLocation = PluginsManager.getInstance().getPluginLocation(pluginName);
             if (pluginLocation == null)
             {
-                String errorMessage = "The plugin '" + pluginName + "' does not exists.";
+                String errorMessage = "The plugin '" + pluginName + "' does not exist.";
                 if (getLogger().isWarnEnabled())
                 {
                     getLogger().warn(errorMessage);
