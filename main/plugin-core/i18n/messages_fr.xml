@@ -30,7 +30,7 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_OK">Le mot de passe a été changé.\nVeillez à communiquer ce nouveau mot de passe à tous les administrateurs systèmes.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_WRONG_EMPTY">Les 3 champs doivent avoir une valeur.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_WRONG_CONFIRM">La confirmation du nouveau mot de passe est incorrecte.</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR">Une erreur a empéché la modification du mot de passe.\nVérifiez que l'ancien mot de passe est correct.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR">Une erreur a empêché la modification du mot de passe.\nVérifiez que l'ancien mot de passe est correct.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_FATAL">Une erreur est survenue sur le serveur. Le mot de passe n'a pas été changé.</message>
     
     <!-- ADMINISTRATOR CONFIG -->
