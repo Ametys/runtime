@@ -142,6 +142,25 @@ body
 	text-decoration: none;
 }
 
+.home-wrapper .home-main .home-col-main a.button, 
+.home-wrapper .home-main .home-col-main a:link.button,
+.home-wrapper .home-main .home-col-main a:visited.button,
+.home-wrapper .home-main .home-col-main a:active.button 
+{
+	border: 1px solid #842970;
+	background-color: #842970;
+	color: #fff;
+	padding: 5px;
+	border-radius: 5px;
+}
+.home-wrapper .home-main .home-col-main a:hover.button  
+{
+	border-color: #1C58A0;
+	background-color: #1C58A0;
+}
+
+
+
 .home-wrapper .home-footer td
 {
 	height: 35px;

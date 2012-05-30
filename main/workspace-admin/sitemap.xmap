@@ -101,7 +101,14 @@
 					<map:parameter name="contextPath" value="{request:contextPath}"/>
                     <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
                     <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/>
+                    
                     <map:parameter name="redirect" value="{request-param:uri}"/>
+                    <map:parameter name="doc" value="{request-param:doc}"/>
+                    
+                    <map:parameter name="browser" value="{request-param:browser}"/>
+                    <map:parameter name="browserversion" value="{request-param:browserversion}"/>
+                    <map:parameter name="supported" value="{request-param:supported}"/>
+                    <map:parameter name="mode" value="{request-param:mode}"/>
 				</map:transform>
 				<map:transform type="i18n">
 					<map:parameter name="locale" value="{locale:locale}"/>

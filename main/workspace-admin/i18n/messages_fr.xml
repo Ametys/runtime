@@ -40,8 +40,21 @@
     <message key="WORKSPACE_ADMIN_CONFIG_DESCRIPTION">Aller sur l'écran des paramètres de configuration de l'application</message>
     
     <!-- Navigator -->
-    <message key="WORKSPACE_ADMIN_NAVIGATOR_TITLE">Navigateur internet non supporté</message>
-    <message key="WORKSPACE_ADMIN_NAVIGATOR_TEXT">L'application ne supporte pas votre navigateur internet.<br/><br/>Consultez le manuel utilisateur pour obtenir la liste des navigateurs supportés.</message>
+    <message key="WORKSPACE_ADMIN_NAVIGATOR_UNSUPPORTED_TITLE">Navigateur internet incompatible</message>
+    <message key="WORKSPACE_ADMIN_NAVIGATOR_UNSUPPORTED_TEXT">L'application n'est pas compatible avec votre navigateur internet ou la version que vous utilisez{0}.<br/>Voici la liste des navigateurs compatibles :</message>
+    <message key="WORKSPACE_ADMIN_NAVIGATOR_UNSUPPORTED_TEXT2">Consultez le manuel utilisateur pour connaître les navigateurs recommandés.</message>
+    
+    <message key="WORKSPACE_ADMIN_NAVIGATOR_UNKNOWN_TITLE">Navigateur internet inconnu</message>
+    <message key="WORKSPACE_ADMIN_NAVIGATOR_UNKNOWN_TEXT">L'application ne supporte pas votre navigateur internet ou la version que vous utilisez{0}.<br/>Voici la liste des navigateurs compatibles :</message>
+    <message key="WORKSPACE_ADMIN_NAVIGATOR_UNKNOWN_TEXT2">Consultez le manuel utilisateur pour connaître les navigateurs recommandés.</message>
+    <message key="WORKSPACE_ADMIN_NAVIGATOR_UNKNOWN_TEXT3">Vous pouvez cependant essayer d'utiliser l'application avec votre votre navigateur actuel en utilisant le lien suivant :</message>
+    
+    <message key="WORKSPACE_ADMIN_NAVIGATOR_UNKNOWN">Inconnu</message>
+    <message key="WORKSPACE_ADMIN_NAVIGATOR_VERSION_ALL">Toutes versions</message>
+    <message key="WORKSPACE_ADMIN_NAVIGATOR_VERSION_UPTO">Jusqu'à la version {0} incluse</message>
+    <message key="WORKSPACE_ADMIN_NAVIGATOR_VERSION_AFTER">Version {0} et plus récentes</message>
+    <message key="WORKSPACE_ADMIN_NAVIGATOR_VERSION_BETWEEN">Versions {0} à {1}</message>
+    
     <message key="WORKSPACE_ADMIN_NAVIGATOR_FORCE_TEXT">Si vous souhaitez tout de même accéder à l'application avec votre navigateur actuel vous pouvez forcer l'accès en cliquant sur le lien ci-dessous.<br/>En faisant cela vous vous exposez à tomber sur des problèmes (d'affichage ou fonctionnel) : les anomalies rencontrées ne seront pas supportées.</message>
-    <message key="WORKSPACE_ADMIN_NAVIGATOR_FORCE_LINK">Forcer l'accès à l'application avec votre navigateur actuel</message>
+    <message key="WORKSPACE_ADMIN_NAVIGATOR_FORCE_LINK">Forcer l'accès à l'application avec votre navigateur actuel &gt;&gt;</message>
 </catalogue>
