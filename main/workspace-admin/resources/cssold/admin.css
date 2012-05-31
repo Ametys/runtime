@@ -13,17 +13,6 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-#no-script {
-	color: #1C58A0;
-	background-color: #F0F0F0;
-	font-family: arial,sans-serif;
-	font-size:1.2em;
-	margin: auto;
-	width: 891px;
-	margin-top: 40px;
-	padding: 10px;
-}
-
 #footer #box .title {
 	color: #66C2FF;
 }
@@ -75,43 +64,7 @@
 	color: #1C58A0;
 }
 
-/** Titre et fil d'ariane */
-.admin-panel-body {
-	background: none !important;
-}
 
-#admin-path {
-	color: #1C58A0;
-	position: absolute; 
-	right: 0px; 
-	top: 0px; 
-	height: 16px;
-	font-size: 0.8em;
-}
-
-#admin-path a, 
-#admin-path a:link,
-#admin-path a:visited,
-#admin-path a:active {
-	text-decoration: none;
-	color: #943192;
-}
-
-#admin-path a:hover {
-	color: #1C58A0;
-}
-
-h2.admin-panel-title {
-border-bottom:1px solid #C8CDD0;
-color:#1C58A0;
-font-size:1.2em;
-font-weight:bold;
-height:28px;
-letter-spacing:-1px;
-margin-bottom:15px;
-padding:0;
-text-transform:uppercase;
-}
 
 /** Palette */
 
@@ -193,29 +146,3 @@ button.dock-item-button {
 	padding-left: 20px;
 	overflow: auto;
 }
-
-/** Tooltip
-.x-tip .x-tip-tc {
-	background: transparent url(../img/tip-sprite.png) no-repeat 0 -62px !important;
-}
-.x-tip .x-tip-tl {
-	background: transparent url(../img/tip-sprite.png) no-repeat 0 0 !important;
-}
-.x-tip .x-tip-tr {
-	background: transparent url(../img/tip-sprite.png) no-repeat right 0 !important;
-}
-.x-tip .x-tip-bc {
-	background: transparent url(../img/tip-sprite.png) no-repeat 0 -121px !important;
-}
-.x-tip .x-tip-bl {
-	background: transparent url(../img/tip-sprite.png) no-repeat 0 -59px !important;
-}
-.x-tip .x-tip-br {
-	background: transparent url(../img/tip-sprite.png) no-repeat right -59px !important;
-}
-.x-tip .x-tip-ml {
-	background: #fff url(../img/tip-sprite.png) no-repeat 0 -124px !important;
-}
-.x-tip .x-tip-mr {
-	background: transparent url(../img/tip-sprite.png) no-repeat right -124px !important;
-} */
