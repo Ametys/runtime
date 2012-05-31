@@ -36,6 +36,10 @@
 		    <xsl:with-param name="workspace-prefix" select="$workspaceURI"/>
 		    
 		    <xsl:with-param name="head-title">
+		    		<xsl:if test="/Plugins/html/head/title/node()">
+						<xsl:copy-of select="/Plugins/html/head/title/node()"/>
+						<xsl:text> - </xsl:text>
+					</xsl:if>
 					<i18n:text i18n:catalogue="workspace.{$workspaceName}" i18n:key="WORKSPACE_ADMIN_LABEL_SHORT"/>
 					<xsl:text> </xsl:text>
 					<i18n:text i18n:catalogue="application" i18n:key="APPLICATION_PRODUCT_LABEL"/>
@@ -49,7 +53,12 @@
 		            <xsl:with-param name="use-js-component">false</xsl:with-param>
 		            <xsl:with-param name="debug-mode">true</xsl:with-param>
 		        </xsl:call-template>	
+		        
+		        <!-- TODO load this CSS/JS using the component if activated -->
+                <link rel="stylesheet" href="{$contextPath}{$workspaceURI}/resources/css/wrapper.css" type="text/css"/>
+		        
 		        <xsl:copy-of select="/Plugins/html/head/*[local-name(.) != 'title']"/>
+		        
 		        <xsl:call-template name="workspace-scripts"/>	    
 		    </xsl:with-param>
 
@@ -73,14 +82,38 @@
 			
 			    launch: function() {
 			        var mainPanel = Ext.create('Ext.panel.Panel', {
-			            html : 'Todo',
-			            renderTo: 'main',
+			            autoScroll: false,
+			            border: false,
+			            bodyCls: 'admin-main-panel',
+			            layout: 'border',
+			            
+			            items: [
+							Ext.create('Ext.Component', {
+								region: 'north',
+								cls: 'admin-top-panel',
+								border: false,
+								height: 43, 
+								html: '&lt;div&gt;'
+						    		+ 	'&lt;ul&gt;'
+						    		+ 		'&lt;li&gt;&lt;a href="<xsl:value-of select="$contextPath"/><xsl:value-of select="$workspaceURI"/>/index.html"&gt;<i18n:text i18n:key="WORKSPACE_ADMIN_HOME" i18n:catalogue="workspace.{$workspaceName}" />&lt;/a&gt;&lt;/li&gt;'
+						    		+ 		'&lt;li&gt;&gt; <xsl:copy-of select="/Plugins/html/head/title/node()"/>&lt;/li&gt;'
+						    		+ 	'&lt;/ul&gt;'
+						    		+ 	'&lt;h1&gt;<xsl:copy-of select="/Plugins/html/head/title/node()"/>&lt;/h1&gt;'
+					 	    		+ '&lt;/div&gt;'
+							}),
+							Ext.create('Ext.Component', {
+								region: 'center',
+								border: false,
+								html: 'test' 
+							})
+			            ],
 			            
 			            listeners: {
-			            	'resize' : function() {
+			            	'render' : function() {
 			            		this.setSize(Ext.get('main').getSize(true))
 			            	}
-			            }
+			            },
+			            renderTo: 'main'
 			        });
 
 					Ext.EventManager.onWindowResize(function() {
