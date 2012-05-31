@@ -111,7 +111,7 @@
 			        </xsl:call-template>
 		        </xsl:if>
 		               
-		        <!-- TODO load this CSS using the component if activated -->
+		        <!-- TODO load this CSS/JS using the component if activated -->
                 <link rel="stylesheet" href="{$contextPath}/kernel/resources/css/home.css" type="text/css"/>
                 
                 <xsl:copy-of select="$head-meta"/>
@@ -136,7 +136,7 @@
 					</tr>
 					<tr class="home-main">
 						<td class="home-col-left"><xsl:copy-of select="$body-col-left"/></td>
-						<td class="home-col-main">
+						<td class="home-col-main" id="main">
 							<xsl:if test="$needs-kernel-ui">
 								<noscript><p><i18n:text i18n:key="KERNEL_NOSCRIPT" i18n:catalogue="kernel"/></p></noscript>
 							</xsl:if>
