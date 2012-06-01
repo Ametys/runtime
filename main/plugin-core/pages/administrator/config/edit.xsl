@@ -37,43 +37,39 @@
             </head>
             
             <script>
-               <script type="text/javascript" src="{$contextPath}/plugins/{$pluginName}/resources/js/org/ametys/administration/Config.i18n.js"/>
+               <script type="text/javascript" src="{$contextPath}/plugins/{$pluginName}/resources/js/Ametys/plugins/core/administration/Config.i18n.js"/>
                
                <script type="text/javascript">
                
-               		org.ametys.administration.Config.initialize ("<xsl:value-of select="$pluginName"/>");
+               		Ametys.plugins.core.administration.Config.initialize ("<xsl:value-of select="$pluginName"/>");
                		
-					org.ametys.administration.Config._navItems = [];
+					Ametys.plugins.core.administration.Config._navItems = [];
 					
 					<xsl:for-each select="config/categories/category">
 						<xsl:sort select="label/node()" data-type="text" order="ascending"/>
 
-						org.ametys.administration.Config._navItems.push({
+						Ametys.plugins.core.administration.Config._navItems.push({
 							id: "<xsl:value-of select="generate-id()"/>",
 							label: "<xsl:copy-of select="label/node()"/>"
 						});
 					</xsl:for-each>
 					
 					// Create the tool panel
-					var panel = org.ametys.administration.Config.createPanel ();
+					var panel = Ametys.plugins.core.administration.Config.createPanel ();
 					
-					org.ametys.administration.Config._fields = [];
+					Ametys.plugins.core.administration.Config._fields = [];
 					
 					<xsl:for-each select="config/categories/category">
 						<xsl:sort select="label/node()" data-type="text" order="ascending"/>
 						
-						var fieldSet = org.ametys.administration.Config.createFieldSet ("<xsl:value-of select="generate-id()"/>", "<xsl:copy-of select="label/node()"/>");
+						var fieldSet = Ametys.plugins.core.administration.Config.createFieldSet ("<xsl:value-of select="generate-id()"/>", "<xsl:copy-of select="label/node()"/>");
 							
-						var height = 0; // padding-bottom
-						
-						
 						<xsl:for-each select="groups/group">
-							org.ametys.administration.Config.addGroupCategory (fieldSet, "<xsl:copy-of select="label/node()"/>");
-							height += 24;
+							Ametys.plugins.core.administration.Config.addGroupCategory (fieldSet, "<xsl:copy-of select="label/node()"/>");
 							
 							<xsl:for-each select="parameters/*">
 								<xsl:sort select="order" data-type="number"/>
-									var input = org.ametys.administration.Config.addInputField (fieldSet, 
+									Ametys.plugins.core.administration.Config.addInputField (fieldSet, 
 										"<xsl:value-of select="type"/>", 
 										"<xsl:value-of select="local-name()"/>", 
 										"<xsl:value-of select="escape:escapeJavaScript(value)"/>", 
@@ -84,17 +80,13 @@
 										"<xsl:value-of select="validation/mandatory"/>",
                                         "<xsl:value-of select="escape:escapeJavaScript(validation/regexp)"/>"
                                         <xsl:if test="validation/invalidText != ''">,"<xsl:value-of select="validation/invalidText"/>"</xsl:if>);
-									height += org.ametys.administration.Config.getInputHeight (input);
 							</xsl:for-each>
 							
-							// Set the height
-							//fieldSet.setHeight(height);
-								
-							org.ametys.administration.Config._form.add(fieldSet);
+							Ametys.plugins.core.administration.Config._form.add(fieldSet);
 						</xsl:for-each>
 					</xsl:for-each>
 						
-					org.ametys.runtime.administrator.Panel.createPanel = function () 
+					function createPanel()
 					{
 						return panel;
 					}

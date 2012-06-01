@@ -116,6 +116,8 @@
 						this.setSize(null, 0);
 			        	this.setSize(Ext.get('main').getSize(true))
 					}, mainPanel);
+					
+					_createDock();
 			    }
 			});
     	</script>
@@ -127,7 +129,7 @@
 				});
     		}
     		
-			Ext.onReady(function () {
+			function _createDock() {
 				<xsl:if test="/Plugins/Desktop/category">
 					var items = [];
 					
@@ -173,8 +175,10 @@
 						]
 					});
 				</xsl:if>
-			});
+			};
 		</script>
+		
+		<script type="text/javascript" src="{$contextPath}{$workspaceURI}/resources/js/Ametys/workspace/admin/Action.js"/>
 		
    		<xsl:copy-of select="/Plugins/html/script/node()"/>
     </xsl:template>

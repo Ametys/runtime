@@ -48,11 +48,6 @@ body
 	text-align: center;
 }
 
-.home-wrapper td 
-{
-	padding: 0;
-}
-
 .home-wrapper .home-header td
 {
 	height: 90px;
