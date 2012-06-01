@@ -70,3 +70,10 @@
 	margin-bottom:15px;
 	padding:0;
 }
+
+.home-wrapper .home-main .home-col-main .admin-main-panel .x-form-invalid-field {
+	background-color: transparent;
+}
+.home-wrapper .home-main .home-col-main .admin-main-panel .transparent-panel-body {
+	background-color: transparent;
+}

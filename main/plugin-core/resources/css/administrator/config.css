@@ -1,5 +1,5 @@
 /*
- *  Copyright 2009 Anyware Services
+ *  Copyright 2012 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,11 +14,25 @@
  *  limitations under the License.
  */
 
-.ametys-input, .ametys-file {
-	width:580px;
+.home-wrapper .home-main .home-col-main .admin-main-panel #config-inner .x-panel-header,
+.home-wrapper .home-main .home-col-main .admin-main-panel #config-inner .x-panel-body
+{
+	background-color: transparent;
+	background-image: none;
+	box-shadow: none;
+	border-width: 0;
 }
 
-.x-form-element 
+.home-wrapper .home-main .home-col-main .admin-main-panel #config-inner .x-panel-header
 {
-	padding-left: 0px !important;
+	background-image: url('../../../../../_admin/resources/img/icon/group-expand-sprite.png');
+	background-repeat: no-repeat;	
+	background-position: 0 -45px;
+	
+	padding-left: 15px;
+}	
+
+.home-wrapper .home-main .home-col-main .admin-main-panel #config-inner .x-panel-header.x-panel-header-collapsed-top
+{
+	background-position: 0 5px;
 }

@@ -139,10 +139,16 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 */
 	createFieldSet: function (id, label)
 	{
-		return new Ext.form.FieldSet({
+		return new Ext.panel.Panel({
 			id : id,
 			title : label,
 			
+			collapsible: true,
+			titleCollapse: true,
+			hideCollapseTool: true,
+			
+			border: false,
+			shadow: false,
 			layout: 'vbox',
 			
 			width: Ametys.plugins.core.administration.Config.LABEL_WIDTH 
