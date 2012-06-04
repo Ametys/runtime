@@ -109,6 +109,7 @@
             <xsl:with-param name="accept-sa-3">true</xsl:with-param>
             <xsl:with-param name="accept-sa-4">true</xsl:with-param>
             <xsl:with-param name="accept-sa-5.0">true</xsl:with-param>
+            <xsl:with-param name="accept-sa-5.1">true</xsl:with-param>
             <xsl:with-param name="accept-op-9">true</xsl:with-param>
             <xsl:with-param name="accept-op-10">true</xsl:with-param>
             <xsl:with-param name="accept-ch-1">true</xsl:with-param>
@@ -130,6 +131,7 @@
             <xsl:with-param name="accept-ch-16">true</xsl:with-param>
             <xsl:with-param name="accept-ch-17">true</xsl:with-param>
             <xsl:with-param name="accept-ch-18">true</xsl:with-param>
+            <xsl:with-param name="accept-ch-19">true</xsl:with-param>
             <xsl:with-param name="use-css-component">false</xsl:with-param>
             <xsl:with-param name="use-js-component">false</xsl:with-param>
             <xsl:with-param name="debug-mode">true</xsl:with-param>
