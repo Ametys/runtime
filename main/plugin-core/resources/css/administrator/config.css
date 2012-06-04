@@ -30,9 +30,25 @@
 	background-position: 0 -45px;
 	
 	padding-left: 15px;
+}
+
+.home-wrapper .home-main .home-col-main .admin-main-panel #config-inner .x-panel-header .x-panel-header-text
+{
+	font-family: arial,sans-serif;
+	font-size: 1.21em;
 }	
 
 .home-wrapper .home-main .home-col-main .admin-main-panel #config-inner .x-panel-header.x-panel-header-collapsed-top
 {
 	background-position: 0 5px;
+}
+
+.home-wrapper .home-main .home-col-main .admin-main-panel #config-inner .ametys-subcategory 
+{
+	color: #858D92;
+	font-family: arial,sans-serif;
+	font-weight:bold;
+	font-size: 0.9em;
+
+	padding : 0 0 10px 13px;
 }
