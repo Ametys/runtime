@@ -15,44 +15,27 @@
  */
 
 /**
- * 
+ * This action provide a contextual text panel.<br/>Use the <code>addText</code> to add html text to this panel.
  */
-Ext.define('Ametys.workspace.admin.NavigationPanel', {
+Ext.define('Ametys.workspace.admin.TextPanel', {
 	extend: 'Ext.panel.Panel',
 	
 	autoDestroy: false,
 	collapsible: false,
-	cls: 'admin-panel navigation-panel',
+	cls: 'admin-panel text-panel',
+	bbar: [],
 	border: false,
 	titleAlign: 'right',
-	bbar: [],
 	header: {
 		height: 40
 	},
-	navitems : [],
 	
 	/**
-	 * Adds an item of navigation to this panel (see {@link Ametys.workspace.admin.NavigationItem}).  
-	 * @param {String} text The text of the item
-	 * @param {Function} act The function to call on click event
+	 * Adds a text to this panel.  
+	 * @param {String} text The html text
 	 */
-	addItems: function (text, act) 
-	{ 
-		var span = document.createElement("span");
-		
-		var link = document.createElement("a");
-	    link.innerHTML = text;
-	    link.href = "#";
-	    link.className = "link"
-	    span.appendChild (link);
-
-	    var navitem = new Ametys.workspace.admin.NavigationItem ({ 
-			border: false,
-			html : span.innerHTML,
-			listeners: {"click" : act}
-		});
-	    
-		this.add(navitem);
-		this.navitems.push(navitem);
-	}
+	addText: function (text)
+	{
+		this.add(Ext.Component({html: text,  border: false, cls: 'text-panel' }));
+	},
 });

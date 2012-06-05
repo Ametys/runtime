@@ -87,33 +87,41 @@
 
 
 
-
-.home-wrapper .home-main .home-col-main .navigation-panel {
+/** PANEL */
+.home-wrapper .home-main .home-col-main .admin-panel
+{
 	margin-bottom: 15px;
 	width: 237px;
 }
 
-.home-wrapper .home-main .home-col-main .navigation-panel .x-panel-header {
+.home-wrapper .home-main .home-col-main .admin-panel .x-panel-header
+{
 	background: url('../img/box/leftbox_top.gif') top left no-repeat !important;
 	text-transform: uppercase !important;
 	padding: 14px 23px 0px 0px !important;
 	border: none !important;
 	box-shadow: none;
 }
-.home-wrapper .home-main .home-col-main .navigation-panel .x-panel-header .x-panel-header-text {
-	color: #1C58A0;
+.home-wrapper .home-main .home-col-main .admin-panel .x-panel-header .x-panel-header-text
+{
 	font-size : 0.8em;
 }
 
-.home-wrapper .home-main .home-col-main .navigation-panel .x-panel-body {
+.home-wrapper .home-main .home-col-main .admin-panel .x-panel-body {
 	background: url('../img/box/leftbox_bg.gif') top left no-repeat !important;
 	border: none !important;
 	padding: 0 7px 0 7px;
 }
 
-.home-wrapper .home-main .home-col-main .navigation-panel .x-docked-bottom {
+.home-wrapper .home-main .home-col-main .admin-panel .x-docked-bottom {
 	background: url('../img/box/leftbox_bottom.gif') top left no-repeat !important;
 	height: 7px;
+}
+
+/** NAVIGATION */
+.home-wrapper .home-main .home-col-main .navigation-panel .x-panel-header .x-panel-header-text
+{
+	color: #1C58A0;
 }
 
 .home-wrapper .home-main .home-col-main .navigation-item {
@@ -143,4 +151,18 @@
 
 .home-wrapper .home-main .home-col-main .navigation-item.x-btn-over {
 	background: url('../img/box/leftbox_item-over.gif') top left repeat-x;
+}
+
+/** TEXT PANEL */
+.home-wrapper .home-main .home-col-main .text-panel .x-panel-header .x-panel-header-text
+{
+	color: #858D92;
+}
+
+.home-wrapper .home-main .home-col-main .admin-panel .x-panel-body .text-panel .x-panel-body {
+	background-image: none !important;
+	border: none !important;
+	font-size : 0.912em !important;
+	color: #404040 !important;
+	padding: 0px 16px 12px 16px;
 }

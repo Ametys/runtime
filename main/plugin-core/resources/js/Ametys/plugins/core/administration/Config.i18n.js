@@ -647,13 +647,13 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 
 	/**
 	 * Draw the help panel.
-	 * @return {TODOorg.ametys.TextPanel} The help panel
+	 * @return {Ametys.workspace.admin.TextPanel} The help panel
 	 * @private
 	 */
 	_drawHelpPanel: function ()
 	{
-		var helpPanel = new /*TODOorg.ametys.TextPanel*/Ext.panel.Panel({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HELP"/>"});
-		//helpPanel.addText("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HELP_TEXT"/>");
+		var helpPanel = new Ametys.workspace.admin.TextPanel({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HELP"/>"});
+		helpPanel.addText("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HELP_TEXT"/>");
 		
 		return helpPanel;
 	},
