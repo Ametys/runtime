@@ -58,17 +58,23 @@
 
 .home-wrapper .home-main .home-col-main .admin-main-panel .admin-top-panel h1 
 {
-	border-bottom:1px solid #C8CDD0;
-	color:#1C58A0;
+	color: #1C58A0;
 	font-family: arial,sans-serif;
 	font-size:1.25em;
 	font-weight:bold;
 	letter-spacing:-1px;
 	text-transform:uppercase;
 	
+	border-bottom: 1px solid #C8CDD0;
 	height:28px;
 	margin-bottom:15px;
 	padding:0;
+}
+
+.home-wrapper .home-main .home-col-main .admin-main-panel .admin-right-panel 
+{
+	padding-left: 20px;
+	overflow: auto;
 }
 
 .home-wrapper .home-main .home-col-main .admin-main-panel .x-form-invalid-field {
@@ -76,4 +82,65 @@
 }
 .home-wrapper .home-main .home-col-main .admin-main-panel .transparent-panel-body {
 	background-color: transparent;
+}
+
+
+
+
+
+.home-wrapper .home-main .home-col-main .navigation-panel {
+	margin-bottom: 15px;
+	width: 237px;
+}
+
+.home-wrapper .home-main .home-col-main .navigation-panel .x-panel-header {
+	background: url('../img/box/leftbox_top.gif') top left no-repeat !important;
+	text-transform: uppercase !important;
+	padding: 14px 23px 0px 0px !important;
+	border: none !important;
+	box-shadow: none;
+}
+.home-wrapper .home-main .home-col-main .navigation-panel .x-panel-header .x-panel-header-text {
+	color: #1C58A0;
+	font-size : 0.8em;
+}
+
+.home-wrapper .home-main .home-col-main .navigation-panel .x-panel-body {
+	background: url('../img/box/leftbox_bg.gif') top left no-repeat !important;
+	border: none !important;
+	padding: 0 7px 0 7px;
+}
+
+.home-wrapper .home-main .home-col-main .navigation-panel .x-docked-bottom {
+	background: url('../img/box/leftbox_bottom.gif') top left no-repeat !important;
+	height: 7px;
+}
+
+.home-wrapper .home-main .home-col-main .navigation-item {
+	background-image: none; 
+	background-color: transparent;
+	height: 28px;
+	padding: 5px 0 0 16px;
+}
+
+.home-wrapper .home-main .home-col-main .navigation-item button {
+	font-size: 0.9em;
+	border: none;
+	background-color: transparent;
+	text-align: left; /* IE 6*/
+}
+.home-wrapper .home-main .home-col-main .navigation-item button span {
+	color: #404040;
+}
+	
+.home-wrapper .home-main .home-col-main .navigation-item.x-btn-pressed {
+	background: url('../img/box/leftbox_item-over.gif') top left repeat-x;
+}
+
+.home-wrapper .home-main .home-col-main .navigation-item.x-btn-pressed button span {
+	color: #1C58A0 !important;
+}
+
+.home-wrapper .home-main .home-col-main .navigation-item.x-btn-over {
+	background: url('../img/box/leftbox_item-over.gif') top left repeat-x;
 }

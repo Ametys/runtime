@@ -102,6 +102,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 		
 			cls : 'admin-right-panel',
 			border: false,
+			autoScroll: true,
 			width: 277,
 		    
 			items: [this._drawNavigationPanel (),
@@ -594,16 +595,16 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 
 	/**
 	 * Draw the navigation panel. This function needs the this._navItems was filled first.
-	 * @return {TODO} The navigation panel
+	 * @return {Ametys.workspace.admin.NavigationPanel} The navigation panel
 	 * @private
 	 */
 	_drawNavigationPanel: function ()
 	{
-		this._nav = new /*TODOorg.ametys.NavigationPanel*/Ext.panel.Panel ({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU"/>"});
+		this._nav = new Ametys.workspace.admin.NavigationPanel ({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU"/>"});
 		
 		for (var i=0; i &lt; this._navItems.length; i++)
 		{
-			var item = new /*TODOorg.ametys.NavigationItem*/Ext.Component ({
+			var item = new Ametys.workspace.admin.NavigationItem ({
 				id : "a" + this._navItems[i].id,
 				text: this._navItems[i].label,
 				

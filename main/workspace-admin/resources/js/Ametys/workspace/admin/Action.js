@@ -1,5 +1,5 @@
 /*
- *  Copyright 2009 Anyware Services
+ *  Copyright 2012 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -24,6 +24,9 @@ Ext.define('Ametys.workspace.admin.Action', {
 	extend: 'Ext.Component',
 	cls: 'action-item',
 	
+	/**
+	 * @private
+	 */
     constructor: function (config) {
         this.callParent(arguments);
 
