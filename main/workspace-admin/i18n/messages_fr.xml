@@ -44,7 +44,7 @@
     <message key="WORKSPACE_ADMIN_NAVIGATOR_UNSUPPORTED_TEXT2">Consultez le manuel utilisateur pour connaître les navigateurs recommandés.</message>
     
     <message key="WORKSPACE_ADMIN_NAVIGATOR_UNKNOWN_TITLE">Navigateur internet inconnu</message>
-    <message key="WORKSPACE_ADMIN_NAVIGATOR_UNKNOWN_TEXT">L'application ne supporte pas votre navigateur internet ou la version que vous utilisez{0}.<br/>Voici la liste des navigateurs compatibles :</message>
+    <message key="WORKSPACE_ADMIN_NAVIGATOR_UNKNOWN_TEXT">L'application n'est pas compatible avec pas votre navigateur internet ou la version que vous utilisez{0}.<br/>Voici la liste des navigateurs compatibles :</message>
     <message key="WORKSPACE_ADMIN_NAVIGATOR_UNKNOWN_TEXT2">Consultez le manuel utilisateur pour connaître les navigateurs recommandés.</message>
     <message key="WORKSPACE_ADMIN_NAVIGATOR_UNKNOWN_TEXT3">Vous pouvez cependant essayer d'utiliser l'application avec votre votre navigateur actuel en utilisant le lien suivant :</message>
     
