@@ -38,12 +38,11 @@
 		    <xsl:with-param name="plugins-direct-prefix">/plugins</xsl:with-param>
 		    <xsl:with-param name="plugins-wrapped-prefix">/_plugins</xsl:with-param>
 		    
-		    <xsl:with-param name="authorized-browsers">
-		    {
-  		    	'supported': { 'ie' : '7-9', ff: '3.6-12', ch: '10-19', op: '11-11.9', sa: '5-5.1'},
-		  		'not-supported': { 'ie' : '0-6', ff: '0-3.5', ch : '0-9', op: '0-10.9', sa: '0-4.9'},
- 		  		'warning-redirection': "browser-unknown.html",
-		  		'failure-redirection': "browser-unsupported.html"
+		    <xsl:with-param name="authorized-browsers">{
+  		    	'supported': { 'ie' : '7-9', ff: '3.6-12', ch: '10-19', op: '11-11.9', sa: '5.0-5.1'},
+		  		'not-supported': { 'ie' : '0-6', ff: '0-3.5', ch : '0-9', op: '0-10.99', sa: '0-4.9'},
+ 		  		'warning-redirection': "<xsl:value-of select="$workspaceURI"/>/public/browser-unknown.html",
+		  		'failure-redirection': "<xsl:value-of select="$workspaceURI"/>/public/browser-unsupported.html"}
 		    </xsl:with-param>
 		    
 		    <xsl:with-param name="head-title">
