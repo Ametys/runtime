@@ -15,7 +15,7 @@
  */
 
 /**
- * This class provides an action item. Do not use this constructor, use the <code>addAction</code> function on a {@link org.ametys.ActionsPanel} instead
+ * This class provides an action item. Do not use this constructor, use the <code>addAction</code> function on a {@link Ametys.workspace.admin.rightpanel.ActionsPanel} instead
  * @private
  */
 Ext.define('Ametys.workspace.admin.rightpanel.ActionPanel.Action', {
@@ -32,27 +32,27 @@ Ext.define('Ametys.workspace.admin.rightpanel.ActionPanel.Action', {
     			/**
     		     * @event beforeclick
     		     * Fires before click processing. Return false to cancel the default action.
-    		     * @param {Node} this This node
-    		     * @param {Ext.EventObject} e The event object
+    		     * @param {Ext.Component} this This node
+    		     * @param {Event} e The event object
     		    */
     		    "beforeclick",
     		    /**
     		    * @event click
     		    * Fires when this node is clicked
-    		    * @param {Node} this This node
-    		    * @param {Ext.EventObject} e The event object
+    		    * @param {Ext.Component} this This node
+    		    * @param {Event} e The event object
     		    */
     		    "click",
     		    /**
                  * @event mouseover
                  * Fires mouse over processing.
-                 * @param {Ext.EventObject} e
+                 * @param {Event} e
                  */
                 "mouseover",
                 /**
                  * @event mouseout
                  * Fires mouse out processing.
-                 * @param {Ext.EventObject} e
+                 * @param {Event} e
                  */
                 "mouseout"
     	);
