@@ -743,7 +743,7 @@
                                 
         <single-extension-point id="org.ametys.runtime.plugins.core.userpref.UserPreferencesManager"
                                 class="org.ametys.runtime.plugins.core.userpref.UserPreferencesManager"
-                                default-extension-id="org.ametys.runtime.plugins.core.userpref.DefaultUserPreferencesManager"/>
+                                default-extension-id="org.ametys.runtime.plugins.core.userpref.EmptyUserPreferencesManager"/>
     </extension-points>
     
     <feature name="saxclienthelper">
