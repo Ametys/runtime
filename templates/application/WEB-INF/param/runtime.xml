@@ -27,6 +27,7 @@
             <location>modules</location>
         </locations>
     	<exclude>
+            <feature>core/runtime.datasource.core</feature>
     	</exclude>
     </plugins>
 
