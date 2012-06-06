@@ -36,15 +36,13 @@ Ext.define('Ametys.workspace.admin.rightpanel.NavigationPanel.NavigationItem', {
     		//Désactiver le listener sur le scroll
     		this.unbindScroll();
     		var div = Ext.getDom(this.divToScroll);
-    		if (this.ctToScroll.animConfig == null)
+    		
+    		if (this.ctToScroll.getActiveAnimation())
     		{
-    			this.ctToScroll.animConfig = {callback: this.bindScroll};
+    			this.ctToScroll.getActiveAnimation().end();
     		}
-    		else if (this.ctToScroll.animConfig.anim.isAnimated)
-    		{
-    			this.ctToScroll.animConfig.anim.stop();
-    		}
-    		this.ctToScroll.getEl().child("div:first").child("*:first").scrollTo('top', div.offsetTop, this.ctToScroll.animConfig);
+
+    		this.ctToScroll.getEl().child("div:first").scrollTo('top', div.offsetTop, {callback: this.bindScroll});
     	}
     	else if (this.activeItem != null)
     	{

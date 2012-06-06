@@ -120,16 +120,17 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 			items: [this._form , 
 			        this._contextualPanel],
 			        
-			listener: {
-				'afterrender': function() {
-					this._ct = Ext.getCmp("config-inner").getEl().child("div:first").child("*:first");
-					
-					this._ct.on('scroll', this._calcScrollPosition);
-					
-					this._calcScrollPosition();
-				}
+			listeners: {
+				'afterrender': Ext.Function.bind(this._onAfterRender, this)
 			}
 		});
+	},
+	
+	_onAfterRender: function() {
+		this._ct = Ext.getCmp("config-inner").getEl().child("div:first").child("*:first");
+		this._ct.on('scroll', Ext.Function.bind(this._calcScrollPosition, this));
+		
+		this._calcScrollPosition();
 	},
 
 	/**
@@ -635,12 +636,12 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 		// Save action
 		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE_SAVE"/>", 
 						 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/config/save.png',
-						 this.save);
+						 Ext.Function.bind(this.save, this));
 		
 		// Quit action
 		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE_QUIT"/>", 
 						 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/config/quit.png',
-					     this.goBack);
+						 Ext.Function.bind(this.goBack));
 
 		return this._actions;
 	},
@@ -678,39 +679,26 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	{
 		if (!this._form.getForm().isValid())
 		{
-			Ext.MessageBox.alert("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_INVALID_TITLE"/>", "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_INVALID"/>", this.el.focus.createCallback(this.el));
+			Ext.MessageBox.alert("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_INVALID_TITLE"/>", "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_INVALID"/>");
 			this._form.getForm().markInvalid();
 			return;
 	    }
 	    
 	    this.save._mask = new Ext.LoadMask(Ext.getBody());
 	    this.save._mask.show();
-	    Ext.defer(this.save2, 1);
+	    Ext.defer(this.save2, 1, this);
 	},
 	save2: function ()
 	{
 	    var url = Ametys.getPluginDirectPrefix(this.pluginName) + "/administrator/config/set";
 
-	    var args = "";
-	    var argsObj = this._getQueryParameters(this._form.getForm());
-	    for (var f in argsObj)
-	    {
-	    	if (argsObj[f] == null)
-	    	{
-	    		delete argsObj[f];
-	    	}
-	    };
-	    
-	    for (var i in argsObj)
-	    {
-	    	args += "&amp;" + i + "=" + encodeURIComponent(argsObj[i]);
-	    }
+	    var argsObj = this._form.getForm().getValues();
 
 	    var result = null;
 	    var ex = "";
 	    try
 	    {
-	    	result = Ext.Ajax.request({url: url, params: args, async: false});
+	    	result = Ext.Ajax.request({url: url, params: argsObj, async: false});
 	    }
 	    catch (e)
 	    {
@@ -729,7 +717,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	    }
 	    result = result.responseXML;
 	    
-	    var error = Ext.dom.Query.selectValue(result, "*/error");
+	    var error = Ext.dom.Query.selectValue("*/error", result);
 	    if (error != null &amp;&amp; error != "")
 	    {
 	    	Ext.Msg.show ({
@@ -746,38 +734,8 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	    		msg: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_OK"/>",
 	    		buttons: Ext.Msg.OK,
 				icon: Ext.MessageBox.INFO,
-				fn: this.goBack.createCallback(this, true)
+				fn: Ext.Function.bind(this.goBack, this, [true])
 	    });
-	},
-
-	/**
-	 * @private
-	 * Get the form as a map
-	 * @param {Ext.form.Basic} form The form to build
-	 * @return {Object} A Map of fieldid-fieldvalue
-	 */
-	_getQueryParameters: function (form)
-	{
-		var params = {};
-		
-		form.items.each( function(item) {
-			var data = this.getSumitData();
-			Ext.apply(params, data);
-			/*if (item.xtype == 'datefield' &amp;&amp; item.getValue() != '')
-			{
-				params[item.getName()] = item.getValue().format(Date.patterns.ISO8601Long);
-			}
-			else if (item.xtype == 'checkbox')
-			{
-				params[item.getName()] = item.checked;
-			}
-			else
-			{
-				params[item.getName()] = item.getValue();
-			}*/
-	    }, this);
-		
-		return params;
 	},
 
 	/**
@@ -805,28 +763,29 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 			return;
 			 
 		var last;
-		var anchors = this._ct.select('a[name]', true);
 		var min = 0;
-		var max = this._form.getEl().child('form').dom.scrollHeight - this._form.getEl().child('form').getHeight();
 		
-		var scrollPosition = this._form.getEl().child('form').dom.scrollTop;
+		var e = this._form.getEl().first();
+		var max = e.dom.scrollHeight - e.getHeight();
+		
+		var scrollPosition = e.dom.scrollTop;
 		var p = (scrollPosition - min) / (max - min);
-		p = p * this._form.getInnerHeight();
+		p = p * this._form.body.getHeight();
 		
-		var a0 = anchors.elements[0].getTop();
+		var a0 = Ext.get(this._ct.dom.children[0]).getTop();
 		
-		for (var i=0;  i &lt; anchors.elements.length; i++)
+		for (var i=0;  i &lt; this._ct.dom.children.length; i++)
 		{
-			var anchor = anchors.elements[i];
+			var anchor = this._ct.dom.children[i];
 			if (i > 0) 
 			{
-				last = anchors.elements[i-1];
+				last = this._ct.dom.children[i-1];
 			}
 			else 
 			{
 				last = anchor;
 			}
-			var posY = anchor.getTop() - a0;
+			var posY = Ext.get(anchor).getTop() - a0;
 			if(posY >= scrollPosition + p)
 			{
 				this._activateItemMenu(last.dom.name);
@@ -834,7 +793,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 			}
 		
 		}
-		this._activateItemMenu(anchors.elements[anchors.elements.length - 1].dom.name);
+		this._activateItemMenu(this._ct.dom.children[this._ct.dom.children.length - 1].name);
 	},
 
 	/**

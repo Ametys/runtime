@@ -139,7 +139,7 @@
 				});
     		}
     		
-			function _createDock() {
+			function _createDock() {return;
 				<xsl:if test="/Plugins/Desktop/category">
 					var items = [];
 					
