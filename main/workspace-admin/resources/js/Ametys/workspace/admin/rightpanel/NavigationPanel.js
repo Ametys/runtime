@@ -15,9 +15,9 @@
  */
 
 /**
- * 
+ * A panel that bind the main scroll to the items
  */
-Ext.define('Ametys.workspace.admin.NavigationPanel', {
+Ext.define('Ametys.workspace.admin.rightpanel.NavigationPanel', {
 	extend: 'Ext.panel.Panel',
 	
 	autoDestroy: false,
@@ -29,30 +29,5 @@ Ext.define('Ametys.workspace.admin.NavigationPanel', {
 	header: {
 		height: 40
 	},
-	navitems : [],
-	
-	/**
-	 * Adds an item of navigation to this panel (see {@link Ametys.workspace.admin.NavigationItem}).  
-	 * @param {String} text The text of the item
-	 * @param {Function} act The function to call on click event
-	 */
-	addItems: function (text, act) 
-	{ 
-		var span = document.createElement("span");
-		
-		var link = document.createElement("a");
-	    link.innerHTML = text;
-	    link.href = "#";
-	    link.className = "link"
-	    span.appendChild (link);
-
-	    var navitem = new Ametys.workspace.admin.NavigationItem ({ 
-			border: false,
-			html : span.innerHTML,
-			listeners: {"click" : act}
-		});
-	    
-		this.add(navitem);
-		this.navitems.push(navitem);
-	}
+	navitems : []
 });

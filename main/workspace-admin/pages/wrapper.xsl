@@ -188,10 +188,11 @@
 			};
 		</script>
 		
-		<script type="text/javascript" src="{$contextPath}{$workspaceURI}/resources/js/Ametys/workspace/admin/Action.js"/>
-		<script type="text/javascript" src="{$contextPath}{$workspaceURI}/resources/js/Ametys/workspace/admin/NavigationItem.js"/>
-		<script type="text/javascript" src="{$contextPath}{$workspaceURI}/resources/js/Ametys/workspace/admin/NavigationPanel.js"/>
-		<script type="text/javascript" src="{$contextPath}{$workspaceURI}/resources/js/Ametys/workspace/admin/TextPanel.js"/>
+		<script type="text/javascript" src="{$contextPath}{$workspaceURI}/resources/js/Ametys/workspace/admin/rightpanel/ActionPanel.js"/>
+		<script type="text/javascript" src="{$contextPath}{$workspaceURI}/resources/js/Ametys/workspace/admin/rightpanel/ActionPanel/Action.js"/>
+		<script type="text/javascript" src="{$contextPath}{$workspaceURI}/resources/js/Ametys/workspace/admin/rightpanel/NavigationPanel.js"/>
+		<script type="text/javascript" src="{$contextPath}{$workspaceURI}/resources/js/Ametys/workspace/admin/rightpanel/NavigationPanel/NavigationItem.js"/>
+		<script type="text/javascript" src="{$contextPath}{$workspaceURI}/resources/js/Ametys/workspace/admin/rightpanel/TextPanel.js"/>
 		
    		<xsl:copy-of select="/Plugins/html/script/node()"/>
     </xsl:template>

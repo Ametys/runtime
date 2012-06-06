@@ -17,7 +17,7 @@
 /**
  * This action provide a contextual text panel.<br/>Use the <code>addText</code> to add html text to this panel.
  */
-Ext.define('Ametys.workspace.admin.TextPanel', {
+Ext.define('Ametys.workspace.admin.rightpanel.TextPanel', {
 	extend: 'Ext.panel.Panel',
 	
 	autoDestroy: false,

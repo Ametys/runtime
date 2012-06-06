@@ -595,16 +595,16 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 
 	/**
 	 * Draw the navigation panel. This function needs the this._navItems was filled first.
-	 * @return {Ametys.workspace.admin.NavigationPanel} The navigation panel
+	 * @return {Ametys.workspace.admin.rightpanel.NavigationPanel} The navigation panel
 	 * @private
 	 */
 	_drawNavigationPanel: function ()
 	{
-		this._nav = new Ametys.workspace.admin.NavigationPanel ({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU"/>"});
+		this._nav = new Ametys.workspace.admin.rightpanel.NavigationPanel ({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU"/>"});
 		
 		for (var i=0; i &lt; this._navItems.length; i++)
 		{
-			var item = new Ametys.workspace.admin.NavigationItem ({
+			var item = new Ametys.workspace.admin.rightpanel.NavigationPanel.NavigationItem ({
 				id : "a" + this._navItems[i].id,
 				text: this._navItems[i].label,
 				
@@ -625,34 +625,34 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 
 	/**
 	 * Draw the actions panel.
-	 * @return {TODOorg.ametys.ActionsPanel} The action panel
+	 * @return {Ametys.workspace.admin.rightpanel.Action} The action panel
 	 * @private
 	 */
 	_drawHandlePanel: function ()
 	{
-		this._actions = new /*TODOorg.ametys.ActionsPanel*/Ext.Panel({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE"/>"});
+		this._actions = new Ametys.workspace.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE"/>"});
 		
 		// Save action
-		/*this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE_SAVE"/>", 
-						 getPluginResourcesUrl(this.pluginName) + '/img/administrator/config/save.png',
+		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE_SAVE"/>", 
+						 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/config/save.png',
 						 this.save);
 		
 		// Quit action
 		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE_QUIT"/>", 
-					     getPluginResourcesUrl(this.pluginName) + '/img/administrator/config/quit.png',
+						 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/config/quit.png',
 					     this.goBack);
-		*/
+
 		return this._actions;
 	},
 
 	/**
 	 * Draw the help panel.
-	 * @return {Ametys.workspace.admin.TextPanel} The help panel
+	 * @return {Ametys.workspace.admin.rightpanel.TextPanel} The help panel
 	 * @private
 	 */
 	_drawHelpPanel: function ()
 	{
-		var helpPanel = new Ametys.workspace.admin.TextPanel({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HELP"/>"});
+		var helpPanel = new Ametys.workspace.admin.rightpanel.TextPanel({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HELP"/>"});
 		helpPanel.addText("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HELP_TEXT"/>");
 		
 		return helpPanel;

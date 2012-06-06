@@ -14,13 +14,11 @@
  *  limitations under the License.
  */
 
-// Ametys Namespace
-
 /**
  * This class provides an action item. Do not use this constructor, use the <code>addAction</code> function on a {@link org.ametys.ActionsPanel} instead
- * @param {Object} config Configuration options
+ * @private
  */
-Ext.define('Ametys.workspace.admin.Action', {
+Ext.define('Ametys.workspace.admin.rightpanel.ActionPanel.Action', {
 	extend: 'Ext.Component',
 	cls: 'action-item',
 	
@@ -135,9 +133,9 @@ Ext.define('Ametys.workspace.admin.Action', {
 	            cls: this.baseCls
 	        }, position);
 		}
-		
+
 		this.el.on('click', this._onClick, this);
-		this.el.dom.innerHTML = this.html;
+		this.el.dom.innerHTML = this.initialConfig.html;
 		this.el.hover(this._overFn, this._outFn, this);
 	}
 });
