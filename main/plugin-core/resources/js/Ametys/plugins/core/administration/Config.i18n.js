@@ -121,13 +121,13 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 			        this._contextualPanel],
 			        
 			listeners: {
-				'afterrender': Ext.Function.bind(this._onAfterRender, this)
+				'boxready': Ext.Function.bind(this._onAfterRender, this)
 			}
 		});
 	},
 	
 	_onAfterRender: function() {
-		this._ct = Ext.getCmp("config-inner").getEl().child("div:first").child("*:first");
+		this._ct = Ext.getCmp("config-inner").getEl().child("div:first");
 		this._ct.on('scroll', Ext.Function.bind(this._calcScrollPosition, this));
 		
 		this._calcScrollPosition();
@@ -773,7 +773,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 		p = p * this._form.body.getHeight();
 		
 		var a0 = Ext.get(this._ct.dom.children[0]).getTop();
-		
+
 		for (var i=0;  i &lt; this._ct.dom.children.length; i++)
 		{
 			var anchor = this._ct.dom.children[i];
@@ -788,12 +788,13 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 			var posY = Ext.get(anchor).getTop() - a0;
 			if(posY >= scrollPosition + p)
 			{
-				this._activateItemMenu(last.dom.name);
+				this._activateItemMenu(last.id);
 				return;
 			}
 		
 		}
-		this._activateItemMenu(this._ct.dom.children[this._ct.dom.children.length - 1].name);
+		
+		this._activateItemMenu(this._ct.dom.children[this._ct.dom.children.length - 1].id);
 	},
 
 	/**
@@ -803,6 +804,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 */
 	_activateItemMenu: function (id)
 	{
+		console.info("Activate " + id)
 		var button = Ext.getCmp("a" + id);
 		if	(button != null)
 		{	
