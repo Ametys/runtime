@@ -26,7 +26,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 * @property {Number} FIELD_WIDTH The width for fields
 	 * @readonly 
 	 */
-	FIELD_WIDTH: 250,
+	FIELD_WIDTH: 250 + 20,
 	
 	/**
 	* @property {Ext.form.Field[]} _fields The configuration fields
@@ -154,7 +154,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 			
 			width: Ametys.plugins.core.administration.Config.LABEL_WIDTH 
 					+ Ametys.plugins.core.administration.Config.FIELD_WIDTH 
-					+ 115
+					+ 100
 		});
 	},
 
