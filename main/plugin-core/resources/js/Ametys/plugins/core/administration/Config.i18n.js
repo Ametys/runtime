@@ -14,6 +14,9 @@
  *  limitations under the License.
  */
 
+/**
+ * The screen configuration
+ */
 Ext.define('Ametys.plugins.core.administration.Config', {
 	singleton: true,
 	
@@ -38,7 +41,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 * @property {Ext.form.BasicForm} _form The configuration form
 	 */
 	/**
-	 * @property {Object []} _navItems The navigation items
+	 * @property {Object[]} _navItems The navigation items
 	 * @private
 	 */
 	/**
@@ -531,7 +534,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 
 	/**
 	 * Draw the actions panel.
-	 * @return {Ametys.workspace.admin.rightpanel.Action} The action panel
+	 * @return {Ametys.workspace.admin.rightpanel.ActionPanel} The action panel
 	 * @private
 	 */
 	_drawHandlePanel: function ()
