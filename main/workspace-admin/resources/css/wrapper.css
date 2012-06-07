@@ -14,18 +14,6 @@
  *  limitations under the License.
  */
 
-.home-wrapper .home-main .home-col-main
-{
-	padding: 19px 10px 9px 25px;
-	text-align: left;
-}
-
-.home-wrapper .home-main .home-col-main .admin-main-panel,
-.home-wrapper .home-main .home-col-main .admin-main-panel .admin-top-panel 
-{
-	background-color: transparent;
-}
-
 .home-wrapper .home-main .home-col-main .admin-main-panel .admin-top-panel ul 
 {
 	color: #1C58A0;

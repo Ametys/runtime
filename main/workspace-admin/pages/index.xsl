@@ -43,18 +43,11 @@
 		    <xsl:with-param name="head-title"><xsl:call-template name="head-title"/></xsl:with-param>
 		    
 		    <xsl:with-param name="head-meta">
-		    	<xsl:call-template name="kernel-load">
-		            <xsl:with-param name="scripts" select="/Admin/Desktop/category/DesktopItem/scripts/file"/>
-		            <xsl:with-param name="css" select="/Admin/Desktop/category/DesktopItem/css/file"/>
-		            <xsl:with-param name="use-css-component">false</xsl:with-param>
-		            <xsl:with-param name="use-js-component">false</xsl:with-param>
-		            <xsl:with-param name="debug-mode">true</xsl:with-param>
-		        </xsl:call-template>	
+		    	<xsl:call-template name="head-meta"/>
 		        
-		        <!-- TODO load this CSS/JS using the component if activated -->
-<!--                 <link rel="stylesheet" href="{$contextPath}{$workspaceURI}/resources/css/index.css" type="text/css"/> -->
+                <link rel="stylesheet" href="{$contextPath}{$workspaceURI}/resources/css/index.css" type="text/css"/>
 		        
-<!-- 		        <xsl:call-template name="workspace-scripts"/>	     -->
+		        <xsl:call-template name="workspace-scripts"/>	    
 		    </xsl:with-param>
 
 		    <xsl:with-param name="body-title"><xsl:call-template name="body-title"/></xsl:with-param>
@@ -64,10 +57,14 @@
     	</xsl:call-template>
     </xsl:template>
 	
-    
     <xsl:template name="workspace-scripts">
     	<script type="text/javascript">
-    		org.ametys.runtime.HomePage.createPanel = function ()
+    		createTop = function ()
+    		{
+    			return null;
+    		}
+    		
+    		createPanel = function ()
     		{
 	    		var items = []
 	    		
@@ -92,7 +89,7 @@
 	            });
 	            
 	            var tplLink = new Ext.XTemplate (
-	                		'&lt;div id="links"&gt;',
+	                		'&lt;div class="links"&gt;',
 	                		'&lt;tpl for="links"&gt;',
 	                			'&lt;div class="link"&gt;',
 	                				'&lt;div class="label"&gt;',
@@ -105,7 +102,8 @@
 	                		'&lt;/div&gt;'
 	            );
 	            tplLink.compile();
-	           	var links = new org.ametys.HtmlContainer ({
+	            
+	           	var links = new Ext.Component ({
    					border: false,
    					html : '',
    					listeners: {
@@ -114,40 +112,44 @@
 				        }
     				}
 				});
-	    		
 	    		items.push(links);
 	    		
-				<xsl:for-each select="/Admin/Desktop/category">
-						var category = new org.ametys.DesktopCategory ({
-								text: "<i18n:text i18n:key="{@name}" i18n:catalogue="application"/>"
-						});
-						items.push(category);
+<!-- 				<xsl:for-each select="/Admin/Desktop/category"> -->
+<!-- 						var category = new org.ametys.DesktopCategory ({ -->
+<!-- 								text: "<i18n:text i18n:key="{@name}" i18n:catalogue="application"/>" -->
+<!-- 						}); -->
+<!-- 						items.push(category); -->
 						
-						<xsl:for-each select="DesktopItem">
-							var item = new org.ametys.DesktopItem ({
-								text: "<xsl:copy-of select="action/param[@name='label']/node()"/>",
-								desc: "<xsl:copy-of select="action/param[@name='default-description']/node()"/>",
-								icon: "<xsl:value-of select="$contextPath"/><xsl:value-of select="action/param[@name='icon-large']"/>",
-								iconOver: "<xsl:value-of select="$contextPath"/><xsl:value-of select="substring-before(action/param[@name='icon-large'], '.')"/>_over.<xsl:value-of select="substring-after(action/param[@name='icon-large'], '.')"/>"
-								<xsl:if test="not(@disabled)">
-	                            	, 
-	                                "plugin" : "<xsl:value-of select="@plugin"/>",
-	                                "actionFunction" : <xsl:value-of select="action/@class"/>,
-	                                "actionParams" : {<xsl:for-each select="action/param">
-	                                	<xsl:text>"</xsl:text><xsl:value-of select="@name"/>" : "<xsl:copy-of select="./node()"/><xsl:text>"</xsl:text>
-	                                    <xsl:if test="position() != last()">, </xsl:if>
-	                                    </xsl:for-each>}
-	                                </xsl:if>
-							});
-							items.push(item);
-						</xsl:for-each>
-				</xsl:for-each>
+<!-- 						<xsl:for-each select="DesktopItem"> -->
+<!-- 							var item = new org.ametys.DesktopItem ({ -->
+<!-- 								text: "<xsl:copy-of select="action/param[@name='label']/node()"/>", -->
+<!-- 								desc: "<xsl:copy-of select="action/param[@name='default-description']/node()"/>", -->
+<!-- 								icon: "<xsl:value-of select="$contextPath"/><xsl:value-of select="action/param[@name='icon-large']"/>", -->
+<!-- 								iconOver: "<xsl:value-of select="$contextPath"/><xsl:value-of select="substring-before(action/param[@name='icon-large'], '.')"/>_over.<xsl:value-of select="substring-after(action/param[@name='icon-large'], '.')"/>" -->
+<!-- 								<xsl:if test="not(@disabled)"> -->
+<!-- 	                            	,  -->
+<!-- 	                                "plugin" : "<xsl:value-of select="@plugin"/>", -->
+<!-- 	                                "actionFunction" : <xsl:value-of select="action/@class"/>, -->
+<!-- 	                                "actionParams" : {<xsl:for-each select="action/param"> -->
+<!-- 	                                	<xsl:text>"</xsl:text><xsl:value-of select="@name"/>" : "<xsl:copy-of select="./node()"/><xsl:text>"</xsl:text> -->
+<!-- 	                                    <xsl:if test="position() != last()">, </xsl:if> -->
+<!-- 	                                    </xsl:for-each>} -->
+<!-- 	                                </xsl:if> -->
+<!-- 							}); -->
+<!-- 							items.push(item); -->
+<!-- 						</xsl:for-each> -->
+<!-- 				</xsl:for-each> -->
 				
-				return new org.ametys.DesktopPanel({
+				return new Ext.Container({
+					cls: 'desktop',
+					border: false,
+					autoscroll: true,
+					
 					items: items
 				});
 			}
 			
+			function createDock() {};
 		</script>
     </xsl:template>
     

@@ -20,7 +20,7 @@
 }
 
 .home-wrapper .home-main .home-col-main div.link a {
-	background-image: url('../../../plugins/core/resources/img/administrator/config/icon_large.png');
+	background-image: url('../../../../plugins/core/resources/img/administrator/config/icon_large.png');
 	background-repeat: no-repeat;
 	background-position: top;
 	 
@@ -31,6 +31,6 @@
 }
 		    		
 .home-wrapper .home-main .home-col-main div.link a:hover {
-	background-image: url('../../../plugins/core/resources/img/administrator/config/icon_large_over.png');
+	background-image: url('../../../../plugins/core/resources/img/administrator/config/icon_large_over.png');
 }
 				    		

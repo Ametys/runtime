@@ -145,7 +145,9 @@
 						<td class="home-col-right" id="right"><xsl:copy-of select="$body-col-right"/></td>
 					</tr>
 					<tr class="home-footer">
-						<td colspan="3"><xsl:copy-of select="$body-footer"/></td>
+						<td/>
+						<td id="footer"><xsl:copy-of select="$body-footer"/></td>
+						<td/>
 					</tr>
 				</table>
 			</body>
