@@ -574,7 +574,7 @@ Ext.define(
 			{
 				if (response == null)
 				{
-					Ametys.window.DialogBox.display(
+					Ametys.log.ErrorDialog.display(
 							"<i18n:text i18n:key='KERNEL_SERVERCOMM_BADRESPONSE_TITLE'/>", 
 							message,
 							"<i18n:text i18n:key='KERNEL_SERVERCOMM_BADRESPONSE_DESC'/>",
@@ -588,7 +588,7 @@ Ext.define(
 					var intStk = Ext.dom.Query.selectValue("stacktrace", respoonse);
 					var hasStk = intStk != null &amp;&amp; intStk != "";
 						
-					Ametys.window.DialogBox.display(
+					Ametys.log.ErrorDialog.display(
 							"<i18n:text i18n:key='KERNEL_SERVERCOMM_SERVER_FAILED_DESC'/>" + response.getAttribute("code") + ")", 
 							message,
 							(hasMsg ? intMsg : "")

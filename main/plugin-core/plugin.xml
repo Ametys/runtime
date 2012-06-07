@@ -943,7 +943,7 @@
                 <!-- 
                     This interaction allows the administrator to change its password
                  -->
-				<action class="org.ametys.administration.Password.act">
+				<action class="Ametys.plugins.core.administration.Password.act">
 					<param name="label" i18n="true">PLUGINS_CORE_ADMINISTRATOR_PASSWORD_LABEL</param>
 					<param name="default-description" i18n="true">PLUGINS_CORE_ADMINISTRATOR_PASSWORD_DESCRIPTION</param>
 					<param name="icon-small" file="true">img/administrator/password/icon_dock.png</param>
@@ -951,7 +951,7 @@
 					<param name="icon-large" file="true">img/administrator/password/icon_large.png</param>
 				</action>   
 				<scripts>
-					<file>js/org/ametys/administration/Password.i18n.js</file>
+					<file>js/Ametys/plugins/core/administration/Password.i18n.js</file>
 				</scripts> 				   
             </extension>
             

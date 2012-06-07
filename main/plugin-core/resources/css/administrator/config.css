@@ -53,28 +53,3 @@
 
 	padding : 0 0 10px 39px;
 }
-
-
-.home-wrapper .home-main .home-col-main .admin-main-panel #config-inner .x-field,
-.home-wrapper .home-main .home-col-main .admin-main-panel #config-inner .x-container 
-{
-    margin-bottom: 10px !important;
-}
-.home-wrapper .home-main .home-col-main .admin-main-panel #config-inner .x-container .x-field
-{
-    margin-bottom: 2px !important;
-}
-
-
-.home-wrapper .home-main .home-col-main .admin-main-panel #config-inner .x-form-item-label
-{
-	color: #404040;
-}
-.home-wrapper .home-main .home-col-main .admin-main-panel #config-inner .x-form-item-label,
-.home-wrapper .home-main .home-col-main .admin-main-panel #config-inner .x-form-field, 
-.home-wrapper .home-main .home-col-main .admin-main-panel #config-inner .x-form-display-field,
-.home-wrapper .home-main .home-col-main .admin-main-panel #config-inner .x-btn button
-{
-	font-size: 11px;
-	line-height: 16px;
-}
