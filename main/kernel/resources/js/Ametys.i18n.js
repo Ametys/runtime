@@ -320,14 +320,24 @@ Ext.SSL_SECURE_URL = Ext.BLANK_IMAGE_URL;
 		
 		return data;
 	}
+	function onRender ()
+	{
+		this.callParent(arguments); 
+		var td = this.el.query(".ametys-description")[0];
+		if (td != null)
+		{
+			td.parentNode.appendChild(td); // move it as last
+		}
+	}
+	
 	var afterSubTpl = [ '&lt;tpl if="ametysDescription"&gt;',
 	                    	'&lt;/td&gt;',
 	                    	'&lt;td class="ametys-description" data-qtip="{ametysDescription}"&gt;',
 	                    	'&lt;/tpl&gt;'
 	];
 
-	Ext.define("Ametys.form.Labelable", { override: "Ext.form.field.Base", afterSubTpl: afterSubTpl, getLabelableRenderData: getLabelableRenderData	});
-	Ext.define("Ametys.form.FieldContainer", { override: "Ext.form.FieldContainer", afterSubTpl: afterSubTpl, getLabelableRenderData: getLabelableRenderData });
+	Ext.define("Ametys.form.Labelable", { override: "Ext.form.field.Base", afterSubTpl: afterSubTpl, getLabelableRenderData: getLabelableRenderData, onRender: onRender });
+	Ext.define("Ametys.form.FieldContainer", { override: "Ext.form.FieldContainer", afterSubTpl: afterSubTpl, getLabelableRenderData: getLabelableRenderData, onRender: onRender });
 }
 
 /*
