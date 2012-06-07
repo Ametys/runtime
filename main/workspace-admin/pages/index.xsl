@@ -72,20 +72,17 @@
 	    		linkData.links.push ({
 	            	text : "<i18n:text i18n:key="WORKSPACE_ADMIN_LINK_WEBSITE" i18n:catalogue="workspace.{$workspaceName}"/>",
 	                url: "http://www.ametys.org",
-	                name : "ametys.org",
-	                width: 42 // ie6
+	                name : "ametys.org"
 	            });
 	            linkData.links.push ({
 	            	text : "<i18n:text i18n:key="WORKSPACE_ADMIN_LINK_DOCUMENTATION" i18n:catalogue="workspace.{$workspaceName}"/>",
 	                url: "http://wiki.ametys.org",
-	                name : "wiki.ametys.org",
-	                width: 75 // ie 6
+	                name : "wiki.ametys.org"
 	            });
 	            linkData.links.push ({
 	            	text : "<i18n:text i18n:key="WORKSPACE_ADMIN_LINK_ISSUE" i18n:catalogue="workspace.{$workspaceName}"/>",
 	                url: "https://issues.ametys.org",
-	                name : "issues.ametys.org",
-	                width: 80// ie6
+	                name : "issues.ametys.org"
 	            });
 	            
 	            var tplLink = new Ext.XTemplate (
@@ -114,6 +111,14 @@
 				});
 	    		items.push(links);
 	    		
+	    		function _desktop_item_over() {
+	    			var i = this.icon.lastIndexOf(".");
+	    			this.getEl().query(".x-btn-icon ")[0].style.backgroundImage = "url('" + this.icon.substring(0, i) + "_over" + this.icon.substring(i) + "')";
+	    		}
+	    		function _desktop_item_out() {
+	    			var i = this.icon.lastIndexOf(".");
+	    			this.getEl().query(".x-btn-icon ")[0].style.backgroundImage = "url('" + this.icon + "')";
+	    		}
 				<xsl:for-each select="/Admin/Desktop/category">
 						var category = new Ext.Component ({
 								cls: 'desktop-category-title',
@@ -141,25 +146,18 @@
 	 	                                    </xsl:for-each>});
 	 	                            },
 								</xsl:if>
+								
+								listeners: { 
+									'mouseover': _desktop_item_over,
+									'mouseout': _desktop_item_out
+								},
 											
 								width: 144,
 								height: 109
 							});
-<!-- 							var item = new org.ametys.DesktopItem ({ -->
 <!-- 								text: "<xsl:copy-of select="action/param[@name='label']/node()"/>", -->
 <!-- 								desc: "<xsl:copy-of select="action/param[@name='default-description']/node()"/>", -->
-<!-- 								icon: "<xsl:value-of select="$contextPath"/><xsl:value-of select="action/param[@name='icon-large']"/>", -->
 <!-- 								iconOver: "<xsl:value-of select="$contextPath"/><xsl:value-of select="substring-before(action/param[@name='icon-large'], '.')"/>_over.<xsl:value-of select="substring-after(action/param[@name='icon-large'], '.')"/>" -->
-<!-- 								<xsl:if test="not(@disabled)"> -->
-<!-- 	                            	,  -->
-<!-- 	                                "plugin" : "<xsl:value-of select="@plugin"/>", -->
-<!-- 	                                "actionFunction" : <xsl:value-of select="action/@class"/>, -->
-<!-- 	                                "actionParams" : {<xsl:for-each select="action/param"> -->
-<!-- 	                                	<xsl:text>"</xsl:text><xsl:value-of select="@name"/>" : "<xsl:copy-of select="./node()"/><xsl:text>"</xsl:text> -->
-<!-- 	                                    <xsl:if test="position() != last()">, </xsl:if> -->
-<!-- 	                                    </xsl:for-each>} -->
-<!-- 	                                </xsl:if> -->
-<!-- 							}); -->
 							items.push(item);
 						</xsl:for-each>
 				</xsl:for-each>
