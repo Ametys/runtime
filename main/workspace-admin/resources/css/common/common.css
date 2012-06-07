@@ -41,3 +41,29 @@
 	color: #1592E5;
 	font-size: 0.8em;
 }
+
+
+
+.x-field,
+.x-container 
+{
+    margin-bottom: 10px !important;
+}
+.x-container .x-field
+{
+    margin-bottom: 2px !important;
+}
+
+
+.x-form-item-label
+{
+	color: #404040 !important;
+}
+.x-form-item-label,
+.x-form-field, 
+.x-form-display-field,
+.x-btn button
+{
+	font-size: 11px !important;
+	line-height: 16px !important;
+}
