@@ -46,7 +46,7 @@ Ext.define(
 		debug: function(category, message, details)
 		{
 			var entry = new Ametys.log.Logger.Entry(Ametys.log.Logger.Entry.LEVEL_DEBUG, category, new Date(), message, details);
-			getInstance().getEntries().push(entry);
+			this.getEntries().push(entry);
 		},
 		/**
 		 * Log as info
@@ -57,7 +57,7 @@ Ext.define(
 		info: function(category, message, details)
 		{
 			var entry = new Ametys.log.Logger.Entry(Ametys.log.Logger.Entry.LEVEL_INFO, category, new Date(), message, details);
-			getInstance().getEntries().push(entry);
+			this.getEntries().push(entry);
 		},
 		/**
 		 * Log as warning
@@ -68,7 +68,7 @@ Ext.define(
 		warning: function(category, message, details)
 		{
 			var entry = new Ametys.log.Logger.Entry(Ametys.log.Logger.Entry.LEVEL_WARNING, category, new Date(), message, details);
-			getInstance().getEntries().push(entry);
+			this.getEntries().push(entry);
 		},
 		/**
 		 * Log as error
@@ -79,7 +79,7 @@ Ext.define(
 		error: function(category, message, details)
 		{
 			var entry = new Ametys.log.Logger.Entry(Ametys.log.Logger.Entry.LEVEL_ERROR, category, new Date(), message, details);
-			getInstance().getEntries().push(entry);
+			this.getEntries().push(entry);
 		},
 		/**
 		 * Log as fatalerror
@@ -90,7 +90,7 @@ Ext.define(
 		fatalerror: function(category, message, details)
 		{
 			var entry = new Ametys.log.Logger.Entry(Ametys.log.Logger.Entry.LEVEL_FATALERROR, category, new Date(), message, details);
-			getInstance().getEntries().push(entry);
+			this.getEntries().push(entry);
 		}
 	}
 );

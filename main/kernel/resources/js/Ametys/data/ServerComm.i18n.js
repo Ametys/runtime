@@ -171,10 +171,10 @@ Ext.define(
 				toRequest: function() {
 					var m = {};
 					
-					m.pluginOrWorkspace = this._pluginOrWorkspace != null ? this._pluginOrWorkspace : '_' + Ametys.WORKSPACE_NAME;
-					m.responseType = this._responseType;
-					m.url = this._url;
-					m.parameters = this._parameters;
+					m.pluginOrWorkspace = this.pluginOrWorkspace || '_' + Ametys.WORKSPACE_NAME;
+					m.responseType = this.responseType;
+					m.url = this.url;
+					m.parameters = this.parameters;
 					
 					return m;
 				}
@@ -231,7 +231,7 @@ Ext.define(
 			
 			try
 			{
-				conn = Ext.Ajax.request({url: Ametys.data.ServerComm.SERVERCOMM_URL, params: { content: encodeURIComponent(Ext.util.JSON.encode({0: messageRequest})) }, async: false});
+				conn = Ext.Ajax.request({url: Ametys.data.ServerComm.SERVERCOMM_URL, params: "content=" + encodeURIComponent(Ext.JSON.encode({0: messageRequest})), async: false});
 			}
 			catch(e)
 			{
@@ -285,7 +285,7 @@ Ext.define(
 			}
 			else
 			{
-				return conn.responseXML.selectSingleNode("/responses/response[@id='0']");
+				return Ext.dom.Query.selectNode("/responses/response[@id='0']");
 			}
 		},
 		
