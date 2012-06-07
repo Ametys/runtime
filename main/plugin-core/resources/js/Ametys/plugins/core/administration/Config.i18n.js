@@ -15,7 +15,7 @@
  */
 
 /**
- * The screen configuration
+ * The configuration screen
  */
 Ext.define('Ametys.plugins.core.administration.Config', {
 	singleton: true,
