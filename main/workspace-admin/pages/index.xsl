@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright 2009 Anyware Services
+   Copyright 2012 Anyware Services
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -18,24 +18,54 @@
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
                 xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
 	
-	<xsl:import href="kernel://stylesheets/plugins.xsl"/>
-    <xsl:import href="core/template.xsl"/>
+	<xsl:import href="kernel://pages/home/home.xsl"/>
+    <xsl:import href="common/common.xsl"/>
     
+	<xsl:param name="contextPath"/>
     <xsl:param name="workspaceName"/>
-	
-    <xsl:template name="workspace-title"/>
+    <xsl:param name="workspaceURI"/>
     
-    <xsl:template name="workspace-head">
-	   <xsl:call-template name="plugins-load">
-            <xsl:with-param name="scripts" select="/Admin/Desktop/category/DesktopItem/scripts/file"/>
-            <xsl:with-param name="css" select="/Admin/Desktop/category/DesktopItem/css/file"/>
-            <xsl:with-param name="use-css-component">false</xsl:with-param>
-            <xsl:with-param name="use-js-component">false</xsl:with-param>
+	<xsl:template match="/">
+    	<xsl:call-template name="home">
+		    <xsl:with-param name="needs-kernel-ui" select="true()"/>
+		    <xsl:with-param name="use-js-css-component" select="'false'"/>
             <xsl:with-param name="debug-mode">true</xsl:with-param>
-        </xsl:call-template>
-    </xsl:template>
+		    
+		    <xsl:with-param name="context-path" select="$contextPath"/>
+		    <xsl:with-param name="workspace-name" select="$workspaceName"/>
+		    <xsl:with-param name="workspace-prefix" select="$workspaceURI"/>
+		    
+		    <xsl:with-param name="plugins-direct-prefix">/plugins</xsl:with-param>
+		    <xsl:with-param name="plugins-wrapped-prefix">/_plugins</xsl:with-param>
+		    
+		    <xsl:with-param name="authorized-browsers"><xsl:call-template name="authorized-browsers"/></xsl:with-param>
+		    
+		    <xsl:with-param name="head-title"><xsl:call-template name="head-title"/></xsl:with-param>
+		    
+		    <xsl:with-param name="head-meta">
+		    	<xsl:call-template name="kernel-load">
+		            <xsl:with-param name="scripts" select="/Admin/Desktop/category/DesktopItem/scripts/file"/>
+		            <xsl:with-param name="css" select="/Admin/Desktop/category/DesktopItem/css/file"/>
+		            <xsl:with-param name="use-css-component">false</xsl:with-param>
+		            <xsl:with-param name="use-js-component">false</xsl:with-param>
+		            <xsl:with-param name="debug-mode">true</xsl:with-param>
+		        </xsl:call-template>	
+		        
+		        <!-- TODO load this CSS/JS using the component if activated -->
+<!--                 <link rel="stylesheet" href="{$contextPath}{$workspaceURI}/resources/css/index.css" type="text/css"/> -->
+		        
+<!-- 		        <xsl:call-template name="workspace-scripts"/>	     -->
+		    </xsl:with-param>
 
-    <xsl:template name="workspace-script">
+		    <xsl:with-param name="body-title"><xsl:call-template name="body-title"/></xsl:with-param>
+		    
+		    <xsl:with-param name="body-col-main">
+		    </xsl:with-param>
+    	</xsl:call-template>
+    </xsl:template>
+	
+    
+    <xsl:template name="workspace-scripts">
     	<script type="text/javascript">
     		org.ametys.runtime.HomePage.createPanel = function ()
     		{

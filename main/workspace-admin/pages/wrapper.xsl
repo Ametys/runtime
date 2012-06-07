@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright 2009 Anyware Services
+   Copyright 2012 Anyware Services
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
                 xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
 	
 	<xsl:import href="kernel://pages/home/home.xsl"/>
+	<xsl:import href="common/common.xsl"/>
 	
 	<xsl:param name="contextPath"/>
     <xsl:param name="workspaceName"/>
@@ -38,21 +39,14 @@
 		    <xsl:with-param name="plugins-direct-prefix">/plugins</xsl:with-param>
 		    <xsl:with-param name="plugins-wrapped-prefix">/_plugins</xsl:with-param>
 		    
-		    <xsl:with-param name="authorized-browsers">{
-  		    	'supported': { 'ie' : '7-9', ff: '3.6-12', ch: '10-19', op: '11-11.9', sa: '5.0-5.1'},
-		  		'not-supported': { 'ie' : '0-6', ff: '0-3.5', ch : '0-9', op: '0-10.99', sa: '0-4.9'},
- 		  		'warning-redirection': "<xsl:value-of select="$workspaceURI"/>/public/browser-unknown.html",
-		  		'failure-redirection': "<xsl:value-of select="$workspaceURI"/>/public/browser-unsupported.html"}
-		    </xsl:with-param>
+		    <xsl:with-param name="authorized-browsers"><xsl:call-template name="authorized-browsers"/></xsl:with-param>
 		    
 		    <xsl:with-param name="head-title">
 		    		<xsl:if test="/Plugins/html/head/title/node()">
 						<xsl:copy-of select="/Plugins/html/head/title/node()"/>
 						<xsl:text> - </xsl:text>
 					</xsl:if>
-					<i18n:text i18n:catalogue="workspace.{$workspaceName}" i18n:key="WORKSPACE_ADMIN_LABEL_SHORT"/>
-					<xsl:text> </xsl:text>
-					<i18n:text i18n:catalogue="application" i18n:key="APPLICATION_PRODUCT_LABEL"/>
+					<xsl:call-template name="head-title"/>
 		    </xsl:with-param>
 		    
 		    <xsl:with-param name="head-meta">
@@ -72,12 +66,7 @@
 		        <xsl:call-template name="workspace-scripts"/>	    
 		    </xsl:with-param>
 
-		    <xsl:with-param name="body-title">
-		    	<img id="title-logo" alt="workspace.admin:WORKSPACE_ADMIN_LABEL_LONG" i18n:attr="alt"/>
-		    	<script type="text/javascript">
-		    		document.getElementById('title-logo').src = "<xsl:value-of select="$contextPath"/><xsl:value-of select="$workspaceURI"/>/resources/img/Admin_<i18n:text i18n:key="KERNEL_LANGUAGE_CODE" i18n:catalogue="kernel"/>.png";
-		    	</script>
-			</xsl:with-param>
+		    <xsl:with-param name="body-title"><xsl:call-template name="body-title"/></xsl:with-param>
 		    
 		    <xsl:with-param name="body-col-main">
 		    	<xsl:copy-of select="/Plugins/html/body/node()"/>
