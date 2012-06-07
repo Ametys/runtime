@@ -171,7 +171,7 @@ Ext.define(
 				toRequest: function() {
 					var m = {};
 					
-					m.pluginOrWorkspace = this._pluginOrWorkspace != null ? this._pluginOrWorkspace : '_' + context.workspaceName;
+					m.pluginOrWorkspace = this._pluginOrWorkspace != null ? this._pluginOrWorkspace : '_' + Ametys.WORKSPACE_NAME;
 					m.responseType = this._responseType;
 					m.url = this._url;
 					m.parameters = this._parameters;
