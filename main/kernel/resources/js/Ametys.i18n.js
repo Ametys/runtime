@@ -219,8 +219,8 @@ Ext.define(
 			Ametys.data.ServerComm._shutdown();
 			
 			// Close error dialogs
-			org.ametys.msg.ErrorDialog._okMessages();
-			org.ametys.msg.ErrorDialog = function() {};
+			Ametys.log.ErrorDialog._okMessages();
+			Ametys.log.ErrorDialog = function() {};
 			
 			// Display error message
 			
