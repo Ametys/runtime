@@ -206,7 +206,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 					field = this._createLongField (name, value, label, description, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null, invalidText);
 					break;
 				case 'password':
-					field = this._createPasswordField (name, value, label, description);
+					field = this._createPasswordField (name, value, label, description, mandatory == 'true');
 					break;
 				case 'date':
 					field = this._createDateField (name, value, label, description, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null, invalidText);
@@ -258,26 +258,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	        
 	        value: value,
 	        allowBlank: !mandatory,
-	        validatorRegexp: regexp,
-	        validator: function(value)
-			{
-				if (this.allowBlank &amp;&amp; (value.length &lt; 1 || value === this.emptyText))
-				{
-					return true;
-				}
-				else if (!this.allowBlank &amp;&amp; (value.length &lt; 1 || value === this.emptyText))
-				{
-					return this.blankText;
-				}
-				else if (this.validatorRegexp &amp;&amp; !this.validatorRegexp.test(value))
-				{
-					return this.invalidText != null ? this.invalidText : this.regexText;
-				}
-				else
-				{
-					return true;
-				}
-			},
+	        regex: regexp,
 			regexText: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP"/>" + regexp,
 			invalidText: invalidText != null ? invalidText : null,
 	        msgTarget: 'side',
@@ -312,26 +293,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	        
 	        value: value,
 	        allowBlank: !mandatory,
-	        validatorRegexp: regexp,
-	        validator: function(value)
-			{
-				if (this.allowBlank &amp;&amp; (value.length &lt; 1 || value === this.emptyText))
-				{
-					return true;
-				}
-				else if (!this.allowBlank &amp;&amp; (value.length &lt; 1 || value === this.emptyText))
-				{
-					return this.blankText;
-				}
-				else if (this.validatorRegexp &amp;&amp; !this.validatorRegexp.test(value))
-				{
-					return this.invalidText != null ? this.invalidText : this.regexText;
-				}
-				else
-				{
-					return true;
-				}
-			},
+	        regex: regexp,
 			regexText: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP"/>" + regexp,
 			invalidText: invalidText != null ? invalidText : null,
 			msgTarget: 'side',
@@ -351,23 +313,23 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 * @param {String} label The label of the field
 	 * @param {String} description The associated description
 	 * @param {Boolean} mandatory True if the field can not be empty
-	 * @param {String} regexp The regexp to use to validate the field value
-	 * @param {String} invalidText The text to display when the field value is not valid
 	 * @return {Ext.form.field.Field} The created field
 	 */
-	_createPasswordField: function (name, value, label, description)
+	_createPasswordField: function (name, value, label, description, mandatory)
 	{
 		return new Ametys.form.field.ChangePassword({
 			name: name,
 			fieldLabel: label,
 		    ametysDescription: description,
 		    
+	        allowBlank: !mandatory,
 		    value: value,
 		    
 			labelAlign: 'right',
 	        labelWidth: Ametys.plugins.core.administration.Config.LABEL_WIDTH,
 	        labelSeparator: '',
-		    width: Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH
+
+	        width: Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH
 		});
 	},
 
@@ -399,26 +361,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	        altFormats: 'c',
 	        value: dateValue,
 	        allowBlank: !mandatory,
-	        validatorRegexp: regexp,
-	        validator: function(value)
-			{
-				if (this.allowBlank &amp;&amp; (value.length &lt; 1 || value === this.emptyText))
-				{
-					return true;
-				}
-				else if (!this.allowBlank &amp;&amp; (value.length &lt; 1 || value === this.emptyText))
-				{
-					return this.blankText;
-				}
-				else if (this.validatorRegexp &amp;&amp; !this.validatorRegexp.test(value))
-				{
-					return this.invalidText != null ? this.invalidText : this.regexText;
-				}
-				else
-				{
-					return true;
-				}
-			},
+	        regex: regexp,
 			regexText: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP"/>" + regexp,
 			invalidText: invalidText != null ? invalidText : null,
 			msgTarget: 'side',
@@ -517,27 +460,8 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 		        width: Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH,
 		        
 		        allowBlank: !mandatory,
-		        validatorRegexp: regexp,
-		        validator: function(value)
-				{
-					if (this.allowBlank &amp;&amp; (value.length &lt; 1 || value === this.emptyText))
-					{
-						return true;
-					}
-					else if (!this.allowBlank &amp;&amp; (value.length &lt; 1 || value === this.emptyText))
-					{
-						return this.blankText;
-					}
-					else if (this.validatorRegexp &amp;&amp; !this.validatorRegexp.test(value))
-					{
-						return this.invalidText != null ? this.invalidText : this.regexText;
-					}
-					else
-					{
-						return true;
-					}
-				},
-				regexText: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP"/>" + regexp,
+		        regex: regexp,
+		        regexText: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP"/>" + regexp,
 				invalidText: invalidText != null ? invalidText : null,
 				msgTarget: 'side'
 			});
@@ -565,26 +489,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 		        
 		        value: value,
 		        allowBlank: !mandatory,
-		        validatorRegexp: regexp,
-		        validator: function(value)
-				{
-					if (this.allowBlank &amp;&amp; (value.length &lt; 1 || value === this.emptyText))
-					{
-						return true;
-					}
-					else if (!this.allowBlank &amp;&amp; (value.length &lt; 1 || value === this.emptyText))
-					{
-						return this.blankText;
-					}
-					else if (this.validatorRegexp &amp;&amp; !this.validatorRegexp.test(value))
-					{
-						return this.invalidText != null ? this.invalidText : this.regexText;
-					}
-					else
-					{
-						return true;
-					}
-				},
+		        regex: regexp,
 				regexText: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP"/>" + regexp,
 				invalidText: invalidText != null ? invalidText : null,
 		        msgTarget: 'side'
