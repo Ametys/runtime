@@ -14,6 +14,38 @@
  *  limitations under the License.
  */
 
+/** ICONS */
+.home-wrapper .home-main .home-col-main .desktop-category-title h2
+{
+	color: #1C58A0;
+	font-family: arial, sans-serif;
+	font-size : 1.22em;
+	font-weight: bold;
+	letter-spacing: -1px;
+	text-transform: uppercase;
+
+	border-bottom: 1px solid #C8CDD0;
+	height: 29px;
+	padding: 0px;
+	margin-bottom: 15px;
+	
+	clear: left;
+}
+
+.home-wrapper .home-main .home-col-main .x-btn-default-large-icon-text-top
+{
+	background-image: none;
+	background-color: transparent;
+}
+.home-wrapper .home-main .home-col-main .x-btn-default-large-icon-text-top .x-btn-icon
+{
+	height: 68px;
+}
+.home-wrapper .home-main .home-col-main .x-btn-default-large-icon-text-top .x-btn-inner
+{
+	line-height: normal;
+	padding-top: 72px;
+}
 
 /** LINKS */
 .home-wrapper .home-main .home-col-main .links {

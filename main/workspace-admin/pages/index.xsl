@@ -114,13 +114,37 @@
 				});
 	    		items.push(links);
 	    		
-<!-- 				<xsl:for-each select="/Admin/Desktop/category"> -->
-<!-- 						var category = new org.ametys.DesktopCategory ({ -->
-<!-- 								text: "<i18n:text i18n:key="{@name}" i18n:catalogue="application"/>" -->
-<!-- 						}); -->
-<!-- 						items.push(category); -->
+				<xsl:for-each select="/Admin/Desktop/category">
+						var category = new Ext.Component ({
+								cls: 'desktop-category-title',
+								html: "&lt;h2&gt;<i18n:text i18n:key="{@name}" i18n:catalogue="application"/>&lt;/h2&gt;"
+						});
+						items.push(category);
 						
-<!-- 						<xsl:for-each select="DesktopItem"> -->
+						<xsl:for-each select="DesktopItem">
+							var item = new Ext.button.Button({
+								border: false,
+								cls: 'desktop-item',
+								
+								icon: "<xsl:value-of select="$contextPath"/><xsl:value-of select="action/param[@name='icon-large']"/>",
+								iconAlign: "top",
+								scale: 'large',
+								
+								text: "<xsl:copy-of select="action/param[@name='label']/node()"/>",
+
+								<xsl:if test="not(@disabled)">
+									handler: function () { 
+										<xsl:value-of select="action/@class"/>("<xsl:value-of select="@plugin"/>", {
+											<xsl:for-each select="action/param">
+		                                		<xsl:text>"</xsl:text><xsl:value-of select="@name"/>" : "<xsl:copy-of select="./node()"/><xsl:text>"</xsl:text>
+		                                    	<xsl:if test="position() != last()">, </xsl:if>
+	 	                                    </xsl:for-each>});
+	 	                            },
+								</xsl:if>
+											
+								width: 144,
+								height: 109
+							});
 <!-- 							var item = new org.ametys.DesktopItem ({ -->
 <!-- 								text: "<xsl:copy-of select="action/param[@name='label']/node()"/>", -->
 <!-- 								desc: "<xsl:copy-of select="action/param[@name='default-description']/node()"/>", -->
@@ -136,9 +160,9 @@
 <!-- 	                                    </xsl:for-each>} -->
 <!-- 	                                </xsl:if> -->
 <!-- 							}); -->
-<!-- 							items.push(item); -->
-<!-- 						</xsl:for-each> -->
-<!-- 				</xsl:for-each> -->
+							items.push(item);
+						</xsl:for-each>
+				</xsl:for-each>
 				
 				return new Ext.Container({
 					cls: 'desktop',

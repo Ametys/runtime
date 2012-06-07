@@ -965,7 +965,7 @@
                 <!-- 
                     This interaction allows the administrator to change the main configuration of the application
                  -->
-				<action class="Ametys.workspace.admin.dock.DockItem.redirect">
+				<action class="redirect">
 					<param name="Link">administrator/config/edit.html</param>
 
 					<param name="label" i18n="true">PLUGINS_CORE_ADMINISTRATOR_CONFIG_LABEL</param>
@@ -987,7 +987,7 @@
                 <!-- 
                     This interaction allows the administrator to check the status of the JVM
                  -->
-				<action class="Ametys.workspace.admin.dock.DockItem.redirect">
+				<action class="redirect">
 					<param name="Link">administrator/jvmstatus/view.html</param>
 
 					<param name="label" i18n="true">PLUGINS_CORE_ADMINISTRATOR_STATUS_LABEL</param>
@@ -1009,7 +1009,7 @@
                 <!-- 
                     This interaction allows the administrator to see plugins. Usefull for developpers.
                  -->
-                <action class="Ametys.workspace.admin.dock.DockItem.redirect">
+                <action class="redirect">
 					<param name="Link">administrator/plugins/view.html</param>
 
 					<param name="label" i18n="true">PLUGINS_CORE_ADMINISTRATOR_PLUGINS_LABEL</param>
@@ -1031,7 +1031,7 @@
                 <!-- 
                     This interaction allows the administrator to see and manage logs
                  -->
-                <action class="Ametys.workspace.admin.dock.DockItem.redirect">
+                <action class="redirect">
 					<param name="Link">administrator/logs/view.html</param>
 
 					<param name="label" i18n="true">PLUGINS_CORE_ADMINISTRATOR_LOGS_LABEL</param>
@@ -1053,7 +1053,7 @@
                 <!-- 
                     This interaction allows the administrator to handle the system (maintenance mode, welcome message...)
                  -->
-				<action class="Ametys.workspace.admin.dock.DockItem.redirect">
+				<action class="redirect">
 					<param name="Link">administrator/system/view.html</param>
 
 					<param name="label" i18n="true">PLUGINS_CORE_ADMINISTRATOR_SYSTEM_LABEL</param>
@@ -1121,7 +1121,7 @@
                 <!-- 
                     This interaction allow to handle users (read or read/write)
                  -->
-                <action class="Ametys.workspace.admin.dock.DockItem.redirect">
+                <action class="redirect">
 					<param name="Link">users/view.html</param>
 
 					<param name="label" i18n="true">PLUGINS_CORE_USERS_LABEL</param>
@@ -1436,7 +1436,7 @@
                 <!-- 
                     This interaction allow to handle groups (read or read/write)
                  -->
-                <action class="Ametys.workspace.admin.dock.DockItem.redirect">
+                <action class="redirect">
 					<param name="Link">groups/view.html</param>
 
 					<param name="label" i18n="true">PLUGINS_CORE_GROUPS_LABEL</param>
@@ -1620,7 +1620,7 @@
                 <!-- 
                     This extensions display the profile screen
                  -->
-                <action class="Ametys.workspace.admin.dock.DockItem.redirect">
+                <action class="redirect">
 					<param name="Link">rights/profiles/view.html</param>
 
 					<param name="label" i18n="true">PLUGINS_CORE_RIGHTS_PROFILES_LABEL</param>
@@ -1641,7 +1641,7 @@
                 <!-- 
                     This extensions display the core affectation screen for rights
                  -->
-                <action class="Ametys.workspace.admin.dock.DockItem.redirect">
+                <action class="redirect">
 					<param name="Link">rights/view.html</param>
 
 					<param name="label" i18n="true">PLUGINS_CORE_RIGHTS_LABEL</param>

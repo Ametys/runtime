@@ -77,6 +77,19 @@
 	     + -->
 	<xsl:template name="common-script">
     	<script type="text/javascript">
+			function redirect(plugin, params) {
+	            function _checkLink (link)
+	            {
+	                if (link.substring(0, 1) != '/')
+	                {
+	                    link = '/' + link;
+	                }
+	                return link;
+	            }
+	            
+	            window.location.href = Ametys.getPluginWrapperPrefix(plugin) + _checkLink(params.Link);
+			}
+    	
     		function createBottom()
     		{
 	        	<xsl:if test="/*/Versions/Component|/Plugins/Versions/Component">

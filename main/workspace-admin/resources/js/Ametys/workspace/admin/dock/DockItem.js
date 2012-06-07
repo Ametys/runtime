@@ -55,26 +55,5 @@ Ext.define('Ametys.workspace.admin.dock.DockItem', {
 			dismiss: 0
 			}
 		]);
-	},
-	
-	statics: {
-		/**
-		 * @static
-		 * Function to redirect to argument named 'Link'
-		 * @param {String} plugin The name of the pluggin declaring the item that needs to redirect
-		 * @param {Object} A map String,String. A key 'Link' should exists with an url, relative to declaring plugin 
-		 */
-		redirect: function(plugin, params) {
-            function _checkLink (link)
-            {
-                if (link.substring(0, 1) != '/')
-                {
-                    link = '/' + link;
-                }
-                return link;
-            }
-            
-            window.location.href = Ametys.getPluginWrapperPrefix(plugin) + _checkLink(params.Link);
-		}
 	}
 });
