@@ -155,9 +155,6 @@
 								width: 144,
 								height: 109
 							});
-<!-- 								text: "<xsl:copy-of select="action/param[@name='label']/node()"/>", -->
-<!-- 								desc: "<xsl:copy-of select="action/param[@name='default-description']/node()"/>", -->
-<!-- 								iconOver: "<xsl:value-of select="$contextPath"/><xsl:value-of select="substring-before(action/param[@name='icon-large'], '.')"/>_over.<xsl:value-of select="substring-after(action/param[@name='icon-large'], '.')"/>" -->
 							items.push(item);
 						</xsl:for-each>
 				</xsl:for-each>
