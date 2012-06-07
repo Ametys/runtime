@@ -139,14 +139,14 @@
 				});
     		}
     		
-			function _createDock() {return;
+			function _createDock() {
 				<xsl:if test="/Plugins/Desktop/category">
 					var items = [];
 					
 					<xsl:for-each select="/Plugins/Desktop/category">
 						<xsl:for-each select="DesktopItem">
-							var item = new org.ametys.DockItem ({
-								tooltip: org.ametys.AdminTools.DockTooltipFormater("<xsl:copy-of select="action/param[@name='label']/node()"/>", "<xsl:value-of select="$contextPath"/><xsl:value-of select="action/param[@name='icon-large']"/>", "<xsl:copy-of select="action/param[@name='default-description']/node()"/>"),
+							var item = new Ametys.workspace.admin.dock.DockItem ({
+								// tooltip: org.ametys.AdminTools.DockTooltipFormater("<xsl:copy-of select="action/param[@name='label']/node()"/>", "<xsl:value-of select="$contextPath"/><xsl:value-of select="action/param[@name='icon-large']"/>", "<xsl:copy-of select="action/param[@name='default-description']/node()"/>"),
 								icon: "<xsl:value-of select="$contextPath"/><xsl:value-of select="action/param[@name='icon-small']"/>"
 							 	<xsl:if test="../CurrentUIItem/@position = position()">, pressed: true</xsl:if>
 								<xsl:if test="not(@disabled)">
@@ -162,7 +162,7 @@
 							items.push(item);
 						</xsl:for-each>
 						<xsl:if test="position() != last()">
-							var tile = new org.ametys.HtmlContainer ({
+							var tile = new Ext.Component ({
 									cls: 'dock-tile'
 							});
 							items.push(tile);
@@ -170,16 +170,20 @@
 					</xsl:for-each>
 					
 					var dock = new Ext.Panel({
-						baseCls: 'paddle',
-						renderTo: 'home-col-left',
-						items: [new Ext.Container ({
+						cls: 'paddle',
+						border: false,
+						frame: false,
+						shadow: false,
+						width: 44,
+						renderTo: 'left',
+						items: [new Ext.Component ({
 									cls: 'dock-top'
 								}), 
 								new Ext.Panel ({
 									baseCls: 'dock-center',
 									items: items
 								}), 
-								new Ext.Container ({
+								new Ext.Component ({
 									cls: 'dock-bottom'
 								})
 						]
@@ -193,6 +197,10 @@
 		<script type="text/javascript" src="{$contextPath}{$workspaceURI}/resources/js/Ametys/workspace/admin/rightpanel/NavigationPanel.js"/>
 		<script type="text/javascript" src="{$contextPath}{$workspaceURI}/resources/js/Ametys/workspace/admin/rightpanel/NavigationPanel/NavigationItem.js"/>
 		<script type="text/javascript" src="{$contextPath}{$workspaceURI}/resources/js/Ametys/workspace/admin/rightpanel/TextPanel.js"/>
+
+		<xsl:if test="/Plugins/Desktop/category">
+			<script type="text/javascript" src="{$contextPath}{$workspaceURI}/resources/js/Ametys/workspace/admin/dock/DockItem.js"/>
+		</xsl:if>
 		
    		<xsl:copy-of select="/Plugins/html/script/node()"/>
     </xsl:template>

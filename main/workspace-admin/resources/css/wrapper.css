@@ -211,3 +211,95 @@
 	margin-right: 12px;
 	float: left;
 }
+
+
+
+/** DOCK / PADDLE */
+.home-wrapper .home-main .home-col-left .paddle
+{
+	margin-left: auto;
+	margin-right: 0;
+}
+.home-wrapper .home-main .home-col-left .paddle .x-panel-body
+{
+	background-color: transparent;
+}
+
+.home-wrapper .home-main .home-col-left .paddle .x-panel-body .dock-top {
+	height: 13px;
+	background: url(../img/dock/dock_top.gif) top left no-repeat;
+}
+
+.home-wrapper .home-main .home-col-left .paddle .x-panel-body .dock-bottom {
+	height: 58px;
+	background: url(../img/dock/dock_bottom.png) top left no-repeat;
+}
+.home-wrapper .home-main .home-col-left .paddle .x-panel-body .dock-center {
+	width: 38px;
+	text-align: center;
+	padding: 5px 0 5px 0;
+	background: url(../img/dock/dock_bg.gif) top left no-repeat;
+}
+
+.home-wrapper .home-main .home-col-left .paddle .x-panel-body .dock-tile {
+	background: url(../img/dock/dock_icon_tile.gif) top left no-repeat;
+	height: 2px;
+	margin-top: 4px;
+	margin-bottom: 7px;
+}
+
+.home-wrapper .home-main .home-col-left .paddle .x-panel-body .x-btn {
+	background-color: transparent;
+	background-image: none;
+	padding: 0;
+}
+.home-wrapper .home-main .home-col-left .paddle .x-panel-body .x-btn button {
+	width: 38px !important;
+	height: 20px;
+	margin-bottom: 4px !important;
+	border: none;
+	
+	background-repeat: no-repeat !important;
+	background-position: 0px 0px !important;
+	background-color: transparent;
+}
+.home-wrapper .home-main .home-col-left .paddle .x-panel-body .x-btn button .x-btn-icon {
+	width: 38px;
+	height: 24px;
+}
+.home-wrapper .home-main .home-col-left .paddle .x-panel-body .x-btn-click button .x-btn-icon {
+	background-position: -76px 0px !important;
+}
+.home-wrapper .home-main .home-col-left .paddle .x-panel-body .x-btn-focus button .x-btn-icon {
+	background-position: -76px 0px !important;
+}
+.home-wrapper .home-main .home-col-left .paddle .x-panel-body .x-btn-pressed button .x-btn-icon {
+	background-position: -76px 0px !important;
+}
+.home-wrapper .home-main .home-col-left .paddle .x-panel-body .x-btn-over button .x-btn-icon {
+	background-position: -38px 0px !important;
+}
+
+.dock-button-tooltip {
+}
+
+.dock-button-tooltip-title {
+	width: 190px;
+	font-weight: bold;
+	padding-left: 0px !important;
+	padding: 5px 0px 5px 0px;
+	margin: 0px 0px 5px 90px;
+	/*border-bottom: 1px solid #9bafca;*/
+	color: #1C58A0;
+}
+.dock-button-tooltip-text {
+	width: 190px;
+	margin-left: 93px;
+}
+.dock-button-tooltip-img {
+	float: left;
+	width: 93px;
+	margin-bottom: 5px;
+	overflow: visible;
+	text-align: center;
+}

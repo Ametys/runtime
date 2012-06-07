@@ -121,12 +121,12 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 			        this._contextualPanel],
 			        
 			listeners: {
-				'boxready': Ext.Function.bind(this._onAfterRender, this)
+				'boxready': Ext.Function.bind(this._onBoxReady, this)
 			}
 		});
 	},
 	
-	_onAfterRender: function() {
+	_onBoxReady: function() {
 		this._ct = Ext.getCmp("config-inner").getEl().child("div:first");
 		this._ct.on('scroll', Ext.Function.bind(this._calcScrollPosition, this));
 		
@@ -804,7 +804,6 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 */
 	_activateItemMenu: function (id)
 	{
-		console.info("Activate " + id)
 		var button = Ext.getCmp("a" + id);
 		if	(button != null)
 		{	
