@@ -136,6 +136,10 @@
 								scale: 'large',
 								
 								text: "<xsl:copy-of select="action/param[@name='label']/node()"/>",
+								tooltip: {
+									title: "<xsl:copy-of select="action/param[@name='label']/node()"/>",
+									text: "<xsl:copy-of select="action/param[@name='default-description']/node()"/>"
+								},
 
 								<xsl:if test="not(@disabled)">
 									handler: function () { 
