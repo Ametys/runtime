@@ -108,13 +108,15 @@
 							 	<xsl:if test="../CurrentUIItem/@position = position()">, pressed: true</xsl:if>
 								<xsl:if test="not(@disabled)">
 	                            	, 
-	                                "plugin" : "<xsl:value-of select="@plugin"/>",
-	                                "actionFunction" : <xsl:value-of select="action/@class"/>,
-	                                "actionParams" : {<xsl:for-each select="action/param">
-	                                	<xsl:text>"</xsl:text><xsl:value-of select="@name"/>" : "<xsl:copy-of select="./node()"/><xsl:text>"</xsl:text>
-	                                    <xsl:if test="position() != last()">, </xsl:if>
-	                                    </xsl:for-each>}
-	                                </xsl:if>
+	                            	handler: function() {
+	                            		<xsl:value-of select="action/@class"/>("<xsl:value-of select="@plugin"/>", {
+	                            			<xsl:for-each select="action/param">
+	                                			<xsl:text>"</xsl:text><xsl:value-of select="@name"/>" : "<xsl:copy-of select="./node()"/><xsl:text>"</xsl:text>
+	                                    		<xsl:if test="position() != last()">, </xsl:if>
+	                                    	</xsl:for-each>
+	                            		})
+	                            	}
+                                </xsl:if>
 							});
 							items.push(item);
 						</xsl:for-each>

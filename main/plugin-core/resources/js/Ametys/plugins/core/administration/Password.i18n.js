@@ -197,8 +197,8 @@ Ext.define('Ametys.plugins.core.administration.Password', {
 	    {
 	       return;
 	    }
-		
-	    if (Ext.dom.Query.select("*/result", result) != "SUCCESS")
+
+	    if (Ext.dom.Query.selectValue("*/result", result) != "SUCCESS")
 	    {
 	    	Ext.Msg.show ({
 	    		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",

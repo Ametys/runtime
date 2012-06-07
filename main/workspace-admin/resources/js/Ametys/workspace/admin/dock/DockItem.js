@@ -35,11 +35,6 @@ Ext.define('Ametys.workspace.admin.dock.DockItem', {
 	width: '100%',
 	enableToggle : false,
 	
-	handler: function ()
-	{
-		this.actionFunction(this.plugin, this.actionParams);
-	},
-	
 	setTooltip: function(tip) {
 		return this.callParent([{
 			text: "<div class='dock-button-tooltip'>" 
