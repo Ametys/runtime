@@ -146,7 +146,11 @@
 					<xsl:for-each select="/Plugins/Desktop/category">
 						<xsl:for-each select="DesktopItem">
 							var item = new Ametys.workspace.admin.dock.DockItem ({
-								// tooltip: org.ametys.AdminTools.DockTooltipFormater("<xsl:copy-of select="action/param[@name='label']/node()"/>", "<xsl:value-of select="$contextPath"/><xsl:value-of select="action/param[@name='icon-large']"/>", "<xsl:copy-of select="action/param[@name='default-description']/node()"/>"),
+								tooltip: {
+									title: "<xsl:copy-of select="action/param[@name='label']/node()"/>",
+									image: "<xsl:value-of select="$contextPath"/><xsl:value-of select="action/param[@name='icon-large']"/>", 
+									text: "<xsl:copy-of select="action/param[@name='default-description']/node()"/>"
+								},
 								icon: "<xsl:value-of select="$contextPath"/><xsl:value-of select="action/param[@name='icon-small']"/>"
 							 	<xsl:if test="../CurrentUIItem/@position = position()">, pressed: true</xsl:if>
 								<xsl:if test="not(@disabled)">

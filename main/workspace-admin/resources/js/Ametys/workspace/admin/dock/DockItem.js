@@ -40,6 +40,23 @@ Ext.define('Ametys.workspace.admin.dock.DockItem', {
 		this.actionFunction(this.plugin, this.actionParams);
 	},
 	
+	setTooltip: function(tip) {
+		return this.callParent([{
+			text: "<div class='dock-button-tooltip'>" 
+				+ "<div class='dock-button-tooltip-img'>"
+				+ "<img src='" + tip.image + "'/>"
+				+ "</div>"
+				+ (tip.title ? "<div class='dock-button-tooltip-title'>" + tip.title + "</div>" : "")
+				+ "<div class='dock-button-tooltip-text'>"
+				+    tip.text 
+				+ "</div>"
+				+ "<div class='x-clear'/>"
+				+ "</div>",
+			dismiss: 0
+			}
+		]);
+	},
+	
 	statics: {
 		/**
 		 * @static
