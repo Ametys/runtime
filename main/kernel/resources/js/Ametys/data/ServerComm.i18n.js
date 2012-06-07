@@ -285,7 +285,7 @@ Ext.define(
 			}
 			else
 			{
-				return Ext.dom.Query.selectNode("/responses/response[@id='0']");
+				return Ext.dom.Query.selectNode("/responses/response[@id='0']", conn.responseXML);
 			}
 		},
 		
