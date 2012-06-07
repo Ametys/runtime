@@ -46,7 +46,7 @@
     <message key="KERNEL_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE">The server is currenlty not available.\nWait a few seconds and click on OK. You can also cancel but you will loose your unsaved data and the application will be shuted down.\n\nIf you want to try to keep your unsaved data, please contact the system administrator to know how long the server will be down, then click on OK at this time.</message>
     <message key="KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_1">The connection with the server was lost</message>
     <message key="KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_2">The application became unstable and has stopped</message>
-    <message key="KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_3">Click here to restart the application.</message>
+    <message key="KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_3">Click here to reconnect to the application.</message>
     
     <!-- +
     	 | TimeoutDialog.js

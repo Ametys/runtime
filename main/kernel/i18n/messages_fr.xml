@@ -46,7 +46,7 @@
     <message key="KERNEL_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE">Le serveur est actuellement indisponible.\nAttendez quelques instants et cliquez sur OK. Sinon cliquez sur annuler mais vous perdrez vos données non-enregistrées et l'application sera arrêtée.\n\nPour essayer de ne pas perdre le travail en cours, contactez l'administrateur système pour savoir dans combien de temps le serveur sera à nouveau opérationnel et cliquez sur OK à ce moment là.</message>
     <message key="KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_1">La connexion avec le serveur a été perdue</message>
     <message key="KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_2">L'application s'est retrouvée dans un état instable et a été arretée</message>
-    <message key="KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_3">Cliquez ici pour redémarrer l'application.</message>
+    <message key="KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_3">Cliquez ici pour vous reconnecter à l'application.</message>
     
     <!-- +
     	 | TimeoutDialog.js
