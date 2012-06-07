@@ -165,7 +165,7 @@
 				return new Ext.Container({
 					cls: 'desktop',
 					border: false,
-					autoscroll: true,
+					autoScroll: true,
 					
 					items: items
 				});
