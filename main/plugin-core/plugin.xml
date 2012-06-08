@@ -1075,7 +1075,7 @@
                 <!-- 
                     This interaction allows the administrator to handle the system (maintenance mode, welcome message...)
                  -->
-				<action class="org.ametys.administration.SuperUser.act">
+				<action class="Ametys.plugins.core.administration.SuperUser.act">
 					<param name="label" i18n="true">PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_LABEL</param>
 					<param name="default-description" i18n="true">PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_DESCRIPTION</param>
 					<param name="icon-small" file="true">img/administrator/superuser/icon_dock.png</param>
@@ -1083,11 +1083,11 @@
 					<param name="icon-large" file="true">img/administrator/superuser/icon_large.png</param>
 				</action>   
                 <scripts>
-                    <file>js/org/ametys/administration/SuperUser.i18n.js</file>
-                    <file plugin="core">js/users/selectuser.i18n.js</file>
+                    <file>js/Ametys/plugins/core/administration/SuperUser.i18n.js</file>
+                    <file>js/users/selectuser.i18n.js</file>
 				</scripts> 	
 				<css>
-					<file plugin="core">css/users/selectuser.css</file>
+					<file>css/users/selectuser.css</file>
 				</css> 		
             </extension>   
                
