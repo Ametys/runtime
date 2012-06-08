@@ -30,6 +30,8 @@
         <category name="WORKSPACE_ADMIN_SECTION_USERSMANAGEMENT_LABEL">
             <item id="org.ametys.runtime.plugins.core.Users"/>
             <item id="org.ametys.runtime.plugins.core.Groups"/>
+            <item id="org.ametys.runtime.plugins.core.right.Assign"/>
+            <item id="org.ametys.runtime.plugins.core.administrator.SuperUser"/>
         </category>
         
         <category name="WORKSPACE_ADMIN_SECTION_APPLICATION_LABEL">
