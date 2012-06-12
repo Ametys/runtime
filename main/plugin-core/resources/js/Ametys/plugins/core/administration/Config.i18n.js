@@ -41,6 +41,14 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 * @property {Ext.form.BasicForm} _form The configuration form
 	 */
 	/**
+	 * @private
+	 * @property {Ametys.workspace.admin.rightpanel.NavigationPanel} _nav The navigation panel
+	 */
+	/**
+	 * @private
+	 * @property {Ametys.workspace.admin.rightpanel.ActionPanel} _actions The action panel
+	 */
+	/**
 	 * @property {Object[]} _navItems The navigation items
 	 * @private
 	 */
