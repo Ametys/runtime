@@ -34,8 +34,7 @@ Ext.define('Ametys.plugins.core.administration.SuperUser', {
 	{
 		this.pluginName = pluginName;
 
-		RUNTIME_Plugin_Runtime_SelectUser.initialize('core');
-		RUNTIME_Plugin_Runtime_SelectUser.act(Ext.bind(this._affectSuperUser, this));	
+		Ametys.plugins.core.SelectUser.act(Ext.bind(this._affectSuperUser, this));	
 	},
 
 	/**
