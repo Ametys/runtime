@@ -1,0 +1,130 @@
+/*
+ *  Copyright 2012 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel .x-panel-header,
+.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel .x-panel-body
+{
+	background-color: transparent;
+	background-image: none;
+	box-shadow: none;
+	border-width: 0;
+}
+
+.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel .x-panel-header
+{
+	background-image: url('../../../../../_admin/resources/img/icon/group-expand-sprite.png');
+	background-repeat: no-repeat;	
+	background-position: 0 -45px;
+	
+	padding-left: 15px;
+	margin-left: 15px;
+}
+
+.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel .x-panel-header .x-panel-header-text
+{
+	font-family: arial,sans-serif;
+	font-size: 1.21em;
+}	
+
+.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel .x-panel-header.x-panel-header-collapsed-top
+{
+	background-position: 0 5px;
+}
+
+
+/** GENERAL */
+.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel #system, 
+.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel #java, 
+.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel #memory, 
+.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel #server
+{
+	font-family: arial,sans-serif;
+	font-size: 0.9em;
+	line-height: 20px;
+	
+	margin-left: 36px;
+	width: 530px;
+}
+
+.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel #memory {
+	margin-top: 5px;
+}
+
+.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel .label 
+{
+	font-weight: bold;
+	float: left;
+	width: 140px;
+	color: #1C58A0;
+}
+
+.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel img.help 
+{
+	margin-right: 10px;
+	float: left;
+	padding-top: 6px;
+}
+
+.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel .legend 
+{
+	font-weight: normal;
+	text-align: right;
+	width: 460px;
+}
+
+.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel .legend img 
+{
+	width: 10px;
+	height: 10px;
+	vertical-align: baseline;
+	margin-left: 10px;
+	margin-right: 2px;
+}
+
+.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel #memory button 
+{
+	margin-left: 10px;
+}
+
+/** PROPERTIES */
+.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel #properties-panel .x-grid-cell 
+{
+	background: none !important;
+}
+
+/** MONITORING */
+.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel .monitoring a {
+	font-family: arial,sans-serif;
+	font-weight: normal;
+}
+
+.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel .monitoring {
+	text-align: center;
+	vertical-align: top;
+}
+
+.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel .monitoring img {
+	vertical-align: top;
+	width: 491px;
+	height: 273px;
+}
+
+.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel .monitoring button {
+	background-color: #ffffff; 
+	border: 2px solid #dcdcdc; 
+	width: 30px; 
+	height: 273px;
+}

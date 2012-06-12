@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright 2009 Anyware Services
+   Copyright 2012 Anyware Services
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -35,27 +35,27 @@
 			</head>
 
 			<script>
-				<script type="text/javascript" src="{$contextPath}/plugins/{$pluginName}/resources/js/org/ametys/administration/JVMStatus.i18n.js"></script>
+				<script type="text/javascript" src="{$resourcesPath}/js/Ametys/plugins/core/administration/JVMStatus.i18n.js"></script>
 	            <script type="text/javascript">
-	                org.ametys.administration.JVMStatus.initialize ("<xsl:value-of select="$pluginName"/>");
+	                Ametys.plugins.core.administration.JVMStatus.initialize ("<xsl:value-of select="$pluginName"/>");
 	          		
-					org.ametys.administration.JVMStatus._navItems = [];
+					Ametys.plugins.core.administration.JVMStatus._navItems = [];
 	                  
-	                org.ametys.administration.JVMStatus._navItems.push ({label: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL"/>"}); 
-	                org.ametys.administration.JVMStatus._navItems.push ({label: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_SYSTEM"/>"});                        
-					org.ametys.administration.JVMStatus._navItems.push ({label: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_MONITORING"/>"});                        
+	                Ametys.plugins.core.administration.JVMStatus._navItems.push ({label: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL"/>"}); 
+	                Ametys.plugins.core.administration.JVMStatus._navItems.push ({label: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_SYSTEM"/>"});                        
+					Ametys.plugins.core.administration.JVMStatus._navItems.push ({label: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_MONITORING"/>"});                        
 					
-					org.ametys.administration.JVMStatus.periods = [];
+					Ametys.plugins.core.administration.JVMStatus.periods = [];
 					<xsl:for-each select="samples/periods/period">
-						org.ametys.administration.JVMStatus.periods.push("<xsl:value-of select="."/>");
+						Ametys.plugins.core.administration.JVMStatus.periods.push("<xsl:value-of select="."/>");
 					</xsl:for-each>
 
-					org.ametys.administration.JVMStatus.samples = [];
+					Ametys.plugins.core.administration.JVMStatus.samples = [];
 					<xsl:for-each select="samples/sample">
-						org.ametys.administration.JVMStatus.samples.push({id: "<xsl:value-of select="@id"/>", label: "<xsl:copy-of select="label/node()"/>", description: "<xsl:copy-of select="description/node()"/>"});
+						Ametys.plugins.core.administration.JVMStatus.samples.push({id: "<xsl:value-of select="@id"/>", label: "<xsl:copy-of select="label/node()"/>", description: "<xsl:copy-of select="description/node()"/>"});
 					</xsl:for-each>
 	          			
-					var toolPanel = org.ametys.administration.JVMStatus.createPanel ();
+					var toolPanel = Ametys.plugins.core.administration.JVMStatus.createPanel ();
 					
 					// Load properties data
 					var jvmdata = [
@@ -70,34 +70,34 @@
 							</xsl:for-each>
 					];
 					
-					org.ametys.administration.JVMStatus.loadProperties (jvmdata);
+					Ametys.plugins.core.administration.JVMStatus.loadProperties (jvmdata);
 					
-					org.ametys.administration.JVMStatus.addFieldSet (
+					Ametys.plugins.core.administration.JVMStatus.addFieldSet (
 						"<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_SYS"/>",
 						'system'
 					);
 					
-					org.ametys.administration.JVMStatus.addFieldSet (
+					Ametys.plugins.core.administration.JVMStatus.addFieldSet (
 						"<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_JVM"/>",
 						'java'
 					);
 					
-					org.ametys.administration.JVMStatus.addFieldSet (
+					Ametys.plugins.core.administration.JVMStatus.addFieldSet (
 						"<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM"/>",
 						'memory'
 					);
 						
-					org.ametys.administration.JVMStatus.addFieldSet (
+					Ametys.plugins.core.administration.JVMStatus.addFieldSet (
 						"<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE"/>",
 						'server'
 					);
 						
-	                   org.ametys.runtime.administrator.Panel.createPanel = function () 
+	                createPanel = function () 
 					{
 						return toolPanel;
 					}
 					
-					Ext.onReady(org.ametys.administration.JVMStatus.onReady);
+					appReady = Ext.bind(Ametys.plugins.core.administration.JVMStatus.onReady, Ametys.plugins.core.administration.JVMStatus);
 	           	</script>
 			</script>
         
@@ -145,7 +145,7 @@
     	                <img id="maxMemImg" style="background: url({$resourcesPath}/img/administrator/jvmstatus/bar-mem-available.png) top left repeat-x;" src="{$resourcesPath}/img/administrator/jvmstatus/s.gif" width="280px" height="34px"/>
     	                <img src="{$resourcesPath}/img/administrator/jvmstatus/bar-mem-right.png" width="14px" height="34px"/>
     	                
-    	                <button onclick="org.ametys.administration.JVMStatus.refreshData(true);" title="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_FREENOW" i18n:attr="title" onmouseover="this.style.borderColor = 'threedshadow'; this.style.borderStyle = 'outset';" onmouseout="this.style.borderColor = '#f1efe2'; this.style.borderStyle = 'solid';" style="border: 1px solid #FFF; background-color: #FFF; width: 40px; height: 32px;">
+    	                <button onclick="Ametys.plugins.core.administration.JVMStatus.refreshData(true);" title="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_FREENOW" i18n:attr="title" onmouseover="this.style.borderColor = 'threedshadow'; this.style.borderStyle = 'outset';" onmouseout="this.style.borderColor = '#f1efe2'; this.style.borderStyle = 'solid';" style="border: 1px solid #FFF; background-color: #FFF; width: 40px; height: 32px;">
     	                	<img src="{$resourcesPath}/img/administrator/jvmstatus/recycle.png"/>
     	                </button>
     	                

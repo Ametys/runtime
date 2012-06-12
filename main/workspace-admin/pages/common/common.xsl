@@ -161,6 +161,11 @@
 					createDock();
 					
 					createBottom();
+					
+					if (typeof appReady == "function")
+					{
+						appReady();
+					}
 			    }
 			});
     	</script>
