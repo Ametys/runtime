@@ -277,7 +277,7 @@ Ext.define('Ametys.plugins.core.administration.JVMStatus', {
 	/**
 	 * @private
 	 * Draw the navigation panel. This function needs the _navItems was filled first.
-	 * @return {org.ametys.NavigationPanel} The navigation panel
+	 * @return {Ametys.workspace.admin.rightpanel.NavigationPanel} The navigation panel
 	 */
 	_drawNavigationPanel: function ()
 	{

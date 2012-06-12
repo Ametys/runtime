@@ -28,7 +28,7 @@ Ext.define('Ametys.plugins.core.SelectUser', {
 	
 	/**
 	 * @private
-	 * @property {String} usersManagerRole The currently selected UsersManager to use to list the user. The string is the role name on the server-side. Null/Empty means the default users manager.
+	 * @property {String} usersManagerRole The currently selected UsersManager to use to list the user. The string is the role name on the server-side. Null/Empty means the default users manager. The current user manager role registered by the {@link #act} call.
 	 */
 	usersManagerRole: null,
 	
@@ -39,10 +39,6 @@ Ext.define('Ametys.plugins.core.SelectUser', {
 	/**
 	 * @private
 	 * @property {Function} cancelCallback The current cancel callback function registered by the {@link #act} call
-	 */
-	/**
-	 * @private
-	 * @property {String} usersManagerRole The current user manager role registered by the {@link #act} call
 	 */
 	/**
 	 * @private
