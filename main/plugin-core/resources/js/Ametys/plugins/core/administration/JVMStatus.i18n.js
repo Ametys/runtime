@@ -249,6 +249,10 @@ Ext.define('Ametys.plugins.core.administration.JVMStatus', {
 		    items.push(new Ext.panel.Panel({
 		    	title : label,
 		    		
+				collapsible: true,
+				titleCollapse: true,
+				hideCollapseTool: true,
+				
 		    	html: '&lt;div class="monitoring"&gt;'
 		    		+ '    &lt;button style="border-left-style: none;" id="btn-' + id + '-left" onclick="org.ametys.administration.JVMStatus._nextImg(\'' + id + '\', -1); return false;"&gt;&amp;lt;&amp;lt;&lt;/button&gt;'
 		    		+ '    &lt;img id="img-' + id + '" src="' + Ametys.getPluginDirectPrefix("core") + '/administrator/jvmstatus/monitoring/' + id + '/' + this.periods[1] + '.png" title="' + description + '"/&gt;'
