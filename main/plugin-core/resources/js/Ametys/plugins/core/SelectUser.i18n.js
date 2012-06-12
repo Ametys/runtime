@@ -169,6 +169,7 @@ Ext.define('Ametys.plugins.core.SelectUser', {
 	
 	/**
 	 * This method is called to apply the current filter immediately
+	 * @private
 	 */
 	load: function ()
 	{
@@ -219,6 +220,7 @@ Ext.define('Ametys.plugins.core.SelectUser', {
 	 * This method is called to apply the current filter but in a delayed time.
 	 * This is a listener method on filter modificaiton.
 	 * Every modification will not be directly applyed. Consecutive modifications (separated by less than 500 ms) will be applyed at once.
+	 * @private
 	 */
 	reload: function (field, newValue, oldValue)
 	{
