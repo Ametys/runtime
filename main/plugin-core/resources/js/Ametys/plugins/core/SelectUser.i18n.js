@@ -110,13 +110,14 @@ Ext.define('Ametys.plugins.core.SelectUser', {
 			
 		    store : store,
 		    
+		    multiSelect: true,
+		    simpleSelect: true,
 		    hideHeaders : true,
 		    columnmove : false,
 		    columns: [
 		        {header: "Name", width : 240, menuDisabled : true, sortable: true, dataIndex: 'name'}
 		    ]
 		});	
-		this.listview.getSelectionModel().singleSelect = true;
 		
 		var warning = new Ext.Component({
 			region: 'south',
@@ -240,7 +241,7 @@ Ext.define('Ametys.plugins.core.SelectUser', {
 	{
 		var addedusers = {}
 		
-		var selection = this.getSelectionModel().getSelection();
+		var selection = this.listview.getSelectionModel().getSelection();
 		if (selection.length == 0)
 		{
 			Ext.Msg.show({
@@ -257,7 +258,7 @@ Ext.define('Ametys.plugins.core.SelectUser', {
 		for (var i=0; i &lt; selection.length; i++)
 		{
 			var opt = selection[i];
-			addedusers[opt.get('id')] = opt.get('name');
+			addedusers[opt.get('login')] = opt.get('name');
 		}
 	
 		this.callback(addedusers);
