@@ -44,7 +44,7 @@ public class HttpSessionSampleManager extends AbstractSampleManager
     {
         try
         {
-            sample.setValue("count", SessionCountListener.getSessionCount());
+            sample.setValue("count", Math.max(0, SessionCountListener.getSessionCount()));
         }
         catch (IllegalStateException e)
         {
