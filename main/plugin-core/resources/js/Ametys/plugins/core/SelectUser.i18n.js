@@ -72,7 +72,7 @@ Ext.define('Ametys.plugins.core.SelectUser', {
 		var plugin = this.pluginName;
 
 		this.criteria = new Ext.form.TextField ({
-			 listeners: {'keyup': this.reload},
+			 listeners: {'keyup': Ext.bind(this.reload, this)},
 			 fieldLabel: "<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_FIND"/>",
 			 name: "criteria",
 			 
@@ -131,21 +131,18 @@ Ext.define('Ametys.plugins.core.SelectUser', {
 			layout :'border',
 			width: 280,
 			height: 340,
-			cls: 'select-user-box',
 			icon: Ametys.getPluginResourcesPrefix('core') + '/img/users/icon_small.png',
 			items : [this.criteria, this.listview, warning],
+			
 			defaultButton: this.criteria,
 			closeAction: 'hide',
+			
 			buttons : [ {
 				text :"<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_OK"/>",
-				handler : function() {
-				this.ok();
-				}
+				handler : Ext.bind(this.ok, this)
 			}, {
 				text :"<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_CANCEL"/>",
-				handler : function() {
-				this.cancel();
-				}
+				handler : Ext.bind(this.cancel, this)
 			} ]
 		});
 	},
@@ -232,7 +229,7 @@ Ext.define('Ametys.plugins.core.SelectUser', {
 		{
 			window.clearTimeout(this.reloadTimer);
 		}
-		this.reloadTimer = window.setTimeout(this.load, 500);
+		this.reloadTimer = window.setTimeout(Ext.bind(this.load, this), 500);
 	},
 	
 	/**
