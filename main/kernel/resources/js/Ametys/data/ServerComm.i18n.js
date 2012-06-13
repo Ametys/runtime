@@ -585,7 +585,7 @@ Ext.define(
 				{
 					var intMsg = Ext.dom.Query.selectValue("message", response);
 					var hasMsg = intMsg != null &amp;&amp; intMsg != "";
-					var intStk = Ext.dom.Query.selectValue("stacktrace", respoonse);
+					var intStk = Ext.dom.Query.selectValue("stacktrace", response);
 					var hasStk = intStk != null &amp;&amp; intStk != "";
 						
 					Ametys.log.ErrorDialog.display(

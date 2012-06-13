@@ -35,11 +35,11 @@
             </head>
             
             <script>
-            	 <script type="text/javascript" src="{$contextPath}/plugins/{$pluginName}/resources/js/org/ametys/administration/Logs.i18n.js"></script>
+            	 <script type="text/javascript" src="{$contextPath}/plugins/{$pluginName}/resources/js/Ametys/plugins/core/administration/Logs.i18n.js"></script>
             	 
             	<script type="text/javascript">
 	                    
-	                    org.ametys.administration.Logs.initialize ("<xsl:value-of select="$pluginName"/>");
+	                    Ametys.plugins.core.administration.Logs.initialize ("<xsl:value-of select="$pluginName"/>");
 					
 						function createCategory(categories, catName, level) 
 						{
@@ -68,7 +68,7 @@
 						<xsl:text></xsl:text>createCategory(logcategories.child, "<xsl:value-of select="@category"/>", "<xsl:value-of select="@priority"/>");
 						</xsl:for-each>
 												              
-						var panel = org.ametys.administration.Logs.createPanel ();
+						var panel = Ametys.plugins.core.administration.Logs.createPanel ();
 						
 						var logs = [
 							<xsl:for-each select="Logs/Log/file">
@@ -84,9 +84,9 @@
 								</xsl:if>								
 							</xsl:for-each>						
 						];	
-						org.ametys.administration.Logs.load(logs);
+						Ametys.plugins.core.administration.Logs.load(logs);
 						
-						org.ametys.runtime.administrator.Panel.createPanel = function () 
+						createPanel = function () 
 						{
 							return panel;
 						}
