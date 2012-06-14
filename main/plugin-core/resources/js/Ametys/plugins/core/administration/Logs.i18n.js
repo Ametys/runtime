@@ -136,8 +136,8 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 			border: false,
 			autoScroll : true,
 			
-			items: [this._drawLogsPanel()/*,
-			        this._drawConfPanel()*/]
+			items: [this._drawLogsPanel(),
+			        this._drawConfPanel()]
 		});		
 		
 		this._contextualPanel = new Ext.Container({
@@ -266,11 +266,19 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 		return this._logs;
 	},
 
+	/**
+	 * Listener when configuration panel is shown
+	 * @private
+	 */
 	_onConfShow: function()
 	{
 		this._helpPanel.items.get(1).show();
 		this._onSelectCategory();
 	},
+	/**
+	 * Listener when configuration panel is hidden
+	 * @private
+	 */
 	_onConfHide: function()
 	{
 		this._helpPanel.items.get(1).hide();
@@ -281,17 +289,20 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 		this._actions.hideElt(this.LOGS_CONF_INHERIT);
 		this._actions.hideElt(this.LOGS_CONF_FORCE);
 	},
-
+	/**
+	 * Listener when a category is selected on the configuration panel
+	 * @private
+	 */
 	_onSelectCategory: function()
 	{
-		this._actions.actions[this.LOGS_CONF_DEBUG].enable();
-		this._actions.actions[this.LOGS_CONF_INFO].enable();
-		this._actions.actions[this.LOGS_CONF_WARN].enable();
-		this._actions.actions[this.LOGS_CONF_ERROR].enable();
-		this._actions.actions[this.LOGS_CONF_INHERIT].enable();
-		this._actions.actions[this.LOGS_CONF_FORCE].enable();
+		this._actions.items.get(this.LOGS_CONF_DEBUG).enable();
+		this._actions.items.get(this.LOGS_CONF_INFO).enable();
+		this._actions.items.get(this.LOGS_CONF_WARN).enable();
+		this._actions.items.get(this.LOGS_CONF_ERROR).enable();
+		this._actions.items.get(this.LOGS_CONF_INHERIT).enable();
+		this._actions.items.get(this.LOGS_CONF_FORCE).enable();
 
-		var selectedNode = this._categoryTree.getSelectionModel().getSelectedNode();
+		var selectedNode = this._categoryTree.getSelectionModel().getSelection()[0];
 		if (selectedNode == null)
 		{
 			this._actions.hideElt(this.LOGS_CONF_DEBUG);
@@ -309,57 +320,67 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 			this._actions.showElt(this.LOGS_CONF_ERROR);
 			this._actions.showElt(this.LOGS_CONF_INHERIT);
 			this._actions.showElt(this.LOGS_CONF_FORCE);
-			
-			switch (selectedNode.attributes.level)
+
+			switch (selectedNode.get('level'))
 			{
-				case "DEBUG": this._actions.actions[this.LOGS_CONF_DEBUG].disable(); break;
-				case "INFO": this._actions.actions[this.LOGS_CONF_INFO].disable(); break;
-				case "WARN": this._actions.actions[this.LOGS_CONF_WARN].disable(); break;
-				case "ERROR": this._actions.actions[this.LOGS_CONF_ERROR].disable(); break;
-				case "inherit": this._actions.actions[this.LOGS_CONF_INHERIT].disable(); break;
+				case "DEBUG": this._actions.items.get(this.LOGS_CONF_DEBUG).disable(); break;
+				case "INFO": this._actions.items.get(this.LOGS_CONF_INFO).disable(); break;
+				case "WARN": this._actions.items.get(this.LOGS_CONF_WARN).disable(); break;
+				case "ERROR": this._actions.items.get(this.LOGS_CONF_ERROR).disable(); break;
+				case "inherit": this._actions.items.get(this.LOGS_CONF_INHERIT).disable(); break;
 			}
 			
 			if (selectedNode.getDepth() == 0)
 			{
-				this._actions.actions[this.LOGS_CONF_INHERIT].disable();
+				this._actions.items.get(this.LOGS_CONF_INHERIT).disable();
 			}
 		}
 	},
-
+	/**
+	 * @private
+	 * Change the log level of the selected category to the given level
+	 * @param {String} level The new level
+	 */
 	_changeLogLevel: function(level)
 	{
-		var selectedNode = this._categoryTree.getSelectionModel().getSelectedNode();
-		if (selectedNode == null || selectedNode.attributes.level == level)
+		var selectedNode = this._categoryTree.getSelectionModel().getSelection()[0];
+		if (selectedNode == null || selectedNode.get('level') == level)
 		{
 			// should not happend... no node was selecting or the node selected already has the right level
 			this._onSelectCategory();
 		}
 		else
 		{
-			this._mask = new org.ametys.msg.Mask();
+			this._mask = new Ext.LoadMask(Ext.getBody());
+			this._mask.show();
 
-			var args = {level: level, category: selectedNode.attributes.fullname };
-			var serverMessage = new org.ametys.servercomm.ServerMessage(this.pluginName, "administrator/logs/change-levels", args, org.ametys.servercomm.ServerComm.PRIORITY_MAJOR, this._changeLogLevelCB, this, [args, selectedNode]);
-			org.ametys.servercomm.ServerComm.getInstance().send(serverMessage);
+			var args = { level: level, category: selectedNode.get('fullname') };
+			Ametys.data.ServerComm.send(this.pluginName, "administrator/logs/change-levels", args, Ametys.data.ServerComm.PRIORITY_MAJOR, this._changeLogLevelCB, this, [args, selectedNode]);
 		}
 	},
+	/**
+	 * @private
+	 * {@link #_changeLogLevel} callback to effectively display the change
+	 * @param {Object} response The response to the request
+	 * @param {Object[]} argsArray First element is an object with id 'level' that is a string of the new level and with id 'category' that is a string with the modified catagory. The second element is the node in the tree to modify 
+	 */
 	_changeLogLevelCB: function (response, argsArray)
 	{
 		var args = argsArray[0];
 		var selectedNode = argsArray[1];
-		
+
 		this._mask.hide();
 
-	    if (org.ametys.servercomm.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_ERROR"/>", response, "org.ametys.administration.Groups._selectGroup"))
+	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_ERROR"/>", response, "org.ametys.administration.Groups._selectGroup"))
 	    {
 	       return;
 	    }
 	    
 	    function getLevel(node)
 	    {
-	    	if (node.attributes.level != 'inherit')
+	    	if (node.get('level') != 'inherit')
 	    	{
-	    		return node.attributes.level;
+	    		return node.get('level');
 	    	}
 	    	else
 	    	{
@@ -367,8 +388,7 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 	    	}
 	    }
 
-	    
-		function changeNode(node, level, inherited, force)
+		function changeSNode(node, level, inherited, force)
 		{
 	        var selection = node == null;
 	        inherited = inherited == true;
@@ -376,35 +396,14 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 
 	        if (!selection || !force)
 	        {
-	    		Ext.get(node.ui.elNode).child("img:last").dom.src = getPluginResourcesUrl("core") + "/img/administrator/logs/loglevel_" + level.toLowerCase() + (inherited ? "-inherit" : "") + ".png";
-	        }
-
+	    		node.set('level', inherited ? "inherit" : level);
+	    		node.set('icon', Ametys.getPluginResourcesPrefix("core") + "/img/administrator/logs/loglevel_" + level.toLowerCase() + (inherited ? "-inherit" : "") + ".png");
+	        }		
+			
 			for (var i = 0; i &lt; node.childNodes.length; i++)
 			{
 				var childNode = node.childNodes[i];
-				if (childNode.attributes.level == "inherit" || force)
-				{
-					changeNode(childNode, level, true, force);
-				}
-			}
-		}
-		
-		function changeSNode(node, level, inherited, force)
-		{
-	        var selection = node == null;
-	        inherited = inherited == true;
-	        node = node != null ? node : selectedNode.attributes;
-
-	        if (!selection || !force)
-	        {
-	    		node.level = inherited ? "inherit" : level;
-	    		node.icon = getPluginResourcesUrl("core") + "/img/administrator/logs/loglevel_" + level.toLowerCase() + (inherited ? "-inherit" : "") + ".png";
-	        }		
-			
-			for (var i = 0; i &lt; node.children.length; i++)
-			{
-				var childNode = node.children[i];
-				if (childNode.level == "inherit" || force)
+				if (childNode.get('level') == "inherit" || force)
 				{
 					changeSNode(childNode, level, true, force);
 				}
@@ -414,24 +413,25 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 		if (args.level == 'FORCE')
 		{
 			var level = getLevel(selectedNode);
-			changeNode(null, level, true, true);
 			changeSNode(null, level, true, true);
 		}
 		else if (args.level == 'INHERIT')
 		{
 			var level = getLevel(selectedNode.parentNode);
-			changeNode(null, level, true, false);
 			changeSNode(null, level, true, false);
 		}
 		else
 		{
-			changeNode(null, args.level, false, false);
 			changeSNode(null, args.level, false, false);
 		}
 		
 		this._onSelectCategory();
 	},
 
+	/**
+	 * @private
+	 * Draw the panel for the configuration (the one with the tree)
+	 */
 	_drawConfPanel: function()
 	{
 		function createNode(name, fullname, category, parentLevel)
@@ -445,7 +445,7 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 			}
 
 			var node = {
-		   		icon: getPluginResourcesUrl("core") + "/img/administrator/logs/loglevel_" + (category.level == "inherit" ? parentLevel.toLowerCase() + "-inherit": category.level.toLowerCase()) + ".png",
+		   		icon: Ametys.getPluginResourcesPrefix("core") + "/img/administrator/logs/loglevel_" + (category.level == "inherit" ? parentLevel.toLowerCase() + "-inherit": category.level.toLowerCase()) + ".png",
 		   		text: name,
 		   		fullname: fullname != "" ? fullname : "root",
 		   		level: category.level,
@@ -457,25 +457,39 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 			return node;
 		}
 		
+		var model = Ext.define('Ametys.plugins.core.administration.Logs.Category', { 
+		    extend: 'Ext.data.Model', 
+		    fields: [ 
+		        { name: 'id', type: 'int' }, 
+		        { name: 'icon', type: 'string' }, 
+		        { name: 'fullname', type: 'string' }, 
+		        { name: 'text', type: 'string' }, 
+		        { name: 'level', type: 'string' }, 
+		        { name: 'leaf', type: 'boolean'} 
+		    ] 
+		}); 
+
 		var rootNodeConf = createNode("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_CONFIG_LOGKITROOT"/>", "", logcategories);
 		rootNodeConf.expanded = true;
 		
-		var rootNode = new Ext.tree.AsyncTreeNode(rootNodeConf);
+		var store = Ext.create('Ext.data.TreeStore', {
+			root : rootNodeConf,
+			model: model
+		})
 		
-		this._categoryTree = new Ext.tree.TreePanel({
+		this._categoryTree = new Ext.tree.Panel({
 			id: 'monitoring-panel',
-			root: rootNode,
+			store: store,
 			
-			baseCls: 'transparent-panel',
 			border: false,
 			autoScroll: true,
 			
-			listeners: {'show': this._onConfShow,
-			            'hide': this._onConfHide 
+			listeners: {'show': Ext.bind(this._onConfShow, this),
+			            'hide': Ext.bind(this._onConfHide, this) 
 			}
 		});
 		
-		this._categoryTree.getSelectionModel().addListener("selectionchange", this._onSelectCategory);
+		this._categoryTree.getSelectionModel().addListener("selectionchange", this._onSelectCategory, this);
 		
 		return this._categoryTree;
 	},
@@ -742,7 +756,6 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 		if (anwser == 'yes')
 	    {
 	    	var result = Ametys.data.ServerComm.send(this.pluginName, "administrator/logs/purge", {}, Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
-
 	        if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_PURGE_ERROR_GRAVE"/>", result, "Ametys.plugins.core.administration.Logs.doPurge"))
 	        {
 	           return;
@@ -757,7 +770,7 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 	            var elt = elts[i];
 	            if (doneString.indexOf('/' + elt.get('location') + '/') &gt;= 0)
 	            {
-	            	this._logs.removeElement(elt);
+	            	this._logs.getStore().remove(elt);
 	                nb++;
 	            }
 	        }      

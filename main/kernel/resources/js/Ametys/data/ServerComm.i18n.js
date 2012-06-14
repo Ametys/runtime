@@ -194,7 +194,7 @@ Ext.define(
 				this._messages.push(message);
 				
 				// compute delay wanted and ring time associater (add a 50 milliseconds delay to try to cumulate several messages)
-				var delay = 1000 * message.getPriority() + 50;
+				var delay = 1000 * message.priority + 50;
 				var ringTime = new Date().getTime() + delay;
 			
 				// if the current timer rings after the wanted time (at 20 milliseconds near)
@@ -358,7 +358,7 @@ Ext.define(
 			sendOptions.success = this._onRequestComplete;
 			sendOptions.failure = this._onRequestFailure;
 			sendOptions.scope = this;
-			sendOptions.params = "content=" + encodeURIComponent(Ext.util.JSON.encode(parameters)) 
+			sendOptions.params = "content=" + encodeURIComponent(Ext.JSON.encode(parameters)) 
 			sendOptions.messages = m != null ? [m] : this._messages;
 			sendOptions._timeoutIndex = index;
 			sendOptions._timeout = window.setTimeout("Ametys.data.ServerComm._onRequestTimeout ('" + index + "', " + timeout + ");", timeout);
@@ -510,7 +510,7 @@ Ext.define(
 						var node = Ext.dom.Query.selectNode("/responses/response[@id='" + i + "']", response.responseXML);
 						try
 						{
-							message.getCallback().apply(message.getCallbackScope(), [node, message.getCallbackArguments()]);
+							message.callback.apply(message.callbackscope, [node, message.callbackarguments]);
 						}
 						catch (e)
 						{
@@ -518,7 +518,7 @@ Ext.define(
 							{ 
 								throw e; 
 							}
-							throwException.defer(1, this, [e]);
+							Ext.defer(throwException, 1, this, [e]);
 			
 							Ametys.log.ErrorDialog.display("<i18n:text i18n:key='KERNEL_SERVERCOMM_ERROR_TITLE'/>",
 									"<i18n:text i18n:key='KERNEL_SERVERCOMM_ERROR_DESC'/>",
