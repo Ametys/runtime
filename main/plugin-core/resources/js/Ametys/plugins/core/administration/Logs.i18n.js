@@ -15,7 +15,7 @@
  */
 
 /**
- * Class in chage of the log administration screen. See {@link #initialize} and {@link @createPanel}
+ * Class in chage of the log administration screen. See {@link #initialize} and {@link #createPanel}
  */
 Ext.define('Ametys.plugins.core.administration.Logs', {
 	singleton: true,
