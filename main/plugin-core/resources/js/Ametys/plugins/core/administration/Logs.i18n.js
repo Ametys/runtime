@@ -224,7 +224,7 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 	        	type: 'memory',
 	        	reader: {
 	        		type: 'json',
-	        		root: 'properties'
+	        		root: 'logs'
 	        	}
 	        }
 		});		
