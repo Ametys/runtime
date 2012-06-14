@@ -239,6 +239,7 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 			width: 610,
 			
 			id: 'detail-view-logs',
+			cls: 'detail-view-logs',
 			
 			features: [ groupingFeature ],
 			
