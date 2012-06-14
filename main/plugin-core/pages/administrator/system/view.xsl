@@ -35,32 +35,33 @@
             </head>
             
 	        <script>
-	        	<script type="text/javascript" src="{$contextPath}/plugins/{$pluginName}/resources/js/org/ametys/administration/System.i18n.js"></script>
+	        	<script type="text/javascript" src="{$contextPath}/plugins/{$pluginName}/resources/js/Ametys/plugins/core/administration/System.i18n.js"></script>
 	        	     
 				<script type="text/javascript">
 		                   
-               		org.ametys.administration.System.initialize ("<xsl:value-of select="$pluginName"/>");
+               		Ametys.plugins.core.administration.System.initialize ("<xsl:value-of select="$pluginName"/>");
                    
-                   	var mainPanel = org.ametys.administration.System.createPanel ();
+                   	var mainPanel = Ametys.plugins.core.administration.System.createPanel ();
                    
-                   	<xsl:if test="not(announcements/@state = 'on')">
-                   		org.ametys.administration.System._fieldSet.collapsed = true;
+                   	<xsl:if test="announcements/@state = 'on'">
+                   		Ametys.plugins.core.administration.System._fieldSet.expand();
                    	</xsl:if>
 		                   
 					<xsl:choose>
 	                	<xsl:when test="/System/announcements">
 	                    	<xsl:for-each select="/System/announcements/announcement">
-	                        	org.ametys.administration.System._listView.addElement(null, 
-	                                                    { lang : "<xsl:choose><xsl:when test="@lang"><xsl:value-of select="@lang"/></xsl:when><xsl:otherwise>*</xsl:otherwise></xsl:choose>",
-	                                                      message : Utils.htmlToTextarea("<xsl:value-of select="."/>")});
+	                        	Ametys.plugins.core.administration.System._listView.getStore().addSorted(Ext.create('Ametys.plugins.core.administrator.System.Announce', {
+	                            	lang : "<xsl:choose><xsl:when test="@lang"><xsl:value-of select="@lang"/></xsl:when><xsl:otherwise>*</xsl:otherwise></xsl:choose>",
+	                                message : Ametys.convertHtmlToTextarea("<xsl:value-of select="."/>")})
+	                            );
 							</xsl:for-each>
 						</xsl:when>
 	                    <xsl:otherwise>
-	                    	org.ametys.administration.System._listView.addElement(null, { lang : "*", message : "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_DEFAULTMESSAGE"/>"});
+	                    	Ametys.plugins.core.administration.System._listView.getStore().addSorted(Ext.create('Ametys.plugins.core.administrator.System.Announce', { lang : "*", message : "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_DEFAULTMESSAGE"/>"}));
 						</xsl:otherwise>
 					</xsl:choose>
                     
-					org.ametys.runtime.administrator.Panel.createPanel = function () 
+					createPanel = function () 
 					{
 						return mainPanel;
 					}
