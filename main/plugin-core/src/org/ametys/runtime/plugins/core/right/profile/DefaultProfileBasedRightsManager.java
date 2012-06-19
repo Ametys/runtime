@@ -1187,7 +1187,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             String sql = "DELETE FROM " + _tableUserRights + " WHERE Login = ?";
             if (lcContext != null)
             {
-                sql += " AND LOWER(Context) = ?;";
+                sql += " AND LOWER(Context) = ?";
             }
 
             stmt = connection.prepareStatement(sql);
