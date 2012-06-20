@@ -40,7 +40,7 @@
 					function forceNonSupportedNavigators()
 					{
 						// Create cookie which will expires when the browser is closed down
-						document.cookie = "ametys.accept.non.supported.navigators=on; path=<xsl:value-of select="$contextPath"/>/;";
+						document.cookie = "ametys.accept.non.supported.navigators=on; path=<xsl:value-of select="$contextPath"/>/;max-age=2592000"; // 30 days
 						
 						// Redirect
 						return true;
