@@ -24,7 +24,7 @@ import java.io.OutputStream;
 import javax.imageio.ImageIO;
 
 import net.coobird.thumbnailator.makers.FixedSizeThumbnailMaker;
-import net.coobird.thumbnailator.resizers.ResizerFactory;
+import net.coobird.thumbnailator.resizers.DefaultResizerFactory;
 
 /**
  * Helper for manipulating images.
@@ -144,7 +144,7 @@ public final class ImageHelper
         Dimension thumbnailDimension = new Dimension(destWidth, destHeight);
         
         BufferedImage thumbImage = new FixedSizeThumbnailMaker(destWidth, destHeight, keepAspectRatio)
-                                   .resizer(ResizerFactory.getResizer(srcDimension, thumbnailDimension))
+                                   .resizer(DefaultResizerFactory.getInstance().getResizer(srcDimension, thumbnailDimension))
                                    .imageType(src.getColorModel().hasAlpha() ? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB)
                                    .make(src); 
         
