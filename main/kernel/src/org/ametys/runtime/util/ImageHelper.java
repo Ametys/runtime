@@ -18,11 +18,14 @@ package org.ametys.runtime.util;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
 import javax.imageio.ImageIO;
+
+import org.apache.commons.io.IOUtils;
 
 /**
  * Helper for manipulating images.
@@ -35,7 +38,7 @@ public final class ImageHelper
     }
     
     /**
-     * Generates a thumbnail from a source InputStream.
+     * Generates a thumbnail from a source InputStream. Note that if final width and height are equals to source width and height, the stream is just copied.
      * @param is the source.
      * @param os the destination.
      * @param format the image format. Must be one of "gif", "png" or "jpg".
@@ -47,10 +50,21 @@ public final class ImageHelper
      */
     public static void generateThumbnail(InputStream is, OutputStream os, String format, int height, int width, int maxHeight, int maxWidth) throws IOException
     {
-        BufferedImage src = ImageIO.read(is);
+        byte[] fileContent = IOUtils.toByteArray(is); // keep a copy of the initial stream in case no thumbnail is necessary
+        
+        BufferedImage src = ImageIO.read(new ByteArrayInputStream(fileContent));
         BufferedImage dest = generateThumbnail(src, height, width, maxHeight, maxWidth);
         
-        ImageIO.write(dest, format, os);
+        if (src == dest)
+        {
+            // Thumbnail is equals to src image, means that the image is the same
+            // We'd rather like return the initial stream
+            IOUtils.write(fileContent, os);
+        }
+        else
+        {
+            ImageIO.write(dest, format, os);
+        }
     }
     
     /**
@@ -60,7 +74,7 @@ public final class ImageHelper
      * @param width the specified width. Ignored if negative.
      * @param maxHeight the maximum image height. Ignored if height or width is specified.
      * @param maxWidth the maximum image width. Ignored if height or width is specified.
-     * @return a scaled BufferedImage.
+     * @return a scaled BufferedImage. If no size modification is required, this will return the src image.
      */
     public static BufferedImage generateThumbnail(BufferedImage src, int height, int width, int maxHeight, int maxWidth)
     {
