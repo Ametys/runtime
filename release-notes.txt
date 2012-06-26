@@ -1,3 +1,18 @@
+Runtime - Version 2.3.1 (June ??, 2012)
+
+Improvement:
+  RUNTIME-689 : Re-throw the exception when catching it in ScriptRunner
+  RUNTIME-708 : Order Groups in group management
+  RUNTIME-710 : Add support of FF11, FF12, Chrome 14-18
+  RUNTIME-720 : Chrome 19 / Safari 5.1.7 support
+
+Bug:
+  RUNTIME-694 : UploadReader to generate thumbnails images send a wrong response
+  RUNTIME-696 : I18nUtils stores the language "null" in cache
+  RUNTIME-703 : The MultiSelect widget does not resize correctly
+  RUNTIME-724 : Admin monitoring of http session is not working
+  RUNTIME-728 : Animated Gif are resized even if the contributor does not resize it
+
 Runtime - Version 2.3 (March 06, 2012)
 
 Task:
