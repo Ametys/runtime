@@ -325,34 +325,29 @@ org.ametys.administration.Groups.save = function (group)
 	}
 	
 	// Send
-	var ok = false;
-	while (!ok)
-	{
-		var serverMessage = new org.ametys.servercomm.ServerMessage(org.ametys.administration.Groups.pluginName, "/groups/modify", { id: group.id, objects: objects }, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
-		var result = org.ametys.servercomm.ServerComm.getInstance().send(serverMessage);
+	var serverMessage = new org.ametys.servercomm.ServerMessage(org.ametys.administration.Groups.pluginName, "/groups/modify", { id: group.id, objects: objects }, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+	var result = org.ametys.servercomm.ServerComm.getInstance().send(serverMessage);
 
-	    if (org.ametys.servercomm.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_MODIFY_ERROR"/>", result, "org.ametys.administration.Groups.save"))
-	    {
-	       // nothing
-	    }
-		else 
+    if (org.ametys.servercomm.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_MODIFY_ERROR"/>", result, "org.ametys.administration.Groups.save"))
+    {
+        // Just display the message.
+    }
+	else
+	{
+		var state = org.ametys.servercomm.ServerComm.handleResponse(result, "message"); 
+		if (state != null &amp;&amp; state == "missing")
 		{
-			var state = org.ametys.servercomm.ServerComm.handleResponse(result, "message"); 
-			if (state != null &amp;&amp; state == "missing")
-			{
-				Ext.Msg.show ({
-                		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
-                		msg: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_MODIFY_MISSING_ERROR"/>",
-                		buttons: Ext.Msg.OK,
-	   					icon: Ext.MessageBox.ERROR
-                });
-				org.ametys.administration.Groups._listViewGp.removeElement(group);
-			}
-			else
-			{
-				ok = true;
-				org.ametys.administration.Groups._usersActions.hideElt(6);
-			}
+			Ext.Msg.show ({
+            		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
+            		msg: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_MODIFY_MISSING_ERROR"/>",
+            		buttons: Ext.Msg.OK,
+   					icon: Ext.MessageBox.ERROR
+            });
+			org.ametys.administration.Groups._listViewGp.removeElement(group);
+		}
+		else
+		{
+			org.ametys.administration.Groups._usersActions.hideElt(6);
 		}
 	}
 	
