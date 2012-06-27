@@ -417,7 +417,7 @@
 	<message key="PLUGINS_CORE_GROUPS_MODIFY_MISSING_SUCCESS">The group was successfully modified</message>
 	<message key="PLUGINS_CORE_GROUPS_MODIFY_CONFIRM">You have not saved the changed. Do you want to do this now ?</message>
 	<message key="PLUGINS_CORE_GROUPS_UPDATE_ERROR">An error occured while updating group information.</message>
-	<message key="PLUGINS_CORE_GROUPS_MODIFY_ERROR">An error occured during the saving process. Do you want to try saving again ?</message>
+	<message key="PLUGINS_CORE_GROUPS_MODIFY_ERROR">An error occured during the saving process.</message>
 	<message key="PLUGINS_CORE_GROUPS_MODIFY_MISSING_ERROR">The group you are trying to edit is no longer available. Refresh the page and try again.</message>
 	<message key="PLUGINS_CORE_GROUPS_HANDLE_DELETE">Delete group</message>
 	<message key="PLUGINS_CORE_GROUPS_DELETE_CONFIRM">Do you really want to delete this group ?</message>
