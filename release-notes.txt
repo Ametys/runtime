@@ -1,4 +1,4 @@
-Runtime - Version 2.3.1 (June 28, 2012)
+Runtime - Version 2.3.1 (June 27, 2012)
 
 Improvement:
   RUNTIME-689 : Re-throw the exception when catching it in ScriptRunner
