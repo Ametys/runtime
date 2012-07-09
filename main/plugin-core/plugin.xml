@@ -1604,7 +1604,137 @@
             </extension>
         </extensions>
     </feature>
-                 
+    
+    <feature name="runtime.groups.impl.ldap.and.jdbc.userDriven" depends="runtime.datasource.core">
+        <config>
+            <param-ref id="runtime.datasource.core.jdbc.driver"/>
+            <param-ref id="runtime.datasource.core.jdbc.url"/>
+            <param-ref id="runtime.datasource.core.jdbc.user"/>
+            <param-ref id="runtime.datasource.core.jdbc.passwd"/>
+            
+            <param-ref id="runtime.datasource.core.ldap.baseUrl"/>
+            <param-ref id="runtime.datasource.core.ldap.useSSL"/>
+            <param-ref id="runtime.datasource.core.ldap.baseDN"/>
+            <param-ref id="runtime.datasource.core.ldap.authMethod"/>
+            <param-ref id="runtime.datasource.core.ldap.adminDN"/>
+            <param-ref id="runtime.datasource.core.ldap.adminPasswd"/>
+            
+            <param-ref id="runtime.groups.ldap.groupDN"/>
+            <param-ref id="runtime.groups.ldap.filter"/>
+            <param-ref id="runtime.groups.ldap.scope"/>
+            <param-ref id="runtime.groups.ldap.id"/>
+            <param-ref id="runtime.groups.ldap.description"/>
+            <param-ref id="runtime.groups.ldap.memberof"/>
+            
+            <param-ref id="runtime.users.ldap.peopleDN"/>
+            <param-ref id="runtime.users.ldap.baseFilter"/>
+            <param-ref id="runtime.users.ldap.scope"/>
+            <param-ref id="runtime.users.ldap.loginAttr"/>
+        </config>
+        <extensions>
+            <extension point="org.ametys.runtime.group.GroupsManager"
+                       id="org.ametys.runtime.plugins.core.group.UserDrivenLdapAndJdbc"
+                       class="org.ametys.runtime.plugins.core.group.mixed.UserDrivenLdapAndJdbcGroupsManager"
+                       logger="org.ametys.runtime.plugins.core.group.userdriven.ldap.and.jdbc">
+                <BaseUrl>runtime.datasource.core.ldap.baseUrl</BaseUrl>
+                <UseSSL>runtime.datasource.core.ldap.useSSL</UseSSL>
+                <BaseDN>runtime.datasource.core.ldap.baseDN</BaseDN>
+                <AuthenticationMethod>runtime.datasource.core.ldap.authMethod</AuthenticationMethod>
+                <AdminDN>runtime.datasource.core.ldap.adminDN</AdminDN>
+                <AdminPassword>runtime.datasource.core.ldap.adminPasswd</AdminPassword>
+                
+                <RelativeDN>runtime.groups.ldap.groupDN</RelativeDN>
+                <Filter>runtime.groups.ldap.filter</Filter>
+                <SearchScope>runtime.groups.ldap.scope</SearchScope>
+                <Id>runtime.groups.ldap.id</Id>
+                <Description>runtime.groups.ldap.description</Description>
+                <MemberOf>runtime.groups.ldap.memberof</MemberOf>
+                
+                <UsersRelativeDN>runtime.users.ldap.peopleDN</UsersRelativeDN>
+                <UsersFilter>runtime.users.ldap.baseFilter</UsersFilter>
+                <UsersSearchScope>runtime.users.ldap.scope</UsersSearchScope>
+                <UsersLogin>runtime.users.ldap.loginAttr</UsersLogin>
+                
+                <FallbackGroupsManagerConfiguration>
+                    <pool>runtime.datasource.core.jdbc.pool</pool>
+                    <list>
+                        <table>Groups</table>
+                        <id>Id</id>
+                        <label>Label</label>
+                    </list>
+                    <composition>
+                        <table>Groups_Users</table>
+                        <group>Group_Id</group>
+                        <user>Login</user>
+                    </composition>
+                </FallbackGroupsManagerConfiguration>
+            </extension>
+        </extensions>
+    </feature>
+    
+    <feature name="runtime.groups.impl.ldap.and.jdbc.groupDriven" depends="runtime.datasource.core">
+        <config>
+            <param-ref id="runtime.datasource.core.jdbc.driver"/>
+            <param-ref id="runtime.datasource.core.jdbc.url"/>
+            <param-ref id="runtime.datasource.core.jdbc.user"/>
+            <param-ref id="runtime.datasource.core.jdbc.passwd"/>
+            
+            <param-ref id="runtime.datasource.core.ldap.baseUrl"/>
+            <param-ref id="runtime.datasource.core.ldap.useSSL"/>
+            <param-ref id="runtime.datasource.core.ldap.baseDN"/>
+            <param-ref id="runtime.datasource.core.ldap.authMethod"/>
+            <param-ref id="runtime.datasource.core.ldap.adminDN"/>
+            <param-ref id="runtime.datasource.core.ldap.adminPasswd"/>
+            
+            <param-ref id="runtime.groups.ldap.groupDN"/>
+            <param-ref id="runtime.groups.ldap.filter"/>
+            <param-ref id="runtime.groups.ldap.scope"/>
+            <param-ref id="runtime.groups.ldap.id"/>
+            <param-ref id="runtime.groups.ldap.description"/>
+            <param-ref id="runtime.groups.ldap.member"/>
+            
+            <param-ref id="runtime.users.ldap.peopleDN"/>
+            <param-ref id="runtime.users.ldap.loginAttr"/>
+        </config>
+        <extensions>
+            <extension point="org.ametys.runtime.group.GroupsManager"
+                       id="org.ametys.runtime.plugins.core.group.GroupDrivenLdapAndJdbc"
+                       class="org.ametys.runtime.plugins.core.group.mixed.GroupDrivenLdapAndJdbcGroupsManager"
+                       logger="org.ametys.runtime.plugins.core.group.userdriven.ldap.and.jdbc">
+                <BaseUrl>runtime.datasource.core.ldap.baseUrl</BaseUrl>
+                <UseSSL>runtime.datasource.core.ldap.useSSL</UseSSL>
+                <BaseDN>runtime.datasource.core.ldap.baseDN</BaseDN>
+                <AuthenticationMethod>runtime.datasource.core.ldap.authMethod</AuthenticationMethod>
+                <AdminDN>runtime.datasource.core.ldap.adminDN</AdminDN>
+                <AdminPassword>runtime.datasource.core.ldap.adminPasswd</AdminPassword>
+                
+                <RelativeDN>runtime.groups.ldap.groupDN</RelativeDN>
+                <Filter>runtime.groups.ldap.filter</Filter>
+                <SearchScope>runtime.groups.ldap.scope</SearchScope>
+                <Id>runtime.groups.ldap.id</Id>
+                <Description>runtime.groups.ldap.description</Description>
+                <Member>runtime.groups.ldap.member</Member>
+                
+                <UsersRelativeDN>runtime.users.ldap.peopleDN</UsersRelativeDN>
+                <Login>runtime.users.ldap.loginAttr</Login>
+                
+                <FallbackGroupsManagerConfiguration>
+                    <pool>runtime.datasource.core.jdbc.pool</pool>
+                    <list>
+                        <table>Groups</table>
+                        <id>Id</id>
+                        <label>Label</label>
+                    </list>
+                    <composition>
+                        <table>Groups_Users</table>
+                        <group>Group_Id</group>
+                        <user>Login</user>
+                    </composition>
+                </FallbackGroupsManagerConfiguration>
+            </extension>
+        </extensions>
+    </feature>
+    
     <!-- +
          |  RIGHTS
          + -->   
