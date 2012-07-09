@@ -418,7 +418,7 @@
 	<message key="PLUGINS_CORE_GROUPS_MODIFY_MISSING_SUCCESS">Le groupe a bien été modifié</message>
 	<message key="PLUGINS_CORE_GROUPS_MODIFY_CONFIRM">Vous avez fait des modifications dans les utilisateurs attribués. Souhaitez-vous les sauvegarder ?</message>
 	<message key="PLUGINS_CORE_GROUPS_UPDATE_ERROR">Une erreur est survenue lors de la mise à jour du groupe.</message>
-	<message key="PLUGINS_CORE_GROUPS_MODIFY_ERROR">Une erreur est survenue lors de la sauvegarde. Souhaitez-vous réessayer ?</message>
+	<message key="PLUGINS_CORE_GROUPS_MODIFY_ERROR">Une erreur est survenue lors de la sauvegarde.</message>
 	<message key="PLUGINS_CORE_GROUPS_MODIFY_MISSING_ERROR">Le groupe que vous essayez de modifier n'existe plus.</message>
 	<message key="PLUGINS_CORE_GROUPS_HANDLE_DELETE">Supprimer le groupe</message>
 	<message key="PLUGINS_CORE_GROUPS_DELETE_CONFIRM">Etes-vous sûr de vouloir supprimer ce groupe ?</message>
