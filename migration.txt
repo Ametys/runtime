@@ -26,3 +26,5 @@ new org.ametys.msg.ErrorDialog devient Ametys.log.ErrorDialog.display
 EditorListView et ListView ont disparu => faire à la mano
 
 XMLTreeLoader est censé être natif... proxy type xml
+
+grid.getSelection()[0] devient grid.getSelectionModel().getSelection()[0];

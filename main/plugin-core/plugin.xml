@@ -1115,44 +1115,23 @@
          -->
         <extensions>
             <extension  point="org.ametys.runtime.workspaces.admin.DesktopManager" 
-                        id="org.ametys.runtime.plugins.core.Users"
+                        id="org.ametys.runtime.plugins.core.administrator.Users"
                         class="org.ametys.runtime.plugins.core.ui.item.StaticAdminClientSideElement"
                         logger="org.ametys.runtime.plugins.core.ui.users">
                 <!-- 
                     This interaction allow to handle users (read or read/write)
                  -->
                 <action class="redirect">
-					<param name="Link">users/view.html</param>
+					<param name="Link">administrator/users/view.html</param>
 
 					<param name="label" i18n="true">PLUGINS_CORE_USERS_LABEL</param>
 					<param name="default-description" i18n="true">PLUGINS_CORE_USERS_DESCRIPTION</param>
-					<param name="icon-small" file="true">img/users/icon_dock.png</param>
-					<param name="icon-medium" file="true">img/users/icon_medium.gif</param>
-					<param name="icon-large" file="true">img/users/icon_large.png</param>
+					<param name="icon-small" file="true">img/administrator/users/icon_dock.png</param>
+					<param name="icon-medium" file="true">img/administrator/users/icon_medium.gif</param>
+					<param name="icon-large" file="true">img/administrator/users/icon_large.png</param>
 				</action>    				   
                 <Url>users/view\.html</Url>
-                
-                <!-- FIXME  <Right>Runtime_Rights_User_Handle</Right> -->
             </extension>      
-        </extensions>
-    </feature>
-    
-    <feature name="runtime.users.rights">
-        <!-- 
-            This feature brings the rights needed to manage users
-         -->
-        <extensions>
-            <extension point="org.ametys.runtime.plugins.core.right.RightsExtensionPoint"
-                       id="runtime.use.rights.users">
-                <!-- 
-                    Define the right for handling users
-                 -->
-                <right id="Runtime_Rights_User_Handle">
-                    <label>PLUGINS_CORE_USERS_RIGHTS_HANDLE_LABEL</label>
-                    <description>PLUGINS_CORE_USERS_RIGHTS_HANDLE_DESCRIPTION</description>
-                    <category>PLUGINS_CORE_USERANDRIGHTS_CATEGORY</category>
-                </right>
-            </extension>
         </extensions>
     </feature>
     
@@ -1430,14 +1409,14 @@
          -->
         <extensions>
             <extension  point="org.ametys.runtime.workspaces.admin.DesktopManager" 
-                        id="org.ametys.runtime.plugins.core.Groups"
+                        id="org.ametys.runtime.plugins.core.administrator.Groups"
                         class="org.ametys.runtime.plugins.core.ui.item.StaticAdminClientSideElement"
                         logger="org.ametys.runtime.plugins.core.ui.groups">
                 <!-- 
                     This interaction allow to handle groups (read or read/write)
                  -->
                 <action class="redirect">
-					<param name="Link">groups/view.html</param>
+					<param name="Link">administrator/groups/view.html</param>
 
 					<param name="label" i18n="true">PLUGINS_CORE_GROUPS_LABEL</param>
 					<param name="default-description" i18n="true">PLUGINS_CORE_GROUPS_DESCRIPTION</param>
@@ -1446,28 +1425,7 @@
 					<param name="icon-large" file="true">img/groups/icon_large.png</param>
 				</action>    				   
                 <Url>groups/view\.html</Url>
-                
-                <!-- FIXME  <Right>Runtime_Rights_Group_Handle</Right> -->
             </extension>      
-        </extensions>
-    </feature>
-    
-    <feature name="runtime.groups.rights">
-        <!-- 
-            This feature brings the rights needed to manage groups
-         -->
-        <extensions>
-            <extension point="org.ametys.runtime.plugins.core.right.RightsExtensionPoint"
-                       id="runtime.use.rights.groups">
-                <!-- 
-                    Define the right for handling groups
-                 -->
-                <right id="Runtime_Rights_Group_Handle">
-                    <label>PLUGINS_CORE_GROUPS_RIGHTS_HANDLE_LABEL</label>
-                    <description>PLUGINS_CORE_GROUPS_RIGHTS_HANDLE_DESCRIPTION</description>
-                    <category>PLUGINS_CORE_USERANDRIGHTS_CATEGORY</category>
-                </right>
-            </extension>
         </extensions>
     </feature>
     
@@ -1744,14 +1702,14 @@
          -->
         <extensions>
             <extension  point="org.ametys.runtime.workspaces.admin.DesktopManager" 
-                        id="org.ametys.runtime.plugins.core.right.Profiles"
+                        id="org.ametys.runtime.plugins.core.administrator.right.Profiles"
                         class="org.ametys.runtime.plugins.core.ui.item.StaticAdminClientSideElement"
                         logger="org.ametys.runtime.plugins.core.ui.rights.profiled.profile">
                 <!-- 
                     This extensions display the profile screen
                  -->
                 <action class="redirect">
-					<param name="Link">rights/profiles/view.html</param>
+					<param name="Link">administrator/rights/profiles/view.html</param>
 
 					<param name="label" i18n="true">PLUGINS_CORE_RIGHTS_PROFILES_LABEL</param>
 					<param name="default-description" i18n="true">PLUGINS_CORE_RIGHTS_PROFILES_DESCRIPTION</param>
@@ -1760,62 +1718,10 @@
 					<param name="icon-large" file="true">img/rights/profiles/icon_large.png</param>
 				</action>    				   
                 <Url>rights/profiles/view\.html</Url>
-                
-                <!-- FIXME  <Right>Runtime_Rights_Rights_Profile_Handle</Right> -->
-            </extension>    
-
-            <extension  point="org.ametys.runtime.workspaces.admin.DesktopManager" 
-                        id="org.ametys.runtime.plugins.core.right.Assign"
-                        class="org.ametys.runtime.plugins.core.ui.item.StaticAdminClientSideElement"
-                        logger="org.ametys.runtime.plugins.core.ui.rights.profiled.right">
-                <!-- 
-                    This extensions display the core affectation screen for rights
-                 -->
-                <action class="redirect">
-					<param name="Link">rights/view.html</param>
-
-					<param name="label" i18n="true">PLUGINS_CORE_RIGHTS_LABEL</param>
-					<param name="default-description" i18n="true">PLUGINS_CORE_RIGHTS_DESCRIPTION</param>
-					<param name="icon-small" file="true">img/rights/icon_dock.png</param>
-					<param name="icon-medium" file="true">img/rights/icon_medium.gif</param>
-					<param name="icon-large" file="true">img/rights/icon_large.png</param>
-				</action>    				   
-                <Url>rights/view\.html</Url>
-                
-                <!-- FIXME  <Right>Runtime_Rights_Rights_Profile_Handle</Right> -->
             </extension>    
         </extensions>
     </feature>     
            
-    <feature name="runtime.rights.rights">
-        <!-- 
-            This feature declares rights for handling rights screens
-         -->
-        <extensions>
-            <extension point="org.ametys.runtime.plugins.core.right.RightsExtensionPoint"
-                       id="runtime.use.rights.profile">
-                <!-- 
-                    Defines rights for handling profile and handling rights
-                 -->
-                <right id="Runtime_Rights_Rights_Profile_See">
-                    <label>PLUGINS_CORE_PROFILE_RIGHTS_SEE_LABEL</label>
-                    <description>PLUGINS_CORE_PROFILE_RIGHTS_SEE_DESCRIPTION</description>
-                    <category>PLUGINS_CORE_USERANDRIGHTS_CATEGORY</category>
-                </right>
-                <right id="Runtime_Rights_Rights_Profile_Handle">
-                    <label>PLUGINS_CORE_PROFILE_RIGHTS_HANDLE_LABEL</label>
-                    <description>PLUGINS_CORE_PROFILE_RIGHTS_HANDLE_DESCRIPTION</description>
-                    <category>PLUGINS_CORE_USERANDRIGHTS_CATEGORY</category>
-                </right>
-                <right id="Runtime_Rights_Rights_Handle">
-                    <label>PLUGINS_CORE_RIGHTS_HANDLE_LABEL</label>
-                    <description>PLUGINS_CORE_RIGHTS_HANDLE_DESCRIPTION</description>
-                    <category>PLUGINS_CORE_USERANDRIGHTS_CATEGORY</category>
-                </right>
-            </extension>
-        </extensions>
-    </feature>
-
 	<feature name="runtime.rights.context.impl.default">
         <!-- 
             This feature declares the default rights context manager

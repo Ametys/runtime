@@ -447,15 +447,6 @@
              <!-- +
                  | Utilisateur
                  + -->
-            <map:match pattern="users/selectuser/dialog.html">
-                <map:generate src="pages/users/selectuser/dialog.html" type="i18nizabletext"/>
-                <map:transform type="i18n">
-                    <map:parameter name="locale" value="{locale:locale}"/>
-                    <map:parameter name="plugin" value="{request-attr:pluginName}"/>
-                </map:transform>
-                <map:serialize/>
-            </map:match>
-            
             <map:match pattern="users/search.xml">
                 <map:generate type="users-search" src="{request-param:criteria}">
                     <map:parameter name="count" value="{request-param:count}"/>
@@ -465,18 +456,14 @@
                 <map:serialize type="xml"/>
             </map:match>
                 
-            <!--<map:match pattern="users/**">
-                <map:act type="has-not-right" src="Runtime_Rights_User_Handle"/>
-            </map:match>-->
-                
-            <map:match pattern="users/info">
+            <map:match pattern="administrator/users/info">
                 <map:generate type="users-info" src="{request-param:login}">
                 	<map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
                 </map:generate>
                 <map:serialize type="xml"/>
             </map:match>
             
-            <map:match pattern="users/edit">
+            <map:match pattern="administrator/users/edit">
                 <map:act type="users-edit">
                 	<map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
                 	
@@ -489,7 +476,7 @@
                 <map:serialize type="xml" status-code="500"/>
             </map:match>
             
-            <map:match pattern="users/delete">
+            <map:match pattern="administrator/users/delete">
                 <map:act type="users-delete">
                 	<map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
                 	
@@ -515,29 +502,13 @@
                 <map:serialize type="xml" status-code="500"/>
             </map:match>
             
-            
-            <map:match pattern="users/dialog.html">
-                <map:generate type="users-model">
-                	<map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
-                </map:generate>
-                <map:transform src="pages/users/dialog.xsl">
-                    <map:parameter name="contextPath" value="{request:contextPath}"/>
-                    <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
-                </map:transform>
-                <map:transform type="i18n">
-                    <map:parameter name="locale" value="{locale:locale}"/>
-                    <map:parameter name="plugin" value="{request-attr:pluginName}"/>
-                </map:transform>
-                <map:serialize/>
-            </map:match>
-            
-            <map:match pattern="users/view.html">
+            <map:match pattern="administrator/users/view.html">
 				<map:generate type="users-view"/>
 				<map:transform type="i18n">
                     <map:parameter name="locale" value="{locale:locale}"/>
                     <map:parameter name="plugin" value="{request-attr:pluginName}"/>
                 </map:transform>
-				<map:transform type="xslt" src="pages/users/view.xsl">
+				<map:transform type="xslt" src="pages/administrator/users/view.xsl">
                     <map:parameter name="contextPath" value="{request:contextPath}"/>
                     <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
 				</map:transform>
@@ -548,7 +519,7 @@
 				<map:serialize type="xml"/>
 			</map:match>
 			
-			<map:match pattern="users-model">
+			<map:match pattern="administrator/users-model">
                 <map:generate type="users-model">
                 	<map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
                 </map:generate>
@@ -562,15 +533,6 @@
 			<!-- +
                  | Groupes
                  + -->
-            <map:match pattern="groups/selectgroup/dialog.html">
-                <map:generate src="pages/groups/selectgroup/dialog.html" type="i18nizabletext"/>
-                <map:transform type="i18n">
-                    <map:parameter name="locale" value="{locale:locale}"/>
-                    <map:parameter name="plugin" value="{request-attr:pluginName}"/>
-                </map:transform>
-                <map:serialize/>
-            </map:match>
-            
             <map:match pattern="groups/selectgroup/search.xml">
                 <map:generate type="groups-search" src="{request-param:criteria}">
                     <map:parameter name="count" value="{request-param:count}"/>
@@ -580,11 +542,7 @@
                 <map:serialize type="xml"/>
             </map:match>
                 
-            <!--<map:match pattern="groups/**">
-                <map:act type="has-not-right" src="Runtime_Rights_Group_Handle"/>
-            </map:match>
-    
-            --><map:match pattern="groups/create">
+            <map:match pattern="administrator/groups/create">
                 <map:act type="group-create">
                     <map:generate type="action-result">
                         <map:parameter name="id" value="{id}"/>
@@ -593,7 +551,7 @@
                 </map:act>
             </map:match>
             
-            <map:match pattern="groups/rename">
+            <map:match pattern="administrator/groups/rename">
                 <map:act type="group-rename">
                     <map:generate type="action-result">
                         <map:parameter name="message" value="{message}"/>
@@ -602,14 +560,14 @@
                 </map:act>
             </map:match>
             
-            <map:match pattern="groups/delete">
+            <map:match pattern="administrator/groups/delete">
                 <map:act type="group-delete">
                     <map:generate type="action-result"/>
                     <map:serialize type="xml"/>
                 </map:act>
             </map:match>
             
-            <map:match pattern="groups/modify">
+            <map:match pattern="administrator/groups/modify">
                 <map:act type="group-modify">
                     <map:generate type="action-result">
                         <map:parameter name="message" value="{message}"/>
@@ -618,7 +576,7 @@
                 </map:act>
             </map:match>
             
-            <map:match pattern="groups/add-users">
+            <map:match pattern="administrator/groups/add-users">
                 <map:act type="group-modify-users">
                 	<map:parameter name="add" value="true"/>
                     <map:generate type="action-result">
@@ -628,7 +586,7 @@
                 </map:act>
             </map:match>
             
-             <map:match pattern="groups/remove-users">
+             <map:match pattern="administrator/groups/remove-users">
                 <map:act type="group-modify-users">
                 	<map:parameter name="add" value="false"/>
                     <map:generate type="action-result">
@@ -638,12 +596,12 @@
                 </map:act>
             </map:match>
             
-            <map:match pattern="groups/members">
+            <map:match pattern="administrator/groups/members">
 				<map:generate type="group-members" src="{request-param:groupID}"/>
                 <map:serialize type="xml"/>
             </map:match>
             
-			<map:match pattern="groups/view.html">
+			<map:match pattern="administrator/groups/view.html">
 				<map:generate type="groups-view"/>
 				<map:transform src="pages/groups/view.xsl" type="xslt">
                     <map:parameter name="contextPath" value="{request:contextPath}"/>
@@ -652,20 +610,10 @@
 				<map:serialize type="xml"/>
 			</map:match>
 			
-			<map:match pattern="groups/list.xml">
-				<map:generate type="groups-view"/>
-				<map:serialize type="xml"/>
-			</map:match>
-			
-			
 			<!-- +
                  | Rights
                  + -->
-            <!--<map:match pattern="rights/profiles/**">
-                <map:act type="has-not-right" src="Runtime_Rights_Rights_Profile_Handle"/>
-            </map:match>
-
-			--><map:match pattern="rights/profiles/create">
+			<map:match pattern="rights/profiles/create">
 				<map:act type="rights-profile-create">
 					<map:generate type="action-result">
 						<map:parameter name="id" value="{id}"/>
