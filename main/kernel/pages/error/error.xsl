@@ -100,9 +100,9 @@
 		    			<td>
 							<div class="details-place" id="details-place">
 								<script type="text/javascript">
-									<xsl:comment>
-										toggleDetails(true);
-									</xsl:comment>
+                                    <xsl:comment>
+                                        toggleDetails(true);
+                                    </xsl:comment>
 								</script>
 								<p>
 									<xsl:value-of select="/" />
