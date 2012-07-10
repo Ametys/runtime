@@ -20,6 +20,7 @@ node.selectSingleNode => Ext.dom.Query.selectNode("query xpath ou css", node)
 xmlTextContent => Ext.dom.Query.selectValue("query xpath ou css", node, defaultValue) ou selectNumber si un chiffre est attendu (ou simplement node.nodeValue)
 
 ServerComm.handleResponse devient selectValue("*/" + tagname, node)
+ATTENTION un noeud vide renvoyait une chaine vide, maintenant ça renvoie undefined
 
 new org.ametys.msg.ErrorDialog devient Ametys.log.ErrorDialog.display
 

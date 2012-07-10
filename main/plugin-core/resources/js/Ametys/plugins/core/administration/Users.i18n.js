@@ -291,10 +291,9 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 	impersonate: function ()
 	{
 		var elt = this._listView.getSelectionModel().getSelection()[0];
-
 		
 		var result = Ametys.data.ServerComm.send("core", "administrator/users/impersonate", { login: elt.data.login }, Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
-	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_USERS_IMPERSONATE_ERROR"/>", (result == null || Ext.dom.Query.selectValue("*/errror", result) != "") ? null : result, "Ametys.plugins.core.administration.Users.impersonate"))
+	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_USERS_IMPERSONATE_ERROR"/>", (result == null || Ext.dom.Query.selectValue("*/error", result, "") != "") ? null : result, "Ametys.plugins.core.administration.Users.impersonate"))
 	    {
 	       return;
 	    }
