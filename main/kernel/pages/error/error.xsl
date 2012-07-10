@@ -51,12 +51,14 @@
 							{
 								button.innerHTML = 'Hide details ';
 								text.style.display = '';
+								document.body.childNodes[0].style.height = "";
 							}
 							else
 							{
 								button.href = "javascript: toggleDetails();";
 								button.innerHTML = 'Show details';
 								text.style.display = 'none';
+								document.body.childNodes[0].style.height = "auto";
 							}
 						}
 					</xsl:comment>
@@ -98,7 +100,9 @@
 		    			<td>
 							<div class="details-place" id="details-place">
 								<script type="text/javascript">
-									//toggleDetails(true);
+									<xsl:comment>
+										toggleDetails(true);
+									</xsl:comment>
 								</script>
 								<p>
 									<xsl:value-of select="/" />
