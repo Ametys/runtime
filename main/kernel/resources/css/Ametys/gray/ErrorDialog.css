@@ -17,6 +17,10 @@
 .error-dialog-text {
 	padding: 5px;
 }
+.error-dialog-text .x-panel-body {
+	font-family: tahoma,arial,helvetica,sans-serif;
+	font-size: 11px;
+}
 
 .error-dialog-details {
 	border-top: 1px solid #C8CDD0;
