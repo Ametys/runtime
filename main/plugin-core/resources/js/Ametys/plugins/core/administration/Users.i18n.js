@@ -45,10 +45,6 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 	 * @private
 	 * @property {Ametys.workspace.admin.rightpanel.ActionPanel} _search The search panel
 	 */
-	/**
-	 * @private
-	 * @property {Ametys.workspace.admin.rightpanel.ActionPanel} _searchForm The search panel
-	 */
 
 	/**
 	 * Initialize
@@ -102,8 +98,8 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 			}), 
 		    	
 		    columns: [
-				        {header: "<i18n:text i18n:key="PLUGINS_CORE_USERS_COL_NAME"/>", width : 200, menuDisabled : true, sortable: true, dataIndex: 'display'},
-				        {header: "<i18n:text i18n:key="PLUGINS_CORE_USERS_COL_EMAIL"/>", width : 240, menuDisabled : true, sortable: true, dataIndex: 'email'}
+				        {header: "<i18n:text i18n:key="PLUGINS_CORE_USERS_COL_NAME"/>", flex: 0.4, menuDisabled : true, sortable: true, dataIndex: 'display'},
+				        {header: "<i18n:text i18n:key="PLUGINS_CORE_USERS_COL_EMAIL"/>", flex: 0.6, menuDisabled : true, sortable: true, dataIndex: 'email'}
 		    ],
 			
 		    listeners: {
@@ -188,29 +184,34 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 	{
 		this._search = new Ametys.workspace.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCH"/>"});
 		
-		this._searchForm = new Ext.form.Panel ({
-			baseCls: 'search',
-			
-	        items: [ new Ext.form.TextField ({
-	    		hideLabel: true,
-	            name: 'searchField',
-	            
-	            anchor:'100%',
-	            value: '<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCH_CRITERIA"/>',
-	            
-	            onFocus : function () {if (this.getValue() == '<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCH_CRITERIA"/>') this.setValue(''); },
-	            onBlur : function () {if (this.getValue() == '') this.setValue('<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCH_CRITERIA"/>'); }
-	    	})],
-	       	
-	       	buttonAlign: 'right',
-	        buttons: [{
-	            text: '<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCH_BUTTON"/>',
-				handler : Ext.bind(this.search, this)	            
-	        }]
-		});					        
+		var ct = new Ext.Container({
+			layout: 'column',
+			items: [
+				new Ext.form.TextField ({
+					hideLabel: true,
+				    id: 'searchField',
+				    
+				    style: {
+				    	marginLeft: '10px',
+				    },
+				    
+				    width: '182px',
+				    
+				    value: '<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCH_CRITERIA"/>',
+				    onFocus : function () {if (this.getValue() == '<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCH_CRITERIA"/>') this.setValue(''); },
+				    onBlur : function () {if (this.getValue() == '') this.setValue('<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCH_CRITERIA"/>'); }
+				}),
+
+				new Ext.button.Button ({
+		            icon: Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/users/search_16.png',
+		            tooltip: "<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCH_BUTTON"/>",
+					handler : Ext.bind(this.search, this)	            
+				})
+			]
+		});
 		
-		this._search.add(this._searchForm);
-		
+		this._search.add(ct);
+
 		// Quit
 		this._search.addAction("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_QUIT"/>", 
 					Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/users/quit.png', 
@@ -412,7 +413,7 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 		}
 
 		
-		var searchField = this._searchForm.getForm().findField("searchField");
+		var searchField = Ext.get("searchField");
 		var searchValue = searchField.getValue() == '<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCH_CRITERIA"/>' ? '' : searchField.getValue();
 		
 		var result = Ametys.data.ServerComm.send(this.pluginName, "users/search.xml", { criteria : searchValue }, Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
