@@ -29,7 +29,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Templates;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
@@ -44,16 +43,17 @@ import org.apache.cocoon.Constants;
 import org.apache.cocoon.servlet.CocoonServlet;
 import org.apache.cocoon.xml.XMLUtils;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.slf4j.MDC;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
-import org.ametys.runtime.cocoon.InitExtensionPoint;
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.config.ConfigManager;
 import org.ametys.runtime.plugin.Init;
+import org.ametys.runtime.plugin.InitExtensionPoint;
 import org.ametys.runtime.plugin.component.PluginsComponentManager;
 import org.ametys.runtime.request.RequestListener;
 import org.ametys.runtime.request.RequestListenerManager;
@@ -428,94 +428,91 @@ public class RuntimeServlet extends CocoonServlet
 
         ServletOutputStream os = res.getOutputStream();
 
-        // Ressources statiques associées à la page d'erreur
-        if (req.getRequestURI().startsWith(contextPath + "/kernel/resources/"))
+        // Static resources associated with the error page.
+        String requestURI = req.getRequestURI();
+        if (requestURI.startsWith(contextPath + "/kernel/resources/"))
         {
-            InputStream is = getClass().getResourceAsStream("/org/ametys/runtime" + req.getRequestURI().substring(contextPath.length()));
-
-            if (is == null)
+            String resourcePath = requestURI.substring(contextPath.length() + 1);
+            InputStream is = null;
+            try
             {
-                res.setStatus(404);
-            }
-            else
-            {
-                res.setStatus(200);
-                res.setContentType(config.getServletContext().getMimeType(req.getRequestURI()));
-
-                byte[] buffer = new byte[8192];
-                int length = -1;
-
-                while ((length = is.read(buffer)) > -1)
+                File resourceFile = new File(config.getServletContext().getRealPath(resourcePath));
+                if (resourceFile.exists())
                 {
-                    os.write(buffer, 0, length);
+                    is = new FileInputStream(resourceFile);
                 }
-
-                is.close();
-            }
-
-            return;
-        }
-        else if (req.getRequestURI().startsWith(contextPath + "/error/resources"))
-        {
-            File f = new File(config.getServletContext().getRealPath(req.getRequestURI().substring(contextPath.length())));
-            if (f.exists())
-            {
-                res.setStatus(200);
-                res.setContentType(config.getServletContext().getMimeType(req.getRequestURI()));
-
-                InputStream is = new FileInputStream(f);
-
-                byte[] buffer = new byte[8192];
-                int length = -1;
-
-                while ((length = is.read(buffer)) > -1)
+                else
                 {
-                    os.write(buffer, 0, length);
+                    is = getClass().getResourceAsStream("/org/ametys/runtime/" + resourcePath);
                 }
-
-                is.close();
+                
+                if (is == null)
+                {
+                    res.setStatus(404);
+                }
+                else
+                {
+                    res.setStatus(200);
+                    res.setContentType(config.getServletContext().getMimeType(req.getRequestURI()));
+    
+                    byte[] buffer = new byte[8192];
+                    int length = -1;
+    
+                    while ((length = is.read(buffer)) > -1)
+                    {
+                        os.write(buffer, 0, length);
+                    }
+                }
+    
+                return;
             }
-            else
+            finally
             {
-                res.setStatus(404);
+                IOUtils.closeQuietly(is);
             }
-
-            return;
         }
 
         res.setStatus(500);
         res.setContentType("text/html; charset=UTF-8");
 
         SAXTransformerFactory saxFactory = (SAXTransformerFactory) TransformerFactory.newInstance();
-
-        InputStream is;
-
-        File errorXSL = new File(config.getServletContext().getRealPath("kernel/pages/error/error.xsl"));
-        if (errorXSL.exists())
+        TransformerHandler th;
+        InputStream is = null;
+        try
         {
-            is = new FileInputStream(errorXSL);
+            StreamSource errorSource;
+            
+            File errorXSL = new File(config.getServletContext().getRealPath("kernel/pages/error/fatal.xsl"));
+            if (errorXSL.exists())
+            {
+                is = new FileInputStream(errorXSL);
+            }
+            else
+            {
+                is = getClass().getResourceAsStream("/org/ametys/runtime/kernel/pages/error/fatal.xsl");
+            }
+            
+            errorSource = new StreamSource(is);
+            
+            th = saxFactory.newTransformerHandler(errorSource);
         }
-        else
+        finally
         {
-            is = getClass().getResourceAsStream("/org/ametys/runtime/kernel/pages/error/error.xsl");
+            IOUtils.closeQuietly(is);
         }
-
-        StreamSource errorSource = new StreamSource(is);
-
-        Templates templates = saxFactory.newTemplates(errorSource);
-
-        TransformerHandler th = saxFactory.newTransformerHandler(templates);
+        
         Properties format = new Properties();
-        format.put(OutputKeys.METHOD, "html");
+        format.put(OutputKeys.METHOD, "xml");
         format.put(OutputKeys.ENCODING, "UTF-8");
+        format.put(OutputKeys.DOCTYPE_PUBLIC, "-//W3C//DTD XHTML 1.0 Strict//EN");
+        format.put(OutputKeys.DOCTYPE_SYSTEM, "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd");
+
         th.getTransformer().setOutputProperties(format);
 
         th.getTransformer().setParameter("code", 500);
         th.getTransformer().setParameter("realpath", config.getServletContext().getRealPath("/"));
         th.getTransformer().setParameter("contextPath", req.getContextPath());
-
-        is.close();
-
+        
         StreamResult result = new StreamResult(os);
         th.setResult(result);
 

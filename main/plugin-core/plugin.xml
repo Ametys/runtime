@@ -662,8 +662,8 @@
         <extension-point id="org.ametys.runtime.plugins.core.dispatcher.DispatchPostProcessExtensionPoint" 
                 		 class="org.ametys.runtime.plugins.core.dispatcher.DispatchPostProcessExtensionPoint"/>
                 		 
-        <extension-point id="org.ametys.runtime.cocoon.InitExtensionPoint"
-                         class="org.ametys.runtime.cocoon.InitExtensionPoint"/>
+        <extension-point id="org.ametys.runtime.plugin.InitExtensionPoint"
+                         class="org.ametys.runtime.plugin.InitExtensionPoint"/>
                          
         <extension-point id="org.ametys.runtime.authentication.AuthenticationManager"
                          class="org.ametys.runtime.authentication.AuthenticationManager"/>

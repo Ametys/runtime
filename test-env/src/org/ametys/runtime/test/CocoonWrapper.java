@@ -37,8 +37,8 @@ import org.apache.log.Hierarchy;
 import org.apache.log.Priority;
 import org.xml.sax.ContentHandler;
 
-import org.ametys.runtime.cocoon.InitExtensionPoint;
 import org.ametys.runtime.plugin.Init;
+import org.ametys.runtime.plugin.InitExtensionPoint;
 import org.ametys.runtime.plugin.component.PluginsComponentManager;
 
 /**
