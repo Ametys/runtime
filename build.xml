@@ -120,7 +120,7 @@
         <mkdir dir="${classes}"/>
         <mkdir dir="${test-env-classes}"/>
         
-        <ivy:cachepath conf="compile_dependencies" type="jar" pathid="compile.classpath"/>
+        <ivy:cachepath conf="compile_dependencies" type="jar,bundle" pathid="compile.classpath"/>
         <ivy:cachepath conf="test-env" type="jar" pathid="test.env.classpath"/>
 
         <ametys:svn-revision property="svn-revision"/>
