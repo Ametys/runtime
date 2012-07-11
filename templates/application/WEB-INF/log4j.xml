@@ -30,21 +30,63 @@
         <filter class="org.ametys.runtime.util.AmetysExceptionFilter"/>
 	</appender>
 	
-	<appender name="site-cache" class="biz.minaret.log4j.DatedFileAppender">
-        <param name="Directory" value="${context-root}/WEB-INF/logs"/>
-        <param name="Prefix" value="site-cache-"/>
-        <param name="Suffix" value=".log"/>
-        <param name="Append" value="true"/>
-		<layout class="org.apache.log4j.PatternLayout"> 
-			<param name="ConversionPattern" value="%d %-5p [%c] (%t;%X{requestURI}) %m%n"/> 
-		</layout>
-	</appender>
-	
-	<category name="site.cache.log" additivity="false">
-		<priority value="info"/>
-		<appender-ref ref="site-cache"/>
-		<appender-ref ref="lf5-servlet"/>
+    <!-- iBatis logs as debug -->
+    <!-- 
+    <category name="java.sql" additivity="false">
+        <priority value="debug"/>
+        <appender-ref ref="lf5-servlet"/>
+        <appender-ref ref="servlet"/>
     </category>
+    -->
+    
+    <!-- All runtime and runtime plugins logs -->
+    <category name="org.ametys.runtime" additivity="false">
+        <priority value="info"/>
+        <appender-ref ref="lf5-servlet"/>
+        <appender-ref ref="servlet"/>
+    </category>
+
+    <!-- Administration logs -->
+    <category name="org.ametys.runtime.plugins.core.administrator.sitemap" additivity="false">
+        <priority value="info"/>
+        <appender-ref ref="lf5-servlet"/>
+        <appender-ref ref="servlet"/>
+    </category>
+
+    <!-- Users plugin logs -->
+    <category name="org.ametys.runtime.plugins.core.user.sitemap" additivity="false">
+        <priority value="info"/>
+        <appender-ref ref="lf5-servlet"/>
+        <appender-ref ref="servlet"/>
+    </category>
+
+    <!-- Groups plugin logs -->
+    <category name="org.ametys.runtime.plugins.core.group.sitemap" additivity="false">
+        <priority value="info"/>
+        <appender-ref ref="lf5-servlet"/>
+        <appender-ref ref="servlet"/>
+    </category>
+    
+    <!-- Profiles plugin logs -->
+    <category name="org.ametys.runtime.plugins.core.right.profile.sitemap" additivity="false">
+        <priority value="info"/>
+        <appender-ref ref="lf5-servlet"/>
+        <appender-ref ref="servlet"/>
+    </category>
+    
+    <!-- Right assignment logs -->
+    <category name="org.ametys.runtime.plugins.core.right.sitemap" additivity="false">
+        <priority value="info"/>
+        <appender-ref ref="lf5-servlet"/>
+        <appender-ref ref="servlet"/>
+    </category>
+    
+    <!-- Monitoring -->
+    <category name="org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring" additivity="false">
+        <priority value="warn"/>
+        <appender-ref ref="lf5-servlet"/>
+        <appender-ref ref="servlet"/>
+    </category>    
     
     <root>
         <priority value="info"/>

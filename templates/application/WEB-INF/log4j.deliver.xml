@@ -28,21 +28,6 @@
         <filter class="org.ametys.runtime.util.AmetysExceptionFilter"/>
 	</appender>
 	
-	<appender name="site-cache" class="biz.minaret.log4j.DatedFileAppender">
-        <param name="Directory" value="${context-root}/WEB-INF/logs"/>
-        <param name="Prefix" value="site-cache-"/>
-        <param name="Suffix" value=".log"/>
-        <param name="Append" value="true"/>
-		<layout class="org.apache.log4j.PatternLayout"> 
-			<param name="ConversionPattern" value="%d %-5p %m%n"/> 
-		</layout>
-	</appender>
-	
-	<category name="site.cache.log" additivity="false">
-		<priority value="info"/>
-		<appender-ref ref="site-cache"/>
-    </category>
-    
     <root>
         <priority value="error"/>
         <appender-ref ref="servlet"/>
