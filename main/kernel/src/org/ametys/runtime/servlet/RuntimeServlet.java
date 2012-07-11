@@ -46,6 +46,7 @@ import org.apache.cocoon.servlet.CocoonServlet;
 import org.apache.cocoon.servlet.multipart.RequestFactory;
 import org.apache.cocoon.xml.XMLUtils;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.slf4j.MDC;
 import org.xml.sax.ContentHandler;
@@ -476,22 +477,29 @@ public class RuntimeServlet extends CocoonServlet
 
         SAXTransformerFactory saxFactory = (SAXTransformerFactory) TransformerFactory.newInstance();
 
-        InputStream is;
-
-        File errorXSL = new File(config.getServletContext().getRealPath("error/error.xsl"));
-
-        if (errorXSL.exists())
+        InputStream is = null;
+        Templates templates;
+        try
         {
-            is = new FileInputStream(errorXSL);
+            File errorXSL = new File(config.getServletContext().getRealPath("error/error.xsl"));
+
+            if (errorXSL.exists())
+            {
+                is = new FileInputStream(errorXSL);
+            }
+            else
+            {
+                is = getClass().getResourceAsStream("/org/ametys/runtime/kernel/pages/error/error.xsl");
+            }
+
+            StreamSource errorSource = new StreamSource(is);
+
+            templates = saxFactory.newTemplates(errorSource);
         }
-        else
+        finally
         {
-            is = getClass().getResourceAsStream("/org/ametys/runtime/kernel/pages/error/error.xsl");
+            IOUtils.closeQuietly(is);
         }
-
-        StreamSource errorSource = new StreamSource(is);
-
-        Templates templates = saxFactory.newTemplates(errorSource);
 
         TransformerHandler th = saxFactory.newTransformerHandler(templates);
         Properties format = new Properties();
@@ -502,8 +510,6 @@ public class RuntimeServlet extends CocoonServlet
         th.getTransformer().setParameter("code", 500);
         th.getTransformer().setParameter("realpath", config.getServletContext().getRealPath("/"));
         th.getTransformer().setParameter("contextPath", req.getContextPath());
-
-        is.close();
 
         StreamResult result = new StreamResult(os);
         th.setResult(result);
