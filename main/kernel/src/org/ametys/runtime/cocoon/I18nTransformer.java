@@ -81,7 +81,7 @@ public class I18nTransformer extends org.apache.cocoon.transformation.I18nTransf
     {
         DefaultConfiguration catalogue = new DefaultConfiguration("catalogue");
         catalogue.setAttribute("id", "kernel");
-        catalogue.setAttribute("name", "kernel");
+        catalogue.setAttribute("name", "messages");
 
         DefaultConfiguration location1 = new DefaultConfiguration("location");
         location1.setValue("context://WEB-INF/i18n/kernel");
