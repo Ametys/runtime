@@ -35,28 +35,26 @@
             </head>
             
             <script>
-            	<script type="text/javascript" src="{$resourcesPath}/js/users/user.i18n.js"><xsl:comment>//empty</xsl:comment></script>
+            	<script type="text/javascript" src="{$resourcesPath}/js/Ametys/plugins/core/administration/UserEdit.i18n.js"><xsl:comment>//empty</xsl:comment></script>
             	<script type="text/javascript" src="{$resourcesPath}/js/Ametys/plugins/core/administration/Users.i18n.js"><xsl:comment>//empty</xsl:comment></script>
             	
             	<script type="text/javascript">
-            			RUNTIME_Plugin_Runtime_EditUser.initialize("<xsl:value-of select="$pluginName"/>", <xsl:value-of select="count(Model/*)+count(Model/*[type='password'])"/>);
-            			
             			Ametys.plugins.core.administration.Users.initialize("<xsl:value-of select="$pluginName"/>");
+            			
             			<xsl:if test="Model/@Modifiable = 'true'">
             				Ametys.plugins.core.administration.Users._modifiable = true;
+                			Ametys.plugins.core.administration.UserEdit.initialize("<xsl:value-of select="$pluginName"/>", <xsl:value-of select="count(Model/*)+count(Model/*[type='password'])"/>);
+	                        <xsl:for-each select="Model/node()">
+	                            Ametys.plugins.core.administration.UserEdit.addInputField (
+	                                "<xsl:value-of select="type"/>",
+	                                "field_<xsl:value-of select="local-name()"/>",
+	                                "<xsl:value-of select="label/node()"/>",
+	                                "<xsl:value-of select="description/node()"/>"
+	                            );
+	                        </xsl:for-each>     
             			</xsl:if>
             			var mainPanel = Ametys.plugins.core.administration.Users.createPanel ();
 
-	                  	<xsl:for-each select="Model/node()">
-	                  		var input = Ametys.plugins.core.administration.Users.addInputField (
-	                  			"<xsl:value-of select="type"/>",
-	                  			"field_<xsl:value-of select="local-name()"/>",
-	                  			"<xsl:value-of select="label/node()"/>",
-	                  			"<xsl:value-of select="description/node()"/>"
-	                  		);
-						</xsl:for-each>		
-						
-					     
 						createPanel = function () 
 						{
 							return mainPanel;

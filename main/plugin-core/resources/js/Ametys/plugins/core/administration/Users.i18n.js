@@ -45,7 +45,6 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 	 * @private
 	 * @property {Ametys.workspace.admin.rightpanel.ActionPanel} _search The search panel
 	 */
-
 	/**
 	 * Initialize
 	 * @params {String} pluginName The plugin declaring this class
@@ -144,9 +143,9 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 	{
 		if (this._modifiable)
 		{
+			this._actions.showElt(1);
 			this._actions.showElt(2);
 			this._actions.showElt(3);
-			this._actions.showElt(4);
 		}
 		else
 		{
@@ -165,9 +164,9 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 	{
 		if (this._modifiable)
 		{
+			this._actions.hideElt(1);
 			this._actions.hideElt(2);
 			this._actions.hideElt(3);
-			this._actions.hideElt(4);
 		}
 		else
 		{
@@ -260,9 +259,9 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 		
 		if (this._modifiable)
 		{
+			this._actions.hideElt(1);
 			this._actions.hideElt(2);
 			this._actions.hideElt(3);
-			this._actions.hideElt(4);
 		}
 		else
 		{
@@ -316,7 +315,7 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 	 */
 	add: function ()
 	{
-		RUNTIME_Plugin_Runtime_EditUser.act({"mode": "new"}, Ext.bind(this._addCb, this));
+		Ametys.plugins.core.administration.UserEdit.act({"mode": "new"}, Ext.bind(this._addCb, this));
 	},
 
 	/**
@@ -338,7 +337,7 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 	edit: function ()
 	{
 		var elt = this._listView.getSelectionModel().getSelection()[0];
-	    RUNTIME_Plugin_Runtime_EditUser.act({"mode": "edit", "login" : elt.data.login}, Ext.bind(this._editCb, this));
+	    Ametys.plugins.core.administration.UserEdit.act({"mode": "edit", "login" : elt.data.login}, Ext.bind(this._editCb, this));
 	}, 
 
 	/**
@@ -402,9 +401,9 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 		
 		if (this._modifiable)
 		{
+			this._actions.hideElt(1);
 			this._actions.hideElt(2);
 			this._actions.hideElt(3);
-			this._actions.hideElt(4);
 		}
 		else
 		{
@@ -490,157 +489,5 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 		element.set('email', email);
 		element.set('display', firstname + ' ' + lastname + ' (' + login + ')');
 		element.commit();
-	},
-
-	/**
-	 * Add an input field to the creation form
-	 * @param {String} type Can be 'double', 'long', 'password', 'date', 'boolean', or 'text' (default value).
-	 * @param {String} name The name of the field
-	 * @param {String} label The label of the field
-	 * @param {String} description The description tooltip for the field
-	 * @return {Ext.form.field.Field} The newly created field
-	 */
-	addInputField: function (type, name, label, description)
-	{
-		switch (type) 
-		{
-			case 'double':
-				return this._createDoubleField (name, label, description);
-				break;
-			case 'long':
-				return this._createLongField (name, label, description);
-				break;
-			case 'password':
-				return this._createPasswordField (name, label, description);
-				break;
-			case 'date':
-				return this._createDateField (name, label, description);
-				break;
-			case 'boolean':
-				return this._createBooleanField (name, label, description);
-				break;
-			default:
-				return this._createTextField (name, label, description);
-				break;
-		}
-	},
-
-	/**
-	 * @private
-	 * Create a field of type 'double'
-	 * @param {String} name The name of the field
-	 * @param {String} label The label of the field
-	 * @param {String} description The description tooltip for the field
-	 * @return {Ext.form.field.Field} The newly created field
-	 */
-	_createDoubleField: function (name, label, description)
-	{
-		return new Ext.form.field.Double ({
-			name: name,
-	        fieldLabel: label,
-	        ametysDescription: description,
-	        
-	        width: 205
-		});
-	},
-
-	/**
-	 * @private
-	 * Create a field of type 'long'
-	 * @param {String} name The name of the field
-	 * @param {String} label The label of the field
-	 * @param {String} description The description tooltip for the field
-	 * @return {Ext.form.field.Field} The newly created field
-	 */
-	_createLongField: function (name, label, description)
-	{
-		return new Ext.form.field.Long ({
-			name: name,
-			fieldLabel: label,
-			ametysDescription: description,
-	        
-	        width: 205
-		});
-	},
-
-	/**
-	 * @private
-	 * Create a field of type 'password'
-	 * @param {String} name The name of the field
-	 * @param {String} label The label of the field
-	 * @param {String} description The description tooltip for the field
-	 * @return {Ext.form.field.Field} The newly created field
-	 */
-	_createPasswordField: function (name, label, description)
-	{
-		return new Ametys.form.field.ChangePassword ({
-			name: name,
-			
-		    fieldLabel: label,
-		    ametysDescription: description,
-		    
-		    width: 205
-		});
-	},
-
-	/**
-	 * @private
-	 * Create a field of type 'date'
-	 * @param {String} name The name of the field
-	 * @param {String} label The label of the field
-	 * @param {String} description The description tooltip for the field
-	 * @return {Ext.form.field.Field} The newly created field
-	 */
-	_createDateField: function (name, label, description)
-	{
-		return new  Ext.form.field.Date ({
-			name: name,
-			 
-	        fieldLabel: label,
-	        ametysDescription: description,
-	        
-	        width: 205
-		});
-	},
-
-	/**
-	 * @private
-	 * Create a field of type 'boolean'
-	 * @param {String} name The name of the field
-	 * @param {String} label The label of the field
-	 * @param {String} description The description tooltip for the field
-	 * @return {Ext.form.field.Field} The newly created field
-	 */
-	_createBooleanField: function (name, label, description)
-	{
-		return new  Ext.form.field.Boolean ({
-			name: name,
-			 
-	        fieldLabel: label,
-	        ametysDescription: description,
-	        
-	        checked: (value == "true")
-	        
-		});
-	},
-
-	/**
-	 * @private
-	 * Create a field of type 'text'
-	 * @param {String} name The name of the field
-	 * @param {String} label The label of the field
-	 * @param {String} description The description tooltip for the field
-	 * @return {Ext.form.field.Field} The newly created field
-	 */
-	_createTextField: function (name, label, description)
-	{
-		return new  Ext.form.field.Text ({
-			name: name,
-			
-	        fieldLabel: label,
-	        ametysDescription: description,
-	        
-	        width: 205
-		});
 	}
 });
