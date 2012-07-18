@@ -75,13 +75,13 @@
 					cls: 'admin-top-panel',
 					border: false,
 					height: 43, 
-					html: '&lt;div&gt;'
-			    		+ 	'&lt;ul&gt;'
-			    		+ 		'&lt;li&gt;&lt;a href="<xsl:value-of select="$contextPath"/><xsl:value-of select="$workspaceURI"/>/index.html"&gt;<i18n:text i18n:key="WORKSPACE_ADMIN_HOME" i18n:catalogue="workspace.{$workspaceName}" />&lt;/a&gt;&lt;/li&gt;'
-			    		+ 		'&lt;li&gt;&gt; <xsl:copy-of select="/Plugins/html/head/title/node()"/>&lt;/li&gt;'
-			    		+ 	'&lt;/ul&gt;'
-			    		+ 	'&lt;h1&gt;<xsl:copy-of select="/Plugins/html/head/title/node()"/>&lt;/h1&gt;'
-		 	    		+ '&lt;/div&gt;'
+					html: "&lt;div&gt;"
+			    		+ 	"&lt;ul&gt;"
+			    		+ 		"&lt;li&gt;&lt;a href=\"<xsl:value-of select="$contextPath"/><xsl:value-of select="$workspaceURI"/>/index.html\"&gt;<i18n:text i18n:key="WORKSPACE_ADMIN_HOME" i18n:catalogue="workspace.{$workspaceName}" />&lt;/a&gt;&lt;/li&gt;"
+			    		+ 		"&lt;li&gt;&gt; <xsl:copy-of select="/Plugins/html/head/title/node()"/>&lt;/li&gt;"
+			    		+ 	"&lt;/ul&gt;"
+			    		+ 	"&lt;h1&gt;<xsl:copy-of select="/Plugins/html/head/title/node()"/>&lt;/h1&gt;"
+		 	    		+ "&lt;/div&gt;"
 				});
     		}
     		
