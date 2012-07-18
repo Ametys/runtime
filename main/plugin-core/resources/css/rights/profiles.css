@@ -178,3 +178,7 @@
     height: 0;
     overflow: visible;
 }
+
+.profile-edit-panel .ametys-tbar-fieldset table.x-toolbar-ct {
+	width: 46px !important;
+}
