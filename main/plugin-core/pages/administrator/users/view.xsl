@@ -46,6 +46,7 @@
                 			Ametys.plugins.core.administration.UserEdit.initialize("<xsl:value-of select="$pluginName"/>", <xsl:value-of select="count(Model/*)+count(Model/*[type='password'])"/>);
 	                        <xsl:for-each select="Model/node()">
 	                            Ametys.plugins.core.administration.UserEdit.addInputField (
+	                                "<xsl:value-of select="local-name()"/>",
 	                                "<xsl:value-of select="type"/>",
 	                                "field_<xsl:value-of select="local-name()"/>",
 	                                "<xsl:value-of select="label/node()"/>",

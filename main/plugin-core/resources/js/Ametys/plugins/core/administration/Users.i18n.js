@@ -186,7 +186,7 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 		var ct = new Ext.Container({
 			layout: 'column',
 			items: [
-				new Ext.form.TextField ({
+				new Ext.form.field.Text({
 					hideLabel: true,
 				    id: 'searchField',
 				    
@@ -361,7 +361,7 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 	{
 		Ext.Msg.confirm ("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_DEL_TITLE"/>", 
 						 "<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_DEL_PROMPT"/>", 
-						 Ext.bind(this.doRemove, true));
+						 Ext.bind(this.doRemove, this));
 	},
 
 	/**
@@ -373,7 +373,7 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 		if (answer == 'yes')
 		{
 	        var elt = this._listView.getSelectionModel().getSelection()[0];              
-	        var url = Ametys.getPluginResourcesPrefix(this.pluginName) + "/users/delete";
+	        var url = Ametys.getPluginDirectPrefix(this.pluginName) + "/administrator//users/delete";
 	        var args = "login=" + encodeURIComponent(elt.data.login);
 	        
 	        if (200 != Ext.Ajax.request({url: url, params: args, async: false}).status)
@@ -411,7 +411,7 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 		}
 
 		
-		var searchField = Ext.get("searchField");
+		var searchField = Ext.getCmp("searchField");
 		var searchValue = searchField.getValue() == '<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCH_CRITERIA"/>' ? '' : searchField.getValue();
 		
 		var result = Ametys.data.ServerComm.send(this.pluginName, "users/search.xml", { criteria : searchValue }, Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);

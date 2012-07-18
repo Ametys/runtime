@@ -143,8 +143,7 @@ Ext.define('Ametys.plugins.core.administration.UserEdit', {
 	    	this.form.findField('field_login').setDisabled(true);
 	      
 	    	
-	    	var nodes = Ametys.data.ServerComm.send(this.plugin, "/users/info", { login: params['login'] }, Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
-	
+	    	var nodes = Ametys.data.ServerComm.send(this.plugin, "/administrator/users/info", { login: params['login'] }, Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
 	        if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_USERS_DIALOG_ERROR"/>", nodes, "Ametys.plugins.core.administration.UserEdit.act"))
 	        {
 	           return;
@@ -154,12 +153,12 @@ Ext.define('Ametys.plugins.core.administration.UserEdit', {
 		      
 		    this.form.findField('field_login').setValue(userInfo.getAttribute("login"));
 		   
-		    var fields = userInfo.selectNodes('*');
+		    var fields = Ext.dom.Query.select('*', userInfo);
 		    for (var i = 0; i &lt; fields.length; i++)
 		    {
 		    	var field = fields[i];
 		        var fieldName = fields[i].nodeName;
-		        var fieldValue = fields[i].nodeValue;
+		        var fieldValue = fields[i].firstChild.nodeValue;
 		        
 		        var elt = this.form.findField('field_' + fieldName);
 		        elt.setValue(fieldValue);
@@ -178,7 +177,7 @@ Ext.define('Ametys.plugins.core.administration.UserEdit', {
 	    args['field_login'] = form.findField('field_login').getValue();
 	    args['mode'] = this.params['mode'];
 
-		var result = Ametys.data.ServerComm.send(this.plugin, "users/edit", args, Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+		var result = Ametys.data.ServerComm.send(this.plugin, "/administrator/users/edit", args, Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
 
 	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_USERS_DIALOG_ERROR"/>", result, "Ametys.plugins.core.administration.UserEdit.ok"))
 	    {
@@ -239,13 +238,14 @@ Ext.define('Ametys.plugins.core.administration.UserEdit', {
 	
 	/**
 	 * Add an input field to the creation form
+	 * @param {String} id Internal id for the field
 	 * @param {String} type Can be 'double', 'long', 'password', 'date', 'boolean', or 'text' (default value).
 	 * @param {String} name The name of the field
 	 * @param {String} label The label of the field
 	 * @param {String} description The description tooltip for the field
 	 * @return {Ext.form.field.Field} The newly created field
 	 */
-	addInputField: function (type, name, label, description)
+	addInputField: function (id, type, name, label, description)
 	{
 		var input;
 		switch (type) 
@@ -269,7 +269,7 @@ Ext.define('Ametys.plugins.core.administration.UserEdit', {
 				input = this._createTextField (name, label, description);
 				break;
 		}
-		this._editForms.push(input);
+		this._editForms[id] = input;
 	},
 	
 	/**
