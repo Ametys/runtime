@@ -410,6 +410,7 @@
 	<message key="PLUGINS_CORE_GROUPS_USERS_HANDLE_CATEGORY">Utilisateurs</message>
 	<message key="PLUGINS_CORE_GROUPS_HANDLE_ADDUSER">Ajouter des utilisateurs</message>
 	<message key="PLUGINS_CORE_GROUPS_HANDLE_DELETEUSER">Supprimer l'(les) utilisateur(s)</message>
+    <message key="PLUGINS_CORE_GROUPS_LIST_ERROR">Une erreur est survenue : impossible de lister les utilisateurs du groupe.</message>
 	<message key="PLUGINS_CORE_GROUPS_NEW_ERROR">Une erreur est survenue lors de la création.</message>
 	<message key="PLUGINS_CORE_GROUPS_HANDLE_RENAME">Renommer le groupe</message>
 	<message key="PLUGINS_CORE_GROUPS_HANDLE_RENAME_SUCCESS">Le groupe a bien été renommé</message>

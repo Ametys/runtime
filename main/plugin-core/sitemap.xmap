@@ -603,7 +603,7 @@
             
 			<map:match pattern="administrator/groups/view.html">
 				<map:generate type="groups-view"/>
-				<map:transform src="pages/groups/view.xsl" type="xslt">
+				<map:transform src="pages/administrator/groups/view.xsl" type="xslt">
                     <map:parameter name="contextPath" value="{request:contextPath}"/>
                     <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
 				</map:transform>

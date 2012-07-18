@@ -410,6 +410,7 @@
 	<message key="PLUGINS_CORE_GROUPS_HANDLE_ADDUSER">Add user</message>
 	<message key="PLUGINS_CORE_GROUPS_HANDLE_DELETEUSER">Remove user</message>
 	<message key="PLUGINS_CORE_GROUPS_NEW_ERROR">An error occured during the adding process</message>
+    <message key="PLUGINS_CORE_GROUPS_LIST_ERROR">An error occured: cannot list the users in this group.</message>
 	<message key="PLUGINS_CORE_GROUPS_HANDLE_RENAME">Rename the group</message>
 	<message key="PLUGINS_CORE_GROUPS_HANDLE_RENAME_SUCCESS">The group was successfully renamed</message>
 	<message key="PLUGINS_CORE_GROUPS_RENAME_ERROR">An error occured during the renaming process</message>

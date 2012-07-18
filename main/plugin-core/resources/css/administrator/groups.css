@@ -1,0 +1,38 @@
+/*
+ *  Copyright 2012 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+#list-view-groups_header,
+#list-view-user_header
+{
+	background-color: transparent;
+	background-image: none;
+	box-shadow: none;
+}
+
+#list-view-groups_header_hd, 
+#list-view-user_header_hd 
+{
+    background: url('../../img/administrator/groups/group-expand-sprite.png') 0px -48px no-repeat !important;
+    
+    color: #7D326B;
+    font-family: arial, sans-serif !important;
+    font-size: 1.2em;
+    font-weight: bold;
+    
+    margin-bottom: 10px;
+    margin-left: 0px;
+    padding: 0px 0px 0px 20px;
+}

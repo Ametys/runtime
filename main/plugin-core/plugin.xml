@@ -1420,9 +1420,9 @@
 
 					<param name="label" i18n="true">PLUGINS_CORE_GROUPS_LABEL</param>
 					<param name="default-description" i18n="true">PLUGINS_CORE_GROUPS_DESCRIPTION</param>
-					<param name="icon-small" file="true">img/groups/icon_dock.png</param>
-					<param name="icon-medium" file="true">img/groups/icon_medium.gif</param>
-					<param name="icon-large" file="true">img/groups/icon_large.png</param>
+					<param name="icon-small" file="true">img/administrator/groups/icon_dock.png</param>
+					<param name="icon-medium" file="true">img/administrator/groups/icon_medium.gif</param>
+					<param name="icon-large" file="true">img/administrator/groups/icon_large.png</param>
 				</action>    				   
                 <Url>groups/view\.html</Url>
             </extension>      
