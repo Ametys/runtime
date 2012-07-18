@@ -85,7 +85,7 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 		        data: { users: []},
 		        
 		        sortOnLoad: true,
-		        sorters: [ { property: 'lang', direction: "ASC" } ],
+		        sorters: [ { property: 'display', direction: "ASC" } ],
 		        
 		        proxy: {
 		        	type: 'memory',
