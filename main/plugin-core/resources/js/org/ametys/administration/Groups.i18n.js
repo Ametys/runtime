@@ -60,11 +60,10 @@ org.ametys.administration.Groups.createPanel = function ()
 			id:0,
 	        fields: [
 	        	{name: 'id'},
-	        	{name: 'name'}
+	        	{name: 'name', sortType:Ext.data.SortTypes.asUCString}
 	        ],
 	        sortInfo: {field : 'name', direction: "ASC"}
 		}),
-		
 		
 		hideHeaders: true,
 		sm: new Ext.grid.CellSelectionModel({singleSelect:true}),
@@ -87,7 +86,7 @@ org.ametys.administration.Groups.createPanel = function ()
 		store : new Ext.data.SimpleStore({
 				id:0,
 	        	fields: [
-	        	         {name: 'user'},
+	        	         {name: 'user', sortType:Ext.data.SortTypes.asUCString},
 	        	         {name: 'type'}
 	           	],
 	           	sortInfo: {field : 'user', direction: "ASC"}
