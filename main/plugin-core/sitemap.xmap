@@ -636,7 +636,7 @@
 			
             <map:match pattern="administrator/rights/profiles/view.html">
                 <map:generate type="administrator-rights-profiles-view"/>
-                <map:transform src="pages/rights/profiles/view.xsl" type="xslt">
+                <map:transform src="pages/administrator/rights/profiles/view.xsl" type="xslt">
                     <map:parameter name="contextPath" value="{request:contextPath}"/>
                     <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
                     <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/> <!-- LPR -->
