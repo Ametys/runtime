@@ -150,7 +150,8 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 			
 			title : "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_COLUMN"/>",
 			hideHeaders: true,
-
+			multiSelect: true,
+			
 			store : Ext.create('Ext.data.Store', {
 				model: 'Ametys.plugins.core.administration.Groups.Users',
 		        data: { users: []},
@@ -170,7 +171,7 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 			}), 
 		    	
 		    columns: [
-				        {dataIndex: 'user', flex: 0}
+				        {dataIndex: 'user', flex: 1, width: 1}
 		    ]
 		});	
 		
@@ -253,9 +254,17 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 	{
 		if (this._currentGroup != null &amp;&amp; this._hasChanges)
 		{
+			var objects = "";
+			var users = this._listViewU.getStore().data.items;
+			for (var i=0; i &lt; users.length; i++)
+			{
+				var objectId = users[i].get('id');
+				objects += objectId + '/';
+			}
+			
 			Ext.Msg.confirm ("<i18n:text i18n:key="PLUGINS_CORE_SAVE_DIALOG_TITLE"/>", 
 							 "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_MODIFY_CONFIRM"/>", 
-							 Ext.bind(this._saveConfirm, this)
+							 Ext.bind(this._saveConfirm, this, [this._currentGroup, objects], true)
 			);
 		}
 		
@@ -287,7 +296,7 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 			var login =  members[i].getAttribute("login");
 
 			var newEntry = Ext.create('Ametys.plugins.core.administration.Groups.Users', {
-				'user': fullname + "(" + login + ")",
+				'user': fullname + " (" + login + ")",
 				'id': login
 			}); 
 			this._listViewU.getStore().addSorted(newEntry);
@@ -297,13 +306,17 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 	/**
 	 * @private
 	 * Listener on save button
-	 * @params {String} button If 'yes' will save effectively by calling {@link save}
+	 * @param {String} button If 'yes' will save effectively by calling {@link save}
+	 * @param {String} text undefined
+	 * @param {Object} opt Options given as arfs
+	 * @param {Ext.data.Model} group The group optionnaly for save
+	 * @param {String} group The objects optionnaly for save
 	 */
-	_saveConfirm: function (button)
+	_saveConfirm: function (button, text, opt, group, objects)
 	{
 		if (button == 'yes')
 		{
-			this.save();
+			this.save(group, objects);
 		}
 		else
 		{
@@ -322,9 +335,18 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 
 	/**
 	 * Create or rename a group
+	 * @param {Ext.data.Store} store
+     * @param {Ext.data.Model} record The Model instance that was updated
+     * @param {String} operation The update operation being performed. Value may be one of:
+     *
+     *     Ext.data.Model.EDIT
+     *     Ext.data.Model.REJECT
+     *     Ext.data.Model.COMMIT
+     * @param {String[]} modifiedFieldNames Array of field names changed during edit.
+     * @param {Object} eOpts The options object passed to Ext.util.Observable.addListener.
 	 * @private
 	 */
-	_editGroupLabel: function (store, record, operation)
+	_editGroupLabel: function (store, record, operation, modifiedFieldNames, eOpts )
 	{
 		if (operation == Ext.data.Record.EDIT)
 		{
@@ -369,24 +391,12 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 	{
 		function cb (users)
 		{
-			function seek (arr, id)
-			{
-				for (var i=0; i&lt;arr.length; i++)
-				{
-					if (arr[i].id == id)
-						return arr[i];
-				}
-				return null;
-			}
-		
 			var selectedElements = new Array();
-			var existingElements = this._listViewU.getElements();
 			
 			for (var i in users)
 			{
-				var e = seek(existingElements, i);
-				
-				if (e == null)
+				var e = this._listViewU.getStore().findExact('id', i);
+				if (e == -1)
 				{
 					e = Ext.create('Ametys.plugins.core.administration.Groups.Users', {
 						'user': users[i],
@@ -398,8 +408,8 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 			}
 			this._needSave();
 		}
-		
-		Ametys.plugins.core.SelectUser.act(cb, null, null, this.pluginName);							
+
+		Ametys.plugins.core.SelectUser.act(Ext.bind(cb, this), null, null, this.pluginName);							
 	},
 
 	/**
@@ -417,26 +427,27 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 
 	/**
 	 * Save modifications
+	 * @param {Ext.data.Model} group The record to save. Can be null to save the current record
+	 * @param {String} objects The users id '/' separated. Optionnal
 	 */
-	save: function ()
+	save: function (group, objects)
 	{
-		var group = this._currentGroup
-		if (group == null)
-		{
-			group = this._listViewGp.getSelection()[0];
-		}
+		group = group || this._currentGroup || this._listViewGp.getSelection()[0]; 
 		
-		var objects = "";
-		var users = this._listViewU.getStore().data.items;
-		for (var i=0; i &lt; users.length; i++)
+		if (objects == null)
 		{
-			var objectId = users[i].id;
-			objects += objectId + '/';
+			objects = "";
+			var users = this._listViewU.getStore().data.items;
+			for (var i=0; i &lt; users.length; i++)
+			{
+				var objectId = users[i].get('id');
+				objects += objectId + '/';
+			}
 		}
 		
 		// Send
-		var result = Ametys.data.ServerComm.send(this.pluginName, "/administrator/groups/modify", { id: group.id, objects: objects }, Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
-	    if (org.ametys.servercomm.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_MODIFY_ERROR"/>", result, "Ametys.plugins.core.administration.Groups.save"))
+		var result = Ametys.data.ServerComm.send(this.pluginName, "/administrator/groups/modify", { id: group.get('id'), objects: objects }, Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_MODIFY_ERROR"/>", result, "Ametys.plugins.core.administration.Groups.save"))
 	    {
 	        // Just display the message.
 	    }
@@ -529,17 +540,17 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 		// Add user
 		this._usersActions.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_ADDUSER"/>", 
 				 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/groups/add_user.png', 
-				 this.addUser);
+				 Ext.bind(this.addUser, this));
 		
 		// Delete user
 		this._usersActions.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_DELETEUSER"/>", 
 				 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/groups/delete.png', 
-				 this.deleteUsers);
+				 Ext.bind(this.deleteUsers, this));
 		
 		// Validate modification
 		this._usersActions.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_VALIDATE"/>", 
 				 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/groups/validate.png', 
-				 this.save);
+				 Ext.bind(this.save, this, []));
 		
 		this._usersActions.setVisible(false);
 		
@@ -567,7 +578,7 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 	{
 		// Create group
 		var result = Ametys.data.ServerComm.send(this.pluginName, "/administrator/groups/create", { name: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_NEWGROUP"/>" }, Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
-	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_NEW_ERROR"/>", result, "Ametys.plugins.core.administration.Groups._editGroupLabel"))
+	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_NEW_ERROR"/>", result, "Ametys.plugins.core.administration.Groups.add"))
 	    {
 	       return false;
 	    }
