@@ -88,6 +88,10 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 	 */
 	/**
 	 * @private
+	 * @property {Ext.grid.Panel} _logs The logs grid
+	 */
+	/**
+	 * @private
 	 * @property {Ext.Container} _contextualPanel The right panel
 	 */
 	/**
