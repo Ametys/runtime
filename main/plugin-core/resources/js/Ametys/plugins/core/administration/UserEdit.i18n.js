@@ -47,7 +47,7 @@ Ext.define('Ametys.plugins.core.administration.UserEdit', {
 	},
 
 	/**
-	 * Initialize for good the dialog box. Only the first call will be effective (since the {@link initialize} property will be set.
+	 * Initialize for good the dialog box. Only the first call will be effective (since the {@link #initialize} property will be set.
 	 * @private
 	 */
 	delayedInitialize: function()
@@ -113,7 +113,7 @@ Ext.define('Ametys.plugins.core.administration.UserEdit', {
 
 	/**
 	 * Effectively opens the dialog box
-	 * @param {Object} params Necessary key is 'mode' that can be 'new' or 'edit'. If 'new', all fields will be clear else 'login' field will be grayed and all fields value will be taken from the {@link plugin} pipeline '/users/info'.
+	 * @param {Object} params Necessary key is 'mode' that can be 'new' or 'edit'. If 'new', all fields will be clear else 'login' field will be grayed and all fields value will be taken from the {@link #plugin} pipeline '/users/info'.
 	 * @param {Function} callback The callback function when everything is fine.
 	 * @param {String} callback.login The login of the user.
 	 * @param {String} callback.firstname The firstname of the user. Can be empty.

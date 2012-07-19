@@ -47,15 +47,15 @@ Ext.define('Ametys.plugins.core.administration.System', {
 	 */
 	/**
 	 * @private
-	 * @property {String} _mode The current mode when opening the edition dialog box {@link box}. Can be 'new' or 'edit'.
+	 * @property {String} _mode The current mode when opening the edition dialog box {@link #box}. Can be 'new' or 'edit'.
 	 */
 	/**
 	 * @private
-	 * @property {Boolean} _initialized Determine if the dialog box {@link box} for editing announce is initialized
+	 * @property {Boolean} _initialized Determine if the dialog box {@link #box} for editing announce is initialized
 	 */
 	/**
 	 * @private
-	 * @property {Ext.form.Panel} _form The form panel in the dialog box {@link box} for editing
+	 * @property {Ext.form.Panel} _form The form panel in the dialog box {@link #box} for editing
 	 */
 	/**
 	 * @private

@@ -306,11 +306,11 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 	/**
 	 * @private
 	 * Listener on save button
-	 * @param {String} button If 'yes' will save effectively by calling {@link save}
+	 * @param {String} button If 'yes' will save effectively by calling {@link #save}
 	 * @param {String} text undefined
 	 * @param {Object} opt Options given as arfs
 	 * @param {Ext.data.Model} group The group optionnaly for save
-	 * @param {String} group The objects optionnaly for save
+	 * @param {String} objects The objects optionnaly for save
 	 */
 	_saveConfirm: function (button, text, opt, group, objects)
 	{
