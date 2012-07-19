@@ -109,6 +109,14 @@ public class AllJSReader extends ServiceableReader implements CacheableProcessin
     @Override
     public void generate() throws IOException, SAXException, ProcessingException
     {
+        Request request = ObjectModelHelper.getRequest(objectModel);
+        
+        String contextPath = _allJSComponent.getContextPath();
+        if (contextPath == null)
+        {
+            contextPath = request.getContextPath();
+        }
+        
         StringBuffer sb = new StringBuffer("");
         
         List<String> jsFiles = _allJSComponent.getJSFilesList(source);
@@ -116,7 +124,7 @@ public class AllJSReader extends ServiceableReader implements CacheableProcessin
         {
             for (String jsFile : jsFiles)
             {
-                sb.append(_handleFile(jsFile));
+                sb.append(_handleFile(jsFile, contextPath));
             }
         } 
              
@@ -124,10 +132,8 @@ public class AllJSReader extends ServiceableReader implements CacheableProcessin
         IOUtils.closeQuietly(out);
     }
     
-    private String _handleFile(String jsFile)
+    private String _handleFile(String jsFile, String contextPath)
     {
-        Request request = ObjectModelHelper.getRequest(objectModel);
-        
         StringBuffer sb = new StringBuffer();
         
         boolean importMode = parameters.getParameterAsBoolean("import", false);
@@ -136,7 +142,7 @@ public class AllJSReader extends ServiceableReader implements CacheableProcessin
         
         if (importMode)
         {
-            sb.append("document.write(\"<script type='text/javascript' src='" + request.getContextPath() + org.apache.cocoon.util.NetUtils.normalize(jsFile) + "'><!-- import --></script>\");\n");
+            sb.append("document.write(\"<script type='text/javascript' src='" + contextPath + org.apache.cocoon.util.NetUtils.normalize(jsFile) + "'><!-- import --></script>\");\n");
         }
         else
         {
