@@ -36,3 +36,9 @@
     margin-left: 0px;
     padding: 0px 0px 0px 20px;
 }
+
+#list-view-groups-splitter 
+{
+    padding-top: 20px;
+    background : url(../../img/administrator/groups/splitbar.png) top center no-repeat;
+}
