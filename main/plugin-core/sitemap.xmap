@@ -28,23 +28,15 @@
             <map:generator name="administrator-system" src="org.ametys.runtime.plugins.core.administrator.system.SystemGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.system" label="content"/>
             <map:generator name="administrator-system-announcement" src="org.ametys.runtime.plugins.core.administrator.system.SystemAnnouncementGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.systemannouncement" label="content"/>
             <map:generator name="administrator-startuptime" src="org.ametys.runtime.plugins.core.administrator.system.StartupTimeGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.startuptime" label="content"/>
-        
-			<map:generator name="users-view" src="org.ametys.runtime.plugins.core.user.ui.generators.ViewGenerator" logger="org.ametys.runtime.plugins.core.user.sitemap.generator.view" label="content"/>
+            <map:generator name="administrator-rights-profiles-view" src="org.ametys.runtime.plugins.core.right.profile.generators.ProfilesGenerator" logger="org.ametys.runtime.plugins.core.right.profile.sitemap.generator.view" label="content"/>
+            <map:generator name="administrator-users-info" src="org.ametys.runtime.plugins.core.user.ui.generators.UserInformationGenerator" logger="org.ametys.runtime.plugins.core.user.sitemap.generator.detail" label="content"/>
+			<map:generator name="administrator-users-view" src="org.ametys.runtime.plugins.core.user.ui.generators.ViewGenerator" logger="org.ametys.runtime.plugins.core.user.sitemap.generator.view" label="content"/>
+            <map:generator name="administrator-users-model" src="org.ametys.runtime.plugins.core.user.ui.generators.ModelGenerator" logger="org.ametys.runtime.plugins.core.user.sitemap.generator.model" label="content"/>
+			<map:generator name="administrator-groups-view" src="org.ametys.runtime.plugins.core.group.ui.generators.GroupsGenerator" logger="org.ametys.runtime.plugins.core.group.sitemap.generator.view" label="content"/>
+            <map:generator name="administrator-group-members" src="org.ametys.runtime.plugins.core.group.ui.generators.GroupMembersGenerator" logger="org.ametys.runtime.plugins.core.group.sitemap.generator.members" label="content"/>
+			
             <map:generator name="users-search" src="org.ametys.runtime.plugins.core.user.ui.generators.SearchGenerator" logger="org.ametys.runtime.plugins.core.user.sitemap.generator.search" label="content"/>
-            <map:generator name="users-info" src="org.ametys.runtime.plugins.core.user.ui.generators.UserInformationGenerator" logger="org.ametys.runtime.plugins.core.user.sitemap.generator.detail" label="content"/>
-            <map:generator name="users-model" src="org.ametys.runtime.plugins.core.user.ui.generators.ModelGenerator" logger="org.ametys.runtime.plugins.core.user.sitemap.generator.model" label="content"/>
-			
-			<map:generator name="groups-view" src="org.ametys.runtime.plugins.core.group.ui.generators.GroupsGenerator" logger="org.ametys.runtime.plugins.core.group.sitemap.generator.view" label="content"/>
             <map:generator name="groups-search" src="org.ametys.runtime.plugins.core.group.ui.generators.SearchGenerator" logger="org.ametys.runtime.plugins.core.group.sitemap.generator.search" label="content"/>
-            <map:generator name="group-members" src="org.ametys.runtime.plugins.core.group.ui.generators.GroupMembersGenerator" logger="org.ametys.runtime.plugins.core.group.sitemap.generator.members" label="content"/>
-			
-			<map:generator name="rights-profiles-context" src="org.ametys.runtime.plugins.core.right.profile.generators.ProfilesByContextGenerator" logger="org.ametys.runtime.plugins.core.right.profile.sitemap.generator" label="content"/>
-			<map:generator name="rights-profile-rights" src="org.ametys.runtime.plugins.core.right.profile.generators.ProfileRightsGenerator" logger="org.ametys.runtime.plugins.core.right.profile.sitemap.generator" label="content"/>
-			<map:generator name="rights-profiles-view" src="org.ametys.runtime.plugins.core.right.profile.generators.ProfilesGenerator" logger="org.ametys.runtime.plugins.core.right.profile.sitemap.generator.view" label="content"/>
-            <map:generator name="rights-profiles-list" src="org.ametys.runtime.plugins.core.right.ui.generators.ProfilesListGenerator" logger="org.ametys.runtime.plugins.core.right.sitemap.generator.profiles" label="content"/>
-           	<map:generator name="rights-rights-list" src="org.ametys.runtime.plugins.core.right.ui.generators.RightsListGenerator" logger="org.ametys.runtime.plugins.core.right.sitemap.generator.profiles" label="content"/>
-            <map:generator name="rights-profile-assignment" src="org.ametys.runtime.plugins.core.right.ui.generators.ProfileAssignationGenerator" logger="org.ametys.runtime.plugins.core.right.sitemap.generator.assignment" label="content"/>
-            <map:generator name="rights-context-application" src="org.ametys.runtime.plugins.core.right.ui.generators.ApplicationContextGenerator" logger="org.ametys.runtime.plugins.core.right.sitemap.generator.context.application" label="content"/>
             
         	<map:generator name="dispatcher" src="org.ametys.runtime.plugins.core.dispatcher.DispatchGenerator"/>
         	<map:generator name="i18n" src="org.ametys.runtime.util.I18nGenerator" logger="org.ametys.runtime.util.I18nGenerator"/>
@@ -67,23 +59,18 @@
             <map:action name="administrator-change-plugins" src="org.ametys.runtime.plugins.core.administrator.plugins.ChangePlugins" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.changePlugins"/>
 			<map:action name="administrator-affect-superuser" src="org.ametys.runtime.plugins.core.administrator.superuser.AffectSuperUserAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.superUser"/>
 			<map:action name="administrator-restart" src="org.ametys.runtime.plugins.core.administrator.RestartAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.restart"/>
-			
-			<map:action name="users-edit" src="org.ametys.runtime.plugins.core.user.ui.actions.EditAction" logger="org.ametys.runtime.plugins.core.user.sitemap.action.edit"/>
-			<map:action name="users-delete" src="org.ametys.runtime.plugins.core.user.ui.actions.DeleteAction" logger="org.ametys.runtime.plugins.core.user.sitemap.action.delete"/>
-			<map:action name="users-impersonate" src="org.ametys.runtime.plugins.core.user.ui.actions.ImpersonateAction" logger="org.ametys.runtime.plugins.core.user.sitemap.action.impersonate"/>
-			
-			<map:action name="group-create" src="org.ametys.runtime.plugins.core.group.ui.actions.CreateGroupAction" logger="org.ametys.runtime.plugins.core.group.sitemap.action.create"/>
-			<map:action name="group-rename" src="org.ametys.runtime.plugins.core.group.ui.actions.RenameGroupAction" logger="org.ametys.runtime.plugins.core.group.sitemap.action.rename"/>
-			<map:action name="group-modify" src="org.ametys.runtime.plugins.core.group.ui.actions.UpdateGroupAction" logger="org.ametys.runtime.plugins.core.group.sitemap.action.update"/>
-			<map:action name="group-modify-users" src="org.ametys.runtime.plugins.core.group.ui.actions.UpdateUsersGroupAction" logger="org.ametys.runtime.plugins.core.group.sitemap.action.update"/>
-			<map:action name="group-delete" src="org.ametys.runtime.plugins.core.group.ui.actions.DeleteGroupAction" logger="org.ametys.runtime.plugins.core.group.sitemap.action.delete"/>
-			
-			<map:action name="rights-profile-create" src="org.ametys.runtime.plugins.core.right.profile.actions.CreateProfileAction" logger="org.ametys.runtime.plugins.core.right.profile.sitemap.action.view"/>
-			<map:action name="rights-profile-rename" src="org.ametys.runtime.plugins.core.right.profile.actions.RenameProfileAction" logger="org.ametys.runtime.plugins.core.right.profile.sitemap.action.view"/>
-			<map:action name="rights-profile-modify" src="org.ametys.runtime.plugins.core.right.profile.actions.ModifyProfileAction" logger="org.ametys.runtime.plugins.core.right.profile.sitemap.action.view"/>
-			<map:action name="rights-profile-delete" src="org.ametys.runtime.plugins.core.right.profile.actions.DeleteProfileAction" logger="org.ametys.runtime.plugins.core.right.profile.sitemap.action.view"/>
-            <map:action name="rights-assign" src="org.ametys.runtime.plugins.core.right.ui.actions.AssignAction" logger="org.ametys.runtime.plugins.core.right.sitemap.action.assign"/>
-            <map:action name="rights-remove" src="org.ametys.runtime.plugins.core.right.ui.actions.RemoveAction" logger="org.ametys.runtime.plugins.core.right.sitemap.action.remove"/>
+			<map:action name="administrator-users-edit" src="org.ametys.runtime.plugins.core.user.ui.actions.EditAction" logger="org.ametys.runtime.plugins.core.user.sitemap.action.edit"/>
+			<map:action name="administrator-users-delete" src="org.ametys.runtime.plugins.core.user.ui.actions.DeleteAction" logger="org.ametys.runtime.plugins.core.user.sitemap.action.delete"/>
+			<map:action name="administrator-users-impersonate" src="org.ametys.runtime.plugins.core.user.ui.actions.ImpersonateAction" logger="org.ametys.runtime.plugins.core.user.sitemap.action.impersonate"/>
+			<map:action name="administrator-group-create" src="org.ametys.runtime.plugins.core.group.ui.actions.CreateGroupAction" logger="org.ametys.runtime.plugins.core.group.sitemap.action.create"/>
+			<map:action name="administrator-group-rename" src="org.ametys.runtime.plugins.core.group.ui.actions.RenameGroupAction" logger="org.ametys.runtime.plugins.core.group.sitemap.action.rename"/>
+			<map:action name="administrator-group-modify" src="org.ametys.runtime.plugins.core.group.ui.actions.UpdateGroupAction" logger="org.ametys.runtime.plugins.core.group.sitemap.action.update"/>
+			<map:action name="administrator-group-modify-users" src="org.ametys.runtime.plugins.core.group.ui.actions.UpdateUsersGroupAction" logger="org.ametys.runtime.plugins.core.group.sitemap.action.update"/>
+			<map:action name="administrator-group-delete" src="org.ametys.runtime.plugins.core.group.ui.actions.DeleteGroupAction" logger="org.ametys.runtime.plugins.core.group.sitemap.action.delete"/>
+			<map:action name="administrator-rights-profile-create" src="org.ametys.runtime.plugins.core.right.profile.actions.CreateProfileAction" logger="org.ametys.runtime.plugins.core.right.profile.sitemap.action.view"/>
+			<map:action name="administrator-rights-profile-rename" src="org.ametys.runtime.plugins.core.right.profile.actions.RenameProfileAction" logger="org.ametys.runtime.plugins.core.right.profile.sitemap.action.view"/>
+			<map:action name="administrator-rights-profile-modify" src="org.ametys.runtime.plugins.core.right.profile.actions.ModifyProfileAction" logger="org.ametys.runtime.plugins.core.right.profile.sitemap.action.view"/>
+			<map:action name="administrator-rights-profile-delete" src="org.ametys.runtime.plugins.core.right.profile.actions.DeleteProfileAction" logger="org.ametys.runtime.plugins.core.right.profile.sitemap.action.view"/>
             
             <map:action name="upload-store" src="org.ametys.runtime.plugins.core.upload.actions.UploadAction" logger="org.ametys.runtime.plugins.core.upload.actions.UploadAction"/>
             
@@ -457,14 +444,14 @@
             </map:match>
                 
             <map:match pattern="administrator/users/info">
-                <map:generate type="users-info" src="{request-param:login}">
+                <map:generate type="administrator-users-info" src="{request-param:login}">
                 	<map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
                 </map:generate>
                 <map:serialize type="xml"/>
             </map:match>
             
             <map:match pattern="administrator/users/edit">
-                <map:act type="users-edit">
+                <map:act type="administrator-users-edit">
                 	<map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
                 	
                     <map:generate type="action-result">
@@ -477,7 +464,7 @@
             </map:match>
             
             <map:match pattern="administrator/users/delete">
-                <map:act type="users-delete">
+                <map:act type="administrator-users-delete">
                 	<map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
                 	
                     <map:generate type="action-result"/>
@@ -488,7 +475,7 @@
             </map:match>
             
             <map:match pattern="administrator/users/impersonate">
-                <map:act type="users-impersonate">
+                <map:act type="administrator-users-impersonate">
                 	<map:parameter name="login" value="{request-param:login}"/>
                 
                     <map:generate type="action-result">
@@ -503,7 +490,7 @@
             </map:match>
             
             <map:match pattern="administrator/users/view.html">
-				<map:generate type="users-view"/>
+				<map:generate type="administrator-users-view"/>
 				<map:transform type="i18n">
                     <map:parameter name="locale" value="{locale:locale}"/>
                     <map:parameter name="plugin" value="{request-attr:pluginName}"/>
@@ -520,7 +507,7 @@
 			</map:match>
 			
 			<map:match pattern="administrator/users-model">
-                <map:generate type="users-model">
+                <map:generate type="administrator-users-model">
                 	<map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
                 </map:generate>
                 <map:transform type="i18n">
@@ -543,7 +530,7 @@
             </map:match>
                 
             <map:match pattern="administrator/groups/create">
-                <map:act type="group-create">
+                <map:act type="administrator-group-create">
                     <map:generate type="action-result">
                         <map:parameter name="id" value="{id}"/>
                     </map:generate>
@@ -552,7 +539,7 @@
             </map:match>
             
             <map:match pattern="administrator/groups/rename">
-                <map:act type="group-rename">
+                <map:act type="administrator-group-rename">
                     <map:generate type="action-result">
                         <map:parameter name="message" value="{message}"/>
                     </map:generate>
@@ -561,14 +548,14 @@
             </map:match>
             
             <map:match pattern="administrator/groups/delete">
-                <map:act type="group-delete">
+                <map:act type="administrator-group-delete">
                     <map:generate type="action-result"/>
                     <map:serialize type="xml"/>
                 </map:act>
             </map:match>
             
             <map:match pattern="administrator/groups/modify">
-                <map:act type="group-modify">
+                <map:act type="administrator-group-modify">
                     <map:generate type="action-result">
                         <map:parameter name="message" value="{message}"/>
                     </map:generate>
@@ -577,7 +564,7 @@
             </map:match>
             
             <map:match pattern="administrator/groups/add-users">
-                <map:act type="group-modify-users">
+                <map:act type="administrator-group-modify-users">
                 	<map:parameter name="add" value="true"/>
                     <map:generate type="action-result">
                         <map:parameter name="message" value="{message}"/>
@@ -587,7 +574,7 @@
             </map:match>
             
              <map:match pattern="administrator/groups/remove-users">
-                <map:act type="group-modify-users">
+                <map:act type="administrator-group-modify-users">
                 	<map:parameter name="add" value="false"/>
                     <map:generate type="action-result">
                         <map:parameter name="message" value="{message}"/>
@@ -597,12 +584,12 @@
             </map:match>
             
             <map:match pattern="administrator/groups/members">
-				<map:generate type="group-members" src="{request-param:groupID}"/>
+				<map:generate type="administrator-group-members" src="{request-param:groupID}"/>
                 <map:serialize type="xml"/>
             </map:match>
             
 			<map:match pattern="administrator/groups/view.html">
-				<map:generate type="groups-view"/>
+				<map:generate type="administrator-groups-view"/>
 				<map:transform src="pages/administrator/groups/view.xsl" type="xslt">
                     <map:parameter name="contextPath" value="{request:contextPath}"/>
                     <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
@@ -613,8 +600,8 @@
 			<!-- +
                  | Rights
                  + -->
-			<map:match pattern="rights/profiles/create">
-				<map:act type="rights-profile-create">
+			<map:match pattern="administrator/rights/profiles/create">
+				<map:act type="administrator-rights-profile-create">
 					<map:generate type="action-result">
 						<map:parameter name="id" value="{id}"/>
 					</map:generate>
@@ -622,8 +609,8 @@
 				</map:act>
 			</map:match>
 			
-			<map:match pattern="rights/profiles/rename">
-				<map:act type="rights-profile-rename">
+			<map:match pattern="administrator/rights/profiles/rename">
+				<map:act type="administrator-rights-profile-rename">
 					<map:generate type="action-result">
 						<map:parameter name="message" value="{message}"/>
 					</map:generate>
@@ -631,8 +618,8 @@
 				</map:act>
 			</map:match>
 			
-			<map:match pattern="rights/profiles/modify">
-				<map:act type="rights-profile-modify">
+			<map:match pattern="administrator/rights/profiles/modify">
+				<map:act type="administrator-rights-profile-modify">
 					<map:generate type="action-result">
 						<map:parameter name="message" value="{message}"/>
 					</map:generate>
@@ -640,15 +627,15 @@
 				</map:act>
 			</map:match>
 			
-			<map:match pattern="rights/profiles/delete">
-				<map:act type="rights-profile-delete">
+			<map:match pattern="administrator/rights/profiles/delete">
+				<map:act type="administrator-rights-profile-delete">
 					<map:generate type="action-result"/>
 					<map:serialize type="xml"/>
 				</map:act>
 			</map:match>
 			
-            <map:match pattern="rights/profiles/view.html">
-                <map:generate type="rights-profiles-view"/>
+            <map:match pattern="administrator/rights/profiles/view.html">
+                <map:generate type="administrator-rights-profiles-view"/>
                 <map:transform src="pages/rights/profiles/view.xsl" type="xslt">
                     <map:parameter name="contextPath" value="{request:contextPath}"/>
                     <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
@@ -658,85 +645,6 @@
                 <map:serialize type="xml"/>
             </map:match>
             
-            
-            <!-- *** -->
-            
-            <!--<map:match pattern="rights/**">
-                <map:act type="has-not-right" src="Runtime_Rights_Rights_Handle"/>
-            </map:match>-->
-            
-            
-            <map:match pattern="rights/profiles.xml">
-                <map:generate type="rights-profiles-list"/>
-                <map:serialize type="xml"/>
-            </map:match>
-            
-            <map:match pattern="rights/profiles-context.xml">
-				<map:generate type="rights-profiles-context"/>
-				<map:serialize type="xml"/>
-			</map:match>
-			
-			<map:match pattern="rights/profile.xml">
-				<map:generate type="rights-profile-rights"/>
-				<map:transform src="pages/profiles/rights.xsl"/>
-				<map:transform type="i18n">
-					<map:parameter name="locale" value="{locale:locale}"/>
-					<map:parameter name="default-catalogue-id" value="plugin.core"/>
-				</map:transform>
-				<map:serialize type="xml"/>
-			</map:match>
-            
-            <map:match pattern="rights/rights.xml">
-                <map:generate type="rights-rights-list"/>
-                <map:transform type="xslt" src="pages/rights/profiles/rights.xsl"/>
-                <map:transform type="i18n">
-					<map:parameter name="locale" value="{locale:locale}"/>
-					<map:parameter name="default-catalogue-id" value="plugin.core"/>
-				</map:transform>
-                <map:serialize type="xml"/>
-            </map:match>
-
-            <map:match pattern="rights/rightcontext-application.xml">
-                <map:generate type="rights-context-application"/>
-                <map:transform type="xslt" src="pages/rights/contexts/application.xsl">
-                    <map:parameter name="contextPath" value="{request:contextPath}"/>
-                    <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
-                </map:transform>
-                <map:serialize type="xml"/>
-            </map:match>
-            
-            <map:match pattern="rights/view.html">
-                <map:aggregate element="ViewRights" label="xml">
-                    <map:part src="cocoon:/rights/profiles.xml"/>
-                    <map:part src="cocoon:/rights/rightcontext-application.xml"/>
-                </map:aggregate>
-                <map:transform type="xslt" src="pages/rights/view.xsl">
-                    <map:parameter name="defaultRightContext" value="Application"/>
-                    <map:parameter name="contextPath" value="{request:contextPath}"/>
-                    <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
-                </map:transform>
-                <map:serialize/>
-            </map:match>
-            
-            <map:match pattern="rights/profile-assignment.xml">
-                <map:generate type="rights-profile-assignment"/>
-                <map:serialize type="xml"/>
-            </map:match>
-            
-            <map:match pattern="rights/assign">
-                <map:act type="rights-assign">
-                    <map:generate type="action-result"/>
-                    <map:serialize type="xml"/>
-                </map:act>
-            </map:match>
-
-            <map:match pattern="rights/remove">
-                <map:act type="rights-remove">
-                    <map:generate type="action-result"/>
-                    <map:serialize type="xml"/>
-                </map:act>
-            </map:match>
-			
 			<!-- +
                  | Uploads
                  + -->
