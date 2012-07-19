@@ -7,6 +7,8 @@ Pour les fields, utiliser les normaux avec "ametysDescription" pour l'aide, + cl
 	Pour le long utiliser allowDecimals = false
 	Pour le boolean utiliser CheckBoxField
 	pour le double utiliser NumberField
+
+Attention, quand on chope un élement de formulaire par son id, on chope la table englobante. Bien faire Ext.getCmp (et pas Ext.get)
 	
 Pour les masks new Ext.LoadMask(a, {msgCls: 'ametys-mask-unloading'}).show();
 
