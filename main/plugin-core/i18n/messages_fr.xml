@@ -468,6 +468,7 @@
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_RIGHTS">Droits associés</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_DESCRIPTION">Gestion des groupements de droits</message>
     <message key="PLUGINS_CORE_RIGHTS_PROFILES_LABELLONG">Gestion des profils de droits</message>
+    <message key="PLUGINS_CORE_RIGHTS_SELECT_HANDLE_CATEGORY">Droits</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_CATEGORY">Gestion des profils</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_CREATE">Créer un nouveau profil</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_VALIDATE">Valider les modifications</message>

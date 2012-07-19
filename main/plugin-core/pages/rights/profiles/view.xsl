@@ -397,7 +397,7 @@
 							_Category.hideElt(3);
 							
 							// Utils
-							var _utilsCategory = new org.ametys.ActionsPanel({title: 'Droits'});
+							var _utilsCategory = new org.ametys.ActionsPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_SELECT_HANDLE_CATEGORY"/>});
 							_utilsCategory.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_SELECT_ALL"/>", "<xsl:value-of select="$resourcesPath"/>/img/rights/profiles/select_all.png", select_all);
 							_utilsCategory.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_UNSELECT_ALL"/>", "<xsl:value-of select="$resourcesPath"/>/img/rights/profiles/unselect_all.png", unselect_all);
 							_utilsCategory.setVisible(false);
