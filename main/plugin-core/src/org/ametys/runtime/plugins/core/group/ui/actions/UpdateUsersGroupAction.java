@@ -82,29 +82,26 @@ public class UpdateUsersGroupAction extends CurrentUserProviderServiceableAction
         Group ug = mgm.getGroup(groupId);
         if (ug == null)
         {
-            if (ug == null)
+            if (getLogger().isWarnEnabled())
             {
-                if (getLogger().isWarnEnabled())
+                String userMessage = null;
+                String endMessage = "is modifying a group '" + groupId + "' but the group does not exists.";
+                if (_isSuperUser())
                 {
-                    String userMessage = null;
-                    String endMessage = "is modifying a group '" + groupId + "' but the group does not exists.";
-                    if (_isSuperUser())
-                    {
-                        userMessage = "Administrator";
-                    }
-                    else
-                    {
-                        String currentUserLogin = _getCurrentUser();
-                        userMessage = "User '" + currentUserLogin + "'";
-                    }
-                    
-                    getLogger().warn(userMessage + " " + endMessage);
+                    userMessage = "Administrator";
+                }
+                else
+                {
+                    String currentUserLogin = _getCurrentUser();
+                    userMessage = "User '" + currentUserLogin + "'";
                 }
                 
-                Map<String, String> result = new HashMap<String, String>();
-                result.put("message", "missing");
-                return result;
+                getLogger().warn(userMessage + " " + endMessage);
             }
+            
+            Map<String, String> result = new HashMap<String, String>();
+            result.put("message", "missing");
+            return result;
         }
         else
         {
