@@ -99,17 +99,9 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
             newEntry.commit();
         }
         
-		this.listview.getStore().addSorted([newEntry]);
-        
-		if(this.listview.getStore().getCount() &gt; 0)
-		{
-			this.listview.getSelectionModel().select(this.listview.getStore().getCount() -1, 0);
-		}
-		else
-		{
-			this.listview.getSelectionModel().select(0, 0);
-		}
-        selectedElmt = newEntry;
+		this.listview.getStore().addSorted(newEntry);
+		this.listview.getSelectionModel().setCurrentPosition({row: this.listview.getStore().indexOf(newEntry), column: 0});
+		this.listview.getSelectionModel().select([newEntry]);
 		
 		this.rename();
 	},
@@ -299,17 +291,17 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 	 */
 	onSelectProfile: function()
 	{
-		if (this.selectedElmt != null &amp;&amp; this.hasChanges)
+		if (this._selectedElmt != null &amp;&amp; this.hasChanges)
 		{
-			Ext.Msg.confirm ("<i18n:text i18n:key="PLUGINS_CORE_SAVE_DIALOG_TITLE"/>", "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_CONFIRM"/>", Ext.bind(this.saveObjectConfirm, this, this.selectedElmt, true));
+			Ext.Msg.confirm ("<i18n:text i18n:key="PLUGINS_CORE_SAVE_DIALOG_TITLE"/>", "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_CONFIRM"/>", Ext.bind(this.saveObjectConfirm, this, this._selectedElmt, true));
 		}
 		
 		this._Category.showElt(1);
 		this._Category.hideElt(2);
 		this._Category.showElt(3);
 		
-		var elmt = this.listview.getSelection()[0];
-		this.selectedElmt = elmt; 
+		var elmt = this.listview.getSelectionModel().getSelection()[0];
+		this._selectedElmt = elmt; 
 		var rights = elmt.get('rights') || {};
 		
 		for (var i=0; i &lt; RIGHTS_CATEGORY.length; i++)
@@ -404,7 +396,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 			    }
 				else 
 				{
-					var state = Ext.dom.Query("*/message", result); 
+					var state = Ext.dom.Query.selectValue("*/message", result); 
 					if (state != null &amp;&amp; state == "missing")
 					{
 						Ametys.log.ErrorDialog.display("<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>", "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_RENAME_MISSING_ERROR"/>", "State is missing", "Ametys.plugins.core.administration.Logs.editLabel");
@@ -423,11 +415,11 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 	 */
 	selectLayout: function()
 	{
-		if (this.selectedElmt != null &amp;&amp; this.hasChanges &amp;&amp; this.item1.pressed)
+		if (this._selectedElmt != null &amp;&amp; this.hasChanges &amp;&amp; this.item1.pressed)
 		{
-			Ext.Msg.confirm ("<i18n:text i18n:key="PLUGINS_CORE_SAVE_DIALOG_TITLE"/>", "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_CONFIRM"/>", Ext.bind(this.saveObjectConfirm, this, this.selectedElmt, true));
+			Ext.Msg.confirm ("<i18n:text i18n:key="PLUGINS_CORE_SAVE_DIALOG_TITLE"/>", "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_CONFIRM"/>", Ext.bind(this.saveObjectConfirm, this, this._selectedElmt, true));
 		}
-		var rights = this.selectedElmt != null ? this.selectedElmt.get('rights') : {};
+		var rights = this._selectedElmt != null ? this._selectedElmt.get('rights') : {};
 		
 		// Updating view depending upon selected profile
 		if (this.item1.pressed)
@@ -466,9 +458,9 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 				var rightElmt = Ext.getCmp(RIGHTS_ID[i]);
 				rightElmt.removeListener('check', needSave);
 				var id = rightElmt.getName();
-				rightElmt.setDisabled(selectedElmt == null);
+				rightElmt.setDisabled(this._selectedElmt == null);
 				rightElmt.setValue(rights[id] != null);
-				rightElmt.addListener('check', needSave);
+				rightElmt.addListener('check', Ext.bind(needSave, this));
 			}
 			this._utilsCategory.setVisible(true);
 		}
@@ -504,7 +496,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 		this._Category.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_CREATE"/>", Ametys.getPluginResourcesPrefix('core') + "/img/administrator/profiles/new.png", Ext.bind(this.createProfile, this));
 		this._Category.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_RENAME"/>", Ametys.getPluginResourcesPrefix('core') + "/img/administrator/profiles/rename.png", Ext.bind(this.rename, this));
 		this._Category.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_VALIDATE"/>", Ametys.getPluginResourcesPrefix('core') + "/img/administrator/profiles/validate.png", Ext.bind(this.saveObjects, this));
-		this._Category.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_DELETE"/>", Ametys.getPluginResourcesPrefix('core') + "/img/administrator/profiles/delete.png", Ext.bind(this.menuRemove, this));
+		this._Category.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_DELETE"/>", Ametys.getPluginResourcesPrefix('core') + "/img/administrator/profiles/delete.png", Ext.bind(this.remove, this));
 		this._Category.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_QUIT"/>", Ametys.getPluginResourcesPrefix('core') + "/img/administrator/profiles/quit.png", Ext.bind(this.goBack, this));
 		
 		this._Category.hideElt(1);
@@ -572,8 +564,8 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 		    ],
 			
 			listeners: {
-				'select': Ext.bind(this.onSelectProfil, true), 
-				'validateedit': Ext.bind(this.validateEdit, true)						
+				'select': Ext.bind(this.onSelectProfile, this), 
+				'validateedit': Ext.bind(this.validateEdit, this)						
 		    }
 		});	
 		
