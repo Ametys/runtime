@@ -71,6 +71,13 @@
 									title : "<xsl:copy-of select="$categoryKey/*"/>",
 									layout: 'form',
 									
+ 	                                collapsible: true,
+	                                titleCollapse: true,
+	                                hideCollapseTool: true,
+	                                
+	                                border: false,
+	                                shadow: false,
+                                
 									id: "cat_<xsl:value-of select="$category"/>_edit",
 									cls : "ametys-tbar-fieldset",
 									
@@ -93,7 +100,12 @@
 							// READ ITEM
 							var cat_<xsl:value-of select="$category"/>_read = new Ext.form.FieldSet({
 								title : "<xsl:copy-of select="$categoryKey/*"/>",
-								layout: 'form',
+					            collapsible: true,
+					            titleCollapse: true,
+					            hideCollapseTool: true,
+					            
+					            border: false,
+					            shadow: false,
 								id: "cat_<xsl:value-of select="$category"/>_read",
 								cls: 'fieldset'
 							});

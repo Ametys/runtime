@@ -470,7 +470,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 	
 	/**
 	 * Entry point to create the main panel
-	 * @params {Ext.form.field.Field[]} readItems The form items for read panel
+	 * @params {Ext.Container[]} readItems The form items for read panel
 	 * @params {Ext.form.field.Field[]} editItems The form items for edit panel
 	 */
 	createPanel: function(readItems, editItems) 

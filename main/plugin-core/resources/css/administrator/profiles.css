@@ -50,6 +50,15 @@
     clear: left;
 }
 
+#profile-read-panel-body .x-field,
+#profile-read-panel-body .x-container, 
+#profile-edit-panel-body .x-field,
+#profile-edit-panel-body .x-container,
+fieldset
+{
+    margin-bottom: 0px !important;
+}
+
 .profile-checkbox {
     width: 180px;
     float:left;
@@ -61,70 +70,51 @@
     margin-bottom: 0px !important;
 }
 
-.profile-read-panel-header, .profile-edit-panel-header {
-    font-weight: bold;
-    color: #1C58A0;
-    font-size: 1.2em;
-    padding: 0px 0px 5px 15px;
+
+
+
+.x-form-layout-table
+{
+	border-spacing: 0 !important;
+	border-collapse: collapse !important;
 }
 
-.profile-read-panel-body, .profile-edit-panel-body {
-    padding-left: 4px;
+
+
+legend .x-fieldset-header-text {
+	color: #602852;
 }
 
 
-
-/** Rights on profile */
-.rights-fieldset {
-    clear: left;
+legend .x-tool .x-tool-toggle,
+legend .x-tool-over .x-tool-toggle
+{
+    background: transparent url('../../img/administrator/profiles/group-expand-sprite-2.png') no-repeat scroll 3px -50px;
 }
-
-.rights-fieldset-header {
-    background : none !important;
-    border: 0 none !important;
-    margin-left: 10px;
-    padding :5px 3px 4px 0px !important;
-    font-size: 11px !important;
-    font-weight: bold !important;
-    color: #111 !important;
-    font-family: arial,sans-serif !important;
+.x-fieldset-collapsed {
+	border-width: 0px !important;
 }
-
-.x-panel-collapsed .rights-fieldset-header {
-    border: 0 none !important;
-}
-
-.rights-fieldset-header span {
-    padding-left : 6px;
-}
-
-.rights-fieldset-header .x-tool-toggle {
-    background-position:3px -48px !important;
-}
-
-.x-panel-collapsed .rights-fieldset-header .x-tool-toggle {
-    background-position:3px 2px !important;
-}
-
-.rights-fieldset-header .x-tool {
-    background: transparent url('../../img/rights/profiles/group-expand-sprite.png') no-repeat scroll 0 0;
-    cursor:pointer;
-    float:left !important;
-    height:15px;
-    margin-left:0px !important;
-    margin-right:3px !important;
-    overflow:hidden;
-    width:15px;
+.x-fieldset-collapsed legend .x-tool .x-tool-toggle,
+.x-fieldset-collapsed legend .x-tool-over .x-tool-toggle
+{
+    background-position: 3px 0;
 }
 
 .right-entry, .check-right-entry {
-    font-family: arial, sans-serif !important;
-    padding: 5px 0 5px 5px;
-    float:left;
-    white-space: nowrap;
-    font-size: 11px;
     color: #111111;
+    font-family: arial, sans-serif !important;
+    font-size: 11px;
+    white-space: nowrap;
+    
+    float:left;
+    padding: 5px 0 5px 5px;
     margin-left: 5px;
+    margin-right: 0 !important;
+}
+.check-right-entry {
+	line-height: 15px;
+	padding-top: 1px;
+    padding-bottom: 4px;
 }
 
 .right-entry-img, .check-right-entry-img {
@@ -137,6 +127,8 @@
 .right-entry-text {
     float:left;
 }
+
+
 
 .ametys-fieldset-body .x-form-check-wrap,
 .rights-fieldset-body .x-form-check-wrap {
