@@ -1709,15 +1709,15 @@
                     This extensions display the profile screen
                  -->
                 <action class="redirect">
-					<param name="Link">administrator/rights/profiles/view.html</param>
+					<param name="Link">administrator/profiles/view.html</param>
 
 					<param name="label" i18n="true">PLUGINS_CORE_RIGHTS_PROFILES_LABEL</param>
 					<param name="default-description" i18n="true">PLUGINS_CORE_RIGHTS_PROFILES_DESCRIPTION</param>
-					<param name="icon-small" file="true">img/rights/profiles/icon_dock.png</param>
-					<param name="icon-medium" file="true">img/rights/profiles/icon_medium.gif</param>
-					<param name="icon-large" file="true">img/rights/profiles/icon_large.png</param>
+					<param name="icon-small" file="true">img/administrator/profiles/icon_dock.png</param>
+					<param name="icon-medium" file="true">img/administrator/profiles/icon_medium.gif</param>
+					<param name="icon-large" file="true">img/administrator/profiles/icon_large.png</param>
 				</action>    				   
-                <Url>rights/profiles/view\.html</Url>
+                <Url>administrator/profiles/view\.html</Url>
             </extension>    
         </extensions>
     </feature>     
