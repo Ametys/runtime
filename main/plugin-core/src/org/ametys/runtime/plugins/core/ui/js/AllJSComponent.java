@@ -35,6 +35,8 @@ public class AllJSComponent implements ThreadSafe, Contextualizable, Component
     /** The avalon role */
     public static final String ROLE = AllJSComponent.class.getName();
     
+    private static final String __CONTEXT_KEY = AllJSComponent.class.getName() + "$contextPath";
+    
     private static Context _context;
     
     @Override
@@ -48,9 +50,30 @@ public class AllJSComponent implements ThreadSafe, Contextualizable, Component
      */
     public static void resetJSFilesList()
     {
-        ContextHelper.getRequest(_context).getSession(true).setAttribute(AllJSComponent.class.getName(), new ArrayList<String>());
+        Session session = ContextHelper.getRequest(_context).getSession(true);
+        
+        session.setAttribute(AllJSComponent.class.getName(), new ArrayList<String>());
+        session.setAttribute(__CONTEXT_KEY, null);
     }
-
+    
+    /**
+     * Set the context path.
+     * @param contextPath the context path.
+     */
+    public static void setContextPath(String contextPath)
+    {
+        ContextHelper.getRequest(_context).getSession(true).setAttribute(__CONTEXT_KEY, contextPath);
+    }
+    
+    /**
+     * Get the context path.
+     * @return the context path.
+     */
+    public String getContextPath()
+    {
+        return (String) ContextHelper.getRequest(_context).getSession(true).getAttribute(__CONTEXT_KEY);
+    }
+    
     /**
      * Adds a file to the list of js files to load.
      * resetJSFilesList method has to be called before the first call

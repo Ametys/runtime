@@ -108,6 +108,14 @@ public class AllCSSReader extends ServiceableReader implements CacheableProcessi
     @Override
     public void generate() throws IOException, SAXException, ProcessingException
     {
+        Request request = ObjectModelHelper.getRequest(objectModel);
+        
+        String contextPath = _allCSSComponent.getContextPath();
+        if (contextPath == null)
+        {
+            contextPath = request.getContextPath();
+        }
+        
         String rootRelativePath = _getRootRelativePath();
         
         StringBuffer sb = new StringBuffer("");
@@ -126,7 +134,7 @@ public class AllCSSReader extends ServiceableReader implements CacheableProcessi
                                                 
                 for (String cssFile : cssFilesToImport)
                 {
-                    sb.append(_handleFileImport(cssFile));
+                    sb.append(_handleFileImport(cssFile, contextPath));
                 }
             }
             else
@@ -143,14 +151,12 @@ public class AllCSSReader extends ServiceableReader implements CacheableProcessi
         IOUtils.closeQuietly(out);
     }
     
-    private String _handleFileImport(String cssFile)
+    private String _handleFileImport(String cssFile, String contextPath)
     {
         StringBuffer sb = new StringBuffer();
 
-        Request request = ObjectModelHelper.getRequest(objectModel);
-
         sb.append("@import \"");
-        sb.append(request.getContextPath());
+        sb.append(contextPath);
         sb.append(cssFile);
         sb.append("\";\n");
         
