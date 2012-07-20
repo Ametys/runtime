@@ -82,11 +82,11 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 	 */
 	createProfile: function()
 	{
-		var newEntry = new record({
-								'name': "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_NEWPROFILE"/>",
-								'id': "new",
-                                'rights': {}
-								});
+		var newEntry = Ext.create('Ametys.plugins.core.administration.Profiles.Profile', {
+			'name': "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_NEWPROFILE"/>",
+			'rights': {},
+			'id': 'new'
+		}); 
         
         var result = Ametys.data.ServerComm.send(this.pluginName, "/administrator/rights/profiles/create", {name: newEntry.get('name') }, Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
         if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_NEW_ERROR"/>", result, "Ametys.plugins.core.administration.Logs.createProfile"))
