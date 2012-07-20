@@ -488,7 +488,7 @@
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_DELETE_CONFIRM">Etes-vous sûr de vouloir supprimer ce profil ?</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_DELETE_ERROR">Une erreur est survenue lors de la suppression.</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HELP_CATEGORY">Aide</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_HELP_HINT">Un profil est un ensemble de droits. Chaque utilisateur possède un profil qui permet de connaître la liste de ses droits.&lt;br/&gt;&lt;br/&gt;Vous pouvez créer et éditer les profils à votre convenance en leur attribuant les droits dans la partie droite de l'écran.</message>
+	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_HELP_HINT">Un profil est un ensemble de droits. Chaque utilisateur possède un profil qui permet de connaître la liste de ses droits.&lt;br/&gt;&lt;br/&gt;Vous pouvez créer et éditer les profils à votre convenance en leur attribuant les droits dans la partie basse de l'écran.</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_NEWPROFILE">Nouveau profil</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_PROFILE_NAME">Nom du profil</message>
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_LEFTCOLUMN">Droits non affectés</message>
