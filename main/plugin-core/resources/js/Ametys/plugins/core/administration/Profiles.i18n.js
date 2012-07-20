@@ -137,7 +137,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 			var elt = this.listview.getSelectionModel().getSelection()[0];
 	    	if (200 == Ext.Ajax.request({url: Ametys.getPluginDirectPrefix(this.pluginName) + "/administrator/rights/profiles/delete", params: "id=" + elt.get('id'), async: false}).status)
 			{
-				this.listview.removeElement(elt);
+				this.listview.getStore().remove(elt);
 			}
 			else
 			{
@@ -214,7 +214,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
                 		buttons: Ext.Msg.OK,
 	   					icon: Ext.MessageBox.ERROR
                 	});
-					this.listview.removeElement(element);
+					this.listview.getStore().remove(element);
 				}
 				else
 				{
@@ -400,12 +400,14 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 					if (state != null &amp;&amp; state == "missing")
 					{
 						Ametys.log.ErrorDialog.display("<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>", "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_RENAME_MISSING_ERROR"/>", "State is missing", "Ametys.plugins.core.administration.Logs.editLabel");
-						this.listview.removeElement(record);
+						this.listview.getStore().remove(record);
 						return;
 					}
 				}
 				record.commit();
 			}
+			
+			this.listview.getStore().sort('name', 'ASC');
 		}
 	},
 	
@@ -549,7 +551,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 		        	type: 'memory',
 		        	reader: {
 		        		type: 'json',
-		        		root: 'groups'
+		        		root: 'profiles'
 		        	}
 		        }
 			}),  

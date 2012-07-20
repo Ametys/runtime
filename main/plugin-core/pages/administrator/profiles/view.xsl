@@ -41,17 +41,19 @@
 				        Ametys.plugins.core.administration.Profiles.initialize ("<xsl:value-of select="$pluginName"/>");
 				
 				        // Existing profiles
-				        var profileData = [];
+				        var profileData = [
+                            <xsl:for-each select="profiles/profile">
+    				            <xsl:if test="position() != 1"><xsl:text>, </xsl:text></xsl:if>
+    				            <xsl:text/>
+    				            { id: '<xsl:value-of select="@id" />', name: '<xsl:value-of select="label" />', rights: {<xsl:text/>
+    				                <xsl:for-each select="rights/right">
+                                        <xsl:if test="position() != 1"><xsl:text>, </xsl:text></xsl:if>
+    				                    <xsl:text/>'<xsl:value-of select="@id"/>': ""
+    				                </xsl:for-each>
+    				            <xsl:text>} }</xsl:text>
+    				        </xsl:for-each>
+				        ];
 				        
-				        <xsl:for-each select="profiles/profile">
-				            var rights = {};
-				            <xsl:for-each select="rights/right">
-				                rights['<xsl:value-of select="@id"/>'] = "";
-				            </xsl:for-each>
-				            profileData.push(['<xsl:value-of select="@id" />', '<xsl:value-of select="label" />', rights]);
-				        </xsl:for-each>                     
-				        
-				
 						var RIGHTS_ID = [];
 						var RIGHTS_CATEGORY = [];
 						<xsl:for-each select="rights/right[not(category/@id = preceding-sibling::right/category/@id)]">
