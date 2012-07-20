@@ -41,3 +41,130 @@
     padding-top: 20px;
     background : url(../../img/administrator/profiles/splitbar.png) top center no-repeat;
 }
+
+
+
+
+/* proprietes */
+.profile-edit-panel-body div.fieldset, .profile-read-panel-body div.fieldset {
+    clear: left;
+}
+
+.profile-checkbox {
+    width: 180px;
+    float:left;
+    font-size: 0.9em;
+    color: #111111;
+    margin-left: 10px;
+    white-space: nowrap;
+    font-family: arial, sans-serif !important;
+    margin-bottom: 0px !important;
+}
+
+.profile-read-panel-header, .profile-edit-panel-header {
+    font-weight: bold;
+    color: #1C58A0;
+    font-size: 1.2em;
+    padding: 0px 0px 5px 15px;
+}
+
+.profile-read-panel-body, .profile-edit-panel-body {
+    padding-left: 4px;
+}
+
+
+
+/** Rights on profile */
+.rights-fieldset {
+    clear: left;
+}
+
+.rights-fieldset-header {
+    background : none !important;
+    border: 0 none !important;
+    margin-left: 10px;
+    padding :5px 3px 4px 0px !important;
+    font-size: 11px !important;
+    font-weight: bold !important;
+    color: #111 !important;
+    font-family: arial,sans-serif !important;
+}
+
+.x-panel-collapsed .rights-fieldset-header {
+    border: 0 none !important;
+}
+
+.rights-fieldset-header span {
+    padding-left : 6px;
+}
+
+.rights-fieldset-header .x-tool-toggle {
+    background-position:3px -48px !important;
+}
+
+.x-panel-collapsed .rights-fieldset-header .x-tool-toggle {
+    background-position:3px 2px !important;
+}
+
+.rights-fieldset-header .x-tool {
+    background: transparent url('../../img/rights/profiles/group-expand-sprite.png') no-repeat scroll 0 0;
+    cursor:pointer;
+    float:left !important;
+    height:15px;
+    margin-left:0px !important;
+    margin-right:3px !important;
+    overflow:hidden;
+    width:15px;
+}
+
+.right-entry, .check-right-entry {
+    font-family: arial, sans-serif !important;
+    padding: 5px 0 5px 5px;
+    float:left;
+    white-space: nowrap;
+    font-size: 11px;
+    color: #111111;
+    margin-left: 5px;
+}
+
+.right-entry-img, .check-right-entry-img {
+    float:left;
+    padding-left: 5px; 
+    padding-top : 2px;
+    margin-right: 5px;
+}
+
+.right-entry-text {
+    float:left;
+}
+
+.ametys-fieldset-body .x-form-check-wrap,
+.rights-fieldset-body .x-form-check-wrap {
+    line-height: 14px;
+}
+.check-right-entry.x-form-item  
+{
+    margin-bottom: 0px;
+}
+
+.ametys-tbar-fieldset .ametys-fieldset-bbar {
+    clear: left;
+}
+
+.ametys-tbar-fieldset .ametys-fieldset-body {
+    clear: right;
+}
+.ametys-tbar-fieldset .ametys-fieldset-bbar .x-toolbar {
+    background: transparent none;
+    border: 0 none;
+    top: -25px;
+    display: inline;
+    float: right;
+    width: auto !important;
+    height: 0;
+    overflow: visible;
+}
+
+.profile-edit-panel .ametys-tbar-fieldset table.x-toolbar-ct {
+    width: 46px !important;
+}

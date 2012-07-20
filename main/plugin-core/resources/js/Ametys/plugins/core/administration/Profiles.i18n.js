@@ -199,13 +199,13 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 		while (!ok)
 		{
 			var result = Ametys.data.ServerComm.send(this.pluginName, "/administrator/rights/profiles/modify", { id: element.get('id'), objects: objects }, Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
-		    if (org.ametys.servercomm.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_ERROR"/>", result, "Ametys.plugins.core.administration.Logs.saveObjects"))
+		    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_ERROR"/>", result, "Ametys.plugins.core.administration.Logs.saveObjects"))
 		    {
 				return;
 		    }
 		    else
 			{
-				var state = Ext.dom.Query("*/message", result); 
+				var state = Ext.dom.Query.selectValue("*/message", result); 
 				if (state != null &amp;&amp; state == "missing")
 				{
 					Ext.Msg.show ({
@@ -258,7 +258,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 	 */
 	selectAll: function(id, value)
 	{
-		value = value || true;
+		value = value == null ? true : value;
 		
 		if (id != null)
 		{
@@ -458,11 +458,11 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 			{
 				// Update edit view
 				var rightElmt = Ext.getCmp(RIGHTS_ID[i]);
-				rightElmt.removeListener('check', needSave);
+				rightElmt.removeListener('check', this.needSave);
 				var id = rightElmt.getName();
 				rightElmt.setDisabled(this._selectedElmt == null);
 				rightElmt.setValue(rights[id] != null);
-				rightElmt.addListener('check', Ext.bind(needSave, this));
+				rightElmt.addListener('check', Ext.bind(this.needSave, this));
 			}
 			this._utilsCategory.setVisible(true);
 		}
@@ -470,8 +470,10 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 	
 	/**
 	 * Entry point to create the main panel
+	 * @params {Ext.form.field.Field[]} readItems The form items for read panel
+	 * @params {Ext.form.field.Field[]} editItems The form items for edit panel
 	 */
-	createPanel: function() 
+	createPanel: function(readItems, editItems) 
 	{
 		// Tabs
 		this._Navigation = new Ametys.workspace.admin.rightpanel.NavigationPanel ({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU"/>"});
@@ -507,8 +509,8 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 		
 		// Utils
 		this._utilsCategory = new Ametys.workspace.admin.rightpanel.ActionPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_SELECT_HANDLE_CATEGORY"/>'});
-		this._utilsCategory.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_SELECT_ALL"/>", Ametys.getPluginResourcesPrefix('core') + "/img/administrator/profiles/select_all.png", Ext.bind(this.selectAll, this));
-		this._utilsCategory.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_UNSELECT_ALL"/>", Ametys.getPluginResourcesPrefix('core') + "/img/administrator/profiles/unselect_all.png", Ext.bind(this.unselectAll, this));
+		this._utilsCategory.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_SELECT_ALL"/>", Ametys.getPluginResourcesPrefix('core') + "/img/administrator/profiles/select_all.png", Ext.bind(this.selectAll, this, []));
+		this._utilsCategory.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_UNSELECT_ALL"/>", Ametys.getPluginResourcesPrefix('core') + "/img/administrator/profiles/unselect_all.png", Ext.bind(this.unselectAll, this, []));
 		this._utilsCategory.setVisible(false);
 		
 		// Help
@@ -577,14 +579,16 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 			autoScroll:true,
 			border: false,
 			border: false,
-			id: 'profile-edit-panel'
+			id: 'profile-edit-panel',
+			items: editItems
 		});  
 		//Panel for read rights profils
 		var readRights = new Ext.Panel({ 
 			title: '<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_RIGHTS"/>',
 			border: false,
 			autoScroll:true,
-			id: 'profile-read-panel'
+			id: 'profile-read-panel',
+			items: readItems
 		});
 		this.cardPanel = new Ext.Panel ({
 			id:'profile-card-panel',
@@ -646,7 +650,8 @@ Ext.define('Ametys.plugins.core.administration.Profiles.RightEntry', {
     {
     	if(this.el)
         {
-    		var textMesurer = Ext.util.TextMetrics.createInstance(this.el);
+    		var maxWidth = this.width - 5 - 20; //padding + image
+    		var textMesurer = new Ext.util.TextMetrics(this.el);
     		var textWidth = textMesurer.getWidth(text); // Taille en pixel
     		var nbCars = text.length; // Nombre de caractères
     		var carWidth = Math.floor(textWidth / nbCars); //Taille moyenne d'un caractères
@@ -673,7 +678,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles.RightEntry', {
 				id: this.id + '-img',
 				cls: 'right-entry-img',
 				tag:'img',
-				src: getPluginResourcesUrl('core') + '/img/administrator/config/help.gif'});
+				src: Ametys.getPluginResourcesPrefix('core') + '/img/administrator/config/help.gif'});
 			var tooltip = new Ext.ToolTip({
 		        target: this.id + '-img',
 		        html: this.description
@@ -708,7 +713,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles.CheckRightEntry', {
     	// Help icon
     	if (this.description)
     	{
-    		this.el.parent().insertFirst({
+    		this.bodyEl.insertFirst({
     			id: this.id + '-img',
     			tag:'img',
     			src: Ametys.getPluginResourcesPrefix('core') + '/img/administrator/config/help.gif',
@@ -721,7 +726,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles.CheckRightEntry', {
     	}
     	
     	var maxWidth = this.width - 0; //padding + image
-    	var textMesurer = Ext.util.TextMetrics.createInstance(this.el);
+    	var textMesurer = new Ext.util.TextMetrics(this.el);
     	var textWidth = textMesurer.getWidth(this.boxLabel); // Taille en pixel
     	var nbCars = this.boxLabel.length; // Nombre de caractères
     	var carWidth = Math.floor(textWidth / nbCars);//Taille moyenne d'un caractères

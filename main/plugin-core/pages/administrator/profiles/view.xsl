@@ -56,37 +56,54 @@
 				        
 						var RIGHTS_ID = [];
 						var RIGHTS_CATEGORY = [];
+						
+						var readItems = [];
+                        var editItems = [];
+                        
 						<xsl:for-each select="rights/right[not(category/@id = preceding-sibling::right/category/@id)]">
 							<xsl:variable name="category" select="category/@id"/>
 							<xsl:variable name="categoryKey" select="category"/>
+							
 							RIGHTS_CATEGORY.push('<xsl:value-of select="$category"/>');
-							var cat_<xsl:value-of select="$category"/> = new org.ametys.TBarFieldset({
+							
+							// EDIT ITEM
+							var cat_<xsl:value-of select="$category"/> = new Ext.form.FieldSet({
 									title : "<xsl:copy-of select="$categoryKey/*"/>",
 									layout: 'form',
+									
 									id: "cat_<xsl:value-of select="$category"/>_edit",
+									cls : "ametys-tbar-fieldset",
+									
+									listener: {
+									   'afterrender': function() { this.bwrap.dom.appendChild(this.bwrap.dom.firstChild); }
+                                    },
+									
 									bbar: [new Ext.Button({
-										icon: '<xsl:value-of select="$resourcesPath"/>/img/rights/profiles/select_16.png',
+										icon: '<xsl:value-of select="$resourcesPath"/>/img/administrator/profiles/select_16.png',
 										tooltip: '<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_CATEGORY_SELECT_ALL"/>',
-										handler: function (){select_all ('cat_<xsl:value-of select="$category"/>_edit')}
+										handler: function (){ Ametys.plugins.core.administration.Profiles.selectAll ('cat_<xsl:value-of select="$category"/>_edit'); }
 								    }), new Ext.Button({
-										icon: '<xsl:value-of select="$resourcesPath"/>/img/rights/profiles/unselect_16.png',
+										icon: '<xsl:value-of select="$resourcesPath"/>/img/administrator/profiles/unselect_16.png',
 										tooltip: '<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_CATEGORY_UNSELECT_ALL"/>',
-										handler: function (){unselect_all ('cat_<xsl:value-of select="$category"/>_edit')}
+										handler: function (){ Ametys.plugins.core.administration.Profiles.unselectAll ('cat_<xsl:value-of select="$category"/>_edit'); }
 								    })]
 							});
-							editRights.add(cat_<xsl:value-of select="$category"/>);	
-							var cat_<xsl:value-of select="$category"/>_read = new org.ametys.Fieldset({
+							editItems.push(cat_<xsl:value-of select="$category"/>);	
+							
+							// READ ITEM
+							var cat_<xsl:value-of select="$category"/>_read = new Ext.form.FieldSet({
 								title : "<xsl:copy-of select="$categoryKey/*"/>",
 								layout: 'form',
 								id: "cat_<xsl:value-of select="$category"/>_read",
 								cls: 'fieldset'
 							});
-							readRights.add(cat_<xsl:value-of select="$category"/>_read);
+							readItems.push(cat_<xsl:value-of select="$category"/>_read);
+							
 							<xsl:for-each select="../right[category/@id = $category]">
-								var input = new org.ametys.rights.CheckRightEntry ({
-									listeners: {'check': needSave},
+								var input = new Ametys.plugins.core.administration.Profiles.CheckRightEntry ({
+									listeners: {'change': Ext.bind(Ametys.plugins.core.administration.Profiles.needSave, Ametys.plugins.core.administration.Profiles)},
 									width: 175,
-									text : "<xsl:copy-of select="label/*"/>",
+									boxLabel : "<xsl:copy-of select="label/*"/>",
 							        name: "<xsl:value-of select="@id"/>",
 							        id: "<xsl:value-of select="@id"/>",
 							        description: "<xsl:copy-of select="description/*"/>",
@@ -97,7 +114,7 @@
 								RIGHTS_ID.push("<xsl:value-of select="@id"/>");	
 								cat_<xsl:value-of select="$category"/>.add(input);
 								
-								var profileText = new org.ametys.rights.RightEntry({
+								var profileText = new Ametys.plugins.core.administration.Profiles.RightEntry({
 									id : "<xsl:value-of select="@id"/>_read", 
 									width: 175,
 									text : "<xsl:copy-of select="label/*"/>", 
@@ -110,7 +127,7 @@
 						
 						createPanel = function () 
 						{
-							return Ametys.plugins.core.administration.Profiles.createPanel();
+							return Ametys.plugins.core.administration.Profiles.createPanel(readItems, editItems);
 						}								
                 </script>
 	        </script>
