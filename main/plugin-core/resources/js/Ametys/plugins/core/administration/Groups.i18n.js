@@ -589,22 +589,14 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 			'name': "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_NEWGROUP"/>",
 			'id': id
 		}); 
+
 		
-		this._listViewGp.getStore().addSorted(newEntry);
 		this._listViewU.getStore().removeAll();
-		
-		if(this._listViewGp.getStore().getCount() &gt; 0)
-		{
-			var index = this._listViewGp.getStore().indexOfId(id);
-			this._listViewGp.getSelectionModel().select(index, 0);
-		}
-		else
-		{
-			this._listViewGp.getSelectionModel().select(0, 0);
-		}
+		this._listViewGp.getStore().addSorted(newEntry);
+		this._listViewGp.getSelectionModel().setCurrentPosition({row: this._listViewGp.getStore().indexOf(newEntry), column: 0});
+		this._listViewGp.getSelectionModel().select([newEntry]);
 		
 		this.rename ();
-
 	},
 
 	/**
@@ -642,6 +634,7 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 	    	if (200 == Ext.Ajax.request({url: Ametys.getPluginDirectPrefix(this.pluginName) + "/administrator/groups/delete", params: "id=" + elt.get('id'), async: false}).status)
 			{
 	    		this._listViewGp.getStore().remove(elt);
+	    		this._unselectGroup();
 			}
 			else
 			{
@@ -652,8 +645,6 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 					icon: Ext.MessageBox.ERROR
 	        	});
 			}
-			
-	    	this._listViewU.getStore().removeAll();
 	    }
 	},
 
