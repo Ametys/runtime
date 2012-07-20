@@ -725,25 +725,28 @@ Ext.define('Ametys.plugins.core.administration.Profiles.CheckRightEntry', {
     	    });
     	}
     	
-    	var maxWidth = this.width - 0; //padding + image
-    	var textMesurer = new Ext.util.TextMetrics(this.el);
+    	
+    	var labelNode;
+    	var nodes = this.bodyEl.dom.childNodes;
+		for (var i=0; i &lt; nodes.length; i++)
+		{
+			if (nodes[i].tagName.toLowerCase() == 'label')
+			{
+				labelNode = nodes[i];
+			}
+		}
+    	
+    	var maxWidth = this.width - 5 - 20 - 13; //padding + image + input
+    	var textMesurer = new Ext.util.TextMetrics(labelNode);
     	var textWidth = textMesurer.getWidth(this.boxLabel); // Taille en pixel
     	var nbCars = this.boxLabel.length; // Nombre de caractères
     	var carWidth = Math.floor(textWidth / nbCars);//Taille moyenne d'un caractères
     	if (textWidth > maxWidth)
     	{
+    		console.log(textWidth + "/" + maxWidth)
     		this.boxLabel = this.boxLabel.substring(0, (Math.floor(maxWidth /carWidth) - 3*carWidth)) + "...";
-    		if (this.wrap)
-    		{
-    			var nodes = this.wrap.dom.childNodes;
-    			for (var i=0; i &lt; nodes.length; i++)
-    			{
-    				if (nodes[i].tagName.toLowerCase() == 'label')
-    				{
-    					nodes[i].innerHTML = this.boxLabel;
-    				}
-    			}
-    		}
+    		
+    		labelNode.innerHTML = this.boxLabel;
     	}
 	}
 });
