@@ -645,20 +645,21 @@ Ext.define('Ametys.plugins.core.administration.Profiles.RightEntry', {
     /**
      * Set the text for the entry. The text will be automatically cut with '...' if it is too long.
      * @param {String} text The new text 
+     * @param {Number} maxWidth The max size to fit in 
      */
-    setText: function (text, width)
+    setText: function (text, maxWidth)
     {
     	if(this.el)
         {
-    		var maxWidth = this.width - 5 - 20; //padding + image
-    		var textMesurer = new Ext.util.TextMetrics(this.el);
-    		var textWidth = textMesurer.getWidth(text); // Taille en pixel
-    		var nbCars = text.length; // Nombre de caractères
-    		var carWidth = Math.floor(textWidth / nbCars); //Taille moyenne d'un caractères
-    		if (textWidth &gt; (width || this.width))
-    		{
-    			text = text.substring(0, Math.floor(maxWidth /carWidth) - 3) + "...";
-    		}
+        	var textWidth = Ext.util.TextMetrics.measure(this.el, this.text).width;
+        	
+        	var i = 0;
+        	while (textWidth > maxWidth)
+        	{
+        		i++;
+        		text = Ext.util.Format.ellipsis(this.text, this.text.length - i);
+        		textWidth = Ext.util.TextMetrics.measure(this.el, text).width; 
+        	}
         }
         this.text = text;
     },
@@ -737,16 +738,17 @@ Ext.define('Ametys.plugins.core.administration.Profiles.CheckRightEntry', {
 		}
     	
     	var maxWidth = this.width - 5 - 20 - 13; //padding + image + input
-    	var textMesurer = new Ext.util.TextMetrics(labelNode);
-    	var textWidth = textMesurer.getWidth(this.boxLabel); // Taille en pixel
-    	var nbCars = this.boxLabel.length; // Nombre de caractères
-    	var carWidth = Math.floor(textWidth / nbCars);//Taille moyenne d'un caractères
-    	if (textWidth > maxWidth)
+    	var textWidth = Ext.util.TextMetrics.measure(labelNode, this.boxLabel).width;
+    	var t = this.boxLabel;
+    	
+    	var i = 0;
+    	while (textWidth > maxWidth)
     	{
-    		console.log(textWidth + "/" + maxWidth)
-    		this.boxLabel = this.boxLabel.substring(0, (Math.floor(maxWidth /carWidth) - 3*carWidth)) + "...";
-    		
-    		labelNode.innerHTML = this.boxLabel;
+    		i++;
+    		t = Ext.util.Format.ellipsis(this.boxLabel, this.boxLabel.length - i);
+    		textWidth = Ext.util.TextMetrics.measure(labelNode, t).width; 
     	}
+    	this.boxLabel = t;
+    	labelNode.innerHTML = t;
 	}
 });
