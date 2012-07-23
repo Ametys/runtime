@@ -185,6 +185,7 @@
 									
 								}
 								hasChanges = false;
+								selectLayout(); // to update view if saving at layout time
 		                    }
 		                    
 		                    function needSave (field, newValue, oldValue)
