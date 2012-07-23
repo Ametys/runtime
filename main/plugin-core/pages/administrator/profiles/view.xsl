@@ -81,21 +81,26 @@
 									id: "cat_<xsl:value-of select="$category"/>_edit",
 									cls : "ametys-tbar-fieldset",
 									
-									listeners: {
-									   'afterrender': function() {
-									       /*this.bwrap.dom.appendChild(this.bwrap.dom.firstChild);*/ 
-									   }
-                                    },
+									listeners: {'afterrender': function() {
+									   this.legend.add(this.items.get(0));
+									}},
 									
-									bbar: [new Ext.Button({
-										icon: '<xsl:value-of select="$resourcesPath"/>/img/administrator/profiles/select_16.png',
-										tooltip: '<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_CATEGORY_SELECT_ALL"/>',
-										handler: function (){ Ametys.plugins.core.administration.Profiles.selectAll ('cat_<xsl:value-of select="$category"/>_edit'); }
-								    }), new Ext.Button({
-										icon: '<xsl:value-of select="$resourcesPath"/>/img/administrator/profiles/unselect_16.png',
-										tooltip: '<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_CATEGORY_UNSELECT_ALL"/>',
-										handler: function (){ Ametys.plugins.core.administration.Profiles.unselectAll ('cat_<xsl:value-of select="$category"/>_edit'); }
-								    })]
+									items: [
+									   new Ext.Container({items: [
+									           new Ext.Button({
+			                                        icon: '<xsl:value-of select="$resourcesPath"/>/img/administrator/profiles/select_16.png',
+			                                        tooltip: '<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_CATEGORY_SELECT_ALL"/>',
+			                                        border: false,
+			                                        handler: function (){ Ametys.plugins.core.administration.Profiles.selectAll ('cat_<xsl:value-of select="$category"/>_edit'); }
+			                                    }), 
+			                                    new Ext.Button({
+			                                        icon: '<xsl:value-of select="$resourcesPath"/>/img/administrator/profiles/unselect_16.png',
+			                                        tooltip: '<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_CATEGORY_UNSELECT_ALL"/>',
+                                                    border: false,
+			                                        handler: function (){ Ametys.plugins.core.administration.Profiles.unselectAll ('cat_<xsl:value-of select="$category"/>_edit'); }
+			                                    })
+									   ]})
+									]
 							});
 							editItems.push(cat_<xsl:value-of select="$category"/>);	
 							
