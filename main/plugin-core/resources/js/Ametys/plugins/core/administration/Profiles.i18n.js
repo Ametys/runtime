@@ -263,7 +263,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 		if (id != null)
 		{
 			var fd = Ext.getCmp(id);
-			fd.items.each (function (item) {item.setValue(value)});
+			fd.items.each (function (item, index) {item.setValue(value)});
 		}
 		else
 		{
