@@ -313,11 +313,11 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 		{
 			// Update edition screen
 			var rightElmt = Ext.getCmp(RIGHTS_ID[i]);
-			rightElmt.removeListener('check', this.needSave);
+			rightElmt.suspendEvents(false);
 			var id = rightElmt.getName();
 			rightElmt.setDisabled(false);
 			rightElmt.setValue(rights[id] != null);
-			rightElmt.addListener('check', Ext.bind(this.needSave, this));
+			rightElmt.resumeEvents();
 			
 			// Update view screen
 			var cat = Ext.getCmp("cat_" + rightElmt.category + "_read");
@@ -458,11 +458,11 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 			{
 				// Update edit view
 				var rightElmt = Ext.getCmp(RIGHTS_ID[i]);
-				rightElmt.removeListener('check', this.needSave);
+				rightElmt.suspendEvents(false);
 				var id = rightElmt.getName();
 				rightElmt.setDisabled(this._selectedElmt == null);
 				rightElmt.setValue(rights[id] != null);
-				rightElmt.addListener('check', Ext.bind(this.needSave, this));
+				rightElmt.resumeEvents();
 			}
 			this._utilsCategory.setVisible(true);
 		}
@@ -737,7 +737,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles.CheckRightEntry', {
 			}
 		}
     	
-    	var maxWidth = this.width - 5 - 20 - 13; //padding + image + input
+    	var maxWidth = this.width - 10 - 21 - 13; //padding + image + input
     	var textWidth = Ext.util.TextMetrics.measure(labelNode, this.boxLabel).width;
     	var t = this.boxLabel;
     	

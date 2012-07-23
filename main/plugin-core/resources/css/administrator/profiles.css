@@ -160,3 +160,11 @@ legend .x-tool-over .x-tool-toggle
 .profile-edit-panel .ametys-tbar-fieldset table.x-toolbar-ct {
     width: 46px !important;
 }
+
+#profile-edit-panel .x-field {
+	/*color: #5f5f5f;*/
+}
+#profile-edit-panel .x-form-cb-checked {
+	color: #1C58A0;
+	background-color: #E8EEF5;
+}

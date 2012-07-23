@@ -81,8 +81,10 @@
 									id: "cat_<xsl:value-of select="$category"/>_edit",
 									cls : "ametys-tbar-fieldset",
 									
-									listener: {
-									   'afterrender': function() { this.bwrap.dom.appendChild(this.bwrap.dom.firstChild); }
+									listeners: {
+									   'afterrender': function() {
+									       /*this.bwrap.dom.appendChild(this.bwrap.dom.firstChild);*/ 
+									   }
                                     },
 									
 									bbar: [new Ext.Button({
