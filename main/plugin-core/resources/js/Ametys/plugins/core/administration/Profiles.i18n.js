@@ -153,14 +153,18 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 	
 	/**
 	 * Save the current modifications. 
-	 * @param {String} button If 'yes' do save the modification, else discard it.
+	 * @param {String} button If 'yes' will save effectively by calling {@link #saveObjects}
+	 * @param {String} text undefined
+	 * @param {Object} opt Options given as arfs
 	 * @param {Ext.data.Model} selectedElmt The element to save. Can be null.
+	 * @params {String[]} objects The saving informations. Can be null
+	 * @params {Object} newRights the rights identifiers. Can be null.
 	 */
-    saveObjectConfirm: function (button, selectedElmt)
+    saveObjectConfirm: function (button, text, opt, selectedElmt, objects, rights)
 	{
 		if (button == 'yes')
 		{
-			this.saveObjects(selectedElmt);
+			this.saveObjects(selectedElmt, objects, rights);
 		}
 		else
 		{
@@ -169,19 +173,12 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 	},
 
 	/**
-	 * Save the given profile to the server
-	 * @params {Ext.data.Model} element The element to save. Can be null to save the currently selected profile.
+	 * @private
+	 * Get the rights identifier
+	 * @return {Object} the rights identifiers
 	 */
-    saveObjects: function(element)
-    {
-		if (element == null)
-		{
-			element = this.listview.getSelectionModel().getSelection()[0];
-		}
-						
-		// Update node and list rights to send
-		var objects = [];
-		
+	_getRights: function()
+	{
 		var newRights = {};
 		for (var i=0; i &lt; RIGHTS_ID.length; i++)
 		{
@@ -189,8 +186,51 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 			if (rightElmt.getValue())
 			{
 				newRights[rightElmt.getName()] = "";
+			}
+		}
+		return newRights;
+	},
+	/**
+	 * @private
+	 * Get the objects for saving informations
+	 * @return {String[]} The saving informations
+	 */
+	_getObjects: function()
+	{
+		var objects = [];
+		for (var i=0; i &lt; RIGHTS_ID.length; i++)
+		{
+			var rightElmt = Ext.getCmp(RIGHTS_ID[i]);
+			if (rightElmt.getValue())
+			{
 				objects.push(rightElmt.getName());
 			}
+		}
+		return objects;
+	},
+	
+	/**
+	 * Save the given profile to the server
+	 * @params {Ext.data.Model} element The element to save. Can be null to save the currently selected profile.
+	 * @params {String[]} objects The saving informations. Can be null
+	 * @params {Object} newRights the rights identifiers. Can be null
+	 */
+    saveObjects: function(element, objects, newRights)
+    {
+		if (element == null)
+		{
+			element = this.listview.getSelectionModel().getSelection()[0];
+		}
+
+		// Update node and list rights to send
+		if (objects == null)
+		{
+			objects = this._getObjects();
+		}
+		
+		if (newRights == null)
+		{
+			newRights = this._getRights();
 		}
 		element.set('rights', newRights);
 	
@@ -225,6 +265,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 			
 		}
 		this._hasChanges = false;
+		this.selectLayout(); // update view screen if saving while changing view
     },
     
     /**
@@ -291,9 +332,9 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 	 */
 	onSelectProfile: function()
 	{
-		if (this._selectedElmt != null &amp;&amp; this.hasChanges)
+		if (this._selectedElmt != null &amp;&amp; this._hasChanges)
 		{
-			Ext.Msg.confirm ("<i18n:text i18n:key="PLUGINS_CORE_SAVE_DIALOG_TITLE"/>", "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_CONFIRM"/>", Ext.bind(this.saveObjectConfirm, this, this._selectedElmt, true));
+			Ext.Msg.confirm ("<i18n:text i18n:key="PLUGINS_CORE_SAVE_DIALOG_TITLE"/>", "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_CONFIRM"/>", Ext.bind(this.saveObjectConfirm, this, [this._selectedElmt, this._getObjects(), this._getRights()], true));
 		}
 		
 		this._Category.showElt(1);
@@ -417,9 +458,9 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 	 */
 	selectLayout: function()
 	{
-		if (this._selectedElmt != null &amp;&amp; this.hasChanges &amp;&amp; this.item1.pressed)
+		if (this._selectedElmt != null &amp;&amp; this._hasChanges &amp;&amp; this.item1.pressed)
 		{
-			Ext.Msg.confirm ("<i18n:text i18n:key="PLUGINS_CORE_SAVE_DIALOG_TITLE"/>", "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_CONFIRM"/>", Ext.bind(this.saveObjectConfirm, this, this._selectedElmt, true));
+			Ext.Msg.confirm ("<i18n:text i18n:key="PLUGINS_CORE_SAVE_DIALOG_TITLE"/>", "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_CONFIRM"/>", Ext.bind(this.saveObjectConfirm, this, [this._selectedElmt, this._getObjects(), this._getRights()], true));
 		}
 		var rights = this._selectedElmt != null ? this._selectedElmt.get('rights') : {};
 		
@@ -499,7 +540,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 		this._Category = new Ametys.workspace.admin.rightpanel.ActionPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_CATEGORY"/>'});
 		this._Category.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_CREATE"/>", Ametys.getPluginResourcesPrefix('core') + "/img/administrator/profiles/new.png", Ext.bind(this.createProfile, this));
 		this._Category.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_RENAME"/>", Ametys.getPluginResourcesPrefix('core') + "/img/administrator/profiles/rename.png", Ext.bind(this.rename, this));
-		this._Category.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_VALIDATE"/>", Ametys.getPluginResourcesPrefix('core') + "/img/administrator/profiles/validate.png", Ext.bind(this.saveObjects, this));
+		this._Category.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_VALIDATE"/>", Ametys.getPluginResourcesPrefix('core') + "/img/administrator/profiles/validate.png", Ext.bind(this.saveObjects, this, []));
 		this._Category.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_DELETE"/>", Ametys.getPluginResourcesPrefix('core') + "/img/administrator/profiles/delete.png", Ext.bind(this.remove, this));
 		this._Category.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_QUIT"/>", Ametys.getPluginResourcesPrefix('core') + "/img/administrator/profiles/quit.png", Ext.bind(this.goBack, this));
 		

@@ -159,6 +159,7 @@ fieldset legend .x-container {
 fieldset legend .x-btn {
 	background-image: none;
 	background-color: transparent;
+	padding: 0;
 }
 
 #profile-edit-panel .x-form-cb-checked {
