@@ -128,24 +128,13 @@ legend .x-tool-over .x-tool-toggle
     float:left;
 }
 
-
-
-.ametys-fieldset-body .x-form-check-wrap,
-.rights-fieldset-body .x-form-check-wrap {
-    line-height: 14px;
-}
 .check-right-entry.x-form-item  
 {
     margin-bottom: 0px;
 }
 
-.ametys-tbar-fieldset .ametys-fieldset-bbar {
-    clear: left;
-}
 
-.ametys-tbar-fieldset .ametys-fieldset-body {
-    clear: right;
-}
+
 .ametys-tbar-fieldset .ametys-fieldset-bbar .x-toolbar {
     background: transparent none;
     border: 0 none;
@@ -161,9 +150,17 @@ legend .x-tool-over .x-tool-toggle
     width: 46px !important;
 }
 
-#profile-edit-panel .x-field {
-	/*color: #5f5f5f;*/
+.x-fieldset-header {
+	width: 100%;
 }
+fieldset legend .x-container {
+	float: right;
+}
+fieldset legend .x-btn {
+	background-image: none;
+	background-color: transparent;
+}
+
 #profile-edit-panel .x-form-cb-checked {
 	color: #1C58A0;
 	background-color: #E8EEF5;
