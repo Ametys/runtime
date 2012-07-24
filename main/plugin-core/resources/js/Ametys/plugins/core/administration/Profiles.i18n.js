@@ -56,6 +56,10 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 	 * @private
 	 * @property {Ext.grid.Panel} listview The profile list
 	 */
+	/**
+	 * @private
+	 * @property {String} pluginName The name of the plugin handling ajax request
+	 */
 
 	/**
 	 * Initialize the elements
