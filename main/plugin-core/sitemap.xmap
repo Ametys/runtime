@@ -113,7 +113,8 @@
     				<map:serialize type="text"/>
                 </map:act>
 			</map:match>
-		</map:pipeline>	
+		</map:pipeline>
+			
 		<map:pipeline>
 			<!-- Dispatcher -->
 			<map:match pattern="servercomm/messages.xml">
@@ -140,10 +141,16 @@
 			</map:match>
 
 
+            <!-- +
+                 | Protecting all administrator urls
+                 + -->
             <map:match pattern="administrator/**">
                 <map:act type="administrator-is-system-user"/>
             </map:match>
             
+            <!-- +
+                 | Restarting application
+                 + -->
             <map:match pattern="administrator/restart">
             	<map:act type="administrator-restart">
             		<map:generate type="action-result">
@@ -206,7 +213,7 @@
             </map:match>
                  
             <!-- +
-                 | Etat du système 
+                 | System status
                  + -->
             <map:match pattern="administrator/jvmstatus/view.html">
                 <map:generate type="administrator-jvmstatus" label="content"/>
@@ -257,7 +264,7 @@
             
             
             <!-- +
-                 | Journaux du système 
+                 | Logs 
                  + -->
             <map:match pattern="administrator/logs/view.html">
                 <map:generate type="administrator-logs" label="content"/>
@@ -322,7 +329,7 @@
             </map:match>
             
             <!-- +
-                 | Listes des plugins
+                 | Plugins and workspaces managment tool
                  + -->
             <map:match pattern="administrator/plugins/list.xml">
                 <map:generate type="administrator-plugins-list"/>
@@ -386,7 +393,7 @@
             </map:match>
 
             <!-- +
-                 | Accès Système
+                 | Webservices to know system status
                  + -->
             <map:match pattern="system-startuptime.xml">
                 <map:generate type="administrator-startuptime" label="content"/>
@@ -398,6 +405,9 @@
                 <map:serialize type="xml"/>
             </map:match>
 
+            <!-- +
+                 | System announce
+                 + -->
             <map:match pattern="administrator/system/view.html">
                 <map:generate type="administrator-system" label="content"/>
                 <map:transform src="pages/administrator/system/view.xsl">
@@ -420,7 +430,7 @@
             </map:match>
             
             <!-- +
-                 | Super utilisateur
+                 | Super user creation
                  + -->
            	<map:match pattern="administrator/superuser/affect">
            		<map:act type="administrator-affect-superuser">
@@ -432,7 +442,7 @@
            	</map:match>
 
              <!-- +
-                 | Utilisateur
+                 | Users
                  + -->
             <map:match pattern="users/search.xml">
                 <map:generate type="users-search" src="{request-param:criteria}">
@@ -518,7 +528,7 @@
             </map:match>
 			
 			<!-- +
-                 | Groupes
+                 | Groups
                  + -->
             <map:match pattern="groups/search.xml">
                 <map:generate type="groups-search" src="{request-param:criteria}">
@@ -598,7 +608,7 @@
 			</map:match>
 			
 			<!-- +
-                 | Rights
+                 | Profiles
                  + -->
 			<map:match pattern="administrator/rights/profiles/create">
 				<map:act type="administrator-rights-profile-create">
@@ -664,6 +674,9 @@
                 </map:read>
             </map:match>
             
+            <!-- +
+                 | Webservice to know about rights
+                 + -->
             <map:match pattern="has-right">
 				<map:act type="has-right" src="{request-param:rights}">
 					<map:parameter name="context" value="{request-param:context}"/>
