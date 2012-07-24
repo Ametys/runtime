@@ -34,10 +34,12 @@
                 <title><i18n:text i18n:key="PLUGINS_CORE_GROUPS_LABEL"/></title>
                 <link rel="stylesheet" href="{$resourcesPath}/css/administrator/groups.css" type="text/css"/>      
                 <link rel="stylesheet" href="{$resourcesPath}/css/selectuser.css" type="text/css"/>                     
+                <link rel="stylesheet" href="{$resourcesPath}/css/selectgroup.css" type="text/css"/>                     
             </head>
             
             <script>
             	<script type="text/javascript" src="{$contextPath}/plugins/{$pluginName}/resources/js/Ametys/plugins/core/SelectUser.i18n.js"><xsl:comment>//emty</xsl:comment></script>
+                <script type="text/javascript" src="{$contextPath}/plugins/{$pluginName}/resources/js/Ametys/plugins/core/SelectGroup.i18n.js"><xsl:comment>//emty</xsl:comment></script>
             	<script type="text/javascript" src="{$contextPath}/plugins/{$pluginName}/resources/js/Ametys/plugins/core/administration/Groups.i18n.js"></script>
             	
             	<script type="text/javascript">

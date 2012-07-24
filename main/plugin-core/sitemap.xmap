@@ -520,7 +520,7 @@
 			<!-- +
                  | Groupes
                  + -->
-            <map:match pattern="groups/selectgroup/search.xml">
+            <map:match pattern="groups/search.xml">
                 <map:generate type="groups-search" src="{request-param:criteria}">
                     <map:parameter name="count" value="{request-param:count}"/>
                     <map:parameter name="offset" value="{request-param:offset}"/>
