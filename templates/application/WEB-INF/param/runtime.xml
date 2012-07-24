@@ -26,14 +26,17 @@
         <locations>
             <location>modules</location>
         </locations>
+    	<exclude>
+            <feature>core/runtime.datasource.core</feature>
+    	</exclude>
     </plugins>
 
     <incompleteConfig>
         <allowedURLs>
             <allowedURL>_admin/public</allowedURL>
-            <allowedURL>_admin/resources</allowedURL>
-            <allowedURL>_admin/_plugins/core/administrator/config</allowedURL>
-            <allowedURL>_admin/plugins/core/administrator/config</allowedURL>
+        	<allowedURL>_admin/resources</allowedURL>
+        	<allowedURL>_admin/_plugins/core/administrator/config</allowedURL>
+        	<allowedURL>_admin/plugins/core/administrator/config</allowedURL>
         </allowedURLs>
         <redirectURL>cocoon://_admin/public/load-config.html?uri=core/administrator/config/edit.html</redirectURL>
     </incompleteConfig>
@@ -41,8 +44,5 @@
     <workspaces default="site"/>
     
     <extensions>
-        <org.ametys.runtime.user.UsersManager>org.ametys.runtime.plugins.core.user.CoreModifiableCredentialsAwareJdbc</org.ametys.runtime.user.UsersManager>
-        <org.ametys.runtime.group.GroupsManager>org.ametys.runtime.plugins.core.group.ModifiableJdbcCore</org.ametys.runtime.group.GroupsManager>
-        <org.ametys.runtime.right.RightsManager>org.ametys.runtime.plugins.core.right.DefaultProfileBased</org.ametys.runtime.right.RightsManager>
     </extensions>
 </runtime>
