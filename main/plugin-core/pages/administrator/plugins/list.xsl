@@ -34,11 +34,11 @@
                 <title><i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_TITLE"/></title>
             </head>
 				<script>
-					<script type="text/javascript" src="{$resourcesPath}/js/org/ametys/administration/Plugins.i18n.js"></script>
+					<script type="text/javascript" src="{$resourcesPath}/js/Ametys/plugins/core/administration/Plugins.i18n.js"></script>
 	            	<script type="text/javascript">
-						org.ametys.administration.Plugins.initialize ("<xsl:value-of select="$pluginName"/>");
+						Ametys.plugins.core.administration.Plugins.initialize ("<xsl:value-of select="$pluginName"/>");
 						
-						var pluginTreeNode = new Ext.tree.AsyncTreeNode({
+						var pluginTreeNode = {
 				            expanded: true,
                        		icon: "<xsl:value-of select="$resourcesPath"/>/img/administrator/plugins/root.png",
 				            text: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_PLUGINS"/>",
@@ -61,9 +61,9 @@
 					            	</xsl:otherwise>
 					            </xsl:choose>
 				            ]
-				        });
+				        };
 
-						var pluginTreeNode2 = new Ext.tree.AsyncTreeNode({
+						var pluginTreeNode2 = {
 				            expanded: true,
                        		icon: "<xsl:value-of select="$resourcesPath"/>/img/administrator/plugins/root.png",
 				            text: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_EXTENSION_POINTS"/>",
@@ -108,9 +108,9 @@
 					            	</xsl:otherwise>
 					            </xsl:choose>
 				            ]
-				        });
+				        };
 						
-						var pluginTreeNode3 = new Ext.tree.AsyncTreeNode({
+						var pluginTreeNode3 = {
 				            expanded: true,
                        		icon: "<xsl:value-of select="$resourcesPath"/>/img/administrator/plugins/root.png",
 				            text: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_WORKSPACE_VIEW"/>",
@@ -133,13 +133,11 @@
 					            	</xsl:otherwise>
 					            </xsl:choose>
 				            ]
-				        });
+				        };
 						
-						var mainPanel = org.ametys.administration.Plugins.createPanel (pluginTreeNode, pluginTreeNode2, pluginTreeNode3);
-							
-						org.ametys.runtime.administrator.Panel.createPanel = function () 
+						createPanel = function () 
 						{
-							return mainPanel;
+							return Ametys.plugins.core.administration.Plugins.createPanel (pluginTreeNode, pluginTreeNode2, pluginTreeNode3);
 						}						            			
 	            	</script>
             </script>	
