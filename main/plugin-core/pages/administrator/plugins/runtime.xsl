@@ -80,26 +80,41 @@
 		<!-- Nothing -->
 	</xsl:template>
 	
-	<!-- Deactivate -->
-	<xsl:template match="/CMS/runtime/plugins/exclude">
-		<xsl:copy>
-			<xsl:copy-of select="@*"></xsl:copy-of>
+    <!-- Deactivate -->
+    <xsl:template match="/CMS/runtime/plugins/exclude">
+        <xsl:copy>
+            <xsl:copy-of select="@*"></xsl:copy-of>
 
-			<xsl:apply-templates/>
-			
-			<xsl:for-each select="/CMS/transformations/features/feature[. = 'false']">
-				<xsl:variable name="fName" select="@name"/>
-				<xsl:choose>
-					<xsl:when test="/CMS/runtime/plugins/exclude/feature[. = $fName]">
-						<!-- Already deactivated -->
-					</xsl:when>
-					<xsl:otherwise>
-						<feature><xsl:value-of select="@name"/></feature>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:for-each>
-		</xsl:copy>
-	</xsl:template>
+            <xsl:apply-templates/>
+
+            <xsl:call-template name="excluding"/>           
+        </xsl:copy>
+    </xsl:template>
+    <xsl:template match="/CMS/runtime/plugins[not(exclude)]">
+        <xsl:copy>
+            <xsl:copy-of select="@*"></xsl:copy-of>
+
+            <xsl:apply-templates/>
+
+            <exclude>
+                <xsl:call-template name="excluding"/>           
+            </exclude>
+        </xsl:copy>
+    </xsl:template>
+        
+    <xsl:template name="excluding">
+           <xsl:for-each select="/CMS/transformations/features/feature[. = 'false']">
+               <xsl:variable name="fName" select="@name"/>
+               <xsl:choose>
+                   <xsl:when test="/CMS/runtime/plugins/exclude/feature[. = $fName]">
+                       <!-- Already deactivated -->
+                   </xsl:when>
+                   <xsl:otherwise>
+                       <feature><xsl:value-of select="@name"/></feature>
+                   </xsl:otherwise>
+               </xsl:choose>
+           </xsl:for-each>
+    </xsl:template>
 	
 	<!-- For copying -->
 	<xsl:template match="*">
