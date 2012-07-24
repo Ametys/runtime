@@ -24,13 +24,10 @@ import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.framework.service.ServiceException;
 import org.apache.cocoon.Constants;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.environment.Context;
 import org.apache.cocoon.xml.ParamSaxBuffer;
-import org.apache.excalibur.source.Source;
-import org.apache.excalibur.source.SourceResolver;
 import org.xml.sax.SAXException;
 
 import org.ametys.runtime.plugin.PluginsManager;
