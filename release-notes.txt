@@ -1,3 +1,42 @@
+Runtime - Version 2.4 (August 08, 2012)
+
+Task:
+  RUNTIME-734 : Add support of FF14
+
+New Feature:
+  RUNTIME-699 : Refactor RightsManager implementations to handle an anonymous access (user null)
+
+Improvement:
+  RUNTIME-542 : Improve the ergonomy of the profile management screen
+  RUNTIME-689 : Re-throw the exception when catching it in ScriptRunner
+  RUNTIME-695 : Add the possibility to skip the unsupported browser screen
+  RUNTIME-701 : ServerMessage API should handle urls of a specific workpace
+  RUNTIME-702 : Made the UploadAction easily overridable
+  RUNTIME-704 : Add a"select all/unselect all" action for rights on profiles screen
+  RUNTIME-708 : Order Groups in group management
+  RUNTIME-709 : Add a method to modify a given context
+  RUNTIME-710 : Add support of FF11, FF12, Chrome 14-18
+  RUNTIME-720 : chrome 19 / safari 5.1.7 support
+  RUNTIME-730 : Add Chrome 20 compatibility
+  RUNTIME-731 : Be able to override some i18n keys, even when a plugin is bundled in a JAR
+  RUNTIME-732 : Ability to provide the context path to AllJSComponent and AllCSSComponent
+
+Bug:
+  RUNTIME-694 : UploadReader to generate thumbnails images send a wrong response
+  RUNTIME-696 : I18nUtils stores the language "null" in cache
+  RUNTIME-697 : The current user provider should return null if there is no user connected
+  RUNTIME-703 : The MultiSelect widget does not resize correctly
+  RUNTIME-724 : Admin monitoring of http session is not working
+  RUNTIME-725 : Alert browser compatibility is always displayed (no cookie)
+  RUNTIME-726 : Support of FF13
+  RUNTIME-727 : Spell mistake on the screen profile management
+  RUNTIME-728 : Animated Gif are resized even if the contributor does not resize it
+  RUNTIME-729 : Getting an error when removing users from a group makes the application unresponsive
+  RUNTIME-733 : Hardcorded label for profiles administration
+  RUNTIME-735 : Administration of profiles : saving while changing view
+  RUNTIME-737 : Administration of plugins : exclude a plugin
+  RUNTIME-740 : LDAPUsersManager log unexpected error
+
 Runtime - Version 2.3 (March 06, 2012)
 
 Task:
