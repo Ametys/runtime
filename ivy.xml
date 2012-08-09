@@ -15,7 +15,7 @@
    limitations under the License.
    -->
 <ivy-module version="1.0">
-  <info organisation="org.ametys.runtime" module="runtime" branch="2.4.x">
+  <info organisation="org.ametys.runtime" module="runtime" branch="2.5.x">
     <license url="http://www.apache.org/licenses/LICENSE-2.0" name="ASL2"/>
     <description homepage="http://www.ametys.org/">
 Open source web application framework based on Apache Cocoon.
