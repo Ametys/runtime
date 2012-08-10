@@ -14,6 +14,42 @@
  *  limitations under the License.
  */
 
+.ametys-box-body {
+	font-family: arial, sans-serif;
+	font-size: 11px;
+}
+
+.text-dialog .ametys-box-body {
+	padding: 5px;
+	background-color: #ffffff;
+}
+
+.ametys-box-body .hint {
+	padding-bottom: 5px;
+	background-color: #FFFFFF;
+	color:#404040;
+}
+
+.ametys-box-body a.action,
+.ametys-box-body a.action:hover,
+.ametys-box-body a.action:link,
+.ametys-box-body a.action:active,
+.ametys-box-body a.action:visited
+{
+	color: #3E6AAA;
+	text-decoration: none;
+}
+.ametys-box-body a.action:hover
+{
+	text-decoration: underline;
+}
+
+.dialog-text-hint {
+	background-color:#FFFFFF;
+	color:#404040;
+	padding: 5px 10px;
+}
+
 .field-required label {
 	color: red;
 }
