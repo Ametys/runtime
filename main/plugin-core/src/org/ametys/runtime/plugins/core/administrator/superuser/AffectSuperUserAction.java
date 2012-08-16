@@ -74,9 +74,18 @@ public class AffectSuperUserAction extends ServiceableAction implements ThreadSa
         InitializableRightsManager initRightsManager = (InitializableRightsManager) _rightsManager;
         for (String login : logins)
         {
-            initRightsManager.grantAllPrivileges(login, "");
+            initRightsManager.grantAllPrivileges(login, getRightContext());
         }
         
         return EMPTY_MAP;
+    }
+    
+    /**
+     * Get the right context on which apply all privileges
+     * @return the right context
+     */
+    protected String getRightContext ()
+    {
+        return "";
     }
 }
