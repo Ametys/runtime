@@ -427,7 +427,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	{
 		if (enumeration != null)
 		{
-			return new Ext.form.field.Combo ({
+			return new Ext.form.field.ComboBox ({
 				name: name,
 				
 		        fieldLabel: label,
