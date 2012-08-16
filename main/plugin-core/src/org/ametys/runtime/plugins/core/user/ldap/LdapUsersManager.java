@@ -177,7 +177,7 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
             results = context.search(_usersRelativeDN, filter, params, _getSearchConstraint(0));
 
             // Chercher l'utilisateur voulu
-            if (results.hasMoreElements())
+            if (results.hasMore())
             {
                 Map<String, Object> attributes = _getAttributes((SearchResult) results.nextElement());
                 if (attributes != null)
@@ -185,13 +185,13 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
                     // Ajouter un nouveau principal à la liste
                     principal = _createUser (attributes);
                 }
-            }
-
-            if (results.hasMoreElements())
-            {
-                // Annuler le résultat car plusieurs correspondances pour un login
-                principal = null;
-                getLogger().error("Multiple matches for attribute '" + _usersLoginAttribute + "' and value = '" + login + "'");
+                
+                if (results.hasMore())
+                {
+                    // Annuler le résultat car plusieurs correspondances pour un login
+                    principal = null;
+                    getLogger().error("Multiple matches for attribute '" + _usersLoginAttribute + "' and value = '" + login + "'");
+                }
             }
 
             if (isCacheEnabled())
