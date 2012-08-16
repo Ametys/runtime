@@ -27,7 +27,9 @@ Ext.namespace('org.ametys');
  */
 org.ametys.ListView = function(config) 
 {
-	config.sm = new Ext.grid.RowSelectionModel({singleSelect: true});
+    config = Ext.applyIf(config, {
+        sm: new Ext.grid.RowSelectionModel({singleSelect: true})
+    });
 	org.ametys.ListView.superclass.constructor.call(this, config);
 }; 
 
