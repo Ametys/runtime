@@ -21,6 +21,8 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -35,22 +37,30 @@ import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceFactory;
 import org.apache.excalibur.source.SourceNotFoundException;
 import org.apache.excalibur.source.SourceResolver;
-import org.apache.excalibur.source.SourceUtil;
 
 /**
  * Factory for reading files in one protocol and switch to others if not found.
+ * Configuration should be like:<br/><code><pre>
+ *       &lt;match&gt;kernel://(.*)&lt;/match&gt;
+ *       &lt;protocols&gt;
+ *         &lt;protocol&gt;resource://org/ametys/runtime/kernel/{1}&lt;/protocol&gt;
+ *         &lt;protocol&gt;context://kernel/{1}&lt;/protocol&gt;
+ *       &lt;/protocols&gt;</pre></code>
  */
-public class SwitchSourceFactory extends AbstractLogEnabled implements SourceFactory, ThreadSafe, Serviceable, Configurable
+public class ProxySourceFactory extends AbstractLogEnabled implements SourceFactory, ThreadSafe, Serviceable, Configurable
 {
     private SourceResolver _sourceResolver;
     private List<String> _protocols;
     private ServiceManager _manager;
+    private Pattern _matcher;
 
     @Override
     public void configure(Configuration configuration) throws ConfigurationException
     {
+        _matcher = Pattern.compile(configuration.getChild("match").getValue());
+        
         _protocols = new ArrayList<String>();
-        for (Configuration protocolConf : configuration.getChildren("protocol"))
+        for (Configuration protocolConf : configuration.getChild("protocols").getChildren("protocol"))
         {
             String protocol = protocolConf.getValue();
             if (!StringUtils.isBlank(protocol))
@@ -90,20 +100,23 @@ public class SwitchSourceFactory extends AbstractLogEnabled implements SourceFac
             }
         }
 
-        final int pos = SourceUtil.indexOfSchemeColon(location);
-        if (pos == -1 || !location.startsWith("://", pos))
+        Matcher matcher = _matcher.matcher(location);
+        if (!matcher.matches())
         {
             throw new MalformedURLException("Invalid format for source : " + location);
         }
 
-        String sublocation = location.substring(pos + 3); 
-        
         Source source = null;
         for (String protocol : _protocols)
         {
             try
             {
-                source = _sourceResolver.resolveURI(protocol + sublocation, null, parameters);
+                for (int groupIndex = 0; groupIndex <= matcher.groupCount(); groupIndex++)
+                {
+                    protocol = protocol.replaceAll("\\{" + groupIndex + "\\}", matcher.group(groupIndex));
+                }
+                
+                source = _sourceResolver.resolveURI(protocol, null, parameters);
                 if (!source.exists())
                 {
                     _sourceResolver.release(source);
@@ -116,7 +129,7 @@ public class SwitchSourceFactory extends AbstractLogEnabled implements SourceFac
             }
             catch (IOException e)
             {
-                // nothing to do specially
+                // nothing to do...
             }
         }
         
