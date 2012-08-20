@@ -267,6 +267,30 @@ Ext.define('Ametys.form.field.ChangePassword', {
         return isValid;
     },
     
+    getValue: function()
+    {
+    	if (this.mode == Ametys.form.field.ChangePassword.MODE_SEEPASSWORD)
+    	{
+    		return null;
+    	}
+    	else
+    	{
+    		return this.callParent(arguments);
+    	}
+    },
+    
+    getSubmitData: function()
+    {
+    	if (this.mode == Ametys.form.field.ChangePassword.MODE_SEEPASSWORD)
+    	{
+    		return null;
+    	}
+    	else
+    	{
+    		return this.callParent(arguments);
+    	}
+    },
+    
     setValue: function(value)
     {
     	if (value == undefined || value == '')
