@@ -146,6 +146,7 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_INACTIVE_SINGLE">(contient une extension non choisie)</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_INACTIVE_EXCLUDED">(désactivé)</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_INACTIVE_DEPENDENCY">(dépend d'une feature indisponible)</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_INACTIVE_PASSIVE">(feature passive non nécessaire)</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_ALERT_TEXT">Le changement ne sera effectif que lorsque vous aurez confirmé tous vos changements.&lt;br/&gt;Pour cela, cliquez sur l'action 'Changements'.&lt;br/&gt;&lt;br/&gt;Aucun élément graphique des arbres de plugins ne sera modifié tant que vos changements ne seront pas validés.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_ALERT_TITLE">Changement...</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_CONFIRM_TITLE">Changements...</message>

@@ -147,6 +147,15 @@
                 </xsd:documentation>
             </xsd:annotation>
         </xsd:attribute>
+        <xsd:attribute name="passive" type="xsd:boolean" use="optional">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                        Declares that feature as passive, meaning it useless if not used by another feature.
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
     </xsd:complexType>
 
     <xsd:complexType name="extension-points">

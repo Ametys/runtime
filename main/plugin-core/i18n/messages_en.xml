@@ -146,6 +146,7 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_INACTIVE_SINGLE">(contains a rejected extension)</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_INACTIVE_EXCLUDED">(excluded)</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_INACTIVE_DEPENDENCY">(depends on an unavailable feature)</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_INACTIVE_PASSIVE">(unnecessary passive feature)</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_ALERT_TEXT">The change will be effective only when you will confirm all the changes.&lt;br/&gt;To do so, please click on the 'Changes' action.&lt;br/&gt;&lt;br/&gt;No graphical element of the plugins tree will be modified until you validate your changes.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_ALERT_TITLE">Change...</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_CONFIRM_TITLE">Changes...</message>
