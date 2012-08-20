@@ -866,10 +866,7 @@ public final class PluginsManager
                         
                         if (!featuresInformations.containsKey(dependingFeatureId) && !featuresToRemove.contains(featureId))
                         {
-                            if (_logger.isWarnEnabled())
-                            {
-                                _logger.warn("The feature '" + featureId + "' depends on '" + dependingFeatureId + "' which is not present. It will be ignored.");
-                            }
+                            _logger.error("The feature '" + featureId + "' depends on '" + dependingFeatureId + "' which is not present. It will be ignored.");
                             
                             featuresToRemove.add(featureId);
                             
@@ -878,10 +875,7 @@ public final class PluginsManager
                     }
                     else
                     {
-                        if (_logger.isWarnEnabled())
-                        {
-                            _logger.warn("The feature '" + featureId + "' depends on '" + feature + "' which is not a valid feature id. This dependency will be ignored.");
-                        }
+                        _logger.error("The feature '" + featureId + "' depends on '" + feature + "' which is not a valid feature id. This dependency will be ignored.");
                     }
                 }
             }
