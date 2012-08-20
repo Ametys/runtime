@@ -1280,6 +1280,16 @@ public final class PluginsManager
                     // absolute path
                     File configFile = new File(contextPath, config);
                     configPath = configFile.getAbsolutePath();
+                    
+                    if (!configFile.exists() || configFile.isDirectory())
+                    {
+                        if (_logger.isInfoEnabled())
+                        {
+                            _logger.info("No config file was found at " + configPath + ". Using internally declared config.");
+                        }
+                        return initialConfiguration;
+                    }
+                    
                     is = new FileInputStream(configFile);
                 }
                 else
@@ -1298,6 +1308,16 @@ public final class PluginsManager
                         String path = pluginLocation + pluginName + "/" + config;
                         File configFile = new File(contextPath, path);
                         configPath = configFile.getAbsolutePath();
+
+                        if (!configFile.exists() || configFile.isDirectory())
+                        {
+                            if (_logger.isInfoEnabled())
+                            {
+                                _logger.info("No config file was found at " + configPath + ". Using internally declared config.");
+                            }
+                            return initialConfiguration;
+                        }
+
                         is = new FileInputStream(configFile);
                     }
                     else
@@ -1308,7 +1328,11 @@ public final class PluginsManager
                         
                         if (is == null)
                         {
-                            throw new IllegalArgumentException("The config file '" + configPath + "' does not exist");
+                            if (_logger.isInfoEnabled())
+                            {
+                                _logger.info("No config file was found at " + configPath + ". Using internally declared config.");
+                            }
+                            return initialConfiguration;
                         }
                     }
                 }
