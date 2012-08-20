@@ -258,9 +258,8 @@ public final class PluginsManager
     // They have a META-INF/runtime-plugin plain text file containing schema identifier and path to the actual XSD file
     private void _initSchemas(String contextPath, Collection<String> locations) throws IOException
     {
-        Enumeration<URL> shemasResources = getClass().getClassLoader().getResources("META-INF/runtime-schema");
-        
         // Embedded schemas
+        Enumeration<URL> shemasResources = getClass().getClassLoader().getResources("META-INF/runtime-schema");
         while (shemasResources.hasMoreElements())
         {
             URL shemasResource = shemasResources.nextElement();
@@ -282,11 +281,17 @@ public final class PluginsManager
             }
             finally
             {
-                IOUtils.closeQuietly(br);
+                IOUtils.closeQuietly(br); 
             }
         }
 
         // Local schemas
+        File kernelBase = new File(contextPath, "kernel");
+        if (kernelBase.exists() && kernelBase.isDirectory())
+        {
+            _findAndAddSchema(kernelBase);
+        }
+        
         for (String location : locations)
         {
             File locationBase = new File(contextPath, location);
@@ -303,26 +308,35 @@ public final class PluginsManager
                 
                 for (File pluginDir : pluginDirs)
                 {
-                    File[] schemaFiles = pluginDir.listFiles(new FileFilter() 
-                    {
-                        public boolean accept(File pathname)
-                        {
-                            return pathname.isFile() && pathname.getName().endsWith(".xsd");
-                        }
-                    });
-                    
-                    if (schemaFiles != null && schemaFiles.length > 0)
-                    {
-                        for (File schemaFile : schemaFiles)
-                        {
-                            // Local schema convention is to put a myschema-1.0.xsd file into
-                            // the plugin directory in order to declare the schema of namespace
-                            // http://www.ametys.org/schema/myschema with the schema location
-                            // http://www.ametys.org/schema/myschema-1.0.xsd
-                            _entityResolver.addLocalSchema("http://www.ametys.org/schema/" + schemaFile.getName(), schemaFile);
-                        }
-                    }
+                    _findAndAddSchema(pluginDir);
                 }
+            }
+        }
+    }
+
+    /**
+     * Search in root files of the given directory. If a .xsd file is found it will be added to known schemas using the namespace http://www.ametys.org/schema/FILENAME.xsd
+     * @param dir The directory to inspect.
+     */
+    private void _findAndAddSchema(File dir)
+    {
+        File[] schemaFiles = dir.listFiles(new FileFilter() 
+        {
+            public boolean accept(File pathname)
+            {
+                return pathname.isFile() && pathname.getName().endsWith(".xsd");
+            }
+        });
+        
+        if (schemaFiles != null && schemaFiles.length > 0)
+        {
+            for (File schemaFile : schemaFiles)
+            {
+                // Local schema convention is to put a myschema-1.0.xsd file into
+                // the plugin directory in order to declare the schema of namespace
+                // http://www.ametys.org/schema/myschema with the schema location
+                // http://www.ametys.org/schema/myschema-1.0.xsd
+                _entityResolver.addLocalSchema("http://www.ametys.org/schema/" + schemaFile.getName(), schemaFile);
             }
         }
     }
