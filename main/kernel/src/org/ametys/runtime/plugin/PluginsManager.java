@@ -799,24 +799,15 @@ public final class PluginsManager
                 
                 if (name == null)
                 {
-                    if (_logger.isWarnEnabled())
-                    {
-                        _logger.warn("The plugin '" + pluginName + "' defines a feature without the mandatory \"name\" attribute. It will be ignored.");
-                    }
+                    _logger.error("The plugin '" + pluginName + "' defines a feature without the mandatory \"name\" attribute. It will be ignored.");
                 }
                 else if (!name.matches("[a-zA-Z0-9]|([a-zA-Z0-9][a-zA-Z0-9-_.]*[a-zA-Z0-9])"))
                 {
-                    if (_logger.isWarnEnabled())
-                    {
-                        _logger.warn(name + " is an incorrect feature name. It will be ignored.");
-                    }
+                    _logger.error(name + " is an incorrect feature name. It will be ignored.");
                 }
                 else if (featuresInformations.containsKey(pluginName + FEATURE_ID_SEPARATOR + name))
                 {
-                    if (_logger.isWarnEnabled())
-                    {
-                        _logger.warn("The feature " + name + " in the plugin " + pluginName + " is already declared. It will be ignored.");
-                    }
+                    _logger.error("The feature " + name + " in the plugin " + pluginName + " is already declared. It will be ignored.");
                 }
                 else
                 {
