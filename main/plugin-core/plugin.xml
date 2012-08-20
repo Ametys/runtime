@@ -774,37 +774,42 @@
     </feature>
 
     <feature name="xhtmlserializer-empty">
-    	<extensions>
+      	<extensions>
     		<extension id="org.ametys.runtime.cocoon.XHTMLSerializerExtensionPoint.empty" point="org.ametys.runtime.cocoon.XHTMLSerializerExtensionPoint">
-    			<namespace-allowed></namespace-allowed>
+                <!-- Add the empty namespace as allowed for the xhtml serialization -->
+    		    			<namespace-allowed></namespace-allowed>
     		</extension>
     	</extensions>
     </feature>
     <feature name="xhtmlserializer-xhtml">
     	<extensions>
     		<extension id="org.ametys.runtime.cocoon.XHTMLSerializerExtensionPoint.xhtml" point="org.ametys.runtime.cocoon.XHTMLSerializerExtensionPoint">
-    			<namespace-allowed>http://www.w3.org/1999/xhtml</namespace-allowed>
+                <!-- Add the xhtml namespace as allowed for the xhtml serialization -->
+    		    <namespace-allowed>http://www.w3.org/1999/xhtml</namespace-allowed>
     		</extension>
     	</extensions>
     </feature>
     <feature name="xhtmlserializer-xml">
     	<extensions>
     		<extension id="org.ametys.runtime.cocoon.XHTMLSerializerExtensionPoint.xml" point="org.ametys.runtime.cocoon.XHTMLSerializerExtensionPoint">
-    			<namespace-allowed>http://www.w3.org/XML/1998/namespace</namespace-allowed>
+                <!-- Add the xml namespace as allowed for the xhtml serialization -->
+    		    <namespace-allowed>http://www.w3.org/XML/1998/namespace</namespace-allowed>
     		</extension>
     	</extensions>
     </feature>
     <feature name="xhtmlserializer-svg">
     	<extensions>
     		<extension id="org.ametys.runtime.cocoon.XHTMLSerializerExtensionPoint.svg" point="org.ametys.runtime.cocoon.XHTMLSerializerExtensionPoint">
-    			<namespace-allowed>http://www.w3.org/2000/svg</namespace-allowed>
+                <!-- Add the svg namespace as allowed for the xhtml serialization -->
+    		    <namespace-allowed>http://www.w3.org/2000/svg</namespace-allowed>
     		</extension>
     	</extensions>
     </feature>
     <feature name="xhtmlserializer-mathml">
     	<extensions>
     		<extension id="org.ametys.runtime.cocoon.XHTMLSerializerExtensionPoint.mathml" point="org.ametys.runtime.cocoon.XHTMLSerializerExtensionPoint">
-    			<namespace-allowed>http://www.w3.org/1998/Math/MathML</namespace-allowed>
+                <!-- Add the mathml namespace as allowed for the xhtml serialization -->
+    		    <namespace-allowed>http://www.w3.org/1998/Math/MathML</namespace-allowed>
     		</extension>
     	</extensions>
     </feature>
@@ -901,6 +906,7 @@
     </feature>
     
     <feature name="runtime.upload">
+        <!-- Mark thoses configuration parameters as necessary. If you do not want to configure this beacause your application does not upload any file => unactive this feature. -->
         <config>
             <param-ref id="runtime.upload.max-size"/>
             <param-ref id="runtime.upload.dir"/>
@@ -908,6 +914,7 @@
     </feature>
     
     <feature name="runtime.debug">
+        <!-- Mark the UI debug parameter as available. If your application does not handle it you can unativate it. -->
         <config>
 		    <param-ref id="runtime.debug.ui"/>
 		</config>
@@ -1322,6 +1329,11 @@
     </feature>
     
     <feature name="runtime.user.impl.ldap.and.jdbc.credentialsaware">
+        <!-- 
+            This users manager will search for users into the ldap and into the sql db.
+            @see:plugin{feature/runtime.user.impl.ldap.credentialsaware}
+            @see:plugin{feature/runtime.user.impl.jdbc.credentialsaware.core}
+         -->
         <config>
             <param-ref id="runtime.datasource.core.ldap.baseUrl"/>
             <param-ref id="runtime.datasource.core.ldap.useSSL"/>
@@ -1564,6 +1576,11 @@
     </feature>
     
     <feature name="runtime.groups.impl.ldap.and.jdbc.userDriven" depends="runtime.datasource.core">
+        <!-- 
+            This users manager will search for users into the ldap (users driven) and into the sql db.
+            @see:plugin{feature/runtime.groups.impl.ldap.usersDriven}
+            @see:plugin{feature/runtime.groups.impl.jdbc}
+         -->
         <config>
             <param-ref id="runtime.datasource.core.jdbc.driver"/>
             <param-ref id="runtime.datasource.core.jdbc.url"/>
@@ -1631,6 +1648,11 @@
     </feature>
     
     <feature name="runtime.groups.impl.ldap.and.jdbc.groupDriven" depends="runtime.datasource.core">
+        <!-- 
+            This users manager will search for users into the ldap (group driven) and into the sql db.
+            @see:plugin{feature/runtime.groups.impl.ldap.groupDriven}
+            @see:plugin{feature/runtime.groups.impl.jdbc}
+         -->
         <config>
             <param-ref id="runtime.datasource.core.jdbc.driver"/>
             <param-ref id="runtime.datasource.core.jdbc.url"/>
@@ -1938,6 +1960,11 @@
     </feature>
     
     <feature name="runtime.authentication.impl.cas.gateway.and.basic">
+        <!-- 
+            The same as runtime.authentication.impl.cas.gateway but if the user is not already authenticated on cas, it will see a BASIC popup.
+            @see:plugin{feature/runtime.authentication.impl.cas.gateway}
+            @see:plugin{runtime.authentication.impl.basic}
+         -->
         <config>
             <!-- CAS parameters -->
             <param-ref id="runtime.authentication.cas.serverUrl"/>
@@ -2066,6 +2093,9 @@
     </feature>
     
     <feature name="runtime.user.preferences.empty">
+        <!-- 
+            A users'preferences manager that do not store anything. Usefull, if you do not user users prefs. 
+        -->
     	<extensions>
     		<extension point="org.ametys.runtime.plugins.core.userpref.UserPreferencesManager"
         	           id="org.ametys.runtime.plugins.core.userpref.EmptyUserPreferencesManager"
@@ -2075,7 +2105,10 @@
     </feature>
     
     <feature name="runtime.user.preferences.default" depends="runtime.datasource.core">
-    	<extensions>
+        <!-- 
+            The main users'preferences manager implementation, that do store users'prefs into a sql db. 
+        -->
+        	<extensions>
     		<extension point="org.ametys.runtime.plugins.core.userpref.UserPreferencesManager"
         	           id="org.ametys.runtime.plugins.core.userpref.DefaultUserPreferencesManager"
         	           class="org.ametys.runtime.plugins.core.userpref.DefaultUserPreferencesManager">
