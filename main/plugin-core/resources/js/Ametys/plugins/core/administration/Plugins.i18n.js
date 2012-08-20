@@ -109,9 +109,9 @@ Ext.define('Ametys.plugins.core.administration.Plugins', {
 
 	/**
 	 * Create the screen
-	 * @params {Object} rootNode1 The root node conf for {@link #_tree1} (plugins by file)
-	 * @params {Object} rootNode2 The root node conf for {@link #_tree2} (plugins by extension)
-	 * @params {Object} rootNode3 The root node conf for {@link #_tree3} (workspaces)
+	 * @params {Object} rootNode1 The root node conf for _tree (plugins by file)
+	 * @params {Object} rootNode2 The root node conf for _tree2 (plugins by extension)
+	 * @params {Object} rootNode3 The root node conf for _tree3 (workspaces)
 	 * @return {Ext.panel.Panel} The created panel
 	 */
 	createPanel: function (rootNode1, rootNode2, rootNode3)
