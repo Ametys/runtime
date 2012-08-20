@@ -94,6 +94,9 @@ public final class PluginsManager
     // Inactive plugins list
     private Map<String, InactiveFeature> _inactiveFeatures;
     
+    // Feature that are marked as passive during startup, and that will be inactivated if finally not used
+    private Set<String> _passiveFeatures;
+    
     // Single extension points' roles
     private Collection<String> _singleExtensionPointsRoles;
 
@@ -241,9 +244,9 @@ public final class PluginsManager
                 {
                     _baseURIs.put(pluginName, pluginResourceURI);
                 }
-                else if (_logger.isWarnEnabled())
+                else
                 {
-                    _logger.warn("A plugin '" + pluginName + "' is declared in a library, but no file '" + __PLUGIN_FILENAME + "' can be found at '" + pluginResourceURI + "'. It will be ignored.");
+                    _logger.error("A plugin '" + pluginName + "' is declared in a library, but no file '" + __PLUGIN_FILENAME + "' can be found at '" + pluginResourceURI + "'. It will be ignored.");
                 }
 
             }
@@ -354,6 +357,7 @@ public final class PluginsManager
         _baseURIs = new HashMap<String, String>();
         _inactiveFeatures = new HashMap<String, InactiveFeature>();
         _activeFeatures = new HashMap<String, ActiveFeature>();
+        _passiveFeatures = new HashSet<String>();
         _locations = new HashMap<String, String>();
         _entityResolver = new LocalEntityResolver();
         
@@ -547,27 +551,18 @@ public final class PluginsManager
             }
             else
             {
-                if (_logger.isWarnEnabled())
-                {
-                    _logger.warn("There is no file named " + __PLUGIN_FILENAME + " in the directory " + pluginDir.getAbsolutePath() + ". It will be ignored.");
-                }
+                _logger.error("There is no file named " + __PLUGIN_FILENAME + " in the directory " + pluginDir.getAbsolutePath() + ". It will be ignored.");
             }
         }
         else
         {
             if (!pluginName.matches("^" + PLUGIN_NAME_REGEXP + "$"))
             {
-                if (_logger.isWarnEnabled())
-                {
-                    _logger.warn(pluginName + " is an incorrect plugin directory name. It will be ignored.");
-                }
+                _logger.error(pluginName + " is an incorrect plugin directory name. It will be ignored.");
             }
             else if (pluginsConfigurations.containsKey(pluginName))
             {
-                if (_logger.isWarnEnabled())
-                {
-                    _logger.warn("The plugin " + pluginName + " at " + pluginFile.getAbsolutePath() + " is already declared. It will be ignored.");
-                }
+                _logger.error("The plugin " + pluginName + " at " + pluginFile.getAbsolutePath() + " is already declared. It will be ignored.");
             }
             else
             {
@@ -655,24 +650,15 @@ public final class PluginsManager
                 
                 if (id == null)
                 {
-                    if (_logger.isWarnEnabled())
-                    {
-                        _logger.warn("In plugin '" + pluginName + "', an extension point has no \"id\" attribute. It will be ignored.");
-                    }
+                    _logger.error("In plugin '" + pluginName + "', an extension point has no \"id\" attribute. It will be ignored.");
                 }
                 else if (clazz == null)
                 {
-                    if (_logger.isWarnEnabled())
-                    {
-                        _logger.warn("In plugin '" + pluginName + "', the extension point '" + id + "' miss the \"class\" attribute. It will be ignored.");
-                    }
+                    _logger.error("In plugin '" + pluginName + "', the extension point '" + id + "' miss the \"class\" attribute. It will be ignored.");
                 }
                 else if (_singleExtensionPointsRoles.contains(id) || extPoints.contains(id))
                 {
-                    if (_logger.isWarnEnabled())
-                    {
-                        _logger.warn("The extension point '" + id + "' (in the plugin '" + pluginName + "') is already defined. It will be ignored.");
-                    }
+                    _logger.error("The extension point '" + id + "' (in the plugin '" + pluginName + "') is already defined. It will be ignored.");
                 }
                 else
                 {
@@ -721,24 +707,15 @@ public final class PluginsManager
                     
                     if (id == null)
                     {
-                        if (_logger.isWarnEnabled())
-                        {
-                            _logger.warn("In plugin '" + pluginName + "', a single extension point miss the \"id\" attribute. It will be ignored.");
-                        }
+                        _logger.error("In plugin '" + pluginName + "', a single extension point miss the \"id\" attribute. It will be ignored.");
                     }
                     else if (clazz == null)
                     {
-                        if (_logger.isWarnEnabled())
-                        {
-                            _logger.warn("In plugin '" + pluginName + "', the single extension point '" + id + "' miss the \"class\" attribute. It will be ignored.");
-                        }
+                        _logger.error("In plugin '" + pluginName + "', the single extension point '" + id + "' miss the \"class\" attribute. It will be ignored.");
                     }
                     else if (extPoints.containsKey(id))
                     {
-                        if (_logger.isWarnEnabled())
-                        {
-                            _logger.warn("The single extension point '" + id + "' (in the plugin '" + pluginName + "') is already defined. It will be ignored.");
-                        }
+                        _logger.error("The single extension point '" + id + "' (in the plugin '" + pluginName + "') is already defined. It will be ignored.");
                     }
                     else 
                     {
@@ -825,6 +802,11 @@ public final class PluginsManager
                     }
                     else
                     {
+                        if (conf.getAttributeAsBoolean("passive", false))
+                        {
+                            _passiveFeatures.add(featureId);
+                        }
+                        
                         FeatureInformation info = new FeatureInformation(pluginName, name, conf);
                         featuresInformations.put(info.getFeatureId(), info);
                     }
@@ -872,6 +854,11 @@ public final class PluginsManager
                             
                             process = true;
                         }
+                        else if (_passiveFeatures.contains(dependingFeatureId))
+                        {
+                            // This feature is no more passive
+                            _passiveFeatures.remove(dependingFeatureId);
+                        }
                     }
                     else
                     {
@@ -886,6 +873,13 @@ public final class PluginsManager
         {
             FeatureInformation info = featuresInformations.remove(featureToRemove);
             _inactiveFeatures.put(info.getFeatureId(), new InactiveFeature(info.getPluginName(), info.getFeatureName(), InactivityCause.DEPENDENCY));
+        }
+        
+        // Finally remove passive features
+        for (String featureToRemove : _passiveFeatures)
+        {
+            FeatureInformation info = featuresInformations.remove(featureToRemove);
+            _inactiveFeatures.put(info.getFeatureId(), new InactiveFeature(info.getPluginName(), info.getFeatureName(), InactivityCause.PASSIVE));
         }
     }
     
@@ -934,10 +928,7 @@ public final class PluginsManager
             }
             else
             {
-                if (_logger.isWarnEnabled())
-                {
-                    _logger.warn("The feature '" + featureId + "' depends on '" + feature + "' which is not a valid feature id. This dependency will be ignored.");
-                }
+                _logger.error("The feature '" + featureId + "' depends on '" + feature + "' which is not a valid feature id. This dependency will be ignored.");
             }
         }
         
@@ -1046,24 +1037,15 @@ public final class PluginsManager
         
         if (id == null)
         {
-            if (_logger.isWarnEnabled())
-            {
-                _logger.warn("The feature '" + featureId + "' defines an extension without the mandatory \"id\" attribute. It will be ignored.");
-            }
+            _logger.error("The feature '" + featureId + "' defines an extension without the mandatory \"id\" attribute. It will be ignored.");
         }
         else if (point == null)
         {
-            if (_logger.isWarnEnabled())
-            {
-                _logger.warn("The extension '" + id + "' in the feature '" + featureId + "' defines an extension without the mandatory \"point\" attribute. It will be ignored.");
-            }
+            _logger.error("The extension '" + id + "' in the feature '" + featureId + "' defines an extension without the mandatory \"point\" attribute. It will be ignored.");
         }
         else if (!_extensionPointsRoles.contains(point) && !_singleExtensionPointsRoles.contains(point))
         {
-            if (_logger.isWarnEnabled())
-            {
-                _logger.warn("The extension '" + id + "' in the feature '" + featureId + "' defines an extension to the non-existing extension point '" + point + "'. It will be ignored.");
-            }
+            _logger.error("The extension '" + id + "' in the feature '" + featureId + "' defines an extension to the non-existing extension point '" + point + "'. It will be ignored.");
         }
         else
         {
@@ -1097,10 +1079,7 @@ public final class PluginsManager
                 
                 if (clazz == null)
                 {
-                    if (_logger.isWarnEnabled())
-                    {
-                        _logger.warn("The feature " + featureId + " defines a component without a class. It will be ignored.");
-                    }
+                    _logger.error("The feature " + featureId + " defines a component without a class. It will be ignored.");
                 }
                 else
                 {
@@ -1447,7 +1426,12 @@ public final class PluginsManager
         /**
          * Constant for plugins disabled due to missing dependencies
          */
-        DEPENDENCY
+        DEPENDENCY,
+        
+        /**
+         * Constant for passive features that are not necessary (nobody depends on it)
+         */
+        PASSIVE
     }
     
     private static class LocalEntityResolver implements EntityResolver
