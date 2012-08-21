@@ -32,7 +32,7 @@
 
     <config>
         <!-- +
-             | CORE DATASOURCE
+             | CORE DEBUG
              + -->
         <!-- JDBC -->
         <param id="runtime.debug.ui" type="boolean">
@@ -905,7 +905,7 @@
         </extensions>
     </feature>
     
-    <feature name="runtime.upload" depends="runtime.datasource.core">
+    <feature name="runtime.upload">
         <!-- Mark thoses configuration parameters as necessary. If you do not want to configure this beacause your application does not upload any file => unactive this feature. -->
         <config>
             <param-ref id="runtime.upload.max-size"/>
