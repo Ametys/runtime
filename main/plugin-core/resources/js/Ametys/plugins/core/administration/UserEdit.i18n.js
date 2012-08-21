@@ -158,7 +158,7 @@ Ext.define('Ametys.plugins.core.administration.UserEdit', {
 		    {
 		    	var field = fields[i];
 		        var fieldName = fields[i].nodeName;
-		        var fieldValue = fields[i].firstChild.nodeValue;
+		        var fieldValue = fields[i].firstChild ? fields[i].firstChild.nodeValue : "";
 		        
 		        var elt = this.form.findField('field_' + fieldName);
 		        elt.setValue(fieldValue);
