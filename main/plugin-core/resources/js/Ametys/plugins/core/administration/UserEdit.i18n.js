@@ -172,7 +172,11 @@ Ext.define('Ametys.plugins.core.administration.UserEdit', {
 	ok: function ()
 	{
 		var form = this.form;
-
+		if (!form.isValid())
+		{
+			return;
+		}
+		
 		var args = form.getValues();
 	    args['field_login'] = form.findField('field_login').getValue();
 	    args['mode'] = this.params['mode'];
