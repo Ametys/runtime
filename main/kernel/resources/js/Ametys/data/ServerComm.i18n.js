@@ -247,7 +247,7 @@ Ext.define(
 					}
 				}
 				
-				if (confirm("<i18n:text i18n:key="KERNEL_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE"/>") &amp;&amp; !this._off)
+				if (!this._off &amp;&amp; confirm("<i18n:text i18n:key="KERNEL_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE_1"/>") &amp;&amp; confirm("<i18n:text i18n:key="KERNEL_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE_2"/>"))
 				{
 					return this._sendSynchronousMessage(messageRequest);
 				}
@@ -551,7 +551,7 @@ Ext.define(
 				}
 			}
 
-			if (confirm("<i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE'/>") &amp;&amp; !this._off)
+			if (!this._off &amp;&amp; confirm("<i18n:text i18n:key="KERNEL_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE_1"/>") &amp;&amp; confirm("<i18n:text i18n:key="KERNEL_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE_2"/>"))
 			{
 				Ext.Ajax.request(options);
 			}
