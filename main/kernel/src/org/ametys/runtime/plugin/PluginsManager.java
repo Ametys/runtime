@@ -862,7 +862,7 @@ public final class PluginsManager
                                 // This feature is no more passive
                                 _passiveFeatures.remove(dependingFeatureId);
                                 
-                                // We have to reprocess all since it may have been discarded 
+                                // We have to reprocess all since it may have been ignored during the first loop 
                                 process = true;
                             }
                         }
