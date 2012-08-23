@@ -7,6 +7,7 @@ Pour les fields, utiliser les normaux avec "ametysDescription" pour l'aide, + cl
 	Pour le long utiliser allowDecimals = false
 	Pour le boolean utiliser CheckBoxField
 	pour le double utiliser NumberField
+	pour le checkbox, mettre { inputValue: 'true', uncheckedValue: 'false' } pour avoir le même comportement dans les formulaires qu'avant
 
 Attention, quand on chope un élement de formulaire par son id, on chope la table englobante. Bien faire Ext.getCmp (et pas Ext.get)
 	
