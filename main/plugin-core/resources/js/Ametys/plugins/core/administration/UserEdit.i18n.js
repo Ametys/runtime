@@ -129,14 +129,12 @@ Ext.define('Ametys.plugins.core.administration.UserEdit', {
 	        return;
 		
 		this.form.reset();
-		this.box.show();
 	
 	    var params = this.params;
 	    
 	    if (params['mode'] == 'new')
 	    {
 	    	this.form.findField('field_login').setDisabled(false);
-	    	var elements = this.form.reset();
 	    }
 	    else
 	    {
@@ -164,6 +162,8 @@ Ext.define('Ametys.plugins.core.administration.UserEdit', {
 		        elt.setValue(fieldValue);
 		    }
 	    }
+	    
+	    this.box.show();
 	},
 
 	/**
