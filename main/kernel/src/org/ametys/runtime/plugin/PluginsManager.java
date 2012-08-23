@@ -407,6 +407,7 @@ public final class PluginsManager
         
         // Handling of features dependencies
         _checkFeaturesDependencies(featuresInformations);
+        _checkPassiveFeatures(featuresInformations);
         featuresInformations = _computeFeaturesDependencies(featuresInformations);
         
         // Config loading
@@ -854,11 +855,6 @@ public final class PluginsManager
                             
                             process = true;
                         }
-                        else if (_passiveFeatures.contains(dependingFeatureId))
-                        {
-                            // This feature is no more passive
-                            _passiveFeatures.remove(dependingFeatureId);
-                        }
                     }
                     else
                     {
@@ -867,12 +863,62 @@ public final class PluginsManager
                 }
             }
         }
-        
+
         // Finally remove ignored features
         for (String featureToRemove : featuresToRemove)
         {
             FeatureInformation info = featuresInformations.remove(featureToRemove);
             _inactiveFeatures.put(info.getFeatureId(), new InactiveFeature(info.getPluginName(), info.getFeatureName(), InactivityCause.DEPENDENCY));
+        }
+    }
+    
+    private void _checkPassiveFeatures(Map<String, FeatureInformation> featuresInformations)
+    {
+        boolean process = true;
+        
+        while (process)
+        {
+            process = false;
+            
+            for (String featureId : featuresInformations.keySet())
+            {
+                // Only handle non-passive features
+                if (!_passiveFeatures.contains(featureId))
+                {
+                    FeatureInformation info = featuresInformations.get(featureId);
+                    Configuration conf = info.getConfiguration();
+                    String depends = conf.getAttribute("depends", "");
+                    Collection<String> features = StringUtils.stringToCollection(depends);
+                    
+                    for (String feature : features)
+                    {
+                        Matcher featureIdMatcher = __FEATURE_ID_PATTERN.matcher(feature);
+                        if (featureIdMatcher.matches())
+                        {
+                            String dependingFeatureId = feature;
+                            
+                            String prefix = featureIdMatcher.group(1);
+                            if (prefix == null || prefix.length() == 0)
+                            {
+                                dependingFeatureId = info.getPluginName() + FEATURE_ID_SEPARATOR + feature;
+                            }
+                            
+                            if (_passiveFeatures.contains(dependingFeatureId))
+                            {
+                                // This feature is no more passive
+                                _passiveFeatures.remove(dependingFeatureId);
+                                
+                                // We have to reprocess all since it may have been discarded 
+                                process = true;
+                            }
+                        }
+                        else
+                        {
+                            _logger.error("The feature '" + featureId + "' depends on '" + feature + "' which is not a valid feature id. This dependency will be ignored.");
+                        }
+                    }
+                }
+            }
         }
         
         // Finally remove passive features
