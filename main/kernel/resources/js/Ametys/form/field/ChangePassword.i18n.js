@@ -176,20 +176,19 @@ Ext.define('Ametys.form.field.ChangePassword', {
     	Ext.applyIf(buttonConfig, {
     		text: "<i18n:text i18n:key='KERNEL_PASSWORD_CHANGE' i18n:catalogue='kernel'/>",
     		cls: 'ametys-changepassword-change',
-    		handler: Ext.bind(this._setToMode, this, [Ametys.form.field.ChangePassword.MODE_CHANGEPASSWORD]),
+    		_handler: Ext.bind(this._setToMode, this, [Ametys.form.field.ChangePassword.MODE_CHANGEPASSWORD]),
     		colspan: 2
     	});
     	var button1 = Ext.create('Ext.button.Button', buttonConfig);
 
     	var button2Config = {
-    		handler: Ext.bind(this._setToMode, this, [Ametys.form.field.ChangePassword.MODE_SEEPASSWORD]),
+    		_handler: Ext.bind(this._setToMode, this, [Ametys.form.field.ChangePassword.MODE_SEEPASSWORD]),
     		tooltip: "<i18n:text i18n:key='KERNEL_PASSWORD_CLEAR' i18n:catalogue='kernel'/>",
     		cls: 'ametys-changepassword-reset'
     	};
     	var button2 = Ext.create('Ext.button.Button', button2Config);
-
+    	
     	this.items = [field1, field2, button2, button1];
-    	this.resetPasswordBtn = button2;
     	
     	this.mode = Ametys.form.field.ChangePassword.MODE_SETPASSWORD;
     	
@@ -310,6 +309,7 @@ Ext.define('Ametys.form.field.ChangePassword', {
      * @param {Number} mode The mode to set (see {@link #property-mode}). The render is modified.
      */
     _setToMode: function(mode) {
+    	console.info("set to mode " + mode)
     	if (this.mode == Ametys.form.field.ChangePassword.MODE_SEEPASSWORD)
     	{
         	this.previousValue = this.items.get(Ametys.form.field.ChangePassword.INDEX_MAIN_FIELD).getValue();
@@ -336,12 +336,17 @@ Ext.define('Ametys.form.field.ChangePassword', {
     		return;
     	}
 
-    	this.resetPasswordBtn.hide();
+    	var rstButton = this.items.get(Ametys.form.field.ChangePassword.INDEX_RESETPASSWORD_BUTTON); 
+    	rstButton.hide();
+    	rstButton.getActionEl().removeListener('click', rstButton._handler);
+    	
+    	var chgButton = this.items.get(Ametys.form.field.ChangePassword.INDEX_CHANGEPASSWORD_BUTTON);
     	
     	switch (this.mode)
     	{
     		case Ametys.form.field.ChangePassword.MODE_CHANGEPASSWORD:
-    	    	this.resetPasswordBtn.show();
+    			rstButton.show();
+    	    	rstButton.getActionEl().addListener('click', rstButton._handler);
     	    	
     		case Ametys.form.field.ChangePassword.MODE_SETPASSWORD:
     			this.items.get(Ametys.form.field.ChangePassword.INDEX_MAIN_FIELD).setValue('');
@@ -354,7 +359,8 @@ Ext.define('Ametys.form.field.ChangePassword', {
             	this.items.get(Ametys.form.field.ChangePassword.INDEX_CONFIRMATION_FIELD).setDisabled(this.disabled);
             	this.items.get(Ametys.form.field.ChangePassword.INDEX_CONFIRMATION_FIELD).show();
             	
-            	this.items.get(Ametys.form.field.ChangePassword.INDEX_CHANGEPASSWORD_BUTTON).hide();
+            	chgButton.hide();
+            	chgButton.getActionEl().removeListener('click', chgButton._handler);
 
             	break;
     		case Ametys.form.field.ChangePassword.MODE_SEEPASSWORD:
@@ -365,7 +371,8 @@ Ext.define('Ametys.form.field.ChangePassword', {
     			this.items.get(Ametys.form.field.ChangePassword.INDEX_CONFIRMATION_FIELD).setDisabled(true);
             	this.items.get(Ametys.form.field.ChangePassword.INDEX_CONFIRMATION_FIELD).hide();
 
-            	this.items.get(Ametys.form.field.ChangePassword.INDEX_CHANGEPASSWORD_BUTTON).show();
+            	chgButton.show();
+            	chgButton.getActionEl().addListener('click', chgButton._handler);
 
             	break;
     	}
