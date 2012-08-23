@@ -309,7 +309,6 @@ Ext.define('Ametys.form.field.ChangePassword', {
      * @param {Number} mode The mode to set (see {@link #property-mode}). The render is modified.
      */
     _setToMode: function(mode) {
-    	console.info("set to mode " + mode)
     	if (this.mode == Ametys.form.field.ChangePassword.MODE_SEEPASSWORD)
     	{
         	this.previousValue = this.items.get(Ametys.form.field.ChangePassword.INDEX_MAIN_FIELD).getValue();
