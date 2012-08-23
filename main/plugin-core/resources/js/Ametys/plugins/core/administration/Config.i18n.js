@@ -403,6 +403,9 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	        
 	        checked: (value == "true"),
 	        
+	        inputValue: 'true', 
+	        uncheckedValue: 'false',
+	        
 	    	labelAlign: 'right',
 	        labelWidth: Ametys.plugins.core.administration.Config.LABEL_WIDTH,
 	        labelSeparator: '',
