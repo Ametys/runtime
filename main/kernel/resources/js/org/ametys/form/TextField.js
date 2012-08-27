@@ -44,13 +44,13 @@ org.ametys.form.TextField.prototype.onRender = function(ct, position)
 	if (this.desc)
 	{
 		this.helpEl = this.el.insertSibling({
-			id: this.name + '-img',
+			id: this.id + '-img',
 			tag:'img',
 			style: 'padding-left: 20px; padding-top : 6px; float: left;',
 			src: getPluginResourcesUrl('core') + '/img/administrator/config/help.gif'}, 'after');
 	
 		var tooltip = new Ext.ToolTip({
-	        target: this.name + '-img',
+	        target: this.id + '-img',
 	        html: this.desc,
 	        
 	        dismissDelay: 0 // disable automatic hiding
