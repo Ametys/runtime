@@ -119,17 +119,17 @@ public final class StringUtils
         }
         catch (NoSuchAlgorithmException e)
         {
-            // This error exception not be raised since MD5 is embeded in the JDK
+            // This error exception not be raised since MD5 is embedded in the JDK
             __LOGGER.error("Cannot encode the password to md5Base64", e);
             return null;
         }
         
-        // Crypter le mot de passe avec l'algorithme MD5
+        // MD5-hash the password.
         md5.reset();
         md5.update(password.getBytes());
         byte [] hash = md5.digest();
         
-        // Encodé le résultat en base 64
+        // Base64-encode the result.
         return new String(Base64.encodeBase64(hash));
     }
     
