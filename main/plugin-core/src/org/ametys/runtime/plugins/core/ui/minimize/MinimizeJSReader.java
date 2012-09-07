@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package org.ametys.runtime.plugins.core.ui.js;
+package org.ametys.runtime.plugins.core.ui.minimize;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,6 +24,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceException;
@@ -31,9 +32,10 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.caching.CacheableProcessingComponent;
 import org.apache.cocoon.environment.ObjectModelHelper;
-import org.apache.cocoon.environment.Request;
+import org.apache.cocoon.environment.Session;
 import org.apache.cocoon.reading.ServiceableReader;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceResolver;
 import org.apache.excalibur.source.SourceValidity;
@@ -47,16 +49,14 @@ import com.yahoo.platform.yui.compressor.JavaScriptCompressor;
  * This generator generates a single CSS file to load all ui items css files.
  * Can generates a list of imports of directly intergrates all css files.
  */
-public class AllJSReader extends ServiceableReader implements CacheableProcessingComponent
+public class MinimizeJSReader extends ServiceableReader implements CacheableProcessingComponent
 {
-    private AllJSComponent _allJSComponent;
     private SourceResolver _resolver;
     
     @Override
     public void service(ServiceManager smanager) throws ServiceException
     {
         super.service(smanager);
-        _allJSComponent = (AllJSComponent) smanager.lookup(AllJSComponent.ROLE);
         _resolver = (SourceResolver) smanager.lookup(SourceResolver.ROLE);
     }
     
@@ -106,25 +106,35 @@ public class AllJSReader extends ServiceableReader implements CacheableProcessin
         return 0;
     }
     
+    private List<String> _getFileList()
+    {
+        Session session = ObjectModelHelper.getRequest(objectModel).getSession(true);
+        
+        Map<Integer, List<String>> codesAndFiles = (Map<Integer, List<String>>) session.getAttribute(MinimizeTransformer.class.getName() + "$js");
+        if (codesAndFiles == null)
+        {
+            throw new IllegalStateException("No js files list register in that user's session");
+        }
+        
+        int id = Integer.parseInt(source);
+        if (!codesAndFiles.containsKey(id))
+        {
+            throw new IllegalStateException("No js files list using code '" + source + "' register in that user's session");
+        }
+        return codesAndFiles.get(id);
+    }
+    
     @Override
     public void generate() throws IOException, SAXException, ProcessingException
     {
-        Request request = ObjectModelHelper.getRequest(objectModel);
-        
-        String contextPath = _allJSComponent.getContextPath();
-        if (contextPath == null)
-        {
-            contextPath = request.getContextPath();
-        }
-        
         StringBuffer sb = new StringBuffer("");
         
-        List<String> jsFiles = _allJSComponent.getJSFilesList(source);
+        List<String> jsFiles = _getFileList();
         if (jsFiles != null) 
         {
             for (String jsFile : jsFiles)
             {
-                sb.append(_handleFile(jsFile, contextPath));
+                sb.append(_handleFile(jsFile, ObjectModelHelper.getRequest(objectModel).getContextPath()));
             }
         } 
              
@@ -142,7 +152,7 @@ public class AllJSReader extends ServiceableReader implements CacheableProcessin
         
         if (importMode)
         {
-            sb.append("document.write(\"<script type='text/javascript' src='" + contextPath + org.apache.cocoon.util.NetUtils.normalize(jsFile) + "'><!-- import --></script>\");\n");
+            sb.append("document.write(\"<script type='text/javascript' src='" + (StringUtils.startsWith(jsFile, "~") ? contextPath + org.apache.cocoon.util.NetUtils.normalize(jsFile.substring(1)) : jsFile)  + "'><!-- import --></script>\");\n");
         }
         else
         {
@@ -150,7 +160,7 @@ public class AllJSReader extends ServiceableReader implements CacheableProcessin
             InputStream is = null;
             try
             {
-                jssource = _resolver.resolveURI("cocoon:/" + org.apache.cocoon.util.NetUtils.normalize(jsFile));
+                jssource = _resolver.resolveURI(StringUtils.startsWith(jsFile, "~") ? "cocoon:/" + org.apache.cocoon.util.NetUtils.normalize(jsFile.substring(1)) : jsFile);
                 is = jssource.getInputStream();
                 
                 s = IOUtils.toString(is);

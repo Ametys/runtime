@@ -27,6 +27,10 @@
             </map:generator>
         </map:generators>
         
+        <map:transformers>
+            <map:transformer name="minimizer" src="org.ametys.runtime.plugins.core.ui.minimize.MinimizeTransformer"/>
+        </map:transformers>
+        
 		<map:actions>
 			<map:action name="authenticate" src="org.ametys.runtime.workspaces.admin.authentication.AdminAuthenticateAction" logger="org.ametys.runtime.workspaces.admin.sitemap.action.authentication"/>
             <map:action name="set-authorization-header" src="org.ametys.runtime.workspaces.admin.authentication.SetAuthorizationHeaderAction" logger="org.ametys.runtime.workspaces.admin.sitemap.action.setheader"/>
@@ -114,6 +118,7 @@
 					<map:parameter name="locale" value="{locale:locale}"/>
                     <map:parameter name="workspace" value="{request-attr:workspaceName}"/>
 				</map:transform>
+                <map:transform type="minimizer" src="{request:contextPath}{request-attr:workspaceURI}/plugins/core"/>
 				<map:serialize/>
 			</map:match>
 			
@@ -140,6 +145,7 @@
 					<map:parameter name="locale" value="{locale:locale}"/>
                     <map:parameter name="workspace" value="{request-attr:workspaceName}"/>
 				</map:transform>
+                <map:transform type="minimizer" src="{request:contextPath}{request-attr:workspaceURI}/plugins/core"/>
 				<map:serialize/>
 			</map:match>
 			
@@ -181,6 +187,7 @@
 					<map:parameter name="locale" value="{locale:locale}"/>
 					<map:parameter name="plugin" value="{1}"/>
 				</map:transform>
+                <map:transform type="minimizer" src="{request:contextPath}{request-attr:workspaceURI}/plugins/core"/>
 				<map:serialize/>
 			</map:match>
 			

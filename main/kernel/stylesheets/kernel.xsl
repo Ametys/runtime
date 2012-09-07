@@ -18,8 +18,7 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
     xmlns:i18n="http://apache.org/cocoon/i18n/2.1"
     xmlns:exslt="http://exslt.org/common"
-    xmlns:csscomponent="org.ametys.runtime.plugins.core.ui.css.AllCSSComponent"
-    xmlns:jscomponent="org.ametys.runtime.plugins.core.ui.js.AllJSComponent">
+    xmlns:csscomponent="org.ametys.runtime.plugins.core.ui.css.AllCSSComponent">
 	
 	<xsl:import href="kernel-browsers.xsl"/>
 	
@@ -48,8 +47,6 @@
 		 | @param {String} load-cb A callback js function to call after each js load
 		 | @param {Boolean} use-css-component True to load CSS using the css component to minimize css calls (true is the default value)
 		 | @param {Boolean} reuse-css-component True to avoid css component initialization and css tag creation (false is the default value). Usefull if you want to add others css file to the minimizer, but you will need to call the resetCSS and the link tag by your own. Only used when use-css-component is to true. 
-		 | @param {Boolean} use-js-component The same as use-css-component for js files
-		 | @param {Boolean} reuse-js-component The same as reuse-css-component for js files 
          + -->
     <xsl:template name="kernel-base">
         <xsl:param name="plugins-direct-prefix"/>
@@ -65,8 +62,6 @@
         <xsl:param name="load-cb"/>
         <xsl:param name="use-css-component">true</xsl:param>
         <xsl:param name="reuse-css-component">false</xsl:param>
-        <xsl:param name="use-js-component">true</xsl:param>
-        <xsl:param name="reuse-js-component">false</xsl:param>
 
 	
 		<xsl:call-template name="kernel-browsers">
@@ -120,8 +115,6 @@
 			<xsl:with-param name="load-cb" select="$load-cb"/>
 			<xsl:with-param name="use-css-component" select="$use-css-component"/>
 			<xsl:with-param name="reuse-css-component" select="$reuse-css-component"/>
-			<xsl:with-param name="use-js-component" select="$use-js-component"/>
-			<xsl:with-param name="reuse-js-component" select="$reuse-js-component"/>
 		</xsl:call-template>
     </xsl:template>
  
@@ -132,11 +125,10 @@
          | @param {Boolean} debug-mode Load JS files in debug mode when available.
          | @param {String} context-path The application context path. Can be empty for ROOT context path or should begin with / in other cases. E.g. '/MyContext'
          | @param {String} plugins-direct-prefix Prefix for direct url to plugins (used for AJAX connections) with leading '/' nor context path. e.g. '/_plugins' 
+         | @param {String} workspace-prefix The prefix of the current workspace (so not starting with the context path). If the workspace is the default one, this can be empty. E.g. '', '/_MyWorkspace'
 		 | @param {String} load-cb A callback js function to call after each js load
 		 | @param {Boolean} use-css-component True to load CSS using the css component to minimize css calls (true is the default value)
 		 | @param {Boolean} reuse-css-component True to avoid css component initialization and css tag creation (false is the default value). Usefull if you want to add others css file to the minimizer, but you will need to call the resetCSS and the link tag by your own. Only used when use-css-component is to true. 
-		 | @param {Boolean} use-js-component The same as use-css-component for js files
-		 | @param {Boolean} reuse-js-component The same as reuse-css-component for js files 
          + -->
     <xsl:template name="kernel-load">
         <xsl:param name="scripts"/>
@@ -150,46 +142,20 @@
 		<xsl:param name="load-cb"/>
         <xsl:param name="use-css-component">true</xsl:param>
 		<xsl:param name="reuse-css-component">false</xsl:param>
-		<xsl:param name="use-js-component">true</xsl:param>
-        <xsl:param name="reuse-js-component">false</xsl:param>
 		 
 		<xsl:variable name="plugin-core-url" select="concat($context-path, $workspace-prefix, $plugins-direct-prefix, '/core')"/>
 		 
 		<!-- Load scripts -->
-		<xsl:if test="$scripts">
-			<xsl:choose>
-				<xsl:when test="$use-js-component != 'true'">
-				        <xsl:for-each select="$scripts">
-				            <xsl:variable name="position" select="position()"/>
-				            <xsl:variable name="value" select="."/>
-				            
-				            <!-- check that the src was not already loaded (by another plugin for example) -->
-				            <xsl:if test="not($scripts[position() &lt; $position and . = $value])">
-				            	<script type="text/javascript" src="{$contextPath}{.}"/>
-				        	    <xsl:copy-of select="$load-cb"/>
-				            </xsl:if>
-				        </xsl:for-each>
-				</xsl:when>
-				<xsl:otherwise>
-						<xsl:if test="$reuse-js-component = 'false'">
-							<xsl:value-of select="jscomponent:resetJSFilesList()"/>
-						</xsl:if>
-				        <xsl:for-each select="$scripts">
-				            <xsl:variable name="position" select="position()"/>
-				            <xsl:variable name="value" select="."/>
-				            
-				            <!-- check that the src was not already loaded (by another plugin for example) -->
-				            <xsl:if test="not($scripts[position() &lt; $position and . = $value])">
-				            	<xsl:value-of select="jscomponent:addJSFile(.)"/>
-				            </xsl:if>
-				        </xsl:for-each>
-						<xsl:if test="$reuse-js-component = 'false'">
-			            	<script type="text/javascript" src="{$plugin-core-url}/jsfilelist/{jscomponent:getHashCode()}-{$debug-mode}.js"/>
-			        	    <xsl:copy-of select="$load-cb"/>
-			        	</xsl:if>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:if>
+        <xsl:for-each select="$scripts">
+            <xsl:variable name="position" select="position()"/>
+            <xsl:variable name="value" select="."/>
+            
+            <!-- check that the src was not already loaded (by another plugin for example) -->
+            <xsl:if test="not($scripts[position() &lt; $position and . = $value])">
+            	<script type="text/javascript" src="{$contextPath}{.}"/>
+        	    <xsl:copy-of select="$load-cb"/>
+            </xsl:if>
+        </xsl:for-each>
 
 		<!-- Load css -->
 		<xsl:if test="$css">

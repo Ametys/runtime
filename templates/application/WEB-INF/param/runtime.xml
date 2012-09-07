@@ -36,6 +36,8 @@
         	<allowedURL>_admin/resources</allowedURL>
         	<allowedURL>_admin/_plugins/core/administrator/config</allowedURL>
         	<allowedURL>_admin/plugins/core/administrator/config</allowedURL>
+            <allowedURL>_admin/plugins/core/jsfilelist</allowedURL>
+            <allowedURL>_admin/plugins/core/cssfilelist</allowedURL>
         </allowedURLs>
         <redirectURL>cocoon://_admin/public/load-config.html?uri=core/administrator/config/edit.html</redirectURL>
     </incompleteConfig>

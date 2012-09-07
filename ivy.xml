@@ -74,7 +74,7 @@ Open source web application framework based on Apache Cocoon.
     <dependency org="joda-time" name="joda-time" rev="2.1" conf="common_dependencies->default"/>
     <dependency org="org.jsoup" name="jsoup" rev="1.6.3" conf="common_dependencies->default"/>
     <dependency org="org.rrd4j" name="rrd4j" rev="2.1.1" conf="common_dependencies->default"/>
-    <dependency org="com.yahoo.platform.yui" name="yuicompressor" rev="2.4.6" conf="common_dependencies->default"/>
+    <dependency org="yahoo" name="yuicompressor" rev="2.4.6" conf="common_dependencies->default"/>
     
     <dependency org="org.slf4j" name="slf4j-api" rev="1.6.6" conf="compile_dependencies->default"/>
     <dependency org="org.slf4j" name="slf4j-log4j12" rev="1.6.6" conf="runtime_dependencies->default"/>    

@@ -43,7 +43,7 @@
 		    </xsl:with-param>
 
 		    <xsl:with-param name="body-title">
-		    	<img id="title-logo" alt="workspace.WORKSPACE_ADMIN_LABEL_LONG" i18n:attr="alt"/>
+		    	<img id="title-logo" alt="workspace.admin:WORKSPACE_ADMIN_LABEL_LONG" i18n:attr="alt"/>
 		    	<script type="text/javascript">
 		    		document.getElementById('title-logo').src = "<xsl:value-of select="$contextPath"/><xsl:value-of select="$workspaceURI"/>/resources/img/Admin_<i18n:text i18n:key="KERNEL_LANGUAGE_CODE" i18n:catalogue="kernel"/>.png";
 		    	</script>
