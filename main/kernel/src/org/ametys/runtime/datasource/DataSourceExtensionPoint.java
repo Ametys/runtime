@@ -62,7 +62,7 @@ public class DataSourceExtensionPoint extends AbstractExtensionPoint<DataSource>
         }
         catch (ClassNotFoundException e)
         {
-            throw new ConfigurationException("Specified driver class does not exist", e);
+            throw new ConfigurationException("Specified driver class does not exist: " + driver, e);
         }
         
         GenericObjectPool connectionPool = new GenericObjectPool();
