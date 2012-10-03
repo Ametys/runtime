@@ -182,15 +182,15 @@ public class RuntimeServlet extends CocoonServlet
             {
                 System.out.println("Error while loading servlet. Entering in error mode.");
                 t.printStackTrace();
+            }
 
-                if (t instanceof Exception)
-                {
-                    this.exception = (Exception) t;
-                }
-                else
-                {
-                    this.exception = new Exception(t);
-                }
+            if (t instanceof Exception)
+            {
+                this.exception = (Exception) t;
+            }
+            else
+            {
+                this.exception = new Exception(t);
             }
         }
     }
