@@ -36,6 +36,7 @@
 <runtime.datasource.core.ldap.authMethod>none</runtime.datasource.core.ldap.authMethod>
 <runtime.datasource.core.ldap.adminDN></runtime.datasource.core.ldap.adminDN>
 <runtime.datasource.core.ldap.adminPasswd></runtime.datasource.core.ldap.adminPasswd>
+<runtime.datasource.core.ldap.followReferrals>false</runtime.datasource.core.ldap.followReferrals>
 
 <runtime.users.ldap.peopleDN>ou=people</runtime.users.ldap.peopleDN>
 <runtime.users.ldap.baseFilter>(objectclass=inetOrgPerson)</runtime.users.ldap.baseFilter>
