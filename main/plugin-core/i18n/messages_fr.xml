@@ -449,7 +449,7 @@
     <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_MEMBEROF_DESCRIPTION">Attribut contenant la liste des groupes sur un utilisateur</message>
     <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_ID_LABEL">Attribut identifiant</message>
     <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_ID_DESCRIPTION">Nom de l'attribut identifiant un groupe</message>
-    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_DESCRIPTION_LABEL">Attribute nom</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_DESCRIPTION_LABEL">Attribut nom</message>
     <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_DESCRIPTION_DESCRIPTION">Nom de l'attribut contenant le libellé du groupe</message>
     <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_FILTER_LABEL">Filtre de recherche</message>
     <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_FILTER_DESCRIPTION">Filtre de recherche des groupes dans le LDAP</message>
