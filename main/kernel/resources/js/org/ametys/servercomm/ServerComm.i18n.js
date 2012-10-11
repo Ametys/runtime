@@ -558,7 +558,7 @@ org.ametys.servercomm.ServerComm.prototype._onRequestFailure = function(response
 		}
 	}
 
-	if (!this._off &amp;&amp; confirm("<i18n:text i18n:key="KERNEL_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE_1"/>") &amp;&amp; confirm("<i18n:text i18n:key="KERNEL_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE_2"/>"))
+	if (!this._off &amp;&amp; confirm("<i18n:text i18n:key="KERNEL_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE"/>"))
 	{
 		this._connection.request(options);
 	}
