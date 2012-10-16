@@ -493,10 +493,13 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
     {
         Connection connection = null;
         PreparedStatement statement = null;
-
+        
         try
         {
             connection = ConnectionHelper.getConnection(_poolName);
+            
+            // Start transaction.
+            connection.setAutoCommit(false);
             
             statement = connection.prepareStatement("UPDATE " + _groupsListTable + " SET " + _groupsListColLabel + "=? WHERE " + _groupsListColId + " = ?");
             statement.setString(1, userGroup.getLabel());
@@ -523,12 +526,14 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
                 statement.executeUpdate();
                 ConnectionHelper.cleanup(statement);
             }
-
+            
+            // Commit transaction.
+            connection.commit();
+            
             for (GroupListener listener : _listeners)
             {
                 listener.groupUpdated(userGroup.getId());
             }
-
         }
         catch (SQLException ex)
         {
