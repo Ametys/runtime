@@ -239,28 +239,3 @@
 	margin-right: 1px;
 	float: left;
 }
-
-.ext-ie7 div.x-window-bwrap,
-.ext-ie7 div.x-window-bwrap div.x-window-ml,
-.ext-ie7 div.x-window-bwrap div.x-window-ml div.x-window-mr,
-.ext-ie7 div.x-window-bwrap div.x-window-ml div.x-window-mc,
-.ext-ie7 div.x-window-bwrap div.x-window-ml div.x-window-mc div.x-window-body,
-.ext-ie7 div.x-window-bwrap div.x-window-ml div.x-window-mc div.x-window-body div.x-panel,
-.ext-ie7 div.x-window-bwrap div.x-window-ml div.x-window-mc div.x-window-body div.x-panel div.x-panel-bwrap,
-.ext-ie7 form div,
-.ext-ie7 form label.x-form-item-label
-{
-	position: static !important;
-}
-
-.ext-ie7 form div.x-form-item div.x-form-element div.x-form-field-wrap.x-form-field-trigger-wrap
-{
-	position: relative !important;
-}
-
-.ext-ie7 div.x-window-bwrap div.x-window-ml div.x-window-mc div.x-window-body.x-border-layout-ct,
-.ext-ie7 div.x-window-bwrap div.x-window-ml div.x-window-mc div.x-window-body.x-border-layout-ct div.x-border-panel,
-.ext-ie7 div.x-window-bwrap div.x-window-ml div.x-window-mc div.x-window-body div.x-border-layout-ct div.x-border-panel
-{
-	position: absolute !important;	
-}
