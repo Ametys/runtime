@@ -549,19 +549,35 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
             
             statement.executeUpdate();
             ConnectionHelper.cleanup(statement);
-
-            Iterator userIt = userGroup.getUsers().iterator();
-            while (userIt.hasNext())
+            
+            // Test if the connection supports batch updates.
+            boolean supportsBatch = connection.getMetaData().supportsBatchUpdates();
+            
+            statement = connection.prepareStatement("INSERT INTO " + _groupsCompositionTable + " (" + _groupsCompositionColGroup + ", " + _groupsCompositionColUser + ") VALUES (?, ?)");
+            
+            for (String login : userGroup.getUsers())
             {
-                String login = (String) userIt.next();
-
-                statement = connection.prepareStatement("INSERT INTO " + _groupsCompositionTable + " (" + _groupsCompositionColGroup + ", " + _groupsCompositionColUser + ") VALUES (?, ?)");
                 statement.setInt(1, Integer.parseInt(userGroup.getId()));
                 statement.setString(2, login);
                 
-                statement.executeUpdate();
-                ConnectionHelper.cleanup(statement);
+                // If batch updates are supported, add to the batch, else execute directly.
+                if (supportsBatch)
+                {
+                    statement.addBatch();
+                }
+                else
+                {
+                    statement.executeUpdate();
+                }
             }
+            
+            // If the insert queries were queued in a batch, execute it.
+            if (supportsBatch)
+            {
+                statement.executeBatch();
+            }
+            
+            ConnectionHelper.cleanup(statement);
             
             // Commit transaction.
             connection.commit();
