@@ -94,6 +94,8 @@ public class ModifyProfileAction extends CurrentUserProviderServiceableAction
         }
         else
         {
+            profile.startUpdate();
+            
             // ... effacer les droits actuels
             profile.removeRights();
              
@@ -104,6 +106,8 @@ public class ModifyProfileAction extends CurrentUserProviderServiceableAction
                     profile.addRight(rights[i]);
                 }
             }
+            
+            profile.endUpdate();
         }
         
         if (getLogger().isDebugEnabled())
