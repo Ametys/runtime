@@ -36,14 +36,14 @@
 	                    actionParams : {"Link" : "administrator/config/edit.html", "Mode" : "plugin-wrapped"}
 						
 				});
-				
-				var top = new org.ametys.HtmlContainer({
+
+				var toping = new org.ametys.HtmlContainer({
 					region: 'north',
 					contentEl : 'top-panel',
 					cls: 'top-panel',
 					border: false
 				}); 	
-				
+
 				var center = new Ext.Panel({
 					region: 'center',
 					baseCls: 'center-panel',
@@ -58,7 +58,7 @@
            				layout: 'border',
            				autoScroll: true,
            				baseCls: 'transparent-panel',
-						items : [top, center]
+						items : [toping, center]
 					});
            		}
            	</script>
