@@ -2881,6 +2881,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         private String _context;
         private Connection _currentConnection;
         private boolean _supportsBatch;
+        private PreparedStatement _batchStatement;
         
         /**
          * Constructor.
@@ -2928,13 +2929,13 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             
             try
             {
-                PreparedStatement statement = connection.prepareStatement("INSERT INTO " + _tableProfileRights + " (Profile_Id, Right_Id) VALUES(?, ?)");
+                PreparedStatement statement = getAddStatement(connection);
                 statement.setInt(1, Integer.parseInt(_id));
                 statement.setString(2, rightId);
                 
                 if (isUpdating() && _supportsBatch)
                 {
-                    statement.executeBatch();
+                    statement.addBatch();
                 }
                 else
                 {
@@ -3017,14 +3018,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             {
                 PreparedStatement statement = connection.prepareStatement("DELETE FROM " + _tableProfileRights + " WHERE Profile_Id = ?");
                 statement.setInt(1, Integer.parseInt(_id));
-                if (isUpdating() && _supportsBatch)
-                {
-                    statement.executeBatch();
-                }
-                else
-                {
-                    statement.executeUpdate();
-                }
+                statement.executeUpdate();
             }
             catch (SQLException ex)
             {
@@ -3103,10 +3097,12 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         {
             try
             {
+                if (isUpdating() && _supportsBatch && _batchStatement != null)
+                {
+                    _batchStatement.executeBatch();
+                }
                 _supportsBatch = false;
                 _currentConnection.commit();
-                
-                ConnectionHelper.cleanup(_currentConnection);
             }
             catch (SQLException ex)
             {
@@ -3114,6 +3110,10 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             }
             finally
             {
+                ConnectionHelper.cleanup(_batchStatement);
+                _batchStatement = null;
+                
+                ConnectionHelper.cleanup(_currentConnection);
                 _currentConnection = null;
             }
         }
@@ -3131,6 +3131,37 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             else
             {
                 return ConnectionHelper.getConnection(_poolName);
+            }
+        }
+        
+        /**
+         * Get a prepared statement to add a profile in the DBMS.
+         * @param connection the connection.
+         * @return a prepared statement.
+         */
+        protected PreparedStatement getAddStatement(Connection connection)
+        {
+            try
+            {
+                String query = "INSERT INTO " + _tableProfileRights + " (Profile_Id, Right_Id) VALUES(?, ?)";
+                
+                if (isUpdating() && _supportsBatch)
+                {
+                    if (_batchStatement == null)
+                    {
+                        _batchStatement = connection.prepareStatement(query);
+                    }
+                    
+                    return _batchStatement;
+                }
+                else
+                {
+                    return connection.prepareStatement(query);
+                }
+            }
+            catch (SQLException ex)
+            {
+                throw new RuntimeException(ex);
             }
         }
         
