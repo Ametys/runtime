@@ -122,12 +122,11 @@ org.ametys.form.PasswordCreationField.prototype._drawFields = function(component
 	this.resetBtn.addListener('click', this._resetPassword, this);
 	this.resetBtn.hide();
 
-	var tooltip = new Ext.ToolTip({
-        target: this.resetBtn.id,
-        html: "<i18n:text i18n:key="KERNEL_PASSWORD_CLEAR" i18n:catalogue="kernel"/>",
-        
-        dismissDelay: 0 // disable automatic hiding
-    });
+	Ext.QuickTips.register({
+	    target: this.resetBtn.id,
+	    text: "<i18n:text i18n:key="KERNEL_PASSWORD_CLEAR" i18n:catalogue="kernel"/>",
+	    dismissDelay: 0 // disable automatic hiding
+	});	
 	
 	// add event
 	this.el.addListener('blur', this._blurMain, this);
