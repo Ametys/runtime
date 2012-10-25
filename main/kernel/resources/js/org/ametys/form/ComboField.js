@@ -46,11 +46,10 @@ org.ametys.form.ComboField.prototype.onRender = function(ct, position)
 			style: 'padding-left: 20px; padding-top : 6px; float: left;',
 			src: getPluginResourcesUrl('core') + '/img/administrator/config/help.gif'}, 'after');
 	
-		var tooltip = new Ext.ToolTip({
-	        target: this.id + '-img',
-	        html: this.desc,
-	        
-	        dismissDelay: 0 // disable automatic hiding
-	    });
+		Ext.QuickTips.register({
+		    target: this.id + '-img',
+		    text: this.desc,
+		    dismissDelay: 0 // disable automatic hiding
+		});
 	}
 }
