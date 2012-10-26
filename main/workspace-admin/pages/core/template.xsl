@@ -154,6 +154,10 @@
         
         <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/DockItem.js"></script>
         <script type="text/javascript" src="{$workspaceContext}/resources/js/org/ametys/AdminTools.js"></script>
+
+        <script type="text/javascript">
+            Ext.QuickTips.init();
+        </script>
         
         <script type="text/javascript" src="{$contextPath}/kernel/resources/js/org/ametys/runtime/HomePage.js"><xsl:comment>//empty</xsl:comment></script>
                 
