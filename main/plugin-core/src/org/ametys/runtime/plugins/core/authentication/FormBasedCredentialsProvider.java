@@ -212,19 +212,19 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
     {
         Request request = ContextHelper.getRequest(_context);
 
-        String value = getCookieValue(request, _cookieName);
-        if (value != null && !"".equals(value))
-        {
-            String [] values = value.split("/n");
-            return new Credentials(values[0], values[1]);
-        }
-
         String login = request.getParameter(_usernameField);
         String password = request.getParameter(_passwordField);
 
         if (login != null && password != null)
         {
             return new Credentials(login, password);
+        }
+
+        String value = getCookieValue(request, _cookieName);
+        if (value != null && !"".equals(value))
+        {
+            String [] values = value.split("/n");
+            return new Credentials(values[0], values[1]);
         }
 
         String redirectUrl;
