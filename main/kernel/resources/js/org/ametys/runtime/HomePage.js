@@ -210,7 +210,6 @@ function onreadyfunction()
 		
 	});
 
-	Ext.QuickTips.init();
 	
 	/** IE 6*/
 	pngFixFn();
