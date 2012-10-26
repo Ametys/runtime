@@ -84,6 +84,10 @@
 	background-color: #BCE8F3 !important;
 }
 
+.x-combo-list .x-combo-list-inner {
+	font-size: 10.8px;
+}
+
 .ametys-input label, .ametys-select label, .ametys-file label, .ametys-multi-select label  {
 	float:left !important;
 	text-align: right !important;
