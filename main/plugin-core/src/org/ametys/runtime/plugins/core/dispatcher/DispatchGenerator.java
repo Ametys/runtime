@@ -121,9 +121,16 @@ public class DispatchGenerator extends ServiceableGenerator
                 {
                     getLogger().info("Dispatching url '" + url + "'");
                 }
-
+                
+                // FIXME Debug
+                long time_0 = System.currentTimeMillis();
                 response = _resolver.resolveURI(url, null, requestParameters);
-
+                long time_1 = System.currentTimeMillis();
+                if (url.contains("link-directory/link.xml"))
+                {
+                    getLogger().error("Resolve URI " + url + " in " + (time_1 - time_0) + " milliseconds");
+                }
+                
                 ResponseHandler responseHandler = new ResponseHandler(contentHandler, parameterKey, "200");
                 is = response.getInputStream();
                 
@@ -131,6 +138,13 @@ public class DispatchGenerator extends ServiceableGenerator
                 {
                     // DO NOT USE SitemapSource.toSAX in this case
                     _saxParser.parse(new InputSource(is), responseHandler);
+                    
+                    // FIXME Debug
+                    if (url.contains("link-directory/link.xml"))
+                    {
+                        long time_2 = System.currentTimeMillis();
+                        getLogger().error("Parse URI " + url + " in " + (time_2 - time_1) + " milliseconds");
+                    }
                 }
                 else 
                 {
