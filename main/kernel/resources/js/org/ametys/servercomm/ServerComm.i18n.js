@@ -239,7 +239,7 @@ org.ametys.servercomm.ServerComm.prototype._sendSynchronousMessage = function(me
 		
 		if (!this._off &amp;&amp; confirm("<i18n:text i18n:key="KERNEL_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE"/>"))
 		{
-			return this._sendSynchronousMessage(messageRequest);
+			return null;// this._sendSynchronousMessage(messageRequest);
 		}
 		else
 		{
@@ -265,7 +265,7 @@ org.ametys.servercomm.ServerComm.prototype._sendSynchronousMessage = function(me
 
 		if (confirm("<i18n:text i18n:key="KERNEL_SERVERCOMM_NOTXML_DESC"/>") &amp;&amp; !this._off)
 		{
-			return this._sendSynchronousMessage(messageRequest);
+			return null;// this._sendSynchronousMessage(messageRequest);
 		}
 		else
 		{
@@ -495,44 +495,47 @@ org.ametys.servercomm.ServerComm.prototype._onRequestComplete = function(respons
 
 	this._cancelTimeout(options);
 	
-	if (response.responseXML == null)
+	if (!this._off &amp;&amp; (response.responseXML != null || confirm("<i18n:text i18n:key="KERNEL_SERVERCOMM_NOTXML_DESC"/>")))
 	{
-
-		if (confirm("<i18n:text i18n:key="KERNEL_SERVERCOMM_NOTXML_DESC"/>"))
-		{
-			this._sendMessages(options.messages);
-		}
-		else
-		{
-			this._shutdown();
-		}
+		this._dispatch(response, options);
 	}
 	else
 	{
-		// for each message call the handler
-		for (var i = 0; i &lt; options.messages.length; i++)
-		{
-				var message = options.messages[i];
-	
-				var node = response.responseXML.selectSingleNode("/responses/response[@id='" + i + "']");
-				try
-				{
-					message.getCallback().apply(message.getCallbackScope(), [node, message.getCallbackArguments()]);
+		this._shutdown();
+	}
+}
+
+/**
+ * @private
+ * Call the callbacks for the response (that can be null)
+ * @param {Object} response The XHR object containing the response data
+ * @param {Object} options The arguments of the request method call
+ */
+org.ametys.servercomm.ServerComm.prototype._dispatch = function(response, options)
+{
+	// for each message call the handler
+	for (var i = 0; i &lt; options.messages.length; i++)
+	{
+			var message = options.messages[i];
+
+			var node = response.responseXML != null ? response.responseXML.selectSingleNode("/responses/response[@id='" + i + "']") : null;
+			try
+			{
+				message.getCallback().apply(message.getCallbackScope(), [node, message.getCallbackArguments()]);
+			}
+			catch (e)
+			{
+				function throwException(e) 
+				{ 
+					throw e; 
 				}
-				catch (e)
-				{
-					function throwException(e) 
-					{ 
-						throw e; 
-					}
-					throwException.defer(1, this, [e]);
-	
-					new org.ametys.msg.ErrorDialog("<i18n:text i18n:key='KERNEL_SERVERCOMM_ERROR_TITLE'/>",
-							"<i18n:text i18n:key='KERNEL_SERVERCOMM_ERROR_DESC'/>",
-	                        e + '',
-	                        "org.ametys.servercomm.ServerComm");
-				}
-		}
+				throwException.defer(1, this, [e]);
+
+				new org.ametys.msg.ErrorDialog("<i18n:text i18n:key='KERNEL_SERVERCOMM_ERROR_TITLE'/>",
+						"<i18n:text i18n:key='KERNEL_SERVERCOMM_ERROR_DESC'/>",
+                        e + '',
+                        "org.ametys.servercomm.ServerComm");
+			}
 	}
 }
 
@@ -560,7 +563,7 @@ org.ametys.servercomm.ServerComm.prototype._onRequestFailure = function(response
 
 	if (!this._off &amp;&amp; confirm("<i18n:text i18n:key="KERNEL_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE"/>"))
 	{
-		this._connection.request(options);
+		this._dispatch(response, options);
 	}
 	else
 	{
