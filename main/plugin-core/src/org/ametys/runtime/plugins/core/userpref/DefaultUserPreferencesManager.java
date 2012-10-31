@@ -67,12 +67,16 @@ public class DefaultUserPreferencesManager extends AbstractLogEnabled implements
     /** A SAX parser. */
     protected SAXParser _saxParser;
     
+    /** Connection pool name. */
+    protected String _poolName;
+    
     /** The database table in which the preferences are stored. */
     protected String _databaseTable;
     
     @Override
     public void configure(Configuration configuration) throws ConfigurationException
     {
+        _poolName = configuration.getChild("pool").getValue(ConnectionHelper.CORE_POOL_NAME);
         _databaseTable = configuration.getChild("table").getValue();
     }
     
@@ -95,7 +99,7 @@ public class DefaultUserPreferencesManager extends AbstractLogEnabled implements
         
         try
         {
-            connection = ConnectionHelper.getConnection(ConnectionHelper.CORE_POOL_NAME);
+            connection = ConnectionHelper.getConnection(_poolName);
             DatabaseType dbType = ConnectionHelper.getDatabaseType(connection);
             
             stmt = connection.prepareStatement("SELECT * FROM " + _databaseTable + " WHERE login = ? AND context = ?");
@@ -202,7 +206,7 @@ public class DefaultUserPreferencesManager extends AbstractLogEnabled implements
             byte[] prefBytes = _getPreferencesXmlBytes(preferences);
             dataIs = new ByteArrayInputStream(prefBytes);
             
-            connection = ConnectionHelper.getConnection(ConnectionHelper.CORE_POOL_NAME);
+            connection = ConnectionHelper.getConnection(_poolName);
             DatabaseType dbType = ConnectionHelper.getDatabaseType(connection);
             
             // Test if the preferences already exist.
