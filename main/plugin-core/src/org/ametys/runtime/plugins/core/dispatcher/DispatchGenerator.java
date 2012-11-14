@@ -17,6 +17,7 @@ package org.ametys.runtime.plugins.core.dispatcher;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -34,10 +35,12 @@ import org.apache.cocoon.util.location.LocatedException;
 import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceResolver;
 import org.apache.excalibur.xml.sax.SAXParser;
+import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -113,6 +116,7 @@ public class DispatchGenerator extends ServiceableGenerator
             Source response = null;
             InputStream is = null;
 
+            ResponseHandler responseHandler = null;
             try
             {
                 String url = _createUrl(pluginOrWorkspace, relativeUrl, requestParameters);
@@ -124,7 +128,7 @@ public class DispatchGenerator extends ServiceableGenerator
 
                 response = _resolver.resolveURI(url, null, requestParameters);
 
-                ResponseHandler responseHandler = new ResponseHandler(contentHandler, parameterKey, "200");
+                responseHandler = new ResponseHandler(contentHandler, parameterKey, "200");
                 is = response.getInputStream();
                 
                 if ("xml".equalsIgnoreCase(responseType))
@@ -154,6 +158,12 @@ public class DispatchGenerator extends ServiceableGenerator
                 // Ensure SAXException are unrolled the right way
                 getLogger().error(message, new LocatedException(message, e));
                 
+                // Makes the output xml ok 
+                if (responseHandler != null)
+                {
+                    responseHandler.exceptionFinish();
+                }
+                
                 Throwable t = e;
                 while (t.getCause() != null || (t instanceof SAXException && ((SAXException) t).getException() != null))
                 {
@@ -178,7 +188,7 @@ public class DispatchGenerator extends ServiceableGenerator
                 attrs.addCDATAAttribute("code", code);
                 
                 String exceptionMessage = t.getMessage();
-                
+
                 XMLUtils.startElement(contentHandler, "response", attrs);
                 XMLUtils.createElement(contentHandler, "message", _escape(exceptionMessage != null ? exceptionMessage : ""));
                 XMLUtils.createElement(contentHandler, "stacktrace", _escape(ExceptionUtils.getFullStackTrace(t)));
@@ -351,6 +361,8 @@ public class DispatchGenerator extends ServiceableGenerator
         private ContentHandler _handler;
         private String _code;
         
+        private List<String> _startedElements;
+        
         /**
          * Create the wrapper
          * @param handler The content handler to wrap
@@ -363,6 +375,20 @@ public class DispatchGenerator extends ServiceableGenerator
             _handler = handler;
             _parameterKey = parameterKey;
             _code = code;
+            _startedElements = new ArrayList<String>();
+        }
+        
+        /**
+         * Finish abruptly this handler to obtnain a correct XML
+         * @throws SAXException
+         */
+        public void exceptionFinish() throws SAXException
+        {
+            while (_startedElements.size() > 0)
+            {
+                XMLUtils.endElement(_handler, _startedElements.get(_startedElements.size() - 1));
+                _startedElements.remove(_startedElements.size() - 1);
+            }
         }
         
         @Override
@@ -373,14 +399,41 @@ public class DispatchGenerator extends ServiceableGenerator
             AttributesImpl attrs = new AttributesImpl();
             attrs.addCDATAAttribute("id", _parameterKey);
             attrs.addCDATAAttribute("code", _code);
-
             XMLUtils.startElement(_handler, "response", attrs);
+
+            _startedElements.add("response");
+        }
+        
+        @Override
+        public void startElement(String uri, String loc, String raw, Attributes a) throws SAXException
+        {
+            super.startElement(uri, loc, raw, a);
+            _startedElements.add(loc);
+        }
+
+        @Override
+        public void endElement(String uri, String loc, String raw) throws SAXException
+        {
+            super.endElement(uri, loc, raw);
+            
+            if (!StringUtils.equals(_startedElements.get(_startedElements.size() - 1), loc))
+            {
+                throw new SAXException("Sax events are not consistents. Cannot close <" + loc + "> while it should be <" + _startedElements.get(_startedElements.size() - 1) + ">");
+            }
+            
+            _startedElements.remove(_startedElements.size() - 1);
         }
         
         @Override
         public void endDocument() throws SAXException
         {
             XMLUtils.endElement(_handler, "response");
+            
+            if (_startedElements.size() != 1)
+            {
+                throw new SAXException("Sax events are not consistents. Remaining " + _startedElements.size() + " events (should be one).");
+            }
+            _startedElements.remove(_startedElements.size() - 1);
             super.endDocument();
         }
     }
