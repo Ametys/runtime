@@ -670,7 +670,7 @@
 		<mkdir dir="${dest-junit}"/>
 		<mkdir dir="${dest-junit}/html"/>
 		
-		<junit fork="true" dir="." printsummary="yes" haltonfailure="no" failureproperty="junit-failed">
+		<junit fork="true" dir="." printsummary="yes" haltonfailure="no" failureproperty="junit-failed" maxmemory="256m">
 			<classpath>
                 <path refid="test.classpath"/>
                 <path refid="classpath-ametys-tools"/>
