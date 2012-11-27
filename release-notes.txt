@@ -1,3 +1,21 @@
+Runtime - Version 2.2.3 (November 27, 2012)
+
+Improvement:
+  RUNTIME-689 : Re-throw the exception when catching it in ScriptRunner
+  RUNTIME-708 : Order Groups in group management
+  RUNTIME-710 : Add support of FF11, FF12, Chrome 14-18
+  RUNTIME-720 : chrome 19 / safari 5.1.7 support
+
+Bug:
+  RUNTIME-694 : UploadReader to generate thumbnails images send a wrong response
+  RUNTIME-703 : The MultiSelect widget does not resize correctly
+  RUNTIME-719 : The removeUserProfiles method of class DefaultProfileBasedRightsManager fails
+  RUNTIME-724 : Admin monitoring of http session is not working
+  RUNTIME-725 : Alert browser compatibility is always displayed (no cookie)
+  RUNTIME-727 : Spell mistake on the screen profile management
+  RUNTIME-728 : Animated Gif are resized even if the contributor does not resize it
+  RUNTIME-729 : Getting an error when removing users from a group makes the application unresponsive
+
 Runtime - Version 2.2.3 (June ??, 2012)
 
 Improvement:
