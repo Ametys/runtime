@@ -130,10 +130,10 @@
 			
 			    launch: function() {
 		    		var items = [];
-		    			var top = createTop();
-		    			if (top != null)
+		    			var toping = createTop();
+		    			if (toping != null)
 		    			{
-		    				items.push(Ext.apply(top, {region: 'north'}));
+		    				items.push(Ext.apply(toping, {region: 'north'}));
 		    			}
 		    			items.push(Ext.apply(createPanel(), {region: 'center'}));
 		    	
