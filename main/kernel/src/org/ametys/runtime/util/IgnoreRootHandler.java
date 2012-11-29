@@ -89,20 +89,18 @@ public class IgnoreRootHandler extends ContentHandlerProxy implements LexicalHan
         }
     }
     
+    @Override
     public void startDTD(String name, String publicId, String systemId) throws SAXException
     {
-        if (_lexicalHandler != null)
-        {
-            _lexicalHandler.startDTD(name, publicId, systemId);
-        }
+        // Ignore but send it as a comment for understanding purpose
+        String comment = "IGNORING DTD " + name + " PUBLIC \"" + publicId + "\" \"" + systemId + "\""; 
+        _lexicalHandler.comment(comment.toCharArray(), 0, comment.length());
     }
     
+    @Override
     public void endDTD() throws SAXException
     {
-        if (_lexicalHandler != null)
-        {
-            _lexicalHandler.endDTD();
-        }
+        // empty method
     }
     
     public void startEntity(String name) throws SAXException
