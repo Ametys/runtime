@@ -247,9 +247,9 @@ Ext.define(
 					}
 				}
 				
-				if (!this._off &amp;&amp; confirm("<i18n:text i18n:key="KERNEL_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE_1"/>") &amp;&amp; confirm("<i18n:text i18n:key="KERNEL_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE_2"/>"))
+				if (!this._off &amp;&amp; confirm("<i18n:text i18n:key="KERNEL_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE"/>"))
 				{
-					return this._sendSynchronousMessage(messageRequest);
+					return null; // this._sendSynchronousMessage(messageRequest);
 				}
 				else
 				{
@@ -275,7 +275,7 @@ Ext.define(
 
 				if (confirm("<i18n:text i18n:key="KERNEL_SERVERCOMM_NOTXML_DESC"/>") &amp;&amp; !this._off)
 				{
-					return this._sendSynchronousMessage(messageRequest);
+					return null; // this._sendSynchronousMessage(messageRequest);
 				}
 				else
 				{
@@ -488,47 +488,51 @@ Ext.define(
 
 			this._cancelTimeout(options);
 			
-			if (response.responseXML == null)
+			if (!this._off &amp;&amp; (response.responseXML != null || confirm("<i18n:text i18n:key="KERNEL_SERVERCOMM_NOTXML_DESC"/>")))
 			{
-
-				if (confirm("<i18n:text i18n:key="KERNEL_SERVERCOMM_NOTXML_DESC"/>"))
-				{
-					this._sendMessages(options.messages);
-				}
-				else
-				{
-					Ametys.shutdown();
-				}
+				this._dispatch(response, options);
 			}
 			else
 			{
-				// for each message call the handler
-				for (var i = 0; i &lt; options.messages.length; i++)
-				{
-						var message = options.messages[i];
-			
-						var node = Ext.dom.Query.selectNode("/responses/response[@id='" + i + "']", response.responseXML);
-						try
-						{
-							message.callback.apply(message.callbackscope, [node, message.callbackarguments]);
-						}
-						catch (e)
-						{
-							function throwException(e) 
-							{ 
-								throw e; 
-							}
-							Ext.defer(throwException, 1, this, [e]);
-			
-							Ametys.log.ErrorDialog.display("<i18n:text i18n:key='KERNEL_SERVERCOMM_ERROR_TITLE'/>",
-									"<i18n:text i18n:key='KERNEL_SERVERCOMM_ERROR_DESC'/>",
-			                        e + '',
-			                        "Ametys.data.ServerComm");
-						}
-				}
+				Ametys.shutdown();
 			}
 		},
 
+		/**
+		 * @private
+		 * Call the callbacks for the response (that can be null)
+		 * @param {Object} response The XHR object containing the response data
+		 * @param {Object} options The arguments of the request method call
+		 */
+		_dispatch = function(response, options)
+		{
+			// for each message call the handler
+			for (var i = 0; i &lt; options.messages.length; i++)
+			{
+					var message = options.messages[i];
+
+						var node = Ext.dom.Query.selectNode("/responses/response[@id='" + i + "']", response.responseXML);
+					try
+					{
+							message.callback.apply(message.callbackscope, [node, message.callbackarguments]);
+					}
+					catch (e)
+					{
+						function throwException(e) 
+						{ 
+							throw e; 
+						}
+							Ext.defer(throwException, 1, this, [e]);
+
+						Ametys.log.ErrorDialog.display("<i18n:text i18n:key='KERNEL_SERVERCOMM_ERROR_TITLE'/>",
+								"<i18n:text i18n:key='KERNEL_SERVERCOMM_ERROR_DESC'/>",
+		                        e + '',
+			                        "Ametys.data.ServerComm");
+						}
+					}
+			}
+		},		
+		
 		/**
 		 * @private
 		 * Listener on requests that failed
@@ -551,9 +555,9 @@ Ext.define(
 				}
 			}
 
-			if (!this._off &amp;&amp; confirm("<i18n:text i18n:key="KERNEL_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE_1"/>") &amp;&amp; confirm("<i18n:text i18n:key="KERNEL_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE_2"/>"))
+			if (!this._off &amp;&amp; confirm("<i18n:text i18n:key="KERNEL_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE"/>"))
 			{
-				Ext.Ajax.request(options);
+				this._dispatch(response, options);
 			}
 			else
 			{
