@@ -504,7 +504,7 @@ Ext.define(
 		 * @param {Object} response The XHR object containing the response data
 		 * @param {Object} options The arguments of the request method call
 		 */
-		_dispatch = function(response, options)
+		_dispatch: function(response, options)
 		{
 			// for each message call the handler
 			for (var i = 0; i &lt; options.messages.length; i++)
@@ -522,13 +522,12 @@ Ext.define(
 						{ 
 							throw e; 
 						}
-							Ext.defer(throwException, 1, this, [e]);
+						Ext.defer(throwException, 1, this, [e]);
 
 						Ametys.log.ErrorDialog.display("<i18n:text i18n:key='KERNEL_SERVERCOMM_ERROR_TITLE'/>",
-								"<i18n:text i18n:key='KERNEL_SERVERCOMM_ERROR_DESC'/>",
-		                        e + '',
+									"<i18n:text i18n:key='KERNEL_SERVERCOMM_ERROR_DESC'/>",
+									e + '',
 			                        "Ametys.data.ServerComm");
-						}
 					}
 			}
 		},		
