@@ -25,6 +25,7 @@ import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.Session;
 import org.apache.cocoon.environment.SourceResolver;
 
+import org.ametys.runtime.RuntimeConstants;
 import org.ametys.runtime.authentication.AccessDeniedException;
 
 /**
@@ -38,7 +39,7 @@ public class CheckAuthenticationAction extends AbstractAction
         Request request = ObjectModelHelper.getRequest(objectModel);
         Session session = request.getSession(false);
         
-        if (session == null || session.getAttribute(AuthenticateAction.SESSION_USERLOGIN) == null)
+        if (request.getAttribute(RuntimeConstants.INTERNAL_ALLOWED_REQUEST_ATTR) == null && (session == null || session.getAttribute(AuthenticateAction.SESSION_USERLOGIN) == null))
         {
             // user is not authenticated
             throw new AccessDeniedException("The requested URL '" + request.getSitemapURI() + "' could only be issued by an authenticated user.");
