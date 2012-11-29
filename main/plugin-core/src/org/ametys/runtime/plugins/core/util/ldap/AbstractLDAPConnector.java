@@ -50,6 +50,8 @@ public class AbstractLDAPConnector extends CachingComponent<User> implements Con
     protected String _ldapAuthenticationMethod;
     /** Use ssl for connecting to ldap server. */
     protected boolean _ldapUseSSL;
+    /** Enable following referrals. */
+    protected boolean _ldapFollowReferrals;
     
     /**
      * Get the filter from configuration key and check it
@@ -95,6 +97,7 @@ public class AbstractLDAPConnector extends CachingComponent<User> implements Con
         _ldapUrl = _getConfigParameter(configuration, "BaseUrl");
         _ldapUseSSL = "true".equals(_getConfigParameter(configuration, "UseSSL"));
         _ldapBaseDN = _getConfigParameter(configuration, "BaseDN");
+        _ldapFollowReferrals = "true".equals(_getConfigParameter(configuration, "FollowReferrals"));
         
         _ldapAuthenticationMethod = _getConfigParameter(configuration, "AuthenticationMethod");
         if (!_ldapAuthenticationMethod.equals("none"))
@@ -148,6 +151,12 @@ public class AbstractLDAPConnector extends CachingComponent<User> implements Con
         {
             // Chiffrer la connexion au serveur avec SSL
             env.put(Context.SECURITY_PROTOCOL, "ssl");
+        }
+        
+        // Default is to ignore.
+        if (_ldapFollowReferrals)
+        {
+            env.put(Context.REFERRAL, "follow");
         }
 
         // Utiliser le pool de connexion ldap

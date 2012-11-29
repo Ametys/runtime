@@ -203,6 +203,17 @@
             <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_CATEGORY_LDAP_GROUP_CORE</group>
             <order>60</order>
         </param>
+        <param id="runtime.datasource.core.ldap.followReferrals" type="boolean">
+            <!-- 
+                This parameters controls whether referral following is enabled (used for continuation references).
+             -->
+            <label i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_FOLLOWREFERRALS_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_FOLLOWREFERRALS_DESCRIPTION</description>
+            <default-value>false</default-value>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_CATEGORY_LDAP_GROUP_CORE</group>
+            <order>70</order>
+        </param>
         
         
         <!-- +
@@ -1246,6 +1257,7 @@
             <param-ref id="runtime.datasource.core.ldap.authMethod"/>
             <param-ref id="runtime.datasource.core.ldap.adminDN"/>
             <param-ref id="runtime.datasource.core.ldap.adminPasswd"/>
+            <param-ref id="runtime.datasource.core.ldap.followReferrals"/>
 
             <param-ref id="runtime.users.ldap.peopleDN"/>
             <param-ref id="runtime.users.ldap.baseFilter"/>
@@ -1266,6 +1278,7 @@
                 <AuthenticationMethod>runtime.datasource.core.ldap.authMethod</AuthenticationMethod>
                 <AdminDN>runtime.datasource.core.ldap.adminDN</AdminDN>
                 <AdminPassword>runtime.datasource.core.ldap.adminPasswd</AdminPassword>
+                <FollowReferrals>runtime.datasource.core.ldap.followReferrals</FollowReferrals>
 
                 <RelativeDN>runtime.users.ldap.peopleDN</RelativeDN>
                 <Filter>runtime.users.ldap.baseFilter</Filter>
@@ -1290,6 +1303,7 @@
             <param-ref id="runtime.datasource.core.ldap.authMethod"/>
             <param-ref id="runtime.datasource.core.ldap.adminDN"/>
             <param-ref id="runtime.datasource.core.ldap.adminPasswd"/>
+            <param-ref id="runtime.datasource.core.ldap.followReferrals"/>
 
             <param-ref id="runtime.users.ldap.peopleDN"/>
             <param-ref id="runtime.users.ldap.baseFilter"/>
@@ -1310,6 +1324,7 @@
                 <AuthenticationMethod>runtime.datasource.core.ldap.authMethod</AuthenticationMethod>
                 <AdminDN>runtime.datasource.core.ldap.adminDN</AdminDN>
                 <AdminPassword>runtime.datasource.core.ldap.adminPasswd</AdminPassword>
+                <FollowReferrals>runtime.datasource.core.ldap.followReferrals</FollowReferrals>
 
                 <RelativeDN>runtime.users.ldap.peopleDN</RelativeDN>
                 <Filter>runtime.users.ldap.baseFilter</Filter>
@@ -1335,6 +1350,7 @@
             <param-ref id="runtime.datasource.core.ldap.authMethod"/>
             <param-ref id="runtime.datasource.core.ldap.adminDN"/>
             <param-ref id="runtime.datasource.core.ldap.adminPasswd"/>
+            <param-ref id="runtime.datasource.core.ldap.followReferrals"/>
             
             <param-ref id="runtime.users.ldap.peopleDN"/>
             <param-ref id="runtime.users.ldap.baseFilter"/>
@@ -1355,6 +1371,7 @@
                 <AuthenticationMethod>runtime.datasource.core.ldap.authMethod</AuthenticationMethod>
                 <AdminDN>runtime.datasource.core.ldap.adminDN</AdminDN>
                 <AdminPassword>runtime.datasource.core.ldap.adminPasswd</AdminPassword>
+                <FollowReferrals>runtime.datasource.core.ldap.followReferrals</FollowReferrals>
                 
                 <RelativeDN>runtime.users.ldap.peopleDN</RelativeDN>
                 <Filter>runtime.users.ldap.baseFilter</Filter>
@@ -1482,6 +1499,7 @@
             <param-ref id="runtime.datasource.core.ldap.authMethod"/>
             <param-ref id="runtime.datasource.core.ldap.adminDN"/>
             <param-ref id="runtime.datasource.core.ldap.adminPasswd"/>
+            <param-ref id="runtime.datasource.core.ldap.followReferrals"/>
             
             <param-ref id="runtime.groups.ldap.groupDN"/>
             <param-ref id="runtime.groups.ldap.filter"/>
@@ -1504,6 +1522,7 @@
                 <AuthenticationMethod>runtime.datasource.core.ldap.authMethod</AuthenticationMethod>
                 <AdminDN>runtime.datasource.core.ldap.adminDN</AdminDN>
                 <AdminPassword>runtime.datasource.core.ldap.adminPasswd</AdminPassword>
+                <FollowReferrals>runtime.datasource.core.ldap.followReferrals</FollowReferrals>
                 
                 <RelativeDN>runtime.groups.ldap.groupDN</RelativeDN>
                 <Filter>runtime.groups.ldap.filter</Filter>
@@ -1529,6 +1548,7 @@
             <param-ref id="runtime.datasource.core.ldap.authMethod"/>
             <param-ref id="runtime.datasource.core.ldap.adminDN"/>
             <param-ref id="runtime.datasource.core.ldap.adminPasswd"/>
+            <param-ref id="runtime.datasource.core.ldap.followReferrals"/>
             
             <param-ref id="runtime.groups.ldap.groupDN"/>
             <param-ref id="runtime.groups.ldap.filter"/>
@@ -1553,6 +1573,7 @@
                 <AuthenticationMethod>runtime.datasource.core.ldap.authMethod</AuthenticationMethod>
                 <AdminDN>runtime.datasource.core.ldap.adminDN</AdminDN>
                 <AdminPassword>runtime.datasource.core.ldap.adminPasswd</AdminPassword>
+                <FollowReferrals>runtime.datasource.core.ldap.followReferrals</FollowReferrals>
                 
                 <RelativeDN>runtime.groups.ldap.groupDN</RelativeDN>
                 <Filter>runtime.groups.ldap.filter</Filter>
@@ -1587,6 +1608,7 @@
             <param-ref id="runtime.datasource.core.ldap.authMethod"/>
             <param-ref id="runtime.datasource.core.ldap.adminDN"/>
             <param-ref id="runtime.datasource.core.ldap.adminPasswd"/>
+            <param-ref id="runtime.datasource.core.ldap.followReferrals"/>
             
             <param-ref id="runtime.groups.ldap.groupDN"/>
             <param-ref id="runtime.groups.ldap.filter"/>
@@ -1611,6 +1633,7 @@
                 <AuthenticationMethod>runtime.datasource.core.ldap.authMethod</AuthenticationMethod>
                 <AdminDN>runtime.datasource.core.ldap.adminDN</AdminDN>
                 <AdminPassword>runtime.datasource.core.ldap.adminPasswd</AdminPassword>
+                <FollowReferrals>runtime.datasource.core.ldap.followReferrals</FollowReferrals>
                 
                 <RelativeDN>runtime.groups.ldap.groupDN</RelativeDN>
                 <Filter>runtime.groups.ldap.filter</Filter>
@@ -1659,6 +1682,7 @@
             <param-ref id="runtime.datasource.core.ldap.authMethod"/>
             <param-ref id="runtime.datasource.core.ldap.adminDN"/>
             <param-ref id="runtime.datasource.core.ldap.adminPasswd"/>
+            <param-ref id="runtime.datasource.core.ldap.followReferrals"/>
             
             <param-ref id="runtime.groups.ldap.groupDN"/>
             <param-ref id="runtime.groups.ldap.filter"/>
@@ -1681,6 +1705,7 @@
                 <AuthenticationMethod>runtime.datasource.core.ldap.authMethod</AuthenticationMethod>
                 <AdminDN>runtime.datasource.core.ldap.adminDN</AdminDN>
                 <AdminPassword>runtime.datasource.core.ldap.adminPasswd</AdminPassword>
+                <FollowReferrals>runtime.datasource.core.ldap.followReferrals</FollowReferrals>
                 
                 <RelativeDN>runtime.groups.ldap.groupDN</RelativeDN>
                 <Filter>runtime.groups.ldap.filter</Filter>
