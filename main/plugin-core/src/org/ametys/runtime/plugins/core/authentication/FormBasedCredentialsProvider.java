@@ -144,7 +144,11 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
         String url = request.getRequestURI();
         if (url.startsWith(request.getContextPath()))
         {
-            url = url.substring(request.getContextPath().length() + 1);
+            url = url.substring(request.getContextPath().length());
+        }
+        if (url.startsWith("/"))
+        {
+            url = url.substring(1);
         }
         
         // Always accept the login failed page.
