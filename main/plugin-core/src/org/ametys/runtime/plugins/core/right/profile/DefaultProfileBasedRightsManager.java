@@ -434,6 +434,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
         // Set all rights
         Collection currentRights = adminProfile.getRights();
+        
+        adminProfile.startUpdate();
+        
         for (Object rightId : _rightsEP.getExtensionsIds())
         {
             if (!currentRights.contains(rightId))
@@ -441,6 +444,8 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
                 adminProfile.addRight((String) rightId);
             }
         }
+        
+        adminProfile.endUpdate();
         
         // Assign the profile
         addUserRight(login, context, adminProfile.getId());
@@ -2903,6 +2908,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         private String _id;
         private String _name;
         private String _context;
+        private Connection _currentConnection;
+        private boolean _supportsBatch;
+        private PreparedStatement _batchStatement;
         
         /**
          * Constructor.
@@ -2911,9 +2919,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
          */
         public DefaultProfile(String id, String name)
         {
-            _id = id;
-            _name = name;
-            _context = null;
+            this(id, name, null);
         }
         
         /**
@@ -2927,8 +2933,8 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             _id = id;
             _name = name;
             _context = context;
+            _currentConnection = null;
         }
-        
         
         public String getId()
         {
@@ -2948,14 +2954,22 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         
         public void addRight(String rightId)
         {
-            Connection connection = ConnectionHelper.getConnection(_poolName);
+            Connection connection = getConnection();
             
             try
             {
-                PreparedStatement statement = connection.prepareStatement("INSERT INTO " + _tableProfileRights + " (Profile_Id, Right_Id) VALUES(?, ?)");
+                PreparedStatement statement = getAddStatement(connection);
                 statement.setInt(1, Integer.parseInt(_id));
                 statement.setString(2, rightId);
-                statement.executeUpdate();
+                
+                if (isUpdating() && _supportsBatch)
+                {
+                    statement.addBatch();
+                }
+                else
+                {
+                    statement.executeUpdate();
+                }
             }
             catch (SQLException ex)
             {
@@ -2963,21 +2977,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             }
             finally
             {
-                try
+                if (!isUpdating())
                 {
-                    if (connection != null)
-                    {
-                        if (!connection.getAutoCommit())
-                        {
-                            connection.commit();
-                        }
-                        
-                        connection.close();
-                    }
-                }
-                catch (SQLException e)
-                {
-                    throw new RuntimeException(e);
+                    ConnectionHelper.cleanup(connection);
                 }
             }
         }
@@ -3003,22 +3005,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             }
             finally
             {
-                try
-                {
-                    if (connection != null)
-                    {
-                        if (!connection.getAutoCommit())
-                        {
-                            connection.commit();
-                        }
-
-                        connection.close();
-                    }
-                }
-                catch (SQLException e)
-                {
-                    throw new RuntimeException(e);
-                }
+                ConnectionHelper.cleanup(connection);
             }
         }
         
@@ -3046,22 +3033,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             }
             finally
             {
-                try
-                {
-                    if (connection != null)
-                    {
-                        if (!connection.getAutoCommit())
-                        {
-                            connection.commit();
-                        }
-
-                        connection.close();
-                    }
-                }
-                catch (SQLException e)
-                {
-                    throw new RuntimeException(e);
-                }
+                ConnectionHelper.cleanup(connection);
             }
             
             return rights;
@@ -3069,7 +3041,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         
         public void removeRights()
         {
-            Connection connection = ConnectionHelper.getConnection(_poolName);
+            Connection connection = getConnection();
             
             try
             {
@@ -3083,21 +3055,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             }
             finally
             {
-                try
+                if (!isUpdating())
                 {
-                    if (connection != null)
-                    {
-                        if (!connection.getAutoCommit())
-                        {
-                            connection.commit();
-                        }
-
-                        connection.close();
-                    }
-                }
-                catch (SQLException e)
-                {
-                    throw new RuntimeException(e);
+                    ConnectionHelper.cleanup(connection);
                 }
             }
         }
@@ -3143,6 +3103,115 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
                 ConnectionHelper.cleanup(connection);
             }
             
+        }
+        
+        @Override
+        public void startUpdate()
+        {
+            _currentConnection = ConnectionHelper.getConnection(_poolName);
+            
+            try
+            {
+                _supportsBatch = _currentConnection.getMetaData().supportsBatchUpdates();
+                _currentConnection.setAutoCommit(false);
+            }
+            catch (SQLException ex)
+            {
+                throw new RuntimeException(ex);
+            }
+        }
+        
+        @Override
+        public void endUpdate()
+        {
+            try
+            {
+                if (isUpdating() && _supportsBatch && _batchStatement != null)
+                {
+                    _batchStatement.executeBatch();
+                }
+                _supportsBatch = false;
+                _currentConnection.commit();
+            }
+            catch (SQLException ex)
+            {
+                throw new RuntimeException(ex);
+            }
+            finally
+            {
+                ConnectionHelper.cleanup(_batchStatement);
+                _batchStatement = null;
+                
+                ConnectionHelper.cleanup(_currentConnection);
+                _currentConnection = null;
+            }
+        }
+        
+        /**
+         * Get the current connection or create a new one.
+         * @return the current connection if in "update" mode, a new one otherwise.
+         */
+        protected Connection getConnection()
+        {
+            if (isUpdating())
+            {
+                return _currentConnection;
+            }
+            else
+            {
+                return ConnectionHelper.getConnection(_poolName);
+            }
+        }
+        
+        /**
+         * Get a prepared statement to add a profile in the DBMS.
+         * @param connection the connection.
+         * @return a prepared statement.
+         */
+        protected PreparedStatement getAddStatement(Connection connection)
+        {
+            try
+            {
+                String query = "INSERT INTO " + _tableProfileRights + " (Profile_Id, Right_Id) VALUES(?, ?)";
+                
+                if (isUpdating() && _supportsBatch)
+                {
+                    if (_batchStatement == null)
+                    {
+                        _batchStatement = connection.prepareStatement(query);
+                    }
+                    
+                    return _batchStatement;
+                }
+                else
+                {
+                    return connection.prepareStatement(query);
+                }
+            }
+            catch (SQLException ex)
+            {
+                throw new RuntimeException(ex);
+            }
+        }
+        
+        /**
+         * Test if we are in "update" mode.
+         * @return true if we are "update" mode, false otherwise.
+         */
+        protected boolean isUpdating()
+        {
+            boolean updating = false;
+            
+            try
+            {
+                updating = _currentConnection != null && !_currentConnection.isClosed();
+            }
+            catch (SQLException ex)
+            {
+                throw new RuntimeException(ex);
+            }
+            
+            return updating;
         }
         
         public void toSAX(ContentHandler handler) throws SAXException

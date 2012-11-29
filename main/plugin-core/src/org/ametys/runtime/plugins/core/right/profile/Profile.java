@@ -72,6 +72,18 @@ public interface Profile
     public void remove();
     
     /**
+     * Start update mode: subsequent calls to removeRights and addRight must be
+     * enclosed in a transaction until endUpdate is called. 
+     */
+    public void startUpdate();
+    
+    /**
+     * End update mode: make effective the changes since startUpdate was called.
+     * ("commit" the transaction).
+     */
+    public void endUpdate();
+    
+    /**
      * SAXes a representation of this Profile
      * @param handler the ContentHandler receiving SAX events
      * @throws SAXException if a probleme occurs while SAXing events

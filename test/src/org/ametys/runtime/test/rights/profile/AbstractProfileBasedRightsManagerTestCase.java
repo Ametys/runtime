@@ -211,6 +211,30 @@ public abstract class AbstractProfileBasedRightsManagerTestCase extends Abstract
         rights = profile.getRights();
         assertEquals(0, rights.size());
         
+        // Test batch update failing (no endUpdate, so the connection is not commit).
+        profile.startUpdate();
+        profile.addRight("right1");
+        profile.addRight("right2");
+        profile.addRight("right3");
+        profile = profileRightsManager.getProfile(profile.getId());
+        rights = profile.getRights();
+        assertEquals(0, rights.size());
+        
+        // Test batch update working.
+        profile.startUpdate();
+        profile.addRight("right1");
+        profile.addRight("right2");
+        profile.addRight("right3");
+        profile.endUpdate();
+        profile = profileRightsManager.getProfile(profile.getId());
+        rights = profile.getRights();
+        assertEquals(3, rights.size());
+        
+        profile.removeRights();
+        profile = profileRightsManager.getProfile(profile.getId());
+        rights = profile.getRights();
+        assertEquals(0, rights.size());
+        
         profile.remove();
         profile = profileRightsManager.getProfile(profile.getId());
         assertNull(profile);
