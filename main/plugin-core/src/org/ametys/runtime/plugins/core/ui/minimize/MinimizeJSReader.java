@@ -43,6 +43,8 @@ import org.apache.excalibur.source.impl.validity.NOPValidity;
 import org.mozilla.javascript.EvaluatorException;
 import org.xml.sax.SAXException;
 
+import org.ametys.runtime.util.cocoon.InvalidSourceValidity;
+
 import com.yahoo.platform.yui.compressor.JavaScriptCompressor;
 
 /**
@@ -80,19 +82,7 @@ public class MinimizeJSReader extends ServiceableReader implements CacheableProc
 
         if (importMode)
         {
-            return new SourceValidity() 
-                { 
-                    @Override
-                    public int isValid()
-                    {
-                        return -1;
-                    }
-                    @Override
-                    public int isValid(SourceValidity newValidity)
-                    {
-                        return -1;
-                    }
-                };
+            return new InvalidSourceValidity();
         }
         else
         {
