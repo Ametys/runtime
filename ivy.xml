@@ -97,7 +97,7 @@ Open source web application framework based on Apache Cocoon.
     
     <dependency org="mysql" name="mysql-connector-java" rev="5.1.20" conf="test->default"/>
 <!--    <dependency org="com.oracle" name="ojdbc14" rev="10.2.0.4.0" conf="test->default"/> -->
-    <dependency org="postgresql" name="postgresql" rev="9.1-901.jdbc4" conf="test->default"/>
+    <dependency org="postgresql" name="postgresql" rev="9.1-901-1.jdbc4" conf="test->default"/>
     <dependency org="org.apache.derby" name="derby" rev="10.5.3.0_1" conf="test->default"/>
 
     <dependency org="junit" name="junit" rev="4.10" conf="test,test-env->default"/>
