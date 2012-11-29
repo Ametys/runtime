@@ -2131,6 +2131,7 @@
     		<extension point="org.ametys.runtime.plugins.core.userpref.UserPreferencesManager"
         	           id="org.ametys.runtime.plugins.core.userpref.DefaultUserPreferencesManager"
         	           class="org.ametys.runtime.plugins.core.userpref.DefaultUserPreferencesManager">
+	            <pool>runtime.datasource.core.jdbc.pool</pool>
         		<table>UserPreferences</table>
         	</extension>
     	</extensions>
