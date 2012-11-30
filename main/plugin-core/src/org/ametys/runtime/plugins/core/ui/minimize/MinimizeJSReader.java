@@ -48,8 +48,8 @@ import org.ametys.runtime.util.cocoon.InvalidSourceValidity;
 import com.yahoo.platform.yui.compressor.JavaScriptCompressor;
 
 /**
- * This generator generates a single CSS file to load all ui items css files.
- * Can generates a list of imports of directly intergrates all css files.
+ * This generator generates a single JS file to load all ui items js files.
+ * Can generates a list of imports of directly intergrates all js files.
  */
 public class MinimizeJSReader extends ServiceableReader implements CacheableProcessingComponent
 {
