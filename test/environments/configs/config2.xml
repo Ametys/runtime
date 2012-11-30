@@ -25,5 +25,5 @@
 <smtp.mail.password></smtp.mail.password>
 <smtp.mail.from>test@ametys.org</smtp.mail.from>
 <smtp.mail.sysadminto>ametys@ametys.org</smtp.mail.sysadminto>
-<runtime.debug.ui>false</runtime.debug.ui>
+<runtime.debug.ui>0</runtime.debug.ui>
 </config>

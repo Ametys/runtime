@@ -47,7 +47,7 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
 {
     private String _path;
     private String _defaultPluginCoreUrl;
-    private boolean _debugMode;
+    private Long _debugMode;
     private int _randomCode;
     private Context _context;
     private String _removedPath;
@@ -67,7 +67,7 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
     @Override
     public void configure(Configuration configuration) throws ConfigurationException
     {
-        _debugMode = (Config.getInstance() != null && Config.getInstance().getValueAsBoolean("runtime.debug.ui") == true) ? true : false;
+        _debugMode = (Config.getInstance() != null && Config.getInstance().getValueAsLong("runtime.debug.ui") != null) ? Config.getInstance().getValueAsLong("runtime.debug.ui") : 0;
         _defaultPluginCoreUrl = configuration.getChild("plugin-core-url").getValue(null);
     }
     
@@ -123,7 +123,7 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
             
             AttributesImpl attrs = new AttributesImpl();
             attrs.addCDATAAttribute("type", "text/javascript");
-            attrs.addCDATAAttribute("src", StringUtils.defaultIfEmpty(source, _defaultPluginCoreUrl) + "/jsfilelist/" + jsFileList.hashCode() + "-" + (_debugMode ? "true" : "false") + ".js");
+            attrs.addCDATAAttribute("src", StringUtils.defaultIfEmpty(source, _defaultPluginCoreUrl) + "/jsfilelist/" + jsFileList.hashCode() + "-" + (_debugMode != 0 ? "true" : "false") + ".js");
             super.startElement("", "script", "script", attrs);
             super.endElement("", "script", "script");
         }
@@ -159,7 +159,7 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
             
             AttributesImpl attrs = new AttributesImpl();
             attrs.addCDATAAttribute("type", "text/javascript");
-            attrs.addCDATAAttribute("src", StringUtils.defaultIfEmpty(source, _defaultPluginCoreUrl) + "/jsfilelist/" + cssFileList.hashCode() + "-" + (_debugMode ? "true" : "false") + ".js");
+            attrs.addCDATAAttribute("src", StringUtils.defaultIfEmpty(source, _defaultPluginCoreUrl) + "/jsfilelist/" + cssFileList.hashCode() + "-" + (_debugMode != 0 ? "true" : "false") + ".js");
             super.startElement("", "script", "script", attrs);
             super.endElement("", "script", "script");
         }
@@ -189,7 +189,7 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
     @Override
     public void startElement(String uri, String loc, String raw, Attributes a) throws SAXException
     {
-        if (!_debugMode)
+        if (_debugMode != 2)
         {
             _path += "/" + loc;
             
@@ -234,7 +234,7 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
     @Override
     public void endElement(String uri, String loc, String raw) throws SAXException
     {
-        if (!_debugMode)
+        if (_debugMode != 2)
         { 
             if (StringUtils.countMatches(_path, "/") == 2)
             {

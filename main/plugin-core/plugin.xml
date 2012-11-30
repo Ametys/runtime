@@ -35,16 +35,30 @@
              | CORE DEBUG
              + -->
         <!-- JDBC -->
-        <param id="runtime.debug.ui" type="boolean">
+        <param id="runtime.debug.ui" type="long">
             <!-- 
                 This parameter allows to load UI in debug mode (i.e. load CSS/JS not minified)
              -->
             <label i18n="true">PLUGINS_CORE_DEBUG_UI_LABEL</label>
             <description i18n="true">PLUGINS_CORE_DEBUG_UI_DESCRIPTION</description>
+            <enumeration>
+                <entry>
+                    <label i18n="true">PLUGINS_CORE_DEBUG_UI_VAL_0</label>
+                    <value>0</value>
+                </entry>
+                <entry>
+                    <label i18n="true">PLUGINS_CORE_DEBUG_UI_VAL_1</label>
+                    <value>1</value>
+                </entry>
+                <entry>
+                    <label i18n="true">PLUGINS_CORE_DEBUG_UI_VAL_2</label>
+                    <value>2</value>
+                </entry>
+            </enumeration>
             <validation>
                 <mandatory/>
             </validation>
-            <default-value>false</default-value>
+            <default-value>0</default-value>
             <category i18n="true">PLUGINS_CORE_SYSTEM_CONFIG_CATEGORY</category>
             <group i18n="true">PLUGINS_CORE_DEBUG_GROUP</group>
             <order>20</order>

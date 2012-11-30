@@ -27,7 +27,7 @@
 <runtime.authentication.basic.realm>realm</runtime.authentication.basic.realm>
 <runtime.upload.max-size>10000000</runtime.upload.max-size>
 <runtime.upload.dir>WEB-INF/data/uploads</runtime.upload.dir>
-<runtime.debug.ui>false</runtime.debug.ui>
+<runtime.debug.ui>0</runtime.debug.ui>
 <smtp.mail.host>smtp.anyware.corp</smtp.mail.host>
 <smtp.mail.port>993</smtp.mail.port>
 <smtp.mail.user></smtp.mail.user>
