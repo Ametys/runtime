@@ -44,12 +44,11 @@
 		 | 					When another browser is detected, the application is redirected to the warning redirection url. Where a message should indicated to use a supported browser, but the user could enforce the navigation (setting a cookie 'ametys.accept.non.supported.navigators' to 'on').<br/>
 		 |					Keys for browsers are 'ie' (Microsoft Internet Explorer), 'ff' (Mozilla Firefox), 'ch' (Google Chrome), 'sa' (Apple Safari) and 'op' (Opera).<br/>
 		 |					Versions can be a single number '3' or '3.5', or can be an interleave where 0 is the infinity '0-6' means all versions before 6 and 6 included, '6-0' means all versions after 6 and 6 included.
-		 | @param {Boolean} use-js-css-component True to load JS/CSS using the js/css component to minimize css calls (true is the default value). Set to false, if this page should be displayed even if the server is misstarted (error page, config page...)
 	     |
 	     | @param {String/Node} head-title The title of the head tag. Can be an i18n tag. Default value is the i18n application:APPLICATION_PRODUCT_LABEL.
 	     | @param {String} IE-compatibility-mode The internet explorer compatibility mode. Default value is 'IE=edge'. Sample: 'IE=9' or 'IE=EmultateIE7'.
 	     | @param {Node} meta-favicon meta tags to display the fav icons. Default value is 2 links tag to display the ametys fav icon (in gif or ico formats).
-	     | @param {Node} head-meta Additionnal head meta, script or css loading. If needs-kernel-ui is set to true and use-js-css-component is set to true, you can load js and css using component for performance purposes.
+	     | @param {Node} head-meta Additionnal head meta, script or css loading.
 	     |
 	     | @param {String/Node} body-title The title to display on the top part of the screen. Can be an i18n tag.
 	     | @param {Node} body-col-left The content of the left column
@@ -69,7 +68,6 @@
 		<xsl:param name="max-upload-size"/>
 		<xsl:param name="language-code"><i18n:text i18n:key='KERNEL_LANGUAGE_CODE' i18n:catalogue='kernel'/></xsl:param>
 		<xsl:param name="authorized-browsers"/>
-        <xsl:param name="use-js-css-component">true</xsl:param>
 		
 		<xsl:param name="head-title"><i18n:text i18n:catalogue="application" i18n:key="APPLICATION_PRODUCT_LABEL"/></xsl:param>
 		<xsl:param name="IE-compatibility-mode">IE=edge</xsl:param>
@@ -106,8 +104,6 @@
 			            <xsl:with-param name="max-upload-size" select="$max-upload-size"/>
 			            <xsl:with-param name="language-code" select="$language-code"/>
 			            <xsl:with-param name="authorized-browsers" select="$authorized-browsers"/>
-			            <xsl:with-param name="use-css-component" select="$use-js-css-component"/>
-			            <xsl:with-param name="use-js-component" select="$use-js-css-component"/>
 			        </xsl:call-template>
 		        </xsl:if>
 		               
