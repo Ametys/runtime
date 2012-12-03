@@ -39,7 +39,7 @@ Ext.define(
 			 * An array of currently opened dialogs
 			 * @property {Ametys.data.ServerComm.TimeoutDialog[]}
 			 */
-			_stack: [],
+			_stack: []
 		},
 
 		/**
