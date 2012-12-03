@@ -86,7 +86,7 @@
             <map:reader name="administrator-jvmstatus-monitoring-graph" src="org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.RRDGraphReader" logger="org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.RRDGraphReader"/>
             <map:reader name="administrator-jvmstatus-monitoring-export" src="org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.RRDXmlExportReader" logger="org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.RRDXmlExportReader"/>
             <map:reader name="upload-reader" src="org.ametys.runtime.plugins.core.upload.readers.UploadReader" logger="org.ametys.runtime.plugins.core.upload.readers.UploadReader"/>
-        	<map:reader name="css" src="org.ametys.runtime.plugins.core.ui.css.AllCSSReader"/>
+        	<map:reader name="css" src="org.ametys.runtime.plugins.core.ui.minimize.MinimizeCSSReader"/>
         	<map:reader name="js" src="org.ametys.runtime.plugins.core.ui.minimize.MinimizeJSReader"/>
         </map:readers>
         
@@ -122,15 +122,9 @@
 				<map:serialize type="xml"/>
 			</map:match>
 			
-			<map:match pattern="cssfilelist/debug/*/*.css">
+			<map:match pattern="cssfilelist/*-*.css">
 				<map:read type="css" src="{1}">
-					<map:parameter name="import" value="true"/>
-					<map:parameter name="packet-num" value="{2}"/>
-				</map:read>
-			</map:match>
-			<map:match pattern="cssfilelist/*.css">
-				<map:read type="css" src="{1}">
-					<map:parameter name="import" value="false"/>
+					<map:parameter name="import" value="{2}"/>
 				</map:read>
 			</map:match>
 			

@@ -48,7 +48,8 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
     private String _path;
     private String _defaultPluginCoreUrl;
     private Long _debugMode;
-    private int _randomCode;
+    private int _randomJSCode;
+    private int _randomCSSCode;
     private Context _context;
     private String _removedPath;
     
@@ -78,8 +79,8 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
     
     
     /**
-     * Get the list of files
-     * @return Return a modifiable file list registrer in session for the curren _randomCode. Will never be null.
+     * Get the list of files for js
+     * @return Return a modifiable file list registrer in session for the current _randomJSCode. Will never be null.
      */
     private List<String> _getJSFileList()
     {
@@ -93,12 +94,36 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
             codesAndFiles = (Map<Integer, List<String>>) session.getAttribute(MinimizeTransformer.class.getName() + "$js-tmp");
         }
         
-        if (!codesAndFiles.containsKey(_randomCode))
+        if (!codesAndFiles.containsKey(_randomJSCode))
         {            
-            codesAndFiles.put(_randomCode, new ArrayList<String>());
+            codesAndFiles.put(_randomJSCode, new ArrayList<String>());
         }
-        return codesAndFiles.get(_randomCode);
+        return codesAndFiles.get(_randomJSCode);
     }
+    
+    /**
+     * Get the list of files for css
+     * @return Return a modifiable file list registrer in session for the curren _randomCSSCode. Will never be null.
+     */
+    private List<String> _getCSSFileList()
+    {
+        Request request = ContextHelper.getRequest(_context);
+        Session session = request.getSession(true);
+        
+        Map<Integer, List<String>> codesAndFiles = (Map<Integer, List<String>>) session.getAttribute(MinimizeTransformer.class.getName() + "$css-tmp");
+        if (codesAndFiles == null)
+        {
+            session.setAttribute(MinimizeTransformer.class.getName() + "$css-tmp", new HashMap<Integer, List<String>>());
+            codesAndFiles = (Map<Integer, List<String>>) session.getAttribute(MinimizeTransformer.class.getName() + "$css-tmp");
+        }
+        
+        if (!codesAndFiles.containsKey(_randomCSSCode))
+        {            
+            codesAndFiles.put(_randomCSSCode, new ArrayList<String>());
+        }
+        return codesAndFiles.get(_randomCSSCode);
+    }
+    
     
     /**
      * At this point, if a minimizable list of files is know, generates a script tag here.
@@ -130,17 +155,17 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
         
         // Remove the file list for temporary manipulations
         Map<Integer, List<String>> codesAndFiles = (Map<Integer, List<String>>) session.getAttribute(MinimizeTransformer.class.getName() + "$js-tmp");
-        codesAndFiles.remove(_randomCode);
+        codesAndFiles.remove(_randomJSCode);
 
         // Change random code to avoid conflict between threads (of a same session)
-        _randomCode = (int) (Math.random() * Integer.MAX_VALUE);
+        _randomJSCode = (int) (Math.random() * Integer.MAX_VALUE);
     }
     
     /**
      * At this point, if a minimizable list of files is know, generates a css tag here.
      * Starts a new list of files.
      */
-    /*private void _cssCheckPoint() throws SAXException
+    private void _cssCheckPoint() throws SAXException
     {
         Request request = ContextHelper.getRequest(_context);
         Session session = request.getSession(true);
@@ -158,19 +183,20 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
             finalCodesAndFiles.put(cssFileList.hashCode(), cssFileList);
             
             AttributesImpl attrs = new AttributesImpl();
-            attrs.addCDATAAttribute("type", "text/javascript");
-            attrs.addCDATAAttribute("src", StringUtils.defaultIfEmpty(source, _defaultPluginCoreUrl) + "/jsfilelist/" + cssFileList.hashCode() + "-" + (_debugMode != 0 ? "true" : "false") + ".js");
-            super.startElement("", "script", "script", attrs);
-            super.endElement("", "script", "script");
+            attrs.addCDATAAttribute("type", "text/css");
+            attrs.addCDATAAttribute("rel", "stylesheet");
+            attrs.addCDATAAttribute("href", StringUtils.defaultIfEmpty(source, _defaultPluginCoreUrl) + "/cssfilelist/" + cssFileList.hashCode() + "-" + (_debugMode != 0 ? "true" : "false") + ".css");
+            super.startElement("", "link", "link", attrs);
+            super.endElement("", "link", "link");
         }
         
         // Remove the file list for temporary manipulations
-        Map<Integer, List<String>> codesAndFiles = (Map<Integer, List<String>>) session.getAttribute(MinimizeTransformer.class.getName() + "$js-tmp");
-        codesAndFiles.remove(_randomCode);
+        Map<Integer, List<String>> codesAndFiles = (Map<Integer, List<String>>) session.getAttribute(MinimizeTransformer.class.getName() + "$css-tmp");
+        codesAndFiles.remove(_randomCSSCode);
 
         // Change random code to avoid conflict between threads (of a same session)
-        _randomCode = (int) (Math.random() * Integer.MAX_VALUE);
-    }*/
+        _randomCSSCode = (int) (Math.random() * Integer.MAX_VALUE);
+    }
 
     
     
@@ -198,6 +224,7 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
                 // we are googin in third level (/html/head/* or /html/body/* 
                 super.startElement(uri, loc, raw, a);
                 _jsCheckPoint();
+                _cssCheckPoint();
             }
             else if (StringUtils.countMatches(_path, "/") > 2 && _isAScriptTag(loc, a))
             {
@@ -214,9 +241,30 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
                     String fileName = _relativize(a.getValue(index));
                     if (getLogger().isDebugEnabled())
                     {
-                        getLogger().debug("For random code '" + _randomCode + "', adding js file '" + fileName + "'");
+                        getLogger().debug("For random code '" + _randomJSCode + "', adding js file '" + fileName + "'");
                     }
                     _getJSFileList().add(fileName);
+                    _removedPath = _path;
+                }
+            }
+            else if (StringUtils.countMatches(_path, "/") > 2 && _isAStyleOrLinkTag(loc, a))
+            {
+                int index = _getAttributeIndex(a, "href");
+                if (index == -1)
+                {
+                    // A local style in between... stop 
+                    _cssCheckPoint();
+                    super.startElement(uri, loc, raw, a);
+                }
+                else
+                {
+                    // A distant script
+                    String fileName = _relativize(a.getValue(index));
+                    if (getLogger().isDebugEnabled())
+                    {
+                        getLogger().debug("For random code '" + _randomCSSCode + "', adding css file '" + fileName + "'");
+                    }
+                    _getCSSFileList().add(fileName);
                     _removedPath = _path;
                 }
             }
@@ -239,6 +287,7 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
             if (StringUtils.countMatches(_path, "/") == 2)
             {
                 _jsCheckPoint();
+                _cssCheckPoint();
             }
 
             if (!StringUtils.startsWith(_path, _removedPath))
@@ -283,6 +332,47 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
                 }
             }
             return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    /**
+     * Determine if the element is a inline css style
+     * @param loc The tag name
+     * @param a The attributes
+     * @return true if it is a link
+     */
+    private boolean _isAStyleOrLinkTag(String loc, Attributes a)
+    {
+        if (StringUtils.equalsIgnoreCase(loc, "style"))
+        {
+            for (int i = 0; i < a.getLength(); i++)
+            {
+                if (StringUtils.equalsIgnoreCase(a.getLocalName(i), "type"))
+                {
+                    return StringUtils.equals("text/css", a.getValue(i));
+                }
+            }
+            return true;
+        }
+        else if (StringUtils.equalsIgnoreCase(loc, "link"))
+        {
+            boolean isAStylesheet = false;
+            for (int i = 0; i < a.getLength(); i++)
+            {
+                if (StringUtils.equalsIgnoreCase(a.getLocalName(i), "type") && !StringUtils.equals("text/css", a.getValue(i)))
+                {
+                    return false;
+                }
+                else if (StringUtils.equalsIgnoreCase(a.getLocalName(i), "rel") && StringUtils.equals("stylesheet", a.getValue(i)))
+                {
+                    isAStylesheet = true;
+                }
+            }
+            return isAStylesheet;
         }
         else
         {

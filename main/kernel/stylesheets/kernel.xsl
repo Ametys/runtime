@@ -17,8 +17,7 @@
 <xsl:stylesheet version="1.0" 
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
     xmlns:i18n="http://apache.org/cocoon/i18n/2.1"
-    xmlns:exslt="http://exslt.org/common"
-    xmlns:csscomponent="org.ametys.runtime.plugins.core.ui.css.AllCSSComponent">
+    xmlns:exslt="http://exslt.org/common">
 	
 	<xsl:import href="kernel-browsers.xsl"/>
 	
@@ -45,8 +44,6 @@
 		 |					Keys for browsers are 'ie' (Microsoft Internet Explorer), 'ff' (Mozilla Firefox), 'ch' (Google Chrome), 'sa' (Apple Safari) and 'op' (Opera).<br/>
 		 |					Versions can be a single number '3' or '3.5', or can be an interleave where 0 is the infinity '0-6' means all versions before 6 and 6 included, '6-0' means all versions after 6 and 6 included.
 		 | @param {String} load-cb A callback js function to call after each js load
-		 | @param {Boolean} use-css-component True to load CSS using the css component to minimize css calls (true is the default value)
-		 | @param {Boolean} reuse-css-component True to avoid css component initialization and css tag creation (false is the default value). Usefull if you want to add others css file to the minimizer, but you will need to call the resetCSS and the link tag by your own. Only used when use-css-component is to true. 
          + -->
     <xsl:template name="kernel-base">
         <xsl:param name="plugins-direct-prefix"/>
@@ -60,8 +57,6 @@
 		<xsl:param name="authorized-browsers"/>
 
         <xsl:param name="load-cb"/>
-        <xsl:param name="use-css-component">true</xsl:param>
-        <xsl:param name="reuse-css-component">false</xsl:param>
 
 	
 		<xsl:call-template name="kernel-browsers">
@@ -108,13 +103,8 @@
 		<xsl:call-template name="kernel-load">
 			<xsl:with-param name="scripts" select="exslt:node-set($scripts)/*"/>
 			<xsl:with-param name="css" select="exslt:node-set($css)/*"/>
-			<xsl:with-param name="debug-mode" select="$debug-mode"/>
 			<xsl:with-param name="context-path" select="$context-path"/>
-			<xsl:with-param name="plugins-direct-prefix" select="$plugins-direct-prefix"/>
-			<xsl:with-param name="workspace-prefix" select="$workspace-prefix"/>
 			<xsl:with-param name="load-cb" select="$load-cb"/>
-			<xsl:with-param name="use-css-component" select="$use-css-component"/>
-			<xsl:with-param name="reuse-css-component" select="$reuse-css-component"/>
 		</xsl:call-template>
     </xsl:template>
  
@@ -122,28 +112,16 @@
          | Load CSS and JS files. This template will ensure that each file is called once only.
          | @param {Node} scripts JS files to load . The node is a list of nodes with file url as text value. The url is relative to the server and should not contains context path.
          | @param {Node} css The same as scripts but for css files.
-         | @param {Boolean} debug-mode Load JS files in debug mode when available.
          | @param {String} context-path The application context path. Can be empty for ROOT context path or should begin with / in other cases. E.g. '/MyContext'
-         | @param {String} plugins-direct-prefix Prefix for direct url to plugins (used for AJAX connections) with leading '/' nor context path. e.g. '/_plugins' 
-         | @param {String} workspace-prefix The prefix of the current workspace (so not starting with the context path). If the workspace is the default one, this can be empty. E.g. '', '/_MyWorkspace'
 		 | @param {String} load-cb A callback js function to call after each js load
-		 | @param {Boolean} use-css-component True to load CSS using the css component to minimize css calls (true is the default value)
-		 | @param {Boolean} reuse-css-component True to avoid css component initialization and css tag creation (false is the default value). Usefull if you want to add others css file to the minimizer, but you will need to call the resetCSS and the link tag by your own. Only used when use-css-component is to true. 
          + -->
     <xsl:template name="kernel-load">
         <xsl:param name="scripts"/>
         <xsl:param name="css"/>
         
-        <xsl:param name="debug-mode">false</xsl:param>
 		<xsl:param name="context-path"/>
-        <xsl:param name="plugins-direct-prefix"/>
-        <xsl:param name="workspace-prefix"/>
         
 		<xsl:param name="load-cb"/>
-        <xsl:param name="use-css-component">true</xsl:param>
-		<xsl:param name="reuse-css-component">false</xsl:param>
-		 
-		<xsl:variable name="plugin-core-url" select="concat($context-path, $workspace-prefix, $plugins-direct-prefix, '/core')"/>
 		 
 		<!-- Load scripts -->
         <xsl:for-each select="$scripts">
@@ -158,90 +136,15 @@
         </xsl:for-each>
 
 		<!-- Load css -->
-		<xsl:if test="$css">
-			<xsl:choose>
-				<xsl:when test="$use-css-component != 'true'">
-				        <xsl:for-each select="$css">
-				            <xsl:variable name="position" select="position()"/>
-				            <xsl:variable name="value" select="."/>
-				            
-				            <!-- check that the src was not already loaded (by another plugin for example) -->
-				            <xsl:if test="not($css[position() &lt; $position and . = $value])">
-				                <link rel="stylesheet" type="text/css" href="{$contextPath}{.}"/>
-				        	    <xsl:copy-of select="$load-cb"/>
-				            </xsl:if>
-				        </xsl:for-each>
-				</xsl:when>
-				<xsl:otherwise>
-						<xsl:if test="$reuse-css-component = 'false'">
-							<xsl:value-of select="csscomponent:resetCSSFilesList()"/>
-						</xsl:if>
-				        <xsl:for-each select="$css">
-				            <xsl:variable name="position" select="position()"/>
-				            <xsl:variable name="value" select="."/>
-				            
-				            <!-- check that the src was not already loaded (by another plugin for example) -->
-				            <xsl:if test="not($css[position() &lt; $position and . = $value])">
-				            	<xsl:value-of select="csscomponent:addCSSFile(.)"/>
-				            </xsl:if>
-				        </xsl:for-each>
-						<xsl:if test="$reuse-css-component = 'false'">
-							<xsl:call-template name="kernel-base-load-css">
-								<xsl:with-param name="load-cb" select="$load-cb"/>
-								<xsl:with-param name="debug-mode" select="$debug-mode"/>
-							    <xsl:with-param name="plugin-core-url" select="$plugin-core-url"/>
-							</xsl:call-template>
-			        	</xsl:if>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:if>
+        <xsl:for-each select="$css">
+            <xsl:variable name="position" select="position()"/>
+            <xsl:variable name="value" select="."/>
+            
+            <!-- check that the src was not already loaded (by another plugin for example) -->
+            <xsl:if test="not($css[position() &lt; $position and . = $value])">
+                <link rel="stylesheet" type="text/css" href="{$contextPath}{.}"/>
+        	    <xsl:copy-of select="$load-cb"/>
+            </xsl:if>
+        </xsl:for-each>
     </xsl:template>
-    
-    <!-- +
-	     | @private
-	     | css load is not just a call to a link tag (as it is for js), because we need to cut it in several files for IE 
-	     + -->
-    <xsl:template name="kernel-base-load-css">
-        <xsl:param name="load-cb"/>
-        <xsl:param name="debug-mode"/>
-        <xsl:param name="plugin-core-url"/>
-        
-        	<xsl:choose>
-        		<xsl:when test="$debug-mode = 'true'">
-        			<xsl:variable name="hashcode" select="csscomponent:getHashCode()"/>
-        		
-				    <xsl:call-template name="kernel-base-load-css-recurse">
-					    <xsl:with-param name="max" select="csscomponent:getNumberOfParts($hashcode)"/>
-					    <xsl:with-param name="hashcode" select="$hashcode"/>
-					    <xsl:with-param name="plugin-core-url" select="$plugin-core-url"/>
-				    </xsl:call-template>
-				    
-					<xsl:copy-of select="$load-cb"/>
-        		</xsl:when>
-        		<xsl:otherwise>
-		        	<link rel="stylesheet" type="text/css" href="{$plugin-core-url}/cssfilelist/{csscomponent:getHashCode()}.css"/>
-					<xsl:copy-of select="$load-cb"/>
-        		</xsl:otherwise>
-        	</xsl:choose>
-	</xsl:template>
-
-	<!-- +
-	     | @private
-	     + -->
-    <xsl:template name="kernel-base-load-css-recurse">
-        <xsl:param name="num" select="0"/>
-        <xsl:param name="max"/>
-        <xsl:param name="hashcode"/>
-        <xsl:param name="plugin-core-url"/>
-    
-    	<xsl:if test="$num &lt; $max">
-        	<link rel="stylesheet" type="text/css" href="{$plugin-core-url}/cssfilelist/debug/{$hashcode}/{$num}.css"/>
-		    <xsl:call-template name="kernel-base-load-css-recurse">
-			    <xsl:with-param name="num" select="$num + 1"/>
-			    <xsl:with-param name="max" select="$max"/>
-			    <xsl:with-param name="hashcode" select="$hashcode"/>
-			    <xsl:with-param name="plugin-core-url" select="$plugin-core-url"/>
-		    </xsl:call-template>
-        </xsl:if>
-    </xsl:template>    
 </xsl:stylesheet>

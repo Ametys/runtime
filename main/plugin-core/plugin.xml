@@ -785,13 +785,6 @@
     	</components>
     </feature>
     
-    <feature name="allcsscomponent">
-    	<components>
-    		<component class="org.ametys.runtime.plugins.core.ui.css.AllCSSComponent" 
-			   role="org.ametys.runtime.plugins.core.ui.css.AllCSSComponent"/>
-    	</components>
-    </feature>
-
     <feature name="xhtmlserializer-empty">
       	<extensions>
     		<extension id="org.ametys.runtime.cocoon.XHTMLSerializerExtensionPoint.empty" point="org.ametys.runtime.cocoon.XHTMLSerializerExtensionPoint">

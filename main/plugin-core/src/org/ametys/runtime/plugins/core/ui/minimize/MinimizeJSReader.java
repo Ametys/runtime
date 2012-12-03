@@ -16,34 +16,15 @@
 
 package org.ametys.runtime.plugins.core.ui.minimize;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
-import java.io.Serializable;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.List;
-import java.util.Map;
 
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.service.ServiceException;
-import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.cocoon.ProcessingException;
-import org.apache.cocoon.caching.CacheableProcessingComponent;
-import org.apache.cocoon.environment.ObjectModelHelper;
-import org.apache.cocoon.environment.Session;
-import org.apache.cocoon.reading.ServiceableReader;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.excalibur.source.Source;
-import org.apache.excalibur.source.SourceResolver;
-import org.apache.excalibur.source.SourceValidity;
-import org.apache.excalibur.source.impl.validity.NOPValidity;
-import org.mozilla.javascript.EvaluatorException;
-import org.xml.sax.SAXException;
-
-import org.ametys.runtime.util.cocoon.InvalidSourceValidity;
 
 import com.yahoo.platform.yui.compressor.JavaScriptCompressor;
 
@@ -51,166 +32,60 @@ import com.yahoo.platform.yui.compressor.JavaScriptCompressor;
  * This generator generates a single JS file to load all ui items js files.
  * Can generates a list of imports of directly intergrates all js files.
  */
-public class MinimizeJSReader extends ServiceableReader implements CacheableProcessingComponent
+public class MinimizeJSReader extends AbstractMinimizeReader
 {
-    private SourceResolver _resolver;
-    
-    @Override
-    public void service(ServiceManager smanager) throws ServiceException
-    {
-        super.service(smanager);
-        _resolver = (SourceResolver) smanager.lookup(SourceResolver.ROLE);
-    }
-    
     @Override
     public String getMimeType()
     {
         return "text/javascript;charset=utf-8";
     }
-    
-    @Override
-    public Serializable getKey()
-    {
-        boolean importMode = parameters.getParameterAsBoolean("import", false);
-        return source + "-" + importMode;
-    }
-    
-    @Override
-    public SourceValidity getValidity()
-    {
-        boolean importMode = parameters.getParameterAsBoolean("import", false);
 
-        if (importMode)
-        {
-            return new InvalidSourceValidity();
-        }
-        else
-        {
-            return new NOPValidity();
-        }
-    }
-    
     @Override
-    public long getLastModified()
+    protected String getListCode()
     {
-        return 0;
+        return "$js";
     }
-    
-    private List<String> _getFileList()
-    {
-        Session session = ObjectModelHelper.getRequest(objectModel).getSession(true);
-        
-        Map<Integer, List<String>> codesAndFiles = (Map<Integer, List<String>>) session.getAttribute(MinimizeTransformer.class.getName() + "$js");
-        if (codesAndFiles == null)
-        {
-            throw new IllegalStateException("No js files list register in that user's session");
-        }
-        
-        int id = Integer.parseInt(source);
-        if (!codesAndFiles.containsKey(id))
-        {
-            throw new IllegalStateException("No js files list using code '" + source + "' register in that user's session");
-        }
-        return codesAndFiles.get(id);
-    }
-    
+
     @Override
-    public void generate() throws IOException, SAXException, ProcessingException
-    {
-        StringBuffer sb = new StringBuffer("");
-        
-        List<String> jsFiles = _getFileList();
-        if (jsFiles != null) 
-        {
-            for (String jsFile : jsFiles)
-            {
-                sb.append(_handleFile(jsFile, ObjectModelHelper.getRequest(objectModel).getContextPath()));
-            }
-        } 
-             
-        IOUtils.write(sb.toString(), out);
-        IOUtils.closeQuietly(out);
-    }
-    
-    private String _handleFile(String jsFile, String contextPath)
+    protected String _handleFileDirect(String file, String contextPath)
     {
         StringBuffer sb = new StringBuffer();
         
-        boolean importMode = parameters.getParameterAsBoolean("import", false);
-
-        String s = "";
-        
-        if (importMode)
+        Source jssource = null;
+        InputStream is = null;
+        try
         {
-            sb.append("document.write(\"<script type='text/javascript' src='" + (StringUtils.startsWith(jsFile, "~") ? contextPath + org.apache.cocoon.util.NetUtils.normalize(jsFile.substring(1)) : jsFile)  + "'><!-- import --></script>\");\n");
+            jssource = _resolver.resolveURI(StringUtils.startsWith(file, "~") ? "cocoon:/" + org.apache.cocoon.util.NetUtils.normalize(file.substring(1)) : file);
+            is = jssource.getInputStream();
+            
+            String s = IOUtils.toString(is);
+            
+            Reader r = new StringReader(s);
+            JavaScriptCompressor compressor = new JavaScriptCompressor(r, new LoggerErrorReporter(getLogger()));
+            r.close();
+            
+            Writer w = new StringWriter();
+            compressor.compress(w, 8000, false, false, true, true);
+            
+            sb.append(w.toString());
         }
-        else
+        catch (Exception e)
         {
-            Source jssource = null;
-            InputStream is = null;
-            try
-            {
-                jssource = _resolver.resolveURI(StringUtils.startsWith(jsFile, "~") ? "cocoon:/" + org.apache.cocoon.util.NetUtils.normalize(jsFile.substring(1)) : jsFile);
-                is = jssource.getInputStream();
-                
-                s = IOUtils.toString(is);
-
-                Reader r = new StringReader(s);
-                JavaScriptCompressor compressor = new JavaScriptCompressor(r, new LoggerErrorReporter(getLogger()));
-                r.close();
-                
-                Writer w = new StringWriter();
-                compressor.compress(w, 8000, false, false, true, true);
-                
-                sb.append(w.toString());
-            }
-            catch (Exception e)
-            {
-                getLogger().error("Cannot minimize JS for aggregation " + jsFile, e);
-                sb.append("/** ERROR " + e.getMessage() + "*/");
-            }
-            finally
-            {
-                IOUtils.closeQuietly(is);
-                _resolver.release(jssource);
-            }
+            getLogger().error("Cannot minimize JS for aggregation " + file, e);
+            sb.append("/** ERROR " + e.getMessage() + "*/");
         }
-        
+        finally
+        {
+            IOUtils.closeQuietly(is);
+            _resolver.release(jssource);
+        }
+
         return sb.toString();
     }
     
-    /**
-     * Error reporter in a logger 
-     */
-    public class LoggerErrorReporter implements org.mozilla.javascript.ErrorReporter
+    @Override
+    protected String _handleFileImport(String file, String contextPath)
     {
-        private Logger _logger;
-        
-        /** 
-         * Create the a reporter based uppon a logger
-         * @param logger The logger
-         */
-        public LoggerErrorReporter(Logger logger)
-        {
-            _logger = logger;
-        }
-        
-        @Override
-        public void warning(String message, String sourceName, int line, String lineSource, int lineOffset)
-        {
-            _logger.warn(message + " " + sourceName + " line " + line + " " + lineSource + " col " + lineOffset);
-        }
-        @Override
-        public void error(String message, String sourceName, int line, String lineSource, int lineOffset)
-        {
-            _logger.error(message + " " + sourceName + " line " + line + " " + lineSource + " col " + lineOffset);
-        }
-        
-        @Override
-        public EvaluatorException runtimeError(String message, String sourceName, int line, String lineSource, int lineOffset)
-        {
-            error(message, sourceName, line, lineSource, lineOffset);
-            return new EvaluatorException(message);
-        }
+        return "document.write(\"<script type='text/javascript' src='" + (StringUtils.startsWith(file, "~") ? contextPath + org.apache.cocoon.util.NetUtils.normalize(file.substring(1)) : file)  + "'><!-- import --></script>\");\n";
     }
 }
