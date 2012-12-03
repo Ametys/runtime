@@ -37,5 +37,5 @@ Ext.define('Ametys.workspace.admin.rightpanel.TextPanel', {
 	addText: function (text)
 	{
 		this.add(Ext.Component({html: text,  border: false, cls: 'text-panel' }));
-	},
+	}
 });
