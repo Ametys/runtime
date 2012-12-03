@@ -29,7 +29,6 @@
 	<xsl:template match="/">
     	<xsl:call-template name="home">
 		    <xsl:with-param name="needs-kernel-ui" select="true()"/>
-		    <xsl:with-param name="use-js-css-component" select="'false'"/>
             <xsl:with-param name="debug-mode">true</xsl:with-param>
 		    
 		    <xsl:with-param name="context-path" select="$contextPath"/>
