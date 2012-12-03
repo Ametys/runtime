@@ -264,7 +264,14 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
                     {
                         getLogger().debug("For random code '" + _randomCSSCode + "', adding css file '" + fileName + "'");
                     }
-                    _getCSSFileList().add(fileName);
+                    List<String> cssFileList = _getCSSFileList();
+                    if (_debugMode == 1 && cssFileList.size() > 31)
+                    {
+                        // Too many css for IE
+                        _cssCheckPoint();
+                    }
+                    
+                    cssFileList.add(fileName);
                     _removedPath = _path;
                 }
             }
