@@ -55,7 +55,7 @@ Ext.define(
 			 * @static
 			 * @type {Number}
 			 */
-			LEVEL_FATALERROR: 4,
+			LEVEL_FATALERROR: 4
 
 		},
 		
