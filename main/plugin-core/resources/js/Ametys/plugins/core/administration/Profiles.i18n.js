@@ -184,7 +184,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 	_getRights: function()
 	{
 		var newRights = {};
-		for (var i=0; i &lt; RIGHTS_ID.length; i++)
+		for (var i=0; i < RIGHTS_ID.length; i++)
 		{
 			var rightElmt = Ext.getCmp(RIGHTS_ID[i]);
 			if (rightElmt.getValue())
@@ -202,7 +202,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 	_getObjects: function()
 	{
 		var objects = [];
-		for (var i=0; i &lt; RIGHTS_ID.length; i++)
+		for (var i=0; i < RIGHTS_ID.length; i++)
 		{
 			var rightElmt = Ext.getCmp(RIGHTS_ID[i]);
 			if (rightElmt.getValue())
@@ -250,7 +250,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 		    else
 			{
 				var state = Ext.dom.Query.selectValue("*/message", result); 
-				if (state != null &amp;&amp; state == "missing")
+				if (state != null && state == "missing")
 				{
 					Ext.Msg.show ({
                 		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
@@ -287,7 +287,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
      */
     checkBeforeQuit: function()
 	{
-		if (this._selectedElmt != null &amp;&amp; this._hasChanges)
+		if (this._selectedElmt != null && this._hasChanges)
 		{
 			if (confirm("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_CONFIRM"/>"))
 			{
@@ -312,7 +312,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 		}
 		else
 		{
-			for (var i=0; i &lt; RIGHTS_ID.length; i++)
+			for (var i=0; i < RIGHTS_ID.length; i++)
 			{
 				var rightElmt = Ext.getCmp(RIGHTS_ID[i]);
 				rightElmt.setValue(value);
@@ -336,7 +336,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 	 */
 	onSelectProfile: function()
 	{
-		if (this._selectedElmt != null &amp;&amp; this._hasChanges)
+		if (this._selectedElmt != null && this._hasChanges)
 		{
 			Ext.Msg.confirm ("<i18n:text i18n:key="PLUGINS_CORE_SAVE_DIALOG_TITLE"/>", "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_CONFIRM"/>", Ext.bind(this.saveObjectConfirm, this, [this._selectedElmt, this._getObjects(), this._getRights()], true));
 		}
@@ -349,12 +349,12 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 		this._selectedElmt = elmt; 
 		var rights = elmt.get('rights') || {};
 		
-		for (var i=0; i &lt; RIGHTS_CATEGORY.length; i++)
+		for (var i=0; i < RIGHTS_CATEGORY.length; i++)
 		{
 			Ext.getCmp("cat_" + RIGHTS_CATEGORY[i] + "_read").hide();
 		}
 		
-		for (var i=0; i &lt; RIGHTS_ID.length; i++)
+		for (var i=0; i < RIGHTS_ID.length; i++)
 		{
 			// Update edition screen
 			var rightElmt = Ext.getCmp(RIGHTS_ID[i]);
@@ -442,7 +442,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 				else 
 				{
 					var state = Ext.dom.Query.selectValue("*/message", result); 
-					if (state != null &amp;&amp; state == "missing")
+					if (state != null && state == "missing")
 					{
 						Ametys.log.ErrorDialog.display("<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>", "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_RENAME_MISSING_ERROR"/>", "State is missing", "Ametys.plugins.core.administration.Logs.editLabel");
 						this.listview.getStore().remove(record);
@@ -462,7 +462,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 	 */
 	selectLayout: function()
 	{
-		if (this._selectedElmt != null &amp;&amp; this._hasChanges &amp;&amp; this.item1.pressed)
+		if (this._selectedElmt != null && this._hasChanges && this.item1.pressed)
 		{
 			Ext.Msg.confirm ("<i18n:text i18n:key="PLUGINS_CORE_SAVE_DIALOG_TITLE"/>", "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_CONFIRM"/>", Ext.bind(this.saveObjectConfirm, this, [this._selectedElmt, this._getObjects(), this._getRights()], true));
 		}
@@ -473,11 +473,11 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 		{
 			this.cardPanel.getLayout().setActiveItem(0);
 			
-			for (var i=0; i &lt; RIGHTS_CATEGORY.length; i++)
+			for (var i=0; i < RIGHTS_CATEGORY.length; i++)
 			{
 				Ext.getCmp("cat_" + RIGHTS_CATEGORY[i] + "_read").hide();
 			}
-			for (var i=0; i &lt; RIGHTS_ID.length; i++)
+			for (var i=0; i < RIGHTS_ID.length; i++)
 			{
 				// Update read view
 				var rightElmt = Ext.getCmp(RIGHTS_ID[i]);
@@ -499,7 +499,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 		{	
 			this.cardPanel.getLayout().setActiveItem(1);
 			
-			for (var i=0; i &lt; RIGHTS_ID.length; i++)
+			for (var i=0; i < RIGHTS_ID.length; i++)
 			{
 				// Update edit view
 				var rightElmt = Ext.getCmp(RIGHTS_ID[i]);
@@ -774,7 +774,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles.CheckRightEntry', {
     	
     	var labelNode;
     	var nodes = this.bodyEl.dom.childNodes;
-		for (var i=0; i &lt; nodes.length; i++)
+		for (var i=0; i < nodes.length; i++)
 		{
 			if (nodes[i].tagName.toLowerCase() == 'label')
 			{

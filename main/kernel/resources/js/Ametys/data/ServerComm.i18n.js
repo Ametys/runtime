@@ -136,7 +136,7 @@ Ext.define(
 
 			this._suspended--;
 			
-			if (this._suspended == 0 &amp;&amp; this._nextTimer != null &amp;&amp; this._nextTimer &lt; new Date().getTime())
+			if (this._suspended == 0 && this._nextTimer != null && this._nextTimer < new Date().getTime())
 			{
 				this._sendMessages();
 			}
@@ -146,7 +146,7 @@ Ext.define(
 		 * Add a message to the 'to send' list of message. Depending on its priority, it will be send immediatly or later.
 		 * @param {String} pluginOrWorkspace The name of the server plugin or workpace targeted. Can be null to send to current workspace. Prefix by '_' to target a specific workspace.
 		 * @param {String} url The url on the server relative to the plugin
-		 * @param {Object} parameters The parameters to send to the server (Map&lt;String, String&gt;)
+		 * @param {Object} parameters The parameters to send to the server (Map<String, String>)
 		 * @param {Number} priority The priority of the message. Use ServerComm.PRIORITY_* constants.
 		 * @param {Function} callback The function to call when the message will come back. 
 		 * @param {Object} callback.response Will be the xml parent node of the response. This node can be null or empty on fatal error. An attribute 'code' is available on this node with the http code. This reponse has an extra method 'getText' that get the text from a node in parameter of the response.
@@ -198,7 +198,7 @@ Ext.define(
 				var ringTime = new Date().getTime() + delay;
 			
 				// if the current timer rings after the wanted time (at 20 milliseconds near)
-				if (this._nextTimer == null || ringTime &lt; this._nextTimer - 20)
+				if (this._nextTimer == null || ringTime < this._nextTimer - 20)
 				{
 					this._nextTimer = ringTime;
 					this._sendTask = setTimeout(function () { Ametys.data.ServerComm._sendMessages(); }, delay);
@@ -247,7 +247,7 @@ Ext.define(
 					}
 				}
 				
-				if (!this._off &amp;&amp; confirm("<i18n:text i18n:key="KERNEL_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE"/>"))
+				if (!this._off && confirm("<i18n:text i18n:key="KERNEL_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE"/>"))
 				{
 					return null; // this._sendSynchronousMessage(messageRequest);
 				}
@@ -273,7 +273,7 @@ Ext.define(
 			if (conn.responseXML == null)
 			{
 
-				if (confirm("<i18n:text i18n:key="KERNEL_SERVERCOMM_NOTXML_DESC"/>") &amp;&amp; !this._off)
+				if (confirm("<i18n:text i18n:key="KERNEL_SERVERCOMM_NOTXML_DESC"/>") && !this._off)
 				{
 					return null; // this._sendSynchronousMessage(messageRequest);
 				}
@@ -324,7 +324,7 @@ Ext.define(
 				this._sendTask = null;
 				this._nextTimer = null;
 				
-				if (this._suspended &gt; 0)
+				if (this._suspended > 0)
 				{
 					// communication is suspended - messages will be sent as soon as possible
 					return;
@@ -338,7 +338,7 @@ Ext.define(
 				// Effectively send messages
 				var parameters = {};
 				var count = 0;
-				for (var i = 0; i &lt; this._messages.length; i++)
+				for (var i = 0; i < this._messages.length; i++)
 				{
 					var message = this._messages[i];
 					parameters[count++] = message.toRequest();
@@ -393,7 +393,7 @@ Ext.define(
 		{
 			Ext.Ajax.abort(options._transactionId);
 
-			if (silently !== false &amp;&amp; typeof this._observer.onRequestArrival == "function")
+			if (silently !== false && typeof this._observer.onRequestArrival == "function")
 			{
 				try
 				{ 
@@ -410,7 +410,7 @@ Ext.define(
 			if (silently !== false)
 			{
 				// for each message call the handler
-				for (var i = 0; i &lt; options.messages.length; i++)
+				for (var i = 0; i < options.messages.length; i++)
 				{
 						var message = options.messages[i];
 			
@@ -488,7 +488,7 @@ Ext.define(
 
 			this._cancelTimeout(options);
 			
-			if (!this._off &amp;&amp; (response.responseXML != null || confirm("<i18n:text i18n:key="KERNEL_SERVERCOMM_NOTXML_DESC"/>")))
+			if (!this._off && (response.responseXML != null || confirm("<i18n:text i18n:key="KERNEL_SERVERCOMM_NOTXML_DESC"/>")))
 			{
 				this._dispatch(response, options);
 			}
@@ -507,7 +507,7 @@ Ext.define(
 		_dispatch: function(response, options)
 		{
 			// for each message call the handler
-			for (var i = 0; i &lt; options.messages.length; i++)
+			for (var i = 0; i < options.messages.length; i++)
 			{
 					var message = options.messages[i];
 
@@ -554,7 +554,7 @@ Ext.define(
 				}
 			}
 
-			if (!this._off &amp;&amp; confirm("<i18n:text i18n:key="KERNEL_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE"/>"))
+			if (!this._off && confirm("<i18n:text i18n:key="KERNEL_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE"/>"))
 			{
 				this._dispatch(response, options);
 			}
@@ -587,15 +587,15 @@ Ext.define(
 				else
 				{
 					var intMsg = Ext.dom.Query.selectValue("message", response);
-					var hasMsg = intMsg != null &amp;&amp; intMsg != "";
+					var hasMsg = intMsg != null && intMsg != "";
 					var intStk = Ext.dom.Query.selectValue("stacktrace", response);
-					var hasStk = intStk != null &amp;&amp; intStk != "";
+					var hasStk = intStk != null && intStk != "";
 						
 					Ametys.log.ErrorDialog.display(
 							"<i18n:text i18n:key='KERNEL_SERVERCOMM_SERVER_FAILED_DESC'/>" + response.getAttribute("code") + ")", 
 							message,
 							(hasMsg ? intMsg : "")
-							+ (hasMsg &amp;&amp; hasStk ? "&lt;br/&gt;&lt;br/&gt;" : "")
+							+ (hasMsg && hasStk ? "<br/><br/>" : "")
 							+ (hasStk ? intStk : ""),
 							category
 					);

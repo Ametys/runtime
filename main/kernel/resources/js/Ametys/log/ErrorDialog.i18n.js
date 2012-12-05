@@ -71,7 +71,7 @@ Ext.define(
 		    	height: 47
 		    });
 			var detailledMsg = new Ext.Panel({
-		    	html: "&lt;div style='white-space: nowrap'&gt;" + details.replace(/\n?\n/g, '&lt;br/&gt;').replace(/\t/g, '&amp;#160;&amp;#160;&amp;#160;&amp;#160;') + "&lt;/div&gt;",
+		    	html: "<div style='white-space: nowrap'>" + details.replace(/\n?\n/g, '<br/>').replace(/\t/g, '&#160;&#160;&#160;&#160;') + "</div>",
 		    	cls: 'error-dialog-details',
 		    	autoScroll: true, 
 		    	border: false,
@@ -105,7 +105,7 @@ Ext.define(
 				    },
 				    new Ext.SplitButton({
 				    	// A bug of extjs imply to set space character. If not the menu zone is too big.
-				    	text :"&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;" + "<i18n:text i18n:key='KERNEL_MSG_ERRORDIALOG_SPLITBUTTON_OK'/>" + "&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;",
+				    	text :"&#160;&#160;&#160;&#160;&#160;" + "<i18n:text i18n:key='KERNEL_MSG_ERRORDIALOG_SPLITBUTTON_OK'/>" + "&#160;&#160;&#160;&#160;&#160;",
 				    	menu: 
 				    	{
 				    		items: 
@@ -117,7 +117,7 @@ Ext.define(
 				    	handler : Ametys.log.ErrorDialog._okMessage
 				    }),
 				    {
-						text : "<i18n:text i18n:key='KERNEL_MSG_ERRORDIALOG_DETAILS'/> &gt;&gt;",
+						text : "<i18n:text i18n:key='KERNEL_MSG_ERRORDIALOG_DETAILS'/> >>",
 						handler : function() 
 						{
 			    			var currentErrorDialog = Ametys.log.ErrorDialog._stack[0];
@@ -126,12 +126,12 @@ Ext.define(
 				    		{
 				    			detailledMsg.setHeight(100);
 				    			detailledMsg.show();
-				    			this.setText("&lt;&lt; <i18n:text i18n:key='KERNEL_MSG_ERRORDIALOG_DETAILS'/>");
+				    			this.setText("<< <i18n:text i18n:key='KERNEL_MSG_ERRORDIALOG_DETAILS'/>");
 				    			currentErrorDialog.setHeight(221)
 				    		}
 				    		else
 				    		{
-				    			this.setText("<i18n:text i18n:key='KERNEL_MSG_ERRORDIALOG_DETAILS'/> &gt;&gt;");
+				    			this.setText("<i18n:text i18n:key='KERNEL_MSG_ERRORDIALOG_DETAILS'/> >>");
 				    			detailledMsg.hide();
 				    			currentErrorDialog.setHeight(110)
 				    		}
@@ -174,7 +174,7 @@ Ext.define(
 		 */
 		_okMessages: function()
 		{
-			if (Ametys.log.ErrorDialog._stack.length &gt; 0)
+			if (Ametys.log.ErrorDialog._stack.length > 0)
 			{
 				Ametys.log.ErrorDialog._stack[0].close();
 			}

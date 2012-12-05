@@ -405,7 +405,7 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 	    		node.set('icon', Ametys.getPluginResourcesPrefix("core") + "/img/administrator/logs/loglevel_" + level.toLowerCase() + (inherited ? "-inherit" : "") + ".png");
 	        }		
 			
-			for (var i = 0; i &lt; node.childNodes.length; i++)
+			for (var i = 0; i < node.childNodes.length; i++)
 			{
 				var childNode = node.childNodes[i];
 				if (childNode.get('level') == "inherit" || force)
@@ -517,7 +517,7 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 	{
 		this._nav = new Ametys.workspace.admin.rightpanel.NavigationPanel ({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU"/>"});
 		
-		for (var i=0; i &lt; this._navItems.length; i++)
+		for (var i=0; i < this._navItems.length; i++)
 		{
 			var item = new Ametys.workspace.admin.rightpanel.NavigationPanel.NavigationItem ({
 				text: this._navItems[i].label,
@@ -614,7 +614,7 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 		this._helpPanel.addText("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP_TEXT"/>");
 		this._helpPanel.addText("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP2_TEXT"/>");
 		
-		for (var i = 0; i &lt; this._helpPanel.items.length; i++)
+		for (var i = 0; i < this._helpPanel.items.length; i++)
 		{
 			this._helpPanel.items.get(i).hide();
 		}
@@ -673,10 +673,10 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 	    var args = "";
 
 	    var elts = this._logs.getSelectionModel().getSelection();
-	    for (var i = 0; i &lt; elts.length; i++)
+	    for (var i = 0; i < elts.length; i++)
 	    {
 	        var elt = elts[i];
-	        args += "file=" + encodeURIComponent(elt.get('location')) + "&amp;";
+	        args += "file=" + encodeURIComponent(elt.get('location')) + "&";
 	    }
 	    
 	    window.location.href = url + "?" + args;
@@ -705,7 +705,7 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 	        var files = [];
 	    
 	        var elts = this._logs.getSelectionModel().getSelection();
-	        for (var i = 0; i &lt; elts.length; i++)
+	        for (var i = 0; i < elts.length; i++)
 	        {
 	            var elt = elts[i];
 	            files.push(elt.get('location'));
@@ -719,16 +719,16 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 
 	        var failuresString = Ext.dom.Query.selectValue("*/failure", result, "");
 	        
-	        for (var i = 0; i &lt; elts.length; i++)
+	        for (var i = 0; i < elts.length; i++)
 	        {
 	            var elt = elts[i];
-	            if (failuresString.indexOf('/' + elt.get('location') + '/') &lt; 0)
+	            if (failuresString.indexOf('/' + elt.get('location') + '/') < 0)
 	            {
 	            	this._logs.getStore().remove(elt);
 	            }
 	        }                            
 	        
-	        if (failuresString.length &gt; 0)
+	        if (failuresString.length > 0)
 	        {
 	        	Ext.Msg.show({
 					title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_DELETE"/>",
@@ -766,23 +766,24 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 	           return;
 	        }
 	        
-	        var doneString = Ext.dom.Query.selectValue("*/done", result);
+	        this._doneString = Ext.dom.Query.selectValue("*/done", result) || "";
+	        this._toRemove = [];
 	        
-	        var nb = 0;
-	        var elts = this._logs.getElements();
-	        for (var i = elts.length - 1; i &gt;= 0; i--)
+	        var elts = this._logs.getStore().each(function(record) {
+	        	if (this._doneString.indexOf('/' + record.get('location') + '/') >= 0)
+	        	{
+	        		this._toRemove.push(record);
+	        	}
+	        }, this);
+	        
+	        for (var i = 0; i < this._toRemove.length; i++)
 	        {
-	            var elt = elts[i];
-	            if (doneString.indexOf('/' + elt.get('location') + '/') &gt;= 0)
-	            {
-	            	this._logs.getStore().remove(elt);
-	                nb++;
-	            }
-	        }      
+	        	this._logs.getStore().remove(this._toRemove[i]);
+	        }
 	        
 	        Ext.Msg.show({
 					title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_PURGE"/>",
-					msg: nb + " " + "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_PURGE_DONE"/>",
+					msg: this._toRemove.length + " " + "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_PURGE_DONE"/>",
 					buttons: Ext.Msg.OK,
 					icon: Ext.MessageBox.INFO
 				});
@@ -795,7 +796,7 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 	 */
 	_onSelectLog: function ()
 	{
-		var hasSelection  = this._logs.getSelectionModel().getSelection().length &gt; 0;
+		var hasSelection  = this._logs.getSelectionModel().getSelection().length > 0;
 		if (hasSelection)
 		{
 			this._actions.showElt(0);
@@ -820,7 +821,7 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 	 */
 	_fillSize: function (size)
 	{
-	    while (size.length &lt; 20)
+	    while (size.length < 20)
 	    {
 	        size = "0" + size;
 	    }

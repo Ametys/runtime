@@ -522,7 +522,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	{
 		this._nav = new Ametys.workspace.admin.rightpanel.NavigationPanel ({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU"/>"});
 		
-		for (var i=0; i &lt; this._navItems.length; i++)
+		for (var i=0; i < this._navItems.length; i++)
 		{
 			var item = new Ametys.workspace.admin.rightpanel.NavigationPanel.NavigationItem ({
 				id : "a" + this._navItems[i].id,
@@ -637,7 +637,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	    result = result.responseXML;
 	    
 	    var error = Ext.dom.Query.selectValue("*/error", result);
-	    if (error != null &amp;&amp; error != "")
+	    if (error != null && error != "")
 	    {
 	    	Ext.Msg.show ({
 	    		title: "<i18n:text i18n:key="PLUGINS_CORE_SAVE_DIALOG_TITLE"/>",
@@ -693,7 +693,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 		
 		var a0 = Ext.get(this._ct.dom.children[0]).getTop();
 
-		for (var i=0;  i &lt; this._ct.dom.children.length; i++)
+		for (var i=0;  i < this._ct.dom.children.length; i++)
 		{
 			var anchor = this._ct.dom.children[i];
 			if (i > 0) 

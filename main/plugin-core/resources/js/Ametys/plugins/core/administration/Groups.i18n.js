@@ -252,11 +252,11 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 	 */
 	_selectGroup: function (me, record, index, eOpts)
 	{
-		if (this._currentGroup != null &amp;&amp; this._hasChanges)
+		if (this._currentGroup != null && this._hasChanges)
 		{
 			var objects = "";
 			var users = this._listViewU.getStore().data.items;
-			for (var i=0; i &lt; users.length; i++)
+			for (var i=0; i < users.length; i++)
 			{
 				var objectId = users[i].get('id');
 				objects += objectId + '/';
@@ -290,7 +290,7 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 	    }
 	   
 		var members = Ext.dom.Query.select("GroupMembers/User", result);
-		for (var i=0; i &lt; members.length; i++)
+		for (var i=0; i < members.length; i++)
 		{
 			var fullname = Ext.dom.Query.selectValue("FullName", members[i]);
 			var login =  members[i].getAttribute("login");
@@ -359,7 +359,7 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 			else
 			{
 				var state = Ext.dom.Query.selectValue("*/message", result); 
-				if (state != null &amp;&amp; state == "missing")
+				if (state != null && state == "missing")
 				{
 					Ext.Msg.show ({
 	            		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
@@ -418,7 +418,7 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 	deleteUsers: function () 
 	{
 	    var elts = this._listViewU.getSelectionModel().getSelection();
-		for (var i = 0; i &lt; elts.length; i++)
+		for (var i = 0; i < elts.length; i++)
 		{
 			this._listViewU.getStore().remove(elts[i]);
 		}
@@ -438,7 +438,7 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 		{
 			objects = "";
 			var users = this._listViewU.getStore().data.items;
-			for (var i=0; i &lt; users.length; i++)
+			for (var i=0; i < users.length; i++)
 			{
 				var objectId = users[i].get('id');
 				objects += objectId + '/';
@@ -454,7 +454,7 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 		else
 		{
 			var state = Ext.dom.Query.selectValue("*/message", result); 
-			if (state != null &amp;&amp; state == "missing")
+			if (state != null && state == "missing")
 			{
 				Ext.Msg.show ({
 	            		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
@@ -654,7 +654,7 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 	 */
 	checkBeforeQuit: function()
     {
-        if (this._currentGroup != null &amp;&amp; this._hasChanges)
+        if (this._currentGroup != null && this._hasChanges)
         {
             if (confirm("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_MODIFY_CONFIRM"/>"))
             {

@@ -201,7 +201,7 @@ Ext.define('Ametys.plugins.core.SelectGroup', {
 			return;
 	    }
 
-		for (var i=0; i &lt; groups.length; i++)
+		for (var i=0; i < groups.length; i++)
 		{
 			var label = Ext.dom.Query.selectValue('label', groups[i]);
 			var fullname = label + " (" + groups[i].getAttribute('id') + ")";
@@ -251,7 +251,7 @@ Ext.define('Ametys.plugins.core.SelectGroup', {
 
 		this.box.hide();
 		
-		for (var i=0; i &lt; selection.length; i++)
+		for (var i=0; i < selection.length; i++)
 		{
 			var opt = selection[i];
 			addedgroups[opt.get('id')] = opt.get('label');

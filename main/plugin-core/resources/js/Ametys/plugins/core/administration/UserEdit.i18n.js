@@ -152,7 +152,7 @@ Ext.define('Ametys.plugins.core.administration.UserEdit', {
 		    this.form.findField('field_login').setValue(userInfo.getAttribute("login"));
 		   
 		    var fields = Ext.dom.Query.select('*', userInfo);
-		    for (var i = 0; i &lt; fields.length; i++)
+		    for (var i = 0; i < fields.length; i++)
 		    {
 		    	var field = fields[i];
 		        var fieldName = fields[i].nodeName;
@@ -190,14 +190,14 @@ Ext.define('Ametys.plugins.core.administration.UserEdit', {
 	  
 	    // passe les erreurs en rouges
 		var fieldsString = Ext.dom.Query.selectValue("*/error", result);
-	    if (fieldsString != null &amp;&amp; fieldsString.length &gt; 0)
+	    if (fieldsString != null && fieldsString.length > 0)
 	    {
 	      var fields = fieldsString.split(",");
-	      for (var i = 0; i &lt; fields.length; i++)
+	      for (var i = 0; i < fields.length; i++)
 	      {
 	        var field = fields[i];
 	        
-	        if (field.length &gt; 0)
+	        if (field.length > 0)
 	        {
 	          var elt = this._editForms[field];
 	          if (elt != null)

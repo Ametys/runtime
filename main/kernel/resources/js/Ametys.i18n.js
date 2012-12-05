@@ -173,12 +173,12 @@ Ext.define(
 		 */
 		convertHtmlToTextarea: function(s)
 		{
-		    s = s.replace(/&lt;br\/&gt;/g, "\r\n");
-		    s = s.replace(/&amp;#034;/g, "\"");
-		    s = s.replace(/&amp;#039;/g, "'");
-		    s = s.replace(/&amp;lt;/g, "&lt;");
-		    s = s.replace(/&amp;gt;/g, "&gt;");
-		    s = s.replace(/&amp;amp;/g, "&amp;");
+		    s = s.replace(/<br\/>/g, "\r\n");
+		    s = s.replace(/&#034;/g, "\"");
+		    s = s.replace(/&#039;/g, "'");
+		    s = s.replace(/&lt;/g, "<");
+		    s = s.replace(/>/g, ">");
+		    s = s.replace(/&amp;/g, "&");
 		    return s;
 		},
 
@@ -189,9 +189,9 @@ Ext.define(
 		 */
 		convertTextareaToHtml: function (s)
 		{
-		    s = s.replace(/\r?\n/g, "&lt;br/&gt;");
-		    s = s.replace(/"/g, "&amp;#034;");
-		    s = s.replace(/'/g, "&amp;#039;");
+		    s = s.replace(/\r?\n/g, "<br/>");
+		    s = s.replace(/"/g, "&#034;");
+		    s = s.replace(/'/g, "&#039;");
 		    return s;
 		},
 
@@ -226,7 +226,7 @@ Ext.define(
 			
 			// remove all css
 			var links = document.getElementsByTagName("link");
-			for (var i = 0; i &lt; links.length; i++)
+			for (var i = 0; i < links.length; i++)
 			{
 				if (links[i].type == "text/css")
 				{
@@ -234,7 +234,7 @@ Ext.define(
 				}
 			}
 			var styles = document.getElementsByTagName("style");
-			for (var i = 0; i &lt; styles.length; i++)
+			for (var i = 0; i < styles.length; i++)
 			{
 				if (styles[i].type == "text/css")
 				{
@@ -246,7 +246,7 @@ Ext.define(
 			document.body.style.backgroundColor = "#FFFFFF";
 			document.body.style.backgroundImage = "none";
 			document.body.style.color = "#000000";
-			document.body.innerHTML = "&lt;h1&gt;" + "<i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_1'/>" + "&lt;/h1&gt; &lt;p&gt;" + "<i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_2'/>" +"&lt;/p&gt;&lt;p&gt;&lt;a href='javascript:location.reload(true);'&gt;" + "<i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_3'/>" + "&lt;/a&gt;&lt;/p&gt;"
+			document.body.innerHTML = "<h1>" + "<i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_1'/>" + "</h1> <p>" + "<i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_2'/>" +"</p><p><a href='javascript:location.reload(true);'>" + "<i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_3'/>" + "</a></p>"
 		}
    	}
 );
@@ -332,10 +332,10 @@ Ext.SSL_SECURE_URL = Ext.BLANK_IMAGE_URL;
 		}
 	}
 	
-	var afterSubTpl = [ '&lt;tpl if="ametysDescription"&gt;',
-	                    	'&lt;/td&gt;',
-	                    	'&lt;td class="ametys-description" data-qtip="{ametysDescription}"&gt;',
-	                    	'&lt;/tpl&gt;'
+	var afterSubTpl = [ '<tpl if="ametysDescription">',
+	                    	'</td>',
+	                    	'<td class="ametys-description" data-qtip="{ametysDescription}">',
+	                    	'</tpl>'
 	];
 
 	Ext.define("Ametys.form.Labelable", { override: "Ext.form.field.Base", afterSubTpl: afterSubTpl, getLabelableRenderData: getLabelableRenderData, onRender: onRender });
@@ -356,12 +356,12 @@ Ext.SSL_SECURE_URL = Ext.BLANK_IMAGE_URL;
         	 * @class Ext.form.field.File
         	 * @cfg {Boolean} ametysShowMaxUploadSizeHint false to hide to max size hint under the field. true by default
         	 */
-        	if (Ametys.MAX_UPLOAD_SIZE != undefined &amp;&amp; Ametys.MAX_UPLOAD_SIZE != '' &amp;&amp; this.ametysShowMaxUploadSizeHint !== false)
+        	if (Ametys.MAX_UPLOAD_SIZE != undefined && Ametys.MAX_UPLOAD_SIZE != '' && this.ametysShowMaxUploadSizeHint !== false)
         	{
-        		result += '&lt;/tr&gt;&lt;tr id="' + this.id + '-uploadsize" class="ametys-file-hint"&gt;&lt;td colspan="2"&gt;'
+        		result += '</tr><tr id="' + this.id + '-uploadsize" class="ametys-file-hint"><td colspan="2">'
         		    + '(<i18n:text i18n:key="KERNEL_UPLOAD_HINT"/>'
         		    + Ext.util.Format.fileSize(Ametys.MAX_UPLOAD_SIZE)
-        			+ ')&lt;/td&gt;';
+        			+ ')</td>';
         	}
         	
         	return result;

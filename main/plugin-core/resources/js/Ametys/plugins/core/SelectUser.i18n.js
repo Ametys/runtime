@@ -201,7 +201,7 @@ Ext.define('Ametys.plugins.core.SelectUser', {
 			return;
 	    }
 
-		for (var i=0; i &lt; users.length; i++)
+		for (var i=0; i < users.length; i++)
 		{
 			var fs = Ext.dom.Query.selectValue('firstname', users[i]);
 			var ls = Ext.dom.Query.selectValue('lastname', users[i]);
@@ -253,7 +253,7 @@ Ext.define('Ametys.plugins.core.SelectUser', {
 
 		this.box.hide();
 		
-		for (var i=0; i &lt; selection.length; i++)
+		for (var i=0; i < selection.length; i++)
 		{
 			var opt = selection[i];
 			addedusers[opt.get('login')] = opt.get('name');

@@ -302,7 +302,7 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 	    	var name = Ext.dom.Query.selectValue("*/name", result);
 			Ext.Msg.show ({
 	    		title: "<i18n:text i18n:key='PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS_TITLE'/>",
-	    		msg: "<i18n:text i18n:key='PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS'/> " + name + " (" + login + ")&lt;br/&gt;&lt;br/&gt;<i18n:text i18n:key='PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS_2'/>",
+	    		msg: "<i18n:text i18n:key='PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS'/> " + name + " (" + login + ")<br/><br/><i18n:text i18n:key='PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS_2'/>",
 	    		buttons: Ext.Msg.OK,
 				icon: Ext.MessageBox.INFO,
 				fn: function() { window.open(Ametys.CONTEXT_PATH + "/"); }
@@ -423,7 +423,7 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 
 	    // Afficher les resultats
 	    var nodes = Ext.dom.Query.select("Search/users/user", result);
-	    for (var i = 0; i &lt; nodes.length; i++)
+	    for (var i = 0; i < nodes.length; i++)
 	    {
 	        var firstname = Ext.dom.Query.selectValue("firstname", nodes[i], "");
 	        

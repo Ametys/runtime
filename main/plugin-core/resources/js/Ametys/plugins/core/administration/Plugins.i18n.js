@@ -85,14 +85,14 @@ Ext.define('Ametys.plugins.core.administration.Plugins', {
 	_changes: false,
 	/**
 	 * @private
-	 * @property {Object} _SEP Map&lt;String, String&gt;
+	 * @property {Object} _SEP Map<String, String>
 	 * This association of single extension point name and extension to choose.
 	 * This association records the changes wanted until there are saved
 	 */
 	_SEP: {},
 	/**
 	 * @private
-	 * @property {Object} _EP Map&lt;String, boolean&gt;
+	 * @property {Object} _EP Map<String, boolean>
 	 * This association of multiple extension point name and true to active / false to deactive.
 	 * This association records the changes wanted until there are saved
 	 */
@@ -316,7 +316,7 @@ Ext.define('Ametys.plugins.core.administration.Plugins', {
 			node = this._tree2.getSelectionModel().getSelection()[0];
 		}
 		
-		if (node != null &amp;&amp; node.get('type') == "extension" &amp;&amp; node.parentNode.get('isMultiple') == "false")
+		if (node != null && node.get('type') == "extension" && node.parentNode.get('isMultiple') == "false")
 		{
 			this._actions.showElt(this._ACTION_SELECT);
 		}
@@ -325,7 +325,7 @@ Ext.define('Ametys.plugins.core.administration.Plugins', {
 			this._actions.hideElt(this._ACTION_SELECT);
 		}
 		
-		if (node != null &amp;&amp; node.get('type') == "feature" &amp;&amp; node.get('active'))
+		if (node != null && node.get('type') == "feature" && node.get('active'))
 		{
 			this._actions.showElt(this._ACTION_DEACTIVATE);
 		}
@@ -334,7 +334,7 @@ Ext.define('Ametys.plugins.core.administration.Plugins', {
 			this._actions.hideElt(this._ACTION_DEACTIVATE);
 		}
 
-		if (node != null &amp;&amp; node.get('type') == "feature" &amp;&amp; !node.get('active') &amp;&amp; node.get('cause') == "EXCLUDED")
+		if (node != null && node.get('type') == "feature" && !node.get('active') && node.get('cause') == "EXCLUDED")
 		{
 			this._actions.showElt(this._ACTION_ACTIVATE);
 		}
@@ -465,31 +465,31 @@ Ext.define('Ametys.plugins.core.administration.Plugins', {
 					var sepchanges = "";
 					for (var i in this._SEP)
 					{
-						sepchanges += i + " : " + this._SEP[i] + "&lt;br/&gt;";
+						sepchanges += i + " : " + this._SEP[i] + "<br/>";
 					}
 					var epchanges = "";
 					for (var i in this._EP)
 					{
-						epchanges += i + " : " + (this._EP[i] ? "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_ACTIVATE"/>" : "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DEACTIVATE"/>") + "&lt;br/&gt;";
+						epchanges += i + " : " + (this._EP[i] ? "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_ACTIVATE"/>" : "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DEACTIVATE"/>") + "<br/>";
 					}
 					
 					
 					var changes = "";
 					if (sepchanges != "")
 					{
-						changes += "&lt;b&gt;<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_SEP"/>&lt;/b&gt;&lt;br/&gt;"
+						changes += "<b><i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_SEP"/></b><br/>"
 								   + sepchanges;
 					}
 					if (epchanges != "")
 					{
-						changes += "&lt;b&gt;<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_EP"/>&lt;/b&gt;&lt;br/&gt;"
+						changes += "<b><i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_EP"/></b><br/>"
 								   + epchanges;
 					}
 					
 					Ext.MessageBox.confirm("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_CONFIRM_TITLE"/>", 
-							"<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_CONFIRM_TEXT_START"/>&lt;ul&gt;"
+							"<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_CONFIRM_TEXT_START"/><ul>"
 							+ changes
-							+ "&lt;/ul&gt;<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_CONFIRM_TEXT_END"/>", 
+							+ "</ul><i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_CONFIRM_TEXT_END"/>", 
 							function(val) { if (val == "yes") { this._changesNow(); } }, this);
 				}, this));
 	},

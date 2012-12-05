@@ -241,8 +241,8 @@ Ext.define('Ametys.form.field.ChangePassword', {
     getErrors: function(value) {
     	var a = this.callParent(arguments);
 
-    	if (arguments.length == 1 &amp;&amp; value == undefined
-    			|| arguments.length == 0 &amp;&amp; this.items.get(Ametys.form.field.ChangePassword.INDEX_MAIN_FIELD).getValue() != this.items.get(Ametys.form.field.ChangePassword.INDEX_CONFIRMATION_FIELD).getValue())
+    	if (arguments.length == 1 && value == undefined
+    			|| arguments.length == 0 && this.items.get(Ametys.form.field.ChangePassword.INDEX_MAIN_FIELD).getValue() != this.items.get(Ametys.form.field.ChangePassword.INDEX_CONFIRMATION_FIELD).getValue())
     	{
     		a.push("<i18n:text key='KERNEL_PASSWORD_VALIDATOR' catalogue='kernel'/>");
     	}

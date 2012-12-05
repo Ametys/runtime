@@ -205,7 +205,7 @@ Ext.define('Ametys.plugins.core.administration.JVMStatus', {
 		var currentPeriod = src.substring(src.lastIndexOf("/") + 1, src.length - 4);
 		
 		src = src.substring(0, src.lastIndexOf("/") + 1);
-		for (var i = 0; i &lt; this.periods.length; i++)
+		for (var i = 0; i < this.periods.length; i++)
 		{
 			if (this.periods[i] == currentPeriod)
 			{
@@ -240,7 +240,7 @@ Ext.define('Ametys.plugins.core.administration.JVMStatus', {
 	_drawMonitoringPanel: function ()
 	{
 		var items = [];
-		for (var i = 0; i &lt; this.samples.length; i++)
+		for (var i = 0; i < this.samples.length; i++)
 		{
 			var id = this.samples[i].id;
 			var label = this.samples[i].label;
@@ -253,12 +253,12 @@ Ext.define('Ametys.plugins.core.administration.JVMStatus', {
 				titleCollapse: true,
 				hideCollapseTool: true,
 				
-		    	html: '&lt;div class="monitoring"&gt;'
-		    		+ '    &lt;button style="border-left-style: none;" id="btn-' + id + '-left" onclick="org.ametys.administration.JVMStatus._nextImg(\'' + id + '\', -1); return false;"&gt;&amp;lt;&amp;lt;&lt;/button&gt;'
-		    		+ '    &lt;img id="img-' + id + '" src="' + Ametys.getPluginDirectPrefix("core") + '/administrator/jvmstatus/monitoring/' + id + '/' + this.periods[1] + '.png" title="' + description + '"/&gt;'
-		    		+ '    &lt;button style="border-right-style: none;" id="btn-' + id + '-right"  onclick="org.ametys.administration.JVMStatus._nextImg(\'' + id + '\', +1); return false;"&gt;&amp;gt;&amp;gt;&lt;/button&gt;'
-		    		+ '&lt;br/&gt;&lt;a target="_blank" href="' + Ametys.getPluginDirectPrefix("core") + '/administrator/jvmstatus/monitoring/' + id + '.xml"&gt;<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_MONITORING_EXPORT"/>&lt;a&gt;'
-		    	    + '&lt;/div&gt;'
+		    	html: '<div class="monitoring">'
+		    		+ '    <button style="border-left-style: none;" id="btn-' + id + '-left" onclick="org.ametys.administration.JVMStatus._nextImg(\'' + id + '\', -1); return false;">&lt;&lt;</button>'
+		    		+ '    <img id="img-' + id + '" src="' + Ametys.getPluginDirectPrefix("core") + '/administrator/jvmstatus/monitoring/' + id + '/' + this.periods[1] + '.png" title="' + description + '"/>'
+		    		+ '    <button style="border-right-style: none;" id="btn-' + id + '-right"  onclick="org.ametys.administration.JVMStatus._nextImg(\'' + id + '\', +1); return false;">&gt;&gt;</button>'
+		    		+ '<br/><a target="_blank" href="' + Ametys.getPluginDirectPrefix("core") + '/administrator/jvmstatus/monitoring/' + id + '.xml"><i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_MONITORING_EXPORT"/><a>'
+		    	    + '</div>'
 		    }));
 		}
 		
@@ -283,7 +283,7 @@ Ext.define('Ametys.plugins.core.administration.JVMStatus', {
 	{
 		this._nav = new Ametys.workspace.admin.rightpanel.NavigationPanel ({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU"/>"});
 		
-		for (var i=0; i &lt; this._navItems.length; i++)
+		for (var i=0; i < this._navItems.length; i++)
 		{
 			var item = new Ametys.workspace.admin.rightpanel.NavigationPanel.NavigationItem ({
 				text: this._navItems[i].label,
@@ -439,14 +439,14 @@ Ext.define('Ametys.plugins.core.administration.JVMStatus', {
 	    // ACTIVE SESSION
 	    var sessions = Ext.dom.Query.selectNumber("status/general/activeSessions", result);
 	    if (sessions == null) 
-	        document.getElementById("activeSession").innerHTML = "&lt;a href='#' onclick='Ametys.plugins.core.administration.JVMStatus.helpSessions(); return false;'&gt;<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_SESSIONS_ERROR"/>&lt;/a&gt;";
+	        document.getElementById("activeSession").innerHTML = "<a href='#' onclick='Ametys.plugins.core.administration.JVMStatus.helpSessions(); return false;'><i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_SESSIONS_ERROR"/></a>";
 	    else
 	        document.getElementById("activeSession").innerHTML = sessions;
 
 	    // ACTIVE REQUEST
 	    var sessions = Ext.dom.Query.selectNumber("status/general/activeRequests", result);
 	    if (sessions == null) 
-	        document.getElementById("activeRequest").innerHTML = "&lt;a href='#' onclick='Ametys.plugins.core.administration.JVMStatus.helpRequests(); return false;'&gt;<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_REQUESTS_ERROR"/>&lt;/a&gt;";
+	        document.getElementById("activeRequest").innerHTML = "<a href='#' onclick='Ametys.plugins.core.administration.JVMStatus.helpRequests(); return false;'><i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_REQUESTS_ERROR"/></a>";
 	    else
 	        document.getElementById("activeRequest").innerHTML = sessions;
 
@@ -455,7 +455,7 @@ Ext.define('Ametys.plugins.core.administration.JVMStatus', {
 	    var locked = Ext.dom.Query.selectValue("status/general/deadlockThreads", result);
 	    if (locked != "0")
 	    {
-	        document.getElementById("deadlockThread").innerHTML = "(&lt;a href='#' title='<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_THREADS_ERROR_LOCK_HINT"/>' style='color: red; font-weight: bold' onclick='Ametys.plugins.core.administration.JVMStatus.deadLock()'&gt;" + locked + " <i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_THREADS_LOCK"/>&lt;/a&gt;)";
+	        document.getElementById("deadlockThread").innerHTML = "(<a href='#' title='<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_THREADS_ERROR_LOCK_HINT"/>' style='color: red; font-weight: bold' onclick='Ametys.plugins.core.administration.JVMStatus.deadLock()'>" + locked + " <i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_THREADS_LOCK"/></a>)";
 		}
 	    
 	    // TIME

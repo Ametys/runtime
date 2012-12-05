@@ -299,7 +299,7 @@ Ext.define('Ametys.plugins.core.administration.System', {
 		args.announcement = this._fieldSet.checkboxCmp.getValue() ? "true" : "false";
 
 		var elmts = this._listView.getStore().data.items;
-	    for (var i = 0; i &lt; elmts.length; i++)
+	    for (var i = 0; i < elmts.length; i++)
 	    {
 	        var element = elmts[i];
 	        var lang = element.get('lang');

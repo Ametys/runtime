@@ -57,7 +57,7 @@ Ext.define(
 	    constructor: function(details, index, timeout) {
 	    	timeout = timeout || this.TIMEOUT;
 	    	var title = "<i18n:text i18n:key='KERNEL_SERVERCOMM_TIMEOUTDIALOG_TITLE'/>"
-	    	var text = "<i18n:text i18n:key='KERNEL_SERVERCOMM_TIMEOUTDIALOG_TEXT1'/>" + "&lt;br/&gt;" + "<i18n:text i18n:key='KERNEL_SERVERCOMM_TIMEOUTDIALOG_TEXT2'/>"
+	    	var text = "<i18n:text i18n:key='KERNEL_SERVERCOMM_TIMEOUTDIALOG_TEXT1'/>" + "<br/>" + "<i18n:text i18n:key='KERNEL_SERVERCOMM_TIMEOUTDIALOG_TEXT2'/>"
 	    		
 	    	this._runningRequestIndex = index;
 	    	this.getRequestOptions()._timeout = null;
@@ -70,7 +70,7 @@ Ext.define(
 	        	height: 55
 	        });
 	    	var detailledMsg = new Ext.Panel({
-	        	html: "&lt;div style='white-space: nowrap'&gt;" + details.replace(/\n?\n/g, '&lt;br/&gt;').replace(/\t/g, '&amp;#160;&amp;#160;&amp;#160;&amp;#160;') + "&lt;/div&gt;",
+	        	html: "<div style='white-space: nowrap'>" + details.replace(/\n?\n/g, '<br/>').replace(/\t/g, '&#160;&#160;&#160;&#160;') + "</div>",
 	        	cls: 'timeout-dialog-details',
 	        	autoScroll: true, 
 	        	border: false,
@@ -115,7 +115,7 @@ Ext.define(
 	    		    	}
 	    		    },
 	    			{
-	    				text : "<i18n:text i18n:key='KERNEL_SERVERCOMM_TIMEOUTDIALOG_DETAILS'/>" + " &gt;&gt;", 
+	    				text : "<i18n:text i18n:key='KERNEL_SERVERCOMM_TIMEOUTDIALOG_DETAILS'/>" + " >>", 
 	    				handler : function() 
 	    				{
 	    	    			var currentTimeoutDialog = Ametys.data.ServerComm.TimeoutDialog._stack[0];
@@ -124,12 +124,12 @@ Ext.define(
 	    		    		{
 	    		    			detailledMsg.setHeight(50);
 	    		    			detailledMsg.show();
-	    		    			this.setText("&lt;&lt; " + "<i18n:text i18n:key='KERNEL_SERVERCOMM_TIMEOUTDIALOG_DETAILS'/>");
+	    		    			this.setText("<< " + "<i18n:text i18n:key='KERNEL_SERVERCOMM_TIMEOUTDIALOG_DETAILS'/>");
 	    		    			currentTimeoutDialog.setHeight(170)
 	    		    		}
 	    		    		else
 	    		    		{
-	    		    			this.setText("<i18n:text i18n:key='KERNEL_SERVERCOMM_TIMEOUTDIALOG_DETAILS'/>" + " &gt;&gt;");
+	    		    			this.setText("<i18n:text i18n:key='KERNEL_SERVERCOMM_TIMEOUTDIALOG_DETAILS'/>" + " >>");
 	    		    			detailledMsg.hide();
 	    		    			currentTimeoutDialog.setHeight(120)
 	    		    		}
