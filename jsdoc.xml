@@ -44,27 +44,11 @@
 		    <include name="**/*.i18n.js"/>
 		  </fileset>
 		</replaceregexp>     
-		
-		<!-- Change &amp;&amp; to && -->
-        <replace token="&amp;lt;" value="&lt;">
-          <fileset dir="temp">
-            <include name="**/*.i18n.js"/>
-          </fileset>
-        </replace>
-        <replace token="&amp;gt;" value="&gt;">
-          <fileset dir="temp">
-            <include name="**/*.i18n.js"/>
-          </fileset>
-        </replace>
-        <replace token="&amp;amp;" value="&amp;">
-          <fileset dir="temp">
-            <include name="**/*.i18n.js"/>
-          </fileset>
-		</replace>
     </target>
     
     <target name="calljsduck">
         <delete dir="doc"/>
+        <echo>Processing js doc...</echo>
         <exec executable="jsduck-4.4.1.exe" outputproperty="log">
             <arg value="temp/kernel"/>
             <arg value="temp/plugin-core"/>
@@ -82,7 +66,7 @@
             <arg value="--ignore-global"/>
             
             <arg value="--title='Ametys'"/>
-            
+
             <arg value="--footer='Javascript documentation for Ametys'"/>
         </exec>
 
