@@ -28,7 +28,7 @@ function myI18nFunction()
   alert("<i18n:text i18n:key="PLUGINS_PLUGIN_MYJAVASCRIPTKEY"/>");
   
   var test = true;
-  for (var i = 0; i &lt; 5 &amp;&amp; test; i++)
+  for (var i = 0; i < 5 && test; i++)
   {
     test = i == 3;
   }
