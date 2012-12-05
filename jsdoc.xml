@@ -64,6 +64,7 @@
     </target>
     
     <target name="calljsduck">
+        <delete dir="doc"/>
         <exec executable="jsduck-4.0.0.exe" outputproperty="log">
             <arg value="temp/kernel"/>
             <arg value="temp/plugin-core"/>
