@@ -188,7 +188,7 @@ RUNTIME_Plugin_Runtime_SelectGroup.ok = function ()
 		for (var i=0; i &lt; selection.length; i++)
 		{
 			var opt = selection[i];
-			addedgroups[opt.id] = opt.get('name');
+			addedgroups[opt.id] = opt.get('label');
 		}
 	
 		RUNTIME_Plugin_Runtime_SelectGroup.callback(addedgroups);
