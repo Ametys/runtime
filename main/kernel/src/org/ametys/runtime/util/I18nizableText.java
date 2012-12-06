@@ -16,6 +16,7 @@
 package org.ametys.runtime.util;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.cocoon.transformation.I18nTransformer;
 import org.apache.cocoon.xml.AttributesImpl;
@@ -35,6 +36,7 @@ public final class I18nizableText
     private String _key;
     private String _catalogue;
     private List<String> _parameters;
+    private Map<String, String> _parameterMap;
 
     /**
      * Create a simple international text
@@ -53,7 +55,7 @@ public final class I18nizableText
      */
     public I18nizableText(String catalogue, String key)
     {
-        this(catalogue, key, null);
+        this(catalogue, key, (List<String>) null);
     }
     
     /**
@@ -72,6 +74,26 @@ public final class I18nizableText
         _catalogue = i18nCatalogue;
         _key = i18nKey;
         _parameters = parameters;
+        _parameterMap = null;
+    }
+    
+    /**
+     * Create an i18nized text
+     * @param catalogue the catalogue where the key is defined. Can be null. Can be overloaded by the catalogue in the key.
+     * @param key the key of the text. Cannot be null. May include the catalogue using the character ':' as separator. CATALOG:KEY.
+     * @param parameters the parameters of the key if any. Can be null.
+     */
+    public I18nizableText(String catalogue, String key, Map<String, String> parameters)
+    {
+        _i18n = true;
+        
+        String i18nKey = key.substring(key.indexOf(":") + 1);
+        String i18nCatalogue = i18nKey.length() == key.length() ? catalogue : key.substring(0, key.length() - i18nKey.length() - 1);
+        
+        _catalogue = i18nCatalogue;
+        _key = i18nKey;
+        _parameterMap = parameters;
+        _parameters = null;
     }
     
     /**
@@ -132,6 +154,22 @@ public final class I18nizableText
     }
     
     /**
+     * Get the parameters of the key of the i18nized text.
+     * @return The list of parameters' values or null if there is no parameters
+     */
+    public Map<String, String> getParameterMap()
+    {
+        if (_i18n)
+        {
+            return _parameterMap;
+        }
+        else
+        {
+            throw new IllegalArgumentException("This text is not i18nized and so do not have parameters. Use the 'isI18n' method to know whether a text is i18nized");
+        }
+    }
+    
+    /**
      * Get the label if a text is not i18nized.
      * @return The label
      */
@@ -158,7 +196,8 @@ public final class I18nizableText
         if (isI18n())
         {
             List<String> parameters = getParameters();
-            boolean hasParameter = parameters != null && parameters.size() > 0;
+            Map<String, String> parameterMap = getParameterMap();
+            boolean hasParameter = parameters != null && parameters.size() > 0 || parameterMap != null && !parameterMap.isEmpty();
             
             handler.startPrefixMapping("i18n", I18nTransformer.I18N_NAMESPACE_URI);
             
@@ -179,12 +218,29 @@ public final class I18nizableText
 
             if (hasParameter)
             {
-                for (String parameter : parameters)
+                if (parameters != null)
                 {
-                    if (parameter != null)
+                    // Ordered parameters version.
+                    for (String parameter : parameters)
                     {
-                        handler.startElement(I18nTransformer.I18N_NAMESPACE_URI, "param", "i18n:param", new AttributesImpl());
-                        handler.characters(parameter.toCharArray(), 0, parameter.length());
+                        if (parameter != null)
+                        {
+                            handler.startElement(I18nTransformer.I18N_NAMESPACE_URI, "param", "i18n:param", new AttributesImpl());
+                            handler.characters(parameter.toCharArray(), 0, parameter.length());
+                            handler.endElement(I18nTransformer.I18N_NAMESPACE_URI, "param", "i18n:param");
+                        }
+                    }
+                }
+                else if (parameterMap != null)
+                {
+                    // Named parameters version.
+                    for (String parameterName : parameterMap.keySet())
+                    {
+                        String value = parameterMap.get(parameterName);
+                        AttributesImpl attrs = new AttributesImpl();
+                        attrs.addCDATAAttribute("name", parameterName);
+                        handler.startElement(I18nTransformer.I18N_NAMESPACE_URI, "param", "i18n:param", attrs);
+                        handler.characters(value.toCharArray(), 0, value.length());
                         handler.endElement(I18nTransformer.I18N_NAMESPACE_URI, "param", "i18n:param");
                     }
                 }
@@ -265,6 +321,8 @@ public final class I18nizableText
             hashCodeBuilder.append(_parameters.toArray(new String[_parameters.size()]));
         }
         
+        hashCodeBuilder.append(_parameterMap);
+        
         return hashCodeBuilder.toHashCode();
     }
     
@@ -311,6 +369,8 @@ public final class I18nizableText
                 equalsBuilder.append(_parameters.toArray(new String[_parameters.size()]),
                                      otherParameters);
             }
+            
+            equalsBuilder.append(_parameterMap, i18nObj.getParameterMap());
         }
         else
         {
