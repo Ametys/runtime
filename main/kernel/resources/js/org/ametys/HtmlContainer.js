@@ -44,6 +44,17 @@ Ext.extend(org.ametys.HtmlContainer, Ext.Container,
 	autoscroll: true
 });
 
+org.ametys.HtmlContainer.prototype.update = function (html)
+{
+	if (this.rendered)
+	{
+		org.ametys.HtmlContainer.superclass.update.call(this, html);
+	}
+	else
+	{
+		this.html = html;
+	}
+}
 
 org.ametys.HtmlContainer.prototype.onRender = function(ct, position)
 {
