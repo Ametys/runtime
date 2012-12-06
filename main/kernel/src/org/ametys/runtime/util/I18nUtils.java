@@ -33,6 +33,7 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.cocoon.components.ContextHelper;
+import org.apache.cocoon.environment.Request;
 import org.apache.commons.io.IOUtils;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceResolver;
@@ -184,6 +185,9 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
             return text.getLabel();
         }
         
+        Request request = ContextHelper.getRequest(_context);
+        String currentPluginName = (String) request.getAttribute("pluginName");
+        
         Source source = null;
         InputStream is = null;
         try
@@ -191,7 +195,7 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
             Map<String, Object> parameters = new HashMap<String, Object>();
             parameters.put("i18n", text);
             parameters.put("locale", language);
-
+            
             String uri = "cocoon://_plugins/core/i18n";
             source = _sourceResolver.resolveURI(uri, null, parameters);
             is = source.getInputStream();
@@ -209,6 +213,11 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
         {
             IOUtils.closeQuietly(is);
             _sourceResolver.release(source);
+            
+            if (currentPluginName != null)
+            {
+                request.setAttribute("pluginName", currentPluginName);
+            }
         }
     }
 
