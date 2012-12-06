@@ -112,7 +112,7 @@ RUNTIME_Plugin_Runtime_SelectUser.initialize = function (plugin)
  * {Function}
  * {String} the avalon role of the users manager which will be called to get the user list, or null to call the default users manager.
  */
-RUNTIME_Plugin_Runtime_SelectUser.act = function (callback, cancelCallback, usersManagerRole)
+RUNTIME_Plugin_Runtime_SelectUser.act = function (callback, cancelCallback, usersManagerRole, allowMultiselection)
 {
 	RUNTIME_Plugin_Runtime_SelectUser.delayed_initialize();
 	RUNTIME_Plugin_Runtime_SelectUser.callback = callback;
@@ -120,9 +120,13 @@ RUNTIME_Plugin_Runtime_SelectUser.act = function (callback, cancelCallback, user
     RUNTIME_Plugin_Runtime_SelectUser.usersManagerRole = usersManagerRole || '';
 	
 	RUNTIME_Plugin_Runtime_SelectUser.criteria.setValue("");
-
+	if (allowMultiselection)
+	{
+		RUNTIME_Plugin_Runtime_SelectUser.listview.setMultipleSelection(true);
+	}
 	RUNTIME_Plugin_Runtime_SelectUser.box.show();
 	
+	RUNTIME_Plugin_Runtime_SelectUser.listview.getSelectionModel().clearSelections();
 	RUNTIME_Plugin_Runtime_SelectUser.load();
 }
 // --------------------------------
