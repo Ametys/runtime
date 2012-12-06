@@ -186,7 +186,9 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
     protected JdbcParameter _configureParameter(JdbcParameterParser jdbcParameterParser, String id, final String column, Configuration configuration) throws ConfigurationException
     {
         JdbcParameter parameter = new JdbcParameter();
-
+        
+        String catalog = "plugin." + BASE_PLUGIN_NAME;
+        
         try
         {
             parameter.setId(id);
@@ -195,34 +197,36 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
             if ("login".equals(id))
             {
                 parameter.setPluginName(BASE_PLUGIN_NAME);
-                parameter.setLabel(new I18nizableText("plugin." + BASE_PLUGIN_NAME, "PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_LABEL"));
-                parameter.setDescription(new I18nizableText("plugin." + BASE_PLUGIN_NAME, "PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_DESCRIPTION"));
+                parameter.setLabel(new I18nizableText(catalog, "PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_LABEL"));
+                parameter.setDescription(new I18nizableText(catalog, "PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_DESCRIPTION"));
                 parameter.setType(ParameterType.STRING);
-                parameter.setValidator(new DefaultValidator("^[a-zA-Z0-9_\\-\\.@]{3,64}$", true));
+                I18nizableText invalidText = new I18nizableText(catalog, "PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_INVALID");
+                parameter.setValidator(new DefaultValidator("^[a-zA-Z0-9_\\-\\.@]{3,64}$", invalidText, true));
             }
             else if ("lastname".equals(id))
             {
                 parameter.setPluginName(BASE_PLUGIN_NAME);
-                parameter.setLabel(new I18nizableText("plugin." + BASE_PLUGIN_NAME, "PLUGINS_CORE_USERS_JDBC_FIELD_LASTNAME_LABEL"));
-                parameter.setDescription(new I18nizableText("plugin." + BASE_PLUGIN_NAME, "PLUGINS_CORE_USERS_JDBC_FIELD_LASTNAME_DESCRIPTION"));
+                parameter.setLabel(new I18nizableText(catalog, "PLUGINS_CORE_USERS_JDBC_FIELD_LASTNAME_LABEL"));
+                parameter.setDescription(new I18nizableText(catalog, "PLUGINS_CORE_USERS_JDBC_FIELD_LASTNAME_DESCRIPTION"));
                 parameter.setType(ParameterType.STRING);
                 parameter.setValidator(new DefaultValidator(null, true));
             }
             else if ("firstname".equals(id))
             {
                 parameter.setPluginName(BASE_PLUGIN_NAME);
-                parameter.setLabel(new I18nizableText("plugin." + BASE_PLUGIN_NAME, "PLUGINS_CORE_USERS_JDBC_FIELD_FIRSTNAME_LABEL"));
-                parameter.setDescription(new I18nizableText("plugin." + BASE_PLUGIN_NAME, "PLUGINS_CORE_USERS_JDBC_FIELD_FIRSTNAME_DESCRIPTION"));
+                parameter.setLabel(new I18nizableText(catalog, "PLUGINS_CORE_USERS_JDBC_FIELD_FIRSTNAME_LABEL"));
+                parameter.setDescription(new I18nizableText(catalog, "PLUGINS_CORE_USERS_JDBC_FIELD_FIRSTNAME_DESCRIPTION"));
                 parameter.setType(ParameterType.STRING);
                 parameter.setValidator(new DefaultValidator(null, true));
             }
             else if ("email".equals(id))
             {
                 parameter.setPluginName(BASE_PLUGIN_NAME);
-                parameter.setLabel(new I18nizableText("plugin." + BASE_PLUGIN_NAME, "PLUGINS_CORE_USERS_JDBC_FIELD_EMAIL_LABEL"));
-                parameter.setDescription(new I18nizableText("plugin." + BASE_PLUGIN_NAME, "PLUGINS_CORE_USERS_JDBC_FIELD_EMAIL_DESCRIPTION"));
+                parameter.setLabel(new I18nizableText(catalog, "PLUGINS_CORE_USERS_JDBC_FIELD_EMAIL_LABEL"));
+                parameter.setDescription(new I18nizableText(catalog, "PLUGINS_CORE_USERS_JDBC_FIELD_EMAIL_DESCRIPTION"));
                 parameter.setType(ParameterType.STRING);
-                parameter.setValidator(new DefaultValidator("^([\\w\\-\\.])+@([\\w\\-\\.])+\\.([a-zA-Z])+$", false));
+                I18nizableText invalidText = new I18nizableText(catalog, "PLUGINS_CORE_USERS_JDBC_FIELD_EMAIL_INVALID");
+                parameter.setValidator(new DefaultValidator("^([\\w\\-\\.])+@([\\w\\-\\.])+\\.([a-zA-Z])+$", invalidText, false));
             }
             else
             {
