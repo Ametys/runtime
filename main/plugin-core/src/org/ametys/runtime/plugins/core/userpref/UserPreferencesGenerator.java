@@ -16,6 +16,7 @@
 package org.ametys.runtime.plugins.core.userpref;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -60,10 +61,11 @@ public class UserPreferencesGenerator extends CurrentUserProviderServiceableGene
     public void generate() throws IOException, SAXException, ProcessingException
     {
         Request request = ObjectModelHelper.getRequest(objectModel);
-        String context = parameters.getParameter("prefContext", request.getParameter("prefContext"));
+        String storageContext = parameters.getParameter("prefContext", request.getParameter("prefContext"));
+        Map<String, String> contextVars = getContextVars(request);
         String username = getUsername();
         
-        if (StringUtils.isBlank(context))
+        if (StringUtils.isBlank(storageContext))
         {
             throw new ProcessingException("Preferences context can't be blank");
         }
@@ -74,10 +76,10 @@ public class UserPreferencesGenerator extends CurrentUserProviderServiceableGene
             
             AttributesImpl atts = new AttributesImpl();
             atts.addCDATAAttribute("username", username);
-            atts.addCDATAAttribute("context", context);
+            atts.addCDATAAttribute("context", storageContext);
             XMLUtils.startElement(contentHandler, "UserPreferences", atts);
             
-            _saxPreferences(context, username);
+            _saxPreferences(storageContext, contextVars, username);
             
             XMLUtils.endElement(contentHandler, "UserPreferences");
             
@@ -100,17 +102,28 @@ public class UserPreferencesGenerator extends CurrentUserProviderServiceableGene
     }
     
     /**
+     * Get the preferences context.
+     * @param request the request.
+     * @return the preferences context as a Map.
+     */
+    protected Map<String, String> getContextVars(Request request)
+    {
+        return Collections.emptyMap();
+    }
+    
+    /**
      * Generate the list of user preferences for a given user and context.
-     * @param context the preferences context.
+     * @param storageContext the preferences context.
+     * @param contextVars 
      * @param username the user name.
      * @throws ProcessingException
      * @throws SAXException
      * @throws UserPreferencesException
      */
-    protected void _saxPreferences(String context, String username) throws ProcessingException, SAXException, UserPreferencesException
+    protected void _saxPreferences(String storageContext, Map<String, String> contextVars, String username) throws ProcessingException, SAXException, UserPreferencesException
     {
-        Map<I18nizableText, List<UserPreference>> groups = _userPrefEP.getCategorizedPreferences();
-        Map<String, String> prefValues = _userPrefManager.getUnTypedUserPrefs(username, context);
+        Map<I18nizableText, List<UserPreference>> groups = _userPrefEP.getCategorizedPreferences(contextVars);
+        Map<String, String> prefValues = _userPrefManager.getUnTypedUserPrefs(username, storageContext, contextVars);
         
         XMLUtils.startElement(contentHandler, "groups");
         
@@ -152,8 +165,14 @@ public class UserPreferencesGenerator extends CurrentUserProviderServiceableGene
         attr.addCDATAAttribute("multiple", Boolean.toString(preference.isMultiple()));
         XMLUtils.startElement(contentHandler, "preference", attr);
         
-        preference.getLabel().toSAX(contentHandler, "label");
-        preference.getDescription().toSAX(contentHandler, "description");
+        if (preference.getLabel() != null)
+        {
+            preference.getLabel().toSAX(contentHandler, "label");
+        }
+        if (preference.getDescription() != null)
+        {
+            preference.getDescription().toSAX(contentHandler, "description");
+        }
         
         Object defaultValue = preference.getDefaultValue();
         
@@ -177,7 +196,7 @@ public class UserPreferencesGenerator extends CurrentUserProviderServiceableGene
         }
         
         Map<String, I18nizableText> widgetParameters = preference.getWidgetParameters();
-        if (widgetParameters.size() > 0)
+        if (widgetParameters != null && !widgetParameters.isEmpty())
         {
             XMLUtils.startElement(contentHandler, "widget-params");
             for (String paramName : widgetParameters.keySet())

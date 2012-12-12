@@ -15,10 +15,14 @@
  */
 package org.ametys.runtime.plugins.core.userpref;
 
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
@@ -30,11 +34,20 @@ import org.ametys.runtime.util.parameter.Enumerator;
 /**
  * Enumerates user preferences.
  */
-public class UserPreferencesEnumerator extends AbstractLogEnabled implements Enumerator, Serviceable
+public class UserPreferencesEnumerator extends AbstractLogEnabled implements Enumerator, Contextualizable, Serviceable
 {
     
     /** The user preferences extension point. */
     protected UserPreferencesExtensionPoint _userPrefEP;
+    
+    /** The avalon context */
+    protected Context _context;
+    
+    @Override
+    public void contextualize(Context context) throws ContextException
+    {
+        _context = context;
+    }
     
     @Override
     public void service(ServiceManager serviceManager) throws ServiceException
@@ -45,8 +58,10 @@ public class UserPreferencesEnumerator extends AbstractLogEnabled implements Enu
     @Override
     public Map<Object, I18nizableText> getEntries() throws Exception
     {
+        Map<String, String> contextVars = getContextVars();
+        
         Map<Object, I18nizableText> entries = new LinkedHashMap<Object, I18nizableText>();
-        for (List<UserPreference> prefs : _userPrefEP.getCategorizedPreferences().values())
+        for (List<UserPreference> prefs : _userPrefEP.getCategorizedPreferences(contextVars).values())
         {
             for (UserPreference pref : prefs)
             {
@@ -59,7 +74,18 @@ public class UserPreferencesEnumerator extends AbstractLogEnabled implements Enu
     @Override
     public I18nizableText getEntry(String value) throws Exception
     {
-        return _userPrefEP.getExtension(value).getLabel();
+        Map<String, String> contextVars = getContextVars();
+        
+        return _userPrefEP.getUserPreference(contextVars, value).getLabel();
+    }
+    
+    /**
+     * Get the preferences context variables.
+     * @return the preferences context as a Map.
+     */
+    protected Map<String, String> getContextVars()
+    {
+        return Collections.emptyMap();
     }
 
 }

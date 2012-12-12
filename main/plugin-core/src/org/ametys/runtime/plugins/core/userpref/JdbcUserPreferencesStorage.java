@@ -57,12 +57,10 @@ import org.ametys.runtime.util.parameter.ParameterHelper;
 import org.ametys.runtime.util.parameter.ParameterHelper.ParameterType;
 
 /**
- * The default implementation of {@link UserPreferencesManager}. This implementation stores preferences in database.
+ * The JDBC implementation of {@link DefaultUserPreferencesStorage}. This implementation stores preferences in database.
  */
-public class DefaultUserPreferencesManager extends AbstractLogEnabled implements UserPreferencesManager, ThreadSafe, Configurable, Serviceable
+public class JdbcUserPreferencesStorage extends AbstractLogEnabled implements DefaultUserPreferencesStorage, ThreadSafe, Configurable, Serviceable
 {
-    /** The user preferences extensions point. */
-    protected UserPreferencesExtensionPoint _userPrefEP;
     
     /** A SAX parser. */
     protected SAXParser _saxParser;
@@ -83,12 +81,11 @@ public class DefaultUserPreferencesManager extends AbstractLogEnabled implements
     @Override
     public void service(ServiceManager manager) throws ServiceException
     {
-        _userPrefEP = (UserPreferencesExtensionPoint) manager.lookup(UserPreferencesExtensionPoint.ROLE);
         _saxParser = (SAXParser) manager.lookup(SAXParser.ROLE);
     }
     
     @Override
-    public Map<String, String> getUnTypedUserPrefs(String login, String context) throws UserPreferencesException
+    public Map<String, String> getUnTypedUserPrefs(String login, String storageContext, Map<String, String> contextVars) throws UserPreferencesException
     {
         Map<String, String> prefs = new HashMap<String, String>();
         
@@ -105,7 +102,7 @@ public class DefaultUserPreferencesManager extends AbstractLogEnabled implements
             stmt = connection.prepareStatement("SELECT * FROM " + _databaseTable + " WHERE login = ? AND context = ?");
             
             stmt.setString(1, login);
-            stmt.setString(2, context);
+            stmt.setString(2, storageContext);
             
             rs = stmt.executeQuery();
             
@@ -130,19 +127,19 @@ public class DefaultUserPreferencesManager extends AbstractLogEnabled implements
         }
         catch (SQLException e)
         {
-            String message = "Database error trying to access the preferences of user '" + login + "' in context '" + context + "'.";
+            String message = "Database error trying to access the preferences of user '" + login + "' in context '" + storageContext + "'.";
             getLogger().error(message, e);
             throw new UserPreferencesException(message, e);
         }
         catch (SAXException e)
         {
-            String message = "Error parsing the preferences of user '" + login + "' in context '" + context + "'.";
+            String message = "Error parsing the preferences of user '" + login + "' in context '" + storageContext + "'.";
             getLogger().error(message, e);
             throw new UserPreferencesException(message, e);
         }
         catch (IOException e)
         {
-            String message = "Error parsing the preferences of user '" + login + "' in context '" + context + "'.";
+            String message = "Error parsing the preferences of user '" + login + "' in context '" + storageContext + "'.";
             getLogger().error(message, e);
             throw new UserPreferencesException(message, e);
         }
@@ -156,44 +153,36 @@ public class DefaultUserPreferencesManager extends AbstractLogEnabled implements
     }
     
     @Override
-    public Map<String, Object> getTypedUserPrefs(String login, String context) throws UserPreferencesException
+    public void removeUserPreferences(String login, String storageContext, Map<String, String> contextVars) throws UserPreferencesException
     {
-        Map<String, String> unTypedUserPrefs = getUnTypedUserPrefs(login, context);
+        Connection connection = null;
+        PreparedStatement stmt = null;
         
-        return _castValues(unTypedUserPrefs);
-    }
-    
-    @Override
-    public void addUserPreference (String login, String context, String name, String value) throws UserPreferencesException
-    {
-        Map<String, String> userPrefs = getUnTypedUserPrefs(login, context);
-        userPrefs.put(name, value);
-        
-        setUserPreferences(login, context, userPrefs);
-    }
-    
-    @Override
-    public void addUserPreferences (String login, String context, Map<String, String> values) throws UserPreferencesException
-    {
-        Map<String, String> userPrefs = getUnTypedUserPrefs(login, context);
-        userPrefs.putAll(values);
-        
-        setUserPreferences(login, context, userPrefs);
-    }
-    
-    @Override
-    public void removeUserPreference (String login, String context, String name) throws UserPreferencesException
-    {
-        Map<String, String> userPrefs = getUnTypedUserPrefs(login, context);
-        if (userPrefs.containsKey(name))
+        try
         {
-            userPrefs.remove(name);
+            connection = ConnectionHelper.getConnection(_poolName);
+            
+            stmt = connection.prepareStatement("DELETE FROM " + _databaseTable + " WHERE login = ? AND context = ?");
+            stmt.setString(1, login);
+            stmt.setString(2, storageContext);
+            
+            stmt.executeUpdate();
         }
-        setUserPreferences(login, context, userPrefs);
+        catch (SQLException e)
+        {
+            String message = "Database error trying to remove preferences for login '" + login + "' in context '" + storageContext + "'.";
+            getLogger().error(message, e);
+            throw new UserPreferencesException(message, e);
+        }
+        finally
+        {
+            ConnectionHelper.cleanup(stmt);
+            ConnectionHelper.cleanup(connection);
+        }
     }
     
     @Override
-    public void setUserPreferences(String login, String context, Map<String, String> preferences) throws UserPreferencesException
+    public void setUserPreferences(String login, String storageContext, Map<String, String> contextVars, Map<String, String> preferences) throws UserPreferencesException
     {
         // Set.
         Connection connection = null;
@@ -212,7 +201,7 @@ public class DefaultUserPreferencesManager extends AbstractLogEnabled implements
             // Test if the preferences already exist.
             stmt = connection.prepareStatement("SELECT count(*) FROM " + _databaseTable + " WHERE login = ? AND context = ?");
             stmt.setString(1, login);
-            stmt.setString(2, context);
+            stmt.setString(2, storageContext);
             rs = stmt.executeQuery();
             rs.next();
             boolean dataExists = rs.getInt(1) > 0;
@@ -233,7 +222,7 @@ public class DefaultUserPreferencesManager extends AbstractLogEnabled implements
                     stmt.setBlob(1, dataIs, prefBytes.length);
                 }
                 stmt.setString(2, login);
-                stmt.setString(3, context);
+                stmt.setString(3, storageContext);
                 
                 stmt.executeUpdate();
             }
@@ -243,7 +232,7 @@ public class DefaultUserPreferencesManager extends AbstractLogEnabled implements
                 stmt = connection.prepareStatement("INSERT INTO " + _databaseTable + "(login, context, data) VALUES(?, ?, ?)");
                 
                 stmt.setString(1, login);
-                stmt.setString(2, context);
+                stmt.setString(2, storageContext);
                 if (DatabaseType.DATABASE_POSTGRES.equals(dbType) || DatabaseType.DATABASE_ORACLE.equals(dbType))
                 {
                     stmt.setBinaryStream(3, dataIs, prefBytes.length);
@@ -259,7 +248,7 @@ public class DefaultUserPreferencesManager extends AbstractLogEnabled implements
         }
         catch (SQLException e)
         {
-            String message = "Database error trying to access the preferences of user '" + login + "' in context '" + context + "'.";
+            String message = "Database error trying to access the preferences of user '" + login + "' in context '" + storageContext + "'.";
             getLogger().error(message, e);
             throw new UserPreferencesException(message, e);
         }
@@ -273,11 +262,11 @@ public class DefaultUserPreferencesManager extends AbstractLogEnabled implements
     }
 
     @Override
-    public String getUserPreferenceAsString(String login, String context, String id) throws UserPreferencesException
+    public String getUserPreferenceAsString(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
     {
         String value = null;
         
-        Map<String, String> values = getUnTypedUserPrefs(login, context);
+        Map<String, String> values = getUnTypedUserPrefs(login, storageContext, contextVars);
         if (values.containsKey(id))
         {
             value = values.get(id);
@@ -287,11 +276,11 @@ public class DefaultUserPreferencesManager extends AbstractLogEnabled implements
     }
     
     @Override
-    public Long getUserPreferenceAsLong(String login, String context, String id) throws UserPreferencesException
+    public Long getUserPreferenceAsLong(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
     {
         Long value = null;
         
-        Map<String, String> values = getUnTypedUserPrefs(login, context);
+        Map<String, String> values = getUnTypedUserPrefs(login, storageContext, contextVars);
         if (values.containsKey(id))
         {
             value = (Long) ParameterHelper.castValue(values.get(id), ParameterType.LONG);
@@ -302,11 +291,11 @@ public class DefaultUserPreferencesManager extends AbstractLogEnabled implements
     }
     
     @Override
-    public Date getUserPreferenceAsDate(String login, String context, String id) throws UserPreferencesException
+    public Date getUserPreferenceAsDate(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
     {
         Date value = null;
         
-        Map<String, String> values = getUnTypedUserPrefs(login, context);
+        Map<String, String> values = getUnTypedUserPrefs(login, storageContext, contextVars);
         if (values.containsKey(id))
         {
             value = (Date) ParameterHelper.castValue(values.get(id), ParameterType.DATE);
@@ -316,11 +305,11 @@ public class DefaultUserPreferencesManager extends AbstractLogEnabled implements
     }
     
     @Override
-    public Boolean getUserPreferenceAsBoolean(String login, String context, String id) throws UserPreferencesException
+    public Boolean getUserPreferenceAsBoolean(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
     {
         Boolean value = null;
         
-        Map<String, String> values = getUnTypedUserPrefs(login, context);
+        Map<String, String> values = getUnTypedUserPrefs(login, storageContext, contextVars);
         if (values.containsKey(id))
         {
             value = (Boolean) ParameterHelper.castValue(values.get(id), ParameterType.BOOLEAN);
@@ -330,11 +319,11 @@ public class DefaultUserPreferencesManager extends AbstractLogEnabled implements
     }
     
     @Override
-    public Double getUserPreferenceAsDouble(String login, String context, String id) throws UserPreferencesException
+    public Double getUserPreferenceAsDouble(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
     {
         Double value = null;
         
-        Map<String, String> values = getUnTypedUserPrefs(login, context);
+        Map<String, String> values = getUnTypedUserPrefs(login, storageContext, contextVars);
         if (values.containsKey(id))
         {
             value = (Double) ParameterHelper.castValue(values.get(id), ParameterType.DOUBLE);
@@ -377,9 +366,6 @@ public class DefaultUserPreferencesManager extends AbstractLogEnabled implements
             handler.endDocument();
             
             return bos.toByteArray();
-//            byte[] xmlBuffer = bos.toByteArray();
-//            
-//            return new ByteArrayInputStream(xmlBuffer);
         }
         catch (TransformerException e)
         {
@@ -389,32 +375,6 @@ public class DefaultUserPreferencesManager extends AbstractLogEnabled implements
         {
             throw new UserPreferencesException("Error writing the preferences as XML.", e);
         }
-    }
-
-    /**
-     * Cast the preference values as their real type.
-     * @param untypedValues the untyped user preferences
-     * @return typed user preferences
-     */
-    protected Map<String, Object> _castValues(Map<String, String> untypedValues)
-    {
-        Map<String, Object> typedValues = new HashMap<String, Object>(untypedValues.size());
-        
-        for (Entry<String, String> entry : untypedValues.entrySet())
-        {
-            UserPreference userPref = _userPrefEP.getExtension(entry.getKey());
-            if (userPref != null)
-            {
-                Object value = ParameterHelper.castValue(entry.getValue(), userPref.getType());
-                typedValues.put(userPref.getId(), value);
-            }
-            else
-            {
-                typedValues.put(entry.getKey(), entry.getValue());
-            }
-        }
-        
-        return typedValues;
     }
     
 }

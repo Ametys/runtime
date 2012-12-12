@@ -16,6 +16,7 @@
 package org.ametys.runtime.plugins.core.userpref;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -48,19 +49,20 @@ public class UserPreferencesValuesGenerator extends CurrentUserProviderServiceab
     public void generate() throws IOException, SAXException, ProcessingException
     {
         Request request = ObjectModelHelper.getRequest(objectModel);
-        String context = request.getParameter("prefContext");
-        if (context == null)
+        String storageContext = request.getParameter("prefContext");
+        if (storageContext == null)
         {
-            context = parameters.getParameter("prefContext", null);
+            storageContext = parameters.getParameter("prefContext", null);
         }
-        String username = parameters.getParameter("username", _getCurrentUser());
+        String username = getUsername();
+        Map<String, String> contextVars = getContextVars(request);
         
         contentHandler.startDocument();
         XMLUtils.startElement(contentHandler, "userprefs");
         
         try
         {
-            Map<String, String> prefValues = _userPrefManager.getUnTypedUserPrefs(username, context);
+            Map<String, String> prefValues = _userPrefManager.getUnTypedUserPrefs(username, storageContext, contextVars);
             
             Map<String, Object> jsParameters = (Map<String, Object>) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
             List<String> userprefs = null;
@@ -97,4 +99,24 @@ public class UserPreferencesValuesGenerator extends CurrentUserProviderServiceab
         XMLUtils.endElement(contentHandler, "userprefs");
         contentHandler.endDocument();
     }
+    
+    /**
+     * Get the user name in the user manager.
+     * @return the user name (login).
+     */
+    protected String getUsername()
+    {
+        return parameters.getParameter("username", _getCurrentUser());
+    }
+    
+    /**
+     * Get the preferences context.
+     * @param request the request.
+     * @return the preferences context as a Map.
+     */
+    protected Map<String, String> getContextVars(Request request)
+    {
+        return Collections.emptyMap();
+    }
+    
 }
