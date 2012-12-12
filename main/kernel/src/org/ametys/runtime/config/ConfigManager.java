@@ -313,12 +313,6 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                 }
                 
                 _params.put(id, parameter);
-
-                // check if parameter is valued
-                if (_isComplete && untypedValues != null)
-                {
-                    _validateParameter(untypedValues, id, parameter);
-                }
             }
         }
 
@@ -331,6 +325,16 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             throw new RuntimeException("Unable to lookup parameter local components", e);
         }
         
+        // check if parameter is valued
+        if (_isComplete && untypedValues != null)
+        {
+            for (ConfigParameter parameter : _params.values())
+            {
+                // check if parameter is valued
+                _validateParameter(untypedValues, parameter);
+            }
+        }
+
         // On libère les ressources
         _declaredParams.clear();
         _usedParamsName.clear();
@@ -345,8 +349,9 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         }
     }
     
-    private void _validateParameter(Map<String, String> untypedValues, String id, ConfigParameter parameter)
+    private void _validateParameter(Map<String, String> untypedValues, ConfigParameter parameter)
     {
+        String id = parameter.getId();
         Object value = ParameterHelper.castValue(untypedValues.get(id), parameter.getType());
 
         if (value == null && !"".equals(untypedValues.get(id)))
