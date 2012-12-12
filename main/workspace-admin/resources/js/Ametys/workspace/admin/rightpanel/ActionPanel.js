@@ -62,7 +62,7 @@ Ext.define('Ametys.workspace.admin.rightpanel.ActionPanel', {
 			iconOver : icon.substring(0, icon.indexOf('.')) +  '-over.png'
 		});
 	    
-		this.add(action);
+		return this.add(action);
 	},
 	
 	/**
