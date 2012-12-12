@@ -494,7 +494,7 @@
             </map:match>
             
             <map:match pattern="administrator/users/view.html">
-				<map:generate type="administrator-users-view"/>
+				<map:generate type="administrator-users-view" label="content" />
 				<map:transform type="i18n">
                     <map:parameter name="locale" value="{locale:locale}"/>
                     <map:parameter name="plugin" value="{request-attr:pluginName}"/>
