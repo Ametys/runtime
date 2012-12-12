@@ -22,6 +22,7 @@ import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.commons.lang3.StringUtils;
 
 import org.ametys.runtime.plugin.component.ThreadSafeComponentManager;
 import org.ametys.runtime.util.I18nizableText;
@@ -299,13 +300,7 @@ public abstract class AbstractParameterParser<P extends Parameter<T>, T>
         
         if (validatorConfig != null)
         {
-            Configuration customValidator = validatorConfig.getChild("custom-validator", false);
-            
-            String validatorClassName = DefaultValidator.class.getName();
-            if (customValidator != null)
-            {
-                validatorClassName = customValidator.getAttribute("class");
-            }
+            String validatorClassName = StringUtils.defaultIfBlank(validatorConfig.getChild("custom-validator").getAttribute("class"), DefaultValidator.class.getName());
             
             try
             {
