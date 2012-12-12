@@ -235,7 +235,7 @@ public class SqlMapExtensionPoint extends AbstractThreadSafeComponentExtensionPo
             
             if (!(component instanceof SqlMapClientsAware))
             {
-                throw new Exception("Invalid class: " + component.getClass().getName() + " must implements: "
+                throw new Exception("Invalid class: " + component.getClass().getName() + " must implement: "
                                   + SqlMapClientsAware.class.getName());
             }
 
