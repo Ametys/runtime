@@ -18,16 +18,15 @@ package org.ametys.runtime.config;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.TransformerFactory;
@@ -445,9 +444,9 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         _saxParameters(_categorizeParameters(), handler);
     }
 
-    private Map<I18nizableText, Map<I18nizableText, List<ConfigParameter>>> _categorizeParameters()
+    private Map<I18nizableText, Map<I18nizableText, Set<ConfigParameter>>> _categorizeParameters()
     {
-        Map<I18nizableText, Map<I18nizableText, List<ConfigParameter>>> categories = new HashMap<I18nizableText, Map<I18nizableText, List<ConfigParameter>>>();
+        Map<I18nizableText, Map<I18nizableText, Set<ConfigParameter>>> categories = new HashMap<I18nizableText, Map<I18nizableText, Set<ConfigParameter>>>();
 
         // Classify parameters by groups and categories
         Iterator<String> it = _params.keySet().iterator();
@@ -460,18 +459,18 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             I18nizableText groupName = param.getDisplayGroup();
 
             // Get the map of groups of the category
-            Map<I18nizableText, List<ConfigParameter>> category = categories.get(categoryName);
+            Map<I18nizableText, Set<ConfigParameter>> category = categories.get(categoryName);
             if (category == null)
             {
-                category = new TreeMap<I18nizableText, List<ConfigParameter>>(new I18nizableTextComparator());
+                category = new TreeMap<I18nizableText, Set<ConfigParameter>>(new I18nizableTextComparator());
                 categories.put(categoryName, category);
             }
 
-            // Get the map of parameters of the group
-            List<ConfigParameter> group = category.get(groupName);
+            // Get the parameters of the group
+            Set<ConfigParameter> group = category.get(groupName);
             if (group == null)
             {
-                group = new ArrayList<ConfigParameter>();
+                group = new TreeSet<ConfigParameter>();
                 category.put(groupName, group);
             }
 
@@ -480,7 +479,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         return categories;
     }
 
-    private void _saxParameters(Map<I18nizableText, Map<I18nizableText, List<ConfigParameter>>> categories, ContentHandler handler) throws SAXException, ProcessingException
+    private void _saxParameters(Map<I18nizableText, Map<I18nizableText, Set<ConfigParameter>>> categories, ContentHandler handler) throws SAXException, ProcessingException
     {
         // Get configuration parameters
         Map<String, String> untypedValues;
@@ -503,7 +502,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
 
         for (I18nizableText categoryKey : categories.keySet())
         {
-            Map<I18nizableText, List<ConfigParameter>> category = categories.get(categoryKey);
+            Map<I18nizableText, Set<ConfigParameter>> category = categories.get(categoryKey);
 
             XMLUtils.startElement(handler, "category");
             categoryKey.toSAX(handler, "label");
@@ -512,7 +511,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
 
             for (I18nizableText groupKey : category.keySet())
             {
-                List<ConfigParameter> group = category.get(groupKey);
+                Set<ConfigParameter> group = category.get(groupKey);
 
                 XMLUtils.startElement(handler, "group");
                 groupKey.toSAX(handler, "label");
@@ -651,12 +650,12 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         handler.startDocument();
         XMLUtils.startElement(handler, "config");
         
-        Map<I18nizableText, Map<I18nizableText, List<ConfigParameter>>> categories = _categorizeParameters();
+        Map<I18nizableText, Map<I18nizableText, Set<ConfigParameter>>> categories = _categorizeParameters();
         Iterator<I18nizableText> catIt = categories.keySet().iterator();
         while (catIt.hasNext())
         {
             I18nizableText categoryKey = catIt.next();
-            Map<I18nizableText, List<ConfigParameter>> category = categories.get(categoryKey);
+            Map<I18nizableText, Set<ConfigParameter>> category = categories.get(categoryKey);
             StringBuilder categoryLabel = new StringBuilder();
             categoryLabel.append("+\n      | ");
             categoryLabel.append(categoryKey.toString());
@@ -682,7 +681,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                 handler.comment(groupLabel.toString().toCharArray(), 0, groupLabel.length());
                 XMLUtils.data(handler, "\n  ");
 
-                List<ConfigParameter> group = category.get(groupKey);
+                Set<ConfigParameter> group = category.get(groupKey);
                 
                 Iterator<ConfigParameter> gIt = group.iterator();
                 while (gIt.hasNext())
@@ -750,11 +749,11 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         }
     }
     
-    class ConfigParameter extends Parameter<ParameterType>
+    class ConfigParameter extends Parameter<ParameterType> implements Comparable<ConfigParameter>
     {
         private I18nizableText _displayCategory;
         private I18nizableText _displayGroup;
-
+        private long _order;
 
         I18nizableText getDisplayCategory()
         {
@@ -774,6 +773,40 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         void setDisplayGroup(I18nizableText displayGroup)
         {
             _displayGroup = displayGroup;
+        }
+
+        long getOrder()
+        {
+            return _order;
+        }
+        
+        void setOrder(long order)
+        {
+            _order = order;
+        }
+        
+        @Override
+        public int compareTo(ConfigParameter o)
+        {
+            int cat = getDisplayCategory().toString().compareTo(o.getDisplayCategory().toString());
+            if (cat != 0)
+            {
+                return cat;
+            }
+            
+            int gro = getDisplayGroup().toString().compareTo(o.getDisplayGroup().toString());
+            if (gro != 0)
+            {
+                return gro;
+            }
+            
+            int ord = ((Long) this.getOrder()).compareTo(o.getOrder());
+            if (ord != 0)
+            {
+                return ord;
+            }
+            
+            return getId().compareTo(o.getId());
         }
     }
     
@@ -835,6 +868,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             parameter.setId(parameterId);
             parameter.setDisplayCategory(_parseI18nizableText(parameterConfig, pluginName, "category"));
             parameter.setDisplayGroup(_parseI18nizableText(parameterConfig, pluginName, "group"));
+            parameter.setOrder(parameterConfig.getChild("order").getValueAsLong(0));
         }
     }
 }

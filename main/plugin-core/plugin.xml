@@ -212,7 +212,7 @@
             <default-value>false</default-value>
             <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>
             <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_CATEGORY_LDAP_GROUP_CORE</group>
-            <order>70</order>
+            <order>35</order>
         </param>
         
         

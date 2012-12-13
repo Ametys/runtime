@@ -72,7 +72,6 @@
 							height += 24;
 							
 							<xsl:for-each select="parameters/*">
-								<xsl:sort select="order" data-type="number"/>
 									var input = org.ametys.administration.Config.addInputField (fieldSet, 
 										"<xsl:value-of select="type"/>", 
 										"<xsl:value-of select="local-name()"/>", 
