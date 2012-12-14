@@ -409,7 +409,7 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 			this._needSave();
 		}
 
-		Ametys.plugins.core.SelectUser.act(Ext.bind(cb, this), null, null, this.pluginName);							
+		Ametys.plugins.core.SelectUser.act(Ext.bind(cb, this), null, null, true, this.pluginName);							
 	},
 
 	/**
