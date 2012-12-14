@@ -370,7 +370,7 @@
     
     <!-- USER JDBC -->
     <message key="PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_LABEL">Login ID</message>
-    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_DESCRIPTION">Unique login ID for user&lt;br/&gt;3-16 characters (letters, digits or '_')</message>
+    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_DESCRIPTION">Unique login ID for user&lt;br/&gt;3-64 characters (letters, digits or '_')</message>
     <message key="PLUGINS_CORE_USERS_JDBC_FIELD_LASTNAME_LABEL">Family name</message>
     <message key="PLUGINS_CORE_USERS_JDBC_FIELD_LASTNAME_DESCRIPTION">User's family name&lt;br/&gt;Cannot be empty</message>
     <message key="PLUGINS_CORE_USERS_JDBC_FIELD_FIRSTNAME_LABEL">Given name</message>
@@ -379,7 +379,9 @@
     <message key="PLUGINS_CORE_USERS_JDBC_FIELD_EMAIL_DESCRIPTION">User's e-mail address</message>
     <message key="PLUGINS_CORE_USERS_JDBC_FIELD_PASSWORD_LABEL">Password</message>
     <message key="PLUGINS_CORE_USERS_JDBC_FIELD_PASSWORD_DESCRIPTION">User's password&lt;br/&gt;Cannot be empty</message>
-
+    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_INVALID">The login must be between 3 and 64 characters long (letters, digits or '_')</message>
+    <message key="PLUGINS_CORE_USERS_JDBC_FIELD_EMAIL_INVALID">The e-mail must be valid</message>
+    
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP">LDAP directory</message>
 
     <!-- USER LDAP -->
