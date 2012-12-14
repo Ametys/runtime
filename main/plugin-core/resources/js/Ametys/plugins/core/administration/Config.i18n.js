@@ -22,11 +22,13 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	
 	/**
 	 * @property {Number} LABEL_WIDTH The width for labels
+	 * @private
 	 * @readonly 
 	 */
 	LABEL_WIDTH: 230,
 	/**
 	 * @property {Number} FIELD_WIDTH The width for fields
+	 * @private
 	 * @readonly 
 	 */
 	FIELD_WIDTH: 250 + 20,
@@ -39,6 +41,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 
 	/**
 	 * @property {Ext.form.FormPanel} _form The configuration form
+	 * @private
 	 */
 	/**
 	 * @private
@@ -189,7 +192,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 * Add a groups category
 	 * @param {Ext.form.FieldSet} fd The fieldset where to add the category
 	 * @param {String} name The name of the category
-	 * @param {Obejct} switcher If the group can be switch on/off, this object have the following keys : type, name, label, description, widget, mandatory, regexp and optionally invalidText.
+	 * @param {Object} switcher If the group can be switch on/off, this object have the following keys : type, name, label, description, widget, mandatory, regexp and optionally invalidText.
 	 * @param {String[]} subitems An array containing the names of the fields the switcher will show/hide 
 	 */
 	addGroupCategory: function (fd, name, switcher, subitems)
@@ -242,18 +245,18 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	/**
 	 * Add an input field to the form
 	 * @param {Ext.Element} ct The container where to add the input
-	 * @params {Object} config this object have the following keys : type, name, value, label, description, enumeration, widget, mandatory, regexp and optionally invalidText and width.
-	 * {String} config.type The type of the field to create
-	 * {String} config.name The name of the field (the one used to submit the request)
-	 * {Object} config.value The value of the field at the creating time
-	 * {String} config.label The label of the field
-	 * {String} config.description The associated description
-	 * {String[]} config.enumeration The list of values if applyable (only for type text)
-	 * {String} config.widget The widget to use for edition. Can be null
-	 * {Boolean} config.mandatory True if the field can not be empty
-	 * {String} config.regexp The regexp to use to validate the field value
-	 * {String} config.invalidText The text to display when the field value is not valid
-	 * {Number/String} config.width Replace the default width with this one
+	 * @param {Object} config this object have the following keys : type, name, value, label, description, enumeration, widget, mandatory, regexp and optionally invalidText and width.<br/>
+	 * @param {String} config.type The type of the field to create
+	 * @param {String} config.name The name of the field (the one used to submit the request)
+	 * @param {Object} config.value The value of the field at the creating time
+	 * @param {String} config.label The label of the field
+	 * @param {String} config.description The associated description
+	 * @param {String[]} config.enumeration The list of values if applyable (only for type text)
+	 * @param {String} config.widget The widget to use for edition. Can be null
+	 * @param {Boolean} config.mandatory True if the field can not be empty
+	 * @param {String} config.regexp The regexp to use to validate the field value
+	 * @param {String} config.invalidText The text to display when the field value is not valid
+	 * @param {Number/String} config.width Replace the default width with this one
 	 * @param {String} startVisible Optionnaly, if 'false' this field will be hidden 
 	 * @return {Ext.form.field.Field} The created field
 	 */
@@ -276,7 +279,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	
 	/**
 	 * Creates and return an input field depending on the given configuration
-	 * @params {Object} config this object have the following keys : type, name, value, label, description, enumeration widget, mandatory, regexp and optionally invalidText and width.
+	 * @param {Object} config this object have the following keys : type, name, value, label, description, enumeration widget, mandatory, regexp and optionally invalidText and width. See config in {#addInputField}
 	 * @return {Ext.form.field.Field} The created field
 	 * @private
 	 */
@@ -748,6 +751,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 
 	/**
 	 * Bind the scroll to the toc
+	 * @private
 	 */
 	_bindScroll: function ()
 	{
@@ -755,6 +759,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	},
 	/**
 	 * Stop binding the scroll to the toc
+	 * @private
 	 */
 	_unbindScroll: function ()
 	{
