@@ -74,7 +74,7 @@ public class SetUserPreferencesAction extends CurrentUserProviderServiceableActi
         Request request = ObjectModelHelper.getRequest(objectModel);
         Map<String, Object> parentContext = (Map<String, Object>) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
         
-        String context = parameters.getParameter("prefContext", request.getParameter("prefContext"));
+        String storageContext = parameters.getParameter("prefContext", request.getParameter("prefContext"));
         String username = parameters.getParameter("username", _getCurrentUser());
         String submit = request.getParameter("submit");
         
@@ -83,8 +83,9 @@ public class SetUserPreferencesAction extends CurrentUserProviderServiceableActi
         if ("true".equals(submit))
         {
             Collection<String> preferenceIds = getPreferenceIds(request, parentContext);
+            Map<String, String> contextVars = getContextVars(request);
             
-            results = setUserPreferences(request, context, username, preferenceIds);
+            results = setUserPreferences(request, storageContext, contextVars, username, preferenceIds);
         }
         
         return results;
@@ -93,44 +94,46 @@ public class SetUserPreferencesAction extends CurrentUserProviderServiceableActi
     /**
      * Set user preferences.
      * @param request the request.
-     * @param context the preferences context.
+     * @param storageContext the preferences storage context.
+     * @param contextVars the preferences context map.
      * @param username the user name.
      * @return the results.
      * @throws UserPreferencesException
      */
-    protected Map<String, String> setUserPreferences(Request request, String context, String username) throws UserPreferencesException
+    protected Map<String, String> setUserPreferences(Request request, String storageContext, Map<String, String> contextVars, String username) throws UserPreferencesException
     {
-        return setUserPreferences(request, context, username, Collections.<String>emptySet());
+        return setUserPreferences(request, storageContext, contextVars, username, Collections.<String>emptySet());
     }
     
     /**
      * Set user preferences.
      * @param request the request.
-     * @param context the preferences context.
+     * @param storageContext the preferences context.
+     * @param contextVars the preferences context map.
      * @param username the user name.
      * @param preferenceIds a collection of the IDs of preferences to set.
      * @return the results.
      * @throws UserPreferencesException
      */
-    protected Map<String, String> setUserPreferences(Request request, String context, String username, Collection<String> preferenceIds) throws UserPreferencesException
+    protected Map<String, String> setUserPreferences(Request request, String storageContext, Map<String, String> contextVars, String username, Collection<String> preferenceIds) throws UserPreferencesException
     {
         Map<String, String> results = new HashMap<String, String>();
         
         results.put("status", "error");
         
-        Map<String, String> values = _userPrefManager.getUnTypedUserPrefs(username, context);
+        Map<String, String> values = _userPrefManager.getUnTypedUserPrefs(username, storageContext, contextVars);
         
         UserPreferencesErrors errors = new UserPreferencesErrors();
         
         // Override the old values with the new ones, but keep old values when new preferences are not in the request.
-        values.putAll(_getValues(request, preferenceIds, errors));
+        values.putAll(_getValues(request, contextVars, preferenceIds, errors));
         
         // Validate the user preferences, filling in potential errors.
-        _userPrefEP.validatePreferences(values, errors);
+        _userPrefEP.validatePreferences(contextVars, values, errors);
         
         if (!errors.hasErrors())
         {
-            _userPrefManager.setUserPreferences(username, context, values);
+            _userPrefManager.setUserPreferences(username, storageContext, contextVars, values);
             results.put("status", "success");
         }
         else
@@ -144,15 +147,16 @@ public class SetUserPreferencesAction extends CurrentUserProviderServiceableActi
     /**
      * Get the preferences values from the request.
      * @param request the request.
+     * @param contextVars 
      * @param preferenceIds a collection of the IDs of preferences to set.
      * @param errors the errors object to fill in.
      * @return the user preferences values as a Map.
      */
-    protected Map<String, String> _getValues(Request request, Collection<String> preferenceIds, UserPreferencesErrors errors)
+    protected Map<String, String> _getValues(Request request, Map<String, String> contextVars, Collection<String> preferenceIds, UserPreferencesErrors errors)
     {
         Map<String, String> preferences = new HashMap<String, String>();
         
-        for (UserPreference preference : _userPrefEP.getUserPreferences().values())
+        for (UserPreference preference : _userPrefEP.getUserPreferences(contextVars).values())
         {
             String id = preference.getId();
             if (preference.getType() == ParameterType.DATE)
@@ -232,6 +236,16 @@ public class SetUserPreferencesAction extends CurrentUserProviderServiceableActi
             }
         }
         return date;
+    }
+    
+    /**
+     * Get the preferences context variables.
+     * @param request the request.
+     * @return the preferences context as a Map.
+     */
+    protected Map<String, String> getContextVars(Request request)
+    {
+        return Collections.emptyMap();
     }
     
     /**

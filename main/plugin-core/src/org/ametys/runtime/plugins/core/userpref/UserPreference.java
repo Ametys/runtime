@@ -31,6 +31,9 @@ public class UserPreference extends Parameter<ParameterType>
     /** Indicates if the user preference is multiple. */
     protected boolean _multiple;
     
+    /** The manager role. */
+    protected String _managerRole;
+    
     /** The preference order. */
     protected int _order;
     
@@ -50,6 +53,24 @@ public class UserPreference extends Parameter<ParameterType>
     public void setDisplayGroup(I18nizableText displayGroup)
     {
         _displayGroup = displayGroup;
+    }
+    
+    /**
+     * Get the storage manager role.
+     * @return the manager role. Can be null to use the default storage manager.
+     */
+    public String getManagerRole()
+    {
+        return _managerRole;
+    }
+    
+    /**
+     * Set the storage manager role.
+     * @param managerRole the manager role to set. Can be null to use the default storage manager.
+     */
+    public void setManagerRole(String managerRole)
+    {
+        _managerRole = managerRole;
     }
     
     /**

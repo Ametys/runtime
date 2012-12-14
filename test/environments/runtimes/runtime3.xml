@@ -41,6 +41,6 @@
     </incompleteConfig>
     
     <extensions>
-    	<org.ametys.runtime.plugins.core.userpref.UserPreferencesManager>org.ametys.runtime.plugins.core.userpref.EmptyUserPreferencesManager</org.ametys.runtime.plugins.core.userpref.UserPreferencesManager>
+    	<org.ametys.runtime.plugins.core.userpref.DefaultUserPreferencesStorage>org.ametys.runtime.plugins.core.userpref.EmptyUserPreferencesStorage</org.ametys.runtime.plugins.core.userpref.DefaultUserPreferencesStorage>
     </extensions>
 </runtime>
