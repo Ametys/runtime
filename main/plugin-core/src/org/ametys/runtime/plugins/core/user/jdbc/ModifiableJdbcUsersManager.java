@@ -138,29 +138,7 @@ public class ModifiableJdbcUsersManager extends JdbcUsersManager implements Modi
         }
         
         // Vérifie la présence de tous les paramètres
-        Map<String, Errors> errorFields = new HashMap<String, Errors>();
-        for (JdbcParameter parameter : _parameters.values())
-        {
-            String untypedvalue = userInformation.get(parameter.getId());
-            Object typedvalue = ParameterHelper.castValue(untypedvalue, parameter.getType());
-            Validator validator = parameter.getValidator();
-            
-            if (validator != null)
-            {
-                Errors errors = new Errors();
-                validator.validate(typedvalue, errors);
-                
-                if (errors.hasErrors())
-                {
-                    if (getLogger().isDebugEnabled())
-                    {
-                        getLogger().debug("The field '" + parameter.getId() + "' is not valid");
-                    }
-                   
-                    errorFields.put(parameter.getId(), errors);
-                }
-            }
-        }
+        Map<String, Errors> errorFields = validate(userInformation);
         
         if (errorFields.size() > 0)
         {
@@ -204,6 +182,35 @@ public class ModifiableJdbcUsersManager extends JdbcUsersManager implements Modi
         }
     }
 
+    @Override
+    public Map<String, Errors> validate(Map<String, String> userInformation)
+    {
+        Map<String, Errors> errorFields = new HashMap<String, Errors>();
+        for (JdbcParameter parameter : _parameters.values())
+        {
+            String untypedvalue = userInformation.get(parameter.getId());
+            Object typedvalue = ParameterHelper.castValue(untypedvalue, parameter.getType());
+            Validator validator = parameter.getValidator();
+            
+            if (validator != null)
+            {
+                Errors errors = new Errors();
+                validator.validate(typedvalue, errors);
+                
+                if (errors.hasErrors())
+                {
+                    if (getLogger().isDebugEnabled())
+                    {
+                        getLogger().debug("The field '" + parameter.getId() + "' is not valid");
+                    }
+                    
+                    errorFields.put(parameter.getId(), errors);
+                }
+            }
+        }
+        return errorFields;
+    }
+    
     private PreparedStatement createAddStatement(Connection con, Map<String, String> userInformation) throws SQLException
     {
         String beginClause = "INSERT INTO " + _tableName + " (";

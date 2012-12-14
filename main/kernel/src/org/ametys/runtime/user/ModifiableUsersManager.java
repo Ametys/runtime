@@ -20,6 +20,8 @@ import java.util.Map;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
+import org.ametys.runtime.util.parameter.Errors;
+
 /**
  * Abstraction for getting users list and verify the presence of a particular
  * user and finally modifying this list.
@@ -48,6 +50,13 @@ public interface ModifiableUsersManager extends UsersManager
      * @throws InvalidModificationException if the user cannot be removed
      */
     public void remove(String login) throws InvalidModificationException;
+    
+    /**
+     * Validate user information.
+     * @param userInformation Informations about the user, see implementation. Cannot be null.
+     * @return validation errors.
+     */
+    public Map<String, Errors> validate(Map<String, String> userInformation);
     
     /**
      * SAX the edition model (depending on implementation)

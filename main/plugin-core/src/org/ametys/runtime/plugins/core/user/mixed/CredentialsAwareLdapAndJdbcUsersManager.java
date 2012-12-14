@@ -43,6 +43,7 @@ import org.ametys.runtime.user.ModifiableUsersManager;
 import org.ametys.runtime.user.User;
 import org.ametys.runtime.user.UserListener;
 import org.ametys.runtime.util.IgnoreRootHandler;
+import org.ametys.runtime.util.parameter.Errors;
 
 /**
  * Try to find the user in the LDAP directory first. If not found, try to find him in the DBMS.
@@ -192,6 +193,12 @@ public class CredentialsAwareLdapAndJdbcUsersManager extends CredentialsAwareLda
     }
     
     // ModifableUsersManager methods. //
+    
+    @Override
+    public Map<String, Errors> validate(java.util.Map<String, String> userInformation)
+    {
+        return _fallbackUsersManager.validate(userInformation);
+    }
     
     @Override
     public void add(Map<String, String> userInformation) throws InvalidModificationException

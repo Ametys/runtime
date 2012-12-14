@@ -185,6 +185,7 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
             return text.getLabel();
         }
         
+        // FIXME Handle properly with contexts.
         Request request = ContextHelper.getRequest(_context);
         String currentPluginName = (String) request.getAttribute("pluginName");
         
