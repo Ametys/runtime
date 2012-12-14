@@ -106,7 +106,7 @@ Ext.define('Ametys.plugins.core.SelectUser', {
 			
 		    store : store,
 		    
-		    multiSelect: true,
+		    multiSelect: this.allowMultiselection,
 		    simpleSelect: true,
 		    hideHeaders : true,
 		    columnmove : false,
@@ -146,21 +146,24 @@ Ext.define('Ametys.plugins.core.SelectUser', {
 	
 	/**
 	 * Display the dialog box to select a user
-	 * @param {Function} callback The callback function that is called when the user has been selected
-	 * @param {Object} callback.users A Map String-String of the selected users. The key is the user identifier and the value is the associated user name.
-	 * @param {Function} cancelCallback The callback function if the user cancel the dialog box. Can be null.
-	 * @param {String} usersManagerRole the avalon role of the users manager which will be called to get the user list, or null to call the default users manager.
-	 * @param {Boolean} allowMultiselection True to authorize multiple selection of users
-	 * @param {String} plugin The plugin to use for the request. Default value is 'core'.
+	 * @param {Object} config The configuration for the box
+	 * @param {Function} config.callback The callback function that is called when the user has been selected
+	 * @param {Object} config.callback.users A Map String-String of the selected users. The key is the user identifier and the value is the associated user name.
+	 * @param {Function} config.cancelCallback The callback function if the user cancel the dialog box. Can be null.
+	 * @param {String} config.usersManagerRole the avalon role of the users manager which will be called to get the user list, or null to call the default users manager.
+	 * @param {Boolean} config.allowMultiselection True to authorize multiple selection of users. Default value is true.
+	 * @param {String} config.plugin The plugin to use for the request. Default value is 'core'.
 	 */
-	act: function (callback, cancelCallback, usersManagerRole, allowMultiselection, plugin)
+	act: function (config)
 	{
+		config = config || {};
+		
 		this.delayed_initialize();
-		this.callback = callback || function () {};
-		this.cancelCallback = cancelCallback || function () {};
-	    this.usersManagerRole = usersManagerRole || '';
-	    this.allowMultiselection = allowMultiselection || false;
-	    this.pluginName = plugin || 'core';
+		this.callback = config.callback || function () {};
+		this.cancelCallback = config.cancelCallback || function () {};
+	    this.usersManagerRole = config.usersManagerRole || '';
+	    this.allowMultiselection = config.allowMultiselection || true;
+	    this.pluginName = config.plugin || 'core';
 		
 		this.criteria.setValue("");
 

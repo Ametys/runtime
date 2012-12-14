@@ -106,7 +106,7 @@ Ext.define('Ametys.plugins.core.SelectGroup', {
 			
 		    store : store,
 		    
-		    multiSelect: true,
+		    multiSelect: this.allowMultiselection,
 		    simpleSelect: true,
 		    hideHeaders : true,
 		    columnmove : false,
@@ -146,19 +146,22 @@ Ext.define('Ametys.plugins.core.SelectGroup', {
 	
 	/**
 	 * Display the dialog box to select a group
-	 * @param {Function} callback The callback function that is called when the group has been selected
-	 * @param {Object} callback.groups A Map String-String of the selected groups. The key is the group identifier and the value is the associated group name.
-	 * @param {Function} cancelCallback The callback function if the group cancel the dialog box. Can be null.
-	 * @param {String} groupsManagerRole the avalon role of the groups manager which will be called to get the group list, or null to call the default groups manager.
-	 * @param {String} plugin The plugin to use for the request. Default value is 'core'.
+	 * @param {Object} config The configuration for the box
+	 * @param {Function} config.callback The callback function that is called when the group has been selected
+	 * @param {Object} config.callback.groups A Map String-String of the selected groups. The key is the group identifier and the value is the associated group name.
+	 * @param {Function} config.cancelCallback The callback function if the group cancel the dialog box. Can be null.
+	 * @param {String} config.groupsManagerRole the avalon role of the groups manager which will be called to get the group list, or null to call the default groups manager.
+	 * @param {Boolean} config.allowMultiselection True to authorize multiple selection of users. Default value is true.
+	 * @param {String} config.plugin The plugin to use for the request. Default value is 'core'.
 	 */
-	act: function (callback, cancelCallback, groupsManagerRole, plugin)
+	act: function (config)
 	{
 		this.delayed_initialize();
-		this.callback = callback || function () {};
-		this.cancelCallback = cancelCallback || function () {};
-	    this.groupsManagerRole = groupsManagerRole || '';
-	    this.pluginName = plugin || 'core';
+		this.callback = config.callback || function () {};
+		this.cancelCallback = config.cancelCallback || function () {};
+	    this.groupsManagerRole = config.groupsManagerRole || '';
+	    this.allowMultiselection = config.allowMultiselection || true;
+	    this.pluginName = config.plugin || 'core';
 		
 		this.criteria.setValue("");
 
