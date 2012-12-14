@@ -18,6 +18,8 @@ package org.ametys.runtime.plugins.core.userpref;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -70,6 +72,8 @@ public class SetUserPreferencesAction extends CurrentUserProviderServiceableActi
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
         Request request = ObjectModelHelper.getRequest(objectModel);
+        Map<String, Object> parentContext = (Map<String, Object>) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
+        
         String context = parameters.getParameter("prefContext", request.getParameter("prefContext"));
         String username = parameters.getParameter("username", _getCurrentUser());
         String submit = request.getParameter("submit");
@@ -78,7 +82,9 @@ public class SetUserPreferencesAction extends CurrentUserProviderServiceableActi
         
         if ("true".equals(submit))
         {
-            results = setUserPreferences(request, context, username);
+            Collection<String> preferenceIds = getPreferenceIds(request, parentContext);
+            
+            results = setUserPreferences(request, context, username, preferenceIds);
         }
         
         return results;
@@ -94,6 +100,20 @@ public class SetUserPreferencesAction extends CurrentUserProviderServiceableActi
      */
     protected Map<String, String> setUserPreferences(Request request, String context, String username) throws UserPreferencesException
     {
+        return setUserPreferences(request, context, username, Collections.<String>emptySet());
+    }
+    
+    /**
+     * Set user preferences.
+     * @param request the request.
+     * @param context the preferences context.
+     * @param username the user name.
+     * @param preferenceIds a collection of the IDs of preferences to set.
+     * @return the results.
+     * @throws UserPreferencesException
+     */
+    protected Map<String, String> setUserPreferences(Request request, String context, String username, Collection<String> preferenceIds) throws UserPreferencesException
+    {
         Map<String, String> results = new HashMap<String, String>();
         
         results.put("status", "error");
@@ -103,7 +123,7 @@ public class SetUserPreferencesAction extends CurrentUserProviderServiceableActi
         UserPreferencesErrors errors = new UserPreferencesErrors();
         
         // Override the old values with the new ones, but keep old values when new preferences are not in the request.
-        values.putAll(_getValues(request, errors));
+        values.putAll(_getValues(request, preferenceIds, errors));
         
         // Validate the user preferences, filling in potential errors.
         _userPrefEP.validatePreferences(values, errors);
@@ -124,10 +144,11 @@ public class SetUserPreferencesAction extends CurrentUserProviderServiceableActi
     /**
      * Get the preferences values from the request.
      * @param request the request.
+     * @param preferenceIds a collection of the IDs of preferences to set.
      * @param errors the errors object to fill in.
      * @return the user preferences values as a Map.
      */
-    protected Map<String, String> _getValues(Request request, UserPreferencesErrors errors)
+    protected Map<String, String> _getValues(Request request, Collection<String> preferenceIds, UserPreferencesErrors errors)
     {
         Map<String, String> preferences = new HashMap<String, String>();
         
@@ -168,6 +189,14 @@ public class SetUserPreferencesAction extends CurrentUserProviderServiceableActi
                     preferences.put(id, value);
                 }
             }
+            else if (preference.getType() == ParameterType.BOOLEAN && preferenceIds.contains(id))
+            {
+                // Boolean value: if the preference is set if in the request, it's true, if it's not, it's false.
+                // So, check that the preference was wanted (present in preferenceIds).
+                String value = request.getParameter(id);
+                String valueStr = String.valueOf("true".equals(value));
+                preferences.put(id, valueStr);
+            }
             else
             {
                 String[] values = request.getParameterValues(id);
@@ -204,5 +233,16 @@ public class SetUserPreferencesAction extends CurrentUserProviderServiceableActi
         }
         return date;
     }
-
+    
+    /**
+     * Get the preferences to set.
+     * @param request the request.
+     * @param parentContext the parent context.
+     * @return a collection of the IDs of preferences to set.
+     */
+    protected Collection<String> getPreferenceIds(Request request, Map<String, Object> parentContext)
+    {
+        return Collections.emptySet();
+    }
+    
 }
