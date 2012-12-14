@@ -177,7 +177,7 @@ public final class ParameterHelper
         
         if (value instanceof InputStream)
         {
-            throw new IllegalArgumentException("The object to convert is a input stream");
+            throw new IllegalArgumentException("The object to convert is an input stream");
         }
 
         return value.toString();
