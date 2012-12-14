@@ -18,16 +18,15 @@ package org.ametys.runtime.config;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.TransformerFactory;
@@ -45,6 +44,8 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.xml.XMLUtils;
+import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.xml.serializer.OutputPropertiesFactory;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
@@ -84,7 +85,9 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
 
     // Typed parameters
     private Map<String, ConfigParameter> _params;
-
+    // The parameters classified by categories and groups
+    private Map<I18nizableText, Map<I18nizableText, ParameterGroup>> _categorizedParameters;
+    
     // Determines if the extension point is initialized
     private boolean _isInitialized;
 
@@ -96,6 +99,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
     
     //ComponentManager pour les Enumerator
     private ThreadSafeComponentManager<Enumerator> _enumeratorManager;
+
 
     private ConfigManager()
     {
@@ -313,14 +317,10 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                 }
                 
                 _params.put(id, parameter);
-
-                // check if parameter is valued
-                if (_isComplete && untypedValues != null)
-                {
-                    _validateParameter(untypedValues, id, parameter);
-                }
             }
         }
+        
+        _categorizedParameters = _categorizeParameters(_params);
 
         try
         {
@@ -329,6 +329,37 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         catch (Exception e)
         {
             throw new RuntimeException("Unable to lookup parameter local components", e);
+        }
+
+        if (_isComplete && untypedValues != null)
+        {
+            for (Map<I18nizableText, ParameterGroup> groups : _categorizedParameters.values())
+            {
+                for (ParameterGroup group: groups.values())
+                {
+                    boolean isGroupSwitchedOn = true;
+                    if (group.getSwitch() != null)
+                    {
+                        isGroupSwitchedOn = false;
+                        
+                        // check if parameter is valued
+                        ConfigParameter switcher = _params.get(group.getSwitch());
+                        // we can cast directly because we already tester that it should be a boolean while categorizing
+                        isGroupSwitchedOn = BooleanUtils.toBoolean((Boolean) _validateParameter(untypedValues, switcher));
+                    }
+                    
+                    if (isGroupSwitchedOn)
+                    {
+                        for (ConfigParameter parameter: group.getParams())
+                        {
+                            if (!StringUtils.equals(parameter.getId(), group.getSwitch()))
+                            {
+                                _validateParameter(untypedValues, parameter);
+                            }
+                        }
+                    }
+                }
+            }
         }
         
         // On libère les ressources
@@ -345,8 +376,9 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         }
     }
     
-    private void _validateParameter(Map<String, String> untypedValues, String id, ConfigParameter parameter)
+    private Object _validateParameter(Map<String, String> untypedValues, ConfigParameter parameter)
     {
+        String id = parameter.getId();
         Object value = ParameterHelper.castValue(untypedValues.get(id), parameter.getType());
 
         if (value == null && !"".equals(untypedValues.get(id)))
@@ -384,6 +416,8 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                 _isComplete = false;
             }
         }
+        
+        return value;
     }
 
     /**
@@ -437,45 +471,46 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
      */
     public void toSAX(ContentHandler handler) throws SAXException, ProcessingException
     {
-        _saxParameters(_categorizeParameters(), handler);
+        _saxParameters(handler);
     }
 
-    private Map<I18nizableText, Map<I18nizableText, List<ConfigParameter>>> _categorizeParameters()
+    private Map <I18nizableText, Map<I18nizableText, ParameterGroup>>  _categorizeParameters(Map<String, ConfigParameter> params)
     {
-        Map<I18nizableText, Map<I18nizableText, List<ConfigParameter>>> categories = new HashMap<I18nizableText, Map<I18nizableText, List<ConfigParameter>>>();
-
+        Map <I18nizableText, Map<I18nizableText, ParameterGroup>> categories = new HashMap<I18nizableText, Map<I18nizableText, ParameterGroup>>();
+        
         // Classify parameters by groups and categories
-        Iterator<String> it = _params.keySet().iterator();
+        Iterator<String> it = params.keySet().iterator();
         while (it.hasNext())
         {
             String key = it.next();
-            ConfigParameter param = get(key);
+            ConfigParameter param = params.get(key);
 
             I18nizableText categoryName = param.getDisplayCategory();
             I18nizableText groupName = param.getDisplayGroup();
 
             // Get the map of groups of the category
-            Map<I18nizableText, List<ConfigParameter>> category = categories.get(categoryName);
+            Map<I18nizableText, ParameterGroup> category = categories.get(categoryName);
             if (category == null)
             {
-                category = new TreeMap<I18nizableText, List<ConfigParameter>>(new I18nizableTextComparator());
+                category = new TreeMap<I18nizableText, ParameterGroup>(new I18nizableTextComparator());
                 categories.put(categoryName, category);
             }
 
             // Get the map of parameters of the group
-            List<ConfigParameter> group = category.get(groupName);
+            ParameterGroup group = category.get(groupName);
             if (group == null)
             {
-                group = new ArrayList<ConfigParameter>();
+                group = new ParameterGroup(groupName);
                 category.put(groupName, group);
             }
 
-            group.add(param);
+            group.addParam(param);
         }
+        
         return categories;
     }
 
-    private void _saxParameters(Map<I18nizableText, Map<I18nizableText, List<ConfigParameter>>> categories, ContentHandler handler) throws SAXException, ProcessingException
+    private void _saxParameters(ContentHandler handler) throws SAXException, ProcessingException
     {
         // Get configuration parameters
         Map<String, String> untypedValues;
@@ -496,9 +531,9 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         // SAX classified parameters
         XMLUtils.startElement(handler, "categories");
 
-        for (I18nizableText categoryKey : categories.keySet())
+        for (I18nizableText categoryKey : _categorizedParameters.keySet())
         {
-            Map<I18nizableText, List<ConfigParameter>> category = categories.get(categoryKey);
+            Map<I18nizableText, ParameterGroup> category = _categorizedParameters.get(categoryKey);
 
             XMLUtils.startElement(handler, "category");
             categoryKey.toSAX(handler, "label");
@@ -507,20 +542,24 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
 
             for (I18nizableText groupKey : category.keySet())
             {
-                List<ConfigParameter> group = category.get(groupKey);
+                ParameterGroup group = category.get(groupKey);
 
                 XMLUtils.startElement(handler, "group");
                 groupKey.toSAX(handler, "label");
 
-                XMLUtils.startElement(handler, "parameters");
-                Iterator<ConfigParameter> gIt = group.iterator();
-                while (gIt.hasNext())
+                if (group.getSwitch() != null)
                 {
-                    ConfigParameter param = gIt.next();
+                    XMLUtils.createElement(handler, "group-switch", group.getSwitch());
+                }
+                
+                XMLUtils.startElement(handler, "parameters");
+                for (ConfigParameter param : group.getParams())
+                {
                     Object value = _getValue (param.getId(), param.getType(), untypedValues);
                     ParameterHelper.toSAXParameter (handler, param, value);
                 }
                 XMLUtils.endElement(handler, "parameters");
+                
 
                 XMLUtils.endElement(handler, "group");
             }
@@ -646,12 +685,11 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         handler.startDocument();
         XMLUtils.startElement(handler, "config");
         
-        Map<I18nizableText, Map<I18nizableText, List<ConfigParameter>>> categories = _categorizeParameters();
-        Iterator<I18nizableText> catIt = categories.keySet().iterator();
+        Iterator<I18nizableText> catIt = _categorizedParameters.keySet().iterator();
         while (catIt.hasNext())
         {
             I18nizableText categoryKey = catIt.next();
-            Map<I18nizableText, List<ConfigParameter>> category = categories.get(categoryKey);
+            Map<I18nizableText, ParameterGroup> category = _categorizedParameters.get(categoryKey);
             StringBuilder categoryLabel = new StringBuilder();
             categoryLabel.append("+\n      | ");
             categoryLabel.append(categoryKey.toString());
@@ -677,12 +715,9 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                 handler.comment(groupLabel.toString().toCharArray(), 0, groupLabel.length());
                 XMLUtils.data(handler, "\n  ");
 
-                List<ConfigParameter> group = category.get(groupKey);
-                
-                Iterator<ConfigParameter> gIt = group.iterator();
-                while (gIt.hasNext())
+                ParameterGroup group = category.get(groupKey);
+                for (ConfigParameter param: group.getParams())
                 {
-                    ConfigParameter param = gIt.next();
                     Object typedValue = typedValues.get(param.getId());
                     
                     String untypedValue = ParameterHelper.valueToString(typedValue);
@@ -745,11 +780,69 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         }
     }
     
-    class ConfigParameter extends Parameter<ParameterType>
+    /**
+     * Represent a group of parameters
+     */
+    class ParameterGroup
+    {
+        private Set<ConfigParameter> _groupParams;
+        private String _switcher;
+        private I18nizableText _groupLabel;
+        
+        /**
+         * Create a group
+         * @param groupLabel The label of the group
+         */
+        ParameterGroup (I18nizableText groupLabel)
+        {
+            _groupLabel = groupLabel;
+            _groupParams = new TreeSet<ConfigParameter>();
+            _switcher = null;
+        }
+        
+        void addParam(ConfigParameter param)
+        {
+            _groupParams.add(param);
+            
+            if (param.isGroupSwitch())
+            {
+                if (_switcher == null)
+                {
+                    _switcher = param.getId();
+                    if (param.getType() != ParameterType.BOOLEAN)
+                    {
+                        throw new RuntimeException("The group '" + _groupLabel.toString() + "' has a switch '" + _switcher + "' that is not valid because it is not a boolean.");
+                    }
+                }
+                else
+                {
+                    throw new RuntimeException("At least two group switch has been defined for the configuration group '" + _groupLabel.toString() + "'. Theses parameters are '" + _switcher + "' and '" + param.getId() + "'.");
+                }
+            }
+        }
+        
+        I18nizableText getLabel()
+        {
+            return _groupLabel;
+        }
+        
+        Set<ConfigParameter> getParams()
+        {
+            return _groupParams;
+        }
+        
+        String getSwitch()
+        {
+            return _switcher;
+        }
+    }
+    
+    class ConfigParameter extends Parameter<ParameterType> implements Comparable<ConfigParameter>
     {
         private I18nizableText _displayCategory;
         private I18nizableText _displayGroup;
-
+        private boolean _groupSwitch;
+        private long _order;
 
         I18nizableText getDisplayCategory()
         {
@@ -769,6 +862,50 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         void setDisplayGroup(I18nizableText displayGroup)
         {
             _displayGroup = displayGroup;
+        }
+        
+        boolean isGroupSwitch()
+        {
+            return _groupSwitch;
+        }
+        
+        void setGroupSwitch(boolean groupSwitch)
+        {
+            _groupSwitch = groupSwitch;
+        }
+        
+        long getOrder()
+        {
+            return _order;
+        }
+        
+        void setOrder(long order)
+        {
+            _order = order;
+        }
+        
+        @Override
+        public int compareTo(ConfigParameter o)
+        {
+            int cat = getDisplayCategory().toString().compareTo(o.getDisplayCategory().toString());
+            if (cat != 0)
+            {
+                return cat;
+            }
+            
+            int gro = getDisplayGroup().toString().compareTo(o.getDisplayGroup().toString());
+            if (gro != 0)
+            {
+                return gro;
+            }
+            
+            int ord = ((Long) this.getOrder()).compareTo(o.getOrder());
+            if (ord != 0)
+            {
+                return ord;
+            }
+            
+            return getId().compareTo(o.getId());
         }
     }
     
@@ -830,6 +967,8 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             parameter.setId(parameterId);
             parameter.setDisplayCategory(_parseI18nizableText(parameterConfig, pluginName, "category"));
             parameter.setDisplayGroup(_parseI18nizableText(parameterConfig, pluginName, "group"));
+            parameter.setGroupSwitch(parameterConfig.getAttributeAsBoolean("group-switch", false));
+            parameter.setOrder(parameterConfig.getChild("order").getValueAsLong(0));
         }
     }
 }

@@ -65,21 +65,22 @@
 						var fieldSet = Ametys.plugins.core.administration.Config.createFieldSet ("<xsl:value-of select="generate-id()"/>", "<xsl:copy-of select="label/node()"/>");
 							
 						<xsl:for-each select="groups/group">
-							Ametys.plugins.core.administration.Config.addGroupCategory (fieldSet, "<xsl:copy-of select="label/node()"/>");
+							Ametys.plugins.core.administration.Config.addGroupCategory (fieldSet, "<xsl:copy-of select="label/node()"/>"
+							        <xsl:if test="group-switch">
+							             <xsl:text>, </xsl:text>
+							             <xsl:call-template name="create-config"><xsl:with-param name="config" select="parameters/*[local-name() = ../../group-switch]"/></xsl:call-template>
+                                         <xsl:text>, </xsl:text>
+                                         [ <xsl:for-each select="parameters/*[not(local-name() = ../../group-switch)]">
+                                            <xsl:if test="position() != 1">, </xsl:if> "<xsl:value-of select="local-name()"/>"
+                                         </xsl:for-each> ]
+							         </xsl:if>
+							);
 							
-							<xsl:for-each select="parameters/*">
-								<xsl:sort select="order" data-type="number"/>
-									Ametys.plugins.core.administration.Config.addInputField (fieldSet, 
-										"<xsl:value-of select="type"/>", 
-										"<xsl:value-of select="local-name()"/>", 
-										"<xsl:value-of select="escape:escapeJavaScript(value)"/>", 
-										"<xsl:copy-of select="label/node()"/>", 
-										"<xsl:copy-of select="description/node()"/>",
-										<xsl:call-template name="enumeration"/>,
-										"<xsl:value-of select="widget"/>",
-										"<xsl:value-of select="validation/mandatory"/>",
-                                        "<xsl:value-of select="escape:escapeJavaScript(validation/regexp)"/>"
-                                        <xsl:if test="validation/invalidText != ''">,"<xsl:value-of select="validation/invalidText"/>"</xsl:if>);
+                            <xsl:for-each select="parameters/*[not(local-name() = ../../group-switch)]">
+                                    <xsl:variable name="switch-value" select="../*[local-name() = ../../group-switch]/value"/>
+									Ametys.plugins.core.administration.Config.addInputField (fieldSet, <xsl:call-template name="create-config"><xsl:with-param name="config" select="."/></xsl:call-template>
+									   <xsl:if test="$switch-value != ''">, "<xsl:value-of select="escape:escapeJavaScript($switch-value)"/>"</xsl:if>
+									);
 							</xsl:for-each>
 							
 							Ametys.plugins.core.administration.Config._form.add(fieldSet);
@@ -98,11 +99,30 @@
         </html>
     </xsl:template>
     
+    <xsl:template name="create-config">
+        <xsl:param name="config" select="."/>
+
+        {
+            type: "<xsl:value-of select="$config/type"/>",
+            name: "<xsl:value-of select="local-name($config)"/>",
+            value: "<xsl:value-of select="escape:escapeJavaScript(value)"/>",
+            label: "<xsl:copy-of select="$config/label/node()"/>", 
+            description: "<xsl:copy-of select="$config/description/node()"/>",
+            enumeration: <xsl:call-template name="enumeration"><xsl:with-param name="config" select="$config"/></xsl:call-template>,
+            widget: "<xsl:value-of select="$config/widget"/>",
+            mandatory: "<xsl:value-of select="$config/validation/mandatory"/>",
+            regexp: "<xsl:value-of select="escape:escapeJavaScript($config/validation/regexp)"/>"
+            <xsl:if test="$config/validation/invalidText != ''">, invalidText: "<xsl:value-of select="$config/validation/invalidText"/>"</xsl:if>
+        }
+    </xsl:template>
+    
     <xsl:template name="enumeration">
+        <xsl:param name="config" select="."/>
+        
     	<xsl:choose>
-    		<xsl:when test="enumeration">
+    		<xsl:when test="$config/enumeration">
     			<xsl:text>[</xsl:text> 
-    			<xsl:for-each select="enumeration/option">
+    			<xsl:for-each select="$config/enumeration/option">
     				<xsl:if test="position() != 1">, </xsl:if>
     				<xsl:text>["</xsl:text><xsl:value-of select="escape:escapeJavaScript(@value)"/><xsl:text>", "</xsl:text><xsl:copy-of select="node()"/><xsl:text>"]</xsl:text>
     			</xsl:for-each>

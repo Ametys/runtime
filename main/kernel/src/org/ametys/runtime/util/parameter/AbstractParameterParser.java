@@ -300,7 +300,7 @@ public abstract class AbstractParameterParser<P extends Parameter<T>, T>
         
         if (validatorConfig != null)
         {
-            String validatorClassName = StringUtils.defaultIfBlank(validatorConfig.getChild("custom-validator").getAttribute("class"), DefaultValidator.class.getName());
+            String validatorClassName = StringUtils.defaultIfBlank(validatorConfig.getChild("custom-validator").getAttribute("class", ""), DefaultValidator.class.getName());
             
             try
             {

@@ -38,7 +38,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	_fields: [],
 
 	/**
-	 * @property {Ext.form.BasicForm} _form The configuration form
+	 * @property {Ext.form.FormPanel} _form The configuration form
 	 */
 	/**
 	 * @private
@@ -171,79 +171,154 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	},
 
 	/**
+	 * @private
+	 * Show or hide the elements of a group
+	 * @param {Boolean} state true to show elements
+	 * @param {String[]} elements The names of the elements to show of hide
+	 */
+	showHideGroup: function(input, newValue, oldValue, eOpts, elements)
+	{
+		for (var i = 0; i < elements.length; i++)
+		{
+			var elementId = elements[i];
+			this._form.getForm().findField(elementId).setVisible(newValue);
+		}
+	},
+	
+	/**
 	 * Add a groups category
 	 * @param {Ext.form.FieldSet} fd The fieldset where to add the category
 	 * @param {String} name The name of the category
+	 * @param {Obejct} switcher If the group can be switch on/off, this object have the following keys : type, name, label, description, widget, mandatory, regexp and optionally invalidText.
+	 * @param {String[]} subitems An array containing the names of the fields the switcher will show/hide 
 	 */
-	addGroupCategory: function (fd, name)
+	addGroupCategory: function (fd, name, switcher, subitems)
 	{
-		fd.add (new Ext.Container ({
-			html: name,
-			cls: 'ametys-subcategory'
-		}));
+		if (switcher != null)
+		{
+			var modifiedSwitcher = Ext.applyIf ({label: '', description: '', width: 'auto'}, switcher);
+			
+			var input = this.createInputField(modifiedSwitcher);
+			input.on('change', Ext.bind(this.showHideGroup, this, [subitems], true));
+			
+			var items = [
+			      input,
+			      { baseCls: '', html: "<label for='" + input.getInputId() + "'>" + name + "</label>", padding: "3 0 0 5" }
+            ];
+			
+			if (switcher.description != '')
+			{
+				items.push({
+					cls: "ametys-description",
+				    baseCls: '', 
+				    padding: "3 0 0 5",
+					html: '  ',
+					listeners: {
+						'render': function() {
+						    new Ext.ToolTip({
+						        target: this.getEl(),
+						        html: switcher.label + "<br/><br/>" + switcher.description
+						    });
+						}
+					}
+				});
+			}
+			
+			fd.add (new Ext.Container({
+				layout: 'hbox',
+				cls: 'ametys-subcategory',
+				items: items
+			}));
+		}
+		else
+		{
+			fd.add (new Ext.Container ({
+				cls: 'ametys-subcategory',
+				html: name,
+			}));
+		}
 	},
 
 	/**
 	 * Add an input field to the form
 	 * @param {Ext.Element} ct The container where to add the input
-	 * @param {String} type The type of the field to create
-	 * @param {String} name The name of the field (the one used to submit the request)
-	 * @param {Object} value The value of the field at the creating time
-	 * @param {String} label The label of the field
-	 * @param {String} description The associated description
-	 * @param {String[]} enumeration The list of values if applyable (only for type text)
-	 * @param {String} widget The widget to use for edition. Can be null
-	 * @param {Boolean} mandatory True if the field can not be empty
-	 * @param {String} regexp The regexp to use to validate the field value
-	 * @param {String} invalidText The text to display when the field value is not valid
+	 * @params {Object} config this object have the following keys : type, name, value, label, description, enumeration, widget, mandatory, regexp and optionally invalidText and width.
+	 * {String} config.type The type of the field to create
+	 * {String} config.name The name of the field (the one used to submit the request)
+	 * {Object} config.value The value of the field at the creating time
+	 * {String} config.label The label of the field
+	 * {String} config.description The associated description
+	 * {String[]} config.enumeration The list of values if applyable (only for type text)
+	 * {String} config.widget The widget to use for edition. Can be null
+	 * {Boolean} config.mandatory True if the field can not be empty
+	 * {String} config.regexp The regexp to use to validate the field value
+	 * {String} config.invalidText The text to display when the field value is not valid
+	 * {Number/String} config.width Replace the default width with this one
+	 * @param {String} startVisible Optionnaly, if 'false' this field will be hidden 
 	 * @return {Ext.form.field.Field} The created field
 	 */
-	addInputField: function (ct, type, name, value, label, description, enumeration, widget, mandatory, regexp, invalidText)
+	addInputField: function (ct, config, startVisible)
 	{
-	    var field = null;
-	    
-		if (enumeration != null)
+		var field = this.createInputField(config);
+		if (startVisible == 'false')
 		{
-		    field = this._createTextField (name, value, label, description, enumeration, mandatory == 'true', null);
-		}
-		else
-		{
-			switch (type) 
-			{
-				case 'double':
-					field = this._createDoubleField (name, value, label, description, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null, invalidText);
-					break;
-				case 'long':
-					field = this._createLongField (name, value, label, description, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null, invalidText);
-					break;
-				case 'password':
-					field = this._createPasswordField (name, value, label, description, mandatory == 'true');
-					break;
-				case 'date':
-					field = this._createDateField (name, value, label, description, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null, invalidText);
-					break;
-				case 'boolean':
-					field = this._createBooleanField (name, value, label, description);
-					break;
-				default:
-					if (widget != '')
-					{
-						 field = this._createWidgetField(widget, name, value, label, description, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null, invalidText);
-					}
-					else
-					{
-						field = this._createTextField (name, value, label, description, null, mandatory == 'true', regexp != '' ? new RegExp (regexp) : null, invalidText);
-					}
-					break;
-			}
+			field.hide();
 		}
 		
 		if (field != null)
 	    {
 		    ct.add(field);
+		    this._fields.push(name);
 	    }
 		
-		this._fields.push(name);
+		return field;
+	},
+	
+	/**
+	 * Creates and return an input field depending on the given configuration
+	 * @params {Object} config this object have the following keys : type, name, value, label, description, enumeration widget, mandatory, regexp and optionally invalidText and width.
+	 * @return {Ext.form.field.Field} The created field
+	 * @private
+	 */
+	createInputField: function(config)
+	{
+	    var field = null;
+	    
+		if (config.enumeration != null)
+		{
+		    field = this._createTextField (config.name, config.value, config.label, config.description, config.enumeration, config.mandatory == 'true', null, config.width);
+		}
+		else
+		{
+			switch (config.type) 
+			{
+				case 'double':
+					field = this._createDoubleField (config.name, config.value, config.label, config.description, config.mandatory == 'true', config.regexp != '' ? new RegExp (config.regexp) : null, config.invalidText, config.width);
+					break;
+				case 'long':
+					field = this._createLongField (config.name, config.value, config.label, config.description, config.mandatory == 'true', config.regexp != '' ? new RegExp (config.regexp) : null, config.invalidText, config.width);
+					break;
+				case 'password':
+					field = this._createPasswordField (config.name, config.value, config.label, config.description, config.mandatory == 'true', config.width);
+					break;
+				case 'date':
+					field = this._createDateField (config.name, config.value, config.label, config.description, config.mandatory == 'true', config.regexp != '' ? new RegExp (config.regexp) : null, config.invalidText, config.width);
+					break;
+				case 'boolean':
+					field = this._createBooleanField (config.name, config.value, config.label, config.description, config.width);
+					break;
+				default:
+					if (config.widget != '')
+					{
+						 field = this._createWidgetField(config.widget, config.name, config.value, config.label, config.description, config.mandatory == 'true', config.regexp != '' ? new RegExp (config.regexp) : null, config.invalidText, config.width);
+					}
+					else
+					{
+						field = this._createTextField (config.name, config.value, config.label, config.description, null, config.mandatory == 'true', config.regexp != '' ? new RegExp (config.regexp) : null, config.invalidText, config.width);
+					}
+					break;
+			}
+		}
 		
 		return field;
 	},
@@ -258,9 +333,10 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 * @param {Boolean} mandatory True if the field can not be empty
 	 * @param {String} regexp The regexp to use to validate the field value
 	 * @param {String} invalidText The text to display when the field value is not valid
+	 * @param {String/Number} width The optionnal width. The default one is the constants FIELD_WIDTH + LABEL_WIDTH
 	 * @return {Ext.form.field.Field} The created field
 	 */
-	_createDoubleField: function (name, value, label, description, mandatory, regexp, invalidText)
+	_createDoubleField: function (name, value, label, description, mandatory, regexp, invalidText, width)
 	{
 		return new Ext.form.field.Number({
 			name: name,
@@ -277,7 +353,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	    	labelAlign: 'right',
 	        labelWidth: Ametys.plugins.core.administration.Config.LABEL_WIDTH,
 	        labelSeparator: '',
-	        width: Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH
+	        width: width || Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH
 		});
 	},
 
@@ -291,9 +367,10 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 * @param {Boolean} mandatory True if the field can not be empty
 	 * @param {String} regexp The regexp to use to validate the field value
 	 * @param {String} invalidText The text to display when the field value is not valid
+	 * @param {String/Number} width The optionnal width. The default one is the constants FIELD_WIDTH + LABEL_WIDTH
 	 * @return {Ext.form.field.Field} The created field
 	 */
-	_createLongField: function (name, value, label, description, mandatory, regexp, invalidText)
+	_createLongField: function (name, value, label, description, mandatory, regexp, invalidText, width)
 	{
 		return new Ext.form.field.Number ({
 			name: name,
@@ -312,7 +389,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 			labelAlign: 'right',
 	        labelWidth: Ametys.plugins.core.administration.Config.LABEL_WIDTH,
 	        labelSeparator: '',
-	        width: Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH
+	        width: width || Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH
 		});
 	},
 
@@ -324,9 +401,10 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 * @param {String} label The label of the field
 	 * @param {String} description The associated description
 	 * @param {Boolean} mandatory True if the field can not be empty
+	 * @param {String/Number} width The optionnal width. The default one is the constants FIELD_WIDTH + LABEL_WIDTH
 	 * @return {Ext.form.field.Field} The created field
 	 */
-	_createPasswordField: function (name, value, label, description, mandatory)
+	_createPasswordField: function (name, value, label, description, mandatory, width)
 	{
 		return new Ametys.form.field.ChangePassword({
 			name: name,
@@ -340,7 +418,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	        labelWidth: Ametys.plugins.core.administration.Config.LABEL_WIDTH,
 	        labelSeparator: '',
 
-	        width: Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH
+	        width: width || Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH
 		});
 	},
 
@@ -354,9 +432,10 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 * @param {Boolean} mandatory True if the field can not be empty
 	 * @param {String} regexp The regexp to use to validate the field value
 	 * @param {String} invalidText The text to display when the field value is not valid
+	 * @param {String/Number} width The optionnal width. The default one is the constants FIELD_WIDTH + LABEL_WIDTH
 	 * @return {Ext.form.field.Field} The created field
 	 */
-	_createDateField: function (name, value, label, description, mandatory, regexp, invalidText)
+	_createDateField: function (name, value, label, description, mandatory, regexp, invalidText, width)
 	{
 	    var dateValue = value;
 //	    if (typeof value == 'string')
@@ -380,7 +459,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 			labelAlign: 'right',
 	        labelWidth: Ametys.plugins.core.administration.Config.LABEL_WIDTH,
 	        labelSeparator: '',
-	        width: Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH
+	        width: width || Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH
 		});
 	},
 
@@ -391,9 +470,10 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 * @param {Object} value The value of the field at the creating time
 	 * @param {String} label The label of the field
 	 * @param {String} description The associated description
+	 * @param {String/Number} width The optionnal width. The default one is the constants FIELD_WIDTH + LABEL_WIDTH
 	 * @return {Ext.form.field.Field} The created field
 	 */	
-	_createBooleanField: function (name, value, label, description)
+	_createBooleanField: function (name, value, label, description, width)
 	{
 		return new Ext.form.field.Checkbox ({
 			name: name,
@@ -409,7 +489,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	    	labelAlign: 'right',
 	        labelWidth: Ametys.plugins.core.administration.Config.LABEL_WIDTH,
 	        labelSeparator: '',
-	        width: Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH
+	        width: width || Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH
 		});
 	},
 
@@ -424,9 +504,10 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 * @param {Boolean} mandatory True if the field can not be empty
 	 * @param {String} regexp The regexp to use to validate the field value
 	 * @param {String} invalidText The text to display when the field value is not valid
+	 * @param {String/Number} width The optionnal width. The default one is the constants FIELD_WIDTH + LABEL_WIDTH
 	 * @return {Ext.form.field.Field} The created field
 	 */
-	_createTextField: function (name, value, label, description, enumeration, mandatory, regexp, invalidText)
+	_createTextField: function (name, value, label, description, enumeration, mandatory, regexp, invalidText, width)
 	{
 		if (enumeration != null)
 		{
@@ -440,7 +521,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 		    	labelAlign: 'right',
 		        labelWidth: Ametys.plugins.core.administration.Config.LABEL_WIDTH,
 		        labelSeparator: '',
-		        width: Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH,
+		        width: width || Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH,
 		        
 		        allowBlank: !mandatory,
 		        msgTarget: 'side',
@@ -471,7 +552,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 		    	labelAlign: 'right',
 		        labelWidth: Ametys.plugins.core.administration.Config.LABEL_WIDTH,
 		        labelSeparator: '',
-		        width: Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH,
+		        width: width || Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH,
 		        
 		        allowBlank: !mandatory,
 		        regex: regexp,
@@ -492,16 +573,24 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 * @param {Boolean} mandatory True if the field can not be empty
 	 * @param {String} regexp The regexp to use to validate the field value
 	 * @param {String} invalidText The text to display when the field value is not valid
+	 * @param {String/Number} width The optionnal width. The default one is the constants FIELD_WIDTH + LABEL_WIDTH
 	 * @return {Ext.form.field.Field} The created field
 	 */
-	_createWidgetField: function (widgetId, name, value, label, description, mandatory, regexp, invalidText)
+	_createWidgetField: function (widgetId, name, value, label, description, mandatory, regexp, invalidText, width)
 	{
 		var widgetCfg = {
 				name: name,
+				
 		        fieldLabel: label,
 		        ametysDescription: description,
-		        
 		        value: value,
+		        
+		    	labelAlign: 'right',
+		        labelWidth: Ametys.plugins.core.administration.Config.LABEL_WIDTH,
+		        labelSeparator: '',
+		        width: width || Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH,
+
+		        
 		        allowBlank: !mandatory,
 		        regex: regexp,
 				regexText: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP"/>" + regexp,

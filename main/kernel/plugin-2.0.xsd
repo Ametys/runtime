@@ -740,6 +740,15 @@
 	                	</xsd:restriction>
 	                </xsd:simpleType>
 		        </xsd:attribute>
+                <xsd:attribute name="group-switch" type="xsd:boolean" use="optional">
+                    <xsd:annotation>
+                        <xsd:documentation xml:lang="en">
+                            <![CDATA[
+                                Determine if this parameter is the switcher for its group. There can zero of one switcher per group. It must be a boolean parameter.
+                            ]]>
+                        </xsd:documentation>
+                    </xsd:annotation>            
+                </xsd:attribute>
     		</xsd:extension>
     	</xsd:complexContent>
     </xsd:complexType>
