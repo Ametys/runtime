@@ -141,7 +141,14 @@ Ext.define('Ametys.plugins.core.administration.UserEdit', {
 	    	this.form.findField('field_login').setDisabled(true);
 	      
 	    	
-	    	var nodes = Ametys.data.ServerComm.send(this.plugin, "/administrator/users/info", { login: params['login'] }, Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+	    	var nodes = Ametys.data.ServerComm.send({
+	    		plugin: this.plugin, 
+	    		url: "/administrator/users/info", 
+	    		parameters: { login: params['login'] }, 
+	    		priority: Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, 
+	    		callback: null, 
+	    		responseType: null
+	    	});
 	        if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_USERS_DIALOG_ERROR"/>", nodes, "Ametys.plugins.core.administration.UserEdit.act"))
 	        {
 	           return;
@@ -181,8 +188,14 @@ Ext.define('Ametys.plugins.core.administration.UserEdit', {
 	    args['field_login'] = form.findField('field_login').getValue();
 	    args['mode'] = this.params['mode'];
 
-		var result = Ametys.data.ServerComm.send(this.plugin, "/administrator/users/edit", args, Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
-
+    	var result = Ametys.data.ServerComm.send({
+    		plugin: this.plugin, 
+    		url: "/administrator/users/edit", 
+    		parameters: args, 
+    		priority: Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, 
+    		callback: null, 
+    		responseType: null
+    	});
 	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_USERS_DIALOG_ERROR"/>", result, "Ametys.plugins.core.administration.UserEdit.ok"))
 	    {
 	       return;

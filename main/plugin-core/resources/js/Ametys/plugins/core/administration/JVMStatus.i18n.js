@@ -385,7 +385,14 @@ Ext.define('Ametys.plugins.core.administration.JVMStatus', {
 	 */
 	refreshData: function (gc)
 	{
-		var result = Ametys.data.ServerComm.send(this.pluginName, "administrator/jvmstatus/refresh", gc ? { gc: "gc" } : {}, Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+		var result = Ametys.data.ServerComm.send({
+				plugin: this.pluginName, 
+				url: "administrator/jvmstatus/refresh", 
+				parameters: gc ? { gc: "gc" } : {}, 
+				priority: Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, 
+				callback: null, 
+				responseType: null
+		});
 
 	    if (Ametys.data.ServerComm.handleBadResponse(gc ? "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_GC_ERROR"/>" : "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_REFRESH_ERROR"/>", result, "Ametys.plugins.core.administration.JVMStatus.refreshData"))
 	    {

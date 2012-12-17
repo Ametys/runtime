@@ -92,7 +92,14 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 			'id': 'new'
 		}); 
         
-        var result = Ametys.data.ServerComm.send(this.pluginName, "/administrator/rights/profiles/create", {name: newEntry.get('name') }, Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+        var result = Ametys.data.ServerComm.send({
+        	plugin: this.pluginName, 
+        	url: "/administrator/rights/profiles/create", 
+        	parameters: {name: newEntry.get('name') }, 
+        	priority: Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, 
+        	callback: null, 
+        	resonseType: null
+        });
         if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_NEW_ERROR"/>", result, "Ametys.plugins.core.administration.Logs.createProfile"))
         {
             return;
@@ -242,7 +249,14 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 		var ok = false;
 		while (!ok)
 		{
-			var result = Ametys.data.ServerComm.send(this.pluginName, "/administrator/rights/profiles/modify", { id: element.get('id'), objects: objects }, Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+			var result = Ametys.data.ServerComm.send({
+				plugin: this.pluginName, 
+				url: "/administrator/rights/profiles/modify", 
+				parameters: { id: element.get('id'), objects: objects }, 
+				priority: Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, 
+				callback: null, 
+				responseType: null
+			});
 		    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_ERROR"/>", result, "Ametys.plugins.core.administration.Logs.saveObjects"))
 		    {
 				return;
@@ -420,7 +434,14 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 			{
 			
 				// CREER
-				var result = Ametys.data.ServerComm.send(this.pluginName, "/admisnitrator/rights/profiles/create", {name: record.get('name') }, Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+				var result = Ametys.data.ServerComm.send({
+					plugin: this.pluginName, 
+					url: "/admisnitrator/rights/profiles/create", 
+					parameters: {name: record.get('name') }, 
+					priority: Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, 
+					callback: null, 
+					responseType: null
+				});
 			    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_NEW_ERROR"/>", result, "Ametys.plugins.core.administration.Logs.editLabel"))
 			    {
 			       return;
@@ -433,8 +454,15 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 			}
 			else
 			{
-				// RENOMMER
-				var result = Ametys.data.ServerComm.send(this.pluginName, "/administrator/rights/profiles/rename", { id: record.get('id'), name: record.get('name') }, Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+				// RENOMMER		    		
+				var result = Ametys.data.ServerComm.send({
+					plugin: this.pluginName, 
+					url: "/administrator/rights/profiles/rename", 
+					parameters: { id: record.get('id'), name: record.get('name') }, 
+					priority: Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, 
+					callback: null, 
+					responseType: null
+				});
 			    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_RENAME_ERROR"/>", result, "Ametys.plugins.core.administration.Logs.editLabel"))
 			    {
 			       return;

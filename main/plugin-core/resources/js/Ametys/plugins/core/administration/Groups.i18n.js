@@ -282,8 +282,15 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 		this._listViewU.getStore().removeAll();
 		
 		this._currentGroup = record; 
-	    
-		var result = Ametys.data.ServerComm.send(this.pluginName, "/administrator/groups/members", { groupID: this._currentGroup.get('id') }, Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+
+		var result = Ametys.data.ServerComm.send({
+			plugin: this.pluginName, 
+			url: "/administrator/groups/members", 
+			parameters: { groupID: this._currentGroup.get('id') }, 
+			priority: Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, 
+			callback: null, 
+			responseType: null
+		});
 	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_LIST_ERROR"/>", result, "Ametys.plugins.core.administration.Groups._selectGroup"))
 	    {
 	       throw "this._selectGroup request failed";
@@ -351,7 +358,14 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 		if (operation == Ext.data.Record.EDIT)
 		{
 			// Rename
-			var result = Ametys.data.ServerComm.send(this.pluginName, "/administrator/groups/rename", { id: record.data.id, name: record.get('name') }, Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+			var result = Ametys.data.ServerComm.send({
+				plugin: this.pluginName, 
+				url: "/administrator/groups/rename", 
+				parameters: { id: record.data.id, name: record.get('name') }, 
+				priority: Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, 
+				callback: null, 
+				responseType: null
+			});
 		    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_RENAME_ERROR"/>", result, "Ametys.plugins.core.administration.Groups._editGroupLabel"))
 		    {
 		       // nothing
@@ -452,7 +466,14 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 		}
 		
 		// Send
-		var result = Ametys.data.ServerComm.send(this.pluginName, "/administrator/groups/modify", { id: group.get('id'), objects: objects }, Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+		var result = Ametys.data.ServerComm.send({
+			plugin: this.pluginName, 
+			url: "/administrator/groups/modify", 
+			parameters: { id: group.get('id'), objects: objects }, 
+			priority: Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, 
+			callback: null, 
+			responseType: null
+		});
 	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_MODIFY_ERROR"/>", result, "Ametys.plugins.core.administration.Groups.save"))
 	    {
 	        // Just display the message.
@@ -583,7 +604,15 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 	add: function ()
 	{
 		// Create group
-		var result = Ametys.data.ServerComm.send(this.pluginName, "/administrator/groups/create", { name: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_NEWGROUP"/>" }, Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+		var result = Ametys.data.ServerComm.send({
+			pluginOrWorkspace: this.pluginName, 
+			url: "/administrator/groups/create", 
+			parameters: { name: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_NEWGROUP"/>" }, 
+			priority: Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, 
+			callback: null, 
+			responseType: null
+		});
+		
 	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_NEW_ERROR"/>", result, "Ametys.plugins.core.administration.Groups.add"))
 	    {
 	       return false;

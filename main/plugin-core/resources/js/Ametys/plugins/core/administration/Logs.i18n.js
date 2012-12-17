@@ -360,7 +360,18 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 			this._mask.show();
 
 			var args = { level: level, category: selectedNode.get('fullname') };
-			Ametys.data.ServerComm.send(this.pluginName, "administrator/logs/change-levels", args, Ametys.data.ServerComm.PRIORITY_MAJOR, this._changeLogLevelCB, this, [args, selectedNode]);
+			Ametys.data.ServerComm.send({
+				plugin: this.pluginName, 
+				url: "administrator/logs/change-levels", 
+				parameters: args, 
+				priority: Ametys.data.ServerComm.PRIORITY_MAJOR, 
+				callback: {
+					handler: this._changeLogLevelCB, 
+					scope: this, 
+					arguments: [args, selectedNode]
+				},
+				responseType: null
+			});
 		}
 	},
 	/**
@@ -711,7 +722,14 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 	            files.push(elt.get('location'));
 	        }
 	        
-	    	var result = Ametys.data.ServerComm.send(this.pluginName, "administrator/logs/delete", { file: files }, Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+	    	var result = Ametys.data.ServerComm.send({
+	    		plugin: this.pluginName, 
+	    		url: "administrator/logs/delete", 
+	    		parameters: { file: files }, 
+	    		priority: Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, 
+	    		callback: null, 
+	    		responseType: null
+	    	});
 	        if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_DELETE_ERROR_GRAVE"/>", result, "Ametys.plugins.core.administration.Logs.doDelete"))
 	        {
 	           return;
@@ -760,7 +778,15 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 	{
 		if (anwser == 'yes')
 	    {
-	    	var result = Ametys.data.ServerComm.send(this.pluginName, "administrator/logs/purge", {}, Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+	    	var result = Ametys.data.ServerComm.send({
+	    		plugin: this.pluginName, 
+	    		url: "administrator/logs/purge", 
+	    		parameters: {}, 
+	    		priority: Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, 
+	    		callback: null, 
+	    		responseType: null
+	    	});
+	    	
 	        if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_PURGE_ERROR_GRAVE"/>", result, "Ametys.plugins.core.administration.Logs.doPurge"))
 	        {
 	           return;

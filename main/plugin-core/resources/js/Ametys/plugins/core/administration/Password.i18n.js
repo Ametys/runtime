@@ -192,7 +192,14 @@ Ext.define('Ametys.plugins.core.administration.Password', {
 		}
 		
 		// ENVOIE DES DONNEES
-		var result = Ametys.data.ServerComm.send(this.pluginName, "/administrator/password/set", { oldPassword: oldPassword.getValue(), newPassword: newPassword.getValue(), confirmPassword: confirmPassword.getValue() }, Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+		var result = Ametys.data.ServerComm.send({
+			plugin: this.pluginName, 
+			url: "/administrator/password/set", 
+			parameters: { oldPassword: oldPassword.getValue(), newPassword: newPassword.getValue(), confirmPassword: confirmPassword.getValue() }, 
+			priority: Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, 
+			callback: null, 
+			responseType: null
+		});
 	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_FATAL"/>", result, "this.ok"))
 	    {
 	       return;

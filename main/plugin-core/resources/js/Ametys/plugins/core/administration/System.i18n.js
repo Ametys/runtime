@@ -307,7 +307,14 @@ Ext.define('Ametys.plugins.core.administration.System', {
 	        args['message_' + element.get('lang')] = Ametys.convertTextareaToHtml(element.get('message'));
 	    }
 	    
-		var result = Ametys.data.ServerComm.send(this.pluginName, "/administrator/system/update", args, Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+		var result = Ametys.data.ServerComm.send({
+			plugin: this.pluginName, 
+			url: "/administrator/system/update", 
+			parameters: args, 
+			priority: Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, 
+			callback: null, 
+			responseType: null
+		});
 	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ERROR_SAVE"/>", result, "Ametys.plugin.core.administration.System.save"))
 	    {
 	       return;

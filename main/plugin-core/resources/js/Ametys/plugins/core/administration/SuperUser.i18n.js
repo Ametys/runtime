@@ -55,7 +55,14 @@ Ext.define('Ametys.plugins.core.administration.SuperUser', {
 			logins.push(i);
 		}
 		
-		var response = Ametys.data.ServerComm.send(this.pluginName, "/administrator/superuser/affect", { login: logins }, Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+		var response = Ametys.data.ServerComm.send({
+			plugin: this.pluginName, 
+			url: "/administrator/superuser/affect", 
+			parameters: { login: logins }, 
+			priority: Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, 
+			callback: null, 
+			responseType: null
+		});
 		if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_AFFECT_ERROR"/>", response, "Ametys.plugins.core.administration.SuperUser._affectSuper"))
 	    {
 	       return;

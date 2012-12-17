@@ -290,8 +290,15 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 	impersonate: function ()
 	{
 		var elt = this._listView.getSelectionModel().getSelection()[0];
-		
-		var result = Ametys.data.ServerComm.send("core", "administrator/users/impersonate", { login: elt.data.login }, Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+
+		var result = Ametys.data.ServerComm.send({
+			plugin: "core", 
+			url: "administrator/users/impersonate", 
+			parameters: { login: elt.data.login }, 
+			priority: Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, 
+			callback: null, 
+			responseType: null
+		});
 	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_USERS_IMPERSONATE_ERROR"/>", (result == null || Ext.dom.Query.selectValue("*/error", result, "") != "") ? null : result, "Ametys.plugins.core.administration.Users.impersonate"))
 	    {
 	       return;
@@ -414,7 +421,14 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 		var searchField = Ext.getCmp("searchField");
 		var searchValue = searchField.getValue() == '<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCH_CRITERIA"/>' ? '' : searchField.getValue();
 		
-		var result = Ametys.data.ServerComm.send(this.pluginName, "users/search.xml", { criteria : searchValue }, Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+		var result = Ametys.data.ServerComm.send({
+			plugin: this.pluginName, 
+			url: "users/search.xml", 
+			parameters: { criteria : searchValue }, 
+			priority: Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, 
+			callback: null, 
+			responseType: null
+		});
 
 	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCHING_ERROR"/>", result, "Ametys.plugins.core.administration.Users.search"))
 	    {

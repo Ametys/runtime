@@ -504,7 +504,18 @@ Ext.define('Ametys.plugins.core.administration.Plugins', {
 		params.EP = this._EP;
 		params.SEP = this._SEP;
 		
-		Ametys.data.ServerComm.send(this.pluginName, "administrator/plugins/change", params, Ametys.data.ServerComm.PRIORITY_MAJOR, this._changesNowCB, this);
+		Ametys.data.ServerComm.send({
+			plugin: this.pluginName, 
+			url: "administrator/plugins/change", 
+			parameters: params, 
+			priority: Ametys.data.ServerComm.PRIORITY_MAJOR, 
+			callback: {
+				handler: this._changesNowCB,
+				scope: this,
+				arguments: null
+			}
+			responseType: null
+		});
 		
 		this._mask =  new Ext.LoadMask(Ext.getBody());
 		this._mask.show();

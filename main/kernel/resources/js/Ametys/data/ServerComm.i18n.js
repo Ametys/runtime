@@ -42,7 +42,7 @@ Ext.define(
 		/**
 		 * The enumeration for message priority : The message will leave now regardless of the queue and of the suspend.
 		 * The send method will become blocking and will return the response.
-		 * Callback and callback parameters are simply ignored.
+		 * Callback is simply ignored.
 		 * Sample: creating a target message.
 		 * @type {Number}
 		 * @readonly
@@ -144,30 +144,25 @@ Ext.define(
 		
 		/**
 		 * Add a message to the 'to send' list of message. Depending on its priority, it will be send immediatly or later.
-		 * @param {String} pluginOrWorkspace The name of the server plugin or workpace targeted. Can be null to send to current workspace. Prefix by '_' to target a specific workspace.
-		 * @param {String} url The url on the server relative to the plugin
-		 * @param {Object} parameters The parameters to send to the server (Map<String, String>)
-		 * @param {Number} priority The priority of the message. Use ServerComm.PRIORITY_* constants.
-		 * @param {Function} callback The function to call when the message will come back. 
-		 * @param {Object} callback.response Will be the xml parent node of the response. This node can be null or empty on fatal error. An attribute 'code' is available on this node with the http code. This reponse has an extra method 'getText' that get the text from a node in parameter of the response.
-		 * @param {Object[]} callback.callbackarguments Is the 'callbackarguments' array
-		 * @param {Object} callbackscope The scope of the function call. Optionnal.
-		 * @param {String[]} callbackarguments An array of string that will be given as arguments of the callback. Optionnal
-		 * @param {String} responseType Can be "xml" (default) to have a xml response, "text" to have a single text node response or "xml2text" to have a single text node response where xml prologue as text is removed
+		 * @param {Object} message The config object for the message to send.
+		 * @param {String} message.plugin The name of the server plugin targeted. Can be null. Do not use with workspace.
+		 * @param {String} message.workspace The name of the server workpace targeted. Can be null if plugin is specified or to send to current workspace.
+		 * @param {String} message.url The url on the server relative to the plugin
+		 * @param {Object} message.parameters The parameters to send to the server (Map<String, String>)
+		 * @param {Number} message.priority The priority of the message. Use ServerComm.PRIORITY_* constants.
+		 * @param {Object} message.callback When using non synchrnous messages, a callback configuration is requires 
+		 * @param {Function} message.callback.handler The function to call when the message will come back. 
+		 * @param {Object} message.callback.handler.response Will be the xml parent node of the response. This node can be null or empty on fatal error. An attribute 'code' is available on this node with the http code. This reponse has an extra method 'getText' that get the text from a node in parameter of the response.
+		 * @param {Object[]} message.callback.handler.callbackarguments Is the 'callback.arguments' array
+		 * @param {Object} message.callback.scope The scope of the function call. Optionnal.
+		 * @param {String[]} message.callback.arguments An array of string that will be given as arguments of the callback. Optionnal
+		 * @param {String} message.responseType Can be "xml" (default) to have a xml response, "text" to have a single text node response or "xml2text" to have a single text node response where xml prologue as text is removed
 		 * @return {Object} The XHR object containing the response data for a synchronous priority message or null for other priorities.
 		 */
-		send: function(pluginOrWorkspace, url, parameters, priority, callback, callbackscope, callbackarguments, responseType)
+		send: function(message)
 		{
-			var message = {
-				pluginOrWorkspace: pluginOrWorkspace,
-				url: url,
-				parameters: parameters,
-				priority: priority,
-				callback: callback,
-				callbackscope: callbackscope,
-				callbackarguments: callbackarguments,
-				responseType: responseType == null ? "xml" : responseType,
-						
+			Ext.applyIf(message, {
+				pluginOrWorkspace: message.plugin ? message.plugin : (message.workspace ? '_' + message.workspace : null),
 				toRequest: function() {
 					var m = {};
 					
@@ -178,7 +173,8 @@ Ext.define(
 					
 					return m;
 				}
-			};
+			});
+			message.responseType = message.responseType || "xml";
 			
 			if (message.priority == Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS)
 			{
@@ -409,29 +405,7 @@ Ext.define(
 
 			if (silently !== false)
 			{
-				// for each message call the handler
-				for (var i = 0; i < options.messages.length; i++)
-				{
-						var message = options.messages[i];
-			
-						try
-						{
-							message.getCallback().apply(message.getCallbackScope(), [null, message.getCallbackArguments()]);
-						}
-						catch (e)
-						{
-							function throwException(e) 
-							{ 
-								throw e; 
-							}
-							throwException.defer(1, this, [e]);
-			
-							Ametys.log.ErrorDialog.display("<i18n:text i18n:key='KERNEL_SERVERCOMM_ERROR_TITLE'/>",
-									"<i18n:text i18n:key='KERNEL_SERVERCOMM_ERROR_DESC'/>",
-			                        e + '',
-			                        "Ametys.data.ServerComm");
-						}
-				}
+				this._dispatch({}, options)
 			}
 		},
 		
@@ -511,10 +485,10 @@ Ext.define(
 			{
 					var message = options.messages[i];
 
-						var node = Ext.dom.Query.selectNode("/responses/response[@id='" + i + "']", response.responseXML);
+					var node = Ext.dom.Query.selectNode("/responses/response[@id='" + i + "']", response.responseXML);
 					try
 					{
-							message.callback.apply(message.callbackscope, [node, message.callbackarguments]);
+							message.callback.handler.apply(message.callback.scope, [node, message.callback.arguments]);
 					}
 					catch (e)
 					{

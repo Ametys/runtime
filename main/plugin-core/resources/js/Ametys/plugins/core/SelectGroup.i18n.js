@@ -183,7 +183,14 @@ Ext.define('Ametys.plugins.core.SelectGroup', {
 		// Get the group list from the UsersManager.
 		var params = { criteria: criteria, count: 100, offset: 0, groupsManagerRole: this.groupsManagerRole };
 		
-		var result = Ametys.data.ServerComm.send(this.pluginName, "groups/search.xml", params, Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
+		var result = Ametys.data.ServerComm.send({
+			plugin: this.pluginName, 
+			url: "groups/search.xml", 
+			parameters: params, 
+			priority: Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, 
+			callback: null, 
+			responseType: null
+		});
 	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_ERROR_LISTING"/>", result, "Ametys.plugins.core.SelectGroup.load"))
 	    {
 	       return;
