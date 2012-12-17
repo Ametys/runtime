@@ -1,3 +1,5 @@
+Convertir les .i18n.js en virant les &amp; => &, &gt; => > , &lt; => <
+
 Remplacer HTMLContainer par new Ext.Component({ html: 'test' }), (évetnuellement autoscroll à false, mais pas sur)
 
 Pour les fields, utiliser les normaux avec "ametysDescription" pour l'aide, + cls: 'ametys' + mettre le labelSerator à vide
