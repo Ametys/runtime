@@ -513,7 +513,7 @@ Ext.define('Ametys.plugins.core.administration.Plugins', {
 				handler: this._changesNowCB,
 				scope: this,
 				arguments: null
-			}
+			},
 			responseType: null
 		});
 		
