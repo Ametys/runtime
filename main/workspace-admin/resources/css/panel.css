@@ -67,6 +67,26 @@
 	height: 7px;
 }
 
+.action-panel-x-tip .x-tip-tc, 
+.action-panel-x-tip .x-tip-tl, 
+.action-panel-x-tip .x-tip-tr, 
+.action-panel-x-tip .x-tip-bc, 
+.action-panel-x-tip .x-tip-bl, 
+.action-panel-x-tip .x-tip-br, 
+.action-panel-x-tip .x-tip-ml, 
+.action-panel-x-tip .x-tip-mr 
+{
+    background-image: url("../img/tip-sprite-pink.gif") !important;
+}
+
+.action-tooltip {
+	padding: 5px;
+}
+.action-tooltip .action-title {
+	font-weight: bold;
+	margin-bottom: 3px;
+}
+
 .text-panel {
 	margin-bottom: 15px;
 	width: 237px;

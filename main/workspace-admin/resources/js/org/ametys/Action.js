@@ -150,4 +150,12 @@ org.ametys.Action.prototype.onRender = function(ct, position)
 	this.el.on('click', this._onClick, this);
 	this.el.dom.innerHTML = this.html;
 	this.el.hover(this._overFn, this._outFn, this);
+	
+	new Ext.ToolTip({
+		cls: 'action-panel-x-tip',
+		target: this.el,
+		html: this.tooltip,
+		width: 200,
+		dismissDelay: 0
+	});
 }

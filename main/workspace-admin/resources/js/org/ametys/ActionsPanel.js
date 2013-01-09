@@ -40,10 +40,8 @@ Ext.extend(org.ametys.ActionsPanel, Ext.Panel,
 	cmargins: '5 0 0 0',
 	awtCls : 'actions-panel',
 	cls: 'actions-panel',
-	actions : [],
 	elements: 'body,footer'
 });
-
 
 /**
  * Adds an action (see <code>org.ametys.Action</code> to this panel.  
@@ -51,7 +49,7 @@ Ext.extend(org.ametys.ActionsPanel, Ext.Panel,
  * @param {String} icon The absolute url of the icon. Can be null
  * @param {Function} act The function to be called on click event 
  */
-org.ametys.ActionsPanel.prototype.addAction = function (text, icon, act) 
+org.ametys.ActionsPanel.prototype.addAction = function (text, icon, act, desc) 
 { 
 	var span = document.createElement("span");
 	if (icon)
@@ -67,17 +65,28 @@ org.ametys.ActionsPanel.prototype.addAction = function (text, icon, act)
     link.href = "javascript: void(0)";
     link.className = "link"
     span.appendChild (link);
+    
+    this._toolTipTpl = new Ext.XTemplate(
+			'<tpl for=".">',
+		        '<div class="action-tooltip">',
+		        '<div class="action-title">{text}</div>',
+		        '<div class="action-desc">{desc}</div>',
+		        '</div>',
+		    '</tpl>'
+	);
+    
+    var tooltip = this._toolTipTpl.apply({text: text, desc: desc, icon: icon});
 
     var action = new org.ametys.Action ({ 
 		border: false,
 		html : span.innerHTML,
+		tooltip: tooltip,
 		listeners: {"click" : act},
 		icon : icon,
 		iconOver : icon.substring(0, icon.indexOf('.')) +  '-over.png'
 	});
     
 	this.add(action);
-	this.actions.push(action);
 }
 /**
  * Hide the action to the position argument
@@ -85,7 +94,7 @@ org.ametys.ActionsPanel.prototype.addAction = function (text, icon, act)
  */
 org.ametys.ActionsPanel.prototype.hideElt = function (position) 
 { 
-	var act = this.actions[position];
+	var act = this.items.get(position);
 	if(act != null)
 	{
 		act.setVisible(false);
@@ -98,16 +107,17 @@ org.ametys.ActionsPanel.prototype.hideElt = function (position)
  */
 org.ametys.ActionsPanel.prototype.showElt = function (position) 
 { 
-	var act = this.actions[position];
+	var act = this.items.get(position);
 	if(act != null)
 	{
 		act.setVisible(true);
 	}
 }
+
 org.ametys.ActionsPanel.prototype.onRender = function(ct, position)
 {
 	org.ametys.ActionsPanel.superclass.onRender.call(this, ct, position);
-	
+
 	this.header.addClass(this.awtCls + '-header');
 	this.body.addClass(this.awtCls + '-body');
 	
