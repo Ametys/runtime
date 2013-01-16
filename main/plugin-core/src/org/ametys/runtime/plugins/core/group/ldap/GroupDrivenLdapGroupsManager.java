@@ -61,7 +61,7 @@ public class GroupDrivenLdapGroupsManager extends AbstractLDAPGroupsManager impl
         _usersLoginAttribute = _getConfigParameter(configuration, "Login");
         _groupsMemberAttribute = _getConfigParameter(configuration, "Member");
         
-        _loginExtractionPattern = Pattern.compile("^" + _usersLoginAttribute + "=([^,]+)(,.*)?");
+        _loginExtractionPattern = Pattern.compile("^(?:" + _usersLoginAttribute + "=)?([^,]+)(,.*)?");
     }
     
     public Group getGroup(String groupID)
