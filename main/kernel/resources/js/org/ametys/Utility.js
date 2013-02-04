@@ -106,3 +106,21 @@ Utils.loadScript = function (url, onload)
 	}
 	head.appendChild(link);
 }
+
+Utils.sortAsNonAccentedUCString = function (s)
+{
+	s = s.toLowerCase();
+	
+    s = s.replace(new RegExp(/[àáâãäå]/g),"a");
+    s = s.replace(new RegExp(/æ/g),"ae");
+    s = s.replace(new RegExp(/ç/g),"c");
+    s = s.replace(new RegExp(/[èéêë]/g),"e");
+    s = s.replace(new RegExp(/[ìíîï]/g),"i");
+    s = s.replace(new RegExp(/ñ/g),"n");                
+    s = s.replace(new RegExp(/[òóôõö]/g),"o");
+    s = s.replace(new RegExp(/œ/g),"oe");
+    s = s.replace(new RegExp(/[ùúûü]/g),"u");
+    s = s.replace(new RegExp(/[ýÿ]/g),"y");
+    
+    return Ext.data.SortTypes.asUCString(s);
+}
