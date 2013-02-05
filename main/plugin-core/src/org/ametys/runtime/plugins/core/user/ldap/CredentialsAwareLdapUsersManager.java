@@ -111,7 +111,7 @@ public class CredentialsAwareLdapUsersManager extends LdapUsersManager implement
     {
         String userDN = null;
         DirContext context = null;
-        NamingEnumeration results = null;
+        NamingEnumeration<SearchResult> results = null;
 
         try
         {
@@ -132,9 +132,9 @@ public class CredentialsAwareLdapUsersManager extends LdapUsersManager implement
             results = context.search(_usersRelativeDN, filter, params, constraints);
 
             // Remplir la liste des utilisateurs
-            if (results.hasMoreElements())
+            if (results.hasMore())
             {
-                SearchResult result = (SearchResult) results.nextElement();
+                SearchResult result = results.next();
 
                 // Récupére le DN
                 userDN = result.getName();
@@ -147,19 +147,18 @@ public class CredentialsAwareLdapUsersManager extends LdapUsersManager implement
                     topDN.addAll(parser.parse(userDN));
                     userDN = topDN.toString();
                 }
-            }
-            
-            if (results.hasMoreElements())
-            {
-                // Annuler le résultat car plusieurs correspondances pour un
-                // login
-                userDN = null;
-                getLogger().error("Multiple matches for attribute \"" + _usersLoginAttribute + "\" and value = \"" + login + "\"");
+                
+                if (results.hasMoreElements())
+                {
+                    // Annuler le résultat car plusieurs correspondances pour un login.
+                    userDN = null;
+                    getLogger().error("Multiple matches for attribute \"" + _usersLoginAttribute + "\" and value = \"" + login + "\"");
+                }
             }
         }
         catch (NamingException e)
         {
-            getLogger().error("Error communication with ldap server", e);
+            getLogger().error("Error communicating with ldap server retrieving user with login '" + login + "'", e);
         }
 
         finally
