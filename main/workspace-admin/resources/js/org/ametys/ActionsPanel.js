@@ -40,6 +40,7 @@ Ext.extend(org.ametys.ActionsPanel, Ext.Panel,
 	cmargins: '5 0 0 0',
 	awtCls : 'actions-panel',
 	cls: 'actions-panel',
+	actions : [],
 	elements: 'body,footer'
 });
 
@@ -87,6 +88,7 @@ org.ametys.ActionsPanel.prototype.addAction = function (text, icon, act, desc)
 	});
     
 	this.add(action);
+	this.actions.push(action);
 }
 /**
  * Hide the action to the position argument
