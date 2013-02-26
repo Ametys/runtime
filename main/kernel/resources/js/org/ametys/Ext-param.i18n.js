@@ -33,12 +33,12 @@ Ext.BLANK_IMAGE_URL = context.contextPath + "/plugins/extjs/resources/images/def
 Utils.loadScript(context.contextPath + "/plugins/extjs/resources/js/locale/ext-lang-<i18n:text i18n:key="KERNEL_LANGUAGE_CODE" i18n:catalogue="kernel"/>.js");
 
 
-// FIXING CMS-4193, RUNTIME-825 but keep in mind CMS-3096 => maybe this can be removed
+// FIXING CMS-4193, RUNTIME-825, CMS-4242 but keep in mind CMS-3096 => maybe this can be removed
 if (Ext.isChrome)
 {
-	Ext.form.TriggerField.prototype.setSize = function()
+	Ext.form.TriggerField.prototype.setSize = function(w, h)
 	{
-		Ext.form.TriggerField.superclass.setSize.call(this, arguments);
+		Ext.form.TriggerField.superclass.setSize.call(this, w, h);
 		this.trigger.dom.style.position = 'static';
 		var me = this;
 		window.setTimeout(function() { me.trigger.dom.style.position = ''; }, 1);
