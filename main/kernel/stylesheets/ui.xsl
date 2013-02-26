@@ -281,7 +281,7 @@
 
 		<!-- LOAD JS -->
 		<xsl:choose>
-			<xsl:when test="$use-css-component != 'true'">
+			<xsl:when test="$use-js-component != 'true'">
 					<xsl:for-each select="$scripts-to-load/script">
 						<script src="{$contextPath}{.}"/>
 						<xsl:copy-of select="$load-cb"/>
