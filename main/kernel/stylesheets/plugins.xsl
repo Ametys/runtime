@@ -50,7 +50,7 @@
 				</xsl:when>
 				<xsl:otherwise>
 						<xsl:if test="$reuse-js-component = 'false'">
-							<xsl:value-of select="jscomponent:resetJSFilesList()"/>
+							<xsl:value-of select="jscomponent:resetJSFilesList($load-cb)"/>
 						</xsl:if>
 				        <xsl:for-each select="$scripts">
 				            <xsl:variable name="position" select="position()"/>

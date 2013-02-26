@@ -289,7 +289,7 @@
 			</xsl:when>
 			<xsl:otherwise>
 					<xsl:if test="$reuse-js-component = 'false'">
-						<xsl:value-of select="jscomponent:resetJSFilesList()"/>
+						<xsl:value-of select="jscomponent:resetJSFilesList($load-cb)"/>
 					</xsl:if>
 					
 					<xsl:for-each select="$scripts-to-load/script">
@@ -298,7 +298,6 @@
 
 					<xsl:if test="$reuse-js-component = 'false'">
 				        <script type="text/javascript" src="{$contextPath}{$workspaceURI}/plugins/core/jsfilelist/{jscomponent:getHashCode()}-{$debug-mode}.js"></script>
-						<xsl:copy-of select="$load-cb"/>
 					</xsl:if>
 			</xsl:otherwise>
 		</xsl:choose>

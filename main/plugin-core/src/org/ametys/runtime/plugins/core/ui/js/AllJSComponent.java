@@ -26,6 +26,7 @@ import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.cocoon.components.ContextHelper;
 import org.apache.cocoon.environment.Session;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * This component handles the lists of JS files for each request
@@ -36,6 +37,7 @@ public class AllJSComponent implements ThreadSafe, Contextualizable, Component
     public static final String ROLE = AllJSComponent.class.getName();
     
     private static final String __CONTEXT_KEY = AllJSComponent.class.getName() + "$contextPath";
+    private static final String __CALLBACK_KEY = AllJSComponent.class.getName() + "$callback";
     
     private static Context _context;
     
@@ -47,13 +49,37 @@ public class AllJSComponent implements ThreadSafe, Contextualizable, Component
 
     /**
      * Reset the js files list
+     * @param callback The callback code
      */
-    public static void resetJSFilesList()
+    public static void resetJSFilesList(String callback)
     {
         Session session = ContextHelper.getRequest(_context).getSession(true);
         
         session.setAttribute(AllJSComponent.class.getName(), new ArrayList<String>());
         session.setAttribute(__CONTEXT_KEY, null);
+        session.setAttribute(__CALLBACK_KEY, callback);
+    }
+    
+    /**
+     * Get the callback code
+     * @return The callbackcode
+     */
+    public String getCallback()
+    {
+        String code = (String) ContextHelper.getRequest(_context).getSession(true).getAttribute(__CALLBACK_KEY);
+        if (StringUtils.isNotBlank(code))
+        {
+            if (!code.endsWith(";"))
+            {
+                code += ";";
+            }
+            code += "\n";
+        }
+        else
+        {
+            code = "";
+        }
+        return code; 
     }
     
     /**
@@ -82,8 +108,17 @@ public class AllJSComponent implements ThreadSafe, Contextualizable, Component
     public static void addJSFile(String filename)
     {
         List<String> jsFilesList = (List<String>) ContextHelper.getRequest(_context).getSession(true).getAttribute(AllJSComponent.class.getName());
-        
         jsFilesList.add(filename);
+    }
+
+    /**
+     * Get the size of the current list
+     * @return The size
+     */
+    public static int getCount()
+    {
+        List<String> jsFilesList = (List<String>) ContextHelper.getRequest(_context).getSession(true).getAttribute(AllJSComponent.class.getName());
+        return jsFilesList.size();
     }
     
     /**

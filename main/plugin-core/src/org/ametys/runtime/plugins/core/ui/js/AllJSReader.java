@@ -115,6 +115,7 @@ public class AllJSReader extends ServiceableReader implements CacheableProcessin
             for (String jsFile : jsFiles)
             {
                 sb.append(_handleFile(jsFile, contextPath));
+                sb.append(_allJSComponent.getCallback());
             }
         } 
              
