@@ -69,7 +69,9 @@ Open source web application framework based on Apache Cocoon.
 	<dependency org="coobird" name="thumbnailator" rev="0.3.10" conf="*->default"/>
     
     <!-- sigar configuration -->
-    <dependency org="hyperic" name="sigar" rev="1.6.4" conf="compile->default;runtime->runtime;dev-kernel-resources->default"/>
+    <dependency org="hyperic" name="sigar" rev="1.6.4" conf="compile->default;runtime->runtime;dev-kernel-resources->default">
+        <exclude module="sigar-lib" conf="test"/>
+    </dependency>
 	
 	<!-- fop configuration -->
 	<dependency org="apache" name="fop" rev="0.95" conf="compile->default"/>
