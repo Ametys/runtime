@@ -39,8 +39,11 @@ if (Ext.isChrome)
 	Ext.form.TriggerField.prototype.setSize = function(w, h)
 	{
 		Ext.form.TriggerField.superclass.setSize.call(this, w, h);
-		this.trigger.dom.style.position = 'static';
-		var me = this;
-		window.setTimeout(function() { me.trigger.dom.style.position = ''; }, 1);
+		if (this.rendered &amp;&amp; this.trigger &amp;&amp; this.trigger.dom)
+		{
+			this.trigger.dom.style.position = 'static';
+			var me = this;
+			window.setTimeout(function() { me.trigger.dom.style.position = ''; }, 1);
+		}
 	}
 }
