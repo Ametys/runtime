@@ -35,8 +35,7 @@ org.ametys.administration.JVMStatus.createPanel = function ()
 		id:'system-card-panel',
 		baseCls: 'transparent-panel',
 		border: false,
-		autoScroll : true,
-		height: 'auto',
+		autoScroll: false,
 		
 		items: [org.ametys.administration.JVMStatus._drawStatusPanel (),
 		        org.ametys.administration.JVMStatus._drawPropertiesPanel (),
@@ -59,8 +58,7 @@ org.ametys.administration.JVMStatus.createPanel = function ()
 	return new Ext.Panel({
 		region: 'center',
 		
-		autoScroll: true,
-		
+		autoScroll: false,
 		baseCls: 'transparent-panel',
 		border: false,
 		layout: 'border',
@@ -88,9 +86,6 @@ org.ametys.administration.JVMStatus._drawStatusPanel = function ()
 org.ametys.administration.JVMStatus._drawPropertiesPanel = function ()
 {
 	org.ametys.administration.JVMStatus._propertyPanel = new org.ametys.ListView({
-		region: 'center',
-		
-		width: 625,
 		autoScroll: true,
 		
 		baseCls: 'properties-view',
@@ -106,8 +101,8 @@ org.ametys.administration.JVMStatus._drawPropertiesPanel = function ()
 		
 		hideHeaders : true,
 		columns: [
-			        {width : 250, menuDisabled : true, sortable: true, dataIndex: 'name'},
-			        {width : 360, menuDisabled : true, sortable: true, dataIndex: 'value'}
+			        {width : 235, menuDisabled : true, sortable: true, dataIndex: 'name'},
+			        {width : 355, menuDisabled : true, sortable: true, dataIndex: 'value'}
 	    ]
 	});
 	
