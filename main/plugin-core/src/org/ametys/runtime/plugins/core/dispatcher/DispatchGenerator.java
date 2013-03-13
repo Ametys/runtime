@@ -298,13 +298,16 @@ public class DispatchGenerator extends ServiceableGenerator
                     List<Object> valueAsList = (List<Object>) value;
                     for (Object v : valueAsList)
                     {
-                        url.append(key);
-                        url.append("=");
-                        url.append(String.valueOf(v).replaceAll("%", "%25").replaceAll("=", "%3D").replaceAll("&", "%26").replaceAll("\\+", "%2B"));
-                        url.append("&");
+                        if (v != null)
+                        {
+                            url.append(key);
+                            url.append("=");
+                            url.append(String.valueOf(v).replaceAll("%", "%25").replaceAll("=", "%3D").replaceAll("&", "%26").replaceAll("\\+", "%2B"));
+                            url.append("&");
+                        }
                     }
                 }
-                else 
+                else if (value != null)
                 {
                     url.append(key);
                     url.append("=");
