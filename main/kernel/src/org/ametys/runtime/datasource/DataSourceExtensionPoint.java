@@ -102,7 +102,7 @@ public class DataSourceExtensionPoint extends AbstractExtensionPoint<DataSource>
     
     private String _getValidationQuery(String driver)
     {
-        if ("oracle.jdbc.driver.OracleDriver".equals(driver))
+        if ("oracle.jdbc.driver.OracleDriver".equals(driver) || "oracle.jdbc.OracleDriver".equals(driver))
         {
             return "SELECT 1 FROM DUAL";
         }
