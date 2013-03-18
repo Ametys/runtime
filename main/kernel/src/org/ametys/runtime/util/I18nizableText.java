@@ -36,7 +36,7 @@ public final class I18nizableText
     private String _key;
     private String _catalogue;
     private List<String> _parameters;
-    private Map<String, String> _parameterMap;
+    private Map<String, I18nizableText> _parameterMap;
 
     /**
      * Create a simple international text
@@ -59,7 +59,7 @@ public final class I18nizableText
     }
     
     /**
-     * Create an i18nized text
+     * Create an i18nized text with ordered parameters.
      * @param catalogue the catalogue where the key is defined. Can be null. Can be overloaded by the catalogue in the key.
      * @param key the key of the text. Cannot be null. May include the catalogue using the character ':' as separator. CATALOG:KEY.
      * @param parameters the parameters of the key if any. Can be null.
@@ -78,12 +78,12 @@ public final class I18nizableText
     }
     
     /**
-     * Create an i18nized text
+     * Create an i18nized text with named parameters.
      * @param catalogue the catalogue where the key is defined. Can be null. Can be overloaded by the catalogue in the key.
      * @param key the key of the text. Cannot be null. May include the catalogue using the character ':' as separator. CATALOG:KEY.
-     * @param parameters the parameters of the key if any. Can be null.
+     * @param parameters the named parameters of the message, as a Map of name -&gt; value. Value can itself be an i18n key but must not have parameters.
      */
-    public I18nizableText(String catalogue, String key, Map<String, String> parameters)
+    public I18nizableText(String catalogue, String key, Map<String, I18nizableText> parameters)
     {
         _i18n = true;
         
@@ -157,7 +157,7 @@ public final class I18nizableText
      * Get the parameters of the key of the i18nized text.
      * @return The list of parameters' values or null if there is no parameters
      */
-    public Map<String, String> getParameterMap()
+    public Map<String, I18nizableText> getParameterMap()
     {
         if (_i18n)
         {
@@ -190,13 +190,12 @@ public final class I18nizableText
      * @param handler The sax content handler
      * @throws SAXException if an error occurs
      */
-    @SuppressWarnings("null")
     public void toSAX(ContentHandler handler) throws SAXException
     {
         if (isI18n())
         {
             List<String> parameters = getParameters();
-            Map<String, String> parameterMap = getParameterMap();
+            Map<String, I18nizableText> parameterMap = getParameterMap();
             boolean hasParameter = parameters != null && parameters.size() > 0 || parameterMap != null && !parameterMap.isEmpty();
             
             handler.startPrefixMapping("i18n", I18nTransformer.I18N_NAMESPACE_URI);
@@ -236,11 +235,11 @@ public final class I18nizableText
                     // Named parameters version.
                     for (String parameterName : parameterMap.keySet())
                     {
-                        String value = parameterMap.get(parameterName);
+                        I18nizableText value = parameterMap.get(parameterName);
                         AttributesImpl attrs = new AttributesImpl();
                         attrs.addCDATAAttribute("name", parameterName);
                         handler.startElement(I18nTransformer.I18N_NAMESPACE_URI, "param", "i18n:param", attrs);
-                        handler.characters(value.toCharArray(), 0, value.length());
+                        value.toSAX(handler);
                         handler.endElement(I18nTransformer.I18N_NAMESPACE_URI, "param", "i18n:param");
                     }
                 }
