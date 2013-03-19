@@ -73,4 +73,4 @@ Ext.dd.DragDropMgr.stopDrag = Ext.createSequence(function() {
 // Fixing memory leak CMS-4341          
 Ext.tree.TreeDropZone.prototype.onNodeDrop = Ext.createSequence(Ext.tree.TreeDropZone.prototype.onNodeDrop, function() {
    this.dragOverData = {};
-});   
+});    
