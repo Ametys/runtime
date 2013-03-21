@@ -30,6 +30,7 @@
 <runtime.upload.max-size>10000000</runtime.upload.max-size>
 <runtime.upload.dir>WEB-INF/data/uploads</runtime.upload.dir>
 <runtime.debug.ui>false</runtime.debug.ui>
+<runtime.cache.xslt>false</runtime.cache.xslt>
 
 <runtime.datasource.core.ldap.baseUrl>ldap://ldap-dev.anyware.corp</runtime.datasource.core.ldap.baseUrl>
 <runtime.datasource.core.ldap.useSSL>false</runtime.datasource.core.ldap.useSSL>
