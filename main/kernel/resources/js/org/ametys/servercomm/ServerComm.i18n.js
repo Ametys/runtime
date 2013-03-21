@@ -308,76 +308,78 @@ org.ametys.servercomm.ServerComm.xmlTextContent = Ext.isIE ? 'text' : 'textConte
  */
 org.ametys.servercomm.ServerComm.prototype._sendMessages = function(m)
 {
-	var timeout = org.ametys.servercomm.TimeoutDialog.TIMEOUT;
-	
-	if (m == null)
-	{
-		clearTimeout(this._sendTask);
-		this._sendTask = null;
-		this._nextTimer = null;
-		
-		if (this._suspended &gt; 0)
-		{
-			// communication is suspended - messages will be sent as soon as possible
-			return;
-		}
-		
-		if (this._messages.length == 0)
-		{
-			return;
-		}
-	
-		// Effectively send messages
-		var parameters = {};
-		var count = 0;
-		for (var i = 0; i &lt; this._messages.length; i++)
-		{
-			var message = this._messages[i];
-			parameters[count++] = message.toRequest();
-		}
-	}
-	else
-	{
-		timeout *= 600;
-		var parameters = {0: m.toRequest()};
-	}
-	
-	var sendOptions = {};
-	var index = org.ametys.servercomm.ServerComm._runningRequestsIndex ++;
-	org.ametys.servercomm.ServerComm._runningRequests[index] = sendOptions;
-	
-	sendOptions.url = org.ametys.servercomm.ServerComm.SERVERCOMM_URL;
-	sendOptions.success = this._onRequestComplete;
-	sendOptions.failure = this._onRequestFailure;
-	sendOptions.scope = this;
-	sendOptions.params = "content=" + encodeURIComponent(Ext.util.JSON.encode(parameters)) 
-	if (context &amp;&amp; context.parameters)
-	{
-		sendOptions.params += "&amp;context.parameters=" + encodeURIComponent(Ext.util.JSON.encode(context.parameters));
-	}
-	sendOptions.messages = m != null ? [m] : this._messages;
-	sendOptions._timeoutIndex = index;
-	sendOptions._timeout = window.setTimeout("org.ametys.servercomm.ServerComm._onRequestTimeout ('" + index + "', " + timeout + ");", timeout);
+    var timeout = org.ametys.servercomm.TimeoutDialog.TIMEOUT;
+    
+    if (m == null)
+    {
+        clearTimeout(this._sendTask);
+        this._sendTask = null;
+        this._nextTimer = null;
+        
+        if (this._suspended &gt; 0)
+        {
+            // communication is suspended - messages will be sent as soon as possible
+            return;
+        }
+        
+        if (this._messages.length == 0)
+        {
+            return;
+        }
+    
+        // Effectively send messages
+        var parameters = {};
+        var count = 0;
+        for (var i = 0; i &lt; this._messages.length; i++)
+        {
+            var message = this._messages[i];
+            parameters[count++] = message.toRequest();
+        }
+    }
+    else
+    {
+        timeout *= 600;
+        var parameters = {0: m.toRequest()};
+    }
+    
+    var sendOptions = {};
+    var index = org.ametys.servercomm.ServerComm._runningRequestsIndex ++;
+    org.ametys.servercomm.ServerComm._runningRequests[index] = sendOptions;
+    
+    sendOptions.url = org.ametys.servercomm.ServerComm.SERVERCOMM_URL;
+    sendOptions.success = this._onRequestComplete;
+    sendOptions.failure = this._onRequestFailure;
+    sendOptions.scope = this;
+    sendOptions.params = "content=" + encodeURIComponent(Ext.util.JSON.encode(parameters)) 
+    if (context &amp;&amp; context.parameters)
+    {
+        sendOptions.params += "&amp;context.parameters=" + encodeURIComponent(Ext.util.JSON.encode(context.parameters));
+    }
+    
+    sendOptions._timeoutIndex = index;
+    sendOptions._timeout = window.setTimeout("org.ametys.servercomm.ServerComm._onRequestTimeout ('" + index + "', " + timeout + ");", timeout);
 
-	if (m == null)
-	{
-		this._messages = [];
-	}
 
-	sendOptions._transactionId = this._connection.request(sendOptions);
+    sendOptions._transactionId = this._connection.request(sendOptions);
+    sendOptions.messages = m != null ? [m] : this._messages;
+    
+    if (m == null)
+    {
+        this._messages = [];
+    }
 
-	if (typeof this._observer.onRequestDeparture == "function")
-	{
-		try
-		{
-			this._observer.onRequestDeparture(sendOptions);
-		}
-		catch (e)
-		{
-			alert("Exception in org.ametys.servercomm.ServerComm._observer.onRequestDeparture: " + e);
-		}
-	}
-}
+    if (typeof this._observer.onRequestDeparture == "function")
+    {
+        try
+        {
+            this._observer.onRequestDeparture(sendOptions);
+        }
+        catch (e)
+        {
+            alert("Exception in org.ametys.servercomm.ServerComm._observer.onRequestDeparture: " + e);
+        }
+    }
+}     
 
 /**
  * @private
