@@ -246,7 +246,7 @@
 	<message key="PLUGINS_CORE_MAIL_CONFIG_FROM_ADDRESS">Email de l'expéditeur</message>
 	<message key="PLUGINS_CORE_MAIL_CONFIG_FROM_ADDRESS_DESCRIPTION">Adresse e-mail utilisée par défaut comme expéditeur des mails.</message>
 	<message key="PLUGINS_CORE_MAIL_CONFIG_SYSADMINTO_ADDRESS">Email de l'administrateur système</message>
-	<message key="PLUGINS_CORE_MAIL_CONFIG_SYSADMINTO_ADDRESS_DESCRIPTION">>Adresse email de l'adminitrateur système afin de recevoir des alertes par mail.</message>
+	<message key="PLUGINS_CORE_MAIL_CONFIG_SYSADMINTO_ADDRESS_DESCRIPTION">Adresse email de l'adminitrateur système afin de recevoir des alertes par mail.</message>
 	
     <!-- WIDGETS -->
     <message key="PLUGINS_CORE_WIDGET_PASSWORD_KEEPOLD">Conserver l'ancien mot de passe</message>
