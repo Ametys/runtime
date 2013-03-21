@@ -296,6 +296,8 @@
     <message key="PLUGINS_CORE_DEBUG_GROUP">Mode développement</message>
     <message key="PLUGINS_CORE_DEBUG_UI_LABEL">Interfaces graphiques</message>
     <message key="PLUGINS_CORE_DEBUG_UI_DESCRIPTION">Mettre les interfaces graphiques en mode développeur (CSS/JS non minifiés...)</message>
+    <message key="PLUGINS_CORE_CACHE_XSLT_LABEL">Cache des XSLT</message>
+    <message key="PLUGINS_CORE_CACHE_XSLT_DESCRIPTION">Désactiver le cache des transformations XSLT</message>
     
     <message key="PLUGINS_CORE_UPLOAD_CONFIG_GROUP">Gestion des uploads</message>
     <message key="PLUGINS_CORE_UPLOAD_CONFIG_MAXSIZE_LABEL">Taille maximale</message>
