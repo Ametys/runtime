@@ -296,7 +296,7 @@
     <message key="PLUGINS_CORE_DEBUG_UI_LABEL">User interfaces</message>
     <message key="PLUGINS_CORE_DEBUG_UI_DESCRIPTION">Set user interface in developer mode (CSS/JS not minified...)</message>
     <message key="PLUGINS_CORE_CACHE_XSLT_LABEL">XSLT transformations</message>
-    <message key="PLUGINS_CORE_CACHE_XSLT_DESCRIPTION">Check this box to deactivate XSLT stylesheets cache.&lt;br/&gt;It is generally useless to unactivate this cache since the last modification dates of the xslt files are always checked.</message>
+    <message key="PLUGINS_CORE_CACHE_XSLT_DESCRIPTION">Check this box to deactivate XSLT stylesheets cache.&lt;br/&gt;It is generally useless to disable this cache since the last modification dates of the xslt files are always checked.</message>
 
     <message key="PLUGINS_CORE_UPLOAD_CONFIG_GROUP">Uploads management</message>
     <message key="PLUGINS_CORE_UPLOAD_CONFIG_MAXSIZE_LABEL">Maximum size</message>
