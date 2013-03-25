@@ -173,6 +173,20 @@ public abstract class AbstractAmetysElement<T> extends AmetysNode implements Ele
         return hasAttribute(localName);
     }
     
+    @Override
+    public String getTextContent() throws DOMException
+    {
+        StringBuilder sb = new StringBuilder();
+        
+        NodeList children = getChildNodes();
+        for (int i = 0; i < children.getLength(); i++)
+        {
+            sb.append(children.item(i).getTextContent());
+        }
+        
+        return sb.toString();
+    }
+    
     /**
      * Returns a Map&lt;name, value&gt; corresponding to the attributes.<br>
      * @return the name/value pairs
@@ -257,11 +271,5 @@ public abstract class AbstractAmetysElement<T> extends AmetysNode implements Ele
     public void setIdAttributeNode(Attr idAttr, boolean isId) throws DOMException
     {
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "setIdAttributeNode");
-    }
-
-    @Override
-    public String getTextContent() throws DOMException
-    {
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "getTextContent");
     }
 }
