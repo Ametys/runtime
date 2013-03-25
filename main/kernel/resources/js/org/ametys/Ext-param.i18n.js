@@ -61,16 +61,3 @@ Ext.tree.AsyncTreeNode.prototype.reload = function(callback, scope) {
  }
  this.expand(false, false, callback, scope);
 }
-
-// Fixing memoy leak CMS-4340
-Ext.dd.DragDropMgr.stopDrag = Ext.createSequence(function() {
-    if (this.dragCurrent)
-    {
-        this.dragCurrent.dragData = {};
-    }
-}, Ext.dd.DragDropMgr.stopDrag, Ext.dd.DragDropMgr);
-
-// Fixing memory leak CMS-4341          
-Ext.tree.TreeDropZone.prototype.onNodeDrop = Ext.createSequence(Ext.tree.TreeDropZone.prototype.onNodeDrop, function() {
-   this.dragOverData = {};
-});    
