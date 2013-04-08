@@ -291,8 +291,7 @@ org.ametys.servercomm.ServerComm.prototype._shutdown = function(m)
 	org.ametys.msg.ErrorDialog._okMessages();
 	org.ametys.msg.ErrorDialog = function() {};
 	
-	document.body.style.backgroundColor = "#FFFFFF";
-	document.body.style.color = "#000000";
+	document.body.setAttribute('style', "background-image: none !important; background-color: #FFFFFF !important; color: #000000 !important;");
 	document.body.innerHTML = "&lt;h1&gt;" + "<i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_1'/>" + "&lt;/h1&gt; &lt;p&gt;" + "<i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_2'/>" +"&lt;/p&gt;&lt;p&gt;&lt;a href='javascript:location.reload(true);'&gt;" + "<i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_3'/>" + "&lt;/a&gt;&lt;/p&gt;"
 }
 
