@@ -48,12 +48,12 @@ public class HttpRequestSampleManager extends AbstractSampleManager
         try
         {
             sample.setValue("processed", RequestCountListener.getTotalRequestCount() - _lastCount);
+            _lastCount = RequestCountListener.getTotalRequestCount();
         }
         catch (IllegalStateException e)
         {
             // empty : no value means an error
         }
-        _lastCount = RequestCountListener.getTotalRequestCount();
     }
 
     @Override
