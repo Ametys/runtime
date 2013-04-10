@@ -36,7 +36,7 @@ public class HttpSessionSampleManager extends AbstractSampleManager
     @Override
     protected void _configureDatasources(RrdDef rrdDef)
     {
-        _registerDatasources(rrdDef, "count", DsType.COUNTER, 0, Double.NaN);
+        _registerDatasources(rrdDef, "count", DsType.GAUGE, 0, Double.NaN);
     }
 
     @Override
