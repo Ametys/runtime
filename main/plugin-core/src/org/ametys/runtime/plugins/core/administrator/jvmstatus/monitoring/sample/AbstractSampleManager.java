@@ -15,13 +15,9 @@
  */
 package org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.sample;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.util.Date;
-
-import org.ametys.runtime.plugin.component.PluginAware;
-import org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.MonitoringConstants;
-import org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.SampleManager;
-import org.ametys.runtime.util.I18nizableText;
 
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -35,7 +31,13 @@ import org.rrd4j.DsType;
 import org.rrd4j.core.RrdDef;
 import org.rrd4j.core.Sample;
 import org.rrd4j.core.Util;
+import org.rrd4j.graph.RrdGraphConstants;
 import org.rrd4j.graph.RrdGraphDef;
+
+import org.ametys.runtime.plugin.component.PluginAware;
+import org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.MonitoringConstants;
+import org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.SampleManager;
+import org.ametys.runtime.util.I18nizableText;
 
 /**
  * AbstractSampleManager gives you the infrastructure for easily
@@ -216,12 +218,31 @@ public abstract class AbstractSampleManager implements SampleManager, Monitoring
         // Hide rrd4j signature
         graphDef.setShowSignature(false);
         graphDef.setTitle(String.format("%s of the last %s", _getGraphTitle(), period.toString()));
-
+        
+        // Set common graph parameters.
+        _setCommonParameters(graphDef);
+        
         _populateGraphDefinition(graphDef, rrdFilePath);
         
         return graphDef;
     }
-
+    
+    /**
+     * Set common graph definition parameters (graph style, ...)
+     * @param graphDef the prepared graph definition.
+     */
+    protected void _setCommonParameters(RrdGraphDef graphDef)
+    {
+        // Common style.
+        graphDef.setColor(RrdGraphConstants.COLOR_BACK, new Color(255, 255, 255));
+        graphDef.setColor(RrdGraphConstants.COLOR_CANVAS, new Color(255, 255, 255));
+        graphDef.setColor(RrdGraphConstants.COLOR_FRAME, new Color(255, 255, 255));
+        graphDef.setColor(RrdGraphConstants.COLOR_MGRID, new Color(128, 128, 128));
+        graphDef.setColor(RrdGraphConstants.COLOR_GRID, new Color(220, 220, 220));
+        graphDef.setColor(RrdGraphConstants.COLOR_SHADEA, new Color(220, 220, 220));
+        graphDef.setColor(RrdGraphConstants.COLOR_SHADEB, new Color(220, 220, 220));
+    }
+    
     /**
      * Configure the value range to be displayed.<br>
      * Default implementation set min value to <code>0</code>.
