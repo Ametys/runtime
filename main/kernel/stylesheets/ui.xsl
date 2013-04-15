@@ -118,6 +118,7 @@
         <xsl:param name="accept-ff-17.0">false</xsl:param>
         <xsl:param name="accept-ff-18.0">false</xsl:param>
         <xsl:param name="accept-ff-19.0">false</xsl:param>
+        <xsl:param name="accept-ff-20.0">false</xsl:param>
         <xsl:param name="accept-sa-3">false</xsl:param>
         <xsl:param name="accept-sa-4">false</xsl:param>
         <xsl:param name="accept-sa-5.0">false</xsl:param>
@@ -231,7 +232,8 @@
                         <xsl:if test="$accept-ff-17.0 = 'true'">(userAgent.indexOf("firefox/17.0") >= 0) ||</xsl:if>
                         <xsl:if test="$accept-ff-18.0 = 'true'">(userAgent.indexOf("firefox/18.0") >= 0) ||</xsl:if>
                         <xsl:if test="$accept-ff-19.0 = 'true'">(userAgent.indexOf("firefox/19.0") >= 0) ||</xsl:if>
-	                    
+	                    <xsl:if test="$accept-ff-20.0 = 'true'">(userAgent.indexOf("firefox/20.0") >= 0) ||</xsl:if>
+	                     
 	                    <xsl:if test="$accept-sa-3   = 'true'">(userAgent.indexOf("safari/") >= 0 &amp;&amp; userAgent.indexOf("version/3.") >= 0) ||</xsl:if>
 	                    <xsl:if test="$accept-sa-4   = 'true'">(userAgent.indexOf("safari/") >= 0 &amp;&amp; userAgent.indexOf("version/4.") >= 0) ||</xsl:if>
 	                    <xsl:if test="$accept-sa-5.0 = 'true'">(userAgent.indexOf("safari/") >= 0 &amp;&amp; userAgent.indexOf("version/5.0") >= 0) ||</xsl:if>
