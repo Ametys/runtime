@@ -15,6 +15,7 @@
  */
 package org.ametys.runtime.test.util;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import junit.framework.TestCase;
@@ -64,5 +65,42 @@ public class DateConversionTestCase extends AbstractRuntimeTestCase
 
         // Date formatting using current time zone
         assertEquals(ISODateTimeFormat.dateTime().print(new DateTime(dateValue)), ParameterHelper.valueToString(date));
+    }
+    
+    /**
+     * Tests value to string conversion for a recent date
+     * @throws Exception if an error occurs.
+     */
+    public void testRecentDate() throws Exception
+    {
+        String expected = ISODateTimeFormat.dateTime().print(new DateTime(2012, 3, 2, 18, 30, 22, 666));
+        
+        Calendar cal = Calendar.getInstance();
+        cal.clear();
+        cal.set(2012, 2, 2, 18, 30, 22);
+        cal.set(Calendar.MILLISECOND, 666);
+        Date date = cal.getTime();
+        
+        // Date parsing
+        String actual = ParameterHelper.valueToString(date);
+        assertEquals(expected, actual);
+    }
+    
+    /**
+     * Tests value to string conversion for date older than 1900
+     * @throws Exception if an error occurs.
+     */
+    public void testOldDate() throws Exception
+    {
+        String expected = ISODateTimeFormat.dateTime().print(new DateTime(1899, 6, 18, 0, 0, 0, 0));
+        
+        Calendar cal = Calendar.getInstance();
+        cal.clear();
+        cal.set(1899, 5, 18, 0, 0, 0);
+        Date date = cal.getTime();
+        
+        // Date parsing
+        String actual = ParameterHelper.valueToString(date);
+        assertEquals(expected, actual);
     }
 }
