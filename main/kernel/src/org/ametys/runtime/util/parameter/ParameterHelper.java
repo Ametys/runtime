@@ -16,7 +16,9 @@
 package org.ametys.runtime.util.parameter;
 
 import java.io.InputStream;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Map;
 
 import org.apache.avalon.framework.logger.Logger;
@@ -24,6 +26,7 @@ import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.format.ISODateTimeFormat;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
@@ -38,7 +41,7 @@ import org.ametys.runtime.util.LoggerFactory;
 public final class ParameterHelper
 {
     /** Enumeration of supported types */
-    public static enum ParameterType 
+    public static enum ParameterType
     {
         /** boolean values */
         BOOLEAN,
@@ -80,7 +83,7 @@ public final class ParameterHelper
      * Convert a string containing a type to its value
      * 
      * @param type Name of the type
-     * @return Type 
+     * @return Type
      * @throws IllegalArgumentException if the type is unknown
      */
     public static ParameterType stringToType(String type)
@@ -163,7 +166,7 @@ public final class ParameterHelper
      * @return String readable by the config bean
      * @throws IllegalArgumentException if the object is a InputStream
      */
-    public static String valueToString(Object value) 
+    public static String valueToString(Object value)
     {
         if (value == null)
         {
@@ -172,7 +175,19 @@ public final class ParameterHelper
 
         if (value instanceof Date)
         {
-            return ISODateTimeFormat.dateTime().print(new DateTime(value));
+            GregorianCalendar calendar = new GregorianCalendar();
+            calendar.setTime((Date) value);
+            calendar.setTimeZone(DateTimeZone.getDefault().toTimeZone());
+            
+            DateTime date = new DateTime(calendar.get(Calendar.YEAR),
+                                         calendar.get(Calendar.MONTH) + 1,
+                                         calendar.get(Calendar.DAY_OF_MONTH),
+                                         calendar.get(Calendar.HOUR_OF_DAY),
+                                         calendar.get(Calendar.MINUTE),
+                                         calendar.get(Calendar.SECOND),
+                                         calendar.get(Calendar.MILLISECOND));
+            
+            return ISODateTimeFormat.dateTime().print(date);
         }
         
         if (value instanceof InputStream)
@@ -290,7 +305,7 @@ public final class ParameterHelper
         catch (Exception e)
         {
             throw new ProcessingException("Unable to enumerate entries with enumerator: " + enumerator, e);
-        } 
+        }
 
         XMLUtils.endElement(handler, "enumeration");
     }
