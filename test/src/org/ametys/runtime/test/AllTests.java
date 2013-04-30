@@ -66,8 +66,8 @@ public final class AllTests
         
         suite.addTestSuite(PluginsTestCase.class);
         
-        // suite.addTestSuite(RequestCountListenerTestCase.class);
-        // suite.addTestSuite(SessionCountListenerTestCase.class);
+        suite.addTestSuite(RequestCountListenerTestCase.class);
+        suite.addTestSuite(SessionCountListenerTestCase.class);
         
         suite.addTestSuite(XHTMLSerializerTestCase.class);
         
