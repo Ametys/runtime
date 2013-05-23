@@ -481,7 +481,7 @@ org.ametys.administration.Users._createBooleanField = function (name, label, des
         fieldLabel: label,
         desc: description,
         
-        checked: (value == "true")
+        checked: false
         
 	});
 }
