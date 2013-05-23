@@ -152,6 +152,8 @@
         <xsl:param name="accept-ch-23">false</xsl:param>
         <xsl:param name="accept-ch-24">false</xsl:param>
         <xsl:param name="accept-ch-25">false</xsl:param>
+        <xsl:param name="accept-ch-26">false</xsl:param>
+        <xsl:param name="accept-ch-27">false</xsl:param>
         <xsl:param name="debug-mode">false</xsl:param>
         <xsl:param name="load-cb"/>
         <xsl:param name="use-css-component">true</xsl:param>
@@ -270,6 +272,8 @@
                         <xsl:if test="$accept-ch-23  = 'true'">(userAgent.indexOf("chrome/23.") >= 0) ||</xsl:if>
                         <xsl:if test="$accept-ch-24  = 'true'">(userAgent.indexOf("chrome/24.") >= 0) ||</xsl:if>
                         <xsl:if test="$accept-ch-25  = 'true'">(userAgent.indexOf("chrome/25.") >= 0) ||</xsl:if>
+                        <xsl:if test="$accept-ch-25  = 'true'">(userAgent.indexOf("chrome/26.") >= 0) ||</xsl:if>
+                        <xsl:if test="$accept-ch-25  = 'true'">(userAgent.indexOf("chrome/27.") >= 0) ||</xsl:if>
 	                    <xsl:text>1 == 0))</xsl:text>
 	                {
 	            		<!-- Check the cookie for forcing non supported navigators -->
