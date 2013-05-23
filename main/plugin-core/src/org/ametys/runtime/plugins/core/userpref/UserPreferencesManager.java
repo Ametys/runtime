@@ -431,7 +431,7 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Thread
         
         UserPreference preference = _userPrefEP.getUserPreference(contextVars, id);
         
-        if (preference != null)
+        if (preference != null && StringUtils.isNotEmpty(preference.getManagerRole()))
         {
             storageManagerRole = preference.getManagerRole();
         }
