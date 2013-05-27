@@ -191,9 +191,6 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
         
         try
         {
-            parameter.setId(id);
-            parameter.setColumn(column);
-            
             if ("login".equals(id))
             {
                 parameter.setPluginName(BASE_PLUGIN_NAME);
@@ -232,6 +229,9 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
             {
                 parameter = jdbcParameterParser.parseParameter(_manager, _pluginName, configuration);
             }
+            
+            parameter.setId(id);
+            parameter.setColumn(column);
         }
         catch (Exception e)
         {
