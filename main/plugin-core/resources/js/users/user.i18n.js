@@ -156,7 +156,7 @@ RUNTIME_Plugin_Runtime_EditUser.ok = function ()
 {
 	var form = RUNTIME_Plugin_Runtime_EditUser.form;
 
-	var args = Utils.buildParams(form.getEl().dom);
+	var args = RUNTIME_Plugin_Runtime_EditUser._buildParams(form);
     args['field_login'] = form.findField('field_login').getValue();
     args['mode'] = RUNTIME_Plugin_Runtime_EditUser.params['mode'];
 
@@ -210,4 +210,67 @@ RUNTIME_Plugin_Runtime_EditUser.ok = function ()
     }
 	
 	RUNTIME_Plugin_Runtime_EditUser.box.hide();
+}
+
+RUNTIME_Plugin_Runtime_EditUser._buildParams = function (form)
+{
+	var params = {};
+	
+	var formDom = form.getEl().dom;
+	for (var i = 0; i &lt; formDom.elements.length; i++) 
+	{
+        input = formDom.elements[i];
+        
+        if (input.name == null || input.name == "" || input.disabled) {
+            continue;
+        }
+        
+        if (typeof(input.type) == "undefined" || input.type == "submit" || input.type == "image" || input.type == "file") {
+            // Skip buttons; Type file is not supported
+            continue;
+        }
+        
+        if (input.type == "checkbox") {
+        	params[input.name] = input.checked ? '1' : '0';
+        	continue;
+        }
+        
+        if (input.type == "radio" &amp;&amp; !input.checked) {
+            // Skip unchecked checkboxes and radio buttons
+            continue;
+        }
+
+        var fd = form.findField(input.name) || Ext.getCmp(input.id);
+        if (fd == null)
+        {
+        	params[input.name] = input.value;
+        }
+        else
+        {
+	        if ((fd.xtype == 'datefield' || fd.xtype == 'datetimefield') &amp;&amp; fd.getValue() != '')
+			{
+	        	// Date
+	        	params[input.name] = fd.getValue().format(Date.patterns.ISO8601Long); 
+	            continue;
+			}
+	        
+	        var val = fd.getValue();
+	        if (fd.multiple &amp;&amp; !Ext.isArray(val))
+	        {
+	        	var values = val.split(',');
+	        	var trimValues = [];
+	        	for (var j = 0; j &lt; values.length; j++)
+	        	{
+	        		trimValues.push(values[j].trim());
+	        	}
+	        	params[input.name] = trimValues;
+	        	continue;
+	        }
+	        
+	        // text, password, textarea, hidden, single select
+	        params[input.name] = val;
+        }
+    }
+	
+	return params;
 }
