@@ -176,6 +176,7 @@ org.ametys.servercomm.ServerComm.prototype.send = function(message)
 	else if (message.getPriority() == org.ametys.servercomm.ServerComm.PRIORITY_LONG_REQUEST)
 	{
 		this._sendMessages(message);
+		return null;
 	}
 	else
 	{
@@ -190,7 +191,11 @@ org.ametys.servercomm.ServerComm.prototype.send = function(message)
 		if (this._nextTimer == null || ringTime &lt; this._nextTimer - 20)
 		{
 			this._nextTimer = ringTime;
-			this._sendTask = setTimeout(function () { org.ametys.servercomm.ServerComm.getInstance()._sendMessages(); }, delay);
+			if (this._sendTask)
+			{
+				window.clearTimeout(this._sendTask);
+			}
+			this._sendTask = window.setTimeout(function () { org.ametys.servercomm.ServerComm.getInstance()._sendMessages(); }, delay);
 		}
 		return null;
 	}
