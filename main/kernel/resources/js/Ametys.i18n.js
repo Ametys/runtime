@@ -293,23 +293,57 @@ Ext.SSL_SECURE_URL = Ext.BLANK_IMAGE_URL;
         override: "Ext.LoadMask",
         msg: "<i18n:text i18n:key='KERNEL_LOADMASK_DEFAULT_MESSAGE' i18n:catalogue='kernel'/>"
     });
-	
+
+    // Load localized extjs
 	var link = document.createElement("script");
 		link.src = Ametys.getPluginResourcesPrefix('extjs4') + "/js/locale/ext-lang-" + Ametys.LANGUAGE_CODE + ".js";
 		link.charset = "UTF-8";
 		link.type = "text/javascript";
 	document.getElementsByTagName("head")[0].appendChild(link);
+	
+	// Override SortType to add support for accentued characters
+	Ext.define("Ext.locale.data.SortTypes", {
+        override: "Ext.data.SortTypes",
+        
+        /**
+         * @member Ext.data.SortTypes
+         * @method asNonAccentedUCString 
+         * @since Ametys Runtime 3.0
+         * Case insensitive string (which takes accents into account)
+         * @param {Object} s The value being converted
+         * @return {String} The comparison value
+         */
+    	asNonAccentedUCString: function (s)
+    	{
+    		s = s.toLowerCase();
+    		
+    		s = s.replace(new RegExp(/[àáâãäå]/g),"a");
+    		s = s.replace(new RegExp(/æ/g),"ae");
+    		s = s.replace(new RegExp(/ç/g),"c");
+    		s = s.replace(new RegExp(/[èéêë]/g),"e");
+    		s = s.replace(new RegExp(/[ìíîï]/g),"i");
+    		s = s.replace(new RegExp(/ñ/g),"n");
+    		s = s.replace(new RegExp(/[òóôõö]/g),"o");
+    		s = s.replace(new RegExp(/œ/g),"oe");
+    		s = s.replace(new RegExp(/[ùúûü]/g),"u");
+    		s = s.replace(new RegExp(/[ýÿ]/g),"y");
+
+    		return Ext.data.SortTypes.asUCString(s);
+    	}
+    });
 }
 
 /*
  * Supports for ametysDescription on fields and fields containers
  */
 /**
- * @class Ext.form.field.Base
+ * @member Ext.form.field.Base
+ * @since Ametys Runtime 3.0
  * @cfg {String} ametysDescription A help image is added with the given description as a tooltip
  */
 /**
- * @class Ext.form.FieldContainer
+ * @member Ext.form.FieldContainer
+ * @since Ametys Runtime 3.0
  * @cfg {String} ametysDescription A help image is added with the given description as a tooltip
  */
 {
@@ -353,7 +387,8 @@ Ext.SSL_SECURE_URL = Ext.BLANK_IMAGE_URL;
         	var result = this.callParent(arguments);
         	
         	/**
-        	 * @class Ext.form.field.File
+        	 * @member Ext.form.field.File
+        	 * @since Ametys Runtime 3.0
         	 * @cfg {Boolean} ametysShowMaxUploadSizeHint false to hide to max size hint under the field. true by default
         	 */
         	if (Ametys.MAX_UPLOAD_SIZE != undefined && Ametys.MAX_UPLOAD_SIZE != '' && this.ametysShowMaxUploadSizeHint !== false)
