@@ -109,9 +109,9 @@ Ext.define('Ametys.plugins.core.administration.Plugins', {
 
 	/**
 	 * Create the screen
-	 * @params {Object} rootNode1 The root node conf for _tree (plugins by file)
-	 * @params {Object} rootNode2 The root node conf for _tree2 (plugins by extension)
-	 * @params {Object} rootNode3 The root node conf for _tree3 (workspaces)
+	 * @param {Object} rootNode1 The root node conf for _tree (plugins by file)
+	 * @param {Object} rootNode2 The root node conf for _tree2 (plugins by extension)
+	 * @param {Object} rootNode3 The root node conf for _tree3 (workspaces)
 	 * @return {Ext.panel.Panel} The created panel
 	 */
 	createPanel: function (rootNode1, rootNode2, rootNode3)
@@ -423,7 +423,7 @@ Ext.define('Ametys.plugins.core.administration.Plugins', {
 
 	/**
 	 * Activate a feature
-	 * @params {Boolean} status True to active, false to unactivate. True is the default value.
+	 * @param {Boolean} status True to active, false to unactivate. True is the default value.
 	 * @private
 	 */
 	activate: function (status)

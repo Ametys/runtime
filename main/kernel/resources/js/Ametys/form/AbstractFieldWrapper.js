@@ -420,7 +420,7 @@ Ext.define('Ametys.form.AbstractFieldWrapper', {
      * @protected
      * Copy the properties listed from source to target, only if they do not already exist in target and if they do exist in source.
      * @param {Object} target The target object
-     * @properties {String[]} properties The properties to copy
+     * @param {String[]} properties The properties to copy
      * @param {Object} source The source object
      */
     _copyPropIfDefined : function(target, properties, source) {

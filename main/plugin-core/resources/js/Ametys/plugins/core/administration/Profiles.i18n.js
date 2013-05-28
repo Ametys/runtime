@@ -168,8 +168,8 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 	 * @param {String} text undefined
 	 * @param {Object} opt Options given as arfs
 	 * @param {Ext.data.Model} selectedElmt The element to save. Can be null.
-	 * @params {String[]} objects The saving informations. Can be null
-	 * @params {Object} newRights the rights identifiers. Can be null.
+	 * @param {String[]} objects The saving informations. Can be null
+	 * @param {Object} newRights the rights identifiers. Can be null.
 	 */
     saveObjectConfirm: function (button, text, opt, selectedElmt, objects, rights)
 	{
@@ -222,9 +222,9 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 	
 	/**
 	 * Save the given profile to the server
-	 * @params {Ext.data.Model} element The element to save. Can be null to save the currently selected profile.
-	 * @params {String[]} objects The saving informations. Can be null
-	 * @params {Object} newRights the rights identifiers. Can be null
+	 * @param {Ext.data.Model} element The element to save. Can be null to save the currently selected profile.
+	 * @param {String[]} objects The saving informations. Can be null
+	 * @param {Object} newRights the rights identifiers. Can be null
 	 */
     saveObjects: function(element, objects, newRights)
     {
@@ -543,8 +543,8 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 	
 	/**
 	 * Entry point to create the main panel
-	 * @params {Ext.Container[]} readItems The form items for read panel
-	 * @params {Ext.form.field.Field[]} editItems The form items for edit panel
+	 * @param {Ext.Container[]} readItems The form items for read panel
+	 * @param {Ext.form.field.Field[]} editItems The form items for edit panel
 	 */
 	createPanel: function(readItems, editItems) 
 	{

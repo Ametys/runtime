@@ -47,7 +47,7 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 	 */
 	/**
 	 * Initialize
-	 * @params {String} pluginName The plugin declaring this class
+	 * @param {String} pluginName The plugin declaring this class
 	 */
 	initialize: function (pluginName)
 	{
