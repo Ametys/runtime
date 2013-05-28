@@ -27,6 +27,7 @@ import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.Session;
 import org.apache.cocoon.environment.SourceResolver;
 
+import org.ametys.runtime.RuntimeConstants;
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.user.User;
 import org.ametys.runtime.user.UsersManager;
@@ -68,6 +69,11 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         if ("true".equals(request.getAttribute(REQUEST_AUTHENTICATED)))
         {
             // If the authentication has already been processed, don't do it twice.
+            return EMPTY_MAP;
+        }
+        else if (request.getAttribute(RuntimeConstants.INTERNAL_ALLOWED_REQUEST_ATTR) != null)
+        {
+            // Allow bypassing the authentication for an internal request.
             return EMPTY_MAP;
         }
         
