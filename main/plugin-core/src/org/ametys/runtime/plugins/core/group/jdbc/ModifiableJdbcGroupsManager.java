@@ -61,10 +61,10 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
 {
     /** The users manager */
     protected UsersManager _users;
-    
+
     /** Group listeners */
     protected List<GroupListener> _listeners = new ArrayList<GroupListener>();
-    
+
     /** The name of the jdbc pool to use */
     protected String _poolName;
     /** The name of the jdbc table containing the list of groups */
@@ -79,42 +79,48 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
     protected String _groupsCompositionColGroup;
     /** The name of the jdbc column in <code>_groupsCompositionTable</code> containing the identifier of the user */
     protected String _groupsCompositionColUser;
-    
+
+    @Override
     public List<GroupListener> getListeners()
     {
         return _listeners;
     }
 
+    @Override
     public void configure(Configuration configuration) throws ConfigurationException
     {
         _poolName = configuration.getChild("pool").getValue();
-        
+
         Configuration listConfiguration = configuration.getChild("list");
         _groupsListTable = listConfiguration.getChild("table").getValue("Groups");
         _groupsListColId = listConfiguration.getChild("id").getValue("Id");
         _groupsListColLabel = listConfiguration.getChild("label").getValue("Label");
-        
+
         Configuration compositionConfiguration = configuration.getChild("composition");
         _groupsCompositionTable = compositionConfiguration.getChild("table").getValue("Groups_Users");
         _groupsCompositionColGroup = compositionConfiguration.getChild("group").getValue("Group_Id");
         _groupsCompositionColUser = compositionConfiguration.getChild("user").getValue("Login");
     }
 
+    @Override
     public void registerListener(GroupListener listener)
     {
         _listeners.add(listener);
     }
 
+    @Override
     public void removeListener(GroupListener listener)
     {
         _listeners.remove(listener);
     }
-    
+
+    @Override
     public void service(ServiceManager manager) throws ServiceException
     {
         _users = (UsersManager) manager.lookup(UsersManager.ROLE);
     }
 
+    @Override
     public void initialize() throws Exception
     {
         PluginsManager pm = PluginsManager.getInstance();
@@ -128,6 +134,7 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
         }
     }
 
+    @Override
     public Group getGroup(String groupID)
     {
         Group group = null;
@@ -139,11 +146,11 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
         try
         {
             connection = ConnectionHelper.getConnection(_poolName);
-            
+
             String sql = "SELECT " + _groupsListColLabel + " FROM " + _groupsListTable + " WHERE " + _groupsListColId + " =  ?";
             stmt = connection.prepareStatement(sql);
             stmt.setInt(1, Integer.parseInt(groupID));
-            
+
             if (getLogger().isDebugEnabled())
             {
                 getLogger().debug(sql);
@@ -179,7 +186,7 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
         // Retourner le groupe trouvé ou null
         return group;
     }
-    
+
     /**
      * Get the sql clause that gets all groups
      * @return A non null sql clause (e.g. "select ... from ... where ...")
@@ -189,6 +196,7 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
         return "SELECT " + _groupsListColId + ", " + _groupsListColLabel + " FROM " + _groupsListTable;
     }
 
+    @Override
     public Set<Group> getGroups()
     {
         Set<Group> groups = new HashSet<Group>();
@@ -200,7 +208,7 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
         try
         {
             connection = ConnectionHelper.getConnection(_poolName);
-            
+
             stmt = connection.createStatement();
             String sql = _createGetGroupsClause();
 
@@ -239,6 +247,7 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
         return groups;
     }
 
+    @Override
     public Set<String> getUserGroups(String login)
     {
         Set<String> groups = new HashSet<String>();
@@ -250,7 +259,7 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
         try
         {
             connection = ConnectionHelper.getConnection(_poolName);
-            
+
             String sql = "SELECT " + _groupsCompositionColGroup + " FROM " + _groupsCompositionTable + " WHERE " + _groupsCompositionColUser + " = ?";
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, login);
@@ -299,7 +308,7 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
         try
         {
             connection = ConnectionHelper.getConnection(_poolName);
-            
+
             String sql = "DELETE FROM " + _groupsCompositionTable + " WHERE Login = ?";
 
             stmt = connection.prepareStatement(sql);
@@ -325,16 +334,19 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
         }
     }
 
+    @Override
     public void userAdded(String login)
     {
         // Nothing
     }
 
+    @Override
     public void userUpdated(String login)
     {
         // Nothing
     }
 
+    @Override
     public void userRemoved(String login)
     {
         removeUserGroups(login);
@@ -355,11 +367,11 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
         try
         {
             String sql = "SELECT " + _groupsCompositionColUser + " FROM " + _groupsCompositionTable + " WHERE " + _groupsCompositionColGroup + " = ?";
-            
+
             stmt = connection.prepareStatement(sql);
-            
+
             stmt.setInt(1, Integer.parseInt(group.getId()));
-            
+
             if (getLogger().isDebugEnabled())
             {
                 getLogger().debug(sql);
@@ -379,18 +391,20 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
         }
     }
 
+    @Override
+    @SuppressWarnings("resource")
     public Group add(String name) throws InvalidModificationException
     {
         Connection connection = null; 
         PreparedStatement statement = null;
         ResultSet rs = null;
-        
+
         String id = null;
 
         try
         {
             connection = ConnectionHelper.getConnection(_poolName);
-            
+
             if (DatabaseType.DATABASE_ORACLE.equals(ConnectionHelper.getDatabaseType(connection)))
             {
                 statement = connection.prepareStatement("SELECT seq_groups.nextval FROM dual");
@@ -401,7 +415,7 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
                 }
                 ConnectionHelper.cleanup(rs);
                 ConnectionHelper.cleanup(statement);
-                
+
                 statement = connection.prepareStatement("INSERT INTO " + _groupsListTable + " (Id, Label) VALUES(?, ?)");
                 statement.setString(1, id);
                 statement.setString(2, name);
@@ -411,11 +425,11 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
                 statement = connection.prepareStatement("INSERT INTO " + _groupsListTable + " (" + _groupsListColLabel + ") VALUES (?)");
                 statement.setString(1, name);
             }
-            
+
             statement.executeUpdate();
-            
+
             ConnectionHelper.cleanup(statement);
-            
+
             //FIXME Write query working with all database
             if (DatabaseType.DATABASE_MYSQL.equals(ConnectionHelper.getDatabaseType(connection)))
             {
@@ -456,7 +470,7 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
                     id = rs.getString(1);
                 }
             }
-            
+
             if (id != null)
             {
                 for (GroupListener listener : _listeners)
@@ -479,6 +493,7 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
         return new Group(id, name);
     }
 
+    @Override
     public void remove(String groupID) throws InvalidModificationException
     {
         Connection connection = null;
@@ -487,10 +502,10 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
         try
         {
             connection = ConnectionHelper.getConnection(_poolName);
-            
+
             statement = connection.prepareStatement("DELETE FROM " + _groupsListTable + " WHERE " + _groupsListColId + " = ?");
             statement.setInt(1, Integer.parseInt(groupID));
-            
+
             if (statement.executeUpdate() == 0)
             {
                 throw new InvalidModificationException("No group with id '" + groupID + "' may be removed");
@@ -499,7 +514,7 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
 
             statement = connection.prepareStatement("DELETE FROM " + _groupsCompositionTable + " WHERE " + _groupsCompositionColGroup + " = ?");
             statement.setInt(1, Integer.parseInt(groupID));
-            
+
             statement.executeUpdate();
 
             for (GroupListener listener : _listeners)
@@ -522,22 +537,23 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
         }
     }
 
+    @Override
     public void update(Group userGroup) throws InvalidModificationException
     {
         Connection connection = null;
         PreparedStatement statement = null;
-        
+
         try
         {
             connection = ConnectionHelper.getConnection(_poolName);
-            
+
             // Start transaction.
             connection.setAutoCommit(false);
-            
+
             statement = connection.prepareStatement("UPDATE " + _groupsListTable + " SET " + _groupsListColLabel + "=? WHERE " + _groupsListColId + " = ?");
             statement.setString(1, userGroup.getLabel());
             statement.setInt(2, Integer.parseInt(userGroup.getId()));
-            
+
             if (statement.executeUpdate() == 0)
             {
                 throw new InvalidModificationException("No group with id '" + userGroup.getId() + "' may be removed");
@@ -546,20 +562,20 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
 
             statement = connection.prepareStatement("DELETE FROM " + _groupsCompositionTable + " WHERE " + _groupsCompositionColGroup + " = ?");
             statement.setInt(1, Integer.parseInt(userGroup.getId()));
-            
+
             statement.executeUpdate();
             ConnectionHelper.cleanup(statement);
-            
+
             // Test if the connection supports batch updates.
             boolean supportsBatch = connection.getMetaData().supportsBatchUpdates();
-            
+
             statement = connection.prepareStatement("INSERT INTO " + _groupsCompositionTable + " (" + _groupsCompositionColGroup + ", " + _groupsCompositionColUser + ") VALUES (?, ?)");
-            
+
             for (String login : userGroup.getUsers())
             {
                 statement.setInt(1, Integer.parseInt(userGroup.getId()));
                 statement.setString(2, login);
-                
+
                 // If batch updates are supported, add to the batch, else execute directly.
                 if (supportsBatch)
                 {
@@ -570,18 +586,18 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
                     statement.executeUpdate();
                 }
             }
-            
+
             // If the insert queries were queued in a batch, execute it.
             if (supportsBatch)
             {
                 statement.executeBatch();
             }
-            
+
             ConnectionHelper.cleanup(statement);
-            
+
             // Commit transaction.
             connection.commit();
-            
+
             for (GroupListener listener : _listeners)
             {
                 listener.groupUpdated(userGroup.getId());
@@ -601,15 +617,16 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
             ConnectionHelper.cleanup(connection);
         }
     }
-    
+
+    @Override
     public void toSAX(ContentHandler ch, int count, int offset, Map parameters) throws SAXException
     {
         XMLUtils.startElement(ch, "groups");
-        
+
         String pattern = (String) parameters.get("pattern");
-        
+
         Iterator iterator = getGroups().iterator();
-        
+
         int currentOffset = offset;
         // Parcourir les groupes
         while (currentOffset > 0 && iterator.hasNext())
@@ -620,36 +637,36 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
                 currentOffset--;
             }
         }
-        
+
         int currentCount = count;
         // Parcourir les groupes
         while ((count == -1 || currentCount > 0) && iterator.hasNext())
         {
             Group group = (Group) iterator.next();
-            
+
             if (pattern == null || pattern.length() == 0 || group.getLabel().toLowerCase().indexOf(pattern.toLowerCase()) != -1)
             {
                 AttributesImpl attr = new AttributesImpl();
                 attr.addAttribute("", "id", "id", "CDATA", group.getId());
                 XMLUtils.startElement(ch, "group", attr);
-                
+
                 XMLUtils.createElement(ch, "label", group.getLabel());
-    
+
                 XMLUtils.startElement(ch, "users");
-    
+
                 // Parcourir les utilisateurs du groupe courant
                 for (String login : group.getUsers())
                 {
                     XMLUtils.createElement(ch, "user", login);
                 }
-    
+
                 XMLUtils.endElement(ch, "users");
                 XMLUtils.endElement(ch, "group");
-                
+
                 currentCount--;
             }
         }
-        
+
         XMLUtils.endElement(ch, "groups");
     }
 }

@@ -31,7 +31,7 @@ import org.xml.sax.SAXException;
  */
 public final class I18nizableText
 {
-    private boolean _i18n;
+    private final boolean _i18n;
     private String _directLabel;
     private String _key;
     private String _catalogue;
@@ -47,7 +47,7 @@ public final class I18nizableText
         _i18n = false;
         _directLabel = label;
     }
-    
+
     /**
      * Create an i18nized text
      * @param catalogue the catalogue where the key is defined. Can be null. Can be overloaded by the catalogue in the key.
@@ -57,7 +57,7 @@ public final class I18nizableText
     {
         this(catalogue, key, (List<String>) null);
     }
-    
+
     /**
      * Create an i18nized text
      * @param catalogue the catalogue where the key is defined. Can be null. Can be overloaded by the catalogue in the key.
@@ -67,7 +67,7 @@ public final class I18nizableText
     public I18nizableText(String catalogue, String key, List<String> parameters)
     {
         _i18n = true;
-        
+
         String i18nKey = key.substring(key.indexOf(":") + 1);
         String i18nCatalogue = i18nKey.length() == key.length() ? catalogue : key.substring(0, key.length() - i18nKey.length() - 1);
 
@@ -76,7 +76,7 @@ public final class I18nizableText
         _parameters = parameters;
         _parameterMap = null;
     }
-    
+
     /**
      * Create an i18nized text
      * @param catalogue the catalogue where the key is defined. Can be null. Can be overloaded by the catalogue in the key.
@@ -86,16 +86,16 @@ public final class I18nizableText
     public I18nizableText(String catalogue, String key, Map<String, String> parameters)
     {
         _i18n = true;
-        
+
         String i18nKey = key.substring(key.indexOf(":") + 1);
         String i18nCatalogue = i18nKey.length() == key.length() ? catalogue : key.substring(0, key.length() - i18nKey.length() - 1);
-        
+
         _catalogue = i18nCatalogue;
         _key = i18nKey;
         _parameterMap = parameters;
         _parameters = null;
     }
-    
+
     /**
      * Determine whether the text is i18nized or a simple cross languages text.
      * @return true if the text is i18nized and so defined by a catalogue, a key and optionaly parameters.<br/>false if the text is a simple label
@@ -104,7 +104,7 @@ public final class I18nizableText
     {
         return _i18n;
     }
-    
+
     /**
      * Get the catalogue of the i18nized text.
      * @return The catalogue where the key is defined
@@ -120,7 +120,7 @@ public final class I18nizableText
             throw new IllegalArgumentException("This text is not i18nized and so do not have catalogue. Use the 'isI18n' method to know whether a text is i18nized");
         }
     }
-    
+
     /**
      * Get the key of the i18nized text.
      * @return The key in the catalogue
@@ -136,7 +136,7 @@ public final class I18nizableText
             throw new IllegalArgumentException("This text is not i18nized and so do not have key. Use the 'isI18n' method to know whether a text is i18nized");
         }
     }
-    
+
     /**
      * Get the parameters of the key of the i18nized text.
      * @return The list of parameters' values or null if there is no parameters
@@ -152,7 +152,7 @@ public final class I18nizableText
             throw new IllegalArgumentException("This text is not i18nized and so do not have parameters. Use the 'isI18n' method to know whether a text is i18nized");
         }
     }
-    
+
     /**
      * Get the parameters of the key of the i18nized text.
      * @return The list of parameters' values or null if there is no parameters
@@ -168,7 +168,7 @@ public final class I18nizableText
             throw new IllegalArgumentException("This text is not i18nized and so do not have parameters. Use the 'isI18n' method to know whether a text is i18nized");
         }
     }
-    
+
     /**
      * Get the label if a text is not i18nized.
      * @return The label
@@ -184,13 +184,12 @@ public final class I18nizableText
             throw new IllegalArgumentException("This text is i18nized and so do not have label. Use the 'isI18n' method to know whether a text is i18nized");
         }
     }
-    
+
     /**
      * SAX a text
      * @param handler The sax content handler
      * @throws SAXException if an error occurs
      */
-    @SuppressWarnings("null")
     public void toSAX(ContentHandler handler) throws SAXException
     {
         if (isI18n())
@@ -198,21 +197,21 @@ public final class I18nizableText
             List<String> parameters = getParameters();
             Map<String, String> parameterMap = getParameterMap();
             boolean hasParameter = parameters != null && parameters.size() > 0 || parameterMap != null && !parameterMap.isEmpty();
-            
+
             handler.startPrefixMapping("i18n", I18nTransformer.I18N_NAMESPACE_URI);
-            
+
             if (hasParameter)
             {
                 handler.startElement(I18nTransformer.I18N_NAMESPACE_URI, "translate", "i18n:translate", new AttributesImpl());
             }
-            
+
             AttributesImpl atts = new AttributesImpl();
             atts.addCDATAAttribute(I18nTransformer.I18N_NAMESPACE_URI, "key", "i18n:key", getKey());
             if (getCatalogue() != null)
             {
                 atts.addCDATAAttribute(I18nTransformer.I18N_NAMESPACE_URI, "catalogue", "i18n:catalogue", getCatalogue());
             }
-            
+
             handler.startElement(I18nTransformer.I18N_NAMESPACE_URI, "text", "i18n:text", atts);
             handler.endElement(I18nTransformer.I18N_NAMESPACE_URI, "text", "i18n:text");
 
@@ -244,10 +243,10 @@ public final class I18nizableText
                         handler.endElement(I18nTransformer.I18N_NAMESPACE_URI, "param", "i18n:param");
                     }
                 }
-                
+
                 handler.endElement(I18nTransformer.I18N_NAMESPACE_URI, "translate", "i18n:translate");
             }
-            
+
             handler.endPrefixMapping("i18n");
         }
         else
@@ -255,7 +254,7 @@ public final class I18nizableText
             handler.characters(getLabel().toCharArray(), 0, getLabel().length());
         }
     }
-    
+
     /**
      * SAX a text
      * @param handler The sax content handler
@@ -268,7 +267,7 @@ public final class I18nizableText
         toSAX(handler);
         XMLUtils.endElement(handler, tagName);
     }
-    
+
     @Override
     public String toString()
     {
@@ -302,7 +301,7 @@ public final class I18nizableText
         }
         return result;
     }
-    
+
     @Override
     public int hashCode()
     {
@@ -311,7 +310,7 @@ public final class I18nizableText
         hashCodeBuilder.append(_key);
         hashCodeBuilder.append(_catalogue);
         hashCodeBuilder.append(_directLabel);
-        
+
         if (_parameters == null)
         {
             hashCodeBuilder.append((Object) null);
@@ -320,12 +319,12 @@ public final class I18nizableText
         {
             hashCodeBuilder.append(_parameters.toArray(new String[_parameters.size()]));
         }
-        
+
         hashCodeBuilder.append(_parameterMap);
-        
+
         return hashCodeBuilder.toHashCode();
     }
-    
+
     @Override
     public boolean equals(Object obj)
     { 
@@ -338,21 +337,21 @@ public final class I18nizableText
         {
             return false;
         }
-        
+
         if (this == obj)
         {
             return true;
         }
-        
+
         I18nizableText i18nObj = (I18nizableText) obj;
         EqualsBuilder equalsBuilder = new EqualsBuilder();
         equalsBuilder.append(_i18n, i18nObj._i18n);
-        
+
         if (_i18n)
         {
             equalsBuilder.append(_key, i18nObj._key);
             equalsBuilder.append(_catalogue, i18nObj._catalogue);
-            
+
             if (_parameters == null)
             {
                 equalsBuilder.append(_parameters, i18nObj._parameters);
@@ -360,16 +359,16 @@ public final class I18nizableText
             else
             {
                 String[] otherParameters = null;
-                
+
                 if (i18nObj._parameters != null)
                 {
                     otherParameters = i18nObj._parameters.toArray(new String[i18nObj._parameters.size()]);
                 }
-                
+
                 equalsBuilder.append(_parameters.toArray(new String[_parameters.size()]),
-                                     otherParameters);
+                        otherParameters);
             }
-            
+
             equalsBuilder.append(_parameterMap, i18nObj.getParameterMap());
         }
         else
