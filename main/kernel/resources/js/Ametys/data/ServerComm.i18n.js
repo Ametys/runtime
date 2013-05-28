@@ -96,7 +96,7 @@ Ext.define(
 
 		/**
 		 * @private
-		 * @property {long} _nextTimer The date as long when the next timer should stop. Null if no timer.
+		 * @property {Number} _nextTimer The date as long when the next timer should stop. Null if no timer.
 		 */
 		_nextTimer: null,
 
