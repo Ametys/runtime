@@ -522,23 +522,27 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 		if (this._modifiable)
 		{
 			// New group
-			this._groupsActions.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_CREATE"/>", 
+			this._groupsActions.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_CREATE"/>",
+					 null,
 					 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/groups/add_group.png', 
 					 Ext.bind(this.add, this));
 			
 			// Rename goup
-			this._groupsActions.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_RENAME"/>", 
+			this._groupsActions.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_RENAME"/>",
+					 null,
 					 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/groups/rename.png', 
 					 Ext.bind(this.rename, this));
 			
 			// Delete goup
-			this._groupsActions.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_DELETE"/>", 
+			this._groupsActions.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_DELETE"/>",
+					 null,
 					 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/groups/delete.png', 
 					 Ext.bind(this.remove, this));
 		}
 		
 		// Quit
-		this._groupsActions.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_QUIT"/>", 
+		this._groupsActions.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_QUIT"/>",
+				 null,
 				 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/groups/quit.png', 
 				 Ext.bind(this.goBack, this));
 		
@@ -565,17 +569,20 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 		this._usersActions = new Ametys.workspace.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_USERS_HANDLE_CATEGORY"/>"});
 
 		// Add user
-		this._usersActions.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_ADDUSER"/>", 
+		this._usersActions.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_ADDUSER"/>",
+				 null,
 				 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/groups/add_user.png', 
 				 Ext.bind(this.addUser, this));
 		
 		// Delete user
 		this._usersActions.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_DELETEUSER"/>", 
+				 null,
 				 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/groups/delete.png', 
 				 Ext.bind(this.deleteUsers, this));
 		
 		// Validate modification
 		this._usersActions.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_VALIDATE"/>", 
+				 null,
 				 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/groups/validate.png', 
 				 Ext.bind(this.save, this, []));
 		

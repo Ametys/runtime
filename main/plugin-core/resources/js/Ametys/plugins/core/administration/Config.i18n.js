@@ -645,12 +645,14 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 		this._actions = new Ametys.workspace.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE"/>"});
 		
 		// Save action
-		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE_SAVE"/>", 
+		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE_SAVE"/>",
+						 null,
 						 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/config/save.png',
 						 Ext.Function.bind(this.save, this));
 		
 		// Quit action
-		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE_QUIT"/>", 
+		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE_QUIT"/>",
+						 null,
 						 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/config/quit.png',
 						 Ext.Function.bind(this.goBack));
 

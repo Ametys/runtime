@@ -199,12 +199,14 @@ Ext.define('Ametys.plugins.core.administration.System', {
 		this._globalActions = new Ametys.workspace.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_HANDLE"/>"});
 		
 		// Save
-		this._globalActions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_HANDLE_SAVE"/>", 
+		this._globalActions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_HANDLE_SAVE"/>",
+						 null,
 					     Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/system/save.png',
 					     Ext.bind(this.save, this));
 		
 		// Quit
 		this._globalActions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_HANDLE_QUIT"/>", 
+						 null,
 					     Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/system/quit.png',
 					     Ext.bind(this.goBack, this));
 		
@@ -222,18 +224,21 @@ Ext.define('Ametys.plugins.core.administration.System', {
 		
 		// Add
 		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_ADD"/>", 
-									Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/system/add.png', 
-									Ext.bind(this.add, this));
+			    null,
+				Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/system/add.png', 
+				Ext.bind(this.add, this));
 		
 		// Edit
 		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_EDIT"/>", 
-									Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/system/edit.png', 
-									Ext.bind(this.edit, this));
+			    null,
+				Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/system/edit.png', 
+				Ext.bind(this.edit, this));
 		
 		// Delete
 		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DELETE"/>", 
-									Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/system/delete.png', 
-									Ext.bind(this.remove, this));
+			    null,
+				Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/system/delete.png', 
+				Ext.bind(this.remove, this));
 			
 		this._actions.hideElt(3);
 		this._actions.hideElt(4);

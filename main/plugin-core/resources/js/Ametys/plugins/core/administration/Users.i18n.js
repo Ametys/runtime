@@ -213,6 +213,7 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 
 		// Quit
 		this._search.addAction("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_QUIT"/>", 
+					null,
 					Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/users/quit.png', 
 					Ext.bind(this.goBack, this));
 		
@@ -232,12 +233,14 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 		{
 			// Add user
 			this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_NEW"/>",
+					null,
 					Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/users/add_user.png', 
 					Ext.bind(this.add, this));
 		}
 		
 		// Edit 
 		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_USERS_IMPERSONATE"/>",
+					null,
 					Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/users/impersonate_user.png', 
 					Ext.bind(this.impersonate, this));
 
@@ -245,6 +248,7 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 		{
 			// Edit 
 			this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_EDIT"/>",
+					null,
 					Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/users/edit_user.png', 
 					Ext.bind(this.edit, this));
 		}
@@ -253,6 +257,7 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 		{
 			// Delete 
 			this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_DEL"/>",
+					null,
 					Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/users/delete.png', 
 					Ext.bind(this.remove, this));
 		}	

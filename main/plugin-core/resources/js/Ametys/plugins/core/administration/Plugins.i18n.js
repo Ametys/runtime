@@ -251,33 +251,39 @@ Ext.define('Ametys.plugins.core.administration.Plugins', {
 		
 		// Choose
 		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHOOSE"/>", 
-															 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/plugins/select.png', 
-															 Ext.bind(this.select, this));
+				 null,
+				 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/plugins/select.png', 
+				 Ext.bind(this.select, this));
 
 		// Activate
 		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_ACTIVATE"/>", 
-															 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/plugins/activate.png', 
-															 Ext.bind(this.activate, this));
+				 null,
+				 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/plugins/activate.png', 
+				 Ext.bind(this.activate, this));
 
 		// Deactivate
 		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DEACTIVATE"/>", 
-															 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/plugins/deactivate.png', 
-															 Ext.bind(this.deactivate, this));
+				 null,
+				 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/plugins/deactivate.png', 
+				 Ext.bind(this.deactivate, this));
 
 		// Changes
 		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES"/>", 
-															 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/plugins/changes.png', 
-															 Ext.bind(this.changes, this));
+				 null,
+				 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/plugins/changes.png', 
+				 Ext.bind(this.changes, this));
 		
 		// Documentation
 		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DOC"/>", 
-															 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/plugins/doc.png', 
-															 Ext.bind(this.openDoc, this));
+				 null,
+				 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/plugins/doc.png', 
+				 Ext.bind(this.openDoc, this));
 		
 		// Quit
 		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CANCEL"/>", 
-															 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/plugins/quit.png', 
-															 Ext.bind(this.goBack, this));
+				 null,
+				 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/plugins/quit.png', 
+				 Ext.bind(this.goBack, this));
 		
 		this._actions.hideElt(this._ACTION_SELECT);
 		this._actions.hideElt(this._ACTION_ACTIVATE);

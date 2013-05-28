@@ -313,6 +313,7 @@ Ext.define('Ametys.plugins.core.administration.JVMStatus', {
 		
 		// Quit action
 		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_HANDLE_QUIT"/>", 
+						 null,
 					     Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/jvmstatus/quit.png',
 					     Ext.bind(this.goBack, this));
 		

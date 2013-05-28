@@ -137,5 +137,14 @@ Ext.define('Ametys.workspace.admin.rightpanel.ActionPanel.Action', {
 		this.el.on('click', this._onClick, this);
 		this.el.dom.innerHTML = this.initialConfig.html;
 		this.el.hover(this._overFn, this._outFn, this);
+		
+		if (this.tooltip)
+		{
+	        new Ext.ToolTip({
+	        		target: this.el,
+	        		html: this.tooltip,
+	        		width: 200,
+	       	});
+		}
 	}
 });

@@ -570,11 +570,11 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 		
 		// Handling profiles
 		this._Category = new Ametys.workspace.admin.rightpanel.ActionPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_CATEGORY"/>'});
-		this._Category.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_CREATE"/>", Ametys.getPluginResourcesPrefix('core') + "/img/administrator/profiles/new.png", Ext.bind(this.createProfile, this));
-		this._Category.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_RENAME"/>", Ametys.getPluginResourcesPrefix('core') + "/img/administrator/profiles/rename.png", Ext.bind(this.rename, this));
-		this._Category.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_VALIDATE"/>", Ametys.getPluginResourcesPrefix('core') + "/img/administrator/profiles/validate.png", Ext.bind(this.saveObjects, this, []));
-		this._Category.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_DELETE"/>", Ametys.getPluginResourcesPrefix('core') + "/img/administrator/profiles/delete.png", Ext.bind(this.remove, this));
-		this._Category.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_QUIT"/>", Ametys.getPluginResourcesPrefix('core') + "/img/administrator/profiles/quit.png", Ext.bind(this.goBack, this));
+		this._Category.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_CREATE"/>", null, Ametys.getPluginResourcesPrefix('core') + "/img/administrator/profiles/new.png", Ext.bind(this.createProfile, this));
+		this._Category.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_RENAME"/>", null, Ametys.getPluginResourcesPrefix('core') + "/img/administrator/profiles/rename.png", Ext.bind(this.rename, this));
+		this._Category.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_VALIDATE"/>", null, Ametys.getPluginResourcesPrefix('core') + "/img/administrator/profiles/validate.png", Ext.bind(this.saveObjects, this, []));
+		this._Category.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_DELETE"/>", null, Ametys.getPluginResourcesPrefix('core') + "/img/administrator/profiles/delete.png", Ext.bind(this.remove, this));
+		this._Category.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_QUIT"/>", null, Ametys.getPluginResourcesPrefix('core') + "/img/administrator/profiles/quit.png", Ext.bind(this.goBack, this));
 		
 		this._Category.hideElt(1);
 		this._Category.hideElt(2);
@@ -582,8 +582,8 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 		
 		// Utils
 		this._utilsCategory = new Ametys.workspace.admin.rightpanel.ActionPanel({title: '<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_SELECT_HANDLE_CATEGORY"/>'});
-		this._utilsCategory.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_SELECT_ALL"/>", Ametys.getPluginResourcesPrefix('core') + "/img/administrator/profiles/select_all.png", Ext.bind(this.selectAll, this, []));
-		this._utilsCategory.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_UNSELECT_ALL"/>", Ametys.getPluginResourcesPrefix('core') + "/img/administrator/profiles/unselect_all.png", Ext.bind(this.unselectAll, this, []));
+		this._utilsCategory.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_SELECT_ALL"/>", null, Ametys.getPluginResourcesPrefix('core') + "/img/administrator/profiles/select_all.png", Ext.bind(this.selectAll, this, []));
+		this._utilsCategory.addAction("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_UNSELECT_ALL"/>", null, Ametys.getPluginResourcesPrefix('core') + "/img/administrator/profiles/unselect_all.png", Ext.bind(this.unselectAll, this, []));
 		this._utilsCategory.setVisible(false);
 		
 		// Help

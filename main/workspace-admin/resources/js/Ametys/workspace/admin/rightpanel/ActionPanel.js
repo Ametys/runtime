@@ -34,10 +34,11 @@ Ext.define('Ametys.workspace.admin.rightpanel.ActionPanel', {
 	/**
 	 * Adds an action (see <code>org.ametys.Action</code> to this panel.  
 	 * @param {String} text The text of the action
+	 * @param {String} desc The description of the action
 	 * @param {String} icon The absolute url of the icon. Can be null
 	 * @param {Function} act The function to be called on click event 
 	 */
-	addAction: function (text, icon, act) 
+	addAction: function (text, desc, icon, act) 
 	{
 		var span = document.createElement("span");
 		if (icon)
@@ -47,6 +48,20 @@ Ext.define('Ametys.workspace.admin.rightpanel.ActionPanel', {
 			image.className = "icon";
 	        span.appendChild (image);
 	    }
+		
+		var tooltip = null;
+		if (tooltip)
+		{
+			var toolTipTpl = new Ext.XTemplate(
+				'<tpl for=".">',
+					 '<div class="action-tooltip">',
+					 	'<div class="action-title">{text}</div>',
+					 	'<div class="action-desc">{desc}</div>',
+					 '</div>',
+				'</tpl>'
+			);
+			tooltip = toolTipTpl.apply({text: text, desc: desc, icon: icon});
+		}
 
 		var link = document.createElement("a");
 	    link.innerHTML = text;
@@ -57,6 +72,7 @@ Ext.define('Ametys.workspace.admin.rightpanel.ActionPanel', {
 	    var action = new Ametys.workspace.admin.rightpanel.ActionPanel.Action ({ 
 			border: false,
 			html : span.innerHTML,
+			tooltip: tooltip,
 			listeners: {"click" : act},
 			icon : icon,
 			iconOver : icon.substring(0, icon.indexOf('.')) +  '-over.png'

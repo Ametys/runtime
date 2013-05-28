@@ -558,56 +558,67 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 		
 		// View file
 		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_VIEW"/>", 
+				 null,
 				 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/logs/file.png', 
 				 Ext.bind(this.viewFile, this));
 		
 		// Download files
 		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_DOWNLOAD"/>", 
+				 null,
 				 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/logs/download.png', 
 				 Ext.bind(this.downloadFiles, this));
 		
 		// Delete files
 		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_DELETE"/>", 
+				 null,
 				 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/logs/delete.png', 
 				 Ext.bind(this.deleteFiles, this));
 		
 		// Purge files
 		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_PURGE"/>", 
+				 null,
 				 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/logs/purge.png', 
 				 Ext.bind(this.purgeFiles, this));
 		
 		// Conf debug
 		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_DEBUG"/>", 
+				 null,
 				 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/logs/loglevel_btn_debug.png', 
 				 Ext.bind(this._changeLogLevel, this, ['DEBUG']));
 		
 		// Conf info
 		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_INFO"/>", 
+				 null,
 				 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/logs/loglevel_btn_info.png', 
 				 Ext.bind(this._changeLogLevel, this, ['INFO']));
 		
 		// Conf warn
 		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_WARN"/>", 
+				 null,
 				 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/logs/loglevel_btn_warn.png', 
 				 Ext.bind(this._changeLogLevel, this, ['WARN']));
 		
 		// Conf error
 		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_ERROR"/>", 
+				 null,
 				 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/logs/loglevel_btn_error.png', 
 				 Ext.bind(this._changeLogLevel, this, ['ERROR']));
 		
 		// Inherit
 		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_INHERIT"/>", 
+				 null,
 				 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/logs/loglevel_btn_inherit.png', 
 				 Ext.bind(this._changeLogLevel, this, ['INHERIT']));
 		
 		// Force
 		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_FORCE"/>", 
+				 null,
 				 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/logs/loglevel_btn_force.png', 
 				 Ext.bind(this._changeLogLevel, this, ['FORCE']));
 		
 		// Quit
 		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_QUIT"/>", 
+				 null,
 				 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/logs/quit.png', 
 				 Ext.bind(this.goBack, this));
 
