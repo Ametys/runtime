@@ -168,7 +168,7 @@ public class ProfilesByContextGenerator extends ServiceableGenerator
     private void _saxGroup(Group group, String context, boolean inherit) throws SAXException
     {
         AttributesImpl attr = new AttributesImpl();
-        attr.addAttribute("", "id", "id", "CDATA", "group-" + group.getId());
+        attr.addAttribute("", "groupId", "groupId", "CDATA", "group-" + group.getId());
         attr.addAttribute("", "label", "label", "CDATA", group.getLabel());
         attr.addAttribute("", "context", "context", "CDATA", context);
         attr.addAttribute("", "inherit", "inherit", "CDATA", String.valueOf(inherit));

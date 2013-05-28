@@ -15,7 +15,6 @@
  */
 package org.ametys.runtime.plugins.core.group.ldap;
 
-import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -108,44 +107,50 @@ public class UserDrivenLdapGroupsManager extends AbstractLDAPGroupsManager imple
                 groupsDesc.put(groupdesc.get("id"), groupdesc.get("desc"));
             }
             
+            // Cleanup the first results.
+            _cleanup(null, results);
+            
             // Connexion au serveur ldap
             context = new InitialDirContext(_getContextEnv());
-
+            
             // Effectuer la recherche
             results = context.search(_usersRelativeDN, _usersObjectFilter, _getUsersSearchConstraint());
             while (results.hasMoreElements())
             {
                 // Récupérer l'entrée courante
-                UserInfos userInfos = _getUserInfos((SearchResult) results.nextElement());
-                String login = userInfos.getLogin();
-                
-                // Créer ou bien mettre à jour les groupes
-                for (String groupID : userInfos.getGroups())
+                try
                 {
-                    if (groupsAssoc.containsKey(groupID))
+                    UserInfos userInfos = _getUserInfos((SearchResult) results.nextElement());
+                    String login = userInfos.getLogin();
+                    
+                    // Créer ou bien mettre à jour les groupes
+                    for (String groupID : userInfos.getGroups())
                     {
-                        // Ajouter l'utilisateur courant au groupe
-                        groupsAssoc.get(groupID).addUser(login);
+                        if (groupsAssoc.containsKey(groupID))
+                        {
+                            // Ajouter l'utilisateur courant au groupe
+                            groupsAssoc.get(groupID).addUser(login);
+                        }
+                        else
+                        {
+                            String description = groupsDesc.get(groupID);
+                            
+                            // Créer un nouveau groupe
+                            Group userGroup = new Group(groupID, description != null ? description : groupID);
+                            userGroup.addUser(login);
+                            // L'ajouter à la map
+                            groupsAssoc.put(groupID, userGroup);
+                        }
                     }
-                    else
-                    {
-                        String description = groupsDesc.get(groupID);
-                        
-                        // Créer un nouveau groupe
-                        Group userGroup = new Group(groupID, description != null ? description : groupID);
-                        userGroup.addUser(login);
-                        // L'ajouter à la map
-                        groupsAssoc.put(groupID, userGroup);
-                    }
+                }
+                catch (IllegalArgumentException e)
+                {
+                    getLogger().warn("Error missing at least one attribute or attribute value", e);
                 }
             }
             
             // Convertir la map en ensemble
             groups.addAll(groupsAssoc.values());
-        }
-        catch (InvalidParameterException e)
-        {
-            getLogger().error("Error missing at least one attribute or attribute value", e);
         }
         catch (NamingException e)
         {
@@ -227,7 +232,7 @@ public class UserDrivenLdapGroupsManager extends AbstractLDAPGroupsManager imple
                 groups.addAll(_getGroupID((SearchResult) results.nextElement()));
             }
         }
-        catch (InvalidParameterException e)
+        catch (IllegalArgumentException e)
         {
             getLogger().error("Error missing at least one attribute or attribute value", e);
         }
@@ -314,7 +319,7 @@ public class UserDrivenLdapGroupsManager extends AbstractLDAPGroupsManager imple
             Attribute loginAttr = attrs.get(_usersLoginAttribute);
             if (loginAttr == null)
             {
-                throw new InvalidParameterException("Missing login id attribute : \"" + _usersLoginAttribute + "\"");
+                throw new IllegalArgumentException("Missing login id attribute : \"" + _usersLoginAttribute + "\"");
             }
             
             infos = new UserInfos((String) loginAttr.get());
