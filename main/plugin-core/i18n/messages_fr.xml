@@ -300,6 +300,8 @@
     <message key="PLUGINS_CORE_DEBUG_UI_VAL_0">Mode production (concaténé, minimisé)</message>
     <message key="PLUGINS_CORE_DEBUG_UI_VAL_1">Mode développeur partiel (concaténé, non minimisé)</message>
     <message key="PLUGINS_CORE_DEBUG_UI_VAL_2">Mode développeur complet (non concaténé, non minimisé)</message>
+    <message key="PLUGINS_CORE_CACHE_XSLT_LABEL">Transformations XSLT</message>
+    <message key="PLUGINS_CORE_CACHE_XSLT_DESCRIPTION">Cochez cette case pour désactiver le cache des transformations XSLT.&lt;br/&gt;Il est généralement inutile de désactiver ce cache puisqu'il tient compte de la date de dernière modification des fichiers XSLT.</message>
     
     <message key="PLUGINS_CORE_UPLOAD_CONFIG_GROUP">Gestion des uploads</message>
     <message key="PLUGINS_CORE_UPLOAD_CONFIG_MAXSIZE_LABEL">Taille maximale</message>

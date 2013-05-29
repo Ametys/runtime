@@ -299,7 +299,9 @@
     <message key="PLUGINS_CORE_DEBUG_UI_VAL_0">Production mode (concatenated, minimized)</message>
     <message key="PLUGINS_CORE_DEBUG_UI_VAL_1">Partial developer mode (concatenated, not minimized)</message>
     <message key="PLUGINS_CORE_DEBUG_UI_VAL_2">Full developer mode (not concatenated, not minimized)</message>
-    
+    <message key="PLUGINS_CORE_CACHE_XSLT_LABEL">XSLT transformations</message>
+    <message key="PLUGINS_CORE_CACHE_XSLT_DESCRIPTION">Check this box to deactivate XSLT stylesheets cache.&lt;br/&gt;It is generally useless to unactivate this cache since the last modification dates of the xslt files are always checked.</message>
+
     <message key="PLUGINS_CORE_UPLOAD_CONFIG_GROUP">Uploads management</message>
     <message key="PLUGINS_CORE_UPLOAD_CONFIG_MAXSIZE_LABEL">Maximum size</message>
     <message key="PLUGINS_CORE_UPLOAD_CONFIG_MAXSIZE_DESCRIPTION">The maximum size (in bytes) of uploaded files</message>
