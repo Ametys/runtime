@@ -19,6 +19,7 @@ import java.awt.Color;
 import java.io.IOException;
 import java.util.Map;
 
+import org.apache.avalon.framework.activity.Initializable;
 import org.rrd4j.ConsolFun;
 import org.rrd4j.DsType;
 import org.rrd4j.core.RrdDef;
@@ -28,19 +29,17 @@ import org.rrd4j.graph.RrdGraphDef;
 /**
  * Sample manager collecting disk I/O operations.
  */
-public class DiskIOSampleManager extends AbstractSampleManager
+public class DiskIOSampleManager extends AbstractSampleManager implements Initializable
 {
     
     private DiskIOMonitor _ioMonitor;
     private Map<String, Double> _previousMetrics;
     
-    /**
-     * Constructor.
-     */
-    public DiskIOSampleManager()
+    @Override
+    public void initialize() throws Exception
     {
         _logger.debug("Initializing DiskIOSampleManager");
-
+        
         try
         {
             _ioMonitor = new SigarDiskIOMonitor();
@@ -51,7 +50,7 @@ public class DiskIOSampleManager extends AbstractSampleManager
             _logger.warn("Cannot load Sigar native library");
         }
     }
-
+    
     @Override
     protected String _getGraphTitle()
     {
