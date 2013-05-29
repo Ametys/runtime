@@ -1,5 +1,5 @@
 /*
- *  Copyright 2012 Anyware Services
+ *  Copyright 2013 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -183,6 +183,7 @@ Ext.define(
 			else if (message.priority == Ametys.data.ServerComm.PRIORITY_LONG_REQUEST)
 			{
 				this._sendMessages(message);
+				return null:
 			}
 			else
 			{
@@ -197,7 +198,11 @@ Ext.define(
 				if (this._nextTimer == null || ringTime < this._nextTimer - 20)
 				{
 					this._nextTimer = ringTime;
-					this._sendTask = setTimeout(function () { Ametys.data.ServerComm._sendMessages(); }, delay);
+					if (this._sendTask)
+					{
+						window.clearTimeout(this._sendTask);
+					}
+					this._sendTask = window.setTimeout(function () { Ametys.data.ServerComm._sendMessages(); }, delay);
 				}
 				return null;
 			}
@@ -316,7 +321,7 @@ Ext.define(
 			
 			if (m == null)
 			{
-				clearTimeout(this._sendTask);
+				window.clearTimeout(this._sendTask);
 				this._sendTask = null;
 				this._nextTimer = null;
 				
