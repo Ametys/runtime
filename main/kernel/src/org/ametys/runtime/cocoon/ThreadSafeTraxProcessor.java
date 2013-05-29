@@ -1,5 +1,5 @@
 /*
- *  Copyright 2012 Anyware Services
+ *  Copyright 2013 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -19,10 +19,17 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import javax.xml.transform.Result;
 import javax.xml.transform.Templates;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.URIResolver;
@@ -33,6 +40,9 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
@@ -40,7 +50,9 @@ import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
+import org.apache.cocoon.components.ContextHelper;
 import org.apache.cocoon.components.xslt.TraxErrorListener;
+import org.apache.cocoon.environment.Request;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
@@ -55,11 +67,16 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLFilter;
 
+import org.ametys.runtime.config.Config;
+
 /**
- * Adaptation of Excalibur's XSLTProcessor implementation to allow for better error reporting. This implementation is also threadsafe.
+ * Adaptation of Excalibur's XSLTProcessor implementation to allow for better error reporting. This implementation is also threadsafe.<br>
+ * It also handles a {@link Templates} cache, for performance purpose.
  */
-public class ThreadSafeTraxProcessor extends AbstractLogEnabled implements XSLTProcessor, Serviceable, Initializable, Disposable, Parameterizable, URIResolver
+public class ThreadSafeTraxProcessor extends AbstractLogEnabled implements XSLTProcessor, Serviceable, Initializable, Disposable, Parameterizable, URIResolver, Contextualizable
 {
+    private static final String __URI_CACHE_ATTR = "cache.xslt.resolvedURIs";
+    
     /** The configured transformer factory to use */
     private String _transformerFactory;
 
@@ -76,6 +93,19 @@ public class ThreadSafeTraxProcessor extends AbstractLogEnabled implements XSLTP
 
     /** The ServiceManager */
     private ServiceManager _manager;
+    
+    private Context _context;
+    
+    private boolean _dontUseCache;
+    
+    // the XSLT cache
+    private Map<String, Collection<CachedTemplates>> _templatesCache = new HashMap<String, Collection<CachedTemplates>>();
+    
+    @Override
+    public void contextualize(Context context) throws ContextException
+    {
+        _context = context;
+    }
 
     /**
      * Compose. Try to get the store
@@ -96,7 +126,8 @@ public class ThreadSafeTraxProcessor extends AbstractLogEnabled implements XSLTP
      */
     public void initialize() throws Exception
     {
-        _factory = _getTransformerFactory(_transformerFactory);
+        _factory = _createTransformerFactory(_transformerFactory);
+        _dontUseCache = Config.getInstance().getValueAsBoolean("runtime.cache.xslt");
     }
 
     /**
@@ -112,6 +143,7 @@ public class ThreadSafeTraxProcessor extends AbstractLogEnabled implements XSLTP
         }
         _xmlizer = null;
         _resolver = null;
+        _templatesCache.clear();
     }
 
     /**
@@ -144,13 +176,227 @@ public class ThreadSafeTraxProcessor extends AbstractLogEnabled implements XSLTP
         return getTransformerHandlerAndValidity(stylesheet, null);
     }
 
-    @SuppressWarnings("unchecked")
     public TransformerHandlerAndValidity getTransformerHandlerAndValidity(Source stylesheet, XMLFilter filter) throws XSLTProcessorException
     {
-        final String id = stylesheet.getURI();
-        TransformerHandlerAndValidity handlerAndValidity = null;
-
         TraxErrorListener errorListener = new TraxErrorListener(getLogger(), stylesheet.getURI());
+        try
+        {
+            // get Templates from cache or create it
+            Templates template = _getTemplates(stylesheet, filter);
+            
+            // Create transformer handler
+            TransformerHandler handler = _factory.newTransformerHandler(template);
+            handler.getTransformer().setErrorListener(errorListener);
+            handler.getTransformer().setURIResolver(this);
+
+            // Create result
+            SourceValidity validity = stylesheet.getValidity();
+            TransformerHandlerAndValidity handlerAndValidity = new MyTransformerHandlerAndValidity(handler, validity);
+
+            return handlerAndValidity;
+        }
+        catch (IOException e)
+        {
+            throw new XSLTProcessorException("Exception when getting Templates for " + stylesheet.getURI(), e);
+        }
+        catch (TransformerConfigurationException e)
+        {
+            Throwable realEx = errorListener.getThrowable();
+            if (realEx == null)
+            {
+                realEx = e;
+            }
+
+            if (realEx instanceof RuntimeException)
+            {
+                throw (RuntimeException) realEx;
+            }
+
+            if (realEx instanceof XSLTProcessorException)
+            {
+                throw (XSLTProcessorException) realEx;
+            }
+
+            throw new XSLTProcessorException("Exception when creating Transformer from " + stylesheet.getURI(), realEx);
+        }
+    }
+    
+    private Templates _getTemplates(Source stylesheet, XMLFilter filter) throws XSLTProcessorException, IOException
+    {
+        String uri = stylesheet.getURI().intern();
+        
+        // synchronize on XSL name to avoid concurrent write access to the cache for a given stylesheet
+        synchronized (uri)
+        {
+            Collection<CachedTemplates> cachedTemplates = _templatesCache.get(uri);
+            
+            if (!_dontUseCache)
+            {
+                if (cachedTemplates != null)
+                {
+                    CachedTemplates templates = _getCachedTemplates(cachedTemplates);
+                    
+                    if (templates != null)
+                    {
+                        if (getLogger().isDebugEnabled())
+                        {
+                            getLogger().debug("Found Templates in cache for stylesheet : " + uri);
+                        }
+                        
+                        return templates.getTemplates();
+                    }
+                }
+                else
+                {
+                    cachedTemplates = new ArrayList<CachedTemplates>();
+                    _templatesCache.put(uri, cachedTemplates);
+                }
+            }
+            
+            CachedTemplates templates = _createTemplates(stylesheet, filter);
+            
+            if (getLogger().isDebugEnabled())
+            {
+                String[] rawURIs = templates.getRawURIs();
+                String[] resolvedURIs = templates.getResolvedURIs();
+                
+                StringBuilder sb = new StringBuilder("Templates created for stylesheet : ");
+                sb.append(uri);
+                sb.append(" including the following stylesheets : ");
+                for (int i = 0; i < rawURIs.length; i++)
+                {
+                    sb.append('\n');
+                    sb.append(rawURIs[i]);
+                    sb.append(" => ");
+                    sb.append(resolvedURIs[i]);
+                }
+                
+                getLogger().debug(sb.toString());
+            }
+            
+            if (!_dontUseCache)
+            {
+                cachedTemplates.add(templates);
+            }
+            
+            return templates.getTemplates();
+        }
+    }
+    
+    private CachedTemplates _getCachedTemplates(Collection<CachedTemplates> cachedTemplates) throws IOException
+    {
+        CachedTemplates outOfDateTemplates = null;
+        
+        Iterator<CachedTemplates> it = cachedTemplates.iterator();
+        
+        Request request = null;
+        try
+        {
+            request = ContextHelper.getRequest(_context);
+        }
+        catch (Exception e)
+        {
+            // ignore, there's simply no current request
+        }
+        
+        // very simple cache for storing raw/resolved URI pairs to avoid unnecessary calls to SourceResolver 
+        Map<UnresolvedURI, ResolvedURI> resolutionCache = null;
+        if (request != null)
+        {
+            resolutionCache = (Map<UnresolvedURI, ResolvedURI>) request.getAttribute(__URI_CACHE_ATTR);
+            if (resolutionCache == null)
+            {
+                resolutionCache = new HashMap<UnresolvedURI, ResolvedURI>();
+                request.setAttribute(__URI_CACHE_ATTR, resolutionCache);
+            }
+        }
+        else
+        {
+            resolutionCache = new HashMap<UnresolvedURI, ResolvedURI>();
+        }
+        
+        
+        while (outOfDateTemplates == null && it.hasNext())
+        {
+            CachedTemplates templates = it.next();
+            
+            int validity = _isValid(templates, resolutionCache);
+            if (validity == 1)
+            {
+                return templates;
+            }
+            
+            if (validity == 0)
+            {
+                outOfDateTemplates = templates;
+            }
+        }
+        
+        if (outOfDateTemplates != null)
+        {
+            cachedTemplates.remove(outOfDateTemplates);
+        }
+        
+        return null;
+    }
+    
+    private int _isValid(CachedTemplates templates, Map<UnresolvedURI, ResolvedURI> resolutionCache) throws IOException
+    {
+        // the current Templates object is valid if and only if the resolution of raw URIs correspond to stored resolved URIs
+        String[] rawURIs = templates.getRawURIs();
+        String[] baseURIs = templates.getBaseURIs();
+        String[] resolvedURIs = templates.getResolvedURIs();
+        Long[] timestamps = templates.getTimestamps();
+        
+        boolean isOutOfDate = false;
+        
+        for (int i = 0; i < rawURIs.length; i++)
+        {
+            // small optimization in the case where the same resolution has already been requested in the current context
+            UnresolvedURI unresolved = new UnresolvedURI(rawURIs[i], baseURIs[i]);
+            ResolvedURI resolved = resolutionCache.get(new UnresolvedURI(rawURIs[i], baseURIs[i]));
+            
+            String resolvedURI;
+            long lastModified;
+            if (resolved != null)
+            {
+                resolvedURI = resolved._resolvedURI;
+                lastModified = resolved._timestamp;
+            }
+            else
+            {
+                Source src = _resolve(rawURIs[i], baseURIs[i]);
+                resolvedURI = src.getURI();
+                lastModified = src.getLastModified();
+                resolutionCache.put(unresolved, new ResolvedURI(resolvedURI, lastModified));
+            }
+            
+            if (!resolvedURI.equals(resolvedURIs[i]))
+            {
+                return -1;
+            }
+            
+            if (lastModified == 0 || timestamps[i] == 0 || lastModified != timestamps[i])
+            {
+                isOutOfDate = true;
+            }
+        }
+        
+        return isOutOfDate ? 0 : 1;
+    }
+    
+    @SuppressWarnings("unchecked")
+    private CachedTemplates _createTemplates(Source stylesheet, XMLFilter filter) throws XSLTProcessorException
+    {
+        String id = stylesheet.getURI();
+
+        // Do not reuse the global SAXTransformerFactory, as we set a different URIResolver and ErrorListener
+        TraxErrorListener errorListener = new TraxErrorListener(getLogger(), id);
+        CachedTemplates cachedTemplates = new CachedTemplates();
+        
+        SAXTransformerFactory factory = _createTransformerFactory(_transformerFactory);
+        factory.setErrorListener(errorListener);
+        factory.setURIResolver(cachedTemplates);
         try
         {
             if (getLogger().isDebugEnabled())
@@ -158,11 +404,11 @@ public class ThreadSafeTraxProcessor extends AbstractLogEnabled implements XSLTP
                 getLogger().debug("Creating new Templates for " + id);
             }
 
-            _factory.setErrorListener(errorListener);
+            factory.setErrorListener(errorListener);
 
             // Create a Templates ContentHandler to handle parsing of the
             // stylesheet.
-            TemplatesHandler templatesHandler = _factory.newTemplatesHandler();
+            TemplatesHandler templatesHandler = factory.newTemplatesHandler();
 
             // Set the system ID for the template handler since some
             // TrAX implementations (XSLTC) rely on this in order to obtain
@@ -177,9 +423,6 @@ public class ThreadSafeTraxProcessor extends AbstractLogEnabled implements XSLTP
             {
                 getLogger().debug("Source = " + stylesheet + ", templatesHandler = " + templatesHandler);
             }
-
-            // Initialize List for included validities
-            SourceValidity validity = stylesheet.getValidity();
 
             // Process the stylesheet.
             _sourceToSAX(stylesheet, filter != null ? (ContentHandler) filter : (ContentHandler) templatesHandler);
@@ -201,16 +444,10 @@ public class ThreadSafeTraxProcessor extends AbstractLogEnabled implements XSLTP
                 Method method = clazz.getMethod("setHref", new Class[] {String.class});
                 method.invoke(template, new Object[] {id});
             }
-
-            // Create transformer handler
-            final TransformerHandler handler = _factory.newTransformerHandler(template);
-            handler.getTransformer().setErrorListener(new TraxErrorListener(getLogger(), stylesheet.getURI()));
-            handler.getTransformer().setURIResolver(this);
-
-            // Create result
-            handlerAndValidity = new MyTransformerHandlerAndValidity(handler, validity);
-
-            return handlerAndValidity;
+            
+            cachedTemplates.setTemplates(template);
+            
+            return cachedTemplates;
         }
         catch (Exception e)
         {
@@ -233,7 +470,7 @@ public class ThreadSafeTraxProcessor extends AbstractLogEnabled implements XSLTP
             throw new XSLTProcessorException("Exception when creating Transformer from " + stylesheet.getURI(), realEx);
         }
     }
-
+    
     private void _sourceToSAX(Source source, ContentHandler handler) throws SAXException, IOException, SourceException
     {
         if (source instanceof XMLizable)
@@ -296,7 +533,7 @@ public class ThreadSafeTraxProcessor extends AbstractLogEnabled implements XSLTP
     /**
      * Get the TransformerFactory associated with the given classname. If the class can't be found or the given class doesn't implement the required interface, the default factory is returned.
      */
-    private SAXTransformerFactory _getTransformerFactory(String factoryName)
+    private SAXTransformerFactory _createTransformerFactory(String factoryName)
     {
         SAXTransformerFactory saxFactory;
 
@@ -374,8 +611,55 @@ public class ThreadSafeTraxProcessor extends AbstractLogEnabled implements XSLTP
      * 
      * @throws TransformerException if an error occurs when trying to resolve the URI.
      */
-    @SuppressWarnings("deprecation")
     public javax.xml.transform.Source resolve(String href, String base) throws TransformerException
+    {
+        return _resolve(href, base, null, null, null, null);
+    }
+    
+    @SuppressWarnings("deprecation") 
+    private Source _resolve(String href, String base) throws IOException
+    {
+        Source xslSource = null;
+
+        if (base == null || href.indexOf(":") > 1)
+        {
+            // Null base - href must be an absolute URL
+            xslSource = _resolver.resolveURI(href);
+        }
+        else if (href.length() == 0)
+        {
+            // Empty href resolves to base
+            xslSource = _resolver.resolveURI(base);
+        }
+        else
+        {
+            // is the base a file or a real m_url
+            if (!base.startsWith("file:"))
+            {
+                int lastPathElementPos = base.lastIndexOf('/');
+                if (lastPathElementPos == -1)
+                {
+                    // this should never occur as the base should
+                    // always be protocol:/....
+                    return null; // we can't resolve this
+                }
+                else
+                {
+                    xslSource = _resolver.resolveURI(base.substring(0, lastPathElementPos) + "/" + href);
+                }
+            }
+            else
+            {
+                File parent = new File(base.substring(5));
+                File parent2 = new File(parent.getParentFile(), href);
+                xslSource = _resolver.resolveURI(parent2.toURL().toExternalForm());
+            }
+        }
+        
+        return xslSource;
+    }
+    
+    javax.xml.transform.Source _resolve(String href, String base, Collection<String> rawURIs, Collection<String> baseURIs, Collection<Long> timestamps, Collection<String> resolvedURIs)
     {
         if (getLogger().isDebugEnabled())
         {
@@ -385,39 +669,26 @@ public class ThreadSafeTraxProcessor extends AbstractLogEnabled implements XSLTP
         Source xslSource = null;
         try
         {
-            if (base == null || href.indexOf(":") > 1)
+            xslSource = _resolve(href, base);
+            
+            if (rawURIs != null)
             {
-                // Null base - href must be an absolute URL
-                xslSource = _resolver.resolveURI(href);
+                rawURIs.add(href);
             }
-            else if (href.length() == 0)
+            
+            if (baseURIs != null)
             {
-                // Empty href resolves to base
-                xslSource = _resolver.resolveURI(base);
+                baseURIs.add(base);
             }
-            else
+            
+            if (timestamps != null)
             {
-                // is the base a file or a real m_url
-                if (!base.startsWith("file:"))
-                {
-                    int lastPathElementPos = base.lastIndexOf('/');
-                    if (lastPathElementPos == -1)
-                    {
-                        // this should never occur as the base should
-                        // always be protocol:/....
-                        return null; // we can't resolve this
-                    }
-                    else
-                    {
-                        xslSource = _resolver.resolveURI(base.substring(0, lastPathElementPos) + "/" + href);
-                    }
-                }
-                else
-                {
-                    File parent = new File(base.substring(5));
-                    File parent2 = new File(parent.getParentFile(), href);
-                    xslSource = _resolver.resolveURI(parent2.toURL().toExternalForm());
-                }
+                timestamps.add(xslSource.getLastModified());
+            }
+
+            if (resolvedURIs != null)
+            {
+                resolvedURIs.add(xslSource.getURI());
             }
 
             InputSource is = _getInputSource(xslSource);
@@ -428,26 +699,6 @@ public class ThreadSafeTraxProcessor extends AbstractLogEnabled implements XSLTP
             }
 
             return new StreamSource(is.getByteStream(), is.getSystemId());
-        }
-        catch (SourceException e)
-        {
-            if (getLogger().isDebugEnabled())
-            {
-                getLogger().debug("Failed to resolve " + href + "(base = " + base + "), return null", e);
-            }
-
-            // CZ: To obtain the same behaviour as when the resource is
-            // transformed by the XSLT Transformer we should return null here.
-            return null;
-        }
-        catch (java.net.MalformedURLException mue)
-        {
-            if (getLogger().isDebugEnabled())
-            {
-                getLogger().debug("Failed to resolve " + href + "(base = " + base + "), return null", mue);
-            }
-
-            return null;
         }
         catch (IOException ioe)
         {
@@ -483,6 +734,147 @@ public class ThreadSafeTraxProcessor extends AbstractLogEnabled implements XSLTP
         MyTransformerHandlerAndValidity(TransformerHandler handler, SourceValidity validity)
         {
             super(handler, validity);
+        }
+    }
+    
+    // all known Templates for a single input stylesheet
+    private class CachedTemplates implements URIResolver
+    {
+        // non-resolved included/imported URIs for the input stylesheet
+        private List<String> _rawURIs = new ArrayList<String>();
+        
+        // base URIs for resolution
+        private List<String> _baseURIs = new ArrayList<String>();
+        
+        // resolved URIs
+        private List<String> _resolvedURIs = new ArrayList<String>();
+        
+        // last modified timestamps for resolved URIs
+        private List<Long> _timestamps = new ArrayList<Long>();
+        
+        // resulting templates
+        private Templates _templates;
+        
+        CachedTemplates()
+        {
+            // empty
+        }
+
+        @Override
+        public javax.xml.transform.Source resolve(String href, String base) throws TransformerException
+        {
+            return _resolve(href, base, _rawURIs, _baseURIs, _timestamps, _resolvedURIs);
+        }
+        
+        String[] getRawURIs()
+        {
+            return _rawURIs.toArray(new String[]{});
+        }
+        
+        String[] getBaseURIs()
+        {
+            return _baseURIs.toArray(new String[]{});
+        }
+        
+        Long[] getTimestamps()
+        {
+            return _timestamps.toArray(new Long[]{});
+        }
+        
+        String[] getResolvedURIs()
+        {
+            return _resolvedURIs.toArray(new String[]{});
+        }
+        
+        Templates getTemplates()
+        {
+            return _templates;
+        }
+        
+        void setTemplates(Templates templates)
+        {
+            _templates = templates;
+        }
+    }
+    
+    private static class UnresolvedURI
+    {
+        String _rawURI;
+        String _baseURI;
+        
+        public UnresolvedURI(String rawURI, String baseURI)
+        {
+            _rawURI = rawURI;
+            _baseURI = baseURI;
+        }
+        
+        @Override
+        public int hashCode()
+        {
+            if (_rawURI.indexOf(':') > 1)
+            {
+                // rawURI is absolute
+                return _rawURI.hashCode();
+            }
+            
+            int lastPathElementPos = _baseURI.lastIndexOf('/');
+            if (lastPathElementPos == -1)
+            {
+                // this should never occur as the base should always be protocol:/....
+                return _rawURI.hashCode();
+            }
+            else
+            {
+                String uri = _baseURI.substring(0, lastPathElementPos) + "/" + _rawURI;
+                return uri.hashCode();
+            }
+        }
+        
+        @Override
+        public boolean equals(Object obj)
+        {
+            if (!(obj instanceof UnresolvedURI))
+            {
+                return false;
+            }
+            
+            UnresolvedURI unresolved = (UnresolvedURI) obj;
+            
+            if (_rawURI.indexOf(':') > 1)
+            {
+                // rawURI is absolute
+                return _rawURI.equals(unresolved._rawURI);
+            }
+            
+            int lastPathElementPos = _baseURI.lastIndexOf('/');
+            if (lastPathElementPos == -1)
+            {
+                // this should never occur as the base should always be protocol:/....
+                return false;
+            }
+            else if (unresolved._rawURI.length() <= lastPathElementPos)
+            {
+                return false;
+            }
+            else
+            {
+                String uri1 = _baseURI.substring(0, lastPathElementPos) + "/" + _rawURI;
+                String uri2 = unresolved._baseURI.substring(0, lastPathElementPos) + "/" + unresolved._rawURI;
+                
+                return uri1.equals(uri2);
+            }
+        }
+    }
+    
+    private static class ResolvedURI
+    {
+        String _resolvedURI;
+        long _timestamp;
+        
+        public ResolvedURI(String resolvedURI, long timestamp)
+        {
+            _resolvedURI = resolvedURI;
+            _timestamp = timestamp;
         }
     }
 }
