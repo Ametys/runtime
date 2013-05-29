@@ -393,7 +393,7 @@ Ext.define('Ametys.plugins.core.administration.UserEdit', {
 	        labelAlign: 'right',
 	        ametysDescription: description,
 	        
-	        checked: (value == "true")
+	        checked: false
 	        
 		});
 	},
