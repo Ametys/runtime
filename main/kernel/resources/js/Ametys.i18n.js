@@ -242,10 +242,7 @@ Ext.define(
 				}
 			}
 			
-			document.body.style.padding = "20px";
-			document.body.style.backgroundColor = "#FFFFFF";
-			document.body.style.backgroundImage = "none";
-			document.body.style.color = "#000000";
+			document.body.setAttribute('style', "background-image: none !important; background-color: #FFFFFF !important; color: #000000 !important; padding: 20px !important;");
 			document.body.innerHTML = "<h1>" + "<i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_1'/>" + "</h1> <p>" + "<i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_2'/>" +"</p><p><a href='javascript:location.reload(true);'>" + "<i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_3'/>" + "</a></p>"
 		}
    	}
