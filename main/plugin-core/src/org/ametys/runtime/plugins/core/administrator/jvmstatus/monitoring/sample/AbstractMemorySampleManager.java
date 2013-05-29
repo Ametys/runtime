@@ -21,14 +21,13 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryUsage;
 
-import org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.SampleManager;
-
 import org.rrd4j.ConsolFun;
 import org.rrd4j.DsType;
 import org.rrd4j.core.RrdDef;
 import org.rrd4j.core.Sample;
-import org.rrd4j.graph.RrdGraphConstants;
 import org.rrd4j.graph.RrdGraphDef;
+
+import org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.SampleManager;
 
 /**
  * Abstract {@link SampleManager} for collecting JVM memory status.
@@ -73,13 +72,6 @@ public abstract class AbstractMemorySampleManager extends AbstractSampleManager
         graphDef.area("used", new Color(148, 30, 109), "Used");
 
         graphDef.setVerticalLabel("bytes");
-        graphDef.setColor(RrdGraphConstants.COLOR_BACK, new Color(255, 255, 255));
-        graphDef.setColor(RrdGraphConstants.COLOR_CANVAS, new Color(255, 255, 255));
-        graphDef.setColor(RrdGraphConstants.COLOR_FRAME, new Color(255, 255, 255));
-        graphDef.setColor(RrdGraphConstants.COLOR_MGRID, new Color(128, 128, 128));
-        graphDef.setColor(RrdGraphConstants.COLOR_GRID, new Color(220, 220, 220));
-        graphDef.setColor(RrdGraphConstants.COLOR_SHADEA, new Color(220, 220, 220));
-        graphDef.setColor(RrdGraphConstants.COLOR_SHADEB, new Color(220, 220, 220));        
         
         graphDef.gprint("used", ConsolFun.LAST, "Cur used: %4.0f %s");
         graphDef.gprint("used", ConsolFun.MAX, "Max used: %4.0f %S");

@@ -182,75 +182,82 @@ public final class SendMailHelper
      */
     public static void sendMail(String subject, String htmlBody, String textBody, Collection<File> attachments, String recipient, String sender, String host, long port, String user, String password) throws MessagingException, IOException
     {
-        Properties props = new Properties();
-
-        // Setup mail server
-        props.put("mail.smtp.host", host);
-        props.put("mail.smtp.port", port);
-
-        // Get session
-        Session session = Session.getInstance(props, null);
-
-        // Define message
-        MimeMessage message = new MimeMessage(session);
-        message.setFrom(new InternetAddress(sender));
-        message.setSentDate(new Date());
-        message.setSubject(subject);
-        
-        // Root multipart
-        Multipart multipart = new MimeMultipart("mixed");
-        
-        // Message body part.
-        Multipart messageMultipart = new MimeMultipart("alternative");
-        MimeBodyPart messagePart = new MimeBodyPart();
-        messagePart.setContent(messageMultipart);
-        multipart.addBodyPart(messagePart);
-        
-        if (textBody != null)
+        try
         {
-            MimeBodyPart textBodyPart = new MimeBodyPart();
-            textBodyPart.setContent(textBody, "text/plain;charset=utf-8");
-            textBodyPart.addHeader("Content-Type", "text/plain;charset=utf-8");
-            messageMultipart.addBodyPart(textBodyPart);
-        }
-        
-        if (htmlBody != null)
-        {
-            MimeBodyPart htmlBodyPart = new MimeBodyPart();
-            htmlBodyPart.setContent(inlineCSS(htmlBody), "text/html;charset=utf-8");
-            htmlBodyPart.addHeader("Content-Type", "text/html;charset=utf-8");
-            messageMultipart.addBodyPart(htmlBodyPart);
-        }
-        
-        if (attachments != null)
-        {
-            for (File attachment : attachments)
+            Properties props = new Properties();
+
+            // Setup mail server
+            props.put("mail.smtp.host", host);
+            props.put("mail.smtp.port", port);
+
+            // Get session
+            Session session = Session.getInstance(props, null);
+
+            // Define message
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(sender));
+            message.setSentDate(new Date());
+            message.setSubject(subject);
+            
+            // Root multipart
+            Multipart multipart = new MimeMultipart("mixed");
+            
+            // Message body part.
+            Multipart messageMultipart = new MimeMultipart("alternative");
+            MimeBodyPart messagePart = new MimeBodyPart();
+            messagePart.setContent(messageMultipart);
+            multipart.addBodyPart(messagePart);
+            
+            if (textBody != null)
             {
-                MimeBodyPart fileBodyPart = new MimeBodyPart();
-                fileBodyPart.attachFile(attachment);
-                multipart.addBodyPart(fileBodyPart);
+                MimeBodyPart textBodyPart = new MimeBodyPart();
+                textBodyPart.setContent(textBody, "text/plain;charset=utf-8");
+                textBodyPart.addHeader("Content-Type", "text/plain;charset=utf-8");
+                messageMultipart.addBodyPart(textBodyPart);
             }
-        }
-        
-        message.setContent(multipart);
-        
-        // Recipient
-        message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-        
-        Transport tr = session.getTransport("smtp");
+            
+            if (htmlBody != null)
+            {
+                MimeBodyPart htmlBodyPart = new MimeBodyPart();
+                htmlBodyPart.setContent(inlineCSS(htmlBody), "text/html;charset=utf-8");
+                htmlBodyPart.addHeader("Content-Type", "text/html;charset=utf-8");
+                messageMultipart.addBodyPart(htmlBodyPart);
+            }
+            
+            if (attachments != null)
+            {
+                for (File attachment : attachments)
+                {
+                    MimeBodyPart fileBodyPart = new MimeBodyPart();
+                    fileBodyPart.attachFile(attachment);
+                    multipart.addBodyPart(fileBodyPart);
+                }
+            }
+            
+            message.setContent(multipart);
+            
+            // Recipient
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+            
+            Transport tr = session.getTransport("smtp");
 
-        if (StringUtils.isNotBlank(user))
-        {
-            tr.connect(user, password);
+            if (StringUtils.isNotBlank(user))
+            {
+                tr.connect(user, password);
+            }
+            else
+            {
+                tr.connect();
+            }
+            
+            message.saveChanges();
+            tr.sendMessage(message, message.getAllRecipients());
+            tr.close();
         }
-        else
+        catch (Exception e)
         {
-            tr.connect();
+            throw new MessagingException(e.getMessage(), e);
         }
-        
-        message.saveChanges();
-        tr.sendMessage(message, message.getAllRecipients());
-        tr.close();
     }
     
     /**

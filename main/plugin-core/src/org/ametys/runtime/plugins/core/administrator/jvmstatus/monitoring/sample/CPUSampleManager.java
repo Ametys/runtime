@@ -23,7 +23,6 @@ import org.rrd4j.ConsolFun;
 import org.rrd4j.DsType;
 import org.rrd4j.core.RrdDef;
 import org.rrd4j.core.Sample;
-import org.rrd4j.graph.RrdGraphConstants;
 import org.rrd4j.graph.RrdGraphDef;
 
 import org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.SampleManager;
@@ -72,13 +71,6 @@ public class CPUSampleManager extends AbstractSampleManager
         // Do not scale units
         graphDef.setUnitsExponent(0);
         graphDef.setVerticalLabel("CPU use %");
-        graphDef.setColor(RrdGraphConstants.COLOR_BACK, new Color(255, 255, 255));
-        graphDef.setColor(RrdGraphConstants.COLOR_CANVAS, new Color(255, 255, 255));
-        graphDef.setColor(RrdGraphConstants.COLOR_FRAME, new Color(255, 255, 255));
-        graphDef.setColor(RrdGraphConstants.COLOR_MGRID, new Color(128, 128, 128));
-        graphDef.setColor(RrdGraphConstants.COLOR_GRID, new Color(220, 220, 220));
-        graphDef.setColor(RrdGraphConstants.COLOR_SHADEA, new Color(220, 220, 220));
-        graphDef.setColor(RrdGraphConstants.COLOR_SHADEB, new Color(220, 220, 220));
     }
     
     /**

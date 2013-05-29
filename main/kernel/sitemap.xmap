@@ -69,6 +69,7 @@
 		<map:selectors default="exception">
 			<map:selector logger="org.ametys.runtime.kernel.sitemap.selector.exception" name="exception" src="org.apache.cocoon.selection.ExceptionSelector">
 				<exception class="org.apache.cocoon.ResourceNotFoundException" name="not-found"/>
+                <exception class="org.apache.excalibur.source.SourceNotFoundException" name="not-found"/>
 				<exception class="org.ametys.runtime.authentication.AccessDeniedException" name="access-denied"/>
                 <exception class="org.ametys.runtime.authentication.AuthorizationRequiredException" name="authorization-required"/>
 				<!-- The statement below tells the selector to unroll as much exceptions as possible -->
