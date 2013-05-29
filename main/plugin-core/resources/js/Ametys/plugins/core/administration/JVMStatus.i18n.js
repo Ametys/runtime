@@ -97,7 +97,7 @@ Ext.define('Ametys.plugins.core.administration.JVMStatus', {
 			id:'system-card-panel',
 
 			border: false,
-			autoScroll : true,
+			autoScroll : false,
 			
 			items: [this._drawStatusPanel (),
 			        this._drawPropertiesPanel (),
@@ -120,7 +120,7 @@ Ext.define('Ametys.plugins.core.administration.JVMStatus', {
 		return new Ext.Panel({
 			region: 'center',
 			
-			autoScroll: true,
+			autoScroll: false,
 			baseCls: 'transparent-panel',
 			
 			border: false,
