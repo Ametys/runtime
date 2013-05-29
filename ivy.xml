@@ -76,6 +76,7 @@ Open source web application framework based on Apache Cocoon.
     <dependency org="org.rrd4j" name="rrd4j" rev="2.1.1" conf="common_dependencies->default"/>
     <dependency org="yahoo" name="yuicompressor" rev="2.4.6" conf="common_dependencies->default"/>
     <dependency org="com.google.guava" name="guava" rev="13.0.1" conf="common_dependencies->default"/>
+    <dependency org="org.fusesource" name="sigar" rev="1.6.4" conf="compile_dependencies->default;runtime_dependencies->runtime"/>
     
     <dependency org="org.slf4j" name="slf4j-api" rev="1.6.6" conf="compile_dependencies->default"/>
     <dependency org="org.slf4j" name="slf4j-log4j12" rev="1.6.6" conf="runtime_dependencies->default"/>    

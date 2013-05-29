@@ -2116,6 +2116,15 @@
             	<label i18n="true">PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_CPU_LABEL</label>
             	<description i18n="true">PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_CPU_DESCRIPTION</description>
             </extension>
+        	<!-- Monitor the disk I/O operations -->
+            <extension point="org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.MonitoringExtensionPoint"
+                       id="org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.sample.DiskIOSampleManager"
+                       class="org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.sample.DiskIOSampleManager"
+                       logger="org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.sample.DiskIOSampleManager">
+            	<id>disk-io</id>
+            	<label i18n="true">PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_DISKIO_LABEL</label>
+            	<description i18n="true">PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_DISKIO_DESCRIPTION</description>
+            </extension>
         </extensions>
     </feature>
     
