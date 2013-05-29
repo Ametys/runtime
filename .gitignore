@@ -6,6 +6,7 @@
 /junitvmwatcher4513.properties
 /junitvmwatcher47494.properties
 /target
+/template
 templates/application/WEB-INF/config
 templates/application/WEB-INF/data
 templates/application/WEB-INF/lib
