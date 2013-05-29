@@ -1,8 +1,0 @@
-Merged revisions 20033 via svnmerge from 
-https://svn.ametys.org/trunk/runtime/trunk
-
-........
-  r20033 | ngavalda | 2013-03-05 10:15:50 +0100 (mar., 05 mars 2013) | 1 line
-  
-  RUNTIME-776: add disk I/O monitor.
-........
