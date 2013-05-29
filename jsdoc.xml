@@ -20,7 +20,7 @@
          xmlns:clover="antlib:com.atlassian.clover"
          xmlns:ivy="antlib:org.apache.ivy.ant">
          
-    <property name="extjs-directory" location="D:\Libraries\Javascript\ext-4.1.1"/>
+    <property name="extjs-directory" location="D:\Libraries\Javascript\Extjs\ext-4.1.1"/>
     
     <target name="copyjsfiles">
         <copy todir="temp/kernel">
@@ -62,6 +62,9 @@
             
             <arg value="--output"/>
             <arg value="doc"/>
+            
+            <!--<arg value="- -template"/>
+            <arg value="template"/>-->
             
             <arg value="--ignore-global"/>
             
