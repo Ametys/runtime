@@ -115,7 +115,7 @@ public final class ImageHelper
         {
             if (maxWidth > 0)
             {
-                if (srcHeight < maxHeight && srcWidth < maxWidth)
+                if (srcHeight <= maxHeight && srcWidth <= maxWidth)
                 {
                     // the source image is already smaller than the destination box
                     return src;
@@ -126,7 +126,7 @@ public final class ImageHelper
             }
             else
             {
-                if (srcHeight < maxHeight)
+                if (srcHeight <= maxHeight)
                 {
                     // the source image is already smaller than the destination box
                     return src;
@@ -138,7 +138,7 @@ public final class ImageHelper
         }
         else if (maxWidth > 0)
         {
-            if (srcWidth < maxWidth)
+            if (srcWidth <= maxWidth)
             {
                 // the source image is already smaller than the destination box
                 return src;

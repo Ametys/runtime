@@ -99,7 +99,7 @@ public class ThreadSafeTraxProcessor extends AbstractLogEnabled implements XSLTP
     private boolean _dontUseCache;
     
     // the XSLT cache
-    private Map<String, Collection<CachedTemplates>> _templatesCache = new HashMap<String, Collection<CachedTemplates>>();
+    private Map<String, TemplatesCache> _templatesCache = new HashMap<String, TemplatesCache>();
     
     @Override
     public void contextualize(Context context) throws ContextException
@@ -228,13 +228,13 @@ public class ThreadSafeTraxProcessor extends AbstractLogEnabled implements XSLTP
         // synchronize on XSL name to avoid concurrent write access to the cache for a given stylesheet
         synchronized (uri)
         {
-            Collection<CachedTemplates> cachedTemplates = _templatesCache.get(uri);
+            TemplatesCache cachedTemplates = _templatesCache.get(uri);
             
             if (!_dontUseCache)
             {
-                if (cachedTemplates != null)
+                if (cachedTemplates != null && cachedTemplates.getLastModified() == stylesheet.getLastModified())
                 {
-                    CachedTemplates templates = _getCachedTemplates(cachedTemplates);
+                    CachedTemplates templates = _getCachedTemplates(cachedTemplates.getCollection());
                     
                     if (templates != null)
                     {
@@ -248,7 +248,7 @@ public class ThreadSafeTraxProcessor extends AbstractLogEnabled implements XSLTP
                 }
                 else
                 {
-                    cachedTemplates = new ArrayList<CachedTemplates>();
+                    cachedTemplates = new TemplatesCache(stylesheet.getLastModified());
                     _templatesCache.put(uri, cachedTemplates);
                 }
             }
@@ -276,7 +276,7 @@ public class ThreadSafeTraxProcessor extends AbstractLogEnabled implements XSLTP
             
             if (!_dontUseCache)
             {
-                cachedTemplates.add(templates);
+                cachedTemplates.getCollection().add(templates);
             }
             
             return templates.getTemplates();
@@ -875,6 +875,40 @@ public class ThreadSafeTraxProcessor extends AbstractLogEnabled implements XSLTP
         {
             _resolvedURI = resolvedURI;
             _timestamp = timestamp;
+        }
+    }
+    
+    private static class TemplatesCache
+    {
+        private Collection<CachedTemplates> _templatesCache;
+        private long _lastModified;
+        
+        /**
+         * Build a cache
+         * @param lastModified The last modified date
+         */
+        public TemplatesCache(long lastModified)
+        {
+            _templatesCache = new ArrayList<CachedTemplates>();
+            _lastModified = lastModified;
+        }
+        
+        /**
+         * Get the intern collection
+         * @return The collection
+         */
+        public Collection<CachedTemplates> getCollection()
+        {
+            return _templatesCache;
+        }
+        
+        /**
+         * Get the last modified date
+         * @return the last modified date
+         */
+        public long getLastModified()
+        {
+            return _lastModified;
         }
     }
 }

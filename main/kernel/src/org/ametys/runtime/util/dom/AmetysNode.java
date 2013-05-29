@@ -53,7 +53,7 @@ public abstract class AmetysNode implements Node
     @Override
     public NodeList getChildNodes()
     {
-        return new AmetysNodeList(Collections.EMPTY_LIST);
+        return new AmetysNodeList(Collections.<Node>emptyList());
     }
 
     @Override
