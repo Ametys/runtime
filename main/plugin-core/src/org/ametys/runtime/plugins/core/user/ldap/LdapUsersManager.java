@@ -100,7 +100,7 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
         List<User> users = new ArrayList<User>();
         
         DirContext context = null;
-        NamingEnumeration results = null;
+        NamingEnumeration<SearchResult> results = null;
 
         try
         {
@@ -113,7 +113,7 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
             // Remplir la liste des utilisateurs
             while (results.hasMoreElements())
             {
-                Map<String, Object> attributes = _getAttributes((SearchResult) results.nextElement());
+                Map<String, Object> attributes = _getAttributes(results.nextElement());
                 if (attributes != null)
                 {
                     // Ajouter un nouveau principal à la liste
@@ -162,7 +162,7 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
         User principal = null;
 
         DirContext context = null;
-        NamingEnumeration results = null;
+        NamingEnumeration<SearchResult> results = null;
 
         try
         {
@@ -179,14 +179,15 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
             // Chercher l'utilisateur voulu
             if (results.hasMore())
             {
-                Map<String, Object> attributes = _getAttributes((SearchResult) results.nextElement());
+                Map<String, Object> attributes = _getAttributes(results.next());
                 if (attributes != null)
                 {
                     // Ajouter un nouveau principal à la liste
                     principal = _createUser (attributes);
                 }
                 
-                if (results.hasMore())
+                // Test if the enumeration has more results with hasMoreElements to avoid unnecessary logs.
+                if (results.hasMoreElements())
                 {
                     // Annuler le résultat car plusieurs correspondances pour un login
                     principal = null;
@@ -201,11 +202,11 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
         }
         catch (IllegalArgumentException e)
         {
-            getLogger().error("Error missing at least one attribute or attribute value", e);
+            getLogger().error("Error missing at least one attribute or attribute value for login '" + login + "'", e);
         }
         catch (NamingException e)
         {
-            getLogger().error("Error communication with ldap server", e);
+            getLogger().error("Error communicating with ldap server retrieving user with login '" + login + "'", e);
         }
 
         finally
@@ -242,7 +243,7 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
     public void saxUser(String login, ContentHandler handler) throws SAXException
     {
         DirContext context = null;
-        NamingEnumeration results = null;
+        NamingEnumeration<SearchResult> results = null;
 
         try
         {
@@ -259,16 +260,16 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
             // Chercher l'utilisateur voulu
             if (results.hasMoreElements())
             {
-                SearchResult  result = (SearchResult) results.nextElement();
+                SearchResult  result = results.nextElement();
                 _entryToSAX(handler, _getAttributes(result));
-            }
-
-            if (results.hasMoreElements())
-            {
-                // Annuler le résultat car plusieurs correspondances pour un login
-                String errorMessage = "Multiple matches for attribute '" + _usersLoginAttribute + "' and value = '" + login + "'";
-                getLogger().error(errorMessage);
-                throw new IllegalArgumentException(errorMessage);
+                
+                if (results.hasMoreElements())
+                {
+                    // Annuler le résultat car plusieurs correspondances pour un login
+                    String errorMessage = "Multiple matches for attribute '" + _usersLoginAttribute + "' and value = '" + login + "'";
+                    getLogger().error(errorMessage);
+                    throw new IllegalArgumentException(errorMessage);
+                }
             }
         }
         catch (NamingException e)
@@ -338,7 +339,7 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
      * @throws SAXException if an error occured
      * @throws IllegalArgumentException if an error occured
      */
-    private int _sax(ContentHandler handler, Map<String, Map<String, Object>> entries, int count, int offset, String pattern, NamingEnumeration results, int possibleErrors) throws SAXException
+    private int _sax(ContentHandler handler, Map<String, Map<String, Object>> entries, int count, int offset, String pattern, NamingEnumeration<SearchResult> results, int possibleErrors) throws SAXException
     {
         int nbResults = 0;
         
@@ -361,7 +362,7 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
             nbResults++;
             
             // Passer à l'entrée suivante
-            SearchResult result = (SearchResult) results.nextElement();
+            SearchResult result = results.nextElement();
             Map<String, Object> attrs = _getAttributes(result);
             if (attrs != null)
             {
@@ -407,7 +408,7 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
     protected int _toSAXInternal(ContentHandler handler, Map<String, Map<String, Object>> entries, int count, int offset, String pattern, int possibleErrors) throws SAXException
     {        
         LdapContext context = null;
-        NamingEnumeration results = null;
+        NamingEnumeration<SearchResult> results = null;
 
         try
         {
@@ -433,7 +434,7 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
         }
         catch (NamingException e)
         {
-            getLogger().error("Error durring the communication with ldap server", e);
+            getLogger().error("Error during the communication with ldap server", e);
             return -1;
         }
         finally
