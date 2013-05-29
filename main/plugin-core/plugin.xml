@@ -129,7 +129,6 @@
              -->
             <label i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_PASSWORD_LABEL</label>
             <description i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_PASSWORD_DESCRIPTION</description>
-            <default-value>password</default-value>
             <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE</category>
             <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE_GROUP_CORE</group>
             <order>40</order>

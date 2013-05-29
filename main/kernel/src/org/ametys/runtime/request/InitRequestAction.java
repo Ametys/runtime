@@ -23,6 +23,7 @@ import org.apache.cocoon.acting.ServiceableAction;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
+import org.apache.cocoon.environment.Response;
 import org.apache.cocoon.environment.SourceResolver;
 
 import org.ametys.runtime.config.ConfigManager;
@@ -52,7 +53,11 @@ public class InitRequestAction extends ServiceableAction implements ThreadSafe
                 }
             }
             
-            // else, redirect
+            // else, set header
+            Response response = ObjectModelHelper.getResponse(objectModel);
+            response.addHeader("X-Ametys-IncompleteConfig", "true");
+            
+            // and redirect
             String redirectURL = RuntimeConfig.getInstance().getIncompleteConfigRedirectURL();
             
             if (redirectURL.startsWith("cocoon:/"))

@@ -32,13 +32,16 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.commons.lang.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.jsoup.select.Selector;
 
 import org.ametys.runtime.config.Config;
+import org.ametys.runtime.util.LoggerFactory;
 
 /**
  * Helper for sending mail
@@ -46,11 +49,14 @@ import org.ametys.runtime.config.Config;
  */
 public final class SendMailHelper
 {
+    /** Logger */
+    protected final static Logger _LOGGER = LoggerFactory.getLoggerFor(SendMailHelper.class);
+
     private SendMailHelper ()
     {
         // Nothing
     }
-    
+
     /**
      * Sends mail without authentication or attachments.
      * @param subject The mail subject
@@ -74,9 +80,10 @@ public final class SendMailHelper
         catch (IOException e)
         {
             // Should never happen, as IOException can only be thrown where there are attachments.
+            _LOGGER.error("Cannot send mail " + subject + " to " + recipient, e);
         }
     }
-    
+
     /**
      * Sends mail without authentication or attachments.
      * @param subject The mail subject
@@ -97,10 +104,11 @@ public final class SendMailHelper
         catch (IOException e)
         {
             // Should never happen, as IOException can only be thrown where there are attachments.
+            _LOGGER.error("Cannot send mail " + subject + " to " + recipient, e);
         }
     }
-    
-    
+
+
     /**
      * Sends mail with authentication, without attachments.
      * @param subject The mail subject
@@ -123,9 +131,10 @@ public final class SendMailHelper
         catch (IOException e)
         {
             // Should never happen, as IOException can only be thrown where there are attachments.
+            _LOGGER.error("Cannot send mail " + subject + " to " + recipient, e);
         }
     }
-    
+
     /**
      * Sends mail without authentication, with attachments.
      * @param subject The mail subject
@@ -146,7 +155,7 @@ public final class SendMailHelper
 
         sendMail(subject, htmlBody, textBody, attachments, recipient, sender, smtpHost, smtpPort, smtpUser, smtpPass);
     }
-    
+
     /**
      * Sends mail without authentication, with attachments.
      * @param subject The mail subject
@@ -164,7 +173,7 @@ public final class SendMailHelper
     {
         sendMail(subject, htmlBody, textBody, attachments, recipient, sender, host, port, null, null);
     }
-    
+
     /**
      * Sends mail with authentication and attachments.
      * @param subject The mail subject
@@ -198,16 +207,16 @@ public final class SendMailHelper
             message.setFrom(new InternetAddress(sender));
             message.setSentDate(new Date());
             message.setSubject(subject);
-            
+
             // Root multipart
             Multipart multipart = new MimeMultipart("mixed");
-            
+
             // Message body part.
             Multipart messageMultipart = new MimeMultipart("alternative");
             MimeBodyPart messagePart = new MimeBodyPart();
             messagePart.setContent(messageMultipart);
             multipart.addBodyPart(messagePart);
-            
+
             if (textBody != null)
             {
                 MimeBodyPart textBodyPart = new MimeBodyPart();
@@ -215,7 +224,7 @@ public final class SendMailHelper
                 textBodyPart.addHeader("Content-Type", "text/plain;charset=utf-8");
                 messageMultipart.addBodyPart(textBodyPart);
             }
-            
+
             if (htmlBody != null)
             {
                 MimeBodyPart htmlBodyPart = new MimeBodyPart();
@@ -223,7 +232,7 @@ public final class SendMailHelper
                 htmlBodyPart.addHeader("Content-Type", "text/html;charset=utf-8");
                 messageMultipart.addBodyPart(htmlBodyPart);
             }
-            
+
             if (attachments != null)
             {
                 for (File attachment : attachments)
@@ -233,12 +242,12 @@ public final class SendMailHelper
                     multipart.addBodyPart(fileBodyPart);
                 }
             }
-            
+
             message.setContent(multipart);
-            
+
             // Recipient
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-            
+
             Transport tr = session.getTransport("smtp");
 
             if (StringUtils.isNotBlank(user))
@@ -249,7 +258,7 @@ public final class SendMailHelper
             {
                 tr.connect();
             }
-            
+
             message.saveChanges();
             tr.sendMessage(message, message.getAllRecipients());
             tr.close();
@@ -259,7 +268,7 @@ public final class SendMailHelper
             throw new MessagingException(e.getMessage(), e);
         }
     }
-    
+
     /**
      * This method inline css in &lt;style&gt; tags directly in the appropriates tags. e.g. : <style>h1 {color: red;}</style> <h1>a</h1> becomes <h1 style="color: red">a</h1>
      * @param html The initial non null html
@@ -269,16 +278,16 @@ public final class SendMailHelper
     {
         Document doc = Jsoup.parse(html); 
         Elements els = doc.select("style");
-        
+
         for (Element e : els) 
         { 
             String styleRules = e.getAllElements().get(0).data();
             styleRules = styleRules.replaceAll("\t|\n", "").replaceAll("<!--", "").replaceAll("-->", "");
-            
+
             styleRules = _removeComments(styleRules);
 
             styleRules = styleRules.trim();
-            
+
             StringTokenizer st = new StringTokenizer(styleRules, "{}"); 
             while (st.countTokens() > 1) 
             { 
@@ -288,37 +297,43 @@ public final class SendMailHelper
                 String[] selector = selectors.split(",");
                 for (String s : selector)
                 {
-                    if (StringUtils.isNotEmpty(s) && !s.contains(":"))
+                    if (StringUtils.isNotBlank(s) && !s.contains(":"))
                     {
-                        Elements selectedElements = doc.select(s); 
-                        for (Element selElem : selectedElements) 
-                        { 
-                            String oldProperties = selElem.attr("style"); 
-                            selElem.attr("style", oldProperties.length() > 0 ? concatenateProperties(oldProperties, properties) : properties); 
-                        } 
-                        
+                        try
+                        {
+                            Elements selectedElements = doc.select(s); 
+                            for (Element selElem : selectedElements) 
+                            { 
+                                String oldProperties = selElem.attr("style"); 
+                                selElem.attr("style", oldProperties.length() > 0 ? concatenateProperties(oldProperties, properties) : properties); 
+                            } 
+                        }
+                        catch (Selector.SelectorParseException ex)
+                        {
+                            _LOGGER.error("Cannot inline CSS. Ignoring this rule and continuing.", ex);
+                        }
                     }
                 }
             } 
             e.remove(); 
         }
-        
+
         return doc.toString();
     }
-    
+
     private static String _removeComments(String styleRules)
     {
         int i = styleRules.indexOf("/*");
         int j = styleRules.indexOf("*/");
-        
+
         if (i >= 0 && j > i)
         {
             return styleRules.substring(0, i) + _removeComments(styleRules.substring(j + 2));
         }
-        
+
         return styleRules;
     }
-    
+
     private static String concatenateProperties(String oldProp, String newProp) 
     { 
         String between = "";
