@@ -355,16 +355,17 @@ Ext.define(
 			sendOptions.failure = this._onRequestFailure;
 			sendOptions.scope = this;
 			sendOptions.params = "content=" + encodeURIComponent(Ext.JSON.encode(parameters)) 
-			sendOptions.messages = m != null ? [m] : this._messages;
 			sendOptions._timeoutIndex = index;
 			sendOptions._timeout = window.setTimeout("Ametys.data.ServerComm._onRequestTimeout ('" + index + "', " + timeout + ");", timeout);
+			
+			sendOptions._transactionId = Ext.Ajax.request(sendOptions);
+			sendOptions.messages = m != null ? [m] : this._messages;
 
 			if (m == null)
 			{
 				this._messages = [];
 			}
 
-			sendOptions._transactionId = Ext.Ajax.request(sendOptions);
 
 			if (typeof this._observer.onRequestDeparture == "function")
 			{
