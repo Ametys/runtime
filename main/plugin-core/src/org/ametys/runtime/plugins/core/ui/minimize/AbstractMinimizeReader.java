@@ -46,21 +46,21 @@ public abstract class AbstractMinimizeReader extends ServiceableReader implement
 {
     /** The source resolver */
     protected SourceResolver _resolver;
-    
+
     @Override
     public void service(ServiceManager smanager) throws ServiceException
     {
         super.service(smanager);
         _resolver = (SourceResolver) smanager.lookup(SourceResolver.ROLE);
     }
-    
+
     @Override
     public Serializable getKey()
     {
         boolean importMode = parameters.getParameterAsBoolean("import", false);
         return source + "-" + importMode;
     }
-    
+
     @Override
     public SourceValidity getValidity()
     {
@@ -75,42 +75,42 @@ public abstract class AbstractMinimizeReader extends ServiceableReader implement
             return new NOPValidity();
         }
     }
-    
+
     @Override
     public long getLastModified()
     {
         return 0;
     }
-    
+
     /**
      * Should return the session attribute suffix ($js or $css for example)
      * @return The code
      */
     protected abstract String getListCode();
-    
+
     private List<String> _getFileList()
     {
         Session session = ObjectModelHelper.getRequest(objectModel).getSession(true);
-        
+
         Map<Integer, List<String>> codesAndFiles = (Map<Integer, List<String>>) session.getAttribute(MinimizeTransformer.class.getName() + getListCode());
         if (codesAndFiles == null)
         {
-            throw new IllegalStateException("No files list register in that user's session (" + getListCode() + ")");
+            throw new IllegalStateException("No files list register in that user's session (" + MinimizeTransformer.class.getName() + getListCode() + ")");
         }
-        
+
         int id = Integer.parseInt(source);
         if (!codesAndFiles.containsKey(id))
         {
-            throw new IllegalStateException("No files list using code '" + source + "' register in that user's session (" + getListCode() + ")");
+            throw new IllegalStateException("No files list using code '" + source + "' register in that user's session (" + MinimizeTransformer.class.getName() + getListCode() + ")");
         }
         return codesAndFiles.get(id);
     }
-    
+
     @Override
     public void generate() throws IOException, SAXException, ProcessingException
     {
         StringBuffer sb = new StringBuffer("");
-        
+
         List<String> files = _getFileList();
         if (files != null) 
         {
@@ -119,11 +119,11 @@ public abstract class AbstractMinimizeReader extends ServiceableReader implement
                 sb.append(_handleFile(file, ObjectModelHelper.getRequest(objectModel).getContextPath()));
             }
         } 
-             
+
         IOUtils.write(sb.toString(), out);
         IOUtils.closeQuietly(out);
     }
-    
+
     /**
      * Implement to import a file
      * @param file The file to import
@@ -138,7 +138,7 @@ public abstract class AbstractMinimizeReader extends ServiceableReader implement
      * @return The included file
      */
     protected abstract String _handleFileDirect(String file, String contextPath);
-    
+
     private String _handleFile(String file, String contextPath)
     {
         boolean importMode = parameters.getParameterAsBoolean("import", false);
@@ -152,14 +152,14 @@ public abstract class AbstractMinimizeReader extends ServiceableReader implement
             return _handleFileDirect(file, contextPath);
         }
     }
-    
+
     /**
      * Error reporter in a logger 
      */
     public class LoggerErrorReporter implements org.mozilla.javascript.ErrorReporter
     {
-        private Logger _logger;
-        
+        private final Logger _logger;
+
         /** 
          * Create the a reporter based uppon a logger
          * @param logger The logger
@@ -168,7 +168,7 @@ public abstract class AbstractMinimizeReader extends ServiceableReader implement
         {
             _logger = logger;
         }
-        
+
         @Override
         public void warning(String message, String sourceName, int line, String lineSource, int lineOffset)
         {
@@ -179,7 +179,7 @@ public abstract class AbstractMinimizeReader extends ServiceableReader implement
         {
             _logger.error(message + " " + sourceName + " line " + line + " " + lineSource + " col " + lineOffset);
         }
-        
+
         @Override
         public EvaluatorException runtimeError(String message, String sourceName, int line, String lineSource, int lineOffset)
         {
