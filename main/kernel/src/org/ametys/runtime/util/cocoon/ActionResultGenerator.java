@@ -42,19 +42,20 @@ public class ActionResultGenerator extends AbstractGenerator
     /** Request attribute name containing the map to use. */
     public static final String MAP_REQUEST_ATTR = ActionResultGenerator.class.getName() + ";map";
 
+    @Override
     public void generate() throws IOException, SAXException, ProcessingException
     {
         contentHandler.startDocument();
         XMLUtils.startElement(contentHandler, "ActionResult");
-        
+
         saxParams();
         saxMap();
         saxSource();
-        
+
         XMLUtils.endElement(contentHandler, "ActionResult");
         contentHandler.endDocument();
     }
-    
+
     /**
      * Take the url in the source and sax it
      * the request parameters are converted into jsParameters
@@ -68,7 +69,7 @@ public class ActionResultGenerator extends AbstractGenerator
         {
             return;
         }
-        
+
         SitemapSource sitemapSource = null;
         try
         {
@@ -87,18 +88,18 @@ public class ActionResultGenerator extends AbstractGenerator
 
                     String argsName = argString;
                     String argsValue = "";
-                    
+
                     int equalsIndex = argString.indexOf("=");
                     if (equalsIndex >= 0)
                     {
                         argsName = argString.substring(0, equalsIndex);
                         argsValue = argString.substring(equalsIndex + 1);
                     }
-                    
+
                     jsParameters.put(argsName, argsValue);
                 }
             }
-            
+
             sitemapSource = (SitemapSource) resolver.resolveURI("cocoon:/" + source, null, jsParameters);
             sitemapSource.toSAX(contentHandler);
         }
@@ -107,7 +108,7 @@ public class ActionResultGenerator extends AbstractGenerator
             resolver.release(sitemapSource);
         }
     }
-    
+
     /**
      * Sax the sitemap parameters
      * @throws IOException on error
@@ -121,7 +122,7 @@ public class ActionResultGenerator extends AbstractGenerator
             XMLUtils.createElement(contentHandler, parameterName, parameters.getParameter(parameterName, ""));
         }
     }
-    
+
     /**
      * Used by saxMap to sax one item
      * @param key The key of the item
@@ -130,17 +131,18 @@ public class ActionResultGenerator extends AbstractGenerator
      * @throws SAXException on error
      * @throws ProcessingException on error
      */
+    @SuppressWarnings("unchecked")
     protected void saxMapItem(String key, Object value) throws IOException, SAXException, ProcessingException
     {
         if (value instanceof Errors)
         {
             XMLUtils.startElement(contentHandler, key);
-            
+
             for (I18nizableText errorLabel : ((Errors) value).getErrors())
             {
                 errorLabel.toSAX(contentHandler, "error");
             }
-            
+
             XMLUtils.endElement(contentHandler, key);
         }
         else if (value instanceof I18nizableText)
@@ -149,6 +151,7 @@ public class ActionResultGenerator extends AbstractGenerator
         }
         else if (value instanceof Collection)
         {
+            XMLUtils.startElement(contentHandler, key);
             for (Object item : (Collection) value)
             {
                 if (item != null)
@@ -156,20 +159,33 @@ public class ActionResultGenerator extends AbstractGenerator
                     saxMapItem(key, item);
                 }
             }
+            XMLUtils.endElement(contentHandler, key);
+        }
+        else if (value instanceof Map)
+        {
+            XMLUtils.startElement(contentHandler, key);
+            for (Map.Entry<String, Object> entry : ((Map<String, Object>) value).entrySet())
+            {
+                String iKey = entry.getKey();
+                Object iValue = entry.getValue();
+
+                saxMapItem(iKey, iValue);
+            }
+            XMLUtils.endElement(contentHandler, key);
         }
         else
         {
             String stringValue = "";
-            
+
             if (value != null)
             {
                 stringValue = value.toString();
             }
-            
+
             XMLUtils.createElement(contentHandler, key, stringValue);
         }
     }
-    
+
     /**
      * Sax the map in request attribute MAP_REQUEST_ATTR. Should be a Map&gt;String, Object&gt; where values are saxed depending on their type : 
      * &gt;ul&gt;
@@ -187,14 +203,14 @@ public class ActionResultGenerator extends AbstractGenerator
     {
         Request request = ObjectModelHelper.getRequest(objectModel);
         Map<String, Object> map = (Map<String, Object>) request.getAttribute(MAP_REQUEST_ATTR);
-        
+
         if (map != null)
         {
             for (Map.Entry<String, Object> entry : map.entrySet())
             {
                 String key = entry.getKey();
                 Object value = entry.getValue();
-    
+
                 saxMapItem(key, value);
             }
         }
