@@ -49,7 +49,7 @@
     <target name="calljsduck">
         <delete dir="doc"/>
         <echo>Processing js doc...</echo>
-        <exec executable="jsduck-4.10.3.exe" outputproperty="log">
+        <exec executable="jsduck-5.0.0.beta3.exe" outputproperty="log">
             <arg value="temp/kernel"/>
             <arg value="temp/plugin-core"/>
             <arg value="temp/workspace-admin"/>

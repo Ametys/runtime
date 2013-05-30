@@ -27,121 +27,55 @@ Ext.define('Ametys.form.field.ChangePassword', {
         /**
          * @protected
          * @readonly
-		 * @static
-         * @property {Number} INDEX_MAIN_FIELD index for the main field in the items
+         * @type {Number} 
+         * index for the main field in the items
          */
         INDEX_MAIN_FIELD: 0,
         /**
          * @protected
          * @readonly
-		 * @static
-         * @property {Number} INDEX_CONFIRMATION_FIELD index for the confirmation field in the items
+         * @type {Number} 
+         * index for the confirmation field in the items
          */
         INDEX_CONFIRMATION_FIELD: 1,
         /**
          * @protected
          * @readonly
-		 * @static
-         * @property {Number} INDEX_CHANGEPASSWORD_BUTTON index for the change password button in the items
+         * @type {Number} 
+         * index for the change password button in the items
          */
         INDEX_CHANGEPASSWORD_BUTTON: 3,
         /**
          * @protected
          * @readonly
-		 * @static
-         * @property {Number} INDEX_RESETPASSWORD_BUTTON index for the change password button in the items
+         * @type {Number} 
+         * index for the change password button in the items
          */
         INDEX_RESETPASSWORD_BUTTON: 2,
 
         /**
          * @protected
          * @readonly
-		 * @static
-         * @property {Number} MODE_SETPASSWORD the mode when setting a password for the first time
+         * @type {Number} 
+         * the mode when setting a password for the first time
          */
         MODE_SETPASSWORD: 0,
         /**
          * @protected
          * @readonly
-		 * @static
-         * @property {Number} MODE_SEEPASSWORD the mode when displaying a password
+         * @type {Number} 
+         * the mode when displaying a password
          */
         MODE_SEEPASSWORD: 1,
         /**
          * @protected
          * @readonly
-		 * @static
-         * @property {Number} MODE_CHANGEPASSWORD the mode when changing a existing password 
+         * @type {Number} 
+         * the mode when changing a existing password 
          */
         MODE_CHANGEPASSWORD: 2
     },
     
-    /**
-     * @cfg {Object} passwordConfig The configuration object for the first text field. Note that many configuration can be setted directly here and will we broadcasted to underlying field (allowBlank...)
-     */
-    /**
-     * @cfg {Object} confirmConfig The configuration object for the second text field. Note that many configuration can be setted directly here and will we broadcasted to underlying field (allowBlank...). Default to {@link #passwordConfig}.
-     */
-    /**
-     * @cfg {Object} buttonConfig The configuration object for the button to change password.
-     */
-    /**
-     * @cfg {Boolean} allowBlank
-     * This property is copied to underlying text fields. See {@link Ext.form.field.Text#cfg-allowBlank}.
-     */
-    /**
-     * @cfg {Boolean} blankText
-     * This property is copied to underlying text fields. See {@link Ext.form.field.Text#cfg-blankText}.
-     */
-    /**
-     * @cfg {Boolean} emptyText
-     * This property is copied to underlying text fields. See {@link Ext.form.field.Text#cfg-emptyText}.
-     */
-    /**
-     * @cfg {Boolean} invalidText
-     * This property is copied to underlying text fields. See {@link Ext.form.field.Text#cfg-invalidText}.
-     */
-    /**
-     * @cfg {Boolean} maskRe
-     * This property is copied to underlying text fields. See {@link Ext.form.field.Text#cfg-maskRe}.
-     */
-    /**
-     * @cfg {Boolean} maxLength
-     * This property is copied to underlying text fields. See {@link Ext.form.field.Text#cfg-maxLength}.
-     */
-    /**
-     * @cfg {Boolean} maxLengthText
-     * This property is copied to underlying text fields. See {@link Ext.form.field.Text#cfg-maxLengthText}.
-     */
-    /**
-     * @cfg {Boolean} minLength
-     * This property is copied to underlying text fields. See {@link Ext.form.field.Text#cfg-minLength}.
-     */
-    /**
-     * @cfg {Boolean} minLengthText
-     * This property is copied to underlying text fields. See {@link Ext.form.field.Text#cfg-minLengthText}.
-     */
-    /**
-     * @cfg {Boolean} regex
-     * This property is copied to underlying text fields. See {@link Ext.form.field.Text#cfg-regex}.
-     */
-    /**
-     * @cfg {Boolean} regexText
-     * This property is copied to underlying text fields. See {@link Ext.form.field.Text#cfg-regexText}.
-     */
-    /**
-     * @cfg {Boolean} selectOnFocus
-     * This property is copied to underlying text fields. See {@link Ext.form.field.Text#cfg-selectOnFocus}.
-     */
-    /**
-     * @cfg {Boolean} size
-     * This property is copied to underlying text fields. See {@link Ext.form.field.Text#cfg-size}.
-     */
-    /**
-     * @cfg {Boolean} stripCharsRe
-     * This property is copied to underlying text fields. See {@link Ext.form.field.Text#cfg-stripCharsRe}.
-     */
-
     layout: {type: 'table', columns: 2, tableAttrs: { style: { width: '100%' } } },
     cls: 'ametys-changepassword',
 
@@ -251,10 +185,10 @@ Ext.define('Ametys.form.field.ChangePassword', {
     },
     
     /**
-     * @private
      * Same as validate for global
      * Doc of validate is :
      * @inheritdoc #validate
+     * @private
      */
     validateGlobal : function() {
         var me = this,
@@ -305,8 +239,9 @@ Ext.define('Ametys.form.field.ChangePassword', {
     },
 
     /**
-     * @private
+     * Change the mode
      * @param {Number} mode The mode to set (see {@link #property-mode}). The render is modified.
+     * @private
      */
     _setToMode: function(mode) {
     	if (this.mode == Ametys.form.field.ChangePassword.MODE_SEEPASSWORD)
@@ -326,8 +261,8 @@ Ext.define('Ametys.form.field.ChangePassword', {
     },
     
     /**
-     * @private
      * Modify the render to adapt it to the current mode and current enable state
+     * @private
      */
     _adaptRenderToMode: function() {
     	if (!this.rendered)
