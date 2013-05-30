@@ -46,13 +46,13 @@ Ext.define('Ametys.workspace.admin.rightpanel.ActionPanel.Action', {
     		    /**
                  * @event mouseover
                  * Fires mouse over processing.
-                 * @param {Event} e
+                 * @param {Event} e The event object
                  */
                 "mouseover",
                 /**
                  * @event mouseout
                  * Fires mouse out processing.
-                 * @param {Event} e
+                 * @param {Event} e The event object
                  */
                 "mouseout"
     	);

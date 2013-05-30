@@ -134,10 +134,11 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 
 	/**
 	 * Listener when a user is selected
-	 * @param  {Ext.selection.RowModel} me
+	 * @param {Ext.selection.RowModel} me
 	 * @param {Ext.data.Model} record
 	 * @param {Number} index
 	 * @param {Object} eOpts 
+	 * @private
 	 */
 	_selectUser: function (me, record, index, eOpts)
 	{
@@ -155,10 +156,11 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 
 	/**
 	 * Listener when a user is deselected
-	 * @param  {Ext.selection.RowModel} me
+	 * @param {Ext.selection.RowModel} me
 	 * @param {Ext.data.Model} record
 	 * @param {Number} index
 	 * @param {Object} eOpts 
+	 * @private
 	 */
 	_unSelectUser: function (me, record, index, eOpts)
 	{
