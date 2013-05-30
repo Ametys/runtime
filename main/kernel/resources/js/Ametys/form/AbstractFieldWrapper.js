@@ -20,7 +20,7 @@
  * Default layout is column.<br/>
  * To handle global errors override {@link #getErrors}.<br/>
  * To make your field compatible with form, if your are not returning strings, see {@link #getSubmitData}
- * <code>
+ * <pre><code>
  *      // A component to enter a number (&gt; 5) with spinner and a two chars text
  * 		Ext.define('Ametys.toto', {
  * 			extend : 'Ametys.form.AbstractFieldWrapper',
@@ -74,7 +74,7 @@
  * 				return sizes;
  * 			}
  *  	})
- * </code>
+ * </code></pre>
  */
 Ext.define('Ametys.form.AbstractFieldWrapper', {
     extend:'Ext.form.FieldContainer',

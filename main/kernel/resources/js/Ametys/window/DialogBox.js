@@ -19,8 +19,7 @@
  * Hanlding 'return' key to validate the dialog box.
  * Initialized as modal, non-resizable and with a inside padding of 5 pixels.
  * 
- * <code>
- * 
+ * <pre><code>
  * 	Ext.create("Ametys.window.DialogBox", {
  * 				title: 'Error 17',
  * 				icon: 'error_16.gif',
@@ -44,7 +43,7 @@
  * 					}
  * 				]
  * 	}).show();
- * </code>
+ * </code></pre>
  */
 Ext.define(
 	"Ametys.window.DialogBox", 

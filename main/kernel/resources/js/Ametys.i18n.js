@@ -18,7 +18,8 @@
   * Root for all Ametys objects and methods. Also contains application parameters.<br/>
   * <br/>
   * Before loading this class you have to initialize the window.ametys_opt variable:
-  * <code>		
+  * 
+  * <pre><code>		
   * 	// Theses options are here to initialize the Ametys object.
   * 	// Do not use theses since their are removed during Ametys initialization process
   * 	window.ametys_opts = {
@@ -31,7 +32,8 @@
   * 		"max-upload-size": '10670080', 			// See MAX_UPLOAD_SIZE for details
   * 		"language-code": 'fr' 					// See LANGUAGE_CODE for details
   * 	}
-  * </code>
+  * </code></pre>
+  * 
   * <br/>
   * Loading this class also initialize extjs with the following elements :
   * <ul>
