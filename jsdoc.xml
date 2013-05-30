@@ -60,6 +60,9 @@
             <arg value="--images"/>
             <arg value="${extjs-directory}\docs\images"/>
             
+            <arg value="--tags"/>
+            <arg value="tags.rb"/>
+            
             <arg value="--output"/>
             <arg value="doc"/>
             

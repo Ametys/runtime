@@ -308,6 +308,7 @@ Ext.SSL_SECURE_URL = Ext.BLANK_IMAGE_URL;
          * @member Ext.data.SortTypes
          * @method asNonAccentedUCString 
          * @since Ametys Runtime 3.0
+         * @ametys
          * Case insensitive string (which takes accents into account)
          * @param {Object} s The value being converted
          * @return {String} The comparison value
@@ -337,11 +338,13 @@ Ext.SSL_SECURE_URL = Ext.BLANK_IMAGE_URL;
  */
 /**
  * @member Ext.form.field.Base
+ * @ametys
  * @since Ametys Runtime 3.0
  * @cfg {String} ametysDescription A help image is added with the given description as a tooltip
  */
 /**
  * @member Ext.form.FieldContainer
+ * @ametys
  * @since Ametys Runtime 3.0
  * @cfg {String} ametysDescription A help image is added with the given description as a tooltip
  */
