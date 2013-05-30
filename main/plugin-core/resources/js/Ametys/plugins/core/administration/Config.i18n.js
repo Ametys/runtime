@@ -535,7 +535,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 				triggerAction: 'all',
 		        store: new Ext.data.SimpleStore({
 		            id: 0,
-		            fields: [ 'value', {name: 'text', sortType: Utils.sortAsNonAccentedUCString}],
+		            fields: [ 'value', {name: 'text', sortType: Ext.data.SortTypes.asNonAccentedUCString}],
 		            data: enumeration,
 		            sortInfo: {field: 'text'} // default order
 		        }),
