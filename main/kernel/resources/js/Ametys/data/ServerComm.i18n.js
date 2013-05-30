@@ -183,7 +183,7 @@ Ext.define(
 			else if (message.priority == Ametys.data.ServerComm.PRIORITY_LONG_REQUEST)
 			{
 				this._sendMessages(message);
-				return null:
+				return null;
 			}
 			else
 			{
