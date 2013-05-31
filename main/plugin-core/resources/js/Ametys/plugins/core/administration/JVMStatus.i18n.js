@@ -254,10 +254,10 @@ Ext.define('Ametys.plugins.core.administration.JVMStatus', {
 				hideCollapseTool: true,
 				
 		    	html: '<div class="monitoring">'
-		    		+ '    <button style="border-left-style: none;" id="btn-' + id + '-left" onclick="org.ametys.administration.JVMStatus._nextImg(\'' + id + '\', -1); return false;">&lt;&lt;</button>'
+		    		+ '    <button style="border-left-style: none;" id="btn-' + id + '-left" onclick="Ametys.plugins.core.administration.JVMStatus._nextImg(\'' + id + '\', -1); return false;">&lt;&lt;</button>'
 		    		+ '    <img id="img-' + id + '" src="' + Ametys.getPluginDirectPrefix("core") + '/administrator/jvmstatus/monitoring/' + id + '/' + this.periods[1] + '.png" title="' + description + '"/>'
-		    		+ '    <button style="border-right-style: none;" id="btn-' + id + '-right"  onclick="org.ametys.administration.JVMStatus._nextImg(\'' + id + '\', +1); return false;">&gt;&gt;</button>'
-		    		+ '<br/><a target="_blank" href="' + Ametys.getPluginDirectPrefix("core") + '/administrator/jvmstatus/monitoring/' + id + '.xml"><i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_MONITORING_EXPORT"/><a>'
+		    		+ '    <button style="border-right-style: none;" id="btn-' + id + '-right"  onclick="Ametys.plugins.core.administration.JVMStatus._nextImg(\'' + id + '\', +1); return false;">&gt;&gt;</button>'
+		    		+ '<br/><a target="_blank" href="' + Ametys.getPluginDirectPrefix("core") + '/administrator/jvmstatus/monitoring/' + id + '.xml"><i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_MONITORING_EXPORT"/></a>'
 		    	    + '</div>'
 		    }));
 		}
