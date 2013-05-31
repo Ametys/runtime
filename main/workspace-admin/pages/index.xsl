@@ -112,11 +112,11 @@
 	    		
 	    		function _desktop_item_over() {
 	    			var i = this.icon.lastIndexOf(".");
-	    			this.getEl().query(".x-btn-icon ")[0].style.backgroundImage = "url('" + this.icon.substring(0, i) + "_over" + this.icon.substring(i) + "')";
+	    			this.getEl().query(".x-btn-icon-el")[0].style.backgroundImage = "url('" + this.icon.substring(0, i) + "_over" + this.icon.substring(i) + "')";
 	    		}
 	    		function _desktop_item_out() {
 	    			var i = this.icon.lastIndexOf(".");
-	    			this.getEl().query(".x-btn-icon ")[0].style.backgroundImage = "url('" + this.icon + "')";
+	    			this.getEl().query(".x-btn-icon-el")[0].style.backgroundImage = "url('" + this.icon + "')";
 	    		}
 				<xsl:for-each select="/Admin/Desktop/category">
 						var category = new Ext.Component ({

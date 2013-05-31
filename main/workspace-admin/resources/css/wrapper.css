@@ -257,9 +257,12 @@
 	background-image: none;
 	padding: 0;
 }
-.home-wrapper .home-main .home-col-left .paddle .x-panel-body .x-btn button {
+.home-wrapper .home-main .home-col-left .paddle .x-panel-body .x-btn-button {
+    height: 28px;
+}
+.home-wrapper .home-main .home-col-left .paddle .x-panel-body .x-btn .x-btn-icon-el {
 	width: 38px !important;
-	height: 20px;
+	height: 28px;
 	margin-bottom: 4px !important;
 	border: none;
 	
@@ -267,20 +270,20 @@
 	background-position: 0px 0px !important;
 	background-color: transparent;
 }
-.home-wrapper .home-main .home-col-left .paddle .x-panel-body .x-btn button .x-btn-icon {
+.home-wrapper .home-main .home-col-left .paddle .x-panel-body .x-btn .x-btn-button .x-btn-icon-el {
 	width: 38px;
 	height: 24px;
 }
-.home-wrapper .home-main .home-col-left .paddle .x-panel-body .x-btn-click button .x-btn-icon {
+.home-wrapper .home-main .home-col-left .paddle .x-panel-body .x-btn-click .x-btn-button .x-btn-icon-el {
 	background-position: -76px 0px !important;
 }
-.home-wrapper .home-main .home-col-left .paddle .x-panel-body .x-btn-focus button .x-btn-icon {
+.home-wrapper .home-main .home-col-left .paddle .x-panel-body .x-btn-focus .x-btn-button .x-btn-icon-el {
 	background-position: -76px 0px !important;
 }
-.home-wrapper .home-main .home-col-left .paddle .x-panel-body .x-btn-pressed button .x-btn-icon {
+.home-wrapper .home-main .home-col-left .paddle .x-panel-body .x-btn-pressed .x-btn-button .x-btn-icon-el {
 	background-position: -76px 0px !important;
 }
-.home-wrapper .home-main .home-col-left .paddle .x-panel-body .x-btn-over button .x-btn-icon {
+.home-wrapper .home-main .home-col-left .paddle .x-panel-body .x-btn-over .x-btn-button .x-btn-icon-el {
 	background-position: -38px 0px !important;
 }
 

@@ -523,7 +523,7 @@ Ext.define('Ametys.plugins.core.administration.Plugins', {
 			responseType: null
 		});
 		
-		this._mask =  new Ext.LoadMask(Ext.getBody());
+		this._mask =  new Ext.LoadMask({target: Ext.getBody()});
 		this._mask.show();
 	},
 
@@ -543,7 +543,7 @@ Ext.define('Ametys.plugins.core.administration.Plugins', {
 
 	    alert("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_DONE"/>");
 
-		this._mask =  new Ext.LoadMask(Ext.getBody());
+		this._mask =  new Ext.LoadMask({target: Ext.getBody()});
 		this._mask.show();
 	    
 	    // Restart

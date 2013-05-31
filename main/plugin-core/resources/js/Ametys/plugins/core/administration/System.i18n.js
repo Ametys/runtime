@@ -177,6 +177,12 @@ Ext.define('Ametys.plugins.core.administration.System', {
 	_onShow: function()
 	{
 		this._fieldSet.setHeight('auto');
+		
+		// OnExpand and OnCollapse is not fired anymore if the component is not rendered
+		if (this._fieldSet.collapsed)
+		{
+			this._actions.hide();
+		}
 	},
 
 	/**
@@ -240,8 +246,8 @@ Ext.define('Ametys.plugins.core.administration.System', {
 				Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/system/delete.png', 
 				Ext.bind(this.remove, this));
 			
-		this._actions.hideElt(3);
-		this._actions.hideElt(4);
+		this._actions.hideElt(1);
+		this._actions.hideElt(2);
 		
 		return this._actions;
 	},
@@ -268,19 +274,19 @@ Ext.define('Ametys.plugins.core.administration.System', {
 		var element = this._listView.getSelectionModel().getSelection()[0];
 		if (element == null)
 		{
-			this._actions.hideElt(3);
-			this._actions.hideElt(4);		  
+			this._actions.hideElt(1);
+			this._actions.hideElt(2);		  
 		}
 		else
 		{
-			this._actions.showElt(3);
+			this._actions.showElt(1);
 			if (element.get('lang') == '*')
 			{
-				this._actions.hideElt(4);		  
+				this._actions.hideElt(2);		  
 			}
 			else
 			{
-				this._actions.showElt(4);		      
+				this._actions.showElt(2);		      
 			}     
 		}
 	},

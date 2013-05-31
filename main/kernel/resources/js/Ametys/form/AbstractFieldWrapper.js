@@ -81,6 +81,8 @@ Ext.define('Ametys.form.AbstractFieldWrapper', {
     
     mixins: {field: 'Ext.form.field.Field'},
     
+    invalidCls : Ext.baseCSSPrefix + 'form-invalid',
+    
     layout: 'column',
     
     /**
@@ -157,7 +159,7 @@ Ext.define('Ametys.form.AbstractFieldWrapper', {
     {
     	this.callParent(arguments);
     	this.setSize(this.width, this.height);
-        this.onLabelableRender();
+        // this.onLabelableRender();
         this.renderActiveError();
 	},
     

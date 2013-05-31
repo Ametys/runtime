@@ -680,7 +680,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	{
 		if (mask)
 		{
-			 new Ext.LoadMask(Ext.getBody()).show();
+			 new Ext.LoadMask({target: Ext.getBody()}).show();
 		}
 	    document.location.href = Ametys.WORKSPACE_URI;
 	},
@@ -697,7 +697,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 			return;
 	    }
 	    
-	    this.save._mask = new Ext.LoadMask(Ext.getBody());
+	    this.save._mask = new Ext.LoadMask({target: Ext.getBody()});
 	    this.save._mask.show();
 	    Ext.defer(this.save2, 1, this);
 	},
@@ -789,12 +789,12 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 		
 		var a0 = Ext.get(this._ct.dom.children[0]).getTop();
 
-		for (var i=0;  i < this._ct.dom.children.length; i++)
+		for (var i=0;  i < this._ct.dom.children[0].children[0].children.length; i++)
 		{
-			var anchor = this._ct.dom.children[i];
+			var anchor = this._ct.dom.children[0].children[0].children[i];
 			if (i > 0) 
 			{
-				last = this._ct.dom.children[i-1];
+				last = this._ct.dom.children[0].children[0].children[i-1];
 			}
 			else 
 			{
@@ -809,7 +809,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 		
 		}
 		
-		this._activateItemMenu(this._ct.dom.children[this._ct.dom.children.length - 1].id);
+		this._activateItemMenu(this._ct.dom.children[0].children[0].children[this._ct.dom.children[0].children[0].children.length - 1].id);
 	},
 
 	/**

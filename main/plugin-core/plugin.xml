@@ -63,6 +63,90 @@
             <group i18n="true">PLUGINS_CORE_DEBUG_GROUP</group>
             <order>20</order>
         </param>
+                <param id="runtime.debug.ui2" type="long">
+            <!-- 
+                This parameter allows to load UI in debug mode (i.e. load CSS/JS not minified)
+             -->
+            <label i18n="true">PLUGINS_CORE_DEBUG_UI_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_DEBUG_UI_DESCRIPTION</description>
+            <enumeration>
+                <entry>
+                    <label i18n="true">PLUGINS_CORE_DEBUG_UI_VAL_0</label>
+                    <value>0</value>
+                </entry>
+                <entry>
+                    <label i18n="true">PLUGINS_CORE_DEBUG_UI_VAL_1</label>
+                    <value>1</value>
+                </entry>
+                <entry>
+                    <label i18n="true">PLUGINS_CORE_DEBUG_UI_VAL_2</label>
+                    <value>2</value>
+                </entry>
+            </enumeration>
+            <validation>
+                <mandatory/>
+            </validation>
+            <default-value>0</default-value>
+            <category i18n="true">PLUGINS_CORE_SYSTEM_CONFIG_CATEGORY</category>
+            <group i18n="true">PLUGINS_CORE_DEBUG_GROUP</group>
+            <order>20</order>
+        </param>
+                <param id="runtime.debug.ui3" type="long">
+            <!-- 
+                This parameter allows to load UI in debug mode (i.e. load CSS/JS not minified)
+             -->
+            <label i18n="true">PLUGINS_CORE_DEBUG_UI_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_DEBUG_UI_DESCRIPTION</description>
+            <enumeration>
+                <entry>
+                    <label i18n="true">PLUGINS_CORE_DEBUG_UI_VAL_0</label>
+                    <value>0</value>
+                </entry>
+                <entry>
+                    <label i18n="true">PLUGINS_CORE_DEBUG_UI_VAL_1</label>
+                    <value>1</value>
+                </entry>
+                <entry>
+                    <label i18n="true">PLUGINS_CORE_DEBUG_UI_VAL_2</label>
+                    <value>2</value>
+                </entry>
+            </enumeration>
+            <validation>
+                <mandatory/>
+            </validation>
+            <default-value>0</default-value>
+            <category i18n="true">PLUGINS_CORE_SYSTEM_CONFIG_CATEGORY</category>
+            <group i18n="true">PLUGINS_CORE_DEBUG_GROUP</group>
+            <order>20</order>
+        </param>
+                <param id="runtime.debug.ui4" type="long">
+            <!-- 
+                This parameter allows to load UI in debug mode (i.e. load CSS/JS not minified)
+             -->
+            <label i18n="true">PLUGINS_CORE_DEBUG_UI_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_DEBUG_UI_DESCRIPTION</description>
+            <enumeration>
+                <entry>
+                    <label i18n="true">PLUGINS_CORE_DEBUG_UI_VAL_0</label>
+                    <value>0</value>
+                </entry>
+                <entry>
+                    <label i18n="true">PLUGINS_CORE_DEBUG_UI_VAL_1</label>
+                    <value>1</value>
+                </entry>
+                <entry>
+                    <label i18n="true">PLUGINS_CORE_DEBUG_UI_VAL_2</label>
+                    <value>2</value>
+                </entry>
+            </enumeration>
+            <validation>
+                <mandatory/>
+            </validation>
+            <default-value>0</default-value>
+            <category i18n="true">PLUGINS_CORE_SYSTEM_CONFIG_CATEGORY</category>
+            <group i18n="true">PLUGINS_CORE_DEBUG_GROUP</group>
+            <order>20</order>
+        </param>
         <param id="runtime.cache.xslt" type="boolean">
             <!-- 
                 This parameter allows to deactivate XSLT cache
@@ -943,6 +1027,9 @@
         <!-- Mark the UI debug parameter as available. If your application does not handle it you can unativate it. -->
         <config>
             <param-ref id="runtime.debug.ui"/>
+            <param-ref id="runtime.debug.ui2"/>
+            <param-ref id="runtime.debug.ui3"/>
+            <param-ref id="runtime.debug.ui4"/>
             <param-ref id="runtime.cache.xslt"/>
 		</config>
 	</feature>

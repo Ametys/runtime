@@ -249,7 +249,7 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 			
 			animCollapse: true,
 			
-			listeners: {'select': Ext.bind(this._onSelectLog, this),
+			listeners: {'selectionchange': Ext.bind(this._onSelectLog, this),
 						'hide': Ext.bind(this._onLogsPanelHide, this),
 						'show': Ext.bind(this._onLogsPanelShow, this)
 			},
@@ -356,7 +356,7 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 		}
 		else
 		{
-			this._mask = new Ext.LoadMask(Ext.getBody());
+			this._mask = new Ext.LoadMask({target: Ext.getBody()});
 			this._mask.show();
 
 			var args = { level: level, category: selectedNode.get('fullname') };
@@ -833,10 +833,17 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 	 */
 	_onSelectLog: function ()
 	{
-		var hasSelection  = this._logs.getSelectionModel().getSelection().length > 0;
-		if (hasSelection)
+		var selectionSize  = this._logs.getSelectionModel().getSelection().length;
+		if (selectionSize > 0)
 		{
-			this._actions.showElt(0);
+			if (selectionSize == 1)
+			{
+				this._actions.showElt(0);
+			}
+			else
+			{
+				this._actions.hideElt(0);
+			}
 			this._actions.showElt(1);
 			this._actions.showElt(2);
 			this._actions.showElt(3);
