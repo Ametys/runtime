@@ -93,7 +93,6 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 			region: 'north',
 			
 			id: 'list-view-groups',
-			allowDeselect: true,
 			
 			baseCls2: 'group-list',
 			height: 200,
@@ -108,11 +107,10 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 				model: 'Ametys.plugins.core.administration.Groups.Group',
 		        data: { groups: []},
 		        
+				allowDeselect: true,
 		        sortOnLoad: true,
 		        sorters: [ { property: 'name', direction: "ASC" } ],
 		        
-		    	listeners: {'update': Ext.bind(this._editGroupLabel, this)},
-
 		    	proxy: {
 		        	type: 'memory',
 		        	reader: {
@@ -134,6 +132,7 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 		    listeners: {
 		    	'select': Ext.bind(this._selectGroup, this),
 		    	'deselect': Ext.bind(this._unselectGroup, this),
+		    	'edit': Ext.bind(this._editGroupLabel, this),
 		    	'validateedit':  Ext.bind(this._validateEdit, this)
 		    }
 		});	
@@ -342,52 +341,50 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 
 	/**
 	 * Create or rename a group
-	 * @param {Ext.data.Store} store
-     * @param {Ext.data.Model} record The Model instance that was updated
-     * @param {String} operation The update operation being performed. Value may be one of:
-     *
-     *     Ext.data.Model.EDIT
-     *     Ext.data.Model.REJECT
-     *     Ext.data.Model.COMMIT
-     * @param {String[]} modifiedFieldNames Array of field names changed during edit.
+     * - grid - The grid
+     * - record - The record that was edited
+     * - field - The field name that was edited
+     * - value - The value being set
+     * - originalValue - The original value for the field, before the edit.
+     * - row - The grid table row
+     * - column - The grid {@link Ext.grid.column.Column Column} defining the column that was edited.
+     * - rowIdx - The row index that was edited
+     * - colIdx - The column index that was edited
      * @param {Object} eOpts The options object passed to Ext.util.Observable.addListener.
 	 * @private
 	 */
-	_editGroupLabel: function (store, record, operation, modifiedFieldNames, eOpts )
+	_editGroupLabel: function (editor, e, eOpts)
 	{
-		if (operation == Ext.data.Record.EDIT)
+		// Rename
+		var result = Ametys.data.ServerComm.send({
+			plugin: this.pluginName, 
+			url: "/administrator/groups/rename", 
+			parameters: { id: e.record.data.id, name: e.record.get('name') }, 
+			priority: Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, 
+			callback: null, 
+			responseType: null
+		});
+	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_RENAME_ERROR"/>", result, "Ametys.plugins.core.administration.Groups._editGroupLabel"))
+	    {
+	       // nothing
+	    }
+		else
 		{
-			// Rename
-			var result = Ametys.data.ServerComm.send({
-				plugin: this.pluginName, 
-				url: "/administrator/groups/rename", 
-				parameters: { id: record.data.id, name: record.get('name') }, 
-				priority: Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, 
-				callback: null, 
-				responseType: null
-			});
-		    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_RENAME_ERROR"/>", result, "Ametys.plugins.core.administration.Groups._editGroupLabel"))
-		    {
-		       // nothing
-		    }
-			else
+			var state = Ext.dom.Query.selectValue("*/message", result); 
+			if (state != null && state == "missing")
 			{
-				var state = Ext.dom.Query.selectValue("*/message", result); 
-				if (state != null && state == "missing")
-				{
-					Ext.Msg.show ({
-	            		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
-	            		msg: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_RENAME_MISSING_ERROR"/>",
-	            		buttons: Ext.Msg.OK,
-	   					icon: Ext.MessageBox.ERROR
-	            	});
-					this._listViewGp.getStore().remove(record);
-				}
+				Ext.Msg.show ({
+            		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
+            		msg: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_RENAME_MISSING_ERROR"/>",
+            		buttons: Ext.Msg.OK,
+   					icon: Ext.MessageBox.ERROR
+            	});
+				this._listViewGp.getStore().remove(e.record);
 			}
-			record.commit();
-			// Sort
-			this._listViewGp.getStore().sort('name', 'ASC');
 		}
+		e.record.commit();
+		// Sort
+		this._listViewGp.getStore().sort('name', 'ASC');
 	},
 
 	/**
@@ -636,7 +633,6 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 		this._listViewU.getStore().removeAll();
 		this._listViewGp.getStore().addSorted(newEntry);
 		this._listViewGp.getSelectionModel().setCurrentPosition({row: this._listViewGp.getStore().indexOf(newEntry), column: 0});
-		this._listViewGp.getSelectionModel().select([newEntry]);
 		
 		this.rename ();
 	},
@@ -672,6 +668,7 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 		if (answer == 'yes')
 		{
 			var elt = this._listViewGp.getSelectionModel().getSelection()[0];
+			this._hasChanges = false;
 			
 	    	if (200 == Ext.Ajax.request({url: Ametys.getPluginDirectPrefix(this.pluginName) + "/administrator/groups/delete", params: "id=" + elt.get('id'), async: false}).status)
 			{

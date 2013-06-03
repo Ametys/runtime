@@ -112,7 +112,6 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
         
 		this.listview.getStore().addSorted(newEntry);
 		this.listview.getSelectionModel().setCurrentPosition({row: this.listview.getStore().indexOf(newEntry), column: 0});
-		this.listview.getSelectionModel().select([newEntry]);
 		
 		this.rename();
 	},
@@ -416,72 +415,72 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 	/**
 	 * @private
 	 * Save a label modification of a profile 
-	 * @param {Ext.data.Store} store
-     * @param {Ext.data.Model} record The Model instance that was updated
-     * @param {String} operation The update operation being performed. Value may be one of:
+     * @param {Ext.grid.plugin.CellEditing} editor
+     * @param {Object} e An edit event with the following properties:
      *
-     *     Ext.data.Model.EDIT
-     *     Ext.data.Model.REJECT
-     *     Ext.data.Model.COMMIT
-     * @param {String[]} modifiedFieldNames Array of field names changed during edit.
+     * - grid - The grid
+     * - record - The record that was edited
+     * - field - The field name that was edited
+     * - value - The value being set
+     * - originalValue - The original value for the field, before the edit.
+     * - row - The grid table row
+     * - column - The grid {@link Ext.grid.column.Column Column} defining the column that was edited.
+     * - rowIdx - The row index that was edited
+     * - colIdx - The column index that was edited
      * @param {Object} eOpts The options object passed to Ext.util.Observable.addListener.
 	 */
-	editLabel: function(store, record, operation, modifiedFieldNames, eOpts)
+	editLabel: function(editor, e, eOpts)
 	{
-		if (operation == Ext.data.Record.EDIT)
+		if (e.record.get('id') == "new")
 		{
-			if (record.get('id') == "new")
-			{
-			
-				// CREER
-				var result = Ametys.data.ServerComm.send({
-					plugin: this.pluginName, 
-					url: "/admisnitrator/rights/profiles/create", 
-					parameters: {name: record.get('name') }, 
-					priority: Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, 
-					callback: null, 
-					responseType: null
-				});
-			    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_NEW_ERROR"/>", result, "Ametys.plugins.core.administration.Logs.editLabel"))
-			    {
-			       return;
-			    }
-				else
-				{
-					record.set('id', Ext.dom.Query.selectValue("*/id", result));
-					record.commit();
-				}
-			}
+			// CREER
+			var result = Ametys.data.ServerComm.send({
+				plugin: this.pluginName, 
+				url: "/admisnitrator/rights/profiles/create", 
+				parameters: {name: e.record.get('name') }, 
+				priority: Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, 
+				callback: null, 
+				responseType: null
+			});
+		    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_NEW_ERROR"/>", result, "Ametys.plugins.core.administration.Logs.editLabel"))
+		    {
+		       return;
+		    }
 			else
 			{
-				// RENOMMER		    		
-				var result = Ametys.data.ServerComm.send({
-					plugin: this.pluginName, 
-					url: "/administrator/rights/profiles/rename", 
-					parameters: { id: record.get('id'), name: record.get('name') }, 
-					priority: Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, 
-					callback: null, 
-					responseType: null
-				});
-			    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_RENAME_ERROR"/>", result, "Ametys.plugins.core.administration.Logs.editLabel"))
-			    {
-			       return;
-			    }
-				else 
-				{
-					var state = Ext.dom.Query.selectValue("*/message", result); 
-					if (state != null && state == "missing")
-					{
-						Ametys.log.ErrorDialog.display("<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>", "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_RENAME_MISSING_ERROR"/>", "State is missing", "Ametys.plugins.core.administration.Logs.editLabel");
-						this.listview.getStore().remove(record);
-						return;
-					}
-				}
-				record.commit();
+				e.record.set('id', Ext.dom.Query.selectValue("*/id", result));
+				e.record.commit();
 			}
-			
-			this.listview.getStore().sort('name', 'ASC');
 		}
+		else
+		{
+			// RENOMMER		    		
+			var result = Ametys.data.ServerComm.send({
+				plugin: this.pluginName, 
+				url: "/administrator/rights/profiles/rename", 
+				parameters: { id: e.record.get('id'), name: e.record.get('name') }, 
+				priority: Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, 
+				callback: null, 
+				responseType: null
+			});
+		    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_RENAME_ERROR"/>", result, "Ametys.plugins.core.administration.Logs.editLabel"))
+		    {
+		       return;
+		    }
+			else 
+			{
+				var state = Ext.dom.Query.selectValue("*/message", result); 
+				if (state != null && state == "missing")
+				{
+					Ametys.log.ErrorDialog.display("<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>", "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_RENAME_MISSING_ERROR"/>", "State is missing", "Ametys.plugins.core.administration.Logs.editLabel");
+					this.listview.getStore().remove(e.record);
+					return;
+				}
+			}
+			e.record.commit();
+		}
+		
+		this.listview.getStore().sort('name', 'ASC');
 	},
 	
 	/**
@@ -620,8 +619,6 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 		        sortOnLoad: true,
 		        sorters: [ { property: 'name', direction: "ASC" } ],
 		        
-		    	listeners: {'update': Ext.bind(this.editLabel, this)},
-
 		    	proxy: {
 		        	type: 'memory',
 		        	reader: {
@@ -642,6 +639,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 			
 			listeners: {
 				'select': Ext.bind(this.onSelectProfile, this), 
+				'edit': Ext.bind(this.editLabel, this),
 				'validateedit': Ext.bind(this.validateEdit, this)						
 		    }
 		});	
