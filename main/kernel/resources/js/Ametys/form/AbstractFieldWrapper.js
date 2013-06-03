@@ -81,9 +81,19 @@ Ext.define('Ametys.form.AbstractFieldWrapper', {
     
     mixins: {field: 'Ext.form.field.Field'},
     
+    /**
+     * @cfg {String} invalidCls
+     * The CSS class to use when marking the component invalid.
+     */
     invalidCls : Ext.baseCSSPrefix + 'form-invalid',
     
     layout: 'column',
+
+    /**
+     * @cfg {String} dirtyCls
+     * The CSS class to use when the field value {@link #isDirty is dirty}.
+     */
+    dirtyCls : Ext.baseCSSPrefix + 'form-dirty',
     
     /**
      * Implements this method to spread the value out to the fields.

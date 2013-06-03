@@ -114,7 +114,7 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 			border: false,
 			width: 277,
 		    
-			items: [this._drawSearchPanel ()]
+			items: [this._drawSearchPanel()]
 		});
 		
 		this._contextualPanel.add (this._drawActionsPanel ());
@@ -196,7 +196,7 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 				    	marginLeft: '10px',
 				    },
 				    
-				    width: '182px',
+				    width: 182,
 				    
 				    value: '<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCH_CRITERIA"/>',
 				    onFocus : function () {if (this.getValue() == '<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCH_CRITERIA"/>') this.setValue(''); },
