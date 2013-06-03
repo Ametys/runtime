@@ -135,24 +135,11 @@ legend .x-tool-over .x-tool-toggle
 
 
 
-.ametys-tbar-fieldset .ametys-fieldset-bbar .x-toolbar {
-    background: transparent none;
-    border: 0 none;
-    top: -25px;
-    display: inline;
-    float: right;
-    width: auto !important;
-    height: 0;
-    overflow: visible;
-}
-
-.profile-edit-panel .ametys-tbar-fieldset table.x-toolbar-ct {
-    width: 46px !important;
-}
-
-.x-fieldset-header {
+fieldset legend.x-fieldset-header,
+fieldset legend.x-fieldset-header > span {
 	width: 100%;
 }
+
 fieldset legend .x-container {
 	float: right;
 }
