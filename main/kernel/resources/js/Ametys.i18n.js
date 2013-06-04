@@ -390,6 +390,7 @@ Ext.SSL_SECURE_URL = Ext.BLANK_IMAGE_URL;
         	
         	/**
         	 * @member Ext.form.field.File
+        	 * @ametys
         	 * @since Ametys Runtime 3.0
         	 * @cfg {Boolean} ametysShowMaxUploadSizeHint false to hide to max size hint under the field. true by default
         	 */
