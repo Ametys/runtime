@@ -1,3 +1,89 @@
+Runtime - Version 2.5 (June 10, 2013)
+
+Task:
+  RUNTIME-796 : Add JCIFS 1.3.17 to Ivy repository
+
+New Feature:
+  RUNTIME-776 : Add disk I/O monitor
+
+Improvement:
+  RUNTIME-687 : The GroupDrivenLdapGroupsManager doesn't handle memberUid attributes
+  RUNTIME-765 : Can not choose a pool when redefine a UserPreferencesManager plugin
+  RUNTIME-778 : The GroupDrivenLdapGroupsManager doesn't handle dynamic memberships
+  RUNTIME-783 : Add a LDAP server parameter to enable following referrals
+  RUNTIME-785 : Improve the ProfileBasedRightsManager API
+  RUNTIME-789 : Forms elements tooltip should use QuickTips
+  RUNTIME-792 : Support of FF15-16
+  RUNTIME-793 : Support of Chrome 21-22
+  RUNTIME-794 : Add a implementation of org.w3c.dom.Text for DOM helpers on Ametys object
+  RUNTIME-804 : Override update method of HTMLContainer to protect it of no render
+  RUNTIME-805 : Select user box does not allow multiselection
+  RUNTIME-808 : Ability to name parameters in I18nizableText
+  RUNTIME-810 : Add a method to validate user creation information
+  RUNTIME-811 : Add invalid text on JdbcUsersManager parameters
+  RUNTIME-816 : Improve user preferences
+  RUNTIME-822 : Modify AuthenticateAction to allow internal requests
+  RUNTIME-824 : Add a tooltip on admin actions
+  RUNTIME-827 : Support of chrome 24 and 25
+  RUNTIME-828 : Support of Firefox 18
+  RUNTIME-836 : Support of FF19
+  RUNTIME-837 : Upgrade to Extjs 3.4.1
+  RUNTIME-853 : Provide common graph style properties
+  RUNTIME-854 : Support of FF20
+
+Bug:
+  RUNTIME-740 : LDAPUsersManager log unexpected error
+  RUNTIME-745 : CSS properties related to dialog box should be move to runtime
+  RUNTIME-747 : Cannot provide a selection model with org.ametys.ListView
+  RUNTIME-759 : Enhance servercomm message on request failure
+  RUNTIME-760 : When server is down or restarting the alert dialog box may loop
+  RUNTIME-761 : Link in the Servercomm error screen is wrong
+  RUNTIME-763 : The textual content of the label is not centered with the background on _admin 
+  RUNTIME-764 : Id of tooltips of form fields are not unique
+  RUNTIME-770 : UsersManager in front office does not contain SiteJdbc extension
+  RUNTIME-771 : When a Init class failed, the application should enter in error mode
+  RUNTIME-775 : Add a request attribute to authorize non authenticate internal action
+  RUNTIME-779 : Add debugging information about the driver to DataSourceExtensionPoint
+  RUNTIME-780 : Spelling mistake
+  RUNTIME-782 : When using large groups (about 2000 users), users are sometimes lost when updating the group through the interface
+  RUNTIME-786 : IndexOutOfBoundsException in FormBasedCredentialsProvider
+  RUNTIME-787 : Unreadable screen when missing configuration parameters on FF16 and Chrome 23
+  RUNTIME-788 : Add the postgreSQL connector version 9.1
+  RUNTIME-797 : dispatcher can returns inconsistent xml
+  RUNTIME-798 : Support of FF 17 and Chrome 23
+  RUNTIME-802 : AbstractAmetysElement and probably subclasses: The textContent() method is not implemented correctly
+  RUNTIME-806 : Select group box does not return the group label
+  RUNTIME-809 : I18nUtils changes the pluginName variable in the request attributes
+  RUNTIME-814 : Errors in log with active directory
+  RUNTIME-815 : Validators are never checked on config parameters
+  RUNTIME-817 : Config parameters order is not correct
+  RUNTIME-825 : Chrome 24 bug on admin config screen
+  RUNTIME-830 : The LDAP group list failed if an user have no login attribute
+  RUNTIME-832 : The resolution of favicon.ico is too bad
+  RUNTIME-833 : Add a utility function to be used to sort case-insentive and without taking care about the accents
+  RUNTIME-835 : No possible to change log level from cms admin interface
+  RUNTIME-838 : ui.xsl error in the variable used for minification
+  RUNTIME-840 : The scrollbar is nor working properly in the monitoring (_admin)
+  RUNTIME-842 : JSONUtils.parse does not handle null
+  RUNTIME-844 : Can't use oracle.jdbc.OracleDriver with DataSourceExtensionPoint
+  RUNTIME-845 : Cache XSL stylesheets
+  RUNTIME-846 : ImageHelper should return the same image when current size and max size are the same
+  RUNTIME-848 : hmi look when ServerComm fails in admin
+  RUNTIME-849 : The moitoring graph of httpsessions is not working
+  RUNTIME-850 : HttpRequestSampleManager and IllegalStateException
+  RUNTIME-851 : Admin monitoring on disk : background color
+  RUNTIME-852 : Upgrade rrd4j to 2.2.0
+  RUNTIME-855 : Date to string conversion problem with date older than 1900
+  RUNTIME-857 : SendMailHelper CSS inlining problems
+  RUNTIME-858 : SendMailHelper should only throw MessagingException
+  RUNTIME-859 : JDBCUsersManager and boolean parameter
+  RUNTIME-860 : Additionnal parameters on JDBCUsersManager cannot work
+  RUNTIME-862 : UserPreferencesManager and default storage is not working
+  RUNTIME-864 : Support of FF21
+  RUNTIME-866 : Support of chrome 26 and 27
+  RUNTIME-868 : Add a request header when configuration is incomplete
+
+-------------------------------------------------------------
 Runtime - Version 2.4 (August 08, 2012)
 
 Task:
@@ -37,6 +123,7 @@ Bug:
   RUNTIME-737 : Administration of plugins : exclude a plugin
   RUNTIME-740 : LDAPUsersManager log unexpected error
 
+-------------------------------------------------------------
 Runtime - Version 2.3 (March 06, 2012)
 
 Task:
@@ -111,6 +198,7 @@ Bug:
   RUNTIME-685 : An unstarting application cannot display errors
   RUNTIME-688 : The getUserGroups of the GroupDrivenLdapGroupsManager is not working with relative DNs
 
+-------------------------------------------------------------
 Runtime - Version 2.2.1 (July 29, 2011)
 
 New Feature:
@@ -138,6 +226,7 @@ Bug:
   RUNTIME-599 : NPE on ServerComm when server redirects
   RUNTIME-600 : Unable to complete configuration after the "unsupported browser" screen
 
+-------------------------------------------------------------
 Runtime - Version 2.2 (March 23, 2011)
 
 New Feature:
@@ -164,6 +253,7 @@ Bug fixes:
   RUNTIME-573 : Profile management screen: bugs when a profile is created but not renamed
   RUNTIME-577 : The group-driven LDAP group manager should accept relative DNs on membership attribute
 
+-------------------------------------------------------------
 Runtime - Version 2.1 (December 10, 2010)
 
 Tasks:
