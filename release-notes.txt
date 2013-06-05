@@ -1,3 +1,65 @@
+Runtime - Version 2.4.2 (June 06, 2013)
+
+Improvement:
+  RUNTIME-827 : Support of chrome 24 and 25
+  RUNTIME-828 : Support of Firefox 18
+  RUNTIME-836 : Support of FF19
+  RUNTIME-854 : Support of FF20
+
+Bug:
+  RUNTIME-740 : LDAPUsersManager log unexpected error
+  RUNTIME-814 : errors in log with active directory
+  RUNTIME-815 : Validators are never checked on config parameters
+  RUNTIME-817 : Config parameters order is not correct
+  RUNTIME-825 : Chrome 24 bug on admin config screen
+  RUNTIME-830 : The LDAP group list failed if an user have no login attribute
+  RUNTIME-832 : The resolution of favicon.ico is too bad
+  RUNTIME-833 : Add a utility function to be used to sort case-insentive and without taking care about the accents
+  RUNTIME-838 : ui.xsl error in the variable used for minification
+  RUNTIME-840 : The scrollbar is nor working properly in the monitoring (_admin)
+  RUNTIME-842 : JSONUtils.parse does not handle null
+  RUNTIME-844 : Can't use oracle.jdbc.OracleDriver with DataSourceExtensionPoint
+  RUNTIME-845 : Cache XSL stylesheets
+  RUNTIME-846 : ImageHelper should return the same image when current size and max size are the same
+  RUNTIME-848 : hmi look when ServerComm fails in admin
+  RUNTIME-849 : The moitoring graph of httpsessions is not working
+  RUNTIME-850 : HttpRequestSampleManager and IllegalStateException
+  RUNTIME-855 : Date to string conversion problem with date older than 1900
+  RUNTIME-857 : SendMailHelper CSS inlining problems
+  RUNTIME-858 : SendMailHelper should only throw MessagingException
+  RUNTIME-859 : JDBCUsersManager and boolean parameter
+  RUNTIME-860 : Additionnal parameters on JDBCUsersManager cannot work
+  RUNTIME-864 : Support of FF21
+  RUNTIME-866 : Support of chrome 26 and 27
+
+Runtime - Version 2.4.1 (November 30, 2012)
+
+Improvement:
+  RUNTIME-472 : Reduce number of JS import for performance purposes
+  RUNTIME-476 : Alert about Firefox 3.6.*
+  RUNTIME-778 : The GroupDrivenLdapGroupsManager doesn't handle dynamic memberships
+  RUNTIME-783 : Add a LDAP server parameter to enable following referrals
+  RUNTIME-785 : Improve the ProfileBasedRightsManager API
+  RUNTIME-789 : Forms elements tooltip should use QuickTips
+  RUNTIME-792 : Support of FF15-16
+  RUNTIME-793 : Support of Chrome 21-22
+
+Bug:
+  RUNTIME-587 : When I use jetty with the project template-cmsweb a "/" is missing
+  RUNTIME-759 : Enhance servercomm message on request failure
+  RUNTIME-760 : When server is down or restarting the alert dialog box may loop
+  RUNTIME-761 : Link in the Servercomm error screen is wrong
+  RUNTIME-763 : The textual content of the label is not centered with the background on _admin 
+  RUNTIME-764 : Id of tooltips of form fields are not unique
+  RUNTIME-771 : When a Init class failed, the application should enter in error mode
+  RUNTIME-779 : Add debugging information about the driver to DataSourceExtensionPoint
+  RUNTIME-780 : Spelling mistake
+  RUNTIME-782 : When using large groups (about 2000 users), users are sometimes lost when updating the group through the interface
+  RUNTIME-786 : IndexOutOfBoundsException in FormBasedCredentialsProvider
+  RUNTIME-787 : Unreadable screen when missing configuration parameters on FF16 and Chrome 23
+  RUNTIME-788 : Add the postgreSQL connector version 9.1
+  RUNTIME-798 : Support of FF 17 and Chrome 23
+  
 Runtime - Version 2.4 (August 08, 2012)
 
 Task:
