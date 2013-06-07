@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright 2012 Anyware Services
+   Copyright 2010 Anyware Services
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@
     	<property environment="env"/>
         
     	<property name="project.status" value="integration"/>
-    	<property name="project.version" value="LTE"/>
+    	<property name="project.version" value="3.7.0"/>
     	<property name="project.version.qualifier" value="SNAPSHOT"/>
     	<property name="project.version.buildNumber" value="${env.BUILD_NUMBER}"/>
     	<property name="project.name" value="${ant.project.name}"/>
@@ -53,6 +53,7 @@
         <property name="tmp-clover" value="${tmp-dir}/clover"/>
     	<property name="tmp-javadoc" value="${tmp-dir}/javadoc"/>
     	<property name="classes" value="${tmp-dir}/classes"/>
+    	<property name="classes2" value="${tmp-dir}/classes2"/>
     	<property name="test-env-classes" value="${tmp-dir}/test-env-classes"/>
     	
     	<property name="deliver-dir" value="deliver"/>
@@ -109,7 +110,7 @@
         <replaceregexp file="${ivy.dep.file}" match="latest\.(integration|snapshot)"
                        replace="latest.${project.status}" byline="true" encoding="UTF-8"/>
 
-    	<ivy:cachepath conf="deliver" type="jar" pathid="classpath-ametys-tools"/>
+    	<ivy:cachepath conf="deliver" type="jar,bundle" pathid="classpath-ametys-tools"/>
         
         <taskdef resource="org/ametys/tools/antlib.xml" uri="antlib:org.ametys.tools"
                  classpathref="classpath-ametys-tools"/>
@@ -118,10 +119,11 @@
                  classpathref="classpath-ametys-tools"/>
         
         <mkdir dir="${classes}"/>
+        <mkdir dir="${classes2}"/>
         <mkdir dir="${test-env-classes}"/>
         
         <ivy:cachepath conf="compile_dependencies" type="jar,bundle" pathid="compile.classpath"/>
-        <ivy:cachepath conf="test-env" type="jar" pathid="test.env.classpath"/>
+        <ivy:cachepath conf="test-env" type="jar,bundle" pathid="test.env.classpath"/>
 
         <ametys:svn-revision property="svn-revision"/>
         <ametys:ivy-version versionOutputProperty="ivy-version" resolverOutputProperty="ivy-resolver"
@@ -198,6 +200,11 @@
             <src path="${workspace-dir}/src"/>
             <classpath refid="compile.classpath"/>
         </javac>
+
+        <javac debug="true" destdir="${classes2}" encoding="UTF-8" target="${class-vm-target}">
+            <src path="${kernel-dir}/src"/>
+            <classpath refid="compile.classpath"/>
+        </javac>
 	</target>
     
     <target name="copy-files">
@@ -212,17 +219,24 @@
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
+        <copy todir="${classes2}">
+            <fileset dir="${kernel-dir}/src">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
     </target>
     
     <target name="ametys-files">
         <copy file="${kernel-dir}/sitemap.xmap" todir="${classes}/org/ametys/runtime/kernel"/>
+        <copy file="${kernel-dir}/sitemap.xmap" todir="${classes2}/org/ametys/runtime/kernel"/>
 
         <copy file="${plugin-dir}/plugin.xml" todir="${classes}/org/ametys/runtime/plugins/core"/>
         <copy file="${plugin-dir}/sitemap.xmap" todir="${classes}/org/ametys/runtime/plugins/core"/>
         
         <ametys:resource-file destFile="${classes}/META-INF/runtime-plugin" name="core" uri="/org/ametys/runtime/plugins/core"/>
-        <ametys:resource-file destFile="${classes}/META-INF/runtime-schema" name="http://www.ametys.org/schema/plugin-2.0.xsd" uri="/org/ametys/runtime/kernel/plugin.xsd"/>
-        
+        <ametys:resource-file destFile="${classes}/META-INF/runtime-schema" name="http://www.ametys.org/schema/plugin-2.0.xsd" uri="/org/ametys/runtime/plugin/plugin.xsd"/>
+        <ametys:resource-file destFile="${classes2}/META-INF/runtime-schema" name="http://www.ametys.org/schema/plugin-2.0.xsd" uri="/org/ametys/runtime/plugin/plugin.xsd"/>
+
         <copy file="${workspace-dir}/workspace.xml" todir="${classes}/org/ametys/runtime/workspaces/admin"/>
         <copy file="${workspace-dir}/sitemap.xmap" todir="${classes}/org/ametys/runtime/workspaces/admin"/>
         
@@ -231,6 +245,16 @@
 
     <target name="static-resources">
         <copy todir="${classes}/org/ametys/runtime" flatten="true" encoding="UTF-8">
+            <resources>
+                <javaresource classpathref="classpath-ametys-tools" name="org/ametys/tools/version.xml"/>
+            </resources>
+            <filterset>
+                <filter token="DATE" value="${build-timestamp}"/>
+                <filter token="VERSION" value="${ivy-version}"/>
+            </filterset>
+        </copy>
+        
+        <copy todir="${classes2}/org/ametys/runtime" flatten="true" encoding="UTF-8">
             <resources>
                 <javaresource classpathref="classpath-ametys-tools" name="org/ametys/tools/version.xml"/>
             </resources>
@@ -251,7 +275,19 @@
             </fileset>
         </copy>     
         
+        <copy todir="${classes2}/org/ametys/runtime/kernel">
+            <fileset dir="${kernel-dir}/">
+                <exclude name="sitemap.xmap"/>
+                <exclude name="resources/**"/>
+                <exclude name="src/**"/>
+            </fileset>
+            <fileset dir="${kernel-dir}/">
+                <include name="resources/**/*.i18n.js"/>
+            </fileset>
+        </copy>     
+        
         <move file="${classes}/org/ametys/runtime/kernel/i18n/messages_en.xml" tofile="${classes}/org/ametys/runtime/kernel/i18n/messages.xml"/>
+        <move file="${classes2}/org/ametys/runtime/kernel/i18n/messages_en.xml" tofile="${classes2}/org/ametys/runtime/kernel/i18n/messages.xml"/>
 
         <copy todir="${classes}/org/ametys/runtime/plugins/core">
             <fileset dir="${plugin-dir}">
@@ -297,6 +333,18 @@
 		      	</section>
 			</manifest>	
 		</jar>
+		<jar jarfile="${dest-dir}/ivy/jars/ametys-runtime-dev-kernelonly.jar" basedir="${classes2}">
+			<manifest>
+		      	<section name="Runtime informations">
+				 	<attribute name="Title" value="Runtime"/>
+			  	 	<attribute name="Vendor" value="Anyware Services"/>
+			  	 	<attribute name="Version" value="${ivy-version}"/>
+			  	 	<attribute name="Date" value="${full-timestamp}"/>
+				 	<attribute name="SVN-Revision" value="${svn-revision}"/>
+				 	<attribute name="SVN-Branch" value="${svn-branch}"/>
+		      	</section>
+			</manifest>	
+		</jar>
 	    
 		<jar jarfile="${dest-dir}/ivy/sources/ametys-runtime.jar">
 			<fileset dir="${kernel-dir}/src">
@@ -320,7 +368,25 @@
 		      	</section>
 			</manifest>	
 		</jar>
+		<jar jarfile="${dest-dir}/ivy/sources/ametys-runtime-dev-kernelonly.jar">
+			<fileset dir="${kernel-dir}/src">
+				<include name="**/*.java"/>
+			</fileset>
+			
+			<manifest>
+		      	<section name="Runtime informations">
+				 	<attribute name="Title" value="Runtime sources"/>
+			  	 	<attribute name="Vendor" value="Anyware Services"/>
+			  	 	<attribute name="Version" value="${ivy-version}"/>
+			  	 	<attribute name="Date" value="${full-timestamp}"/>
+				 	<attribute name="SVN-Revision" value="${svn-revision}"/>
+				 	<attribute name="SVN-Branch" value="${svn-branch}"/>
+		      	</section>
+			</manifest>	
+		</jar>
+		
 		<delete dir="${classes}"/>
+		<delete dir="${classes2}"/>
 	</target>
 
     <target name="copy-scripts">
@@ -365,6 +431,11 @@
 		<!-- JAR des ressources -->
 		<jar destfile="${dest-dir}/ivy/jars/ametys-runtime-resources.jar">
 			<zipfileset dir="${dest-dir}/resources" prefix="org/ametys/runtime">
+				<include name="**"/>
+			</zipfileset>
+		</jar>
+		<jar destfile="${dest-dir}/ivy/jars/ametys-runtime-dev-kernelonly-resources.jar">
+			<zipfileset dir="${dest-dir}/resources/kernel" prefix="org/ametys/runtime/kernel">
 				<include name="**"/>
 			</zipfileset>
 		</jar>
@@ -510,6 +581,8 @@
 		      	</section>
 			</manifest>	
 		</jar>
+		<copy file="${dest-dir}/ivy/javadocs/ametys-runtime.jar" tofile="${dest-dir}/ivy/javadocs/ametys-runtime-dev-kernelonly.jar"/>
+		
 		<delete dir="${tmp-javadoc}"/>
 	</target>
 
@@ -575,7 +648,7 @@
 	<target name="tests" unless="skip.tests">
 		<mkdir dir="${tmp-dir}/classes-test"/>
 		
-		<ivy:cachepath conf="test" type="jar" pathid="test.classpath"/>
+		<ivy:cachepath conf="test" type="jar,bundle" pathid="test.classpath"/>
 
 		<!-- Compilation des tests -->
 		<javac debug="true" destdir="${tmp-dir}/classes-test" encoding="UTF-8" target="${class-vm-target}">
@@ -643,7 +716,7 @@
 	</target>
 
 	<target name="publish">
-    	<ivy:cachepath file="${dest-dir}/ivy.xml" conf="*" type="jar" pathid="tmp-ametys-tools"/>
+    	<ivy:cachepath file="${dest-dir}/ivy.xml" conf="*" type="jar,bundle,lib" pathid="tmp-ametys-tools"/>
 		<ivy:deliver deliverpattern="${dest-dir}/ivy/ivy.xml" pubrevision="${ivy-version}"
 		             status="${project.status}"/>
 		<antcall target="remove-javadoc-publishing"/>
