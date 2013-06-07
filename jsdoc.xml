@@ -20,89 +20,22 @@
          xmlns:clover="antlib:com.atlassian.clover"
          xmlns:ivy="antlib:org.apache.ivy.ant">
          
-    <property name="extjs-directory" location="D:\Libraries\Javascript\Extjs\ext-4.2.1"/>
+    <property name="output.dir" location="doc"/>
+    <property name="temp.dir" location="temp"/>
+    <property name="jsdoc.dir" location="../../../deliver/jsdoc"/>
+    <property name="jsdoc-build" location="${jsdoc.dir}/jsdoc.xml"/>
+	
+	<import file="${jsdoc-build}"/>
     
     <target name="copyjsfiles">
-        <copy todir="temp/kernel">
+        <copy todir="${temp.dir}/kernel">
                <fileset dir="main/kernel/resources/js"/>
         </copy>
-        <copy todir="temp/plugin-core">
+        <copy todir="${temp.dir}/plugin-core">
                <fileset dir="main/plugin-core/resources/js"/>
         </copy>
-        <copy todir="temp/workspace-admin">
+        <copy todir="${temp.dir}/workspace-admin">
                <fileset dir="main/workspace-admin/resources/js"/>
         </copy>
-    </target>
-
-    <target name="transformjsfiles">
-        <!-- Remove i18n keys -->
-		<replaceregexp flags="g">
-		  <regexp pattern="&lt;i18n:text([^/]*)(i18n:)?key=(&quot;|&apos;)([^&apos;&quot;]*)(&quot;|&apos;)([^/]*)/&gt;"/>
-		  <substitution expression="\4"/>
-		  
-		  <fileset dir="temp">
-		    <include name="**/*.i18n.js"/>
-		  </fileset>
-		</replaceregexp>     
-    </target>
-    
-    <target name="calljsduck">
-        <delete dir="doc"/>
-        <echo>Processing js doc...</echo>
-        <exec executable="jsduck-5.0.0.beta3.exe" outputproperty="log">
-            <arg value="temp/kernel"/>
-            <arg value="temp/plugin-core"/>
-            <arg value="temp/workspace-admin"/>
-            <arg value="${extjs-directory}\src"/>
-            
-            <arg value="--builtin-classes"/>
-            
-            <arg value="--images"/>
-            <arg value="${extjs-directory}\docs\images"/>
-            
-            <arg value="--tags"/>
-            <arg value="tags.rb"/>
-            
-            <arg value="--output"/>
-            <arg value="doc"/>
-            
-            <!--<arg value="- -template"/>
-            <arg value="template"/>-->
-            
-            <arg value="--ignore-global"/>
-            
-            <arg value="--title='Ametys'"/>
-
-            <arg value="--footer='Javascript documentation for Ametys'"/>
-        </exec>
-
-        <delete dir="temp"/>
-        
-        <!-- Hidding extjs files warning -->
-		<script language="javascript">
-		    var log = project.getProperty("log");
-		    log = log.replaceAll("Warning:.*" + project.getProperty("extjs-directory").replaceAll("\\\\", "\\\\\\\\") + ".*", "");
-		    project.setProperty("log", log);
-		</script>
-
-        <echo>${log}</echo>
-        
-        <fail message="Javascript contains errors in documentation">
-            <condition>
-                   <not>
-                       <equals arg1="${log}" arg2="" trim="true"/>
-                   </not>
-            </condition>
-        </fail>
-    </target>
-
-    <target name="jsdoc">
-        <delete dir="temp"/>
-        <mkdir dir="temp"/>
-
-        <antcall target="copyjsfiles"/>
-        <antcall target="transformjsfiles"/>
-        <antcall target="calljsduck"/>
-        
     </target>
 </project>
