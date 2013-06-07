@@ -49,7 +49,7 @@ Open source web application framework based on Apache Cocoon.
     <artifact name="ametys-runtime-scripts" type="script" ext="zip" conf="runtime"/>
   </publications>
   <dependencies>
-    <dependency org="org.ametys.tools" name="tools" rev="latest.integration" conf="deliver->default"/>
+    <dependency org="org.ametys.tools" name="tools" rev="1.1.8" conf="deliver->default"/>
     <dependency org="atlassian" name="clover" rev="2.6.3" conf="deliver->default"/>
     
     <dependency org="apache" name="commons-dbcp" rev="1.4" conf="default->default;dev-kernel-resources->default"/>
