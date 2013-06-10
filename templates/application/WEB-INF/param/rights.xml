@@ -15,58 +15,9 @@
    limitations under the License.
    -->
 <rights>
-	<right id="Workflow_Rights_Edition_Online">
-    	<label>APPLICATION_RIGHTS_EDITION_ONLINE_LABEL</label>
-        <description>APPLICATION_RIGHTS_EDITION_ONLINE_DESCRIPTION</description>
-        <category>APPLICATION_RIGHTS_EDITION_ONLINE_LABEL</category>
-	</right>
-	
-	<right id="Workflow_Rights_Validate">
-    	<label>APPLICATION_RIGHTS_VALIDATE_LABEL</label>
-        <description>APPLICATION_RIGHTS_VALIDATE_DESCRIPTION</description>
-        <category>APPLICATION_RIGHTS_VALIDATE_LABEL</category>
-	</right>
-	
-	<right id="Workflow_Rights_Refuse">
-    	<label>APPLICATION_RIGHTS_REFUSE_LABEL</label>
-        <description>APPLICATION_RIGHTS_REFUSE_DESCRIPTION</description>
-        <category>APPLICATION_RIGHTS_VALIDATE_LABEL</category>
-	</right>
-	
-	<right id="Workflow_Rights_Propose">
-    	<label>APPLICATION_RIGHTS_PROPOSE_LABEL</label>
-        <description>APPLICATION_RIGHTS_PROPOSE_DESCRIPTION</description>
-        <category>APPLICATION_RIGHTS_EDITION_ONLINE_LABEL</category>
-	</right>
-	
-	<right id="Workflow_Rights_Delete">
-    	<label>APPLICATION_RIGHTS_DELETE_LABEL</label>
-        <description>APPLICATION_RIGHTS_DELETE_DESCRIPTION</description>
-        <category>APPLICATION_RIGHTS_EDITION_ONLINE_LABEL</category>
-	</right>
-	
-	<right id="Workflow_Rights_Restore">
-    	<label>APPLICATION_RIGHTS_RESTORE_LABEL</label>
-        <description>APPLICATION_RIGHTS_RESTORE_DESCRIPTION</description>
-        <category>APPLICATION_RIGHTS_EDITION_ONLINE_LABEL</category>
-	</right>
-	
-	<right id="Workflow_Rights_Archive">
-    	<label>APPLICATION_RIGHTS_ARCHIVE_LABEL</label>
-        <description>APPLICATION_RIGHTS_ARCHIVE_DESCRIPTION</description>
-        <category>APPLICATION_RIGHTS_EDITION_ONLINE_LABEL</category>
-	</right>
-	
-	<right id="Workflow_Rights_Unarchive">
-    	<label>APPLICATION_RIGHTS_UNARCHIVE_LABEL</label>
-        <description>APPLICATION_RIGHTS_UNARCHIVE_DESCRIPTION</description>
-        <category>APPLICATION_RIGHTS_EDITION_ONLINE_LABEL</category>
-	</right>
-	
-	<right id="Workflow_Rights_Notification">
-    	<label>APPLICATION_RIGHTS_NOTIFICATION_LABEL</label>
-        <description>APPLICATION_RIGHTS_NOTIFICATION_DESCRIPTION</description>
-        <category>APPLICATION_RIGHTS_EDITION_ONLINE_LABEL</category>
-	</right>
-	
+<!-- 	<right id="Workflow_Rights_Edition_Online"> -->
+<!--     	<label>APPLICATION_RIGHTS_EDITION_ONLINE_LABEL</label> -->
+<!--         <description>APPLICATION_RIGHTS_EDITION_ONLINE_DESCRIPTION</description> -->
+<!--         <category>APPLICATION_RIGHTS_EDITION_ONLINE_LABEL</category> -->
+<!-- 	</right> -->
 </rights>
