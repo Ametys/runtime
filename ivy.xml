@@ -55,7 +55,7 @@ Open source web application framework based on Apache Cocoon.
   <dependencies>
     <!-- Deliver -->
     <dependency org="org.ametys.tools" name="tools" rev="latest.integration" conf="deliver->default"/>
-    <dependency org="com.cenqua.clover" name="clover" rev="3.1.5" conf="deliver->default"/>
+    <dependency org="com.cenqua.clover" name="clover" rev="3.1.11" conf="deliver->default"/>
     
     <!-- Common -->
     <dependency org="org.apache" name="cocoon" rev="2.1.11-ametys-3" conf="common_dependencies->serializers,html"/>
