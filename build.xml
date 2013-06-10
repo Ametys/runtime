@@ -68,6 +68,7 @@
     	<property name="test-env-dir" value="test-env"/>
     
     	<property name="ivy.dep.file" value="${dest-dir}/ivy.xml"/>
+    	<property name="tools.ivy.dep.file" location="../../../deliver/common-build-2-ivy.xml"/>
 
     		<!-- Ivy properties -->
     	<property name="ivy.settings" value="../../../ivyrep_2/ivysettings.xml"/>
@@ -110,7 +111,7 @@
         <replaceregexp file="${ivy.dep.file}" match="latest\.(integration|snapshot)"
                        replace="latest.${project.status}" byline="true" encoding="UTF-8"/>
 
-    	<ivy:cachepath conf="deliver" type="jar,bundle" pathid="classpath-ametys-tools"/>
+    	<ivy:cachepath conf="deliver" file="${tools.ivy.dep.file}" type="jar,bundle" pathid="classpath-ametys-tools"/>
         
         <taskdef resource="org/ametys/tools/antlib.xml" uri="antlib:org.ametys.tools"
                  classpathref="classpath-ametys-tools"/>
@@ -122,6 +123,7 @@
         <mkdir dir="${classes2}"/>
         <mkdir dir="${test-env-classes}"/>
         
+    	<ivy:resolve conf="compile_dependencies,test-env" file="${ivy.dep.file}" type="jar,bundle,lib"/>
         <ivy:cachepath conf="compile_dependencies" type="jar,bundle" pathid="compile.classpath"/>
         <ivy:cachepath conf="test-env" type="jar,bundle" pathid="test.env.classpath"/>
 

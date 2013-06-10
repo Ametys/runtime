@@ -34,7 +34,6 @@ Open source web application framework based on Apache Cocoon.
     <conf name="test-env" extends="runtime" description="Artificat for testing a runtime dependent application"/>
 
     <conf name="test" extends="compile_dependencies,runtime" description="Configuration used during unit test of artifacts" visibility="private"/>
-    <conf name="deliver" description="Configuration used during the deliver process of artifacts" visibility="private"/>
   </configurations>
   
   <publications>
@@ -53,10 +52,6 @@ Open source web application framework based on Apache Cocoon.
   </publications>
   
   <dependencies>
-    <!-- Deliver -->
-    <dependency org="org.ametys.tools" name="tools" rev="latest.integration" conf="deliver->default"/>
-    <dependency org="com.cenqua.clover" name="clover" rev="3.1.11" conf="deliver->default"/>
-    
     <!-- Common -->
     <dependency org="org.apache" name="cocoon" rev="2.1.11-ametys-3" conf="common_dependencies->serializers,html"/>
 
