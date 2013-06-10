@@ -118,7 +118,7 @@
 					<map:parameter name="locale" value="{locale:locale}"/>
                     <map:parameter name="workspace" value="{request-attr:workspaceName}"/>
 				</map:transform>
-                <map:transform type="minimizer" src="{request:contextPath}{request-attr:workspaceURI}/plugins/core"/>
+                <!-- Do not minimize here. See RUNTIME-877 -->
 				<map:serialize/>
 			</map:match>
 			
