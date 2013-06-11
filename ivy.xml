@@ -59,7 +59,7 @@ Open source web application framework based on Apache Cocoon.
     <dependency org="commons-logging" name="commons-logging" rev="1.1.1" conf="common_dependencies->default"/>
     <dependency org="commons-io" name="commons-io" rev="2.3" conf="common_dependencies->default"/>
     <dependency org="commons-codec" name="commons-codec" rev="1.6" conf="common_dependencies->default"/>
-    <dependency org="org.apache.commons" name="commons-compress" rev="1.4.1" transitive="false" conf="common_dependencies->default"/>
+    <dependency org="org.apache.commons" name="commons-compress" rev="1.5" transitive="false" conf="common_dependencies->default"/>
     <dependency org="org.apache.commons" name="commons-lang3" rev="3.1" conf="common_dependencies->default"/>
 
     <dependency org="org.apache.ibatis" name="ibatis-sqlmap" rev="2.3.0" conf="common_dependencies->default"/>
