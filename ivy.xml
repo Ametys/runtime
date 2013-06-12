@@ -34,7 +34,7 @@ Open source web application framework based on Apache Cocoon.
 
     <conf name="test-env" extends="runtime" description="Artificat for testing a runtime dependent application"/>
 
-    <conf name="test" extends="compile_dependencies,runtime" description="Configuration used during unit test of artifacts" visibility="private"/>
+    <conf name="test" extends="compile,runtime" description="Configuration used during unit test of artifacts" visibility="private"/>
   </configurations>
   
   <publications>
