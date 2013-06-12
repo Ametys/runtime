@@ -281,12 +281,6 @@ Ext.SSL_SECURE_URL = Ext.BLANK_IMAGE_URL;
  * Load localization for extjs
  */
 {
-	// This is because a bug of extjs that do not translate this
-    Ext.define("Ext.locale.fr.field.File", {
-        override: "Ext.form.field.File",
-        buttonText: "<i18n:text i18n:key='KERNEL_UPLOAD_BUTTON' i18n:catalogue='kernel'/>"
-    });
-    
     // This is to change default value
     Ext.define("Ext.locale.fr.LoadMask", {
         override: "Ext.LoadMask",
