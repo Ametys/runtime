@@ -26,7 +26,7 @@ Open source web application framework based on Apache Cocoon.
     <conf name="common_dependencies" description="Root configuration for dependencies (runtime or compile)" visibility="private"/>
 
     <conf name="compile_dependencies" extends="common_dependencies" description="Dependencies for compiling this module (except any ametys artefacts)"/>
-    <conf name="compile" extends="compile_dependencies" description="Dependencies for compiling this module including ametys artefacts"/>
+    <conf name="compile" extends="compile_dependencies" description="Dependencies for compiling this module including ametys artefacts" visibility="private"/>
     
     <conf name="runtime_dependencies" extends="common_dependencies" description="Dependencies for running this module (except any ametys artefacts)"/>
     <conf name="runtime" extends="runtime_dependencies" description="Artificat for runtime only, with runtime dependencies"/>
