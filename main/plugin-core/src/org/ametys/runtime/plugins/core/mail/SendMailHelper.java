@@ -50,7 +50,7 @@ import org.ametys.runtime.util.LoggerFactory;
 public final class SendMailHelper
 {
     /** Logger */
-    protected final static Logger _LOGGER = LoggerFactory.getLoggerFor(SendMailHelper.class);
+    protected static final Logger _LOGGER = LoggerFactory.getLoggerFor(SendMailHelper.class);
 
     private SendMailHelper ()
     {
