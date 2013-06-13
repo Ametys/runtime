@@ -218,6 +218,7 @@
     
     <target name="ametys-files">
         <copy file="${kernel-dir}/sitemap.xmap" todir="${classes}/org/ametys/runtime/kernel"/>
+        <copy file="${kernel-dir}/plugin-2.0.xsd" todir="${classes}/org/ametys/runtime/kernel"/>
 
         <copy file="${plugin-dir}/plugin.xml" todir="${classes}/org/ametys/runtime/plugins/core"/>
         <copy file="${plugin-dir}/sitemap.xmap" todir="${classes}/org/ametys/runtime/plugins/core"/>
@@ -244,6 +245,7 @@
         
         <copy todir="${classes}/org/ametys/runtime/kernel">
             <fileset dir="${kernel-dir}/">
+                <exclude name="**.xsd"/>
                 <exclude name="sitemap.xmap"/>
                 <exclude name="resources/**"/>
                 <exclude name="src/**"/>
