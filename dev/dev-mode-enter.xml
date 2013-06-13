@@ -90,13 +90,13 @@
 
     <target name="classpath-dev-ivyde-2.1" unless="ivyde2.2">
         <echo file="../.classpath" append="true">
-			&lt;classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?ivyXmlPath=ivy.xml&amp;amp;confs=compile_dependencies,test&amp;amp;doRetrieve=true&amp;amp;retrievePattern=templates%2Fapplication%2FWEB-INF%2Flib%2F%5Bartifact%5D-%5Brevision%5D.%5Bext%5D&amp;amp;retrieveSync=true&amp;amp;retrieveConfs=runtime_dependencies&amp;amp;retrieveTypes=jar,bundle&amp;amp;ivySettingsPath=${project_loc}%2F..%2F..%2F..%2Fivyrep_2%2Fivysettings.xml&amp;amp;loadSettingsOnDemand=false&amp;amp;propertyFiles="/&gt;
+			&lt;classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?ivyXmlPath=ivy.xml&amp;amp;confs=compile_dependencies%2Ctest&amp;amp;doRetrieve=true&amp;amp;retrievePattern=templates%2Fapplication%2FWEB-INF%2Flib%2F%5Bartifact%5D-%5Brevision%5D.%5Bext%5D&amp;amp;retrieveSync=true&amp;amp;retrieveConfs=runtime_dependencies&amp;amp;retrieveTypes=jar%2Cbundle&amp;amp;ivySettingsPath=%24%7Bworkspace_loc%3AAmetys+-+Ivyrep_2%2Fivysettings.xml%7D&amp;amp;loadSettingsOnDemand=false&amp;amp;propertyFiles="/&gt;
         </echo>
     </target>
     <target name="classpath-dev-ivyde-2.2" if="ivyde2.2">
         <echo file="../.classpath" append="true">
-            &lt;classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?ivyXmlPath=ivy.xml&amp;amp;confs=compile_dependencies%2Ctest&amp;amp;ivySettingsPath=file%3A%2FD%3A%2FDev%2Fraphael%2FAmetys%2Fivyrep_2%2Fivysettings.xml&amp;amp;loadSettingsOnDemand=false&amp;amp;propertyFiles="/&gt;
-        	&lt;classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?ivyXmlPath=ivy.xml&amp;amp;confs=runtime_dependencies&amp;amp;ivySettingsPath=file%3A%2FD%3A%2FDev%2Fraphael%2FAmetys%2Fivyrep_2%2Fivysettings.xml&amp;amp;loadSettingsOnDemand=false&amp;amp;propertyFiles=&amp;amp;acceptedTypes=jar%2Cbundle%2Cejb%2Cmaven-plugin&amp;amp;alphaOrder=true&amp;amp;resolveInWorkspace=false&amp;amp;retrievedClasspath=true&amp;amp;retrievedClasspathPattern=templates%2Fapplication%2FWEB-INF%2Flib%2F%5Bartifact%5D-%5Brevision%5D.%5Bext%5D&amp;amp;retrievedClasspathSync=true&amp;amp;retrievedClasspathTypes=jar%2Cbundle%2Clib"/&gt;
+            &lt;classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?ivyXmlPath=ivy.xml&amp;amp;confs=compile_dependencies%2Ctest&amp;amp;ivySettingsPath=%24%7Bworkspace_loc%3AAmetys+-+Ivyrep_2%2Fivysettings.xml%7D&amp;amp;loadSettingsOnDemand=false&amp;amp;propertyFiles="/&gt;
+        	&lt;classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?ivyXmlPath=ivy.xml&amp;amp;confs=runtime_dependencies&amp;amp;ivySettingsPath=ivySettingsPath=%24%7Bworkspace_loc%3AAmetys+-+Ivyrep_2%2Fivysettings.xml%7D&amp;amp;loadSettingsOnDemand=false&amp;amp;propertyFiles=&amp;amp;acceptedTypes=jar%2Cbundle%2Cejb%2Cmaven-plugin&amp;amp;alphaOrder=true&amp;amp;resolveInWorkspace=false&amp;amp;retrievedClasspath=true&amp;amp;retrievedClasspathPattern=templates%2Fapplication%2FWEB-INF%2Flib%2F%5Bartifact%5D-%5Brevision%5D.%5Bext%5D&amp;amp;retrievedClasspathSync=true&amp;amp;retrievedClasspathTypes=jar%2Cbundle%2Clib"/&gt;
         </echo>
     </target>
 
