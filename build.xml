@@ -224,7 +224,7 @@
         <copy file="${plugin-dir}/sitemap.xmap" todir="${classes}/org/ametys/runtime/plugins/core"/>
         
         <ametys:resource-file destFile="${classes}/META-INF/runtime-plugin" name="core" uri="/org/ametys/runtime/plugins/core"/>
-        <ametys:resource-file destFile="${classes}/META-INF/runtime-schema" name="http://www.ametys.org/schema/plugin-2.0.xsd" uri="/org/ametys/runtime/plugin/plugin.xsd"/>
+        <ametys:resource-file destFile="${classes}/META-INF/runtime-schema" name="http://www.ametys.org/schema/plugin-2.0.xsd" uri="/org/ametys/runtime/plugin/plugin-2.0.xsd"/>
 
         <copy file="${workspace-dir}/workspace.xml" todir="${classes}/org/ametys/runtime/workspaces/admin"/>
         <copy file="${workspace-dir}/sitemap.xmap" todir="${classes}/org/ametys/runtime/workspaces/admin"/>
