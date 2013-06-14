@@ -39,13 +39,29 @@
 	</target>
 
 	<target name="create-links-app">
-		<antcall target="create-link"><param name="new-link" location="${runtime-dir}/templates/application/kernel"/>						<param name="original-dir" location="${runtime-dir}/main/kernel"/></antcall>
+		<!-- sample application -->
+        <antcall target="create-link"><param name="new-link" location="${runtime-dir}/templates/application/kernel"/>                       <param name="original-dir" location="${runtime-dir}/main/kernel"/></antcall>
 
-		<mkdir dir="${runtime-dir}/templates/application/plugins"/>
-		<antcall target="create-link"><param name="new-link" location="${runtime-dir}/templates/application/plugins/core"/>					<param name="original-dir" location="${runtime-dir}/main/plugin-core"/></antcall>
-		
-		<mkdir dir="${runtime-dir}/templates/application/workspaces"/>
-		<antcall target="create-link"><param name="new-link" location="${runtime-dir}/templates/application/workspaces/admin"/>				<param name="original-dir" location="${runtime-dir}/main/workspace-admin"/></antcall>
+        <mkdir dir="${runtime-dir}/templates/application/plugins"/>
+        <antcall target="create-link"><param name="new-link" location="${runtime-dir}/templates/application/plugins/core"/>                 <param name="original-dir" location="${runtime-dir}/main/plugin-core"/></antcall>
+        
+        <mkdir dir="${runtime-dir}/templates/application/workspaces"/>
+        <antcall target="create-link"><param name="new-link" location="${runtime-dir}/templates/application/workspaces/admin"/>             <param name="original-dir" location="${runtime-dir}/main/workspace-admin"/></antcall>
+        
+		<!-- unit tests -->
+		<antcall target="create-link"><param name="new-link" location="${runtime-dir}/test/environments/webapp1/kernel"/>                       <param name="original-dir" location="${runtime-dir}/main/kernel"/></antcall>
+        <mkdir dir="${runtime-dir}/test/environments/webapp1/plugins"/>
+        <antcall target="create-link"><param name="new-link" location="${runtime-dir}/test/environments/webapp1/plugins/core"/>                 <param name="original-dir" location="${runtime-dir}/main/plugin-core"/></antcall>
+        <mkdir dir="${runtime-dir}/test/environments/webapp1/workspaces"/>
+        <antcall target="create-link"><param name="new-link" location="${runtime-dir}/test/environments/webapp1/workspaces/admin"/>             <param name="original-dir" location="${runtime-dir}/main/workspace-admin"/></antcall>
+
+		<antcall target="create-link"><param name="new-link" location="${runtime-dir}/test/environments/webapp2/kernel"/>                       <param name="original-dir" location="${runtime-dir}/main/kernel"/></antcall>
+        <antcall target="create-link"><param name="new-link" location="${runtime-dir}/test/environments/webapp2/plugins/core"/>                 <param name="original-dir" location="${runtime-dir}/main/plugin-core"/></antcall>
+        <antcall target="create-link"><param name="new-link" location="${runtime-dir}/test/environments/webapp2/workspaces/admin"/>             <param name="original-dir" location="${runtime-dir}/main/workspace-admin"/></antcall>
+
+		<antcall target="create-link"><param name="new-link" location="${runtime-dir}/test/environments/webapp3/kernel"/>                       <param name="original-dir" location="${runtime-dir}/main/kernel"/></antcall>
+        <mkdir dir="${runtime-dir}/test/environments/webapp3/plugins"/>
+        <antcall target="create-link"><param name="new-link" location="${runtime-dir}/test/environments/webapp3/plugins/core"/>                 <param name="original-dir" location="${runtime-dir}/main/plugin-core"/></antcall>
 	</target>
 
 

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Copyright 1999-2004 The Apache Software Foundation
+   Copyright 2012 Anyware Services
 
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
 
-      http://www.apache.org/licenses/LICENSE-2.0
+       http://www.apache.org/licenses/LICENSE-2.0
 
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
--->
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   -->
 <cocoon version="2.1">
 
 <!--+
@@ -22,11 +22,11 @@
     |  like the cache) or handles to the pipeline components
     |  (stuff like XML parsers or XSLT processors).
     +-->
-    
+
     <component class="org.apache.excalibur.xml.dom.DefaultDOMHandlerFactory" 
                 role="org.apache.excalibur.xml.dom.DOMHandlerFactory"/>
 
-    <!-- =========================== Sitemap =============================== -->
+  <!-- =========================== Sitemap =============================== -->
 
   <!--+
       | New implementation of the sitemap. It is interpreted, so load times
@@ -43,7 +43,8 @@
       | For production environment, it is advisable to set check-reload to no.
       +-->
   <sitemap  check-reload="yes" logger="sitemap"
-            file="resource://org/ametys/runtime/kernel/sitemap.xmap"
+            file="kernel://sitemap.xmap"
+            config="resource://org/ametys/runtime/cocoon/treeprocessor-builtins.xml"
             class="org.ametys.runtime.cocoon.TreeProcessor"/>
       
 <!-- =================== Sitemap Input/Output Modules ====================== -->
@@ -90,6 +91,31 @@
     <component-instance class="org.ametys.runtime.util.cocoon.LocaleInputModule" logger="core.modules.input" name="locale"/>
   </input-modules>
 
+  <!--+
+      | OutputModules are companion modules for InputModules.
+      |
+      | The same principles apply here, only that OutputModules allow
+      | writing data to places. Apparently, there are a lot less
+      | places to write to than to read data from, thus there are only
+      | a few OutputModules coming with Apache Cocoon.
+      |
+      | One special feature of OutputModules is, that they expose some
+      | limited transactional behaviour. Hence it does not suffice to
+      | write a value, but it is required to confirm this at the
+      | end. Until then, the value could not be read from the
+      | corresponding InputModule. This behaviour is not enfored but
+      | it should be expected. Omitting a commit or rollback is an
+      | error.
+      |
+      | OutputModules are currently used by flow, a number of actions
+      | and transformers.
+      +-->
+  <output-modules>
+    <component-instance class="org.apache.cocoon.components.modules.output.RequestAttributeOutputModule" logger="core.modules.output" name="request-attr"/>
+    <component-instance class="org.apache.cocoon.components.modules.output.RequestAttributeMap" logger="core.modules.output" name="request-attr-map"/>
+    <component-instance class="org.apache.cocoon.components.modules.output.SessionAttributeOutputModule" logger="core.modules.output" name="session-attr"/>
+  </output-modules>
+
 <!-- ================================= XML ================================ -->
 
   <!--+
@@ -98,6 +124,14 @@
       | Each source factory adds a special uri schemes to the system.
       +-->
   <source-factories>
+	<component-instance class="org.ametys.runtime.util.cocoon.source.ProxySourceFactory" name="kernel">
+	   <!-- Becarefull, even if kernel protocol is declared here as configurable, it is sometimes hardcoded for technical reasons (for example in the RuntimeServlet when in error mode, ine PluginsManager to load xsd...) -->
+	    <match>kernel://(.*)</match>
+	    <protocols>
+		  <protocol>resource://org/ametys/runtime/kernel/{1}</protocol>
+		  <protocol>context://kernel/{1}</protocol>
+		</protocols>
+	</component-instance>
     <component-instance class="org.ametys.runtime.util.cocoon.source.ResourceSourceFactory" name="resource"/>
     <component-instance class="org.ametys.runtime.util.cocoon.source.ZipSourceFactory" name="zip"/>
     <component-instance class="org.ametys.runtime.plugin.PluginSourceFactory" name="plugin"/>
@@ -111,8 +145,6 @@
         +-->
     <component-instance class="org.apache.excalibur.source.impl.FileSourceFactory" name="file"/>
     
-    <!-- Uncomment one of the 'resource-explorer' SourceFactory to access resource explorer -->
-    <component-instance class="org.apache.excalibur.source.impl.FileSourceFactory" name="resources-explorer"/>
     <component-instance class="org.apache.cocoon.components.source.impl.PartSourceFactory" name="upload"/>
 
     <!--+
@@ -244,25 +276,11 @@
   <!--+
       | Xalan XSLT Processor
       +-->
-  <component class="org.apache.excalibur.xml.xslt.XSLTProcessorImpl" logger="core.xslt-processor" role="org.apache.excalibur.xml.xslt.XSLTProcessor/xalan">
+  <component class="org.apache.cocoon.components.xslt.TraxProcessor" logger="core.xslt-processor" role="org.apache.excalibur.xml.xslt.XSLTProcessor/xalan">
      <parameter name="use-store" value="false"/>
      <parameter name="incremental-processing" value="false"/>
      <parameter name="transformer-factory" value="org.apache.xalan.processor.TransformerFactoryImpl"/>
   </component>
-
-  <!--+
-      | Saxon XSLT Processor
-      | For old (6.5.2) Saxon use:
-      |  <parameter name="transformer-factory" value="com.icl.saxon.TransformerFactoryImpl"/>
-      | For new (7+) Saxon use:
-      |  <parameter name="transformer-factory" value="net.sf.saxon.TransformerFactoryImpl"/>
-  <component logger="core.xslt-processor"
-             role="org.apache.excalibur.xml.xslt.XSLTProcessor/saxon"
-             class="org.apache.excalibur.xml.xslt.XSLTProcessorImpl">
-     <parameter name="use-store" value="true"/>
-     <parameter name="transformer-factory" value="com.icl.saxon.TransformerFactoryImpl"/>
-  </component>
-      +-->
 
   <!-- Xpath Processor: -->
   <xpath-processor class="org.apache.excalibur.xml.xpath.XPathProcessorImpl" logger="core.xpath-processor"/>
@@ -272,4 +290,209 @@
     <parser mime-type="text/xml" role="org.apache.excalibur.xml.sax.SAXParser"/>
     <parser mime-type="text/html" role="org.apache.excalibur.xml.sax.SAXParser/HTML"/>
   </xmlizer>
+
+<!-- ============================ Object Stores =========================== -->
+
+  <!--+
+      | Transient Store: holds objects that don't have to survive shutdown
+      |
+      | Common configuration parameters:
+      | maxobjects: Indicates how many objects will be held in the cache.
+      |    When the number of maxobjects has been reached. The last object
+      |    in the cache will be thrown out.
+      +-->
+  <transient-store logger="core.store.transient">
+    <parameter name="maxobjects" value="1000"/>
+  </transient-store>
+
+  <!--+
+      | Store: generic store. The default implementation is an in-memory store
+      | backed by a disk store (based on EHCache). This forms a two-stage
+      | cache composed of a fast in-memory MRU front-end and a persistent
+      | back-end which stores the less-used objects.
+      |
+      | Common configuration parameters:
+      | maxobjects: Indicates how many objects will be held in the cache.
+      |    When the number of maxobjects has been reached. The last object
+      |    in the cache will be thrown out.
+      +-->
+  <store logger="core.store">
+    <parameter name="maxobjects" value="1000"/>
+    <parameter name="use-cache-directory" value="true"/>
+  </store>
+
+  <!--+
+      | Store Janitor: the store garbage collector and memory usage controller.
+      |
+      | WARNING: Be careful with the heapsize and freememory parameters.
+      |           Wrong values can cause high cpu usage.
+      |
+      | Example configuration:
+      | Jvm settings:
+      |    -Xmx200000000
+      | store-janitor settings:
+      |    <parameter name="freememory" value="5000000"/>
+      |    <parameter name="heapsize" value="196000000"/>
+      |
+      | It is recommended to have heapsize equal to -Xmx, especially on Sun's
+      | JVM which are unable to shrink its heap once it grows above minimum.
+      | Freememory should be greater than amount of memory necessary for normal
+      | application operation.
+      | BUT: The heap size of the memory of the JVM is a little bit less than
+      |      the value you specify for -Xmx, so you have to set the heapsize
+      |      for the store janitor to a value which is lower (2% less seems
+      |      to be a working value).
+      +-->
+  <store-janitor logger="core.store.janitor">
+    <!--+
+        | How much free memory shall be available in the jvm?
+        | If not specified, defaults to 1Mb.
+        +-->
+    <parameter name="freememory" value="2048000"/>
+    <!--+
+        | How much memory at max jvm can consume?
+        | The default max heapsize for Sun's JVM is (almost) 64Mb,
+        | can be increased by specifying -Xmx command line parameter.
+        | If not specified, defaults to 66600000 bytes.
+        +-->
+    <parameter name="heapsize" value="66600000"/>
+    <!--+
+        | How often shall the cleanup thread check memory?
+        | If not specified, defaults to 10 seconds.
+        +-->
+    <parameter name="cleanupthreadinterval" value="10"/>
+    <!--+
+        | Experimental adaptive algorithm for cleanup interval
+    <parameter name="adaptivethreadinterval" value="true"/>
+        +-->
+    <!--+
+        | What percent of the store elements shall be dropped on low memory?
+        | If not specified, defaults to 10%
+        +-->
+    <parameter name="percent_to_free" value="10"/>
+    <!--+
+        | Shall garbage collector be invoked on low memory?
+        | If not specified, defaults to false.
+        +-->
+    <parameter name="invokegc" value="false"/>
+
+    <!--+
+        | What should be the priority of the cleanup thread?
+        | This parameter is used only by older implementation of the janitor.
+        | New implementation uses centrally configured thread pool (see
+        | thread-pools element below).
+    <parameter name="threadpriority" value="5"/>
+        +-->
+  </store-janitor>
+
+<!-- ====================== System Components =========================== -->
+
+  <!--+
+      | Runnable manager
+      |
+      | This component manages commands (Runnables) executed in background using
+      | preconfigured pools of worker threads
+      +-->
+  <runnable-manager logger="core.runnable">
+    <!--+
+        | This is the default configuration of the runnable-manager. More
+        | indepth information can be found at
+        | http://gee.cs.oswego.edu/dl/classes/EDU/oswego/cs/dl/util/concurrent/PooledExecutor.html
+        | The following elements can be used:
+        |
+        | thread-factory:        specifies the fully qualified class name of an
+        |                        org.apache.cocoon.components.thread.ThreadFactory
+        |                        implementation. It is responsible to create Thread
+        |                        classes.
+        | thread-pools:          container element for thread-pool elements.
+        | name:                  required name of the pool.
+        | priority:              optional priority all threads of the pool will
+        |                        have (the ThreadFactory will be set to this
+        |                        priority).The possible values  are:
+        |                          MIN:  corresponds to Thread#MIN_PRIORITY
+        |                          NORM: corresponds to Thread#NORM_PRIORITY (default)
+        |                          MAX:  corresponds to Thread#MAX_PRIORITY
+        | daemon:                whether newly created Threads should run in
+        |                        daemon mode or not. Default to false.
+        | queue-size:            optional size of a queue to hold Runnables if the
+        |                        pool is full. Possible values are:
+        |                          less than 0:    unbounded (default)
+        |                          equal to 0:     no queue at all
+        |                          greater than 0: size of the queue
+        | max-pool-size:         optional maximum number of threads in the pool.
+        |                        Defaults to 5.
+        |                        NOTE: if a queue is specified (queue-sie != 0)
+        |                              this value will be ignored.
+        | min-pool-size:         optional minimum number of threads in the pool.
+        |                        Defaults to 5.
+        |                        NOTE: if a queue has been specified (queue-sie != 0)
+        |                              this value will be used as the maximum of
+        |                              thread running concurrently.
+        | keep-alive-time-ms:    The time in ms an idle thread should keep alive
+        |                        before it might get garbage collected. This
+        |                        defaults to 60000 ms.
+        | block-policy;          The policy to be used if all resources (thread in
+        |                        the pool and slots in the queue) are exhausted.
+        |                        Possible values are:
+        |                          ABORT:         Throw a RuntimeException
+        |                          DISCARD:       Throw away the current request
+        |                                         and return.
+        |                          DISCARDOLDEST: Throw away the oldest request
+        |                                         and return.
+        |                          RUN (default): The thread making the execute
+        |                                         request runs the task itself.
+        |                                         This policy helps guard against
+        |                                         lockup.
+        |                          WAIT:          Wait until a thread becomes
+        |                                         available. This policy should, in
+        |                                         general, not be used if the
+        |                                         minimum number of threads is zero,
+        |                                         in which case a thread may never
+        |                                         become available.
+        | shutdown-graceful:     Terminate thread pool after processing all
+        |                        Runnables currently in queue. Any Runnable entered
+        |                        after this point will be discarded. A shut down
+        |                        pool cannot be restarted. This also means that a
+        |                        pool will need keep-alive-time-ms to terminate.
+        |                        The default value not to shutdown graceful.
+        | shutdown-wait-time-ms: The time in ms to wait before issuing an
+        |                        immediate shutdown after a graceful shutdown
+        |                        has been requested.
+        +-->
+    <thread-factory>org.apache.cocoon.components.thread.DefaultThreadFactory</thread-factory>
+    <thread-pools>
+      <!--+
+          | This is the default thread pool. It's use fits best for short
+          | running background tasks.
+          +-->
+      <thread-pool>
+        <name>default</name>
+        <priority>NORM</priority>
+        <daemon>false</daemon>
+        <queue-size>-1</queue-size>
+        <max-pool-size>5</max-pool-size>
+        <min-pool-size>5</min-pool-size>
+        <keep-alive-time-ms>60000</keep-alive-time-ms>
+        <block-policy>ABORT</block-policy>
+        <shutdown-graceful>false</shutdown-graceful>
+        <shutdown-wait-time-ms>-1</shutdown-wait-time-ms>
+      </thread-pool>
+      <!--+
+          | This thread pool should be used for daemons (permanently running
+          | threads).
+          +-->
+      <thread-pool>
+        <name>daemon</name>
+        <priority>NORM</priority>
+        <daemon>true</daemon>
+        <queue-size>0</queue-size>
+        <max-pool-size>-1</max-pool-size>
+        <min-pool-size>1</min-pool-size>
+        <keep-alive-time-ms>60000</keep-alive-time-ms>
+        <block-policy>ABORT</block-policy>
+        <shutdown-graceful>false</shutdown-graceful>
+        <shutdown-wait-time-ms>-1</shutdown-wait-time-ms>
+      </thread-pool>
+    </thread-pools>
+  </runnable-manager>
 </cocoon>
