@@ -77,7 +77,7 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
     /** List of the tags to collapse. */
     private static final Set<String> __NAMESPACES_ALLOWED = new HashSet<String>(Arrays.asList(
             new String[] {"", "http://www.w3.org/XML/1998/namespace", XHTML1_NAMESPACE, "http://www.w3.org/2000/svg",
-            "http://www.w3.org/1998/Math/MathML"}));
+                "http://www.w3.org/1998/Math/MathML"}));
 
     /** List of the tags to collapse. */
     private static final Set<String> __COLLAPSE_TAGS = new HashSet<String>(Arrays.asList(
@@ -408,7 +408,7 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
             namespaceUri = XHTML1_NAMESPACE;
         }
 
-        if (local.equalsIgnoreCase(__SCRIPT_TAG) || local.equalsIgnoreCase(__STYLE_TAG))
+        if (local.equalsIgnoreCase(__SCRIPT_TAG))
         {
             _insideInlineResourceTag--;
             if (_buffer.length() > 0)
@@ -419,6 +419,19 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
                 content[content.length - 3] = '/';
                 content[content.length - 2] = '/';
                 content[content.length - 1] = ' ';
+                _buffer.getChars(0, _buffer.length(), content, 1);
+                _buffer.setLength(0);
+                super.comment(content, 0, content.length);
+            }
+        }
+        else if (local.equalsIgnoreCase(__STYLE_TAG))
+        {
+            _insideInlineResourceTag--;
+            if (_buffer.length() > 0)
+            {
+                char[] content = new char[_buffer.length() + 2];
+                content[0] = '\n';
+                content[content.length - 1] = '\n';
                 _buffer.getChars(0, _buffer.length(), content, 1);
                 _buffer.setLength(0);
                 super.comment(content, 0, content.length);
