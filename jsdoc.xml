@@ -20,7 +20,6 @@
          xmlns:clover="antlib:com.atlassian.clover"
          xmlns:ivy="antlib:org.apache.ivy.ant">
          
-    <property name="output.dir" location="doc"/>
     <property name="temp.dir" location="temp"/>
     <property name="jsdoc.dir" location="../../../deliver/jsdoc"/>
     <property name="jsdoc-build" location="${jsdoc.dir}/jsdoc.xml"/>
