@@ -25,6 +25,8 @@
         <version>2.0.1</version>
     </application>
     
+    <initClass>org.ametys.runtime.test.Init</initClass>
+    
     <plugins>
         <locations>
             <location>location3</location>

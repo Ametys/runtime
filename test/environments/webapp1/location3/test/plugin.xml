@@ -27,4 +27,16 @@
         </extensions>
     </feature>
     <feature name="test-feature5"/>
+    <feature name="rights">
+        <extensions>
+            <extension point="org.ametys.runtime.plugins.core.right.RightsExtensionPoint"
+                       id="test.right">
+                <right id="Test_Right">
+                    <label i18n="false">test</label>
+                    <description i18n="false">test</description>
+                    <category i18n="false">test</category>
+                </right>
+            </extension>
+        </extensions>
+    </feature>
 </plugin>

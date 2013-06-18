@@ -34,7 +34,7 @@ public class BasicRightsManagerTestCase extends AbstractRuntimeTestCase
     @Override
     protected void setUp() throws Exception
     {
-        _configureRuntime("test/environments/runtimes/runtime3.xml");
+        _configureRuntime("test/environments/runtimes/runtime12.xml");
         Config.setFilename("test/environments/configs/config1.xml");
         _startCocoon("test/environments/webapp1");
     }
@@ -60,12 +60,9 @@ public class BasicRightsManagerTestCase extends AbstractRuntimeTestCase
         
         // GET USER RIGHTS
         Set<String> rightsIds = rightsManager.getUserRights("any", "any");
-        assertEquals(5, rightsIds.size());
-        assertTrue(rightsIds.contains("Runtime_Rights_User_Handle"));
-        assertTrue(rightsIds.contains("Runtime_Rights_Group_Handle"));
-        assertTrue(rightsIds.contains("Runtime_Rights_Rights_Profile_Handle"));
-        assertTrue(rightsIds.contains("Runtime_Rights_Rights_Handle"));
-        assertTrue(rightsIds.contains("Runtime_Rights_Rights_Profile_See"));
+        // one right from a test feature
+        assertEquals(1, rightsIds.size());
+        assertTrue(rightsIds.contains("Test_Right"));
         
         // GET GRANTED USERS
         Set<String> usersIds = rightsManager.getGrantedUsers("any", "any");
