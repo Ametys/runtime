@@ -25,7 +25,7 @@ import org.ametys.runtime.test.userpref.AllUserPreferencesTestSuite;
 import org.ametys.runtime.test.users.jdbc.AllUsersTestSuite;
 import org.ametys.runtime.test.users.jdbc.credentialsaware.AllCredentialsAwareJdbcUsersTestSuite;
 import org.ametys.runtime.test.users.jdbc.modifiable.AllModifiableUsersTestSuite;
-import org.ametys.runtime.test.users.jdbc.modifiablecredentialsaware.AllModifiableCredentialsAwareJdbcUsersTestCase;
+import org.ametys.runtime.test.users.jdbc.modifiablecredentialsaware.AllModifiableCredentialsAwareJdbcUsersTestSuite;
 
 /**
  * Test suite grouping all JDBC-related runtime tests.
@@ -50,7 +50,7 @@ public final class JdbcTestSuite
         suite.addTest(AllUsersTestSuite.suite());
         suite.addTest(AllModifiableUsersTestSuite.suite());
         suite.addTest(AllCredentialsAwareJdbcUsersTestSuite.suite());
-        suite.addTest(AllModifiableCredentialsAwareJdbcUsersTestCase.suite());
+        suite.addTest(AllModifiableCredentialsAwareJdbcUsersTestSuite.suite());
         
         suite.addTest(AllGroupsTestSuite.suite());
         

@@ -35,7 +35,7 @@ import org.ametys.runtime.test.userpref.AllUserPreferencesTestSuite;
 import org.ametys.runtime.test.users.jdbc.AllUsersTestSuite;
 import org.ametys.runtime.test.users.jdbc.credentialsaware.AllCredentialsAwareJdbcUsersTestSuite;
 import org.ametys.runtime.test.users.jdbc.modifiable.AllModifiableUsersTestSuite;
-import org.ametys.runtime.test.users.jdbc.modifiablecredentialsaware.AllModifiableCredentialsAwareJdbcUsersTestCase;
+import org.ametys.runtime.test.users.jdbc.modifiablecredentialsaware.AllModifiableCredentialsAwareJdbcUsersTestSuite;
 import org.ametys.runtime.test.users.ldap.CredentialAwareLdapUsersTestCase;
 import org.ametys.runtime.test.users.ldap.LdapUsersTestCase;
 import org.ametys.runtime.test.users.others.StaticUsersTestCase;
@@ -75,7 +75,7 @@ public final class AllTests
         suite.addTest(AllUsersTestSuite.suite());
         suite.addTest(AllModifiableUsersTestSuite.suite());
         suite.addTest(AllCredentialsAwareJdbcUsersTestSuite.suite());
-        suite.addTest(AllModifiableCredentialsAwareJdbcUsersTestCase.suite());
+        suite.addTest(AllModifiableCredentialsAwareJdbcUsersTestSuite.suite());
         suite.addTestSuite(LdapUsersTestCase.class);
         suite.addTestSuite(CredentialAwareLdapUsersTestCase.class);
 
