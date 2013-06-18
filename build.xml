@@ -638,7 +638,10 @@
 				<fileset dir="${tests-dir}/src">
 					<include name="**/*TestCase.java"/>
 					<exclude name="**/Abstract*.java"/>
-					<exclude name="**/AllTests.java"/>
+                    <exclude name="**/AllTests.java"/>
+					
+					<!-- Excluding Oracle tests for now, as we don't have the driver -->
+				    <exclude name="**/Oracle*TestCase.java"/>
 				</fileset>
 			</batchtest>
 		</junit>
