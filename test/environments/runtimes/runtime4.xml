@@ -62,5 +62,6 @@
         <org.ametys.runtime.group.GroupsManager>org.ametys.runtime.plugins.core.group.ModifiableJdbcCore</org.ametys.runtime.group.GroupsManager>
         <org.ametys.runtime.authentication.CredentialsProvider>org.ametys.runtime.plugins.core.authentication.Basic</org.ametys.runtime.authentication.CredentialsProvider>
         <org.ametys.runtime.user.UsersManager>org.ametys.runtime.plugins.core.user.CoreJdbc</org.ametys.runtime.user.UsersManager>
+        <org.ametys.runtime.plugins.core.userpref.DefaultUserPreferencesStorage>org.ametys.runtime.plugins.core.userpref.JdbcUserPreferencesStorage</org.ametys.runtime.plugins.core.userpref.DefaultUserPreferencesStorage>
     </extensions>
 </runtime>
