@@ -48,7 +48,6 @@
         
         <antcall target="remove-link"><param name="link" location="${runtime-dir}/test/environments/webapp3/kernel"/></antcall>
         <antcall target="remove-link"><param name="link" location="${runtime-dir}/test/environments/webapp3/plugins/core"/></antcall>
-        <antcall target="remove-link"><param name="link" location="${runtime-dir}/test/environments/webapp3/workspaces/admin"/></antcall>
 	</target>
 	
 	<!-- +
