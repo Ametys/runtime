@@ -25,11 +25,12 @@ Open source web application framework based on Apache Cocoon.
   <configurations>
     <conf name="common_dependencies" description="Root configuration for dependencies (runtime or compile)" visibility="private"/>
 
-    <conf name="compile_dependencies" extends="common_dependencies" description="Dependencies for compiling this module (except any ametys artefacts)"/>
-    <conf name="compile" extends="compile_dependencies" description="Dependencies for compiling this module including ametys artefacts" visibility="private"/>
+    <conf name="compile_base" extends="common_dependencies" description="Dependencies for compiling this module (except any Ametys artefacts)" visibility="private"/>
+    <conf name="compile" extends="compile_base" description="Dependencies for compiling this module including other Ametys artefacts" visibility="private"/>
+    <conf name="compile_dependencies" extends="compile_base" description="Dependencies for compiling this module when embedded into other Ametys projects"/>
     
-    <conf name="runtime_dependencies" extends="common_dependencies" description="Dependencies for running this module (except any ametys artefacts)"/>
-    <conf name="runtime" extends="runtime_dependencies" description="Artificat for runtime only, with runtime dependencies"/>
+    <conf name="runtime_dependencies" extends="common_dependencies" description="Dependencies for running this module (except any Ametys artefacts)"/>
+    <conf name="runtime" extends="common_dependencies" description="Artificat for runtime only, with runtime dependencies"/>
     <conf name="default" extends="runtime" description="Artificat for runtime, with resources and runtime dependencies"/>
 
     <conf name="test-env" extends="runtime" description="Artificat for testing a runtime dependent application"/>
@@ -72,11 +73,11 @@ Open source web application framework based on Apache Cocoon.
     <dependency org="org.rrd4j" name="rrd4j" rev="2.2" conf="common_dependencies->default"/>
     <dependency org="yahoo" name="yuicompressor" rev="2.4.6" conf="common_dependencies->default"/>
     <dependency org="com.google.guava" name="guava" rev="13.0.1" conf="common_dependencies->default"/>
-    <dependency org="org.fusesource" name="sigar" rev="1.6.4" conf="compile_dependencies->default;runtime_dependencies->runtime">
+    <dependency org="org.fusesource" name="sigar" rev="1.6.4" conf="compile_base->default;runtime_dependencies->runtime">
         <exclude module="sigar-lib" conf="test"/>
     </dependency> 
     
-    <dependency org="org.slf4j" name="slf4j-api" rev="1.6.6" conf="compile_dependencies->default"/>
+    <dependency org="org.slf4j" name="slf4j-api" rev="1.6.6" conf="compile_base->default"/>
     <dependency org="org.slf4j" name="slf4j-log4j12" rev="1.6.6" conf="runtime_dependencies->default"/>    
     <dependency org="log4j" name="log4j" rev="1.2.17" conf="common_dependencies->default"/>
     <dependency org="org.apache.avalon.logkit" name="avalon-logkit" rev="2.2.1" conf="common_dependencies->default"/>
@@ -91,12 +92,12 @@ Open source web application framework based on Apache Cocoon.
     <dependency org="mysql" name="mysql-connector-java" rev="5.1.6" conf="runtime_dependencies->default"/>
 
     <!-- Compile and test -->
-    <dependency org="javax.servlet" name="servlet-api" rev="2.4" conf="compile_dependencies->default"/>
-    <dependency org="org.apache.xmlgraphics" name="fop" rev="1.0" transitive="false" conf="compile_dependencies,test->default"/>
-    <dependency org="org.jasig.cas.client" name="cas-client-core" rev="3.2.1" conf="compile_dependencies,test->default"/>
+    <dependency org="javax.servlet" name="servlet-api" rev="2.4" conf="compile_base->default"/>
+    <dependency org="org.apache.xmlgraphics" name="fop" rev="1.0" transitive="false" conf="compile_base,test->default"/>
+    <dependency org="org.jasig.cas.client" name="cas-client-core" rev="3.2.1" conf="compile_base,test->default"/>
     
     <dependency org="mysql" name="mysql-connector-java" rev="5.1.20" conf="test->default"/>
-<!--    <dependency org="com.oracle" name="ojdbc14" rev="10.2.0.4.0" conf="test->default"/> -->
+    <dependency org="com.oracle" name="ojdbc6" rev="11.2.0.3" conf="test->default"/>
     <dependency org="postgresql" name="postgresql" rev="9.1-901-1.jdbc4" conf="test->default"/>
     <dependency org="org.apache.derby" name="derby" rev="10.5.3.0_1" conf="test->default"/>
 
