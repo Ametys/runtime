@@ -122,7 +122,7 @@
       +-->
   <source-factories>
 	<component-instance class="org.ametys.runtime.util.cocoon.source.ProxySourceFactory" name="kernel">
-	   <!-- Becarefull, even if kernel protocol is declared here as configurable, it is sometimes hardcoded for technical reasons (for example in the RuntimeServlet when in error mode, ine PluginsManager to load xsd...) -->
+	   <!-- Be careful, even if kernel protocol is declared here as configurable, it is sometimes hardcoded for technical reasons (for example in the RuntimeServlet when in error mode, ine PluginsManager to load xsd...) -->
 	    <match>kernel://(.*)</match>
 	    <protocols>
 		  <protocol>resource://org/ametys/runtime/kernel/{1}</protocol>
