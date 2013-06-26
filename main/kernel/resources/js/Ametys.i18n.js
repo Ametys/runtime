@@ -270,7 +270,7 @@ Ext.Date.patterns = {
 /*
  * Initialize blank image url
  */
-Ext.BLANK_IMAGE_URL = Ametys.getPluginResourcesPrefix('extjs4') + "/themes/images/default/tree/s.gif";
+Ext.BLANK_IMAGE_URL = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
 
 /*
  * Initialize ssl empty file url
@@ -280,6 +280,7 @@ Ext.SSL_SECURE_URL = Ext.BLANK_IMAGE_URL;
 /*
  * Load localization for extjs
  */
+(function() 
 {
     // This is to change default value
     Ext.define("Ext.locale.fr.LoadMask", {
@@ -301,7 +302,7 @@ Ext.SSL_SECURE_URL = Ext.BLANK_IMAGE_URL;
         /**
          * @member Ext.data.SortTypes
          * @method asNonAccentedUCString 
-         * @since Ametys Runtime 3.0
+         * @since Ametys Runtime 3.7
          * @ametys
          * Case insensitive string (which takes accents into account)
          * @param {Object} s The value being converted
@@ -325,7 +326,7 @@ Ext.SSL_SECURE_URL = Ext.BLANK_IMAGE_URL;
     		return Ext.data.SortTypes.asUCString(s);
     	}
     });
-}
+})();
 
 /*
  * Supports for ametysDescription on fields and fields containers
@@ -333,15 +334,16 @@ Ext.SSL_SECURE_URL = Ext.BLANK_IMAGE_URL;
 /**
  * @member Ext.form.field.Base
  * @ametys
- * @since Ametys Runtime 3.0
+ * @since Ametys Runtime 3.7
  * @cfg {String} ametysDescription A help image is added with the given description as a tooltip
  */
 /**
  * @member Ext.form.FieldContainer
  * @ametys
- * @since Ametys Runtime 3.0
+ * @since Ametys Runtime 3.7
  * @cfg {String} ametysDescription A help image is added with the given description as a tooltip
  */
+(function ()
 {
 	function getLabelableRenderData () 
 	{
@@ -370,11 +372,12 @@ Ext.SSL_SECURE_URL = Ext.BLANK_IMAGE_URL;
 
 	Ext.define("Ametys.form.Labelable", { override: "Ext.form.field.Base", afterSubTpl: afterSubTpl, getLabelableRenderData: getLabelableRenderData, onRender: onRender });
 	Ext.define("Ametys.form.FieldContainer", { override: "Ext.form.FieldContainer", afterSubTpl: afterSubTpl, getLabelableRenderData: getLabelableRenderData, onRender: onRender });
-}
+})();
 
 /*
  * Support for optionnal label on files to indicate max allowed size 
  */
+(function() 
 {
     Ext.define("Ametys.form.field.File", {
         override: "Ext.form.field.File",
@@ -385,7 +388,7 @@ Ext.SSL_SECURE_URL = Ext.BLANK_IMAGE_URL;
         	/**
         	 * @member Ext.form.field.File
         	 * @ametys
-        	 * @since Ametys Runtime 3.0
+        	 * @since Ametys Runtime 3.7
         	 * @cfg {Boolean} ametysShowMaxUploadSizeHint false to hide to max size hint under the field. true by default
         	 */
         	if (Ametys.MAX_UPLOAD_SIZE != undefined && Ametys.MAX_UPLOAD_SIZE != '' && this.ametysShowMaxUploadSizeHint !== false)
@@ -399,7 +402,81 @@ Ext.SSL_SECURE_URL = Ext.BLANK_IMAGE_URL;
         	return result;
         }
     });
-}
+})();
+
+/*
+ * Support for background animation 
+ */
+(function () 
+{
+    /**
+     * @member Ext.dom.Element
+     * @method animate 
+     * @since Ametys Runtime 3.7
+     * @ametys
+     * @inheritdoc Ext.dom.Element_anim#animate
+     * Ametys do additionnaly handle `background-position` to animate a background-image and `background-position-step` to step this animation.
+     * Both args are array of numbers with unit.
+     * To right align, use '100%'.
+     * 
+     * The following example will animate the background image of the element to the coordinates 0,0. 
+     * The animation will be "normal" on the x axis but will only use 256 multiples on the y axis.
+     * 
+     *     el.animate({ 
+     * 			to: { 
+     * 				'background-position': ['0px', '0px'], 
+     * 				'background-position-step': ['1px', '256px'] 
+     * 			}, 
+     * 			duration: 500, 
+     * 			easing: 'linear' 
+     *     });
+     */
+	Ext.define('Ametys.fx.target.Element', {
+		override: 'Ext.fx.target.Element',
+		
+	    getElVal: function(element, attr, val) 
+	    {
+	        if (val == undefined && attr === 'background-position') 
+	        {
+	        	var bgPos = element.getStyle("background-position");
+	    		/^([^ ]*) ([^ ]*)$/.exec(bgPos);
+	    		val = [ RegExp.$1, RegExp.$2 ];
+	    		
+	    		return val;
+	        }
+	        return this.callParent(arguments);
+	    },
+	    
+	    setElVal: function(element, attr, value)
+	    {
+	        if (attr === 'background-position') 
+	        {
+	        	var anim = element.getActiveAnimation();
+	        	var to = anim.to['background-position'];
+	        	var by = anim.to['background-position-step']
+	        	if (by == null)
+	        	{
+	        		by = [1, 1];
+	        	}
+
+	        	var roundedVal = [
+	        	 	Math.round((parseInt(value[0]) - parseInt(to[0])) / parseInt(by[0])) * parseInt(by[0]) + parseInt(to[0]),
+	        	 	Math.round((parseInt(value[1]) - parseInt(to[1])) / parseInt(by[1])) * parseInt(by[1]) + parseInt(to[1])
+	        	];
+	        	var units = [
+	        	    value[0].replace(/[-.0-9]*/, ''),
+	        	    value[1].replace(/[-.0-9]*/, ''),
+	        	];
+
+	        	element.setStyle("background-position", roundedVal[0] + units[0] + ' ' + roundedVal[1] + units[1]);
+	        } 
+	        else 
+	        {
+	        	this.callParent(arguments);
+	        }
+	    }
+	});
+})();
 
 /*
  * Changing default ajax method to POST
