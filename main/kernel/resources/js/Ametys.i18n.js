@@ -270,7 +270,7 @@ Ext.Date.patterns = {
 /*
  * Initialize blank image url
  */
-Ext.BLANK_IMAGE_URL = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+Ext.BLANK_IMAGE_URL = Ametys.getPluginResourcesPrefix('extjs4') + "/themes/images/default/tree/s.gif";
 
 /*
  * Initialize ssl empty file url
