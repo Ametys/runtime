@@ -40,6 +40,12 @@
         <redirectURL/>
     </incompleteConfig>
     
+    <plugins>
+        <locations>
+            <location>location1</location>
+        </locations>
+    </plugins>
+    
     <extensions>
     	<org.ametys.runtime.plugins.core.userpref.DefaultUserPreferencesStorage>org.ametys.runtime.plugins.core.userpref.EmptyUserPreferencesStorage</org.ametys.runtime.plugins.core.userpref.DefaultUserPreferencesStorage>
     </extensions>
