@@ -26,6 +26,7 @@ import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.components.source.SourceUtil;
 import org.apache.cocoon.generation.FileGenerator;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.xml.sax.SAXParser;
 import org.xml.sax.InputSource;
@@ -49,6 +50,11 @@ public class I18nizableJSFileGenerator extends FileGenerator
     private String _encoding = "UTF-8";
     private String _nameSpaces = "xmlns:i18n=\"http://apache.org/cocoon/i18n/2.1\"";
     private SAXParser _saxParser;
+    
+    private static final String[] __MATCH_XML = new String[] {"&", "<"};
+    private static final String[] __REPLACE_XML = new String[] {"&amp;", "&lt;"};
+    private static final String[] __MATCH_I18N = new String[] {"&lt;i18n:", "&lt;/i18n:"};
+    private static final String[] __REPLACE_I18N = new String[] {"<i18n:", "</i18n:"};
 
     @Override
     public void service(ServiceManager smanager) throws ServiceException
@@ -98,6 +104,7 @@ public class I18nizableJSFileGenerator extends FileGenerator
     
     private String _saveXMLChars(String s)
     {
-        return s.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll("&lt;i18n:", "<i18n:").replaceAll("&lt;/i18n:", "</i18n:");
+        // First escape & and <, then unescape &lt;i18n: and &lt;/i18n:
+        return StringUtils.replaceEach(StringUtils.replaceEach(s, __MATCH_XML, __REPLACE_XML), __MATCH_I18N, __REPLACE_I18N);
     }
 }
