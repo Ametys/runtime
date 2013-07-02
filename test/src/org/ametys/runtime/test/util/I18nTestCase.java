@@ -42,7 +42,7 @@ public class I18nTestCase extends AbstractRuntimeTestCase
         _configureRuntime("test/environments/runtimes/runtime3.xml");
         Config.setFilename("test/environments/configs/config1.xml");
         
-        _startCocoon("test/environments/webapp1");
+        _startCocoon("test/environments/webapp2");
         
         ServiceManager manager = Init.getPluginServiceManager();
         _i18nUtils = (I18nUtils) manager.lookup(I18nUtils.ROLE);

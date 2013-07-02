@@ -33,9 +33,6 @@
             <feature>core/runtime.datasource.core</feature>
             <feature>core/runtime.upload</feature>
         </exclude>
-        <locations>
-            <location>location1</location>
-        </locations>
     </plugins>
     
     <incompleteConfig>
