@@ -16,10 +16,12 @@
 package org.ametys.runtime.test;
 
 import java.io.File;
+import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.avalon.excalibur.logger.LogKitLoggerManager;
+import org.apache.avalon.framework.CascadingRuntimeException;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.LogKitLogger;
@@ -29,6 +31,7 @@ import org.apache.cocoon.Constants;
 import org.apache.cocoon.components.CocoonComponentManager;
 import org.apache.cocoon.components.pipeline.ProcessingPipeline;
 import org.apache.cocoon.environment.Environment;
+import org.apache.cocoon.environment.background.BackgroundEnvironment;
 import org.apache.cocoon.environment.commandline.CommandLineContext;
 import org.apache.cocoon.environment.commandline.CommandLineSession;
 import org.apache.cocoon.xml.ContentHandlerWrapper;
@@ -48,7 +51,6 @@ import org.ametys.runtime.plugin.component.PluginsComponentManager;
  * @author <a href="mailto:nicolaken@apache.org">Nicola Ken Barozzi</a>
  * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
  * @author <a href="mailto:uv@upaya.co.uk">Upayavira</a>
- * @version $Id$
  */
 public class CocoonWrapper
 {
@@ -178,6 +180,59 @@ public class CocoonWrapper
         finally
         {
             CocoonComponentManager.leaveEnvironment();
+        }
+    }
+    
+    /**
+     * Create and enter a cocoon environment specific to the engine.
+     * @return a Map with the environment information.
+     */
+    public Map<String, Object> _enterEnvironment()
+    {
+        try
+        {
+            Environment env = new BackgroundEnvironment(_logger, _cliContext);
+            
+            Object processingKey = CocoonComponentManager.startProcessing(env);
+            int environmentDepth = CocoonComponentManager.markEnvironment();
+            
+            CocoonComponentManager.enterEnvironment(env, _cocoon.getComponentManager(), _cocoon);
+            
+            Map<String, Object> result = new HashMap<String, Object>();
+            
+            result.put("environment", env);
+            result.put("processingKey", processingKey);
+            result.put("environmentDepth", new Integer(environmentDepth));
+            
+            return result;
+
+        }
+        catch (MalformedURLException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * Leave the cocoon environment.
+     * @param environmentInformation the environment information.
+     */
+    public void _leaveEnvironment(Map<String, Object> environmentInformation)
+    {
+        BackgroundEnvironment environment = (BackgroundEnvironment) environmentInformation.get("environment");
+        Object processingKey = environmentInformation.get("processingKey");
+        int environmentDepth = ((Integer) environmentInformation.get("environmentDepth")).intValue();
+
+        CocoonComponentManager.leaveEnvironment();
+        CocoonComponentManager.endProcessing(environment, processingKey);
+        
+        try
+        {
+            CocoonComponentManager.checkEnvironment(environmentDepth, _logger);
+        }
+        catch (Exception e)
+        {
+            throw new CascadingRuntimeException("Error checking the environment", e);
         }
     }
     
