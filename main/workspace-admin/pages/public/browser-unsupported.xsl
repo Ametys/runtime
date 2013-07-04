@@ -46,7 +46,8 @@
 		    </xsl:with-param>
 		    
 		    <xsl:with-param name="head-meta">
-		    	<link rel="stylesheet" href="{$contextPath}{$workspaceURI}/resources/css/public/browsers-issue.css" type="text/css"/>
+                <link rel="stylesheet" href="{$contextPath}{$workspaceURI}/resources/css/public/public.css" type="text/css"/>
+                <link rel="stylesheet" href="{$contextPath}{$workspaceURI}/resources/css/public/browsers-issue.css" type="text/css"/>
 		    </xsl:with-param>
 
 		    <xsl:with-param name="body-col-main">

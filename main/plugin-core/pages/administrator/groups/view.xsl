@@ -24,8 +24,6 @@
     <xsl:param name="workspaceName"/>
     <xsl:param name="workspaceURI"/>
 
-    <xsl:variable name="workspaceContext"><xsl:value-of select="$contextPath"/><xsl:value-of select="$workspaceURI"/></xsl:variable>    
-    
     <xsl:variable name="resourcesPath"><xsl:value-of select="$contextPath"/>/plugins/core/resources</xsl:variable>    
     
 	<xsl:template match="/GroupsManager">
