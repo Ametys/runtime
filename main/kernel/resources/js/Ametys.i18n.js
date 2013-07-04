@@ -212,6 +212,103 @@ Ext.define(
 		},
 		
 		/**
+		 * Retrieve an object by its name
+		 * @param {String} name The name of the object
+		 * @param {Object} [context=window] The search context (relative to the object name).
+		 * @return {Object} The desired object, or null if it does not exist.
+		 */
+		getObjectByName: function(name, context)
+		{
+			context = context || window;
+			
+			var namespaces = name.split(".");
+			var obj = context;
+			var prop;
+			
+			for (var i = 0; i < namespaces.length; i++)
+			{
+				prop = namespaces[i];
+				if (prop in obj)
+				{
+					obj = obj[prop];
+				}
+				else
+				{
+					return null;
+				}
+			}
+			
+			return obj;
+		},
+		
+		/**
+		 * Create an object by supplying its constructor name
+		 * @param {String} name The name of the constructor
+		 * @param {Object} [context=window] The search context (relative to the constructor name).
+		 * @param {Object...} args Optional function arguments.
+		 * @return {Object} The object returned by the constructor call.
+		 */
+		createObjectByName: function(name, context/*, args*/)
+		{
+			var fn = Ametys.getObjectByName(name, context);
+			if (!fn) return null; // return null if fn is falsy.
+			
+			var args = Array.prototype.slice.call(arguments, 2);
+			
+			// new operator must be call on a wrapped function like this one.
+			var wrappedCtor = function(args)
+			{
+				var ctor = function() {
+					// Here 'this' is set to the new keyword.
+					fn.apply(this, args);
+				}
+				// Inherits the prototype.
+				ctor.prototype = fn.prototype;
+				return ctor;
+			};
+			
+			var ctor = wrappedCtor(args);
+			return new ctor();
+		},
+		
+		/**
+		 * Executes a function by supplying its name
+		 * @param {String} name The name of the object
+		 * @param {Object} [context=window] The search context (relative to the object name).
+		 * @param {Object} [scope=context] The scope for the function call.
+		 * @param {Object...} args Optional function arguments.
+		 * @return {Object} The result of the function, or null if the function does not exist.
+		 */
+		executeFunctionByName: function(name, context, scope/*, args*/)
+		{
+			var ctx = context || window;
+			
+			var namespaces = name.split(".");
+			var prop;
+			
+			for (var i = 0; i < namespaces.length-1; i++)
+			{
+				prop = namespaces[i];
+				if (prop in ctx)
+				{
+					ctx = ctx[prop];
+				}
+				else
+				{
+					return null;
+				}
+			}
+			
+			var fn = ctx[namespaces.pop()];
+			if (!fn) return null; // return null if fn is falsy.
+			
+			var scp = scope || context || ctx;
+			var args = Array.prototype.slice.call(arguments, 3);
+			
+			return fn.apply(scp, args);
+		},
+
+		/**
 		 * Shutdown all the application and display a standard error message.<br/>
 		 * Will cut all known crons, requests...<br/>
 		 * Do not do anything after this call.
