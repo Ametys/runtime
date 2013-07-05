@@ -377,7 +377,7 @@ Ext.SSL_SECURE_URL = Ext.BLANK_IMAGE_URL;
 /*
  * Load localization for extjs
  */
-(function() 
+(function ()
 {
     // This is to change default value
     Ext.define("Ext.locale.fr.LoadMask", {
@@ -511,7 +511,6 @@ Ext.SSL_SECURE_URL = Ext.BLANK_IMAGE_URL;
      * @method animate 
      * @since Ametys Runtime 3.7
      * @ametys
-     * @inheritdoc Ext.dom.Element_anim#animate
      * Ametys do additionnaly handle `background-position` to animate a background-image and `background-position-step` to step this animation.
      * Both args are array of numbers with unit.
      * To right align, use '100%'.
@@ -572,6 +571,56 @@ Ext.SSL_SECURE_URL = Ext.BLANK_IMAGE_URL;
 	        	this.callParent(arguments);
 	        }
 	    }
+	});
+})();
+
+/*
+ * Add a truncate method on TextMetrics 
+ */
+(function () 
+{
+	Ext.define('Ametys.util.TextMetrics', {
+		override: 'Ext.util.TextMetrics',
+		
+    	/**
+    	 * @member Ext.util.TextMetrics
+    	 * @ametys
+    	 * @since Ametys Runtime 3.7
+    	 * Make an ellipsis on the provided text if necessary.
+    	 * @param {String} text The text to test
+    	 * @param {Number} maxWidth The max authorized with for this text
+    	 * @param {String} ellipsis The ellipsis. Default to '...'
+    	 * @returns {String} The text (potentially ellipsed) that fills in maxWidth. Returns an empty text, if the initial text is fully truncated.
+    	 */
+		ellipseText: function(text, maxWidth, ellipsis) 
+		{
+			if (text == null || text == '')
+			{
+				return '';
+			}
+			
+			ellipsis = ellipsis || '...';
+			
+			if (this.getWidth(text) > maxWidth && maxWidth > 0)
+			{
+				var truncatedText = text;
+				while (this.getWidth(truncatedText + ellipsis) > maxWidth)
+				{
+					truncatedText = truncatedText.substring (0, truncatedText.length -1);
+
+					if (truncatedText == '')
+					{
+						return '';
+					}
+				}
+				
+				return truncatedText + ellipsis;
+			}
+			else
+			{
+				return text;
+			}
+		}
 	});
 })();
 
