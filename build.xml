@@ -112,11 +112,9 @@
 
     	<ivy:cachepath conf="deliver" file="${tools.ivy.dep.file}" type="jar,bundle" pathid="classpath-ametys-tools"/>
         
-        <taskdef resource="org/ametys/tools/antlib.xml" uri="antlib:org.ametys.tools"
-                 classpathref="classpath-ametys-tools"/>
+        <taskdef resource="org/ametys/tools/antlib.xml" uri="antlib:org.ametys.tools" classpathref="classpath-ametys-tools"/>
 	    
-        <taskdef resource="cloverlib.xml" uri="antlib:com.atlassian.clover"
-                 classpathref="classpath-ametys-tools"/>
+        <taskdef resource="cloverlib.xml" uri="antlib:com.atlassian.clover" classpathref="classpath-ametys-tools"/>
         
         <mkdir dir="${classes}"/>
         <mkdir dir="${test-env-classes}"/>
