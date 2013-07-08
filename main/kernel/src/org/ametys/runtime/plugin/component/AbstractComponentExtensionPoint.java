@@ -41,7 +41,7 @@ import org.ametys.runtime.plugin.ExtensionPoint;
  * Avalon based implementation of an ExtensionPoint.
  * @param <T> the type of the managed extensions
  */
-public class AbstractComponentExtensionPoint<T> extends AbstractLogEnabled implements ExtensionPoint<T>, Component, ThreadSafe, Serviceable, Contextualizable, Initializable, Disposable
+public abstract class AbstractComponentExtensionPoint<T> extends AbstractLogEnabled implements ExtensionPoint<T>, Component, ThreadSafe, Serviceable, Contextualizable, Initializable, Disposable
 {
     /** Avalon service manager */
     protected ServiceManager _manager;

@@ -25,7 +25,7 @@ import org.apache.avalon.framework.component.ComponentSelector;
  * Selectable components are declared as extensions to this extension point and may be used as normal Cocoon components.
  * @param <T> the type of the managed extensions. Must extends Component to be compatible with the ComponentSelector contract
  */
-public class AbstractSelectorExtensionPoint<T extends Component> extends AbstractThreadSafeComponentExtensionPoint<T> implements ParentAware, ComponentSelector
+public abstract class AbstractSelectorExtensionPoint<T extends Component> extends AbstractThreadSafeComponentExtensionPoint<T> implements ParentAware, ComponentSelector
 {
     private ComponentSelector _parentSelector;
     
