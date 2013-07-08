@@ -46,15 +46,16 @@ import org.xml.sax.SAXException;
  */
 public class I18nizableJSFileGenerator extends FileGenerator
 {
-    private String _tagName = "xml";
-    private String _encoding = "UTF-8";
-    private String _nameSpaces = "xmlns:i18n=\"http://apache.org/cocoon/i18n/2.1\"";
-    private SAXParser _saxParser;
-    
-    private static final String[] __MATCH_XML = new String[] {"&", "<"};
+    private static final String[] __MATCH_XML = new String[] {"&", "<"}; 
     private static final String[] __REPLACE_XML = new String[] {"&amp;", "&lt;"};
     private static final String[] __MATCH_I18N = new String[] {"&lt;i18n:", "&lt;/i18n:"};
     private static final String[] __REPLACE_I18N = new String[] {"<i18n:", "</i18n:"};
+    
+    private final String _tagName = "xml";
+    private final String _encoding = "UTF-8";
+    private final String _nameSpaces = "xmlns:i18n=\"http://apache.org/cocoon/i18n/2.1\"";
+    
+    private SAXParser _saxParser;
 
     @Override
     public void service(ServiceManager smanager) throws ServiceException
