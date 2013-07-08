@@ -147,7 +147,7 @@ Ext.define(
 		 * @param {Object} message The config object for the message to send.
 		 * @param {String} message.plugin The name of the server plugin targeted. Can be null. Do not use with workspace.
 		 * @param {String} message.workspace The name of the server workpace targeted. Can be null if plugin is specified or to send to current workspace.
-		 * @param {String} message.url The url on the server relative to the plugin
+		 * @param {String} message.url The url on the server relative to the plugin or workspace
 		 * @param {Object} message.parameters The parameters to send to the server (Map<String, String>)
 		 * @param {Number} message.priority The priority of the message. Use ServerComm.PRIORITY_* constants.
 		 * @param {Object} message.callback When using non synchrnous messages, a callback configuration is requires 

@@ -39,7 +39,7 @@
 		<i18n:text i18n:catalogue="application" i18n:key="APPLICATION_PRODUCT_LABEL"/>
 	</xsl:template>
 	
-		<!-- +
+    <!-- +
 	     | Returns value for the home template, parameter head-meta
 	     | @private
 	     + -->
