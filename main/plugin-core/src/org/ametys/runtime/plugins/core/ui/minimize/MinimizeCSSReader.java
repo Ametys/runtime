@@ -111,7 +111,7 @@ public class MinimizeCSSReader extends AbstractMinimizeReader
         StringBuffer sb = new StringBuffer();
 
         sb.append("@import \"");
-        sb.append((StringUtils.startsWith(file, "~") ? contextPath + org.apache.cocoon.util.NetUtils.normalize(file.substring(1)) : file));
+        sb.append(StringUtils.startsWith(file, "~") ? contextPath + org.apache.cocoon.util.NetUtils.normalize(file.substring(1)) : file);
         sb.append("\";\n");
         
         return sb.toString();
