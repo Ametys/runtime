@@ -21,7 +21,7 @@
   * 
   * <pre><code>		
   * 	// Theses options are here to initialize the Ametys object.
-  * 	// Do not use theses since their are removed during Ametys initialization process
+  * 	// Do not use these since they are removed during Ametys initialization process
   * 	window.ametys_opts = {
   * 		"plugins-direct-prefix": '/_plugins', 	// See PLUGINS_DIRECT_PREFIX for details (private)
   * 		"plugins-wrapped-prefix": '/plugins', 	// See PLUGINS_WRAPPED_PREFIX for details (private)
@@ -167,6 +167,23 @@ Ext.define(
 		 * @return {String} The url prefix for accessing plugin resources (e.g. js, css or images files). E.g. '/MyContext/plugins/MyPlugin/resources'
 		 */
 		getPluginResourcesPrefix: function (plugin) { return Ametys.CONTEXT_PATH + "/plugins/" + plugin + "/resources"; },
+		
+		/**
+		 * Get the url prefix for accessing a workspace resource file. The use of Ametys.getWorkspaceResourcesPrefix('wsp') + '/img/image.png' will return '/MyContext/_wsp/resources/img/image.png' 
+		 * @param {String} workspace The workspace name. If omitted, the current workspace will be used.
+		 * @return {String} The url prefix for accessing workspace resources (e.g. js, css or images files). E.g. '/MyContext/_wsp/resources'
+		 */
+		getWorkspaceResourcesPrefix: function(workspace)
+		{
+		    if (workspace == null)
+	        {
+		        return Ametys.WORKSPACE_URI + '/resources';
+	        }
+		    else
+	        {
+                return Ametys.CONTEXT_PATH + '/_' + workspace + '/resources';
+	        }
+	    },
 		
 		/**
 		 * Convert html tags to textare.
@@ -342,7 +359,7 @@ Ext.define(
 			}
 			
 			document.body.setAttribute('style', "background-image: none !important; background-color: #FFFFFF !important; color: #000000 !important; padding: 20px !important;");
-			document.body.innerHTML = "<h1>" + "<i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_1'/>" + "</h1> <p>" + "<i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_2'/>" +"</p><p><a href='javascript:location.reload(true);'>" + "<i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_3'/>" + "</a></p>"
+			document.body.innerHTML = "<h1><i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_1'/></h1> <p><i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_2'/></p><p><a href='javascript:location.reload(true);'><i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_3'/></a></p>"
 		}
    	}
 );
