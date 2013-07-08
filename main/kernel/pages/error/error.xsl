@@ -39,6 +39,7 @@
 			</xsl:with-param>
 			
 		    <xsl:with-param name="head-meta">
+		    	<link rel="stylesheet" href="{$contextPath}/kernel/resources/css/home-text.css" type="text/css"/>
 		    	<link rel="stylesheet" href="{$contextPath}/kernel/resources/css/error.css" type="text/css"/>
 				<script type="text/javascript">
 					<xsl:comment>
