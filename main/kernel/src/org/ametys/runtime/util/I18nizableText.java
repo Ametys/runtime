@@ -239,7 +239,7 @@ public final class I18nizableText
                         AttributesImpl attrs = new AttributesImpl();
                         attrs.addCDATAAttribute("name", parameterName);
                         handler.startElement(I18nTransformer.I18N_NAMESPACE_URI, "param", "i18n:param", attrs);
-                        value.toSAX(handler);
+                        value._toSAXAsParam(handler);
                         handler.endElement(I18nTransformer.I18N_NAMESPACE_URI, "param", "i18n:param");
                     }
                 }
@@ -266,6 +266,19 @@ public final class I18nizableText
         XMLUtils.startElement(handler, tagName);
         toSAX(handler);
         XMLUtils.endElement(handler, tagName);
+    }
+
+    private void _toSAXAsParam(ContentHandler handler) throws SAXException
+    {
+        AttributesImpl atts = new AttributesImpl();
+        if (getCatalogue() != null)
+        {
+            atts.addCDATAAttribute(I18nTransformer.I18N_NAMESPACE_URI, "catalogue", "i18n:catalogue", getCatalogue());
+        }
+
+        handler.startElement(I18nTransformer.I18N_NAMESPACE_URI, "text", "i18n:text", atts);
+        handler.characters(_key.toCharArray(), 0, _key.length());
+        handler.endElement(I18nTransformer.I18N_NAMESPACE_URI, "text", "i18n:text");
     }
 
     @Override
