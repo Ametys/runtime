@@ -28,12 +28,12 @@ import org.apache.commons.lang.StringUtils;
 import org.ametys.runtime.authentication.AuthenticateAction;
 import org.ametys.runtime.user.User;
 import org.ametys.runtime.user.UsersManager;
-import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableAction;
+import org.ametys.runtime.util.cocoon.AbstractCurrentUserProviderServiceableAction;
 
 /**
  * This action impersonate the current user with the given login 
  */
-public class ImpersonateAction extends CurrentUserProviderServiceableAction
+public class ImpersonateAction extends AbstractCurrentUserProviderServiceableAction
 {
     private UsersManager _usersManager;
     

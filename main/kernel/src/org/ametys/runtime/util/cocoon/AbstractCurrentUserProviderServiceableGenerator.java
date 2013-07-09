@@ -24,7 +24,7 @@ import org.ametys.runtime.user.CurrentUserProvider;
 /**
  * {@link ServiceableGenerator} which provides the current user if necessary.
  */
-public abstract class CurrentUserProviderServiceableGenerator extends ServiceableGenerator
+public abstract class AbstractCurrentUserProviderServiceableGenerator extends ServiceableGenerator
 {
     /** The current user provider. */
     protected CurrentUserProvider _currentUserProvider;

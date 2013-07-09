@@ -28,12 +28,12 @@ import org.apache.cocoon.environment.SourceResolver;
 import org.ametys.runtime.group.Group;
 import org.ametys.runtime.group.GroupsManager;
 import org.ametys.runtime.group.ModifiableGroupsManager;
-import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableAction;
+import org.ametys.runtime.util.cocoon.AbstractCurrentUserProviderServiceableAction;
 
 /**
  * Add or remove users from an existing group
  */
-public class UpdateUsersGroupAction extends CurrentUserProviderServiceableAction
+public class UpdateUsersGroupAction extends AbstractCurrentUserProviderServiceableAction
 {
     private GroupsManager _groupsManager;
     

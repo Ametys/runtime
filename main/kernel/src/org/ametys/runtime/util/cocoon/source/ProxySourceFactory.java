@@ -109,14 +109,15 @@ public class ProxySourceFactory extends AbstractLogEnabled implements SourceFact
         Source source = null;
         for (String protocol : _protocols)
         {
+            String uri = protocol;
             try
             {
                 for (int groupIndex = 0; groupIndex <= matcher.groupCount(); groupIndex++)
                 {
-                    protocol = protocol.replaceAll("\\{" + groupIndex + "\\}", matcher.group(groupIndex));
+                    uri = uri.replaceAll("\\{" + groupIndex + "\\}", matcher.group(groupIndex));
                 }
                 
-                source = _sourceResolver.resolveURI(protocol, null, parameters);
+                source = _sourceResolver.resolveURI(uri, null, parameters);
                 if (!source.exists())
                 {
                     _sourceResolver.release(source);

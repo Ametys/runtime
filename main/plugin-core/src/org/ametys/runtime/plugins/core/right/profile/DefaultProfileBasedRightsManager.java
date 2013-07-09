@@ -2639,7 +2639,6 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     }
 
     @Override
-    @SuppressWarnings("resource")
     public Profile addProfile(String name, String context) throws RightsException
     {
         Integer id = null;

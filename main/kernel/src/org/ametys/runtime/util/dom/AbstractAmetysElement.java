@@ -31,7 +31,7 @@ import org.w3c.dom.TypeInfo;
  * DOM layer on top if an object hierarchy.
  * @param <T> the actual type of the wrapped object.
  */
-public abstract class AbstractAmetysElement<T> extends AmetysNode implements Element
+public abstract class AbstractAmetysElement<T> extends AbstractAmetysNode implements Element
 {
     /** The wrapper object. */
     protected T _object;

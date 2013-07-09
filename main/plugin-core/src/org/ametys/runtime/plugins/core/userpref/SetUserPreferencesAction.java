@@ -36,14 +36,14 @@ import org.apache.cocoon.environment.SourceResolver;
 import org.apache.commons.lang.StringUtils;
 
 import org.ametys.runtime.util.I18nizableText;
-import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableAction;
+import org.ametys.runtime.util.cocoon.AbstractCurrentUserProviderServiceableAction;
 import org.ametys.runtime.util.parameter.ParameterHelper;
 import org.ametys.runtime.util.parameter.ParameterHelper.ParameterType;
 
 /**
  * Action which saves the user preferences values into the database.
  */
-public class SetUserPreferencesAction extends CurrentUserProviderServiceableAction
+public class SetUserPreferencesAction extends AbstractCurrentUserProviderServiceableAction
 {
     
     /** The input date format. */

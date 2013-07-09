@@ -25,13 +25,13 @@ import org.apache.cocoon.environment.SourceResolver;
 
 import org.ametys.runtime.group.GroupsManager;
 import org.ametys.runtime.group.ModifiableGroupsManager;
-import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableAction;
+import org.ametys.runtime.util.cocoon.AbstractCurrentUserProviderServiceableAction;
 
 
 /**
  * This action deletes the profile with id corresponding to the one specified in request
  */
-public class DeleteGroupAction extends CurrentUserProviderServiceableAction
+public class DeleteGroupAction extends AbstractCurrentUserProviderServiceableAction
 {
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {

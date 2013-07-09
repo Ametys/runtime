@@ -28,12 +28,12 @@ import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.SAXException;
 
-import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableGenerator;
+import org.ametys.runtime.util.cocoon.AbstractCurrentUserProviderServiceableGenerator;
 
 /**
  * SAX user preferences values
  */
-public class UserPreferencesValuesGenerator extends CurrentUserProviderServiceableGenerator
+public class UserPreferencesValuesGenerator extends AbstractCurrentUserProviderServiceableGenerator
 {
     /** The user preferences manager. */
     protected UserPreferencesManager _userPrefManager;

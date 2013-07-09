@@ -25,7 +25,7 @@ import org.w3c.dom.TypeInfo;
 /**
  * Implementation of {@link Attr} for an AmetysObject's metadata.
  */
-public class AmetysAttribute extends AmetysNode implements Attr
+public class AmetysAttribute extends AbstractAmetysNode implements Attr
 {
     private String _localName;
     private String _value;

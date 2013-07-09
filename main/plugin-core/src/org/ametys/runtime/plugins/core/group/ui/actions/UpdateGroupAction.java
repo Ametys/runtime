@@ -27,14 +27,14 @@ import org.apache.cocoon.environment.SourceResolver;
 import org.ametys.runtime.group.Group;
 import org.ametys.runtime.group.GroupsManager;
 import org.ametys.runtime.group.ModifiableGroupsManager;
-import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableAction;
+import org.ametys.runtime.util.cocoon.AbstractCurrentUserProviderServiceableAction;
 
 
 /**
  * This action modify the composition of the profile 'id' with the / separated
  * list given in 'rights' (that are request parameters)
  */
-public class UpdateGroupAction extends CurrentUserProviderServiceableAction
+public class UpdateGroupAction extends AbstractCurrentUserProviderServiceableAction
 {
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {

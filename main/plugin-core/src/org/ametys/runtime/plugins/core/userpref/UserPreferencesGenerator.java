@@ -32,7 +32,7 @@ import org.apache.commons.lang.StringUtils;
 import org.xml.sax.SAXException;
 
 import org.ametys.runtime.util.I18nizableText;
-import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableGenerator;
+import org.ametys.runtime.util.cocoon.AbstractCurrentUserProviderServiceableGenerator;
 import org.ametys.runtime.util.parameter.Enumerator;
 import org.ametys.runtime.util.parameter.ParameterHelper;
 import org.ametys.runtime.util.parameter.Validator;
@@ -40,7 +40,7 @@ import org.ametys.runtime.util.parameter.Validator;
 /**
  * Generates user preferences.
  */
-public class UserPreferencesGenerator extends CurrentUserProviderServiceableGenerator
+public class UserPreferencesGenerator extends AbstractCurrentUserProviderServiceableGenerator
 {
     
     /** The user preferences extension point. */

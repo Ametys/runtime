@@ -27,13 +27,13 @@ import org.ametys.runtime.plugins.core.right.RightsExtensionPoint;
 import org.ametys.runtime.plugins.core.right.profile.Profile;
 import org.ametys.runtime.plugins.core.right.profile.ProfileBasedRightsManager;
 import org.ametys.runtime.right.RightsManager;
-import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableGenerator;
+import org.ametys.runtime.util.cocoon.AbstractCurrentUserProviderServiceableGenerator;
 
 
 /**
  * Generates default profiles
  */
-public class ProfilesGenerator extends CurrentUserProviderServiceableGenerator
+public class ProfilesGenerator extends AbstractCurrentUserProviderServiceableGenerator
 {
     private RightsExtensionPoint _rights;
     private RightsManager _rightsManager;

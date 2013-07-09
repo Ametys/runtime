@@ -28,13 +28,13 @@ import org.apache.cocoon.environment.SourceResolver;
 import org.ametys.runtime.plugins.core.right.profile.Profile;
 import org.ametys.runtime.plugins.core.right.profile.ProfileBasedRightsManager;
 import org.ametys.runtime.right.RightsManager;
-import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableAction;
+import org.ametys.runtime.util.cocoon.AbstractCurrentUserProviderServiceableAction;
 
 
 /**
  * This action rename the profile 'id' with 'name' (that are request parameter)
  */
-public class RenameProfileAction extends CurrentUserProviderServiceableAction
+public class RenameProfileAction extends AbstractCurrentUserProviderServiceableAction
 {
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {

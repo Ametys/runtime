@@ -30,7 +30,7 @@ import org.w3c.dom.UserDataHandler;
  * It is NOT intended to be used as a full-featured DOM implementation, but it aims to provide a thin DOM layer over objects usable e.g. in XPath expressions and XSL stylesheets.<br>
  * There's no text nodes, nor entities, documents, ...
  */
-public abstract class AmetysNode implements Node
+public abstract class AbstractAmetysNode implements Node
 {
     @Override
     public String getNodeValue() throws DOMException

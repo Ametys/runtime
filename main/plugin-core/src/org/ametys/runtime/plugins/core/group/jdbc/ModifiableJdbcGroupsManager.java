@@ -392,7 +392,6 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
     }
 
     @Override
-    @SuppressWarnings("resource")
     public Group add(String name) throws InvalidModificationException
     {
         Connection connection = null; 

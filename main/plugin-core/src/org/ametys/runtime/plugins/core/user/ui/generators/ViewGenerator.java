@@ -26,13 +26,13 @@ import org.xml.sax.SAXException;
 
 import org.ametys.runtime.user.ModifiableUsersManager;
 import org.ametys.runtime.user.UsersManager;
-import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableGenerator;
+import org.ametys.runtime.util.cocoon.AbstractCurrentUserProviderServiceableGenerator;
 
 
 /**
  * Generates the users' screen information.<br/>
  */
-public class ViewGenerator extends CurrentUserProviderServiceableGenerator
+public class ViewGenerator extends AbstractCurrentUserProviderServiceableGenerator
 {
     private UsersManager _users;
 

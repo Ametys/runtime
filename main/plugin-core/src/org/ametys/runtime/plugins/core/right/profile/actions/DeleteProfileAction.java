@@ -27,13 +27,13 @@ import org.apache.cocoon.environment.SourceResolver;
 import org.ametys.runtime.plugins.core.right.profile.Profile;
 import org.ametys.runtime.plugins.core.right.profile.ProfileBasedRightsManager;
 import org.ametys.runtime.right.RightsManager;
-import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableAction;
+import org.ametys.runtime.util.cocoon.AbstractCurrentUserProviderServiceableAction;
 
 
 /**
  * This action deletes the profile with id corresponding to the one specified in request
  */
-public class DeleteProfileAction extends CurrentUserProviderServiceableAction
+public class DeleteProfileAction extends AbstractCurrentUserProviderServiceableAction
 {
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {

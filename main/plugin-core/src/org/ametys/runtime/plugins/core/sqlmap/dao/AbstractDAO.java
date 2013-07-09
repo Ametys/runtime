@@ -75,14 +75,14 @@ public abstract class AbstractDAO implements SqlMapClientsAware
      * Wrapper for translating SQLException to DataAccessException.
      * @param <T> the result of the process.
      */
-    protected abstract class SQLExceptionWrapper<T>
+    protected abstract class AbstractSQLExceptionWrapper<T>
     {
         private SqlMapClient _sqlMapClient;
         
         /**
          * Use default SqlMapClient instance.
          */
-        public SQLExceptionWrapper()
+        public AbstractSQLExceptionWrapper()
         {
             _sqlMapClient = _getSqlMapClient();
         }
@@ -91,7 +91,7 @@ public abstract class AbstractDAO implements SqlMapClientsAware
          * Use a given SqlMapClient instance.
          * @param sqlMapClient the sqlMapClient instance to use.
          */
-        public SQLExceptionWrapper(SqlMapClient sqlMapClient)
+        public AbstractSQLExceptionWrapper(SqlMapClient sqlMapClient)
         {
             _sqlMapClient = sqlMapClient;
         }

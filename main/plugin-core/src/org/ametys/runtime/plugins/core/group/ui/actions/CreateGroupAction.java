@@ -27,12 +27,12 @@ import org.apache.cocoon.environment.SourceResolver;
 import org.ametys.runtime.group.Group;
 import org.ametys.runtime.group.GroupsManager;
 import org.ametys.runtime.group.ModifiableGroupsManager;
-import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableAction;
+import org.ametys.runtime.util.cocoon.AbstractCurrentUserProviderServiceableAction;
 
 /**
  * This action creates a new profile with name given in request parameter, and return its id
  */
-public class CreateGroupAction extends CurrentUserProviderServiceableAction
+public class CreateGroupAction extends AbstractCurrentUserProviderServiceableAction
 {
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {

@@ -30,13 +30,13 @@ import org.apache.commons.lang.StringUtils;
 import org.ametys.runtime.user.InvalidModificationException;
 import org.ametys.runtime.user.ModifiableUsersManager;
 import org.ametys.runtime.user.UsersManager;
-import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableAction;
+import org.ametys.runtime.util.cocoon.AbstractCurrentUserProviderServiceableAction;
 import org.ametys.runtime.util.parameter.Errors;
 
 /**
  * Create or modify a user
  */
-public class EditAction extends CurrentUserProviderServiceableAction
+public class EditAction extends AbstractCurrentUserProviderServiceableAction
 {
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String src, Parameters parameters) throws Exception
     {

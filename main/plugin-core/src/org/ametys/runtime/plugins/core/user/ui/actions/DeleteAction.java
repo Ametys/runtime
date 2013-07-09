@@ -25,13 +25,13 @@ import org.apache.cocoon.environment.SourceResolver;
 
 import org.ametys.runtime.user.ModifiableUsersManager;
 import org.ametys.runtime.user.UsersManager;
-import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableAction;
+import org.ametys.runtime.util.cocoon.AbstractCurrentUserProviderServiceableAction;
 
 
 /**
  * This action deletes a user given by its login 
  */
-public class DeleteAction extends CurrentUserProviderServiceableAction
+public class DeleteAction extends AbstractCurrentUserProviderServiceableAction
 {
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String src, Parameters params) throws Exception
     {

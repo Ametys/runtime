@@ -24,7 +24,7 @@ import org.ametys.runtime.user.CurrentUserProvider;
 /**
  * {@link ServiceableAction} which provides the current user if necessary.
  */
-public abstract class CurrentUserProviderServiceableAction extends ServiceableAction implements ThreadSafe
+public abstract class AbstractCurrentUserProviderServiceableAction extends ServiceableAction implements ThreadSafe
 {
     /** The current user provider. */
     protected CurrentUserProvider _currentUserProvider;

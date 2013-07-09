@@ -26,13 +26,13 @@ import org.xml.sax.SAXException;
 
 import org.ametys.runtime.group.GroupsManager;
 import org.ametys.runtime.group.ModifiableGroupsManager;
-import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableGenerator;
+import org.ametys.runtime.util.cocoon.AbstractCurrentUserProviderServiceableGenerator;
 
 
 /**
  * Generates groups.
  */
-public class GroupsGenerator extends CurrentUserProviderServiceableGenerator
+public class GroupsGenerator extends AbstractCurrentUserProviderServiceableGenerator
 {
     private static final int _DEFAULT_COUNT_VALUE = Integer.MAX_VALUE;
     private static final int _DEFAULT_OFFSET_VALUE = 0;

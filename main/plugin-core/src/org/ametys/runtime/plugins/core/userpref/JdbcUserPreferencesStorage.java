@@ -181,7 +181,6 @@ public class JdbcUserPreferencesStorage extends AbstractLogEnabled implements De
         }
     }
 
-    @SuppressWarnings("resource")
     @Override
     public void setUserPreferences(String login, String storageContext, Map<String, String> contextVars, Map<String, String> preferences) throws UserPreferencesException
     {

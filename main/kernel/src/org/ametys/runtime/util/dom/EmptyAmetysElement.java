@@ -29,7 +29,7 @@ import org.w3c.dom.TypeInfo;
  * Implementation for empty element
  *
  */
-public class EmptyAmetysElement extends AmetysNode implements Element
+public class EmptyAmetysElement extends AbstractAmetysNode implements Element
 {
     private String _tagName;
     

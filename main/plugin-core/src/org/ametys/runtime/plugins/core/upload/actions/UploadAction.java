@@ -32,12 +32,12 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import org.ametys.runtime.cocoon.JSonReader;
 import org.ametys.runtime.upload.Upload;
 import org.ametys.runtime.upload.UploadManager;
-import org.ametys.runtime.util.cocoon.CurrentUserProviderServiceableAction;
+import org.ametys.runtime.util.cocoon.AbstractCurrentUserProviderServiceableAction;
 
 /**
  * {@link Action} for uploading a file and store it using the {@link UploadManager}.
  */
-public class UploadAction extends CurrentUserProviderServiceableAction
+public class UploadAction extends AbstractCurrentUserProviderServiceableAction
 {
     private UploadManager _uploadManager;
     
