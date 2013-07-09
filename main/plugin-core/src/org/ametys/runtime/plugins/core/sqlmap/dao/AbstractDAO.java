@@ -27,7 +27,7 @@ import com.ibatis.sqlmap.client.SqlMapClient;
  * Interface to be implemented by any object that wishes to have
  * access to one or multiple SqlMapClient.
  */
-public class AbstractDAO implements SqlMapClientsAware
+public abstract class AbstractDAO implements SqlMapClientsAware
 {
     private SqlMapClient _defaultInstance;
     private Map<String, SqlMapClient> _instances;
