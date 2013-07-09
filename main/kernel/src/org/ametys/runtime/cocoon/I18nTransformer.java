@@ -229,25 +229,37 @@ public class I18nTransformer extends org.apache.cocoon.transformation.I18nTransf
         ParamSaxBuffer message = super.getMessage(catalogueID, key);
         if (message == null)
         {
-            if (getLogger().isWarnEnabled())
-            {
-                getLogger().warn("Translation not found for key " + key + " in catalogue " + catalogueID);
-            }
-            
-            try
-            {
-                String value = catalogueID + ':' + key;
-                ParamSaxBuffer paramSaxBuffer = new ParamSaxBuffer();
-                paramSaxBuffer.characters(value.toCharArray(), 0, value.length());
-
-                return paramSaxBuffer;
-            }
-            catch (SAXException e)
-            {
-                throw new RuntimeException(e);
-            }
+            return getUntranslatedMessage (catalogueID, key);
         }
 
         return message;
+    }
+    
+    /**
+     * Retrieve the message when the key is not found
+     *
+     * @param catalogueID The catalogue id
+     * @param key The i18n key
+     * @return SaxBuffer containing the message for untranslated key
+     */
+    protected ParamSaxBuffer getUntranslatedMessage(String catalogueID, String key)
+    {
+        if (getLogger().isWarnEnabled())
+        {
+            getLogger().warn("Translation not found for key " + key + " in catalogue " + catalogueID);
+        }
+        
+        try
+        {
+            String value = catalogueID + ':' + key;
+            ParamSaxBuffer paramSaxBuffer = new ParamSaxBuffer();
+            paramSaxBuffer.characters(value.toCharArray(), 0, value.length());
+
+            return paramSaxBuffer;
+        }
+        catch (SAXException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 }
