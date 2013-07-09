@@ -715,7 +715,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	    }
 	    catch (e)
 	    {
-	    	ex = "" + e;
+	    	ex = e;
 	    }
 	    
 	    this.save._mask.hide();

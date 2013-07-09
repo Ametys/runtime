@@ -507,7 +507,7 @@ Ext.define(
 						Ametys.log.ErrorDialog.display({
 							title: "<i18n:text i18n:key='KERNEL_SERVERCOMM_ERROR_TITLE'/>",
 							text: "<i18n:text i18n:key='KERNEL_SERVERCOMM_ERROR_DESC'/>",
-							details: e + '',
+							details: e,
 							category: "Ametys.data.ServerComm"
 						});
 					}

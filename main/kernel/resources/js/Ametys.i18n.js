@@ -262,7 +262,7 @@ Ext.define(
 		 * Create an object by supplying its constructor name
 		 * @param {String} name The name of the constructor
 		 * @param {Object} [context=window] The search context (relative to the constructor name).
-		 * @param {Object...} args Optional function arguments.
+		 * @param {Object...} [args] Optional function arguments.
 		 * @return {Object} The object returned by the constructor call.
 		 */
 		createObjectByName: function(name, context/*, args*/)
@@ -293,7 +293,7 @@ Ext.define(
 		 * @param {String} name The name of the object
 		 * @param {Object} [context=window] The search context (relative to the object name).
 		 * @param {Object} [scope=context] The scope for the function call.
-		 * @param {Object...} args Optional function arguments.
+		 * @param {Object...} [args] Optional function arguments.
 		 * @return {Object} The result of the function, or null if the function does not exist.
 		 */
 		executeFunctionByName: function(name, context, scope/*, args*/)

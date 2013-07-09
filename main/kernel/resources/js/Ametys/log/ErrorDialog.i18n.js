@@ -61,13 +61,31 @@ Ext.define(
 				buttons.items.get(1).setVisible(true);
 			}
 		},
+		
+		/**
+		 * Prepare the details string
+		 * @param {String/Error} details The detailled text of the box. Hidden by default. Can be technical.
+		 */
+		_prepareDetails: function(details)
+		{
+			details = details || '';
+
+			var text = details.toString();
+			
+			if (details.stack)
+			{
+				text += "\n" + details.stack.toString()
+			}
+			
+			return text.toString().replace(/\n?\n/g, '<br/>').replace(/\t/g, '&#160;&#160;&#160;&#160;');
+		},
 
 		/**
 		 * Creates and display directly an error message dialog box 
 		 * @param {Object} config The box to display
 		 * @param {String} config.title The title of the box
 		 * @param {String} config.text The main text of the box. Should be localized
-		 * @param {String} config.details The detailled text of the box. Hidden by default. Can be technical.
+		 * @param {String/Error} config.details The detailled text of the box. Hidden by default. Can be technical.
 		 * @param {String} config.category The log category. Not logged if null.
 		 */
 		display: function(config) {
@@ -84,7 +102,7 @@ Ext.define(
 		    	height: 47
 		    });
 			var detailledMsg = new Ext.Panel({
-		    	html: "<div style='white-space: nowrap'>" + details.replace(/\n?\n/g, '<br/>').replace(/\t/g, '&#160;&#160;&#160;&#160;') + "</div>",
+		    	html: "<div style='white-space: nowrap'>" + this._prepareDetails(details) + "</div>",
 		    	cls: 'error-dialog-details',
 		    	autoScroll: true, 
 		    	border: false,
