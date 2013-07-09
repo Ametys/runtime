@@ -77,7 +77,7 @@ Ext.define(
 				text += "\n" + details.stack.toString()
 			}
 			
-			return text.toString().replace(/\n?\n/g, '<br/>').replace(/\t/g, '&#160;&#160;&#160;&#160;');
+			return text.toString().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/\n?\n/g, '<br/>').replace(/\t/g, '&#160;&#160;&#160;&#160;');
 		},
 
 		/**
@@ -99,16 +99,17 @@ Ext.define(
 		    	cls: 'error-dialog-text',
 		    	autoScroll: true,
 		    	border: false,
-		    	height: 47
+		    	height: 67
 		    });
 			var detailledText = this._prepareDetails(details);
 			var detailledMsg = new Ext.Panel({
-		    	html: "<div style='white-space: nowrap'>" + detailledText + "</div>",
 		    	cls: 'error-dialog-details',
 		    	autoScroll: true, 
 		    	border: false,
-		    	hidden: true
+		    	hidden: true,
+		    	height: 151
 		    });
+			detailledMsg.update(detailledText)
 			
 			if (category)
 			{
@@ -125,9 +126,9 @@ Ext.define(
 				title: "<i18n:text i18n:key='KERNEL_MSG_ERRORDIALOG_ERROR_MSG'/>" + title,
 				originalTitle: "<i18n:text i18n:key='KERNEL_MSG_ERRORDIALOG_ERROR_MSG'/>" + title,
 				bodyPadding: '0',
-				width: 450,
-				height: 110,
-				autoScroll: true,
+				width: 500,
+				height: 130,
+				autoScroll: false,
 				icon: Ametys.CONTEXT_PATH + "/kernel/resources/img/error_16.gif",
 				items: [ centralMsg, detailledMsg ],
 				closeAction: 'close',
@@ -160,16 +161,15 @@ Ext.define(
 
 			    			if (detailledMsg.hidden)
 				    		{
-				    			detailledMsg.setHeight(100);
 				    			detailledMsg.show();
 				    			this.setText("<< <i18n:text i18n:key='KERNEL_MSG_ERRORDIALOG_DETAILS'/>");
-				    			currentErrorDialog.setHeight(221)
+				    			currentErrorDialog.setHeight(currentErrorDialog.initialConfig.height + 151)
 				    		}
 				    		else
 				    		{
 				    			this.setText("<i18n:text i18n:key='KERNEL_MSG_ERRORDIALOG_DETAILS'/> >>");
 				    			detailledMsg.hide();
-				    			currentErrorDialog.setHeight(110)
+				    			currentErrorDialog.setHeight(currentErrorDialog.initialConfig.height)
 				    		}
 						}
 					}
