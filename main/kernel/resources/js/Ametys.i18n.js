@@ -146,7 +146,15 @@ Ext.define(
 		getAppParameter: function(name) {
 			return appParameters[name];
 		},
-	                
+		
+		/**
+		 * Get every application parameters.
+		 * @return {Object} The application parameters.
+		 */
+		getAppParameters: function() {
+			return this.appParameters;
+		},
+		
 		/**
 		 * Get the url prefix for direct connection to a plugin (e.g. for ajax connections)
 		 * @param {String} plugin The plugin name. Cannot be null or empty.
