@@ -472,7 +472,12 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 				var state = Ext.dom.Query.selectValue("*/message", result); 
 				if (state != null && state == "missing")
 				{
-					Ametys.log.ErrorDialog.display("<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>", "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_RENAME_MISSING_ERROR"/>", "State is missing", "Ametys.plugins.core.administration.Logs.editLabel");
+					Ametys.log.ErrorDialog.display({
+						title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>", 
+						text: "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_RENAME_MISSING_ERROR"/>", 
+						details: "State is missing", 
+						category: "Ametys.plugins.core.administration.Logs.editLabel"
+					});
 					this.listview.getStore().remove(e.record);
 					return;
 				}

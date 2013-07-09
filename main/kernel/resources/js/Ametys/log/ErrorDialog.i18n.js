@@ -15,7 +15,14 @@
  */
 
 /**
- * A error message dialog box
+ * A error message dialog box.
+ * 
+ * 		Ametys.log.ErrorDialog.display({
+ * 			title: 'An error occured',
+ * 			text: 'An unknown error as occured while processing the request',
+ * 			details: 'The component faild to connect to database...',
+ * 			category: 'Ametys.my.Component'
+ * 		});
  */
 Ext.define(
 	"Ametys.log.ErrorDialog",
@@ -57,12 +64,18 @@ Ext.define(
 
 		/**
 		 * Creates and display directly an error message dialog box 
-		 * @param {String} title The title of the box
-		 * @param {String} text The main text of the box. Should be localized
-		 * @param {String} details The detailled text of the box. Hidden by default. Can be technical.
-		 * @param {String} category The log category. Not logged if null.
+		 * @param {Object} config The box to display
+		 * @param {String} config.title The title of the box
+		 * @param {String} config.text The main text of the box. Should be localized
+		 * @param {String} config.details The detailled text of the box. Hidden by default. Can be technical.
+		 * @param {String} config.category The log category. Not logged if null.
 		 */
-		display: function(title, text, details, category) {
+		display: function(config) {
+			var title = config.title;
+			var text = config.text;
+			var details = config.details;
+			var category = config.category;
+			
 			var centralMsg = new Ext.Panel({
 		    	html: text,
 		    	cls: 'error-dialog-text',

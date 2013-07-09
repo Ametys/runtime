@@ -504,10 +504,12 @@ Ext.define(
 						}
 						Ext.defer(throwException, 1, this, [e]);
 
-						Ametys.log.ErrorDialog.display("<i18n:text i18n:key='KERNEL_SERVERCOMM_ERROR_TITLE'/>",
-									"<i18n:text i18n:key='KERNEL_SERVERCOMM_ERROR_DESC'/>",
-									e + '',
-			                        "Ametys.data.ServerComm");
+						Ametys.log.ErrorDialog.display({
+							title: "<i18n:text i18n:key='KERNEL_SERVERCOMM_ERROR_TITLE'/>",
+							text: "<i18n:text i18n:key='KERNEL_SERVERCOMM_ERROR_DESC'/>",
+							details: e + '',
+							category: "Ametys.data.ServerComm"
+						});
 					}
 			}
 		},		
@@ -557,12 +559,12 @@ Ext.define(
 			{
 				if (response == null)
 				{
-					Ametys.log.ErrorDialog.display(
-							"<i18n:text i18n:key='KERNEL_SERVERCOMM_BADRESPONSE_TITLE'/>", 
-							message,
-							"<i18n:text i18n:key='KERNEL_SERVERCOMM_BADRESPONSE_DESC'/>",
-							category
-					);
+					Ametys.log.ErrorDialog.display({
+							title: "<i18n:text i18n:key='KERNEL_SERVERCOMM_BADRESPONSE_TITLE'/>", 
+							text: message,
+							details: "<i18n:text i18n:key='KERNEL_SERVERCOMM_BADRESPONSE_DESC'/>",
+							category: category
+					});
 				}
 				else
 				{
@@ -571,14 +573,14 @@ Ext.define(
 					var intStk = Ext.dom.Query.selectValue("stacktrace", response);
 					var hasStk = intStk != null && intStk != "";
 						
-					Ametys.log.ErrorDialog.display(
-							"<i18n:text i18n:key='KERNEL_SERVERCOMM_SERVER_FAILED_DESC'/>" + response.getAttribute("code") + ")", 
-							message,
-							(hasMsg ? intMsg : "")
+					Ametys.log.ErrorDialog.display({
+							title: "<i18n:text i18n:key='KERNEL_SERVERCOMM_SERVER_FAILED_DESC'/>" + response.getAttribute("code") + ")", 
+							text: message,
+							details: (hasMsg ? intMsg : "")
 							+ (hasMsg && hasStk ? "<br/><br/>" : "")
 							+ (hasStk ? intStk : ""),
-							category
-					);
+							category: category
+					});
 				}
 				return true;
 			}

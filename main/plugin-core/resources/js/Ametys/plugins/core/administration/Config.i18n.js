@@ -722,10 +722,12 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 
 		if (result == null)
 	    {
-			Ametys.log.ErrorDialog.display("<i18n:text i18n:key="PLUGINS_CORE_SAVE_DIALOG_TITLE"/>", 
-	    			"<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_FATALERROR"/>",
-	    			ex,
-	    			"Ametys.plugins.core.administration.Config.save");
+			Ametys.log.ErrorDialog.display({
+				title: "<i18n:text i18n:key="PLUGINS_CORE_SAVE_DIALOG_TITLE"/>", 
+				text: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_FATALERROR"/>",
+	    		details: ex,
+	    		category: "Ametys.plugins.core.administration.Config.save"
+			});
 	        return;
 	    }
 	    result = result.responseXML;
