@@ -51,7 +51,7 @@ import org.ametys.runtime.util.LoggerFactory;
  * DROP TABLE MYTABLE;<br>
  * --_ignore_exceptions_=off</code>
  */
-public abstract class ScriptRunner
+public final class ScriptRunner
 {
     /** Default separator used for isolating statements. */
     public static final String DEFAULT_SEPARATOR = ";";
