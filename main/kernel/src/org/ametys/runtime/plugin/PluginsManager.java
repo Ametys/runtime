@@ -1245,6 +1245,7 @@ public final class PluginsManager
             
             try
             {
+                // If the config attribute is present, it is either a plugin-relative, or a webapp-relative path (starting with '/')  
                 // Si l'attribut config est présent, c'est soit un chemin relatif au plugin, soit absolu depuis la racine du contexte web, vers un fichier de conf
                 if (config.startsWith("/"))
                 {
@@ -1258,6 +1259,7 @@ public final class PluginsManager
                         {
                             _logger.info("No config file was found at " + configPath + ". Using internally declared config.");
                         }
+                        
                         return initialConfiguration;
                     }
                     
@@ -1286,6 +1288,7 @@ public final class PluginsManager
                             {
                                 _logger.info("No config file was found at " + configPath + ". Using internally declared config.");
                             }
+                            
                             return initialConfiguration;
                         }
 
@@ -1303,6 +1306,7 @@ public final class PluginsManager
                             {
                                 _logger.info("No config file was found at " + configPath + ". Using internally declared config.");
                             }
+                            
                             return initialConfiguration;
                         }
                     }
@@ -1317,19 +1321,7 @@ public final class PluginsManager
             }
             finally
             {
-                if (is != null)
-                {
-                    try
-                    {
-                        is.close();
-                    }
-                    catch (IOException ex)
-                    {
-                        String errorMessage = "Unable to close stream";
-                        _logger.error(errorMessage, ex);
-                        throw new RuntimeException(errorMessage, ex);
-                    }
-                }
+                IOUtils.closeQuietly(is);
             }
         }
         

@@ -272,7 +272,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         _isInitialized = false;
         _isComplete = true;
 
-        // On réinitialise la config pour éviter des fuites de mémoire
+        // Dispose potential previous parameters 
         Config.dispose();
         
         Map<String, String> untypedValues = null;
@@ -330,7 +330,24 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         {
             throw new RuntimeException("Unable to lookup parameter local components", e);
         }
+        
+        _validateParameters(untypedValues);
 
+        _declaredParams.clear();
+        _usedParamsName.clear();
+
+        _isInitialized = true;
+
+        Config.setInitialized(_isComplete);
+        
+        if (_logger.isDebugEnabled())
+        {
+            _logger.debug("Initialization ended");
+        }
+    }
+    
+    private void _validateParameters(Map<String, String> untypedValues)
+    {
         if (_isComplete && untypedValues != null)
         {
             for (Map<I18nizableText, ParameterGroup> groups : _categorizedParameters.values())
@@ -338,17 +355,21 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                 for (ParameterGroup group: groups.values())
                 {
                     boolean isGroupSwitchedOn = true;
-                    if (group.getSwitch() != null)
+                    String groupSwitch = group.getSwitch();
+                    
+                    if (groupSwitch != null)
                     {
                         isGroupSwitchedOn = false;
                         
                         // check if parameter is valued
                         ConfigParameter switcher = _params.get(group.getSwitch());
-                        // we can cast directly because we already tester that it should be a boolean while categorizing
+                        
+                        // we can cast directly because we already tested that it should be a boolean while categorizing
                         isGroupSwitchedOn = BooleanUtils.toBoolean((Boolean) _validateParameter(untypedValues, switcher));
                     }
                     
-                    if (isGroupSwitchedOn)
+                    // validate parameters if there's no switch or if switch is on
+                    if (groupSwitch == null || isGroupSwitchedOn)
                     {
                         for (ConfigParameter parameter: group.getParams())
                         {
@@ -360,19 +381,6 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                     }
                 }
             }
-        }
-        
-        // On libère les ressources
-        _declaredParams.clear();
-        _usedParamsName.clear();
-
-        _isInitialized = true;
-
-        Config.setInitialized(_isComplete);
-        
-        if (_logger.isDebugEnabled())
-        {
-            _logger.debug("Initialization ended");
         }
     }
     
