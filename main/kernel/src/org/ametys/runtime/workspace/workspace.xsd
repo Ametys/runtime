@@ -47,7 +47,7 @@
                     <xsd:documentation xml:lang="en">
                         <![CDATA[
                             Declares a dependency on a feature.<br/>
-                    		If the referenced feature is declared in this plugin, you may use its local name, otherwise you must use its full name (plugin name + '/' + local feature name).<br/>
+                            If the referenced feature is declared in this plugin, you may use its local name, otherwise you must use its full name (plugin name + '/' + local feature name).<br/>
                             If the referenced feature does not exist or is unactivated, the workspace will not be loaded.
                         ]]>
                     </xsd:documentation>
