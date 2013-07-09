@@ -15,7 +15,33 @@
  */
 
 /**
- * A logger
+ * A logger.
+ * This is a store of Ametys.log.Logger.Entry
+ * Also contains methods helper to create entries and add it in a row
+ * 
+ * 		try
+ * 		{
+ * 			if (Ametys.log.Logger.isDebugEnabled())
+ * 			{
+ * 				Ametys.log.Logger.error({
+ * 					category: 'Ametys.my.Component',
+ * 					message: 'My debug message'
+ * 				});
+ * 			}
+ * 
+ * 			// some error code
+ * 		}
+ * 		catch (e)
+ * 		{
+ * 			Ametys.log.Logger.error({
+ * 				category: 'Ametys.my.Component',
+ * 				message: 'My error message',
+ * 				details: e
+ * 			});
+ * 		}
+ * 
+ * Level under the currentLogLevel will be ignored.
+ * For example, default log level is LEVEL_ERROR, logging a warn will be ignored
  */
 Ext.define(
 	"Ametys.log.Logger",
@@ -24,73 +50,166 @@ Ext.define(
 		
 		/**
 		 * @private
-		 * @property {Ametys.log.Logger.Entry[]} _entries The ordered log entries 
+		 * @property {Ext.data.ArrayStore} _store The store of log entries 
 		 */
-		_entries: [],
+		_store: Ext.create("Ext.data.ArrayStore"),
+		
+		/**
+		 * @private
+		 * @property {Number} _currentLogLevel The current log level. If a log is created with a lower level it will be ignored 
+		 */
+		_currentLogLevel: 3,
+		
+		/**
+		 * Get the current log level
+		 * @returns {Number} A level between Ametys.log.Logger.Entry.LEVEL_DEBUG, Ametys.log.Logger.Entry.LEVEL_INFO, Ametys.log.Logger.Entry.LEVEL_WARN, Ametys.log.Logger.Entry.LEVEL_ERROR or Ametys.log.Logger.Entry.LEVEL_FATAL
+		 */
+		getLogLevel: function()
+		{
+			return _currentLogLevel;
+		},
 
 		/**
-		 * Get the entries of the logger.
-		 * @return {Ametys.log.Logger.Entry[]} The ordered entries.
+		 * Set the current log level.
+		 * @param {Number} logLevel A level between Ametys.log.Logger.Entry.LEVEL_DEBUG, Ametys.log.Logger.Entry.LEVEL_INFO, Ametys.log.Logger.Entry.LEVEL_WARN, Ametys.log.Logger.Entry.LEVEL_ERROR or Ametys.log.Logger.Entry.LEVEL_FATAL
 		 */
-		getEntries: function()
+		setLogLevel: function(logLevel)
 		{
-			return this._entries;
+			_currentLogLevel = Math.min(Math.max(logLevel, Ametys.log.Logger.Entry.LEVEL_DEBUG), Ametys.log.Logger.Entry.LEVEL_FATAL);
+		},
+		
+		/**
+		 * Will a debug message be logged ?
+		 * @return {Boolean} true if the message will be logged
+		 */
+		isDebugEnabled: function()
+		{
+			return _currentLogLevel <= Ametys.log.Logger.Entry.LEVEL_DEBUG;
+		},
+		/**
+		 * Will an info message be logged ?
+		 * @return {Boolean} true if the message will be logged
+		 */
+		isInfoEnabled: function()
+		{
+			return _currentLogLevel <= Ametys.log.Logger.Entry.LEVEL_INFO;
+		},
+		/**
+		 * Will a warn message be logged ?
+		 * @return {Boolean} true if the message will be logged
+		 */
+		isWarnEnabled: function()
+		{
+			return _currentLogLevel <= Ametys.log.Logger.Entry.LEVEL_WARN;
+		},
+		/**
+		 * Will an error message be logged ?
+		 * @return {Boolean} true if the message will be logged
+		 */
+		isErrorEnabled: function()
+		{
+			return _currentLogLevel <= Ametys.log.Logger.Entry.LEVEL_ERROR;
+		},
+		/**
+		 * Will a fatal message be logged ?
+		 * @return {Boolean} true if the message will be logged
+		 */
+		isFatalEnabled: function()
+		{
+			return _currentLogLevel <= Ametys.log.Logger.Entry.LEVEL_FATAL;
+		},
+		
+		/**
+		 * Get the entries of the logger.
+		 * @return {Ext.data.ArrayStore} The ordered entries.
+		 */
+		getStore: function()
+		{
+			return this._store;
 		},
 
 		/**
 		 * Log as debug
-		 * @param {String} category {@see Ametys.log.Logger.Entry}
-		 * @param {String} message {@see Ametys.log.Logger.Entry}
-		 * @param {String} details {@see Ametys.log.Logger.Entry}
+		 * @param {Object} config The message configuration
+		 * @param {String} config.category The name of the category of the log entry
+		 * @param {String} config.message The message
+		 * @param {String/Error} config.details The detailled message. Can be null or empty. 
 		 */
-		debug: function(category, message, details)
+		debug: function(config)
 		{
-			var entry = new Ametys.log.Logger.Entry(Ametys.log.Logger.Entry.LEVEL_DEBUG, category, new Date(), message, details);
-			this.getEntries().push(entry);
+			this._log(config, Ametys.log.Logger.Entry.LEVEL_DEBUG);
 		},
 		/**
 		 * Log as info
-		 * @param {String} category {@see Ametys.log.Logger.Entry}
-		 * @param {String} message {@see Ametys.log.Logger.Entry}
-		 * @param {String} details {@see Ametys.log.Logger.Entry}
+		 * @param {Object} config The message configuration
+		 * @param {String} config.category The name of the category of the log entry
+		 * @param {String} config.message The message
+		 * @param {String/Error} config.details The detailled message. Can be null or empty. 
 		 */
-		info: function(category, message, details)
+		info: function(config)
 		{
-			var entry = new Ametys.log.Logger.Entry(Ametys.log.Logger.Entry.LEVEL_INFO, category, new Date(), message, details);
-			this.getEntries().push(entry);
+			this._log(config, Ametys.log.Logger.Entry.LEVEL_INFO);
+
 		},
 		/**
-		 * Log as warning
-		 * @param {String} category {@see Ametys.log.Logger.Entry}
-		 * @param {String} message {@see Ametys.log.Logger.Entry}
-		 * @param {String} details {@see Ametys.log.Logger.Entry}
+		 * Log as warn
+		 * @param {Object} config The message configuration
+		 * @param {String} config.category The name of the category of the log entry
+		 * @param {String} config.message The message
+		 * @param {String/Error} config.details The detailled message. Can be null or empty. 
 		 */
-		warning: function(category, message, details)
+		warn: function(config)
 		{
-			var entry = new Ametys.log.Logger.Entry(Ametys.log.Logger.Entry.LEVEL_WARNING, category, new Date(), message, details);
-			this.getEntries().push(entry);
+			this._log(config, Ametys.log.Logger.Entry.LEVEL_WARN);
 		},
 		/**
 		 * Log as error
-		 * @param {String} category {@see Ametys.log.Logger.Entry}
-		 * @param {String} message {@see Ametys.log.Logger.Entry}
-		 * @param {String} details {@see Ametys.log.Logger.Entry}
+		 * @param {Object} config The message configuration
+		 * @param {String} config.category The name of the category of the log entry
+		 * @param {String} config.message The message
+		 * @param {String/Error} config.details The detailled message. Can be null or empty. 
 		 */
-		error: function(category, message, details)
+		error: function(config)
 		{
-			var entry = new Ametys.log.Logger.Entry(Ametys.log.Logger.Entry.LEVEL_ERROR, category, new Date(), message, details);
-			this.getEntries().push(entry);
+			this._log(config, Ametys.log.Logger.Entry.LEVEL_ERROR);
 		},
 		/**
-		 * Log as fatalerror
-		 * @param {String} category {@see Ametys.log.Logger.Entry}
-		 * @param {String} message {@see Ametys.log.Logger.Entry}
-		 * @param {String} details {@see Ametys.log.Logger.Entry}
+		 * Log as fatal
+		 * @param {Object} config The message configuration
+		 * @param {String} config.category The name of the category of the log entry
+		 * @param {String} config.message The message
+		 * @param {String/Error} config.details The detailled message. Can be null or empty. 
 		 */
-		fatalerror: function(category, message, details)
+		fatal: function(config)
 		{
-			var entry = new Ametys.log.Logger.Entry(Ametys.log.Logger.Entry.LEVEL_FATALERROR, category, new Date(), message, details);
-			this.getEntries().push(entry);
+			this._log(config, Ametys.log.Logger.Entry.LEVEL_FATAL);
+		},
+		
+		/**
+		 * Create a log, trace it and store it
+		 * @param {Object} config The message configuration
+		 * @param {String} config.category The name of the category of the log entry
+		 * @param {String} config.message The message
+		 * @param {String/Error} config.details The detailled message. Can be null or empty. 
+		 * @param {Number} level A level between Ametys.log.Logger.Entry.LEVEL_DEBUG, Ametys.log.Logger.Entry.LEVEL_INFO, Ametys.log.Logger.Entry.LEVEL_WARN, Ametys.log.Logger.Entry.LEVEL_ERROR or Ametys.log.Logger.Entry.LEVEL_FATAL
+		 * @private
+		 */
+		_log: function(config, level)
+		{
+			if (this._currentLogLevel < level)
+			{
+				return;
+			}
+
+			config = Ext.apply(config, {
+				level: level, 
+				date: new Date() 
+			});
+			
+			var entry = new Ametys.log.Logger.Entry(config);
+			entry.traceInConsole();
+			
+			this.getStore().add(entry);			
 		}
 	}
 );

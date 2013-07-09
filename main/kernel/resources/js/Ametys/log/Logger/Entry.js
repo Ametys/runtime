@@ -15,12 +15,39 @@
  */
 
 /**
- * A logger entry
+ * A model for a logger entry.
+ * Use helper methods on Ametys.log.Logger to create theses entries
  */
 Ext.define(
 	"Ametys.log.Logger.Entry",
 	{
-		statics: {
+		extend: 'Ext.data.Model',
+		
+		/**
+		 * @cfg {Number} level A level between Ametys.log.Logger.Entry.LEVEL_DEBUG, Ametys.log.Logger.Entry.LEVEL_INFO, Ametys.log.Logger.Entry.LEVEL_WARN, Ametys.log.Logger.Entry.LEVEL_ERROR or Ametys.log.Logger.Entry.LEVEL_FATAL 
+		 */
+		/**
+		 * @cfg {String} category The name of the category of the log entry 
+		 */
+		/**
+		 * @cfg {Date} date The date of the entry
+		 */
+		/**
+		 * @cfg {String}  message The message
+		 */
+		/**
+		 * @cfg {String/Error} details The detailled message. Can be null or empty.   
+		 */
+		fields: [
+		   { name: 'level', type: 'int'},    
+		   { name: 'category', type: 'string'},    
+		   { name: 'date', type: 'date'},    
+		   { name: 'message', type: 'string'},   
+		   { name: 'details', type: 'auto'} // String or Error    
+		],
+		
+		statics: 
+		{
 			/**
 			 * Level of entry for a debug message
 			 * @readonly
@@ -36,12 +63,12 @@ Ext.define(
 			 */
 			LEVEL_INFO: 1,
 			/**
-			 * Level of entry for a warning message
+			 * Level of entry for a warn message
 			 * @readonly
 			 * @static
 			 * @type {Number}
 			 */
-			LEVEL_WARNING: 2,
+			LEVEL_WARN: 2,
 			/**
 			 * Level of entry for an error message
 			 * @readonly
@@ -55,109 +82,68 @@ Ext.define(
 			 * @static
 			 * @type {Number}
 			 */
-			LEVEL_FATALERROR: 4
+			LEVEL_FATAL: 4
 
-		},
-		
-		/**
-		 * Creates a log entry 
-		 * @private
-		 * @param {Number} level A level between Ametys.log.Logger.Entry.LEVEL_DEBUG, Ametys.log.Logger.Entry.LEVEL_INFO, Ametys.log.Logger.Entry.LEVEL_WARNING, Ametys.log.Logger.Entry.LEVEL_ERROR or Ametys.log.Logger.Entry.LEVEL_FATALERROR
-		 * @param {String} category The name of the category of the log entry
-		 * @param {Date} date The date of the entry
-		 * @param {String} message The message
-		 * @param {String} details The detailled message. Can be null or empty.   
-		 */
-		constructor: function (level, category, date, message, details)
-		{
-			/**
-			 * @property {Number} _level A level between Ametys.log.Logger.Entry.LEVEL_DEBUG, Ametys.log.Logger.Entry.LEVEL_INFO, Ametys.log.Logger.Entry.LEVEL_WARNING, Ametys.log.Logger.Entry.LEVEL_ERROR or Ametys.log.Logger.Entry.LEVEL_FATALERROR
-			 * @private
-			 */
-			this._level = level;
-			/**
-			 * @property {String} _category The name of the category of the log entry
-			 * @private
-			 */
-			this._category = category;
-			/**
-			 * @property {Date} _date The date of the entry
-			 * @private
-			 */
-			this._date = date;
-			/**
-			 * @property {String} _message The message
-			 * @private
-			 */
-			this._message = message;
-			/**
-			 * @property {String} _details The detailled message. Can be null or empty.
-			 * @private
-			 */
-			this._details = details;
-		},
-
-		/**
-		 * Get the level of the log entry.
-		 * @return {Number} A constant between Ametys.log.Logger.Entry.LEVEL_DEBUG, Ametys.log.Logger.Entry.LEVEL_INFO, Ametys.log.Logger.Entry.LEVEL_WARNING, Ametys.log.Logger.Entry.LEVEL_ERROR or Ametys.log.Logger.Entry.LEVEL_FATALERROR
-		 */
-		getLevel: function() {
-			return this._level;
 		},
 		
 		/**
 		 * Get the level of the log entry but as a string
 		 * @return {String} The level converted as a readeable string. eg 'DEBUG' for Ametys.log.Logger.Entry.LEVEL_DEBUG
 		 */
-		getLevelAsString: function() {
-			switch (this._level)
+		getLevelAsString: function() 
+		{
+			switch (this.get('level'))
 			{
-				case Ametys.log.Logger.Entry.LEVEL_DEBUG: return 'DEBUG';
-				case Ametys.log.Logger.Entry.LEVEL_DEBUG: return 'INFO';
-				case Ametys.log.Logger.Entry.LEVEL_DEBUG: return 'WARNING';
-				case Ametys.log.Logger.Entry.LEVEL_DEBUG: return 'ERROR';
-				case Ametys.log.Logger.Entry.LEVEL_DEBUG: return 'FATAL';
+				case this.self.LEVEL_DEBUG: return 'DEBUG';
+				case this.self.LEVEL_INFO: return 'INFO';
+				case this.self.LEVEL_WARN: return 'WARN';
+				case this.self.LEVEL_ERROR: return 'ERROR';
+				case this.self.LEVEL_FATAL: return 'FATAL';
 			}
 		},
 
 		/**
-		 * Get the category of the message
-		 * @return {String} The category
-		 */
-		getCategory: function() {
-			return this._category;
-		},
-
-		/**
-		 * Get the date of the message
-		 * @return {Date} The date
-		 */
-		getDate: function() {
-			return this._date;
-		},
-
-		/**
-		 * Get the message
-		 * @return {String} The message
-		 */
-		getMessage: function() {
-			return this._message;
-		},
-
-		/**
-		 * Get the detailed message
-		 * @return {String} The detailed message. Can be null.
-		 */
-		getDetails: function() {
-			return this._details;
-		},
-		
-		/**
 		 * Convert to a readable string
 		 * @return {String} the entry as a string
 		 */
-		toString: function() {
-			return "[" + this.getLevelAsString() + "] [" + this._category + "] " + Ext.Date.format(this._date, Ext.Date.patterns.ISO8601Long) + " " + this.message + " /// " + (this._details || '');
+		toString: function() 
+		{
+			return Ext.Date.format(this.get('date'), Ext.Date.patterns.ISO8601Long) + "\t" + this.getLevelAsString() + "\t[" + this.get('category') + "]\t" + this.get('message') + " (" + (this.get('details') ? this.get('details').toString() : '') + ")";
+		},
+		
+		/**
+		 * Trace the entry into the console (if available)
+		 * If the level is not LEVEL_ERROR or LEVEL_FATAL and the message is of type ERROR, the stack is also traced 
+		 */
+		traceInConsole: function()
+		{
+			if (console)
+			{
+				var message = this.toString() 
+							+ (this.get('details') && this.get('details').stack ? 
+									'\n\t' + this.get('details').stack.replace('\n', '\n\t') 
+									: '');
+				
+				switch (this.get('level'))
+				{
+					case this.self.LEVEL_DEBUG: 
+						console.debug(message);
+						break;
+					case this.self.LEVEL_INFO: 
+						console.info(message);
+						break;
+					case this.self.LEVEL_WARN: 
+						console.warn(message);
+						break;
+					case this.self.LEVEL_ERROR: 
+						console.error(message);
+						break;
+					case this.self.LEVEL_FATAL: 
+						console.error(message);
+						break;
+				}
+			}
 		}
+		
 	}
 );

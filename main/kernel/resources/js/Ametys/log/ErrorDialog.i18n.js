@@ -85,8 +85,8 @@ Ext.define(
 		 * @param {Object} config The box to display
 		 * @param {String} config.title The title of the box
 		 * @param {String} config.text The main text of the box. Should be localized
-		 * @param {String/Error} config.details The detailled text of the box. Hidden by default. Can be technical.
-		 * @param {String} config.category The log category. Not logged if null.
+		 * @param {String/Error} [config.details] The detailled text of the box. Hidden by default. Can be technical.
+		 * @param {String} [config.category] The log category. Not logged if null.
 		 */
 		display: function(config) {
 			var title = config.title;
@@ -101,8 +101,9 @@ Ext.define(
 		    	border: false,
 		    	height: 47
 		    });
+			var detailledText = this._prepareDetails(details);
 			var detailledMsg = new Ext.Panel({
-		    	html: "<div style='white-space: nowrap'>" + this._prepareDetails(details) + "</div>",
+		    	html: "<div style='white-space: nowrap'>" + detailledText + "</div>",
 		    	cls: 'error-dialog-details',
 		    	autoScroll: true, 
 		    	border: false,
@@ -111,7 +112,11 @@ Ext.define(
 			
 			if (category)
 			{
-				Ametys.log.Logger.error(category, centralMsg, detailledMsg);
+				Ametys.log.Logger.error({
+					category: category, 
+					message: text, 
+					details: details
+				});
 			}
 			
 			var okId = Ext.id();
