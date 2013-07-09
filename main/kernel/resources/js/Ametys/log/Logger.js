@@ -23,7 +23,7 @@
  * 		{
  * 			if (Ametys.log.Logger.isDebugEnabled())
  * 			{
- * 				Ametys.log.Logger.error({
+ * 				Ametys.log.Logger.debug({
  * 					category: 'Ametys.my.Component',
  * 					message: 'My debug message'
  * 				});
