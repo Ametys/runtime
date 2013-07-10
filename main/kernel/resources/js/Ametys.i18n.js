@@ -338,7 +338,8 @@ Ext.define(
 		 * Will cut all known crons, requests...<br/>
 		 * Do not do anything after this call.
 		 */
-		shutdown: function() {
+		shutdown: function() 
+		{
 			// Shutdown request
 			Ametys.data.ServerComm._shutdown();
 			
@@ -368,6 +369,28 @@ Ext.define(
 			
 			document.body.setAttribute('style', "background-image: none !important; background-color: #FFFFFF !important; color: #000000 !important; padding: 20px !important;");
 			document.body.innerHTML = "<h1><i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_1'/></h1> <p><i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_2'/></p><p><a href='javascript:location.reload(true);'><i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_3'/></a></p>"
+		},
+		
+		/**
+		 * Close the application by exiting
+		 * If an app param "back-url" is available, current window will be redirected to it (String).
+		 * Else If an app param "callback" is available, it will be called (Function).
+		 * Else the window will be closed
+		 */
+		exit: function() 
+		{
+			if (this.getAppParameter('back-url') != null)
+			{
+				window.location.href = this.getEnvParams('back-url');
+			}
+			if (typeof(this.getAppParameter('callback')) == 'function')
+			{
+				this.getEnvParams('callback')();
+			}
+			else
+			{
+				window.close();
+			}
 		}
    	}
 );
