@@ -21,8 +21,11 @@
  * 			title: 'An error occured',
  * 			text: 'An unknown error as occured while processing the request',
  * 			details: 'The component faild to connect to database...',
- * 			category: 'Ametys.my.Component'
+ * 			category: 'Ametys.my.Component' 
  * 		});
+ * 
+ * You can use this to use the classname automatically
+ * 		category: this.self.getName()
  */
 Ext.define(
 	"Ametys.log.ErrorDialog",
