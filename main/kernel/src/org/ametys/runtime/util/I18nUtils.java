@@ -16,15 +16,14 @@
 
 package org.ametys.runtime.util;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.Component;
+import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
@@ -33,11 +32,16 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.cocoon.components.ContextHelper;
-import org.apache.cocoon.environment.Request;
-import org.apache.commons.io.IOUtils;
-import org.apache.excalibur.source.Source;
-import org.apache.excalibur.source.SourceResolver;
-import org.apache.excalibur.source.SourceUtil;
+import org.apache.cocoon.i18n.Bundle;
+import org.apache.cocoon.i18n.BundleFactory;
+import org.apache.cocoon.xml.ParamSaxBuffer;
+import org.apache.cocoon.xml.SaxBuffer;
+import org.apache.cocoon.xml.SaxBuffer.Characters;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+
+import org.ametys.runtime.plugin.PluginsManager;
+import org.ametys.runtime.workspace.WorkspaceManager;
 
 /**
  * Utils for i18n
@@ -49,13 +53,16 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
     
     private static I18nUtils _instance;
     
-    /** The excalibur source resolver */
-    protected SourceResolver _sourceResolver;
     /** The avalon context */
     protected Context _context;
     
+    private BundleFactory _bundleFactory;
+    
     // Map<language, Map<text, translatedValue>>
     private Map<String, Map<I18nizableText, String>> _cache;
+
+    //Map<catalogue, location[]>
+    private Map<String, String[]> _locations;
     
     @Override
     public void contextualize(Context context) throws ContextException
@@ -66,14 +73,72 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
     @Override
     public void service(ServiceManager manager) throws ServiceException
     {
-        _sourceResolver = (SourceResolver) manager.lookup(SourceResolver.ROLE);
+        _bundleFactory = (BundleFactory) manager.lookup(BundleFactory.ROLE);
     }
     
     @Override
     public void initialize() throws Exception
     {
-        _cache = new HashMap<String, Map<I18nizableText, String>>();
         _instance = this;
+        _cache = new HashMap<String, Map<I18nizableText, String>>();
+        
+        _locations = new HashMap<String, String[]>();
+        
+        // initializes locations
+        _locations.put("application", new String[]{"context://WEB-INF/i18n"});
+        _locations.put("kernel", new String[]{"context://WEB-INF/i18n/kernel", "kernel://i18n"});
+        
+        PluginsManager pm = PluginsManager.getInstance();
+        
+        for (String pluginName : pm.getPluginNames())
+        {
+            String id = "plugin." + pluginName;
+            
+            String pluginURI = pm.getBaseURI(pluginName);
+            String location2;
+            
+            if (pluginURI == null)
+            {
+                // plugin is in the filesystem
+                String pluginLocation = pm.getPluginLocation(pluginName);
+                
+                if (!pluginLocation.endsWith("/"))
+                {
+                    pluginLocation += '/';
+                }
+                
+                location2 = "context://" + pluginLocation + pluginName + "/i18n";
+            }
+            else
+            {
+                // plugin is in the classpath
+                location2 = "plugin:" + pluginName + "://i18n";
+            }
+
+            _locations.put(id, new String[]{"context://WEB-INF/i18n/plugins/" + pluginName, location2});
+        }
+
+        WorkspaceManager wm = WorkspaceManager.getInstance();
+        
+        for (String workspace : wm.getWorkspaceNames())
+        {
+            String workspaceURI = wm.getBaseURI(workspace);
+            String id = "workspace." + workspace;
+            String location2;
+
+            if (workspaceURI == null)
+            {
+                // workspace is in filesystem
+                location2 = "context://workspaces/" + workspace + "/i18n";
+            }
+            else
+            {
+                // workspace is in classpath
+                location2 = "workspace:" + workspace + "://i18n";
+            }
+           
+            _locations.put(id, new String[]{"context://WEB-INF/i18n/workspaces/" + workspace, location2});
+        }
     }
     
     /**
@@ -90,7 +155,7 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
      * This method is slow.
      * Only use in very specific cases (send mail for example)
      * @param text The i18n key to translate
-     * @return The translation
+     * @return The translation or null if there's no available translation
      * @throws IllegalStateException if an error occured
      */
     public String translate(I18nizableText text)
@@ -104,7 +169,7 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
      * Only use in very specific cases (send mail for example)
      * @param text The i18n key to translate
      * @param language The language code to use for translation. Can be null.
-     * @return The translation
+     * @return The translation or null if there's no available translation
      * @throws IllegalStateException if an error occured
      */
     public String translate(I18nizableText text, String language) throws IllegalStateException
@@ -175,7 +240,7 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
      * Only use in very specific cases (send mail for example)
      * @param text The i18n key to translate
      * @param language The language code to use for translation. Can be null.
-     * @return The translation
+     * @return The translation or null if there's no available translation
      * @throws IllegalStateException if an error occured
      */
     protected String _translate(I18nizableText text, String language) throws IllegalStateException
@@ -185,41 +250,73 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
             return text.getLabel();
         }
         
-        // FIXME Handle properly with contexts.
-        Request request = ContextHelper.getRequest(_context);
-        String currentPluginName = (String) request.getAttribute("pluginName");
+        String catalogue = text.getCatalogue();
+        String[] locations = _locations.get(catalogue);
         
-        Source source = null;
-        InputStream is = null;
         try
         {
-            Map<String, Object> parameters = new HashMap<String, Object>();
-            parameters.put("i18n", text);
-            parameters.put("locale", language);
+            Bundle bundle = _bundleFactory.select(locations, "messages", new Locale(language));
             
-            String uri = "cocoon://_plugins/core/i18n";
-            source = _sourceResolver.resolveURI(uri, null, parameters);
-            is = source.getInputStream();
+            // translated message
+            ParamSaxBuffer buffer = (ParamSaxBuffer) bundle.getObject(text.getKey());
             
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            SourceUtil.copy(is, bos);
-            
-            return bos.toString("UTF-8");
-        }
-        catch (IOException e)
-        {
-            throw new IllegalStateException("Cannot translate '" + text.toString() + "' into '" + language + "'", e);
-        }
-        finally
-        {
-            IOUtils.closeQuietly(is);
-            _sourceResolver.release(source);
-            
-            if (currentPluginName != null)
+            if (buffer == null)
             {
-                request.setAttribute("pluginName", currentPluginName);
+                return null;
             }
+            
+            // message parameters
+            Map<String, SaxBuffer> params = new HashMap<String, SaxBuffer>();
+            
+            if (text.getParameters() != null)
+            {
+                int p = 0;
+                for (String param : text.getParameters())
+                {
+                    Characters characters = new Characters(param.toCharArray(), 0, param.length());
+                    params.put(String.valueOf(p++), new SaxBuffer(Arrays.asList(characters)));
+                }
+            }
+            
+            if (text.getParameterMap() != null)
+            {
+                for (String name : text.getParameterMap().keySet())
+                {
+                    // named parameters are themselves I18nizableText, so translate them recursively
+                    String param = translate(text.getParameterMap().get(name), language);
+                    Characters characters = new Characters(param.toCharArray(), 0, param.length());
+                    params.put(name, new SaxBuffer(Arrays.asList(characters)));
+                }
+            }
+            
+            StringBuilder result = new StringBuilder();
+            buffer.toSAX(new BufferHandler(result), params);
+            
+            return result.toString();
+        }
+        catch (SAXException e)
+        {
+            throw new RuntimeException("Unable to get i18n translation", e);
+        }
+        catch (ComponentException e)
+        {
+            throw new RuntimeException("Unable to get i18n catalogue", e);
         }
     }
-
+    
+    private class BufferHandler extends DefaultHandler
+    {
+        StringBuilder _builder;
+        
+        public BufferHandler(StringBuilder builder)
+        {
+            _builder = builder;
+        }
+        
+        @Override
+        public void characters(char[] ch, int start, int length) throws SAXException
+        {
+            _builder.append(ch, start, length);
+        }
+    }
 }

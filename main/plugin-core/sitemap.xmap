@@ -100,21 +100,6 @@
 
 	
 	<map:pipelines>
-
-		<map:pipeline internal-only="true">
-			<map:match pattern="i18n">
-                <map:act type="get-parent-context-attr">
-                    <map:parameter name="attributes" value="locale"/>
-                    
-    				<map:generate type="i18n"/>
-    				<map:transform type="i18n">
-    					<map:parameter name="locale" value="{locale}"/>
-    				</map:transform>
-    				<map:serialize type="text"/>
-                </map:act>
-			</map:match>
-		</map:pipeline>
-			
 		<map:pipeline>
 			<!-- Dispatcher -->
 			<map:match pattern="servercomm/messages.xml">
