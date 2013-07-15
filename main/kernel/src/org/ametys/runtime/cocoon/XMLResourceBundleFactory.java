@@ -26,7 +26,7 @@ import org.apache.avalon.framework.component.ComponentException;
 public class XMLResourceBundleFactory extends org.apache.cocoon.i18n.XMLResourceBundleFactory
 {
     @Override
-    protected org.apache.cocoon.i18n.XMLResourceBundle _create(String sourceURI, Locale locale, org.apache.cocoon.i18n.XMLResourceBundle parent)
+    protected org.apache.cocoon.i18n.XMLResourceBundle create(String sourceURI, Locale locale, org.apache.cocoon.i18n.XMLResourceBundle parent)
     {
         if (getLogger().isDebugEnabled()) 
         {
