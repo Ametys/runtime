@@ -75,7 +75,7 @@ Ext.define(
 		 */
 		setLogLevel: function(logLevel)
 		{
-			_currentLogLevel = Math.min(Math.max(logLevel, Ametys.log.Logger.Entry.LEVEL_DEBUG), Ametys.log.Logger.Entry.LEVEL_FATAL);
+			this._currentLogLevel = Math.min(Math.max(logLevel, Ametys.log.Logger.Entry.LEVEL_DEBUG), Ametys.log.Logger.Entry.LEVEL_FATAL);
 		},
 		
 		/**
@@ -84,7 +84,7 @@ Ext.define(
 		 */
 		isDebugEnabled: function()
 		{
-			return _currentLogLevel <= Ametys.log.Logger.Entry.LEVEL_DEBUG;
+			return this._currentLogLevel <= Ametys.log.Logger.Entry.LEVEL_DEBUG;
 		},
 		/**
 		 * Will an info message be logged ?
@@ -92,7 +92,7 @@ Ext.define(
 		 */
 		isInfoEnabled: function()
 		{
-			return _currentLogLevel <= Ametys.log.Logger.Entry.LEVEL_INFO;
+			return this._currentLogLevel <= Ametys.log.Logger.Entry.LEVEL_INFO;
 		},
 		/**
 		 * Will a warn message be logged ?
@@ -100,7 +100,7 @@ Ext.define(
 		 */
 		isWarnEnabled: function()
 		{
-			return _currentLogLevel <= Ametys.log.Logger.Entry.LEVEL_WARN;
+			return this._currentLogLevel <= Ametys.log.Logger.Entry.LEVEL_WARN;
 		},
 		/**
 		 * Will an error message be logged ?
@@ -108,7 +108,7 @@ Ext.define(
 		 */
 		isErrorEnabled: function()
 		{
-			return _currentLogLevel <= Ametys.log.Logger.Entry.LEVEL_ERROR;
+			return this._currentLogLevel <= Ametys.log.Logger.Entry.LEVEL_ERROR;
 		},
 		/**
 		 * Will a fatal message be logged ?
@@ -116,7 +116,7 @@ Ext.define(
 		 */
 		isFatalEnabled: function()
 		{
-			return _currentLogLevel <= Ametys.log.Logger.Entry.LEVEL_FATAL;
+			return this._currentLogLevel <= Ametys.log.Logger.Entry.LEVEL_FATAL;
 		},
 		
 		/**
