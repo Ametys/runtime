@@ -48,7 +48,7 @@
     <xsl:template name="kernel-base">
         <xsl:param name="plugins-direct-prefix"/>
         <xsl:param name="plugins-wrapped-prefix"/>
-        <xsl:param name="debug-mode" select="false()"/>
+        <xsl:param name="debug-mode" select="true()"/>
 		<xsl:param name="context-path"/>
 		<xsl:param name="workspace-name"/>
 		<xsl:param name="workspace-prefix"/>
