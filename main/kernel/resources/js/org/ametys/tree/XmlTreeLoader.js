@@ -69,7 +69,22 @@ org.ametys.tree.XmlTreeLoader.prototype.processAttributes = function(attr)
 			}
 		}, 
 		this);
-}
+};
+
+// Workaround : processResponse is bugged in Ext.ux.tree.XmlTreeLoader,
+// because scope is not defined...
+org.ametys.tree.XmlTreeLoader.prototype.processResponse = function(response, node, callback, scope) {
+	var xmlData = response.responseXML,
+	root = xmlData.documentElement || xmlData;
+	try {
+		node.beginUpdate();
+		node.appendChild(this.parseXml(root));
+		node.endUpdate();
+		this.runCallback(callback, scope || node, [node]);
+	} catch(e) {
+		this.handleFailure(response);
+	}
+}; 
 
 org.ametys.tree.XmlTreeLoader.prototype.parseXml = function(node) 
 {
