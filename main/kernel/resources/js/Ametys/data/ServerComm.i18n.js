@@ -15,7 +15,7 @@
  */
 
 /**
- * This class allow to create a message for the ametys server : it will use the dispatch generator to group requests. See createMessage for more information.
+ * This class allow to create a message for the ametys server : it will use the dispatch generator to group requests. See #createMessage for more information.
  */
 Ext.define(
 	"Ametys.data.ServerComm", 
