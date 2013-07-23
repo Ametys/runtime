@@ -118,14 +118,14 @@ public class SAXClientSideElementHelper extends AbstractLogEnabled implements Co
     }
 
     /**
-     * SAX a client side element state
+     * Process a client side element state and sax the results
      * @param clientSideElementId The client side element id
      * @param tagName the tag name to create
      * @param element The client side element to sax. Can not be null.
      * @param handler The handler where to sax
      * @throws SAXException If an error occured
      */
-    public void saxCurrentState(String clientSideElementId, String tagName, ContextualClientSideElement element, ContentHandler handler) throws SAXException
+    public void processAndSax(String clientSideElementId, String tagName, ContextualClientSideElement element, ContentHandler handler) throws SAXException
     {
         Map objectModel = ContextHelper.getObjectModel(_context);
         Map<String, Object> jsParameters = (Map<String, Object>) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
@@ -134,7 +134,7 @@ public class SAXClientSideElementHelper extends AbstractLogEnabled implements Co
         clientSideElementAttrs.addCDATAAttribute("id", clientSideElementId);
         XMLUtils.startElement(handler, tagName, clientSideElementAttrs);
         
-        Map<String, I18nizableText> parameters = element.getCurrentParameters(jsParameters);
+        Map<String, I18nizableText> parameters = element.process(jsParameters);
         for (String paramName : parameters.keySet())
         {
             AttributesImpl paramAttrs = new AttributesImpl();

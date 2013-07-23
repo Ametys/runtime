@@ -27,7 +27,7 @@ import org.ametys.runtime.util.I18nizableText;
 public class StaticContextualClientSideElement extends StaticClientSideElement implements ContextualClientSideElement
 {
     @Override
-    public Map<String, I18nizableText> getCurrentParameters(Map<String, Object> parameters)
+    public Map<String, I18nizableText> process(Map<String, Object> parameters)
     {
         return Collections.EMPTY_MAP;
     }

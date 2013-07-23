@@ -25,10 +25,10 @@ import org.ametys.runtime.util.I18nizableText;
 public interface ContextualClientSideElement extends ClientSideElement
 {
     /**
-     * This method returns the parameters given to the element script class at a given time.
+     * This method process a request from the client side element and returns the results to the element script class.
      * The parameters returns may depend on the current environment.
      * @param parameters The parameters transmitted by the client side script
      * @return a map of parameters. Key represents ids of the parameters and values represents its values. Can not be null.
      */
-    public Map<String, I18nizableText> getCurrentParameters(Map<String, Object> parameters);
+    public Map<String, I18nizableText> process(Map<String, Object> parameters);
 }
