@@ -125,7 +125,7 @@ public class SAXClientSideElementHelper extends AbstractLogEnabled implements Co
      * @param handler The handler where to sax
      * @throws SAXException If an error occured
      */
-    public void processAndSax(String clientSideElementId, String tagName, ContextualClientSideElement element, ContentHandler handler) throws SAXException
+    public void processAndSax(String clientSideElementId, String tagName, ProcessableClientSideElement element, ContentHandler handler) throws SAXException
     {
         Map objectModel = ContextHelper.getObjectModel(_context);
         Map<String, Object> jsParameters = (Map<String, Object>) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
