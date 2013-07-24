@@ -55,7 +55,7 @@ Ext.define(
 		 * @param {Number} timeout Optional new timeout value
 		 */
 	    constructor: function(details, index, timeout) {
-	    	timeout = timeout || this.TIMEOUT;
+	    	timeout = timeout || this.statics().TIMEOUT;
 	    	var title = "<i18n:text i18n:key='KERNEL_SERVERCOMM_TIMEOUTDIALOG_TITLE'/>"
 	    	var text = "<i18n:text i18n:key='KERNEL_SERVERCOMM_TIMEOUTDIALOG_TEXT1'/>" + "<br/>" + "<i18n:text i18n:key='KERNEL_SERVERCOMM_TIMEOUTDIALOG_TEXT2'/>"
 	    		
