@@ -149,8 +149,8 @@ Ext.define(
 		 * @param {String} message.workspace The name of the server workpace targeted. Can be null if plugin is specified or to send to current workspace.
 		 * @param {String} message.url The url on the server relative to the plugin or workspace
 		 * @param {Object} message.parameters The parameters to send to the server (Map<String, String>)
-		 * @param {Number} [message.priority=Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS] The priority of the message. Use ServerComm.PRIORITY_* constants.
-		 * @param {Object} message.callback When using non synchrnous messages, a callback configuration is requires 
+		 * @param {Number} [message.priority=Ametys.data.ServerComm.PRIORITY_MAJOR] The priority of the message. Use ServerComm.PRIORITY_* constants.
+		 * @param {Object} message.callback When using non synchronous messages, a callback configuration is required. 
 		 * @param {Function} message.callback.handler The function to call when the message will come back. 
 		 * @param {Object} message.callback.handler.response Will be the xml parent node of the response. This node can be null or empty on fatal error. An attribute 'code' is available on this node with the http code. This reponse has an extra method 'getText' that get the text from a node in parameter of the response.
 		 * @param {Object[]} message.callback.handler.callbackarguments Is the 'callback.arguments' array
@@ -175,7 +175,7 @@ Ext.define(
 				}
 			});
 			message.responseType = message.responseType || "xml";
-			message.priority = message.priority || PRIORITY_MAJOR;
+			message.priority = message.priority || Ametys.data.ServerComm.PRIORITY_MAJOR;
 			
 			if (message.priority == Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS)
 			{
