@@ -18,13 +18,8 @@ package org.ametys.runtime.ui;
 import java.util.Map;
 
 import org.apache.avalon.framework.component.Component;
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.thread.ThreadSafe;
-import org.apache.cocoon.components.ContextHelper;
-import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
 import org.apache.commons.lang.StringUtils;
@@ -37,18 +32,10 @@ import org.ametys.runtime.util.I18nizableText;
 /**
  * This helper allow to sax a client side element
  */
-public class SAXClientSideElementHelper extends AbstractLogEnabled implements Component, Contextualizable, ThreadSafe
+public class SAXClientSideElementHelper extends AbstractLogEnabled implements Component, ThreadSafe
 {
     /** Avalon role */
     public static final String ROLE = SAXClientSideElementHelper.class.getName();
-    
-    private Context _context;
-    
-    @Override
-    public void contextualize(Context context) throws ContextException
-    {
-        _context = context;
-    }
     
     /**
      * SAX a client side element
@@ -115,35 +102,5 @@ public class SAXClientSideElementHelper extends AbstractLogEnabled implements Co
     
             XMLUtils.endElement(handler, tagName);
         }
-    }
-
-    /**
-     * Process a client side element state and sax the results
-     * @param clientSideElementId The client side element id
-     * @param tagName the tag name to create
-     * @param element The client side element to sax. Can not be null.
-     * @param handler The handler where to sax
-     * @throws SAXException If an error occured
-     */
-    public void processAndSax(String clientSideElementId, String tagName, ProcessableClientSideElement element, ContentHandler handler) throws SAXException
-    {
-        Map objectModel = ContextHelper.getObjectModel(_context);
-        Map<String, Object> jsParameters = (Map<String, Object>) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
-
-        AttributesImpl clientSideElementAttrs = new AttributesImpl();
-        clientSideElementAttrs.addCDATAAttribute("id", clientSideElementId);
-        XMLUtils.startElement(handler, tagName, clientSideElementAttrs);
-        
-        Map<String, I18nizableText> parameters = element.process(jsParameters);
-        for (String paramName : parameters.keySet())
-        {
-            AttributesImpl paramAttrs = new AttributesImpl();
-            paramAttrs.addCDATAAttribute("name", paramName);
-            XMLUtils.startElement(handler, "param", paramAttrs);
-            parameters.get(paramName).toSAX(handler);
-            XMLUtils.endElement(handler, "param");
-        }
-        
-        XMLUtils.endElement(handler, tagName);
     }
 }

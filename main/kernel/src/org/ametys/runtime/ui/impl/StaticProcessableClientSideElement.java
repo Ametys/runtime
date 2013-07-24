@@ -19,7 +19,6 @@ import java.util.Collections;
 import java.util.Map;
 
 import org.ametys.runtime.ui.ProcessableClientSideElement;
-import org.ametys.runtime.util.I18nizableText;
 
 /**
  * This implementation creates a control that does not need later configuration
@@ -27,7 +26,7 @@ import org.ametys.runtime.util.I18nizableText;
 public class StaticProcessableClientSideElement extends StaticClientSideElement implements ProcessableClientSideElement
 {
     @Override
-    public Map<String, I18nizableText> process(Map<String, Object> parameters)
+    public Map<String, Object> process(Map<String, Object> parameters)
     {
         return Collections.EMPTY_MAP;
     }

@@ -17,8 +17,6 @@ package org.ametys.runtime.ui;
 
 import java.util.Map;
 
-import org.ametys.runtime.util.I18nizableText;
-
 /**
  * A client side element that is interactive with the client side
  */
@@ -30,5 +28,5 @@ public interface ProcessableClientSideElement extends ClientSideElement
      * @param parameters The parameters transmitted by the client side script
      * @return a map of parameters. Key represents ids of the parameters and values represents its values. Can not be null.
      */
-    public Map<String, I18nizableText> process(Map<String, Object> parameters);
+    public Map<String, Object> process(Map<String, Object> parameters);
 }
