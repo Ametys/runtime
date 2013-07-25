@@ -62,15 +62,9 @@ public class SAXClientSideElementHelper extends AbstractLogEnabled implements Co
             attrs.addCDATAAttribute("class", script.getScriptClassname());
             XMLUtils.startElement(handler, "action", attrs);
             
-            Map<String, I18nizableText> parameters = element.getParameters(contextualParameters);
-            for (String paramName : parameters.keySet())
-            {
-                AttributesImpl paramAttrs = new AttributesImpl();
-                paramAttrs.addCDATAAttribute("name", paramName);
-                XMLUtils.startElement(handler, "param", paramAttrs);
-                parameters.get(paramName).toSAX(handler);
-                XMLUtils.endElement(handler, "param");
-            }
+            // SAX parameters
+            Map<String, Object> parameters = element.getParameters(contextualParameters);
+            _saxParameters (handler, parameters);
             
             // SAX needed right
             Map<String, String> rights = element.getRights(contextualParameters);
@@ -101,6 +95,41 @@ public class SAXClientSideElementHelper extends AbstractLogEnabled implements Co
             XMLUtils.endElement(handler, "css");
     
             XMLUtils.endElement(handler, tagName);
+        }
+    }
+    
+    /**
+     * SAX parameters
+     * @param handler The content handler to sax into
+     * @param parameters The map of parameters
+     * @throws SAXException If an error occurred
+     */
+    @SuppressWarnings("unchecked")
+    protected void _saxParameters (ContentHandler handler, Map<String, Object> parameters) throws SAXException
+    {
+        for (String paramName : parameters.keySet())
+        {
+            Object value = parameters.get(paramName);
+            
+            AttributesImpl paramAttrs = new AttributesImpl();
+            paramAttrs.addCDATAAttribute("name", paramName);
+            XMLUtils.startElement(handler, "param", paramAttrs);
+            
+            if (value instanceof Map)
+            {
+                // SAX parameters recursively
+                _saxParameters (handler, (Map<String, Object>) value);
+            }
+            else if (value instanceof I18nizableText)
+            {
+                ((I18nizableText) value).toSAX(handler);
+            }
+            else
+            {
+                XMLUtils.data(handler, String.valueOf(value));
+            }
+            
+            XMLUtils.endElement(handler, "param");
         }
     }
 }

@@ -21,6 +21,7 @@ import org.ametys.runtime.test.AbstractRuntimeTestCase;
 import org.ametys.runtime.test.Init;
 import org.ametys.runtime.ui.ClientSideElement;
 import org.ametys.runtime.ui.impl.StaticClientSideElement;
+import org.ametys.runtime.util.I18nizableText;
 
 /**
  * Test the static ui item factory
@@ -79,16 +80,18 @@ public class StaticUIItemFactoryTestCase extends AbstractRuntimeTestCase
         assertEquals("/plugins/staticuiitemfactorytest/resources/js/script.js", itemFactory1.getScript(null).getScriptFiles().iterator().next());
         // label
         assertNotNull(itemFactory1.getParameters(null).get("label"));
-        assertTrue(itemFactory1.getParameters(null).get("label").isI18n());
-        assertEquals("plugin.staticuiitemfactorytest", itemFactory1.getParameters(null).get("label").getCatalogue());
-        assertEquals("label", itemFactory1.getParameters(null).get("label").getKey());
-        assertNull(itemFactory1.getParameters(null).get("label").getParameters());
+        assertTrue(itemFactory1.getParameters(null).get("label") instanceof I18nizableText);
+        assertTrue(((I18nizableText) itemFactory1.getParameters(null).get("label")).isI18n());
+        assertEquals("plugin.staticuiitemfactorytest", ((I18nizableText) itemFactory1.getParameters(null).get("label")).getCatalogue());
+        assertEquals("label", ((I18nizableText) itemFactory1.getParameters(null).get("label")).getKey());
+        assertNull(((I18nizableText) itemFactory1.getParameters(null).get("label")).getParameters());
         // description
         assertNotNull(itemFactory1.getParameters(null).get("default-description"));
-        assertTrue(itemFactory1.getParameters(null).get("default-description").isI18n());
-        assertEquals("plugin.staticuiitemfactorytest", itemFactory1.getParameters(null).get("default-description").getCatalogue());
-        assertEquals("description", itemFactory1.getParameters(null).get("default-description").getKey());
-        assertNull(itemFactory1.getParameters(null).get("default-description").getParameters());
+        assertTrue(itemFactory1.getParameters(null).get("default-description") instanceof I18nizableText);
+        assertTrue(((I18nizableText) itemFactory1.getParameters(null).get("default-description")).isI18n());
+        assertEquals("plugin.staticuiitemfactorytest", ((I18nizableText) itemFactory1.getParameters(null).get("default-description")).getCatalogue());
+        assertEquals("description", ((I18nizableText) itemFactory1.getParameters(null).get("default-description")).getKey());
+        assertNull(((I18nizableText) itemFactory1.getParameters(null).get("default-description")).getParameters());
         // iconset
         assertNotNull(itemFactory1.getParameters(null).get("icon-small"));
         assertEquals("/plugins/staticuiitemfactorytest/resources/img/icon_small.gif", itemFactory1.getParameters(null).get("icon-small").toString());
@@ -117,16 +120,18 @@ public class StaticUIItemFactoryTestCase extends AbstractRuntimeTestCase
         assertEquals(0, itemFactory3.getScript(null).getScriptFiles().size());
         // label
         assertNotNull(itemFactory3.getParameters(null).get("label"));
-        assertTrue(itemFactory3.getParameters(null).get("label").isI18n());
-        assertEquals("plugin.staticuiitemfactorytest", itemFactory3.getParameters(null).get("label").getCatalogue());
-        assertEquals("label", itemFactory3.getParameters(null).get("label").getKey());
-        assertNull(itemFactory3.getParameters(null).get("label").getParameters());
+        assertTrue(itemFactory3.getParameters(null).get("label") instanceof I18nizableText);
+        assertTrue(((I18nizableText) itemFactory3.getParameters(null).get("label")).isI18n());
+        assertEquals("plugin.staticuiitemfactorytest", ((I18nizableText) itemFactory3.getParameters(null).get("label")).getCatalogue());
+        assertEquals("label", ((I18nizableText) itemFactory3.getParameters(null).get("label")).getKey());
+        assertNull(((I18nizableText) itemFactory3.getParameters(null).get("label")).getParameters());
         // description
         assertNotNull(itemFactory3.getParameters(null).get("default-description"));
-        assertTrue(itemFactory3.getParameters(null).get("default-description").isI18n());
-        assertEquals("plugin.staticuiitemfactorytest", itemFactory3.getParameters(null).get("default-description").getCatalogue());
-        assertEquals("description", itemFactory3.getParameters(null).get("default-description").getKey());
-        assertNull(itemFactory3.getParameters(null).get("default-description").getParameters());
+        assertTrue(itemFactory3.getParameters(null).get("default-description") instanceof I18nizableText);
+        assertTrue(((I18nizableText) itemFactory3.getParameters(null).get("default-description")).isI18n());
+        assertEquals("plugin.staticuiitemfactorytest", ((I18nizableText) itemFactory3.getParameters(null).get("default-description")).getCatalogue());
+        assertEquals("description", ((I18nizableText) itemFactory3.getParameters(null).get("default-description")).getKey());
+        assertNull(((I18nizableText) itemFactory3.getParameters(null).get("default-description")).getParameters());
         // iconset
         assertEquals("/plugins/staticuiitemfactorytest/resources/img/icon_small.gif", itemFactory3.getParameters(null).get("icon-small").toString());
         assertEquals("/plugins/staticuiitemfactorytest/resources/img/icon_medium.gif", itemFactory3.getParameters(null).get("icon-medium").toString());
@@ -156,16 +161,17 @@ public class StaticUIItemFactoryTestCase extends AbstractRuntimeTestCase
         assertEquals("staticuiitemfactorytest", itemFactory4.getPluginName());
         // label
         assertNotNull(itemFactory4.getParameters(null).get("label"));
-        assertTrue(itemFactory4.getParameters(null).get("label").isI18n());
-        assertEquals("othercatalogue", itemFactory4.getParameters(null).get("label").getCatalogue());
-        assertEquals("label", itemFactory4.getParameters(null).get("label").getKey());
-        assertNull(itemFactory4.getParameters(null).get("label").getParameters());
+        assertTrue(itemFactory4.getParameters(null).get("label") instanceof I18nizableText);
+        assertTrue(((I18nizableText) itemFactory4.getParameters(null).get("label")).isI18n());
+        assertEquals("othercatalogue", ((I18nizableText) itemFactory4.getParameters(null).get("label")).getCatalogue());
+        assertEquals("label", ((I18nizableText) itemFactory4.getParameters(null).get("label")).getKey());
+        assertNull(((I18nizableText) itemFactory4.getParameters(null).get("label")).getParameters());
         // description
         assertNotNull(itemFactory4.getParameters(null).get("default-description"));
-        assertTrue(itemFactory4.getParameters(null).get("default-description").isI18n());
-        assertEquals("plugin.otherplugin", itemFactory4.getParameters(null).get("default-description").getCatalogue());
-        assertEquals("description", itemFactory4.getParameters(null).get("default-description").getKey());
-        assertNull(itemFactory4.getParameters(null).get("default-description").getParameters());
+        assertTrue(((I18nizableText) itemFactory4.getParameters(null).get("default-description")).isI18n());
+        assertEquals("plugin.otherplugin", ((I18nizableText) itemFactory4.getParameters(null).get("default-description")).getCatalogue());
+        assertEquals("description", ((I18nizableText) itemFactory4.getParameters(null).get("default-description")).getKey());
+        assertNull(((I18nizableText) itemFactory4.getParameters(null).get("default-description")).getParameters());
         // iconset
         assertEquals("/plugins/core/resources/img/icon_small.gif", itemFactory4.getParameters(null).get("icon-small").toString());
         assertEquals("/plugins/core/resources/img/icon_medium.gif", itemFactory4.getParameters(null).get("icon-medium").toString());
