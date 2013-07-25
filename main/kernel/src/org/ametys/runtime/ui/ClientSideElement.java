@@ -18,8 +18,6 @@ package org.ametys.runtime.ui;
 import java.util.List;
 import java.util.Map;
 
-import org.ametys.runtime.util.I18nizableText;
-
 /**
  * A client side element
  */
@@ -47,7 +45,7 @@ public interface ClientSideElement
      * @param contextParameters Contextuals parameters transmitted by the environment.
      * @return a map of parameters. Key represents ids of the parameters and values represents its values. Can not be null.
      */
-    public Map<String, I18nizableText> getParameters(Map<String, Object> contextParameters);
+    public Map<String, Object> getParameters(Map<String, Object> contextParameters);
 
     /**
      * Get the plugin name where the control was declared

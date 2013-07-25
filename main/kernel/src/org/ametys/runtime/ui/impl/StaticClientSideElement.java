@@ -57,7 +57,7 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
     /** The right configured. Can be null */
     protected Map<String, String> _rights;
     /** The parameters configured for initial element creation */
-    protected Map<String, I18nizableText> _initialParameters;
+    protected Map<String, Object> _initialParameters;
     
     /** The name of the plugin that declared the element */
     protected String _pluginName;
@@ -100,9 +100,9 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
      * @return The initial parameters read
      * @throws ConfigurationException
      */
-    protected Map<String, I18nizableText> configureInitialParameters(Configuration configuration) throws ConfigurationException
+    protected Map<String, Object> configureInitialParameters(Configuration configuration) throws ConfigurationException
     {
-        Map<String, I18nizableText> initialParameters = new HashMap<String, I18nizableText>();
+        Map<String, Object> initialParameters = new HashMap<String, Object>();
         
         for (Configuration paramConfiguration : configuration.getChild("action").getChildren("param"))
         {
@@ -121,11 +121,11 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
             else if (paramConfiguration.getAttributeAsBoolean("file", false))
             {
                 String pluginName = paramConfiguration.getAttribute("plugin", getPluginName());
-                initialParameters.put(name, new I18nizableText("/plugins/" + pluginName + "/resources/" + value));
+                initialParameters.put(name, "/plugins/" + pluginName + "/resources/" + value);
             }
             else 
             {
-                initialParameters.put(name, new I18nizableText(value));
+                initialParameters.put(name, value);
             }
             
             if (getLogger().isDebugEnabled())
@@ -326,7 +326,7 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
     }
     
     @Override
-    public Map<String, I18nizableText> getParameters(Map<String, Object> contextualParameters)
+    public Map<String, Object> getParameters(Map<String, Object> contextualParameters)
     {
         return _initialParameters;
     }
