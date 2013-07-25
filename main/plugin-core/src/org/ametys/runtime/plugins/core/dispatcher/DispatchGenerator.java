@@ -58,7 +58,8 @@ public class DispatchGenerator extends ServiceableGenerator
     private SourceResolver _resolver;
     private SAXParser _saxParser;
     private DispatchPostProcessExtensionPoint _dispatchPostProcessExtensionPoint;
-
+    private JSONUtils _jsonUtils;
+    
     @Override
     public void service(ServiceManager smanager) throws ServiceException
     {
@@ -67,16 +68,17 @@ public class DispatchGenerator extends ServiceableGenerator
         _resolver = (SourceResolver) smanager.lookup(org.apache.excalibur.source.SourceResolver.ROLE);
         _saxParser = (SAXParser) manager.lookup(SAXParser.ROLE);
         _dispatchPostProcessExtensionPoint = (DispatchPostProcessExtensionPoint) manager.lookup(DispatchPostProcessExtensionPoint.ROLE);
+        _jsonUtils = (JSONUtils) manager.lookup(JSONUtils.ROLE);
     }
     
     @Override
     public void generate() throws IOException, SAXException, ProcessingException
     {
         String parametersAsJSONString = _getRequestBody();
-        Map<String, Object> parametersAsMap = JSONUtils.parse(parametersAsJSONString);
+        Map<String, Object> parametersAsMap = _jsonUtils.convertJsonToMap(parametersAsJSONString);
         
         String contextAsJSONString = _getRequestContext();
-        Map<String, Object> contextAsMap = JSONUtils.parse(contextAsJSONString);
+        Map<String, Object> contextAsMap = _jsonUtils.convertJsonToMap(contextAsJSONString);
 
         contentHandler.startDocument();
         XMLUtils.startElement(contentHandler, "responses");

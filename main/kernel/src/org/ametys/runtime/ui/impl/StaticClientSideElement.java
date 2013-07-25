@@ -17,6 +17,7 @@ package org.ametys.runtime.ui.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -102,9 +103,27 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
      */
     protected Map<String, Object> configureInitialParameters(Configuration configuration) throws ConfigurationException
     {
-        Map<String, Object> initialParameters = new HashMap<String, Object>();
+        Map<String, Object> initialParameters = _configureParameters (configuration.getChild("action"));
         
-        for (Configuration paramConfiguration : configuration.getChild("action").getChildren("param"))
+        if (getLogger().isDebugEnabled())
+        {
+            getLogger().debug("Configuration of element '" + _id + "' is over");
+        }
+        
+        return initialParameters;
+    }
+    
+    /**
+     * Configure parameters recursively 
+     * @param configuration the parameters configuration
+     * @return parameters in a Map
+     * @throws ConfigurationException
+     */
+    protected Map<String, Object> _configureParameters (Configuration configuration) throws ConfigurationException
+    {
+        Map<String, Object> parameters = new LinkedHashMap<String, Object>();
+     
+        for (Configuration paramConfiguration : configuration.getChildren("param"))
         {
             String name = paramConfiguration.getAttribute("name");
             String value = paramConfiguration.getValue("");
@@ -116,25 +135,48 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
 
             if (paramConfiguration.getAttributeAsBoolean("i18n", false))
             {
-                initialParameters.put(name, new I18nizableText("plugin." + _pluginName, value));
+                _addParameter (parameters, name, new I18nizableText("plugin." + _pluginName, value));
             }
             else if (paramConfiguration.getAttributeAsBoolean("file", false))
             {
                 String pluginName = paramConfiguration.getAttribute("plugin", getPluginName());
-                initialParameters.put(name, "/plugins/" + pluginName + "/resources/" + value);
+                _addParameter (parameters, name, "/plugins/" + pluginName + "/resources/" + value);
+            }
+            else if (paramConfiguration.getChild("param", false) != null)
+            {
+                _addParameter (parameters, name, _configureParameters(paramConfiguration));
             }
             else 
             {
-                initialParameters.put(name, value);
-            }
-            
-            if (getLogger().isDebugEnabled())
-            {
-                getLogger().debug("Configuration of element '" + _id + "' is over");
+                _addParameter (parameters, name, value);
             }
         }
         
-        return initialParameters;
+        return parameters;
+    }
+    
+    @SuppressWarnings("unchecked")
+    private void _addParameter (Map<String, Object> parameters, String name, Object newValue)
+    {
+        if (parameters.containsKey(name))
+        {
+            Object values = parameters.get(name);
+            if (values instanceof List)
+            {
+                ((List<Object>) values).add(newValue);
+            }
+            else
+            {
+                List list = new ArrayList<Object>();
+                list.add(values);
+                list.add(newValue);
+                parameters.put(name, list);
+            }
+        }
+        else
+        {
+            parameters.put(name, newValue);
+        }
     }
     
     /**

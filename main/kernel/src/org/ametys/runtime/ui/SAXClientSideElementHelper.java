@@ -19,6 +19,9 @@ import java.util.Map;
 
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
@@ -27,16 +30,22 @@ import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
 import org.ametys.runtime.ui.ClientSideElement.Script;
-import org.ametys.runtime.util.I18nizableText;
+import org.ametys.runtime.util.JSONUtils;
 
 /**
  * This helper allow to sax a client side element
  */
-public class SAXClientSideElementHelper extends AbstractLogEnabled implements Component, ThreadSafe
+public class SAXClientSideElementHelper extends AbstractLogEnabled implements Component, Serviceable, ThreadSafe
 {
     /** Avalon role */
     public static final String ROLE = SAXClientSideElementHelper.class.getName();
+    private JSONUtils _jsonUtils;
     
+    @Override
+    public void service(ServiceManager smanager) throws ServiceException
+    {
+        _jsonUtils = (JSONUtils) smanager.lookup(JSONUtils.ROLE);
+    }
     /**
      * SAX a client side element
      * @param clientSideElementId The client side element id
@@ -62,19 +71,20 @@ public class SAXClientSideElementHelper extends AbstractLogEnabled implements Co
             attrs.addCDATAAttribute("class", script.getScriptClassname());
             XMLUtils.startElement(handler, "action", attrs);
             
-            // SAX parameters
+            // Parameters
             Map<String, Object> parameters = element.getParameters(contextualParameters);
-            _saxParameters (handler, parameters);
             
-            // SAX needed right
+            // Needed right
             Map<String, String> rights = element.getRights(contextualParameters);
             if (!rights.isEmpty())
             {
                 String rightsId = StringUtils.join(rights.keySet(), "|");
-                AttributesImpl paramAttrs = new AttributesImpl();
-                paramAttrs.addCDATAAttribute("name", "right-id");
-                XMLUtils.createElement(handler, "param", paramAttrs, rightsId);
+                parameters.put("right-id", rightsId);
             }
+            
+            // SAX parameters
+            String jsonParams = _jsonUtils.convertMapToJson(parameters);
+            XMLUtils.createElement(handler, "parameters", jsonParams);
             
             XMLUtils.endElement(handler, "action");
             
@@ -95,41 +105,6 @@ public class SAXClientSideElementHelper extends AbstractLogEnabled implements Co
             XMLUtils.endElement(handler, "css");
     
             XMLUtils.endElement(handler, tagName);
-        }
-    }
-    
-    /**
-     * SAX parameters
-     * @param handler The content handler to sax into
-     * @param parameters The map of parameters
-     * @throws SAXException If an error occurred
-     */
-    @SuppressWarnings("unchecked")
-    protected void _saxParameters (ContentHandler handler, Map<String, Object> parameters) throws SAXException
-    {
-        for (String paramName : parameters.keySet())
-        {
-            Object value = parameters.get(paramName);
-            
-            AttributesImpl paramAttrs = new AttributesImpl();
-            paramAttrs.addCDATAAttribute("name", paramName);
-            XMLUtils.startElement(handler, "param", paramAttrs);
-            
-            if (value instanceof Map)
-            {
-                // SAX parameters recursively
-                _saxParameters (handler, (Map<String, Object>) value);
-            }
-            else if (value instanceof I18nizableText)
-            {
-                ((I18nizableText) value).toSAX(handler);
-            }
-            else
-            {
-                XMLUtils.data(handler, String.valueOf(value));
-            }
-            
-            XMLUtils.endElement(handler, "param");
         }
     }
 }
