@@ -37,16 +37,19 @@ public class I18nizableTextSerializer extends SerializerBase<I18nizableText> imp
     
     private I18nUtils _i18nUtils;
     
+    /**
+     * Constructor
+     */
+    public I18nizableTextSerializer()
+    {
+        super(I18nizableText.class);
+    }
+    
     @Override
     public void service(ServiceManager manager) throws ServiceException
     {
         _i18nUtils = (I18nUtils) manager.lookup(I18nUtils.ROLE);
     }
-    
-    /**
-     * Constructor
-     */
-    public I18nizableTextSerializer() { super(I18nizableText.class); }
     
     @Override
     public void serialize(I18nizableText value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonGenerationException
