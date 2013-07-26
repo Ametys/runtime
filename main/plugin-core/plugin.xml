@@ -1796,8 +1796,40 @@
                 <Url>administrator/profiles/view\.html</Url>
             </extension>    
         </extensions>
-    </feature>     
-           
+    </feature>
+    
+    <feature name="runtime.rights.rights">
+        <!-- 
+            This feature declares rights for handling rights screens
+         -->
+        <extensions>
+            <extension point="org.ametys.runtime.plugins.core.right.RightsExtensionPoint"
+                       id="runtime.use.rights.profile">
+                <!-- 
+                    Defines rights for handling profile and handling rights
+                 -->
+                <!-- FIXME does these rights must be defined here, in the runtime? -->
+                <!--
+                <right id="Runtime_Rights_Rights_Profile_See">
+                    <label>PLUGINS_CORE_PROFILE_RIGHTS_SEE_LABEL</label>
+                    <description>PLUGINS_CORE_PROFILE_RIGHTS_SEE_DESCRIPTION</description>
+                    <category>PLUGINS_CORE_USERANDRIGHTS_CATEGORY</category>
+                </right>
+                <right id="Runtime_Rights_Rights_Profile_Handle">
+                    <label>PLUGINS_CORE_PROFILE_RIGHTS_HANDLE_LABEL</label>
+                    <description>PLUGINS_CORE_PROFILE_RIGHTS_HANDLE_DESCRIPTION</description>
+                    <category>PLUGINS_CORE_USERANDRIGHTS_CATEGORY</category>
+                </right>
+                -->
+                <right id="Runtime_Rights_Rights_Handle">
+                    <label>PLUGINS_CORE_RIGHTS_HANDLE_LABEL</label>
+                    <description>PLUGINS_CORE_RIGHTS_HANDLE_DESCRIPTION</description>
+                    <category>PLUGINS_CORE_USERANDRIGHTS_CATEGORY</category>
+                </right>
+            </extension>
+        </extensions>
+    </feature>
+    
 	<feature name="runtime.rights.context.impl.default">
         <!-- 
             This feature declares the default rights context manager

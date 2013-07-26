@@ -60,28 +60,28 @@ public class ProfilesByContextGenerator extends ServiceableGenerator
         String id = request.getParameter("profile");
 
         contentHandler.startDocument();
+        XMLUtils.startElement(contentHandler, "profiles");
 
-        if (StringUtils.isEmpty(context))
+        if (StringUtils.isNotEmpty(context))
         {
-            XMLUtils.createElement(contentHandler, "profiles");
-        }
-        else if (StringUtils.isNotEmpty(id))
-        {
-            Profile profile = _rightsManager.getProfile(id);
-            _saxProfile(profile, context);
-        }
-        else
-        {
-            XMLUtils.startElement(contentHandler, "profiles");
-            
-            for (Profile profile : ((ProfileBasedRightsManager) _rightsManager).getProfiles())
+            if (StringUtils.isNotEmpty(id))
             {
-                _saxProfile(profile, context);
+                Profile profile = _rightsManager.getProfile(id);
+                
+                XMLUtils.startElement(contentHandler, "profiles");
+                _saxProfile(profile, context, false);
+                XMLUtils.endElement(contentHandler, "profiles");
             }
-            
-            XMLUtils.endElement(contentHandler, "profiles");
+            else
+            {
+                for (Profile profile : ((ProfileBasedRightsManager) _rightsManager).getProfiles())
+                {
+                    _saxProfile(profile, context);
+                }
+            }
         }
-
+        
+        XMLUtils.endElement(contentHandler, "profiles");
        
         contentHandler.endDocument();
     }
@@ -94,21 +94,41 @@ public class ProfilesByContextGenerator extends ServiceableGenerator
      */
     protected void _saxProfile(Profile profile, String context) throws SAXException
     {
-        AttributesImpl attr = new AttributesImpl();
-        attr.addAttribute("", "id", "id", "CDATA", "profile-" + profile.getId());
-        attr.addAttribute("", "label", "label", "CDATA", profile.getName());
-        XMLUtils.startElement(contentHandler, "profile", attr);
+        _saxProfile(profile, context, true);
+    }
+    
+    /**
+     * SAX Profile
+     * @param profile the profile to SAX
+     * @param context the context of right
+     * @param includeProfileTag false to not include the root profile tag
+     * @throws SAXException
+     */
+    protected void _saxProfile(Profile profile, String context, boolean includeProfileTag) throws SAXException
+    {
+        if (includeProfileTag)
+        {
+            AttributesImpl attr = new AttributesImpl();
+            attr.addAttribute("", "id", "id", "CDATA", "profile-" + profile.getId());
+            attr.addAttribute("", "label", "label", "CDATA", profile.getName());
+            XMLUtils.startElement(contentHandler, "profile", attr);
+        }
 
         Set<User> users = _rightsManager.getUsersByContextAndProfile(profile.getId(), context);
+        
+        // FIXME tests!!
+        XMLUtils.startElement(contentHandler, "users");
         for (User user : users)
         {
             _saxUser(user, context, false);
         }
         
         // SAX inheritance
-        _saxUsersByInheritance (profile.getId(), context);
+        _saxUsersByInheritance(profile.getId(), context);
+        XMLUtils.endElement(contentHandler, "users");
 
         Set<Group> groups = _rightsManager.getGroupsByContextAndProfile(profile.getId(), context);
+        XMLUtils.startElement(contentHandler, "groups");
         for (Group group : groups)
         {
             _saxGroup(group, context, false);
@@ -116,11 +136,15 @@ public class ProfilesByContextGenerator extends ServiceableGenerator
         
         // SAX inheritance
         _saxGroupsByInheritance (profile.getId(), context);
+        XMLUtils.endElement(contentHandler, "groups");
 
-        XMLUtils.endElement(contentHandler, "profile");
+        if (includeProfileTag)
+        {
+            XMLUtils.endElement(contentHandler, "profile");
+        }
     }
     
-    private void _saxUsersByInheritance (String profileId, String context) throws SAXException
+    private void _saxUsersByInheritance(String profileId, String context) throws SAXException
     {
         String transiantContext = context;
         

@@ -38,6 +38,13 @@
             <map:generator name="users-search" src="org.ametys.runtime.plugins.core.user.ui.generators.SearchGenerator" logger="org.ametys.runtime.plugins.core.user.sitemap.generator.search" label="content"/>
             <map:generator name="groups-search" src="org.ametys.runtime.plugins.core.group.ui.generators.SearchGenerator" logger="org.ametys.runtime.plugins.core.group.sitemap.generator.search" label="content"/>
             
+			<map:generator name="rights-profiles-context" src="org.ametys.runtime.plugins.core.right.profile.generators.ProfilesByContextGenerator" logger="org.ametys.runtime.plugins.core.right.profile.sitemap.generator" label="content"/>
+			<map:generator name="rights-profile-rights" src="org.ametys.runtime.plugins.core.right.profile.generators.ProfileRightsGenerator" logger="org.ametys.runtime.plugins.core.right.profile.sitemap.generator" label="content"/>
+            <map:generator name="rights-profiles-list" src="org.ametys.runtime.plugins.core.right.ui.generators.ProfilesListGenerator" logger="org.ametys.runtime.plugins.core.right.sitemap.generator.profiles" label="content"/>
+           	<map:generator name="rights-rights-list" src="org.ametys.runtime.plugins.core.right.ui.generators.RightsListGenerator" logger="org.ametys.runtime.plugins.core.right.sitemap.generator.profiles" label="content"/>
+            <map:generator name="rights-profile-assignment" src="org.ametys.runtime.plugins.core.right.ui.generators.ProfileAssignationGenerator" logger="org.ametys.runtime.plugins.core.right.sitemap.generator.assignment" label="content"/>
+            <map:generator name="rights-context-application" src="org.ametys.runtime.plugins.core.right.ui.generators.ApplicationContextGenerator" logger="org.ametys.runtime.plugins.core.right.sitemap.generator.context.application" label="content"/>
+            
         	<map:generator name="dispatcher" src="org.ametys.runtime.plugins.core.dispatcher.DispatchGenerator"/>
         	<map:generator name="i18n" src="org.ametys.runtime.util.I18nGenerator" logger="org.ametys.runtime.util.I18nGenerator"/>
         </map:generators>
@@ -72,12 +79,18 @@
 			<map:action name="administrator-rights-profile-modify" src="org.ametys.runtime.plugins.core.right.profile.actions.ModifyProfileAction" logger="org.ametys.runtime.plugins.core.right.profile.sitemap.action.view"/>
 			<map:action name="administrator-rights-profile-delete" src="org.ametys.runtime.plugins.core.right.profile.actions.DeleteProfileAction" logger="org.ametys.runtime.plugins.core.right.profile.sitemap.action.view"/>
             
+            <map:action name="rights-assign" src="org.ametys.runtime.plugins.core.right.ui.actions.AssignAction" logger="org.ametys.runtime.plugins.core.right.sitemap.action.assign"/>
+            <map:action name="rights-remove" src="org.ametys.runtime.plugins.core.right.ui.actions.RemoveAction" logger="org.ametys.runtime.plugins.core.right.sitemap.action.remove"/>
+            
             <map:action name="upload-store" src="org.ametys.runtime.plugins.core.upload.actions.UploadAction" logger="org.ametys.runtime.plugins.core.upload.actions.UploadAction"/>
             
             <map:action name="get-parent-context-attr" src="org.ametys.runtime.util.GetParentContextAttributeAction" logger="org.ametys.runtime.util.GetParentContextAttributeAction"/>
             
              <map:action name="has-right" src="org.ametys.runtime.plugins.core.right.actions.HasRightAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.hasRight">
                 <has-right>true</has-right>
+            </map:action>
+             <map:action name="has-not-right" src="org.ametys.runtime.plugins.core.right.actions.HasRightAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.hasRight">
+                <has-right>false</has-right>
             </map:action>
 		</map:actions>
 		
@@ -632,6 +645,58 @@
                     <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/> <!-- LPR -->            
                 </map:transform>
                 <map:serialize type="xml"/>
+            </map:match>
+            
+			<!-- +
+                 | Rights
+                 + -->
+            <map:match pattern="rights/profiles.xml">
+                <map:generate type="rights-profiles-list"/>
+                <map:serialize type="xml"/>
+            </map:match>
+            
+            <map:match pattern="rights/profiles-context.xml">
+				<map:generate type="rights-profiles-context"/>
+				<map:serialize type="xml"/>
+			</map:match>
+			
+			<map:match pattern="rights/profile.xml">
+				<map:generate type="rights-profile-rights"/>
+				<map:transform src="pages/profiles/rights.xsl"/>
+				<map:transform type="i18n">
+					<map:parameter name="locale" value="{locale:locale}"/>
+					<map:parameter name="default-catalogue-id" value="plugin.core"/>
+				</map:transform>
+				<map:serialize type="xml"/>
+			</map:match>
+            
+            <map:match pattern="rights/rights.xml">
+                <map:generate type="rights-rights-list"/>
+                <map:transform type="xslt" src="pages/rights/profiles/rights.xsl"/>
+                <map:transform type="i18n">
+					<map:parameter name="locale" value="{locale:locale}"/>
+					<map:parameter name="default-catalogue-id" value="plugin.core"/>
+				</map:transform>
+                <map:serialize type="xml"/>
+            </map:match>
+
+            <map:match pattern="rights/profile-assignment.xml">
+                <map:generate type="rights-profile-assignment"/>
+                <map:serialize type="xml"/>
+            </map:match>
+            
+            <map:match pattern="rights/assign">
+                <map:act type="rights-assign">
+                    <map:generate type="action-result"/>
+                    <map:serialize type="xml"/>
+                </map:act>
+            </map:match>
+
+            <map:match pattern="rights/remove">
+                <map:act type="rights-remove">
+                    <map:generate type="action-result"/>
+                    <map:serialize type="xml"/>
+                </map:act>
             </map:match>
             
 			<!-- +
