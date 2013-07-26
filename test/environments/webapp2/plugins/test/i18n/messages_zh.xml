@@ -16,4 +16,7 @@
    -->
 <catalogue xml:lang="zh">
     <message key="TEST">chinese</message>
+    
+    <message key="LABEL">label</message>
+    <message key="DESCRIPTION">description</message>
 </catalogue>

@@ -19,4 +19,7 @@
     <message key="TEST_KEY">english text</message>
     <message key="TEST_KEY_PARAMS">english text {0}</message>
     <message key="TEST_KEY_I18N_PARAMS">{language} text</message>
+    
+    <message key="LABEL">label</message>
+    <message key="DESCRIPTION">description</message>
 </catalogue>

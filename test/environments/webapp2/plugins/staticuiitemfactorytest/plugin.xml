@@ -92,6 +92,30 @@
 					<file plugin="core">js/script.js</file>
 				</scripts> 
             </extension>
+            
+            <extension point="DesktopManagerTest" 
+                       id="staticuiitemfactorytest.5"
+                       class="org.ametys.runtime.ui.impl.StaticClientSideElement"
+                       logger="tests.staticuiitemfactory">
+                <action class="OtherJavascriptClass">
+					<param name="label" i18n="true">plugin.test:LABEL</param>
+					<param name="default-description" i18n="true">plugin.test:DESCRIPTION</param>
+					<param name="icon-small" file="true" plugin="core">img/icon_small.gif</param>
+					<param name="icon-medium" file="true" plugin="core">img/icon_medium.gif</param>
+					<param name="icon-large" file="true" plugin="core">img/icon_large.gif</param>
+					<param name="menu-item">
+						<param name="id">menu-item-1</param>
+						<param name="label" i18n="true">plugin.test:LABEL</param>
+					</param>
+					<param name="menu-item">
+						<param name="id">menu-item-2</param>
+						<param name="label" i18n="true">plugin.test:LABEL</param>
+					</param>
+				</action>
+				<scripts>
+					<file plugin="core">js/script.js</file>
+				</scripts> 
+            </extension>
         </extensions>
     
     </feature>

@@ -40,6 +40,8 @@ import org.ametys.runtime.test.users.ldap.CredentialAwareLdapUsersTestCase;
 import org.ametys.runtime.test.users.ldap.LdapUsersTestCase;
 import org.ametys.runtime.test.users.others.StaticUsersTestCase;
 import org.ametys.runtime.test.util.DateConversionTestCase;
+import org.ametys.runtime.test.util.I18nTestCase;
+import org.ametys.runtime.test.util.JSONTestCase;
 
 /**
  * Test suite grouping all Runtime tests
@@ -94,6 +96,9 @@ public final class AllTests
         suite.addTestSuite(DesktopManagerTestCase.class);
 
         suite.addTestSuite(DateConversionTestCase.class);
+        suite.addTestSuite(JSONTestCase.class);
+        suite.addTestSuite(I18nTestCase.class);
+        
         //$JUnit-END$
         return suite;
     }
