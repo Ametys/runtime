@@ -85,6 +85,8 @@ public class JSONTestCase extends AbstractRuntimeTestCase
      */
     public void testMapToJson ()
     {
+        Map<String, Object> environmentInformation = _cocoon._enterEnvironment();
+        
         ClientSideElement itemFactory3 = _desktopManager.getExtension("staticuiitemfactorytest.5");
         Map<String, Object> parameters = itemFactory3.getParameters(null);
         
@@ -92,5 +94,7 @@ public class JSONTestCase extends AbstractRuntimeTestCase
         String json = _jsonUtils.convertMapToJson(parameters);
         assertNotNull(json);
         assertEquals(json, expectedJson);
+        
+        _cocoon._leaveEnvironment(environmentInformation);
     }
 }

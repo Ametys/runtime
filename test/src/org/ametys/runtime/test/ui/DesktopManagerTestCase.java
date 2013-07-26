@@ -15,6 +15,8 @@
  */
 package org.ametys.runtime.test.ui;
 
+import java.util.Map;
+
 import org.apache.cocoon.transformation.I18nTransformer;
 import org.apache.cocoon.xml.XMLUtils;
 import org.apache.excalibur.xml.dom.DOMHandler;
@@ -59,6 +61,8 @@ public class DesktopManagerTestCase extends AbstractRuntimeTestCase
      */
     public void testSax() throws Exception
     {
+        Map<String, Object> environmentInformation = _cocoon._enterEnvironment();
+        
         DOMHandlerFactory dom = (DOMHandlerFactory) Init.getPluginServiceManager().lookup(DOMHandlerFactory.ROLE);
         DOMHandler handler;
         XPathProcessor xpath = (XPathProcessor) Init.getPluginServiceManager().lookup(XPathProcessor.ROLE);
@@ -184,5 +188,7 @@ public class DesktopManagerTestCase extends AbstractRuntimeTestCase
         assertEquals(3.0, xpath.evaluateAsNumber(itemNode2, "count(action/param[count(*) = 0])"));
         assertEquals(1.0, xpath.evaluateAsNumber(itemNode2, "count(scripts/file)"));
         assertEquals("/plugins/core/resources/js/script.js", xpath.evaluateAsString(itemNode2, "scripts/file"));
+        
+        _cocoon._leaveEnvironment(environmentInformation);
     }
 }
