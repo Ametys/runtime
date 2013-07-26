@@ -21,5 +21,5 @@ package org.ametys.runtime.ui.impl;
 @Deprecated
 public class StaticContextualClientSideElement extends StaticProcessableClientSideElement
 {
-
+    // Empty class
 }
