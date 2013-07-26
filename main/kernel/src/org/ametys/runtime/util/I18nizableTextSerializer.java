@@ -18,6 +18,8 @@ package org.ametys.runtime.util;
 import java.io.IOException;
 
 import org.apache.avalon.framework.component.Component;
+import org.apache.avalon.framework.logger.LogEnabled;
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
@@ -30,12 +32,13 @@ import org.codehaus.jackson.map.ser.std.SerializerBase;
  * Serializer for {@link I18nizableText} objects.
  * Returns the translated message for JSON value.
  */
-public class I18nizableTextSerializer extends SerializerBase<I18nizableText> implements Component, Serviceable
+public class I18nizableTextSerializer extends SerializerBase<I18nizableText> implements Component, Serviceable, LogEnabled
 {
     /** The Avalon Role */
     public static final String ROLE = I18nizableTextSerializer.class.getName();
     
     private I18nUtils _i18nUtils;
+    private Logger _logger;
     
     /**
      * Constructor
@@ -52,11 +55,30 @@ public class I18nizableTextSerializer extends SerializerBase<I18nizableText> imp
     }
     
     @Override
+    public void enableLogging(Logger logger)
+    {
+        _logger = logger;
+    }
+    
+    @Override
     public void serialize(I18nizableText value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonGenerationException
     {
         if (value.isI18n())
         {
-            jgen.writeString(_i18nUtils.translate(value));
+            String msg = _i18nUtils.translate(value);
+            if (msg == null)
+            {
+                if (_logger.isWarnEnabled())
+                {
+                    _logger.warn("Translation not found for key " + value.getKey() + " in catalogue " + value.getCatalogue());
+                }
+                
+                jgen.writeString(value.getCatalogue() + ':' + value.getKey());
+            }
+            else
+            {
+                jgen.writeString(msg);
+            }
         }
         else
         {
