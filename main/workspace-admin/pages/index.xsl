@@ -16,6 +16,7 @@
    -->
 <xsl:stylesheet version="1.0" 
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+                xmlns:escaper="org.apache.commons.lang.StringEscapeUtils"
                 xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
 	
 	<xsl:import href="kernel://pages/home/home.xsl"/>
@@ -126,27 +127,28 @@
 						items.push(category);
 						
 						<xsl:for-each select="DesktopItem">
+							<xsl:variable name="btnId" select="generate-id()"/>
+							
+							var jsonStr_<xsl:value-of select="$btnId"/> = "<xsl:value-of select="escaper:escapeJavaScript(action/parameters)"/>";
+							var btnConfig_<xsl:value-of select="$btnId"/> = Ext.JSON.decode(jsonStr_<xsl:value-of select="$btnId"/>, true);
+							   
 							var item = new Ext.button.Button({
 								border: false,
 								cls: 'desktop-item',
 								
-								icon: "<xsl:value-of select="$contextPath"/><xsl:value-of select="action/param[@name='icon-large']"/>",
+								icon: Ametys.CONTEXT_PATH + btnConfig_<xsl:value-of select="$btnId"/>["icon-large"],
 								iconAlign: "top",
 								scale: 'large',
 								
-								text: "<xsl:copy-of select="action/param[@name='label']/node()"/>",
+								text: btnConfig_<xsl:value-of select="$btnId"/>["label"],
 								tooltip: {
-									title: "<xsl:copy-of select="action/param[@name='label']/node()"/>",
-									text: "<xsl:copy-of select="action/param[@name='default-description']/node()"/>"
+									title: btnConfig_<xsl:value-of select="$btnId"/>["label"],
+									text: btnConfig_<xsl:value-of select="$btnId"/>["default-description"]
 								},
-
+								
 								<xsl:if test="not(@disabled)">
 									handler: function () { 
-										<xsl:value-of select="action/@class"/>("<xsl:value-of select="@plugin"/>", {
-											<xsl:for-each select="action/param">
-		                                		<xsl:text>"</xsl:text><xsl:value-of select="@name"/>" : "<xsl:copy-of select="./node()"/><xsl:text>"</xsl:text>
-		                                    	<xsl:if test="position() != last()">, </xsl:if>
-	 	                                    </xsl:for-each>});
+										<xsl:value-of select="action/@class"/>("<xsl:value-of select="@plugin"/>", btnConfig_<xsl:value-of select="$btnId"/>);
 	 	                            },
 								</xsl:if>
 								
