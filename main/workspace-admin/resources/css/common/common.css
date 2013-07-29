@@ -55,11 +55,13 @@
 }
 
 
-.x-form-item-label
+.x-form-item-label,
+.x-form-cb-label
 {
 	color: #404040 !important;
 }
 .x-form-item-label,
+.x-form-cb-label,
 .x-form-field, 
 .x-form-display-field,
 .x-btn button

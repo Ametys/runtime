@@ -14,7 +14,8 @@
  *  limitations under the License.
  */
  
-.ametys-dialogbox .x-window-body-default {
+.ametys-dialogbox .x-window-body-default,
+.ametys-dialogbox .x-window-body-default .x-panel-body {
 	background-color: #fff;
 	font-family: arial, sans-serif;
 	font-size: 11px;
