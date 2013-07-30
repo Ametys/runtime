@@ -47,6 +47,8 @@
     <message key="KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_2">L'application s'est retrouvée dans un état instable et a été arretée</message>
     <message key="KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_3">Cliquez ici pour vous reconnecter à l'application.</message>
     
+    <message key="KERNEL_SERVERCOMMPROXY_ERROR_MSG">Erreur de communication avec le serveur.</message>
+    
     <!-- +
     	 | TimeoutDialog.js
     	 + -->

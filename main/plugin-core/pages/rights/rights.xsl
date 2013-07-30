@@ -18,9 +18,9 @@
                 xmlns:i18n="http://apache.org/cocoon/i18n/2.1" 
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
       
-	<xsl:template match="profile">
-    	<profile>
-    		<xsl:for-each select="right[not(category/@id = preceding-sibling::right/category/@id)]">
+	<xsl:template match="rights|profile">
+        <xsl:copy>
+            <xsl:for-each select="right[not(category/@id = preceding-sibling::right/category/@id)]">
 				<xsl:variable name="category" select="category/@id"/>
 				<xsl:variable name="categoryKey" select="category"/>
 
@@ -34,9 +34,9 @@
 							<xsl:copy-of select="$categoryKey"/>
 						</right>
 					</xsl:for-each>
-				</category>		
+				</category>
 			</xsl:for-each>
-    	</profile>
-    </xsl:template>          
+        </xsl:copy>
+    </xsl:template>
 
 </xsl:stylesheet>

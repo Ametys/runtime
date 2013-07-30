@@ -85,6 +85,7 @@
        		<script>/plugins/extjs4/resources/ux/js/form/ItemSelector.js</script>
 
 			<script>/kernel/resources/js/Ametys.i18n.js</script>
+			<script>/kernel/resources/js/Ext.i18n.js</script>
 	        <script>/kernel/resources/js/Ametys/window/DialogBox.js</script>
 	        <script>/kernel/resources/js/Ametys/form/AbstractFieldWrapper.js</script>
 	        <script>/kernel/resources/js/Ametys/form/field/DateTime.js</script>

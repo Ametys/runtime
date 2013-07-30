@@ -650,6 +650,16 @@
 			<!-- +
                  | Rights
                  + -->
+            <!-- 
+                TODO : Review right protection
+                Waiting for rights refactoring probably
+             -->
+            <map:match pattern="rights/**">
+                <map:act type="has-not-right" src="Runtime_Rights_Rights_Handle">
+                    <map:parameter name="context" value="{request-param:context}"/>
+                </map:act>
+            </map:match>
+            
             <map:match pattern="rights/profiles.xml">
                 <map:generate type="rights-profiles-list"/>
                 <map:serialize type="xml"/>
@@ -662,7 +672,7 @@
 			
 			<map:match pattern="rights/profile.xml">
 				<map:generate type="rights-profile-rights"/>
-				<map:transform src="pages/profiles/rights.xsl"/>
+				<map:transform src="pages/rights/rights.xsl"/>
 				<map:transform type="i18n">
 					<map:parameter name="locale" value="{locale:locale}"/>
 					<map:parameter name="default-catalogue-id" value="plugin.core"/>
@@ -672,7 +682,7 @@
             
             <map:match pattern="rights/rights.xml">
                 <map:generate type="rights-rights-list"/>
-                <map:transform type="xslt" src="pages/rights/profiles/rights.xsl"/>
+                <map:transform src="pages/rights/rights.xsl"/>
                 <map:transform type="i18n">
 					<map:parameter name="locale" value="{locale:locale}"/>
 					<map:parameter name="default-catalogue-id" value="plugin.core"/>

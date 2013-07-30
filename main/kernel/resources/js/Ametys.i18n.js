@@ -423,256 +423,6 @@ Ext.BLANK_IMAGE_URL = Ametys.getPluginResourcesPrefix('extjs4') + "/themes/image
 Ext.SSL_SECURE_URL = Ext.BLANK_IMAGE_URL;
 
 /*
- * Load localization for extjs
- */
-(function ()
-{
-    // This is to change default value
-    Ext.define("Ext.locale.fr.LoadMask", {
-        override: "Ext.LoadMask",
-        msg: "<i18n:text i18n:key='KERNEL_LOADMASK_DEFAULT_MESSAGE' i18n:catalogue='kernel'/>"
-    });
-
-    // Load localized extjs
-	var link = document.createElement("script");
-		link.src = Ametys.getPluginResourcesPrefix('extjs4') + "/js/locale/ext-lang-" + Ametys.LANGUAGE_CODE + ".js";
-		link.charset = "UTF-8";
-		link.type = "text/javascript";
-	document.getElementsByTagName("head")[0].appendChild(link);
-	
-	// Override SortType to add support for accentued characters
-	Ext.define("Ext.locale.data.SortTypes", {
-        override: "Ext.data.SortTypes",
-        
-        /**
-         * @member Ext.data.SortTypes
-         * @method asNonAccentedUCString 
-         * @since Ametys Runtime 3.7
-         * @ametys
-         * Case insensitive string (which takes accents into account)
-         * @param {Object} s The value being converted
-         * @return {String} The comparison value
-         */
-    	asNonAccentedUCString: function (s)
-    	{
-    		s = s.toLowerCase();
-    		
-    		s = s.replace(new RegExp(/[àáâãäå]/g),"a");
-    		s = s.replace(new RegExp(/æ/g),"ae");
-    		s = s.replace(new RegExp(/ç/g),"c");
-    		s = s.replace(new RegExp(/[èéêë]/g),"e");
-    		s = s.replace(new RegExp(/[ìíîï]/g),"i");
-    		s = s.replace(new RegExp(/ñ/g),"n");
-    		s = s.replace(new RegExp(/[òóôõö]/g),"o");
-    		s = s.replace(new RegExp(/œ/g),"oe");
-    		s = s.replace(new RegExp(/[ùúûü]/g),"u");
-    		s = s.replace(new RegExp(/[ýÿ]/g),"y");
-
-    		return Ext.data.SortTypes.asUCString(s);
-    	}
-    });
-})();
-
-/*
- * Supports for ametysDescription on fields and fields containers
- */
-/**
- * @member Ext.form.field.Base
- * @ametys
- * @since Ametys Runtime 3.7
- * @cfg {String} ametysDescription A help image is added with the given description as a tooltip
- */
-/**
- * @member Ext.form.FieldContainer
- * @ametys
- * @since Ametys Runtime 3.7
- * @cfg {String} ametysDescription A help image is added with the given description as a tooltip
- */
-(function ()
-{
-	function getLabelableRenderData () 
-	{
-		var data = this.callParent(arguments);
-		data.ametysDescription = this.ametysDescription;
-		
-		this.getInsertionRenderData(data, this.labelableInsertions);
-		
-		return data;
-	}
-	function onRender ()
-	{
-		this.callParent(arguments); 
-		var td = this.el.query(".ametys-description")[0];
-		if (td != null)
-		{
-			td.parentNode.appendChild(td); // move it as last
-		}
-	}
-	
-	var afterSubTpl = [ '<tpl if="ametysDescription">',
-	                    	'</td>',
-	                    	'<td class="ametys-description" data-qtip="{ametysDescription}">',
-	                    	'</tpl>'
-	];
-
-	Ext.define("Ametys.form.Labelable", { override: "Ext.form.field.Base", afterSubTpl: afterSubTpl, getLabelableRenderData: getLabelableRenderData, onRender: onRender });
-	Ext.define("Ametys.form.FieldContainer", { override: "Ext.form.FieldContainer", afterSubTpl: afterSubTpl, getLabelableRenderData: getLabelableRenderData, onRender: onRender });
-})();
-
-/*
- * Support for optionnal label on files to indicate max allowed size 
- */
-(function() 
-{
-    Ext.define("Ametys.form.field.File", {
-        override: "Ext.form.field.File",
-        
-        getTriggerMarkup: function() {
-        	var result = this.callParent(arguments);
-        	
-        	/**
-        	 * @member Ext.form.field.File
-        	 * @ametys
-        	 * @since Ametys Runtime 3.7
-        	 * @cfg {Boolean} ametysShowMaxUploadSizeHint false to hide to max size hint under the field. true by default
-        	 */
-        	if (Ametys.MAX_UPLOAD_SIZE != undefined && Ametys.MAX_UPLOAD_SIZE != '' && this.ametysShowMaxUploadSizeHint !== false)
-        	{
-        		result += '</tr><tr id="' + this.id + '-uploadsize" class="ametys-file-hint"><td colspan="2">'
-        		    + '(<i18n:text i18n:key="KERNEL_UPLOAD_HINT"/>'
-        		    + Ext.util.Format.fileSize(Ametys.MAX_UPLOAD_SIZE)
-        			+ ')</td>';
-        	}
-        	
-        	return result;
-        }
-    });
-})();
-
-/*
- * Support for background animation 
- */
-(function () 
-{
-    /**
-     * @member Ext.dom.Element
-     * @method animate 
-     * @since Ametys Runtime 3.7
-     * @ametys
-     * Ametys do additionnaly handle `background-position` to animate a background-image and `background-position-step` to step this animation.
-     * Both args are array of numbers with unit.
-     * To right align, use '100%'.
-     * 
-     * The following example will animate the background image of the element to the coordinates 0,0. 
-     * The animation will be "normal" on the x axis but will only use 256 multiples on the y axis.
-     * 
-     *     el.animate({ 
-     * 			to: { 
-     * 				'background-position': ['0px', '0px'], 
-     * 				'background-position-step': ['1px', '256px'] 
-     * 			}, 
-     * 			duration: 500, 
-     * 			easing: 'linear' 
-     *     });
-     */
-	Ext.define('Ametys.fx.target.Element', {
-		override: 'Ext.fx.target.Element',
-		
-	    getElVal: function(element, attr, val) 
-	    {
-	        if (val == undefined && attr === 'background-position') 
-	        {
-	        	var bgPos = element.getStyle("background-position");
-	    		/^([^ ]*) ([^ ]*)$/.exec(bgPos);
-	    		val = [ RegExp.$1, RegExp.$2 ];
-	    		
-	    		return val;
-	        }
-	        return this.callParent(arguments);
-	    },
-	    
-	    setElVal: function(element, attr, value)
-	    {
-	        if (attr === 'background-position') 
-	        {
-	        	var anim = element.getActiveAnimation();
-	        	var to = anim.to['background-position'];
-	        	var by = anim.to['background-position-step']
-	        	if (by == null)
-	        	{
-	        		by = [1, 1];
-	        	}
-
-	        	var roundedVal = [
-	        	 	Math.round((parseInt(value[0]) - parseInt(to[0])) / parseInt(by[0])) * parseInt(by[0]) + parseInt(to[0]),
-	        	 	Math.round((parseInt(value[1]) - parseInt(to[1])) / parseInt(by[1])) * parseInt(by[1]) + parseInt(to[1])
-	        	];
-	        	var units = [
-	        	    value[0].replace(/[-.0-9]*/, ''),
-	        	    value[1].replace(/[-.0-9]*/, ''),
-	        	];
-
-	        	element.setStyle("background-position", roundedVal[0] + units[0] + ' ' + roundedVal[1] + units[1]);
-	        } 
-	        else 
-	        {
-	        	this.callParent(arguments);
-	        }
-	    }
-	});
-})();
-
-/*
- * Add a truncate method on TextMetrics 
- */
-(function () 
-{
-	Ext.define('Ametys.util.TextMetrics', {
-		override: 'Ext.util.TextMetrics',
-		
-    	/**
-    	 * @member Ext.util.TextMetrics
-    	 * @ametys
-    	 * @since Ametys Runtime 3.7
-    	 * Make an ellipsis on the provided text if necessary.
-    	 * @param {String} text The text to test
-    	 * @param {Number} maxWidth The max authorized with for this text
-    	 * @param {String} ellipsis The ellipsis. Default to '...'
-    	 * @returns {String} The text (potentially ellipsed) that fills in maxWidth. Returns an empty text, if the initial text is fully truncated.
-    	 */
-		ellipseText: function(text, maxWidth, ellipsis) 
-		{
-			if (text == null || text == '')
-			{
-				return '';
-			}
-			
-			ellipsis = ellipsis || '...';
-			
-			if (this.getWidth(text) > maxWidth && maxWidth > 0)
-			{
-				var truncatedText = text;
-				while (this.getWidth(truncatedText + ellipsis) > maxWidth)
-				{
-					truncatedText = truncatedText.substring (0, truncatedText.length -1);
-
-					if (truncatedText == '')
-					{
-						return '';
-					}
-				}
-				
-				return truncatedText + ellipsis;
-			}
-			else
-			{
-				return text;
-			}
-		}
-	});
-})();
-
-/*
  * Changing default ajax method to POST
  */
 Ext.Ajax.setOptions({method: 'POST', timeout: 0})
@@ -681,3 +431,87 @@ Ext.Ajax.setOptions({method: 'POST', timeout: 0})
  * Remove ametys_opts object
  */
 window.ametys_opts = undefined;
+
+/*
+ * Create a dedicated Ametys server proxy that sends a request through the Ametys ServerComm
+ */
+(function () 
+{
+	/**
+	 * @since Ametys Runtime 3.7
+	 * @ametys
+	 * Defines a dedicated proxy that use the {@link Ametys.data.ServerComm} to communicate with the server.
+	 * 
+	 * Example of configuration in a store:
+	 * 
+	 * 		Ext.create('Ext.data.Store', {
+	 * 			model: 'my.own.Model',
+	 * 			proxy: {
+	 * 				type: 'ametys',
+	 * 				plugin: 'projects',
+	 * 				url: 'administrator/projects/list.xml',
+	 * 				reader: {
+	 * 					type: 'xml',
+	 * 					record: 'element',
+	 * 					root: 'root'
+	 * 				}
+	 * 			}
+	 * 		});
+	 */
+	Ext.define('Ametys.data.ServerCommProxy', {
+		alias: 'proxy.ametys',
+		extend: 'Ext.data.proxy.Server',
+		
+		plugin: null,
+		workspace: null,
+		errorMessage: "<i18n:text i18n:key="KERNEL_SERVERCOMMPROXY_ERROR_MSG"/>",
+		
+		reader2ResponseTypes: {
+			xml: 'xml',
+			json: 'text'
+		},
+		
+		doRequest: function(operation, callback, scope)
+		{
+			var writer  = this.getWriter();
+			var request = this.buildRequest(operation);
+			
+			if (operation.allowWrite()) {
+				request = writer.write(request);
+			}
+			
+			Ametys.data.ServerComm.send({
+				priority: Ametys.data.ServerComm.PRIORITY_MAJOR,
+				plugin: this.plugin,
+				workspace: this.workspace,
+				url: request.url,
+				parameters: request.params,
+				responseType: this.getResponseType(),
+				callback: {
+					handler: this.createRequestCallback,
+					scope: this,
+					arguments: {
+						request: request,
+						operation: operation,
+						callback: callback,
+						scope: scope
+					}
+				}
+			});
+		},
+		
+		getResponseType: function()
+		{
+			return this.reader2ResponseTypes[this.getReader().type || 'xml'];
+		},
+		
+		createRequestCallback: function(response, arguments)
+		{
+			var failure = Ametys.data.ServerComm.handleBadResponse(this.errorMessage, 
+																	response, 
+																	Ext.getClassName(this) + '.createRequestCallback');
+			
+			this.processResponse(!failure, arguments.operation, arguments.request.options, response, arguments.callback, arguments.scope);
+		}
+	});
+})();

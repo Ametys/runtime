@@ -47,6 +47,8 @@
     <message key="KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_2">The application became unstable and has stopped</message>
     <message key="KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_3">Click here to reconnect to the application.</message>
     
+    <message key="KERNEL_SERVERCOMMPROXY_ERROR_MSG">Communication error with the server.</message>
+    
     <!-- +
     	 | TimeoutDialog.js
     	 + -->
