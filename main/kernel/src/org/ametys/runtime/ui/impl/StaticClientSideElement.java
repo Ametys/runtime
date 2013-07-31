@@ -103,7 +103,7 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
      */
     protected Map<String, Object> configureInitialParameters(Configuration configuration) throws ConfigurationException
     {
-        Map<String, Object> initialParameters = _configureParameters (configuration.getChild("action"));
+        Map<String, Object> initialParameters = _configureParameters (configuration.getChild("class"));
         
         if (getLogger().isDebugEnabled())
         {
@@ -123,9 +123,17 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
     {
         Map<String, Object> parameters = new LinkedHashMap<String, Object>();
      
-        for (Configuration paramConfiguration : configuration.getChildren("param"))
+        for (Configuration paramConfiguration : configuration.getChildren())
         {
-            String name = paramConfiguration.getAttribute("name");
+            String name;
+            if (paramConfiguration.getName().equals("param"))
+            {
+                name = paramConfiguration.getAttribute("name");
+            }
+            else
+            {
+                name = paramConfiguration.getName();
+            }
             String value = paramConfiguration.getValue("");
 
             if (getLogger().isDebugEnabled())
@@ -142,7 +150,7 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
                 String pluginName = paramConfiguration.getAttribute("plugin", getPluginName());
                 _addParameter (parameters, name, "/plugins/" + pluginName + "/resources/" + value);
             }
-            else if (paramConfiguration.getChild("param", false) != null)
+            else if (paramConfiguration.getChildren().length != 0)
             {
                 _addParameter (parameters, name, _configureParameters(paramConfiguration));
             }
@@ -189,7 +197,7 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
     {
         List<String> scriptsImports = _configureImports(configuration.getChild("scripts"));
         List<String> cssImports = _configureImports(configuration.getChild("css"));
-        String jsClassName = _configureClass(configuration.getChild("action"));
+        String jsClassName = _configureClass(configuration.getChild("class"));
         
         return new Script(jsClassName, scriptsImports, cssImports);
     }
@@ -202,7 +210,7 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
      */
     protected String _configureClass(Configuration configuration) throws ConfigurationException
     {
-        String jsClassName = configuration.getAttribute("class");
+        String jsClassName = configuration.getAttribute("name");
         if (getLogger().isDebugEnabled())
         {
             getLogger().debug("Js class configured is '" + jsClassName + "'");
@@ -377,5 +385,11 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
     public String getPluginName()
     {
         return _pluginName;
+    }
+    
+    @Override
+    public String getId()
+    {
+        return _id;
     }
 }

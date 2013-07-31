@@ -990,13 +990,13 @@
                 <!-- 
                     This interaction allows the administrator to change its password
                  -->
-				<action class="Ametys.plugins.core.administration.Password.act">
+				<class name="Ametys.plugins.core.administration.Password.act">
 					<param name="label" i18n="true">PLUGINS_CORE_ADMINISTRATOR_PASSWORD_LABEL</param>
 					<param name="default-description" i18n="true">PLUGINS_CORE_ADMINISTRATOR_PASSWORD_DESCRIPTION</param>
 					<param name="icon-small" file="true">img/administrator/password/icon_dock.png</param>
 					<param name="icon-medium" file="true">img/administrator/password/icon_medium.gif</param>
 					<param name="icon-large" file="true">img/administrator/password/icon_large.png</param>
-				</action>   
+				</class>   
 				<scripts>
 					<file>js/Ametys/plugins/core/administration/Password.i18n.js</file>
 				</scripts> 				   
@@ -1012,7 +1012,7 @@
                 <!-- 
                     This interaction allows the administrator to change the main configuration of the application
                  -->
-				<action class="redirect">
+				<class name="redirect">
 					<param name="Link">administrator/config/edit.html</param>
 
 					<param name="label" i18n="true">PLUGINS_CORE_ADMINISTRATOR_CONFIG_LABEL</param>
@@ -1020,7 +1020,7 @@
 					<param name="icon-small" file="true">img/administrator/config/icon_dock.png</param>
 					<param name="icon-medium" file="true">img/administrator/config/icon_medium.gif</param>
 					<param name="icon-large" file="true">img/administrator/config/icon_large.png</param>
-				</action>    				   
+				</class>    				   
                 <Url>administrator/config/edit\.html</Url>
             </extension>
             
@@ -1034,7 +1034,7 @@
                 <!-- 
                     This interaction allows the administrator to check the status of the JVM
                  -->
-				<action class="redirect">
+				<class name="redirect">
 					<param name="Link">administrator/jvmstatus/view.html</param>
 
 					<param name="label" i18n="true">PLUGINS_CORE_ADMINISTRATOR_STATUS_LABEL</param>
@@ -1042,7 +1042,7 @@
 					<param name="icon-small" file="true">img/administrator/jvmstatus/icon_dock.png</param>
 					<param name="icon-medium" file="true">img/administrator/jvmstatus/icon_medium.gif</param>
 					<param name="icon-large" file="true">img/administrator/jvmstatus/icon_large.png</param>
-				</action>    				   
+				</class>    				   
                 <Url>administrator/jvmstatus/view\.html</Url>
             </extension> 
 
@@ -1056,7 +1056,7 @@
                 <!-- 
                     This interaction allows the administrator to see plugins. Usefull for developpers.
                  -->
-                <action class="redirect">
+                <class name="redirect">
 					<param name="Link">administrator/plugins/view.html</param>
 
 					<param name="label" i18n="true">PLUGINS_CORE_ADMINISTRATOR_PLUGINS_LABEL</param>
@@ -1064,7 +1064,7 @@
 					<param name="icon-small" file="true">img/administrator/plugins/icon_dock.png</param>
 					<param name="icon-medium" file="true">img/administrator/plugins/icon_medium.gif</param>
 					<param name="icon-large" file="true">img/administrator/plugins/icon_large.png</param>
-				</action>    				   
+				</class>    				   
                 <Url>administrator/plugins/view\.html</Url>
             </extension> 
             
@@ -1078,7 +1078,7 @@
                 <!-- 
                     This interaction allows the administrator to see and manage logs
                  -->
-                <action class="redirect">
+                <class name="redirect">
 					<param name="Link">administrator/logs/view.html</param>
 
 					<param name="label" i18n="true">PLUGINS_CORE_ADMINISTRATOR_LOGS_LABEL</param>
@@ -1086,7 +1086,7 @@
 					<param name="icon-small" file="true">img/administrator/logs/icon_dock.png</param>
 					<param name="icon-medium" file="true">img/administrator/logs/icon_medium.gif</param>
 					<param name="icon-large" file="true">img/administrator/logs/icon_large.png</param>
-				</action>    				   
+				</class>    				   
                 <Url>administrator/logs/view\.html</Url>
             </extension>             
 
@@ -1100,7 +1100,7 @@
                 <!-- 
                     This interaction allows the administrator to handle the system (maintenance mode, welcome message...)
                  -->
-				<action class="redirect">
+				<class name="redirect">
 					<param name="Link">administrator/system/view.html</param>
 
 					<param name="label" i18n="true">PLUGINS_CORE_ADMINISTRATOR_SYSTEM_LABEL</param>
@@ -1108,7 +1108,7 @@
 					<param name="icon-small" file="true">img/administrator/system/icon_dock.png</param>
 					<param name="icon-medium" file="true">img/administrator/system/icon_medium.gif</param>
 					<param name="icon-large" file="true">img/administrator/system/icon_large.png</param>
-				</action>   
+				</class>   
                 <Url>administrator/system/view\.html</Url>
             </extension>   
             
@@ -1122,13 +1122,13 @@
                 <!-- 
                     This interaction allows the administrator to handle the system (maintenance mode, welcome message...)
                  -->
-				<action class="Ametys.plugins.core.administration.SuperUser.act">
+				<class name="Ametys.plugins.core.administration.SuperUser.act">
 					<param name="label" i18n="true">PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_LABEL</param>
 					<param name="default-description" i18n="true">PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_DESCRIPTION</param>
 					<param name="icon-small" file="true">img/administrator/superuser/icon_dock.png</param>
 					<param name="icon-medium" file="true">img/administrator/superuser/icon_medium.gif</param>
 					<param name="icon-large" file="true">img/administrator/superuser/icon_large.png</param>
-				</action>   
+				</class>   
                 <scripts>
                     <file>js/Ametys/plugins/core/administration/SuperUser.i18n.js</file>
                     <file>js/Ametys/plugins/core/SelectUser.i18n.js</file>
@@ -1168,7 +1168,7 @@
                 <!-- 
                     This interaction allow to handle users (read or read/write)
                  -->
-                <action class="redirect">
+                <class name="redirect">
 					<param name="Link">administrator/users/view.html</param>
 
 					<param name="label" i18n="true">PLUGINS_CORE_USERS_LABEL</param>
@@ -1176,7 +1176,7 @@
 					<param name="icon-small" file="true">img/administrator/users/icon_dock.png</param>
 					<param name="icon-medium" file="true">img/administrator/users/icon_medium.gif</param>
 					<param name="icon-large" file="true">img/administrator/users/icon_large.png</param>
-				</action>    				   
+				</class>    				   
                 <Url>users/view\.html</Url>
             </extension>      
         </extensions>
@@ -1473,7 +1473,7 @@
                 <!-- 
                     This interaction allow to handle groups (read or read/write)
                  -->
-                <action class="redirect">
+                <class name="redirect">
 					<param name="Link">administrator/groups/view.html</param>
 
 					<param name="label" i18n="true">PLUGINS_CORE_GROUPS_LABEL</param>
@@ -1481,7 +1481,7 @@
 					<param name="icon-small" file="true">img/administrator/groups/icon_dock.png</param>
 					<param name="icon-medium" file="true">img/administrator/groups/icon_medium.gif</param>
 					<param name="icon-large" file="true">img/administrator/groups/icon_large.png</param>
-				</action>    				   
+				</class>    				   
                 <Url>groups/view\.html</Url>
             </extension>      
         </extensions>
@@ -1784,7 +1784,7 @@
                 <!-- 
                     This extensions display the profile screen
                  -->
-                <action class="redirect">
+                <class name="redirect">
 					<param name="Link">administrator/profiles/view.html</param>
 
 					<param name="label" i18n="true">PLUGINS_CORE_RIGHTS_PROFILES_LABEL</param>
@@ -1792,7 +1792,7 @@
 					<param name="icon-small" file="true">img/administrator/profiles/icon_dock.png</param>
 					<param name="icon-medium" file="true">img/administrator/profiles/icon_medium.gif</param>
 					<param name="icon-large" file="true">img/administrator/profiles/icon_large.png</param>
-				</action>    				   
+				</class>    				   
                 <Url>administrator/profiles/view\.html</Url>
             </extension>    
         </extensions>
