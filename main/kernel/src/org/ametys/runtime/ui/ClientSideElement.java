@@ -24,6 +24,12 @@ import java.util.Map;
 public interface ClientSideElement
 {
     /**
+     * Get the id of the control
+     * @return The id. Can not be null.
+     */
+    public String getId ();
+    
+    /**
      * This method return the script that will be used on client side.
      * This class will be parametrized by initial and current parameters.
      * @param contextParameters Contextuals parameters transmitted by the environment.

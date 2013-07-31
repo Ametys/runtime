@@ -66,12 +66,7 @@ public class SAXClientSideElementHelper extends AbstractLogEnabled implements Co
             clientSideElementAttrs.addCDATAAttribute("plugin", element.getPluginName());
             XMLUtils.startElement(handler, tagName, clientSideElementAttrs);
             
-            // SAX Action (classname and initial parameters)
-            AttributesImpl attrs = new AttributesImpl();
-            attrs.addCDATAAttribute("class", script.getScriptClassname());
-            XMLUtils.startElement(handler, "action", attrs);
-            
-            // Parameters
+            // Initial parameters
             Map<String, Object> parameters = element.getParameters(contextualParameters);
             
             // Needed right
@@ -82,11 +77,10 @@ public class SAXClientSideElementHelper extends AbstractLogEnabled implements Co
                 parameters.put("right-id", rightsId);
             }
             
-            // SAX parameters
-            String jsonParams = _jsonUtils.convertMapToJson(parameters);
-            XMLUtils.createElement(handler, "parameters", jsonParams);
-            
-            XMLUtils.endElement(handler, "action");
+            // SAX Action (classname and initial parameters)
+            AttributesImpl attrs = new AttributesImpl();
+            attrs.addCDATAAttribute("class", script.getScriptClassname());
+            XMLUtils.createElement(handler, "action", attrs, _jsonUtils.convertMapToJson(parameters));
             
             // SAX Scripts
             XMLUtils.startElement(handler, "scripts");
