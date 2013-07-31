@@ -152,7 +152,7 @@ Ext.define(
 		 * @return {Object} The application parameters.
 		 */
 		getAppParameters: function() {
-			return this.appParameters;
+			return Ext.clone(this.appParameters);
 		},
 		
 		/**
@@ -462,6 +462,8 @@ window.ametys_opts = undefined;
 		alias: 'proxy.ametys',
 		extend: 'Ext.data.proxy.Server',
 		
+		noCache: false,
+		
 		plugin: null,
 		workspace: null,
 		errorMessage: "<i18n:text i18n:key="KERNEL_SERVERCOMMPROXY_ERROR_MSG"/>",
@@ -512,6 +514,21 @@ window.ametys_opts = undefined;
 																	Ext.getClassName(this) + '.createRequestCallback');
 			
 			this.processResponse(!failure, arguments.operation, arguments.request.options, response, arguments.callback, arguments.scope);
+		},
+		
+		extractResponseData: function(response)
+		{
+			var responseType = this.getResponseType();
+			
+			// Return first child which is the expected root node
+			if (responseType == 'xml')
+			{
+				return Ext.dom.Query.selectNode('*', response)
+			}
+			else
+			{
+				return response;
+			}
 		}
 	});
 })();
