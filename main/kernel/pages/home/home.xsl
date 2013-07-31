@@ -26,7 +26,6 @@
 	     | @param {Boolean} needs-kernel-ui True to load all js/css for kernel display. (default if true). If false many the following parameters are not applyable.
          | @param {String} plugins-direct-prefix Prefix for direct url to plugins (used for AJAX connections) with leading '/' nor context path. e.g. '/_plugins' 
          | @param {String} plugins-wrapped-prefix Prefix for wrapped url to plugins (used for redirections) with leading '/' nor context path. e.g. '/plugins'
-         | @param {Boolean} debug-mode Load JS files in debug mode when available.
          | @param {String} context-path The application context path. Can be empty for ROOT context path or should begin with / in other cases. E.g. '/MyContext'
          | @param {String} workspace-name The name of the current ametys workspace. Cannot be empty. E.g. 'admin'
          | @param {String} workspace-prefix The prefix of the current workspace (so not starting with the context path). If the workspace is the default one, this can be empty. E.g. '', '/_MyWorkspace'
@@ -61,7 +60,6 @@
 
         <xsl:param name="plugins-direct-prefix"/>
         <xsl:param name="plugins-wrapped-prefix"/>
-        <xsl:param name="debug-mode" select="false()"/>
 		<xsl:param name="context-path"/>
 		<xsl:param name="workspace-name"/>
 		<xsl:param name="workspace-prefix"/>
@@ -97,7 +95,6 @@
 	           		<xsl:call-template name="kernel-base">
 			            <xsl:with-param name="plugins-direct-prefix" select="$plugins-direct-prefix"/>
 			            <xsl:with-param name="plugins-wrapped-prefix" select="$plugins-wrapped-prefix"/>
-			            <xsl:with-param name="debug-mode" select="$debug-mode"/>
 			            <xsl:with-param name="context-path" select="$context-path"/>
 			            <xsl:with-param name="workspace-name" select="$workspace-name"/>
 			            <xsl:with-param name="workspace-prefix" select="$workspace-prefix"/>

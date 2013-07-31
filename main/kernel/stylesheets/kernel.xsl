@@ -25,7 +25,6 @@
          | Load and initialize all scripts for UI
          | @param {String} plugins-direct-prefix Prefix for direct url to plugins (used for AJAX connections) with leading '/' nor context path. e.g. '/_plugins' 
          | @param {String} plugins-wrapped-prefix Prefix for wrapped url to plugins (used for redirections) with leading '/' nor context path. e.g. '/plugins'
-         | @param {Boolean} debug-mode Load JS files in debug mode when available.
          | @param {String} context-path The application context path. Can be empty for ROOT context path or should begin with / in other cases. E.g. '/MyContext'
          | @param {String} workspace-name The name of the current ametys workspace. Cannot be empty. E.g. 'admin'
          | @param {String} workspace-prefix The prefix of the current workspace (so not starting with the context path). If the workspace is the default one, this can be empty. E.g. '', '/_MyWorkspace'
@@ -48,7 +47,6 @@
     <xsl:template name="kernel-base">
         <xsl:param name="plugins-direct-prefix"/>
         <xsl:param name="plugins-wrapped-prefix"/>
-        <xsl:param name="debug-mode" select="true()"/>
 		<xsl:param name="context-path"/>
 		<xsl:param name="workspace-name"/>
 		<xsl:param name="workspace-prefix"/>
@@ -58,6 +56,7 @@
 
         <xsl:param name="load-cb"/>
 
+        <xsl:variable name="debug-mode" select="true()"/>
 	
 		<xsl:call-template name="kernel-browsers">
 			<xsl:with-param name="authorized-browsers" select="$authorized-browsers"/>
