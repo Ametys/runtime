@@ -144,7 +144,7 @@ Ext.define(
 		 * @return {Object} The value associated to the parameter name, or undefined if it does not exists.
 		 */
 		getAppParameter: function(name) {
-			return appParameters[name];
+			return this.appParameters[name];
 		},
 		
 		/**
