@@ -47,13 +47,13 @@
                        class="org.ametys.runtime.ui.impl.StaticClientSideElement"
                        logger="tests.staticuiitemfactory">
                 
-                <action class="JavascriptClass">
+                <class name="JavascriptClass">
 					<param name="label" i18n="true">label</param>
 					<param name="default-description" i18n="true">description</param>
 					<param name="icon-small" file="true">img/icon_small.gif</param>
 					<param name="icon-medium" file="true">img/icon_medium.gif</param>
 					<param name="icon-large" file="true">img/icon_large.gif</param>
-				</action>   
+				</class>   
 				<scripts>
 					<file>js/script.js</file>
 				</scripts> 
@@ -64,7 +64,7 @@
                        id="staticuiitemfactorytest.3"
                        class="org.ametys.runtime.ui.impl.StaticClientSideElement"
                        logger="tests.staticuiitemfactory">
-                <action class="org.ametys.runtime.Link">
+                <class name="org.ametys.runtime.Link">
 					<param name="Link">myurl.html</param>
 					<param name="Mode">plugin-wrapped</param>
 
@@ -73,7 +73,7 @@
 					<param name="icon-small" file="true">img/icon_small.gif</param>
 					<param name="icon-medium" file="true">img/icon_medium.gif</param>
 					<param name="icon-large" file="true">img/icon_large.gif</param>
-				</action>    
+				</class>    
             </extension>
             
             <!-- Other plugin items -->
@@ -81,13 +81,13 @@
                        id="staticuiitemfactorytest.4"
                        class="org.ametys.runtime.ui.impl.StaticClientSideElement"
                        logger="tests.staticuiitemfactory">
-                <action class="OtherJavascriptClass">
+                <class name="OtherJavascriptClass">
 					<param name="label" i18n="true">othercatalogue:label</param>
 					<param name="default-description" i18n="true">plugin.otherplugin:description</param>
 					<param name="icon-small" file="true" plugin="core">img/icon_small.gif</param>
 					<param name="icon-medium" file="true" plugin="core">img/icon_medium.gif</param>
 					<param name="icon-large" file="true" plugin="core">img/icon_large.gif</param>
-				</action>
+				</class>
 				<scripts>
 					<file plugin="core">js/script.js</file>
 				</scripts> 
@@ -97,21 +97,25 @@
                        id="staticuiitemfactorytest.5"
                        class="org.ametys.runtime.ui.impl.StaticClientSideElement"
                        logger="tests.staticuiitemfactory">
-                <action class="OtherJavascriptClass">
+                <class name="OtherJavascriptClass">
 					<param name="label" i18n="true">plugin.test:LABEL</param>
 					<param name="default-description" i18n="true">plugin.test:DESCRIPTION</param>
 					<param name="icon-small" file="true" plugin="core">img/icon_small.gif</param>
 					<param name="icon-medium" file="true" plugin="core">img/icon_medium.gif</param>
 					<param name="icon-large" file="true" plugin="core">img/icon_large.gif</param>
-					<param name="menu-item">
-						<param name="id">menu-item-1</param>
-						<param name="label" i18n="true">plugin.test:LABEL</param>
-					</param>
-					<param name="menu-item">
-						<param name="id">menu-item-2</param>
-						<param name="label" i18n="true">plugin.test:LABEL</param>
-					</param>
-				</action>
+				</class>
+				<menu-items>
+					<item id="staticuiitemfactorytest.menuitem.1">
+						<class name="OtherJavascriptClass">
+							<param name="label" i18n="true">plugin.test:LABEL</param>
+				   		</class>
+				   	</item>
+				   	<item id="staticuiitemfactorytest.menuitem.2">
+						<class name="OtherJavascriptClass">
+							<param name="label" i18n="true">plugin.test:LABEL</param>
+				   		</class>
+				   	</item>
+				</menu-items>
 				<scripts>
 					<file plugin="core">js/script.js</file>
 				</scripts> 
