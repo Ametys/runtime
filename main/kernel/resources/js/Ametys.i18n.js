@@ -425,7 +425,26 @@ Ext.SSL_SECURE_URL = Ext.BLANK_IMAGE_URL;
 /*
  * Changing default ajax method to POST
  */
-Ext.Ajax.setOptions({method: 'POST', timeout: 0})
+Ext.Ajax.setOptions({method: 'POST', timeout: 0});
+
+/*
+ * Load localization for extjs
+ */
+(function ()
+{
+    // This is to change default value
+    Ext.define("Ext.locale.fr.LoadMask", {
+        override: "Ext.LoadMask",
+        msg: "<i18n:text i18n:key='KERNEL_LOADMASK_DEFAULT_MESSAGE' i18n:catalogue='kernel'/>"
+    });
+
+    // Load localized extjs
+	var link = document.createElement("script");
+		link.src = Ametys.getPluginResourcesPrefix('extjs4') + "/js/locale/ext-lang-" + Ametys.LANGUAGE_CODE + ".js";
+		link.charset = "UTF-8";
+		link.type = "text/javascript";
+	document.getElementsByTagName("head")[0].appendChild(link);
+})();
 
 /*
  * Remove ametys_opts object

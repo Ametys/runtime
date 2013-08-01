@@ -129,7 +129,7 @@
 						<xsl:for-each select="DesktopItem">
 							<xsl:variable name="btnId" select="generate-id()"/>
 							
-							var jsonStr_<xsl:value-of select="$btnId"/> = "<xsl:value-of select="escaper:escapeJavaScript(action/parameters)"/>";
+							var jsonStr_<xsl:value-of select="$btnId"/> = "<xsl:value-of select="escaper:escapeJavaScript(action)"/>";
 							var btnConfig_<xsl:value-of select="$btnId"/> = Ext.JSON.decode(jsonStr_<xsl:value-of select="$btnId"/>, true);
 							   
 							var item = new Ext.button.Button({
