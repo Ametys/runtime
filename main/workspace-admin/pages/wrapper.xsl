@@ -97,25 +97,25 @@
 					
 					<xsl:for-each select="/Plugins/Desktop/category">
 						<xsl:for-each select="DesktopItem">
+							<xsl:variable name="itemId" select="generate-id()"/>
+							
+							var itemCfg_<xsl:value-of select="$itemId"/> = <xsl:value-of select="action"/>;
+							
 							var item = new Ametys.workspace.admin.dock.DockItem ({
 								tooltip: {
-									title: "<xsl:copy-of select="action/param[@name='label']/node()"/>",
-									image: "<xsl:value-of select="$contextPath"/><xsl:value-of select="action/param[@name='icon-large']"/>", 
-									text: "<xsl:copy-of select="action/param[@name='default-description']/node()"/>"
+									title: itemCfg_<xsl:value-of select="$itemId"/>.label,
+									image: Ametys.CONTEXT_PATH + itemCfg_<xsl:value-of select="$itemId"/>["icon-large"],
+									text: itemCfg_<xsl:value-of select="$itemId"/>["default-description"]
 								},
-								icon: "<xsl:value-of select="$contextPath"/><xsl:value-of select="action/param[@name='icon-small']"/>"
+								icon: Ametys.CONTEXT_PATH + itemCfg_<xsl:value-of select="$itemId"/>["icon-small"]
 							 	<xsl:if test="../CurrentUIItem/@position = position()">, pressed: true</xsl:if>
+								
 								<xsl:if test="not(@disabled)">
-	                            	, 
-	                            	handler: function() {
-	                            		<xsl:value-of select="action/@class"/>("<xsl:value-of select="@plugin"/>", {
-	                            			<xsl:for-each select="action/param">
-	                                			<xsl:text>"</xsl:text><xsl:value-of select="@name"/>" : "<xsl:copy-of select="./node()"/><xsl:text>"</xsl:text>
-	                                    		<xsl:if test="position() != last()">, </xsl:if>
-	                                    	</xsl:for-each>
-	                            		})
-	                            	}
-                                </xsl:if>
+									,
+									handler: function () { 
+										<xsl:value-of select="action/@class"/>("<xsl:value-of select="@plugin"/>", itemCfg_<xsl:value-of select="$itemId"/>);
+	 	                            }
+								</xsl:if>
 							});
 							items.push(item);
 						</xsl:for-each>
