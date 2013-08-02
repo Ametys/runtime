@@ -67,6 +67,9 @@ public class I18nTestCase extends AbstractRuntimeTestCase
         translatedText = _i18nUtils.translate(new I18nizableText("plugin.test", "TEST_KEY"), "fr");
         assertEquals("texte français", translatedText);
         
+        translatedText = _i18nUtils.translate(new I18nizableText("plugin.test", "TEST_KEY"), "fr_FR");
+        assertEquals("texte français", translatedText);
+        
         translatedText = _i18nUtils.translate(new I18nizableText("plugin.test", "TEST_KEY"), "zh");
         assertEquals("english text", translatedText);
         
@@ -89,6 +92,9 @@ public class I18nTestCase extends AbstractRuntimeTestCase
         translatedText = _i18nUtils.translate(new I18nizableText("plugin.test", "TEST_KEY_PARAMS", params), "fr");
         assertEquals("texte français 2", translatedText);
         
+        translatedText = _i18nUtils.translate(new I18nizableText("plugin.test", "TEST_KEY_PARAMS", params), "fr_FR");
+        assertEquals("texte français 2", translatedText);
+        
         translatedText = _i18nUtils.translate(new I18nizableText("plugin.test", "TEST_KEY_PARAMS", params), "zh");
         assertEquals("english text 2", translatedText);
         
@@ -109,6 +115,9 @@ public class I18nTestCase extends AbstractRuntimeTestCase
         assertEquals("english text", translatedText);
         
         translatedText = _i18nUtils.translate(new I18nizableText("plugin.test", "TEST_KEY_I18N_PARAMS", params), "fr");
+        assertEquals("texte français", translatedText);
+        
+        translatedText = _i18nUtils.translate(new I18nizableText("plugin.test", "TEST_KEY_I18N_PARAMS", params), "fr_FR");
         assertEquals("texte français", translatedText);
         
         translatedText = _i18nUtils.translate(new I18nizableText("plugin.test", "TEST_KEY_I18N_PARAMS", params), "zh");
