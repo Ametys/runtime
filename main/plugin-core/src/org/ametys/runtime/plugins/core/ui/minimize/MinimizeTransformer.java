@@ -16,6 +16,7 @@
 
 package org.ametys.runtime.plugins.core.ui.minimize;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,11 +28,14 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
+import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.components.ContextHelper;
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.Session;
+import org.apache.cocoon.environment.SourceResolver;
 import org.apache.cocoon.transformation.ServiceableTransformer;
 import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.commons.lang.StringUtils;
@@ -48,6 +52,7 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
     private String _path;
     private String _defaultPluginCoreUrl;
     private Long _debugMode;
+    private Long _configuredDebugMode;
     private int _randomJSCode;
     private int _randomCSSCode;
     private Context _context;
@@ -68,14 +73,18 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
     @Override
     public void configure(Configuration configuration) throws ConfigurationException
     {
-        _debugMode = (Config.getInstance() != null && Config.getInstance().getValueAsLong("runtime.debug.ui") != null) ? Config.getInstance().getValueAsLong("runtime.debug.ui") : 0;
+        _configuredDebugMode = (Config.getInstance() != null && Config.getInstance().getValueAsLong("runtime.debug.ui") != null) ? Config.getInstance().getValueAsLong("runtime.debug.ui") : 0;
         _defaultPluginCoreUrl = configuration.getChild("plugin-core-url").getValue(null);
     }
     
-
-    
-    
-    
+    @Override
+    public void setup(SourceResolver res, Map om, String src, Parameters params) throws ProcessingException, SAXException, IOException
+    {
+        super.setup(res, om, src, params);
+        
+        String debugModeStr = params.getParameter("debug-mode-request", null);
+        _debugMode = StringUtils.isNotEmpty(debugModeStr) ? Long.parseLong(debugModeStr) : _configuredDebugMode;
+    }
     
     
     /**
