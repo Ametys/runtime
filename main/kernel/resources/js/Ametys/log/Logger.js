@@ -24,7 +24,7 @@
  * 			if (Ametys.log.Logger.isDebugEnabled())
  * 			{
  * 				Ametys.log.Logger.debug({
- * 					category: 'Ametys.my.Component',
+ * 					category: this.self.getName(), // could be any string like 'Ametys.my.Component'
  * 					message: 'My debug message'
  * 				});
  * 			}
@@ -34,7 +34,7 @@
  * 		catch (e)
  * 		{
  * 			Ametys.log.Logger.error({
- * 				category: 'Ametys.my.Component',
+ * 				category: this.self.getName(),
  * 				message: 'My error message',
  * 				details: e
  * 			});
@@ -131,7 +131,7 @@ Ext.define(
 		/**
 		 * Log as debug
 		 * @param {Object} config The message configuration
-		 * @param {String} config.category The name of the category of the log entry
+		 * @param {String} config.category The name of the category of the log entry. Use '.' to create a hierarchy. Can be the class name of the current component (this.self.getName())
 		 * @param {String} config.message The message
 		 * @param {String/Error} config.details The detailled message. Can be null or empty. 
 		 */
@@ -142,7 +142,7 @@ Ext.define(
 		/**
 		 * Log as info
 		 * @param {Object} config The message configuration
-		 * @param {String} config.category The name of the category of the log entry
+		 * @param {String} config.category The name of the category of the log entry. Use '.' to create a hierarchy. Can be the class name of the current component (this.self.getName())
 		 * @param {String} config.message The message
 		 * @param {String/Error} config.details The detailled message. Can be null or empty. 
 		 */
@@ -154,7 +154,7 @@ Ext.define(
 		/**
 		 * Log as warn
 		 * @param {Object} config The message configuration
-		 * @param {String} config.category The name of the category of the log entry
+		 * @param {String} config.category The name of the category of the log entry. Use '.' to create a hierarchy. Can be the class name of the current component (this.self.getName())
 		 * @param {String} config.message The message
 		 * @param {String/Error} config.details The detailled message. Can be null or empty. 
 		 */
@@ -165,7 +165,7 @@ Ext.define(
 		/**
 		 * Log as error
 		 * @param {Object} config The message configuration
-		 * @param {String} config.category The name of the category of the log entry
+		 * @param {String} config.category The name of the category of the log entry. Use '.' to create a hierarchy. Can be the class name of the current component (this.self.getName())
 		 * @param {String} config.message The message
 		 * @param {String/Error} config.details The detailled message. Can be null or empty. 
 		 */
@@ -176,7 +176,7 @@ Ext.define(
 		/**
 		 * Log as fatal
 		 * @param {Object} config The message configuration
-		 * @param {String} config.category The name of the category of the log entry
+		 * @param {String} config.category The name of the category of the log entry. Use '.' to create a hierarchy. Can be the class name of the current component (this.self.getName())
 		 * @param {String} config.message The message
 		 * @param {String/Error} config.details The detailled message. Can be null or empty. 
 		 */
@@ -188,7 +188,7 @@ Ext.define(
 		/**
 		 * Create a log, trace it and store it
 		 * @param {Object} config The message configuration
-		 * @param {String} config.category The name of the category of the log entry
+		 * @param {String} config.category The name of the category of the log entry. Use '.' to create a hierarchy. Can be the class name of the current component (this.self.getName())
 		 * @param {String} config.message The message
 		 * @param {String/Error} config.details The detailled message. Can be null or empty. 
 		 * @param {Number} level A level between Ametys.log.Logger.Entry.LEVEL_DEBUG, Ametys.log.Logger.Entry.LEVEL_INFO, Ametys.log.Logger.Entry.LEVEL_WARN, Ametys.log.Logger.Entry.LEVEL_ERROR or Ametys.log.Logger.Entry.LEVEL_FATAL
