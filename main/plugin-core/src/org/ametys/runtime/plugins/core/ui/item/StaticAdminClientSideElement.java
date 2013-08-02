@@ -21,7 +21,7 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.commons.lang.StringUtils;
 
-import org.ametys.runtime.ui.impl.StaticClientSideElement;
+import org.ametys.runtime.ui.StaticClientSideElement;
 
 /**
  * Creates from static configuration

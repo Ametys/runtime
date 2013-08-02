@@ -20,7 +20,7 @@ import org.ametys.runtime.plugins.core.ui.item.DesktopManager;
 import org.ametys.runtime.test.AbstractRuntimeTestCase;
 import org.ametys.runtime.test.Init;
 import org.ametys.runtime.ui.ClientSideElement;
-import org.ametys.runtime.ui.impl.StaticClientSideElement;
+import org.ametys.runtime.ui.StaticClientSideElement;
 import org.ametys.runtime.util.I18nizableText;
 
 /**
