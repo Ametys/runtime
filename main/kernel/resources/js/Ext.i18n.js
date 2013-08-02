@@ -384,7 +384,7 @@
  */
 (function()
 {
-	/*
+	/**
 	 * Override of the {@link Ext.ux.DataView.Draggable} to handle multiselection with Drag operation.
 	 * Also embed other minor tweaks, see {@link Ext.ux.DataView.Draggable} for comparison.
 	 */
@@ -392,7 +392,8 @@
 		override: 'Ext.ux.DataView.Draggable',
 	
 		/**
-		 * @inheritdoc
+		 * Allow to override itemSelector ghost config.
+		 * @private
 		 */
 		// Allow to override itemSelector ghost config.
 		init: function(dataview, config) {
@@ -404,7 +405,10 @@
 		},
 		
 		/**
-		 * @inheritdoc
+		 * Tweaked from {@link Ext.ux.DataView.Draggable} (method getDragData,
+		 * see source) to correctly handle multiselection.
+		 * See {@link Ext.view.DragZone#getDragData}
+		 * @private
 		 */
 		getDragData: function(e) {
 			var draggable = this.dvDraggable,
