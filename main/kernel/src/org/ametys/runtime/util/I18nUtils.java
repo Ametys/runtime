@@ -255,7 +255,7 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
         
         try
         {
-            Bundle bundle = _bundleFactory.select(locations, "messages", new Locale(language));
+            Bundle bundle = _bundleFactory.select(locations, "messages", org.apache.cocoon.i18n.I18nUtils.parseLocale(language));
             
             // translated message
             ParamSaxBuffer buffer = (ParamSaxBuffer) bundle.getObject(text.getKey());
