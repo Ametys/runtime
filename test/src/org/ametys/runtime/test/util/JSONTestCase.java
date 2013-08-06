@@ -62,7 +62,7 @@ public class JSONTestCase extends AbstractRuntimeTestCase
      */
     public void testJsonToMap()
     {
-        String jsonString = "{\"label\": \"label\", \"default-description\": \"description\", \"icon-small\": \"plugins/core/resources/img/icon_small.gif\", \"icon-medium\": \"plugins/core/resources/img/icon_medium.gif\", \"icon-large\": \"plugins/core/resources/img/icon_large.gif\", \"menu-item\": [{\"id\": \"menu-item-1\", \"label\": \"label\"}, {\"id\": \"menu-item-2\", \"label\": \"label\"}]}";
+         String jsonString = "{\"label\": \"label\", \"default-description\": \"description\", \"icon-small\": \"plugins/core/resources/img/icon_small.gif\", \"icon-medium\": \"plugins/core/resources/img/icon_medium.gif\", \"icon-large\": \"plugins/core/resources/img/icon_large.gif\", \"menu-item\": [{\"id\": \"menu-item-1\", \"label\": \"label\"}, {\"id\": \"menu-item-2\", \"label\": \"label\"}]}";
         Map<String, Object> map = new HashMap<String, Object>();
         try
         {
@@ -90,7 +90,7 @@ public class JSONTestCase extends AbstractRuntimeTestCase
         ClientSideElement itemFactory3 = _desktopManager.getExtension("staticuiitemfactorytest.5");
         Map<String, Object> parameters = itemFactory3.getParameters(null);
         
-        String expectedJson = "{\"label\": \"label\", \"default-description\": \"description\", \"icon-small\": \"plugins/core/resources/img/icon_small.gif\", \"icon-medium\": \"plugins/core/resources/img/icon_medium.gif\", \"icon-large\": \"plugins/core/resources/img/icon_large.gif\", \"menu-item\": [{\"id\": \"menu-item-1\", \"label\": \"label\"}, {\"id\": \"menu-item-2\", \"label\": \"label\"}]}";
+        String expectedJson = "{\"label\":\"label\",\"default-description\":\"description\",\"icon-small\":\"/plugins/core/resources/img/icon_small.gif\",\"icon-medium\":\"/plugins/core/resources/img/icon_medium.gif\",\"icon-large\":\"/plugins/core/resources/img/icon_large.gif\",\"child\":{\"id\":\"child-1\",\"label\":\"label\"}}";
         String json = _jsonUtils.convertMapToJson(parameters);
         assertNotNull(json);
         assertEquals(json, expectedJson);

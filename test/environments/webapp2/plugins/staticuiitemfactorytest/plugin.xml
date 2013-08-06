@@ -98,24 +98,16 @@
                        class="org.ametys.runtime.ui.StaticClientSideElement"
                        logger="tests.staticuiitemfactory">
                 <class name="OtherJavascriptClass">
-					<param name="label" i18n="true">plugin.test:LABEL</param>
-					<param name="default-description" i18n="true">plugin.test:DESCRIPTION</param>
-					<param name="icon-small" file="true" plugin="core">img/icon_small.gif</param>
-					<param name="icon-medium" file="true" plugin="core">img/icon_medium.gif</param>
-					<param name="icon-large" file="true" plugin="core">img/icon_large.gif</param>
+					<label i18n="true">plugin.test:LABEL</label>
+					<default-description i18n="true">plugin.test:DESCRIPTION</default-description>
+					<icon-small file="true" plugin="core">img/icon_small.gif</icon-small>
+					<icon-medium file="true" plugin="core">img/icon_medium.gif</icon-medium>
+					<icon-large file="true" plugin="core">img/icon_large.gif</icon-large>
+					<child>
+						<id>child-1</id>
+						<label i18n="true">plugin.test:LABEL</label>
+					</child>
 				</class>
-				<menu-items>
-					<item id="staticuiitemfactorytest.menuitem.1">
-						<class name="OtherJavascriptClass">
-							<param name="label" i18n="true">plugin.test:LABEL</param>
-				   		</class>
-				   	</item>
-				   	<item id="staticuiitemfactorytest.menuitem.2">
-						<class name="OtherJavascriptClass">
-							<param name="label" i18n="true">plugin.test:LABEL</param>
-				   		</class>
-				   	</item>
-				</menu-items>
 				<scripts>
 					<file plugin="core">js/script.js</file>
 				</scripts> 
