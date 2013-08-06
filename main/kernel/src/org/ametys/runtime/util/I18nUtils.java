@@ -253,6 +253,11 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
         String catalogue = text.getCatalogue();
         String[] locations = _locations.get(catalogue);
         
+        if (locations == null)
+        {
+            return null;
+        }
+        
         try
         {
             Bundle bundle = _bundleFactory.select(locations, "messages", org.apache.cocoon.i18n.I18nUtils.parseLocale(language));
