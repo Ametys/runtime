@@ -48,8 +48,8 @@
                        logger="tests.staticuiitemfactory">
                 
                 <class name="JavascriptClass">
-					<param name="label" i18n="true">plugin.test:LABEL</param>
-					<param name="default-description" i18n="true">plugin.test:DESCRIPTION</param>
+					<param name="label" i18n="true">label</param>
+					<param name="default-description" i18n="true">description</param>
 					<param name="icon-small" file="true">img/icon_small.gif</param>
 					<param name="icon-medium" file="true">img/icon_medium.gif</param>
 					<param name="icon-large" file="true">img/icon_large.gif</param>
@@ -68,8 +68,8 @@
 					<param name="Link">myurl.html</param>
 					<param name="Mode">plugin-wrapped</param>
 
-					<param name="label" i18n="true">plugin.test:LABEL</param>
-					<param name="default-description" i18n="true">plugin.test:DESCRIPTION</param>
+					<param name="label" i18n="true">label</param>
+					<param name="default-description" i18n="true">description</param>
 					<param name="icon-small" file="true">img/icon_small.gif</param>
 					<param name="icon-medium" file="true">img/icon_medium.gif</param>
 					<param name="icon-large" file="true">img/icon_large.gif</param>
