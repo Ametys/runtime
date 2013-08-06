@@ -92,6 +92,8 @@
              <map:action name="has-not-right" src="org.ametys.runtime.plugins.core.right.actions.HasRightAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.hasRight">
                 <has-right>false</has-right>
             </map:action>
+            
+            <map:action name="client-call" src="org.ametys.runtime.ui.ExecuteClientCallsAction"/>
 		</map:actions>
 		
         <map:readers>
@@ -100,7 +102,8 @@
             <map:reader name="administrator-jvmstatus-monitoring-export" src="org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.RRDXmlExportReader" logger="org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.RRDXmlExportReader"/>
             <map:reader name="upload-reader" src="org.ametys.runtime.plugins.core.upload.readers.UploadReader" logger="org.ametys.runtime.plugins.core.upload.readers.UploadReader"/>
         	<map:reader name="css" src="org.ametys.runtime.plugins.core.ui.minimize.MinimizeCSSReader"/>
-        	<map:reader name="js" src="org.ametys.runtime.plugins.core.ui.minimize.MinimizeJSReader"/>
+            <map:reader name="js" src="org.ametys.runtime.plugins.core.ui.minimize.MinimizeJSReader"/>
+            <map:reader name="json" src="org.ametys.runtime.cocoon.JSonReader"/>
         </map:readers>
         
 	</map:components>
@@ -114,12 +117,19 @@
 	
 	<map:pipelines>
 		<map:pipeline>
-			<!-- Dispatcher -->
-			<map:match pattern="servercomm/messages.xml">
-				<map:generate type="dispatcher"/>
-				<map:serialize type="xml"/>
-			</map:match>
-			
+            <!-- Dispatcher -->
+            <map:match pattern="servercomm/messages.xml">
+                <map:generate type="dispatcher"/>
+                <map:serialize type="xml"/>
+            </map:match>
+            
+            <!-- Client calls -->
+            <map:match pattern="client-call">
+                <map:act type="client-call">
+                    <map:read type="json"/>
+                </map:act>
+            </map:match>
+            
 			<map:match pattern="cssfilelist/*-*.css">
 				<map:read type="css" src="{1}">
 					<map:parameter name="import" value="{2}"/>

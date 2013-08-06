@@ -19,15 +19,23 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * A client side element
+ * Object binding of a client side element, ie something that is loaded and executed by the browser.<br>
+ * Such elements may be UI controls (buttons, menu, tools, ...) but also only JS or CSS files.<br><br>
+ * 
+ * This interface only covers files to be loaded, but its implementations are also meant to hold associated business-logic, if any.<br>
+ * To implement such logic, implementing classes should write any method, annotated with {@link Callable}, 
+ * that will be directly called by the kernel upon execution of the JavaScript method <code>serverCall('methodeName', params)</code>.<br><br>
+ * 
+ * All <code>Map&lt;String, Object></code> instances found in this class and its implementations 
+ * are directly converted from and to JSON to interact with browser-site JavaScript.
  */
 public interface ClientSideElement
 {
     /**
-     * Get the id of the control
-     * @return The id. Can not be null.
+     * Get the id of the element.
+     * @return the id. Can not be null.
      */
-    public String getId ();
+    public String getId();
     
     /**
      * This method return the script that will be used on client side.
