@@ -1182,6 +1182,26 @@
         </extensions>
     </feature>
     
+    <feature name="runtime.users.rights">
+        <!-- 
+            This feature brings the rights needed to manage users
+         -->
+        <extensions>
+            <extension point="org.ametys.runtime.plugins.core.right.RightsExtensionPoint"
+                       id="runtime.use.rights.users">
+                <!-- FIXME does these rights must be defined here, in the runtime? -->
+                <!-- 
+                    Define the right for handling users
+                 -->
+                <right id="Runtime_Rights_User_Handle">
+                    <label>PLUGINS_CORE_USERS_RIGHTS_HANDLE_LABEL</label>
+                    <description>PLUGINS_CORE_USERS_RIGHTS_HANDLE_DESCRIPTION</description>
+                    <category>PLUGINS_CORE_USERANDRIGHTS_CATEGORY</category>
+                </right>
+            </extension>
+        </extensions>
+    </feature>
+    
     <feature name="runtime.user.impl.static">
         <!-- 
             This features defines the static implementation of users
@@ -1484,6 +1504,26 @@
 				</class>    				   
                 <Url>groups/view\.html</Url>
             </extension>      
+        </extensions>
+    </feature>
+    
+    <feature name="runtime.groups.rights">
+        <!-- 
+            This feature brings the rights needed to manage groups
+         -->
+        <extensions>
+            <extension point="org.ametys.runtime.plugins.core.right.RightsExtensionPoint"
+                       id="runtime.use.rights.groups">
+                <!-- FIXME does these rights must be defined here, in the runtime? -->
+                <!-- 
+                    Define the right for handling groups
+                 -->
+                <right id="Runtime_Rights_Group_Handle">
+                    <label>PLUGINS_CORE_GROUPS_RIGHTS_HANDLE_LABEL</label>
+                    <description>PLUGINS_CORE_GROUPS_RIGHTS_HANDLE_DESCRIPTION</description>
+                    <category>PLUGINS_CORE_USERANDRIGHTS_CATEGORY</category>
+                </right>
+            </extension>
         </extensions>
     </feature>
     
@@ -1805,10 +1845,10 @@
         <extensions>
             <extension point="org.ametys.runtime.plugins.core.right.RightsExtensionPoint"
                        id="runtime.use.rights.profile">
+                <!-- FIXME does these rights must be defined here, in the runtime? -->
                 <!-- 
                     Defines rights for handling profile and handling rights
                  -->
-                <!-- FIXME does these rights must be defined here, in the runtime? -->
                 <!--
                 <right id="Runtime_Rights_Rights_Profile_See">
                     <label>PLUGINS_CORE_PROFILE_RIGHTS_SEE_LABEL</label>
