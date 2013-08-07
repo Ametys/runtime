@@ -30,8 +30,12 @@
             <map:generator name="administrator-startuptime" src="org.ametys.runtime.plugins.core.administrator.system.StartupTimeGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.startuptime" label="content"/>
             <map:generator name="administrator-rights-profiles-view" src="org.ametys.runtime.plugins.core.right.profile.generators.ProfilesGenerator" logger="org.ametys.runtime.plugins.core.right.profile.sitemap.generator.view" label="content"/>
             <map:generator name="administrator-users-info" src="org.ametys.runtime.plugins.core.user.ui.generators.UserInformationGenerator" logger="org.ametys.runtime.plugins.core.user.sitemap.generator.detail" label="content"/>
+            <!-- FIXME duplicate generator -->
+            <map:generator name="users-info" src="org.ametys.runtime.plugins.core.user.ui.generators.UserInformationGenerator" logger="org.ametys.runtime.plugins.core.user.sitemap.generator.detail" label="content"/>
 			<map:generator name="administrator-users-view" src="org.ametys.runtime.plugins.core.user.ui.generators.ViewGenerator" logger="org.ametys.runtime.plugins.core.user.sitemap.generator.view" label="content"/>
             <map:generator name="administrator-users-model" src="org.ametys.runtime.plugins.core.user.ui.generators.ModelGenerator" logger="org.ametys.runtime.plugins.core.user.sitemap.generator.model" label="content"/>
+            <!-- FIXME duplicate generator -->
+            <map:generator name="users-model" src="org.ametys.runtime.plugins.core.user.ui.generators.ModelGenerator" logger="org.ametys.runtime.plugins.core.user.sitemap.generator.model" label="content"/>
 			<map:generator name="administrator-groups-view" src="org.ametys.runtime.plugins.core.group.ui.generators.GroupsGenerator" logger="org.ametys.runtime.plugins.core.group.sitemap.generator.view" label="content"/>
             <map:generator name="administrator-group-members" src="org.ametys.runtime.plugins.core.group.ui.generators.GroupMembersGenerator" logger="org.ametys.runtime.plugins.core.group.sitemap.generator.members" label="content"/>
 			
@@ -67,7 +71,11 @@
 			<map:action name="administrator-affect-superuser" src="org.ametys.runtime.plugins.core.administrator.superuser.AffectSuperUserAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.superUser"/>
 			<map:action name="administrator-restart" src="org.ametys.runtime.plugins.core.administrator.RestartAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.restart"/>
 			<map:action name="administrator-users-edit" src="org.ametys.runtime.plugins.core.user.ui.actions.EditAction" logger="org.ametys.runtime.plugins.core.user.sitemap.action.edit"/>
+            <!-- FIXME duplicate action -->
+			<map:action name="users-edit" src="org.ametys.runtime.plugins.core.user.ui.actions.EditAction" logger="org.ametys.runtime.plugins.core.user.sitemap.action.edit"/>
 			<map:action name="administrator-users-delete" src="org.ametys.runtime.plugins.core.user.ui.actions.DeleteAction" logger="org.ametys.runtime.plugins.core.user.sitemap.action.delete"/>
+            <!-- FIXME duplicate action -->
+			<map:action name="users-delete" src="org.ametys.runtime.plugins.core.user.ui.actions.DeleteAction" logger="org.ametys.runtime.plugins.core.user.sitemap.action.delete"/>
 			<map:action name="administrator-users-impersonate" src="org.ametys.runtime.plugins.core.user.ui.actions.ImpersonateAction" logger="org.ametys.runtime.plugins.core.user.sitemap.action.impersonate"/>
 			<map:action name="administrator-group-create" src="org.ametys.runtime.plugins.core.group.ui.actions.CreateGroupAction" logger="org.ametys.runtime.plugins.core.group.sitemap.action.create"/>
 			<map:action name="administrator-group-rename" src="org.ametys.runtime.plugins.core.group.ui.actions.RenameGroupAction" logger="org.ametys.runtime.plugins.core.group.sitemap.action.rename"/>
@@ -448,8 +456,8 @@
                  + -->
             <map:match pattern="users/search.xml">
                 <map:generate type="users-search" src="{request-param:criteria}">
-                    <map:parameter name="count" value="{request-param:count}"/>
-                    <map:parameter name="offset" value="{request-param:offset}"/>
+                    <map:parameter name="limit" value="{request-param:limit}"/>
+                    <map:parameter name="start" value="{request-param:start}"/>
                     <map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
                 </map:generate>
                 <map:serialize type="xml"/>
@@ -457,6 +465,14 @@
                 
             <map:match pattern="administrator/users/info">
                 <map:generate type="administrator-users-info" src="{request-param:login}">
+                	<map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
+                </map:generate>
+                <map:serialize type="xml"/>
+            </map:match>
+            
+            <!-- FIXME : duplicate pipeline -->
+            <map:match pattern="users/info">
+                <map:generate type="users-info" src="{request-param:login}">
                 	<map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
                 </map:generate>
                 <map:serialize type="xml"/>
@@ -475,8 +491,34 @@
                 <map:serialize type="xml" status-code="500"/>
             </map:match>
             
+            <!-- FIXME : duplicate pipeline -->
+            <map:match pattern="users/edit">
+                <map:act type="users-edit">
+                	<map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
+                	
+                    <map:generate type="action-result">
+                        <map:parameter name="error" value="{error}"/>
+                    </map:generate>
+                    <map:serialize type="xml"/>
+                </map:act>
+                <map:generate type="action-result"/>
+                <map:serialize type="xml" status-code="500"/>
+            </map:match>
+            
             <map:match pattern="administrator/users/delete">
                 <map:act type="administrator-users-delete">
+                	<map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
+                	
+                    <map:generate type="action-result"/>
+                    <map:serialize type="xml"/>
+                </map:act>
+                <map:generate type="action-result"/>
+                <map:serialize type="xml" status-code="500"/>
+            </map:match>
+            
+            <!-- FIXME : duplicate pipeline -->
+            <map:match pattern="users/delete">
+                <map:act type="users-delete">
                 	<map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
                 	
                     <map:generate type="action-result"/>
@@ -520,6 +562,18 @@
 			
 			<map:match pattern="administrator/users-model">
                 <map:generate type="administrator-users-model">
+                	<map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
+                </map:generate>
+                <map:transform type="i18n">
+					<map:parameter name="locale" value="{locale:locale}"/>
+					<map:parameter name="default-catalogue-id" value="plugin.core"/>
+				</map:transform>
+                <map:serialize type="xml"/>
+            </map:match>
+            
+            <!-- FIXME : duplicate pipeline -->
+			<map:match pattern="users-model">
+                <map:generate type="users-model">
                 	<map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
                 </map:generate>
                 <map:transform type="i18n">
