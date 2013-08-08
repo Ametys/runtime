@@ -96,7 +96,35 @@
 })();
 
 /*
- * Support for optionnal label on files to indicate max allowed size 
+ * Support for optional label on files to indicate max allowed size 
+ */
+(function() 
+{
+    Ext.define("Ametys.form.field.Text", {
+        override: "Ext.form.field.Text",
+        
+        getSubTplMarkup: function() {
+        	var result = this.callParent(arguments);
+        	
+        	/**
+        	 * @member Ext.form.field.Text
+        	 * @ametys
+        	 * @since Ametys Runtime 3.7
+        	 * @cfg {Boolean} ametysShowMultipleHint=false true to show to multiple hint under the field. false by default
+        	 */
+        	if (this.ametysShowMultipleHint == true)
+        	{
+        		result += '<br/>'
+        		    + '<span class="ametys-field-hint">(<i18n:text i18n:key="KERNEL_MULTIPLE_HINT"/>)</span>'
+        	}
+        	
+        	return result;
+        }
+    });
+})();
+
+/*
+ * Support for optional label on files to indicate max allowed size 
  */
 (function() 
 {

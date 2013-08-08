@@ -29,7 +29,8 @@
     <message key="KERNEL_PASSWORD_CLEAR">Remettre le mot de passe à sa valeur initiale</message>
 	<message key="KERNEL_PASSWORD_CHANGE">Cliquez ici pour changer le mot de passe</message>
 	<message key="KERNEL_UPLOAD_HINT">La taille maximale autorisée est de </message>
-
+	<message key="KERNEL_MULTIPLE_HINT">séparés par des virgules</message>
+	
    	<message key="KERNEL_LOADMASK_DEFAULT_MESSAGE">Traitement en cours. Veuillez patienter ...</message>
    	<message key="KERNEL_NOSCRIPT">Vous devez activer le javascript pour utiliser cette application.</message>
 
