@@ -42,6 +42,7 @@ public final class AllModifiableUsersTestSuite extends TestSuite
         suite.addTestSuite(PostgresModifiableJdbcUsersTestCase.class);
         suite.addTestSuite(OracleModifiableJdbcUsersTestCase.class);
         suite.addTestSuite(DerbyModifiableJdbcUsersTestCase.class);
+        suite.addTestSuite(HsqlModifiableJdbcUsersTestCase.class);
         //$JUnit-END$
         
         return suite;

@@ -110,15 +110,15 @@ public abstract class AbstractJdbcUnmodifiableUsersTestCase extends AbstractJDBC
         XPathProcessor xpath = (XPathProcessor) Init.getPluginServiceManager().lookup(XPathProcessor.ROLE);
         Node testNode;
 
-        // Sax none
+        // Sax only one result
         handler = dom.createDOMHandler();
         handler.startDocument();
-        _usersManager.toSAX(handler, 0, 0, new HashMap<String, String>());
+        _usersManager.toSAX(handler, 1, 0, new HashMap<String, String>());
         handler.endDocument();
 
         assertEquals(1.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/*)"));
         assertEquals(1.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/users)"));
-        assertEquals(1.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/users/*)"));
+        assertEquals(2.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/users/*)"));
         assertEquals("2", xpath.evaluateAsString(handler.getDocument(), "/users/total"));
 
         // Sax all

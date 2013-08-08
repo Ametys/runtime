@@ -55,7 +55,10 @@ public final class ConnectionHelper
         DATABASE_POSTGRES,
         
         /** Database type is Derby */
-        DATABASE_DERBY
+        DATABASE_DERBY,
+
+        /** Database type is Hsqldb */
+        DATABASE_HSQLDB
     }
     
     // Logger for traces
@@ -127,7 +130,6 @@ public final class ConnectionHelper
 
             try
             {
-                // Fermer la connexion à la base
                 con.close();
             }
             catch (SQLException s)
@@ -147,7 +149,6 @@ public final class ConnectionHelper
         {
             try
             {
-                // Fermer la connexion à la base
                 stmt.close();
             }
             catch (SQLException s)
@@ -167,7 +168,6 @@ public final class ConnectionHelper
         {
             try
             {
-                // Fermer la connexion à la base
                 rs.close();
             }
             catch (SQLException s)
@@ -217,6 +217,10 @@ public final class ConnectionHelper
         else if (jdbcURL.trim().startsWith("jdbc:derby"))
         {
             return DatabaseType.DATABASE_DERBY;
+        }
+        else if (jdbcURL.trim().startsWith("jdbc:hsqldb"))
+        {
+            return DatabaseType.DATABASE_HSQLDB;
         }
         else
         {

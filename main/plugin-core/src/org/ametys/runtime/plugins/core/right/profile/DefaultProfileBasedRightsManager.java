@@ -2637,7 +2637,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             connection = ConnectionHelper.getConnection(_poolName);
             DatabaseType dbType = ConnectionHelper.getDatabaseType(connection);
             
-            if (DatabaseType.DATABASE_ORACLE.equals(dbType) || DatabaseType.DATABASE_POSTGRES.equals(dbType))
+            if (dbType == DatabaseType.DATABASE_ORACLE || dbType == DatabaseType.DATABASE_POSTGRES)
             {
                 if (DatabaseType.DATABASE_ORACLE.equals(dbType))
                 {
@@ -2677,7 +2677,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             ConnectionHelper.cleanup(statement);
             
             //FIXME Write query working with all database
-            if (DatabaseType.DATABASE_MYSQL.equals(dbType))
+            if (dbType == DatabaseType.DATABASE_MYSQL)
             {
                 statement = connection.prepareStatement("SELECT Id FROM " + _tableProfile + " WHERE Id = last_insert_id()");
                 rs = statement.executeQuery();
@@ -2698,9 +2698,18 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
                     }
                 }
             }
-            else if (DatabaseType.DATABASE_DERBY.equals(dbType))
+            else if (dbType == DatabaseType.DATABASE_DERBY)
             {
                 statement = connection.prepareStatement("VALUES IDENTITY_VAL_LOCAL ()");
+                rs = statement.executeQuery();
+                if (rs.next())
+                {
+                    id = rs.getInt(1);
+                }
+            }
+            else if (dbType == DatabaseType.DATABASE_HSQLDB)
+            {
+                statement = connection.prepareStatement("CALL IDENTITY ()");
                 rs = statement.executeQuery();
                 if (rs.next())
                 {

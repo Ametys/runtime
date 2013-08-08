@@ -45,6 +45,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
 import org.ametys.runtime.datasource.ConnectionHelper;
+import org.ametys.runtime.datasource.ConnectionHelper.DatabaseType;
 import org.ametys.runtime.plugin.component.PluginAware;
 import org.ametys.runtime.plugin.component.ThreadSafeComponentManager;
 import org.ametys.runtime.user.User;
@@ -488,7 +489,7 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
             con = ConnectionHelper.getConnection(_poolName);
 
             // Contruire la requête pour récupérer l'éventuel utilisateur
-            StringBuffer selectClause = new StringBuffer();
+            StringBuilder selectClause = new StringBuilder();
             for (String id : _parameters.keySet())
             {
                 JdbcParameter parameter = _parameters.get(id);
@@ -499,7 +500,7 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
                 selectClause.append(parameter.getColumn());
             }
 
-            StringBuffer sql = new StringBuffer("SELECT " + selectClause.toString() + " FROM " + _tableName);
+            StringBuilder sql = new StringBuilder("SELECT " + selectClause.toString() + " FROM " + _tableName);
 
             // Ajoute le pattern
             String patternToMatchLogin = _getPatternToMatchLogin (pattern);
@@ -565,30 +566,32 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
         }
     }
 
-    private StringBuffer _addQuerySize(int length, int offset, Connection con, StringBuffer selectClause, StringBuffer sql)
+    private StringBuilder _addQuerySize(int length, int offset, Connection con, StringBuilder selectClause, StringBuilder sql)
     {
-        if ((ConnectionHelper.getDatabaseType(con) == ConnectionHelper.DatabaseType.DATABASE_MYSQL)  
-                || ConnectionHelper.getDatabaseType(con) == ConnectionHelper.DatabaseType.DATABASE_POSTGRES)
+        DatabaseType datatype = ConnectionHelper.getDatabaseType(con);
+        
+        if (datatype == DatabaseType.DATABASE_MYSQL || datatype == DatabaseType.DATABASE_POSTGRES || datatype == DatabaseType.DATABASE_HSQLDB)
         {
             sql.append(" LIMIT " + length + " OFFSET " + offset);
             return sql;
         }
-        else if (ConnectionHelper.getDatabaseType(con) == ConnectionHelper.DatabaseType.DATABASE_ORACLE)
+        else if (datatype == DatabaseType.DATABASE_ORACLE)
         {
-            return new StringBuffer("select " + selectClause.toString() + " from (select rownum r, " + selectClause.toString() + " from (" + sql.toString()
-                    + ")) where r BETWEEN " + offset + " AND " + (offset + length - 1));
+            return new StringBuilder("select " + selectClause.toString() + " from (select rownum r, " + selectClause.toString() + " from (" + sql.toString()
+                    + ")) where r BETWEEN " + (offset + 1) + " AND " + (offset + length));
         }
-        else if (ConnectionHelper.getDatabaseType(con) == ConnectionHelper.DatabaseType.DATABASE_DERBY)
+        else if (datatype == DatabaseType.DATABASE_DERBY)
         {
-            return new StringBuffer("select ").append(selectClause.toString())
+            return new StringBuilder("select ").append(selectClause.toString())
                     .append(" from (select ROW_NUMBER() OVER () AS ROWNUM, ").append(selectClause.toString())
                     .append(" from (").append(sql.toString()).append(") AS TR ) AS TRR where ROWNUM BETWEEN ")
-                    .append(offset).append(" AND ").append(offset + length - 1);
+                    .append(offset + 1).append(" AND ").append(offset + length);
         }
         else if (getLogger().isWarnEnabled())
         {
             getLogger().warn("The request will not have the limit and offet set, since its type is unknown");
         }
+        
         return sql;
     }
     

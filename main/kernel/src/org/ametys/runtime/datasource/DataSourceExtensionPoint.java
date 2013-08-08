@@ -110,6 +110,10 @@ public class DataSourceExtensionPoint extends AbstractExtensionPoint<DataSource>
         {
             return "SELECT 1 FROM SYS.SYSTABLES";
         }
+        else if ("org.hsqldb.jdbcDriver".equals(driver) || "org.hsqldb.jdbc.JDBCDriver".equals(driver))
+        {
+            return "SELECT 1 FROM INFORMATION_SCHEMA.SYSTEM_USERS";
+        }
         else
         {
             return "SELECT 1";

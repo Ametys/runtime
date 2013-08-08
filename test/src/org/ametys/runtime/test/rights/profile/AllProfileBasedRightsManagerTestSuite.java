@@ -42,6 +42,7 @@ public final class AllProfileBasedRightsManagerTestSuite extends TestSuite
         suite.addTestSuite(PostgresProfileBasedRightsManagerTestCase.class);
         suite.addTestSuite(OracleProfileBasedRightsManagerTestCase.class);
         suite.addTestSuite(DerbyProfileBasedRightsManagerTestCase.class);
+        suite.addTestSuite(HsqlProfileBasedRightsManagerTestCase.class);
         //$JUnit-END$
         
         return suite;
