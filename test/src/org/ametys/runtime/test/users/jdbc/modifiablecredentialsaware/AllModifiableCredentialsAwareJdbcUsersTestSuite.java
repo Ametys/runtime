@@ -42,9 +42,9 @@ public final class AllModifiableCredentialsAwareJdbcUsersTestSuite extends TestS
         suite.addTestSuite(PostgresModifiableCredentialsAwareJdbcUsersTestCase.class);
         suite.addTestSuite(OracleModifiableCredentialsAwareJdbcUsersTestCase.class);
         suite.addTestSuite(DerbyModifiableCredentialsAwareJdbcUsersTestCase.class);
+        suite.addTestSuite(HsqlModifiableCredentialsAwareJdbcUsersTestCase.class);
         //$JUnit-END$
         
         return suite;
     }
-    
 }

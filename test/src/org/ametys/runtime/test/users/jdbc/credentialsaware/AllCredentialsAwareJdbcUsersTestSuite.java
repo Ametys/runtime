@@ -42,6 +42,7 @@ public final class AllCredentialsAwareJdbcUsersTestSuite extends TestSuite
         suite.addTestSuite(PostgresCredentialsAwareJdbcUsersTestCase.class);
         suite.addTestSuite(OracleCredentialsAwareJdbcUsersTestCase.class);
         suite.addTestSuite(DerbyCredentialsAwareJdbcUsersTestCase.class);
+        suite.addTestSuite(HsqlCredentialsAwareJdbcUsersTestCase.class);
         //$JUnit-END$
         
         return suite;

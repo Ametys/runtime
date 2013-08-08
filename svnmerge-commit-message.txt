@@ -1,0 +1,12 @@
+Merged revisions 22822-22823 via svnmerge from 
+https://svn.ametys.org/trunk/runtime/trunk
+
+........
+  r22822 | cedric | 2013-08-08 18:13:12 +0200 (jeu., 08 ao–t 2013) | 1 line
+  
+  RUNTIME-897 Add support for HSQLDB in CMS
+........
+  r22823 | cedric | 2013-08-08 18:19:10 +0200 (jeu., 08 ao–t 2013) | 1 line
+  
+  optimization
+........

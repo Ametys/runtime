@@ -42,6 +42,7 @@ public final class AllHierarchicalProfileBasedRightsManagerTestSuite extends Tes
         suite.addTestSuite(PostgresHierarchicalProfileBasedRightsManagerTestCase.class);
         suite.addTestSuite(OracleHierarchicalProfileBasedRightsManagerTestCase.class);
         suite.addTestSuite(DerbyHierarchicalProfileBasedRightsManagerTestCase.class);
+        suite.addTestSuite(HsqlHierarchicalProfileBasedRightsManagerTestCase.class);
         //$JUnit-END$
         
         return suite;

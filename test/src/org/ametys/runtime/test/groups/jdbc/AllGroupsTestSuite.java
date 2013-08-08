@@ -42,6 +42,7 @@ public final class AllGroupsTestSuite extends TestSuite
         suite.addTestSuite(PostgresJdbcGroupsTestCase.class);
         suite.addTestSuite(OracleJdbcGroupsTestCase.class);
         suite.addTestSuite(DerbyJdbcGroupsTestCase.class);
+        suite.addTestSuite(HsqlJdbcGroupsTestCase.class);
         //$JUnit-END$
         
         return suite;

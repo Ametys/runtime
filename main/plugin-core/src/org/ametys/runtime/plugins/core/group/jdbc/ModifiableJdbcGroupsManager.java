@@ -403,8 +403,9 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
         try
         {
             connection = ConnectionHelper.getConnection(_poolName);
-
-            if (DatabaseType.DATABASE_ORACLE.equals(ConnectionHelper.getDatabaseType(connection)))
+            DatabaseType datatype = ConnectionHelper.getDatabaseType(connection);
+            
+            if (datatype == DatabaseType.DATABASE_ORACLE)
             {
                 statement = connection.prepareStatement("SELECT seq_groups.nextval FROM dual");
                 rs = statement.executeQuery();
@@ -430,7 +431,7 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
             ConnectionHelper.cleanup(statement);
 
             //FIXME Write query working with all database
-            if (DatabaseType.DATABASE_MYSQL.equals(ConnectionHelper.getDatabaseType(connection)))
+            if (datatype == DatabaseType.DATABASE_MYSQL)
             {
                 statement = connection.prepareStatement("SELECT " + _groupsListColId + " FROM " + _groupsListTable + " WHERE " + _groupsListColId + " = last_insert_id()");    
                 rs = statement.executeQuery();
@@ -451,7 +452,7 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
                     }
                 }
             }
-            else if (DatabaseType.DATABASE_DERBY.equals(ConnectionHelper.getDatabaseType(connection)))
+            else if (datatype == DatabaseType.DATABASE_DERBY)
             {
                 statement = connection.prepareStatement("VALUES IDENTITY_VAL_LOCAL ()");
                 rs = statement.executeQuery();
@@ -460,7 +461,16 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
                     id = rs.getString(1);
                 }
             }
-            else if (DatabaseType.DATABASE_POSTGRES.equals(ConnectionHelper.getDatabaseType(connection)))
+            else if (datatype == DatabaseType.DATABASE_HSQLDB)
+            {
+                statement = connection.prepareStatement("CALL IDENTITY ()");
+                rs = statement.executeQuery();
+                if (rs.next())
+                {
+                    id = rs.getString(1);
+                }
+            }
+            else if (datatype == DatabaseType.DATABASE_POSTGRES)
             {
                 statement = connection.prepareStatement("SELECT currval('groups_id_seq')");
                 rs = statement.executeQuery();
@@ -565,31 +575,34 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
             statement.executeUpdate();
             ConnectionHelper.cleanup(statement);
 
-            // Test if the connection supports batch updates.
-            boolean supportsBatch = connection.getMetaData().supportsBatchUpdates();
-
-            statement = connection.prepareStatement("INSERT INTO " + _groupsCompositionTable + " (" + _groupsCompositionColGroup + ", " + _groupsCompositionColUser + ") VALUES (?, ?)");
-
-            for (String login : userGroup.getUsers())
+            if (!userGroup.getUsers().isEmpty())
             {
-                statement.setInt(1, Integer.parseInt(userGroup.getId()));
-                statement.setString(2, login);
+                // Tests if the connection supports batch updates.
+                boolean supportsBatch = connection.getMetaData().supportsBatchUpdates();
 
-                // If batch updates are supported, add to the batch, else execute directly.
+                statement = connection.prepareStatement("INSERT INTO " + _groupsCompositionTable + " (" + _groupsCompositionColGroup + ", " + _groupsCompositionColUser + ") VALUES (?, ?)");
+                
+                for (String login : userGroup.getUsers())
+                {
+                    statement.setInt(1, Integer.parseInt(userGroup.getId()));
+                    statement.setString(2, login);
+                    
+                    // If batch updates are supported, add to the batch, else execute directly.
+                    if (supportsBatch)
+                    {
+                        statement.addBatch();
+                    }
+                    else
+                    {
+                        statement.executeUpdate();
+                    }
+                }
+                
+                // If the insert queries were queued in a batch, execute it.
                 if (supportsBatch)
                 {
-                    statement.addBatch();
+                    statement.executeBatch();
                 }
-                else
-                {
-                    statement.executeUpdate();
-                }
-            }
-
-            // If the insert queries were queued in a batch, execute it.
-            if (supportsBatch)
-            {
-                statement.executeBatch();
             }
 
             ConnectionHelper.cleanup(statement);
