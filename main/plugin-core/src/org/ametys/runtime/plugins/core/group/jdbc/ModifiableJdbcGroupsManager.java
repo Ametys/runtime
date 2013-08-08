@@ -550,31 +550,34 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
             statement.executeUpdate();
             ConnectionHelper.cleanup(statement);
             
-            // Test if the connection supports batch updates.
-            boolean supportsBatch = connection.getMetaData().supportsBatchUpdates();
-            
-            statement = connection.prepareStatement("INSERT INTO " + _groupsCompositionTable + " (" + _groupsCompositionColGroup + ", " + _groupsCompositionColUser + ") VALUES (?, ?)");
-            
-            for (String login : userGroup.getUsers())
+            if (!userGroup.getUsers().isEmpty())
             {
-                statement.setInt(1, Integer.parseInt(userGroup.getId()));
-                statement.setString(2, login);
+                // Tests if the connection supports batch updates.
+                boolean supportsBatch = connection.getMetaData().supportsBatchUpdates();
                 
-                // If batch updates are supported, add to the batch, else execute directly.
+                statement = connection.prepareStatement("INSERT INTO " + _groupsCompositionTable + " (" + _groupsCompositionColGroup + ", " + _groupsCompositionColUser + ") VALUES (?, ?)");
+                
+                for (String login : userGroup.getUsers())
+                {
+                    statement.setInt(1, Integer.parseInt(userGroup.getId()));
+                    statement.setString(2, login);
+                    
+                    // If batch updates are supported, add to the batch, else execute directly.
+                    if (supportsBatch)
+                    {
+                        statement.addBatch();
+                    }
+                    else
+                    {
+                        statement.executeUpdate();
+                    }
+                }
+                
+                // If the insert queries were queued in a batch, execute it.
                 if (supportsBatch)
                 {
-                    statement.addBatch();
+                    statement.executeBatch();
                 }
-                else
-                {
-                    statement.executeUpdate();
-                }
-            }
-            
-            // If the insert queries were queued in a batch, execute it.
-            if (supportsBatch)
-            {
-                statement.executeBatch();
             }
             
             ConnectionHelper.cleanup(statement);
