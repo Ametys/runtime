@@ -25,7 +25,8 @@
     <message key="KERNEL_PASSWORD_CLEAR">Reset password to previous value</message>
 	<message key="KERNEL_PASSWORD_CHANGE">Click here to change the password</message>
 	<message key="KERNEL_UPLOAD_HINT">Maximal authorized size is </message>
-
+	<message key="KERNEL_MULTIPLE_HINT">separated by coma</message>
+	
    	<message key="KERNEL_LOADMASK_DEFAULT_MESSAGE">Loading. Please wait...</message>
    	<message key="KERNEL_NOSCRIPT">You must activate javascript to use this application.</message>
 
