@@ -85,7 +85,6 @@
 .home-wrapper .home-main .home-col-main .admin-panel .x-panel-header
 {
 	background: url('../img/box/leftbox_top.gif') top left no-repeat !important;
-	text-transform: uppercase !important;
 	padding: 14px 23px 0px 0px !important;
 	border: none !important;
 	box-shadow: none;
@@ -93,6 +92,7 @@
 .home-wrapper .home-main .home-col-main .admin-panel .x-panel-header .x-panel-header-text
 {
 	font-size : 0.8em;
+	text-transform: uppercase;
 }
 
 .home-wrapper .home-main .home-col-main .admin-panel .x-panel-body {
@@ -132,6 +132,10 @@
 	
 .home-wrapper .home-main .home-col-main .navigation-item.x-btn-pressed {
 	background: url('../img/box/leftbox_item-over.gif') top left repeat-x;
+}
+
+.home-wrapper .home-main .home-col-main .navigation-item.x-btn-pressed .x-btn-inner {
+	color: #1C58A0;
 }
 
 .home-wrapper .home-main .home-col-main .navigation-item.x-btn-pressed button span {
