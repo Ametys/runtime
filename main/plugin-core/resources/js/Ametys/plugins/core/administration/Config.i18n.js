@@ -176,8 +176,11 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	/**
 	 * @private
 	 * Show or hide the elements of a group
-	 * @param {Boolean} state true to show elements
-	 * @param {String[]} elements The names of the elements to show of hide
+	 * @param {HTMLElement} input The changed input 
+	 * @param {String} newValue The new value of the input 
+	 * @param {String} oldValue The preceding value of the input
+	 * @param {Object} eOpts The events options 
+	 * @param {String[]} elements The html names of the elements to show of hide
 	 */
 	showHideGroup: function(input, newValue, oldValue, eOpts, elements)
 	{
