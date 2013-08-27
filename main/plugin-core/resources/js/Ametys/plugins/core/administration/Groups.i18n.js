@@ -350,6 +350,16 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
      * - column - The grid {@link Ext.grid.column.Column Column} defining the column that was edited.
      * - rowIdx - The row index that was edited
      * - colIdx - The column index that was edited
+     * @param {Ext.grid.plugin.CellEditing} editor The editor plugin
+     * @param {Object} e The editing context with the following properties:
+     *  @param {Ext.grid.Panel}         e.grid The owning grid Panel.
+     *  @param {Ext.data.Model}         e.record The record being edited.
+     *  @param {String}                 e.field The name of the field being edited.
+     *  @param {Mixed}                  e.value The field's current value.
+     *  @param {HTMLElement}            e.row The grid row element.
+     *  @param {Ext.grid.column.Column} e.column The Column being edited.
+     *  @param {Number}                 e.rowIdx The index of the row being edited.
+     *  @param {Number}                 e.colIdx The index of the column being edited.
      * @param {Object} eOpts The options object passed to Ext.util.Observable.addListener.
 	 * @private
 	 */
