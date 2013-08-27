@@ -572,6 +572,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	/**
 	 * @private
 	 * Creates a field based upon its widget id
+	 * @param {String} widgetId The id of the field used in #_widgets
 	 * @param {String} name The name of the field (the one used to submit the request)
 	 * @param {Object} value The value of the field at the creating time
 	 * @param {String} label The label of the field
