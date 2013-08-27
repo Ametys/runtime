@@ -380,7 +380,7 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 
 	/**
 	 * Callback for a user deletion
-	 * @param {String} anwser Will effectively delete if the answer is 'yes'.
+	 * @param {String} answer Will effectively delete if the answer is 'yes'.
 	 */
 	doRemove: function (answer)
 	{

@@ -669,8 +669,8 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 	},
 	
 	/**
-	 * Effectly remove the current group selection
-	 * @param {String} anwser If 'yes' the group will be removed
+	 * Effectively remove the current group selection
+	 * @param {String} answer If 'yes' the group will be removed
 	 * @private
 	 */
 	doRemove: function (answer)

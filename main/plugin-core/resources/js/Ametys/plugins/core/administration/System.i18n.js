@@ -371,7 +371,7 @@ Ext.define('Ametys.plugins.core.administration.System', {
 	/**
 	 * @private
 	 * Do actually the removal
-	 * @param {String} anwser If anwser is 'yes' the removal is done
+	 * @param {String} answer If answer is 'yes' the removal is done
 	 */
 	doRemove: function (answer)
 	{
