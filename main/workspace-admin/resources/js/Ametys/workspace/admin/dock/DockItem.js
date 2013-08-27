@@ -16,6 +16,7 @@
 
 /**
  * This class handles an item for the left dock bar
+ * @private
  */
 Ext.define('Ametys.workspace.admin.dock.DockItem', {
 	extend: 'Ext.button.Button',
