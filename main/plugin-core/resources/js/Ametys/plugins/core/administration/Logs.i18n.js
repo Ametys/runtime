@@ -718,7 +718,7 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 	/**
 	 * @private
 	 * Callback to actually delete the log files
-	 * @param {String} answser Will do the delteion if 'yes'
+	 * @param {String} answer Will do the delteion if 'yes'
 	 */
 	doDelete: function (answer)
 	{
@@ -783,7 +783,7 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 	/**
 	 * @private
 	 * Callback function to finally do the purge action
-	 * @param {String} answser Will do the purge if 'yes'
+	 * @param {String} anwser Will do the purge if 'yes'
 	 */
 	doPurge: function (anwser)
 	{

@@ -168,7 +168,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 	 * @param {Object} opt Options given as arfs
 	 * @param {Ext.data.Model} selectedElmt The element to save. Can be null.
 	 * @param {String[]} objects The saving informations. Can be null
-	 * @param {Object} newRights the rights identifiers. Can be null.
+	 * @param {Object} rights the rights identifiers. Can be null.
 	 */
     saveObjectConfirm: function (button, text, opt, selectedElmt, objects, rights)
 	{
@@ -313,6 +313,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 	 * @private
 	 * Select all rights
 	 * @param {String} id The id of the html element surrounding the elements to check. Can be null to check all.
+	 * @param {Boolean} [value=true] The value to set to all rights: true means rights are set and false unset.
 	 */
 	selectAll: function(id, value)
 	{

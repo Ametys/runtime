@@ -35,7 +35,7 @@ Ext.define('Ametys.plugins.core.administration.Password', {
 	/**
 	 * Do the job (open the dialog box and so on)
 	 * @param {String} pluginName The plugin declaring the function
-	 * @param {Object} The params. None are currently used
+	 * @param {Object} params The params. None are currently used
 	 */
 	act: function(pluginName, params)
 	{
