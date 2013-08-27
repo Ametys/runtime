@@ -422,8 +422,8 @@
 		/**
 		 * Allow to override itemSelector ghost config.
 		 * @private
+		 * @param dataview
 		 */
-		// Allow to override itemSelector ghost config.
 		init: function(dataview, config) {
 			this.callParent(arguments);
 	
@@ -436,6 +436,7 @@
 		 * Tweaked from {@link Ext.ux.DataView.Draggable} (method getDragData,
 		 * see source) to correctly handle multiselection.
 		 * See {@link Ext.view.DragZone#getDragData}
+		 * @param e
 		 * @private
 		 */
 		getDragData: function(e) {
