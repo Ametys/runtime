@@ -127,7 +127,7 @@ Ext.define(
 				switch (this.get('level'))
 				{
 					case this.self.LEVEL_DEBUG: 
-						console.debug(message);
+						console.log(message);
 						break;
 					case this.self.LEVEL_INFO: 
 						console.info(message);
