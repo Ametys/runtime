@@ -196,7 +196,7 @@ Ext.define(
 		 */
 		_log: function(config, level)
 		{
-			if (this._currentLogLevel < level)
+			if (this._currentLogLevel > level)
 			{
 				return;
 			}
