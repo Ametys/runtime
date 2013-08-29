@@ -115,6 +115,11 @@ public class ExecuteClientCallsAction extends AbstractCurrentUserProviderService
         Class<? extends Object> clazz = object.getClass();
         Method method = MethodUtils.getMatchingAccessibleMethod(clazz, methodName, paramClass);
         
+        if (method == null)
+        {
+            throw new IllegalArgumentException("No method named '" + methodName + "' present in class " + clazz.getName() + ".");
+        }
+        
         Map<String, Object> result = _executeMethod(method, object, paramValues, jsParameters);
 
         Request request = ObjectModelHelper.getRequest(objectModel);
