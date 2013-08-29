@@ -237,6 +237,26 @@ Ext.define(
 		},
 		
 		/**
+		 * Selects the direct child DOM nodes
+		 * @param {HTMLElement} [node=document] The start of the query.
+		 * @return {HTMLElement[]} An array of DOM elements
+		 */
+		selectDirectChildElements: function (node)
+		{
+			var childNodes = Ext.dom.Query.select('> *', node);
+			var elements = [];
+			for (var i = 0; i < childNodes.length; i++)
+			{
+				// Test if Node.ELEMENT_NODE
+				if (childNodes[i].nodeType == 1)
+				{
+					elements.push(childNodes[i]);
+				}
+			}
+			return elements;
+		},
+		
+		/**
 		 * Retrieve an object by its name
 		 * @param {String} name The name of the object
 		 * @param {Object} [context=window] The search context (relative to the object name).
