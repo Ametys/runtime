@@ -317,14 +317,13 @@ Ext.define(
 		},
 		
 		/**
-		 * Executes a function by supplying its name
+		 * Get a function by supplying its name
 		 * @param {String} name The name of the object
 		 * @param {Object} [context=window] The search context (relative to the object name).
 		 * @param {Object} [scope=context] The scope for the function call.
-		 * @param {Object...} [args] Optional function arguments.
-		 * @return {Object} The result of the function, or null if the function does not exist.
+		 * @return {Object} The function, or null if the function does not exist.
 		 */
-		executeFunctionByName: function(name, context, scope/*, args*/)
+		getFunctionByName: function(name, context, scope)
 		{
 			var ctx = context || window;
 			
@@ -348,9 +347,29 @@ Ext.define(
 			if (!fn) return null; // return null if fn is falsy.
 			
 			var scp = scope || context || ctx;
+			
+			return Ext.bind(fn, scp);
+		},
+		
+		/**
+		 * Executes a function by supplying its name
+		 * @param {String} name The name of the object
+		 * @param {Object} [context=window] The search context (relative to the object name).
+		 * @param {Object} [scope=context] The scope for the function call.
+		 * @param {Object...} [args] Optional function arguments.
+		 * @return {Object} The result of the function, or null if the function does not exist.
+		 */
+		executeFunctionByName: function(name, context, scope/*, args*/)
+		{
+			var fn = Ametys.getFunctionByName(name, context, scope);
+			if (fn == null)
+			{
+				return null;
+			}
+			
 			var args = Array.prototype.slice.call(arguments, 3);
 			
-			return fn.apply(scp, args);
+			return fn.apply(null, args);
 		},
 
 		/**
