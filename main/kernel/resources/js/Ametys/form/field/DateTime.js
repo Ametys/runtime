@@ -19,7 +19,7 @@
  */
 Ext.define('Ametys.form.field.DateTime', {
     extend: 'Ametys.form.AbstractFieldWrapper',
-    alias: 'widget.datetimefield',
+    alias: ['widget.datetimefield', 'widget.datetime'],
     alternateClassName: ['Ext.form.DateTimeField', 'Ext.form.DateTime', 'Ext.form.field.DateTime'],
     
 	/**
