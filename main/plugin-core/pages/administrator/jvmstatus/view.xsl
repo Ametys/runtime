@@ -132,6 +132,9 @@
     	        		<div class="label"><i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_JVM_VENDOR"/></div>
     	        		<xsl:value-of select="/status/caracteristics/javaVendor"/>
     	        		<br/>
+                        <div class="label"><i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_JVM_NAME"/></div>
+                        <xsl:value-of select="/status/caracteristics/jvmName"/>
+                        <br/>
     	        		<div class="label"><i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_JVM_TIME"/></div>
     	        		<i18n:date pattern="long" src-pattern="yyyy-MM-dd'T'HH:mm" value="{/status/caracteristics/startTime}"/>&#160;<i18n:time pattern="short" src-pattern="yyyy-MM-dd'T'HH:mm" value="{/status/caracteristics/startTime}"/>
     	        	</div>

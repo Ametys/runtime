@@ -30,6 +30,7 @@ import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.generation.ServiceableGenerator;
 import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
 
 import org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.MonitoringExtensionPoint;
@@ -77,15 +78,21 @@ public class JVMStatusGenerator extends ServiceableGenerator
         
         XMLUtils.startElement(contentHandler, "caracteristics");
 
-        XMLUtils.createElement(contentHandler, "osName", String.valueOf(osBean.getName()));
-        XMLUtils.createElement(contentHandler, "osVersion", String.valueOf(osBean.getVersion()));
-        XMLUtils.createElement(contentHandler, "osPatch", String.valueOf(rBean.getSystemProperties().get("sun.os.patch.level")));
+        XMLUtils.createElement(contentHandler, "osName", osBean.getName());
+        XMLUtils.createElement(contentHandler, "osVersion", osBean.getVersion());
+        
+        String osPatch = System.getProperty("sun.os.patch.level");
+        if (StringUtils.isNotEmpty(osPatch))
+        {
+            XMLUtils.createElement(contentHandler, "osPatch", osPatch);
+        }
         
         XMLUtils.createElement(contentHandler, "availableProc", String.valueOf(osBean.getAvailableProcessors()));
-        XMLUtils.createElement(contentHandler, "architecture", String.valueOf(osBean.getArch()));
+        XMLUtils.createElement(contentHandler, "architecture", osBean.getArch());
         
-        XMLUtils.createElement(contentHandler, "javaVendor", String.valueOf(rBean.getVmVendor()));
-        XMLUtils.createElement(contentHandler, "javaVersion", String.valueOf(rBean.getVmVersion()));
+        XMLUtils.createElement(contentHandler, "javaVendor", System.getProperty("java.vendor"));
+        XMLUtils.createElement(contentHandler, "javaVersion", System.getProperty("java.version"));
+        XMLUtils.createElement(contentHandler, "jvmName", rBean.getVmName());
         XMLUtils.createElement(contentHandler, "startTime", ParameterHelper.valueToString(new Date(rBean.getStartTime())));
         
         XMLUtils.endElement(contentHandler, "caracteristics");        
