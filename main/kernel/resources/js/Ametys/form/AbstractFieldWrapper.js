@@ -21,7 +21,7 @@
  * To handle global errors override {@link #getErrors}.<br/>
  * To make your field compatible with form, if your are not returning strings, see {@link #getSubmitData}
  * <pre><code>
- *      // A component to enter a number (&gt; 5) with spinner and a two chars text
+ *      // A component to enter a number (&gt; 5) with spinner and a two char text
  * 		Ext.define('Ametys.toto', {
  * 			extend : 'Ametys.form.AbstractFieldWrapper',
  * 		
@@ -109,8 +109,8 @@ Ext.define('Ametys.form.AbstractFieldWrapper', {
     
     /**
      * Implements this method to concat the internal fields values to the unique value.
-     * You do not have to get the vluaes in the fields, but simply returns the unique value built from the values given (in the same order that fields are)
-     * @param {Object[]} values A non null array that always have the size corresponding to the number of fiels.
+     * You do not have to get the values in the fields, but simply returns the unique value built from the values given (in the same order that fields are)
+     * @param {Object[]} values A non null array that always have the size corresponding to the number of fields.
      * @return {Object} The typed value for this field
      * @protected
      */

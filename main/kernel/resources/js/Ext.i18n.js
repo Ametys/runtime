@@ -163,7 +163,7 @@
      * @method animate 
      * @since Ametys Runtime 3.7
      * @ametys
-     * Ametys do additionnaly handle `background-position` to animate a background-image and `background-position-step` to step this animation.
+     * Ametys additionally handles `background-position` to animate a background-image and `background-position-step` to step this animation.
      * Both args are array of numbers with unit.
      * To right align, use '100%'.
      * 
