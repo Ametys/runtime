@@ -506,7 +506,7 @@ Ext.define('Ametys.form.field.RichText', {
 		this._suspended--;
 	},
 	
-    afterRender: function()
+	afterComponentLayout: function()
     {
     	this.callParent(arguments);
     	
