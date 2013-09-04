@@ -739,6 +739,11 @@
         <extension-point id="org.ametys.runtime.cocoon.XHTMLSerializerExtensionPoint"
                          class="org.ametys.runtime.cocoon.XHTMLSerializerExtensionPoint"/>
                          
+        <extension-point id="org.ametys.runtime.observation.ObserverExtensionPoint"
+                         class="org.ametys.runtime.observation.ObserverExtensionPoint">
+            <!-- Observer extension point -->
+        </extension-point>
+        
         <single-extension-point id="org.ametys.runtime.right.RightsManager"
                                 class="org.ametys.runtime.right.RightsManager"
                                 default-extension-id="org.ametys.runtime.plugins.core.right.Basic"/>
@@ -2262,5 +2267,13 @@
         	</extension>
     	</extensions>
     </feature>
-        
+    
+    <feature name="observation">       
+        <components>
+            <component role="org.ametys.runtime.observation.ObservationManager"
+                       class="org.ametys.runtime.observation.ObservationManager">
+                <!-- Manager for dispatching Event instances to Observers -->
+            </component>
+        </components>
+    </feature>
 </plugin>
