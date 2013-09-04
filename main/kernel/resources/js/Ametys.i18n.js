@@ -357,14 +357,17 @@ Ext.define(
 		 * @param {Object} [context=window] The search context (relative to the object name).
 		 * @param {Object} [scope=context] The scope for the function call.
 		 * @param {Object...} [args] Optional function arguments.
-		 * @return {Object} The result of the function, or null if the function does not exist.
+		 * @return {Object} The result of the function
+		 * @throw an error if the function is undefined
 		 */
 		executeFunctionByName: function(name, context, scope/*, args*/)
 		{
 			var fn = Ametys.getFunctionByName(name, context, scope);
 			if (fn == null)
 			{
-				return null;
+				var message = "Can not execute undefined function '" + name + "'.";
+				Ametys.log.Logger.error({category: this.self.getName(), message: message});
+				throw new Error (message);
 			}
 			
 			var args = Array.prototype.slice.call(arguments, 3);

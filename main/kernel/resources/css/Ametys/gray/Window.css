@@ -39,3 +39,29 @@
 {
 	text-decoration: underline;
 }
+
+.ametys-dialogbox .x-form-text,
+.ametys-dialogbox .x-form-cb-label,
+.ametys-dialogbox .x-form-item-label 
+{
+    font-size: 0.9em;
+    color: #404040;
+}
+
+.ametys-dialogbox .x-panel .x-header.x-tab-bar {
+	background-color: #FFFFFF;
+    background-image: none;
+    border: none;
+    height: 23px;
+}
+.ametys-dialogbox .x-panel .x-header.x-tab-bar .x-tab-bar-body {
+    padding-bottom: 0px;
+}
+.ametys-dialogbox .x-panel .x-header.x-tab-bar .x-tab-bar-strip {
+	background-color: #FFFFFF;
+	height: 1px;
+}
+
+
+	
+
