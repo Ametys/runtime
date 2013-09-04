@@ -21,18 +21,30 @@
     <!-- UI -->
     <message key="KERNEL_UI_LISTVIEW_PREVIEW_NOTAVAILABLE">No preview available</message>
     <message key="KERNEL_DIALOG_ERRORREADINGURL">An error occurred during loading of resource</message>
-    <message key="KERNEL_PASSWORD_VALIDATOR">The password and the confirmation are not the same</message>
-    <message key="KERNEL_PASSWORD_CLEAR">Reset password to previous value</message>
-	<message key="KERNEL_PASSWORD_CHANGE">Click here to change the password</message>
-	<message key="KERNEL_UPLOAD_HINT">Maximal authorized size is </message>
-	<message key="KERNEL_MULTIPLE_HINT">separated by coma</message>
-	
-   	<message key="KERNEL_LOADMASK_DEFAULT_MESSAGE">Loading. Please wait...</message>
    	<message key="KERNEL_NOSCRIPT">You must activate javascript to use this application.</message>
 
+    <!-- FIELDS -->
+    
     <!-- DEFAULT VALIDATOR -->
     <message key="KERNEL_DEFAULT_VALIDATOR_MANDATORY">This field is mandatory</message>
     <message key="KERNEL_DEFAULT_VALIDATOR_PATTERN_FAILED">The field's value is invalid</message>
+    
+    <!--  Password -->
+    <message key="KERNEL_PASSWORD_VALIDATOR">The password and the confirmation are not the same</message>
+    <message key="KERNEL_PASSWORD_CLEAR">Reset password to previous value</message>
+	<message key="KERNEL_PASSWORD_CHANGE">Click here to change the password</message>
+    
+    <!-- Upload -->
+   	<message key="KERNEL_UPLOAD_HINT">Maximal authorized size is </message>
+   	
+   	<!-- Multiple -->
+	<message key="KERNEL_MULTIPLE_HINT">separated by coma</message>
+	
+	<!-- Counter (for richtexts and textareas) -->
+    <message key="KERNEL_FIELD_CARACTERS_COUNTER_1">Characters:</message>
+    <message key="KERNEL_FIELD_CARACTERS_COUNTER_2">on</message>
+	
+   	<message key="KERNEL_LOADMASK_DEFAULT_MESSAGE">Loading. Please wait...</message>
 
     <!-- +
     	 | ServerComm.js

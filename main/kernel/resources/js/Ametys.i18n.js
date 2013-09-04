@@ -472,17 +472,20 @@ Ext.Ajax.setOptions({method: 'POST', timeout: 0});
 (function ()
 {
     // This is to change default value
-    Ext.define("Ext.locale.fr.LoadMask", {
+    Ext.define("Ext.locale.i18n.LoadMask", {
         override: "Ext.LoadMask",
         msg: "<i18n:text i18n:key='KERNEL_LOADMASK_DEFAULT_MESSAGE' i18n:catalogue='kernel'/>"
     });
 
-    // Load localized extjs
-	var link = document.createElement("script");
-		link.src = Ametys.getPluginResourcesPrefix('extjs4') + "/js/locale/ext-lang-" + Ametys.LANGUAGE_CODE + ".js";
-		link.charset = "UTF-8";
-		link.type = "text/javascript";
-	document.getElementsByTagName("head")[0].appendChild(link);
+    if (Ametys.LANGUAGE_CODE != 'en')
+    {
+	    // Load localized extjs
+		var link = document.createElement("script");
+			link.src = Ametys.getPluginResourcesPrefix('extjs4') + "/js/locale/ext-lang-" + Ametys.LANGUAGE_CODE + ".js";
+			link.charset = "UTF-8";
+			link.type = "text/javascript";
+		document.getElementsByTagName("head")[0].appendChild(link);
+    }
 })();
 
 /*

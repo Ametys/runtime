@@ -21,18 +21,30 @@
     <!-- UI -->
     <message key="KERNEL_UI_LISTVIEW_PREVIEW_NOTAVAILABLE">Pas d'aperçu disponible</message>
     <message key="KERNEL_DIALOG_ERRORREADINGURL">Une erreur est survenue lors du téléchargement de la ressource</message>
-
+   	<message key="KERNEL_NOSCRIPT">Vous devez activer le javascript pour utiliser cette application.</message>
+    
+    <!-- FIELDS -->
+    
     <!-- DEFAULT VALIDATOR -->
     <message key="KERNEL_DEFAULT_VALIDATOR_MANDATORY">Ce champ est obligatoire</message>
     <message key="KERNEL_DEFAULT_VALIDATOR_PATTERN_FAILED">La valeur de ce champ n'est pas valide</message>
+
+    <!--  Password -->
     <message key="KERNEL_PASSWORD_VALIDATOR">Le mot de passe et sa confirmation ne sont pas identiques</message>
     <message key="KERNEL_PASSWORD_CLEAR">Remettre le mot de passe à sa valeur initiale</message>
 	<message key="KERNEL_PASSWORD_CHANGE">Cliquez ici pour changer le mot de passe</message>
+	
+	<!-- Upload -->
 	<message key="KERNEL_UPLOAD_HINT">La taille maximale autorisée est de </message>
+	
+	<!-- Multiple -->
 	<message key="KERNEL_MULTIPLE_HINT">séparés par des virgules</message>
 	
+	<!-- Counter (for richtexts and textareas) -->
+   <message key="KERNEL_FIELD_CARACTERS_COUNTER_1">Caractères :</message>
+   <message key="KERNEL_FIELD_CARACTERS_COUNTER_2">sur</message>
+	
    	<message key="KERNEL_LOADMASK_DEFAULT_MESSAGE">Traitement en cours. Veuillez patienter ...</message>
-   	<message key="KERNEL_NOSCRIPT">Vous devez activer le javascript pour utiliser cette application.</message>
 
 	 <!-- +
     	 | ServerComm.js
