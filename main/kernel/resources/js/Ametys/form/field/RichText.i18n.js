@@ -66,6 +66,11 @@ Ext.define('Ametys.form.field.RichText', {
      */
     _notFirstCallToOnRichTextNodeSelected: false,
     
+    /**
+     * @property {Boolean} _editorInitialized=false Has the editor been initialized?
+     */
+    _editorInitialized: false,
+    
 	/**
 	 * @private
 	 * @property {Number} _suspended The number of times the transmission was suspended. 0 means transmission of selection events between tinymce and the ribbon are not suspended. Cannot be negative.
@@ -506,14 +511,23 @@ Ext.define('Ametys.form.field.RichText', {
 		this._suspended--;
 	},
 	
+	afterRender: function()
+	{
+    	this.callParent(arguments);
+
+    	this.addCls('x-field-richtext');
+	},
+	
 	afterComponentLayout: function()
     {
     	this.callParent(arguments);
-    	
-    	this.addCls('x-field-richtext');
 
-		// Creates the tinymce editor above the textarea input
-		new tinyMCE.Editor(this.getInputId(), this._settings).render();
+    	// Creates the tinymce editor to replace the underlying textarea input
+    	if (!this._editorInitialized)
+    	{
+    		this._editorInitialized = true;
+    		new tinyMCE.Editor(this.getInputId(), this._settings).render();
+    	}
     },
     
     beforeDestroy: function() 
