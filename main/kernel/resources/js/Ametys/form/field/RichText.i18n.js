@@ -273,7 +273,7 @@ Ext.define('Ametys.form.field.RichText', {
 		
 			// Add i18n for the char counter
 			tinyMCE.addI18n({ 
-				<i18n:text i18n:key="KERNEL_LANGUAGE_CODE" i18n:catalogue="kernel"/> : { 
+				"<i18n:text i18n:key="KERNEL_LANGUAGE_CODE" i18n:catalogue="kernel"/>" : { 
 					common: {
 						charcount_chars: "<i18n:text i18n:key="KERNEL_FIELD_CARACTERS_COUNTER_1" catalogue="kernel"/>", 
 						charcount_max: "<i18n:text i18n:key="KERNEL_FIELD_CARACTERS_COUNTER_2" catalogue="kernel"/>"
