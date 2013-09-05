@@ -182,7 +182,7 @@ Ext.define('Ametys.form.field.RichText', {
 	             */
 	            'editorkeydown',
 	            /**
-	             * @event editorkeydown
+	             * @event editorkeyup
 	             * Fires when the editor has a key up.
 	             * @param {Ext.form.Field} field The editor field
 	             * @param {tinymce.Editor} editor The tinyMCE editor
