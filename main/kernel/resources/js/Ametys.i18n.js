@@ -358,7 +358,7 @@ Ext.define(
 		 * @param {Object} [scope=context] The scope for the function call.
 		 * @param {Object...} [args] Optional function arguments.
 		 * @return {Object} The result of the function
-		 * @throw an error if the function is undefined
+		 * @throws an error if the function is undefined
 		 */
 		executeFunctionByName: function(name, context, scope/*, args*/)
 		{
