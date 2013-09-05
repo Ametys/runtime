@@ -412,11 +412,11 @@ Ext.define('Ametys.form.field.RichText', {
 			{
 				if (a > this.maxLength)
 				{
-					Ext.get(count).addCls("char-count-maxexceed");
+					Ext.get(counter).addCls("char-count-maxexceed");
 				}
 				else
 				{
-					Ext.get(count).removeCls("char-count-maxexceed");
+					Ext.get(counter).removeCls("char-count-maxexceed");
 				}
 			}
 
