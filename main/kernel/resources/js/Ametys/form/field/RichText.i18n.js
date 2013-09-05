@@ -570,7 +570,7 @@ Ext.define('Ametys.form.field.RichText', {
     /**
      * Listener on tinymce event to call extjs listeners
      * @param {tinymce.Editor} editor The tinymce editor involved
-     * @param {Object} object The tinymce content object. See tinymce doc to know more.
+     * @param {Object} e The event
      * @private
      */
 	_onEditorKeyPress: function (editor, e)
@@ -595,7 +595,7 @@ Ext.define('Ametys.form.field.RichText', {
     /**
      * Listener on tinymce event to call extjs listeners
      * @param {tinymce.Editor} editor The tinymce editor involved
-     * @param {Object} object The tinymce content object. See tinymce doc to know more.
+     * @param {Object} e The event
      * @private
      */
 	_onEditorKeyDown: function (editor, e)
@@ -634,7 +634,7 @@ Ext.define('Ametys.form.field.RichText', {
     /**
      * Listener on tinymce event to call extjs listeners
      * @param {tinymce.Editor} editor The tinymce editor involved
-     * @param {Object} object The tinymce content object. See tinymce doc to know more.
+     * @param {Object} e The event
      * @private
      */
 	_onEditorKeyUp: function (editor, e)
