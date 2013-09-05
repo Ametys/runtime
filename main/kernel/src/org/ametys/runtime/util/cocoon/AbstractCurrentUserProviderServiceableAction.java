@@ -27,7 +27,7 @@ import org.ametys.runtime.user.CurrentUserProvider;
 public abstract class AbstractCurrentUserProviderServiceableAction extends ServiceableAction implements ThreadSafe
 {
     /** The current user provider. */
-    protected CurrentUserProvider _currentUserProvider;
+    private CurrentUserProvider _currentUserProvider;
 
     /**
      * Determine if current user is the super user.
