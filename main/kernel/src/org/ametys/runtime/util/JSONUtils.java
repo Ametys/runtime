@@ -20,8 +20,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.avalon.framework.activity.Initializable;
@@ -69,9 +71,9 @@ public class JSONUtils implements Component, ThreadSafe, Serviceable, Initializa
     }
     
     /**
-     * Parse JSON string to {@link Map} object
+     * Parse a JSON string to a {@link Map} object
      * @param jsonString the string to parse
-     * @return object 
+     * @return object the infos as a Map.
      */
     public Map<String, Object> convertJsonToMap (String jsonString)
     {
@@ -85,12 +87,90 @@ public class JSONUtils implements Component, ThreadSafe, Serviceable, Initializa
             } 
             else 
             {
-                return Collections.EMPTY_MAP;
+                return Collections.emptyMap();
             }
         } 
         catch (Exception e) 
         {
-            throw new IllegalArgumentException("The json string " + jsonString + " can not be parsed", e);
+            throw new IllegalArgumentException("The json string " + jsonString + " can not be parsed as a Map.", e);
+        }
+    }
+    
+    /**
+     * Parse a JSON string to a {@link List} object.
+     * @param jsonString the string to parse.
+     * @return the infos as a List.
+     */
+    public List<Object> convertJsonToList(String jsonString)
+    {
+        try 
+        {
+            if (StringUtils.isNotBlank(jsonString)) 
+            {
+                JsonParser jParser = _jsonFactory.createJsonParser(new StringReader(jsonString));
+                List<Object> list = _objectMapper.readValue(jParser, ArrayList.class);
+                return list;
+            }
+            else
+            {
+                return Collections.emptyList();
+            }
+        } 
+        catch (Exception e) 
+        {
+            throw new IllegalArgumentException("The json string " + jsonString + " can not be parsed as a List.", e);
+        }
+    }
+    
+    /**
+     * Parse a JSON string to an Object array.
+     * @param jsonString the JSON string to parse.
+     * @return the converted Object array.
+     */
+    public Object[] convertJsonToArray(String jsonString)
+    {
+        try 
+        {
+            if (StringUtils.isNotBlank(jsonString)) 
+            {
+                JsonParser jParser = _jsonFactory.createJsonParser(new StringReader(jsonString));
+                Object[] array = _objectMapper.readValue(jParser, Object[].class);
+                return array;
+            }
+            else
+            {
+                return new Object[0];
+            }
+        } 
+        catch (Exception e) 
+        {
+            throw new IllegalArgumentException("The json string " + jsonString + " can not be parsed as an array.", e);
+        }
+    }
+    
+    /**
+     * Parse a JSON string to a String array.
+     * @param jsonString the JSON string to parse.
+     * @return the converted String array.
+     */
+    public String[] convertJsonToStringArray(String jsonString)
+    {
+        try 
+        {
+            if (StringUtils.isNotBlank(jsonString)) 
+            {
+                JsonParser jParser = _jsonFactory.createJsonParser(new StringReader(jsonString));
+                String[] array = _objectMapper.readValue(jParser, String[].class);
+                return array;
+            }
+            else
+            {
+                return new String[0];
+            }
+        } 
+        catch (Exception e) 
+        {
+            throw new IllegalArgumentException("The json string " + jsonString + " can not be parsed as a String array.", e);
         }
     }
     
@@ -116,7 +196,7 @@ public class JSONUtils implements Component, ThreadSafe, Serviceable, Initializa
     }
     
     /**
-     * Convert a {@link Map} object to JSON string
+     * Convert a {@link Map} object to a JSON string
      * @param parameters The {@link Map} object
      * @return The JSON string
      */
