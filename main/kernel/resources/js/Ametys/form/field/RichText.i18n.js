@@ -142,7 +142,7 @@ Ext.define('Ametys.form.field.RichText', {
     	}
     },
     
-    initEvent: function()
+    initEvents: function()
     {
     	this.callParent(arguments);
     	
