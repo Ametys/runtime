@@ -15,6 +15,7 @@
  */
 
 @import url('../../../../../plugins/extjs4/resources/css/ext-all-gray.css');
+@import url('BoxSelect.css');
 @import url('ChangePassword.css');
 @import url('ErrorDialog.css');
 @import url('Field.css');

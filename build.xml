@@ -69,7 +69,7 @@
     	<property name="ivy.dep.file" value="${dest-dir}/ivy.xml"/>
     	<property name="tools.ivy.dep.file" location="../../../deliver/common-build-2-ivy.xml"/>
 
-    		<!-- Ivy properties -->
+    	<!-- Ivy properties -->
     	<property name="ivy.settings" value="../../../ivyrep_2/ivysettings.xml"/>
     
     	<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpath="${ivy.jar}"/>
@@ -141,7 +141,8 @@
                 <exclude name="**/*.ico"/>
                 <exclude name="release-notes.txt"/>
                 <exclude name="src/org/ametys/runtime/cocoon/treeprocessor-builtins.xml"/>
-            	<exclude name="resources/js/mozxpath.js"/>
+            	<exclude name="resources/js/Ametys/form/field/BoxSelect.js"/>
+            	<exclude name="resources/css/Ametys/gray/BoxSelect.css"/>
             </fileset>
             <fileset dir="${plugin-dir}">
                 <exclude name="**/*.png"/>
