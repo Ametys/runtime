@@ -25,7 +25,6 @@
  *
  * @author kvee_iv http://www.sencha.com/forum/member.php?29437-kveeiv
  * @version 2.0.3
- * @requires BoxSelect.css
  * @xtype boxselect
  *
  */
@@ -319,6 +318,25 @@ Ext.define('Ext.ux.form.field.BoxSelect', {
         if (!Ext.isEmpty(me.delimiter) && me.multiSelect) {
             me.delimiterRegexp = new RegExp(String(me.delimiter).replace(/[$%()*+.?\[\\\]{|}]/g, "\\$&"));
         }
+        
+        me.addEvents(
+            /**
+             * @event valueselectionchange
+             * Fired after a selection change has occurred.
+             * @param {Ext.ux.form.field.BoxSelect} this This BoxSelect field.
+             * @param {Ext.data.Model[]} records The selected records.
+             */
+            {'valueselectionchange': true},
+            
+            /**
+             * @event valuefocuschange
+             * Fired when an item is focused.
+             * @param {Ext.ux.form.field.BoxSelect} this This BoxSelect field.
+             * @param {Ext.data.Model} oldFocused The previously focused record.
+             * @param {Ext.data.Model} newFocused The newly focused record.
+             */
+            {'valuefocuschange': true}
+        );
     },
 
     /**
