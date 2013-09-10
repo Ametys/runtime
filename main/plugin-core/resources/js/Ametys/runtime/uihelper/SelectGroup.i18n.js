@@ -16,6 +16,11 @@
 
 /**
  * This is a helper to select one or more groups from the group manager. See {@link #act} method
+ * 
+ * 		Ametys.runtime.uihelper.SelectGroup.act({
+ *			callback: Ext.bind(function (groups) { console.info(groups); }, this), 
+ *			allowMultiselection: false,
+ *		});	
  */
 Ext.define('Ametys.runtime.uihelper.SelectGroup', {
 	singleton: true,
