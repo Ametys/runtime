@@ -16,6 +16,11 @@
 
 /**
  * This is a helper to select one or more users from the user manager. See {@link #act} method
+ * 
+ * 		Ametys.runtime.uihelper.SelectUser.act({
+ *			callback: Ext.bind(function (users) { console.info(users); }, this), 
+ *			allowMultiselection: true,
+ *		});	
  */
 Ext.define('Ametys.runtime.uihelper.SelectUser', {
 	singleton: true,
