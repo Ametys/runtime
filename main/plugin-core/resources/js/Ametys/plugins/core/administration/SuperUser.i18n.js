@@ -34,7 +34,7 @@ Ext.define('Ametys.plugins.core.administration.SuperUser', {
 	{
 		this.pluginName = pluginName;
 
-		Ametys.plugins.core.SelectUser.act({
+		Ametys.runtime.uihelper.SelectUser.act({
 			callback: Ext.bind(this._affectSuperUser, this), 
 			cancelCallback: null, 
 			usersManagerRole: null, 

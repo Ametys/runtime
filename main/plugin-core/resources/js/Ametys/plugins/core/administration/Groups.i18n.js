@@ -430,7 +430,7 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 			this._needSave();
 		}
 
-		Ametys.plugins.core.SelectUser.act({
+		Ametys.runtime.uihelper.SelectUser.act({
 			callback: Ext.bind(cb, this), 
 			cancelCallback: null, 
 			usersManagerRole: null, 

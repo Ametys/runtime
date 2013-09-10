@@ -1136,7 +1136,7 @@
 				</class>   
                 <scripts>
                     <file>js/Ametys/plugins/core/administration/SuperUser.i18n.js</file>
-                    <file>js/Ametys/plugins/core/SelectUser.i18n.js</file>
+                    <file>js/Ametys/runtime/uihelper/SelectUser.i18n.js</file>
 				</scripts> 	
 				<css>
 					<file>css/selectuser.css</file>

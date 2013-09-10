@@ -36,8 +36,8 @@
             </head>
             
             <script>
-            	<script type="text/javascript" src="{$contextPath}/plugins/{$pluginName}/resources/js/Ametys/plugins/core/SelectUser.i18n.js"><xsl:comment>//emty</xsl:comment></script>
-                <script type="text/javascript" src="{$contextPath}/plugins/{$pluginName}/resources/js/Ametys/plugins/core/SelectGroup.i18n.js"><xsl:comment>//emty</xsl:comment></script>
+            	<script type="text/javascript" src="{$contextPath}/plugins/{$pluginName}/resources/js/Ametys/runtime/uihelper/SelectUser.i18n.js"><xsl:comment>//emty</xsl:comment></script>
+                <script type="text/javascript" src="{$contextPath}/plugins/{$pluginName}/resources/js/Ametys/runtime/uihelper/SelectGroup.i18n.js"><xsl:comment>//emty</xsl:comment></script>
             	<script type="text/javascript" src="{$contextPath}/plugins/{$pluginName}/resources/js/Ametys/plugins/core/administration/Groups.i18n.js"></script>
             	
             	<script type="text/javascript">

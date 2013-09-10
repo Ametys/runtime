@@ -15,9 +15,9 @@
  */
 
 /**
- * This is a helper to select one or more users from the user manager. See {@link #act} method
+ * This is a helper to select one or more groups from the group manager. See {@link #act} method
  */
-Ext.define('Ametys.plugins.core.SelectUser', {
+Ext.define('Ametys.runtime.uihelper.SelectGroup', {
 	singleton: true,
 	
 	/**
@@ -28,9 +28,9 @@ Ext.define('Ametys.plugins.core.SelectUser', {
 	
 	/**
 	 * @private
-	 * @property {String} usersManagerRole The currently selected UsersManager to use to list the user. The string is the role name on the server-side. Null/Empty means the default users manager. The current user manager role registered by the {@link #act} call.
+	 * @property {String} groupsManagerRole The currently selected groupsManager to use to list the group. The string is the role name on the server-side. Null/Empty means the default groups manager. The current group manager role registered by the {@link #act} call.
 	 */
-	usersManagerRole: null,
+	groupsManagerRole: null,
 	
 	/**
 	 * @private
@@ -69,7 +69,7 @@ Ext.define('Ametys.plugins.core.SelectUser', {
 
 		this.criteria = new Ext.form.TextField ({
 			 listeners: {'keyup': Ext.bind(this.reload, this)},
-			 fieldLabel: "<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_FIND"/>",
+			 fieldLabel: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_FIND"/>",
 			 name: "criteria",
 			 
 			 region: 'north',
@@ -81,22 +81,22 @@ Ext.define('Ametys.plugins.core.SelectUser', {
 			 value: ""
 		});
 		
-		var model = Ext.define('Ametys.plugins.core.SelectUser.Users', {
+		var model = Ext.define('Ametys.runtime.uihelper.SelectGroup.Groups', {
 		    extend: 'Ext.data.Model',
 		    fields: [
-		        {name: 'login',  type: 'string'},
-		        {name: 'name',  type: 'string'}
+		        {name: 'id',  type: 'string'},
+		        {name: 'label',  type: 'string'}
 		    ]
 		});
 
 		var store = Ext.create('Ext.data.Store', {
-			model: 'Ametys.plugins.core.SelectUser.Users',
-	        data: { users: []},
+			model: 'Ametys.runtime.uihelper.SelectGroup.Groups',
+	        data: { groups: []},
 	        proxy: {
 	        	type: 'memory',
 	        	reader: {
 	        		type: 'json',
-	        		root: 'users'
+	        		root: 'groups'
 	        	}
 	        }
 		});
@@ -111,57 +111,55 @@ Ext.define('Ametys.plugins.core.SelectUser', {
 		    hideHeaders : true,
 		    columnmove : false,
 		    columns: [
-		        {header: "Name", width : 240, menuDisabled : true, sortable: true, dataIndex: 'name'}
+		        {header: "Label", width : 240, menuDisabled : true, sortable: true, dataIndex: 'label'}
 		    ]
 		});	
 		
 		var warning = new Ext.Component({
 			region: 'south',
 			height: 26,
-			cls: 'select-user-warning',
+			cls: 'select-group-warning',
 			
-			html: "<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_WARN100"/>"
+			html: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_WARN100"/>"
 		});
 		
 		this.box = new Ametys.window.DialogBox({
-			title :"<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_CAPTION"/>",
+			title :"<i18n:text i18n:key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_CAPTION"/>",
 			layout :'border',
 			width: 280,
 			height: 340,
-			icon: Ametys.getPluginResourcesPrefix('core') + '/img/users/icon_small.png',
+			icon: Ametys.getPluginResourcesPrefix('core') + '/img/groups/icon_small.png',
 			items : [this.criteria, this.listview, warning],
 			
 			defaultButton: this.criteria,
 			closeAction: 'hide',
 			
 			buttons : [ {
-				text :"<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_OK"/>",
+				text :"<i18n:text i18n:key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_OK"/>",
 				handler : Ext.bind(this.ok, this)
 			}, {
-				text :"<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_CANCEL"/>",
+				text :"<i18n:text i18n:key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_CANCEL"/>",
 				handler : Ext.bind(this.cancel, this)
 			} ]
 		});
 	},
 	
 	/**
-	 * Display the dialog box to select a user
+	 * Display the dialog box to select a group
 	 * @param {Object} config The configuration for the box
-	 * @param {Function} config.callback The callback function that is called when the user has been selected
-	 * @param {Object} config.callback.users A Map String-String of the selected users. The key is the user identifier and the value is the associated user name.
-	 * @param {Function} config.cancelCallback The callback function if the user cancel the dialog box. Can be null.
-	 * @param {String} config.usersManagerRole the avalon role of the users manager which will be called to get the user list, or null to call the default users manager.
+	 * @param {Function} config.callback The callback function that is called when the group has been selected
+	 * @param {Object} config.callback.groups A Map String-String of the selected groups. The key is the group identifier and the value is the associated group name.
+	 * @param {Function} config.cancelCallback The callback function if the group cancel the dialog box. Can be null.
+	 * @param {String} config.groupsManagerRole the avalon role of the groups manager which will be called to get the group list, or null to call the default groups manager.
 	 * @param {Boolean} config.allowMultiselection True to authorize multiple selection of users. Default value is true.
 	 * @param {String} config.plugin The plugin to use for the request. Default value is 'core'.
 	 */
 	act: function (config)
 	{
-		config = config || {};
-		
 		this.delayed_initialize();
 		this.callback = config.callback || function () {};
 		this.cancelCallback = config.cancelCallback || function () {};
-	    this.usersManagerRole = config.usersManagerRole || '';
+	    this.groupsManagerRole = config.groupsManagerRole || '';
 	    this.allowMultiselection = config.allowMultiselection || true;
 	    this.pluginName = config.plugin || 'core';
 		
@@ -182,49 +180,47 @@ Ext.define('Ametys.plugins.core.SelectUser', {
 
 		var criteria = this.criteria.getValue();
 
-		// Get the user list from the UsersManager.
-		var params = { criteria: criteria, count: 100, offset: 0, usersManagerRole: this.usersManagerRole };
+		// Get the group list from the UsersManager.
+		var params = { criteria: criteria, count: 100, offset: 0, groupsManagerRole: this.groupsManagerRole };
 		
 		var result = Ametys.data.ServerComm.send({
 			plugin: this.pluginName, 
-			url: "users/search.xml", 
+			url: "groups/search.xml", 
 			parameters: params, 
 			priority: Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, 
 			callback: null, 
 			responseType: null
 		});
-	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_ERROR_LISTING"/>", result, "Ametys.plugins.core.SelectUser.load"))
+	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_ERROR_LISTING"/>", result, "Ametys.runtime.uihelper.SelectGroup.load"))
 	    {
 	       return;
 	    }
 
 		this.listview.getStore().removeAll();
 		
-		var users = Ext.dom.Query.select("Search/users/user", result);
+		var groups = Ext.dom.Query.select("Search/groups/group", result);
 
-		if (users.length == 0)
+		if (groups.length == 0)
 	    {
 			Ext.Msg.show({
-				   title: "<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_CAPTION"/>",
-				   msg: "<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_NORESULT"/>",
+				   title: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_CAPTION"/>",
+				   msg: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_NORESULT"/>",
 				   buttons: Ext.Msg.OK,
 				   icon: Ext.MessageBox.INFO
 				});
 			return;
 	    }
 
-		for (var i=0; i < users.length; i++)
+		for (var i=0; i < groups.length; i++)
 		{
-			var fs = Ext.dom.Query.selectValue('firstname', users[i]);
-			var ls = Ext.dom.Query.selectValue('lastname', users[i]);
+			var label = Ext.dom.Query.selectValue('label', groups[i]);
+			var fullname = label + " (" + groups[i].getAttribute('id') + ")";
 			
-			var fullname = (fs != null ? fs + " " + ls : ls) + " (" + users[i].getAttribute('login') + ")";
-			
-			var user = Ext.create('Ametys.plugins.core.SelectUser.Users', {
-				login: users[i].getAttribute('login'),
-				name: fullname
+			var group = Ext.create('Ametys.runtime.uihelper.SelectGroup.Groups', {
+				id: groups[i].getAttribute('id'),
+				label: fullname
 			});
-			this.listview.getStore().addSorted(user);
+			this.listview.getStore().addSorted(group);
 		}
 	},
 	
@@ -245,18 +241,18 @@ Ext.define('Ametys.plugins.core.SelectUser', {
 	
 	/**
 	 * @private
-	 * The method called when the user push the ok button of the dialog box
+	 * The method called when the group push the ok button of the dialog box
 	 */
 	ok: function ()
 	{
-		var addedusers = {}
+		var addedgroups = {}
 		
 		var selection = this.listview.getSelectionModel().getSelection();
 		if (selection.length == 0)
 		{
 			Ext.Msg.show({
-				   title: "<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_CAPTION"/>",
-				   msg: "<i18n:text i18n:key="PLUGINS_CORE_USERS_SELECTUSER_DIALOG_ERROR_EMPTY"/>",
+				   title: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_CAPTION"/>",
+				   msg: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_ERROR_EMPTY"/>",
 				   buttons: Ext.Msg.OK,
 				   icon: Ext.MessageBox.INFO
 				});
@@ -268,15 +264,15 @@ Ext.define('Ametys.plugins.core.SelectUser', {
 		for (var i=0; i < selection.length; i++)
 		{
 			var opt = selection[i];
-			addedusers[opt.get('login')] = opt.get('name');
+			addedgroups[opt.get('id')] = opt.get('label');
 		}
 	
-		this.callback(addedusers);
+		this.callback(addedgroups);
 	},
 
 	/**
 	 * @private
-	 * The method called when the user cancel the dialog box
+	 * The method called when the group cancel the dialog box
 	 */
 	cancel: function ()
 	{
