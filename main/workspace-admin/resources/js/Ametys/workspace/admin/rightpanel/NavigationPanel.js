@@ -28,6 +28,5 @@ Ext.define('Ametys.workspace.admin.rightpanel.NavigationPanel', {
 	bbar: [],
 	header: {
 		height: 40
-	},
-	navitems : []
+	}
 });

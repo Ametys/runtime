@@ -29,6 +29,9 @@ Ext.define('Ametys.workspace.admin.rightpanel.NavigationPanel.NavigationItem', {
 	textAlign: 'left',
 	width: 223,
     
+	/**
+	 * The handler of the button
+	 */
     handler: function ()
     {
     	if (this.divToScroll)
