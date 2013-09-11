@@ -104,6 +104,8 @@ Ext.define('Ametys.form.field.DateTime', {
 	
     /**
      * @private
+     * Compute the value to submit in #getSubmitData
+     * @return {String} A date formated using #submitFormat. Or empty string if there is no value.
      */
     getSubmitValue: function() {
         var format = this.submitFormat,
