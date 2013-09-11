@@ -161,6 +161,8 @@ Ext.define(
 	    
 	    /**
 	     * @private
+	     * Get the informations of the current #_runningRequestIndex in Ametys.data.ServerComm#_runningRequests
+	     * @return {Object} The currently running request (#_runningRequestIndex) of the Ametys.data.ServerComm#_runningRequestIndex
 	     */
 	    getRequestOptions: function()
 	    {
