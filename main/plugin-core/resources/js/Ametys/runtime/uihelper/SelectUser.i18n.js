@@ -108,16 +108,9 @@ Ext.define('Ametys.runtime.uihelper.SelectUser', {
 		
 		this.listview = new Ext.grid.Panel({
 			region: 'center',
-			
-		    store : store,
-		    
-		    multiSelect: this.allowMultiselection,
-		    simpleSelect: true,
-		    hideHeaders : true,
-		    columnmove : false,
-		    columns: [
-		        {header: "Name", width : 240, menuDisabled : true, sortable: true, dataIndex: 'name'}
-		    ]
+			store : store,
+			hideHeaders : true,
+			columns: [{header: "Label", width : 240, menuDisabled : true, sortable: true, dataIndex: 'name'}]
 		});	
 		
 		var warning = new Ext.Component({
@@ -171,6 +164,7 @@ Ext.define('Ametys.runtime.uihelper.SelectUser', {
 	    this.pluginName = config.plugin || 'core';
 		
 		this.criteria.setValue("");
+		this.listview.getSelectionModel().setSelectionMode(this.allowMultiselection ? 'SIMPLE' : 'SINGLE');
 
 		this.box.show();
 		

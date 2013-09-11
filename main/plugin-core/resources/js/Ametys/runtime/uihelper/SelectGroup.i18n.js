@@ -108,16 +108,9 @@ Ext.define('Ametys.runtime.uihelper.SelectGroup', {
 		
 		this.listview = new Ext.grid.Panel({
 			region: 'center',
-			
-		    store : store,
-		    
-		    multiSelect: this.allowMultiselection,
-		    simpleSelect: true,
-		    hideHeaders : true,
-		    columnmove : false,
-		    columns: [
-		        {header: "Label", width : 240, menuDisabled : true, sortable: true, dataIndex: 'label'}
-		    ]
+			store : store,
+			hideHeaders : true,
+			columns: [{header: "Label", width : 240, menuDisabled : true, sortable: true, dataIndex: 'label'}]
 		});	
 		
 		var warning = new Ext.Component({
@@ -169,7 +162,8 @@ Ext.define('Ametys.runtime.uihelper.SelectGroup', {
 	    this.pluginName = config.plugin || 'core';
 		
 		this.criteria.setValue("");
-
+		this.listview.getSelectionModel().setSelectionMode(this.allowMultiselection ? 'SIMPLE' : 'SINGLE');
+		
 		this.box.show();
 		
 		this.load();
