@@ -95,6 +95,7 @@
 	        <script>/kernel/resources/js/Ametys/form/field/ChangePassword.i18n.js</script>
             <script>/kernel/resources/js/Ametys/form/field/RichText.i18n.js</script>
 	        <script>/kernel/resources/js/Ametys/data/ServerComm.i18n.js</script>
+            <script>/kernel/resources/js/Ametys/data/ServerCommProxy.i18n.js</script>
 	        <script>/kernel/resources/js/Ametys/data/ServerComm/TimeoutDialog.i18n.js</script>
 	    </xsl:variable>
 		
