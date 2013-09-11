@@ -173,7 +173,8 @@ Ext.define('Ametys.form.AbstractFieldWrapper', {
         this.renderActiveError();
 	},
     
-    initComponent: function() {
+    initComponent: function() 
+    {
     	this.on('boxready', this._sizeHasChanged, this)
     	this.on('resize', this._sizeHasChanged, this)
     	this.on('add', this._itemAdd, this)
@@ -183,7 +184,8 @@ Ext.define('Ametys.form.AbstractFieldWrapper', {
         this.initField();
     },
     
-    getValue: function() {
+    getValue: function() 
+    {
     	var values = [];
     	
     	this.items.each(function (item) {
@@ -196,7 +198,8 @@ Ext.define('Ametys.form.AbstractFieldWrapper', {
     	return this.concatValues(values);
     },
 
-    setValue: function(value) {
+    setValue: function(value) 
+    {
     	var values = this.splitValue(value);
     	
     	var index = 0;
@@ -212,7 +215,8 @@ Ext.define('Ametys.form.AbstractFieldWrapper', {
     	return this;
     },
 
-    isFileUpload: function() {
+    isFileUpload: function() 
+    {
     	this.items.each(function (item) {
     		if (item.isFileUpload)
     		{
@@ -227,7 +231,8 @@ Ext.define('Ametys.form.AbstractFieldWrapper', {
     	return false;
     },
     
-    extractFileInput : function() {
+    extractFileInput : function() 
+    {
     	this.items.each(function (item) {
     		if (item.extractFileInput)
     		{
@@ -242,7 +247,13 @@ Ext.define('Ametys.form.AbstractFieldWrapper', {
     	return null;
     },
     
-    onDirtyChange: function(isDirty) {
+    /**
+     * Called when the field's dirty state changes. Adds/removes the dirtyCls on the main element.
+     * @param {Boolean} isDirty The new dirty state
+     * @private
+     */
+    onDirtyChange: function(isDirty) 
+    {
     	this[isDirty ? 'addCls' : 'removeCls'](this.dirtyCls);
     	
     	this.items.each(function (item) {
@@ -257,7 +268,8 @@ Ext.define('Ametys.form.AbstractFieldWrapper', {
      * @private Overrides the method from the Ext.form.Labelable mixin to also add the invalidCls to the inputEl,
      * as that is required for proper styling in IE with nested fields (due to lack of child selector)
      */
-    renderActiveError: function() {
+    renderActiveError: function() 
+    {
         var me = this,
             hasError = me.hasActiveError();
         if (me.el) {
@@ -280,7 +292,8 @@ Ext.define('Ametys.form.AbstractFieldWrapper', {
      * Inherited documentation:<br/>
      * @inheritdoc
      */
-    markInvalid: function(errors) {
+    markInvalid: function(errors) 
+    {
         // Save the message and fire the 'invalid' event
         var me = this,
             oldMsg = me.getActiveError();
@@ -295,7 +308,8 @@ Ext.define('Ametys.form.AbstractFieldWrapper', {
      * Inherited documentation:<br/>
      * @inheritdoc
      */
-    clearInvalid: function() {
+    clearInvalid: function() 
+    {
     	// global clear
     	this.clearGlobalInvalid();
 
@@ -315,7 +329,8 @@ Ext.define('Ametys.form.AbstractFieldWrapper', {
      * Inherited documentation:<br/>
      * @inheritdoc
      */
-    isValid: function() { 
+    isValid: function() 
+    { 
     	var me = this,
         	disabled = me.disabled,
         	validate = me.forceValidation || !disabled;
@@ -345,7 +360,8 @@ Ext.define('Ametys.form.AbstractFieldWrapper', {
      * See {@link #clearInvalid}.
      * @protected
      */
-    clearGlobalInvalid: function() {
+    clearGlobalInvalid: function() 
+    {
         // Clear the message and fire the 'valid' event
         var me = this,
             hadError = me.hasActiveError();
@@ -360,7 +376,8 @@ Ext.define('Ametys.form.AbstractFieldWrapper', {
      * See {@link #isValid}.
      * @protected
      */
-    isGlobalValid: function() {
+    isGlobalValid: function() 
+    {
         var me = this,
         disabled = me.disabled,
         validate = me.forceValidation || !disabled;
@@ -384,15 +401,27 @@ Ext.define('Ametys.form.AbstractFieldWrapper', {
 	    	return disabled;
 	    }
     },
-    
-    validateGlobalValue: function(value) {
+
+    /**
+     * @private
+     * Uses {@link #getErrors} to build an array of validation errors. If any errors are found, they are passed to
+     * {@link #markInvalid} and false is returned, otherwise true is returned.
+     * @param {Object} value The value to validate
+     * @return {Boolean} True if all validations passed, false if one or more failed
+     */
+    validateGlobalValue: function(value) 
+    {
         var me = this,
             errors = me.getErrors(value),
             isValid = Ext.isEmpty(errors);
-        if (!me.preventMark) {
-            if (isValid) {
+        if (!me.preventMark) 
+        {
+            if (isValid) 
+            {
                 me.clearGlobalInvalid();
-            } else {
+            } 
+            else 
+            {
                 me.markInvalid(errors);
             }
         }
@@ -435,7 +464,8 @@ Ext.define('Ametys.form.AbstractFieldWrapper', {
      * @param {String[]} properties The properties to copy
      * @param {Object} source The source object
      */
-    _copyPropIfDefined : function(target, properties, source) {
+    _copyPropIfDefined : function(target, properties, source) 
+    {
     	for (var i = 0; i < properties.length; i++)
     	{
     		var prop = properties[i];
