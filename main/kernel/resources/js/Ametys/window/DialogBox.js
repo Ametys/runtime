@@ -59,9 +59,13 @@ Ext.define(
 		constructor: function()
 		{
 			this.callParent(arguments);
-			this.on('afterrender', this._onRenderListener)
+			this.on('afterrender', this._onRenderListener, this);
 		},
 	
+		/**
+		 * @private
+		 * Listener on after render to register the key ENTER to close the dialog
+		 */
 		_onRenderListener : function()
 		{
 		    var km = this.getKeyMap();
