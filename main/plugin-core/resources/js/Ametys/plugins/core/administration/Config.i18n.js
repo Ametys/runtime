@@ -140,6 +140,10 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 		});
 	},
 	
+	/**
+	 * @private
+	 * Listener when the box is ready
+	 */
 	_onBoxReady: function() {
 		this._ct = Ext.getCmp("config-inner").getEl().child("div:first");
 		this._ct.on('scroll', Ext.Function.bind(this._calcScrollPosition, this));
@@ -705,6 +709,11 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	    this.save._mask.show();
 	    Ext.defer(this.save2, 1, this);
 	},
+	
+	/**
+	 * @private
+	 * Second part of the #save process (due to asynchronous process)
+	 */
 	save2: function ()
 	{
 	    var url = Ametys.getPluginDirectPrefix(this.pluginName) + "/administrator/config/set";
@@ -854,7 +863,7 @@ Ext.define('Ametys.plugins.core.administrator.Config.HourField',	{
 	extend: 'Ametys.plugins.core.administrator.Config.TimeField',
 	
 	increment: 60,
-	edtiable: false,
+	editable: false,
 	labelAlign: 'right',
     labelWidth: Ametys.plugins.core.administration.Config.LABEL_WIDTH,
     labelSeparator: '',
