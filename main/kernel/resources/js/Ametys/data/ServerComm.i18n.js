@@ -16,6 +16,19 @@
 
 /**
  * This class allow to create a message for the ametys server : it will use the dispatch generator to group requests. See #send for more information.
+ * 
+ * 		Ametys.data.ServerComm.send({
+ * 			plugin: 'cms',
+ *			url: 'contents/get-info',
+ *			parameters: {ids: ids}, 
+ *			priority: Ametys.data.ServerComm.PRIORITY_MAJOR, 
+ *			callback: {
+ *				handler: this._getContentsCB,
+ *				scope: this,
+ *				arguments: [callback]
+ *			},
+ *			responseType: 'text'
+ *      });
  */
 Ext.define(
 	"Ametys.data.ServerComm", 
