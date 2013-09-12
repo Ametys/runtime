@@ -50,6 +50,10 @@
            	<map:generator name="rights-rights-list" src="org.ametys.runtime.plugins.core.right.ui.generators.RightsListGenerator" logger="org.ametys.runtime.plugins.core.right.sitemap.generator.profiles" label="content"/>
             <map:generator name="rights-profile-assignment" src="org.ametys.runtime.plugins.core.right.ui.generators.ProfileAssignationGenerator" logger="org.ametys.runtime.plugins.core.right.sitemap.generator.assignment" label="content"/>
             <map:generator name="rights-context-application" src="org.ametys.runtime.plugins.core.right.ui.generators.ApplicationContextGenerator" logger="org.ametys.runtime.plugins.core.right.sitemap.generator.context.application" label="content"/>
+
+            <map:generator name="user-prefs-def" src="org.ametys.runtime.plugins.core.userpref.UserPreferencesGenerator"/>
+            <map:generator name="user-prefs" src="org.ametys.runtime.plugins.core.userpref.UserPreferencesValuesGenerator"/>
+            <map:generator name="user-prefs-errors" src="org.ametys.runtime.plugins.core.userpref.UserPreferencesErrorsGenerator" logger="org.ametys.runtime.plugins.core.userpref.UserPreferencesErrorsGenerator"/>
             
         	<map:generator name="dispatcher" src="org.ametys.runtime.plugins.core.dispatcher.DispatchGenerator"/>
         	<map:generator name="i18n" src="org.ametys.runtime.util.I18nGenerator" logger="org.ametys.runtime.util.I18nGenerator"/>
@@ -103,6 +107,8 @@
             <map:action name="upload-store" src="org.ametys.runtime.plugins.core.upload.actions.UploadAction" logger="org.ametys.runtime.plugins.core.upload.actions.UploadAction"/>
             
             <map:action name="get-parent-context-attr" src="org.ametys.runtime.util.GetParentContextAttributeAction" logger="org.ametys.runtime.util.GetParentContextAttributeAction"/>
+
+            <map:action name="save-userprefs" src="org.ametys.runtime.plugins.core.userpref.SetUserPreferencesAction"/>
             
              <map:action name="has-right" src="org.ametys.runtime.plugins.core.right.actions.HasRightAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.hasRight">
                 <has-right>true</has-right>
@@ -863,6 +869,42 @@
 					<map:parameter name="maxWidth" value="{request-param:maxWidth}"/>
                 </map:read>
             </map:match>
+            
+            <!-- +
+                 | Userprefs
+                 + -->
+            <map:match pattern="userprefs/def.xml">
+                <map:generate type="user-prefs-def"/>
+                <map:transform type="i18n">
+                    <map:parameter name="locale" value="{locale:locale}"/>
+                    <map:parameter name="plugin" value="{request-attr:pluginName}"/>
+                </map:transform>
+                <map:serialize type="xml"/>
+            </map:match>
+            
+            <map:match pattern="userprefs/values.xml">
+                <map:generate type="user-prefs"/>
+                <map:serialize type="xml"/>
+            </map:match>
+            
+            <map:match pattern="userprefs/errors.xml">
+                <map:generate type="user-prefs-errors"/>
+                <map:serialize type="xml"/>
+            </map:match>
+            
+            <map:match pattern="userprefs/save.xml">
+                <map:act type="save-userprefs">
+                    <map:aggregate element="xml">
+                        <map:part src="cocoon:/userprefs/values.xml?prefContext={request-param:prefContext}"/>
+                        <map:part src="cocoon:/userprefs/errors.xml"/>
+                    </map:aggregate>
+                    <map:transform type="i18n">
+                        <map:parameter name="locale" value="{locale:locale}"/>
+                        <map:parameter name="plugin" value="{request-attr:pluginName}"/>
+                    </map:transform>
+                    <map:serialize type="xml"/>
+                </map:act>
+            </map:match>                 
             
             <!-- +
                  | Webservice to know about rights
