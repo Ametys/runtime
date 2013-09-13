@@ -582,5 +582,6 @@
     <message key="PLUGINS_CORE_USER_PREFERENCES_ERROR_SAVE">An error occurred: unable to save preferences.</message>
     <message key="PLUGINS_CORE_USER_PREFERENCES_INVALID_TYPE">You must specify a valid value for this preference.</message>
     <message key="PLUGINS_CORE_USER_PREFERENCES_PWD_CONFIRMATION_DOESNT_MATCH">The password and its confirmation don't match.</message>
-    
+    <message key="PLUGINS_CORE_USER_PREFERENCES_STATE_PROVIDER_SAVE_FAILURE_TITLE">Cannot save your ui state</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_STATE_PROVIDER_SAVE_FAILURE_DESC">The save process of the user interface failed</message>
 </catalogue>
