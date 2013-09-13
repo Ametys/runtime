@@ -23,28 +23,26 @@
 Ext.define('Ametys.runtime.userprefs.UserPrefsDAO', {
 	singleton: true,
 	
-	statics: {
-		/**
-		 * @readonly
-		 * @private
-		 * @property {String} _PLUGIN_NAME The plugin to use for requests
-		 */
-		_PLUGIN_NAME: 'core',
-			
-		/**
-		 * @readonly
-		 * @private
-		 * @property {String} _URL_VALUES Url to get the user prefs values. The url is relative to the plugin #_PLUGIN_NAME.
-		 */
-		_URL_VALUES: 'userprefs/values.xml',
+	/**
+	 * @readonly
+	 * @private
+	 * @property {String} _PLUGIN_NAME The plugin to use for requests
+	 */
+	_PLUGIN_NAME: 'core',
 		
-		/**
-		 * @readonly
-		 * @private
-		 * @property {String} _URL_SAVE Url to save the user prefs values. The url is relative to the plugin #_PLUGIN_NAME.
-		 */
-		_URL_SAVE: 'userprefs/save.xml'		
-	},
+	/**
+	 * @readonly
+	 * @private
+	 * @property {String} _URL_VALUES Url to get the user prefs values. The url is relative to the plugin #_PLUGIN_NAME.
+	 */
+	_URL_VALUES: 'userprefs/values.xml',
+	
+	/**
+	 * @readonly
+	 * @private
+	 * @property {String} _URL_SAVE Url to save the user prefs values. The url is relative to the plugin #_PLUGIN_NAME.
+	 */
+	_URL_SAVE: 'userprefs/save.xml',		
 
 	/**
 	 * @property {String} _defaultPrefContext="/runtime" The default context
@@ -103,8 +101,8 @@ Ext.define('Ametys.runtime.userprefs.UserPrefsDAO', {
 		}
 		
 		Ametys.data.ServerComm.send({
-			plugin: Ametys.runtime.userprefs.UserPrefsDAO.self._PLUGIN_NAME,
-			url: Ametys.runtime.userprefs.UserPrefsDAO.self._URL_VALUES,
+			plugin: Ametys.runtime.userprefs.UserPrefsDAO._PLUGIN_NAME,
+			url: Ametys.runtime.userprefs.UserPrefsDAO._URL_VALUES,
 			parameters: {
 				'prefContext': prefContext
 			}, 
@@ -226,8 +224,8 @@ Ext.define('Ametys.runtime.userprefs.UserPrefsDAO', {
 		params["submit"] = 'true';
 		
 		Ametys.data.ServerComm.send({
-			plugin: Ametys.runtime.userprefs.UserPrefsDAO.self._PLUGIN_NAME,
-			url: Ametys.runtime.userprefs.UserPrefsDAO.self._URL_SAVE,
+			plugin: Ametys.runtime.userprefs.UserPrefsDAO._PLUGIN_NAME,
+			url: Ametys.runtime.userprefs.UserPrefsDAO._URL_SAVE,
 			parameters: params, 
 			priority: Ametys.data.ServerComm.PRIORITY_MAJOR, 
 			callback: {

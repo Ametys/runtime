@@ -68,7 +68,7 @@ Ext.define('Ametys.runtime.userprefs.UserPrefsDAOStateProvider', {
      * @private
      * Callback after a save process
      * @param {Boolean} success True is save worked fine.
-     * @param {String[]} errors
+     * @param {Object} errors Association (preference name, error message)
      */
     _saveSateCB: function(success, errors)
     {
