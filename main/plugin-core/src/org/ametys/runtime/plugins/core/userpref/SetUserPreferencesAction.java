@@ -64,13 +64,17 @@ public class SetUserPreferencesAction extends AbstractCurrentUserProviderService
     public void service(ServiceManager serviceManager) throws ServiceException
     {
         super.service(serviceManager);
-        _userPrefEP = (UserPreferencesExtensionPoint) serviceManager.lookup(UserPreferencesExtensionPoint.ROLE);
-        _userPrefManager = (UserPreferencesManager) serviceManager.lookup(UserPreferencesManager.ROLE);
     }
     
     @Override
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
+        if (_userPrefEP == null)
+        {
+            _userPrefEP = (UserPreferencesExtensionPoint) manager.lookup(UserPreferencesExtensionPoint.ROLE);
+            _userPrefManager = (UserPreferencesManager) manager.lookup(UserPreferencesManager.ROLE);
+        }
+
         Request request = ObjectModelHelper.getRequest(objectModel);
         Map<String, Object> parentContext = (Map<String, Object>) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
         
