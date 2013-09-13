@@ -570,16 +570,6 @@
     <message key="PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_AUTHORIZEDPROXY_LABEL">Chaîne de proxies</message>
     <message key="PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_AUTHORIZEDPROXY_DESCRIPTION">Chaîne de serveurs proxy autorisée par CAS</message>
 
-	<!-- ************* --> 
-    <!-- Group - ESUP  --> 
-    <!-- ************* --> 
- 	<message key="GROUP_DEPLOY">Groupes</message> 
-    <message key="GROUP_DEPLOY_ESUP">Configuration des groupes ESUP</message> 
-    <message key="GROUP_DEPLOY_ESUP_WS_URL_LABEL">URL du WebService :</message>
- 	<message key="GROUP_DEPLOY_ESUP_WS_URL_DESCRPTION">URL du WebService :</message>
-	<message key="GROUP_DEPLOY_ESUP_WS_REFRESH_LABEL">Intervalle de rafraichissement du cache (en minutes)</message>
-	<message key="GROUP_DEPLOY_ESUP_WS_REFRESH_DESCRIPTION">Intervalle de rafraichissement du cache (en minutes)</message>
-	
 	<message key="PLUGINS_CORE_ERROR_DIALOG_TITLE">Erreur</message>
 	<message key="PLUGINS_CORE_SAVE_DIALOG_TITLE">Sauvegarde</message>
 	
@@ -588,7 +578,8 @@
 	<message key="PLUGINS_CORE_REGEXP_INVALID_URL">L'url est invalide. Elle doit commencée par http:// ou https://</message>
     
     <!-- User preferences -->
+    <message key="PLUGINS_CORE_USER_PREFERENCES_ERROR">Une erreur est survenue: impossible de récupérer vos préférences.</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_ERROR_SAVE">Une erreur est survenue: impossible de sauver vos préférences.</message>
     <message key="PLUGINS_CORE_USER_PREFERENCES_INVALID_TYPE">Vous devez entrer une valeur valide pour cette préférence.</message>
     <message key="PLUGINS_CORE_USER_PREFERENCES_PWD_CONFIRMATION_DOESNT_MATCH">Le mot de passe et sa confirmation ne correspondent pas.</message>
-    
 </catalogue>
