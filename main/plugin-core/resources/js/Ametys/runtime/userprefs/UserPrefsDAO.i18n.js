@@ -106,14 +106,13 @@ Ext.define('Ametys.runtime.userprefs.UserPrefsDAO', {
 			plugin: Ametys.runtime.userprefs.UserPrefsDAO.self._PLUGIN_NAME,
 			url: Ametys.runtime.userprefs.UserPrefsDAO.self._URL_VALUES,
 			parameters: {
-				'prefContext': prefContext, 
-				'userprefs': preferences
+				'prefContext': prefContext
 			}, 
 			priority: Ametys.data.ServerComm.PRIORITY_MAJOR, 
 			callback: {
 				handler: this._cachePrepared,
 				scope: this,
-				arguments: [callback, prefContextContext]
+				arguments: [callback, prefContext]
 			}
 		});
 	},
@@ -146,7 +145,7 @@ Ext.define('Ametys.runtime.userprefs.UserPrefsDAO', {
 		}
 		for (var i = 0; i < nodes.length; i++)
 		{
-			this._cache[prefContext][nodes[i].nodeName].push(nodes[i].nodeValue);
+			this._cache[prefContext][nodes[i].nodeName].push(Ext.dom.Query.selectValue("", nodes[i]));
 		}
 
 		callback(true);
