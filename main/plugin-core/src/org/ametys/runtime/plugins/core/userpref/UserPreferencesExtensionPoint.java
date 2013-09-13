@@ -107,9 +107,9 @@ public class UserPreferencesExtensionPoint extends AbstractThreadSafeComponentEx
         
         for (Entry<String, String> entry : values.entrySet())
         {
-            if (hasExtension(entry.getKey()))
+            UserPreference pref = preferences.get(entry.getKey());
+            if (pref != null)
             {
-                UserPreference pref = preferences.get(entry.getKey());
                 String value = entry.getValue();
                 
                 Object castValue = ParameterHelper.castValue(value, pref.getType());
