@@ -60,29 +60,22 @@ public class ProfilesByContextGenerator extends ServiceableGenerator
         String id = request.getParameter("profile");
 
         contentHandler.startDocument();
-        XMLUtils.startElement(contentHandler, "profiles");
-
-        if (StringUtils.isNotEmpty(context))
+        XMLUtils.startElement(contentHandler, "nodes");
+        
+        if (StringUtils.isNotEmpty(id))
         {
-            if (StringUtils.isNotEmpty(id))
+            Profile profile = _rightsManager.getProfile(id);
+            _saxProfile(profile, context, false);
+        }
+        else
+        {
+            for (Profile profile : ((ProfileBasedRightsManager) _rightsManager).getProfiles())
             {
-                Profile profile = _rightsManager.getProfile(id);
-                
-                XMLUtils.startElement(contentHandler, "profiles");
-                _saxProfile(profile, context, false);
-                XMLUtils.endElement(contentHandler, "profiles");
-            }
-            else
-            {
-                for (Profile profile : ((ProfileBasedRightsManager) _rightsManager).getProfiles())
-                {
-                    _saxProfile(profile, context);
-                }
+                _saxProfile(profile, context, true);
             }
         }
-        
-        XMLUtils.endElement(contentHandler, "profiles");
-       
+    
+        XMLUtils.endElement(contentHandler, "nodes");
         contentHandler.endDocument();
     }
 
@@ -92,55 +85,50 @@ public class ProfilesByContextGenerator extends ServiceableGenerator
      * @param context the context of right
      * @throws SAXException
      */
-    protected void _saxProfile(Profile profile, String context) throws SAXException
+    protected void _saxProfile(Profile profile, String context, boolean includeRootNode) throws SAXException
     {
-        _saxProfile(profile, context, true);
-    }
-    
-    /**
-     * SAX Profile
-     * @param profile the profile to SAX
-     * @param context the context of right
-     * @param includeProfileTag false to not include the root profile tag
-     * @throws SAXException
-     */
-    protected void _saxProfile(Profile profile, String context, boolean includeProfileTag) throws SAXException
-    {
-        if (includeProfileTag)
+        if (includeRootNode)
         {
             AttributesImpl attr = new AttributesImpl();
-            attr.addAttribute("", "id", "id", "CDATA", "profile-" + profile.getId());
-            attr.addAttribute("", "label", "label", "CDATA", profile.getName());
-            XMLUtils.startElement(contentHandler, "profile", attr);
+            _addProfileAttributes (profile, attr);
+            
+            XMLUtils.startElement(contentHandler, "node", attr);
         }
-
-        Set<User> users = _rightsManager.getUsersByContextAndProfile(profile.getId(), context);
+     
         
-        // FIXME tests!!
-        XMLUtils.startElement(contentHandler, "users");
+        String profileId = profile.getId();
+       
+        _saxUsers(profileId, context);
+        _saxUsersByInheritance(profileId, context);
+       
+        _saxGroups(profileId, context);
+        _saxGroupsByInheritance(profileId, context);
+        
+        if (includeRootNode)
+        {
+            XMLUtils.endElement(contentHandler, "node");
+        }
+    }
+    
+    private void _saxUsers (String profileId, String context) throws SAXException
+    {
+        Set<User> users = _rightsManager.getUsersByContextAndProfile(profileId, context);
         for (User user : users)
         {
-            _saxUser(user, context, false);
+            AttributesImpl attrs = new AttributesImpl();
+            _addUserAttributes (attrs, user, context, false);
+            XMLUtils.createElement(contentHandler, "node", attrs);
         }
-        
-        // SAX inheritance
-        _saxUsersByInheritance(profile.getId(), context);
-        XMLUtils.endElement(contentHandler, "users");
-
-        Set<Group> groups = _rightsManager.getGroupsByContextAndProfile(profile.getId(), context);
-        XMLUtils.startElement(contentHandler, "groups");
+    }
+    
+    private void _saxGroups (String profileId, String context) throws SAXException
+    {
+        Set<Group> groups = _rightsManager.getGroupsByContextAndProfile(profileId, context);
         for (Group group : groups)
         {
-            _saxGroup(group, context, false);
-        }
-        
-        // SAX inheritance
-        _saxGroupsByInheritance (profile.getId(), context);
-        XMLUtils.endElement(contentHandler, "groups");
-
-        if (includeProfileTag)
-        {
-            XMLUtils.endElement(contentHandler, "profile");
+            AttributesImpl attrs = new AttributesImpl();
+            _addGroupAttributes (attrs, group, context, false);
+            XMLUtils.createElement(contentHandler, "node", attrs);
         }
     }
     
@@ -155,7 +143,9 @@ public class ProfilesByContextGenerator extends ServiceableGenerator
             Set<User> users = _rightsManager.getUsersByContextAndProfile(profileId, transiantContext);
             for (User user : users)
             {
-                _saxUser(user, transiantContext, true);
+                AttributesImpl attrs = new AttributesImpl();
+                _addUserAttributes (attrs, user, transiantContext, true);
+                XMLUtils.createElement(contentHandler, "node", attrs);
             }
             transiantContext = HierarchicalRightsHelper.getParentContext(transiantContext);
         }
@@ -172,13 +162,48 @@ public class ProfilesByContextGenerator extends ServiceableGenerator
             Set<Group> groups = _rightsManager.getGroupsByContextAndProfile(profileId, transiantContext);
             for (Group group : groups)
             {
-                _saxGroup(group, transiantContext, true);
+                AttributesImpl attrs = new AttributesImpl();
+                _addGroupAttributes (attrs, group, transiantContext, true);
+                XMLUtils.createElement(contentHandler, "node", attrs);
             }
             transiantContext = HierarchicalRightsHelper.getParentContext(transiantContext);
         }
     }
+    
+    private void _addProfileAttributes(Profile profile, AttributesImpl attrs)
+    {
+        attrs.addAttribute("", "profileId", "profileId", "CDATA", profile.getId());
+        attrs.addAttribute("", "name", "name", "CDATA", profile.getName());
+        attrs.addAttribute("", "type", "type", "CDATA", "profile");
+    }
+    
+    private void _addUserAttributes (AttributesImpl attrs, User user, String context, boolean inherit)
+    {
+        attrs.addAttribute("", "login", "login", "CDATA", user.getName());
+        attrs.addAttribute("", "name", "name", "CDATA", user.getFullName());
+        attrs.addAttribute("", "context", "context", "CDATA", context);
+        attrs.addAttribute("", "inherit", "inherit", "CDATA", String.valueOf(inherit));
+        attrs.addAttribute("", "type", "type", "CDATA", "user");
+    }
+    
+    private void _addGroupAttributes(AttributesImpl attrs, Group group, String context, boolean inherit)
+    {
+        attrs.addAttribute("", "groupId", "groupId", "CDATA", "group-" + group.getId());
+        attrs.addAttribute("", "name", "name", "CDATA", group.getLabel());
+        attrs.addAttribute("", "context", "context", "CDATA", context);
+        attrs.addAttribute("", "inherit", "inherit", "CDATA", String.valueOf(inherit));
+        attrs.addAttribute("", "type", "type", "CDATA", "group");
+    }
+    
+    private void _saxProfileEntity(Profile profile) throws SAXException
+    {
+        AttributesImpl attr = new AttributesImpl();
+        attr.addAttribute("", "id", "id", "CDATA", profile.getId());
+        attr.addAttribute("", "label", "label", "CDATA", profile.getName());
+        XMLUtils.createElement(contentHandler, "profile", attr);
+    }
 
-    private void _saxUser(User user, String context, boolean inherit) throws SAXException
+    private void _saxUserEntity(User user, String context, boolean inherit) throws SAXException
     {
         AttributesImpl attr = new AttributesImpl();
         attr.addAttribute("", "login", "login", "CDATA", user.getName());
@@ -189,7 +214,7 @@ public class ProfilesByContextGenerator extends ServiceableGenerator
         XMLUtils.createElement(contentHandler, "user", attr);
     }
 
-    private void _saxGroup(Group group, String context, boolean inherit) throws SAXException
+    private void _saxGroupEntity(Group group, String context, boolean inherit) throws SAXException
     {
         AttributesImpl attr = new AttributesImpl();
         attr.addAttribute("", "groupId", "groupId", "CDATA", "group-" + group.getId());

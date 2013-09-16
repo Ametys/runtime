@@ -515,6 +515,15 @@
     <message key="PLUGINS_CORE_PROFILE_RIGHTS_HANDLE_DESCRIPTION">Allow to manage profiles</message>
     <message key="PLUGINS_CORE_RIGHTS_PROFILES_ERROR">An error occured</message>
     
+    <!-- PROFILES -->
+    <message key="PLUGINS_CORE_PROFILES_TREE_FILTER_BY_NAME">Filter by user(s) or group(s) ...</message>
+    <message key="PLUGINS_CORE_PROFILES_TREE_ROOT_NODE">Profiles</message>
+    <message key="PLUGINS_CORE_PROFILES_TREE_BTN_INHERITANCE_TOOLTIP">See all users and groups by inheritance</message>
+    <message key="PLUGINS_CORE_PROFILES_TREE_BTN_UPTOCONTEXT_TOOLTIP">Up to context</message>
+    <message key="PLUGINS_CORE_PROFILES_TREE_BTN_EXPAND_TOOTIP">Expand all</message>
+    <message key="PLUGINS_CORE_PROFILES_TREE_BTN_COLLAPSE_TOOTIP">Collapse all</message>
+    <message key="PLUGINS_CORE_PROFILES_TREE_CONTEXT_TOOLTIP">Context</message>
+    
     <!-- RIGHTS -->
     <message key="PLUGINS_CORE_RIGHTS_LABEL">Assignment</message>
     <message key="PLUGINS_CORE_RIGHTS_DESCRIPTION">Assign user profiles</message>

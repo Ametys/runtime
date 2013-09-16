@@ -24,7 +24,9 @@ import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.generation.ServiceableGenerator;
+import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
+import org.apache.commons.lang.StringUtils;
 import org.xml.sax.SAXException;
 
 import org.ametys.runtime.plugins.core.right.Right;
@@ -56,27 +58,62 @@ public class ProfileRightsGenerator extends ServiceableGenerator
         String id = request.getParameter("id");
         
         contentHandler.startDocument();
-        XMLUtils.startElement(contentHandler, "profile");
-
-        if (_rightsManager instanceof ProfileBasedRightsManager)
+        
+        if (StringUtils.isEmpty(id))
         {
-            Profile profile = ((ProfileBasedRightsManager) _rightsManager).getProfile(id);
-            if (profile != null)
+            XMLUtils.startElement(contentHandler, "profiles");
+            
+            if (_rightsManager instanceof ProfileBasedRightsManager)
             {
-                Set<String> rights = profile.getRights();
-                for (String rightId : rights)
-                {
-                    Right right = _rights.getExtension(rightId);
-                    if (right != null)
-                    {
-                        right.toSAX(contentHandler);
-                    }
-                }
                 
+                Set<Profile> profiles = ((ProfileBasedRightsManager) _rightsManager).getAllProfiles();
+                for (Profile profile : profiles)
+                {
+                    _saxProfileRights(profile);
+                }
+            }
+            
+            XMLUtils.endElement(contentHandler, "profiles");
+        }
+        else
+        {
+            if (_rightsManager instanceof ProfileBasedRightsManager)
+            {
+                Profile profile = ((ProfileBasedRightsManager) _rightsManager).getProfile(id);
+                if (profile != null)
+                {
+                    _saxProfileRights (profile);
+                }
+                else
+                {
+                    XMLUtils.createElement(contentHandler, "profile");
+                }
+            }
+            else
+            {
+                XMLUtils.createElement(contentHandler, "profile");
             }
         }
-        XMLUtils.endElement(contentHandler, "profile");
+        
         contentHandler.endDocument();
     }
 
+    private void _saxProfileRights (Profile profile) throws SAXException
+    {
+        AttributesImpl attr = new AttributesImpl();
+        attr.addCDATAAttribute("id", profile.getId());
+        XMLUtils.startElement(contentHandler, "profile", attr);
+        
+        Set<String> rights = profile.getRights();
+        for (String rightId : rights)
+        {
+            Right right = _rights.getExtension(rightId);
+            if (right != null)
+            {
+                right.toSAX(contentHandler);
+            }
+        }
+        
+        XMLUtils.endElement(contentHandler, "profile");
+    }
 }

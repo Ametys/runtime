@@ -17,9 +17,16 @@
 <xsl:stylesheet version="1.0" 
                 xmlns:i18n="http://apache.org/cocoon/i18n/2.1" 
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-      
+    
+    <xsl:template match="profiles">
+    	<profiles>
+    		<xsl:apply-templates select="profile"/>
+    	</profiles>
+    </xsl:template>
+    
 	<xsl:template match="rights|profile">
         <xsl:copy>
+        	<xsl:copy-of select="@*"/>
             <xsl:for-each select="right[not(category/@id = preceding-sibling::right/category/@id)]">
 				<xsl:variable name="category" select="category/@id"/>
 				<xsl:variable name="categoryKey" select="category"/>
