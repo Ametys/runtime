@@ -89,7 +89,7 @@ Ext.define('Ametys.runtime.userprefs.UserPrefsDAOStateProvider', {
     	this._saveTimeout = null;
     	var save = {};
     	save[this.preference] = this.encodeValue(this.state);
-    	Ametys.runtime.userprefs.UserPrefsDAO.saveValues(save, Ext.bind(this._saveSateCB, this), this.prefContext);
+    	Ametys.runtime.userprefs.UserPrefsDAO.saveValues(save, Ext.bind(this._saveSateCB, this), this.prefContext, Ametys.data.ServerComm.PRIORITY_MINOR);
     },
     
     /**

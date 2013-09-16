@@ -217,8 +217,9 @@ Ext.define('Ametys.runtime.userprefs.UserPrefsDAO', {
 	 * @param {Boolean} callback.success Has the save operation been successful?
 	 * @param {Object} [callback.errors] The key is the preference name, and the value an error message. Can be empty event is success is false on server exception: in that cas the user is already notified. 
 	 * @param {String} [prefContext] The pref context to use. Switch to default context if missing. See #setDefaultPrefContext.
+	 * @param {Number} [priority] The priority of the Ametys.data.ServerComm#send call: default is Ametys.data.ServerComm#PRIORITY_MAJOR. Set to Ametys.data.ServerComm#PRIORITY_MINOR to save less important preferences. 
 	 */
-	saveValues: function(params, callback, prefContext)
+	saveValues: function(params, callback, prefContext, priority)
 	{
 		params["prefContext"] = prefContext || this._defaultPrefContext;
 		params["submit"] = 'true';
@@ -227,7 +228,7 @@ Ext.define('Ametys.runtime.userprefs.UserPrefsDAO', {
 			plugin: Ametys.runtime.userprefs.UserPrefsDAO._PLUGIN_NAME,
 			url: Ametys.runtime.userprefs.UserPrefsDAO._URL_SAVE,
 			parameters: params, 
-			priority: Ametys.data.ServerComm.PRIORITY_MAJOR, 
+			priority: priority, 
 			callback: {
 				handler: this._valuesSaved,
 				scope: this,
