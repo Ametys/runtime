@@ -54,7 +54,7 @@ Ext.define('Ametys.runtime.userprefs.UserPrefsDAOStateProvider', {
 	{
 		this.callParent(arguments);
 		
-		this.state = this.decodeValue(Ametys.runtime.userprefs.UserPrefsDAO.getValue(this.preference, this.prefContext));
+		this.state = this.decodeValue(Ametys.runtime.userprefs.UserPrefsDAO.getValue(this.preference, this.prefContext)) || {};
 	},
 	
     set : function(name, value){
