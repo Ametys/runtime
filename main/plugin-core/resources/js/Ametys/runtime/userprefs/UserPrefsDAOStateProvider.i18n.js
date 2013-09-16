@@ -28,12 +28,26 @@
 Ext.define('Ametys.runtime.userprefs.UserPrefsDAOStateProvider', {
 	extend: "Ext.state.Provider",
 	
+	statics: {
+		/**
+		 * @property {Number} __SAVE_TIMEOUT The time in ms before we wait before saving state. If in between another saveState appears, it will cancel the previous call.
+		 * @readonly
+		 * @private
+		 */
+		__SAVE_TIMEOUT: 100
+	},
+	
 	/**
 	 * @cfg {String} preference The name of the preference to use to store.
 	 */
 
 	/**
 	 * @cfg {String} prefContext The preference context to use. Use the default one if not specified. See Ametys.runtime.userprefs.UserPrefsDAO#setDefaultPrefContext 
+	 */
+	
+	/**
+	 * @property {Number} _saveTimeout A running timeout for the #_saveStateDefered method to avoid saving too often 
+	 * @private
 	 */
 
 	constructor: function(config)
@@ -55,10 +69,24 @@ Ext.define('Ametys.runtime.userprefs.UserPrefsDAOStateProvider', {
     
     /**
      * @private
-     * Launch a save on the users pref DAO
+     * Launch a save on the users pref DAO. The save is only effective after a few #__SAVE_TIMEOUT milliseconds if #_saveState is not called a second time. 
      */
     _saveState: function()
     {
+    	if (this._saveTimeout)
+    	{
+    		window.clearTimeout(this._saveTimeout);
+    	}
+    	this._saveTimeout = Ext.defer(this._saveStateDefered, Ametys.runtime.userprefs.UserPrefsDAOStateProvider.__SAVE_TIMEOUT, this); 
+    },
+    
+    /**
+     * @private
+     * Do effectively the save
+     */
+    _saveStateDefered: function()
+    {
+    	this._saveTimeout = null;
     	var save = {};
     	save[this.preference] = this.encodeValue(this.state);
     	Ametys.runtime.userprefs.UserPrefsDAO.saveValues(save, Ext.bind(this._saveSateCB, this), this.prefContext);
