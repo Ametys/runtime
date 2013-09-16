@@ -16,6 +16,7 @@
 package org.ametys.runtime.plugins.core.userpref;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,7 @@ import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.SAXException;
 
 import org.ametys.runtime.util.cocoon.AbstractCurrentUserProviderServiceableGenerator;
+import org.ametys.runtime.util.parameter.ParameterHelper;
 
 /**
  * SAX user preferences values
@@ -38,10 +40,14 @@ public class UserPreferencesValuesGenerator extends AbstractCurrentUserProviderS
     /** The user preferences manager. */
     protected UserPreferencesManager _userPrefManager;
     
+    /** The user preferences extension point. */
+    protected UserPreferencesExtensionPoint _userPrefEP;
+    
     @Override
     public void service(ServiceManager serviceManager) throws ServiceException
     {
         super.service(serviceManager);
+        _userPrefEP = (UserPreferencesExtensionPoint) serviceManager.lookup(UserPreferencesExtensionPoint.ROLE);
         _userPrefManager = (UserPreferencesManager) serviceManager.lookup(UserPreferencesManager.ROLE);
     }
     
@@ -63,6 +69,7 @@ public class UserPreferencesValuesGenerator extends AbstractCurrentUserProviderS
         try
         {
             Map<String, String> prefValues = _userPrefManager.getUnTypedUserPrefs(username, storageContext, contextVars);
+            Map<String, UserPreference> userPrefsDefinitions = _userPrefEP.getUserPreferences(contextVars);
             
             Map<String, Object> jsParameters = (Map<String, Object>) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
             List<String> userprefs = null;
@@ -72,21 +79,29 @@ public class UserPreferencesValuesGenerator extends AbstractCurrentUserProviderS
                 userprefs = (List<String>) jsParameters.get("userprefs");
             }
             
-            if (userprefs != null && userprefs.size() > 0)
+            if (userprefs == null || userprefs.size() == 0)
             {
-                for (String userpref : userprefs)
-                {
-                    if (prefValues.containsKey(userpref))
-                    {
-                        XMLUtils.createElement(contentHandler, userpref, prefValues.get(userpref));
-                    }
-                }
+                userprefs = new ArrayList<String>(userPrefsDefinitions.keySet());
             }
-            else
+            
+            for (String userpref : userprefs)
             {
-                for (String name : prefValues.keySet())
+                if (prefValues.containsKey(userpref))
                 {
-                    XMLUtils.createElement(contentHandler, name, prefValues.get(name));
+                    XMLUtils.createElement(contentHandler, userpref, prefValues.get(userpref));
+                }
+                else
+                {
+                    // No value ? let's sax the default one (if available)
+                    UserPreference userPref = userPrefsDefinitions.get(userpref);
+                    if (userPref != null)
+                    {
+                        Object defaultValue = userPref.getDefaultValue();
+                        if (defaultValue != null)
+                        {
+                            XMLUtils.createElement(contentHandler, userpref, ParameterHelper.valueToString(defaultValue));
+                        }
+                    }
                 }
             }
         }
