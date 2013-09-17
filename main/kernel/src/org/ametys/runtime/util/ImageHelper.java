@@ -157,7 +157,7 @@ public final class ImageHelper
         Dimension srcDimension = new Dimension(srcWidth, srcHeight);
         Dimension thumbnailDimension = new Dimension(destWidth, destHeight);
         
-        BufferedImage thumbImage = new FixedSizeThumbnailMaker(destWidth, destHeight, keepAspectRatio)
+        BufferedImage thumbImage = new FixedSizeThumbnailMaker(destWidth, destHeight, keepAspectRatio, true)
                                    .resizer(DefaultResizerFactory.getInstance().getResizer(srcDimension, thumbnailDimension))
                                    .imageType(src.getColorModel().hasAlpha() ? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB)
                                    .make(src); 
