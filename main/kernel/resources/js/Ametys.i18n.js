@@ -411,7 +411,7 @@ Ext.define(
 			
 			document.body.parentNode.setAttribute('style', "height: 100%;");
 			document.body.setAttribute('style', "background: -webkit-linear-gradient( #351e3b, #033059); background: -moz-linear-gradient( #351e3b, #033059); background: -ms-linear-gradient( #351e3b, #033059); background: -o-linear-gradient( #351e3b, #033059); background: linear-gradient( #351e3b, #033059); background-image: none !important; background-color: #351e3b !important; color: #000000 !important; padding: 20px !important; height: 100%;");
-			document.body.innerHTML = "<div style='width: 600px; margin: auto; background-color: #EFEFEF; border: 1px solid #CFCFCF; border-radius: 15px; padding: 0 15px;'><h1><i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_1'/></h1> <p><i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_2'/></p><p><a href='javascript:Ametys.reload();'><i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_3'/></a></p></div>"
+			document.body.innerHTML = "<div style='width: 500px; margin: 200px auto 0 auto; background-color: #EFEFEF; border: 1px solid #CFCFCF; border-radius: 15px; padding: 0 15px;'><h1 style='font-size: 1.5em'><i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_1'/></h1> <p><i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_2'/></p><p style='text-align: center'><a href='javascript:Ametys.reload();'><i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_3'/></a></p></div>"
 		},
 		
 		/**
