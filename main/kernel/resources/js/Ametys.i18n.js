@@ -465,9 +465,10 @@ Ext.BLANK_IMAGE_URL = Ametys.getPluginResourcesPrefix('extjs4') + "/themes/image
 Ext.SSL_SECURE_URL = Ext.BLANK_IMAGE_URL;
 
 /*
- * Changing default ajax method to POST
+ * Changing default ajax method to POST and timeout to a long time
  */
-Ext.Ajax.setOptions({method: 'POST', timeout: 0});
+Ext.Ajax.timeout = 365*24*60*60*1000;
+Ext.Ajax.method = 'POST';
 
 /*
  * Load localization for extjs
