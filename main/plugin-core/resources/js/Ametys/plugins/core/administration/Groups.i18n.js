@@ -223,12 +223,12 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 	},
 
 	/**
-	 * This function is call when a group is deselected
+	 * This function is call when a group is unselected
 	 * @private
-	 * @param  {Ext.selection.RowModel} me
-	 * @param {Ext.data.Model} record
-	 * @param {Number} index
-	 * @param {Object} eOpts 
+	 * @param  {Ext.selection.RowModel} me The row selection model 
+	 * @param {Ext.data.Model} record The record selected
+	 * @param {Number} index The row index
+	 * @param {Object} eOpts Events options
 	 */
 	_unselectGroup: function (me, record, index, eOpts)
 	{
@@ -244,10 +244,10 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 	/**
 	 * This function is call when a group is selected
 	 * @private
-	 * @param  {Ext.selection.RowModel} me
-	 * @param {Ext.data.Model} record
-	 * @param {Number} index
-	 * @param {Object} eOpts 
+	 * @param  {Ext.selection.RowModel} me The row selection model 
+	 * @param {Ext.data.Model} record The record selected
+	 * @param {Number} index The row index
+	 * @param {Object} eOpts Events options
 	 */
 	_selectGroup: function (me, record, index, eOpts)
 	{
