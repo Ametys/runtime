@@ -15,7 +15,7 @@
  */
 
 /**
- * This class is the model for entries in the grid of the message tracker tool
+ * This class is the model for nodes of a profile tree. See {@link Ametys.runtime.profiles.ProfilesTreePanel}
  */
 Ext.define('Ametys.runtime.profile.ProfilesTreePanel.NodeEntry', {
 	extend: 'Ext.data.TreeModel',
