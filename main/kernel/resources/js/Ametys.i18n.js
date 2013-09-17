@@ -414,6 +414,44 @@ Ext.define(
 		},
 		
 		/**
+		 * Reload the application. Current parameters will be replaced. A 'foo' parameter will be added to avoid cache.
+		 * @param {String} [params] The params to add to the url. e.g. "myparam=value1&amp;myotherparam=value2" 
+		 */
+		reload: function(params)
+		{
+			// Shutdown request
+			Ametys.data.ServerComm._shutdown();
+			
+			// Close error dialogs
+			Ametys.log.ErrorDialog._okMessages();
+			Ametys.log.ErrorDialog = { display: function() {} };
+
+			// Compute new url
+			var href = window.location.href;
+
+    		var i1 = href.indexOf('?');
+    		if (i1 >= 0)
+    		{
+    			href = href.substring(0, i1);
+    		}
+
+    		var i2 = href.indexOf('#');
+    		if (i2 >= 0)
+    		{
+    			href = href.substring(0, i2);
+    		}
+
+    		var i3 = href.indexOf(';');
+    		if (i3 >= 0)
+    		{
+    			href = href.substring(0, i3);
+    		}
+    		
+			// open new url
+    		window.location.href = href + "?" + (params || "") + "&foo=" + Math.random();		
+		},
+		
+		/**
 		 * Close the application by exiting
 		 * If an app param "back-url" is available, current window will be redirected to it (String).
 		 * Else If an app param "callback" is available, it will be called (Function).
