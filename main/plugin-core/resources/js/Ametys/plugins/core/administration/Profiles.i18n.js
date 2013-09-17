@@ -416,7 +416,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 	/**
 	 * @private
 	 * Save a label modification of a profile 
-     * @param {Ext.grid.plugin.CellEditing} editor
+     * @param {Ext.grid.plugin.CellEditing} editor The editor plugin
      * @param {Object} e An edit event with the following properties:
      *
      * - grid - The grid
