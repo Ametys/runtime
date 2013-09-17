@@ -420,9 +420,10 @@
 		override: 'Ext.ux.DataView.Draggable',
 	
 		/**
-		 * Allow to override itemSelector ghost config.
 		 * @private
-		 * @param dataview
+		 * Allow to override itemSelector ghost config.
+		 * @param {Ext.view.View} dataview  The Ext.view.View instance that this DragZone is attached to
+		 * @param {Object} config The configuration
 		 */
 		init: function(dataview, config) {
 			this.callParent(arguments);
