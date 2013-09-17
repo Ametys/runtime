@@ -39,7 +39,20 @@ Ext.define(
 			 * An array of currently opened dialogs
 			 * @property {Ametys.data.ServerComm.TimeoutDialog[]}
 			 */
-			_stack: []
+			_stack: [],
+
+		    /**
+		     * Display the next dialog box
+		     * @private
+		     */
+		    _displayNext: function()
+		    {
+		    	if (Ametys.data.ServerComm.TimeoutDialog._stack.length != 0)
+		    	{
+		    		var nextTimeoutDialog = Ametys.data.ServerComm.TimeoutDialog._stack[0];
+		    		nextTimeoutDialog.show();
+		    	}
+		    }
 		},
 
 		/**
@@ -146,19 +159,6 @@ Ext.define(
 	    	}
 	    },
 
-	    /**
-	     * Display the next dialog box
-	     * @private
-	     */
-	    _displayNext: function()
-	    {
-	    	if (Ametys.data.ServerComm.TimeoutDialog._stack.length != 0)
-	    	{
-	    		var nextTimeoutDialog = Ametys.data.ServerComm.TimeoutDialog._stack[0];
-	    		nextTimeoutDialog.show();
-	    	}
-	    },
-	    
 	    /**
 	     * @private
 	     * Get the informations of the current #_runningRequestIndex in Ametys.data.ServerComm#_runningRequests
