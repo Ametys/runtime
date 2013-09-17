@@ -505,3 +505,38 @@
 		}
 	});
 })();
+
+(function ()
+		{
+			// Override SortType to add support for accented characters
+			Ext.define("Ametys.dom.Query", {
+		        override: "Ext.dom.Query",
+		        
+		        /**
+		         * @member Ext.dom.Query
+		         * @method selectDirectNode 
+		         * @since Ametys Runtime 3.7
+		         * @ametys
+		         * Select a direct child element by a given name
+		         * @param {String} element=* Name of the elements to limit.
+		         * @param {HTMLElement} [node=document] The start of the query.
+		         * @return {HTMLElement[]} An array of DOM elements
+		         */
+		    	selectDirectNode: function (element, node)
+		    	{
+		    		var selector = element || '*';
+		    		
+					var childNodes = Ext.dom.Query.select('> ' + selector, node);
+					var elements = [];
+					for (var i = 0; i < childNodes.length; i++)
+					{
+						// Test if Node.ELEMENT_NODE
+						if (childNodes[i].nodeType == 1)
+						{
+							elements.push(childNodes[i]);
+						}
+					}
+					return elements;
+				}
+		    });
+		})();
