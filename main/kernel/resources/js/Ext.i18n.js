@@ -514,7 +514,7 @@
 		        
 		        /**
 		         * @member Ext.dom.Query
-		         * @method selectDirectNode 
+		         * @method selectDirectElements 
 		         * @since Ametys Runtime 3.7
 		         * @ametys
 		         * Select a direct child element by a given name
@@ -522,7 +522,7 @@
 		         * @param {HTMLElement} [node=document] The start of the query.
 		         * @return {HTMLElement[]} An array of DOM elements
 		         */
-		    	selectDirectNode: function (element, node)
+		    	selectDirectElements: function (element, node)
 		    	{
 		    		var selector = element || '*';
 		    		
