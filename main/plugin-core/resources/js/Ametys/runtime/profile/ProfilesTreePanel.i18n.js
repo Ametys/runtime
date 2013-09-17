@@ -64,8 +64,6 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 	 */
 	
 	animate:true,
-	enableDD:false,
-	containerScroll: true,
 	
 	border: true,
 	autoScroll:false,
@@ -142,7 +140,7 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 	
 	/**
 	 * Creates the store the tree should use as its data source.
-	 * @return {Ext.date.TreeStore} The tree store
+	 * @return {Ext.data.TreeStore} The tree store
 	 * @protected
 	 */
 	_createStore: function ()
@@ -293,7 +291,7 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 	 * Appends manually the user and group nodes to each profile.
 	 * @param {Ext.data.TreeStore} store The tree store
 	 * @param {Ext.data.NodeInterface} node The node that was loaded.
-	 * @params {Ext.data.Model[]} records The loaded records
+	 * @param {Ext.data.Model[]} records The loaded records
 	 * @private
 	 */
 	_onLoad: function(store, node, records)
@@ -383,7 +381,7 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 	 * @private
 	 * Callback function called after #_getProfileTooltipText is processed.
 	 * @param {Object} response The XML response provided by the {@link Ametys.data.ServerComm}
-	 * @param {Object} args The callback parameters passed to the {@link Ametys.data.ServerComm#send} method
+	 * @param {Object} params The callback parameters passed to the {@link Ametys.data.ServerComm#send} method
 	 */
 	_getProfileTooltipTextCb : function (response, params)
 	{
@@ -537,7 +535,7 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 	/**
 	 * Filters by a set of function. The specified function will be called for each Record in this Store. 
 	 * If the function returns true the Record is included, otherwise it is filtered out.
-	 * @param {Funtion/Function[]} filterFn A function or a set of functions to be called. It will be passed the following parameters:
+	 * @param {Function/Function[]} filterFn A function or a set of functions to be called. It will be passed the following parameters:
 	 * @param {Ext.data.Model} filterFn.node The node to test for filtering
 	 */
 	filterBy: function (filterFn)
