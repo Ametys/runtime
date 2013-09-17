@@ -163,6 +163,7 @@ public class UserPreferencesGenerator extends AbstractCurrentUserProviderService
         attr.addCDATAAttribute("order", Integer.toString(preference.getOrder()));
         attr.addCDATAAttribute("type", ParameterHelper.typeToString(preference.getType()));
         attr.addCDATAAttribute("multiple", Boolean.toString(preference.isMultiple()));
+        attr.addCDATAAttribute("private", Boolean.toString(preference.isPrivate()));
         XMLUtils.startElement(contentHandler, "preference", attr);
         
         if (preference.getLabel() != null)

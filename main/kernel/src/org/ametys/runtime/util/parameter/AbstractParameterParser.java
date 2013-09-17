@@ -38,8 +38,8 @@ public abstract class AbstractParameterParser<P extends Parameter<T>, T>
     protected ThreadSafeComponentManager<Enumerator> _enumeratorManager;
     /** The validators component manager. */
     protected ThreadSafeComponentManager<Validator> _validatorManager;
-    private Map<P, String> _validatorsToLookup = new HashMap<P, String>();
-    private Map<P, String> _enumeratorsToLookup = new HashMap<P, String>();
+    private final Map<P, String> _validatorsToLookup = new HashMap<P, String>();
+    private final Map<P, String> _enumeratorsToLookup = new HashMap<P, String>();
 
     /**
      * Creates an AbstractParameterParser.

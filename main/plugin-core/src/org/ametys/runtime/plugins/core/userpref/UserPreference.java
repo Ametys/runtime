@@ -37,6 +37,9 @@ public class UserPreference extends Parameter<ParameterType>
     /** The preference order. */
     protected int _order;
     
+    /** The private status. */
+    protected boolean _private;
+    
     /**
      * Get the display group.
      * @return the display group.
@@ -109,9 +112,28 @@ public class UserPreference extends Parameter<ParameterType>
         _order = order;
     }
     
+    /**
+     * Get whether the preference is private, i.e. should not be visible by
+     * the regular user preferences interface.
+     * @return true if the preference is private, false if it is public.
+     */
+    public boolean isPrivate()
+    {
+        return _private;
+    }
+    
+    /**
+     * Set the private status of the preference
+     * @param privateStatus true if the preference is private, false if it is public.
+     */
+    public void setPrivate(boolean privateStatus)
+    {
+        _private = privateStatus;
+    }
+    
     @Override
     public String toString()
     {
-        return "Preference '" + getId() + "' (type:    " + (_multiple ? "multiple " : " ") + getType().name() + ", label:    " + getLabel().toString() + ", " + (getDefaultValue() != null ? ("default value: " + getDefaultValue()) : "no default value")  + ", " + (getEnumerator() != null ? ("enumerator: " + getEnumerator()) : "no enumerator") + ")";
+        return "Preference '" + getId() + "' (type:    " + (_multiple ? "multiple " : " ") + getType().name() + "', private:    " + _private + ", label:    " + getLabel().toString() + ", " + (getDefaultValue() != null ? "default value: " + getDefaultValue() : "no default value")  + ", " + (getEnumerator() != null ? "enumerator: " + getEnumerator() : "no enumerator") + ")";
     }
 }

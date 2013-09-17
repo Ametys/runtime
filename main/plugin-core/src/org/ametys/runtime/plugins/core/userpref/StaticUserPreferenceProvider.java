@@ -211,12 +211,14 @@ public class StaticUserPreferenceProvider extends AbstractLogEnabled implements 
             boolean multiple = preferenceConfig.getAttributeAsBoolean("multiple", false);
             int order = preferenceConfig.getChild("order").getValueAsInteger(1000);
             String managerRole = preferenceConfig.getChild("manager-role").getValue(null);
+            boolean privateStatus = preferenceConfig.getAttributeAsBoolean("private", false);
             
             preference.setId(parameterId);
             preference.setDisplayGroup(_parseI18nizableText(preferenceConfig, pluginName, "group"));
             preference.setMultiple(multiple);
             preference.setManagerRole(managerRole);
             preference.setOrder(order);
+            preference.setPrivate(privateStatus);
         }
     }
     
