@@ -121,7 +121,7 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 	            /**
 	             * @event profileupdated
 	             * Fires when a profile has been updated
-	             * @param {Ametys.rights.profiles.ProfilesTreePanel} tree The tree
+	             * @param {Ametys.rights.profile.ProfilesTreePanel} tree The tree
 	             * @param {String} nodeId The id of the profile node
 	             */
 	            'profileupdated'
