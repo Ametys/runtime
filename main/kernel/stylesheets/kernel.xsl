@@ -97,6 +97,7 @@
 	        <script>/kernel/resources/js/Ametys/data/ServerComm.i18n.js</script>
             <script>/kernel/resources/js/Ametys/data/ServerCommProxy.i18n.js</script>
 	        <script>/kernel/resources/js/Ametys/data/ServerComm/TimeoutDialog.i18n.js</script>
+	        <script>/kernel/resources/js/Ametys/tree/TreeEditor.js</script>
 	    </xsl:variable>
 		
 		<xsl:variable name="css">
