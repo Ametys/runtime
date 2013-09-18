@@ -56,7 +56,7 @@ public class ProfilesByContextGenerator extends ServiceableGenerator
     public void generate() throws IOException, SAXException, ProcessingException
     {
         Request request = ObjectModelHelper.getRequest(objectModel);
-        String context = request.getParameter("context");
+        String context = request.getParameter("profileContext");
         String id = request.getParameter("profile");
 
         contentHandler.startDocument();
@@ -83,6 +83,7 @@ public class ProfilesByContextGenerator extends ServiceableGenerator
      * SAX Profile
      * @param profile the profile to SAX
      * @param context the context of right
+     * @param includeRootNode 
      * @throws SAXException
      */
     protected void _saxProfile(Profile profile, String context, boolean includeRootNode) throws SAXException
@@ -194,35 +195,4 @@ public class ProfilesByContextGenerator extends ServiceableGenerator
         attrs.addAttribute("", "inherit", "inherit", "CDATA", String.valueOf(inherit));
         attrs.addAttribute("", "type", "type", "CDATA", "group");
     }
-    
-    private void _saxProfileEntity(Profile profile) throws SAXException
-    {
-        AttributesImpl attr = new AttributesImpl();
-        attr.addAttribute("", "id", "id", "CDATA", profile.getId());
-        attr.addAttribute("", "label", "label", "CDATA", profile.getName());
-        XMLUtils.createElement(contentHandler, "profile", attr);
-    }
-
-    private void _saxUserEntity(User user, String context, boolean inherit) throws SAXException
-    {
-        AttributesImpl attr = new AttributesImpl();
-        attr.addAttribute("", "login", "login", "CDATA", user.getName());
-        attr.addAttribute("", "name", "name", "CDATA", user.getFullName());
-        attr.addAttribute("", "context", "context", "CDATA", context);
-        attr.addAttribute("", "inherit", "inherit", "CDATA", String.valueOf(inherit));
-        
-        XMLUtils.createElement(contentHandler, "user", attr);
-    }
-
-    private void _saxGroupEntity(Group group, String context, boolean inherit) throws SAXException
-    {
-        AttributesImpl attr = new AttributesImpl();
-        attr.addAttribute("", "groupId", "groupId", "CDATA", "group-" + group.getId());
-        attr.addAttribute("", "label", "label", "CDATA", group.getLabel());
-        attr.addAttribute("", "context", "context", "CDATA", context);
-        attr.addAttribute("", "inherit", "inherit", "CDATA", String.valueOf(inherit));
-        
-        XMLUtils.createElement(contentHandler, "group", attr);
-    }
-
 }

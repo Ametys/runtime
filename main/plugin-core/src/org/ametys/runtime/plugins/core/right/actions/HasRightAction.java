@@ -73,7 +73,7 @@ public class HasRightAction extends AbstractCurrentUserProviderServiceableAction
 
         boolean hasRight = false;
         String context = parameters.getParameter("context", null);
-        if (context == null)
+        if (context == null || "".equals(context))
         {
             context = getBaseContext(parameters, objectModel);
         }

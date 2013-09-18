@@ -72,7 +72,7 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 	
 	constructor: function(config)
 	{
-		this._context = config.context || '/resources';
+		this._context = config.context || '';
 		this._upToContextFn = config.upToContextFn || null;
 		
 		// The root node
@@ -121,7 +121,7 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 	            /**
 	             * @event profileupdated
 	             * Fires when a profile has been updated
-	             * @param {Ametys.rights.profile.ProfilesTreePanel} tree The tree
+	             * @param {Ametys.runtime.profiles.ProfilesTreePanel} tree The tree
 	             * @param {String} nodeId The id of the profile node
 	             */
 	            'profileupdated'
@@ -244,15 +244,21 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 	},
 	
 	/**
-	 * Refresh the profile node
-	 * @param {String} profileId The id of profile
-	 * @param {Ext.data.Model} node The profile node
+	 * Refresh the profile node by its id or by passing the node directly.
+	 * If the node is passed, then the profileId is ignored.
+	 * @param {String} [profileId] The id of profile. Cannot be null if node is null.
+	 * @param {Ext.data.Model} [node] The profile node. Cannot be null if profileId is null.
 	 */
 	refreshProfileNode: function (profileId, node)
 	{
-		if (node != null)
+		node = node || this.getStore().getNodeById(profileId);
+		
+		if (node)
 		{
-			this.getStore().load({node: node, callback: Ext.bind (this.expandNode, this, [node], false)});
+			this.getStore().load({
+				node: node,
+				callback: Ext.bind (this.expandNode, this, [node], false)
+			});
 		}
 		
 		this.fireEvent ('profileupdated', this, node);
@@ -273,9 +279,9 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 		}
 		
 		operation.params = operation.params || {};
-		operation.params.context = this._context;
+		operation.params.profileContext = this._context || '';
 		
-		Ext.apply(operation.params, Ametys.getAppParameters());
+		Ext.applyIf(operation.params, Ametys.getAppParameters());
 		
 		var node = operation.node;
 		if (node != null && !node.isRoot())
@@ -302,6 +308,11 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 		if (node.isRoot())
 		{
 			this.getSelectionModel().select(0);
+			
+			// Expand each profile
+			Ext.Array.forEach(node.childNodes, function(profileNode) {
+				this.expandNode(profileNode);
+			}, this);
 		}
 	},
 	
@@ -338,8 +349,8 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 	 */
 	updateContext: function(context, params, init, callback)
 	{
-		this._context = context;
-		this._loadParams = params;
+		this._context = context || '';
+		this._loadParams = params || {};
 		
 		// Reload tree
 		Ext.defer(this.reloadTree, 500, this, [callback]);
@@ -367,7 +378,7 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 		var response = Ametys.data.ServerComm.send({
 			plugin: 'core', 
 			url: 'rights/profile.xml',
-			parameters: Ext.apply(Ametys.getAppParameters(), {context: this._context}),
+			parameters: Ext.apply(Ametys.getAppParameters(), this._loadParams),
 			priority: Ametys.data.ServerComm.PRIORITY_MAJOR,
 			
 			callback: {
