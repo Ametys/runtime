@@ -251,7 +251,7 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 	 */
 	refreshProfileNode: function (profileId, node)
 	{
-		node = node || this.getStore().getNodeById(profileId);
+		node = node || this._findProfileNode(profileId);
 		
 		if (node)
 		{
@@ -262,6 +262,30 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 		}
 		
 		this.fireEvent ('profileupdated', this, node);
+	},
+	
+	/**
+	 * @private
+	 * Retrieves a profile node by its profile id.
+	 * {String} profileId the profile id of the node.
+	 */
+	_findProfileNode: function(profileId)
+	{
+		var root = this.getRootNode();
+		var profileNode = null;
+		
+		// profile are child of the root node.
+		root.eachChild(function(node) {
+			if (node.get('profileId') === profileId)
+			{
+				profileNode = node;
+			}
+			
+			// Stop iteration when the profile node has been found.
+			return !profileNode;
+		});
+		
+		return profileNode;
 	},
 	
 	/**
