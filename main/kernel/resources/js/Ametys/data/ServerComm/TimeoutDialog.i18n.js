@@ -124,7 +124,7 @@ Ext.define(
 	    		    	{
 	        				var currentTimeoutDialog = Ametys.data.ServerComm.TimeoutDialog._stack[0];
 
-	        				Ametys.data.ServerComm.getInstance()._abort(currentTimeoutDialog.businessWrapper.getRequestOptions());
+	        				Ametys.data.ServerComm._abort(currentTimeoutDialog.businessWrapper.getRequestOptions());
 	    		    	}
 	    		    },
 	    			{
