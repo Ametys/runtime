@@ -65,20 +65,20 @@ Open source web application framework based on Apache Cocoon.
     <dependency org="org.apache.commons" name="commons-lang3" rev="3.1" conf="common_dependencies->default"/>
 
     <dependency org="org.apache.ibatis" name="ibatis-sqlmap" rev="2.3.0" conf="common_dependencies->default"/>
-    <dependency org="org.codehaus.jackson" name="jackson-mapper-asl" rev="1.9.7" conf="common_dependencies->default"/>
-    <dependency org="net.coobird" name="thumbnailator" rev="0.4.2" conf="common_dependencies->default"/>
-    <dependency org="javax.mail" name="mail" rev="1.4.5" conf="common_dependencies->default"/>
-    <dependency org="joda-time" name="joda-time" rev="2.1" conf="common_dependencies->default"/>
-    <dependency org="org.jsoup" name="jsoup" rev="1.6.3" conf="common_dependencies->default"/>
+    <dependency org="org.codehaus.jackson" name="jackson-mapper-asl" rev="1.9.13" conf="common_dependencies->default"/>
+    <dependency org="net.coobird" name="thumbnailator" rev="0.4.6" conf="common_dependencies->default"/>
+    <dependency org="javax.mail" name="mail" rev="1.4.7" conf="common_dependencies->default"/>
+    <dependency org="joda-time" name="joda-time" rev="2.3" conf="common_dependencies->default"/>
+    <dependency org="org.jsoup" name="jsoup" rev="1.7.2" conf="common_dependencies->default"/>
     <dependency org="org.rrd4j" name="rrd4j" rev="2.2" conf="common_dependencies->default"/>
     <dependency org="yahoo" name="yuicompressor" rev="2.4.6" conf="common_dependencies->default"/>
-    <dependency org="com.google.guava" name="guava" rev="14.0.1" conf="common_dependencies->default"/>
+    <dependency org="com.google.guava" name="guava" rev="15.0" conf="common_dependencies->default"/>
     <dependency org="org.fusesource" name="sigar" rev="1.6.4" conf="compile_base->default;runtime_dependencies->runtime">
         <exclude module="sigar-lib" conf="test"/>
     </dependency> 
     
-    <dependency org="org.slf4j" name="slf4j-api" rev="1.6.6" conf="compile_base->default"/>
-    <dependency org="org.slf4j" name="slf4j-log4j12" rev="1.6.6" conf="runtime_dependencies->default"/>    
+    <dependency org="org.slf4j" name="slf4j-api" rev="1.7.5" conf="compile_base->default"/>
+    <dependency org="org.slf4j" name="slf4j-log4j12" rev="1.7.5" conf="runtime_dependencies->default"/>    
     <dependency org="log4j" name="log4j" rev="1.2.17" conf="common_dependencies->default"/>
     <dependency org="org.apache.avalon.logkit" name="avalon-logkit" rev="2.2.1" conf="common_dependencies->default"/>
     
@@ -89,19 +89,18 @@ Open source web application framework based on Apache Cocoon.
     <!-- Runtime -->
     <dependency org="minaret" name="datedFileAppender" rev="1.0.2" conf="runtime_dependencies->default"/>
     <dependency org="org.sencha" name="extjs4" rev="4.2.1" conf="runtime_dependencies->default"/>
-    <dependency org="mysql" name="mysql-connector-java" rev="5.1.6" conf="runtime_dependencies->default"/>
 
     <!-- Compile and test -->
     <dependency org="javax.servlet" name="servlet-api" rev="2.4" conf="compile_base->default"/>
     <dependency org="org.apache.xmlgraphics" name="fop" rev="1.1" transitive="false" conf="compile_base,test->default"/>
     <dependency org="org.jasig.cas.client" name="cas-client-core" rev="3.2.1" conf="compile_base,test->default"/>
     
-    <dependency org="mysql" name="mysql-connector-java" rev="5.1.20" conf="test->default"/>
+    <dependency org="mysql" name="mysql-connector-java" rev="5.1.26" conf="test->default"/>
     <dependency org="com.oracle" name="ojdbc6" rev="11.2.0.3" conf="test->default"/>
     <dependency org="postgresql" name="postgresql" rev="9.1-901-1.jdbc4" conf="test->default"/>
     <dependency org="org.apache.derby" name="derby" rev="10.5.3.0_1" conf="test->default"/>
     <dependency org="org.hsqldb" name="hsqldb" rev="2.3.0" conf="test->default"/>
 
-    <dependency org="junit" name="junit" rev="4.10" conf="test,test-env->default"/>
+    <dependency org="junit" name="junit" rev="4.11" conf="test,test-env->default"/>
   </dependencies>
 </ivy-module>
