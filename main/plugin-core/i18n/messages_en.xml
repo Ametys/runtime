@@ -523,6 +523,7 @@
     <message key="PLUGINS_CORE_PROFILES_TREE_BTN_EXPAND_TOOTIP">Expand all</message>
     <message key="PLUGINS_CORE_PROFILES_TREE_BTN_COLLAPSE_TOOTIP">Collapse all</message>
     <message key="PLUGINS_CORE_PROFILES_TREE_CONTEXT_TOOLTIP">Context</message>
+    <message key="PLUGINS_CORE_PROFILES_TREE_GET_PROFILES_RIGHTS_ERROR">An error occured : unable to get list of profiles</message>
     
     <!-- PROFILES ACTIONS -->
     <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDUSER_LABEL">Add profile to user</message>

@@ -524,6 +524,7 @@
     <message key="PLUGINS_CORE_PROFILES_TREE_BTN_EXPAND_TOOTIP">Déplier tout</message>
     <message key="PLUGINS_CORE_PROFILES_TREE_BTN_COLLAPSE_TOOTIP">Replier tout</message>
     <message key="PLUGINS_CORE_PROFILES_TREE_CONTEXT_TOOLTIP">Contexte</message>
+    <message key="PLUGINS_CORE_PROFILES_TREE_GET_PROFILES_RIGHTS_ERROR">Une erreur est survenue: impossible de récupérer la liste des profils de droits</message>
     
     <!-- PROFILES ACTIONS -->
 	<message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDUSER_LABEL">Affecter à un utilisateur</message>
