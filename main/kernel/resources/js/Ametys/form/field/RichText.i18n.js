@@ -24,6 +24,15 @@ Ext.define('Ametys.form.field.RichText', {
     alias: ['widget.richtextfield', 'widget.richtext'],
     alternateClassName: ['Ext.form.RichTextField', 'Ext.form.RichText', 'Ext.form.field.RichText'],
     
+    statics: {
+        /**
+         * @readonly
+         * @property {RegExp} FILTER_TAGS The regular expression used to filter editor tags (to count characters).
+         * @private
+         */
+        FILTER_TAGS: new RegExp("(<p( [^>]+)?>" + String.fromCharCode(0xA0) + "<\/p>)|(<[^>]*>)|(\r?\n)", "g")
+    },
+    
     /**
      * @cfg {String[]} settings Settings that will be transmitted to tinymce to create the editor. See http://www.tinymce.com/wiki.php/Configuration3x.
      * They are many default settings.
@@ -49,13 +58,19 @@ Ext.define('Ametys.form.field.RichText', {
     
     /**
      * @private
-     * @property {Number} _checkCounterEvery Time in ms between an event on the editor and the time the counter is updating (to prevent too many updates). This will vary in the life time of the editor: a big content will auto increase this value
+     * @property {Number} _updateEvery Time in ms between an event on the editor and the time the counter is updating (to prevent too many updates). This will vary in the life time of the editor: a big content will auto increase this value
      */
-    _checkCounterEvery: 1000,
+    _updateEvery: 1000,
     /**
      * @private
-     * @property {Date} _lastCharCountUpdate The time the char count was lastly updated
+     * @property {String} _editorContent A cached value of the current editor content, may be null.
      */
+    _editorContent: null,
+    /**
+     * @private
+     * @property {Number} _charCount A cached value of the current character count in the editor, -1 if unknown.
+     */
+    _charCount: -1,
     /**
      * @private
      * @property {Object} _counting The timeout object of a pending recount of the characters
@@ -76,6 +91,18 @@ Ext.define('Ametys.form.field.RichText', {
 	 * @property {Number} _suspended The number of times the transmission was suspended. 0 means transmission of selection events between tinymce and the ribbon are not suspended. Cannot be negative.
 	 */
 	_suspended: 0,
+	
+    /**
+     * @cfg {Number} maxLength
+     * Maximum input field length allowed by validation.
+     * Defaults to Number.MAX_VALUE.
+     */
+    /**
+     * @private
+     * @property {Number} _maxLength The maximum input field length allowed by validation. Defaults to Number.MAX_VALUE.
+     * N.B: the maxLength default configuration field is forced to Number.MAX_VALUE to disable default Textarea validation.
+     */
+    _maxLength: Number.MAX_VALUE,
     
     constructor: function(config)
     {
@@ -119,13 +146,32 @@ Ext.define('Ametys.form.field.RichText', {
     	this._settings.setup = Ext.bind(this._onEditorSetup, this);
     },
     
+    /**
+     * Initialize the maximum length.
+     */
+    initComponent: function()
+    {
+        this.callParent(arguments);
+        
+        // Force the default maxLength configuration to Number.MAX_VALUE to disable default validation.
+        if (this.maxLength != Number.MAX_VALUE)
+        {
+            this._maxLength = this.maxLength;
+            this.maxLength = Number.MAX_VALUE;
+        }
+    },
+    
     getRawValue: function()
     {
     	var editor = this.getEditor(); 
     	if (editor)
     	{
-	    	var html = editor.getContent(); 
-	    	this.inputEl.dom.value = html;
+    	    // Cache the current editor content.
+	    	this._editorContent = editor.getContent();
+	    	this.inputEl.dom.value = this._editorContent;
+	    	
+	    	// Compute the character count.
+	    	this._computeCharCount(editor);
     	}
     	
     	return this.callParent(arguments);
@@ -214,6 +260,24 @@ Ext.define('Ametys.form.field.RichText', {
 	             */
 	            'editorhtmlnodeselected'
 		);
+    },
+    
+    /**
+     * Overridden to add custom maxLength validation.
+     * @param {Object} value The current field value.
+     */
+    getErrors: function(value)
+    {
+        var me = this,
+            errors = me.callParent(arguments);
+        
+        // me.callParent called getRawValue, _charCount should always be up-to-date.
+        if (me._charCount > me._maxLength)
+        {
+            errors.push(Ext.String.format(me.maxLengthText, me._maxLength));
+        }
+        
+        return errors;
     },
     
     /**
@@ -331,10 +395,10 @@ Ext.define('Ametys.form.field.RichText', {
     
     /**
      * @private
-     * Creates the char count under the editor. Use #cfg-charCounter
+     * Creates the char counter under the editor. Use #cfg-charCounter
      * @param {tinymce.Editor} editor The editor object. If null the active editor will be used.
      */
-    _createCharCount: function(editor)
+    _createCharCounter: function(editor)
     {
     	if (this.initialConfig.charCounter !== true)
     	{
@@ -347,82 +411,120 @@ Ext.define('Ametys.form.field.RichText', {
 				cls: 'char-counter',
 				html: editor.getLang('charcount_chars', 'Characters:') + ' '
 					 +    '<span id="' + editor.id + '-counter-val' + '">?</span>'
-					 +    (this.maxLength == Number.MAX_VALUE ? '' : (' ' +  editor.getLang('charcount_max', 'on') + ' ' + this.maxLength)) 
+					 +    (this._maxLength == Number.MAX_VALUE ? '' : (' ' +  editor.getLang('charcount_max', 'on') + ' ' + this._maxLength)) 
 			}
 		);
-		
-		this._updateCharCount(editor);
     },
     
     /**
      * @private
-     * This listener is called when the counter needs to be updated
+     * Update the char counter under the editor.
+     * @param {tinymce.Editor} editor The editor object.
+     */
+    _updateCharCounter: function(editor)
+    {
+        if (this._charCount > -1)
+        {
+            var count = this._charCount;
+            
+            var counter = document.getElementById(editor.editorId + "-counter-val"); 
+            if (counter != null)
+            {
+                Ext.get(counter).removeCls("char-count-counting");
+                counter.innerHTML = count;
+            }
+            
+            // is there a maxlength ?
+            if (this._maxLength != Number.MAX_VALUE)
+            {
+                if (count > this._maxLength)
+                {
+                    Ext.get(counter).addCls("char-count-maxexceed");
+                }
+                else
+                {
+                    Ext.get(counter).removeCls("char-count-maxexceed");
+                }
+            }
+        }
+    },
+    
+    /**
+     * @private
+     * This listener is called when the internal field state needs to be updated.
      * @param {tinymce.Editor} [editor] The editor object
      */
-    _updateCharCount: function(editor)
+    _triggerUpdate: function(editor)
     {
+        // Invalidate the editor content and current char count.
+        this._editorContent = null;
+        this._charCount = -1;
+        
 		editor = editor || this.getEditor(); 
 		if (editor != null)
 		{
-			var counter = document.getElementById(editor.editorId + "-counter-val"); 
+			var counter = Ext.get(editor.editorId + "-counter-val");
 			if (counter != null)
 			{
-				var time = new Date().getTime();
-				var lastTime = this._lastCharCountUpdate;
-				this._lastCharCountUpdate = time;
-
-				if (lastTime == null || (time - lastTime >= this._checkCounterEvery && this._counting != null))
-				{
-					this._setCharCount(editor);
-				}
-				else
-				{
-					Ext.get(counter).addCls("char-count-counting");
-					window.clearTimeout(this._counting);
-					this._counting = window.setTimeout(Ext.bind(this._setCharCount, this), this._checkCounterEvery);
-				}
+			    counter.addCls("char-count-counting");
 			}
+			
+			if (this._counting != null)
+		    {
+			    window.clearTimeout(this._counting);
+		    }
+			this._counting = window.setTimeout(Ext.bind(this._update, this), this._updateEvery);
 		}
     },
     
     /**
      * @private
-     * Update the char counter now.
+     * Compute the character count, validate the field and update the counter.
      * @param {tinymce.Editor} [editor] The editor object. If null the active editor will be used.
      */
-    _setCharCount: function(editor)
+    _update: function(editor)
     {
-		editor = editor || tinyMCE.activeEditor; 
+		editor = editor || this.getEditor();
 		if (editor != null)
 		{
 			var took = new Date().getTime();
 			
-			var r = new RegExp("<p( [^>]+)?>" + String.fromCharCode(0xA0) + "<\/p>", "g");
-			var a = editor.getContent({from: 'char-counter'}).replace(/\r?\n/g, '').replace(r, '').replace(/<[^>]*>/g, '').length;
-			var counter = document.getElementById(editor.editorId + "-counter-val"); 
-			if (counter != null)
-			{
-				Ext.get(counter).removeCls("char-count-counting");
-				this._counting = null;
-				counter.innerHTML = a;
-			}
+			// Validate the field (triggers character counting).
+			this.validate();
 			
-			// is there a maxlength ?
-			if (this.maxLength != Number.MAX_VALUE)
-			{
-				if (a > this.maxLength)
-				{
-					Ext.get(counter).addCls("char-count-maxexceed");
-				}
-				else
-				{
-					Ext.get(counter).removeCls("char-count-maxexceed");
-				}
-			}
-
+			// Update the counter.
+			this._updateCharCounter(editor);
+		    
+			if (this._counting != null)
+		    {
+			    window.clearTimeout(this._counting);
+			    this._counting = null;
+		    }
+			
 			var took2 = new Date().getTime();
-			editor._checkCounterEvery = Math.max(took2 - took, 1000);
+			editor._updateEvery = Math.max(took2 - took, 1000);
 		}    	
+    },
+    
+    /**
+     * @private
+     * Update the internal char count now.
+     * @param {tinymce.Editor} [editor] The editor object. If null the active editor will be used.
+     */
+    _computeCharCount: function(editor)
+    {
+        // Cancel the running timer if necessary.
+        if (this._counting != null)
+        {
+            window.clearTimeout(this._counting);
+            this._counting = null;
+        }
+        
+        // Get the editor content from the cache or from the editor (just in case).
+        var editorContent = this._editorContent || editor.getContent();
+        
+        // Filter the tags and compute the character count. 
+        this._charCount = editorContent.replace(Ametys.form.field.RichText.FILTER_TAGS, '').length;
     },
     
     /**
@@ -452,8 +554,12 @@ Ext.define('Ametys.form.field.RichText', {
      */
     _onEditorInit: function(editor)
     {
-		this._createCharCount(editor);
-
+		this._createCharCounter(editor);
+		
+		// Cache the editor content and compute char count.
+		this.getRawValue();
+		this._updateCharCounter(editor);
+		
 		this._createWarning(editor);
     },
     
@@ -471,10 +577,10 @@ Ext.define('Ametys.form.field.RichText', {
 		
 		editor.onInit.add(Ext.bind(this._onEditorInit, this));
 		
-		var _updateCharCount = Ext.bind(this._updateCharCount, this);
-		editor.onChange.add(_updateCharCount);
-		editor.onSetContent.add(_updateCharCount);
-		editor.onKeyUp.add(_updateCharCount);
+		var _triggerUpdate = Ext.bind(this._triggerUpdate, this);
+		editor.onChange.add(_triggerUpdate);
+		editor.onSetContent.add(_triggerUpdate);
+		editor.onKeyUp.add(_triggerUpdate);
 		
 		editor.onNodeChange.add (Ext.bind(this._onEditorRichTextNodeSelected, this));
 		editor.onBeforeSetContent.add(Ext.bind(this._onEditorSetContent, this));
@@ -685,5 +791,6 @@ Ext.define('Ametys.form.field.RichText', {
 			editor.onClick.remove(editor.nodeChanged);
 		}
 		this._notFirstCallToOnRichTextNodeSelected = true;
-	},
+	}
+	
 });
