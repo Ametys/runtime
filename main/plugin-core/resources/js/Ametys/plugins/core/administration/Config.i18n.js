@@ -459,6 +459,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	        ametysDescription: description,
 	        
 	        altFormats: 'c',
+	        format: "<i18n:text i18n:key='DATE_FIELD_FORMAT'/>",
 	        value: dateValue,
 	        allowBlank: !mandatory,
 	        regex: regexp,

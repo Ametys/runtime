@@ -49,6 +49,8 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_INVALID_TITLE">Le formulaire contient des erreurs</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_INVALID">Un ou plusieurs champs du formulaire sont incorrects. Veuillez les corriger avant de recommencer une sauvegarde.</message>
 	<message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP">La saisie ne respecte pas le format attendu :</message>
+    
+    <message key="DATE_FIELD_FORMAT">d/m/Y</message>
 	
     <!-- ADMINISTRATOR JVMSTATUS -->
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_LABEL">Etat du système</message>

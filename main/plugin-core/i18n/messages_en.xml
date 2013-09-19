@@ -49,7 +49,9 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_INVALID_TITLE">The form contains errors</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_INVALID">One or more fields in the form are incorrect. Please modify them and then save the form.</message>
 	<message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP">Wrong value. Excepted format:</message>
-
+    
+    <message key="DATE_FIELD_FORMAT">m/d/Y</message>
+    
     <!-- ADMINISTRATOR JVMSTATUS -->
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_LABEL">System status</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_DESCRIPTION">Analyze system and JVM status</message>
