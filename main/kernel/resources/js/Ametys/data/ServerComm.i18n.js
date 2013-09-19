@@ -176,7 +176,7 @@ Ext.define(
 		 * @param {Object} message.callback.scope The scope of the function call. Optionnal.
 		 * @param {String[]} message.callback.arguments An array of string that will be given as arguments of the callback. Optionnal
 		 * @param {String} [message.responseType=xml] Can be "xml" (default) to have a xml response, "text" to have a single text node response or "xml2text" to have a single text node response where xml prologue as text is removed
-		 * @return {Object} The XHR object containing the response data for a synchronous priority message or null for other priorities.
+		 * @return {Object} The XHR object containing the response data for a synchronous priority message. An object where you can set ".cancel = true" to finally cancel the request if it has not been launch yet.
 		 */
 		send: function(message)
 		{
@@ -203,7 +203,7 @@ Ext.define(
 			else if (message.priority == Ametys.data.ServerComm.PRIORITY_LONG_REQUEST)
 			{
 				this._sendMessages(message);
-				return null;
+				return message;
 			}
 			else
 			{
@@ -224,7 +224,7 @@ Ext.define(
 					}
 					this._sendTask = window.setTimeout(function () { Ametys.data.ServerComm._sendMessages(); }, delay);
 				}
-				return null;
+				return message;
 			}
 		},
 		
@@ -445,11 +445,15 @@ Ext.define(
 			
 				// Effectively send messages
 				var parameters = {};
-				var count = 0;
 				for (var i = 0; i < this._messages.length; i++)
 				{
 					var message = this._messages[i];
-					parameters[count++] = message.toRequest();
+					if (message.cancel == true)
+					{
+						continue;
+					}
+					
+					parameters[i] = message.toRequest();
 				}
 			}
 			else
@@ -597,8 +601,15 @@ Ext.define(
 			for (var i = 0; i < options.messages.length; i++)
 			{
 					var message = options.messages[i];
-
+					
 					var node = Ext.dom.Query.selectNode("/responses/response[@id='" + i + "']", response.responseXML);
+					if (node == null && message.cancel == true)
+					{
+						// only discard a canceled request if there is no answer
+						// a cancel message with an answer means it has been canceled too late
+						continue;
+					}
+					
 					try
 					{
 							message.callback.handler.apply(message.callback.scope, [node, message.callback.arguments]);
