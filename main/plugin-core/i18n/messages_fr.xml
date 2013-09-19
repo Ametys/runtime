@@ -525,6 +525,20 @@
     <message key="PLUGINS_CORE_PROFILES_TREE_BTN_COLLAPSE_TOOTIP">Replier tout</message>
     <message key="PLUGINS_CORE_PROFILES_TREE_CONTEXT_TOOLTIP">Contexte</message>
     
+    <!-- PROFILES ACTIONS -->
+	<message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDUSER_LABEL">Affecter à un utilisateur</message>
+    <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDUSER_DESCRIPTION">Ajoute une nouvelle affectation au profil sélectionné sur le context courant</message>
+    <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDUSER_ERROR">Une erreur est survenue : la nouvelle affectation n'a pu être prise en compte.</message>
+    <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDGROUP_LABEL">Affecter à un groupe</message>
+    <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDGROUP_DESCRIPTION">Ajoute une nouvelle affectation au profil sélectionné sur le context courant</message>
+    <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDGROUP_ERROR">Une erreur est survenue : la nouvelle affectation n'a pu être prise en compte.</message>
+    <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_LABEL">Supprimer l'affectation</message>
+    <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_DESCRIPTION">Supprimer l'affectation sur le profil sélectionné</message>
+    <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_CONFIRM">Etes-vous sûr de vouloir supprimer cette ou ces affectation(s) ?</message>
+    <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_SUCCESS">L'affectation a bien été supprimée</message>
+    <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_ERROR">Une erreur est survenue lors de la suppression.</message>	
+	<message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ERROR_TITLE">Une erreur est survenue</message>
+    
     <!-- RIGHTS -->
     <message key="PLUGINS_CORE_RIGHTS_LABEL">Assignation</message>
     <message key="PLUGINS_CORE_RIGHTS_DESCRIPTION">Assignation de profils aux utilisateurs</message>
@@ -555,6 +569,8 @@
     <message key="PLUGINS_CORE_RIGHTS_CONTEXTS_APPLICATION_DESCRIPTION">Affecte les profils au niveau applicatif</message>
     <message key="PLUGINS_CORE_RIGHTS_CONTEXTS_APPLICATION_HELP_AFFECT">Pour assigner des droits, ajoutez un utilisateur ou un groupe en cliquant sur les liens ci-dessus, ou sélectionnez directement un groupe ou un utilisateur dans la liste de droite.</message>
     <message key="PLUGINS_CORE_RIGHTS_CONTEXTS_APPLICATION_HELP_PROFIL">Choisissez le ou les profils à appliquer à l'utilisateur ou au groupe sélectionné.&lt;br/&gt;Cliquer sur le lien 'Valider les modifications' pour sauvegarder la nouvelle affectation.</message>
+    
+    
     
     <!-- AUTHENTICATION -->
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION">Authentification</message>

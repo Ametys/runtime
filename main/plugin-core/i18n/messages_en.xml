@@ -515,7 +515,7 @@
     <message key="PLUGINS_CORE_PROFILE_RIGHTS_HANDLE_DESCRIPTION">Allow to manage profiles</message>
     <message key="PLUGINS_CORE_RIGHTS_PROFILES_ERROR">An error occured</message>
     
-    <!-- PROFILES -->
+    <!-- PROFILES TREE -->
     <message key="PLUGINS_CORE_PROFILES_TREE_FILTER_BY_NAME">Filter by user(s) or group(s) ...</message>
     <message key="PLUGINS_CORE_PROFILES_TREE_ROOT_NODE">Profiles</message>
     <message key="PLUGINS_CORE_PROFILES_TREE_BTN_INHERITANCE_TOOLTIP">See all users and groups by inheritance</message>
@@ -523,6 +523,20 @@
     <message key="PLUGINS_CORE_PROFILES_TREE_BTN_EXPAND_TOOTIP">Expand all</message>
     <message key="PLUGINS_CORE_PROFILES_TREE_BTN_COLLAPSE_TOOTIP">Collapse all</message>
     <message key="PLUGINS_CORE_PROFILES_TREE_CONTEXT_TOOLTIP">Context</message>
+    
+    <!-- PROFILES ACTIONS -->
+    <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDUSER_LABEL">Add profile to user</message>
+    <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDUSER_DESCRIPTION">Grant selected profile privileges to user on current context</message>
+    <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDUSER_ERROR">An error occured : unable to grant profile privileges.</message>
+    <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDGROUP_LABEL">Add right to group</message>
+    <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDGROUP_DESCRIPTION">Grant selected profile privileges to group on current context</message>
+    <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDGROUP_ERROR">An error occured : unable to grant profile privileges.</message>
+    <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_LABEL">Delete assignment</message>
+    <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_DESCRIPTION">Deletete profile assignement</message>
+    <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_CONFIRM">Do you really want to remove this or these assignment(s) ?</message>
+    <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_SUCCESS">Assignment removed</message>
+    <message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_ERROR">An error occured during removing.</message>	
+	<message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ERROR_TITLE">An error occured</message>
     
     <!-- RIGHTS -->
     <message key="PLUGINS_CORE_RIGHTS_LABEL">Assignment</message>

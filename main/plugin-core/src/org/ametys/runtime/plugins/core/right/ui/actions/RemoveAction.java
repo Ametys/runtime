@@ -50,7 +50,7 @@ public class RemoveAction extends AbstractCurrentUserProviderServiceableAction
         Request request = ObjectModelHelper.getRequest(objectModel);
         String[] users = request.getParameterValues("users");
         String[] groups = request.getParameterValues("groups");
-        String context = request.getParameter("context");
+        String context = request.getParameter("profileContext");
         String profileId = request.getParameter("profileId");
         
         if (getLogger().isInfoEnabled())

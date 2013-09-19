@@ -51,7 +51,7 @@ public class AssignAction extends AbstractCurrentUserProviderServiceableAction
         String[] users = request.getParameterValues("users");
         String[] groups = request.getParameterValues("groups");
         String[] profiles = request.getParameterValues("profiles");
-        String context = request.getParameter("context");
+        String context = request.getParameter("profileContext");
         
         if (getLogger().isInfoEnabled())
         {
