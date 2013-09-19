@@ -25,7 +25,6 @@ import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
-import org.apache.commons.lang.StringUtils;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
@@ -68,14 +67,6 @@ public class SAXClientSideElementHelper extends AbstractLogEnabled implements Co
             
             // Initial parameters
             Map<String, Object> parameters = element.getParameters(contextualParameters);
-            
-            // Needed right
-            Map<String, String> rights = element.getRights(contextualParameters);
-            if (!rights.isEmpty())
-            {
-                String rightsId = StringUtils.join(rights.keySet(), "|");
-                parameters.put("right-id", rightsId);
-            }
             
             // SAX Action (classname and initial parameters)
             AttributesImpl attrs = new AttributesImpl();
