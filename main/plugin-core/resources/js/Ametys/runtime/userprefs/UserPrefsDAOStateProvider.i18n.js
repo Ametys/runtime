@@ -46,8 +46,7 @@ Ext.define('Ametys.runtime.userprefs.UserPrefsDAOStateProvider', {
 	 */
 	
 	/**
-	 * @property {Number} _saveTimeout A running timeout for the #_saveStateDefered method to avoid saving too often 
-	 * @private
+	 * @property {Object} _lastMessage The valued return by the last called to Ametys.runtime.userprefs.UserPrefsDAO#saveValues so to Ametys.data.ServerComm#send. We keep it be able to cancel it if we launch another one.
 	 */
 
 	constructor: function(config)
@@ -55,6 +54,18 @@ Ext.define('Ametys.runtime.userprefs.UserPrefsDAOStateProvider', {
 		this.callParent(arguments);
 		
 		this.state = this.decodeValue(Ametys.runtime.userprefs.UserPrefsDAO.getValue(this.preference, this.prefContext)) || {};
+		
+		window.onbeforeunload = Ext.bind(this._onUnload, this);
+	},
+	
+	/**
+	 * @private
+	 * Listener when the window is unload to save unsaved preferences on the fly
+	 * @param {Object} eOpts The options passed to the addListener
+	 */
+	_onUnload: function(eOpts)
+	{
+		this._saveState(Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS);
 	},
 	
     set : function(name, value){
@@ -69,27 +80,22 @@ Ext.define('Ametys.runtime.userprefs.UserPrefsDAOStateProvider', {
     
     /**
      * @private
-     * Launch a save on the users pref DAO. The save is only effective after a few #__SAVE_TIMEOUT milliseconds if #_saveState is not called a second time. 
-     */
-    _saveState: function()
-    {
-    	if (this._saveTimeout)
-    	{
-    		window.clearTimeout(this._saveTimeout);
-    	}
-    	this._saveTimeout = Ext.defer(this._saveStateDefered, Ametys.runtime.userprefs.UserPrefsDAOStateProvider.__SAVE_TIMEOUT, this); 
-    },
-    
-    /**
-     * @private
      * Do effectively the save
+     * @param {String} [priority=Ametys.data.ServerComm#PRIORITY_MINOR] The Ametys.runtime.userprefs.UserPrefsDAO#saveValues priority to use.
      */
-    _saveStateDefered: function()
+    _saveState: function(priority)
     {
-    	this._saveTimeout = null;
+    	priority = priority || Ametys.data.ServerComm.PRIORITY_MINOR
+    	
     	var save = {};
     	save[this.preference] = this.encodeValue(this.state);
-    	Ametys.runtime.userprefs.UserPrefsDAO.saveValues(save, Ext.bind(this._saveSateCB, this), this.prefContext, Ametys.data.ServerComm.PRIORITY_MINOR);
+    	
+    	if (this._lastMessage)
+    	{
+    		// If the last message was not launched yet, cancel it to replace with the following one
+    		this._lastMessage.cancel = true; 
+    	}
+    	this._lastMessage = Ametys.runtime.userprefs.UserPrefsDAO.saveValues(save, Ext.bind(this._saveStateCB, this), this.prefContext, priority);
     },
     
     /**
@@ -98,7 +104,7 @@ Ext.define('Ametys.runtime.userprefs.UserPrefsDAOStateProvider', {
      * @param {Boolean} success True is save worked fine.
      * @param {Object} errors Association (preference name, error message)
      */
-    _saveSateCB: function(success, errors)
+    _saveStateCB: function(success, errors)
     {
     	if (success == false && errors != null)
     	{

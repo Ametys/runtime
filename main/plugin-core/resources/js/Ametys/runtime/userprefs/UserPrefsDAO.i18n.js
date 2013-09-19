@@ -224,7 +224,7 @@ Ext.define('Ametys.runtime.userprefs.UserPrefsDAO', {
 		params["prefContext"] = prefContext || this._defaultPrefContext;
 		params["submit"] = 'true';
 		
-		Ametys.data.ServerComm.send({
+		return Ametys.data.ServerComm.send({
 			plugin: Ametys.runtime.userprefs.UserPrefsDAO._PLUGIN_NAME,
 			url: Ametys.runtime.userprefs.UserPrefsDAO._URL_SAVE,
 			parameters: params, 
