@@ -319,10 +319,15 @@ Ext.define(
 		 * @private
 		 * Send a synchronous message
 		 * @param {Object} messageRequest An object returned by ServerMessage.toRequest
-		 * @return {Object} The XHR object containing the response data.
+		 * @return {Object} The XHR object containing the response data, or null if the ServerComm is shut down, or if a error occured
 		 */
 		_sendSynchronousMessage: function(messageRequest)
 		{
+			if (this._off == true)
+			{
+				return null;
+			}
+			
 			if (typeof this._observer.onSyncRequestDeparture == "function")
 			{
 				try
