@@ -361,7 +361,7 @@ Ext.define(
 				}
 				else
 				{
-					Ametys.shutdown();
+					Ametys.shutdown("<i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_1'/>", "<i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_2'/>");
 					return null;
 				}
 			}
@@ -581,7 +581,7 @@ Ext.define(
 			}
 			else
 			{
-				Ametys.shutdown();
+				Ametys.shutdown("<i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_1'/>", "<i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_2'/>");
 			}
 		},
 
@@ -649,7 +649,7 @@ Ext.define(
 			}
 			else
 			{
-				Ametys.shutdown();
+				Ametys.shutdown("<i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_1'/>", "<i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_2'/>");
 			}
 		},
 		

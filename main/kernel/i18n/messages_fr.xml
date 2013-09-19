@@ -22,6 +22,8 @@
     <message key="KERNEL_UI_LISTVIEW_PREVIEW_NOTAVAILABLE">Pas d'aperçu disponible</message>
     <message key="KERNEL_DIALOG_ERRORREADINGURL">Une erreur est survenue lors du téléchargement de la ressource</message>
    	<message key="KERNEL_NOSCRIPT">Vous devez activer le javascript pour utiliser cette application.</message>
+    <message key="KERNEL_SHUTDOWN_DEFAULTTITLE">L'application est arrêtée</message>
+    <message key="KERNEL_SHUTDOWN_DEFAULTTEXT">L'application est maintenant arrêtée. Vous pouvez fermer votre navigateur ou clicker sur le lien suivant pour la redémarrer maintenant.</message>
     
     <!-- FIELDS -->
     

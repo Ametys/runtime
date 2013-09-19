@@ -22,6 +22,8 @@
     <message key="KERNEL_UI_LISTVIEW_PREVIEW_NOTAVAILABLE">No preview available</message>
     <message key="KERNEL_DIALOG_ERRORREADINGURL">An error occurred during loading of resource</message>
    	<message key="KERNEL_NOSCRIPT">You must activate javascript to use this application.</message>
+   	<message key="KERNEL_SHUTDOWN_DEFAULTTITLE">The application is stopped</message>
+    <message key="KERNEL_SHUTDOWN_DEFAULTTEXT">The application is now stop. You can close your browser or click on the following link to restart it now.</message>
 
     <!-- FIELDS -->
     
