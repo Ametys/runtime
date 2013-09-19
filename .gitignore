@@ -15,5 +15,8 @@ templates/application/plugins
 templates/application/workspaces
 test/environments/webapp1/WEB-INF/data
 test/environments/webapp2/WEB-INF/data
+test/environments/webapp2/kernel
+test/environments/webapp2/plugins/core
+test/environments/webapp2/workspaces/admin
 test/environments/webapp3/WEB-INF/data
 /tmp
