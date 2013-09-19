@@ -31,6 +31,7 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.commons.lang.StringUtils;
 
+import org.ametys.runtime.config.Config;
 import org.ametys.runtime.plugin.component.PluginAware;
 import org.ametys.runtime.right.HierarchicalRightsManager;
 import org.ametys.runtime.right.RightsContextPrefixExtensionPoint;
@@ -140,14 +141,18 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
                 getLogger().debug("Configured with parameter '" + name + "' : '" + value + "'");
             }
 
-            if (paramConfiguration.getAttributeAsBoolean("i18n", false))
+            if (paramConfiguration.getAttributeAsBoolean("i18n", false) || StringUtils.equals(paramConfiguration.getAttribute("type", ""), "i18n"))
             {
                 _addParameter (parameters, name, new I18nizableText("plugin." + _pluginName, value));
             }
-            else if (paramConfiguration.getAttributeAsBoolean("file", false))
+            else if (paramConfiguration.getAttributeAsBoolean("file", false) || StringUtils.equals(paramConfiguration.getAttribute("type", ""), "file"))
             {
                 String pluginName = paramConfiguration.getAttribute("plugin", getPluginName());
                 _addParameter (parameters, name, "/plugins/" + pluginName + "/resources/" + value);
+            }
+            else if (paramConfiguration.getAttributeAsBoolean("config", false) || StringUtils.equals(paramConfiguration.getAttribute("type", ""), "config"))
+            {
+                _addParameter (parameters, name, Config.getInstance().getValueAsString(value));
             }
             else if (paramConfiguration.getChildren().length != 0)
             {
