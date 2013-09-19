@@ -167,11 +167,14 @@ Ext.define('Ametys.form.field.RichText', {
     	if (editor)
     	{
     	    // Cache the current editor content.
-	    	this._editorContent = editor.getContent();
-	    	this.inputEl.dom.value = this._editorContent;
-	    	
-	    	// Compute the character count.
-	    	this._computeCharCount(editor);
+    	    if (this._editorContent == null)
+	        {
+    	        this._editorContent = editor.getContent();
+    	        this.inputEl.dom.value = this._editorContent;
+    	        
+    	        // Compute the character count.
+    	        this._computeCharCount(editor);
+	        }
     	}
     	
     	return this.callParent(arguments);
@@ -484,6 +487,13 @@ Ext.define('Ametys.form.field.RichText', {
      */
     _update: function(editor)
     {
+        // Cancel the running timer if necessary.
+        if (this._counting != null)
+        {
+            window.clearTimeout(this._counting);
+            this._counting = null;
+        }
+        
 		editor = editor || this.getEditor();
 		if (editor != null)
 		{
@@ -495,12 +505,6 @@ Ext.define('Ametys.form.field.RichText', {
 			// Update the counter.
 			this._updateCharCounter(editor);
 		    
-			if (this._counting != null)
-		    {
-			    window.clearTimeout(this._counting);
-			    this._counting = null;
-		    }
-			
 			var took2 = new Date().getTime();
 			editor._updateEvery = Math.max(took2 - took, 1000);
 		}    	
@@ -513,13 +517,6 @@ Ext.define('Ametys.form.field.RichText', {
      */
     _computeCharCount: function(editor)
     {
-        // Cancel the running timer if necessary.
-        if (this._counting != null)
-        {
-            window.clearTimeout(this._counting);
-            this._counting = null;
-        }
-        
         // Get the editor content from the cache or from the editor (just in case).
         var editorContent = this._editorContent || editor.getContent();
         

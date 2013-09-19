@@ -35,4 +35,7 @@
 {
 	color: #ff0000;
 }
- 
+.x-field-richtext .char-count-maxexceed.char-count-counting
+{
+	color: #ff7f7f;
+}
