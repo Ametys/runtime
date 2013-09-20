@@ -241,7 +241,7 @@
     	 * Make an ellipsis on the provided text if necessary.
     	 * @param {String} text The text to test
     	 * @param {Number} maxWidth The max authorized with for this text
-    	 * @param {String} ellipsis The ellipsis. Default to '...'
+    	 * @param {String} [ellipsis='...'] The ellipsis text.
     	 * @returns {String} The text (potentially ellipsed) that fills in maxWidth. Returns an empty text, if the initial text is fully truncated.
     	 */
 		ellipseText: function(text, maxWidth, ellipsis) 
