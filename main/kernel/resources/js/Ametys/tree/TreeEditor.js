@@ -51,6 +51,10 @@ Ext.define('Ametys.tree.TreeEditor', {
 		this.callParent(arguments);
 	},
 	
+	/**
+	 * Get the associated tree
+	 * @return {Ext.tree.Panel} The tree
+	 */
 	getTree: function ()
 	{
 		return this._tree;
