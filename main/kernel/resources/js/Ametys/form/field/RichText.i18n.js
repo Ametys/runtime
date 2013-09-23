@@ -612,13 +612,18 @@ Ext.define('Ametys.form.field.RichText', {
     	var editorWrapper = editorFrame.parent("table").parent("td");
     	var parentSize = editorWrapper.getSize();
 		this._editorFrameWrapperDiffSize = { width: parentSize.width - editorSize.width, height: parentSize.height - editorSize.height };
-console.info(this._editorFrameWrapperDiffSize)
+
 		this._adaptEditorToPlace();
     },
     
     _adaptEditorToPlace: function()
     {
     	var editor = this.getEditor();
+    	if (editor == null)
+    	{
+    		return;
+    	}
+    	
     	var editorFrame = Ext.get(editor.contentAreaContainer).first();
     	
     	var editorPlace = editorFrame.parent("table").parent("td");
