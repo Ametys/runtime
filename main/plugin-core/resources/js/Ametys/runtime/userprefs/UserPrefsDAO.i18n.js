@@ -252,7 +252,7 @@ Ext.define('Ametys.runtime.userprefs.UserPrefsDAO', {
 
 		if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key='PLUGINS_CORE_USER_PREFERENCES_ERROR_SAVE'/>", response, "Ametys.runtime.userprefs.UserPrefsDAO._valuesSaved"))
 		{
-			callback(false);
+			callback(false, null);
 			return;
 		}	
 		
@@ -278,7 +278,7 @@ Ext.define('Ametys.runtime.userprefs.UserPrefsDAO', {
 		var cb = null;
 		if (callback != null)
 		{
-			cb = function() { callback(true); };
+			cb = function() { callback(true, null); };
 		}
 		this._cachePrepared(Ext.dom.Query.selectNode('xml', response), [cb, prefContext])
 	}
