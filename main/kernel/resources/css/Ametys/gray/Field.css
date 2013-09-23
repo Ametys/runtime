@@ -30,3 +30,14 @@
 	padding-top: 2px;
 	font-style:italic;
 }
+
+.x-field.ametys {
+	margin-bottom: 7px;
+}
+
+.x-field.ametys .x-form-text  {
+	background-color: #FFFFFF !important;
+    background-image: none !important;
+    border: 1px solid #C8CDD0 !important;
+    padding: 1px 3px 2px 5px;
+}
