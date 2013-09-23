@@ -92,6 +92,20 @@ Ext.define('Ametys.form.field.RichText', {
 	 */
 	_suspended: 0,
 	
+	/**
+	 * @cfg {Boolean/String} resizable=false True to let the user resize the editor. "vertical" to only allow a vertical resize
+	 */
+	/**
+	 * @property {Function} _bindedOnEditorResized The method _onEditorResized binded to the current object. Saved to unbind at destroy time.
+	 * @private
+	 */
+	/**
+	 * @property {Object} _editorDiffSize The differential of size between the whold field and the editor inside
+	 * @property {Number} _editorDiffSize.width The width in pixel of diffence between the whole field width and the editor width
+	 * @property {Number} _editorDiffSize.height The width in pixel of diffence between the whole field width and the editor height
+	 * @private
+	 */
+	
     /**
      * @cfg {Number} maxLength
      * Maximum input field length allowed by validation.
@@ -108,6 +122,9 @@ Ext.define('Ametys.form.field.RichText', {
     {
     	this._checkTinyMCE();
     	this._enhanceTinyMCE();
+    	
+    	var resizable = config.resizable;
+    	config.resizable = false;
     	
     	this.callParent(arguments);
     	
@@ -134,9 +151,9 @@ Ext.define('Ametys.form.field.RichText', {
 				theme_advanced_toolbar_location: "none",
 				theme_advanced_statusbar_location : config.warning || config.charCounter ? "bottom" : "none",
 				theme_advanced_path : false,
-				theme_advanced_resizing : false,
+				theme_advanced_resizing : resizable ? true: false,
+				theme_advanced_resize_horizontal : resizable != "vertical" ? true: false,
 				theme_advanced_resizing_use_cookie: false,
-
 	    		
 	    		// The plugins to load
 	    		plugins: 'table,paste,tabfocus,noneditable,autolink',
@@ -558,6 +575,74 @@ Ext.define('Ametys.form.field.RichText', {
 		this._updateCharCounter(editor);
 		
 		this._createWarning(editor);
+		
+		// Ext.defer(this._prepareForResize, 51, this);
+		this._bindedOnEditorResized = Ext.bind(this._onEditorResized, this);
+		editor.dom.bind(editor.getWin(), 'resize', this._bindedOnEditorResized);
+    },
+    
+    /**
+     * @private
+     * Editor is resized, we have to resize field 
+     */
+    _onEditorResized: function()
+    {
+    	if (this._editorFrameWrapperDiffSize == null)
+    	{
+    		this._prepareForResize();
+    	}
+    	
+    	var editor = this.getEditor();
+    	
+    	var editorTab = Ext.get(editor.contentAreaContainer).parent("table") 
+    	var editorSize = editorTab.getSize();
+    	var editorWrapper = editorTab.parent("td");
+    	var parentSize = editorWrapper.getSize();
+    	
+   		// Manual resize of the editor => impact the widget
+   		this.setSize(editorSize.width + this._editorDiffSize.width, editorSize.height + this._editorDiffSize.height);
+    },
+    
+    _prepareForResize: function()
+    {
+    	var editor = this.getEditor();
+    	
+		var editorFrame = Ext.get(editor.contentAreaContainer).first();
+		var editorSize = editorFrame.getSize();
+    	var editorWrapper = editorFrame.parent("table").parent("td");
+    	var parentSize = editorWrapper.getSize();
+		this._editorFrameWrapperDiffSize = { width: parentSize.width - editorSize.width, height: parentSize.height - editorSize.height };
+console.info(this._editorFrameWrapperDiffSize)
+		this._adaptEditorToPlace();
+    },
+    
+    _adaptEditorToPlace: function()
+    {
+    	var editor = this.getEditor();
+    	var editorFrame = Ext.get(editor.contentAreaContainer).first();
+    	
+    	var editorPlace = editorFrame.parent("table").parent("td");
+    	var editorSize = editorPlace.getSize();
+
+		var wholeSize = this.getSize();
+		this._editorDiffSize = { width: wholeSize.width - editorSize.width, height: wholeSize.height - editorSize.height }; 
+
+		var newSize = { width: editorSize.width - this._editorFrameWrapperDiffSize.width, height: editorSize.height - this._editorFrameWrapperDiffSize.height };
+    	editorFrame.setSize(newSize);
+    },
+    
+    markInvalid: function()
+    {
+    	this.callParent(arguments);
+    	
+    	this._adaptEditorToPlace();
+    },
+    
+    clearInvalid: function()
+    {
+    	this.callParent(arguments);
+
+    	this._adaptEditorToPlace();
     },
     
     /**
@@ -635,6 +720,9 @@ Ext.define('Ametys.form.field.RichText', {
     
     beforeDestroy: function() 
     {
+    	var editor = this.getEditor();
+    	editor.dom.unbind(editor.getWin(), 'resize', this._bindedOnEditorResized);
+    	
     	// Let's destroy the tinymce component
     	tinyMCE.execCommand("mceRemoveControl", false, this.getInputId());
 
