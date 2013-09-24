@@ -575,10 +575,35 @@ Ext.define('Ametys.form.field.RichText', {
 		this._updateCharCounter(editor);
 		
 		this._createWarning(editor);
-		
-		// Ext.defer(this._prepareForResize, 51, this);
+
+		// Resize purposes
 		this._bindedOnEditorResized = Ext.bind(this._onEditorResized, this);
 		editor.dom.bind(editor.getWin(), 'resize', this._bindedOnEditorResized);
+		
+		// Re-layout purposes
+		Ext.get(editor.contentAreaContainer).first().on('load', this._onEditorLoaded, this);
+    },
+    
+    /**
+     * @private
+     * Listener when the iframe is loaded to detect if the richtext is broken
+     */
+    _onEditorLoaded: function()
+    {
+    	var iframe = Ext.get(this.getEditor().contentAreaContainer).first();
+    	if (iframe.dom.contentWindow.document.body.id)
+    	{
+    		return;
+    	}
+
+    	if (Ametys.log.Logger.isDebugEnabled())
+    	{
+    		Ametys.log.Logger.debug({ category: this.self.getName(), message: "Reseting richtext " + this.getInputId()});
+    	}
+
+    	this.getRawValue(); // Save current value
+    	this._removeEditor();
+    	new tinyMCE.Editor(this.getInputId(), this._settings).render();
     },
     
     /**
@@ -741,8 +766,6 @@ Ext.define('Ametys.form.field.RichText', {
 	    	
 	    	// Let's destroy the tinymce component
 	    	tinyMCE.execCommand("mceRemoveControl", false, this.getInputId());
-	    	
-	    	Ext.get(editor.editorContainer).remove()
     	}
     },
     
