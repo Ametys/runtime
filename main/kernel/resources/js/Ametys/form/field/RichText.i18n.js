@@ -126,12 +126,14 @@ Ext.define('Ametys.form.field.RichText', {
     	var resizable = config.resizable;
     	config.resizable = false;
     	
+    	config.height = config.height || 200;
     	this.callParent(arguments);
     	
     	this._settings = Ext.apply({
 	    		document_base_url: Ametys.CONTEXT_PATH + "/",
 	    		language: Ametys.LANGUAGE_CODE,
 	    		mode: "none",
+	    		height: config.height,
 
 				// Settings
 	    		doctype: "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">",
@@ -154,7 +156,7 @@ Ext.define('Ametys.form.field.RichText', {
 				theme_advanced_resizing : resizable ? true: false,
 				theme_advanced_resize_horizontal : resizable != "vertical" ? true: false,
 				theme_advanced_resizing_use_cookie: false,
-	    		
+				
 	    		// The plugins to load
 	    		plugins: 'table,paste,tabfocus,noneditable,autolink',
 	    	}, 
@@ -623,8 +625,8 @@ Ext.define('Ametys.form.field.RichText', {
     	var editorSize = editorTab.getSize();
     	var editorWrapper = editorTab.parent("td");
     	var parentSize = editorWrapper.getSize();
-    	
-   		// Manual resize of the editor => impact the widget
+
+    	// Manual resize of the editor => impact the widget
    		this.setSize(editorSize.width + this._editorDiffSize.width, editorSize.height + this._editorDiffSize.height);
     },
     
