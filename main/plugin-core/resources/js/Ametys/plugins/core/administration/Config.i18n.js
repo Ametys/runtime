@@ -99,7 +99,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 		this._form  = new Ext.form.FormPanel({
 			region: 'center',
 			
-			baseCls: 'transparent-panel',
+			cls: 'transparent-panel',
 			bodyStyle: 'position:relative;',
 				
 			border: false,
@@ -127,7 +127,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 		return new Ext.Panel({
 			autoScroll: false,
 			
-			baseCls: 'transparent-panel',
+			cls: 'transparent-panel',
 			border: false,
 			layout: 'border',
 			

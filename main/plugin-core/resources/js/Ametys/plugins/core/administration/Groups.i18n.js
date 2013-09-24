@@ -182,7 +182,7 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 			},
 			layout: 'border',
 			
-			baseCls: 'transparent-panel',
+			cls: 'transparent-panel',
 			border: false,
 			autoScroll: false,
 			margins: '0 20 0 0',
@@ -212,7 +212,7 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 		return new Ext.Panel({
 			region: 'center',
 			
-			baseCls: 'transparent-panel',
+			cls: 'transparent-panel',
 			border: false,
 			layout: 'border',
 			

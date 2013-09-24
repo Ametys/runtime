@@ -182,7 +182,7 @@ Ext.define('Ametys.plugins.core.administration.Plugins', {
 		this._mainPanel = new Ext.Panel({
 			region:'center',
 			id:'plugin-card-panel',
-			baseCls: 'transparent-panel',
+			cls: 'transparent-panel',
 			border: false,
 			autoScroll : true,
 			height: 'auto',
@@ -195,7 +195,7 @@ Ext.define('Ametys.plugins.core.administration.Plugins', {
 		return new Ext.Panel({
 			region: 'center',
 			
-			baseCls: 'transparent-panel',
+			cls: 'transparent-panel',
 			border: false,
 			layout: 'border',
 			autoScroll: true,

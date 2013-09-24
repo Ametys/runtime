@@ -123,7 +123,7 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 		return new Ext.Panel({
 			region: 'center',
 			
-			baseCls: 'transparent-panel',
+			cls: 'transparent-panel',
 			border: false,
 			layout: 'border',
 			

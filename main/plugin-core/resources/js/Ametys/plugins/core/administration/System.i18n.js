@@ -153,7 +153,7 @@ Ext.define('Ametys.plugins.core.administration.System', {
 			region: 'center',
 			layout: 'border',
 			
-			baseCls: 'transparent-panel',
+			cls: 'transparent-panel',
 			border: false,
 			
 			items: [this._fieldSet, this._contextualPanel]

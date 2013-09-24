@@ -670,7 +670,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 		});
 		this.cardPanel = new Ext.Panel ({
 			id:'profile-card-panel',
-			baseCls: 'transparent-panel',
+			cls: 'transparent-panel',
 			region:'center',
 			border: false,
 			autoScroll: true,

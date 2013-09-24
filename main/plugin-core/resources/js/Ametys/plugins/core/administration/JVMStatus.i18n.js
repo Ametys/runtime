@@ -121,7 +121,7 @@ Ext.define('Ametys.plugins.core.administration.JVMStatus', {
 			region: 'center',
 			
 			autoScroll: false,
-			baseCls: 'transparent-panel',
+			cls: 'transparent-panel',
 			
 			border: false,
 			layout: 'border',

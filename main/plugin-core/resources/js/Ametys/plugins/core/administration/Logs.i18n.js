@@ -164,7 +164,7 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 			
 			autoScroll: true,
 			
-			baseCls: 'transparent-panel',
+			cls: 'transparent-panel',
 			border: false,
 			layout: 'border',
 			
