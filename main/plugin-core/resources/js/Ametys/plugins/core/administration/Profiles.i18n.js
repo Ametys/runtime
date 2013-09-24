@@ -757,13 +757,16 @@ Ext.define('Ametys.plugins.core.administration.Profiles.RightEntry', {
 				cls: 'right-entry-img',
 				tag:'img',
 				src: Ametys.getPluginResourcesPrefix('core') + '/img/administrator/config/help.gif'});
-			var tooltip = new Ext.ToolTip({
-		        target: this.id + '-img',
-		        html: this.description
-		    });
+			
+			Ext.tip.QuickTipManager.register({
+				cls: 'profiles-right-tooltip',
+				target: this.id + '-img',
+			    title: this.text,
+			    text: this.description
+			});
 		}
 		
-		this.setText(this.text, this.width - 5 - 20);
+		this.setText(this.text, this.width - 5 - 21);
 		
 		var divText = this.getEl().createChild({
 			html: this.text,
@@ -797,12 +800,14 @@ Ext.define('Ametys.plugins.core.administration.Profiles.CheckRightEntry', {
     			src: Ametys.getPluginResourcesPrefix('core') + '/img/administrator/config/help.gif',
     			cls: 'check-right-entry-img'
     		});
-    		var tooltip = new Ext.ToolTip({
-    	        target: this.id + '-img',
-    	        html: this.description
-    	    });
+    		
+    		Ext.tip.QuickTipManager.register({
+				cls: 'profiles-right-tooltip',
+				target: this.id + '-img',
+			    title: this.boxLabel,
+			    text: this.description
+			});
     	}
-    	
     	
     	var labelNode;
     	var nodes = this.bodyEl.dom.childNodes;

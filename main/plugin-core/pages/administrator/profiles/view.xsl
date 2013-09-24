@@ -125,7 +125,7 @@
 									boxLabel : "<xsl:copy-of select="label/*"/>",
 							        name: "<xsl:value-of select="@id"/>",
 							        id: "<xsl:value-of select="@id"/>",
-							        description: "<xsl:copy-of select="label/*"/>. <xsl:copy-of select="description/*"/>",
+							        description: "<xsl:copy-of select="description/*"/>",
 							        category: "<xsl:value-of select="$category"/>",
 							        hideLabel : true,
 							        disabled: true
@@ -135,7 +135,7 @@
 								
 								var profileText = new Ametys.plugins.core.administration.Profiles.RightEntry({
 									id : "<xsl:value-of select="@id"/>_read", 
-									width: 175,
+									width: 180,
 									text : "<xsl:copy-of select="label/*"/>", 
 									description: "<xsl:copy-of select="description/*"/>"
 								});

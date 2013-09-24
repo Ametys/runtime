@@ -29,6 +29,7 @@
 {
     background: url('../../img/administrator/profiles/group-expand-sprite.png') 0px -48px no-repeat !important;
     
+    font-size: 1.1em;
     font-weight: bold;
     
     margin-bottom: 10px;
@@ -79,10 +80,17 @@ fieldset
 	border-collapse: collapse !important;
 }
 
+#profile-list-view .x-grid-cell-inner {
+	padding-left: 27px;	
+}
 
+legend {
+	margin: 5px 0 2px 0;
+}
 
 legend .x-fieldset-header-text {
 	color: #602852;
+	font-weight: bold;
 }
 
 
@@ -111,6 +119,7 @@ legend .x-tool-over .x-tool-toggle
     margin-left: 5px;
     margin-right: 0 !important;
 }
+
 .check-right-entry {
 	line-height: 15px;
 	padding-top: 1px;
@@ -119,9 +128,14 @@ legend .x-tool-over .x-tool-toggle
 
 .right-entry-img, .check-right-entry-img {
     float:left;
-    padding-left: 5px; 
-    padding-top : 2px;
+    padding: 2px 0 0 5px; 
     margin-right: 5px;
+}
+
+.check-right-entry-img {
+	float:left;
+	padding: 6px 0 0 5px;
+	margin-right: 5px;
 }
 
 .right-entry-text {
