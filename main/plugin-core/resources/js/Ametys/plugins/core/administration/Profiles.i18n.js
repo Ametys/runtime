@@ -617,6 +617,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 			title : "<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_LIST"/>",
 			hideHeaders: true,
 			border: false,
+			autoScroll: true,
 			
 		    store: Ext.create('Ext.data.Store', {
 				model: 'Ametys.plugins.core.administration.Profiles.Profile',
@@ -672,6 +673,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 			baseCls: 'transparent-panel',
 			region:'center',
 			border: false,
+			autoScroll: true,
 			layout:'card',
 			activeItem:0,
 			minSize: 75,
@@ -692,10 +694,10 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 			    split: true
 			},
 			region:'center',
-			baseCls: 'transparent-panel',
+			cls: 'transparent-panel',
 			border: false,
 			layout: 'border',
-			autoScroll : true,
+			autoScroll : false,
 			height: 'auto',
 			items: [this.listview, this.cardPanel]
 		});
@@ -703,7 +705,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 	
 		return new Ext.Panel({
 			region: 'center',
-			baseCls: 'transparent-panel',
+			cls: 'transparent-panel',
 			border: false,
 			layout: 'border',
 			items: [centerPanel, rightPanel]
