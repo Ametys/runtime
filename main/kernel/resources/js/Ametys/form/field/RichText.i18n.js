@@ -81,7 +81,7 @@ Ext.define('Ametys.form.field.RichText', {
      */
     _notFirstCallToOnRichTextNodeSelected: false,
     
-    /**
+	/**
      * @property {Boolean} _editorInitialized=false Has the editor been initialized?
      */
     _editorInitialized: false,
@@ -624,6 +624,12 @@ Ext.define('Ametys.form.field.RichText', {
     		return;
     	}
     	
+    	if (this._editorFrameWrapperDiffSize == null)
+    	{
+    		this._prepareForResize();
+    		return;
+    	}
+    	
     	var editorFrame = Ext.get(editor.contentAreaContainer).first();
     	
     	var editorPlace = editorFrame.parent("table").parent("td");
@@ -707,7 +713,6 @@ Ext.define('Ametys.form.field.RichText', {
 	afterRender: function()
 	{
     	this.callParent(arguments);
-
     	this.addCls('x-field-richtext');
 	},
 	
@@ -723,14 +728,28 @@ Ext.define('Ametys.form.field.RichText', {
     	}
     },
     
-    beforeDestroy: function() 
+    /**
+     * Remove the editor
+     * @private
+     */
+    _removeEditor: function()
     {
     	var editor = this.getEditor();
-    	editor.dom.unbind(editor.getWin(), 'resize', this._bindedOnEditorResized);
+    	if (editor != null)
+    	{
+	    	editor.dom.unbind(editor.getWin(), 'resize', this._bindedOnEditorResized);
+	    	
+	    	// Let's destroy the tinymce component
+	    	tinyMCE.execCommand("mceRemoveControl", false, this.getInputId());
+	    	
+	    	Ext.get(editor.editorContainer).remove()
+    	}
+    },
+    
+    beforeDestroy: function() 
+    {
+    	this._removeEditor();
     	
-    	// Let's destroy the tinymce component
-    	tinyMCE.execCommand("mceRemoveControl", false, this.getInputId());
-
     	this.callParent(arguments);
     },
     
