@@ -27,9 +27,7 @@
 {
     background: url('../../img/administrator/groups/group-expand-sprite.png') 0px -48px no-repeat !important;
     
-    color: #7D326B;
-    font-family: arial, sans-serif !important;
-    font-size: 1.2em;
+    font-size: 1.1em;
     font-weight: bold;
     
     margin-bottom: 10px;
@@ -41,4 +39,9 @@
 {
     padding-top: 20px;
     background : url(../../img/administrator/groups/splitbar.png) top center no-repeat;
+}
+
+#list-view-groups .x-grid-cell-inner,
+#list-view-user .x-grid-cell-inner {
+	padding-left: 27px;	
 }

@@ -102,6 +102,7 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 			title : "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_LABEL"/>",
 			hideHeaders: true,
 			border: false,
+			autoScroll: true,
 			
 		    store: Ext.create('Ext.data.Store', {
 				model: 'Ametys.plugins.core.administration.Groups.Group',
@@ -146,6 +147,7 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 			
 			baseCls3: 'user-list',
 			border: false,
+			autoScroll: true,
 			
 			title : "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_COLUMN"/>",
 			hideHeaders: true,
