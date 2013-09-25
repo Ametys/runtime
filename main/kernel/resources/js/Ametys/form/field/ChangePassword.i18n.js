@@ -194,7 +194,7 @@ Ext.define('Ametys.form.field.ChangePassword', {
     	
     	this.on('afterrender', this._adaptRenderToMode, this);
     	
-        this.callParent();
+        this.callParent(arguments);
         
     },
     
