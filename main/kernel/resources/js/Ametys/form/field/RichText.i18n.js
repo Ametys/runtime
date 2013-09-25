@@ -685,14 +685,20 @@ Ext.define('Ametys.form.field.RichText', {
     {
     	this.callParent(arguments);
     	
-    	this._adaptEditorToPlace();
+    	if (this.isVisible(true))
+	    {
+    	    this._adaptEditorToPlace();
+	    }
     },
     
     clearInvalid: function()
     {
     	this.callParent(arguments);
 
-    	this._adaptEditorToPlace();
+        if (this.isVisible(true))
+        {
+            this._adaptEditorToPlace();
+        }
     },
     
     /**
