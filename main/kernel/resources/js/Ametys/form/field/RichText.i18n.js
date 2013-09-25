@@ -126,14 +126,25 @@ Ext.define('Ametys.form.field.RichText', {
     	var resizable = config.resizable;
     	config.resizable = false;
     	
-    	config.height = config.height || 200;
+    	config = Ext.applyIf(config, {
+    		height: 200,
+    		minHeight: 100
+    	});
+    	
+    	config.minHeight = Math.min(config.minHeight, config.height);
+    	
+    	var withBBar = config.warning || config.charCounter;
+    	tinyMinHeight = config.minHeight - (withBBar ? 23 : 0);
+    	
     	this.callParent(arguments);
+    	
     	
     	this._settings = Ext.apply({
 	    		document_base_url: Ametys.CONTEXT_PATH + "/",
 	    		language: Ametys.LANGUAGE_CODE,
 	    		mode: "none",
 	    		height: config.height,
+	    		min_height: tinyMinHeight,
 
 				// Settings
 	    		doctype: "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">",
@@ -151,11 +162,12 @@ Ext.define('Ametys.form.field.RichText', {
 				
 				theme: 'advanced',
 				theme_advanced_toolbar_location: "none",
-				theme_advanced_statusbar_location : config.warning || config.charCounter ? "bottom" : "none",
+				theme_advanced_statusbar_location : withBBar ? "bottom" : "none",
 				theme_advanced_path : false,
 				theme_advanced_resizing : resizable ? true: false,
 				theme_advanced_resize_horizontal : resizable != "vertical" ? true: false,
 				theme_advanced_resizing_use_cookie: false,
+				theme_advanced_resizing_min_height: tinyMinHeight,
 				
 	    		// The plugins to load
 	    		plugins: 'table,paste,tabfocus,noneditable,autolink',
