@@ -137,6 +137,11 @@ public final class WorkspaceManager
         return _workspaces.get(workspaceName);
     }
     
+    /**
+     * Returns the workspace filesystem location for the given workspace or null if the workspace is loaded from the classpath.
+     * @param workspaceName the workspace name
+     * @return the workspace location for the given workspace
+     */
     public File getLocation(String workspaceName)
     {
         return _locations.get(workspaceName);
@@ -160,7 +165,7 @@ public final class WorkspaceManager
         while (workspaceResources.hasMoreElements())
         {
             URL workspaceResource = workspaceResources.nextElement();
-            _initResourceWorkspace(contextPath, excludedWorkspace, workspaceResource, pluginsInformations);
+            _initResourceWorkspace(excludedWorkspace, workspaceResource, pluginsInformations);
         }
 
         // Then workspace from the "<context>/workspaces" directory
@@ -169,7 +174,7 @@ public final class WorkspaceManager
         {
             for (File workspace : new File(contextPath, "workspaces").listFiles())
             {
-                _initFileWorkspaces(workspace, workspace.getName(), contextPath, excludedWorkspace, pluginsInformations);
+                _initFileWorkspaces(workspace, workspace.getName(), excludedWorkspace, pluginsInformations);
             }
         }
         
@@ -182,12 +187,12 @@ public final class WorkspaceManager
 
             if (workspaceDir.exists() && workspaceDir.isDirectory())
             {
-                _initFileWorkspaces(workspaceDir, externalWorkspace, contextPath, excludedWorkspace, pluginsInformations);
+                _initFileWorkspaces(workspaceDir, externalWorkspace, excludedWorkspace, pluginsInformations);
             }
         }
     }
     
-    private void _initResourceWorkspace(String contextPath, Collection<String> excludedWorkspace, URL workspaceResource, Map<String, FeatureInformation> pluginsInformations) throws IOException
+    private void _initResourceWorkspace(Collection<String> excludedWorkspace, URL workspaceResource, Map<String, FeatureInformation> pluginsInformations) throws IOException
     {
         BufferedReader br = new BufferedReader(new InputStreamReader(workspaceResource.openStream(), "UTF-8"));
         
@@ -217,7 +222,7 @@ public final class WorkspaceManager
             if (pluginsInformations != null)
             {
                 // If the configuration is incomplete, plugins are not loaded, it's useless to check dependencies
-                addWorkspace = _checkDependencies(workspaceName, null, workspaceBaseURI, pluginsInformations, contextPath);
+                addWorkspace = _checkDependencies(workspaceName, null, workspaceBaseURI, pluginsInformations);
             }
             
             if (addWorkspace)
@@ -235,7 +240,7 @@ public final class WorkspaceManager
         br.close();
     }
     
-    private void _initFileWorkspaces(File workspace, String workspaceName, String contextPath, Collection<String> excludedWorkspace, Map<String, FeatureInformation> pluginsInformations)
+    private void _initFileWorkspaces(File workspace, String workspaceName, Collection<String> excludedWorkspace, Map<String, FeatureInformation> pluginsInformations)
     {
         if (workspace.exists() && workspace.isDirectory() && new File(workspace, __WORKSPACE_FILENAME).exists() && new File(workspace, "sitemap.xmap").exists() && !excludedWorkspace.contains(workspaceName))
         {
@@ -253,7 +258,7 @@ public final class WorkspaceManager
                 // If the configuration is incomplete, plugins are not loaded, it's useless to check dependencies
                 if (pluginsInformations != null)
                 {
-                    addWorkspace = _checkDependencies(workspaceName, workspace, null, pluginsInformations, contextPath);
+                    addWorkspace = _checkDependencies(workspaceName, workspace, null, pluginsInformations);
                 }
                 
                 if (addWorkspace)
@@ -276,7 +281,7 @@ public final class WorkspaceManager
         }   
     }
     
-    private boolean _checkDependencies(String workspaceName, File workspaceDir, String workspaceBaseURI, Map<String, FeatureInformation> pluginsInformations, String contextPath)
+    private boolean _checkDependencies(String workspaceName, File workspaceDir, String workspaceBaseURI, Map<String, FeatureInformation> pluginsInformations)
     {
         InputStream is = null;
         InputStream xsd = null;

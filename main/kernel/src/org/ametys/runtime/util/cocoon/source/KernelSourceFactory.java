@@ -6,9 +6,13 @@ import java.util.regex.Pattern;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.excalibur.source.SourceFactory;
 
 import org.ametys.runtime.servlet.RuntimeConfig;
 
+/**
+ * {@link SourceFactory} lokking for the kernel in the classpath first and then in the external kernel, if any.
+ */
 public class KernelSourceFactory extends ProxySourceFactory
 {
     @Override
