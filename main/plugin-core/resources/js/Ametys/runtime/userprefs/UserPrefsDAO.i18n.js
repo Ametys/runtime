@@ -218,17 +218,19 @@ Ext.define('Ametys.runtime.userprefs.UserPrefsDAO', {
 	 * @param {Object} [callback.errors] The key is the preference name, and the value an error message. Can be empty event is success is false on server exception: in that cas the user is already notified. 
 	 * @param {String} [prefContext] The pref context to use. Switch to default context if missing. See #setDefaultPrefContext.
 	 * @param {Number} [priority] The priority of the Ametys.data.ServerComm#send call: default is Ametys.data.ServerComm#PRIORITY_MAJOR. Set to Ametys.data.ServerComm#PRIORITY_MINOR to save less important preferences. 
+	 * @param {String} [cancelCode] A cancel code to prevent many successive save process. See Ametys.data.ServerComm#send for more information.   
 	 */
-	saveValues: function(params, callback, prefContext, priority)
+	saveValues: function(params, callback, prefContext, priority, cancelCode)
 	{
 		params["prefContext"] = prefContext || this._defaultPrefContext;
 		params["submit"] = 'true';
 		
-		return Ametys.data.ServerComm.send({
+		Ametys.data.ServerComm.send({
 			plugin: Ametys.runtime.userprefs.UserPrefsDAO._PLUGIN_NAME,
 			url: Ametys.runtime.userprefs.UserPrefsDAO._URL_SAVE,
 			parameters: params, 
 			priority: priority, 
+			cancelCode: cancelCode,
 			callback: {
 				handler: this._valuesSaved,
 				scope: this,

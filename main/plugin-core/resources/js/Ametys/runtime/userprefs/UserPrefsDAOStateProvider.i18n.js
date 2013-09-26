@@ -45,10 +45,6 @@ Ext.define('Ametys.runtime.userprefs.UserPrefsDAOStateProvider', {
 	 * @cfg {String} prefContext The preference context to use. Use the default one if not specified. See Ametys.runtime.userprefs.UserPrefsDAO#setDefaultPrefContext 
 	 */
 	
-	/**
-	 * @property {Object} _lastMessage The valued return by the last called to Ametys.runtime.userprefs.UserPrefsDAO#saveValues so to Ametys.data.ServerComm#send. We keep it be able to cancel it if we launch another one.
-	 */
-
 	constructor: function(config)
 	{
 		this.callParent(arguments);
@@ -90,12 +86,7 @@ Ext.define('Ametys.runtime.userprefs.UserPrefsDAOStateProvider', {
     	var save = {};
     	save[this.preference] = this.encodeValue(this.state);
     	
-    	if (this._lastMessage)
-    	{
-    		// If the last message was not launched yet, cancel it to replace with the following one
-    		this._lastMessage.cancel = true; 
-    	}
-    	this._lastMessage = Ametys.runtime.userprefs.UserPrefsDAO.saveValues(save, Ext.bind(this._saveStateCB, this), this.prefContext, priority);
+    	Ametys.runtime.userprefs.UserPrefsDAO.saveValues(save, Ext.bind(this._saveStateCB, this), this.prefContext, priority, this.self.getName() + "$saving");
     },
     
     /**

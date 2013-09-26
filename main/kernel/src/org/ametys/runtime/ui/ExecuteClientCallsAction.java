@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.thread.ThreadSafe;
+import org.apache.cocoon.acting.ServiceableAction;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
@@ -28,22 +30,16 @@ import org.apache.cocoon.environment.SourceResolver;
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 
-import org.ametys.runtime.authentication.AccessDeniedException;
 import org.ametys.runtime.cocoon.JSonReader;
 import org.ametys.runtime.plugin.ExtensionPoint;
-import org.ametys.runtime.right.RightsManager;
-import org.ametys.runtime.right.RightsManager.RightResult;
-import org.ametys.runtime.util.cocoon.AbstractCurrentUserProviderServiceableAction;
 
 /**
  * Action executing remote method calls coming from client-side elements.<br>
  * Called methods should be annotated with {@link Callable}.<br>
- * Methods could also be annotated with {@link RightsProtected} to specify rights to protect the method.
  */
-public class ExecuteClientCallsAction extends AbstractCurrentUserProviderServiceableAction
+public class ExecuteClientCallsAction extends ServiceableAction implements ThreadSafe
 {
-    private RightsManager _rightsManager;
-    
+    @Override
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
         Map<String, Object> jsParameters = (Map<String, Object>) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
@@ -120,7 +116,7 @@ public class ExecuteClientCallsAction extends AbstractCurrentUserProviderService
             throw new IllegalArgumentException("No method named '" + methodName + "' present in class " + clazz.getName() + ".");
         }
         
-        Map<String, Object> result = _executeMethod(method, object, paramValues, jsParameters);
+        Map<String, Object> result = _executeMethod(method, object, paramValues);
 
         Request request = ObjectModelHelper.getRequest(objectModel);
         request.setAttribute(JSonReader.MAP_TO_READ, result);
@@ -128,38 +124,11 @@ public class ExecuteClientCallsAction extends AbstractCurrentUserProviderService
         return EMPTY_MAP;
     }
     
-    private Map<String, Object> _executeMethod(Method method, Object object, Object[] paramValues, Map<String, Object> jsParameters) throws Exception
+    private Map<String, Object> _executeMethod(Method method, Object object, Object[] paramValues) throws Exception
     {
         Map<String, Object> result = null;
         if (method.isAnnotationPresent(Callable.class))
-        {
-            if (method.isAnnotationPresent(RightsProtected.class))
-            {
-                RightsProtected rights = method.getAnnotation(RightsProtected.class);
-                String rightContext = (String) jsParameters.get("rightContext");
-                
-                if (rightContext == null)
-                {
-                    throw new IllegalArgumentException("Should have a right context to check rights for " + method.toGenericString());
-                }
-                
-                String login = _getCurrentUser();
-
-                // lazy initialization due to plugin core load restrictions
-                if (_rightsManager == null)
-                {
-                    _rightsManager = (RightsManager) manager.lookup(RightsManager.ROLE);
-                }
-                
-                for (String right : rights.value())
-                {
-                    if (_rightsManager.hasRight(login, right, rightContext) != RightResult.RIGHT_OK)
-                    {
-                        throw new AccessDeniedException("Access denied while trying to execute " + method.toGenericString());
-                    }
-                }
-            }
-            
+        {            
             result = (Map<String, Object>) method.invoke(object, paramValues);
             
             if (result == null)

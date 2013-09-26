@@ -15,7 +15,9 @@
  */
 
 /**
- * This class allow to create a message for the ametys server : it will use the dispatch generator to group requests. See #send for more information.
+ * This class allow to create a message for the ametys server : it will use the dispatch generator to group requests. 
+ * 
+ * See #send for more information on sending request to an url:
  * 
  * 		Ametys.data.ServerComm.send({
  * 			plugin: 'cms',
@@ -29,6 +31,22 @@
  *			},
  *			responseType: 'text'
  *      });
+ *      
+ * See #callMethod for more information on directly calling a java method:
+ * 
+ *   	Ametys.data.ServerComm.callMethod({
+ *    		role: "org.ametys.cms.ribbon.RibbonControlsManager",
+ *    		id: "org.ametys.cms.content.Delete",
+ *    		methodName: "getStatus",
+ *    		parameters: [
+ *        		['content://12345678-1234-1234']
+ *    		],
+ *    		callback: {
+ *        		handler: function(a) { alert(a) }
+ *    		},
+ *    		waitMessage: true,
+ *    		errorMessage: { msg: 'An error occured', ignoreCallback: false }
+ * 		});   
  */
 Ext.define(
 	"Ametys.data.ServerComm", 
@@ -168,18 +186,44 @@ Ext.define(
 		 * @param {String} message.workspace The name of the server workpace targeted. Can be null if plugin is specified or to send to current workspace.
 		 * @param {String} message.url The url on the server relative to the plugin or workspace
 		 * @param {Object} message.parameters The parameters to send to the server (Map<String, String>)
+		 * 
 		 * @param {Number} [message.priority=Ametys.data.ServerComm.PRIORITY_MAJOR] The priority of the message. Use ServerComm.PRIORITY_* constants.
-		 * @param {Object} message.callback When using non synchronous messages, a callback configuration is required. 
+		 * 
+		 * @param {Object} message.callback When using non synchronous messages, a callback configuration is required. Not available for #PRIORITY_SYNCHRONOUS requests. 
 		 * @param {Function} message.callback.handler The function to call when the message will come back. 
-		 * @param {Object} message.callback.handler.response Will be the xml parent node of the response. This node can be null or empty on fatal error. An attribute 'code' is available on this node with the http code. This response has an extra method 'getText' that get the text from a node in parameter of the response.
+		 * @param {Object} message.callback.handler.response Will be the xml parent node of the response. This node can be null or empty on fatal error (see errorMessage). An attribute 'code' is available on this node with the http code. This response has an extra method 'getText' that get the text from a node in parameter of the response.
 		 * @param {Object[]} message.callback.handler.callbackarguments Is the 'callback.arguments' array
-		 * @param {Object} message.callback.scope The scope of the function call. Optionnal.
-		 * @param {String[]} message.callback.arguments An array of string that will be given as arguments of the callback. Optionnal
+		 * @param {Object} [message.callback.scope] The scope of the function call. Optionnal.
+		 * @param {String[]} [message.callback.arguments] An array of string that will be given as arguments of the callback. Optionnal
+		 * 
 		 * @param {String} [message.responseType=xml] Can be "xml" (default) to have a xml response, "text" to have a single text node response or "xml2text" to have a single text node response where xml prologue as text is removed
-		 * @return {Object} The XHR object containing the response data for a synchronous priority message. An object where you can set ".cancel = true" to finally cancel the request if it has not been launch yet.
+		 * 
+		 * @param {Boolean/String/Object} [message.waitMessage] Display a Ext.LoadMask while the request is running. Set to true to display a default loading message. Set to a string to display your message. Set to a Ext.LoadMask configuration object to do more accurate stuffs (such as covering only a component - since by default all the ui is grayed). Not available for #PRIORITY_SYNCHRONOUS requests.
+		 * 
+		 * @param {Boolean/String/Object} [message.errorMessage=false] When the request is a failure display a message to the user (using #handleBadResponse). 
+		 * Set to false, the callback is called with a null or empty response (you should protected your code with #handleBadResponse). 
+		 * Set to true to display a default error message and your callback will not be called.
+		 * Set to a string to display a custom error message and your callback will not be called.
+		 * Set to an object with the following options: 
+		 * @param {String} [message.errorMessage.msg] The error message. There is a default value 
+		 * @param {String} [message.errorMessage.category] The error message category for log purposes. 
+		 * @param {String} [message.errorMessage.ignoreCallback=true] Is the callback called with a null or empty response?
+		 *  
+		 * @param {String} [message.cancelCode] This parameter allow to cancel a request or ignore its response if it is outdated. Not available for #PRIORITY_SYNCHRONOUS requests.
+		 * A classic case it that the button wants more information on the last selected content: while asking server for information on content A, if the content B is selected by the user: this parameter allow to discard the information on A. 
+		 * Note that you will not be informed if the cancelled request was not sent or send but ignored by the client : so this is to use on read request only and should be an identifier for your kind of operation (such as 'MyClass$getContentInfo').
+		 * 
+		 * @return {Object} The XHR object containing the response data for #PRIORITY_SYNCHRONOUS requests. Null in other cases.
 		 */
 		send: function(message)
 		{
+			// Generating a unique id for this message for cancelling purposes
+			if (message.cancelCode)
+			{
+				message.uniqueId = Ext.id(null, 'serverinfo-');
+				this._lastUniqueIdForCancelCode[message.cancelCode] = message.uniqueId;
+			}
+
 			Ext.applyIf(message, {
 				pluginOrWorkspace: message.plugin ? message.plugin : (message.workspace ? '_' + message.workspace : null),
 				toRequest: function() {
@@ -200,17 +244,40 @@ Ext.define(
 			{
 				return this._sendSynchronousMessage(message.toRequest());
 			}
-			else if (message.priority == Ametys.data.ServerComm.PRIORITY_LONG_REQUEST)
+			
+			// Load mask
+			if (message.waitMessage != null)
+			{
+				if (Ext.isBoolean(message.waitMessage) && message.waitMessage == true)
+				{
+					message.waitMessage = { };
+				}
+				if (Ext.isString(message.waitMessage))
+				{
+					message.waitMessage = { msg: message.waitMessage };
+				}
+				if (Ext.isObject(message.waitMessage))
+				{
+					message.waitMessage = Ext.applyIf(message.waitMessage, {
+						target: Ext.getBody()
+					});
+					
+					message.waitMessage = Ext.create("Ext.LoadMask", message.waitMessage);
+					message.waitMessage.show();
+				}
+			}
+			
+			if (message.priority == Ametys.data.ServerComm.PRIORITY_LONG_REQUEST)
 			{
 				this._sendMessages(message);
-				return message;
+				return null;
 			}
 			else
 			{
 				// add the message to the list
 				this._messages.push(message);
 				
-				// compute delay wanted and ring time associater (add a 50 milliseconds delay to try to cumulate several messages)
+				// compute delay wanted and ring time associated (add a 50 milliseconds delay to try to cumulate several messages)
 				var delay = 1000 * message.priority + 50;
 				var ringTime = new Date().getTime() + delay;
 			
@@ -224,95 +291,70 @@ Ext.define(
 					}
 					this._sendTask = window.setTimeout(function () { Ametys.data.ServerComm._sendMessages(); }, delay);
 				}
-				return message;
+				return null;
 			}
 		},
 		
 		/**
 		 * Directly calls Java code on server-side.
-		 * @param {String} role The Java component id
-		 * @param {String} id If the role refers to an extension point, the id refers to an extension. If not, the id should be null.
-		 * @param {String} methodName The method to call.
-		 * @param {Object} parameters The methods parameters. They will be converted to Java Objects.
-		 * @param {Object} callback The callback configuration.
-		 * @param {Function} callback.handler Called after method execution.
-		 * @param {Object} callback.handler.response The server response.
-		 * @param {Object[]} callback.handler.arguments Is the 'callback.arguments' array
-		 * @param {Object} callback.scope The scope of the function call. Optional.
-		 * @param {String[]} callback.arguments An array of Objects that will be passed to the callback as second argument. Optional.
-		 * @param {String} rightContext The right context. Only used if the called method is annotated to check rights. May be null otherwise.
-		 * @param {String} [cancelCode] This parameter allow to reject a server response for an outdated request. 
-		 * A classic case it that the button wants more information on the last selected content: while asking server for information on content A, if the content B is selected by the user: this parameter allow to discard the information on A. 
-		 * This is to use on read request only.
-		 * @param {String} [errorMessage] A customized errorMessage in case of failure. Defaults to the default error message if not present.
+		 * @param {Object} config The configuration object
+		 * @param {String} config.role The Java component id
+		 * @param {String} [config.id] If the role refers to an extension point, the id refers to an extension. If not, the id should be null.
+		 * @param {String} config.methodName The "callable" method to call in the Java component.
+		 * @param {Object} config.parameters The methods parameters. They will be converted to Java Objects keeping types as much as possible.
+		 * 
+		 * @param {Object} config.callback The callback configuration.
+		 * @param {Function} config.callback.handler Called after method execution.
+		 * @param {Object} config.callback.handler.response The server response.
+		 * @param {Object[]} config.callback.handler.arguments Is the 'callback.arguments' array
+		 * @param {Object} config.callback.scope The scope of the function call. Optional.
+		 * @param {String[]} config.callback.arguments An array of Objects that will be passed to the callback as second argument. Optional.
+		 * 
+		 * @param {String} [config.cancelCode] This allow to cancel a previous unfinished request. See #send for more information on the cancelCode.
+		 * @param {Boolean/String/Object} [config.waitMessage] Display a waiting message while the request is running. See #send for more information on the waitingMessage.
+		 * @param {Boolean/String/Object} [config.errorMessage] An error message. See #send for more information on the errorMessage.
 		 */
-		call: function(role, id, methodName, parameters, callback, rightContext, cancelCode, errorMessage)
+		callMethod: function(config)
 		{
-			var uniqueId = Ext.id(null, 'serverinfo-');
-			
-			if (cancelCode)
-			{
-				this._lastUniqueIdForCancelCode[cancelCode] = uniqueId;
-			}
-			
 			this.send({
 				plugin: 'core',
 				url: 'client-call',
 				parameters: {
-					role: role,
-					id: id,
-					methodName: methodName,
-					rightContext: rightContext,
-					parameters: parameters
+					role: config.role,
+					id: config.id,
+					methodName: config.methodName,
+					parameters: config.parameters
 				},
 				callback: {
 					handler: this._callProcessed,
 					scope: this,
-					arguments: [uniqueId, cancelCode, callback, errorMessage]
+					arguments: {cb: config.callback}
 				},
-				responseType: 'text'
+				responseType: 'text',
+				cancelCode: config.cancelCode,
+				waitMessage: config.waitMessage,
+				errorMessage: config.errorMessage
 			});
 		},
 		
 		/**
 		 * @private
-		 * Internal callback for the call() function.
+		 * Internal callback for the #callMethod function.
+		 * @param {Object} response The server response
+		 * @param {Object} arguments The arguments 
+		 * @param {Function} arguments.cb The callback function 
 		 */
 		_callProcessed: function(response, arguments)
 		{
-			var uniqueId = arguments[0];
-			var cancelCode = arguments[1];
-			var callback = arguments[2];
-			var errorMessage = arguments[3];
+			var callback = arguments.cb;
 			
-			callback.scope = callback.scope || this;
-			
-			if (cancelCode != null)
+			var responseAsObject = null;
+			if (!this.isBadResponse(response))
 			{
-				if (this._lastUniqueIdForCancelCode[cancelCode] != uniqueId)
-				{
-					if (Ametys.log.Logger.isDebugEnabled())
-					{
-						Ametys.log.Logger.debug({category: this.self.getName(), message: "Discarding response '" + uniqueId + "'"});
-					}
-					return;
-				}
-				else
-				{
-					this._lastUniqueIdForCancelCode[cancelCode] = null;
-				}
+				responseAsObject = Ext.JSON.decode(response.textContent);
 			}
 			
-			if (Ametys.data.ServerComm.handleBadResponse(errorMessage, response, this.self.getName()))
-			{
-				callback.handler.apply(callback.scope, [null, callback.arguments]);
-			}
-			else
-			{
-				var responseAsText = response.textContent; 
-				var responseAsObject = Ext.JSON.decode(responseAsText);
-				callback.handler.apply(callback.scope, [responseAsObject, callback.arguments]);
-			}
+			callback.handler.apply(callback.scope || this, [responseAsObject, callback.arguments]);
 		},
 		
 		/**
@@ -453,8 +495,13 @@ Ext.define(
 				for (var i = 0; i < this._messages.length; i++)
 				{
 					var message = this._messages[i];
-					if (message.cancel == true)
+					if (message.cancelCode && this._lastUniqueIdForCancelCode[message.cancelCode] != message.uniqueId)
 					{
+						if (Ametys.log.Logger.isDebugEnabled())
+						{
+							Ametys.log.Logger.debug({category: this.self.getName(), message: "Discarding message with cancel code '" + message.cancelCode + "'"});
+						}
+						message.cancelled = true;
 						continue;
 					}
 					
@@ -550,6 +597,15 @@ Ext.define(
 		 */
 		_cancelTimeout: function(options)
 		{
+			for (var i = 0; i < options.messages.length; i++)
+			{
+				var message = options.messages[i];
+				if (Ext.isObject(message.waitMessage))
+				{
+					message.waitMessage.hide();
+				}
+			}
+			
 			if (options._timeout != null)
 			{
 				window.clearTimeout(options._timeout);
@@ -608,31 +664,69 @@ Ext.define(
 					var message = options.messages[i];
 					
 					var node = Ext.dom.Query.selectNode("/responses/response[@id='" + i + "']", response.responseXML);
-					if (node == null && message.cancel == true)
+					if ((node == null && message.cancelled == true)
+						|| (message.cancelCode && this._lastUniqueIdForCancelCode[message.cancelCode] != message.uniqueId))
 					{
 						// only discard a canceled request if there is no answer
 						// a cancel message with an answer means it has been canceled too late
+						if (!message.cancelled && Ametys.log.Logger.isDebugEnabled())
+						{
+							Ametys.log.Logger.debug({category: this.self.getName(), message: "Discarding response for a message with cancel code '" + message.cancelCode + "'"});
+						}
 						continue;
 					}
 					
-					try
+					var badResponse = false;
+					var ignoreCallbackOnBadResponse = true;
+					if (message.errorMessage != null && message.errorMessage !== false)
 					{
-							message.callback.handler.apply(message.callback.scope, [node, message.callback.arguments]);
-					}
-					catch (e)
-					{
-						function throwException(e) 
-						{ 
-							throw e; 
+						var msg = "<i18n:text i18n:key='KERNEL_SERVERCOMM_ERROR_DESC'/>";
+						var category = this.self.getName(); 
+						
+						if (Ext.isString(message.errorMessage))
+						{
+							msg = message.errorMessage;
 						}
-						Ext.defer(throwException, 1, this, [e]);
-
-						Ametys.log.ErrorDialog.display({
-							title: "<i18n:text i18n:key='KERNEL_SERVERCOMM_ERROR_TITLE'/>",
-							text: "<i18n:text i18n:key='KERNEL_SERVERCOMM_ERROR_DESC'/>",
-							details: e,
-							category: "Ametys.data.ServerComm"
-						});
+						else if (Ext.isObject(message.errorMessage))
+						{
+							if (message.errorMessage.msg != null)
+							{
+								msg = message.errorMessage.msg;
+							}
+							if (message.errorMessage.category != null)
+							{
+								category = message.errorMessage.category;
+							}
+							if (message.errorMessage.ignoreCallback != null)
+							{
+								ignoreCallbackOnBadResponse = message.errorMessage.ignoreCallback;
+							}
+						}
+						
+						badResponse = this.handleBadResponse(msg, node, category);
+					}
+					
+					if (!badResponse || !ignoreCallbackOnBadResponse)
+					{
+						try
+						{
+							message.callback.handler.apply(message.callback.scope, [node, message.callback.arguments]);
+						}
+						catch (e)
+						{
+							function throwException(e) 
+							{ 
+								throw e; 
+							}
+							Ext.defer(throwException, 1, this, [e]);
+							
+							Ametys.log.ErrorDialog.display({
+								title: "<i18n:text i18n:key='KERNEL_SERVERCOMM_ERROR_TITLE'/>",
+								text: "<i18n:text i18n:key='KERNEL_SERVERCOMM_ERROR_DESC'/>",
+								details: e,
+								category: "Ametys.data.ServerComm"
+							});
+						}
 					}
 			}
 		},		
@@ -670,15 +764,25 @@ Ext.define(
 		},
 		
 		/**
-		 * Call this method to handle a bad response for you. Test for a null response or a 404 or a 500.
+		 * Test for a null response or a 404 or a 500.
+		 * @param {Object} response The response received
+		 * @return {boolean} True if a bad request was found (and you should alert the user and abort your process)
+		 */
+		isBadResponse: function(response)
+		{
+			return response == null || response.getAttribute("code") == "500" || response.getAttribute("code") == "404";
+		},
+		
+		/**
+		 * Call this method to handle a bad response for you. Test response with #isBadResponse.
 		 * @param {String} message The error message to display if the response is bad
 		 * @param {Object} response The response received
 		 * @param {String} category The log category. Can be null to avoid logging.
-		 * @return {boolean} True if a bad request was found (and you should abort your treatment)
+		 * @return {boolean} True if a bad request was found (and you should abort your process)
 		 */
 		handleBadResponse: function(message, response, category)
 		{
-			if (response == null || response.getAttribute("code") == "500" || response.getAttribute("code") == "404")
+			if (this.isBadResponse(response))
 			{
 				if (response == null)
 				{
