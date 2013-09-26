@@ -222,6 +222,32 @@ Ext.define(
 			{
 				message.uniqueId = Ext.id(null, 'serverinfo-');
 				this._lastUniqueIdForCancelCode[message.cancelCode] = message.uniqueId;
+
+				var messagesIndexToCancel = [];
+				for (var i = 0; i < this._messages.length; i++)
+				{
+					var oldMessage = this._messages[i];
+					if (oldMessage.cancelCode && this._lastUniqueIdForCancelCode[oldMessage.cancelCode] != oldMessage.uniqueId)
+					{
+						if (Ametys.log.Logger.isDebugEnabled())
+						{
+							Ametys.log.Logger.debug({category: this.self.getName(), message: "Discarding message with cancel code '" + message.cancelCode + "'"});
+						}
+						oldMessage.cancelled = true;
+						
+						messagesIndexToCancel.push(i);
+						
+						if (Ext.isObject(oldMessage.waitMessage))
+						{
+							oldMessage.waitMessage.hide();
+						}
+					}
+				}
+				for (var i = messagesIndexToCancel.length - 1; i >= 0; i--)
+				{
+					var index = messagesIndexToCancel[i];
+					Ext.Array.remove(this._messages, this._messages[index]);
+				}
 			}
 
 			Ext.applyIf(message, {
@@ -495,16 +521,6 @@ Ext.define(
 				for (var i = 0; i < this._messages.length; i++)
 				{
 					var message = this._messages[i];
-					if (message.cancelCode && this._lastUniqueIdForCancelCode[message.cancelCode] != message.uniqueId)
-					{
-						if (Ametys.log.Logger.isDebugEnabled())
-						{
-							Ametys.log.Logger.debug({category: this.self.getName(), message: "Discarding message with cancel code '" + message.cancelCode + "'"});
-						}
-						message.cancelled = true;
-						continue;
-					}
-					
 					parameters[i] = message.toRequest();
 				}
 			}
@@ -804,7 +820,7 @@ Ext.define(
 							title: "<i18n:text i18n:key='KERNEL_SERVERCOMM_SERVER_FAILED_DESC'/>" + response.getAttribute("code") + ")", 
 							text: message,
 							details: (hasMsg ? intMsg : "")
-							+ (hasMsg && hasStk ? "<br/><br/>" : "")
+							+ (hasMsg && hasStk ? "\n\n" : "")
 							+ (hasStk ? intStk : ""),
 							category: category
 					});
