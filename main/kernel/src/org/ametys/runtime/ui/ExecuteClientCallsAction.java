@@ -77,7 +77,7 @@ public class ExecuteClientCallsAction extends ServiceableAction implements Threa
                 
                 if (object == null)
                 {
-                    throw new IllegalArgumentException("The id '" + role + "' does not correspond to a valid extension for point " + role);
+                    throw new IllegalArgumentException("The id '" + id + "' does not correspond to a valid extension for point " + role);
                 }
             }
         }
