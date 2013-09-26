@@ -47,25 +47,7 @@ public class PluginsTestCase extends AbstractRuntimeTestCase
         
         cocoon.dispose();
     }
-    
-    /**
-     * Tests embedded plugins
-     * @throws Exception if an error occurs
-     */
-    public void testEmbeddedPlugin() throws Exception
-    {
-        _configureRuntime("test/environments/runtimes/runtime2.xml");
-        Config.setFilename("test/environments/configs/config1.xml");
         
-        CocoonWrapper cocoon = _startCocoon("test/environments/webapp1");
-        
-        assertTrue(PluginsManager.getInstance().getEmbeddedPluginsIds().contains("core"));
-        assertTrue(PluginsManager.getInstance().getPluginNames().contains("core"));
-        assertEquals("resource://org/ametys/runtime/plugins/core", PluginsManager.getInstance().getBaseURI("core"));
-        
-        cocoon.dispose();
-    }
-    
     /**
      * Tests the concept of plugin location
      * @throws Exception if an error occurs
@@ -78,7 +60,7 @@ public class PluginsTestCase extends AbstractRuntimeTestCase
         CocoonWrapper cocoon = _startCocoon("test/environments/webapp1");
         
         assertTrue(PluginsManager.getInstance().getPluginNames().contains("test"));
-        assertEquals("location1", PluginsManager.getInstance().getPluginLocation("test"));
+        assertEquals("location1", PluginsManager.getInstance().getPluginLocation("test").getParentFile().getName());
         
         cocoon.dispose();
     }

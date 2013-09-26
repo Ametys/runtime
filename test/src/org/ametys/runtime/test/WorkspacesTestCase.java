@@ -34,17 +34,14 @@ public class WorkspacesTestCase extends AbstractRuntimeTestCase
         
         CocoonWrapper cocoon = _startCocoon("test/environments/webapp2");
         
-        assertTrue(WorkspaceManager.getInstance().getEmbeddedWorskpacesIds().contains("admin"));
         assertTrue(WorkspaceManager.getInstance().getWorkspaceNames().contains("admin"));
-        
-        assertEquals("/org/ametys/runtime/workspaces/admin", WorkspaceManager.getInstance().getBaseURI("admin"));
         
         assertTrue(WorkspaceManager.getInstance().getWorkspaceNames().contains("workspace-test"));
         
-        // Le workspace-test2 n'a pas de workspace.xml
+        // workspace-test2 don't have workspace.xml
         assertFalse(WorkspaceManager.getInstance().getWorkspaceNames().contains("workspace-test2"));
         
-        // Le workspace-test3 a une dépendance vers une feature inexistante
+        // workspace-test3 has a dependency to an unexisting feature
         assertFalse(WorkspaceManager.getInstance().getWorkspaceNames().contains("workspace-test3"));
     
         // Restart

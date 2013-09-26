@@ -49,11 +49,15 @@ import org.apache.excalibur.source.SourceResolver;
  */
 public class ProxySourceFactory extends AbstractLogEnabled implements SourceFactory, ThreadSafe, Serviceable, Configurable
 {
-    private SourceResolver _sourceResolver;
-    private List<String> _protocols;
-    private ServiceManager _manager;
-    private Pattern _matcher;
+    /** URI matcher */
+    protected Pattern _matcher;
+    
+    /** Proxied sources */
+    protected List<String> _protocols;
 
+    private SourceResolver _sourceResolver;
+    private ServiceManager _manager;
+    
     @Override
     public void configure(Configuration configuration) throws ConfigurationException
     {

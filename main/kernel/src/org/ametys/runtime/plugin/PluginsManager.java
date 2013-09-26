@@ -85,8 +85,8 @@ public final class PluginsManager
     // associations plugins/resourcesURI
     private Map<String, String> _baseURIs;
     
-    // associations plugins/locations
-    private Map<String, String> _locations;
+    // plugins/locations association
+    private Map<String, File> _locations;
     
     // Active plugins list
     private Map<String, ActiveFeature> _activeFeatures;
@@ -215,11 +215,11 @@ public final class PluginsManager
     }
     
     /**
-     * Returns the plugin location for the given plugin, ie its base path relative to the contextPath, or null if the plugin is loaded from the classpath.
+     * Returns the plugin filesystem location for the given plugin or null if the plugin is loaded from the classpath.
      * @param pluginName the plugin name
-     * @return the plugin location for the given plugin, ie its base path relative to the contextPath
+     * @return the plugin location for the given plugin
      */
-    public String getPluginLocation(String pluginName)
+    public File getPluginLocation(String pluginName)
     {
         return _locations.get(pluginName);
     }
@@ -259,7 +259,7 @@ public final class PluginsManager
     
     // Look for XML schemas embedded in jars
     // They have a META-INF/runtime-plugin plain text file containing schema identifier and path to the actual XSD file
-    private void _initSchemas(String contextPath, Collection<String> locations) throws IOException
+    private void _initSchemas(String contextPath, Collection<String> locations, File externalKernel, Map<String, File> externalPlugins) throws IOException
     {
         // Embedded schemas
         Enumeration<URL> shemasResources = getClass().getClassLoader().getResources("META-INF/runtime-schema");
@@ -289,10 +289,12 @@ public final class PluginsManager
         }
 
         // Local schemas
-        File kernelBase = new File(contextPath, "kernel");
-        if (kernelBase.exists() && kernelBase.isDirectory())
+        if (externalKernel != null)
         {
-            _findAndAddSchema(kernelBase);
+            if (externalKernel.exists() && externalKernel.isDirectory())
+            {
+                _findAndAddSchema(externalKernel);
+            }
         }
         
         for (String location : locations)
@@ -313,6 +315,14 @@ public final class PluginsManager
                 {
                     _findAndAddSchema(pluginDir);
                 }
+            }
+        }
+        
+        for (File externalPlugin : externalPlugins.values())
+        {
+            if (externalPlugin.exists() && externalPlugin.isDirectory())
+            {
+                _findAndAddSchema(externalPlugin);
             }
         }
     }
@@ -358,7 +368,7 @@ public final class PluginsManager
         _inactiveFeatures = new HashMap<String, InactiveFeature>();
         _activeFeatures = new HashMap<String, ActiveFeature>();
         _passiveFeatures = new HashSet<String>();
-        _locations = new HashMap<String, String>();
+        _locations = new HashMap<String, File>();
         _entityResolver = new LocalEntityResolver();
         
         // Embedded plugins locations
@@ -374,10 +384,16 @@ public final class PluginsManager
         // Plugins root directories (directories containing plugins directories)
         Collection<String> locations = RuntimeConfig.getInstance().getPluginsLocations();
         
+        // Additional plugins 
+        Map<String, File> externalPlugins = RuntimeConfig.getInstance().getExternalPlugins();
+        
+        // The kernel location, if external (mainly for debugging)
+        File externalKernel = RuntimeConfig.getInstance().getExternalKernel();
+        
         // Schemas locations
         try
         {
-            _initSchemas(contextPath, locations);
+            _initSchemas(contextPath, locations, externalKernel, externalPlugins);
         }
         catch (IOException e)
         {
@@ -385,7 +401,7 @@ public final class PluginsManager
         }
         
         // All plugin.xml Configurations
-        Map<String, Configuration> pluginsConfigurations = _getConfigurations(contextPath, locations);
+        Map<String, Configuration> pluginsConfigurations = _getConfigurations(contextPath, locations, externalPlugins);
         
         _pluginNames = pluginsConfigurations.keySet();
         
@@ -490,7 +506,7 @@ public final class PluginsManager
         _loadFeatures(extPoints, info, contextPath);
     }
     
-    private Map<String, Configuration> _getConfigurations(String contextPath, Collection<String> locations)
+    private Map<String, Configuration> _getConfigurations(String contextPath, Collection<String> locations, Map<String, File> externalPlugins)
     {
         Map<String, Configuration> pluginsConfigurations = new HashMap<String, Configuration>();
         
@@ -526,17 +542,27 @@ public final class PluginsManager
                 
                 for (File pluginDir : pluginDirs)
                 {
-                    _addPluginConfiguration(pluginsConfigurations, location, pluginDir);
+                    _addPluginConfiguration(pluginsConfigurations, pluginDir.getName(), pluginDir);
                 }
+            }
+        }
+        
+        // external plugins
+        for (String externalPlugin : externalPlugins.keySet())
+        {
+            File pluginDir = externalPlugins.get(externalPlugin);
+
+            if (pluginDir.exists() && pluginDir.isDirectory())
+            {
+                _addPluginConfiguration(pluginsConfigurations, externalPlugin, pluginDir);
             }
         }
         
         return pluginsConfigurations;
     }
     
-    private void _addPluginConfiguration(Map<String, Configuration> pluginsConfigurations, String location, File pluginDir)
+    private void _addPluginConfiguration(Map<String, Configuration> pluginsConfigurations, String pluginName, File pluginDir)
     {
-        String pluginName = pluginDir.getName();
         File pluginFile = new File(pluginDir, __PLUGIN_FILENAME);
         
         if (!pluginFile.exists())
@@ -587,7 +613,7 @@ public final class PluginsManager
 
                 pluginsConfigurations.put(pluginName, configuration);
                 
-                _locations.put(pluginName, location);
+                _locations.put(pluginName, pluginDir);
                 
                 if (_logger.isInfoEnabled())
                 {
@@ -1271,15 +1297,9 @@ public final class PluginsManager
                     String baseUri = _baseURIs.get(pluginName);
                     if (baseUri == null)
                     {
-                        String pluginLocation = getPluginLocation(pluginName);
+                        File pluginLocation = getPluginLocation(pluginName);
                         
-                        if (!pluginLocation.endsWith("/"))
-                        {
-                            pluginLocation += '/';
-                        }
-                        
-                        String path = pluginLocation + pluginName + "/" + config;
-                        File configFile = new File(contextPath, path);
+                        File configFile = new File(pluginLocation, config);
                         configPath = configFile.getAbsolutePath();
 
                         if (!configFile.exists() || configFile.isDirectory())

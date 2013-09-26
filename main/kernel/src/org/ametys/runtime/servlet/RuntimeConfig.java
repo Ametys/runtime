@@ -15,6 +15,7 @@
  */
 package org.ametys.runtime.servlet;
 
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,8 +36,6 @@ import org.ametys.runtime.util.LoggerFactory;
  */
 public final class RuntimeConfig
 {
-    private static final Logger __LOGGER = LoggerFactory.getLoggerFor(RuntimeConfig.class);
-
     // shared instance
     private static RuntimeConfig __config;
 
@@ -47,12 +46,23 @@ public final class RuntimeConfig
     private final Collection<String> _excludedWorkspaces = new ArrayList<String>();
     private final Map<String, String> _extensionsPoints = new HashMap<String, String>();
 
+    private Logger _logger = LoggerFactory.getLoggerFor(RuntimeConfig.class);
+
     private String _configRedirectURL;
 
     private Collection<String> _configAllowedURLs;
 
     private String _version;
     private Date _buildDate;
+    
+    /* External location of the kernel, if any */
+    private File _externalKernel;
+    
+    /* Locations of external plugins */
+    private Map<String, File> _externalPlugins = new HashMap<String, File>();
+    
+    /* Locations of external workspaces */
+    private Map<String, File> _externalWorkspaces = new HashMap<String, File>();
 
     private RuntimeConfig()
     {
@@ -78,24 +88,30 @@ public final class RuntimeConfig
      * This method must be called <i>before</i> getting the RuntimConfig instance.<br><br>
      * <b>Warning : the implementation allows this method to be called twice or more. This is only to allow the Runtime to be re-started dynamically.<br>
      * Be aware that this can cause the application to become unstable.</b>
-     * @param conf the Configuration of the Runtime kernel (ie the contents of the WEB-INF/param/runtime.xml file)
+     * @param runtimeConf the Configuration of the Runtime kernel (ie the contents of the WEB-INF/param/runtime.xml file)
+     * @param externalConf the Configuration of external locations (ie the contents of the WEB-INF/param/external.xml file)
      */
-    public static synchronized void configure(Configuration conf)
+    public static synchronized void configure(Configuration runtimeConf, Configuration externalConf)
     {
         __config = new RuntimeConfig();
 
-        __config._initClass = conf.getChild("initClass").getValue(null);
+        __config._initClass = runtimeConf.getChild("initClass").getValue(null);
 
-        _configureWorkspaces(conf.getChild("workspaces"));
-        _configurePlugins(conf.getChild("plugins"));
-        _configureExtensions(conf.getChild("extensions"));
-        _configureConfig(conf.getChild("incompleteConfig", false));
-        _configureApplication(conf.getChild("application"));
+        __config._configureWorkspaces(runtimeConf.getChild("workspaces"));
+        __config._configurePlugins(runtimeConf.getChild("plugins"));
+        __config._configureExtensions(runtimeConf.getChild("extensions"));
+        __config._configureConfig(runtimeConf.getChild("incompleteConfig", false));
+        __config._configureApplication(runtimeConf.getChild("application"));
+        
+        if (externalConf != null)
+        {
+            __config._configureExternal(externalConf);
+        }
     }
 
-    private static void _configureWorkspaces(Configuration config)
+    private void _configureWorkspaces(Configuration config)
     {
-        __config._defaultWorkspace = config.getAttribute("default", null);
+        _defaultWorkspace = config.getAttribute("default", null);
 
         for (Configuration excluded : config.getChild("exclude").getChildren("workspace"))
         {
@@ -103,12 +119,12 @@ public final class RuntimeConfig
 
             if (workspace != null)
             {
-                __config._excludedWorkspaces.add(workspace);
+                _excludedWorkspaces.add(workspace);
             }
         }
     }
 
-    private static void _configurePlugins(Configuration config)
+    private void _configurePlugins(Configuration config)
     {
         for (Configuration excluded : config.getChild("exclude").getChildren("feature"))
         {
@@ -116,7 +132,7 @@ public final class RuntimeConfig
 
             if (plugin != null)
             {
-                __config._excludedFeatures.add(plugin);
+                _excludedFeatures.add(plugin);
             }
         }
 
@@ -126,19 +142,19 @@ public final class RuntimeConfig
 
             if (location != null)
             {
-                __config._pluginsLocations.add(location);
+                _pluginsLocations.add(location);
             }
         }
 
         // On ajoute aux emplacements de plugins le répertoire "plugins"
-        if (!__config._pluginsLocations.contains("plugins") && !__config._pluginsLocations.contains("plugins/"))
+        if (!_pluginsLocations.contains("plugins") && !_pluginsLocations.contains("plugins/"))
         {
-            __config._pluginsLocations.add("plugins/");
+            _pluginsLocations.add("plugins/");
         }
 
     }
 
-    private static void _configureExtensions(Configuration config)
+    private void _configureExtensions(Configuration config)
     {
         for (Configuration extension : config.getChildren())
         {
@@ -153,25 +169,25 @@ public final class RuntimeConfig
 
     }
 
-    private static void _configureConfig(Configuration config)
+    private void _configureConfig(Configuration config)
     {
-        __config._configAllowedURLs = new ArrayList<String>();
+        _configAllowedURLs = new ArrayList<String>();
 
         if (config == null)
         {
-            __config._configRedirectURL = "cocoon://_admin/public/load-config.html?uri=core/administrator/config/edit.html";
+            _configRedirectURL = "cocoon://_admin/public/load-config.html?uri=core/administrator/config/edit.html";
 
-            __config._configAllowedURLs.add("_admin/public");
-            __config._configAllowedURLs.add("_admin/resources");
-            __config._configAllowedURLs.add("_admin/_plugins/core/administrator/config");
-            __config._configAllowedURLs.add("_admin/plugins/core/administrator/config");
-            __config._configAllowedURLs.add("_admin/plugins/core/jsfilelist");
-            __config._configAllowedURLs.add("_admin/plugins/core/cssfilelist");
+            _configAllowedURLs.add("_admin/public");
+            _configAllowedURLs.add("_admin/resources");
+            _configAllowedURLs.add("_admin/_plugins/core/administrator/config");
+            _configAllowedURLs.add("_admin/plugins/core/administrator/config");
+            _configAllowedURLs.add("_admin/plugins/core/jsfilelist");
+            _configAllowedURLs.add("_admin/plugins/core/cssfilelist");
 
             return;
         }
 
-        __config._configRedirectURL = config.getChild("redirectURL").getValue("");
+        _configRedirectURL = config.getChild("redirectURL").getValue("");
 
         for (Configuration allowedURLConf : config.getChild("allowedURLs").getChildren("allowedURL"))
         {
@@ -179,17 +195,17 @@ public final class RuntimeConfig
 
             if (url != null)
             {
-                __config._configAllowedURLs.add(url);
+                _configAllowedURLs.add(url);
             }
         }
     }
 
-    private static void _configureApplication(Configuration config)
+    private void _configureApplication(Configuration config)
     {
         String version = config.getChild("version").getValue("");
         if (!"@VERSION@".equals(version) && !"VERSION".equals(version))
         {
-            __config._version = version;
+            _version = version;
         }
 
         String strDate = config.getChild("date").getValue(null);
@@ -198,11 +214,39 @@ public final class RuntimeConfig
         {
             try
             {
-                __config._buildDate = new SimpleDateFormat("yyyyMMdd'T'HHmm z").parse(strDate);
+                _buildDate = new SimpleDateFormat("yyyyMMdd'T'HHmm z").parse(strDate);
             }
             catch (ParseException e)
             {
-                __LOGGER.warn("Unable to parse date '" + strDate + "' with format \"yyyyMMdd'T'HHmm z\". It will be ignored.");
+                _logger.warn("Unable to parse date '" + strDate + "' with format \"yyyyMMdd'T'HHmm z\". It will be ignored.");
+            }
+        }
+    }
+    
+    private void _configureExternal(Configuration config)
+    {
+        String externalKernel = config.getChild("kernel").getValue(null);
+        _externalKernel = externalKernel == null ? null : new File(externalKernel);
+        
+        for (Configuration pluginConf : config.getChild("plugins").getChildren("plugin"))
+        {
+            String name = pluginConf.getAttribute("name", null);
+            String location = pluginConf.getValue(null);
+            
+            if (name != null && location != null)
+            {
+                _externalPlugins.put(name, new File(location));
+            }
+        }
+        
+        for (Configuration workspaceConf : config.getChild("workspaces").getChildren("workspace"))
+        {
+            String name = workspaceConf.getAttribute("name", null);
+            String location = workspaceConf.getValue(null);
+            
+            if (location != null)
+            {
+                _externalWorkspaces.put(name, new File(location));
             }
         }
     }
@@ -233,6 +277,34 @@ public final class RuntimeConfig
     public Collection<String> getPluginsLocations()
     {
         return _pluginsLocations;
+    }
+    
+    /**
+     * Returns the declared external plugins (ie. not located in the webapp context).
+     * @return the declared external plugins
+     */
+    public Map<String, File> getExternalPlugins()
+    {
+        return _externalPlugins;
+    }
+
+    /**
+     * Returns the declared external workspaces (ie. not located in the webapp context).
+     * @return the declared external workspaces
+     */
+    public Map<String, File> getExternalWorkspaces()
+    {
+        return _externalWorkspaces;
+    }
+
+    /**
+     * Returns the absolute external location of the kernel, if any.<br>
+     * Returns null if the kernel is not externalized.
+     * @return the absolute external location of the kernel, if any.
+     */
+    public File getExternalKernel()
+    {
+        return _externalKernel;
     }
 
     /**

@@ -124,14 +124,7 @@
       | Each source factory adds a special uri schemes to the system.
       +-->
   <source-factories>
-	<component-instance class="org.ametys.runtime.util.cocoon.source.ProxySourceFactory" name="kernel">
-	   <!-- Becarefull, even if kernel protocol is declared here as configurable, it is sometimes hardcoded for technical reasons (for example in the RuntimeServlet when in error mode, ine PluginsManager to load xsd...) -->
-	    <match>kernel://(.*)</match>
-	    <protocols>
-		  <protocol>resource://org/ametys/runtime/kernel/{1}</protocol>
-		  <protocol>context://kernel/{1}</protocol>
-		</protocols>
-	</component-instance>
+    <component-instance class="org.ametys.runtime.util.cocoon.source.KernelSourceFactory" name="kernel"/>
     <component-instance class="org.ametys.runtime.util.cocoon.source.ResourceSourceFactory" name="resource"/>
     <component-instance class="org.ametys.runtime.util.cocoon.source.ZipSourceFactory" name="zip"/>
     <component-instance class="org.ametys.runtime.plugin.PluginSourceFactory" name="plugin"/>

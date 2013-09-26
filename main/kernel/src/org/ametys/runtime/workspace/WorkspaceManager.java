@@ -41,6 +41,7 @@ import org.apache.avalon.framework.logger.Logger;
 import org.xml.sax.XMLReader;
 
 import org.ametys.runtime.plugin.PluginsManager.FeatureInformation;
+import org.ametys.runtime.servlet.RuntimeConfig;
 import org.ametys.runtime.util.LoggerFactory;
 
 
@@ -68,6 +69,9 @@ public final class WorkspaceManager
     // Map<workspaceName, baseURI>
     private Map<String, String> _workspaces = new HashMap<String, String>(); 
     
+    // workspaces/locations association
+    private Map<String, File> _locations = new HashMap<String, File>();
+
     // All workspaces' names
     // _workspaceNames is NOT the same as _workspaces.keySet(), which only contains embedded workspaces
     private Set<String> _workspaceNames = new HashSet<String>();
@@ -132,6 +136,11 @@ public final class WorkspaceManager
     {
         return _workspaces.get(workspaceName);
     }
+    
+    public File getLocation(String workspaceName)
+    {
+        return _locations.get(workspaceName);
+    }
 
     /**
      * Initialize the WorkspaceManager.<br>
@@ -160,7 +169,20 @@ public final class WorkspaceManager
         {
             for (File workspace : new File(contextPath, "workspaces").listFiles())
             {
-                _initFileWorkspaces(workspace, contextPath, excludedWorkspace, pluginsInformations);
+                _initFileWorkspaces(workspace, workspace.getName(), contextPath, excludedWorkspace, pluginsInformations);
+            }
+        }
+        
+        Map<String, File> externalWorkspaces = RuntimeConfig.getInstance().getExternalWorkspaces();
+        
+        // external workspaces
+        for (String externalWorkspace : externalWorkspaces.keySet())
+        {
+            File workspaceDir = externalWorkspaces.get(externalWorkspace);
+
+            if (workspaceDir.exists() && workspaceDir.isDirectory())
+            {
+                _initFileWorkspaces(workspaceDir, externalWorkspace, contextPath, excludedWorkspace, pluginsInformations);
             }
         }
     }
@@ -195,7 +217,7 @@ public final class WorkspaceManager
             if (pluginsInformations != null)
             {
                 // If the configuration is incomplete, plugins are not loaded, it's useless to check dependencies
-                addWorkspace = _checkDependencies(workspaceName, workspaceBaseURI, pluginsInformations, contextPath);
+                addWorkspace = _checkDependencies(workspaceName, null, workspaceBaseURI, pluginsInformations, contextPath);
             }
             
             if (addWorkspace)
@@ -213,18 +235,16 @@ public final class WorkspaceManager
         br.close();
     }
     
-    private void _initFileWorkspaces(File workspace, String contextPath, Collection<String> excludedWorkspace, Map<String, FeatureInformation> pluginsInformations)
+    private void _initFileWorkspaces(File workspace, String workspaceName, String contextPath, Collection<String> excludedWorkspace, Map<String, FeatureInformation> pluginsInformations)
     {
-        if (workspace.exists() && workspace.isDirectory() && new File(workspace, __WORKSPACE_FILENAME).exists() && new File(workspace, "sitemap.xmap").exists() && !excludedWorkspace.contains(workspace.getName()))
+        if (workspace.exists() && workspace.isDirectory() && new File(workspace, __WORKSPACE_FILENAME).exists() && new File(workspace, "sitemap.xmap").exists() && !excludedWorkspace.contains(workspaceName))
         {
-            if (_workspaceNames.contains(workspace.getName()))
+            if (_workspaceNames.contains(workspaceName))
             {
                 String errorMessage = "The workspace named " + workspace.getName() + " already exists";
                 _logger.error(errorMessage);
                 throw new IllegalArgumentException(errorMessage);
             }
-            
-            String workspaceName = workspace.getName();
             
             boolean addWorkspace = true;
             
@@ -233,12 +253,13 @@ public final class WorkspaceManager
                 // If the configuration is incomplete, plugins are not loaded, it's useless to check dependencies
                 if (pluginsInformations != null)
                 {
-                    addWorkspace = _checkDependencies(workspaceName, null, pluginsInformations, contextPath);
+                    addWorkspace = _checkDependencies(workspaceName, workspace, null, pluginsInformations, contextPath);
                 }
                 
                 if (addWorkspace)
                 {
                     _workspaceNames.add(workspaceName);
+                    _locations.put(workspaceName, workspace);
                     
                     if (_logger.isInfoEnabled())
                     {
@@ -255,7 +276,7 @@ public final class WorkspaceManager
         }   
     }
     
-    private boolean _checkDependencies(String workspaceName, String workspaceBaseURI, Map<String, FeatureInformation> pluginsInformations, String contextPath)
+    private boolean _checkDependencies(String workspaceName, File workspaceDir, String workspaceBaseURI, Map<String, FeatureInformation> pluginsInformations, String contextPath)
     {
         InputStream is = null;
         InputStream xsd = null;
@@ -267,7 +288,7 @@ public final class WorkspaceManager
             if (workspaceBaseURI == null)
             {
                 // workspace in filesystem
-                File configFile = new File(contextPath, "workspaces/" + workspaceName + "/" + __WORKSPACE_FILENAME);
+                File configFile = new File(workspaceDir, __WORKSPACE_FILENAME);
                 configPath = configFile.getAbsolutePath();
                 is = new FileInputStream(configFile);
             }

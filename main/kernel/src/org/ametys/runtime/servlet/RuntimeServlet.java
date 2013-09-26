@@ -333,7 +333,8 @@ public class RuntimeServlet extends CocoonServlet
 
     private void _loadRuntimeConfig() throws ServletException
     {
-        InputStream is = null;
+        InputStream runtime = null;
+        InputStream external = null;
         InputStream xsd = null;
 
         try
@@ -347,15 +348,19 @@ public class RuntimeServlet extends CocoonServlet
             factory.setNamespaceAware(true);
             XMLReader reader = factory.newSAXParser().getXMLReader();
 
-            DefaultConfigurationBuilder confBuilder = new DefaultConfigurationBuilder(reader);
+            DefaultConfigurationBuilder runtimeConfBuilder = new DefaultConfigurationBuilder(reader);
 
-            File configFile = new File(servletContextPath, "WEB-INF/param/runtime.xml");
+            File runtimeConfigFile = new File(servletContextPath, "WEB-INF/param/runtime.xml");
+            runtime = new FileInputStream(runtimeConfigFile);
+            Configuration runtimeConf = runtimeConfBuilder.build(runtime, runtimeConfigFile.getAbsolutePath());
 
-            is = new FileInputStream(configFile);
+            DefaultConfigurationBuilder externalConfBuilder = new DefaultConfigurationBuilder();
 
-            Configuration conf = confBuilder.build(is, configFile.getAbsolutePath());
-
-            RuntimeConfig.configure(conf);
+            File externalConfigFile = new File(servletContextPath, "WEB-INF/param/external.xml");
+            external = externalConfigFile.exists() ? new FileInputStream(externalConfigFile) : null;
+            Configuration externalConf = external != null ? externalConfBuilder.build(external, externalConfigFile.getAbsolutePath()) : null;
+            
+            RuntimeConfig.configure(runtimeConf, externalConf);
         }
         catch (Exception ex)
         {
@@ -365,33 +370,9 @@ public class RuntimeServlet extends CocoonServlet
         }
         finally
         {
-            if (xsd != null)
-            {
-                try
-                {
-                    xsd.close();
-                }
-                catch (IOException ex)
-                {
-                    String errorMessage = "Unable to close InputStream";
-                    getLogger().error(errorMessage, ex);
-                    throw new ServletException(errorMessage, ex);
-                }
-            }
-
-            if (is != null)
-            {
-                try
-                {
-                    is.close();
-                }
-                catch (IOException ex)
-                {
-                    String errorMessage = "Unable to close InputStream";
-                    getLogger().error(errorMessage, ex);
-                    throw new ServletException(errorMessage, ex);
-                }
-            }
+            IOUtils.closeQuietly(xsd);
+            IOUtils.closeQuietly(runtime);
+            IOUtils.closeQuietly(external);
         }
     }
 

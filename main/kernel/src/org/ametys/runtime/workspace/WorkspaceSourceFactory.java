@@ -69,7 +69,8 @@ public class WorkspaceSourceFactory implements SourceFactory, Contextualizable, 
         
         if (resourceURI == null)
         {
-            return new FileSource("file://" + _path + "workspaces/" + workspaceName + path);
+            File pluginLocation = WorkspaceManager.getInstance().getLocation(workspaceName);
+            return new FileSource("file", new File(pluginLocation, path));
         }
         else
         {

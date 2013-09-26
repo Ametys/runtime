@@ -94,26 +94,7 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
         {
             String id = "plugin." + pluginName;
             
-            String pluginURI = pm.getBaseURI(pluginName);
-            String location2;
-            
-            if (pluginURI == null)
-            {
-                // plugin is in the filesystem
-                String pluginLocation = pm.getPluginLocation(pluginName);
-                
-                if (!pluginLocation.endsWith("/"))
-                {
-                    pluginLocation += '/';
-                }
-                
-                location2 = "context://" + pluginLocation + pluginName + "/i18n";
-            }
-            else
-            {
-                // plugin is in the classpath
-                location2 = "plugin:" + pluginName + "://i18n";
-            }
+            String location2 = "plugin:" + pluginName + "://i18n";
 
             _locations.put(id, new String[]{"context://WEB-INF/i18n/plugins/" + pluginName, location2});
         }

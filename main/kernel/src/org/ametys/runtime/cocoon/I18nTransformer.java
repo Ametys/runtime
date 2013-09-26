@@ -101,7 +101,6 @@ public class I18nTransformer extends org.apache.cocoon.transformation.I18nTransf
         
         for (String pluginName : pm.getPluginNames())
         {
-            String pluginURI = pm.getBaseURI(pluginName);
             String id = "plugin." + pluginName;
             
             DefaultConfiguration catalogue = new DefaultConfiguration("catalogue");
@@ -112,27 +111,9 @@ public class I18nTransformer extends org.apache.cocoon.transformation.I18nTransf
             location1.setValue("context://WEB-INF/i18n/plugins/" + pluginName);
             catalogue.addChild(location1);
             
-            if (pluginURI == null)
-            {
-                // plugin is in the filesystem
-                String pluginFamily = pm.getPluginLocation(pluginName);
-                
-                if (!pluginFamily.endsWith("/"))
-                {
-                    pluginFamily += '/';
-                }
-                
-                DefaultConfiguration location2 = new DefaultConfiguration("location");
-                location2.setValue("context://" + pluginFamily + pluginName + "/i18n");
-                catalogue.addChild(location2);
-            }
-            else
-            {
-                // plugin is in the classpath
-                DefaultConfiguration location2 = new DefaultConfiguration("location");
-                location2.setValue("plugin:" + pluginName + "://i18n");
-                catalogue.addChild(location2);
-            }
+            DefaultConfiguration location2 = new DefaultConfiguration("location");
+            location2.setValue("plugin:" + pluginName + "://i18n");
+            catalogue.addChild(location2);
 
             catalogues.addChild(catalogue);
         }

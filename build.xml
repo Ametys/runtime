@@ -600,6 +600,17 @@
 	</target>
 
 	<target name="tests" unless="skip.tests">
+		
+		<mkdir dir="${tmp-dir}/test-env"/>
+        <copy todir="${tmp-dir}/test-env">
+            <fileset dir=".">
+                <include name="test/**"/>
+                <include name="main/plugin-core/scripts/**"/>
+                <exclude name="test/src/**"/>
+                <exclude name="test/environments/runtimes/external.xml"/>
+            </fileset>
+        </copy>
+		
 		<mkdir dir="${tmp-dir}/classes-test"/>
 		
 		<ivy:cachepath conf="test" type="jar,bundle" pathid="test.classpath"/>
@@ -624,7 +635,7 @@
 		<mkdir dir="${dest-junit}"/>
 		<mkdir dir="${dest-junit}/html"/>
 		
-		<junit fork="true" dir="." printsummary="yes" haltonfailure="no" failureproperty="junit-failed">
+		<junit fork="true" dir="${tmp-dir}/test-env" printsummary="yes" haltonfailure="no" failureproperty="junit-failed">
 			<classpath>
                 <path refid="test.classpath"/>
                 <path refid="classpath-ametys-tools"/>

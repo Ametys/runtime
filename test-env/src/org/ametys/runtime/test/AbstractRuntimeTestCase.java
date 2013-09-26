@@ -15,6 +15,7 @@
  */
 package org.ametys.runtime.test;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
@@ -28,6 +29,7 @@ import junit.framework.TestCase;
 import org.apache.avalon.excalibur.logger.Log4JLoggerManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
+import org.apache.commons.io.IOUtils;
 import org.xml.sax.XMLReader;
 
 import org.ametys.runtime.servlet.RuntimeConfig;
@@ -70,22 +72,46 @@ public abstract class AbstractRuntimeTestCase extends TestCase
      */
     protected void _configureRuntime(String fileName) throws Exception
     {
-        // Validation du runtime.xml sur le schéma runtime.xsd
-        InputStream xsd = getClass().getResourceAsStream("/org/ametys/runtime/servlet/runtime.xsd");
-        Schema schema = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema").newSchema(new StreamSource(xsd));
-        
-        SAXParserFactory factory = SAXParserFactory.newInstance();
-        factory.setSchema(schema);
-        factory.setNamespaceAware(true);
-        XMLReader reader = factory.newSAXParser().getXMLReader();
-        
-        DefaultConfigurationBuilder confBuilder = new DefaultConfigurationBuilder(reader);
-        
-        InputStream is = new FileInputStream(fileName);
-        
-        Configuration conf = confBuilder.build(is, fileName);
-        
-        RuntimeConfig.configure(conf);
+        InputStream runtime = null;
+        InputStream external = null;
+        InputStream xsd = null;
+
+        try
+        {
+            // Validation du runtime.xml sur le schéma runtime.xsd
+            xsd = getClass().getResourceAsStream("/org/ametys/runtime/servlet/runtime.xsd");
+            Schema schema = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema").newSchema(new StreamSource(xsd));
+            
+            SAXParserFactory factory = SAXParserFactory.newInstance();
+            factory.setSchema(schema);
+            factory.setNamespaceAware(true);
+            XMLReader reader = factory.newSAXParser().getXMLReader();
+            
+            DefaultConfigurationBuilder runtimeConfBuilder = new DefaultConfigurationBuilder(reader);
+            
+            File runtimeFile = new File(fileName);
+            runtime = new FileInputStream(runtimeFile);
+            Configuration runtimeConf = runtimeConfBuilder.build(runtime, fileName);
+            
+            // look for external.xml next to the runtime.xml file
+            File externalFile = new File(runtimeFile.getParentFile(), "external.xml");
+            
+            Configuration externalConf = null;
+            if (externalFile.exists())
+            {
+                DefaultConfigurationBuilder externalConfBuilder = new DefaultConfigurationBuilder();
+                external = new FileInputStream(externalFile);
+                externalConf = externalConfBuilder.build(external, fileName);
+            }
+            
+            RuntimeConfig.configure(runtimeConf, externalConf);
+        }
+        finally
+        {
+            IOUtils.closeQuietly(xsd);
+            IOUtils.closeQuietly(runtime);
+            IOUtils.closeQuietly(external);
+        }
     }
     
     /**

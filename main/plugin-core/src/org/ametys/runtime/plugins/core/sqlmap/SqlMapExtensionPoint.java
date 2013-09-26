@@ -533,11 +533,8 @@ public class SqlMapExtensionPoint extends AbstractThreadSafeComponentExtensionPo
                 else
                 {
                     // Relative path
-                    String pluginPath = PluginsManager.getInstance().getPluginLocation(_pluginName);
-                    
-                    String filePath = pluginPath + (pluginPath.endsWith("/") ? "" : "/") + _pluginName + "/" + _source;
-                    
-                    file = new File(_contextPath, filePath);
+                    File pluginDir = PluginsManager.getInstance().getPluginLocation(_pluginName);
+                    file = new File(pluginDir, _source);
                 }
                 
                 AttributesImpl sqlMapAttrs = new AttributesImpl();
