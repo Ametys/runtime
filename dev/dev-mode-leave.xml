@@ -14,68 +14,19 @@
    See the License for the specific language governing permissions and
    limitations under the License.
    -->
-<project name="ametys-dev-mode-leave" default="remove-links">
+<project name="ametys-dev-mode-leave" default="dev-mode-leave">
 	<property environment="env"/>
 	<property name="runtime-dir" location=".."/>
 	
-	<condition property="isWindows">
-    	<os family="windows" />
-  	</condition>
-
-  	<condition property="isUnix">
-    	<os family="unix" />
-  	</condition>
-  	
-  	<!-- LINKS -->
-
-	<target name="remove-links">
-		<antcall target="remove-links-app"/>
-		<antcall target="classpath-normal"/>
-	</target>
-	
-	<target name="remove-links-app">
-        <antcall target="remove-link"><param name="link" location="${runtime-dir}/templates/application/kernel"/></antcall>
-        <antcall target="remove-link"><param name="link" location="${runtime-dir}/templates/application/plugins/core"/></antcall>
-        <antcall target="remove-link"><param name="link" location="${runtime-dir}/templates/application/workspaces/admin"/></antcall>
-        
-        <antcall target="remove-link"><param name="link" location="${runtime-dir}/test/environments/webapp1/kernel"/></antcall>
-        <antcall target="remove-link"><param name="link" location="${runtime-dir}/test/environments/webapp1/plugins/core"/></antcall>
-        <antcall target="remove-link"><param name="link" location="${runtime-dir}/test/environments/webapp1/workspaces/admin"/></antcall>
-    
-        <antcall target="remove-link"><param name="link" location="${runtime-dir}/test/environments/webapp2/kernel"/></antcall>
-        <antcall target="remove-link"><param name="link" location="${runtime-dir}/test/environments/webapp2/plugins/core"/></antcall>
-        <antcall target="remove-link"><param name="link" location="${runtime-dir}/test/environments/webapp2/workspaces/admin"/></antcall>
-        
-        <antcall target="remove-link"><param name="link" location="${runtime-dir}/test/environments/webapp3/kernel"/></antcall>
-        <antcall target="remove-link"><param name="link" location="${runtime-dir}/test/environments/webapp3/plugins/core"/></antcall>
-	</target>
-	
-	<!-- +
-	     | TASKS
-	     + -->	
-	     
-	<target name="remove-link">
-		<antcall target="remove-link-for-windows"/>
-		<antcall target="remove-link-for-unix"/>
-	</target>
-
-	<target name="remove-link-for-windows" if="isWindows">
-		<echo file="rd.bat">rd %1</echo>
-		<exec executable="rd.bat">
-			<arg value="${link}"/>
-		</exec>
-		<delete file="rd.bat"/>
-	</target>
-
-	<target name="remove-link-for-unix" if="isUnix">
-		<symlink action="delete" link="${link}" failonerror="false"/>
+	<target name="remove-external">
+		<delete file="../templates/application/WEB-INF/param/external.xml"/>
 	</target>
 	
 	<target name="classpath-normal">
 		<echo file="../.classpath">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
 			&lt;classpath&gt;
 				&lt;classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/&gt;
-				&lt;classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?ivyXmlPath=ivy.xml&amp;amp;confs=compile,test&amp;amp;doRetrieve=true&amp;amp;retrievePattern=templates%2Fapplication%2FWEB-INF%2Flib%2F%5Bartifact%5D-%5Brevision%5D.%5Bext%5D&amp;amp;retrieveSync=true&amp;amp;retrieveConfs=runtime_dependencies&amp;amp;retrieveTypes=jar,bundle&amp;amp;ivySettingsPath=${project_loc}%2F..%2F..%2F..%2Fivyrep_2%2Fivysettings.xml&amp;amp;loadSettingsOnDemand=false&amp;amp;propertyFiles="/&gt;
+				&lt;classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?ivyXmlPath=ivy.xml&amp;amp;confs=compile,test&amp;amp;ivySettingsPath=%24%7Bproject_loc%7D%2F..%2F..%2F..%2F..%2Fivyrep%2Fivysettings.xml&amp;amp;loadSettingsOnDemand=false&amp;amp;propertyFiles="/&gt;
 			
 				&lt;classpathentry kind="src" path="main/kernel/src"/&gt;
 				&lt;classpathentry kind="src" path="main/plugin-core/src"/&gt;
@@ -87,4 +38,6 @@
 			&lt;/classpath&gt;
 		</echo>
 	</target>
+	
+	<target name="dev-mode-leave" depends="remove-external, classpath-normal"/>
 </project>

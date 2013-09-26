@@ -15,120 +15,47 @@
    limitations under the License.
    -->
 <!-- add property ivyde2.2 if your are using ivyde2.2, and nothing for ivyde2.1 -->
-<project name="ametys-dev-mode-enter" default="create-links">
+<project name="ametys-dev-mode-enter" default="dev-mode-enter">
 
 	<property environment="env"/>
 	<property name="runtime-dir" location=".."/>
 	
-	<import file="dev-mode-leave.xml"/>
+	<target name="add-external">
+		<copy file="external.xml" todir="../templates/application/WEB-INF/param"/>
+	</target>
 	
-	<condition property="isWindows">
-    	<os family="windows" />
-  	</condition>
-
-  	<condition property="isUnix">
-    	<os family="unix" />
-  	</condition>
-  	
-  	<!-- LINKS -->
-
-	<target name="create-links">
-		<antcall target="remove-links"/>
-		<antcall target="create-links-app"/>
-		<antcall target="classpath-dev"/>
-	</target>
-
-	<target name="create-links-app">
-		<!-- sample application -->
-        <antcall target="create-link"><param name="new-link" location="${runtime-dir}/templates/application/kernel"/>                       <param name="original-dir" location="${runtime-dir}/main/kernel"/></antcall>
-
-        <mkdir dir="${runtime-dir}/templates/application/plugins"/>
-        <antcall target="create-link"><param name="new-link" location="${runtime-dir}/templates/application/plugins/core"/>                 <param name="original-dir" location="${runtime-dir}/main/plugin-core"/></antcall>
-        
-        <mkdir dir="${runtime-dir}/templates/application/workspaces"/>
-        <antcall target="create-link"><param name="new-link" location="${runtime-dir}/templates/application/workspaces/admin"/>             <param name="original-dir" location="${runtime-dir}/main/workspace-admin"/></antcall>
-        
-		<!-- unit tests -->
-		<antcall target="create-link"><param name="new-link" location="${runtime-dir}/test/environments/webapp1/kernel"/>                       <param name="original-dir" location="${runtime-dir}/main/kernel"/></antcall>
-        <mkdir dir="${runtime-dir}/test/environments/webapp1/plugins"/>
-        <antcall target="create-link"><param name="new-link" location="${runtime-dir}/test/environments/webapp1/plugins/core"/>                 <param name="original-dir" location="${runtime-dir}/main/plugin-core"/></antcall>
-        <mkdir dir="${runtime-dir}/test/environments/webapp1/workspaces"/>
-        <antcall target="create-link"><param name="new-link" location="${runtime-dir}/test/environments/webapp1/workspaces/admin"/>             <param name="original-dir" location="${runtime-dir}/main/workspace-admin"/></antcall>
-
-		<antcall target="create-link"><param name="new-link" location="${runtime-dir}/test/environments/webapp2/kernel"/>                       <param name="original-dir" location="${runtime-dir}/main/kernel"/></antcall>
-        <antcall target="create-link"><param name="new-link" location="${runtime-dir}/test/environments/webapp2/plugins/core"/>                 <param name="original-dir" location="${runtime-dir}/main/plugin-core"/></antcall>
-        <antcall target="create-link"><param name="new-link" location="${runtime-dir}/test/environments/webapp2/workspaces/admin"/>             <param name="original-dir" location="${runtime-dir}/main/workspace-admin"/></antcall>
-
-		<antcall target="create-link"><param name="new-link" location="${runtime-dir}/test/environments/webapp3/kernel"/>                       <param name="original-dir" location="${runtime-dir}/main/kernel"/></antcall>
-        <mkdir dir="${runtime-dir}/test/environments/webapp3/plugins"/>
-        <antcall target="create-link"><param name="new-link" location="${runtime-dir}/test/environments/webapp3/plugins/core"/>                 <param name="original-dir" location="${runtime-dir}/main/plugin-core"/></antcall>
-	</target>
-
-
-	<!-- +
-	     | TASKS
-	     + -->	
-	     
-	<target name="create-link">
-		<antcall target="create-link-for-windows"/>
-		<antcall target="create-link-for-unix"/>
-	</target>
-
-	<target name="create-link-for-windows" if="isWindows">
-		<echo file="mklink.bat">mklink %1 %2 %3</echo>
-		<exec executable="mklink.bat">
-			<arg value="/j"/>
-			<arg value="${new-link}"/>
-			<arg value="${original-dir}"/>
-		</exec>
-		<delete file="mklink.bat"/>
-	</target>
-
-	<target name="create-link-for-unix" if="isUnix">
-		<symlink link="${new-link}" resource="${original-dir}"/>
-	</target>
-
-	<target name="classpath-dev">
-		<antcall target="classpath-dev-before"/>
-        <antcall target="classpath-dev-ivyde-2.1"/>
-        <antcall target="classpath-dev-ivyde-2.2"/>
-		<antcall target="classpath-dev-content"/>
-		<antcall target="classpath-dev-after"/>
-	</target>
-		
 	<target name="classpath-dev-before">
 		<echo file="../.classpath">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
 			&lt;classpath&gt;
 				&lt;classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/&gt;
-				&lt;classpathentry kind="output" path="templates/application/WEB-INF/classes"/&gt;
 		</echo>
 	</target>
 
     <target name="classpath-dev-ivyde-2.1" unless="ivyde2.2">
         <echo file="../.classpath" append="true">
-			&lt;classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?ivyXmlPath=ivy.xml&amp;amp;confs=compile_dependencies%2Ctest&amp;amp;doRetrieve=true&amp;amp;retrievePattern=templates%2Fapplication%2FWEB-INF%2Flib%2F%5Bartifact%5D-%5Brevision%5D.%5Bext%5D&amp;amp;retrieveSync=true&amp;amp;retrieveConfs=runtime_dependencies&amp;amp;retrieveTypes=jar%2Cbundle&amp;amp;ivySettingsPath=%24%7Bworkspace_loc%3AAmetys+-+Ivyrep_2%2Fivysettings.xml%7D&amp;amp;loadSettingsOnDemand=false&amp;amp;propertyFiles="/&gt;
+			    &lt;classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?ivyXmlPath=ivy.xml&amp;amp;confs=compile_dependencies%2Ctest&amp;amp;ivySettingsPath=%24%7Bproject_loc%7D%2F..%2F..%2F..%2F..%2Fivyrep%2Fivysettings.xml&amp;amp;loadSettingsOnDemand=false&amp;amp;propertyFiles=&amp;amp;doRetrieve=true&amp;amp;retrievePattern=templates%2Fapplication%2FWEB-INF%2Flib%2F%5Bartifact%5D-%5Brevision%5D.%5Bext%5D&amp;amp;retrieveSync=true&amp;amp;retrieveConfs=runtime_dependencies&amp;amp;retrieveTypes=jar%2Cbundle"/&gt;
         </echo>
     </target>
     <target name="classpath-dev-ivyde-2.2" if="ivyde2.2">
         <echo file="../.classpath" append="true">
-            &lt;classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?ivyXmlPath=ivy.xml&amp;amp;confs=compile_dependencies%2Ctest&amp;amp;ivySettingsPath=%24%7Bworkspace_loc%3AAmetys+-+Ivyrep_2%2Fivysettings.xml%7D&amp;amp;loadSettingsOnDemand=false&amp;amp;propertyFiles="/&gt;
-        	&lt;classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?ivyXmlPath=ivy.xml&amp;amp;confs=runtime_dependencies&amp;amp;ivySettingsPath=ivySettingsPath=%24%7Bworkspace_loc%3AAmetys+-+Ivyrep_2%2Fivysettings.xml%7D&amp;amp;loadSettingsOnDemand=false&amp;amp;propertyFiles=&amp;amp;acceptedTypes=jar%2Cbundle%2Cejb%2Cmaven-plugin&amp;amp;alphaOrder=true&amp;amp;resolveInWorkspace=false&amp;amp;retrievedClasspath=true&amp;amp;retrievedClasspathPattern=templates%2Fapplication%2FWEB-INF%2Flib%2F%5Bartifact%5D-%5Brevision%5D.%5Bext%5D&amp;amp;retrievedClasspathSync=true&amp;amp;retrievedClasspathTypes=jar%2Cbundle%2Clib"/&gt;
+                &lt;classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?ivyXmlPath=ivy.xml&amp;amp;confs=compile_dependencies%2Ctest&amp;amp;ivySettingsPath=%24%7Bproject_loc%7D%2F..%2F..%2F..%2F..%2Fivyrep%2Fivysettings.xml&amp;amp;loadSettingsOnDemand=false&amp;amp;propertyFiles="/&gt;
+        	    &lt;classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?ivyXmlPath=ivy.xml&amp;amp;confs=runtime_dependencies&amp;amp;ivySettingsPath=ivySettingsPath=%24%7Bproject_loc%7D%2F..%2F..%2F..%2F..%2Fivyrep%2Fivysettings.xml&amp;amp;loadSettingsOnDemand=false&amp;amp;propertyFiles=&amp;amp;acceptedTypes=jar%2Cbundle%2Cejb%2Cmaven-plugin&amp;amp;alphaOrder=true&amp;amp;resolveInWorkspace=false&amp;amp;retrievedClasspath=true&amp;amp;retrievedClasspathPattern=templates%2Fapplication%2FWEB-INF%2Flib%2F%5Bartifact%5D-%5Brevision%5D.%5Bext%5D&amp;amp;retrievedClasspathSync=true&amp;amp;retrievedClasspathTypes=jar%2Cbundle%2Clib"/&gt;
         </echo>
     </target>
 
-	<target name="classpath-dev-content">
+	<target name="classpath-dev-after">
 		<echo file="../.classpath" append="true">
 				&lt;classpathentry kind="src" path="main/kernel/src"/&gt;
 				&lt;classpathentry kind="src" path="main/plugin-core/src"/&gt;
 				&lt;classpathentry kind="src" path="main/workspace-admin/src"/&gt;
 		        &lt;classpathentry kind="src" path="test/src"/&gt;
 		        &lt;classpathentry kind="src" path="test-env/src"/&gt;
-		</echo>
-	</target>
-
-	<target name="classpath-dev-after">
-		<echo file="../.classpath" append="true">
+                &lt;classpathentry kind="output" path="templates/application/WEB-INF/classes"/&gt;
 			&lt;/classpath&gt;
 		</echo>
 	</target>
+	
+	<target name="classpath-dev" depends="classpath-dev-before, classpath-dev-ivyde-2.1, classpath-dev-ivyde-2.2, classpath-dev-after"/>
+    
+    <target name="dev-mode-enter" depends="add-external, classpath-dev"/>
 </project>

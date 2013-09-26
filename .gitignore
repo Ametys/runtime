@@ -10,6 +10,7 @@
 templates/application/WEB-INF/config
 templates/application/WEB-INF/data
 templates/application/WEB-INF/lib
+templates/application/WEB-INF/param/external.xml
 templates/application/kernel
 templates/application/plugins
 templates/application/workspaces
