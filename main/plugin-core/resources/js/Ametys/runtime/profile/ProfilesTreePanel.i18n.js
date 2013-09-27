@@ -219,7 +219,7 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 				{
 					// Expand tool
 					tooltip: "<i18n:text i18n:key="PLUGINS_CORE_PROFILES_TREE_BTN_EXPAND_TOOTIP"/>",
-					handler: Ext.bind (this.expandAll, this),
+					handler: Ext.bind (this._expandAll, this),
 					scope: this,
 					icon: Ametys.getPluginResourcesPrefix('core') + '/img/profiles/actions/expand-all.gif',
 					cls: 'x-btn-text-icon'
@@ -241,6 +241,15 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 				}
 			]
 		}]
+	},
+	
+	/**
+	 * Expand the all tree
+	 * @private
+	 */
+	_expandAll: function ()
+	{
+		this.getRootNode().expandChildren(true);
 	},
 	
 	/**
