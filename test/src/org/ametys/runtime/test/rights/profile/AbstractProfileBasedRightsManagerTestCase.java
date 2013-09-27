@@ -19,7 +19,6 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Set;
 
-import org.ametys.runtime.config.Config;
 import org.ametys.runtime.group.Group;
 import org.ametys.runtime.group.GroupsManager;
 import org.ametys.runtime.plugins.core.right.profile.DefaultProfileBasedRightsManager;
@@ -57,12 +56,7 @@ public abstract class AbstractProfileBasedRightsManagerTestCase extends Abstract
      */
     protected void _resetDB(String runtimeFilename, String configFileName) throws Exception
     {
-        _configureRuntime("test/environments/runtimes/" + runtimeFilename);
-        Config.setFilename("test/environments/configs/" + configFileName);
-        
-        super.setUp();
-        
-        _startCocoon("test/environments/webapp1");
+        _startApplication("test/environments/runtimes/" + runtimeFilename, "test/environments/configs/" + configFileName, "test/environments/webapp1");
 
         _setDatabase(Arrays.asList(getScripts()));
 

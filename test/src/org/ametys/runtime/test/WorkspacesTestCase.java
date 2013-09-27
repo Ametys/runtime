@@ -15,7 +15,6 @@
  */
 package org.ametys.runtime.test;
 
-import org.ametys.runtime.config.Config;
 import org.ametys.runtime.workspace.WorkspaceManager;
 
 /**
@@ -29,10 +28,7 @@ public class WorkspacesTestCase extends AbstractRuntimeTestCase
      */
     public void testValidWorkspace() throws Exception
     {
-        _configureRuntime("test/environments/runtimes/runtime10.xml");
-        Config.setFilename("test/environments/configs/config1.xml");
-        
-        CocoonWrapper cocoon = _startCocoon("test/environments/webapp2");
+        CocoonWrapper cocoon = _startApplication("test/environments/runtimes/runtime10.xml", "test/environments/configs/config1.xml", "test/environments/webapp2");
         
         assertTrue(WorkspaceManager.getInstance().getWorkspaceNames().contains("admin"));
         
@@ -47,9 +43,7 @@ public class WorkspacesTestCase extends AbstractRuntimeTestCase
         // Restart
         cocoon.dispose();
         
-        _configureRuntime("test/environments/runtimes/runtime3.xml");
-        Config.setFilename("test/environments/configs/config1.xml");
-        cocoon = _startCocoon("test/environments/webapp2");
+        cocoon = _startApplication("test/environments/runtimes/runtime3.xml", "test/environments/configs/config1.xml", "test/environments/webapp2");
         
         cocoon.dispose();
     }
@@ -62,12 +56,9 @@ public class WorkspacesTestCase extends AbstractRuntimeTestCase
     {
         CocoonWrapper cocoon = null;
         
-        _configureRuntime("test/environments/runtimes/runtime10.xml");
-        Config.setFilename("test/environments/configs/config1.xml");
-        
         try
         {
-            cocoon = _startCocoon("test/environments/webapp3");
+            cocoon = _startApplication("test/environments/runtimes/runtime10.xml", "test/environments/configs/config1.xml", "test/environments/webapp3");
             fail("WorskpaceManager must have failed");
         }
         catch (IllegalArgumentException e)

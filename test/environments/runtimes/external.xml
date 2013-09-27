@@ -15,11 +15,11 @@
    limitations under the License.
    -->
 <external>
-    <kernel>main/kernel</kernel>
+    <kernel>../../../main/kernel</kernel>
     <plugins>
-        <plugin name="core">main/plugin-core</plugin>
+        <plugin name="core">../../../main/plugin-core</plugin>
     </plugins>
     <workspaces>
-        <workspace name="admin">main/workspace-admin</workspace>
+        <workspace name="admin">../../../main/workspace-admin</workspace>
     </workspaces>
 </external>

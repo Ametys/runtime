@@ -16,7 +16,6 @@
 package org.ametys.runtime.test.users.ldap;
 
 import org.ametys.runtime.authentication.Credentials;
-import org.ametys.runtime.config.Config;
 import org.ametys.runtime.plugins.core.user.ldap.CredentialsAwareLdapUsersManager;
 import org.ametys.runtime.test.Init;
 import org.ametys.runtime.user.CredentialsAwareUsersManager;
@@ -32,10 +31,7 @@ public class CredentialAwareLdapUsersTestCase extends LdapUsersTestCase
     @Override
     protected void setUp() throws Exception
     {
-        _configureRuntime("test/environments/runtimes/runtime9.xml");
-        Config.setFilename("test/environments/configs/config4.xml");
-        
-        _startCocoon("test/environments/webapp1");
+        _startApplication("test/environments/runtimes/runtime9.xml", "test/environments/configs/config4.xml", "test/environments/webapp1");
 
         _usersManager = (UsersManager) Init.getPluginServiceManager().lookup(UsersManager.ROLE);
     }

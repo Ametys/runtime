@@ -30,7 +30,6 @@ import org.apache.excalibur.xml.dom.DOMHandlerFactory;
 import org.apache.excalibur.xml.xpath.XPathProcessor;
 import org.w3c.dom.Node;
 
-import org.ametys.runtime.config.Config;
 import org.ametys.runtime.datasource.ConnectionHelper;
 import org.ametys.runtime.group.Group;
 import org.ametys.runtime.group.GroupListener;
@@ -69,12 +68,9 @@ public abstract class AbstractJdbcGroupsTestCase extends AbstractJDBCTestCase
      */
     protected void _resetDB(String runtimeFilename, String configFileName) throws Exception
     {
-        _configureRuntime("test/environments/runtimes/" + runtimeFilename);
-        Config.setFilename("test/environments/configs/" + configFileName);
-        
         super.setUp();
         
-        _startCocoon("test/environments/webapp1");
+        _startApplication("test/environments/runtimes/" + runtimeFilename, "test/environments/configs/" + configFileName, "test/environments/webapp1");
         
         _setDatabase(Arrays.asList(getScripts()));
 

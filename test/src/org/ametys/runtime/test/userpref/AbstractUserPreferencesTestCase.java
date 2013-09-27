@@ -24,7 +24,6 @@ import java.util.Map;
 
 import org.joda.time.format.ISODateTimeFormat;
 
-import org.ametys.runtime.config.Config;
 import org.ametys.runtime.plugins.core.userpref.UserPreferencesExtensionPoint;
 import org.ametys.runtime.plugins.core.userpref.UserPreferencesManager;
 import org.ametys.runtime.test.AbstractJDBCTestCase;
@@ -60,12 +59,9 @@ public abstract class AbstractUserPreferencesTestCase extends AbstractJDBCTestCa
      */
     protected void _resetDB(String runtimeFilename, String configFileName) throws Exception
     {
-        _configureRuntime("test/environments/runtimes/" + runtimeFilename);
-        Config.setFilename("test/environments/configs/" + configFileName);
-        
         super.setUp();
         
-        _startCocoon("test/environments/webapp1");
+        _startApplication("test/environments/runtimes/" + runtimeFilename, "test/environments/configs/" + configFileName, "test/environments/webapp1");
         
         _setDatabase(Arrays.asList(getScripts()));
 

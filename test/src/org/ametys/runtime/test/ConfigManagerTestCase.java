@@ -56,7 +56,7 @@ public class ConfigManagerTestCase extends AbstractRuntimeTestCase
      */
     public void testConfigNotPresent() throws Exception
     {
-        _configureRuntime("test/environments/runtimes/runtime1.xml");
+        _configureRuntime("test/environments/runtimes/runtime1.xml", "test/environments/webapp1");
         
         Config.setFilename("test/environments/configs/config0.xml"); // does not exist
         
@@ -74,7 +74,7 @@ public class ConfigManagerTestCase extends AbstractRuntimeTestCase
      */
     public void testUnactivation() throws Exception
     {
-        _configureRuntime("test/environments/runtimes/runtime3.xml");
+        _configureRuntime("test/environments/runtimes/runtime3.xml", "test/environments/webapp1");
         Config.setFilename("test/environments/configs/config2.xml");
 
         PluginsComponentManager pluginCM = new PluginsComponentManager(_manager);
@@ -91,7 +91,7 @@ public class ConfigManagerTestCase extends AbstractRuntimeTestCase
      */
     public void testParameters() throws Exception
     {
-        _configureRuntime("test/environments/runtimes/runtime1.xml");
+        _configureRuntime("test/environments/runtimes/runtime1.xml", "test/environments/webapp1");
         Config.setFilename("test/environments/configs/config2.xml"); // missing necessary parameters
         
         PluginsComponentManager pluginCM = new PluginsComponentManager(_manager);
@@ -108,7 +108,7 @@ public class ConfigManagerTestCase extends AbstractRuntimeTestCase
      */
     public void testConfiguration() throws Exception
     {
-        _configureRuntime("test/environments/runtimes/runtime10.xml");
+        _configureRuntime("test/environments/runtimes/runtime10.xml", "test/environments/webapp1");
         Config.setFilename("test/environments/configs/config2.xml");
         
         PluginsComponentManager pluginCM = new PluginsComponentManager(_manager);

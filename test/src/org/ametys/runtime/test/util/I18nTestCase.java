@@ -23,7 +23,6 @@ import junit.framework.TestCase;
 
 import org.apache.avalon.framework.service.ServiceManager;
 
-import org.ametys.runtime.config.Config;
 import org.ametys.runtime.test.AbstractRuntimeTestCase;
 import org.ametys.runtime.test.Init;
 import org.ametys.runtime.util.I18nUtils;
@@ -39,10 +38,7 @@ public class I18nTestCase extends AbstractRuntimeTestCase
     @Override
     protected void setUp() throws Exception
     {
-        _configureRuntime("test/environments/runtimes/runtime3.xml");
-        Config.setFilename("test/environments/configs/config1.xml");
-        
-        _startCocoon("test/environments/webapp2");
+        _startApplication("test/environments/runtimes/runtime3.xml", "test/environments/configs/config1.xml", "test/environments/webapp2");
         
         ServiceManager manager = Init.getPluginServiceManager();
         _i18nUtils = (I18nUtils) manager.lookup(I18nUtils.ROLE);

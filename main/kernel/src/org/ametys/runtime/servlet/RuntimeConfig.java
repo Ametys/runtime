@@ -47,6 +47,8 @@ public final class RuntimeConfig
     private final Map<String, String> _extensionsPoints = new HashMap<String, String>();
 
     private Logger _logger = LoggerFactory.getLoggerFor(RuntimeConfig.class);
+    
+    private String _contextPath;
 
     private String _configRedirectURL;
 
@@ -90,10 +92,13 @@ public final class RuntimeConfig
      * Be aware that this can cause the application to become unstable.</b>
      * @param runtimeConf the Configuration of the Runtime kernel (ie the contents of the WEB-INF/param/runtime.xml file)
      * @param externalConf the Configuration of external locations (ie the contents of the WEB-INF/param/external.xml file)
+     * @param contextPath the application context path
      */
-    public static synchronized void configure(Configuration runtimeConf, Configuration externalConf)
+    public static synchronized void configure(Configuration runtimeConf, Configuration externalConf, String contextPath)
     {
         __config = new RuntimeConfig();
+        
+        __config._contextPath = contextPath;
 
         __config._initClass = runtimeConf.getChild("initClass").getValue(null);
 
@@ -226,7 +231,7 @@ public final class RuntimeConfig
     private void _configureExternal(Configuration config)
     {
         String externalKernel = config.getChild("kernel").getValue(null);
-        _externalKernel = externalKernel == null ? null : new File(externalKernel);
+        _externalKernel = _getFile(externalKernel);
         
         for (Configuration pluginConf : config.getChild("plugins").getChildren("plugin"))
         {
@@ -235,7 +240,7 @@ public final class RuntimeConfig
             
             if (name != null && location != null)
             {
-                _externalPlugins.put(name, new File(location));
+                _externalPlugins.put(name, _getFile(location));
             }
         }
         
@@ -246,9 +251,19 @@ public final class RuntimeConfig
             
             if (location != null)
             {
-                _externalWorkspaces.put(name, new File(location));
+                _externalWorkspaces.put(name, _getFile(location));
             }
         }
+    }
+    
+    /*
+     * Returns the correspoding file, either absolute or relative to the context path
+     */
+    private File _getFile(String path)
+    {
+        File file = path == null ? null : new File(path);
+        File result = file == null ? null : file.isAbsolute() ? file : new File(_contextPath, path);
+        return result;
     }
 
     /**

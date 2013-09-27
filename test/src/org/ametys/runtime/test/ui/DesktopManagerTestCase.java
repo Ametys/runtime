@@ -23,7 +23,6 @@ import org.apache.excalibur.xml.dom.DOMHandlerFactory;
 import org.apache.excalibur.xml.xpath.XPathProcessor;
 import org.w3c.dom.Node;
 
-import org.ametys.runtime.config.Config;
 import org.ametys.runtime.plugins.core.ui.item.DesktopManager;
 import org.ametys.runtime.test.AbstractRuntimeTestCase;
 import org.ametys.runtime.test.Init;
@@ -41,9 +40,7 @@ public class DesktopManagerTestCase extends AbstractRuntimeTestCase
     @Override
     protected void setUp() throws Exception
     {
-        _configureRuntime("test/environments/runtimes/runtime3.xml");
-        Config.setFilename("test/environments/configs/config1.xml");
-        _startCocoon("test/environments/webapp2");
+        _startApplication("test/environments/runtimes/runtime3.xml", "test/environments/configs/config1.xml", "test/environments/webapp2");
         
         _desktopManager = (DesktopManager) Init.getPluginServiceManager().lookup("DesktopManagerTest");
         _jsonUtils = (JSONUtils) Init.getPluginServiceManager().lookup(JSONUtils.ROLE);

@@ -38,10 +38,7 @@ public class PluginsTestCase extends AbstractRuntimeTestCase
      */
     public void testInit() throws Exception
     {
-        _configureRuntime("test/environments/runtimes/runtime2.xml");
-        Config.setFilename("test/environments/configs/config1.xml");
-        
-        CocoonWrapper cocoon = _startCocoon("test/environments/webapp1");
+        CocoonWrapper cocoon = _startApplication("test/environments/runtimes/runtime2.xml", "test/environments/configs/config1.xml", "test/environments/webapp1");
         
         assertTrue(Init.isOk());
         
@@ -54,10 +51,7 @@ public class PluginsTestCase extends AbstractRuntimeTestCase
      */
     public void testLocation() throws Exception
     {
-        _configureRuntime("test/environments/runtimes/runtime10.xml");
-        Config.setFilename("test/environments/configs/config1.xml");
-        
-        CocoonWrapper cocoon = _startCocoon("test/environments/webapp1");
+        CocoonWrapper cocoon = _startApplication("test/environments/runtimes/runtime10.xml", "test/environments/configs/config1.xml", "test/environments/webapp1");
         
         assertTrue(PluginsManager.getInstance().getPluginNames().contains("test"));
         assertEquals("location1", PluginsManager.getInstance().getPluginLocation("test").getParentFile().getName());
@@ -71,10 +65,7 @@ public class PluginsTestCase extends AbstractRuntimeTestCase
      */
     public void testExtensionPoint() throws Exception
     {
-        _configureRuntime("test/environments/runtimes/runtime11.xml");
-        Config.setFilename("test/environments/configs/config1.xml");
-        
-        CocoonWrapper cocoon = _startCocoon("test/environments/webapp1");
+        CocoonWrapper cocoon = _startApplication("test/environments/runtimes/runtime11.xml", "test/environments/configs/config1.xml", "test/environments/webapp1");
         
         assertTrue(PluginsManager.getInstance().getPluginNames().contains("test"));
 
@@ -109,10 +100,7 @@ public class PluginsTestCase extends AbstractRuntimeTestCase
      */
     public void testFeatures() throws Exception
     {
-        _configureRuntime("test/environments/runtimes/runtime12.xml");
-        Config.setFilename("test/environments/configs/config1.xml");
-        
-        CocoonWrapper cocoon = _startCocoon("test/environments/webapp1");
+        CocoonWrapper cocoon = _startApplication("test/environments/runtimes/runtime12.xml", "test/environments/configs/config1.xml", "test/environments/webapp1");
         
         Map<String, ActiveFeature> activeFeatures = PluginsManager.getInstance().getActiveFeatures();
         Map<String, InactiveFeature> inactiveFeatures = PluginsManager.getInstance().getInactiveFeatures();

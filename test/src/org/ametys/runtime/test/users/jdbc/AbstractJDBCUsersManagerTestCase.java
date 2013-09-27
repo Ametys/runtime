@@ -18,7 +18,6 @@ package org.ametys.runtime.test.users.jdbc;
 import java.io.File;
 import java.util.Arrays;
 
-import org.ametys.runtime.config.Config;
 import org.ametys.runtime.test.AbstractJDBCTestCase;
 import org.ametys.runtime.test.Init;
 import org.ametys.runtime.user.UsersManager;
@@ -39,11 +38,9 @@ public abstract class AbstractJDBCUsersManagerTestCase extends AbstractJDBCTestC
      */
     protected void _resetDB(String runtimeFilename, String configFileName) throws Exception
     {
-        _configureRuntime("test/environments/runtimes/" + runtimeFilename);
-        Config.setFilename("test/environments/configs/" + configFileName);
         super.setUp();
         
-        _startCocoon("test/environments/webapp1");
+        _startApplication("test/environments/runtimes/" + runtimeFilename, "test/environments/configs/" + configFileName, "test/environments/webapp1");
 
         _setDatabase(Arrays.asList(getScripts()));
         

@@ -27,7 +27,6 @@ import org.apache.excalibur.xml.xpath.XPathProcessor;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import org.ametys.runtime.config.Config;
 import org.ametys.runtime.plugins.core.user.ldap.LdapUsersManager;
 import org.ametys.runtime.test.AbstractRuntimeTestCase;
 import org.ametys.runtime.test.Init;
@@ -47,10 +46,7 @@ public class LdapUsersTestCase extends AbstractRuntimeTestCase
     @Override
     protected void setUp() throws Exception
     {
-        _configureRuntime("test/environments/runtimes/runtime8.xml");
-        Config.setFilename("test/environments/configs/config3.xml");
-        
-        _startCocoon("test/environments/webapp1");
+        _startApplication("test/environments/runtimes/runtime8.xml", "test/environments/configs/config3.xml", "test/environments/webapp1");
 
         _usersManager = (UsersManager) Init.getPluginServiceManager().lookup(UsersManager.ROLE);
     }

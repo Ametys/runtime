@@ -15,16 +15,16 @@
  */
 package org.ametys.runtime.test.groups.others;
 
-import org.ametys.runtime.config.Config;
+import org.apache.excalibur.xml.dom.DOMHandler;
+import org.apache.excalibur.xml.dom.DOMHandlerFactory;
+import org.apache.excalibur.xml.xpath.XPathProcessor;
+
 import org.ametys.runtime.group.GroupsManager;
 import org.ametys.runtime.group.ModifiableGroupsManager;
 import org.ametys.runtime.plugins.core.group.EmptyGroupsManager;
 import org.ametys.runtime.test.AbstractRuntimeTestCase;
 import org.ametys.runtime.test.CocoonWrapper;
 import org.ametys.runtime.test.Init;
-import org.apache.excalibur.xml.dom.DOMHandler;
-import org.apache.excalibur.xml.dom.DOMHandlerFactory;
-import org.apache.excalibur.xml.xpath.XPathProcessor;
 
 /**
  * Tests the EmptyGroupsTestCase
@@ -37,9 +37,7 @@ public class EmptyGroupsTestCase extends AbstractRuntimeTestCase
      */
     public void testEmpty() throws Exception
     {
-        _configureRuntime("test/environments/runtimes/runtime3.xml");
-        Config.setFilename("test/environments/configs/config1.xml");
-        CocoonWrapper cocoon = _startCocoon("test/environments/webapp1");
+        CocoonWrapper cocoon = _startApplication("test/environments/runtimes/runtime3.xml", "test/environments/configs/config1.xml", "test/environments/webapp1");
         
         GroupsManager groupsManager = (GroupsManager) Init.getPluginServiceManager().lookup(GroupsManager.ROLE);
         

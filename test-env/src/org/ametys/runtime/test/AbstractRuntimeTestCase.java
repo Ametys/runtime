@@ -32,6 +32,7 @@ import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.commons.io.IOUtils;
 import org.xml.sax.XMLReader;
 
+import org.ametys.runtime.config.Config;
 import org.ametys.runtime.servlet.RuntimeConfig;
 import org.ametys.runtime.util.LoggerFactory;
 
@@ -68,9 +69,10 @@ public abstract class AbstractRuntimeTestCase extends TestCase
     /**
      * Configures the RuntimeConfig with the given file
      * @param fileName the name of the config file
+     * @param contextPath the test application path
      * @throws Exception if the Runtime config cannot be loaded
      */
-    protected void _configureRuntime(String fileName) throws Exception
+    protected void _configureRuntime(String fileName, String contextPath) throws Exception
     {
         InputStream runtime = null;
         InputStream external = null;
@@ -104,7 +106,7 @@ public abstract class AbstractRuntimeTestCase extends TestCase
                 externalConf = externalConfBuilder.build(external, fileName);
             }
             
-            RuntimeConfig.configure(runtimeConf, externalConf);
+            RuntimeConfig.configure(runtimeConf, externalConf, contextPath);
         }
         finally
         {
@@ -134,4 +136,18 @@ public abstract class AbstractRuntimeTestCase extends TestCase
         return _cocoon;
     }
     
+    /**
+     * Starts the application. This a shorthand to _configureRuntime, then _startCocoon.
+     * @param runtimeFile the name of the runtime file used
+     * @param configFile the name of the config file
+     * @param contextPath the environment application
+     * @return the CocoonWrapper used to process URIs
+     * @throws Exception if an error occured
+     */
+    protected CocoonWrapper _startApplication(String runtimeFile, String configFile, String contextPath) throws Exception
+    {
+        _configureRuntime(runtimeFile, contextPath);
+        Config.setFilename(configFile);
+        return _startCocoon(contextPath);
+    }
 }

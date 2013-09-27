@@ -21,12 +21,12 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.ametys.runtime.config.Config;
-import org.ametys.runtime.servlet.RuntimeConfig;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.excalibur.xml.dom.DOMHandler;
 import org.apache.excalibur.xml.dom.DOMHandlerFactory;
 import org.apache.excalibur.xml.xpath.XPathProcessor;
+
+import org.ametys.runtime.servlet.RuntimeConfig;
 
 /**
  * Tests the RuntimeConfig
@@ -41,7 +41,7 @@ public class RuntimeConfigTestCase extends AbstractRuntimeTestCase
     {
         try
         {
-            _configureRuntime("test/environments/runtimes/runtime0.xml");
+            _configureRuntime("test/environments/runtimes/runtime0.xml", "test/environments/webapp1");
             fail("Must not have been validated");
         }
         catch (Exception ex)
@@ -56,7 +56,7 @@ public class RuntimeConfigTestCase extends AbstractRuntimeTestCase
      */
     public void testRuntimeConfig1() throws Exception
     {
-        _configureRuntime("test/environments/runtimes/runtime1.xml");
+        _configureRuntime("test/environments/runtimes/runtime1.xml", "test/environments/webapp1");
         
         RuntimeConfig config = RuntimeConfig.getInstance();
         
@@ -86,7 +86,7 @@ public class RuntimeConfigTestCase extends AbstractRuntimeTestCase
      */
     public void testRuntimeConfig2() throws Exception
     {
-        _configureRuntime("test/environments/runtimes/runtime2.xml");
+        _configureRuntime("test/environments/runtimes/runtime2.xml", "test/environments/webapp1");
         
         RuntimeConfig config = RuntimeConfig.getInstance();
         
@@ -128,9 +128,7 @@ public class RuntimeConfigTestCase extends AbstractRuntimeTestCase
      */
     public void testVersion() throws Exception
     {
-        _configureRuntime("test/environments/runtimes/runtime2.xml");
-        Config.setFilename("test/environments/configs/config1.xml");
-        CocoonWrapper cocoon = _startCocoon("test/environments/webapp1");
+        CocoonWrapper cocoon = _startApplication("test/environments/runtimes/runtime2.xml", "test/environments/configs/config1.xml", "test/environments/webapp1");
         
         Map<String, String> headers = new HashMap<String, String>();
         headers.put("authorization", "BASIC " + new String(Base64.encodeBase64("admin:admin".getBytes())));

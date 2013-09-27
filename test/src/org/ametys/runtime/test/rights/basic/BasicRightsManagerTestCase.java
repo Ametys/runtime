@@ -18,7 +18,6 @@ package org.ametys.runtime.test.rights.basic;
 import java.util.Collection;
 import java.util.Set;
 
-import org.ametys.runtime.config.Config;
 import org.ametys.runtime.plugins.core.right.BasicRightsManager;
 import org.ametys.runtime.right.RightsManager;
 import org.ametys.runtime.test.AbstractRuntimeTestCase;
@@ -34,9 +33,7 @@ public class BasicRightsManagerTestCase extends AbstractRuntimeTestCase
     @Override
     protected void setUp() throws Exception
     {
-        _configureRuntime("test/environments/runtimes/runtime12.xml");
-        Config.setFilename("test/environments/configs/config1.xml");
-        _startCocoon("test/environments/webapp1");
+        _startApplication("test/environments/runtimes/runtime12.xml", "test/environments/configs/config1.xml", "test/environments/webapp1");
     }
     
     @Override

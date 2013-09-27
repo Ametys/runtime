@@ -15,7 +15,6 @@
  */
 package org.ametys.runtime.test.groups.ldap;
 
-import org.ametys.runtime.config.Config;
 import org.ametys.runtime.group.GroupsManager;
 import org.ametys.runtime.group.ModifiableGroupsManager;
 import org.ametys.runtime.plugins.core.group.ldap.UserDrivenLdapGroupsManager;
@@ -29,10 +28,7 @@ public class UserDrivenLdapGroupsTestCase extends AbstractLdapGroupsTestCase
     @Override
     protected void setUp() throws Exception
     {
-        _configureRuntime("test/environments/runtimes/runtime9.xml");
-        Config.setFilename("test/environments/configs/config4.xml");
-        
-        _startCocoon("test/environments/webapp1");
+        _startApplication("test/environments/runtimes/runtime9.xml", "test/environments/configs/config4.xml", "test/environments/webapp1");
 
         _groupsManager = (GroupsManager) Init.getPluginServiceManager().lookup(GroupsManager.ROLE);
     }

@@ -15,7 +15,6 @@
  */
 package org.ametys.runtime.test.ui;
 
-import org.ametys.runtime.config.Config;
 import org.ametys.runtime.plugins.core.ui.item.DesktopManager;
 import org.ametys.runtime.test.AbstractRuntimeTestCase;
 import org.ametys.runtime.test.Init;
@@ -34,9 +33,7 @@ public class StaticUIItemFactoryTestCase extends AbstractRuntimeTestCase
     @Override
     protected void setUp() throws Exception
     {
-        _configureRuntime("test/environments/runtimes/runtime3.xml");
-        Config.setFilename("test/environments/configs/config1.xml");
-        _startCocoon("test/environments/webapp2");
+        _startApplication("test/environments/runtimes/runtime3.xml", "test/environments/configs/config1.xml", "test/environments/webapp2");
         
         _desktopManager = (DesktopManager) Init.getPluginServiceManager().lookup("DesktopManagerTest");
     }

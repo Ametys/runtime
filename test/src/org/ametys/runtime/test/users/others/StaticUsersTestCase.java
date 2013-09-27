@@ -22,7 +22,6 @@ import org.apache.excalibur.xml.dom.DOMHandlerFactory;
 import org.apache.excalibur.xml.xpath.XPathProcessor;
 
 import org.ametys.runtime.authentication.Credentials;
-import org.ametys.runtime.config.Config;
 import org.ametys.runtime.plugins.core.user.StaticUsersManager;
 import org.ametys.runtime.plugins.core.user.jdbc.ModifiableJdbcUsersManager;
 import org.ametys.runtime.test.AbstractRuntimeTestCase;
@@ -41,11 +40,8 @@ public class StaticUsersTestCase extends AbstractRuntimeTestCase
     protected void setUp() throws Exception
     {
         super.setUp();
-        
-        _configureRuntime("test/environments/runtimes/runtime3.xml");
-        Config.setFilename("test/environments/configs/config1.xml");
-        
-        _startCocoon("test/environments/webapp1");
+
+        _startApplication("test/environments/runtimes/runtime3.xml", "test/environments/configs/config1.xml", "test/environments/webapp1");
     }
     
     @Override

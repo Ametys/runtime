@@ -360,7 +360,7 @@ public class RuntimeServlet extends CocoonServlet
             external = externalConfigFile.exists() ? new FileInputStream(externalConfigFile) : null;
             Configuration externalConf = external != null ? externalConfBuilder.build(external, externalConfigFile.getAbsolutePath()) : null;
             
-            RuntimeConfig.configure(runtimeConf, externalConf);
+            RuntimeConfig.configure(runtimeConf, externalConf, servletContextPath);
         }
         catch (Exception ex)
         {
