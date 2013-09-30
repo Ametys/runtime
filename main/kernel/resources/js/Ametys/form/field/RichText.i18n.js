@@ -642,6 +642,10 @@ Ext.define('Ametys.form.field.RichText', {
    		this.setSize(editorSize.width + this._editorDiffSize.width, editorSize.height + this._editorDiffSize.height);
     },
     
+    /**
+     * @private
+     * This method initialize the #_editorFrameWrapperDiffSize and should be called once only.
+     */
     _prepareForResize: function()
     {
     	var editor = this.getEditor();
@@ -655,6 +659,10 @@ Ext.define('Ametys.form.field.RichText', {
 		this._adaptEditorToPlace();
     },
     
+    /**
+     * @private
+     * Adapt the size of the iframe of the editor to the widget size. Called when the widget is resized.
+     */
     _adaptEditorToPlace: function()
     {
     	var editor = this.getEditor();
