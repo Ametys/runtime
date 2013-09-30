@@ -15,9 +15,6 @@
    limitations under the License.
    -->
 <project name="ametys-dev-mode-leave" default="dev-mode-leave">
-	<property environment="env"/>
-	<property name="runtime-dir" location=".."/>
-	
 	<target name="remove-external">
 		<delete file="../templates/application/WEB-INF/param/external.xml"/>
 	</target>
