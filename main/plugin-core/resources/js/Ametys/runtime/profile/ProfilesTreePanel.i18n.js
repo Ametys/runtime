@@ -63,6 +63,12 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 	 * @private
 	 */
 	
+	/**
+	 * @property {Array} _waitingLoadRequest An array representing the current possible waiting load request for the tree.
+	 * The first element in the array is the user callback (Function) to execute for this load request, and the second element is the right context for the load (String).
+	 * @private
+	 */
+	
 	animate:true,
 	
 	border: true,
@@ -390,12 +396,61 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 	 * @param {Function} callback The callback for the deferred reload tree method.
 	 */
 	updateContext: function(context, params, init, callback)
-	{
+	{	
 		this._context = context || '';
 		this._loadParams = params || {};
 		
-		// Reload tree
-		Ext.defer(this.reloadTree, 500, this, [callback]);
+		this.reloadTree(callback, context);
+	},
+	
+	/**
+	 * Reload the whole tree
+	 * @param {Function} callback the callback function to run after the load.
+	 * @param {String} context the requested context of rights.
+	 */
+	reloadTree: function (callback, context)
+	{
+		if (this._treeReloading)
+		{	
+			if (this._waitingLoadRequest)
+			{
+				// cancel the waiting request, calls the user callback.
+				this._waitingLoadRequest[0](this._waitingLoadRequest[1], false, true);
+			}
+			
+			this._waitingLoadRequest = [callback, context];
+		}
+		else
+		{
+			this._treeReloading = true;
+			
+			this.getStore().load({
+				callback: Ext.bind(this._reloadTreeCb, this, [callback, context])
+			});
+		}
+	},
+	
+	/**
+	 * Callback for the #reloadTree function
+	 * @param {Function} callback the user callback function to run after the load.
+	 * @param {String} context the requested context of rights.
+	 */
+	_reloadTreeCb: function(callback, context)
+	{
+		// user callback
+		this._treeReloading = false;
+		
+		callback(context, true, this._waitingLoadRequest != null);
+		
+		if (this._waitingLoadRequest)
+		{
+			var cb = this._waitingLoadRequest[0];
+			var ctx = this._waitingLoadRequest[1];
+			
+			this._waitingLoadRequest = null;
+			
+			this.reloadTree(cb, ctx);
+		}
 	},
 	
 	/**
@@ -469,16 +524,17 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 	},
 	
 	/**
-	 * Reload the whole tree
-	 * @param {Function} callback the callback function to run after the load.
+	 * Remove users and groups node from the tree.
 	 */
-	reloadTree: function (callback)
+	removeUsersGroups: function()
 	{
 		var rootNode = this.getRootNode();
-		if (rootNode != null)
+		if (rootNode)
 		{
-			this.getStore().load({
-				callback: callback
+			rootNode.eachChild(function(profile) {
+				profile.eachChild(function (node) {
+					node.remove();
+				})
 			});
 		}
 	},
