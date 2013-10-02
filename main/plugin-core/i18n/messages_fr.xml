@@ -232,7 +232,7 @@
 
 	<!-- ADMINISTRATOR SUPER USER -->
 	<message key="PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_LABEL">Super utilisateur</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_DESCRIPTION">Définir un ou des gestionaire(s) : utilisateurs ayant tous les droits</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_DESCRIPTION">Définir un ou des gestionnaire(s) : utilisateurs ayant tous les droits</message>
 	<message key="PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_AFFECT_ERROR">Une erreur est survenue : l'affectation a échoué.</message>
 	<message key="PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_AFFECT_TITLE">Super utilisateur</message>
 	<message key="PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_AFFECT_SUCCESS">L'affectation a été effectuée</message>
