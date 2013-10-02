@@ -607,7 +607,7 @@
                 <include name="test/**"/>
                 <include name="main/plugin-core/scripts/**"/>
                 <exclude name="test/src/**"/>
-                <exclude name="test/environments/runtimes/external.xml"/>
+                <exclude name="test/environments/runtimes/external-locations.xml"/>
             </fileset>
         </copy>
 		

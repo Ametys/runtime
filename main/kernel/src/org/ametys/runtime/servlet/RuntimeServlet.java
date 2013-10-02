@@ -356,7 +356,7 @@ public class RuntimeServlet extends CocoonServlet
 
             DefaultConfigurationBuilder externalConfBuilder = new DefaultConfigurationBuilder();
 
-            File externalConfigFile = new File(servletContextPath, "WEB-INF/param/external.xml");
+            File externalConfigFile = new File(servletContextPath, "WEB-INF/param/external-locations.xml");
             external = externalConfigFile.exists() ? new FileInputStream(externalConfigFile) : null;
             Configuration externalConf = external != null ? externalConfBuilder.build(external, externalConfigFile.getAbsolutePath()) : null;
             

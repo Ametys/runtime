@@ -96,7 +96,7 @@ public abstract class AbstractRuntimeTestCase extends TestCase
             Configuration runtimeConf = runtimeConfBuilder.build(runtime, fileName);
             
             // look for external.xml next to the runtime.xml file
-            File externalFile = new File(runtimeFile.getParentFile(), "external.xml");
+            File externalFile = new File(runtimeFile.getParentFile(), "external-locations.xml");
             
             Configuration externalConf = null;
             if (externalFile.exists())
