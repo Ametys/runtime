@@ -149,6 +149,26 @@
         	}
         	
         	return result;
+        },
+        
+        // Override onFileChange method to prevent file path such as 'C:\fakepath\6_b.jpg' (IE, Chrome)
+        onFileChange: function (button, e, value) {
+        	
+            this.callParent(arguments);
+           
+            var v = this.inputEl.dom.value;
+            
+            if (v.lastIndexOf('/') > 0)
+            {
+            	v = v.substring(v.lastIndexOf('/') + 1);
+            }
+            else if (v.lastIndexOf('\\') > 0)
+            {
+            	v = v.substring(v.lastIndexOf('\\') + 1);
+            }
+            
+            this.inputEl.dom.value = v;
+            
         }
     });
 })();
