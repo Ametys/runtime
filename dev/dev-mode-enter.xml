@@ -16,10 +16,6 @@
    -->
 <!-- add property ivyde2.2 if your are using ivyde2.2, and nothing for ivyde2.1 -->
 <project name="ametys-dev-mode-enter" default="dev-mode-enter">
-
-	<property environment="env"/>
-	<property name="runtime-dir" location=".."/>
-	
 	<target name="add-external">
 		<copy file="external.xml" todir="../templates/application/WEB-INF/param"/>
 	</target>
