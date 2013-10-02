@@ -15,7 +15,7 @@
  */
 
 /**
- * Abstract class to creates a field that do not extend {@link Ext.form.Base} (field not representing by an input field).<br/>
+ * Abstract class to creates a field that do not extend {@link Ext.form.field.Base} (field not representing by an input field).<br/>
  * You have to implement {@link #setValue}
  * To handle global errors override {@link #getErrors}.<br/>
  */
