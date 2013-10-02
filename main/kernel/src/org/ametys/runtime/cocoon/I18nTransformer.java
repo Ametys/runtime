@@ -125,7 +125,6 @@ public class I18nTransformer extends org.apache.cocoon.transformation.I18nTransf
         
         for (String workspace : wm.getWorkspaceNames())
         {
-            String workspaceURI = wm.getBaseURI(workspace);
             String id = "workspace." + workspace;
 
             DefaultConfiguration catalogue = new DefaultConfiguration("catalogue");
@@ -136,20 +135,9 @@ public class I18nTransformer extends org.apache.cocoon.transformation.I18nTransf
             location1.setValue("context://WEB-INF/i18n/workspaces/" + workspace);
             catalogue.addChild(location1);
             
-            if (workspaceURI == null)
-            {
-                // workspace is in filesystem
-                DefaultConfiguration location2 = new DefaultConfiguration("location");
-                location2.setValue("context://workspaces/" + workspace + "/i18n");
-                catalogue.addChild(location2);
-            }
-            else
-            {
-                // workspace is in classpath
-                DefaultConfiguration location2 = new DefaultConfiguration("location");
-                location2.setValue("workspace:" + workspace + "://i18n");
-                catalogue.addChild(location2);
-            }
+            DefaultConfiguration location2 = new DefaultConfiguration("location");
+            location2.setValue("workspace:" + workspace + "://i18n");
+            catalogue.addChild(location2);
            
             catalogues.addChild(catalogue);
         }
