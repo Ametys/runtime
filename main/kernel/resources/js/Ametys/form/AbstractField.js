@@ -124,6 +124,17 @@ Ext.define('Ametys.form.AbstractField', {
     	}
     },
     
+    /**
+     * Uses {@link #getErrors} to build an array of validation errors. If any errors are found, they are passed to
+     * {@link #markInvalid} and false is returned, otherwise true is returned.
+     *
+     * Previously, subclasses were invited to provide an implementation of this to process validations - from 3.2
+     * onwards {@link #getErrors} should be overridden instead.
+     *
+     * @param {Object} value The value to validate
+     * @return {Boolean} True if all validations passed, false if one or more failed
+     * @private
+     */
     validateValue: function(value) 
     {
         var me = this,
@@ -132,9 +143,11 @@ Ext.define('Ametys.form.AbstractField', {
         
         if (!me.preventMark) 
         {
-            if (isValid) {
+            if (isValid) 
+            {
                 me.clearInvalid();
-            } else {
+            } else 
+            {
                 me.markInvalid(errors);
             }
         }
