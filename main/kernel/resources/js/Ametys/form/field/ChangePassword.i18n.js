@@ -19,7 +19,7 @@
  */
 
 Ext.define('Ametys.form.field.ChangePassword', {
-    extend: 'Ametys.form.AbstractFieldWrapper',
+    extend: 'Ametys.form.AbstractFieldsWrapper',
     alias: ['widget.changepasswordfield', 'widget.changepassword'],
     alternateClassName: ['Ext.form.ChangePasswordField', 'Ext.form.ChangePassword', 'Ext.form.field.ChangePassword'],
     

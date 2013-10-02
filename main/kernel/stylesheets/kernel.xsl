@@ -89,7 +89,8 @@
 	        <script>/kernel/resources/js/Ametys/log/Logger/Entry.js</script>
 	        <script>/kernel/resources/js/Ametys/log/ErrorDialog.i18n.js</script>
 	        <script>/kernel/resources/js/Ametys/window/DialogBox.js</script>
-	        <script>/kernel/resources/js/Ametys/form/AbstractFieldWrapper.js</script>
+	        <script>/kernel/resources/js/Ametys/form/AbstractField.js</script>
+	        <script>/kernel/resources/js/Ametys/form/AbstractFieldsWrapper.js</script>
 	        <script>/kernel/resources/js/Ametys/form/field/BoxSelect.js</script>
 	        <script>/kernel/resources/js/Ametys/form/field/DateTime.js</script>
 	        <script>/kernel/resources/js/Ametys/form/field/ChangePassword.i18n.js</script>

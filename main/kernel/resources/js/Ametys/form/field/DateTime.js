@@ -18,7 +18,7 @@
  * Field that displays a date and a time selector
  */
 Ext.define('Ametys.form.field.DateTime', {
-    extend: 'Ametys.form.AbstractFieldWrapper',
+    extend: 'Ametys.form.AbstractFieldsWrapper',
     alias: ['widget.datetimefield', 'widget.datetime'],
     alternateClassName: ['Ext.form.DateTimeField', 'Ext.form.DateTime', 'Ext.form.field.DateTime'],
     
