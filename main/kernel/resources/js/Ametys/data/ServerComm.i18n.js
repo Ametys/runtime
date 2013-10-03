@@ -133,19 +133,19 @@ Ext.define(
 
 		/**
 		 * @private
-		 * @type {Object} Association of id and send options ; to remember while timeout
+		 * @property {Object} _runningRequests Association of id and send options ; to remember while timeout
 		 */
 		_runningRequests: {},
 		
 		/**
 		 * @private
-		 * @type {Number} The index for the next running request.
+		 * @property {Number} _runningRequestsIndex The index for the next running request.
 		 */
 		_runningRequestsIndex: 0,
 		
 		/**
 		 * @private
-		 * @type {Object} Contains an association {String} cancelCode / {String} the identifier of the last request called for this code.
+		 * @property {Object} _lastUniqueIdForCancelCode Contains an association {String} cancelCode / {String} the identifier of the last request called for this code.
 		 */
 		_lastUniqueIdForCancelCode: {},
 		
