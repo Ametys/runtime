@@ -16,7 +16,7 @@
    -->
 <project name="ametys-dev-mode-leave" default="dev-mode-leave">
 	<target name="remove-external">
-		<delete file="../templates/application/WEB-INF/param/external.xml"/>
+		<delete file="../templates/application/WEB-INF/param/external-locations.xml"/>
 	</target>
 	
 	<target name="classpath-normal">
