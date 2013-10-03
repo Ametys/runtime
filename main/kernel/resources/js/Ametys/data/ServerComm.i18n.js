@@ -227,7 +227,7 @@ Ext.define(
 				for (var i = 0; i < this._messages.length; i++)
 				{
 					var oldMessage = this._messages[i];
-					if (oldMessage.cancelCode && this._lastUniqueIdForCancelCode[oldMessage.cancelCode] != oldMessage.uniqueId)
+					if (oldMessage.cancelCode == message.cancelCode)
 					{
 						if (Ametys.log.Logger.isDebugEnabled())
 						{
