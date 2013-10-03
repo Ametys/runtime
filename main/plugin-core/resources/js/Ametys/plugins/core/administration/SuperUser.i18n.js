@@ -63,14 +63,14 @@ Ext.define('Ametys.plugins.core.administration.SuperUser', {
 			callback: null, 
 			responseType: null
 		});
-		if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_AFFECT_ERROR"/>", response, "Ametys.plugins.core.administration.SuperUser._affectSuper"))
+		if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_AFFECT_ERROR'/>", response, "Ametys.plugins.core.administration.SuperUser._affectSuper"))
 	    {
 	       return;
 	    }
 		
 		Ext.Msg.show ({
-			title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_AFFECT_TITLE"/>",
-			msg: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_AFFECT_SUCCESS"/>",
+			title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_AFFECT_TITLE'/>",
+			msg: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_AFFECT_SUCCESS'/>",
 			buttons: Ext.Msg.OK,
 			icon: Ext.MessageBox.INFO
 		});

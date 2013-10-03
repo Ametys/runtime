@@ -68,7 +68,7 @@ Ext.define('Ametys.plugins.core.administration.Password', {
 			items:[ 
 			       	// Old password
 			        new Ext.form.field.Text({
-			        	fieldLabel :"<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_OLD"/>",
+			        	fieldLabel :"<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PASSWORD_OLD'/>",
 			        	name: 'oldPassword',
 			        	
 						labelWidth: 175,
@@ -79,12 +79,12 @@ Ext.define('Ametys.plugins.core.administration.Password', {
 						allowBlank: false,
 				        inputType:"password",
 				        msgTarget: 'side',
-				        blankText: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_MANDATORY"/>"
+				        blankText: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_MANDATORY'/>"
 			        }), 
 			        
 			        // New password
 			        new Ext.form.field.Text({
-			        	fieldLabel :"<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_NEW"/>",
+			        	fieldLabel :"<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PASSWORD_NEW'/>",
 			        	name :'newPassword',
 
 						labelWidth: 175,
@@ -95,12 +95,12 @@ Ext.define('Ametys.plugins.core.administration.Password', {
 			        	allowBlank: false,
 			        	inputType:"password",
 			        	msgTarget: 'side',
-			        	blankText: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_MANDATORY"/>"
+			        	blankText: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_MANDATORY'/>"
 			        }), 
 			        
 			        // Confirm password
 			        new Ext.form.field.Text({
-						fieldLabel: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CONFIRM"/>",
+						fieldLabel: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CONFIRM'/>",
 						name: 'confirmPassword',
 
 						labelWidth: 175,
@@ -111,7 +111,7 @@ Ext.define('Ametys.plugins.core.administration.Password', {
 						allowBlank: false,
 				        inputType: "password",
 				        msgTarget: 'side',
-				        blankText: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_MANDATORY"/>"
+				        blankText: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_MANDATORY'/>"
 					})
 	
 			 ]
@@ -119,7 +119,7 @@ Ext.define('Ametys.plugins.core.administration.Password', {
 	    	
 	    this.box = new Ametys.window.DialogBox({
 	    	
-	    	title :"<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_DIALOG_CAPTION"/>",
+	    	title :"<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PASSWORD_DIALOG_CAPTION'/>",
 	    	icon : Ametys.getPluginResourcesPrefix(this.pluginName) + "/img/administrator/password/password_16.png",
 	    	
 	    	layout :'fit',
@@ -131,10 +131,10 @@ Ext.define('Ametys.plugins.core.administration.Password', {
 			defaultButton: this._form.getForm().findField('oldPassword'),
 			closeAction: 'hide',
 			buttons : [ {
-					text :"<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_DIALOG_OK"/>",
+					text :"<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PASSWORD_DIALOG_OK'/>",
 					handler : Ext.bind(this.ok, this)
 				}, {
-					text :"<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_DIALOG_CANCEL"/>",
+					text :"<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PASSWORD_DIALOG_CANCEL'/>",
 					handler : Ext.bind(this.cancel, this)
 				} 
 			]
@@ -177,8 +177,8 @@ Ext.define('Ametys.plugins.core.administration.Password', {
 		if (oldPassword.getValue() == "" || newPassword.getValue() == "" || confirmPassword.getValue() == "")
 		{
 			Ext.Msg.show ({
-	    		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
-	    		msg: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_WRONG_EMPTY"/>",
+	    		title: "<i18n:text i18n:key='PLUGINS_CORE_ERROR_DIALOG_TITLE'/>",
+	    		msg: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_WRONG_EMPTY'/>",
 	    		buttons: Ext.Msg.OK,
 				icon: Ext.MessageBox.ERROR
 			});
@@ -187,7 +187,7 @@ Ext.define('Ametys.plugins.core.administration.Password', {
 
 		if (newPassword.getValue() != confirmPassword.getValue())
 		{
-			confirmPassword.markInvalid("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_WRONG_CONFIRM"/>");
+			confirmPassword.markInvalid("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_WRONG_CONFIRM'/>");
 			return;
 		}
 		
@@ -200,7 +200,7 @@ Ext.define('Ametys.plugins.core.administration.Password', {
 			callback: null, 
 			responseType: null
 		});
-	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_FATAL"/>", result, "this.ok"))
+	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_FATAL'/>", result, "this.ok"))
 	    {
 	       return;
 	    }
@@ -208,8 +208,8 @@ Ext.define('Ametys.plugins.core.administration.Password', {
 	    if (Ext.dom.Query.selectValue("*/result", result) != "SUCCESS")
 	    {
 	    	Ext.Msg.show ({
-	    		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
-	    		msg: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR"/>",
+	    		title: "<i18n:text i18n:key='PLUGINS_CORE_ERROR_DIALOG_TITLE'/>",
+	    		msg: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR'/>",
 	    		buttons: Ext.Msg.OK,
 				icon: Ext.MessageBox.ERROR
 			});
@@ -220,8 +220,8 @@ Ext.define('Ametys.plugins.core.administration.Password', {
 		this.box.hide();
 		
 		Ext.Msg.show ({
-			title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_LABEL"/>",
-			msg: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_OK"/>",
+			title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PASSWORD_LABEL'/>",
+			msg: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_OK'/>",
 			buttons: Ext.Msg.OK,
 			icon: Ext.MessageBox.INFO
 		});

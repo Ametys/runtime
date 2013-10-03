@@ -356,7 +356,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	        value: value,
 	        allowBlank: !mandatory,
 	        regex: regexp,
-			regexText: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP"/>" + regexp,
+			regexText: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP'/>" + regexp,
 			invalidText: invalidText != null ? invalidText : null,
 	        msgTarget: 'side',
 	        
@@ -392,7 +392,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	        value: value,
 	        allowBlank: !mandatory,
 	        regex: regexp,
-			regexText: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP"/>" + regexp,
+			regexText: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP'/>" + regexp,
 			invalidText: invalidText != null ? invalidText : null,
 			msgTarget: 'side',
 			
@@ -463,7 +463,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	        value: dateValue,
 	        allowBlank: !mandatory,
 	        regex: regexp,
-			regexText: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP"/>" + regexp,
+			regexText: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP'/>" + regexp,
 			invalidText: invalidText != null ? invalidText : null,
 			msgTarget: 'side',
 			
@@ -567,7 +567,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 		        
 		        allowBlank: !mandatory,
 		        regex: regexp,
-		        regexText: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP"/>" + regexp,
+		        regexText: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP'/>" + regexp,
 				invalidText: invalidText != null ? invalidText : null,
 				msgTarget: 'side'
 			});
@@ -605,7 +605,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 		        
 		        allowBlank: !mandatory,
 		        regex: regexp,
-				regexText: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP"/>" + regexp,
+				regexText: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP'/>" + regexp,
 				invalidText: invalidText != null ? invalidText : null,
 		        msgTarget: 'side'
 		};
@@ -621,7 +621,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 */
 	_drawNavigationPanel: function ()
 	{
-		this._nav = new Ametys.workspace.admin.rightpanel.NavigationPanel ({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU"/>"});
+		this._nav = new Ametys.workspace.admin.rightpanel.NavigationPanel ({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU'/>"});
 		
 		for (var i=0; i < this._navItems.length; i++)
 		{
@@ -651,16 +651,16 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 */
 	_drawHandlePanel: function ()
 	{
-		this._actions = new Ametys.workspace.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE"/>"});
+		this._actions = new Ametys.workspace.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE'/>"});
 		
 		// Save action
-		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE_SAVE"/>",
+		this._actions.addAction("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE_SAVE'/>",
 						 null,
 						 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/config/save.png',
 						 Ext.Function.bind(this.save, this));
 		
 		// Quit action
-		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE_QUIT"/>",
+		this._actions.addAction("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE_QUIT'/>",
 						 null,
 						 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/config/quit.png',
 						 Ext.Function.bind(this.goBack));
@@ -675,8 +675,8 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 */
 	_drawHelpPanel: function ()
 	{
-		var helpPanel = new Ametys.workspace.admin.rightpanel.TextPanel({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HELP"/>"});
-		helpPanel.addText("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HELP_TEXT"/>");
+		var helpPanel = new Ametys.workspace.admin.rightpanel.TextPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_HELP'/>"});
+		helpPanel.addText("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_HELP_TEXT'/>");
 		
 		return helpPanel;
 	},
@@ -701,7 +701,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	{
 		if (!this._form.getForm().isValid())
 		{
-			Ext.MessageBox.alert("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_INVALID_TITLE"/>", "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_INVALID"/>");
+			Ext.MessageBox.alert("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_INVALID_TITLE'/>", "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_INVALID'/>");
 			this._form.getForm().markInvalid();
 			return;
 	    }
@@ -737,8 +737,8 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 		if (result == null)
 	    {
 			Ametys.log.ErrorDialog.display({
-				title: "<i18n:text i18n:key="PLUGINS_CORE_SAVE_DIALOG_TITLE"/>", 
-				text: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_FATALERROR"/>",
+				title: "<i18n:text i18n:key='PLUGINS_CORE_SAVE_DIALOG_TITLE'/>", 
+				text: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_FATALERROR'/>",
 	    		details: ex,
 	    		category: "Ametys.plugins.core.administration.Config.save"
 			});
@@ -750,8 +750,8 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	    if (error != null && error != "")
 	    {
 	    	Ext.Msg.show ({
-	    		title: "<i18n:text i18n:key="PLUGINS_CORE_SAVE_DIALOG_TITLE"/>",
-	    		msg: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_ERROR"/>",
+	    		title: "<i18n:text i18n:key='PLUGINS_CORE_SAVE_DIALOG_TITLE'/>",
+	    		msg: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_ERROR'/>",
 	    		buttons: Ext.Msg.OK,
 				icon: Ext.MessageBox.ERROR
 	    	});
@@ -759,8 +759,8 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	    }
 	    
 	    Ext.Msg.show ({
-	    		title: "<i18n:text i18n:key="PLUGINS_CORE_SAVE_DIALOG_TITLE"/>",
-	    		msg: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_OK"/>",
+	    		title: "<i18n:text i18n:key='PLUGINS_CORE_SAVE_DIALOG_TITLE'/>",
+	    		msg: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_OK'/>",
 	    		buttons: Ext.Msg.OK,
 				icon: Ext.MessageBox.INFO,
 				fn: Ext.Function.bind(this.goBack, this, [true])

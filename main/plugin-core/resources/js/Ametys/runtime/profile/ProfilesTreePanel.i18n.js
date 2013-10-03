@@ -84,7 +84,7 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 		// The root node
 		config.root = config.root || {
 			id: config.rootID,
-			text: ' <b>' + "<i18n:text i18n:key="PLUGINS_CORE_PROFILES_TREE_ROOT_NODE"/>" + '</b>',
+			text: ' <b>' + "<i18n:text i18n:key='PLUGINS_CORE_PROFILES_TREE_ROOT_NODE'/>" + '</b>',
 			loaded: true,
 			expanded: true
 		};
@@ -107,13 +107,13 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
   		
   		this._userTooltipTpl = Ext.create ('Ext.Template', [
   				"<b>{text}</b><br/>",
-  				"<u><i18n:text i18n:key="PLUGINS_CORE_PROFILES_TREE_CONTEXT_TOOLTIP"/></u> : ",
+  				"<u><i18n:text i18n:key='PLUGINS_CORE_PROFILES_TREE_CONTEXT_TOOLTIP'/></u> : ",
   				"{context}"
   		]);
   		
   		this._groupTooltipTpl = Ext.create ('Ext.Template', [
   				"<b>{text}</b><br/>",
-  				"<u><i18n:text i18n:key="PLUGINS_CORE_PROFILES_TREE_CONTEXT_TOOLTIP"/></u> : ",
+  				"<u><i18n:text i18n:key='PLUGINS_CORE_PROFILES_TREE_CONTEXT_TOOLTIP'/></u> : ",
   				"{context}"
   		]);
 		                                          		
@@ -192,7 +192,7 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 					xtype: 'textfield',
 					name: 'textfield',
 					width: 250,
-					emptyText: "<i18n:text i18n:key="PLUGINS_CORE_PROFILES_TREE_FILTER_BY_NAME"/>",
+					emptyText: "<i18n:text i18n:key='PLUGINS_CORE_PROFILES_TREE_FILTER_BY_NAME'/>",
 					hideLabel: true,
 					enableKeyEvents: true,
 					listeners: {
@@ -203,7 +203,7 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 				'-', 
 				{
 					// See inheritance
-					tooltip: "<i18n:text i18n:key="PLUGINS_CORE_PROFILES_TREE_BTN_INHERITANCE_TOOLTIP"/>",
+					tooltip: "<i18n:text i18n:key='PLUGINS_CORE_PROFILES_TREE_BTN_INHERITANCE_TOOLTIP'/>",
 					enableToggle: true,
 					toggleHandler: Ext.bind (this._seeInheritance, this),
 					pressed: true,
@@ -214,7 +214,7 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 				{
 					// Up to parent context
 					itemId: 'up-to-context',
-					tooltip: "<i18n:text i18n:key="PLUGINS_CORE_PROFILES_TREE_BTN_UPTOCONTEXT_TOOLTIP"/>",
+					tooltip: "<i18n:text i18n:key='PLUGINS_CORE_PROFILES_TREE_BTN_UPTOCONTEXT_TOOLTIP'/>",
 					handler: Ext.bind (this._upToContext, this),
 					disabled : true,
 					scope: this,
@@ -224,7 +224,7 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 				'-', 
 				{
 					// Expand tool
-					tooltip: "<i18n:text i18n:key="PLUGINS_CORE_PROFILES_TREE_BTN_EXPAND_TOOTIP"/>",
+					tooltip: "<i18n:text i18n:key='PLUGINS_CORE_PROFILES_TREE_BTN_EXPAND_TOOTIP'/>",
 					handler: Ext.bind (this._expandAll, this),
 					scope: this,
 					icon: Ametys.getPluginResourcesPrefix('core') + '/img/profiles/actions/expand-all.gif',
@@ -232,7 +232,7 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 				}, 
 				{
 					// Collapse tool
-					tooltip: "<i18n:text i18n:key="PLUGINS_CORE_PROFILES_TREE_BTN_COLLAPSE_TOOTIP"/>",
+					tooltip: "<i18n:text i18n:key='PLUGINS_CORE_PROFILES_TREE_BTN_COLLAPSE_TOOTIP'/>",
 					handler: Ext.bind (this.collapseAll, this),
 					scope: this,
 					icon: Ametys.getPluginResourcesPrefix('core') + '/img/profiles/actions/collapse-all.gif',
@@ -493,7 +493,7 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 	 */
 	_getProfileTooltipTextCb : function (response, params)
 	{
-		if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_PROFILES_TREE_GET_PROFILES_RIGHTS_ERROR"/>", response, Ext.getClassName(this)))
+		if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key='PLUGINS_CORE_PROFILES_TREE_GET_PROFILES_RIGHTS_ERROR'/>", response, Ext.getClassName(this)))
 		{
 			return;
 		}

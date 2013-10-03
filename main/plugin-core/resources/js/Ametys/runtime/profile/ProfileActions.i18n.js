@@ -53,7 +53,7 @@ Ext.define('Ametys.runtime.profiles.ProfileActions', {
 				scope: this,
 				handler: function(response)
 				{
-					if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDUSER_ERROR"/>", response, Ext.getClassName(this) + '.addUsers'))
+					if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDUSER_ERROR'/>", response, Ext.getClassName(this) + '.addUsers'))
 					{
 						return;
 					}
@@ -100,7 +100,7 @@ Ext.define('Ametys.runtime.profiles.ProfileActions', {
 				scope: this,
 				handler: function(response)
 				{
-					if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDGROUP_ERROR"/>", response, Ext.getClassName(this) + '.addGroups'))
+					if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDGROUP_ERROR'/>", response, Ext.getClassName(this) + '.addGroups'))
 					{
 						return;
 					}
@@ -125,8 +125,8 @@ Ext.define('Ametys.runtime.profiles.ProfileActions', {
 	 */
 	remove: function(profileId, context, users, groups, callback, additionalParams) 
 	{
-		Ext.Msg.confirm("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_LABEL"/>", 
-			"<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_CONFIRM"/>", 
+		Ext.Msg.confirm("<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_LABEL'/>", 
+			"<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_CONFIRM'/>", 
 			Ext.bind(this._doRemove, this, [profileId, context, users, groups, callback, additionalParams], 1),
 			this);
 	},
@@ -170,7 +170,7 @@ Ext.define('Ametys.runtime.profiles.ProfileActions', {
 					scope: this,
 					handler: function(response)
 					{
-						if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_ERROR"/>", response, Ext.getClassName(this) + '.remove'))
+						if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_ERROR'/>", response, Ext.getClassName(this) + '.remove'))
 						{
 							return;
 						}

@@ -212,17 +212,17 @@ Ext.define('Ametys.plugins.core.administration.Plugins', {
 	 */
 	_drawNavigationPanel: function ()
 	{
-		this._nav = new Ametys.workspace.admin.rightpanel.NavigationPanel ({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU"/>"});
+		this._nav = new Ametys.workspace.admin.rightpanel.NavigationPanel ({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU'/>"});
 		
 		this._nav.add(new Ametys.workspace.admin.rightpanel.NavigationPanel.NavigationItem ({
-				text: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_PLUGIN_VIEW"/>",
+				text: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_PLUGIN_VIEW'/>",
 				activeItem: 0,
 				cardLayout: 'plugin-card-panel',
 				toggleGroup : 'plugin-menu',
 			})
 		);
 		this._nav.add(new Ametys.workspace.admin.rightpanel.NavigationPanel.NavigationItem ({
-				text: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_EXTENSION_POINT_VIEW"/>",
+				text: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_EXTENSION_POINT_VIEW'/>",
 				activeItem: 1,
 				cardLayout: 'plugin-card-panel',
 				toggleGroup : 'plugin-menu',
@@ -230,7 +230,7 @@ Ext.define('Ametys.plugins.core.administration.Plugins', {
 			})
 		);
 		this._nav.add(new Ametys.workspace.admin.rightpanel.NavigationPanel.NavigationItem ({
-				text: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_WORKSPACE_VIEW"/>",
+				text: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_WORKSPACE_VIEW'/>",
 				activeItem: 2,
 				cardLayout: 'plugin-card-panel',
 				toggleGroup : 'plugin-menu'
@@ -247,40 +247,40 @@ Ext.define('Ametys.plugins.core.administration.Plugins', {
 	 */
 	_drawActionPanel: function ()
 	{
-		this._actions = new Ametys.workspace.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_HANDLE"/>"});
+		this._actions = new Ametys.workspace.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_HANDLE'/>"});
 		
 		// Choose
-		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHOOSE"/>", 
+		this._actions.addAction("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHOOSE'/>", 
 				 null,
 				 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/plugins/select.png', 
 				 Ext.bind(this.select, this));
 
 		// Activate
-		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_ACTIVATE"/>", 
+		this._actions.addAction("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_ACTIVATE'/>", 
 				 null,
 				 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/plugins/activate.png', 
 				 Ext.bind(this.activate, this));
 
 		// Deactivate
-		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DEACTIVATE"/>", 
+		this._actions.addAction("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DEACTIVATE'/>", 
 				 null,
 				 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/plugins/deactivate.png', 
 				 Ext.bind(this.deactivate, this));
 
 		// Changes
-		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES"/>", 
+		this._actions.addAction("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES'/>", 
 				 null,
 				 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/plugins/changes.png', 
 				 Ext.bind(this.changes, this));
 		
 		// Documentation
-		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DOC"/>", 
+		this._actions.addAction("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DOC'/>", 
 				 null,
 				 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/plugins/doc.png', 
 				 Ext.bind(this.openDoc, this));
 		
 		// Quit
-		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CANCEL"/>", 
+		this._actions.addAction("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CANCEL'/>", 
 				 null,
 				 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/plugins/quit.png', 
 				 Ext.bind(this.goBack, this));
@@ -300,8 +300,8 @@ Ext.define('Ametys.plugins.core.administration.Plugins', {
 	 */
 	_drawHelpPanel: function ()
 	{
-		var helpPanel = new Ametys.workspace.admin.rightpanel.TextPanel({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_HELP"/>"});
-		helpPanel.addText("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_HELP_TEXT"/>");
+		var helpPanel = new Ametys.workspace.admin.rightpanel.TextPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_HELP'/>"});
+		helpPanel.addText("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_HELP_TEXT'/>");
 		
 		return helpPanel;
 	},
@@ -416,7 +416,7 @@ Ext.define('Ametys.plugins.core.administration.Plugins', {
 			this._SEP[node.parentNode.get('extensionPointName')] = node.get('extensionId');
 			this._actions.showElt(this._ACTION_CHANGES);
 			
-			Ext.MessageBox.alert("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_ALERT_TITLE"/>", "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_ALERT_TEXT"/>");
+			Ext.MessageBox.alert("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_ALERT_TITLE'/>", "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_ALERT_TEXT'/>");
 			this._changes = true;
 		}
 	},
@@ -445,7 +445,7 @@ Ext.define('Ametys.plugins.core.administration.Plugins', {
 			this._EP[node.get('pluginName') + "/" + node.get('featureName')] = status;
 			this._actions.showElt(this._ACTION_CHANGES);
 			
-			Ext.MessageBox.alert("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_ALERT_TITLE"/>", "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_ALERT_TEXT"/>");
+			Ext.MessageBox.alert("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_ALERT_TITLE'/>", "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_ALERT_TEXT'/>");
 		}
 	},
 
@@ -464,8 +464,8 @@ Ext.define('Ametys.plugins.core.administration.Plugins', {
 	 */
 	changes: function ()
 	{
-		Ext.MessageBox.alert("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_BEWARE_TITLE"/>", 
-				"<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_BEWARE_TEXT"/>",
+		Ext.MessageBox.alert("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_BEWARE_TITLE'/>", 
+				"<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_BEWARE_TEXT'/>",
 				Ext.bind(function ()
 				{
 					var sepchanges = "";
@@ -476,26 +476,26 @@ Ext.define('Ametys.plugins.core.administration.Plugins', {
 					var epchanges = "";
 					for (var i in this._EP)
 					{
-						epchanges += i + " : " + (this._EP[i] ? "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_ACTIVATE"/>" : "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DEACTIVATE"/>") + "<br/>";
+						epchanges += i + " : " + (this._EP[i] ? "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_ACTIVATE'/>" : "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DEACTIVATE'/>") + "<br/>";
 					}
 					
 					
 					var changes = "";
 					if (sepchanges != "")
 					{
-						changes += "<b><i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_SEP"/></b><br/>"
+						changes += "<b><i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_SEP'/></b><br/>"
 								   + sepchanges;
 					}
 					if (epchanges != "")
 					{
-						changes += "<b><i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_EP"/></b><br/>"
+						changes += "<b><i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_EP'/></b><br/>"
 								   + epchanges;
 					}
 					
-					Ext.MessageBox.confirm("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_CONFIRM_TITLE"/>", 
-							"<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_CONFIRM_TEXT_START"/><ul>"
+					Ext.MessageBox.confirm("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_CONFIRM_TITLE'/>", 
+							"<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_CONFIRM_TEXT_START'/><ul>"
 							+ changes
-							+ "</ul><i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_CONFIRM_TEXT_END"/>", 
+							+ "</ul><i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_CONFIRM_TEXT_END'/>", 
 							function(val) { if (val == "yes") { this._changesNow(); } }, this);
 				}, this));
 	},
@@ -536,12 +536,12 @@ Ext.define('Ametys.plugins.core.administration.Plugins', {
 	{
 		this._mask.hide();
 
-	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_ERROR"/>", response, "Ametys.plugins.core.administration.Plugins._changesNowCB"))
+	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_ERROR'/>", response, "Ametys.plugins.core.administration.Plugins._changesNowCB"))
 	    {
 	       return;
 	    }
 
-	    alert("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_DONE"/>");
+	    alert("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_DONE'/>");
 
 		this._mask =  new Ext.LoadMask({target: Ext.getBody()});
 		this._mask.show();

@@ -281,7 +281,7 @@ Ext.define('Ametys.plugins.core.administration.JVMStatus', {
 	 */
 	_drawNavigationPanel: function ()
 	{
-		this._nav = new Ametys.workspace.admin.rightpanel.NavigationPanel ({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU"/>"});
+		this._nav = new Ametys.workspace.admin.rightpanel.NavigationPanel ({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU'/>"});
 		
 		for (var i=0; i < this._navItems.length; i++)
 		{
@@ -309,10 +309,10 @@ Ext.define('Ametys.plugins.core.administration.JVMStatus', {
 	 */
 	_drawActionsPanel: function ()
 	{
-		this._actions = new Ametys.workspace.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_HANDLE"/>"});
+		this._actions = new Ametys.workspace.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_HANDLE'/>"});
 		
 		// Quit action
-		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_HANDLE_QUIT"/>", 
+		this._actions.addAction("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_HANDLE_QUIT'/>", 
 						 null,
 					     Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/jvmstatus/quit.png',
 					     Ext.bind(this.goBack, this));
@@ -327,11 +327,11 @@ Ext.define('Ametys.plugins.core.administration.JVMStatus', {
 	 */
 	_drawHelpPanel: function ()
 	{
-		var helpPanel = new Ametys.workspace.admin.rightpanel.TextPanel({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_HELP"/>"});
-		helpPanel.addText("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_GENERAL_HELP_TEXT"/>");
-		helpPanel.addText("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_SYSTEM_HELP_TEXT"/>");
-		helpPanel.addText("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_PROPERTIES_HELP_TEXT"/>");
-		helpPanel.addText("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_HELP_TEXT"/>");
+		var helpPanel = new Ametys.workspace.admin.rightpanel.TextPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_HELP'/>"});
+		helpPanel.addText("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_GENERAL_HELP_TEXT'/>");
+		helpPanel.addText("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_SYSTEM_HELP_TEXT'/>");
+		helpPanel.addText("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_PROPERTIES_HELP_TEXT'/>");
+		helpPanel.addText("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_HELP_TEXT'/>");
 		
 		return helpPanel;
 	},
@@ -395,7 +395,7 @@ Ext.define('Ametys.plugins.core.administration.JVMStatus', {
 				responseType: null
 		});
 
-	    if (Ametys.data.ServerComm.handleBadResponse(gc ? "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_GC_ERROR"/>" : "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_REFRESH_ERROR"/>", result, "Ametys.plugins.core.administration.JVMStatus.refreshData"))
+	    if (Ametys.data.ServerComm.handleBadResponse(gc ? "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_GC_ERROR'/>" : "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_REFRESH_ERROR'/>", result, "Ametys.plugins.core.administration.JVMStatus.refreshData"))
 	    {
 	       window.clearInterval(this._at);
 	       return false;
@@ -406,9 +406,9 @@ Ext.define('Ametys.plugins.core.administration.JVMStatus', {
 	    var usedMem = Ext.dom.Query.selectNumber("status/general/memory/heap/used", result);
 	    var maxMem = Ext.dom.Query.selectNumber("status/general/memory/heap/max", result);
 	    
-	    var tip  = "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_USED"/> : " + Math.round(usedMem / (1024*1024) * 10) / 10 + " <i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_UNIT"/>"
-	            + "\n<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_FREE"/> : " + Math.round((commitedMem - usedMem) / (1024*1024) * 10) / 10 + " <i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_UNIT"/>"
-	            + "\n<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_AVAILABLE"/> : " + Math.round((maxMem-commitedMem) / (1024*1024) * 10) / 10  + " <i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_UNIT"/>";
+	    var tip  = "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_USED'/> : " + Math.round(usedMem / (1024*1024) * 10) / 10 + " <i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_UNIT'/>"
+	            + "\n<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_FREE'/> : " + Math.round((commitedMem - usedMem) / (1024*1024) * 10) / 10 + " <i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_UNIT'/>"
+	            + "\n<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_AVAILABLE'/> : " + Math.round((maxMem-commitedMem) / (1024*1024) * 10) / 10  + " <i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_UNIT'/>";
 	    
 	    document.getElementById("totalMemImg").title = tip;
 	    document.getElementById("freeMemImg").title = tip;
@@ -428,9 +428,9 @@ Ext.define('Ametys.plugins.core.administration.JVMStatus', {
 	    var usedMem = Ext.dom.Query.selectNumber("status/general/memory/nonHeap/used", result);
 	    var maxMem = Ext.dom.Query.selectNumber("status/general/memory/nonHeap/max", result);
 	    
-	    var tip  = "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_USED"/> : " + Math.round(usedMem / (1024*1024) * 10) / 10 + " <i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_UNIT"/>"
-	            + "\n<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_FREE"/> : " + Math.round((commitedMem - usedMem) / (1024*1024) * 10) / 10 + " <i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_UNIT"/>"
-	            + "\n<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_AVAILABLE"/> : " + Math.round((maxMem-commitedMem) / (1024*1024) * 10) / 10  + " <i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_UNIT"/>";
+	    var tip  = "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_USED'/> : " + Math.round(usedMem / (1024*1024) * 10) / 10 + " <i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_UNIT'/>"
+	            + "\n<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_FREE'/> : " + Math.round((commitedMem - usedMem) / (1024*1024) * 10) / 10 + " <i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_UNIT'/>"
+	            + "\n<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_AVAILABLE'/> : " + Math.round((maxMem-commitedMem) / (1024*1024) * 10) / 10  + " <i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM_UNIT'/>";
 	    document.getElementById("totalMem2Img").title = tip;
 	    document.getElementById("freeMem2Img").title = tip;
 	    document.getElementById("maxMem2Img").title = tip;
@@ -447,14 +447,14 @@ Ext.define('Ametys.plugins.core.administration.JVMStatus', {
 	    // ACTIVE SESSION
 	    var sessions = Ext.dom.Query.selectNumber("status/general/activeSessions", result);
 	    if (sessions == null) 
-	        document.getElementById("activeSession").innerHTML = "<a href='#' onclick='Ametys.plugins.core.administration.JVMStatus.helpSessions(); return false;'><i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_SESSIONS_ERROR"/></a>";
+	        document.getElementById("activeSession").innerHTML = "<a href='#' onclick='Ametys.plugins.core.administration.JVMStatus.helpSessions(); return false;'><i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_SESSIONS_ERROR'/></a>";
 	    else
 	        document.getElementById("activeSession").innerHTML = sessions;
 
 	    // ACTIVE REQUEST
 	    var sessions = Ext.dom.Query.selectNumber("status/general/activeRequests", result);
 	    if (sessions == null) 
-	        document.getElementById("activeRequest").innerHTML = "<a href='#' onclick='Ametys.plugins.core.administration.JVMStatus.helpRequests(); return false;'><i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_REQUESTS_ERROR"/></a>";
+	        document.getElementById("activeRequest").innerHTML = "<a href='#' onclick='Ametys.plugins.core.administration.JVMStatus.helpRequests(); return false;'><i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_REQUESTS_ERROR'/></a>";
 	    else
 	        document.getElementById("activeRequest").innerHTML = sessions;
 
@@ -463,7 +463,7 @@ Ext.define('Ametys.plugins.core.administration.JVMStatus', {
 	    var locked = Ext.dom.Query.selectValue("status/general/deadlockThreads", result);
 	    if (locked != "0")
 	    {
-	        document.getElementById("deadlockThread").innerHTML = "(<a href='#' title='<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_THREADS_ERROR_LOCK_HINT"/>' style='color: red; font-weight: bold' onclick='Ametys.plugins.core.administration.JVMStatus.deadLock()'>" + locked + " <i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_THREADS_LOCK"/></a>)";
+	        document.getElementById("deadlockThread").innerHTML = "(<a href='#' title='<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_THREADS_ERROR_LOCK_HINT'/>' style='color: red; font-weight: bold' onclick='Ametys.plugins.core.administration.JVMStatus.deadLock()'>" + locked + " <i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_THREADS_LOCK'/></a>)";
 		}
 	    
 	    // TIME
@@ -484,23 +484,23 @@ Ext.define('Ametys.plugins.core.administration.JVMStatus', {
 	    
 	    new Ext.ToolTip({
 	        target: 'mem-heap-help-img',
-	        html: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE_MEMORY_HINT_HEAP"/>"
+	        html: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE_MEMORY_HINT_HEAP'/>"
 	    });
 	    new Ext.ToolTip({
 	        target: 'mem-nheap-help-img',
-	        html: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE_MEMORY_HINT_NHEAP"/>"
+	        html: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE_MEMORY_HINT_NHEAP'/>"
 	    });
 	    new Ext.ToolTip({
 	        target: 'handle-session-help-img',
-	        html: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE_SESSION_HELP"/>"
+	        html: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE_SESSION_HELP'/>"
 	    });
 	    new Ext.ToolTip({
 	        target: 'handle-request-help-img',
-	        html: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE_REQUEST_HELP"/>"
+	        html: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE_REQUEST_HELP'/>"
 	    });
 	    new Ext.ToolTip({
 	        target: 'handle-thread-help-img',
-	        html: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE_THREAD_HELP"/>"
+	        html: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE_THREAD_HELP'/>"
 	    });
 	},
 
@@ -525,8 +525,8 @@ Ext.define('Ametys.plugins.core.administration.JVMStatus', {
 	helpSessions: function ()
 	{
 		Ext.Msg.show ({
-			title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
-			msg: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_SESSIONS_ERROR_HINT"/>",
+			title: "<i18n:text i18n:key='PLUGINS_CORE_ERROR_DIALOG_TITLE'/>",
+			msg: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_SESSIONS_ERROR_HINT'/>",
 			buttons: Ext.Msg.OK,
 			icon: Ext.MessageBox.WARNING
 	    });
@@ -539,8 +539,8 @@ Ext.define('Ametys.plugins.core.administration.JVMStatus', {
 	helpRequests: function ()
 	{
 		Ext.Msg.show ({
-			title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
-			msg: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_REQUESTS_ERROR_HINT"/>",
+			title: "<i18n:text i18n:key='PLUGINS_CORE_ERROR_DIALOG_TITLE'/>",
+			msg: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_REQUESTS_ERROR_HINT'/>",
 			buttons: Ext.Msg.OK,
 			icon: Ext.MessageBox.ERROR
 	    });

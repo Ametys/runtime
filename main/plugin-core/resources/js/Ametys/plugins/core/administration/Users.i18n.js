@@ -97,8 +97,8 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 			}), 
 		    	
 		    columns: [
-				        {header: "<i18n:text i18n:key="PLUGINS_CORE_USERS_COL_NAME"/>", flex: 0.4, menuDisabled : true, sortable: true, dataIndex: 'display'},
-				        {header: "<i18n:text i18n:key="PLUGINS_CORE_USERS_COL_EMAIL"/>", flex: 0.6, menuDisabled : true, sortable: true, dataIndex: 'email'}
+				        {header: "<i18n:text i18n:key='PLUGINS_CORE_USERS_COL_NAME'/>", flex: 0.4, menuDisabled : true, sortable: true, dataIndex: 'display'},
+				        {header: "<i18n:text i18n:key='PLUGINS_CORE_USERS_COL_EMAIL'/>", flex: 0.6, menuDisabled : true, sortable: true, dataIndex: 'email'}
 		    ],
 			
 		    listeners: {
@@ -183,7 +183,7 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 	 */
 	_drawSearchPanel: function ()
 	{
-		this._search = new Ametys.workspace.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCH"/>"});
+		this._search = new Ametys.workspace.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_USERS_SEARCH'/>"});
 		
 		var ct = new Ext.Container({
 			layout: 'column',
@@ -205,7 +205,7 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 
 				new Ext.button.Button ({
 		            icon: Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/users/search_16.png',
-		            tooltip: "<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCH_BUTTON"/>",
+		            tooltip: "<i18n:text i18n:key='PLUGINS_CORE_USERS_SEARCH_BUTTON'/>",
 					handler : Ext.bind(this.search, this)	            
 				})
 			]
@@ -214,7 +214,7 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 		this._search.add(ct);
 
 		// Quit
-		this._search.addAction("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_QUIT"/>", 
+		this._search.addAction("<i18n:text i18n:key='PLUGINS_CORE_USERS_HANDLE_QUIT'/>", 
 					null,
 					Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/users/quit.png', 
 					Ext.bind(this.goBack, this));
@@ -229,19 +229,19 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 	 */
 	_drawActionsPanel: function ()
 	{
-		this._actions = new Ametys.workspace.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE"/>"});
+		this._actions = new Ametys.workspace.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_USERS_HANDLE'/>"});
 
 		if (this._modifiable)
 		{
 			// Add user
-			this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_NEW"/>",
+			this._actions.addAction("<i18n:text i18n:key='PLUGINS_CORE_USERS_HANDLE_NEW'/>",
 					null,
 					Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/users/add_user.png', 
 					Ext.bind(this.add, this));
 		}
 		
 		// Edit 
-		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_USERS_IMPERSONATE"/>",
+		this._actions.addAction("<i18n:text i18n:key='PLUGINS_CORE_USERS_IMPERSONATE'/>",
 					null,
 					Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/users/impersonate_user.png', 
 					Ext.bind(this.impersonate, this));
@@ -249,7 +249,7 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 		if (this._modifiable)
 		{
 			// Edit 
-			this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_EDIT"/>",
+			this._actions.addAction("<i18n:text i18n:key='PLUGINS_CORE_USERS_HANDLE_EDIT'/>",
 					null,
 					Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/users/edit_user.png', 
 					Ext.bind(this.edit, this));
@@ -258,7 +258,7 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 		if (this._modifiable)
 		{
 			// Delete 
-			this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_DEL"/>",
+			this._actions.addAction("<i18n:text i18n:key='PLUGINS_CORE_USERS_HANDLE_DEL'/>",
 					null,
 					Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/users/delete.png', 
 					Ext.bind(this.remove, this));
@@ -285,8 +285,8 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 	 */
 	_drawHelpPanel: function ()
 	{
-		var helpPanel = new Ametys.workspace.admin.rightpanel.TextPanel({title: "<i18n:text i18n:key="PLUGINS_CORE_USERS_HELP"/>"});
-		helpPanel.addText("<i18n:text i18n:key="PLUGINS_CORE_USERS_HELP_TEXT_READ"/>");
+		var helpPanel = new Ametys.workspace.admin.rightpanel.TextPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_USERS_HELP'/>"});
+		helpPanel.addText("<i18n:text i18n:key='PLUGINS_CORE_USERS_HELP_TEXT_READ'/>");
 		
 		return helpPanel;
 	},
@@ -306,7 +306,7 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 			callback: null, 
 			responseType: null
 		});
-	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_USERS_IMPERSONATE_ERROR"/>", (result == null || Ext.dom.Query.selectValue("*/error", result, "") != "") ? null : result, "Ametys.plugins.core.administration.Users.impersonate"))
+	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key='PLUGINS_CORE_USERS_IMPERSONATE_ERROR'/>", (result == null || Ext.dom.Query.selectValue("*/error", result, "") != "") ? null : result, "Ametys.plugins.core.administration.Users.impersonate"))
 	    {
 	       return;
 	    }
@@ -373,8 +373,8 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 	 */
 	remove: function ()
 	{
-		Ext.Msg.confirm ("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_DEL_TITLE"/>", 
-						 "<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_DEL_PROMPT"/>", 
+		Ext.Msg.confirm ("<i18n:text i18n:key='PLUGINS_CORE_USERS_HANDLE_DEL_TITLE'/>", 
+						 "<i18n:text i18n:key='PLUGINS_CORE_USERS_HANDLE_DEL_PROMPT'/>", 
 						 Ext.bind(this.doRemove, this));
 	},
 
@@ -393,8 +393,8 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 	        if (200 != Ext.Ajax.request({url: url, params: args, async: false}).status)
 	        {
 	        	Ext.Msg.show ({
-	            		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
-	            		msg: "<i18n:text i18n:key="PLUGINS_CORE_USERS_DELETE_ERROR"/>",
+	            		title: "<i18n:text i18n:key='PLUGINS_CORE_ERROR_DIALOG_TITLE'/>",
+	            		msg: "<i18n:text i18n:key='PLUGINS_CORE_USERS_DELETE_ERROR'/>",
 	            		buttons: Ext.Msg.OK,
 	   					icon: Ext.MessageBox.ERROR
 	            });
@@ -437,7 +437,7 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 			responseType: null
 		});
 
-	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCHING_ERROR"/>", result, "Ametys.plugins.core.administration.Users.search"))
+	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key='PLUGINS_CORE_USERS_SEARCHING_ERROR'/>", result, "Ametys.plugins.core.administration.Users.search"))
 	    {
 	       return;
 	    }
@@ -458,8 +458,8 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 	    if (nodes.length == 0)
 	    {
 	    	Ext.Msg.show ({
-	        		title: "<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCHING"/>",
-	        		msg: "<i18n:text i18n:key="PLUGINS_CORE_USERS_SEARCHING_NORESULT"/>",
+	        		title: "<i18n:text i18n:key='PLUGINS_CORE_USERS_SEARCHING'/>",
+	        		msg: "<i18n:text i18n:key='PLUGINS_CORE_USERS_SEARCHING_NORESULT'/>",
 	        		buttons: Ext.Msg.OK,
 						icon: Ext.MessageBox.INFO
 	        });

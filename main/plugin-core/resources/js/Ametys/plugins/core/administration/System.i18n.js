@@ -123,8 +123,8 @@ Ext.define('Ametys.plugins.core.administration.System', {
 			}), 
 		    	
 		    columns: [
-		        {header: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_COL_LANG"/>", width : 80, flex: 0, menuDisabled : true, sortable: true, dataIndex: 'lang', defaultSortable : true},
-		        {header: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_COL_MESSAGE"/>", width : 400, flex: 1, menuDisabled : true, sortable: true, dataIndex: 'message'}
+		        {header: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_COL_LANG'/>", width : 80, flex: 0, menuDisabled : true, sortable: true, dataIndex: 'lang', defaultSortable : true},
+		        {header: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_COL_MESSAGE'/>", width : 400, flex: 1, menuDisabled : true, sortable: true, dataIndex: 'message'}
 		    ],
 			
 		    listeners: {'select': Ext.bind(this._selectAnnouncement, this)}
@@ -138,7 +138,7 @@ Ext.define('Ametys.plugins.core.administration.System', {
 			collapsed: true,
 			height: 'auto',
 			
-			title : "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_CHECK"/>",
+			title : "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_CHECK'/>",
 			checkboxToggle: true,
 			
 			items : [ this._listView ],
@@ -202,16 +202,16 @@ Ext.define('Ametys.plugins.core.administration.System', {
 	 */
 	_drawGlobalActionsPanel: function ()
 	{
-		this._globalActions = new Ametys.workspace.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_HANDLE"/>"});
+		this._globalActions = new Ametys.workspace.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_HANDLE'/>"});
 		
 		// Save
-		this._globalActions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_HANDLE_SAVE"/>",
+		this._globalActions.addAction("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_HANDLE_SAVE'/>",
 						 null,
 					     Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/system/save.png',
 					     Ext.bind(this.save, this));
 		
 		// Quit
-		this._globalActions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_HANDLE_QUIT"/>", 
+		this._globalActions.addAction("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_HANDLE_QUIT'/>", 
 						 null,
 					     Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/system/quit.png',
 					     Ext.bind(this.goBack, this));
@@ -226,22 +226,22 @@ Ext.define('Ametys.plugins.core.administration.System', {
 	 */
 	_drawActionsPanel: function ()
 	{
-		this._actions = new Ametys.workspace.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT"/>"});
+		this._actions = new Ametys.workspace.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT'/>"});
 		
 		// Add
-		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_ADD"/>", 
+		this._actions.addAction("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_ADD'/>", 
 			    null,
 				Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/system/add.png', 
 				Ext.bind(this.add, this));
 		
 		// Edit
-		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_EDIT"/>", 
+		this._actions.addAction("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_EDIT'/>", 
 			    null,
 				Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/system/edit.png', 
 				Ext.bind(this.edit, this));
 		
 		// Delete
-		this._actions.addAction("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DELETE"/>", 
+		this._actions.addAction("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DELETE'/>", 
 			    null,
 				Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/system/delete.png', 
 				Ext.bind(this.remove, this));
@@ -259,8 +259,8 @@ Ext.define('Ametys.plugins.core.administration.System', {
 	 */
 	_drawHelpPanel: function ()
 	{
-		var helpPanel = new Ametys.workspace.admin.rightpanel.TextPanel({title: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_HELP"/>"});
-		helpPanel.addText("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_HELP_TEXT"/>");
+		var helpPanel = new Ametys.workspace.admin.rightpanel.TextPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_HELP'/>"});
+		helpPanel.addText("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_HELP_TEXT'/>");
 		
 		return helpPanel;
 	},
@@ -326,7 +326,7 @@ Ext.define('Ametys.plugins.core.administration.System', {
 			callback: null, 
 			responseType: null
 		});
-	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ERROR_SAVE"/>", result, "Ametys.plugin.core.administration.System.save"))
+	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ERROR_SAVE'/>", result, "Ametys.plugin.core.administration.System.save"))
 	    {
 	       return;
 	    }
@@ -363,8 +363,8 @@ Ext.define('Ametys.plugins.core.administration.System', {
 			return;
 		}
 		
-		Ext.Msg.confirm ("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DELETE"/>", 
-				         "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DELETE_CONFIRM"/>", 
+		Ext.Msg.confirm ("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DELETE'/>", 
+				         "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DELETE_CONFIRM'/>", 
 				         Ext.bind(this.doRemove, this));
 	},
 	
@@ -417,9 +417,9 @@ Ext.define('Ametys.plugins.core.administration.System', {
 			
 			items : [ new Ext.form.field.Text ({
 						labelWidth: 70,
-						fieldLabel: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_COL_LANG"/>",
+						fieldLabel: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_COL_LANG'/>",
 						
-						ametysDescription: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_LANG_HELP"/>",
+						ametysDescription: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_LANG_HELP'/>",
 						name: 'lang',
 						
 						msgTarget: 'side',
@@ -427,9 +427,9 @@ Ext.define('Ametys.plugins.core.administration.System', {
 					}),
 					new Ext.form.field.TextArea ({
 						labelWidth: 70,
-						fieldLabel :"<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_COL_MESSAGE"/>",
+						fieldLabel :"<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_COL_MESSAGE'/>",
 						
-						ametysDescription: "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_MESSAGE_HELP"/>",
+						ametysDescription: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_MESSAGE_HELP'/>",
 						name: 'message',
 						anchor:'90%',
 						
@@ -440,7 +440,7 @@ Ext.define('Ametys.plugins.core.administration.System', {
 		});
 		
 		this.box = new Ametys.window.DialogBox({
-			title :"<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_CAPTION"/>",
+			title :"<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_CAPTION'/>",
 			
 			layout :'fit',
 			width: 450,
@@ -454,10 +454,10 @@ Ext.define('Ametys.plugins.core.administration.System', {
 			closeAction: 'hide',
 			
 			buttons : [{
-				text :"<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_OK"/>",
+				text :"<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_OK'/>",
 				handler : Ext.bind(this.ok, this)
 			}, {
-				text :"<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_CANCEL"/>",
+				text :"<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_CANCEL'/>",
 				handler : Ext.bind(this.cancel, this)
 			}]
 		});
@@ -515,14 +515,14 @@ Ext.define('Ametys.plugins.core.administration.System', {
 	    {
 	        if (!/[a-z][a-z]/i.test(lang.getValue()))
 	        {
-	        	lang.markInvalid("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_ERROR_LANG"/>");
+	        	lang.markInvalid("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_ERROR_LANG'/>");
 	            return;
 	        }
 	    }
 	    
 	    if (message.getValue() == '')
 	    {
-	    	message.markInvalid("<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_ERROR_MESSAGE"/>");
+	    	message.markInvalid("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_ERROR_MESSAGE'/>");
 	        return;
 	    }
 

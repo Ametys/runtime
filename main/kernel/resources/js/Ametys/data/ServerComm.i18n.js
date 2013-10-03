@@ -428,7 +428,7 @@ Ext.define(
 					}
 				}
 				
-				if (!this._off && confirm("<i18n:text i18n:key="KERNEL_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE"/>"))
+				if (!this._off && confirm("<i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE'/>"))
 				{
 					return null; // this._sendSynchronousMessage(messageRequest);
 				}
@@ -454,7 +454,7 @@ Ext.define(
 			if (conn.responseXML == null)
 			{
 
-				if (confirm("<i18n:text i18n:key="KERNEL_SERVERCOMM_NOTXML_DESC"/>") && !this._off)
+				if (confirm("<i18n:text i18n:key='KERNEL_SERVERCOMM_NOTXML_DESC'/>") && !this._off)
 				{
 					return null; // this._sendSynchronousMessage(messageRequest);
 				}
@@ -656,7 +656,7 @@ Ext.define(
 
 			this._cancelTimeout(options);
 			
-			if (!this._off && (response.responseXML != null || confirm("<i18n:text i18n:key="KERNEL_SERVERCOMM_NOTXML_DESC"/>")))
+			if (!this._off && (response.responseXML != null || confirm("<i18n:text i18n:key='KERNEL_SERVERCOMM_NOTXML_DESC'/>")))
 			{
 				this._dispatch(response, options);
 			}
@@ -769,7 +769,7 @@ Ext.define(
 				}
 			}
 
-			if (!this._off && confirm("<i18n:text i18n:key="KERNEL_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE"/>"))
+			if (!this._off && confirm("<i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE'/>"))
 			{
 				this._dispatch(response, options);
 			}

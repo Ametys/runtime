@@ -115,7 +115,7 @@
         	if (this.ametysShowMultipleHint == true)
         	{
         		result += '<br/>'
-        		    + '<span class="ametys-field-hint">(<i18n:text i18n:key="KERNEL_MULTIPLE_HINT"/>)</span>'
+        		    + '<span class="ametys-field-hint">(' + "<i18n:text i18n:key='KERNEL_MULTIPLE_HINT'/>" + ')</span>'
         	}
         	
         	return result;
@@ -143,7 +143,7 @@
         	if (Ametys.MAX_UPLOAD_SIZE != undefined && Ametys.MAX_UPLOAD_SIZE != '' && this.ametysShowMaxUploadSizeHint !== false)
         	{
         		result += '</tr><tr id="' + this.id + '-uploadsize" class="ametys-file-hint"><td colspan="2">'
-        		    + '(<i18n:text i18n:key="KERNEL_UPLOAD_HINT"/>'
+        		    + "(<i18n:text i18n:key='KERNEL_UPLOAD_HINT'/>"
         		    + Ext.util.Format.fileSize(Ametys.MAX_UPLOAD_SIZE)
         			+ ')</td>';
         	}

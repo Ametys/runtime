@@ -99,7 +99,7 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 			minSize: 100,
 			maxSize: 310,
 			
-			title : "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_LABEL"/>",
+			title : "<i18n:text i18n:key='PLUGINS_CORE_GROUPS_LABEL'/>",
 			hideHeaders: true,
 			border: false,
 			autoScroll: true,
@@ -149,7 +149,7 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 			border: false,
 			autoScroll: true,
 			
-			title : "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_COLUMN"/>",
+			title : "<i18n:text i18n:key='PLUGINS_CORE_GROUPS_COLUMN'/>",
 			hideHeaders: true,
 			multiSelect: true,
 			
@@ -263,8 +263,8 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 				objects += objectId + '/';
 			}
 			
-			Ext.Msg.confirm ("<i18n:text i18n:key="PLUGINS_CORE_SAVE_DIALOG_TITLE"/>", 
-							 "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_MODIFY_CONFIRM"/>", 
+			Ext.Msg.confirm ("<i18n:text i18n:key='PLUGINS_CORE_SAVE_DIALOG_TITLE'/>", 
+							 "<i18n:text i18n:key='PLUGINS_CORE_GROUPS_MODIFY_CONFIRM'/>", 
 							 Ext.bind(this._saveConfirm, this, [this._currentGroup, objects], true)
 			);
 		}
@@ -292,7 +292,7 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 			callback: null, 
 			responseType: null
 		});
-	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_LIST_ERROR"/>", result, "Ametys.plugins.core.administration.Groups._selectGroup"))
+	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key='PLUGINS_CORE_GROUPS_LIST_ERROR'/>", result, "Ametys.plugins.core.administration.Groups._selectGroup"))
 	    {
 	       throw "this._selectGroup request failed";
 	    }
@@ -376,7 +376,7 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 			callback: null, 
 			responseType: null
 		});
-	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_RENAME_ERROR"/>", result, "Ametys.plugins.core.administration.Groups._editGroupLabel"))
+	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key='PLUGINS_CORE_GROUPS_RENAME_ERROR'/>", result, "Ametys.plugins.core.administration.Groups._editGroupLabel"))
 	    {
 	       // nothing
 	    }
@@ -386,8 +386,8 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 			if (state != null && state == "missing")
 			{
 				Ext.Msg.show ({
-            		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
-            		msg: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_RENAME_MISSING_ERROR"/>",
+            		title: "<i18n:text i18n:key='PLUGINS_CORE_ERROR_DIALOG_TITLE'/>",
+            		msg: "<i18n:text i18n:key='PLUGINS_CORE_GROUPS_RENAME_MISSING_ERROR'/>",
             		buttons: Ext.Msg.OK,
    					icon: Ext.MessageBox.ERROR
             	});
@@ -483,7 +483,7 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 			callback: null, 
 			responseType: null
 		});
-	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_MODIFY_ERROR"/>", result, "Ametys.plugins.core.administration.Groups.save"))
+	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key='PLUGINS_CORE_GROUPS_MODIFY_ERROR'/>", result, "Ametys.plugins.core.administration.Groups.save"))
 	    {
 	        // Just display the message.
 	    }
@@ -493,8 +493,8 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 			if (state != null && state == "missing")
 			{
 				Ext.Msg.show ({
-	            		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
-	            		msg: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_MODIFY_MISSING_ERROR"/>",
+	            		title: "<i18n:text i18n:key='PLUGINS_CORE_ERROR_DIALOG_TITLE'/>",
+	            		msg: "<i18n:text i18n:key='PLUGINS_CORE_GROUPS_MODIFY_MISSING_ERROR'/>",
 	            		buttons: Ext.Msg.OK,
 	   					icon: Ext.MessageBox.ERROR
 	            });
@@ -526,31 +526,31 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 	 */
 	_drawGroupsActionsPanel: function ()
 	{
-		this._groupsActions = new Ametys.workspace.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_CATEGORY"/>"});
+		this._groupsActions = new Ametys.workspace.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_GROUPS_HANDLE_CATEGORY'/>"});
 
 		if (this._modifiable)
 		{
 			// New group
-			this._groupsActions.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_CREATE"/>",
+			this._groupsActions.addAction("<i18n:text i18n:key='PLUGINS_CORE_GROUPS_HANDLE_CREATE'/>",
 					 null,
 					 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/groups/add_group.png', 
 					 Ext.bind(this.add, this));
 			
 			// Rename goup
-			this._groupsActions.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_RENAME"/>",
+			this._groupsActions.addAction("<i18n:text i18n:key='PLUGINS_CORE_GROUPS_HANDLE_RENAME'/>",
 					 null,
 					 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/groups/rename.png', 
 					 Ext.bind(this.rename, this));
 			
 			// Delete goup
-			this._groupsActions.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_DELETE"/>",
+			this._groupsActions.addAction("<i18n:text i18n:key='PLUGINS_CORE_GROUPS_HANDLE_DELETE'/>",
 					 null,
 					 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/groups/delete.png', 
 					 Ext.bind(this.remove, this));
 		}
 		
 		// Quit
-		this._groupsActions.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_QUIT"/>",
+		this._groupsActions.addAction("<i18n:text i18n:key='PLUGINS_CORE_GROUPS_HANDLE_QUIT'/>",
 				 null,
 				 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/groups/quit.png', 
 				 Ext.bind(this.goBack, this));
@@ -575,22 +575,22 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 		if (!this._modifiable)
 			return null;
 		
-		this._usersActions = new Ametys.workspace.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_USERS_HANDLE_CATEGORY"/>"});
+		this._usersActions = new Ametys.workspace.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_GROUPS_USERS_HANDLE_CATEGORY'/>"});
 
 		// Add user
-		this._usersActions.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_ADDUSER"/>",
+		this._usersActions.addAction("<i18n:text i18n:key='PLUGINS_CORE_GROUPS_HANDLE_ADDUSER'/>",
 				 null,
 				 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/groups/add_user.png', 
 				 Ext.bind(this.addUser, this));
 		
 		// Delete user
-		this._usersActions.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_DELETEUSER"/>", 
+		this._usersActions.addAction("<i18n:text i18n:key='PLUGINS_CORE_GROUPS_HANDLE_DELETEUSER'/>", 
 				 null,
 				 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/groups/delete.png', 
 				 Ext.bind(this.deleteUsers, this));
 		
 		// Validate modification
-		this._usersActions.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_VALIDATE"/>", 
+		this._usersActions.addAction("<i18n:text i18n:key='PLUGINS_CORE_GROUPS_HANDLE_VALIDATE'/>", 
 				 null,
 				 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/groups/validate.png', 
 				 Ext.bind(this.save, this, []));
@@ -608,8 +608,8 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 	 */
 	_drawHelpPanel: function ()
 	{
-		var helpPanel = new Ametys.workspace.admin.rightpanel.TextPanel({title: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HELP_CATEGORY"/>"});
-		helpPanel.addText("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_HELP_HINT"/>");
+		var helpPanel = new Ametys.workspace.admin.rightpanel.TextPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_GROUPS_HELP_CATEGORY'/>"});
+		helpPanel.addText("<i18n:text i18n:key='PLUGINS_CORE_GROUPS_HANDLE_HELP_HINT'/>");
 		
 		return helpPanel;
 	},
@@ -623,13 +623,13 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 		var result = Ametys.data.ServerComm.send({
 			pluginOrWorkspace: this.pluginName, 
 			url: "/administrator/groups/create", 
-			parameters: { name: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_NEWGROUP"/>" }, 
+			parameters: { name: "<i18n:text i18n:key='PLUGINS_CORE_GROUPS_NEWGROUP'/>" }, 
 			priority: Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, 
 			callback: null, 
 			responseType: null
 		});
 		
-	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_NEW_ERROR"/>", result, "Ametys.plugins.core.administration.Groups.add"))
+	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key='PLUGINS_CORE_GROUPS_NEW_ERROR'/>", result, "Ametys.plugins.core.administration.Groups.add"))
 	    {
 	       return false;
 	    }
@@ -637,7 +637,7 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 	    var id = Ext.dom.Query.selectValue("*/id", result);
 	    
 		var newEntry = Ext.create('Ametys.plugins.core.administration.Groups.Group', {
-			'name': "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_NEWGROUP"/>",
+			'name': "<i18n:text i18n:key='PLUGINS_CORE_GROUPS_NEWGROUP'/>",
 			'id': id
 		}); 
 
@@ -665,8 +665,8 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 	 */
 	remove: function () 
 	{
-		Ext.Msg.confirm ("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_DELETE"/>", 
-						 "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_DELETE_CONFIRM"/>", 
+		Ext.Msg.confirm ("<i18n:text i18n:key='PLUGINS_CORE_GROUPS_HANDLE_DELETE'/>", 
+						 "<i18n:text i18n:key='PLUGINS_CORE_GROUPS_DELETE_CONFIRM'/>", 
 						 Ext.bind(this.doRemove, this));
 	},
 	
@@ -690,8 +690,8 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 			else
 			{
 				Ext.Msg.show ({
-	        		title: "<i18n:text i18n:key="PLUGINS_CORE_ERROR_DIALOG_TITLE"/>",
-	        		msg: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_DELETE_ERROR"/>",
+	        		title: "<i18n:text i18n:key='PLUGINS_CORE_ERROR_DIALOG_TITLE'/>",
+	        		msg: "<i18n:text i18n:key='PLUGINS_CORE_GROUPS_DELETE_ERROR'/>",
 	        		buttons: Ext.Msg.OK,
 					icon: Ext.MessageBox.ERROR
 	        	});
@@ -707,7 +707,7 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
     {
         if (this._currentGroup != null && this._hasChanges)
         {
-            if (confirm("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_MODIFY_CONFIRM"/>"))
+            if (confirm("<i18n:text i18n:key='PLUGINS_CORE_GROUPS_MODIFY_CONFIRM'/>"))
             {
                 this.save();
             }

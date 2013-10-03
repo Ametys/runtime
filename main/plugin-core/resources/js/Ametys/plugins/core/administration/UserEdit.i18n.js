@@ -77,7 +77,7 @@ Ext.define('Ametys.plugins.core.administration.UserEdit', {
 		
 		this.box = new Ametys.window.DialogBox({
 			
-			title: "<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_NEW"/>",
+			title: "<i18n:text i18n:key='PLUGINS_CORE_USERS_HANDLE_NEW'/>",
 			icon: Ametys.getPluginResourcesPrefix('core') + '/img/users/icon_small.png',
 			
 			width : 430,
@@ -89,21 +89,21 @@ Ext.define('Ametys.plugins.core.administration.UserEdit', {
 			defaultButton: formPanel.items.get(0),
 			closeAction: 'hide',
 			buttons : [ {
-				text :"<i18n:text i18n:key="PLUGINS_CORE_USERS_DIALOG_OK"/>",
+				text :"<i18n:text i18n:key='PLUGINS_CORE_USERS_DIALOG_OK'/>",
 				handler : Ext.bind(this.ok, this)
 			}, {
-				text :"<i18n:text i18n:key="PLUGINS_CORE_USERS_DIALOG_CANCEL"/>",
+				text :"<i18n:text i18n:key='PLUGINS_CORE_USERS_DIALOG_CANCEL'/>",
 				handler : Ext.bind(this.cancel, this)
 			} ]
 		});
 		
 		if (this.params['mode'] == 'new')
 		{
-			this.box.setTitle("<i18n:text i18n:key="PLUGINS_CORE_USERS_HANDLE_NEW"/>", 'new-user-icon-box');
+			this.box.setTitle("<i18n:text i18n:key='PLUGINS_CORE_USERS_HANDLE_NEW'/>", 'new-user-icon-box');
 		}
 		else
 		{
-			this.box.setTitle("<i18n:text i18n:key="PLUGINS_CORE_USERS_DIALOG_LABEL"/>", 'edit-user-icon-box');
+			this.box.setTitle("<i18n:text i18n:key='PLUGINS_CORE_USERS_DIALOG_LABEL'/>", 'edit-user-icon-box');
 		}
 		
 		this.initialized = true;
@@ -149,7 +149,7 @@ Ext.define('Ametys.plugins.core.administration.UserEdit', {
 	    		callback: null, 
 	    		responseType: null
 	    	});
-	        if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_USERS_DIALOG_ERROR"/>", nodes, "Ametys.plugins.core.administration.UserEdit.act"))
+	        if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key='PLUGINS_CORE_USERS_DIALOG_ERROR'/>", nodes, "Ametys.plugins.core.administration.UserEdit.act"))
 	        {
 	           return;
 	        }
@@ -196,7 +196,7 @@ Ext.define('Ametys.plugins.core.administration.UserEdit', {
     		callback: null, 
     		responseType: null
     	});
-	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key="PLUGINS_CORE_USERS_DIALOG_ERROR"/>", result, "Ametys.plugins.core.administration.UserEdit.ok"))
+	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key='PLUGINS_CORE_USERS_DIALOG_ERROR'/>", result, "Ametys.plugins.core.administration.UserEdit.ok"))
 	    {
 	       return;
 	    }
