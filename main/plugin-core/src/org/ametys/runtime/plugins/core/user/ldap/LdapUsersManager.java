@@ -152,7 +152,7 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
     {
         if (isCacheEnabled())
         {
-            User user = getObjectFromCache(login);
+            User user = (User) getObjectFromCache(login);
             if (user != null)
             {
                 return user;

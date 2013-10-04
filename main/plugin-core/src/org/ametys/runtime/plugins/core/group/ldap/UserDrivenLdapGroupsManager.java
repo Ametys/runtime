@@ -202,11 +202,20 @@ public class UserDrivenLdapGroupsManager extends AbstractLDAPGroupsManager imple
             throw new IllegalArgumentException("Missing at least one value for an attribute in an ldap entry", e);
         }
     }
-
+    
     public Set<String> getUserGroups(String login)
     {
+        if (isCacheEnabled())
+        {
+            Set<String> userGroups = (Set<String>) getObjectFromCache(login);
+            if (userGroups != null)
+            {
+                return userGroups;
+            }
+        }
+        
         Set<String> groups = new HashSet<String>();
-
+        
         DirContext context = null;
         NamingEnumeration results = null;
         
@@ -230,6 +239,11 @@ public class UserDrivenLdapGroupsManager extends AbstractLDAPGroupsManager imple
             {
                 // Récupérer le groupe trouvé
                 groups.addAll(_getGroupID((SearchResult) results.nextElement()));
+            }
+            
+            if (isCacheEnabled())
+            {
+                addObjectInCache(login, groups);
             }
         }
         catch (IllegalArgumentException e)
