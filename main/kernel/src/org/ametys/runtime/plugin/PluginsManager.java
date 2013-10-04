@@ -291,10 +291,7 @@ public final class PluginsManager
         // Local schemas
         if (externalKernel != null)
         {
-            if (externalKernel.exists() && externalKernel.isDirectory())
-            {
-                _findAndAddSchema(externalKernel);
-            }
+            _findAndAddSchema(externalKernel);
         }
         
         for (String location : locations)
@@ -384,11 +381,26 @@ public final class PluginsManager
         // Plugins root directories (directories containing plugins directories)
         Collection<String> locations = RuntimeConfig.getInstance().getPluginsLocations();
         
+        // The kernel location, if external (mainly for debugging)
+        File externalKernel = RuntimeConfig.getInstance().getExternalKernel();
+        
+        // Check external kernel
+        if (externalKernel != null && (!externalKernel.exists() || !externalKernel.isDirectory()))
+        {
+            throw new RuntimeException("The configured external kernel is not an existing directory: " + externalKernel.getAbsolutePath());
+        }
+        
         // Additional plugins 
         Map<String, File> externalPlugins = RuntimeConfig.getInstance().getExternalPlugins();
         
-        // The kernel location, if external (mainly for debugging)
-        File externalKernel = RuntimeConfig.getInstance().getExternalKernel();
+        // Check external plugins
+        for (File plugin : externalPlugins.values())
+        {
+            if (!plugin.exists() || !plugin.isDirectory())
+            {
+                throw new RuntimeException("The configured external plugin is not an existing directory: " + plugin.getAbsolutePath());
+            }
+        }
         
         // Schemas locations
         try

@@ -189,6 +189,10 @@ public final class WorkspaceManager
             {
                 _initFileWorkspaces(workspaceDir, externalWorkspace, excludedWorkspace, pluginsInformations);
             }
+            else
+            {
+                throw new RuntimeException("The configured external workspace is not an existing directory: " + workspaceDir.getAbsolutePath());
+            }
         }
     }
     
