@@ -27,13 +27,12 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 
 import org.ametys.runtime.config.Config;
-import org.ametys.runtime.user.User;
 import org.ametys.runtime.util.CachingComponent;
 
 /**
  * This abstract class contains all basic for a ldap connection using config parameters
  */
-public abstract class AbstractLDAPConnector extends CachingComponent<User> implements Configurable
+public abstract class AbstractLDAPConnector extends CachingComponent<Object> implements Configurable
 {
     // Check filter look
     private static final Pattern __FILTER = Pattern.compile("\\s*\\(.*\\)\\s*");
