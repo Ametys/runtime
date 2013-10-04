@@ -205,6 +205,7 @@ public class UserDrivenLdapGroupsManager extends AbstractLDAPGroupsManager imple
     
     public Set<String> getUserGroups(String login)
     {
+        // On cache hit, return the results. 
         if (isCacheEnabled())
         {
             Set<String> userGroups = (Set<String>) getObjectFromCache(login);
@@ -241,6 +242,7 @@ public class UserDrivenLdapGroupsManager extends AbstractLDAPGroupsManager imple
                 groups.addAll(_getGroupID((SearchResult) results.nextElement()));
             }
             
+            // Cache the results.
             if (isCacheEnabled())
             {
                 addObjectInCache(login, groups);
