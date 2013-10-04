@@ -151,9 +151,19 @@ public class GroupDrivenLdapGroupsManager extends AbstractLDAPGroupsManager impl
         // d'UserGroup, éventuellement vide
         return groups;
     }
-
+    
     public Set<String> getUserGroups(String login)
     {
+        // On cache hit, return the results. 
+        if (isCacheEnabled())
+        {
+            Set<String> userGroups = (Set<String>) getObjectFromCache(login);
+            if (userGroups != null)
+            {
+                return userGroups;
+            }
+        }
+        
         Set<String> groups = new HashSet<String>();
 
         DirContext context = null;
@@ -185,6 +195,12 @@ public class GroupDrivenLdapGroupsManager extends AbstractLDAPGroupsManager impl
             {
                 // Récupérer le groupe trouvé
                 groups.add(_getGroupID((SearchResult) results.nextElement()));
+            }
+            
+            // Cache the results.
+            if (isCacheEnabled())
+            {
+                addObjectInCache(login, groups);
             }
         }
         catch (IllegalArgumentException e)
