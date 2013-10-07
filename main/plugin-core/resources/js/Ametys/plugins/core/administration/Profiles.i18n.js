@@ -780,6 +780,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles.RightEntry', {
 
 /**
  * Element that displays a right in the bottom section with a checkbox
+ * @private
  */
 Ext.define('Ametys.plugins.core.administration.Profiles.CheckRightEntry', {
     extend: 'Ext.form.field.Checkbox',
