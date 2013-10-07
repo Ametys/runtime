@@ -106,24 +106,6 @@ Ext.define('Ametys.form.AbstractField', {
     	return errors;
     },
     
-    setError: function ()
-    {
-    	var me = this,
-        msgTarget = me.msgTarget,
-        prop;
-        
-    	if (me.rendered) {
-	        if (msgTarget == 'title' || msgTarget == 'qtip') {
-	            if (me.rendered) {
-	                prop = msgTarget == 'qtip' ? 'data-errorqtip' : 'title';
-	            }
-	            me.getActionEl().dom.setAttribute(prop, active || '');
-	        } else {
-	            me.updateLayout();
-	        }
-    	}
-    },
-    
     /**
      * Uses {@link #getErrors} to build an array of validation errors. If any errors are found, they are passed to
      * {@link #markInvalid} and false is returned, otherwise true is returned.
