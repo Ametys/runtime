@@ -18,7 +18,7 @@
  * This action provides a contextual panel for link actions.<br/>Use the <code>addAction</code> to add a new link action to this panel.
  */
 
-Ext.define('Ametys.workspace.admin.rightpanel.ActionPanel', {
+Ext.define('Ametys.admin.rightpanel.ActionPanel', {
 	extend: 'Ext.panel.Panel',
 		
 	autoDestroy: false,
@@ -69,7 +69,7 @@ Ext.define('Ametys.workspace.admin.rightpanel.ActionPanel', {
 	    link.className = "link"
 	    span.appendChild (link);
 
-	    var action = new Ametys.workspace.admin.rightpanel.ActionPanel.Action ({ 
+	    var action = new Ametys.admin.rightpanel.ActionPanel.Action ({ 
 			border: false,
 			html : span.innerHTML,
 			tooltip: tooltip,

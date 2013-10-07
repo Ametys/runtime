@@ -35,11 +35,11 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 	 */
 	/**
 	 * @private
-	 * @property {Ametys.workspace.admin.rightpanel.ActionPanel} _usersActions The action panel for users actions
+	 * @property {Ametys.admin.rightpanel.ActionPanel} _usersActions The action panel for users actions
 	 */
 	/**
 	 * @private
-	 * @property {Ametys.workspace.admin.rightpanel.ActionPanel} _groupsActions The action panel for groups actions
+	 * @property {Ametys.admin.rightpanel.ActionPanel} _groupsActions The action panel for groups actions
 	 */
 	/**
 	 * @private
@@ -521,12 +521,12 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 
 	/**
 	 * Draw the actions panel for groups.
-	 * @return {Ametys.workspace.admin.rightpanel.ActionPanel} The action panel
+	 * @return {Ametys.admin.rightpanel.ActionPanel} The action panel
 	 * @private
 	 */
 	_drawGroupsActionsPanel: function ()
 	{
-		this._groupsActions = new Ametys.workspace.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_GROUPS_HANDLE_CATEGORY'/>"});
+		this._groupsActions = new Ametys.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_GROUPS_HANDLE_CATEGORY'/>"});
 
 		if (this._modifiable)
 		{
@@ -567,7 +567,7 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 
 	/**
 	 * Draw the actions panel.
-	 * @return {Ametys.workspace.admin.rightpanel.ActionPanel} The action panel
+	 * @return {Ametys.admin.rightpanel.ActionPanel} The action panel
 	 * @private
 	 */
 	_drawUsersActionsPanel: function ()
@@ -575,7 +575,7 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 		if (!this._modifiable)
 			return null;
 		
-		this._usersActions = new Ametys.workspace.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_GROUPS_USERS_HANDLE_CATEGORY'/>"});
+		this._usersActions = new Ametys.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_GROUPS_USERS_HANDLE_CATEGORY'/>"});
 
 		// Add user
 		this._usersActions.addAction("<i18n:text i18n:key='PLUGINS_CORE_GROUPS_HANDLE_ADDUSER'/>",
@@ -603,12 +603,12 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 
 	/**
 	 * Draw the help panel.
-	 * @return {Ametys.workspace.admin.rightpanel.TextPanel} The help panel
+	 * @return {Ametys.admin.rightpanel.TextPanel} The help panel
 	 * @private
 	 */
 	_drawHelpPanel: function ()
 	{
-		var helpPanel = new Ametys.workspace.admin.rightpanel.TextPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_GROUPS_HELP_CATEGORY'/>"});
+		var helpPanel = new Ametys.admin.rightpanel.TextPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_GROUPS_HELP_CATEGORY'/>"});
 		helpPanel.addText("<i18n:text i18n:key='PLUGINS_CORE_GROUPS_HANDLE_HELP_HINT'/>");
 		
 		return helpPanel;

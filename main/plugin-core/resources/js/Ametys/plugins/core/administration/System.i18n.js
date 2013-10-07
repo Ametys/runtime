@@ -39,11 +39,11 @@ Ext.define('Ametys.plugins.core.administration.System', {
 	 */
 	/**
 	 * @private
-	 * @property {Ametys.workspace.admin.rightpanel.ActionPanel} _globalActions The global action panel
+	 * @property {Ametys.admin.rightpanel.ActionPanel} _globalActions The global action panel
 	 */
 	/**
 	 * @private
-	 * @property {Ametys.workspace.admin.rightpanel.ActionPanel} _actions The announce action panel
+	 * @property {Ametys.admin.rightpanel.ActionPanel} _actions The announce action panel
 	 */
 	/**
 	 * @private
@@ -197,12 +197,12 @@ Ext.define('Ametys.plugins.core.administration.System', {
 
 	/**
 	 * Draw the glabal action panel.
-	 * @return {Ametys.workspace.admin.rightpanel.ActionPanel} The action panel
+	 * @return {Ametys.admin.rightpanel.ActionPanel} The action panel
 	 * @private
 	 */
 	_drawGlobalActionsPanel: function ()
 	{
-		this._globalActions = new Ametys.workspace.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_HANDLE'/>"});
+		this._globalActions = new Ametys.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_HANDLE'/>"});
 		
 		// Save
 		this._globalActions.addAction("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_HANDLE_SAVE'/>",
@@ -221,12 +221,12 @@ Ext.define('Ametys.plugins.core.administration.System', {
 
 	/**
 	 * Draw the actions panel.
-	 * @return {Ametys.workspace.admin.rightpanel.ActionPanel} The action panel
+	 * @return {Ametys.admin.rightpanel.ActionPanel} The action panel
 	 * @private
 	 */
 	_drawActionsPanel: function ()
 	{
-		this._actions = new Ametys.workspace.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT'/>"});
+		this._actions = new Ametys.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT'/>"});
 		
 		// Add
 		this._actions.addAction("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_ADD'/>", 
@@ -254,12 +254,12 @@ Ext.define('Ametys.plugins.core.administration.System', {
 
 	/**
 	 * Draw the help panel.
-	 * @return {Ametys.workspace.admin.rightpanel.TextPanel} The help panel
+	 * @return {Ametys.admin.rightpanel.TextPanel} The help panel
 	 * @private
 	 */
 	_drawHelpPanel: function ()
 	{
-		var helpPanel = new Ametys.workspace.admin.rightpanel.TextPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_HELP'/>"});
+		var helpPanel = new Ametys.admin.rightpanel.TextPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_HELP'/>"});
 		helpPanel.addText("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_HELP_TEXT'/>");
 		
 		return helpPanel;

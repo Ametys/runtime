@@ -15,27 +15,18 @@
  */
 
 /**
- * This action provide a contextual text panel.<br/>Use the <code>addText</code> to add html text to this panel.
+ * A panel that bind the main scroll to the items
  */
-Ext.define('Ametys.workspace.admin.rightpanel.TextPanel', {
+Ext.define('Ametys.admin.rightpanel.NavigationPanel', {
 	extend: 'Ext.panel.Panel',
 	
 	autoDestroy: false,
 	collapsible: false,
-	cls: 'admin-panel text-panel',
-	bbar: [],
+	cls: 'admin-panel navigation-panel',
 	border: false,
 	titleAlign: 'right',
+	bbar: [],
 	header: {
 		height: 40
-	},
-	
-	/**
-	 * Adds a text to this panel.  
-	 * @param {String} text The html text
-	 */
-	addText: function (text)
-	{
-		this.add(Ext.Component({html: text,  border: false, cls: 'text-panel' }));
 	}
 });

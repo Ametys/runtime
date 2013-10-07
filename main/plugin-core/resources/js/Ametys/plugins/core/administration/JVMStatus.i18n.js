@@ -62,11 +62,11 @@ Ext.define('Ametys.plugins.core.administration.JVMStatus', {
 	 */
 	/**
 	 * @private
-	 * @property {Ametys.workspace.admin.rightpanel.NavigationPanel} _nav The navigation panel
+	 * @property {Ametys.admin.rightpanel.NavigationPanel} _nav The navigation panel
 	 */
 	/**
 	 * @private
-	 * @property {Ametys.workspace.admin.rightpanel.ActionPanel} _actions The action panel
+	 * @property {Ametys.admin.rightpanel.ActionPanel} _actions The action panel
 	 */
 	
 	/**
@@ -277,15 +277,15 @@ Ext.define('Ametys.plugins.core.administration.JVMStatus', {
 	/**
 	 * @private
 	 * Draw the navigation panel. This function needs the _navItems was filled first.
-	 * @return {Ametys.workspace.admin.rightpanel.NavigationPanel} The navigation panel
+	 * @return {Ametys.admin.rightpanel.NavigationPanel} The navigation panel
 	 */
 	_drawNavigationPanel: function ()
 	{
-		this._nav = new Ametys.workspace.admin.rightpanel.NavigationPanel ({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU'/>"});
+		this._nav = new Ametys.admin.rightpanel.NavigationPanel ({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU'/>"});
 		
 		for (var i=0; i < this._navItems.length; i++)
 		{
-			var item = new Ametys.workspace.admin.rightpanel.NavigationPanel.NavigationItem ({
+			var item = new Ametys.admin.rightpanel.NavigationPanel.NavigationItem ({
 				text: this._navItems[i].label,
 				
 				activeItem: i,
@@ -305,11 +305,11 @@ Ext.define('Ametys.plugins.core.administration.JVMStatus', {
 	/**
 	 * @private
 	 * Draw the actions panel.
-	 * @return {Ametys.workspace.admin.rightpanel.ActionPanel} The action panel
+	 * @return {Ametys.admin.rightpanel.ActionPanel} The action panel
 	 */
 	_drawActionsPanel: function ()
 	{
-		this._actions = new Ametys.workspace.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_HANDLE'/>"});
+		this._actions = new Ametys.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_HANDLE'/>"});
 		
 		// Quit action
 		this._actions.addAction("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_HANDLE_QUIT'/>", 
@@ -322,12 +322,12 @@ Ext.define('Ametys.plugins.core.administration.JVMStatus', {
 
 	/**
 	 * Draw the help panel.
-	 * @return {Ametys.workspace.admin.rightpanel.TextPanel} The help panel
+	 * @return {Ametys.admin.rightpanel.TextPanel} The help panel
 	 * @private
 	 */
 	_drawHelpPanel: function ()
 	{
-		var helpPanel = new Ametys.workspace.admin.rightpanel.TextPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_HELP'/>"});
+		var helpPanel = new Ametys.admin.rightpanel.TextPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_HELP'/>"});
 		helpPanel.addText("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_GENERAL_HELP_TEXT'/>");
 		helpPanel.addText("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_SYSTEM_HELP_TEXT'/>");
 		helpPanel.addText("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_PROPERTIES_HELP_TEXT'/>");

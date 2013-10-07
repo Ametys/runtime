@@ -39,11 +39,11 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 	 */
 	/**
 	 * @private
-	 * @property {Ametys.workspace.admin.rightpanel.ActionPanel} _actions The action panel
+	 * @property {Ametys.admin.rightpanel.ActionPanel} _actions The action panel
 	 */
 	/**
 	 * @private
-	 * @property {Ametys.workspace.admin.rightpanel.ActionPanel} _search The search panel
+	 * @property {Ametys.admin.rightpanel.ActionPanel} _search The search panel
 	 */
 	/**
 	 * Initialize
@@ -178,12 +178,12 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 
 	/**
 	 * Draw the search panel
-	 * @return {Ametys.workspace.admin.rightpanel.ActionPanel} The search panel
+	 * @return {Ametys.admin.rightpanel.ActionPanel} The search panel
 	 * @private
 	 */
 	_drawSearchPanel: function ()
 	{
-		this._search = new Ametys.workspace.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_USERS_SEARCH'/>"});
+		this._search = new Ametys.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_USERS_SEARCH'/>"});
 		
 		var ct = new Ext.Container({
 			layout: 'column',
@@ -224,12 +224,12 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 
 	/**
 	 * Draw the actions panel.
-	 * @return {Ametys.workspace.admin.rightpanel.ActionPanel} The action panel
+	 * @return {Ametys.admin.rightpanel.ActionPanel} The action panel
 	 * @private
 	 */
 	_drawActionsPanel: function ()
 	{
-		this._actions = new Ametys.workspace.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_USERS_HANDLE'/>"});
+		this._actions = new Ametys.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_USERS_HANDLE'/>"});
 
 		if (this._modifiable)
 		{
@@ -280,12 +280,12 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 
 	/**
 	 * Draw the help panel.
-	 * @return {Ametys.workspace.admin.rightpanel.TextPanel} The help panel
+	 * @return {Ametys.admin.rightpanel.TextPanel} The help panel
 	 * @private
 	 */
 	_drawHelpPanel: function ()
 	{
-		var helpPanel = new Ametys.workspace.admin.rightpanel.TextPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_USERS_HELP'/>"});
+		var helpPanel = new Ametys.admin.rightpanel.TextPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_USERS_HELP'/>"});
 		helpPanel.addText("<i18n:text i18n:key='PLUGINS_CORE_USERS_HELP_TEXT_READ'/>");
 		
 		return helpPanel;

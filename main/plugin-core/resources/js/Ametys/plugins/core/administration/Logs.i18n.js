@@ -105,15 +105,15 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 	
 	/**
 	 * @private
-	 * @property {Ametys.workspace.admin.rightpanel.NavigationPanel} _nav The navigation panel
+	 * @property {Ametys.admin.rightpanel.NavigationPanel} _nav The navigation panel
 	 */
 	/**
 	 * @private
-	 * @property {Ametys.workspace.admin.rightpanel.ActionPanel} _actions The action panel
+	 * @property {Ametys.admin.rightpanel.ActionPanel} _actions The action panel
 	 */
 	/**
 	 * @private
-	 * @property {Ametys.workspace.admin.rightpanel.TextPanel} _helpPanel The action panel
+	 * @property {Ametys.admin.rightpanel.TextPanel} _helpPanel The action panel
 	 */
 	
 	/**
@@ -521,16 +521,16 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 
 	/**
 	 * Draw the navigation panel. This function needs the org.ametys.administration.JVMStatus._navItems was filled first.
-	 * @return {Ametys.workspace.admin.rightpanel.NavigationPanel} The navigation panel
+	 * @return {Ametys.admin.rightpanel.NavigationPanel} The navigation panel
 	 * @private
 	 */
 	_drawNavigationPanel: function ()
 	{
-		this._nav = new Ametys.workspace.admin.rightpanel.NavigationPanel ({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU'/>"});
+		this._nav = new Ametys.admin.rightpanel.NavigationPanel ({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU'/>"});
 		
 		for (var i=0; i < this._navItems.length; i++)
 		{
-			var item = new Ametys.workspace.admin.rightpanel.NavigationPanel.NavigationItem ({
+			var item = new Ametys.admin.rightpanel.NavigationPanel.NavigationItem ({
 				text: this._navItems[i].label,
 				
 				activeItem: i,
@@ -549,12 +549,12 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 	},
 	/**
 	 * Draw the actions panel.
-	 * @return {Ametys.workspace.admin.rightpanel.ActionPanel} The action panel
+	 * @return {Ametys.admin.rightpanel.ActionPanel} The action panel
 	 * @private
 	 */
 	_drawActionsPanel: function ()
 	{
-		this._actions = new Ametys.workspace.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE'/>"});
+		this._actions = new Ametys.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE'/>"});
 		
 		// View file
 		this._actions.addAction("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_VIEW'/>", 
@@ -627,12 +627,12 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 
 	/**
 	 * Draw the help panel.
-	 * @return {Ametys.workspace.admin.rightpanel.TextPanel} The help panel
+	 * @return {Ametys.admin.rightpanel.TextPanel} The help panel
 	 * @private
 	 */
 	_drawHelpPanel: function ()
 	{
-		this._helpPanel = new Ametys.workspace.admin.rightpanel.TextPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP'/>"});
+		this._helpPanel = new Ametys.admin.rightpanel.TextPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP'/>"});
 		this._helpPanel.addText("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP_TEXT'/>");
 		this._helpPanel.addText("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP2_TEXT'/>");
 		

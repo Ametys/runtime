@@ -15,10 +15,10 @@
  */
 
 /**
- * This class provides an action item. Do not use this constructor, use the <code>addAction</code> function on a {@link Ametys.workspace.admin.rightpanel.ActionPanel} instead
+ * This class provides an action item. Do not use this constructor, use the <code>addAction</code> function on a {@link Ametys.admin.rightpanel.ActionPanel} instead
  * @private
  */
-Ext.define('Ametys.workspace.admin.rightpanel.ActionPanel.Action', {
+Ext.define('Ametys.admin.rightpanel.ActionPanel.Action', {
 	extend: 'Ext.Component',
 	cls: 'action-item',
 	

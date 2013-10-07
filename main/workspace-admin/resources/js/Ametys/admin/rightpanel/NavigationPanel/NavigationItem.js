@@ -18,7 +18,7 @@
  * This class handles an item of navigation
  * @private
  */
-Ext.define('Ametys.workspace.admin.rightpanel.NavigationPanel.NavigationItem', {
+Ext.define('Ametys.admin.rightpanel.NavigationPanel.NavigationItem', {
 	extend: 'Ext.button.Button',
 	
 	cls : "navigation-item",

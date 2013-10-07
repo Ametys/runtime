@@ -150,11 +150,11 @@
 			};
 		</script>
 		
-		<script type="text/javascript" src="{$contextPath}{$workspaceURI}/resources/js/Ametys/workspace/admin/rightpanel/ActionPanel.js"/>
-		<script type="text/javascript" src="{$contextPath}{$workspaceURI}/resources/js/Ametys/workspace/admin/rightpanel/ActionPanel/Action.js"/>
-		<script type="text/javascript" src="{$contextPath}{$workspaceURI}/resources/js/Ametys/workspace/admin/rightpanel/NavigationPanel.js"/>
-		<script type="text/javascript" src="{$contextPath}{$workspaceURI}/resources/js/Ametys/workspace/admin/rightpanel/NavigationPanel/NavigationItem.js"/>
-		<script type="text/javascript" src="{$contextPath}{$workspaceURI}/resources/js/Ametys/workspace/admin/rightpanel/TextPanel.js"/>
+		<script type="text/javascript" src="{$contextPath}{$workspaceURI}/resources/js/Ametys/admin/rightpanel/ActionPanel.js"/>
+		<script type="text/javascript" src="{$contextPath}{$workspaceURI}/resources/js/Ametys/admin/rightpanel/ActionPanel/Action.js"/>
+		<script type="text/javascript" src="{$contextPath}{$workspaceURI}/resources/js/Ametys/admin/rightpanel/NavigationPanel.js"/>
+		<script type="text/javascript" src="{$contextPath}{$workspaceURI}/resources/js/Ametys/admin/rightpanel/NavigationPanel/NavigationItem.js"/>
+		<script type="text/javascript" src="{$contextPath}{$workspaceURI}/resources/js/Ametys/admin/rightpanel/TextPanel.js"/>
 
 		<xsl:if test="/Plugins/Desktop/category">
 			<script type="text/javascript" src="{$contextPath}{$workspaceURI}/resources/js/Ametys/workspace/admin/dock/DockItem.js"/>

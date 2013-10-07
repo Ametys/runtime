@@ -30,23 +30,23 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 	 */
 	/**
 	 * @private
-	 * @property {Ametys.workspace.admin.rightpanel.NavigationPanel} _Navigation The navigation panel between read/edit mode
+	 * @property {Ametys.admin.rightpanel.NavigationPanel} _Navigation The navigation panel between read/edit mode
 	 */
 	/**
 	 * @private
-	 * @property {Ametys.workspace.admin.rightpanel.NavigationPanel.NavigationItem} item1 The read item for navigation
+	 * @property {Ametys.admin.rightpanel.NavigationPanel.NavigationItem} item1 The read item for navigation
 	 */
 	/**
 	 * @private
-	 * @property {Ametys.workspace.admin.rightpanel.NavigationPanel.NavigationItem} item2 The edit item for navigation
+	 * @property {Ametys.admin.rightpanel.NavigationPanel.NavigationItem} item2 The edit item for navigation
 	 */
 	/**
 	 * @private
-	 * @property {Ametys.workspace.admin.rightpanel.ActionPanel} _utilsCategory The action panel for handling selectall unselectall
+	 * @property {Ametys.admin.rightpanel.ActionPanel} _utilsCategory The action panel for handling selectall unselectall
 	 */
 	/**
 	 * @private
-	 * @property {Ametys.workspace.admin.rightpanel.ActionPanel} _Category The action panel for handling profiles
+	 * @property {Ametys.admin.rightpanel.ActionPanel} _Category The action panel for handling profiles
 	 */
 	/**
 	 * @private
@@ -554,8 +554,8 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 	createPanel: function(readItems, editItems) 
 	{
 		// Tabs
-		this._Navigation = new Ametys.workspace.admin.rightpanel.NavigationPanel ({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU'/>"});
-		this.item1 = new Ametys.workspace.admin.rightpanel.NavigationPanel.NavigationItem ({
+		this._Navigation = new Ametys.admin.rightpanel.NavigationPanel ({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU'/>"});
+		this.item1 = new Ametys.admin.rightpanel.NavigationPanel.NavigationItem ({
 			text: "<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_PROFILE_READ'/>",
 			handlerFn: Ext.bind(this.selectLayout, this),
 			activeItem: 0,
@@ -564,7 +564,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 			pressed: true
 		})
 		this._Navigation.add(this.item1);
-		this.item2 = new Ametys.workspace.admin.rightpanel.NavigationPanel.NavigationItem ({
+		this.item2 = new Ametys.admin.rightpanel.NavigationPanel.NavigationItem ({
 			text: "<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_PROFILE_EDIT'/>",
 			handlerFn: Ext.bind(this.selectLayout, this),
 			activeItem: 1,
@@ -574,7 +574,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 		this._Navigation.add(this.item2);
 		
 		// Handling profiles
-		this._Category = new Ametys.workspace.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_CATEGORY'/>"});
+		this._Category = new Ametys.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_CATEGORY'/>"});
 		this._Category.addAction("<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_CREATE'/>", null, Ametys.getPluginResourcesPrefix('core') + "/img/administrator/profiles/new.png", Ext.bind(this.createProfile, this));
 		this._Category.addAction("<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_RENAME'/>", null, Ametys.getPluginResourcesPrefix('core') + "/img/administrator/profiles/rename.png", Ext.bind(this.rename, this));
 		this._Category.addAction("<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_VALIDATE'/>", null, Ametys.getPluginResourcesPrefix('core') + "/img/administrator/profiles/validate.png", Ext.bind(this.saveObjects, this, []));
@@ -586,13 +586,13 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 		this._Category.hideElt(3);
 		
 		// Utils
-		this._utilsCategory = new Ametys.workspace.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_SELECT_HANDLE_CATEGORY'/>"});
+		this._utilsCategory = new Ametys.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_SELECT_HANDLE_CATEGORY'/>"});
 		this._utilsCategory.addAction("<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_PROFILES_SELECT_ALL'/>", null, Ametys.getPluginResourcesPrefix('core') + "/img/administrator/profiles/select_all.png", Ext.bind(this.selectAll, this, []));
 		this._utilsCategory.addAction("<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_PROFILES_UNSELECT_ALL'/>", null, Ametys.getPluginResourcesPrefix('core') + "/img/administrator/profiles/unselect_all.png", Ext.bind(this.unselectAll, this, []));
 		this._utilsCategory.setVisible(false);
 		
 		// Help
-		var helpCategory = new Ametys.workspace.admin.rightpanel.TextPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_PROFILES_HELP_CATEGORY'/>"});
+		var helpCategory = new Ametys.admin.rightpanel.TextPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_PROFILES_HELP_CATEGORY'/>"});
 		helpCategory.addText("<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_HELP_HINT'/>");
 		
 		Ext.define('Ametys.plugins.core.administration.Profiles.Profile', {

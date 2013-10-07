@@ -26,11 +26,11 @@ Ext.define('Ametys.plugins.core.administration.Plugins', {
 	 */
 	/**
 	 * @private
-	 * @property {Ametys.workspace.admin.rightpanel.NavigationPanel} _nav The navigation panel
+	 * @property {Ametys.admin.rightpanel.NavigationPanel} _nav The navigation panel
 	 */
 	/**
 	 * @private
-	 * @property {Ametys.workspace.admin.rightpanel.ActionPanel} _actions The action panel
+	 * @property {Ametys.admin.rightpanel.ActionPanel} _actions The action panel
 	 */
 	/**
 	 * @private
@@ -208,20 +208,20 @@ Ext.define('Ametys.plugins.core.administration.Plugins', {
 	/**
 	 * @private
 	 * Creates the navigation panel
-	 * @returns {Ametys.workspace.admin.rightpanel.NavigationPanel} The created navigation panel
+	 * @returns {Ametys.admin.rightpanel.NavigationPanel} The created navigation panel
 	 */
 	_drawNavigationPanel: function ()
 	{
-		this._nav = new Ametys.workspace.admin.rightpanel.NavigationPanel ({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU'/>"});
+		this._nav = new Ametys.admin.rightpanel.NavigationPanel ({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU'/>"});
 		
-		this._nav.add(new Ametys.workspace.admin.rightpanel.NavigationPanel.NavigationItem ({
+		this._nav.add(new Ametys.admin.rightpanel.NavigationPanel.NavigationItem ({
 				text: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_PLUGIN_VIEW'/>",
 				activeItem: 0,
 				cardLayout: 'plugin-card-panel',
 				toggleGroup : 'plugin-menu',
 			})
 		);
-		this._nav.add(new Ametys.workspace.admin.rightpanel.NavigationPanel.NavigationItem ({
+		this._nav.add(new Ametys.admin.rightpanel.NavigationPanel.NavigationItem ({
 				text: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_EXTENSION_POINT_VIEW'/>",
 				activeItem: 1,
 				cardLayout: 'plugin-card-panel',
@@ -229,7 +229,7 @@ Ext.define('Ametys.plugins.core.administration.Plugins', {
 				pressed: true
 			})
 		);
-		this._nav.add(new Ametys.workspace.admin.rightpanel.NavigationPanel.NavigationItem ({
+		this._nav.add(new Ametys.admin.rightpanel.NavigationPanel.NavigationItem ({
 				text: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_WORKSPACE_VIEW'/>",
 				activeItem: 2,
 				cardLayout: 'plugin-card-panel',
@@ -243,11 +243,11 @@ Ext.define('Ametys.plugins.core.administration.Plugins', {
 	/**
 	 * @private
 	 * Creates the action panel
-	 * @returns {Ametys.workspace.admin.rightpanel.ActionPanel} The created panel
+	 * @returns {Ametys.admin.rightpanel.ActionPanel} The created panel
 	 */
 	_drawActionPanel: function ()
 	{
-		this._actions = new Ametys.workspace.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_HANDLE'/>"});
+		this._actions = new Ametys.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_HANDLE'/>"});
 		
 		// Choose
 		this._actions.addAction("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHOOSE'/>", 
@@ -296,11 +296,11 @@ Ext.define('Ametys.plugins.core.administration.Plugins', {
 	/**
 	 * @private
 	 * Creates the help panel
-	 * @return {Ametys.workspace.admin.rightpanel.TextPanel} The panel
+	 * @return {Ametys.admin.rightpanel.TextPanel} The panel
 	 */
 	_drawHelpPanel: function ()
 	{
-		var helpPanel = new Ametys.workspace.admin.rightpanel.TextPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_HELP'/>"});
+		var helpPanel = new Ametys.admin.rightpanel.TextPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_HELP'/>"});
 		helpPanel.addText("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_HELP_TEXT'/>");
 		
 		return helpPanel;
