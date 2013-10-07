@@ -17,7 +17,7 @@
 /**
  * This class is the model for nodes of a profile tree. See {@link Ametys.runtime.profiles.ProfilesTreePanel}
  */
-Ext.define('Ametys.runtime.profile.ProfilesTreePanel.NodeEntry', {
+Ext.define('Ametys.runtime.profiles.ProfilesTreePanel.NodeEntry', {
 	extend: 'Ext.data.TreeModel',
 	
 	fields: 

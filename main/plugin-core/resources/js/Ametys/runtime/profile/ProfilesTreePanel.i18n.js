@@ -128,7 +128,7 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 	             * @event profileupdated
 	             * Fires when a profile has been updated
 	             * @param {Ametys.runtime.profiles.ProfilesTreePanel} tree The tree
-	             * @param {Ametys.runtime.profile.ProfilesTreePanel.NodeEntry} node The the profile node
+	             * @param {Ametys.runtime.profiles.ProfilesTreePanel.NodeEntry} node The the profile node
 	             */
 	            'profileupdated'
 		);
@@ -152,7 +152,7 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 	_createStore: function ()
 	{
 		return Ext.create('Ext.data.TreeStore', {
-			model: 'Ametys.runtime.profile.ProfilesTreePanel.NodeEntry',
+			model: 'Ametys.runtime.profiles.ProfilesTreePanel.NodeEntry',
 			
 			proxy: {
 				type: 'ametys',
