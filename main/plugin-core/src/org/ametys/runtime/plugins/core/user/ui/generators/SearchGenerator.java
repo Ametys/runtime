@@ -17,10 +17,12 @@ package org.ametys.runtime.plugins.core.user.ui.generators;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.cocoon.ProcessingException;
+import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.generation.ServiceableGenerator;
 import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.SAXException;
@@ -37,19 +39,7 @@ public class SearchGenerator extends ServiceableGenerator
 
     public void generate() throws IOException, SAXException, ProcessingException
     {
-        // Critère de recherche
-        Map<String, String> saxParameters = new HashMap<String, String>();
-        saxParameters.put("pattern", source);
-
-        // Nombre de résultats max
-        int count = parameters.getParameterAsInteger("limit", _DEFAULT_COUNT_VALUE);
-        if (count == -1)
-        {
-            count = Integer.MAX_VALUE;
-        }
-
-        // Décalage des résultats
-        int offset = parameters.getParameterAsInteger("start", _DEFAULT_OFFSET_VALUE);
+        Map<String, Object> jsParameters = (Map<String, Object>) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
         
         // Get the wanted UsersManager avalon role, defaults to runtime-declared UsersManager.
         String role = parameters.getParameter("usersManagerRole", UsersManager.ROLE);
@@ -66,7 +56,30 @@ public class SearchGenerator extends ServiceableGenerator
             
             contentHandler.startDocument();
             XMLUtils.startElement(contentHandler, "Search");
-            usersManager.toSAX(contentHandler, count, offset, saxParameters);
+            
+            if (jsParameters.get("login") != null)
+            {
+                XMLUtils.startElement(contentHandler, "users");
+                List<String> logins = (List<String>) jsParameters.get("login");
+                for (String login : logins)
+                {
+                    usersManager.saxUser(login, contentHandler);
+                }
+                XMLUtils.endElement(contentHandler, "users");
+            }
+            else
+            {
+                int count = parameters.getParameterAsInteger("limit", _DEFAULT_COUNT_VALUE);
+                if (count == -1)
+                {
+                    count = Integer.MAX_VALUE;
+                }
+
+                int offset = parameters.getParameterAsInteger("start", _DEFAULT_OFFSET_VALUE);
+                
+                usersManager.toSAX(contentHandler, count, offset, _getSearchParameters());
+            }
+            
             XMLUtils.endElement(contentHandler, "Search");
             contentHandler.endDocument();
         }
@@ -79,5 +92,16 @@ public class SearchGenerator extends ServiceableGenerator
         {
             manager.release(usersManager);
         }
+    }
+    
+    /**
+     * Get the search parameters
+     * @return the search parameters
+     */
+    protected Map<String, String> _getSearchParameters ()
+    {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("pattern", source);
+        return params;
     }
 }
