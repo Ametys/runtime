@@ -57,7 +57,7 @@ public class JSonReader extends ServiceableReader
         Request request = ObjectModelHelper.getRequest(objectModel);
         Map<String, Object> mapToRead = (Map<String, Object>) request.getAttribute(MAP_TO_READ);
      
-        _jsonUtils.convertMapToJson(out, mapToRead);
+        _jsonUtils.convertObjectToJson(out, mapToRead);
     }
     
 }

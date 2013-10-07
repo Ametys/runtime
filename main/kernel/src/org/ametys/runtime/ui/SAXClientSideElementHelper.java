@@ -71,7 +71,7 @@ public class SAXClientSideElementHelper extends AbstractLogEnabled implements Co
             // SAX Action (classname and initial parameters)
             AttributesImpl attrs = new AttributesImpl();
             attrs.addCDATAAttribute("class", script.getScriptClassname());
-            XMLUtils.createElement(handler, "action", attrs, _jsonUtils.convertMapToJson(parameters));
+            XMLUtils.createElement(handler, "action", attrs, _jsonUtils.convertObjectToJson(parameters));
             
             // SAX Scripts
             XMLUtils.startElement(handler, "scripts");

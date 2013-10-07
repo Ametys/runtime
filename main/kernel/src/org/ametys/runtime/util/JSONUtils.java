@@ -175,12 +175,12 @@ public class JSONUtils implements Component, ThreadSafe, Serviceable, Initializa
     }
     
     /**
-     * Convert a {@link Map} object to JSON string using specified output stream.
+     * Convert an object to JSON string using specified output stream.
      * The out stream is closed after processing.
-     * @param out The {@link Map} object
-     * @param parameters The {@link Map} object
+     * @param out The output stream
+     * @param parameters The object to convert
      */
-    public void convertMapToJson (OutputStream out, Map<String, Object> parameters)
+    public void convertObjectToJson (OutputStream out, Object parameters)
     {
         try
         {
@@ -196,11 +196,11 @@ public class JSONUtils implements Component, ThreadSafe, Serviceable, Initializa
     }
     
     /**
-     * Convert a {@link Map} object to a JSON string
-     * @param parameters The {@link Map} object
+     * Convert an object to a JSON string
+     * @param parameters The object to convert (List, Map ..)
      * @return The JSON string
      */
-    public String convertMapToJson (Map<String, Object> parameters)
+    public String convertObjectToJson (Object parameters)
     {
         try
         {
