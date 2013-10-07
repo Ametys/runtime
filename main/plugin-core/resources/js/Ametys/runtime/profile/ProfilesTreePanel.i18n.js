@@ -392,10 +392,9 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 	 * Update the right's context then reload the tree store.
 	 * @param {String} context The context
 	 * @param {Object} params the additional parameters to pass along with the request when loading the store
-	 * @param {Boolean} init 
 	 * @param {Function} callback The callback for the deferred reload tree method.
 	 */
-	updateContext: function(context, params, init, callback)
+	updateContext: function(context, params, callback)
 	{	
 		this._context = context || '';
 		this._loadParams = params || {};
