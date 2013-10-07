@@ -16,6 +16,7 @@
 
 /**
  * Edit a user
+ * @private
  */
 Ext.define('Ametys.plugins.core.administration.UserEdit', {
 	singleton: true,

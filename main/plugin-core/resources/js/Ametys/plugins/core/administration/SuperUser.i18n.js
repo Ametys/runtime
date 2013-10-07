@@ -16,6 +16,7 @@
 
 /**
  * The dialog box to select a super user for the rights manager
+ * @private
  */
 Ext.define('Ametys.plugins.core.administration.SuperUser', {
 	singleton: true,

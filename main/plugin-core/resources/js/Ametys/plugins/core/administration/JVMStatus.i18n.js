@@ -17,6 +17,7 @@
 /**
  * Building the jvm status screen for administration workspace.
  * See {@link #initialize} and {@link #createPanel}.
+ * @private
  */
 Ext.define('Ametys.plugins.core.administration.JVMStatus', {
 	singleton: true,

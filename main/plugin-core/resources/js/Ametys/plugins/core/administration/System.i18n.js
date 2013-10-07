@@ -17,6 +17,7 @@
 /**
  * Class to rule the system screen (the one with user announce).
  * See {@link #initialize} and {@link #createPanel}.
+ * @private
  */
 Ext.define('Ametys.plugins.core.administration.System', {
 	singleton: true,

@@ -16,6 +16,7 @@
 
 /**
  * Set the admin password
+ * @private
  */
 
 Ext.define('Ametys.plugins.core.administration.Groups', {

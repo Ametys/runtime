@@ -16,6 +16,7 @@
 
 /**
  * The configuration screen
+ * @private
  */
 Ext.define('Ametys.plugins.core.administration.Config', {
 	singleton: true,
