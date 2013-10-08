@@ -237,6 +237,56 @@ Ext.define(
 		},
 		
 		/**
+		 * Load a js file
+		 * @param {String} url The url of the js file to load
+		 * @param {Function} onLoad The callback to call on successful load.
+		 * @param {Function} onError The callback to call on failure to load.
+		 */
+		loadScript: function (url, onLoad, onError)
+		{
+			var me = this;
+			function internalOnError (msg)
+			{
+				var message = "<i18n:text i18n:key='KERNEL_LOADSCRIPT_ERROR'/>" + url;
+				Ametys.log.Logger.error({category: me.self.getName(), message: message});
+				
+				if (Ext.isFunction (onError))
+				{
+					onError.call (null, msg);
+				}
+			}
+			
+			function internalOnLoad (msg)
+			{
+				if (Ametys.log.Logger.isInfoEnabled())
+				{
+					var message = "<i18n:text i18n:key='KERNEL_LOADSCRIPT_SUCCESS'/>" + url;
+					Ametys.log.Logger.info({category: me.self.getName(), message: message});
+				}
+				
+				if (Ext.isFunction (onLoad))
+				{
+					onLoad.call ();
+				}
+			}
+			
+			// Disable cache to avoid URL ends with '?_dc=1379928434854'
+			Ext.Loader.setConfig ({
+				disableCaching : false
+			});
+			
+			Ext.Loader.loadScript({
+				url: url,	
+				onLoad: internalOnLoad,
+				onError: internalOnError
+			});
+			
+			Ext.Loader.setConfig ({
+				disableCaching : true
+			});
+		},
+		
+		/**
 		 * Retrieve an object by its name
 		 * @param {String} name The name of the object
 		 * @param {Object} [context=window] The search context (relative to the object name).

@@ -43,11 +43,14 @@
 	<message key="KERNEL_MULTIPLE_HINT">séparés par des virgules</message>
 	
 	<!-- Counter (for richtexts and textareas) -->
-   <message key="KERNEL_FIELD_CARACTERS_COUNTER_1">Caractères :</message>
-   <message key="KERNEL_FIELD_CARACTERS_COUNTER_2">sur</message>
+   	<message key="KERNEL_FIELD_CARACTERS_COUNTER_1">Caractères :</message>
+   	<message key="KERNEL_FIELD_CARACTERS_COUNTER_2">sur</message>
 	
    	<message key="KERNEL_LOADMASK_DEFAULT_MESSAGE">Traitement en cours. Veuillez patienter ...</message>
 
+	<message key="KERNEL_LOADSCRIPT_SUCCESS">Chargement du fichier </message>
+	<message key="KERNEL_LOADSCRIPT_ERROR">Echec lors du chargement du fichier </message>
+	
 	 <!-- +
     	 | ServerComm.js
     	 + -->

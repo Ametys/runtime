@@ -48,6 +48,9 @@
 	
    	<message key="KERNEL_LOADMASK_DEFAULT_MESSAGE">Loading. Please wait...</message>
 
+	<message key="KERNEL_LOADSCRIPT_SUCCESS">File loaded </message>
+	<message key="KERNEL_LOADSCRIPT_ERROR">Failed loading file </message>
+	
     <!-- +
     	 | ServerComm.js
     	 + -->
