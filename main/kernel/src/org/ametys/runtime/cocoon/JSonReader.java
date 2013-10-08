@@ -34,7 +34,7 @@ import org.ametys.runtime.util.JSONUtils;
 public class JSonReader extends ServiceableReader
 {
     /** The map to */
-    public static final String MAP_TO_READ = JSonReader.class.getName() + "$result-map";
+    public static final String OBJECT_TO_READ = JSonReader.class.getName() + "$result-map";
     
     private JSONUtils _jsonUtils;
     
@@ -55,7 +55,7 @@ public class JSonReader extends ServiceableReader
     public void generate() throws IOException, SAXException, ProcessingException
     {
         Request request = ObjectModelHelper.getRequest(objectModel);
-        Map<String, Object> mapToRead = (Map<String, Object>) request.getAttribute(MAP_TO_READ);
+        Map<String, Object> mapToRead = (Map<String, Object>) request.getAttribute(OBJECT_TO_READ);
      
         _jsonUtils.convertObjectToJson(out, mapToRead);
     }

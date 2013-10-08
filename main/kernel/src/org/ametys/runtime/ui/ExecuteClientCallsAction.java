@@ -119,7 +119,7 @@ public class ExecuteClientCallsAction extends ServiceableAction implements Threa
         Map<String, Object> result = _executeMethod(method, object, paramValues);
 
         Request request = ObjectModelHelper.getRequest(objectModel);
-        request.setAttribute(JSonReader.MAP_TO_READ, result);
+        request.setAttribute(JSonReader.OBJECT_TO_READ, result);
         
         return EMPTY_MAP;
     }

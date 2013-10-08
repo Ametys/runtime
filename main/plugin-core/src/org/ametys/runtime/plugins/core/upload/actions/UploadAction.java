@@ -94,7 +94,7 @@ public class UploadAction extends AbstractCurrentUserProviderServiceableAction
             }
         }
         
-        request.setAttribute(JSonReader.MAP_TO_READ, result);
+        request.setAttribute(JSonReader.OBJECT_TO_READ, result);
 
         return EMPTY_MAP;
     }
