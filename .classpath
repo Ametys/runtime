@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="main/plugin-core/src"/>
+	<classpathentry kind="src" path="main/kernel/src"/>
+	<classpathentry kind="src" path="main/workspace-admin/src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?project=01_Runtime&amp;ivyXmlPath=ivy.xml&amp;confs=compile%2Ctest"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

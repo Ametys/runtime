@@ -105,6 +105,13 @@ Ext.define('Ametys.form.field.RichText', {
 	 * @property {Number} _editorDiffSize.height The width in pixel of diffence between the whole field width and the editor height
 	 * @private
 	 */
+	/**
+    * @cfg {Object[]} semAnnotations
+    * @cfg {Object} semAnnotations.name Unique name of the semantic annotation
+    * @cfg {Object} semAnnotations.label Display name of the semantic annotation
+    * @cfg {Object} semAnnotations.description Description of the semantic annotation
+    * List of available annotations for rich text 
+    */
 	
     /**
      * @cfg {Number} maxLength

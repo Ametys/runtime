@@ -464,6 +464,15 @@
                     </xsd:documentation>
                 </xsd:annotation>            
             </xsd:element>
+            <xsd:element name="semAnnotations" type="semantic-annotations" maxOccurs="1" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            The optional semantic annotations of a rich text metadata.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>            
+            </xsd:element>
             <xsd:element name="enumeration" type="enumeration" maxOccurs="1" minOccurs="0">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">
@@ -487,6 +496,20 @@
                 </xsd:annotation>
             </xsd:element>
         </xsd:sequence>
+    </xsd:complexType>
+    
+	<xsd:complexType name="semantic-annotations">
+ 		<xsd:sequence>
+ 			<xsd:element name="semAnnotation" type="semantic-annotation" maxOccurs="unbounded" minOccurs="0">
+               <xsd:annotation>
+                   <xsd:documentation xml:lang="en">
+                       <![CDATA[
+                       	Declaration of a semantic annotation
+                       ]]>
+                   </xsd:documentation>
+               </xsd:annotation>            
+           </xsd:element>
+ 		</xsd:sequence>
     </xsd:complexType>
     
     <xsd:complexType name="widget-parameters">
@@ -538,6 +561,40 @@
 		        </xsd:attribute>
 			</xsd:extension>
 		</xsd:simpleContent>
+    </xsd:complexType>
+    
+    <xsd:complexType name="semantic-annotation">
+    	<xsd:sequence>
+            <xsd:element name="label" type="i18n-entry" maxOccurs="1" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            The i18n key to use for the label of the semAnnotation.<br/>
+                            The label is a short string : a kind of name for the semAnnotation.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>            
+            </xsd:element>
+            <xsd:element name="description" type="i18n-entry" maxOccurs="1" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            The i18n key to use for the description of the semAnnotation.<br/>
+                            The description is a sentence explaining the semAnnotation.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>            
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="name" type="xsd:string" use="required">
+			<xsd:annotation>
+		    	<xsd:documentation xml:lang="en">
+		        	<![CDATA[
+		            	The name of the semAnnotation, must be unique.
+		            ]]>
+		        </xsd:documentation>
+		    </xsd:annotation>            
+		</xsd:attribute>        
     </xsd:complexType>
     
     <xsd:complexType name="enumeration">
