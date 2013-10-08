@@ -88,7 +88,7 @@ public class JSONTestCase extends AbstractRuntimeTestCase
         Map<String, Object> parameters = itemFactory3.getParameters(null);
         
         String expectedJson = "{\"label\":\"label\",\"default-description\":\"description\",\"icon-small\":\"/plugins/core/resources/img/icon_small.gif\",\"icon-medium\":\"/plugins/core/resources/img/icon_medium.gif\",\"icon-large\":\"/plugins/core/resources/img/icon_large.gif\",\"child\":{\"id\":\"child-1\",\"label\":\"label\"}}";
-        String json = _jsonUtils.convertMapToJson(parameters);
+        String json = _jsonUtils.convertObjectToJson(parameters);
         assertNotNull(json);
         assertEquals(json, expectedJson);
         
