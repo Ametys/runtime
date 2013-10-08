@@ -154,7 +154,11 @@ Ext.define('Ametys.form.field.ChangePassword', {
      */
     modificationBodyCls: 'ametys-changepassword-body',
     
-    initComponent: function() {
+    /**
+     * @inheritdoc
+     */
+    initComponent: function() 
+    {
     	var passwordConfig = this.passwordConfig || {};
     		passwordConfig.inputType = 'password';
     		passwordConfig.cls = 'ametys-changepassword-initial';
@@ -198,10 +202,16 @@ Ext.define('Ametys.form.field.ChangePassword', {
         
     },
     
+    /**
+     * @inheritdoc
+     */
 	splitValue: function(value) {
 		return [value, value];
 	},
 	
+    /**
+     * @inheritdoc
+     */
 	concatValues: function(values) {
 		if (values[0] == values[1])
 		{
@@ -213,6 +223,9 @@ Ext.define('Ametys.form.field.ChangePassword', {
 		}
 	},
 	
+    /**
+     * @inheritdoc
+     */
 	splitSize: function(width, height) {
 		var sizes = [{}, {}, {}, {}];
 		
@@ -238,6 +251,9 @@ Ext.define('Ametys.form.field.ChangePassword', {
 		return sizes;
 	},
 	
+    /**
+     * @inheritdoc
+     */
     getErrors: function(value) {
     	var a = this.callParent(arguments);
 
@@ -266,6 +282,9 @@ Ext.define('Ametys.form.field.ChangePassword', {
         return isValid;
     },
     
+    /**
+     * @inheritdoc
+     */
     getValue: function()
     {
     	if (this.mode == Ametys.form.field.ChangePassword.MODE_SEEPASSWORD)
@@ -278,6 +297,9 @@ Ext.define('Ametys.form.field.ChangePassword', {
     	}
     },
     
+    /**
+     * @inheritdoc
+     */
     getSubmitData: function()
     {
     	if (this.mode == Ametys.form.field.ChangePassword.MODE_SEEPASSWORD)
@@ -290,6 +312,9 @@ Ext.define('Ametys.form.field.ChangePassword', {
     	}
     },
     
+    /**
+     * @inheritdoc
+     */
     setValue: function(value)
     {
     	if (value == undefined || value == '')
@@ -378,6 +403,9 @@ Ext.define('Ametys.form.field.ChangePassword', {
     	}
     },
     
+    /**
+     * @inheritdoc
+     */
     enable: function()
     {
     	this.callParent(arguments);
@@ -385,6 +413,9 @@ Ext.define('Ametys.form.field.ChangePassword', {
     	this._adaptRenderToMode();
     },
     
+    /**
+     * @inheritdoc
+     */
     disable: function()
     {
     	this.callParent(arguments);
