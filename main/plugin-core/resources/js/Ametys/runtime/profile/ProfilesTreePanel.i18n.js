@@ -315,7 +315,6 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 	/**
 	 * @private
 	 * Listen to the *beforeload* of the tree store
-	 * Clear the tip cache.
 	 * Inject extra parameters to the load request
 	 * See {@link Ext.data.TreeStore#event-beforeload}
 	 */
