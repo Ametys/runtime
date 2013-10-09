@@ -47,12 +47,22 @@ Ext.define(
 	"Ametys.log.Logger",
 	{
 		singleton: true,
+		mixins: {
+			state: 'Ext.state.Stateful'
+		},
+		
+		/**
+		 * @private
+		 * @property {Boolean} _stateInitialized=false Has the stateful already been initialized
+		 */
 		
 		/**
 		 * @private
 		 * @property {Ext.data.ArrayStore} _store The store of log entries 
 		 */
-		_store: Ext.create("Ext.data.ArrayStore"),
+		_store: Ext.create("Ext.data.ArrayStore", {
+			sorters: [{property: 'date', direction:'DESC'}],
+		}),
 		
 		/**
 		 * @private
@@ -66,7 +76,16 @@ Ext.define(
 		 */
 		getLogLevel: function()
 		{
-			return _currentLogLevel;
+			if (!this._stateInitialized)
+			{
+				// restore state to overwrite values
+				this.mixins.state.constructor.call(this, {
+					stateful: true,
+					stateId: this.self.getName()
+				});
+			}
+			
+			return this._currentLogLevel;
 		},
 
 		/**
@@ -76,6 +95,14 @@ Ext.define(
 		setLogLevel: function(logLevel)
 		{
 			this._currentLogLevel = Math.min(Math.max(logLevel, Ametys.log.Logger.Entry.LEVEL_DEBUG), Ametys.log.Logger.Entry.LEVEL_FATAL);
+			this.saveState();
+		},
+		
+		getState: function()
+		{
+			return {
+				_currentLogLevel: this.getLogLevel()
+			}
 		},
 		
 		/**
@@ -84,7 +111,7 @@ Ext.define(
 		 */
 		isDebugEnabled: function()
 		{
-			return this._currentLogLevel <= Ametys.log.Logger.Entry.LEVEL_DEBUG;
+			return this.getLogLevel() <= Ametys.log.Logger.Entry.LEVEL_DEBUG;
 		},
 		/**
 		 * Will an info message be logged ?
@@ -92,7 +119,7 @@ Ext.define(
 		 */
 		isInfoEnabled: function()
 		{
-			return this._currentLogLevel <= Ametys.log.Logger.Entry.LEVEL_INFO;
+			return this.getLogLevel() <= Ametys.log.Logger.Entry.LEVEL_INFO;
 		},
 		/**
 		 * Will a warn message be logged ?
@@ -100,7 +127,7 @@ Ext.define(
 		 */
 		isWarnEnabled: function()
 		{
-			return this._currentLogLevel <= Ametys.log.Logger.Entry.LEVEL_WARN;
+			return this.getLogLevel() <= Ametys.log.Logger.Entry.LEVEL_WARN;
 		},
 		/**
 		 * Will an error message be logged ?
@@ -108,7 +135,7 @@ Ext.define(
 		 */
 		isErrorEnabled: function()
 		{
-			return this._currentLogLevel <= Ametys.log.Logger.Entry.LEVEL_ERROR;
+			return this.getLogLevel() <= Ametys.log.Logger.Entry.LEVEL_ERROR;
 		},
 		/**
 		 * Will a fatal message be logged ?
@@ -116,7 +143,7 @@ Ext.define(
 		 */
 		isFatalEnabled: function()
 		{
-			return this._currentLogLevel <= Ametys.log.Logger.Entry.LEVEL_FATAL;
+			return this.getLogLevel() <= Ametys.log.Logger.Entry.LEVEL_FATAL;
 		},
 		
 		/**
@@ -196,7 +223,7 @@ Ext.define(
 		 */
 		_log: function(config, level)
 		{
-			if (this._currentLogLevel > level)
+			if (this.getLogLevel() > level)
 			{
 				return;
 			}
