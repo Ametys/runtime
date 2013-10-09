@@ -16,7 +16,6 @@
 package org.ametys.runtime.cocoon;
 
 import java.io.IOException;
-import java.util.Map;
 
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
@@ -55,9 +54,9 @@ public class JSonReader extends ServiceableReader
     public void generate() throws IOException, SAXException, ProcessingException
     {
         Request request = ObjectModelHelper.getRequest(objectModel);
-        Map<String, Object> mapToRead = (Map<String, Object>) request.getAttribute(OBJECT_TO_READ);
+        Object objectToRead = request.getAttribute(OBJECT_TO_READ);
      
-        _jsonUtils.convertObjectToJson(out, mapToRead);
+        _jsonUtils.convertObjectToJson(out, objectToRead);
     }
     
 }

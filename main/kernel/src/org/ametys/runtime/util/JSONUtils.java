@@ -191,7 +191,7 @@ public class JSONUtils implements Component, ThreadSafe, Serviceable, Initializa
         }
         catch (IOException e)
         {
-            throw new IllegalArgumentException("The object map can not be converted to json string", e);
+            throw new IllegalArgumentException("The object can not be converted to json string", e);
         }
     }
     
@@ -213,7 +213,7 @@ public class JSONUtils implements Component, ThreadSafe, Serviceable, Initializa
         }
         catch (IOException e)
         {
-            throw new IllegalArgumentException("The object map can not be converted to json string", e);
+            throw new IllegalArgumentException("The object can not be converted to json string", e);
         }
     }
 }
