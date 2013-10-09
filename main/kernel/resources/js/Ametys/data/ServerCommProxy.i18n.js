@@ -128,7 +128,7 @@ Ext.define('Ametys.data.ServerCommProxy', {
 		}
 		else
 		{
-			return response;
+			return Ext.JSON.decode(Ext.dom.Query.selectValue('', response));
 		}
 	}
 });
