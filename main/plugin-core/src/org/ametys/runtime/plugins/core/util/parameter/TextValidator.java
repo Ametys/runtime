@@ -16,6 +16,7 @@
 
 package org.ametys.runtime.plugins.core.util.parameter;
 
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.apache.avalon.framework.configuration.Configuration;
@@ -65,6 +66,19 @@ public class TextValidator extends DefaultValidator
         {
             XMLUtils.createElement(handler, "maxlength", _maxLength.toString());
         }
+    }
+    
+    @Override
+    public Map<String, Object> getConfiguration()
+    {
+        Map<String, Object> configuration = super.getConfiguration();
+        
+        if (_maxLength != null)
+        {
+            configuration.put("maxlength", _maxLength);
+        }
+        
+        return configuration;
     }
     
     @Override

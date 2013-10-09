@@ -15,6 +15,8 @@
  */
 package org.ametys.runtime.util.parameter;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.apache.avalon.framework.configuration.Configurable;
@@ -144,6 +146,26 @@ public class DefaultValidator extends AbstractLogEnabled implements Validator, C
         {
             _invalidText.toSAX(handler, "invalidText");
         }
+    }
+    
+    @Override
+    public Map<String, Object> getConfiguration()
+    {
+        Map<String, Object> configuration = new HashMap<String, Object>();
+        
+        configuration.put("mandatory", _isMandatory);
+        
+        if (_regexp != null)
+        {
+            configuration.put("regexp", _regexp);
+        }
+    
+        if (_invalidText != null)
+        {
+            configuration.put("invalidText", _invalidText);
+        }
+        
+        return configuration;
     }
     
     @Override

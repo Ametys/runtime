@@ -15,6 +15,8 @@
  */
 package org.ametys.runtime.util.parameter;
 
+import java.util.Map;
+
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
@@ -36,4 +38,12 @@ public interface Validator
      * @throws SAXException if an error occured
      */
     public void saxConfiguration(ContentHandler handler) throws SAXException;
+    
+    /**
+     * Retrieves the configuration of the validator. Information contained in
+     * the returned map shoud be the same than those SAX'ed in
+     * {@link #saxConfiguration(ContentHandler)}
+     * @return a map containing the configuration information.
+     */
+    public Map<String, Object> getConfiguration();
 }
