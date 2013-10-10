@@ -153,7 +153,7 @@ public class DefaultValidator extends AbstractLogEnabled implements Validator, C
     {
         Map<String, Object> configuration = new HashMap<String, Object>();
         
-        configuration.put("mandatory", _isMandatory);
+        configuration.put("mandatory", Boolean.valueOf(_isMandatory));
         
         if (_regexp != null)
         {
