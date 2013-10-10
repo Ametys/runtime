@@ -918,6 +918,7 @@
 					/**
 					 * @member Ext.Base
 					 * @method getLogger
+					 * @static
 					 * @ametys
 					 * @since Ametys Runtime 3.7 
 					 * Get the logger of this class (using classname as category)
