@@ -41,52 +41,44 @@ Ext.define('Ametys.form.field.DateTime', {
     
     initComponent: function() {
     	this.items = [
-    	      Ext.create('Ext.form.field.Date', this.dateConfig), 
-    	      Ext.create('Ext.form.field.Time', this.timeConfig)
+    	      Ext.create('Ext.form.field.Date', Ext.applyIf(this.dateConfig || {}, {flex: 0.7})), 
+    	      Ext.create('Ext.form.field.Time', Ext.applyIf(this.timeConfig|| {}, {flex: 0.3}))
     	];
     	
         this.callParent();
     },
-	
-	splitValue: function(value) {
-		if (!Ext.isDate(value))
+    
+    getValue: function ()
+    {
+    	var v1 = this.items.get(0).getValue();
+    	var v2 = this.items.get(1).getValue();
+    	
+    	if (Ext.isDate(v1))
+    	{
+    		var d = Ext.Date.clearTime(v1, true);
+			if (v2 != undefined)
+			{
+				d.setHours(v2.getHours(), v2.getMinutes(), v2.getSeconds(), v2.getMilliseconds());
+			}
+			return d;
+    	}
+    	else
+    	{
+    		return "";
+    	}
+    },
+    
+    setValue: function (value)
+    {
+    	if (!Ext.isDate(value))
 		{
 			value = Ext.Date.parse(value, this.submitFormat);
 		}
-		return value ? [Ext.Date.clone(value), Ext.Date.clone(value)] : [null, null];
-	},
-	
-	concatValues: function(values) {
-		if (values[0] == undefined)
-		{
-			return undefined;
-		}
-		else if (Ext.isDate(values[0]))
-		{
-			var d = Ext.Date.clearTime(values[0], true);
-			if (values[1] != undefined)
-			{
-				d.setHours(values[1].getHours(), values[1].getMinutes(), values[1].getSeconds(), values[1].getMilliseconds());
-			}
-			return d;
-		}
-		else
-		{
-			return "";
-		}
-	},
-	
-	splitSize: function(width, height) {
-		var sizes = [{}, {}];
-		
-		if (width)
-		{
-			sizes[0].width = width * 0.7;
-			sizes[1].width = width * 0.3;
-		}
-		
-		return sizes;
-	},
+    
+    	this.items.each (function (item) {
+    		item.setValue(value ? Ext.Date.clone(value) : null);
+    	});
+    },
 	
     getSubmitData: function() {
         var me = this,

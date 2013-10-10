@@ -44,14 +44,14 @@ Ext.define('Ametys.form.field.ChangePassword', {
          * @property {Number} 
          * index for the change password button in the items
          */
-        INDEX_CHANGEPASSWORD_BUTTON: 3,
+        INDEX_CHANGEPASSWORD_BUTTON: 2,
         /**
          * @protected
          * @readonly
          * @property {Number} 
          * index for the change password button in the items
          */
-        INDEX_RESETPASSWORD_BUTTON: 2,
+        INDEX_RESETPASSWORD_BUTTON: 3,
 
         /**
          * @protected
@@ -142,7 +142,7 @@ Ext.define('Ametys.form.field.ChangePassword', {
      * This property is copied to underlying text fields. See {@link Ext.form.field.Text#cfg-stripCharsRe}.
      */
 
-    layout: {type: 'table', columns: 2, tableAttrs: { style: { width: '100%' } } },
+    layout: null,
     cls: 'ametys-changepassword',
 
 	/**
@@ -159,42 +159,46 @@ Ext.define('Ametys.form.field.ChangePassword', {
      */
     initComponent: function() 
     {
+    	// Password
     	var passwordConfig = this.passwordConfig || {};
     		passwordConfig.inputType = 'password';
+    		passwordConfig.width = '100%';
     		passwordConfig.cls = 'ametys-changepassword-initial';
-    		passwordConfig.colspan = 2;
        	var propertiesToCopy = ['allowBlank', 'blankText', 'emptyText', 'invalidText', 'maskRe', 'maxLength', 'maxLengthText', 'minLength', 'minLengthText', 'regex', 'regexText', 'selectOnFocus', 'size', 'stripCharsRe'];
     	this._copyPropIfDefined(passwordConfig, propertiesToCopy, this.initialConfig);
     	var field1 = Ext.create('Ext.form.field.Text', passwordConfig);
-    	field1.on ('change', this.validateGlobal, this);
     	
+    	// Password confirm
     	var confirmConfig = this.confirmConfig || this.passwordConfig || {};
 			confirmConfig.inputType = 'password';
 			confirmConfig.cls = 'ametys-changepassword-confirmation';
-			confirmConfig.colspan = 1;
+			confirmConfig.width = '100%';
     	this._copyPropIfDefined(confirmConfig, propertiesToCopy, this.initialConfig);
     	var field2 = Ext.create('Ext.form.field.Text', confirmConfig);
-    	field2.on ('change', this.validateGlobal, this);
     	
+    	// Change password button
     	var buttonConfig = this.buttonConfig || {};
     	Ext.applyIf(buttonConfig, {
     		text: "<i18n:text i18n:key='KERNEL_PASSWORD_CHANGE' i18n:catalogue='kernel'/>",
     		cls: 'ametys-changepassword-change',
-    		_handler: Ext.bind(this._setToMode, this, [Ametys.form.field.ChangePassword.MODE_CHANGEPASSWORD]),
-    		colspan: 2
+    		width: '100%',
+    		handler: Ext.bind(this._setToMode, this, [Ametys.form.field.ChangePassword.MODE_CHANGEPASSWORD])
     	});
-    	var button1 = Ext.create('Ext.button.Button', buttonConfig);
+    	var chgBtn = Ext.create('Ext.button.Button', buttonConfig);
 
-    	var button2Config = {
-    		_handler: Ext.bind(this._setToMode, this, [Ametys.form.field.ChangePassword.MODE_SEEPASSWORD]),
+    	// Reset change button
+    	var rstButtonCfg = {
+    		handler: Ext.bind(this._setToMode, this, [Ametys.form.field.ChangePassword.MODE_SEEPASSWORD]),
     		tooltip: "<i18n:text i18n:key='KERNEL_PASSWORD_CLEAR' i18n:catalogue='kernel'/>",
-    		cls: 'ametys-changepassword-reset'
+    		cls: 'ametys-changepassword-reset',
+    		height: 0
     	};
-    	var button2 = Ext.create('Ext.button.Button', button2Config);
+    	var rstButton = Ext.create('Ext.button.Button', rstButtonCfg);
     	
-    	this.items = [field1, field2, button2, button1];
+    	this.items = [field1, field2, chgBtn, rstButton];
     	
     	this.mode = Ametys.form.field.ChangePassword.MODE_SETPASSWORD;
+    	this.msgTarget = 'side';
     	
     	this.on('afterrender', this._adaptRenderToMode, this);
     	
@@ -202,58 +206,22 @@ Ext.define('Ametys.form.field.ChangePassword', {
         
     },
     
-    /**
-     * @inheritdoc
-     */
-	splitValue: function(value) {
-		return [value, value];
-	},
-	
-    /**
-     * @inheritdoc
-     */
-	concatValues: function(values) {
-		if (values[0] == values[1])
-		{
-			return values[0];
-		}
-		else 
-		{
-			return undefined;
-		}
-	},
-	
-    /**
-     * @inheritdoc
-     */
-	splitSize: function(width, height) {
-		var sizes = [{}, {}, {}, {}];
-		
-		switch (this.mode)
-		{
-			case Ametys.form.field.ChangePassword.MODE_SETPASSWORD:
-			case Ametys.form.field.ChangePassword.MODE_CHANGEPASSWORD:
-				if (width)
-				{
-					sizes[Ametys.form.field.ChangePassword.INDEX_MAIN_FIELD].width = width - 8; // 8 is the width of the background image for 'connecting' both fields
-					sizes[Ametys.form.field.ChangePassword.INDEX_CONFIRMATION_FIELD].width = width - 8;
-				}
-				break;
-			case Ametys.form.field.ChangePassword.MODE_SEEPASSWORD:
-				if (width)
-				{
-					sizes[Ametys.form.field.ChangePassword.INDEX_MAIN_FIELD].width = width;
-					sizes[Ametys.form.field.ChangePassword.INDEX_CHANGEPASSWORD_BUTTON].width = width;
-				}
-				break;
-		}
-		
-		return sizes;
-	},
-	
-    /**
-     * @inheritdoc
-     */
+    onResize: function (width, height)
+    {
+    	this.callParent(arguments);
+    	this._placeResetButton();
+    },
+    
+    _placeResetButton: function ()
+    {
+    	var rstButton = this.items.get(Ametys.form.field.ChangePassword.INDEX_RESETPASSWORD_BUTTON);
+    	if (rstButton.isVisible())
+    	{
+    		rstButton.el.setStyle ('left', (this.items.get(0).getWidth() + 5) + 'px');
+        	rstButton.el.setStyle ('top', '-28px');
+    	}
+    },
+    
     getErrors: function(value) {
     	var a = this.callParent(arguments);
 
@@ -266,55 +234,22 @@ Ext.define('Ametys.form.field.ChangePassword', {
     	return a;
     },
     
-    /**
-     * Same as validate for global
-     * Doc of validate is :
-     * @inheritdoc #validate
-     * @private
-     */
-    validateGlobal : function() {
-        var me = this,
-            isValid = me.isGlobalValid();
-        if (isValid !== me.wasValid) {
-            me.wasValid = isValid;
-            me.fireEvent('validitychange', me, isValid);
-        }
-        return isValid;
-    },
-    
-    /**
-     * @inheritdoc
-     */
     getValue: function()
     {
     	if (this.mode == Ametys.form.field.ChangePassword.MODE_SEEPASSWORD)
     	{
     		return null;
     	}
-    	else
-    	{
-    		return this.callParent(arguments);
-    	}
+    	else if (this.items.get(Ametys.form.field.ChangePassword.INDEX_MAIN_FIELD).getValue() == this.items.get(Ametys.form.field.ChangePassword.INDEX_CONFIRMATION_FIELD).getValue())
+		{
+			return this.items.get(Ametys.form.field.ChangePassword.INDEX_MAIN_FIELD).getValue();
+		}
+		else 
+		{
+			return undefined;
+		}
     },
     
-    /**
-     * @inheritdoc
-     */
-    getSubmitData: function()
-    {
-    	if (this.mode == Ametys.form.field.ChangePassword.MODE_SEEPASSWORD)
-    	{
-    		return null;
-    	}
-    	else
-    	{
-    		return this.callParent(arguments);
-    	}
-    },
-    
-    /**
-     * @inheritdoc
-     */
     setValue: function(value)
     {
     	if (value == undefined || value == '')
@@ -326,6 +261,7 @@ Ext.define('Ametys.form.field.ChangePassword', {
     		this._setToMode(Ametys.form.field.ChangePassword.MODE_SEEPASSWORD);
     	}
     	
+    	this.items.get(Ametys.form.field.ChangePassword.INDEX_MAIN_FIELD).setValue(value);
     	this.callParent(arguments);
     },
 
@@ -361,9 +297,8 @@ Ext.define('Ametys.form.field.ChangePassword', {
     		return;
     	}
 
-    	var rstButton = this.items.get(Ametys.form.field.ChangePassword.INDEX_RESETPASSWORD_BUTTON); 
+    	var rstButton = this.items.get(Ametys.form.field.ChangePassword.INDEX_RESETPASSWORD_BUTTON);
     	rstButton.hide();
-    	rstButton.getActionEl().removeListener('click', rstButton._handler);
     	
     	var chgButton = this.items.get(Ametys.form.field.ChangePassword.INDEX_CHANGEPASSWORD_BUTTON);
     	
@@ -371,25 +306,21 @@ Ext.define('Ametys.form.field.ChangePassword', {
     	{
     		case Ametys.form.field.ChangePassword.MODE_CHANGEPASSWORD:
     			rstButton.show();
-    	    	rstButton.getActionEl().addListener('click', rstButton._handler);
+    			this._placeResetButton();
     	    	
     		case Ametys.form.field.ChangePassword.MODE_SETPASSWORD:
     			this.items.get(Ametys.form.field.ChangePassword.INDEX_MAIN_FIELD).setValue('');
     			this.items.get(Ametys.form.field.ChangePassword.INDEX_CONFIRMATION_FIELD).setValue('');
     			
-            	this.bodyEl.addCls(this.modificationBodyCls);
-            	
             	this.items.get(Ametys.form.field.ChangePassword.INDEX_MAIN_FIELD).setDisabled(this.disabled);
             	
             	this.items.get(Ametys.form.field.ChangePassword.INDEX_CONFIRMATION_FIELD).setDisabled(this.disabled);
             	this.items.get(Ametys.form.field.ChangePassword.INDEX_CONFIRMATION_FIELD).show();
             	
             	chgButton.hide();
-            	chgButton.getActionEl().removeListener('click', chgButton._handler);
 
             	break;
     		case Ametys.form.field.ChangePassword.MODE_SEEPASSWORD:
-    			this.bodyEl.removeCls(this.modificationBodyCls);
             	
     			this.items.get(Ametys.form.field.ChangePassword.INDEX_MAIN_FIELD).setDisabled(true);
             	
@@ -397,15 +328,11 @@ Ext.define('Ametys.form.field.ChangePassword', {
             	this.items.get(Ametys.form.field.ChangePassword.INDEX_CONFIRMATION_FIELD).hide();
 
             	chgButton.show();
-            	chgButton.getActionEl().addListener('click', chgButton._handler);
 
             	break;
     	}
     },
     
-    /**
-     * @inheritdoc
-     */
     enable: function()
     {
     	this.callParent(arguments);
@@ -413,9 +340,6 @@ Ext.define('Ametys.form.field.ChangePassword', {
     	this._adaptRenderToMode();
     },
     
-    /**
-     * @inheritdoc
-     */
     disable: function()
     {
     	this.callParent(arguments);

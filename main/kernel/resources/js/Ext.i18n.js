@@ -66,37 +66,379 @@
  */
 (function ()
 {
-	function getLabelableRenderData () 
-	{
-		var data = this.callParent(arguments);
-		data.ametysDescription = this.ametysDescription;
-		
-		this.getInsertionRenderData(data, this.labelableInsertions);
-		
-		return data;
-	}
-	function onRender ()
-	{
-		this.callParent(arguments); 
-		var td = this.el.query(".ametys-description")[0];
-		if (td != null)
-		{
-			td.parentNode.appendChild(td); // move it as last
-		}
-	}
+	/*
+	 * Support of warning message and ametys description on fields
+	 */
+	/**
+     * Use a custom QuickTip instance separate from the main QuickTips singleton, so that we
+     * can give it a custom frame style. Responds to errorqtip rather than the qtip property.
+     * @static
+     */
+    
+	var renderFn = {
+	    onRender: function ()
+	    {
+	    	this.callParent(arguments); 
+			
+			var td = this.el.query(".ametys-warning")[0];
+			if (td != null)
+			{
+				td.parentNode.appendChild(td); // move it as last
+			}
+			
+			var td = this.el.query(".ametys-description")[0];
+			if (td != null)
+			{
+				td.parentNode.appendChild(td); // move it as last
+			}
+	    }
+	};
 	
-	var afterSubTpl = [ '<tpl if="ametysDescription">',
-	                    	'</td>',
-	                    	'<td class="ametys-description" data-qtip="{ametysDescription}">',
-	                    	'</tpl>'
-	];
+	Ext.define("Ametys.form.field.Base", Ext.apply(Ext.clone(renderFn), { override: 'Ext.form.field.Base'}));
+	Ext.define("Ametys.form.FieldContainer", Ext.apply(Ext.clone(renderFn), { override: 'Ext.form.FieldContainer'}));
+	
+	
+    var ametysLabelable =  {
+        afterSubTpl: [ '</td><td class="ametys-warning" data-warnqtip="" style="display: none">',
+                       /*'<td role="presentation" id="{id}-sideWarnCell" style="display:none" width="20px">',
+                       		'<div role="presentation" id="{id}-warnEl" style="display:none"></div>',
+                       '</td>',*/
+	                    '<tpl if="ametysDescription">',
+                    	'</td>',
+                    	'<td class="ametys-description" data-qtip="{ametysDescription}">',
+                    	'</tpl>'
+        ], 
+        
+        getLabelableRenderData: function () 
+    	{
+    		var data = this.callParent(arguments);
+    		data.ametysDescription = this.ametysDescription;
+    		
+    		this.getInsertionRenderData(data, this.labelableInsertions);
+    		
+    		return data;
+    	},
+        
+        /**
+         * @member Ext.form.field.Field
+         * @ametys
+         * @since Ametys Runtime 3.7
+         * 
+         * @cfg {String} warningCls
+         * The CSS class to use when marking the component has warning.
+         */
+        warningCls : Ext.baseCSSPrefix + 'form-warning',
+        
+        /**
+         * @member Ext.form.Labelable
+         * @ametys
+         * @since Ametys Runtime 3.7
+         * 
+         * @cfg {String/String[]/Ext.XTemplate} activeWarnsTpl
+         * The template used to format the Array of warnings messages passed to {@link #setActiveWarnings} into a single HTML
+         * string. It renders each message as an item in an unordered list.
+         */
+   		activeWarnsTpl: [
+              '<tpl if="warns && warns.length">',
+                  '<ul class="{listCls}"><tpl for="warns"><li role="warn">{.}</li></tpl></ul>',
+              '</tpl>'
+        ],
+        
+        
+        initLabelable: function ()
+        {
+        	this.callParent(arguments);
+        	
+        	this.addEvents(
+                /**
+                 * @event warningchange
+                 * Fires when the active warning message is changed via {@link #setActiveWarning}.
+                 * @param {Ext.form.Labelable} this
+                 * @param {String} warning The active warning message
+                 */
+                'warningchange'
+            );
+        },
+                      
+	    /**
+	     * @member Ext.form.Labelable
+         * @ametys
+         * @since Ametys Runtime 3.7
+         * 
+	     * Gets an Array of any active warning messages currently applied to the field. 
+	     * @return {String[]} The active warning messages on the component; if there are no warning, an empty Array is
+	     * returned.
+	     */
+    	getActiveWarning: function ()
+    	{
+    		return this.activeWarn;
+    	},
+    	
+    	/**
+    	 * @member Ext.form.Labelable
+         * @ametys
+         * @since Ametys Runtime 3.7
+         * 
+         * Gets an Array of any active warning messages currently applied to the field. 
+         * @return {String[]} The active warning messages on the component; if there are no warnings, an empty Array is
+         * returned.
+         */
+    	getActiveWarnings: function() {
+            return this.activeWarns || [];
+        },
+        
+        /**
+         * @member Ext.form.Labelable
+         * @ametys
+         * @since Ametys Runtime 3.7
+         * 
+         * Tells whether the field currently has an active warning message. 
+         * @return {Boolean}
+         */
+        hasActiveWarning: function() {
+            return !!this.getActiveWarning();
+        },
+    	
+    	/**
+    	 * @member Ext.form.Labelable
+         * @ametys
+         * @since Ametys Runtime 3.7
+         * 
+         * Sets the active warning message to the given string. 
+         * This replaces the entire warning message contents with the given string. 
+         * Also see {@link #setActiveWarns} which accepts an Array of messages and formats them according to the
+         * {@link #activeWarnsTpl}. 
+         * @param {String} msg The warning message
+         */
+        setActiveWarning: function (msg) 
+        {
+        	this.setActiveWarnings(msg);
+        },
 
-	Ext.define("Ametys.form.Labelable", { override: "Ext.form.field.Base", afterSubTpl: afterSubTpl, getLabelableRenderData: getLabelableRenderData, onRender: onRender });
-	Ext.define("Ametys.form.FieldContainer", { override: "Ext.form.FieldContainer", afterSubTpl: afterSubTpl, getLabelableRenderData: getLabelableRenderData, onRender: onRender });
+        /**
+         * @member Ext.form.Labelable
+         * @ametys
+         * @since Ametys Runtime 3.7
+         * 
+         * Set the active warning message to an Array of warning messages. The messages are formatted into a single message
+         * string using the {@link #activeWarnsTpl}. Also see {@link #setActiveWarn} which allows setting the entire warning
+         * contents with a single string. 
+         * @param {String[]} warns The warning messages
+         */
+        setActiveWarnings: function (warns)
+        {
+        	warns = Ext.Array.from(warns);
+            this.activeWarn = warns[0];
+            this.activeWarns = warns;
+            
+            this.activeWarn = Ext.XTemplate.getTpl(this, 'activeWarnsTpl').apply({
+            	warns: warns,
+                listCls: Ext.plainListCls 
+            });
+            
+            this.renderActiveWarning();
+        },
+        
+        /**
+         * @member Ext.form.Labelable
+         * @ametys
+         * @since Ametys Runtime 3.7
+         * 
+         * Clears the active warning message(s). Note that this only clears the warning message element's text and attributes,
+         * you'll have to call doComponentLayout to actually update the field's layout to match. If the field extends {@link
+         * Ext.form.field.Base} you should call {@link Ext.form.field.Base#clearInvalid clearInvalid} instead.
+         */
+        unsetActiveWarnings: function ()
+        {
+        	delete this.activeWarn;
+        	delete this.activeWarns;
+        	this.renderActiveWarning();
+        },
+    	
+    	/**
+         * @private
+         * Updates the rendered DOM to match the current activeWarn. This only updates the content and
+         * attributes, you'll have to call doComponentLayout to actually update the display.
+         */
+        renderActiveWarning: function() 
+        {
+        	Ext.form.Labelable.initWarnTip();
+        	
+            var me = this,
+                activeWarn = me.getActiveWarning(),
+                hasWarn = !!activeWarn;
+
+            if (activeWarn !== me.lastActiveWarn) {
+                me.fireEvent('warningchange', me, activeWarn);
+                me.lastActiveWarn = activeWarn;
+            }
+            
+            if (me.rendered && !me.isDestroyed && !me.preventMark) 
+            {
+                // Add/remove invalid class
+                me.el[hasWarn ? 'addCls' : 'removeCls'](me.warningCls);
+
+                var warnEl = this.el.query(".ametys-warning")[0];
+                if (warnEl) {
+                	warnEl.style.display = hasWarn ? '' : 'none';
+                	warnEl.setAttribute("data-warnqtip", activeWarn);
+                }
+            }
+        },
+        
+        /**
+         * @member Ext.form.Labelable
+         * @ametys
+         * @since Ametys Runtime 3.7
+         * 
+         * Hide the active warning message(s). Note that this only hides the warning message(s). The active warning message(s) are not cleared. 
+         * Then you could call #renderActiveWarning method to show the warning message(s).
+         * If you want to delete the active warning message(s) you should call #clearInvalid instead.
+         */
+        hideActiveWarning: function ()
+        {
+        	var me = this,
+        		activeWarn = me.getActiveWarning(),
+        		hasWarn = !!activeWarn;
+        	
+        	if (hasWarn && me.rendered && !me.isDestroyed && !me.preventMark) 
+            {
+        		me.el.removeCls (me.warningCls);
+        		var warnEl = this.el.query(".ametys-warning")[0];
+                if (warnEl) 
+                {
+                	warnEl.style.display = 'none';
+                }
+            }
+        }
+    };
+    
+	Ext.define("Ametys.form.Labelable", Ext.apply(Ext.clone(ametysLabelable), { 
+		override: 'Ext.form.Labelable',
+		
+		statics: {
+			/**
+	         * Use a custom QuickTip instance separate from the main QuickTips singleton, so that we
+	         * can give it a custom frame style. Responds to warnqtip rather than the qtip property.
+	         * @static
+	         */
+			initWarnTip: function() {
+		        var warnTip = this.warnTip;
+		        if (!warnTip) {
+		        	warnTip = this.warnTip = Ext.create('Ext.tip.QuickTip', {
+		                baseCls: Ext.baseCSSPrefix + 'tip-form-warning'
+		            });
+		        	warnTip.tagConfig = Ext.apply({}, {attribute: 'warnqtip'}, warnTip.tagConfig);
+		        }
+		    },
+		}
+	}));
+	Ext.define("Ametys.form.field.Base", Ext.apply(Ext.clone(ametysLabelable), { override: 'Ext.form.field.Base'}));
+	Ext.define("Ametys.form.FieldContainer", Ext.apply(Ext.clone(ametysLabelable), { override: 'Ext.form.FieldContainer'}));
+	 
+    Ext.define("Ametys.form.field.Field", {
+        override: "Ext.form.field.Field",
+		        
+		/**
+		 * @member Ext.form.field.Field
+		 * @ametys
+		 * @since Ametys Runtime 3.7
+		 * 
+		 * Associate one or more warning messages with this field.
+		 * @param {String/String[]} warns The warning message(s) for the field.
+		 */
+		markWarning: Ext.emptyFn,
+		
+		/**
+		 * @member Ext.form.field.Field
+		 * @ametys
+		 * @since Ametys Runtime 3.7
+		 * 
+		 * Clear any warning styles/messages for this field.
+		 */
+		clearWarning: Ext.emptyFn
+    });
+    
+    var ametysFieldBase = {
+		/**
+		 * @member Ext.form.field.Base
+		 * @ametys
+		 * @since Ametys Runtime 3.7
+		 * 
+		 * Associate one or more warning messages with this field.
+		 * @param {String/String[]} warns The warning message(s) for the field.
+		 */
+		markWarning: function (warns)
+		{
+		    this.setActiveWarnings(Ext.Array.from(warns));
+		    
+		    if (this.hasActiveError())
+	    	{
+		    	// Hide active warning message(s)
+	    		this.hideActiveWarning();
+	    	}
+		    
+		    this.updateLayout();
+		},
+		
+		/**
+		 * @member Ext.form.field.Base
+		 * @ametys
+		 * @since Ametys Runtime 3.7
+		 * 
+		 * Clear any warning styles/messages for this field.
+		 */
+		clearWarning: function() 
+		{
+			this.unsetActiveWarnings();
+			this.updateLayout();
+		},
+		
+		/**
+	     * @private 
+	     * Overrides the method from the Ext.form.Labelable mixin to also add the warningCls to the inputEl
+	     */
+	    renderActiveWarning: function() 
+	    {
+	        var me = this,
+	            hasWarn = !!me.getActiveWarning();
+	        
+	        if (me.inputEl) {
+	            // Add/remove invalid class
+	            me.inputEl[hasWarn ? 'addCls' : 'removeCls'](me.warningCls + '-field');
+	        }
+	        
+	        me.mixins.labelable.renderActiveWarning.call(me);
+	    },
+	    
+	    markInvalid: function ()
+	    {
+	    	if (this.hasActiveWarning())
+	    	{
+	    		// Hide active warning message(s) if exist
+	    		this.hideActiveWarning();
+	    	}
+	    	this.callParent(arguments);
+	    },
+	    
+	    clearInvalid: function ()
+	    {
+	    	this.callParent(arguments);
+	    	
+	    	if (this.hasActiveWarning())
+	    	{
+	    		// Display active warning message(s) if exist
+		    	this.renderActiveWarning();
+	    	}
+	    }
+    };
+    
+    Ext.define("Ametys.form.field.Base", Ext.apply(Ext.clone(ametysFieldBase), { override: 'Ext.form.field.Base'}));
+    
 })();
-
+		        
 /*
- * Support for optional label on files to indicate max allowed size 
+ * Support for optional label on text field to indicate field is multiple
  */
 (function() 
 {

@@ -22,7 +22,7 @@
  * To make your field compatible with form, if your are not returning strings, see {@link #getSubmitData}
  * <pre><code>
  *      // A component to enter a number (&gt; 5) with spinner and a two char text
- * 		Ext.define('Ametys.toto', {
+ * 		Ext.define('Ametys.foo', {
  * 			extend : 'Ametys.form.AbstractFieldsWrapper',
  * 		
  * 			items: [
@@ -38,40 +38,14 @@
  * 				})
  * 			],
  * 
- * 			splitValue: function(value) {
- * 				var values = [undefined, undefined];
- * 
- * 				var i = value ? value.indexOf('-') : -1; 
- * 				if (i != -1)
- * 				{
- * 					values[0] = value.substring(0, i);
- * 					values[1] = value.substring(i + 1);
- * 				}
- * 
- * 				return values;
+ * 			getErrors: function(value) {
  * 			},
  * 
- * 			concatValues: function(values) {
- * 				if (values[0] == undefined || values[1] == undefined)
- * 				{
- * 					return undefined;
- * 				}
- * 				else
- * 				{
- * 					return values[0] + '-' + values[1];
- * 				}
+ * 			setValue: function(values) {
  * 			},
  * 
- * 			splitSize: function(width, height) {
- * 				var sizes = [{}, {}];
- * 
- * 				if (width)
- * 				{
- * 					sizes[0].width = width * 0.3;
- * 					sizes[1].width = width * 0.7;
- * 				}
- * 
- * 				return sizes;
+ * 			getValue: function() {
+ * 				
  * 			}
  *  	})
  * </code></pre>
@@ -79,128 +53,53 @@
 Ext.define('Ametys.form.AbstractFieldsWrapper', {
     extend:'Ametys.form.AbstractField',
     
-    layout: 'column',
+    layout: 'hbox',
 
     /**
-     * Implements this method to spread the value out to the fields.
-     * You do not have to set the value in the field, but simply returns an array of value that would be set (in the same order that fields are)
-     * @param {Object} value The value to split
-     * @return {Object[]} A non null array that always have the size corresponding to the number of fields.
-     * @protected
-     */
-    splitValue: function(value)
-    {
-    	Ext.Error.raise('splitValue method must be implemented!');
-    },
-    
-    /**
-     * Implements this method to concat the internal fields values to the unique value.
-     * You do not have to get the values in the fields, but simply returns the unique value built from the values given (in the same order that fields are)
-     * @param {Object[]} values A non null array that always have the size corresponding to the number of fields.
-     * @return {Object} The typed value for this field
-     * @protected
-     */
-    concatValues: function(values)
-    {
-    	Ext.Error.raise('concatValues method must be implemented!');
-    },
-    
-    
-    /**
-     * Implements this method to spread the size out to the wrapped elements (not only fields).
-     * You do not have to set the size in the field, but simply returns an array of value that would be set (in the same order that elements are)
-     * @param {Number} width The width of the wrapping 
-     * @param {Number} height The height of the wrapping field
-     * @return {Object[]} A non null array that always have the size corresponding to the number of elements. Each element is an object {width: , height: };
-     * @protected
-     */
-    splitSize: function(width, height)
-    {
-    	Ext.Error.raise('splitSize method must be implemented!');
-    },
-    
-    /**
-     * @private
-     * Listener on size
-     */
-    _sizeHasChanged: function()
-    {
-    	var size = this.bodyEl.getSize();
-    	
-    	var sizes = this.splitSize(size.width, size.height);
-
-    	var index = 0;
-    	this.items.each(function (item) {
-    		if (item.setSize)
-    		{
-    			item.setSize(sizes[index].width, sizes[index].height);
-    			index++;
-    		}
-    	});
-    },
-    
-    /**
-     * @private
+     * @inheritdoc
      * Listener on new fields, to set the property {@link Ext.form.field.Field#isFormField} to false
      */
-    _itemAdd: function (me, newComponent)
+    onAdd: function (newComponent)
     {
+    	this.callParent(arguments);
+    	
     	if (newComponent.isFormField)
     	{
     		newComponent.isFormField = false;
+    		newComponent.on ('change', this._checkChange, this);
     	}
+    },
+    
+    _checkChange: function ()
+    {
+    	this.checkChange();
     },
     
     onRender: function()
     {
     	this.callParent(arguments);
-    	this.setSize(this.width, this.height);
         // this.onLabelableRender();
         this.renderActiveError();
 	},
-    
-    initComponent: function() 
-    {
-    	this.on('boxready', this._sizeHasChanged, this)
-    	this.on('resize', this._sizeHasChanged, this)
-    	this.on('add', this._itemAdd, this)
-    	
-        this.callParent();
-        
-        this.initField();
-    },
-    
-    getValue: function() 
-    {
-    	var values = [];
-    	
-    	this.items.each(function (item) {
-    		if (item.getValue)
-    		{
-    			values.push(item.getValue());
-    		}
-    	});
-    	
-    	return this.concatValues(values);
-    },
+	
+    /**
+     * @inheritdoc
+     * @template
+     * @method getValue
+     */
 
-    setValue: function(value) 
-    {
-    	var values = this.splitValue(value);
-    	
-    	var index = 0;
-    	this.items.each(function (item) {
-    		if (item.setValue)
-    		{
-    			item.setValue(values[index]);
-    			index++;
-    		}
-    	});
-    	
-    	this.checkChange();
-    	return this;
-    },
+    /**
+     * @inheritdoc
+     * @template
+     * @method setValue
+     */
 
+	/**
+     * @inheritdoc
+     * @method getErrors
+     * @template
+     */
+	
     isFileUpload: function() 
     {
     	this.items.each(function (item) {
@@ -268,95 +167,6 @@ Ext.define('Ametys.form.AbstractFieldsWrapper', {
     			item.clearInvalid(args);
     		}
     	});
-    },
-    
-    /**
-     * <strong>Test both validations (global and local)</strong><br/>
-     * Inherited documentation:<br/>
-     * @inheritdoc
-     */
-    isValid: function() 
-    { 
-    	var me = this,
-        	disabled = me.disabled,
-        	validate = me.forceValidation || !disabled;
-        
-	    if (validate)
-	    {
-	    	var state = me.isGlobalValid();
-	    	
-	    	var args = arguments;
-	    	var preventMark = this.preventMark;
-	    	me.items.each(function (item) {
-	    		if (item.isValid)
-	    		{
-	    			var oldPreventMark = item.preventMark; 
-	    			item.preventMark = preventMark;
-	    			state = item.isValid(args) ? state : false;
-	    			item.preventMark = oldPreventMark;
-	    		}
-	    	});
-	    	return state;
-	    }
-	    return disabled;
-    },
-    
-    /**
-     * Do the isInvalid for the global errors only.
-     * See {@link #isValid}.
-     * @protected
-     */
-    isGlobalValid: function() 
-    {
-        var me = this,
-        disabled = me.disabled,
-        validate = me.forceValidation || !disabled;
-        
-	    if (validate)
-	    {
-	    	var values = [];
-	    	
-	    	this.items.each(function (it) {
-	    		if (it.processRawValue && it.getRawValue)
-	    		{
-	    			values.push(it.processRawValue(it.getRawValue()));
-	    		}
-	    	});
-	    	
-	    	var value = this.concatValues(values);
-	    	return me.validateGlobalValue(value);
-	    }
-	    else
-	    {
-	    	return disabled;
-	    }
-    },
-
-    /**
-     * @private
-     * Uses {@link #getErrors} to build an array of validation errors. If any errors are found, they are passed to
-     * {@link #markInvalid} and false is returned, otherwise true is returned.
-     * @param {Object} value The value to validate
-     * @return {Boolean} True if all validations passed, false if one or more failed
-     */
-    validateGlobalValue: function(value) 
-    {
-        var me = this,
-            errors = me.getErrors(value),
-            isValid = Ext.isEmpty(errors);
-        if (!me.preventMark) 
-        {
-            if (isValid) 
-            {
-            	Ametys.form.AbstractFieldsWrapper.superclass.clearInvalid.call(this);
-            } 
-            else 
-            {
-                me.markInvalid(errors);
-            }
-        }
-
-        return isValid;
     },
     
     enable: function()
