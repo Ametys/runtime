@@ -327,11 +327,12 @@ Ext.define('Ametys.form.field.RichText', {
      */
     _checkTinyMCE: function()
     {
+    	var me = this;
     	function failure()
     	{
     		var msg = "tinyMCE 3 cannot be found. Please import the js file of tinymce to be able use RichText fields."
-    		Ametys.log.Logger.error();
-    		throw e;
+    		me.getLogger().error(msg);
+    		throw new Error(msg);
     	}
     	
     	try
@@ -617,9 +618,9 @@ Ext.define('Ametys.form.field.RichText', {
     		return;
     	}
 
-    	if (Ametys.log.Logger.isDebugEnabled())
+    	if (this.getLogger().isDebugEnabled())
     	{
-    		Ametys.log.Logger.debug({ category: this.self.getName(), message: "Reseting richtext " + this.getInputId()});
+    		this.getLogger().debug("Reseting richtext " + this.getInputId());
     	}
 
     	this.getRawValue(); // Save current value
@@ -763,7 +764,7 @@ Ext.define('Ametys.form.field.RichText', {
 		if (this._suspended == 0)
 		{
 			var msg = "Ametys.form.field.RichText#restartRichTextNodeSelectionEvent method has been called but transmissions where not suspended";
-			Ametys.log.Logger.error({category: this.self.getName(), message: msg});
+			this.getLogger().error(msg);
 			throw new Error(msg);
 		}
 

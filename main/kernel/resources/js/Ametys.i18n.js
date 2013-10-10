@@ -248,7 +248,7 @@ Ext.define(
 			function internalOnError (msg)
 			{
 				var message = "<i18n:text i18n:key='KERNEL_LOADSCRIPT_ERROR'/>" + url;
-				Ametys.log.Logger.error({category: me.self.getName(), message: message});
+				this.getLogger().error(message);
 				
 				if (Ext.isFunction (onError))
 				{
@@ -258,10 +258,10 @@ Ext.define(
 			
 			function internalOnLoad (msg)
 			{
-				if (Ametys.log.Logger.isInfoEnabled())
+				if (this.getLogger().isInfoEnabled())
 				{
 					var message = "<i18n:text i18n:key='KERNEL_LOADSCRIPT_SUCCESS'/>" + url;
-					Ametys.log.Logger.info({category: me.self.getName(), message: message});
+					this.getLogger().info(message);
 				}
 				
 				if (Ext.isFunction (onLoad))
@@ -396,7 +396,7 @@ Ext.define(
 			if (fn == null)
 			{
 				var message = "Can not execute undefined function '" + name + "'.";
-				Ametys.log.Logger.error({category: this.self.getName(), message: message});
+				this.getLogger().error(message);
 				throw new Error (message);
 			}
 			

@@ -116,8 +116,7 @@ Ext.define(
 			
 			if (category)
 			{
-				Ametys.log.Logger.error({
-					category: category, 
+				Ametys.log.LoggerFactory.getLoggerFor(category).error({
 					message: text, 
 					details: details
 				});

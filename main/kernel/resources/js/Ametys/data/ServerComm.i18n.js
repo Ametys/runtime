@@ -223,15 +223,16 @@ Ext.define(
 				message.uniqueId = Ext.id(null, 'serverinfo-');
 				this._lastUniqueIdForCancelCode[message.cancelCode] = message.uniqueId;
 
+				// removing any unsent message with the same cancelCode
 				var messagesIndexToCancel = [];
 				for (var i = 0; i < this._messages.length; i++)
 				{
 					var oldMessage = this._messages[i];
 					if (oldMessage.cancelCode == message.cancelCode)
 					{
-						if (Ametys.log.Logger.isDebugEnabled())
+						if (this.getLogger().isDebugEnabled())
 						{
-							Ametys.log.Logger.debug({category: this.self.getName(), message: "Discarding message with cancel code '" + message.cancelCode + "'"});
+							this.getLogger().debug("Discarding message with cancel code '" + message.cancelCode + "'");
 						}
 						oldMessage.cancelled = true;
 						
@@ -685,9 +686,9 @@ Ext.define(
 					{
 						// only discard a canceled request if there is no answer
 						// a cancel message with an answer means it has been canceled too late
-						if (!message.cancelled && Ametys.log.Logger.isDebugEnabled())
+						if (!message.cancelled && this.getLogger().isDebugEnabled())
 						{
-							Ametys.log.Logger.debug({category: this.self.getName(), message: "Discarding response for a message with cancel code '" + message.cancelCode + "'"});
+							this.getLogger().debug("Discarding response for a message with cancel code '" + message.cancelCode + "'");
 						}
 						continue;
 					}

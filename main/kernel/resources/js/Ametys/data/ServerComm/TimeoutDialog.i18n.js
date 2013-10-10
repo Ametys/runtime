@@ -31,7 +31,7 @@ Ext.define(
 			 * @static
 			 * The time out between dialog calls (in milliseconds) 
 			 */
-			TIMEOUT: 60000,
+			TIMEOUT: 6000,
 
 			/**
 			 * @private

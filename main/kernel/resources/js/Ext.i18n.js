@@ -901,4 +901,95 @@
 					return elements;
 				}
 		    });
-		})();
+})();
+
+(function ()
+		{
+			Ext.define("Ametys.Base", {
+				override: 'Ext.Base',
+				
+				inheritableStatics: {
+					/**
+					 * @private
+					 * @property {Ametys.log.Logger} _logger The logger instance
+					 */
+					_logger: null,
+					
+					/**
+					 * @member Ext.Base
+					 * @method getLogger
+					 * @ametys
+					 * @since Ametys Runtime 3.7 
+					 * Get the logger of this class (using classname as category)
+					 * 
+					 * 		try
+					 * 		{
+					 *      	if (this.getLogger().isDebugEnabled())
+					 *      	{
+					 *      		this.getLogger().debug("Starting process")
+					 *      	}
+					 *      
+					 *      	...
+					 *
+					 *      	if (this.getLogger().isDebugEnabled())
+					 *      	{
+					 *      		this.getLogger().debug("Ending process")
+					 *      	}
+					 *      }
+					 *      catch (e)
+					 *      {
+					 *      		this.getLogger().error({message: "Ending process", details: e});
+					 *      }
+					 * 
+					 * @return {Ametys.log.Logger} The logger
+					 */
+					getLogger: function()
+					{
+						if (this._logger == null)
+						{
+							this._logger = Ametys.log.LoggerFactory.getLoggerFor(this.getName()) 
+						}
+						return this._logger;
+					}
+				},
+				
+				/**
+				 * @member Ext.Base
+				 * @method getLogger
+				 * @ametys
+				 * @since Ametys Runtime 3.7 
+				 * Get the logger of this class (using classname as category)
+				 * 
+				 * 		try
+				 * 		{
+				 *      	if (this.getLogger().isDebugEnabled())
+				 *      	{
+				 *      		this.getLogger().debug("Starting process")
+				 *      	}
+				 *      
+				 *      	...
+				 *
+				 *      	if (this.getLogger().isDebugEnabled())
+				 *      	{
+				 *      		this.getLogger().debug("Ending process")
+				 *      	}
+				 *      }
+				 *      catch (e)
+				 *      {
+				 *      		this.getLogger().error({message: "Ending process", details: e});
+				 *      }
+				 * 
+				 * @return {Ametys.log.Logger} The logger
+				 */
+				getLogger: function()
+				{
+					return this.self.getLogger();
+				},
+				
+				destroy: function()
+				{
+					this._logger = null;
+					this.callParent(arguments);
+				}
+			});
+})();

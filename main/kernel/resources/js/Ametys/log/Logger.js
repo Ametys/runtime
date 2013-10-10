@@ -15,60 +15,32 @@
  */
 
 /**
- * A logger.
- * This is a store of Ametys.log.Logger.Entry
- * Also contains methods helper to create entries and add it in a row
+ * A logger for a category.
+ * To create a logger see Ext.Base#getLogger or Ametys.log.LoggerFactory.getLoggerFor
  * 
- * 		try
- * 		{
- * 			if (Ametys.log.Logger.isDebugEnabled())
- * 			{
- * 				Ametys.log.Logger.debug({
- * 					category: this.self.getName(), // could be any string like 'Ametys.my.Component'
- * 					message: 'My debug message'
- * 				});
- * 			}
- * 
- * 			// some error code
- * 		}
- * 		catch (e)
- * 		{
- * 			Ametys.log.Logger.error({
- * 				category: this.self.getName(),
- * 				message: 'My error message',
- * 				details: e
- * 			});
- * 		}
- * 
- * Level under the currentLogLevel will be ignored.
- * For example, default log level is LEVEL_ERROR, logging a warn will be ignored
+ * You can adjust your log level using #setLogLevel
+ * Beware the level inherit between categories
  */
 Ext.define(
 	"Ametys.log.Logger",
 	{
-		singleton: true,
-		mixins: {
-			state: 'Ext.state.Stateful'
+		/**
+		 * @cfg {String} category='' A category. Can be a class name.
+		 */
+		/**
+		 * @property {String} _category See #cfg-category
+		 * @private
+		 */
+		
+		/**
+		 * Creates a logger
+		 * @param {Object} config The configuration
+		 * @private
+		 */
+		constructor: function(config)
+		{
+			this._category = config.category || '';
 		},
-		
-		/**
-		 * @private
-		 * @property {Boolean} _stateInitialized=false Has the stateful already been initialized
-		 */
-		
-		/**
-		 * @private
-		 * @property {Ext.data.ArrayStore} _store The store of log entries 
-		 */
-		_store: Ext.create("Ext.data.ArrayStore", {
-			sorters: [{property: 'date', direction:'DESC'}],
-		}),
-		
-		/**
-		 * @private
-		 * @property {Number} _currentLogLevel The current log level. If a log is created with a lower level it will be ignored 
-		 */
-		_currentLogLevel: 3,
 		
 		/**
 		 * Get the current log level
@@ -76,33 +48,17 @@ Ext.define(
 		 */
 		getLogLevel: function()
 		{
-			if (!this._stateInitialized)
-			{
-				// restore state to overwrite values
-				this.mixins.state.constructor.call(this, {
-					stateful: true,
-					stateId: this.self.getName()
-				});
-			}
-			
-			return this._currentLogLevel;
+			return Ametys.log.LoggerFactory._getLogLevel(this._category);
 		},
-
+		
 		/**
 		 * Set the current log level.
-		 * @param {Number} logLevel A level between Ametys.log.Logger.Entry.LEVEL_DEBUG, Ametys.log.Logger.Entry.LEVEL_INFO, Ametys.log.Logger.Entry.LEVEL_WARN, Ametys.log.Logger.Entry.LEVEL_ERROR or Ametys.log.Logger.Entry.LEVEL_FATAL
+		 * Log level is a property inherit from parent category if null.
+		 * @param {Number} logLevel A level between Ametys.log.Logger.Entry.LEVEL_DEBUG, Ametys.log.Logger.Entry.LEVEL_INFO, Ametys.log.Logger.Entry.LEVEL_WARN, Ametys.log.Logger.Entry.LEVEL_ERROR or Ametys.log.Logger.Entry.LEVEL_FATAL. Or null to inherit your parent level.
 		 */
 		setLogLevel: function(logLevel)
 		{
-			this._currentLogLevel = Math.min(Math.max(logLevel, Ametys.log.Logger.Entry.LEVEL_DEBUG), Ametys.log.Logger.Entry.LEVEL_FATAL);
-			this.saveState();
-		},
-		
-		getState: function()
-		{
-			return {
-				_currentLogLevel: this.getLogLevel()
-			}
+			Ametys.log.LoggerFactory._setLogLevel(logLevel, this._category);
 		},
 		
 		/**
@@ -147,96 +103,90 @@ Ext.define(
 		},
 		
 		/**
-		 * Get the entries of the logger.
-		 * @return {Ext.data.ArrayStore} The ordered entries.
-		 */
-		getStore: function()
-		{
-			return this._store;
-		},
-
-		/**
 		 * Log as debug
-		 * @param {Object} config The message configuration
-		 * @param {String} config.category The name of the category of the log entry. Use '.' to create a hierarchy. Can be the class name of the current component (this.self.getName())
-		 * @param {String} config.message The message
-		 * @param {String/Error} config.details The detailled message. Can be null or empty. 
+		 * @param {String/Object} message The message if a string or a message configuration:
+		 * @param {String} message.message The message
+		 * @param {String/Error} message.details The detailled message. Can be null or empty. 
 		 */
-		debug: function(config)
+		debug: function(message)
 		{
-			this._log(config, Ametys.log.Logger.Entry.LEVEL_DEBUG);
+			this._log(message, Ametys.log.Logger.Entry.LEVEL_DEBUG);
 		},
 		/**
 		 * Log as info
-		 * @param {Object} config The message configuration
-		 * @param {String} config.category The name of the category of the log entry. Use '.' to create a hierarchy. Can be the class name of the current component (this.self.getName())
-		 * @param {String} config.message The message
-		 * @param {String/Error} config.details The detailled message. Can be null or empty. 
+		 * @param {String/Object} message The message if a string or a message configuration:
+		 * @param {String} message.message The message
+		 * @param {String/Error} message.details The detailled message. Can be null or empty. 
 		 */
-		info: function(config)
+		info: function(message)
 		{
-			this._log(config, Ametys.log.Logger.Entry.LEVEL_INFO);
+			this._log(message, Ametys.log.Logger.Entry.LEVEL_INFO);
 
 		},
 		/**
 		 * Log as warn
-		 * @param {Object} config The message configuration
-		 * @param {String} config.category The name of the category of the log entry. Use '.' to create a hierarchy. Can be the class name of the current component (this.self.getName())
-		 * @param {String} config.message The message
-		 * @param {String/Error} config.details The detailled message. Can be null or empty. 
+		 * @param {String/Object} message The message if a string or a message configuration:
+		 * @param {String} message.message The message
+		 * @param {String/Error} message.details The detailled message. Can be null or empty. 
 		 */
-		warn: function(config)
+		warn: function(message)
 		{
-			this._log(config, Ametys.log.Logger.Entry.LEVEL_WARN);
+			this._log(message, Ametys.log.Logger.Entry.LEVEL_WARN);
 		},
 		/**
 		 * Log as error
-		 * @param {Object} config The message configuration
-		 * @param {String} config.category The name of the category of the log entry. Use '.' to create a hierarchy. Can be the class name of the current component (this.self.getName())
-		 * @param {String} config.message The message
-		 * @param {String/Error} config.details The detailled message. Can be null or empty. 
+		 * @param {String/Object} message The message if a string or a message configuration:
+		 * @param {String} message.message The message
+		 * @param {String/Error} message.details The detailled message. Can be null or empty. 
 		 */
-		error: function(config)
+		error: function(message)
 		{
-			this._log(config, Ametys.log.Logger.Entry.LEVEL_ERROR);
+			this._log(message, Ametys.log.Logger.Entry.LEVEL_ERROR);
 		},
 		/**
 		 * Log as fatal
-		 * @param {Object} config The message configuration
-		 * @param {String} config.category The name of the category of the log entry. Use '.' to create a hierarchy. Can be the class name of the current component (this.self.getName())
-		 * @param {String} config.message The message
-		 * @param {String/Error} config.details The detailled message. Can be null or empty. 
+		 * @param {String/Object} message The message if a string or a message configuration:
+		 * @param {String} message.message The message
+		 * @param {String/Error} message.details The detailled message. Can be null or empty. 
 		 */
-		fatal: function(config)
+		fatal: function(message)
 		{
-			this._log(config, Ametys.log.Logger.Entry.LEVEL_FATAL);
+			this._log(message, Ametys.log.Logger.Entry.LEVEL_FATAL);
 		},
 		
 		/**
 		 * Create a log, trace it and store it
-		 * @param {Object} config The message configuration
-		 * @param {String} config.category The name of the category of the log entry. Use '.' to create a hierarchy. Can be the class name of the current component (this.self.getName())
-		 * @param {String} config.message The message
-		 * @param {String/Error} config.details The detailled message. Can be null or empty. 
+		 * @param {String/Object} message The message if a string or a message configuration:
+		 * @param {String} message.message The message
+		 * @param {String/Error} message.details The detailled message. Can be null or empty. 
 		 * @param {Number} level A level between Ametys.log.Logger.Entry.LEVEL_DEBUG, Ametys.log.Logger.Entry.LEVEL_INFO, Ametys.log.Logger.Entry.LEVEL_WARN, Ametys.log.Logger.Entry.LEVEL_ERROR or Ametys.log.Logger.Entry.LEVEL_FATAL
 		 * @private
 		 */
-		_log: function(config, level)
+		_log: function(message, level)
 		{
 			if (this.getLogLevel() > level)
 			{
 				return;
 			}
 
-			config = Ext.apply(config, {
+			// convert string message to an object
+			if (Ext.isString(message))
+			{
+				message = {message: message};
+			}
+			
+			// add config for entries
+			Ext.apply(message, {
 				level: level, 
-				date: new Date() 
+				date: new Date(),
+				category: this._category
 			});
 			
-			var entry = new Ametys.log.Logger.Entry(config);
+			// creates the log entry
+			var entry = new Ametys.log.Logger.Entry(message);
 			entry.traceInConsole();
 			
-			this.getStore().add(entry);			
+			Ametys.log.LoggerFactory.getStore().add(entry);
 		}
 	}
 );
