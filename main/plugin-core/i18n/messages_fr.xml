@@ -51,6 +51,7 @@
 	<message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP">La saisie ne respecte pas le format attendu :</message>
     
     <message key="DATE_FIELD_FORMAT">d/m/Y</message>
+    <message key="TIME_FIELD_FORMAT">H:h</message>
 	
     <!-- ADMINISTRATOR JVMSTATUS -->
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_LABEL">Etat du système</message>

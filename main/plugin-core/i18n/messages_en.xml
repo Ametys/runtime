@@ -51,6 +51,7 @@
 	<message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP">Wrong value. Excepted format:</message>
     
     <message key="DATE_FIELD_FORMAT">m/d/Y</message>
+    <message key="TIME_FIELD_FORMAT">g:i A</message>
     
     <!-- ADMINISTRATOR JVMSTATUS -->
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_LABEL">System status</message>
