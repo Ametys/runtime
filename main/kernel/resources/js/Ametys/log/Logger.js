@@ -53,7 +53,11 @@ Ext.define(
 		
 		/**
 		 * Set the current log level.
-		 * Log level is a property inherit from parent category if null.
+		 * Log level is a property inherit from its parent category if null.
+		 * To set a log level to a whole package, do
+		 *  
+		 * 		Ametys.log.LoggerFactory.getLoggerFor("My.package").setLogLevel(Ametys.log.Logger.Entry.LEVEL_WARN);
+		 * 
 		 * @param {Number} logLevel A level between Ametys.log.Logger.Entry.LEVEL_DEBUG, Ametys.log.Logger.Entry.LEVEL_INFO, Ametys.log.Logger.Entry.LEVEL_WARN, Ametys.log.Logger.Entry.LEVEL_ERROR or Ametys.log.Logger.Entry.LEVEL_FATAL. Or null to inherit your parent level.
 		 */
 		setLogLevel: function(logLevel)
