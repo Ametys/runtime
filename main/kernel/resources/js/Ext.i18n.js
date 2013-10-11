@@ -206,7 +206,7 @@
          * 
          * Sets the active warning message to the given string. 
          * This replaces the entire warning message contents with the given string. 
-         * Also see {@link #setActiveWarns} which accepts an Array of messages and formats them according to the
+         * Also see {@link #setActiveWarnings} which accepts an Array of messages and formats them according to the
          * {@link #activeWarnsTpl}. 
          * @param {String} msg The warning message
          */
@@ -221,7 +221,7 @@
          * @since Ametys Runtime 3.7
          * 
          * Set the active warning message to an Array of warning messages. The messages are formatted into a single message
-         * string using the {@link #activeWarnsTpl}. Also see {@link #setActiveWarn} which allows setting the entire warning
+         * string using the {@link #activeWarnsTpl}. Also see {@link #setActiveWarning} which allows setting the entire warning
          * contents with a single string. 
          * @param {String[]} warns The warning messages
          */
