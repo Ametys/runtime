@@ -39,13 +39,15 @@
  * 			],
  * 
  * 			getErrors: function(value) {
+ * 				// return the validators error here
  * 			},
  * 
- * 			setValue: function(values) {
+ * 			setValue: function(value) {
+ * 				// split the value between items
  * 			},
  * 
  * 			getValue: function() {
- * 				
+ * 				// return the value composed by items
  * 			}
  *  	})
  * </code></pre>
@@ -66,13 +68,8 @@ Ext.define('Ametys.form.AbstractFieldsWrapper', {
     	if (newComponent.isFormField)
     	{
     		newComponent.isFormField = false;
-    		newComponent.on ('change', this._checkChange, this);
+    		newComponent.on ('change', this.checkChange, this);
     	}
-    },
-    
-    _checkChange: function ()
-    {
-    	this.checkChange();
     },
     
     onRender: function()
