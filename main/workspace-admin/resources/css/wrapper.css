@@ -310,7 +310,12 @@
 .dock-button-tooltip-img {
 	float: left;
 	width: 93px;
+	height: 71px;
 	margin-bottom: 5px;
 	overflow: visible;
 	text-align: center;
+}
+.dock-button-tooltip-img img {
+    max-width: 93px;
+    max-height: 71px;
 }
