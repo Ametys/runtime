@@ -222,21 +222,30 @@ Ext.define('Ametys.form.field.ChangePassword', {
     	var rstButton = this.items.get(Ametys.form.field.ChangePassword.INDEX_RESETPASSWORD_BUTTON);
     	if (rstButton.isVisible())
     	{
-    		rstButton.el.setStyle ('left', (this.items.get(0).getWidth() + 5) + 'px');
+    		rstButton.el.setStyle ('left', (this.items.get(0).getWidth() + this.errorEl.getWidth() + 5) + 'px');
         	rstButton.el.setStyle ('top', '-28px');
     	}
     },
     
-    getErrors: function(value) {
-    	var a = this.callParent(arguments);
-
-    	if (arguments.length == 1 && value == undefined
-    			|| arguments.length == 0 && this.items.get(Ametys.form.field.ChangePassword.INDEX_MAIN_FIELD).getValue() != this.items.get(Ametys.form.field.ChangePassword.INDEX_CONFIRMATION_FIELD).getValue())
+    getErrors: function (value) {
+    	
+    	var errors = [];
+    	if (!this.allowBlank && !this.items.get(Ametys.form.field.ChangePassword.INDEX_MAIN_FIELD).getValue())
     	{
-    		a.push("<i18n:text key='KERNEL_PASSWORD_VALIDATOR' catalogue='kernel'/>");
+    		errors.push(this.blankText);
     	}
 
-    	return a;
+    	if (this.mode == Ametys.form.field.ChangePassword.MODE_SEEPASSWORD)
+    	{
+    		return errors;
+    	}
+    	
+    	if ((arguments.length == 1 && value == undefined) || (arguments.length == 0 && this.items.get(Ametys.form.field.ChangePassword.INDEX_MAIN_FIELD).getValue() != this.items.get(Ametys.form.field.ChangePassword.INDEX_CONFIRMATION_FIELD).getValue()))
+    	{
+    		errors.push("<i18n:text key='KERNEL_PASSWORD_VALIDATOR' catalogue='kernel'/>");
+    	}
+
+    	return errors;
     },
     
     getValue: function()
