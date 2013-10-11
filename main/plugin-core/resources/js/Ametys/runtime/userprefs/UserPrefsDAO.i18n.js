@@ -259,6 +259,8 @@ Ext.define('Ametys.runtime.userprefs.UserPrefsDAO', {
 		}	
 		
 		var errorNodes = Ext.dom.Query.select('> xml > errors > field', response);
+		this.getLogger().debug("User preferences saved with " + errorNodes.length + " error(s)");
+
 		if (errorNodes.length > 0)
 		{
 			var errors = {};
