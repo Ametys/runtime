@@ -256,7 +256,7 @@
         },
     	
     	/**
-    	 * @member Ext.form.field.Base
+    	 * @member Ext.form.Labelable
 		 * @ametys
 		 * @since Ametys Runtime 3.7
 		 * 
