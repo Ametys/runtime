@@ -16,8 +16,8 @@
 
 /**
  * Abstract class to creates a field that wraps several fields.<br/>
- * You have to implement {@link #splitValue}, {@link #concatValues} and {@link #splitSize}.<br/>
- * Default layout is column.<br/>
+ * You have to implement {@link #getValue} and {@link #setValue}.<br/>
+ * Default layout is hbox.<br/>
  * To handle global errors override {@link #getErrors}.<br/>
  * To make your field compatible with form, if your are not returning strings, see {@link #getSubmitData}
  * <pre><code>
