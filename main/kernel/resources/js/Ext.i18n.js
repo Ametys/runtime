@@ -69,11 +69,7 @@
 	/*
 	 * Support of warning message and ametys description on fields
 	 */
-	/**
-     * Use a custom QuickTip instance separate from the main QuickTips singleton, so that we
-     * can give it a custom frame style. Responds to errorqtip rather than the qtip property.
-     * @static
-     */
+	
     
 	var renderFn = {
 	    onRender: function ()
@@ -120,7 +116,7 @@
     	},
         
         /**
-         * @member Ext.form.field.Field
+         * @member Ext.form.Labelable
          * @ametys
          * @since Ametys Runtime 3.7
          * 
@@ -151,6 +147,10 @@
         	
         	this.addEvents(
                 /**
+                 * @member Ext.form.Labelable
+		         * @ametys
+		         * @since Ametys Runtime 3.7
+		         * 
                  * @event warningchange
                  * Fires when the active warning message is changed via {@link #setActiveWarning}.
                  * @param {Ext.form.Labelable} this
@@ -256,7 +256,10 @@
         },
     	
     	/**
-         * @private
+    	 * @member Ext.form.field.Base
+		 * @ametys
+		 * @since Ametys Runtime 3.7
+		 * 
          * Updates the rendered DOM to match the current activeWarn. This only updates the content and
          * attributes, you'll have to call doComponentLayout to actually update the display.
          */
@@ -318,9 +321,13 @@
 		
 		statics: {
 			/**
+			 * @member Ext.form.field.Field
+			 * @ametys
+			 * @since Ametys Runtime 3.7
+			 * @static
+			 * 
 	         * Use a custom QuickTip instance separate from the main QuickTips singleton, so that we
 	         * can give it a custom frame style. Responds to warnqtip rather than the qtip property.
-	         * @static
 	         */
 			initWarnTip: function() {
 		        var warnTip = this.warnTip;
@@ -395,7 +402,10 @@
 		},
 		
 		/**
-	     * @private 
+	     * @member Ext.form.field.Base
+		 * @ametys
+		 * @since Ametys Runtime 3.7
+		 *  
 	     * Overrides the method from the Ext.form.Labelable mixin to also add the warningCls to the inputEl
 	     */
 	    renderActiveWarning: function() 
