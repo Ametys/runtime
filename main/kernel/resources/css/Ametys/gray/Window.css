@@ -34,6 +34,7 @@
 {
 	color: #3E6AAA;
 	text-decoration: none;
+	cursor: pointer;
 }
 .ametys-dialogbox .x-window-body-default a:hover
 {
