@@ -549,7 +549,11 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 		            sortInfo: {field: 'text'} // default order
 		        }),
 		        valueField: 'value',
-		        displayField: 'text'
+		        displayField: 'text',
+		        
+		        listConfig: {
+		        	cls: 'ametys-boundlist'
+		        }
 			});
 		}
 		else
@@ -855,7 +859,10 @@ Ext.define('Ametys.plugins.core.administrator.Config.TimeField',	{
 	labelAlign: 'right',
     labelWidth: Ametys.plugins.core.administration.Config.LABEL_WIDTH,
     labelSeparator: '',
-	width: 100
+	width: 100,
+	listConfig: {
+		cls: 'ametys-boundlist'
+	}
 });
 /**
  * @private
@@ -869,7 +876,10 @@ Ext.define('Ametys.plugins.core.administrator.Config.HourField',	{
 	labelAlign: 'right',
     labelWidth: Ametys.plugins.core.administration.Config.LABEL_WIDTH,
     labelSeparator: '',
-    width: 100
+    width: 100,
+    listConfig: {
+		cls: 'ametys-boundlist'
+	}
 });
 /**
  * @private

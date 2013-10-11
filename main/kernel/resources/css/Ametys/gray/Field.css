@@ -101,3 +101,9 @@
 	background-image: none;
 	border-color: #F6B51A;
 }
+
+.x-boundlist.ametys-boundlist .x-boundlist-item {
+	font-size: 0.9em;
+    line-height: 18px;
+}
+
