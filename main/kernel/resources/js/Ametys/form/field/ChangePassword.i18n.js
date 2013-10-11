@@ -194,6 +194,7 @@ Ext.define('Ametys.form.field.ChangePassword', {
     		height: 0
     	};
     	var rstButton = Ext.create('Ext.button.Button', rstButtonCfg);
+    	rstButton.on ('show', this._placeResetButton, this);
     	
     	this.items = [field1, field2, chgBtn, rstButton];
     	
@@ -212,6 +213,10 @@ Ext.define('Ametys.form.field.ChangePassword', {
     	this._placeResetButton();
     },
     
+    /**
+     * Place the reset button to the right position
+     * @private
+     */
     _placeResetButton: function ()
     {
     	var rstButton = this.items.get(Ametys.form.field.ChangePassword.INDEX_RESETPASSWORD_BUTTON);
@@ -306,7 +311,6 @@ Ext.define('Ametys.form.field.ChangePassword', {
     	{
     		case Ametys.form.field.ChangePassword.MODE_CHANGEPASSWORD:
     			rstButton.show();
-    			this._placeResetButton();
     	    	
     		case Ametys.form.field.ChangePassword.MODE_SETPASSWORD:
     			this.items.get(Ametys.form.field.ChangePassword.INDEX_MAIN_FIELD).setValue('');
