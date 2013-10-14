@@ -613,6 +613,121 @@ Ext.define('Ametys.form.field.RichText', {
     
     /**
      * @private
+     * Add the current browser informations on the body of the iframe (as it is on extjs body)
+     */
+    _setBrowserCSSClassName: function()
+    {
+    	var body = Ext.get(iframe.dom.contentWindow.document.body); 
+		function add(cls)
+		{
+			body.addCls("x-" + cls);
+		}
+		
+		
+        //Let's keep this human readable!
+        if (Ext.isIE && Ext.isIE9m) {
+            add('ie');
+
+            // very often CSS needs to do checks like "IE7+" or "IE6 or 7". To help
+            // reduce the clutter (since CSS/SCSS cannot do these tests), we add some
+            // additional classes:
+            //
+            //      x-ie7p      : IE7+      :  7 <= ieVer
+            //      x-ie7m      : IE7-      :  ieVer <= 7
+            //      x-ie8p      : IE8+      :  8 <= ieVer
+            //      x-ie8m      : IE8-      :  ieVer <= 8
+            //      x-ie9p      : IE9+      :  9 <= ieVer
+            //      x-ie78      : IE7 or 8  :  7 <= ieVer <= 8
+            //
+            if (Ext.isIE6) {
+                add('ie6');
+            } else { // ignore pre-IE6 :)
+                add('ie7p');
+
+                if (Ext.isIE7) {
+                    add('ie7');
+                } else {
+                    add('ie8p');
+
+                    if (Ext.isIE8) {
+                        add('ie8');
+                    } else {
+                        add('ie9p');
+
+                        if (Ext.isIE9) {
+                            add('ie9');
+                        }
+                    }
+                }
+            }
+
+            if (Ext.isIE7m) {
+                add('ie7m');
+            }
+            if (Ext.isIE8m) {
+                add('ie8m');
+            }
+            if (Ext.isIE9m) {
+                add('ie9m');
+            }
+            if (Ext.isIE7 || Ext.isIE8) {
+                add('ie78');
+            }
+        }
+        
+        if (Ext.isIE10) {
+            add('ie10');
+        }
+        
+        if (Ext.isGecko) {
+            add('gecko');
+            if (Ext.isGecko3) {
+                add('gecko3');
+            }
+            if (Ext.isGecko4) {
+                add('gecko4');
+            }
+            if (Ext.isGecko5) {
+                add('gecko5');
+            }
+        }
+        if (Ext.isOpera) {
+            add('opera');
+        }
+        if (Ext.isWebKit) {
+            add('webkit');
+        }
+        if (Ext.isSafari) {
+            add('safari');
+            if (Ext.isSafari2) {
+                add('safari2');
+            }
+            if (Ext.isSafari3) {
+                add('safari3');
+            }
+            if (Ext.isSafari4) {
+                add('safari4');
+            }
+            if (Ext.isSafari5) {
+                add('safari5');
+            }
+            if (Ext.isSafari5_0) {
+                add('safari5_0')
+            }
+        }
+        if (Ext.isChrome) {
+            add('chrome');
+        }
+        if (Ext.isMac) {
+            add('mac');
+        }
+        if (Ext.isLinux) {
+            add('linux');
+        }
+    },
+    
+    /**
+     * @private
      * Listener when the iframe is loaded to detect if the richtext is broken
      */
     _onEditorLoaded: function()
@@ -620,6 +735,7 @@ Ext.define('Ametys.form.field.RichText', {
     	var iframe = Ext.get(this.getEditor().contentAreaContainer).first();
     	if (iframe.dom.contentWindow.document.body.id)
     	{
+    		this._setBrowserCSSClassName();
     		return;
     	}
 

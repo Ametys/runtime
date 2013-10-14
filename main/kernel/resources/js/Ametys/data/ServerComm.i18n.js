@@ -614,6 +614,12 @@ Ext.define(
 		 */
 		_cancelTimeout: function(options)
 		{
+			if (options._timeout != null)
+			{
+				console.warn("no options._timeout")
+				window.clearTimeout(options._timeout);
+			}
+			
 			for (var i = 0; i < options.messages.length; i++)
 			{
 				var message = options.messages[i];
@@ -623,10 +629,6 @@ Ext.define(
 				}
 			}
 			
-			if (options._timeout != null)
-			{
-				window.clearTimeout(options._timeout);
-			}
 			if (options._timeoutDialog != null)
 			{
 				options._timeoutDialog.kill();
