@@ -575,6 +575,8 @@ Ext.define(
 		{
 			Ext.Ajax.abort(options._transactionId);
 
+			this._cancelTimeout(options);
+			
 			if (silently !== false && typeof this._observer.onRequestArrival == "function")
 			{
 				try
@@ -586,8 +588,6 @@ Ext.define(
 					alert("Exception in Ametys.data.ServerComm._observer.onRequestArrival (1): " + e);
 				}
 			}
-
-			this._cancelTimeout(options);
 
 			if (silently !== false)
 			{
@@ -603,6 +603,8 @@ Ext.define(
 		 */
 		_onRequestTimeout: function(index, timeout)
 		{
+			this.getLogger().debug("Request timeout [n°" + options._timeoutIndex + "]");
+
 			var sendOptions = Ametys.data.ServerComm._runningRequests[index];
 			sendOptions._timeout = null;
 			sendOptions._timeoutDialog = new Ametys.data.ServerComm.TimeoutDialog(sendOptions.params, index, timeout);
@@ -611,14 +613,29 @@ Ext.define(
 		/**
 		 * @private
 		 * Cancel the timeout and kill the timeout dialogue
+		 * @param {Object} options The arguments passed
 		 */
 		_cancelTimeout: function(options)
 		{
 			if (options._timeout != null)
 			{
-				console.warn("no options._timeout")
+				this.getLogger().debug("Clear timeout [n°" + options._timeoutIndex + "]");
+				
 				window.clearTimeout(options._timeout);
 			}
+			else
+			{
+				this.getLogger().debug("No timeout [n°" + options._timeoutIndex + "]");
+			}
+			
+			if (options._timeoutDialog != null)
+			{
+				this.getLogger().debug("Closing timeout dialog [n°" + options._timeoutIndex + "]");
+
+				options._timeoutDialog.kill();
+				options._timeoutDialog = null;
+			}
+			delete Ametys.data.ServerComm._runningRequests[options._timeoutIndex];
 			
 			for (var i = 0; i < options.messages.length; i++)
 			{
@@ -628,13 +645,6 @@ Ext.define(
 					message.waitMessage.hide();
 				}
 			}
-			
-			if (options._timeoutDialog != null)
-			{
-				options._timeoutDialog.kill();
-				options._timeoutDialog = null;
-			}
-			delete Ametys.data.ServerComm._runningRequests[options._timeoutIndex];
 		},
 
 		/**
@@ -645,6 +655,8 @@ Ext.define(
 		 */
 		_onRequestComplete: function(response, options)
 		{
+			this._cancelTimeout(options);
+			
 			if (typeof this._observer.onRequestArrival == "function")
 			{
 				try
@@ -656,8 +668,6 @@ Ext.define(
 					alert("Exception in Ametys.data.ServerComm._observer.onRequestArrival (0): " + e);
 				}
 			}
-
-			this._cancelTimeout(options);
 			
 			if (!this._off && (response.responseXML != null || confirm("<i18n:text i18n:key='KERNEL_SERVERCOMM_NOTXML_DESC'/>")))
 			{

@@ -26,10 +26,9 @@ Ext.define(
 	{
 		statics: {
 			/**
-			 * @property {Number}
 			 * @readonly
 			 * @static
-			 * The time out between dialog calls (in milliseconds) 
+			 * @property {Number} The time out between dialog calls (in milliseconds) 
 			 */
 			TIMEOUT: 60000,
 
