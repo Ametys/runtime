@@ -614,10 +614,11 @@ Ext.define('Ametys.form.field.RichText', {
     /**
      * @private
      * Add the current browser informations on the body of the iframe (as it is on extjs body)
+     * @param {HTMLElement} body The body to modify
      */
-    _setBrowserCSSClassName: function()
+    _setBrowserCSSClassName: function(body)
     {
-    	var body = Ext.get(iframe.dom.contentWindow.document.body); 
+    	var body = Ext.get(body); 
 		function add(cls)
 		{
 			body.addCls("x-" + cls);
@@ -735,7 +736,7 @@ Ext.define('Ametys.form.field.RichText', {
     	var iframe = Ext.get(this.getEditor().contentAreaContainer).first();
     	if (iframe.dom.contentWindow.document.body.id)
     	{
-    		this._setBrowserCSSClassName();
+    		this._setBrowserCSSClassName(iframe.dom.contentWindow.document.body);
     		return;
     	}
 
