@@ -84,10 +84,10 @@
        		<script>/plugins/extjs4/resources/ux/js/form/ItemSelector.js</script>
 
 			<script>/kernel/resources/js/Ametys.i18n.js</script>
-			<script>/kernel/resources/js/Ext.i18n.js</script>
             <script>/kernel/resources/js/Ametys/log/LoggerFactory.js</script>
 			<script>/kernel/resources/js/Ametys/log/Logger.js</script>
 	        <script>/kernel/resources/js/Ametys/log/Logger/Entry.js</script>
+			<script>/kernel/resources/js/Ext.i18n.js</script>
 	        <script>/kernel/resources/js/Ametys/log/ErrorDialog.i18n.js</script>
 	        <script>/kernel/resources/js/Ametys/window/DialogBox.js</script>
 	        <script>/kernel/resources/js/Ametys/form/AbstractField.i18n.js</script>

@@ -590,6 +590,11 @@ Ext.define('Ametys.form.field.RichText', {
      */
     _onEditorInit: function(editor)
     {
+    	if (this.getLogger().isDebugEnabled())
+    	{
+    		this.getLogger().debug("Richtext '" + this.getInputId() + "' editor initialized")
+    	}
+    	
 		this._createCharCounter(editor);
 		
 		// Cache the editor content and compute char count.
@@ -807,6 +812,16 @@ Ext.define('Ametys.form.field.RichText', {
     
     beforeDestroy: function() 
     {
+    	if (this.getLogger().isDebugEnabled())
+    	{
+    		this.getLogger().debug("Richtext '" + this.getInputId() + "' editor destroyed")
+    	}
+
+    	if (tinyMCE.activeEditor == this.getEditor())
+    	{
+    		this.activeEditor = null;
+    	}
+    		
     	this._removeEditor();
     	
     	this.callParent(arguments);

@@ -994,13 +994,11 @@
 				 */
 				getLogger: function()
 				{
-					return this.self.getLogger();
-				},
-				
-				destroy: function()
-				{
-					this._logger = null;
-					this.callParent(arguments);
+					if (this.self._logger == null)
+					{
+						this.self._logger = Ametys.log.LoggerFactory.getLoggerFor(this.self.getName()) 
+					}
+					return this.self._logger;
 				}
 			});
 })();
