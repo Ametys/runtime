@@ -603,7 +603,7 @@ Ext.define(
 		 */
 		_onRequestTimeout: function(index, timeout)
 		{
-			this.getLogger().debug("Request timeout [n°" + options._timeoutIndex + "]");
+			this.getLogger().debug("Request timeout [n°" + index + "]");
 
 			var sendOptions = Ametys.data.ServerComm._runningRequests[index];
 			sendOptions._timeout = null;
