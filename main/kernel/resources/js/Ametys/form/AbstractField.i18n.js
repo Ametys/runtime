@@ -111,6 +111,8 @@ Ext.define('Ametys.form.AbstractField', {
      */
     getErrors: function (value)
     {
+    	value = value || this.getValue();
+    	
     	var errors = [];
     	
     	if (!this.allowBlank && (!value || (Ext.isArray(value) && value.length == 0)))
@@ -207,6 +209,6 @@ Ext.define('Ametys.form.AbstractField', {
 	{
 		this.unsetActiveWarnings();
 		this.updateLayout();
-	},
+	}
     
 });
