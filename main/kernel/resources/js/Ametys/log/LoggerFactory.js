@@ -75,7 +75,7 @@ Ext.define(
 		 * @property {Ext.data.ArrayStore} _store The store of log entries 
 		 */
 		_store: Ext.create("Ext.data.ArrayStore", {
-			sorters: [{property: 'date', direction:'DESC'}],
+			sorters: [{property: 'date', direction:'DESC'}]
 		}),
 		
 		/**

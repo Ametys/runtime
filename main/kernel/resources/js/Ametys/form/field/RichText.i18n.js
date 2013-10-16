@@ -177,7 +177,7 @@ Ext.define('Ametys.form.field.RichText', {
 				theme_advanced_resizing_min_height: tinyMinHeight,
 				
 	    		// The plugins to load
-	    		plugins: 'table,paste,tabfocus,noneditable,autolink',
+	    		plugins: 'table,paste,tabfocus,noneditable,autolink'
 	    	}, 
 	    	config.settings || {}
 	    );
