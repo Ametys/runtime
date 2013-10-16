@@ -444,6 +444,23 @@ Ext.define(
 				}
 			}
 			
+			// Destroy all components at once (to avoid errors due to removal order)
+			Ext.ComponentManager.each(function(id, item, size) {
+				if (item.ownerCt)
+				{
+					item.ownerCt.removeAll();
+				}
+			});
+			// Some special components are still there
+			Ext.ComponentManager.each(function(id, item, size) {
+				if (item.ownerCt)
+				{
+					item.ownerCt.remove(item, true); 
+				}
+			});
+			// Some components are still there, but does not seems to have effets
+			Ext.app.Application.instance.suspendEvents(false);
+			
 			document.body.parentNode.setAttribute('style', "height: 100%;");
 			document.body.setAttribute('style', "background: -webkit-linear-gradient( #351e3b, #033059); background: -moz-linear-gradient( #351e3b, #033059); background: -ms-linear-gradient( #351e3b, #033059); background: -o-linear-gradient( #351e3b, #033059); background: linear-gradient( #351e3b, #033059); background-image: none !important; background-color: #351e3b !important; color: #000000 !important; padding: 20px !important; height: 100%;");
 			document.body.innerHTML = "<div style='width: 500px; margin: 200px auto 0 auto; background-color: #EFEFEF; border: 1px solid #CFCFCF; border-radius: 15px; padding: 0 15px;'><h1 style='font-size: 1.5em'>" + title + "</h1> <p>" + message + "</p><p style='text-align: center'><a href='javascript:Ametys.reload();'><i18n:text i18n:key='KERNEL_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_3'/></a></p></div>"
