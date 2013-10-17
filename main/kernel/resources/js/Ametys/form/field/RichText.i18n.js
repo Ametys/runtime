@@ -607,6 +607,10 @@ Ext.define('Ametys.form.field.RichText', {
 		this._bindedOnEditorResized = Ext.bind(this._onEditorResized, this);
 		editor.dom.bind(editor.getWin(), 'resize', this._bindedOnEditorResized);
 		
+		// Setting css classes for browsers
+		var iframe = Ext.get(this.getEditor().contentAreaContainer).first();
+		this._setBrowserCSSClassName(iframe.dom.contentWindow.document.body);
+		
 		// Re-layout purposes
 		Ext.get(editor.contentAreaContainer).first().on('load', this._onEditorLoaded, this);
     },
@@ -736,7 +740,6 @@ Ext.define('Ametys.form.field.RichText', {
     	var iframe = Ext.get(this.getEditor().contentAreaContainer).first();
     	if (iframe.dom.contentWindow.document.body.id)
     	{
-    		this._setBrowserCSSClassName(iframe.dom.contentWindow.document.body);
     		return;
     	}
 
