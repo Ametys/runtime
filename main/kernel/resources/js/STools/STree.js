@@ -117,7 +117,7 @@ STree.openClose = function (event)
         }
 
 	// find the element
-   	var elt = STools.is_ie ? this.document.parentWindow.event.srcElement : event.explicitOriginalTarget != null ? event.explicitOriginalTarget : event.originalTarget;
+   	var elt = STools.is_ie ? this.document.parentWindow.event.srcElement : event.explicitOriginalTarget != null ? event.explicitOriginalTarget : (event.originalTarget != null ? event.originalTarget : event.srcElement);
   
     // find the tree
     var tree = elt;
