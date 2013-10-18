@@ -177,7 +177,7 @@ Ext.define('Ametys.form.field.RichText', {
 				theme_advanced_resizing_min_height: tinyMinHeight,
 				
 	    		// The plugins to load
-	    		plugins: 'table,paste,tabfocus,noneditable,autolink'
+	    		plugins: 'table,paste,noneditable,autolink'
 	    	}, 
 	    	config.settings || {}
 	    );
@@ -737,7 +737,9 @@ Ext.define('Ametys.form.field.RichText', {
      */
     _onEditorLoaded: function()
     {
-    	var iframe = Ext.get(this.getEditor().contentAreaContainer).first();
+    	var editor = this.getEditor();
+
+    	var iframe = Ext.get(editor.contentAreaContainer).first();
     	if (iframe.dom.contentWindow.document.body.id)
     	{
     		return;
@@ -747,10 +749,11 @@ Ext.define('Ametys.form.field.RichText', {
     	{
     		this.getLogger().debug("Reseting richtext " + this.getInputId());
     	}
-
-    	this.getRawValue(); // Save current value
-    	this._removeEditor();
-    	new tinyMCE.Editor(this.getInputId(), this._settings).render();
+    	
+    	this.getRawValue();
+   		editor.save = function() {}
+   		this._removeEditor();
+   		new tinyMCE.Editor(this.getInputId(), this._settings).render();
     },
     
     /**
@@ -927,6 +930,8 @@ Ext.define('Ametys.form.field.RichText', {
 	    	
 	    	// Let's destroy the tinymce component
 	    	tinyMCE.execCommand("mceRemoveControl", false, this.getInputId());
+	    	
+	    	this._notFirstCallToOnRichTextNodeSelected = false;
     	}
     },
     
