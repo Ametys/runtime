@@ -1,3 +1,14 @@
+Runtime - Version 2.4.3 (October 22, 2013)
+
+Improvement:
+  RUNTIME-889 : Support of FF22
+  RUNTIME-987 : Support of chrome 28, 29, 30
+  RUNTIME-988 : Support of FF 23,24
+
+Bug:
+  RUNTIME-894 : i18nizableText does not SAX correctly param with keys
+  RUNTIME-908 : Ext.ux.tree.XmlTreeLoader incorrectly fire the loadexception event.
+
 Runtime - Version 2.4.2 (June 06, 2013)
 
 Improvement:
