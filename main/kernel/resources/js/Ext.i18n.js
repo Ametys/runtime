@@ -1002,3 +1002,141 @@
 				}
 			});
 })();
+
+
+
+(function () {
+	Ext.define("Ametys.tab.Bar", {
+		override: 'Ext.tab.Bar',
+		
+		/**
+		 * @cfg {Boolean} resizeTabs=false When true, all tabs will have the same size, and will resize according to #minTabWidth and #maxTabWidth.
+		 * @member Ext.tab.Bar
+		 * @ametys
+		 * @since Ametys Runtime 3.7
+		 */ 
+		resizeTabs: false,
+		
+		/**
+		 * @private
+		 * @member Ext.tab.Bar
+		 * @ametys
+		 * @since Ametys Runtime 3.7
+		 * @property {Boolean} _readyToSize=false True after the box ready event was fired, to know if width is ok
+		 */
+		_readyToSize: false,
+		
+		/**
+		 * @private
+		 * @member Ext.tab.Bar
+		 * @ametys
+		 * @since Ametys Runtime 3.7
+		 * When #resizeTabs is true, this method will resize the buttons, so they all have the same size
+		 */
+		autoSizeTabs: function()
+		{
+			if (this.resizeTabs == false || !this._readyToSize)
+			{
+				return;
+			}
+			
+			var me = this;
+			
+			this.getLogger().debug("Resizing tab bar '" + this.getId() + "'");
+
+			// Compute the number of buttons
+			var nbVisibleButtons = 0;
+			this.items.each(function(item) {
+				if (!item.isTool && item.isVisible())
+				{
+					nbVisibleButtons++;
+				}
+				else if (!item.rendered)
+				{
+					item.on('boxReady', me.autoSizeTabs, me, { single: true });
+				}
+			});
+			
+			if (nbVisibleButtons == 0)
+			{
+				return;
+			}
+			
+			// Compute the available space
+			var availableWidth = this.getWidth();
+			var sizeForTools = this._getToolsSize();
+			
+			var availableWidthForButtons = availableWidth - sizeForTools;
+			var sizePerButton = availableWidthForButtons / nbVisibleButtons;
+			
+			// Apply new size
+			this.items.each(function(item) {
+				if (!item.isTool && item.isVisible())
+				{
+					this.setWidth(sizePerButton - 2); // Tab buttons are left positionned to 2, the size required for a button is the sum of its size and this left position 
+					item.closeEl.setVisible(this.getWidth() >= 36); // 36 pixels is the size under which the icon and the close button will overlap
+				}
+			});
+		},
+		
+		/**
+		 * @private
+		 * @member Ext.tab.Bar
+		 * @ametys
+		 * @since Ametys Runtime 3.7
+		 * Compute the size required for the tools
+		 * @return {Number} The size in pixels required to display all tools
+		 */
+		_getToolsSize: function()
+		{
+			var sizeForTools = 0;
+			for (var i = 0; i < this.getTools().length; i++)
+			{
+				var tool = this.getTools()[i];
+				
+				if (!tool.isVisible())
+				{
+					continue;
+				}
+				
+				if (sizeForTools == 0)
+				{
+					// If there is a least one tool, we "add" a left margin to the tool, that has the same value as the right margin
+					sizeForTools = 3;
+				}
+				
+				sizeForTools += 3 + tool.getWidth(); // 3 is the right margin of a tool
+			}
+			return sizeForTools;
+		},
+		
+		onBoxReady: function()
+		{
+			this.callParent(arguments);
+			
+			this._readyToSize = true;
+			this.autoSizeTabs();
+		},
+		
+		onAdd: function()
+		{
+			this.callParent(arguments);
+
+			this.autoSizeTabs();
+		},
+	
+		onRemove: function()
+		{
+			this.callParent(arguments);
+			
+			this.autoSizeTabs();
+		},
+	
+		onResize: function()
+		{
+			this.callParent(arguments);
+			
+			this.autoSizeTabs();
+		}
+	});
+})();
