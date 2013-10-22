@@ -1009,6 +1009,20 @@
 	Ext.define("Ametys.tab.Bar", {
 		override: 'Ext.tab.Bar',
 		
+		statics: 
+		{
+			/**
+			 * @private
+			 * @property {Number} __TOOLS_H_MARGINS The horizontal margin around tools buttons
+			 */
+			__TOOLS_H_MARGINS: 3,
+			/**
+			 * @private
+			 * @property {Number} __TOOLS_H_MARGINS The vertical margin around tools buttons
+			 */
+			__TOOLS_V_MARGINS: 3,
+		},
+		
 		/**
 		 * @cfg {Boolean} resizeTabs=false When true, all tabs will have the same size, and will resize according to #minTabWidth and #maxTabWidth.
 		 * @member Ext.tab.Bar
@@ -1035,10 +1049,12 @@
 		 */
 		autoSizeTabs: function()
 		{
-			if (this.resizeTabs == false || !this._readyToSize)
+			if (this.resizeTabs == false || !this._readyToSize || this._resizing)
 			{
 				return;
 			}
+			
+			this._resizing = true;
 			
 			var me = this;
 			
@@ -1047,13 +1063,9 @@
 			// Compute the number of buttons
 			var nbVisibleButtons = 0;
 			this.items.each(function(item) {
-				if (!item.isTool && item.isVisible())
+				if (!item.isTool && item.getEl() && item.getEl().isVisible())
 				{
 					nbVisibleButtons++;
-				}
-				else if (!item.rendered)
-				{
-					item.on('boxReady', me.autoSizeTabs, me, { single: true });
 				}
 			});
 			
@@ -1063,20 +1075,43 @@
 			}
 			
 			// Compute the available space
-			var availableWidth = this.getWidth();
+			var availableWidth = Ext.get(this.getEl().id + "-innerCt").getWidth();
 			var sizeForTools = this._getToolsSize();
 			
 			var availableWidthForButtons = availableWidth - sizeForTools;
-			var sizePerButton = availableWidthForButtons / nbVisibleButtons;
+			var sizePerButton = Math.floor(availableWidthForButtons / nbVisibleButtons);
 			
 			// Apply new size
+			var realTotalWidth = 0;
 			this.items.each(function(item) {
-				if (!item.isTool && item.isVisible())
+				if (!item.getEl() || !item.getEl().isVisible())
 				{
-					this.setWidth(sizePerButton - 2); // Tab buttons are left positionned to 2, the size required for a button is the sum of its size and this left position 
-					item.closeEl.setVisible(this.getWidth() >= 36); // 36 pixels is the size under which the icon and the close button will overlap
+					return;
+				}
+				
+				if (!item.isTool)
+				{
+					this.setWidth(sizePerButton - 2); // Tab buttons are left positionned to 2, the size required for a button is the sum of its size and this left position
+					var realWidth = this.getWidth();
+					realTotalWidth += realWidth + 2;
+					item.closeEl.setVisible(realWidth >= 36); // 36 pixels is the size under which the icon and the close button will overlap
+				}
+				else 
+				{
+					item.getEl().dom.style.marginTop = Ext.tab.Bar.__TOOLS_V_MARGINS + "px"; 
+					item.getEl().dom.style.marginLeft = Ext.tab.Bar.__TOOLS_H_MARGINS + "px";
+					item.setPosition(Math.max(realTotalWidth, availableWidth - sizeForTools), 0);
 				}
 			});
+			
+			this._resizing = false;
+		},
+		
+		afterLayout: function()
+		{
+			this.callParent(arguments);
+			
+			this.autoSizeTabs();
 		},
 		
 		/**
@@ -1094,18 +1129,17 @@
 			{
 				var tool = this.getTools()[i];
 				
-				if (!tool.isVisible())
+				if (!tool.getEl() || !tool.getEl().isVisible())
 				{
 					continue;
 				}
 				
 				if (sizeForTools == 0)
 				{
-					// If there is a least one tool, we "add" a left margin to the tool, that has the same value as the right margin
-					sizeForTools = 3;
+					sizeForTools = Ext.tab.Bar.__TOOLS_H_MARGINS;
 				}
 				
-				sizeForTools += 3 + tool.getWidth(); // 3 is the right margin of a tool
+				sizeForTools += Ext.tab.Bar.__TOOLS_H_MARGINS + tool.getWidth(); 
 			}
 			return sizeForTools;
 		},
