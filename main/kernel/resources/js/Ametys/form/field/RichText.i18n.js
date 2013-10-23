@@ -105,13 +105,19 @@ Ext.define('Ametys.form.field.RichText', {
 	 * @property {Number} _editorDiffSize.height The width in pixel of diffence between the whole field width and the editor height
 	 * @private
 	 */
+	
 	/**
-    * @cfg {Object[]} semAnnotations
-    * @cfg {Object} semAnnotations.name Unique name of the semantic annotation
-    * @cfg {Object} semAnnotations.label Display name of the semantic annotation
-    * @cfg {Object} semAnnotations.description Description of the semantic annotation
-    * List of available annotations for rich text 
+    * @cfg {Object[]} annotations List of available semantic annotations for this RichText
+    * @cfg {Object} annotations.name Unique name of the semantic annotation
+    * @cfg {Object} annotations.label Display name of the semantic annotation
+    * @cfg {Object} annotations.description Description of the semantic annotation
     */
+	
+	/**
+	 * @property _annotations See #cfg-annotations
+	 * @private
+	 */
+	_annotations: [],
 	
     /**
      * @cfg {Number} maxLength
@@ -196,6 +202,11 @@ Ext.define('Ametys.form.field.RichText', {
         {
             this._maxLength = this.maxLength;
             this.maxLength = Number.MAX_VALUE;
+        }
+        
+        if (this.annotations)
+        {
+        	this._annotations = this.annotations;
         }
     },
     
@@ -319,6 +330,41 @@ Ext.define('Ametys.form.field.RichText', {
         }
         
         return errors;
+    },
+    
+    /**
+     * Get the registered semantic annotations
+     * @return {Object[]} The semantic annotations
+     */
+    getSemanticAnnotations: function ()
+    {
+    	return this._annotations;
+    },
+    
+    /**
+     * Determines if this RichText has semantic annotations
+     * @return true if this RichText has semantic annotations
+     */
+    hasSemanticAnnotations : function ()
+    {
+    	return this._annotations.length > 0;
+    },
+    
+    /**
+     * Get a semantic annotation by its name
+     * @param {String} name The name of annotation
+     * @return {Object} The annotation object or null if not found
+     */
+    getSemanticAnnotation: function (name)
+    {
+    	for (var i=0; this._annotations.length; i++)
+    	{
+    		if (this._annotations[i].name == name)
+    		{
+    			return this._annotations[i];
+    		}
+    	}
+    	return null;
     },
     
     /**
