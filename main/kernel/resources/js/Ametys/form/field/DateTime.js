@@ -34,9 +34,9 @@ Ext.define('Ametys.form.field.DateTime', {
      * @cfg {String} submitFormat
      * The date format string which will be submitted to the server. The format must be valid according to
      * {@link Ext.Date#parse}.
-     * Default to Ext.Date.patterns.ISO8601Long
+     * Default to Ext.Date.patterns.ISO8601DateTime
      */
-    submitFormat: Ext.Date.patterns.ISO8601Long,
+    submitFormat: Ext.Date.patterns.ISO8601DateTime,
     
     
     initComponent: function() {

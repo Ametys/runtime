@@ -17,6 +17,16 @@
 <catalogue xml:lang="en">
 
     <message key="KERNEL_LANGUAGE_CODE">en</message>
+
+    <message key="KERNEL_DATETIME_SHORTDATE">m/d/y</message>
+    <message key="KERNEL_DATETIME_LONGDATE">m/d/Y</message>
+    <message key="KERNEL_DATETIME_FULLDATE">l, F j, Y</message>
+    <message key="KERNEL_DATETIME_SHORTTIME">h:i A</message>
+    <message key="KERNEL_DATETIME_LONGTIME">h:i:sP A</message>
+    <message key="KERNEL_DATETIME_SHORTDATETIME">m/d/y h:i A</message>
+    <message key="KERNEL_DATETIME_LONGDATETIME">m/d/Y h:i:sP A</message>
+    <message key="KERNEL_DATETIME_FULLDATETIME">l, F j, Y \\a\\t h:i:s T A</message>
+
     
     <!-- UI -->
     <message key="KERNEL_UI_LISTVIEW_PREVIEW_NOTAVAILABLE">No preview available</message>

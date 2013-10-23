@@ -211,7 +211,7 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 		    extend: 'Ext.data.Model',
 		    fields: [
 		       {name: 'location'},
-		       {name: 'date', type: 'date', dateFormat: Ext.Date.patterns.ISO8601Long},
+		       {name: 'date', type: 'date', dateFormat: Ext.Date.patterns.ISO8601DateTime},
 		       {name: 'size', type: 'int'},
 		       {name: 'file'}
 		    ]

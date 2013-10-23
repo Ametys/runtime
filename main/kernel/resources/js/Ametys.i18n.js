@@ -555,18 +555,33 @@ Ext.define(
 /*
  * Initialize Ext.Date with suitable patterns
  */
+/**
+ * @member Ext.Date
+ * @property {Object} patterns Predefined internationalized patterns 
+ * @property {String} patterns.ISO8601DateTime Date using the ISO 8601 standard for date and time. E.g. 2013-02-28T17:13:50.000+02:00
+ * @property {String} patterns.ISO8601Date Simplier format of #patterns.ISO8601Date with date only date. E.g 2013-02-28
+ * @property {String} patterns.ShortDate A short date depending on language. Can be 02/28/13 in english.
+ * @property {String} patterns.LongDate A long date depending on language. Can be 02/28/2013 in english.
+ * @property {String} patterns.FullDate A full readable date depending on language. Can be Thursday, February 2, 2013 in english.
+ * @property {String} patterns.ShortTime A short time depending on language. Can be 03:15 AM in english. 
+ * @property {String} patterns.LongTime A long time depending on language. Can be 03:15:35+02:00 AM in english.
+ * @property {String} patterns.ShortDateTime A combinaison of #patterns.ShortDate and #patterns.ShortTime. Can be 02/28/13 03:15 AM in english.
+ * @property {String} patterns.LongDateTime A combinaison of #patterns.LongDate and #patterns.LongTime. Can be 02/28/2013 03:15:35+02:00 AM in english.
+ * @property {String} patterns.FullDateTime A combinaison of #patterns.FullDate, a keyword (such as 'at') and a long readable time. Can be Thursday, February 28, 2013 at 05:13:50 GMT PM in english.
+ * @since Ametys Runtime 3.7
+ * @ametys
+ */
 Ext.Date.patterns = {
-    ISO8601Long:"Y-m-d\\TH:i:s.uP",
-    ISO8601Short:"Y-m-d",
-    ShortDate: "n/j/Y",
-    LongDate: "l, F d, Y",
-    FullDateTime: "l, F d, Y g:i:s A",
-    MonthDay: "F d",
-    ShortTime: "g:i A",
-    LongTime: "g:i:s A",
-    SortableDateTime: "Y-m-d\\TH:i:s",
-    UniversalSortableDateTime: "Y-m-d H:i:sO",
-    YearMonth: "F, Y"
+	ISO8601DateTime:"Y-m-d\\TH:i:s.uP",
+	ISO8601Date:"Y-m-d",
+	ShortDate: "<i18n:text i18n:key='KERNEL_DATETIME_SHORTDATE'/>",
+	LongDate: "<i18n:text i18n:key='KERNEL_DATETIME_LONGDATE'/>",
+	FullDate: "<i18n:text i18n:key='KERNEL_DATETIME_FULLDATE'/>",
+	ShortTime: "<i18n:text i18n:key='KERNEL_DATETIME_SHORTTIME'/>",
+	LongTime: "<i18n:text i18n:key='KERNEL_DATETIME_LONGTIME'/>",
+	ShortDateTime: "<i18n:text i18n:key='KERNEL_DATETIME_SHORTDATETIME'/>",
+	LongDateTime: "<i18n:text i18n:key='KERNEL_DATETIME_LONGDATETIME'/>",
+	FullDateTime: "<i18n:text i18n:key='KERNEL_DATETIME_FULLDATETIME'/>"
 };
 
 /*

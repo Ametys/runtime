@@ -18,6 +18,15 @@
 
     <message key="KERNEL_LANGUAGE_CODE">fr</message>
     
+    <message key="KERNEL_DATETIME_SHORTDATE">d/m/y</message>
+    <message key="KERNEL_DATETIME_LONGDATE">d/m/Y</message>
+    <message key="KERNEL_DATETIME_FULLDATE">l j F Y</message>
+    <message key="KERNEL_DATETIME_SHORTTIME">H:i</message>
+    <message key="KERNEL_DATETIME_LONGTIME">H:i:sP</message>
+    <message key="KERNEL_DATETIME_SHORTDATETIME">d/m/y H:i</message>
+    <message key="KERNEL_DATETIME_LONGDATETIME">d/m/Y H:i:sP</message>
+    <message key="KERNEL_DATETIME_FULLDATETIME">l j F Y \\à H:i:s T</message>
+    
     <!-- UI -->
     <message key="KERNEL_UI_LISTVIEW_PREVIEW_NOTAVAILABLE">Pas d'aperçu disponible</message>
     <message key="KERNEL_DIALOG_ERRORREADINGURL">Une erreur est survenue lors du téléchargement de la ressource</message>

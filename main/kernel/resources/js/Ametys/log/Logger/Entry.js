@@ -108,7 +108,7 @@ Ext.define(
 		 */
 		toString: function() 
 		{
-			return Ext.Date.format(this.get('date'), Ext.Date.patterns.ISO8601Long) + "\t" + this.getLevelAsString() + "\t[" + this.get('category') + "]\t" + this.get('message') + (this.get('details') ? " (" + this.get('details').toString() + ")" : '');
+			return Ext.Date.format(this.get('date'), Ext.Date.patterns.ISO8601DateTime) + "\t" + this.getLevelAsString() + "\t[" + this.get('category') + "]\t" + this.get('message') + (this.get('details') ? " (" + this.get('details').toString() + ")" : '');
 		},
 		
 		/**
