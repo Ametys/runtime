@@ -779,13 +779,65 @@ Ext.define('Ametys.form.field.RichText', {
     
     /**
      * @private
+     * Relay iframe events to extjs
+     */
+    _onRelayedEvent: function (event) {
+        // relay event from the iframe's document to the document that owns the iframe...
+
+    	var iframeEl = Ext.get(this.getEditor().contentAreaContainer).first();
+
+            // Get the left-based iframe position
+            iframeXY = Ext.Element.getTrueXY(iframeEl),
+            originalEventXY = event.getXY(),
+
+            // Get the left-based XY position.
+            // This is because the consumer of the injected event (Ext.EventManager) will
+            // perform its own RTL normalization.
+            eventXY = Ext.EventManager.getPageXY(event.browserEvent);
+
+        // the event from the inner document has XY relative to that document's origin,
+        // so adjust it to use the origin of the iframe in the outer document:
+        event.xy = [iframeXY[0] + eventXY[0], iframeXY[1] + eventXY[1]];
+
+        event.injectEvent(iframeEl); // blame the iframe for the event...
+
+        event.xy = originalEventXY; // restore the original XY (just for safety)
+    },
+    
+    /**
+     * @private
      * Listener when the iframe is loaded to detect if the richtext is broken
      */
     _onEditorLoaded: function()
     {
     	var editor = this.getEditor();
-
+    	
     	var iframe = Ext.get(editor.contentAreaContainer).first();
+    	
+        try {
+        	var doc = iframe.dom.contentWindow.document;
+
+        	Ext.EventManager.removeAll(doc);
+
+            // These events need to be relayed from the inner document (where they stop
+            // bubbling) up to the outer document. This has to be done at the DOM level so
+            // the event reaches listeners on elements like the document body. The effected
+            // mechanisms that depend on this bubbling behavior are listed to the right
+            // of the event.
+            Ext.EventManager.on(doc, {
+                mousedown: this._onRelayedEvent, // menu dismisal (MenuManager) and Window onMouseDown (toFront)
+                mousemove: this._onRelayedEvent, // window resize drag detection
+                mouseup: this._onRelayedEvent,   // window resize termination
+                click: this._onRelayedEvent,     // not sure, but just to be safe
+                dblclick: this._onRelayedEvent,  // not sure again
+                
+                scope: this
+            });
+        } catch(e) {
+            // cannot do this xss
+        	console.info(e)
+        }
+
     	if (iframe.dom.contentWindow.document.body.id)
     	{
     		return;
@@ -972,6 +1024,9 @@ Ext.define('Ametys.form.field.RichText', {
     	var editor = this.getEditor();
     	if (editor != null)
     	{
+        	var iframe = Ext.get(editor.contentAreaContainer).first();
+        	Ext.EventManager.removeAll(iframe.dom.contentWindow.document);
+            	
 	    	editor.dom.unbind(editor.getWin(), 'resize', this._bindedOnEditorResized);
 	    	
 	    	// Let's destroy the tinymce component
