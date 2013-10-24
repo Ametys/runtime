@@ -73,7 +73,7 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
     @Override
     public void configure(Configuration configuration) throws ConfigurationException
     {
-        _configuredDebugMode = (Config.getInstance() != null && Config.getInstance().getValueAsLong("runtime.debug.ui") != null) ? Config.getInstance().getValueAsLong("runtime.debug.ui") : 0;
+        _configuredDebugMode = Config.getInstance() != null && Config.getInstance().getValueAsLong("runtime.debug.ui") != null ? Config.getInstance().getValueAsLong("runtime.debug.ui") : 0;
         _defaultPluginCoreUrl = configuration.getChild("plugin-core-url").getValue(null);
     }
     
@@ -232,8 +232,8 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
             {
                 // we are googin in third level (/html/head/* or /html/body/* 
                 super.startElement(uri, loc, raw, a);
-                _jsCheckPoint();
                 _cssCheckPoint();
+                _jsCheckPoint();
             }
             else if (StringUtils.countMatches(_path, "/") > 2 && _isAScriptTag(loc, a))
             {
@@ -241,11 +241,12 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
                 if (index == -1)
                 {
                     // A local script in between... stop 
+                    _cssCheckPoint();
                     _jsCheckPoint();
                     super.startElement(uri, loc, raw, a);
                 }
                 else
-                {
+                { 
                     // A distant script
                     String fileName = _relativize(a.getValue(index));
                     if (getLogger().isDebugEnabled())
@@ -302,8 +303,8 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
         { 
             if (StringUtils.countMatches(_path, "/") == 2)
             {
-                _jsCheckPoint();
                 _cssCheckPoint();
+                _jsCheckPoint();
             }
 
             if (!StringUtils.startsWith(_path, _removedPath))
