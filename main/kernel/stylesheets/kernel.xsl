@@ -130,27 +130,31 @@
 		<xsl:param name="load-cb"/>
 		 
 		<!-- Load scripts -->
-        <xsl:for-each select="$scripts">
-            <xsl:variable name="position" select="position()"/>
-            <xsl:variable name="value" select="."/>
-            
-            <!-- check that the src was not already loaded (by another plugin for example) -->
-            <xsl:if test="not($scripts[position() &lt; $position and . = $value])">
-            	<script type="text/javascript" src="{$contextPath}{.}"/>
-        	    <xsl:copy-of select="$load-cb"/>
-            </xsl:if>
-        </xsl:for-each>
+		<xsl:if test="$scripts">
+	        <xsl:for-each select="$scripts">
+	            <xsl:variable name="position" select="position()"/>
+	            <xsl:variable name="value" select="."/>
+	            
+	            <!-- check that the src was not already loaded (by another plugin for example) -->
+	            <xsl:if test="not($scripts[position() &lt; $position and . = $value])">
+	            	<script type="text/javascript" src="{$contextPath}{.}"/>
+	        	    <xsl:copy-of select="$load-cb"/>
+	            </xsl:if>
+	        </xsl:for-each>
+	    </xsl:if>
 
 		<!-- Load css -->
-        <xsl:for-each select="$css">
-            <xsl:variable name="position" select="position()"/>
-            <xsl:variable name="value" select="."/>
-            
-            <!-- check that the src was not already loaded (by another plugin for example) -->
-            <xsl:if test="not($css[position() &lt; $position and . = $value])">
-                <link rel="stylesheet" type="text/css" href="{$contextPath}{.}"/>
-        	    <xsl:copy-of select="$load-cb"/>
-            </xsl:if>
-        </xsl:for-each>
+        <xsl:if test="$css">
+	        <xsl:for-each select="$css">
+	            <xsl:variable name="position" select="position()"/>
+	            <xsl:variable name="value" select="."/>
+	            
+	            <!-- check that the src was not already loaded (by another plugin for example) -->
+	            <xsl:if test="not($css[position() &lt; $position and . = $value])">
+	                <link rel="stylesheet" type="text/css" href="{$contextPath}{.}"/>
+	        	    <xsl:copy-of select="$load-cb"/>
+	            </xsl:if>
+	        </xsl:for-each>
+	   </xsl:if>
     </xsl:template>
 </xsl:stylesheet>
