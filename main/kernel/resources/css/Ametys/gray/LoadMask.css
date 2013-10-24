@@ -25,7 +25,7 @@
 	font-style: italic;
 }
 
-.x-mask-msg.ametys-mask-unloading div {
+.x-mask-msg.ametys-mask-unloading div, .x-mask-msg .ametys-mask-unloading div{
 	background-image: none !important;
 	cursor: auto !important;
 	padding: 5px !important;
