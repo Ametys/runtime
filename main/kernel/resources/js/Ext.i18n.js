@@ -1004,6 +1004,28 @@
 })();
 
 
+(function() {
+	Ext.define("Ametys.grid.plugin.CellEditing", {
+		override: "Ext.grid.plugin.CellEditing",
+		
+		/**
+		 * @member Ext.grid.plugin.CellEditing
+		 * @ametys
+		 * @since Ametys Runtime 3.7
+		 * @cfg {Boolean} editAfterSelect=false When #cfg-triggerEvent is not specified or is 'cellclick', this configuration allow to enter in edition only if the record was focused first. As a rename under files manager, you will have to first click on the row to select it and click again to edit it (but not doubleclick).
+		 */
+		
+		onCellClick: function(view, cell, colIdx, record, row, rowIdx, e)
+		{
+			if (!this.editAfterSelect || (this.triggerEvent != null && this.triggerEvent != 'cellclick') || this.armed == record.getId())
+			{
+				this.callParent(arguments);
+			}
+			this.armed = record.getId();
+		}
+	});
+})();
+
 
 (function () {
 	Ext.define("Ametys.tab.Bar", {
