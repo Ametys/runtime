@@ -1078,6 +1078,9 @@
 	        if (this.enterActAsTab && e.getKey() === e.ENTER) {
 	            e.stopEvent();
 
+	            var column = this.getActiveColumn();
+	            var record = this.getActiveRecord();
+	            
 	            if (ed) {
 	                // Allow the field to act on tabs before onEditorTab, which ends
 	                // up calling completeEdit. This is useful for picker type fields.
@@ -1089,7 +1092,7 @@
 	                sm.onEditorTab(ed.editingPlugin, e);
 	            }
 
-	            ed.bypassNextComplete = true;
+	            ed.bypassNextComplete = !(column == this.getActiveColumn() && record == this.getActiveRecord());
 	        }
 	    },
 	});
@@ -1102,6 +1105,13 @@
 		 * @property {Boolean} bypassNextComplete The next call to #completeEdit will be ignored
 		 */
 		bypassNextComplete: false,
+		
+		startEdit: function()
+		{
+			this.callParent(arguments);
+
+			this.editingPlugin.armed = this.editingPlugin.getActiveRecord().getId();
+		},
 		
 		completeEdit: function()
 		{
