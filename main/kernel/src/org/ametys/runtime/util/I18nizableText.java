@@ -270,15 +270,22 @@ public final class I18nizableText
 
     private void _toSAXAsParam(ContentHandler handler) throws SAXException
     {
-        AttributesImpl atts = new AttributesImpl();
-        if (getCatalogue() != null)
+        if (isI18n())
         {
-            atts.addCDATAAttribute(I18nTransformer.I18N_NAMESPACE_URI, "catalogue", "i18n:catalogue", getCatalogue());
+            AttributesImpl atts = new AttributesImpl();
+            if (getCatalogue() != null)
+            {
+                atts.addCDATAAttribute(I18nTransformer.I18N_NAMESPACE_URI, "catalogue", "i18n:catalogue", getCatalogue());
+            }
+    
+            handler.startElement(I18nTransformer.I18N_NAMESPACE_URI, "text", "i18n:text", atts);
+            handler.characters(_key.toCharArray(), 0, _key.length());
+            handler.endElement(I18nTransformer.I18N_NAMESPACE_URI, "text", "i18n:text");
         }
-
-        handler.startElement(I18nTransformer.I18N_NAMESPACE_URI, "text", "i18n:text", atts);
-        handler.characters(_key.toCharArray(), 0, _key.length());
-        handler.endElement(I18nTransformer.I18N_NAMESPACE_URI, "text", "i18n:text");
+        else
+        {
+            handler.characters(getLabel().toCharArray(), 0, getLabel().length());
+        }
     }
 
     @Override
