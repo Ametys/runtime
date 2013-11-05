@@ -1005,8 +1005,56 @@
 
 
 (function() {
+	Ext.define("Ametys.selection.RowModel", {
+		override: "Ext.selection.RowModel",
+		
+		onEditorTab: function(editingPlugin, e)
+		{
+	        if (editingPlugin.verticalEdition == true 
+	        		|| editingPlugin.verticalEdition == e.getKey()
+	        		|| (Ext.isArray(editingPlugin.verticalEdition) && editingPlugin.verticalEdition.indexOf(e.getKey()) >= 0))
+	        {
+	        	var me = this,
+	        	view = me.views[0],
+	        	record = editingPlugin.getActiveRecord(),
+	        	header = editingPlugin.getActiveColumn(),
+	        	position = view.getPosition(record, header),
+	        	direction = e.shiftKey ? 'up' : 'down';
+	        	
+	        	do {
+	        		position  = view.walkCells(position, direction, e, me.preventWrap);
+	        	} while (position && (!position.columnHeader.getEditor(record) || !editingPlugin.startEditByPosition(position)));
+	        }
+	        else
+	        {
+	        	this.callParent(arguments);
+	        }
+		}
+	});
+	
 	Ext.define("Ametys.grid.plugin.CellEditing", {
 		override: "Ext.grid.plugin.CellEditing",
+		
+		/**
+		 * @member Ext.grid.plugin.CellEditing
+		 * @ametys
+		 * @since Ametys Runtime 3.7
+		 * @cfg {Boolean} enterActAsTab=false Makes then ENTER key to react as the TAB key (go to the next field to edit)
+		 */
+		enterActAsTab: false,
+		/**
+		 * @member Ext.grid.plugin.CellEditing
+		 * @ametys
+		 * @since Ametys Runtime 3.7
+		 * @cfg {Boolean/Number/Number[]} verticalEdition=false When false, this is the default behavior: TAB key (or enter #cfg-enterActAsTab) go to the following column to edit. When true, TAB key go to the next line. When a key code (constant of Ext.EventObject), will go the next row only if that key was used. When an array of key code, will go to the next row only if one of that keys was used.
+		 * 
+		 *       verticalEdition: true,
+		 *       verticalEdition: Ext.EventObject.ENTER,
+		 *       verticalEdition: [Ext.EventObject.ENTER, Ext.EventObject.TAB],
+		 *       
+		 * Can only be TAB and ENTER (if #cfg-enterActAsTab).
+		 */
+		verticalEdition: false,
 		
 		/**
 		 * @member Ext.grid.plugin.CellEditing
@@ -1022,6 +1070,47 @@
 				this.callParent(arguments);
 			}
 			this.armed = record.getId();
+		},
+		
+	    onSpecialKey: function(ed, field, e) {
+	    	this.callParent(arguments);
+	    	
+	        if (this.enterActAsTab && e.getKey() === e.ENTER) {
+	            e.stopEvent();
+
+	            if (ed) {
+	                // Allow the field to act on tabs before onEditorTab, which ends
+	                // up calling completeEdit. This is useful for picker type fields.
+	                ed.onEditorTab(e);
+	            }
+
+	            sm = ed.up('tablepanel').getSelectionModel();
+	            if (sm.onEditorTab) {
+	                sm.onEditorTab(ed.editingPlugin, e);
+	            }
+
+	            ed.bypassNextComplete = true;
+	        }
+	    },
+	});
+	
+	Ext.define("Ametys.grid.CellEditor", {
+		override: "Ext.grid.CellEditor",
+		
+		/**
+		 * @private
+		 * @property {Boolean} bypassNextComplete The next call to #completeEdit will be ignored
+		 */
+		bypassNextComplete: false,
+		
+		completeEdit: function()
+		{
+			if (this.bypassNextComplete)
+			{
+				this.bypassNextComplete = false;
+				return;
+			}
+			this.callParent(arguments);
 		}
 	});
 })();
