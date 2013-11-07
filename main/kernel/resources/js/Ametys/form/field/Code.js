@@ -15,7 +15,6 @@
  */
 
 /**
- * A editor component based upon a CodeMirror area instance for editing scripts, xml, html, css, ...
  * Field that displays a code editor.
  * Requires CodeMirror (version 3.14) to be loaded.
  * See http://codemirror.net/ to have documentation on it.
