@@ -1060,16 +1060,68 @@
 		 * @member Ext.grid.plugin.CellEditing
 		 * @ametys
 		 * @since Ametys Runtime 3.7
-		 * @cfg {Boolean} editAfterSelect=false When #cfg-triggerEvent is not specified or is 'cellclick', this configuration allow to enter in edition only if the record was focused first. As a rename under files manager, you will have to first click on the row to select it and click again to edit it (but not doubleclick).
+		 * @cfg {Boolean} editAfterSelect=false When #cfg-triggerEvent is not specified or is 'cellclick' and #cfg-clicksToEdit is 1, this configuration allow to enter in edition only if the record was focused first. As a rename under files manager, you will have to first click on the row to select it and click again to edit it (but not doubleclick).
 		 */
+		
+		/**
+		 * @member Ext.grid.plugin.CellEditing
+		 * @ametys
+		 * @since Ametys Runtime 3.7
+		 * @private
+		 * @property {String} armed Used when #cfg-editAfterSelect is true. The record id that was "armed"... so that was selected in a preceding operation: this is to distinguish a click to select and a second click to edit.
+		 */
+		
+		initEditTriggers: function()
+		{
+			this.callParent(arguments);
+			
+			 if (this.editAfterSelect && (this.triggerEvent == null || this.triggerEvent == 'cellclick') && this.clicksToEdit === 1)
+			 {
+				 this.mon(this.view, 'celldblclick', this.onCellDblClick, this);
+			 }
+		},
 		
 		onCellClick: function(view, cell, colIdx, record, row, rowIdx, e)
 		{
-			if (!this.editAfterSelect || (this.triggerEvent != null && this.triggerEvent != 'cellclick') || this.armed == record.getId())
+			if (!this.editAfterSelect || (this.triggerEvent != null && this.triggerEvent != 'cellclick') || this.clicksToEdit !== 1)
 			{
 				this.callParent(arguments);
 			}
+			else if (this.armed == record.getId() && this.oncellclicktimeout == null)
+			{
+				this.oncellclicktimeout = Ext.defer(this.onCellClickAndNotDoubleClick, 300, this, arguments);
+			}
 			this.armed = record.getId();
+		},
+		
+		/**
+		 * @member Ext.grid.plugin.CellEditing
+		 * @ametys
+		 * @since Ametys Runtime 3.7
+		 * @private
+		 * This method is call asynchronously by #onCellClick, when a single click was done and not a double click
+		 */
+		onCellClickAndNotDoubleClick: function()
+		{
+			this.oncellclicktimeout = null;
+			Ext.defer(this.superclass.onCellClick, 0, this, arguments);
+		},
+		
+		/**
+		 * @member Ext.grid.plugin.CellEditing
+		 * @ametys
+		 * @since Ametys Runtime 3.7
+		 * @private
+		 * Listener on cell double click, only when cell editing is set to a single click on the cell AND #cfg-editAfterSelect is true.
+		 * This listener is here to cancel a starting editing when finally this is not a simple click
+		 */
+		onCellDblClick: function()
+		{
+			if (this.oncellclicktimeout != null)
+			{
+				window.clearTimeout(this.oncellclicktimeout);
+				this.oncellclicktimeout = null;
+			}
 		},
 		
 	    onSpecialKey: function(ed, field, e) {
