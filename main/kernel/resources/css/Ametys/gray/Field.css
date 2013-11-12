@@ -23,6 +23,15 @@
 	background-position: center 6px;
 }
 
+.ametys-comment
+{
+	width: 20px; 
+	min-height: 20px;
+	background-image: url('../../../img/Ametys/theme/gray/description.gif'); 
+	background-repeat: no-repeat; 
+	background-position: center 6px;
+}
+
 .ametys-warning
 {
 	width: 20px; 

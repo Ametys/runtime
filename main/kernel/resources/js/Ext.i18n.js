@@ -50,7 +50,7 @@
 })();
 
 /*
- * Supports for ametysDescription on fields and fields containers
+ * Supports for ametysDescription ametysComment on fields and fields containers.
  */
 /**
  * @member Ext.form.field.Base
@@ -59,10 +59,22 @@
  * @cfg {String} ametysDescription A help image is added with the given description as a tooltip
  */
 /**
+ * @member Ext.form.field.Base
+ * @ametys
+ * @since Ametys Runtime 3.7
+ * @cfg {String} ametysComment A comment image is added with the given comment as a tooltip
+ */
+/**
  * @member Ext.form.FieldContainer
  * @ametys
  * @since Ametys Runtime 3.7
  * @cfg {String} ametysDescription A help image is added with the given description as a tooltip
+ */
+/**
+ * @member Ext.form.FieldContainer
+ * @ametys
+ * @since Ametys Runtime 3.7
+ * @cfg {String} ametysComment A comment image is added with the given comment as a tooltip
  */
 (function ()
 {
@@ -87,6 +99,12 @@
 			{
 				td.parentNode.appendChild(td); // move it as last
 			}
+			
+			var td = this.el.query(".ametys-comment")[0];
+			if (td != null)
+			{
+				td.parentNode.appendChild(td); // move it as last
+			}
 	    }
 	};
 	
@@ -102,6 +120,10 @@
 	                    '<tpl if="ametysDescription">',
                     	'</td>',
                     	'<td class="ametys-description" data-qtip="{ametysDescription}">',
+                    	'</tpl>',
+                    	'<tpl if="ametysComment">',
+                    	'</td>',
+                    	'<td class="ametys-comment" data-qtip="{ametysComment}">',
                     	'</tpl>'
         ], 
         
@@ -109,10 +131,37 @@
     	{
     		var data = this.callParent(arguments);
     		data.ametysDescription = this.ametysDescription;
+    		data.ametysComment = this.ametysComment;
     		
     		this.getInsertionRenderData(data, this.labelableInsertions);
     		
     		return data;
+    	},
+    	
+    	/**
+    	 * @member Ext.form.Labelable
+         * @ametys
+         * @since Ametys Runtime 3.7
+         * 
+         * Get the active comment. 
+         * @return {String} The active comment
+         */
+    	getActiveComment: function ()
+    	{
+    		return this.ametysComment;
+    	},
+    	
+    	/**
+    	 * @member Ext.form.Labelable
+         * @ametys
+         * @since Ametys Runtime 3.7
+         * 
+         * Set a comment. 
+         * @param {String} The comment to set
+         */
+    	setComment: function (comment)
+    	{
+    		this.ametysComment = comment;
     	},
         
         /**
@@ -523,6 +572,73 @@
             
         }
     });
+})();
+
+/*
+ * Support for comments
+ */
+(function ()
+		{
+			Ext.define("Ametys.form.Basic", {
+		        override: "Ext.form.Basic",
+		        
+		        /**
+		         * @member Ext.form.Panel
+		         * @method getComments 
+		         * @since Ametys Runtime 3.7
+		         * @ametys
+		         * Retrieves the comment of each field in the form as a set of key/comment pairs
+		         * @param {Boolean} [asString] If true, will return the key/comment collection as a single URL-encoded param string.
+		         * @return {String/Object} The comments
+		         */
+		    	getComments: function (asString)
+		    	{
+		    		var comments  = {};
+		           	var	fields  = this.getFields().items;
+
+			        for (var i = 0; i < fields.length; i++) 
+			        {
+			            var field = fields[i];
+			            
+			            if (Ext.isFunction(field.getActiveComment))
+			            {
+			            	var comment = field.getActiveComment();
+			            	if (!Ext.isEmpty(comment))
+			            	{
+			            		comments[field.getName()] = comment;
+			            	}
+			            }
+			        }
+
+			        if (asString)
+			        {
+			        	comments = Ext.Object.toQueryString(comments);
+			        }
+			        return comments;
+				}
+		    });
+})();
+
+(function ()
+		{
+			Ext.define("Ametys.form.Panel", {
+		        override: "Ext.form.Panel",
+		        
+		        /**
+		         * @member Ext.form.Panel
+		         * @method getComments 
+		         * @since Ametys Runtime 3.7
+		         * @ametys
+		         * Convenience function for fetching the current comment of each field in the form. This is the same as calling
+		         * {@link Ext.form.Basic#getComments this.getForm().getComments()}.
+		         *
+		         * @inheritdoc Ext.form.Basic#getComments
+		         */
+		    	getComments: function (asString)
+		    	{
+		    		return this.getForm().getComments(asString);
+				}
+		    });
 })();
 
 /*
