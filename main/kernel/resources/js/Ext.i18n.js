@@ -157,7 +157,7 @@
          * @since Ametys Runtime 3.7
          * 
          * Set a comment. 
-         * @param {String} The comment to set
+         * @param {String} comment The comment to set
          */
     	setComment: function (comment)
     	{
@@ -583,7 +583,7 @@
 		        override: "Ext.form.Basic",
 		        
 		        /**
-		         * @member Ext.form.Panel
+		         * @member Ext.form.Basic
 		         * @method getComments 
 		         * @since Ametys Runtime 3.7
 		         * @ametys
