@@ -47,6 +47,19 @@
  *    		waitMessage: true,
  *    		errorMessage: { msg: 'An error occured', ignoreCallback: false }
  * 		});   
+ * 
+ * The mapping between Javascript types and Java types is the following:
+ * 
+ * <table>
+ * 	<tr><th><strong>JAVASCRIPT TYPE</strong></th>		<th><strong>JAVA CLASS</strong></th></tr>
+ * 	<tr><td>object</td>						<td>java.util.LinkedHashMap&lt;String, Object&gt;</td></tr>
+ * 	<tr><td>array</td>						<td>java.util.ArrayList&lt;Object&gt;</td></tr>
+ * 	<tr><td>string</td>						<td>java.lang.String</td></tr>
+ * 	<tr><td>Number (without decimals)</td>	<td>java.lang.Integer, java.lang.Long or java.math.BigInteger<br/>(the smallest possible)</td></tr>
+ * 	<tr><td>Number (with decimal)</td>		<td>java.lang.Double</td></tr>
+ *	<tr><td>boolean</td>					<td>java.lang.Boolean</td></tr>
+ * 	<tr><td>null</td>						<td>null</td></tr>
+ * </table>
  */
 Ext.define(
 	"Ametys.data.ServerComm", 
