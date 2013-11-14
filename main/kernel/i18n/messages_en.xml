@@ -24,6 +24,7 @@
     <message key="KERNEL_DATETIME_SHORTTIME">h:i:s A</message>
     <message key="KERNEL_DATETIME_LONGTIME">h:i:sP A</message>
     <message key="KERNEL_DATETIME_SHORTDATETIME">m/d/y h:i:s A</message>
+    <message key="KERNEL_DATETIME_FRIENDLYDATETIME">m/d/Y \\a\\t h:i A</message>
     <message key="KERNEL_DATETIME_LONGDATETIME">m/d/Y h:i:sP A</message>
     <message key="KERNEL_DATETIME_FULLDATETIME">l, F j, Y \\a\\t h:i:s T A</message>
 
