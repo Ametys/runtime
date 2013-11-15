@@ -1278,7 +1278,14 @@
 		 * @since Ametys Runtime 3.7
 		 * @cfg {Boolean} editAfterSelect=false When #cfg-triggerEvent is not specified or is 'cellclick' and #cfg-clicksToEdit is 1, this configuration allow to enter in edition only if the record was focused first. As a rename under files manager, you will have to first click on the row to select it and click again to edit it (but not doubleclick).
 		 */
-		
+
+		/**
+		 * @member Ext.grid.plugin.CellEditing
+		 * @ametys
+		 * @since Ametys Runtime 3.7
+		 * @cfg {Boolean} silentlyIgnoreInvalid=true When leaving edition of a field with keys (ENTER or TAB), the edition will be canceled if true, and the edition will not be quit when false. Bluring the field will continue cancelling the edition if the field is invalid.
+		 */
+
 		/**
 		 * @member Ext.grid.plugin.CellEditing
 		 * @ametys
@@ -1344,8 +1351,8 @@
 		},
 		
 	    onSpecialKey: function(ed, field, e) {
-	    	this.callParent(arguments);
-	    	
+			this.callParent(arguments);
+
 	        if (this.enterActAsTab && e.getKey() === e.ENTER) {
 	            e.stopEvent();
 
@@ -1364,7 +1371,7 @@
 	            }
 
 	            ed.bypassNextComplete = (column == this.getActiveColumn() && record == this.getActiveRecord()) ? 0 
-	            		: ((field instanceof Ext.form.field.Trigger) ? 2 : 1);
+	            		: ((field.triggerBlur) ? 2 : 1);
 	        }
 	    },
 	});
@@ -1383,6 +1390,16 @@
 			this.callParent(arguments);
 
 			this.editingPlugin.armed = this.editingPlugin.getActiveRecord().getId();
+		},
+		
+		onSpecialKey : function(field, event) {
+			if (this.editingPlugin.silentlyIgnoreInvalid == false && !field.isValid() && (event.getKey() == event.ENTER || event.getKey() == event.TAB))
+			{
+				event.stopEvent();
+				return;
+			}
+			
+			this.callParent(arguments);
 		},
 		
 		completeEdit: function()
