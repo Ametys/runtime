@@ -143,7 +143,7 @@ Ext.define('Ametys.form.field.ChangePassword', {
      */
 
     layout: null,
-    cls: 'ametys-changepassword',
+    baseCls: 'ametys-changepassword ' + Ext.baseCSSPrefix + 'container',
 
 	/**
 	 * @property {Number} mode The current mode of the widget. One of MODE_SETPASSWORD, MODE_SEEPASSWORD and MODE_CHANGEPASSWORD.

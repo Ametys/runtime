@@ -97,34 +97,43 @@
 	font-style:italic;
 }
 
-.x-field.ametys {
+.x-field.ametys, .x-form-item.ametys {
 	margin-bottom: 7px;
 }
 
-.x-field.ametys .x-form-text  {
+.x-field.ametys .x-form-text,
+.x-form-item.ametys .x-form-text
+{
 	background-color: #FFFFFF;
     background-image: none;
     border: 1px solid #C8CDD0;
     padding: 1px 3px 2px 5px;
 }
 
-.x-field.ametys.x-form-invalid .x-form-text {
+.x-field.ametys.x-form-invalid .x-form-text,
+.x-form-item.ametys.x-form-invalid .x-form-text {
 	border-color: #FF0000;
 }
 
 .x-field.ametys textarea.x-form-invalid-field,
-.x-field.ametys input.x-form-invalid-field
+.x-field.ametys input.x-form-invalid-field,
+.x-form-item.ametys textarea.x-form-invalid-field,
+.x-form-item.ametys input.x-form-invalid-field
 {
 	background-image: none;
 	border-color: #FF0000;
 }
 
-.x-field.ametys.x-form-warning .x-form-text {
+.x-field.ametys.x-form-warning .x-form-text,
+.x-form-item.ametys.x-form-warning .x-form-text
+{
 	border-color: #F6B51A;
 }
 
 .x-field.ametys textarea.x-form-warning-field,
-.x-field.ametys input.x-form-warning-field
+.x-field.ametys input.x-form-warning-field,
+.x-form-item.ametys textarea.x-form-warning-field,
+.x-form-item.ametys input.x-form-warning-field
 {
 	background-image: none;
 	border-color: #F6B51A;
