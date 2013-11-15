@@ -1136,7 +1136,7 @@
 	        	header = editingPlugin.getActiveColumn(),
 	        	position = view.getPosition(record, header),
 	        	direction = e.shiftKey ? 'up' : 'down';
-	        	
+
 	        	do {
 	        		position  = view.walkCells(position, direction, e, me.preventWrap);
 	        	} while (position && (!position.columnHeader.getEditor(record) || !editingPlugin.startEditByPosition(position)));
@@ -1199,6 +1199,9 @@
 		
 		onCellClick: function(view, cell, colIdx, record, row, rowIdx, e)
 		{
+			// In some specific case, such as trigger widgets, changing the selection does not close the current edition
+			this.getActiveEditor() && this.getActiveEditor().completeEdit();
+			
 			if (!this.editAfterSelect || (this.triggerEvent != null && this.triggerEvent != 'cellclick') || this.clicksToEdit !== 1)
 			{
 				this.callParent(arguments);
@@ -1260,7 +1263,8 @@
 	                sm.onEditorTab(ed.editingPlugin, e);
 	            }
 
-	            ed.bypassNextComplete = !(column == this.getActiveColumn() && record == this.getActiveRecord());
+	            ed.bypassNextComplete = (column == this.getActiveColumn() && record == this.getActiveRecord()) ? 0 
+	            		: ((field instanceof Ext.form.field.Trigger) ? 2 : 1);
 	        }
 	    },
 	});
@@ -1270,9 +1274,9 @@
 		
 		/**
 		 * @private
-		 * @property {Boolean} bypassNextComplete The next call to #completeEdit will be ignored
+		 * @property {Number} bypassNextComplete The number of calls to #completeEdit to ignore
 		 */
-		bypassNextComplete: false,
+		bypassNextComplete: 0,
 		
 		startEdit: function()
 		{
@@ -1283,9 +1287,9 @@
 		
 		completeEdit: function()
 		{
-			if (this.bypassNextComplete)
+			if (this.bypassNextComplete > 0)
 			{
-				this.bypassNextComplete = false;
+				this.bypassNextComplete--;
 				return;
 			}
 			this.callParent(arguments);
