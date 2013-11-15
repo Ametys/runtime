@@ -100,10 +100,14 @@
 				td.parentNode.appendChild(td); // move it as last
 			}
 			
-			var td = this.el.query(".ametys-comment")[0];
+			var td = this.el.query(".ametys-comments")[0];
 			if (td != null)
 			{
 				td.parentNode.appendChild(td); // move it as last
+				if (this.showAmetysComments)
+				{
+					this.renderComments();
+				}
 			}
 	    }
 	};
@@ -121,34 +125,73 @@
                     	'</td>',
                     	'<td class="ametys-description" data-qtip="{ametysDescription}">',
                     	'</tpl>',
-                    	'<tpl if="ametysComment">',
+                    	'<tpl if="showAmetysComments == true">',
                     	'</td>',
-                    	'<td class="ametys-comment" data-qtip="{ametysComment}">',
+                    	'<td class="ametys-comments ametys-comments-empty"><div data-qtip=""/>',
                     	'</tpl>'
         ], 
         
         getLabelableRenderData: function () 
     	{
     		var data = this.callParent(arguments);
+    		
     		data.ametysDescription = this.ametysDescription;
-    		data.ametysComment = this.ametysComment;
+    		data.showAmetysComments = this.showAmetysComments;
     		
     		this.getInsertionRenderData(data, this.labelableInsertions);
     		
     		return data;
     	},
     	
+        initLabelable: function ()
+        {
+        	this.callParent(arguments);
+        	
+        	this.addEvents(
+                /**
+                 * @member Ext.form.Labelable
+		         * @ametys
+		         * @since Ametys Runtime 3.7
+		         * 
+                 * @event warningchange
+                 * Fires when the active warning message is changed via {@link #setActiveWarning}.
+                 * @param {Ext.form.Labelable} this
+                 * @param {String} warning The active warning message
+                 */
+                'warningchange'
+            );
+        },
+        
+        /**
+         * @member Ext.form.Labelable
+         * @ametys
+         * @since Ametys Runtime 3.7
+         * 
+         * @cfg {String/String[]/Ext.XTemplate} commentsTpl
+         * The template used to format the Array of comments. It renders each message as an item in an unordered list.
+         */
+        commentsTpl: [
+            '<tpl if="comments && comments.length &gt; 0">',
+            '<ul class="{listCls} ametys-tooltip-comment"><tpl for="comments"><li>',
+            // Author and date formatting
+            '<div class="author-date">',
+            Ext.String.format("<i18n:translate><i18n:text i18n:key='KERNEL_AMETYS_COMMENTS_TPL_AUTHOR_DATE'/><i18n:param>{0}</i18n:param><i18n:param>{1}</i18n:param></i18n:translate>", '{author}', '{date:date(Ext.Date.patterns.FriendlyDateTime )}'),
+            '</div><div class="comment-text">{text:nl2br()}</div>',
+            '</li></tpl></ul>',
+            "<tpl else><i18n:text i18n:key='KERNEL_AMETYS_COMMENTS_TPL_EMPTY'/></tpl>"
+        ],
+        
     	/**
     	 * @member Ext.form.Labelable
          * @ametys
          * @since Ametys Runtime 3.7
          * 
-         * Get the active comment. 
-         * @return {String} The active comment
+         * Get the fields comments. 
+         * @return {Object[]} The comment array. See {@link #addComment}
          */
-    	getActiveComment: function ()
+    	getComments: function()
     	{
-    		return this.ametysComment;
+    		return this.ametysComments || [];
     	},
     	
     	/**
@@ -156,13 +199,82 @@
          * @ametys
          * @since Ametys Runtime 3.7
          * 
-         * Set a comment. 
-         * @param {String} comment The comment to set
+         * Add a comment. 
+         * @param {Object} comment The comment object to set
+         * @param {String} comment.text The text of the comment
+         * @param {String} comment.author The author of the comment
+         * @param {Date} [comment.date] The date of the comment, if null, will be set to the current date.
          */
-    	setComment: function (comment)
+    	addComment: function(comment)
     	{
-    		this.ametysComment = comment;
+    		comment.date = comment.date || new Date();
+    		
+    		this.ametysComments = this.ametysComments || [];
+    		this.ametysComments.push(comment);
+    		
+    		this.renderComments();
     	},
+    	
+    	/**
+    	 * @member Ext.form.Labelable
+         * @ametys
+         * @since Ametys Runtime 3.7
+         * 
+         * Add comments 
+         * @param {Object[]} comments The comment array to set. See {@link #addComment}
+         */
+    	addComments: function(comments)
+    	{
+    		comments = comments || [];
+    		this.ametysComments = this.ametysComments || [];
+    		
+    		Ext.Array.forEach(comments, function(comment) {
+    			comment.date = comment.date || new Date();
+        		this.ametysComments.push(comment);
+    		}, this);
+    		
+    		this.renderComments();
+    	},
+    	
+    	/**
+    	 * @member Ext.form.Labelable
+         * @ametys
+         * @since Ametys Runtime 3.7
+         * 
+         * Remove the field comments. 
+         */
+    	removeComments: function()
+    	{
+    		delete this.ametysComments;
+    		this.renderComments();
+    	},
+    	
+    	/**
+    	 * @member Ext.form.Labelable
+		 * @ametys
+		 * @since Ametys Runtime 3.7
+		 * 
+         * Updates the rendered DOM to match the current comments. This only updates the content and
+         * attributes, you'll have to call doComponentLayout to actually update the display.
+         */
+        renderComments: function() 
+        {
+            var me = this,
+                comments = me.getComments(),
+                hasComment = comments.length > 0;
+
+            if (me.showAmetysComments && me.rendered && !me.isDestroyed) 
+            {
+                var commentEl = this.el.down(".ametys-comments");
+                if (commentEl) {
+                	commentEl[hasComment ? 'removeCls' : 'addCls']('ametys-comments-empty');
+                	commentEl.child('div', true).setAttribute("data-qtip", Ext.XTemplate.getTpl(this, 'commentsTpl').apply({
+                		comments: comments,
+                		listCls: Ext.plainListCls
+                	}));
+                }
+            }
+        },
         
         /**
          * @member Ext.form.Labelable
@@ -189,26 +301,6 @@
               '</tpl>'
         ],
         
-        
-        initLabelable: function ()
-        {
-        	this.callParent(arguments);
-        	
-        	this.addEvents(
-                /**
-                 * @member Ext.form.Labelable
-		         * @ametys
-		         * @since Ametys Runtime 3.7
-		         * 
-                 * @event warningchange
-                 * Fires when the active warning message is changed via {@link #setActiveWarning}.
-                 * @param {Ext.form.Labelable} this
-                 * @param {String} warning The active warning message
-                 */
-                'warningchange'
-            );
-        },
-                      
 	    /**
 	     * @member Ext.form.Labelable
          * @ametys
@@ -587,11 +679,12 @@
 		         * @method getComments 
 		         * @since Ametys Runtime 3.7
 		         * @ametys
-		         * Retrieves the comment of each field in the form as a set of key/comment pairs
-		         * @param {Boolean} [asString] If true, will return the key/comment collection as a single URL-encoded param string.
+		         * Retrieves the commenst of each field in the form as a set of key/comments pairs
+		         * @param {Boolean} [asString=false] If true, will return the key/comment collection as a single URL-encoded param string.
+		         * @param {Boolean} [excludeEmpty=false] If true, the field with no comments won't be included, otherwise empty field with have an empty array as value.
 		         * @return {String/Object} The comments
 		         */
-		    	getComments: function (asString)
+		    	getComments: function (asString, excludeEmpty)
 		    	{
 		    		var comments  = {};
 		           	var	fields  = this.getFields().items;
@@ -600,13 +693,19 @@
 			        {
 			            var field = fields[i];
 			            
-			            if (Ext.isFunction(field.getActiveComment))
+			            if (Ext.isFunction(field.getComments))
 			            {
-			            	var comment = field.getActiveComment();
-			            	if (!Ext.isEmpty(comment))
-			            	{
-			            		comments[field.getName()] = comment;
-			            	}
+			            	var fieldComments = field.getComments();
+			            	
+			            	if (!(excludeEmpty && fieldComments.length == 0))
+		            		{
+			            		// Format date to string for each comment 
+			            		Ext.Array.forEach(fieldComments, function(comment) {
+			            			comment.date =  Ext.util.Format.date(comment.date, Ext.Date.patterns.ISO8601DateTime);
+			            		});
+			            		
+			            		comments[field.getName()] = fieldComments;
+		            		}
 			            }
 			        }
 
@@ -614,6 +713,7 @@
 			        {
 			        	comments = Ext.Object.toQueryString(comments);
 			        }
+			        
 			        return comments;
 				}
 		    });
@@ -630,13 +730,13 @@
 		         * @since Ametys Runtime 3.7
 		         * @ametys
 		         * Convenience function for fetching the current comment of each field in the form. This is the same as calling
-		         * {@link Ext.form.Basic#getComments this.getForm().getComments()}.
+		         * {@link Ext.form.Basic#getComments} this.getForm().getComments().
 		         *
 		         * @inheritdoc Ext.form.Basic#getComments
 		         */
-		    	getComments: function (asString)
+		    	getComments: function (asString, excludeEmpty)
 		    	{
-		    		return this.getForm().getComments(asString);
+		    		return this.getForm().getComments(asString, excludeEmpty);
 				}
 		    });
 })();
@@ -1136,7 +1236,7 @@
 	        	header = editingPlugin.getActiveColumn(),
 	        	position = view.getPosition(record, header),
 	        	direction = e.shiftKey ? 'up' : 'down';
-
+	        	
 	        	do {
 	        		position  = view.walkCells(position, direction, e, me.preventWrap);
 	        	} while (position && (!position.columnHeader.getEditor(record) || !editingPlugin.startEditByPosition(position)));

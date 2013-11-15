@@ -23,13 +23,32 @@
 	background-position: center 6px;
 }
 
-.ametys-comment
+.ametys-comments
 {
 	width: 20px; 
 	min-height: 20px;
 	background-image: url('../../../img/Ametys/theme/gray/comment.gif'); 
 	background-repeat: no-repeat; 
 	background-position: center 6px;
+	vertical-align: top;
+}
+
+.ametys-comments div
+{
+	height: 20px;
+	width: 20px;
+}
+
+.ametys-comments.ametys-comments-empty
+{
+	background-image: url('../../../img/Ametys/theme/gray/nocomment.gif'); 
+	background-repeat: no-repeat; 
+	background-position: center 6px;
+}
+
+#ext-quicktips-tip ul.ametys-tooltip-comment > li div.comment-text
+{
+	padding-left: 15px;
 }
 
 .ametys-warning
