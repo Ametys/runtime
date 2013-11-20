@@ -53,7 +53,7 @@
 	<message key="KERNEL_MULTIPLE_HINT">séparés par des virgules</message>
     
     <!-- Ametys field comments -->
-    <message key="KERNEL_AMETYS_COMMENTS_TPL_AUTHOR_DATE">{0}, le {1}</message>
+    <message key="KERNEL_AMETYS_COMMENTS_TPL_AUTHOR_DATE">&lt;strong&gt;{0}&lt;/strong&gt;, le {1}</message>
     <message key="KERNEL_AMETYS_COMMENTS_TPL_EMPTY">Cliquez ici pour saisir un commentaire.</message>
 	
 	<!-- Counter (for richtexts and textareas) -->

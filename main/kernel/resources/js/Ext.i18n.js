@@ -158,7 +158,19 @@
                  * @param {Ext.form.Labelable} this
                  * @param {String} warning The active warning message
                  */
-                'warningchange'
+                'warningchange',
+                
+                /**
+                 * @member Ext.form.Labelable
+		         * @ametys
+		         * @since Ametys Runtime 3.7
+		         * 
+                 * @event commentsupdated
+                 * Fires when the comments are updated via {@link #addComment} or {@link #addComments} or {@link #deleteComments}.
+                 * @param {Ext.form.Labelable} this
+                 * @param {Object[]} comments The comments
+                 */
+                'commentsupdated'
             );
         },
         
@@ -207,12 +219,7 @@
          */
     	addComment: function(comment)
     	{
-    		comment.date = comment.date || new Date();
-    		
-    		this.ametysComments = this.ametysComments || [];
-    		this.ametysComments.push(comment);
-    		
-    		this.renderComments();
+    		this.addComments([comment]);
     	},
     	
     	/**
@@ -232,6 +239,8 @@
     			comment.date = comment.date || new Date();
         		this.ametysComments.push(comment);
     		}, this);
+    		
+    		this.fireEvent('commentsupdated', this, this.ametysComments);
     		
     		this.renderComments();
     	},

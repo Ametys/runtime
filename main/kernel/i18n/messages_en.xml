@@ -54,7 +54,7 @@
 	<message key="KERNEL_MULTIPLE_HINT">separated by coma</message>
     
     <!-- Ametys field comments -->
-    <message key="KERNEL_AMETYS_COMMENTS_TPL_AUTHOR_DATE">{0}, at {1}</message>
+    <message key="KERNEL_AMETYS_COMMENTS_TPL_AUTHOR_DATE">>&lt;strong&gt;{0}&lt;/strong&gt;, at {1}</message>
     <message key="KERNEL_AMETYS_COMMENTS_TPL_EMPTY">Click here to enter a comment.</message>
 	
 	<!-- Counter (for richtexts and textareas) -->
