@@ -434,7 +434,7 @@ Ext.define(
 				{
 					try
 					{ 
-						this._observer.onRequestArrival(messageRequest, 2);
+						this._observer.onSyncRequestArrival(messageRequest, 2, null);
 					}
 					catch (e)
 					{
@@ -457,7 +457,7 @@ Ext.define(
 			{
 				try
 				{ 
-					this._observer.onRequestArrival(messageRequest, 0);
+					this._observer.onSyncRequestArrival(messageRequest, 0, conn);
 				}
 				catch (e)
 				{
@@ -594,7 +594,7 @@ Ext.define(
 			{
 				try
 				{ 
-					this._observer.onRequestArrival(options, 1);
+					this._observer.onRequestArrival(options, 1, null);
 				}
 				catch (e)
 				{
@@ -674,7 +674,7 @@ Ext.define(
 			{
 				try
 				{ 
-					this._observer.onRequestArrival(options, 0);
+					this._observer.onRequestArrival(options, 0, response);
 				}
 				catch (e)
 				{
@@ -787,7 +787,7 @@ Ext.define(
 			{
 				try
 				{ 
-					this._observer.onRequestArrival(options, 2);
+					this._observer.onRequestArrival(options, 2, null);
 				}
 				catch (e)
 				{
