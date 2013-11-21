@@ -1672,7 +1672,7 @@
 					{
 						s += "&#160;&#160;&#160;&#160;";
 					}
-					s += Ext.JSON.encodeValue(id) + ": ";
+					s += "<strong>" + Ext.JSON.encodeValue(id) + "</strong>: ";
 					s += this.prettyEncode(value[id], offset + 2);
 				}
 
