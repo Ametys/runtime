@@ -166,7 +166,7 @@
 		         * @since Ametys Runtime 3.7
 		         * 
                  * @event commentsupdated
-                 * Fires when the comments are updated via {@link #addComment} or {@link #addComments} or {@link #deleteComments}.
+                 * Fires when the comments are updated via {@link #addComment} or {@link #addComments} or {@link #removeComments}.
                  * @param {Ext.form.Labelable} this
                  * @param {Object[]} comments The comments
                  */
