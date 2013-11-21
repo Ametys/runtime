@@ -1593,3 +1593,109 @@
 		}
 	});
 })();
+
+(function()
+{
+	Ext.define("Ametys.JSON", {
+		override: 'Ext.JSON',
+		
+		/**
+		 * @member Ext.JSON
+		 * @ametys
+		 * @since Ametys Runtime 3.7
+		 * Converts an object to a readable json string
+		 * @param {Object} value The value to encode
+		 * @param {Number} [offset = 0] The offset to indent the text
+		 */
+		prettyEncode: function (value, offset)
+		{
+			offset = offset || 0;
+			
+	
+			var s = "";
+			if (value != null && value.$className)
+			{
+				return this.prettyEncode("Object " + value.$className + (typeof(value.getId) == 'function' ? ('@' + value.getId()) : ''));
+			}
+			else if (typeof(value) == "function")
+			{
+				return "null";
+			}
+			else if (Ext.isArray(value))
+			{
+				s += "[";
+				
+				var hasOne = false;
+				for (var id = 0; id < value.length; id++)
+				{
+					if (hasOne)
+					{
+						s += ",";
+					}
+					hasOne = true;
+					s += "<br/>"
+					for (var i = 0; i < offset + 1; i++)
+					{
+						s += "&#160;&#160;&#160;&#160;";
+					}
+					s += this.prettyEncode(value[id], offset + 1);
+				}
+				
+				if (hasOne)
+				{
+					s += "<br/>";
+					for (var i = 0; i < offset; i++)
+					{
+						s += "&#160;&#160;&#160;&#160;";
+					}
+				}
+				else
+				{
+					s += " ";
+				}
+				s += "]";
+			}
+			else if (Ext.isObject(value))
+			{
+				s += "{";
+				
+				var hasOne = false;
+				for (var id in value)
+				{
+					if (hasOne)
+					{
+						s += ",";
+					}
+					hasOne = true;
+					s += "<br/>"
+					for (var i = 0; i < offset + 1; i++)
+					{
+						s += "&#160;&#160;&#160;&#160;";
+					}
+					s += Ext.JSON.encodeValue(id) + ": ";
+					s += this.prettyEncode(value[id], offset + 2);
+				}
+
+				if (hasOne)
+				{
+					s += "<br/>";
+					for (var i = 0; i < offset; i++)
+					{
+						s += "&#160;&#160;&#160;&#160;";
+					}
+				}
+				else
+				{
+					s += " ";
+				}
+				s += "}";
+			}
+			else
+			{
+				s += Ext.JSON.encodeValue(value);
+			}
+			
+			return s;
+		}
+	});
+})();
