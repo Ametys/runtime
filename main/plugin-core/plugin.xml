@@ -651,7 +651,7 @@
             <description i18n="true">PLUGINS_CORE_MAIL_CONFIG_FROM_ADDRESS_DESCRIPTION</description>
             <validation>
             	<mandatory/>
-            	<regexp>^(\w+)([\-+.][\w]+)*@(\w[\-\w]*\.){1,5}([A-Za-z0-9][A-Za-z0-9]+)$</regexp>
+            	<regexp>^((\w+)([\-+.][\w]+)*@(\w[\-\w]*\.){1,5}([A-Za-z0-9][A-Za-z0-9]+))|([^&lt;]+&lt;(\w+)([\-+.][\w]+)*@(\w[\-\w]*\.){1,5}([A-Za-z0-9][A-Za-z0-9]+)&gt;)$</regexp>
             	<invalidText i18n="true">PLUGINS_CORE_REGEXP_INVALID_MAIL</invalidText>
         	</validation>
             <default-value>sender@ametys.org</default-value>
