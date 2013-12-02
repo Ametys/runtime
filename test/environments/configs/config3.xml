@@ -27,6 +27,7 @@
 <runtime.datasource.core.jdbc.passwd>Ametys_Runtime</runtime.datasource.core.jdbc.passwd>
 <runtime.datasource.core.jdbc.url>jdbc:mysql://mysql-dev.anyware.corp/Ametys_Runtime_Test</runtime.datasource.core.jdbc.url>
 <runtime.authentication.basic.realm>realm</runtime.authentication.basic.realm>
+    <runtime.skip-browser-compatibility-test>true</runtime.skip-browser-compatibility-test>
 <runtime.upload.max-size>10000000</runtime.upload.max-size>
 <runtime.upload.dir>WEB-INF/data/uploads</runtime.upload.dir>
 <runtime.debug.ui>0</runtime.debug.ui>

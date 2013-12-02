@@ -63,6 +63,20 @@
             <group i18n="true">PLUGINS_CORE_DEBUG_GROUP</group>
             <order>20</order>
         </param>
+        <param id="runtime.skip-browser-compatibility-test" type="boolean">
+            <!-- 
+                This parameter allows to skip the compatibility test (except if codely set to true or false)
+             -->
+            <label i18n="true">PLUGINS_CORE_SKIPBROWSERCOMPATIBILITYTEST_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_SKIPBROWSERCOMPATIBILITYTEST_DESCRIPTION</description>
+            <validation>
+                <mandatory/>
+            </validation>
+            <default-value>false</default-value>
+            <category i18n="true">PLUGINS_CORE_SYSTEM_CONFIG_CATEGORY</category>
+            <group i18n="true">PLUGINS_CORE_DEBUG_GROUP</group>
+            <order>50</order>
+        </param>        
         <param id="runtime.cache.xslt" type="boolean">
             <!-- 
                 This parameter allows to deactivate XSLT cache
@@ -962,6 +976,7 @@
         <config>
             <param-ref id="runtime.debug.ui"/>
             <param-ref id="runtime.cache.xslt"/>
+            <param-ref id="runtime.skip-browser-compatibility-test"/>
 		</config>
 	</feature>
     
