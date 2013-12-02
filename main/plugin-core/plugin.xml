@@ -2276,4 +2276,11 @@
             </component>
         </components>
     </feature>
+    
+    <feature name="xslt.helpers">
+        <components>
+            <component class="org.ametys.runtime.plugins.core.ui.AmetysXSLTHelper" role="org.ametys.runtime.plugins.core.ui.AmetysXSLTHelper"/>
+        </components>
+    </feature>
+    
 </plugin>

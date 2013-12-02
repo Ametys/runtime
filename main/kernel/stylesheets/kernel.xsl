@@ -17,7 +17,8 @@
 <xsl:stylesheet version="1.0" 
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
     xmlns:i18n="http://apache.org/cocoon/i18n/2.1"
-    xmlns:exslt="http://exslt.org/common">
+    xmlns:exslt="http://exslt.org/common"
+    xmlns:ametys="org.ametys.runtime.plugins.core.ui.AmetysXSLTHelper">
 	
 	<xsl:import href="kernel-browsers.xsl"/>
 	
@@ -56,7 +57,7 @@
 
         <xsl:param name="load-cb"/>
 
-        <xsl:variable name="debug-mode" select="true()"/>
+        <xsl:variable name="debug-mode" select="ametys:config('runtime.debug.ui') != 0"/>
 	
 		<xsl:call-template name="kernel-browsers">
 			<xsl:with-param name="authorized-browsers" select="$authorized-browsers"/>
