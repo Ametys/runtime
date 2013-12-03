@@ -46,12 +46,30 @@
 	font-weight: bold;
 	text-decoration: none;
 }
-	
 .top-panel a:hover
 {
 	color: #1C58A0;
 	text-decoration: none;
 }		
+
+
+.top-panel a.force, 
+.top-panel a.force:link,
+.top-panel a.force:visited,
+.top-panel a.force:active
+{
+    color: #ffffff;
+    background-color: #842970; 
+    padding: 5px;
+    font-weight: bold;
+    text-decoration: none;
+}
+.top-panel a.force:hover
+{
+    background-color: #1C58A0;
+    text-decoration: none;
+}   
+
 .desktop-item 
 {
 	font-weight: bold;
