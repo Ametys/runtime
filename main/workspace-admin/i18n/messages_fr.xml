@@ -40,7 +40,7 @@
     <message key="WORKSPACE_ADMIN_CONFIG_ACT">Configurer l'application</message>
     
     <!-- Navigator -->
-    <message key="WORKSPACE_ADMIN_NAVIGATOR_TITLE">Navigateur internet incoonu</message>
+    <message key="WORKSPACE_ADMIN_NAVIGATOR_TITLE">Navigateur internet inconnu</message>
     <message key="WORKSPACE_ADMIN_NAVIGATOR_TEXT">L'application n'est peut-être pas compatible avec votre navigateur internet ou la version que vous utilisez.<br/><br/>Consultez le manuel utilisateur pour obtenir la liste des navigateurs compatibles.</message>
     <message key="WORKSPACE_ADMIN_NAVIGATOR_FORCE_TEXT">Si vous souhaitez tout de même accéder à l'application avec votre navigateur actuel vous pouvez forcer l'accès en cliquant sur le lien ci-dessous.<br/>En faisant cela vous vous exposez à tomber sur des problèmes (d'affichage ou fonctionnel) : les anomalies rencontrées ne seront pas supportées.</message>
     <message key="WORKSPACE_ADMIN_NAVIGATOR_FORCE_LINK">Forcer l'accès à l'application avec votre navigateur actuel</message>
