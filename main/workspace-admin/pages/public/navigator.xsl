@@ -65,7 +65,7 @@
 			                <br/><br/>
 			                <br/><br/>
 			                 
-			                <a href="{$redirect}" onclick="javascript:forceNonSupportedNavigators();">
+			                <a href="{$redirect}" class="force" onclick="javascript:forceNonSupportedNavigators();">
 			                   	<i18n:text i18n:key="WORKSPACE_ADMIN_NAVIGATOR_FORCE_LINK"/>
 			                </a>
 			                
