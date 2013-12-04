@@ -57,9 +57,10 @@ import org.ametys.runtime.util.parameter.ParameterHelper;
 import org.ametys.runtime.util.parameter.ParameterHelper.ParameterType;
 
 /**
- * The JDBC implementation of {@link DefaultUserPreferencesStorage}. This implementation stores preferences in database.
+ * The JDBC implementation of {@link DefaultUserPreferencesStorage}.
+ * This implementation stores preferences in a database, as an XML file.
  */
-public class JdbcUserPreferencesStorage extends AbstractLogEnabled implements DefaultUserPreferencesStorage, ThreadSafe, Configurable, Serviceable
+public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements DefaultUserPreferencesStorage, ThreadSafe, Configurable, Serviceable
 {
     
     /** A SAX parser. */

@@ -764,7 +764,7 @@
                                 
         <single-extension-point id="org.ametys.runtime.plugins.core.userpref.DefaultUserPreferencesStorage"
                                 class="org.ametys.runtime.plugins.core.userpref.DefaultUserPreferencesStorage"
-                                default-extension-id="org.ametys.runtime.plugins.core.userpref.JdbcUserPreferencesStorage"/>
+                                default-extension-id="org.ametys.runtime.plugins.core.userpref.JdbcXmlUserPreferencesStorage"/>
     </extension-points>
     
     <feature name="saxclienthelper">
@@ -2238,8 +2238,8 @@
     <feature name="runtime.user.preferences.default" depends="runtime.datasource.core">
     	<extensions>
     		<extension point="org.ametys.runtime.plugins.core.userpref.DefaultUserPreferencesStorage"
-        	           id="org.ametys.runtime.plugins.core.userpref.JdbcUserPreferencesStorage"
-        	           class="org.ametys.runtime.plugins.core.userpref.JdbcUserPreferencesStorage">
+        	           id="org.ametys.runtime.plugins.core.userpref.JdbcXmlUserPreferencesStorage"
+        	           class="org.ametys.runtime.plugins.core.userpref.JdbcXmlUserPreferencesStorage">
 	            <pool>runtime.datasource.core.jdbc.pool</pool>
         		<table>UserPreferences</table>
         	</extension>
