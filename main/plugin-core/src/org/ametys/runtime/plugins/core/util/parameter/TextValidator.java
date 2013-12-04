@@ -69,6 +69,19 @@ public class TextValidator extends DefaultValidator
     }
     
     @Override
+    public Map<String, Object> toJson()
+    {
+        Map<String, Object> jsonObject = super.toJson();
+        
+        if (_maxLength != null)
+        {
+            jsonObject.put("maxlength", _maxLength.toString());
+        }
+        
+        return jsonObject;
+    }
+    
+    @Override
     public Map<String, Object> getConfiguration()
     {
         Map<String, Object> configuration = super.getConfiguration();

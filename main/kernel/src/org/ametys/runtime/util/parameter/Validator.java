@@ -40,6 +40,12 @@ public interface Validator
     public void saxConfiguration(ContentHandler handler) throws SAXException;
     
     /**
+     * Returns a object representing the validator able to be converted into a JSON string
+     * @return the JSON object
+     */
+    public Map<String, Object> toJson ();
+    
+    /**
      * Retrieves the configuration of the validator. Information contained in
      * the returned map shoud be the same than those SAX'ed in
      * {@link #saxConfiguration(ContentHandler)}

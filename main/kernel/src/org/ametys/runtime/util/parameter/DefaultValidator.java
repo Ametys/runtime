@@ -133,6 +133,25 @@ public class DefaultValidator extends AbstractLogEnabled implements Validator, C
     }
     
     @Override
+    public Map<String, Object> toJson()
+    {
+        Map<String, Object> jsonObject = new HashMap<String, Object>();
+        
+        jsonObject.put("mandatory", _isMandatory);
+        
+        if (_regexp != null)
+        {
+            jsonObject.put("regexp", _regexp.toString());
+        }
+        
+        if (_invalidText != null)
+        {
+            jsonObject.put("invalidText", _invalidText);
+        }
+        return jsonObject;
+    }
+    
+    @Override
     public void saxConfiguration(ContentHandler handler) throws SAXException
     {
         XMLUtils.createElement(handler, "mandatory", Boolean.toString(_isMandatory));
