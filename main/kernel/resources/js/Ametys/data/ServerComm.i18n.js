@@ -700,6 +700,8 @@ Ext.define(
 		 */
 		_dispatch: function(response, options)
 		{
+			Ext.suspendLayouts();
+			
 			// for each message call the handler
 			for (var i = 0; i < options.messages.length; i++)
 			{
@@ -771,6 +773,8 @@ Ext.define(
 						}
 					}
 			}
+			
+			Ext.resumeLayouts(true);
 		},		
 		
 		/**
