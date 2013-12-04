@@ -57,55 +57,56 @@ import org.ametys.runtime.util.parameter.ParameterHelper;
 import org.ametys.runtime.util.parameter.ParameterHelper.ParameterType;
 
 /**
- * The JDBC implementation of {@link DefaultUserPreferencesStorage}. This implementation stores preferences in database.
+ * The JDBC implementation of {@link DefaultUserPreferencesStorage}.
+ * This implementation stores preferences in a database, as an XML file.
  */
-public class JdbcUserPreferencesStorage extends AbstractLogEnabled implements DefaultUserPreferencesStorage, ThreadSafe, Configurable, Serviceable
+public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements DefaultUserPreferencesStorage, ThreadSafe, Configurable, Serviceable
 {
-
+    
     /** A SAX parser. */
     protected SAXParser _saxParser;
-
+    
     /** Connection pool name. */
     protected String _poolName;
-
+    
     /** The database table in which the preferences are stored. */
     protected String _databaseTable;
-
+    
     @Override
     public void configure(Configuration configuration) throws ConfigurationException
     {
         _poolName = configuration.getChild("pool").getValue(ConnectionHelper.CORE_POOL_NAME);
         _databaseTable = configuration.getChild("table").getValue();
     }
-
+    
     @Override
     public void service(ServiceManager manager) throws ServiceException
     {
         _saxParser = (SAXParser) manager.lookup(SAXParser.ROLE);
     }
-
+    
     @Override
     public Map<String, String> getUnTypedUserPrefs(String login, String storageContext, Map<String, String> contextVars) throws UserPreferencesException
     {
         Map<String, String> prefs = new HashMap<String, String>();
-
+        
         Connection connection = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         InputStream dataIs = null;
-
+        
         try
         {
             connection = ConnectionHelper.getConnection(_poolName);
             DatabaseType dbType = ConnectionHelper.getDatabaseType(connection);
-
+            
             stmt = connection.prepareStatement("SELECT * FROM " + _databaseTable + " WHERE login = ? AND context = ?");
-
+            
             stmt.setString(1, login);
             stmt.setString(2, storageContext);
-
+            
             rs = stmt.executeQuery();
-
+            
             if (rs.next())
             {
                 if (DatabaseType.DATABASE_POSTGRES.equals(dbType))
@@ -117,12 +118,12 @@ public class JdbcUserPreferencesStorage extends AbstractLogEnabled implements De
                     Blob data = rs.getBlob("data");
                     dataIs = data.getBinaryStream();
                 }
-
+                
                 // Create the handler and fill the Map by parsing the configuration.
                 MapHandler handler = new MapHandler(prefs);
                 _saxParser.parse(new InputSource(dataIs), handler);
             }
-
+            
             return prefs;
         }
         catch (SQLException e)
@@ -151,21 +152,21 @@ public class JdbcUserPreferencesStorage extends AbstractLogEnabled implements De
             ConnectionHelper.cleanup(connection);
         }
     }
-
+    
     @Override
     public void removeUserPreferences(String login, String storageContext, Map<String, String> contextVars) throws UserPreferencesException
     {
         Connection connection = null;
         PreparedStatement stmt = null;
-
+        
         try
         {
             connection = ConnectionHelper.getConnection(_poolName);
-
+            
             stmt = connection.prepareStatement("DELETE FROM " + _databaseTable + " WHERE login = ? AND context = ?");
             stmt.setString(1, login);
             stmt.setString(2, storageContext);
-
+            
             stmt.executeUpdate();
         }
         catch (SQLException e)
@@ -180,7 +181,7 @@ public class JdbcUserPreferencesStorage extends AbstractLogEnabled implements De
             ConnectionHelper.cleanup(connection);
         }
     }
-
+    
     @Override
     public void setUserPreferences(String login, String storageContext, Map<String, String> contextVars, Map<String, String> preferences) throws UserPreferencesException
     {
@@ -189,15 +190,15 @@ public class JdbcUserPreferencesStorage extends AbstractLogEnabled implements De
         PreparedStatement stmt = null;
         ResultSet rs = null;
         InputStream dataIs = null;
-
+        
         try
         {
             byte[] prefBytes = _getPreferencesXmlBytes(preferences);
             dataIs = new ByteArrayInputStream(prefBytes);
-
+            
             connection = ConnectionHelper.getConnection(_poolName);
             DatabaseType dbType = ConnectionHelper.getDatabaseType(connection);
-
+            
             // Test if the preferences already exist.
             stmt = connection.prepareStatement("SELECT count(*) FROM " + _databaseTable + " WHERE login = ? AND context = ?");
             stmt.setString(1, login);
@@ -207,12 +208,12 @@ public class JdbcUserPreferencesStorage extends AbstractLogEnabled implements De
             boolean dataExists = rs.getInt(1) > 0;
             ConnectionHelper.cleanup(rs);
             ConnectionHelper.cleanup(stmt);
-
+            
             if (dataExists)
             {
                 // If there's already a record, update it with the new data.
                 stmt = connection.prepareStatement("UPDATE " + _databaseTable + " SET data = ? WHERE login = ? AND context = ?");
-
+                
                 if (DatabaseType.DATABASE_POSTGRES.equals(dbType) || DatabaseType.DATABASE_ORACLE.equals(dbType))
                 {
                     stmt.setBinaryStream(1, dataIs, prefBytes.length);
@@ -223,14 +224,14 @@ public class JdbcUserPreferencesStorage extends AbstractLogEnabled implements De
                 }
                 stmt.setString(2, login);
                 stmt.setString(3, storageContext);
-
+                
                 stmt.executeUpdate();
             }
             else
             {
                 // If not, insert the data.
                 stmt = connection.prepareStatement("INSERT INTO " + _databaseTable + "(login, context, data) VALUES(?, ?, ?)");
-
+                
                 stmt.setString(1, login);
                 stmt.setString(2, storageContext);
                 if (DatabaseType.DATABASE_POSTGRES.equals(dbType) || DatabaseType.DATABASE_ORACLE.equals(dbType))
@@ -241,10 +242,10 @@ public class JdbcUserPreferencesStorage extends AbstractLogEnabled implements De
                 {
                     stmt.setBlob(3, dataIs);
                 }
-
+                
                 stmt.executeUpdate();
             }
-
+            
         }
         catch (SQLException e)
         {
@@ -265,73 +266,73 @@ public class JdbcUserPreferencesStorage extends AbstractLogEnabled implements De
     public String getUserPreferenceAsString(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
     {
         String value = null;
-
+        
         Map<String, String> values = getUnTypedUserPrefs(login, storageContext, contextVars);
         if (values.containsKey(id))
         {
             value = values.get(id);
         }
-
+        
         return value;
     }
-
+    
     @Override
     public Long getUserPreferenceAsLong(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
     {
         Long value = null;
-
+        
         Map<String, String> values = getUnTypedUserPrefs(login, storageContext, contextVars);
         if (values.containsKey(id))
         {
             value = (Long) ParameterHelper.castValue(values.get(id), ParameterType.LONG);
         }
-
+        
         return value;
 
     }
-
+    
     @Override
     public Date getUserPreferenceAsDate(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
     {
         Date value = null;
-
+        
         Map<String, String> values = getUnTypedUserPrefs(login, storageContext, contextVars);
         if (values.containsKey(id))
         {
             value = (Date) ParameterHelper.castValue(values.get(id), ParameterType.DATE);
         }
-
+        
         return value;
     }
-
+    
     @Override
     public Boolean getUserPreferenceAsBoolean(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
     {
         Boolean value = null;
-
+        
         Map<String, String> values = getUnTypedUserPrefs(login, storageContext, contextVars);
         if (values.containsKey(id))
         {
             value = (Boolean) ParameterHelper.castValue(values.get(id), ParameterType.BOOLEAN);
         }
-
+        
         return value;
     }
-
+    
     @Override
     public Double getUserPreferenceAsDouble(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
     {
         Double value = null;
-
+        
         Map<String, String> values = getUnTypedUserPrefs(login, storageContext, contextVars);
         if (values.containsKey(id))
         {
             value = (Double) ParameterHelper.castValue(values.get(id), ParameterType.DOUBLE);
         }
-
+        
         return value;
     }
-
+    
     /**
      * Write a Map of preferences as XML and return an InputStream on this XML.
      * @param preferences the preferences Map.
@@ -344,15 +345,15 @@ public class JdbcUserPreferencesStorage extends AbstractLogEnabled implements De
         {
             SAXTransformerFactory factory = (SAXTransformerFactory) TransformerFactory.newInstance();
             TransformerHandler handler = factory.newTransformerHandler();
-
+            
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             Result result = new StreamResult(bos);
-
+            
             handler.setResult(result);
-
+            
             handler.startDocument();
             XMLUtils.startElement(handler, "UserPreferences");
-
+            
             for (Entry<String, String> preference : preferences.entrySet())
             {
                 String value = preference.getValue();
@@ -361,10 +362,10 @@ public class JdbcUserPreferencesStorage extends AbstractLogEnabled implements De
                     XMLUtils.createElement(handler, preference.getKey(), preference.getValue());
                 }
             }
-
+            
             XMLUtils.endElement(handler, "UserPreferences");
             handler.endDocument();
-
+            
             return bos.toByteArray();
         }
         catch (TransformerException e)
@@ -376,5 +377,5 @@ public class JdbcUserPreferencesStorage extends AbstractLogEnabled implements De
             throw new UserPreferencesException("Error writing the preferences as XML.", e);
         }
     }
-
+    
 }
