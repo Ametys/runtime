@@ -109,10 +109,6 @@ public class ThreadSafeTraxProcessor extends AbstractLogEnabled implements XSLTP
 
     /**
      * Compose. Try to get the store
-     * 
-     * @avalon.service interface="XMLizer"
-     * @avalon.service interface="SourceResolver"
-     * @avalon.service interface="Store/TransientStore" optional="true"
      */
     public void service(final ServiceManager manager) throws ServiceException
     {
