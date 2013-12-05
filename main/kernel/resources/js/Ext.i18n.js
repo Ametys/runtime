@@ -109,7 +109,21 @@
 					this.renderComments();
 				}
 			}
-	    }
+	    },
+	    
+	    /**
+         * @member Ext.form.Labelable
+         * @ametys
+         * @since Ametys Runtime 3.7
+         * 
+         * Get the readable value of a Field. The default implementation returns the same as #getValue.
+         * Override this method to return an understandable value for more complex field (such as combobox, file input, ...). 
+         * @template
+         */
+        getReadableValue: function ()
+        {
+        	return this.getValue();
+        }
 	};
 	
 	Ext.define("Ametys.form.field.Base", Ext.apply(Ext.clone(renderFn), { override: 'Ext.form.field.Base'}));
@@ -513,7 +527,21 @@
 		 * 
 		 * Clear any warning styles/messages for this field.
 		 */
-		clearWarning: Ext.emptyFn
+		clearWarning: Ext.emptyFn,
+		
+		/**
+         * @member Ext.form.Labelable
+         * @ametys
+         * @since Ametys Runtime 3.7
+         * 
+         * Get the readable value of a Field. The default implementation returns the same as #getValue.
+         * Override this method to return an understandable value for more complex field (such as combobox, file input, ...). 
+         * @template
+         */
+        getReadableValue: function ()
+        {
+        	return this.getValue();
+        }
     });
     
     var ametysFieldBase = {
