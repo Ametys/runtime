@@ -66,6 +66,9 @@
 	<message key="KERNEL_LOADSCRIPT_SUCCESS">File loaded </message>
 	<message key="KERNEL_LOADSCRIPT_ERROR">Failed loading file </message>
 	
+	<!-- Iframe -->
+	<message key="KERNEL_IFRAME_LOADING">Loading.&lt;br/&gt;Please wait...</message>
+	
     <!-- +
     	 | ServerComm.js
     	 + -->

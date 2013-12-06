@@ -65,6 +65,9 @@
 	<message key="KERNEL_LOADSCRIPT_SUCCESS">Chargement du fichier </message>
 	<message key="KERNEL_LOADSCRIPT_ERROR">Echec lors du chargement du fichier </message>
 	
+	<!-- Iframe -->
+	<message key="KERNEL_IFRAME_LOADING">Chargement en cours.&lt;br/&gt;Veuillez patienter ...</message>
+	
 	 <!-- +
     	 | ServerComm.js
     	 + -->
