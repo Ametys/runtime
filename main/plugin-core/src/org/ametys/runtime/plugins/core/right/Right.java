@@ -28,11 +28,11 @@ import org.ametys.runtime.util.I18nizableText;
  */
 public class Right
 {
-    private String _id;
-    private I18nizableText _label;
-    private I18nizableText _description;
-    private I18nizableText _category;
-    private String _declaration;
+    private final String _id;
+    private final I18nizableText _label;
+    private final I18nizableText _description;
+    private final I18nizableText _category;
+    private final String _declaration;
     
     /**
      * Constructor.
@@ -40,7 +40,6 @@ public class Right
      * @param label the i18n label of this Right
      * @param description the i18n description of the usage of this right
      * @param category the i18n cateogry of the usage of this right
-     * @param catalogue the full catalogue identifier
      * @param declaration the declaration source (for debug purposes)
      */
     Right(String id, I18nizableText label, I18nizableText description, I18nizableText category, String declaration)
