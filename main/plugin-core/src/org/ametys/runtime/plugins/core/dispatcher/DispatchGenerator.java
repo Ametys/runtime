@@ -167,7 +167,7 @@ public class DispatchGenerator extends ServiceableGenerator
                 }
                 
                 Throwable t = e;
-                while (t.getCause() != null || (t instanceof SAXException && ((SAXException) t).getException() != null))
+                while (t.getCause() != null || t instanceof SAXException && ((SAXException) t).getException() != null)
                 {
                     if (t instanceof SAXException)
                     {
@@ -248,7 +248,7 @@ public class DispatchGenerator extends ServiceableGenerator
 
     /**
      * Transforms the request attributes into a map and clean the attributes
-     * @return
+     * @return A copy of all the request attributes
      */
     private Map<String, Object> _saveRequestAttributes()
     {
@@ -323,7 +323,7 @@ public class DispatchGenerator extends ServiceableGenerator
                 {
                     url.append(key);
                     url.append("=");
-                    url.append((String.valueOf(value)).replaceAll("%", "%25").replaceAll("=", "%3D").replaceAll("&", "%26").replaceAll("\\+", "%2B"));
+                    url.append(String.valueOf(value).replaceAll("%", "%25").replaceAll("=", "%3D").replaceAll("&", "%26").replaceAll("\\+", "%2B"));
                     url.append("&");
                 }
             }
@@ -362,11 +362,11 @@ public class DispatchGenerator extends ServiceableGenerator
      */
     public class ResponseHandler extends IgnoreRootHandler
     {
-        private String _parameterKey;
-        private ContentHandler _handler;
-        private String _code;
+        private final String _parameterKey;
+        private final ContentHandler _handler;
+        private final String _code;
         
-        private List<String> _startedElements;
+        private final List<String> _startedElements;
         
         /**
          * Create the wrapper
