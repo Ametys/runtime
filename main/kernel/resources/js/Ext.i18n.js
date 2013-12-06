@@ -1727,3 +1727,12 @@
 		}
 	});
 })();
+
+(function()
+{
+	Ext.define("Ametys.ux.IFrame", {
+		override: 'Ext.ux.IFrame',
+		
+		loadMask: "<i18n:text i18n:key='KERNEL_IFRAME_LOADING'/>"
+	});
+})();
