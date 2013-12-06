@@ -1467,7 +1467,7 @@
 			 * @private
 			 * @property {Number} __TOOLS_V_MARGINS The vertical margin around tools buttons
 			 */
-			__TOOLS_V_MARGINS: 3,
+			__TOOLS_V_MARGINS: 3
 		},
 		
 		/**
