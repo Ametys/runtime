@@ -501,7 +501,7 @@
 		            });
 		        	warnTip.tagConfig = Ext.apply({}, {attribute: 'warnqtip'}, warnTip.tagConfig);
 		        }
-		    },
+		    }
 		}
 	}));
 	Ext.define("Ametys.form.field.Base", Ext.apply(Ext.clone(ametysLabelable), { override: 'Ext.form.field.Base'}));
@@ -1410,7 +1410,7 @@
 	            ed.bypassNextComplete = (column == this.getActiveColumn() && record == this.getActiveRecord()) ? 0 
 	            		: ((field.triggerBlur) ? 2 : 1);
 	        }
-	    },
+	    }
 	});
 	
 	Ext.define("Ametys.grid.CellEditor", {
