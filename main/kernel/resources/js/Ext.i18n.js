@@ -530,7 +530,7 @@
 		clearWarning: Ext.emptyFn,
 		
 		/**
-         * @member Ext.form.Labelable
+         * @member Ext.form.field.Field
          * @ametys
          * @since Ametys Runtime 3.7
          * 
