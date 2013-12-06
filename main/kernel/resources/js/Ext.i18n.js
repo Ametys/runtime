@@ -838,7 +838,7 @@
 	        	];
 	        	var units = [
 	        	    value[0].replace(/[-.0-9]*/, ''),
-	        	    value[1].replace(/[-.0-9]*/, ''),
+	        	    value[1].replace(/[-.0-9]*/, '')
 	        	];
 
 	        	element.setStyle("background-position", roundedVal[0] + units[0] + ' ' + roundedVal[1] + units[1]);

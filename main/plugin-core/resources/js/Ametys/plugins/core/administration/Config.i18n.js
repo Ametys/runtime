@@ -245,7 +245,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 		{
 			fd.add (new Ext.Container ({
 				cls: 'ametys-subcategory',
-				html: name,
+				html: name
 			}));
 		}
 	},

@@ -143,7 +143,7 @@ Ext.define('Ametys.admin.rightpanel.ActionPanel.Action', {
 	        new Ext.ToolTip({
 	        		target: this.el,
 	        		html: this.tooltip,
-	        		width: 200,
+	        		width: 200
 	       	});
 		}
 	}

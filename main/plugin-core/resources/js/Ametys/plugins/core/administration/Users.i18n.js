@@ -194,7 +194,7 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 				    id: 'searchField',
 				    
 				    style: {
-				    	marginLeft: '10px',
+				    	marginLeft: '10px'
 				    },
 				    
 				    width: 182,

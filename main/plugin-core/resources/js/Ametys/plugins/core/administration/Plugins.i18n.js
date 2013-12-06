@@ -219,7 +219,7 @@ Ext.define('Ametys.plugins.core.administration.Plugins', {
 				text: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_PLUGIN_VIEW'/>",
 				activeItem: 0,
 				cardLayout: 'plugin-card-panel',
-				toggleGroup : 'plugin-menu',
+				toggleGroup : 'plugin-menu'
 			})
 		);
 		this._nav.add(new Ametys.admin.rightpanel.NavigationPanel.NavigationItem ({
