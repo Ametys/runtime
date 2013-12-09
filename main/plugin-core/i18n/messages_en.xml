@@ -288,7 +288,7 @@
     <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_SSL_LABEL">Secured connection</message>
     <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_SSL_DESCRIPTION">Select to use the secure LDAP (ldaps)</message>
 
-    <message key="PLUGINS_CORE_SYSTEM_CONFIG_CATEGORY">Uploads</message>
+    <message key="PLUGINS_CORE_SYSTEM_CONFIG_CATEGORY">System</message>
     
     <message key="PLUGINS_CORE_DEBUG_GROUP">Developer mode</message>
     <message key="PLUGINS_CORE_DEBUG_UI_LABEL">User interfaces</message>
