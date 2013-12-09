@@ -95,7 +95,9 @@ org.ametys.administration.Groups.createPanel = function ()
 		hideHeaders: true,
 	    columns: [
 	        {width : 500, menuDisabled : true, sortable: true, dataIndex: 'user'}
-	    ]
+	    ],
+	    
+	    listeners: {'rowclick': org.ametys.administration.Groups._selectUser} 
 	});						
 	org.ametys.administration.Groups._listViewU.setMultipleSelection(true);
 	
@@ -158,20 +160,27 @@ org.ametys.administration.Groups._selectGroup = function (grid, rowindex, e)
 		Ext.Msg.confirm ("<i18n:text i18n:key="PLUGINS_CORE_SAVE_DIALOG_TITLE"/>", 
 						 "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_MODIFY_CONFIRM"/>", 
 						 function (button) {
-							org.ametys.administration.Groups._saveConfirm (button, org.ametys.administration.Groups._currentGroup)
+							org.ametys.administration.Groups._saveConfirm (button, org.ametys.administration.Groups._currentGroup, rowindex)
 						}
 		);
 	}
-	
+	else
+	{
+		org.ametys.administration.Groups._doSelectGroup(rowindex)
+	}
+}
+
+org.ametys.administration.Groups._doSelectGroup = function (rowindex)
+{
 	if (org.ametys.administration.Groups._modifiable)
 	{
 		org.ametys.administration.Groups._groupsActions.showElt(1);
 		org.ametys.administration.Groups._groupsActions.showElt(2);
 		
 		org.ametys.administration.Groups._usersActions.setVisible(true);
-		org.ametys.administration.Groups._usersActions.showElt(4);
-		org.ametys.administration.Groups._usersActions.showElt(5);
-		org.ametys.administration.Groups._usersActions.hideElt(6);
+		org.ametys.administration.Groups._usersActions.showElt(0);
+		org.ametys.administration.Groups._usersActions.hideElt(1);
+		org.ametys.administration.Groups._usersActions.hideElt(2);
 	}
 	
 	org.ametys.administration.Groups._listViewU.getStore().removeAll();
@@ -196,8 +205,22 @@ org.ametys.administration.Groups._selectGroup = function (grid, rowindex, e)
 	}
 }
 
+/**
+ * This function is call when a user is selected
+ */
+org.ametys.administration.Groups._selectUser = function (grid, rowindex, e)
+{
+	if (org.ametys.administration.Groups._listViewU.getSelection().length > 0)
+	{
+		org.ametys.administration.Groups._usersActions.showElt(1);
+	}
+	else
+	{
+		org.ametys.administration.Groups._usersActions.hideElt(1);
+	}
+}
 
-org.ametys.administration.Groups._saveConfirm = function (button, group)
+org.ametys.administration.Groups._saveConfirm = function (button, group, nextRowIndex)
 {
 	if (button == 'yes')
 	{
@@ -207,6 +230,8 @@ org.ametys.administration.Groups._saveConfirm = function (button, group)
 	{
 		org.ametys.administration.Groups._hasChanges = false;
 	}
+	
+	org.ametys.administration.Groups._doSelectGroup(nextRowIndex);
 }
 
 org.ametys.administration.Groups._validateEdit  = function (e)
@@ -302,6 +327,8 @@ org.ametys.administration.Groups.deleteUsers = function ()
 	{
 		org.ametys.administration.Groups._listViewU.removeElement(elts[i]);
 	}
+	
+	org.ametys.administration.Groups._usersActions.hideElt(1);
 	org.ametys.administration.Groups._needSave();    
 }	
 
@@ -346,7 +373,7 @@ org.ametys.administration.Groups.save = function (group)
 		}
 		else
 		{
-			org.ametys.administration.Groups._usersActions.hideElt(6);
+			org.ametys.administration.Groups._usersActions.hideElt(2);
 		}
 	}
 	
@@ -355,7 +382,7 @@ org.ametys.administration.Groups.save = function (group)
 
 org.ametys.administration.Groups._needSave = function (field, newValue, oldValue)
 {
-	org.ametys.administration.Groups._usersActions.showElt(6);
+	org.ametys.administration.Groups._usersActions.showElt(2);
 	org.ametys.administration.Groups._hasChanges = true;
 }
 
@@ -370,23 +397,23 @@ org.ametys.administration.Groups._drawGroupsActionsPanel = function ()
 
 	if (org.ametys.administration.Groups._modifiable)
 	{
-		// New group
+		// New group (1)
 		org.ametys.administration.Groups._groupsActions.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_CREATE"/>", 
 				 getPluginResourcesUrl(org.ametys.administration.Groups.pluginName) + '/img/groups/add_group.png', 
 				 org.ametys.administration.Groups.add);
 		
-		// Rename goup
+		// Rename group (2)
 		org.ametys.administration.Groups._groupsActions.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_RENAME"/>", 
 				 getPluginResourcesUrl(org.ametys.administration.Groups.pluginName) + '/img/groups/rename.png', 
 				 org.ametys.administration.Groups.rename);
 		
-		// Delete goup
+		// Delete goup (3)
 		org.ametys.administration.Groups._groupsActions.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_DELETE"/>", 
 				 getPluginResourcesUrl(org.ametys.administration.Groups.pluginName) + '/img/groups/delete.png', 
 				 org.ametys.administration.Groups.remove);
 	}
 	
-	// Quit
+	// Quit (4)
 	org.ametys.administration.Groups._groupsActions.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_QUIT"/>", 
 			 getPluginResourcesUrl(org.ametys.administration.Groups.pluginName) + '/img/groups/quit.png', 
 			 org.ametys.administration.Groups.goBack);
@@ -413,17 +440,17 @@ org.ametys.administration.Groups._drawUsersActionsPanel = function ()
 	
 	org.ametys.administration.Groups._usersActions = new org.ametys.ActionsPanel({title: "<i18n:text i18n:key="PLUGINS_CORE_GROUPS_USERS_HANDLE_CATEGORY"/>"});
 
-	// Add user
+	// Add user (0)
 	org.ametys.administration.Groups._usersActions.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_ADDUSER"/>", 
 			 getPluginResourcesUrl(org.ametys.administration.Groups.pluginName) + '/img/groups/add_user.png', 
 			 org.ametys.administration.Groups.addUser);
 	
-	// Delete user
+	// Delete user (1)
 	org.ametys.administration.Groups._usersActions.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_DELETEUSER"/>", 
 			 getPluginResourcesUrl(org.ametys.administration.Groups.pluginName) + '/img/groups/delete.png', 
 			 org.ametys.administration.Groups.deleteUsers);
 	
-	// Validate modification
+	// Validate modification (2)
 	org.ametys.administration.Groups._usersActions.addAction("<i18n:text i18n:key="PLUGINS_CORE_GROUPS_HANDLE_VALIDATE"/>", 
 			 getPluginResourcesUrl(org.ametys.administration.Groups.pluginName) + '/img/groups/validate.png', 
 			 org.ametys.administration.Groups.save);
