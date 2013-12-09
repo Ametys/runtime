@@ -123,6 +123,12 @@
         <xsl:param name="accept-ff-22.0">false</xsl:param>
         <xsl:param name="accept-ff-23.0">false</xsl:param>
         <xsl:param name="accept-ff-24.0">false</xsl:param>
+        <xsl:param name="accept-ff-25.0">false</xsl:param>
+        <xsl:param name="accept-ff-26.0">false</xsl:param>
+        <xsl:param name="accept-ff-27.0">false</xsl:param>
+        <xsl:param name="accept-ff-28.0">false</xsl:param>
+        <xsl:param name="accept-ff-29.0">false</xsl:param>
+        <xsl:param name="accept-ff-30.0">false</xsl:param>
         <xsl:param name="accept-sa-3">false</xsl:param>
         <xsl:param name="accept-sa-4">false</xsl:param>
         <xsl:param name="accept-sa-5.0">false</xsl:param>
@@ -246,6 +252,12 @@
 	                    <xsl:if test="$accept-ff-22.0 = 'true'">(userAgent.indexOf("firefox/22.0") >= 0) ||</xsl:if>
 	                    <xsl:if test="$accept-ff-23.0 = 'true'">(userAgent.indexOf("firefox/23.0") >= 0) ||</xsl:if>
 	                    <xsl:if test="$accept-ff-24.0 = 'true'">(userAgent.indexOf("firefox/24.0") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ff-25.0 = 'true'">(userAgent.indexOf("firefox/25.0") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ff-26.0 = 'true'">(userAgent.indexOf("firefox/26.0") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ff-27.0 = 'true'">(userAgent.indexOf("firefox/27.0") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ff-28.0 = 'true'">(userAgent.indexOf("firefox/28.0") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ff-29.0 = 'true'">(userAgent.indexOf("firefox/29.0") >= 0) ||</xsl:if>
+	                    <xsl:if test="$accept-ff-30.0 = 'true'">(userAgent.indexOf("firefox/30.0") >= 0) ||</xsl:if>
 	                     
 	                    <xsl:if test="$accept-sa-3   = 'true'">(userAgent.indexOf("safari/") >= 0 &amp;&amp; userAgent.indexOf("version/3.") >= 0) ||</xsl:if>
 	                    <xsl:if test="$accept-sa-4   = 'true'">(userAgent.indexOf("safari/") >= 0 &amp;&amp; userAgent.indexOf("version/4.") >= 0) ||</xsl:if>
