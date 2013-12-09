@@ -161,6 +161,11 @@
             <xsl:with-param name="accept-ch-28">true</xsl:with-param>
             <xsl:with-param name="accept-ch-29">true</xsl:with-param>
             <xsl:with-param name="accept-ch-30">true</xsl:with-param>
+            <xsl:with-param name="accept-ch-31">true</xsl:with-param>
+            <xsl:with-param name="accept-ch-32">true</xsl:with-param>
+            <xsl:with-param name="accept-ch-33">true</xsl:with-param>
+            <xsl:with-param name="accept-ch-34">true</xsl:with-param>
+            <xsl:with-param name="accept-ch-35">true</xsl:with-param>
             <xsl:with-param name="use-css-component">false</xsl:with-param>
             <xsl:with-param name="use-js-component">false</xsl:with-param>
             <xsl:with-param name="debug-mode">true</xsl:with-param>
