@@ -174,7 +174,12 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 		    	
 		    columns: [
 				        {dataIndex: 'user', flex: 1, width: 1}
-		    ]
+		    ],
+		    
+		    listeners: {
+		    	'select': Ext.bind(this._selectUser, this),
+		    	'deselect': Ext.bind(this._unselectUser, this)
+		    }
 		});	
 		
 		this._groupsPanel = new Ext.Panel({
@@ -245,6 +250,22 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 	},
 	
 	/**
+	 * This function is call when a user is unselected
+	 * @private
+	 * @param  {Ext.selection.RowModel} me The row selection model 
+	 * @param {Ext.data.Model} record The record selected
+	 * @param {Number} index The row index
+	 * @param {Object} eOpts Events options
+	 */
+	_unselectUser: function (me, record, index, eOpts)
+	{
+    	if (this._modifiable)
+    	{
+    		this._usersActions.hideElt(1);
+    	}
+	},
+	
+	/**
 	 * This function is call when a group is selected
 	 * @private
 	 * @param  {Ext.selection.RowModel} me The row selection model 
@@ -277,7 +298,7 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 			
 			this._usersActions.setVisible(true);
 			this._usersActions.showElt(0);
-			this._usersActions.showElt(1);
+			this._usersActions.hideElt(1);
 			this._usersActions.hideElt(2);
 		}
 		
@@ -309,6 +330,22 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 				'id': login
 			}); 
 			this._listViewU.getStore().addSorted(newEntry);
+		}
+	},
+	
+	/**
+	 * This function is call when a user is selected
+	 * @private
+	 * @param  {Ext.selection.RowModel} me The row selection model 
+	 * @param {Ext.data.Model} record The record selected
+	 * @param {Number} index The row index
+	 * @param {Object} eOpts Events options
+	 */
+	_selectUser: function (me, record, index, eOpts)
+	{
+		if (this._modifiable)
+		{
+			this._usersActions.showElt(1);
 		}
 	},
 
@@ -452,6 +489,7 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 		{
 			this._listViewU.getStore().remove(elts[i]);
 		}
+		this._usersActions.hideElt(1);
 		this._needSave();    
 	},
 
