@@ -604,8 +604,8 @@
                  + -->
             <map:match pattern="groups/search.xml">
                 <map:generate type="groups-search" src="{request-param:criteria}">
-                    <map:parameter name="count" value="{request-param:count}"/>
-                    <map:parameter name="offset" value="{request-param:offset}"/>
+                    <map:parameter name="start" value="{request-param:start}"/>
+                    <map:parameter name="limit" value="{request-param:limit}"/>
                     <map:parameter name="groupsManagerRole" value="{request-param:groupsManagerRole}"/>
                 </map:generate>
                 <map:serialize type="xml"/>

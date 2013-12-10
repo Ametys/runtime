@@ -180,7 +180,7 @@ Ext.define('Ametys.runtime.uihelper.SelectGroup', {
 		var criteria = this.criteria.getValue();
 
 		// Get the group list from the UsersManager.
-		var params = { criteria: criteria, count: 100, offset: 0, groupsManagerRole: this.groupsManagerRole };
+		var params = { criteria: criteria, limit: 100, start: 0, groupsManagerRole: this.groupsManagerRole };
 		
 		var result = Ametys.data.ServerComm.send({
 			plugin: this.pluginName, 

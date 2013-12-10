@@ -42,14 +42,14 @@ public class SearchGenerator extends ServiceableGenerator
         saxParameters.put("pattern", source);
         
         // Nombre de résultats max
-        int count = parameters.getParameterAsInteger("count", _DEFAULT_COUNT_VALUE);
-        if (count == -1)
+        int limit = parameters.getParameterAsInteger("limit", _DEFAULT_COUNT_VALUE);
+        if (limit == -1)
         {
-            count = Integer.MAX_VALUE;
+            limit = Integer.MAX_VALUE;
         }
 
         // Décalage des résultats
-        int offset = parameters.getParameterAsInteger("offset", _DEFAULT_OFFSET_VALUE);
+        int start = parameters.getParameterAsInteger("start", _DEFAULT_OFFSET_VALUE);
         
         // Get the wanted GroupsManager avalon role, defaults to runtime-declared GroupsManager.
         String role = parameters.getParameter("groupsManagerRole", GroupsManager.ROLE);
@@ -66,7 +66,7 @@ public class SearchGenerator extends ServiceableGenerator
             
             contentHandler.startDocument();
             XMLUtils.startElement(contentHandler, "Search");
-            groupsManager.toSAX(contentHandler, count, offset, saxParameters);
+            groupsManager.toSAX(contentHandler, limit, start, saxParameters);
             XMLUtils.endElement(contentHandler, "Search");
             contentHandler.endDocument();
         }
