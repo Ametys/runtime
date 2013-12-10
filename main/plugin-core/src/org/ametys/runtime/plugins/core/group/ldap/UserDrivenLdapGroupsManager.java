@@ -93,7 +93,7 @@ public class UserDrivenLdapGroupsManager extends AbstractLDAPGroupsManager imple
         {
             public int compare(Group g1, Group g2) 
             {
-                return g1.getLabel().compareTo(g2.getLabel());
+                return g1.getLabel().toLowerCase().compareTo(g2.getLabel().toLowerCase());
             }
         });
         
