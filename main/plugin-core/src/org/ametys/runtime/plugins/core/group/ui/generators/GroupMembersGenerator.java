@@ -74,11 +74,10 @@ public class GroupMembersGenerator extends ServiceableGenerator
         Group group = _groups.getGroup(source);
         if (group != null)
         {
-            Set<User> users = _getUsers(group);
+            Set<User> users = _getSortedUsers(group);
             
             int total = users.size();
             Iterator<User> it = users.iterator();
-            
             int index = 0;
             while (it.hasNext() && index < begin + offset)
             {
@@ -103,13 +102,13 @@ public class GroupMembersGenerator extends ServiceableGenerator
 
     }
     
-    private Set<User> _getUsers (Group group)
+    private Set<User> _getSortedUsers (Group group)
     {
         Set<User> users = new TreeSet<User>(new Comparator<User>()
         {
             public int compare(User u1, User u2) 
             {
-                return u1.getFullName().compareTo(u2.getFullName());
+                return u1.getFullName().toLowerCase().compareTo(u2.getFullName().toLowerCase());
             }
         });
         
