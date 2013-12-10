@@ -115,7 +115,7 @@ public abstract class AbstractJdbcGroupsTestCase extends AbstractJDBCTestCase
         XPathProcessor xpath = (XPathProcessor) Init.getPluginServiceManager().lookup(XPathProcessor.ROLE);
         assertEquals(1.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/*)"));
         assertEquals(1.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/groups)"));
-        assertEquals(0.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/groups/*)"));
+        assertEquals(1.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/groups/*)"));   // 1.0 for total tag
 
     }
 
@@ -199,7 +199,7 @@ public abstract class AbstractJdbcGroupsTestCase extends AbstractJDBCTestCase
         XPathProcessor xpath = (XPathProcessor) Init.getPluginServiceManager().lookup(XPathProcessor.ROLE);
         assertEquals(1.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/*)"));
         assertEquals(1.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/groups)"));
-        assertEquals(4.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/groups/*)"));
+        assertEquals(5.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/groups/*)")); // +1.0 for total tag
         assertEquals(4.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/groups/group)"));
         assertEquals(4.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/groups/group[count(@*) = 1])"));
         assertEquals(4.0, xpath.evaluateAsNumber(handler.getDocument(), "count(/groups/group[count(label) = 1 and count(users) = 1])"));
