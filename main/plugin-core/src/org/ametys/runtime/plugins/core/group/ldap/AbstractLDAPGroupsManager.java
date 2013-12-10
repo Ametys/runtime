@@ -65,6 +65,7 @@ public abstract class AbstractLDAPGroupsManager extends AbstractLDAPConnector im
         
         Iterator iterator = getGroups().iterator();
         
+        int totalCount = 0;
         int currentOffset = offset;
         // Parcourir les groupes
         while (currentOffset > 0 && iterator.hasNext())
@@ -73,6 +74,7 @@ public abstract class AbstractLDAPGroupsManager extends AbstractLDAPConnector im
             if (pattern == null || pattern.length() == 0 || group.getLabel().toLowerCase().indexOf(pattern.toLowerCase()) != -1)
             {
                 currentOffset--;
+                totalCount++;
             }
         }
         
@@ -102,8 +104,22 @@ public abstract class AbstractLDAPGroupsManager extends AbstractLDAPConnector im
                 XMLUtils.endElement(ch, "group");
                 
                 currentCount--;
+                totalCount++;
             }
         }
+        
+        while (iterator.hasNext())
+        {
+            Group group = (Group) iterator.next();
+            
+            if (pattern == null || pattern.length() == 0 || group.getLabel().toLowerCase().indexOf(pattern.toLowerCase()) != -1)
+            {
+                totalCount++;
+            }
+        }
+        
+        // Total count matching the pattern
+        XMLUtils.createElement(ch, "total", String.valueOf(totalCount));
         
         XMLUtils.endElement(ch, "groups");
     }

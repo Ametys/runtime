@@ -15,8 +15,10 @@
  */
 package org.ametys.runtime.plugins.core.group.ldap;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -115,7 +117,13 @@ public class GroupDrivenLdapGroupsManager extends AbstractLDAPGroupsManager impl
     public Set<Group> getGroups()
     {
         // Créer un ensemble de groupes
-        Set<Group> groups = new HashSet<Group>();
+        Set<Group> groups = new TreeSet<Group>(new Comparator<Group>()
+        {
+            public int compare(Group g1, Group g2) 
+            {
+                return g1.getLabel().compareTo(g2.getLabel());
+            }
+        });
 
         DirContext context = null;
         NamingEnumeration results = null;

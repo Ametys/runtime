@@ -63,7 +63,6 @@ public class GroupsGenerator extends AbstractCurrentUserProviderServiceableGener
         
         _groups.toSAX(contentHandler, count, offset, new HashMap());
         
-        XMLUtils.createElement(contentHandler, "total", String.valueOf(_groups.getGroups().size()));
         XMLUtils.createElement(contentHandler, "Modifiable", _groups instanceof ModifiableGroupsManager ? "true" : "false");
         XMLUtils.createElement(contentHandler, "AdministratorUI", _isSuperUser() ? "true" : "false");
         
