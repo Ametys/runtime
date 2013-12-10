@@ -16,12 +16,11 @@
 package org.ametys.runtime.plugins.core.group.ui.generators;
 
 import java.io.IOException;
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.Set;
+import java.util.TreeSet;
 
-import org.ametys.runtime.group.Group;
-import org.ametys.runtime.group.GroupsManager;
-import org.ametys.runtime.user.User;
-import org.ametys.runtime.user.UsersManager;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.ProcessingException;
@@ -30,12 +29,20 @@ import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.SAXException;
 
+import org.ametys.runtime.group.Group;
+import org.ametys.runtime.group.GroupsManager;
+import org.ametys.runtime.user.User;
+import org.ametys.runtime.user.UsersManager;
+
 /**
  * Generate group members
  * 
  */
 public class GroupMembersGenerator extends ServiceableGenerator
 {
+    private static final int _DEFAULT_COUNT_VALUE = Integer.MAX_VALUE;
+    private static final int _DEFAULT_OFFSET_VALUE = 0;
+    
     private GroupsManager _groups;
 
     private UsersManager _users;
@@ -50,6 +57,14 @@ public class GroupMembersGenerator extends ServiceableGenerator
 
     public void generate() throws IOException, SAXException, ProcessingException
     {
+        int offset = parameters.getParameterAsInteger("limit", _DEFAULT_COUNT_VALUE);
+        if (offset == -1)
+        {
+            offset = Integer.MAX_VALUE;
+        }
+
+        int begin = parameters.getParameterAsInteger("start", _DEFAULT_OFFSET_VALUE);
+        
         contentHandler.startDocument();
 
         AttributesImpl attr = new AttributesImpl();
@@ -59,25 +74,56 @@ public class GroupMembersGenerator extends ServiceableGenerator
         Group group = _groups.getGroup(source);
         if (group != null)
         {
-            Set<String> users = group.getUsers();
-            for (String login : users)
+            Set<User> users = _getUsers(group);
+            
+            int total = users.size();
+            Iterator<User> it = users.iterator();
+            
+            int index = 0;
+            while (it.hasNext() && index < begin + offset)
             {
-                User user = _users.getUser(login);
-                if (user != null)
+                User user = it.next();
+                if (index >= begin)
                 {
                     attr = new AttributesImpl();
-                    attr.addAttribute("", "login", "login", "CDATA", login);
+                    attr.addAttribute("", "login", "login", "CDATA", user.getName());
                     XMLUtils.startElement(contentHandler, "User", attr);
                     XMLUtils.createElement(contentHandler, "FullName", user.getFullName());
                     XMLUtils.endElement(contentHandler, "User");
                 }
+                index++;
             }
+            
+            XMLUtils.createElement(contentHandler, "total", String.valueOf(total));
         }
         
         XMLUtils.endElement(contentHandler, "GroupMembers");
 
         contentHandler.endDocument();
 
+    }
+    
+    private Set<User> _getUsers (Group group)
+    {
+        Set<User> users = new TreeSet<User>(new Comparator<User>()
+        {
+            public int compare(User u1, User u2) 
+            {
+                return u1.getFullName().compareTo(u2.getFullName());
+            }
+        });
+        
+        Set<String> logins = group.getUsers();
+        for (String login : logins)
+        {
+            User user = _users.getUser(login);
+            if (user != null)
+            {
+                users.add(user);
+            }
+        }
+        
+        return users;
     }
 
 }
