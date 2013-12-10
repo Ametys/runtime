@@ -653,7 +653,10 @@
 			</map:match>
 			
 			<map:match pattern="groups/list.xml">
-				<map:generate type="groups-view"/>
+				<map:generate type="groups-view">
+					<map:parameter name="start" value="{request-param:start}"/>
+					<map:parameter name="limit" value="{request-param:limit}"/>
+				</map:generate>
 				<map:serialize type="xml"/>
 			</map:match>
 			
