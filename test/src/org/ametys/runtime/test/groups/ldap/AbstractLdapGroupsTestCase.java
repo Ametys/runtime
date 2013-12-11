@@ -81,9 +81,9 @@ public abstract class AbstractLdapGroupsTestCase extends AbstractRuntimeTestCase
         Set<Group> groups = _groupsManager.getGroups();
         assertNotNull(groups);
         assertEquals(3, groups.size());        
-        assertTrue(groups.contains(new Group("group1", "")));
-        assertTrue(groups.contains(new Group("group2", "")));
-        assertTrue(groups.contains(new Group("group3", "")));
+        assertTrue("group1 not found", groups.contains(new Group("group1", "")));
+        assertTrue("group2 not found", groups.contains(new Group("group2", "")));
+        assertTrue("group3 not found", groups.contains(new Group("group3", "")));
         
         // GET USER GROUPS
         Set<String> groupsName;
