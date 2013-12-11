@@ -121,8 +121,18 @@ public class GroupDrivenLdapGroupsManager extends AbstractLDAPGroupsManager impl
         {
             public int compare(Group g1, Group g2) 
             {
+                if (g1.getId().equals(g2.getId()))
+                {
+                    return 0;
+                }
+                
                 // Case insensitive sort
-                return g1.getLabel().toLowerCase().compareTo(g2.getLabel().toLowerCase());
+                int compareTo = g1.getLabel().toLowerCase().compareTo(g2.getLabel().toLowerCase());
+                if (compareTo == 0)
+                {
+                    return g1.getId().compareTo(g1.getId());
+                }
+                return compareTo;
             }
         });
 
