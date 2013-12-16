@@ -59,8 +59,9 @@ import org.ametys.runtime.util.parameter.ParameterHelper.ParameterType;
  *         &lt;mapping prefId="email" column="mypref_email_address"/&gt;<br>
  *     &lt;/mappings&gt;<br>
  * &lt;/component&gt;<br>
- * </pre>
- * <br>
+ * </pre><br>
+ * Column names must be configured lowercase, both when setting login and context columns and when setting mapping columns.
+ * <br><br>
  * This class differs from {@link JdbcXmlUserPreferencesStorage} as it does not implement {@link DefaultUserPreferencesStorage},
  * and because the latter imposes the DB table structure and stores the preferences as an XML binary.
  */
@@ -97,12 +98,12 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
         _databaseTable = configuration.getChild("table").getValue();
         // Default to "login".
         _loginColumn = configuration.getChild("loginColumn").getValue("login");
-        // Default to null.
+        // Default to null (no context column).
         _contextColumn = configuration.getChild("contextColumn").getValue(null);
         
-        // Default to null
+        // Default to null: all columns except the login column and the context column (if any) are preferences.
         String regex = configuration.getChild("columnPattern").getValue(null);
-        _columnPattern = StringUtils.isBlank(regex) ? null : Pattern.compile(regex);
+        _columnPattern = StringUtils.isBlank(regex) ? null : Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
         
         // Configure the preference-column mappings.
         configureMappings(configuration.getChild("mappings"));
@@ -167,7 +168,7 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
                 
                 for (int col = 1; col <= colCount; col++)
                 {
-                    String name = metaData.getColumnName(col);
+                    String name = metaData.getColumnName(col).toLowerCase();
                     
                     if (isColumnValid(name))
                     {
@@ -393,8 +394,8 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
     {
         // Do not return the login column, the context column (if applicable)
         // and columns not matching the pattern.
-        return !_loginColumn.equals(name)
-            && (_contextColumn == null || !_contextColumn.equals(name))
+        return !_loginColumn.equalsIgnoreCase(name)
+            && (_contextColumn == null || !_contextColumn.equalsIgnoreCase(name))
             && (_columnPattern == null || _columnPattern.matcher(name).matches());
     }
     
