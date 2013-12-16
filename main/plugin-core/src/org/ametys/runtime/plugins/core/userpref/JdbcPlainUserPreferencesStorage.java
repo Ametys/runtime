@@ -97,9 +97,13 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
         // The table configuration is mandatory.
         _databaseTable = configuration.getChild("table").getValue();
         // Default to "login".
-        _loginColumn = configuration.getChild("loginColumn").getValue("login");
+        _loginColumn = configuration.getChild("loginColumn").getValue("login").toLowerCase();
         // Default to null (no context column).
         _contextColumn = configuration.getChild("contextColumn").getValue(null);
+        if (_contextColumn != null)
+        {
+            _contextColumn = _contextColumn.toLowerCase();
+        }
         
         // Default to null: all columns except the login column and the context column (if any) are preferences.
         String regex = configuration.getChild("columnPattern").getValue(null);
@@ -123,7 +127,7 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
         for (Configuration mappingConf : configuration.getChildren("mapping"))
         {
             String prefId = mappingConf.getAttribute("prefId");
-            String column = mappingConf.getAttribute("column");
+            String column = mappingConf.getAttribute("column").toLowerCase();
             
             _prefIdToColumn.put(prefId, column);
             _columnToPrefId.put(column, prefId);
