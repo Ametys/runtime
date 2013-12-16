@@ -147,15 +147,7 @@ public final class HierarchicalRightsHelper
         }
         else if (index == 0)
         {
-            if (context.length() == 1)
-            {
-                // Pas de parent
-                return null;
-            }
-            else
-            {
-                return "/";
-            }
+            return "";
         }
         else
         {
