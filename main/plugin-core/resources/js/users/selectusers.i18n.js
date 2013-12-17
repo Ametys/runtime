@@ -108,7 +108,7 @@ RUNTIME_Plugin_Runtime_SelectUsers._onSelectUsers = function (sm)
 RUNTIME_Plugin_Runtime_SelectUsers._addUser = function ()
 {
 	RUNTIME_Plugin_Runtime_SelectUser.initialize('core');
-	RUNTIME_Plugin_Runtime_SelectUser.act(RUNTIME_Plugin_Runtime_SelectUsers._addUserCb, null, RUNTIME_Plugin_Runtime_SelectUsers.usersManagerRole);	
+	RUNTIME_Plugin_Runtime_SelectUser.act(RUNTIME_Plugin_Runtime_SelectUsers._addUserCb, null, RUNTIME_Plugin_Runtime_SelectUsers.usersManagerRole, true);	
 }
 RUNTIME_Plugin_Runtime_SelectUsers._addUserCb = function (users)
 {

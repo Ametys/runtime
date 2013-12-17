@@ -447,7 +447,9 @@
     <message key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_WARN100">Au maximum 100 groupes sont listés</message>
     <message key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_ERROR_EMPTY">Vous devez sélectionner au moins un groupe dans la liste avant de continuer.</message>
     <message key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_NORESULT">La recherche n'a renvoyé aucun résultat</message>
-    
+    <message key="PLUGINS_CORE_GROUPS_SELECTGROUPS_DIALOG_CAPTION">Sélectionner des groupes ...</message>
+    <message key="PLUGINS_CORE_GROUPS_SELECTGROUPS_BTN_ADDGROUP">Ajouter</message>
+    <message key="PLUGINS_CORE_GROUPS_SELECTGROUPS_BTN_DELETEGROUPS">Supprimer</message>
     <!-- GROUP LDAP -->
     <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_GROUPDN_LABEL">DN des groupes</message>
     <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_GROUPDN_DESCRIPTION">DN relatif de la branche des groupes</message>

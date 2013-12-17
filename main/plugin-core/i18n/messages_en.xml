@@ -446,7 +446,10 @@
     <message key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_WARN100">Only the fist 100 groups are displayed</message>
     <message key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_ERROR_EMPTY">Please select a group, in order to proceed.</message>
     <message key="PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_NORESULT">Sorry, your search produced no results</message>
-    
+    <message key="PLUGINS_CORE_GROUPS_SELECTGROUPS_DIALOG_CAPTION">Select groups ...</message>
+    <message key="PLUGINS_CORE_GROUPS_SELECTGROUPS_BTN_ADDGROUP">Add</message>
+    <message key="PLUGINS_CORE_GROUPS_SELECTGROUPS_BTN_DELETEGROUPS">Delete</message>
+  
     <!-- GROUP LDAP -->
     <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_GROUPDN_LABEL">DN for group</message>
     <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_GROUPDN_DESCRIPTION">Relative DN to groups branch</message>
