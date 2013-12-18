@@ -44,6 +44,7 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.thread.ThreadSafe;
+import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.excalibur.xml.sax.SAXParser;
@@ -52,7 +53,6 @@ import org.xml.sax.SAXException;
 
 import org.ametys.runtime.datasource.ConnectionHelper;
 import org.ametys.runtime.datasource.ConnectionHelper.DatabaseType;
-import org.ametys.runtime.util.MapHandler;
 import org.ametys.runtime.util.parameter.ParameterHelper;
 import org.ametys.runtime.util.parameter.ParameterHelper.ParameterType;
 
@@ -120,7 +120,7 @@ public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements
                 }
                 
                 // Create the handler and fill the Map by parsing the configuration.
-                MapHandler handler = new MapHandler(prefs);
+                UserPrefsHandler handler = new UserPrefsHandler(prefs);
                 _saxParser.parse(new InputSource(dataIs), handler);
             }
             
@@ -352,14 +352,19 @@ public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements
             handler.setResult(result);
             
             handler.startDocument();
-            XMLUtils.startElement(handler, "UserPreferences");
+            
+            AttributesImpl attr = new AttributesImpl();
+            attr.addCDATAAttribute("version", "2");
+            XMLUtils.startElement(handler, "UserPreferences", attr);
             
             for (Entry<String, String> preference : preferences.entrySet())
             {
                 String value = preference.getValue();
                 if (value != null)
                 {
-                    XMLUtils.createElement(handler, preference.getKey(), preference.getValue());
+                    attr.clear();
+                    attr.addCDATAAttribute("id", preference.getKey());
+                    XMLUtils.createElement(handler, "preference", attr, preference.getValue());
                 }
             }
             
