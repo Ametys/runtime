@@ -1,3 +1,18 @@
+Runtime - Version 2.5.3 (December 19, 2013)
+
+Improvement:
+  RUNTIME-904 : Add a label to the email address of the sender in the admin
+  RUNTIME-942 : Add a total property to GroupsManager SAX'ing.
+  RUNTIME-1008 : Unsupported browser page
+  RUNTIME-1010 : Enhance browser compatibility message
+  RUNTIME-1015 : Support of Chrome 32 and more
+
+Bug:
+  RUNTIME-894 : i18nizableText does not SAX correctly param with keys
+  RUNTIME-997 : Support of FF 25 and more
+  RUNTIME-1016 : Groups screen is bugged
+
+-------------------------------------------------
 Runtime - Version 2.5.2 (October 22, 2013)
 
 Improvement:
