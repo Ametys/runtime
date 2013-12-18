@@ -1,3 +1,14 @@
+Runtime - Version 2.4.5 (December 19, 2013):
+
+Improvement:
+  RUNTIME-942 : Add a total property to GroupsManager SAX'ing.
+  RUNTIME-1010 : Enhance browser compatibility message
+  RUNTIME-1015 : Support of Chrome 32 and more
+
+Bug:
+  RUNTIME-997 : Support of FF 25 and more
+  RUNTIME-1016 : Groups screen is bugged
+
 Runtime - Version 2.4.3 (October 22, 2013)
 
 Improvement:
