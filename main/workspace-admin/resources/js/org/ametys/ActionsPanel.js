@@ -30,6 +30,7 @@ Ext.namespace('org.ametys');
  */
 org.ametys.ActionsPanel = function(config) 
 {
+	this.actions = [];
 	org.ametys.ActionsPanel.superclass.constructor.call(this, config);
 }; 
 
@@ -40,7 +41,6 @@ Ext.extend(org.ametys.ActionsPanel, Ext.Panel,
 	cmargins: '5 0 0 0',
 	awtCls : 'actions-panel',
 	cls: 'actions-panel',
-	actions : [],
 	elements: 'body,footer'
 });
 
