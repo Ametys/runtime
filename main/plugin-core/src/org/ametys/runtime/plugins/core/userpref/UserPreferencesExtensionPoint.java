@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -164,7 +165,7 @@ public class UserPreferencesExtensionPoint extends AbstractThreadSafeComponentEx
      */
     protected Map<I18nizableText, List<UserPreference>> getCategorizedPreferencesMap(Map<String, String> contextVars)
     {
-        Map<I18nizableText, List<UserPreference>> preferences = new HashMap<I18nizableText, List<UserPreference>>();
+        Map<I18nizableText, List<UserPreference>> preferences = new TreeMap<I18nizableText, List<UserPreference>>(new I18nizableTextComparator());
         
         for (String extensionId : getExtensionsIds())
         {
@@ -204,6 +205,15 @@ public class UserPreferencesExtensionPoint extends AbstractThreadSafeComponentEx
         public int compare(UserPreference pref1, UserPreference pref2)
         {
             return pref1.getOrder() - pref2.getOrder();
+        }
+    }
+    
+    class I18nizableTextComparator implements Comparator<I18nizableText>
+    {
+        @Override
+        public int compare(I18nizableText t1, I18nizableText t2)
+        {
+            return t1.toString().compareTo(t2.toString());
         }
     }
     

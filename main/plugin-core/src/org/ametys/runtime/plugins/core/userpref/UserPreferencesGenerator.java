@@ -62,6 +62,9 @@ public class UserPreferencesGenerator extends AbstractCurrentUserProviderService
     {
         Request request = ObjectModelHelper.getRequest(objectModel);
         String storageContext = parameters.getParameter("prefContext", request.getParameter("prefContext"));
+        
+        boolean excludePrivate = parameters.getParameterAsBoolean("excludePrivate", false);
+        
         Map<String, String> contextVars = getContextVars(request);
         String username = getUsername();
         
@@ -79,7 +82,7 @@ public class UserPreferencesGenerator extends AbstractCurrentUserProviderService
             atts.addCDATAAttribute("context", storageContext);
             XMLUtils.startElement(contentHandler, "UserPreferences", atts);
             
-            _saxPreferences(storageContext, contextVars, username);
+            _saxPreferences(storageContext, contextVars, username, excludePrivate);
             
             XMLUtils.endElement(contentHandler, "UserPreferences");
             
@@ -116,11 +119,12 @@ public class UserPreferencesGenerator extends AbstractCurrentUserProviderService
      * @param storageContext the preferences context.
      * @param contextVars 
      * @param username the user name.
+     * @param excludePrivate true to exclude private user preferences
      * @throws ProcessingException
      * @throws SAXException
      * @throws UserPreferencesException
      */
-    protected void _saxPreferences(String storageContext, Map<String, String> contextVars, String username) throws ProcessingException, SAXException, UserPreferencesException
+    protected void _saxPreferences(String storageContext, Map<String, String> contextVars, String username, boolean excludePrivate) throws ProcessingException, SAXException, UserPreferencesException
     {
         Map<I18nizableText, List<UserPreference>> groups = _userPrefEP.getCategorizedPreferences(contextVars);
         Map<String, String> prefValues = _userPrefManager.getUnTypedUserPrefs(username, storageContext, contextVars);
@@ -138,7 +142,11 @@ public class UserPreferencesGenerator extends AbstractCurrentUserProviderService
             XMLUtils.startElement(contentHandler, "preferences");
             for (UserPreference preference : groupPrefs)
             {
-                _saxPreference(preference, prefValues.get(preference.getId()));
+                if (!excludePrivate || !preference.isPrivate())
+                {
+                    _saxPreference(preference, prefValues.get(preference.getId()));
+                }
+                
             }
             XMLUtils.endElement(contentHandler, "preferences");
             

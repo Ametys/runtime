@@ -108,6 +108,7 @@
             
             <map:action name="get-parent-context-attr" src="org.ametys.runtime.util.GetParentContextAttributeAction" logger="org.ametys.runtime.util.GetParentContextAttributeAction"/>
 
+			<map:action name="user-prefs-def" src="org.ametys.runtime.plugins.core.userpref.GetUserPreferencesAction"/>
             <map:action name="save-userprefs" src="org.ametys.runtime.plugins.core.userpref.SetUserPreferencesAction"/>
             
             <map:action name="has-right" src="org.ametys.runtime.plugins.core.right.actions.HasRightAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.hasRight">
@@ -874,12 +875,21 @@
                  | Userprefs
                  + -->
             <map:match pattern="userprefs/def.xml">
-                <map:generate type="user-prefs-def"/>
+                <map:generate type="user-prefs-def">
+                	<map:parameter name="excludePrivate" value="{request-param:excludePrivate}"/>
+                </map:generate>
                 <map:transform type="i18n">
                     <map:parameter name="locale" value="{locale:locale}"/>
                     <map:parameter name="plugin" value="{request-attr:pluginName}"/>
                 </map:transform>
                 <map:serialize type="xml"/>
+            </map:match>
+            
+            <map:match pattern="userprefs/def.json">
+                <map:act type="user-prefs-def">
+                	<map:parameter name="excludePrivate" value="{request-param:excludePrivate}"/>
+					<map:read type="json"/>
+                </map:act>
             </map:match>
             
             <map:match pattern="userprefs/values.xml">
