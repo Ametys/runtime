@@ -803,6 +803,13 @@
                                 default-extension-id="org.ametys.runtime.plugins.core.userpref.EmptyUserPreferencesStorage"/>
     </extension-points>
     
+    <feature name="servercommhelper">
+    	<components>
+    		<component class="org.ametys.runtime.plugins.core.dispatcher.ServerCommHelper" 
+    				   role="org.ametys.runtime.plugins.core.dispatcher.ServerCommHelper"/>
+    	</components>
+    </feature>
+    
     <feature name="saxclienthelper">
     	<components>
     		<component class="org.ametys.runtime.ui.SAXClientSideElementHelper" 
