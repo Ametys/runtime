@@ -704,6 +704,21 @@
 })();
 
 /*
+ * Support for readable value
+ */
+(function() 
+{
+    Ext.define("Ametys.form.field.ComboBox", {
+        override: "Ext.form.field.ComboBox",
+        
+        getReadableValue: function ()
+    	{
+    		return this.getDisplayValue();
+    	}
+    });
+})();
+
+/*
  * Support for comments
  */
 (function ()
