@@ -50,6 +50,24 @@ Ext.define('Ametys.form.field.Code', {
 	_futureValue: '',
 	
 	/**
+	 * @property {Number} border The border size
+	 */
+	border: 1,
+	
+	/**
+	 * 
+	 */
+	anchor: '100% -20',
+	
+	/**
+	 * @property {Object} style The style
+	 */
+	style: {
+	    borderColor: '#ddd',
+	    borderStyle: 'solid'
+	},
+	
+	/**
 	 * @inheritdoc
 	 */
 	initComponent: function()
@@ -104,6 +122,30 @@ Ext.define('Ametys.form.field.Code', {
 		}
 		return this.initialConfig.value;
 	},
+	
+	/**
+     * Returns the parameter(s) that would be included in a standard form submit for this field. Typically this will be
+     * an object with a single name-value pair, the name being this field's {@link #getName name} and the value being
+     * its current stringified value. More advanced field implementations may return more than one name-value pair.
+     *
+     * Note that the values returned from this method are not guaranteed to have been successfully {@link #validate
+     * validated}.
+     *
+     * @return {Object} A mapping of submit parameter names to values; each value should be a string, or an array of
+     * strings if that particular name has multiple values. It can also return null if there are no parameters to be
+     * submitted.
+     */
+	getSubmitData: function() 
+	{
+        var me = this,
+            data = null;
+        if (!me.disabled && me.submitValue && !me.isFileUpload()) 
+        {
+            data = {};
+            data[me.getName()] = '' + me._codeMirror.getValue();
+        }
+        return data;
+    },
 
 	/**
 	 * Set the field value.
@@ -128,7 +170,7 @@ Ext.define('Ametys.form.field.Code', {
 	 * {@link #event-initialize} listener
 	 */
 	_init: function()
-	{
+	{   
 		if (this._futureValue != '')
 		{
 			this.setValue(_futureValue);
