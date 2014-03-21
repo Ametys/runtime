@@ -172,6 +172,7 @@ Ext.define('Ametys.form.field.RichText', {
 				relative_urls : false,
 				remove_script_host: false,
 				strict_loading_mode : true,
+				readonly: config.disabled,
 				
 				theme: 'advanced',
 				theme_advanced_toolbar_location: "none",
