@@ -50,24 +50,6 @@ Ext.define('Ametys.form.field.Code', {
 	_futureValue: '',
 	
 	/**
-	 * @property {Number} border The border size
-	 */
-	border: 1,
-	
-	/**
-	 * 
-	 */
-	anchor: '100% -20',
-	
-	/**
-	 * @property {Object} style The style
-	 */
-	style: {
-	    borderColor: '#ddd',
-	    borderStyle: 'solid'
-	},
-	
-	/**
 	 * @inheritdoc
 	 */
 	initComponent: function()
@@ -241,7 +223,8 @@ Ext.define('Ametys.form.field.Code', {
 		
 				matchBrackets: true, // add-on
 				lineNumbers: true,
-				
+				styleActiveLine: true,
+	            
 				extraKeys: {
 					"Ctrl-U": "undo",
 					"Ctrl-Y": "redo"
@@ -258,23 +241,8 @@ Ext.define('Ametys.form.field.Code', {
 			});
 			
 			// Styling the current cursor line
-			this._codeMirror.on('cursorActivity', Ext.bind(this._onCursorActivity, this));
 			this._codeMirror.on("change", Ext.bind(this._onChange, this));
 		}
-	},
-	
-	/**
-	 * Listens for cursor activity to style the current line.
-	 * @private
-	 */
-	_onCursorActivity: function()
-	{
-		// Styling the current cursor line
-		if (this._hlLine)
-		{
-			this._codeMirror.removeLineClass(this._hlLine, 'text', 'activeline');
-		}
-		this._hlLine = this._codeMirror.addLineClass(this._codeMirror.getCursor().line, 'text', 'activeline');
 	},
 	
 	/**
