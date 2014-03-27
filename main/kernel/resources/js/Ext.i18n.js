@@ -1533,6 +1533,7 @@
 			
 			if (nbVisibleButtons == 0)
 			{
+				this._resizing = false;
 				return;
 			}
 			
@@ -1548,6 +1549,7 @@
 			this.items.each(function(item) {
 				if (!item.getEl() || !item.getEl().isVisible())
 				{
+					this._resizing = false;
 					return;
 				}
 				
