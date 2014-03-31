@@ -231,7 +231,7 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_DESCRIPTION">Define temporary administrator(s) with all rights</message>
 	<message key="PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_AFFECT_ERROR">An error occurred : assignment failed.</message>
 	<message key="PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_AFFECT_TITLE">Super user</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_AFFECT_SUCCESS">Assignment succeed</message>
+	<message key="PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_AFFECT_SUCCESS">Assignment success</message>
 	
 	<!-- MAILING -->
 	<message key="PLUGINS_CORE_MAIL_CONFIG_CATEGORY">EMails</message>
@@ -255,7 +255,7 @@
     <message key="PLUGINS_CORE_WIDGET_PASSWORD_HINT">Change password</message>
     <message key="PLUGINS_CORE_WIDGET_PASSWORD_ERROR">The same password has to be entered twice.\nPlease enter the new password in both boxes.</message>
     
-    <message key="PLUGINS_CORE_VALIDATOR_TEXT_MAXLENGTH">La valeur de ce champ est trop longue</message>
+    <message key="PLUGINS_CORE_VALIDATOR_TEXT_MAXLENGTH">The value of this field is too long</message>
 
     <!-- DATASOURCE CORE -->
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE">Database</message>
