@@ -44,6 +44,8 @@ import org.ametys.runtime.user.User;
 import org.ametys.runtime.user.UserListener;
 import org.ametys.runtime.util.IgnoreRootHandler;
 import org.ametys.runtime.util.parameter.Errors;
+import org.ametys.runtime.util.parameter.Parameter;
+import org.ametys.runtime.util.parameter.ParameterHelper.ParameterType;
 
 /**
  * Try to find the user in the LDAP directory first. If not found, try to find him in the DBMS.
@@ -216,6 +218,12 @@ public class CredentialsAwareLdapAndJdbcUsersManager extends CredentialsAwareLda
     public void remove(String login) throws InvalidModificationException
     {
         _fallbackUsersManager.remove(login);
+    }
+    
+    @Override
+    public Collection< ? extends Parameter<ParameterType>> getModel()
+    {
+        return _fallbackUsersManager.getModel();
     }
     
     @Override

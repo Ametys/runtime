@@ -19,6 +19,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,9 +38,10 @@ import org.ametys.runtime.util.I18nizableText;
 import org.ametys.runtime.util.StringUtils;
 import org.ametys.runtime.util.parameter.Enumerator;
 import org.ametys.runtime.util.parameter.Errors;
+import org.ametys.runtime.util.parameter.Parameter;
 import org.ametys.runtime.util.parameter.ParameterHelper;
-import org.ametys.runtime.util.parameter.Validator;
 import org.ametys.runtime.util.parameter.ParameterHelper.ParameterType;
+import org.ametys.runtime.util.parameter.Validator;
 
 
 /**
@@ -59,6 +62,11 @@ public class ModifiableJdbcUsersManager extends JdbcUsersManager implements Modi
     public void removeListener(UserListener listener)
     {
         _listeners.remove(listener);
+    }
+    
+    public Collection< ? extends Parameter<ParameterType>> getModel()
+    {
+        return Collections.unmodifiableCollection(_parameters.values());
     }
     
     public void saxModel(ContentHandler handler) throws SAXException
