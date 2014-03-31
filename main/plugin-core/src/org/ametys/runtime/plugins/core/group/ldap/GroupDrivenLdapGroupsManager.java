@@ -203,17 +203,34 @@ public class GroupDrivenLdapGroupsManager extends AbstractLDAPGroupsManager impl
             filter.append(")(");
             filter.append(_groupsMemberAttribute);
             filter.append("=" + _usersLoginAttribute + "={0}");
+            filter.append(")(");
+            filter.append(_groupsMemberAttribute);
+            filter.append("={0}");
             filter.append(")))");
-
+            
+            if (getLogger().isDebugEnabled())
+            {
+                getLogger().debug("Searching groups of user '" + login + "' with base DN '" + _groupsRelativeDN + "': '" + filter.toString() + "'.");
+            }
+            
             // Effectuer la recherche
             results = context.search(_groupsRelativeDN, filter.toString(),
                                      new Object[] {login}, _getSearchConstraint());
+            
+            int groupCount = 0;
             
             // Remplir l'ensemble des groupes
             while (results.hasMoreElements())
             {
                 // Récupérer le groupe trouvé
                 groups.add(_getGroupID((SearchResult) results.nextElement()));
+                
+                groupCount++;
+            }
+            
+            if (getLogger().isDebugEnabled())
+            {
+                getLogger().debug(groupCount + " groups found for user '" + login + "'");
             }
             
             // Cache the results.
