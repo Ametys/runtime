@@ -15,12 +15,15 @@
  */
 package org.ametys.runtime.user;
 
+import java.util.Collection;
 import java.util.Map;
 
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
 import org.ametys.runtime.util.parameter.Errors;
+import org.ametys.runtime.util.parameter.Parameter;
+import org.ametys.runtime.util.parameter.ParameterHelper.ParameterType;
 
 /**
  * Abstraction for getting users list and verify the presence of a particular
@@ -57,6 +60,12 @@ public interface ModifiableUsersManager extends UsersManager
      * @return validation errors.
      */
     public Map<String, Errors> validate(Map<String, String> userInformation);
+    
+    /**
+     * Get the user's edition model as a Collection of parameters.
+     * @return the user's edition model as a Collection of parameters.
+     */
+    public Collection<? extends Parameter<ParameterType>> getModel();
     
     /**
      * SAX the edition model (depending on implementation)
