@@ -1,4 +1,10 @@
-Runtime - Version 2.4.5 (December 19, 2013):
+Runtime - Version 2.4.6 (April 02, 2014)
+
+Bug:
+  RUNTIME-1025 : Chrome 34 will not work
+  RUNTIME-1032 : Misspellings
+
+Runtime - Version 2.4.5 (December 19, 2013)
 
 Improvement:
   RUNTIME-942 : Add a total property to GroupsManager SAX'ing.
