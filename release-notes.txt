@@ -1,3 +1,13 @@
+Runtime - Version 2.5.4 (April 02, 2014)
+
+Improvement:
+  RUNTIME-687 : The GroupDrivenLdapGroupsManager doesn't handle memberUid attributes
+
+Bug:
+  RUNTIME-1025 : Chrome 34 will not work
+  RUNTIME-1032 : Misspellings
+
+-------------------------------------------------
 Runtime - Version 2.5.3 (December 19, 2013)
 
 Improvement:
