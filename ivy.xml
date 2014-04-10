@@ -63,7 +63,7 @@ Open source web application framework based on Apache Cocoon.
     <dependency org="commons-codec" name="commons-codec" rev="1.8" conf="common_dependencies->default"/>
     <dependency org="org.apache.commons" name="commons-compress" rev="1.5" transitive="false" conf="common_dependencies->default"/>
     <dependency org="org.apache.commons" name="commons-lang3" rev="3.1" conf="common_dependencies->default"/>
-
+	
     <dependency org="org.apache.ibatis" name="ibatis-sqlmap" rev="2.3.0" conf="common_dependencies->default"/>
     <dependency org="org.codehaus.jackson" name="jackson-mapper-asl" rev="1.9.13" conf="common_dependencies->default"/>
     <dependency org="net.coobird" name="thumbnailator" rev="0.4.6" conf="common_dependencies->default"/>
@@ -76,6 +76,7 @@ Open source web application framework based on Apache Cocoon.
     <dependency org="org.fusesource" name="sigar" rev="1.6.4" conf="compile_base->default;runtime_dependencies->runtime">
         <exclude module="sigar-lib" conf="test"/>
     </dependency> 
+    <dependency org="simplecaptcha" name="simplecaptcha" rev="1.2.1" conf="common_dependencies->default"/>
     
     <dependency org="org.slf4j" name="slf4j-api" rev="1.7.5" conf="compile_base->default"/>
     <dependency org="org.slf4j" name="slf4j-log4j12" rev="1.7.5" conf="runtime_dependencies->default"/>    
@@ -89,7 +90,7 @@ Open source web application framework based on Apache Cocoon.
     <!-- Runtime -->
     <dependency org="minaret" name="datedFileAppender" rev="1.0.2" conf="runtime_dependencies->default"/>
     <dependency org="org.sencha" name="extjs4" rev="4.2.1" conf="runtime_dependencies->default"/>
-
+	
     <!-- Compile and test -->
     <dependency org="javax.servlet" name="servlet-api" rev="2.4" conf="compile_base->default"/>
     <dependency org="org.apache.xmlgraphics" name="fop" rev="1.1" transitive="false" conf="compile_base,test->default"/>

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2012 Anyware Services
+ *  Copyright 2014 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,8 +15,11 @@
  */
 package org.ametys.runtime.plugins.core.authentication;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -37,6 +40,8 @@ import org.apache.commons.lang.StringUtils;
 
 import org.ametys.runtime.authentication.Credentials;
 import org.ametys.runtime.authentication.CredentialsProvider;
+import org.ametys.runtime.captcha.CaptchaHelper;
+import org.ametys.runtime.config.Config;
 import org.ametys.runtime.workspace.WorkspaceMatcher;
 
 /**
@@ -73,6 +78,10 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
 {
     /** Password value in case of info retrieved from cookie */
     public static final String AUTHENTICATION_BY_COOKIE = "authentication_by_cookie";
+    /** Low security level */
+    public static final String SECURITY_LEVEL_LOW = "low";
+    /** High security level */
+    public static final String SECURITY_LEVEL_HIGH = "high";
     
     /** Name of the user name html field */
     protected String _usernameField;
@@ -82,6 +91,12 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
     
     /** Name of the "remember me" html field */
     protected String _rememberMeField;
+    
+    /** Name of the captcha answer html field */
+    protected String _captchaField;
+    
+    /** Name of the captcha key html field */
+    protected String _captchaKeyField;
 
     /** Indicates if the user credentials must be saved by a cookie */
     protected boolean _cookieEnabled;
@@ -109,6 +124,9 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
 
     /** Set of accepted url prefixes (default : empty). */
     protected Set<String> _acceptedUrlPrefixes;
+    
+    /** A list of accepted url patterns */
+    protected Collection<Pattern> _acceptedUrlPatterns = Arrays.asList(new Pattern[]{Pattern.compile("^plugins/core/captcha/[^/]+/image.png")});   // captcha  
     
     /** Context */
     protected Context _context;
@@ -174,6 +192,18 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
                     }
                 }
             }
+            
+            if (!accept)
+            {
+                for (Pattern pattern : _acceptedUrlPatterns)
+                {
+                    if (pattern.matcher(url).matches())
+                    {
+                        accept = true;
+                        break;
+                    }
+                }
+            }
         }
         
         if (accept && getLogger().isInfoEnabled())
@@ -186,23 +216,27 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
     
     public void allowed(Redirector redirector)
     {
-        Request request = ContextHelper.getRequest(_context);
-        
-        String value = getCookieValue(request, _cookieName);
-        if (value != null && !"".equals(value))
+        String level = Config.getInstance().getValueAsString("runtime.authentication.form.security.level");
+        if (SECURITY_LEVEL_LOW.equals(level))
         {
-            updateCookie(value, _cookieName, (int) _cookieLifetime, _context);
-        }
-        else
-        {
-            String login = request.getParameter(_usernameField);
-            String password = request.getParameter(_passwordField);
-            String rememberMe = request.getParameter(_rememberMeField);
-            if (rememberMe != null)
+            Request request = ContextHelper.getRequest(_context);
+            
+            String value = getCookieValue(request, _cookieName);
+            if (value != null && !"".equals(value))
             {
-                if (rememberMe.equalsIgnoreCase("true"))
+                updateCookie(value, _cookieName, (int) _cookieLifetime, _context);
+            }
+            else
+            {
+                String login = request.getParameter(_usernameField);
+                String password = request.getParameter(_passwordField);
+                String rememberMe = request.getParameter(_rememberMeField);
+                if (rememberMe != null)
                 {
-                    updateCookie(login + "/n" + password, _cookieName, (int) _cookieLifetime, _context);
+                    if (rememberMe.equalsIgnoreCase("true"))
+                    {
+                        updateCookie(login + "/n" + password, _cookieName, (int) _cookieLifetime, _context);
+                    }
                 }
             }
         }
@@ -217,6 +251,19 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
 
         if (login != null && password != null)
         {
+            String level = Config.getInstance().getValueAsString("runtime.authentication.form.security.level");
+            if (level.equals(SECURITY_LEVEL_HIGH))
+            {
+                String answer = request.getParameter(_captchaField);
+                String captchaKey = request.getParameter(_captchaKeyField);
+
+                if (captchaKey == null || !CaptchaHelper.checkAndInvalidate(captchaKey, answer)) 
+                {
+                    // Captcha is invalid
+                    return null;
+                }
+            }
+            
             return new Credentials(login, password);
         }
 
@@ -273,6 +320,8 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
         _usernameField = configuration.getChild("username-field").getValue("Username");
         _passwordField = configuration.getChild("password-field").getValue("Password");
         _rememberMeField =  configuration.getChild("rememberMe-field").getValue("rememberMe");
+        _captchaField =  configuration.getChild("capcha-field").getValue("Captcha");
+        _captchaKeyField =  configuration.getChild("captchaKey-field").getValue("CaptchaKey");
         _cookieEnabled = configuration.getChild("cookie").getChild("cookieEnabled").getValueAsBoolean(true);
         _cookieLifetime = configuration.getChild("cookie").getChild("cookieLifeTime").getValueAsLong(604800);
         _cookieName = configuration.getChild("cookie").getChild("cookieName").getValue("AmetysAuthentication");

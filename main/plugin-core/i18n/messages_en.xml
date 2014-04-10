@@ -262,9 +262,16 @@
     
     <message key="PLUGINS_CORE_VALIDATOR_TEXT_MAXLENGTH">The value of this field is too long</message>
 
+	<!-- SECURITY LEVEL -->
+	<message key="PLUGINS_CORE_SECURITY_CONFIG_CATEGORY_LOGIN_FORM">Connection to back-office</message>
+	<message key="PLUGINS_CORE_SECURITY_CONFIG_CATEGORY_LOGIN_FORM_GROUP">Login form</message>
+	<message key="PLUGINS_CORE_SECURITY_CONFIG_LEVEL_LABEL">Security level</message>
+	<message key="PLUGINS_CORE_SECURITY_CONFIG_LEVEL_DESCRIPTION">Security level</message>
+	<message key="PLUGINS_CORE_SECURITY_CONFIG_LEVEL_HIGH">High</message>
+	<message key="PLUGINS_CORE_SECURITY_CONFIG_LEVEL_LOW">Low</message>
+	
     <!-- DATASOURCE CORE -->
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE">Database</message>
-
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE_GROUP_CORE">Kernel database connection</message>
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_DRIVER_LABEL">Driver</message>
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_DRIVER_DESCRIPTION">JDBC Driver fully qualified class name</message>
