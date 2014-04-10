@@ -1283,7 +1283,6 @@
                 <param id="firstname"/>
                 <param id="lastname"/>
                 <param id="email"/>
-                <param id="salt" hidden="true"/>
             </extension>
         </extensions>
     </feature>
