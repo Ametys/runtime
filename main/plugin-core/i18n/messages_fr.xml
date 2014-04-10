@@ -257,10 +257,16 @@
 
     <message key="PLUGINS_CORE_VALIDATOR_TEXT_MAXLENGTH">La valeur de ce champ est trop longue</message>
 
-
+	<!-- SECURITY LEVEL -->
+	<message key="PLUGINS_CORE_SECURITY_CONFIG_CATEGORY_LOGIN_FORM">Connexion au CMS</message>
+	<message key="PLUGINS_CORE_SECURITY_CONFIG_CATEGORY_LOGIN_FORM_GROUP">Formulaire de connexion</message>
+	<message key="PLUGINS_CORE_SECURITY_CONFIG_LEVEL_LABEL">Niveau de sécurité</message>
+	<message key="PLUGINS_CORE_SECURITY_CONFIG_LEVEL_DESCRIPTION">Niveau de sécurité du formulaire de connexion</message>
+	<message key="PLUGINS_CORE_SECURITY_CONFIG_LEVEL_HIGH">Fort</message>
+	<message key="PLUGINS_CORE_SECURITY_CONFIG_LEVEL_LOW">Faible</message>
+	
     <!-- DATASOURCE CORE -->
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE">Base de données</message>
-
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE_GROUP_CORE">Connexion à la base de données noyau</message>
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_DRIVER_LABEL">Pilote</message>
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_DRIVER_DESCRIPTION">Nom complet de la classe driver JDBC à charger</message>

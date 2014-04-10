@@ -86,6 +86,7 @@
             <map:action name="rights-assign" src="org.ametys.runtime.plugins.core.right.ui.actions.AssignAction" logger="org.ametys.runtime.plugins.core.right.sitemap.action.assign"/>
             <map:action name="rights-remove" src="org.ametys.runtime.plugins.core.right.ui.actions.RemoveAction" logger="org.ametys.runtime.plugins.core.right.sitemap.action.remove"/>
             
+            <map:action name="captcha" src="org.ametys.runtime.captcha.CreateCaptchaAction"/>
             <map:action name="upload-store" src="org.ametys.runtime.plugins.core.upload.actions.UploadAction" logger="org.ametys.runtime.plugins.core.upload.actions.UploadAction"/>
             
             <map:action name="get-parent-context-attr" src="org.ametys.runtime.util.GetParentContextAttributeAction" logger="org.ametys.runtime.util.GetParentContextAttributeAction"/>
@@ -100,6 +101,7 @@
             <map:reader name="administrator-jvmstatus-monitoring-graph" src="org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.RRDGraphReader" logger="org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.RRDGraphReader"/>
             <map:reader name="administrator-jvmstatus-monitoring-export" src="org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.RRDXmlExportReader" logger="org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.RRDXmlExportReader"/>
             <map:reader name="upload-reader" src="org.ametys.runtime.plugins.core.upload.readers.UploadReader" logger="org.ametys.runtime.plugins.core.upload.readers.UploadReader"/>
+            <map:reader name="buffered-image" src="org.ametys.runtime.captcha.BufferedImageReader"/>
         	<map:reader name="css" src="org.ametys.runtime.plugins.core.ui.css.AllCSSReader"/>
         	<map:reader name="js" src="org.ametys.runtime.plugins.core.ui.js.AllJSReader"/>
         </map:readers>
@@ -834,6 +836,27 @@
 					<map:parameter name="hasRight" value="false"/>
 				</map:generate>
 				<map:serialize type="xml"/>
+			</map:match>
+			
+			<!-- +
+				 | CAPTCHA 
+				 + -->
+			<map:match pattern="captcha/*/image.png">
+				<map:act type="set-header">
+					<map:parameter name="Cache-Control" value="max-age=0"/>
+					<map:parameter name="Expires" value="0"/>
+				</map:act>
+				<map:act type="captcha" src="{1}">
+					<map:parameter name="cancelledKey" value="{request-param:cancelledKey}"/>
+					<map:parameter name="color" value="{request-param:color}"/>
+					<map:parameter name="noise" value="{request-param:noise}"/>
+					<map:parameter name="fisheye" value="{request-param:fisheye}"/>
+					<map:parameter name="width" value="{request-param:width}"/>
+					<map:parameter name="height" value="{request-param:height}"/>
+					<map:read type="buffered-image">
+						<map:parameter name="key" value="{1}"/>
+					</map:read>
+				</map:act>
 			</map:match>
         </map:pipeline>
 	</map:pipelines>

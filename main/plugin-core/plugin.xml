@@ -596,6 +596,30 @@
             <order>20</order>
         </param>
         
+        <!-- FORM -->
+    	<param id="runtime.authentication.form.security.level" type="string">
+			<!-- This parameter defines the security level of the login. -->
+            <label i18n="true">PLUGINS_CORE_SECURITY_CONFIG_LEVEL_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_SECURITY_CONFIG_LEVEL_DESCRIPTION</description>
+            <enumeration>
+            	<entry>
+            		<label i18n="true">PLUGINS_CORE_SECURITY_CONFIG_LEVEL_HIGH</label>
+        			<value>high</value>
+            	</entry>
+        		<entry>
+            		<label i18n="true">PLUGINS_CORE_SECURITY_CONFIG_LEVEL_LOW</label>
+            		<value>low</value>
+        		</entry>
+        	</enumeration>
+        	<validation>
+                <mandatory/>
+            </validation>
+            <default-value>low</default-value>
+            <category i18n="true">PLUGINS_CORE_SECURITY_CONFIG_CATEGORY_LOGIN_FORM</category>
+            <group i18n="true">PLUGINS_CORE_SECURITY_CONFIG_CATEGORY_LOGIN_FORM_GROUP</group>
+            <order>1</order>
+        </param>
+        
         <!-- +
              | MAIL
              + -->
@@ -1259,6 +1283,7 @@
                 <param id="firstname"/>
                 <param id="lastname"/>
                 <param id="email"/>
+                <param id="salt" hidden="true"/>
             </extension>
         </extensions>
     </feature>
@@ -1984,6 +2009,9 @@
         	This features defines the form based credential provider. Data are sent to the provider through a
         	html form. If the option is enabled, user's data can be stored with a cookie.
          -->
+        <config>
+			<param-ref id="runtime.authentication.form.security.level"/>
+        </config>
         <extensions>
             <extension point="org.ametys.runtime.authentication.CredentialsProvider"
                        id="org.ametys.runtime.plugins.core.authentication.FormBased"
@@ -1992,6 +2020,8 @@
             	<username-field>Username</username-field>
             	<password-field>Password</password-field>
             	<rememberMe-field>rememberMe</rememberMe-field>
+            	<captchaKey-field>CaptchaKey</captchaKey-field>
+				<captcha-field>Captcha</captcha-field>
             	<cookie>
             		<cookieEnabled>true</cookieEnabled>
             		<cookieLifeTime>604800</cookieLifeTime>
