@@ -841,6 +841,7 @@ Ext.define('Ametys.form.field.RichText', {
 
     	if (iframe.dom.contentWindow.document.body.id)
     	{
+    		this._onEditorResized();
     		return;
     	}
 
@@ -861,8 +862,10 @@ Ext.define('Ametys.form.field.RichText', {
      */
     _onEditorResized: function()
     {
+    	var force = false;
     	if (this._editorFrameWrapperDiffSize == null)
     	{
+    		force = true,
     		this._prepareForResize();
     	}
     	
@@ -870,11 +873,14 @@ Ext.define('Ametys.form.field.RichText', {
     	
     	var editorTab = Ext.get(editor.contentAreaContainer).parent("table") 
     	var editorSize = editorTab.getSize();
-    	var editorWrapper = editorTab.parent("td");
-    	var parentSize = editorWrapper.getSize();
 
-    	// Manual resize of the editor => impact the widget
-   		this.setSize(editorSize.width + this._editorDiffSize.width, editorSize.height + this._editorDiffSize.height);
+		var currentSize = this.getSize();
+		var newSize = { width: editorSize.width + this._editorDiffSize.width, height: editorSize.height + this._editorDiffSize.height };
+		if (force || newSize.width != currentSize.width || newSize.height != currentSize.height)
+		{
+			// Manual resize of the editor => impact the widget
+			this.setSize(newSize.width, newSize.height);
+		}
     },
     
     /**
