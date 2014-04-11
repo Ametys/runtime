@@ -603,13 +603,13 @@
             <description i18n="true">PLUGINS_CORE_SECURITY_CONFIG_LEVEL_DESCRIPTION</description>
             <enumeration>
             	<entry>
-            		<label i18n="true">PLUGINS_CORE_SECURITY_CONFIG_LEVEL_HIGH</label>
-        			<value>high</value>
-            	</entry>
-        		<entry>
             		<label i18n="true">PLUGINS_CORE_SECURITY_CONFIG_LEVEL_LOW</label>
             		<value>low</value>
         		</entry>
+            	<entry>
+            		<label i18n="true">PLUGINS_CORE_SECURITY_CONFIG_LEVEL_HIGH</label>
+        			<value>high</value>
+            	</entry>
         	</enumeration>
         	<validation>
                 <mandatory/>

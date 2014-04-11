@@ -261,9 +261,9 @@
 	<message key="PLUGINS_CORE_SECURITY_CONFIG_CATEGORY_LOGIN_FORM">Connection to back-office</message>
 	<message key="PLUGINS_CORE_SECURITY_CONFIG_CATEGORY_LOGIN_FORM_GROUP">Login form</message>
 	<message key="PLUGINS_CORE_SECURITY_CONFIG_LEVEL_LABEL">Security level</message>
-	<message key="PLUGINS_CORE_SECURITY_CONFIG_LEVEL_DESCRIPTION">Security level</message>
-	<message key="PLUGINS_CORE_SECURITY_CONFIG_LEVEL_HIGH">High</message>
-	<message key="PLUGINS_CORE_SECURITY_CONFIG_LEVEL_LOW">Low</message>
+	<message key="PLUGINS_CORE_SECURITY_CONFIG_LEVEL_DESCRIPTION">Choose security level for the login form&lt;br/&gt;-&lt;b&gt;focus on user comfort&lt;/b&gt;: autocompletion on form fields, storing password in cookies&lt;br/&gt;-&lt;b&gt;focus on security&lt;/b&gt;: no storing of password, protection with a captcha</message>
+	<message key="PLUGINS_CORE_SECURITY_CONFIG_LEVEL_HIGH">Focus on security</message>
+	<message key="PLUGINS_CORE_SECURITY_CONFIG_LEVEL_LOW">Focus on user comfort</message>
 	
     <!-- DATASOURCE CORE -->
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE">Database</message>
