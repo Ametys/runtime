@@ -19,5 +19,6 @@ CREATE TABLE Users (
   firstname varchar(64) default NULL,
   lastname varchar(64) NOT NULL,
   email varchar(64) DEFAULT NULL,
-  `password` varchar(128)  NOT NULL
+  `password` varchar(128)  NOT NULL,
+  salt varchar(64) DEFAULT NULL
 )ENGINE=innodb;
