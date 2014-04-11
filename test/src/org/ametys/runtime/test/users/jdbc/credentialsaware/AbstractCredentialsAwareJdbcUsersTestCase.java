@@ -16,9 +16,13 @@
 package org.ametys.runtime.test.users.jdbc.credentialsaware;
 
 import java.io.File;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.Arrays;
 
 import org.ametys.runtime.authentication.Credentials;
+import org.ametys.runtime.datasource.ConnectionHelper;
 import org.ametys.runtime.plugins.core.user.jdbc.CredentialsAwareJdbcUsersManager;
 import org.ametys.runtime.test.users.jdbc.AbstractJDBCUsersManagerTestCase;
 import org.ametys.runtime.user.CredentialsAwareUsersManager;
@@ -81,8 +85,49 @@ public abstract class AbstractCredentialsAwareJdbcUsersTestCase extends Abstract
         // Fill DB
         _setDatabase(Arrays.asList(getPopulateScripts()));
 
+        // Test MD5 password
+        assertTrue(credentialsAwareUsersManager.checkCredentials(new Credentials("test", "test")));
+        // Test SHA2 password
+        _checkSHA2Password();
+        
         assertTrue(credentialsAwareUsersManager.checkCredentials(new Credentials("test", "test")));
         assertTrue(credentialsAwareUsersManager.checkCredentials(new Credentials("test2", "test")));
+    }
+    
+    /**
+     * Check the password was migrated to SHA2
+     * @throws Exception if an error occurs
+     */
+    protected void _checkSHA2Password() throws Exception
+    {
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        try
+        {
+            connection = ConnectionHelper.getConnection(ConnectionHelper.CORE_POOL_NAME);
+            
+            String sql = "SELECT password, salt FROM Users WHERE login = ?";
+            
+            stmt = connection.prepareStatement(sql);
+            stmt.setString(1, "test");
+            
+            rs = stmt.executeQuery();
+
+            if (rs.next()) 
+            {
+                String storedPassword = rs.getString("password");
+                String salt = rs.getString("salt");
+                
+                assertTrue(salt != null);
+                assertTrue (storedPassword.length() == 128);
+            }
+        }
+        finally
+        {
+            ConnectionHelper.cleanup(connection);
+        }
     }
     
 }
