@@ -35,7 +35,6 @@ import org.ametys.runtime.user.InvalidModificationException;
 import org.ametys.runtime.user.ModifiableUsersManager;
 import org.ametys.runtime.user.UserListener;
 import org.ametys.runtime.util.I18nizableText;
-import org.ametys.runtime.util.StringUtils;
 import org.ametys.runtime.util.parameter.Enumerator;
 import org.ametys.runtime.util.parameter.Errors;
 import org.ametys.runtime.util.parameter.Parameter;
@@ -219,7 +218,14 @@ public class ModifiableJdbcUsersManager extends JdbcUsersManager implements Modi
         return errorFields;
     }
     
-    private PreparedStatement createAddStatement(Connection con, Map<String, String> userInformation) throws SQLException
+    /**
+     * Create Add statement
+     * @param con The sql connection
+     * @param userInformation the user informations
+     * @return The statement
+     * @throws SQLException
+     */
+    protected PreparedStatement createAddStatement(Connection con, Map<String, String> userInformation) throws SQLException
     {
         String beginClause = "INSERT INTO " + _tableName + " (";
         String middleClause = ") VALUES (";
@@ -249,21 +255,7 @@ public class ModifiableJdbcUsersManager extends JdbcUsersManager implements Modi
         int i = 1;
         for (JdbcParameter parameter : _parameters.values())
         {
-            if (parameter.getType() == ParameterType.PASSWORD)
-            {
-                String encryptedPassword = StringUtils.md5Base64(userInformation.get(parameter.getId()));
-                if (encryptedPassword == null)
-                {
-                    String message = "Cannot encode password";
-                    getLogger().error(message);
-                    throw new SQLException(message);
-                }
-                stmt.setString(i++, encryptedPassword);
-            }
-            else
-            {
-                stmt.setString(i++, userInformation.get(parameter.getId()));
-            }
+            stmt.setString(i++, userInformation.get(parameter.getId()));
         }
         
         return stmt;
@@ -357,7 +349,14 @@ public class ModifiableJdbcUsersManager extends JdbcUsersManager implements Modi
         }
     }
 
-    private PreparedStatement createModifyStatement(Connection con, Map<String, String> userInformation) throws SQLException
+    /**
+     * Create statement to update database
+     * @param con The sql connection
+     * @param userInformation The user information
+     * @return The statement
+     * @throws SQLException
+     */
+    protected PreparedStatement createModifyStatement(Connection con, Map<String, String> userInformation) throws SQLException
     {
         // Contruire la requête pour modifier un utilisateur
         String beginClause = "UPDATE " + _tableName + " SET ";
@@ -390,7 +389,13 @@ public class ModifiableJdbcUsersManager extends JdbcUsersManager implements Modi
         return stmt;
     }
     
-    private void _fillModifyStatement(PreparedStatement stmt, Map<String, String> userInformation) throws SQLException
+    /**
+     * Fill the statement with the user informations
+     * @param stmt The statement of the sql request
+     * @param userInformation the user informations
+     * @throws SQLException
+     */
+    protected void _fillModifyStatement(PreparedStatement stmt, Map<String, String> userInformation) throws SQLException
     {
         int index = 1;
         for (String id : userInformation.keySet())
@@ -398,24 +403,7 @@ public class ModifiableJdbcUsersManager extends JdbcUsersManager implements Modi
             JdbcParameter parameter = _parameters.get(id);
             if (parameter != null && !"login".equals(id))
             {
-                if (parameter.getType() == ParameterType.PASSWORD)
-                {
-                    if (userInformation.get(parameter.getId()) != null)
-                    {
-                        String encryptedPassword = StringUtils.md5Base64(userInformation.get(parameter.getId()));
-                        if (encryptedPassword == null)
-                        {
-                            String message = "Cannot encrypt password";
-                            getLogger().error(message);
-                            throw new SQLException(message);
-                        }
-                        stmt.setString(index++, encryptedPassword);
-                    }
-                }
-                else
-                {
-                    stmt.setString(index++, userInformation.get(parameter.getId()));
-                }
+                stmt.setString(index++, userInformation.get(parameter.getId()));
             }
         }
         stmt.setString(index++, userInformation.get("login"));

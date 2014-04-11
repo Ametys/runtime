@@ -1283,6 +1283,7 @@
                 <param id="firstname"/>
                 <param id="lastname"/>
                 <param id="email"/>
+                <salt column="salt"/>
             </extension>
         </extensions>
     </feature>
@@ -1306,6 +1307,7 @@
                 <param id="firstname"/>
                 <param id="lastname"/>
                 <param id="email"/>
+                <salt column="salt"/>
             </extension>
         </extensions>
     </feature>

@@ -19,6 +19,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
 
 import org.ametys.runtime.authentication.Credentials;
 import org.ametys.runtime.datasource.ConnectionHelper;
@@ -30,6 +31,8 @@ import org.ametys.runtime.util.parameter.ParameterHelper.ParameterType;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang.RandomStringUtils;
 
 
 /**
@@ -42,6 +45,9 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  */
 public class ModifiableCredentialsAwareJdbcUsersManager extends ModifiableJdbcUsersManager implements CredentialsAwareUsersManager
 {
+    /** The name of column storing salt key */
+    protected String _saltColumn;
+    
     @Override
     public void configure(Configuration configuration) throws ConfigurationException
     {
@@ -53,6 +59,8 @@ public class ModifiableCredentialsAwareJdbcUsersManager extends ModifiableJdbcUs
             getLogger().error(message);
             throw new ConfigurationException(message, configuration);
         }
+        
+        _saltColumn = configuration.getChild("salt", true).getAttribute("column", "salt");
     }
 
     @Override
@@ -91,6 +99,8 @@ public class ModifiableCredentialsAwareJdbcUsersManager extends ModifiableJdbcUs
         String login = credentials.getLogin();
         String password = credentials.getPassword();
         
+        boolean updateNeeded = false;
+        
         Connection con = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -101,28 +111,56 @@ public class ModifiableCredentialsAwareJdbcUsersManager extends ModifiableJdbcUs
             con = ConnectionHelper.getConnection(_poolName);
 
             // Contruire la requête pour authentifier l'utilisateur
-            String sql = "SELECT " + _parameters.get("login").getColumn() + " FROM " + _tableName + " WHERE " + _parameters.get("login").getColumn() + " = ? " + " AND " + _parameters.get("password").getColumn() + " = ? ";
+            String sql = "SELECT " + _parameters.get("login").getColumn() + ", " + _parameters.get("password").getColumn() + ", " + _saltColumn + " FROM " + _tableName + " WHERE " + _parameters.get("login").getColumn() + " = ?";
             if (getLogger().isDebugEnabled())
             {
                 getLogger().debug(sql);
             }
 
-            String encryptedPassword = StringUtils.md5Base64(password);
-            if (encryptedPassword == null)
-            {
-                getLogger().error("Unable to encrypt password");
-                return false;
-            }
-
             stmt = con.prepareStatement(sql);
             stmt.setString(1, login);
-            stmt.setString(2, encryptedPassword);
 
             // Effectuer la requête
             rs = stmt.executeQuery();
 
-            // L'utilisateur est authentifié si l'on a bien une ligne de résultat
-            return rs.next();
+            if (rs.next()) 
+            {
+                String storedPassword = rs.getString(_parameters.get("password").getColumn());
+                String salt = rs.getString(_saltColumn);
+                
+                if (salt == null && _isMD5Encrypted(storedPassword))
+                {
+                    String encryptedPassword = StringUtils.md5Base64(password);
+                    
+                    if (encryptedPassword == null)
+                    {
+                        getLogger().error("Unable to encrypt password");
+                        return false;
+                    }
+                    
+                    if (storedPassword.equals(encryptedPassword))
+                    {
+                        updateNeeded = true;
+                        return true;
+                    }
+                    
+                    return false;
+                }
+                else
+                {
+                    String encryptedPassword = DigestUtils.sha512Hex(salt + password);
+                    
+                    if (encryptedPassword == null)
+                    {
+                        getLogger().error("Unable to encrypt password");
+                        return false;
+                    }
+                    
+                    return storedPassword.equals(encryptedPassword);
+                }
+            }
+            
+            return false;
         }
         catch (SQLException e)
         {
@@ -135,6 +173,190 @@ public class ModifiableCredentialsAwareJdbcUsersManager extends ModifiableJdbcUs
             ConnectionHelper.cleanup(rs);
             ConnectionHelper.cleanup(stmt);
             ConnectionHelper.cleanup(con);
+            
+            if (updateNeeded)
+            {
+                _updateToSSHAPassword(login, password);
+            }
         }
+        
+    }
+    
+    /**
+    * Generate a salt key and encrypt the password with the sha2 algorithm
+    * @param login The user login
+    * @param password The user pasword
+    */
+    protected void _updateToSSHAPassword(String login, String password)
+    {
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try
+        {
+            con = ConnectionHelper.getConnection(_poolName);
+
+            String generateSaltKey = RandomStringUtils.randomAlphanumeric(48);
+            String newEncryptedPassword = DigestUtils.sha512Hex(generateSaltKey + password);
+
+            String sqlUpdate = "UPDATE " + _tableName + " SET " + _parameters.get("password").getColumn() + " = ?, " + _saltColumn + " = ? WHERE " + _parameters.get("login").getColumn() + " = ?";
+            if (getLogger().isDebugEnabled())
+            {
+                getLogger().debug(sqlUpdate);
+            }
+
+            stmt = con.prepareStatement(sqlUpdate);
+            stmt.setString(1, newEncryptedPassword);
+            stmt.setString(2, generateSaltKey);
+            stmt.setString(3, login);
+            
+            stmt.execute();
+        }
+        catch (SQLException e)
+        {
+            getLogger().error("Error during the connection to the database", e);
+        }
+        finally
+        {
+            // Fermer les ressources de connexion
+            ConnectionHelper.cleanup(rs);
+            ConnectionHelper.cleanup(stmt);
+            ConnectionHelper.cleanup(con);
+        }
+    }
+    
+    /**
+     * Determines if the password is encrypted with MD5 algorithm
+     * @param password The encrypted password
+     * @return true if the password is encrypted with MD5 algorithm
+     */
+    protected boolean _isMD5Encrypted(String password)
+    {
+        return password.length() == 24;
+    }
+    
+    @Override
+    protected PreparedStatement createAddStatement(Connection con, Map<String, String> userInformation) throws SQLException
+    {
+        String beginClause = "INSERT INTO " + _tableName + " (";
+        String middleClause = ") VALUES (";
+        String endClause = ")";
+        
+        StringBuffer intoClause = new StringBuffer();
+        StringBuffer valueClause = new StringBuffer();
+        
+        intoClause.append(_saltColumn);
+        valueClause.append("?");
+        
+        for (JdbcParameter parameter : _parameters.values())
+        {
+            intoClause.append(", " + parameter.getColumn());
+            valueClause.append(", ?");
+        }
+        
+        String sqlRequest = beginClause + intoClause.toString() + middleClause + valueClause + endClause;
+        if (getLogger().isDebugEnabled())
+        {
+            getLogger().debug(sqlRequest);
+        }
+        
+        PreparedStatement stmt = con.prepareStatement(sqlRequest);
+
+        int i = 1;
+        String generatedSaltKey = RandomStringUtils.randomAlphanumeric(48);
+        stmt.setString(i++, generatedSaltKey);
+        
+        for (JdbcParameter parameter : _parameters.values())
+        {
+            if (parameter.getType() == ParameterType.PASSWORD)
+            {
+                String encryptedPassword = DigestUtils.sha512Hex(generatedSaltKey + userInformation.get(parameter.getId()));
+                if (encryptedPassword == null)
+                {
+                    String message = "Cannot encode password";
+                    getLogger().error(message);
+                    throw new SQLException(message);
+                }
+                stmt.setString(i++, encryptedPassword);
+            }
+            else
+            {
+                stmt.setString(i++, userInformation.get(parameter.getId()));
+            }
+        }
+        
+        return stmt;
+    }
+    
+    @Override
+    protected PreparedStatement createModifyStatement(Connection con, Map<String, String> userInformation) throws SQLException
+    {
+        // Contruire la requête pour modifier un utilisateur
+        String beginClause = "UPDATE " + _tableName + " SET ";
+        String endClause = " WHERE " + _parameters.get("login").getColumn() + " = ?";
+
+        StringBuffer columnNames = new StringBuffer("");
+        columnNames.append(_saltColumn + " = ?");
+        
+        for (String id : userInformation.keySet())
+        {
+            JdbcParameter parameter = _parameters.get(id);
+            if (parameter != null && !"login".equals(id) && !(parameter.getType() == ParameterType.PASSWORD && (userInformation.get(parameter.getId()) == null)))
+            {
+                if (columnNames.length() > 0)
+                {
+                    columnNames.append(", ");
+                }
+                columnNames.append(parameter.getColumn() + " = ?");
+            }
+        }
+          
+        String sqlRequest = beginClause + columnNames.toString() + endClause;
+        if (getLogger().isDebugEnabled())
+        {
+            getLogger().debug(sqlRequest);
+        }
+
+        PreparedStatement stmt = con.prepareStatement(sqlRequest);
+        _fillModifyStatement(stmt, userInformation);
+
+        return stmt;
+    }
+    
+    @Override
+    protected void _fillModifyStatement(PreparedStatement stmt, Map<String, String> userInformation) throws SQLException
+    {
+        int index = 1;
+        
+        String generateSaltKey = RandomStringUtils.randomAlphanumeric(48);
+        stmt.setString(index++, generateSaltKey);
+        
+        for (String id : userInformation.keySet())
+        {
+            JdbcParameter parameter = _parameters.get(id);
+            if (parameter != null && !"login".equals(id))
+            {
+                if (parameter.getType() == ParameterType.PASSWORD)
+                {
+                    if (userInformation.get(parameter.getId()) != null)
+                    {
+                        String encryptedPassword = DigestUtils.sha512Hex(generateSaltKey + userInformation.get(parameter.getId()));
+                        if (encryptedPassword == null)
+                        {
+                            String message = "Cannot encrypt password";
+                            getLogger().error(message);
+                            throw new SQLException(message);
+                        }
+                        stmt.setString(index++, encryptedPassword);
+                    }
+                }
+                else
+                {
+                    stmt.setString(index++, userInformation.get(parameter.getId()));
+                }
+            }
+        }
+        stmt.setString(index++, userInformation.get("login"));
     }
 }

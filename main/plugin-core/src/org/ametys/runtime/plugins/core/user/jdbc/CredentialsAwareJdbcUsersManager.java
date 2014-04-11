@@ -30,6 +30,7 @@ import org.ametys.runtime.util.parameter.ParameterHelper.ParameterType;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.commons.codec.digest.DigestUtils;
 
 
 /**
@@ -43,6 +44,9 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  */
 public class CredentialsAwareJdbcUsersManager extends JdbcUsersManager implements CredentialsAwareUsersManager
 {
+    /** The name of column storing salt key */
+    protected String _saltColumn;
+    
     @Override
     public void configure(Configuration configuration) throws ConfigurationException
     {
@@ -54,6 +58,8 @@ public class CredentialsAwareJdbcUsersManager extends JdbcUsersManager implement
             getLogger().error(message);
             throw new ConfigurationException(message, configuration);
         }
+        
+        _saltColumn = configuration.getChild("salt", true).getAttribute("column", "salt");
     }
 
     @Override
@@ -104,28 +110,43 @@ public class CredentialsAwareJdbcUsersManager extends JdbcUsersManager implement
             con = ConnectionHelper.getConnection(_poolName);
 
             // Contruire la requête pour authentifier l'utilisateur
-            String sql = "SELECT " + _parameters.get("login").getColumn() + " FROM " + _tableName + " WHERE " + _parameters.get("login").getColumn() + " = ? " + " AND " + _parameters.get("password").getColumn() + " = ? ";
+            String sql = "SELECT " + _parameters.get("login").getColumn() + ", " + _parameters.get("password").getColumn() + ", " + _saltColumn + " FROM " + _tableName + " WHERE " + _parameters.get("login").getColumn() + " = ?";
             if (getLogger().isDebugEnabled())
             {
                 getLogger().debug(sql);
             }
 
-            String encryptedPassword = StringUtils.md5Base64(password);
-            if (encryptedPassword == null)
-            {
-                getLogger().error("Unable to encrypt password");
-                return false;
-            }
-
             stmt = con.prepareStatement(sql);
             stmt.setString(1, login);
-            stmt.setString(2, encryptedPassword);
 
             // Effectuer la requête
             rs = stmt.executeQuery();
-
-            // L'utilisateur est authentifié si l'on a bien une ligne de résultat
-            return rs.next();
+            
+            if (rs.next()) 
+            {
+                String storedPassword = rs.getString(_parameters.get("password").getColumn());
+                String salt = rs.getString(_saltColumn);
+                String encryptedPassword = null;
+                
+                if (salt == null || _isMD5Encrypted(storedPassword))
+                {
+                    encryptedPassword = StringUtils.md5Base64(password);
+                }
+                else
+                {
+                    encryptedPassword = DigestUtils.sha512Hex(salt + password);
+                }
+                
+                if (encryptedPassword == null)
+                {
+                    getLogger().error("Unable to encrypt password");
+                    return false;
+                }
+                
+                return storedPassword.equals(encryptedPassword);
+            }
+            
+            return false;
         }
         catch (SQLException e)
         {
@@ -139,5 +160,15 @@ public class CredentialsAwareJdbcUsersManager extends JdbcUsersManager implement
             ConnectionHelper.cleanup(stmt);
             ConnectionHelper.cleanup(con);
         }
+    }
+    
+    /**
+     * Determines if the password is encrypted with MD5 algorithm
+     * @param password The encrypted password
+     * @return true if the password is encrypted with MD5 algorithm
+     */
+    protected boolean _isMD5Encrypted(String password)
+    {
+        return password.length() == 24;
     }
 }

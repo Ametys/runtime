@@ -217,7 +217,7 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
     public void allowed(Redirector redirector)
     {
         String level = Config.getInstance().getValueAsString("runtime.authentication.form.security.level");
-        if (SECURITY_LEVEL_LOW.equals(level))
+        if (!SECURITY_LEVEL_HIGH.equals(level))
         {
             Request request = ContextHelper.getRequest(_context);
             
@@ -252,7 +252,7 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
         if (login != null && password != null)
         {
             String level = Config.getInstance().getValueAsString("runtime.authentication.form.security.level");
-            if (level.equals(SECURITY_LEVEL_HIGH))
+            if (SECURITY_LEVEL_HIGH.equals(level))
             {
                 String answer = request.getParameter(_captchaField);
                 String captchaKey = request.getParameter(_captchaKeyField);
