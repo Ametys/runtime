@@ -266,9 +266,9 @@
 	<message key="PLUGINS_CORE_SECURITY_CONFIG_CATEGORY_LOGIN_FORM">Connexion au CMS</message>
 	<message key="PLUGINS_CORE_SECURITY_CONFIG_CATEGORY_LOGIN_FORM_GROUP">Formulaire de connexion</message>
 	<message key="PLUGINS_CORE_SECURITY_CONFIG_LEVEL_LABEL">Niveau de sécurité</message>
-	<message key="PLUGINS_CORE_SECURITY_CONFIG_LEVEL_DESCRIPTION">Niveau de sécurité du formulaire de connexion</message>
-	<message key="PLUGINS_CORE_SECURITY_CONFIG_LEVEL_HIGH">Fort</message>
-	<message key="PLUGINS_CORE_SECURITY_CONFIG_LEVEL_LOW">Faible</message>
+	<message key="PLUGINS_CORE_SECURITY_CONFIG_LEVEL_DESCRIPTION">Choisissez le niveau de sécurité du formulaire de connexion au CMS:&lt;br/&gt;-&lt;b&gt;privilégier le confort&lt;/b&gt;: autocomplétion des champs du formulaire, mémorisation du mot de passe&lt;br/&gt;-&lt;b&gt;privilégier la sécurité&lt;/b&gt;: pas mémorisation du mot de passe, protection par un captcha</message>
+	<message key="PLUGINS_CORE_SECURITY_CONFIG_LEVEL_HIGH">Privilégier la sécurité</message>
+	<message key="PLUGINS_CORE_SECURITY_CONFIG_LEVEL_LOW">Privilégier le confort</message>
 
     <!-- DATASOURCE CORE -->
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE">Base de données</message>
