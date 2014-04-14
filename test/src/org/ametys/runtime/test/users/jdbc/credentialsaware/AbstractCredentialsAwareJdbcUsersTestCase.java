@@ -91,7 +91,7 @@ public abstract class AbstractCredentialsAwareJdbcUsersTestCase extends Abstract
         
         if (credentialsAwareUsersManager instanceof ModifiableUsersManager)
         {
-         // Test SHA2 password
+            // Test SHA2 password
             _checkSHA2Password();
             
             assertTrue(credentialsAwareUsersManager.checkCredentials(new Credentials("test", "test")));
