@@ -297,13 +297,18 @@ public class ModifiableCredentialsAwareJdbcUsersManager extends ModifiableJdbcUs
         String endClause = " WHERE " + _parameters.get("login").getColumn() + " = ?";
 
         StringBuffer columnNames = new StringBuffer("");
-        columnNames.append(_saltColumn + " = ?");
         
+        boolean passwordUpdate = false;
         for (String id : userInformation.keySet())
         {
             JdbcParameter parameter = _parameters.get(id);
             if (parameter != null && !"login".equals(id) && !(parameter.getType() == ParameterType.PASSWORD && (userInformation.get(parameter.getId()) == null)))
             {
+                if (parameter.getType() == ParameterType.PASSWORD)
+                {
+                    passwordUpdate = true;
+                }
+                
                 if (columnNames.length() > 0)
                 {
                     columnNames.append(", ");
@@ -312,6 +317,11 @@ public class ModifiableCredentialsAwareJdbcUsersManager extends ModifiableJdbcUs
             }
         }
           
+        if (passwordUpdate)
+        {
+            columnNames.append(", " + _saltColumn + " = ?");
+        }
+        
         String sqlRequest = beginClause + columnNames.toString() + endClause;
         if (getLogger().isDebugEnabled())
         {
@@ -330,7 +340,7 @@ public class ModifiableCredentialsAwareJdbcUsersManager extends ModifiableJdbcUs
         int index = 1;
         
         String generateSaltKey = RandomStringUtils.randomAlphanumeric(48);
-        stmt.setString(index++, generateSaltKey);
+        boolean passwordUpdate = false;
         
         for (String id : userInformation.keySet())
         {
@@ -349,6 +359,7 @@ public class ModifiableCredentialsAwareJdbcUsersManager extends ModifiableJdbcUs
                             throw new SQLException(message);
                         }
                         stmt.setString(index++, encryptedPassword);
+                        passwordUpdate = true;
                     }
                 }
                 else
@@ -357,6 +368,12 @@ public class ModifiableCredentialsAwareJdbcUsersManager extends ModifiableJdbcUs
                 }
             }
         }
+        
+        if (passwordUpdate)
+        {
+            stmt.setString(index++, generateSaltKey);
+        }
+        
         stmt.setString(index++, userInformation.get("login"));
     }
 }
