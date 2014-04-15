@@ -977,7 +977,27 @@ Ext.define('Ametys.form.field.RichText', {
 	    }
     },
     
+    markWarning: function()
+    {
+    	this.callParent(arguments);
+    	
+    	if (this.isVisible(true))
+	    {
+    	    this._adaptEditorToPlace();
+	    }
+    },
+    
     clearInvalid: function()
+    {
+    	this.callParent(arguments);
+
+        if (this.isVisible(true))
+        {
+            this._adaptEditorToPlace();
+        }
+    },
+    
+    clearWarning: function()
     {
     	this.callParent(arguments);
 
