@@ -60,6 +60,7 @@
 	<!-- Counter (for richtexts and textareas) -->
     <message key="KERNEL_FIELD_CARACTERS_COUNTER_1">Characters:</message>
     <message key="KERNEL_FIELD_CARACTERS_COUNTER_2">on</message>
+    <message key="KERNEL_FIELD_RICH_TEXT_HIERARCHY_ERROR">The title hierarchy is invalid.&lt;br/&gt;You can't enter a Title 2 before a Title 1 (and so on).&lt;br/&gt;Important graphical and accessibility issues can appear if you save now.</message>
 	
    	<message key="KERNEL_LOADMASK_DEFAULT_MESSAGE">Loading. Please wait...</message>
 

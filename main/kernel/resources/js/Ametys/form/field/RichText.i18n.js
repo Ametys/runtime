@@ -55,6 +55,9 @@ Ext.define('Ametys.form.field.RichText', {
     /**
      * @cfg {String} warning Display a warning in the statusbar. Can be used when the richtext width is generally fixed (to the rendered size) but is not in some cases.
      */
+    /**
+     * @cfg {Boolean} checkTitleHierarchy When true, a warning is displayed if the title hierarchy is wrong (h2 before h1...)
+     */
     
     /**
      * @private
@@ -588,12 +591,46 @@ Ext.define('Ametys.form.field.RichText', {
 			// Validate the field (triggers character counting).
 			this.validate();
 			
+			if (this.checkTitleHierarchy) 
+			{
+				if (this._checkTitleHierarchy())
+				{
+					this.clearWarning();
+				}
+				else
+				{
+					this.markWarning("<i18n:text i18n:key='KERNEL_FIELD_RICH_TEXT_HIERARCHY_ERROR'/>");
+				}
+			}
+			
 			// Update the counter.
 			this._updateCharCounter(editor);
 		    
 			var took2 = new Date().getTime();
 			editor._updateEvery = Math.max(took2 - took, 1000);
 		}    	
+    },
+    
+    _checkTitleHierarchy: function()
+    {
+	    var valid = true;
+	    
+	    var value = this.getValue();
+	    
+	    var titles = value.match(/<h[123456]/g);
+	    if (titles != null)
+	    {
+	        // Check that there is no h3 after h1, etc.
+	        var previousLevel = 0;
+	        for (var i = 0; i < titles.length && valid; i++)
+	        {
+	            var level = parseInt(titles[i].charAt(2));
+	            valid = (level - previousLevel) < 2;
+	            previousLevel = level;
+	        }
+	    }
+	    
+	    return valid;
     },
     
     /**

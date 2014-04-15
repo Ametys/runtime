@@ -330,8 +330,7 @@
          * @since Ametys Runtime 3.7
          * 
 	     * Gets an Array of any active warning messages currently applied to the field. 
-	     * @return {String[]} The active warning messages on the component; if there are no warning, an empty Array is
-	     * returned.
+	     * @return {String} The active warning message on the component; if there are no warning, null is returned.
 	     */
     	getActiveWarning: function ()
     	{
