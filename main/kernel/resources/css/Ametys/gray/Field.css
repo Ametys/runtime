@@ -51,6 +51,13 @@
 	padding-left: 15px;
 }
 
+td.x-form-error-msg-wrapper 
+{
+	vertical-align: top;
+	padding-top: 4px;
+	
+}
+
 .ametys-warning
 {
 	width: 20px; 

@@ -132,9 +132,6 @@
 	
     var ametysLabelable =  {
         afterSubTpl: [ '</td><td class="ametys-warning" data-warnqtip="" style="display: none">',
-                       /*'<td role="presentation" id="{id}-sideWarnCell" style="display:none" width="20px">',
-                       		'<div role="presentation" id="{id}-warnEl" style="display:none"></div>',
-                       '</td>',*/
 	                    '<tpl if="ametysDescription">',
                     	'</td>',
                     	'<td class="ametys-description" data-qtip="{ametysDescription}">',
@@ -144,6 +141,19 @@
                     	'<td class="ametys-comments ametys-comments-empty"><div data-qtip=""/>',
                     	'</tpl>'
         ], 
+        
+        /**
+         * @private
+         * On render listener
+         */
+	    _onRenderLabelable: function()
+	    {
+	    	var sideErrorCell = Ext.get(this.getId() + "-sideErrorCell");
+	    	if (sideErrorCell)
+	    	{
+	    		sideErrorCell.addCls(this.errorMsgCls + "-wrapper")
+	    	}
+	    },
         
         getLabelableRenderData: function () 
     	{
@@ -160,6 +170,8 @@
         initLabelable: function ()
         {
         	this.callParent(arguments);
+        	
+        	this.on("render", this._onRenderLabelable, this);
         	
         	this.addEvents(
                 /**
