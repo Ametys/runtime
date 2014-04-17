@@ -92,6 +92,14 @@ Ext.define(
 		 * @param {String} [config.category] The log category. Not logged if null.
 		 */
 		display: function(config) {
+			if (Ext.AbstractComponent.runningLayoutContext && Ext.AbstractComponent.runningLayoutContext.state == 0)
+			{
+				// The layout seems to be broken
+				Ext.AbstractComponent.runningLayoutContext.run();
+				Ext.AbstractComponent.runningLayoutContext = null;
+				window.setTimeout(function() { while (Ext.AbstractComponent.layoutSuspendCount > 0){Ext.resumeLayouts(true);} }, 1);
+			}
+			
 			var title = config.title;
 			var text = config.text;
 			var details = config.details;
