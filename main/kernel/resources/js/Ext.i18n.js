@@ -134,7 +134,7 @@
         afterSubTpl: [ '</td><td class="ametys-warning" data-warnqtip="" style="display: none">',
 	                    '<tpl if="ametysDescription">',
                     	'</td>',
-                    	'<td class="ametys-description" data-qtip="{ametysDescription}">',
+                    	'<td class="ametys-description" data-qtip="{ametysDescription}"><div style="width: 20px;"></div>',
                     	'</tpl>',
                     	'<tpl if="showAmetysComments == true">',
                     	'</td>',
