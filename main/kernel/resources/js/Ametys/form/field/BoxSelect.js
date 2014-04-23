@@ -1646,7 +1646,7 @@ Ext.define('Ext.ux.layout.component.field.BoxSelectField', {
         var me = this,
             owner = ownerContext.target;
 
-        owner.triggerEl.setStyle('height', '24px');
+        // owner.triggerEl.setStyle('height', '24px');
 
         me.callParent(arguments);
 
