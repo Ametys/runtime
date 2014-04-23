@@ -62,7 +62,7 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
     private Map<String, Map<I18nizableText, String>> _cache;
 
     //Map<catalogue, location[]>
-    private Map<String, String[]> _locations;
+    private Map<String, Location> _locations;
     
     @Override
     public void contextualize(Context context) throws ContextException
@@ -82,11 +82,12 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
         _instance = this;
         _cache = new HashMap<String, Map<I18nizableText, String>>();
         
-        _locations = new HashMap<String, String[]>();
+        _locations = new HashMap<String, Location>();
         
         // initializes locations
-        _locations.put("application", new String[]{"context://WEB-INF/i18n"});
-        _locations.put("kernel", new String[]{"context://WEB-INF/i18n/kernel", "kernel://i18n"});
+        
+        _locations.put("application", new Location("application", new String[]{"context://WEB-INF/i18n"}));
+        _locations.put("kernel", new Location("messages", new String[]{"context://WEB-INF/i18n/kernel", "kernel://i18n"}));
         
         PluginsManager pm = PluginsManager.getInstance();
         
@@ -96,7 +97,7 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
             
             String location2 = "plugin:" + pluginName + "://i18n";
 
-            _locations.put(id, new String[]{"context://WEB-INF/i18n/plugins/" + pluginName, location2});
+            _locations.put(id, new Location("messages", new String[]{"context://WEB-INF/i18n/plugins/" + pluginName, location2}));
         }
 
         WorkspaceManager wm = WorkspaceManager.getInstance();
@@ -118,7 +119,7 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
                 location2 = "workspace:" + workspace + "://i18n";
             }
            
-            _locations.put(id, new String[]{"context://WEB-INF/i18n/workspaces/" + workspace, location2});
+            _locations.put(id, new Location("messages", new String[]{"context://WEB-INF/i18n/workspaces/" + workspace, location2}));
         }
     }
     
@@ -232,16 +233,16 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
         }
         
         String catalogue = text.getCatalogue();
-        String[] locations = _locations.get(catalogue);
+        Location location = _locations.get(catalogue);
         
-        if (locations == null)
+        if (location == null)
         {
             return null;
         }
         
         try
         {
-            Bundle bundle = _bundleFactory.select(locations, "messages", org.apache.cocoon.i18n.I18nUtils.parseLocale(language));
+            Bundle bundle = _bundleFactory.select(location.getLocations(), location.getName(), org.apache.cocoon.i18n.I18nUtils.parseLocale(language));
             
             // translated message
             ParamSaxBuffer buffer = (ParamSaxBuffer) bundle.getObject(text.getKey());
@@ -303,6 +304,36 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
         public void characters(char[] ch, int start, int length) throws SAXException
         {
             _builder.append(ch, start, length);
+        }
+    }
+    
+    private class Location 
+    {
+        String[] _loc;
+        String _name;
+        
+        public Location (String name, String[] locations)
+        {
+            _name = name;
+            _loc = locations;
+        }
+        
+        /**
+         * Get the name
+         * @return the name
+         */
+        public String getName ()
+        {
+            return _name;
+        }
+        
+        /**
+         * Get the files location
+         * @return the files location
+         */
+        public String[] getLocations()
+        {
+            return _loc;
         }
     }
 }
