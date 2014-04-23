@@ -143,15 +143,10 @@ public class Right
         Map<String, Object> right = new HashMap<String, Object>();
 
         right.put("id", _id);
-        right.put("label", I18nUtils.getInstance().translate(_label));
-        right.put("description", I18nUtils.getInstance().translate(_description));
-
-        // Category
-        Map<String, Object> category = new HashMap<String, Object>();
-        category.put("text", I18nUtils.getInstance().translate(_category));
-        category.put("id", _category.toString().replaceAll("[^a-zA-Z0-9]", "_"));
-        right.put("category", category);
-
+        right.put("label", _label);
+        right.put("description", _description);
+        right.put("category", _category);
+        
         return right;
     }
 
