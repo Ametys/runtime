@@ -339,6 +339,63 @@ Ext.define('Ext.ux.form.field.BoxSelect', {
         );
     },
 
+    /*onRender: function() {
+    	this.callParent(arguments);
+    	
+    	var me = this;
+    	
+    	new Ext.dd.DragZone(this.listWrapper, { 
+    		ddGroup: 'ametys-box-select-' + this.getId(),
+    		
+    		getDragData: function(e) 
+    		{
+    	    	var sourceEl = e.getTarget(".x-boxselect-item", 10), d;
+    	        if (sourceEl) 
+    	        {
+    	            d = sourceEl.cloneNode(true);
+    	            d.id = Ext.id();
+    	            return (me.dragData = {
+    	                sourceEl: sourceEl,
+    	                repairXY: Ext.fly(sourceEl).getXY(),
+    	                ddel: d
+    	            });
+    	        }    			
+    		},
+            getRepairXY: function() 
+            {
+                return me.dragData.repairXY;
+            }
+    	});
+    	new Ext.dd.DropZone(this.listWrapper, { 
+    		ddGroup: 'ametys-box-select-' + this.getId(),
+    		
+            getTargetFromEvent: function(e) 
+            {
+                return e.getTarget('.x-boxselect-item') || e.getTarget('.x-boxselect-input');
+            },
+            
+            onNodeEnter : function(target, dd, e, data)
+            {
+                Ext.fly(target).addCls('x-boxselect-target-hover');
+            },
+            
+            onNodeOut : function(target, dd, e, data)
+            {
+                Ext.fly(target).removeCls('x-boxselect-target-hover');
+            },
+            
+            onNodeOver : function(target, dd, e, data)
+            {
+                return Ext.dd.DropZone.prototype.dropAllowed;
+            },
+            
+            onNodeDrop : function(target, dd, e, data)
+            {
+            	return true;
+            }
+    	});
+    },*/
+    
     /**
 	 * Register events for management controls of labelled items
      * @protected
@@ -352,7 +409,7 @@ Ext.define('Ext.ux.form.field.BoxSelect', {
             me.mon(me.inputEl, 'keydown', me.onKeyDown, me);
         }
         me.mon(me.inputEl, 'paste', me.onPaste, me);
-        me.mon(me.listWrapper, 'click', me.onItemListClick, me);
+        //me.mon(me.listWrapper, 'click', me.onItemListClick, me);
 
         // I would prefer to use relayEvents here to forward these events on, but I want
         // to pass the field instead of exposing the underlying selection model
