@@ -1,5 +1,5 @@
 /*
- *  Copyright 2012 Anyware Services
+ *  Copyright 2014 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	* @private
 	 */
 	_fields: [],
-
+	
 	/**
 	 * @property {Ext.form.FormPanel} _form The configuration form
 	 * @private
@@ -73,6 +73,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 * @property {Object} _widgets The registered widgets for the config screen. The widgets are js class name for widgets.
 	 * @private
 	 */
+
 	_widgets: {
 		'hour': 'Ametys.plugins.core.administrator.Config.HourField',
 		'time': 'Ametys.plugins.core.administrator.Config.TimeField',
@@ -119,7 +120,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 			border: false,
 			autoScroll: true,
 			width: 277,
-		    
+			
 			items: [this._drawNavigationPanel (),
 			        this._drawHandlePanel (),
 			        this._drawHelpPanel ()]
@@ -179,25 +180,37 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	},
 
 	/**
+	 * Initialize the display of a group ( hidden or shown )
+	 * @param {Object} switcher If the group can be switch on/off, this object have the following keys : type, name, label, description, widget, mandatory, regexp and optionally invalidText.
+	 * @param {String[]} elements An array containing the names of the fields the switcher will show/hide 
+	 */	
+	initGroupCategory: function(switcher, elements) {
+		
+		var checked = (switcher.value === 'true');
+		
+		this._showHideGroup(null, checked, null, elements, null);
+	},
+	
+	/**
 	 * @private
 	 * Show or hide the elements of a group
 	 * @param {HTMLElement} input The changed input 
 	 * @param {String} newValue The new value of the input 
 	 * @param {String} oldValue The preceding value of the input
-	 * @param {Object} eOpts The events options 
-	 * @param {String[]} elements The html names of the elements to show of hide
+	 * @param {String[]} elements The html names of the elements to show or hide
 	 */
-	showHideGroup: function(input, newValue, oldValue, eOpts, elements)
+	_showHideGroup: function(input, newValue, oldValue, elements)
 	{
+		Ext.suspendLayouts();
 		for (var i = 0; i < elements.length; i++)
 		{
-			var elementId = elements[i];
-			this._form.getForm().findField(elementId).setVisible(newValue);
+			this._form.getForm().findField(elements[i]).setVisible(newValue);
 		}
+		Ext.resumeLayouts(true);
 	},
-	
+
 	/**
-	 * Add a groups category
+	 * Add a group category
 	 * @param {Ext.form.FieldSet} fd The fieldset where to add the category
 	 * @param {String} name The name of the category
 	 * @param {Object} switcher If the group can be switch on/off, this object have the following keys : type, name, label, description, widget, mandatory, regexp and optionally invalidText.
@@ -210,8 +223,8 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 			var modifiedSwitcher = Ext.applyIf ({label: '', description: '', width: 'auto'}, switcher);
 			
 			var input = this.createInputField(modifiedSwitcher);
-			input.on('change', Ext.bind(this.showHideGroup, this, [subitems], true));
-			
+			input.on('change', Ext.bind(this._showHideGroup, this, [subitems], true));
+
 			var items = [
 			      input,
 			      { baseCls: '', html: "<label for='" + input.getInputId() + "'>" + name + "</label>", padding: "3 0 0 5" }
@@ -224,6 +237,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 				    baseCls: '', 
 				    padding: "3 0 0 5",
 					html: '  ',
+					width: 20,
 					listeners: {
 						'render': function() {
 						    new Ext.ToolTip({
@@ -287,20 +301,27 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	
 	/**
 	 * Creates and return an input field depending on the given configuration
-	 * @param {Object} config this object have the following keys : type, name, value, label, description, enumeration widget, mandatory, regexp and optionally invalidText and width. See config in {#addInputField}
+	 * @param {Object} config this object have the following keys : type, name, value, label, description, enumeration widget, mandatory, regexp and optionally invalidText, width and switchable. See config in {#addInputField}
 	 * @return {Ext.form.field.Field} The created field
 	 * @private
 	 */
 	createInputField: function(config)
 	{
+		
 	    var field = null;
 	    
 		if (config.enumeration != null)
 		{
 		    field = this._createTextField (config.name, config.value, config.label, config.description, config.enumeration, config.mandatory == 'true', null, config.width);
 		}
+		
 		else
 		{
+			if (config.mandatory)
+			{
+				config.label = '* ' + config.label;
+			}
+			
 			switch (config.type) 
 			{
 				case 'double':
@@ -330,7 +351,6 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 					break;
 			}
 		}
-		
 		return field;
 	},
 
@@ -342,22 +362,42 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 * @param {String} label The label of the field
 	 * @param {String} description The associated description
 	 * @param {Boolean} mandatory True if the field can not be empty
-	 * @param {String} regexp The regexp to use to validate the field value
+	 * @param {String} regexp The regular expression to use to validate the field value
 	 * @param {String} invalidText The text to display when the field value is not valid
-	 * @param {String/Number} width The optionnal width. The default one is the constants FIELD_WIDTH + LABEL_WIDTH
+	 * @param {String/Number} width The optional width. The default one is the constants FIELD_WIDTH + LABEL_WIDTH
 	 * @return {Ext.form.field.Field} The created field
 	 */
 	_createDoubleField: function (name, value, label, description, mandatory, regexp, invalidText, width)
 	{
+		var me = this;
+		
 		return new Ext.form.field.Number({
 			name: name,
 	        fieldLabel: label,
 	        ametysDescription: description,
 	        
 	        value: value,
-	        allowBlank: !mandatory,
-	        regex: regexp,
-			regexText: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP'/>" + regexp,
+	        validator: function(value)
+	        {	
+	        	var enabled = me._form.getForm().findField(name).isVisible() && !me._form.getForm().findField(name).isDisabled();
+	    		if(!enabled)
+	    		{
+	    			return true;
+	    		}
+	    		
+	      		// Otherwise the field has to be checked
+	    		{
+	    			var trimmed =  Ext.String.trim(value);	    			
+	    	        if (trimmed.length < 1 || (value === this.emptyText && this.valueContainsPlaceholder)) 
+	    	        {
+	    	        	if (mandatory) 
+	    	        	{
+	    	                return this._blankText;
+	    	            }
+	    	        }
+	    	        return true;
+	    		}
+	        },
 			invalidText: invalidText != null ? invalidText : null,
 	        msgTarget: 'side',
 	        
@@ -383,6 +423,8 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 */
 	_createLongField: function (name, value, label, description, mandatory, regexp, invalidText, width)
 	{
+		var me = this;
+
 		return new Ext.form.field.Number ({
 			name: name,
 			fieldLabel: label,
@@ -391,9 +433,28 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	        allowDecimals: false,
 	        
 	        value: value,
-	        allowBlank: !mandatory,
-	        regex: regexp,
-			regexText: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP'/>" + regexp,
+	        validator: function(value)
+	        {	
+	        	var enabled = me._form.getForm().findField(name).isVisible() && !me._form.getForm().findField(name).isDisabled();
+	        	if(!enabled)
+	    		{
+	    			return true;
+	    		}
+	    		
+	      		// Otherwise the field has to be checked
+	    		{
+	    			var trimmed =  Ext.String.trim(value);	    			
+	    	        if (trimmed.length < 1 || (value === this.emptyText && this.valueContainsPlaceholder)) 
+	    	        {
+	    	        	if (mandatory) 
+	    	        	{
+	    	                return this._blankText;
+	    	            }
+	    	        }
+	    	        return true;
+	    		}
+	        },
+	        
 			invalidText: invalidText != null ? invalidText : null,
 			msgTarget: 'side',
 			
@@ -417,13 +478,35 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 */
 	_createPasswordField: function (name, value, label, description, mandatory, width)
 	{
+		var me = this;
+		
 		return new Ametys.form.field.ChangePassword({
 			name: name,
 			fieldLabel: label,
 		    ametysDescription: description,
 		    
-	        allowBlank: !mandatory,
 		    value: value,
+		    validator: function(value)
+	        {	
+		    	var enabled = me._form.getForm().findField(name).isVisible() && !me._form.getForm().findField(name).isDisabled();
+		    	if(!enabled)
+	    		{
+	    			return true;
+	    		}
+	    		
+	      		// Otherwise the field has to be checked
+	    		{
+	    			var trimmed =  Ext.String.trim(value);	    			
+	    	        if (trimmed.length < 1 || (value === this.emptyText && this.valueContainsPlaceholder)) 
+	    	        {
+	    	        	if (mandatory) 
+	    	        	{
+	    	                return this._blankText;
+	    	            }
+	    	        }
+	    	        return true;
+	    		}
+	        },
 		    
 			labelAlign: 'right',
 	        labelWidth: Ametys.plugins.core.administration.Config.LABEL_WIDTH,
@@ -448,6 +531,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 */
 	_createDateField: function (name, value, label, description, mandatory, regexp, invalidText, width)
 	{
+		var me = this;
 	    var dateValue = value;
 //	    if (typeof value == 'string')
 //	    {
@@ -462,9 +546,33 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	        altFormats: 'c',
 	        format: "<i18n:text i18n:key='DATE_FIELD_FORMAT'/>",
 	        value: dateValue,
-	        allowBlank: !mandatory,
-	        regex: regexp,
-			regexText: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP'/>" + regexp,
+	        
+	        validator: function(value)
+	        {	
+	    		var enabled = me._form.getForm().findField(name).isVisible() && !me._form.getForm().findField(name).isDisabled();
+	    		if(!enabled)
+	    		{
+	    			return true;
+	    		}
+	    		
+	      		// Otherwise the field has to be checked
+	    		{
+	    			var trimmed =  Ext.String.trim(value);	    			
+	    	        if (trimmed.length < 1 || (value === this.emptyText && this.valueContainsPlaceholder)) 
+	    	        {
+	    	        	if (mandatory) 
+	    	        	{
+	    	                return this._blankText;
+	    	            }
+	    	        }
+	    	        if (regexp && !regexp.test(value)) 
+	    	        {
+	    	            return this.regexText;
+	    	        }
+	    	        return true;
+	    		}
+	        },
+	        regexText: invalidText != null ? invalidText :  "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP'/>"  + regexp,
 			invalidText: invalidText != null ? invalidText : null,
 			msgTarget: 'side',
 			
@@ -521,6 +629,8 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 */
 	_createTextField: function (name, value, label, description, enumeration, mandatory, regexp, invalidText, width)
 	{
+		var me = this;
+		
 		if (enumeration != null)
 		{
 			return new Ext.form.field.ComboBox ({
@@ -530,12 +640,33 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 		        ametysDescription: description,
 		        value: value,
 		        
+		        validator: function(value)
+		        {	
+		        	var enabled = me._form.getForm().findField(name).isVisible() && !me._form.getForm().findField(name).isDisabled();
+		        	if(!enabled)
+		    		{
+		    			return true;
+		    		}
+		    		
+		      		// Otherwise the field has to be checked
+		    		{
+		    			var trimmed =  Ext.String.trim(value);		    			
+		    	        if (trimmed.length < 1 || (value === this.emptyText && this.valueContainsPlaceholder)) 
+		    	        {
+		    	        	if (mandatory) 
+		    	        	{
+		    	                return this._blankText;
+		    	            }
+		    	        }
+		    	        return true;
+		    		}
+		        },
+		        
 		    	labelAlign: 'right',
 		        labelWidth: Ametys.plugins.core.administration.Config.LABEL_WIDTH,
 		        labelSeparator: '',
 		        width: width || Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH,
 		        
-		        allowBlank: !mandatory,
 		        msgTarget: 'side',
 		        
 		        mode: 'local',
@@ -564,15 +695,39 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 		        fieldLabel: label,
 		        ametysDescription: description,
 		        value: value,
+		        validator: function(value)
+		        {	
+		        	var enabled = me._form.getForm().findField(name).isVisible() && !me._form.getForm().findField(name).isDisabled();
+		        	if(!enabled)
+		    		{
+		    			return true;
+		    		}
+		    		
+		      		// Otherwise the field has to be checked
+		    		{
+		    			var trimmed =  Ext.String.trim(value);		    			
+		    	        if (trimmed.length < 1 || (value === this.emptyText && this.valueContainsPlaceholder)) 
+		    	        {
+		    	        	if (mandatory) 
+		    	        	{
+		    	        		return this._blankText;
+		    	            }
+		    	        }
+		    	        
+		    	        if (regexp && !regexp.test(value)) 
+		    	        {
+		    	            return this.regexText;
+		    	        }
+		    	        return true;
+		    		}
+		        },
 		        
 		    	labelAlign: 'right',
 		        labelWidth: Ametys.plugins.core.administration.Config.LABEL_WIDTH,
 		        labelSeparator: '',
 		        width: width || Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH,
 		        
-		        allowBlank: !mandatory,
-		        regex: regexp,
-		        regexText: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP'/>" + regexp,
+		        regexText: invalidText != null ? invalidText :  "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP'/>"  + regexp,
 				invalidText: invalidText != null ? invalidText : null,
 				msgTarget: 'side'
 			});
@@ -595,22 +750,47 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 */
 	_createWidgetField: function (widgetId, name, value, label, description, mandatory, regexp, invalidText, width)
 	{
+		var me = this;
+		
 		var widgetCfg = {
 				name: name,
 				
 		        fieldLabel: label,
 		        ametysDescription: description,
 		        value: value,
+		        validator: function(value)
+		        {	
+		        	var enabled = me._form.getForm().findField(name).isVisible() && !me._form.getForm().findField(name).isDisabled();
+		        	if(!enabled)
+		    		{
+		    			return true;
+		    		}
+		    		
+		      		// Otherwise the field has to be checked
+		    		{
+		    			var trimmed =  Ext.String.trim(value);		    			
+		    	        if (trimmed.length < 1 || (value === this.emptyText && this.valueContainsPlaceholder)) 
+		    	        {
+		    	        	if (mandatory) 
+		    	        	{
+		    	        		return this._blankText;
+		    	            }
+		    	        }
+		    	        
+		    	        if (regexp && !regexp.test(value)) 
+		    	        {
+		    	            return this.regexText;
+		    	        }
+		    	        return true;
+		    		}
+		        },
 		        
 		    	labelAlign: 'right',
 		        labelWidth: Ametys.plugins.core.administration.Config.LABEL_WIDTH,
 		        labelSeparator: '',
 		        width: width || Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH,
 
-		        
-		        allowBlank: !mandatory,
-		        regex: regexp,
-				regexText: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP'/>" + regexp,
+		        regexText: invalidText != null ? invalidText :  "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP'/>"  + regexp,
 				invalidText: invalidText != null ? invalidText : null,
 		        msgTarget: 'side'
 		};
@@ -711,16 +891,16 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 			return;
 	    }
 	    
-	    this.save._mask = new Ext.LoadMask({target: Ext.getBody()});
+		this.save._mask = new Ext.LoadMask({target: Ext.getBody()});
 	    this.save._mask.show();
-	    Ext.defer(this.save2, 1, this);
+	    Ext.defer(this._save2, 1, this);
 	},
 	
 	/**
 	 * @private
 	 * Second part of the #save process (due to asynchronous process)
 	 */
-	save2: function ()
+	_save2: function ()
 	{
 	    var url = Ametys.getPluginDirectPrefix(this.pluginName) + "/administrator/config/set";
 

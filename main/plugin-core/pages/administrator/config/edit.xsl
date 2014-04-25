@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright 2012 Anyware Services
+   Copyright 2014 Anyware Services
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -72,7 +72,7 @@
                                          <xsl:text>, </xsl:text>
                                          [ <xsl:for-each select="parameters/*[not(local-name() = ../../group-switch)]">
                                             <xsl:if test="position() != 1">, </xsl:if> "<xsl:value-of select="local-name()"/>"
-                                         </xsl:for-each> ]
+                                           </xsl:for-each> ]
 							         </xsl:if>
 							);
 							
@@ -82,11 +82,19 @@
 									   <xsl:if test="$switch-value != ''">, "<xsl:value-of select="escape:escapeJavaScript($switch-value)"/>"</xsl:if>
 									);
 							</xsl:for-each>
-							
 							Ametys.plugins.core.administration.Config._form.add(fieldSet);
+				            <xsl:if test="group-switch">
+				                <xsl:variable name="switch-value" select="parameters/*[local-name() = ../../group-switch]/value"/>
+				               Ametys.plugins.core.administration.Config.initGroupCategory(
+                                 <xsl:call-template name="create-config"><xsl:with-param name="config" select="parameters/*[local-name() = ../../group-switch]"/></xsl:call-template>
+                                 <xsl:text>, </xsl:text>
+                                 [ <xsl:for-each select="parameters/*[not(local-name() = ../../group-switch)]">
+                                    <xsl:if test="position() != 1">, </xsl:if> "<xsl:value-of select="local-name()"/>"
+                                   </xsl:for-each> ]
+                                );                            
+                           </xsl:if>
 						</xsl:for-each>
 					</xsl:for-each>
-						
 					function createPanel()
 					{
 						return panel;
@@ -101,11 +109,17 @@
     
     <xsl:template name="create-config">
         <xsl:param name="config" select="."/>
-
         {
             type: "<xsl:value-of select="$config/type"/>",
-            name: "<xsl:value-of select="local-name($config)"/>",
-            value: "<xsl:value-of select="escape:escapeJavaScript(value)"/>",
+            name: "<xsl:value-of select="local-name($config)"/>",            
+            <xsl:choose> 
+	            <xsl:when test="$config/value">
+	                value: "<xsl:value-of select="escape:escapeJavaScript($config/value)"/>",
+	            </xsl:when>
+	            <xsl:otherwise>
+	               value: "<xsl:value-of select="escape:escapeJavaScript($config/defaultValue)"/>",
+	            </xsl:otherwise>
+            </xsl:choose>
             label: "<xsl:copy-of select="$config/label/node()"/>", 
             description: "<xsl:copy-of select="$config/description/node()"/>",
             enumeration: <xsl:call-template name="enumeration"><xsl:with-param name="config" select="$config"/></xsl:call-template>,

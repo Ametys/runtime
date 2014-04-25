@@ -1,5 +1,5 @@
 /*
- *  Copyright 2012 Anyware Services
+ *  Copyright 2014 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -108,6 +108,7 @@ public final class ParameterHelper
      */
     public static Object castValue(String value, ParameterType type)
     {
+        
         if (value == null)
         {
             return null;
@@ -129,7 +130,7 @@ public final class ParameterHelper
             }
             else if (type == ParameterType.LONG)
             {
-                return new Long(value);
+                return  new Long(value);
             }
             else if (type == ParameterType.DOUBLE)
             {
@@ -227,10 +228,6 @@ public final class ParameterHelper
         if (value != null)
         {
             XMLUtils.createElement(handler, "value", ParameterHelper.valueToString(value));
-        }
-        else if (defaultValue != null)
-        {
-            XMLUtils.createElement(handler, "value", ParameterHelper.valueToString(defaultValue));
         }
         
         if (parameter.getWidget() != null)

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2012 Anyware Services
+ *  Copyright 2014 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -564,10 +564,10 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                 for (ConfigParameter param : group.getParams())
                 {
                     Object value = _getValue (param.getId(), param.getType(), untypedValues);
+                        
                     ParameterHelper.toSAXParameter (handler, param, value);
                 }
                 XMLUtils.endElement(handler, "parameters");
-                
 
                 XMLUtils.endElement(handler, "group");
             }
@@ -583,7 +583,20 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
     private Object _getValue (String paramID, ParameterType type, Map<String, String> untypedValues)
     {
         final String unverifiedUntypedValue = untypedValues.get(paramID);
-        Object typedValue = ParameterHelper.castValue(unverifiedUntypedValue, type);
+        
+        Object typedValue;        
+        if (unverifiedUntypedValue == null)
+        {
+            typedValue = null;
+        }
+        else if (StringUtils.isEmpty(unverifiedUntypedValue))
+        {
+            typedValue = "";
+        }
+        else 
+        {
+            typedValue = ParameterHelper.castValue(unverifiedUntypedValue, type);
+        }
         
         if (type.equals(ParameterType.PASSWORD) && typedValue != null && ((String) typedValue).length() > 0)
         {
@@ -595,7 +608,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
 
 
     /**
-     * Update the configuartion file with the given values<br>
+     * Update the configuration file with the given values<br>
      * Values are untyped (all are of type String) and might be null.
      * @param untypedValues A map (key, untyped value).
      * @param fileName the config file absolute path
@@ -627,6 +640,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             String untypedValue = untypedValues.get(id);
             
             Object typedValue = ParameterHelper.castValue(untypedValue, _params.get(id).getType());
+            
             if (typedValue == null && _params.get(id).getType() == ParameterType.PASSWORD)
             {
                 if (Config.getInstance() != null)
