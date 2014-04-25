@@ -339,62 +339,79 @@ Ext.define('Ext.ux.form.field.BoxSelect', {
         );
     },
 
-    /*onRender: function() {
+    onRender: function() {
     	this.callParent(arguments);
     	
-    	var me = this;
-    	
-    	new Ext.dd.DragZone(this.listWrapper, { 
-    		ddGroup: 'ametys-box-select-' + this.getId(),
+    	if (this.multiSelect && false)
+    	{
     		
-    		getDragData: function(e) 
-    		{
-    	    	var sourceEl = e.getTarget(".x-boxselect-item", 10), d;
-    	        if (sourceEl) 
-    	        {
-    	            d = sourceEl.cloneNode(true);
-    	            d.id = Ext.id();
-    	            return (me.dragData = {
-    	                sourceEl: sourceEl,
-    	                repairXY: Ext.fly(sourceEl).getXY(),
-    	                ddel: d
-    	            });
-    	        }    			
-    		},
-            getRepairXY: function() 
-            {
-                return me.dragData.repairXY;
-            }
-    	});
-    	new Ext.dd.DropZone(this.listWrapper, { 
-    		ddGroup: 'ametys-box-select-' + this.getId(),
+    		var me = this,
+    			ddGroup = 'ametys-box-select-' + this.getId();
     		
-            getTargetFromEvent: function(e) 
-            {
-                return e.getTarget('.x-boxselect-item') || e.getTarget('.x-boxselect-input');
-            },
-            
-            onNodeEnter : function(target, dd, e, data)
-            {
-                Ext.fly(target).addCls('x-boxselect-target-hover');
-            },
-            
-            onNodeOut : function(target, dd, e, data)
-            {
-                Ext.fly(target).removeCls('x-boxselect-target-hover');
-            },
-            
-            onNodeOver : function(target, dd, e, data)
-            {
-                return Ext.dd.DropZone.prototype.dropAllowed;
-            },
-            
-            onNodeDrop : function(target, dd, e, data)
-            {
-            	return true;
-            }
-    	});
-    },*/
+    		new Ext.dd.DragZone(this.listWrapper, { 
+    			ddGroup: ddGroup,
+    			
+    			getDragData: function(e) 
+    			{
+    				var sourceEl = e.getTarget(".x-boxselect-item", 10), d;
+    				if (sourceEl) 
+    				{
+    					d = sourceEl.cloneNode(true);
+    					d.id = Ext.id();
+    					return (me.dragData = {
+    							sourceEl: sourceEl,
+    							repairXY: Ext.fly(sourceEl).getXY(),
+    							ddel: d,
+    							rec: me.getRecordByListItemNode(sourceEl)
+    					});
+    				}    			
+    			},
+    			getRepairXY: function() 
+    			{
+    				return me.dragData.repairXY;
+    			}
+    		});
+    		
+    		new Ext.dd.DropZone(this.listWrapper, { 
+    			ddGroup: ddGroup,
+    			
+    			getTargetFromEvent: function(e) 
+    			{
+    				return e.getTarget('.x-boxselect-item') || e.getTarget('.x-boxselect-input');
+    			},
+    			
+    			onNodeEnter : function(target, dd, e, data)
+    			{
+    				Ext.fly(target).addCls('x-boxselect-target-hover');
+    			},
+    			
+    			onNodeOut : function(target, dd, e, data)
+    			{
+    				Ext.fly(target).removeCls('x-boxselect-target-hover');
+    			},
+    			
+    			onNodeOver : function(target, dd, e, data)
+    			{
+    				return Ext.dd.DropZone.prototype.dropAllowed;
+    			},
+    			
+    			onNodeDrop : function(target, dd, e, data)
+    			{
+    				var targetRecord;
+    				if (!Ext.get(target).hasCls("x-boxselect-input"))
+    				{
+    					targetRecord = me.getRecordByListItemNode(target)
+    				}
+    				
+    				// Set data.rec before targetRecord
+    				
+    				// TODO
+    				
+    				return true;
+    			}
+    		});
+    	}
+    },
     
     /**
 	 * Register events for management controls of labelled items
