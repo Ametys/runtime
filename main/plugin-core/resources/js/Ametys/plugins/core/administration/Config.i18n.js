@@ -180,18 +180,6 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	},
 
 	/**
-	 * Initialize the display of a group ( hidden or shown )
-	 * @param {Object} switcher If the group can be switch on/off, this object have the following keys : type, name, label, description, widget, mandatory, regexp and optionally invalidText.
-	 * @param {String[]} elements An array containing the names of the fields the switcher will show/hide 
-	 */	
-	initGroupCategory: function(switcher, elements) {
-		
-		var checked = (switcher.value === 'true');
-		
-		this._showHideGroup(null, checked, null, elements, null);
-	},
-	
-	/**
 	 * @private
 	 * Show or hide the elements of a group
 	 * @param {HTMLElement} input The changed input 
@@ -227,7 +215,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 
 			var items = [
 			      input,
-			      { baseCls: '', html: "<label for='" + input.getInputId() + "'>" + name + "</label>", padding: "3 0 0 5" }
+			      { flex: 1, baseCls: '', html: "<label for='" + input.getInputId() + "'>" + name + "</label>", padding: "3 0 0 5" }
             ];
 			
 			if (switcher.description != '')
@@ -252,6 +240,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 			fd.add (new Ext.Container({
 				layout: 'hbox',
 				cls: 'ametys-subcategory',
+				minWidth: 250,
 				items: items
 			}));
 		}
@@ -444,7 +433,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	      		// Otherwise the field has to be checked
 	    		{
 	    			var trimmed =  Ext.String.trim(value);	    			
-	    	        if (trimmed.length < 1 || (value === this.emptyText && this.valueContainsPlaceholder)) 
+	    			if (trimmed.length < 1 || (value === this.emptyText && this.valueContainsPlaceholder)) 
 	    	        {
 	    	        	if (mandatory) 
 	    	        	{

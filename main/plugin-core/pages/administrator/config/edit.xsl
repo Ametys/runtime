@@ -83,16 +83,6 @@
 									);
 							</xsl:for-each>
 							Ametys.plugins.core.administration.Config._form.add(fieldSet);
-				            <xsl:if test="group-switch">
-				                <xsl:variable name="switch-value" select="parameters/*[local-name() = ../../group-switch]/value"/>
-				               Ametys.plugins.core.administration.Config.initGroupCategory(
-                                 <xsl:call-template name="create-config"><xsl:with-param name="config" select="parameters/*[local-name() = ../../group-switch]"/></xsl:call-template>
-                                 <xsl:text>, </xsl:text>
-                                 [ <xsl:for-each select="parameters/*[not(local-name() = ../../group-switch)]">
-                                    <xsl:if test="position() != 1">, </xsl:if> "<xsl:value-of select="local-name()"/>"
-                                   </xsl:for-each> ]
-                                );                            
-                           </xsl:if>
 						</xsl:for-each>
 					</xsl:for-each>
 					function createPanel()
@@ -101,7 +91,6 @@
 					}
                </script>
 			</script>
-			
 			<body>
             </body>
         </html>
