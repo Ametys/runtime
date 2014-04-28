@@ -342,7 +342,7 @@ Ext.define('Ext.ux.form.field.BoxSelect', {
     onRender: function() {
     	this.callParent(arguments);
     	
-    	if (this.multiSelect && false)
+    	if (this.multiSelect)
     	{
     		
     		var me = this,
@@ -404,8 +404,16 @@ Ext.define('Ext.ux.form.field.BoxSelect', {
     				}
     				
     				// Set data.rec before targetRecord
-    				
-    				// TODO
+    				me.valueStore.remove(data.rec);
+    				if (targetRecord != null)
+    				{
+    					var i = me.valueStore.indexOf(targetRecord);
+    					me.valueStore.insert(i, data.rec);
+    				}
+    				else
+    				{
+    					me.valueStore.add(data.rec);
+    				}
     				
     				return true;
     			}
