@@ -17,6 +17,7 @@
 	background-color: #FFFFFF !important;
 	border-color:#811788 !important;
 	text-align: center;
+	z-index: 2000 !important; /* over the 100 of the mask and under the 19000 of a dialog box */
 }
 
 .x-mask-msg div {
