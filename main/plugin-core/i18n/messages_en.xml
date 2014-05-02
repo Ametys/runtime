@@ -42,7 +42,7 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE_SAVE">Save and restart</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HANDLE_QUIT">Quit without saving</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HELP">Help</message>    
-    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HELP_TEXT">This screen allows you to change the application configuration.&lt;br/&gt;&lt;br/&gt;Navigate through and change parameters values.&lt;br/&gt;&lt;br/&gt;The application will be automatically restarted after saving the changes.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HELP_TEXT">This screen allows you to change the application configuration.&lt;br/&gt;&lt;br/&gt;Navigate through the top-right hand corner tabs and change parameters values.&lt;br/&gt;&lt;br/&gt;The application will be automatically restarted after saving the changes.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_OK">The configuration has been correctly updated</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_FATALERROR">Server is not responding or a fatal error occured during saving.\nConsult applications and servlet engines logfiles for more details.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_ERROR">An error occured on the server and parameters have not been updated.\n\nInternal error message is :\n</message>
