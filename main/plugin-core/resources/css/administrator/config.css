@@ -54,3 +54,7 @@
     line-height: 16px;
 	padding : 0 0 0 35px;
 }
+
+.admin-main-panel .ametys .x-form-item-label {
+	margin-top: 2px;
+}

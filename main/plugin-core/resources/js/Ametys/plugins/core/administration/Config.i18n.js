@@ -109,6 +109,13 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 			
 			id : 'config-inner',
 			formId : 'save-config',
+			
+			fieldDefaults: {
+				cls: 'ametys',
+				labelAlign: 'right',
+		        labelWidth: Ametys.plugins.core.administration.Config.LABEL_WIDTH,
+		        labelSeparator: ''
+			},
 
 			html: ''
 		});
@@ -390,9 +397,6 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 			invalidText: invalidText != null ? invalidText : null,
 	        msgTarget: 'side',
 	        
-	    	labelAlign: 'right',
-	        labelWidth: Ametys.plugins.core.administration.Config.LABEL_WIDTH,
-	        labelSeparator: '',
 	        width: width || Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH
 		});
 	},
@@ -447,9 +451,6 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 			invalidText: invalidText != null ? invalidText : null,
 			msgTarget: 'side',
 			
-			labelAlign: 'right',
-	        labelWidth: Ametys.plugins.core.administration.Config.LABEL_WIDTH,
-	        labelSeparator: '',
 	        width: width || Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH
 		});
 	},
@@ -497,10 +498,6 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	    		}
 	        },
 		    
-			labelAlign: 'right',
-	        labelWidth: Ametys.plugins.core.administration.Config.LABEL_WIDTH,
-	        labelSeparator: '',
-
 	        width: width || Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH
 		});
 	},
@@ -565,9 +562,6 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 			invalidText: invalidText != null ? invalidText : null,
 			msgTarget: 'side',
 			
-			labelAlign: 'right',
-	        labelWidth: Ametys.plugins.core.administration.Config.LABEL_WIDTH,
-	        labelSeparator: '',
 	        width: width || Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH
 		});
 	},
@@ -595,9 +589,6 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	        inputValue: 'true', 
 	        uncheckedValue: 'false',
 	        
-	    	labelAlign: 'right',
-	        labelWidth: Ametys.plugins.core.administration.Config.LABEL_WIDTH,
-	        labelSeparator: '',
 	        width: width || Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH
 		});
 	},
@@ -651,9 +642,6 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 		    		}
 		        },
 		        
-		    	labelAlign: 'right',
-		        labelWidth: Ametys.plugins.core.administration.Config.LABEL_WIDTH,
-		        labelSeparator: '',
 		        width: width || Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH,
 		        
 		        msgTarget: 'side',
@@ -711,9 +699,6 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 		    		}
 		        },
 		        
-		    	labelAlign: 'right',
-		        labelWidth: Ametys.plugins.core.administration.Config.LABEL_WIDTH,
-		        labelSeparator: '',
 		        width: width || Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH,
 		        
 		        regexText: invalidText != null ? invalidText :  "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP'/>"  + regexp,
@@ -774,9 +759,6 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 		    		}
 		        },
 		        
-		    	labelAlign: 'right',
-		        labelWidth: Ametys.plugins.core.administration.Config.LABEL_WIDTH,
-		        labelSeparator: '',
 		        width: width || Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH,
 
 		        regexText: invalidText != null ? invalidText :  "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP'/>"  + regexp,
@@ -1025,9 +1007,6 @@ Ext.define('Ametys.plugins.core.administrator.Config.TimeField',	{
 	extend: 'Ext.form.field.Time',
 	
 	increment: 60,
-	labelAlign: 'right',
-    labelWidth: Ametys.plugins.core.administration.Config.LABEL_WIDTH,
-    labelSeparator: '',
 	width: 100,
 	listConfig: {
 		cls: 'ametys-boundlist'
@@ -1042,9 +1021,6 @@ Ext.define('Ametys.plugins.core.administrator.Config.HourField',	{
 	
 	increment: 60,
 	editable: false,
-	labelAlign: 'right',
-    labelWidth: Ametys.plugins.core.administration.Config.LABEL_WIDTH,
-    labelSeparator: '',
     width: 100,
     listConfig: {
 		cls: 'ametys-boundlist'
@@ -1057,9 +1033,6 @@ Ext.define('Ametys.plugins.core.administrator.Config.HourField',	{
 Ext.define('Ametys.plugins.core.administrator.Config.TextareaField',	{
 	extend: 'Ext.form.field.TextArea',
 	
-	labelAlign: 'right',
-    labelWidth: Ametys.plugins.core.administration.Config.LABEL_WIDTH,
-    labelSeparator: '',
 	width: Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH,
     height: 80
 });
