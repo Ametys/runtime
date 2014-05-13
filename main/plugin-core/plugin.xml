@@ -651,12 +651,40 @@
             <order>1</order>
         </param>
         <!-- +
-             | MAIL
+             | MAIL - ADDRESSES
+             + -->
+        <param type="string" id="smtp.mail.from">
+            <!-- This parameter contains the "from" address used as default sender -->
+            <label i18n="true">PLUGINS_CORE_MAIL_CONFIG_FROM_ADDRESS</label>
+            <description i18n="true">PLUGINS_CORE_MAIL_CONFIG_FROM_ADDRESS_DESCRIPTION</description>
+            <validation>
+                <mandatory/>
+                <regexp>^((\w+)([\-+.][\w]+)*@(\w[\-\w]*\.){1,5}([A-Za-z0-9][A-Za-z0-9]+))|([^&lt;]+&lt;(\w+)([\-+.][\w]+)*@(\w[\-\w]*\.){1,5}([A-Za-z0-9][A-Za-z0-9]+)&gt;)$</regexp>
+                <invalidText i18n="true">PLUGINS_CORE_REGEXP_INVALID_MAIL</invalidText>
+            </validation>
+            <default-value>sender@ametys.org</default-value>
+            <category i18n="true">PLUGINS_CORE_MAIL_CONFIG_CATEGORY</category>
+            <group i18n="true">PLUGINS_CORE_MAIL_CONFIG_ADDRESS_GROUP</group>
+            <order>1</order>
+        </param>
+        <param type="string" id="smtp.mail.sysadminto">
+            <!-- This parameter contains the email address of the system administrator for alert purposes -->
+            <label i18n="true">PLUGINS_CORE_MAIL_CONFIG_SYSADMINTO_ADDRESS</label>
+            <description i18n="true">PLUGINS_CORE_MAIL_CONFIG_SYSADMINTO_ADDRESS_DESCRIPTION</description>
+            <validation>
+                <regexp>^(\w+)([\-+.][\w]+)*@(\w[\-\w]*\.){1,5}([A-Za-z0-9][A-Za-z0-9]+)$</regexp>
+                <invalidText i18n="true">PLUGINS_CORE_REGEXP_INVALID_MAIL</invalidText>
+            </validation>
+            <category i18n="true">PLUGINS_CORE_MAIL_CONFIG_CATEGORY</category>
+            <group i18n="true">PLUGINS_CORE_MAIL_CONFIG_ADDRESS_GROUP</group>
+            <order>2</order>
+        </param>
+        
+        <!-- +
+             | MAIL - SERVER PARAMETERS
              + -->
         <param type="string" id="smtp.mail.host">
-        	<!-- 
-                This parameter contains the server name for sending mail
-             -->
+        	<!-- This parameter contains the server name for sending mail -->
             <label i18n="true">PLUGINS_CORE_MAIL_CONFIG_HOST</label>
             <description i18n="true">PLUGINS_CORE_MAIL_CONFIG_HOST_DESCRIPTION</description>
             <validation>
@@ -667,9 +695,7 @@
             <order>1</order>
         </param>
         <param type="long" id="smtp.mail.port">
-        	<!-- 
-                This parameter contains the server port for sending mail. Defaults to 25.
-             -->
+        	<!-- This parameter contains the server port for sending mail. Defaults to 25. -->
             <label i18n="true">PLUGINS_CORE_MAIL_CONFIG_PORT</label>
             <description i18n="true">PLUGINS_CORE_MAIL_CONFIG_PORT_DESCRIPTION</description>
             <default-value>25</default-value>
@@ -677,55 +703,44 @@
             <group i18n="true">PLUGINS_CORE_MAIL_CONFIG_GROUP</group>
             <order>2</order>
         </param>
-        <param type="string" id="smtp.mail.user">
-        	<!-- 
-                This parameter contains the user's password for sending mail
-             -->
-            <label i18n="true">PLUGINS_CORE_MAIL_CONFIG_USER</label>
-            <description i18n="true">PLUGINS_CORE_MAIL_CONFIG_USER_DESCRIPTION</description>
+        <param type="string" id="smtp.mail.security.protocol">
+            <!-- This parameter contains the security protocol to be used to send e-mails. Defaults to None. -->
+            <label i18n="true">PLUGINS_CORE_MAIL_CONFIG_SECURITY_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_MAIL_CONFIG_SECURITY_DESCRIPTION</description>
+            <enumeration>
+                <entry>
+                    <label i18n="true">PLUGINS_CORE_MAIL_CONFIG_SECURITY_NONE</label>
+                    <value>none</value>
+                </entry>
+                <entry>
+                    <label i18n="true">PLUGINS_CORE_MAIL_CONFIG_SECURITY_STARTTLS</label>
+                    <value>starttls</value>
+                </entry>
+                <entry>
+                    <label i18n="true">PLUGINS_CORE_MAIL_CONFIG_SECURITY_TLSSSL</label>
+                    <value>tlsssl</value>
+                </entry>
+            </enumeration>
+            <default-value>none</default-value>
             <category i18n="true">PLUGINS_CORE_MAIL_CONFIG_CATEGORY</category>
             <group i18n="true">PLUGINS_CORE_MAIL_CONFIG_GROUP</group>
             <order>3</order>
         </param>
-        <param type="password" id="smtp.mail.password">
-        	<!-- 
-                This parameter contains the user's password for sending mail
-             -->
-            <label i18n="true">PLUGINS_CORE_MAIL_CONFIG_PASSWORD</label>
-            <description i18n="true">PLUGINS_CORE_MAIL_CONFIG_PASSWORD_DESCRIPTION</description>
+        <param type="string" id="smtp.mail.user">
+        	<!-- This parameter contains the user's login for sending mail -->
+            <label i18n="true">PLUGINS_CORE_MAIL_CONFIG_USER</label>
+            <description i18n="true">PLUGINS_CORE_MAIL_CONFIG_USER_DESCRIPTION</description>
             <category i18n="true">PLUGINS_CORE_MAIL_CONFIG_CATEGORY</category>
             <group i18n="true">PLUGINS_CORE_MAIL_CONFIG_GROUP</group>
             <order>4</order>
         </param>
-        <param type="string" id="smtp.mail.from">
-        	<!-- 
-                This parameter contains the from address used as default sender
-             -->
-            <label i18n="true">PLUGINS_CORE_MAIL_CONFIG_FROM_ADDRESS</label>
-            <description i18n="true">PLUGINS_CORE_MAIL_CONFIG_FROM_ADDRESS_DESCRIPTION</description>
-            <validation>
-            	<mandatory/>
-            	<regexp>^((\w+)([\-+.][\w]+)*@(\w[\-\w]*\.){1,5}([A-Za-z0-9][A-Za-z0-9]+))|([^&lt;]+&lt;(\w+)([\-+.][\w]+)*@(\w[\-\w]*\.){1,5}([A-Za-z0-9][A-Za-z0-9]+)&gt;)$</regexp>
-            	<invalidText i18n="true">PLUGINS_CORE_REGEXP_INVALID_MAIL</invalidText>
-        	</validation>
-            <default-value>sender@ametys.org</default-value>
+        <param type="password" id="smtp.mail.password">
+        	<!-- This parameter contains the user's password for sending mail -->
+            <label i18n="true">PLUGINS_CORE_MAIL_CONFIG_PASSWORD</label>
+            <description i18n="true">PLUGINS_CORE_MAIL_CONFIG_PASSWORD_DESCRIPTION</description>
             <category i18n="true">PLUGINS_CORE_MAIL_CONFIG_CATEGORY</category>
-            <group i18n="true">PLUGINS_CORE_MAIL_CONFIG_ADDRESS_GROUP</group>
-            <order>1</order>
-        </param>
-        <param type="string" id="smtp.mail.sysadminto">
-        	<!-- 
-                This parameter contains the email address of the system administrator for alert purposes
-             -->
-            <label i18n="true">PLUGINS_CORE_MAIL_CONFIG_SYSADMINTO_ADDRESS</label>
-            <description i18n="true">PLUGINS_CORE_MAIL_CONFIG_SYSADMINTO_ADDRESS_DESCRIPTION</description>
-            <validation>
-            	<regexp>^(\w+)([\-+.][\w]+)*@(\w[\-\w]*\.){1,5}([A-Za-z0-9][A-Za-z0-9]+)$</regexp>
-            	<invalidText i18n="true">PLUGINS_CORE_REGEXP_INVALID_MAIL</invalidText>
-            </validation>
-            <category i18n="true">PLUGINS_CORE_MAIL_CONFIG_CATEGORY</category>
-            <group i18n="true">PLUGINS_CORE_MAIL_CONFIG_ADDRESS_GROUP</group>
-            <order>1</order>
+            <group i18n="true">PLUGINS_CORE_MAIL_CONFIG_GROUP</group>
+            <order>5</order>
         </param>
     </config>
     
@@ -2172,6 +2187,7 @@
         <config>
             <param-ref id="smtp.mail.host"/>
             <param-ref id="smtp.mail.port"/>
+            <param-ref id="smtp.mail.security.protocol"/>
             <param-ref id="smtp.mail.user"/>
             <param-ref id="smtp.mail.password"/>
             <param-ref id="smtp.mail.from"/>

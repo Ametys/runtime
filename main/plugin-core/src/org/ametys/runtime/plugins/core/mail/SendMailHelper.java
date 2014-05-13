@@ -1,5 +1,5 @@
 /*
- *  Copyright 2012 Anyware Services
+ *  Copyright 2014 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -191,79 +191,86 @@ public final class SendMailHelper
      */
     public static void sendMail(String subject, String htmlBody, String textBody, Collection<File> attachments, String recipient, String sender, String host, long port, String user, String password) throws MessagingException, IOException
     {
-        try
+        Properties props = new Properties();
+
+        // Setup mail server
+        props.put("mail.smtp.host", host);
+        props.put("mail.smtp.port", port);
+        
+        // Security protocol
+        String protocol = Config.getInstance().getValueAsString("smtp.mail.security.protocol");
+        if (protocol.equals("starttls"))
         {
-            Properties props = new Properties();
+            props.put("mail.smtp.starttls.enable", "true"); 
+        }
+        else if (protocol.equals("tlsssl"))
+        {
+            props.put("mail.smtp.ssl.enable", "true");
+        }
+        
+        Session session = Session.getInstance(props, null);
+        
+        // Define message
+        MimeMessage message = new MimeMessage(session);
+        message.setFrom(new InternetAddress(sender));
+        message.setSentDate(new Date());
+        message.setSubject(subject);
 
-            // Setup mail server
-            props.put("mail.smtp.host", host);
-            props.put("mail.smtp.port", port);
+        // Root multipart
+        Multipart multipart = new MimeMultipart("mixed");
 
-            // Get session
-            Session session = Session.getInstance(props, null);
+        // Message body part.
+        Multipart messageMultipart = new MimeMultipart("alternative");
+        MimeBodyPart messagePart = new MimeBodyPart();
+        messagePart.setContent(messageMultipart);
+        multipart.addBodyPart(messagePart);
 
-            // Define message
-            MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(sender));
-            message.setSentDate(new Date());
-            message.setSubject(subject);
+        if (textBody != null)
+        {
+            MimeBodyPart textBodyPart = new MimeBodyPart();
+            textBodyPart.setContent(textBody, "text/plain;charset=utf-8");
+            textBodyPart.addHeader("Content-Type", "text/plain;charset=utf-8");
+            messageMultipart.addBodyPart(textBodyPart);
+        }
 
-            // Root multipart
-            Multipart multipart = new MimeMultipart("mixed");
+        if (htmlBody != null)
+        {
+            MimeBodyPart htmlBodyPart = new MimeBodyPart();
+            htmlBodyPart.setContent(inlineCSS(htmlBody), "text/html;charset=utf-8");
+            htmlBodyPart.addHeader("Content-Type", "text/html;charset=utf-8");
+            messageMultipart.addBodyPart(htmlBodyPart);
+        }
 
-            // Message body part.
-            Multipart messageMultipart = new MimeMultipart("alternative");
-            MimeBodyPart messagePart = new MimeBodyPart();
-            messagePart.setContent(messageMultipart);
-            multipart.addBodyPart(messagePart);
-
-            if (textBody != null)
+        if (attachments != null)
+        {
+            for (File attachment : attachments)
             {
-                MimeBodyPart textBodyPart = new MimeBodyPart();
-                textBodyPart.setContent(textBody, "text/plain;charset=utf-8");
-                textBodyPart.addHeader("Content-Type", "text/plain;charset=utf-8");
-                messageMultipart.addBodyPart(textBodyPart);
+                MimeBodyPart fileBodyPart = new MimeBodyPart();
+                fileBodyPart.attachFile(attachment);
+                multipart.addBodyPart(fileBodyPart);
             }
+        }
+        message.setContent(multipart);
 
-            if (htmlBody != null)
-            {
-                MimeBodyPart htmlBodyPart = new MimeBodyPart();
-                htmlBodyPart.setContent(inlineCSS(htmlBody), "text/html;charset=utf-8");
-                htmlBodyPart.addHeader("Content-Type", "text/html;charset=utf-8");
-                messageMultipart.addBodyPart(htmlBodyPart);
-            }
-
-            if (attachments != null)
-            {
-                for (File attachment : attachments)
-                {
-                    MimeBodyPart fileBodyPart = new MimeBodyPart();
-                    fileBodyPart.attachFile(attachment);
-                    multipart.addBodyPart(fileBodyPart);
-                }
-            }
-
-            message.setContent(multipart);
-
-            // Recipient
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-
-            Transport tr = session.getTransport("smtp");
-
+        // Recipients
+        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient, false));
+        
+        Transport tr = session.getTransport("smtp");
+        try 
+        {
             if (StringUtils.isNotBlank(user))
             {
-                tr.connect(user, password);
+                tr.connect(host, (int) port, user, password);
             }
             else
             {
-                tr.connect();
+                tr.connect(host, (int) port, null, null);
             }
-
             message.saveChanges();
             tr.sendMessage(message, message.getAllRecipients());
             tr.close();
         }
-        catch (Exception e)
+        catch (MessagingException e)
         {
             throw new MessagingException(e.getMessage(), e);
         }

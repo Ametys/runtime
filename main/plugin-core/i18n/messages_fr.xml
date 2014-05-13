@@ -245,6 +245,11 @@
 	<message key="PLUGINS_CORE_MAIL_CONFIG_HOST_DESCRIPTION">Nom du serveur SMTP</message>
 	<message key="PLUGINS_CORE_MAIL_CONFIG_PORT">Port</message>
 	<message key="PLUGINS_CORE_MAIL_CONFIG_PORT_DESCRIPTION">Port</message>
+	<message key="PLUGINS_CORE_MAIL_CONFIG_SECURITY_LABEL">Protocole de sécurité</message>
+	<message key="PLUGINS_CORE_MAIL_CONFIG_SECURITY_DESCRIPTION">Sélectionnez le protocole de sécurité à utiliser pour l'envoi d'e-mails. &lt;br/&gt;Attention, les ports renseignés ici sont des ports par défaut et il se peut que certains serveurs d'envoi n'utilisent pas les mêmes.</message>
+	<message key="PLUGINS_CORE_MAIL_CONFIG_SECURITY_NONE">Aucun (Port par défaut : 25)</message>
+	<message key="PLUGINS_CORE_MAIL_CONFIG_SECURITY_STARTTLS">STARTTLS (Port par défaut : 587)</message>
+	<message key="PLUGINS_CORE_MAIL_CONFIG_SECURITY_TLSSSL">TLS/SSL (Port par défaut : 465)</message>
 	<message key="PLUGINS_CORE_MAIL_CONFIG_USER">Nom d'utilisateur</message>
 	<message key="PLUGINS_CORE_MAIL_CONFIG_USER_DESCRIPTION">Nom d'utilisateur. Laissez vide si aucune authentification n'est requise.</message>
 	<message key="PLUGINS_CORE_MAIL_CONFIG_PASSWORD">Mot de passe</message>

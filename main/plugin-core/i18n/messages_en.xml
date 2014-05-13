@@ -239,12 +239,17 @@
 	<message key="PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_AFFECT_SUCCESS">Assignment success</message>
 	
 	<!-- MAILING -->
-	<message key="PLUGINS_CORE_MAIL_CONFIG_CATEGORY">EMails</message>
+	<message key="PLUGINS_CORE_MAIL_CONFIG_CATEGORY">Emails</message>
 	<message key="PLUGINS_CORE_MAIL_CONFIG_GROUP">Server parameters</message>
 	<message key="PLUGINS_CORE_MAIL_CONFIG_HOST">Server name</message>
 	<message key="PLUGINS_CORE_MAIL_CONFIG_HOST_DESCRIPTION">SMTP server name</message>
 	<message key="PLUGINS_CORE_MAIL_CONFIG_PORT">Port</message>
 	<message key="PLUGINS_CORE_MAIL_CONFIG_PORT_DESCRIPTION">Port</message>
+    <message key="PLUGINS_CORE_MAIL_CONFIG_SECURITY_LABEL">Security protocol</message>
+    <message key="PLUGINS_CORE_MAIL_CONFIG_SECURITY_DESCRIPTION">Select the security protocol which will be used to send e-mails. &lt;br/&gt;Bear in mind that the ports written here are the default ports and some mailing servers might use other values.</message>
+    <message key="PLUGINS_CORE_MAIL_CONFIG_SECURITY_NONE">None (Default port: 25)</message>
+    <message key="PLUGINS_CORE_MAIL_CONFIG_SECURITY_STARTTLS">STARTTLS (Default port: 587)</message>
+    <message key="PLUGINS_CORE_MAIL_CONFIG_SECURITY_TLSSSL">TLS/SSL (Default port: 465)</message>
 	<message key="PLUGINS_CORE_MAIL_CONFIG_USER">User name</message>
 	<message key="PLUGINS_CORE_MAIL_CONFIG_USER_DESCRIPTION">The user name. Leave blank if no authentication is required.</message>
 	<message key="PLUGINS_CORE_MAIL_CONFIG_PASSWORD">Password</message>
