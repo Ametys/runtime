@@ -27,7 +27,7 @@
 <runtime.datasource.core.jdbc.passwd>Ametys_Runtime</runtime.datasource.core.jdbc.passwd>
 <runtime.datasource.core.jdbc.url>jdbc:mysql://mysql-dev.anyware.corp/Ametys_Runtime_Test</runtime.datasource.core.jdbc.url>
 <runtime.authentication.basic.realm>realm</runtime.authentication.basic.realm>
-    <runtime.skip-browser-compatibility-test>true</runtime.skip-browser-compatibility-test>
+<runtime.skip-browser-compatibility-test>true</runtime.skip-browser-compatibility-test>
 <runtime.upload.max-size>10000000</runtime.upload.max-size>
 <runtime.upload.dir>WEB-INF/data/uploads</runtime.upload.dir>
 <runtime.debug.ui>0</runtime.debug.ui>
@@ -59,6 +59,7 @@
 
 <smtp.mail.host>smtp.anyware.corp</smtp.mail.host>
 <smtp.mail.port>993</smtp.mail.port>
+<smtp.mail.security.protocol>none</smtp.mail.security.protocol>
 <smtp.mail.user></smtp.mail.user>
 <smtp.mail.password></smtp.mail.password>
 <smtp.mail.from>test@ametys.org</smtp.mail.from>

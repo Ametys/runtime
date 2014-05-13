@@ -21,11 +21,12 @@
 <config>
 <smtp.mail.host>smtp.anyware.corp</smtp.mail.host>
 <smtp.mail.port>993</smtp.mail.port>
+<smtp.mail.security.protocol>none</smtp.mail.security.protocol>
 <smtp.mail.user></smtp.mail.user>
 <smtp.mail.password></smtp.mail.password>
 <smtp.mail.from>test@ametys.org</smtp.mail.from>
 <smtp.mail.sysadminto>ametys@ametys.org</smtp.mail.sysadminto>
 <runtime.debug.ui>0</runtime.debug.ui>
-    <runtime.skip-browser-compatibility-test>true</runtime.skip-browser-compatibility-test>
+<runtime.skip-browser-compatibility-test>true</runtime.skip-browser-compatibility-test>
 <runtime.cache.xslt>false</runtime.cache.xslt>
 </config>

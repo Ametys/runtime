@@ -32,6 +32,7 @@
 <runtime.cache.xslt>false</runtime.cache.xslt>
 <smtp.mail.host>smtp.anyware.corp</smtp.mail.host>
 <smtp.mail.port>993</smtp.mail.port>
+<smtp.mail.security.protocol>none</smtp.mail.security.protocol>
 <smtp.mail.user></smtp.mail.user>
 <smtp.mail.password></smtp.mail.password>
 <smtp.mail.from>test@ametys.org</smtp.mail.from>
