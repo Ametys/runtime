@@ -434,7 +434,7 @@ Ext.define('Ext.ux.form.field.BoxSelect', {
             me.mon(me.inputEl, 'keydown', me.onKeyDown, me);
         }
         me.mon(me.inputEl, 'paste', me.onPaste, me);
-        //me.mon(me.listWrapper, 'click', me.onItemListClick, me);
+        me.mon(me.listWrapper, 'click', me.onItemListClick, me);
 
         // I would prefer to use relayEvents here to forward these events on, but I want
         // to pass the field instead of exposing the underlying selection model
