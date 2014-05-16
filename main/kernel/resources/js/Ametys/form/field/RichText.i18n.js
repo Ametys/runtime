@@ -610,7 +610,12 @@ Ext.define('Ametys.form.field.RichText', {
 			editor._updateEvery = Math.max(took2 - took, 1000);
 		}    	
     },
-    
+
+    /**
+     * @private
+     * Check if the title hierarchy in the content is correct
+     * <h1> before any <h2> and so on
+     */
     _checkTitleHierarchy: function()
     {
 	    var valid = true;
