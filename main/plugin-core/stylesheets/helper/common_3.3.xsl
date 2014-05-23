@@ -44,6 +44,8 @@
 		<xsl:param name="allow-refresh" select="true()"/>
 		
 		<xsl:param name="js-funcname-torefresh" select="concat('refresh_captcha_', substring-after(math:random(), '.'))"/>
+
+        <xsl:param name="plugin" select="core"/>
         
 		<noscript>
 			<xsl:variable name="id" select="concat('STATIC-', substring-after(math:random(), '.'))"/>
@@ -54,7 +56,7 @@
 				<input type="text" name="{$value-name}" maxlength="6" id="{$value-id}" style="{$value-style}" class="{$value-class}"/>
                 
 				<div class="captcha">
-					<img style="{$image-style}" class="{$image-class}" src="{$uri-prefix}/plugins/core/captcha/{$id}/image.png?width={$image-width}&amp;height={$image-height}&amp;color={$color}" id="{$image-id}">
+					<img style="{$image-style}" class="{$image-class}" src="{$uri-prefix}/plugins/{$plugin}/captcha/{$id}/image.png?width={$image-width}&amp;height={$image-height}&amp;color={$color}" id="{$image-id}">
 		                <xsl:attribute name="alt">
 		                    <xsl:if test="$image-alt-i18n and $image-alt-catalogue != ''">
 		                        <xsl:value-of select="$image-alt-catalogue"/>
@@ -83,7 +85,7 @@
 				var oldId = document.getElementById("<xsl:value-of select="$key-id"/>").value;
 				document.getElementById("<xsl:value-of select="$key-id"/>").value = newId;
 				document.getElementById("<xsl:value-of select="$value-id"/>").value = "";
-				document.getElementById("<xsl:value-of select="$image-id"/>").src = "<xsl:value-of select="$uri-prefix"/>/plugins/core/captcha/" + newId + "/image.png?cancelledKey=" + oldId + "&amp;width=<xsl:value-of select="$image-width"/>" + "&amp;height=<xsl:value-of select="$image-height"/>" + "&amp;color=<xsl:value-of select="$color"/>";
+				document.getElementById("<xsl:value-of select="$image-id"/>").src = "<xsl:value-of select="$uri-prefix"/>/plugins/<xsl:value-of select="$plugin"/>/captcha/" + newId + "/image.png?cancelledKey=" + oldId + "&amp;width=<xsl:value-of select="$image-width"/>" + "&amp;height=<xsl:value-of select="$image-height"/>" + "&amp;color=<xsl:value-of select="$color"/>";
 				
 				if (focusNow == true)
 				{

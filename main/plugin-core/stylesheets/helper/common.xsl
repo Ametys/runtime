@@ -43,6 +43,8 @@
         
         <xsl:param name="js-funcname-torefresh" select="concat('refresh_captcha_', substring-after(math:random(), '.'))"/>
         
+        <xsl:param name="plugin" select="core"/>
+        
         <xsl:param name="contextPath"/>
 	
 		<noscript>
@@ -52,7 +54,7 @@
 			
 			<input type="text" name="{$value-name}" maxlength="6" id="{$value-id}" style="{$value-style}" class="{$value-class}"/>
 			
-			<img style="{$image-style}" class="{$image-class}" src="{$contextPath}/plugins/core/captcha/{$id}/image.png?width={$image-width}&amp;height={$image-height}" id="{$image-id}">
+			<img style="{$image-style}" class="{$image-class}" src="{$contextPath}/plugins/{$plugin}/captcha/{$id}/image.png?width={$image-width}&amp;height={$image-height}" id="{$image-id}">
                 <xsl:attribute name="alt">
                     <xsl:if test="$image-alt-i18n and $image-alt-catalogue != ''">
                         <xsl:value-of select="$image-alt-catalogue"/>
@@ -81,7 +83,7 @@
 				var oldId = document.getElementById("<xsl:value-of select="$key-id"/>").value;
 				document.getElementById("<xsl:value-of select="$key-id"/>").value = newId;
 				document.getElementById("<xsl:value-of select="$value-id"/>").value = "";
-				document.getElementById("<xsl:value-of select="$image-id"/>").src = "<xsl:value-of select="$contextPath"/>/plugins/core/captcha/" + newId + "/image.png?cancelledKey=" + oldId + "&amp;width=<xsl:value-of select="$image-width"/>" + "&amp;height=<xsl:value-of select="$image-height"/>";
+				document.getElementById("<xsl:value-of select="$image-id"/>").src = "<xsl:value-of select="$contextPath"/>/plugins/<xsl:value-of select="$plugin"/>/captcha/" + newId + "/image.png?cancelledKey=" + oldId + "&amp;width=<xsl:value-of select="$image-width"/>" + "&amp;height=<xsl:value-of select="$image-height"/>";
 				
 				if (focusNow == true)
 				{
