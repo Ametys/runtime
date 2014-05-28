@@ -20,38 +20,17 @@
 		<copy file="external-locations.xml" todir="../templates/application/WEB-INF/param"/>
 	</target>
 	
-	<target name="classpath-dev-before">
-		<echo file="../.classpath">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-			&lt;classpath&gt;
-				&lt;classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/&gt;
-		</echo>
-	</target>
+	<target name="classpath-dev">
+        <xslt in="../.classpath" out="../.classpath.tmp" style="classpath2devmode.xsl">
+            <outputproperty name="method" value="xml"/>
+            <outputproperty name="standalone" value="yes"/>
+            <outputproperty name="encoding" value="UTF-8"/>
+            <outputproperty name="indent" value="yes"/>
 
-    <target name="classpath-dev-ivyde-2.1" unless="ivyde2.2">
-        <echo file="../.classpath" append="true">
-			    &lt;classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?ivyXmlPath=ivy.xml&amp;amp;confs=compile_dependencies%2Ctest&amp;amp;ivySettingsPath=%24%7Bproject_loc%7D%2F..%2F..%2F..%2F..%2Fivyrep%2Fivysettings.xml&amp;amp;loadSettingsOnDemand=false&amp;amp;propertyFiles=&amp;amp;doRetrieve=true&amp;amp;retrievePattern=templates%2Fapplication%2FWEB-INF%2Flib%2F%5Bartifact%5D-%5Brevision%5D.%5Bext%5D&amp;amp;retrieveSync=true&amp;amp;retrieveConfs=runtime_dependencies&amp;amp;retrieveTypes=jar%2Cbundle"/&gt;
-        </echo>
-    </target>
-    <target name="classpath-dev-ivyde-2.2" if="ivyde2.2">
-        <echo file="../.classpath" append="true">
-                &lt;classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?ivyXmlPath=ivy.xml&amp;amp;confs=compile_dependencies%2Ctest&amp;amp;ivySettingsPath=%24%7Bproject_loc%7D%2F..%2F..%2F..%2F..%2Fivyrep%2Fivysettings.xml&amp;amp;loadSettingsOnDemand=false&amp;amp;propertyFiles="/&gt;
-        	    &lt;classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?ivyXmlPath=ivy.xml&amp;amp;confs=runtime_dependencies&amp;amp;ivySettingsPath=ivySettingsPath=%24%7Bproject_loc%7D%2F..%2F..%2F..%2F..%2Fivyrep%2Fivysettings.xml&amp;amp;loadSettingsOnDemand=false&amp;amp;propertyFiles=&amp;amp;acceptedTypes=jar%2Cbundle%2Cejb%2Cmaven-plugin&amp;amp;alphaOrder=true&amp;amp;resolveInWorkspace=false&amp;amp;retrievedClasspath=true&amp;amp;retrievedClasspathPattern=templates%2Fapplication%2FWEB-INF%2Flib%2F%5Bartifact%5D-%5Brevision%5D.%5Bext%5D&amp;amp;retrievedClasspathSync=true&amp;amp;retrievedClasspathTypes=jar%2Cbundle%2Clib"/&gt;
-        </echo>
-    </target>
-
-	<target name="classpath-dev-after">
-		<echo file="../.classpath" append="true">
-				&lt;classpathentry kind="src" path="main/kernel/src"/&gt;
-				&lt;classpathentry kind="src" path="main/plugin-core/src"/&gt;
-				&lt;classpathentry kind="src" path="main/workspace-admin/src"/&gt;
-		        &lt;classpathentry kind="src" path="test/src"/&gt;
-		        &lt;classpathentry kind="src" path="test-env/src"/&gt;
-                &lt;classpathentry kind="output" path="templates/application/WEB-INF/classes"/&gt;
-			&lt;/classpath&gt;
-		</echo>
+            <param name="todevmode" expression="true"/>
+        </xslt>
+        <move file="../.classpath.tmp" tofile="../.classpath" overwrite="yes"/>
 	</target>
-	
-	<target name="classpath-dev" depends="classpath-dev-before, classpath-dev-ivyde-2.1, classpath-dev-ivyde-2.2, classpath-dev-after"/>
     
     <target name="dev-mode-enter" depends="add-external, classpath-dev"/>
 </project>

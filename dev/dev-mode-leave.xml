@@ -15,26 +15,22 @@
    limitations under the License.
    -->
 <project name="ametys-dev-mode-leave" default="dev-mode-leave">
-	<target name="remove-external">
-		<delete file="../templates/application/WEB-INF/param/external-locations.xml"/>
-	</target>
-	
-	<target name="classpath-normal">
-		<echo file="../.classpath">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-			&lt;classpath&gt;
-				&lt;classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/&gt;
-				&lt;classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?ivyXmlPath=ivy.xml&amp;amp;confs=compile,test&amp;amp;ivySettingsPath=%24%7Bproject_loc%7D%2F..%2F..%2F..%2F..%2Fivyrep%2Fivysettings.xml&amp;amp;loadSettingsOnDemand=false&amp;amp;propertyFiles="/&gt;
-			
-				&lt;classpathentry kind="src" path="main/kernel/src"/&gt;
-				&lt;classpathentry kind="src" path="main/plugin-core/src"/&gt;
-				&lt;classpathentry kind="src" path="main/workspace-admin/src"/&gt;
-			    &lt;classpathentry kind="src" path="test/src"/&gt;
-		        &lt;classpathentry kind="src" path="test-env/src"/&gt;
-			
-				&lt;classpathentry kind="output" path="bin"/&gt;
-			&lt;/classpath&gt;
-		</echo>
-	</target>
-	
-	<target name="dev-mode-leave" depends="remove-external, classpath-normal"/>
+    <target name="remove-external">
+        <delete file="../templates/application/WEB-INF/param/external-locations.xml"/>
+    </target>
+    
+    <target name="classpath-dev">
+        <xslt in="../.classpath" out="../.classpath.tmp" style="classpath2devmode.xsl">
+            <outputproperty name="method" value="xml"/>
+            <outputproperty name="standalone" value="yes"/>
+            <outputproperty name="encoding" value="UTF-8"/>
+            <outputproperty name="indent" value="yes"/>
+
+            <param name="todevmode" expression="false"/>
+        </xslt>
+        <move file="../.classpath.tmp" tofile="../.classpath" overwrite="yes"/>
+
+    </target>
+    
+    <target name="dev-mode-leave" depends="remove-external, classpath-dev"/>
 </project>
