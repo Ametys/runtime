@@ -15,6 +15,12 @@
  */
 package org.ametys.runtime.plugins.core.authentication;
 
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -37,11 +43,13 @@ import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.Response;
 import org.apache.cocoon.environment.http.HttpCookie;
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 
 import org.ametys.runtime.authentication.Credentials;
 import org.ametys.runtime.authentication.CredentialsProvider;
 import org.ametys.runtime.captcha.CaptchaHelper;
 import org.ametys.runtime.config.Config;
+import org.ametys.runtime.datasource.ConnectionHelper;
 import org.ametys.runtime.workspace.WorkspaceMatcher;
 
 /**
@@ -82,6 +90,8 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
     public static final String SECURITY_LEVEL_LOW = "low";
     /** High security level */
     public static final String SECURITY_LEVEL_HIGH = "high";
+    /** Number of connection attempts allowed */
+    public static final Integer NB_CONNECTION_ATTEMPTS = 3;
     
     /** Name of the user name html field */
     protected String _usernameField;
@@ -240,6 +250,14 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
                 }
             }
         }
+        else
+        {
+            Request request = ContextHelper.getRequest(_context);
+            String login = request.getParameter(_usernameField);
+
+            _deleteLoginFailedBDD(login);
+            
+        }
     }
 
     public Credentials getCredentials(Redirector redirector) throws Exception
@@ -254,13 +272,17 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
             String level = Config.getInstance().getValueAsString("runtime.authentication.form.security.level");
             if (SECURITY_LEVEL_HIGH.equals(level))
             {
-                String answer = request.getParameter(_captchaField);
-                String captchaKey = request.getParameter(_captchaKeyField);
-
-                if (captchaKey == null || !CaptchaHelper.checkAndInvalidate(captchaKey, answer)) 
+                Integer nbConnect = _requestNbConnectBDD(login);
+                if (nbConnect >= NB_CONNECTION_ATTEMPTS)
                 {
-                    // Captcha is invalid
-                    return null;
+                    String answer = request.getParameter(_captchaField);
+                    String captchaKey = request.getParameter(_captchaKeyField);
+
+                    if (captchaKey == null || !CaptchaHelper.checkAndInvalidate(captchaKey, answer)) 
+                    {
+                        // Captcha is invalid
+                        return null;
+                    }
                 }
             }
             
@@ -287,6 +309,185 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
         return null;
     }
 
+    /**
+     * Delete the login from the table of the failed connection
+     * @param login
+     */
+    protected void _deleteLoginFailedBDD(String login)
+    {
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try
+        {
+            // Effectuer la connexion à la base de données
+            con = ConnectionHelper.getConnection(ConnectionHelper.CORE_POOL_NAME);    
+            
+            // Contruire la requête pour authentifier l'utilisateur
+            String sql = "DELETE FROM Users_FormConnectionFailed WHERE login = ?";
+            
+            stmt = con.prepareStatement(sql);
+            stmt.setString(1, login);
+            
+            // Effectuer la requête
+            stmt.execute();
+        }
+        catch (SQLException e)
+        {
+            getLogger().error("Error during the connection to the database", e);
+        }
+        finally
+        {
+            // Fermer les ressources de connexion
+            ConnectionHelper.cleanup(rs);
+            ConnectionHelper.cleanup(stmt);
+            ConnectionHelper.cleanup(con);
+        }
+        
+    }
+    
+    /**
+     * Get the number of failed connections with this login
+     * @param login
+     * @return nbConnect
+     */
+    protected Integer _requestNbConnectBDD(String login)
+    {
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try
+        {
+            // Effectuer la connexion à la base de données
+            con = ConnectionHelper.getConnection(ConnectionHelper.CORE_POOL_NAME);    
+            
+            // Contruire la requête pour authentifier l'utilisateur
+            String sql = "SELECT nb_connect FROM Users_FormConnectionFailed WHERE login = ?";
+            
+            stmt = con.prepareStatement(sql);
+            stmt.setString(1, login);
+    
+            // Effectuer la requête
+            rs = stmt.executeQuery();
+    
+            Integer nbConnect = 0;
+            if (rs.next()) 
+            {
+                nbConnect = rs.getInt("nb_connect"); 
+            }
+            return nbConnect;
+        }
+        catch (SQLException e)
+        {
+            getLogger().error("Error during the connection to the database", e);
+            return 0;
+        }
+        finally
+        {
+            // Fermer les ressources de connexion
+            ConnectionHelper.cleanup(rs);
+            ConnectionHelper.cleanup(stmt);
+            ConnectionHelper.cleanup(con);
+        }
+    }
+    
+    /**
+     * Get the number of failed connections with this login
+     * @param login
+     * @return the number of failed connection
+     */
+    protected Integer _setNbConnectBDD(String login)
+    {
+        Integer nbConnect = _requestNbConnectBDD(login);
+        if (nbConnect == 0)
+        {
+            _insertLoginNbConnectBDD(login);
+        }
+        else
+        {
+            _updateLoginNbConnectBDD(login, nbConnect);
+        }
+        
+        return nbConnect;
+        
+    }
+    
+    /**
+     * Insert the login with one failed connection in the BDD
+     * @param login
+     */
+    protected void _insertLoginNbConnectBDD(String login)
+    {
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try
+        {
+         // Effectuer la connexion à la base de données
+            con = ConnectionHelper.getConnection(ConnectionHelper.CORE_POOL_NAME);    
+            
+            String sqlUpdate = "INSERT INTO Users_FormConnectionFailed (login, nb_connect, last_connect) VALUES (?, ?, ?)";
+           
+            stmt = con.prepareStatement(sqlUpdate);
+            stmt.setString(1, login);
+            stmt.setInt(2, 1);
+            
+            DateTime dateToday = new DateTime(); 
+            
+            Timestamp date = new Timestamp(dateToday.getMillis());
+            stmt.setTimestamp(3, date);
+            
+            stmt.execute();
+        }
+        catch (SQLException e)
+        {
+            getLogger().error("Error during the connection to the database", e);
+        }
+        finally
+        {
+            // Fermer les ressources de connexion
+            ConnectionHelper.cleanup(rs);
+            ConnectionHelper.cleanup(stmt);
+            ConnectionHelper.cleanup(con);
+        }
+    }
+    
+    /**
+     * Update the number of failed connections of the login in the BDD
+     * @param login
+     * @param nbConnect
+     */
+    protected void _updateLoginNbConnectBDD(String login, Integer nbConnect)
+    {
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try
+        {
+            // Effectuer la connexion à la base de données
+            con = ConnectionHelper.getConnection(ConnectionHelper.CORE_POOL_NAME);    
+            
+            String sqlUpdate = "UPDATE Users_FormConnectionFailed SET nb_connect = ? WHERE login = ?";
+           
+            stmt = con.prepareStatement(sqlUpdate);
+            stmt.setInt(1, nbConnect + 1);
+            stmt.setString(2, login);
+            
+            stmt.execute();
+        }
+        catch (SQLException e)
+        {
+            getLogger().error("Error during the connection to the database", e);
+        }
+        finally
+        {
+            // Fermer les ressources de connexion
+            ConnectionHelper.cleanup(rs);
+            ConnectionHelper.cleanup(stmt);
+            ConnectionHelper.cleanup(con);
+        }
+    }
+    
     public void notAllowed(Redirector redirector) throws Exception
     {
         Request request = ContextHelper.getRequest(_context);
@@ -296,6 +497,20 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
         {
             parameters.append(getLoginFailedURL().indexOf('?') >= 0 ? "&" : "?");
             parameters.append("login=" + request.getParameter(_usernameField));
+            
+            String level = Config.getInstance().getValueAsString("runtime.authentication.form.security.level");
+            if (SECURITY_LEVEL_HIGH.equals(level))
+            {
+                String captchaKey = request.getParameter(_captchaKeyField);
+                int nbConnect = _setNbConnectBDD(request.getParameter(_usernameField));
+                int nbAttempts = NB_CONNECTION_ATTEMPTS - 1;
+                
+                if (nbConnect == nbAttempts || (captchaKey == null && nbConnect > nbAttempts))
+                {
+                    parameters.append("&tooManyAttempts=" + true);
+                }
+            }
+            
         }
 
         String redirectUrl;
