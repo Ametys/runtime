@@ -73,7 +73,7 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
     @Override
     public void configure(Configuration configuration) throws ConfigurationException
     {
-        _configuredDebugMode = Config.getInstance() != null && Config.getInstance().getValueAsLong("runtime.debug.ui") != null ? Config.getInstance().getValueAsLong("runtime.debug.ui") : 0;
+        _configuredDebugMode = Config.getInstance() != null && Config.getInstance().getValueAsLong("runtime.debug.ui") != null ? Config.getInstance().getValueAsLong("runtime.debug.ui") : 2;
         _defaultPluginCoreUrl = configuration.getChild("plugin-core-url").getValue(null);
     }
     

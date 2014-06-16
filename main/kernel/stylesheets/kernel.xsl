@@ -57,7 +57,7 @@
 
         <xsl:param name="load-cb"/>
 
-        <xsl:variable name="debug-mode" select="ametys:config('runtime.debug.ui') != 0"/>
+        <xsl:variable name="debug-mode" select="not(ametys:config('runtime.debug.ui') = 0)"/>
 	
 		<xsl:call-template name="kernel-browsers">
 			<xsl:with-param name="authorized-browsers" select="$authorized-browsers"/>
