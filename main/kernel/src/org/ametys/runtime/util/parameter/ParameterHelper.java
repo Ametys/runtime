@@ -213,6 +213,21 @@ public final class ParameterHelper
         parameterAttr.addAttribute("", "plugin", "plugin", "CDATA", parameter.getPluginName());
         XMLUtils.startElement(handler, parameter.getId(), parameterAttr);
         
+        toSAXParameterInternal(handler, parameter, value);
+        
+        XMLUtils.endElement(handler, parameter.getId());
+    }
+
+    /**
+     * SAX a parameter except the root tag
+     * @param handler The content handler where to SAX
+     * @param parameter The parameter to SAX
+     * @param value The parameter value. Can be null.
+     * @throws SAXException If an error occurred while SAXing
+     * @throws ProcessingException If an error occurred
+     */
+    public static void toSAXParameterInternal(ContentHandler handler, Parameter parameter, Object value) throws SAXException, ProcessingException
+    {
         parameter.getLabel().toSAX(handler, "label");
         parameter.getDescription().toSAX(handler, "description");
         
@@ -255,12 +270,7 @@ public final class ParameterHelper
         }
         
         Validator validator = parameter.getValidator();
-        if (validator != null)
-        {
-            toSAXValidator(handler, validator);
-        }
-        
-        XMLUtils.endElement(handler, parameter.getId());
+        toSAXValidator(handler, validator);
     }
     
     /**
@@ -281,7 +291,7 @@ public final class ParameterHelper
                 String valueAsString = ParameterHelper.valueToString(entry.getKey());
                 I18nizableText label = entry.getValue();
 
-                // Produit l'option
+                // Generate option
                 AttributesImpl attrs = new AttributesImpl();
                 attrs.addCDATAAttribute("value", valueAsString);
                 
@@ -317,11 +327,9 @@ public final class ParameterHelper
     {
         if (validator != null)
         {
-            XMLUtils.startElement(handler, "validation");
-            
-            validator.saxConfiguration(handler);
-            
-            XMLUtils.endElement(handler, "validation");
+        	XMLUtils.startElement(handler, "validation");
+        	validator.saxConfiguration(handler);
+        	XMLUtils.endElement(handler, "validation");
         }
     }
 }

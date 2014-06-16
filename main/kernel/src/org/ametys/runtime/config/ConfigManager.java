@@ -17,11 +17,15 @@ package org.ametys.runtime.config;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
+import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -43,10 +47,14 @@ import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.cocoon.ProcessingException;
+import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.xml.serializer.OutputPropertiesFactory;
+import org.codehaus.jackson.JsonFactory;
+import org.codehaus.jackson.JsonGenerator;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
@@ -63,7 +71,7 @@ import org.ametys.runtime.util.parameter.ParameterHelper.ParameterType;
 import org.ametys.runtime.util.parameter.Validator;
 
 /**
- * This manager handle the parameters of the application that have to be stored, by the plugins.
+ * This manager handle the parameters of the application that have to be stored by the plugins.
  */
 public final class ConfigManager implements Contextualizable, Serviceable, Initializable
 {
@@ -129,16 +137,19 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         return _isInitialized && _isComplete;
     }
     
+    @Override
     public void contextualize(Context context)
     {
         _context = context;
     }
     
+    @Override
     public void service(ServiceManager manager)
     {
         _manager = manager;
     }
     
+    @Override
     public void initialize() throws Exception
     {
         _usedParamsName = new LinkedHashMap<String, String>();
@@ -171,9 +182,9 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         }
 
         Configuration[] params = configuration.getChild("config").getChildren("param");
-        for (int i = 0; i < params.length; i++)
+        for (Configuration param : params)
         {
-            String id = params[i].getAttribute("id", null);
+            String id = param.getAttribute("id", null);
             
             if (id == null)
             {
@@ -187,7 +198,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             }
 
             // Add the new parameter to the list of the unused parameters
-            _declaredParams.put(id, new ConfigParameterInfo(id, pluginName, params[i]));
+            _declaredParams.put(id, new ConfigParameterInfo(id, pluginName, param));
 
             if (_logger.isDebugEnabled())
             {
@@ -253,7 +264,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
 
         if (_logger.isDebugEnabled())
         {
-            _logger.debug((paramsConfig.length + refParamsConfig.length) + " parameter(s) selected.");
+            _logger.debug(paramsConfig.length + refParamsConfig.length + " parameter(s) selected.");
         }
     }
 
@@ -564,11 +575,21 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                 for (ConfigParameter param : group.getParams())
                 {
                     Object value = _getValue (param.getId(), param.getType(), untypedValues);
-                        
-                    ParameterHelper.toSAXParameter (handler, param, value);
+
+                    AttributesImpl parameterAttr = new AttributesImpl();
+                    parameterAttr.addAttribute("", "plugin", "plugin", "CDATA", param.getPluginName());
+                    XMLUtils.startElement(handler, param.getId(), parameterAttr);
+                    
+                    ParameterHelper.toSAXParameterInternal(handler, param, value);
+                    if (param.getDisableConditions() != null)
+                    {
+                        XMLUtils.createElement(handler, "disable-conditions", param.convertObjectToJSON(param.getDisableConditions()));
+                    }
+                    
+                    XMLUtils.endElement(handler, param.getId());
                 }
                 XMLUtils.endElement(handler, "parameters");
-
+                
                 XMLUtils.endElement(handler, "group");
             }
 
@@ -634,9 +655,8 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         Map<String, Object> typedValues = new HashMap<String, Object>();
 
         String[] ids = getParametersIds();
-        for (int i = 0; i < ids.length; i++)
+        for (String id : ids)
         {
-            String id = ids[i];
             String untypedValue = untypedValues.get(id);
             
             Object typedValue = ParameterHelper.castValue(untypedValue, _params.get(id).getType());
@@ -775,9 +795,9 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
     
     class ConfigParameterInfo
     {
-        private String _id;
-        private String _pluginName;
-        private Configuration _conf;
+        private final String _id;
+        private final String _pluginName;
+        private final Configuration _conf;
         
         ConfigParameterInfo(String id, String pluginName, Configuration conf)
         {
@@ -807,9 +827,9 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
      */
     class ParameterGroup
     {
-        private Set<ConfigParameter> _groupParams;
+        private final Set<ConfigParameter> _groupParams;
         private String _switcher;
-        private I18nizableText _groupLabel;
+        private final I18nizableText _groupLabel;
         
         /**
          * Create a group
@@ -838,7 +858,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                 }
                 else
                 {
-                    throw new RuntimeException("At least two group switch has been defined for the configuration group '" + _groupLabel.toString() + "'. Theses parameters are '" + _switcher + "' and '" + param.getId() + "'.");
+                    throw new RuntimeException("At least two group-switches have been defined for the configuration group '" + _groupLabel.toString() + "'. These parameters are '" + _switcher + "' and '" + param.getId() + "'.");
                 }
             }
         }
@@ -858,13 +878,16 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             return _switcher;
         }
     }
-    
+        
     class ConfigParameter extends Parameter<ParameterType> implements Comparable<ConfigParameter>
     {
         private I18nizableText _displayCategory;
         private I18nizableText _displayGroup;
         private boolean _groupSwitch;
         private long _order;
+        private Map<String, Object> _disableConditions;
+        private final JsonFactory _jsonFactory = new JsonFactory();
+        private final ObjectMapper _objectMapper = new ObjectMapper();
 
         I18nizableText getDisplayCategory()
         {
@@ -906,6 +929,25 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             _order = order;
         }
         
+
+        /**
+         * Retrieves the disable condition.
+         * @return the disable condition or <code>null</code> if none is defined.
+         */
+        public Map<String, Object> getDisableConditions()
+        {
+            return _disableConditions;
+        }
+
+        /**
+         * Sets the disable condition.
+         * @param disableConditions the disable condition.
+         */
+        public void setDisableConditions(Map<String, Object> disableConditions)
+        {
+            _disableConditions = disableConditions;
+        }
+        
         @Override
         public int compareTo(ConfigParameter o)
         {
@@ -929,8 +971,30 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             
             return getId().compareTo(o.getId());
         }
+        
+        /**
+         * Formats an Object into JSON. 
+         * @param parameters the Object to be formatted.
+         * @return the Object as a JSON string.
+         */
+        public String convertObjectToJSON(Object parameters)
+        {
+            try
+            {
+                StringWriter writer = new StringWriter();
+                
+                JsonGenerator jsonGenerator = _jsonFactory.createJsonGenerator(writer);
+                _objectMapper.writeValue(jsonGenerator, parameters);
+                
+                return writer.toString();
+            }
+            catch (IOException e)
+            {
+                throw new IllegalArgumentException("The object can not be converted to json string", e);
+            }
+        }
     }
-    
+        
     class ConfigParameterParser extends AbstractParameterParser<ConfigParameter, ParameterType>
     {
         public ConfigParameterParser(ThreadSafeComponentManager<Enumerator> enumeratorManager, ThreadSafeComponentManager<Validator> validatorManager)
@@ -981,6 +1045,52 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             return ParameterHelper.castValue(value, parameter.getType());
         }        
         
+        protected Map<String, Object> _parseDisableConditions(Configuration disableConditionConfiguration) throws ConfigurationException
+        {
+            if (disableConditionConfiguration == null)
+            {
+                return null;
+            }
+            
+            Map<String, Object> conditions = new HashMap<String, Object> ();
+            List<Map<String, Object>> conditionList = new ArrayList<Map<String, Object>> ();
+            List<Map<String, Object>> conditionsList = new ArrayList<Map<String, Object>> ();
+            
+            Configuration[] conditionsConfiguration = disableConditionConfiguration.getChildren();
+            for (Configuration conditionConfiguration : conditionsConfiguration)
+            {
+                String tagName = conditionConfiguration.getName();
+                
+                // Recursive case
+                if (tagName.equals("conditions"))
+                {
+                    conditionsList.add(_parseDisableConditions(conditionConfiguration));
+                }
+                else 
+                {
+                    Map<String, Object> conditionMap = new HashMap<String, Object> ();
+                    conditionMap.put("id", conditionConfiguration.getAttribute("id"));
+                    conditionMap.put("operator", conditionConfiguration.getAttribute("operator"));
+                    conditionMap.put("value", conditionConfiguration.getValue(""));
+                    conditionList.add(conditionMap);
+                }
+            }
+            
+            conditions.put("type", disableConditionConfiguration.getAttribute("type"));
+            
+            if (!conditionList.isEmpty())
+            {
+                conditions.put("condition", conditionList);
+            }
+            
+            if (!conditionsList.isEmpty())
+            {
+                conditions.put("conditions", conditionsList);
+            }
+            
+            return conditions;
+        }
+        
         @Override
         protected void _additionalParsing(ServiceManager manager, String pluginName, Configuration parameterConfig, String parameterId, ConfigParameter parameter) throws ConfigurationException
         {
@@ -991,6 +1101,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             parameter.setDisplayGroup(_parseI18nizableText(parameterConfig, pluginName, "group"));
             parameter.setGroupSwitch(parameterConfig.getAttributeAsBoolean("group-switch", false));
             parameter.setOrder(parameterConfig.getChild("order").getValueAsLong(0));
+            parameter.setDisableConditions(_parseDisableConditions(parameterConfig.getChild("disable-conditions", false)));
         }
     }
 }

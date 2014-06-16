@@ -106,7 +106,7 @@
 	                value: "<xsl:value-of select="escape:escapeJavaScript($config/value)"/>",
 	            </xsl:when>
 	            <xsl:otherwise>
-	               value: "<xsl:value-of select="escape:escapeJavaScript($config/defaultValue)"/>",
+                    value: "<xsl:value-of select="escape:escapeJavaScript($config/defaultValue)"/>",
 	            </xsl:otherwise>
             </xsl:choose>
             label: "<xsl:copy-of select="$config/label/node()"/>", 
@@ -115,13 +115,20 @@
             widget: "<xsl:value-of select="$config/widget"/>",
             mandatory: "<xsl:value-of select="$config/validation/mandatory"/>",
             regexp: "<xsl:value-of select="escape:escapeJavaScript($config/validation/regexp)"/>"
+            <xsl:choose> 
+                <xsl:when test="$config/disable-conditions">
+                    , disableCondition: <xsl:value-of select="$config/disable-conditions/node()"/> 
+                </xsl:when>
+                <xsl:otherwise>
+                    , disableCondition: null
+                </xsl:otherwise>
+            </xsl:choose>
             <xsl:if test="$config/validation/invalidText != ''">, invalidText: "<xsl:value-of select="$config/validation/invalidText"/>"</xsl:if>
         }
     </xsl:template>
     
     <xsl:template name="enumeration">
         <xsl:param name="config" select="."/>
-        
     	<xsl:choose>
     		<xsl:when test="$config/enumeration">
     			<xsl:text>[</xsl:text> 

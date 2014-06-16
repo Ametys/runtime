@@ -47,7 +47,7 @@ public interface Validator
     
     /**
      * Retrieves the configuration of the validator. Information contained in
-     * the returned map shoud be the same than those SAX'ed in
+     * the returned map should be the same than those SAX'ed in
      * {@link #saxConfiguration(ContentHandler)}
      * @return a map containing the configuration information.
      */

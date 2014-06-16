@@ -486,6 +486,17 @@
                     </xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
+            <xsd:element name="disable-conditions" type="disable-conditions" maxOccurs="1" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            Allows to define disabling conditons for this parameter.<br/>
+                            One or several disabling conditions can be used to shade a field in Java:
+                            the class must inherit org.ametys.runtime.util.parameter.DisableConditions.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
         </xsd:sequence>
     </xsd:complexType>
     
@@ -634,6 +645,104 @@
     	</xsd:choice>
     </xsd:complexType>
     
+    <!--  DISABLE CONDITIONS -->
+    <xsd:complexType name="disable-conditions">
+        <xsd:sequence>
+	        <xsd:element name="condition" type="condition" maxOccurs="unbounded" minOccurs="0">
+	           <xsd:annotation>
+                   <xsd:documentation xml:lang="en">
+                       <![CDATA[
+                           Declaration of one or several condition(s). The type of the parent element specifies if it is an union or an intersection.
+                       ]]>
+                   </xsd:documentation>
+               </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="conditions" type="conditions" maxOccurs="unbounded" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            Declaration of the conditions to use.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>          
+        </xsd:sequence>
+        <xsd:attribute name="type" use="optional" default="and">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                        The type of the conditions: union or intersection (default is and)
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>            
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:enumeration value="and"/>
+                  <xsd:enumeration value="or"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+    </xsd:complexType>
+    
+    <xsd:element name="conditions" type="conditions"/>
+    
+    <xsd:complexType name="conditions">
+        <xsd:sequence> 
+            <xsd:element name="condition" type="condition" maxOccurs="unbounded" minOccurs="0"/>
+            <xsd:element name="conditions" type="conditions" maxOccurs="unbounded" minOccurs="0"/> 
+        </xsd:sequence>
+        <xsd:attribute name="type" use="optional" default="and">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                        The type of the conditions: union or intersection (default is and)
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>            
+            <xsd:simpleType>
+	            <xsd:restriction base="xsd:string">
+	              <xsd:enumeration value="and"/>
+	              <xsd:enumeration value="or"/>
+	            </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+    </xsd:complexType>
+    
+    <xsd:complexType name="condition">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+		        <xsd:attribute name="id" type="xsd:string" use="required">
+		            <xsd:annotation>
+		                <xsd:documentation xml:lang="en">
+		                    <![CDATA[
+		                        The id of the parameter used in the condition
+		                    ]]>
+		                </xsd:documentation>
+		            </xsd:annotation>            
+		        </xsd:attribute>
+		        <xsd:attribute name="operator" use="required">
+		            <xsd:annotation>
+		                <xsd:documentation xml:lang="en">
+		                    <![CDATA[
+		                        The operator used in the evaluation of the condition ( id op value )
+		                    ]]>
+		                </xsd:documentation>
+		            </xsd:annotation>
+		             <xsd:simpleType>
+		                <xsd:restriction base="xsd:string">
+		                  <xsd:enumeration value="eq"/>
+		                  <xsd:enumeration value="neq"/>
+		                  <xsd:enumeration value="lt"/>
+		                  <xsd:enumeration value="leq"/>
+		                  <xsd:enumeration value="gt"/>
+		                  <xsd:enumeration value="geq"/>
+		                </xsd:restriction>
+		            </xsd:simpleType>            
+		        </xsd:attribute>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    
     <xsd:complexType name="local-component">
         <xsd:sequence>
             <xsd:any processContents="lax" maxOccurs="unbounded" minOccurs="0"/>
@@ -703,6 +812,15 @@
 		                    </xsd:documentation>
 		                </xsd:annotation>
 		            </xsd:element>
+		            <xsd:element name="disable-conditions" type="disable-conditions" maxOccurs="1" minOccurs="0">
+		                <xsd:annotation>
+                            <xsd:documentation xml:lang="en">
+                                <![CDATA[
+                                    The condition that disables this parameter.
+                                ]]>
+                            </xsd:documentation>
+                        </xsd:annotation>  
+		            </xsd:element>
 		        </xsd:sequence>
 		        <xsd:attribute name="id" type="xsd:string" use="required">
 		            <xsd:annotation>
@@ -744,7 +862,7 @@
                     <xsd:annotation>
                         <xsd:documentation xml:lang="en">
                             <![CDATA[
-                                Determine if this parameter is the switcher for its group. There can zero of one switcher per group. It must be a boolean parameter.
+                                Determine if this parameter is the switcher for its group. There can be zero of one switcher per group. It must be a boolean parameter.
                             ]]>
                         </xsd:documentation>
                     </xsd:annotation>            

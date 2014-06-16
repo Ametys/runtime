@@ -226,10 +226,16 @@
              -->
             <label i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ADMINDN_LABEL</label>
             <description i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ADMINDN_DESCRIPTION</description>
+            <validation>
+                <mandatory/>
+            </validation>
             <default-value>cn=admin</default-value>
             <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>
             <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_CATEGORY_LDAP_GROUP_CORE</group>
             <order>50</order>
+            <disable-conditions>
+                <condition id="runtime.datasource.core.ldap.authMethod" operator="eq">none</condition>
+            </disable-conditions>
         </param>
         <param id="runtime.datasource.core.ldap.adminPasswd" type="password">
             <!-- 
@@ -239,10 +245,12 @@
              -->
             <label i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ADMINPASSWORD_LABEL</label>
             <description i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ADMINPASSWORD_DESCRIPTION</description>
-            <default-value>password</default-value>
             <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>
             <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_CATEGORY_LDAP_GROUP_CORE</group>
             <order>60</order>
+            <disable-conditions>
+                <condition id="runtime.datasource.core.ldap.authMethod" operator="eq">none</condition>
+            </disable-conditions>
         </param>
         <param id="runtime.datasource.core.ldap.followReferrals" type="boolean">
             <!-- 
