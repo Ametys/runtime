@@ -20,8 +20,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringWriter;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -379,12 +382,19 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                         isGroupSwitchedOn = BooleanUtils.toBoolean((Boolean) _validateParameter(untypedValues, switcher));
                     }
                     
-                    // validate parameters if there's no switch or if switch is on
+                    // validate parameters if there's no switch, if the switch is on or if the the parameter is not disabled
                     if (groupSwitch == null || isGroupSwitchedOn)
                     {
+                        boolean disabled = false;
                         for (ConfigParameter parameter: group.getParams())
                         {
-                            if (!StringUtils.equals(parameter.getId(), group.getSwitch()))
+                            Map<String, Object> disableConditions = parameter.getDisableConditions();
+                            if (disableConditions != null)
+                            {
+                                disabled = _evaluateDisableConditions(disableConditions, untypedValues);
+                            }
+                            
+                            if (!StringUtils.equals(parameter.getId(), group.getSwitch()) && !disabled)
                             {
                                 _validateParameter(untypedValues, parameter);
                             }
@@ -439,6 +449,151 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         return value;
     }
 
+    private boolean _evaluateDisableConditions(Map<String, Object> disableConditions, Map<String, String> untypedValues)
+    {
+        if (disableConditions.get("conditions") == null && disableConditions.get("condition") == null)
+        {
+            return false;
+        }
+        
+        boolean disabled = !disableConditions.get("type").equals("and") ? false : true;
+        
+        List<Map<String, Object>> conditionsList = (List<Map<String, Object>>) disableConditions.get("conditions");
+        if (conditionsList != null)
+        {
+            for (Map<String, Object> conditions : conditionsList)
+            {
+                boolean result = _evaluateDisableConditions(conditions, untypedValues);
+                disabled = !disableConditions.get("type").equals("and") ? disabled || result : disabled && result;
+            }
+        }
+        
+        List<Map<String, Object>> conditionList = (List<Map<String, Object>>) disableConditions.get("condition"); 
+        if (conditionList != null)
+        {
+            for (Map<String, Object> condition : conditionList)
+            {
+                String id = (String) condition.get("id");
+                String op = (String) condition.get("operator");
+                String val = (String) condition.get("value");
+                    
+                
+                boolean result = _evaluateCondition(id, op, val, untypedValues);
+                disabled = !disableConditions.get("type").equals("and") ? disabled || result : disabled && result;
+            }
+        }
+        return disabled;
+    }
+    
+    private boolean _evaluateCondition(String id, String operator, String value, Map<String, String> untypedValues)
+    {
+        if (untypedValues.get(id) == null)
+        {
+            if (_logger.isDebugEnabled())
+            {
+                _logger.debug("Cannot evaluate the disable condition on the undefined parameter " + id + ".\nReturning false.");
+            }
+            return false;
+        }
+        
+        ParameterType type = _params.get(id).getType();
+        Object parameterValue = ParameterHelper.castValue(untypedValues.get(id), type);
+        boolean result = false;
+        boolean eq = operator.equals("eq");
+        boolean neq = operator.equals("neq");
+        boolean gt = operator.equals("gt");
+        boolean geq = operator.equals("geq");
+        boolean leq = operator.equals("leq");
+        boolean lt = operator.equals("lt");
+        
+        if (!(eq || neq || gt || geq || leq || lt))
+        {
+            throw new IllegalStateException("Unknown operator " + operator);
+        }
+        
+        if (eq)
+        {
+            result = parameterValue.equals(value);
+        }
+        else if (neq)
+        {
+            result = !parameterValue.equals(value);
+        }
+        else if (type.equals(ParameterType.BOOLEAN) || type.equals(ParameterType.STRING) || type.equals(ParameterType.PASSWORD))
+        {
+            throw new IllegalStateException("The condition on the parameter " + id + " of type " + type + " cannot be evaluated with either of the following operators : >, >=, <=, <");
+        }
+
+        if (type.equals(ParameterType.DATE))
+        {
+            try
+            {
+                if (gt)
+                {
+                    result = ((Date) parameterValue).compareTo(DateFormat.getDateInstance().parse(value)) > 0;
+                }
+                else if (geq)
+                {
+                    result = ((Date) parameterValue).compareTo(DateFormat.getDateInstance().parse(value)) >= 0;
+                }
+                else if (leq)
+                {
+                    result = ((Date) parameterValue).compareTo(DateFormat.getDateInstance().parse(value)) <= 0;
+                }
+                else if (lt)
+                {
+                    result = ((Date) parameterValue).compareTo(DateFormat.getDateInstance().parse(value)) < 0;
+                }
+            }   
+            catch (ParseException e)
+            {
+                throw new IllegalStateException("Parsing error at " + e.getErrorOffset() + " on value " + value);
+            }
+        }
+        else if (type.equals(ParameterType.DOUBLE)) 
+        {
+            Double parameterValueDouble = (Double) parameterValue;
+            if (gt)
+            {
+                result = parameterValueDouble > Double.parseDouble(value);
+            }
+            else if (geq)
+            {
+                result = parameterValueDouble >= Double.parseDouble(value);
+            }
+            else if (leq)
+            {
+                result = parameterValueDouble <= Double.parseDouble(value);
+            }
+            else if (lt)
+            {
+                result = parameterValueDouble < Double.parseDouble(value);
+            }
+        }
+        else if (type.equals(ParameterType.LONG))
+        {
+            Long parameterValueLong = (Long) parameterValue;
+            if (gt)
+            {
+                result = parameterValueLong > Long.parseLong(value);
+            }
+            else if (geq)
+            {
+                result = parameterValueLong >= Long.parseLong(value);
+            }
+            else if (leq)
+            {
+                result = parameterValueLong <= Long.parseLong(value);
+            }
+            else if (lt)
+            {
+                result = parameterValueLong < Long.parseLong(value);
+            }
+        }
+        return result;
+    }
+    
+                
     /**
      * Dispose the manager before restarting it
      */
