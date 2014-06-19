@@ -383,21 +383,22 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	_evaluateCondition: function(id, operator, value)
 	{
 		var fieldValue = this._form.getForm().findField(id).getValue();
+		
 		switch (operator)
 		{
 			case "gt" : 
-				return (fieldValue > value);
+				return fieldValue > value;
 			case "geq" : 
-				return (fieldValue >= value);
+				return fieldValue >= value;
 			case "eq" : 
-				return (fieldValue == value);
+				return fieldValue == value;
 			case "leq" : 
-				return (fieldValue <= value);
+				return fieldValue <= value;
 			case "lt" : 
-				return (fieldValue < value);
+				return fieldValue < value;
 			case "neq" : 
-				return (fieldValue != value);
-			default:
+				return fieldValue != value;
+			default :
 				throw "Unknown operator " + operator;
 				break;
 		}
@@ -1036,7 +1037,20 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	    var url = Ametys.getPluginDirectPrefix(this.pluginName) + "/administrator/config/set";
 
 	    var argsObj = this._form.getForm().getValues();
-
+	    
+	    // add values of disabled fields
+		var fieldsLength = this._fields.length;
+		for (var i = 0; i < fieldsLength; i++)
+		{
+			var field = this._fields[i];
+			if (field.isDisabled())
+			{
+				var fieldName = field.name;
+				argsObj[fieldName] = field.getValue();
+			}
+		}
+		
+	    
 	    var result = null;
 	    var ex = "";
 	    try
