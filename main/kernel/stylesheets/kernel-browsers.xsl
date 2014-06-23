@@ -126,10 +126,10 @@
 							case true: // supported
 								break;
 							case undefined: // unknown
-						    	document.location.href = "<xsl:value-of select='$context-path'/>" + window.ametys_authorized_browsers['warning-redirection'] + "?mode=warning&amp;uri=" + encodeURIComponent(window.location.href) + "&amp;supported=" + encodeURIComponent(_serializeSupportedBrowsers()) + "&amp;browser=" + browser + "&amp;browserversion=" + browserVersion;
+						    	document.location.href = window.ametys_authorized_browsers['warning-redirection'] + "?mode=warning&amp;uri=" + encodeURIComponent(window.location.href) + "&amp;supported=" + encodeURIComponent(_serializeSupportedBrowsers()) + "&amp;browser=" + browser + "&amp;browserversion=" + browserVersion;
 						    	throw "Unknown browser"
 							case false: // not supported
-						    	document.location.href = "<xsl:value-of select='$context-path'/>" + window.ametys_authorized_browsers['failure-redirection'] + "?mode=failure&amp;uri=" + encodeURIComponent(window.location.href) + "&amp;supported=" + encodeURIComponent(_serializeSupportedBrowsers()) + "&amp;browser=" + browser + "&amp;browserversion=" + browserVersion;
+						    	document.location.href = window.ametys_authorized_browsers['failure-redirection'] + "?mode=failure&amp;uri=" + encodeURIComponent(window.location.href) + "&amp;supported=" + encodeURIComponent(_serializeSupportedBrowsers()) + "&amp;browser=" + browser + "&amp;browserversion=" + browserVersion;
 						    	throw "Unsupported browser"
 					    }
 	
