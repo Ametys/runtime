@@ -37,8 +37,40 @@ Ext.extend(org.ametys.form.MultiSelectField, Ext.ux.form.MultiSelect, {});
 
 org.ametys.form.MultiSelectField.prototype.onRender = function(ct, position)
 {
-	org.ametys.form.MultiSelectField.superclass.onRender.call(this, ct, position);
-	
+    // BEGIN OF OVERRIDE OF ONRENDER TO CHANGE TEMPLATE
+	Ext.ux.form.MultiSelect.superclass.onRender.call(this, ct, position);
+
+    var fs = this.fs = new Ext.form.FieldSet({
+        renderTo: this.el,
+        title: this.legend,
+        height: this.height,
+        width: this.width,
+        style: "padding:0;",
+        tbar: this.tbar
+    });
+    fs.body.addClass('ux-mselect');
+
+    this.view = new Ext.ListView({
+        selectedClass: 'ux-mselect-selected',
+        multiSelect: true,
+        store: this.store,
+        columns: [{ header: 'Value', width: 1, dataIndex: this.displayField, tpl: this.tpl || "{text}" }],
+        hideHeaders: true
+    });
+
+    fs.add(this.view);
+
+    this.view.on('click', this.onViewClick, this);
+    this.view.on('beforeclick', this.onViewBeforeClick, this);
+    this.view.on('dblclick', this.onViewDblClick, this);
+
+    this.hiddenName = this.name || Ext.id();
+    var hiddenTag = { tag: "input", type: "hidden", value: "", name: this.hiddenName };
+    this.hiddenField = this.el.createChild(hiddenTag);
+    this.hiddenField.dom.disabled = this.hiddenName != this.name;
+    fs.doLayout();
+    // END OF OVERRIDE
+    
 	if (this.desc)
 	{
 		this.itemCt.child('div.x-form-element div.x-form-field').insertSibling({
