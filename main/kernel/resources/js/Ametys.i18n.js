@@ -248,7 +248,7 @@ Ext.define(
 			function internalOnError (msg)
 			{
 				var message = "<i18n:text i18n:key='KERNEL_LOADSCRIPT_ERROR'/>" + url;
-				this.getLogger().error(message);
+				me.getLogger().error(message);
 				
 				if (Ext.isFunction (onError))
 				{
@@ -258,10 +258,10 @@ Ext.define(
 			
 			function internalOnLoad (msg)
 			{
-				if (this.getLogger().isInfoEnabled())
+				if (me.getLogger().isInfoEnabled())
 				{
 					var message = "<i18n:text i18n:key='KERNEL_LOADSCRIPT_SUCCESS'/>" + url;
-					this.getLogger().info(message);
+					me.getLogger().info(message);
 				}
 				
 				if (Ext.isFunction (onLoad))
