@@ -54,7 +54,7 @@ org.ametys.form.MultiSelectField.prototype.onRender = function(ct, position)
         selectedClass: 'ux-mselect-selected',
         multiSelect: true,
         store: this.store,
-        columns: [{ header: 'Value', width: 1, dataIndex: this.displayField, tpl: this.tpl || "{text}" }],
+        columns: [{ header: 'Value', width: 1, dataIndex: this.displayField, tpl: this.tpl || "{" + this.displayField + "}" }],
         hideHeaders: true
     });
 
