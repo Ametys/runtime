@@ -77,10 +77,10 @@ Ext.define('Ametys.form.field.ChangePassword', {
     },
     
     /**
-     * @cfg {Object} passwordConfig The configuration object for the first text field. Note that many configuration can be setted directly here and will we broadcasted to underlying field (allowBlank...)
+     * @cfg {Object} passwordConfig The configuration object for the first text field. Note that many configuration can be set directly here and will we broadcasted to underlying field (allowBlank...)
      */
     /**
-     * @cfg {Object} confirmConfig The configuration object for the second text field. Note that many configuration can be setted directly here and will we broadcasted to underlying field (allowBlank...). Default to {@link #passwordConfig}.
+     * @cfg {Object} confirmConfig The configuration object for the second text field. Note that many configuration can be set directly here and will we broadcasted to underlying field (allowBlank...). Default to {@link #passwordConfig}.
      */
     /**
      * @cfg {Object} buttonConfig The configuration object for the button to change password.
@@ -204,7 +204,6 @@ Ext.define('Ametys.form.field.ChangePassword', {
     	this.on('afterrender', this._adaptRenderToMode, this);
     	
         this.callParent(arguments);
-        
     },
     
     onResize: function (width, height)
@@ -314,10 +313,11 @@ Ext.define('Ametys.form.field.ChangePassword', {
     },
     
     /**
-     * Modify the render to adapt it to the current mode and current enable state
      * @private
+     * Modify the render to adapt it to the current mode and current enable state
+     * @param {boolean} [resetValue=true] false for the value not to be reset when the field is disabled
      */
-    _adaptRenderToMode: function() {
+    _adaptRenderToMode: function(resetValue) {
     	if (!this.rendered)
     	{
     		return;
@@ -332,11 +332,14 @@ Ext.define('Ametys.form.field.ChangePassword', {
     	{
     		case Ametys.form.field.ChangePassword.MODE_CHANGEPASSWORD:
     			rstButton.show();
-    	    	
+    	    
     		case Ametys.form.field.ChangePassword.MODE_SETPASSWORD:
-    			this.items.get(Ametys.form.field.ChangePassword.INDEX_MAIN_FIELD).setValue('');
-    			this.items.get(Ametys.form.field.ChangePassword.INDEX_CONFIRMATION_FIELD).setValue('');
-    			
+    			if (resetValue !== false)
+				{
+    				this.items.get(Ametys.form.field.ChangePassword.INDEX_MAIN_FIELD).setValue('');
+    				this.items.get(Ametys.form.field.ChangePassword.INDEX_CONFIRMATION_FIELD).setValue('');
+				}
+    				
             	this.items.get(Ametys.form.field.ChangePassword.INDEX_MAIN_FIELD).setDisabled(this.disabled);
             	
             	this.items.get(Ametys.form.field.ChangePassword.INDEX_CONFIRMATION_FIELD).setDisabled(this.disabled);
@@ -369,6 +372,6 @@ Ext.define('Ametys.form.field.ChangePassword', {
     {
     	this.callParent(arguments);
     	
-    	this._adaptRenderToMode();
+    	this._adaptRenderToMode(false);
     }
 });
