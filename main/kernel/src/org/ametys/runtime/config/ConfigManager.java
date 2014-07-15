@@ -20,11 +20,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringWriter;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -105,10 +102,10 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
     // Determines if all parameters are valued
     private boolean _isComplete;
     
-    // ComponentManager pour les Validator
+    // ComponentManager for the validators
     private ThreadSafeComponentManager<Validator> _validatorManager;
     
-    //ComponentManager pour les Enumerator
+    // ComponentManager for the enumerators
     private ThreadSafeComponentManager<Enumerator> _enumeratorManager;
 
 
@@ -194,7 +191,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                 throw new ConfigurationException("The mandatory attribute 'id' is missing on the config tag, in plugin '" + pluginName + "'", configuration);
             }
 
-            // Check the parameter is not already declared
+            // Check if the parameter is not already declared
             if (_declaredParams.containsKey(id))
             {
                 throw new ConfigurationException("The parameter '" + id + "' is already declared. Parameters ids must be unique", configuration);
@@ -388,11 +385,8 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                         boolean disabled = false;
                         for (ConfigParameter parameter: group.getParams())
                         {
-                            Map<String, Object> disableConditions = parameter.getDisableConditions();
-                            if (disableConditions != null)
-                            {
-                                disabled = _evaluateDisableConditions(disableConditions, untypedValues);
-                            }
+                            DisableConditions disableConditions = parameter.getDisableConditions();
+                            disabled = _evaluateDisableConditions(disableConditions, untypedValues);
                             
                             if (!StringUtils.equals(parameter.getId(), group.getSwitch()) && !disabled)
                             {
@@ -449,44 +443,40 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         return value;
     }
 
-    private boolean _evaluateDisableConditions(Map<String, Object> disableConditions, Map<String, String> untypedValues)
+    private boolean _evaluateDisableConditions(DisableConditions disableConditions, Map<String, String> untypedValues)
     {
-        if (disableConditions.get("conditions") == null && disableConditions.get("condition") == null)
+        if (disableConditions == null || disableConditions.getConditions().isEmpty() && disableConditions.getSubConditions().isEmpty())
         {
             return false;
         }
         
-        boolean disabled = !disableConditions.get("type").equals("and") ? false : true;
+        boolean disabled;
+        boolean andOperator = disableConditions.getAssociationType() == DisableConditions.ASSOCIATION_TYPE.AND;
         
-        List<Map<String, Object>> conditionsList = (List<Map<String, Object>>) disableConditions.get("conditions");
-        if (conditionsList != null)
+        // initial value depends on OR or AND associations
+        disabled = andOperator;
+        
+        for (DisableConditions subConditions : disableConditions.getSubConditions())
         {
-            for (Map<String, Object> conditions : conditionsList)
-            {
-                boolean result = _evaluateDisableConditions(conditions, untypedValues);
-                disabled = !disableConditions.get("type").equals("and") ? disabled || result : disabled && result;
+            boolean result = _evaluateDisableConditions(subConditions, untypedValues);
+            disabled = andOperator ?  disabled && result : disabled || result;
             }
-        }
         
-        List<Map<String, Object>> conditionList = (List<Map<String, Object>>) disableConditions.get("condition"); 
-        if (conditionList != null)
+        for (DisableCondition condition : disableConditions.getConditions())
         {
-            for (Map<String, Object> condition : conditionList)
-            {
-                String id = (String) condition.get("id");
-                String op = (String) condition.get("operator");
-                String val = (String) condition.get("value");
-                    
+            boolean result = _evaluateCondition(condition, untypedValues);
+            disabled = andOperator ?  disabled && result : disabled || result;
+        }
                 
-                boolean result = _evaluateCondition(id, op, val, untypedValues);
-                disabled = !disableConditions.get("type").equals("and") ? disabled || result : disabled && result;
-            }
-        }
         return disabled;
     }
     
-    private boolean _evaluateCondition(String id, String operator, String value, Map<String, String> untypedValues)
+    private boolean _evaluateCondition(DisableCondition condition, Map<String, String> untypedValues)
     {
+        String id = condition.getId();
+        DisableCondition.OPERATOR operator = condition.getOperator();
+        String value = condition.getValue();
+        
         if (untypedValues.get(id) == null)
         {
             if (_logger.isDebugEnabled())
@@ -498,101 +488,40 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         
         ParameterType type = _params.get(id).getType();
         Object parameterValue = ParameterHelper.castValue(untypedValues.get(id), type);
-        boolean result = false;
-        boolean eq = operator.equals("eq");
-        boolean neq = operator.equals("neq");
-        boolean gt = operator.equals("gt");
-        boolean geq = operator.equals("geq");
-        boolean leq = operator.equals("leq");
-        boolean lt = operator.equals("lt");
-        
-        if (!(eq || neq || gt || geq || leq || lt))
+        Object compareValue = ParameterHelper.castValue(value, type);
+        if (compareValue == null)
         {
-            throw new IllegalStateException("Unknown operator " + operator);
+            throw new IllegalStateException("Cannot convert '" + value + "' to a '" + type + "' for parameter '" + id + "'");
         }
         
-        if (eq)
+        if (!(parameterValue instanceof Comparable) || !(compareValue instanceof Comparable))
         {
-            result = parameterValue.equals(value);
-        }
-        else if (neq)
-        {
-            result = !parameterValue.equals(value);
-        }
-        else if (type.equals(ParameterType.BOOLEAN) || type.equals(ParameterType.STRING) || type.equals(ParameterType.PASSWORD))
-        {
-            throw new IllegalStateException("The condition on the parameter " + id + " of type " + type + " cannot be evaluated with either of the following operators : >, >=, <=, <");
+            throw new IllegalStateException("values '" + untypedValues.get(id) + "' and '" + compareValue + "' of type'" + type + "' for parameter '" + id + "' are not comparable");
         }
 
-        if (type.equals(ParameterType.DATE))
+        @SuppressWarnings("unchecked")
+        Comparable<Object> comparableParameterValue = (Comparable<Object>) parameterValue;
+        @SuppressWarnings("unchecked")
+        Comparable<Object> comparableCompareValue = (Comparable<Object>) compareValue;
+
+        int comparison = comparableParameterValue.compareTo(comparableCompareValue);
+        switch (operator)
         {
-            try
-            {
-                if (gt)
-                {
-                    result = ((Date) parameterValue).compareTo(DateFormat.getDateInstance().parse(value)) > 0;
-                }
-                else if (geq)
-                {
-                    result = ((Date) parameterValue).compareTo(DateFormat.getDateInstance().parse(value)) >= 0;
-                }
-                else if (leq)
-                {
-                    result = ((Date) parameterValue).compareTo(DateFormat.getDateInstance().parse(value)) <= 0;
-                }
-                else if (lt)
-                {
-                    result = ((Date) parameterValue).compareTo(DateFormat.getDateInstance().parse(value)) < 0;
-                }
-            }   
-            catch (ParseException e)
-            {
-                throw new IllegalStateException("Parsing error at " + e.getErrorOffset() + " on value " + value);
-            }
+            default:
+            case EQ:
+                return comparison == 0;
+            case NEQ:
+                return comparison != 0;
+            case GEQ:
+                return comparison >= 0;
+            case GT:
+                return comparison > 0;
+            case LT:
+                return comparison < 0;
+            case LEQ:
+                return comparison <= 0;
         }
-        else if (type.equals(ParameterType.DOUBLE)) 
-        {
-            Double parameterValueDouble = (Double) parameterValue;
-            if (gt)
-            {
-                result = parameterValueDouble > Double.parseDouble(value);
-            }
-            else if (geq)
-            {
-                result = parameterValueDouble >= Double.parseDouble(value);
-            }
-            else if (leq)
-            {
-                result = parameterValueDouble <= Double.parseDouble(value);
-            }
-            else if (lt)
-            {
-                result = parameterValueDouble < Double.parseDouble(value);
-            }
-        }
-        else if (type.equals(ParameterType.LONG))
-        {
-            Long parameterValueLong = (Long) parameterValue;
-            if (gt)
-            {
-                result = parameterValueLong > Long.parseLong(value);
-            }
-            else if (geq)
-            {
-                result = parameterValueLong >= Long.parseLong(value);
-            }
-            else if (leq)
-            {
-                result = parameterValueLong <= Long.parseLong(value);
-            }
-            else if (lt)
-            {
-                result = parameterValueLong < Long.parseLong(value);
-            }
-        }
-        return result;
     }
-    
                 
     /**
      * Dispose the manager before restarting it
@@ -612,7 +541,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
     }
     
     /**
-     * Get the id of the config parameters. Use get to retrive the parameter
+     * Get the id of the config parameters. Use get to retrieve the parameter
      * @return An array of String containing the id of the parameters existing in the model
      */
     public String[] getParametersIds()
@@ -628,7 +557,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
     }
 
     /**
-     * Get the config parameter by its id
+     * Gets the config parameter by its id
      * @param id Id of the config parameter to get
      * @return The config parameter.
      */
@@ -738,7 +667,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                     ParameterHelper.toSAXParameterInternal(handler, param, value);
                     if (param.getDisableConditions() != null)
                     {
-                        XMLUtils.createElement(handler, "disable-conditions", param.convertObjectToJSON(param.getDisableConditions()));
+                        XMLUtils.createElement(handler, "disable-conditions", param.disableConditionsToJSON());
                     }
                     
                     XMLUtils.endElement(handler, param.getId());
@@ -820,7 +749,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             {
                 if (Config.getInstance() != null)
                 {
-                    // garde la valeur d'un champ password vide
+                    // keeps the value of an empty password field
                     typedValue = Config.getInstance().getValueAsString(id);
                 }
                 else if (oldUntypedValues != null)
@@ -872,10 +801,10 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
     }
 
     /**
-     * SAX the config values into a contant handler
+     * SAX the config values into a content handler
      * @param handler Handler where to sax
      * @param typedValues Map (key, typed value) to sax
-     * @throws SAXException if an error occured
+     * @throws SAXException if an error occurred
      */
     private void _toSAX(TransformerHandler handler, Map<String, Object> typedValues) throws SAXException
     {
@@ -1040,7 +969,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         private I18nizableText _displayGroup;
         private boolean _groupSwitch;
         private long _order;
-        private Map<String, Object> _disableConditions;
+        private DisableConditions _disableConditions;
         private final JsonFactory _jsonFactory = new JsonFactory();
         private final ObjectMapper _objectMapper = new ObjectMapper();
 
@@ -1089,7 +1018,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
          * Retrieves the disable condition.
          * @return the disable condition or <code>null</code> if none is defined.
          */
-        public Map<String, Object> getDisableConditions()
+        public DisableConditions getDisableConditions()
         {
             return _disableConditions;
         }
@@ -1098,7 +1027,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
          * Sets the disable condition.
          * @param disableConditions the disable condition.
          */
-        public void setDisableConditions(Map<String, Object> disableConditions)
+        public void setDisableConditions(DisableConditions disableConditions)
         {
             _disableConditions = disableConditions;
         }
@@ -1128,18 +1057,19 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         }
         
         /**
-         * Formats an Object into JSON. 
-         * @param parameters the Object to be formatted.
+         * Formats disable conditions into JSON. 
          * @return the Object as a JSON string.
          */
-        public String convertObjectToJSON(Object parameters)
+        public String disableConditionsToJSON()
         {
             try
             {
                 StringWriter writer = new StringWriter();
                 
                 JsonGenerator jsonGenerator = _jsonFactory.createJsonGenerator(writer);
-                _objectMapper.writeValue(jsonGenerator, parameters);
+                
+                Map<String, Object> asJson = _disableConditionsAsMap(this.getDisableConditions());
+                _objectMapper.writeValue(jsonGenerator, asJson);
                 
                 return writer.toString();
             }
@@ -1147,6 +1077,43 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             {
                 throw new IllegalArgumentException("The object can not be converted to json string", e);
             }
+        }
+
+        private Map<String, Object> _disableConditionsAsMap(DisableConditions disableConditions)
+        {
+            Map<String, Object> map = new HashMap<String, Object>();
+            
+            // Handle simple conditions
+            List<Map<String, String>> disableConditionList = new ArrayList<Map<String, String>>();
+            map.put("condition", disableConditionList);
+            for (DisableCondition disableCondition : disableConditions.getConditions())
+            {
+                Map<String, String> disableConditionAsMap = _disableConditionAsMap(disableCondition);
+                disableConditionList.add(disableConditionAsMap);
+            }
+
+            // Handle nested conditions
+            List<Map<String, Object>> disableConditionsList = new ArrayList<Map<String, Object>>();
+            map.put("conditions", disableConditionsList);
+            for (DisableConditions subDisableConditions : disableConditions.getSubConditions())
+            {
+                Map<String, Object> disableConditionsAsMap = _disableConditionsAsMap(subDisableConditions);
+                disableConditionsList.add(disableConditionsAsMap);
+            }
+            
+            // Handle type
+            map.put("type", disableConditions.getAssociationType().toString().toLowerCase());
+            
+            return map; 
+        }
+
+        private Map<String, String> _disableConditionAsMap(DisableCondition disableCondition)
+        {
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("id", disableCondition.getId());
+            map.put("operator", disableCondition.getOperator().toString().toLowerCase());
+            map.put("value", disableCondition.getValue());
+            return map;
         }
     }
         
@@ -1200,17 +1167,15 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             return ParameterHelper.castValue(value, parameter.getType());
         }        
         
-        protected Map<String, Object> _parseDisableConditions(Configuration disableConditionConfiguration) throws ConfigurationException
+        protected DisableConditions _parseDisableConditions(Configuration disableConditionConfiguration) throws ConfigurationException
         {
             if (disableConditionConfiguration == null)
             {
                 return null;
             }
-            
-            Map<String, Object> conditions = new HashMap<String, Object> ();
-            List<Map<String, Object>> conditionList = new ArrayList<Map<String, Object>> ();
-            List<Map<String, Object>> conditionsList = new ArrayList<Map<String, Object>> ();
-            
+             
+            DisableConditions conditions = new DisableConditions();
+
             Configuration[] conditionsConfiguration = disableConditionConfiguration.getChildren();
             for (Configuration conditionConfiguration : conditionsConfiguration)
             {
@@ -1219,29 +1184,21 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                 // Recursive case
                 if (tagName.equals("conditions"))
                 {
-                    conditionsList.add(_parseDisableConditions(conditionConfiguration));
+                    conditions.getSubConditions().add(_parseDisableConditions(conditionConfiguration));
                 }
-                else 
+                else if (tagName.equals("condition"))
                 {
-                    Map<String, Object> conditionMap = new HashMap<String, Object> ();
-                    conditionMap.put("id", conditionConfiguration.getAttribute("id"));
-                    conditionMap.put("operator", conditionConfiguration.getAttribute("operator"));
-                    conditionMap.put("value", conditionConfiguration.getValue(""));
-                    conditionList.add(conditionMap);
+                    String id = conditionConfiguration.getAttribute("id");
+                    DisableCondition.OPERATOR operator = DisableCondition.OPERATOR.valueOf(conditionConfiguration.getAttribute("operator", "eq").toUpperCase());
+                    String value = conditionConfiguration.getValue("");
+                    
+                    
+                    DisableCondition condition = new DisableCondition(id, operator, value);
+                    conditions.getConditions().add(condition);
                 }
             }
             
-            conditions.put("type", disableConditionConfiguration.getAttribute("type"));
-            
-            if (!conditionList.isEmpty())
-            {
-                conditions.put("condition", conditionList);
-            }
-            
-            if (!conditionsList.isEmpty())
-            {
-                conditions.put("conditions", conditionsList);
-            }
+            conditions.setAssociation(DisableConditions.ASSOCIATION_TYPE.valueOf(disableConditionConfiguration.getAttribute("type", "and").toUpperCase()));
             
             return conditions;
         }
