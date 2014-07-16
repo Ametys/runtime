@@ -45,7 +45,6 @@ import org.ametys.runtime.util.LoggerFactory;
 
 /**
  * Helper for sending mail
- *
  */
 public final class SendMailHelper
 {
@@ -70,12 +69,11 @@ public final class SendMailHelper
     {
         String smtpHost = Config.getInstance().getValueAsString("smtp.mail.host");
         long smtpPort = Config.getInstance().getValueAsLong("smtp.mail.port");
-        String smtpUser = Config.getInstance().getValueAsString("smtp.mail.user");
-        String smtpPass = Config.getInstance().getValueAsString("smtp.mail.password");
+        String securityProtocol = Config.getInstance().getValueAsString("smtp.mail.security.protocol");
 
         try
         {
-            sendMail(subject, htmlBody, textBody, null, recipient, sender, smtpHost, smtpPort, smtpUser, smtpPass);
+            sendMail(subject, htmlBody, textBody, null, recipient, sender, smtpHost, smtpPort, securityProtocol, null, null);
         }
         catch (IOException e)
         {
@@ -93,13 +91,14 @@ public final class SendMailHelper
      * @param sender The sender address
      * @param host The server mail host
      * @param port The server mail port
+     * @param securityProtocol The server mail security protocol
      * @throws MessagingException If an error occurred while preparing or sending email
      */
-    public static void sendMail(String subject, String htmlBody, String textBody, String recipient, String sender, String host, long port) throws MessagingException
+    public static void sendMail(String subject, String htmlBody, String textBody, String recipient, String sender, String host, long port, String securityProtocol) throws MessagingException
     {
         try
         {
-            sendMail(subject, htmlBody, textBody, null, recipient, sender, host, port, null, null);
+            sendMail(subject, htmlBody, textBody, null, recipient, sender, host, port, securityProtocol, null, null);
         }
         catch (IOException e)
         {
@@ -118,15 +117,16 @@ public final class SendMailHelper
      * @param sender The sender address
      * @param host The server mail host
      * @param port The server port
+     * @param securityProtocol The server mail security protocol
      * @param user The user name
      * @param password The user password
      * @throws MessagingException If an error occurred while preparing or sending email
      */
-    public static void sendMail(String subject, String htmlBody, String textBody, String recipient, String sender, String host, long port, String user, String password) throws MessagingException
+    public static void sendMail(String subject, String htmlBody, String textBody, String recipient, String sender, String host, long port, String securityProtocol, String user, String password) throws MessagingException
     {
         try
         {
-            sendMail(subject, htmlBody, textBody, null, recipient, sender, host, port, user, password);
+            sendMail(subject, htmlBody, textBody, null, recipient, sender, host, port, securityProtocol, user, password);
         }
         catch (IOException e)
         {
@@ -150,10 +150,9 @@ public final class SendMailHelper
     {
         String smtpHost = Config.getInstance().getValueAsString("smtp.mail.host");
         long smtpPort = Config.getInstance().getValueAsLong("smtp.mail.port");
-        String smtpUser = Config.getInstance().getValueAsString("smtp.mail.user");
-        String smtpPass = Config.getInstance().getValueAsString("smtp.mail.password");
-
-        sendMail(subject, htmlBody, textBody, attachments, recipient, sender, smtpHost, smtpPort, smtpUser, smtpPass);
+        String protocol = Config.getInstance().getValueAsString("smtp.mail.security.protocol");
+        
+        sendMail(subject, htmlBody, textBody, attachments, recipient, sender, smtpHost, smtpPort, protocol, null, null);
     }
 
     /**
@@ -166,14 +165,15 @@ public final class SendMailHelper
      * @param sender The sender address
      * @param host The server mail host
      * @param port The server port
+     * @param securityProtocol The server mail security protocol
      * @throws MessagingException If an error occurred while preparing or sending email
      * @throws IOException if an error occurs while attaching a file.
      */
-    public static void sendMail(String subject, String htmlBody, String textBody, Collection<File> attachments, String recipient, String sender, String host, long port) throws MessagingException, IOException
+    public static void sendMail(String subject, String htmlBody, String textBody, Collection<File> attachments, String recipient, String sender, String host, long port, String securityProtocol) throws MessagingException, IOException
     {
-        sendMail(subject, htmlBody, textBody, attachments, recipient, sender, host, port, null, null);
+        String protocol = Config.getInstance().getValueAsString("smtp.mail.security.protocol");
+        sendMail(subject, htmlBody, textBody, attachments, recipient, sender, host, port, protocol, null, null);
     }
-
     /**
      * Sends mail with authentication and attachments.
      * @param subject The mail subject
@@ -181,15 +181,16 @@ public final class SendMailHelper
      * @param textBody The text mail body. Can be null.
      * @param attachments the file attachments. Can be null.
      * @param recipient The recipient address
-     * @param sender The sender address
-     * @param host The server mail host
+     * @param sender The sender address. Can be null when called by MailChecker.
+     * @param host The server mail host. Can be null when called by MailChecker.
+     * @param securityProtocol the security protocol to use when transporting the email
      * @param port The server port
      * @param user The user name
      * @param password The user password
      * @throws MessagingException If an error occurred while preparing or sending email
      * @throws IOException if an error occurs while attaching a file.
      */
-    public static void sendMail(String subject, String htmlBody, String textBody, Collection<File> attachments, String recipient, String sender, String host, long port, String user, String password) throws MessagingException, IOException
+    public static void sendMail(String subject, String htmlBody, String textBody, Collection<File> attachments, String recipient, String sender, String host, long port, String securityProtocol, String user, String password) throws MessagingException, IOException
     {
         Properties props = new Properties();
 
@@ -198,24 +199,25 @@ public final class SendMailHelper
         props.put("mail.smtp.port", port);
         
         // Security protocol
-        String protocol = Config.getInstance().getValueAsString("smtp.mail.security.protocol");
-        if (protocol.equals("starttls"))
+        if (securityProtocol.equals("starttls"))
         {
             props.put("mail.smtp.starttls.enable", "true"); 
         }
-        else if (protocol.equals("tlsssl"))
+        else if (securityProtocol.equals("tlsssl"))
         {
             props.put("mail.smtp.ssl.enable", "true");
         }
         
         Session session = Session.getInstance(props, null);
-        
         // Define message
         MimeMessage message = new MimeMessage(session);
-        message.setFrom(new InternetAddress(sender));
+        if (sender != null)
+        {
+            message.setFrom(new InternetAddress(sender));
+        }
         message.setSentDate(new Date());
         message.setSubject(subject);
-
+        
         // Root multipart
         Multipart multipart = new MimeMultipart("mixed");
 
@@ -253,7 +255,10 @@ public final class SendMailHelper
         message.setContent(multipart);
 
         // Recipients
-        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient, false));
+        if (recipient != null)
+        {
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient, false));
+        }
         
         Transport tr = session.getTransport("smtp");
         try 
@@ -267,7 +272,12 @@ public final class SendMailHelper
                 tr.connect(host, (int) port, null, null);
             }
             message.saveChanges();
-            tr.sendMessage(message, message.getAllRecipients());
+
+            if (recipient != null && sender != null)
+            {
+                tr.sendMessage(message, message.getAllRecipients());
+            }
+            
             tr.close();
         }
         catch (MessagingException e)
