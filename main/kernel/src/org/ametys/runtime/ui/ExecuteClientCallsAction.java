@@ -27,6 +27,7 @@ import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.SourceResolver;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 
@@ -111,9 +112,9 @@ public class ExecuteClientCallsAction extends ServiceableAction implements Threa
         Class<? extends Object> clazz = object.getClass();
         Method method = MethodUtils.getMatchingAccessibleMethod(clazz, methodName, paramClass);
         
-        if (method == null)
+        if (method == null || method.getReturnType() != Map.class)
         {
-            throw new IllegalArgumentException("No method named '" + methodName + "' present in class " + clazz.getName() + ".");
+            throw new IllegalArgumentException("No method with signature: Map<String, Object> " + methodName + "(" + StringUtils.join(paramClass, ", ").replaceAll("class ", "") + ") present in class " + clazz.getName() + ".");
         }
         
         Map<String, Object> result = _executeMethod(method, object, paramValues);
@@ -138,7 +139,7 @@ public class ExecuteClientCallsAction extends ServiceableAction implements Threa
         }
         else
         {
-            throw new IllegalArgumentException("Trying to call a non-callable method : " + method.toGenericString());
+            throw new IllegalArgumentException("Trying to call a non-callable method: " + method.toGenericString() + ". Return type should be: Map<String, Object>");
         }
         
         return result;
