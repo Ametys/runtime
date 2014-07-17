@@ -614,7 +614,7 @@ Ext.define('Ametys.form.field.RichText', {
     /**
      * @private
      * Check if the title hierarchy in the content is correct
-     * <h1> before any <h2> and so on
+     * &lt;h1&gt; before any &lt;h2&gt; and so on
      */
     _checkTitleHierarchy: function()
     {
