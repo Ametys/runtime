@@ -144,6 +144,9 @@
         
         /**
          * @private
+         * @member Ext.form.Labelable
+         * @ametys
+         * @since Ametys Runtime 3.7
          * On render listener
          */
 	    _onRenderLabelable: function()
