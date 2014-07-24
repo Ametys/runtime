@@ -23,7 +23,7 @@
 	     | @private
 	     + -->
 	<xsl:template name="authorized-browsers">{
-  		    	'supported': { 'ie' : '7-10', ff: '4-30', ch: '10-35', op: '11-11.9', sa: '5.0-5.1'},
+  		    	'supported': { 'ie' : '7-10', ff: '4-35', ch: '10-39', op: '11-11.9', sa: '5.0-5.1'},
 		  		'not-supported': { 'ie' : '0-6', ff: '0-3.5', ch : '0-9', op: '0-10.99', sa: '0-4.9'},
  		  		'warning-redirection': "<xsl:value-of select="$contextPath"/>/_admin/public/browser-unknown.html",
 		  		'failure-redirection': "<xsl:value-of select="$contextPath"/>/_admin/public/browser-unsupported.html"}
