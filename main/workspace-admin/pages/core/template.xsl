@@ -124,6 +124,11 @@
             <xsl:with-param name="accept-ff-28.0">true</xsl:with-param>
             <xsl:with-param name="accept-ff-29.0">true</xsl:with-param>
             <xsl:with-param name="accept-ff-30.0">true</xsl:with-param>
+            <xsl:with-param name="accept-ff-31.0">true</xsl:with-param>
+            <xsl:with-param name="accept-ff-32.0">true</xsl:with-param>
+            <xsl:with-param name="accept-ff-33.0">true</xsl:with-param>
+            <xsl:with-param name="accept-ff-34.0">true</xsl:with-param>
+            <xsl:with-param name="accept-ff-35.0">true</xsl:with-param>
             <xsl:with-param name="accept-sa-3">true</xsl:with-param>
             <xsl:with-param name="accept-sa-4">true</xsl:with-param>
             <xsl:with-param name="accept-sa-5.0">true</xsl:with-param>
@@ -166,6 +171,10 @@
             <xsl:with-param name="accept-ch-33">true</xsl:with-param>
             <xsl:with-param name="accept-ch-34">true</xsl:with-param>
             <xsl:with-param name="accept-ch-35">true</xsl:with-param>
+            <xsl:with-param name="accept-ch-36">true</xsl:with-param>
+            <xsl:with-param name="accept-ch-37">true</xsl:with-param>
+            <xsl:with-param name="accept-ch-38">true</xsl:with-param>
+            <xsl:with-param name="accept-ch-39">true</xsl:with-param>
             <xsl:with-param name="use-css-component">false</xsl:with-param>
             <xsl:with-param name="use-js-component">false</xsl:with-param>
             <xsl:with-param name="debug-mode">true</xsl:with-param>
