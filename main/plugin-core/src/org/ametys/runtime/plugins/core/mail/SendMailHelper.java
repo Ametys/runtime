@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
@@ -71,15 +72,7 @@ public final class SendMailHelper
         long smtpPort = Config.getInstance().getValueAsLong("smtp.mail.port");
         String securityProtocol = Config.getInstance().getValueAsString("smtp.mail.security.protocol");
 
-        try
-        {
-            sendMail(subject, htmlBody, textBody, null, recipient, sender, smtpHost, smtpPort, securityProtocol, null, null);
-        }
-        catch (IOException e)
-        {
-            // Should never happen, as IOException can only be thrown where there are attachments.
-            _LOGGER.error("Cannot send mail " + subject + " to " + recipient, e);
-        }
+        sendMail(subject, htmlBody, textBody, recipient, sender, smtpHost, smtpPort, securityProtocol);
     }
 
     /**
@@ -96,15 +89,7 @@ public final class SendMailHelper
      */
     public static void sendMail(String subject, String htmlBody, String textBody, String recipient, String sender, String host, long port, String securityProtocol) throws MessagingException
     {
-        try
-        {
-            sendMail(subject, htmlBody, textBody, null, recipient, sender, host, port, securityProtocol, null, null);
-        }
-        catch (IOException e)
-        {
-            // Should never happen, as IOException can only be thrown where there are attachments.
-            _LOGGER.error("Cannot send mail " + subject + " to " + recipient, e);
-        }
+        sendMail(subject, htmlBody, textBody, recipient, sender, host, port, securityProtocol, null, null);
     }
 
 
@@ -126,7 +111,7 @@ public final class SendMailHelper
     {
         try
         {
-            sendMail(subject, htmlBody, textBody, null, recipient, sender, host, port, securityProtocol, user, password);
+            sendMail(subject, htmlBody, textBody, null, recipient, sender, null, null, false, false, host, port, securityProtocol, user, password);
         }
         catch (IOException e)
         {
@@ -148,11 +133,49 @@ public final class SendMailHelper
      */
     public static void sendMail(String subject, String htmlBody, String textBody, Collection<File> attachments, String recipient, String sender) throws MessagingException, IOException
     {
+        sendMail(subject, htmlBody, textBody, attachments, recipient, sender, null, null);
+    }
+    
+    /**
+     * Sends mail without authentication, with attachments.
+     * @param subject The mail subject
+     * @param htmlBody The HTML mail body. Can be null.
+     * @param textBody The text mail body. Can be null.
+     * @param attachments the file attachments. Can be null.
+     * @param recipient The recipient address
+     * @param sender The sender address
+     * @param cc Carbon copy adress list. Can be null.
+     * @param bcc Blind carbon copy adress list. Can be null.
+     * @throws MessagingException If an error occurred while preparing or sending email
+     * @throws IOException if an error occurs while attaching a file.
+     */
+    public static void sendMail(String subject, String htmlBody, String textBody, Collection<File> attachments, String recipient, String sender, List<String> cc, List<String> bcc) throws MessagingException, IOException
+    {
+        sendMail(subject, htmlBody, textBody, attachments, recipient, sender, cc, bcc, false, false);
+    }
+    
+    /**
+     * Sends mail without authentication, with attachments.
+     * @param subject The mail subject
+     * @param htmlBody The HTML mail body. Can be null.
+     * @param textBody The text mail body. Can be null.
+     * @param attachments the file attachments. Can be null.
+     * @param recipient The recipient address
+     * @param sender The sender address
+     * @param cc Carbon copy adress list. Can be null.
+     * @param bcc Blind carbon copy adress list. Can be null.
+     * @param deliveryReceipt true to request that the receiving mail server send a notification when the mail is received.
+     * @param readReceipt true to request that the receiving mail client send a notification when the person opens the mail.
+     * @throws MessagingException If an error occurred while preparing or sending email
+     * @throws IOException if an error occurs while attaching a file.
+     */
+    public static void sendMail(String subject, String htmlBody, String textBody, Collection<File> attachments, String recipient, String sender, List<String> cc, List<String> bcc, boolean deliveryReceipt, boolean readReceipt) throws MessagingException, IOException
+    {
         String smtpHost = Config.getInstance().getValueAsString("smtp.mail.host");
         long smtpPort = Config.getInstance().getValueAsLong("smtp.mail.port");
         String protocol = Config.getInstance().getValueAsString("smtp.mail.security.protocol");
         
-        sendMail(subject, htmlBody, textBody, attachments, recipient, sender, smtpHost, smtpPort, protocol, null, null);
+        sendMail(subject, htmlBody, textBody, attachments, recipient, sender, cc, bcc, deliveryReceipt, readReceipt, smtpHost, smtpPort, protocol, null, null);
     }
 
     /**
@@ -163,16 +186,20 @@ public final class SendMailHelper
      * @param attachments the file attachments. Can be null.
      * @param recipient The recipient address
      * @param sender The sender address
+     * @param cc Carbon copy adress list. Can be null.
+     * @param bcc Blind carbon copy adress list. Can be null.
+     * @param deliveryReceipt true to request that the receiving mail server send a notification when the mail is received.
+     * @param readReceipt true to request that the receiving mail client send a notification when the person opens the mail.
      * @param host The server mail host
      * @param port The server port
      * @param securityProtocol The server mail security protocol
      * @throws MessagingException If an error occurred while preparing or sending email
      * @throws IOException if an error occurs while attaching a file.
      */
-    public static void sendMail(String subject, String htmlBody, String textBody, Collection<File> attachments, String recipient, String sender, String host, long port, String securityProtocol) throws MessagingException, IOException
+    public static void sendMail(String subject, String htmlBody, String textBody, Collection<File> attachments, String recipient, String sender, List<String> cc, List<String> bcc, boolean deliveryReceipt, boolean readReceipt, String host, long port, String securityProtocol) throws MessagingException, IOException
     {
         String protocol = Config.getInstance().getValueAsString("smtp.mail.security.protocol");
-        sendMail(subject, htmlBody, textBody, attachments, recipient, sender, host, port, protocol, null, null);
+        sendMail(subject, htmlBody, textBody, attachments, recipient, sender, cc, bcc, deliveryReceipt, readReceipt, host, port, protocol, null, null);
     }
     /**
      * Sends mail with authentication and attachments.
@@ -182,6 +209,10 @@ public final class SendMailHelper
      * @param attachments the file attachments. Can be null.
      * @param recipient The recipient address
      * @param sender The sender address. Can be null when called by MailChecker.
+     * @param cc Carbon copy adress list. Can be null.
+     * @param bcc Blind carbon copy adress list. Can be null.
+     * @param deliveryReceipt true to request that the receiving mail server send a notification when the mail is received.
+     * @param readReceipt true to request that the receiving mail client send a notification when the person opens the mail.
      * @param host The server mail host. Can be null when called by MailChecker.
      * @param securityProtocol the security protocol to use when transporting the email
      * @param port The server port
@@ -190,7 +221,7 @@ public final class SendMailHelper
      * @throws MessagingException If an error occurred while preparing or sending email
      * @throws IOException if an error occurs while attaching a file.
      */
-    public static void sendMail(String subject, String htmlBody, String textBody, Collection<File> attachments, String recipient, String sender, String host, long port, String securityProtocol, String user, String password) throws MessagingException, IOException
+    public static void sendMail(String subject, String htmlBody, String textBody, Collection<File> attachments, String recipient, String sender, List<String> cc, List<String> bcc, boolean deliveryReceipt, boolean readReceipt, String host, long port, String securityProtocol, String user, String password) throws MessagingException, IOException
     {
         Properties props = new Properties();
 
@@ -258,6 +289,30 @@ public final class SendMailHelper
         if (recipient != null)
         {
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient, false));
+        }
+        
+        // Carbon copies
+        if (cc != null)
+        {
+            message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(StringUtils.join(cc, ','), false));
+        }
+
+        // Blind carbon copies
+        if (bcc != null)
+        {
+            message.setRecipients(Message.RecipientType.BCC, InternetAddress.parse(StringUtils.join(bcc, ','), false));
+        }
+        
+        // Delivery receipt : Return-Receipt-To
+        if (deliveryReceipt)
+        {
+            message.setHeader("Return-Receipt-To", sender);
+        }
+        
+        // Read receipt : Disposition-Notification-To
+        if (readReceipt)
+        {
+            message.setHeader("Disposition-Notification-To", sender);
         }
         
         Transport tr = session.getTransport("smtp");
