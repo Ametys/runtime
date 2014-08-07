@@ -53,6 +53,26 @@ Ext.define('Ametys.form.field.DateTime', {
         this.callParent();
     },
     
+    getDateField: function()
+    {
+    	return this.items.get(0);
+    },
+    
+    getTimeField: function()
+    {
+    	return this.items.get(1);
+    },
+    
+    getDateValue: function()
+    {
+    	return this.getDateField().getValue();
+    },
+    
+    getTimeValue: function()
+    {
+    	return this.getTimeField().getValue();
+    },
+    
     getValue: function ()
     {
     	var v1 = this.items.get(0).getValue();
