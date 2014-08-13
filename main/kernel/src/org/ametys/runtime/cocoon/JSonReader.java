@@ -40,7 +40,7 @@ public class JSonReader extends ServiceableReader
     @Override
     public String getMimeType()
     {
-        return "text/html";
+        return "application/json";
     }
     
     @Override
