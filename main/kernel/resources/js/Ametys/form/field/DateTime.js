@@ -53,21 +53,37 @@ Ext.define('Ametys.form.field.DateTime', {
         this.callParent();
     },
     
+    /**
+     * Get the date input field
+     * @return {Ext.form.field.Date} the date input field
+     */
     getDateField: function()
     {
     	return this.items.get(0);
     },
     
+    /**
+     * Get the time input field
+     * @return {Ext.form.field.Time} the time input field
+     */
     getTimeField: function()
     {
     	return this.items.get(1);
     },
     
+    /**
+     * Get the value of date input field (without time)
+     * @return {Object} the date field value
+     */
     getDateValue: function()
     {
     	return this.getDateField().getValue();
     },
     
+    /**
+     * Get the value of time input field (without date)
+     * @return {Object} the time field value
+     */
     getTimeValue: function()
     {
     	return this.getTimeField().getValue();
