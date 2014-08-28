@@ -56,6 +56,8 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
     protected Script _script;
     /** The right configured. Can be null */
     protected Map<String, String> _rights;
+    /** The righs mode to associate rights AND or OR */
+    protected String _rightsMode;
     /** The parameters configured for initial element creation */
     protected Map<String, I18nizableText> _initialParameters;
     
@@ -90,6 +92,7 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
         
         _script = _configureScript(configuration);
         _rights = _configureRights(configuration);
+        _rightsMode = _configureRightsMode(configuration);
         
         _initialParameters = configureInitialParameters(configuration);
     }
@@ -205,7 +208,16 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
     {
         Map<String, String> rights = new HashMap<String, String>();
         
-        Configuration[] rightsConf = configuration.getChildren("right");
+        Configuration[] rightsConf;
+        if (configuration.getChild("rights", false) != null)
+        {
+            rightsConf = configuration.getChild("rights").getChildren("right");
+        }
+        else
+        {
+            rightsConf = configuration.getChildren("right");
+        }
+        
         for (Configuration rightConf : rightsConf)
         {
             String right = rightConf.getValue("");
@@ -227,6 +239,17 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
         }
         
         return rights;
+    }
+    
+    /**
+     * Configure the mode to associate rights AND or OR
+     * @param configuration
+     * @return AND or OR (default value)
+     * @throws ConfigurationException
+     */
+    protected String _configureRightsMode(Configuration configuration) throws ConfigurationException
+    {
+        return "AND".equals(configuration.getChild("rights").getAttribute("mode", "OR").toUpperCase()) ? "AND" : "OR";
     }
     
     /**
@@ -290,7 +313,17 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
                             // Check right on context/*
                             if (((HierarchicalRightsManager) _rightsManager).hasRightOnContextPrefix(userLogin, rightToCheck, rightContext) == RightResult.RIGHT_OK)
                             {
-                                return true;
+                                if ("OR".equals(_rightsMode))
+                                {
+                                    return true;
+                                }
+                            }
+                            else
+                            {
+                                if ("AND".equals(_rightsMode))
+                                {
+                                    return false;
+                                }
                             }
                         }
                         else
@@ -298,13 +331,23 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
                             // Check right on exact context
                             if (_rightsManager.hasRight(userLogin, rightToCheck, rightContext) == RightResult.RIGHT_OK)
                             {
-                                return true;
+                                if ("OR".equals(_rightsMode))
+                                {
+                                    return true;
+                                }
+                            }
+                            else
+                            {
+                                if ("AND".equals(_rightsMode))
+                                {
+                                    return false;
+                                }
                             }
                         }
                     }
                 }
                 
-                return false;
+                return "AND".equals(_rightsMode);
             }
         }
     }
