@@ -1,0 +1,93 @@
+/*
+ *  Copyright 2014 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+.multisort-toolbar .toolbar-item-container
+{
+	border-color: #AEAEAE !important;
+    background-color: #FAFAFA;
+    margin-left: 5px;
+    padding: 3px !important;
+    border-radius: 6px; 
+    o-border-radius: 6px; 
+    khtml-border-radius: 6px; 
+    border: 1px solid #CAD8F3;
+ }
+ 
+.multisort-toolbar .toolbar-item-container:hover 
+{
+    background-color: #BBBBBB;
+    border-color: #969696 !important;
+}
+
+.multisort-toolbar .toolbar-item-container .x-btn.button-sort-asc, 
+.multisort-toolbar .toolbar-item-container .x-btn.button-sort-desc
+{
+    height: 11px !important;
+    width: 11px !important;
+    border: none;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: 1px 5px;
+}
+ 
+ .multisort-toolbar .toolbar-item-container .x-btn.button-sort-asc
+{
+    background-image:url(../img/multisort/sort_asc.gif);
+}
+
+.multisort-toolbar .toolbar-item-container .x-btn.button-sort-desc
+{
+    background-image:url(../img/multisort/sort_desc.gif);
+}
+
+.multisort-toolbar .toolbar-item-container .x-btn.button-delete
+{
+ 	height: 12px !important;
+    width: 12px !important;
+ 	border: none;
+ 	background-color: transparent;
+ 	background-repeat: no-repeat;
+ 	background-position: 0px 1px;
+	background-image: url('../img/multisort/close.gif');
+	opacity: 0.5;
+}
+ 
+.multisort-toolbar .toolbar-item-container .x-btn.button-delete:hover
+{
+    opacity: 1;
+}
+ 
+.multisort-toolbar .toolbar-item-container .toolbar-item-text
+{
+    text-align: center;       
+}
+ 
+.tbar-btn-hide-show
+{
+    background-position: 0 3px;
+    margin-right: 3px;
+    background-color: transparent;
+    background-image: url('../img/multisort/show_sort.png');
+    border: none;
+} 
+ 
+.tbar-btn-hide-show.hide {
+ 	background-image: url('../img/multisort/hide_sort.png');
+}
+ 
+.tbar-btn-hide-show.show {
+	background-image: url('../img/multisort/show_sort.png');
+}

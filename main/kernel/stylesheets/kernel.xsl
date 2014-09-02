@@ -83,7 +83,8 @@
        		<script>/plugins/extjs4/resources/js/ext-all<xsl:if test="$debug-mode">-debug</xsl:if>.js</script>
        		<script>/plugins/extjs4/resources/ux/js/form/MultiSelect.js</script>
        		<script>/plugins/extjs4/resources/ux/js/form/ItemSelector.js</script>
-
+            <script>/plugins/extjs4/resources/ux/js/BoxReorderer.js</script>
+            <script>/plugins/extjs4/resources/ux/js/ToolbarDroppable.js</script>
 			<script>/kernel/resources/js/Ext.i18n.js</script>
 			<script>/kernel/resources/js/Ametys.i18n.js</script>
             <script>/kernel/resources/js/Ametys/log/LoggerFactory.js</script>
@@ -102,10 +103,12 @@
             <script>/kernel/resources/js/Ametys/data/ServerCommProxy.i18n.js</script>
 	        <script>/kernel/resources/js/Ametys/data/ServerComm/TimeoutDialog.i18n.js</script>
 	        <script>/kernel/resources/js/Ametys/tree/TreeEditor.js</script>
+            <script>/kernel/resources/js/Ametys/grid/plugin/Multisort.i18n.js</script>
 	    </xsl:variable>
 		
 		<xsl:variable name="css">
 			<css>/kernel/resources/css/Ametys/gray/all.css</css>
+            <css>/kernel/resources/css/multisort.css</css>
 		</xsl:variable>
 
 		<xsl:call-template name="kernel-load">

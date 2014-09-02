@@ -69,6 +69,11 @@
 	<!-- Iframe -->
 	<message key="KERNEL_IFRAME_LOADING">Chargement en cours.&lt;br/&gt;Veuillez patienter ...</message>
 	
+    <!-- Multisort -->
+    <message key="KERNEL_MULTISORT_TOOLBAR_TEXT">Tri</message>
+    <message key="KERNEL_MULTISORT_SHOW_TOOLBAR_BUTTON_TOOLTIP">Afficher la barre de tri</message>
+    <message key="KERNEL_MULTISORT_HIDE_TOOLBAR_BUTTON_TOOLTIP">Cacher la barre de tri</message>
+    
 	 <!-- +
     	 | ServerComm.js
     	 + -->

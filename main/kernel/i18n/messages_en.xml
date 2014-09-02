@@ -70,6 +70,11 @@
 	<!-- Iframe -->
 	<message key="KERNEL_IFRAME_LOADING">Loading.&lt;br/&gt;Please wait...</message>
 	
+    <!-- Multisort -->
+    <message key="KERNEL_MULTISORT_TOOLBAR_TEXT">Sort</message>
+    <message key="KERNEL_MULTISORT_SHOW_TOOLBAR_BUTTON_TOOLTIP">Show the sorting toolbar</message>
+    <message key="KERNEL_MULTISORT_HIDE_TOOLBAR_BUTTON_TOOLTIP">Hide the sorting toolbar</message>
+    
     <!-- +
     	 | ServerComm.js
     	 + -->
