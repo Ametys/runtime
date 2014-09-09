@@ -95,9 +95,9 @@ public class TextValidator extends DefaultValidator
     }
     
     @Override
-    public void validate(Object value, Errors errors)
+    protected void validateSingleValue (Object value, Errors errors)
     {
-        super.validate(value, errors);
+        super.validateSingleValue(value, errors);
         
         if (_maxLength != null && value != null && getText(value).length() > _maxLength)
         {
@@ -107,6 +107,28 @@ public class TextValidator extends DefaultValidator
             }
 
             errors.addError(new I18nizableText("plugin.core", "PLUGINS_CORE_VALIDATOR_TEXT_MAXLENGTH"));
+        }
+    }
+    
+    @Override
+    protected void validateArrayValues (Object[] values, Errors errors)
+    {
+        super.validateArrayValues(values, errors);
+        
+        if (_regexp != null && values != null)
+        {
+            for (Object value : values)
+            {
+                if (getText(value).length() > _maxLength)
+                {
+                    if (getLogger().isDebugEnabled())
+                    {
+                        getLogger().debug("The validator refused a value for a parameter that should be smaller (max is " + _maxLength + " and length is " + value.toString().length() + ")");
+                    }
+
+                    errors.addError(new I18nizableText("plugin.core", "PLUGINS_CORE_VALIDATOR_TEXT_MAXLENGTH"));
+                }
+            }
         }
     }
     
