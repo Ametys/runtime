@@ -400,7 +400,7 @@ Ext.define('Ametys.grid.plugin.Multisort',
     /**
      * Sorts the grid and optionally the droppable toolbar createItem method if a grid header was clicked
      * @param {Ext.ux.ToolbarDroppable} droppable the droppable toolbar
-     * @param {Ext.column.Column} the column whose header was clicked
+     * @param {Ext.grid.column.Column} column the column whose header was clicked
      */
     doSort: function (droppable, column) 
     {
