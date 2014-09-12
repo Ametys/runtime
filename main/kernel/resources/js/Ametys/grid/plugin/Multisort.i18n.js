@@ -168,6 +168,8 @@ Ext.define('Ametys.grid.plugin.Multisort',
             
             /**
             * Custom canDrop implementation which returns true if a column can be added to the toolbar
+            * @param {Ext.dd.DragSource} dragSource The drag source
+            * @param {Object} event The event
             * @param {Object} data Arbitrary data from the drag source. For a HeaderContainer, it will
             * contain a header property which is the Header being dragged.
             * @return {Boolean} True if the drop is allowed
