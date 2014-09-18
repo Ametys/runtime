@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright 2012 Anyware Services
+   Copyright 2014 Anyware Services
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -750,6 +750,150 @@
             <group i18n="true">PLUGINS_CORE_MAIL_CONFIG_GROUP</group>
             <order>5</order>
         </param>
+        
+        
+        <param-checker id="ldap-connection-dn-checker" class="org.ametys.runtime.util.checkers.LDAPConnectionChecker">
+            <label i18n="true">PLUGINS_CORE_LDAP_DN_CONNECTION_CHECKER_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_LDAP_DN_CONNECTION_CHECKER_DESC</description>
+            <icon-small>img/administrator/config/check/test_ldapconnect_16.png</icon-small>
+            <icon-medium>img/administrator/config/check/test_ldapconnect_32.png</icon-medium>
+            <icon-large>img/administrator/config/check/test_ldapconnect_48.png</icon-large>
+                        
+            <ui-ref>
+                <order>5</order>
+                <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>
+                <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_CATEGORY_LDAP_GROUP_CORE</group>
+            </ui-ref>
+            
+            <linked-params>
+                <param-ref id="runtime.datasource.core.ldap.baseUrl"/>
+                <param-ref id="runtime.datasource.core.ldap.useSSL"/>
+                <param-ref id="runtime.datasource.core.ldap.baseDN"/>
+                <param-ref id="runtime.datasource.core.ldap.authMethod"/>
+                <param-ref id="runtime.datasource.core.ldap.adminDN"/>
+                <param-ref id="runtime.datasource.core.ldap.adminPasswd"/>
+                <param-ref id="runtime.datasource.core.ldap.followReferrals"/>
+            </linked-params>
+        </param-checker>
+        
+       <param-checker id="mail-connection-checker" class="org.ametys.runtime.util.checkers.MailConnectionChecker">
+            <label i18n="true">PLUGINS_CORE_MAIL_CONNECTION_CHECKER_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_MAIL_CONNECTION_CHECKER_DESC</description>
+            <icon-small>img/administrator/config/check/test_emailconnect_16.png</icon-small>
+            <icon-medium>img/administrator/config/check/test_emailconnect_32.png</icon-medium>
+            <icon-large>img/administrator/config/check/test_emailconnect_48.png</icon-large>
+                        
+            <ui-ref>
+                <order>5</order>
+                <category i18n="true">PLUGINS_CORE_MAIL_CONFIG_CATEGORY</category>
+                <group i18n="true">PLUGINS_CORE_MAIL_CONFIG_GROUP</group>
+            </ui-ref>
+            
+            <linked-params>
+                <param-ref id="smtp.mail.host"/>
+                <param-ref id="smtp.mail.port"/>
+                <param-ref id="smtp.mail.security.protocol"/>
+                <param-ref id="smtp.mail.user"/>
+                <param-ref id="smtp.mail.password"/>
+            </linked-params>
+        </param-checker>
+        
+        <!--param-checker id="send-mail-checker" class="org.ametys.runtime.util.checkers.SendMailChecker">
+            <label i18n="true">PLUGINS_CORE_SEND_MAIL_CHECKER_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_SEND_MAIL_CHECKER_DESC</description>
+            <icon plugin="core">img/administrator/config/check/test_mailsend.png</icon>
+                        
+            <ui-ref>
+                <order>1</order>
+                <category i18n="true">PLUGINS_CORE_MAIL_CONFIG_CATEGORY</category>
+            </ui-ref>
+            
+            <linked-params>
+                <param-ref id="smtp.mail.host"/>
+                <param-ref id="smtp.mail.port"/>
+                <param-ref id="smtp.mail.security.protocol"/>
+                <param-ref id="smtp.mail.user"/>
+                <param-ref id="smtp.mail.password"/>
+                <param-ref id="smtp.mail.from"/>
+                <param-ref id="smtp.mail.sysadminto"/>
+            </linked-params>
+        </param-checker-->
+    
+        <param-checker id="sql-connection-checker" class="org.ametys.runtime.util.checkers.SqlConnectionChecker">
+            <label i18n="true">PLUGINS_CORE_SQL_CONNECTION_CHECKER_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_SQL_CONNECTION_CHECKER_DESC</description>
+            <icon-large>img/administrator/config/check/test_sqlconnect_48.png</icon-large>
+            <icon-medium>img/administrator/config/check/test_sqlconnect_32.png</icon-medium>
+            <icon-small>img/administrator/config/check/test_sqlconnect_16.png</icon-small>
+                        
+            <ui-ref>
+                <order>1</order>
+                <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE</category>
+               <!-- <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE_GROUP_CORE</group> -->
+            </ui-ref>
+            
+            <linked-params>
+                <param-ref id="runtime.datasource.core.jdbc.driver"/>
+                <param-ref id="runtime.datasource.core.jdbc.url"/>
+                <param-ref id="runtime.datasource.core.jdbc.user"/>
+                <param-ref id="runtime.datasource.core.jdbc.passwd"/>
+            </linked-params>
+        </param-checker>
+        
+        <param-checker id="upload-directory-checker" class="org.ametys.runtime.util.checkers.DirectoryChecker">
+            <label i18n="true">PLUGINS_CORE_UPLOAD_DIRECTORY_CHECKER_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_UPLOAD_DIRECTORY_CHECKER_DESC</description>
+            <icon-large>img/administrator/config/check/test_directorywrite_48.png</icon-large>
+            <icon-medium>img/administrator/config/check/test_directorywrite_32.png</icon-medium>
+            <icon-small>img/administrator/config/check/test_directorywrite_16.png</icon-small>
+                       
+            <configuration>
+                <check-write/>
+                <creates-if-required/>
+            </configuration>
+                        
+            <ui-ref>
+                <order>1</order>
+                <param-ref id="runtime.upload.dir"/>
+            </ui-ref>
+            
+            <linked-params>
+                <param-ref id="runtime.upload.dir"/>
+            </linked-params>
+        </param-checker>
+
+        <param-checker id="cas-server-checker" class="org.ametys.runtime.util.checkers.HttpUrlChecker">
+            <label i18n="true">PLUGINS_CORE_CAS_SERVER_CHECKER_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_CAS_SERVER_CHECKER_DESC</description>
+            <icon-large>img/administrator/config/check/test_casconnect_48.png</icon-large>
+            <icon-medium>img/administrator/config/check/test_casconnect_32.png</icon-medium>
+            <icon-small>img/administrator/config/check/test_casconnect_16.png</icon-small>
+                        
+            <configuration>
+                <request>
+                    <user-agent>Ametys</user-agent>
+                    <method>HEAD</method>
+                    <timeout>10000</timeout>
+                </request>
+                
+                <response>
+                    <code>200,301</code>
+                    <header>
+                        
+                    </header>
+                </response>
+            </configuration>
+                        
+            <ui-ref>
+                <order>1</order>
+                <param-ref id="runtime.authentication.cas.serverUrl"/>
+            </ui-ref>
+            
+            <linked-params>
+                <param-ref id="runtime.authentication.cas.serverUrl"/>
+            </linked-params>
+        </param-checker>
+        
     </config>
     
     <extension-points>

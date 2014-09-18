@@ -19,7 +19,7 @@
  */
 
 Ext.define('Ametys.admin.rightpanel.ActionPanel', {
-	extend: 'Ext.panel.Panel',
+	extend: 'Ametys.admin.rightpanel.TextPanel', 
 		
 	autoDestroy: false,
 	collapsible: false,

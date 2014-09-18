@@ -13,48 +13,191 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-
 .home-wrapper .home-main .home-col-main .admin-main-panel #config-inner .x-panel-header,
 .home-wrapper .home-main .home-col-main .admin-main-panel #config-inner .x-panel-body
 {
-	background-color: transparent;
-	background-image: none;
-	box-shadow: none;
-	border-width: 0;
+    background-color: transparent;
+    background-image: none;
+    box-shadow: none;
+    border-width: 0;
 }
 
 .home-wrapper .home-main .home-col-main .admin-main-panel #config-inner .x-panel-header
 {
-	background-image: url('../../../../../_admin/resources/img/icon/group-expand-sprite.png');
-	background-repeat: no-repeat;	
-	background-position: 0 -45px;
-	
-	padding-left: 15px;
-	margin-left: 15px;
+    background-image: url('../../../../../_admin/resources/img/icon/group-expand-sprite.png');
+    background-repeat: no-repeat;   
+    background-position: 0 -45px;
+    
+    padding-left: 15px;
+    margin-left: 15px;
 }
 
 .home-wrapper .home-main .home-col-main .admin-main-panel #config-inner .x-panel-header .x-panel-header-text
 {
-	font-family: arial,sans-serif;
-	font-size: 1.21em;
-}	
+    font-family: arial,sans-serif;
+    font-size: 1.21em;
+}   
 
 .home-wrapper .home-main .home-col-main .admin-main-panel #config-inner .x-panel-header.x-panel-header-collapsed-top
 {
-	background-position: 0 5px;
+    background-position: 0 5px;
 }
 
 .home-wrapper .home-main .home-col-main .admin-main-panel #config-inner .ametys-subcategory 
 {
-	color: #858D92;
-	font-family: arial,sans-serif;
-	font-weight:bold;
-	font-size: 0.9em;
+    color: #858D92;
+    font-family: arial,sans-serif;
+    font-weight:bold;
+    font-size: 0.9em;
 
     line-height: 16px;
-	padding : 0 0 0 35px;
+    padding : 0 0 0 35px;
 }
 
-.admin-main-panel .ametys .x-form-item-label {
-	margin-top: 2px;
+.x-tip-form-warning .x-btn-default-small-over:after
+{
+	content: ' ' !important;
+}
+
+.x-tip-form-warning .x-btn-default-small:after
+{
+    content: ' ' !important;
+}
+
+.admin-main-panel .ametys .x-form-item-label 
+{
+    margin-top: 2px;
+}
+
+.admin-main-panel .test-results
+{
+   text-decoration: none; 
+   font-weight: normal; 
+   font-family: arial,sans-serif;
+}
+
+.admin-main-panel .ametys .x-btn-default-small-focus
+{
+   margin-bottom-width: 1px !important;
+}
+
+.admin-main-panel .param-checker-container
+{
+    margin-left: 235px;
+    margin-top: 10px;
+}
+
+.admin-main-panel .param-checker-container .x-box-inner
+{
+	width: 262px !important;
+}
+
+.admin-main-panel .param-checker-component
+{
+    border: 1px solid #b9b9b9 !important;
+    background-color: #e3e3e3;
+    width: 245px;
+}
+
+.admin-main-panel .param-checker-component .x-mask-msg 
+{
+    background-color: transparent !important;
+    border: 1px !important;
+}
+
+.admin-main-panel .param-checker-component .x-mask-msg div 
+{
+    background-color: transparent !important;
+}
+
+.admin-main-panel .param-checker-component.failure
+{
+    width: 220px;
+}
+ 
+.admin-main-panel .param-checker-component.success
+{
+    width: 220px;   
+}
+
+.admin-main-panel .param-checker-component.warning
+{
+    width: 220px;   
+}
+ 
+.admin-main-panel .param-checker-component.failure:after
+{
+	content: ' ';
+    display: inline-block;
+    background-image: url("../../../../../plugins/extjs4/resources/ext-theme-gray/images/form/exclamation.gif");
+    background-repeat: no-repeat;
+    height: 20px; 
+    width: 20px;
+    position: absolute;
+    bottom: -1px;
+    right: -27px; 
+}
+ 
+ .admin-main-panel .param-checker-component.success:after
+{ 
+	content: ' ';
+    display: inline-block;
+    background-image: url("../../../../../plugins/extjs4/resources/ext-theme-gray/images/dd/drop-yes.gif");
+    background-repeat: no-repeat;
+    height: 20px;
+    width: 20px;
+    position: absolute;
+    bottom: -1px;
+    right: -27px; 
+}
+
+ .admin-main-panel .param-checker-component.warning:after
+{ 
+    content: ' ';
+    display: inline-block;
+    background-image: url("/kernel/resources/img/Ametys/theme/gray/warning.png");
+    background-repeat: no-repeat;
+    height: 20px;
+    width: 20px;
+    position: absolute;
+    bottom: -1px;
+    right: -27px; 
+}
+ 
+.admin-main-panel .test-results
+{
+   text-decoration: none; 
+   font-weight: normal; 
+   font-family: arial,sans-serif;
+}
+
+.admin-main-panel .offset
+{
+    margin-left: 25px !important;
+}
+ 
+.admin-main-panel .param-checker-component.x-btn-over
+{
+   background-position: -16px 0;
+}
+
+.admin-main-panel .param-checker-component.x-btn-pressed
+{
+   background-position: -32px 0;
+}
+ 
+.home-wrapper .home-main .home-col-main .admin-main-panel .navigation-item-error
+{
+	border: 1px solid #FF0000 !important;
+    background-image: url("../../../../../plugins/extjs4/resources/ext-theme-gray/images/form/exclamation.gif");
+    background-position: 199px 5px;
+    background-repeat: no-repeat;
+}
+
+.home-wrapper .home-main .home-col-main .admin-main-panel .navigation-item-warning
+{
+	border: 1px solid #F6B51A !important;
+    background-image: url("../../../../../kernel/resources/img/Ametys/theme/gray/warning.png");
+    background-position: 199px 5px;
+    background-repeat: no-repeat;
 }

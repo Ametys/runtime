@@ -60,12 +60,17 @@
 					Ametys.plugins.core.administration.Config._fields = [];
 					
 					<xsl:for-each select="config/categories/category">
-						<xsl:sort select="label/node()" data-type="text" order="ascending"/>
-						
-						var fieldSet = Ametys.plugins.core.administration.Config.createFieldSet ("<xsl:value-of select="generate-id()"/>", "<xsl:copy-of select="label/node()"/>");
-							
+                        <xsl:sort select="label/node()" data-type="text" order="ascending"/>
+
+						<xsl:variable name="categoryLabel" select="label/node()"/>
+                        
+					    var fieldSet = Ametys.plugins.core.administration.Config.createFieldSet ("<xsl:value-of select="generate-id()"/>", "<xsl:value-of select="label/node()"/>");
+                        
 						<xsl:for-each select="groups/group">
-							Ametys.plugins.core.administration.Config.addGroupCategory (fieldSet, "<xsl:copy-of select="label/node()"/>"
+							
+							<xsl:variable name="groupLabel" select="label/node()"/>
+							
+							Ametys.plugins.core.administration.Config.addGroupCategory (fieldSet, "<xsl:value-of select="generate-id()"/>", "<xsl:copy-of select="label/node()"/>"
 							        <xsl:if test="group-switch">
 							             <xsl:text>, </xsl:text>
 							             <xsl:call-template name="create-config"><xsl:with-param name="config" select="parameters/*[local-name() = ../../group-switch]"/></xsl:call-template>
@@ -82,8 +87,33 @@
 									   <xsl:if test="$switch-value != ''">, "<xsl:value-of select="escape:escapeJavaScript($switch-value)"/>"</xsl:if>
 									);
 							</xsl:for-each>
-							Ametys.plugins.core.administration.Config._form.add(fieldSet);
+							
+							Ametys.plugins.core.administration.Config._form.add(fieldSet); 
+							
+							<xsl:for-each select="parameters/*[not(local-name() = ../../group-switch)]">
+					           <xsl:for-each select="param-checker[text() != '']">
+					                <xsl:sort select="order" data-type="number"/>
+                                        Ametys.plugins.core.administration.Config.addParameterChecker(<xsl:value-of select="node()"/>, "<xsl:value-of select="$categoryLabel"/>", 
+                                                                                                       "<xsl:value-of select="$groupLabel"/>", "<xsl:value-of select="label"/>", 
+                                                                                                       "<xsl:value-of select="description"/>");                        
+                               </xsl:for-each>
+                            </xsl:for-each>
+					   
+                            <xsl:for-each select="param-checker[text() != '']">
+                                 <xsl:sort select="order" data-type="number"/>
+                                    Ametys.plugins.core.administration.Config.addGroupChecker(fieldSet, <xsl:value-of select="node()"/>, "<xsl:value-of select="$categoryLabel"/>", 
+                                                                                              "<xsl:value-of select="group"/>", "<xsl:value-of select="label"/>", 
+                                                                                              "<xsl:value-of select="description"/>");   
+                            </xsl:for-each>
+                            
 						</xsl:for-each>
+						
+                        <xsl:for-each select="param-checker[text() != '']">
+                            <xsl:sort select="order" data-type="number"/>
+                                Ametys.plugins.core.administration.Config.addCategoryChecker(fieldSet, <xsl:value-of select="node()"/>, "<xsl:value-of select="category"/>",
+                                                                                     "<xsl:value-of select="label"/>", "<xsl:value-of select="description"/>");
+                        </xsl:for-each>
+                        
 					</xsl:for-each>
 					function createPanel()
 					{

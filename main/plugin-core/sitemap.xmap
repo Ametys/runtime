@@ -73,6 +73,7 @@
             <map:action name="administrator-change-levels" src="org.ametys.runtime.plugins.core.administrator.logs.ChangeLogLevelAction" logger="org.ametys.runtime.plugins.core.administrator.logs.ChangeLogLevelAction"/>
             <map:action name="administrator-system-update" src="org.ametys.runtime.plugins.core.administrator.system.UpdateSystemAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.updateSystem"/>
             <map:action name="administrator-config-save" src="org.ametys.runtime.plugins.core.administrator.configuration.SaveConfigAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.saveConfig"/>
+            <map:action name="administrator-config-test" src="org.ametys.runtime.config.ParameterCheckerAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.dispatchRequest"/>
             <map:action name="administrator-change-plugins" src="org.ametys.runtime.plugins.core.administrator.plugins.ChangePlugins" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.changePlugins"/>
 			<map:action name="administrator-affect-superuser" src="org.ametys.runtime.plugins.core.administrator.superuser.AffectSuperUserAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.superUser"/>
 			<map:action name="administrator-restart" src="org.ametys.runtime.plugins.core.administrator.RestartAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.restart"/>
@@ -237,6 +238,27 @@
                     <map:generate type="action-result">
                         <map:parameter name="error" value="{error}"/>
                     </map:generate>
+                    <map:serialize type="xml"/>
+                </map:act>
+            </map:match>
+            
+            <map:match pattern="administrator/config/test">
+                <map:act type="administrator-config-test">
+                    <map:generate type="action-result"/>
+                    <map:serialize type="xml"/>
+                </map:act>
+            </map:match>
+            
+            <map:match pattern="administrator/config/test">
+                <map:act type="administrator-config-test">
+                    <map:generate type="action-result"/>
+                    <map:serialize type="xml"/>
+                </map:act>
+            </map:match>
+            
+            <map:match pattern="administrator/config/test">
+                <map:act type="administrator-config-test">
+                    <map:generate type="action-result"/>
                     <map:serialize type="xml"/>
                 </map:act>
             </map:match>
@@ -814,7 +836,7 @@
 				<map:generate type="rights-profiles-context"/>
 				<map:serialize type="xml"/>
 			</map:match>
-			
+           
 			<map:match pattern="rights/profile.xml">
 				<map:generate type="rights-profile-rights"/>
 				<map:transform src="pages/rights/rights.xsl"/>

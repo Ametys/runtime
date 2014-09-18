@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright 2012 Anyware Services
+   Copyright 2014 Anyware Services
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -49,10 +49,43 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_INVALID_TITLE">Le formulaire contient des erreurs</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_INVALID">Un ou plusieurs champs du formulaire sont incorrects. Veuillez les corriger avant de recommencer une sauvegarde.</message>
 	<message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP">La saisie ne respecte pas le format attendu :</message>
-    
     <message key="DATE_FIELD_FORMAT">d/m/Y</message>
     <message key="TIME_FIELD_FORMAT">H:h</message>
 	
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_PARAM_CHECK_ERROR">Erreur lors de la vérification des paramètres</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_PARAM_CHECK_ERROR_TEXT">vérifications(s) a (ont) échoué.&lt;br/&gt;Appuyez sur 'Détails' pour en savoir plus ou consultez les journaux de l'application.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_PARAM_CHECK_UI_REF_CATEGORY">Sur la catégorie</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_PARAM_CHECK_UI_REF_GROUP">Sur le groupe</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_PARAM_CHECK_UI_REF_PARAMETER">Sur le paramètre</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_TESTS_NOK_MBOX_TITLE">Vérifications non-concluantes</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_TESTS_NOK_MBOX_MSG">Avant de sauver, il est recommandé que toutes les vérifications passent avec succès (un mauvais paramètre peut entrainer le blocage du démarrage d'Ametys).&lt;br/&gt;Que souhaitez-vous faire ?</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_TESTS_NOK_MBOX_SAVE">Sauver sans vérifier les paramètres</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_TESTS_NOK_MBOX_RETRY">Lancer les vérifications et sauver</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_TESTS_NOK_MBOX_CANCEL">Annuler</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_PARAM_CHECKER_STATUS">Statut : </message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_PARAM_CHECKER_STATUS_SUCCESS">Succès</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_PARAM_CHECKER_STATUS_FAILURE">Echec</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_PARAM_CHECKER_STATUS_NOT_TESTED">Non testé</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_PARAM_CHECKER_STATUS_DEACTIVATED">Désactivé</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_PARAM_CHECKER_STATUS_WARNING">Cette vérification dépend d'un ou plusieurs paramètres qui ont été modifiés. Il est conseillé d'effectuer ce test pour vérifier les nouvelles valeurs.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_TEST_RESULTS_TITLE">Résultat des vérifications</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_TEST_RESULTS_TEXT">Les vérifications permettent de vérifier les paramètres de configuration. Voici le bilan :</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_TEST_RESULTS_SUCCESSES">Succès</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_TEST_RESULTS_FAILURES">Echec(s)</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_TEST_RESULTS_NOT_TESTED">Non testé(s)</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_RUN_ALL_TESTS">Lancer tous les tests</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_RUN_MISSED_TESTS">Lancer les tests manqués</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_PARAM_CHECKER_TOOLTIP_TESTED_PARAMS">Paramètre(s) utilisé(s) : </message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_PARAM_CHECKER_TOOLTIP_MESSAGE">Message :</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_PARAM_CHECKER_TOOLTIP_MESSAGE2">Dernier message d'erreur:</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_PARAM_CHECKER_TOOLTIP_DEACTIVATED_MESSAGE">Cette vérification est désactivée car tous les paramètres qu'elle utilise sont désactivés ou au moins un des paramètres utilisés est invalide.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SERVER_CALL_ERROR_TITLE">Erreur serveur</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SERVER_CALL_ERROR_TEXT">Une erreur est survenue côté serveur. Le résultat des vérifications est réinitialisé.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_FIELD_TEXT">Ce champ est obligatoire.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_WARNING_TEXT_BEGINNING">La vérification '</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_WARNING_TEXT_END">' a échoué. Vérifiez la valeur de ce paramètre.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_PARAM_CHECKER_LABEL_PREFIX">Vérifier</message>
+    
     <!-- ADMINISTRATOR JVMSTATUS -->
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_LABEL">Etat du système</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_DESCRIPTION">Analyser l'état du système et de la JVM</message>
@@ -488,6 +521,18 @@
     <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_SEARCH_SCOPE_ENUM_OBJECT">Object</message>
     <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_SEARCH_SCOPE_ENUM_ONE">One level</message>
     <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_SEARCH_SCOPE_ENUM_SUB">Sub tree</message>
+
+    <!--  PARAMETER CHECKERS -->
+    <message key="PLUGINS_CORE_MAIL_CONNECTION_CHECKER_LABEL">Connexion au serveur mail</message>
+    <message key="PLUGINS_CORE_MAIL_CONNECTION_CHECKER_DESC">Ce test vérifie que les informations rentrées permettent bien d'établir une connexion avec le serveur d'envoi d'emails</message>
+    <message key="PLUGINS_CORE_SQL_CONNECTION_CHECKER_LABEL">Connexion à la base noyau</message>
+    <message key="PLUGINS_CORE_SQL_CONNECTION_CHECKER_DESC">Ce test vérifie que les informations rentrées permettent bien d'établir une connexion avec la base de données noyau</message>
+    <message key="PLUGINS_CORE_UPLOAD_DIRECTORY_CHECKER_LABEL">Répertoire destination d'upload</message>
+    <message key="PLUGINS_CORE_UPLOAD_DIRECTORY_CHECKER_DESC">Ce test vérifie que le dossier spécifié existe ou créé le dossier dans le cas contraire et que Ametys dispose des droits d'écriture dessus.</message>
+    <message key="PLUGINS_CORE_CAS_SERVER_CHECKER_LABEL">Url du serveur CAS</message>
+    <message key="PLUGINS_CORE_CAS_SERVER_CHECKER_DESC">Ce test vérifie que le l'url spécifiée est valide en essayant d'établir une connexion.</message>
+    <message key="PLUGINS_CORE_LDAP_DN_CONNECTION_CHECKER_LABEL">Connexion au LDAP</message>
+    <message key="PLUGINS_CORE_LDAP_DN_CONNECTION_CHECKER_DESC">Ce test vérifie que les informations entrées permettent bien d'établir une connection au LDAP, et vérifie que le DN est valide.</message>
 
 	<!-- PROFILE -->
 	<message key="PLUGINS_CORE_RIGHTS_PROFILES_LABEL">Profils</message>

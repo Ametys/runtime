@@ -32,25 +32,81 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 * @private
 	 * @readonly 
 	 */
-	FIELD_WIDTH: 250 + 20,
-	
+	FIELD_WIDTH: 250,
+	/**
+	 * @property {Number} AMETYS_DESCRIPTION_WIDTH The width for ametys descriptions
+	 * @private
+	 * @readonly 
+	 */
+	AMETYS_DESCRIPTION_WIDTH: 20,
+	/**
+	 * @property {Number} CHECKERS_LEFT_MARGIN The left margin for category checkers
+	 * @private
+	 * @readonly 
+	 */
+ 	CHECKERS_LEFT_MARGIN: 235,
+	/**
+	 * @property {Number} TEST_CONTAINERS_TOP_MARGIN The top margin for test containers
+	 * @private
+	 * @readonly 
+	 */
+ 	TEST_CONTAINERS_TOP_MARGIN: -10,
+	/**
+	 * @property {Number} TEST_CONTAINERS_BOTTOM_MARGIN The bottom margin for test containers
+	 * @private
+	 * @readonly 
+	 */
+ 	TEST_CONTAINERS_BOTTOM_MARGIN: 20,
+	/**
+	 * @property {Number} SWITCHER_WIDTH The width for the group switchers (ametys description included)
+	 * @private
+	 * @readonly 
+	 */
+	SWITCHER_WIDTH: 155,
+	/**
+	 * @property {Number} ADMIN_RIGHT_PANEL_WIDTH The width for the admin panel on the right of the screen 
+	 * @private
+	 * @readonly 
+	 */
+	ADMIN_RIGHT_PANEL_WIDTH: 277,
+	/**
+	 * @property {Number} LAUNCH_TESTS_SAVE_MBOX_HEIGHT The height and of the "launch tests and save" message box
+	 * @private
+	 * @readonly 
+	 */
+	LAUNCH_TESTS_SAVE_MBOX_HEIGHT: 100,
 	/**
 	* @property {Ext.form.Field[]} _fields The configuration fields
 	* @private
 	 */
 	_fields: [],
-	
+	/**
+	 * @property {Object} _categories The mapping of the categories' id with their label
+	 */
+	_categories: {},
+	/**
+	 * @property {Ametys.plugins.core.administration.Config.ParameterChecker[]} _paramCheckers all the parameter checkers of this page
+	 */
+	_paramCheckers: [],
+	/**
+	 * @property {Object} _navigationMap mapping of the navigation items with their labels in order to ease their updating
+	 */
+	_navigationMap: [],
 	/**
 	 * @property {Ext.form.FormPanel} _form The configuration form
 	 * @private
 	 */
 	/**
 	 * @private
-	 * @property {Ametys.admin.rightpanel.NavigationPanel} _nav The navigation panel
+	 * @property {Ametys.admin.rightpanel.NavigationPanel} _navigationPanel The navigation panel
 	 */
 	/**
 	 * @private
 	 * @property {Ametys.admin.rightpanel.ActionPanel} _actions The action panel
+	 */
+	/**
+	 * @private
+	 * @property {Ametys.admin.rightpanel.ActionPanel} _testResults the test results panel
 	 */
 	/**
 	 * @property {Object[]} _navItems The navigation items
@@ -68,12 +124,10 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 * @property {Ext.Element} _ct The element containing doing the scroll in 
 	 * @private
 	 */
-	
 	/**
 	 * @property {Object} _widgets The registered widgets for the config screen. The widgets are js class name for widgets.
 	 * @private
 	 */
-
 	_widgets: {
 		'hour': 'Ametys.plugins.core.administrator.Config.HourField',
 		'time': 'Ametys.plugins.core.administrator.Config.TimeField',
@@ -87,7 +141,6 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	initialize: function (pluginName)
 	{
 		this.pluginName = pluginName;
-
 		this._bound = true;
 	},
 
@@ -110,6 +163,8 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 			id : 'config-inner',
 			formId : 'save-config',
 			
+			layout: 'anchor',
+			
 			fieldDefaults: {
 				cls: 'ametys',
 				labelAlign: 'right',
@@ -118,7 +173,8 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 			},
 
 			listeners: {
-				'boxready': Ext.Function.bind(this._onFormReady, this)
+				'boxready': Ext.Function.bind(this._onFormReady, this),
+				'fieldvaliditychange': Ext.Function.bind(this._updateNavigationPanel, this),
 			},
 			
 			html: ''
@@ -126,15 +182,15 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 		
 		this._contextualPanel = new Ext.Container({
 			region:'east',
-		
 			cls : 'admin-right-panel',
 			border: false,
 			autoScroll: true,
-			width: 277,
+			width: Ametys.plugins.core.administration.Config.ADMIN_RIGHT_PANEL_WIDTH,
 			
-			items: [this._drawNavigationPanel (),
-			        this._drawHandlePanel (),
-			        this._drawHelpPanel ()]
+			items: [this._drawNavigationPanel(),
+			        this._drawHandlePanel(),
+			        this._drawTestResultsPanel(),
+			        this._drawHelpPanel()]
 		});
 		
 		return new Ext.Panel({
@@ -144,9 +200,10 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 			border: false,
 			layout: 'border',
 			
-			items: [this._form , 
+			items: [this._form, 
 			        this._contextualPanel],
 			        
+
 	        listeners: {
 				'boxready': Ext.Function.bind(this._onBoxReady, this)
 			}        
@@ -155,10 +212,11 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	
 	/**
 	 * @private
-	 * Listener when the form's box is ready
+	 * Listener when the main panel is ready
 	 */
-	_onFormReady: function() {
-		
+	_onFormReady: function() 
+	{
+		// Disable conditions listeners
 		var fieldsLength = this._fields.length;
 		for (var i = 0; i < fieldsLength ; i++)
 		{
@@ -168,13 +226,35 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 				this._addListeners(this._fields[i].disableCondition, this._fields[i]);
 			}
 		}
+		
+		// Parameter checkers listeners
+		var nbParamCheckers = this._paramCheckers.length;
+		for (var i = 0; i < nbParamCheckers; i++)
+		{
+			var paramChecker = this._paramCheckers[i], 
+				linkedParams = paramChecker.linkedParams,
+			    nbLinkedParams = linkedParams.length;
+			
+			// on change listeners to reset the parameter checkers' status
+			for (var j = 0; j < nbLinkedParams; j++)
+			{
+				var	linkedParamField = this._form.getForm().findField(linkedParams[j]);
+				linkedParamField.on('change', Ext.bind(this._updateTestButton, this, [paramChecker], false));
+				linkedParamField.on('disable', Ext.bind(this._updateTestButton, this, [paramChecker], false));
+				linkedParamField.on('enable', Ext.bind(this._updateTestButton, this, [paramChecker], false));
+				linkedParamField.on('warningchange', Ext.Function.bind(this._updateNavigationPanel, this));
+			}		
+		}
+		
+		this._updateTestResults();
 	},
 	
 	/**
 	 * @private
 	 * Listener when the panel's box is ready
 	 */
-	_onBoxReady: function() {
+	_onBoxReady: function() 
+	{
 		this._ct = Ext.getCmp("config-inner").getEl().child("div:first");
 		this._ct.on('scroll', Ext.Function.bind(this._calcScrollPosition, this));
 		
@@ -185,65 +265,61 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 * Creates a fieldset with this id and label
 	 * @param {String} id The id of the new field set
 	 * @param {String} label The label of the field set
-	 * @return {Ext.form.FieldSet}
+	 * @return {Ext.form.FieldSet} the fieldset representing a category
 	 */
 	createFieldSet: function (id, label)
 	{
+		this._categories[label] = id;
+		
 		return new Ext.panel.Panel({
-			id : id,
-			title : label,
-			
-			collapsible: true,
-			titleCollapse: true,
-			hideCollapseTool: true,
-			
-			border: false,
-			shadow: false,
-			layout: 'vbox',
-			
-			width: Ametys.plugins.core.administration.Config.LABEL_WIDTH 
-					+ Ametys.plugins.core.administration.Config.FIELD_WIDTH 
-					+ 100
+				id : id,
+				title:label,
+				
+				border: false,
+				shadow: false,
+				
+				layout: {
+					type: 'vbox',
+				},
+				
+				collapsible: true,
+				titleCollapse: true,
+				hideCollapseTool: true,
+
+				width: Ametys.plugins.core.administration.Config.LABEL_WIDTH
+					   + Ametys.plugins.core.administration.Config.FIELD_WIDTH
+					   + Ametys.plugins.core.administration.Config.AMETYS_DESCRIPTION_WIDTH
 		});
 	},
-
+	
 	/**
-	 * @private
-	 * Show or hide the elements of a group
-	 * @param {HTMLElement} input The changed input 
-	 * @param {String} newValue The new value of the input 
-	 * @param {String} oldValue The preceding value of the input
-	 * @param {String[]} elements The html names of the elements to show or hide
-	 */
-	_showHideGroup: function(input, newValue, oldValue, elements)
-	{
-		Ext.suspendLayouts();
-		for (var i = 0; i < elements.length; i++)
-		{
-			this._form.getForm().findField(elements[i]).setVisible(newValue);
-		}
-		Ext.resumeLayouts(true);
-	},
-
-	/**
-	 * Add a group category
-	 * @param {Ext.form.FieldSet} fd The fieldset where to add the category
-	 * @param {String} name The name of the category
-	 * @param {Object} switcher If the group can be switched on/off, this object has the following keys : type, name, label, description, widget, mandatory, regexp and optionally invalidText and disableCondition.
+	 * Add a group to a category
+	 * @param {Ext.form.FieldSet} fd The fieldset where to add the group
+	 * @param {String} id the id of the new group
+	 * @param {String} name The name of the group
+	 * @param {Object} switcher If the group can be switched on/off, this object has the same configuration as the config parameter of the method #addInputField 
 	 * @param {String[]} subitems An array containing the names of the fields the switcher will show/hide 
 	 */
-	addGroupCategory: function (fd, name, switcher, subitems)
+	addGroupCategory: function (fd, id, name, switcher, subitems)
 	{
 		if (switcher != null)
 		{
 			var modifiedSwitcher = Ext.applyIf ({label: '', description: '', width: 'auto'}, switcher);
+			var inputCt = this.createInputField(modifiedSwitcher);
+			var input = inputCt.items.get(0);
 			
-			var input = this.createInputField(modifiedSwitcher);
-			input.on('change', Ext.bind(this._showHideGroup, this, [subitems], true));
-
+			// check/uncheck
+			input.on('change', Ext.bind(this._showHideGroup, this, [subitems, name], true));
+			
+			// parameter checkers' visibility at startup
+			if (!input.getValue())
+			{
+				input.on('boxready', Ext.bind (this._showHideGroup, this, [null, false, null, subitems, name], false));
+			}
+			
 			var items = [
 			      input,
-			      { flex: 1, baseCls: '', html: "<label for='" + input.getInputId() + "'>" + name + "</label>", padding: "3 0 0 5" }
+			      { width: Ametys.plugins.core.administration.Config.SWITCHER_WIDTH, baseCls: '', html: "<label for='" + input.getInputId() + "'>" + name + "</label>", padding: "3 0 0 5" }
             ];
 			
 			if (switcher.description != '')
@@ -253,7 +329,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 				    baseCls: '', 
 				    padding: "3 0 0 5",
 					html: '  ',
-					width: 20,
+					width: Ametys.plugins.core.administration.Config.AMETYS_DESCRIPTION_WIDTH,
 					listeners: {
 						'render': function() {
 						    new Ext.ToolTip({
@@ -266,21 +342,639 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 			}
 			
 			fd.add (new Ext.Container({
-				layout: 'hbox',
+				id: id,
+				layout: {
+					type: 'hbox',
+				},
 				cls: 'ametys-subcategory',
-				minWidth: 250,
 				items: items
 			}));
 		}
 		else
 		{
-			fd.add (new Ext.Container ({
+			fd.add (new Ext.Container({
+				id: id,
 				cls: 'ametys-subcategory',
 				html: name
 			}));
 		}
 	},
+	
+	/**
+	 * @private
+	 * Show or hide the elements of a group and the associated parameter checkers if there is one on a subitem
+	 * @param {HTMLElement} input The changed input 
+	 * @param {String} newValue The new value of the input 
+	 * @param {String} oldValue The preceding value of the input
+	 * @param {String[]} elements The html names of the elements to show or hide
+	 * @param {String} name the name of the group
+	 */
+	_showHideGroup: function(input, newValue, oldValue, elements, name)
+	{
+		Ext.suspendLayouts();
+		for (var i = 0; i < elements.length; i++)
+		{
+			var field = this._form.getForm().findField(elements[i]),
+				categoryLabel = field.up('panel').title;
 
+			this._showHideCheckers(field.getFieldLabel(), categoryLabel + '/' + name, newValue);
+
+			field.setVisible(newValue);
+		}
+		Ext.resumeLayouts(true);
+		this._updateTestResults();
+		this._updateNavigationPanel();
+	},
+	
+	/**
+	 * @private
+	 * Show or hide the parameter checkers linked to the group or to its parameters
+	 * @param {String} fieldLabel the label of the field
+	 * @param {String} groupLabel the label of the group
+	 * @param {String} newValue the new value of the input 
+	 */
+	_showHideCheckers: function(fieldLabel, groupLabel, newValue)
+	{
+	    if (Ext.String.startsWith(fieldLabel, "*"))
+		{
+	    	fieldLabel = fieldLabel.substring(2);
+		}
+	    
+		for (var i = 0; i < this._paramCheckers.length; i++)
+		{
+			if (this._paramCheckers[i].uiRefLabel == groupLabel + '/' + fieldLabel ||  this._paramCheckers[i].uiRefLabel == groupLabel)
+			{
+				Ext.getCmp(this._paramCheckers[i].buttonId).up('container').setVisible(newValue);
+			}
+		}
+	},
+
+	/**
+	 * Add a parameter checker to a category.
+	 * @param {Ext.form.FieldSet} fd The fieldset where to add the group checker
+	 * @param {Object} paramChecker 
+	 * @param {String} paramChecker.id the id of the parameter checker
+	 * @param {String} paramChecker.class the class implementing the check 
+	 * @param {Object} paramChecker.category the tested category
+	 * @param {Number} paramChecker.order the order of the parameter checker (if several are attached to the same parameter/group/category)
+     * @param {String} paramChecker.plugin the plugin declaring this parameter checker
+	 * @param {String} paramChecker.small-icon-path the path to the small icon representing the parameter checker
+	 * @param {String} paramChecker.medium-icon-path the path to the medium icon representing the parameter checker
+	 * @param {String} paramChecker.large-icon-path the path to the large icon representing the parameter checker
+	 * @param {String[]} paramChecker.linked-params the ids of the parameters used for the checking
+	 * @param {String} categoryLabel the category label the parameter checker is attached to
+	 * @param {String} label the label of the parameter checker
+	 * @param {String} description the description of the parameter checker
+	 */
+	addCategoryChecker: function(fd, paramChecker, categoryLabel, label, description)
+	{
+		var parameterChecker = new Ametys.plugins.core.administration.Config.ParameterChecker(paramChecker, categoryLabel, "category", label, description),
+			testButton = this._generateTestButton(parameterChecker),
+			testContainer = this._generateTestContainer(parameterChecker, testButton);
+		
+		fd.add(testContainer);
+		testContainer.setMargin(Ametys.plugins.core.administration.Config.TEST_CONTAINERS_TOP_MARGIN + ' 0 ' +  Ametys.plugins.core.administration.Config.TEST_CONTAINERS_BOTTOM_MARGIN + ' ' + Ametys.plugins.core.administration.Config.CHECKERS_LEFT_MARGIN);
+		
+		this._paramCheckers.push(parameterChecker); 
+	},
+	
+	/**
+	 * Add a parameter checker to a group.
+	 * @param {Ext.form.FieldSet} fd The fieldset where to add the group checker
+	 * @param {Object} paramChecker 
+	 * @param {String} paramChecker.id the id of the parameter checker
+	 * @param {String} paramChecker.class the class implementing the check 
+	 * @param {Object} paramChecker.group the tested group 
+	 * @param {Number} paramChecker.order the order of the parameter checker 
+	 * @param {String} paramChecker.plugin the plugin declaring this parameter checker 
+	 * @param {String} paramChecker.small-icon-path the path to the small icon representing the parameter checker
+	 * @param {String} paramChecker.medium-icon-path the path to the medium icon representing the parameter checker
+	 * @param {String} paramChecker.large-icon-path the path to the large icon representing the parameter checker
+	 * @param {String[]} paramChecker.linked-params the ids of the parameters used for the checking
+	 * @param {String} categoryLabel the label of the category of the group the parameter checker is attached to
+	 * @param {String} groupLabel the label of the group the parameter checker is attached to
+	 * @param {String} label the label of the parameter checker
+	 * @param {String} description the description of the parameter checker
+	 * @param {Boolean} startsHidden true if the parameter checker has to be hidden at start
+	 */
+	addGroupChecker: function(fd, paramChecker, categoryLabel, groupLabel, label, description)
+	{
+		var parameterChecker = new Ametys.plugins.core.administration.Config.ParameterChecker(paramChecker, categoryLabel+"/"+groupLabel, "group", label, description),
+		    testButton = this._generateTestButton(parameterChecker),
+		    testContainer = this._generateTestContainer(parameterChecker, testButton);
+		
+		fd.add(testContainer);
+		testContainer.setMargin(Ametys.plugins.core.administration.Config.TEST_CONTAINERS_TOP_MARGIN + ' 0 ' +  Ametys.plugins.core.administration.Config.TEST_CONTAINERS_BOTTOM_MARGIN + ' ' + Ametys.plugins.core.administration.Config.CHECKERS_LEFT_MARGIN);
+		
+		this._paramCheckers.push(parameterChecker);
+	},
+	
+	/**
+	 * Add a parameter checker to a parameter.
+	 * @param {Object} paramChecker 
+	 * @param {String} paramChecker.id the id of the parameter checker
+	 * @param {String} paramChecker.class the class implementing the check 
+	 * @param {String} paramChecker.param-ref the id of the tested parameter
+	 * @param {Number} paramChecker.order the order of the parameter checker (if several are attached to the same parameter/group/category)
+	 * @param {String} paramChecker.plugin the plugin declaring this parameter checker
+	 * @param {String} paramChecker.small-icon-path the path to the small icon representing the parameter checker
+	 * @param {String} paramChecker.medium-icon-path the path to the medium icon representing the parameter checker
+	 * @param {String} paramChecker.large-icon-path the path to the large icon representing the parameter checker
+	 * @param {String[]} paramChecker.linked-params the ids of the parameters used for the checking
+	 * @param {String} categoryLabel the label of the parameter's category
+	 * @param {String} groupLabel the label of the parameter's group
+	 * @param {String} label the label of the parameter checker
+	 * @param {String} description the description of the parameter checker
+	 */
+	addParameterChecker: function(paramChecker, categoryLabel, groupLabel, label, description)
+	{
+	    var	field = this._form.getForm().findField(paramChecker['param-ref']),
+			uiRefLabel = field.getFieldLabel(),
+	    	fieldCt = field.up();
+	    	
+	    if (Ext.String.startsWith(uiRefLabel, "*"))
+    	{
+	    	uiRefLabel = uiRefLabel.substring(2);
+    	}
+	    
+	    var parameterChecker = new Ametys.plugins.core.administration.Config.ParameterChecker(paramChecker, categoryLabel+"/"+groupLabel+"/"+uiRefLabel, "parameter", label, description),
+	    	testButton = this._generateTestButton(parameterChecker),
+	    	testContainer = this._generateTestContainer(parameterChecker, testButton);
+	    
+		fieldCt.add(testContainer);
+		
+		this._paramCheckers.push(parameterChecker);
+	},
+	
+	/**
+	 * @private
+	 * Generates the button launching the tests on the corresponding parameter/group/category
+	 * @param {Ametys.plugins.core.administration.Config.ParameterChecker} paramChecker the parameter checker 
+	 */
+	_generateTestButton: function(paramChecker)
+	{	
+		var me = this;
+		
+		return new Ext.button.Button({
+			id: Ext.id(),
+			paramChecker: paramChecker,
+			tooltip: '',
+		    html: '<table style="position: absolute;top: -3px; left: -2px">' + 
+				  	  '<tr>' +
+			  	  		  '<td style="width: 20px">' +
+							  '<img width="16" height="16" src=/plugins/' + paramChecker.plugin + '/resources/' + paramChecker.smallIconPath + '/>' +
+					  	  '</td>' +
+			  	  		  '<td>' +
+			  	  		  	'<em style="font-size: x-small; text-align: center">' + "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_PARAM_CHECKER_LABEL_PREFIX'/>" + " \"" + paramChecker.label + "\"" + '</em>' +
+					  	  '</td>' +
+					  '</tr>' +
+				  '</table>',
+			cls: 'param-checker-component',
+            border: false,
+            handler: function(btn, event)
+            {
+				event.stopPropagation();
+        		me._check([paramChecker], false);
+            }
+		});
+	},
+	
+	/**
+	 * @private
+	 * Generates the container that holds the test button and the ametys description
+	 * @param {Ametys.plugins.core.administration.Config.ParameterChecker} paramChecker the parameter checker 
+	 * @param {Ext.button.Button} testButton the test button
+	 * @return {Ext.container.Container} the container with the test button and the help box
+	 */
+	_generateTestContainer: function(paramChecker, testButton)
+	{
+		var tooltip = this._generateHelpBoxTip(paramChecker),
+			helpBoxId = Ext.id(),
+			items = [testButton];
+			
+		paramChecker.setButtonId(testButton.getId());
+		paramChecker.setHelpBoxId(helpBoxId);
+		
+		items.push({
+			id: helpBoxId,
+			cls: "ametys-description",
+		    baseCls: '', 
+		    padding: "3 0 0 5",
+			html: '  ',
+			width: Ametys.plugins.core.administration.Config.AMETYS_DESCRIPTION_WIDTH,
+			listeners: {
+				'render': function() {
+				    new Ext.ToolTip({
+				        target: this.getEl(),
+				        html: tooltip
+				    });
+				}
+			}
+		});
+		
+		return new Ext.Container({
+			layout: {
+				type: 'hbox',
+				pack:'end'
+			},
+			cls : 'param-checker-container',
+			items: items
+		});
+	},
+	
+	/**
+	 * @private
+	 * Generates the HTML code for the parameter checker's help box tooltip.
+	 * @param {Ametys.plugins.core.administration.Config.ParameterChecker} paramChecker the parameter checker 
+	 */
+	_generateHelpBoxTip: function(paramChecker)
+    {
+		var tipHtml = [],
+		tpl = new Ext.XTemplate(
+								'<table>' + 
+								  	  '<tr>' +
+							  	  		  '<td style="width: 48px">' +
+											  '<img width="48" height="48" src=/plugins/' + paramChecker.plugin + '/resources/' + paramChecker.largeIconPath + '/>' +
+									  	  '</td>' +
+							  	  		  '<td>' +
+											  '<strong> &#008; &#008; ' + paramChecker.label + ' </strong>' +
+									  	  '</td>' +
+									  '</tr>' +
+									  '<tr>' +
+										  '<td colspan="2">' +
+											  '<emphasis>' + paramChecker.description + '</emphasis>' +
+										  '</td>' +
+									   '</tr>' +
+									   '<tr>' +
+									     	'<td colspan="2">' +
+								   				"- <i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_PARAM_CHECKER_TOOLTIP_TESTED_PARAMS'/>" + paramChecker.linkedParamsLabels +
+								   			'</td>' +
+									   '</tr>' +
+								'</table>'
+								);
+		
+		tpl.applyOut(paramChecker, tipHtml);
+		return tipHtml.join("");
+	},
+	
+	/**
+	 * @private
+	 * Generates the HTML code for the parameter checker's status tooltip.
+	 * @param {Ext.Element} el The element to add tooltips on
+	 * @param {Ametys.plugins.core.administration.Config.ParameterChecker} paramChecker the parameter checker 
+	 */
+	_generateStatusTip: function(el, paramChecker)
+    {
+		var tipHtml = [],
+			tpl = new Ext.XTemplate(
+						   					"<tpl if='status == " + Ametys.plugins.core.administration.Config.ParameterChecker.STATUS_NOT_TESTED + "'><i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_PARAM_CHECKER_STATUS_NOT_TESTED'/></tpl>" +
+								   			"<tpl if='status == " + Ametys.plugins.core.administration.Config.ParameterChecker.STATUS_SUCCESS + "'><i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_PARAM_CHECKER_STATUS_SUCCESS'/></tpl>" +
+								   			"<tpl if='status == " + Ametys.plugins.core.administration.Config.ParameterChecker.STATUS_FAILURE + "'>" +
+								   				"<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_PARAM_CHECKER_STATUS_FAILURE'/> </br>" +
+								   				'<tr>' + 
+								   					'<td colspan="2">' +
+								   						"- <i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_PARAM_CHECKER_TOOLTIP_MESSAGE'/> <strong>" + paramChecker.errorMsg + "</strong>" +
+							   						'</td>' +
+						   						'</tr>' +
+							   				"</tpl>" +
+							   				"<tpl if='status == " + Ametys.plugins.core.administration.Config.ParameterChecker.STATUS_DEACTIVATED + "'>" +
+							   					"<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_PARAM_CHECKER_STATUS_DEACTIVATED'/> </br>" +
+							   					'<tr>' + 
+							   						'<td colspan="2">' +
+							   							"<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_PARAM_CHECKER_TOOLTIP_MESSAGE'/>" +
+							   							"<strong><i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_PARAM_CHECKER_TOOLTIP_DEACTIVATED_MESSAGE'/></strong>" +
+														'</td>' +
+						   						'</tr>' +
+											"</tpl>" +
+						   					"<tpl if='status == " + Ametys.plugins.core.administration.Config.ParameterChecker.STATUS_WARNING + "'>" +
+								   				"<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_PARAM_CHECKER_STATUS_WARNING'/> </br>" +
+								   				"<tpl if='errorMsg != null'>" +
+							  		   				'<tr>' + 
+							  		   					'<td colspan="2">' +
+							  		   						"<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_PARAM_CHECKER_TOOLTIP_MESSAGE2'/> <strong>" + paramChecker.errorMsg + "</strong>" +
+								   						'</td>' +
+							   						'</tr>' +
+						   						'</tpl>' +
+						   					'</tpl>'
+				   				);
+		
+		tpl.applyOut(paramChecker, tipHtml);
+		var tip = tipHtml.join("");
+		
+		el.set({"data-qtip": ""}); 
+		el.set({"data-warnqtip": ""}); 
+		el.set({"data-errorqtip": ""}); 
+
+		if (paramChecker.getStatus() == Ametys.plugins.core.administration.Config.ParameterChecker.STATUS_WARNING)
+		{
+		    Ext.form.Labelable.initWarnTip();
+			el.set({"data-warnqtip": tip}); 
+		}
+		else if (paramChecker.getStatus() == Ametys.plugins.core.administration.Config.ParameterChecker.STATUS_FAILURE)
+		{
+			el.set({"data-errorqtip": tip});
+		}
+		else if (paramChecker.getStatus() == Ametys.plugins.core.administration.Config.ParameterChecker.STATUS_DEACTIVATED)
+		{
+		    Ext.form.Labelable.initWarnTip();
+			el.set({"data-warnqtip": tip}); 
+		}
+    },
+	
+	
+	/**
+	 * @private
+	 * Updates the test results panel in the rights panel
+	 */
+	_updateTestResults: function()
+	{
+		var nbTests = this._paramCheckers.length,
+			testResultsPanel = this._testResults,
+			notTested = 0,
+			failures = 0,
+			successes = 0;
+		
+		for (var i = 0; i < nbTests; i++)
+		{
+			var paramChecker = this._paramCheckers[i],
+			    status = paramChecker.getStatus();
+			
+			if (!Ext.getCmp(this._paramCheckers[i].buttonId).isVisible())
+			{
+				continue;
+			}
+				
+			switch (status)
+			{
+				case Ametys.plugins.core.administration.Config.ParameterChecker.STATUS_SUCCESS: 
+					successes += 1;
+					break;
+					
+				case Ametys.plugins.core.administration.Config.ParameterChecker.STATUS_FAILURE: 
+					failures += 1;
+					break;
+				
+				case Ametys.plugins.core.administration.Config.ParameterChecker.STATUS_NOT_TESTED:
+					notTested += 1;
+					break;
+				
+				case Ametys.plugins.core.administration.Config.ParameterChecker.STATUS_DEACTIVATED:
+					notTested += 1;
+					break;
+					
+				case Ametys.plugins.core.administration.Config.ParameterChecker.STATUS_WARNING:
+					notTested += 1;
+					break;
+					
+				default:
+					throw 'Unknown status ' + status;
+			}
+		}
+		
+		this._updateTestResultsPanel({notTested: notTested, successes: successes, failures: failures});
+	},
+	
+	/**
+	 * @private
+	 * Sets the test button to the "warning" status, updates the button's tooltip and the test results panel
+	 * @param {Ametys.plugins.core.administration.Config.ParameterChecker} paramChecker the parameter checker to be updated
+	 */	
+	_updateTestButton: function(paramChecker)
+	{
+		var btn = Ext.getCmp(paramChecker.buttonId),
+			helpBox = Ext.getCmp(paramChecker.helpBoxId),
+			linkedParams = paramChecker.linkedParams,
+		    allLinkedParamsDisabled = true,
+		    invalidLinkedParameter = false;
+	
+	    for (var i = 0; i < linkedParams.length; i++)
+		{
+			var linkedParam = linkedParams[i],
+				linkedParamField = this._form.getForm().findField(linkedParam);
+
+			// check if all linked parameters are disabled
+			if (!linkedParamField.isDisabled())
+			{
+				allLinkedParamsDisabled = false;
+			}
+			
+			// check for each field's validity and visibility
+			if (!linkedParamField.isDisabled() && linkedParamField.isVisible() && linkedParamField.getErrors().length != 0) 
+			{
+				invalidLinkedParameter = true;
+			}
+		}
+
+	    // update style
+	    btn.removeCls(['success', 'failure']);
+	    btn.addCls('warning');
+	    helpBox.addCls('offset');
+	    btn.up('container').updateLayout();
+	    
+	    if (!allLinkedParamsDisabled && !invalidLinkedParameter)
+    	{
+	    	btn.enable();
+	    	paramChecker.setStatus(Ametys.plugins.core.administration.Config.ParameterChecker.STATUS_WARNING);
+    	}
+	    else
+    	{
+	    	btn.disable();
+			paramChecker.setStatus(Ametys.plugins.core.administration.Config.ParameterChecker.STATUS_DEACTIVATED);
+    	}
+	    
+	    // update the tooltip
+	    this._generateStatusTip(btn.up('container').getEl(), paramChecker);
+	    helpBox.getEl().set({"data-qtip": this._generateHelpBoxTip(paramChecker)});
+	    
+	    // update the test results and the navigation panel
+	    this._updateTestResults();
+	    this._updateNavigationPanel();
+	},
+	
+	/**
+	 * @private
+	 * Update the warnings on fields
+	 */
+	_updateWarnings: function()
+	{
+		for (var i = 0; i < this._paramCheckers.length; i++)
+		{
+			var paramChecker = this._paramCheckers[i],
+				button = Ext.getCmp(paramChecker.buttonId),
+				helpBox = Ext.getCmp(paramChecker.helpBoxId),
+				success = paramChecker.getStatus() == Ametys.plugins.core.administration.Config.ParameterChecker.STATUS_SUCCESS ? true : false,
+				failure = paramChecker.getStatus() == Ametys.plugins.core.administration.Config.ParameterChecker.STATUS_FAILURE ? true : false,
+				warning = paramChecker.getStatus() == Ametys.plugins.core.administration.Config.ParameterChecker.STATUS_WARNING ? true : false,
+				warningMsg = "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_WARNING_TEXT_BEGINNING'/>" + paramChecker.label +
+						  "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_WARNING_TEXT_END'/>";	
+			
+			for (var j = 0; j < paramChecker.linkedParams.length; j++)
+			{
+				var linkedParam = paramChecker.linkedParams[j],
+				linkedParamField = Ametys.plugins.core.administration.Config._form.getForm().findField(linkedParam);
+			
+				linkedParamField._warnings = linkedParamField._warnings || {};
+				
+				var activeWarnings = linkedParamField.getActiveWarnings();
+				if (success)
+				{
+					Ext.Array.remove(activeWarnings, warningMsg);
+					linkedParamField._warnings[paramChecker.id] = null;
+					
+					linkedParamField.markWarning(activeWarnings);
+				}
+				else if (failure)
+				{
+					if (!linkedParamField._warnings[paramChecker.id])
+					{
+						linkedParamField._warnings[paramChecker.id] = warningMsg;
+						activeWarnings.push(warningMsg);
+					}
+					
+					linkedParamField.markWarning(activeWarnings);
+				}
+				else if (warning)
+				{
+					helpBox.addCls('offset');
+				}
+			}
+		}
+	},
+	
+	/**
+	 * @private
+	 * Calls the server-side with the configuration parameters.
+ 	 * @param {Ametys.plugins.core.administration.Config.ParameterChecker[]} paramCheckers the parameter checkers
+ 	 * @param {Boolean} displayErrors true if the errors have to be displayed at then end of the tests
+ 	 * @param {Function} [callback] the optional callback for this function.
+ 	 * @param {Boolean} [forceTest=true] to replay even successful tests
+     */
+	_check: function(paramCheckers, displayErrors, callback, forceTest)
+	{
+		forceTest = forceTest !== false ? true : false;
+		
+		var params = this._getAllFormValues(),
+			url = Ametys.getPluginDirectPrefix(this.pluginName) + "/administrator/config/test",
+			enabledParamCheckers = [];
+		
+		// Add the ids of the parameter checkers involved
+		var paramCheckersIds = '';
+		for (var i = 0; i < paramCheckers.length; i++)
+		{	
+			var paramChecker = paramCheckers[i],
+				btn = Ext.getCmp(paramChecker.buttonId);
+			
+			if (btn.isVisible() && !btn.isDisabled())
+			{
+				btn.disable();
+				if (forceTest || paramChecker.getStatus() != Ametys.plugins.core.administration.Config.ParameterChecker.STATUS_SUCCESS)
+				{
+					btn.getEl().mask("");
+					paramCheckersIds += paramChecker.id + ',';
+				}
+				
+				enabledParamCheckers.push(paramChecker);
+			}
+		}
+		
+		// Removing the last coma
+		params.paramCheckersIds = paramCheckersIds.substr(0, paramCheckersIds.length - 1);
+		
+		// Server call
+		Ext.Ajax.request({
+			url: url, 
+			params: params, 
+			callback: Ext.bind(this._checkCb, this, [enabledParamCheckers, callback, displayErrors], true)
+		});	
+	},
+	
+	/**
+	 * @private
+	 * Callback upon reception of the server's response
+	 * @param {Object} options the Ext.Ajax.request call configuration
+	 * @param {Object} options.params the call parameters
+	 * @param {boolean} success true if the request succeeded, false otherwise
+	 * @param {Object} response the server's response
+ 	 * @param {Ametys.plugins.core.administration.Config.ParameterChecker[]} paramCheckers the parameter checker
+ 	 * @param {Function} callback the optional callback for this function.
+ 	 * @param {Boolean} displayErrors true if the errors have to be displayed at then end of the tests
+ 	 */
+	_checkCb: function(options, success, response, paramCheckers, callback, displayErrors)
+	{	
+		if (!success)
+		{
+			Ametys.log.ErrorDialog.display({
+				title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_SERVER_CALL_ERROR_TITLE'/>", 
+				text: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_SERVER_CALL_ERROR_TEXT'/>",
+	    		category: "Ametys.plugins.core.administration.Config._checkCb"
+			});
+			
+			// Re-enable buttons and reinitialize test buttons
+			for (var i = 0; i < this._paramCheckers.length; i++)
+			{
+				this._updateTestButton(this._paramCheckers[i]);
+			}
+			
+			return;
+		}
+		
+		var	params = options.params,
+			result = response.responseXML,
+			errors = 0;
+
+		// Server's response handler
+		for (var i = 0; i < paramCheckers.length; i++)
+		{
+			var paramChecker = paramCheckers[i],
+				btn = Ext.getCmp(paramChecker.buttonId),
+				helpBox = Ext.getCmp(paramChecker.helpBoxId),
+				errorMsg = Ext.dom.Query.selectValue("*/" + paramChecker.id, result);
+
+			btn.getEl().unmask();
+			btn.enable();
+			btn.removeCls('warning');
+			
+			// Update the parameter checker's component
+		    if (errorMsg == null)
+			{
+		    	btn.removeCls('failure');
+		    	btn.addCls('success');
+		    	helpBox.addCls('offset');
+		    	paramChecker.setStatus(Ametys.plugins.core.administration.Config.ParameterChecker.STATUS_SUCCESS);
+		    	paramChecker.setErrorMsg(null);
+		    	
+		    	this._generateStatusTip(btn.up('container').getEl(), paramChecker);
+			    helpBox.getEl().set({"data-qtip": this._generateHelpBoxTip(paramChecker)});
+			}
+		    else
+			{
+		    	errors++;
+		    	btn.removeCls('success');
+		    	btn.addCls('failure');
+		    	helpBox.addCls('offset');
+		    	paramChecker.setStatus(Ametys.plugins.core.administration.Config.ParameterChecker.STATUS_FAILURE);
+		    	paramChecker.setErrorMsg(errorMsg);
+
+		    	this._generateStatusTip(btn.up('container').getEl(), paramChecker);
+			    helpBox.getEl().set({"data-qtip": this._generateHelpBoxTip(paramChecker)});
+			}
+		}
+		
+		this._updateTestResults();
+		this._updateNavigationPanel();
+		this._updateWarnings();
+		
+		if (callback && typeof callback === 'function') 
+		{
+			callback(errors == 0);
+		}
+					
+		if (displayErrors)
+		{
+			this._displayErrorDialog();
+		}
+	},
+	
 	/**
 	 * @private
 	 * Add listeners to evaluate the disable condition dynamically
@@ -431,7 +1125,9 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 */
 	addInputField: function (ct, config, startVisible)
 	{
-		var field = this.createInputField(config);
+		var fieldCt = this.createInputField(config);
+		var field = fieldCt.items.get(0);
+
 		if (startVisible == 'false')
 		{
 			field.hide();
@@ -439,15 +1135,15 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 		
 		if (field != null)
 	    {
-		    ct.add(field);
-		    this._fields.push(field);
+		    ct.add(fieldCt);
+		    this._fields.push(field); 
 	    }
 
 		return field;
 	},
 	
 	/**
-	 * Creates and returns an input field depending on the given configuration
+	 * Creates and returns a container wrapping an input field depending on the given configuration
 	 * @param {Object} config this object have the following keys : type, name, value, label, description, enumeration widget, mandatory, regexp and optionally invalidText, width, disableCondition and switchable. See config in {#addInputField}
 	 * @return {Ext.form.field.Field} The created field
 	 * @private
@@ -466,7 +1162,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 			{
 				config.label = '* ' + config.label;
 			}
-			
+		
 			switch (config.type) 
 			{
 				case 'double':
@@ -496,7 +1192,10 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 					break;
 			}
 		}
-		return field;
+		
+		return new Ext.container.Container({
+			items: field
+		});
 	},
 
 	/**
@@ -509,7 +1208,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 * @param {Boolean} mandatory True if the field can not be empty
 	 * @param {String} regexp The regular expression to use to validate the field value
 	 * @param {String} invalidText The text to display when the field value is not valid
-	 * @param {String/Number} width The optional width. The default one is the constants FIELD_WIDTH + LABEL_WIDTH
+	 * @param {String/Number} width The optional width. The default one is the constants FIELD_WIDTH + LABEL_WIDTH + AMETYS_DESCRIPTION_WIDTH
 	 * @param {Object} disableCondition The optional disable condition.
 	 * @return {Ext.form.field.Field} The created field
 	 */
@@ -517,7 +1216,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	{
 		var me = this;
 		
-		return new Ext.form.field.Number({
+		return	new Ext.form.field.Number({
 			name: name,
 	        fieldLabel: label,
 	        ametysDescription: description,
@@ -525,20 +1224,21 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	        value: value,
 	        validator: function(value)
 	        {	
-	        	var enabled = me._form.getForm().findField(name).isVisible() && !me._form.getForm().findField(name).isDisabled();
+	        	var field = me._form.getForm().findField(name);
+	        	var enabled = field.isVisible() && !field.isDisabled();
 	    		if(!enabled)
 	    		{
 	    			return true;
 	    		}
-	    		
 	      		// Otherwise the field has to be checked
+	    		else
 	    		{
 	    			var trimmed =  Ext.String.trim(value);	    			
 	    	        if (trimmed.length < 1 || (value === this.emptyText && this.valueContainsPlaceholder)) 
 	    	        {
 	    	        	if (mandatory) 
 	    	        	{
-	    	                return this._blankText;
+	    	        		return this.invalidText || "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_FIELD_TEXT'/>"; 
 	    	            }
 	    	        }
 	    	        return true;
@@ -548,7 +1248,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 			invalidText: invalidText != null ? invalidText : null,
 	        msgTarget: 'side',
 	        
-	        width: width || Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH
+	        width: width || Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH + Ametys.plugins.core.administration.Config.AMETYS_DESCRIPTION_WIDTH
 		});
 	},
 
@@ -562,7 +1262,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 * @param {Boolean} mandatory True if the field can not be empty
 	 * @param {String} regexp The regexp to use to validate the field value
 	 * @param {String} invalidText The text to display when the field value is not valid
-	 * @param {String/Number} width The optionnal width. The default one is the constants FIELD_WIDTH + LABEL_WIDTH
+	 * @param {String/Number} width The optionnal width. The default one is the constants FIELD_WIDTH + LABEL_WIDTH + AMETYS_DESCRIPTION_WIDTH
 	 * @param {Object} disableCondition The optional disable condition.
 	 * @return {Ext.form.field.Field} The created field
 	 */
@@ -580,20 +1280,21 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	        value: value,
 	        validator: function(value)
 	        {	
-	        	var enabled = me._form.getForm().findField(name).isVisible() && !me._form.getForm().findField(name).isDisabled();
+	        	var field = me._form.getForm().findField(name);
+	        	var enabled = field.isVisible() && !field.isDisabled();
 	        	if(!enabled)
 	    		{
 	    			return true;
 	    		}
-	    		
 	      		// Otherwise the field has to be checked
+	        	else
 	    		{
 	    			var trimmed =  Ext.String.trim(value);	    			
 	    			if (trimmed.length < 1 || (value === this.emptyText && this.valueContainsPlaceholder)) 
 	    	        {
 	    	        	if (mandatory) 
 	    	        	{
-	    	                return this._blankText;
+	    	                return this.invalidText || "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_FIELD_TEXT'/>";
 	    	            }
 	    	        }
 	    	        return true;
@@ -603,7 +1304,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 			invalidText: invalidText != null ? invalidText : null,
 			msgTarget: 'side',
 			
-	        width: width || Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH
+	        width: width || Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH + Ametys.plugins.core.administration.Config.AMETYS_DESCRIPTION_WIDTH
 		});
 	},
 
@@ -615,7 +1316,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 * @param {String} label The label of the field
 	 * @param {String} description The associated description
 	 * @param {Boolean} mandatory True if the field can not be empty
-	 * @param {String/Number} width The optional width. The default one is the constants FIELD_WIDTH + LABEL_WIDTH
+	 * @param {String/Number} width The optional width. The default one is the constants FIELD_WIDTH + LABEL_WIDTH + AMETYS_DESCRIPTION_WIDTH
 	 * @param {Object} disableCondition The optional disable condition.
 	 * @return {Ext.form.field.Field} The created field
 	 */
@@ -631,27 +1332,28 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 		    value: value,
 		    validator: function(value)
 	        {	
-		    	var enabled = me._form.getForm().findField(name).isVisible() && !me._form.getForm().findField(name).isDisabled();
+	        	var field = me._form.getForm().findField(name);
+	        	var enabled = field.isVisible() && !field.isDisabled();
 		    	if(!enabled)
 	    		{
 	    			return true;
 	    		}
-	    		
 	      		// Otherwise the field has to be checked
-	    		{
+		    	else
+		    	{
 	    			var trimmed =  Ext.String.trim(value);	    			
 	    	        if (trimmed.length < 1 || (value === this.emptyText && this.valueContainsPlaceholder)) 
 	    	        {
 	    	        	if (mandatory) 
 	    	        	{
-	    	                return this._blankText;
+	    	        		return this.invalidText || "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_FIELD_TEXT'/>";
 	    	            }
 	    	        }
 	    	        return true;
 	    		}
 	        },
 	        disableCondition: disableCondition != null ? disableCondition : null,
-	        width: width || Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH
+	        width: width || Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH + Ametys.plugins.core.administration.Config.AMETYS_DESCRIPTION_WIDTH
 		});
 	},
 
@@ -665,7 +1367,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 * @param {Boolean} mandatory True if the field can not be empty
 	 * @param {String} regexp The regexp to use to validate the field value
 	 * @param {String} invalidText The text to display when the field value is not valid
-	 * @param {String/Number} width The optionnal width. The default one is the constants FIELD_WIDTH + LABEL_WIDTH
+	 * @param {String/Number} width The optionnal width. The default one is the constants FIELD_WIDTH + LABEL_WIDTH + AMETYS_DESCRIPTION_WIDTH
 	 * @param {Object} disableCondition The optional disable condition.
 	 * @return {Ext.form.field.Field} The created field
 	 */
@@ -689,20 +1391,21 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	        
 	        validator: function(value)
 	        {	
-	    		var enabled = me._form.getForm().findField(name).isVisible() && !me._form.getForm().findField(name).isDisabled();
+	        	var field = me._form.getForm().findField(name);
+	        	var enabled = field.isVisible() && !field.isDisabled();
 	    		if(!enabled)
 	    		{
 	    			return true;
 	    		}
-	    		
 	      		// Otherwise the field has to be checked
+	    		else
 	    		{
 	    			var trimmed =  Ext.String.trim(value);	    			
 	    	        if (trimmed.length < 1 || (value === this.emptyText && this.valueContainsPlaceholder)) 
 	    	        {
 	    	        	if (mandatory) 
 	    	        	{
-	    	                return this._blankText;
+	    	        		return this.invalidText || "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_FIELD_TEXT'/>";
 	    	            }
 	    	        }
 	    	        if (regexp && !regexp.test(value)) 
@@ -717,7 +1420,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 			invalidText: invalidText != null ? invalidText : null,
 			msgTarget: 'side',
 			
-	        width: width || Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH
+	        width: width || Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH + Ametys.plugins.core.administration.Config.AMETYS_DESCRIPTION_WIDTH
 		});
 	},
 
@@ -728,7 +1431,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 * @param {Object} value The value of the field at the creating time
 	 * @param {String} label The label of the field
 	 * @param {String} description The associated description
-	 * @param {String/Number} width The optionnal width. The default one is the constants FIELD_WIDTH + LABEL_WIDTH
+	 * @param {String/Number} width The optionnal width. The default one is the constants FIELD_WIDTH + LABEL_WIDTH + AMETYS_DESCRIPTION_WIDTH
 	 * @param {Object} disableCondition The optional disable condition.
 	 * @return {Ext.form.field.Field} The created field
 	 */	
@@ -747,7 +1450,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	        
 	        disableCondition: disableCondition != null ? disableCondition : null,
 	        
-	        width: width || Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH
+	        width: width || Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH + Ametys.plugins.core.administration.Config.AMETYS_DESCRIPTION_WIDTH
 		});
 	},
 
@@ -762,7 +1465,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 * @param {Boolean} mandatory True if the field can not be empty
 	 * @param {String} regexp The regexp to use to validate the field value
 	 * @param {String} invalidText The text to display when the field value is not valid
-	 * @param {String/Number} width The optionnal width. The default one is the constants FIELD_WIDTH + LABEL_WIDTH
+	 * @param {String/Number} width The optionnal width. The default one is the constants FIELD_WIDTH + LABEL_WIDTH + AMETYS_DESCRIPTION_WIDTH
 	 * @param {Object} disableCondition The optional disable condition.
 	 * @return {Ext.form.field.Field} The created field
 	 */
@@ -781,27 +1484,29 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 		        
 		        validator: function(value)
 		        {	
-		        	var enabled = me._form.getForm().findField(name).isVisible() && !me._form.getForm().findField(name).isDisabled();
-		        	if(!enabled)
+		        	var field = me._form.getForm().findField(name);
+		        	var enabled = field.isVisible() && !field.isDisabled();
+
+		        	if (!enabled)
 		    		{
 		    			return true;
 		    		}
-		    		
 		      		// Otherwise the field has to be checked
-		    		{
+		        	else
+		        	{
 		    			var trimmed =  Ext.String.trim(value);		    			
 		    	        if (trimmed.length < 1 || (value === this.emptyText && this.valueContainsPlaceholder)) 
 		    	        {
 		    	        	if (mandatory) 
 		    	        	{
-		    	                return this._blankText;
+		    	        		return this.invalidText || "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_FIELD_TEXT'/>";
 		    	            }
 		    	        }
 		    	        return true;
 		    		}
 		        },
 		        disableCondition: disableCondition != null ? disableCondition : null,
-		        width: width || Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH,
+		        width: width || Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH + Ametys.plugins.core.administration.Config.AMETYS_DESCRIPTION_WIDTH,
 		        
 		        msgTarget: 'side',
 		        
@@ -833,20 +1538,22 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 		        value: value,
 		        validator: function(value)
 		        {	
-		        	var enabled = me._form.getForm().findField(name).isVisible() && !me._form.getForm().findField(name).isDisabled();
-		        	if(!enabled)
+		        	var field = me._form.getForm().findField(name);
+		        	var enabled = field.isVisible() && !field.isDisabled();
+		        	
+		        	if (!enabled)
 		    		{
 		    			return true;
 		    		}
-		    		
 		      		// Otherwise the field has to be checked
-		    		{
+		        	else
+		        	{
 		    			var trimmed =  Ext.String.trim(value);		    			
 		    	        if (trimmed.length < 1 || (value === this.emptyText && this.valueContainsPlaceholder)) 
 		    	        {
 		    	        	if (mandatory) 
 		    	        	{
-		    	        		return this._blankText;
+		    	        		return this.invalidText || "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_FIELD_TEXT'/>";
 		    	            }
 		    	        }
 		    	        
@@ -858,7 +1565,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 		    		}
 		        },
 		        disableCondition: disableCondition != null ? disableCondition : null,
-		        width: width || Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH,
+		        width: width || Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH + Ametys.plugins.core.administration.Config.AMETYS_DESCRIPTION_WIDTH,
 		        
 		        regexText: invalidText != null ? invalidText :  "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP'/>"  + regexp,
 				invalidText: invalidText != null ? invalidText : null,
@@ -878,7 +1585,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 * @param {Boolean} mandatory True if the field can not be empty
 	 * @param {String} regexp The regexp to use to validate the field value
 	 * @param {String} invalidText The text to display when the field value is not valid
-	 * @param {String/Number} width The optionnal width. The default one is the constants FIELD_WIDTH + LABEL_WIDTH
+	 * @param {String/Number} width The optionnal width. The default one is the constants FIELD_WIDTH + LABEL_WIDTH + AMETYS_DESCRIPTION_WIDTH
 	 * @param {Object} disableCondition The optional disable condition.
 	 * @return {Ext.form.field.Field} The created field
 	 */
@@ -894,20 +1601,22 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 		        value: value,
 		        validator: function(value)
 		        {	
-		        	var enabled = me._form.getForm().findField(name).isVisible() && !me._form.getForm().findField(name).isDisabled();
+		        	var field = me._form.getForm().findField(name);
+		        	var enabled = field.isVisible() && !field.isDisabled();
+		        	
 		        	if(!enabled)
 		    		{
 		    			return true;
 		    		}
-		    		
 		      		// Otherwise the field has to be checked
-		    		{
+		        	else
+		        	{
 		    			var trimmed =  Ext.String.trim(value);		    			
 		    	        if (trimmed.length < 1 || (value === this.emptyText && this.valueContainsPlaceholder)) 
 		    	        {
 		    	        	if (mandatory) 
 		    	        	{
-		    	        		return this._blankText;
+		    	        		return this.invalidText || "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_FIELD_TEXT'/>";
 		    	            }
 		    	        }
 		    	        
@@ -920,7 +1629,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 		        },
 		        disableCondition: disableCondition != null ? disableCondition : null,
 		        
-		        width: width || Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH,
+		        width: width || Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH + Ametys.plugins.core.administration.Config.AMETYS_DESCRIPTION_WIDTH,
 
 		        regexText: invalidText != null ? invalidText :  "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_INVALID_REGEXP'/>"  + regexp,
 				invalidText: invalidText != null ? invalidText : null,
@@ -932,39 +1641,156 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	},
 
 	/**
-	 * Draw the navigation panel. This function needs the this._navItems was filled first.
-	 * @return {Ametys.admin.rightpanel.NavigationPanel} The navigation panel
 	 * @private
+	 * Draws the navigation panel. This function needs the this._navItems to be filled first.
+	 * @return {Ametys.admin.rightpanel.NavigationPanel} The navigation panel
 	 */
 	_drawNavigationPanel: function ()
 	{
-		this._nav = new Ametys.admin.rightpanel.NavigationPanel ({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU'/>"});
+		this._navigationPanel = new Ametys.admin.rightpanel.NavigationPanel ({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_MENU'/>"});
 		
-		for (var i=0; i < this._navItems.length; i++)
+		for (var i = 0; i < this._navItems.length; i++)
 		{
 			var item = new Ametys.admin.rightpanel.NavigationPanel.NavigationItem ({
 				id : "a" + this._navItems[i].id,
 				text: this._navItems[i].label,
 				
 				divToScroll: this._navItems[i].id,
-				ctToScroll:  'config-inner',
+				
+				ctToScroll: 'config-inner',
+				
+				border: false,
 				
 				bindScroll: this._bindScroll,
-				unbindScroll:  this._unbindScroll,
-				
+				unbindScroll: this._unbindScroll,
+			
 				toggleGroup : 'config-menu'
 			});
 			
-			this._nav.add(item);
+			this._navigationPanel.add(item);
+			
+			// Bind the navigation item with its label
+			this._navigationMap[this._navItems[i].label] = item;
 		}
 		
-		return this._nav;
+		return this._navigationPanel;
 	},
 
+	
 	/**
+	 * @private
+	 * Updates the navigation panel when a field validity's or a parameter checker status changes.
+	 */
+	_updateNavigationPanel: function()
+	{
+		for (var categoryLabel in this._navigationMap)
+		{
+			var	navItem = this._navigationMap[categoryLabel],
+				paramCheckers = this._getParamCheckersByCategory(categoryLabel),
+				categoryId = this._categories[categoryLabel],
+				category = Ext.getCmp(categoryId),
+				fields = category.query('*[componentCls=x-field]'),
+				invalidField = false,
+				warningField = false;
+
+			// field validity
+			for (var i= 0; i < fields.length; i++)
+			{
+				if (!fields[i].isDisabled() && fields[i].isVisible())
+				{
+					if (fields[i].hasActiveError())
+					{
+						navItem.removeCls('navigation-item-warning');
+						navItem.addCls('navigation-item-error');
+						invalidField = true;
+						break;
+					}
+					else if (fields[i].hasActiveWarning())
+					{
+						navItem.removeCls('navigation-item-error');
+						navItem.addCls('navigation-item-warning');
+						warningField = true;
+					}
+				}
+				else 
+				{
+					navItem.removeCls('navigation-item-warning');
+					navItem.removeCls('navigation-item-error');
+				}
+			}
+			
+			if (!invalidField)
+			{
+				var warning = false,
+					error = false;
+				// parameter checkers
+				for (var i = 0; i < paramCheckers.length; i++)
+				{
+					var paramChecker = paramCheckers[i];
+					
+					if (Ext.getCmp(paramChecker.buttonId).isVisible())
+					{
+						if (paramChecker.getStatus() == Ametys.plugins.core.administration.Config.ParameterChecker.STATUS_FAILURE) 
+						{
+							navItem.removeCls('navigation-item-warning');
+							navItem.addCls('navigation-item-error');
+							error = true;
+							break;
+						}
+						else if (warningField || paramChecker.getStatus() == Ametys.plugins.core.administration.Config.ParameterChecker.STATUS_WARNING)
+						{
+							navItem.removeCls('navigation-item-error');
+							navItem.addCls('navigation-item-warning');
+							warning = true;
+						}
+					}
+				}
+				
+				if (!warning && !error)
+				{
+					navItem.removeCls('navigation-item-error');
+					navItem.removeCls('navigation-item-warning');
+				}
+			}
+		}
+	},
+	
+	/**
+	 * Get the paremeter checkers of a given category
+	 * @param {String} category the category label
+	 * @returns {Ametys.plugins.core.administration.Config.ParameterChecker[]} the parameter checkers belonging to this category
+	 */
+	_getParamCheckersByCategory: function(category)
+	{
+		var paramCheckers= [];
+		for (var i = 0; i < this._paramCheckers.length; i++)
+		{
+			var paramChecker = this._paramCheckers[i],
+				uiRefLabel = paramChecker.uiRefLabel;
+			
+			if (paramChecker.uiRefType == "category")
+			{
+				if (uiRefLabel == category)
+				{
+					paramCheckers.push(paramChecker);
+				}
+			}
+			else
+			{
+				if(uiRefLabel.substring(0, uiRefLabel.indexOf("/")) == category)
+				{
+					paramCheckers.push(paramChecker);
+				}
+			}
+		}
+		
+		return paramCheckers;
+	},
+	
+	/**
+	 * @private
 	 * Draw the actions panel.
 	 * @return {Ametys.admin.rightpanel.ActionPanel} The action panel
-	 * @private
 	 */
 	_drawHandlePanel: function ()
 	{
@@ -986,9 +1812,90 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	},
 
 	/**
+	 * @private
+	 * Draws the test results panel.
+	 * @return  {Ametys.admin.rightpanel.TextPanel} The test results panel
+	 */
+	_drawTestResultsPanel: function()
+	{
+		this._testResults = new Ametys.admin.rightpanel.ActionPanel({title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_TEST_RESULTS_TITLE'/>"});
+		
+		// Initialize the test results text
+		this._testResults.addText('');
+		
+		// Run all tests action
+		this._testResults.addAction("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_RUN_ALL_TESTS'/>",
+				 null,
+				 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/config/testall.png',
+				 Ext.bind(this._check, this,  [this._paramCheckers, true, null, true]));
+		// Relaunched missed tests action
+		this._testResults.addAction("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_RUN_MISSED_TESTS'/>",
+				 null,
+				 Ametys.getPluginResourcesPrefix(this.pluginName) + '/img/administrator/config/testmissing.png',
+				 Ext.bind(this._check, this, [this._paramCheckers, true, null, false]));	
+
+		return this._testResults;
+	},
+	
+	/**
+	 * @private
+	 * Updates the values inside the test results panel
+	 * @param {Object} testResults the results of the tests
+	 * @param {Number} testResults.notTested the number of non-performed tests
+	 * @param {Number} testResults.successes the number of successful tests
+	 * @param {Number} testResults.failures the number of failed tests
+	 */
+	_updateTestResultsPanel: function(testResults)
+	{
+		var html = [],
+        tpl = new Ext.Template(
+        			"<div class='test-results'>" + 
+	        			"<span><i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_TEST_RESULTS_TEXT'/></span>" +
+						'<ul>' + 
+							"<li> {successes} <i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_TEST_RESULTS_SUCCESSES'/></li>" +
+							"<li> {failures} <i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_TEST_RESULTS_FAILURES'/></li>" +
+							"<li> {notTested} <i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_TEST_RESULTS_NOT_TESTED'/></li>" +
+						'</ul>' +
+					"</div>"
+	    			);
+	
+		tpl.applyOut(testResults, html);
+		
+		// Update panel values
+		this._testResults.items.get(0).update(html);
+		
+		// Hide/show launch missed tests button
+		var missedTestsButton = this._testResults.items.get(2),
+			visibleParamCheckers = 0,
+			warning = false;
+		
+		for (var i = 0; i < this._paramCheckers.length; i++)
+		{
+			if (Ext.getCmp(this._paramCheckers[i].buttonId).isVisible())
+			{
+				visibleParamCheckers++;
+			}
+			
+			if(this._paramCheckers[i].getStatus() == Ametys.plugins.core.administration.Config.ParameterChecker.STATUS_WARNING)
+			{
+				warning = true;
+			}
+		}
+			
+		if (warning || testResults.failures > 0 || (testResults.notTested > 0 && testResults.notTested != visibleParamCheckers))
+		{
+			missedTestsButton.show();
+		}
+		else
+		{
+			missedTestsButton.hide();
+		}
+	},
+	
+	/**
+	 * @private
 	 * Draw the help panel.
 	 * @return {Ametys.admin.rightpanel.TextPanel} The help panel
-	 * @private
 	 */
 	_drawHelpPanel: function ()
 	{
@@ -1000,7 +1907,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 
 	/**
 	 * Quit the screen
-	 * @param {Boolean} mask Displaying a mask while quitting. False by default
+	 * @param {Boolean} mask Displaying a mask while quitting. Defaults to false.
 	 */
 	goBack: function (mask)
 	{
@@ -1010,52 +1917,109 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 		}
 	    document.location.href = Ametys.WORKSPACE_URI;
 	},
-
+	
+	
 	/**
 	 * Save configuration
 	 */
 	save: function ()
 	{
+		var me = this,
+			testsOk = true;
+		
+		this._updateNavigationPanel();
+		
+		for (var i = 0; i < this._paramCheckers.length; i++)
+		{
+			var paramChecker = this._paramCheckers[i],
+				status = paramChecker.getStatus();
+			
+			if (Ext.getCmp(paramChecker.buttonId).isVisible() && ( status == Ametys.plugins.core.administration.Config.ParameterChecker.STATUS_FAILURE 
+					  											|| status == Ametys.plugins.core.administration.Config.ParameterChecker.STATUS_NOT_TESTED
+		  														|| status == Ametys.plugins.core.administration.Config.ParameterChecker.STATUS_WARNING))
+			{
+				testsOk = false;
+			}
+		}
+		
 		if (!this._form.getForm().isValid())
 		{
 			Ext.MessageBox.alert("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_INVALID_TITLE'/>", "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_INVALID'/>");
 			this._form.getForm().markInvalid();
 			return;
 	    }
-	    
-		this.save._mask = new Ext.LoadMask({target: Ext.getBody()});
-	    this.save._mask.show();
-	    Ext.defer(this._save2, 1, this);
+
+		if (!testsOk)
+		{
+			Ext.Msg.buttonText.yes = "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_TESTS_NOK_MBOX_SAVE'/>";
+			Ext.Msg.buttonText.no = "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_TESTS_NOK_MBOX_RETRY'/>";
+			Ext.Msg.buttonText.cancel = "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_TESTS_NOK_MBOX_CANCEL'/>";
+			Ext.Msg.show({
+						title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_TESTS_NOK_MBOX_TITLE'/>", 
+						msg: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_TESTS_NOK_MBOX_MSG'/>",
+						buttons: Ext.Msg.YESNOCANCEL,
+						icon: Ext.Msg.ERROR,
+						height: Ametys.plugins.core.administration.Config.LAUNCH_TESTS_SAVE_MBOX_HEIGHT,
+						fn: function(btn)
+						{
+							if (btn == 'yes')
+							{
+								me.save._mask = new Ext.LoadMask({target: Ext.getBody()});
+							    me.save._mask.show();
+							    Ext.defer(me._save2, 1, me);
+							}
+							else if (btn == 'no')
+							{
+								me.save._mask = new Ext.LoadMask({target: Ext.getBody()});
+							    me.save._mask.show();
+								me._check(me._paramCheckers, true, Ext.bind(function(success) { this.save._mask.hide(); if (success) { this.save(); } } , me), false);
+							}
+						}
+					});
+			return;
+		}
+		
+		me.save._mask = new Ext.LoadMask({target: Ext.getBody()});
+	    me.save._mask.show();
+	    Ext.defer(me._save2, 1, me);
 	},
 	
 	/**
-	 * @private
-	 * Second part of the #save process (due to asynchronous process)
+	 * @private 
+	 * Adds the disabled fields' values for the server calls and the saving process
 	 */
-	_save2: function ()
+	_getAllFormValues: function()
 	{
-	    var url = Ametys.getPluginDirectPrefix(this.pluginName) + "/administrator/config/set";
-
-	    var argsObj = this._form.getForm().getValues();
-	    
-	    // add values of disabled fields
-		var fieldsLength = this._fields.length;
+		var fieldsLength = this._fields.length,
+		    formValues = this._form.getForm().getValues();
+		
 		for (var i = 0; i < fieldsLength; i++)
 		{
 			var field = this._fields[i];
 			if (field.isDisabled())
 			{
 				var fieldName = field.name;
-				argsObj[fieldName] = field.getValue();
+				formValues[fieldName] = field.getValue();
 			}
 		}
 		
-	    
-	    var result = null;
-	    var ex = "";
+		return formValues;
+	},
+	
+	/**
+	 * @private 
+	 * Second part of the #save process (due to asynchronous process)
+	 */
+	_save2: function ()
+	{
+	    var url = Ametys.getPluginDirectPrefix(this.pluginName) + "/administrator/config/set",
+	    	argsObj = this._getAllFormValues(),
+	    	result = null,
+	    	ex = "";
+
 	    try
 	    {
-	    	result = Ext.Ajax.request({url: url, params: argsObj, async: false});
+	    	result =  Ext.Ajax.request({url: url, params: argsObj, async: false});	
 	    }
 	    catch (e)
 	    {
@@ -1098,16 +2062,71 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	},
 
 	/**
-	 * Bind the scroll to the toc
 	 * @private
+	 * Displays the error dialogs
+	 */
+	_displayErrorDialog: function()
+	{
+		var nbErrors = 0,
+			details = '';
+		
+		for (var i = 0; i < this._paramCheckers.length; i++)
+		{
+			var paramChecker = this._paramCheckers[i],
+				uiRefType = paramChecker.uiRefType,
+				firstSentence;
+			
+			if (Ext.getCmp(paramChecker.buttonId).isVisible())
+			{
+				switch (uiRefType)
+				{
+					case 'category':
+						firstSentence = "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_PARAM_CHECK_UI_REF_CATEGORY'/>";
+						break;
+				
+					case 'group':
+						firstSentence = "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_PARAM_CHECK_UI_REF_GROUP'/>";
+						break;
+						
+					case 'parameter':
+						firstSentence = "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_PARAM_CHECK_UI_REF_PARAMETER'/>";
+						break;
+					
+					default:
+						throw 'Unknown ui-ref type: ' + uiRefType;
+				}
+	
+				if (paramChecker.getStatus() == Ametys.plugins.core.administration.Config.ParameterChecker.STATUS_FAILURE)
+				{
+					nbErrors += 1;
+					details += firstSentence + " '" + paramChecker.uiRefLabel + "'" + ":\n\t" + paramChecker.errorMsg + "\n\n";
+				}
+			}
+		}
+		
+		if (nbErrors > 0)
+		{
+			Ametys.log.ErrorDialog.display({
+				title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_PARAM_CHECK_ERROR'/>", 
+				text: nbErrors + " <i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_PARAM_CHECK_ERROR_TEXT'/>",
+	    		category: "Ametys.plugins.core.administration.Config._runAllTests",
+	    		details: details
+			});
+		}
+	},
+	
+	/**
+	 * @private
+	 * Bind the scroll to the toc
 	 */
 	_bindScroll: function ()
 	{
 		this._bound = true;
 	},
+	
 	/**
-	 * Stop binding the scroll to the toc
 	 * @private
+	 * Stop binding the scroll to the toc
 	 */
 	_unbindScroll: function ()
 	{
@@ -1159,9 +2178,9 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	},
 
 	/**
+	 * @private
 	 * Do activates a menu item by its id
 	 * @param {String} id The menu id to activate
-	 * @private
 	 */
 	_activateItemMenu: function (id)
 	{
@@ -1209,4 +2228,158 @@ Ext.define('Ametys.plugins.core.administrator.Config.TextareaField',	{
 	
 	width: Ametys.plugins.core.administration.Config.FIELD_WIDTH + Ametys.plugins.core.administration.Config.LABEL_WIDTH,
     height: 80
+});
+
+/**
+ * @private
+ * A class to define an object representing a parameter checker
+ * @config {String} id the id of the parameter checker
+ * @config {String} label the label of the parameter checker
+ * @config {String} description the description of the parameter checker
+ * @config {Number} status the status of the parameter checker
+ * @config {String} errorMsg the error message if the test failed
+ * @config {String} checkerClass the server class performing the check
+ * @config {String} uiRefType equals 'category' || 'group' || 'parameter'
+ * @config {String} uiRefLabel the label of the category/group/parameter the parameter checker is attached to
+ * @config {Number} order the order of the parameter checker in the ui
+ * @config {String} plugin the plugin of the icon
+ * @config {String} smallIconPath the relative path to the small icon of the parameter checker
+ * @config {String} mediumIconPath the relative path to the medium icon of the parameter checker
+ * @config {String} largeIconPath the relative path to the large icon of the parameter checker
+ * @config {String[]} linkedParams the ids of the configuration parameters used for the test
+ * @config {String[]} linkedParamsLabels the labels of the configuration parameters used for the test
+ * @config {String} buttonId the id of the button running the check
+ * @config {String} helpBoxId the id of the ametys description
+ */
+Ext.define('Ametys.plugins.core.administration.Config.ParameterChecker', {
+	
+	statics: {
+		/**
+	     * @protected
+	     * @readonly
+	     * @property {Number} 
+	     * The 'Not tested' status for parameter checkers
+	     */
+	    STATUS_NOT_TESTED: 0,
+	    
+	    /**
+	     * @protected
+	     * @readonly
+	     * @property {Number} 
+	     * The 'success' status for parameter checkers
+	     */
+	    STATUS_SUCCESS: 1,
+	    
+	    /**
+	     * @protected
+	     * @readonly
+	     * @property {Number} 
+	     * The 'failure' status for parameter checkers
+	     */
+	    STATUS_FAILURE: 2,
+	    
+	    /**
+	     * @protected
+	     * @readonly
+	     * @property {Number} 
+	     * The 'deactivated' status for parameter checkers
+	     */
+	    STATUS_DEACTIVATED: 3,	    
+	    
+	    /**
+	     * @protected
+	     * @readonly
+	     * @property {Number} 
+	     * The 'warning' status for parameter checkers
+	     */
+	    STATUS_WARNING: 4
+	},
+	
+	config: {
+		id: null,
+		label: null,
+		description: null,
+		status: null,
+		errorMsg: null,
+		checkerClass: null,
+		uiRefType: null,
+		uiRefLabel: null,
+		order: null,
+	    plugin: null,
+		smallIconPath: null,
+		mediumIconPath: null,
+		largeIconPath: null,
+		linkedParams: [],
+		linkedParamsLabels: [],
+		buttonId: null,
+		helpBoxId: null
+	},
+	
+	constructor: function(paramChecker, uiRefLabel, uiRefType, label, description)
+	{
+		this.id= paramChecker.id;
+		this.label = label;
+		this.description = description;
+		this.status = this.self.STATUS_NOT_TESTED;
+		this.checkerClass = paramChecker['class'];
+		this.uiRefLabel = uiRefLabel;
+		this.uiRefType = uiRefType;
+		this.plugin = paramChecker.plugin;
+		this.smallIconPath = paramChecker['small-icon-path'];
+		this.mediumIconPath = paramChecker['medium-icon-path'];
+		this.largeIconPath = paramChecker['large-icon-path'];
+		this.linkedParams = paramChecker['linked-params'];
+		this.setLinkedParamsLabels(this.linkedParams);
+	},
+	
+	setButtonId: function(btnId)
+	{
+		this.buttonId = btnId;
+	},
+	
+	setHelpBoxId: function(helpBoxId)
+	{
+		this.helpBoxId = helpBoxId;
+	},
+	
+	setErrorMsg: function(errorMsg)
+	{
+		this.errorMsg = errorMsg;
+	},
+	
+	setErrorTooltip: function(errorTooltip)
+	{
+		this.errorTooltip = errorTooltip;
+	},
+	
+	setLinkedParamsLabels: function(linkedParams)
+	{
+		var linkedParamsLabels = [],
+			linkedParamsLength = linkedParams.length;
+		for (var i = 0; i < linkedParamsLength; i++)
+		{
+			var linkedParam = linkedParams[i];
+			    linkedParamField = Ametys.plugins.core.administration.Config._form.getForm().findField(linkedParam),
+			    fieldLabel = linkedParamField.getFieldLabel();
+			  
+		    if (Ext.String.startsWith(fieldLabel,"*"))
+	    	{
+		    	fieldLabel = fieldLabel.substring(2);
+	    	}
+		    
+	    	linkedParamsLabels.push(fieldLabel);
+    	}
+		
+		this.linkedParamsLabels = linkedParamsLabels.join(', ');
+	},
+	
+	getStatus: function()
+	{
+		return this.status;
+	},
+	
+	setStatus: function(status)
+	{
+		this.status = status;
+	}
 });
