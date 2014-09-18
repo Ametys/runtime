@@ -74,7 +74,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 * @private
 	 * @readonly 
 	 */
-	LAUNCH_TESTS_SAVE_MBOX_HEIGHT: 100,
+	LAUNCH_TESTS_SAVE_MBOX_HEIGHT: 130,
 	/**
 	* @property {Ext.form.Field[]} _fields The configuration fields
 	* @private
