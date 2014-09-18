@@ -519,16 +519,18 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 			id: Ext.id(),
 			paramChecker: paramChecker,
 			tooltip: '',
-		    html: '<table style="position: absolute;top: -3px; left: -2px">' + 
-				  	  '<tr>' +
-			  	  		  '<td style="width: 20px">' +
-							  '<img width="16" height="16" src=/plugins/' + paramChecker.plugin + '/resources/' + paramChecker.smallIconPath + '/>' +
-					  	  '</td>' +
-			  	  		  '<td>' +
-			  	  		  	'<em style="font-size: x-small; text-align: center">' + "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_PARAM_CHECKER_LABEL_PREFIX'/>" + " \"" + paramChecker.label + "\"" + '</em>' +
-					  	  '</td>' +
-					  '</tr>' +
-				  '</table>',
+			icon: Ametys.getPluginResourcesPrefix(paramChecker.plugin) + "/" + paramChecker.smallIconPath,
+			text: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_PARAM_CHECKER_LABEL_PREFIX'/>" + " \"" + paramChecker.label + "\"",
+//		    html: '<table style="position: absolute;top: -3px; left: -2px">' + 
+//				  	  '<tr>' +
+//			  	  		  '<td style="width: 20px">' +
+//							  '<img width="16" height="16" src=/plugins/' + paramChecker.plugin + '/resources/' + paramChecker.smallIconPath + '/>' +
+//					  	  '</td>' +
+//			  	  		  '<td>' +
+//			  	  		  	'<em style="font-size: x-small; text-align: center">' + "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_PARAM_CHECKER_LABEL_PREFIX'/>" + " \"" + paramChecker.label + "\"" + '</em>' +
+//					  	  '</td>' +
+//					  '</tr>' +
+//				  '</table>',
 			cls: 'param-checker-component',
             border: false,
             handler: function(btn, event)
