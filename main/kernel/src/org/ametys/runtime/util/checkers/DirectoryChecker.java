@@ -52,6 +52,8 @@ public class DirectoryChecker extends AbstractLogEnabled implements Configurable
 
     /** Creates the directory if it does not exists already */
     private boolean _createsIfRequired;
+
+    private ServiceManager _sManager;
     
     @Override
     public void configure(Configuration configuration) throws ConfigurationException
@@ -70,12 +72,24 @@ public class DirectoryChecker extends AbstractLogEnabled implements Configurable
     @Override
     public void service(ServiceManager sManager) throws ServiceException
     {
-        _sourceResolver = (SourceResolver) sManager.lookup(SourceResolver.ROLE);
+        _sManager = sManager;
     }
     
     @Override
     public void check(Map<String, String> configurationParameters) throws ParameterCheckerTestFailureException
     {
+        if (_sourceResolver == null)
+        {
+            try
+            {
+                _sourceResolver = (SourceResolver) _sManager.lookup(SourceResolver.ROLE);
+            }
+            catch (ServiceException e)
+            {
+                throw new ParameterCheckerTestFailureException("The test cannot be tested now", e);
+            }
+        }
+        
         String path = configurationParameters.get(_pathParameter);
         if (path.startsWith("/"))
         {
