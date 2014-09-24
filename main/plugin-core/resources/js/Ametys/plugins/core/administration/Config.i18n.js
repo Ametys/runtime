@@ -2235,23 +2235,6 @@ Ext.define('Ametys.plugins.core.administrator.Config.TextareaField',	{
 /**
  * @private
  * A class to define an object representing a parameter checker
- * @config {String} id the id of the parameter checker
- * @config {String} label the label of the parameter checker
- * @config {String} description the description of the parameter checker
- * @config {Number} status the status of the parameter checker
- * @config {String} errorMsg the error message if the test failed
- * @config {String} checkerClass the server class performing the check
- * @config {String} uiRefType equals 'category' || 'group' || 'parameter'
- * @config {String} uiRefLabel the label of the category/group/parameter the parameter checker is attached to
- * @config {Number} order the order of the parameter checker in the ui
- * @config {String} plugin the plugin of the icon
- * @config {String} smallIconPath the relative path to the small icon of the parameter checker
- * @config {String} mediumIconPath the relative path to the medium icon of the parameter checker
- * @config {String} largeIconPath the relative path to the large icon of the parameter checker
- * @config {String[]} linkedParams the ids of the configuration parameters used for the test
- * @config {String[]} linkedParamsLabels the labels of the configuration parameters used for the test
- * @config {String} buttonId the id of the button running the check
- * @config {String} helpBoxId the id of the ametys description
  */
 Ext.define('Ametys.plugins.core.administration.Config.ParameterChecker', {
 	
@@ -2298,22 +2281,37 @@ Ext.define('Ametys.plugins.core.administration.Config.ParameterChecker', {
 	},
 	
 	config: {
+		/** @cfg {String} id The identifier */
 		id: null,
+		/** @cfg {String} label The readable label */
 		label: null,
+		/** @cfg {String} description The readable description */
 		description: null,
+		/** @cfg {Number} status A constant of this class to define the current test status */
 		status: null,
+		/** @cfg {String} errorMsg The error message associated to a failure status */
 		errorMsg: null,
-		checkerClass: null,
+		/** @cfg {String} uiRefType equals 'category' || 'group' || 'parameter' */
 		uiRefType: null,
+		/** @cfg {String} uiRefLabel the label of the category/group/parameter the parameter checker is attached to */
 		uiRefLabel: null,
+		/** @cfg {Number} order The order of the parameter checker to display tests when many should be rendered at the same location */
 		order: null,
+		/** @cfg {String} plugin The name of the plugin that declared the test */
 	    plugin: null,
+		/** @cfg {String} smallIconPath The relative path to the 16x16 icon representing the test */
 		smallIconPath: null,
+		/** @cfg {String} mediumIconPath The relative path to the 32x32 icon representing the test */
 		mediumIconPath: null,
+		/** @cfg {String} largeIconPath The relative path to the 48x48 icon representing the test */
 		largeIconPath: null,
+		/** @cfg {String[]} linkedParams The ids of the parameters linked to this test */
 		linkedParams: [],
+		/** @cfg {String[]} linkedParamsLabels The readable labels of the parameters linked to this test (in the same order thant #cfg-linkedParams) */
 		linkedParamsLabels: [],
+		/** @cfg {String} buttonId The id of the button that launch the test */
 		buttonId: null,
+		/** @cfg {String} helpBoxId The id of the help icon associated to the test */
 		helpBoxId: null
 	},
 	
@@ -2323,7 +2321,6 @@ Ext.define('Ametys.plugins.core.administration.Config.ParameterChecker', {
 		this.label = label;
 		this.description = description;
 		this.status = this.self.STATUS_NOT_TESTED;
-		this.checkerClass = paramChecker['class'];
 		this.uiRefLabel = uiRefLabel;
 		this.uiRefType = uiRefType;
 		this.plugin = paramChecker.plugin;
