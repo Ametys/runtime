@@ -2328,36 +2328,55 @@ Ext.define('Ametys.plugins.core.administration.Config.ParameterChecker', {
 		this.mediumIconPath = paramChecker['medium-icon-path'];
 		this.largeIconPath = paramChecker['large-icon-path'];
 		this.linkedParams = paramChecker['linked-params'];
-		this.setLinkedParamsLabels(this.linkedParams);
+		this.setLinkedParamsLabels();
 	},
 	
+	/**
+	 * Set the button id
+	 * @param {String} btnId See #cfg-buttonId
+	 */
 	setButtonId: function(btnId)
 	{
 		this.buttonId = btnId;
 	},
 	
+	/**
+	 * Set the help box id
+	 * @param {String} helpBoxId See #cfg-helpBoxId
+	 */
 	setHelpBoxId: function(helpBoxId)
 	{
 		this.helpBoxId = helpBoxId;
 	},
 	
+	/**
+	 * Set the error message
+	 * @param {String} errorMsg See #cfg-errorMsg
+	 */
 	setErrorMsg: function(errorMsg)
 	{
 		this.errorMsg = errorMsg;
 	},
 	
+	/**
+	 * Set the tooltip associated to error message
+	 * @param {String} errorTooltip See #cfg-errorMsg
+	 */
 	setErrorTooltip: function(errorTooltip)
 	{
 		this.errorTooltip = errorTooltip;
 	},
 	
-	setLinkedParamsLabels: function(linkedParams)
+	/**
+	 * Set the linked params labels
+	 * @param {String[]} linkedParams The linked Params
+	 */
+	setLinkedParamsLabels: function()
 	{
-		var linkedParamsLabels = [],
-			linkedParamsLength = linkedParams.length;
-		for (var i = 0; i < linkedParamsLength; i++)
+		var linkedParamsLabels = [];
+		for (var i = 0; i < this.linkedParams.length; i++)
 		{
-			var linkedParam = linkedParams[i];
+			var linkedParam = this.linkedParams[i];
 			    linkedParamField = Ametys.plugins.core.administration.Config._form.getForm().findField(linkedParam),
 			    fieldLabel = linkedParamField.getFieldLabel();
 			  
@@ -2372,11 +2391,19 @@ Ext.define('Ametys.plugins.core.administration.Config.ParameterChecker', {
 		this.linkedParamsLabels = linkedParamsLabels.join(', ');
 	},
 	
+	/**
+	 * Get the status
+	 * @return {Number} See the #cfg-status
+	 */
 	getStatus: function()
 	{
 		return this.status;
 	},
 	
+	/**
+	 * Set the status
+	 * @param {Number} status See the #cfg-status
+	 */
 	setStatus: function(status)
 	{
 		this.status = status;
