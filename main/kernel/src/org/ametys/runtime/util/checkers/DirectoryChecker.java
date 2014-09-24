@@ -107,7 +107,7 @@ public class DirectoryChecker extends AbstractLogEnabled implements Configurable
     
     /**
      * Checks if the source exists and optionally checks if it is writable
-     * @param source the source
+     * @param path The path of the source to check
      * @throws ParameterCheckerTestFailureException 
      */
     private void _checkDirectory(String path) throws ParameterCheckerTestFailureException
