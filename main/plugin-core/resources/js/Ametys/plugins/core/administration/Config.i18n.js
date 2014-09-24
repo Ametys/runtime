@@ -455,7 +455,6 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	 * @param {String} groupLabel the label of the group the parameter checker is attached to
 	 * @param {String} label the label of the parameter checker
 	 * @param {String} description the description of the parameter checker
-	 * @param {Boolean} startsHidden true if the parameter checker has to be hidden at start
 	 */
 	addGroupChecker: function(fd, paramChecker, categoryLabel, groupLabel, label, description)
 	{
