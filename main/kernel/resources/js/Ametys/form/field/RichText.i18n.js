@@ -1094,7 +1094,10 @@ Ext.define('Ametys.form.field.RichText', {
     	if (editor != null)
     	{
         	var iframe = Ext.get(editor.contentAreaContainer).first();
-        	Ext.EventManager.removeAll(iframe.dom.contentWindow.document);
+        	if (iframe.dom.contentWindow)
+        	{
+        		Ext.EventManager.removeAll(iframe.dom.contentWindow.document);
+        	}
             	
 	    	editor.dom.unbind(editor.getWin(), 'resize', this._bindedOnEditorResized);
 	    	
