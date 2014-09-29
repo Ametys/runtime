@@ -490,11 +490,13 @@
 							var RIGHTS_ID = [];
 							var RIGHTS_CATEGORY = [];
 							<xsl:for-each select="rights/right[not(category/@id = preceding-sibling::right/category/@id)]">
+                                <xsl:sort select="category"/>
+                                
 								<xsl:variable name="category" select="category/@id"/>
 								<xsl:variable name="categoryKey" select="category"/>
 								RIGHTS_CATEGORY.push('<xsl:value-of select="$category"/>');
 								var cat_<xsl:value-of select="$category"/> = new org.ametys.TBarFieldset({
-										title : "<xsl:copy-of select="$categoryKey/*"/>",
+										title : "<xsl:value-of select="$categoryKey"/>",
 										layout: 'form',
 										id: "cat_<xsl:value-of select="$category"/>_edit",
 										bbar: [new Ext.Button({
@@ -509,20 +511,22 @@
 								});
 								editRights.add(cat_<xsl:value-of select="$category"/>);	
 								var cat_<xsl:value-of select="$category"/>_read = new org.ametys.Fieldset({
-									title : "<xsl:copy-of select="$categoryKey/*"/>",
+									title : "<xsl:value-of select="$categoryKey"/>",
 									layout: 'form',
 									id: "cat_<xsl:value-of select="$category"/>_read",
 									cls: 'fieldset'
 								});
 								readRights.add(cat_<xsl:value-of select="$category"/>_read);
 								<xsl:for-each select="../right[category/@id = $category]">
+                                     <xsl:sort select="label"/>
+                                     
 									var input = new org.ametys.rights.CheckRightEntry ({
 										listeners: {'check': needSave},
 										width: 175,
-										text : "<xsl:copy-of select="label/*"/>",
+										text : "<xsl:value-of select="label"/>",
 								        name: "<xsl:value-of select="@id"/>",
 								        id: "<xsl:value-of select="@id"/>",
-								        description: "<xsl:copy-of select="description/*"/>",
+								        description: "<xsl:value-of select="description"/>",
 								        category: "<xsl:value-of select="$category"/>",
 								        hideLabel : true,
 								        disabled: true
@@ -533,8 +537,8 @@
 									var profileText = new org.ametys.rights.RightEntry({
 										id : "<xsl:value-of select="@id"/>_read", 
 										width: 175,
-										text : "<xsl:copy-of select="label/*"/>", 
-										description: "<xsl:copy-of select="description/*"/>"
+										text : "<xsl:value-of select="label"/>", 
+										description: "<xsl:value-of select="description"/>"
 									});
 									cat_<xsl:value-of select="$category"/>_read.add(profileText);
 								</xsl:for-each>
