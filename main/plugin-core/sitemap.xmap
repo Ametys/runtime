@@ -805,6 +805,10 @@
 			
             <map:match pattern="administrator/profiles/view.html">
                 <map:generate type="administrator-rights-profiles-view"/>
+                <map:transform type="i18n">
+                    <map:parameter name="locale" value="{locale:locale}"/>
+                    <map:parameter name="default-catalogue-id" value="plugin.core"/>
+                </map:transform>
                 <map:transform src="pages/administrator/profiles/view.xsl" type="xslt">
                     <map:parameter name="contextPath" value="{request:contextPath}"/>
                     <map:parameter name="pluginName" value="{request-attr:pluginName}"/>

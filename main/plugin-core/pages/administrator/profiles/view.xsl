@@ -61,6 +61,7 @@
                         var editItems = [];
                         
 						<xsl:for-each select="rights/right[not(category/@id = preceding-sibling::right/category/@id)]">
+                            <xsl:sort select="category"/>
 							<xsl:variable name="category" select="category/@id"/>
 							<xsl:variable name="categoryKey" select="category"/>
 							
@@ -68,7 +69,7 @@
 							
 							// EDIT ITEM
 							var cat_<xsl:value-of select="$category"/> = new Ext.form.FieldSet({
-									title : "<xsl:copy-of select="$categoryKey/*"/>",
+									title : "<xsl:value-of select="$categoryKey"/>",
 									layout: 'form',
 									
  	                                collapsible: true,
@@ -106,7 +107,7 @@
 							
 							// READ ITEM
 							var cat_<xsl:value-of select="$category"/>_read = new Ext.form.FieldSet({
-								title : "<xsl:copy-of select="$categoryKey/*"/>",
+								title : "<xsl:value-of select="$categoryKey"/>",
 					            collapsible: true,
 					            titleCollapse: true,
 					            hideCollapseTool: true,
@@ -119,13 +120,15 @@
 							readItems.push(cat_<xsl:value-of select="$category"/>_read);
 							
 							<xsl:for-each select="../right[category/@id = $category]">
+                                <xsl:sort select="label"/>
+                                
 								var input = new Ametys.plugins.core.administration.Profiles.CheckRightEntry ({
 									listeners: {'change': Ext.bind(Ametys.plugins.core.administration.Profiles.needSave, Ametys.plugins.core.administration.Profiles)},
 									width: 175,
-									boxLabel : "<xsl:copy-of select="label/*"/>",
+									boxLabel : "<xsl:value-of select="label"/>",
 							        name: "<xsl:value-of select="@id"/>",
 							        id: "<xsl:value-of select="@id"/>",
-							        description: "<xsl:copy-of select="description/*"/>",
+							        description: "<xsl:value-of select="description"/>",
 							        category: "<xsl:value-of select="$category"/>",
 							        hideLabel : true,
 							        disabled: true
@@ -136,8 +139,8 @@
 								var profileText = new Ametys.plugins.core.administration.Profiles.RightEntry({
 									id : "<xsl:value-of select="@id"/>_read", 
 									width: 180,
-									text : "<xsl:copy-of select="label/*"/>", 
-									description: "<xsl:copy-of select="description/*"/>"
+									text : "<xsl:value-of select="label"/>", 
+									description: "<xsl:value-of select="description"/>"
 								});
 								cat_<xsl:value-of select="$category"/>_read.add(profileText);
 							</xsl:for-each>
