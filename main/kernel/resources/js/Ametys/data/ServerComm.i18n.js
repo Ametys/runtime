@@ -353,6 +353,7 @@ Ext.define(
 		 * @param {String} [config.cancelCode] This allow to cancel a previous unfinished request. See #send for more information on the cancelCode.
 		 * @param {Boolean/String/Object} [config.waitMessage] Display a waiting message while the request is running. See #send for more information on the waitingMessage.
 		 * @param {Boolean/String/Object} [config.errorMessage] An error message. See #send for more information on the errorMessage.
+		 * @param {Number} [config.priority] The message priority. See #send for more information on the priority. PRIORITY_SYNCHRONOUS cannot be used here.
 		 */
 		callMethod: function(config)
 		{
@@ -373,7 +374,8 @@ Ext.define(
 				responseType: 'text',
 				cancelCode: config.cancelCode,
 				waitMessage: config.waitMessage,
-				errorMessage: config.errorMessage
+				errorMessage: config.errorMessage,
+				priority: (config.priority == Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS) ? null : config.priority
 			});
 		},
 		
