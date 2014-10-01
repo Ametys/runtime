@@ -91,18 +91,7 @@ public class DirectoryChecker extends AbstractLogEnabled implements Configurable
         }
         
         String path = configurationParameters.get(_pathParameter);
-        if (path.startsWith("/"))
-        {
-            _checkDirectory("file:" + path);
-        }
-        else if (path.contains("://"))
-        {
-            _checkDirectory(path);
-        }
-        else
-        {
-            _checkDirectory("context://" + path);
-        }
+        _checkDirectory(path);
     }
     
     /**
@@ -115,7 +104,7 @@ public class DirectoryChecker extends AbstractLogEnabled implements Configurable
         Source source = null;
         try
         {
-            source = _sourceResolver.resolveURI(path);
+            source = _sourceResolver.resolveURI(path, "context://", null); 
             
             boolean removeIt = false;
 
