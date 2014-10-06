@@ -341,7 +341,7 @@ Ext.define(
 		 * @param {String} config.role The Java component id
 		 * @param {String} [config.id] If the role refers to an extension point, the id refers to an extension. If not, the id should be null.
 		 * @param {String} config.methodName The "callable" method to call in the Java component.
-		 * @param {Object} config.parameters The methods parameters. They will be converted to Java Objects keeping types as much as possible.
+		 * @param {Object[]} config.parameters The methods parameters. They will be converted to Java Objects keeping types as much as possible.
 		 * 
 		 * @param {Object} config.callback The callback configuration.
 		 * @param {Function} config.callback.handler Called after method execution.
