@@ -23,7 +23,6 @@ import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
-import org.ametys.runtime.util.I18nUtils;
 import org.ametys.runtime.util.I18nizableText;
 
 /**

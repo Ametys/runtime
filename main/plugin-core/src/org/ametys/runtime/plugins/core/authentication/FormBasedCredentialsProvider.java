@@ -16,7 +16,6 @@
 package org.ametys.runtime.plugins.core.authentication;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -159,6 +158,7 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
         return _loginFailedUrl;
     }
     
+    @Override
     public boolean accept()
     {
         Request request = ContextHelper.getRequest(_context);
@@ -224,6 +224,7 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
         return accept;
     }
     
+    @Override
     public void allowed(Redirector redirector)
     {
         String level = Config.getInstance().getValueAsString("runtime.authentication.form.security.level");
@@ -260,6 +261,7 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
         }
     }
 
+    @Override
     public Credentials getCredentials(Redirector redirector) throws Exception
     {
         Request request = ContextHelper.getRequest(_context);
@@ -488,6 +490,7 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
         }
     }
     
+    @Override
     public void notAllowed(Redirector redirector) throws Exception
     {
         Request request = ContextHelper.getRequest(_context);
@@ -505,7 +508,7 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
                 int nbConnect = _setNbConnectBDD(request.getParameter(_usernameField));
                 int nbAttempts = NB_CONNECTION_ATTEMPTS - 1;
                 
-                if (nbConnect == nbAttempts || (captchaKey == null && nbConnect > nbAttempts))
+                if (nbConnect == nbAttempts || captchaKey == null && nbConnect > nbAttempts)
                 {
                     parameters.append("&tooManyAttempts=" + true);
                 }
@@ -525,11 +528,13 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
         redirector.redirect(false, redirectUrl);
     }
 
+    @Override
     public boolean validate(Redirector redirector) throws Exception
     {
         return true;
     }
 
+    @Override
     public void configure(Configuration configuration) throws ConfigurationException
     {
         _usernameField = configuration.getChild("username-field").getValue("Username");
@@ -569,6 +574,7 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
         }
     }
 
+    @Override
     public void contextualize(Context context) throws ContextException
     {
         this._context = context;
@@ -590,11 +596,11 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
 
         if (cookies != null)
         {
-            for (int i = 0; i < cookies.length; i++)
+            for (Cookie cookie : cookies)
             {
-                if (cookieSearchedName.equals(cookies[i].getName()))
+                if (cookieSearchedName.equals(cookie.getName()))
                 {
-                    return cookies[i].getValue();
+                    return cookie.getValue();
                 }
             }
         }
@@ -614,9 +620,9 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
 
         if (cookies != null)
         {
-            for (int i = 0; i < cookies.length; i++)
+            for (Cookie cookie : cookies)
             {
-                if (cookieSearchedName.equals(cookies[i].getName()))
+                if (cookieSearchedName.equals(cookie.getName()))
                 {
                     return true;
                 }
