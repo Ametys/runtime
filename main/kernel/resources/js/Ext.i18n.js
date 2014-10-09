@@ -808,6 +808,36 @@
 })();
 
 /*
+ * Support for optional label on text field to indicate field is multiple
+ */
+(function() 
+{
+    Ext.define("Ametys.form.field.Number", {
+        override: "Ext.form.field.Number",
+        
+        /**
+         * @member Ext.form.field.Number
+         * @cfg submitLocaleSeparator=false 
+         * @since Ametys Runtime 3.7
+         * @ametys
+         *
+         * @inheritdoc Ext.form.field.Number#cfg-submitLocaleSeparator
+         */
+        submitLocaleSeparator: false,
+        
+        /**
+         * @member Ext.form.field.Number
+         * @cfg baseChars='0123456789.' 
+         * @since Ametys Runtime 3.7
+         * @ametys
+         *
+         * @inheritdoc Ext.form.field.Number#cfg-baseChars
+         */
+        baseChars: '0123456789.'
+    });
+})();
+
+/*
  * Support for background animation 
  */
 (function () 
