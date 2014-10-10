@@ -62,6 +62,21 @@ Ext.define('Ametys.data.ServerCommProxy', {
 		json: 'text'
 	},
 	
+	statics: {
+		/**
+		 * @public
+		 * @static
+		 * Add a new mapping between a reader type and a response type. This is
+		 * necessary to define a new reader to be used by this proxy.
+		 * @param {String} readerType The type of the reader
+		 * @param {String} responseType The type of the response
+		 */
+		addReader2ResponseType: function(readerType, responseType)
+		{
+			this.prototype.reader2ResponseTypes[readerType] = responseType;
+		}
+	},
+	
 	doRequest: function(operation, callback, scope)
 	{
 		var writer  = this.getWriter();
