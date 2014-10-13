@@ -816,7 +816,8 @@
         override: "Ext.form.field.Number",
         
         /**
-         * @member Ext.form.field.Number
+         * @override Ext.form.field.Number
+         * @member submitLocaleSeparator
          * @cfg submitLocaleSeparator=false 
          * @since Ametys Runtime 3.7
          * @ametys
@@ -827,6 +828,7 @@
         
         /**
          * @member Ext.form.field.Number
+         * @member submitLocaleSeparator
          * @cfg baseChars='0123456789.' 
          * @since Ametys Runtime 3.7
          * @ametys
