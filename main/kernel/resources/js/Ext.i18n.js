@@ -827,7 +827,7 @@
         submitLocaleSeparator: false,
         
         /**
-         * @member Ext.form.field.Number
+         * @override Ext.form.field.Number
          * @member submitLocaleSeparator
          * @cfg baseChars='0123456789.' 
          * @since Ametys Runtime 3.7
@@ -1825,7 +1825,7 @@
 		override: 'Ext.data.Tree',
 		
 		/**
-		 * @member Ext.data.TreeStore
+		 * @member Ext.data.Tree
 		 * @ametys
 		 * @since Ametys Runtime 3.7
 		 * Find the nodes which fieldName is matching value
