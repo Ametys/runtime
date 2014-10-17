@@ -445,7 +445,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                 for (String linkedParameterId : parameterChecker.getLinkedParamsIds())
                 {
                     // If at least one parameter used is invalid, the parameter checker is invalidated
-                    if(_params.get(linkedParameterId) == null)
+                    if (_params.get(linkedParameterId) == null)
                     {
                         invalidParameters = true;
                         break;
