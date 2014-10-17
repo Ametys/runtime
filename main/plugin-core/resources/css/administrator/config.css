@@ -129,7 +129,7 @@
 {
 	content: ' ';
     display: inline-block;
-    background-image: url("../../../../../plugins/extjs4/resources/ext-theme-gray/images/form/exclamation.gif");
+    background-image: url('../../../../../plugins/extjs4/resources/ext-theme-gray/images/form/exclamation.gif');
     background-repeat: no-repeat;
     height: 20px; 
     width: 20px;
@@ -142,7 +142,7 @@
 { 
 	content: ' ';
     display: inline-block;
-    background-image: url("../../../../../plugins/extjs4/resources/ext-theme-gray/images/dd/drop-yes.gif");
+    background-image: url('../../../../../plugins/extjs4/resources/ext-theme-gray/images/dd/drop-yes.gif');
     background-repeat: no-repeat;
     height: 20px;
     width: 20px;
@@ -155,7 +155,7 @@
 { 
     content: ' ';
     display: inline-block;
-    background-image: url("../../../../../kernel/resources/img/Ametys/theme/gray/warning.png");
+    background-image: url('../../../../../kernel/resources/img/Ametys/theme/gray/warning.png');
     background-repeat: no-repeat;
     height: 20px;
     width: 20px;
@@ -189,7 +189,7 @@
 .home-wrapper .home-main .home-col-main .admin-main-panel .navigation-item-error
 {
 	border: 1px solid #FF0000 !important;
-    background-image: url("../../../../../plugins/extjs4/resources/ext-theme-gray/images/form/exclamation.gif");
+    background-image: url('../../../../../plugins/extjs4/resources/ext-theme-gray/images/form/exclamation.gif');
     background-position: 199px 5px;
     background-repeat: no-repeat;
 }
@@ -197,7 +197,7 @@
 .home-wrapper .home-main .home-col-main .admin-main-panel .navigation-item-warning
 {
 	border: 1px solid #F6B51A !important;
-    background-image: url("../../../../../kernel/resources/img/Ametys/theme/gray/warning.png");
+    background-image: url('../../../../../kernel/resources/img/Ametys/theme/gray/warning.png');
     background-position: 199px 5px;
     background-repeat: no-repeat;
 }
