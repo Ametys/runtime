@@ -110,7 +110,7 @@ public class DirectoryChecker extends AbstractLogEnabled implements Configurable
 
             if (!source.exists())
             {
-                if (_createsIfRequired == false)
+                if (!_createsIfRequired)
                 {
                     throw new ParameterCheckerTestFailureException("The specified directory at '" + source.getURI() + "' does not exist");
                 }
