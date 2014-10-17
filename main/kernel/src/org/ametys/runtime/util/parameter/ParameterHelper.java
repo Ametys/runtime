@@ -327,9 +327,9 @@ public final class ParameterHelper
     {
         if (validator != null)
         {
-        	XMLUtils.startElement(handler, "validation");
-        	validator.saxConfiguration(handler);
-        	XMLUtils.endElement(handler, "validation");
+            XMLUtils.startElement(handler, "validation");
+            validator.saxConfiguration(handler);
+            XMLUtils.endElement(handler, "validation");
         }
     }
 }
