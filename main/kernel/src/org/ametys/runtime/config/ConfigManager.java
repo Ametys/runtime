@@ -598,7 +598,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         {
             boolean result = _evaluateDisableConditions(subConditions, untypedValues);
             disabled = andOperator ?  disabled && result : disabled || result;
-            }
+        }
         
         for (DisableCondition condition : disableConditions.getConditions())
         {
@@ -645,9 +645,6 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         int comparison = comparableParameterValue.compareTo(comparableCompareValue);
         switch (operator)
         {
-            default:
-            case EQ:
-                return comparison == 0;
             case NEQ:
                 return comparison != 0;
             case GEQ:
@@ -658,6 +655,9 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                 return comparison < 0;
             case LEQ:
                 return comparison <= 0;
+            case EQ:
+            default:
+                return comparison == 0;
         }
     }
                 
