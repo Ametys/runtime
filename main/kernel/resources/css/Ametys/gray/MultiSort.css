@@ -45,12 +45,12 @@
  
  .multisort-toolbar .toolbar-item-container .x-btn.button-sort-asc
 {
-    background-image:url(../img/multisort/sort_asc.gif);
+    background-image:url(../../../img/Ametys/theme/gray/multisort/sort_asc.gif);
 }
 
 .multisort-toolbar .toolbar-item-container .x-btn.button-sort-desc
 {
-    background-image:url(../img/multisort/sort_desc.gif);
+    background-image:url(../../../img/Ametys/theme/gray/multisort/sort_desc.gif);
 }
 
 .multisort-toolbar .toolbar-item-container .x-btn.button-delete
@@ -61,7 +61,7 @@
  	background-color: transparent;
  	background-repeat: no-repeat;
  	background-position: 0px 1px;
-	background-image: url('../img/multisort/close.gif');
+	background-image: url('../../../img/Ametys/theme/gray/multisort/close.gif');
 	opacity: 0.5;
 }
  
@@ -74,20 +74,38 @@
 {
     text-align: center;       
 }
- 
+
+.tbar-btn-hide-show-container
+{
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    
+    border-left: 1px solid #c5c5c5;
+    color: black;
+    font: normal 11px/13px tahoma,arial,verdana,sans-serif;
+    background-image: none;
+    background-color: #c5c5c5;
+    background-image: -webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,#f9f9f9),color-stop(100%,#e3e4e6));
+    background-image: -webkit-linear-gradient(top,#f9f9f9,#e3e4e6);
+    background-image: -moz-linear-gradient(top,#f9f9f9,#e3e4e6);
+    background-image: -o-linear-gradient(top,#f9f9f9,#e3e4e6);
+    background-image:linear-gradient(top,#f9f9f9,#e3e4e6);    
+}
+                                                              
 .tbar-btn-hide-show
 {
     background-position: 0 3px;
     margin-right: 3px;
     background-color: transparent;
-    background-image: url('../img/multisort/show_sort.png');
+    background-image: url('../../../img/Ametys/theme/gray/multisort/show_sort.png');
     border: none;
 } 
  
 .tbar-btn-hide-show.hide {
- 	background-image: url('../img/multisort/hide_sort.png');
+ 	background-image: url('../../../img/Ametys/theme/gray/multisort/hide_sort.png');
 }
  
 .tbar-btn-hide-show.show {
-	background-image: url('../img/multisort/show_sort.png');
+	background-image: url('../../../img/Ametys/theme/gray/multisort/show_sort.png');
 }

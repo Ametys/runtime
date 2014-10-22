@@ -240,9 +240,7 @@ Ext.define('Ametys.grid.plugin.Multisort',
         			grid.headerCt.getEl().insertFirst({
         												id: cmpId,
         											    tag: 'div', 
-        												style: "position: absolute;"
-		        											 + "z-index: 1; "
-		        											 + "right: 0; "
+        												cls: "tbar-btn-hide-show-container"
 													  });
         		
         			new Ext.button.Button({
