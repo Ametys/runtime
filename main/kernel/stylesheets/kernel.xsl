@@ -108,7 +108,6 @@
 		
 		<xsl:variable name="css">
 			<css>/kernel/resources/css/Ametys/gray/all.css</css>
-            <css>/kernel/resources/css/multisort.css</css>
 		</xsl:variable>
 
 		<xsl:call-template name="kernel-load">
