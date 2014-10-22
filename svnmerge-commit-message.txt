@@ -1,0 +1,8 @@
+Merged revisions 27932 via svnmerge from 
+https://svn.ametys.org/trunk/runtime/trunk
+
+........
+  r27932 | raphael | 2014-10-22 10:59:48 +0200 (mer., 22 oct. 2014) | 1 line
+  
+  RUNTIME-1078 group actions and generators should support switching the GroupsManager Role
+........

@@ -35,20 +35,24 @@ import org.ametys.runtime.util.cocoon.AbstractCurrentUserProviderServiceableActi
  */
 public class UpdateUsersGroupAction extends AbstractCurrentUserProviderServiceableAction
 {
-    private GroupsManager _groupsManager;
     
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
-        if (_groupsManager == null)
+        // Renommage du groupe
+        String role = parameters.getParameter("groupsManagerRole", GroupsManager.ROLE);
+        if (role.length() == 0)
         {
-            try
-            {
-                _groupsManager = (GroupsManager) manager.lookup(GroupsManager.ROLE);
-            }
-            catch (ServiceException e)
-            {
-                throw new IllegalStateException(e);
-            }
+            role = GroupsManager.ROLE;
+        }
+        
+        GroupsManager groupsManager;
+        try
+        {
+            groupsManager = (GroupsManager) manager.lookup(role);
+        }
+        catch (ServiceException e)
+        {
+            throw new IllegalStateException(e);
         }
         
         Request request = ObjectModelHelper.getRequest(objectModel);
@@ -56,7 +60,7 @@ public class UpdateUsersGroupAction extends AbstractCurrentUserProviderServiceab
         String[] usersList = request.getParameterValues("objects");
         boolean add = parameters.getParameterAsBoolean("add", true);
         
-        if (!(_groupsManager instanceof ModifiableGroupsManager))
+        if (!(groupsManager instanceof ModifiableGroupsManager))
         {
             throw new IllegalArgumentException("The group manager used is not modifiable");
         }
@@ -78,7 +82,7 @@ public class UpdateUsersGroupAction extends AbstractCurrentUserProviderServiceab
             getLogger().info(userMessage + " " + endMessage);
         }
         
-        ModifiableGroupsManager mgm = (ModifiableGroupsManager) _groupsManager;
+        ModifiableGroupsManager mgm = (ModifiableGroupsManager) groupsManager;
         Group ug = mgm.getGroup(groupId);
         if (ug == null)
         {

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2012 Anyware Services
+ *  Copyright 2014 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -43,20 +43,33 @@ public class GroupMembersGenerator extends ServiceableGenerator
     private static final int _DEFAULT_COUNT_VALUE = Integer.MAX_VALUE;
     private static final int _DEFAULT_OFFSET_VALUE = 0;
     
-    private GroupsManager _groups;
-
-    private UsersManager _users;
-
     @Override
     public void service(ServiceManager m) throws ServiceException
     {
         super.service(m);
-        _users = (UsersManager) m.lookup(UsersManager.ROLE);
-        _groups = (GroupsManager) m.lookup(GroupsManager.ROLE);
     }
 
     public void generate() throws IOException, SAXException, ProcessingException
     {
+        String role = parameters.getParameter("groupsManagerRole", GroupsManager.ROLE);
+        if (role.length() == 0)
+        {
+            role = GroupsManager.ROLE;
+        }
+        String usersrole = parameters.getParameter("usersManagerRole", UsersManager.ROLE);
+        if (usersrole.length() == 0)
+        {
+            usersrole = UsersManager.ROLE;
+        }
+        
+        GroupsManager groupsManager = null;
+        UsersManager usersManager = null;
+        
+        try
+        {
+            groupsManager = (GroupsManager) manager.lookup(role);
+            usersManager = (UsersManager) manager.lookup(usersrole);
+
         int offset = parameters.getParameterAsInteger("limit", _DEFAULT_COUNT_VALUE);
         if (offset == -1)
         {
@@ -71,10 +84,10 @@ public class GroupMembersGenerator extends ServiceableGenerator
         attr.addAttribute("", "id", "id", "CDATA", source);
         XMLUtils.startElement(contentHandler, "GroupMembers", attr);
 
-        Group group = _groups.getGroup(source);
+            Group group = groupsManager.getGroup(source);
         if (group != null)
         {
-            Set<User> users = _getSortedUsers(group);
+                Set<User> users = _getSortedUsers(group, usersManager);
             
             int total = users.size();
             Iterator<User> it = users.iterator();
@@ -100,8 +113,19 @@ public class GroupMembersGenerator extends ServiceableGenerator
 
         contentHandler.endDocument();
     }
+        catch (ServiceException e)
+        {
+            getLogger().error("Error looking up GroupsManager of role " + role + " or UsersManager of role " + usersrole, e);
+            throw new ProcessingException("Error looking up GroupsManager of role " + role + " or UsersManager of role " + usersrole, e);
+        }
+        finally
+        {
+            manager.release(groupsManager);
+            manager.release(usersManager);
+        }
+    }
     
-    private Set<User> _getSortedUsers (Group group)
+    private Set<User> _getSortedUsers (Group group, UsersManager usersManager)
     {
         Set<User> users = new TreeSet<User>(new Comparator<User>()
         {
@@ -114,7 +138,7 @@ public class GroupMembersGenerator extends ServiceableGenerator
         Set<String> logins = group.getUsers();
         for (String login : logins)
         {
-            User user = _users.getUser(login);
+            User user = usersManager.getUser(login);
             if (user != null)
             {
                 users.add(user);
