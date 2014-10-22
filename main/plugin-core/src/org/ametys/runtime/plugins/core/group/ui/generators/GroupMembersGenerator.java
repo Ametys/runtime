@@ -43,66 +43,89 @@ public class GroupMembersGenerator extends ServiceableGenerator
     private static final int _DEFAULT_COUNT_VALUE = Integer.MAX_VALUE;
     private static final int _DEFAULT_OFFSET_VALUE = 0;
     
-    private GroupsManager _groups;
-
-    private UsersManager _users;
-
     @Override
     public void service(ServiceManager m) throws ServiceException
     {
         super.service(m);
-        _users = (UsersManager) m.lookup(UsersManager.ROLE);
-        _groups = (GroupsManager) m.lookup(GroupsManager.ROLE);
     }
 
     public void generate() throws IOException, SAXException, ProcessingException
     {
-        int offset = parameters.getParameterAsInteger("limit", _DEFAULT_COUNT_VALUE);
-        if (offset == -1)
+        String role = parameters.getParameter("groupsManagerRole", GroupsManager.ROLE);
+        if (role.length() == 0)
         {
-            offset = Integer.MAX_VALUE;
+            role = GroupsManager.ROLE;
         }
-
-        int begin = parameters.getParameterAsInteger("start", _DEFAULT_OFFSET_VALUE);
-        
-        contentHandler.startDocument();
-
-        AttributesImpl attr = new AttributesImpl();
-        attr.addAttribute("", "id", "id", "CDATA", source);
-        XMLUtils.startElement(contentHandler, "GroupMembers", attr);
-
-        Group group = _groups.getGroup(source);
-        if (group != null)
+        String usersrole = parameters.getParameter("usersManagerRole", UsersManager.ROLE);
+        if (usersrole.length() == 0)
         {
-            Set<User> users = _getSortedUsers(group);
-            
-            int total = users.size();
-            Iterator<User> it = users.iterator();
-            int index = 0;
-            while (it.hasNext() && index < begin + offset)
+            usersrole = UsersManager.ROLE;
+        }
+        
+        GroupsManager groupsManager = null;
+        UsersManager usersManager = null;
+        
+        try
+        {
+            groupsManager = (GroupsManager) manager.lookup(role);
+            usersManager = (UsersManager) manager.lookup(usersrole);
+
+            int offset = parameters.getParameterAsInteger("limit", _DEFAULT_COUNT_VALUE);
+            if (offset == -1)
             {
-                User user = it.next();
-                if (index >= begin)
+                offset = Integer.MAX_VALUE;
+            }
+    
+            int begin = parameters.getParameterAsInteger("start", _DEFAULT_OFFSET_VALUE);
+            
+            contentHandler.startDocument();
+    
+            AttributesImpl attr = new AttributesImpl();
+            attr.addAttribute("", "id", "id", "CDATA", source);
+            XMLUtils.startElement(contentHandler, "GroupMembers", attr);
+    
+            Group group = groupsManager.getGroup(source);
+            if (group != null)
+            {
+                Set<User> users = _getSortedUsers(group, usersManager);
+                
+                int total = users.size();
+                Iterator<User> it = users.iterator();
+                int index = 0;
+                while (it.hasNext() && index < begin + offset)
                 {
-                    attr = new AttributesImpl();
-                    attr.addAttribute("", "login", "login", "CDATA", user.getName());
-                    XMLUtils.startElement(contentHandler, "User", attr);
-                    XMLUtils.createElement(contentHandler, "FullName", user.getFullName());
-                    XMLUtils.endElement(contentHandler, "User");
+                    User user = it.next();
+                    if (index >= begin)
+                    {
+                        attr = new AttributesImpl();
+                        attr.addAttribute("", "login", "login", "CDATA", user.getName());
+                        XMLUtils.startElement(contentHandler, "User", attr);
+                        XMLUtils.createElement(contentHandler, "FullName", user.getFullName());
+                        XMLUtils.endElement(contentHandler, "User");
+                    }
+                    index++;
                 }
-                index++;
+                
+                XMLUtils.createElement(contentHandler, "total", String.valueOf(total));
             }
             
-            XMLUtils.createElement(contentHandler, "total", String.valueOf(total));
+            XMLUtils.endElement(contentHandler, "GroupMembers");
+    
+            contentHandler.endDocument();
         }
-        
-        XMLUtils.endElement(contentHandler, "GroupMembers");
-
-        contentHandler.endDocument();
-
+        catch (ServiceException e)
+        {
+            getLogger().error("Error looking up GroupsManager of role " + role + " or UsersManager of role " + usersrole, e);
+            throw new ProcessingException("Error looking up GroupsManager of role " + role + " or UsersManager of role " + usersrole, e);
+        }
+        finally
+        {
+            manager.release(groupsManager);
+            manager.release(usersManager);
+        }
     }
     
-    private Set<User> _getSortedUsers (Group group)
+    private Set<User> _getSortedUsers (Group group, UsersManager usersManager)
     {
         Set<User> users = new TreeSet<User>(new Comparator<User>()
         {
@@ -115,7 +138,7 @@ public class GroupMembersGenerator extends ServiceableGenerator
         Set<String> logins = group.getUsers();
         for (String login : logins)
         {
-            User user = _users.getUser(login);
+            User user = usersManager.getUser(login);
             if (user != null)
             {
                 users.add(user);

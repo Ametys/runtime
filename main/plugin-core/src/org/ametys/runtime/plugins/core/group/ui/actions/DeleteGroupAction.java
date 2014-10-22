@@ -44,7 +44,12 @@ public class DeleteGroupAction extends CurrentUserProviderServiceableAction
         String[] groudIds = request.getParameterValues("id");
         
         // Suppression du groupe
-        GroupsManager gm = (GroupsManager) manager.lookup(GroupsManager.ROLE);
+        String role = parameters.getParameter("groupsManagerRole", GroupsManager.ROLE);
+        if (role.length() == 0)
+        {
+            role = GroupsManager.ROLE;
+        }
+        GroupsManager gm = (GroupsManager) manager.lookup(role);
         if (!(gm instanceof ModifiableGroupsManager))
         {
             throw new IllegalArgumentException("The group manager used is not modifiable");
