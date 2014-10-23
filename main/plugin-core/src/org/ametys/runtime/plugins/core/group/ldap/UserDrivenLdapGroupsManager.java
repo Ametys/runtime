@@ -152,13 +152,16 @@ public class UserDrivenLdapGroupsManager extends AbstractLDAPGroupsManager imple
                         }
                         else
                         {
-                            String description = groupsDesc.get(groupID);
-                            
-                            // Créer un nouveau groupe
-                            Group userGroup = new Group(groupID, description != null ? description : groupID);
-                            userGroup.addUser(login);
-                            // L'ajouter à la map
-                            groupsAssoc.put(groupID, userGroup);
+                            if (groupsDesc.containsKey(groupID))
+                            {
+                                String description = groupsDesc.get(groupID);
+                                
+                                // Créer un nouveau groupe
+                                Group userGroup = new Group(groupID, description != null ? description : groupID);
+                                userGroup.addUser(login);
+                                // L'ajouter à la map
+                                groupsAssoc.put(groupID, userGroup);
+                            }
                         }
                     }
                 }
