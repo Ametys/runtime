@@ -236,6 +236,18 @@ Ext.define('Ametys.grid.plugin.Multisort',
         		single: true,
         		fn: function(grid, eOpts) {
         			var cmpId = grid.headerCt.getId()+'-'+Ext.id();
+
+        			grid.syncHorizontalScroll = Ext.Function.createInterceptor(grid.syncHorizontalScroll, function(left, setBody) {
+        				var me = this;
+        	            
+	        	        // so that we don't set this on vertical scrolls
+	        	        if (me.rendered && (setBody || left !== me.scrollLeftPos)) 
+	        	        {
+	        	            // Only set the body position if we're reacting to a refresh, otherwise
+	        	            // we just need to set the header.
+	        	            Ext.get(cmpId).dom.style.right = -left + "px";
+	        	        }
+        			}, grid);
         			
         			grid.headerCt.getEl().insertFirst({
         												id: cmpId,
@@ -271,6 +283,8 @@ Ext.define('Ametys.grid.plugin.Multisort',
 					{
     					Ext.get(cmpId).setHeight(headerContainer.getHeight());
 					    Ext.get(cmpId).setWidth(Ext.getScrollbarSize().width);
+				    }, {
+				    	single: true
 				    });
     				
     				// initialize the multisort toolbar
