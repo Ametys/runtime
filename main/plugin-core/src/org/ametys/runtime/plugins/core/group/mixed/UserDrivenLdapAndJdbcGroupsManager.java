@@ -129,10 +129,7 @@ public class UserDrivenLdapAndJdbcGroupsManager extends UserDrivenLdapGroupsMana
         Set<String> userGroups = new HashSet<String>();
         
         userGroups.addAll(super.getUserGroups(login));
-        if (userGroups.isEmpty())
-        {
-            userGroups.addAll(_fallbackGroupsManager.getUserGroups(login));
-        }
+        userGroups.addAll(_fallbackGroupsManager.getUserGroups(login));
         
         return userGroups;
     }
