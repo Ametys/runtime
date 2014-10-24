@@ -939,20 +939,54 @@
 			
 			ellipsis = ellipsis || '...';
 			
-			if (this.getWidth(text) > maxWidth && maxWidth > 0)
+			function getLastNonEmptyTextNode(html)
 			{
-				var truncatedText = text;
-				while (this.getWidth(truncatedText + ellipsis) > maxWidth)
+				var lastChild = html.lastChild;
+				while (lastChild.lastChild != null)
 				{
-					truncatedText = truncatedText.substring (0, truncatedText.length -1);
-
-					if (truncatedText == '')
-					{
-						return '';
-					}
+					lastChild = lastChild.lastChild;
 				}
 				
-				return truncatedText + ellipsis;
+				if (lastChild.nodeType == 3) // node text
+				{
+					var text = lastChild.nodeValue;
+					if (Ext.isEmpty(text) || text == ellipsis)
+					{
+						// Remove empty text
+						lastChild.parentNode.removeChild(lastChild);
+						return getLastNonEmptyTextNode(html);
+					}
+					else
+					{
+						if (text.indexOf(ellipsis, text.length - 3) == -1)
+						{
+							lastChild.nodeValue = text + ellipsis;
+						}
+						return lastChild;
+					}
+				}
+				else
+				{
+					// Remove empty tag
+					lastChild.parentNode.removeChild(lastChild);
+					return getLastNonEmptyTextNode(html);
+				}
+			}
+			
+			var html = document.createElement('div');
+			html.innerHTML = text;
+			
+			if (this.getWidth(html.innerHtml) > maxWidth && maxWidth > 0)
+			{
+				var textNode = getLastNonEmptyTextNode(html);
+				
+				while (this.getWidth (html.innerHTML) > maxWidth)
+				{
+					textNode.nodeValue = textNode.nodeValue.substring (0, textNode.nodeValue.length - ellipsis.length - 1) + ellipsis;
+					textNode = getLastNonEmptyTextNode(html);
+				}
+				
+				return html.innerHTML;
 			}
 			else
 			{
