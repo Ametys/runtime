@@ -13,6 +13,47 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+(function ()
+{
+	Ext.define("Ametys.String", {
+        override: "Ext.String",
+        
+        /**
+         * @member Ext.String
+         * @method deemphasize 
+         * @since Ametys Runtime 3.7
+         * @ametys
+         * Convert a string value into a non accented string
+         * @param {Object} s The value being converted
+         * @return {String} The deemphasize value
+         */
+        deemphasize: function (s)
+    	{
+    		s = s.replace(new RegExp(/[ÀÁÂÃÄÅ]/g),"A");
+    		s = s.replace(new RegExp(/[àáâãäå]/g),"a");
+    		s = s.replace(new RegExp(/Æ/g),"AE");
+    		s = s.replace(new RegExp(/æ/g),"ae");
+    		s = s.replace(new RegExp(/Ç/g),"C");
+    		s = s.replace(new RegExp(/ç/g),"c");
+    		s = s.replace(new RegExp(/[ÈÉÊË]/g),"E");
+    		s = s.replace(new RegExp(/[èéêë]/g),"e");
+    		s = s.replace(new RegExp(/[ÌÍÎÏ]/g),"I");
+    		s = s.replace(new RegExp(/[ìíîï]/g),"i");
+    		s = s.replace(new RegExp(/Ñ/g),"N");
+    		s = s.replace(new RegExp(/ñ/g),"n");
+    		s = s.replace(new RegExp(/[ÒÓÔÕÖ]/g),"O");
+    		s = s.replace(new RegExp(/[òóôõö]/g),"o");
+    		s = s.replace(new RegExp(/Œ/g),"OE");
+    		s = s.replace(new RegExp(/œ/g),"oe");
+    		s = s.replace(new RegExp(/[ÙÚÛÜ]/g),"U");
+    		s = s.replace(new RegExp(/[ùúûü]/g),"u");
+    		s = s.replace(new RegExp(/[ÝŸ]/g),"y");
+    		s = s.replace(new RegExp(/[ýÿ]/g),"y");
+
+    		return s;
+    	}
+	});
+})();
 
 (function ()
 {
@@ -31,19 +72,8 @@
          */
     	asNonAccentedUCString: function (s)
     	{
-    		s = s.toLowerCase();
+    		s = Ext.String.deemphasize(s.toLowerCase());
     		
-    		s = s.replace(new RegExp(/[àáâãäå]/g),"a");
-    		s = s.replace(new RegExp(/æ/g),"ae");
-    		s = s.replace(new RegExp(/ç/g),"c");
-    		s = s.replace(new RegExp(/[èéêë]/g),"e");
-    		s = s.replace(new RegExp(/[ìíîï]/g),"i");
-    		s = s.replace(new RegExp(/ñ/g),"n");
-    		s = s.replace(new RegExp(/[òóôõö]/g),"o");
-    		s = s.replace(new RegExp(/œ/g),"oe");
-    		s = s.replace(new RegExp(/[ùúûü]/g),"u");
-    		s = s.replace(new RegExp(/[ýÿ]/g),"y");
-
     		return Ext.data.SortTypes.asUCString(s);
     	}
     });
