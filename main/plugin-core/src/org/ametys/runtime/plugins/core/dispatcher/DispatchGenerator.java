@@ -57,7 +57,7 @@ public class DispatchGenerator extends ServiceableGenerator
 {
     private SourceResolver _resolver;
     private SAXParser _saxParser;
-    private DispatchPostProcessExtensionPoint _dispatchPostProcessExtensionPoint;
+    private DispatchProcessExtensionPoint _dispatchProcessExtensionPoint;
 
     @Override
     public void service(ServiceManager smanager) throws ServiceException
@@ -66,7 +66,7 @@ public class DispatchGenerator extends ServiceableGenerator
         
         _resolver = (SourceResolver) smanager.lookup(org.apache.excalibur.source.SourceResolver.ROLE);
         _saxParser = (SAXParser) manager.lookup(SAXParser.ROLE);
-        _dispatchPostProcessExtensionPoint = (DispatchPostProcessExtensionPoint) manager.lookup(DispatchPostProcessExtensionPoint.ROLE);
+        _dispatchProcessExtensionPoint = (DispatchProcessExtensionPoint) manager.lookup(DispatchProcessExtensionPoint.ROLE);
     }
     
     @Override
@@ -103,6 +103,12 @@ public class DispatchGenerator extends ServiceableGenerator
         
         for (String parameterKey : parametersAsMap.keySet())
         {
+            for (String extension : _dispatchProcessExtensionPoint.getExtensionsIds())
+            {
+                DispatchRequestProcess processor = _dispatchProcessExtensionPoint.getExtension(extension);
+                processor.preProcess(ObjectModelHelper.getRequest(objectModel));
+            }
+
             _setContextInRequestAttributes(contextAsMap);
 
             Map<String, Object> parameterObject = (Map<String, Object>) parametersAsMap.get(parameterKey);
@@ -199,10 +205,10 @@ public class DispatchGenerator extends ServiceableGenerator
                 IOUtils.closeQuietly(is);
                 _resolver.release(response);
                 
-                for (String extension : _dispatchPostProcessExtensionPoint.getExtensionsIds())
+                for (String extension : _dispatchProcessExtensionPoint.getExtensionsIds())
                 {
-                    DispatchRequestPostProcess processor = _dispatchPostProcessExtensionPoint.getExtension(extension);
-                    processor.process(ObjectModelHelper.getRequest(objectModel));
+                    DispatchRequestProcess processor = _dispatchProcessExtensionPoint.getExtension(extension);
+                    processor.postProcess(ObjectModelHelper.getRequest(objectModel));
                 }
                 
                 _restoreRequestAttributes(attributes);
