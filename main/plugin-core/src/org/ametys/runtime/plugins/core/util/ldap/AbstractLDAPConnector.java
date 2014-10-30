@@ -157,6 +157,10 @@ public abstract class AbstractLDAPConnector extends CachingComponent<Object> imp
         {
             env.put(Context.REFERRAL, "follow");
         }
+        else
+        {
+            env.put(Context.REFERRAL, "ignore");
+        }
 
         // Utiliser le pool de connexion ldap
         env.put("com.sun.jndi.ldap.connect.pool", "true");
