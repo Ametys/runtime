@@ -19,12 +19,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.naming.Context;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
+import javax.naming.PartialResultException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.DirContext;
@@ -167,7 +170,15 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
         try
         {
             // Connexion au serveur ldap
-            context = new InitialDirContext(_getContextEnv());
+            Hashtable<String, String> contextEnv = _getContextEnv();
+            
+            // For AD with weird references
+            if (!_ldapFollowReferrals)
+            {
+                contextEnv.put(Context.REFERRAL, "throw");
+            }
+
+            context = new InitialDirContext(contextEnv);
 
             // Créer le filtre de recherche en échappant le login
             String filter = "(&" + _usersObjectFilter + "(" + _usersLoginAttribute + "={0}))";
@@ -203,6 +214,17 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
         catch (IllegalArgumentException e)
         {
             getLogger().error("Error missing at least one attribute or attribute value for login '" + login + "'", e);
+        }
+        catch (PartialResultException e)
+        {
+            if (_ldapFollowReferrals)
+            {
+                getLogger().debug("Error communicating with ldap server retrieving user with login '" + login + "'", e);
+            }
+            else
+            {
+                getLogger().error("Error communicating with ldap server retrieving user with login '" + login + "'", e);
+            }
         }
         catch (NamingException e)
         {
