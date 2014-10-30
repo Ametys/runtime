@@ -1,5 +1,5 @@
 /*
- *  Copyright 2012 Anyware Services
+ *  Copyright 2010 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -16,16 +16,13 @@
 
 package org.ametys.runtime.plugins.core.dispatcher;
 
-import org.apache.cocoon.environment.Request;
+import org.ametys.runtime.plugin.component.AbstractThreadSafeComponentExtensionPoint;
 
 /**
- * This is a process after a request in the dispatch generator
+ * This extension point is called by the dispatcher at each internal request
  */
-public interface DispatchRequestPostProcess
+public class DispatchProcessExtensionPoint extends AbstractThreadSafeComponentExtensionPoint<DispatchRequestProcess> 
 {
-    /**
-     * Process the request
-     * @param request The request to process
-     */
-    public void process(Request request);
+    /** avalon role */
+    public static final String ROLE = DispatchProcessExtensionPoint.class.getName();
 }

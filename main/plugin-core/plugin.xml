@@ -901,8 +901,8 @@
                 		 class="org.ametys.runtime.plugins.core.ui.item.DesktopManager" 
                 		 config="/WEB-INF/param/workspace-admin.xml"/>
 
-        <extension-point id="org.ametys.runtime.plugins.core.dispatcher.DispatchPostProcessExtensionPoint" 
-                		 class="org.ametys.runtime.plugins.core.dispatcher.DispatchPostProcessExtensionPoint"/>
+        <extension-point id="org.ametys.runtime.plugins.core.dispatcher.DispatchProcessExtensionPoint" 
+                		 class="org.ametys.runtime.plugins.core.dispatcher.DispatchProcessExtensionPoint"/>
                 		 
         <extension-point id="org.ametys.runtime.plugin.InitExtensionPoint"
                          class="org.ametys.runtime.plugin.InitExtensionPoint"/>
