@@ -142,18 +142,19 @@ Ext.define('Ametys.form.field.RichText', {
     	var resizable = config.resizable;
     	config.resizable = false;
     	
+    	var MINHEIGHT = 100;
     	config = Ext.applyIf(config, {
     		height: 200,
-    		minHeight: 100
+    		minHeight: MINHEIGHT
     	});
     	
-    	config.minHeight = Math.min(config.minHeight, config.height);
+    	config.minHeight = Math.max(config.minHeight, MINHEIGHT);
+    	config.height = Math.max(config.height, config.minHeight);
     	
     	var withBBar = config.warning || config.charCounter;
-    	tinyMinHeight = config.minHeight - (withBBar ? 23 : 0);
+    	var tinyMinHeight = config.minHeight - (withBBar ? 23 : 0);
     	
     	this.callParent(arguments);
-    	
     	
     	this._settings = Ext.apply({
 	    		document_base_url: Ametys.CONTEXT_PATH + "/",
