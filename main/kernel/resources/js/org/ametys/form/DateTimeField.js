@@ -77,10 +77,27 @@ org.ametys.form.DateTimeField.prototype.onRender = function(ct, position)
 	
 	this.wrap2 = this.wrap.wrap({cls:'x-form-date-time-wrap'});
 	
+	var me = this;
 	this._timeField = new Ext.form.TimeField({
 		format: 'H:i',
 		width: 80,
-		renderTo: this.wrap2
+		renderTo: this.wrap2,
+		listeners: {
+			'change': function (fd, newValue, oldValue) {
+				
+				var oldDate = org.ametys.form.DateTimeField.superclass.getValue.call(me);
+				
+				var oldTimeDate = Date.parseDate(oldValue, me._timeField.format);
+			    if (oldTimeDate != null)
+			    {
+			    	oldDate.setHours(oldTimeDate.getHours());
+			    	oldDate.setMinutes(oldTimeDate.getMinutes());
+			    	oldDate.setSeconds(oldTimeDate.getSeconds());
+			    }
+				
+				me.fireEvent('change', me, me.getValue(), oldDate);
+			}
+		}
 	});
 	
 	if (this.desc)
