@@ -96,6 +96,10 @@ org.ametys.form.DateTimeField.prototype.onRender = function(ct, position)
 			    }
 				
 				me.fireEvent('change', me, me.getValue(), oldDate);
+			},
+			'select': function (fd, record, index) {
+				me.fireEvent('select-time', me, fd.getValue(), fd.startValue);
+				fd.startValue = fd.getValue();
 			}
 		}
 	});
