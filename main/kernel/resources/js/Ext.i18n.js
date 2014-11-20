@@ -1668,7 +1668,10 @@
 					this.setWidth(sizePerButton - 2); // Tab buttons are left positionned to 2, the size required for a button is the sum of its size and this left position
 					var realWidth = this.getWidth();
 					realTotalWidth += realWidth + 2;
-					item.closeEl.setVisible(realWidth >= 36); // 36 pixels is the size under which the icon and the close button will overlap
+					if (item.closeEl)
+					{
+						item.closeEl.setVisible(realWidth >= 36); // 36 pixels is the size under which the icon and the close button will overlap
+					}
 				}
 				else 
 				{
