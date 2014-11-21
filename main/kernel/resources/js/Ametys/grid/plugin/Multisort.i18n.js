@@ -42,6 +42,11 @@ Ext.define('Ametys.grid.plugin.Multisort',
    	 * @cfg {Number} maxNumberOfSortFields=3 the maximum number of accepted sorted fields
    	 */
    	maxNumberOfSortFields: 3,
+   	
+   	/** 
+   	 * @private
+   	 * @property {Ext.button.Button} _toggleButton The toggle button displayed in the columns header
+   	 */
            	
     setCmp: function(gridConfig) 
     {
@@ -123,7 +128,7 @@ Ext.define('Ametys.grid.plugin.Multisort',
 
                 toolbar.insert(1, sorterContainer);
                 
-                // limitated to me.maxNumberOfSortFields search criterion
+                // limited to me.maxNumberOfSortFields search criterion
                 if (toolbar.items.length > me.maxNumberOfSortFields + 1)
                 {
                 	me.destroyContainer(toolbar.items.get(me.maxNumberOfSortFields).getId());
@@ -255,7 +260,7 @@ Ext.define('Ametys.grid.plugin.Multisort',
         												cls: "tbar-btn-hide-show-container"
 													  });
         		
-        			new Ext.button.Button({
+        			this._toggleButton = new Ext.button.Button({
         				renderTo: cmpId,
         				tooltip: "<i18n:text i18n:key='KERNEL_MULTISORT_SHOW_TOOLBAR_BUTTON_TOOLTIP' i18n:catalogue='kernel'/>",
 	        			cls: 'tbar-btn-hide-show',
@@ -291,6 +296,13 @@ Ext.define('Ametys.grid.plugin.Multisort',
     				droppable._initializeSortItems(grid);
         		}
         }
+    },
+    
+    destroy: function()
+    {
+    	this._toggleButton.destroy();
+    	this._toggleButton = null;
+    	this.callParent(arguments);
     },
                
     /**
