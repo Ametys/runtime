@@ -26,6 +26,10 @@ Ext.define('Ametys.form.field.Code', {
 	/** 
 	 * @cfg {String} mode=htmlmixed The CodeMirror mode
 	 */
+	/** 
+	 * @cfg {Object} cmParams The CodeMirror parameters.
+	 * The `mode` and `value` standard parameters will be ignored.
+	 */
 	
 	/**
 	 * @property {String} The CodeMirror mode. See #cfg-mode
@@ -211,35 +215,39 @@ Ext.define('Ametys.form.field.Code', {
 	 */
 	_initializeCodeMirror: function()
 	{
+	    var me = this;
+	    
 		if (this._codeMirror == null)
 		{
 			// Get the textarea HTMLElement.
 			var textarea = Ext.dom.Query.selectNode('textarea', this.getEl().dom);
+            
+			var params = me.initialConfig.cmParams || {};
+			Ext.apply(params, {
+                mode: this._mode,
+                value: me.initialConfig.value || '',
+        
+                matchBrackets: true, // add-on
+                lineNumbers: true,
+                styleActiveLine: true,
+                
+                extraKeys: {
+                    "Ctrl-U": "undo",
+                    "Ctrl-Y": "redo"
+                },
+                
+                initCallback: function() {
+                    me._initialized = true;
+                    me.fireEvent('initialize', true);
+                },
+                
+                onChange: function (n) { 
+                    me.fireEvent('change', true);
+                }
+			})
 			
 			// Create the CodeMirror instance.
-			var me = this;
-			this._codeMirror = CodeMirror.fromTextArea(textarea, {
-				mode: this._mode,
-				value: me.initialConfig.value || '',
-		
-				matchBrackets: true, // add-on
-				lineNumbers: true,
-				styleActiveLine: true,
-	            
-				extraKeys: {
-					"Ctrl-U": "undo",
-					"Ctrl-Y": "redo"
-				},
-				
-				initCallback: function() {
-					me._initialized = true;
-					me.fireEvent('initialize', true);
-				},
-				
-				onChange: function (n) { 
-					me.fireEvent('change', true);
-				}
-			});
+			this._codeMirror = CodeMirror.fromTextArea(textarea, params);
 			
 			// Styling the current cursor line
 			this._codeMirror.on("change", Ext.bind(this._onChange, this));
