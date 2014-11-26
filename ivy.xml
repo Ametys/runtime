@@ -89,7 +89,7 @@ Open source web application framework based on Apache Cocoon.
     
     <!-- Runtime -->
     <dependency org="minaret" name="datedFileAppender" rev="1.0.2" conf="runtime_dependencies->default"/>
-    <dependency org="org.sencha" name="extjs4" rev="4.2.1-patch-1" conf="runtime_dependencies->default"/>
+    <dependency org="org.sencha" name="extjs4" rev="4.2.3-patch-1" conf="runtime_dependencies->default"/>
 	
     <!-- Compile and test -->
     <dependency org="javax.servlet" name="servlet-api" rev="2.4" conf="compile_base->default"/>
