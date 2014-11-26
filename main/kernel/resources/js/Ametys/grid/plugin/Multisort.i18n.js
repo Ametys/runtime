@@ -57,13 +57,19 @@ Ext.define('Ametys.grid.plugin.Multisort',
         var reorderer = Ext.create('Ext.ux.BoxReorderer', {
             listeners: {
                 scope: this,
-                Drop: function(r, c, container) { //sort on drop
+                'drop': function(r, c, container) { //sort on drop
                 	this.doSort();
                 }
             }
         });
         
         var droppable = Ext.create('Ext.ux.ToolbarDroppable', {
+        	
+        	destroy: function()
+        	{
+        		this.dropTarget.destroy();
+        		this.dropTarget = null;
+        	},
         	
     		// creates the new toolbar item from the header click event if possible
             createItem: function(column) 
@@ -302,6 +308,7 @@ Ext.define('Ametys.grid.plugin.Multisort',
     {
     	this._toggleButton.destroy();
     	this._toggleButton = null;
+    	
     	this.callParent(arguments);
     },
                
