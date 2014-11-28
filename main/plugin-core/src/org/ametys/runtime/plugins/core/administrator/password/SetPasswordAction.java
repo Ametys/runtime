@@ -73,7 +73,7 @@ public class SetPasswordAction extends AbstractAction implements ThreadSafe
 
             // Lecture du fichier d'admin
             Map<String, String> admin = new HashMap<String, String>();
-            Source adminSource = resolver.resolveURI("context://" + AdminAuthenticateAction.ADMINISTRATOR_PASSWORD_FILENAME);
+            Source adminSource = resolver.resolveURI("context:/" + AdminAuthenticateAction.ADMINISTRATOR_PASSWORD_FILENAME);
             if (adminSource.exists())
             {
                 SourceUtil.toSAX(adminSource, new MapHandler(admin));

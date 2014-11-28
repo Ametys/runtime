@@ -67,7 +67,7 @@ import org.ametys.runtime.util.LoggerFactory;
 public class RuntimeServlet extends CocoonServlet
 {
     /** The config file relative path */
-    public static final String CONFIG_RELATIVE_PATH = "WEB-INF/config/config.xml";
+    public static final String CONFIG_RELATIVE_PATH = "/WEB-INF/config/config.xml";
 
     /** The run modes */
     public enum RunMode
