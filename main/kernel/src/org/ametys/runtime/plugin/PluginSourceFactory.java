@@ -78,6 +78,10 @@ public class PluginSourceFactory extends AbstractLogEnabled implements SourceFac
             {
                 pluginLocation += '/';
             }
+            if (!pluginLocation.startsWith("/"))
+            {
+                pluginLocation = '/' + pluginLocation;
+            }
             
             return new FileSource("file://" + _cocoonContext.getRealPath(pluginLocation + pluginName + path));
         }

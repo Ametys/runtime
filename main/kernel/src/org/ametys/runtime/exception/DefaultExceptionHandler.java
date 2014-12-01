@@ -61,7 +61,7 @@ public class DefaultExceptionHandler extends AbstractLogEnabled implements Excep
         String uri = null;
         try
         {
-            uri = "file://" + _cocoonContext.getRealPath("WEB-INF/stylesheets/error/error_" + code + ".xsl");
+            uri = "file://" + _cocoonContext.getRealPath("/WEB-INF/stylesheets/error/error_" + code + ".xsl");
             if (new FileSource(uri).exists())
             {
                 return uri;

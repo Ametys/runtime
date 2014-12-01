@@ -45,7 +45,7 @@ public class SystemAnnouncementGenerator extends AbstractGenerator implements Co
         contentHandler.startDocument();
         XMLUtils.startElement(contentHandler, "SystemAnnounce");
         
-        String contextPath = _environmentContext.getRealPath("");
+        String contextPath = _environmentContext.getRealPath("/");
         boolean isAvailable = SystemHelper.isSystemAnnouncementAvailable(contextPath);
         
         XMLUtils.createElement(contentHandler, "IsAvailable", String.valueOf(isAvailable));
