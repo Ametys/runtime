@@ -813,8 +813,10 @@ Ext.define('Ametys.plugins.core.administration.Profiles.CheckRightEntry', {
 			});
     	}
     	
+		var labelNode = this.boxLabelEl.dom;
+    	
     	var maxWidth = this.width - 10 - 21 - 13; //padding + image + input
-    	var textWidth = Ext.util.TextMetrics.measure(this.boxLabelEl, this.boxLabel).width;
+    	var textWidth = Ext.util.TextMetrics.measure(labelNode, this.boxLabel).width;
     	var t = this.boxLabel;
     	
     	var i = 0;
@@ -822,9 +824,9 @@ Ext.define('Ametys.plugins.core.administration.Profiles.CheckRightEntry', {
     	{
     		i++;
     		t = Ext.util.Format.ellipsis(this.boxLabel, this.boxLabel.length - i);
-    		textWidth = Ext.util.TextMetrics.measure(this.boxLabelEl, t).width; 
+    		textWidth = Ext.util.TextMetrics.measure(labelNode, t).width; 
     	}
     	this.boxLabel = t;
-    	this.boxLabelEl.innerHTML = t;
+    	labelNode.innerHTML = t;
 	}
 });
