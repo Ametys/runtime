@@ -66,7 +66,7 @@ import org.ametys.runtime.util.LoggerFactory;
 public class RuntimeServlet extends CocoonServlet
 {
     /** The config file relative path */
-    public static final String CONFIG_RELATIVE_PATH = "WEB-INF/config/config.xml";
+    public static final String CONFIG_RELATIVE_PATH = "/WEB-INF/config/config.xml";
 
     /** The run modes */
     public enum RunMode
@@ -463,7 +463,7 @@ public class RuntimeServlet extends CocoonServlet
         {
             StreamSource errorSource;
             
-            File errorXSL = new File(config.getServletContext().getRealPath("kernel/pages/error/fatal.xsl"));
+            File errorXSL = new File(config.getServletContext().getRealPath("/kernel/pages/error/fatal.xsl"));
             if (errorXSL.exists())
             {
                 is = new FileInputStream(errorXSL);
@@ -525,7 +525,7 @@ public class RuntimeServlet extends CocoonServlet
     }
 
     /*
-     * private void _runMaintenanceMode(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException { ServletConfig config = getServletConfig(); if (config == null) { throw new ServletException("Cannot access to ServletConfig"); } ServletOutputStream os = res.getOutputStream(); if (req.getRequestURI().startsWith("/WEB-INF/error/")) { // Service des fichiers statiques de la page d'erreur File f = new File(config.getServletContext().getRealPath(req.getRequestURI())); if (f.exists()) { res.setStatus(200); InputStream is = new FileInputStream(f); SourceUtil.copy(is, os); is.close(); } else { res.setStatus(404); } return; } res.setStatus(500); SAXTransformerFactory saxFactory = (SAXTransformerFactory) TransformerFactory.newInstance(); InputStream is; File errorXSL = new File(config.getServletContext().getRealPath("WEB-INF/error/error.xsl")); if (errorXSL.exists()) { is = new FileInputStream(errorXSL); } else { is = getClass().getResourceAsStream("/org/ametys/runtime/kernel/pages/error/error.xsl"); } try { StreamSource errorSource = new StreamSource(is); Templates templates = saxFactory.newTemplates(errorSource); TransformerHandler th = saxFactory.newTransformerHandler(templates); is.close(); StreamResult result = new StreamResult(os); th.setResult(result); th.startDocument(); th.startElement("", "error", "error", new AttributesImpl()); saxMaintenanceMessage(th); th.endElement("", "error", "error"); th.endDocument(); } catch (Exception ex) { throw new ServletException("Unable to send maintenance page", ex); } }
+     * private void _runMaintenanceMode(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException { ServletConfig config = getServletConfig(); if (config == null) { throw new ServletException("Cannot access to ServletConfig"); } ServletOutputStream os = res.getOutputStream(); if (req.getRequestURI().startsWith("/WEB-INF/error/")) { // Service des fichiers statiques de la page d'erreur File f = new File(config.getServletContext().getRealPath(req.getRequestURI())); if (f.exists()) { res.setStatus(200); InputStream is = new FileInputStream(f); SourceUtil.copy(is, os); is.close(); } else { res.setStatus(404); } return; } res.setStatus(500); SAXTransformerFactory saxFactory = (SAXTransformerFactory) TransformerFactory.newInstance(); InputStream is; File errorXSL = new File(config.getServletContext().getRealPath("/WEB-INF/error/error.xsl")); if (errorXSL.exists()) { is = new FileInputStream(errorXSL); } else { is = getClass().getResourceAsStream("/org/ametys/runtime/kernel/pages/error/error.xsl"); } try { StreamSource errorSource = new StreamSource(is); Templates templates = saxFactory.newTemplates(errorSource); TransformerHandler th = saxFactory.newTransformerHandler(templates); is.close(); StreamResult result = new StreamResult(os); th.setResult(result); th.startDocument(); th.startElement("", "error", "error", new AttributesImpl()); saxMaintenanceMessage(th); th.endElement("", "error", "error"); th.endDocument(); } catch (Exception ex) { throw new ServletException("Unable to send maintenance page", ex); } }
      */
 
     /**

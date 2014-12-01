@@ -54,7 +54,7 @@ public class AdminAuthenticateAction extends AbstractAction implements ThreadSaf
     /** The request attribute name for telling that super user is logged in. */
     public static final String REQUEST_ATTRIBUTE_SUPER_USER = "Runtime:SuperUser";
     /** Location (from webapplication context) of the administrator password */
-    public static final String ADMINISTRATOR_PASSWORD_FILENAME = "WEB-INF/data/administrator/admin.xml";
+    public static final String ADMINISTRATOR_PASSWORD_FILENAME = "/WEB-INF/data/administrator/admin.xml";
     
     private static final String __SESSION_ADMINISTRATOR = "Runtime:Administrator";
     
