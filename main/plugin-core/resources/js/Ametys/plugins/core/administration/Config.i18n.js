@@ -1952,10 +1952,12 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 
 		if (!testsOk)
 		{
-			Ext.Msg.buttonText.yes = "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_TESTS_NOK_MBOX_SAVE'/>";
-			Ext.Msg.buttonText.no = "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_TESTS_NOK_MBOX_RETRY'/>";
-			Ext.Msg.buttonText.cancel = "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_TESTS_NOK_MBOX_CANCEL'/>";
-			Ext.Msg.show({
+			var msgBox = new Ext.window.MessageBox({closeAction: 'destroy'});
+			
+			msgBox.buttonText.yes = "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_TESTS_NOK_MBOX_SAVE'/>";
+			msgBox.buttonText.no = "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_TESTS_NOK_MBOX_RETRY'/>";
+			msgBox.buttonText.cancel = "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_TESTS_NOK_MBOX_CANCEL'/>";
+			msgBox.show({
 						title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_TESTS_NOK_MBOX_TITLE'/>", 
 						msg: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_TESTS_NOK_MBOX_MSG'/>",
 						buttons: Ext.Msg.YESNOCANCEL,
