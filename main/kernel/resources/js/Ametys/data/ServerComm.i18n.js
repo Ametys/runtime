@@ -657,8 +657,8 @@ Ext.define(
 				var message = options.messages[i];
 				if (Ext.isObject(message.waitMessage))
 				{
-					Ext.destroy(message.waitMessage);
 					message.waitMessage.hide();
+					Ext.destroy(message.waitMessage);
 				}
 			}
 		},
