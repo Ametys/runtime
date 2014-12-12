@@ -75,6 +75,8 @@ Ext.define(
 		 * @property {Ext.data.ArrayStore} _store The store of log entries 
 		 */
 		_store: Ext.create("Ext.data.ArrayStore", {
+			autoSync: true,
+			proxy: { type: 'memory' },	
 			sorters: [{property: 'date', direction:'DESC'}]
 		}),
 		
