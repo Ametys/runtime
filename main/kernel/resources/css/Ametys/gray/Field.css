@@ -107,6 +107,10 @@ td.x-form-error-msg-wrapper
 .x-field.ametys, .x-form-item.ametys {
 	margin-bottom: 7px;
 }
+.x-editor .x-field.ametys, .x-editor .x-form-item.ametys {
+    margin-bottom: 0px;
+}
+
 
 .x-field.ametys .x-form-text,
 .x-form-item.ametys .x-form-text
