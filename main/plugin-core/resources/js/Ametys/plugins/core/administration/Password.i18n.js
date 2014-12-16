@@ -177,7 +177,7 @@ Ext.define('Ametys.plugins.core.administration.Password', {
 
 		if (oldPassword.getValue() == "" || newPassword.getValue() == "" || confirmPassword.getValue() == "")
 		{
-			Ext.Msg.show ({
+			Ametys.Msg.show ({
 	    		title: "<i18n:text i18n:key='PLUGINS_CORE_ERROR_DIALOG_TITLE'/>",
 	    		msg: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR_WRONG_EMPTY'/>",
 	    		buttons: Ext.Msg.OK,
@@ -208,7 +208,7 @@ Ext.define('Ametys.plugins.core.administration.Password', {
 
 	    if (Ext.dom.Query.selectValue("*/result", result) != "SUCCESS")
 	    {
-	    	Ext.Msg.show ({
+	    	Ametys.Msg.show ({
 	    		title: "<i18n:text i18n:key='PLUGINS_CORE_ERROR_DIALOG_TITLE'/>",
 	    		msg: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_ERROR'/>",
 	    		buttons: Ext.Msg.OK,
@@ -220,7 +220,7 @@ Ext.define('Ametys.plugins.core.administration.Password', {
 
 		this.box.hide();
 		
-		Ext.Msg.show ({
+		Ametys.Msg.show ({
 			title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PASSWORD_LABEL'/>",
 			msg: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PASSWORD_CHANGE_OK'/>",
 			buttons: Ext.Msg.OK,

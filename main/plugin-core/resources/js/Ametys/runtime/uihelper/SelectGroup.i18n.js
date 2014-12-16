@@ -201,7 +201,7 @@ Ext.define('Ametys.runtime.uihelper.SelectGroup', {
 
 		if (groups.length == 0)
 	    {
-			Ext.Msg.show({
+			Ametys.Msg.show({
 				   title: "<i18n:text i18n:key='PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_CAPTION'/>",
 				   msg: "<i18n:text i18n:key='PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_NORESULT'/>",
 				   buttons: Ext.Msg.OK,
@@ -249,7 +249,7 @@ Ext.define('Ametys.runtime.uihelper.SelectGroup', {
 		var selection = this.listview.getSelectionModel().getSelection();
 		if (selection.length == 0)
 		{
-			Ext.Msg.show({
+			Ametys.Msg.show({
 				   title: "<i18n:text i18n:key='PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_CAPTION'/>",
 				   msg: "<i18n:text i18n:key='PLUGINS_CORE_GROUPS_SELECTGROUP_DIALOG_ERROR_EMPTY'/>",
 				   buttons: Ext.Msg.OK,

@@ -315,7 +315,7 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 	    {
 	    	var login = Ext.dom.Query.selectValue("*/login", result);
 	    	var name = Ext.dom.Query.selectValue("*/name", result);
-			Ext.Msg.show ({
+			Ametys.Msg.show ({
 	    		title: "<i18n:text i18n:key='PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS_TITLE'/>",
 	    		msg: "<i18n:text i18n:key='PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS'/> " + name + " (" + login + ")<br/><br/><i18n:text i18n:key='PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS_2'/>",
 	    		buttons: Ext.Msg.OK,
@@ -374,7 +374,7 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 	 */
 	remove: function ()
 	{
-		Ext.Msg.confirm ("<i18n:text i18n:key='PLUGINS_CORE_USERS_HANDLE_DEL_TITLE'/>", 
+		Ametys.Msg.confirm ("<i18n:text i18n:key='PLUGINS_CORE_USERS_HANDLE_DEL_TITLE'/>", 
 						 "<i18n:text i18n:key='PLUGINS_CORE_USERS_HANDLE_DEL_PROMPT'/>", 
 						 Ext.bind(this.doRemove, this));
 	},
@@ -393,7 +393,7 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 	        
 	        if (200 != Ext.Ajax.request({url: url, params: args, async: false}).status)
 	        {
-	        	Ext.Msg.show ({
+	        	Ametys.Msg.show ({
 	            		title: "<i18n:text i18n:key='PLUGINS_CORE_ERROR_DIALOG_TITLE'/>",
 	            		msg: "<i18n:text i18n:key='PLUGINS_CORE_USERS_DELETE_ERROR'/>",
 	            		buttons: Ext.Msg.OK,
@@ -458,7 +458,7 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 	    
 	    if (nodes.length == 0)
 	    {
-	    	Ext.Msg.show ({
+	    	Ametys.Msg.show ({
 	        		title: "<i18n:text i18n:key='PLUGINS_CORE_USERS_SEARCHING'/>",
 	        		msg: "<i18n:text i18n:key='PLUGINS_CORE_USERS_SEARCHING_NORESULT'/>",
 	        		buttons: Ext.Msg.OK,

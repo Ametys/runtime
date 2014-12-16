@@ -525,7 +525,7 @@ Ext.define('Ametys.plugins.core.administration.JVMStatus', {
 	 */
 	helpSessions: function ()
 	{
-		Ext.Msg.show ({
+		Ametys.Msg.show ({
 			title: "<i18n:text i18n:key='PLUGINS_CORE_ERROR_DIALOG_TITLE'/>",
 			msg: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_SESSIONS_ERROR_HINT'/>",
 			buttons: Ext.Msg.OK,
@@ -539,7 +539,7 @@ Ext.define('Ametys.plugins.core.administration.JVMStatus', {
 	 */
 	helpRequests: function ()
 	{
-		Ext.Msg.show ({
+		Ametys.Msg.show ({
 			title: "<i18n:text i18n:key='PLUGINS_CORE_ERROR_DIALOG_TITLE'/>",
 			msg: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_REQUESTS_ERROR_HINT'/>",
 			buttons: Ext.Msg.OK,

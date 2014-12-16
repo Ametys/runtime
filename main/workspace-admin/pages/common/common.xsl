@@ -128,12 +128,14 @@
 			
 			    launch: function() {
 		    		var items = [];
-		    			var toping = createTop();
-		    			if (toping != null)
-		    			{
-		    				items.push(Ext.apply(toping, {region: 'north'}));
-		    			}
-		    			items.push(Ext.apply(createPanel(), {region: 'center'}));
+                    
+	    			var toping = createTop();
+	    			if (toping != null)
+	    			{
+	    				items.push(Ext.apply(toping, {region: 'north'}));
+	    			}
+                    
+	    			items.push(Ext.apply(createPanel(), {region: 'center'}));
 		    	
 			        var mainPanel = Ext.create('Ext.panel.Panel', {
 			            autoScroll: false,
@@ -156,8 +158,8 @@
 			        	this.setSize(Ext.get('main').getSize(true))
 					}, mainPanel);
 					
-					createDock();
-					
+                    createDock();
+                    
 					createBottom();
 					
 					if (typeof appReady == "function")

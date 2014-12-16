@@ -44,6 +44,7 @@
 	<message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HELP">Help</message>
 	<message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HELP_TEXT">This screen allows you to change the application's configuration.&lt;br/&gt;&lt;br/&gt;Navigate through the top-right hand corner tabs and change the parameters' values.&lt;br/&gt;&lt;br/&gt;The application will be automatically restarted after the changes are saved.</message>
 	<message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_OK">The configuration has been correctly updated</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_WAIT_MSG">Saving. Please wait ...</message>
 	<message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_FATALERROR">Server is not responding or a fatal error occurred during saving.\nConsult applications and servlet engines logfiles for more details.</message>
 	<message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_ERROR">An error occurred on the server and parameters have not been updated.\n\nInternal error message is :\n</message>
 	<message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_INVALID_TITLE">The form contains errors</message>

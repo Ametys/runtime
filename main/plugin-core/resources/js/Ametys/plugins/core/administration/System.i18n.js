@@ -364,7 +364,7 @@ Ext.define('Ametys.plugins.core.administration.System', {
 			return;
 		}
 		
-		Ext.Msg.confirm ("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DELETE'/>", 
+		Ametys.Msg.confirm ("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DELETE'/>", 
 				         "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DELETE_CONFIRM'/>", 
 				         Ext.bind(this.doRemove, this));
 	},

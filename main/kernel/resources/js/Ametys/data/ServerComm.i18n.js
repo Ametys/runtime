@@ -253,7 +253,7 @@ Ext.define(
 						
 						if (Ext.isObject(oldMessage.waitMessage))
 						{
-							oldMessage.waitMessage.hide();
+							oldMessage.bodyMasked ? Ext.getBody().unmask() : oldMessage.waitMessage.hide();
 						}
 					}
 				}
@@ -298,12 +298,20 @@ Ext.define(
 				}
 				if (Ext.isObject(message.waitMessage))
 				{
-					message.waitMessage = Ext.applyIf(message.waitMessage, {
-						target: Ext.getBody()
-					});
-					
-					message.waitMessage = Ext.create("Ext.LoadMask", message.waitMessage);
-					message.waitMessage.show();
+					if (!message.waitMessage.target && Ext.ComponentQuery.query('viewport').length == 0)
+					{
+						message.waitMessage = Ext.getBody().mask (message.waitMessage.msg || "<i18n:text i18n:key='KERNEL_LOADMASK_DEFAULT_MESSAGE' i18n:catalogue='kernel'/>", message.waitMessage.msgCls);
+						message.bodyMasked = true;
+					}
+					else
+					{
+						message.waitMessage = Ext.applyIf(message.waitMessage, {
+							target: Ext.ComponentQuery.query('viewport')[0]
+						});
+						
+						message.waitMessage = Ext.create("Ext.LoadMask", message.waitMessage);
+						message.waitMessage.show();
+					}
 				}
 			}
 			
@@ -657,7 +665,7 @@ Ext.define(
 				var message = options.messages[i];
 				if (Ext.isObject(message.waitMessage))
 				{
-					message.waitMessage.hide();
+					message.bodyMasked ? Ext.getBody().unmask() : message.waitMessage.hide();
 					Ext.destroy(message.waitMessage);
 				}
 			}

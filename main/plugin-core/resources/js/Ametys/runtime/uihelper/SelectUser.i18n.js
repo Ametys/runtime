@@ -203,7 +203,7 @@ Ext.define('Ametys.runtime.uihelper.SelectUser', {
 
 		if (users.length == 0)
 	    {
-			Ext.Msg.show({
+			Ametys.Msg.show({
 				   title: "<i18n:text i18n:key='PLUGINS_CORE_USERS_SELECTUSER_DIALOG_CAPTION'/>",
 				   msg: "<i18n:text i18n:key='PLUGINS_CORE_USERS_SELECTUSER_DIALOG_NORESULT'/>",
 				   buttons: Ext.Msg.OK,
@@ -253,7 +253,7 @@ Ext.define('Ametys.runtime.uihelper.SelectUser', {
 		var selection = this.listview.getSelectionModel().getSelection();
 		if (selection.length == 0)
 		{
-			Ext.Msg.show({
+			Ametys.Msg.show({
 				   title: "<i18n:text i18n:key='PLUGINS_CORE_USERS_SELECTUSER_DIALOG_CAPTION'/>",
 				   msg: "<i18n:text i18n:key='PLUGINS_CORE_USERS_SELECTUSER_DIALOG_ERROR_EMPTY'/>",
 				   buttons: Ext.Msg.OK,

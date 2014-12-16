@@ -69,7 +69,7 @@ Ext.define('Ametys.plugins.core.administration.SuperUser', {
 	       return;
 	    }
 		
-		Ext.Msg.show ({
+		Ametys.Msg.show ({
 			title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_AFFECT_TITLE'/>",
 			msg: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_AFFECT_SUCCESS'/>",
 			buttons: Ext.Msg.OK,

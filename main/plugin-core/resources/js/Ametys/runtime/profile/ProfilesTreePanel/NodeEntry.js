@@ -46,6 +46,7 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel.NodeEntry', {
 				{
 					return v;
 				}
+				
 			}
 		},
 		{name: 'name', mapping: '@name'},
@@ -78,7 +79,7 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel.NodeEntry', {
 			name: 'leaf', 
 			defaultValue: false,
 			convert: function (v, record) {
-				return record.get('type') != 'profile';
+				return record.get('type') == 'user' || record.get('type') == 'group';
 			}
 		}
 	]

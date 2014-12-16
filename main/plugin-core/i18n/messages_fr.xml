@@ -44,6 +44,7 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HELP">Aide</message>    
     <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_HELP_TEXT">Cet écran vous permet de modifier la configuration système de l'application.&lt;br/&gt;&lt;br/&gt;Naviguez en utilisant les onglets et modifiez les valeurs des paramètres.&lt;br/&gt;&lt;br/&gt;Lorsque vous enregistrez les modifications, l'application sera redémarrée automatiquement pour prendre les modifications en compte.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_OK">La configuration a été sauvée correctement</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_WAIT_MSG">Sauvegarde en cours.&lt;br/&gt;Veuillez patienter ...</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_FATALERROR">Le serveur ne répond pas ou une erreur grave est survenue lors de la sauvegarde.\nConsultez les journaux de l'application et du moteur de servlet pour plus de détails.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_ERROR">Une erreur est survenue sur le serveur et les paramètres n'ont pas été sauvegardés.\n\nLe message d'erreur interne est :\n</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_INVALID_TITLE">Le formulaire contient des erreurs</message>

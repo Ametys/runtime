@@ -53,10 +53,6 @@ Ext.define('Ametys.plugins.core.administration.Plugins', {
 	 * @private
 	 * @property {Ext.tree.Panel} _tree3 The workspace tree
 	 */
-	/**
-	 * @private
-	 * @property {Ext.LoadMask} _mask A mak when saving changes and reloading
-	 */
 	
 	/**
 	 * @readonly
@@ -524,8 +520,7 @@ Ext.define('Ametys.plugins.core.administration.Plugins', {
 			responseType: null
 		});
 		
-		this._mask =  new Ext.LoadMask({target: Ext.getBody()});
-		this._mask.show();
+		Ext.getBody().mask("<i18n:text i18n:key='KERNEL_LOADMASK_DEFAULT_MESSAGE' i18n:catalogue='kernel'/>");
 	},
 
 	/**
@@ -535,17 +530,16 @@ Ext.define('Ametys.plugins.core.administration.Plugins', {
 	 */
 	_changesNowCB: function(response)
 	{
-		this._mask.hide();
+		Ext.getBody().unmask();
 
 	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_ERROR'/>", response, "Ametys.plugins.core.administration.Plugins._changesNowCB"))
 	    {
 	       return;
 	    }
 
-	    alert("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_DONE'/>");
+	    Ametys.Msg.alert("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES'/>", "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_DONE'/>");
 
-		this._mask =  new Ext.LoadMask({target: Ext.getBody()});
-		this._mask.show();
+	    Ext.getBody().mask("<i18n:text i18n:key='KERNEL_LOADMASK_DEFAULT_MESSAGE' i18n:catalogue='kernel'/>");
 	    
 	    // Restart
 	    Ext.Ajax.request({url: Ametys.getPluginDirectPrefix(this.pluginName) + "/administrator/restart", params: "", async: false});

@@ -1914,7 +1914,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	{
 		if (mask)
 		{
-			 new Ext.LoadMask({target: Ext.getBody()}).show();
+			Ext.getBody().mask();
 		}
 	    document.location.href = Ametys.WORKSPACE_URI;
 	},
@@ -1967,23 +1967,20 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 						{
 							if (btn == 'yes')
 							{
-								me.save._mask = new Ext.LoadMask({target: Ext.getBody()});
-							    me.save._mask.show();
+								Ext.getBody().mask("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_WAIT_MSG'/>");
 							    Ext.defer(me._save2, 1, me);
 							}
 							else if (btn == 'no')
 							{
-								me.save._mask = new Ext.LoadMask({target: Ext.getBody()});
-							    me.save._mask.show();
-								me._check(me._paramCheckers, true, Ext.bind(function(success) { this.save._mask.hide(); if (success) { this.save(); } } , me), false);
+								Ext.getBody().mask("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_WAIT_MSG'/>");
+								me._check(me._paramCheckers, true, Ext.bind(function(success) { Ext.getBody().unmask(); if (success) { this.save(); } } , me), false);
 							}
 						}
 					});
 			return;
 		}
 		
-		me.save._mask = new Ext.LoadMask({target: Ext.getBody()});
-	    me.save._mask.show();
+		Ext.getBody().mask("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_WAIT_MSG'/>");
 	    Ext.defer(me._save2, 1, me);
 	},
 	
@@ -2029,7 +2026,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	    	ex = e;
 	    }
 	    
-	    this.save._mask.hide();
+	    Ext.getBody().unmask();
 
 		if (result == null)
 	    {
@@ -2046,7 +2043,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	    var error = Ext.dom.Query.selectValue("*/error", result);
 	    if (error != null && error != "")
 	    {
-	    	Ext.Msg.show ({
+	    	Ametys.Msg.show ({
 	    		title: "<i18n:text i18n:key='PLUGINS_CORE_SAVE_DIALOG_TITLE'/>",
 	    		msg: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_ERROR'/>",
 	    		buttons: Ext.Msg.OK,
@@ -2055,7 +2052,7 @@ Ext.define('Ametys.plugins.core.administration.Config', {
 	        return;
 	    }
 	    
-	    Ext.Msg.show ({
+	    Ametys.Msg.show ({
 	    		title: "<i18n:text i18n:key='PLUGINS_CORE_SAVE_DIALOG_TITLE'/>",
 	    		msg: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_CONFIG_SAVE_OK'/>",
 	    		buttons: Ext.Msg.OK,

@@ -133,7 +133,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 	 */
 	remove: function()
 	{
-		Ext.Msg.confirm ("<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_DELETE'/>", "<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_PROFILES_DELETE_CONFIRM'/>", Ext.bind(this.removeConfirm, this));
+		Ametys.Msg.confirm ("<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_DELETE'/>", "<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_PROFILES_DELETE_CONFIRM'/>", Ext.bind(this.removeConfirm, this));
 	},
 	
 	/**
@@ -152,7 +152,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 			}
 			else
 			{
-				Ext.Msg.show ({
+				Ametys.Msg.show ({
             		title: "<i18n:text i18n:key='PLUGINS_CORE_ERROR_DIALOG_TITLE'/>",
             		msg: "<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_PROFILES_ERROR'/>",
             		buttons: Ext.Msg.OK,
@@ -266,7 +266,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 				var state = Ext.dom.Query.selectValue("*/message", result); 
 				if (state != null && state == "missing")
 				{
-					Ext.Msg.show ({
+					Ametys.Msg.show ({
                 		title: "<i18n:text i18n:key='PLUGINS_CORE_ERROR_DIALOG_TITLE'/>",
                 		msg: "<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_MISSING_ERROR'/>",
                 		buttons: Ext.Msg.OK,
@@ -353,7 +353,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 	{
 		if (this._selectedElmt != null && this._hasChanges)
 		{
-			Ext.Msg.confirm ("<i18n:text i18n:key='PLUGINS_CORE_SAVE_DIALOG_TITLE'/>", "<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_CONFIRM'/>", Ext.bind(this.saveObjectConfirm, this, [this._selectedElmt, this._getObjects(), this._getRights()], true));
+			Ametys.Msg.confirm ("<i18n:text i18n:key='PLUGINS_CORE_SAVE_DIALOG_TITLE'/>", "<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_CONFIRM'/>", Ext.bind(this.saveObjectConfirm, this, [this._selectedElmt, this._getObjects(), this._getRights()], true));
 		}
 		
 		this._Category.showElt(1);
@@ -403,7 +403,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 		var record = e.record;
 		if (!/^[a-z|A-Z|0-9| |-|_]*$/.test(e.value))
         {
-        	Ext.Msg.show ({
+        	Ametys.Msg.show ({
                 		title: "<i18n:text i18n:key='PLUGINS_CORE_ERROR_DIALOG_TITLE'/>",
                 		msg: "<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_PROFILES_NAMING_ERROR'/>",
                 		buttons: Ext.Msg.OK,
@@ -498,7 +498,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 	{
 		if (this._selectedElmt != null && this._hasChanges && this.item1.pressed)
 		{
-			Ext.Msg.confirm ("<i18n:text i18n:key='PLUGINS_CORE_SAVE_DIALOG_TITLE'/>", "<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_CONFIRM'/>", Ext.bind(this.saveObjectConfirm, this, [this._selectedElmt, this._getObjects(), this._getRights()], true));
+			Ametys.Msg.confirm ("<i18n:text i18n:key='PLUGINS_CORE_SAVE_DIALOG_TITLE'/>", "<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_CONFIRM'/>", Ext.bind(this.saveObjectConfirm, this, [this._selectedElmt, this._getObjects(), this._getRights()], true));
 		}
 		var rights = this._selectedElmt != null ? this._selectedElmt.get('rights') : {};
 		
@@ -798,19 +798,23 @@ Ext.define('Ametys.plugins.core.administration.Profiles.CheckRightEntry', {
     	// Help icon
     	if (this.description)
     	{
-    		this.bodyEl.insertFirst({
-    			id: this.id + '-img',
-    			tag:'img',
-    			src: Ametys.getPluginResourcesPrefix('core') + '/img/administrator/config/help.gif',
-    			cls: 'check-right-entry-img'
+    		this.bodyEl.insertSibling({
+    			tag:'td',
+    			cls: 'check-right-entry-img',
+    			children: [{
+					tag:'img',
+					src: Ametys.getPluginResourcesPrefix('core') + '/img/administrator/config/help.gif',
+					'data-qtitle': this.boxLabel,
+					'data-qtip': this.description
+    			}]
     		});
     		
-    		Ext.tip.QuickTipManager.register({
+    		/*Ext.tip.QuickTipManager.register({
 				cls: 'profiles-right-tooltip',
 				target: this.id + '-img',
 			    title: this.boxLabel,
 			    text: this.description
-			});
+			});*/
     	}
     	
 		var labelNode = this.boxLabelEl.dom;

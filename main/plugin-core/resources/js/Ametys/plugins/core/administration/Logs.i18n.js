@@ -357,8 +357,7 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 		}
 		else
 		{
-			this._mask = new Ext.LoadMask({target: Ext.getBody()});
-			this._mask.show();
+			Ext.getBody().mask("<i18n:text i18n:key='KERNEL_LOADMASK_DEFAULT_MESSAGE' i18n:catalogue='kernel'/>");
 
 			var args = { level: level, category: selectedNode.get('fullname') };
 			Ametys.data.ServerComm.send({
@@ -386,7 +385,7 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 		var args = argsArray[0];
 		var selectedNode = argsArray[1];
 
-		this._mask.hide();
+		Ext.getBody().unmask();
 
 	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_ERROR'/>", response, "org.ametys.administration.Groups._selectGroup"))
 	    {
@@ -664,7 +663,7 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 	    
 	    if (elt.get('size') > 1024 * 1024)
 	    {
-	    	Ext.Msg.confirm ("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_VIEW'/>", 
+	    	Ametys.Msg.confirm ("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_VIEW'/>", 
 	    					 "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_VIEW_CONFIRM'/>", 
 	    					 Ext.bind(this.downloadFile, this, [elt]));
 	    }
@@ -711,7 +710,7 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 	 */
 	deleteFiles: function ()
 	{
-		Ext.Msg.confirm ("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_DELETE'/>", 
+		Ametys.Msg.confirm ("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_DELETE'/>", 
 						 "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_DELETE_CONFIRM'/>", 
 						 Ext.bind(this.doDelete, this));
 	},
@@ -760,7 +759,7 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 	        
 	        if (failuresString.length > 0)
 	        {
-	        	Ext.Msg.show({
+	        	Ametys.Msg.show({
 					title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_DELETE'/>",
 					msg: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_DELETE_ERROR'/>",
 					buttons: Ext.Msg.OK,
@@ -776,7 +775,7 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 	 */
 	purgeFiles: function ()
 	{
-		Ext.Msg.confirm ("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_PURGE'/>", 
+		Ametys.Msg.confirm ("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_PURGE'/>", 
 				         "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_PURGE_CONFIRM'/>",
 				         Ext.bind(this.doPurge, this));
 	},
@@ -819,7 +818,7 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 	        	this._logs.getStore().remove(this._toRemove[i]);
 	        }
 	        
-	        Ext.Msg.show({
+	        Ametys.Msg.show({
 					title: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_PURGE'/>",
 					msg: this._toRemove.length + " " + "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_PURGE_DONE'/>",
 					buttons: Ext.Msg.OK,

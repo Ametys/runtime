@@ -285,7 +285,7 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 				objects += objectId + '/';
 			}
 			
-			Ext.Msg.confirm ("<i18n:text i18n:key='PLUGINS_CORE_SAVE_DIALOG_TITLE'/>", 
+			Ametys.Msg.confirm ("<i18n:text i18n:key='PLUGINS_CORE_SAVE_DIALOG_TITLE'/>", 
 							 "<i18n:text i18n:key='PLUGINS_CORE_GROUPS_MODIFY_CONFIRM'/>", 
 							 Ext.bind(this._saveConfirm, this, [this._currentGroup, objects], true)
 			);
@@ -423,7 +423,7 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 			var state = Ext.dom.Query.selectValue("*/message", result); 
 			if (state != null && state == "missing")
 			{
-				Ext.Msg.show ({
+				Ametys.Msg.show ({
             		title: "<i18n:text i18n:key='PLUGINS_CORE_ERROR_DIALOG_TITLE'/>",
             		msg: "<i18n:text i18n:key='PLUGINS_CORE_GROUPS_RENAME_MISSING_ERROR'/>",
             		buttons: Ext.Msg.OK,
@@ -531,7 +531,7 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 			var state = Ext.dom.Query.selectValue("*/message", result); 
 			if (state != null && state == "missing")
 			{
-				Ext.Msg.show ({
+				Ametys.Msg.show ({
 	            		title: "<i18n:text i18n:key='PLUGINS_CORE_ERROR_DIALOG_TITLE'/>",
 	            		msg: "<i18n:text i18n:key='PLUGINS_CORE_GROUPS_MODIFY_MISSING_ERROR'/>",
 	            		buttons: Ext.Msg.OK,
@@ -704,7 +704,7 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 	 */
 	remove: function () 
 	{
-		Ext.Msg.confirm ("<i18n:text i18n:key='PLUGINS_CORE_GROUPS_HANDLE_DELETE'/>", 
+		Ametys.Msg.confirm ("<i18n:text i18n:key='PLUGINS_CORE_GROUPS_HANDLE_DELETE'/>", 
 						 "<i18n:text i18n:key='PLUGINS_CORE_GROUPS_DELETE_CONFIRM'/>", 
 						 Ext.bind(this.doRemove, this));
 	},
@@ -728,7 +728,7 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 			}
 			else
 			{
-				Ext.Msg.show ({
+				Ametys.Msg.show ({
 	        		title: "<i18n:text i18n:key='PLUGINS_CORE_ERROR_DIALOG_TITLE'/>",
 	        		msg: "<i18n:text i18n:key='PLUGINS_CORE_GROUPS_DELETE_ERROR'/>",
 	        		buttons: Ext.Msg.OK,
