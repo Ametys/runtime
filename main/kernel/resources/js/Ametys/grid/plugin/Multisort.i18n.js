@@ -306,8 +306,11 @@ Ext.define('Ametys.grid.plugin.Multisort',
     
     destroy: function()
     {
-    	this._toggleButton.destroy();
-    	this._toggleButton = null;
+    	if (this._toggleButton)
+    	{
+    		this._toggleButton.destroy();
+        	this._toggleButton = null;
+    	}
     	
     	this.callParent(arguments);
     },
