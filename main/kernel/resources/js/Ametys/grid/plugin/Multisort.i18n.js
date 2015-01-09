@@ -248,11 +248,13 @@ Ext.define('Ametys.grid.plugin.Multisort',
         		fn: function(grid, eOpts) {
         			var cmpId = grid.headerCt.getId()+'-'+Ext.id();
 
-        			grid.syncHorizontalScroll = Ext.Function.createInterceptor(grid.syncHorizontalScroll, function(left, setBody) {
-        				var me = this;
+        			grid.syncHorizontalScroll = Ext.Function.createInterceptor(grid.syncHorizontalScroll, function(target, setBody) {
+        				var me = this,
+        					left = target.scrollLeft;
         	            
+        				setBody = setBody === true;
 	        	        // so that we don't set this on vertical scrolls
-	        	        if (me.rendered && (setBody || left !== me.scrollLeftPos)) 
+        				if (me.rendered && (setBody || left !== me.scrollLeft)) 
 	        	        {
 	        	            // Only set the body position if we're reacting to a refresh, otherwise
 	        	            // we just need to set the header.
