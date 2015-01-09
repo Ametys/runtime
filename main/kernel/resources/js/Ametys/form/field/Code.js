@@ -30,6 +30,9 @@ Ext.define('Ametys.form.field.Code', {
 	 * @cfg {Object} cmParams The CodeMirror parameters.
 	 * The `mode` and `value` standard parameters will be ignored.
 	 */
+	/** 
+	 * @cfg {Boolean=false} singleLine Set to `true` to get a single-line editor.
+	 */
 	
 	/**
 	 * @property {String} The CodeMirror mode. See #cfg-mode
@@ -40,6 +43,11 @@ Ext.define('Ametys.form.field.Code', {
 	 * @private
 	 */
 	_codeMirror: null,
+	/**
+	 * @property {Boolean} _singleLine `true` when the editor is single-line.
+	 * @private
+	 */
+	_singleLine: false,
 	
 	/**
 	 * @property {Boolean} _initialized True when the CodeMirror area is initialized. 
@@ -86,6 +94,7 @@ Ext.define('Ametys.form.field.Code', {
 	{
 		this.callParent(arguments);
 		this._mode = config.mode || 'htmlmixed';
+		this._singleLine = config.singleLine || false;
 	},
 
 	/**
@@ -222,11 +231,8 @@ Ext.define('Ametys.form.field.Code', {
 			// Get the textarea HTMLElement.
 			var textarea = Ext.dom.Query.selectNode('textarea', this.getEl().dom);
             
-			var params = me.initialConfig.cmParams || {};
-			Ext.apply(params, {
-                mode: this._mode,
-                value: me.initialConfig.value || '',
-        
+			// Default parameters.
+			var defaultParams = {
                 matchBrackets: true, // add-on
                 lineNumbers: true,
                 styleActiveLine: true,
@@ -234,8 +240,14 @@ Ext.define('Ametys.form.field.Code', {
                 extraKeys: {
                     "Ctrl-U": "undo",
                     "Ctrl-Y": "redo"
-                },
-                
+                }
+            };
+			
+			// Non-overridable parameters.
+			var forcedParams = {
+			    mode: this._mode,
+			    value: me.initialConfig.value || '',
+			    
                 initCallback: function() {
                     me._initialized = true;
                     me.fireEvent('initialize', true);
@@ -244,15 +256,37 @@ Ext.define('Ametys.form.field.Code', {
                 onChange: function (n) { 
                     me.fireEvent('change', true);
                 }
-			})
+			};
+			
+			// Merge default params, then user params, then forced params.
+			var params = Ext.Object.merge(defaultParams, me.initialConfig.cmParams || {}, forcedParams);
 			
 			// Create the CodeMirror instance.
 			this._codeMirror = CodeMirror.fromTextArea(textarea, params);
+			
+			// Used to be able to modify the change (for instance, filter newline chars).
+			this._codeMirror.on('beforeChange', Ext.bind(this._onBeforeChange, this));
 			
 			// Styling the current cursor line
 			this._codeMirror.on("change", Ext.bind(this._onChange, this));
 		}
 	},
+	
+    /**
+     * Fired before a change is applied in the CodeMirror editor.
+     * @param {Object} cm The CodeMirror editor
+     * @param {Object} change The change
+     * @private
+     */
+    _onBeforeChange: function(cm, change)
+    {
+        // If single-line, join the different lines and filter out newline characters.
+        if (this._singleLine && change.update)
+        {
+            var newtext = change.text.join('').replace(/\n/g, '');
+            change.update(change.from, change.to, [newtext]);
+        }
+    },
 	
 	/**
 	 * Listens for change in CodeMirror editor
@@ -264,4 +298,5 @@ Ext.define('Ametys.form.field.Code', {
 	{
 		this.fireEvent('change', cm, change);
 	}
+	
 });
