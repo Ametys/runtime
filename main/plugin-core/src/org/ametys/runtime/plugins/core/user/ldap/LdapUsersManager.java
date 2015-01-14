@@ -453,7 +453,7 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
     {
         try
         {
-            SortControl sortControl = new SortControl(new String[] {_usersLastnameAttribute, _usersFirstnameAttribute, _usersLoginAttribute}, Control.NONCRITICAL);
+            SortControl sortControl = new SortControl(new String[] {_usersLastnameAttribute, _usersFirstnameAttribute}, Control.NONCRITICAL);
             return new Control[] {sortControl};
         }
         catch (IOException e)
