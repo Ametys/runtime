@@ -1386,53 +1386,56 @@
 	Ext.define("Ametys.selection.RowModel", {
 		override: "Ext.selection.RowModel",
 		
-		onEditorTab: function(editingPlugin, e)
+		/**
+		 * @member Ext.grid.plugin.CellEditing
+		 * @ametys
+		 * @since Ametys Runtime 3.7
+	     * @cfg {Boolean} moveEditorOnEnter
+	     * <tt>false</tt> to turn off moving the editor to the next row down when the enter key is pressed
+	     * or the next row up when shift + enter keys are pressed.
+	     */
+		
+		/**
+		 * @private
+		 * As onEditorTab but for ENTER key
+		 */
+		onEditorEnter: function(editingPlugin, e)
 		{
-	        if (editingPlugin.verticalEdition == true 
-	        		|| editingPlugin.verticalEdition == e.getKey()
-	        		|| (Ext.isArray(editingPlugin.verticalEdition) && editingPlugin.verticalEdition.indexOf(e.getKey()) >= 0))
+	        if (this.moveEditorOnEnter == true) 
 	        {
-	        	var me = this,
-	        	view = me.views[0],
-	        	record = editingPlugin.getActiveRecord(),
-	        	header = editingPlugin.getActiveColumn(),
-	        	position = view.getPosition(record, header),
-	        	direction = e.shiftKey ? 'up' : 'down';
-	        	
-	        	do {
-	        		position  = view.walkCells(position, direction, e, me.preventWrap);
-	        	} while (position && (!position.columnHeader.getEditor(record) || !editingPlugin.startEditByPosition(position)));
-	        }
-	        else
-	        {
-	        	this.callParent(arguments);
+	            var me = this,
+	            view = editingPlugin.context.view,
+	            record = editingPlugin.getActiveRecord(),
+	            header = editingPlugin.getActiveColumn(),
+	            position = view.getPosition(record, header),
+	            direction = e.shiftKey ? 'up' : 'down',
+	            lastPos;
+
+		        // We want to continue looping while:
+		        // 1) We have a valid position
+		        // 2) There is no editor at that position
+		        // 3) There is an editor, but editing has been cancelled (veto event)
+	
+	            // Changing row require a timeout to avoid the modification of the new record instead of the old one ; and completing the editing in stead of opening it
+	            window.setTimeout(function() {
+	            	do {
+	            		lastPos = position;
+	            		position  = view.walkCells(position, direction, e, me.preventWrap);
+	            		if (position === false || lastPos && lastPos.isEqual(position)) {
+	            			// If we end up with the same result twice, it means that we weren't able to progress
+	            			// via walkCells, for example if the remaining records are non-record rows, so gracefully
+	            			// fall out here.
+	            			return;
+	            		}
+	            		editingPlugin.context.grid.getSelectionModel().deselect(lastPos.row);
+	            	} while (position && (!position.columnHeader.getEditor(record) || !editingPlugin.startEditByPosition(position)));
+	            }, 1);
 	        }
 		}
 	});
 	
 	Ext.define("Ametys.grid.plugin.CellEditing", {
 		override: "Ext.grid.plugin.CellEditing",
-		
-		/**
-		 * @member Ext.grid.plugin.CellEditing
-		 * @ametys
-		 * @since Ametys Runtime 3.7
-		 * @cfg {Boolean} enterActAsTab=false Makes then ENTER key to react as the TAB key (go to the next field to edit)
-		 */
-		enterActAsTab: false,
-		/**
-		 * @member Ext.grid.plugin.CellEditing
-		 * @ametys
-		 * @since Ametys Runtime 3.7
-		 * @cfg {Boolean/Number/Number[]} verticalEdition=false When false, this is the default behavior: TAB key (or enter #cfg-enterActAsTab) go to the following column to edit. When true, TAB key go to the next line. When a key code (constant of Ext.EventObject), will go the next row only if that key was used. When an array of key code, will go to the next row only if one of that keys was used.
-		 * 
-		 *       verticalEdition: true,
-		 *       verticalEdition: Ext.EventObject.ENTER,
-		 *       verticalEdition: [Ext.EventObject.ENTER, Ext.EventObject.TAB],
-		 *       
-		 * Can only be TAB and ENTER (if #cfg-enterActAsTab).
-		 */
-		verticalEdition: false,
 		
 		/**
 		 * @member Ext.grid.plugin.CellEditing
@@ -1513,9 +1516,9 @@
 		},
 		
 	    onSpecialKey: function(ed, field, e) {
-			this.callParent(arguments);
-
-	        if (this.enterActAsTab && e.getKey() === e.ENTER) {
+	        var sm = ed.up('tablepanel').getSelectionModel();
+	        if (sm.moveEditorOnEnter && e.getKey() === e.ENTER) 
+	        {
 	            e.stopEvent();
 
 	            var column = this.getActiveColumn();
@@ -1527,25 +1530,19 @@
 	                ed.onEditorTab(e);
 	            }
 
-	            sm = ed.up('tablepanel').getSelectionModel();
-	            if (sm.onEditorTab) {
-	                sm.onEditorTab(ed.editingPlugin, e);
+	            if (sm.onEditorEnter) {
+	                sm.onEditorEnter(ed.editingPlugin, e);
 	            }
-
-	            ed.bypassNextComplete = (column == this.getActiveColumn() && record == this.getActiveRecord()) ? 0 
-	            		: ((field.triggerBlur) ? 2 : 1);
+	        }
+	        else
+	        {
+	        	this.callParent(arguments);
 	        }
 	    }
 	});
 	
 	Ext.define("Ametys.grid.CellEditor", {
 		override: "Ext.grid.CellEditor",
-		
-		/**
-		 * @private
-		 * @property {Number} bypassNextComplete The number of calls to #completeEdit to ignore
-		 */
-		bypassNextComplete: 0,
 		
 		startEdit: function()
 		{
@@ -1561,16 +1558,6 @@
 				return;
 			}
 			
-			this.callParent(arguments);
-		},
-		
-		completeEdit: function()
-		{
-			if (this.bypassNextComplete > 0)
-			{
-				this.bypassNextComplete--;
-				return;
-			}
 			this.callParent(arguments);
 		}
 	});
