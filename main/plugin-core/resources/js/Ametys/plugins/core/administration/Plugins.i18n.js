@@ -130,7 +130,7 @@ Ext.define('Ametys.plugins.core.administration.Plugins', {
 		    extend: 'Ext.data.Model', 
 		    fields: [ 
 		        { name: 'icon', type: 'string' }, 
-		        { name: 'text', type: 'string' }, 
+		        { name: 'text', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString}, 
 		        { name: 'type', type: 'string' }, // can be 'plugin', 'extension', 'feature', 'component', 'extension-point'
 		        { name: 'active', type: 'boolean' }, // true if its an active feature
 		        { name: 'cause', type: 'string' }, // if inactive, the cause of inactivation

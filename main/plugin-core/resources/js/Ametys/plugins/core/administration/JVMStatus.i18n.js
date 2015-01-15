@@ -159,8 +159,8 @@ Ext.define('Ametys.plugins.core.administration.JVMStatus', {
 		var model = Ext.define('Ametys.plugins.core.administrator.JVMStatus.Properties', {
 		    extend: 'Ext.data.Model',
 		    fields: [
-		        {name: 'name',  type: 'string'},
-		        {name: 'value',  type: 'string'}
+		        {name: 'name', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString},
+		        {name: 'value', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString}
 		    ]
 		});
 

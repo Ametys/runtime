@@ -478,9 +478,9 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 		    fields: [ 
 		        { name: 'id', type: 'int' }, 
 		        { name: 'icon', type: 'string' }, 
-		        { name: 'fullname', type: 'string' }, 
-		        { name: 'text', type: 'string' }, 
-		        { name: 'level', type: 'string' }, 
+		        { name: 'fullname', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString}, 
+		        { name: 'text', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString}, 
+		        { name: 'level', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString}, 
 		        { name: 'leaf', type: 'boolean'} 
 		    ] 
 		}); 

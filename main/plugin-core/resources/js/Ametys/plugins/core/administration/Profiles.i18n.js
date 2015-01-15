@@ -600,7 +600,7 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 		    extend: 'Ext.data.Model',
 		    fields: [
 			           {name: 'id'},
-			           {name: 'name', sortType: Ext.data.SortTypes.asUCString},
+			           {name: 'name', sortType: Ext.data.SortTypes.asNonAccentedUCString},
 			           {name: 'rights'}
 		    ]
 		});

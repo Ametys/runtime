@@ -65,11 +65,11 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 		Ext.define('Ametys.plugins.core.administration.Users.Users', {
 		    extend: 'Ext.data.Model',
 		    fields: [
-			           {name: 'login'},
-			           {name: 'display'},
-			           {name: 'firstname'},
-			           {name: 'lastname'},
-			           {name: 'email'}
+			           {name: 'login', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString},
+			           {name: 'display', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString},
+			           {name: 'firstname', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString},
+			           {name: 'lastname', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString},
+			           {name: 'email', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString}
 		    ]
 		});
 		

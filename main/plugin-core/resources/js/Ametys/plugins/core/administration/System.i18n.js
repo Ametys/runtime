@@ -96,7 +96,7 @@ Ext.define('Ametys.plugins.core.administration.System', {
 		    extend: 'Ext.data.Model',
 		    fields: [
 		       {name: 'lang'},
-		       {name: 'message'}
+		       {name: 'message', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString}
 		    ]
 		});
 		

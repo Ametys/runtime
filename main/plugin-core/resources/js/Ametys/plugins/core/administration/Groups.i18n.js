@@ -79,13 +79,13 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 		    extend: 'Ext.data.Model',
 		    fields: [
 			           {name: 'id'},
-			           {name: 'name', sortType: Ext.data.SortTypes.asUCString}
+			           {name: 'name', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString}
 		    ]
 		});
 		Ext.define('Ametys.plugins.core.administration.Groups.Users', {
 		    extend: 'Ext.data.Model',
 		    fields: [
-			           {name: 'user', sortType: Ext.data.SortTypes.asUCString},
+			           {name: 'user', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString},
 			           {name: 'type'}
 		    ]
 		});
