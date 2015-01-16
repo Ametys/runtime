@@ -1906,3 +1906,44 @@
 	});
 })();
 
+(function()
+{
+	Ext.define("Ametys.Editor", {
+		override: 'Ext.Editor',
+		
+		// Fix CMS-5920 http://www.sencha.com/forum/showthread.php?297056-4.2.3-Bug-in-Editor.js-mix-up-between-Field-and-Base in ExtJS 4.2.3
+	    startEdit : function(el, value) {
+	        var me = this,
+	            field = me.field,
+	            dom;
+
+	        me.completeEdit();
+	        me.boundEl = Ext.get(el);
+	        dom = me.boundEl.dom;
+	        value = Ext.isDefined(value) ? value : Ext.String.trim(dom.textContent || dom.innerText || dom.innerHTML);
+
+	        // If NOT configured with a renderTo, render to the ownerCt's element
+	        // Being floating, we do not need to use the actual layout's target.
+	        // Indeed, it's better if we do not so that we do not interfere with layout's child management.
+	        if (!me.rendered && !me.renderTo && me.ownerCt) {
+	            (me.renderTo = me.ownerCt.el).position();
+	        }
+
+	        if (me.fireEvent('beforestartedit', me, me.boundEl, value) !== false) {
+	            me.startValue = value;
+	            me.show();
+	            // temporarily suspend events on field to prevent the "change" event from firing when reset() and setValue() are called
+	            field.suspendEvents();
+	            field.reset();
+	            field.setValue(value);
+	            field.resumeEvents();
+	            me.realign(true);
+	            field.focus(field.getRawValue ? [field.getRawValue().length] : null);
+	            if (field.autoSize) {
+	                field.autoSize();
+	            }
+	            me.editing = true;
+	        }
+	    }
+	});
+})();
