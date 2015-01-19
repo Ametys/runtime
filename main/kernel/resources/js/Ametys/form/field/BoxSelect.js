@@ -1670,12 +1670,17 @@ Ext.define('Ext.ux.form.field.BoxSelect', {
         var me = this,
             width;
 
+        // Fix 
+        if (me.isExpanded) {
+        	me.alignPicker();
+    	}
+        
         if (me.autoSizing) {
             height = me.getHeight();
             if (height !== me.lastInputHeight) {
-                if (me.isExpanded) {
-                    me.alignPicker();
-                }
+//                if (me.isExpanded) {
+//                    me.alignPicker();
+//                }
                 me.fireEvent('autosize', me, height);
                 me.lastInputHeight = height;
                 delete me.autoSizing;
