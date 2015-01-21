@@ -85,7 +85,8 @@
        		<script>/plugins/extjs4/resources/ux/js/form/ItemSelector.js</script>
             <script>/plugins/extjs4/resources/ux/js/BoxReorderer.js</script>
             <script>/plugins/extjs4/resources/ux/js/ToolbarDroppable.js</script>
-			<script>/kernel/resources/js/Ext.i18n.js</script>
+			<script>/kernel/resources/js/Ext.fixes.js</script>
+            <script>/kernel/resources/js/Ext.enhancements.i18n.js</script>
 			<script>/kernel/resources/js/Ametys.i18n.js</script>
             <script>/kernel/resources/js/Ametys/log/LoggerFactory.js</script>
 			<script>/kernel/resources/js/Ametys/log/Logger.js</script>
