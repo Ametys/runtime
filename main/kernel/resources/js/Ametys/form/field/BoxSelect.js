@@ -965,7 +965,7 @@ Ext.define('Ext.ux.form.field.BoxSelect', {
     
     fireKey: function(e)
     {
-        if(!this.isExpanded && e.isSpecialKey())
+        if((!this.isExpanded || e.getKey() == e.TAB) && e.isSpecialKey())
         {
             this.fireEvent('specialkey', this, new Ext.EventObjectImpl(e));
         }
