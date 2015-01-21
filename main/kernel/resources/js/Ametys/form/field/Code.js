@@ -189,8 +189,9 @@ Ext.define('Ametys.form.field.Code', {
 	{
 		if (this._codeMirror)
 		{
-			var labelWidth = !this.hideLabel && this.labelAlign !== 'top' ? this.getLabelWidth() : 0;
-			this._codeMirror.setSize(width - labelWidth, height);
+			width -= (!this.hideLabel && this.labelAlign !== 'top') ? this.getLabelWidth() : 0;
+			width -= this.ametysDescription ? 20 : 0;
+			this._codeMirror.setSize(width, height);
 		}
 	},
 	
