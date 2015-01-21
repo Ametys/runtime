@@ -1546,7 +1546,6 @@
 		
 		startEdit: function()
 		{
-			console.info("Start edit")
 			this.editingPlugin.armed = this.editingPlugin.getActiveRecord().getId();
 		
 			this.callParent(arguments);
