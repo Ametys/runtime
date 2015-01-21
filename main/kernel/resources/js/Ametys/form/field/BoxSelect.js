@@ -962,6 +962,14 @@ Ext.define('Ext.ux.form.field.BoxSelect', {
             me.inputEl.focus();
         }
     },
+    
+    fireKey: function(e)
+    {
+        if(!this.isExpanded && e.isSpecialKey())
+        {
+            this.fireEvent('specialkey', this, new Ext.EventObjectImpl(e));
+        }
+    },
 
     /**
 	 * Handles auto-selection and creation of labelled items based on this field's

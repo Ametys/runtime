@@ -68,7 +68,8 @@ Ext.define('Ametys.form.AbstractFieldsWrapper', {
     	if (newComponent.isFormField)
     	{
     		newComponent.isFormField = false;
-    		newComponent.on ('change', this.checkChange, this);
+    		newComponent.on('change', this.checkChange, this);
+    		newComponent.on('specialkey', this._checkSpecialKey, this);
     	}
     },
     
@@ -77,6 +78,47 @@ Ext.define('Ametys.form.AbstractFieldsWrapper', {
     	this.callParent(arguments);
         // this.onLabelableRender();
         this.renderActiveError();
+	},
+	
+	/**
+	 * @private
+	 * Handle specialkey event on all items and will intercep TAB and SHIFT-TAB or transmit it
+	 * @params {Ext.Component} item The item throwing the event
+	 * @param {Ext.EventObject} e The event
+	 */
+	_checkSpecialKey: function(item, e)
+	{
+		var key = e.getKey();
+		
+		// Let us intercept TAB to navigate between internal items first
+		if (key == e.TAB)
+		{
+			var direction = e.shiftKey ? -1 : +1;
+			
+			var index = this.items.indexOf(item);
+			var itemToFocus;
+			do 
+			{
+				index += direction;
+				itemToFocus = this.items.getAt(index);
+				if (this._isFocusable(itemToFocus) && itemToFocus.isFormField === false)
+				{
+					e.stopEvent()
+					itemToFocus.focus();
+					return;
+				}
+				
+			}
+			while (itemToFocus != null);
+		}
+		
+        /**
+         * @event specialkey
+		 * Fires when any key related to navigation (arrows, tab, enter, esc, etc.) is pressed. To handle other keys see Ext.util.KeyMap. You can check Ext.EventObject.getKey to determine which key was pressed
+         * @param {Ametys.form.AbstractFieldsWrapper} this
+         * @param {Ext.EventObject} e The event object         
+         */
+    	this.fireEvent('specialkey', this, e);
 	},
 	
     /**
@@ -199,7 +241,7 @@ Ext.define('Ametys.form.AbstractFieldsWrapper', {
 		for (var i = 0; i < this.items.getCount(); i++)
 		{
 			var item = this.items.getAt(i);
-			if (Ext.isFunction(item.cancelFocus) && (!Ext.isFunction(item.isVisible) || item.isVisible()) && (!Ext.isFunction(item.isDisabled) || !item.isDisabled()))
+			if (this._isFocusable(item), true)
 			{
 				return item.cancelFocus.apply(item, arguments);
 			}
@@ -213,13 +255,29 @@ Ext.define('Ametys.form.AbstractFieldsWrapper', {
 		for (var i = 0; i < this.items.getCount(); i++)
 		{
 			var item = this.items.getAt(i);
-			if (Ext.isFunction(item.focus) && (!Ext.isFunction(item.isVisible) || item.isVisible()) && (!Ext.isFunction(item.isDisabled) || !item.isDisabled()))
+			if (this._isFocusable(item))
 			{
 				return item.focus.apply(item, arguments);
 			}
 		}
     	
     	return this.callParent(arguments);
+    },
+    
+    /**
+     * @private
+     * Test if this item is focusable
+     * @param {Ext.Component} item 
+     * @param {Boolean} cancelable=false If true will test for cancelFocus instead
+     */
+    _isFocusable: function(item, cancelable)
+    {
+    	cancelable = cancelable || false;
+    	
+    	return item != null
+    			&& (!cancelable && Ext.isFunction(item.focus) || (cancelable && Ext.isFunction(item.cancelFocus))) 
+    			&& (!Ext.isFunction(item.isVisible) || item.isVisible()) 
+    			&& (!Ext.isFunction(item.isDisabled) || !item.isDisabled());
     },
     
     /**
