@@ -194,6 +194,34 @@ Ext.define('Ametys.form.AbstractFieldsWrapper', {
     	});
     },
     
+    cancelFocus: function()
+    {
+		for (var i = 0; i < this.items.getCount(); i++)
+		{
+			var item = this.items.getAt(i);
+			if (Ext.isFunction(item.cancelFocus) && (!Ext.isFunction(item.isVisible) || item.isVisible()) && (!Ext.isFunction(item.isDisabled) || !item.isDisabled()))
+			{
+				return item.cancelFocus.apply(item, arguments);
+			}
+		}
+    	
+    	return this.callParent(arguments);
+    },
+    
+    focus: function()
+    {
+		for (var i = 0; i < this.items.getCount(); i++)
+		{
+			var item = this.items.getAt(i);
+			if (Ext.isFunction(item.focus) && (!Ext.isFunction(item.isVisible) || item.isVisible()) && (!Ext.isFunction(item.isDisabled) || !item.isDisabled()))
+			{
+				return item.focus.apply(item, arguments);
+			}
+		}
+    	
+    	return this.callParent(arguments);
+    },
+    
     /**
      * @protected
      * Copy the properties listed from source to target, only if they do not already exist in target and if they do exist in source.
