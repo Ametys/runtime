@@ -1665,7 +1665,7 @@ Ext.define('Ext.ux.form.field.BoxSelect', {
 
         if (me.grow && me.rendered) {
             me.autoSizing = true;
-            me.updateLayout();
+            window.setTimeout(function() { me.updateLayout(); }, 1); // FIX
         }
 
         return me;
@@ -1723,6 +1723,7 @@ Ext.define('Ext.ux.layout.component.field.BoxSelectField', {
         me.callParent(arguments);
 
         ownerContext.inputElCtContext = ownerContext.getEl('inputElCt');
+        owner.inputElCt.setStyle('min-width','12px'); // FIX
         owner.inputElCt.setStyle('width','');
 
         me.skipInputGrowth = !owner.grow || !owner.multiSelect;
