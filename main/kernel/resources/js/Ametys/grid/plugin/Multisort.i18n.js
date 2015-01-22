@@ -228,7 +228,7 @@ Ext.define('Ametys.grid.plugin.Multisort',
         gridConfig.listeners['columnschanged'] = {
         		scope: this,
         		fn: function(headerCt, eOpts) {
-    				Ext.Array.each(headerCt.columnManager.getColumns(), function(column) {column.doSort = Ext.bind(me.doSort, me, [droppable, column], false)});
+    				Ext.Array.each(headerCt.columnManager.getColumns(), function(column) {column.sort = Ext.bind(me.doSort, me, [droppable, column], false)});
         		}
         };
         
