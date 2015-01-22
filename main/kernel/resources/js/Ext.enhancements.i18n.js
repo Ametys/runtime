@@ -1559,7 +1559,9 @@
 			}
 			
 			this.callParent(arguments);
-		}
+		},
+		
+		alignment: "tl-tl"
 	});
 })();
 
