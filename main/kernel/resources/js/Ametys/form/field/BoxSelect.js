@@ -1723,7 +1723,7 @@ Ext.define('Ext.ux.layout.component.field.BoxSelectField', {
         me.callParent(arguments);
 
         ownerContext.inputElCtContext = ownerContext.getEl('inputElCt');
-        owner.inputElCt.setStyle('min-width','12px'); // FIX
+        owner.inputElCt.setStyle('min-width','24px'); // FIX
         owner.inputElCt.setStyle('width','');
 
         me.skipInputGrowth = !owner.grow || !owner.multiSelect;
