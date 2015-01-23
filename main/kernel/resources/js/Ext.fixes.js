@@ -253,7 +253,7 @@
     Ext.define("Ametys.ux.IFrame", {
     	override: 'Ext.ux.IFrame',
     	
-    	// Fix CMS-5772 CMS-5966
+    	// Fix CMS-5772 CMS-5966 http://www.sencha.com/forum/showthread.php?297288-Drag-and-drop-over-an-Ext.ux.IFrame-scrolled-has-an-offset&p=1085641#post1085641
     	onRelayedEvent: function (event) {
 			        // relay event from the iframe's document to the document that owns the iframe...
 
