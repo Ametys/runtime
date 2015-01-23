@@ -1676,6 +1676,16 @@ Ext.define('Ext.ux.form.field.BoxSelect', {
                 me.lastInputHeight = height;
             }
         }
+    },
+    
+    afterComponentLayout: function() {
+        // Fix 
+        if (this.isExpanded) 
+        {
+        	this.alignPicker();
+    	}
+        
+        this.callParent(arguments);
     }
 });
 
