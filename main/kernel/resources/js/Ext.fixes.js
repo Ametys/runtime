@@ -249,4 +249,36 @@
             return ret;
         },
     });
+    
+    Ext.define("Ametys.ux.IFrame", {
+    	override: 'Ext.ux.IFrame',
+    	
+    	// Fix CMS-5772 CMS-5966
+    	onRelayedEvent: function (event) {
+			        // relay event from the iframe's document to the document that owns the iframe...
+
+			        var iframeEl = this.iframeEl,
+
+			            // Get the left-based iframe position
+			            iframeXY = Ext.Element.getTrueXY(iframeEl),
+			            originalEventXY = event.getXY(),
+
+			            // Get the left-based XY position.
+			            // This is because the consumer of the injected event (Ext.EventManager) will
+			            // perform its own RTL normalization.
+			            eventXY = Ext.EventManager.getPageXY(event.browserEvent);
+
+			        // the event from the inner document has XY relative to that document's origin,
+			        // so adjust it to use the origin of the iframe in the outer document:
+			        
+			        // AMETYS FIX 
+			        //event.xy = [iframeXY[0] + eventXY[0], iframeXY[1] + eventXY[1]];
+			        event.xy = [iframeXY[0] + eventXY[0] - (iframeEl.dom.contentWindow.document.documentElement.scrollLeft || iframeEl.dom.contentWindow.document.body.scrollLeft), 
+			                    iframeXY[1] + eventXY[1] - (iframeEl.dom.contentWindow.document.documentElement.scrollTop || iframeEl.dom.contentWindow.document.body.scrollTop)];
+			        
+			        event.injectEvent(iframeEl); // blame the iframe for the event...
+
+			        event.xy = originalEventXY; // restore the original XY (just for safety)
+			    }	
+    })
 })();
