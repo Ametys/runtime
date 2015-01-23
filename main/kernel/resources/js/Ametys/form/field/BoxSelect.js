@@ -295,7 +295,7 @@ Ext.define('Ext.ux.form.field.BoxSelect', {
         typeAhead = me.typeAhead;
 
         if (typeAhead && !me.editable) {
-            Ext.Error.raise('If typeAhead is enabled the combo must be editable: true -- please change one of those settings.');
+        	Ext.Error.raise('If typeAhead is enabled the combo must be editable: true -- please change one of those settings.');
         }
 
         Ext.apply(me, {
@@ -1656,42 +1656,24 @@ Ext.define('Ext.ux.form.field.BoxSelect', {
         me.callParent(arguments);
     },
 
-    /**
-     * Initiate auto-sizing for height based on {@link #grow}, if applicable.
-     */
     autoSize: function() {
         var me = this,
-        height;
+            height;
 
         if (me.grow && me.rendered) {
-            me.autoSizing = true;
-            window.setTimeout(function() { me.updateLayout(); }, 1); // FIX
-        }
-
-        return me;
-    },
-
-    /**
-     * Track height change to fire {@link #event-autosize} event, when applicable.
-     */
-    afterComponentLayout: function() {
-        var me = this,
-            width;
-
-        // Fix 
-        if (me.isExpanded) {
-        	me.alignPicker();
-    	}
-        
-        if (me.autoSizing) {
-            height = me.getHeight();
+            me.updateLayout();
+            height = me.inputEl.getHeight();
             if (height !== me.lastInputHeight) {
-//                if (me.isExpanded) {
-//                    me.alignPicker();
-//                }
+                /**
+                 * @event autosize
+                 * Fires when the {@link #autoSize} function is triggered and the field is resized according to
+                 * the grow/growMin/growMax configs as a result. This event provides a hook for the developer
+                 * to apply additional logic at runtime to resize the field if needed.
+                 * @param {Ext.form.field.Text} this
+                 * @param {Number} height
+                 */
                 me.fireEvent('autosize', me, height);
                 me.lastInputHeight = height;
-                delete me.autoSizing;
             }
         }
     }
@@ -1712,7 +1694,7 @@ Ext.define('Ext.ux.layout.component.field.BoxSelectField', {
     /* End Definitions */
 
     type: 'boxselectfield',
-
+    
     /*For proper calculations we need our field to be sized.*/
     waitForOuterWidthInDom:true,
 
@@ -1720,12 +1702,14 @@ Ext.define('Ext.ux.layout.component.field.BoxSelectField', {
         var me = this,
             owner = me.owner;
 
+        me.restart = true;
+        
         me.callParent(arguments);
 
         ownerContext.inputElCtContext = ownerContext.getEl('inputElCt');
         owner.inputElCt.setStyle('min-width','24px'); // FIX
         owner.inputElCt.setStyle('width','');
-
+        
         me.skipInputGrowth = !owner.grow || !owner.multiSelect;
     },
 
@@ -1734,7 +1718,6 @@ Ext.define('Ext.ux.layout.component.field.BoxSelectField', {
             owner = ownerContext.target;
 
         // owner.triggerEl.setStyle('height', '24px');
-
         me.callParent(arguments);
 
         if (ownerContext.heightModel.fixed && ownerContext.lastBox) {
@@ -1742,6 +1725,19 @@ Ext.define('Ext.ux.layout.component.field.BoxSelectField', {
             owner.itemList.setStyle('height', '100%');
         }
         /*No inputElCt calculations here!*/
+    },
+    
+    measureContentHeight: function (ownerContext) {
+        var me = this,
+            owner = me.owner,
+            height = me.callParent(arguments),
+            inputContext, inputEl, value, max, curWidth, calcHeight;
+
+        if (owner.grow && me.restart) {
+        	delete me.restart
+        	return NaN;
+        }
+        return height;
     },
 
     /*Calculate and cache value of input container.*/
