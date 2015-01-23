@@ -1678,8 +1678,7 @@ Ext.define('Ext.ux.form.field.BoxSelect', {
         }
     },
     
-    afterComponentLayout: function() 
-    {
+    afterComponentLayout: function() {
         // Fix 
         if (this.isExpanded) 
         {
