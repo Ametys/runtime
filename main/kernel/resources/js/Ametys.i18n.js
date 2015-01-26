@@ -225,14 +225,19 @@ Ext.define(
 		/**
 		 * Load a css file
 		 * @param {String} url The url of the css file to load
+		 * @param {String} [media] The css media to set. Such as 'screen', 'print'... or a comma separated list.
 		 */
-		loadStyle: function (url)
+		loadStyle: function (url, media)
 		{
 			var head = document.getElementsByTagName("head")[0];
 			var link = document.createElement("link");
 			link.rel = "stylesheet";
 			link.href = url;
 			link.type = "text/css";
+			if (media)
+			{
+				link.media = media;
+			}
 			head.appendChild(link);
 		},
 		
