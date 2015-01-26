@@ -1431,7 +1431,34 @@
 	            	} while (position && (!position.columnHeader.getEditor(record) || !editingPlugin.startEditByPosition(position)));
 	            }, 1);
 	        }
-		}
+		},
+		
+	    onEditorTab: function(editingPlugin, e) {
+	        var me = this,
+	            view = editingPlugin.context.view,
+	            record = editingPlugin.getActiveRecord(),
+	            header = editingPlugin.getActiveColumn(),
+	            position = view.getPosition(record, header),
+	            direction = e.shiftKey ? 'left' : 'right',
+	            lastPos;
+
+	        // We want to continue looping while:
+	        // 1) We have a valid position
+	        // 2) There is no editor at that position
+	        // 3) There is an editor, but editing has been cancelled (veto event)
+
+	        do {
+	            lastPos = position;
+	            position  = view.walkCells(position, direction, e, me.preventWrap);
+	            if (lastPos && lastPos.isEqual(position)) {
+	                // If we end up with the same result twice, it means that we weren't able to progress
+	                // via walkCells, for example if the remaining records are non-record rows, so gracefully
+	                // fall out here.
+	                return;
+	            }
+        		editingPlugin.context.grid.getSelectionModel().deselect(lastPos.row); 										// FIX we have to deselect last row CMS-5979
+	        } while (position && (!position.columnHeader.getEditor(record) || !editingPlugin.startEditByPosition(position)));
+	    },		
 	});
 	
 	Ext.define("Ametys.grid.plugin.CellEditing", {
