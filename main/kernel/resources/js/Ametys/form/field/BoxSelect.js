@@ -415,6 +415,16 @@ Ext.define('Ext.ux.form.field.BoxSelect', {
     					me.valueStore.add(data.rec);
     				}
     				
+    				var selectedRecordsIds = [];
+    				var selectedRecords = me.getValueRecords();
+    				for (var i = 0; i < selectedRecords.length; i++)
+    				{
+    					var sRec = selectedRecords[i];
+    					selectedRecordsIds.push(sRec.get(me.valueField));
+    				}
+    				
+    				me.setValue(selectedRecordsIds);
+    				
     				return true;
     			}
     		});
