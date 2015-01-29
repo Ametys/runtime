@@ -280,5 +280,36 @@
 
 			        event.xy = originalEventXY; // restore the original XY (just for safety)
 			    }	
-    })
+    });
+    
+    Ext.define("Ametys.selection.Model", {
+    	override: 'Ext.selection.Model',
+    	
+    	onStoreRefresh: function(){
+            var me = this,
+                selected = me.selected,
+                items, length, i, rec, storeRec;
+                
+            if (me.store.buffered) {
+                return;
+            }
+                
+            items = selected.items;
+            length = items.length;
+             
+            me.lastSelected = me.getStoreRecord(me.lastSelected);
+            
+            for (i = length-1; i >= 0; i--) {
+                rec = items[i];
+                storeRec = me.getStoreRecord(rec);
+                if (storeRec) {
+                    if (rec.hasId()) {
+                        me.selected.replace(storeRec);
+                    }
+                } else {
+                    me.selected.remove(rec);
+                }
+            }   
+        }
+    });
 })();
