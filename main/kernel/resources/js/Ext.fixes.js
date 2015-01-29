@@ -285,6 +285,7 @@
     Ext.define("Ametys.selection.Model", {
     	override: 'Ext.selection.Model',
     	
+    	// FIXME CMS-6001 http://www.sencha.com/forum/showthread.php?297509-Ext-4.2.3-onStoreRefresh-of-Ext.selection.Model&p=1086464#post1086464
     	onStoreRefresh: function(){
             var me = this,
                 selected = me.selected,
