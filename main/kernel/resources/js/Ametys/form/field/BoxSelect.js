@@ -1144,6 +1144,10 @@ Ext.define('Ext.ux.form.field.BoxSelect', {
                 }
             } else {
                 me.toggleSelectionByListItemNode(itemEl, evt.shiftKey);
+                if (me.isExpanded)
+                {
+                	me.collapse();
+                }
             }
             me.inputEl.focus();
         } else {
