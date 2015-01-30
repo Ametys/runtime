@@ -313,4 +313,24 @@
             }   
         }
     });
+    
+    Ext.define("Ametys.menu.Menu", {
+    	override: 'Ext.menu.Menu',
+    	
+    	initComponent: function()
+    	{
+    		this.callParent(arguments);
+    		
+    		this.on('resize', this._onResize, this);
+    	},
+    	
+    	// FIX CMS-5997 http://www.sencha.com/forum/showthread.php?297558-ExtJs-4.2.3-Adding-items-to-an-opened-menu-on-a-floating-parent&p=1086597#post1086597
+    	_onResize: function(menu, width, height, oldWidth, oldHeight, eOpts)
+    	{
+    		if (this.isVisible() && this.floatParent)
+    		{
+    			this.showBy(this.ownerCmp, this.menuAlign);
+    		}
+    	}
+    });
 })();
