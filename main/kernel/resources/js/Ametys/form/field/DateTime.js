@@ -105,7 +105,7 @@ Ext.define('Ametys.form.field.DateTime', {
     	}
     	else
     	{
-    		return "";
+    		return v1;
     	}
     },
     
@@ -145,5 +145,15 @@ Ext.define('Ametys.form.field.DateTime', {
             value = this.getValue();
 
         return value ? Ext.Date.format(value, format) : '';
-    }
+    },
+    
+    getErrors: function (value) 
+    {
+    	var errors = this.callParent(arguments);
+    	
+    	errors = errors.concat(this.items.get(0).getErrors());
+    	errors = errors.concat(this.items.get(1).getErrors());
+
+    	return errors;
+    },
 });
