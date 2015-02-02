@@ -88,7 +88,7 @@ Ext.define(
 		 * @type String
 		 * @readonly
 		 */
-		MAX_UPLOAD_SIZE: 1000000,//ametys_opts["max-upload-size"],
+		MAX_UPLOAD_SIZE: ametys_opts["max-upload-size"] || 1000000,
 	            
 		/**
 	     * Load JS files in debug mode when available.
