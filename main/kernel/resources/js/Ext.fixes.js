@@ -333,4 +333,37 @@
     		}
     	}
     });
+    
+    /**
+     * @class Ametys.grid.feature.Grouping
+     * @override Ext.grid.feature.Grouping
+     * Grouping bug fixes.
+     */
+    Ext.define('Ametys.grid.feature.Grouping', {
+    	override: 'Ext.grid.feature.Grouping',
+
+    	// FIX CMS-6025 http://www.sencha.com/forum/showthread.php?253236-renderedGroupValue-in-groupHeaderTpl-not-working
+    	setupRowData: function(record, idx)
+    	{
+    		var me = this,
+    			data = me.refreshData,
+    			groupInfo = me.groupInfo,
+    			header = data.header,
+    			view = me.view,
+    			store = view.dataSource;
+    		me.callParent(arguments);
+
+    		groupInfo.name = groupInfo.renderedGroupValue = groupInfo.groupValue;
+    		if (header && header.renderer && header.renderer.call)
+    			groupInfo.name = groupInfo.renderedGroupValue = header.renderer.call(
+    				header.scope || view.ownerCt,
+    				groupInfo.groupValue,
+    				{}, // unused
+    				record,
+    				idx,
+    				header.getOwnerHeaderCt().getHeaderIndex(header),
+    				store,
+    				view);
+    	}
+    });
 })();
