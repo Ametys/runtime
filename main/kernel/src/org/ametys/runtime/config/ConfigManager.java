@@ -385,10 +385,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         }
         catch (Exception e)
         {
-            if (_logger.isWarnEnabled())
-            {
-                _logger.warn("Cannot read the configuration file.", e);
-            }
+            _logger.error("Cannot read the configuration file.", e);
             
             _isComplete = false;
         }

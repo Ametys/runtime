@@ -16,7 +16,11 @@
 package org.ametys.runtime.cocoon;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.Serializable;
 import java.net.MalformedURLException;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Map;
 
 import org.apache.avalon.framework.parameters.Parameters;
@@ -28,7 +32,11 @@ import org.apache.cocoon.ResourceNotFoundException;
 import org.apache.cocoon.environment.Source;
 import org.apache.cocoon.environment.SourceResolver;
 import org.apache.cocoon.reading.ResourceReader;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.xml.sax.SAXException;
+
+import org.ametys.runtime.util.ImageHelper;
 
 /**
  * Resource reader but where the source resolver is the runtime one. 
@@ -39,6 +47,13 @@ public class RuntimeResourceReader extends ResourceReader implements Serviceable
     /** the avalon service manager */
     protected ServiceManager _manager;
     
+    private int _width;
+    private int _height;
+    private int _maxWidth;
+    private int _maxHeight;
+    
+    private Collection<String> _allowedFormats = Arrays.asList(new String[]{"png", "gif", "jpg", "jpeg"});
+
     public void service(ServiceManager manager) throws ServiceException
     {
         _manager = manager;
@@ -58,8 +73,19 @@ public class RuntimeResourceReader extends ResourceReader implements Serviceable
             getLogger().error(errorMessage);
             throw new ProcessingException(errorMessage, e);
         }
+                
+        _width = par.getParameterAsInteger("width", 0);
+        _height = par.getParameterAsInteger("height", 0);
+        _maxWidth = par.getParameterAsInteger("maxWidth", 0);
+        _maxHeight = par.getParameterAsInteger("maxHeight", 0);
         
         super.setup(new SourceResolverWrapper(runtimeResolver), cocoonObjectModel, src, par);
+    }
+    
+    @Override
+    public Serializable getKey() 
+    {
+        return inputSource.getURI() + "###" + _width + "x" + _height + "x" + _maxWidth + "x" + _maxHeight;
     }
     
     @Override
@@ -69,8 +95,31 @@ public class RuntimeResourceReader extends ResourceReader implements Serviceable
         {
             throw new ResourceNotFoundException("Resource not found for URI : " + inputSource.getURI());
         }
+         
+        if (_width == 0 && _height == 0 && _maxWidth == 0 && _maxHeight == 0)
+        {
+            super.generate();
+        }
+        else
+        {
+            InputStream is = inputSource.getInputStream();
+
+            try
+            {
+                // it's an image, which must be resized
+                String format = StringUtils.substringAfterLast(inputSource.getURI(), ".").toLowerCase();
+                format = _allowedFormats.contains(format) ? format : "png";
+                
+                ImageHelper.generateThumbnail(is, out, format, _height, _width, _maxHeight, _maxWidth);
+            }
+            finally
+            {
+                IOUtils.closeQuietly(is);
+                IOUtils.closeQuietly(out);
+            }
+        }
         
-        super.generate();
+        
     }
     
     class SourceResolverWrapper implements org.apache.cocoon.environment.SourceResolver
