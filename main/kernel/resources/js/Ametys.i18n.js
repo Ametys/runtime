@@ -574,7 +574,7 @@ Ext.define(
  * @property {String} patterns.FriendlyDateTime A readable #patterns.LongDate, a keyword (such as 'at') and very short time. Can be 02/28/2013 ar 03:15 AM in english.
  * @property {String} patterns.LongDateTime A combinaison of #patterns.LongDate and #patterns.LongTime. Can be 02/28/2013 03:15:35+02:00 AM in english.
  * @property {String} patterns.FullDateTime A combinaison of #patterns.FullDate, a keyword (such as 'at') and a long readable time. Can be Thursday, February 28, 2013 at 05:13:50 GMT PM in english.
- * @since Ametys Runtime 3.7
+ * @since Ametys Runtime 3.9
  * @ametys
  */
 Ext.Date.patterns = {

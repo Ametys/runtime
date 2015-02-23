@@ -21,7 +21,7 @@
         /**
          * @member Ext.String
          * @method deemphasize 
-         * @since Ametys Runtime 3.7
+         * @since Ametys Runtime 3.9
          * @ametys
          * Convert a string value into a non accented string
          * @param {Object} s The value being converted
@@ -64,7 +64,7 @@
         /**
          * @member Ext.data.SortTypes
          * @method asNonAccentedUCString 
-         * @since Ametys Runtime 3.7
+         * @since Ametys Runtime 3.9
          * @ametys
          * Case insensitive string (which takes accents into account)
          * @param {Object} s The value being converted
@@ -85,25 +85,25 @@
 /**
  * @member Ext.form.field.Base
  * @ametys
- * @since Ametys Runtime 3.7
+ * @since Ametys Runtime 3.9
  * @cfg {String} ametysDescription A help image is added with the given description as a tooltip
  */
 /**
  * @member Ext.form.field.Base
  * @ametys
- * @since Ametys Runtime 3.7
+ * @since Ametys Runtime 3.9
  * @cfg {String} ametysComment A comment image is added with the given comment as a tooltip
  */
 /**
  * @member Ext.form.FieldContainer
  * @ametys
- * @since Ametys Runtime 3.7
+ * @since Ametys Runtime 3.9
  * @cfg {String} ametysDescription A help image is added with the given description as a tooltip
  */
 /**
  * @member Ext.form.FieldContainer
  * @ametys
- * @since Ametys Runtime 3.7
+ * @since Ametys Runtime 3.9
  * @cfg {String} ametysComment A comment image is added with the given comment as a tooltip
  */
 (function ()
@@ -144,7 +144,7 @@
 	    /**
          * @member Ext.form.Labelable
          * @ametys
-         * @since Ametys Runtime 3.7
+         * @since Ametys Runtime 3.9
          * 
          * Get the readable value of a Field. The default implementation returns the same as #getValue.
          * Override this method to return an understandable value for more complex field (such as combobox, file input, ...). 
@@ -176,7 +176,7 @@
          * @private
          * @member Ext.form.Labelable
          * @ametys
-         * @since Ametys Runtime 3.7
+         * @since Ametys Runtime 3.9
          * On render listener
          */
 	    _onRenderLabelable: function()
@@ -210,7 +210,7 @@
                 /**
                  * @member Ext.form.Labelable
 		         * @ametys
-		         * @since Ametys Runtime 3.7
+		         * @since Ametys Runtime 3.9
 		         * 
                  * @event warningchange
                  * Fires when the active warning message is changed via {@link #setActiveWarning}.
@@ -222,7 +222,7 @@
                 /**
                  * @member Ext.form.Labelable
 		         * @ametys
-		         * @since Ametys Runtime 3.7
+		         * @since Ametys Runtime 3.9
 		         * 
                  * @event commentsupdated
                  * Fires when the comments are updated via {@link #addComment} or {@link #addComments} or {@link #removeComments}.
@@ -236,7 +236,7 @@
         /**
          * @member Ext.form.Labelable
          * @ametys
-         * @since Ametys Runtime 3.7
+         * @since Ametys Runtime 3.9
          * 
          * @cfg {String/String[]/Ext.XTemplate} commentsTpl
          * The template used to format the Array of comments. It renders each message as an item in an unordered list.
@@ -255,7 +255,7 @@
     	/**
     	 * @member Ext.form.Labelable
          * @ametys
-         * @since Ametys Runtime 3.7
+         * @since Ametys Runtime 3.9
          * 
          * Get the fields comments. 
          * @return {Object[]} The comment array. See {@link #addComment}
@@ -268,7 +268,7 @@
     	/**
     	 * @member Ext.form.Labelable
          * @ametys
-         * @since Ametys Runtime 3.7
+         * @since Ametys Runtime 3.9
          * 
          * Add a comment. 
          * @param {Object} comment The comment object to set
@@ -284,7 +284,7 @@
     	/**
     	 * @member Ext.form.Labelable
          * @ametys
-         * @since Ametys Runtime 3.7
+         * @since Ametys Runtime 3.9
          * 
          * Add comments 
          * @param {Object[]} comments The comment array to set. See {@link #addComment}
@@ -307,7 +307,7 @@
     	/**
     	 * @member Ext.form.Labelable
          * @ametys
-         * @since Ametys Runtime 3.7
+         * @since Ametys Runtime 3.9
          * 
          * Remove the field comments. 
          */
@@ -320,7 +320,7 @@
     	/**
     	 * @member Ext.form.Labelable
 		 * @ametys
-		 * @since Ametys Runtime 3.7
+		 * @since Ametys Runtime 3.9
 		 * 
          * Updates the rendered DOM to match the current comments. This only updates the content and
          * attributes, you'll have to call doComponentLayout to actually update the display.
@@ -347,7 +347,7 @@
         /**
          * @member Ext.form.Labelable
          * @ametys
-         * @since Ametys Runtime 3.7
+         * @since Ametys Runtime 3.9
          * 
          * @cfg {String} warningCls
          * The CSS class to use when marking the component has warning.
@@ -357,7 +357,7 @@
         /**
          * @member Ext.form.Labelable
          * @ametys
-         * @since Ametys Runtime 3.7
+         * @since Ametys Runtime 3.9
          * 
          * @cfg {String/String[]/Ext.XTemplate} activeWarnsTpl
          * The template used to format the Array of warnings messages passed to {@link #setActiveWarnings} into a single HTML
@@ -372,7 +372,7 @@
 	    /**
 	     * @member Ext.form.Labelable
          * @ametys
-         * @since Ametys Runtime 3.7
+         * @since Ametys Runtime 3.9
          * 
 	     * Gets an Array of any active warning messages currently applied to the field. 
 	     * @return {String} The active warning message on the component; if there are no warning, null is returned.
@@ -385,7 +385,7 @@
     	/**
     	 * @member Ext.form.Labelable
          * @ametys
-         * @since Ametys Runtime 3.7
+         * @since Ametys Runtime 3.9
          * 
          * Gets an Array of any active warning messages currently applied to the field. 
          * @return {String[]} The active warning messages on the component; if there are no warnings, an empty Array is
@@ -398,7 +398,7 @@
         /**
          * @member Ext.form.Labelable
          * @ametys
-         * @since Ametys Runtime 3.7
+         * @since Ametys Runtime 3.9
          * 
          * Tells whether the field currently has an active warning message. 
          * @return {Boolean}
@@ -410,7 +410,7 @@
     	/**
     	 * @member Ext.form.Labelable
          * @ametys
-         * @since Ametys Runtime 3.7
+         * @since Ametys Runtime 3.9
          * 
          * Sets the active warning message to the given string. 
          * This replaces the entire warning message contents with the given string. 
@@ -426,7 +426,7 @@
         /**
          * @member Ext.form.Labelable
          * @ametys
-         * @since Ametys Runtime 3.7
+         * @since Ametys Runtime 3.9
          * 
          * Set the active warning message to an Array of warning messages. The messages are formatted into a single message
          * string using the {@link #activeWarnsTpl}. Also see {@link #setActiveWarning} which allows setting the entire warning
@@ -450,7 +450,7 @@
         /**
          * @member Ext.form.Labelable
          * @ametys
-         * @since Ametys Runtime 3.7
+         * @since Ametys Runtime 3.9
          * 
          * Clears the active warning message(s). Note that this only clears the warning message element's text and attributes,
          * you'll have to call doComponentLayout to actually update the field's layout to match. If the field extends {@link
@@ -466,7 +466,7 @@
     	/**
     	 * @member Ext.form.Labelable
 		 * @ametys
-		 * @since Ametys Runtime 3.7
+		 * @since Ametys Runtime 3.9
 		 * 
          * Updates the rendered DOM to match the current activeWarn. This only updates the content and
          * attributes, you'll have to call doComponentLayout to actually update the display.
@@ -500,7 +500,7 @@
         /**
          * @member Ext.form.Labelable
          * @ametys
-         * @since Ametys Runtime 3.7
+         * @since Ametys Runtime 3.9
          * 
          * Hide the active warning message(s). Note that this only hides the warning message(s). The active warning message(s) are not cleared. 
          * Then you could call #renderActiveWarning method to show the warning message(s).
@@ -531,7 +531,7 @@
 			/**
 			 * @member Ext.form.field.Field
 			 * @ametys
-			 * @since Ametys Runtime 3.7
+			 * @since Ametys Runtime 3.9
 			 * @static
 			 * 
 	         * Use a custom QuickTip instance separate from the main QuickTips singleton, so that we
@@ -557,7 +557,7 @@
 		/**
 		 * @member Ext.form.field.Field
 		 * @ametys
-		 * @since Ametys Runtime 3.7
+		 * @since Ametys Runtime 3.9
 		 * 
 		 * Associate one or more warning messages with this field.
 		 * @param {String/String[]} warns The warning message(s) for the field.
@@ -567,7 +567,7 @@
 		/**
 		 * @member Ext.form.field.Field
 		 * @ametys
-		 * @since Ametys Runtime 3.7
+		 * @since Ametys Runtime 3.9
 		 * 
 		 * Clear any warning styles/messages for this field.
 		 */
@@ -576,7 +576,7 @@
 		/**
          * @member Ext.form.field.Field
          * @ametys
-         * @since Ametys Runtime 3.7
+         * @since Ametys Runtime 3.9
          * 
          * Get the readable value of a Field. The default implementation returns the same as #getValue.
          * Override this method to return an understandable value for more complex field (such as combobox, file input, ...). 
@@ -592,7 +592,7 @@
 		/**
 		 * @member Ext.form.field.Base
 		 * @ametys
-		 * @since Ametys Runtime 3.7
+		 * @since Ametys Runtime 3.9
 		 * 
 		 * Associate one or more warning messages with this field.
 		 * @param {String/String[]} warns The warning message(s) for the field.
@@ -613,7 +613,7 @@
 		/**
 		 * @member Ext.form.field.Base
 		 * @ametys
-		 * @since Ametys Runtime 3.7
+		 * @since Ametys Runtime 3.9
 		 * 
 		 * Clear any warning styles/messages for this field.
 		 */
@@ -626,7 +626,7 @@
 		/**
 	     * @member Ext.form.field.Base
 		 * @ametys
-		 * @since Ametys Runtime 3.7
+		 * @since Ametys Runtime 3.9
 		 *  
 	     * Overrides the method from the Ext.form.Labelable mixin to also add the warningCls to the inputEl
 	     */
@@ -683,7 +683,7 @@
         	/**
         	 * @member Ext.form.field.Text
         	 * @ametys
-        	 * @since Ametys Runtime 3.7
+        	 * @since Ametys Runtime 3.9
         	 * @cfg {Boolean} ametysShowMultipleHint=false true to show to multiple hint under the field. false by default
         	 */
         	if (this.ametysShowMultipleHint == true)
@@ -711,7 +711,7 @@
         	/**
         	 * @member Ext.form.field.File
         	 * @ametys
-        	 * @since Ametys Runtime 3.7
+        	 * @since Ametys Runtime 3.9
         	 * @cfg {Boolean} ametysShowMaxUploadSizeHint false to hide to max size hint under the field. true by default
         	 */
         	if (Ametys.MAX_UPLOAD_SIZE != undefined && Ametys.MAX_UPLOAD_SIZE != '' && this.ametysShowMaxUploadSizeHint !== false)
@@ -773,7 +773,7 @@
 		        /**
 		         * @member Ext.form.Basic
 		         * @method getComments 
-		         * @since Ametys Runtime 3.7
+		         * @since Ametys Runtime 3.9
 		         * @ametys
 		         * Retrieves the commenst of each field in the form as a set of key/comments pairs
 		         * @param {Boolean} [asString=false] If true, will return the key/comment collection as a single URL-encoded param string.
@@ -823,7 +823,7 @@
 		        /**
 		         * @member Ext.form.Panel
 		         * @method getComments 
-		         * @since Ametys Runtime 3.7
+		         * @since Ametys Runtime 3.9
 		         * @ametys
 		         * Convenience function for fetching the current comment of each field in the form. This is the same as calling
 		         * {@link Ext.form.Basic#getComments} this.getForm().getComments().
@@ -849,7 +849,7 @@
          * @override Ext.form.field.Number
          * @member submitLocaleSeparator
          * @cfg submitLocaleSeparator=false 
-         * @since Ametys Runtime 3.7
+         * @since Ametys Runtime 3.9
          * @ametys
          *
          * @inheritdoc Ext.form.field.Number#cfg-submitLocaleSeparator
@@ -860,7 +860,7 @@
          * @override Ext.form.field.Number
          * @member submitLocaleSeparator
          * @cfg baseChars='0123456789.' 
-         * @since Ametys Runtime 3.7
+         * @since Ametys Runtime 3.9
          * @ametys
          *
          * @inheritdoc Ext.form.field.Number#cfg-baseChars
@@ -877,7 +877,7 @@
     /**
      * @member Ext.dom.Element
      * @method animate 
-     * @since Ametys Runtime 3.7
+     * @since Ametys Runtime 3.9
      * @ametys
      * Ametys additionally handles `background-position` to animate a background-image and `background-position-step` to step this animation.
      * Both args are array of numbers with unit.
@@ -953,7 +953,7 @@
     	/**
     	 * @member Ext.util.TextMetrics
     	 * @ametys
-    	 * @since Ametys Runtime 3.7
+    	 * @since Ametys Runtime 3.9
     	 * Make an ellipsis on the provided text if necessary.
     	 * @param {String} text The text to test
     	 * @param {Number} maxWidth The max authorized with for this text
@@ -1027,7 +1027,7 @@
 		/**
 		 * @member Ext.util.TextMetrics
 		 * @ametys
-		 * @since Ametys Runtime 3.7
+		 * @since Ametys Runtime 3.9
 		 * Delimits the text given a number of lines and a maximal width.
 		 * @param {String} text The text to delimit.
 		 * @param {Number} maxWidth The max authorized with for each line.
@@ -1265,7 +1265,7 @@
 		        /**
 		         * @member Ext.dom.Query
 		         * @method selectDirectElements 
-		         * @since Ametys Runtime 3.7
+		         * @since Ametys Runtime 3.9
 		         * @ametys
 		         * Select a direct child element by a given name
 		         * @param {String} element=* Name of the elements to limit.
@@ -1308,7 +1308,7 @@
 					 * @method getLogger
 					 * @static
 					 * @ametys
-					 * @since Ametys Runtime 3.7 
+					 * @since Ametys Runtime 3.9 
 					 * Get the logger of this class (using classname as category)
 					 * 
 					 * 		try
@@ -1346,7 +1346,7 @@
 				 * @member Ext.Base
 				 * @method getLogger
 				 * @ametys
-				 * @since Ametys Runtime 3.7 
+				 * @since Ametys Runtime 3.9 
 				 * Get the logger of this class (using classname as category)
 				 * 
 				 * 		try
@@ -1389,7 +1389,7 @@
 		/**
 		 * @member Ext.grid.plugin.CellEditing
 		 * @ametys
-		 * @since Ametys Runtime 3.7
+		 * @since Ametys Runtime 3.9
 	     * @cfg {Boolean} moveEditorOnEnter
 	     * <tt>false</tt> to turn off moving the editor to the next row down when the enter key is pressed
 	     * or the next row up when shift + enter keys are pressed.
@@ -1467,21 +1467,21 @@
 		/**
 		 * @member Ext.grid.plugin.CellEditing
 		 * @ametys
-		 * @since Ametys Runtime 3.7
+		 * @since Ametys Runtime 3.9
 		 * @cfg {Boolean} editAfterSelect=false When #cfg-triggerEvent is not specified or is 'cellclick' and #cfg-clicksToEdit is 1, this configuration allow to enter in edition only if the record was focused first. As a rename under files manager, you will have to first click on the row to select it and click again to edit it (but not doubleclick).
 		 */
 
 		/**
 		 * @member Ext.grid.plugin.CellEditing
 		 * @ametys
-		 * @since Ametys Runtime 3.7
+		 * @since Ametys Runtime 3.9
 		 * @cfg {Boolean} silentlyIgnoreInvalid=true When leaving edition of a field with keys (ENTER or TAB), the edition will be canceled if true, and the edition will not be quit when false. Bluring the field will continue cancelling the edition if the field is invalid.
 		 */
 
 		/**
 		 * @member Ext.grid.plugin.CellEditing
 		 * @ametys
-		 * @since Ametys Runtime 3.7
+		 * @since Ametys Runtime 3.9
 		 * @private
 		 * @property {String} armed Used when #cfg-editAfterSelect is true. The record id that was "armed"... so that was selected in a preceding operation: this is to distinguish a click to select and a second click to edit.
 		 */
@@ -1515,7 +1515,7 @@
 		/**
 		 * @member Ext.grid.plugin.CellEditing
 		 * @ametys
-		 * @since Ametys Runtime 3.7
+		 * @since Ametys Runtime 3.9
 		 * @private
 		 * This method is call asynchronously by #onCellClick, when a single click was done and not a double click
 		 */
@@ -1528,7 +1528,7 @@
 		/**
 		 * @member Ext.grid.plugin.CellEditing
 		 * @ametys
-		 * @since Ametys Runtime 3.7
+		 * @since Ametys Runtime 3.9
 		 * @private
 		 * Listener on cell double click, only when cell editing is set to a single click on the cell AND #cfg-editAfterSelect is true.
 		 * This listener is here to cancel a starting editing when finally this is not a simple click
@@ -1600,7 +1600,7 @@
 		/**
 		 * @member Ext.JSON
 		 * @ametys
-		 * @since Ametys Runtime 3.7
+		 * @since Ametys Runtime 3.9
 		 * Converts an object to a readable json string
 		 * @param {Object} value The value to encode
 		 * @param {Number} [offset = 0] The offset to indent the text
@@ -1715,7 +1715,7 @@
 		/**
 		 * @member Ext.data.TreeStore
 		 * @ametys
-		 * @since Ametys Runtime 3.7
+		 * @since Ametys Runtime 3.9
 		 * Find the nodes which fieldName is matching value
 		 * **IMPORTANT The search is done only within loaded nodes
 		 * @param {String} fieldName The name of the field to check
@@ -1734,7 +1734,7 @@
 		/**
 		 * @member Ext.data.Tree
 		 * @ametys
-		 * @since Ametys Runtime 3.7
+		 * @since Ametys Runtime 3.9
 		 * Find the nodes which fieldName is matching value
 		 * **IMPORTANT The search is done only within loaded nodes
 		 * @param {String} fieldName The name of the field to check
