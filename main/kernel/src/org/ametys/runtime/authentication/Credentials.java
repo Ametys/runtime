@@ -1,5 +1,5 @@
 /*
- *  Copyright 2009 Anyware Services
+ *  Copyright 2014 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,17 +15,20 @@
  */
 package org.ametys.runtime.authentication;
 
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+
 /**
  * Credentials represents the caracteristics of a user needed to log him
  */
-public class Credentials
+public class Credentials extends AbstractLogEnabled
 {
-    private String _login;
-
-    private String _passwd;
+    /** The login */
+    protected String _login;
+    /** The password */
+    protected String _passwd;
 
     /**
-     * Create a credentials
+     * Create credentials
      * 
      * @param login Login of the user
      * @param password Password associated to the login

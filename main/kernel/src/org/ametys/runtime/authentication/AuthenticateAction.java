@@ -97,7 +97,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
      * @param objectModel the current objectModel
      * @param redirector the Cocoon redirector
      * @return true if the current user is authenticated, false otherwise
-     * @throws Exception if an error occures during the authentication process
+     * @throws Exception if an error occurs during the authentication process
      */
     protected boolean _checkAuth(Map objectModel, Redirector redirector) throws Exception
     {
