@@ -267,7 +267,7 @@ Ext.define('Ametys.form.AbstractFieldsWrapper', {
     /**
      * @private
      * Test if this item is focusable
-     * @param {Ext.Component} item 
+     * @param {Ext.Component} item The item being focused
      * @param {Boolean} cancelable=false If true will test for cancelFocus instead
      */
     _isFocusable: function(item, cancelable)
