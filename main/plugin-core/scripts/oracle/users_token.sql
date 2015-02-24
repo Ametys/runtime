@@ -13,10 +13,14 @@
 --  See the License for the specific language governing permissions and
 --  limitations under the License.
 --
-drop table if exists Users_FormConnectionFailed;
-CREATE TABLE Users_FormConnectionFailed 
+CREATE TABLE UsersToken
 (
-    login VARCHAR(255) PRIMARY KEY NOT NULL,
-    nb_connect INT,
-    last_connect TIMESTAMP
-)
+  id number PRIMARY KEY NOT NULL,
+  login varchar(64),
+  token varchar(128) NOT NULL, -- the hashed token + salt are stocked here
+  salt varchar(64) NOT NULL,
+  creation_date date NOT NULL
+);
+
+create sequence seq_userstoken;
+

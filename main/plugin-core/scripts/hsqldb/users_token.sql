@@ -8,15 +8,15 @@
 --      http://www.apache.org/licenses/LICENSE-2.0
 --
 --  Unless required by applicable law or agreed to in writing, software
---  distributed under the License is distributed on an "AS IS" BASIS,
+--  distributed under the License is distributed on Databasean "AS IS" BASIS,
 --  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 --  See the License for the specific language governing permissions and
 --  limitations under the License.
 --
-drop table if exists Users_FormConnectionFailed;
-CREATE TABLE Users_FormConnectionFailed 
-(
-    login VARCHAR(255) PRIMARY KEY NOT NULL,
-    nb_connect INT,
-    last_connect TIMESTAMP
-)
+CREATE CACHED TABLE UsersToken (
+  id int PRIMARY KEY NOT NULL IDENTITY,
+  login varchar(64),
+  token varchar(128)  NOT NULL, -- the hashed token + salt are stocked here
+  salt varchar(64) NOT NULL,
+  creation_date datetime not null
+);

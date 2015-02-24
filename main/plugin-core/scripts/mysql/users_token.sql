@@ -1,4 +1,4 @@
---
+userstoken--
 --  Copyright 2014 Anyware Services
 --
 --  Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,10 +13,11 @@
 --  See the License for the specific language governing permissions and
 --  limitations under the License.
 --
-drop table if exists Users_FormConnectionFailed;
-CREATE TABLE Users_FormConnectionFailed 
-(
-    login VARCHAR(255) PRIMARY KEY NOT NULL,
-    nb_connect INT,
-    last_connect TIMESTAMP
-)
+drop table if exists UsersToken;
+CREATE TABLE UsersToken (
+  id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  login varchar(64),
+  token varchar(128)  NOT NULL, -- the hashed token + salt are stocked here
+  salt varchar(64) NOT NULL,
+  creation_date datetime not null
+)ENGINE=innodb;
