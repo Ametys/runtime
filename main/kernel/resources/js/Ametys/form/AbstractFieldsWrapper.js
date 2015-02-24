@@ -83,7 +83,7 @@ Ext.define('Ametys.form.AbstractFieldsWrapper', {
 	/**
 	 * @private
 	 * Handle specialkey event on all items and will intercep TAB and SHIFT-TAB or transmit it
-	 * @params {Ext.Component} item The item throwing the event
+	 * @param {Ext.Component} item The item throwing the event
 	 * @param {Ext.EventObject} e The event
 	 */
 	_checkSpecialKey: function(item, e)
