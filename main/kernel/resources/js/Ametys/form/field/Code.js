@@ -31,7 +31,7 @@ Ext.define('Ametys.form.field.Code', {
 	 * The `mode` and `value` standard parameters will be ignored.
 	 */
 	/** 
-	 * @cfg {Boolean=false} singleLine Set to `true` to get a single-line editor.
+	 * @cfg {Boolean} singleLine=false Set to `true` to get a single-line editor.
 	 */
 	
 	/**
