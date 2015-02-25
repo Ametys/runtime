@@ -20,6 +20,10 @@
 Ametys.MessageBox = Ametys.Msg  = {
 	
 	/**
+	  * @inheritdoc Ext.Msg#buttonText
+	  */
+		
+	/**
 	 * @inheritdoc Ext.Msg#show
 	 */
 	show: function(cfg)
