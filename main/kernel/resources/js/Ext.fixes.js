@@ -27,6 +27,13 @@
      * @param {Ext.panel.Table} this
      * @param {Ext.view.Table} view
      */
+	/**
+	 * @member Ext.util.Floating
+	 * @event tofront
+	 * Fires when the component is brought to front
+	 * @param {Ext.Component} this The component
+	 * @param {Number} zIndex The zIndex of the component
+	 */
 	
 	Ext.define("Ametys.Editor", {
 		override: 'Ext.Editor',
