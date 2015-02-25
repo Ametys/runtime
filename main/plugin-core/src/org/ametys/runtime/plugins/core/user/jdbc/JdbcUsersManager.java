@@ -500,7 +500,7 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
                 selectClause.append(parameter.getColumn());
             }
             
-            StringBuilder sql = new StringBuilder("SELECT ");
+            StringBuffer sql = new StringBuffer("SELECT ");
             sql.append(selectClause).append(" FROM ").append(_tableName);
             
             // Ajoute le pattern
@@ -592,7 +592,7 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
         }
         else if (ConnectionHelper.getDatabaseType(con) == ConnectionHelper.DatabaseType.DATABASE_DERBY)
         {
-            return new StringBuilder("select ").append(selectClause)
+            return new StringBuffer("select ").append(selectClause)
                     .append(" from (select ROW_NUMBER() OVER () AS ROWNUM, ").append(selectClause.toString())
                     .append(" from (").append(sql.toString()).append(") AS TR ) AS TRR where ROWNUM BETWEEN ")
                     .append(offset).append(" AND ").append(offset + length - 1);
