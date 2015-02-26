@@ -24,6 +24,8 @@ Ext.define('Ametys.admin.rightpanel.ActionPanel', {
 	autoDestroy: false,
 	collapsible: false,
 	cls: 'admin-panel action-panel',
+	
+	/** @ignore */
 	border: false,
 	titleAlign: 'right',
 	bbar: [],
