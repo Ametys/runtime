@@ -21,7 +21,7 @@ Ametys.MessageBox = Ametys.Msg  = {
 	
 	/**
 	  * @cfg {Object} buttonText
-	  * @inheritdoc Ext.Msg#buttonText
+	  * @inheritdoc Ext.Msg#property-buttonText
 	  */
 		
 	/**
