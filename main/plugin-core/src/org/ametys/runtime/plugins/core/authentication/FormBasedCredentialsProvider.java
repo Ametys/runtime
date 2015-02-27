@@ -308,8 +308,16 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
         String value = getCookieValue(request, _cookieName);
         if (StringUtils.isNotEmpty(value))
         {
-            String [] values = value.split(",");
-            return new TokenCredentials(values[0], values[1]);
+            if (value.contains(","))
+            {
+                String [] values = value.split(",");
+                return new TokenCredentials(values[0], values[1]);
+            }
+            else
+            {
+                // old cookie, delete it
+                deleteCookie(request,  ContextHelper.getResponse(_context), _cookieName, (int) _cookieLifetime);
+            }
         }
 
         String redirectUrl;
