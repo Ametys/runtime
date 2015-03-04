@@ -46,7 +46,7 @@ public class CSVSerializer extends TextSerializer
     @Override
     public void setOutputStream(OutputStream out) throws IOException
     {
-        byte[] enc = new byte[] { (byte)0xEF, (byte)0xBB, (byte)0xBF }; 
+        byte[] enc = new byte[] {(byte) 0xEF, (byte) 0xBB, (byte) 0xBF}; 
         out.write(enc);
         super.setOutputStream(out);
     }
