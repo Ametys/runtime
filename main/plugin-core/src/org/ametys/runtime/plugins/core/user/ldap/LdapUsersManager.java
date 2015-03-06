@@ -74,6 +74,9 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
 
     /** To know if email is a mandatory attribute */
     protected boolean _userEmailIsMandatory;
+    
+    /** True to sort the results on the server side, false to get the results unsorted. */
+    protected boolean _serverSideSorting;
 
     @Override
     public void configure(Configuration configuration) throws ConfigurationException
@@ -94,6 +97,7 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
         _usersLastnameAttribute = _getConfigParameter(configuration, "Lastname");
         _usersEmailAttribute = _getConfigParameter(configuration, "Email");
         _userEmailIsMandatory = configuration.getChild("Email").getAttributeAsBoolean("mandatory", false);
+        _serverSideSorting = !"false".equals(_getConfigParameter(configuration, "ServerSideSorting"));
     }
     
     @Override
@@ -436,7 +440,10 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
         {
             // Connexion au serveur ldap
             context = new InitialLdapContext(_getContextEnv(), null);
-            context.setRequestControls(_getSortControls());
+            if (_serverSideSorting)
+            {
+                context.setRequestControls(_getSortControls());
+            }
 
             Map filter = _getPatternFilter(pattern);
 
@@ -570,7 +577,7 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
 
         // Choisir la profondeur de la recherche
         constraints.setSearchScope(_usersSearchScope);
-
+        
         if (maxResults > 0)
         {
             constraints.setCountLimit(maxResults);

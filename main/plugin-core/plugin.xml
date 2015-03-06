@@ -252,6 +252,20 @@
                 <condition id="runtime.datasource.core.ldap.authMethod" operator="eq">none</condition>
             </disable-conditions>
         </param>
+        <param id="runtime.datasource.core.ldap.aliasDereferencing" type="string">
+            <!-- 
+                This parameter controls the alias dereferencing mode.
+             -->
+            <label i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ALIAS_DEREF_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ALIAS_DEREF_DESCRIPTION</description>
+            <enumeration>
+                <custom-enumerator class="org.ametys.runtime.plugins.core.util.ldap.AliasDerefEnumerator"/>
+            </enumeration>
+            <default-value>always</default-value>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_CATEGORY_LDAP_GROUP_CORE</group>
+            <order>32</order>
+        </param>
         <param id="runtime.datasource.core.ldap.followReferrals" type="boolean">
             <!-- 
                 This parameters controls whether referral following is enabled (used for continuation references).
@@ -401,6 +415,17 @@
             <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>
             <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS</group>
             <order>70</order>
+        </param>
+        <param id="runtime.users.ldap.serverSideSorting" type="boolean">
+            <!-- 
+                Parameter used to control if server-side sorting of user search results is enabled.
+             -->
+            <label i18n="true">PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SERVER_SIDE_SORTING_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SERVER_SIDE_SORTING_DESCRIPTION</description>
+            <default-value>true</default-value>
+            <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP</category>
+            <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS</group>
+            <order>80</order>
         </param>
         
         <!-- +
@@ -1530,6 +1555,7 @@
             <param-ref id="runtime.datasource.core.ldap.authMethod"/>
             <param-ref id="runtime.datasource.core.ldap.adminDN"/>
             <param-ref id="runtime.datasource.core.ldap.adminPasswd"/>
+            <param-ref id="runtime.datasource.core.ldap.aliasDereferencing"/>
             <param-ref id="runtime.datasource.core.ldap.followReferrals"/>
 
             <param-ref id="runtime.users.ldap.peopleDN"/>
@@ -1539,6 +1565,7 @@
             <param-ref id="runtime.users.ldap.firstnameAttr"/>
             <param-ref id="runtime.users.ldap.lastnameAttr"/>
             <param-ref id="runtime.users.ldap.emailAttr"/>
+            <param-ref id="runtime.users.ldap.serverSideSorting"/>
         </config>
         <extensions>
             <extension point="org.ametys.runtime.user.UsersManager"
@@ -1551,6 +1578,7 @@
                 <AuthenticationMethod>runtime.datasource.core.ldap.authMethod</AuthenticationMethod>
                 <AdminDN>runtime.datasource.core.ldap.adminDN</AdminDN>
                 <AdminPassword>runtime.datasource.core.ldap.adminPasswd</AdminPassword>
+                <AliasDereferencing>runtime.datasource.core.ldap.aliasDereferencing</AliasDereferencing>
                 <FollowReferrals>runtime.datasource.core.ldap.followReferrals</FollowReferrals>
 
                 <RelativeDN>runtime.users.ldap.peopleDN</RelativeDN>
@@ -1560,6 +1588,7 @@
                 <Firstname>runtime.users.ldap.firstnameAttr</Firstname>
                 <Lastname>runtime.users.ldap.lastnameAttr</Lastname>
                 <Email mandatory="false">runtime.users.ldap.emailAttr</Email>
+                <ServerSideSorting>runtime.users.ldap.serverSideSorting</ServerSideSorting>
             </extension>
         </extensions>
     </feature>
@@ -1576,6 +1605,7 @@
             <param-ref id="runtime.datasource.core.ldap.authMethod"/>
             <param-ref id="runtime.datasource.core.ldap.adminDN"/>
             <param-ref id="runtime.datasource.core.ldap.adminPasswd"/>
+            <param-ref id="runtime.datasource.core.ldap.aliasDereferencing"/>
             <param-ref id="runtime.datasource.core.ldap.followReferrals"/>
 
             <param-ref id="runtime.users.ldap.peopleDN"/>
@@ -1585,6 +1615,7 @@
             <param-ref id="runtime.users.ldap.firstnameAttr"/>
             <param-ref id="runtime.users.ldap.lastnameAttr"/>
             <param-ref id="runtime.users.ldap.emailAttr"/>
+            <param-ref id="runtime.users.ldap.serverSideSorting"/>
         </config>
         <extensions>
             <extension point="org.ametys.runtime.user.UsersManager"
@@ -1597,6 +1628,7 @@
                 <AuthenticationMethod>runtime.datasource.core.ldap.authMethod</AuthenticationMethod>
                 <AdminDN>runtime.datasource.core.ldap.adminDN</AdminDN>
                 <AdminPassword>runtime.datasource.core.ldap.adminPasswd</AdminPassword>
+                <AliasDereferencing>runtime.datasource.core.ldap.aliasDereferencing</AliasDereferencing>
                 <FollowReferrals>runtime.datasource.core.ldap.followReferrals</FollowReferrals>
 
                 <RelativeDN>runtime.users.ldap.peopleDN</RelativeDN>
@@ -1606,6 +1638,7 @@
                 <Firstname>runtime.users.ldap.firstnameAttr</Firstname>
                 <Lastname>runtime.users.ldap.lastnameAttr</Lastname>
                 <Email mandatory="false">runtime.users.ldap.emailAttr</Email>
+                <ServerSideSorting>runtime.users.ldap.serverSideSorting</ServerSideSorting>
             </extension>
         </extensions>
     </feature>
@@ -1623,6 +1656,7 @@
             <param-ref id="runtime.datasource.core.ldap.authMethod"/>
             <param-ref id="runtime.datasource.core.ldap.adminDN"/>
             <param-ref id="runtime.datasource.core.ldap.adminPasswd"/>
+            <param-ref id="runtime.datasource.core.ldap.aliasDereferencing"/>
             <param-ref id="runtime.datasource.core.ldap.followReferrals"/>
             
             <param-ref id="runtime.users.ldap.peopleDN"/>
@@ -1632,6 +1666,7 @@
             <param-ref id="runtime.users.ldap.firstnameAttr"/>
             <param-ref id="runtime.users.ldap.lastnameAttr"/>
             <param-ref id="runtime.users.ldap.emailAttr"/>
+            <param-ref id="runtime.users.ldap.serverSideSorting"/>
         </config>
         <extensions>
             <extension point="org.ametys.runtime.user.UsersManager"
@@ -1644,6 +1679,7 @@
                 <AuthenticationMethod>runtime.datasource.core.ldap.authMethod</AuthenticationMethod>
                 <AdminDN>runtime.datasource.core.ldap.adminDN</AdminDN>
                 <AdminPassword>runtime.datasource.core.ldap.adminPasswd</AdminPassword>
+                <AliasDereferencing>runtime.datasource.core.ldap.aliasDereferencing</AliasDereferencing>
                 <FollowReferrals>runtime.datasource.core.ldap.followReferrals</FollowReferrals>
                 
                 <RelativeDN>runtime.users.ldap.peopleDN</RelativeDN>
@@ -1653,6 +1689,7 @@
                 <Firstname>runtime.users.ldap.firstnameAttr</Firstname>
                 <Lastname>runtime.users.ldap.lastnameAttr</Lastname>
                 <Email mandatory="false">runtime.users.ldap.emailAttr</Email>
+                <ServerSideSorting>runtime.users.ldap.serverSideSorting</ServerSideSorting>
                 
                 <!-- Fallback users manager configuration. -->
                 <FallbackUsersManagerConfiguration>
@@ -1792,6 +1829,7 @@
             <param-ref id="runtime.datasource.core.ldap.authMethod"/>
             <param-ref id="runtime.datasource.core.ldap.adminDN"/>
             <param-ref id="runtime.datasource.core.ldap.adminPasswd"/>
+            <param-ref id="runtime.datasource.core.ldap.aliasDereferencing"/>
             <param-ref id="runtime.datasource.core.ldap.followReferrals"/>
             
             <param-ref id="runtime.groups.ldap.groupDN"/>
@@ -1815,6 +1853,7 @@
                 <AuthenticationMethod>runtime.datasource.core.ldap.authMethod</AuthenticationMethod>
                 <AdminDN>runtime.datasource.core.ldap.adminDN</AdminDN>
                 <AdminPassword>runtime.datasource.core.ldap.adminPasswd</AdminPassword>
+                <AliasDereferencing>runtime.datasource.core.ldap.aliasDereferencing</AliasDereferencing>
                 <FollowReferrals>runtime.datasource.core.ldap.followReferrals</FollowReferrals>
                 
                 <RelativeDN>runtime.groups.ldap.groupDN</RelativeDN>
@@ -1841,6 +1880,7 @@
             <param-ref id="runtime.datasource.core.ldap.authMethod"/>
             <param-ref id="runtime.datasource.core.ldap.adminDN"/>
             <param-ref id="runtime.datasource.core.ldap.adminPasswd"/>
+            <param-ref id="runtime.datasource.core.ldap.aliasDereferencing"/>
             <param-ref id="runtime.datasource.core.ldap.followReferrals"/>
             
             <param-ref id="runtime.groups.ldap.groupDN"/>
@@ -1866,6 +1906,7 @@
                 <AuthenticationMethod>runtime.datasource.core.ldap.authMethod</AuthenticationMethod>
                 <AdminDN>runtime.datasource.core.ldap.adminDN</AdminDN>
                 <AdminPassword>runtime.datasource.core.ldap.adminPasswd</AdminPassword>
+                <AliasDereferencing>runtime.datasource.core.ldap.aliasDereferencing</AliasDereferencing>
                 <FollowReferrals>runtime.datasource.core.ldap.followReferrals</FollowReferrals>
                 
                 <RelativeDN>runtime.groups.ldap.groupDN</RelativeDN>
@@ -1901,6 +1942,7 @@
             <param-ref id="runtime.datasource.core.ldap.authMethod"/>
             <param-ref id="runtime.datasource.core.ldap.adminDN"/>
             <param-ref id="runtime.datasource.core.ldap.adminPasswd"/>
+            <param-ref id="runtime.datasource.core.ldap.aliasDereferencing"/>
             <param-ref id="runtime.datasource.core.ldap.followReferrals"/>
             
             <param-ref id="runtime.groups.ldap.groupDN"/>
@@ -1926,6 +1968,7 @@
                 <AuthenticationMethod>runtime.datasource.core.ldap.authMethod</AuthenticationMethod>
                 <AdminDN>runtime.datasource.core.ldap.adminDN</AdminDN>
                 <AdminPassword>runtime.datasource.core.ldap.adminPasswd</AdminPassword>
+                <AliasDereferencing>runtime.datasource.core.ldap.aliasDereferencing</AliasDereferencing>
                 <FollowReferrals>runtime.datasource.core.ldap.followReferrals</FollowReferrals>
                 
                 <RelativeDN>runtime.groups.ldap.groupDN</RelativeDN>
@@ -1975,6 +2018,7 @@
             <param-ref id="runtime.datasource.core.ldap.authMethod"/>
             <param-ref id="runtime.datasource.core.ldap.adminDN"/>
             <param-ref id="runtime.datasource.core.ldap.adminPasswd"/>
+            <param-ref id="runtime.datasource.core.ldap.aliasDereferencing"/>
             <param-ref id="runtime.datasource.core.ldap.followReferrals"/>
             
             <param-ref id="runtime.groups.ldap.groupDN"/>
@@ -1998,6 +2042,7 @@
                 <AuthenticationMethod>runtime.datasource.core.ldap.authMethod</AuthenticationMethod>
                 <AdminDN>runtime.datasource.core.ldap.adminDN</AdminDN>
                 <AdminPassword>runtime.datasource.core.ldap.adminPasswd</AdminPassword>
+                <AliasDereferencing>runtime.datasource.core.ldap.aliasDereferencing</AliasDereferencing>
                 <FollowReferrals>runtime.datasource.core.ldap.followReferrals</FollowReferrals>
                 
                 <RelativeDN>runtime.groups.ldap.groupDN</RelativeDN>
