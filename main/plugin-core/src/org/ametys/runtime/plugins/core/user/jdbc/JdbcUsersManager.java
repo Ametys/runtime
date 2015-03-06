@@ -20,6 +20,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -56,8 +57,8 @@ import org.ametys.runtime.util.parameter.AbstractParameterParser;
 import org.ametys.runtime.util.parameter.DefaultValidator;
 import org.ametys.runtime.util.parameter.Enumerator;
 import org.ametys.runtime.util.parameter.ParameterHelper;
-import org.ametys.runtime.util.parameter.Validator;
 import org.ametys.runtime.util.parameter.ParameterHelper.ParameterType;
+import org.ametys.runtime.util.parameter.Validator;
 
 /**
  * Use a jdbc driver for getting the list of users.<br/>
@@ -456,15 +457,15 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
         }
         return null;
     }
-
+    
     /**
-     * Get the pattern to match user login
-     * @param pattern the pattern
-     * @return the pattern to match user login
+     * Get the mandatory predicate to use when querying users by pattern.
+     * @param pattern The pattern to match, can be null.
+     * @return a {@link JdbcPredicate}, can be null.
      */
-    protected String _getPatternToMatchLogin (String pattern)
+    protected JdbcPredicate _getMandatoryPredicate(String pattern)
     {
-        return _getPatternToMatch (pattern);
+        return null;
     }
     
     /**
@@ -500,45 +501,56 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
                 selectClause.append(parameter.getColumn());
             }
 
-            StringBuilder sql = new StringBuilder("SELECT " + selectClause.toString() + " FROM " + _tableName);
-
+            StringBuilder sql = new StringBuilder("SELECT ");
+            sql.append(selectClause).append(" FROM ").append(_tableName);
+            
             // Ajoute le pattern
-            String patternToMatchLogin = _getPatternToMatchLogin (pattern);
-            if (patternToMatchLogin != null)
+            JdbcPredicate mandatoryPredicate = _getMandatoryPredicate(pattern);
+            if (mandatoryPredicate != null)
             {
-                sql.append(" WHERE " + _parameters.get("login").getColumn() + " LIKE ? ");
+                sql.append(" WHERE ").append(mandatoryPredicate.getPredicate());
             }
             
             String patternToMatch = _getPatternToMatch (pattern);
             if (patternToMatch != null)
             {
-                sql.append(patternToMatchLogin != null ? " OR " : " WHERE ");
-                sql.append(_parameters.get("lastname").getColumn() + " LIKE ? ");
+                sql.append(mandatoryPredicate != null ? " AND (" : " WHERE ")
+                    .append(_parameters.get("login").getColumn()).append(" LIKE ? OR ")
+                    .append(_parameters.get("lastname").getColumn()).append(" LIKE ?");
                 if (_parameters.containsKey("firstname"))
                 {
-                    sql.append(" OR " + _parameters.get("firstname").getColumn() + " LIKE ? ");
+                    sql.append(" OR ").append(_parameters.get("firstname").getColumn()).append(" LIKE ?");
+                }
+                if (mandatoryPredicate != null)
+                {
+                    sql.append(')');
                 }
             }
-
+            
             // Ajoute les filtres de taille
             sql = _addQuerySize(length, offset, con, selectClause, sql);
 
-            // Crée la requette elle-meme
+            // Crée la requête elle-meme
             String sqlRequest = sql.toString();
             if (getLogger().isDebugEnabled())
             {
-                getLogger().debug(sqlRequest);
+                getLogger().debug("Executing user SQL query: " + sqlRequest);
             }
             stmt = con.prepareStatement(sqlRequest);
             
             int i = 1;
             // Value les parametres s'il y a un pattern
-            if (patternToMatchLogin != null)
+            if (mandatoryPredicate != null)
             {
-                stmt.setString(i++, patternToMatchLogin);
+                for (String value : mandatoryPredicate.getValues())
+                {
+                    stmt.setString(i++, value);
+                }
             }
             if (patternToMatch != null)
             {
+                // One for the login, one for the lastname.
+                stmt.setString(i++, patternToMatch);
                 stmt.setString(i++, patternToMatch);
                 if (_parameters.containsKey("firstname"))
                 {
@@ -582,7 +594,7 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
         }
         else if (datatype == DatabaseType.DATABASE_DERBY)
         {
-            return new StringBuilder("select ").append(selectClause.toString())
+            return new StringBuilder("select ").append(selectClause)
                     .append(" from (select ROW_NUMBER() OVER () AS ROWNUM, ").append(selectClause.toString())
                     .append(" from (").append(sql.toString()).append(") AS TR ) AS TRR where ROWNUM BETWEEN ")
                     .append(offset + 1).append(" AND ").append(offset + length);
@@ -821,4 +833,77 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
             return ParameterHelper.castValue(defaultValue, jdbcParameter.getType());
         }
     }
+    
+    /**
+     * Class representing a SQL predicate (to use in a WHERE or HAVING clause),
+     * with optional string parameters.
+     */
+    public class JdbcPredicate
+    {
+        
+        /** The predicate string with optional "?" placeholders. */
+        protected String _predicate;
+        
+        /** The predicate parameter values. */
+        protected List<String> _paramValues;
+        
+        /**
+         * Build a JDBC predicate.
+         * @param predicate the predicate string.
+         * @param values the parameter values.
+         */
+        public JdbcPredicate(String predicate, String... values)
+        {
+            this(predicate, Arrays.asList(values));
+        }
+        
+        /**
+         * Build a JDBC predicate.
+         * @param predicate the predicate string.
+         * @param values the parameter values.
+         */
+        public JdbcPredicate(String predicate, List<String> values)
+        {
+            this._predicate = predicate;
+            this._paramValues = values;
+        }
+        
+        /**
+         * Get the predicate.
+         * @return the predicate
+         */
+        public String getPredicate()
+        {
+            return _predicate;
+        }
+        
+        /**
+         * Set the predicate.
+         * @param predicate the predicate to set
+         */
+        public void setPredicate(String predicate)
+        {
+            this._predicate = predicate;
+        }
+        
+        /**
+         * Get the parameter values.
+         * @return the parameter values.
+         */
+        public List<String> getValues()
+        {
+            return _paramValues;
+        }
+        
+        /**
+         * Set the parameter values.
+         * @param values the parameter values to set.
+         */
+        public void setValues(List<String> values)
+        {
+            this._paramValues = values;
+        }
+        
+    }
+    
 }
