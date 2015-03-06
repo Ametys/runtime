@@ -38,6 +38,7 @@
 <runtime.datasource.core.ldap.authMethod>none</runtime.datasource.core.ldap.authMethod>
 <runtime.datasource.core.ldap.adminDN></runtime.datasource.core.ldap.adminDN>
 <runtime.datasource.core.ldap.adminPasswd></runtime.datasource.core.ldap.adminPasswd>
+<runtime.datasource.core.ldap.aliasDereferencing>always</runtime.datasource.core.ldap.aliasDereferencing>
 <runtime.datasource.core.ldap.followReferrals>false</runtime.datasource.core.ldap.followReferrals>
 
 <runtime.users.ldap.peopleDN>ou=people</runtime.users.ldap.peopleDN>
@@ -47,6 +48,7 @@
 <runtime.users.ldap.firstnameAttr>givenName</runtime.users.ldap.firstnameAttr>
 <runtime.users.ldap.lastnameAttr>sn</runtime.users.ldap.lastnameAttr>
 <runtime.users.ldap.emailAttr>mail</runtime.users.ldap.emailAttr>
+<runtime.users.ldap.serverSideSorting>true</runtime.users.ldap.serverSideSorting>
 
 <runtime.groups.ldap.groupDN>ou=groups</runtime.groups.ldap.groupDN>
 <runtime.groups.ldap.filter>(objectclass=organizationalUnit)</runtime.groups.ldap.filter>
