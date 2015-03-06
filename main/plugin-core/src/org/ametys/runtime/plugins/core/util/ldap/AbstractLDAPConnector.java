@@ -51,6 +51,8 @@ public abstract class AbstractLDAPConnector extends CachingComponent<Object> imp
     protected boolean _ldapUseSSL;
     /** Enable following referrals. */
     protected boolean _ldapFollowReferrals;
+    /** Alias dereferencing mode. */
+    protected String _ldapAliasDerefMode;
     
     /**
      * Get the filter from configuration key and check it
@@ -91,6 +93,7 @@ public abstract class AbstractLDAPConnector extends CachingComponent<Object> imp
         }
     }
 
+    @Override
     public void configure(Configuration configuration) throws ConfigurationException
     {
         _ldapUrl = _getConfigParameter(configuration, "BaseUrl");
@@ -104,6 +107,8 @@ public abstract class AbstractLDAPConnector extends CachingComponent<Object> imp
             _ldapAdminRelativeDN = _getConfigParameter(configuration, "AdminDN");
             _ldapAdminPassword = _getConfigParameter(configuration, "AdminPassword");
         }
+        
+        _ldapAliasDerefMode = _getConfigParameter(configuration, "AliasDereferencing");
     }
     
     /**
@@ -161,7 +166,9 @@ public abstract class AbstractLDAPConnector extends CachingComponent<Object> imp
         {
             env.put(Context.REFERRAL, "ignore");
         }
-
+        
+        env.put("java.naming.ldap.derefAliases", _ldapAliasDerefMode);
+        
         // Utiliser le pool de connexion ldap
         env.put("com.sun.jndi.ldap.connect.pool", "true");
 

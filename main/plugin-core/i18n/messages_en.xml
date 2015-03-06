@@ -290,6 +290,12 @@
     <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ADMINPASSWORD_DESCRIPTION">LDAP directory super-user password</message>
     <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_FOLLOWREFERRALS_LABEL">Follow references</message>
     <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_FOLLOWREFERRALS_DESCRIPTION">Check this option to enable following references (mainly for dynamic groups).</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ALIAS_DEREF_LABEL">Alias dereferencing</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ALIAS_DEREF_DESCRIPTION">Defines the alias dereferencing mode.&lt;br/&gt;- &lt;b&gt;always : &lt;/b&gt;always dereference aliases&lt;br/&gt;- &lt;b&gt;never : &lt;/b&gt;never dereferences aliases&lt;br/&gt;- &lt;b&gt;finding : &lt;/b&gt;dereferences aliases only during name resolution&lt;br/&gt;- &lt;b&gt;searching : &lt;/b&gt;dereferences aliases only after name resolution</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ALIAS_DEREF_ENUM_ALWAYS">always</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ALIAS_DEREF_ENUM_NEVER">never</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ALIAS_DEREF_ENUM_FINDING">finding</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ALIAS_DEREF_ENUM_SEARCHING">searching</message>
     <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_AUTH_METHOD_LABEL">Authentication method</message>
     <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_AUTH_METHOD_DESCRIPTION">Define the authentication method for LDAP directory</message>
     <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_AUTH_METHOD_ENUM_NONE">Anonymous</message>
@@ -410,6 +416,8 @@
     <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_LASTNAME_DESCRIPTION">Name of the attribute containing the user's family name in the LDAP object</message>
     <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_EMAIL_LABEL">E-mail attribute</message>
     <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_EMAIL_DESCRIPTION">Name of the attribute containing the user's e-mail address in the LDAP object</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SERVER_SIDE_SORTING_LABEL">User results sorting</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SERVER_SIDE_SORTING_DESCRIPTION">This parameter defines whether user search results are sorted (by lastname then firstname).&lt;br/&gt;Uncheck this option if searching for users is very slow.</message>
 
 	<!-- GROUP -->
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_GROUPS">Groups</message>
