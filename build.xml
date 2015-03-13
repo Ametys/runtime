@@ -34,7 +34,7 @@
     	<property environment="env"/>
         
     	<property name="project.status" value="integration"/>
-    	<property name="project.version" value="2.6.0"/>
+    	<property name="project.version" value="2.7.0"/>
     	<property name="project.version.qualifier" value="SNAPSHOT"/>
     	<property name="project.version.buildNumber" value="${env.BUILD_NUMBER}"/>
     	<property name="project.name" value="${ant.project.name}"/>
