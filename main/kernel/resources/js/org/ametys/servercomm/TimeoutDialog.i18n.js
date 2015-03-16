@@ -57,7 +57,7 @@ org.ametys.servercomm.TimeoutDialog = function (details, index, timeout)
 		width: 460,
 		height: 120,
 		autoScroll: true,
-		icon: context.workspaceContext + "/resources/img/uitool/timeout_16.png",
+		icon: context.contextPath + '/kernel/resources/img/timeout_16.png',
 		items: [ centralMsg, detailledMsg ],
 		closeAction: 'close',
 		closable: false,
