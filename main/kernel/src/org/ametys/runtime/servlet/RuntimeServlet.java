@@ -417,7 +417,9 @@ public class RuntimeServlet extends CocoonServlet
             InputStream is = null;
             try
             {
-                File resourceFile = new File(config.getServletContext().getRealPath(resourcePath));
+                File externalKernel = RuntimeConfig.getInstance().getExternalKernel();
+                File resourceFile = externalKernel != null ? new File(externalKernel, resourcePath) : new File(config.getServletContext().getRealPath("/kernel/" + resourcePath));
+                
                 if (resourceFile.exists())
                 {
                     is = new FileInputStream(resourceFile);
@@ -463,7 +465,9 @@ public class RuntimeServlet extends CocoonServlet
         {
             StreamSource errorSource;
             
-            File errorXSL = new File(config.getServletContext().getRealPath("/kernel/pages/error/fatal.xsl"));
+            File externalKernel = RuntimeConfig.getInstance().getExternalKernel();
+            File errorXSL = externalKernel != null ? new File(externalKernel, "pages/error/fatal.xsl") : new File(config.getServletContext().getRealPath("/kernel/pages/error/fatal.xsl"));
+            
             if (errorXSL.exists())
             {
                 is = new FileInputStream(errorXSL);
