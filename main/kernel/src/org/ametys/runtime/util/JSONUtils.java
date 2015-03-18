@@ -50,15 +50,15 @@ public class JSONUtils implements Component, ThreadSafe, Serviceable, Initializa
     /** The avalon role */
     public static final String ROLE = JSONUtils.class.getName();
     
-    private static JsonFactory _jsonFactory = new JsonFactory();
-    private static ObjectMapper _objectMapper = new ObjectMapper();
+    private JsonFactory _jsonFactory = new JsonFactory();
+    private ObjectMapper _objectMapper = new ObjectMapper();
 
-    private ServiceManager _smanager;
+    private I18nizableTextSerializer _i18nizableTextSerializer;
     
     @Override
     public void service(ServiceManager manager) throws ServiceException
     {
-        _smanager = manager;
+        _i18nizableTextSerializer = (I18nizableTextSerializer) manager.lookup(I18nizableTextSerializer.ROLE);
     }
     
     @Override
@@ -66,7 +66,7 @@ public class JSONUtils implements Component, ThreadSafe, Serviceable, Initializa
     {
         // Register new serializer for I18nizableText
         SimpleModule i18nModule = new SimpleModule("AmetysI18nModule", new Version(1, 0, 0, null));
-        i18nModule.addSerializer((I18nizableTextSerializer) _smanager.lookup(I18nizableTextSerializer.ROLE));
+        i18nModule.addSerializer(_i18nizableTextSerializer);
         _objectMapper.registerModule(i18nModule);
     }
     
