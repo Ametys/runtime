@@ -141,6 +141,9 @@
                 <exclude name="**/*.ico"/>
                 <exclude name="release-notes.txt"/>
                 <exclude name="src/org/ametys/runtime/cocoon/treeprocessor-builtins.xml"/>
+            	<exclude name="src/org/ametys/runtime/util/BOMInputStream.java"/>
+            	<exclude name="src/org/ametys/runtime/util/ByteOrderMark.java"/>
+            	<exclude name="src/org/ametys/runtime/util/ProxyInputStream.java"/>
             	<exclude name="resources/js/Ametys/form/field/BoxSelect.js"/>
             	<exclude name="resources/css/Ametys/gray/BoxSelect.css"/>
             </fileset>
