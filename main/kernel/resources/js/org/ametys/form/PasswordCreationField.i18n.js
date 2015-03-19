@@ -192,6 +192,16 @@ org.ametys.form.PasswordCreationField.prototype.setValue = function(v)
 	}
 }
 
+org.ametys.form.PasswordCreationField.prototype.reset = function ()
+{
+	org.ametys.form.PasswordCreationField.superclass.reset.call(this);
+	if (this.rendered)
+	{
+		this._setPassword();
+		this.resetBtn.hide();
+	}
+}
+
 org.ametys.form.PasswordCreationField.prototype._setPassword = function()
 {
 	this.clearInvalid();
