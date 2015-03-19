@@ -15,41 +15,22 @@
  */
 package org.ametys.runtime.plugins.core.authentication.mixed;
 
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.service.ServiceException;
-import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.avalon.framework.service.Serviceable;
-
-import org.ametys.runtime.authentication.Authentication;
 import org.ametys.runtime.authentication.Credentials;
+import org.ametys.runtime.plugins.core.authentication.UsersManagerAuthentication;
 import org.ametys.runtime.user.CredentialsAwareUsersManager;
-import org.ametys.runtime.user.UsersManager;
 
 /**
  * Authenticate Credentials with the current UsersManager (which must implement CredentialsAwareUsersManager).
  * Replace standard UsersManagerAuthentication with this one when using CASBasicCredentialsProvider.
  */
-public class MixedSourceUsersManagerAuthentication extends AbstractLogEnabled implements Authentication, Serviceable
+public class MixedSourceUsersManagerAuthentication extends UsersManagerAuthentication
 {
-    private UsersManager _users;
-    
-    public void service(ServiceManager manager) throws ServiceException
-    {
-        _users = (UsersManager) manager.lookup(UsersManager.ROLE);
-    }
-    
-    /**
-     * Check if a User can log in. Returns the User identified by this login or null if none.
-     * @param credentials Contains user information with an unencrypted password
-     * @return true if the user is authenticated, false otherwise.
-     */
+    @Override
     public boolean login(Credentials credentials)
     {
         // Check that the UsersManager knows how to authenticate credentials.
         if (_users instanceof CredentialsAwareUsersManager)
         {
-            CredentialsAwareUsersManager auth = (CredentialsAwareUsersManager) _users;
-            
             // If the credentials come from a SSO (like CAS), they are already authenticated : grant access.
             if (credentials instanceof MixedSourceCredentials)
             {
@@ -58,14 +39,8 @@ public class MixedSourceUsersManagerAuthentication extends AbstractLogEnabled im
                     return true;
                 }
             }
-            
-            // Authenticate the credentials.
-            return auth.checkCredentials(credentials);
         }
         
-        getLogger().error("UsersManager cannot authenticate");
-        
-        // Invalid users manager, access refused.
-        return false;
+        return super.login(credentials);
     }
 }

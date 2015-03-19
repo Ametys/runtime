@@ -22,6 +22,7 @@ import org.apache.avalon.framework.service.Serviceable;
 
 import org.ametys.runtime.authentication.Authentication;
 import org.ametys.runtime.authentication.Credentials;
+import org.ametys.runtime.plugins.core.authentication.token.TokenCredentials;
 import org.ametys.runtime.user.CredentialsAwareUsersManager;
 import org.ametys.runtime.user.UsersManager;
 
@@ -32,7 +33,8 @@ import org.ametys.runtime.user.UsersManager;
  */
 public class UsersManagerAuthentication extends AbstractLogEnabled implements Authentication, Serviceable
 {
-    private UsersManager _users;
+    /** The users manager */
+    protected UsersManager _users;
     
     public void service(ServiceManager manager) throws ServiceException
     {
@@ -46,18 +48,24 @@ public class UsersManagerAuthentication extends AbstractLogEnabled implements Au
      */
     public boolean login(Credentials credentials)
     {
-        // Vérifier qu'il sait authentifier
+        // Check users manager can authenticate
         if (_users instanceof CredentialsAwareUsersManager)
         {
+            // If the credentials come from a SSO (like CAS), they are already authenticated : grant access.
+            if (credentials instanceof TokenCredentials)
+            {
+                return ((TokenCredentials) credentials).checkToken();
+            }
+            
+            // Do authenticate encrypting password
             CredentialsAwareUsersManager auth = (CredentialsAwareUsersManager) _users;
-
-            // Effectuer l'authentification en cryptant le mot de passe
             return auth.checkCredentials(credentials);
+            
         }
         
         getLogger().error("UsersManager cannot authenticate");
         
-        // Classe d'authentification invalide, interdir l'accès
+        // Invalid authentication class, forbid access
         return false;
     }
 }

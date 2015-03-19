@@ -41,6 +41,8 @@ import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.Response;
 import org.apache.cocoon.environment.http.HttpCookie;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 
@@ -49,13 +51,16 @@ import org.ametys.runtime.authentication.CredentialsProvider;
 import org.ametys.runtime.captcha.CaptchaHelper;
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.datasource.ConnectionHelper;
+import org.ametys.runtime.datasource.ConnectionHelper.DatabaseType;
+import org.ametys.runtime.plugins.core.authentication.token.TokenCredentials;
 import org.ametys.runtime.workspace.WorkspaceMatcher;
 
 /**
  * This manager gets the credentials coming from an authentification form. <br>
  * This manager can create a cookie to save credentials
  * <br>
- * Parameters are : - The html field name for user name<br>
+ * Parameters are : - The name of the pool<br>
+ *                  - The html field name for user name<br>
  *                  - The html field name for user password<br>
  *                  - The html field name for the check box which allow to create a cookie, must return 'true' when checked<br>
  *                  - A boolean, to activate or not the user info saving by cookie <br>
@@ -66,6 +71,7 @@ import org.ametys.runtime.workspace.WorkspaceMatcher;
  *                  - A list of URL prefixes that are accessible without authentication. The login and failure URLs are always accessible without authentication.<br><br>
  * 
  * For example :<br>
+ *               &lt;pool&gt;runtime.datasource.core.jdbc.pool&lt;/pool&gt;<br>
  *               &lt;username-field&gt;Username&lt;/username-field&gt;<br>
  *               &lt;password-field&gt;Password&lt;/password-field&gt;<br>
  *               &lt;cookie&gt;<br>
@@ -91,7 +97,11 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
     public static final String SECURITY_LEVEL_HIGH = "high";
     /** Number of connection attempts allowed */
     public static final Integer NB_CONNECTION_ATTEMPTS = 3;
+    /** Default cookie lifetime (15 days in seconds) */
+    public static final int DEFAULT_COOKIE_LIFETIME = 1209600;
     
+    /** The pool name */
+    protected String _poolName;
     /** Name of the user name html field */
     protected String _usernameField;
 
@@ -116,7 +126,7 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
     /** Cookie duration in seconds, by default 1 week */
     protected long _cookieLifetime;
 
-    /** Redirection in case of none login infos found from request params or cookie */
+    /** Redirection in case of no login infos were found from request params or cookie */
     protected String _loginUrl;
 
     /** Redirection when the authentication fails */
@@ -232,23 +242,29 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
         {
             Request request = ContextHelper.getRequest(_context);
             
-            String value = getCookieValue(request, _cookieName);
-            if (value != null && !"".equals(value))
+            String cookieValue = getCookieValue(request, _cookieName);
+            
+            String login = null;
+            String rememberMe = request.getParameter(_rememberMeField);
+            
+            if ("true".equals(rememberMe))
             {
-                updateCookie(value, _cookieName, (int) _cookieLifetime, _context);
+                login = request.getParameter(_usernameField);
             }
-            else
+            else if (StringUtils.isNotEmpty(cookieValue))
             {
-                String login = request.getParameter(_usernameField);
-                String password = request.getParameter(_passwordField);
-                String rememberMe = request.getParameter(_rememberMeField);
-                if (rememberMe != null)
-                {
-                    if (rememberMe.equalsIgnoreCase("true"))
-                    {
-                        updateCookie(login + "/n" + password, _cookieName, (int) _cookieLifetime, _context);
-                    }
-                }
+                login = cookieValue.split(",")[0];
+            }
+            
+            if (login != null)
+            {
+                // Hash token + salt
+                String token = RandomStringUtils.randomAlphanumeric(16);
+                String salt = RandomStringUtils.randomAlphanumeric(48);
+                String hashedTokenAndSalt = DigestUtils.sha512Hex(token + salt);
+                
+                _insertUserToken(login, salt, hashedTokenAndSalt);
+                updateCookie(login + "," + token, _cookieName, (int) _cookieLifetime, _context);
             }
         }
         else
@@ -292,10 +308,18 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
         }
 
         String value = getCookieValue(request, _cookieName);
-        if (value != null && !"".equals(value))
+        if (StringUtils.isNotEmpty(value))
         {
-            String [] values = value.split("/n");
-            return new Credentials(values[0], values[1]);
+            if (value.contains(","))
+            {
+                String [] values = value.split(",");
+                return new TokenCredentials(values[0], values[1]);
+            }
+            else
+            {
+                // old cookie, delete it
+                deleteCookie(request,  ContextHelper.getResponse(_context), _cookieName, (int) _cookieLifetime);
+            }
         }
 
         String redirectUrl;
@@ -311,6 +335,64 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
         return null;
     }
 
+    /**
+     * Inserts a new line into the users token table
+     * @param login the login of the user
+     * @param salt the salt associated to this user
+     * @param hashedTokenAndSalt token + salt hashed with SHA-512
+     */
+    protected void _insertUserToken(String login, String salt, String hashedTokenAndSalt)
+    {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        try
+        {
+            connection = ConnectionHelper.getConnection(_poolName);
+            DatabaseType dbType = ConnectionHelper.getDatabaseType(connection);
+            
+            if (dbType.equals(DatabaseType.DATABASE_ORACLE))
+            {
+                statement = connection.prepareStatement("SELECT seq_userstoken.nextval FROM dual");
+                rs = statement.executeQuery();
+                
+                String id = null;
+                if (rs.next())
+                {
+                    id = rs.getString(1);
+                }
+                ConnectionHelper.cleanup(rs);
+                ConnectionHelper.cleanup(statement);
+                
+                statement = connection.prepareStatement("INSERT INTO UsersToken (id, login, token, salt, creation_date) VALUES (?, ?, ?, ?, ?)");
+                statement.setString(1, id);
+                statement.setString(2, login);
+                statement.setString(3, hashedTokenAndSalt);
+                statement.setString(4, salt);
+                statement.setDate(5, new java.sql.Date(System.currentTimeMillis()));
+            }
+            else
+            {
+                statement = connection.prepareStatement("INSERT INTO UsersToken (login, token, salt, creation_date) VALUES (?, ?, ?, ?)");
+                
+                statement.setString(1, login);
+                statement.setString(2, hashedTokenAndSalt);
+                statement.setString(3, salt);
+                statement.setDate(4, new java.sql.Date(System.currentTimeMillis()));
+            }
+            
+            statement.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            getLogger().error("Communication error with the database", e);
+        }
+        finally
+        {
+            ConnectionHelper.cleanup(statement);       
+            ConnectionHelper.cleanup(connection);
+        }
+    }
     /**
      * Delete the login from the table of the failed connection
      * @param login
@@ -496,24 +578,30 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
         Request request = ContextHelper.getRequest(_context);
 
         StringBuffer parameters = new StringBuffer();
+        parameters.append(getLoginFailedURL().indexOf('?') >= 0 ? "&" : "?");
+        
         if (_provideLoginParameter)
         {
-            parameters.append(getLoginFailedURL().indexOf('?') >= 0 ? "&" : "?");
             parameters.append("login=" + request.getParameter(_usernameField));
+        }
+        
+        String level = Config.getInstance().getValueAsString("runtime.authentication.form.security.level");
+        if (SECURITY_LEVEL_HIGH.equals(level))
+        {
+            String captchaKey = request.getParameter(_captchaKeyField);
+            int nbConnect = _setNbConnectBDD(request.getParameter(_usernameField));
+            int nbAttempts = NB_CONNECTION_ATTEMPTS - 1;
             
-            String level = Config.getInstance().getValueAsString("runtime.authentication.form.security.level");
-            if (SECURITY_LEVEL_HIGH.equals(level))
+            if (nbConnect == nbAttempts || (captchaKey == null && nbConnect > nbAttempts))
             {
-                String captchaKey = request.getParameter(_captchaKeyField);
-                int nbConnect = _setNbConnectBDD(request.getParameter(_usernameField));
-                int nbAttempts = NB_CONNECTION_ATTEMPTS - 1;
-                
-                if (nbConnect == nbAttempts || captchaKey == null && nbConnect > nbAttempts)
-                {
-                    parameters.append("&tooManyAttempts=" + true);
-                }
+                parameters.append("&tooManyAttempts=" + true);
             }
-            
+        }
+        
+        if (StringUtils.isNotEmpty(getCookieValue(request, _cookieName)))
+        {
+            parameters.append("&cookieFailure=" + true);
+            deleteCookie(request, ContextHelper.getResponse(_context), _cookieName, (int) _cookieLifetime); 
         }
 
         String redirectUrl;
@@ -537,6 +625,7 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
     @Override
     public void configure(Configuration configuration) throws ConfigurationException
     {
+        _poolName = configuration.getChild("pool").getValue(ConnectionHelper.CORE_POOL_NAME);
         _usernameField = configuration.getChild("username-field").getValue("Username");
         _passwordField = configuration.getChild("password-field").getValue("Password");
         _rememberMeField =  configuration.getChild("rememberMe-field").getValue("rememberMe");
