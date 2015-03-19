@@ -146,7 +146,7 @@ public class UploadReader extends ServiceableReader
             {
                 // it's an image, which must be resized
                 int i = _upload.getFilename().lastIndexOf('.');
-                String format = i != -1 ? _upload.getFilename().substring(i + 1) : "png";
+                String format = i != -1 ? _upload.getFilename().substring(i + 1).toLowerCase() : "png";
                 format = _allowedFormats.contains(format) ? format : "png";
                 
                 ImageHelper.generateThumbnail(is, out, format, _height, _width, _maxHeight, _maxWidth);
