@@ -35,6 +35,9 @@ RUNTIME_Plugin_Runtime_EditUser.delayedInitialize = function()
 	var formPanel = new Ext.FormPanel( {
 		formId : 'edit-user-form',
 		bodyStyle : 'padding:10px',
+		
+		autoScroll: true,
+		
 		labelWidth :100,
 		defaultType :'textfield',
 		defaults: {
@@ -55,8 +58,7 @@ RUNTIME_Plugin_Runtime_EditUser.delayedInitialize = function()
 		icon: getPluginResourcesUrl('core') + '/img/users/icon_small.png',
 		
 		width : 430,
-		height : (85 + 32 * RUNTIME_Plugin_Runtime_EditUser.fieldsNum),
-		autoScroll: true,
+		//height : (85 + 32 * RUNTIME_Plugin_Runtime_EditUser.fieldsNum),
 		
 		items : [ formPanel ],
 		
