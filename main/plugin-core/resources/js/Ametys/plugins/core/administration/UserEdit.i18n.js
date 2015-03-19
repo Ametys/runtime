@@ -82,7 +82,7 @@ Ext.define('Ametys.plugins.core.administration.UserEdit', {
 			icon: Ametys.getPluginResourcesPrefix('core') + '/img/users/icon_small.png',
 			
 			width : 430,
-			height : (85 + 32 * this.fieldsNum),
+			maxHeight: 400,
 			autoScroll: true,
 			
 			items : [ formPanel ],
@@ -307,7 +307,7 @@ Ext.define('Ametys.plugins.core.administration.UserEdit', {
 	        labelAlign: 'right',
 	        ametysDescription: description,
 	        
-	        width: 225 + 100
+	        width: 235 + 100
 		});
 	},
 	
@@ -328,7 +328,7 @@ Ext.define('Ametys.plugins.core.administration.UserEdit', {
 	        labelAlign: 'right',
 			ametysDescription: description,
 	        
-	        width: 225 + 100
+	        width: 235 + 100
 		});
 	},
 	
@@ -350,7 +350,7 @@ Ext.define('Ametys.plugins.core.administration.UserEdit', {
 	        labelAlign: 'right',
 		    ametysDescription: description,
 		    
-		    width: 225 + 100
+		    width: 235 + 100
 		});
 	},
 	
@@ -372,7 +372,7 @@ Ext.define('Ametys.plugins.core.administration.UserEdit', {
 	        labelAlign: 'right',
 	        ametysDescription: description,
 	        
-	        width: 225 + 100
+	        width: 235 + 100
 		});
 	},
 	
@@ -417,7 +417,7 @@ Ext.define('Ametys.plugins.core.administration.UserEdit', {
 	        labelAlign: 'right',
 	        ametysDescription: description,
 	        
-	        width: 225 + 100
+	        width: 235 + 100
 		});
 	}
 });
