@@ -18,10 +18,14 @@ package org.ametys.runtime.plugins.core.mail;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -52,6 +56,26 @@ public final class SendMailHelper
     /** Logger */
     protected static final Logger _LOGGER = LoggerFactory.getLoggerFor(SendMailHelper.class);
 
+    /** Attribute selectors pattern for CSS specificity processing */
+    protected static final Pattern __CSS_SPECIFICITY_ATTR_PATTERN = Pattern.compile("(\\[[^\\]]+\\])");
+    /** ID selectors pattern for CSS specificity processing */
+    protected static final Pattern __CSS_SPECIFICITY_ID_PATTERN = Pattern.compile("(#[^\\s\\+>~\\.\\[:]+)");
+    /** Class selectors pattern for CSS specificity processing */
+    protected static final Pattern __CSS_SPECIFICITY_CLASS_PATTERN = Pattern.compile("(\\.[^\\s\\+>~\\.\\[:]+)");
+    /** Pseudo-element selectors pattern for CSS specificity processing */
+    protected static final Pattern __CSS_SPECIFICITY_PSEUDO_ELEMENT_PATTERN = Pattern.compile("(::[^\\s\\+>~\\.\\[:]+|:first-line|:first-letter|:before|:after)", Pattern.CASE_INSENSITIVE);
+    /** Pseudo-class (with bracket) selectors pattern for CSS specificity processing */
+    protected static final Pattern __CSS_SPECIFICITY_PSEUDO_CLASS_WITH_BRACKETS_PATTERN = Pattern.compile("(:[\\w-]+\\([^\\)]*\\))", Pattern.CASE_INSENSITIVE);
+    /** Pseudo-class selectors pattern for CSS specificity processing */
+    protected static final Pattern __CSS_SPECIFICITY_PSEUDO_CLASS_PATTERN = Pattern.compile("(:[^\\s\\+>~\\.\\[:]+)");
+    /** Element selectors pattern for CSS specificity processing */
+    protected static final Pattern __CSS_SPECIFICITY_ELEMENT_PATTERN = Pattern.compile("([^\\s\\+>~\\.\\[:]+)");
+    
+    /** Specific :not pseudo-class selectors pattern for CSS specificity processing */
+    protected static final Pattern __CSS_SPECIFICITY_PSEUDO_CLASS_NOT_PATTERN = Pattern.compile(":not\\(([^\\)]*)\\)");
+    /** Universal and separator characters pattern for CSS specificity processing */
+    protected static final Pattern __CSS_SPECIFICITY_UNIVERSAL_AND_SEPARATOR_PATTERN = Pattern.compile("[\\*\\s\\+>~]");
+    
     private SendMailHelper ()
     {
         // Nothing
@@ -348,6 +372,8 @@ public final class SendMailHelper
      */
     public static String inlineCSS(String html)
     {
+        List<CssRule> rules = new LinkedList<CssRule>();
+        
         Document doc = Jsoup.parse(html); 
         Elements els = doc.select("style");
 
@@ -369,25 +395,33 @@ public final class SendMailHelper
                 String[] selector = selectors.split(",");
                 for (String s : selector)
                 {
-                    if (StringUtils.isNotBlank(s) && !s.contains(":"))
+                    if (StringUtils.isNotBlank(s))
                     {
-                        try
-                        {
-                            Elements selectedElements = doc.select(s); 
-                            for (Element selElem : selectedElements) 
-                            { 
-                                String oldProperties = selElem.attr("style"); 
-                                selElem.attr("style", oldProperties.length() > 0 ? concatenateProperties(oldProperties, properties) : properties); 
-                            } 
-                        }
-                        catch (Selector.SelectorParseException ex)
-                        {
-                            _LOGGER.error("Cannot inline CSS. Ignoring this rule and continuing.", ex);
-                        }
+                        rules.add(new CssRule(s, properties, rules.size()));
                     }
                 }
             } 
             e.remove(); 
+        }
+        
+        // Sort rules by specificity
+        Collections.sort(rules, Collections.reverseOrder());
+    
+        for (CssRule rule : rules)
+        {
+            try
+            {
+                Elements selectedElements = doc.select(rule.getSelector());
+                for (Element selElem : selectedElements)
+                {
+                    String oldProperties = selElem.attr("style");
+                    selElem.attr("style", oldProperties.length() > 0 ? concatenateProperties(oldProperties, rule.getProperties()) : rule.getProperties());
+                }
+            }
+            catch (Selector.SelectorParseException ex)
+            {
+                _LOGGER.error("Cannot inline CSS. Ignoring this rule and continuing.", ex);
+            }
         }
 
         return doc.toString();
@@ -415,4 +449,113 @@ public final class SendMailHelper
         }
         return newProp + between + oldProp.trim(); // The existing (old) properties should take precedence. 
     } 
+    
+    private static class CssRule implements Comparable<CssRule>
+    {
+        private String _selector;
+        private String _properties;
+        private CssSpecificity _specificity;
+        
+        /**
+         * CSSRule constructor
+         * @param selector css selector
+         * @param properties css properties for this rule
+         * @param positionIdx The rules declaration index
+         */
+        public CssRule(String selector, String properties, int positionIdx)
+        {
+            _selector = selector;
+            _properties = properties;
+            _specificity = new CssSpecificity(_selector, positionIdx);
+        }
+        
+        /**
+         * Selector getter
+         * @return the selector
+         */
+        public String getSelector()
+        {
+            return _selector;
+        }
+        
+        /**
+         * Properties getter
+         * @return the properties
+         */
+        public String getProperties()
+        {
+            return _properties;
+        }
+        
+        public int compareTo(CssRule r)
+        {
+            return _specificity.compareTo(r._specificity);
+        }
+    }
+    
+    private static class CssSpecificity implements Comparable<CssSpecificity>
+    {
+        private int[] _weights;
+        
+        public CssSpecificity(String selector, int positionIdx)
+        {
+            // Position index is used to differentiate equality cases
+            // -> latest declaration should be the one applied
+            _weights = new int[]{0, 0, 0, 0, positionIdx};
+            
+            String input = selector;
+            
+            // This part is loosely based on https://github.com/keeganstreet/specificity
+            
+            // Remove :not pseudo-class but leave its argument
+            input = __CSS_SPECIFICITY_PSEUDO_CLASS_NOT_PATTERN.matcher(input).replaceAll(" $1 ");
+            
+            // The following regular expressions assume that selectors matching the preceding regular expressions have been removed
+            input = _countReplaceAll(__CSS_SPECIFICITY_ATTR_PATTERN, input, 2);
+            input = _countReplaceAll(__CSS_SPECIFICITY_ID_PATTERN, input, 1);
+            input = _countReplaceAll(__CSS_SPECIFICITY_CLASS_PATTERN, input, 2);
+            input = _countReplaceAll(__CSS_SPECIFICITY_PSEUDO_ELEMENT_PATTERN, input, 3);
+            // A regex for pseudo classes with brackets - :nth-child(), :nth-last-child(), :nth-of-type(), :nth-last-type(), :lang()
+            input = _countReplaceAll(__CSS_SPECIFICITY_PSEUDO_CLASS_WITH_BRACKETS_PATTERN, input, 2);
+            // A regex for other pseudo classes, which don't have brackets
+            input = _countReplaceAll(__CSS_SPECIFICITY_PSEUDO_CLASS_PATTERN, input, 2);
+            
+            // Remove universal selector and separator characters
+            input = __CSS_SPECIFICITY_UNIVERSAL_AND_SEPARATOR_PATTERN.matcher(input).replaceAll(" ");
+            
+            _countReplaceAll(__CSS_SPECIFICITY_ELEMENT_PATTERN, input, 3);
+        }
+        
+        private String _countReplaceAll(Pattern pattern, String selector, int sIndex)
+        {
+            Matcher m = pattern.matcher(selector);
+            StringBuffer sb = new StringBuffer();
+            
+            while (m.find())
+            {
+                // Increment desired weight counter
+                _weights[sIndex]++;
+                
+                // Replace matched selector part with whitespace
+                m.appendReplacement(sb, " ");
+            }
+            
+            m.appendTail(sb);
+            
+            return sb.toString();
+        }
+        
+        public int compareTo(CssSpecificity o)
+        {
+            for (int i = 0; i < _weights.length; i++)
+            {
+                if (_weights[i] != o._weights[i])
+                {
+                    return _weights[i] - o._weights[i];
+                }
+            }
+            
+            return 0;
+        }
+    }
 }
