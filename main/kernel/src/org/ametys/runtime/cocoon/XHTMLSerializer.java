@@ -441,7 +441,7 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
         if (XHTML1_NAMESPACE.equals(namespaceUri))
         {
             // If the element is not in the list of the tags to collapse, close it without collapsing
-            if (!__COLLAPSE_TAGS.contains(local))
+            if (!_tagsToCollapse.contains(local))
             {
                 this.closeElement(false);
             }
