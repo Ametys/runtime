@@ -413,7 +413,7 @@ public class RuntimeServlet extends CocoonServlet
         String requestURI = req.getRequestURI();
         if (requestURI.startsWith(contextPath + "/kernel/resources/"))
         {
-            String resourcePath = requestURI.substring(contextPath.length() + 1);
+            String resourcePath = requestURI.substring(contextPath.length() + 8); // Removing contextPath + "/kernel/"
             InputStream is = null;
             try
             {
