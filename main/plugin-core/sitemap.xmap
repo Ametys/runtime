@@ -461,8 +461,8 @@
             
             <map:match pattern="users/search.xml">
                 <map:generate type="users-search" src="{request-param:criteria}">
-                    <map:parameter name="count" value="{request-param:count}"/>
-                    <map:parameter name="offset" value="{request-param:offset}"/>
+                    <map:parameter name="limit" value="{request-param:limit}"/>
+                    <map:parameter name="start" value="{request-param:start}"/>
                     <map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
                 </map:generate>
                 <map:serialize type="xml"/>

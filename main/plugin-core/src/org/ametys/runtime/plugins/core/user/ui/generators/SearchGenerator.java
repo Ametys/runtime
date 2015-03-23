@@ -37,18 +37,18 @@ public class SearchGenerator extends ServiceableGenerator
 
     public void generate() throws IOException, SAXException, ProcessingException
     {
-        // Critère de recherche
+        // Search criteria
         Map<String, String> saxParameters = new HashMap<String, String>();
         saxParameters.put("pattern", source);
 
-        // Nombre de résultats max
+        // Maximum number of results (-1 to get all users)
         int count = parameters.getParameterAsInteger("limit", _DEFAULT_COUNT_VALUE);
         if (count == -1)
         {
             count = Integer.MAX_VALUE;
         }
 
-        // Décalage des résultats
+        // Offset to start with, first is 0.
         int offset = parameters.getParameterAsInteger("start", _DEFAULT_OFFSET_VALUE);
         
         // Get the wanted UsersManager avalon role, defaults to runtime-declared UsersManager.

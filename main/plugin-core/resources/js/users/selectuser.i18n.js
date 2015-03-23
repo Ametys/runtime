@@ -144,7 +144,7 @@ RUNTIME_Plugin_Runtime_SelectUser.load = function ()
 	var criteria = RUNTIME_Plugin_Runtime_SelectUser.criteria.getValue();
 
 	// Get the user list from the UsersManager.
-	var params = { criteria: criteria, count: 100, offset: 0, usersManagerRole: RUNTIME_Plugin_Runtime_SelectUser.usersManagerRole };
+	var params = { criteria: criteria, limit: 100, start: 0, usersManagerRole: RUNTIME_Plugin_Runtime_SelectUser.usersManagerRole };
 	var serverMessage = new org.ametys.servercomm.ServerMessage(RUNTIME_Plugin_Runtime_SelectUser.plugin, "users/search.xml", params, org.ametys.servercomm.ServerComm.PRIORITY_SYNCHRONOUS, null, this, null);
 	var result = org.ametys.servercomm.ServerComm.getInstance().send(serverMessage);
 
