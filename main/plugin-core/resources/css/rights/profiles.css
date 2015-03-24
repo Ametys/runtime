@@ -31,7 +31,7 @@
 }
 
 .profile-list-view {
-	background: url(../../img/rights/profile_bg.png) top left no-repeat !important; 
+	background: url('../../img/rights/profile_bg.png') top left no-repeat !important; 
 	padding: 10px 0 0 15px;
 }
 
@@ -55,7 +55,7 @@
 	margin-left: 0px;
 	padding: 0px 0px 0px 20px;
 	margin-bottom: 10px;
-	background : url(../../img/rights/bullet_expand.png) 0px 5px no-repeat !important;
+	background : url('../../img/rights/bullet_expand.png') 0px 5px no-repeat !important;
 }
 .profile-list-view .profile-list-view-header span {
 }
@@ -83,7 +83,7 @@
 }
 .card-panel {
 	padding-top: 25px;
-	background : url(../../img/rights/splitbar.png) top center no-repeat;
+	background : url('../../img/rights/splitbar.png') top center no-repeat;
 }
 
 

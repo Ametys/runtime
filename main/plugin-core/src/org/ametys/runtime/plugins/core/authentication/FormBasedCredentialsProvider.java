@@ -391,6 +391,7 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
             ConnectionHelper.cleanup(connection);
         }
     }
+    
     /**
      * Delete the login from the table of the failed connection
      * @param login
