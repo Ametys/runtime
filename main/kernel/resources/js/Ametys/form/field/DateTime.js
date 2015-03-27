@@ -172,5 +172,5 @@ Ext.define('Ametys.form.field.DateTime', {
     	errors = errors.concat(this.items.get(1).getErrors());
 
     	return errors;
-    },
+    }
 });

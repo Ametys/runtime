@@ -1458,7 +1458,7 @@
 	            }
         		editingPlugin.context.grid.getSelectionModel().deselect(lastPos.row); 										// FIX we have to deselect last row CMS-5979
 	        } while (position && (!position.columnHeader.getEditor(record) || !editingPlugin.startEditByPosition(position)));
-	    },		
+	    }
 	});
 	
 	Ext.define("Ametys.grid.plugin.CellEditing", {
