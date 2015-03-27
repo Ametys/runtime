@@ -401,7 +401,7 @@ Ext.define(
 			var responseAsObject = null;
 			if (!this.isBadResponse(response))
 			{
-				responseAsObject = Ext.JSON.decode(response.textContent);
+				responseAsObject = Ext.JSON.decode(response.textContent || response.text);
 			}
 			
 			callback.handler.apply(callback.scope || this, [responseAsObject, callback.arguments]);
