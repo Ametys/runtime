@@ -34,7 +34,7 @@
                 <title><i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_TITLE"/></title>
             </head>
 				<script>
-					<script type="text/javascript" src="{$resourcesPath}/js/Ametys/plugins/core/administration/Plugins.i18n.js"></script>
+					<script type="text/javascript" src="{$resourcesPath}/js/Ametys/plugins/core/administration/Plugins.js"></script>
 	            	<script type="text/javascript">
 						Ametys.plugins.core.administration.Plugins.initialize ("<xsl:value-of select="$pluginName"/>");
 						

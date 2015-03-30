@@ -36,7 +36,7 @@
             </head>
             
             <script>
-				<script type="text/javascript" src="{$resourcesPath}/js/Ametys/plugins/core/administration/Profiles.i18n.js"/>
+				<script type="text/javascript" src="{$resourcesPath}/js/Ametys/plugins/core/administration/Profiles.js"/>
 				<script type="text/javascript">
 				        Ametys.plugins.core.administration.Profiles.initialize ("<xsl:value-of select="$pluginName"/>");
 				

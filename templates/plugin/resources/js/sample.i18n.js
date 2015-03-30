@@ -17,7 +17,7 @@
 <!-- 
   This sample of js will be xmlized so you cannot use xml special characters 
   This comment will not be part of the output
-  The url to call this file is 'resources/js/sample.i18n.js'
+  The url to call this file is 'resources/js/sample.js'
   
   I18n namespace will be automatically added so you can use i18n tags
   and default catalogue will be the plugin one

@@ -35,8 +35,8 @@
             </head>
             
             <script>
-            	<script type="text/javascript" src="{$resourcesPath}/js/Ametys/plugins/core/administration/UserEdit.i18n.js"><xsl:comment>//empty</xsl:comment></script>
-            	<script type="text/javascript" src="{$resourcesPath}/js/Ametys/plugins/core/administration/Users.i18n.js"><xsl:comment>//empty</xsl:comment></script>
+            	<script type="text/javascript" src="{$resourcesPath}/js/Ametys/plugins/core/administration/UserEdit.js"><xsl:comment>//empty</xsl:comment></script>
+            	<script type="text/javascript" src="{$resourcesPath}/js/Ametys/plugins/core/administration/Users.js"><xsl:comment>//empty</xsl:comment></script>
             	
             	<script type="text/javascript">
             			Ametys.plugins.core.administration.Users.initialize("<xsl:value-of select="$pluginName"/>");

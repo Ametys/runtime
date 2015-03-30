@@ -112,34 +112,34 @@
             <script>/plugins/extjs5/resources/packages/ext-ux/build/ext-ux<xsl:if test="$debug-mode">-debug</xsl:if>.js</script>
             
 <!-- 			<script>/kernel/resources/js/Ext.fixes.js</script> -->
-<!--             <script>/kernel/resources/js/Ext.enhancements.i18n.js</script> -->
+<!--             <script>/kernel/resources/js/Ext.enhancements.js</script> -->
 
-			<script>/kernel/resources/js/Ametys.i18n.js</script>
+			<script>/kernel/resources/js/Ametys.js</script>
 			
 	        <script>/kernel/resources/js/Ametys/log/Logger/Entry.js</script>
             <script>/kernel/resources/js/Ametys/log/LoggerFactory.js</script>
 			<script>/kernel/resources/js/Ametys/log/Logger.js</script>
-	        <script>/kernel/resources/js/Ametys/log/ErrorDialog.i18n.js</script>
+	        <script>/kernel/resources/js/Ametys/log/ErrorDialog.js</script>
 	        
 	        <script>/kernel/resources/js/Ametys/window/DialogBox.js</script>
             <script>/kernel/resources/js/Ametys/window/MessageBox.js</script>
             
-	        <script>/kernel/resources/js/Ametys/form/AbstractField.i18n.js</script>
+	        <script>/kernel/resources/js/Ametys/form/AbstractField.js</script>
 	        <script>/kernel/resources/js/Ametys/form/AbstractFieldsWrapper.js</script>
 	        <script>/kernel/resources/js/Ametys/form/field/DateTime.js</script>
-	        <script>/kernel/resources/js/Ametys/form/field/ChangePassword.i18n.js</script>
+	        <script>/kernel/resources/js/Ametys/form/field/ChangePassword.js</script>
             <script>/kernel/resources/js/Ametys/form/field/ReferencedNumberField.js</script>
-            <script>/kernel/resources/js/Ametys/form/field/RichText.i18n.js</script>
+            <script>/kernel/resources/js/Ametys/form/field/RichText.js</script>
             <script>/kernel/resources/js/Ametys/form/field/Code.js</script>
             
-	        <script>/kernel/resources/js/Ametys/data/ServerComm.i18n.js</script>
-            <script>/kernel/resources/js/Ametys/data/ServerCommProxy.i18n.js</script>
-	        <script>/kernel/resources/js/Ametys/data/ServerComm/TimeoutDialog.i18n.js</script>
+	        <script>/kernel/resources/js/Ametys/data/ServerComm.js</script>
+            <script>/kernel/resources/js/Ametys/data/ServerCommProxy.js</script>
+	        <script>/kernel/resources/js/Ametys/data/ServerComm/TimeoutDialog.js</script>
 	        
 <!-- 	        <script>/kernel/resources/js/Ametys/tree/TreeEditor.js</script> -->
-<!--             <script>/kernel/resources/js/Ametys/grid/plugin/Multisort.i18n.js</script> -->
+<!--             <script>/kernel/resources/js/Ametys/grid/plugin/Multisort.js</script> -->
 
-<!--             <script>/kernel/resources/js/Ametys/ui/fluent/tip/Tooltip.i18n.js</script> -->
+<!--             <script>/kernel/resources/js/Ametys/ui/fluent/tip/Tooltip.js</script> -->
 
 <!--             <script>/kernel/resources/js/Ametys/ui/fluent/ribbon/Ribbon.js</script> -->
 <!--             <script>/kernel/resources/js/Ametys/ui/fluent/ribbon/TabPanel.js</script> -->

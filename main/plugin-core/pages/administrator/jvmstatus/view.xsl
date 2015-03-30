@@ -35,7 +35,7 @@
 			</head>
 
 			<script>
-				<script type="text/javascript" src="{$resourcesPath}/js/Ametys/plugins/core/administration/JVMStatus.i18n.js"></script>
+				<script type="text/javascript" src="{$resourcesPath}/js/Ametys/plugins/core/administration/JVMStatus.js"></script>
 	            <script type="text/javascript">
 	                Ametys.plugins.core.administration.JVMStatus.initialize ("<xsl:value-of select="$pluginName"/>");
 	          		

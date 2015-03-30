@@ -36,9 +36,9 @@
             </head>
             
             <script>
-            	<script type="text/javascript" src="{$contextPath}/plugins/{$pluginName}/resources/js/Ametys/runtime/uihelper/SelectUser.i18n.js"><xsl:comment>//emty</xsl:comment></script>
-                <script type="text/javascript" src="{$contextPath}/plugins/{$pluginName}/resources/js/Ametys/runtime/uihelper/SelectGroup.i18n.js"><xsl:comment>//emty</xsl:comment></script>
-            	<script type="text/javascript" src="{$contextPath}/plugins/{$pluginName}/resources/js/Ametys/plugins/core/administration/Groups.i18n.js"></script>
+            	<script type="text/javascript" src="{$contextPath}/plugins/{$pluginName}/resources/js/Ametys/runtime/uihelper/SelectUser.js"><xsl:comment>//emty</xsl:comment></script>
+                <script type="text/javascript" src="{$contextPath}/plugins/{$pluginName}/resources/js/Ametys/runtime/uihelper/SelectGroup.js"><xsl:comment>//emty</xsl:comment></script>
+            	<script type="text/javascript" src="{$contextPath}/plugins/{$pluginName}/resources/js/Ametys/plugins/core/administration/Groups.js"></script>
             	
             	<script type="text/javascript">
             		Ametys.plugins.core.administration.Groups.initialize ("<xsl:value-of select="$pluginName"/>");

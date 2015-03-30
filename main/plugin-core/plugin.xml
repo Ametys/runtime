@@ -1239,7 +1239,7 @@
 					<param name="icon-large" file="true">img/administrator/password/icon_large.png</param>
 				</class>   
 				<scripts>
-					<file>js/Ametys/plugins/core/administration/Password.i18n.js</file>
+					<file>js/Ametys/plugins/core/administration/Password.js</file>
 				</scripts> 				   
             </extension>
             
@@ -1371,8 +1371,8 @@
 					<param name="icon-large" file="true">img/administrator/superuser/icon_large.png</param>
 				</class>   
                 <scripts>
-                    <file>js/Ametys/plugins/core/administration/SuperUser.i18n.js</file>
-                    <file>js/Ametys/runtime/uihelper/SelectUser.i18n.js</file>
+                    <file>js/Ametys/plugins/core/administration/SuperUser.js</file>
+                    <file>js/Ametys/runtime/uihelper/SelectUser.js</file>
 				</scripts> 	
 				<css>
 					<file>css/selectuser.css</file>

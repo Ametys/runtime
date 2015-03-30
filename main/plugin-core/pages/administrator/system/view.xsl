@@ -35,7 +35,7 @@
             </head>
             
 	        <script>
-	        	<script type="text/javascript" src="{$contextPath}/plugins/{$pluginName}/resources/js/Ametys/plugins/core/administration/System.i18n.js"></script>
+	        	<script type="text/javascript" src="{$contextPath}/plugins/{$pluginName}/resources/js/Ametys/plugins/core/administration/System.js"></script>
 	        	     
 				<script type="text/javascript">
 		                   
