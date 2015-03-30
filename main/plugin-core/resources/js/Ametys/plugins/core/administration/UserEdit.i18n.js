@@ -197,6 +197,7 @@ Ext.define('Ametys.plugins.core.administration.UserEdit', {
     		callback: null, 
     		responseType: null
     	});
+    	
 	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key='PLUGINS_CORE_USERS_DIALOG_ERROR'/>", result, "Ametys.plugins.core.administration.UserEdit.ok"))
 	    {
 	       return;

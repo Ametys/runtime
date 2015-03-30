@@ -248,7 +248,7 @@
             }
 
             return ret;
-        },
+        }
     });
     
     Ext.define("Ametys.ux.IFrame", {

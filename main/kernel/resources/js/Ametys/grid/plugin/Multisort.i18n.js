@@ -205,7 +205,7 @@ Ext.define('Ametys.grid.plugin.Multisort',
                     }
                 }
                 return true;
-            },
+            }
         });
         
         // add the toolbar with the 2 plugins
