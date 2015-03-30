@@ -18,6 +18,6 @@
 
 	<property name="dest-dir" location="../../../../.."/>
 
-	<import file="../../../../../development/merge/build.xml"/>
+	<import file="../../../../../bootstrap/4/development/merge/merge.xml"/>
 	
 </project>
