@@ -15,13 +15,13 @@
    limitations under the License.
    -->
 <!-- add property ivyde2.2 if your are using ivyde2.2, and nothing for ivyde2.1 -->
-<project name="ametys-dev-mode-enter" default="dev-mode-enter">
+<project name="ametys-development-enter" default="enter">
 	<target name="add-external">
-		<copy file="external-locations.xml" todir="../templates/application/WEB-INF/param"/>
+		<copy file="utils/external-locations.xml" todir="../../templates/application/WEB-INF/param"/>
 	</target>
 	
 	<target name="classpath-dev">
-        <xslt in="../.classpath" out="../.classpath.tmp" style="classpath2devmode.xsl">
+        <xslt in="../../.classpath" out="../../.classpath.tmp" style="utils/classpath2devmode.xsl">
             <outputproperty name="method" value="xml"/>
             <outputproperty name="standalone" value="yes"/>
             <outputproperty name="encoding" value="UTF-8"/>
@@ -29,8 +29,8 @@
 
             <param name="todevmode" expression="true"/>
         </xslt>
-        <move file="../.classpath.tmp" tofile="../.classpath" overwrite="yes"/>
+        <move file="../../.classpath.tmp" tofile="../../.classpath" overwrite="yes"/>
 	</target>
     
-    <target name="dev-mode-enter" depends="add-external, classpath-dev"/>
+    <target name="enter" depends="add-external, classpath-dev"/>
 </project>

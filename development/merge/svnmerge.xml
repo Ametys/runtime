@@ -14,10 +14,10 @@
    See the License for the specific language governing permissions and
    limitations under the License.
    -->
-<project name="merge" default="kernel-runtime-39">
+<project name="merge" default="kernel-runtime-40">
 
-	<property name="dest-dir" location="../../../.."/>
+	<property name="dest-dir" location="../../../../.."/>
 
-	<import file="../../../../deliver/dev-kit/merge/build.xml"/>
+	<import file="../../../../../development/merge/build.xml"/>
 	
 </project>
