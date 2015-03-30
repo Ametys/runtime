@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright 2012 Anyware Services
+   Copyright 2015 Anyware Services
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
    limitations under the License.
    -->
 <ivy-module version="1.0">
-  <info organisation="org.ametys.runtime" module="runtime" branch="3.9.x">
+  <info organisation="org.ametys.runtime" module="runtime" branch="4.0.x">
     <license url="http://www.apache.org/licenses/LICENSE-2.0" name="ASL2"/>
     <description homepage="http://www.ametys.org/">
 Open source web application framework based on Apache Cocoon.
@@ -89,11 +89,11 @@ Open source web application framework based on Apache Cocoon.
     
     <!-- Runtime -->
     <dependency org="minaret" name="datedFileAppender" rev="1.0.2" conf="runtime_dependencies->default"/>
-    <dependency org="org.sencha" name="extjs4" rev="4.2.3-patch-1" conf="runtime_dependencies->default"/>
+    <dependency org="org.sencha" name="extjs5" rev="5.1.0" conf="runtime_dependencies->default"/>
 	
     <!-- Compile and test -->
     <dependency org="javax.servlet" name="servlet-api" rev="2.4" conf="compile_base->default"/>
-    <dependency org="org.apache.xmlgraphics" name="fop" rev="1.1" transitive="false" conf="compile_base,test->default"/>
+    <dependency org="org.apache.xmlgraphics" name="fop" rev="1.1" conf="compile_base,test->default"/>
     <dependency org="org.jasig.cas.client" name="cas-client-core" rev="3.2.1" conf="compile_base,test->default"/>
     
     <dependency org="mysql" name="mysql-connector-java" rev="5.1.26" conf="test->default"/>
