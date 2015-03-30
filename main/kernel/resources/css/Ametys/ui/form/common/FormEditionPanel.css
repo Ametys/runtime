@@ -1,0 +1,314 @@
+/*
+ *  Copyright 2014 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+.ametys-form-panel > .x-panel-body,
+.ametys-form-panel .ametys-fieldset > .x-panel-body,
+.ametys-form-panel .ametys-form-tab-item > .x-panel-body,
+.ametys-form-panel .ametys-form-tab-inline-item > .x-panel-body
+{
+    background: none;
+}
+
+.ametys-form-panel .ametys-form-tab > .x-panel-body,
+.ametys-form-panel .ametys-form-tab-inline > .x-panel-body,
+.ametys-form-panel .ametys-repeater > .x-panel-body,
+.ametys-form-panel .ametys-repeater-item > .x-panel-body
+{
+    background: none;
+}
+
+.ametys-form-panel .ametys-form-tab-inline .ametys-form-tab-inline-toolbar {
+	background: none;
+}
+
+.ametys-form-panel .ametys-form-tab-inline .ametys-form-tab-inline-toolbar .x-btn {
+	background: none;
+	border:none;
+}
+
+.ametys-form-panel .ametys-repeater {
+    border: 1px solid #B0B0B0;
+}
+.ametys-form-panel .ametys-repeater.even {
+    border: 1px solid #B47AAC;
+}
+
+.ametys-form-panel .ametys-repeater.repeater-invalid {
+    border: 1px solid #FF0000 !important;
+    padding: 2px;
+}
+
+.ametys-repeater-invalid-tooltip {
+	background: url('../../../../../../plugins/extjs4/resources/ext-theme-gray/images/form/exclamation.gif') left no-repeat;
+	padding-left: 20px;
+}
+
+.ametys-form-panel .ametys-repeater .x-tool-error {
+	background: url('../../../../../../plugins/extjs4/resources/ext-theme-gray/images/form/exclamation.gif') left no-repeat !important;
+}
+
+.ametys-form-panel .ametys-repeater-item > .x-panel-body
+{
+    background-color: rgba(255, 255, 255, 0.6);
+}
+.ametys-form-panel .ametys-repeater-item.even > .x-panel-body
+{
+    background-color: rgba(226, 225, 231, 0.5);
+}
+
+/** @begin Fieldsets */
+.ametys-form-panel .ametys-fieldset
+{
+    border: 1px solid #CCCCCC;
+}
+.ametys-form-panel .ametys-fieldset > .x-panel-body 
+{
+    border: none;
+}
+
+.ametys-form-panel .ametys-fieldset > .x-panel-header
+{
+    background-image: url('../../../../../../_admin/resources/img/icon/group-expand-sprite.png');
+    background-repeat: no-repeat;   
+    background-position: 0px -45px;
+    background-color: transparent;
+    
+    border: none;
+    box-shadow: none;
+    
+    padding-left: 15px;
+    margin-left: 10px;
+}
+
+.ametys-form-panel .ametys-fieldset > .x-panel-header .x-panel-header-text
+{
+    /*font-family: Arial,sans-serif;*/
+    font-size: 1.1em;
+    color: #404040;
+}
+
+.ametys-form-panel .ametys-fieldset > .x-panel-header.x-panel-header-collapsed-top
+{
+    background-position: 0px 5px;
+}
+
+/** @end Fieldsets */
+
+
+/** @begin Repeaters */
+
+.ametys-form-panel .ametys-repeater > .x-panel-header {
+    background: none repeat scroll 0 0 #DADADA;
+    border: 1px solid #ECECEC !important;
+}
+
+.ametys-form-panel .ametys-repeater > .x-panel-header .x-panel-header-text {
+    font-weight: bold;
+    font-style: italic;
+}
+
+.ametys-form-panel .ametys-repeater > .x-panel-header,
+.ametys-form-panel .ametys-repeater-item > .x-panel-header
+{
+    padding: 3px 5px;
+}
+
+.ametys-form-panel .ametys-repeater-item > .x-panel-header {
+    /*border-width: 1px !important;*/
+}
+
+.ametys-form-panel .ametys-repeater-item > .x-panel-header.x-accordion-hd {
+    background: none repeat scroll 0 0 #DFDFDF;
+}
+
+.ametys-form-panel .ametys-repeater-item > .x-panel-header.x-accordion-hd-last-collapsed {
+    border-bottom-color: #D0D0D0;
+}
+
+.ametys-form-panel .ametys-repeater-item > .x-panel-header .x-panel-header-text
+{
+    font-weight: bold;
+    color: #404040;
+}
+
+.ametys-form-panel .ametys-repeater-item > .x-panel-header .x-panel-header-text .header-repeater-item-value {
+    font-weight: normal;
+}
+
+.ametys-form-panel .ametys-repeater-item > .x-panel-body.x-accordion-body .x-panel-body {
+    border: none;
+}
+/** @end Repeaters */
+
+
+.ametys-form-panel .x-form-item-label, .x-form-cb-label {
+    color: #404040;
+}
+
+.ametys-form-panel .x-form-item-label, 
+.ametys-form-panel .x-boundlist-item, 
+.ametys-form-panel .x-form-field
+{
+    font-size: 0.9em;
+    line-height: 16px !important;
+}
+
+.ametys-form-panel .x-form-item-label {
+    margin-top: 2px;
+}
+
+
+/** @begin Main tabs */
+.ametys-form-panel .ametys-form-tab {
+}
+
+.ametys-form-panel .ametys-form-tab > .x-panel-body{
+    border-top-width: 0px;
+}
+
+.ametys-form-panel .ametys-form-tab .x-tab-bar-top {
+    /*background: none;
+    border: none;*/
+}
+
+.ametys-form-panel .ametys-form-tab .x-tab-bar-strip {
+    /*background-color: transparent;*/
+}
+
+.ametys-form-panel .ametys-form-tab .x-tab-default .x-tab-inner {
+    font-weight: normal;
+    color: #333333;
+}
+
+.ametys-form-panel .ametys-form-tab .x-tab-default.x-active .x-tab-inner {
+    font-weight: bold;
+}
+
+.ametys-form-panel .ametys-form-tab .x-tab-default.error.not-startup .x-tab-inner,
+.ametys-form-panel .ametys-form-tab-inline .x-panel-header.error.not-startup .x-panel-header-text {
+    padding-left: 20px;
+    color: #e25f53;
+    font-style: normal;
+}
+
+.ametys-form-panel .ametys-form-tab .x-tab-default.warning.not-startup .x-tab-inner,
+.ametys-form-panel .ametys-form-tab-inline .x-panel-header.warning.not-startup .x-panel-header-text {
+    padding-left: 20px;
+    color: #EEA20B;
+    font-style: normal;
+}
+
+.ametys-form-panel .ametys-form-tab-inline .x-panel-header.error.not-startup .x-panel-header-text {
+    background: url('../../../../../../plugins/extjs4/resources/ext-theme-gray/images/form/exclamation.gif') left no-repeat;
+}
+
+.ametys-form-panel .ametys-form-tab .x-tab-default.error.not-startup .x-tab-icon-el {
+    background: url('../../../../../../plugins/extjs4/resources/ext-theme-gray/images/form/exclamation.gif') left no-repeat;
+}
+
+.ametys-form-panel .ametys-form-tab-inline .x-panel-header.warning.not-startup .x-panel-header-text {
+    background: url('../../../../../../kernel/resources/img/Ametys/theme/gray/warning.png') left no-repeat;
+}
+
+.ametys-form-panel .ametys-form-tab .x-tab-default.warning.not-startup .x-tab-icon-el {
+    background: url('../../../../../../kernel/resources/img/Ametys/theme/gray/warning.png') left no-repeat;
+}
+
+.ametys-form-panel .ametys-form-tab .x-tab-default.error.not-startup.x-tab-active .x-tab-inner,
+.ametys-form-panel .ametys-form-tab .x-tab-default.warning.not-startup.x-tab-active .x-tab-inner {
+    color: #333333;
+    padding-left: 0px;
+}
+
+.ametys-form-panel .ametys-form-tab .x-tab-default.warning.not-startup.x-tab-active .x-tab-icon-el,
+.ametys-form-panel .ametys-form-tab .x-tab-default.error.not-startup.x-tab-active .x-tab-icon-el {
+    background: none;
+}
+
+.ametys-tab-tooltip .ametys-tab-tooltip-status ul.error,
+.ametys-tab-tooltip .ametys-tab-tooltip-status ul.warn,
+.ametys-tab-tooltip .ametys-tab-tooltip-status ul.comment {
+    padding-left: 30px;
+    margin: 3px 0 6px 0;
+}
+
+.ametys-tab-tooltip .ametys-tab-tooltip-status .ametys-tab-tooltip-error-label {
+    color: #e25f53;
+    font-weight: bold;
+}
+
+.ametys-tab-tooltip .ametys-tab-tooltip-status .ametys-tab-tooltip-warn-label {
+    color: #EEA20B;
+    font-weight: bold;
+}
+
+.ametys-tab-tooltip .ametys-tab-tooltip-status .ametys-tab-tooltip-comment-label {
+    font-weight: bold;
+}
+
+.ametys-tab-tooltip .ametys-tab-tooltip-status .ametys-tab-tooltip-mandatory-label {
+    font-weight: bold;
+}
+
+.ametys-form-panel  .ametys-form-tab .x-tab-default.empty .x-tab-inner {
+}
+/** @end Main tabs */
+
+
+/** @begin Main fieldset tabs */
+.ametys-form-panel .ametys-form-tab-inline-item
+{
+    padding: 0; 
+    border: 1px solid #BBBBBB;
+}
+.ametys-form-panel .ametys-form-tab-inline-item > .x-panel-body 
+{
+    border: none;
+    border-top: 1px solid #BBBBBB;
+}
+
+.ametys-form-panel .ametys-form-tab-inline-item .ametys-fieldset
+{
+}
+
+.ametys-form-panel .ametys-form-tab-inline-item > .x-panel-header 
+{
+    background-color: #D9DEE6;
+    background-image: none;
+    padding: 3px 5px;
+    /*background-color: #D7D2D2;
+    background-image: -moz-linear-gradient(center top , #ECECEC, #D7D2D2);*/
+    
+    /*top: -1px !important;*/
+}
+.ametys-form-panel .ametys-form-tab-inline-item > .x-panel-header > .x-header-body
+{
+    background-image: url('../../../../../../_admin/resources/img/icon/group-expand-sprite.png');
+    background-repeat: no-repeat;   
+    background-position: 5px -48px;
+    padding-left: 20px;
+}
+
+.ametys-form-panel .ametys-form-tab-inline-item > .x-panel-header .x-panel-header-text
+{
+    font-size: 1.1em;
+}
+
+.ametys-form-panel .ametys-form-tab-inline-item > .x-panel-header.x-panel-header-collapsed-top  > .x-header-body
+{
+    background-position: 5px 2px;
+}
+/** @end Main fieldset tabs */

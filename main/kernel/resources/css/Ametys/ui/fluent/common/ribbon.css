@@ -1,0 +1,350 @@
+/*
+ *  Copyright 2013 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+
+/* ******* 
+ * GENERAL
+ * ******* */
+.x-fluent-tab-panel
+{
+	width: 100%;
+	z-index: 4 !important; /* under the drag n drop flying elements */
+}
+.x-fluent-tab-panel *
+{
+	font-family: "Tahoma","Helvetica","Arial",sans-serif !important;
+	font-weight: normal;
+}
+
+.x-fluent-tab-panel .x-fluent-tab-right
+{
+	position: absolute;
+	background-repeat: no-repeat;
+    background-position: right -144px;
+    right: 0;
+    width: 4px;
+}
+
+.x-fluent-tab-panel
+{
+	padding-left: 4px;
+    padding-right: 4px;
+    z-index: 3;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+}
+
+/* ******************** 
+ * HEADER OF THE RIBBON
+ * ******************** */
+.x-fluent-tab-panel .x-panel-header-default-top
+{
+	box-shadow: none;
+}
+
+.x-fluent-tab-panel .x-tab-bar .x-tab-bar-strip-default
+{
+	display: none;
+}
+
+.x-fluent-tab-panel > .x-fluent-tab-panel-header
+{
+    background-repeat: repeat-x;
+    background-position: 0 -288px;
+}
+.x-fluent-tab-panel > .x-fluent-tab-panel-header,
+.x-fluent-tab-panel > .x-fluent-tab-panel-header > .x-box-inner 
+{
+	padding: 0;
+	margin: 0;
+	height: 52px !important;
+}
+
+.x-fluent-tab-panel .x-fluent-tab-panel-header .x-title-default
+{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	text-align: center;
+	white-space: nowrap;
+	font-size: 12px;
+	top: 5px !important;
+}
+
+/* TAB STRIP */
+.x-fluent-tab-panel .x-tab-bar 
+{
+	background-color: transparent;
+	background-image: none;
+	border-style: none;
+    cursor: default;
+    padding: 0;
+    margin-left: 40px;
+    margin-top: 1px;
+    background-repeat: repeat-x;
+    background-position: right -315px;
+    z-index: 1;
+}
+.x-fluent-tab-panel .x-tab-bar .x-tab-bar-body 
+{
+    padding-top: 0px;
+    padding-bottom: 1px;
+}
+.x-fluent-tab-panel .x-tab-bar .x-tab-bar-body,
+.x-fluent-tab-panel .x-tab-bar .x-tab-bar-body .x-box-inner,
+.x-fluent-tab-panel .x-tab-bar .x-tab-bar-body .x-box-inner .x-tab,
+.x-fluent-tab-panel .x-tab-bar .x-tab-bar-body .x-box-inner .x-tab .x-tab-wrap,
+.x-fluent-tab-panel .x-tab-bar .x-tab-bar-body .x-box-inner .x-tab .x-tab-wrap .x-tab-button,
+.x-fluent-tab-panel .x-tab-bar .x-tab-bar-body .x-box-inner .x-tab .x-tab-wrap .x-tab-inner
+{
+	height: 24px !important;
+}
+
+.x-fluent-tab-panel .x-tab-bar .x-tab
+{
+    box-shadow: none;
+    background-image: none;
+    background-color: transparent;
+    border-style: none;
+    border-radius: 0;
+    cursor: default;
+    padding: 0;
+}
+
+.x-fluent-tab-panel .x-tab-bar .x-tab > div > div
+{
+    padding-left: 10px;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: 0 -216px;
+    background-image: none;
+}
+.x-fluent-tab-panel .x-tab-bar .x-tab > div > div .x-tab-wrap 
+{
+    padding-right: 10px;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: 0 -24px;
+}
+.x-fluent-tab-panel .x-tab-bar .x-tab > div > div .x-tab-wrap .x-tab-button 
+{
+    background-color: transparent;
+	background-position: 0 -120px;
+}
+.x-fluent-tab-panel .x-tab-bar .x-tab > div > div .x-tab-wrap span.x-tab-inner 
+{
+    padding-top: 7px;
+    padding-bottom: 4px;
+    font-weight: normal;
+}
+
+.x-fluent-tab-panel .x-tab-bar .x-tab-over.x-tab > div > div
+{
+     background-position: 0 -48px;
+}
+.x-fluent-tab-panel .x-tab-bar .x-tab-over.x-tab > div > div .x-tab-wrap
+{
+     background-position: right -240px;
+}
+.x-fluent-tab-panel .x-tab-bar .x-tab-over.x-tab > div > div .x-tab-wrap .x-tab-button 
+{
+     background-position: 0 -144px;
+}
+.x-fluent-tab-panel .x-tab-bar .x-tab-active.x-tab > div > div 
+{
+    background-position: 0 0px;
+}
+.x-fluent-tab-panel .x-tab-bar .x-tab-active.x-tab > div > div .x-tab-wrap
+{
+    background-position: right -192px;
+}
+.x-fluent-tab-panel .x-tab-bar .x-tab-active.x-tab > div > div .x-tab-wrap .x-tab-button  
+{
+    background-position: 0 -96px;
+}
+.x-fluent-tab-panel .x-tab-bar .x-tab-active.x-tab-over.x-tab > div > div 
+{
+    background-position: 0 -72px;
+}
+.x-fluent-tab-panel .x-tab-bar .x-tab-active.x-tab-over.x-tab > div > div .x-tab-wrap
+{
+    background-position: right -264px;
+}
+.x-fluent-tab-panel .x-tab-bar .x-tab-active.x-tab-over.x-tab > div > div .x-tab-wrap .x-tab-button 
+{
+    background-position: 0 -168px;
+}
+
+/* BUTTON */
+.x-fluent-tab-panel .x-fluent-tab-panel-header .x-fluent-appbutton 
+{
+	top: 5px !important;
+	width: 38px;
+	height: 38px;
+	cursor: default;
+	margin: 0;
+	padding: 0;
+    background-image: none;
+    background-color: transparent;
+    border-style: none;
+    border-radius: 20px;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+}
+.x-fluent-tab-panel .x-fluent-tab-panel-header .x-fluent-appbutton.x-btn-over
+{
+    background-position: 0 -38px;
+}
+.x-fluent-tab-panel .x-fluent-tab-panel-header .x-fluent-appbutton.x-btn-menu-active
+{
+    background-position: 0 -76px;
+}
+.x-fluent-tab-panel .x-fluent-tab-panel-header .x-fluent-appbutton * 
+{
+	cursor: default !important;
+}
+
+/* USER CONNECTED */
+.x-fluent-tab-panel .x-fluent-user.x-btn,
+.x-fluent-tab-panel .x-fluent-user.x-btn.x-btn-menu-active,
+.x-fluent-tab-panel .x-fluent-user.x-btn.x-btn-menu-pressed 
+{
+	top: 2px !important;
+	border-style: none;
+	background-image: none;
+	background-color: transparent;
+	cursor: default;
+}
+.x-fluent-tab-panel .x-fluent-user .x-btn-arrow-right:after
+{
+	background-position: right 0;
+}
+.x-fluent-tab-panel .x-fluent-user.x-btn-over .x-btn-arrow-right:after
+{
+    background-position: right -16px;
+}
+.x-fluent-tab-panel .x-fluent-user.x-btn-pressed .x-btn-arrow-right:after
+{
+    background-position: right -32px;
+}
+.x-fluent-tab-panel .x-fluent-user .x-fluent-usericon
+{
+	background-position: 0 0;
+}
+.x-fluent-tab-panel .x-fluent-user.x-btn-over .x-btn-inner
+{
+	text-decoration: underline;
+}
+.x-fluent-tab-panel .x-fluent-user.x-btn-over .x-fluent-usericon
+{
+    background-position: 0 -16px;
+}
+.x-fluent-tab-panel .x-fluent-user.x-btn-pressed .x-btn-inner
+{
+    text-decoration: underline;
+}
+.x-fluent-tab-panel .x-fluent-user.x-btn-pressed .x-fluent-usericon
+{
+    background-position: 0 -32px;
+}
+
+/* HELP */
+.x-fluent-tab-panel .x-fluent-help 
+{
+	top: 6px !important;
+}
+.x-fluent-tab-panel .x-fluent-help > img 
+{
+	background-position: 0 0;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    cursor: default;
+	height: 14px;
+}
+.x-fluent-tab-panel .x-fluent-help.x-tool-over > img 
+{
+    background-position: 0 -14px;
+}
+.x-fluent-tab-panel .x-fluent-help.x-tool-pressed > img 
+{
+    background-position: 0 -28px;
+}
+
+/* *******
+ * TOOLTIP
+ * ******* */
+.x-fluent-tooltip 
+{
+	padding: 5px;
+}
+.x-fluent-tooltip .x-tip-header-body-default
+{
+    padding: 5px 0 0 10px;
+}
+.x-fluent-tooltip-title 
+{
+	padding-left: 8px;
+	font-weight: bold;
+}
+
+.x-fluent-tooltip-text
+{
+	padding-left: 8px;
+} 
+.x-fluent-tooltip-text,
+.x-fluent-tooltip-text-image 
+{
+	padding-right: 8px;
+	padding-bottom: 8px
+}
+.x-fluent-tooltip-img 
+{
+	float: left;
+	margin-right: 8px;
+	margin-bottom: 8px;
+    margin-left: 0px;
+    text-align: center;
+}
+.x-fluent-tooltip-img img
+{
+	vertical-align: middle;
+}
+.x-fluent-tooltip-footer 
+{
+	padding-top: 5px;
+	padding-bottom: 2px;
+    padding-left: 18px;
+    background-position: 0 6px;
+    background-repeat: no-repeat;
+    font-weight: bold;
+}
+
+/* ****************** 
+ * BODY OF THE RIBBON
+ * ****************** */
+.x-fluent-tab-panel > .x-panel-body
+{
+ 	background-repeat: repeat-x;
+ 	background-position: 0 -340px;
+    border-style: none;
+}
+
+.x-fluent-tab-panel > .x-panel-body > .x-panel,
+.x-fluent-tab-panel > .x-panel-body > .x-panel > .x-panel-body
+{
+	background-color: transparent;
+ 	background-repeat: no-repeat;
+    border-style: none;
+}

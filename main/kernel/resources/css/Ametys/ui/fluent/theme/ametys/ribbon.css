@@ -1,0 +1,141 @@
+/*
+ *  Copyright 2010 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+ 
+/* ******* 
+ * GENERAL
+ * ******* */
+.x-fluent-tab-panel *
+{
+	color:#3E6AAA;
+}
+
+.x-fluent-tab-panel .x-fluent-tab-right
+{
+    background-image: url('../../../../../../img/fluent/ametys/ribbon.gif');
+}
+
+/* ******************** 
+ * HEADER OF THE RIBBON
+ * ******************** */
+.x-fluent-tab-panel
+{
+ 	background-image: url('../../../../../../img/fluent/ametys/ribbon.gif');
+ 	background-color: #25253d;
+}
+.x-fluent-tab-panel .x-fluent-tab-panel-header
+{
+ 	background-image: url('../../../../../../img/fluent/ametys/ribbon.gif');
+    background-color: #25253d;
+}
+
+/* TITLE */
+.x-fluent-tab-panel .x-fluent-tab-panel-header .x-fluent-tab-panel-header-title 
+{
+	color: #E0DCDB;
+}
+
+.x-fluent-tab-panel .x-fluent-tab-panel-header .x-fluent-tab-panel-header-title-extension
+{
+	color: #9DC7EF;
+} 
+
+/* TAB STRIP */
+.x-fluent-tab-panel .x-tab-bar
+{
+    background-image: url('../../../../../../img/fluent/ametys/ribbon.gif');
+    background-color: #852b70;
+}
+
+.x-fluent-tab-panel .x-tab-bar .x-tab > div > div,
+.x-fluent-tab-panel .x-tab-bar .x-tab > div > div > .x-tab-wrap,
+.x-fluent-tab-panel .x-tab-bar .x-tab > div > div > .x-tab-wrap > .x-tab-button 
+{
+	background-image: url('../../../../../../img/fluent/ametys/tab.gif');
+}
+.x-fluent-tab-panel .x-tab-bar a.x-tab .x-tab-button .x-tab-inner
+{
+	color: #FFFFFF;
+}
+.x-fluent-tab-panel .x-tab-bar a.x-tab-active .x-tab-button .x-tab-inner
+{
+	color: #023A69;
+}
+
+
+/* BUTTON */
+.x-fluent-tab-panel .x-fluent-tab-panel-header .x-fluent-appbutton  
+{
+	background-image: url('../../../../../../img/fluent/ametys/button.gif');
+	background-color: #c6d2e5;
+}
+
+/* USER CONNECTED */
+.x-fluent-tab-panel .x-fluent-user,
+.x-fluent-tab-panel .x-fluent-user .x-btn-inner
+{
+	color: #E0DCDB;
+}
+.x-fluent-tab-panel .x-fluent-user .x-btn-arrow-right:after
+{
+	background-image: url('../../../../../../img/fluent/ametys/user-arrow.gif');
+}
+.x-fluent-tab-panel .x-fluent-user.x-btn-over,
+.x-fluent-tab-panel .x-fluent-user.x-btn-over .x-btn-inner
+{
+    color: #9DC7EF
+}
+.x-fluent-tab-panel .x-fluent-user.x-btn-pressed,
+.x-fluent-tab-panel .x-fluent-user.x-btn-pressed .x-btn-inner
+{
+    color: #38acda;
+}
+.x-fluent-tab-panel .x-fluent-user .x-fluent-usericon
+{
+	background-image: url('../../../../../../img/fluent/ametys/user.gif')
+}
+	
+/* HELP */
+.x-fluent-tab-panel .x-fluent-help > img {
+	background-image: url('../../../../../../img/fluent/ametys/help.gif');
+}
+
+/* ******* 
+ * TOOLTIP
+ * ******* */
+.x-fluent-tooltip 
+{
+	border-color: #25253c;
+	background-color: #f1f1f1;
+}
+.x-fluent-tooltip-img
+{
+	border: 1px solid #25253c;
+}
+.x-fluent-tooltip-footer 
+{
+	border-top: 1px solid #25253c;
+    background-image: url('../../../../../../img/fluent/ametys/tip-help.gif');
+    color: #25253c;
+}
+
+/* ****************** 
+ * BODY OF THE RIBBON
+ * ****************** */
+.x-fluent-tab-panel > .x-panel-body
+{
+	background-image: url('../../../../../../img/fluent/ametys/ribbon.gif');
+	background-color: #ebebeb;
+}

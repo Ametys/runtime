@@ -16,7 +16,10 @@
    -->
 <catalogue xml:lang="en">
 
+    <!-- ISO LANGUAGE CODE -->
     <message key="KERNEL_LANGUAGE_CODE">en</message>
+    <!-- Is language Right-To-Left read? -->
+    <message key="KERNEL_LANGUAGE_RTL">false</message>
 
     <message key="KERNEL_DATETIME_SHORTDATE">m/d/y</message>
     <message key="KERNEL_DATETIME_LONGDATE">m/d/Y</message>

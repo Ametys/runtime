@@ -1,0 +1,108 @@
+{
+  "projectName": "Ametys Runtime Kernel",
+  "deployDir": "ametys-runtime-kernel-4",
+  "pkgs": [{
+    "name": "Ametys Runtime Kernel",
+    "file": "pkgs/all.js",
+    "fileIncludes": [
+
+,{
+    "text": "Ametys.js",
+    "path": ""
+,{
+    "text": "Ext.enhancements.js",
+    "path": ""
+},{
+    "text": "ServerComm.js",
+    "path": "Ametys/data/"
+},{
+    "text": "TimeoutDialog.js",
+    "path": "Ametys/data/ServerComm/"
+},{
+    "text": "ServerCommProxy.js",
+    "path": "Ametys/data/"
+},{
+    "text": "AbstractField.js",
+    "path": "Ametys/form/"
+},{
+    "text": "ChangePassword.js",
+    "path": "Ametys/form/field/"
+},{
+    "text": "Code.js",
+    "path": "Ametys/form/field/"
+},{
+    "text": "DateTime.js",
+    "path": "Ametys/form/field/"
+},{
+    "text": "ReferencedNumberField.js",
+    "path": "Ametys/form/field/"
+},{
+    "text": "RichText.js",
+    "path": "Ametys/form/field/"
+},{
+    "text": "Multisort.js",
+    "path": "Ametys/grid/plugin/"
+},{
+    "text": "ErrorDialog.js",
+    "path": "Ametys/log/"
+},{
+    "text": "Entry.js",
+    "path": "Ametys/log/Logger/"
+},{
+    "text": "Logger.js",
+    "path": "Ametys/log/"
+},{
+    "text": "LoggerFactory.js",
+    "path": "Ametys/log/"
+},{
+    "text": "TreeEditor.js",
+    "path": "Ametys/tree/"
+},{
+    "text": "Button.js",
+    "path": "Ametys/ui/fluent/ribbon/controls/"
+},{
+    "text": "MenuGallery.js",
+    "path": "Ametys/ui/fluent/ribbon/controls/gallery/"
+},{
+    "text": "MenuGalleryButton.js",
+    "path": "Ametys/ui/fluent/ribbon/controls/gallery/"
+},{
+    "text": "Toolbar.js",
+    "path": "Ametys/ui/fluent/ribbon/controls/"
+},{
+    "text": "Group.js",
+    "path": "Ametys/ui/fluent/ribbon/"
+},{
+    "text": "GroupPart.js",
+    "path": "Ametys/ui/fluent/ribbon/"
+},{
+    "text": "Panel.js",
+    "path": "Ametys/ui/fluent/ribbon/"
+},{
+    "text": "Ribbon.js",
+    "path": "Ametys/ui/fluent/ribbon/"
+},{
+    "text": "Header.js",
+    "path": "Ametys/ui/fluent/ribbon/TabPanel/"
+},{
+    "text": "TabPanel.js",
+    "path": "Ametys/ui/fluent/ribbon/"
+},{
+    "text": "Tooltip.js",
+    "path": "Ametys/ui/fluent/tip/"
+},{
+    "text": "DialogBox.js",
+    "path": "Ametys/window/"
+},{
+    "text": "MessageBox.js",
+    "path": "Ametys/window/"
+},{
+    "text": "Ext.enhancements.js",
+    "path": ""
+},{
+    "text": "AbstractFieldsWrapper.js",
+    "path": "Ametys/form/"
+}
+    ]
+  }]
+}

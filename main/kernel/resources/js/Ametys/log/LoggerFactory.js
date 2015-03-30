@@ -76,6 +76,7 @@ Ext.define(
 		 */
 		_store: Ext.create("Ext.data.ArrayStore", {
 			autoSync: true,
+			model: "Ametys.log.Logger.Entry",
 			proxy: { type: 'memory' },	
 			sorters: [{property: 'date', direction:'DESC'}]
 		}),

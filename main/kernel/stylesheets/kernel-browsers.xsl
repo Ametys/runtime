@@ -26,7 +26,8 @@
 	 	 + -->
 	<xsl:template name="kernel-browsers">
 		<xsl:param name="authorized-browsers"/>
-		<xsl:param name="context-path"/>
+		
+        <xsl:variable name="context-path" select="ametys:uriPrefix(false)"/>
 
 	    <xsl:if test="not(ametys:config('runtime.skip-browser-compatibility-test') = 'true')">
 			<script type="text/javascript">

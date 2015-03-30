@@ -56,6 +56,13 @@
                 <indent>false</indent>
             </map:serializer>
             
+            <map:serializer name="xhtml5" src="org.ametys.runtime.cocoon.XHTMLSerializer" mime-type="text/html; charset=UTF-8" logger="sitemap.serializer.html" pool-max="32">
+                <encoding>UTF-8</encoding>
+                <doctype-default>xhtml5</doctype-default>
+                <omit-xml-declaration>yes</omit-xml-declaration>
+                <indent>true</indent>
+            </map:serializer>
+            
             <map:serializer name="xhtml-fragment" src="org.ametys.runtime.cocoon.XHTMLFragmentSerializer" mime-type="text/html; charset=UTF-8" logger="sitemap.serializer.html" pool-max="32">
                 <encoding>UTF-8</encoding>
                 <indent>false</indent>
@@ -148,8 +155,8 @@
 				
 		<map:pipeline>
             <!-- Builtins -->
-             <map:match pattern="kernel/resources/**.i18n.js">
-                <map:generate src="resources/{1}.i18n.js" type="i18nizabletext"/>
+             <map:match pattern="kernel/resources/**.js">
+                <map:generate src="resources/{1}.js" type="i18nizabletext"/>
                 <map:transform type="i18n">
                     <map:parameter name="locale" value="{locale:locale}"/>
                 </map:transform>

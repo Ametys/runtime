@@ -1,5 +1,5 @@
 /*
- *  Copyright 2012 Anyware Services
+ *  Copyright 2015 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,8 +14,6 @@
  *  limitations under the License.
  */
 
-@import url('../../../../../plugins/extjs4/resources/css/ext-all-gray.css');
-@import url('BoxSelect.css');
 @import url('ChangePassword.css');
 @import url('Code.css');
 @import url('ErrorDialog.css');
