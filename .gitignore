@@ -1,5 +1,6 @@
 /.*
 /bin
+deliver/target
 /doc
 /junit4514.properties
 /junit47495.properties
