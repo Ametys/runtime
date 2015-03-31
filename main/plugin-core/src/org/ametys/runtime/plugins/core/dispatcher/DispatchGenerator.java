@@ -17,6 +17,8 @@ package org.ametys.runtime.plugins.core.dispatcher;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -34,6 +36,7 @@ import org.apache.cocoon.util.location.LocatedException;
 import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceResolver;
@@ -275,15 +278,10 @@ public class DispatchGenerator extends ServiceableGenerator
         
         String urlPrefix = _getUrlPrefix(pluginOrWorkspace);
         url.append(urlPrefix);
-               
-        if (relativeUrl.length() != 0 && relativeUrl.charAt(0) == '/')
-        {
-            url.append(relativeUrl.substring(1));
-        }
-        else
-        {
-            url.append(relativeUrl);
-        }
+        
+        int beginIndex = relativeUrl.length() != 0 && relativeUrl.charAt(0) == '/' ? 1 : 0;
+        int endIndex = relativeUrl.indexOf("?");
+        url.append(endIndex == -1 ? relativeUrl.substring(beginIndex) : relativeUrl.substring(beginIndex, endIndex));
         
         if (relativeUrl.indexOf("?") == -1 && requestParameters != null)
         {
@@ -315,8 +313,43 @@ public class DispatchGenerator extends ServiceableGenerator
                     url.append("&");
                 }
             }
+        }
+        else
+        {
+            url.append("?");
             
-            // TODO Do the opposite : request parameters => create a map
+            String queryUrl = relativeUrl.substring(relativeUrl.indexOf("?") + 1, relativeUrl.length());
+            String[] queryParameters = queryUrl.split("&");
+            
+            
+            for (String queryParameter : queryParameters)
+            {
+                if (StringUtils.isNotBlank(queryParameter))
+                {
+                    String[] part = queryParameter.split("=");
+                    String key = part[0];
+                    String v = part.length > 1 ? part[1] : "";
+                    try
+                    {
+                        String value = URLDecoder.decode(v, "UTF-8");
+                        
+                        url.append(key);
+                        url.append("=");
+                        url.append(String.valueOf(value).replaceAll("%", "%25").replaceAll("=", "%3D").replaceAll("&", "%26").replaceAll("\\+", "%2B"));
+                        url.append("&");
+                        
+                        if (!requestParameters.containsKey(key))
+                        {
+                            requestParameters.put(key, value);
+                        }
+                    }
+                    catch (UnsupportedEncodingException e)
+                    {
+                        getLogger().error("Unsupported encoding for request parameter '" + key + "' and value '" + v + "'", e);
+                    }
+                }
+                
+            }
         }
         
         return url.toString();
