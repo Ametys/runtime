@@ -127,7 +127,7 @@ public class DispatchGenerator extends ServiceableGenerator
             ResponseHandler responseHandler = null;
             try
             {
-                String url = _createUrl(pluginOrWorkspace, relativeUrl, requestParameters);
+                String url = _createUrl(pluginOrWorkspace, relativeUrl, requestParameters != null ? requestParameters : new HashMap<String, Object>());
                 
                 if (getLogger().isInfoEnabled())
                 {
@@ -283,7 +283,7 @@ public class DispatchGenerator extends ServiceableGenerator
      * Create url to call
      * @param pluginOrWorkspace the plugin or workspace name
      * @param relativeUrl the relative url
-     * @param requestParameters the request parameters
+     * @param requestParameters the request parameters. Can not be null.
      * @return the full url
      */
     @SuppressWarnings("unchecked")
@@ -298,7 +298,7 @@ public class DispatchGenerator extends ServiceableGenerator
         int endIndex = relativeUrl.indexOf("?");
         url.append(endIndex == -1 ? relativeUrl.substring(beginIndex) : relativeUrl.substring(beginIndex, endIndex));
         
-        if (relativeUrl.indexOf("?") == -1 && requestParameters != null)
+        if (relativeUrl.indexOf("?") == -1 && !requestParameters.isEmpty())
         {
             // no existing parameters in request
             url.append("?");
@@ -329,13 +329,12 @@ public class DispatchGenerator extends ServiceableGenerator
                 }
             }
         }
-        else
+        else if (relativeUrl.indexOf("?") > 0)
         {
             url.append("?");
             
             String queryUrl = relativeUrl.substring(relativeUrl.indexOf("?") + 1, relativeUrl.length());
             String[] queryParameters = queryUrl.split("&");
-            
             
             for (String queryParameter : queryParameters)
             {
