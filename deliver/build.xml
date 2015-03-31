@@ -326,23 +326,7 @@
 		      	</section>
 			</manifest>	
 		</jar>
-		<jar jarfile="${dest-dir}/ivy/sources/ametys-runtime-dev-kernelonly.jar">
-			<fileset dir="${kernel-dir}/src">
-				<include name="**/*.java"/>
-			</fileset>
-			
-			<manifest>
-		      	<section name="Runtime informations">
-				 	<attribute name="Title" value="Runtime sources"/>
-			  	 	<attribute name="Vendor" value="Anyware Services"/>
-			  	 	<attribute name="Version" value="${ivy-version}"/>
-			  	 	<attribute name="Date" value="${full-timestamp}"/>
-				 	<attribute name="SVN-Revision" value="${svn-revision}"/>
-				 	<attribute name="SVN-Branch" value="${svn-branch}"/>
-		      	</section>
-			</manifest>	
-		</jar>
-		
+
 		<delete dir="${classes}"/>
 	</target>
 
@@ -388,11 +372,6 @@
 		<!-- JAR des ressources -->
 		<jar destfile="${dest-dir}/ivy/jars/ametys-runtime-resources.jar">
 			<zipfileset dir="${dest-dir}/resources" prefix="org/ametys/runtime">
-				<include name="**"/>
-			</zipfileset>
-		</jar>
-		<jar destfile="${dest-dir}/ivy/jars/ametys-runtime-dev-kernelonly-resources.jar">
-			<zipfileset dir="${dest-dir}/resources/kernel" prefix="org/ametys/runtime/kernel">
 				<include name="**"/>
 			</zipfileset>
 		</jar>
@@ -538,7 +517,6 @@
 		      	</section>
 			</manifest>	
 		</jar>
-		<copy file="${dest-dir}/ivy/javadocs/ametys-runtime.jar" tofile="${dest-dir}/ivy/javadocs/ametys-runtime-dev-kernelonly.jar"/>
 		
 		<delete dir="${tmp-javadoc}"/>
 	</target>
