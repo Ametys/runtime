@@ -96,7 +96,7 @@
             <script>/kernel/resources/js/Ametys/window/MessageBox.js</script>
 	        <script>/kernel/resources/js/Ametys/form/AbstractField.js</script>
 	        <script>/kernel/resources/js/Ametys/form/AbstractFieldsWrapper.js</script>
-	        <script>/kernel/resources/js/Ametys/form/field/BoxSelect.js</script>
+<!-- 	        <script>/kernel/resources/js/Ametys/form/field/BoxSelect.js</script> -->
 	        <script>/kernel/resources/js/Ametys/form/field/DateTime.js</script>
 	        <script>/kernel/resources/js/Ametys/form/field/ChangePassword.js</script>
             <script>/kernel/resources/js/Ametys/form/field/RichText.js</script>
