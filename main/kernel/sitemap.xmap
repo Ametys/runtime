@@ -160,6 +160,7 @@
                 <map:generate src="resources/{1}.js" type="i18nizabletext"/>
                 <map:transform type="i18n">
                     <map:parameter name="locale" value="{locale:locale}"/>
+                    <map:parameter name="default-catalogue-id" value="kernel"/>
                 </map:transform>
                 <map:serialize type="text" mime-type="text/javascript;charset=utf-8"/>
             </map:match>
