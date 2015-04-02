@@ -1,0 +1,119 @@
+/*
+ *  Copyright 2012 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+html
+{
+	height: 100%;
+}
+body
+{
+	height: 100%;
+	margin: 0;
+	
+	background-color: #033059;
+	color: #FFFFFF;
+
+	background-image: url('../img/home/bg.gif');
+	background-position: top;
+	background-repeat: repeat-x;
+	font-size: 76%;
+}
+
+
+.home-wrapper
+{
+	min-width: 1020px;
+	max-width: 1274px;
+	min-height: 480px;
+	width: 100%;
+	height: 100%;
+	margin: 0 auto;
+	
+	border-collapse: collapse;
+	border-spacing: 0;
+ 	
+	text-align: center;
+	
+	font-family: arial,sans-serif;
+}
+
+.home-wrapper .home-header td
+{
+	height: 90px;
+}
+
+.home-wrapper .home-header .home-col-main
+{
+	background-image: url('../img/home/bg_top.jpg');
+	background-position: center;
+	background-repeat: no-repeat;
+	
+	width: 930px;
+	height: 90px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.home-wrapper .home-header .home-col-main .ametys-logo-wrapper,
+.home-wrapper .home-header .home-col-main .title-wrapper
+{
+	width: 465px;
+	height: 90px;
+	line-height: 90px;
+	text-align: left;
+	float: left;
+	
+	font-size: 2.1em;
+	font-spacing: 0.1em;
+}
+.home-wrapper .home-header .home-col-main .ametys-logo-wrapper img
+{
+	margin-left: 25px;
+	margin-top: 32px;
+}
+
+.home-wrapper .home-header .home-col-main .title-wrapper img
+{
+	margin-left: 2px;
+	margin-top: 37px;
+}
+
+.home-wrapper .home-main
+{
+	vertical-align: top;
+}
+
+.home-wrapper .home-main .home-col-left,
+.home-wrapper .home-main .home-col-right
+{
+	width: 80px;
+}
+
+.home-wrapper .home-main .home-col-main
+{
+	background-color: #F0F0F0;
+	background-image: url('../img/home/bg_main.gif');
+	background-position: top;
+	background-repeat: repeat-x;
+	color: #000000;
+	padding: 30px;
+	height: 100%; 
+}
+
+.home-wrapper .home-footer td
+{
+	height: 35px;
+}

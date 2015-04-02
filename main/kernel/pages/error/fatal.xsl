@@ -42,9 +42,9 @@
                 <link rel="icon" type="image/gif" href="{$contextPath}/kernel/resources/img/runtime_favico.gif" />
                 <link rel="shortcut icon" type="image/x-icon" href="{$contextPath}/kernel/resources/img/runtime_favico.ico" />
                 
-                <link rel="stylesheet" href="{$contextPath}/kernel/resources/css/home.css" type="text/css"/>
-                <link rel="stylesheet" href="{$contextPath}/kernel/resources/css/home-text.css" type="text/css"/>
-                <link rel="stylesheet" href="{$contextPath}/kernel/resources/css/error.css" type="text/css"/>
+                <link rel="stylesheet" href="{$contextPath}/kernel/resources/css_old/home.css" type="text/css"/>
+                <link rel="stylesheet" href="{$contextPath}/kernel/resources/css_old/home-text.css" type="text/css"/>
+                <link rel="stylesheet" href="{$contextPath}/kernel/resources/css_old/error.css" type="text/css"/>
                 
                 <script type="text/javascript">
                     <xsl:comment>

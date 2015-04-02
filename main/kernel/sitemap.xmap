@@ -169,9 +169,14 @@
             					
             <!-- Plugins -->
             <!-- Plugins dynamic resources (i18n aware JS) -->
-            <map:match pattern="plugins/*/resources/**.i18n.js">
+            <map:match pattern="plugins/extjs*/resources/**"><!-- FIXME Hack for ExtJS to remove when modifying i18n way of js -->
+                <map:act type="plugin-exists" src="extjs{1}">
+                    <map:read src="plugin:extjs{../1}://resources/{../2}"/>
+                </map:act>
+            </map:match>
+            <map:match pattern="plugins/*/resources/**.js">
                 <map:act type="plugin-exists" src="{1}">
-                    <map:generate src="plugin:{../1}://resources/{../2}.i18n.js" type="i18nizabletext"/>
+                    <map:generate src="plugin:{../1}://resources/{../2}.js" type="i18nizabletext"/>
                     <map:transform type="i18n">
                         <map:parameter name="locale" value="{locale:locale}"/>
                         <map:parameter name="plugin" value="{../1}"/>

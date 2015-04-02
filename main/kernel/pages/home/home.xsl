@@ -18,7 +18,7 @@
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
                 xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
 
-	<xsl:import href="kernel://stylesheets/kernel.xsl"/>
+	<xsl:import href="kernel://stylesheets_old/kernel.xsl"/>
 
 	<!-- +
 	     | Display the Ametys main screen
@@ -105,7 +105,7 @@
 		        </xsl:if>
 		               
 		        <!-- TODO load this CSS/JS using the component if activated -->
-                <link rel="stylesheet" href="{$contextPath}/kernel/resources/css/home.css" type="text/css"/>
+                <link rel="stylesheet" href="{$contextPath}/kernel/resources/css_old/home.css" type="text/css"/>
                 
                 <xsl:copy-of select="$head-meta"/>
 			</head>

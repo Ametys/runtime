@@ -1,0 +1,70 @@
+/*
+ *  Copyright 2012 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+ 
+.ametys-dialogbox .x-window-body-default,
+.ametys-dialogbox .x-window-body-default .x-panel-body {
+	background-color: #fff;
+	font-family: arial, sans-serif;
+	font-size: 11px;
+}
+
+.ametys-dialogbox .x-window-body-default .text {
+	padding-bottom: 5px;
+	color:#404040;
+}
+
+.ametys-dialogbox .x-window-body-default a,
+.ametys-dialogbox .x-window-body-default a:hover,
+.ametys-dialogbox .x-window-body-default a:link,
+.ametys-dialogbox .x-window-body-default a:active,
+.ametys-dialogbox .x-window-body-default a:visited
+{
+	color: #3E6AAA;
+	text-decoration: none;
+	cursor: pointer;
+}
+.ametys-dialogbox .x-window-body-default a:hover
+{
+	text-decoration: underline;
+}
+
+.ametys-dialogbox .x-form-text,
+.ametys-dialogbox .x-form-cb-label,
+.ametys-dialogbox .x-form-item-label 
+{
+    font-size: 0.9em;
+    color: #404040;
+}
+
+.ametys-dialogbox .x-panel .x-header.x-tab-bar {
+	background-color: #FFFFFF;
+    background-image: none;
+    border: none;
+    height: 23px;
+}
+.ametys-dialogbox .x-panel .x-header.x-tab-bar .x-tab-bar-body {
+    padding-bottom: 0px;
+}
+.ametys-dialogbox .x-panel .x-header.x-tab-bar .x-tab-bar-strip {
+	background-color: #FFFFFF;
+	height: 1px;
+}
+
+
+.ametys-dialogbox .x-mask-msg {
+	z-index: 20001 !important; /* over the 19000 of a dialog box */
+}
+
