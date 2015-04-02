@@ -111,14 +111,14 @@
 
             <script>/plugins/extjs5/resources/packages/ext-ux/build/ext-ux<xsl:if test="$debug-mode">-debug</xsl:if>.js</script>
             
-<!-- 			<script>/kernel/resources/js/Ext.fixes.js</script> -->
-<!--             <script>/kernel/resources/js/Ext.enhancements.js</script> -->
+			<script>/kernel/resources/js/Ext.fixes.js</script>
+            <script>/kernel/resources/js/Ext.enhancements.js</script>
 
 			<script>/kernel/resources/js/Ametys.js</script>
 			
+			<script>/kernel/resources/js/Ametys/log/Logger.js</script>
 	        <script>/kernel/resources/js/Ametys/log/Logger/Entry.js</script>
             <script>/kernel/resources/js/Ametys/log/LoggerFactory.js</script>
-			<script>/kernel/resources/js/Ametys/log/Logger.js</script>
 	        <script>/kernel/resources/js/Ametys/log/ErrorDialog.js</script>
 	        
 	        <script>/kernel/resources/js/Ametys/window/DialogBox.js</script>
