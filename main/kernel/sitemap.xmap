@@ -175,9 +175,9 @@
                     <map:read src="plugin:extjs{../1}://resources/{../2}"/>
                 </map:act>
             </map:match>
-            <map:match pattern="plugins/tinymce*/resources/**"><!-- FIXME Hack for tinymce to remove when modifying i18n way of js -->
-                <map:act type="plugin-exists" src="tinymce{1}">
-                    <map:read src="plugin:tinymce{../1}://resources/{../2}"/>
+            <map:match pattern="plugins/tiny_mce*/resources/**"><!-- FIXME Hack for tinymce to remove when modifying i18n way of js -->
+                <map:act type="plugin-exists" src="tiny_mce{1}">
+                    <map:read src="plugin:tiny_mce{../1}://resources/{../2}"/>
                 </map:act>
             </map:match>
             <map:match pattern="plugins/codemirror*/resources/**"><!-- FIXME Hack for tinymce to remove when modifying i18n way of js -->

@@ -139,18 +139,25 @@
 <!-- 	        <script>/kernel/resources/js/Ametys/tree/TreeEditor.js</script> -->
 <!--             <script>/kernel/resources/js/Ametys/grid/plugin/Multisort.js</script> -->
 
-<!--             <script>/kernel/resources/js/Ametys/ui/fluent/tip/Tooltip.js</script> -->
+            <script>/kernel/resources/js/Ametys/ui/fluent/tip/Tooltip.js</script>
 
-<!--             <script>/kernel/resources/js/Ametys/ui/fluent/ribbon/Ribbon.js</script> -->
-<!--             <script>/kernel/resources/js/Ametys/ui/fluent/ribbon/TabPanel.js</script> -->
-<!--             <script>/kernel/resources/js/Ametys/ui/fluent/ribbon/TabPanel/Header.js</script> -->
-<!--             <script>/kernel/resources/js/Ametys/ui/fluent/ribbon/Panel.js</script> -->
-<!--             <script>/kernel/resources/js/Ametys/ui/fluent/ribbon/Group.js</script> -->
-<!--             <script>/kernel/resources/js/Ametys/ui/fluent/ribbon/GroupPart.js</script> -->
-<!--             <script>/kernel/resources/js/Ametys/ui/fluent/ribbon/controls/Button.js</script> -->
-<!--             <script>/kernel/resources/js/Ametys/ui/fluent/ribbon/controls/Toolbar.js</script> -->
-<!--             <script>/kernel/resources/js/Ametys/ui/fluent/ribbon/controls/gallery/MenuGallery.js</script> -->
-<!--             <script>/kernel/resources/js/Ametys/ui/fluent/ribbon/controls/gallery/MenuGalleryButton.js</script>       -->
+            <script>/kernel/resources/js/Ametys/ui/fluent/ribbon/Ribbon.js</script>
+            <script>/kernel/resources/js/Ametys/ui/fluent/ribbon/Ribbon/Title.js</script>
+            <script>/kernel/resources/js/Ametys/ui/fluent/ribbon/Ribbon/Header.js</script>
+            <script>/kernel/resources/js/Ametys/ui/fluent/ribbon/TabPanel.js</script>
+            <script>/kernel/resources/js/Ametys/ui/fluent/ribbon/Panel.js</script>
+            <script>/kernel/resources/js/Ametys/ui/fluent/ribbon/Group.js</script>
+            <script>/kernel/resources/js/Ametys/ui/fluent/ribbon/GroupPart.js</script>
+            <script>/kernel/resources/js/Ametys/ui/fluent/ribbon/controls/Button.js</script>
+            <script>/kernel/resources/js/Ametys/ui/fluent/ribbon/controls/Toolbar.js</script>
+            <script>/kernel/resources/js/Ametys/ui/fluent/ribbon/controls/gallery/MenuGallery.js</script>
+            <script>/kernel/resources/js/Ametys/ui/fluent/ribbon/controls/gallery/MenuGalleryButton.js</script>   
+            
+            <script>/kernel/resources/js/Ametys/ui/tool/ToolPanel.js</script>
+            <script>/kernel/resources/js/Ametys/ui/tool/ToolsLayout.js</script>
+            <script>/kernel/resources/js/Ametys/ui/tool/layout/ZonedTabsToolsLayout.js</script>
+            <script>/kernel/resources/js/Ametys/ui/tool/layout/ZonedTabsToolsLayout/ZoneTabsToolsPanel.js</script>
+            <script>/kernel/resources/js/Ametys/ui/tool/layout/ZonedTabsToolsLayout/ZonedTabsDD.js</script>
 	    </xsl:variable>
 	    
 		<xsl:variable name="css">
