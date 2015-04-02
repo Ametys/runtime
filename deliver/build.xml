@@ -144,8 +144,6 @@
             	<exclude name="src/org/ametys/runtime/util/BOMInputStream.java"/>
             	<exclude name="src/org/ametys/runtime/util/ByteOrderMark.java"/>
             	<exclude name="src/org/ametys/runtime/util/ProxyInputStream.java"/>
-            	<exclude name="resources/js/Ametys/form/field/BoxSelect.js"/>
-            	<exclude name="resources/css/Ametys/gray/BoxSelect.css"/>
             </fileset>
             <fileset dir="${plugin-dir}">
                 <exclude name="**/*.png"/>
