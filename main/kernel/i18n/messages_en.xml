@@ -114,4 +114,20 @@
     <message key="KERNEL_MSG_ERRORDIALOG_DETAILS">Details</message>
     <message key="KERNEL_MSG_ERRORDIALOG_OTHERSERRORS">other(s) error(s)</message>
     
+    <!-- +
+         | Tools.js
+         + -->
+    <message key="KERNEL_MSG_TOOLS_OUTOFDATEPANEL_MAJOR">Tool is not up to date.&lt;br/&gt;Click on the above button to refresh the tool.</message>
+    <message key="KERNEL_MSG_TOOLS_OUTOFDATEPANEL_LABEL">Data are not up to date. Click here to refresh this tool.</message>
+    <message key="KERNEL_MSG_TOOLS_OUTOFDATEPANEL_TOOLTIP_TITLE">Out of date</message>
+    <message key="KERNEL_MSG_TOOLS_OUTOFDATEPANEL_TOOLTIP_DESCRIPTION">Data currently displayed are not up to date.&lt;br/&gt;&lt;br/&gt;By clicking on the yellow bar you will refresh the view.&lt;br/&gt;&lt;br/&gt;&lt;span style='font-style: italic'&gt;The refresh is not automatic for performances purpose.&lt;/span&gt;</message>
+    <message key="KERNEL_MSG_TOOLS_OUTOFDATEPANEL_TOOLTIP_FOOTER">See help for more details</message>
+    <message key="KERNEL_MSG_TOOLS_CLOSE_TAB">Close</message>
+    <message key="KERNEL_MSG_TOOLS_CLOSE_OTHERS">Close Others</message>
+    <message key="KERNEL_MSG_TOOLS_CLOSE_ALL">Close All</message>
+    <message key="KERNEL_MSG_TOOLS_UNPIN">Unpin panel</message>
+    <message key="KERNEL_MSG_TOOLS_PIN">Pin panel</message>
+    <message key="KERNEL_MSG_TOOLS_OPEN_ERROR_TITLE">Cannot open the tool</message>
+    <message key="KERNEL_MSG_TOOLS_OPEN_ERROR_TEXT">An unexpected error prevents the required tool to open.</message>
+    
 </catalogue>

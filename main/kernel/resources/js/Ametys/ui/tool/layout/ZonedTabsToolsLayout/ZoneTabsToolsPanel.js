@@ -90,20 +90,20 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
 		{
 			this._contextMenu = new Ext.menu.Menu({
 		        items: [{
-		            text: "<i18n:text i18n:key='WORKSPACE_CMS_TOOLS_CLOSE_TAB' i18n:catalogue='workspace.cms'>Close</i18n:text>", // Default translation for js test purposes
+		            text: "<i18n:text i18n:key='KERNEL_MSG_TOOLS_CLOSE_TAB'>Close</i18n:text>", // Default translation for js test purposes
 		            handler: this._closeCurrentTab,
 		            icon: Ametys.CONTEXT_PATH + '/kernel/resources/img/tools/close_16.png',
 		            scope: this
 		        },
 		        '-',
 		        {
-		            text: "<i18n:text i18n:key='WORKSPACE_CMS_TOOLS_CLOSE_OTHERS' i18n:catalogue='workspace.cms'>Close others</i18n:text>", // Default translation for js test purposes
+		            text: "<i18n:text i18n:key='KERNEL_MSG_TOOLS_CLOSE_OTHERS'>Close others</i18n:text>", // Default translation for js test purposes
 		            handler: this._closeOthersTabs,
 		            icon: Ametys.CONTEXT_PATH + '/kernel/resources/img/tools/close_others_16.png',
 		            scope: this
 		        },
 		        {
-		            text: "<i18n:text i18n:key='WORKSPACE_CMS_TOOLS_CLOSE_ALL' i18n:catalogue='workspace.cms'>Close all</i18n:text>", // Default translation for js test purposes
+		            text: "<i18n:text i18n:key='KERNEL_MSG_TOOLS_CLOSE_ALL'>Close all</i18n:text>", // Default translation for js test purposes
 		            handler: this._closeAllTabs,
 		            icon: Ametys.CONTEXT_PATH + '/kernel/resources/img/tools/close_all_16.png',
 		            scope: this
@@ -291,7 +291,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
                     xtype: 'tool',
 					itemId: 'unpin',
 					type: "unpin",
-				    qtip: "<i18n:text i18n:key='WORKSPACE_CMS_TOOLS_UNPIN'/>",
+				    qtip: "<i18n:text i18n:key='KERNEL_MSG_TOOLS_UNPIN'/>",
 				    handler: Ext.bind(this._onTabBarUnpinToolClick, this),
 				    width: 16,
 				    flex: 0
@@ -301,7 +301,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
 					itemId: 'pin',
 					type: "pin",
 					hidden: true,
-				    qtip: "<i18n:text i18n:key='WORKSPACE_CMS_TOOLS_PIN'/>",
+				    qtip: "<i18n:text i18n:key='KERNEL_MSG_TOOLS_PIN'/>",
 				    handler: Ext.bind(this._onTabBarPinToolClick, this),
 				    width: 16,
 				    flex: 0

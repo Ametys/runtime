@@ -33,12 +33,13 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel.NodeEntry', {
 		{
 			name: 'text', 
 			mapping: '@name',
-			convert: function (v, record) {
-				if (record.get('type') == 'profile')
+			convert: function (v, record) 
+            {
+                if (record && record.get('type') == 'profile')
 				{
 					return ' <b>' + v + '<b>';
 				}
-				else if (record.get('type') == 'user')
+				else if (record && record.get('type') == 'user')
 				{
 					return v + ' (' + record.get('login') + ')';
 				}
@@ -65,21 +66,21 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel.NodeEntry', {
 			name: 'cls', 
 			mapping: '@inherit', 
 			convert: function (v, record) {
-				return record.get('inherit') ? 'inherit' : '';
+				return record && record.get('inherit') ? 'inherit' : '';
 			}
 		},
 		{
 			name: 'iconCls', 
 			defaultValue: '',
 			convert: function (v, record) {
-				return 'tree-icon-' + record.get('type');
+				return record ? 'tree-icon-' + record.get('type') : '';
 			}
 		},
 		{
 			name: 'leaf', 
 			defaultValue: false,
 			convert: function (v, record) {
-				return record.get('type') == 'user' || record.get('type') == 'group';
+				return record ? (record.get('type') == 'user' || record.get('type') == 'group') : '';
 			}
 		}
 	]

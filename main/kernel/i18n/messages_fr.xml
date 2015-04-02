@@ -113,4 +113,20 @@
     <message key="KERNEL_MSG_ERRORDIALOG_DETAILS">Détails</message>
     <message key="KERNEL_MSG_ERRORDIALOG_OTHERSERRORS">autre(s) erreur(s)</message>
     
+    <!-- +
+         | Tools.js
+         + -->
+    <message key="KERNEL_MSG_TOOLS_OUTOFDATEPANEL_MAJOR">L'outil n'est plus à jour.&lt;br/&gt;Cliquez sur le bouton ci-dessus pour rafraichir l'outil.</message>
+    <message key="KERNEL_MSG_TOOLS_OUTOFDATEPANEL_LABEL">Les données affichées ne sont plus à jour. Cliquez ici pour rafraîchir l'outil.</message>
+    <message key="KERNEL_MSG_TOOLS_OUTOFDATEPANEL_TOOLTIP_TITLE">Affichage obsolète</message>
+    <message key="KERNEL_MSG_TOOLS_OUTOFDATEPANEL_TOOLTIP_DESCRIPTION">Les données qui sont actuellement affichées dans cet écran ne sont plus à jour.&lt;br/&gt;&lt;br/&gt;En cliquant sur le bandeau jaune vous allez lancer un rafraîchissement de la vue.&lt;br/&gt;&lt;br/&gt;&lt;span style='font-style: italic'&gt;Ce rafraîchissement n'est pas fait automatiquement pour des raisons de performances.&lt;/span&gt;</message>
+    <message key="KERNEL_MSG_TOOLS_OUTOFDATEPANEL_TOOLTIP_FOOTER">Voir l'aide pour plus de détails</message>
+    <message key="KERNEL_MSG_TOOLS_CLOSE_TAB">Fermer l'onglet</message>
+    <message key="KERNEL_MSG_TOOLS_CLOSE_OTHERS">Fermer les autres onglets</message>
+    <message key="KERNEL_MSG_TOOLS_CLOSE_ALL">Fermer tous les onglets</message>
+    <message key="KERNEL_MSG_TOOLS_UNPIN">Détacher le panneau</message>
+    <message key="KERNEL_MSG_TOOLS_PIN">Attacher le panneau</message>
+    <message key="KERNEL_MSG_TOOLS_OPEN_ERROR_TITLE">Impossible d'ouvrir l'outil</message>
+    <message key="KERNEL_MSG_TOOLS_OPEN_ERROR_TEXT">Une erreur inattendue est survenue et elle a empêché l'ouverture de l'outil demandé.</message>
+    
 </catalogue>

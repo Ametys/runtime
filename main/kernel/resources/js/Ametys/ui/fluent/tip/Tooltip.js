@@ -64,7 +64,7 @@ Ext.define(
 							+    (config.text || '')
 							+    "</div>"
 							+    "<div class='x-clear'></div>"
-							+    (config.helpId ? "<div class=\"x-fluent-tooltip-footer\"><i18n:text i18n:key='WORKSPACE_CMS_TOOLTIP_FOOTER_TEXT' i18n:catalogue='workspace.cms'/></div>" : "")
+							+    (config.helpId ? "<div class=\"x-fluent-tooltip-footer\"><i18n:text i18n:key='KERNEL_MSG_TOOLTIP_FOOTER_TEXT'/></div>" : "")
 							+ "</div>",
 							
 						showDelay: 900,
