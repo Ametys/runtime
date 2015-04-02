@@ -114,7 +114,7 @@ Ext.define('Ametys.form.AbstractFieldsWrapper', {
 		
         /**
          * @event specialkey
-		 * Fires when any key related to navigation (arrows, tab, enter, esc, etc.) is pressed. To handle other keys see Ext.util.KeyMap. You can check Ext.EventObject.getKey to determine which key was pressed
+		 * Fires when any key related to navigation (arrows, tab, enter, esc, etc.) is pressed. To handle other keys see Ext.util.KeyMap. You can check Ext.event.Event.getKey to determine which key was pressed
          * @param {Ametys.form.AbstractFieldsWrapper} this
          * @param {Ext.EventObject} e The event object         
          */

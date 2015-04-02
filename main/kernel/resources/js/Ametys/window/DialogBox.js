@@ -69,7 +69,7 @@ Ext.define(
 		_onRenderListener : function()
 		{
 		    var km = this.getKeyMap();
-		    km.on(Ext.EventObject.ENTER, this.onEnter, this);
+		    km.on(Ext.event.Event.ENTER, this.onEnter, this);
 		    km.disable();
 		},
 		
