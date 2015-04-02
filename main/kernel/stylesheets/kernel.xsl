@@ -58,7 +58,7 @@
 		<xsl:param name="theme">neptune</xsl:param>
         <xsl:param name="load-cb"/>
         
-		<xsl:variable name="context-path" select="ametys:uriPrefix(false)"/>
+		<xsl:variable name="context-path" select="ametys:uriPrefix(false())"/>
 		<xsl:variable name="workspace-name" select="ametys:workspaceName()"/>
 		<xsl:variable name="workspace-prefix" select="ametys:workspacePrefix()"/>
 		<xsl:variable name="language-code" select="ametys:translate('kernel:KERNEL_LANGUAGE_CODE')"/>
@@ -179,7 +179,7 @@
         
 		<xsl:param name="load-cb"/>
         
-        <xsl:variable name="contextPath" select="ametys:uriPrefix(false)"/>
+        <xsl:variable name="contextPath" select="ametys:uriPrefix(false())"/>
 		 
 		<!-- Load scripts -->
 		<xsl:if test="$scripts">
