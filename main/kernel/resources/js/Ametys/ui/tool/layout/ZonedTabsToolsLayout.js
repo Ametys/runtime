@@ -209,7 +209,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 			zoneTabsToolsPanel.addCls(this.toolPrefixCls + tool.getType());
 			
 			// Launch the listener
-			tool.fireEvent("toolactivated", tool);
+			tool.fireEvent("toolactivate", tool);
 		},
 		
 		/**
@@ -224,7 +224,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 			zoneTabsToolsPanel.removeCls(this.toolPrefixCls + tool.getType());
 			
 			// Launch the listener
-            tool.fireEvent("tooldeactivated", tool);
+            tool.fireEvent("tooldeactivate", tool);
 
 		},
 

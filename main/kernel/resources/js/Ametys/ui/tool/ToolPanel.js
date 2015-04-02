@@ -83,7 +83,7 @@ Ext.define("Ametys.ui.tool.ToolPanel", {
      * @param {Ametys.ui.tool.ToolPanel} this
      */
     /**
-     * @event toolclosed Fired when the tool is closed.
+     * @event toolclose Fired when the tool is closed.
      * @param {Ametys.ui.tool.ToolPanel} this
      * @param {Boolean} wasFocused Was the tool focused?
      */
@@ -96,11 +96,11 @@ Ext.define("Ametys.ui.tool.ToolPanel", {
      * @param {Ametys.ui.tool.ToolPanel} this
      */
     /**
-     * @event toolactivated Fired when the tool is activated (visible in its zone).
+     * @event toolactivate Fired when the tool is activated (visible in its zone).
      * @param {Ametys.ui.tool.ToolPanel} this
      */
     /**
-     * @event tooldeactivated Fired when the tool is deactivated (invisible in its zone).
+     * @event tooldeactivate Fired when the tool is deactivated (invisible in its zone).
      * @param {Ametys.ui.tool.ToolPanel} this
      */
     

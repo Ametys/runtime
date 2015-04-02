@@ -34,7 +34,7 @@ Ext.define(
 			 */
 			enhanceTitle: function(title)
 			{
-				if (title && title.indexOf(" - ") != title.length - 3)
+				if (title && title.indexOf(" - ") != title.length - 3 && title != "&#160;")
 				{
 					title += " - ";
 				}
