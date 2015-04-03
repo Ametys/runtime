@@ -18,6 +18,7 @@ function onreadyfunction() {
     ribbon = Ext.create("Ametys.ui.fluent.ribbon.Ribbon", {
                     applicationTitle: 'Ametys Test Tools',
                     items: [
+                        tab1
                     ],
                     help: {
                         handler: function() { alert('help'); },
