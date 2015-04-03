@@ -519,7 +519,16 @@ Ext.define("Ametys.tool.Tool",
 				border: false,
 				
 				autoScroll: false,
+                
 				uiTool: this.getId(),
+                
+                title: this.getTitle(),
+                description: this.getDescription(),
+                smallIcon: this.getSmallIcon(),
+                mediumIcon: this.getMediumIcon(),
+                largeIcon: this.getLargeIcon(),
+                helpId: this.getToolHelpId(),
+                dirtyState: this.isDirty(),
 				
 				dockedItems: [oodPanel],
 				items : [this._contentPanel],
