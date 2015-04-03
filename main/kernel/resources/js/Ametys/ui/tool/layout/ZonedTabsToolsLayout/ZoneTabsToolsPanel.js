@@ -520,7 +520,8 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
 		 */
 		_closeCurrentTab: function ()
 		{
-            this._toolsLayout.removeTool(Ext.getCmp(this._contextualMenuTargetToolId));
+            var toolPanel = Ext.getCmp(this._contextualMenuTargetToolId);
+            toolPanel.close();
             
 			this._contextualMenuTargetToolId = null;
 		},
@@ -536,7 +537,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
 			this.items.each( function(item) {
 				if (_contextualMenuTargetToolId != item.getId())
 				{
-                    this._toolsLayout.removeTool(item);
+                    item.close();
 				}
 			});
 			this._contextualMenuTargetToolId = null;
@@ -549,7 +550,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
 		_closeAllTabs: function ()
 		{
 			this.items.each( function(item) {
-                this._toolsLayout.removeTool(item);
+                item.close();
 			});
 			this._contextualMenuTargetToolId = null;
 		},

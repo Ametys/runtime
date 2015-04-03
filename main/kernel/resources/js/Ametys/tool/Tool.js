@@ -541,12 +541,25 @@ Ext.define("Ametys.tool.Tool",
                     'toolfocus': Ext.bind(this.onFocus, this),
                     'toolblur': Ext.bind(this.onBlur, this),
                     'toolopen': Ext.bind(this.onOpen, this),
-                    'toolactivate': Ext.bind(this.onClose, this)
+                    'toolclose': Ext.bind(this.onClose, this),
+                    
+                    'beforeclose': Ext.bind(this._onBeforeManualClose ,this)
 				}
 			});
 
 			return this._wrapper;
 		},
+        
+        /**
+         * @private
+         * Called when the panel is closed by user
+         * @param {Ametys.ui.tool.ToolPanel} panel the panel on which user click on manual close
+         */
+        _onBeforeManualClose: function(panel)
+        {
+            this.close();
+            return false;
+        },
 		
 		/**
 		 * @protected

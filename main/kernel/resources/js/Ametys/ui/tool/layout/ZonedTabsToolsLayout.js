@@ -351,8 +351,6 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
             location = this.getNearestSupportedLocation(location);
             tool._toolsLayout = this;
             
-            tool.on("beforeclose", this._onBeforeManualClose, this);
-            
 			Ext.suspendLayouts();
 
 			this._addToolToUI(tool, location);
@@ -361,17 +359,6 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 			
 			Ext.resumeLayouts(true);
 		},
-        
-        /**
-         * @private
-         * Called when the panel is closed by user
-         * @param {Ametys.ui.tool.ToolPanel} panel the panel on which user click on manual close
-         */
-        _onBeforeManualClose: function(panel)
-        {
-            this.removeTool(panel);
-            return false;
-        },
         
         /**
          * @private
@@ -476,9 +463,9 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 				this._onToolBlurred(tool);
 			}
 			
-			zoneTabsToolsPanel.remove(tool);
-            
 			tool.fireEvent('toolclose', tool, wasFocused);
+            
+			zoneTabsToolsPanel.remove(tool);
 			
 			if (this.getFocusedTool() == null)
 			{
