@@ -17,7 +17,7 @@ var ribbon, layout;
 function onreadyfunction() {
     ribbon = Ext.create("Ametys.ui.fluent.ribbon.Ribbon", {
                     title: 'Accueil (fr/index.html)',
-                    applicationTitle: 'Ametys Demo 3.5.0 (www)',
+                    applicationTitle: 'Ametys Demo (www)',
                     items: [
                         tabHome,
                         tabToggle,

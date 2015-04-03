@@ -20,7 +20,7 @@
  * 
  * Remember to call #load to get the preferences you need
  */
-Ext.define('Ametys.runtime.userprefs.UserPrefsDAO', {
+Ext.define('Ametys.userprefs.UserPrefsDAO', {
 	singleton: true,
 	
 	/**
@@ -101,8 +101,8 @@ Ext.define('Ametys.runtime.userprefs.UserPrefsDAO', {
 		}
 		
 		Ametys.data.ServerComm.send({
-			plugin: Ametys.runtime.userprefs.UserPrefsDAO._PLUGIN_NAME,
-			url: Ametys.runtime.userprefs.UserPrefsDAO._URL_VALUES,
+			plugin: Ametys.userprefs.UserPrefsDAO._PLUGIN_NAME,
+			url: Ametys.userprefs.UserPrefsDAO._URL_VALUES,
 			parameters: {
 				'prefContext': prefContext
 			}, 
@@ -128,7 +128,7 @@ Ext.define('Ametys.runtime.userprefs.UserPrefsDAO', {
 		var callback = args[0];
 		var prefContext = args[1];
 		
-		if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key='PLUGINS_CORE_USER_PREFERENCES_ERROR'/>", response, "Ametys.runtime.userprefs.UserPrefsDAO._cachePrepared"))
+		if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key='PLUGINS_CORE_USER_PREFERENCES_ERROR'/>", response, "Ametys.userprefs.UserPrefsDAO._cachePrepared"))
 		{
 			callback(false);
 			return;
@@ -226,8 +226,8 @@ Ext.define('Ametys.runtime.userprefs.UserPrefsDAO', {
 		params["submit"] = 'true';
 		
 		Ametys.data.ServerComm.send({
-			plugin: Ametys.runtime.userprefs.UserPrefsDAO._PLUGIN_NAME,
-			url: Ametys.runtime.userprefs.UserPrefsDAO._URL_SAVE,
+			plugin: Ametys.userprefs.UserPrefsDAO._PLUGIN_NAME,
+			url: Ametys.userprefs.UserPrefsDAO._URL_SAVE,
 			parameters: params, 
 			priority: priority, 
 			cancelCode: cancelCode,
@@ -252,7 +252,7 @@ Ext.define('Ametys.runtime.userprefs.UserPrefsDAO', {
 		var callback = args[0];
 		var prefContext = args[1];
 
-		if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key='PLUGINS_CORE_USER_PREFERENCES_ERROR_SAVE'/>", response, "Ametys.runtime.userprefs.UserPrefsDAO._valuesSaved"))
+		if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key='PLUGINS_CORE_USER_PREFERENCES_ERROR_SAVE'/>", response, "Ametys.userprefs.UserPrefsDAO._valuesSaved"))
 		{
 			callback(false, null);
 			return;

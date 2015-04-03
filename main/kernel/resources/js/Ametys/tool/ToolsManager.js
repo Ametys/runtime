@@ -89,7 +89,7 @@ Ext.define("Ametys.tool.ToolsManager",
 			// if the user do not want to remember tools, we do not reopen them by doing this: 
 			// we remember the default opened tools in the variable replaceAutoOpenedTools, and after restoring the state, we crash the value 
 			var replaceAutoOpenedTools;
-			if (Ametys.runtime.userprefs.UserPrefsDAO.getValue("remember-opened-tools") == "false")
+			if (Ametys.userprefs.UserPrefsDAO.getValue("remember-opened-tools") == "false")
 			{
 				replaceAutoOpenedTools = this._autoOpenedTools;
 			}
@@ -141,7 +141,7 @@ Ext.define("Ametys.tool.ToolsManager",
 			};
 			
 			// Do we want to remember opened tools?
-			if (Ametys.runtime.userprefs.UserPrefsDAO.getValue("remember-opened-tools") == "true")
+			if (Ametys.UserPrefsDAO.getValue("remember-opened-tools") == "true")
 			{
 				var locations = this.getToolsLayout().getSupportedLocations();
 				for (var i = locations.length - 1; i >= 0; i--)

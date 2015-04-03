@@ -192,6 +192,9 @@
             <script>/kernel/resources/js/Ametys/ribbon/element/ui/ButtonController.js"</script>
             <script>/kernel/resources/js/Ametys/ribbon/element/ui/button/OpenToolButtonController.js"</script>
         
+            <script>/kernel/resources/js/Ametys/userprefs/UserPrefsDAO.js"</script>
+            <script>/kernel/resources/js/Ametys/userprefs/UserPrefsDAOStateProvider.js"</script>
+
             <script>/kernel/resources/js/Ametys/tool/ToolsManager.js"</script>
             <script>/kernel/resources/js/Ametys/tool/ToolFactory.js"</script>
             <script>/kernel/resources/js/Ametys/tool/factory/BasicToolFactory.js"</script>

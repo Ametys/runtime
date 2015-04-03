@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+   Copyright 2015 Anyware Services
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta content="IE=edge" http-equiv="X-UA-Compatible" />	
+		<title>Tests</title>
+	</head>
+
+	<body>
+	   <h1>Tests of the client side of the Ametys UI</h1>
+	   <h2>List of tests</h2>
+	   <ul>
+	       <li><a href="ametys-ui.html">User interface</a>: Test of the purely drawn client side (no logic). Allow to test the rendering of the ribbon and of the tools.</li>
+	       <li><a href="ametys-tools.html">Tools</a>: Test of the logic of the tools. Allow to test the abstraction of the tools.</li>
+	   </ul>
+       <h2>How to make tests working</h2>
+	   <p>To make the test working, you have to play thoses throught Apache HTTPD and to add some url redirection: </p>
+	   <ul>
+	       <li><strong>/plugins/extjs5/resources/</strong>: Redirection to the subdirectory "build" of your local copy of ExtJS version</li>
+           <li><strong>/kernel/resources/</strong>: Redirection to the kernel resources directory</li>
+	   </ul>
+	   <p>Here is a Apache Httpd 2.2 conf sample:</p>
+	   <code>
+	       <pre>
+				&lt;VirtualHost *:80>
+				        # Racine des documents statiques du site web
+				        DocumentRoot "/pathto/Ametys/kernel/01_RUNTIME/4.0.x/test/clientside"
+				        
+	                        &lt;Directory "/pathto/Ametys/kernel/01_RUNTIME/4.0.x/test/clientside">
+	                           AllowOverride none
+	                           Allow From All
+	                           Options MultiViews  
+	                        &lt;/Directory> 
+				            &lt;Directory "/pathto/Ametys/kernel/resources">
+				               AllowOverride none
+				               Allow From All
+				               Options MultiViews  
+				            &lt;/Directory> 
+				            &lt;Directory "/pathto/Extjs/ext-5.1.0/build">
+				               AllowOverride none
+				               Allow From All
+				               Options MultiViews  
+				            &lt;/Directory> 
+				            
+				        # Nom du virtual host
+				        ServerName ribbon.localhost
+				        UseCanonicalName On
+				        RewriteEngine On
+				
+				        AddDefaultCharset     UTF-8
+				        
+				        RewriteRule             ^/?$             /index.html [R]
+				        RewriteRule             ^/plugins/extjs5/resources/(.*)$     /pathto/Extjs/ext-5.1.0/build/$1 [L]  
+				        RewriteRule             ^/kernel/resources/(.*)$             /pathto/Ametys/kernel/resources/$1 [L]
+				&lt;/VirtualHost>
+	       </pre>	   
+	   </code>
+	</body>
+</html>

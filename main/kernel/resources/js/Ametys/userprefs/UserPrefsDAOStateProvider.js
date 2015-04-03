@@ -18,14 +18,14 @@
 /**
  * State provider that stores values in a single binary userpref.
  * 
- * 		var upP = Ext.create("Ametys.runtime.userprefs.UserPrefsDAOStateProvider", {
+ * 		var upP = Ext.create("Ametys.userprefs.UserPrefsDAOStateProvider", {
  * 			preference: "workspace"
  * 		});
  * 		Ext.state.Manager.setProvider(upP);
  * 
- * Based upon Ametys.runtime.userprefs.UserPrefsDAO that should be already loaded.
+ * Based upon Ametys.userprefs.UserPrefsDAO that should be already loaded.
  */
-Ext.define('Ametys.runtime.userprefs.UserPrefsDAOStateProvider', {
+Ext.define('Ametys.userprefs.UserPrefsDAOStateProvider', {
 	extend: "Ext.state.Provider",
 	
 	statics: {
@@ -42,14 +42,14 @@ Ext.define('Ametys.runtime.userprefs.UserPrefsDAOStateProvider', {
 	 */
 
 	/**
-	 * @cfg {String} prefContext The preference context to use. Use the default one if not specified. See Ametys.runtime.userprefs.UserPrefsDAO#setDefaultPrefContext 
+	 * @cfg {String} prefContext The preference context to use. Use the default one if not specified. See Ametys.userprefs.UserPrefsDAO#setDefaultPrefContext 
 	 */
 	
 	constructor: function(config)
 	{
 		this.callParent(arguments);
 		
-		this.state = this.decodeValue(Ametys.runtime.userprefs.UserPrefsDAO.getValue(this.preference, this.prefContext)) || {};
+		this.state = this.decodeValue(Ametys.userprefs.UserPrefsDAO.getValue(this.preference, this.prefContext)) || {};
 		
 		window.onbeforeunload = Ext.bind(this._onUnload, this);
 	},
@@ -77,7 +77,7 @@ Ext.define('Ametys.runtime.userprefs.UserPrefsDAOStateProvider', {
     /**
      * @private
      * Do effectively the save
-     * @param {String} [priority=Ametys.data.ServerComm#PRIORITY_MINOR] The Ametys.runtime.userprefs.UserPrefsDAO#saveValues priority to use.
+     * @param {String} [priority=Ametys.data.ServerComm#PRIORITY_MINOR] The Ametys.userprefs.UserPrefsDAO#saveValues priority to use.
      */
     _saveState: function(priority)
     {
@@ -86,7 +86,7 @@ Ext.define('Ametys.runtime.userprefs.UserPrefsDAOStateProvider', {
     	var save = {};
     	save[this.preference] = this.encodeValue(this.state);
     	
-    	Ametys.runtime.userprefs.UserPrefsDAO.saveValues(save, Ext.bind(this._saveStateCB, this), this.prefContext, priority, this.self.getName() + "$saving");
+    	Ametys.userprefs.UserPrefsDAO.saveValues(save, Ext.bind(this._saveStateCB, this), this.prefContext, priority, this.self.getName() + "$saving");
     },
     
     /**
