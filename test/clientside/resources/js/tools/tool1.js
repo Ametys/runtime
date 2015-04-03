@@ -17,18 +17,18 @@ var factory = Ext.create("Ametys.tool.factory.UniqueToolFactory", {
     "role": "uitool-tool1",
     "toolClass": "Ametys.test.tool.Tool1", 
     id: "tool1", 
-    pluginName: "test"
+    pluginName: "test",
+    
+    'title': "Tool n°1",
+    'description': "This is the tool number one",
+    'icon-small': 'resources/img/editpaste_16.gif',
+    'icon-medium': 'resources/img/editpaste_32.gif',
+    'icon-large': 'resources/img/editpaste_48.gif'
 });
 Ametys.tool.ToolsManager.addFactory(factory);
 
 Ext.define('Ametys.test.tool.Tool1', {
     extend: "Ametys.tool.Tool",
-    
-    title: "Tool n°1",
-    description: "This is the tool number one",
-    'icon-small': 'resources/img/editpaste_16.gif',
-    'icon-medium': 'resources/img/editpaste_32.gif',
-    'icon-large': 'resources/img/editpaste_48.gif',
     
     setParams: function (params)
     {
