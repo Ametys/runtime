@@ -367,6 +367,52 @@
     				view);
     	}
     });
+    
+    /**
+     * @class Ametys.grid.plugin.HeaderResizer
+     * @override Ext.grid.plugin.HeaderResizer
+     * Header column resize fails in large table
+     */
+    Ext.define('Ametys.grid.plugin.HeaderResizer', {
+        override: 'Ext.grid.plugin.HeaderResizer',
+        
+        // FIXME CMS-6169 http://www.sencha.com/forum/showthread.php?298039
+        // To be removed as soon as the ExtJS bug is resolved
+        getConstrainRegion: function() {
+            var me       = this,
+                dragHdEl = me.dragHd.el,
+                rightAdjust = 0,
+                nextHd,
+                lockedGrid;
+        
+            // If forceFit, then right constraint is based upon not being able to force the next header
+            // beyond the minColWidth. If there is no next header, then the header may not be expanded.
+            if (me.headerCt.forceFit) {
+                nextHd = me.dragHd.nextNode('gridcolumn:not([hidden]):not([isGroupHeader])');
+                if (nextHd && me.headerInSameGrid(nextHd)) {
+                    rightAdjust = nextHd.getWidth() - me.minColWidth;
+                }
+            }
+        
+            // If resize header is in a locked grid, the maxWidth has to be 30px within the available locking grid's width
+            else if ((lockedGrid = me.dragHd.up('tablepanel')).isLocked) {
+                rightAdjust = me.dragHd.up('[scrollerOwner]').getTargetEl().getWidth() - lockedGrid.getWidth() - (lockedGrid.ownerLockable.normalGrid.visibleColumnManager.getColumns().length * me.minColWidth + Ext.getScrollbarSize().width);
+            }
+        
+            // Else ue our default max width
+            else {
+                rightAdjust = me.maxColWidth - dragHdEl.getWidth();
+            }
+        
+            return me.adjustConstrainRegion(
+                dragHdEl.getRegion(),
+                0,
+                rightAdjust - me.xDelta,
+                0,
+                me.minColWidth - me.xDelta
+            );
+        }
+    });
 })();
 
 /**
