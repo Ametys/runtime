@@ -413,6 +413,56 @@
             );
         }
     });
+    
+    /**
+     * @class Ametys.form.field.Picker
+     * @override Ext.form.field.Picker
+     * Datefield picker closes on month or year selection
+     */
+    Ext.define('Ametys.form.field.Picker', {
+        override: 'Ext.form.field.Picker',
+        
+        // FIXME CMS-6142 https://www.sencha.com/forum/showthread.php?292889-4.2.3-Datefield-picker-closes-on-month-or-year-selection
+        collapseIf: function(e) {
+            var me = this;
+            
+            if (!me.isDestroyed && !e.within(me.bodyEl, false, true) && !e.within(me.picker.el, false, true) && !me.isEventWithinPickerLoadMask(e)) {
+                me.collapse();
+            }
+        },
+        
+        mimicBlur: function(e) {
+            var me = this,
+                picker = me.picker;
+            // ignore mousedown events within the picker element
+            if (!picker || !e.within(picker.el, false, true) && !me.isEventWithinPickerLoadMask(e)) {
+                me.callParent(arguments);
+            }
+        },
+        
+        isEventWithinPickerLoadMask: function(e) {
+            var loadMask = this.picker.loadMask;
+            return loadMask ? e.within(loadMask.maskEl, false, true) || e.within(loadMask.el, false, true) : false;
+        }
+    });
+    
+    /**
+     * @class Ametys.menu.DatePicker
+     * @override Ext.menu.DatePicker
+     * Datefield picker closes on month or year selection
+     */
+    Ext.define('Ametys.menu.DatePicker', {
+        override: 'Ext.menu.DatePicker',
+        
+        // FIXME CMS-6142 https://www.sencha.com/forum/showthread.php?292889-4.2.3-Datefield-picker-closes-on-month-or-year-selection
+        owns: function(element) {
+            if (this.picker && this.picker.monthPicker && this.picker.monthPicker.owns(element)) {
+                return true;
+            }
+            return this.callParent(arguments);
+        }
+    });
+    
 })();
 
 /**
