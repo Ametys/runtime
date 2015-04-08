@@ -1,3 +1,69 @@
+Runtime - Version 2.7 (April 08, 2015)
+
+New Feature:
+  RUNTIME-897 : Add support for HSQLDB in CMS
+  RUNTIME-1035 : CaptchaHelper should be moved to runtime
+
+Improvement:
+  RUNTIME-660 : Think about form cookie encryption
+  RUNTIME-687 : The GroupDrivenLdapGroupsManager doesn't handle memberUid attributes
+  RUNTIME-795 : Enhance SQL passwords protection
+  RUNTIME-889 : Support of FF22
+  RUNTIME-890 : Add an "getUntranslatedMessage" function to I18nTransformer
+  RUNTIME-904 : Add a label to the email address of the sender in the admin
+  RUNTIME-906 : Allow to invalidate a i18n catalogue
+  RUNTIME-907 : Add a cache for LDAP groups manager to get user's groups
+  RUNTIME-942 : Add a total property to GroupsManager SAX'ing.
+  RUNTIME-971 : Add a cache on LDAP group manager
+  RUNTIME-987 : Support of chrome 28, 29, 30
+  RUNTIME-988 : Support of FF 23,24
+  RUNTIME-1008 : Unsupported browser page
+  RUNTIME-1010 : Enhance browser compatibility message
+  RUNTIME-1012 : Add a UserPreferencesStorage in JDBC which stores the preferences as column values
+  RUNTIME-1015 : Support of Chrome 32 and more
+  RUNTIME-1019 : Add a helper to select several groups
+  RUNTIME-1034 : Get the edition model on a ModifiableUsersManager
+  RUNTIME-1036 : Improve the password security
+  RUNTIME-1053 : MultiselectField should allow to set template
+  RUNTIME-1058 : Support of chrome 36 and FF31
+  RUNTIME-1064 : StaticClientSideElement should handle to check rights with an AND operator
+  RUNTIME-1071 : Admin profile screen : display rights in alphabetical order
+  RUNTIME-1078 : group actions and generators should support switching the GroupsManager Role
+  RUNTIME-1079 : CSV Serializer
+  RUNTIME-1083 : DateTimeField should fire "change" event when time changed
+  RUNTIME-1087 : Upgrade ExtJs to 3.4.3
+  RUNTIME-1101 : LDAP - Add more settings 
+  RUNTIME-1106 : Support of chrome 40 to 44
+  RUNTIME-1108 : Handle image resizing in resource reader
+  RUNTIME-1110 : Support of FF 36-40
+
+Bug:
+  RUNTIME-894 : i18nizableText does not SAX correctly param with keys
+  RUNTIME-908 : Ext.ux.tree.XmlTreeLoader incorrectly fire the loadexception event.
+  RUNTIME-944 : Usersprefs are not validated
+  RUNTIME-997 : Support of FF 25 and more
+  RUNTIME-1016 : Groups screen is bugged
+  RUNTIME-1025 : Chrome 34 will not work
+  RUNTIME-1028 : Improve security on FormCredentialProvider
+  RUNTIME-1032 : Misspellings
+  RUNTIME-1033 : StringElement class should be moved from CMS/WEB to Runtime
+  RUNTIME-1055 : Multiselect field does not display options' label anymore
+  RUNTIME-1062 : AD Ldap UsersDrivenGroup doesn't work
+  RUNTIME-1066 : TextValidator does not handle multiple values
+  RUNTIME-1067 : Cannot read the configuration file exception should be logged as Error
+  RUNTIME-1080 : LDAPUsersManager logs uselessly with an AD with weird references
+  RUNTIME-1081 : DispatchGenerator should allow a preprocessing of request
+  RUNTIME-1089 : Add BOMInputStream 
+  RUNTIME-1099 : LDAP - Not possible to get users
+  RUNTIME-1109 : Error in the SQL file https://svn.ametys.org/trunk/runtime/trunk/main/plugin-core/scripts/mysql/users_token.sql
+  RUNTIME-1113 : Create a specific XML serializer for fragment of HTML
+  RUNTIME-1116 : Inline CSS when sending a mail, CSS specificity must be respected
+  RUNTIME-1118 : Admin change password widget in Users edition
+  RUNTIME-1119 : Admin Users edition, user creation and password value
+  RUNTIME-1125 : Confusion between parameter names to pass in the request when researching for users
+  RUNTIME-1129 : Encoding issue when using DispathGenerator with GET parameters
+
+-------------------------------------------------------------
 Runtime - Version 2.5 (June 10, 2013)
 
 Task:
