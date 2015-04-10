@@ -65,7 +65,7 @@ Open source web application framework based on Apache Cocoon.
 	<dependency org="javax.mail" name="mail" rev="1.4.3" conf="default->default;dev-kernel-resources->default"/>
 	<dependency org="slf4j" name="slf4j" rev="1.6.4" conf="compile->api;runtime->log4j12"/>
 	<dependency org="yahoo" name="yuicompressor" rev="2.4.6" conf="default->default"/>
-	<dependency org="jsoup" name="jsoup" rev="1.6.1" conf="*->default"/>
+	<dependency org="jsoup" name="jsoup" rev="1.8.1" conf="*->default"/>
 	<dependency org="coobird" name="thumbnailator" rev="0.3.10" conf="*->default"/>
     <dependency org="simplecaptcha" name="simplecaptcha" rev="1.1.1" conf="default->default"/>
     
