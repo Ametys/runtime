@@ -32,6 +32,7 @@
 <runtime.upload.dir>WEB-INF/data/uploads</runtime.upload.dir>
 <runtime.debug.ui>0</runtime.debug.ui>
 <runtime.cache.xslt>false</runtime.cache.xslt>
+<runtime.log.abnormal.time>false</runtime.log.abnormal.time>
 
 <runtime.datasource.core.ldap.baseUrl>ldap://ldap-dev.anyware.corp</runtime.datasource.core.ldap.baseUrl>
 <runtime.datasource.core.ldap.useSSL>false</runtime.datasource.core.ldap.useSSL>
