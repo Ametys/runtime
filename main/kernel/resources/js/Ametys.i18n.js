@@ -409,6 +409,42 @@ Ext.define(
 			
 			return fn.apply(null, args);
 		},
+		
+		/**
+		 * Open a popup window with http POST or GET data
+		 * @param {String} url the window url
+		 * @param {Object} data the request parameters
+		 * @param {String} [method="POST"] the request method for data, 'GET' or 'POST', defaults to "POST"
+		 * @param {String} [target="_blank"] an optional opening target (a name, or "_self"), defaults to "_blank"
+		 */
+		openWindow: function (url, data, method, target)
+		{
+			var form = document.createElement("form");
+			form.action = url;
+			form.method = method || "POST";
+			form.target = target || "_blank";
+			
+			if (data) 
+			{
+				for (var key in data) 
+				{
+					var input = document.createElement("input");
+					input.type = 'hidden';
+					input.name = key;
+					input.value = typeof data[key] === "object" ? Ext.JSON.encode(data[key]) : data[key];
+					form.appendChild(input);
+			    }
+			}
+			
+			form.style.position = "absolute";
+			form.style.left = "-10000px";
+			
+			document.body.appendChild(form);
+			form.submit();
+			
+			// delete form
+			document.body.removeChild(form);
+		},
 
 		/**
 		 * Shutdown all the application and display a message. A restart link is automatically added.<br/>
