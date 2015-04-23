@@ -972,6 +972,11 @@
 			function getLastNonEmptyTextNode(html)
 			{
 				var lastChild = html.lastChild;
+                if (lastChild == null)
+                {
+                    return null;
+                }
+                
 				while (lastChild.lastChild != null)
 				{
 					lastChild = lastChild.lastChild;
