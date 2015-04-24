@@ -88,6 +88,7 @@
 			<script>/kernel/resources/js/Ext.fixes.js</script>
             <script>/kernel/resources/js/Ext.enhancements.i18n.js</script>
 			<script>/kernel/resources/js/Ametys.i18n.js</script>
+            <script>/kernel/resources/js/Ametys/mask/GlobalLoadMask.i18n.js</script>
             <script>/kernel/resources/js/Ametys/log/LoggerFactory.js</script>
 			<script>/kernel/resources/js/Ametys/log/Logger.js</script>
 	        <script>/kernel/resources/js/Ametys/log/Logger/Entry.js</script>

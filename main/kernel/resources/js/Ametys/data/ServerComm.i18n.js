@@ -211,7 +211,7 @@ Ext.define(
 		 * 
 		 * @param {String} [message.responseType=xml] Can be "xml" (default) to have a xml response, "text" to have a single text node response or "xml2text" to have a single text node response where xml prologue as text is removed
 		 * 
-		 * @param {Boolean/String/Object} [message.waitMessage] Display a Ext.LoadMask while the request is running. Set to true to display a default loading message. Set to a string to display your message. Set to a Ext.LoadMask configuration object to do more accurate stuffs (such as covering only a component - since by default all the ui is grayed). Not available for #PRIORITY_SYNCHRONOUS requests.
+		 * @param {Boolean/String/Object} [message.waitMessage] Display a Ext.LoadMask while the request is running. Set to true to display a default loading message. Set to a string to display your message. Set to a Ext.LoadMask configuration object to do more accurate stuffs (such as covering only a component - since by default all the ui is grayed), but if no target is specified, this will use the Ametys.mask.GlobalMask and so will ignore most properties. Not available for #PRIORITY_SYNCHRONOUS requests.
 		 * 
 		 * @param {Boolean/String/Object} [message.errorMessage=false] When the request is a failure display a message to the user (using #handleBadResponse). 
 		 * Set to false, the callback is called with a null or empty response (you should protected your code with #handleBadResponse). 
@@ -251,11 +251,7 @@ Ext.define(
 						
 						messagesIndexToCancel.push(i);
 						
-						if (Ext.isObject(oldMessage.waitMessage))
-						{
-							oldMessage.bodyMasked ? Ext.getBody().unmask() : oldMessage.waitMessage.hide();
-                            Ext.destroy(oldMessage.waitMessage);
-						}
+                        this._hideWaitMessage(oldMessage.waitMessage);
 					}
 				}
 				for (var i = messagesIndexToCancel.length - 1; i >= 0; i--)
@@ -287,34 +283,7 @@ Ext.define(
 			}
 			
 			// Load mask
-			if (message.waitMessage != null)
-			{
-				if (Ext.isBoolean(message.waitMessage) && message.waitMessage == true)
-				{
-					message.waitMessage = { };
-				}
-				if (Ext.isString(message.waitMessage))
-				{
-					message.waitMessage = { msg: message.waitMessage };
-				}
-				if (Ext.isObject(message.waitMessage))
-				{
-					if (!message.waitMessage.target && Ext.ComponentQuery.query('viewport').length == 0)
-					{
-						message.waitMessage = Ext.getBody().mask (message.waitMessage.msg || "<i18n:text i18n:key='KERNEL_LOADMASK_DEFAULT_MESSAGE' i18n:catalogue='kernel'/>", message.waitMessage.msgCls);
-						message.bodyMasked = true;
-					}
-					else
-					{
-						message.waitMessage = Ext.applyIf(message.waitMessage, {
-							target: Ext.ComponentQuery.query('viewport')[0]
-						});
-						
-						message.waitMessage = Ext.create("Ext.LoadMask", message.waitMessage);
-						message.waitMessage.show();
-					}
-				}
-			}
+            message.waitMessage = this._showWaitMessage(message.waitMessage);
 			
 			if (message.priority == Ametys.data.ServerComm.PRIORITY_LONG_REQUEST)
 			{
@@ -664,13 +633,61 @@ Ext.define(
 			for (var i = 0; i < options.messages.length; i++)
 			{
 				var message = options.messages[i];
-				if (Ext.isObject(message.waitMessage))
-				{
-					message.bodyMasked ? Ext.getBody().unmask() : message.waitMessage.hide();
-					Ext.destroy(message.waitMessage);
-				}
+                
+                this._hideWaitMessage(message.waitMessage);
 			}
 		},
+        
+        /**
+         * @private
+         * Display a wait message during request.
+         * @param {Boolean/String/Object} waitMessage See waitMessage configuration on #send method.
+         * @return {String/Ext.LoadMask} The wait message instance, or Ametys.mask.GlobalLoadMask identifier
+         */
+        _showWaitMessage: function(waitMessage)
+        {
+            if (waitMessage != null)
+            {
+                if (Ext.isBoolean(waitMessage) && waitMessage == true)
+                {
+                    waitMessage = { };
+                }
+                if (Ext.isString(waitMessage))
+                {
+                    waitMessage = { msg: waitMessage };
+                }
+                
+                if (!waitMessage.target)
+                {
+                    waitMessage = Ametys.mask.GlobalLoadMask.mask(waitMessage.msg);
+                }
+                else
+                {
+                    waitMessage = Ext.create("Ext.LoadMask", waitMessage);
+                    waitMessage.show();
+                }
+            }
+            
+            return waitMessage;
+        },
+        
+        /**
+         * @private
+         * Wait the wait message
+         * @param {String/Ext.LoadMask} waitMessage The wait message instance, or Ametys.mask.GlobalLoadMask identifier
+         */
+        _hideWaitMessage: function(waitMessage)
+        {
+            if (Ext.isString(waitMessage))
+            {
+                Ametys.mask.GlobalLoadMask.unmask(waitMessage);
+            }
+            else if (Ext.isObject(waitMessage))
+            {
+                waitMessage.hide();
+                Ext.destroy(waitMessage);
+            }
+        },
 
 		/**
 		 * @private
