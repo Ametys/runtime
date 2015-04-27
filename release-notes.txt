@@ -1,3 +1,20 @@
+Runtime - Version 2.4.7 (April 27, 2015)
+
+Improvement:
+  RUNTIME-1058 : Support of chrome 36 and FF31
+  RUNTIME-1087 : Upgrade ExtJs to 3.4.3
+  RUNTIME-1106 : Support of chrome 40 to 44
+  RUNTIME-1110 : Support of FF 36-40
+
+Bug:
+  RUNTIME-1066 : TextValidator does not handle multiple values
+  RUNTIME-1067 : Cannot read the configuration file exception should be logged as Error
+  RUNTIME-1099 : LDAP - Not possible to get users
+  RUNTIME-1118 : Admin change password widget in Users edition
+  RUNTIME-1119 : Admin Users edition, user creation and password value
+  RUNTIME-1129 : Encoding issue when using DispathGenerator with GET parameters
+  
+-------------------------------------------------------------
 Runtime - Version 2.4.6 (April 02, 2014)
 
 Bug:
