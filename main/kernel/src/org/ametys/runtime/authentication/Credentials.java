@@ -15,12 +15,10 @@
  */
 package org.ametys.runtime.authentication;
 
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
-
 /**
  * Credentials represents the caracteristics of a user needed to log him
  */
-public class Credentials extends AbstractLogEnabled
+public class Credentials
 {
     /** The login */
     protected String _login;
