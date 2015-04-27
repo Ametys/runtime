@@ -1,3 +1,9 @@
+Runtime - Version 2.7.1 (April 27, 2015)
+
+Task:
+  RUNTIME-1136 : Upgrade jsoup library to 1.8.1 version
+
+-------------------------------------------------------------
 Runtime - Version 2.7 (April 08, 2015)
 
 New Feature:
