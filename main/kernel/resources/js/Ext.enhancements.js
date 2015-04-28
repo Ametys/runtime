@@ -999,7 +999,7 @@
 			var html = document.createElement('div');
 			html.innerHTML = text;
 			
-			if (this.getWidth(html.innerHtml) > maxWidth && maxWidth > 0)
+			if (this.getWidth(html.innerHTML) > maxWidth && maxWidth > 0)
 			{
 				var textNode = getLastNonEmptyTextNode(html);
 				
