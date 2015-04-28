@@ -26,6 +26,7 @@
 <runtime.skip-browser-compatibility-test>true</runtime.skip-browser-compatibility-test>
 <runtime.debug.ui>0</runtime.debug.ui>
 <runtime.cache.xslt>false</runtime.cache.xslt>
+<runtime.log.abnormal.time>false</runtime.log.abnormal.time>
 <smtp.mail.host>smtp.anyware.corp</smtp.mail.host>
 <smtp.mail.port>993</smtp.mail.port>
 <smtp.mail.security.protocol>none</smtp.mail.security.protocol>

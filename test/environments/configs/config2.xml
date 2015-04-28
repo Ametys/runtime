@@ -29,4 +29,5 @@
 <runtime.debug.ui>0</runtime.debug.ui>
 <runtime.skip-browser-compatibility-test>true</runtime.skip-browser-compatibility-test>
 <runtime.cache.xslt>false</runtime.cache.xslt>
+<runtime.log.abnormal.time>false</runtime.log.abnormal.time>
 </config>
