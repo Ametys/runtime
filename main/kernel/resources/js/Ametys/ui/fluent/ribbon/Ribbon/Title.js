@@ -34,11 +34,11 @@ Ext.define(
 			 */
 			enhanceTitle: function(title)
 			{
-				if (title && title.indexOf(" - ") != title.length - 3 && title != "&#160;")
+				if (title && title != "&#160;" && !Ext.String.endsWith(" - "))
 				{
 					title += " - ";
 				}
-				return title
+				return title;
 			}
 		},
 		
@@ -57,6 +57,14 @@ Ext.define(
             renderData.text = '<span class="x-fluent-tab-panel-header-title">' + this.self.enhanceTitle(renderData.text) + '</span>' 
                                 + '<span class="x-fluent-tab-panel-header-title-extension">' + this.applicationTitle + '</span>';
             return renderData;
+        },
+        
+        updateText: function(text)
+        {
+            if (this.rendered)
+            {
+                this.textEl.child(".x-fluent-tab-panel-header-title").setHtml(this.self.enhanceTitle(text));
+            }
         }
 	}
 );
