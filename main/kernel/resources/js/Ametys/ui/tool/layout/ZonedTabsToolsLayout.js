@@ -437,6 +437,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 			// when the old location replaces this tab by a new activated tab, the hidden status is incorrect and the tool invisible in the new tab (when this new tab was empty)
 			tool.hidden = true
 			tool.show();
+            tool.tab.show();
 			
 			// focus the tool
 			if (isToolActive)
