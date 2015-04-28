@@ -366,7 +366,10 @@
 	<message key="PLUGINS_CORE_UPLOAD_CONFIG_MAXSIZE_DESCRIPTION">The maximum size (in bytes) of uploaded files</message>
 	<message key="PLUGINS_CORE_UPLOAD_CONFIG_DIR_LABEL">Destination directory</message>
 	<message key="PLUGINS_CORE_UPLOAD_CONFIG_DIR_DESCRIPTION">Destination directory for uploaded files. You can use a path relative to your web application directory. The directory path must not end with the '/' character.&lt;br/&gt;Samples: '/home/cms/data/uploads' or 'WEB-INF/data/uploads'.</message>
-
+    <message key="PLUGINS_CORE_LOGGING_GROUP">Logging</message>
+    <message key="PLUGINS_CORE_TRACE_LOG_ABNORMAL_TIME_LABEL">Lopg long process</message>
+    <message key="PLUGINS_CORE_TRACE_LOG_ABNORMAL_TIME_DESCRIPTION">Check this box to activate tracing in logs (in 'warn' severity) of the process taking an unusually long time</message>
+    
 	<!-- USER AND RIGHTS -->
 	<message key="PLUGINS_CORE_USERANDRIGHTS_CATEGORY">Users and rights</message>
 

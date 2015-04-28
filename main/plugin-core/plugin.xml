@@ -91,6 +91,20 @@
             <group i18n="true">PLUGINS_CORE_DEBUG_GROUP</group>
             <order>20</order>
         </param>
+        <param id="runtime.log.abnormal.time" type="boolean">
+            <!-- 
+                This parameter activates the trace of process taking an abnormal time in logs
+             -->
+            <label i18n="true">PLUGINS_CORE_TRACE_LOG_ABNORMAL_TIME_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_TRACE_LOG_ABNORMAL_TIME_DESCRIPTION</description>
+            <validation>
+                <mandatory/>
+            </validation>
+            <default-value>false</default-value>
+            <category i18n="true">PLUGINS_CORE_SYSTEM_CONFIG_CATEGORY</category>
+            <group i18n="true">PLUGINS_CORE_LOGGING_GROUP</group>
+            <order>10</order>
+        </param>
 
         <!-- +
              | CORE DATASOURCE
@@ -1198,6 +1212,7 @@
             <param-ref id="runtime.debug.ui"/>
             <param-ref id="runtime.cache.xslt"/>
             <param-ref id="runtime.skip-browser-compatibility-test"/>
+            <param-ref id="runtime.log.abnormal.time"/>
 		</config>
 	</feature>
     
