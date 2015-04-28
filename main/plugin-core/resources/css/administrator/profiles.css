@@ -40,7 +40,7 @@
 #profile-list-view-splitter 
 {
     padding-top: 20px;
-    background : url(../../img/administrator/profiles/splitbar.png) top center no-repeat;
+    background : url('../../img/administrator/profiles/splitbar.png') top center no-repeat;
 }
 
 
