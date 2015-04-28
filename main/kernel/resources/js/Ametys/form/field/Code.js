@@ -62,6 +62,11 @@ Ext.define('Ametys.form.field.Code', {
 	_futureValue: '',
 	
 	/**
+	 * @property {Boolean} [_readOnly=false] Set to 'true' to open tool in read-only mode
+	 */
+	_readOnly: false,
+	
+	/**
 	 * @inheritdoc
 	 */
 	initComponent: function()
@@ -95,6 +100,7 @@ Ext.define('Ametys.form.field.Code', {
 		this.callParent(arguments);
 		this._mode = config.mode || 'htmlmixed';
 		this._singleLine = config.singleLine || false;
+		this._readOnly = config.readOnly === true;
 	},
 
 	/**
@@ -116,6 +122,15 @@ Ext.define('Ametys.form.field.Code', {
 			return this._codeMirror.getValue();
 		}
 		return this.initialConfig.value;
+	},
+	
+	setReadOnly: function (readOnly)
+	{
+		this._readOnly = readOnly;
+		if (this._codeMirror) 
+		{
+			this._codeMirror.setOption ('readOnly', readOnly);
+		}
 	},
 	
 	/**
@@ -248,6 +263,7 @@ Ext.define('Ametys.form.field.Code', {
 			var forcedParams = {
 			    mode: this._mode,
 			    value: me.initialConfig.value || '',
+			    readOnly: this._readOnly,
 			    
                 initCallback: function() {
                     me._initialized = true;
