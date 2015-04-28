@@ -254,6 +254,7 @@ Ext.define(
 						if (Ext.isObject(oldMessage.waitMessage))
 						{
 							oldMessage.bodyMasked ? Ext.getBody().unmask() : oldMessage.waitMessage.hide();
+                            Ext.destroy(oldMessage.waitMessage);
 						}
 					}
 				}
