@@ -115,6 +115,8 @@
             <script>/kernel/resources/js/Ext.enhancements.js</script>
 
 			<script>/kernel/resources/js/Ametys.js</script>
+
+            <script>/kernel/resources/js/Ametys/mask/GlobalLoadMask.js</script>
 			
 			<script>/kernel/resources/js/Ametys/log/Logger.js</script>
 	        <script>/kernel/resources/js/Ametys/log/Logger/Entry.js</script>
