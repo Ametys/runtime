@@ -910,7 +910,8 @@ Ext.define('Ametys.form.field.RichText', {
     	{
     		force = true,
     		this._prepareForResize();
-    	}
+            return; // first resize is useless and makes a useless layout on startup
+        }
     	
     	var editor = this.getEditor();
     	
