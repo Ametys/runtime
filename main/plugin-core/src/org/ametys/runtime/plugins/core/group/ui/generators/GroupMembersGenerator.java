@@ -16,10 +16,12 @@
 package org.ametys.runtime.plugins.core.group.ui.generators;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
@@ -87,7 +89,7 @@ public class GroupMembersGenerator extends ServiceableGenerator
             Group group = groupsManager.getGroup(source);
             if (group != null)
             {
-                Set<User> users = _getSortedUsers(group, usersManager);
+                List<User> users = _getSortedUsers(group, usersManager);
                 
                 int total = users.size();
                 Iterator<User> it = users.iterator();
@@ -125,9 +127,11 @@ public class GroupMembersGenerator extends ServiceableGenerator
         }
     }
     
-    private Set<User> _getSortedUsers (Group group, UsersManager usersManager)
+    private List<User> _getSortedUsers (Group group, UsersManager usersManager)
     {
-        Set<User> users = new TreeSet<User>(new Comparator<User>()
+        List<User> users = new ArrayList<User>();
+        
+        Collections.sort(users, new Comparator<User>()
         {
             public int compare(User u1, User u2) 
             {

@@ -21,10 +21,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import org.ametys.runtime.authentication.Credentials;
 import org.ametys.runtime.datasource.ConnectionHelper;
+import org.ametys.runtime.util.LoggerFactory;
 
 /**
  * Credentials coming from more than one source.
@@ -32,6 +34,8 @@ import org.ametys.runtime.datasource.ConnectionHelper;
  */
 public class TokenCredentials extends Credentials
 {
+    private static Logger _LOGGER = LoggerFactory.getLoggerFor(TokenCredentials.class); 
+    
     /** 15 days in seconds */
     private static final int COOKIE_LIFETIME = 1209600;
 
@@ -93,7 +97,7 @@ public class TokenCredentials extends Credentials
         }
         catch (Exception e)
         {
-            getLogger().error("Communication error with the database", e); 
+            _LOGGER.error("Communication error with the database", e); 
             return false;
         }
         finally
