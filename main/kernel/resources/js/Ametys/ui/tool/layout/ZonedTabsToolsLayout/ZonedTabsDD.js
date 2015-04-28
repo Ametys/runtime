@@ -48,6 +48,11 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZonedTabsDD",
 		 * @private
 		 */
 		_ddzones: [],
+        /**
+         * @property {Ext.dd.DDTarget[]} __ddobjects The drop targets associated to #_ddzones (for destroy purposes).
+         * @private
+         */
+        _ddobjects: [],
 		
 		/**
 		 * @property {Ext.dom.Element} el The dom element to drag
@@ -57,6 +62,10 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZonedTabsDD",
 		 * @property {Array} originalXY The x,y coordinates of the #el before the drag has started. Used to cancel the drag.
 		 * @private
 		 */		
+		 
+        /**
+         * @cfg {String} toolId The identifier of the Ametys.tool.Tool associated to the drag process 
+         */		 
 		
 		/**
 		 * @cfg {String} toolId The identifier of the Ametys.ui.tool.ToolPanel associated to the drag process 
@@ -321,7 +330,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZonedTabsDD",
 	    		document.body.appendChild(idiv);
 	    		this._ddzones.push(idiv);
 	    		
-	    		Ext.create("Ext.dd.DDTarget", idiv, this._originalGroup);    		
+                this._ddobjects.push(Ext.create("Ext.dd.DDTarget", idiv, this._originalGroup));         
 		    }
 		},
 		
@@ -376,6 +385,13 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZonedTabsDD",
 		    {
 		    	Ext.removeNode(this._ddzones[i]);
 		    }
+            this._ddzones = [];
+            
+            for (var i = 0; i < this._ddobjects.length; i++)
+            {
+                Ext.destroy(this._ddobjects[i]);
+            }
+            this._ddobjects = [];
 	    },
 	    
 		endDrag : function(e) 
