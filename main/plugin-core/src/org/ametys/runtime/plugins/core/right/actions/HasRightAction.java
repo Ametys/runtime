@@ -29,8 +29,8 @@ import org.ametys.runtime.util.cocoon.AbstractCurrentUserProviderServiceableActi
 
 
 /**
- * This action determines if the user has a right given in src.<br/>
- * return EMPTY_MAP if the user has right and null otherwise<br/>
+ * This action determines if the user has a right given in src.<br>
+ * return EMPTY_MAP if the user has right and null otherwise<br>
  * You can use the 'context' parameter to specify the right context. / is the default value.
  */
 public class HasRightAction extends AbstractCurrentUserProviderServiceableAction implements Configurable

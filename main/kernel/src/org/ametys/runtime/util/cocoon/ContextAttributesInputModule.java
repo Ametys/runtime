@@ -26,7 +26,7 @@ import org.apache.cocoon.components.modules.input.InputModule;
 import org.apache.cocoon.environment.http.HttpEnvironment;
 
 /**
- * This input module read in cocoon context attributes<br/>
+ * This input module read in cocoon context attributes<br>
  * Use it {context-attr:attrName} 
  */
 public class ContextAttributesInputModule implements InputModule

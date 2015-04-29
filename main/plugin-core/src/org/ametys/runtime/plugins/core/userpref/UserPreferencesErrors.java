@@ -30,7 +30,7 @@ import org.ametys.runtime.util.parameter.Errors;
  */
 public class UserPreferencesErrors
 {
-    /** The errors as a Map of field ID -> error messages. */
+    /** The errors as a Map of field ID -&gt; error messages. */
     protected Map<String, Errors> _errors;
     
     /**

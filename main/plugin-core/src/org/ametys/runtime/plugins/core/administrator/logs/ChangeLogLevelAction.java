@@ -35,7 +35,7 @@ import org.apache.log4j.spi.LoggerRepository;
 /**
  * Change the log level for specified categories.<br>
  * The categories are specified through request parameters with the following syntax :
- * priority_&lt;my.log.category>=&lt;log-level>
+ * priority_&lt;my.log.category&gt;=&lt;log-level&gt;
  */
 public class ChangeLogLevelAction extends AbstractAction implements ThreadSafe
 {

@@ -16,8 +16,8 @@
 package org.ametys.runtime.right;
 
 /**
- * This right manager support an initialisation that grant all privileges to a user .<br/>
- * Extends this implementation if you want that the administrator to be able to initialize your right manager.<br/>
+ * This right manager support an initialisation that grant all privileges to a user .<br>
+ * Extends this implementation if you want that the administrator to be able to initialize your right manager.<br>
  * If your right manager doest not implement this interface, the administrator will have to set the initial rights another way.
  */
 public interface InitializableRightsManager extends RightsManager

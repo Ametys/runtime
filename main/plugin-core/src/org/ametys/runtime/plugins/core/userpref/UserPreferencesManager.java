@@ -318,7 +318,7 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Thread
     /**
      * Get all user preferences, grouped by storage point.
      * @param contextVars the context variables.
-     * @return a Map of storage role -> collection of user preferences.
+     * @return a Map of storage role -&gt; collection of user preferences.
      */
     protected Map<String, Collection<UserPreference>> getUserPrefsByStorage(Map<String, String> contextVars)
     {

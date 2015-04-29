@@ -24,7 +24,7 @@ import org.apache.cocoon.components.modules.input.InputModule;
 import org.apache.cocoon.environment.ObjectModelHelper;
 
 /**
- * This input module read in parent context.<br/>
+ * This input module read in parent context.<br>
  * Use it with {parent-context-attr:paramName}.
  */
 public class ParentContextInputModule implements InputModule

@@ -20,7 +20,7 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 
 /**
- * Implementation of {@link SqlMapClientComponentProvider} use the which use the configuration element <role>
+ * Implementation of {@link SqlMapClientComponentProvider} use the which use the configuration element &lt;role&gt;
  * to get the component to retrieve.<br>
  * This target component must implements <code>SqlMapClientsAware</code> in order
  * to be injected with one or more <code>SqlMapClient</code> instances.

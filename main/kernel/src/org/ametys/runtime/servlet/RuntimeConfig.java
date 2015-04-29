@@ -341,8 +341,8 @@ public final class RuntimeConfig
     }
 
     /**
-     * Returns a Map&lt;extension point, extension id> containing the choosen extension for each single extension point
-     * @return a Map&lt;extension point, extension id> containing the choosen extension for each single extension point
+     * Returns a Map&lt;extension point, extension id&gt; containing the choosen extension for each single extension point
+     * @return a Map&lt;extension point, extension id&gt; containing the choosen extension for each single extension point
      */
     public Map<String, String> getExtensionsPoints()
     {

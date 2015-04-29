@@ -61,7 +61,7 @@ import org.ametys.runtime.util.parameter.ParameterHelper.ParameterType;
 import org.ametys.runtime.util.parameter.Validator;
 
 /**
- * Use a jdbc driver for getting the list of users.<br/>
+ * Use a jdbc driver for getting the list of users.<br>
  * The main method to override is <code>_createUserFromResultSet</code>
  */
 public class JdbcUsersManager extends CachingComponent<User> implements UsersManager, Configurable, ThreadSafe, Component, Serviceable, Contextualizable, PluginAware, Disposable
@@ -419,8 +419,7 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
      * @param offset The offset to start with, first is 0.
      * @param parameters Parameters containing a pattern to match :
      *            <ul>
-     *            <li>"pattern" => The pattern to match (String) or null to get
-     *            all the users.
+     *            <li>"pattern" =&gt; The pattern to match (String) or null to get all the users.</li>
      *            </ul>
      * @throws SAXException If an error occurs while saxing.
      */

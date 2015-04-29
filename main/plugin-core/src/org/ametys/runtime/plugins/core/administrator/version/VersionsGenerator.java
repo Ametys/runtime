@@ -31,13 +31,13 @@ import org.ametys.runtime.config.Config;
 /**
  * SAXes the information provided by the VersionsHandler component.<br>
  * The format is : <br>
- * &lt;Versions><br>
- * &nbsp;&nbsp;&lt;Component><br>
- * &nbsp;&nbsp;&nbsp;&nbsp;&lt;Name><i>Name of the component</i>&lt;/Name><br>
- * &nbsp;&nbsp;&nbsp;&nbsp;&lt;Version><i>Version of the component</i>&lt;/Version><br>
- * &nbsp;&nbsp;&nbsp;&nbsp;&lt;Date><i>Build date formatted with "dd/MM/yyyy HH:mm" format</i>&lt;/Date><br>
- * &nbsp;&nbsp;&lt;/Component><br>
- * &lt;/Versions>
+ * &lt;Versions&gt;<br>
+ * &nbsp;&nbsp;&lt;Component&gt;<br>
+ * &nbsp;&nbsp;&nbsp;&nbsp;&lt;Name&gt;<i>Name of the component</i>&lt;/Name&gt;<br>
+ * &nbsp;&nbsp;&nbsp;&nbsp;&lt;Version&gt;<i>Version of the component</i>&lt;/Version&gt;<br>
+ * &nbsp;&nbsp;&nbsp;&nbsp;&lt;Date&gt;<i>Build date formatted with "dd/MM/yyyy HH:mm" format</i>&lt;/Date&gt;<br>
+ * &nbsp;&nbsp;&lt;/Component&gt;<br>
+ * &lt;/Versions&gt;
  */
 public class VersionsGenerator extends ServiceableGenerator
 {

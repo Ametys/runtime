@@ -22,10 +22,10 @@ import org.ametys.runtime.right.RightsManager.RightResult;
 
 
 /**
- * Application rights manager with hierarchical contexts.<br/>
+ * Application rights manager with hierarchical contexts.<br>
  * Call the rights manager, first with the full context,
  * and then with the parent context till the root context when
- * the right is unknown.<br/>
+ * the right is unknown.<br>
  * The separator is the '/' character.
  */
 public final class HierarchicalRightsHelper

@@ -41,7 +41,7 @@ import org.ametys.runtime.group.Group;
 
 
 /**
- * Use a ldap server for getting the group of users<br/>
+ * Use a ldap server for getting the group of users<br>
  * Groups are constructed using attributes on users.
  */
 public class UserDrivenLdapGroupsManager extends AbstractLDAPGroupsManager implements Component

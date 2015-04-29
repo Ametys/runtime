@@ -40,12 +40,12 @@ import org.apache.excalibur.source.SourceResolver;
 
 /**
  * Factory for reading files in one protocol and switch to others if not found.
- * Configuration should be like:<br/><code><pre>
+ * Configuration should be like:<br><pre><code>
  *       &lt;match&gt;kernel://(.*)&lt;/match&gt;
  *       &lt;protocols&gt;
  *         &lt;protocol&gt;resource://org/ametys/runtime/kernel/{1}&lt;/protocol&gt;
  *         &lt;protocol&gt;context://kernel/{1}&lt;/protocol&gt;
- *       &lt;/protocols&gt;</pre></code>
+ *       &lt;/protocols&gt;</code></pre>
  */
 public class ProxySourceFactory extends AbstractLogEnabled implements SourceFactory, ThreadSafe, Serviceable, Configurable
 {

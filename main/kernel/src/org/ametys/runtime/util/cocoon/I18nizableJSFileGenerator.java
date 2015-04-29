@@ -36,12 +36,12 @@ import org.xml.sax.SAXException;
  * This generator reads a text file that contains xml tags, and add xml
  * declaration and a firstlevel tag.<br>
  * The following file:<br>
- * I am a <i18n:text i18n:key="test"/>.<br>
+ * I am a &lt;i18n:text i18n:key="test"/&gt;.<br>
  * Will be read as:<br>
- * <?xml version="1.0" encoding="UTF-8">
- * &lt;xml xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
- * I am a &lt;i18n:text i18n:key="test"/>.
- * &lt;/xml><br>
+ * &lt;?xml version="1.0" encoding="UTF-8"&gt;
+ * &lt;xml xmlns:i18n="http://apache.org/cocoon/i18n/2.1"&lt;
+ * I am a &lt;i18n:text i18n:key="test"/&lt;.
+ * &lt;/xml&lt;<br>
  * And so will sax events correctly.
  */
 public class I18nizableJSFileGenerator extends FileGenerator

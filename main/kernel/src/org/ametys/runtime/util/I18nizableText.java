@@ -98,7 +98,7 @@ public final class I18nizableText
 
     /**
      * Determine whether the text is i18nized or a simple cross languages text.
-     * @return true if the text is i18nized and so defined by a catalogue, a key and optionaly parameters.<br/>false if the text is a simple label
+     * @return true if the text is i18nized and so defined by a catalogue, a key and optionaly parameters.<br>false if the text is a simple label
      */
     public boolean isI18n()
     {

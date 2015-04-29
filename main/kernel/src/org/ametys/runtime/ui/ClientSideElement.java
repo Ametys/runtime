@@ -26,7 +26,7 @@ import java.util.Map;
  * To implement such logic, implementing classes should write any method, annotated with {@link Callable}, 
  * that will be directly called by the kernel upon execution of the JavaScript method <code>serverCall('methodeName', params)</code>.<br><br>
  * 
- * All <code>Map&lt;String, Object></code> instances found in this class and its implementations 
+ * All <code>Map&lt;String, Object&gt;</code> instances found in this class and its implementations 
  * are directly converted from and to JSON to interact with browser-site JavaScript.
  */
 public interface ClientSideElement

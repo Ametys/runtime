@@ -366,7 +366,7 @@ public final class SendMailHelper
     }
 
     /**
-     * This method inline css in &lt;style&gt; tags directly in the appropriates tags. e.g. : <style>h1 {color: red;}</style> <h1>a</h1> becomes <h1 style="color: red">a</h1>
+     * This method inline css in &lt;style&gt; tags directly in the appropriates tags. e.g. : &lt;style&gt;h1 {color: red;}&lt;/style&gt; &lt;h1&gt;a&lt;/h1&gt; becomes &lt;h1 style="color: red"&gt;a&lt;/h1&gt;
      * @param html The initial non null html
      * @return The inlined html
      */

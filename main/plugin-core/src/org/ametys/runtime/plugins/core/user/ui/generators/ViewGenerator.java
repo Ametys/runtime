@@ -30,7 +30,7 @@ import org.ametys.runtime.util.cocoon.AbstractCurrentUserProviderServiceableGene
 
 
 /**
- * Generates the users' screen information.<br/>
+ * Generates the users' screen information.
  */
 public class ViewGenerator extends AbstractCurrentUserProviderServiceableGenerator
 {

@@ -44,7 +44,7 @@ public final class ResourceSource extends AbstractSource
     /**
      * Constructor.<br>
      * @param systemId URI of the desired resource
-     * @throws MalformedURLException if the systemId is not like &lt;scheme>://&lt;path>
+     * @throws MalformedURLException if the systemId is not like &lt;scheme&gt;://&lt;path&gt;
      * @throws SourceNotFoundException if the location can not be found in the class loader
      */
     public ResourceSource(final String systemId) throws MalformedURLException, SourceNotFoundException

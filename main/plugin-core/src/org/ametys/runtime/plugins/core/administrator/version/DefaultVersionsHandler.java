@@ -90,10 +90,10 @@ public class DefaultVersionsHandler extends AbstractLogEnabled implements Versio
     /**
      * Helper for getting Version from an XML file in the classpath.<br>
      * The file must be formed like this :<br>
-     * &lt;version><br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;&lt;version><i>Version name</i>&lt;/version><br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;&lt;date><i>Version date in format "yyyyMMdd'T'HHmmz"</i>&lt;/date><br>
-     * &lt;/version><br>
+     * &lt;version&gt;<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;&lt;version&gt;<i>Version name</i>&lt;/version&gt;<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;&lt;date&gt;<i>Version date in format "yyyyMMdd'T'HHmmz"</i>&lt;/date&gt;<br>
+     * &lt;/version&gt;<br>
      * @param path a path in the classpath poiting to an XML file
      * @param versionName the name of the Version to create
      * @return the created Version

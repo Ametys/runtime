@@ -26,11 +26,11 @@ import org.xml.sax.helpers.DefaultHandler;
  * SAX events. <br>
  * The incoming SAX document must follow this structure :<br>
  * 
- * &lt;root> <br>
- * &nbsp;&nbsp;&lt;Name1>value1&lt;/Name1> <br>
- * &nbsp;&nbsp;&lt;Name2>value2&lt;/Name2> <br>
+ * &lt;root&gt; <br>
+ * &nbsp;&nbsp;&lt;Name1&gt;value1&lt;/Name1&gt; <br>
+ * &nbsp;&nbsp;&lt;Name2&gt;value2&lt;/Name2&gt; <br>
  * &nbsp;&nbsp;... <br>
- * &lt;/root> <br>
+ * &lt;/root&gt; <br>
  * <br>
  * Each pair Name/Value will be put (as Strings) in the constructed Map <br>
  */

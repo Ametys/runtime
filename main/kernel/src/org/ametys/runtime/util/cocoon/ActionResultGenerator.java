@@ -193,7 +193,7 @@ public class ActionResultGenerator extends AbstractGenerator
      *    &lt;li&gt;Errors : each error is saxed &lt;/li&gt;
      *    &lt;li&gt;I18nizableText : saxed using toSAX method &lt;/li&gt;
      *    &lt;li&gt;Collection : each item is saxed used the same key. Note that Collection with inside Collection will have all its item with the same key at root &lt;/li&gt;
-     *    &lt;li&gt;Object : a simple &lt;key>value.toString()&lt;/key> &lt;/li&gt;
+     *    &lt;li&gt;Object : a simple &lt;key&gt;value.toString()&lt;/key&gt; &lt;/li&gt;
      * &gt;/ul&gt;
      * @throws IOException on error
      * @throws SAXException on error

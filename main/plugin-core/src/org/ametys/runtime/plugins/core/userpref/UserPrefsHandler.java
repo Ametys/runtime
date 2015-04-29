@@ -26,19 +26,19 @@ import org.xml.sax.helpers.DefaultHandler;
  * SAX events. <br>
  * The incoming SAX document must follow this structure :<br>
  * 
- * &lt;UserPreferences> <br>
- * &nbsp;&nbsp;&lt;Name1>value1&lt;/Name1> <br>
- * &nbsp;&nbsp;&lt;Name2>value2&lt;/Name2> <br>
+ * &lt;UserPreferences&gt; <br>
+ * &nbsp;&nbsp;&lt;Name1&gt;value1&lt;/Name1&gt; <br>
+ * &nbsp;&nbsp;&lt;Name2&gt;value2&lt;/Name2&gt; <br>
  * &nbsp;&nbsp;... <br>
- * &lt;/UserPreferences> <br>
+ * &lt;/UserPreferences&gt; <br>
  * <br>
  * 
  * or<br>
- * &lt;UserPreferences> <br>
- * &nbsp;&nbsp;&lt;preference id="Name1">value1&lt;/preference> <br>
- * &nbsp;&nbsp;&lt;preference id="Name1">value2&lt;/preference> <br>
+ * &lt;UserPreferences&gt; <br>
+ * &nbsp;&nbsp;&lt;preference id="Name1"&gt;value1&lt;/preference&gt; <br>
+ * &nbsp;&nbsp;&lt;preference id="Name1"&gt;value2&lt;/preference&gt; <br>
  * &nbsp;&nbsp;... <br>
- * &lt;/UserPreferences> <br>
+ * &lt;/UserPreferences&gt; <br>
  * <br>
  * Each pair Name/Value will be put (as Strings) in the constructed Map <br>
  */

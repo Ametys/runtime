@@ -34,7 +34,7 @@ public class RequestListenerManager implements Contextualizable, ThreadSafe, Ini
     /** Avalon Role */
     public static final String ROLE = RequestListenerManager.class.getName();
     
-    /** ServletContext attribute id containing an ArrayList&lt;RequestListener> */
+    /** ServletContext attribute id containing an ArrayList&lt;RequestListener&gt; */
     public static final String CONTEXT_ATTRIBUTE_REQUEST_LISTENERS = "runtime:requestListeners";
 
     private Context _context;

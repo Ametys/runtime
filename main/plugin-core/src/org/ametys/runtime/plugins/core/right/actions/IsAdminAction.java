@@ -28,7 +28,7 @@ import org.apache.cocoon.environment.SourceResolver;
 import org.ametys.runtime.workspaces.admin.authentication.AdminAuthenticateAction;
 
 /**
- * This action determines if the user is in admin.<br/>
+ * This action determines if the user is in admin.<br>
  * Throw an IllegalStateException if not
  */
 public class IsAdminAction extends AbstractAction implements ThreadSafe

@@ -323,8 +323,7 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
      * @param offset The offset to start with, first is 0.
      * @param parameters Parameters containing a pattern to match :
      *            <ul>
-     *            <li>"pattern" => The pattern to match (String) or null to get
-     *            all the users.
+     *            <li>"pattern" =gt; The pattern to match (String) or null to get all the users.</li>
      *            </ul>
      * @throws SAXException If an error occurs while saxing.
      */
