@@ -34,23 +34,16 @@
     
     <!-- CHANGES IVYREP CONFIGURATION -->
     <xsl:template match="classpathentry[@kind='con' and starts-with(@path, 'org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER') and count(/classpath/classpathentry[@kind='con' and starts-with(@path, 'org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER')]) = 1 and $todevmode='true']">
-        <xsl:variable name="pathWithIvyPathModified">
-	         <xsl:call-template name="change-parameter">
-	             <xsl:with-param name="string" select="@path"/>
-	             <xsl:with-param name="parameter" select="'ivyXmlPath'"/>
-	             <xsl:with-param name="new-value" select="'ivy.xml'"/>
-	         </xsl:call-template>
-        </xsl:variable>
         <xsl:variable name="path1">
              <xsl:call-template name="change-parameter">
-                 <xsl:with-param name="string" select="$pathWithIvyPathModified"/>
+                 <xsl:with-param name="string" select="@path"/>
                  <xsl:with-param name="parameter" select="'confs'"/>
                  <xsl:with-param name="new-value" select="'compile_dependencies%2Ctest'"/>
              </xsl:call-template>
         </xsl:variable>
         <xsl:variable name="path2">
              <xsl:call-template name="change-parameter">
-                 <xsl:with-param name="string" select="$pathWithIvyPathModified"/>
+                 <xsl:with-param name="string" select="@path"/>
                  <xsl:with-param name="parameter" select="'confs'"/>
                  <xsl:with-param name="new-value" select="'runtime_dependencies'"/>
              </xsl:call-template>
@@ -71,16 +64,9 @@
     </xsl:template>
     <xsl:template match="classpathentry[@kind='con' and starts-with(@path, 'org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER') and count(/classpath/classpathentry[@kind='con' and starts-with(@path, 'org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER')]) = 2 and $todevmode='false']">
         <xsl:if test="count(following-sibling::classpathentry[@kind='con' and starts-with(@path, 'org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER')]) = 0">
-	        <xsl:variable name="pathWithIvyPathModified">
-	             <xsl:call-template name="change-parameter">
-	                 <xsl:with-param name="string" select="@path"/>
-	                 <xsl:with-param name="parameter" select="'ivyXmlPath'"/>
-	                 <xsl:with-param name="new-value" select="'ivy.xml'"/>
-	             </xsl:call-template>
-	        </xsl:variable>
             <xsl:variable name="pathWithIvyPathModifiedAndConf">
              <xsl:call-template name="change-parameter">
-                 <xsl:with-param name="string" select="$pathWithIvyPathModified"/>
+                 <xsl:with-param name="string" select="@path"/>
                  <xsl:with-param name="parameter" select="'confs'"/>
                  <xsl:with-param name="new-value" select="'compile%2Ctest'"/>
              </xsl:call-template>
