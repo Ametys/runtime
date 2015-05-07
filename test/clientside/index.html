@@ -40,9 +40,9 @@
 	       <pre>
 				&lt;VirtualHost *:80>
 				        # Racine des documents statiques du site web
-				        DocumentRoot "/pathto/Ametys/kernel/01_RUNTIME/4.0.x/test/clientside"
+				        DocumentRoot "/pathto/Ametys/kernel/01_RUNTIME/trunk/test/clientside"
 				        
-	                        &lt;Directory "/pathto/Ametys/kernel/01_RUNTIME/4.0.x/test/clientside">
+	                        &lt;Directory "/pathto/Ametys/kernel/01_RUNTIME/trunk/test/clientside">
 	                           AllowOverride none
 	                           Allow From All
 	                           Options MultiViews  
@@ -52,7 +52,7 @@
 				               Allow From All
 				               Options MultiViews  
 				            &lt;/Directory> 
-				            &lt;Directory "/pathto/Extjs/ext-5.1.0/build">
+				            &lt;Directory "/pathto/Extjs/ext-6.0.0/build">
 				               AllowOverride none
 				               Allow From All
 				               Options MultiViews  
@@ -66,7 +66,7 @@
 				        AddDefaultCharset     UTF-8
 				        
 				        RewriteRule             ^/?$             /index.html [R]
-				        RewriteRule             ^/plugins/extjs5/resources/(.*)$     /pathto/Extjs/ext-5.1.0/build/$1 [L]  
+				        RewriteRule             ^/plugins/extjs6/resources/(.*)$     /pathto/Extjs/ext-6.0.0/build/$1 [L]  
 				        RewriteRule             ^/kernel/resources/(.*)$             /pathto/Ametys/kernel/resources/$1 [L]
 				&lt;/VirtualHost>
 	       </pre>	   

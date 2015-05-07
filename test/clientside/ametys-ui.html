@@ -16,60 +16,60 @@
    -->
 <html xmlns="http://www.w3.org/1999/xhtml">
 
-	<head>
+    <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta content="IE=edge" http-equiv="X-UA-Compatible" />	
-		<title>Test d'ergonomie avec Ext v5</title>
-            <link rel="stylesheet" type="text/css" href="/plugins/extjs5/resources/packages/ext-theme-gray/build/resources/ext-theme-gray-all-debug.css"/>
-            <link rel="stylesheet" type="text/css" href="/plugins/extjs5/resources/packages/ext-ux/build/classic/resources/ext-ux-all-debug.css"/>
+        <meta content="IE=edge" http-equiv="X-UA-Compatible" /> 
+        <title>Test d'ergonomie avec Ext v5</title>
+            <link rel="stylesheet" type="text/css" href="/plugins/extjs6/resources/classic/theme-gray/resources/theme-gray-all-debug.css"/>
+            <link rel="stylesheet" type="text/css" href="/plugins/extjs6/resources/packages/ux/classic/classic/resources/ux-all-debug.css"/>
             <link rel="stylesheet" type="text/css" href="/kernel/resources/css/ametys.css"/>
 
-			<script src="/plugins/extjs5/resources/ext-all-debug.js" type="text/javascript"></script>
-			<script src="/plugins/extjs5/resources/packages/ext-locale/build/ext-locale-fr-debug.js" type="text/javascript"></script>
-			<script src="/plugins/extjs5/resources/packages/ext-theme-gray/build/ext-theme-gray-debug.js" type="text/javascript"></script>
-			<script src="/plugins/extjs5/resources/packages/ext-ux/build/ext-ux-debug.js" type="text/javascript"></script>
+            <script src="/plugins/extjs6/resources/ext-all-debug.js" type="text/javascript"></script>
+            <script src="/plugins/extjs6/resources/classic/locale/locale-fr-debug.js" type="text/javascript"></script>
+            <script src="/plugins/extjs6/resources/classic/theme-gray/theme-gray-debug.js" type="text/javascript"></script>
+            <script src="/plugins/extjs6/resources/packages/ux/classic/ux-debug.js" type="text/javascript"></script>
 
             <script src="/kernel/resources/js/Ext.fixes.js" type="text/javascript"></script>
             <script src="/kernel/resources/js/Ext.enhancements.js" type="text/javascript"></script>
-			
+            
             <script type="text/javascript">
             a = Ext.BLANK_IMAGE_URL;
             ametys_opts = { 'context-path': '', 'language-code': 'fr'};
             </script>
             
-			
-			<script src="/kernel/resources/js/Ametys.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/log/Logger.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/log/Logger/Entry.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/log/LoggerFactory.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/log/ErrorDialog.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/window/DialogBox.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/window/MessageBox.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/form/AbstractField.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/form/AbstractFieldsWrapper.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/form/field/DateTime.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/form/field/ChangePassword.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/form/field/ReferencedNumberField.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/form/field/RichText.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/form/field/Code.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/data/ServerComm.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/data/ServerCommProxy.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/data/ServerComm/TimeoutDialog.js" type="text/javascript"></script>
+            
+            <script src="/kernel/resources/js/Ametys.js" type="text/javascript"></script>
+            <script src="/kernel/resources/js/Ametys/log/Logger.js" type="text/javascript"></script>
+            <script src="/kernel/resources/js/Ametys/log/Logger/Entry.js" type="text/javascript"></script>
+            <script src="/kernel/resources/js/Ametys/log/LoggerFactory.js" type="text/javascript"></script>
+            <script src="/kernel/resources/js/Ametys/log/ErrorDialog.js" type="text/javascript"></script>
+            <script src="/kernel/resources/js/Ametys/window/DialogBox.js" type="text/javascript"></script>
+            <script src="/kernel/resources/js/Ametys/window/MessageBox.js" type="text/javascript"></script>
+            <script src="/kernel/resources/js/Ametys/form/AbstractField.js" type="text/javascript"></script>
+            <script src="/kernel/resources/js/Ametys/form/AbstractFieldsWrapper.js" type="text/javascript"></script>
+            <script src="/kernel/resources/js/Ametys/form/field/DateTime.js" type="text/javascript"></script>
+            <script src="/kernel/resources/js/Ametys/form/field/ChangePassword.js" type="text/javascript"></script>
+            <script src="/kernel/resources/js/Ametys/form/field/ReferencedNumberField.js" type="text/javascript"></script>
+            <script src="/kernel/resources/js/Ametys/form/field/RichText.js" type="text/javascript"></script>
+            <script src="/kernel/resources/js/Ametys/form/field/Code.js" type="text/javascript"></script>
+            <script src="/kernel/resources/js/Ametys/data/ServerComm.js" type="text/javascript"></script>
+            <script src="/kernel/resources/js/Ametys/data/ServerCommProxy.js" type="text/javascript"></script>
+            <script src="/kernel/resources/js/Ametys/data/ServerComm/TimeoutDialog.js" type="text/javascript"></script>
 
-			
-			<script src="/kernel/resources/js/Ametys/ui/fluent/tip/Tooltip.js" type="text/javascript"></script>
-			
-			<script src="/kernel/resources/js/Ametys/ui/fluent/ribbon/Ribbon.js" type="text/javascript"></script>
+            
+            <script src="/kernel/resources/js/Ametys/ui/fluent/tip/Tooltip.js" type="text/javascript"></script>
+            
+            <script src="/kernel/resources/js/Ametys/ui/fluent/ribbon/Ribbon.js" type="text/javascript"></script>
             <script src="/kernel/resources/js/Ametys/ui/fluent/ribbon/Ribbon/Title.js" type="text/javascript"></script>
             <script src="/kernel/resources/js/Ametys/ui/fluent/ribbon/Ribbon/Header.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/ui/fluent/ribbon/TabPanel.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/ui/fluent/ribbon/Panel.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/ui/fluent/ribbon/Group.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/ui/fluent/ribbon/GroupPart.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/ui/fluent/ribbon/controls/Button.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/ui/fluent/ribbon/controls/Toolbar.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/ui/fluent/ribbon/controls/gallery/MenuGallery.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/ui/fluent/ribbon/controls/gallery/MenuGalleryButton.js" type="text/javascript"></script>
+            <script src="/kernel/resources/js/Ametys/ui/fluent/ribbon/TabPanel.js" type="text/javascript"></script>
+            <script src="/kernel/resources/js/Ametys/ui/fluent/ribbon/Panel.js" type="text/javascript"></script>
+            <script src="/kernel/resources/js/Ametys/ui/fluent/ribbon/Group.js" type="text/javascript"></script>
+            <script src="/kernel/resources/js/Ametys/ui/fluent/ribbon/GroupPart.js" type="text/javascript"></script>
+            <script src="/kernel/resources/js/Ametys/ui/fluent/ribbon/controls/Button.js" type="text/javascript"></script>
+            <script src="/kernel/resources/js/Ametys/ui/fluent/ribbon/controls/Toolbar.js" type="text/javascript"></script>
+            <script src="/kernel/resources/js/Ametys/ui/fluent/ribbon/controls/gallery/MenuGallery.js" type="text/javascript"></script>
+            <script src="/kernel/resources/js/Ametys/ui/fluent/ribbon/controls/gallery/MenuGalleryButton.js" type="text/javascript"></script>
 
 
             <script src="/kernel/resources/js/Ametys/ui/tool/ToolPanel.js" type="text/javascript"></script>
@@ -78,77 +78,77 @@
             <script src="/kernel/resources/js/Ametys/ui/tool/layout/ZonedTabsToolsLayout/ZoneTabsToolsPanel.js" type="text/javascript"></script>
             <script src="/kernel/resources/js/Ametys/ui/tool/layout/ZonedTabsToolsLayout/ZonedTabsDD.js" type="text/javascript"></script>
             
-			<!-- JS -->
+            <!-- JS -->
             <script type="text/javascript">
             Ext.BLANK_IMAGE_URL = a;
             ametys_opts = { 'context-path': '', 'language-code': 'fr'};
             </script>
 
-<!-- 		<script type="text/javascript" src="resources/tinymce/tiny_mce.js"></script> -->
+<!--        <script type="text/javascript" src="resources/tinymce/tiny_mce.js"></script> -->
 
-		<script type="text/javascript" src="resources/js/ui/simple.js"></script>
-		<script type="text/javascript" src="resources/js/ui/home.js"></script>
-		<script type="text/javascript" src="resources/js/ui/toggle.js"></script>
-		<script type="text/javascript" src="resources/js/ui/menu.js"></script>
-		<script type="text/javascript" src="resources/js/ui/split.js"></script>
-		<script type="text/javascript" src="resources/js/ui/splittoggle.js"></script>
-		<script type="text/javascript" src="resources/js/ui/components.js"></script>
-		<script type="text/javascript" src="resources/js/ui/contextual.js"></script>
-		<script type="text/javascript" src="resources/js/ui/base.js"></script>
+        <script type="text/javascript" src="resources/js/ui/simple.js"></script>
+        <script type="text/javascript" src="resources/js/ui/home.js"></script>
+        <script type="text/javascript" src="resources/js/ui/toggle.js"></script>
+        <script type="text/javascript" src="resources/js/ui/menu.js"></script>
+        <script type="text/javascript" src="resources/js/ui/split.js"></script>
+        <script type="text/javascript" src="resources/js/ui/splittoggle.js"></script>
+        <script type="text/javascript" src="resources/js/ui/components.js"></script>
+        <script type="text/javascript" src="resources/js/ui/contextual.js"></script>
+        <script type="text/javascript" src="resources/js/ui/base.js"></script>
         <script type="text/javascript" src="resources/js/ui/tools.js"></script>
-	</head>
+    </head>
 
-	<body>
-	</body>
-	
-	<!--
-		1 - Vérifier apparence
-		  a - Bouton de menu avec logo
-		  b - Arrondis nickels sur le ribbon
-		  c - taille des groupes ajustés
-		  d - boutons de menus grands (avec libellé normal, très court ou sur deux lignes)
-		  e - petits boutons
-		  z - Autres apparences
-		2 - Apparence dynamique
-		  a - Over du tab actif
-		  b - Over du tab non actif
-		  c - Over du bouton de menu fermé et bouton de menu quand menu ouvert
-		  d - Apparence du tooltip du bouton de menu ou d'un bouton
-		  e - Apparence d'un bouton de la barre en over et en pressed (bien vérifier le bas du bouton au pixel près)
-		  f - boutons split grand (vérifier la zone menu et la zone bouton en over en clic)
-		  g - boutons split petit (vérifier la zone menu et la zone bouton en over en clic)
-		  h - ouvrir les boutons de type ribbon (html, boutons, et inribbon)
-		3 - Collapse
-		  a - Collapse de menu redimenssionne correctement
-		  b - Ouvrir un tab passe bien au dessus
-		  c - Cliquer ailleurs le referme correctement
-		  d - Expand du menu redimenssionne correctement
-		  e - Expand/collapse en double cliquant sur le fond des tabs (pas sur un tab) doit resélectionner le même
-		4 - resize
-		  a - Mettre la fenetre en grand, charger, mettre la fenetre en petit, remettre en grand
-		  b - Mettre la fenetre en petit, charger, mettre la fenetre en grand, remettre en petit 
-		  c - Mettre la fenetre en grand, charger, collapser, mettre la fenetre en petit, remettre en grand
-		  d - Mettre la fenetre en petit, charger, collapser, mettre la fenetre en grand, remettre en petit 
-		  e - Mettre la fenetre en grand, charger, collapser et sélectionner un onglet, mettre la fenetre en petit, remettre en grand
-		  f - Mettre la fenetre en petit, charger, collapser et sélectionner un onglet, mettre la fenetre en grand, remettre en petit
-		  g - charger, mettre le ribbon en petit, afficher un autre onglet
-		5 - contextual tabs
-		  a - afficher et cacher des contextuals tabs (une fois chacun) et vérifier l'apparence (notamment l'alignement du label)
-		  b - afficher un tab, le sélectionner, le cacher et le réafficher : il doit être sélectionné
-		  c - afficher un tab, le sélectionner, la cacher, cliquer ailleurs et le réafficher : il ne doit pas être sélectionné
-		  d - quand on affiche un tab, le titre du ribbon doit se resserer sur la gauche (centré par rapport à l'espace entre le bouton rond et le tab contextuel). quand on le cache tout revient en place
-		  e - cliquer sur le label d'un tab ou d'un group de tab doit sélectionner le premier
-		  
-		
-		TESTE
-		  FF2 (xp)
-		  FF3 (xp)
-		  IE6 (xp)
-		  IE7 (xp)
-		  IE8 (xp)
-		  GC2 (xp)
-		  SF4 (xp)
-		  OP9 (xp)
-	 -->
+    <body>
+    </body>
+    
+    <!--
+        1 - Vérifier apparence
+          a - Bouton de menu avec logo
+          b - Arrondis nickels sur le ribbon
+          c - taille des groupes ajustés
+          d - boutons de menus grands (avec libellé normal, très court ou sur deux lignes)
+          e - petits boutons
+          z - Autres apparences
+        2 - Apparence dynamique
+          a - Over du tab actif
+          b - Over du tab non actif
+          c - Over du bouton de menu fermé et bouton de menu quand menu ouvert
+          d - Apparence du tooltip du bouton de menu ou d'un bouton
+          e - Apparence d'un bouton de la barre en over et en pressed (bien vérifier le bas du bouton au pixel près)
+          f - boutons split grand (vérifier la zone menu et la zone bouton en over en clic)
+          g - boutons split petit (vérifier la zone menu et la zone bouton en over en clic)
+          h - ouvrir les boutons de type ribbon (html, boutons, et inribbon)
+        3 - Collapse
+          a - Collapse de menu redimenssionne correctement
+          b - Ouvrir un tab passe bien au dessus
+          c - Cliquer ailleurs le referme correctement
+          d - Expand du menu redimenssionne correctement
+          e - Expand/collapse en double cliquant sur le fond des tabs (pas sur un tab) doit resélectionner le même
+        4 - resize
+          a - Mettre la fenetre en grand, charger, mettre la fenetre en petit, remettre en grand
+          b - Mettre la fenetre en petit, charger, mettre la fenetre en grand, remettre en petit 
+          c - Mettre la fenetre en grand, charger, collapser, mettre la fenetre en petit, remettre en grand
+          d - Mettre la fenetre en petit, charger, collapser, mettre la fenetre en grand, remettre en petit 
+          e - Mettre la fenetre en grand, charger, collapser et sélectionner un onglet, mettre la fenetre en petit, remettre en grand
+          f - Mettre la fenetre en petit, charger, collapser et sélectionner un onglet, mettre la fenetre en grand, remettre en petit
+          g - charger, mettre le ribbon en petit, afficher un autre onglet
+        5 - contextual tabs
+          a - afficher et cacher des contextuals tabs (une fois chacun) et vérifier l'apparence (notamment l'alignement du label)
+          b - afficher un tab, le sélectionner, le cacher et le réafficher : il doit être sélectionné
+          c - afficher un tab, le sélectionner, la cacher, cliquer ailleurs et le réafficher : il ne doit pas être sélectionné
+          d - quand on affiche un tab, le titre du ribbon doit se resserer sur la gauche (centré par rapport à l'espace entre le bouton rond et le tab contextuel). quand on le cache tout revient en place
+          e - cliquer sur le label d'un tab ou d'un group de tab doit sélectionner le premier
+          
+        
+        TESTE
+          FF2 (xp)
+          FF3 (xp)
+          IE6 (xp)
+          IE7 (xp)
+          IE8 (xp)
+          GC2 (xp)
+          SF4 (xp)
+          OP9 (xp)
+     -->
 
 </html>

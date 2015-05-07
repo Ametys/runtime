@@ -101,15 +101,15 @@
         </script>
         
        	<xsl:variable name="scripts">
-       		<script>/plugins/extjs5/resources/ext-all<xsl:if test="$rtl">-rtl</xsl:if><xsl:if test="$debug-mode">-debug</xsl:if>.js</script>
-            <script>/plugins/extjs5/resources/packages/ext-locale/build/ext-locale-<xsl:value-of select="$language-code"/><xsl:if test="$debug-mode">-debug</xsl:if>.js</script>
+       		<script>/plugins/extjs6/resources/ext-all<xsl:if test="$rtl">-rtl</xsl:if><xsl:if test="$debug-mode">-debug</xsl:if>.js</script>
+            <script>/plugins/extjs6/resources/classic/locale/locale-<xsl:value-of select="$language-code"/><xsl:if test="$debug-mode">-debug</xsl:if>.js</script>
             
             <xsl:if test="$theme = 'aria'">
-                <script>/plugins/extjs5/resources/packages/ext-aria/build/ext-aria<xsl:if test="$debug-mode">-debug</xsl:if>.js</script>
+                <script>/plugins/extjs6/resources/classic/aria/aria<xsl:if test="$debug-mode">-debug</xsl:if>.js</script>
             </xsl:if>
-            <script>/plugins/extjs5/resources/packages/ext-theme-<xsl:value-of select="$theme"/>/build/ext-theme-<xsl:value-of select="$theme"/><xsl:if test="$debug-mode">-debug</xsl:if>.js</script>
+            <script>/plugins/extjs6/resources/classic/theme-<xsl:value-of select="$theme"/>/theme-<xsl:value-of select="$theme"/><xsl:if test="$debug-mode">-debug</xsl:if>.js</script>
 
-            <script>/plugins/extjs5/resources/packages/ext-ux/build/ext-ux<xsl:if test="$debug-mode">-debug</xsl:if>.js</script>
+            <script>/plugins/extjs6/resources/packages/ux/classic/ux<xsl:if test="$debug-mode">-debug</xsl:if>.js</script>
             
 			<script>/kernel/resources/js/Ext.fixes.js</script>
             <script>/kernel/resources/js/Ext.enhancements.js</script>
@@ -207,8 +207,11 @@
 	    </xsl:variable>
 	    
 		<xsl:variable name="css">
-            <css>/plugins/extjs5/resources/packages/ext-theme-<xsl:value-of select="$theme"/>/build/resources/ext-theme-<xsl:value-of select="$theme"/>-all<xsl:if test="$rtl">-rtl</xsl:if><xsl:if test="$debug-mode">-debug</xsl:if>.css</css>
-            <css>/plugins/extjs5/resources/packages/ext-ux//build/<xsl:value-of select="$uxtheme"/>/resources/ext-ux-all<xsl:if test="$rtl">-rtl</xsl:if><xsl:if test="$debug-mode">-debug</xsl:if>.css</css>
+            <xsl:if test="$theme = 'aria'">
+                <css>/plugins/extjs6/resources/classic/aria/resources/aria-all<xsl:if test="$rtl">-rtl</xsl:if><xsl:if test="$debug-mode">-debug</xsl:if>.css</css>
+            </xsl:if>
+            <css>/plugins/extjs6/resources/classic/theme-<xsl:value-of select="$theme"/>/resources/theme-<xsl:value-of select="$theme"/>-all<xsl:if test="$rtl">-rtl</xsl:if><xsl:if test="$debug-mode">-debug</xsl:if>.css</css>
+            <css>/plugins/extjs6/resources/packages/ux/classic/<xsl:value-of select="$uxtheme"/>/resources/ux-all<xsl:if test="$rtl">-rtl</xsl:if><xsl:if test="$debug-mode">-debug</xsl:if>.css</css>
             <css>/kernel/resources/css/Ametys/gray/all.css</css>
             <css>/kernel/resources/css/ametys.css</css>
 		</xsl:variable>

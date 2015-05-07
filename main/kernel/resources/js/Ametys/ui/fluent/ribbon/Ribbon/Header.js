@@ -41,7 +41,7 @@ Ext.define(
             if (width == "auto")
             {
                 this.getTitle().flex = 1;
-                this.getTitle().ownerCt.doLayout();
+                this.getTitle().setWidth(null);
             }
             else
             {
