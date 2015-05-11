@@ -936,6 +936,12 @@
     </config>
     
     <extension-points>
+        <extension-point id="org.ametys.runtime.ui.StaticFileImportsManager"
+                         class="org.ametys.runtime.ui.StaticFileImportsManager">
+            <!-- Handles the static import files that are used on client side -->
+        </extension-point>
+        
+    <!--  TODO REMOVE THIS -->    
         <extension-point id="org.ametys.runtime.workspaces.admin.DesktopManager" 
                 		 class="org.ametys.runtime.plugins.core.ui.item.DesktopManager" 
                 		 config="/WEB-INF/param/workspace-admin.xml"/>
@@ -2560,6 +2566,18 @@
         <components>
             <component class="org.ametys.runtime.plugins.core.ui.AmetysXSLTHelper" role="org.ametys.runtime.plugins.core.ui.AmetysXSLTHelper"/>
         </components>
+    </feature>
+    
+    <feature name="staticimports.constants">
+        <extensions>
+            <extension id="org.ametys.runtime.Constants"
+                       point="org.ametys.runtime.ui.StaticFileImportsManager"
+                       class="org.ametys.runtime.ui.StaticFileImportsClientSideElement">
+                <scripts>
+                    <file>js/Ametys/plugins/cms/Constants.js</file>
+                </scripts>
+            </extension>
+        </extensions>
     </feature>
     
 </plugin>
