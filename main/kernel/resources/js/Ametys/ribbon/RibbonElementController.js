@@ -75,7 +75,7 @@ Ext.define(
 		 */
 		_getRole: function()
 		{
-			return this instanceof Ametys.ribbon.element.RibbonTabController ? 'org.ametys.cms.ribbon.RibbonTabsManager' : 'org.ametys.cms.ribbon.RibbonControlsManager';
+			return this instanceof Ametys.ribbon.element.RibbonTabController ? 'org.ametys.runtime.ribbon.RibbonTabsManager' : 'org.ametys.runtime.ribbon.RibbonControlsManager';
 		},
 		
 		/**

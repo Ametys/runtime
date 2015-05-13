@@ -941,6 +941,78 @@
             <!-- Handles the static import files that are used on client side -->
         </extension-point>
         
+        <extension-point id="org.ametys.runtime.ribbon.RibbonAppMenuControlsManager"
+                         class="org.ametys.runtime.ribbon.RibbonAppMenuControlsManager">
+            <!-- Handles the dynamic items that may takes place in the ametys menu -->
+        </extension-point>
+        
+        <extension-point id="org.ametys.runtime.ribbon.RibbonControlsManager"
+                         class="org.ametys.runtime.ribbon.RibbonControlsManager">
+            <!-- Handles the controls that may takes place in the ribbon -->
+        </extension-point>
+
+        <extension-point id="org.ametys.runtime.ribbon.RibbonTabsManager"
+                         class="org.ametys.runtime.ribbon.RibbonTabsManager">
+            <!-- Handles the dynamic tabs that may takes place in the ribbon -->
+        </extension-point>
+
+        <extension-point id="org.ametys.runtime.ui.UIToolsFactoriesManager"
+                         class="org.ametys.runtime.ui.UIToolsFactoriesManager">
+            <!-- Handles the factories that are used on client side -->
+        </extension-point>
+
+        <extension-point id="org.ametys.runtime.ui.RelationsManager"
+                         class="org.ametys.runtime.ui.RelationsManager">
+            <!-- Handles the handlers that are used on client side to create relations between objects (e.g. by drag and droping) -->
+        </extension-point>
+        
+        <extension-point id="org.ametys.runtime.ui.widgets.WidgetsManager"
+                         class="org.ametys.runtime.ui.widgets.WidgetsManager"
+                         config="context://WEB-INF/param/default-widgets.xml">
+            <!-- Handles the widgets that are used on client side to creates forms (e.g. editing content) -->
+            <normal>
+                <single>
+                    <binary>edition.file</binary>
+                    <boolean>edition.checkbox</boolean>
+                    <content>edition.select-content</content>
+                    <date>edition.date</date>
+                    <datetime>edition.datetime</datetime>
+                    <double>edition.doublefield</double>
+                    <file>edition.file</file>
+                    <geocode>edition.geocode</geocode>
+                    <long>edition.longfield</long>
+                    <rich_text>edition.richtext</rich_text>
+                    <reference>edition.url-reference</reference>
+                    <string>edition.textfield</string>
+                    <sub_content>edition.compose-content</sub_content>
+                    <user>edition.user</user>
+                    <url>edition.textfield</url>
+                </single>
+                <multiple>
+                    <content>edition.select-content</content>
+                    <string>edition.textfield</string>
+                    <reference>edition.url-reference</reference>
+                    <sub_content>edition.compose-content</sub_content>
+                    <user>edition.user</user>
+                    <url>edition.textfield</url>
+                </multiple>
+            </normal>
+            <enumerated>
+                <single>
+                    <string>edition.combobox</string>
+                </single>
+<!--                 <multiple> -->
+<!--                     <string>edition.boxselect</string> -->
+<!--                 </multiple> -->
+            </enumerated>
+        </extension-point>
+
+        <extension-point id="org.ametys.runtime.ui.MessageTargetFactoriesManager"
+                         class="org.ametys.runtime.ui.MessageTargetFactoriesManager">
+            <!-- Handles the factories for message bus targets that are used on client side -->
+        </extension-point>
+        
+        
     <!--  TODO REMOVE THIS -->    
         <extension-point id="org.ametys.runtime.workspaces.admin.DesktopManager" 
                 		 class="org.ametys.runtime.plugins.core.ui.item.DesktopManager" 
@@ -2568,13 +2640,406 @@
         </components>
     </feature>
     
+    
+    <feature name="staticimports.announce">
+        <extensions>
+            <extension id="Ametys.runtime.system.Announce"
+                       point="org.ametys.runtime.ui.StaticFileImportsManager"
+                       class="org.ametys.runtime.ui.StaticFileImportsClientSideElement">
+                <scripts>
+                    <file>js/Ametys/runtime/system/Announce.js</file>
+                </scripts>
+            </extension>
+        </extensions>
+    </feature>
+    <feature name="staticimports.system.time">
+        <extensions>
+            <extension id="Ametys.runtime.system.StartTimeChecker"
+                       point="org.ametys.runtime.ui.StaticFileImportsManager"
+                       class="org.ametys.runtime.ui.StaticFileImportsClientSideElement">
+                <scripts>
+                    <file>js/Ametys/runtime/system/StartTimeChecker.js</file>
+                </scripts>
+            </extension>
+        </extensions>
+    </feature>
+    
+    <feature name="staticimports.navhistory">
+        <extensions>
+            <extension id="org.Ametys.runtime.navhistory.HistoryDAO"
+                       point="org.ametys.runtime.ui.StaticFileImportsManager"
+                       class="org.ametys.runtime.ui.StaticFileImportsClientSideElement">
+                <scripts>
+                    <file>js/Ametys/runtime/navhistory/HistoryDAO.js</file>
+                </scripts>
+            </extension>
+        </extensions>
+    </feature>
+    
+    <feature name="staticimports.widgets">
+        <extensions>
+            <extension id="org.ametys.runtime.Widgets"
+                       point="org.ametys.runtime.ui.StaticFileImportsManager"
+                       class="org.ametys.runtime.ui.StaticFileImportsClientSideElement">
+                <scripts>
+<!--
+                    <file>js/Ametys/cms/editor/EditorController.js</file>
+                    <file>js/Ametys/cms/editor/EditorField.js</file>
+                    <file>js/Ametys/cms/editor/InsertElementHelper.js</file>
+                    <file>js/Ametys/cms/editor/LinkHandler.js</file>
+-->
+                    
+<!--
+                    <file>js/Ametys/cms/explorer/Resource.js</file>
+                    <file>js/Ametys/cms/explorer/ResourceDAO.js</file>
+                    <file>js/Ametys/cms/explorer/ExplorerNode.js</file>
+                    <file>js/Ametys/cms/explorer/ExplorerNodeDAO.js</file>
+                    <file>js/Ametys/cms/explorer/ExplorerTree.js</file>
+                    <file>js/Ametys/cms/explorer/ExplorerTree/NodeEntry.js</file>
+-->
+                    
+                    <file>js/Ametys/runtime/uihelper/SelectUser.js</file>
+                    <file>js/Ametys/runtime/uihelper/SelectGroup.js</file>
+                    
+<!--
+                    <file>js/Ametys/runtime/uihelper/SelectContentBySearch.js</file>
+                    <file>js/Ametys/runtime/uihelper/CreateContent.js</file>
+-->
+                    <file>js/Ametys/runtime/uihelper/EnterURL.js</file>
+                    <file>js/Ametys/runtime/uihelper/FileUpload.js</file>
+<!--
+                    <file>js/Ametys/runtime/uihelper/ChooseResourceFile.js</file>
+                    <file>js/Ametys/runtime/uihelper/ChooseAttachmentFile.js</file>
+-->
+                    <file>js/Ametys/runtime/uihelper/ChooseLocation.js</file>
+                    <file>js/Ametys/runtime/uihelper/ChooseLocation/LoadGoogleMaps.js</file>
+<!--
+                    <file>js/Ametys/runtime/uihelper/ChooseTag.js</file>
+-->
+                    <file>js/Ametys/runtime/uihelper/SaveErrorDialog.js</file>
+                    
+                    <file>js/Ametys/runtime/clipboard/Clipboard.js</file>
+                </scripts>
+                <css>
+                    <file>css/Widget.css</file>
+                </css>
+            </extension>
+        </extensions>
+    </feature>
+    
+    <feature name="widgets.default.text">
+        <extensions>
+            <extension id="edition.textfield"
+                point="org.ametys.runtime.ui.widgets.WidgetsManager"
+                class="org.ametys.runtime.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.runtime.form.widget.Text">
+                    <ftypes>string</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>true</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/runtime/form/widget/DefaultWidgets.js</file>
+                </scripts>                
+            </extension>
+            <extension id="edition.hidden"
+                point="org.ametys.runtime.ui.widgets.WidgetsManager"
+                class="org.ametys.runtime.ui.widgets.StaticClientSideWidget">
+                <class name="Ext.form.field.Hidden">
+                    <ftypes>string</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>false</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+            </extension>
+        </extensions>
+    </feature>
+    <feature name="widgets.default.combo">
+        <extensions>
+            <extension id="edition.combobox"
+                point="org.ametys.runtime.ui.widgets.WidgetsManager"
+                class="org.ametys.runtime.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.runtime.form.widget.ComboBox">
+                    <ftypes>string,long</ftypes>
+                    <supports-enumerated>true</supports-enumerated>
+                    <supports-non-enumerated>false</supports-non-enumerated>
+                    <supports-multiple>true</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/runtime/form/widget/DefaultWidgets.js</file>
+                </scripts>                
+            </extension>
+        </extensions>
+    </feature>
+    <feature name="widgets.default.long">
+        <extensions>
+            <extension id="edition.longfield"
+                point="org.ametys.runtime.ui.widgets.WidgetsManager"
+                class="org.ametys.runtime.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.runtime.form.widget.Long">
+                    <ftypes>long</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>false</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/runtime/form/widget/DefaultWidgets.js</file>
+                </scripts>                
+            </extension>
+        </extensions>
+    </feature>    
+    <feature name="widgets.default.double">
+        <extensions>
+            <extension id="edition.doublefield"
+                point="org.ametys.runtime.ui.widgets.WidgetsManager"
+                class="org.ametys.runtime.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.runtime.form.widget.Double">
+                    <ftypes>double</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>false</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/runtime/form/widget/DefaultWidgets.js</file>
+                </scripts>                
+            </extension>
+        </extensions>
+    </feature>    
+    <feature name="widgets.default.checkbox">
+        <extensions>
+            <extension id="edition.checkbox"
+                point="org.ametys.runtime.ui.widgets.WidgetsManager"
+                class="org.ametys.runtime.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.runtime.form.widget.Checkbox">
+                    <ftypes>boolean</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>false</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/runtime/form/widget/DefaultWidgets.js</file>
+                </scripts>                
+            </extension>
+        </extensions>
+    </feature>    
+    <feature name="widgets.default.date">
+        <extensions>
+            <extension id="edition.date"
+                point="org.ametys.runtime.ui.widgets.WidgetsManager"
+                class="org.ametys.runtime.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.runtime.form.widget.Date">
+                    <ftypes>date</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>false</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/runtime/form/widget/DefaultWidgets.js</file>
+                </scripts>                
+            </extension>
+        </extensions>
+    </feature>    
+    <feature name="widgets.default.datetime">
+        <extensions>
+            <extension id="edition.datetime"
+                point="org.ametys.runtime.ui.widgets.WidgetsManager"
+                class="org.ametys.runtime.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.runtime.form.widget.DateTime">
+                    <ftypes>datetime</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>false</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/runtime/form/widget/DefaultWidgets.js</file>
+                </scripts>                
+            </extension>
+        </extensions>
+    </feature>    
+    <feature name="widgets.default.richtext">
+        <extensions>
+            <extension id="edition.richtext"
+                point="org.ametys.runtime.ui.widgets.WidgetsManager"
+                class="org.ametys.runtime.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.cms.form.widget.RichText">
+                    <ftypes>rich_text</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>false</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/runtime/form/widget/DefaultWidgets.js</file>
+                </scripts>                
+            </extension>
+        </extensions>
+    </feature>    
+    <feature name="widgets.default.textarea">
+        <extensions>
+            <extension id="edition.textarea"
+                point="org.ametys.runtime.ui.widgets.WidgetsManager"
+                class="org.ametys.runtime.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.runtime.form.widget.TextArea">
+                    <ftypes>string</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>false</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/runtime/form/widget/DefaultWidgets.js</file>
+                </scripts>                
+            </extension>
+        </extensions>
+    </feature>
+    <feature name="widgets.default.reference.url">
+        <extensions>
+            <extension id="edition.url-reference"
+                point="org.ametys.runtime.ui.widgets.WidgetsManager"
+                class="org.ametys.runtime.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.runtime.form.widget.UrlReference">
+                    <ftypes>reference</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>true</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/runtime/form/widget/DefaultWidgets.js</file>
+                </scripts>
+            </extension>
+        </extensions>
+    </feature>
+
+    <feature name="widgets.others.flipflap">
+        <extensions>
+            <extension id="edition.flipflap"
+                point="org.ametys.runtime.ui.widgets.WidgetsManager"
+                class="org.ametys.runtime.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.runtime.form.widget.FlipFlap">
+                    <ftypes>string</ftypes>
+                    <supports-enumerated>true</supports-enumerated>
+                    <supports-non-enumerated>false</supports-non-enumerated>
+                    <supports-multiple>true</supports-multiple>
+                    <supports-non-multiple>false</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/runtime/form/widget/FlipFlap.js</file>
+                </scripts>                
+            </extension>
+        </extensions>
+    </feature>    
+<!--     <feature name="widgets.others.group"> -->
+<!--         <extensions> -->
+<!--             <extension id="edition.group" -->
+<!--                 point="org.ametys.runtime.ui.widgets.WidgetsManager" -->
+<!--                 class="org.ametys.runtime.ui.widgets.StaticClientSideWidget"> -->
+<!--                 <class name="Ametys.runtime.form.widget.Group"> -->
+<!--                     <ftypes>string</ftypes> -->
+<!--                     <supports-enumerated>false</supports-enumerated> -->
+<!--                     <supports-non-enumerated>true</supports-non-enumerated> -->
+<!--                     <supports-multiple>true</supports-multiple> -->
+<!--                     <supports-non-multiple>true</supports-non-multiple> -->
+<!--                 </class> -->
+<!--                 <scripts> -->
+<!--                     <file>js/Ametys/runtime/form/widget/AbstractQueryableComboBox.js</file> -->
+<!--                     <file>js/Ametys/runtime/form/widget/Group.js</file> -->
+<!--                 </scripts>                 -->
+<!--             </extension> -->
+<!--         </extensions> -->
+<!--     </feature>     -->
+<!--     <feature name="widgets.others.user"> -->
+<!--         <extensions> -->
+<!--             <extension id="edition.user" -->
+<!--                 point="org.ametys.runtime.ui.widgets.WidgetsManager" -->
+<!--                 class="org.ametys.runtime.ui.widgets.StaticClientSideWidget"> -->
+<!--                 <class name="Ametys.runtime.form.widget.User"> -->
+<!--                     <ftypes>user</ftypes> -->
+<!--                     <supports-enumerated>false</supports-enumerated> -->
+<!--                     <supports-non-enumerated>true</supports-non-enumerated> -->
+<!--                     <supports-multiple>true</supports-multiple> -->
+<!--                     <supports-non-multiple>true</supports-non-multiple> -->
+<!--                 </class> -->
+<!--                 <scripts> -->
+<!--                     <file>js/Ametys/runtime/form/widget/AbstractQueryableComboBox.js</file> -->
+<!--                     <file>js/Ametys/runtime/form/widget/User.js</file> -->
+<!--                 </scripts>                 -->
+<!--             </extension> -->
+<!--         </extensions> -->
+<!--     </feature>     -->
+    <feature name="widgets.others.file">
+        <extensions>
+            <extension id="edition.file"
+                point="org.ametys.runtime.ui.widgets.WidgetsManager"
+                class="org.ametys.runtime.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.runtime.form.widget.File">
+                    <ftypes>file,binary</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>false</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/runtime/form/widget/File.js</file>
+                    <file>js/Ametys/runtime/form/widget/File/FileSource.js</file>
+                    
+                    <file>js/Ametys/runtime/form/widget/File/External.js</file>
+                </scripts>
+            </extension>
+        </extensions>
+    </feature>    
+    <feature name="widgets.others.geocode">
+        <extensions>
+            <extension id="edition.geocode"
+                point="org.ametys.runtime.ui.widgets.WidgetsManager"
+                class="org.ametys.runtime.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.runtime.form.widget.GeoCode">
+                    <ftypes>geocode</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>false</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/runtime/form/widget/GeoCode.js</file>
+                </scripts>                
+            </extension>
+        </extensions>
+    </feature>
+    <feature name="widgets.others.boolean.combobx">
+        <extensions>
+            <extension id="edition.boolean-combobox"
+                point="org.ametys.runtime.ui.widgets.WidgetsManager"
+                class="org.ametys.runtime.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.runtime.form.widget.BooleanCombobox">
+                    <ftypes>boolean</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>false</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/runtime/form/widget/BooleanCombobox.js</file>
+                </scripts>
+            </extension>
+        </extensions>
+    </feature>
+        
     <feature name="staticimports.constants">
         <extensions>
             <extension id="org.ametys.runtime.Constants"
                        point="org.ametys.runtime.ui.StaticFileImportsManager"
                        class="org.ametys.runtime.ui.StaticFileImportsClientSideElement">
                 <scripts>
-                    <file>js/Ametys/plugins/cms/Constants.js</file>
+                    <file>js/Ametys/runtime/Constants.js</file>
                 </scripts>
             </extension>
         </extensions>

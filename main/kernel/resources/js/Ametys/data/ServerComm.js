@@ -35,7 +35,7 @@
  * See #callMethod for more information on directly calling a java method:
  * 
  *   	Ametys.data.ServerComm.callMethod({
- *    		role: "org.ametys.cms.ribbon.RibbonControlsManager",
+ *    		role: "org.ametys.runtime.ribbon.RibbonControlsManager",
  *    		id: "org.ametys.cms.content.Delete",
  *    		methodName: "getStatus",
  *    		parameters: [

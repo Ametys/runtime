@@ -829,7 +829,7 @@ Ext.define("Ametys.tool.Tool",
 			}
 			
 			Ametys.data.ServerComm.callMethod({
-				role: "org.ametys.cms.ui.UIToolsFactoriesManager", 
+				role: "org.ametys.runtime.ui.UIToolsFactoriesManager", 
 				id: this.getFactory().getId(), 
 				methodName: methodName, 
 				parameters: parameters,

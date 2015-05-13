@@ -123,15 +123,15 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 		// Additional parameters
 		this._loadParams = {};
 		
-		this.addEvents (
+//		this.addEvents (
 	            /**
 	             * @event profileupdated
 	             * Fires when a profile has been updated
 	             * @param {Ametys.runtime.profiles.ProfilesTreePanel} tree The tree
 	             * @param {Ametys.runtime.profiles.ProfilesTreePanel.NodeEntry} node The the profile node
 	             */
-	            'profileupdated'
-		);
+//	            'profileupdated'
+//		);
 		
 	},
 	

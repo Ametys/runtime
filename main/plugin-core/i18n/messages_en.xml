@@ -674,7 +674,135 @@
 	<!-- RegExp -->
 	<message key="PLUGINS_CORE_REGEXP_INVALID_MAIL">The address is not a valid email address</message>
 	<message key="PLUGINS_CORE_REGEXP_INVALID_URL">The url is invalid. It has to start with either http:// or https://</message>
+    
+    <!-- +
+         | Announce
+         + -->
+    <message key="PLUGINS_CMS_TOOL_ANNOUNCE_TITLE">System announcement</message>
+    <message key="PLUGINS_CMS_TOOL_ANNOUNCE_ERROR_TITLE">System announcement</message>
+        
+    <!-- +
+         | Startup time
+         + -->
+    <message key="PLUGINS_CMS_TOOL_STARTUPTIME_TITLE">Server reset</message>
+    <message key="PLUGINS_CMS_TOOL_STARTUPTIME_MESSAGE">The Ametys server just reset and this can lead to your application unstability.&lt;br/&gt;&lt;br/&gt;You should also restart your application by reloading your browser.&lt;br/&gt;If you have work in progress, you can try to save it.</message>
+    <message key="PLUGINS_CMS_TOOL_STARTUPTIME_TITLE2">Server update</message>
+    <message key="PLUGINS_CMS_TOOL_STARTUPTIME_MESSAGE2">The Ametys server was updated and restarted. This can lead to your application unstability.&lt;br/&gt;&lt;br/&gt;It is STRONGLY recommanded to restart your application by reloading your browser.&lt;br/&gt;If you have work in progress, you can try to save it.</message>
+    <message key="PLUGINS_CMS_TOOL_STARTUPTIME_ERROR_TITLE">Server reset</message>
+        
+    <!--+
+        | NAV HISTORY
+        + -->
+    <message key="PLUGINS_CMS_NAVHISTORY_DAO_SEARCH_TYPE">Search</message>
+    <message key="PLUGINS_CMS_NAVHISTORY_DAO_TOOL_TYPE">Tool</message>
+    <message key="PLUGINS_CMS_NAVHISTORY_DAO_CONTENT_TYPE">Content</message>
+    
+    <!-- +
+         | WIDGETS
+         + -->
+    <message key="WIDGET_RESOURCES_PICKER_SELECT_FILE_BUTTON">Select file</message>  
+    <message key="WIDGET_RESOURCES_PICKER_DELETE_FILE_BUTTON">Delete file</message>
+    <message key="WIDGET_RESOURCES_PICKER_NO_FILE_SELECTED">No file</message>
+    <message key="WIDGET_RESOURCES_PICKER_EXTERNAL_FILE">Local file ...</message>
+    <message key="WIDGET_RESOURCES_PICKER_DELETE_FILE_CONFIRM">Do you really want to delete this file ?</message>
+    <message key="WIDGET_RESOURCES_PICKER_INSERT_LOCAL_FILE">Insert local file ...</message>     
+    <message key="WIDGET_RESOURCES_PICKER_INSERT_LOCAL_FILE_HINT">Insert file located on your drive, then click 'Ok'.</message>
+    <message key="WIDGET_RESOURCES_PICKER_DOWNLOAD_FILE">Download file</message>
+    
+    <message key="WIDGET_RESOURCES_PICKER_SELECT_IMAGE_BUTTON">Select picture</message>  
+    <message key="WIDGET_RESOURCES_PICKER_DELETE_IMAGE_BUTTON">Delete picture</message>
+    <message key="WIDGET_RESOURCES_PICKER_NO_IMAGE_SELECTED">No picture selected</message>
+    <message key="WIDGET_RESOURCES_PICKER_EXTERNAL_IMAGE">Local picture ...</message>
+    <message key="WIDGET_RESOURCES_PICKER_DELETE_IMAGE_CONFIRM">Do you really want to delete this picture ?</message>
+    <message key="WIDGET_RESOURCES_PICKER_INSERT_LOCAL_IMAGE">Insert local picture ...</message>     
+    <message key="WIDGET_RESOURCES_PICKER_INSERT_LOCAL_IMAGE_HINT">Select picture on your drive, then click 'Ok'.</message>
+    <message key="WIDGET_RESOURCES_PICKER_DOWNLOAD_IMAGE">Download picture file</message>
 
+    <message key="WIDGET_RESOURCES_PICKER_SELECT_MULTIMEDIA_BUTTON">Select multimedia file</message>     
+    <message key="WIDGET_RESOURCES_PICKER_DELETE_MULTIMEDIA_BUTTON">Delete multimedia file</message>
+    <message key="WIDGET_RESOURCES_PICKER_NO_MULTIMEDIA_SELECTED">No multimedia file selected</message>
+    <message key="WIDGET_RESOURCES_PICKER_EXTERNAL_MULTIMEDIA">Local multimedia file ...</message>
+    <message key="WIDGET_RESOURCES_PICKER_DELETE_MULTIMEDIA_CONFIRM">Do you really want to delete this multimedia file?</message>
+    <message key="WIDGET_RESOURCES_PICKER_INSERT_LOCAL_MULTIMEDIA">Insert multimedia video file ...</message>    
+    <message key="WIDGET_RESOURCES_PICKER_INSERT_LOCAL_MULTIMEDIA_HINT">Select one multimedia file on your drive, then click 'Ok'.</message>
+    <message key="WIDGET_RESOURCES_PICKER_DOWNLOAD_MULTIMEDIA">Download multimedia file</message>
+    
+    <message key="WIDGET_RESOURCES_PICKER_SELECT_VIDEO_BUTTON">Select video file</message>     
+    <message key="WIDGET_RESOURCES_PICKER_DELETE_VIDEO_BUTTON">Delete video file</message>
+    <message key="WIDGET_RESOURCES_PICKER_NO_VIDEO_SELECTED">No video file selected</message>
+    <message key="WIDGET_RESOURCES_PICKER_EXTERNAL_VIDEO">Local video file ...</message>
+    <message key="WIDGET_RESOURCES_PICKER_DELETE_VIDEO_CONFIRM">Do you really want to delete this video file?</message>
+    <message key="WIDGET_RESOURCES_PICKER_INSERT_LOCAL_VIDEO">Insert local video file ...</message>    
+    <message key="WIDGET_RESOURCES_PICKER_INSERT_LOCAL_VIDEO_HINT">Select one video file on your drive, then click 'Ok'.</message>
+    <message key="WIDGET_RESOURCES_PICKER_DOWNLOAD_VIDEO">Download video file</message>
+    
+    <message key="WIDGET_RESOURCES_PICKER_SELECT_FLASH_BUTTON">Select flash file</message>     
+    <message key="WIDGET_RESOURCES_PICKER_DELETE_FLASH_BUTTON">Delete flash file</message>
+    <message key="WIDGET_RESOURCES_PICKER_NO_FLASH_SELECTED">No flash file selected</message>
+    <message key="WIDGET_RESOURCES_PICKER_EXTERNAL_FLASH">Local flash file ...</message>
+    <message key="WIDGET_RESOURCES_PICKER_DELETE_FLASH_CONFIRM">Do you really want to delete this flash file?</message>
+    <message key="WIDGET_RESOURCES_PICKER_INSERT_LOCAL_FLASH">Insert local flash file ...</message>    
+    <message key="WIDGET_RESOURCES_PICKER_INSERT_LOCAL_FLASH_HINT">Select one flash file on your drive, then click 'Ok'.</message>
+    <message key="WIDGET_RESOURCES_PICKER_DOWNLOAD_FLASH">Download flash file</message>
+    
+    <message key="WIDGET_RESOURCES_PICKER_SELECT_SOUND_BUTTON">Select audio file</message>   
+    <message key="WIDGET_RESOURCES_PICKER_DELETE_SOUND_BUTTON">Delete audio file</message>
+    <message key="WIDGET_RESOURCES_PICKER_NO_SOUND_SELECTED">No audio file selected</message>
+    <message key="WIDGET_RESOURCES_PICKER_EXTERNAL_SOUND">Local audio file ...</message>
+    <message key="WIDGET_RESOURCES_PICKER_DELETE_SOUND_CONFIRM">Do you really want to delete this audio file?</message>
+    <message key="WIDGET_RESOURCES_PICKER_INSERT_LOCAL_SOUND">Insert local audio file ...</message>  
+    <message key="WIDGET_RESOURCES_PICKER_INSERT_LOCAL_SOUND_HINT">Select one audio file on your drive, then click 'Ok'.</message>
+    <message key="WIDGET_RESOURCES_PICKER_DOWNLOAD_SOUND">Download audio file</message>
+    
+    <message key="WIDGET_QUERYABLE_COMBOBOX_NO_RESULT">The search didn't return any result</message>
+    <message key="WIDGET_QUERYABLE_COMBOBOX_LOADING">Searching...</message>
+    
+    <message key="WIDGET_USER_NO_USER">Select a user from the list below</message>
+    
+    <message key="WIDGET_RICH_TEXT_TOC_ERROR">Some text is present on the same line as a table of contents.</message>
+    
+    <message key="WIDGET_COMBOBOX_ALL_OPTIONS">- All -</message>
+    
+    <message key="WIDGET_GEOCODE_SHOW_MAP_BUTTON_TOOLTIP">Locate on the map</message>
+    <message key="WIDGET_GEOCODE_DELETE_BUTTON">Delete</message>
+    <message key="WIDGET_GEOCODE_DELETE_CONFIRM_TITLE">Delete coordinates</message>
+    <message key="WIDGET_GEOCODE_DELETE_CONFIRM_CONTENT">Are you sure you want to remove these coordinates?</message>
+    <message key="WIDGET_GEOCODE_NO_COORDINATES">Click the button below to set the coordinates</message>
+    <message key="WIDGET_GEOCODE_UNKNOWN_FIELD">Address field not found for GeoCode : </message>
+    <message key="WIDGET_GEOCODE_ADDRESS_CHANGE">Geographic informations related to this field have been changed. The coordinates can not match the information entered.&lt;br/&gt;Open the Google Map to update the coordinates.</message>
+    
+    <message key="WIDGET_FLIPFLAP_MOVE_TO_TOP">Move to Top</message>
+    <message key="WIDGET_FLIPFLAP_MOVE_UP">Move Up</message>
+    <message key="WIDGET_FLIPFLAP_ADD_TO_SELECTED">Add to selected</message>
+    <message key="WIDGET_FLIPFLAP_REMOVE_FROM_SELECTED">Remove from selected</message>
+    <message key="WIDGET_FLIPFLAP_MOVE_DOWN">Move Down</message>
+    <message key="WIDGET_FLIPFLAP_MOVE_TO_BOTTOM">Move to Bottom</message>
+    
+    <message key="WIDGET_BOOLEAN_COMBOBOX_DEFAULT_EMPTY_LABEL">-</message>
+    <message key="WIDGET_BOOLEAN_COMBOBOX_DEFAULT_TRUE_LABEL">Yes</message>
+    <message key="WIDGET_BOOLEAN_COMBOBOX_DEFAULT_FALSE_LABEL">No</message>
+    
+    <!-- +
+         | FileUpload.js
+         + -->
+    <message key="PLUGINS_CMS_FILEUPLOAD_FIELD_EMPTYTEXT">Select file</message>
+    <message key="PLUGINS_CMS_FILEUPLOAD_FIELD_FIELDLABEL">File</message>
+    <message key="PLUGINS_CMS_FILEUPLOAD_FIELD_BUTTONTEXT">Browse</message>
+    <message key="PLUGINS_CMS_FILEUPLOAD_BOX_OK">Ok</message>
+    <message key="PLUGINS_CMS_FILEUPLOAD_BOX_CANCEL">Cancel</message>
+    <message key="PLUGINS_CMS_FILEUPLOAD_IMAGEFILTER">picture file (jpg, jpeg, gif or png extension)</message>
+    <message key="PLUGINS_CMS_FILEUPLOAD_MULTIMEDIAFILTER">video or audio file (swf, flv or mp3 extension)</message>
+    <message key="PLUGINS_CMS_FILEUPLOAD_VIDEOFILTER">video file (swf or flv extension)</message>
+    <message key="PLUGINS_CMS_FILEUPLOAD_SOUNDFILTER">audio file (mp3)</message>
+    <message key="PLUGINS_CMS_FILEUPLOAD_FLASHFILTER">flash file (swf)</message>
+    <message key="PLUGINS_CMS_FILEUPLOAD_ERRORDIALOG_TEXT">Wrong file</message>
+    <message key="PLUGINS_CMS_FILEUPLOAD_ERRORDIALOG_DESC">Wrong type for selected file.&lt;br/&gt;Please select a</message>
+    <message key="PLUGINS_CMS_FILEUPLOAD_SUBMITFORM_TITLE">Insert file</message>
+    <message key="PLUGINS_CMS_FILEUPLOAD_SUBMITFORM_MSG">Uploading file...</message>
+    <message key="PLUGINS_CMS_FILEUPLOAD_ERROR_MSG">Upload failed</message>
+    <message key="PLUGINS_CMS_FILEUPLOAD_ERROR_FILEREJECTED">File rejected on server</message>
+    <message key="PLUGINS_CMS_FILEUPLOAD_ERROR_ON_SERVER">An error occured on server</message>
+    
 	<!-- User preferences -->
 	<message key="PLUGINS_CORE_USER_PREFERENCES_ERROR">An error occurred: unable to retrieve preferences.</message>
 	<message key="PLUGINS_CORE_USER_PREFERENCES_ERROR_SAVE">An error occurred: unable to save preferences.</message>

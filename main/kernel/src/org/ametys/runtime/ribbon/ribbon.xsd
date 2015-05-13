@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright 2010 Anyware Services
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:element name="ribbon" type="ribbon">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+                <![CDATA[
+                    The root element of the ribbon configuration file.
+                ]]>
+            </xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    
+    <xsd:complexType name="ribbon">
+        <xsd:sequence>
+            <xsd:element name="tabs" type="tabs">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            The element to describe tabs
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="tabs">
+        <xsd:choice minOccurs="0" maxOccurs="unbounded">
+            <xsd:element name="tab" type="tab" maxOccurs="unbounded" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            The element describe a tab in the ribbon
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="import" type="xsd:string" maxOccurs="unbounded" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            The element describe a file to import
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:choice>
+    </xsd:complexType>
+    
+    <xsd:complexType name="tab">
+        <xsd:sequence>
+            <xsd:element name="groups" type="groups">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            The element to describe a tab in the ribbon
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+
+        <xsd:attribute name="label" type="xsd:string" use="required">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                        The i18n key of the tab label. The application i18n catalogue will be used.
+                        You can specify an other i18n catalogue by setting its key, the ':' caracter and finally the i18n key.
+                        Eg: MYKEY or mycatlogue:MYKEY
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+
+        <xsd:attribute name="id" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                        Id of the element, if this tab has an associated ClientSideElement to make it contextual.
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+
+        <xsd:attribute name="contextualColor" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                        Used only for a contextual tab (with a non null id).
+                        The color to use between 1 and 6.
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+
+        <xsd:attribute name="contextualGroup" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                        Used only for a contextual tab (with a non null id).
+                        Specify a unique string to group several contextual tabs.
+                        Grouped contextual tabs has to be set together in the configuration, use the same contextual color and the same contextual label.
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+
+        <xsd:attribute name="contextualLabel" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                        Used only for a contextual tab (with a non null id) and mandatory in this case.
+                        The i18n key of the contextual group label (above the tab itself). The application i18n catalogue will be used.
+                        You can specify an other i18n catalogue by setting its key, the ':' caracter and finally the i18n key.
+                        Eg: MYKEY or mycatlogue:MYKEY
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:complexType name="groups">
+        <xsd:sequence>
+            <xsd:element name="group" type="group" maxOccurs="unbounded" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            The element to describe a tab in the ribbon
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="group">
+        <xsd:sequence>
+            <xsd:element name="large" type="sizedgroup">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            The configuration of this group when large size is used
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="medium" type="sizedgroup">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            The configuration of this group when medium size is used
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="small" type="sizedgroup">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            The configuration of this group when small size is used
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+
+        <xsd:attribute name="label" type="xsd:string" use="required">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                        The i18n key of the group label. The application i18n catalogue will be use.
+                        You can specify an other i18n catalogue by setting its key, the ':' caracter and finally the i18n key.
+                        Eg: MYKEY or mycatlogue:MYKEY
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+
+        <xsd:attribute name="priority" type="xsd:integer" use="optional">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                        The priority of the group : Used for resize purposed. A high priority means the group will remain large for a longer time.
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+
+        <xsd:attribute name="icon" type="xsd:string" use="required">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                        The image file to use on the collapsed state of the group.
+                        The image should be 32x32 sized.
+                        Tue urls is relative to webapp context and should be like : /plugins/myplugin/resources/myicon_32.png
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        
+        <xsd:attribute name="dialog-box-launcher" type="xsd:string" use="optional">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                        A control that have a parameter named "dialog-box-launcher" which is a javascript method
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:complexType name="sizedgroup">
+        <xsd:choice minOccurs="0" maxOccurs="unbounded">
+            <xsd:element name="control" type="control">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            A control (will be large)
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="layout" type="layout">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            A layout of controls
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:choice>
+    </xsd:complexType>
+
+    <xsd:complexType name="control">
+        <xsd:attribute name="id" type="xsd:string" use="required">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                        The id of the control
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:complexType name="sizedcontrol">
+        <xsd:complexContent>
+            <xsd:extension base="control">
+                <xsd:attribute name="colspan">
+                    <xsd:annotation>
+                        <xsd:documentation xml:lang="en">
+                            <![CDATA[
+                                The number of columns that the control use. Default value is one.
+                            ]]>
+                        </xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:simpleType>
+                        <xsd:restriction base="xsd:integer">
+                            <xsd:minExclusive value="1"></xsd:minExclusive>
+                    </xsd:restriction>
+                    </xsd:simpleType>
+                </xsd:attribute>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="layout">
+        <xsd:choice minOccurs="0" maxOccurs="unbounded">
+            <xsd:element name="control" type="sizedcontrol">
+               <xsd:annotation>
+                   <xsd:documentation xml:lang="en">
+                       <![CDATA[
+                           A control (size can be small or very small)
+                       ]]>
+                   </xsd:documentation>
+               </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="toolbar" type="toolbar">
+               <xsd:annotation>
+                   <xsd:documentation xml:lang="en">
+                       <![CDATA[
+                           A toolbar of very small controls
+                       ]]>
+                   </xsd:documentation>
+               </xsd:annotation>
+            </xsd:element>
+        </xsd:choice>
+
+        <xsd:attribute name="align">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                        The vertical alignments of controls. Top is default.
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="top">
+                        <xsd:annotation>
+                            <xsd:documentation xml:lang="en">
+                                <![CDATA[
+                                    The controls will be top aligned. Can be one, two or three controls per column. 
+                                ]]>
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:enumeration>
+                    <xsd:enumeration value="middle">
+                        <xsd:annotation>
+                            <xsd:documentation xml:lang="en">
+                                <![CDATA[
+                                    The controls will be middle aligned. Must have two controls exactly per column.
+                                ]]>
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:enumeration>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+
+        <xsd:attribute name="cols">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                        The number of columns in this layout. Default value is one.
+                        When multiple columns is used, controls are describe lines per lines and may use a col attribute to take several columns at once.
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:integer">
+                    <xsd:minExclusive value="1"></xsd:minExclusive>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+
+        <xsd:attribute name="size" use="required">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                        The size of the control (small or very small)
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="small">
+                        <xsd:annotation>
+                            <xsd:documentation xml:lang="en">
+                                <![CDATA[
+                                    The control will be small sized (small icon and text)
+                                ]]>
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:enumeration>
+                    <xsd:enumeration value="very-small">
+                        <xsd:annotation>
+                            <xsd:documentation xml:lang="en">
+                                <![CDATA[
+                                    The control will be very small sized (just a small icon)
+                                ]]>
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:enumeration>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:complexType name="toolbar">
+        <xsd:sequence>
+            <xsd:element name="control" type="control" maxOccurs="unbounded" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            A control (size will be very small)
+                        ]]>
+                   </xsd:documentation>
+               </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+
+        <xsd:attribute name="colspan">
+            <xsd:annotation>
+               <xsd:documentation xml:lang="en">
+                    <![CDATA[
+                        The number of columns that the toolbar use. Default value is one.
+                    ]]>
+                </xsd:documentation>
+            </xsd:annotation>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:integer">
+                    <xsd:minExclusive value="1"></xsd:minExclusive>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+    </xsd:complexType>
+</xsd:schema>

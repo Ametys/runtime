@@ -1,0 +1,344 @@
+/*
+ *  Copyright 2010 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+ 
+ /** @begin Widget GeoCode (GeoCode.js) */
+ .x-form-geocode-widget.x-form-invalid .x-form-item-body {
+	border: 1px solid #FF0000;	
+}
+
+ .x-form-geocode-widget.x-form-warning .x-form-item-body {
+	border: 1px solid #F6B51A;	
+}
+
+.x-form-geocode-widget .x-form-geocode-widget-text {
+	font-size: 0.9em;
+	padding-top: 4px;
+}
+
+.x-form-geocode-widget .x-btn {
+	margin-left: 3px;
+}
+
+.x-form-geocode-widget .x-form-geocode-widget-text.x-form-geocode-widget-text-empty {
+    font-style: italic;
+    color: #404040 !important;
+}
+
+#geo-search-textfield-error {
+    font-style: italic;
+    color: #993333 !important;
+    padding-left: 2px;
+}
+
+/** @end Widget GeoCode */
+
+ /** @begin Widget Tag (Tag.js) */
+ .x-form-tag-widget.x-form-invalid .x-form-item-body {
+	border: 1px solid #FF0000;	
+}
+
+ .x-form-tag-widget.x-form-warning .x-form-item-body {
+	border: 1px solid #F6B51A;	
+}
+
+.x-form-tag-widget .x-form-tag-widget-text {
+	font-size: 0.9em;
+	padding-top: 4px;
+}
+
+.x-form-tag-widget .x-btn {
+	margin-left: 3px;
+}
+
+.x-form-tag-widget .x-form-tag-widget-text.x-form-tag-widget-text-empty {
+    font-style: italic;
+    color: #404040 !important;
+}
+
+/** @end Widget Tag */
+
+ 
+/** @begin Widget File (File.js) */
+
+.x-form-file-widget.x-form-invalid .x-form-item-body {
+	border: 1px solid #FF0000;
+}
+
+.x-form-file-widget .x-img {
+	margin-right: 5px;
+}
+
+.x-form-file-widget .x-form-file-widget-img {
+	/*display: table-cell;*/
+	/*vertical-align: middle;*/
+	text-align: center;
+	border: 1px solid #C8CDD0;
+	padding: 2px;
+}
+
+.x-form-file-widget .x-form-file-widget-img img {
+    vertical-align: middle;
+}
+
+.x-form-file-widget .x-form-file-widget-text {
+	font-family: Verdana,Arial,sans-serif !important;
+	font-size: 0.9em;
+	padding-top: 4px;
+    padding-bottom: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.x-form-file-widget .x-form-file-widget-text span.filesize {
+	color: #404040;
+	font-style:italic;
+	padding-top: 2px;
+}
+
+.x-form-file-widget .x-form-file-widget-text.x-form-file-widget-text-empty {
+    font-style: italic;
+    color: #404040 !important;
+}
+
+ .x-form-file-widget .x-form-file-widget-btn {
+	height: 26px;
+}
+
+.x-form-file-widget .x-form-file-widget-delete-btn {
+	height: 26px;
+	margin-top: 5px;
+	margin-left: 3px;
+    padding-top: 4px;
+}
+/** @end Widget File */
+
+
+/** @begin BoxSelect **/
+.ametys.x-form-item .x-boxselect {
+    background-color: #FFFFFF;
+    background-image: none;
+    border: 1px solid #C8CDD0;
+    padding: 0 3px 0 5px;
+}
+
+.ametys.x-form-item .x-boxselect .x-boxselect-input-field {
+	font-size: 11px;
+	font-family: Tahoma, Arial, Sans-serif;
+}
+
+.ametys.x-form-item .x-boxselect ul.x-boxselect-list {
+    margin: 0px;
+    padding: 0px;
+}
+
+.ametys.x-form-item ul.x-boxselect-list.x-boxselect-singleselect {
+    white-space: normal;
+}
+
+.ametys.x-form-item .x-boxselect ul.x-boxselect-list .x-boxselect-item {
+	background-color: #eaeaea;
+	border-color: #aeaeae;
+	margin-right: 3px;
+	float: left;
+}
+
+.ametys.x-form-item .x-boxselect ul.x-boxselect-list .x-boxselect-item span.clickable {
+	color: #023A69;
+	text-decoration: underline;
+}
+.ametys.x-form-item .x-boxselect ul.x-boxselect-list .x-boxselect-item span.clickable:hover {
+	cursor: pointer;
+}
+
+.ametys.x-form-item .x-boxselect ul.x-boxselect-list .x-boxselect-input {
+    float: left;
+}
+
+.ametys.x-form-item .x-boxselect ul.x-boxselect-list.x-boxselect-stacked .x-boxselect-item {
+    margin-right: 0;
+    float: none;
+}
+.ametys.x-form-item .x-boxselect ul.x-boxselect-list.x-boxselect-stacked .x-boxselect-input {
+    float: none;
+}
+
+.ametys.x-form-item .x-trigger-cell {
+	background: none;
+}
+
+.ametys.x-form-item:not(.x-item-disabled) .x-boxselect-list .x-boxselect-item:hover {
+    background-color: #c9c9c9 !important;
+    border-color: #8c8c8c !important;
+}
+
+.ametys.x-form-item:not(.x-item-disabled) .x-boxselect-list .x-boxselect-item.selected {
+    background-color: #a6a6a6 !important;
+    border-color: #696969 !important;
+}
+
+.ametys.x-form-item .x-tab-close-btn.x-boxselect-item-close {
+	position: absolute;
+	top: 2px;
+	right: 2px;
+	width: 11px;
+	height: 11px;
+	background: no-repeat;
+	background-image: url('../../../../../plugins/extjs4/resources/ext-theme-gray/images/tab/tab-default-close.gif');
+	filter: alpha(opacity=60);
+	opacity: .6;
+}
+
+.ametys.x-form-item .x-tab-close-btn.x-boxselect-item-close:hover {
+    filter: alpha(opacity=100);
+    opacity: 1;
+}
+
+.ametys.x-form-item .x-boxselect-list .x-boxselect-item .x-boxselect-item-text {
+	line-height: 16px;
+}
+
+.ametys.x-form-item .x-boxselect-list .x-boxselect-item .x-boxselect-item-text img {
+    margin-right: 3px;
+    float: left;
+}
+
+.x-boxselect-noresult-text {
+	color: #404040;
+    font-style: italic;
+    line-height: 18px;
+    padding-left: 5px;
+}
+
+/** @end BoxSelect */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.ametys-multi-select .x-fieldset legend {
+	font-weight: normal;
+}
+
+.multiple-field-hint {
+	color: #8F8F8F;
+	font-family: Verdana,Arial,sans-serif !important;
+	font-size:0.8em;
+	font-style: italic;
+	padding-left:8px;
+	clear: left;
+}
+
+.x-form-item.ametys-input .x-form-element, .x-form-item.ametys-select .x-form-element {
+	/*margin-left:8px;*/
+}
+
+.x-form-item.ametys-input .x-form-invalid, .x-form-item.ametys-select .x-form-invalid {
+	border: 1px solid red !important;
+}
+
+.x-widget-invalid {
+	border: 1px solid #FF0000;
+}
+
+
+.x-form-field.multiselect-sort .ux-mselect dl dt em,
+.x-form-field.multiselect-sort .ux-mselect dl dt em.asc {
+	background-image: url('../../img/widgets/ascending.png');
+	background-position: right 2px;
+	background-repeat: no-repeat;
+	text-overflow: ellipsis;
+	padding-right: 20px;
+}
+
+.x-form-field.multiselect-sort .ux-mselect dl dt em.desc {
+	background-image: url('../../img/widgets/descending.png');
+}
+
+.x-form-widget-display-field {
+	float:left;
+	font-family:Verdana,Arial,sans-serif !important;
+	font-size:0.9em;
+	margin:0 10px 0 5px;
+	padding-top:5px;
+}
+
+.x-form-widget-display-field .empty {
+	color: #bbbbbb;
+	font-style:italic;
+}
+
+.x-form-widget-display-field a {
+	text-decoration: underline;
+	color:#3E6AAA;
+}
+
+.ametys-form-widget-btn
+{
+	height: 26px;
+	float: left;
+}
+
+.ametys-input div.ametys-form-widget-wrap
+{
+	float:left;
+}
+
+.ext-ie7 .ametys-multi-select .x-list-wrap {
+	height: 100%;
+}
+
+
+.x-form-widget-flipflap-top {
+    background-image: url('../../img/widgets/flipflap/top2.gif');
+}
+.x-form-widget-flipflap-up {
+    background-image: url('../../img/widgets/flipflap/up2.gif');
+}
+.x-form-widget-flipflap-add {
+    background-image: url('../../img/widgets/flipflap/right2.gif');
+}
+.x-form-widget-flipflap-remove {
+    background-image: url('../../img/widgets/flipflap/left2.gif');
+}
+.x-form-widget-flipflap-down {
+    background-image: url('../../img/widgets/flipflap/down2.gif');
+}
+.x-form-widget-flipflap-bottom {
+    background-image: url('../../img/widgets/flipflap/bottom2.gif');
+}

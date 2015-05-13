@@ -25,7 +25,7 @@
  *        <feature name="userinterface.messages-tracker">
  *           <extensions>
  *               <extension id="org.ametys.cms.userinterface.MessageTrackerFactory"
- *        				   point="org.ametys.cms.ui.UIToolsFactoriesManager"
+ *        				   point="org.ametys.runtime.ui.UIToolsFactoriesManager"
  *        				   class="org.ametys.runtime.ui.StaticClientSideElement">
  *   				<class name="Ametys.tool.factory.UniqueToolFactory">
  *    					<role>uitool-messagestracker</role>

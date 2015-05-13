@@ -231,7 +231,7 @@ Ext.define("Ametys.message.MessageTargetFactory",
 		 */
 		serverCall: function (methodName, parameters, callback, options)
 		{
-			var role = "org.ametys.cms.ui.MessageTargetFactoriesManager";
+			var role = "org.ametys.runtime.ui.MessageTargetFactoriesManager";
 
 			options = options || {};
 			

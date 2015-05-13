@@ -236,7 +236,7 @@ Ext.define("Ametys.relation.RelationHandler",
 			}
 			
 			Ametys.data.ServerComm.callMethod({
-				role: "org.ametys.cms.ui.RelationsManager", 
+				role: "org.ametys.runtime.ui.RelationsManager", 
 				id: this.getId(), 
 				methodName: methodName, 
 				parameters: parameters,
