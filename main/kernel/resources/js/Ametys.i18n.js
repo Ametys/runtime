@@ -460,7 +460,7 @@ Ext.define(
 			
 			if (console)
 			{
-				console.info("Shuting down Ametys '" + title + "' - " + message);
+				console.info("Shutting down Ametys '" + title + "' - " + message);
 			}
 			
 			// Shutdown request
