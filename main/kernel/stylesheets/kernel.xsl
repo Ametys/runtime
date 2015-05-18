@@ -132,7 +132,9 @@
 	        <script>/kernel/resources/js/Ametys/form/field/ChangePassword.js</script>
             <script>/kernel/resources/js/Ametys/form/field/ReferencedNumberField.js</script>
             <script>/kernel/resources/js/Ametys/form/field/RichText.js</script>
+            <script>/plugins/tiny_mce/resources/js/tiny_mce<xsl:if test="$debug-mode">_src</xsl:if>.js</script>
             <script>/kernel/resources/js/Ametys/form/field/Code.js</script>
+            <script>/plugins/codemirror/resources/js/codemirror.js</script>
             
 	        <script>/kernel/resources/js/Ametys/data/ServerComm.js</script>
             <script>/kernel/resources/js/Ametys/data/ServerCommProxy.js</script>

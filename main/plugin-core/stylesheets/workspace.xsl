@@ -104,14 +104,12 @@
                 <xsl:call-template name="kernel-load">
                       <xsl:with-param name="scripts" select="static-imports/import/scripts/file"/>
                       <xsl:with-param name="css" select="static-imports/import/css/file"/>
-                      <xsl:with-param name="context-path" select="$contextPath"/>
                       <xsl:with-param name="load-cb" select="$callback"/>
                 </xsl:call-template>                
 
                 <xsl:call-template name="kernel-load">
                       <xsl:with-param name="scripts" select="ribbon/controls/control/scripts/file | ribbon/tabsControls/tab/scripts/file | uitools-factories/uitool-factory/scripts/file | messagetarget-factories/messagetarget-factory/scripts/file | relations-handlers/relation-handler/scripts/file | widgets/widget-wrapper/widget/scripts/file | app-menu/item/scripts/file"/>
                       <xsl:with-param name="css" select="ribbon/controls/control/css/file | ribbon/tabsControls/tab/css/file | uitools-factories/uitool-factory/css/file | messagetarget-factories/messagetarget-factory/css/file | relations-handlers/relation-handler/css/file | widgets/widget-wrapper/widget/css/file | app-menu/item/css/file"/>
-                      <xsl:with-param name="context-path" select="$contextPath"/>
                       <xsl:with-param name="load-cb" select="$callback"/>
                 </xsl:call-template>                
 
@@ -491,14 +489,6 @@
             <script type="text/javascript" src="{$workspace-resources}/js/Ametys/cms/form/widget/RichTextConfiguration.js"/>
 
 			<xsl:call-template name="ui-cmstools-load-toolsmanager"/>
-			
-		<!-- TinyMCe -->
-			<xsl:variable name="tinymce-debug-suffix"><xsl:if test="$debug-mode = '2'">_src</xsl:if></xsl:variable>
-			<script type="text/javascript" src="{concat($contextPath, '/plugins/tiny_mce/resources/js/tiny_mce', $tinymce-debug-suffix, '.js')}"></script>
-			<!-- <script type="text/javascript" src="{$workspace-resources}/js/Ametys/utils/tinymce_params.js"></script>	 -->	
-            
-        <!-- CodeMirror -->
-            <script type="text/javascript" src="{concat($contextPath, '/plugins/codemirror/resources/js/codemirror.js')}"></script>
     </xsl:template>
     
     <xsl:template name="ui-cmstools-load-toolsmanager">
