@@ -216,7 +216,7 @@ Ext.define("Ametys.tool.ToolsManager",
             }
             else
             {
-                this.getTool(toolPanel.uiTool);
+                return this.getTool(toolPanel.uiTool);
             }
 		},
 		

@@ -52,10 +52,20 @@ Ext.define("Ametys.message.MessageTargetHelper",
 				for (var i=0; i < targets.length; i++)
 				{
 					var target = targets[i];
+					// Getting type and subtargets from either an object or a MessageTarget
+					var type;
+					if (Ext.getClassName(target) == "Ametys.message.MessageTarget")
+					{
+						type = target.getType();
+					}
+					else
+					{
+						type = target.type;
+					}
 					
-					if ((typeof filter.test == "function" && filter.test(target.type))
+					if ((typeof filter.test == "function" && filter.test(type))
 							|| (typeof filter == "function" && filter(target))
-							|| (filter.toString() == target.type))
+							|| (filter.toString() == type))
 					{
 						return target;
 					}
@@ -67,11 +77,21 @@ Ext.define("Ametys.message.MessageTargetHelper",
 					for (var i=0; i < targets.length; i++)
 					{
 						var target = targets[i];
+						// Getting type and subtargets from either an object or a MessageTarget
+						var subtargets;
+						if (Ext.getClassName(target) == "Ametys.message.MessageTarget")
+						{
+							subtargets = target.getSubtargets();
+						}
+						else
+						{
+							subtargets = target.subtargets;
+						}
 
 						var matchingTarget;
 						
 						
-						if (matchingTarget = Ametys.message.MessageTargetHelper.findTarget(target.subtargets || [], filter, depth - 1))
+						if (matchingTarget = Ametys.message.MessageTargetHelper.findTarget(subtargets || [], filter, depth - 1))
 						{
 							return matchingTarget;
 						}
@@ -114,17 +134,29 @@ Ext.define("Ametys.message.MessageTargetHelper",
 				for (var i=0; i < targets.length; i++)
 				{
 					var target = targets[i];
+					// Getting type and subtargets from either an object or a MessageTarget
+					var type, subtargets;
+					if (Ext.getClassName(target) == "Ametys.message.MessageTarget")
+					{
+						type = target.getType();
+						subtargets = target.getSubtargets();
+					}
+					else
+					{
+						type = target.type;
+						subtargets = target.subtargets;
+					}
 					
-					if ((typeof filter.test == "function" && filter.test(target.type))
+					if ((typeof filter.test == "function" && filter.test(type))
 							|| (typeof filter == "function" && filter(target))
-							|| (filter.toString() == target.type))
+							|| (filter.toString() == type))
 					{
 						matchingTargets.push(target);
 					}
 					// Search down levels
 					else if (depth != 1)
 					{
-						if (matchingSubTarget = Ametys.message.MessageTargetHelper.findTargets(target.subtargets || [], filter, depth - 1))
+						if (matchingSubTarget = Ametys.message.MessageTargetHelper.findTargets(subtargets || [], filter, depth - 1))
 						{
 							for (var j=0; j < matchingSubTarget.length; j++)
 							{

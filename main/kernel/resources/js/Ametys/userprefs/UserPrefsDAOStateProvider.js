@@ -106,8 +106,8 @@ Ext.define('Ametys.userprefs.UserPrefsDAOStateProvider', {
     		}
     		
     	    Ametys.log.ErrorDialog.display({
-    	        title: "<i18n:text i18n:key='PLUGINS_CORE_USER_PREFERENCES_STATE_PROVIDER_SAVE_FAILURE_TITLE'/>",
-    	        text: "<i18n:text i18n:key='PLUGINS_CORE_USER_PREFERENCES_STATE_PROVIDER_SAVE_FAILURE_DESC'/>",
+    	        title: "<i18n:text i18n:key='KERNEL_USER_PREFERENCES_STATE_PROVIDER_SAVE_FAILURE_TITLE'/>",
+    	        text: "<i18n:text i18n:key='KERNEL_USER_PREFERENCES_STATE_PROVIDER_SAVE_FAILURE_DESC'/>",
     	        details: details,
     	        category: this.self.getName() 
     	    });

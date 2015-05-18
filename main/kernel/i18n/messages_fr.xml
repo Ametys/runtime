@@ -128,5 +128,24 @@
     <message key="KERNEL_MSG_TOOLS_PIN">Attacher le panneau</message>
     <message key="KERNEL_MSG_TOOLS_OPEN_ERROR_TITLE">Impossible d'ouvrir l'outil</message>
     <message key="KERNEL_MSG_TOOLS_OPEN_ERROR_TEXT">Une erreur inattendue est survenue et elle a empêché l'ouverture de l'outil demandé.</message>
+    <message key="KERNEL_MSG_TOOLS_REFRESHING">Rafraichissement en cours...</message>
     
+    <!-- +
+		 | Tooltip.js
+		 + -->
+	<message key="KERNEL_MSG_TOOLTIP_FOOTER_TEXT">Appuyer sur la touche F1 pour obtenir de l'aide</message>
+	
+    <!-- +
+    	 | MessageBus.js
+    	 + -->
+    <message key="KERNEL_MSG_MESSAGEBUS_BUSERROR_TITLE">Erreur du bus de message</message>	 
+    <message key="KERNEL_MSG_MESSAGEBUS_BUSERROR_DESC">Un composant a rencontré une exception lors du traitement d'un message du bus</message>
+    <message key="KERNEL_MSG_MESSAGEBUS_REFRESHERROR_TITLE">Erreur de rafraichissement</message>
+    <message key="KERNEL_MSG_MESSAGEBUS_REFRESHERROR_DESC">Un outil a rencontré une exception lors de son rafraichissement automatique</message>
+    
+    <!-- User preferences -->
+    <message key="KERNEL_USER_PREFERENCES_ERROR">Une erreur est survenue: impossible de récupérer vos préférences.</message>
+    <message key="KERNEL_USER_PREFERENCES_ERROR_SAVE">Une erreur est survenue: impossible de sauver vos préférences.</message>
+    <message key="KERNEL_USER_PREFERENCES_STATE_PROVIDER_SAVE_FAILURE_TITLE">Sauvegarde de l'état de l'interface impossible</message>
+    <message key="KERNEL_USER_PREFERENCES_STATE_PROVIDER_SAVE_FAILURE_DESC">L'état de l'interface graphique n'a pas pu être sauvé pour restauration ultérieurs</message>
 </catalogue>

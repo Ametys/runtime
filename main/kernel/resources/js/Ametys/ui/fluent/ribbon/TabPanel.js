@@ -942,7 +942,7 @@ Ext.define(
 		
 		/**
 		 * Listener for preventing right click on the ribbon
-         * @param {Ext.EventObject} e The {@link Ext.EventObject} encapsulating the DOM event.
+         * @param {Ext.event.Event} e The {@link Ext.event.Event} encapsulating the DOM event.
          * @param {HTMLElement} t The target of the event.
          * @param {Object} eOpts The options object passed to Ext.util.Observable.addListener
          */

@@ -92,7 +92,8 @@ Ext.define('Ametys.plugins.core.administration.Users', {
 		        	type: 'memory',
 		        	reader: {
 		        		type: 'json',
-		        		root: 'users'
+		        		root: 'users', // FIXME to remove in extjs 6
+		        		rootProperty: 'users'
 		        	}
 		        }
 			}), 

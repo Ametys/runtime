@@ -216,7 +216,7 @@ Ext.define('Ametys.runtime.uihelper.ChooseLocation', {
 	/**
 	 * Search for the address on the map whenever you type Enter in the search address textfield
 	 * @param {Ext.form.field.Text} input The input text
-	 * @param {Ext.EventObject} e The event object
+	 * @param {Ext.event.Event} e The event object
 	 * @private
 	 */
 	_pinAddressOnEnterKeyPress: function(input, e)

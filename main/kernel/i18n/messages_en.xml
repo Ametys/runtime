@@ -20,7 +20,7 @@
     <message key="KERNEL_LANGUAGE_CODE">en</message>
     <!-- Is language Right-To-Left read? -->
     <message key="KERNEL_LANGUAGE_RTL">false</message>
-
+    
     <message key="KERNEL_DATETIME_SHORTDATE">m/d/y</message>
     <message key="KERNEL_DATETIME_LONGDATE">m/d/Y</message>
     <message key="KERNEL_DATETIME_FULLDATE">l, F j, Y</message>
@@ -30,7 +30,6 @@
     <message key="KERNEL_DATETIME_FRIENDLYDATETIME">m/d/Y \\a\\t h:i A</message>
     <message key="KERNEL_DATETIME_LONGDATETIME">m/d/Y h:i:sP A</message>
     <message key="KERNEL_DATETIME_FULLDATETIME">l, F j, Y \\a\\t h:i:s T A</message>
-
     
     <!-- UI -->
     <message key="KERNEL_UI_LISTVIEW_PREVIEW_NOTAVAILABLE">No preview available</message>
@@ -128,6 +127,25 @@
     <message key="KERNEL_MSG_TOOLS_UNPIN">Unpin panel</message>
     <message key="KERNEL_MSG_TOOLS_PIN">Pin panel</message>
     <message key="KERNEL_MSG_TOOLS_OPEN_ERROR_TITLE">Cannot open the tool</message>
-    <message key="KERNEL_MSG_TOOLS_OPEN_ERROR_TEXT">An unexpected error prevents the required tool to open.</message>
+    <message key="KERNEL_MSG_TOOLS_OPEN_ERROR_TEXT">An unexpected error prevents the required tool to open.</message> 
+    <message key="KERNEL_MSG_TOOLS_REFRESHING">Refreshing...</message>
+    	
+	<!-- +
+		 | Tooltip.js
+		 + -->
+	<message key="KERNEL_MSG_TOOLTIP_FOOTER_TEXT">Use F1 key to get more help</message>
+	
+	<!-- +
+    	 | MessageBus.js
+    	 + -->
+    <message key="KERNEL_MSG_MESSAGEBUS_BUSERROR_TITLE">Message bus error</message>	 
+    <message key="KERNEL_MSG_MESSAGEBUS_BUSERROR_DESC">A component had an exception during the process of a message from the bus</message>
+    <message key="KERNEL_MSG_MESSAGEBUS_REFRESHERROR_TITLE">Error during refresh</message>
+    <message key="KERNEL_MSG_MESSAGEBUS_REFRESHERROR_DESC">A tool had an exception during the automatic refresh process</message>
     
+	<!-- User preferences -->
+	<message key="KERNEL_USER_PREFERENCES_ERROR">An error occurred: unable to retrieve preferences.</message>
+	<message key="KERNEL_USER_PREFERENCES_ERROR_SAVE">An error occurred: unable to save preferences.</message>
+	<message key="KERNEL_USER_PREFERENCES_STATE_PROVIDER_SAVE_FAILURE_TITLE">Cannot save your ui state</message>
+	<message key="KERNEL_USER_PREFERENCES_STATE_PROVIDER_SAVE_FAILURE_DESC">The save process of the user interface failed</message>
 </catalogue>

@@ -54,7 +54,7 @@ Ext.define('Ametys.relation.dd.AmetysViewDragZone', {
 			}
 			s += "</div>";
 			
-			this.ddel.update(s);
+			Ext.get(this.ddel).update(s);
 		}
 	},
 	

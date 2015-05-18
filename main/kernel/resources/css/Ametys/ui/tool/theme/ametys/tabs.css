@@ -218,13 +218,13 @@
 /* ********** *
  * SELECTION  *
  * ********** */
-.ametys-toolpanel-focused .x-grid-row-selected .x-grid-cell
+.ametys-toolpanel-focused .x-grid-item-selected .x-grid-cell
 {
     background-color: #BCE8F3 !important;
 }
 
-.drag-n-drop-over .x-grid-row-over .x-grid-cell,
-.drag-n-drop-over-selection .x-grid-row-selected .x-grid-cell
+.drag-n-drop-over .x-grid-item-over .x-grid-cell,
+.drag-n-drop-over-selection .x-grid-item-selected .x-grid-cell
 {
     background-color: #dd6bc4 !important;
 }

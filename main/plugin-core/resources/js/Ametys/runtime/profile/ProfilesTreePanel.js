@@ -123,16 +123,12 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 		// Additional parameters
 		this._loadParams = {};
 		
-//		this.addEvents (
-	            /**
-	             * @event profileupdated
-	             * Fires when a profile has been updated
-	             * @param {Ametys.runtime.profiles.ProfilesTreePanel} tree The tree
-	             * @param {Ametys.runtime.profiles.ProfilesTreePanel.NodeEntry} node The the profile node
-	             */
-//	            'profileupdated'
-//		);
-		
+        /**
+         * @event profileupdated
+         * Fires when a profile has been updated
+         * @param {Ametys.runtime.profiles.ProfilesTreePanel} tree The tree
+         * @param {Ametys.runtime.profiles.ProfilesTreePanel.NodeEntry} node The the profile node
+         */
 	},
 	
 	/**
@@ -160,7 +156,7 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 				url: 'rights/profiles-context.xml',
 				reader: {
 					type: 'xml',
-					root: 'nodes',
+					rootProperty: 'nodes',
 					record: '> node'
 				}
 			},
@@ -233,7 +229,7 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 				{
 					// Collapse tool
 					tooltip: "<i18n:text i18n:key='PLUGINS_CORE_PROFILES_TREE_BTN_COLLAPSE_TOOTIP'/>",
-					handler: Ext.bind (this.collapseAll, this),
+					handler: Ext.bind (this._collapseAll, this),
 					scope: this,
 					icon: Ametys.getPluginResourcesPrefix('core') + '/img/profiles/actions/collapse-all.gif',
 					cls: 'x-btn-text-icon'
@@ -256,6 +252,15 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 	_expandAll: function ()
 	{
 		this.getRootNode().expandChildren(true);
+	},
+	
+	/**
+	 * Collapse the all tree
+	 * @private
+	 */
+	_collapseAll: function ()
+	{
+		this.getRootNode().collapseChildren(true);
 	},
 	
 	/**
@@ -325,33 +330,39 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 			this._getProfileTooltipText ();
 		}
 		
-		operation.params = operation.params || {};
-		operation.params.profileContext = this._context || '';
+		operation.setParams( operation.getParams() || {} );
+		operation.setParams( Ext.apply(operation.getParams(), {
+			profileContext: this._context || '' 
+		}));
 		
-		Ext.applyIf(operation.params, Ametys.getAppParameters());
+		operation.setParams( Ext.applyIf(operation.getParams(), Ametys.getAppParameters()) );
 		
 		var node = operation.node;
 		if (node != null && !node.isRoot())
 		{
-			operation.params.profile = node.get('profileId').substring('profile-'.length);
+			operation.setParams( Ext.apply(operation.getParams(), {
+				profile: node.get('profileId').substring('profile-'.length) 
+			}));
 		}
 		
-		Ext.apply(operation.params, this._loadParams);
+		operation.setParams( Ext.apply(operation.getParams(), this._loadParams) );
 	},
 	
 	/**
 	 * Listener called after the store is loaded. 
 	 * Appends manually the user and group nodes to each profile.
 	 * @param {Ext.data.TreeStore} store The tree store
+	 * @param {Ext.data.TreeModel[]} records The loaded records
+	 * @param {Boolean} successful True if the operation was successful.
+	 * @param {Ext.data.Operation} operation The operation that triggered this load.
 	 * @param {Ext.data.NodeInterface} node The node that was loaded.
-	 * @param {Ext.data.Model[]} records The loaded records
 	 * @private
 	 */
-	_onLoad: function(store, node, records)
+	_onLoad: function(store, records, successful, operation, node)
 	{
 		var me = this;
 		var view = this.getView();
-		
+				
 		if (node.isRoot())
 		{
 			this.getSelectionModel().select(0);

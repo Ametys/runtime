@@ -28,7 +28,7 @@
  * 				reader: {
  * 					type: 'xml',
  * 					record: 'element',
- * 					root: 'root'
+ * 					rootProperty: 'root'
  * 				}
  * 			}
  * 		});
@@ -89,8 +89,8 @@ Ext.define('Ametys.data.ServerCommProxy', {
 			priority: Ametys.data.ServerComm.PRIORITY_MAJOR,
 			plugin: this.plugin,
 			workspace: this.workspace,
-			url: request.url,
-			parameters: request.params,
+			url: request.getUrl(),
+			parameters: request.getParams(),
 			responseType: this.getResponseType(),
 			callback: {
 				handler: this.createRequestCallback,

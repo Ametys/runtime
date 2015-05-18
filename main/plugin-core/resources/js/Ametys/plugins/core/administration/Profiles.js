@@ -631,7 +631,8 @@ Ext.define('Ametys.plugins.core.administration.Profiles', {
 		        	type: 'memory',
 		        	reader: {
 		        		type: 'json',
-		        		root: 'profiles'
+		        		root: 'profiles', // FIXME to remove in extjs 6
+		        		rootProperty: 'profiles'
 		        	}
 		        }
 			}),  

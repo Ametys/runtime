@@ -154,9 +154,11 @@ Ext.define('Ametys.form.field.RichText', {
     	var withBBar = config.warning || config.charCounter;
     	var tinyMinHeight = config.minHeight - (withBBar ? 23 : 0);
     	
+    	config.liquidLayout = false; // allows the textarea to call the template method afterComponentLayout
+    	
     	this.callParent(arguments);
     	
-    	this._settings = Ext.apply({
+    	this._settingsProperty = Ext.apply({
 	    		document_base_url: Ametys.CONTEXT_PATH + "/",
 	    		language: Ametys.LANGUAGE_CODE,
 	    		mode: "none",
@@ -192,7 +194,7 @@ Ext.define('Ametys.form.field.RichText', {
 	    	}, 
 	    	config.settings || {}
 	    );
-    	this._settings.setup = Ext.bind(this._onEditorSetup, this);
+    	this._settingsProperty.setup = Ext.bind(this._onEditorSetup, this);
     },
     
     /**
@@ -249,7 +251,6 @@ Ext.define('Ametys.form.field.RichText', {
     {
     	this.callParent(arguments);
     	
-		this.addEvents (
 				/**
 	             * @event editorsetcontent
 	             * Fires when the editor received new content. This allows to convert storing tags to internal tags.
@@ -258,7 +259,7 @@ Ext.define('Ametys.form.field.RichText', {
 	             * @param {Object} object A tinymce object
 	             * @param {String} object.content The html content
 	             */
-	            'editorsetcontent',
+	             
 	            /**
 	             * @event editorgetcontent
 	             * Fires when the editor received content. This allows to convert internal tags to storing tags.
@@ -267,7 +268,7 @@ Ext.define('Ametys.form.field.RichText', {
 	             * @param {Object} object A tinymce object
 	             * @param {String} object.content The html content
 	             */
-	            'editorgetcontent',
+	             
 	            /**
 	             * @event editorkeypress
 	             * Fires when the editor has a key press.
@@ -275,7 +276,7 @@ Ext.define('Ametys.form.field.RichText', {
 	             * @param {tinymce.Editor} editor The tinyMCE editor
 	             * @param {Object} e The event 
 	             */
-	            'editorkeypress',
+	             
 	            /**
 	             * @event editorkeydown
 	             * Fires when the editor has a key down.
@@ -283,7 +284,7 @@ Ext.define('Ametys.form.field.RichText', {
 	             * @param {tinymce.Editor} editor The tinyMCE editor
 	             * @param {Object} e The event 
 	             */
-	            'editorkeydown',
+	             
 	            /**
 	             * @event editorkeyup
 	             * Fires when the editor has a key up.
@@ -291,7 +292,7 @@ Ext.define('Ametys.form.field.RichText', {
 	             * @param {tinymce.Editor} editor The tinyMCE editor
 	             * @param {Object} e The event 
 	             */
-	            'editorkeyup',
+	             
 	            /**
 	             * @event editorvisualaid
 	             * Fires when the editor pre process the serialization
@@ -299,7 +300,7 @@ Ext.define('Ametys.form.field.RichText', {
 	             * @param {tinymce.Editor} editor The tinyMCE editor
 	             * @param {Object} object The object 
 	             */
-	            'editorvisualaid',
+	             
 	            /**
 	             * @event editorpreprocess
 	             * Fires when the editor pre process the serialization
@@ -307,7 +308,7 @@ Ext.define('Ametys.form.field.RichText', {
 	             * @param {tinymce.Editor} editor The tinyMCE editor
 	             * @param {Object} object The object 
 	             */
-	            'editorpreprocess',
+	             
 	            /**
 	             * @event editorhtmlnodeselected
 	             * Fires when a HTML node is selected in editor
@@ -315,8 +316,6 @@ Ext.define('Ametys.form.field.RichText', {
 	             * @param {tinymce.Editor} editor The tinyMCE editor
 	             * @param {HTMLElement} node The HTML element selected
 	             */
-	            'editorhtmlnodeselected'
-		);
     },
     
     /**
@@ -861,15 +860,15 @@ Ext.define('Ametys.form.field.RichText', {
         try {
         	var doc = iframe.dom.contentWindow.document;
 
-        	Ext.EventManager.removeAll(doc);
+        	Ext.get(doc).clearListeners();
 
             // These events need to be relayed from the inner document (where they stop
             // bubbling) up to the outer document. This has to be done at the DOM level so
             // the event reaches listeners on elements like the document body. The effected
             // mechanisms that depend on this bubbling behavior are listed to the right
             // of the event.
-            Ext.EventManager.on(doc, {
-                mousedown: this._onRelayedEvent, // menu dismisal (MenuManager) and Window onMouseDown (toFront)
+            Ext.get(doc).on({
+            	mousedown: this._onRelayedEvent, // menu dismisal (MenuManager) and Window onMouseDown (toFront)
                 mousemove: this._onRelayedEvent, // window resize drag detection
                 mouseup: this._onRelayedEvent,   // window resize termination
                 click: this._onRelayedEvent,     // not sure, but just to be safe
@@ -896,7 +895,7 @@ Ext.define('Ametys.form.field.RichText', {
     	this.getRawValue();
    		editor.save = function() {}
    		this._removeEditor();
-   		new tinyMCE.Editor(this.getInputId(), this._settings).render();
+   		new tinyMCE.Editor(this.getInputId(), this._settingsProperty).render();
     },
     
     /**
@@ -937,7 +936,7 @@ Ext.define('Ametys.form.field.RichText', {
     	
 		var editorFrame = Ext.get(editor.contentAreaContainer).first();
 		var editorSize = editorFrame.getSize();
-    	var editorWrapper = editorFrame.parent("table").parent("td");
+    	var editorWrapper = editorFrame.parent("table").parent("div");
     	var parentSize = editorWrapper.getSize();
 		this._editorFrameWrapperDiffSize = { width: parentSize.width - editorSize.width, height: parentSize.height - editorSize.height };
 
@@ -964,7 +963,7 @@ Ext.define('Ametys.form.field.RichText', {
     	
     	var editorFrame = Ext.get(editor.contentAreaContainer).first();
     	
-    	var editorPlace = editorFrame.parent("table").parent("td");
+    	var editorPlace = editorFrame.parent("table").parent("div");
     	var editorSize = editorPlace.getSize();
 
 		var wholeSize = this.getSize();
@@ -1074,7 +1073,7 @@ Ext.define('Ametys.form.field.RichText', {
     	this.addCls('x-field-richtext');
 	},
 	
-	afterComponentLayout: function()
+	afterComponentLayout: function(width, height, oldWidth, oldWeight)
     {
     	this.callParent(arguments);
 
@@ -1082,7 +1081,7 @@ Ext.define('Ametys.form.field.RichText', {
     	if (!this._editorInitialized)
     	{
     		this._editorInitialized = true;
-    		new tinyMCE.Editor(this.getInputId(), this._settings).render();
+    		new tinyMCE.Editor(this.getInputId(), this._settingsProperty).render();
     	}
     },
     
@@ -1098,7 +1097,7 @@ Ext.define('Ametys.form.field.RichText', {
         	var iframe = Ext.get(editor.contentAreaContainer).first();
         	if (iframe.dom.contentWindow)
         	{
-        		Ext.EventManager.removeAll(iframe.dom.contentWindow.document);
+        		Ext.get(iframe.dom.contentWindow.document).clearListeners();
         	}
             	
 	    	editor.dom.unbind(editor.getWin(), 'resize', this._bindedOnEditorResized);

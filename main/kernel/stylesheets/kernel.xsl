@@ -140,8 +140,7 @@
             <script>/kernel/resources/js/Ametys/data/ServerCommProxy.js</script>
 	        <script>/kernel/resources/js/Ametys/data/ServerComm/TimeoutDialog.js</script>
 	        
-<!-- 	        <script>/kernel/resources/js/Ametys/tree/TreeEditor.js</script> -->
-<!--             <script>/kernel/resources/js/Ametys/grid/plugin/Multisort.js</script> -->
+            <script>/kernel/resources/js/Ametys/grid/plugin/Multisort.js</script>
 
             <script>/kernel/resources/js/Ametys/ui/fluent/tip/Tooltip.js</script>
 

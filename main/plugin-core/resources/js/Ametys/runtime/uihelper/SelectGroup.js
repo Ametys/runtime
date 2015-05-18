@@ -101,7 +101,7 @@ Ext.define('Ametys.runtime.uihelper.SelectGroup', {
 	        	type: 'memory',
 	        	reader: {
 	        		type: 'json',
-	        		root: 'groups'
+	        		rootProperty: 'groups'
 	        	}
 	        }
 		});

@@ -72,7 +72,9 @@
  
 .multisort-toolbar .toolbar-item-container .toolbar-item-text
 {
-    text-align: center;       
+    text-align: center;
+    cursor: default;
+    font-size: 11px;       
 }
 
 .tbar-btn-hide-show-container

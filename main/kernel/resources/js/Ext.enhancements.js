@@ -1379,7 +1379,6 @@
 			});
 })();
 
-
 (function() {
 	Ext.define("Ametys.selection.RowModel", {
 		override: "Ext.selection.RowModel",
@@ -1426,7 +1425,7 @@
 	            			return;
 	            		}
 	            		editingPlugin.context.grid.getSelectionModel().deselect(lastPos.row);
-	            	} while (position && (!position.columnHeader.getEditor(record) || !editingPlugin.startEditByPosition(position)));
+	            	} while (position && (!position.column.getEditor(record) || !editingPlugin.startEditByPosition(position)));
 	            }, 1);
 	        }
 		},
@@ -1455,7 +1454,7 @@
 	                return;
 	            }
         		editingPlugin.context.grid.getSelectionModel().deselect(lastPos.row); 										// FIX we have to deselect last row CMS-5979
-	        } while (position && (!position.columnHeader.getEditor(record) || !editingPlugin.startEditByPosition(position)));
+	        } while (position && (!position.column.getEditor(record) || !editingPlugin.startEditByPosition(position)));
 	    }		
 	});
 	
@@ -1702,57 +1701,5 @@
 		override: 'Ext.ux.IFrame',
 		
 		loadMask: "<i18n:text i18n:key='KERNEL_IFRAME_LOADING'/>"
-	});
-})();
-
-(function()
-{
-	Ext.define("Ametys.data.TreeStore", {
-		override: 'Ext.data.TreeStore',
-		
-		/**
-		 * @member Ext.data.TreeStore
-		 * @ametys
-		 * @since Ametys Runtime 3.9
-		 * Find the nodes which fieldName is matching value
-		 * **IMPORTANT The search is done only within loaded nodes
-		 * @param {String} fieldName The name of the field to check
-		 * @param {String/RegExp} value the value to check
-		 * @return {Ext.data.NodeInterface[]} The node matching. Can be empty but not null.
-		 */
-		find: function (fieldName, value)
-		{
-			return this.tree.find(fieldName, value);
-		}
-	});
-	
-	Ext.define("Ametys.data.Tree", {
-		override: 'Ext.data.Tree',
-		
-		/**
-		 * @member Ext.data.Tree
-		 * @ametys
-		 * @since Ametys Runtime 3.9
-		 * Find the nodes which fieldName is matching value
-		 * **IMPORTANT The search is done only within loaded nodes
-		 * @param {String} fieldName The name of the field to check
-		 * @param {String/RegExp} value the value to check
-		 * @return {Ext.data.NodeInterface[]} The node matching. Can be empty but not null.
-		 */
-		find: function (fieldName, value)
-		{
-			var matchingNodes = [];
-			
-			Ext.Object.each(this.nodeHash, function(id, node, hashMap) {
-				var fieldValue = node.get(fieldName);
-				if ((value && value.test && value.test(fieldValue)) 
-						|| ((value && !value.test || !value) && fieldValue == value))
-				{
-					matchingNodes.push(node);
-				}
-			});
-			
-			return matchingNodes;
-		}
 	});
 })();

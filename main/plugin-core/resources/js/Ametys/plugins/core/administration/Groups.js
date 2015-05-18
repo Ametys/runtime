@@ -116,8 +116,8 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 		    	proxy: {
 		        	type: 'memory',
 		        	reader: {
-		        		type: 'json',
-		        		root: 'groups'
+		        		type: 'json', // FIXME to remove in extjs 6
+		        		rootProperty: 'groups'
 		        	}
 		        }
 			}),  
@@ -167,7 +167,7 @@ Ext.define('Ametys.plugins.core.administration.Groups', {
 		        	type: 'memory',
 		        	reader: {
 		        		type: 'json',
-		        		root: 'users'
+		        		rootProperty: 'users'
 		        	}
 		        }
 			}), 

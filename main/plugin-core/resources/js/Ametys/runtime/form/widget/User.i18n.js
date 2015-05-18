@@ -60,7 +60,7 @@ Ext.define('Ametys.runtime.form.widget.User', {
                     record: 'user' //,
 					// Disabling root node
 					// Workaround for mixed users manager (ldap and jdbc etc...)
-                    // root: 'users'
+                    // rootProperty: 'users'
                 }
             },
             
@@ -77,20 +77,20 @@ Ext.define('Ametys.runtime.form.widget.User', {
     /**
      * Set the request parameters before loading the store.
      * @param {Ext.data.Store} store The store.
-     * @param {Ext.data.Operation} operation The Ext.data.Operation object that will be passed to the Proxy to load the Store.
+     * @param {Ext.data.operation.Operation} operation The Ext.data.Operation object that will be passed to the Proxy to load the Store.
      * @private
      */
     _onStoreBeforeLoad: function(store, operation)
     {
-        operation.params = operation.params || {};
+        operation.setParams( operation.getParams() || {} );
         
-        Ext.apply(operation.params, {
-        	criteria: operation.params.query,
-        	login: operation.params.login ? operation.params.login.split(',') : null,
+        operation.setParams( Ext.apply(operation.getParams(), {
+        	criteria: operation.getParams().query,
+        	login: operation.getParams().login ? operation.getParams().login.split(',') : null,
         	count: this.maxResult, 
         	offset: 0, 
         	usersManagerRole: this.usersManagerRole
-        });
+        }));
     },
     
     getLabelTpl: function ()

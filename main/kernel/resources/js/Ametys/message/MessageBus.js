@@ -167,8 +167,8 @@ Ext.define("Ametys.message.MessageBus",
 					catch (e)
 					{
 						Ametys.log.ErrorDialog.display({
-								title: "<i18n:text i18n:key='ORG_AMETYS_CMS_MESSAGEBUS_BUSERROR_TITLE'/>",
-								text: "<i18n:text i18n:key='ORG_AMETYS_CMS_MESSAGEBUS_BUSERROR_DESC'/>",
+								title: "<i18n:text i18n:key='KERNEL_MSG_MESSAGEBUS_BUSERROR_TITLE'/>",
+								text: "<i18n:text i18n:key='KERNEL_MSG_MESSAGEBUS_BUSERROR_DESC'/>",
 				                details: e,
 				                category: "Ametys.message.MessageBus"
 						});
@@ -191,8 +191,8 @@ Ext.define("Ametys.message.MessageBus",
 			catch (e)
 			{
 				Ametys.log.ErrorDialog.display({
-						title: "<i18n:text i18n:key='ORG_AMETYS_CMS_MESSAGEBUS_REFRESHERROR_TITLE'/>",
-						text: "<i18n:text i18n:key='ORG_AMETYS_CMS_MESSAGEBUS_REFRESHERROR_DESC'/>",
+						title: "<i18n:text i18n:key='KERNEL_MSG_MESSAGEBUS_REFRESHERROR_TITLE'/>",
+						text: "<i18n:text i18n:key='KERNEL_MSG_MESSAGEBUS_REFRESHERROR_DESC'/>",
 		                details: e,
 		                category: "Ametys.message.MessageBus"
 				});

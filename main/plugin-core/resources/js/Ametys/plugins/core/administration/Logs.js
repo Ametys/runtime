@@ -229,7 +229,8 @@ Ext.define('Ametys.plugins.core.administration.Logs', {
 	        	type: 'memory',
 	        	reader: {
 	        		type: 'json',
-	        		root: 'logs'
+	        		root: 'logs', // FIXME to remove in extjs 6
+	        		rootProperty: 'logs'
 	        	}
 	        }
 		});		

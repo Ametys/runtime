@@ -318,8 +318,11 @@ Ext.define("Ametys.tool.Tool",
          */
         setTitle: function(title)
         {
-            this._title = title;  
-            this.getWrapper().setTitle(this.getTitle());
+            this._title = title;
+            if (this.getWrapper()) 
+            {
+            	this.getWrapper().setTitle(this.getTitle());
+            }
             
             var ribbon = Ametys.tool.ToolsManager.getRibbon();
             if (ribbon && this.hasFocus())
@@ -343,8 +346,11 @@ Ext.define("Ametys.tool.Tool",
          */
         setDescription: function(description)
         {
-            this._description = description;  
-            this.getWrapper().setDescription(this.getDescription());
+            this._description = description;
+            if (this.getWrapper()) 
+            {
+            	this.getWrapper().setDescription(this.getDescription());
+            }
         },
         
 		/**
@@ -362,7 +368,10 @@ Ext.define("Ametys.tool.Tool",
         setToolHelpId: function(toolHelpId)
         {
             this._toolHelpId = toolHelpId;
-            this.getWrapper().setToolHelpId(this.getToolHelpId());
+            if (this.getWrapper()) 
+            {
+            	this.getWrapper().setHelpId(this.getToolHelpId());
+            }
         },        
 
 		/**
@@ -380,7 +389,10 @@ Ext.define("Ametys.tool.Tool",
         setSmallIcon: function(iconSmall)
         {
             this._iconSmall = iconSmall;
-            this.getWrapper().setSmallIcon(this.getSmallIcon());
+            if (this.getWrapper()) 
+            {
+            	this.getWrapper().setSmallIcon(this.getSmallIcon());
+            }
         },
 		/**
 		 * Get the icon #cfg-icon-medium.
@@ -397,7 +409,10 @@ Ext.define("Ametys.tool.Tool",
         setMediumIcon: function(iconMedium)
         {
             this._iconMedium = iconMedium;
-            this.getWrapper().setMediumIcon(this.getMediumIcon());
+            if (this.getWrapper()) 
+            {
+            	this.getWrapper().setMediumIcon(this.getMediumIcon());
+            }
         },        
 		/**
 		 * Get the icon #cfg-icon-large.
@@ -414,7 +429,10 @@ Ext.define("Ametys.tool.Tool",
         setLargeIcon: function(iconLarge)
         {
             this._iconLarge = iconLarge;
-            this.getWrapper().setLargeIcon(this.getLargeIcon());
+            if (this.getWrapper()) 
+            {
+            	this.getWrapper().setLargeIcon(this.getLargeIcon());
+            }
         },  
         
         /**
@@ -432,7 +450,10 @@ Ext.define("Ametys.tool.Tool",
         setDirty: function (dirty)
         {
             this._dirty = dirty;
-            this.getWrapper().setDirty(this.isDirty());
+            if (this.getWrapper()) 
+            {
+            	this.getWrapper().setDirtyState(this.isDirty());
+            }
         },
         
 		/**
@@ -596,7 +617,6 @@ Ext.define("Ametys.tool.Tool",
 		    		imageWidth: 32,
 		    		imageHeight: 32,
 		    		text: "<i18n:text i18n:key='KERNEL_MSG_TOOLS_OUTOFDATEPANEL_TOOLTIP_DESCRIPTION'/>",
-		    		footertext: "<i18n:text i18n:key='KERNEL_MSG_TOOLS_OUTOFDATEPANEL_TOOLTIP_FOOTER'/>",
 		    		inribbon: false
 		    	},
 		    	handler: Ext.bind(this.refresh, this, [true], false)
@@ -714,7 +734,7 @@ Ext.define("Ametys.tool.Tool",
 		{
 			this.showUpToDate();
 
-			msg = msg || "<i18n:text i18n:key='UITOOL_CONTENT_TOOL_REFRESHING'/>";
+			msg = msg || "<i18n:text i18n:key='KERNEL_MSG_TOOLS_REFRESHING'/>";
 			
 			if (!this._refreshMask)
 			{

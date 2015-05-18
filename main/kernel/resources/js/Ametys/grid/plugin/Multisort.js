@@ -163,7 +163,7 @@ Ext.define('Ametys.grid.plugin.Multisort',
 				var sorters = grid.getStore().getSorters();
 				for (var i=sorters.length - 1; i >= 0; i--)
 				{
-					var columnTxt = getColumnText(grid, sorters[i].property);
+					var columnTxt = getColumnText(grid, sorters.items[i].property);
 					if (columnTxt)
 					{
 						var sortConfig = {
@@ -375,11 +375,10 @@ Ext.define('Ametys.grid.plugin.Multisort',
             xtype: 'button'
         });
         
-        var textConfig = {
-        		text: config.text,
-                xtype: 'text',
-                cls: 'toolbar-item-text'
-        };
+        var textConfig = Ext.create('Ext.Component', {
+        	html : config.text,
+        	cls: 'toolbar-item-text'
+        });
 
         return new Ext.container.Container({
         		id: containerId,

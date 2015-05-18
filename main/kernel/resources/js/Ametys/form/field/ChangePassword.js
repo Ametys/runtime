@@ -142,7 +142,7 @@ Ext.define('Ametys.form.field.ChangePassword', {
      * This property is copied to underlying text fields. See {@link Ext.form.field.Text#cfg-stripCharsRe}.
      */
 
-    layout: null,
+    layout: 'auto',
     baseCls: 'ametys-changepassword ' + Ext.baseCSSPrefix + 'container',
 
 	/**

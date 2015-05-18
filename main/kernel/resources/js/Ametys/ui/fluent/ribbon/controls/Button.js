@@ -158,7 +158,7 @@ Ext.define(
 		
 		/**
 		 * Listener on mouse move over the button, to determine if the mouse if over the button or the arrow 
-		 * @param {Ext.EventObject} e The {@link Ext.EventObject} encapsulating the DOM event.
+		 * @param {Ext.event.Event} e The {@link Ext.event.Event} encapsulating the DOM event.
 		 */
 		_onMouseMove: function(e)
 		{
@@ -176,7 +176,7 @@ Ext.define(
 		
 		/**
 		 * This method determines if the passed event representing a click on a button, has hit the arrow or not
-		 * @param {Ext.EventObject} e The {@link Ext.EventObject} encapsulating the DOM event.
+		 * @param {Ext.event.Event} e The {@link Ext.event.Event} encapsulating the DOM event.
 		 * @returns {Boolean} True if the arrow was hit
 		 * @private
 		 */

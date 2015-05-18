@@ -171,7 +171,8 @@ Ext.define('Ametys.plugins.core.administration.JVMStatus', {
 	        	type: 'memory',
 	        	reader: {
 	        		type: 'json',
-	        		root: 'properties'
+	        		root: 'properties',  // FIXME to remove in extjs 6
+	        		rootProperty: 'properties'
 	        	}
 	        }
 		});

@@ -22,6 +22,7 @@
  */
 Ext.define('Ametys.runtime.form.widget.Text', {
 	extend: "Ext.form.field.Text",
+	alias: ['widget.edition.textfield', 'widget.text'], //TODO: remove all aliases in this file (alternative to addXTypes() ???)
 	
 	/**
 	 * @cfg {Boolean} multiple=false True to handle multiple values 
@@ -135,6 +136,7 @@ Ext.define('Ametys.runtime.form.widget.ComboBox', {
  */
 Ext.define('Ametys.runtime.form.widget.Long', {
 	extend: "Ext.form.field.Number",
+	alias: ['widget.edition.long'],
 	
 	constructor: function (config)
 	{
@@ -153,6 +155,7 @@ Ext.define('Ametys.runtime.form.widget.Long', {
  */
 Ext.define('Ametys.runtime.form.widget.Double', {
 	extend: "Ext.form.field.Number",
+	alias: ['widget.edition.double'],
 
 	constructor: function (config)
 	{
@@ -171,6 +174,7 @@ Ext.define('Ametys.runtime.form.widget.Double', {
  */
 Ext.define('Ametys.runtime.form.widget.Checkbox', {
 	extend: "Ext.form.field.Checkbox",
+	alias: ['widget.edition.checkbox'],
 	
 	constructor: function (config)
 	{
@@ -195,6 +199,7 @@ Ext.define('Ametys.runtime.form.widget.Checkbox', {
  */
 Ext.define('Ametys.runtime.form.widget.Date', {
 	extend: "Ext.form.field.Date",
+	alias: ['widget.edition.date'],
 	
 	statics:
 	{
@@ -234,6 +239,7 @@ Ext.define('Ametys.runtime.form.widget.Date', {
  */
 Ext.define('Ametys.runtime.form.widget.DateTime', {
 	extend: "Ametys.form.field.DateTime",
+	alias: ['widget.edition.datetime'],
 	
 	statics:
 	{
@@ -277,6 +283,7 @@ Ext.define('Ametys.runtime.form.widget.DateTime', {
  */
 Ext.define('Ametys.cms.form.widget.RichText', {
 	extend: "Ext.form.field.RichText",
+	alias: ['widget.edition.richtext'],
 	
 	/**
 	 * @cfg {Object} widgetParams The widget configuration
@@ -337,6 +344,7 @@ Ext.define('Ametys.cms.form.widget.RichText', {
  */
 Ext.define('Ametys.runtime.form.widget.TextArea', {
 	extend: "Ext.form.field.TextArea",
+	alias: ['widget.edition.textarea'],
 	
 	statics:
 	{
@@ -366,6 +374,7 @@ Ext.define('Ametys.runtime.form.widget.TextArea', {
  */
 Ext.define('Ametys.runtime.form.widget.UrlReference', {
 	extend: 'Ametys.runtime.form.widget.Text',
+	alias: ['widget.edition.urlreference'],
 	
 	/**
 	 * @property {String} referenceType=__external The type of the reference.

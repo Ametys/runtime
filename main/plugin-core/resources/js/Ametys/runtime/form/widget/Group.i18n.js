@@ -54,7 +54,7 @@ Ext.define('Ametys.runtime.form.widget.Group', {
                 reader: {
                     type: 'xml',
                     record: 'group',
-                    root: 'groups'
+                    rootProperty: 'groups'
                 }
             },
             
@@ -76,15 +76,15 @@ Ext.define('Ametys.runtime.form.widget.Group', {
      */
     _onStoreBeforeLoad: function(store, operation)
     {
-        operation.params = operation.params || {};
+        operation.setParams( operation.getParams() || {} );
         
-        Ext.apply(operation.params, {
-        	criteria: operation.params.query,
-        	id: operation.params.id ? operation.params.id.split(',') : null,
+        operation.setParams( Ext.apply(operation.getParams(), {
+        	criteria: operation.getParams().query,
+        	id: operation.getParams().id ? operation.getParams().id.split(',') : null,
         	count: this.maxResult, 
         	offset: 0, 
         	groupsManagerRole: this.groupsManagerRole
-        });
+        }));
     },
     
     getLabelTpl: function ()

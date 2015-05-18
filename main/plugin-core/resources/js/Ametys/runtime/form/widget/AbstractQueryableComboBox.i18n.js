@@ -171,7 +171,7 @@ Ext.define('Ametys.runtime.form.widget.AbstractQueryableComboBox', {
     /**
      * Deselect all the box items when the field loses focus.
      * @param {Ext.ux.form.field.BoxSelect} field The combo box field.
-     * @param {Ext.EventObject} e The blur event.
+     * @param {Ext.event.Event} e The blur event.
      * @private
      */
     _onBlur: function(field, e)

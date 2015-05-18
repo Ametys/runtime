@@ -315,7 +315,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
 	    /**
 	     * @private
 	     * Listener when clicking on the unpin button
-	     * @param {Ext.EventObject} event The click event.
+	     * @param {Ext.event.Event} event The click event.
 		 * @param {Ext.Element} toolEl The tool Element.
 		 * @param {Ext.panel.Header} bar The host panel header. 
 		 * @param {Ext.panel.Tool} tool The tool object
@@ -328,7 +328,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
 	    /**
 	     * @private
 	     * Listener when clicking on the pin button
-	     * @param {Ext.EventObject} event The click event.
+	     * @param {Ext.event.Event} event The click event.
 		 * @param {Ext.Element} toolEl The tool Element.
 		 * @param {Ext.panel.Header} bar The host panel header. 
 		 * @param {Ext.panel.Tool} tool The tool object
@@ -492,7 +492,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
 		/**
 		 * @private
 		 * Listener when the element detects a context menu is required
-         * @param {Ext.EventObject} e The {@link Ext.EventObject} encapsulating the DOM event.
+         * @param {Ext.event.Event} e The {@link Ext.event.Event} encapsulating the DOM event.
          * @param {HTMLElement} t The target of the event.
          * @param {Object} eOpts The object registered with the listener.
          **/

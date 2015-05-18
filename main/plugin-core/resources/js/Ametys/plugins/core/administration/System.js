@@ -118,7 +118,8 @@ Ext.define('Ametys.plugins.core.administration.System', {
 		        	type: 'memory',
 		        	reader: {
 		        		type: 'json',
-		        		root: 'announces'
+		        		root: 'announces', // FIXME to remove in extjs 6
+		        		rootProperty: 'announces'
 		        	}
 		        }
 			}), 

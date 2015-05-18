@@ -71,19 +71,15 @@ Ext.define('Ametys.form.field.Code', {
 	 */
 	initComponent: function()
 	{
-		this.addEvents(
 			/**
 			 * @event initialize
 			 * Fires when the CodeMirror area is initialized.
 			 */
-			'initialize',
 			
 			/**
 			 * @event change
 			 * Fires when the content was changed.
 			 */
-			'change'
-		);
 	
 		this.callParent(arguments);
 		
@@ -204,7 +200,8 @@ Ext.define('Ametys.form.field.Code', {
 	{
 		if (this._codeMirror)
 		{
-			width -= (!this.hideLabel && this.labelAlign !== 'top') ? this.getLabelWidth() : 0;
+			var labelWidth = this.hasVisibleLabel() ? (this.labelWidth + this.labelPad) : 0;
+			width -= (!this.hideLabel && this.labelAlign !== 'top') ? labelWidth : 0;
 			width -= this.ametysDescription ? 20 : 0;
 			this._codeMirror.setSize(width, height);
 		}
