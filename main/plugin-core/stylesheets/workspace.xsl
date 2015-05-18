@@ -79,7 +79,7 @@
 			      
 			      		.splashscreen { width: 500px; height: 400px; background-image: url("<xsl:value-of select="$workspace-resources"/>/img/splashscreen/splashscreen.png"); color: #fff; margin-right: auto; margin-left: auto; margin-top: 200px;} 
 				        .splashscreen-version {text-align: right; padding-top: 260px; margin-right: 30px; color: #1C58A0; font-family: arial,sans-serif; letter-spacing: 1px;}
-				        .splashscreen-version .cms-version {font-size: 0.7em; color:#7F7F7F;}
+				        .splashscreen-version .app-version {font-size: 0.7em; color:#7F7F7F;}
 			       		.splashscreen-progressbar {margin-top: 20px !important; margin-left: 20px; margin-right: 20px;}
 			       		.splashscreen-img {padding: 2px; background: url("<xsl:value-of select="$workspace-resources"/>/img/splashscreen/loading.gif") no-repeat scroll left top transparent;}
 			       	 </style> 
@@ -91,12 +91,12 @@
 				<noscript><i18n:text i18n:key="WORKSPACE_CMS_MAIN_ERROR_NOJS" i18n:catalogue="workspace.cms"/></noscript>
 		        
 				<xsl:if test="$splashscreen != 'no'">
-                    <xsl:call-template name="cms-splashscreen"/>
+                    <xsl:call-template name="app-splashscreen"/>
                 </xsl:if>
                 
 				<xsl:call-template name="uicall"/>                
 
-                <xsl:call-template name="ui-cmstools-load"/>
+                <xsl:call-template name="ui-apptools-load"/>
                
                 <xsl:call-template name="ui-extension-load"/>
                     
@@ -142,7 +142,7 @@
 
                             var ribbonItems = [];					
 
-					<xsl:for-each select="ribbon/tabs/tab[groups/group/medium//control/@id = /Cms/workspace/ribbon/controls/control/@id]">
+					<xsl:for-each select="ribbon/tabs/tab[groups/group/medium//control/@id = /Ametys/workspace/ribbon/controls/control/@id]">
                         <xsl:sort select="not(not(@contextualColor))"/>
                         
 						<xsl:variable name="tabPos"><xsl:value-of select="position()"/></xsl:variable>
@@ -157,7 +157,7 @@
 						    <xsl:text>});</xsl:text>
 						
                             <!-- Ribbon tabs group -->
-						<xsl:for-each select="groups/group[medium//control/@id = /Cms/workspace/ribbon/controls/control/@id]">
+						<xsl:for-each select="groups/group[medium//control/@id = /Ametys/workspace/ribbon/controls/control/@id]">
 						
 							<xsl:variable name="groupPos"><xsl:value-of select="position()"/></xsl:variable>
 
@@ -167,29 +167,29 @@
 
 							<xsl:for-each select="medium/*|small/*|large/*">
 								<xsl:choose>
-									<xsl:when test="local-name()='control' and @id = /Cms/workspace/ribbon/controls/control/@id">
+									<xsl:when test="local-name()='control' and @id = /Ametys/workspace/ribbon/controls/control/@id">
 										<xsl:variable name="id" select="@id"/>
                             fgp_<xsl:value-of select="$tabPos"/>_<xsl:value-of select="$groupPos"/>_<xsl:value-of select="local-name(..)"/>.push(<xsl:text/>
                                    <xsl:text/>Ametys.ribbon.RibbonManager.getElement("<xsl:value-of select="$id"/>").addUI("large")<xsl:text/> 
 			                	<xsl:text/>);<xsl:text/>
 			                		</xsl:when>
-			                		<xsl:when test="local-name()='layout' and (*[@id = /Cms/workspace/ribbon/controls/control/@id] or toolbar/*[@id = /Cms/workspace/ribbon/controls/control/@id])">
+			                		<xsl:when test="local-name()='layout' and (*[@id = /Ametys/workspace/ribbon/controls/control/@id] or toolbar/*[@id = /Ametys/workspace/ribbon/controls/control/@id])">
 										<xsl:variable name="layoutPos"><xsl:value-of select="position()"/></xsl:variable>
                             fgp_<xsl:value-of select="$tabPos"/>_<xsl:value-of select="$groupPos"/>_<xsl:value-of select="local-name(..)"/>.push({<xsl:text/>
                              		columns: <xsl:value-of select="@cols"/>,
                             		align: '<xsl:value-of select="@align"/>',
                             		items: [
-                            			<xsl:for-each select="*[@id = /Cms/workspace/ribbon/controls/control/@id] | toolbar"><xsl:if test="position() != 1">, </xsl:if>
+                            			<xsl:for-each select="*[@id = /Ametys/workspace/ribbon/controls/control/@id] | toolbar"><xsl:if test="position() != 1">, </xsl:if>
                             				<xsl:choose>
-												<xsl:when test="local-name()='control' and @id = /Cms/workspace/ribbon/controls/control/@id">
+												<xsl:when test="local-name()='control' and @id = /Ametys/workspace/ribbon/controls/control/@id">
 													<xsl:variable name="id" select="@id"/>
                                        <xsl:text/>Ametys.ribbon.RibbonManager.getElement("<xsl:value-of select="$id"/>").addUI("<xsl:value-of select="../@size"/>", <xsl:value-of select="@colspan"/>)<xsl:text/> 
 				            					</xsl:when>
-												<xsl:when test="local-name()='toolbar' and *[@id = /Cms/workspace/ribbon/controls/control/@id]">
+												<xsl:when test="local-name()='toolbar' and *[@id = /Ametys/workspace/ribbon/controls/control/@id]">
 												<xsl:text/>{
 												    colspan: <xsl:value-of select="@colspan"/>,
 												    items: [<xsl:text/>
-		                            			<xsl:for-each select="*[@id = /Cms/workspace/ribbon/controls/control/@id]"><xsl:if test="position() != 1">, </xsl:if>
+		                            			<xsl:for-each select="*[@id = /Ametys/workspace/ribbon/controls/control/@id]"><xsl:if test="position() != 1">, </xsl:if>
 													<xsl:variable name="id" select="@id"/>
                                             <xsl:text/>Ametys.ribbon.RibbonManager.getElement("<xsl:value-of select="$id"/>").addUI("very-small", <xsl:value-of select="@colspan"/>)<xsl:text/> 
 		                            			</xsl:for-each>
@@ -214,8 +214,8 @@
 							
 								// Dialog box launcher
 								<xsl:variable name="dialogBoxLauncher" select="@dialog-box-launcher"/>
-								<xsl:if test="@dialog-box-launcher and /Cms/workspace/ribbon/controls/control[@id = $dialogBoxLauncher]/action">
-									var controlCfg = <xsl:value-of select="/Cms/workspace/ribbon/controls/control[@id = $dialogBoxLauncher]/action"/>;
+								<xsl:if test="@dialog-box-launcher and /Ametys/workspace/ribbon/controls/control[@id = $dialogBoxLauncher]/action">
+									var controlCfg = <xsl:value-of select="/Ametys/workspace/ribbon/controls/control[@id = $dialogBoxLauncher]/action"/>;
 									if (controlCfg['dialog-box-launcher'])
 									{
 										fgp_<xsl:value-of select="$tabPos"/>_<xsl:value-of select="$groupPos"/>.dialogBoxLauncher = true;
@@ -272,8 +272,8 @@
 					
                             /** Contextual tabs creation */<xsl:text/>
                             var tab;
-                    <xsl:variable name="tabcount" select="count(ribbon/tabs/tab[groups/group/medium//control/@id = /Cms/workspace/ribbon/controls/control/@id])"/>
-                    <xsl:for-each select="ribbon/tabs/tab[groups/group/medium//control/@id = /Cms/workspace/ribbon/controls/control/@id]">
+                    <xsl:variable name="tabcount" select="count(ribbon/tabs/tab[groups/group/medium//control/@id = /Ametys/workspace/ribbon/controls/control/@id])"/>
+                    <xsl:for-each select="ribbon/tabs/tab[groups/group/medium//control/@id = /Ametys/workspace/ribbon/controls/control/@id]">
                         <xsl:sort select="not(not(@contextualColor))" order="descending"/>
                         <xsl:sort select="position()" data-type="number" order="descending"/>
 
@@ -288,9 +288,9 @@
                             
                             /** Message target factories */<xsl:text/>
                             var mtFactory;
-                            mtFactory = Ext.create("Ametys.message.factory.DefaultMessageTargetFactory", Ext.apply({type: "*"}, {pluginName: "cms", id: null}));
+                            mtFactory = Ext.create("Ametys.message.factory.DefaultMessageTargetFactory", Ext.apply({type: "*"}, {pluginName: "core", id: null}));
                             Ametys.message.MessageTargetFactory.registerTargetFactory(mtFactory);
-                            mtFactory = Ext.create("Ametys.tool.ToolMessageTargetFactory", Ext.apply({type: "tool"}, {pluginName: "cms"}));
+                            mtFactory = Ext.create("Ametys.tool.ToolMessageTargetFactory", Ext.apply({type: "tool"}, {pluginName: "core"}));
                             Ametys.message.MessageTargetFactory.registerTargetFactory(mtFactory);
 					<xsl:for-each select="messagetarget-factories/messagetarget-factory">
 					        mtFactory = Ext.create("<xsl:value-of select="action/@class"/>",  Ext.apply(<xsl:value-of select="action"/>, {pluginName: "<xsl:value-of select="@plugin"/>", id: "<xsl:value-of select="@id"/>"}));
@@ -333,7 +333,7 @@
 				                    requires: ['Ext.container.Viewport'],
 				                    name: 'AM',
 				
-				                    appFolder: 'cms',
+				                    appFolder: 'ametys',
 				                    enableQuickTips: false,
 				                    launch: function() {
 				                        Ext.create('Ext.container.Viewport', {
@@ -382,11 +382,11 @@
 		</html>
     </xsl:template>
     
-    <xsl:template name="cms-splashscreen">
+    <xsl:template name="app-splashscreen">
     	<div id="splashscreen" class="splashscreen">
         	<p class="splashscreen-version">
         		<xsl:call-template name="productTitle"/>
-        		<xsl:if test="/Cms/Versions/Component[Name = 'CMS']/Version"><br/><span class="cms-version"><i18n:text i18n:key="WORKSPACE_CMS_SPLASHSCREEN_APP_AMETYS_VERSION" catalogue="workspace.cms"/><xsl:value-of select="/Cms/Versions/Component[Name = 'CMS']/Version"/></span></xsl:if>
+        		<xsl:if test="/Ametys/Versions/Component[Name = 'CMS']/Version"><br/><span class="app-version"><i18n:text i18n:key="WORKSPACE_CMS_SPLASHSCREEN_APP_AMETYS_VERSION" catalogue="workspace.cms"/><xsl:value-of select="/Ametys/Versions/Component[Name = 'CMS']/Version"/></span></xsl:if>
         	</p>
         	
         	<div class="splashscreen-progressbar">
@@ -459,18 +459,18 @@
         </script> 
     </xsl:template>
     
-    <xsl:template name="ui-cmstools-load">
+    <xsl:template name="ui-apptools-load">
 		<!-- Ametys interface -->
 			<!-- UserPrefs -->
             <script type="text/javascript">
                   Ametys.userprefs.UserPrefsDAO.setDefaultPrefContext("/cms");
                   var userPrefs = {};<xsl:text/>
                   
-                  <xsl:for-each select="/Cms/userprefs/*">
+                  <xsl:for-each select="/Ametys/userprefs/*">
                           <xsl:variable name="name" select="local-name()"/>
                           <xsl:if test="count(preceding-sibling::*[local-name() = $name]) = 0 and not(ametys:requestParameter('ignore') = $name)">
                       userPrefs["<xsl:value-of select="$name"/>"] = [<xsl:text/>
-                                  <xsl:for-each select="/Cms/userprefs/*[local-name() = $name]">
+                                  <xsl:for-each select="/Ametys/userprefs/*[local-name() = $name]">
                                     <xsl:text/>"<xsl:value-of select="."/>"<xsl:if test="position() != last()">,</xsl:if>
                                   </xsl:for-each>
                               <xsl:text/>];<xsl:text/>
@@ -488,10 +488,10 @@
 			<script type="text/javascript" src="{$workspace-resources}/js/Ametys/cms/form/Repeater.js"/>
             <script type="text/javascript" src="{$workspace-resources}/js/Ametys/cms/form/widget/RichTextConfiguration.js"/>
 
-			<xsl:call-template name="ui-cmstools-load-toolsmanager"/>
+			<xsl:call-template name="ui-apptools-load-toolsmanager"/>
     </xsl:template>
     
-    <xsl:template name="ui-cmstools-load-toolsmanager">
+    <xsl:template name="ui-apptools-load-toolsmanager">
             <script type="text/javascript">
                 Ametys.tool.ToolsManager.setToolsLayout("Ametys.ui.tool.layout.ZonedTabsToolsLayout", { initialized: false });
             </script>
