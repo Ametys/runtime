@@ -19,7 +19,7 @@
                 xmlns:exslt="http://exslt.org/common" 
                 xmlns:escaper="org.apache.commons.lang.StringEscapeUtils"
                 xmlns:i18n="http://apache.org/cocoon/i18n/2.1"
-                xmlns:ametys="org.ametys.cms.transformation.xslt.AmetysXSLTHelper"
+                xmlns:ametys="org.ametys.runtime.plugins.core.ui.AmetysXSLTHelper"
                 extension-element-prefixes="exslt">
 
     <xsl:import href="kernel://stylesheets/kernel.xsl"/>    
