@@ -90,7 +90,7 @@
 			</head>
 			
 			<body>
-				<noscript><i18n:text i18n:key="WORKSPACE_CMS_MAIN_ERROR_NOJS" i18n:catalogue="workspace.cms"/></noscript>
+				<noscript><i18n:text i18n:key="WORKSPACE_AMETYS_MAIN_ERROR_NOJS" i18n:catalogue="kernel"/></noscript>
 		        
 				<xsl:if test="$splashscreen != 'no'">
                     <xsl:call-template name="app-splashscreen"/>
@@ -388,7 +388,7 @@
     	<div id="splashscreen" class="splashscreen">
         	<p class="splashscreen-version">
         		<xsl:call-template name="productTitle"/>
-        		<xsl:if test="/Ametys/Versions/Component[Name = 'CMS']/Version"><br/><span class="app-version"><i18n:text i18n:key="WORKSPACE_CMS_SPLASHSCREEN_APP_AMETYS_VERSION" catalogue="workspace.cms"/><xsl:value-of select="/Ametys/Versions/Component[Name = 'CMS']/Version"/></span></xsl:if>
+        		<xsl:if test="/Ametys/Versions/Component[Name = 'CMS']/Version"><br/><span class="app-version"><i18n:text i18n:key="WORKSPACE_AMETYS_SPLASHSCREEN_APP_AMETYS_VERSION" catalogue="kernel"/><xsl:value-of select="/Ametys/Versions/Component[Name = 'CMS']/Version"/></span></xsl:if>
         	</p>
         	
         	<div class="splashscreen-progressbar">
@@ -399,7 +399,7 @@
         	
 	       	<p class="splashscreen-loading">
 	       		<span class="splashscreen-img">&#160;&#160;&#160;&#160;&#160;&#160;</span>
-	       		<i18n:text i18n:key="WORKSPACE_CMS_SPLASHSCREEN_LOADING" catalogue="workspace.cms"/>
+	       		<i18n:text i18n:key="WORKSPACE_AMETYS_SPLASHSCREEN_LOADING" catalogue="kernel"/>
 	       		<span id="loaded" class="splashscreen-loaded">1%</span>
 	       	</p>
         </div>

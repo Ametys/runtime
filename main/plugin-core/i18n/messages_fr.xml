@@ -811,4 +811,12 @@
     <message key="PLUGINS_CORE_USER_PREFERENCES_PWD_CONFIRMATION_DOESNT_MATCH">Le mot de passe et sa confirmation ne correspondent pas.</message>
     <message key="PLUGINS_CORE_USER_PREFERENCES_STATE_PROVIDER_SAVE_FAILURE_TITLE">Sauvegarde de l'état de l'interface impossible</message>
     <message key="PLUGINS_CORE_USER_PREFERENCES_STATE_PROVIDER_SAVE_FAILURE_DESC">L'état de l'interface graphique n'a pas pu être sauvé pour restauration ultérieurs</message>
+    
+    <!-- +
+         | Workspace
+         + -->
+    <message key="WORKSPACE_AMETYS_MAIN_ERROR_NOJS">Cette application ne peut pas fonctionner en l'absence de javascript</message>
+    <message key="WORKSPACE_AMETYS_SPLASHSCREEN_LOADING">Chargement en cours. Veuillez patienter ... </message>
+    <message key="WORKSPACE_AMETYS_SPLASHSCREEN_APP_AMETYS_VERSION">motorisé par Ametys </message>
+         
 </catalogue>
