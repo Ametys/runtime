@@ -53,15 +53,17 @@
     	<i18n:text i18n:catalogue="application" i18n:key="APPLICATION_PRODUCT_LABEL"/>
     </xsl:template>
     
-    
-    
     <xsl:template name="uicall">
 	    <xsl:call-template name="kernel-base">
             <xsl:with-param name="theme">gray</xsl:with-param>
 	        <xsl:with-param name="load-cb" select="$callback"/>
         </xsl:call-template>
     </xsl:template>
-
+    
+    <xsl:template match="/Ametys">
+        <xsl:apply-templates select="/Ametys/workspace"/>
+    </xsl:template>
+    
     <xsl:template match="workspace">
     	<html>
 			<head>
