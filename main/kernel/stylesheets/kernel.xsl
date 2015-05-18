@@ -162,49 +162,49 @@
             <script>/kernel/resources/js/Ametys/ui/tool/layout/ZonedTabsToolsLayout/ZoneTabsToolsPanel.js</script>
             <script>/kernel/resources/js/Ametys/ui/tool/layout/ZonedTabsToolsLayout/ZonedTabsDD.js</script>
             
-            <script>/kernel/resources/js/Ametys/message/Message.js"</script>
-            <script>/kernel/resources/js/Ametys/message/MessageBus.js"</script>
-            <script>/kernel/resources/js/Ametys/message/MessageTarget.js"</script>
-            <script>/kernel/resources/js/Ametys/message/MessageTargetHelper.js"</script>
-            <script>/kernel/resources/js/Ametys/message/MessageTargetFactory.js"</script>
-            <script>/kernel/resources/js/Ametys/message/factory/DefaultMessageTargetFactory.js"</script>
+            <script>/kernel/resources/js/Ametys/message/Message.js</script>
+            <script>/kernel/resources/js/Ametys/message/MessageBus.js</script>
+            <script>/kernel/resources/js/Ametys/message/MessageTarget.js</script>
+            <script>/kernel/resources/js/Ametys/message/MessageTargetHelper.js</script>
+            <script>/kernel/resources/js/Ametys/message/MessageTargetFactory.js</script>
+            <script>/kernel/resources/js/Ametys/message/factory/DefaultMessageTargetFactory.js</script>
 
-            <script>/kernel/resources/js/Ametys/relation/RelationManager.js"</script>
-            <script>/kernel/resources/js/Ametys/relation/RelationHandler.js"</script>
-            <script>/kernel/resources/js/Ametys/relation/RelationPoint.js"</script>
-            <script>/kernel/resources/js/Ametys/relation/Relation.js"</script>
-            <script>/kernel/resources/js/Ametys/relation/dd/AmetysDropZone.js"</script>
-            <script>/kernel/resources/js/Ametys/relation/dd/AmetysViewDragZone.js"</script>
-            <script>/kernel/resources/js/Ametys/relation/dd/AmetysTreeViewDragDrop.js"</script>
-            <script>/kernel/resources/js/Ametys/relation/dd/AmetysTreeViewDragZone.js"</script>
-            <script>/kernel/resources/js/Ametys/relation/dd/AmetysTreeViewDropZone.js"</script>
-            <script>/kernel/resources/js/Ametys/relation/dd/AmetysGridViewDragDrop.js"</script>
-            <script>/kernel/resources/js/Ametys/relation/dd/AmetysGridViewDropZone.js"</script>
+            <script>/kernel/resources/js/Ametys/relation/RelationManager.js</script>
+            <script>/kernel/resources/js/Ametys/relation/RelationHandler.js</script>
+            <script>/kernel/resources/js/Ametys/relation/RelationPoint.js</script>
+            <script>/kernel/resources/js/Ametys/relation/Relation.js</script>
+            <script>/kernel/resources/js/Ametys/relation/dd/AmetysDropZone.js</script>
+            <script>/kernel/resources/js/Ametys/relation/dd/AmetysViewDragZone.js</script>
+            <script>/kernel/resources/js/Ametys/relation/dd/AmetysTreeViewDragDrop.js</script>
+            <script>/kernel/resources/js/Ametys/relation/dd/AmetysTreeViewDragZone.js</script>
+            <script>/kernel/resources/js/Ametys/relation/dd/AmetysTreeViewDropZone.js</script>
+            <script>/kernel/resources/js/Ametys/relation/dd/AmetysGridViewDragDrop.js</script>
+            <script>/kernel/resources/js/Ametys/relation/dd/AmetysGridViewDropZone.js</script>
 
-            <script>/kernel/resources/js/Ametys/ribbon/RibbonManager.js"</script>
-            <script>/kernel/resources/js/Ametys/ribbon/RibbonElementController.js"</script>
+            <script>/kernel/resources/js/Ametys/ribbon/RibbonManager.js</script>
+            <script>/kernel/resources/js/Ametys/ribbon/RibbonElementController.js</script>
 
-            <script>/kernel/resources/js/Ametys/ribbon/element/RibbonTabController.js"</script>
-            <script>/kernel/resources/js/Ametys/ribbon/element/tab/TabController.js"</script>
-            <script>/kernel/resources/js/Ametys/ribbon/element/tab/ContentTabController.js"</script>
-            <script>/kernel/resources/js/Ametys/ribbon/element/tab/EditionTabController.js"</script>
+            <script>/kernel/resources/js/Ametys/ribbon/element/RibbonTabController.js</script>
+            <script>/kernel/resources/js/Ametys/ribbon/element/tab/TabController.js</script>
+            <script>/kernel/resources/js/Ametys/ribbon/element/tab/ContentTabController.js</script>
+            <script>/kernel/resources/js/Ametys/ribbon/element/tab/EditionTabController.js</script>
 
-            <script>/kernel/resources/js/Ametys/ribbon/element/RibbonUIController.js"</script>
-            <script>/kernel/resources/js/Ametys/ribbon/element/ui/CommonController.js"</script>
-            <script>/kernel/resources/js/Ametys/ribbon/element/ui/FieldController.js"</script>
-            <script>/kernel/resources/js/Ametys/ribbon/element/ui/ButtonController.js"</script>
-            <script>/kernel/resources/js/Ametys/ribbon/element/ui/button/OpenToolButtonController.js"</script>
+            <script>/kernel/resources/js/Ametys/ribbon/element/RibbonUIController.js</script>
+            <script>/kernel/resources/js/Ametys/ribbon/element/ui/CommonController.js</script>
+            <script>/kernel/resources/js/Ametys/ribbon/element/ui/FieldController.js</script>
+            <script>/kernel/resources/js/Ametys/ribbon/element/ui/ButtonController.js</script>
+            <script>/kernel/resources/js/Ametys/ribbon/element/ui/button/OpenToolButtonController.js</script>
         
-            <script>/kernel/resources/js/Ametys/userprefs/UserPrefsDAO.js"</script>
-            <script>/kernel/resources/js/Ametys/userprefs/UserPrefsDAOStateProvider.js"</script>
+            <script>/kernel/resources/js/Ametys/userprefs/UserPrefsDAO.js</script>
+            <script>/kernel/resources/js/Ametys/userprefs/UserPrefsDAOStateProvider.js</script>
 
-            <script>/kernel/resources/js/Ametys/tool/ToolsManager.js"</script>
-            <script>/kernel/resources/js/Ametys/tool/ToolFactory.js"</script>
-            <script>/kernel/resources/js/Ametys/tool/factory/BasicToolFactory.js"</script>
-            <script>/kernel/resources/js/Ametys/tool/factory/UniqueToolFactory.js"</script>
-            <script>/kernel/resources/js/Ametys/tool/ToolMessageTargetFactory.js"</script>
-            <script>/kernel/resources/js/Ametys/tool/Tool.js"</script>
-            <script>/kernel/resources/js/Ametys/tool/SelectionTool.js"</script>
+            <script>/kernel/resources/js/Ametys/tool/ToolsManager.js</script>
+            <script>/kernel/resources/js/Ametys/tool/ToolFactory.js</script>
+            <script>/kernel/resources/js/Ametys/tool/factory/BasicToolFactory.js</script>
+            <script>/kernel/resources/js/Ametys/tool/factory/UniqueToolFactory.js</script>
+            <script>/kernel/resources/js/Ametys/tool/ToolMessageTargetFactory.js</script>
+            <script>/kernel/resources/js/Ametys/tool/Tool.js</script>
+            <script>/kernel/resources/js/Ametys/tool/SelectionTool.js</script>
 	    </xsl:variable>
 	    
 		<xsl:variable name="css">
