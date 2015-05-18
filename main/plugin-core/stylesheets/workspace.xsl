@@ -458,12 +458,13 @@
 			}
         </script> 
     </xsl:template>
-    
+
     <xsl:template name="ui-apptools-load">
 		<!-- Ametys interface -->
 			<!-- UserPrefs -->
             <script type="text/javascript">
-                  Ametys.userprefs.UserPrefsDAO.setDefaultPrefContext("/cms");
+                  <xsl:call-template name="ui-apptools-load-PrefContext"/>
+            
                   var userPrefs = {};<xsl:text/>
                   
                   <xsl:for-each select="/Ametys/userprefs/*">
@@ -490,6 +491,10 @@
 
 			<xsl:call-template name="ui-apptools-load-toolsmanager"/>
     </xsl:template>
+
+    <xsl:template name="ui-apptools-load-PrefContext">
+                  Ametys.userprefs.UserPrefsDAO.setDefaultPrefContext("/ametys");
+    </xsl:template>    
     
     <xsl:template name="ui-apptools-load-toolsmanager">
             <script type="text/javascript">
