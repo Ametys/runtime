@@ -15,10 +15,5 @@
    limitations under the License.
    -->
 <catalogue xml:lang="en">
-
-    <message key="WORKSPACE_APPLICATION_LABEL_SHORT">My workspace</message>
-
-    <message key="WORKSPACE_LABEL">This is the public workspace home page.</message>
-    <message key="WORKSPACE_RIGHTS">Open the rights'assignment (need to be authentified and authorized)</message>
-
+    <message key="WORKSPACE_TEMPLATE_ALERT">Hello workspace.</message>
 </catalogue>

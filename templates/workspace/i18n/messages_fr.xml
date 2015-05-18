@@ -15,10 +15,5 @@
    limitations under the License.
    -->
 <catalogue xml:lang="fr">
-
-    <message key="WORKSPACE_APPLICATION_LABEL_SHORT">Mon espace de travail</message>
-
-    <message key="WORKSPACE_LABEL">Ceci est la page d'accueil publique du workspace.</message>
-    <message key="WORKSPACE_RIGHTS">Ouvrir l'affectation des droits (nécessite d'être authentifié et d'avoir les droits)</message>
-
+    <message key="WORKSPACE_TEMPLATE_ALERT">Hello workspace.</message>
 </catalogue>

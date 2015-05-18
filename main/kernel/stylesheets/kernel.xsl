@@ -180,7 +180,7 @@
             <script>/kernel/resources/js/Ametys/relation/dd/AmetysTreeViewDropZone.js</script>
             <script>/kernel/resources/js/Ametys/relation/dd/AmetysGridViewDragDrop.js</script>
             <script>/kernel/resources/js/Ametys/relation/dd/AmetysGridViewDropZone.js</script>
-
+            
             <script>/kernel/resources/js/Ametys/ribbon/RibbonManager.js</script>
             <script>/kernel/resources/js/Ametys/ribbon/RibbonElementController.js</script>
 
@@ -205,6 +205,8 @@
             <script>/kernel/resources/js/Ametys/tool/ToolMessageTargetFactory.js</script>
             <script>/kernel/resources/js/Ametys/tool/Tool.js</script>
             <script>/kernel/resources/js/Ametys/tool/SelectionTool.js</script>
+            
+            <script>/plugins/core/resources/js/Ametys/runtime/form/WidgetManager.js</script>
 	    </xsl:variable>
 	    
 		<xsl:variable name="css">

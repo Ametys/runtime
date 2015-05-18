@@ -18,7 +18,7 @@
 
     <message key="PLUGINS_PLUGIN_COLNAME">Nom</message>
     <message key="PLUGINS_PLUGIN_COLAGE">Age</message>
-    <message key="PLUGINS_PLUGIN_BUTTON">Boutton</message>
+    <message key="PLUGINS_PLUGIN_BUTTON">Bouton</message>
  	<message key="PLUGINS_PLUGIN_MYJAVASCRIPTKEY">Salut ! Message i18n depuis un javascript</message>
 
 </catalogue>

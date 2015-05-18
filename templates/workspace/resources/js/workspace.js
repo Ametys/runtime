@@ -13,4 +13,12 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
- 
+
+// Dummy log message.
+alert("<i18n:text i18n:key='WORKSPACE_TEMPLATE_ALERT'/>");
+
+var logger = Ametys.log.LoggerFactory.getLoggerFor("templates.workspace");
+if (logger.isInfoEnabled())
+{
+	logger.info('Workspace loaded.');
+}

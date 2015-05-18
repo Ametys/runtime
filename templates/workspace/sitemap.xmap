@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright 2009 Anyware Services
+   Copyright 2015 Anyware Services
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -16,9 +16,14 @@
    -->
 <map:sitemap xmlns:map="http://apache.org/cocoon/sitemap/1.0">
     <map:components>
+        <map:generators>
+            <map:generator name="workspace" src="org.ametys.runtime.workspace.WorkspaceGenerator" logger="org.ametys.runtime.workspace.WorkspaceGenerator"/>
+        </map:generators>
+        
         <map:actions>
             <map:action name="authenticate" src="org.ametys.runtime.authentication.AuthenticateAction" logger="workspace.action.authenticate"/>
             <map:action name="set-authorization-header" src="org.ametys.runtime.authentication.SetAuthorizationHeaderAction"  logger="workspace.action.setheader"/>
+            <map:action name="resource-exists" src="org.apache.cocoon.acting.ResourceExistsAction"/>
         </map:actions>
 
          <map:selectors default="exception">
@@ -32,21 +37,54 @@
         </map:selectors>   
     </map:components>
     
-	<map:pipelines>
-		<map:pipeline>
+    <map:pipelines>
+        <map:pipeline>
+        
+            <map:match pattern="resources/**.js">
+                <!-- FIXME temporary compatible with .i18nfiles -->
+                <map:act type="resource-exists" src="resources/{1}.js">
+                    <map:generate src="resources/{../1}.js" type="i18nizabletext"/>
+                    <map:transform type="i18n">
+                        <map:parameter name="locale" value="{locale:locale}"/>
+                        <map:parameter name="workspace" value="workspace"/><!-- Workspace name have to be hardcoded -->
+                    </map:transform>
+                    <map:serialize type="text" mime-type="text/javascript;charset=utf-8"/>
+                </map:act>
+                <map:generate src="resources/{1}.i18n.js" type="i18nizabletext"/>
+                <map:transform type="i18n">
+                    <map:parameter name="locale" value="{locale:locale}"/>
+                    <map:parameter name="workspace" value="workspace"/><!-- Workspace name have to be hardcoded since it can be call throught the web workspace -->
+                </map:transform>
+                <map:serialize type="text" mime-type="text/javascript;charset=utf-8"/>
+            </map:match>
+            
+            <!-- Workspace resources -->
+            <map:match pattern="resources/**">
+                <map:read src="resources/{1}"/>
+            </map:match>
+            
             <!-- base redirection -->
             <map:match pattern="">
                 <map:redirect-to uri="index.html"/>
             </map:match>
             
-            <!-- public home page -->
             <map:match pattern="index.html">
-                <map:generate src="pages/index.xml"/>
+                <map:generate type="workspace"/>
                 <map:transform type="i18n">
                     <map:parameter name="locale" value="{locale:locale}"/>
-                    <map:parameter name="workspace" value="{request-attr:workspaceName}"/>
                 </map:transform>
-                <map:serialize/>
+                <map:transform type="xslt" src="stylesheets/index.xsl">
+                    <map:parameter name="contextPath" value="{request:contextPath}"/>
+                    <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/>
+                    <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
+                    <map:parameter name="max-upload-size" value="{config:runtime.upload.max-size}"/>
+                    <map:parameter name="debug-mode-config" value="{config:runtime.debug.ui}"/>
+                    <map:parameter name="debug-mode-request" value="{request-param:debug.ui}"/>
+                </map:transform>
+                <map:transform type="i18n">
+                    <map:parameter name="locale" value="{locale:locale}"/>
+                </map:transform>
+                <map:serialize type="xhtml"/>
             </map:match>
             
             <!-- ************** -->
@@ -62,29 +100,6 @@
                     <map:parameter name="pluginName" value="{1}"/>
                 </map:act>
                 <map:mount check-reload="yes" src="plugin:{1}://" uri-prefix="plugins/{1}"/>
-            </map:match>
-            
-            <!-- Wrapped plugins url -->
-            <map:match pattern="_plugins/*/**">
-                <map:act type="setter">
-                    <map:parameter name="pluginName" value="{1}"/>
-                </map:act>
-                
-                <map:aggregate element="Workspace">
-                    <map:part src="cocoon://_plugins/{1}/{2}"/>
-                    <!-- other parts such as common skin elements (menumanager...) -->
-                </map:aggregate>
-                <map:transform src="pages/plugin.xsl">
-                    <map:parameter name="contextPath" value="{request:contextPath}"/>
-                    <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
-                    <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/>
-                    <map:parameter name="max-upload-size" value="{config:runtime.upload.max-size}"/>
-                </map:transform>
-                <map:transform type="i18n">
-                    <map:parameter name="locale" value="{locale:locale}"/>
-                    <map:parameter name="plugin" value="{1}"/>
-                </map:transform>
-                <map:serialize/>
             </map:match>
             
             <!-- ERRORS -->
