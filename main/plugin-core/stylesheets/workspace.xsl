@@ -484,13 +484,6 @@
                   Ext.state.Manager.setProvider(upp);
             </script>
 			
-			<!-- JS -->
-<!-- 			<script type="text/javascript" src="{$workspace-resources}/js/Ametys/cms/form/WidgetManager.js"/> -->
-			<script type="text/javascript" src="{$contextPath}/plugins/core/resources/js/Ametys/runtime/form/WidgetManager.js"/>
-			<script type="text/javascript" src="{$workspace-resources}/js/Ametys/cms/form/FormEditionPanel.js"/>
-			<script type="text/javascript" src="{$workspace-resources}/js/Ametys/cms/form/Repeater.js"/>
-            <script type="text/javascript" src="{$workspace-resources}/js/Ametys/cms/form/widget/RichTextConfiguration.js"/>
-
 			<xsl:call-template name="ui-apptools-load-toolsmanager"/>
     </xsl:template>
 
@@ -503,7 +496,7 @@
                 Ametys.tool.ToolsManager.setToolsLayout("Ametys.ui.tool.layout.ZonedTabsToolsLayout", { initialized: false });
             </script>
     </xsl:template>
-    
+
     <xsl:template name="ui-extension-load">
     	<!-- Keep empty. Here for inheritance purpose. -->
 	</xsl:template>
