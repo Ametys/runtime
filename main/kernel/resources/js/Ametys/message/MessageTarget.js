@@ -48,6 +48,11 @@ Ext.define("Ametys.message.MessageTarget",
 			subtargets: []
 		},
 		
+        /**
+         * @property {Boolean} isMessageTarget Always true for MessageTarget objects.
+         */
+        isMessageTarget: true,
+        
 		/**
 		 * Creates a target.
 		 * @param {Object} config See configuration doc.
