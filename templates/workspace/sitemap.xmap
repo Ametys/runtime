@@ -44,7 +44,12 @@
     <map:pipelines>
         <map:pipeline internal-only="true">
             <map:match pattern="workspace.xml">
-                <map:generate type="workspace" />
+                <map:generate type="workspace">
+                    <!-- File names for ribbon and ui-tools can be defined here. Removed the 
+                         parameters to use the default values (ribbon and uitools) -->
+                    <map:parameter name="ribbonFileName" value="workspace-ribbon"/>
+                    <map:parameter name="toolsFileName" value="workspace-uitools"/>
+                </map:generate>
                 <map:serialize type="xml"/>
             </map:match>
         </map:pipeline>
