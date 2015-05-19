@@ -163,13 +163,13 @@ Ext.define('Ametys.grid.plugin.Multisort',
 				var sorters = grid.getStore().getSorters();
 				for (var i=sorters.length - 1; i >= 0; i--)
 				{
-					var columnTxt = getColumnText(grid, sorters.items[i].property);
+					var columnTxt = getColumnText(grid, sorters.items[i].getProperty());
 					if (columnTxt)
 					{
 						var sortConfig = {
     		            		text: columnTxt,	
-    		            		property: sorters[i].property,
-    		                    direction: sorters[i].direction
+    		            		property: sorters.items[i].getProperty(),
+    		                    direction: sorters.items[i].getDirection()
     		            	};
     					
     					this._insertSortItem(sortConfig);
