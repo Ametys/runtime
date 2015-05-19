@@ -25,7 +25,11 @@
             <map:action name="set-authorization-header" src="org.ametys.runtime.authentication.SetAuthorizationHeaderAction"  logger="workspace.action.setheader"/>
             <map:action name="resource-exists" src="org.apache.cocoon.acting.ResourceExistsAction"/>
         </map:actions>
-
+        
+        <map:transformers>
+            <map:transformer name="minimizer" src="org.ametys.runtime.plugins.core.ui.minimize.MinimizeTransformer"/>
+        </map:transformers>
+        
          <map:selectors default="exception">
             <map:selector logger="sitemap.selector.exception" name="exception" src="org.apache.cocoon.selection.ExceptionSelector">
                 <exception class="org.apache.cocoon.ResourceNotFoundException" name="not-found"/>
@@ -38,8 +42,14 @@
     </map:components>
     
     <map:pipelines>
-        <map:pipeline>
+        <map:pipeline internal-only="true">
+            <map:match pattern="workspace.xml">
+                <map:generate type="workspace" />
+                <map:serialize type="xml"/>
+            </map:match>
+        </map:pipeline>
         
+        <map:pipeline>
             <map:match pattern="resources/**.js">
                 <!-- FIXME temporary compatible with .i18nfiles -->
                 <map:act type="resource-exists" src="resources/{1}.js">
@@ -68,8 +78,19 @@
                 <map:redirect-to uri="index.html"/>
             </map:match>
             
+            <!-- ************** -->
+            <!-- AUTHENTICATION -->
+            <!-- ************** -->
+            <map:match pattern="**">
+                <map:act type="authenticate"/>
+            </map:match>
+            
             <map:match pattern="index.html">
-                <map:generate type="workspace"/>
+                <map:aggregate element="Ametys">
+                    <map:part src="cocoon://_admin/homepage-versions.xml"/>
+                    <map:part src="cocoon:/workspace.xml"/>
+                    <map:part src="cocoon://plugins/core/userprefs/values.xml?prefContext=/WORKSPACE_NAME"/>
+                </map:aggregate>
                 <map:transform type="i18n">
                     <map:parameter name="locale" value="{locale:locale}"/>
                 </map:transform>
@@ -84,14 +105,10 @@
                 <map:transform type="i18n">
                     <map:parameter name="locale" value="{locale:locale}"/>
                 </map:transform>
+                <map:transform type="minimizer" src="{request:contextPath}{request-attr:workspaceURI}/plugins/core">
+                    <map:parameter name="debug-mode-request" value="{request-param:debug.ui}"/>
+                </map:transform>
                 <map:serialize type="xhtml"/>
-            </map:match>
-            
-            <!-- ************** -->
-            <!-- AUTHENTICATION -->
-            <!-- ************** -->
-            <map:match pattern="**">
-                <map:act type="authenticate"/>
             </map:match>
             
             <!-- Direct plugins url -->
@@ -168,7 +185,7 @@
                         </map:act>
                     </map:otherwise>
                 </map:select>
-            </map:handle-errors>            
+            </map:handle-errors>
 		</map:pipeline>
 	</map:pipelines>
 </map:sitemap>

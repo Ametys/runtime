@@ -20,7 +20,7 @@
     <xsl:import href="plugin:core://stylesheets/workspace.xsl"/>
 
     <xsl:template name="ui-apptools-load-PrefContext">
-                  Ametys.userprefs.UserPrefsDAO.setDefaultPrefContext("/workspace");
+                  Ametys.userprefs.UserPrefsDAO.setDefaultPrefContext("/WORKSPACE_NAME");
     </xsl:template>
 
     <xsl:template name="ui-extension-load">
