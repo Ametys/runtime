@@ -1570,7 +1570,7 @@
 		
 		startEdit: function()
 		{
-			this.editingPlugin.armed = this.editingPlugin.getActiveRecord().getId();
+			// TODO this.editingPlugin.armed = this.editingPlugin.getActiveRecord().getId();
 		
 			this.callParent(arguments);
 		},
