@@ -68,6 +68,7 @@
     
     	<property name="ivy.dep.file" value="${dest-dir}/ivy.xml"/>
     	<property name="tools.ivy.dep.file" location="../../../../bootstrap/4/deliver/ivy.xml"/>
+    	<property name="ivy.jar" location="../../../../bootstrap/4/development/lib/ivy/ivy-2.2.0.jar"/>
 
     	<!-- Ivy properties -->
     	<property name="ivy.settings" value="../../../../ivyrep_2/ivysettings.xml"/>
@@ -139,6 +140,7 @@
                 <exclude name="**/*.jpg"/>
                 <exclude name="**/*.png"/>
                 <exclude name="**/*.ico"/>
+                <exclude name="**/*.jsb2"/>
                 <exclude name="release-notes.txt"/>
                 <exclude name="src/org/ametys/runtime/cocoon/treeprocessor-builtins.xml"/>
             	<exclude name="src/org/ametys/runtime/util/BOMInputStream.java"/>
