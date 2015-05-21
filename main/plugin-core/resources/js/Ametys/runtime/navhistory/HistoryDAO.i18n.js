@@ -89,7 +89,7 @@ Ext.define('Ametys.runtime.navhistory.HistoryDAO', {
 			this._store = Ext.create('Ext.data.Store', {
 				model: 'Ametys.runtime.navhistory.HistoryDAO.HistoryEntry',
 				sortOnLoad: true,
-				autoSync: true,
+				// autoSync: true, Bug of ExtJS 6.0.0 https://www.sencha.com/forum/showthread.php?301316-Bug-in-store.removeAt&p=1101096#post1101096
 				proxy: { type: 'memory' },
 				sorters: [{property: 'date', direction:'DESC'}]	
 			});
@@ -141,6 +141,7 @@ Ext.define('Ametys.runtime.navhistory.HistoryDAO', {
 		while (existingItemIndex != -1)
 		{
 			this.getStore().removeAt(existingItemIndex);
+			
 			existingItemIndex = this.getStore().findExact('objectId', objectId);
 		}
 	},
