@@ -252,7 +252,11 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
     public Set<String> getUserGroups(String login)
     {
         Set<String> groups = new HashSet<String>();
-
+        if (login == null)
+        {
+            return groups;
+        }
+        
         Connection connection = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
