@@ -16,6 +16,9 @@
    -->
 <catalogue xml:lang="en">
 
+    <!-- RIBBON -->
+    <message key="RIBBON_WORKSPACE_ADMIN_SECTION_SYSTEM_LABEL">System</message>
+
 	<!-- ADMINISTRATOR PASSWORD -->
 	<message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_LABEL">Password</message>
 	<message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_DESCRIPTION">Change password for 'admin' login</message>
@@ -833,12 +836,86 @@
     <message key="PLUGINS_CMS_HELPER_ENTERURL_LABEL">Address</message>
     <message key="PLUGINS_CMS_HELPER_ENTERURL_OK">Ok</message>
     <message key="PLUGINS_CMS_HELPER_ENTERURL_CANCEL">Cancel</message>
-	
-	<!-- +
+
+   <!--+
+       | DEV RIGHTS
+       + -->
+    <message key="PLUGINS_CORE_RIGHTS_DEV_CATEGORY">Developer</message>
+    <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_REQUESTTRACKER_LABEL">Server requests</message>
+    <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_REQUESTTRACKER_DESCRIPTION">Tool able to monitor server requests</message>
+    <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_MESSAGETRACKER_LABEL">Bus messages</message>
+    <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_MESSAGETRACKER_DESCRIPTION">Tool able to monitor bus messages</message>
+           
+    <!--+
+        | MESSAGES TRACKER
+        + -->
+    <message key="PLUGINS_CORE_TOOLS_MESSAGES_TRACKER_LABEL">Bus message tracker</message>
+    <message key="PLUGINS_CORE_TOOLS_MESSAGES_TRACKER_DESCRIPTION">See bus messages</message>
+    <message key="PLUGINS_CORE_TOOLS_MESSAGES_TRACKER_FOOTER">See Help for details</message>
+    <message key="PLUGINS_CORE_TOOLS_MESSAGES_TRACKER_CLEAR_LABEL">Clear messages</message>
+    <message key="PLUGINS_CORE_TOOLS_MESSAGES_TRACKER_CLEAR_DESCRIPTION">Click here to clear messages from message tracker.</message>
+    <message key="PLUGINS_CORE_TOOLS_MESSAGES_TRACKER_CLEAR_DESCRIPTION2">Action inactive as message tracker window is not opened</message>
+    <message key="PLUGINS_CORE_TOOLS_MESSAGES_TRACKER_CLEAR_FOOTER">See Help for détails</message>
+    
+    <message key="PLUGINS_CORE_TOOLS_MESSAGES_TRACKER_TOOL_COL_ID">N°</message>
+    <message key="PLUGINS_CORE_TOOLS_MESSAGES_TRACKER_TOOL_COL_CREATIONDATE">Creation date</message>
+    <message key="PLUGINS_CORE_TOOLS_MESSAGES_TRACKER_TOOL_COL_FIREDATE">Fire date</message>
+    <message key="PLUGINS_CORE_TOOLS_MESSAGES_TRACKER_TOOL_COL_TYPE">Type</message>
+    <message key="PLUGINS_CORE_TOOLS_MESSAGES_TRACKER_TOOL_COL_TARGET">Target</message>
+    <message key="PLUGINS_CORE_TOOLS_MESSAGES_TRACKER_TOOL_COL_CALLSTACK">Creator call stack</message>
+    <message key="PLUGINS_CORE_TOOLS_MESSAGES_TRACKER_TOOL_NOTARGET">&amp;lt;no target&amp;gt;</message>
+    
+    <!--+
+        | REQUESTS TRACKER
+        + -->
+    <message key="PLUGINS_CORE_TOOLS_REQUESTS_TRACKER_LABEL">Server request tracker</message>
+    <message key="PLUGINS_CORE_TOOLS_REQUESTS_TRACKER_DESCRIPTION">See messages sent to server</message>
+    <message key="PLUGINS_CORE_TOOLS_REQUESTS_TRACKER_FOOTER">See Help for details</message>
+    <message key="PLUGINS_CORE_TOOLS_REQUESTS_TRACKER_CLEAR_LABEL">Clear requests</message>
+    <message key="PLUGINS_CORE_TOOLS_REQUESTS_TRACKER_CLEAR_DESCRIPTION">Click here to clear messages from message tracker.</message>
+    <message key="PLUGINS_CORE_TOOLS_REQUESTS_TRACKER_CLEAR_DESCRIPTION2">Action inactive as message tracker window is not opened</message>
+    <message key="PLUGINS_CORE_TOOLS_REQUESTS_TRACKER_CLEAR_FOOTER">See Help for détails</message>
+    <message key="PLUGINS_CORE_TOOLS_REQUESTS_TRACKER_MESSAGE">Select request on the left to display details.</message>
+    
+    <message key="REQUESTSTRACKER_TOOL_COL_ID">N°</message>
+    <message key="REQUESTSTRACKER_TOOL_COL_TYPE">Type</message>
+    <message key="REQUESTSTRACKER_TOOL_COL_TYPE_ASYNC">Asynchronous</message>
+    <message key="REQUESTSTRACKER_TOOL_COL_TYPE_SYNC">Synchronous</message>
+    <message key="REQUESTSTRACKER_TOOL_COL_DATE">Date</message>
+    <message key="REQUESTSTRACKER_TOOL_COL_DURATION">Duration</message>
+    <message key="REQUESTSTRACKER_TOOL_COL_SIZE">Size</message>
+    <message key="REQUESTSTRACKER_TOOL_COL_RETURN">Return</message>
+    <message key="REQUESTSTRACKER_TOOL_COL_RETURN_OK">Ok</message>
+    <message key="REQUESTSTRACKER_TOOL_COL_RETURN_CANCELED">Canceld</message>
+    <message key="REQUESTSTRACKER_TOOL_COL_RETURN_FAILURE">Failure</message>
+    
+    <message key="REQUESTSTRACKER_TOOL_MESSAGE_COL_ID">N°</message>
+    <message key="REQUESTSTRACKER_TOOL_MESSAGE_COL_READABLE_TYPE">Type</message>
+    <message key="REQUESTSTRACKER_TOOL_MESSAGE_COL_READABLE_VALUE">Call</message>
+    <message key="REQUESTSTRACKER_TOOL_MESSAGE_COL_READABLE_VAL1">Method</message>
+    <message key="REQUESTSTRACKER_TOOL_MESSAGE_COL_READABLE_VAL2">Url</message>
+    <message key="REQUESTSTRACKER_TOOL_MESSAGE_COL_PLUGIN">Plugin</message>
+    <message key="REQUESTSTRACKER_TOOL_MESSAGE_COL_WORKSPACE">Workspace</message>
+    <message key="REQUESTSTRACKER_TOOL_MESSAGE_COL_CCROLE">Extension role</message> 
+    <message key="REQUESTSTRACKER_TOOL_MESSAGE_COL_CCID">Component id</message> 
+    <message key="REQUESTSTRACKER_TOOL_MESSAGE_COL_CCMETHOD">Method</message> 
+    <message key="REQUESTSTRACKER_TOOL_MESSAGE_COL_URL">Address</message>
+    <message key="REQUESTSTRACKER_TOOL_MESSAGE_COL_PRIORITY">Priority</message>
+    <message key="REQUESTSTRACKER_TOOL_MESSAGE_COL_PRIORITY_LONG_REQUEST">Long</message>
+    <message key="REQUESTSTRACKER_TOOL_MESSAGE_COL_PRIORITY_SYNCHRONOUS">Synchronous</message>
+    <message key="REQUESTSTRACKER_TOOL_MESSAGE_COL_PRIORITY_MAJOR">Major</message>
+    <message key="REQUESTSTRACKER_TOOL_MESSAGE_COL_PRIORITY_NORMAL">Normal</message>
+    <message key="REQUESTSTRACKER_TOOL_MESSAGE_COL_PRIORITY_MINOR">Minor</message>
+    <message key="REQUESTSTRACKER_TOOL_MESSAGE_COL_TYPE">Return</message>
+
+    <message key="REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_URL">Url</message>
+    <message key="REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_PARAMETERS">Parameters</message>
+    <message key="REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_RESPONSE">Response</message>
+    
+    
+    <!-- +
          | Workspace
          + -->
-    <message key="WORKSPACE_AMETYS_MAIN_ERROR_NOJS">This application can't work without javascript</message>
-    <message key="WORKSPACE_AMETYS_SPLASHSCREEN_LOADING">Loading. Please wait ... </message>
     <message key="WORKSPACE_AMETYS_SPLASHSCREEN_APP_AMETYS_VERSION">powered by Ametys </message>
 	
 </catalogue>

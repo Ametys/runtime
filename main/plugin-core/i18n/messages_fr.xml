@@ -15,7 +15,7 @@
    limitations under the License.
    -->
 <catalogue xml:lang="fr">
-
+    
     <!-- ADMINISTRATOR PASSWORD -->
     <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_LABEL">Mot de passe</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_DESCRIPTION">Modifier le mot de passe du compte 'admin'</message>
@@ -834,6 +834,81 @@
     <message key="PLUGINS_CMS_HELPER_ENTERURL_OK">Ok</message>
     <message key="PLUGINS_CMS_HELPER_ENTERURL_CANCEL">Annuler</message>
     
+   <!--+
+       | DEV RIGHTS
+       + -->
+    <message key="PLUGINS_CORE_RIGHTS_DEV_CATEGORY">Développeur</message>
+    <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_REQUESTTRACKER_LABEL">Requêtes serveurs</message>
+    <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_REQUESTTRACKER_DESCRIPTION">Accès à l'outil du suivi des requêtes serveurs</message>
+    <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_MESSAGETRACKER_LABEL">Message du bus</message>
+    <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_MESSAGETRACKER_DESCRIPTION">Accès à l'outil du suivi des messages du bus</message>
+    
+   <!--+
+       | MESSAGES TRACKER
+       + -->
+    <message key="PLUGINS_CORE_TOOLS_MESSAGES_TRACKER_LABEL">Suivi des messages du bus</message>
+    <message key="PLUGINS_CORE_TOOLS_MESSAGES_TRACKER_DESCRIPTION">Voir les messages du bus</message>
+    <message key="PLUGINS_CORE_TOOLS_MESSAGES_TRACKER_FOOTER">Voir l'aide pour plus de détails</message>
+    <message key="PLUGINS_CORE_TOOLS_MESSAGES_TRACKER_CLEAR_LABEL">Effacer les messages affichés</message>
+    <message key="PLUGINS_CORE_TOOLS_MESSAGES_TRACKER_CLEAR_DESCRIPTION">Cliquez sur ce bouton pour effacer les messages du bus actuellement visible dans la vue de suivi.</message>
+    <message key="PLUGINS_CORE_TOOLS_MESSAGES_TRACKER_CLEAR_DESCRIPTION2">Ce bouton est désactivé car la fenêtre de suivi des messages du bus n'est actuellement pas ouverte</message>
+    <message key="PLUGINS_CORE_TOOLS_MESSAGES_TRACKER_CLEAR_FOOTER">Voir l'aide pour plus de détails</message>
+    
+    <message key="PLUGINS_CORE_TOOLS_MESSAGES_TRACKER_TOOL_COL_ID">N°</message>
+    <message key="PLUGINS_CORE_TOOLS_MESSAGES_TRACKER_TOOL_COL_CREATIONDATE">Date de creation</message>
+    <message key="PLUGINS_CORE_TOOLS_MESSAGES_TRACKER_TOOL_COL_FIREDATE">Date d'envoi</message>
+    <message key="PLUGINS_CORE_TOOLS_MESSAGES_TRACKER_TOOL_COL_TYPE">Type</message>
+    <message key="PLUGINS_CORE_TOOLS_MESSAGES_TRACKER_TOOL_COL_TARGET">Cible</message>
+    <message key="PLUGINS_CORE_TOOLS_MESSAGES_TRACKER_TOOL_COL_CALLSTACK">Pile d'appel de création</message>
+    <message key="PLUGINS_CORE_TOOLS_MESSAGES_TRACKER_TOOL_NOTARGET">&amp;lt;pas de cible&amp;gt;</message>
+    
+    <!--+
+        | REQUESTS TRACKER
+        + -->
+    <message key="PLUGINS_CORE_TOOLS_REQUESTS_TRACKER_LABEL">Suivi des requêtes serveur</message>
+    <message key="PLUGINS_CORE_TOOLS_REQUESTS_TRACKER_DESCRIPTION">Voir les messages envoyés au serveur</message>
+    <message key="PLUGINS_CORE_TOOLS_REQUESTS_TRACKER_FOOTER">Voir l'aide pour plus de détails</message>
+    <message key="PLUGINS_CORE_TOOLS_REQUESTS_TRACKER_CLEAR_LABEL">Effacer les requêtes affichées</message>
+    <message key="PLUGINS_CORE_TOOLS_REQUESTS_TRACKER_CLEAR_DESCRIPTION">Cliquez sur ce bouton pour effacer les messages de requêtes serveur actuellement visible dans la vue de suivi.</message>
+    <message key="PLUGINS_CORE_TOOLS_REQUESTS_TRACKER_CLEAR_DESCRIPTION2">Ce bouton est désactivé car la fenêtre de suivi des requêtes du bus n'est actuellement pas ouverte</message>
+    <message key="PLUGINS_CORE_TOOLS_REQUESTS_TRACKER_CLEAR_FOOTER">Voir l'aide pour plus de détails</message>
+    <message key="PLUGINS_CORE_TOOLS_REQUESTS_TRACKER_MESSAGE">Selectionnez une requête dans la partie gauche pour afficher son détail.</message>
+    
+    <message key="REQUESTSTRACKER_TOOL_COL_ID">N°</message>
+    <message key="REQUESTSTRACKER_TOOL_COL_TYPE">Type</message>
+    <message key="REQUESTSTRACKER_TOOL_COL_TYPE_ASYNC">Asynchrone</message>
+    <message key="REQUESTSTRACKER_TOOL_COL_TYPE_SYNC">Synchrone</message>
+    <message key="REQUESTSTRACKER_TOOL_COL_DATE">Date</message>
+    <message key="REQUESTSTRACKER_TOOL_COL_DURATION">Durée</message>
+    <message key="REQUESTSTRACKER_TOOL_COL_SIZE">Taille</message>
+    <message key="REQUESTSTRACKER_TOOL_COL_RETURN">Retour</message>
+    <message key="REQUESTSTRACKER_TOOL_COL_RETURN_OK">Ok</message>
+    <message key="REQUESTSTRACKER_TOOL_COL_RETURN_CANCELED">Annulé</message>
+    <message key="REQUESTSTRACKER_TOOL_COL_RETURN_FAILURE">Echec</message>
+    
+    <message key="REQUESTSTRACKER_TOOL_MESSAGE_COL_ID">N°</message>
+    <message key="REQUESTSTRACKER_TOOL_MESSAGE_COL_READABLE_TYPE">Type</message>
+    <message key="REQUESTSTRACKER_TOOL_MESSAGE_COL_READABLE_VALUE">Appel</message>
+    <message key="REQUESTSTRACKER_TOOL_MESSAGE_COL_READABLE_VAL1">Méthode</message>
+    <message key="REQUESTSTRACKER_TOOL_MESSAGE_COL_READABLE_VAL2">Url</message>
+    <message key="REQUESTSTRACKER_TOOL_MESSAGE_COL_WORKSPACE">Workspace</message>
+    <message key="REQUESTSTRACKER_TOOL_MESSAGE_COL_PLUGIN">Plugin</message>
+    <message key="REQUESTSTRACKER_TOOL_MESSAGE_COL_URL">Adresse</message>
+    <message key="REQUESTSTRACKER_TOOL_MESSAGE_COL_CCROLE">Rôle extension</message> 
+    <message key="REQUESTSTRACKER_TOOL_MESSAGE_COL_CCID">Id composant</message> 
+    <message key="REQUESTSTRACKER_TOOL_MESSAGE_COL_CCMETHOD">Méthode</message> 
+    <message key="REQUESTSTRACKER_TOOL_MESSAGE_COL_PRIORITY">Priorité</message>
+    <message key="REQUESTSTRACKER_TOOL_MESSAGE_COL_PRIORITY_LONG_REQUEST">Longue</message>
+    <message key="REQUESTSTRACKER_TOOL_MESSAGE_COL_PRIORITY_SYNCHRONOUS">Synchone</message>
+    <message key="REQUESTSTRACKER_TOOL_MESSAGE_COL_PRIORITY_MAJOR">Majeure</message>
+    <message key="REQUESTSTRACKER_TOOL_MESSAGE_COL_PRIORITY_NORMAL">Normale</message>
+    <message key="REQUESTSTRACKER_TOOL_MESSAGE_COL_PRIORITY_MINOR">Mineure</message>
+    <message key="REQUESTSTRACKER_TOOL_MESSAGE_COL_TYPE">Retour</message>
+
+    <message key="REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_URL">Url</message>
+    <message key="REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_PARAMETERS">Paramètres</message>
+    <message key="REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_RESPONSE">Réponse</message>
+
     <!-- +
          | Workspace
          + -->

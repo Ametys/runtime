@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright 2014 Anyware Services
+   Copyright 2015 Anyware Services
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -1474,6 +1474,191 @@
                
         </extensions>
     </feature>
+    
+    <!-- +  
+         |  MESSAGES TRACKER    
+         + -->     
+    <feature name="userinterface.messages-tracker">
+        <extensions>
+            <extension id="org.ametys.runtime.userinterface.MessageTrackerControlMenu"
+                       point="org.ametys.runtime.ribbon.RibbonControlsManager"
+                       class="org.ametys.runtime.ui.SimpleMenu">
+                <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController"/>
+                <menu-items>
+                    <item ref="org.ametys.runtime.userinterface.MessageTrackerControl" primaryItem="true"/>
+                    <item ref="org.ametys.runtime.userinterface.MessageTrackerControl.clear"/>
+                </menu-items>
+                <right context-prefix="/contributor">CORE_Rights_MessageTracker</right>
+            </extension>
+            <extension id="org.ametys.runtime.userinterface.MessageTrackerControl"
+                       point="org.ametys.runtime.ribbon.RibbonControlsManager"
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
+                    <opentool-role>uitool-messagestracker</opentool-role>
+                    
+                    <label i18n="true">PLUGINS_CORE_TOOLS_MESSAGES_TRACKER_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_TOOLS_MESSAGES_TRACKER_DESCRIPTION</description>
+                    <help>org.ametys.runtime.messagetracker</help>
+                    
+                    <icon-small file="true">img/messages/messages_16.png</icon-small>
+                    <icon-medium file="true">img/messages/messages_32.png</icon-medium>
+                    <icon-large file="true">img/messages/messages_48.png</icon-large>
+                </class>   
+                <right context-prefix="/contributor">CORE_Rights_MessageTracker</right>                 
+            </extension>
+            <extension id="org.ametys.runtime.userinterface.MessageTrackerControl.clear"
+                       point="org.ametys.runtime.ribbon.RibbonControlsManager"
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.core.system.messagetracker.MessageTrackerTool.removeAll</action>
+
+                    <tool-role>uitool-messagestracker</tool-role>
+                    <tool-enable-on-status>active</tool-enable-on-status>
+                    <tool-description-inactive i18n="true">PLUGINS_CORE_TOOLS_MESSAGES_TRACKER_CLEAR_DESCRIPTION2</tool-description-inactive>
+
+                    <label i18n="true">PLUGINS_CORE_TOOLS_MESSAGES_TRACKER_CLEAR_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_TOOLS_MESSAGES_TRACKER_CLEAR_DESCRIPTION</description>
+                    <icon-small file="true">img/messages/delete_16.gif</icon-small>
+                    <icon-medium file="true">img/messages/delete_16.gif</icon-medium>
+                    <icon-large file="true">img/messages/delete_16.gif</icon-large>
+                </class>                       
+                <scripts>
+                    <file>js/Ametys/plugins/core/system/messagetracker/MessageTrackerTool.js</file>
+                    <file>js/Ametys/plugins/core/system/messagetracker/MessageTrackerTool/MessageEntry.js</file>
+                </scripts>
+                <right context-prefix="/contributor">CORE_Rights_MessageTracker</right>
+            </extension>
+            <extension id="org.ametys.runtime.userinterface.MessageTrackerFactory"
+                       point="org.ametys.runtime.ui.UIToolsFactoriesManager"
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <class name="Ametys.tool.factory.UniqueToolFactory">
+                    <role>uitool-messagestracker</role>
+                    <toolClass>Ametys.plugins.core.system.messagetracker.MessageTrackerTool</toolClass>
+                    
+                    <title i18n="true">PLUGINS_CORE_TOOLS_MESSAGES_TRACKER_LABEL</title>
+                    <description i18n="true">PLUGINS_CORE_TOOLS_MESSAGES_TRACKER_DESCRIPTION</description>
+                    <help>org.ametys.runtime.messagetracker</help>
+                    <icon-small file="true">img/messages/messages_16.png</icon-small>
+                    <icon-medium file="true">img/messages/messages_32.png</icon-medium>
+                    <icon-large file="true">img/messages/messages_48.png</icon-large>
+                    
+                    <default-location>b</default-location>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/system/messagetracker/MessageTrackerTool.js</file>
+                    <file>js/Ametys/plugins/core/system/messagetracker/MessageTrackerTool/MessageEntry.js</file>
+                </scripts>
+                <css>
+                    <file>css/messagetracker.css</file>
+                </css>
+            </extension>
+        </extensions>
+    </feature>
+    
+    <!-- +  
+         |  REQUESTS TRACKER    
+         + -->     
+    <feature name="userinterface.requests-tracker">
+        <extensions>
+            <extension id="org.ametys.runtime.userinterface.RequestTrackerControlMenu"
+                       point="org.ametys.runtime.ribbon.RibbonControlsManager"
+                       class="org.ametys.runtime.ui.SimpleMenu">
+                <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController"/>
+                <menu-items>
+                    <item ref="org.ametys.runtime.userinterface.RequestTrackerControl" primaryItem="true"/>
+                    <item ref="org.ametys.runtime.userinterface.RequestTrackerControl.clear"/>
+                </menu-items>
+                <right context-prefix="/contributor">CORE_Rights_MessageTracker</right>
+            </extension>
+            <extension id="org.ametys.runtime.userinterface.RequestTrackerControl"
+                       point="org.ametys.runtime.ribbon.RibbonControlsManager"
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
+                    <opentool-role>uitool-requeststracker</opentool-role>
+                    
+                    <label i18n="true">PLUGINS_CORE_TOOLS_REQUESTS_TRACKER_LABEL</label>
+                    <default-description i18n="true">PLUGINS_CORE_TOOLS_REQUESTS_TRACKER_DESCRIPTION</default-description>
+                    <help>org.ametys.runtime.requesttracker</help>
+                    
+                    <icon-small file="true">img/requests/requests_16.png</icon-small>
+                    <icon-medium file="true">img/requests/requests_32.png</icon-medium>
+                    <icon-large file="true">img/requests/requests_48.png</icon-large>
+                </class> 
+                <right context-prefix="/contributor">CORE_Rights_MessageTracker</right>                  
+            </extension>
+            <extension id="org.ametys.runtime.userinterface.RequestTrackerControl.clear"
+                       point="org.ametys.runtime.ribbon.RibbonControlsManager"
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.core.system.requesttracker.RequestTrackerTool.removeAll</action>
+                    
+                    <tool-role>uitool-requeststracker</tool-role>
+                    <tool-enable-on-status>active</tool-enable-on-status>
+                    <tool-description-inactive i18n="true">PLUGINS_CORE_TOOLS_REQUESTS_TRACKER_CLEAR_DESCRIPTION2</tool-description-inactive>
+                    
+                    <label i18n="true">PLUGINS_CORE_TOOLS_REQUESTS_TRACKER_CLEAR_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_TOOLS_REQUESTS_TRACKER_CLEAR_DESCRIPTION</description>
+                    <description-footer i18n="true">PLUGINS_CORE_TOOLS_REQUESTS_TRACKER_CLEAR_FOOTER</description-footer>
+                    <icon-small file="true">img/requests/delete_16.gif</icon-small>
+                    <icon-medium file="true">img/requests/delete_16.gif</icon-medium>
+                    <icon-large file="true">img/requests/delete_16.gif</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/system/requesttracker/RequestTrackerTool.js</file>
+                    <file>js/Ametys/plugins/core/system/requesttracker/RequestTrackerTool/RequestEntry.js</file>
+                    <file>js/Ametys/plugins/core/system/requesttracker/RequestTrackerTool/MessageEntry.js</file>
+                </scripts>
+                <right context-prefix="/contributor">CORE_Rights_MessageTracker</right>
+            </extension>
+            <extension id="org.ametys.runtime.userinterface.RequestTrackerFactory"
+                       point="org.ametys.runtime.ui.UIToolsFactoriesManager"
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <class name="Ametys.tool.factory.UniqueToolFactory">
+                    <role>uitool-requeststracker</role>
+                    <toolClass>Ametys.plugins.core.system.requesttracker.RequestTrackerTool</toolClass>
+                    
+                    <title i18n="true">PLUGINS_CORE_TOOLS_REQUESTS_TRACKER_LABEL</title>
+                    <description i18n="true">PLUGINS_CORE_TOOLS_REQUESTS_TRACKER_DESCRIPTION</description>
+                    <help>org.ametys.runtime.requesttracker</help>
+                    <icon-small file="true">img/requests/requests_16.png</icon-small>
+                    <icon-medium file="true">img/requests/requests_32.png</icon-medium>
+                    <icon-large file="true">img/requests/requests_48.png</icon-large>
+                    
+                    <default-location>b</default-location>
+                </class>               
+                <scripts>
+                    <file>js/Ametys/plugins/core/system/requesttracker/RequestTrackerTool.js</file>
+                    <file>js/Ametys/plugins/core/system/requesttracker/RequestTrackerTool/RequestEntry.js</file>
+                    <file>js/Ametys/plugins/core/system/requesttracker/RequestTrackerTool/MessageEntry.js</file>
+                </scripts>
+                <css>
+                    <file>css/requesttracker.css</file>
+                </css>
+            </extension>
+        </extensions>
+    </feature>    
+    
+    <feature name="anycontent_rights">
+        <extensions>
+            <extension point="org.ametys.runtime.plugins.core.right.RightsExtensionPoint"
+                       id="core.dev.rights.requesttracker">
+                <right id="CORE_Rights_RequestTracker">
+                    <label>PLUGINS_CORE_RIGHT_RIGHTS_DEV_REQUESTTRACKER_LABEL</label>
+                    <description>PLUGINS_CORE_RIGHT_RIGHTS_DEV_REQUESTTRACKER_DESCRIPTION</description>
+                    <category>PLUGINS_CORE_RIGHTS_DEV_CATEGORY</category>
+                </right>
+            </extension>
+            
+            <extension point="org.ametys.runtime.plugins.core.right.RightsExtensionPoint"
+                       id="core.dev.rights.messagetracker">
+                <right id="CORE_Rights_MessageTracker">
+                    <label>PLUGINS_CORE_RIGHT_RIGHTS_DEV_MESSAGETRACKER_LABEL</label>
+                    <description>PLUGINS_CORE_RIGHT_RIGHTS_DEV_MESSAGETRACKER_DESCRIPTION</description>
+                    <category>PLUGINS_CORE_RIGHTS_DEV_CATEGORY</category>
+                </right>
+            </extension>
+        </extensions>
+    </feature>    
     
     <!-- +
     	 |  VERSIONS
