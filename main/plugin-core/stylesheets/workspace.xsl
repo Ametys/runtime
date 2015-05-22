@@ -75,15 +75,15 @@
 				
 				<xsl:if test="$splashscreen != 'no'">
 					<style type="text/css" media="screen">
-				        .splashscreen-center {float:left; width: 430px; height: 28px; background: url("<xsl:value-of select="$workspace-resources"/>/img/splashscreen/bar-available.png") repeat-x scroll left top transparent; margin-right: auto; margin-left: auto; -webkit-border-radius: 10px; -moz-border-radius: 10px; padding: 0;}
-				        .splashscreen-progress {height: 28px; background: url("<xsl:value-of select="$workspace-resources"/>/img/splashscreen/bar-loaded.png") repeat-x scroll left top transparent; -webkit-border-radius: 10px; -moz-border-radius: 10px;}
+				        .splashscreen-center {float:left; width: 430px; height: 28px; background: url("<xsl:value-of select="$contextPath"/>/plugins/core/resources/img/workspace/splashscreen/bar-available.png") repeat-x scroll left top transparent; margin-right: auto; margin-left: auto; -webkit-border-radius: 10px; -moz-border-radius: 10px; padding: 0;}
+				        .splashscreen-progress {height: 28px; background: url("<xsl:value-of select="$contextPath"/>/plugins/core/resources/img/workspace/splashscreen/bar-loaded.png") repeat-x scroll left top transparent; -webkit-border-radius: 10px; -moz-border-radius: 10px;}
 				        .splashscreen-loading {text-align: right; font-family: arial,sans-serif; font-style: italic; color: #404040; font-size: 11px; margin:0; padding-right: 30px;} 
 			      
-			      		.splashscreen { width: 500px; height: 400px; background-image: url("<xsl:value-of select="$workspace-resources"/>/img/splashscreen/splashscreen.png"); color: #fff; margin-right: auto; margin-left: auto; margin-top: 200px;} 
+			      		.splashscreen { width: 500px; height: 400px; background-image: url("<xsl:value-of select="$contextPath"/>/plugins/core/resources/img/workspace/splashscreen/splashscreen.png"); color: #fff; margin-right: auto; margin-left: auto; margin-top: 200px;} 
 				        .splashscreen-version {text-align: right; padding-top: 260px; margin-right: 30px; color: #1C58A0; font-family: arial,sans-serif; letter-spacing: 1px;}
 				        .splashscreen-version .app-version {font-size: 0.7em; color:#7F7F7F;}
 			       		.splashscreen-progressbar {margin-top: 20px !important; margin-left: 20px; margin-right: 20px;}
-			       		.splashscreen-img {padding: 2px; background: url("<xsl:value-of select="$workspace-resources"/>/img/splashscreen/loading.gif") no-repeat scroll left top transparent;}
+			       		.splashscreen-img {padding: 2px; background: url("<xsl:value-of select="$contextPath"/>/plugins/core/resources/img/workspace/splashscreen/loading.gif") no-repeat scroll left top transparent;}
 			       	 </style> 
 				</xsl:if>
 
@@ -253,7 +253,7 @@
                             var ribbon = Ext.create("Ametys.ui.fluent.ribbon.Ribbon", {<xsl:text/>
                                 <xsl:text/>applicationTitle: '&lt;span class="x-fluent-tab-panel-header-title-extension"&gt;<xsl:call-template name="applicationTitle"/>&lt;/span&gt;',<xsl:text/>
                                 menu: {<xsl:text/>
-                                    icon: '<xsl:value-of select="$workspace-resources"/>/img/ametys.gif',
+                                    icon: '<xsl:value-of select="$contextPath"/>/plugins/core/resources/img/workspace/ametys.gif',
                                     items: menuItems.length == 0 ? null : menuItems
                                 },<xsl:text/>
                                 <xsl:text/>items: ribbonItems<xsl:text/>
@@ -392,9 +392,9 @@
         	</p>
         	
         	<div class="splashscreen-progressbar">
-	        	<img id="bar-left" height="28px" width="14px" style="float:left;" src="{$workspace-resources}/img/splashscreen/bar-left.png" alt=""/>
+	        	<img id="bar-left" height="28px" width="14px" style="float:left;" src="{$contextPath}/plugins/core/resources/img/workspace/splashscreen/bar-left.png" alt=""/>
 	        	<div class="splashscreen-center"><div class="splashscreen-progress" id="progress" style="width:0px"></div></div>
-	        	<img id="bar-right" height="28px" width="14px" src="{$workspace-resources}/img/splashscreen/bar-right.png" alt=""/>
+	        	<img id="bar-right" height="28px" width="14px" src="{$contextPath}/plugins/core/resources/img/workspace/splashscreen/bar-right.png" alt=""/>
         	</div>
         	
 	       	<p class="splashscreen-loading">
@@ -455,7 +455,7 @@
 				document.getElementById('loaded').innerHTML = pc + '%';
 				if (pc == 100)
 				{
-					document.getElementById('bar-right').src = "<xsl:value-of select="$workspace-resources"/>/img/splashscreen/bar-right-loaded.png";
+					document.getElementById('bar-right').src = "<xsl:value-of select="$contextPath"/>/plugins/core/resources/img/workspace/splashscreen/bar-right-loaded.png";
 				}
 			}
         </script> 
