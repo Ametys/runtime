@@ -1,5 +1,5 @@
 /*
- *  Copyright 2012 Anyware Services
+ *  Copyright 2015 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Request;
+import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.SAXException;
 
@@ -60,11 +61,15 @@ public class UserPreferencesValuesGenerator extends AbstractCurrentUserProviderS
         {
             storageContext = parameters.getParameter("prefContext", null);
         }
+
         String username = getUsername();
         Map<String, String> contextVars = getContextVars(request);
         
         contentHandler.startDocument();
-        XMLUtils.startElement(contentHandler, "userprefs");
+        
+        AttributesImpl attrs = new AttributesImpl();
+        attrs.addCDATAAttribute("prefContext", storageContext);
+        XMLUtils.startElement(contentHandler, "userprefs", attrs);
         
         try
         {

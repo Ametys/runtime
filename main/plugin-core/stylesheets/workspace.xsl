@@ -488,7 +488,7 @@
     </xsl:template>
 
     <xsl:template name="ui-apptools-load-PrefContext">
-                  Ametys.userprefs.UserPrefsDAO.setDefaultPrefContext("/ametys");
+                Ametys.userprefs.UserPrefsDAO.setDefaultPrefContext("<xsl:value-of select="/Ametys/userprefs/@prefContext"/>");
     </xsl:template>    
     
     <xsl:template name="ui-apptools-load-toolsmanager">
