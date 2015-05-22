@@ -152,6 +152,6 @@
     <!-- +
          | Relation
           --> 
-    <message key="WORKSPACE_CMS_RELATIONS_VIEW_DRAGTEXT_HELLIP_1">and</message>
-    <message key="WORKSPACE_CMS_RELATIONS_VIEW_DRAGTEXT_HELLIP_2">others&amp;hellip;</message>	
+    <message key="KERNEL_RELATIONS_VIEW_DRAGTEXT_HELLIP_1">and</message>
+    <message key="KERNEL_RELATIONS_VIEW_DRAGTEXT_HELLIP_2">others&amp;hellip;</message>	
 </catalogue>
