@@ -16,9 +16,6 @@
    -->
 <catalogue xml:lang="en">
 
-    <!-- RIBBON -->
-    <message key="RIBBON_WORKSPACE_ADMIN_SECTION_SYSTEM_LABEL">System</message>
-
 	<!-- ADMINISTRATOR PASSWORD -->
 	<message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_LABEL">Password</message>
 	<message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_DESCRIPTION">Change password for 'admin' login</message>
@@ -916,6 +913,8 @@
     <!-- +
          | Workspace
          + -->
+    <message key="WORKSPACE_AMETYS_MAIN_ERROR_NOJS">This application can't work without javascript</message>
+    <message key="WORKSPACE_AMETYS_SPLASHSCREEN_LOADING">Loading. Please wait ... </message>
     <message key="WORKSPACE_AMETYS_SPLASHSCREEN_APP_AMETYS_VERSION">powered by Ametys </message>
 	
 </catalogue>
