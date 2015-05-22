@@ -64,14 +64,14 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZonedTabsDD",
 		 */		
 		 
         /**
-         * @cfg {String} toolId The identifier of the Ametys.tool.Tool associated to the drag process 
+         * @cfg {String} toolId The identifier of the Ametys.ui.tool.ToolPanel associated to the drag process 
          */		 
 		
 		/**
 		 * @cfg {String} toolId The identifier of the Ametys.ui.tool.ToolPanel associated to the drag process 
 		 */
         /**
-         * @cfg {Ametys.tool.ToolsLayout} toolsLayout (required) The current tools layout 
+         * @cfg {Ametys.ui.tool.ToolsLayout} toolsLayout (required) The current tools layout 
          */
 	
 		constructor: function(id, sGroup, config)
