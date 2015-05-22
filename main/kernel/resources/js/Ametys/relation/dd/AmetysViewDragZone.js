@@ -45,7 +45,7 @@ Ext.define('Ametys.relation.dd.AmetysViewDragZone', {
 				
 				if (i == maxElements - 1 && i != this.dragData.records.length - 1)
 				{
-					s += "<i18n:text i18n:key='WORKSPACE_CMS_RELATIONS_VIEW_DRAGTEXT_HELLIP_1' i18n:catalogue='workspace.cms'/> " + (this.dragData.records.length - maxElements + 1) + " <i18n:text i18n:key='WORKSPACE_CMS_RELATIONS_VIEW_DRAGTEXT_HELLIP_2' i18n:catalogue='workspace.cms'/>";
+					s += "<i18n:text i18n:key='KERNEL_RELATIONS_VIEW_DRAGTEXT_HELLIP_1' i18n:catalogue='kernel'/> " + (this.dragData.records.length - maxElements + 1) + " <i18n:text i18n:key='KERNEL_RELATIONS_VIEW_DRAGTEXT_HELLIP_2' i18n:catalogue='kernel'/>";
 				}
 				else
 				{

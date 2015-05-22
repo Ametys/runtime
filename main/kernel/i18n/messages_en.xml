@@ -148,4 +148,10 @@
 	<message key="KERNEL_USER_PREFERENCES_ERROR_SAVE">An error occurred: unable to save preferences.</message>
 	<message key="KERNEL_USER_PREFERENCES_STATE_PROVIDER_SAVE_FAILURE_TITLE">Cannot save your ui state</message>
 	<message key="KERNEL_USER_PREFERENCES_STATE_PROVIDER_SAVE_FAILURE_DESC">The save process of the user interface failed</message>
+
+    <!-- +
+         | Relation
+          --> 
+    <message key="WORKSPACE_CMS_RELATIONS_VIEW_DRAGTEXT_HELLIP_1">and</message>
+    <message key="WORKSPACE_CMS_RELATIONS_VIEW_DRAGTEXT_HELLIP_2">others&amp;hellip;</message>	
 </catalogue>

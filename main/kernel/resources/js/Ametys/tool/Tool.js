@@ -613,7 +613,7 @@ Ext.define("Ametys.tool.Tool",
 		    	text:"<i18n:text i18n:key='KERNEL_MSG_TOOLS_OUTOFDATEPANEL_LABEL'/>",
 		    	tooltip: {
 		    		title: "<i18n:text i18n:key='KERNEL_MSG_TOOLS_OUTOFDATEPANEL_TOOLTIP_TITLE'/>",
-		    		image: Ametys.WORKSPACE_URI + "/resources/img/uitool/reload_32.png",
+		    		image: Ametys.CONTEXT_PATH + "/kernel/resources/img/Ametys/theme/gray/uitool/reload_32.png",
 		    		imageWidth: 32,
 		    		imageHeight: 32,
 		    		text: "<i18n:text i18n:key='KERNEL_MSG_TOOLS_OUTOFDATEPANEL_TOOLTIP_DESCRIPTION'/>",
