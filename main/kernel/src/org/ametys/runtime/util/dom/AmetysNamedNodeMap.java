@@ -29,8 +29,8 @@ import org.w3c.dom.Node;
  */
 public class AmetysNamedNodeMap implements NamedNodeMap
 {
-    private Map<String, AmetysAttribute> _map = new LinkedHashMap<String, AmetysAttribute>();
-    private ArrayList<AmetysAttribute> _list = new ArrayList<AmetysAttribute>();
+    private Map<String, AmetysAttribute> _map = new LinkedHashMap<>();
+    private ArrayList<AmetysAttribute> _list = new ArrayList<>();
     
     /**
      * Contructor.

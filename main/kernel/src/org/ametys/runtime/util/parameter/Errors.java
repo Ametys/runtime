@@ -27,7 +27,7 @@ import org.ametys.runtime.util.I18nizableText;
  */
 public class Errors
 {
-    private List<I18nizableText> _errors = new ArrayList<I18nizableText>();
+    private List<I18nizableText> _errors = new ArrayList<>();
     
     /**
      * Tests if there were any errors.

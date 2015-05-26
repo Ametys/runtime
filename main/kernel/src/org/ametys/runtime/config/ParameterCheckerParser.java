@@ -38,7 +38,7 @@ public final class ParameterCheckerParser
     /** The name of the plugin declaring this parameter checker */
     protected String _pluginName;
     
-    private final Map<ParameterCheckerDescriptor, String> _parameterCheckersToLookup = new HashMap<ParameterCheckerDescriptor, String>();
+    private final Map<ParameterCheckerDescriptor, String> _parameterCheckersToLookup = new HashMap<>();
     
     /**
      * Creates a parameter checker parser
@@ -100,7 +100,7 @@ public final class ParameterCheckerParser
             uiRefCategory = _parseI18nizableText(uiRefConfig, pluginName, "category");
         }
         
-        Set<String >linkedParamsIds = new HashSet<String>();
+        Set<String >linkedParamsIds = new HashSet<>();
         for (Configuration linkedParamConfig : paramCheckerConfig.getChild("linked-params").getChildren("param-ref"))
         {
             linkedParamsIds.add(linkedParamConfig.getAttribute("id"));

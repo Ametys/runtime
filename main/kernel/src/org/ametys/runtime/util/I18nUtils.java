@@ -80,9 +80,8 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
     public void initialize() throws Exception
     {
         _instance = this;
-        _cache = new HashMap<String, Map<I18nizableText, String>>();
-        
-        _locations = new HashMap<String, Location>();
+        _cache = new HashMap<>();
+        _locations = new HashMap<>();
         
         // initializes locations
         
@@ -209,7 +208,7 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
         }
         else
         {
-            langCache = new HashMap<I18nizableText, String>();
+            langCache = new HashMap<>();
             _cache.put(language, langCache);
         }
         
@@ -253,7 +252,7 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
             }
             
             // message parameters
-            Map<String, SaxBuffer> params = new HashMap<String, SaxBuffer>();
+            Map<String, SaxBuffer> params = new HashMap<>();
             
             if (text.getParameters() != null)
             {

@@ -63,7 +63,7 @@ public abstract class AbstractComponentExtensionPoint<T> extends AbstractLogEnab
     @Override
     public void initialize() throws Exception
     {
-        _extensions = new HashMap<String, ExtensionConfiguration>();
+        _extensions = new HashMap<>();
     }
     
     @Override
@@ -72,6 +72,7 @@ public abstract class AbstractComponentExtensionPoint<T> extends AbstractLogEnab
         _extensions = null;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void addExtension(String pluginName, String featureName, Configuration configuration) throws ConfigurationException
     {

@@ -116,7 +116,7 @@ public class PluginsComponentManager extends ThreadSafeComponentManager<Object> 
                 return (Component) component;
             }
             
-            Set<Class> interfaces = new HashSet<Class>();
+            Set<Class> interfaces = new HashSet<>();
             getAllInterfaces(component.getClass(), interfaces);
 
             interfaces.add(Component.class);

@@ -135,7 +135,7 @@ public class DefaultValidator extends AbstractLogEnabled implements Validator, C
     @Override
     public Map<String, Object> toJson()
     {
-        Map<String, Object> jsonObject = new HashMap<String, Object>();
+        Map<String, Object> jsonObject = new HashMap<>();
         
         jsonObject.put("mandatory", _isMandatory);
         
@@ -170,7 +170,7 @@ public class DefaultValidator extends AbstractLogEnabled implements Validator, C
     @Override
     public Map<String, Object> getConfiguration()
     {
-        Map<String, Object> configuration = new HashMap<String, Object>();
+        Map<String, Object> configuration = new HashMap<>();
         
         configuration.put("mandatory", Boolean.valueOf(_isMandatory));
         

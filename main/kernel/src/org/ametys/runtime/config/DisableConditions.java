@@ -45,8 +45,8 @@ public class DisableConditions
     public DisableConditions()
     {
         _associationType = ASSOCIATION_TYPE.AND;
-        _subConditionsList = new ArrayList<DisableConditions>();
-        _conditionList = new ArrayList<DisableCondition>();
+        _subConditionsList = new ArrayList<>();
+        _conditionList = new ArrayList<>();
     }
     
     /**

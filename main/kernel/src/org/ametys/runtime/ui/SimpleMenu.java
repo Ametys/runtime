@@ -73,11 +73,11 @@ public class SimpleMenu extends StaticClientSideElement implements MenuClientSid
     {
         try
         {
-            _menuItemManager = new ThreadSafeComponentManager<ClientSideElement>();
+            _menuItemManager = new ThreadSafeComponentManager<>();
             _menuItemManager.enableLogging(LoggerFactory.getLoggerFor("cms.plugin.threadsafecomponent"));
             _menuItemManager.service(_smanager);
             
-            _galleryItemManager = new ThreadSafeComponentManager<ClientSideElement>();
+            _galleryItemManager = new ThreadSafeComponentManager<>();
             _galleryItemManager.enableLogging(LoggerFactory.getLoggerFor("cms.plugin.threadsafecomponent"));
             _galleryItemManager.service(_smanager);
         }
@@ -88,11 +88,11 @@ public class SimpleMenu extends StaticClientSideElement implements MenuClientSid
         
         super.configure(configuration);
         
-        _referencedClientSideElement = new ArrayList<ClientSideElement>();
-        _galleryItems = new ArrayList<SimpleMenu.GalleryItem>();
+        _referencedClientSideElement = new ArrayList<>();
+        _galleryItems = new ArrayList<>();
         
-        _menuItems = new ArrayList<ClientSideElement>();
-        _unresolvedMenuItems = new ArrayList<SimpleMenu.UnresolvedItem>();
+        _menuItems = new ArrayList<>();
+        _unresolvedMenuItems = new ArrayList<>();
         
         _configureGalleries (configuration);
         _configureItemsMenu(configuration);
@@ -139,6 +139,7 @@ public class SimpleMenu extends StaticClientSideElement implements MenuClientSid
      * @param parameters Contextual the parameters given to the control script class.
      * @param contextualParameters Contextual parameters transmitted by the environment.
      */
+    @SuppressWarnings("unchecked")
     protected void _getGalleryItems (Map<String, Object> parameters, Map<String, Object> contextualParameters)
     {
         if (_galleryItems.size() > 0)
@@ -148,19 +149,19 @@ public class SimpleMenu extends StaticClientSideElement implements MenuClientSid
             for (GalleryItem galleryItem : _galleryItems)
             {
                 Map<String, Object> galleryItems = (Map<String, Object>) parameters.get("gallery-item");
-                galleryItems.put("gallery-groups", new ArrayList<Object>());
+                galleryItems.put("gallery-groups", new ArrayList<>());
                 
                 for (GalleryGroup galleryGp : galleryItem.getGroups())
                 {
                     List<Object> galleryGroups = (List<Object>) galleryItems.get("gallery-groups");
                     
-                    Map<String, Object> groupParams = new LinkedHashMap<String, Object>();
+                    Map<String, Object> groupParams = new LinkedHashMap<>();
                     
                     I18nizableText label = galleryGp.getLabel();
                     groupParams.put("label", label);
                     
                     // Group items
-                    List<String> gpItems = new ArrayList<String>();
+                    List<String> gpItems = new ArrayList<>();
                     for (ClientSideElement element : galleryGp.getItems())
                     {
                         gpItems.add(element.getId());
@@ -182,7 +183,7 @@ public class SimpleMenu extends StaticClientSideElement implements MenuClientSid
     {
         if (_menuItems.size() > 0)
         {
-            List<String> menuItems = new ArrayList<String>();
+            List<String> menuItems = new ArrayList<>();
             for (ClientSideElement element : _menuItems)
             {
                 menuItems.add(element.getId());
@@ -389,7 +390,7 @@ public class SimpleMenu extends StaticClientSideElement implements MenuClientSid
          */
         public GalleryItem()
         {
-            _groups = new ArrayList<SimpleMenu.GalleryGroup>();
+            _groups = new ArrayList<>();
         }
         
         /**
@@ -429,8 +430,8 @@ public class SimpleMenu extends StaticClientSideElement implements MenuClientSid
         public GalleryGroup(I18nizableText label)
         {
             _label = label;
-            _items = new ArrayList<ClientSideElement>();
-            _unresolvedGalleryItems = new ArrayList<UnresolvedItem>();
+            _items = new ArrayList<>();
+            _unresolvedGalleryItems = new ArrayList<>();
         }
         
         /**

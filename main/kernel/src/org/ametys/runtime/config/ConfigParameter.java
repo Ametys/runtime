@@ -184,10 +184,10 @@ public class ConfigParameter extends Parameter<ParameterType> implements Compara
 
     private Map<String, Object> _disableConditionsAsMap(DisableConditions disableConditions)
     {
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         
         // Handle simple conditions
-        List<Map<String, String>> disableConditionList = new ArrayList<Map<String, String>>();
+        List<Map<String, String>> disableConditionList = new ArrayList<>();
         map.put("condition", disableConditionList);
         for (DisableCondition disableCondition : disableConditions.getConditions())
         {
@@ -196,7 +196,7 @@ public class ConfigParameter extends Parameter<ParameterType> implements Compara
         }
 
         // Handle nested conditions
-        List<Map<String, Object>> disableConditionsList = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> disableConditionsList = new ArrayList<>();
         map.put("conditions", disableConditionsList);
         for (DisableConditions subDisableConditions : disableConditions.getSubConditions())
         {
@@ -216,7 +216,7 @@ public class ConfigParameter extends Parameter<ParameterType> implements Compara
      */
     private Map<String, String> _disableConditionAsMap(DisableCondition disableCondition)
     {
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<>();
         map.put("id", disableCondition.getId());
         map.put("operator", disableCondition.getOperator().toString().toLowerCase());
         map.put("value", disableCondition.getValue());

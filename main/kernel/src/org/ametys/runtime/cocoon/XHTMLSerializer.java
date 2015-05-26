@@ -75,12 +75,12 @@ import org.xml.sax.helpers.AttributesImpl;
 public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XHTMLSerializer implements LogEnabled, Serviceable
 {   
     /** List of the tags to collapse. */
-    private static final Set<String> __NAMESPACES_ALLOWED = new HashSet<String>(Arrays.asList(
+    private static final Set<String> __NAMESPACES_ALLOWED = new HashSet<>(Arrays.asList(
             new String[] {"", "http://www.w3.org/XML/1998/namespace", XHTML1_NAMESPACE, "http://www.w3.org/2000/svg",
                 "http://www.w3.org/1998/Math/MathML"}));
 
     /** List of the tags to collapse. */
-    private static final Set<String> __COLLAPSE_TAGS = new HashSet<String>(Arrays.asList(
+    private static final Set<String> __COLLAPSE_TAGS = new HashSet<>(Arrays.asList(
             new String[] {"input", "img", "meta", "link", "hr", "br"}));
 
     /** Head tag. */
@@ -163,7 +163,7 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
 
         if (tagsToCollapse != null)
         {
-            _tagsToCollapse = new HashSet<String>();
+            _tagsToCollapse = new HashSet<>();
             for (String tag : tagsToCollapse.split(","))
             {
                 _tagsToCollapse.add(tag.trim());
@@ -179,7 +179,7 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
 
         if (namespacesAllowed.length > 0)
         {
-            _namespacesAllowed = new HashSet<String>();
+            _namespacesAllowed = new HashSet<>();
             for (Configuration namespaceAllowed : namespacesAllowed)
             {
                 String namespace = namespaceAllowed.getValue("");
@@ -509,7 +509,7 @@ public class XHTMLSerializer extends org.apache.cocoon.components.serializers.XH
         // Clear parsing state aware attributes
         if (_namespacesPrefixFiltered == null)
         {
-            _namespacesPrefixFiltered = new HashSet<String>();
+            _namespacesPrefixFiltered = new HashSet<>();
         }
         else
         {

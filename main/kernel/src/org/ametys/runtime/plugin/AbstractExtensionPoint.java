@@ -39,7 +39,7 @@ public abstract class AbstractExtensionPoint<T> extends AbstractLogEnabled imple
     
     public void initialize() throws Exception
     {
-        _extensions = new HashMap<String, T>();
+        _extensions = new HashMap<>();
     }
     
     public T getExtension(String id)

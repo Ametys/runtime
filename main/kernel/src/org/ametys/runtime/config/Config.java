@@ -183,7 +183,7 @@ public final class Config
      */
     static Map<String, String> read() throws Exception
     {
-        Map<String, String> configValues = new HashMap<String, String>();
+        Map<String, String> configValues = new HashMap<>();
 
         // Lit le fichier de déploiement pour déterminer les valeurs non typées
         File configFile = new File(__filename);

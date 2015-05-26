@@ -29,7 +29,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  */
 public class CachingComponent<T> extends AbstractLogEnabled implements Initializable
 {
-    private Map<String, T> _objects = new HashMap<String, T>();
+    private Map<String, T> _objects = new HashMap<>();
     
     public void initialize() throws Exception
     {

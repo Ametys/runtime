@@ -43,7 +43,7 @@ public class PluginsAndWorkspacesGenerator extends AbstractGenerator
 {
     private Map<String, Collection<ActiveFeature>> _getActiveFeatures()
     {
-        Map<String, Collection<ActiveFeature>> activeFeatures = new HashMap<String, Collection<ActiveFeature>>();
+        Map<String, Collection<ActiveFeature>> activeFeatures = new HashMap<>();
         
         for (ActiveFeature feature : PluginsManager.getInstance().getActiveFeatures().values())
         {
@@ -53,7 +53,7 @@ public class PluginsAndWorkspacesGenerator extends AbstractGenerator
             
             if (features == null)
             {
-                features = new ArrayList<ActiveFeature>();
+                features = new ArrayList<>();
                 activeFeatures.put(pluginName, features);
             }
             
@@ -65,7 +65,7 @@ public class PluginsAndWorkspacesGenerator extends AbstractGenerator
     
     private Map<String, Collection<InactiveFeature>> _getInactiveFeatures()
     {
-        Map<String, Collection<InactiveFeature>> inactiveFeatures = new HashMap<String, Collection<InactiveFeature>>();
+        Map<String, Collection<InactiveFeature>> inactiveFeatures = new HashMap<>();
         Map<String, InactiveFeature> inactive = PluginsManager.getInstance().getInactiveFeatures();
         
         for (String featureId : inactive.keySet())
@@ -77,7 +77,7 @@ public class PluginsAndWorkspacesGenerator extends AbstractGenerator
             
             if (features == null)
             {
-                features = new ArrayList<InactiveFeature>();
+                features = new ArrayList<>();
                 inactiveFeatures.put(pluginName, features);
             }
             
@@ -112,7 +112,7 @@ public class PluginsAndWorkspacesGenerator extends AbstractGenerator
     {
         XMLUtils.startElement(contentHandler, "plugins");
 
-        Set<String> pluginNames = new HashSet<String>();
+        Set<String> pluginNames = new HashSet<>();
         pluginNames.addAll(inactiveFeatures.keySet());
         pluginNames.addAll(activeFeatures.keySet());
 

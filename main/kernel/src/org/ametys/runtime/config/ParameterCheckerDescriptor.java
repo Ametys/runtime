@@ -92,8 +92,8 @@ public class ParameterCheckerDescriptor extends AbstractLogEnabled
     {
         StringWriter writer = new StringWriter();
         
-        Map<String, Object> result = new HashMap<String, Object> ();
-        List<String> linkedParamsList = new ArrayList<String> ();
+        Map<String, Object> result = new HashMap<>();
+        List<String> linkedParamsList = new ArrayList<>();
 
         Iterator<String> it =  _linkedParamsIds.iterator(); 
         while (it.hasNext())

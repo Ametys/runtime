@@ -81,7 +81,7 @@ public final class HierarchicalRightsHelper
     public static Set<String> getGrantedUsers(RightsManager rightsManager, String right, String context)
     {
         String currentContext = context;
-        Set<String> grantedUsers = new HashSet<String>();
+        Set<String> grantedUsers = new HashSet<>();
 
         while (currentContext != null)
         {
@@ -109,7 +109,7 @@ public final class HierarchicalRightsHelper
     public static Set<String> getUserRights(RightsManager rightsManager, String login, String context)
     {
         String currentContext = context;
-        Set<String> userRights = new HashSet<String>();
+        Set<String> userRights = new HashSet<>();
 
         while (currentContext != null)
         {

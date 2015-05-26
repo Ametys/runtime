@@ -301,6 +301,7 @@ public class RuntimeServlet extends CocoonServlet
         Config.setFilename(servletContext.getRealPath(CONFIG_RELATIVE_PATH));
     }
 
+    @SuppressWarnings("unchecked")
     private void _fireRequestStarted(HttpServletRequest req)
     {
         Collection< ? extends RequestListener> listeners = (Collection< ? extends RequestListener>) servletContext.getAttribute(RequestListenerManager.CONTEXT_ATTRIBUTE_REQUEST_LISTENERS);
@@ -316,6 +317,7 @@ public class RuntimeServlet extends CocoonServlet
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void _fireRequestEnded(HttpServletRequest req)
     {
         Collection<? extends RequestListener> listeners = (Collection< ? extends RequestListener>) servletContext.getAttribute(RequestListenerManager.CONTEXT_ATTRIBUTE_REQUEST_LISTENERS);
@@ -333,32 +335,39 @@ public class RuntimeServlet extends CocoonServlet
 
     private void _loadRuntimeConfig() throws ServletException
     {
-        InputStream runtime = null;
-        InputStream external = null;
-        InputStream xsd = null;
-
         try
         {
             // Validation du runtime.xml sur le schéma runtime.xsd
-            xsd = getClass().getResourceAsStream("/org/ametys/runtime/servlet/runtime.xsd");
-            Schema schema = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema").newSchema(new StreamSource(xsd));
+            DefaultConfigurationBuilder runtimeConfBuilder;
+            try (InputStream xsd = getClass().getResourceAsStream("/org/ametys/runtime/servlet/runtime.xsd"))
+            {
+                Schema schema = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema").newSchema(new StreamSource(xsd));
+    
+                SAXParserFactory factory = SAXParserFactory.newInstance();
+                factory.setSchema(schema);
+                factory.setNamespaceAware(true);
+                XMLReader reader = factory.newSAXParser().getXMLReader();
+                runtimeConfBuilder = new DefaultConfigurationBuilder(reader);
+            }
 
-            SAXParserFactory factory = SAXParserFactory.newInstance();
-            factory.setSchema(schema);
-            factory.setNamespaceAware(true);
-            XMLReader reader = factory.newSAXParser().getXMLReader();
-
-            DefaultConfigurationBuilder runtimeConfBuilder = new DefaultConfigurationBuilder(reader);
-
+            Configuration runtimeConf;
             File runtimeConfigFile = new File(servletContextPath, "WEB-INF/param/runtime.xml");
-            runtime = new FileInputStream(runtimeConfigFile);
-            Configuration runtimeConf = runtimeConfBuilder.build(runtime, runtimeConfigFile.getAbsolutePath());
+            try (InputStream runtime = new FileInputStream(runtimeConfigFile))
+            {
+                runtimeConf = runtimeConfBuilder.build(runtime, runtimeConfigFile.getAbsolutePath());
+            }
 
             DefaultConfigurationBuilder externalConfBuilder = new DefaultConfigurationBuilder();
 
+            Configuration externalConf = null;
             File externalConfigFile = new File(servletContextPath, "WEB-INF/param/external-locations.xml");
-            external = externalConfigFile.exists() ? new FileInputStream(externalConfigFile) : null;
-            Configuration externalConf = external != null ? externalConfBuilder.build(external, externalConfigFile.getAbsolutePath()) : null;
+            if (externalConfigFile.exists())
+            {
+                try (InputStream external = new FileInputStream(externalConfigFile))
+                {
+                    externalConf = externalConfBuilder.build(external, externalConfigFile.getAbsolutePath());
+                }
+            }
             
             RuntimeConfig.configure(runtimeConf, externalConf, servletContextPath);
         }
@@ -367,12 +376,6 @@ public class RuntimeServlet extends CocoonServlet
             String errorMessage = "Unable to load config values at WEB-INF/param/runtime.xml";
             getLogger().error(errorMessage, ex);
             throw new ServletException(errorMessage, ex);
-        }
-        finally
-        {
-            IOUtils.closeQuietly(xsd);
-            IOUtils.closeQuietly(runtime);
-            IOUtils.closeQuietly(external);
         }
     }
 
@@ -414,7 +417,8 @@ public class RuntimeServlet extends CocoonServlet
         if (requestURI.startsWith(contextPath + "/kernel/resources/"))
         {
             String resourcePath = requestURI.substring(contextPath.length() + 8); // Removing contextPath + "/kernel/"
-            InputStream is = null;
+            
+            @SuppressWarnings("resource") InputStream is = null;
             try
             {
                 File externalKernel = RuntimeConfig.getInstance().getExternalKernel();
@@ -460,7 +464,8 @@ public class RuntimeServlet extends CocoonServlet
 
         SAXTransformerFactory saxFactory = (SAXTransformerFactory) TransformerFactory.newInstance();
         TransformerHandler th;
-        InputStream is = null;
+        
+        @SuppressWarnings("resource") InputStream is = null;
         try
         {
             StreamSource errorSource;

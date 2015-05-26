@@ -40,6 +40,7 @@ import org.ametys.runtime.plugin.ExtensionPoint;
  */
 public class ExecuteClientCallsAction extends ServiceableAction implements ThreadSafe
 {
+    @SuppressWarnings("unchecked")
     @Override
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
@@ -125,6 +126,7 @@ public class ExecuteClientCallsAction extends ServiceableAction implements Threa
         return EMPTY_MAP;
     }
     
+    @SuppressWarnings("unchecked")
     private Map<String, Object> _executeMethod(Method method, Object object, Object[] paramValues) throws Exception
     {
         Map<String, Object> result = null;

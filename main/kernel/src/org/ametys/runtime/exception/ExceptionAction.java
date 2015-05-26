@@ -58,7 +58,7 @@ public class ExceptionAction extends ServiceableAction implements ThreadSafe, Co
         
         String uri = exceptionHandler.getExceptionXSLURI(source);
         
-        Map<String, String> result = new HashMap<String, String>();
+        Map<String, String> result = new HashMap<>();
         result.put("xsl", uri);
         return result;
     }

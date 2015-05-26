@@ -32,7 +32,6 @@ import org.apache.avalon.framework.logger.Logger;
 import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceResolver;
@@ -142,12 +141,12 @@ public class RibbonConfigurationManager
     protected SourceResolver _resolver;
 
     /** The tabs of the ribbon */
-    protected List<Tab> _tabs = new ArrayList<Tab>();
+    protected List<Tab> _tabs = new ArrayList<>();
 
     /** The controls referenced by the ribbon */
-    protected Set<String> _controlsReferences = new HashSet<String>();
+    protected Set<String> _controlsReferences = new HashSet<>();
     /** The tabs referenced by the ribbon */
-    protected Set<String> _tabsReferences = new HashSet<String>();
+    protected Set<String> _tabsReferences = new HashSet<>();
 
     private boolean _initialized;
     
@@ -167,23 +166,15 @@ public class RibbonConfigurationManager
         _saxClientSideElementHelper = saxClientSideElementHelper;
         _resolver = resolver;
         
-        InputStream is = null;
-        try
+        try (InputStream is = new FileInputStream(configFile))
         {
-            is = new FileInputStream(configFile);
             Configuration configuration = new DefaultConfigurationBuilder().build(is);
-            
             _configure(configuration);
         }
         catch (Exception e)
         {
             throw new RuntimeException("Unable to read the configuration file", e);
         }
-        finally
-        {
-            IOUtils.closeQuietly(is);
-        }
-        
     }
 
     private void _configure(Configuration configuration) throws ConfigurationException
@@ -205,7 +196,6 @@ public class RibbonConfigurationManager
             {
                 String url = tabConfiguration.getValue();
                 Source src = null;
-                InputStream is = null;
                 try
                 {
                     src = _resolver.resolveURI(url);
@@ -215,9 +205,11 @@ public class RibbonConfigurationManager
                     }
                     else
                     {
-                        is = src.getInputStream();
-                        Configuration importedConfiguration = new DefaultConfigurationBuilder().build(is);
-                        _configure(importedConfiguration);
+                        try (InputStream is = src.getInputStream())
+                        {
+                            Configuration importedConfiguration = new DefaultConfigurationBuilder().build(is);
+                            _configure(importedConfiguration);
+                        }
                     }
                 }
                 catch (Exception e)
@@ -226,7 +218,6 @@ public class RibbonConfigurationManager
                 }
                 finally
                 {
-                    IOUtils.closeQuietly(is);
                     _resolver.release(src);
                 }
             }
@@ -419,7 +410,7 @@ public class RibbonConfigurationManager
         protected I18nizableText _contextualLabel;
         
         /** The list of groups in the tab */
-        protected List<Group> _groups = new ArrayList<Group>();
+        protected List<Group> _groups = new ArrayList<>();
         
         /** Logger */
         protected Logger _log;
@@ -672,7 +663,7 @@ public class RibbonConfigurationManager
     public class GroupSize
     {
         /** The list of elements in the group (controls or layouts) */
-        protected List<Element> _elements = new ArrayList<Element>();
+        protected List<Element> _elements = new ArrayList<>();
         
         /** The logger */
         protected Logger _groupSizeLogger;
@@ -718,7 +709,7 @@ public class RibbonConfigurationManager
         
         private Set<String> _getControlIds(List<Element> elements)
         {
-            Set<String> ids = new HashSet<String>();
+            Set<String> ids = new HashSet<>();
             
             for (Element element : elements)
             {
@@ -838,7 +829,7 @@ public class RibbonConfigurationManager
         protected int _cols;
         
         /** The elements in the layout. Can be controls or toolbars */
-        protected List<Element> _elements = new ArrayList<Element>();
+        protected List<Element> _elements = new ArrayList<>();
 
         /** Logger */
         protected Logger _layoutLogger;
@@ -930,7 +921,7 @@ public class RibbonConfigurationManager
         protected int _colspan;
         
         /** The elements in the layout. Can be controls */
-        protected List<Element> _elements = new ArrayList<Element>();
+        protected List<Element> _elements = new ArrayList<>();
 
         /** Logger */
         protected Logger _toolbarLogger;

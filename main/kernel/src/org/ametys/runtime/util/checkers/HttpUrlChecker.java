@@ -71,7 +71,7 @@ public class HttpUrlChecker implements ParameterChecker, Configurable
         
         _okCodes = responseConfig.getChild("code").getValue(null);
         
-        _headerValues = new HashMap<String, String> ();
+        _headerValues = new HashMap<> ();
         for (Configuration headerChildConfig : responseConfig.getChild("header").getChildren())
         {
             _headerValues.put(headerChildConfig.getName(), headerChildConfig.getValue());

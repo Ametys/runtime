@@ -30,7 +30,6 @@ import org.apache.avalon.framework.logger.Logger;
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
@@ -45,9 +44,9 @@ public class UIToolsConfigurationManager
     private static Logger _logger = LoggerFactory.getLoggerFor(UIToolsConfigurationManager.class);
     
     /** The default opened tools */
-    protected Map<String, String> _defaultUITools = new LinkedHashMap<String, String>();
+    protected Map<String, String> _defaultUITools = new LinkedHashMap<>();
     /** The automatically refreshed tools */
-    protected List<String> _refreshUITools = new ArrayList<String>();
+    protected List<String> _refreshUITools = new ArrayList<>();
     
     /** The ui tools factories manager */
     protected UIToolsFactoriesManager _uitoolsFactoriesManager;
@@ -70,21 +69,14 @@ public class UIToolsConfigurationManager
         _uitoolsFactoriesManager = uitoolsFactoriesManager;
         _saxClientSideElementHelper = saxClientSideElementHelper;
         
-        InputStream is = null;
-        try
+        try (InputStream is = new FileInputStream(configFile))
         {
-            is = new FileInputStream(configFile);
             Configuration configuration = new DefaultConfigurationBuilder().build(is);
-            
             _configure(configuration);
         }
         catch (Exception e)
         {
             throw new RuntimeException("Unable to read the configuration file", e);
-        }
-        finally
-        {
-            IOUtils.closeQuietly(is);
         }
         
         _additionalDefaultTools = request.getParameterValues("uitool");

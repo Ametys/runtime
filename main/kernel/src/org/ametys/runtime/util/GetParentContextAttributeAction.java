@@ -30,13 +30,12 @@ import org.apache.commons.lang.StringUtils;
  */
 public class GetParentContextAttributeAction extends AbstractAction
 {
-
     @Override
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
         Map parentContextAttr = (Map) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
         
-        Map<String, String> result = new HashMap<String, String>();
+        Map<String, String> result = new HashMap<>();
         
         String attributes = parameters.getParameter("attributes", "");
         
@@ -49,5 +48,4 @@ public class GetParentContextAttributeAction extends AbstractAction
         
         return result;
     }
-
 }

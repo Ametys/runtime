@@ -41,7 +41,7 @@ import org.xml.sax.SAXException;
 public class XHTMLFragmentSerializer extends XMLSerializer
 {
     /** List of the tags to collapse. */
-    private static final Set<String> __COLLAPSE_TAGS = new HashSet<String>(Arrays.asList(
+    private static final Set<String> __COLLAPSE_TAGS = new HashSet<>(Arrays.asList(
         new String[] {"input", "img", "meta", "link", "hr", "br"}));
     
     
@@ -58,7 +58,7 @@ public class XHTMLFragmentSerializer extends XMLSerializer
         
         if (tagsToCollapse != null)
         {
-            _tagsToCollapse = new HashSet<String>();
+            _tagsToCollapse = new HashSet<>();
             for (String tag : tagsToCollapse.split(","))
             {
                 _tagsToCollapse.add(tag.trim());

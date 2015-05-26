@@ -45,12 +45,12 @@ public class ParameterCheckerAction extends AbstractAction
             getLogger().debug("Starting ParameterCheckerAction");
         }
         
-        Map<String, String> result = new HashMap<String, String> ();
+        Map<String, String> result = new HashMap<> ();
         Request request = ObjectModelHelper.getRequest(objectModel);
         
 
         // Check the ids of the parameter checkers and build the parameter checkers' list
-        List<ParameterChecker> parameterCheckers = new ArrayList<ParameterChecker>(); 
+        List<ParameterChecker> parameterCheckers = new ArrayList<>(); 
         String paramCheckersIdsStr = request.getParameter("paramCheckersIds");
         String[] paramCheckersIds = StringUtils.split(paramCheckersIdsStr, ",");
         for (String paramCheckerId : paramCheckersIds)
@@ -74,12 +74,12 @@ public class ParameterCheckerAction extends AbstractAction
             }
             catch (Exception e)
             {
-                oldUntypedValues = new HashMap<String, String>();
+                oldUntypedValues = new HashMap<>();
             }
         }
         
         // Configuration
-        Map<String, String> untypedValues = new HashMap<String, String>();
+        Map<String, String> untypedValues = new HashMap<>();
         String[] ids = ConfigManager.getInstance().getParametersIds();
         for (String id : ids)
         {
@@ -88,7 +88,7 @@ public class ParameterCheckerAction extends AbstractAction
         }
         
         // Put request parameters in a map 
-        Map<String, String> requestParameters = new HashMap<String, String> ();
+        Map<String, String> requestParameters = new HashMap<> ();
         Map<String, ConfigParameter> configParams = ConfigManager.getInstance().getParameters();
         for (String id: ids)
         {

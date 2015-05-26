@@ -44,7 +44,7 @@ public class DataSourceExtensionPoint extends AbstractExtensionPoint<DataSource>
     
     private static final String __CONFIG_ATTRIBUTE_NAME = "runtime-config-parameter";
     
-    private Map<String, ObjectPool> _pools = new HashMap<String, ObjectPool>();
+    private Map<String, ObjectPool> _pools = new HashMap<>();
 
     @SuppressWarnings("unused")
     public void addExtension(String pluginName, String featureName, Configuration configuration) throws ConfigurationException

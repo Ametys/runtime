@@ -69,7 +69,7 @@ public class ThreadSafeComponentManager<T> extends AbstractLogEnabled implements
     protected ServiceManager _manager;
     
     // Map<role, component>
-    Map<String, T> _components = new LinkedHashMap<String, T>();
+    Map<String, T> _components = new LinkedHashMap<>();
 
     /** The application context for components */
     Context _context;

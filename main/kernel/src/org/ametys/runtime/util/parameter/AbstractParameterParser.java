@@ -38,8 +38,8 @@ public abstract class AbstractParameterParser<P extends Parameter<T>, T>
     protected ThreadSafeComponentManager<Enumerator> _enumeratorManager;
     /** The validators component manager. */
     protected ThreadSafeComponentManager<Validator> _validatorManager;
-    private final Map<P, String> _validatorsToLookup = new HashMap<P, String>();
-    private final Map<P, String> _enumeratorsToLookup = new HashMap<P, String>();
+    private final Map<P, String> _validatorsToLookup = new HashMap<>();
+    private final Map<P, String> _enumeratorsToLookup = new HashMap<>();
 
     /**
      * Creates an AbstractParameterParser.
@@ -197,7 +197,7 @@ public abstract class AbstractParameterParser<P extends Parameter<T>, T>
      */
     protected Map<String, I18nizableText> _parseWidgetParameters(Configuration parameterConfig, String pluginName) throws ConfigurationException
     {
-        Map<String, I18nizableText> widgetParams = new HashMap<String, I18nizableText>();
+        Map<String, I18nizableText> widgetParams = new HashMap<>();
         
         Configuration widgetParamsConfig = parameterConfig.getChild("widget-params", false);
         if (widgetParamsConfig != null)

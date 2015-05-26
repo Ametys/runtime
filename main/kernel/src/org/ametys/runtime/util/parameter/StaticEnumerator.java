@@ -26,7 +26,7 @@ import org.ametys.runtime.util.I18nizableText;
  */
 public class StaticEnumerator implements Enumerator
 {
-    private Map<Object, I18nizableText> _entries = new LinkedHashMap<Object, I18nizableText>();
+    private Map<Object, I18nizableText> _entries = new LinkedHashMap<>();
 
     /**
      * Adds a new entry.

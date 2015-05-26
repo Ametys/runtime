@@ -158,23 +158,23 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
     @Override
     public void initialize() throws Exception
     {
-        _usedParamsName = new LinkedHashMap<String, String>();
-        _declaredParams = new LinkedHashMap<String, ConfigParameterInfo>();
-        _params = new LinkedHashMap<String, ConfigParameter>();
-        _declaredParameterCheckers = new LinkedHashMap<String, ConfigParameterInfo>();
-        _parameterCheckers = new LinkedHashMap<String, ParameterCheckerDescriptor>();
+        _usedParamsName = new LinkedHashMap<>();
+        _declaredParams = new LinkedHashMap<>();
+        _params = new LinkedHashMap<>();
+        _declaredParameterCheckers = new LinkedHashMap<>();
+        _parameterCheckers = new LinkedHashMap<>();
         
-        _validatorManager = new ThreadSafeComponentManager<Validator>();
+        _validatorManager = new ThreadSafeComponentManager<>();
         _validatorManager.enableLogging(LoggerFactory.getLoggerFor("runtime.plugin.threadsafecomponent"));
         _validatorManager.contextualize(_context);
         _validatorManager.service(_manager);
         
-        _enumeratorManager = new ThreadSafeComponentManager<Enumerator>();
+        _enumeratorManager = new ThreadSafeComponentManager<>();
         _enumeratorManager.enableLogging(LoggerFactory.getLoggerFor("runtime.plugin.threadsafecomponent"));
         _enumeratorManager.contextualize(_context);
         _enumeratorManager.service(_manager);
         
-        _parameterCheckerManager = new ThreadSafeComponentManager<ParameterChecker>();
+        _parameterCheckerManager = new ThreadSafeComponentManager<>();
         _parameterCheckerManager.enableLogging(LoggerFactory.getLoggerFor("runtime.plugin.threadsafecomponent"));
         _parameterCheckerManager.contextualize(_context);
         _parameterCheckerManager.service(_manager);
@@ -368,10 +368,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
      */
     public void validate()
     {
-        if (_logger.isDebugEnabled())
-        {
-            _logger.debug("Initialization");
-        }
+        _logger.debug("Initialization");
 
         _isInitialized = false;
         _isComplete = true;
@@ -386,7 +383,6 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         catch (Exception e)
         {
             _logger.error("Cannot read the configuration file.", e);
-            
             _isComplete = false;
         }
         
@@ -486,10 +482,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
 
         Config.setInitialized(_isComplete);
         
-        if (_logger.isDebugEnabled())
-        {
-            _logger.debug("Initialization ended");
-        }
+        _logger.debug("Initialization ended");
     }
     
     private void _validateParameters(Map<String, String> untypedValues)
@@ -735,7 +728,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
 
     private Map<I18nizableText, ParameterCategory> _categorizeParameters(Map<String, ConfigParameter> params, Map<String, ParameterCheckerDescriptor> paramCheckers)
     {
-        Map<I18nizableText, ParameterCategory> categories = new HashMap<I18nizableText, ParameterCategory> ();
+        Map<I18nizableText, ParameterCategory> categories = new HashMap<> ();
         
         // Classify parameters by groups and categories
         Iterator<String> it = params.keySet().iterator();
@@ -830,7 +823,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                 _logger.warn("Config values are unreadable. Proposing default values", e);
             }
             
-            untypedValues = new HashMap<String, String>();
+            untypedValues = new HashMap<>();
         }
 
         // SAX classified parameters
@@ -987,12 +980,12 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             }
             catch (Exception e)
             {
-                oldUntypedValues = new HashMap<String, String>();
+                oldUntypedValues = new HashMap<>();
             }
         }
         
         // Typed values
-        Map<String, Object> typedValues = new HashMap<String, Object>();
+        Map<String, Object> typedValues = new HashMap<>();
 
         String[] ids = getParametersIds();
         for (String id : ids)
@@ -1018,17 +1011,15 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         }
 
         // SAX
-        OutputStream os = null;
-        try
+        // create the result where to write
+        File outputFile = new File(fileName);
+        outputFile.getParentFile().mkdirs();
+        
+        try (OutputStream os = new FileOutputStream(fileName))
         {
             // create a transformer for saving sax into a file
             TransformerHandler th = ((SAXTransformerFactory) TransformerFactory.newInstance()).newTransformerHandler();
-
-            // create the result where to write
-            File outputFile = new File(fileName);
-            outputFile.getParentFile().mkdirs();
             
-            os = new FileOutputStream(fileName);
             StreamResult result = new StreamResult(os);
             th.setResult(result);
 
@@ -1046,13 +1037,6 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         catch (Exception e)
         {
             throw new Exception("An error occured while saving the config values.", e);
-        }
-        finally
-        {
-            if (os != null)
-            {
-                os.close();
-            }
         }
     }
 
@@ -1173,8 +1157,8 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
        
         ParameterCategory ()
         {
-            _groups = new HashMap<I18nizableText, ParameterGroup>();
-            _paramCheckers = new HashSet<ParameterCheckerDescriptor>();
+            _groups = new HashMap<>();
+            _paramCheckers = new HashSet<>();
         }
         
         void addParamChecker(ParameterCheckerDescriptor paramChecker)
@@ -1220,9 +1204,9 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         ParameterGroup (I18nizableText groupLabel)
         {
             _groupLabel = groupLabel;
-            _groupParams = new TreeSet<ConfigParameter>();
+            _groupParams = new TreeSet<>();
             _switcher = null;
-            _paramCheckers = new HashSet<ParameterCheckerDescriptor>();
+            _paramCheckers = new HashSet<>();
         }
         
         void addParam(ConfigParameter param)

@@ -73,7 +73,7 @@ public class ActionResultGenerator extends AbstractGenerator
         SitemapSource sitemapSource = null;
         try
         {
-            Map<String, String> jsParameters = new HashMap<String, String>();
+            Map<String, String> jsParameters = new HashMap<>();
             int argsIndex = source.indexOf('?');
             if (argsIndex >= 0)
             {
@@ -199,6 +199,7 @@ public class ActionResultGenerator extends AbstractGenerator
      * @throws SAXException on error
      * @throws ProcessingException on error
      */
+    @SuppressWarnings("unchecked")
     protected void saxMap() throws IOException, SAXException, ProcessingException
     {
         Request request = ObjectModelHelper.getRequest(objectModel);

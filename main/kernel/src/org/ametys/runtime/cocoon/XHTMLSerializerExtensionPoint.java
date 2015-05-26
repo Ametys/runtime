@@ -59,7 +59,7 @@ public class XHTMLSerializerExtensionPoint extends AbstractExtensionPoint<String
     @Override
     public void initializeExtensions() throws Exception
     {
-        _allowedNamespaces = new HashSet<String>(_extensions.values());
+        _allowedNamespaces = new HashSet<>(_extensions.values());
     }
     
     /**

@@ -63,7 +63,7 @@ public class ProxySourceFactory extends AbstractLogEnabled implements SourceFact
     {
         _matcher = Pattern.compile(configuration.getChild("match").getValue());
         
-        _protocols = new ArrayList<String>();
+        _protocols = new ArrayList<>();
         for (Configuration protocolConf : configuration.getChild("protocols").getChildren("protocol"))
         {
             String protocol = protocolConf.getValue();
@@ -138,7 +138,7 @@ public class ProxySourceFactory extends AbstractLogEnabled implements SourceFact
             }
         }
         
-        throw new SourceNotFoundException("Source not found '" + location + "'. (tryed successively in " + _protocols + ")");
+        throw new SourceNotFoundException("Source not found '" + location + "'. (tried successively in " + _protocols + ")");
     }
     
     @Override

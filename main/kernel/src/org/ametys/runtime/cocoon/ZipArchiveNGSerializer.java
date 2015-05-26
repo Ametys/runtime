@@ -42,7 +42,6 @@ import org.xml.sax.helpers.NamespaceSupport;
  */
 public class ZipArchiveNGSerializer extends AbstractSerializer implements Disposable, Serviceable
 {
-    
     /**
      * The namespace for elements handled by this serializer,
      * "http://apache.org/cocoon/zip-archive/1.0".
@@ -263,36 +262,36 @@ public class ZipArchiveNGSerializer extends AbstractSerializer implements Dispos
             {
                 // Get the source and its data
                 source = _resolver.resolveURI(src);
-                InputStream sourceInput = source.getInputStream();
-
-                // Create a new Zip entry with file modification time.
-                ZipArchiveEntry entry = new ZipArchiveEntry(name);
-                long lastModified = source.getLastModified();
-                if (lastModified != 0)
+                
+                try (InputStream sourceInput = source.getInputStream())
                 {
-                    entry.setTime(lastModified);
-                }
-                // this.zipOutput.putNextEntry(entry);
-                this._zipOutput.putArchiveEntry(entry);
+                    // Create a new Zip entry with file modification time.
+                    ZipArchiveEntry entry = new ZipArchiveEntry(name);
+                    long lastModified = source.getLastModified();
+                    if (lastModified != 0)
+                    {
+                        entry.setTime(lastModified);
+                    }
+                    // this.zipOutput.putNextEntry(entry);
+                    this._zipOutput.putArchiveEntry(entry);
 
-                // Buffer lazily allocated
-                if (this._buffer == null)
-                {
-                    this._buffer = new byte[8192];
-                }
+                    // Buffer lazily allocated
+                    if (this._buffer == null)
+                    {
+                        this._buffer = new byte[8192];
+                    }
 
-                // Copy the source to the zip
-                int len;
-                while ((len = sourceInput.read(this._buffer)) > 0)
-                {
-                    this._zipOutput.write(this._buffer, 0, len);
-                }
+                    // Copy the source to the zip
+                    int len;
+                    while ((len = sourceInput.read(this._buffer)) > 0)
+                    {
+                        this._zipOutput.write(this._buffer, 0, len);
+                    }
 
-                // and close the entry
-                // this.zipOutput.closeEntry();
-                this._zipOutput.closeArchiveEntry();
-                // close input stream (to avoid "too many open files" problem)
-                sourceInput.close();
+                    // and close the entry
+                    // this.zipOutput.closeEntry();
+                    this._zipOutput.closeArchiveEntry();
+                }
             }
             else
             {

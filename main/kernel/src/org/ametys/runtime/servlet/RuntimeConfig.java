@@ -41,10 +41,10 @@ public final class RuntimeConfig
 
     private String _defaultWorkspace;
     private String _initClass;
-    private final Collection<String> _pluginsLocations = new ArrayList<String>();
-    private final Collection<String> _excludedFeatures = new ArrayList<String>();
-    private final Collection<String> _excludedWorkspaces = new ArrayList<String>();
-    private final Map<String, String> _extensionsPoints = new HashMap<String, String>();
+    private final Collection<String> _pluginsLocations = new ArrayList<>();
+    private final Collection<String> _excludedFeatures = new ArrayList<>();
+    private final Collection<String> _excludedWorkspaces = new ArrayList<>();
+    private final Map<String, String> _extensionsPoints = new HashMap<>();
 
     private Logger _logger = LoggerFactory.getLoggerFor(RuntimeConfig.class);
     
@@ -61,10 +61,10 @@ public final class RuntimeConfig
     private File _externalKernel;
     
     /* Locations of external plugins */
-    private Map<String, File> _externalPlugins = new HashMap<String, File>();
+    private Map<String, File> _externalPlugins = new HashMap<>();
     
     /* Locations of external workspaces */
-    private Map<String, File> _externalWorkspaces = new HashMap<String, File>();
+    private Map<String, File> _externalWorkspaces = new HashMap<>();
 
     private RuntimeConfig()
     {
@@ -176,7 +176,7 @@ public final class RuntimeConfig
 
     private void _configureConfig(Configuration config)
     {
-        _configAllowedURLs = new ArrayList<String>();
+        _configAllowedURLs = new ArrayList<>();
 
         if (config == null)
         {

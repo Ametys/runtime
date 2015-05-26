@@ -15,7 +15,6 @@
  */
 package org.ametys.runtime.authentication;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -32,7 +31,6 @@ import org.apache.excalibur.source.SourceResolver;
 
 import org.ametys.runtime.plugin.component.AbstractThreadSafeComponentExtensionPoint;
 
-
 /**
  * Extension point holding all <code>Authentication</code> components.<br>
  * An <code>Authentication</code> is responsible for granting access to a
@@ -45,50 +43,50 @@ public class AuthenticationManager extends AbstractThreadSafeComponentExtensionP
 
     private Set<String> _restrictedExtensionsId;
 
-    private ServiceManager _serviceManager;
+    private SourceResolver _resolver;
 
     @Override
     public void service(ServiceManager manager) throws ServiceException
     {
         super.service(manager);
-        _serviceManager = manager;
+        _resolver = (SourceResolver) manager.lookup(SourceResolver.ROLE);
     }
 
     public void configure(Configuration configuration) throws ConfigurationException
     {
         String configFileName = "context://WEB-INF/param/authentication.xml";
         
-        SourceResolver resolver = null;
         Source configSource = null;
-        InputStream configStream = null;
+        
         try
         {
-            resolver = (SourceResolver) _serviceManager.lookup(SourceResolver.ROLE);
-            configSource = resolver.resolveURI(configFileName);
+            configSource = _resolver.resolveURI(configFileName);
             if (configSource.exists())
             {
-                configStream = configSource.getInputStream();
-                Configuration configFileConfiguration = new DefaultConfigurationBuilder().build(configStream);
-                
-                if (getLogger().isDebugEnabled())
+                try (InputStream configStream = configSource.getInputStream())
                 {
-                    getLogger().debug("Starting configuration upon file '" + configFileName + "'.");
-                }
-                
-                Set<String> ids = new LinkedHashSet<String>();
+                    Configuration configFileConfiguration = new DefaultConfigurationBuilder().build(configStream);
+                    
+                    if (getLogger().isDebugEnabled())
+                    {
+                        getLogger().debug("Starting configuration upon file '" + configFileName + "'.");
+                    }
+                    
+                    Set<String> ids = new LinkedHashSet<>();
 
-                Configuration[] authConfs = configFileConfiguration.getChildren("authentication");
-                for (Configuration authConf : authConfs)
-                {
-                    ids.add(authConf.getValue(""));
+                    Configuration[] authConfs = configFileConfiguration.getChildren("authentication");
+                    for (Configuration authConf : authConfs)
+                    {
+                        ids.add(authConf.getValue(""));
+                    }
+                    
+                    _restrictedExtensionsId = Collections.unmodifiableSet(ids);
+                    
+                    if (getLogger().isDebugEnabled())
+                    {
+                        getLogger().debug("Configuration ended with " + ids.size() + " ids configured.");
+                    }                
                 }
-                
-                _restrictedExtensionsId = Collections.unmodifiableSet(ids);
-                
-                if (getLogger().isDebugEnabled())
-                {
-                    getLogger().debug("Configuration ended with " + ids.size() + " ids configured.");
-                }                
             }
             else
             {
@@ -102,35 +100,7 @@ public class AuthenticationManager extends AbstractThreadSafeComponentExtensionP
         {
             if (getLogger().isWarnEnabled())
             {
-                String message = "An error occured. Configuration of AuthenticationManager will be ignored : all 'Authentication' will be accepted";
-                getLogger().warn(message, e);
-            }
-        }
-        finally
-        {
-            if (configStream != null)
-            {
-                try
-                {
-                    configStream.close();
-                }
-                catch (IOException e)
-                {
-                    if (getLogger().isWarnEnabled())
-                    {
-                        String message = "An error occured while closing config file '" + configFileName + "'";
-                        getLogger().warn(message, e);
-                    }
-                }
-            }
-            if (resolver != null)
-            {
-                if (configSource != null)
-                {
-                    resolver.release(configSource);
-                }
-                
-                _serviceManager.release(resolver);
+                getLogger().warn("An error occured. Configuration of AuthenticationManager will be ignored : all 'Authentication' will be accepted", e);
             }
         }
     }
@@ -150,8 +120,7 @@ public class AuthenticationManager extends AbstractThreadSafeComponentExtensionP
         }
         else
         {
-            throw new IllegalArgumentException(
-                    "The authentication extension may exists but is not part of the restricted list");
+            throw new IllegalArgumentException("The authentication extension may exists but is not part of the restricted list");
         }
     }
 

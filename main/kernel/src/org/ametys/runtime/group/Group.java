@@ -37,7 +37,7 @@ public class Group
     {
         _id = id;
         _label = label;
-        _users = new HashSet<String>();
+        _users = new HashSet<>();
     }
     
     /**

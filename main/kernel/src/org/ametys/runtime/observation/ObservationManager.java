@@ -68,7 +68,7 @@ public class ObservationManager extends AbstractLogEnabled implements Component,
                 __ALL_EVENTS_LOGGER.info("Receiving " + event);
             }
             
-            List<Observer> supportedObservers = new ArrayList<Observer>();
+            List<Observer> supportedObservers = new ArrayList<>();
             
             // Retrieve supported observers
             for (String observerId : _observerExtPt.getExtensionsIds())
@@ -102,7 +102,7 @@ public class ObservationManager extends AbstractLogEnabled implements Component,
         
             });
             
-            Map<String, Object> transientVars = new HashMap<String, Object>();
+            Map<String, Object> transientVars = new HashMap<>();
             for (Observer supportedObserver : supportedObservers)
             {
                 if (getLogger().isInfoEnabled())

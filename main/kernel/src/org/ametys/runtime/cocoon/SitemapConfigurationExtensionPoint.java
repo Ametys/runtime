@@ -35,7 +35,7 @@ public class SitemapConfigurationExtensionPoint extends AbstractLogEnabled imple
     /** Avalon Role */
     public static final String ROLE = SitemapConfigurationExtensionPoint.class.getName();
     
-    private static final Collection<String> __COMPONENTS = new ArrayList<String>();
+    private static final Collection<String> __COMPONENTS = new ArrayList<>();
     
     static
     {
@@ -49,8 +49,8 @@ public class SitemapConfigurationExtensionPoint extends AbstractLogEnabled imple
         __COMPONENTS.add("pipes");
     }
     
-    private Map<String, Collection<Configuration>> _sitemapConfigurations = new HashMap<String, Collection<Configuration>>();
-    private Map<String, Configuration[]> _extensions = new HashMap<String, Configuration[]>();
+    private Map<String, Collection<Configuration>> _sitemapConfigurations = new HashMap<>();
+    private Map<String, Configuration[]> _extensions = new HashMap<>();
     
     public void addExtension(String pluginName, String featureName, Configuration configuration) throws ConfigurationException
     {
@@ -75,7 +75,7 @@ public class SitemapConfigurationExtensionPoint extends AbstractLogEnabled imple
             Collection<Configuration> configs = _sitemapConfigurations.get(componentName);
             if (configs == null)
             {
-                configs = new ArrayList<Configuration>();
+                configs = new ArrayList<>();
                 _sitemapConfigurations.put(componentName, configs);
             }
             

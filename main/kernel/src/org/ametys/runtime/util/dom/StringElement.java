@@ -53,7 +53,7 @@ public class StringElement extends AbstractAmetysElement<String>
     @Override
     protected Map<String, AmetysAttribute> _lookupAttributes()
     {
-        Map<String, AmetysAttribute> attrs = new HashMap<String, AmetysAttribute>();
+        Map<String, AmetysAttribute> attrs = new HashMap<>();
         if (_attributName != null)
         {
             attrs.put(_attributName, new AmetysAttribute(_attributName, _attributName, null, _object, this));

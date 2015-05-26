@@ -102,9 +102,7 @@ public class RuntimeResourceReader extends ResourceReader implements Serviceable
         }
         else
         {
-            InputStream is = inputSource.getInputStream();
-
-            try
+            try (InputStream is = inputSource.getInputStream())
             {
                 // it's an image, which must be resized
                 String format = StringUtils.substringAfterLast(inputSource.getURI(), ".").toLowerCase();
@@ -114,12 +112,9 @@ public class RuntimeResourceReader extends ResourceReader implements Serviceable
             }
             finally
             {
-                IOUtils.closeQuietly(is);
                 IOUtils.closeQuietly(out);
             }
         }
-        
-        
     }
     
     class SourceResolverWrapper implements org.apache.cocoon.environment.SourceResolver

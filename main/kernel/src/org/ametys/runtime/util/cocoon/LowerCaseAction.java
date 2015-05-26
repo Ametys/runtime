@@ -28,11 +28,10 @@ import org.apache.cocoon.environment.SourceResolver;
  */
 public class LowerCaseAction extends AbstractAction
 {
-
     @Override
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
-        Map<String, String> result = new HashMap<String, String>();
+        Map<String, String> result = new HashMap<>();
         
         String[] names = parameters.getNames();
         for (String name : names)
@@ -42,5 +41,4 @@ public class LowerCaseAction extends AbstractAction
         
         return result;
     }
-
 }

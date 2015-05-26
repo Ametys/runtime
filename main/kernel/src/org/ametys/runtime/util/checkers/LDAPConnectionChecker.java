@@ -66,7 +66,7 @@ public class LDAPConnectionChecker extends AbstractLogEnabled implements Paramet
     @Override
     public void check(Map<String, String> configurationParameters) throws ParameterCheckerTestFailureException
     {
-        Hashtable<String, String> env = new Hashtable<String, String>();
+        Hashtable<String, String> env = new Hashtable<>();
         
         // Get the parameter values
         String baseUrl = configurationParameters.get(_paramBaseUrl);

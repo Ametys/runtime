@@ -51,7 +51,7 @@ public abstract class AbstractThreadSafeComponentExtensionPoint<T> extends Abstr
     /** Avalon context */
     protected Context _context;
     
-    private Set<String> _ids = new LinkedHashSet<String>();
+    private Set<String> _ids = new LinkedHashSet<>();
     
     public void contextualize(Context context) throws ContextException
     {
@@ -65,7 +65,7 @@ public abstract class AbstractThreadSafeComponentExtensionPoint<T> extends Abstr
     
     public void initialize() throws Exception
     {
-        _manager = new ThreadSafeComponentManager<T>();
+        _manager = new ThreadSafeComponentManager<>();
         _manager.enableLogging(LoggerFactory.getLoggerFor("runtime.plugin.threadsafecomponent"));
         _manager.contextualize(_context);
         _manager.service(_cocoonManager);
@@ -114,6 +114,7 @@ public abstract class AbstractThreadSafeComponentExtensionPoint<T> extends Abstr
         return _ids.contains(id);
     }
     
+    @SuppressWarnings("unchecked")
     public void addExtension(String pluginName, String featureName, Configuration configuration) throws ConfigurationException
     {
         // Check extension id

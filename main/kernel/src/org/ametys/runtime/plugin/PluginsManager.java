@@ -233,9 +233,8 @@ public final class PluginsManager
         while (pluginResources.hasMoreElements())
         {
             URL pluginResource = pluginResources.nextElement();
-            BufferedReader br = new BufferedReader(new InputStreamReader(pluginResource.openStream(), "UTF-8"));
             
-            try
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(pluginResource.openStream(), "UTF-8")))
             {
                 String pluginName = br.readLine();            
                 String pluginResourceURI = br.readLine();
@@ -250,10 +249,6 @@ public final class PluginsManager
                 }
 
             }
-            finally
-            {
-                IOUtils.closeQuietly(br);
-            }
         }
     }
     
@@ -266,9 +261,8 @@ public final class PluginsManager
         while (shemasResources.hasMoreElements())
         {
             URL shemasResource = shemasResources.nextElement();
-            BufferedReader br = new BufferedReader(new InputStreamReader(shemasResource.openStream(), "UTF-8"));
             
-            try
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(shemasResource.openStream(), "UTF-8")))
             {
                 String systemId = br.readLine();            
                 String schemaResourceURI = br.readLine();
@@ -281,10 +275,6 @@ public final class PluginsManager
                 {
                     _logger.warn("A schema is declared in a library, but no file can be found at '" + schemaResourceURI + "'. It will be ignored.");
                 }
-            }
-            finally
-            {
-                IOUtils.closeQuietly(br); 
             }
         }
 
@@ -361,11 +351,11 @@ public final class PluginsManager
      */
     public Map<String, FeatureInformation> init(PluginsComponentManager manager, Context context, String contextPath) throws ComponentException
     {
-        _baseURIs = new HashMap<String, String>();
-        _inactiveFeatures = new HashMap<String, InactiveFeature>();
-        _activeFeatures = new HashMap<String, ActiveFeature>();
-        _passiveFeatures = new HashSet<String>();
-        _locations = new HashMap<String, File>();
+        _baseURIs = new HashMap<>();
+        _inactiveFeatures = new HashMap<>();
+        _activeFeatures = new HashMap<>();
+        _passiveFeatures = new HashSet<>();
+        _locations = new HashMap<>();
         _entityResolver = new LocalEntityResolver();
         
         // Embedded plugins locations
@@ -507,7 +497,7 @@ public final class PluginsManager
      */
     public void initExtensions(PluginsComponentManager manager, Map<String, FeatureInformation> info, String contextPath) throws Exception
     {
-        Map<String, ExtensionPoint> extPoints = new HashMap<String, ExtensionPoint>();
+        Map<String, ExtensionPoint> extPoints = new HashMap<>();
         for (String role : _extensionPointsRoles)
         {
             ExtensionPoint extPoint = (ExtensionPoint) manager.lookup(role);
@@ -520,7 +510,7 @@ public final class PluginsManager
     
     private Map<String, Configuration> _getConfigurations(String contextPath, Collection<String> locations, Map<String, File> externalPlugins)
     {
-        Map<String, Configuration> pluginsConfigurations = new HashMap<String, Configuration>();
+        Map<String, Configuration> pluginsConfigurations = new HashMap<>();
         
         // Embedded plugins configurations loading
         for (String pluginName : _baseURIs.keySet())
@@ -672,7 +662,7 @@ public final class PluginsManager
     @SuppressWarnings("unchecked")
     private Collection<String> _getExtensionsPoints(Map<String, Configuration> pluginsConfigurations, PluginsComponentManager manager, String contextPath) throws ComponentException
     {
-        Collection<String> extPoints = new ArrayList<String>();
+        Collection<String> extPoints = new ArrayList<>();
         
         for (String pluginName : pluginsConfigurations.keySet())
         {
@@ -728,7 +718,7 @@ public final class PluginsManager
     {
         try
         {
-            Map<String, SingleExtensionPointInformation> extPoints = new HashMap<String, SingleExtensionPointInformation>();
+            Map<String, SingleExtensionPointInformation> extPoints = new HashMap<>();
             
             for (String pluginName : pluginsConfigurations.keySet())
             {
@@ -798,10 +788,10 @@ public final class PluginsManager
     
     private Map<String, FeatureInformation> _getActiveFeaturesInformations(Map<String, Configuration> pluginsConfigurations, Map<String, SingleExtensionPointInformation> extensionsPoints, Map<String, String> extensionsConfig, Collection<String> excludedFeatures)
     {
-        Map<String, FeatureInformation> featuresInformations = new HashMap<String, FeatureInformation>();
+        Map<String, FeatureInformation> featuresInformations = new HashMap<>();
         
         // internal Map to check unicity of extensions ids
-        Map<String, Collection<String>> extensionsIds = new HashMap<String, Collection<String>>();
+        Map<String, Collection<String>> extensionsIds = new HashMap<>();
         
         for (String pluginName : pluginsConfigurations.keySet())
         {
@@ -858,7 +848,7 @@ public final class PluginsManager
     private void _checkFeaturesDependencies(Map<String, FeatureInformation> featuresInformations)
     {
         boolean process = true;
-        Set<String> featuresToRemove = new HashSet<String>();
+        Set<String> featuresToRemove = new HashSet<>();
         
         while (process)
         {
@@ -930,7 +920,7 @@ public final class PluginsManager
     
     private Map<String, FeatureInformation> _computeFeaturesDependencies(Map<String, FeatureInformation> featuresInformations)
     {
-        LinkedHashMap<String, FeatureInformation> result = new LinkedHashMap<String, FeatureInformation>();
+        LinkedHashMap<String, FeatureInformation> result = new LinkedHashMap<>();
         
         for (String featureId : featuresInformations.keySet())
         {
@@ -999,7 +989,7 @@ public final class PluginsManager
                 
                 if (ids == null)
                 {
-                    ids = new ArrayList<String>();
+                    ids = new ArrayList<>();
                     ids.add(id);
                     extensionsIds.put(point, ids);
                 }
@@ -1160,7 +1150,7 @@ public final class PluginsManager
     @SuppressWarnings("unchecked")
     private Collection<String> _loadSingleExtensionsPoints(PluginsComponentManager manager, Map<String, FeatureInformation> featuresInformations, Map<String, SingleExtensionPointInformation> singleExtensionsPoints, Map<String, String> extensionsConfig, String contextPath) throws ConfigurationException, ComponentException
     {
-        Collection<String> loadedSingleExtensionsPoints = new ArrayList<String>();
+        Collection<String> loadedSingleExtensionsPoints = new ArrayList<>();
         for (String featureId : featuresInformations.keySet())
         {
             FeatureInformation info = featuresInformations.get(featureId);
@@ -1278,13 +1268,12 @@ public final class PluginsManager
         
         if (config != null)
         {
-            InputStream is = null;
+            @SuppressWarnings("resource") InputStream is = null;
             String configPath = null;
             
             try
             {
                 // If the config attribute is present, it is either a plugin-relative, or a webapp-relative path (starting with '/')  
-                // Si l'attribut config est présent, c'est soit un chemin relatif au plugin, soit absolu depuis la racine du contexte web, vers un fichier de conf
                 if (config.startsWith("/"))
                 {
                     // absolute path
@@ -1374,8 +1363,8 @@ public final class PluginsManager
         {
             _pluginName = pluginName;
             _featureName = featureName;
-            _extensions = new HashMap<String, Collection<String>>();
-            _components = new ArrayList<String>();
+            _extensions = new HashMap<>();
+            _components = new ArrayList<>();
         }
         
         /**
@@ -1420,7 +1409,7 @@ public final class PluginsManager
             
             if (extensions == null)
             {
-                extensions = new ArrayList<String>();
+                extensions = new ArrayList<>();
                 _extensions.put(point, extensions);
             }
             
@@ -1467,8 +1456,8 @@ public final class PluginsManager
     
     private static class LocalEntityResolver implements EntityResolver
     {
-        private Map<String, String> _embeddedSchemas = new HashMap<String, String>();
-        private Map<String, File> _localSchemas = new HashMap<String, File>();
+        private Map<String, String> _embeddedSchemas = new HashMap<>();
+        private Map<String, File> _localSchemas = new HashMap<>();
         
         LocalEntityResolver()
         {

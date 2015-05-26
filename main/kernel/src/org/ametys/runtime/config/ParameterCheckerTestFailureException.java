@@ -25,7 +25,7 @@ public class ParameterCheckerTestFailureException extends Throwable
      */
     public ParameterCheckerTestFailureException() 
     {
-            super();
+        super();
     }
     
     /**

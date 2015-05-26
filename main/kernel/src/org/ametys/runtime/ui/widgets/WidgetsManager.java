@@ -48,7 +48,7 @@ public class WidgetsManager extends AbstractThreadSafeComponentExtensionPoint<Cl
     public void configure(Configuration configuration) throws ConfigurationException
     {
         // Preparing
-        _defaultWidgets = new HashMap<String, Map<String, Map<String, String>>>();
+        _defaultWidgets = new HashMap<>();
         _defaultWidgets.put(MODE_CONFIG_NORMAL, new HashMap<String, Map<String, String>>());
         _defaultWidgets.put(MODE_CONFIG_ENUMERATED, new HashMap<String, Map<String, String>>());
         
@@ -61,7 +61,7 @@ public class WidgetsManager extends AbstractThreadSafeComponentExtensionPoint<Cl
     
     private Map<String, String> _readMap(Configuration[] children)
     {
-        Map<String, String> result = new HashMap<String, String>();
+        Map<String, String> result = new HashMap<>();
         
         for (Configuration child : children)
         {

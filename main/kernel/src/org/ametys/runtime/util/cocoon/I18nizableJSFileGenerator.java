@@ -79,27 +79,20 @@ public class I18nizableJSFileGenerator extends FileGenerator
     }
 
     /**
-     * Get the source contne
+     * Get the source content
      * @throws MalformedURLException
      * @throws IOException
      * @throws ProcessingException
      */
     private String _getFileContent() throws MalformedURLException, IOException, ProcessingException
     {
-        InputStream is = null;
-        try 
+        try (InputStream is = inputSource.getInputStream())
         {
-            is = this.inputSource.getInputStream();
             return IOUtils.toString(is, _encoding);
         } 
         catch (SourceException se) 
         {
             throw SourceUtil.handle("Error during resolving of '" + this.source + "'.", se);
-        }
-        finally
-        {
-            IOUtils.closeQuietly(is);
-            super.resolver.release(this.inputSource);
         }
     }
     

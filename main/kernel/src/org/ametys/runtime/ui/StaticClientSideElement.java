@@ -124,7 +124,7 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
      */
     protected Map<String, Object> _configureParameters (Configuration configuration) throws ConfigurationException
     {
-        Map<String, Object> parameters = new LinkedHashMap<String, Object>();
+        Map<String, Object> parameters = new LinkedHashMap<>();
      
         for (Configuration paramConfiguration : configuration.getChildren())
         {
@@ -182,7 +182,7 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
             }
             else
             {
-                List list = new ArrayList<Object>();
+                List list = new ArrayList<>();
                 list.add(values);
                 list.add(newValue);
                 parameters.put(name, list);
@@ -233,7 +233,7 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
      */
     protected List<String> _configureImports(Configuration configuration) throws ConfigurationException
     {
-        List<String> scriptsImports = new ArrayList<String>();
+        List<String> scriptsImports = new ArrayList<>();
         String scriptsDefaultPlugin = configuration.getAttribute("plugin", _pluginName);
         for (Configuration scriptsConfiguration : configuration.getChildren("file"))
         {
@@ -260,7 +260,7 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
      */
     protected Map<String, String> _configureRights(Configuration configuration) throws ConfigurationException
     {
-        Map<String, String> rights = new HashMap<String, String>();
+        Map<String, String> rights = new HashMap<>();
         
         Configuration[] rightsConf;
         if (configuration.getChild("rights", false) != null)

@@ -44,7 +44,7 @@ public final class StringUtils
      */
     public static Collection<String> stringToCollection(String values)
     {
-        Collection<String> result = new ArrayList<String>();
+        Collection<String> result = new ArrayList<>();
         if ((values != null) && (values.length() > 0))
         {
             // Explore the string list with a stringtokenizer with ','.

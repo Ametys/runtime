@@ -99,7 +99,7 @@ public class ThreadSafeTraxProcessor extends AbstractLogEnabled implements XSLTP
     private boolean _dontUseCache;
     
     // the XSLT cache
-    private Map<String, TemplatesCache> _templatesCache = new HashMap<String, TemplatesCache>();
+    private Map<String, TemplatesCache> _templatesCache = new HashMap<>();
     
     @Override
     public void contextualize(Context context) throws ContextException
@@ -279,6 +279,7 @@ public class ThreadSafeTraxProcessor extends AbstractLogEnabled implements XSLTP
         }
     }
     
+    @SuppressWarnings("unchecked")
     private CachedTemplates _getCachedTemplates(Collection<CachedTemplates> cachedTemplates) throws IOException
     {
         CachedTemplates outOfDateTemplates = null;
@@ -302,13 +303,13 @@ public class ThreadSafeTraxProcessor extends AbstractLogEnabled implements XSLTP
             resolutionCache = (Map<UnresolvedURI, ResolvedURI>) request.getAttribute(__URI_CACHE_ATTR);
             if (resolutionCache == null)
             {
-                resolutionCache = new HashMap<UnresolvedURI, ResolvedURI>();
+                resolutionCache = new HashMap<>();
                 request.setAttribute(__URI_CACHE_ATTR, resolutionCache);
             }
         }
         else
         {
-            resolutionCache = new HashMap<UnresolvedURI, ResolvedURI>();
+            resolutionCache = new HashMap<>();
         }
         
         
@@ -737,16 +738,16 @@ public class ThreadSafeTraxProcessor extends AbstractLogEnabled implements XSLTP
     private class CachedTemplates implements URIResolver
     {
         // non-resolved included/imported URIs for the input stylesheet
-        private List<String> _rawURIs = new ArrayList<String>();
+        private List<String> _rawURIs = new ArrayList<>();
         
         // base URIs for resolution
-        private List<String> _baseURIs = new ArrayList<String>();
+        private List<String> _baseURIs = new ArrayList<>();
         
         // resolved URIs
-        private List<String> _resolvedURIs = new ArrayList<String>();
+        private List<String> _resolvedURIs = new ArrayList<>();
         
         // last modified timestamps for resolved URIs
-        private List<Long> _timestamps = new ArrayList<Long>();
+        private List<Long> _timestamps = new ArrayList<>();
         
         // resulting templates
         private Templates _templates;
@@ -885,7 +886,7 @@ public class ThreadSafeTraxProcessor extends AbstractLogEnabled implements XSLTP
          */
         public TemplatesCache(long lastModified)
         {
-            _templatesCache = new ArrayList<CachedTemplates>();
+            _templatesCache = new ArrayList<>();
             _lastModified = lastModified;
         }
         

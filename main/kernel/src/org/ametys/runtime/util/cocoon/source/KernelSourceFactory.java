@@ -26,7 +26,7 @@ import org.apache.excalibur.source.SourceFactory;
 import org.ametys.runtime.servlet.RuntimeConfig;
 
 /**
- * {@link SourceFactory} lokking for the kernel in the classpath first and then in the external kernel, if any.
+ * {@link SourceFactory} looking for the kernel in the classpath first and then in the external kernel, if any.
  */
 public class KernelSourceFactory extends ProxySourceFactory
 {
@@ -35,7 +35,7 @@ public class KernelSourceFactory extends ProxySourceFactory
     {
         _matcher = Pattern.compile("kernel://(.*)");
         
-        _protocols = new ArrayList<String>();
+        _protocols = new ArrayList<>();
         _protocols.add("resource://org/ametys/runtime/kernel/{1}");
         
         File externalKernel = RuntimeConfig.getInstance().getExternalKernel();

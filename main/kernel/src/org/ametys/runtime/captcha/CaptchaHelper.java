@@ -44,8 +44,8 @@ public final class CaptchaHelper
     private static final String STATIC_PREFIX_KEY = "STATIC-";
     private static final String DYNAMIC_PREFIX_KEY = "DYNAMIC-";
     
-    private static Map<String, List<ValidableCaptcha>> _mapStaticCaptcha = new HashMap<String, List<ValidableCaptcha>>();
-    private static Map<String, ValidableCaptcha> _mapDynamicCaptcha = new HashMap<String, ValidableCaptcha>();
+    private static Map<String, List<ValidableCaptcha>> _mapStaticCaptcha = new HashMap<>();
+    private static Map<String, ValidableCaptcha> _mapDynamicCaptcha = new HashMap<>();
     
     private CaptchaHelper ()
     {
@@ -274,10 +274,10 @@ public final class CaptchaHelper
     
     private static Captcha _generateImageCaptcha(Integer color, boolean addNoise, boolean fisheye, int width, int height)
     {
-        List<Color> colors = new ArrayList<Color>();
+        List<Color> colors = new ArrayList<>();
         colors.add(new Color(color));
         
-        List<Font> fonts = new ArrayList<Font>();
+        List<Font> fonts = new ArrayList<>();
         fonts.add(new Font("Arial", Font.BOLD, 40));
         fonts.add(new Font("Courier", Font.BOLD, 40));
         
