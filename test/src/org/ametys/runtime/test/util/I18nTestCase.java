@@ -79,7 +79,7 @@ public class I18nTestCase extends AbstractRuntimeTestCase
     {
         Map<String, Object> environmentInformation = _cocoon._enterEnvironment();
         
-        ArrayList<String> params = new ArrayList<String>(1);
+        ArrayList<String> params = new ArrayList<>(1);
         params.add("2");
         
         String translatedText = _i18nUtils.translate(new I18nizableText("plugin.test", "TEST_KEY_PARAMS", params), "en");
@@ -104,7 +104,7 @@ public class I18nTestCase extends AbstractRuntimeTestCase
     {
         Map<String, Object> environmentInformation = _cocoon._enterEnvironment();
         
-        Map<String, I18nizableText> params = new HashMap<String, I18nizableText>(1);
+        Map<String, I18nizableText> params = new HashMap<>(1);
         params.put("language", new I18nizableText("plugin.test", "TEST"));
         
         String translatedText = _i18nUtils.translate(new I18nizableText("plugin.test", "TEST_KEY_I18N_PARAMS", params), "en");

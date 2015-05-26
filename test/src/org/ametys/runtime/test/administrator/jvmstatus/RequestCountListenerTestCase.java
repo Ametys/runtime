@@ -68,7 +68,7 @@ public class RequestCountListenerTestCase extends TestCase
     private void _testCount(final RequestCountListener requestCountListener, final int threadCount, final boolean create) throws Exception
     {
         final Random random = new Random(System.currentTimeMillis());
-        List<Thread> threads = new ArrayList<Thread>();
+        List<Thread> threads = new ArrayList<>();
         
         for (int i = 0; i < threadCount; i++)
         {

@@ -161,7 +161,7 @@ public class CocoonWrapper
         Map<String, String> headers = requestHeaders;
         if (headers == null)
         {
-            headers = new HashMap<String, String>();
+            headers = new HashMap<>();
         }
         
         headers.put("user-agent", "Ametys Runtime");
@@ -198,14 +198,13 @@ public class CocoonWrapper
             
             CocoonComponentManager.enterEnvironment(env, _cocoon.getComponentManager(), _cocoon);
             
-            Map<String, Object> result = new HashMap<String, Object>();
+            Map<String, Object> result = new HashMap<>();
             
             result.put("environment", env);
             result.put("processingKey", processingKey);
             result.put("environmentDepth", new Integer(environmentDepth));
             
             return result;
-
         }
         catch (MalformedURLException e)
         {

@@ -145,7 +145,7 @@ public class LdapUsersTestCase extends AbstractRuntimeTestCase
         // Sax any
         handler = dom.createDOMHandler();
         handler.startDocument();
-        Map<String, String> parameters = new HashMap<String, String>();
+        Map<String, String> parameters = new HashMap<>();
         parameters.put("pattern", "user1");
         _usersManager.toSAX(handler, -1, 0, parameters);
         handler.endDocument();
@@ -166,7 +166,7 @@ public class LdapUsersTestCase extends AbstractRuntimeTestCase
         assertEquals("2", xpath.evaluateAsString(handler.getDocument(), "/users/total"));
 
         // Sax all by part
-        Set<String> results = new HashSet<String>();
+        Set<String> results = new HashSet<>();
         
         handler = dom.createDOMHandler();
         handler.startDocument();

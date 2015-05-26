@@ -130,7 +130,7 @@ public class RuntimeConfigTestCase extends AbstractRuntimeTestCase
     {
         CocoonWrapper cocoon = _startApplication("test/environments/runtimes/runtime2.xml", "test/environments/configs/config1.xml", "test/environments/webapp1");
         
-        Map<String, String> headers = new HashMap<String, String>();
+        Map<String, String> headers = new HashMap<>();
         headers.put("authorization", "BASIC " + new String(Base64.encodeBase64("admin:admin".getBytes())));
         
         DOMHandlerFactory dom = (DOMHandlerFactory) Init.getPluginServiceManager().lookup(DOMHandlerFactory.ROLE);

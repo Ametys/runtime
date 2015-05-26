@@ -152,7 +152,7 @@ public abstract class AbstractJdbcUnmodifiableUsersTestCase extends AbstractJDBC
         // Sax any
         handler = dom.createDOMHandler();
         handler.startDocument();
-        Map<String, String> parameters = new HashMap<String, String>();
+        Map<String, String> parameters = new HashMap<>();
         parameters.put("pattern", "test2");
         _usersManager.toSAX(handler, -1, 0, parameters);
         handler.endDocument();

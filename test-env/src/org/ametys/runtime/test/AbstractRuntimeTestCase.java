@@ -29,7 +29,6 @@ import junit.framework.TestCase;
 import org.apache.avalon.excalibur.logger.Log4JLoggerManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.apache.commons.io.IOUtils;
 import org.xml.sax.XMLReader;
 
 import org.ametys.runtime.config.Config;
@@ -74,46 +73,42 @@ public abstract class AbstractRuntimeTestCase extends TestCase
      */
     protected void _configureRuntime(String fileName, String contextPath) throws Exception
     {
-        InputStream runtime = null;
-        InputStream external = null;
-        InputStream xsd = null;
-
-        try
+        // Validation du runtime.xml sur le schéma runtime.xsd
+        DefaultConfigurationBuilder runtimeConfBuilder;
+        try (InputStream xsd = getClass().getResourceAsStream("/org/ametys/runtime/servlet/runtime.xsd"))
         {
-            // Validation du runtime.xml sur le schéma runtime.xsd
-            xsd = getClass().getResourceAsStream("/org/ametys/runtime/servlet/runtime.xsd");
             Schema schema = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema").newSchema(new StreamSource(xsd));
-            
+        
             SAXParserFactory factory = SAXParserFactory.newInstance();
             factory.setSchema(schema);
             factory.setNamespaceAware(true);
             XMLReader reader = factory.newSAXParser().getXMLReader();
             
-            DefaultConfigurationBuilder runtimeConfBuilder = new DefaultConfigurationBuilder(reader);
+            runtimeConfBuilder = new DefaultConfigurationBuilder(reader);
+        }
+        
+        File runtimeFile = new File(fileName);
+        Configuration runtimeConf;
+        try (InputStream runtime = new FileInputStream(runtimeFile))
+        {
+            runtimeConf = runtimeConfBuilder.build(runtime, fileName);
+        }
+        
+        // look for external.xml next to the runtime.xml file
+        File externalFile = new File(runtimeFile.getParentFile(), "external-locations.xml");
+        
+        Configuration externalConf = null;
+        if (externalFile.exists())
+        {
+            DefaultConfigurationBuilder externalConfBuilder = new DefaultConfigurationBuilder();
             
-            File runtimeFile = new File(fileName);
-            runtime = new FileInputStream(runtimeFile);
-            Configuration runtimeConf = runtimeConfBuilder.build(runtime, fileName);
-            
-            // look for external.xml next to the runtime.xml file
-            File externalFile = new File(runtimeFile.getParentFile(), "external-locations.xml");
-            
-            Configuration externalConf = null;
-            if (externalFile.exists())
+            try (InputStream external = new FileInputStream(externalFile))
             {
-                DefaultConfigurationBuilder externalConfBuilder = new DefaultConfigurationBuilder();
-                external = new FileInputStream(externalFile);
                 externalConf = externalConfBuilder.build(external, fileName);
             }
-            
-            RuntimeConfig.configure(runtimeConf, externalConf, contextPath);
         }
-        finally
-        {
-            IOUtils.closeQuietly(xsd);
-            IOUtils.closeQuietly(runtime);
-            IOUtils.closeQuietly(external);
-        }
+        
+        RuntimeConfig.configure(runtimeConf, externalConf, contextPath);
     }
     
     /**

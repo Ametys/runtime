@@ -29,7 +29,7 @@ import org.ametys.runtime.plugin.ExtensionPoint;
  */
 public class TestExtensionPoint implements ExtensionPoint<Object>
 {
-    Map<String, Object> _objects = new HashMap<String, Object>();
+    Map<String, Object> _objects = new HashMap<>();
     
     public void addExtension(String pluginName, String featureName, Configuration configuration) throws ConfigurationException
     {

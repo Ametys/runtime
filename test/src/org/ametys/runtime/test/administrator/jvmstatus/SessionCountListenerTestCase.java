@@ -69,7 +69,7 @@ public class SessionCountListenerTestCase extends TestCase
     private void _testCount(final SessionCountListener sessionCountListener, final int threadCount, final boolean create) throws Exception
     {
         final Random random = new Random(System.currentTimeMillis());
-        List<Thread> threads = new ArrayList<Thread>();
+        List<Thread> threads = new ArrayList<>();
         
         for (int i = 0; i < threadCount; i++)
         {

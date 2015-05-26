@@ -71,7 +71,7 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
         
         try
         {
-            userInformation = new HashMap<String, String>();
+            userInformation = new HashMap<>();
             modifiableUsersManager.add(userInformation);
             fail("An empty addition should fail");
         }
@@ -83,7 +83,7 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
 
         try
         {
-            userInformation = new HashMap<String, String>();
+            userInformation = new HashMap<>();
             userInformation.put("login", "test");
             userInformation.put("firstname", "test");
             modifiableUsersManager.add(userInformation);
@@ -97,7 +97,7 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
 
         try
         {
-            userInformation = new HashMap<String, String>();
+            userInformation = new HashMap<>();
             userInformation.put("login", "test");
             userInformation.put("firstname", "test");
             userInformation.put("lastname", "test");
@@ -113,7 +113,7 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
 
         try
         {
-            userInformation = new HashMap<String, String>();
+            userInformation = new HashMap<>();
             userInformation.put("login", "test");
             userInformation.put("firstname", "test");
             userInformation.put("lastname", "test");
@@ -147,7 +147,7 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
         // Correct additions
         Map<String, String> userInformation;
         
-        userInformation = new HashMap<String, String>();
+        userInformation = new HashMap<>();
         userInformation.put("login", "test");
         userInformation.put("firstname", "Test");
         userInformation.put("lastname", "TEST");
@@ -159,7 +159,7 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
         assertFalse(credentialsAwareUsersManager.checkCredentials(new Credentials("test", "wrongpassword")));
         assertFalse(credentialsAwareUsersManager.checkCredentials(new Credentials("test2", "testpassword")));
         
-        userInformation = new HashMap<String, String>();
+        userInformation = new HashMap<>();
         userInformation.put("login", "test2");
         userInformation.put("firstname", "Test2");
         userInformation.put("lastname", "TEST2");
@@ -188,7 +188,7 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
 
         try
         {
-            userInformation = new HashMap<String, String>();
+            userInformation = new HashMap<>();
             userInformation.put("login", "test");
             userInformation.put("firstname", "Test");
             userInformation.put("lastname", "TEST");
@@ -223,7 +223,7 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
         
         try
         {
-            userInformation = new HashMap<String, String>();
+            userInformation = new HashMap<>();
             userInformation.put("login", "test");
             userInformation.put("firstname", "Test");
             userInformation.put("lastname", "TEST");
@@ -238,7 +238,7 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
             _checkListener(listener1, listener2, 0, 0, 0);
         }
         
-        userInformation = new HashMap<String, String>();
+        userInformation = new HashMap<>();
         userInformation.put("login", "test");
         userInformation.put("firstname", "Test");
         userInformation.put("lastname", "TEST");
@@ -249,7 +249,7 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
         
         try
         {
-            userInformation = new HashMap<String, String>();
+            userInformation = new HashMap<>();
             userInformation.put("firstname", "Test");
             userInformation.put("lastname", "TEST");
             userInformation.put("email", "");
@@ -265,7 +265,7 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
 
         try
         {
-            userInformation = new HashMap<String, String>();
+            userInformation = new HashMap<>();
             userInformation.put("login", "test");
             userInformation.put("firstname", "Test");
             userInformation.put("lastname", "TEST");
@@ -282,7 +282,7 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
         
         try
         {
-            userInformation = new HashMap<String, String>();
+            userInformation = new HashMap<>();
             userInformation.put("login", "test");
             userInformation.put("firstname", "Test");
             userInformation.put("lastname", "TEST");
@@ -317,7 +317,7 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
         modifiableUsersManager.registerListener(listener2);
         
         Map<String, String> userInformation;
-        userInformation = new HashMap<String, String>();
+        userInformation = new HashMap<>();
         userInformation.put("login", "test");
         userInformation.put("firstname", "Test");
         userInformation.put("lastname", "TEST");
@@ -327,7 +327,7 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
         _checkListener(listener1, listener2, 1, 0, 0);
 
         // Correct modification
-        userInformation = new HashMap<String, String>();
+        userInformation = new HashMap<>();
         userInformation.put("login", "test");
         userInformation.put("firstname", "Testmodified");
         userInformation.put("lastname", "TESTMODIFIED");
@@ -345,7 +345,7 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
         assertEquals(user.getEmail(), "testModified@test.te");
 
         // partial modification (no password change)
-        userInformation = new HashMap<String, String>();
+        userInformation = new HashMap<>();
         userInformation.put("login", "test");
         userInformation.put("firstname", "Testmodifiedtwice");
         modifiableUsersManager.update(userInformation);
@@ -386,7 +386,7 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
         }
 
         Map<String, String> userInformation;
-        userInformation = new HashMap<String, String>();
+        userInformation = new HashMap<>();
         userInformation.put("login", "test");
         userInformation.put("firstname", "Test");
         userInformation.put("lastname", "TEST");
@@ -408,7 +408,7 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
             assertNotNull(user);
         }
 
-        userInformation = new HashMap<String, String>();
+        userInformation = new HashMap<>();
         userInformation.put("login", "test");
         userInformation.put("firstname", "Testmodified");
         userInformation.put("lastname", "TESTMODIFIED");
@@ -448,7 +448,7 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
         modifiableUsersManager.registerListener(listener2);
 
         Map<String, String> userInformation;
-        userInformation = new HashMap<String, String>();
+        userInformation = new HashMap<>();
         userInformation.put("login", "test");
         userInformation.put("firstname", "Test");
         userInformation.put("lastname", "TEST");
@@ -457,7 +457,7 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
         modifiableUsersManager.add(userInformation);
         _checkListener(listener1, listener2, 1, 0, 0);
 
-        userInformation = new HashMap<String, String>();
+        userInformation = new HashMap<>();
         userInformation.put("login", "test2");
         userInformation.put("firstname", "Test2");
         userInformation.put("lastname", "TEST2");
@@ -494,9 +494,9 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
      */
     public class MyUserListener implements UserListener
     {
-        private List<String> _addedUsers = new ArrayList<String>();
-        private List<String> _removedUsers = new ArrayList<String>();
-        private List<String> _updatedUsers = new ArrayList<String>();
+        private List<String> _addedUsers = new ArrayList<>();
+        private List<String> _removedUsers = new ArrayList<>();
+        private List<String> _updatedUsers = new ArrayList<>();
 
         /**
          * Returns the added users'list

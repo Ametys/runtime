@@ -231,7 +231,7 @@ public abstract class AbstractJdbcGroupsTestCase extends AbstractJDBCTestCase
  
     private List<String> _getGroupsIds() throws Exception
     {
-        List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList<>();
 
         Connection connection = null;
         PreparedStatement stmt = null;
@@ -435,9 +435,9 @@ public abstract class AbstractJdbcGroupsTestCase extends AbstractJDBCTestCase
      */
     public class MyGroupListener implements GroupListener
     {
-        private List<String> _addedGroups = new ArrayList<String>();
-        private List<String> _removedGroups = new ArrayList<String>();
-        private List<String> _updatedGroups = new ArrayList<String>();
+        private List<String> _addedGroups = new ArrayList<>();
+        private List<String> _removedGroups = new ArrayList<>();
+        private List<String> _updatedGroups = new ArrayList<>();
 
         /**
          * Returns the added groups'list

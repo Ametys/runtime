@@ -89,15 +89,12 @@ public class XHTMLSerializerTestCase extends TestCase
 
     private void _assertSerialization(XHTMLSerializer serializer, String inputFilename, String outputFilename) throws Exception
     {
-        InputStream inputIs = getClass().getResourceAsStream(inputFilename);
-        InputStream outputIs = getClass().getResourceAsStream(outputFilename);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        
-        try
+        try (InputStream inputIs = getClass().getResourceAsStream(inputFilename);
+             InputStream outputIs = getClass().getResourceAsStream(outputFilename);
+             ByteArrayOutputStream baos = new ByteArrayOutputStream();)
         {
             assertNotNull("Missing input " + inputFilename, inputIs);
             assertNotNull("Missing output " + outputFilename, outputIs);
-            
             
             serializer.setOutputStream(baos);
             
@@ -118,12 +115,6 @@ public class XHTMLSerializerTestCase extends TestCase
             {
                 IOUtils.closeQuietly(inputIs);
             }
-        }
-        finally
-        {
-            IOUtils.closeQuietly(inputIs);
-            IOUtils.closeQuietly(outputIs);
-            IOUtils.closeQuietly(baos);
         }
     }
 

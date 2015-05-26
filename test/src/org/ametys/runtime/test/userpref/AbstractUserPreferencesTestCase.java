@@ -157,7 +157,7 @@ public abstract class AbstractUserPreferencesTestCase extends AbstractJDBCTestCa
         assertEquals(0, prefs.size());
         assertNull(_userPrefs.getUserPreferenceAsString("user", "/empty", contextVars, "nopref"));
                 
-        Map<String, String> prefsToSet = new HashMap<String, String>();
+        Map<String, String> prefsToSet = new HashMap<>();
         
         prefsToSet.put("pref1", "one");
         prefsToSet.put("pref2", "two");

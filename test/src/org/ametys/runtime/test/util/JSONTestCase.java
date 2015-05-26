@@ -60,7 +60,7 @@ public class JSONTestCase extends AbstractRuntimeTestCase
     public void testJsonToMap()
     {
         String jsonString = "{\"label\": \"label\", \"default-description\": \"description\", \"icon-small\": \"plugins/core/resources/img/icon_small.gif\", \"icon-medium\": \"plugins/core/resources/img/icon_medium.gif\", \"icon-large\": \"plugins/core/resources/img/icon_large.gif\", \"menu-item\": [{\"id\": \"menu-item-1\", \"label\": \"label\"}, {\"id\": \"menu-item-2\", \"label\": \"label\"}]}";
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         try
         {
             map = _jsonUtils.convertJsonToMap(jsonString);
@@ -73,7 +73,7 @@ public class JSONTestCase extends AbstractRuntimeTestCase
         assertTrue(map.size() != 0);
         assertEquals(map.get("label"), "label");
         assertEquals(((List) map.get("menu-item")).size(), 2);
-        assertEquals(((Map<String, Object>) ((List) map.get("menu-item")).get(0)).get("id"), "menu-item-1");
+        assertEquals(((Map) ((List) map.get("menu-item")).get(0)).get("id"), "menu-item-1");
         
     }
     
