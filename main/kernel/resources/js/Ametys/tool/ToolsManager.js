@@ -347,9 +347,12 @@ Ext.define("Ametys.tool.ToolsManager",
          */
         _onToolPanelMoved: function(toolPanel, newLocation, eOpts)
         {
-            var tool = this.getTool(eOpts.toolId); 
-            this._overridenDefaultLocation[tool.getFactory().getRole()] = newLocation;
-            this.saveState();
+            if (this._initialized)
+            {
+                var tool = this.getTool(eOpts.toolId); 
+                this._overridenDefaultLocation[tool.getFactory().getRole()] = newLocation;
+                this.saveState();
+            }
         },
 		
 		/**
@@ -360,11 +363,6 @@ Ext.define("Ametys.tool.ToolsManager",
 		moveTool: function(tool, newLocation)
 		{
 			this.getToolsLayout().moveTool(tool.getWrapper(), newLocation);
-			
-			if (this._initialized)
-			{
-				this.saveState();
-			}
 		},
 		
 		/**
