@@ -103,6 +103,11 @@ Ext.define("Ametys.ui.tool.ToolPanel", {
      * @event tooldeactivate Fired when the tool is deactivated (invisible in its zone).
      * @param {Ametys.ui.tool.ToolPanel} this
      */
+    /**
+     * @event toolmoved Fired when the tool is moved from a zone to another.
+     * @param {Ametys.ui.tool.ToolPanel} this
+     * @param {String} newLocation The location of the new zone
+     */
     
     /**
      * @property {Ametys.ui.tool.ToolsLayout} _toolsLayout The parent layout.

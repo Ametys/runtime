@@ -46,6 +46,13 @@ Ext.define("Ametys.tool.ToolsManager",
 		 * @private
 		 */
 		_autoOpenedTools: {},
+        
+        /**
+         * @property {Object} _overridenDefaultLocation The keys are factories identifier, and the associated values are the default location that will override the {@link Ametys.tool.Tool#getDefaultLocation} call.
+         * Theses values are set when the user manually moves tools.
+         * @private
+         */
+        _overridenDefaultLocation: {},
 
 		/**
 		 * @property {Object} _tools The opened tools stored by unique identifier
@@ -137,7 +144,8 @@ Ext.define("Ametys.tool.ToolsManager",
 		{
 			var state = {
 				_autoRefreshFactory: this._autoRefreshFactory,
-				_autoOpenedTools: []
+				_autoOpenedTools: [],
+                _overridenDefaultLocation: this._overridenDefaultLocation
 			};
 			
 			// Do we want to remember opened tools?
@@ -253,7 +261,7 @@ Ext.define("Ametys.tool.ToolsManager",
 				}
 				
 				var tool = factory.openTool(toolParams);
-				
+                
 				var effectiveLocation = null;
 				
 				// Is the tool already registered
@@ -267,12 +275,33 @@ Ext.define("Ametys.tool.ToolsManager",
 					
 					this._tools[tool.getId()] =  tool;
 					
-					effectiveLocation = this.getToolsLayout().addTool(tool.createWrapper(), forceToolLocation);
+                    // Determining location
+                    if (forceToolLocation != null)
+                    {
+                        effectiveLocation = forceToolLocation;
+                    }
+                    else if (this._overridenDefaultLocation[tool.getFactory().getRole()] != null)
+                    {
+                        effectiveLocation = this._overridenDefaultLocation[tool.getFactory().getRole()];
+                    }
+                    else
+                    {
+                        effectiveLocation = tool.getDefaultLocation();
+                    }
+                    
+                    // change the default location for tools of that kind
+                    this._overridenDefaultLocation[tool.getFactory().getRole()] = effectiveLocation;
+                    this.saveState();
+                    
+					this.getToolsLayout().addTool(tool.createWrapper(), effectiveLocation);
+                    
+                    tool.getWrapper().on("toolmoved", this._onToolPanelMoved, this, { toolId: tool.getId() });
 				}
 				else
 				{
 					if (forceToolLocation != null)
 					{
+                        // change the default location for tools of that kind
 						this.moveTool(tool, forceToolLocation);
 					}
 					
@@ -307,6 +336,21 @@ Ext.define("Ametys.tool.ToolsManager",
 				});
 			}
 		},
+        
+        /**
+         * @private
+         * Listener when a toolPanel have been moved
+         * @param {Ametys.ui.tool.ToolPanel} toolPanel The moved panel
+         * @param {String} newLocation The new location
+         * @param {Object} eOpts The options
+         * @param {String} eOpts.toolId The tool identifier
+         */
+        _onToolPanelMoved: function(toolPanel, newLocation, eOpts)
+        {
+            var tool = this.getTool(eOpts.toolId); 
+            this._overridenDefaultLocation[tool.getFactory().getRole()] = newLocation;
+            this.saveState();
+        },
 		
 		/**
 		 * Moves an opened tool to a new location of the Ametys.ui.tool.ToolsLayout

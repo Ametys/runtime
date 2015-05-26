@@ -450,6 +450,8 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 			}
 			
 			Ext.resumeLayouts(true);
+            
+            tool.fireEvent("toolmoved", tool, location);
 		},
 		
 		removeTool: function(tool)
