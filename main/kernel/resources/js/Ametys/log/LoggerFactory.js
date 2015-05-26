@@ -99,10 +99,10 @@ Ext.define(
 			{
 				this._stateInitialized = true;
 				// restore state to overwrite values
-				this.mixins.state.constructor.call(this, {
-					stateful: true,
-					stateId: this.self.getName()
-				});
+                this.stateful = true;
+                this.stateId = this.self.getName();
+                this.hasListeners = {}; // used by saveState                
+				this.mixins.state.constructor.call(this);
 			}
 			
 			var cat = category || '';
@@ -153,6 +153,16 @@ Ext.define(
 			this.saveState();
 		},
 		
+        /**
+         * @private
+         * Used by #saveState to delegate save to plugins.
+         * @return {Ext.plugin.Abstract[]} The plugins. Will be null here.
+         */
+        getPlugins: function() 
+        {
+            return null;
+        },
+        
 		getState: function()
 		{
 			return {

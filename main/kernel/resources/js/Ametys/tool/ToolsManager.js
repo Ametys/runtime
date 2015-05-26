@@ -102,10 +102,10 @@ Ext.define("Ametys.tool.ToolsManager",
 			}
 			
 			// restore state to overwrite values
-			this.mixins.state.constructor.call(this, {
-				stateful: true,
-				stateId: this.self.getName()
-			});
+            this.stateful = true;
+            this.stateId = this.self.getName();
+            this.hasListeners = {}; // used by saveState
+			this.mixins.state.constructor.call(this);
 
 			// apply given auto refresh conf (it is already loaded by the stateful, but could change to add new values)
 			var autoRefreshingFactories = config ? config.autoRefreshingFactories || [] : [];
@@ -140,6 +140,16 @@ Ext.define("Ametys.tool.ToolsManager",
 			return this._initialized === true;
 		},
 		
+        /**
+         * @private
+         * Used by #saveState to delegate save to plugins.
+         * @return {Ext.plugin.Abstract[]} The plugins. Will be null here.
+         */
+        getPlugins: function() 
+        {
+            return null;
+        },
+        
 		getState: function()
 		{
 			var state = {
@@ -149,7 +159,7 @@ Ext.define("Ametys.tool.ToolsManager",
 			};
 			
 			// Do we want to remember opened tools?
-			if (Ametys.UserPrefsDAO.getValue("remember-opened-tools") == "true")
+			if (Ametys.userprefs.UserPrefsDAO.getValue("remember-opened-tools") == "true")
 			{
 				var locations = this.getToolsLayout().getSupportedLocations();
 				for (var i = locations.length - 1; i >= 0; i--)
@@ -291,7 +301,10 @@ Ext.define("Ametys.tool.ToolsManager",
                     
                     // change the default location for tools of that kind
                     this._overridenDefaultLocation[tool.getFactory().getRole()] = effectiveLocation;
-                    this.saveState();
+                    if (this.isInitialized())
+                    {
+                        this.saveState();
+                    }
                     
 					this.getToolsLayout().addTool(tool.createWrapper(), effectiveLocation);
                     
@@ -313,11 +326,11 @@ Ext.define("Ametys.tool.ToolsManager",
 				
 				tool.setParams(toolParams);
 				
-				if (this._initialized || effectiveLocation != null && this.getToolsLayout().getToolsAtLocation(effectiveLocation).length == 1)
+				if (this.isInitialized() || effectiveLocation != null && this.getToolsLayout().getToolsAtLocation(effectiveLocation).length == 1)
 				{
 					tool.focus();
 					
-					if (this._initialized)
+					if (this.isInitialized())
 					{
 						this.saveState();
 					}
@@ -347,7 +360,7 @@ Ext.define("Ametys.tool.ToolsManager",
          */
         _onToolPanelMoved: function(toolPanel, newLocation, eOpts)
         {
-            if (this._initialized)
+            if (this.isInitialized())
             {
                 var tool = this.getTool(eOpts.toolId); 
                 this._overridenDefaultLocation[tool.getFactory().getRole()] = newLocation;
@@ -391,7 +404,7 @@ Ext.define("Ametys.tool.ToolsManager",
 			
 			delete this._tools[tool.getId()];
 			
-			if (this._initialized)
+			if (this.isInitialized())
 			{
 				this.saveState();
 			}
