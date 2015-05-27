@@ -74,7 +74,7 @@ public class GetUserPreferencesAction extends ServiceableAction
             throw new ProcessingException("Preferences context can't be blank");
         }
         
-        Map<String, Object> jsonObject = new HashMap<String, Object>();
+        Map<String, Object> jsonObject = new HashMap<>();
         jsonObject.put("username", username);
         jsonObject.put("context", storageContext);
         jsonObject.put("preferences", userPrefs2JsonObject(storageContext, contextVars, username, excludePrivate));
@@ -93,9 +93,10 @@ public class GetUserPreferencesAction extends ServiceableAction
      * @throws ProcessingException if an error occurred
      * @throws UserPreferencesException if an error occurred
      */
+    @SuppressWarnings("unchecked")
     protected Map<String, Object> userPrefs2JsonObject (String storageContext, Map<String, String> contextVars, String username, boolean excludePrivate) throws ProcessingException, UserPreferencesException
     {
-        Map<String, Object> jsonObject = new LinkedHashMap<String, Object>();
+        Map<String, Object> jsonObject = new LinkedHashMap<>();
         jsonObject.put("fieldsets", new ArrayList<Map<String, Object>>());
         
         Map<I18nizableText, List<UserPreference>> groups = _userPrefEP.getCategorizedPreferences(contextVars);
@@ -103,7 +104,7 @@ public class GetUserPreferencesAction extends ServiceableAction
         
         for (Entry<I18nizableText, List<UserPreference>> groupEntry : groups.entrySet())
         {
-            Map<String, Object> fieldSetObject = new LinkedHashMap<String, Object>();
+            Map<String, Object> fieldSetObject = new LinkedHashMap<>();
             fieldSetObject.put("role", "fieldset");
             fieldSetObject.put("label", groupEntry.getKey());
             
@@ -126,7 +127,7 @@ public class GetUserPreferencesAction extends ServiceableAction
      */
     protected Map<String, Object> userPrefs2JsonObject (List<UserPreference> userPrefs, Map<String, String> prefValues, boolean excludePrivate) throws ProcessingException
     {
-        Map<String, Object> jsonObject = new LinkedHashMap<String, Object>();
+        Map<String, Object> jsonObject = new LinkedHashMap<>();
         
         for (UserPreference userPref : userPrefs)
         {
@@ -148,7 +149,7 @@ public class GetUserPreferencesAction extends ServiceableAction
      */
     protected Map<String, Object> userPref2JsonObject (UserPreference userPref, Object value) throws ProcessingException
     {
-        Map<String, Object> jsonObject = new LinkedHashMap<String, Object>();
+        Map<String, Object> jsonObject = new LinkedHashMap<>();
         
         jsonObject.put("label", userPref.getLabel());
         jsonObject.put("description", userPref.getDescription());
@@ -198,14 +199,14 @@ public class GetUserPreferencesAction extends ServiceableAction
         {
             try
             {
-                List<Map<String, Object>> options = new ArrayList<Map<String, Object>>();
+                List<Map<String, Object>> options = new ArrayList<>();
                 
                 for (Map.Entry<Object, I18nizableText> entry : enumerator.getEntries().entrySet())
                 {
                     String valueAsString = ParameterHelper.valueToString(entry.getKey());
                     I18nizableText entryLabel = entry.getValue();
                     
-                    Map<String, Object> option = new HashMap<String, Object>();
+                    Map<String, Object> option = new HashMap<>();
                     option.put("label", entryLabel != null ? entryLabel : valueAsString);
                     option.put("value", valueAsString);
                     options.add(option);

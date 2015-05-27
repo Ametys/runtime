@@ -54,7 +54,7 @@ public class UpdateSystemAction extends AbstractAction implements ThreadSafe
         Request request = ObjectModelHelper.getRequest(objectModel);
         
         // The map to keep the messages
-        Map<String, String> messages = new HashMap<String, String>();
+        Map<String, String> messages = new HashMap<>();
         
         // Is maintenance
         // boolean maintenace = "true".equals(_request.getParameter("maintenance"));
@@ -69,14 +69,9 @@ public class UpdateSystemAction extends AbstractAction implements ThreadSafe
         }
         
         // Save the file
-        ModifiableSource saveAnnouncementSource = null;
-        OutputStream os = null;
-        try
+        ModifiableSource saveAnnouncementSource = (ModifiableSource) resolver.resolveURI("context://" + SystemHelper.ADMINISTRATOR_SYSTEM_FILE);
+        try (OutputStream os = saveAnnouncementSource.getOutputStream())
         {
-            saveAnnouncementSource = (ModifiableSource) resolver.resolveURI("context://" + SystemHelper.ADMINISTRATOR_SYSTEM_FILE);
-            
-            os = saveAnnouncementSource.getOutputStream();
-            
             _save(os, announcement, messages);
             
             // RuntimeServlet.setRunMode(maintenace ? RuntimeServlet.RunMode.MAINTENANCE : RuntimeServlet.RunMode.NORMAL);
@@ -88,10 +83,6 @@ public class UpdateSystemAction extends AbstractAction implements ThreadSafe
         }
         finally 
         {
-            if (os != null)
-            {
-                os.close();
-            }
             if (saveAnnouncementSource != null)
             {
                 resolver.release(saveAnnouncementSource);

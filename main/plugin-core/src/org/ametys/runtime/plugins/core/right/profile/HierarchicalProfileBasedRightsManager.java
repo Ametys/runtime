@@ -61,7 +61,7 @@ public class HierarchicalProfileBasedRightsManager extends DefaultProfileBasedRi
             }
             else
             {
-                Set<String> users = new HashSet<String>();
+                Set<String> users = new HashSet<>();
     
                 Set<String> convertedContexts = getAliasContext(context);
                 for (String convertContext : convertedContexts)
@@ -94,7 +94,7 @@ public class HierarchicalProfileBasedRightsManager extends DefaultProfileBasedRi
         {
             if (login == null)
             {
-                return new HashSet<String>();
+                return new HashSet<>();
             }
             else if (context == null)
             {
@@ -102,7 +102,7 @@ public class HierarchicalProfileBasedRightsManager extends DefaultProfileBasedRi
             }
             else
             {
-                Set<String> rights = new HashSet<String>();
+                Set<String> rights = new HashSet<>();
                 
                 Set<String> convertedContexts = getAliasContext(context);
                 for (String convertContext : convertedContexts)

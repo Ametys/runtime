@@ -94,7 +94,7 @@ public class CASCredentialsProvider implements CredentialsProvider, Initializabl
 
     public void initialize() throws Exception
     {
-        _filters = new HashMap<String, List<RuntimeFilter>>();
+        _filters = new HashMap<>();
         
         _serverUrl = Config.getInstance().getValueAsString("runtime.authentication.cas.serverUrl");
         
@@ -135,11 +135,11 @@ public class CASCredentialsProvider implements CredentialsProvider, Initializabl
         if (runtimeFilters == null)
         {
             // Create the filter chain.
-            runtimeFilters = new ArrayList<RuntimeFilter>();
+            runtimeFilters = new ArrayList<>();
             _filters.put(name, runtimeFilters);
             
             ServletContext servletContext = (ServletContext) objectModel.get(HttpEnvironment.HTTP_SERVLET_CONTEXT);
-            Map<String, String> parameters = new HashMap<String, String>();
+            Map<String, String> parameters = new HashMap<>();
             
             // Authentication filter.
             parameters.put("casServerLoginUrl", _serverUrl + "/login");

@@ -48,6 +48,7 @@ public class AffectSuperUserAction extends ServiceableAction implements ThreadSa
         _sManager = smanager;
     }
     
+    @SuppressWarnings("unchecked")
     @Override
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {

@@ -59,6 +59,7 @@ public class ServerCommHelper implements Component, Serviceable, Contextualizabl
      * Get the JS parameters as a Map object
      * @return The JS parameters
      */
+    @SuppressWarnings("unchecked")
     public Map<String, Object> getJsParameters()
     {
         Map<String, Object> objectModel = ContextHelper.getObjectModel(_context);

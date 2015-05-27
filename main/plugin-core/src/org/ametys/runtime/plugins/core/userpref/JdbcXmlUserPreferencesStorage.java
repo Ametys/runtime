@@ -88,12 +88,12 @@ public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements
     @Override
     public Map<String, String> getUnTypedUserPrefs(String login, String storageContext, Map<String, String> contextVars) throws UserPreferencesException
     {
-        Map<String, String> prefs = new HashMap<String, String>();
+        Map<String, String> prefs = new HashMap<>();
         
         Connection connection = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        InputStream dataIs = null;
+        @SuppressWarnings("resource") InputStream dataIs = null;
         
         try
         {
@@ -132,13 +132,7 @@ public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements
             getLogger().error(message, e);
             throw new UserPreferencesException(message, e);
         }
-        catch (SAXException e)
-        {
-            String message = "Error parsing the preferences of user '" + login + "' in context '" + storageContext + "'.";
-            getLogger().error(message, e);
-            throw new UserPreferencesException(message, e);
-        }
-        catch (IOException e)
+        catch (SAXException | IOException e)
         {
             String message = "Error parsing the preferences of user '" + login + "' in context '" + storageContext + "'.";
             getLogger().error(message, e);
@@ -185,80 +179,74 @@ public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements
     @Override
     public void setUserPreferences(String login, String storageContext, Map<String, String> contextVars, Map<String, String> preferences) throws UserPreferencesException
     {
-        // Set.
-        Connection connection = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        InputStream dataIs = null;
+        byte[] prefBytes = _getPreferencesXmlBytes(preferences);
         
-        try
+        try (InputStream dataIs = new ByteArrayInputStream(prefBytes);
+             Connection connection = ConnectionHelper.getConnection(_poolName))
         {
-            byte[] prefBytes = _getPreferencesXmlBytes(preferences);
-            dataIs = new ByteArrayInputStream(prefBytes);
             
-            connection = ConnectionHelper.getConnection(_poolName);
             DatabaseType dbType = ConnectionHelper.getDatabaseType(connection);
             
             // Test if the preferences already exist.
-            stmt = connection.prepareStatement("SELECT count(*) FROM " + _databaseTable + " WHERE login = ? AND context = ?");
-            stmt.setString(1, login);
-            stmt.setString(2, storageContext);
-            rs = stmt.executeQuery();
-            rs.next();
-            boolean dataExists = rs.getInt(1) > 0;
-            ConnectionHelper.cleanup(rs);
-            ConnectionHelper.cleanup(stmt);
+            boolean dataExists;
+            try (PreparedStatement stmt = connection.prepareStatement("SELECT count(*) FROM " + _databaseTable + " WHERE login = ? AND context = ?"))
+            {
+                stmt.setString(1, login);
+                stmt.setString(2, storageContext);
+                
+                try (ResultSet rs = stmt.executeQuery())
+                {
+                    rs.next();
+                    dataExists = rs.getInt(1) > 0;
+                }
+            }
             
             if (dataExists)
             {
                 // If there's already a record, update it with the new data.
-                stmt = connection.prepareStatement("UPDATE " + _databaseTable + " SET data = ? WHERE login = ? AND context = ?");
-                
-                if (DatabaseType.DATABASE_POSTGRES.equals(dbType) || DatabaseType.DATABASE_ORACLE.equals(dbType))
+                try (PreparedStatement stmt = connection.prepareStatement("UPDATE " + _databaseTable + " SET data = ? WHERE login = ? AND context = ?"))
                 {
-                    stmt.setBinaryStream(1, dataIs, prefBytes.length);
+                    if (DatabaseType.DATABASE_POSTGRES.equals(dbType) || DatabaseType.DATABASE_ORACLE.equals(dbType))
+                    {
+                        stmt.setBinaryStream(1, dataIs, prefBytes.length);
+                    }
+                    else
+                    {
+                        stmt.setBlob(1, dataIs, prefBytes.length);
+                    }
+                    
+                    stmt.setString(2, login);
+                    stmt.setString(3, storageContext);
+                    
+                    stmt.executeUpdate();
                 }
-                else
-                {
-                    stmt.setBlob(1, dataIs, prefBytes.length);
-                }
-                stmt.setString(2, login);
-                stmt.setString(3, storageContext);
-                
-                stmt.executeUpdate();
             }
             else
             {
                 // If not, insert the data.
-                stmt = connection.prepareStatement("INSERT INTO " + _databaseTable + "(login, context, data) VALUES(?, ?, ?)");
-                
-                stmt.setString(1, login);
-                stmt.setString(2, storageContext);
-                if (DatabaseType.DATABASE_POSTGRES.equals(dbType) || DatabaseType.DATABASE_ORACLE.equals(dbType))
+                try (PreparedStatement stmt = connection.prepareStatement("INSERT INTO " + _databaseTable + "(login, context, data) VALUES(?, ?, ?)"))
                 {
-                    stmt.setBinaryStream(3, dataIs, prefBytes.length);
+                    stmt.setString(1, login);
+                    stmt.setString(2, storageContext);
+                    if (DatabaseType.DATABASE_POSTGRES.equals(dbType) || DatabaseType.DATABASE_ORACLE.equals(dbType))
+                    {
+                        stmt.setBinaryStream(3, dataIs, prefBytes.length);
+                    }
+                    else
+                    {
+                        stmt.setBlob(3, dataIs);
+                    }
+                    
+                    stmt.executeUpdate();
                 }
-                else
-                {
-                    stmt.setBlob(3, dataIs);
-                }
-                
-                stmt.executeUpdate();
             }
             
         }
-        catch (SQLException e)
+        catch (SQLException | IOException e)
         {
             String message = "Database error trying to access the preferences of user '" + login + "' in context '" + storageContext + "'.";
             getLogger().error(message, e);
             throw new UserPreferencesException(message, e);
-        }
-        finally
-        {
-            IOUtils.closeQuietly(dataIs);
-            ConnectionHelper.cleanup(rs);
-            ConnectionHelper.cleanup(stmt);
-            ConnectionHelper.cleanup(connection);
         }
     }
 

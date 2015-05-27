@@ -129,7 +129,7 @@ public class GroupMembersGenerator extends ServiceableGenerator
     
     private List<User> _getSortedUsers (Group group, UsersManager usersManager)
     {
-        List<User> users = new ArrayList<User>();
+        List<User> users = new ArrayList<>();
         
         Collections.sort(users, new Comparator<User>()
         {

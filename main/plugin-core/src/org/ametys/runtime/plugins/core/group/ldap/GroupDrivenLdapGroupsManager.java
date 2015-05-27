@@ -117,7 +117,7 @@ public class GroupDrivenLdapGroupsManager extends AbstractLDAPGroupsManager impl
     public Set<Group> getGroups()
     {
         // Créer un ensemble de groupes
-        Set<Group> groups = new TreeSet<Group>(new Comparator<Group>()
+        Set<Group> groups = new TreeSet<>(new Comparator<Group>()
         {
             public int compare(Group g1, Group g2) 
             {
@@ -171,6 +171,7 @@ public class GroupDrivenLdapGroupsManager extends AbstractLDAPGroupsManager impl
         return groups;
     }
     
+    @SuppressWarnings("unchecked")
     public Set<String> getUserGroups(String login)
     {
         // On cache hit, return the results. 
@@ -183,7 +184,7 @@ public class GroupDrivenLdapGroupsManager extends AbstractLDAPGroupsManager impl
             }
         }
         
-        Set<String> groups = new HashSet<String>();
+        Set<String> groups = new HashSet<>();
 
         DirContext context = null;
         NamingEnumeration results = null;

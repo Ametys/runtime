@@ -143,7 +143,7 @@ public class UserPreferencesExtensionPoint extends AbstractThreadSafeComponentEx
      */
     protected Map<String, UserPreference> getPreferencesMap(Map<String, String> contextVars)
     {
-        Map<String, UserPreference> preferences = new HashMap<String, UserPreference>();
+        Map<String, UserPreference> preferences = new HashMap<>();
         
         for (String extensionId : getExtensionsIds())
         {
@@ -165,7 +165,7 @@ public class UserPreferencesExtensionPoint extends AbstractThreadSafeComponentEx
      */
     protected Map<I18nizableText, List<UserPreference>> getCategorizedPreferencesMap(Map<String, String> contextVars)
     {
-        Map<I18nizableText, List<UserPreference>> preferences = new TreeMap<I18nizableText, List<UserPreference>>(new I18nizableTextComparator());
+        Map<I18nizableText, List<UserPreference>> preferences = new TreeMap<>(new I18nizableTextComparator());
         
         for (String extensionId : getExtensionsIds())
         {
@@ -179,7 +179,7 @@ public class UserPreferencesExtensionPoint extends AbstractThreadSafeComponentEx
                 List<UserPreference> group = preferences.get(groupName);
                 if (group == null)
                 {
-                    group = new ArrayList<UserPreference>();
+                    group = new ArrayList<>();
                     preferences.put(groupName, group);
                 }
                 

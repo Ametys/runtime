@@ -46,7 +46,7 @@ public class RightsExtensionPoint extends AbstractLogEnabled implements Extensio
 
     public void initialize() throws Exception
     {
-        _rights = new HashMap<String, Right>();
+        _rights = new HashMap<>();
     }
     
     public boolean hasExtension(String id)
@@ -165,7 +165,7 @@ public class RightsExtensionPoint extends AbstractLogEnabled implements Extensio
 
     public Set<String> getExtensionsIds()
     {
-        return new HashSet<String>(_rights.keySet());
+        return new HashSet<>(_rights.keySet());
     }
 
     public void initializeExtensions() throws Exception

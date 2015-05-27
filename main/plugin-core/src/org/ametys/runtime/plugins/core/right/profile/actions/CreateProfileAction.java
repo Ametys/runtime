@@ -96,7 +96,7 @@ public class CreateProfileAction extends AbstractCurrentUserProviderServiceableA
             getLogger().debug("Ending profile creation");
         }
         
-        Map<String, String> result = new HashMap<String, String>();
+        Map<String, String> result = new HashMap<>();
         result.put("id", profile.getId());
         return result;
     }

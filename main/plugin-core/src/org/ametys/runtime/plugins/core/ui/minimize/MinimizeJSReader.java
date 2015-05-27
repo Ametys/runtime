@@ -52,17 +52,21 @@ public class MinimizeJSReader extends AbstractMinimizeReader
         StringBuffer sb = new StringBuffer();
         
         Source jssource = null;
-        InputStream is = null;
         try
         {
             jssource = _resolver.resolveURI(StringUtils.startsWith(file, "~") ? "cocoon:/" + org.apache.cocoon.util.NetUtils.normalize(file.substring(1)) : file);
-            is = jssource.getInputStream();
             
-            String s = IOUtils.toString(is);
+            String s;
+            try (InputStream is = jssource.getInputStream())
+            {
+                s = IOUtils.toString(is);
+            }
             
-            Reader r = new StringReader(s);
-            JavaScriptCompressor compressor = new JavaScriptCompressor(r, new LoggerErrorReporter(getLogger()));
-            r.close();
+            JavaScriptCompressor compressor;
+            try (Reader r = new StringReader(s))
+            {
+                compressor = new JavaScriptCompressor(r, new LoggerErrorReporter(getLogger()));
+            }
             
             Writer w = new StringWriter();
             compressor.compress(w, 8000, false, false, true, true);
@@ -76,7 +80,6 @@ public class MinimizeJSReader extends AbstractMinimizeReader
         }
         finally
         {
-            IOUtils.closeQuietly(is);
             _resolver.release(jssource);
         }
 

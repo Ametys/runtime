@@ -72,7 +72,7 @@ public class SetPasswordAction extends AbstractAction implements ThreadSafe
             String oldEncryptedPassword = StringUtils.md5Base64(oldPassword);
 
             // Lecture du fichier d'admin
-            Map<String, String> admin = new HashMap<String, String>();
+            Map<String, String> admin = new HashMap<>();
             Source adminSource = resolver.resolveURI("context:/" + AdminAuthenticateAction.ADMINISTRATOR_PASSWORD_FILENAME);
             if (adminSource.exists())
             {
@@ -94,7 +94,7 @@ public class SetPasswordAction extends AbstractAction implements ThreadSafe
                     getLogger().info("Administrator failed to change password (empty passwor, wrong old password, wrong confirmation)...");
                 }
 
-                Map<String, String> results = new HashMap<String, String>();
+                Map<String, String> results = new HashMap<>();
                 results.put("result", "FAILED");
                 return results;
             }
@@ -109,7 +109,7 @@ public class SetPasswordAction extends AbstractAction implements ThreadSafe
                     getLogger().info("Administrator has successfully changed password");
                 }
 
-                Map<String, String> results = new HashMap<String, String>();
+                Map<String, String> results = new HashMap<>();
                 results.put("result", "SUCCESS");
                 return results;
             }
@@ -118,7 +118,7 @@ public class SetPasswordAction extends AbstractAction implements ThreadSafe
         {
             getLogger().error("An unknown error occured while changing the password", e);
 
-            Map<String, String> results = new HashMap<String, String>();
+            Map<String, String> results = new HashMap<>();
             results.put("result", "FAILED");
             return results;
         }
@@ -132,30 +132,30 @@ public class SetPasswordAction extends AbstractAction implements ThreadSafe
     {
         File adminFile = new File(adminFilename);
         adminFile.getParentFile().mkdirs();
-        OutputStream os = new FileOutputStream(adminFile);
+        
+        try (OutputStream os = new FileOutputStream(adminFile))
+        {
+            // create a transformer for saving sax into a file
+            TransformerHandler th = ((SAXTransformerFactory) TransformerFactory.newInstance()).newTransformerHandler();
+            // create the result where to write
+            StreamResult sResult = new StreamResult(os);
+            th.setResult(sResult);
 
-        // create a transformer for saving sax into a file
-        TransformerHandler th = ((SAXTransformerFactory) TransformerFactory.newInstance()).newTransformerHandler();
-        // create the result where to write
-        StreamResult sResult = new StreamResult(os);
-        th.setResult(sResult);
+            // create the format of result
+            Properties format = new Properties();
+            format.put(OutputKeys.METHOD, "xml");
+            format.put(OutputKeys.INDENT, "yes");
+            format.put(OutputKeys.ENCODING, "UTF-8");
+            th.getTransformer().setOutputProperties(format);
 
-        // create the format of result
-        Properties format = new Properties();
-        format.put(OutputKeys.METHOD, "xml");
-        format.put(OutputKeys.INDENT, "yes");
-        format.put(OutputKeys.ENCODING, "UTF-8");
-        th.getTransformer().setOutputProperties(format);
-
-        // Envoi des événements sax
-        th.startDocument();
-        XMLUtils.startElement(th, "admin");
-        XMLUtils.startElement(th, "password");
-        XMLUtils.data(th, newEncryptedPassword);
-        XMLUtils.endElement(th, "password");
-        XMLUtils.endElement(th, "admin");       
-        th.endDocument();
-
-        os.close();
+            // Envoi des événements sax
+            th.startDocument();
+            XMLUtils.startElement(th, "admin");
+            XMLUtils.startElement(th, "password");
+            XMLUtils.data(th, newEncryptedPassword);
+            XMLUtils.endElement(th, "password");
+            XMLUtils.endElement(th, "admin");       
+            th.endDocument();
+        }
     }
 }

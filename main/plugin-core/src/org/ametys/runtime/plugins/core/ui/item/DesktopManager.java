@@ -107,12 +107,12 @@ public class DesktopManager extends AbstractThreadSafeComponentExtensionPoint<Cl
     
     private void _configureActions(Configuration configuration) throws ConfigurationException
     {
-        _categorizedItemsIds = new LinkedHashMap<String, List<String>>();
+        _categorizedItemsIds = new LinkedHashMap<>();
 
         Configuration[] catConf = configuration.getChildren("category");
         for (int i = 0; i < catConf.length; i++)
         {
-            List<String> categorizedItemsIds = new ArrayList<String>();
+            List<String> categorizedItemsIds = new ArrayList<>();
 
             String categoryName = catConf[i].getAttribute("name", "");
             if (categoryName.length() == 0)
@@ -160,7 +160,7 @@ public class DesktopManager extends AbstractThreadSafeComponentExtensionPoint<Cl
         // Transforme la liste d'identifiant en liste d'items
         for (String categoryName : _categorizedItemsIds.keySet())
         {
-            Map<String, ClientSideElement> items = new LinkedHashMap<String, ClientSideElement>();
+            Map<String, ClientSideElement> items = new LinkedHashMap<>();
 
             List<String> itemsIds = _categorizedItemsIds.get(categoryName);
             for (String itemId : itemsIds)

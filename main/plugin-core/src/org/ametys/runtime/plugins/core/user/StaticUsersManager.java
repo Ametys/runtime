@@ -42,7 +42,7 @@ public class StaticUsersManager implements Configurable, Component, CredentialsA
     
     public void configure(Configuration configuration) throws ConfigurationException
     {
-        _users = new HashMap<String, User>();
+        _users = new HashMap<>();
         
         Configuration[] usersConfigurations = configuration.getChildren("user");
         

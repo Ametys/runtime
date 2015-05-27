@@ -66,7 +66,7 @@ public class ChangeLogLevelAction extends AbstractAction implements ThreadSafe
         {
             String errorMessage = "Cannot change log level correctly : changing category '" + category + "'";
             getLogger().error(errorMessage, t);
-            Map<String, String> results = new HashMap<String, String>();
+            Map<String, String> results = new HashMap<>();
             results.put("error", "error");
             return results;
         }

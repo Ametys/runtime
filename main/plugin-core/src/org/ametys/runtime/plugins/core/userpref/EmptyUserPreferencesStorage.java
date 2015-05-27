@@ -29,7 +29,7 @@ public class EmptyUserPreferencesStorage implements DefaultUserPreferencesStorag
     @Override
     public Map<String, String> getUnTypedUserPrefs(String login, String storageContext, Map<String, String> contextVars) throws UserPreferencesException
     {
-        return new HashMap<String, String>();
+        return new HashMap<>();
     }
     
     @Override

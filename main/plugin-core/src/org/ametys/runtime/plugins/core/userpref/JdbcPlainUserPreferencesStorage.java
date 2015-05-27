@@ -121,8 +121,8 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
     public void configureMappings(Configuration configuration) throws ConfigurationException
     {
         // Store the mappings in both directions.
-        _prefIdToColumn = new HashMap<String, String>();
-        _columnToPrefId = new HashMap<String, String>();
+        _prefIdToColumn = new HashMap<>();
+        _columnToPrefId = new HashMap<>();
         
         for (Configuration mappingConf : configuration.getChildren("mapping"))
         {
@@ -137,7 +137,7 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
     @Override
     public Map<String, String> getUnTypedUserPrefs(String login, String storageContext, Map<String, String> contextVars) throws UserPreferencesException
     {
-        Map<String, String> prefs = new HashMap<String, String>();
+        Map<String, String> prefs = new HashMap<>();
         
         Connection connection = null;
         PreparedStatement stmt = null;
@@ -411,7 +411,7 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
      * @return The preference value as a String, can be null.
      * @throws SQLException if an error occurs.
      */
-    protected String getPreferenceValue(ResultSet rs, int columnIndex, int jdbcType) throws SQLException
+    protected String getPreferenceValue(ResultSet rs, int columnIndex, int jdbcType) throws SQLException // $CHECKSTYLE:cyclomaticcomplexity
     {
         String value = null;
         
@@ -510,7 +510,7 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
                 values.append(", ?");
             }
             
-            List<String> valuesToSet = new ArrayList<String>();
+            List<String> valuesToSet = new ArrayList<>();
             
             int validPrefCount = 0;
             for (String prefId : preferences.keySet())
@@ -574,7 +574,7 @@ public class JdbcPlainUserPreferencesStorage extends AbstractLogEnabled implemen
             StringBuilder query = new StringBuilder();
             query.append("UPDATE ").append(_databaseTable).append(" SET ");
             
-            List<String> valuesToSet = new ArrayList<String>();
+            List<String> valuesToSet = new ArrayList<>();
             
             int validPrefCount = 0;
             for (String prefId : preferences.keySet())

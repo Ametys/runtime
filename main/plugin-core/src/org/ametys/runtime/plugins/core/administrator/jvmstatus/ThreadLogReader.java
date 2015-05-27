@@ -77,7 +77,7 @@ public class ThreadLogReader extends AbstractReader
             out.write((deadlockedThreadsIds.length + " threads in deadlock.\n").getBytes());
             
             Map<Thread, StackTraceElement[]> threads = Thread.getAllStackTraces();
-            Map<Long, StackTraceElement[]> stackTraces = new HashMap<Long, StackTraceElement[]>();
+            Map<Long, StackTraceElement[]> stackTraces = new HashMap<>();
             for (Thread thread : threads.keySet())
             {
                 long id = thread.getId();

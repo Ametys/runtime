@@ -93,7 +93,7 @@ public class RenameProfileAction extends AbstractCurrentUserProviderServiceableA
         Profile profile = profileBasedRightsManager.getProfile(profileId);
         if (profile == null)
         {
-            Map<String, String> result = new HashMap<String, String>();
+            Map<String, String> result = new HashMap<>();
             result.put("message", "missing");
             return result;
         }

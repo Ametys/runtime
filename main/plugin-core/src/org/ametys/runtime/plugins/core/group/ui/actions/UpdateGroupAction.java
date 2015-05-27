@@ -97,7 +97,7 @@ public class UpdateGroupAction extends AbstractCurrentUserProviderServiceableAct
                 getLogger().warn(userMessage + " " + endMessage);
             }
             
-            Map<String, String> result = new HashMap<String, String>();
+            Map<String, String> result = new HashMap<>();
             result.put("message", "missing");
             return result;
         }

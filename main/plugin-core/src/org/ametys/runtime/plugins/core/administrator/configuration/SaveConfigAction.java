@@ -60,7 +60,7 @@ public class SaveConfigAction extends AbstractAction implements Contextualizable
 
         try
         {
-            Map<String, String> untypedValues = new HashMap<String, String>();
+            Map<String, String> untypedValues = new HashMap<>();
             
             // Configuration
             ConfigManager configManager = ConfigManager.getInstance();
@@ -78,7 +78,7 @@ public class SaveConfigAction extends AbstractAction implements Contextualizable
         {
             getLogger().error("An error occured while saving config modifications", e);
             
-            Map<String, String> result = new HashMap<String, String>();
+            Map<String, String> result = new HashMap<>();
             result.put("error", e.getMessage());
             return result;
         }

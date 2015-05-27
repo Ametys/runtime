@@ -39,6 +39,7 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.cocoon.xml.XMLUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -64,7 +65,7 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
     protected UsersManager _users;
 
     /** Group listeners */
-    protected List<GroupListener> _listeners = new ArrayList<GroupListener>();
+    protected List<GroupListener> _listeners = new ArrayList<>();
 
     /** The name of the jdbc pool to use */
     protected String _poolName;
@@ -200,7 +201,7 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
     @Override
     public Set<Group> getGroups()
     {
-        Set<Group> groups = new LinkedHashSet<Group>();
+        Set<Group> groups = new LinkedHashSet<>();
 
         Connection connection = null;
         Statement stmt = null;
@@ -251,7 +252,7 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
     @Override
     public Set<String> getUserGroups(String login)
     {
-        Set<String> groups = new HashSet<String>();
+        Set<String> groups = new HashSet<>();
         if (login == null)
         {
             return groups;
@@ -650,7 +651,7 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
         while (currentOffset > 0 && iterator.hasNext())
         {
             Group group = (Group) iterator.next();
-            if (pattern == null || pattern.length() == 0 || group.getLabel().toLowerCase().indexOf(pattern.toLowerCase()) != -1)
+            if (StringUtils.isEmpty(pattern) || group.getLabel().toLowerCase().indexOf(pattern.toLowerCase()) != -1)
             {
                 currentOffset--;
                 totalCount++;
@@ -658,12 +659,12 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
         }
 
         int currentCount = count;
-        // Parcourir les groupes
+        // Browse groups
         while ((count == -1 || currentCount > 0) && iterator.hasNext())
         {
             Group group = (Group) iterator.next();
 
-            if (pattern == null || pattern.length() == 0 || group.getLabel().toLowerCase().indexOf(pattern.toLowerCase()) != -1)
+            if (StringUtils.isEmpty(pattern) || group.getLabel().toLowerCase().indexOf(pattern.toLowerCase()) != -1)
             {
                 AttributesImpl attr = new AttributesImpl();
                 attr.addAttribute("", "id", "id", "CDATA", group.getId());
@@ -691,7 +692,7 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
         {
             Group group = (Group) iterator.next();
             
-            if (pattern == null || pattern.length() == 0 || group.getLabel().toLowerCase().indexOf(pattern.toLowerCase()) != -1)
+            if (StringUtils.isEmpty(pattern) || group.getLabel().toLowerCase().indexOf(pattern.toLowerCase()) != -1)
             {
                 totalCount++;
             }

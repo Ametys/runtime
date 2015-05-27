@@ -88,6 +88,7 @@ public abstract class AbstractMinimizeReader extends ServiceableReader implement
      */
     protected abstract String getListCode();
 
+    @SuppressWarnings("unchecked")
     private List<String> _getFileList()
     {
         Session session = ObjectModelHelper.getRequest(objectModel).getSession(true);

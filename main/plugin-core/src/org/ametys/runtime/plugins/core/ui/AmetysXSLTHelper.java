@@ -39,9 +39,10 @@ import org.ametys.runtime.workspace.WorkspaceMatcher;
  */
 public class AmetysXSLTHelper implements Contextualizable, Serviceable
 {
-    private static Context _context;
     /** The i18n utils instance */
     protected static I18nUtils _i18nUtils;
+
+    private static Context _context;
     
     @Override
     public void contextualize(Context context) throws ContextException

@@ -138,9 +138,7 @@ public class UploadReader extends ServiceableReader
             response.setHeader("Content-Disposition", "attachment; filename=\"" + _upload.getFilename() + "\"");
         }
         
-        InputStream is = _upload.getInputStream();
-        
-        try
+        try (InputStream is = _upload.getInputStream())
         {
             if (_width > 0 || _height > 0 || _maxHeight > 0 || _maxWidth > 0)
             {
@@ -160,7 +158,6 @@ public class UploadReader extends ServiceableReader
         }
         finally
         {
-            IOUtils.closeQuietly(is);
             IOUtils.closeQuietly(out);
         }
     }

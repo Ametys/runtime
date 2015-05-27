@@ -38,7 +38,6 @@ public final class ConnectionHelper
     
     /**
      * Enumeration for database type.<br>
-     * Currently, only MySQL and Oracle are supported.
      */
     public enum DatabaseType
     {

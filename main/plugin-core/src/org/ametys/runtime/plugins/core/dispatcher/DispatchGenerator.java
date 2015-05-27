@@ -101,6 +101,7 @@ public class DispatchGenerator extends ServiceableGenerator
         return ObjectModelHelper.getRequest(objectModel).getParameter("context.parameters");
     }
 
+    @SuppressWarnings("unchecked")
     private void _dispatching(Map<String, Object> parametersAsMap, Map<String, Object> contextAsMap) throws SAXException
     {
         Map<String, Object> attributes = _saveRequestAttributes();
@@ -124,7 +125,6 @@ public class DispatchGenerator extends ServiceableGenerator
             Map<String, Object> requestParameters = (Map<String, Object>) parameterObject.get("parameters");
             
             Source response = null;
-            InputStream is = null;
 
             ResponseHandler responseHandler = null;
             try
@@ -139,26 +139,28 @@ public class DispatchGenerator extends ServiceableGenerator
                 response = _resolver.resolveURI(url, null, requestParameters);
 
                 responseHandler = new ResponseHandler(contentHandler, parameterKey, "200");
-                is = response.getInputStream();
                 
-                if ("xml".equalsIgnoreCase(responseType))
+                try (InputStream is = response.getInputStream())
                 {
-                    // DO NOT USE SitemapSource.toSAX in this case
-                    _saxParser.parse(new InputSource(is), responseHandler);
-                }
-                else 
-                {
-                    responseHandler.startDocument();
-                    
-                    String data = IOUtils.toString(is, "UTF-8");
-                    if ("xml2text".equalsIgnoreCase(responseType))
+                    if ("xml".equalsIgnoreCase(responseType))
                     {
-                        // removing xml prolog and surrounding 'text' tag
-                        data = data.substring(data.indexOf(">", data.indexOf("?>") + 2) + 1, data.lastIndexOf("<"));
+                        // DO NOT USE SitemapSource.toSAX in this case
+                        _saxParser.parse(new InputSource(is), responseHandler);
                     }
-                    XMLUtils.data(responseHandler, data);
-                    
-                    responseHandler.endDocument();
+                    else 
+                    {
+                        responseHandler.startDocument();
+                        
+                        String data = IOUtils.toString(is, "UTF-8");
+                        if ("xml2text".equalsIgnoreCase(responseType))
+                        {
+                            // removing xml prolog and surrounding 'text' tag
+                            data = data.substring(data.indexOf(">", data.indexOf("?>") + 2) + 1, data.lastIndexOf("<"));
+                        }
+                        XMLUtils.data(responseHandler, data);
+                        
+                        responseHandler.endDocument();
+                    }
                 }
             }
             catch (Throwable e)
@@ -174,18 +176,7 @@ public class DispatchGenerator extends ServiceableGenerator
                     responseHandler.exceptionFinish();
                 }
                 
-                Throwable t = e;
-                while (t.getCause() != null || t instanceof SAXException && ((SAXException) t).getException() != null)
-                {
-                    if (t instanceof SAXException)
-                    {
-                        t = ((SAXException) t).getException();
-                    }
-                    else
-                    {
-                        t = t.getCause();
-                    }
-                }
+                Throwable t = _unroll(e);
                 
                 String code = "500";
                 if (t instanceof ResourceNotFoundException || t.toString().startsWith("org.apache.cocoon.ResourceNotFoundException:"))
@@ -206,7 +197,6 @@ public class DispatchGenerator extends ServiceableGenerator
             }
             finally
             {
-                IOUtils.closeQuietly(is);
                 _resolver.release(response);
                 
                 for (String extension : _dispatchProcessExtensionPoint.getExtensionsIds())
@@ -218,6 +208,24 @@ public class DispatchGenerator extends ServiceableGenerator
                 _restoreRequestAttributes(attributes);
             }
         }
+    }
+    
+    private Throwable _unroll(Throwable initial)
+    {
+        Throwable t = initial;
+        while (t.getCause() != null || t instanceof SAXException && ((SAXException) t).getException() != null)
+        {
+            if (t instanceof SAXException)
+            {
+                t = ((SAXException) t).getException();
+            }
+            else
+            {
+                t = t.getCause();
+            }
+        }
+        
+        return t;
     }
     
     /**
@@ -260,7 +268,7 @@ public class DispatchGenerator extends ServiceableGenerator
      */
     private Map<String, Object> _saveRequestAttributes()
     {
-        Map<String, Object> attrs = new HashMap<String, Object>();
+        Map<String, Object> attrs = new HashMap<>();
         
         Request request = ObjectModelHelper.getRequest(objectModel);
         
@@ -291,16 +299,16 @@ public class DispatchGenerator extends ServiceableGenerator
     @SuppressWarnings("unchecked")
     protected String _createUrl(String pluginOrWorkspace, String relativeUrl, Map<String, Object> requestParameters)
     {
-        StringBuffer url = new StringBuffer();
+        StringBuilder url = new StringBuilder();
         
         String urlPrefix = _getUrlPrefix(pluginOrWorkspace);
         url.append(urlPrefix);
         
-        int beginIndex = relativeUrl.length() != 0 && relativeUrl.charAt(0) == '/' ? 1 : 0;
-        int endIndex = relativeUrl.indexOf("?");
-        url.append(endIndex == -1 ? relativeUrl.substring(beginIndex) : relativeUrl.substring(beginIndex, endIndex));
+        url.append(_getRelativePath(relativeUrl));
         
-        if (relativeUrl.indexOf("?") == -1 && !requestParameters.isEmpty())
+        int queryIndex = relativeUrl.indexOf("?");
+        
+        if (queryIndex == -1 && !requestParameters.isEmpty())
         {
             // no existing parameters in request
             url.append("?");
@@ -315,27 +323,21 @@ public class DispatchGenerator extends ServiceableGenerator
                     {
                         if (v != null)
                         {
-                            url.append(key);
-                            url.append("=");
-                            url.append(String.valueOf(v).replaceAll("%", "%25").replaceAll("=", "%3D").replaceAll("&", "%26").replaceAll("\\+", "%2B"));
-                            url.append("&");
+                            url.append(_buildQueryParameter(key, v));
                         }
                     }
                 }
                 else if (value != null)
                 {
-                    url.append(key);
-                    url.append("=");
-                    url.append(String.valueOf(value).replaceAll("%", "%25").replaceAll("=", "%3D").replaceAll("&", "%26").replaceAll("\\+", "%2B"));
-                    url.append("&");
+                    url.append(_buildQueryParameter(key, value));
                 }
             }
         }
-        else if (relativeUrl.indexOf("?") > 0)
+        else if (queryIndex > 0)
         {
             url.append("?");
             
-            String queryUrl = relativeUrl.substring(relativeUrl.indexOf("?") + 1, relativeUrl.length());
+            String queryUrl = relativeUrl.substring(queryIndex + 1, relativeUrl.length());
             String[] queryParameters = queryUrl.split("&");
             
             for (String queryParameter : queryParameters)
@@ -348,11 +350,7 @@ public class DispatchGenerator extends ServiceableGenerator
                     try
                     {
                         String value = URLDecoder.decode(v, "UTF-8");
-                        
-                        url.append(key);
-                        url.append("=");
-                        url.append(String.valueOf(value).replaceAll("%", "%25").replaceAll("=", "%3D").replaceAll("&", "%26").replaceAll("\\+", "%2B"));
-                        url.append("&");
+                        url.append(_buildQueryParameter(key, value));
                         
                         if (!requestParameters.containsKey(key))
                         {
@@ -364,11 +362,28 @@ public class DispatchGenerator extends ServiceableGenerator
                         getLogger().error("Unsupported encoding for request parameter '" + key + "' and value '" + v + "'", e);
                     }
                 }
-                
             }
         }
         
         return url.toString();
+    }
+    
+    private String _getRelativePath(String url)
+    {
+        int beginIndex = url.length() != 0 && url.charAt(0) == '/' ? 1 : 0;
+        int endIndex = url.indexOf("?");
+        return endIndex == -1 ? url.substring(beginIndex) : url.substring(beginIndex, endIndex);
+    }
+    
+    private StringBuilder _buildQueryParameter(String key, Object value)
+    {
+        StringBuilder queryParameter = new StringBuilder();
+        queryParameter.append(key);
+        queryParameter.append("=");
+        queryParameter.append(String.valueOf(value).replaceAll("%", "%25").replaceAll("=", "%3D").replaceAll("&", "%26").replaceAll("\\+", "%2B"));
+        queryParameter.append("&");
+        
+        return queryParameter;
     }
     
     /**
@@ -417,7 +432,7 @@ public class DispatchGenerator extends ServiceableGenerator
             _handler = handler;
             _parameterKey = parameterKey;
             _code = code;
-            _startedElements = new ArrayList<String>();
+            _startedElements = new ArrayList<>();
         }
         
         /**

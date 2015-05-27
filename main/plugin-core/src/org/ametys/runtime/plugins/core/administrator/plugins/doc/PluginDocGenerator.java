@@ -26,7 +26,6 @@ import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.generation.ServiceableGenerator;
 import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceResolver;
 import org.apache.excalibur.xml.sax.SAXParser;
@@ -73,17 +72,13 @@ public class PluginDocGenerator extends ServiceableGenerator
 
     private void _saxPlugin(String pluginName) throws IOException, SAXException
     {
-        Source pluginSource = null;
-        InputStream is = null;
-        try
+        Source pluginSource = _sourceResolver.resolveURI("plugin:" + pluginName + "://plugin.xml");
+        try (InputStream is = pluginSource.getInputStream())
         {
-            pluginSource = _sourceResolver.resolveURI("plugin:" + pluginName + "://plugin.xml");
-            is = pluginSource.getInputStream();
             _saxParser.parse(new InputSource(is), new SpecialHandler(contentHandler, pluginName));
         }
         finally
         {
-            IOUtils.closeQuietly(is);
             _sourceResolver.release(pluginSource);
         }
     }

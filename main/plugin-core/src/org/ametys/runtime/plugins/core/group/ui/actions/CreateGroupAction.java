@@ -86,7 +86,7 @@ public class CreateGroupAction extends AbstractCurrentUserProviderServiceableAct
             getLogger().debug("Ending group creation");
         }
         
-        Map<String, String> result = new HashMap<String, String>();
+        Map<String, String> result = new HashMap<>();
         result.put("id", ug.getId());
         return result;
     }

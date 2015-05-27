@@ -15,7 +15,6 @@
  */
 package org.ametys.runtime.plugins.core.right.profile;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -83,6 +82,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
     /** Avalon ServiceManager */
     protected ServiceManager _manager;
+    
+    /** Avalon SourceResolver */
+    protected SourceResolver _resolver;
 
     /** The rights' list container */
     protected RightsExtensionPoint _rightsEP;
@@ -127,7 +129,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      *  "/pages" + "default/default/fr/toto"
      *  "" + "pages/default/default/fr/toto"
      */
-    private final ThreadLocal<Map<String, Map<String, Map<String, List<String>>>>> _cacheTL = new ThreadLocal<Map<String, Map<String, Map<String, List<String>>>>>();
+    private final ThreadLocal<Map<String, Map<String, Map<String, List<String>>>>> _cacheTL = new ThreadLocal<>();
 
     /* Identique au précédent si ce n'est qu'il ne traite pas les sous-contextes
      *  { Login : { Right : { Context : Boolean
@@ -140,7 +142,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      *  On ne peut pas mettre ces infos là dans le 1er cache on ne demande pas /* dans les parents
      *  sinon ça reviendrait à tout lire à chaque fois !
      */
-    private final ThreadLocal<Map<String, Map<String, Map<String, Boolean>>>> _cache2TL = new ThreadLocal<Map<String, Map<String, Map<String, Boolean>>>>();
+    private final ThreadLocal<Map<String, Map<String, Map<String, Boolean>>>> _cache2TL = new ThreadLocal<>();
 
     @Override
     public void service(ServiceManager manager) throws ServiceException
@@ -151,6 +153,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         _usersManager = (UsersManager) _manager.lookup(UsersManager.ROLE);
         _groupsManager = (GroupsManager) _manager.lookup(GroupsManager.ROLE);
         _rightContextConvertorExtPt = (RightContextConvertorExtentionPoint) _manager.lookup(RightContextConvertorExtentionPoint.ROLE);
+        _resolver = (SourceResolver) _manager.lookup(SourceResolver.ROLE);
     }
 
     @Override
@@ -161,23 +164,18 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         String externalFile = rightsConfiguration.getAttribute("config", null);
         if (externalFile != null)
         {
-            SourceResolver resolver = null;
             Source source = null;
-            InputStream is = null;
             try
             {
-                resolver = (SourceResolver) _manager.lookup(SourceResolver.ROLE);
-
-                source = resolver.resolveURI("context://" + externalFile);
+                source = _resolver.resolveURI("context://" + externalFile);
 
                 if (source.exists())
                 {
-                    is = source.getInputStream();
-
-                    Configuration externalConfiguration = new DefaultConfigurationBuilder().build(is);
-
-                    is.close();
-                    is = null;
+                    Configuration externalConfiguration;
+                    try (InputStream is = source.getInputStream();)
+                    {
+                        externalConfiguration = new DefaultConfigurationBuilder().build(is);
+                    }
 
                     configureRights(externalConfiguration);
                 }
@@ -194,24 +192,9 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             }
             finally
             {
-                if (is != null)
+                if (source != null)
                 {
-                    try
-                    {
-                        is.close();
-                    }
-                    catch (IOException e)
-                    {
-                        getLogger().error("An error occured while closing source '" + externalFile + "'", e);
-                    }
-                }
-                if (resolver != null)
-                {
-                    if (source != null)
-                    {
-                        resolver.release(source);
-                    }
-                    _manager.release(resolver);
+                    _resolver.release(source);
                 }
             }
         }
@@ -305,7 +288,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     {
         try
         {
-            Set<String> users = new HashSet<String>();
+            Set<String> users = new HashSet<>();
 
             Set<String> convertedContexts = getAliasContext(context);
             for (String convertContext : convertedContexts)
@@ -334,7 +317,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     {
         String lcContext = getFullContext (context);
 
-        Set<String> logins = new HashSet<String>();
+        Set<String> logins = new HashSet<>();
 
         logins.addAll(getGrantedUsersOnly(right, lcContext));
         logins.addAll(getGrantedGroupsOnly(right, lcContext));
@@ -347,7 +330,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     {
         try
         {
-            Set<String> rights = new HashSet<String>();
+            Set<String> rights = new HashSet<>();
 
             if (login == null)
             {
@@ -381,7 +364,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     {
         String lcContext = getFullContext (context);
 
-        Set<String> rights = new HashSet<String>();
+        Set<String> rights = new HashSet<>();
 
         rights.addAll(getUsersOnlyRights(login, lcContext));
         rights.addAll(getGroupsOnlyRights(login, lcContext));
@@ -394,7 +377,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     {
         if (login == null)
         {
-            return new HashMap<String, Set<String>>();
+            return new HashMap<>();
         }
 
         try
@@ -553,7 +536,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      */
     protected Set<String> getAliasContext (String initialContext)
     {
-        Set<String> convertedContexts = new HashSet<String>();
+        Set<String> convertedContexts = new HashSet<>();
         convertedContexts.add(initialContext);
 
         Set<String> ids = _rightContextConvertorExtPt.getExtensionsIds();
@@ -578,11 +561,11 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     {
         String lcContext = getFullContext (context);
 
-        Set<String> profiles = new HashSet<String>();
+        Set<String> profiles = new HashSet<>();
 
         if (login == null)
         {
-            return new HashSet<String>();
+            return new HashSet<>();
         }
 
         Connection connection = ConnectionHelper.getConnection(_poolName);
@@ -639,7 +622,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     {
         String lcContext = getFullContext (context);
 
-        Set<User> users = new HashSet<User>();
+        Set<User> users = new HashSet<>();
 
         Connection connection = ConnectionHelper.getConnection(_poolName);
 
@@ -702,7 +685,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     {
         String lcContext = getFullContext (context);
 
-        Set<Group> groups = new HashSet<Group>();
+        Set<Group> groups = new HashSet<>();
 
         Connection connection = ConnectionHelper.getConnection(_poolName);
 
@@ -763,7 +746,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      */
     public Set<String> getContextByUserAndProfile(String login, String profileID) throws RightsException
     {
-        Set<String> contexts = new HashSet<String>();
+        Set<String> contexts = new HashSet<>();
 
         if (login == null)
         {
@@ -828,7 +811,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         {
             if (login == null)
             {
-                return new HashMap<String, Set<String>>();
+                return new HashMap<>();
             }
 
             Map<String, Set<String>> userProfiles = getUsersOnlyProfiles(login);
@@ -865,7 +848,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     {
         String lcContext = getFullContext (context);
 
-        Set<String> profiles = new HashSet<String>();
+        Set<String> profiles = new HashSet<>();
 
         Connection connection = ConnectionHelper.getConnection(_poolName);
 
@@ -919,7 +902,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      */
     public Set<String> getContextByGroupAndProfile(String groupID, String profileID) throws RightsException
     {
-        Set<String> contexts = new HashSet<String>();
+        Set<String> contexts = new HashSet<>();
 
         Connection connection = ConnectionHelper.getConnection(_poolName);
 
@@ -1317,7 +1300,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     {
         String lcContext = getFullContext (context);
 
-        Set<User> users = new HashSet<User>();
+        Set<User> users = new HashSet<>();
 
         Connection connection = ConnectionHelper.getConnection(_poolName);
 
@@ -1375,7 +1358,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     {
         String lcContext = getFullContext (context);
 
-        Set<Group> groups = new HashSet<Group>();
+        Set<Group> groups = new HashSet<>();
 
         Connection connection = ConnectionHelper.getConnection(_poolName);
 
@@ -1626,7 +1609,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
             List<String> contextList = mapContext.get(context);
             if (contextList == null)
             {
-                contextList = new ArrayList<String>();
+                contextList = new ArrayList<>();
                 mapContext.put(context, contextList);
             }
 
@@ -1687,7 +1670,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
     private Set<String> getGrantedUsersOnly(String right, String context) throws SQLException
     {
-        Set<String> logins = new HashSet<String>();
+        Set<String> logins = new HashSet<>();
 
         Connection connection = ConnectionHelper.getConnection(_poolName);
         PreparedStatement stmt = null;
@@ -1735,7 +1718,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
     private Set<String> getUsersOnlyRights(String login, String context) throws SQLException
     {
-        Set<String> rights = new HashSet<String>();
+        Set<String> rights = new HashSet<>();
 
         if (login == null)
         {
@@ -1795,7 +1778,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
     private Map<String, Set<String>> getUsersOnlyRights(String login) throws SQLException
     {
-        Map<String, Set<String>> rights = new HashMap<String, Set<String>>();
+        Map<String, Set<String>> rights = new HashMap<>();
 
         Connection connection = ConnectionHelper.getConnection(_poolName);
         PreparedStatement stmt = null;
@@ -1843,7 +1826,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
     private Map<String, Set<String>> getUsersOnlyProfiles(String login) throws SQLException
     {
-        Map<String, Set<String>> profiles = new HashMap<String, Set<String>>();
+        Map<String, Set<String>> profiles = new HashMap<>();
 
         Connection connection = ConnectionHelper.getConnection(_poolName);
         PreparedStatement stmt = null;
@@ -2014,7 +1997,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
                 List<String> contextList = mapContext.get(context);
                 if (contextList == null)
                 {
-                    contextList = new ArrayList<String>();
+                    contextList = new ArrayList<>();
                     mapContext.put(context, contextList);
                 }
 
@@ -2062,7 +2045,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
     private Set<String> getGrantedGroupsOnly(String right, String context) throws SQLException
     {
-        Set<String> logins = new HashSet<String>();
+        Set<String> logins = new HashSet<>();
 
         Connection connection = ConnectionHelper.getConnection(_poolName);
         PreparedStatement stmt = null;
@@ -2123,7 +2106,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
     private Set<String> getGroupsOnlyRights(String login, String context) throws SQLException
     {
-        Set<String> rights = new HashSet<String>();
+        Set<String> rights = new HashSet<>();
 
         Connection connection = ConnectionHelper.getConnection(_poolName);
         PreparedStatement stmt = null;
@@ -2207,7 +2190,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
     private Map<String, Set<String>> getGroupsOnlyRights(String login) throws SQLException
     {
-        Map<String, Set<String>> rights = new HashMap<String, Set<String>>();
+        Map<String, Set<String>> rights = new HashMap<>();
 
         Connection connection = ConnectionHelper.getConnection(_poolName);
         PreparedStatement stmt = null;
@@ -2284,7 +2267,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
     private Map<String, Set<String>> getGroupsOnlyProfiles(String login) throws SQLException
     {
-        Map<String, Set<String>> profiles = new HashMap<String, Set<String>>();
+        Map<String, Set<String>> profiles = new HashMap<>();
 
         Connection connection = ConnectionHelper.getConnection(_poolName);
         PreparedStatement stmt = null;
@@ -2388,7 +2371,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
         if (mapCache == null)
         {
-            mapCache = new HashMap<String, Map<String, Map<String, List<String>>>>();
+            mapCache = new HashMap<>();
             _cacheTL.set(mapCache);
         }
 
@@ -2433,7 +2416,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
         if (mapCache == null)
         {
-            mapCache = new HashMap<String, Map<String, Map<String, Boolean>>>();
+            mapCache = new HashMap<>();
             _cache2TL.set(mapCache);
         }
 
@@ -2523,14 +2506,14 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         Map<String, Map<String, List<String>>> mapRight = mapCache.get(login);
         if (mapRight == null)
         {
-            mapRight = new HashMap<String, Map<String, List<String>>>();
+            mapRight = new HashMap<>();
             mapCache.put(login, mapRight);
         }
 
         Map<String, List<String>> mapContext = mapRight.get(right);
         if (mapContext == null)
         {
-            mapContext = new HashMap<String, List<String>>();
+            mapContext = new HashMap<>();
             mapRight.put(right, mapContext);
         }
 
@@ -2544,14 +2527,14 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         Map<String, Map<String, Boolean>> mapRight = mapCache.get(login);
         if (mapRight == null)
         {
-            mapRight = new HashMap<String, Map<String, Boolean>>();
+            mapRight = new HashMap<>();
             mapCache.put(login, mapRight);
         }
 
         Map<String, Boolean> mapContext = mapRight.get(right);
         if (mapContext == null)
         {
-            mapContext = new HashMap<String, Boolean>();
+            mapContext = new HashMap<>();
             mapRight.put(right, mapContext);
         }
 
@@ -2568,7 +2551,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
      */
     protected Set<String> getDeclaredContexts(String login, String rightId, String initialContext)
     {
-        HashSet<String> contexts = new HashSet<String>();
+        HashSet<String> contexts = new HashSet<>();
 
         RightResult result = hasRight(login, rightId, initialContext);
         if (result == RightResult.RIGHT_OK)
@@ -2760,7 +2743,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     @Override
     public Set<Profile> getProfiles(String context)
     {
-        Set<Profile> profiles = new HashSet<Profile>();
+        Set<Profile> profiles = new HashSet<>();
 
         Connection connection = null;
         PreparedStatement stmt = null;
@@ -2805,7 +2788,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
     @Override
     public Set<Profile> getAllProfiles()
     {
-        Set<Profile> profiles = new HashSet<Profile>();
+        Set<Profile> profiles = new HashSet<>();
 
         Connection connection = null;
         Statement stmt = null;
@@ -3047,7 +3030,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         @Override
         public Set<String> getRights()
         {
-            Set<String> rights = new HashSet<String>();
+            Set<String> rights = new HashSet<>();
 
             Connection connection = ConnectionHelper.getConnection(_poolName);
 

@@ -27,7 +27,6 @@ import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.generation.ServiceableGenerator;
 import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.xml.sax.SAXParser;
 import org.xml.sax.InputSource;
@@ -49,25 +48,21 @@ public class ChangeRuntime extends ServiceableGenerator
         _saxParser = (SAXParser) manager.lookup(SAXParser.ROLE);
     }
     
+    @SuppressWarnings("unchecked")
     @Override
     public void generate() throws IOException, SAXException, ProcessingException
     {
         contentHandler.startDocument();
         XMLUtils.startElement(contentHandler, "CMS");
         
-        Source src = null;
-        InputStream is = null;
-        try
-        {
-            src = resolver.resolveURI("context://WEB-INF/param/runtime.xml");
+        Source src = resolver.resolveURI("context://WEB-INF/param/runtime.xml");
          
-            is = src.getInputStream();
-            
+        try (InputStream is = src.getInputStream())
+        {
             _saxParser.parse(new InputSource(is), new IgnoreRootHandler(contentHandler));
         }
         finally
         {
-            IOUtils.closeQuietly(is);
             resolver.release(src);            
         }
         

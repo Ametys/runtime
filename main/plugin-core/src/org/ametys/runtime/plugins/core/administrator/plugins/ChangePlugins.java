@@ -32,6 +32,7 @@ import org.apache.excalibur.source.SourceUtil;
  */
 public class ChangePlugins extends AbstractAction implements ThreadSafe
 {
+    @SuppressWarnings("unchecked")
     @Override
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {

@@ -38,7 +38,7 @@ public class SearchGenerator extends ServiceableGenerator
     public void generate() throws IOException, SAXException, ProcessingException
     {
         // Critère de recherche
-        Map<String, String> saxParameters = new HashMap<String, String>();
+        Map<String, String> saxParameters = new HashMap<>();
         saxParameters.put("pattern", source);
         
         // Nombre de résultats max

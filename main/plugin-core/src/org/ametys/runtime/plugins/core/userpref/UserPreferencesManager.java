@@ -75,7 +75,7 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Thread
     @Override
     public void initialize() throws Exception
     {
-        _storageManagers = new HashMap<String, UserPreferencesStorage>();
+        _storageManagers = new HashMap<>();
     }
     
     /**
@@ -88,7 +88,7 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Thread
      */
     public Map<String, String> getUnTypedUserPrefs(String login, String storageContext, Map<String, String> contextVars) throws UserPreferencesException
     {
-        Map<String, String> preferences = new HashMap<String, String>();
+        Map<String, String> preferences = new HashMap<>();
         
 //        Map<String, Collection<UserPreference>> userPrefsByStorage = getUserPrefsByStorage(contextVars);
         Set<String> storageRoles = getStorageRoles(contextVars);
@@ -300,7 +300,7 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Thread
      */
     protected Set<String> getStorageRoles(Map<String, String> contextVars)
     {
-        Set<String> storageRoles = new HashSet<String>();
+        Set<String> storageRoles = new HashSet<>();
         
         // Add the default storage role.
         storageRoles.add(_defaultStorageRole);
@@ -322,7 +322,7 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Thread
      */
     protected Map<String, Collection<UserPreference>> getUserPrefsByStorage(Map<String, String> contextVars)
     {
-        Map<String, Collection<UserPreference>> userPrefs = new HashMap<String, Collection<UserPreference>>();
+        Map<String, Collection<UserPreference>> userPrefs = new HashMap<>();
         
         for (UserPreference preference : _userPrefEP.getUserPreferences(contextVars).values())
         {
@@ -331,7 +331,7 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Thread
             Collection<UserPreference> rolePrefs = userPrefs.get(role);
             if (rolePrefs == null)
             {
-                rolePrefs = new ArrayList<UserPreference>();
+                rolePrefs = new ArrayList<>();
                 userPrefs.put(role, rolePrefs);
             }
             
@@ -349,7 +349,7 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Thread
      */
     protected Map<String, Map<String, String>> getUserPrefsValuesByStorage(Map<String, String> contextVars, Map<String, String> preferenceValues)
     {
-        Map<String, Map<String, String>> preferenceValuesByStorage = new HashMap<String, Map<String, String>>();
+        Map<String, Map<String, String>> preferenceValuesByStorage = new HashMap<>();
         
         // Initialize with empty maps.
         for (String storageRole : getStorageRoles(contextVars))
@@ -358,7 +358,7 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Thread
         }
         
         Map<String, Collection<UserPreference>> userPrefsByStorage = getUserPrefsByStorage(contextVars);
-        Map<String, String> unknownPreferenceValues = new HashMap<String, String>(preferenceValues);
+        Map<String, String> unknownPreferenceValues = new HashMap<>(preferenceValues);
         
         for (String storageRole : userPrefsByStorage.keySet())
         {
@@ -447,7 +447,7 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Thread
      */
     protected Map<String, Object> _castValues(Map<String, String> untypedValues, Map<String, String> contextVars)
     {
-        Map<String, Object> typedValues = new HashMap<String, Object>(untypedValues.size());
+        Map<String, Object> typedValues = new HashMap<>(untypedValues.size());
         
         for (Entry<String, String> entry : untypedValues.entrySet())
         {

@@ -53,7 +53,7 @@ public class UploadAction extends AbstractCurrentUserProviderServiceableAction
         }
         
         Part partUploaded = (Part) request.get("file");
-        Map<String, Object> result = new LinkedHashMap<String, Object>();
+        Map<String, Object> result = new LinkedHashMap<>();
 
         if (partUploaded == null)
         {
@@ -86,7 +86,7 @@ public class UploadAction extends AbstractCurrentUserProviderServiceableAction
                 
                 result.put("success", false);
                 
-                Map<String, String> ex = new HashMap<String, String>();
+                Map<String, String> ex = new HashMap<>();
                 ex.put("message", e.getMessage());
                 ex.put("stacktrace", ExceptionUtils.getFullStackTrace(e));
 

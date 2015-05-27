@@ -51,7 +51,7 @@ import org.ametys.runtime.util.parameter.Validator;
 public class ModifiableJdbcUsersManager extends JdbcUsersManager implements ModifiableUsersManager
 {
     /** List on user listener */
-    protected List<UserListener> _listeners = new ArrayList<UserListener>();
+    protected List<UserListener> _listeners = new ArrayList<>();
 
     public void registerListener(UserListener listener)
     {
@@ -192,7 +192,7 @@ public class ModifiableJdbcUsersManager extends JdbcUsersManager implements Modi
     @Override
     public Map<String, Errors> validate(Map<String, String> userInformation)
     {
-        Map<String, Errors> errorFields = new HashMap<String, Errors>();
+        Map<String, Errors> errorFields = new HashMap<>();
         for (JdbcParameter parameter : _parameters.values())
         {
             String untypedvalue = userInformation.get(parameter.getId());
@@ -273,7 +273,7 @@ public class ModifiableJdbcUsersManager extends JdbcUsersManager implements Modi
         Connection con = null;
         PreparedStatement stmt = null;
 
-        Map<String, Errors> errorFields = new HashMap<String, Errors>();
+        Map<String, Errors> errorFields = new HashMap<>();
         for (String id : userInformation.keySet())
         {
             JdbcParameter parameter = _parameters.get(id);

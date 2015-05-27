@@ -113,7 +113,7 @@ public class GroupDrivenLdapAndJdbcGroupsManager extends GroupDrivenLdapGroupsMa
     @Override
     public Set<Group> getGroups()
     {
-        Set<Group> groups = new HashSet<Group>();
+        Set<Group> groups = new HashSet<>();
         
         groups.addAll(super.getGroups());
         groups.addAll(_fallbackGroupsManager.getGroups());
@@ -124,7 +124,7 @@ public class GroupDrivenLdapAndJdbcGroupsManager extends GroupDrivenLdapGroupsMa
     @Override
     public Set<String> getUserGroups(String login)
     {
-        Set<String> userGroups = new HashSet<String>();
+        Set<String> userGroups = new HashSet<>();
         
         userGroups.addAll(super.getUserGroups(login));
         userGroups.addAll(_fallbackGroupsManager.getUserGroups(login));

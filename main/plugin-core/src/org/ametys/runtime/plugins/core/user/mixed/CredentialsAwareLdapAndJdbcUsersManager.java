@@ -133,7 +133,7 @@ public class CredentialsAwareLdapAndJdbcUsersManager extends CredentialsAwareLda
     @Override
     public Collection<User> getUsers()
     {
-        Set<User> users = new HashSet<User>();
+        Set<User> users = new HashSet<>();
         
         users.addAll(super.getUsers());
         users.addAll(_fallbackUsersManager.getUsers());

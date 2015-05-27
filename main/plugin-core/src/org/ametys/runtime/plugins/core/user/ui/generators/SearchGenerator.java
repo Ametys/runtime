@@ -37,6 +37,7 @@ public class SearchGenerator extends ServiceableGenerator
     private static final int _DEFAULT_COUNT_VALUE = 100;
     private static final int _DEFAULT_OFFSET_VALUE = 0;
 
+    @SuppressWarnings("unchecked")
     public void generate() throws IOException, SAXException, ProcessingException
     {
         Map<String, Object> jsParameters = (Map<String, Object>) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
@@ -100,7 +101,7 @@ public class SearchGenerator extends ServiceableGenerator
      */
     protected Map<String, String> _getSearchParameters ()
     {
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("pattern", source);
         return params;
     }

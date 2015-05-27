@@ -112,12 +112,12 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
     {
         try
         {
-            _validatorManager = new ThreadSafeComponentManager<Validator>();
+            _validatorManager = new ThreadSafeComponentManager<>();
             _validatorManager.enableLogging(getLogger());
             _validatorManager.contextualize(_context);
             _validatorManager.service(_manager);
             
-            _enumeratorManager = new ThreadSafeComponentManager<Enumerator>();
+            _enumeratorManager = new ThreadSafeComponentManager<>();
             _enumeratorManager.enableLogging(getLogger());
             _enumeratorManager.contextualize(_context);
             _enumeratorManager.service(_manager);
@@ -130,7 +130,7 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
         _poolName = configuration.getChild("pool").getValue();
         _tableName = configuration.getChild("table").getValue("Users");
 
-        _parameters = new LinkedHashMap<String, JdbcParameter>();
+        _parameters = new LinkedHashMap<>();
         
         JdbcParameterParser jdbcParameterParser = new JdbcParameterParser(_enumeratorManager, _validatorManager);
 
@@ -293,7 +293,7 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
     public Collection<User> getUsers()
     {
         // Créer une liste d'utilisateurs
-        List<User> users = new ArrayList<User>();
+        List<User> users = new ArrayList<>();
         // Vérifier si l'initialisation s'est bien passée
 
         Connection con = null;

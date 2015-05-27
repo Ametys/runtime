@@ -15,7 +15,6 @@
  */
 package org.ametys.runtime.plugins.core.administrator.version;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -45,7 +44,7 @@ public class DefaultVersionsHandler extends AbstractLogEnabled implements Versio
     @Override
     public final Collection<Version> getVersions()
     {
-        ArrayList<Version> versions = new ArrayList<Version>();
+        ArrayList<Version> versions = new ArrayList<>();
         
         if (_applicationVersion == null)
         {
@@ -100,13 +99,11 @@ public class DefaultVersionsHandler extends AbstractLogEnabled implements Versio
      */
     protected final Version _getVersionFromClasspath(String path, String versionName)
     {
-        Map<String, String> config = new HashMap<String, String>();
+        Map<String, String> config = new HashMap<>();
         Date date = null;
         
-        InputStream is = null;
-        try
+        try (InputStream is = getClass().getResourceAsStream(path))
         {
-            is = getClass().getResourceAsStream(path);
             if (is == null)
             {
                 getLogger().warn(versionName + " version is unavailable");
@@ -121,20 +118,6 @@ public class DefaultVersionsHandler extends AbstractLogEnabled implements Versio
         catch (Exception ex)
         {
             getLogger().warn("Unable to get version number for " + versionName, ex);
-        }
-        finally
-        {
-            if (is != null)
-            {
-                try
-                {
-                    is.close();
-                }
-                catch (IOException e)
-                {
-                    // empty
-                }
-            }
         }
         
         return new Version(versionName, config.get("version"), date);

@@ -54,7 +54,6 @@ public class MinimizeCSSReader extends AbstractMinimizeReader
         StringBuffer sb = new StringBuffer();
         
         Source csssource = null;
-        InputStream is = null;
         try
         {
             String cssPathForImages = "/";
@@ -67,10 +66,15 @@ public class MinimizeCSSReader extends AbstractMinimizeReader
             }
 
             csssource = _resolver.resolveURI(StringUtils.startsWith(file, "~") ? "cocoon:/" + org.apache.cocoon.util.NetUtils.normalize(file.substring(1)) : file);
-            is = csssource.getInputStream();
             
             // Initial file
-            String s0 = IOUtils.toString(is);
+            String s0;
+            try (InputStream is = csssource.getInputStream())
+            {
+                // Initial file
+                s0 = IOUtils.toString(is);
+            }
+            
             // Removing comments
             String s1 = __removeComment(s0);
             // Resolve images
@@ -98,7 +102,6 @@ public class MinimizeCSSReader extends AbstractMinimizeReader
         }
         finally
         {
-            IOUtils.closeQuietly(is);
             _resolver.release(csssource);
         }
         

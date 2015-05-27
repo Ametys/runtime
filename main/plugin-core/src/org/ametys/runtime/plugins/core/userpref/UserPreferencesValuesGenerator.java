@@ -52,6 +52,7 @@ public class UserPreferencesValuesGenerator extends AbstractCurrentUserProviderS
         _userPrefManager = (UserPreferencesManager) serviceManager.lookup(UserPreferencesManager.ROLE);
     }
     
+    @SuppressWarnings("unchecked")
     @Override
     public void generate() throws IOException, SAXException, ProcessingException
     {
@@ -86,7 +87,7 @@ public class UserPreferencesValuesGenerator extends AbstractCurrentUserProviderS
             
             if (userprefs == null || userprefs.size() == 0)
             {
-                userprefs = new ArrayList<String>(userPrefsDefinitions.keySet());
+                userprefs = new ArrayList<>(userPrefsDefinitions.keySet());
             }
             
             for (String userpref : userprefs)

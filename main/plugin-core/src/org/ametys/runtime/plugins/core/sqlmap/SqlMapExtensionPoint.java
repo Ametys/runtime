@@ -18,7 +18,6 @@ package org.ametys.runtime.plugins.core.sqlmap;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -36,10 +35,6 @@ import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 
-import org.ametys.runtime.datasource.ConnectionHelper;
-import org.ametys.runtime.datasource.DataSourceExtensionPoint;
-import org.ametys.runtime.plugin.PluginsManager;
-import org.ametys.runtime.plugin.component.AbstractThreadSafeComponentExtensionPoint;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -54,6 +49,11 @@ import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import org.ametys.runtime.datasource.ConnectionHelper;
+import org.ametys.runtime.datasource.DataSourceExtensionPoint;
+import org.ametys.runtime.plugin.PluginsManager;
+import org.ametys.runtime.plugin.component.AbstractThreadSafeComponentExtensionPoint;
 
 import com.ibatis.sqlmap.client.SqlMapClient;
 import com.ibatis.sqlmap.client.SqlMapClientBuilder;
@@ -86,9 +86,9 @@ public class SqlMapExtensionPoint extends AbstractThreadSafeComponentExtensionPo
     {
         super.initialize();
         
-        _sqlMaps = new HashMap<String, Set<SqlMap>>();
-        _sqlMapsClients = new HashMap<String, SqlMapClient>();
-        _extensions = new HashMap<String, Set<String>>();
+        _sqlMaps = new HashMap<>();
+        _sqlMapsClients = new HashMap<>();
+        _extensions = new HashMap<>();
         _sourceResolver = (SourceResolver) _cocoonManager.lookup(SourceResolver.ROLE);
         
         Context ctx = (Context) _context.get(Constants.CONTEXT_ENVIRONMENT_CONTEXT);
@@ -98,7 +98,7 @@ public class SqlMapExtensionPoint extends AbstractThreadSafeComponentExtensionPo
     @Override
     protected void addComponent(String pluginName, String featureName, String role, Class<? extends SqlMapClientComponentProvider> clazz, Configuration configuration) throws ComponentException
     {
-        Set<String> dataSources = new HashSet<String>();
+        Set<String> dataSources = new HashSet<>();
         
         try
         {
@@ -124,7 +124,7 @@ public class SqlMapExtensionPoint extends AbstractThreadSafeComponentExtensionPo
                 
                 if (sqlMapsForCurrentDataSource == null)
                 {
-                    sqlMapsForCurrentDataSource = new HashSet<SqlMap>();
+                    sqlMapsForCurrentDataSource = new HashSet<>();
                     
                     _sqlMaps.put(dataSource, sqlMapsForCurrentDataSource);
                 }
@@ -221,7 +221,7 @@ public class SqlMapExtensionPoint extends AbstractThreadSafeComponentExtensionPo
         {
             Set<String> poolNames = _extensions.get(componentProvider);
             
-            Map<String, SqlMapClient> instances = new HashMap<String, SqlMapClient>();
+            Map<String, SqlMapClient> instances = new HashMap<>();
             
             for (String poolName : poolNames)
             {
@@ -246,9 +246,7 @@ public class SqlMapExtensionPoint extends AbstractThreadSafeComponentExtensionPo
 
     private InputStream _createConfigFile(Set<SqlMap> sqlMaps) throws Exception
     {
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-        
-        try
+        try (ByteArrayOutputStream os = new ByteArrayOutputStream())
         {
             // Créer un transformer
             TransformerHandler th = ((SAXTransformerFactory) TransformerFactory.newInstance()).newTransformerHandler();
@@ -279,10 +277,6 @@ public class SqlMapExtensionPoint extends AbstractThreadSafeComponentExtensionPo
             
             return new ByteArrayInputStream(rawConfig);
         }
-        finally
-        {
-            os.close();
-        }
     }
 
     private void _saxConfig(ContentHandler ch, Set<SqlMap> sqlMaps) throws Exception
@@ -305,66 +299,32 @@ public class SqlMapExtensionPoint extends AbstractThreadSafeComponentExtensionPo
     {
         SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
         SAXParser saxParser = saxParserFactory.newSAXParser();
-        Map<String, String> attributes = new LinkedHashMap<String, String>(4);
+        Map<String, String> attributes = new LinkedHashMap<>(4);
         
-        // Récupérer les valeurs par défaut
-        InputStream defaultConfigIs = getClass().getResourceAsStream("default-sql-map-config.xml");
-        
-        try
+        // Get default values
+        try (InputStream defaultConfigIs = getClass().getResourceAsStream("default-sql-map-config.xml"))
         {
             saxParser.parse(defaultConfigIs, new RootAttributesToMapHandler(attributes));
-        }
-        finally
-        {
-            try
-            {
-                defaultConfigIs.close();
-            }
-            catch (IOException e)
-            {
-                getLogger().error("Unable to close input stream", e);
-            }
         }
         
         String configFileName = "context://WEB-INF/param/sql-map-config.xml";
         
-        Source configSource = null;
-        InputStream configStream = null;
+        Source configSource = _sourceResolver.resolveURI(configFileName);
         
-        try
+        if (configSource.exists())
         {
-            configSource = _sourceResolver.resolveURI(configFileName);
-            
-            if (configSource.exists())
+            try (InputStream configStream = configSource.getInputStream())
             {
-                configStream = configSource.getInputStream();
-                // Surcharger avec les préférences de l'application
+                // Override with application values 
                 saxParser.parse(configStream, new RootAttributesToMapHandler(attributes));
             }
-            else
-            {
-                if (getLogger().isWarnEnabled())
-                {
-                    getLogger().warn("Unable to read SqlMap configuration file: '" + configFileName + "', fallback to default settings");
-                }                
-            }
         }
-        finally
+        else
         {
-            if (configStream != null)
+            if (getLogger().isWarnEnabled())
             {
-                try
-                {
-                    configStream.close();
-                }
-                catch (IOException e)
-                {
-                    if (getLogger().isWarnEnabled())
-                    {
-                        getLogger().warn("An error occured while closing config file '" + configFileName + "'", e);
-                    }
-                }
-            }
+                getLogger().warn("Unable to read SqlMap configuration file: '" + configFileName + "', fallback to default settings");
+            }                
         }
         
         // Convertir en attributs XML

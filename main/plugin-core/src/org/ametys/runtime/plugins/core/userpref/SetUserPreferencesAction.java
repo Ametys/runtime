@@ -47,7 +47,7 @@ public class SetUserPreferencesAction extends AbstractCurrentUserProviderService
 {
     
     /** The input date format. */
-    protected static final Set<DateFormat> _INPUT_DATE_FORMATS = new HashSet<DateFormat>();
+    protected static final Set<DateFormat> _INPUT_DATE_FORMATS = new HashSet<>();
     static
     {
         _INPUT_DATE_FORMATS.add(new SimpleDateFormat("yyyy-MM-dd"));
@@ -66,6 +66,7 @@ public class SetUserPreferencesAction extends AbstractCurrentUserProviderService
         super.service(serviceManager);
     }
     
+    @SuppressWarnings("unchecked")
     @Override
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
@@ -82,7 +83,7 @@ public class SetUserPreferencesAction extends AbstractCurrentUserProviderService
         String username = parameters.getParameter("username", _getCurrentUser());
         String submit = request.getParameter("submit");
         
-        Map<String, String> results = new HashMap<String, String>();
+        Map<String, String> results = new HashMap<>();
         
         if ("true".equals(submit))
         {
@@ -121,7 +122,7 @@ public class SetUserPreferencesAction extends AbstractCurrentUserProviderService
      */
     protected Map<String, String> setUserPreferences(Request request, String storageContext, Map<String, String> contextVars, String username, Collection<String> preferenceIds) throws UserPreferencesException
     {
-        Map<String, String> results = new HashMap<String, String>();
+        Map<String, String> results = new HashMap<>();
         
         results.put("status", "error");
         
@@ -158,7 +159,7 @@ public class SetUserPreferencesAction extends AbstractCurrentUserProviderService
      */
     protected Map<String, String> _getValues(Request request, Map<String, String> contextVars, Collection<String> preferenceIds, UserPreferencesErrors errors)
     {
-        Map<String, String> preferences = new HashMap<String, String>();
+        Map<String, String> preferences = new HashMap<>();
         
         for (UserPreference preference : _userPrefEP.getUserPreferences(contextVars).values())
         {

@@ -639,7 +639,7 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
         _provideLoginParameter = configuration.getChild("loginFailedUrl").getAttributeAsBoolean("provideLoginParameter", false);
         _loginUrlInternal = configuration.getChild("loginUrl").getAttributeAsBoolean("internal", false);
         _loginFailedUrlInternal = configuration.getChild("loginFailedUrl").getAttributeAsBoolean("internal", false);
-        _acceptedUrlPrefixes = new HashSet<String>();
+        _acceptedUrlPrefixes = new HashSet<>();
         for (Configuration prefixConf : configuration.getChild("unauthenticated").getChildren("urlPrefix"))
         {
             String prefix = prefixConf.getValue(null);

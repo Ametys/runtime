@@ -21,6 +21,7 @@ import java.util.Map;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.cocoon.xml.XMLUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -71,7 +72,7 @@ public abstract class AbstractLDAPGroupsManager extends AbstractLDAPConnector im
         while (currentOffset > 0 && iterator.hasNext())
         {
             Group group = (Group) iterator.next();
-            if (pattern == null || pattern.length() == 0 || group.getLabel().toLowerCase().indexOf(pattern.toLowerCase()) != -1)
+            if (StringUtils.isEmpty(pattern) || group.getLabel().toLowerCase().indexOf(pattern.toLowerCase()) != -1)
             {
                 currentOffset--;
                 totalCount++;
@@ -84,7 +85,7 @@ public abstract class AbstractLDAPGroupsManager extends AbstractLDAPConnector im
         {
             Group group = (Group) iterator.next();
             
-            if (pattern == null || pattern.length() == 0 || group.getLabel().toLowerCase().indexOf(pattern.toLowerCase()) != -1)
+            if (StringUtils.isEmpty(pattern) || group.getLabel().toLowerCase().indexOf(pattern.toLowerCase()) != -1)
             {
                 AttributesImpl attr = new AttributesImpl();
                 attr.addAttribute("", "id", "id", "CDATA", group.getId());
@@ -112,7 +113,7 @@ public abstract class AbstractLDAPGroupsManager extends AbstractLDAPConnector im
         {
             Group group = (Group) iterator.next();
             
-            if (pattern == null || pattern.length() == 0 || group.getLabel().toLowerCase().indexOf(pattern.toLowerCase()) != -1)
+            if (StringUtils.isEmpty(pattern) || group.getLabel().toLowerCase().indexOf(pattern.toLowerCase()) != -1)
             {
                 totalCount++;
             }

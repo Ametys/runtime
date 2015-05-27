@@ -139,7 +139,7 @@ public class Right
      */
     public Map<String, Object> toJSON()
     {
-        Map<String, Object> right = new HashMap<String, Object>();
+        Map<String, Object> right = new HashMap<>();
 
         right.put("id", _id);
         right.put("label", _label);

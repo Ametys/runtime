@@ -59,7 +59,7 @@ public class UsersEnumerator implements Enumerator, Serviceable
     @Override
     public Map<Object, I18nizableText> getEntries() throws Exception
     {
-        Map<Object, I18nizableText> entries = new HashMap<Object, I18nizableText>();
+        Map<Object, I18nizableText> entries = new HashMap<>();
         
         Collection<User> users = _usersManager.getUsers();
         for (User user : users)

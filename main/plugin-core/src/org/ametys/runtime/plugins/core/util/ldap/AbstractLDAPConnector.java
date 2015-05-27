@@ -139,7 +139,7 @@ public abstract class AbstractLDAPConnector extends CachingComponent<Object> imp
      */
     protected Hashtable<String, String> _getContextEnv()
     {
-        Hashtable<String, String> env = new Hashtable<String, String>();
+        Hashtable<String, String> env = new Hashtable<>();
 
         env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
         env.put(Context.PROVIDER_URL, _ldapUrl + "/" + _ldapBaseDN);

@@ -116,7 +116,7 @@ public class SigarDiskIOMonitor implements DiskIOMonitor
     @Override
     public Map<String, Double> toMap()
     {
-        Map<String, Double> map = new HashMap<String, Double>();
+        Map<String, Double> map = new HashMap<>();
 
         map.put(DiskIOMonitor.READS, getReads());
         map.put(DiskIOMonitor.READ_BYTES, getReadBytes());

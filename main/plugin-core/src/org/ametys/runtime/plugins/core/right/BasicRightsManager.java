@@ -49,7 +49,7 @@ public class BasicRightsManager implements RightsManager, Serviceable, ThreadSaf
     
     public Set<String> getGrantedUsers(String right, String context) throws RightsException
     {
-        Set<String> usersLogin = new HashSet<String>();
+        Set<String> usersLogin = new HashSet<>();
         
         Collection<User> users = _users.getUsers();
         for (User user : users)
@@ -68,7 +68,7 @@ public class BasicRightsManager implements RightsManager, Serviceable, ThreadSaf
     @Override
     public Map<String, Set<String>> getUserRights(String login) throws RightsException
     {
-        Map<String, Set<String>> rights = new HashMap<String, Set<String>>();
+        Map<String, Set<String>> rights = new HashMap<>();
         rights.put("/", _rightsExtensionPoint.getExtensionsIds());
         return rights;
     }

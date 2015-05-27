@@ -116,7 +116,7 @@ public class EditAction extends AbstractCurrentUserProviderServiceableAction
             
             if (fieldErrors != null && fieldErrors.size() > 0)
             {
-                Map<String, String> result = new HashMap<String, String>();
+                Map<String, String> result = new HashMap<>();
                 result.put("error", StringUtils.join(fieldErrors.keySet(), ","));
                 return result;
             }
@@ -136,7 +136,7 @@ public class EditAction extends AbstractCurrentUserProviderServiceableAction
     
     private Map<String, String> _getRequestParameters(Request request)
     {
-        Map<String, String> editParams = new HashMap<String, String>();
+        Map<String, String> editParams = new HashMap<>();
         
         Enumeration<String> requestParameterNames = request.getParameterNames();
         while (requestParameterNames.hasMoreElements())

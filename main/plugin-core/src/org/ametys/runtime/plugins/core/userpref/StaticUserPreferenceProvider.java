@@ -96,12 +96,12 @@ public class StaticUserPreferenceProvider extends AbstractLogEnabled implements 
     {
         try
         {
-            _validatorManager = new ThreadSafeComponentManager<Validator>();
+            _validatorManager = new ThreadSafeComponentManager<>();
             _validatorManager.enableLogging(getLogger());
             _validatorManager.contextualize(_context);
             _validatorManager.service(_serviceManager);
             
-            _enumeratorManager = new ThreadSafeComponentManager<Enumerator>();
+            _enumeratorManager = new ThreadSafeComponentManager<>();
             _enumeratorManager.enableLogging(getLogger());
             _enumeratorManager.contextualize(_context);
             _enumeratorManager.service(_serviceManager);
@@ -113,7 +113,7 @@ public class StaticUserPreferenceProvider extends AbstractLogEnabled implements 
         
         UserPreferenceParser prefParser = new UserPreferenceParser(_enumeratorManager, _validatorManager);
         
-        _preferences = new HashMap<String, UserPreference>();
+        _preferences = new HashMap<>();
         
         Configuration[] prefConfigurations = configuration.getChildren("param");
         for (Configuration prefConfiguration : prefConfigurations)

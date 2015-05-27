@@ -33,7 +33,7 @@ public class ScopeEnumerator implements Enumerator
     
     static
     {
-        __SCOPES = new LinkedHashMap<Object, I18nizableText>(3);
+        __SCOPES = new LinkedHashMap<>(3);
         __SCOPES.put("object", new I18nizableText(__CORE_CATALOGUE, "PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SEARCH_SCOPE_ENUM_OBJECT"));
         __SCOPES.put("one", new I18nizableText(__CORE_CATALOGUE, "PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SEARCH_SCOPE_ENUM_ONE"));
         __SCOPES.put("sub", new I18nizableText(__CORE_CATALOGUE, "PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SEARCH_SCOPE_ENUM_SUB"));

@@ -32,7 +32,7 @@ public class AliasDerefEnumerator implements Enumerator
     
     static
     {
-        __ALIAS_DEREF_MODES = new LinkedHashMap<Object, I18nizableText>(4);
+        __ALIAS_DEREF_MODES = new LinkedHashMap<>(4);
         __ALIAS_DEREF_MODES.put("always", new I18nizableText(__CORE_CATALOGUE, "PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ALIAS_DEREF_ENUM_ALWAYS"));
         __ALIAS_DEREF_MODES.put("never", new I18nizableText(__CORE_CATALOGUE, "PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ALIAS_DEREF_ENUM_NEVER"));
         __ALIAS_DEREF_MODES.put("finding", new I18nizableText(__CORE_CATALOGUE, "PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ALIAS_DEREF_ENUM_FINDING"));

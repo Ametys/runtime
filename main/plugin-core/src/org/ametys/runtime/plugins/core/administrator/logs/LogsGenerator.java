@@ -71,7 +71,7 @@ public class LogsGenerator extends ServiceableGenerator
         try
         {
             LoggerRepository loggerRepository = LogManager.getLoggerRepository();
-            List<Logger> loggers = new ArrayList<Logger>();
+            List<Logger> loggers = new ArrayList<>();
             Enumeration<org.apache.log4j.Logger> enumLogger = loggerRepository.getCurrentLoggers();
             
             while (enumLogger.hasMoreElements())
@@ -141,7 +141,7 @@ public class LogsGenerator extends ServiceableGenerator
     
     private Map<String, List<TraversableSource>> _prepareLogs(TraversableSource logsDirectorySource) throws SourceException
     {
-        Map<String, List<TraversableSource>> logs = new HashMap<String, List<TraversableSource>>();
+        Map<String, List<TraversableSource>> logs = new HashMap<>();
         
         Collection<TraversableSource> logFiles = logsDirectorySource.getChildren();
         for (TraversableSource logSource : logFiles)
@@ -156,7 +156,7 @@ public class LogsGenerator extends ServiceableGenerator
                     List<TraversableSource> underLogs = logs.get(canonicalName);
                     if (underLogs == null)
                     {
-                        underLogs = new ArrayList<TraversableSource>();
+                        underLogs = new ArrayList<>();
                         logs.put(canonicalName, underLogs);
                     }
                     

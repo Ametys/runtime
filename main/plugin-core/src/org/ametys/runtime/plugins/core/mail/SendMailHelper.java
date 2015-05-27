@@ -38,7 +38,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -264,12 +264,15 @@ public final class SendMailHelper
         }
         
         Session session = Session.getInstance(props, null);
+        
         // Define message
         MimeMessage message = new MimeMessage(session);
+        
         if (sender != null)
         {
             message.setFrom(new InternetAddress(sender));
         }
+        
         message.setSentDate(new Date());
         message.setSubject(subject);
         
@@ -339,29 +342,22 @@ public final class SendMailHelper
             message.setHeader("Disposition-Notification-To", sender);
         }
         
+        message.saveChanges();
+        
         Transport tr = session.getTransport("smtp");
-        try 
+        
+        try
         {
-            if (StringUtils.isNotBlank(user))
-            {
-                tr.connect(host, (int) port, user, password);
-            }
-            else
-            {
-                tr.connect(host, (int) port, null, null);
-            }
-            message.saveChanges();
-
+            tr.connect(host, (int) port, StringUtils.trimToNull(user), StringUtils.trimToNull(password));
+            
             if (recipient != null && sender != null)
             {
                 tr.sendMessage(message, message.getAllRecipients());
             }
-            
-            tr.close();
         }
-        catch (MessagingException e)
+        finally
         {
-            throw new MessagingException(e.getMessage(), e);
+            tr.close();
         }
     }
 
@@ -372,7 +368,7 @@ public final class SendMailHelper
      */
     public static String inlineCSS(String html)
     {
-        List<CssRule> rules = new LinkedList<CssRule>();
+        List<CssRule> rules = new LinkedList<>();
         
         Document doc = Jsoup.parse(html); 
         Elements els = doc.select("style");

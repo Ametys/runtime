@@ -104,7 +104,7 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
     public Collection<User> getUsers()
     {
         // Créer une liste d'utilisateurs
-        List<User> users = new ArrayList<User>();
+        List<User> users = new ArrayList<>();
         
         DirContext context = null;
         NamingEnumeration<SearchResult> results = null;
@@ -339,7 +339,7 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
         XMLUtils.startElement(handler, "users");
         if (count != 0)
         {
-            Map<String, Map<String, Object>> entries = new LinkedHashMap<String, Map<String, Object>>();
+            Map<String, Map<String, Object>> entries = new LinkedHashMap<>();
             
             int currentOffset = _toSAXInternal(handler, entries, count, offset >= 0 ? offset : 0, pattern, 0);
             if (count == -1 || currentOffset == -1)
@@ -499,7 +499,7 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
      */
     protected Map<String, Object> _getPatternFilter(String pattern)
     {
-        Map<String, Object> result = new HashMap<String, Object>();
+        Map<String, Object> result = new HashMap<>();
 
         // Vérifier si l'on a un motif
         if (pattern == null)
@@ -633,7 +633,7 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
     {
         try
         {
-            Map<String, Object> result = new HashMap<String, Object>();
+            Map<String, Object> result = new HashMap<>();
 
             // Récupérer les attributs de l'entrée
             Attributes attrs = entry.getAttributes();

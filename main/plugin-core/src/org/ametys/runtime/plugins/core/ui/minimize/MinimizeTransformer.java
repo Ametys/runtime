@@ -91,6 +91,7 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
      * Get the list of files for js
      * @return Return a modifiable file list registrer in session for the current _randomJSCode. Will never be null.
      */
+    @SuppressWarnings("unchecked")
     private List<String> _getJSFileList()
     {
         Request request = ContextHelper.getRequest(_context);
@@ -114,6 +115,7 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
      * Get the list of files for css
      * @return Return a modifiable file list registrer in session for the curren _randomCSSCode. Will never be null.
      */
+    @SuppressWarnings("unchecked")
     private List<String> _getCSSFileList()
     {
         Request request = ContextHelper.getRequest(_context);
@@ -138,6 +140,7 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
      * At this point, if a minimizable list of files is know, generates a script tag here.
      * Starts a new list of files.
      */
+    @SuppressWarnings("unchecked")
     private void _jsCheckPoint() throws SAXException
     {
         Request request = ContextHelper.getRequest(_context);
@@ -174,6 +177,7 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
      * At this point, if a minimizable list of files is know, generates a css tag here.
      * Starts a new list of files.
      */
+    @SuppressWarnings("unchecked")
     private void _cssCheckPoint() throws SAXException
     {
         Request request = ContextHelper.getRequest(_context);

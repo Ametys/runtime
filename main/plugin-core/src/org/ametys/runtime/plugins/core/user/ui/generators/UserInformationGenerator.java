@@ -53,7 +53,7 @@ public class UserInformationGenerator extends ServiceableGenerator
             
             if (source != null && source.length() != 0)
             {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("pattern", source);
                 users.toSAX(contentHandler, Integer.MAX_VALUE, 0, params);
             }

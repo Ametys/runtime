@@ -210,16 +210,13 @@ public class FSUploadManager extends TimerTask implements UploadManager, ThreadS
             throw new IOException("Unable to create directory: " + uploadFile.getParent());
         }
         
-        OutputStream os = new FileOutputStream(uploadFile);
-        
-        try
+        try (OutputStream os = new FileOutputStream(uploadFile))
         {
             IOUtils.copy(is, os);
         }
         finally
         {
             IOUtils.closeQuietly(is);
-            IOUtils.closeQuietly(os);
         }
         
         return new FSUpload(_context, uploadFile);

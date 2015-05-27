@@ -61,52 +61,39 @@ public class TokenCredentials extends Credentials
      */
     public boolean checkToken()
     {
-        Connection connection = null;
-        PreparedStatement deleteStatement = null;
-        PreparedStatement selectStatement = null;
-        PreparedStatement updateStatement = null;
-        ResultSet resultSet = null;
-        
-        try
+        try (Connection connection = ConnectionHelper.getConnection(ConnectionHelper.CORE_POOL_NAME))
         {
-            connection = ConnectionHelper.getConnection(ConnectionHelper.CORE_POOL_NAME);
-            
             // Delete 2 weeks or more old entries
-            deleteStatement = _getDeleteOldUserTokenStatement(connection);
-            deleteStatement.executeUpdate();
+            try (PreparedStatement deleteStatement = _getDeleteOldUserTokenStatement(connection))
+            {
+                deleteStatement.executeUpdate();
+            }
 
             // Retrieve entries corresponding to this login
             String login = getLogin();
-            String token = this._passwd;
-            selectStatement = _getSelectUserTokenStatement(connection, login);
+            String token = _passwd;
             
-            resultSet = selectStatement.executeQuery();
-            
-            // Find the database entry using this token
-            while (resultSet.next())
+            try (PreparedStatement selectStatement = _getSelectUserTokenStatement(connection, login);
+                 ResultSet resultSet = selectStatement.executeQuery())
             {
-                if (resultSet.getString("token").equals(DigestUtils.sha512Hex(token + resultSet.getString("salt"))))
+                // Find the database entry using this token
+                while (resultSet.next())
                 {
-                    // Delete it
-                    _deleteUserToken(connection, resultSet.getString("token"));
-                    return true;
+                    if (resultSet.getString("token").equals(DigestUtils.sha512Hex(token + resultSet.getString("salt"))))
+                    {
+                        // Delete it
+                        _deleteUserToken(connection, resultSet.getString("token"));
+                        return true;
+                    }
                 }
+                    
+                return false;
             }
-                
-            return false;
         }
         catch (Exception e)
         {
             _LOGGER.error("Communication error with the database", e); 
             return false;
-        }
-        finally
-        {
-            ConnectionHelper.cleanup(resultSet);       
-            ConnectionHelper.cleanup(deleteStatement);  
-            ConnectionHelper.cleanup(selectStatement);
-            ConnectionHelper.cleanup(updateStatement);
-            ConnectionHelper.cleanup(connection);
         }
     }
     
@@ -154,9 +141,10 @@ public class TokenCredentials extends Credentials
      */
     private void _deleteUserToken(Connection connection, String token) throws SQLException
     {
-        PreparedStatement statement = connection.prepareStatement("DELETE FROM UsersToken WHERE token = ?");
-        statement.setString(1, token);
-        
-        statement.executeUpdate();
+        try (PreparedStatement statement = connection.prepareStatement("DELETE FROM UsersToken WHERE token = ?"))
+        {
+            statement.setString(1, token);
+            statement.executeUpdate();
+        }
     }
 }

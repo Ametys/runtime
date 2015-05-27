@@ -40,7 +40,7 @@ public class ImpersonateAction extends AbstractCurrentUserProviderServiceableAct
     @Override
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
-        Map<String, String> result = new HashMap<String, String>();
+        Map<String, String> result = new HashMap<>();
         
         if (!_isSuperUser())
         {

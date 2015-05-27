@@ -89,7 +89,7 @@ public class UserDrivenLdapGroupsManager extends AbstractLDAPGroupsManager imple
     public Set<Group> getGroups()
     {
         // Créer un ensemble de groupes
-        Set<Group> groups = new TreeSet<Group>(new Comparator<Group>()
+        Set<Group> groups = new TreeSet<>(new Comparator<Group>()
         {
             public int compare(Group g1, Group g2) 
             {
@@ -107,12 +107,12 @@ public class UserDrivenLdapGroupsManager extends AbstractLDAPGroupsManager imple
             }
         });
         
-        Map<String, Group> groupsAssoc = new HashMap<String, Group>();
+        Map<String, Group> groupsAssoc = new HashMap<>();
 
         DirContext context = null;
         NamingEnumeration results = null;
         
-        Map<String, String> groupsDesc = new HashMap<String, String>();
+        Map<String, String> groupsDesc = new HashMap<>();
         try
         {
             // Connexion au serveur ldap
@@ -191,7 +191,7 @@ public class UserDrivenLdapGroupsManager extends AbstractLDAPGroupsManager imple
     
     private Map<String, String> _getGroupDescription(SearchResult entry)
     {
-        Map<String, String> result = new HashMap<String, String>();
+        Map<String, String> result = new HashMap<>();
         
         // Récupérer les attributs de l'entrée
         Attributes attrs = entry.getAttributes();
@@ -225,6 +225,7 @@ public class UserDrivenLdapGroupsManager extends AbstractLDAPGroupsManager imple
         }
     }
     
+    @SuppressWarnings("unchecked")
     public Set<String> getUserGroups(String login)
     {
         // On cache hit, return the results. 
@@ -237,7 +238,7 @@ public class UserDrivenLdapGroupsManager extends AbstractLDAPGroupsManager imple
             }
         }
         
-        Set<String> groups = new HashSet<String>();
+        Set<String> groups = new HashSet<>();
         
         DirContext context = null;
         NamingEnumeration results = null;
@@ -296,7 +297,7 @@ public class UserDrivenLdapGroupsManager extends AbstractLDAPGroupsManager imple
      */
     protected Set<String> _getGroupID(SearchResult entry)
     {
-        Set<String> groups = new HashSet<String>();
+        Set<String> groups = new HashSet<>();
         
         // Récupérer les attributs de l'entrée
         Attributes attrs = entry.getAttributes();
@@ -437,7 +438,7 @@ public class UserDrivenLdapGroupsManager extends AbstractLDAPGroupsManager imple
     private class UserInfos
     {
         private String _login;
-        private Set<String> _groups = new HashSet<String>();
+        private Set<String> _groups = new HashSet<>();
         
         /**
          * Allocate an UserInfos.

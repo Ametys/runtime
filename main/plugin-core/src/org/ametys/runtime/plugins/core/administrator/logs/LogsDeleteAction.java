@@ -79,7 +79,7 @@ public class LogsDeleteAction extends ServiceableAction implements ThreadSafe
             getLogger().info("Process terminated with following results : failure '" + failure.toString() + "' and done '" + done.toString() + "'");
         }
 
-        Map<String, String> result = new HashMap<String, String>();
+        Map<String, String> result = new HashMap<>();
         result.put("failure", failure.toString());
         result.put("done", done.toString());
         return result;
@@ -142,7 +142,7 @@ public class LogsDeleteAction extends ServiceableAction implements ThreadSafe
             getLogger().debug("Purge date is " + purgeDate);
         }
 
-        List<String> filesList = new ArrayList<String>();
+        List<String> filesList = new ArrayList<>();
         TraversableSource logsSources = null;
         try
         {

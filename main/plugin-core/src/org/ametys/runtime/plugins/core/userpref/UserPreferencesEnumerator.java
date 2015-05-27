@@ -60,7 +60,7 @@ public class UserPreferencesEnumerator extends AbstractLogEnabled implements Enu
     {
         Map<String, String> contextVars = getContextVars();
         
-        Map<Object, I18nizableText> entries = new LinkedHashMap<Object, I18nizableText>();
+        Map<Object, I18nizableText> entries = new LinkedHashMap<>();
         for (List<UserPreference> prefs : _userPrefEP.getCategorizedPreferences(contextVars).values())
         {
             for (UserPreference pref : prefs)
