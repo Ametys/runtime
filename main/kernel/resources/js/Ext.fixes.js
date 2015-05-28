@@ -335,11 +335,6 @@
     	}
     });
     
-    /**
-     * @class Ametys.grid.feature.Grouping
-     * @override Ext.grid.feature.Grouping
-     * Grouping bug fixes.
-     */
     Ext.define('Ametys.grid.feature.Grouping', {
     	override: 'Ext.grid.feature.Grouping',
 
@@ -368,11 +363,6 @@
     	}
     });
     
-    /**
-     * @class Ametys.grid.plugin.HeaderResizer
-     * @override Ext.grid.plugin.HeaderResizer
-     * Header column resize fails in large table
-     */
     Ext.define('Ametys.grid.plugin.HeaderResizer', {
         override: 'Ext.grid.plugin.HeaderResizer',
         
@@ -414,11 +404,6 @@
         }
     });
     
-    /**
-     * @class Ametys.form.field.Picker
-     * @override Ext.form.field.Picker
-     * Datefield picker closes on month or year selection
-     */
     Ext.define('Ametys.form.field.Picker', {
         override: 'Ext.form.field.Picker',
         
@@ -446,11 +431,6 @@
         }
     });
     
-    /**
-     * @class Ametys.menu.DatePicker
-     * @override Ext.menu.DatePicker
-     * Datefield picker closes on month or year selection
-     */
     Ext.define('Ametys.menu.DatePicker', {
         override: 'Ext.menu.DatePicker',
         
@@ -463,6 +443,46 @@
         }
     });
     
+    
+    Ext.define('Ametys.view.DropZone', {
+        override: 'Ext.view.DropZone',
+        
+        // FIXME CMS-6262 https://www.sencha.com/forum/showthread.php?301552-ExtJS-4.2.3-Drag-n-drop-in-a-grid-and-invalid-zone.&p=1101961#post1101961
+        containsRecordAtOffset: function(records, record, offset) 
+        {
+            if (!record) {
+                return false;
+            }
+            
+            var view = this.view,
+                recordIndex = view.indexOf(record),
+                nodeBefore = view.getNode(recordIndex + offset, true),
+                recordBefore = nodeBefore ? view.getRecord(nodeBefore) : null;
+    
+            var containsRecordAtOffset = recordBefore && Ext.Array.contains(records, recordBefore);
+            if (!containsRecordAtOffset)
+            {
+                return false;
+            }
+            else if (record.store.getGroupField() != null && Ext.Array.findBy(this.view.features, function(item) { return item.ftype == "grouping" }) != null)
+            {
+                // using groups, we need to ignore items from different groups 
+                var groups = [];
+                for (var i = 0; i < records.length; i++)
+                {
+                    groups.push(records[i].get(record.store.getGroupField()));
+                }
+                
+                var targetGroup = record.get(record.store.getGroupField());
+                
+                return Ext.Array.contains(groups, targetGroup);
+            }
+            else
+            {
+                return true;            
+            }
+        }
+    });
 })();
 
 /**
