@@ -59,4 +59,44 @@
             }
         }
     });
+    
+    Ext.define('Ametys.view.DropZone', {
+        override: 'Ext.view.DropZone',
+        
+        // FIXME CMS-6262 https://www.sencha.com/forum/showthread.php?301552-ExtJS-4.2.3-Drag-n-drop-in-a-grid-and-invalid-zone.&p=1101961#post1101961
+        containsRecordAtOffset: function(records, record, offset) 
+        {
+            if (!record) {
+                return false;
+            }
+            
+            var view = this.view,
+                recordIndex = view.indexOf(record),
+                nodeBefore = view.getNode(recordIndex + offset, true),
+                recordBefore = nodeBefore ? view.getRecord(nodeBefore) : null;
+    
+            var containsRecordAtOffset = recordBefore && Ext.Array.contains(records, recordBefore);
+            if (!containsRecordAtOffset)
+            {
+                return false;
+            }
+            else if (record.store.getGroupField() != null && Ext.Array.findBy(this.view.features, function(item) { return item.ftype == "grouping" }) != null)
+            {
+                // using groups, we need to ignore items from different groups 
+                var groups = [];
+                for (var i = 0; i < records.length; i++)
+                {
+                    groups.push(records[i].get(record.store.getGroupField()));
+                }
+                
+                var targetGroup = record.get(record.store.getGroupField());
+                
+                return Ext.Array.contains(groups, targetGroup);
+            }
+            else
+            {
+                return true;            
+            }
+        }
+    });
 })();
