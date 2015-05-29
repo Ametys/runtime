@@ -60,12 +60,16 @@ Ext.define(
 			config.height = config.inribbon ? 56 : 70;
 			
 			this.callParent(arguments);
+            
+            this.on('afterrender', this._onAfterRender, this);
 		},
 		
-		onRender: function()
+        /**
+         * @private
+         * Called after render
+         */
+		_onAfterRender: function()
 		{
-			this.callParent(arguments);
-			
 			this.setText(this.text);
 		},
 

@@ -101,12 +101,16 @@ Ext.define(
 			{
 				this.addCls('x-fluent-control-splitbutton-' + this.scale)
 			}
+            
+            this.on('afterrender', this._onAfterRender, this);
 		},
 		
-		onRender: function()
+        /**
+         * @private
+         * Called after render
+         */
+		_onAfterRender: function()
 		{
-			this.callParent();
-			
 	        if (this.handleMouseEvents && this._split)
 	        {
 	            this.el.on("mousemove", this._onMouseMove, this);
