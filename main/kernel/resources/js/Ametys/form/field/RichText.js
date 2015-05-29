@@ -247,76 +247,71 @@ Ext.define('Ametys.form.field.RichText', {
     	}
     },
     
-    initEvents: function()
-    {
-    	this.callParent(arguments);
-    	
-				/**
-	             * @event editorsetcontent
-	             * Fires when the editor received new content. This allows to convert storing tags to internal tags.
-	             * @param {Ext.form.Field} field The editor field
-	             * @param {tinymce.Editor} editor The tinyMCE editor
-	             * @param {Object} object A tinymce object
-	             * @param {String} object.content The html content
-	             */
-	             
-	            /**
-	             * @event editorgetcontent
-	             * Fires when the editor received content. This allows to convert internal tags to storing tags.
-	             * @param {Ext.form.Field} field The editor field
-	             * @param {tinymce.Editor} editor The tinyMCE editor
-	             * @param {Object} object A tinymce object
-	             * @param {String} object.content The html content
-	             */
-	             
-	            /**
-	             * @event editorkeypress
-	             * Fires when the editor has a key press.
-	             * @param {Ext.form.Field} field The editor field
-	             * @param {tinymce.Editor} editor The tinyMCE editor
-	             * @param {Object} e The event 
-	             */
-	             
-	            /**
-	             * @event editorkeydown
-	             * Fires when the editor has a key down.
-	             * @param {Ext.form.Field} field The editor field
-	             * @param {tinymce.Editor} editor The tinyMCE editor
-	             * @param {Object} e The event 
-	             */
-	             
-	            /**
-	             * @event editorkeyup
-	             * Fires when the editor has a key up.
-	             * @param {Ext.form.Field} field The editor field
-	             * @param {tinymce.Editor} editor The tinyMCE editor
-	             * @param {Object} e The event 
-	             */
-	             
-	            /**
-	             * @event editorvisualaid
-	             * Fires when the editor pre process the serialization
-	             * @param {Ext.form.Field} field The editor field
-	             * @param {tinymce.Editor} editor The tinyMCE editor
-	             * @param {Object} object The object 
-	             */
-	             
-	            /**
-	             * @event editorpreprocess
-	             * Fires when the editor pre process the serialization
-	             * @param {Ext.form.Field} field The editor field
-	             * @param {tinymce.Editor} editor The tinyMCE editor
-	             * @param {Object} object The object 
-	             */
-	             
-	            /**
-	             * @event editorhtmlnodeselected
-	             * Fires when a HTML node is selected in editor
-	             * @param {Ext.form.Field} field The editor field
-	             * @param {tinymce.Editor} editor The tinyMCE editor
-	             * @param {HTMLElement} node The HTML element selected
-	             */
-    },
+	/**
+     * @event editorsetcontent
+     * Fires when the editor received new content. This allows to convert storing tags to internal tags.
+     * @param {Ext.form.Field} field The editor field
+     * @param {tinymce.Editor} editor The tinyMCE editor
+     * @param {Object} object A tinymce object
+     * @param {String} object.content The html content
+     */
+     
+    /**
+     * @event editorgetcontent
+     * Fires when the editor received content. This allows to convert internal tags to storing tags.
+     * @param {Ext.form.Field} field The editor field
+     * @param {tinymce.Editor} editor The tinyMCE editor
+     * @param {Object} object A tinymce object
+     * @param {String} object.content The html content
+     */
+     
+    /**
+     * @event editorkeypress
+     * Fires when the editor has a key press.
+     * @param {Ext.form.Field} field The editor field
+     * @param {tinymce.Editor} editor The tinyMCE editor
+     * @param {Object} e The event 
+     */
+     
+    /**
+     * @event editorkeydown
+     * Fires when the editor has a key down.
+     * @param {Ext.form.Field} field The editor field
+     * @param {tinymce.Editor} editor The tinyMCE editor
+     * @param {Object} e The event 
+     */
+     
+    /**
+     * @event editorkeyup
+     * Fires when the editor has a key up.
+     * @param {Ext.form.Field} field The editor field
+     * @param {tinymce.Editor} editor The tinyMCE editor
+     * @param {Object} e The event 
+     */
+     
+    /**
+     * @event editorvisualaid
+     * Fires when the editor pre process the serialization
+     * @param {Ext.form.Field} field The editor field
+     * @param {tinymce.Editor} editor The tinyMCE editor
+     * @param {Object} object The object 
+     */
+     
+    /**
+     * @event editorpreprocess
+     * Fires when the editor pre process the serialization
+     * @param {Ext.form.Field} field The editor field
+     * @param {tinymce.Editor} editor The tinyMCE editor
+     * @param {Object} object The object 
+     */
+     
+    /**
+     * @event editorhtmlnodeselected
+     * Fires when a HTML node is selected in editor
+     * @param {Ext.form.Field} field The editor field
+     * @param {tinymce.Editor} editor The tinyMCE editor
+     * @param {HTMLElement} node The HTML element selected
+     */
     
     /**
      * Overridden to add custom maxLength validation.
