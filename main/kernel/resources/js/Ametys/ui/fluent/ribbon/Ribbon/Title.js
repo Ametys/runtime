@@ -46,7 +46,7 @@ Ext.define(
 		 * @cfg {String} applicationTitle The application title. Cannot be changed after configuration. Can contains HTML tags.
 		 */
 		/**
-		 * @property {Ext.dom.AbstractElement} applicationTitleEl The application title element.
+		 * @property {Ext.dom.Element} applicationTitleEl The application title element.
 		 * @private
 		 * @readonly
 		 */
