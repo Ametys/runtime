@@ -176,7 +176,7 @@ Ext.define(
 			});
 
 			/**
-			 * @cfg {Boolean/Object} header Doesn't apply to ribbon element. The value HAS TO be the default value of type {@link Ametys.ui.fluent.ribbon.TabPanel.Header}.
+			 * @cfg {Boolean/Object} header Doesn't apply to ribbon element. The value HAS TO be the default value of type {@link Ametys.ui.fluent.ribbon.Ribbon.Header}.
 			 * @private
 			 */
 			config.title = {
