@@ -68,6 +68,7 @@
     	<html>
 			<head>
 				<meta http-equiv="X-UA-Compatible" content="IE=10" />
+                <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
 				<xsl:call-template name="title"/>
 				
 				<link rel="icon" type="image/gif" href="{$contextPath}/kernel/resources/img/runtime_favico.gif" />
