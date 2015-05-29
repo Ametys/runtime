@@ -117,8 +117,13 @@ td.x-form-error-msg-wrapper
 {
 	background-color: #FFFFFF;
     background-image: none;
-    border: 1px solid #C8CDD0;
     padding: 1px 3px 2px 5px;
+}
+
+.x-field.ametys .x-form-text-wrap,
+.x-form-item.ametys .x-form-text-wrap
+{
+    border: 1px solid #C8CDD0;
 }
 
 .x-field.ametys.x-form-invalid .x-form-text,

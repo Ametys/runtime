@@ -20,7 +20,7 @@
  * This widget is registered for fields of type Ametys.runtime.form.WidgetManager#TYPE_STRING.<br>
  */
 Ext.define('Ametys.runtime.form.widget.Group', {
-    
+    alias: ['widget.edition.group'], // TODO remove alias
     extend: 'Ametys.runtime.form.widget.AbstractQueryableComboBox',
   
     /**
@@ -91,7 +91,7 @@ Ext.define('Ametys.runtime.form.widget.Group', {
     {
     	var tpl = [];
     	tpl.push('<img width="16" height="16" src="' + Ametys.getPluginResourcesPrefix('cms') + '/img/groups/group_16.png"/>');
-    	tpl.push('{[values.label]}');
+    	tpl.push('{' + this.displayField + '}');
     	return tpl;
     }
 });

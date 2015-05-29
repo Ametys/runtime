@@ -1001,9 +1001,9 @@
                 <single>
                     <string>edition.combobox</string>
                 </single>
-<!--                 <multiple> -->
-<!--                     <string>edition.boxselect</string> -->
-<!--                 </multiple> -->
+                <multiple>
+                    <string>edition.boxselect</string>
+                </multiple>
             </enumerated>
         </extension-point>
 
@@ -3122,44 +3122,44 @@
             </extension>
         </extensions>
     </feature>    
-<!--     <feature name="widgets.others.group"> -->
-<!--         <extensions> -->
-<!--             <extension id="edition.group" -->
-<!--                 point="org.ametys.runtime.ui.widgets.WidgetsManager" -->
-<!--                 class="org.ametys.runtime.ui.widgets.StaticClientSideWidget"> -->
-<!--                 <class name="Ametys.runtime.form.widget.Group"> -->
-<!--                     <ftypes>string</ftypes> -->
-<!--                     <supports-enumerated>false</supports-enumerated> -->
-<!--                     <supports-non-enumerated>true</supports-non-enumerated> -->
-<!--                     <supports-multiple>true</supports-multiple> -->
-<!--                     <supports-non-multiple>true</supports-non-multiple> -->
-<!--                 </class> -->
-<!--                 <scripts> -->
-<!--                     <file>js/Ametys/runtime/form/widget/AbstractQueryableComboBox.js</file> -->
-<!--                     <file>js/Ametys/runtime/form/widget/Group.js</file> -->
-<!--                 </scripts>                 -->
-<!--             </extension> -->
-<!--         </extensions> -->
-<!--     </feature>     -->
-<!--     <feature name="widgets.others.user"> -->
-<!--         <extensions> -->
-<!--             <extension id="edition.user" -->
-<!--                 point="org.ametys.runtime.ui.widgets.WidgetsManager" -->
-<!--                 class="org.ametys.runtime.ui.widgets.StaticClientSideWidget"> -->
-<!--                 <class name="Ametys.runtime.form.widget.User"> -->
-<!--                     <ftypes>user</ftypes> -->
-<!--                     <supports-enumerated>false</supports-enumerated> -->
-<!--                     <supports-non-enumerated>true</supports-non-enumerated> -->
-<!--                     <supports-multiple>true</supports-multiple> -->
-<!--                     <supports-non-multiple>true</supports-non-multiple> -->
-<!--                 </class> -->
-<!--                 <scripts> -->
-<!--                     <file>js/Ametys/runtime/form/widget/AbstractQueryableComboBox.js</file> -->
-<!--                     <file>js/Ametys/runtime/form/widget/User.js</file> -->
-<!--                 </scripts>                 -->
-<!--             </extension> -->
-<!--         </extensions> -->
-<!--     </feature>     -->
+    <feature name="widgets.others.group">
+        <extensions>
+            <extension id="edition.group"
+                point="org.ametys.runtime.ui.widgets.WidgetsManager"
+                class="org.ametys.runtime.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.runtime.form.widget.Group">
+                    <ftypes>string</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>true</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/runtime/form/widget/AbstractQueryableComboBox.js</file>
+                    <file>js/Ametys/runtime/form/widget/Group.js</file>
+                </scripts>                
+            </extension>
+        </extensions>
+    </feature>    
+    <feature name="widgets.others.user">
+        <extensions>
+            <extension id="edition.user"
+                point="org.ametys.runtime.ui.widgets.WidgetsManager"
+                class="org.ametys.runtime.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.runtime.form.widget.User">
+                    <ftypes>user</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>true</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/runtime/form/widget/AbstractQueryableComboBox.js</file>
+                    <file>js/Ametys/runtime/form/widget/User.js</file>
+                </scripts>                
+            </extension>
+        </extensions>
+    </feature>    
     <feature name="widgets.others.file">
         <extensions>
             <extension id="edition.file"

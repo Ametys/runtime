@@ -21,7 +21,7 @@
  * This widget is the default widget registered for enumerated and multiple fields of type Ametys.runtime.form.WidgetManager#TYPE_STRING.<br>
  */
 Ext.define('Ametys.runtime.form.widget.LocalComboBox', {
-    extend: 'Ext.ux.form.field.BoxSelect',
+    extend: 'Ext.form.field.Tag',
     
     /**
 	 * @cfg {Boolean} naturalOrder=false True to sort drop down list by natural order. By default alphabetical order is applied to the store.
@@ -63,7 +63,7 @@ Ext.define('Ametys.runtime.form.widget.LocalComboBox', {
             listConfig: {
             	cls: 'ametys-boundlist',
             	loadingText: this.loadingText,
-            	emptyText: '<span class="x-boxselect-noresult-text">' + this.noResultText + '<span>'
+            	emptyText: '<span class="x-tagfield-noresult-text">' + this.noResultText + '<span>'
             }
         });
         

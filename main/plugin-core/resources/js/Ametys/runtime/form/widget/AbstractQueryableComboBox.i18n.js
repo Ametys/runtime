@@ -87,13 +87,13 @@ Ext.define('Ametys.runtime.form.widget.AbstractQueryableComboBox', {
      */
     getItems: function ()
     {
-    	this.combobox = Ext.create('Ext.ux.form.field.BoxSelect', this.getComboBoxConfig());
+    	this.combobox = Ext.create('Ext.form.field.Tag', this.getComboBoxConfig());
     	return [this.combobox]
     },
     
     /**
      * Get select combo box
-     * @return {Ext.ux.form.field.BoxSelect} The box select
+     * @return {Ext.form.field.Tag} The box select
      * @private
      */
     getComboBoxConfig: function ()
@@ -125,6 +125,7 @@ Ext.define('Ametys.runtime.form.widget.AbstractQueryableComboBox', {
             displayField: this.displayField,
             
             labelTpl: this.getLabelTpl(),
+            labelHTML: true,
             flex: 1,
             allowBlank: this.allowBlank,
             
@@ -134,12 +135,7 @@ Ext.define('Ametys.runtime.form.widget.AbstractQueryableComboBox', {
             	cls: 'ametys-boundlist',
             	loadMask: true,
             	loadingText: this.loadingText,
-            	emptyText: '<span class="x-boxselect-noresult-text">' + this.noResultText + '<span>'
-            },
-            
-            listeners: {
-            	blur: {fn: this._onBlur, scope: this},
-                valueselectionchange: {fn: this._onValueSelectionChange, scope: this}
+            	emptyText: '<span class="x-tagfield-noresult-text">' + this.noResultText + '<span>'
             },
             
             readOnly: this.readOnly || false,
@@ -167,18 +163,7 @@ Ext.define('Ametys.runtime.form.widget.AbstractQueryableComboBox', {
     {
     	return null;
     },
-    
-    /**
-     * Deselect all the box items when the field loses focus.
-     * @param {Ext.ux.form.field.BoxSelect} field The combo box field.
-     * @param {Ext.event.Event} e The blur event.
-     * @private
-     */
-    _onBlur: function(field, e)
-    {
-        this.combobox.selectionModel.deselectAll();
-    },
-    
+       
     markInvalid: function (msg)
     {
     	this.callParent(arguments);
@@ -187,7 +172,7 @@ Ext.define('Ametys.runtime.form.widget.AbstractQueryableComboBox', {
     
     /**
      * Specifically focus the box select field when an item is selected.
-     * @param {Ext.ux.form.field.BoxSelect} field The combo box field.
+     * @param {Ext.form.field.Tag} field The combo box field.
      * @param {Ext.data.Model[]} records The selected records.
      * @private
      */

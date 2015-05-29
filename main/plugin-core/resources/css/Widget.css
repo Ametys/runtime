@@ -216,7 +216,7 @@
     float: left;
 }
 
-.x-boxselect-noresult-text {
+.x-tagfield-noresult-text {
 	color: #404040;
     font-style: italic;
     line-height: 18px;
@@ -319,9 +319,6 @@
 	float:left;
 }
 
-.ext-ie7 .ametys-multi-select .x-list-wrap {
-	height: 100%;
-}
 
 
 .x-form-widget-flipflap-top {
@@ -341,4 +338,24 @@
 }
 .x-form-widget-flipflap-bottom {
     background-image: url('../../img/widgets/flipflap/bottom2.gif');
+}
+
+/* Tagfield */
+.x-form-item.ametys .x-tagfield.x-form-text {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+.x-form-item.ametys .x-tagfield .x-tagfield-item {
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+.x-form-item.ametys .x-tagfield .x-tagfield-item .x-tagfield-item-text {
+    line-height: 16px;
+}
+.x-form-item.ametys .x-tagfield .x-tagfield-item .x-tagfield-item-text img {
+    float: left;
+    margin-right: 3px;
+}
+.x-form-item.ametys .x-tagfield-list.x-tagfield-singleselect {
+    white-space: normal;
 }

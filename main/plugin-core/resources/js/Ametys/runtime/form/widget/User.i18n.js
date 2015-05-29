@@ -20,7 +20,7 @@
  * This widget is the default widget registered for fields of type Ametys.runtime.form.WidgetManager#TYPE_USER.<br>
  */
 Ext.define('Ametys.runtime.form.widget.User', {
-    
+    alias: ['widget.edition.user'], // TODO remove alias
     extend: 'Ametys.runtime.form.widget.AbstractQueryableComboBox',
   
     /**
@@ -97,7 +97,7 @@ Ext.define('Ametys.runtime.form.widget.User', {
     {
     	var tpl = [];
     	tpl.push('<img  width="16" height="16" src="' + Ametys.getPluginResourcesPrefix('cms') + '/img/widgets/user/user_16.png"/>');
-    	tpl.push('{[values.fullname]}');
+    	tpl.push('{' + this.displayField + '}');
     	return tpl;
     }
 });

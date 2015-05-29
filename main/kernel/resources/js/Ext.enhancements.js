@@ -1703,3 +1703,29 @@
 		loadMask: "<i18n:text i18n:key='KERNEL_IFRAME_LOADING'/>"
 	});
 })();
+
+(function()
+{
+    Ext.define("Ametys.form.field.Tag", {
+        override: 'Ext.form.field.Tag',
+        
+        /** @cfg {Boolean} labelHTML=false If true the labelTpl will not be encoded */
+        labelHTML: false,
+        
+        getMultiSelectItemMarkup: function()
+        {
+            var value = this.callParent(arguments);
+            
+            if (this.labelHTML)
+            {
+                var me = this;
+                this.multiSelectItemTpl.getItemLabel = function(values) { return me.labelTpl.apply(values); };
+                return this.multiSelectItemTpl.apply(this.valueCollection.getRange());
+            }
+            else
+            {
+                return value;
+            }
+        }
+    });    
+})();
