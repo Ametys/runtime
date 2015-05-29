@@ -143,6 +143,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
 			}
 			
 			this.on('unfloat', this._onUnfloat, this);
+            this.on('afterrender', this._onAfterRender, this);
 		},
 		
 		/**
@@ -266,10 +267,12 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
 	    	}
 	    },
 
-	    afterRender: function()
+        /**
+         * @private
+         * Listener after render
+         */
+	    _onAfterRender: function()
 	    {
-	    	this.callParent(arguments);
-
 	    	// Context menu
 	    	this.getTabBar().mon(this.getTabBar().getEl(), {
 	            scope: this,
