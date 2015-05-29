@@ -1062,6 +1062,10 @@ Ext.define('Ametys.form.field.RichText', {
 		this._suspended--;
 	},
 	
+    /**
+     * @private
+     * Add additionnal css class
+     */
 	afterRender: function()
 	{
     	this.callParent(arguments);

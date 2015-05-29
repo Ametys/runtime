@@ -84,6 +84,10 @@ Ext.define('Ametys.form.field.ReferencedNumberField', {
 		}
 	},
 	
+    /**
+     * @private
+     * Add graphical stuffs when rendering is ok.
+     */
 	afterRender: function ()
 	{
 		this._refEl = this.el.insertSibling({
