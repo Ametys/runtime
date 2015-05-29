@@ -59,6 +59,11 @@ Ext.define(
             return renderData;
         },
         
+        /**
+         * @private
+         * Called when the text of the title is being updated
+         * @param {String} text The new text to set
+         */
         updateText: function(text)
         {
             if (this.rendered)
