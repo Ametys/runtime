@@ -254,7 +254,13 @@ Ext.define(
 
 			this.callParent(arguments);
 		},
-		
+
+        /**
+         * @private
+         * Do initialization after rendering
+         * @param {} container
+         * @param {} position
+         */
 		afterRender: function(container, position) 
 		{
 			this.callParent(arguments);
