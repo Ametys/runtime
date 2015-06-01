@@ -99,14 +99,7 @@
                 <map:transform type="i18n">
                     <map:parameter name="locale" value="{locale:locale}"/>
                 </map:transform>
-                <map:transform type="xslt" src="stylesheets/index.xsl">
-                    <map:parameter name="contextPath" value="{request:contextPath}"/>
-                    <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/>
-                    <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
-                    <map:parameter name="max-upload-size" value="{config:runtime.upload.max-size}"/>
-                    <map:parameter name="debug-mode-config" value="{config:runtime.debug.ui}"/>
-                    <map:parameter name="debug-mode-request" value="{request-param:debug.ui}"/>
-                </map:transform>
+                <map:transform type="xslt" src="stylesheets/index.xsl"/>
                 <map:transform type="i18n">
                     <map:parameter name="locale" value="{locale:locale}"/>
                 </map:transform>
