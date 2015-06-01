@@ -125,12 +125,11 @@ Ext.define("Ametys.ui.tool.ToolPanel", {
      * @private
      * Called during setTitle to update the layout graphically
      * @param {String} title The new wanted title
-     * @return {String} The new effective title
      */
-    applyTitle: function(title)
+    setTitle: function(title)
     {
+        this.callParent(arguments);
         this._infoChanging();
-        return this.callParent(arguments);
     },
     
     /**
