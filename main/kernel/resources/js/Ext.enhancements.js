@@ -1709,7 +1709,12 @@
     Ext.define("Ametys.form.field.Tag", {
         override: 'Ext.form.field.Tag',
         
-        /** @cfg {Boolean} labelHTML=false If true the labelTpl will not be encoded */
+        /** 
+         * @member Ext.form.field.Tag
+         * @since Ametys Runtime 3.9
+         * @ametys
+         * @cfg {Boolean} labelHTML=false If true the labelTpl will not be encoded 
+         * */
         labelHTML: false,
         
         getMultiSelectItemMarkup: function()
