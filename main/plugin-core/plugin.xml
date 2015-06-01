@@ -2867,10 +2867,6 @@
                        point="org.ametys.runtime.ui.StaticFileImportsManager"
                        class="org.ametys.runtime.ui.StaticFileImportsClientSideElement">
                 <scripts>
-                    <file>js/Ametys/runtime/form/widget/File.js</file>
-                    <file>js/Ametys/runtime/form/widget/File/FileSource.js</file>
-                    
-                    <file>js/Ametys/runtime/form/widget/File/External.js</file>
 
                     
                     <file>js/Ametys/runtime/uihelper/SelectUser.js</file>
@@ -2878,6 +2874,11 @@
                     
                     <file>js/Ametys/runtime/uihelper/EnterURL.js</file>
                     <file>js/Ametys/runtime/uihelper/FileUpload.js</file>
+
+                    <file>js/Ametys/runtime/form/widget/File.js</file>
+                    <file>js/Ametys/runtime/form/widget/File/FileSource.js</file>
+                    
+                    <file>js/Ametys/runtime/form/widget/File/External.js</file>
 
                     <file>js/Ametys/runtime/uihelper/ChooseLocation.js</file>
                     <file>js/Ametys/runtime/uihelper/ChooseLocation/LoadGoogleMaps.js</file>
