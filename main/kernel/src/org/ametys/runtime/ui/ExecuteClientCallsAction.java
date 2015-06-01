@@ -112,25 +112,25 @@ public class ExecuteClientCallsAction extends ServiceableAction implements Threa
         Class<? extends Object> clazz = object.getClass();
         Method method = MethodUtils.getMatchingAccessibleMethod(clazz, methodName, paramClass);
         
-        if (method == null || method.getReturnType() != Map.class)
+        if (method == null)
         {
-            throw new IllegalArgumentException("No method with signature: Map<String, Object> " + methodName + "(" + StringUtils.join(paramClass, ", ").replaceAll("class ", "") + ") present in class " + clazz.getName() + ".");
+            throw new IllegalArgumentException("No method with signature " + methodName + "(" + StringUtils.join(paramClass, ", ").replaceAll("class ", "") + ") present in class " + clazz.getName() + ".");
         }
         
-        Map<String, Object> result = _executeMethod(method, object, paramValues);
-
+        Object result = _executeMethod(method, object, paramValues);
+        
         Request request = ObjectModelHelper.getRequest(objectModel);
         request.setAttribute(JSonReader.OBJECT_TO_READ, result);
         
         return EMPTY_MAP;
     }
     
-    private Map<String, Object> _executeMethod(Method method, Object object, Object[] paramValues) throws Exception
+    private Object _executeMethod(Method method, Object object, Object[] paramValues) throws Exception
     {
-        Map<String, Object> result = null;
+        Object result = null;
         if (method.isAnnotationPresent(Callable.class))
         {            
-            result = (Map<String, Object>) method.invoke(object, paramValues);
+            result = method.invoke(object, paramValues);
             
             if (result == null)
             {
