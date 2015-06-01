@@ -981,8 +981,8 @@
                     <file>edition.file</file>
                     <geocode>edition.geocode</geocode>
                     <long>edition.longfield</long>
-                    <rich_text>edition.richtext</rich_text>
                     <reference>edition.url-reference</reference>
+                    <rich_text>edition.richtext</rich_text>
                     <string>edition.textfield</string>
                     <sub_content>edition.compose-content</sub_content>
                     <user>edition.user</user>
@@ -3105,7 +3105,7 @@
     </feature>
     <feature name="widgets.others.file">
         <extensions>
-            <extension id="edition.file.cms"
+            <extension id="edition.file"
                 point="org.ametys.runtime.ui.widgets.WidgetsManager"
                 class="org.ametys.runtime.ui.widgets.StaticClientSideWidget">
                 <class name="Ametys.runtime.form.widget.File">
@@ -3173,27 +3173,6 @@
                     <file>js/Ametys/runtime/form/widget/AbstractQueryableComboBox.js</file>
                     <file>js/Ametys/runtime/form/widget/User.js</file>
                 </scripts>                
-            </extension>
-        </extensions>
-    </feature>    
-    <feature name="widgets.others.file">
-        <extensions>
-            <extension id="edition.file"
-                point="org.ametys.runtime.ui.widgets.WidgetsManager"
-                class="org.ametys.runtime.ui.widgets.StaticClientSideWidget">
-                <class name="Ametys.runtime.form.widget.File">
-                    <ftypes>file,binary</ftypes>
-                    <supports-enumerated>false</supports-enumerated>
-                    <supports-non-enumerated>true</supports-non-enumerated>
-                    <supports-multiple>false</supports-multiple>
-                    <supports-non-multiple>true</supports-non-multiple>
-                </class>
-                <scripts>
-                    <file>js/Ametys/runtime/form/widget/File.js</file>
-                    <file>js/Ametys/runtime/form/widget/File/FileSource.js</file>
-                    
-                    <file>js/Ametys/runtime/form/widget/File/External.js</file>
-                </scripts>
             </extension>
         </extensions>
     </feature>    

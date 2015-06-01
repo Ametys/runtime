@@ -52,12 +52,12 @@
 }
 
 .ametys-repeater-invalid-tooltip {
-	background: url('../../../../../../plugins/extjs4/resources/ext-theme-gray/images/form/exclamation.gif') left no-repeat;
+	background: url('../../../../../../plugins/extjs6/resources/classic/theme-gray/resources/images/form/exclamation.gif') left no-repeat;
 	padding-left: 20px;
 }
 
 .ametys-form-panel .ametys-repeater .x-tool-error {
-	background: url('../../../../../../plugins/extjs4/resources/ext-theme-gray/images/form/exclamation.gif') left no-repeat !important;
+	background: url('../../../../../../plugins/extjs6/resources/classic/theme-gray/resources/images/form/exclamation.gif') left no-repeat !important;
 }
 
 .ametys-form-panel .ametys-repeater-item > .x-panel-body
@@ -81,7 +81,7 @@
 
 .ametys-form-panel .ametys-fieldset > .x-panel-header
 {
-    background-image: url('../../../../../../_admin/resources/img/icon/group-expand-sprite.png');
+    background-image: url('../../../../../img/Ametys/common/group-expand-sprite.png');
     background-repeat: no-repeat;   
     background-position: 0px -45px;
     background-color: transparent;
@@ -212,11 +212,11 @@
 }
 
 .ametys-form-panel .ametys-form-tab-inline .x-panel-header.error.not-startup .x-panel-header-text {
-    background: url('../../../../../../plugins/extjs4/resources/ext-theme-gray/images/form/exclamation.gif') left no-repeat;
+    background: url('../../../../../../plugins/extjs6/resources/classic/theme-gray/resources/images/form/exclamation.gif') left no-repeat;
 }
 
 .ametys-form-panel .ametys-form-tab .x-tab-default.error.not-startup .x-tab-icon-el {
-    background: url('../../../../../../plugins/extjs4/resources/ext-theme-gray/images/form/exclamation.gif') left no-repeat;
+    background: url('../../../../../../plugins/extjs6/resources/classic/theme-gray/resources/images/form/exclamation.gif') left no-repeat;
 }
 
 .ametys-form-panel .ametys-form-tab-inline .x-panel-header.warning.not-startup .x-panel-header-text {
@@ -296,7 +296,7 @@
 }
 .ametys-form-panel .ametys-form-tab-inline-item > .x-panel-header > .x-header-body
 {
-    background-image: url('../../../../../../_admin/resources/img/icon/group-expand-sprite.png');
+    background-image: url('../../../../../img/Ametys/common/group-expand-sprite.png');
     background-repeat: no-repeat;   
     background-position: 5px -48px;
     padding-left: 20px;
