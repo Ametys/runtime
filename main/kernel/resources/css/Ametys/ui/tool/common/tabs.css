@@ -84,6 +84,7 @@
 .ametys-toolpanel > .x-tab-bar .x-tab > div > .x-tab-wrap .x-tab-icon-el 
 {
 	top: 3px;
+	height: 16px;
 }
  
 .ametys-toolpanel > .x-tab-bar .x-tab-over.x-tab
