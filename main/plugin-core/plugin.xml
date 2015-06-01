@@ -1388,7 +1388,7 @@
                         class="org.ametys.runtime.plugins.core.ui.item.StaticAdminClientSideElement"
                         logger="org.ametys.runtime.plugins.core.ui.administrator.plugins">
                 <!-- 
-                    This interaction allows the administrator to see plugins. Usefull for developpers.
+                    This interaction allows the administrator to see plugins. Useful for developers.
                  -->
                 <class name="redirect">
 					<param name="Link">administrator/plugins/view.html</param>
