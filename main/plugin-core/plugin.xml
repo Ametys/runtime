@@ -2867,40 +2867,21 @@
                        point="org.ametys.runtime.ui.StaticFileImportsManager"
                        class="org.ametys.runtime.ui.StaticFileImportsClientSideElement">
                 <scripts>
-<!--
-                    <file>js/Ametys/cms/editor/EditorController.js</file>
-                    <file>js/Ametys/cms/editor/EditorField.js</file>
-                    <file>js/Ametys/cms/editor/InsertElementHelper.js</file>
-                    <file>js/Ametys/cms/editor/LinkHandler.js</file>
--->
+                    <file>js/Ametys/runtime/form/widget/File.js</file>
+                    <file>js/Ametys/runtime/form/widget/File/FileSource.js</file>
                     
-<!--
-                    <file>js/Ametys/cms/explorer/Resource.js</file>
-                    <file>js/Ametys/cms/explorer/ResourceDAO.js</file>
-                    <file>js/Ametys/cms/explorer/ExplorerNode.js</file>
-                    <file>js/Ametys/cms/explorer/ExplorerNodeDAO.js</file>
-                    <file>js/Ametys/cms/explorer/ExplorerTree.js</file>
-                    <file>js/Ametys/cms/explorer/ExplorerTree/NodeEntry.js</file>
--->
+                    <file>js/Ametys/runtime/form/widget/File/External.js</file>
+
                     
                     <file>js/Ametys/runtime/uihelper/SelectUser.js</file>
                     <file>js/Ametys/runtime/uihelper/SelectGroup.js</file>
                     
-<!--
-                    <file>js/Ametys/runtime/uihelper/SelectContentBySearch.js</file>
-                    <file>js/Ametys/runtime/uihelper/CreateContent.js</file>
--->
                     <file>js/Ametys/runtime/uihelper/EnterURL.js</file>
                     <file>js/Ametys/runtime/uihelper/FileUpload.js</file>
-<!--
-                    <file>js/Ametys/runtime/uihelper/ChooseResourceFile.js</file>
-                    <file>js/Ametys/runtime/uihelper/ChooseAttachmentFile.js</file>
--->
+
                     <file>js/Ametys/runtime/uihelper/ChooseLocation.js</file>
                     <file>js/Ametys/runtime/uihelper/ChooseLocation/LoadGoogleMaps.js</file>
-<!--
-                    <file>js/Ametys/runtime/uihelper/ChooseTag.js</file>
--->
+
                     <file>js/Ametys/runtime/uihelper/SaveErrorDialog.js</file>
                     
                     <file>js/Ametys/runtime/clipboard/Clipboard.js</file>
@@ -2959,6 +2940,24 @@
             </extension>
         </extensions>
     </feature>
+    <feature name="widgets.others.boxselect">
+        <extensions>
+            <extension id="edition.boxselect"
+                point="org.ametys.runtime.ui.widgets.WidgetsManager"
+                class="org.ametys.runtime.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.runtime.form.widget.LocalComboBox">
+                    <ftypes>string</ftypes>
+                    <supports-enumerated>true</supports-enumerated>
+                    <supports-non-enumerated>false</supports-non-enumerated>
+                    <supports-multiple>true</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/runtime/form/widget/LocalComboBox.js</file>
+                </scripts>                
+            </extension>
+        </extensions>
+    </feature>     
     <feature name="widgets.default.long">
         <extensions>
             <extension id="edition.longfield"
@@ -3100,6 +3099,22 @@
                 <scripts>
                     <file>js/Ametys/runtime/form/widget/DefaultWidgets.js</file>
                 </scripts>
+            </extension>
+        </extensions>
+    </feature>
+    <feature name="widgets.others.file">
+        <extensions>
+            <extension id="edition.file.cms"
+                point="org.ametys.runtime.ui.widgets.WidgetsManager"
+                class="org.ametys.runtime.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.runtime.form.widget.File">
+                    <ftypes>file,binary</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>false</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <!-- scripts are loaded as static to be extensible -->
             </extension>
         </extensions>
     </feature>
