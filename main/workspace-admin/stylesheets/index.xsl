@@ -14,7 +14,17 @@
    See the License for the specific language governing permissions and
    limitations under the License.
    -->
-<workspace xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:noNamespaceSchemaLocation="http://ametys.org/Runtime/1.2/workspace.xsd">
+<xsl:stylesheet version="1.0" 
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-</workspace>
+    <xsl:import href="plugin:core://stylesheets/workspace.xsl"/>
+
+    <xsl:template name="ui-extension-load">
+	    <!-- CSS -->
+<!-- 	    <link rel="stylesheet" type="text/css" href="{$workspace-resources}/css/workspace.css" /> -->
+	    
+	    <!-- JS -->
+<!-- 	    <script type="text/javascript" src="{$workspace-resources}/js/workspace.js" /> -->
+    </xsl:template>
+    
+</xsl:stylesheet>

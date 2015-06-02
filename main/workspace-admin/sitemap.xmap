@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright 2012 Anyware Services
+   Copyright 2015 Anyware Services
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -15,90 +15,110 @@
    limitations under the License.
    -->
 <map:sitemap xmlns:map="http://apache.org/cocoon/sitemap/1.0">
-
-<!-- =========================== Components ================================ -->
-
-	<map:components>
+    
+    <!-- =========================== Components ================================ -->
+    
+    <map:components>
         <map:generators>
-            <map:generator name="version" src="org.ametys.runtime.plugins.core.administrator.version.VersionsGenerator" logger="org.ametys.runtime.workspaces.admin.sitemap.generator.versions">
-            </map:generator>
+            <map:generator name="workspace" src="org.ametys.runtime.workspace.WorkspaceGenerator" logger="org.ametys.runtime.workspace.WorkspaceGenerator"/>
+            <map:generator name="version" src="org.ametys.runtime.plugins.core.administrator.version.VersionsGenerator" logger="org.ametys.runtime.workspaces.admin.sitemap.generator.versions"/>
+            <map:generator name="user-prefs" src="org.ametys.runtime.plugins.core.userpref.UserPreferencesValuesGenerator"/>
+            
+            
+            <!-- TO REMOVE -->
             <map:generator name="desktop" src="org.ametys.runtime.plugins.core.ui.generator.DesktopGenerator" logger="org.ametys.runtime.workspaces.admin.sitemap.generator.desktop">
                 <element>Desktop</element>
             </map:generator>
+            <!--  /TO REMOVE -->
         </map:generators>
+        
+        <map:actions>
+            <map:action name="authenticate" src="org.ametys.runtime.workspaces.admin.authentication.AdminAuthenticateAction" logger="org.ametys.runtime.workspaces.admin.sitemap.action.authentication"/>
+            <map:action name="set-authorization-header" src="org.ametys.runtime.workspaces.admin.authentication.SetAuthorizationHeaderAction"  logger="org.ametys.runtime.workspaces.admin.sitemap.action.setheader"/>
+            <map:action name="resource-exists" src="org.apache.cocoon.acting.ResourceExistsAction"/>
+        </map:actions>
         
         <map:transformers>
             <map:transformer name="minimizer" src="org.ametys.runtime.plugins.core.ui.minimize.MinimizeTransformer"/>
         </map:transformers>
         
-		<map:actions>
-			<map:action name="authenticate" src="org.ametys.runtime.workspaces.admin.authentication.AdminAuthenticateAction" logger="org.ametys.runtime.workspaces.admin.sitemap.action.authentication"/>
-            <map:action name="set-authorization-header" src="org.ametys.runtime.workspaces.admin.authentication.SetAuthorizationHeaderAction" logger="org.ametys.runtime.workspaces.admin.sitemap.action.setheader"/>
-            <map:action name="has-not-right" src="org.ametys.runtime.plugins.core.right.actions.HasRightAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.hasRight">
-                <has-right>false</has-right>
-            </map:action>
-		</map:actions>
-        
-        <map:selectors default="exception">
-            <map:selector logger="org.ametys.runtime.workspaces.admin.sitemap.selector.exception" name="exception" src="org.apache.cocoon.selection.ExceptionSelector">
+         <map:selectors default="exception">
+            <map:selector logger="sitemap.selector.exception" name="exception" src="org.apache.cocoon.selection.ExceptionSelector">
                 <exception class="org.apache.cocoon.ResourceNotFoundException" name="not-found"/>
                 <exception class="org.ametys.runtime.authentication.AccessDeniedException" name="access-denied"/>
                 <exception class="org.ametys.runtime.authentication.AuthorizationRequiredException" name="authorization-required"/>
                 <!-- The statement below tells the selector to unroll as much exceptions as possible -->
                 <exception class="java.lang.Throwable" unroll="true"/>
             </map:selector>
-        </map:selectors>        
-	</map:components>
+        </map:selectors>   
+    </map:components>
+    
+    <!-- =========================== Views =================================== -->
 
-<!-- =========================== Views =================================== -->
-
-	<map:views>
-		<map:view name="content" from-label="content">
-			<map:serialize type="xml"/>
-		</map:view>
-	</map:views>
-
-<!-- =========================== Pipelines ================================= -->
-
-	<map:pipelines>
+    <map:views>
+        <map:view name="content" from-label="content">
+            <map:serialize type="xml"/>
+        </map:view>
+    </map:views>
+    
+    <!-- =========================== Pipelines ================================= -->
+    
+    <map:pipelines>
     
         <map:pipeline internal-only="true">
-            <map:match pattern="homepage-desktop.xml">
-				<map:generate type="desktop" label="content">
-                    <map:parameter name="DesktopManager.ROLE" value="org.ametys.runtime.workspaces.admin.DesktopManager"/>
-				</map:generate>
+            <map:match pattern="workspace.xml">
+                <map:generate type="workspace">
+                    <!-- File names for ribbon and ui-tools can be defined here. Removed the 
+                         parameters to use the default values (ribbon and uitools) -->
+                    <map:parameter name="ribbonFileName" value="admin-ribbon"/>
+                    <map:parameter name="toolsFileName" value="admin-uitools"/>
+                </map:generate>
                 <map:serialize type="xml"/>
             </map:match>
-
-            <map:match pattern="homepage-versions.xml">
-                <map:generate type="version" label="content"/>
+	        
+	        <map:match pattern="homepage-versions.xml">
+	            <map:generate type="version" label="content"/>
+	            <map:serialize type="xml"/>
+	        </map:match>
+	        
+	        <map:match pattern="userprefs/values.xml">
+                <map:generate type="user-prefs">
+                    <map:parameter name="username" value="admin"/>
+                </map:generate>
                 <map:serialize type="xml"/>
             </map:match>
         </map:pipeline>
-        
-        <!-- Resources -->
+            
         <map:pipeline>
             <map:match pattern="resources/**.js">
-                <map:generate src="resources/{1}.js" type="i18nizabletext"/>
+                <!-- FIXME temporary compatible with .i18nfiles -->
+                <map:act type="resource-exists" src="resources/{1}.js">
+                    <map:generate src="resources/{../1}.js" type="i18nizabletext"/>
+                    <map:transform type="i18n">
+                        <map:parameter name="locale" value="{locale:locale}"/>
+                        <map:parameter name="workspace" value="workspace"/><!-- Workspace name have to be hardcoded -->
+                    </map:transform>
+                    <map:serialize type="text" mime-type="text/javascript;charset=utf-8"/>
+                </map:act>
+                <map:generate src="resources/{1}.i18n.js" type="i18nizabletext"/>
                 <map:transform type="i18n">
                     <map:parameter name="locale" value="{locale:locale}"/>
-                    <map:parameter name="workspace" value="{request-attr:workspaceName}"/>
+                    <map:parameter name="workspace" value="workspace"/><!-- Workspace name have to be hardcoded since it can be call through the web workspace -->
                 </map:transform>
                 <map:serialize type="text" mime-type="text/javascript;charset=utf-8"/>
             </map:match>
             
+            <!-- Workspace resources -->
             <map:match pattern="resources/**">
                 <map:read src="resources/{1}"/>
             </map:match>
-        </map:pipeline>
-	
-		<map:pipeline>
-			<!-- redirect to application entry point -->
-			<map:match pattern="">
-				<map:redirect-to uri="index.html"/>
-			</map:match>
-			
-			<!-- unauthenticated pages -->
+            
+            <!-- base redirection -->
+            <map:match pattern="">
+                <map:redirect-to uri="index.html"/>
+            </map:match>
+            
+            <!-- unauthenticated pages -->
 			<map:match pattern="public/*.html">
 				<map:generate type="action-result"/>
 				<map:transform src="pages/public/{1}.xsl">
@@ -121,54 +141,81 @@
                 <!-- Do not minimize here. See RUNTIME-877 -->
 				<map:serialize/>
 			</map:match>
-			
-			<!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*- -->
-			<!-- Authentication -->
-			<!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*- -->			
-			<map:match pattern="**">
-				<map:act type="authenticate"/>
-			</map:match>
             
-			<!-- Page d'index -->
-			<map:match pattern="index.html">
+            <!-- ************** -->
+            <!-- AUTHENTICATION -->
+            <!-- ************** -->
+            <map:match pattern="**">
+                <map:act type="authenticate"/>
+            </map:match>
+            
+            <map:match pattern="index.html">
+                <map:aggregate element="Ametys">
+                    <map:part src="cocoon:/homepage-versions.xml"/>
+                    <map:part src="cocoon:/workspace.xml"/>
+                    <map:part src="cocoon:/userprefs/values.xml?prefContext=/WORKSPACE_NAME"/>
+                </map:aggregate>
+                <map:transform type="i18n">
+                    <map:parameter name="locale" value="{locale:locale}"/>
+                </map:transform>
+                <map:transform type="xslt" src="stylesheets/index.xsl"/>
+                <map:transform type="i18n">
+                    <map:parameter name="locale" value="{locale:locale}"/>
+                </map:transform>
+                <map:transform type="minimizer" src="{request:contextPath}{request-attr:workspaceURI}/plugins/core">
+                    <map:parameter name="debug-mode-request" value="{request-param:debug.ui}"/>
+                </map:transform>
+                <map:serialize type="xhtml"/>
+            </map:match>
+            
+            <!-- Direct plugins url -->
+            <map:match pattern="plugins/*/**">
+                <map:act type="setter">
+                    <map:parameter name="pluginName" value="{1}"/>
+                </map:act>
+                <map:mount check-reload="yes" src="plugin:{1}://" uri-prefix="plugins/{1}"/>
+            </map:match>
+            
+            
+            
+            <!-- ************************************************* -->
+            <!--     OLD WORKSPACE ADMIN  (TO REMOVE)              -->
+            <!-- ************************************************* -->
+            <map:match pattern="homepage-desktop.xml">
+                <map:generate type="desktop" label="content">
+                    <map:parameter name="DesktopManager.ROLE" value="org.ametys.runtime.workspaces.admin.DesktopManager"/>
+                </map:generate>
+                <map:serialize type="xml"/>
+            </map:match>
+            
+            <!-- Page d'index -->
+            <map:match pattern="old/index.html">
                 <map:aggregate element="Admin" label="content">
                     <map:part src="cocoon:/homepage-desktop.xml"/>
                     <map:part src="cocoon:/homepage-versions.xml"/>
                 </map:aggregate>
                
-				<map:transform type="xslt" src="pages/index.xsl">
-					<map:parameter name="contextPath" value="{request:contextPath}"/>
+                <map:transform type="xslt" src="pages/index.xsl">
+                    <map:parameter name="contextPath" value="{request:contextPath}"/>
                     <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
                     <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/>
-				</map:transform>
-				<map:transform type="i18n">
-					<map:parameter name="locale" value="{locale:locale}"/>
+                </map:transform>
+                <map:transform type="i18n">
+                    <map:parameter name="locale" value="{locale:locale}"/>
                     <map:parameter name="workspace" value="{request-attr:workspaceName}"/>
-				</map:transform>
+                </map:transform>
                 <map:transform type="minimizer" src="{request:contextPath}{request-attr:workspaceURI}/plugins/core"/>
-				<map:serialize/>
-			</map:match>
-			
-			<!-- ******* -->
-			<!-- PLUGINS -->
-			<!-- ******* -->
-			
-			<!-- Pages -->
-			<map:match pattern="plugins/*/**">
-                <map:act type="setter">
-                    <map:parameter name="pluginName" value="{1}"/>
-                </map:act>
-				<map:mount check-reload="yes" src="plugin:{1}://" uri-prefix="plugins/{1}"/>
-			</map:match>
+                <map:serialize/>
+            </map:match>
             
             <map:match pattern="_internal_plugins/*/**">
                 <map:act type="setter">
                     <map:parameter name="pluginName" value="{1}"/>
                 </map:act> 
                 <map:mount check-reload="yes" src="plugin:{1}://" uri-prefix="_internal_plugins/{1}"/>
-            </map:match>            
+            </map:match>
             
-			<map:match pattern="_plugins/*/**">
+            <map:match pattern="old/_plugins/*/**">
                 <map:act type="setter">
                     <map:parameter name="pluginName" value="{1}"/>
                 </map:act>
@@ -178,76 +225,90 @@
                     <map:part src="cocoon:/homepage-versions.xml"/>
                     <map:part src="cocoon:/_internal_plugins/{1}/{2}"/>
                 </map:aggregate>
-				<map:transform src="pages/wrapper.xsl">
-					<map:parameter name="contextPath" value="{request:contextPath}"/>
+                <map:transform src="pages/wrapper.xsl">
+                    <map:parameter name="contextPath" value="{request:contextPath}"/>
                     <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
                     <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/>
-				</map:transform>
-				<map:transform type="i18n">
-					<map:parameter name="locale" value="{locale:locale}"/>
-					<map:parameter name="plugin" value="{1}"/>
-				</map:transform>
+                </map:transform>
+                <map:transform type="i18n">
+                    <map:parameter name="locale" value="{locale:locale}"/>
+                    <map:parameter name="plugin" value="{1}"/>
+                </map:transform>
                 <map:transform type="minimizer" src="{request:contextPath}{request-attr:workspaceURI}/plugins/core"/>
-				<map:serialize/>
-			</map:match>
-			
-			<map:handle-errors>
-				<map:select type="exception">
-					<map:when test="not-found">
-		        		<map:generate type="exception" label="content"/>
-		          		<map:transform src="kernel://pages/error/error.xsl">
-	    	        		<map:parameter name="contextPath" value="{request:contextPath}"/>
-		            		<map:parameter name="realpath" value="{realpath:}"/>
-		            		<map:parameter name="pageTitle" value="ADMINISTRATION - Resource not found"/>
-		            		<map:parameter name="code" value="404"/>
-		          		</map:transform>
-                        <map:transform type="i18n">
-                            <map:parameter name="locale" value="{locale:locale}"/>
-                        </map:transform>
-		          		<map:serialize status-code="404"/>		          		
-					</map:when>
-					<map:when test="authorization-required">
-						<map:act type="set-authorization-header"/>
-		        		<map:generate type="exception" label="content"/>
-		          		<map:transform src="kernel://pages/error/error.xsl">
-	    	        		<map:parameter name="contextPath" value="{request:contextPath}"/>
-		            		<map:parameter name="realpath" value="{realpath:}"/>
-		            		<map:parameter name="code" value="401"/>
-		            		<map:parameter name="pageTitle" value="ADMINISTRATION - Authorization required"/>
-		          		</map:transform>
-                        <map:transform type="i18n">
-                            <map:parameter name="locale" value="{locale:locale}"/>
-                        </map:transform>
-		          		<map:serialize status-code="401"/>		          		
-					</map:when>
-					<map:when test="access-denied">
-		        		<map:generate type="exception" label="content"/>
-		          		<map:transform src="kernel://pages/error/error.xsl">
-	    	        		<map:parameter name="contextPath" value="{request:contextPath}"/>
-		            		<map:parameter name="realpath" value="{realpath:}"/>
-		            		<map:parameter name="pageTitle" value="ADMINISTRATION - Access denied"/>
-		            		<map:parameter name="code" value="403"/>
-		          		</map:transform>
-                        <map:transform type="i18n">
-                            <map:parameter name="locale" value="{locale:locale}"/>
-                        </map:transform>
-		          		<map:serialize status-code="403"/>		          		
-					</map:when>
-					<map:otherwise>					
-		        		<map:generate type="exception" label="content"/>
-		          		<map:transform src="kernel://pages/error/error.xsl">
-	    	        		<map:parameter name="contextPath" value="{request:contextPath}"/>
-		            		<map:parameter name="realpath" value="{realpath:}"/>
-		            		<map:parameter name="code" value="500"/>
-                            <map:parameter name="pageTitle" value="ADMINISTRATION - An error occured"/>
-		          		</map:transform>
-                        <map:transform type="i18n">
-                            <map:parameter name="locale" value="{locale:locale}"/>
-                        </map:transform>
-		          		<map:serialize status-code="500"/>		          		
-					</map:otherwise>
-				</map:select>
-			</map:handle-errors>
+                <map:serialize/>
+            </map:match>
+            
+            <!-- ************************************************* -->
+            <!--            FIN OLD WORKSPACE ADMIN                     -->
+            <!-- ************************************************* -->
+            
+            <!-- ERRORS -->
+            <map:handle-errors>
+                <map:select type="exception">
+                    <map:when test="not-found">
+                        <map:act type="exception" src="404">
+                            <map:generate type="exception" label="content"/>
+                            <map:transform src="{xsl}">
+                                <map:parameter name="realPath" value="{realpath:}"/>
+                                <map:parameter name="contextPath" value="{request:contextPath}"/>
+                                <map:parameter name="code" value="404"/>
+                                <map:parameter name="pageTitle" value="Page not found"/>
+                            </map:transform>
+                            <map:transform type="i18n">
+                                <map:parameter name="locale" value="{locale:locale}"/>
+                            </map:transform>
+                            <map:serialize status-code="404"/>
+                        </map:act>
+                    </map:when>
+                    <map:when test="authorization-required">
+                        <!-- Basic authentication needs to set a special header when this exception is thrown -->
+                        <map:act type="set-authorization-header"/>
+                        <map:act type="exception" src="401">
+                            <map:generate type="exception" label="content"/>
+                            <map:transform src="{xsl}">
+                                <map:parameter name="realPath" value="{realpath:}"/>
+                                <map:parameter name="contextPath" value="{request:contextPath}"/>
+                                <map:parameter name="code" value="401"/>
+                                <map:parameter name="pageTitle" value="Authorization required"/>
+                            </map:transform>
+                            <map:transform type="i18n">
+                                <map:parameter name="locale" value="{locale:locale}"/>
+                            </map:transform>
+                            <map:serialize status-code="401"/>                      
+                        </map:act>
+                    </map:when>
+                    <map:when test="access-denied">
+                        <map:act type="exception" src="403">
+                            <map:generate type="exception" label="content"/>
+                            <map:transform src="{xsl}">
+                                <map:parameter name="realPath" value="{realpath:}"/>
+                                <map:parameter name="contextPath" value="{request:contextPath}"/>
+                                <map:parameter name="code" value="403"/>
+                                <map:parameter name="pageTitle" value="Access denied"/>
+                            </map:transform>
+                            <map:transform type="i18n">
+                                <map:parameter name="locale" value="{locale:locale}"/>
+                            </map:transform>
+                            <map:serialize status-code="403"/>                      
+                        </map:act>
+                    </map:when>
+                    <map:otherwise>
+                        <map:act type="exception" src="500">
+                            <map:generate type="exception" label="content"/>
+                            <map:transform src="{xsl}">
+                                <map:parameter name="realPath" value="{realpath:}"/>
+                                <map:parameter name="contextPath" value="{request:contextPath}"/>
+                                <map:parameter name="code" value="500"/>
+                                <map:parameter name="pageTitle" value="An error occured"/>
+                            </map:transform>
+                            <map:transform type="i18n">
+                                <map:parameter name="locale" value="{locale:locale}"/>
+                            </map:transform>
+                            <map:serialize status-code="500"/>
+                        </map:act>
+                    </map:otherwise>
+                </map:select>
+            </map:handle-errors>
 		</map:pipeline>
 	</map:pipelines>
 </map:sitemap>
