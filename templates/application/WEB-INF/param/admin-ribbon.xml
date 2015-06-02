@@ -28,6 +28,15 @@
                     </medium>
                     <small/>
                 </group>
+                <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_SYSTEM_LABEL" icon="">
+                    <large/>
+                    <medium>
+                        <control id="org.ametys.runtime.plugins.core.JVMStatus"/>
+                        <control id="org.ametys.runtime.plugins.core.SystemProperties"/>
+                        <control id="org.ametys.runtime.plugins.core.Monitoring"/>
+                    </medium>
+                    <small/>
+                </group>
             </groups>
         </tab>
         

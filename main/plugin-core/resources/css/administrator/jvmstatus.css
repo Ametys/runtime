@@ -1,5 +1,5 @@
 /*
- *  Copyright 2012 Anyware Services
+ *  Copyright 2015 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,8 +14,7 @@
  *  limitations under the License.
  */
 
-.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel .x-panel-header,
-.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel .x-panel-body
+.jvmstatus-tool.x-container
 {
 	background-color: transparent;
 	background-image: none;
@@ -23,33 +22,54 @@
 	border-width: 0;
 }
 
-.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel .x-panel-header
+.monitoring-tool .x-panel-header, 
+.jvmstatus-fd .x-panel-header
 {
 	background-image: url('../../../../../_admin/resources/img/icon/group-expand-sprite.png');
 	background-repeat: no-repeat;	
 	background-position: 0 -45px;
+	background-color: transparent;
 	
 	padding-left: 15px;
 	margin-left: 15px;
 }
 
-.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel .x-panel-header .x-panel-header-text
-{
-	font-family: arial,sans-serif;
-	font-size: 1.21em;
-}	
-
-.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel .x-panel-header.x-panel-header-collapsed-top
+.monitoring-tool .x-panel-header.x-panel-header-collapsed-top,
+.jvmstatus-fd .x-panel-header.x-panel-header-collapsed-top
 {
 	background-position: 0 5px;
 }
 
+.monitoring-tool .x-panel-body,
+.jvmstatus-fd .x-panel-body
+{
+	border: none;
+    padding: 10px 10px 10px 32px;
+    font-size: 11px;
+    line-height: 18px;
+}
+
+.jvmstatus-tool button {
+	cursor: pointer;
+	border: none;
+	background: none;
+	border: 1px solid #d0d0d0;
+	width: 40px;
+	height: 40px;
+	padding: 4px;
+}
+
+.jvmstatus-tool button.over {
+	border: 1px solid #c0c0c0;
+	background-color: #d0d0d0;
+}
+
 
 /** GENERAL */
-.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel #system, 
-.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel #java, 
-.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel #memory, 
-.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel #server
+.jvmstatus-tool #system, 
+.jvmstatus-tool #java, 
+.jvmstatus-tool #memory, 
+.jvmstatus-tool #server
 {
 	font-family: arial,sans-serif;
 	font-size: 0.9em;
@@ -59,11 +79,11 @@
 	width: 530px;
 }
 
-.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel #memory {
+.jvmstatus-tool #memory {
 	margin-top: 5px;
 }
 
-.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel .label 
+.jvmstatus-tool .label 
 {
 	font-weight: bold;
 	float: left;
@@ -71,21 +91,21 @@
 	color: #1C58A0;
 }
 
-.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel img.help 
+.jvmstatus-tool img.help 
 {
 	margin-right: 10px;
 	float: left;
 	padding-top: 6px;
 }
 
-.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel .legend 
+.jvmstatus-tool .legend 
 {
 	font-weight: normal;
 	text-align: right;
 	width: 460px;
 }
 
-.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel .legend img 
+.jvmstatus-tool .legend img 
 {
 	width: 10px;
 	height: 10px;
@@ -94,35 +114,29 @@
 	margin-right: 2px;
 }
 
-.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel #memory button 
+.jvmstatus-tool #memory button 
 {
 	margin-left: 10px;
 }
 
-/** PROPERTIES */
-.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel #properties-panel .x-grid-cell 
-{
-	background: none !important;
-}
-
 /** MONITORING */
-.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel .monitoring a {
+.monitoring-tool .monitoring a {
 	font-family: arial,sans-serif;
 	font-weight: normal;
 }
 
-.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel .monitoring {
+.monitoring-tool  .monitoring {
 	text-align: center;
 	vertical-align: top;
 }
 
-.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel .monitoring img {
+.monitoring-tool  .monitoring img {
 	vertical-align: top;
 	width: 491px;
 	height: 273px;
 }
 
-.home-wrapper .home-main .home-col-main .admin-main-panel #system-card-panel .monitoring button {
+.monitoring-tool .monitoring button {
 	background-color: #ffffff; 
 	border: 2px solid #dcdcdc; 
 	width: 30px; 

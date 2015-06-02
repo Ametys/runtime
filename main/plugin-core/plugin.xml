@@ -1628,6 +1628,152 @@
             </extension>
         </extensions>
     </feature>
+    
+    <!-- +
+         |  JVM STATUS
+         + -->   
+    <feature name="runtime.admin.jvmstatus">
+    
+        <components>
+            <component role="org.ametys.runtime.plugins.core.administrator.jvmstatus.JVMStatusHelper"
+                       class="org.ametys.runtime.plugins.core.administrator.jvmstatus.JVMStatusHelper"/>
+        </components>
+        
+        <extensions>
+            <extension id="org.ametys.runtime.plugins.core.JVMStatus"  
+                       point="org.ametys.runtime.ribbon.RibbonControlsManager" 
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <!-- 
+                    This button opens the JVM status tool
+                 -->
+                <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
+                    <opentool-role>uitool-admin-jvmstatus</opentool-role>
+                    
+                    <label i18n="true">PLUGINS_CORE_ADMINISTRATOR_TOOL_JVMSTATUS_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_TOOL_JVMSTATUS_DESC</description>
+                    
+                    <icon-small file="true">img/administrator/jvmstatus/jvmstatus_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/jvmstatus/jvmstatus_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/jvmstatus/jvmstatus_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/jvmstatus/JVMStatusTool.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.runtime.plugins.core.JVMStatusFactory"
+                       point="org.ametys.runtime.ui.UIToolsFactoriesManager"
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <class name="Ametys.tool.factory.UniqueToolFactory">
+                    <role>uitool-admin-jvmstatus</role>
+                    <toolClass>Ametys.plugins.core.administration.jvmstatus.JVMStatusTool</toolClass>
+                    
+                    <title i18n="true">PLUGINS_CORE_ADMINISTRATOR_TOOL_JVMSTATUS_LABEL</title>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_TOOL_JVMSTATUS_DESC</description>
+                    
+                    <icon-small file="true">img/administrator/jvmstatus/jvmstatus_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/jvmstatus/jvmstatus_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/jvmstatus/jvmstatus_48.png</icon-large>
+                    
+                    <default-location>c</default-location>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/jvmstatus/JVMStatusTool.js</file>
+                </scripts>
+                <css>
+                    <file>css/administrator/jvmstatus.css</file>
+                </css>
+            </extension>
+            
+            <extension id="org.ametys.runtime.plugins.core.SystemProperties"  
+                       point="org.ametys.runtime.ribbon.RibbonControlsManager" 
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <!-- 
+                    This button opens the system properties tool
+                 -->
+                <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
+                    <opentool-role>uitool-admin-systemproperties</opentool-role>
+                    
+                    <label i18n="true">PLUGINS_CORE_ADMINISTRATOR_TOOL_SYSTEMPROPERTIES_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_TOOL_SYSTEMPROPERTIES_DESC</description>
+                    
+                    <icon-small file="true">img/administrator/jvmstatus/properties_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/jvmstatus/properties_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/jvmstatus/properties_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/jvmstatus/SystemPropertiesTool.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.runtime.plugins.core.SystemPropertiesFactory"
+                       point="org.ametys.runtime.ui.UIToolsFactoriesManager"
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <class name="Ametys.tool.factory.UniqueToolFactory">
+                    <role>uitool-admin-systemproperties</role>
+                    <toolClass>Ametys.plugins.core.administration.jvmstatus.SystemPropertiesTool</toolClass>
+                    
+                    <title i18n="true">PLUGINS_CORE_ADMINISTRATOR_TOOL_SYSTEMPROPERTIES_FACTORY_LABEL</title>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_TOOL_SYSTEMPROPERTIES_DESC</description>
+                    
+                    <icon-small file="true">img/administrator/jvmstatus/properties_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/jvmstatus/properties_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/jvmstatus/properties_48.png</icon-large>
+                    
+                    <default-location>c</default-location>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/jvmstatus/SystemPropertiesTool.js</file>
+                </scripts>
+                <css>
+                    <file>css/administrator/jvmstatus.css</file>
+                </css>
+            </extension>
+            
+            <extension id="org.ametys.runtime.plugins.core.Monitoring"  
+                       point="org.ametys.runtime.ribbon.RibbonControlsManager" 
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <!-- 
+                    This button opens the monitoring tool
+                 -->
+                <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
+                    <opentool-role>uitool-admin-monitoring</opentool-role>
+                    
+                    <label i18n="true">PLUGINS_CORE_ADMINISTRATOR_TOOL_MONITORING_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_TOOL_MONITORING_DESC</description>
+                    
+                    <icon-small file="true">img/administrator/jvmstatus/monitoring_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/jvmstatus/monitoring_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/jvmstatus/monitoring_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/jvmstatus/MonitoringTool.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.runtime.plugins.core.MonitoringFactory"
+                       point="org.ametys.runtime.ui.UIToolsFactoriesManager"
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <class name="Ametys.tool.factory.UniqueToolFactory">
+                    <role>uitool-admin-monitoring</role>
+                    <toolClass>Ametys.plugins.core.administration.jvmstatus.MonitoringTool</toolClass>
+                    
+                    <title i18n="true">PLUGINS_CORE_ADMINISTRATOR_TOOL_MONITORING_LABEL</title>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_TOOL_MONITORING_DESC</description>
+                    
+                    <icon-small file="true">img/administrator/jvmstatus/monitoring_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/jvmstatus/monitoring_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/jvmstatus/monitoring_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/jvmstatus/MonitoringTool.js</file>
+                </scripts>
+                <css>
+                    <file>css/administrator/jvmstatus.css</file>
+                </css>
+            </extension>
+        </extensions>
+    </feature>
 
     <feature name="runtime.admin.old">
         <!-- 
@@ -1678,28 +1824,6 @@
                 <Url>administrator/config/edit\.html</Url>
             </extension>
             
-            <!-- +
-                 |  ADMIN JVMSTATUS
-                 + -->
-            <extension  point="org.ametys.runtime.workspaces.admin.DesktopManager" 
-                        id="org.ametys.runtime.plugins.core.administrator.JVMStatus"
-                        class="org.ametys.runtime.plugins.core.ui.item.StaticAdminClientSideElement"
-                        logger="org.ametys.runtime.plugins.core.ui.administrator.status">
-                <!-- 
-                    This interaction allows the administrator to check the status of the JVM
-                 -->
-				<class name="redirect">
-					<param name="Link">administrator/jvmstatus/view.html</param>
-
-					<param name="label" i18n="true">PLUGINS_CORE_ADMINISTRATOR_STATUS_LABEL</param>
-					<param name="default-description" i18n="true">PLUGINS_CORE_ADMINISTRATOR_STATUS_DESCRIPTION</param>
-					<param name="icon-small" file="true">img/administrator/jvmstatus/icon_dock.png</param>
-					<param name="icon-medium" file="true">img/administrator/jvmstatus/icon_medium.gif</param>
-					<param name="icon-large" file="true">img/administrator/jvmstatus/icon_large.png</param>
-				</class>    				   
-                <Url>administrator/jvmstatus/view\.html</Url>
-            </extension> 
-
             <!-- +
                  |  ADMIN PLUGINS
                  + -->           

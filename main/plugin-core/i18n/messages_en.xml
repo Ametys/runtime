@@ -223,7 +223,7 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_PURGE_DESC">Remove obsolete log files (older than 12 days)</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_PURGE_DIALOG_TITLE">Clean logs</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_PURGE_DIALOG_CONFIRM">Do you want to delete all files older than 12 days?</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_PURGE_ERROR_GRAVE">An error occurred on the server.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_PURGE_SERVER_ERROR">An error occurred on the server : unable to clean logs</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_PURGE_AMOUNT">log files have been removed</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_PURGE_NONE">No file is dated more than 12 days.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_DELETE_LABEL">Delete</message>

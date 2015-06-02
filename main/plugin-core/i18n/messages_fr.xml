@@ -88,8 +88,9 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_PARAM_CHECKER_LABEL_PREFIX">Vérifier</message>
     
     <!-- ADMINISTRATOR JVMSTATUS -->
-    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_LABEL">Etat du système</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_DESCRIPTION">Analyser l'état du système et de la JVM</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_JVMSTATUS_LABEL">Général</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_JVMSTATUS_DESC">Analyser l'état général du système et de la JVM</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_JVMSTATUS_SERVER_ERROR">Une erreur est survenue lors de la récupération des propriétés de la JVM.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TITLE">Etat du système</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_HANDLE">Gestion</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_HANDLE_QUIT">Quitter</message>
@@ -141,6 +142,16 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_SYSTEM">Propriétés système</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_MONITORING">Monitoring</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_MONITORING_EXPORT">Exporter (format XML RRD)</message>
+    
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_SYSTEMPROPERTIES_LABEL">Propriétés</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_SYSTEMPROPERTIES_DESC">Voir les propriétés du système.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_SYSTEMPROPERTIES_FACTORY_LABEL">Propriétés du système</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_SYSTEMPROPERTIES_COL_NAME">Nom</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_SYSTEMPROPERTIES_COL_VALUE">Valeur</message>
+    
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_MONITORING_LABEL">Monitoring</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_MONITORING_DESC">Voir les données de monitoring.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_MONITORING_SERVER_ERROR">Une erreur est survenue lors de la récupération des données de monitoring.</message>
 
     <!-- ADMINISTRATOR JVMSTATUS MONITORING -->
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_UPTIME_LABEL">Temps écoulé depuis le démarrage</message>
@@ -221,7 +232,7 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_PURGE_DESC">Effacer les journaux datés de plus de 12 jours.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_PURGE_DIALOG_TITLE">Purge</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_PURGE_DIALOG_CONFIRM">Etes-vous sûr de vouloir effacer tous les journaux datés de plus de 12 jours ?</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_PURGE_ERROR_GRAVE">Une erreur est survenue sur le serveur.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_PURGE_SERVER_ERROR">Une erreur est survenue sur le serveur.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_PURGE_AMOUNT">fichiers de journal ont été effacés par la purge</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_PURGE_NONE">Aucun journal n'est daté de plus de 12 jours.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_DELETE_LABEL">Supprimer</message>

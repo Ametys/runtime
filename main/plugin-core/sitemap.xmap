@@ -19,7 +19,8 @@
 	<map:components>
         <map:generators>
             <map:generator name="administrator-config" src="org.ametys.runtime.plugins.core.administrator.configuration.ConfigGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.config" label="content"/>
-            <map:generator name="administrator-jvmstatus" src="org.ametys.runtime.plugins.core.administrator.jvmstatus.JVMStatusGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.jvmstatus" label="content"/>
+            <map:generator name="administrator-jvmstatus" src="org.ametys.runtime.plugins.core.administrator.jvmstatus.GeneralStatusGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.jvmstatus" label="content"/>
+            <map:generator name="administrator-system-properties" src="org.ametys.runtime.plugins.core.administrator.jvmstatus.SystemPropertiesGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.jvmstatus" label="content"/>
             <map:generator name="administrator-logs" src="org.ametys.runtime.plugins.core.administrator.logs.LogsGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.logs" label="content"/>
             <map:generator name="administrator-logs-downloadzip" src="org.ametys.runtime.plugins.core.administrator.logs.LogsDownloadGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.logsDownload" label="content"/>
             <map:generator name="administrator-plugins-list" src="org.ametys.runtime.plugin.PluginsAndWorkspacesGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.listPlugins" label="content"/>
@@ -70,7 +71,6 @@
 
             <map:action name="administrator-is-system-user" src="org.ametys.runtime.plugins.core.right.actions.IsAdminAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.isAdmin"/>
 			<map:action name="administrator-password-set" src="org.ametys.runtime.plugins.core.administrator.password.SetPasswordAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.setPassword"/>
-            <map:action name="administrator-jvmstatus-gc" src="org.ametys.runtime.plugins.core.administrator.jvmstatus.GCAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.garbageCollect"/>
             <map:action name="administrator-system-update" src="org.ametys.runtime.plugins.core.administrator.system.UpdateSystemAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.updateSystem"/>
             <map:action name="administrator-config-save" src="org.ametys.runtime.plugins.core.administrator.configuration.SaveConfigAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.saveConfig"/>
             <map:action name="administrator-config-test" src="org.ametys.runtime.config.ParameterCheckerAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.dispatchRequest"/>
@@ -266,13 +266,10 @@
             <!-- +
                  | System status
                  + -->
-            <map:match pattern="administrator/jvmstatus/view.html">
+            <map:match pattern="administrator/jvmstatus">
                 <map:generate type="administrator-jvmstatus" label="content"/>
-                <map:transform type="xslt" src="pages/administrator/jvmstatus/view.xsl">
-                    <map:parameter name="contextPath" value="{request:contextPath}"/>
+                <map:transform type="xslt" src="pages/administrator/jvmstatus/jvmstatus.xsl">
                     <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
-                    <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
-                    <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/>
                 </map:transform>
                 <map:transform type="i18n">
                     <map:parameter name="locale" value="{locale:locale}"/>
@@ -281,23 +278,10 @@
                 <map:serialize type="xml"/>
             </map:match>
         
-            <map:match pattern="administrator/jvmstatus/refresh">
-                <map:act type="administrator-jvmstatus-gc"/>
-                <map:generate type="administrator-jvmstatus" label="content">
-                    <map:parameter name="properties" value="false"/>
-                </map:generate>
-                <map:transform type="xslt" src="pages/administrator/jvmstatus/refresh.xsl">
-                    <map:parameter name="contextPath" value="{request:contextPath}"/>
-                    <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
-                    <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
-                    <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/>
-                </map:transform>
-                <map:transform type="i18n">
-                    <map:parameter name="locale" value="{locale:locale}"/>
-                    <map:parameter name="plugin" value="{request-attr:pluginName}"/>
-                </map:transform>
-                <map:serialize type="xml"/>
-            </map:match>
+            <map:match pattern="administrator/system-properties">
+                 <map:generate type="administrator-system-properties"/>
+                 <map:serialize type="xml"/>
+             </map:match>
             
             <map:match pattern="administrator/jvmstatus/threads_**.log">
                 <map:read type="administrator-jvmstatus-threadlog"/>
