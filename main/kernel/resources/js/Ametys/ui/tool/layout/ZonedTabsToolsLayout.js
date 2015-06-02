@@ -331,11 +331,11 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 			var tabEl = zoneTabsToolsPanel.getTabBar().items.get(index);
 			
 			tabEl.setText((tool.getDirtyState() ? "* " : "") + tool.getTitle());
-			tabEl.setIcon(Ametys.WORKSPACE_URI + tool.getSmallIcon());
+			tabEl.setIcon(Ametys.CONTEXT_PATH + tool.getSmallIcon());
 			
 			tabEl.setTooltip({
 				title: tool.getTitle(),
-				image: tool.getLargeIcon() || tool.getMediumIcon() || tool.getSmallIcon() ? (Ametys.WORKSPACE_URI + (tool.getLargeIcon() || tool.getMediumIcon() || tool.getSmallIcon())) : null,
+				image: tool.getLargeIcon() || tool.getMediumIcon() || tool.getSmallIcon() ? (Ametys.CONTEXT_PATH + (tool.getLargeIcon() || tool.getMediumIcon() || tool.getSmallIcon())) : null,
 				imageWidth: tool.getLargeIcon() ? 48 : (tool.getMediumIcon() ? 32 : 16),
 				imageHeight: tool.getLargeIcon() ? 48 : (tool.getMediumIcon() ? 32 : 16),
 				text: tool.getDescription(),
