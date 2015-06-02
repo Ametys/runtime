@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright 2015 Anyware Services
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   -->
+<ribbon xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://ametys.org/cms/3.0/ribbon.xsd">
+    
+    <tabs>
+        <tab label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_HOME_LABEL">
+            <groups>
+                <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_LOGS_LABEL" icon="">
+                    <large/>
+                    <medium>
+                        <control id="org.ametys.runtime.plugins.core.Logs"/>
+                        <control id="org.ametys.runtime.plugins.core.LogsLevel"/>
+                    </medium>
+                    <small/>
+                </group>
+            </groups>
+        </tab>
+        
+        <tab label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_DEVELOPPER_LABEL">
+            <groups>
+                <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_DEVELOPPER_GROUPS_GROUP_TOOLS" icon="">
+                    <large/>
+                    <medium>
+                        <control id="org.ametys.runtime.userinterface.MessageTrackerControlMenu"/>
+                        <control id="org.ametys.runtime.userinterface.RequestTrackerControlMenu"/>
+                    </medium>
+                    <small/>
+                </group>
+            </groups>
+        </tab>
+        
+        <!-- Contextual tabs for logs -->
+        <tab id="org.ametys.runtime.plugins.core.LogsTab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_LOGS_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_LOGS_LABEL" contextualColor="4" contextualGroup="LOGS">
+            <groups>
+                <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_LOGS_GROUPS_GROUP_ACTIONS" icon="">
+                   <large/>
+                   <medium>
+                       <control id="org.ametys.runtime.plugins.core.logs.View"/>
+                       <control id="org.ametys.runtime.plugins.core.logs.Download"/>
+                       <control id="org.ametys.runtime.plugins.core.logs.Delete"/>
+                       <control id="org.ametys.runtime.plugins.core.logs.Purge"/>
+                   </medium>
+                   <small/>
+               </group>
+           </groups>   
+        </tab>
+        <tab id="org.ametys.runtime.plugins.core.LogsLevelTab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_LOGS_LEVEL_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_LOGS_LEVEL_LABEL" contextualColor="4" contextualGroup="LOGSLEVEL">
+            <groups>
+                <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_LOGS_GROUPS_GROUP_ACTIONS" icon="">
+                   <large/>
+                   <medium>
+                       <control id="org.ametys.runtime.plugins.core.logslevel.Debug"/>
+                       <control id="org.ametys.runtime.plugins.core.logslevel.Info"/>
+                       <control id="org.ametys.runtime.plugins.core.logslevel.Warn"/>
+                       <control id="org.ametys.runtime.plugins.core.logslevel.Error"/>
+                       <control id="org.ametys.runtime.plugins.core.logslevel.Inherit"/>
+                       <control id="org.ametys.runtime.plugins.core.logslevel.Force"/>
+                   </medium>
+                   <small/>
+               </group>
+           </groups>   
+        </tab>
+    </tabs>
+</ribbon>

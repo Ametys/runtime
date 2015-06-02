@@ -24,7 +24,6 @@
             <item id="org.ametys.runtime.plugins.core.administrator.System"/>
             <item id="org.ametys.runtime.plugins.core.administrator.Config"/>
             <item id="org.ametys.runtime.plugins.core.administrator.JVMStatus"/>
-            <item id="org.ametys.runtime.plugins.core.administrator.Logs"/>
         </category>
 
         <category name="WORKSPACE_ADMIN_SECTION_USERSMANAGEMENT_LABEL">
