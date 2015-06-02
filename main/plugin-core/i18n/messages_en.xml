@@ -87,20 +87,11 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_WARNING_TEXT_END">' has failed. Check the value of this parameter.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_CONFIG_PARAM_CHECKER_LABEL_PREFIX">Verify</message>
     
-
-
 	<!-- ADMINISTRATOR JVMSTATUS -->
-	<message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_LABEL">System status</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_DESCRIPTION">Analyze system and JVM status</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TITLE">System status</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_HANDLE">Management</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_HANDLE_QUIT">Quit</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_HELP">Help</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_GENERAL_HELP_TEXT">This screen allows you to see the system state. It is divided into two tabs:&lt;br/&gt;&#160;</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_SYSTEM_HELP_TEXT">The tab 'General' allows you to monitor system status: memory, users...&lt;br/&gt;This screen will refresh every 10 seconds.&lt;br/&gt;&#160;</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_PROPERTIES_HELP_TEXT">The tab 'System properties' allows you to view the JVM system properties.&lt;br/&gt;&#160;</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_HELP_TEXT">The tab 'Monitoring' allows you to view system state graphs.</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL">General</message>
+	<message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_JVMSTATUS_LABEL">General</message>
+	<message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_JVMSTATUS_DESC">This tool allows you to see the system state</message>
+	<message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_JVMSTATUS_SERVER_ERROR">An error occurred while getting the JVM status.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL">General</message>
 	<message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_SYS">System</message>
 	<message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_SYS_OS">OS</message>
 	<message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_SYS_PROC">CPU(s)</message>
@@ -140,11 +131,20 @@
 	<message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_REQUESTS_ERROR_HINT">Unknown requests count.\n\nPlease check that the 'WEB-INF/web.xml' contains the following line under the root element: \n&lt;listener&gt;&lt;listener-class&gt;org.ametys.runtime.plugins.core.administrator.jvmstatus.RequestCountListener&lt;/listener-class&gt;&lt;/listener&gt; </message>
 	<message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_THREADS_LOCK">deadlocked thread(s)</message>
 	<message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_THREADS_ERROR_LOCK_HINT">Some threads are \"deadlocked\". CLick here to get a detailed report of the problem.</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_SYSTEM">System properties</message>
 	<message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_MONITORING">Monitoring</message>
 	<message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_MONITORING_EXPORT">Export (RRD XML format)</message>
 
+    <!-- ADMINISTRATOR SYSTEM PROPERTIES -->
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_SYSTEMPROPERTIES_LABEL">Properties</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_SYSTEMPROPERTIES_DESC">This tool allows you to view the JVM system properties.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_SYSTEMPROPERTIES_FACTORY_LABEL">System properties</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_SYSTEMPROPERTIES_COL_NAME">Name</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_SYSTEMPROPERTIES_COL_VALUE">Value</message>
+    
 	<!-- ADMINISTRATOR JVMSTATUS MONITORING -->
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_MONITORING_LABEL">Monitoring</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_MONITORING_DESC">this tool allows you to view system state graphs.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_MONITORING_SERVER_ERROR">An error occurred: unable to get the monitoring data.</message>
 	<message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_UPTIME_LABEL">Time since application startup</message>
 	<message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_UPTIME_DESCRIPTION">This graph displays the time since the application has started up. It will increase regularly but is reset to 0 each time the application is started.</message>
 	<message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_HTTPREQUEST_LABEL">HTTP requests executed</message>

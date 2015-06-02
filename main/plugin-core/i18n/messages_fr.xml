@@ -89,16 +89,8 @@
     
     <!-- ADMINISTRATOR JVMSTATUS -->
     <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_JVMSTATUS_LABEL">Général</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_JVMSTATUS_DESC">Analyser l'état général du système et de la JVM</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_JVMSTATUS_DESC">Cet outil vous permet de consulter l'état général du système et de la JVM</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_JVMSTATUS_SERVER_ERROR">Une erreur est survenue lors de la récupération des propriétés de la JVM.</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TITLE">Etat du système</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_HANDLE">Gestion</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_HANDLE_QUIT">Quitter</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_HELP">Aide</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_GENERAL_HELP_TEXT">Cet écran vous permet de consulter l'état du système. Il est divisé en deux onglets :&lt;br/&gt;&#160;</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_SYSTEM_HELP_TEXT">L'onglet 'Général' vous permet de visualiser l'état du système : mémoire, utilisateurs...&lt;br/&gt;Cet écran se rafraîchit toutes les 10 secondes.&lt;br/&gt;&#160;</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_PROPERTIES_HELP_TEXT">L'onglet 'Propriétés système' vous permet de visualiser les propriétés système de lancement de la machine virtuelle java.&lt;br/&gt;&#160;</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_HELP_TEXT">L'onglet 'Monitoring' vous permet de visualiser les courbes de suivi de l'état du système.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL">Général</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_SYS">Système</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_SYS_OS">OS</message>
@@ -125,35 +117,34 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE_MEMORY_HINT_NHEAP">La mémoire interne de java est la mémoire hors tas (non HEAP) qui se paramètre avec l'option -XX:MaxPermSize. Par exemple -XX:MaxPermSize=128m. En passant la souris au-dessus de la barre de mémoire, un message vous affichera les valeurs exactes de la mémoire.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE">Traitements du serveur</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE_SESSION">Sessions ouvertes</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE_SESSION_HELP">Le nombre indiqué ici comptabilise les sessions du moteur de servlet ouvertes et qui n'ont pas encore expiré. Par exemple, les sessions des utilisateurs et celles des administrateurs sont confondues</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE_SESSION_HELP">Le nombre indiqué ici comptabilise les sessions du moteur de servlet ouvertes et qui n'ont pas encore expiré.&lt;br/&gt;Par exemple, les sessions des utilisateurs et celles des administrateurs sont confondues</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE_REQUEST">Requêtes en cours</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE_REQUEST_HELP">Le nombre indiqué ici comptabilise les requêtes HTTP traitées en ce moment par le serveur (y compris celle qui est faite pour récupérer cette valeur)</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE_THREAD">Threads en cours</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE_THREAD_HELP">Le nombre indiqué ici comptabilise tous les threads de la JVM (toutes applications web confondues)</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_ERROR">Erreur</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_GC_ERROR">Une erreur est survenue. La mémoire n'a peut-être pas été libérée et les données affichées ne sont pas à jour.\n\nL'écran ne va plus se rafraichir automatiquement.</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_REFRESH_ERROR">Une erreur est survenue. Les données affichées ne sont pas à jour.\n\nL'écran ne va plus se rafraichir automatiquement.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_GC_ERROR">Une erreur est survenue. La mémoire n'a peut-être pas été libérée et les données affichées ne sont pas à jour.&lt;br/&gt;&lt;br/&gt;L'outil ne va plus se rafraichir automatiquement.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_REFRESH_ERROR">Une erreur est survenue. Les données affichées ne sont pas à jour.&lt;br/&gt;L'outil ne va plus se rafraichir automatiquement.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_SESSIONS_ERROR">? [obtenir de l'aide]</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_SESSIONS_ERROR_HINT">Nombre de sessions inconnu.\n\nIl est possible que vous ayez ce message si vous venez de redémarrer le serveur. Fermez votre navigateur puis reconnectez-vous.\nSi vous obtenez encore ce message, vérifiez que le fichier 'WEB-INF/web.xml' contient, sous l'élément racine, la ligne suivante :\n&lt;listener&gt;&lt;listener-class&gt;org.ametys.runtime.plugins.core.administrator.jvmstatus.SessionCountListener&lt;/listener-class&gt;&lt;/listener&gt;</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_SESSIONS_ERROR_HINT">Nombre de sessions inconnu.&lt;br/&gt;&lt;br/&gt;Il est possible que vous ayez ce message si vous venez de redémarrer le serveur. Fermez votre navigateur puis reconnectez-vous.&lt;br/&gt;Si vous obtenez encore ce message, vérifiez que le fichier 'WEB-INF/web.xml' contient, sous l'élément racine, la ligne suivante :&lt;br/&gt;&lt;listener&gt;&lt;listener-class&gt;org.ametys.runtime.plugins.core.administrator.jvmstatus.SessionCountListener&lt;/listener-class&gt;&lt;/listener&gt;</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_REQUESTS_ERROR">? [obtenir de l'aide]</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_REQUESTS_ERROR_HINT">Nombre de requêtes inconnu.\n\nVérifiez que le fichier 'WEB-INF/web.xml' contient, sous l'élément racine, la ligne suivante :\n&lt;listener&gt;&lt;listener-class&gt;org.ametys.runtime.plugins.core.administrator.jvmstatus.RequestCountListener&lt;/listener-class&gt;&lt;/listener&gt;</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_REQUESTS_ERROR_HINT">Nombre de requêtes inconnu.&lt;br/&gt;&lt;br/&gt;Vérifiez que le fichier 'WEB-INF/web.xml' contient, sous l'élément racine, la ligne suivante :&lt;br/&gt;&lt;listener&gt;&lt;listener-class&gt;org.ametys.runtime.plugins.core.administrator.jvmstatus.RequestCountListener&lt;/listener-class&gt;&lt;/listener&gt;</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_THREADS_LOCK">thread(s) en état de 'deadlock'</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_THREADS_ERROR_LOCK_HINT">Certains threads sont en état de \"deadlock\". Cliquez ici pour obtenir un rapport détaillé du problème.</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_SYSTEM">Propriétés système</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_MONITORING">Monitoring</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_MONITORING_EXPORT">Exporter (format XML RRD)</message>
     
+    <!-- ADMINISTRATOR SYSTEM PROPERTIES -->
     <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_SYSTEMPROPERTIES_LABEL">Propriétés</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_SYSTEMPROPERTIES_DESC">Voir les propriétés du système.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_SYSTEMPROPERTIES_DESC">Cet outil vous permet de visualiser les propriétés système de lancement de la machine virtuelle java.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_SYSTEMPROPERTIES_FACTORY_LABEL">Propriétés du système</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_SYSTEMPROPERTIES_COL_NAME">Nom</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_SYSTEMPROPERTIES_COL_VALUE">Valeur</message>
     
-    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_MONITORING_LABEL">Monitoring</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_MONITORING_DESC">Voir les données de monitoring.</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_MONITORING_SERVER_ERROR">Une erreur est survenue lors de la récupération des données de monitoring.</message>
-
     <!-- ADMINISTRATOR JVMSTATUS MONITORING -->
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_MONITORING_LABEL">Monitoring</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_MONITORING_DESC">Cet outil vous permet de visualiser les courbes de suivi de l'état du système.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_MONITORING_SERVER_ERROR">Une erreur est survenue lors de la récupération des données de monitoring.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_UPTIME_LABEL">Temps écoulé depuis le démarrage</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_UPTIME_DESCRIPTION">Ce graphique mesure le temps qui s'est écoulé depuis le démarrage. En temps normal, la courbe croit de manière régulière et redémarre à zéro si l'application a été redémarrée.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_HTTPREQUEST_LABEL">Nombre de requêtes HTTP executées</message>
