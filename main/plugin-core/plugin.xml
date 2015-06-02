@@ -1308,6 +1308,310 @@
     </feature>
     
     <!-- +
+         |  PLUGINS AND WORKSPACES
+         + --> 
+    <feature name="runtime.admin.plugins">
+        <extensions>
+                      
+            <extension id="org.ametys.runtime.plugins.core.PluginsByFileTab"
+                       point="org.ametys.runtime.ribbon.RibbonTabsManager"
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.tab.TabController">
+                    <tool-role>^(uitool-admin-pluginsbyfile)$</tool-role>
+                </class>
+            </extension>
+            
+            <extension id="org.ametys.runtime.plugins.core.PluginsByExtensionPointTab"
+                       point="org.ametys.runtime.ribbon.RibbonTabsManager"
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.tab.TabController">
+                    <tool-role>^(uitool-admin-pluginsbyextensionpoint)$</tool-role>
+                </class>
+            </extension>
+            
+            <!-- Tools -->
+            <extension id="org.ametys.runtime.plugins.core.PluginsByFile"  
+                       point="org.ametys.runtime.ribbon.RibbonControlsManager" 
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <!-- 
+                    This interaction allows the administrator to see plugins by file. Useful for developers.
+                 -->
+                <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
+                    <opentool-role>uitool-admin-pluginsbyfile</opentool-role>
+                    
+                    <label i18n="true">PLUGINS_CORE_ADMINISTRATOR_TOOL_PLUGINSBYFILE_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_TOOL_PLUGINSBYFILE_DESC</description>
+                    
+                    <icon-small file="true">img/administrator/plugins/plugins_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/plugins/plugins_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/plugins/plugins_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/plugins/PluginsTool.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.runtime.plugins.core.PluginsByFileFactory"  
+                       point="org.ametys.runtime.ui.UIToolsFactoriesManager" 
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <class name="Ametys.tool.factory.UniqueToolFactory">
+                    <role>uitool-admin-pluginsbyfile</role>
+                    <toolClass>Ametys.plugins.core.administration.plugins.PluginsTool</toolClass>
+                    
+                    <proxyUrl>administrator/plugins-by-file</proxyUrl>
+                    
+                    <title i18n="true">PLUGINS_CORE_ADMINISTRATOR_TOOL_PLUGINSBYFILE_LABEL</title>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_TOOL_PLUGINSBYFILE_DESC</description>
+                    
+                    <icon-small file="true">img/administrator/plugins/plugins_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/plugins/plugins_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/plugins/plugins_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/plugins/PluginsTool.js</file>
+                    <file>js/Ametys/plugins/core/administration/plugins/PluginsDAO.js</file>
+                    <file>js/Ametys/plugins/core/administration/plugins/PluginsActions.js</file>
+                </scripts>
+                <css>
+                    <file>css/administrator/plugins.css</file>
+                </css>
+                <default-location>c</default-location>
+            </extension>
+            
+            <extension id="org.ametys.runtime.plugins.core.PluginsByExtensionPoint"  
+                       point="org.ametys.runtime.ribbon.RibbonControlsManager" 
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <!-- 
+                    This interaction allows the administrator to see plugins by file. Useful for developers.
+                 -->
+                <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
+                    <opentool-role>uitool-admin-pluginsbyextensionpoint</opentool-role>
+                    
+                    <label i18n="true">PLUGINS_CORE_ADMINISTRATOR_TOOL_PLUGINSBYEXTENSIONPOINT_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_TOOL_PLUGINSBYEXTENSIONPOINT_DESC</description>
+                    
+                    <icon-small file="true">img/administrator/plugins/plugins_ep_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/plugins/plugins_ep_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/plugins/plugins_ep_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/plugins/PluginsTool.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.runtime.plugins.core.PluginsByExtensionPointFactory"  
+                       point="org.ametys.runtime.ui.UIToolsFactoriesManager" 
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <class name="Ametys.tool.factory.UniqueToolFactory">
+                    <role>uitool-admin-pluginsbyextensionpoint</role>
+                    <toolClass>Ametys.plugins.core.administration.plugins.PluginsTool</toolClass>
+                        
+                    <proxyUrl>administrator/plugins-by-extension-point</proxyUrl>
+                        
+                    <title i18n="true">PLUGINS_CORE_ADMINISTRATOR_TOOL_PLUGINSBYEXTENSIONPOINT_LABEL</title>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_TOOL_PLUGINSBYEXTENSIONPOINT_DESC</description>
+                    
+                    <icon-small file="true">img/administrator/plugins/plugins_ep_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/plugins/plugins_ep_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/plugins/plugins_ep_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/plugins/PluginsTool.js</file>
+                    <file>js/Ametys/plugins/core/administration/plugins/PluginsDAO.js</file>
+                    <file>js/Ametys/plugins/core/administration/plugins/PluginsActions.js</file>
+                </scripts>
+                <css>
+                    <file>css/administrator/plugins.css</file>
+                </css>
+                <default-location>c</default-location>
+            </extension>
+            
+            <extension id="org.ametys.runtime.plugins.core.Workspaces"  
+                       point="org.ametys.runtime.ribbon.RibbonControlsManager" 
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <!-- 
+                    This interaction allows the administrator to see workspaces. Useful for developers.
+                 -->
+                <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
+                    <opentool-role>uitool-admin-workspaces</opentool-role>
+                    
+                    <label i18n="true">PLUGINS_CORE_ADMINISTRATOR_TOOL_WORKSPACES_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_TOOL_WORKSPACES_DESC</description>
+                    
+                    <icon-small file="true">img/administrator/plugins/workspaces_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/plugins/workspaces_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/plugins/workspaces_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/plugins/WorkspacesTool.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.runtime.plugins.core.WorkspacesFactory"  
+                       point="org.ametys.runtime.ui.UIToolsFactoriesManager" 
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <!-- 
+                    This interaction allows the administrator to see plugins by file. Useful for developers.
+                 -->
+                <class name="Ametys.tool.factory.UniqueToolFactory">
+                    <role>uitool-admin-workspaces</role>
+                    <toolClass>Ametys.plugins.core.administration.tool.WorkspacesTool</toolClass>
+                    
+                    <title i18n="true">PLUGINS_CORE_ADMINISTRATOR_TOOL_WORKSPACES_LABEL</title>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_TOOL_WORKSPACES_DESC</description>
+                    
+                    <icon-small file="true">img/administrator/plugins/workspaces_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/plugins/workspaces_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/plugins/workspaces_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/plugins/WorkspacesTool.js</file>
+                </scripts>
+                <default-location>c</default-location>
+            </extension>
+            
+            <extension id="org.ametys.runtime.plugins.core.plugins.Documentation"
+                       point="org.ametys.runtime.ribbon.RibbonControlsManager"
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.core.administration.plugins.PluginsActions.showDocumentation</action>
+                    <selection-target-type>^(plugin-by-file-node|plugin-by-extension-point-node)$</selection-target-type>
+                
+                    <label i18n="true">PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DOCUMENTATION_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DOCUMENTATION_DESC</description>
+
+                    <icon-small file="true">img/administrator/plugins/documentation_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/plugins/documentation_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/plugins/documentation_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/plugins/PluginsDAO.js</file>
+                    <file>js/Ametys/plugins/core/administration/plugins/PluginsActions.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.runtime.plugins.core.plugins.Activate"
+                       point="org.ametys.runtime.ribbon.RibbonControlsManager"
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.core.administration.plugins.PluginsActions.activate</action>
+                    
+                    <selection-target-type>^(plugin-by-file-node|plugin-by-extension-point-node)$</selection-target-type>
+                    <selection-target-parameter>
+                        <name>^inactiveFeature$</name>
+                        <value>true</value>
+                    </selection-target-parameter>                    
+                
+                    <label i18n="true">PLUGINS_CORE_ADMINISTRATOR_PLUGINS_ACTIVATE_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_PLUGINS_ACTIVATE_DESC</description>
+
+                    <icon-small file="true">img/administrator/plugins/activate_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/plugins/activate_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/plugins/activate_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/plugins/PluginsDAO.js</file>
+                    <file>js/Ametys/plugins/core/administration/plugins/PluginsActions.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.runtime.plugins.core.plugins.Deactivate"
+                       point="org.ametys.runtime.ribbon.RibbonControlsManager"
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.core.administration.plugins.PluginsActions.deactivate</action>
+                    
+                    <selection-target-type>^(plugin-by-file-node|plugin-by-extension-point-node)$</selection-target-type>
+                    <selection-target-parameter>
+                        <name>^activeFeature$</name>
+                        <value>true</value>
+                    </selection-target-parameter>                    
+                
+                    <label i18n="true">PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DEACTIVATE_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DEACTIVATE_DESC</description>
+
+                    <icon-small file="true">img/administrator/plugins/deactivate_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/plugins/deactivate_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/plugins/deactivate_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/plugins/PluginsDAO.js</file>
+                    <file>js/Ametys/plugins/core/administration/plugins/PluginsActions.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.runtime.plugins.core.plugins.Select"
+                       point="org.ametys.runtime.ribbon.RibbonControlsManager"
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.core.administration.plugins.PluginsActions.select</action>
+                    
+                    <selection-target-type>^(plugin-by-file-node|plugin-by-extension-point-node)$</selection-target-type>
+                    <selection-target-parameter>
+                        <name>selectable</name>
+                        <value>true</value>
+                    </selection-target-parameter>                    
+                
+                    <label i18n="true">PLUGINS_CORE_ADMINISTRATOR_PLUGINS_SELECT_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_PLUGINS_SELECT_DESC</description>
+
+                    <icon-small file="true">img/administrator/plugins/select_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/plugins/select_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/plugins/select_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/plugins/PluginsDAO.js</file>
+                    <file>js/Ametys/plugins/core/administration/plugins/PluginsActions.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.runtime.plugins.core.plugins.SaveChanges"
+                       point="org.ametys.runtime.ribbon.RibbonControlsManager"
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <class name="Ametys.plugins.core.administration.plugins.SaveChangesController">
+                    <action>Ametys.plugins.core.administration.plugins.PluginsActions.saveChanges</action>
+                    
+                    <disabled>true</disabled>
+                    
+                    <label i18n="true">PLUGINS_CORE_ADMINISTRATOR_PLUGINS_SAVE_CHANGES_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_PLUGINS_SAVE_CHANGES_DESC</description>
+
+                    <icon-small file="true">img/administrator/plugins/save_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/plugins/save_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/plugins/save_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/plugins/PluginsDAO.js</file>
+                    <file>js/Ametys/plugins/core/administration/plugins/PluginsActions.js</file>
+                    <file>js/Ametys/plugins/core/administration/plugins/SaveChangesController.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.runtime.plugins.core.plugins.CancelChanges"
+                       point="org.ametys.runtime.ribbon.RibbonControlsManager"
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <class name="Ametys.plugins.core.administration.plugins.SaveChangesController">
+                    <action>Ametys.plugins.core.administration.plugins.PluginsActions.cancelChanges</action>
+                    
+                    <disabled>true</disabled>
+                    
+                    <label i18n="true">PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CANCEL_CHANGES_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CANCEL_CHANGES_DESC</description>
+
+                    <icon-small file="true">img/administrator/plugins/unsave_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/plugins/unsave_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/plugins/unsave_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/plugins/PluginsDAO.js</file>
+                    <file>js/Ametys/plugins/core/administration/plugins/PluginsActions.js</file>
+                    <file>js/Ametys/plugins/core/administration/plugins/SaveChangesController.js</file>
+                </scripts>
+            </extension>
+        </extensions>
+    </feature>
+    
+    <!-- +
          |  LOGS
          + -->   
     <feature name="runtime.admin.logs">
@@ -1633,7 +1937,6 @@
          |  JVM STATUS
          + -->   
     <feature name="runtime.admin.jvmstatus">
-    
         <components>
             <component role="org.ametys.runtime.plugins.core.administrator.jvmstatus.JVMStatusHelper"
                        class="org.ametys.runtime.plugins.core.administrator.jvmstatus.JVMStatusHelper"/>
@@ -1823,28 +2126,6 @@
 				</class>    				   
                 <Url>administrator/config/edit\.html</Url>
             </extension>
-            
-            <!-- +
-                 |  ADMIN PLUGINS
-                 + -->           
-            <extension  point="org.ametys.runtime.workspaces.admin.DesktopManager" 
-                        id="org.ametys.runtime.plugins.core.administrator.Plugins"
-                        class="org.ametys.runtime.plugins.core.ui.item.StaticAdminClientSideElement"
-                        logger="org.ametys.runtime.plugins.core.ui.administrator.plugins">
-                <!-- 
-                    This interaction allows the administrator to see plugins. Useful for developers.
-                 -->
-                <class name="redirect">
-					<param name="Link">administrator/plugins/view.html</param>
-
-					<param name="label" i18n="true">PLUGINS_CORE_ADMINISTRATOR_PLUGINS_LABEL</param>
-					<param name="default-description" i18n="true">PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DESCRIPTION</param>
-					<param name="icon-small" file="true">img/administrator/plugins/icon_dock.png</param>
-					<param name="icon-medium" file="true">img/administrator/plugins/icon_medium.gif</param>
-					<param name="icon-large" file="true">img/administrator/plugins/icon_large.png</param>
-				</class>    				   
-                <Url>administrator/plugins/view\.html</Url>
-            </extension> 
             
             <!-- +
                  |  ADMIN SYSTEM

@@ -163,20 +163,41 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_DISKIO_DESCRIPTION">Ce graphique montre l'activé des disques (lectures et écritures).</message>
 
     <!-- ADMINISTRATOR PLUGINS -->
-    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_LABEL">Plugins et Workspaces</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DESCRIPTION">Affiche tous les plugins et workspaces de l'application</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_PLUGINSBYFILE_LABEL">Plugins par fichier</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_PLUGINSBYFILE_DESC">Ouvre un outil permettant de visualiser les plugins par fichiers sous forme d'un arbre. Permet d'activer/désactiver des plugins.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_PLUGINSBYFILE_SERVER_ERROR">Une erreur est survenue lors de la récupération des propriétés de l'arbre.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_PLUGINSBYFILE_ROOT_TEXT">Plugins</message>
+    
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_PLUGINSBYEXTENSIONPOINT_LABEL">Plugins par point d'extension</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_PLUGINSBYEXTENSIONPOINT_DESC">Ouvre un outil permettant de visualiser les plugins par point d'extension sous forme d'un arbre. Permet d'activer/désactiver des plugins.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_PLUGINSBYEXTENSIONPOINT_SERVER_ERROR">Une erreur est survenue lors de la récupération des propriétés de l'arbre.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_PLUGINSBYEXTENSIONPOINT_ROOT_TEXT">Plugins</message>
+    
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_WORKSPACES_LABEL">Workspaces</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_WORKSPACES_DESC">Ouvre un outil permettant de visualiser les workspaces sous forme d'un arbre.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_WORKSPACES_SERVER_ERROR">Une erreur est survenue lors de la récupération des propriétés de l'arbre.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_WORKSPACES_ROOT_TEXT">Workspaces</message>
+
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DOCUMENTATION_LABEL">Documentation</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DOCUMENTATION_DESC">Voir la documentation rattachée au noeud sélectionné.</message>
+    
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_ACTIVATE_LABEL">Activer</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_ACTIVATE_DESC">Permet d'activer la feature sélectionnée.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DEACTIVATE_LABEL">Désactiver</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DEACTIVATE_DESC">Permet de désactiver la feature sélectionnée.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_SELECT_LABEL">Sélectionner</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_SELECT_DESC">Sélectionne le point d'extension.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_SAVE_CHANGES_LABEL">Sauvegarder les modifications</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_SAVE_CHANGES_DESC">Applique les modifications réalisées.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_SAVE_CHANGES_ERROR">Une erreur s'est produit lors de l'application des changements.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_PENDING">Attention, l'arbre ne sera à jour que lorsque les changements auront été appliqués.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CANCEL_CHANGES_LABEL">Annuler les modifications</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CANCEL_CHANGES_DESC">Annuler les modifications réalisées.</message>
+    
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_HANDLE">Gestion</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHOOSE">Sélectionner</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_ACTIVATE">Activer</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DEACTIVATE">Désactiver</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES">Changements</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DOC">Documentation</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CANCEL">Quitter</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_TITLE">Liste des plugins et workspaces</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_HELP">Aide</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_HELP_TEXT">Cet écran affiche la liste des plugins et workspaces qui ont été chargés au démarrage de l'application.&lt;br/&gt;&lt;br/&gt;Vous pouvez afficher 3 vues en sélectionnant les onglets dans le sommaire :&lt;br/&gt;Par plugins : cette vue correspond à l'arborescence physique des plugins sur le disque.&lt;br/&gt;Par point d'extension : il s'agit d'une vue logique où les plugins sont regroupés par type.&lt;br/&gt;Par workspace : il s'agit de la liste des workspaces.&lt;br/&gt;&lt;br/&gt;Le bouton documentation vous permet de voir la documentation des plugins. C'est une action contextuelle, en sélectionnant un noeud donné dans l'arbre vous obtiendrez la documentation rattachée.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_NO_PLUGINS">Aucun plugin n'est enregistré</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_PLUGINS">Plugins</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_EXTENSION_POINTS">Points d'extension</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_NO_EXTENSION">Aucun point d'extension n'est enregistré</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_PLUGIN_VIEW">Plugins par fichiers</message>

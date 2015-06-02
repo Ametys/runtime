@@ -163,12 +163,39 @@
 	<message key="PLUGINS_CORE_ADMINISTRATOR_STATUS_MONITORING_DISKIO_DESCRIPTION">This graph displays the disk I/O operations over time (reads and writes).</message>
 
 	<!-- ADMINISTRATOR PLUGINS -->
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_PLUGINSBYFILE_LABEL">Plugins by file</message> 
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_PLUGINSBYFILE_DESC">Open a tool showing the plugins by file in form of a tree. Allows to activate/deactivate plugins.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_PLUGINSBYFILE_SERVER_ERROR">An error has occurred while retrieving the tree's properties.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_PLUGINSBYFILE_ROOT_TEXT">Plugins</message>
+
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_PLUGINSBYEXTENSIONPOINT_LABEL">Plugins by extension point</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_PLUGINSBYEXTENSIONPOINT_DESC">Open a tool showing the plugins by extension point in form of a tree. Allows to activate/deactivate plugins.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_PLUGINSBYEXTENSIONPOINT_SERVER_ERROR">An error has occurred while retrieving the tree's properties.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_PLUGINSBYEXTENSIONPOINT_ROOT_TEXT">Plugins</message>
+	
+	<message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_WORKSPACES_LABEL">Workspaces</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_WORKSPACES_DESC">Open a tool allowing to see the worksapces in form of a tree.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_WORKSPACES_SERVER_ERROR">An error has occurred while retrieving the tree's properties.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_WORKSPACES_ROOT_TEXT">Workspaces</message>
+    
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DOCUMENTATION_LABEL">Documentation</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DOCUMENTATION_DESC">See the documentation corresponding to the selected node.</message>
+    
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_ACTIVATE_LABEL">Activate</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_ACTIVATE_DESC">Activates the selected feature.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DEACTIVATE_LABEL">Deactivate</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DEACTIVATE_DESC">Deactivate the selected feature.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_SELECT_LABEL">Select</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_SELECT_DESC">Selects the extension point.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_LABEL">Changes</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_DESC">Applies the changes made.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_ERROR">An error has occurred while applying the modifications.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_PENDING">The tree will not be up to date until the modifications are applied.</message>
+	
 	<message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_LABEL">Plugins</message>
 	<message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DESCRIPTION">Show all applications plugins</message>
 	<message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_HANDLE">Management</message>
 	<message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHOOSE">Select</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_ACTIVATE">Activate</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DEACTIVATE">Deactivate</message>
 	<message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES">Changes</message>
 	<message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_DOC">Documentation</message>
 	<message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CANCEL">Quit</message>

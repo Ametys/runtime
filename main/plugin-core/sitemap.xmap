@@ -23,6 +23,8 @@
             <map:generator name="administrator-system-properties" src="org.ametys.runtime.plugins.core.administrator.jvmstatus.SystemPropertiesGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.jvmstatus" label="content"/>
             <map:generator name="administrator-logs" src="org.ametys.runtime.plugins.core.administrator.logs.LogsGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.logs" label="content"/>
             <map:generator name="administrator-logs-downloadzip" src="org.ametys.runtime.plugins.core.administrator.logs.LogsDownloadGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.logsDownload" label="content"/>
+            <map:generator name="administrator-plugins" src="org.ametys.runtime.plugin.PluginsGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.plugin" label="content"/>
+            <map:generator name="administrator-workspaces" src="org.ametys.runtime.plugin.WorkspacesGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.plugins" label="content" />
             <map:generator name="administrator-plugins-doc" src="org.ametys.runtime.plugins.core.administrator.plugins.doc.PluginDocGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.plugindoc" label="content"/>
             <map:generator name="administrator-plugins-change-runtime" src="org.ametys.runtime.plugins.core.administrator.plugins.ChangeRuntime" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.ChangeRuntimePlugins" label="content"/>
             <map:generator name="administrator-system" src="org.ametys.runtime.plugins.core.administrator.system.SystemGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.system" label="content"/>
@@ -334,40 +336,79 @@
             <!-- +
                  | Plugins and workspaces management tool
                  + -->
-           <!--  <map:match pattern="administrator/plugins/list.xml">
-                <map:generate type="administrator-plugins-list"/>
-                <map:serialize type="xml"/>
-            </map:match> -->
-            <map:match pattern="administrator/plugins/plugins.xml">
+            <map:match pattern="administrator/plugins/plugins-doc.xml">
                 <map:generate type="administrator-plugins-doc"/>
                 <map:serialize type="xml"/>
             </map:match>
-
-            <map:match pattern="administrator/plugins/change">
-            	<map:act type="administrator-change-plugins">
-                    <map:generate type="action-result"/>
-                    <map:serialize type="xml"/>
-            	</map:act>
+            
+            <map:match pattern="administrator/plugins/plugins.xml">
+                <map:generate type="administrator-plugins"/>
+                <map:serialize type="xml"/>
             </map:match>
-
-            <map:match pattern="administrator/plugins/change-runtime">
-            	<map:generate type="administrator-plugins-change-runtime"/>
-            	<map:transform src="pages/administrator/plugins/runtime.xsl"/>
-            	<map:serialize type="xml"/>
-            </map:match>
-
-            <map:match pattern="administrator/plugins/view.html">
+            
+           
+           <map:match pattern="administrator/plugins-by-file">
                 <map:aggregate element="root" label="content">
-                	<map:part src="cocoon:/administrator/plugins/list.xml"/>
-                	<map:part src="cocoon:/administrator/plugins/plugins.xml"/>
+                    <map:part src="cocoon:/administrator/plugins/plugins.xml" />
+                    <map:part src="cocoon:/administrator/plugins/plugins-doc.xml" />
                 </map:aggregate>
-                <map:transform src="pages/administrator/plugins/list.xsl">
+                <map:transform src="pages/administrator/plugins/plugins-by-file.xsl">
+                    <map:parameter name="contextPath" value="{request:contextPath}" />
+                    <map:parameter name="pluginName" value="{request-attr:pluginName}" />
+                    <map:parameter name="workspaceName" value="{request-attr:workspaceName}" />
+                    <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}" />
+                </map:transform>
+                <map:transform type="i18n">
+                    <map:parameter name="locale" value="{locale:locale}" />
+                    <map:parameter name="plugin" value="{request-attr:pluginName}" />
+                </map:transform>
+                <map:serialize type="text" mime-type="application/json" />
+            </map:match>
+            
+            <map:match pattern="administrator/plugins-by-extension-point">
+                 <map:aggregate element="root" label="content">
+                    <map:part src="cocoon:/administrator/plugins/plugins.xml"/>
+                    <map:part src="cocoon:/administrator/plugins/plugins-doc.xml"/>
+                 </map:aggregate>
+                <map:transform src="pages/administrator/plugins/plugins-by-extension-point.xsl">
                     <map:parameter name="contextPath" value="{request:contextPath}"/>
                     <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
                     <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
                     <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/>
                 </map:transform>
-               <map:serialize/>
+                <map:transform type="i18n">
+                    <map:parameter name="locale" value="{locale:locale}"/>
+                    <map:parameter name="plugin" value="{request-attr:pluginName}"/>
+                </map:transform>
+               <map:serialize type="text" mime-type="application/json"/>
+            </map:match>
+            
+            <map:match pattern="administrator/workspaces">
+                <map:generate type="administrator-workspaces"/>
+                <map:transform src="pages/administrator/plugins/workspaces.xsl">
+                    <map:parameter name="contextPath" value="{request:contextPath}"/>
+                    <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
+                    <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
+                    <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/>
+                </map:transform>
+                <map:transform type="i18n">
+                    <map:parameter name="locale" value="{locale:locale}"/>
+                    <map:parameter name="plugin" value="{request-attr:pluginName}"/>
+                </map:transform>
+               <map:serialize type="text" mime-type="application/json"/>
+            </map:match>
+            
+            <map:match pattern="administrator/plugins/change">
+                <map:act type="administrator-change-plugins">
+                    <map:generate type="action-result" />
+                    <map:serialize type="xml" />
+                </map:act>
+            </map:match>
+            
+            <map:match pattern="administrator/plugins/change-runtime">
+                <map:generate type="administrator-plugins-change-runtime" />
+                <map:transform src="pages/administrator/plugins/runtime.xsl" />
+                <map:serialize type="xml" />
             </map:match>
 
 			<!-- Plugins individual frames -->

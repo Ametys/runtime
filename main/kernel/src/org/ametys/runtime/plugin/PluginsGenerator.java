@@ -1,5 +1,5 @@
 /*
- *  Copyright 2012 Anyware Services
+ *  Copyright 2015 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -31,81 +31,32 @@ import org.xml.sax.SAXException;
 
 import org.ametys.runtime.plugin.PluginsManager.ActiveFeature;
 import org.ametys.runtime.plugin.PluginsManager.InactiveFeature;
-import org.ametys.runtime.servlet.RuntimeConfig;
-import org.ametys.runtime.workspace.WorkspaceManager;
-import org.ametys.runtime.workspace.WorkspaceManager.InactiveWorkspace;
 
 
 /**
- * SAX the plugins' informations
+ * SAX plugins' informations in order to be able to generate a plugin by file tree
  */
-public class PluginsAndWorkspacesGenerator extends AbstractGenerator
+public class PluginsGenerator extends AbstractGenerator
 {
-    private Map<String, Collection<ActiveFeature>> _getActiveFeatures()
+    public void generate() throws IOException, SAXException, ProcessingException
     {
-        Map<String, Collection<ActiveFeature>> activeFeatures = new HashMap<>();
+        contentHandler.startDocument();
+        XMLUtils.startElement(contentHandler, "list");
         
-        for (ActiveFeature feature : PluginsManager.getInstance().getActiveFeatures().values())
-        {
-            String pluginName = feature.getPluginName();
-            
-            Collection<ActiveFeature> features = activeFeatures.get(pluginName);
-            
-            if (features == null)
-            {
-                features = new ArrayList<>();
-                activeFeatures.put(pluginName, features);
-            }
-            
-            features.add(feature);
-        }
+        // Get active features
+        Map<String, Collection<ActiveFeature>> activeFeatures = _getActiveFeatures();
         
-        return activeFeatures;
-    }
-    
-    private Map<String, Collection<InactiveFeature>> _getInactiveFeatures()
-    {
-        Map<String, Collection<InactiveFeature>> inactiveFeatures = new HashMap<>();
-        Map<String, InactiveFeature> inactive = PluginsManager.getInstance().getInactiveFeatures();
+        // Get inactive features
+        Map<String, Collection<InactiveFeature>> inactiveFeatures = _getInactiveFeatures();
+
+        // Loop on the list of plugins' groups (by name)
+        _saxPlugins(activeFeatures, inactiveFeatures);
         
-        for (String featureId : inactive.keySet())
-        {
-            InactiveFeature feature = inactive.get(featureId);
-            String pluginName = feature.getPluginName();
-            
-            Collection<InactiveFeature> features = inactiveFeatures.get(pluginName);
-            
-            if (features == null)
-            {
-                features = new ArrayList<>();
-                inactiveFeatures.put(pluginName, features);
-            }
-            
-            features.add(feature);
-        }
+        // Extension points
+        _saxExtensionPoints();
         
-        return inactiveFeatures;
-    }
-    
-    private void _saxExtensionPoints() throws SAXException
-    {
-        XMLUtils.startElement(contentHandler, "extension-points");
-        
-        for (String extPoint : PluginsManager.getInstance().getExtensionPoints())
-        {
-            AttributesImpl ePAttrs = new AttributesImpl();
-            ePAttrs.addCDATAAttribute("id", extPoint);
-            XMLUtils.createElement(contentHandler, "extension-point", ePAttrs);
-        }
-        
-        for (String extPoint : PluginsManager.getInstance().getSingleExtensionPoints())
-        {
-            AttributesImpl ePAttrs = new AttributesImpl();
-            ePAttrs.addCDATAAttribute("id", extPoint);
-            XMLUtils.createElement(contentHandler, "single-extension-point", ePAttrs);
-        }
-        
-        XMLUtils.endElement(contentHandler, "extension-points");
+        XMLUtils.endElement(contentHandler, "list");
+        contentHandler.endDocument();
     }
     
     private void _saxPlugins(Map<String, Collection<ActiveFeature>> activeFeatures, Map<String, Collection<InactiveFeature>> inactiveFeatures) throws SAXException
@@ -178,50 +129,70 @@ public class PluginsAndWorkspacesGenerator extends AbstractGenerator
         XMLUtils.endElement(contentHandler, "plugins");
     }
     
-    private void _saxWorkspaces() throws SAXException
+    private void _saxExtensionPoints() throws SAXException
     {
-        String defaultWorkspace = RuntimeConfig.getInstance().getDefaultWorkspace();
-        AttributesImpl attrs2 = new AttributesImpl();
-        attrs2.addCDATAAttribute("default", defaultWorkspace);
-        XMLUtils.startElement(contentHandler, "workspaces", attrs2);
+        XMLUtils.startElement(contentHandler, "extension-points");
         
-        for (String workspaceName : WorkspaceManager.getInstance().getWorkspaceNames())
+        for (String extPoint : PluginsManager.getInstance().getExtensionPoints())
         {
-            XMLUtils.createElement(contentHandler, "workspace", workspaceName);
-        }
-
-        for (InactiveWorkspace workspace : WorkspaceManager.getInstance().getInactiveWorkspaces().values())
-        {
-            AttributesImpl attrs = new AttributesImpl();
-            attrs.addCDATAAttribute("inactive", "true");
-            attrs.addCDATAAttribute("cause", workspace.getCause().toString());
-            XMLUtils.createElement(contentHandler, "workspace", attrs, workspace.getWorkspaceName());
+            AttributesImpl ePAttrs = new AttributesImpl();
+            ePAttrs.addCDATAAttribute("id", extPoint);
+            XMLUtils.createElement(contentHandler, "extension-point", ePAttrs);
         }
         
-        XMLUtils.endElement(contentHandler, "workspaces");
+        for (String extPoint : PluginsManager.getInstance().getSingleExtensionPoints())
+        {
+            AttributesImpl ePAttrs = new AttributesImpl();
+            ePAttrs.addCDATAAttribute("id", extPoint);
+            XMLUtils.createElement(contentHandler, "single-extension-point", ePAttrs);
+        }
+        
+        XMLUtils.endElement(contentHandler, "extension-points");
     }
-
-    public void generate() throws IOException, SAXException, ProcessingException
+    
+    private Map<String, Collection<ActiveFeature>> _getActiveFeatures()
     {
-        contentHandler.startDocument();
-        XMLUtils.startElement(contentHandler, "list");
-
-        // Parcourir la liste des plugins actifs
-        Map<String, Collection<ActiveFeature>> activeFeatures = _getActiveFeatures();
+        Map<String, Collection<ActiveFeature>> activeFeatures = new HashMap<>();
         
-        // Parcourir la liste des plugins inactifs
-        Map<String, Collection<InactiveFeature>> inactiveFeatures = _getInactiveFeatures();
-
-        // Parcourir la liste des groupe de plugins (par nom)
-        _saxPlugins(activeFeatures, inactiveFeatures);
-
-        // Parcourir la liste des points d'extensions
-        _saxExtensionPoints();
+        for (ActiveFeature feature : PluginsManager.getInstance().getActiveFeatures().values())
+        {
+            String pluginName = feature.getPluginName();
+            
+            Collection<ActiveFeature> features = activeFeatures.get(pluginName);
+            
+            if (features == null)
+            {
+                features = new ArrayList<>();
+                activeFeatures.put(pluginName, features);
+            }
+            
+            features.add(feature);
+        }
         
-        // Parcourir la liste des workspaces
-        _saxWorkspaces();
+        return activeFeatures;
+    }
+    
+    private Map<String, Collection<InactiveFeature>> _getInactiveFeatures()
+    {
+        Map<String, Collection<InactiveFeature>> inactiveFeatures = new HashMap<>();
+        Map<String, InactiveFeature> inactive = PluginsManager.getInstance().getInactiveFeatures();
         
-        XMLUtils.endElement(contentHandler, "list");
-        contentHandler.endDocument();
+        for (String featureId : inactive.keySet())
+        {
+            InactiveFeature feature = inactive.get(featureId);
+            String pluginName = feature.getPluginName();
+            
+            Collection<InactiveFeature> features = inactiveFeatures.get(pluginName);
+            
+            if (features == null)
+            {
+                features = new ArrayList<>();
+                inactiveFeatures.put(pluginName, features);
+            }
+            
+            features.add(feature);
+        }
+        
+        return inactiveFeatures;
     }
 }

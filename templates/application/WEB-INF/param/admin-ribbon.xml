@@ -37,6 +37,15 @@
                     </medium>
                     <small/>
                 </group>
+                <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_PLUGINS_LABEL" icon="">
+                    <large/>
+                    <medium>
+                        <control id="org.ametys.runtime.plugins.core.PluginsByFile"/>
+                        <control id="org.ametys.runtime.plugins.core.PluginsByExtensionPoint"/>
+                        <control id="org.ametys.runtime.plugins.core.Workspaces"/>
+                    </medium>
+                    <small/>
+                </group>
             </groups>
         </tab>
         
@@ -83,6 +92,51 @@
                    <small/>
                </group>
            </groups>   
+        </tab>
+        
+        <tab id="org.ametys.runtime.plugins.core.PluginsByFileTab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_LABEL" contextualColor="3" contextualGroup="PLUGINS">
+            <groups>
+                <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_GROUPS_GROUP_ACTIONS" icon="">
+                    <large/>
+                    <medium>
+                        <control id="org.ametys.runtime.plugins.core.plugins.Activate"/>
+                        <control id="org.ametys.runtime.plugins.core.plugins.Deactivate"/>
+                        <control id="org.ametys.runtime.plugins.core.plugins.Select"/>
+                        <control id="org.ametys.runtime.plugins.core.plugins.SaveChanges"/>
+                        <control id="org.ametys.runtime.plugins.core.plugins.CancelChanges"/>
+                    </medium>
+                    <small/>
+                </group>
+                <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_GROUPS_GROUP_DOCUMENTATION" icon="">
+                    <large/>
+                    <medium>
+                        <control id="org.ametys.runtime.plugins.core.plugins.Documentation"/>
+                    </medium>
+                    <small/>
+                </group>
+            </groups>
+        </tab>
+        <tab id="org.ametys.runtime.plugins.core.PluginsByExtensionPointTab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_EP_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_EP_LABEL" contextualColor="3" contextualGroup="PLUGINS_EP">
+            <groups>
+                <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_GROUPS_GROUP_ACTIONS" icon="">
+                    <large/>
+                    <medium>
+                        <control id="org.ametys.runtime.plugins.core.plugins.Activate"/>
+                        <control id="org.ametys.runtime.plugins.core.plugins.Deactivate"/>
+                        <control id="org.ametys.runtime.plugins.core.plugins.Select"/>
+                        <control id="org.ametys.runtime.plugins.core.plugins.SaveChanges"/>
+                        <control id="org.ametys.runtime.plugins.core.plugins.CancelChanges"/>
+                    </medium>
+                    <small/>
+                </group>
+                <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_GROUPS_GROUP_DOCUMENTATION" icon="">
+                    <large/>
+                    <medium>
+                        <control id="org.ametys.runtime.plugins.core.plugins.Documentation"/>
+                    </medium>
+                    <small/>
+                </group>
+            </groups>
         </tab>
     </tabs>
 </ribbon>
