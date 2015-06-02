@@ -27,8 +27,8 @@ import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.SourceResolver;
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.ClassUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 
 import org.ametys.runtime.cocoon.JSonReader;
@@ -139,7 +139,7 @@ public class ExecuteClientCallsAction extends ServiceableAction implements Threa
         }
         else
         {
-            throw new IllegalArgumentException("Trying to call a non-callable method: " + method.toGenericString() + ". Return type should be: Map<String, Object>");
+            throw new IllegalArgumentException("Trying to call a non-callable method: " + method.toGenericString() + ".");
         }
         
         return result;
