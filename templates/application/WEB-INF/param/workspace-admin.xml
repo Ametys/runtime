@@ -31,9 +31,5 @@
             <item id="org.ametys.runtime.plugins.core.administrator.right.Profiles"/>
             <item id="org.ametys.runtime.plugins.core.administrator.SuperUser"/>
         </category>
-        
-        <category name="WORKSPACE_ADMIN_SECTION_APPLICATION_LABEL">
-            <item id="org.ametys.runtime.plugins.core.administrator.Plugins"/>
-        </category>
     </actions>
 </administrator>
