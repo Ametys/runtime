@@ -20,6 +20,7 @@
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_HOME_LABEL">Administration</message>
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_LOGS_LABEL">Journaux</message>
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_SYSTEM_LABEL">Système</message>
+    <message key="RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_PLUGINS_LABEL">Plugins &amp; Workspaces</message>
     
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_DEVELOPPER_LABEL">Développeur</message>
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_DEVELOPPER_GROUPS_GROUP_TOOLS">Outils</message>
@@ -28,6 +29,11 @@
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_LOGS_LEVEL_LABEL">Niveaux de journalisation</message>
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_LOGS_GROUPS_GROUP_ACTIONS">Actions</message>
 
+    <message key="RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_LABEL">Plugins par fichiers</message>
+    <message key="RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_EP_LABEL">Plugins par points d'extension</message>
+    <message key="RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_GROUPS_GROUP_ACTIONS">Actions</message>
+    <message key="RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_GROUPS_GROUP_DOCUMENTATION">Aide</message>
+    
     <!-- No config -->    
     <message key="WORKSPACE_ADMIN_CONFIG_TITLE">Impossible de charger la configuration</message>
     <message key="WORKSPACE_ADMIN_CONFIG_TEXT">La configuration de l'application est incomplète ou incorrecte.<br/>Vous devez configurer l'application avant de pouvoir l'utiliser.</message>

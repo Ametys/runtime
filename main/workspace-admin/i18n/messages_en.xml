@@ -19,6 +19,8 @@
     <!-- Ribbon -->
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_HOME_LABEL">Administration</message>
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_LOGS_LABEL">Logs</message>
+    <message key="RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_SYSTEM_LABEL">System</message>
+    <message key="RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_PLUGINS_LABEL">Plugins &amp; Workspaces</message>
     
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_DEVELOPPER_LABEL">Developer</message>
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_DEVELOPPER_GROUPS_GROUP_TOOLS">Tools</message>
@@ -26,6 +28,11 @@
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_LOGS_LABEL">Logs</message>
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_LOGS_LEVEL_LABEL">Logs' level</message>
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_LOGS_GROUPS_GROUP_ACTIONS">Actions</message>
+    
+    <message key="RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_LABEL">Plugins by files</message>
+    <message key="RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_EP_LABEL">Plugins by extension point</message>
+    <message key="RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_GROUPS_GROUP_ACTIONS">Actions</message>
+    <message key="RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_GROUPS_GROUP_DOCUMENTATION">Help</message>
     
     <!-- No config -->    
     <message key="WORKSPACE_ADMIN_CONFIG_TITLE">Unable to load configuration</message>
