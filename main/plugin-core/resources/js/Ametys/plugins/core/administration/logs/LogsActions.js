@@ -34,8 +34,14 @@ Ext.define('Ametys.plugins.core.administration.logs.LogsActions', {
 			if (targetParameters.size > 1024 * 1024)
 		    {
 		    	Ametys.Msg.confirm ("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_LOGS_VIEW_DIALOG_TITLE'/>", 
-		    					    "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_LOGS_VIEW_DIALOG_CONFIRM'/>", 
-		    					    Ext.bind(this.downloadFiles, this, [[targetParameters.location]]));
+		    					    "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_LOGS_VIEW_DIALOG_CONFIRM'/>",
+		    					    function (answer)
+		    					    {
+		    							if (answer == 'yes')
+		    							{
+		    								this.downloadFiles ([targetParameters.location]);
+		    							}
+		    					    });
 		    }
 		    else
 		    {

@@ -78,7 +78,7 @@ Ext.define('Ametys.plugins.core.administration.logs.LogsTool', {
 	        groupField: 'name',
 	        
 	        sortOnLoad: true,
-	        sorters: [ { property: 'date', direction: "DESC" } ],
+	        sorters: [ { property: 'date', direction: "DESC" }, { property: 'location', direction: "ASC" }],
 	        
 	        proxy: {
 	        	type: 'ametys',
@@ -128,8 +128,14 @@ Ext.define('Ametys.plugins.core.administration.logs.LogsTool', {
 		if (record.get('size') > 1024 * 1024)
 	    {
 	    	Ametys.Msg.confirm ("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_LOGS_VIEW_DIALOG_TITLE'/>", 
-	    					    "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_LOGS_VIEW_DIALOG_CONFIRM'/>", 
-	    					    Ext.bind(Ametys.plugins.core.administration.logs.LogsActions.downloadFiles, Ametys.plugins.core.administration.logs.LogsActions, [[record.get('location')]]));
+	    					    "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_LOGS_VIEW_DIALOG_CONFIRM'/>",
+	    					    function (answer)
+	    					    {
+	    							if (answer == 'yes')
+	    							{
+	    								Ametys.plugins.core.administration.logs.LogsActions.downloadFiles ([record.get('location')]);
+	    							}
+	    					    });
 	    }
 	    else
 	    {
@@ -151,7 +157,7 @@ Ext.define('Ametys.plugins.core.administration.logs.LogsTool', {
 			
 			target = Ext.create('Ametys.message.MessageTarget', {
 				type: 'logfile',
-				parameters: {id: selectedFile.getId(), size: selectedFile.data.size, location: selectedFile.data.location}
+				parameters: {size: selectedFile.get('size'), location: selectedFile.get('location')}
 			});
 			
 			targets.push(target);
@@ -216,4 +222,5 @@ Ext.define('Ametys.plugins.core.administration.tool.LogsTool.Log', {
        {name: 'size', type: 'int', mapping: 'size'},
        {name: 'name', mapping: 'name'}
     ]
+    
 });
