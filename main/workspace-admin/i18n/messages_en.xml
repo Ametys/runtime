@@ -16,22 +16,17 @@
    -->
 <catalogue xml:lang="en">
 
-    <!-- Template -->
-    <message key="WORKSPACE_ADMIN_LABEL_SHORT">Administration</message>
-    <message key="WORKSPACE_ADMIN_LABEL_LONG">Administrator area</message>
-    <message key="WORKSPACE_ADMIN_HOME">Home</message>
+    <!-- Ribbon -->
+    <message key="RIBBON_ADMINISTRATION_TABS_TAB_HOME_LABEL">Administration</message>
+    <message key="RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_LOGS_LABEL">Logs</message>
     
-    <!-- Home page -->
-    <message key="WORKSPACE_ADMIN_HELP_LABEL">Help</message>
-    <message key="WORKSPACE_ADMIN_HELP">This area is restricted to application administrators. It allows you to set-up deployment (directories, database access, ...), monitor the JVM, ...</message>
-    <message key="WORKSPACE_ADMIN_VERSION_LABEL">Versions</message>
-    <message key="WORKSPACE_ADMIN_VERSION_DATED">on</message>
-    <message key="WORKSPACE_ADMIN_VERSION_DATEDTIME">at</message>
-    <message key="WORKSPACE_ADMIN_VERSION_UNKNOWN">N/A</message>
-	<message key="WORKSPACE_ADMIN_LINK_WEBSITE">web site</message>
-	<message key="WORKSPACE_ADMIN_LINK_DOCUMENTATION">documentation</message>
-	<message key="WORKSPACE_ADMIN_LINK_ISSUE">issue tracker</message>
-   
+    <message key="RIBBON_ADMINISTRATION_TABS_TAB_DEVELOPPER_LABEL">Developer</message>
+    <message key="RIBBON_ADMINISTRATION_TABS_TAB_DEVELOPPER_GROUPS_GROUP_TOOLS">Tools</message>
+    
+    <message key="RIBBON_ADMINISTRATION_TABS_TAB_LOGS_LABEL">Logs</message>
+    <message key="RIBBON_ADMINISTRATION_TABS_TAB_LOGS_LEVEL_LABEL">Logs' level</message>
+    <message key="RIBBON_ADMINISTRATION_TABS_TAB_LOGS_GROUPS_GROUP_ACTIONS">Actions</message>
+    
     <!-- No config -->    
     <message key="WORKSPACE_ADMIN_CONFIG_TITLE">Unable to load configuration</message>
     <message key="WORKSPACE_ADMIN_CONFIG_TEXT">The application configuration is incomplete or incorrect<br/>You must configure the application before using it.</message>
@@ -56,4 +51,20 @@
     
     <message key="WORKSPACE_ADMIN_NAVIGATOR_FORCE_TEXT">If you still want to access this application with your current browser you can force the access by clicking on the link below.<br/>By doing this problems may occured (in display or operational): bugs encountered in this configuration will not be supported.</message>
     <message key="WORKSPACE_ADMIN_NAVIGATOR_FORCE_LINK">Force access to the application using current browser &gt;&gt;</message>
+    
+    <!-- Template TO REMOVE -->
+    <message key="WORKSPACE_ADMIN_LABEL_SHORT">Administration</message>
+    <message key="WORKSPACE_ADMIN_LABEL_LONG">Administrator area</message>
+    <message key="WORKSPACE_ADMIN_HOME">Home</message>
+    
+    <!-- Home page  TO REMOVE -->
+    <message key="WORKSPACE_ADMIN_HELP_LABEL">Help</message>
+    <message key="WORKSPACE_ADMIN_HELP">This area is restricted to application administrators. It allows you to set-up deployment (directories, database access, ...), monitor the JVM, ...</message>
+    <message key="WORKSPACE_ADMIN_VERSION_LABEL">Versions</message>
+    <message key="WORKSPACE_ADMIN_VERSION_DATED">on</message>
+    <message key="WORKSPACE_ADMIN_VERSION_DATEDTIME">at</message>
+    <message key="WORKSPACE_ADMIN_VERSION_UNKNOWN">N/A</message>
+    <message key="WORKSPACE_ADMIN_LINK_WEBSITE">web site</message>
+    <message key="WORKSPACE_ADMIN_LINK_DOCUMENTATION">documentation</message>
+    <message key="WORKSPACE_ADMIN_LINK_ISSUE">issue tracker</message>
 </catalogue>
