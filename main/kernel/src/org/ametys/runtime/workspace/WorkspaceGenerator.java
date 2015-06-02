@@ -130,10 +130,13 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
         contentHandler.startDocument();
         XMLUtils.startElement(contentHandler, "workspace");
         
-        String login = _currentUserProvider.getUser();
-        if (StringUtils.isNotBlank(login))
+        if (!_currentUserProvider.isSuperUser())
         {
-            _usersManager.saxUser(login, contentHandler);
+            String login = _currentUserProvider.getUser();
+            if (StringUtils.isNotBlank(login))
+            {
+                _usersManager.saxUser(login, contentHandler);
+            }
         }
         
         // TODO cache ?
