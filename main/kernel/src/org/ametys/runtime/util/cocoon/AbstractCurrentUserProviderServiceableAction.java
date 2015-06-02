@@ -69,6 +69,11 @@ public abstract class AbstractCurrentUserProviderServiceableAction extends Servi
             }
         }
         
-        return _currentUserProvider.getUser();
+        if (!_currentUserProvider.isSuperUser())
+        {
+            return _currentUserProvider.getUser();
+        }
+        
+        return "admin";
     }
 }

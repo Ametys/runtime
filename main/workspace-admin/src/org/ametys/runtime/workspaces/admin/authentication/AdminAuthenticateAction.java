@@ -151,8 +151,12 @@ public class AdminAuthenticateAction extends AbstractAction implements ThreadSaf
                 return false;
             }
 
-            try (InputStream is = new FileInputStream(_envContext.getRealPath(ADMINISTRATOR_PASSWORD_FILENAME)))
+            InputStream is = null;
+            
+            try
             {
+                is = new FileInputStream(_envContext.getRealPath(ADMINISTRATOR_PASSWORD_FILENAME));
+                
                 XPath xpath = XPathFactory.newInstance().newXPath();
                 String pass = xpath.evaluate("admin/password", new InputSource(is));
                 if (pass == null || "".equals(pass))
@@ -185,6 +189,13 @@ public class AdminAuthenticateAction extends AbstractAction implements ThreadSaf
                     getLogger().warn("The file '" + ADMINISTRATOR_PASSWORD_FILENAME + "' is missing. Default administrator password 'admin' is used.", e);
                 }
                 return "admin".equals(passwd);
+            }
+            finally
+            {
+                if (is != null)
+                {
+                    is.close();
+                }
             }
         }
         catch (Exception e)
