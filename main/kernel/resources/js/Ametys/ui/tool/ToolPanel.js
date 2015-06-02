@@ -138,7 +138,7 @@ Ext.define("Ametys.ui.tool.ToolPanel", {
         this._infoChanging();
     },
     
-    setyDirtyState: function(dirtyState)
+    setDirtyState: function(dirtyState)
     {
         this.callParent(arguments);
         this._infoChanging();
