@@ -66,11 +66,11 @@
 		<map:actions>
             <map:action name="set-header" src="org.apache.cocoon.acting.HttpHeaderAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.httpHeader"/>
 
+            <map:action name="administrator-logs-level" src="org.ametys.runtime.plugins.core.administrator.logs.GetLogsLevel" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.logs" label="content"/>	            
+
             <map:action name="administrator-is-system-user" src="org.ametys.runtime.plugins.core.right.actions.IsAdminAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.isAdmin"/>
 			<map:action name="administrator-password-set" src="org.ametys.runtime.plugins.core.administrator.password.SetPasswordAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.setPassword"/>
             <map:action name="administrator-jvmstatus-gc" src="org.ametys.runtime.plugins.core.administrator.jvmstatus.GCAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.garbageCollect"/>
-            <map:action name="administrator-logs-delete" src="org.ametys.runtime.plugins.core.administrator.logs.LogsDeleteAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.logDelete"/>
-            <map:action name="administrator-change-levels" src="org.ametys.runtime.plugins.core.administrator.logs.ChangeLogLevelAction" logger="org.ametys.runtime.plugins.core.administrator.logs.ChangeLogLevelAction"/>
             <map:action name="administrator-system-update" src="org.ametys.runtime.plugins.core.administrator.system.UpdateSystemAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.updateSystem"/>
             <map:action name="administrator-config-save" src="org.ametys.runtime.plugins.core.administrator.configuration.SaveConfigAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.saveConfig"/>
             <map:action name="administrator-config-test" src="org.ametys.runtime.config.ParameterCheckerAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.dispatchRequest"/>
@@ -313,26 +313,8 @@
                 <map:read type="administrator-jvmstatus-monitoring-export" src="{1}"/>
             </map:match>
             
-            
-            <!-- +
-                 | Logs 
-                 + -->
-            <map:match pattern="administrator/logs/view.html">
-                <map:generate type="administrator-logs" label="content"/>
-                <map:transform type="xslt" src="pages/administrator/logs/view.xsl">
-                    <map:parameter name="contextPath" value="{request:contextPath}"/>
-                    <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
-                    <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
-                    <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/>
-                </map:transform>
-                <map:transform type="i18n">
-                    <map:parameter name="locale" value="{locale:locale}"/>
-                    <map:parameter name="plugin" value="{request-attr:pluginName}"/>
-                </map:transform>
-                <map:serialize type="xml"/>
-            </map:match>
-        
 		</map:pipeline>
+		
 		<map:pipeline type="noncaching">
             <map:match pattern="administrator/logs/view/*.log">
                 <map:act type="set-header"> 
@@ -349,38 +331,25 @@
                 <map:serialize type="zip"/>
             </map:match>
 		</map:pipeline>
+		
 		<map:pipeline>
-            <map:match pattern="administrator/logs/delete">
-                <map:act type="administrator-logs-delete">
-                    <map:generate type="action-result">
-                        <map:parameter name="failure" value="{failure}"/>
-                    </map:generate>
-                    <map:serialize type="xml"/>
+		
+		    <!-- +
+                 | Logs 
+                 + -->
+            <map:match pattern="administrator/logs">
+                <map:generate type="administrator-logs"/>
+                <map:serialize type="xml"/>
+            </map:match>
+            
+            <map:match pattern="administrator/logs-level">
+                <map:act type="administrator-logs-level">
+                    <map:read type="json"/>
                 </map:act>
             </map:match>
 
-            <map:match pattern="administrator/logs/purge">
-                <map:act type="administrator-logs-delete">
-                    <map:parameter name="purge" value="true"/>
-                
-                    <map:generate type="action-result">
-                        <map:parameter name="done" value="{done}"/>
-                    </map:generate>
-                    <map:serialize type="xml"/>
-                </map:act>
-            </map:match>
-            
-            <map:match pattern="administrator/logs/change-levels">
-                <map:act type="administrator-change-levels">
-                    <map:generate type="action-result">
-                        <map:parameter name="error" value="{error}"/>
-                    </map:generate>
-                    <map:serialize type="xml"/>
-                </map:act>
-            </map:match>
-            
             <!-- +
-                 | Plugins and workspaces managment tool
+                 | Plugins and workspaces management tool
                  + -->
             <map:match pattern="administrator/plugins/list.xml">
                 <map:generate type="administrator-plugins-list"/>

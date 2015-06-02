@@ -15,7 +15,7 @@
    limitations under the License.
    -->
 <catalogue xml:lang="fr">
-    
+
     <!-- ADMINISTRATOR PASSWORD -->
     <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_LABEL">Mot de passe</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PASSWORD_DESCRIPTION">Modifier le mot de passe du compte 'admin'</message>
@@ -199,41 +199,60 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_DONE">Les changements ont été effectués et le serveur est en train de redémarrer. Fermer cette boite de dialogue pour recharger cette page.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_ERROR">Les changements n'ont pas été effectués.</message>
     
-    <!-- ADMINITRATOR LOGS -->
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_LABEL">Journaux</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_DESCRIPTION">Visualiser les journaux de l'application</message>
+    <!-- ADMINISTRATOR LOGS VIEW -->
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_LOGS_LABEL">Visualisation</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_LOGS_DESC">Visualiser les journaux de l'application</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_TITLE">Journaux</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP">Aide</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP_TEXT">Cet écran vous permet de visualiser les fichiers de logs et aussi de supprimer les fichiers obsolètes.&lt;br/&gt;&lt;br/&gt;Si vos fichiers de logs ont une taille élevée et que vous êtes en production, pensez à augmenter le niveau de logs en mode 'ERROR' dans le fichier WEB-INF\\log4j.xml.&lt;br/&gt;&lt;br/&gt;Vous pouvez aussi changer temporairement le niveau de log pour l'execution en utilisant le bouton Configuration.</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE">Gestion</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_QUIT">Quitter</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_TAB_VIEW">Visualisation</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_VIEW">Voir le fichier</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_VIEW_CONFIRM">Le fichier que vos souhaitez visualiser a une taille élevée et ne peut être envoyé sans compression pour éviter la saturation du serveur. Voulez-vous télécharger ce fichier en version compressée ?</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_DOWNLOAD">Télécharger le(s) fichier(s)</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_DELETE">Effacer le(s) fichier(s)</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_DELETE_CONFIRM">Etes-vous sûr de vouloir effacer le(s) journal(aux) sélectionné(s) ?\n\nIl est possible que l'opération échoue si un fichier à supprimer est le fichier de log actuel.</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_DELETE_ERROR_GRAVE">Une erreur est survenue sur le serveur. Il est conseillé d'actualiser la page avant de continuer.</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_DELETE_ERROR">Une erreur est survenue sur le serveur. Un ou plusieurs fichiers n'ont pas été supprimés.\n\nCes fichiers sont peut-être en cours d'utilisation ou ont déjà été supprimés. Il est conseillé d'actualiser la page avant de continuer.</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_PURGE">Purger les journaux</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_PURGE_CONFIRM">Etes-vous sûr de vouloir effacer tous les journaux datés de plus de 12 jours ?</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_PURGE_ERROR_GRAVE">Une erreur est survenue sur le serveur. Il est conseillé d'actualiser la page avant de continuer.</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_PURGE_DONE">fichiers de journal ont été effacés par la purge</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_COL_NAME">Nom</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_COL_CATEGORY">Journaux</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_COL_NAME">Fichier</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_COL_DATE">Date</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_COL_SIZE">Taille</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_GROUP_OTHERS">Journaux non datés</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_TAB_LEVEL">Configuration</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP2_TEXT">Cet écran vous permet de modifier pour le temps de l'execution le niveau de logs catégorie par catégorie.&lt;br/&gt;&lt;br/&gt;Pour modifier de manière permanente le niveau de logs, configurez le fichier WEB-INF\\log4j.xml.</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_CONFIG_LOGKITROOT">Racine</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_DEBUG">Passer en DEBUG</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_INFO">Passer en INFO</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_WARN">Passer en WARNING</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_TO_ERROR">Passer en ERROR</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_VIEW_LABEL">Voir</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_VIEW_DESC">Voir le fichier sélectionné</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_VIEW_DIALOG_TITLE">Voir le fichier</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_VIEW_DIALOG_CONFIRM">Le fichier que vos souhaitez visualiser a une taille élevée et ne peut être envoyé sans compression pour éviter la saturation du serveur. Voulez-vous télécharger ce fichier en version compressée ?</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_DOWNLOAD_LABEL">Télécharger</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_DOWNLOAD_DESC">Télécharger le ou les fichier(s) sélectionné(s)</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_PURGE">Purge</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_PURGE_LABEL">Purger les journaux</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_PURGE_DESC">Effacer les journaux datés de plus de 12 jours.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_PURGE_DIALOG_TITLE">Purge</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_PURGE_DIALOG_CONFIRM">Etes-vous sûr de vouloir effacer tous les journaux datés de plus de 12 jours ?</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_PURGE_ERROR_GRAVE">Une erreur est survenue sur le serveur.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_PURGE_AMOUNT">fichiers de journal ont été effacés par la purge</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_PURGE_NONE">Aucun journal n'est daté de plus de 12 jours.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_DELETE_LABEL">Supprimer</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_DELETE_DESC">Supprimer le(s) fichier(s) sélectionnés</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_DELETE_DIALOG_TITLE">Suppression</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_DELETE_DIALOG_CONFIRM">Etes-vous sûr de vouloir effacer le(s) journal(aux) sélectionné(s) ?&lt;br/&gt;&lt;br/&gt;Il est possible que l'opération échoue si un fichier à supprimer est le fichier de log actuel.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_DELETE_ERROR">Une erreur est survenue sur le serveur. Un ou plusieurs fichiers n'ont pas été supprimés.&lt;br/&gt;&lt;br/&gt;Ces fichiers sont peut-être en cours d'utilisation ou ont déjà été supprimés.</message>
+    
+    <!-- ADMINISTRATOR LOGS LEVEL -->
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_LOGS_LEVEL_LABEL">Configuration</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_LOGS_LEVEL_DESC">Cet outil permet de configurer les niveaux de logs catégorie par catégorie.&lt;br/&gt;Pour modifier de manière permanente le niveau de logs, configurez le fichier WEB-INF\\log4j.xml.</message>    
+    <message key="PLUGINS_CORE_ADMINISTRATOR_TOOL_LOGS_LEVEL_SERVER_ERROR">Une erreur est survenue : les modifications n'ont peut-être pas été prises en compte.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_LEVEL_DEBUG_LABEL">Passer en DEBUG</message>  
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_LEVEL_DEBUG_DESC">Changer le niveau de log de la catégorie sélectionnée en "debug".</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_LEVEL_INFO_LABEL">Passer en INFO</message>  
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_LEVEL_INFO_DESC">Changer le niveau de log de la catégorie sélectionnée en "info".</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_LEVEL_WARN_LABEL">Passer en WARNING</message>  
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_LEVEL_WARN_DESC">Changer le niveau de log de la catégorie sélectionnée en "warning".</message>    
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_LEVEL_ERROR_LABEL">Passer en ERROR</message>  
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_LEVEL_ERROR_DESC">Changer le niveau de log de la catégorie sélectionnée en "error".</message>  
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_LEVEL_FORCE_LABEL">Forcer l'héritage</message>  
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_LEVEL_FORCE_DESC">Forcer l'héritage de niveau de log de la catégorie sélectionnée.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_LEVEL_INHERIT_LABEL">Hériter le mode</message>  
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_LEVEL_INHERIT_DESC">Changer le niveau de log de la catégorie sélectionnée à "héritage".</message> 
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE">Gestion</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_INHERIT">Hériter le mode</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_LOGLEVEL_FORCE">Forcer l'héritage</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_ERROR">Une erreur est survenue : les modifications n'ont peut-être pas été prises en compte.\nIl est conseillé d'actualiser la page avant de continuer.</message>
-
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HANDLE_ERROR">Une erreur est survenue : les modifications n'ont peut-être pas été prises en compte.&lt;br/&gt;Il est conseillé d'actualiser la page avant de continuer.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP2_TEXT">Cet outil permet de configurer les niveaux de logs catégorie par catégorie.&lt;br/&gt;&lt;br/&gt;Pour modifier de manière permanente le niveau de logs, configurez le fichier WEB-INF\\log4j.xml.</message>
+    
+    
     <!-- ADMINITRATOR SYSTEM -->
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_LABEL">Accès</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_DESCRIPTION">Annonce utilisateur</message>

@@ -1307,9 +1307,329 @@
         </extensions>
     </feature>
     
-    
+    <!-- +
+         |  LOGS
+         + -->   
+    <feature name="runtime.admin.logs">
+        <extensions>
+                
+            <extension id="org.ametys.runtime.plugins.core.LogsTab"
+                       point="org.ametys.runtime.ribbon.RibbonTabsManager"
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.tab.TabController">
+                    <tool-role>^(uitool-admin-logs)$</tool-role>
+                </class>
+            </extension>
+            
+            <extension id="org.ametys.runtime.plugins.core.LogsLevelTab"
+                       point="org.ametys.runtime.ribbon.RibbonTabsManager"
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.tab.TabController">
+                    <tool-role>^(uitool-admin-logslevel)$</tool-role>
+                </class>
+            </extension>
+            
+            <extension id="org.ametys.runtime.plugins.core.Logs"  
+                       point="org.ametys.runtime.ribbon.RibbonControlsManager" 
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <!-- 
+                    This button opens the logs' visualization tool
+                 -->
+                <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
+                    <opentool-role>uitool-admin-logs</opentool-role>
+                    
+                    <label i18n="true">PLUGINS_CORE_ADMINISTRATOR_TOOL_LOGS_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_TOOL_LOGS_DESC</description>
+                    
+                    <icon-small file="true">img/administrator/logs/logs_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/logs/logs_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/logs/logs_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/logs/LogsTool.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.runtime.plugins.core.logs.LogsFactory"
+                       point="org.ametys.runtime.ui.UIToolsFactoriesManager"
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <class name="Ametys.tool.factory.UniqueToolFactory">
+                    <role>uitool-admin-logs</role>
+                    <toolClass>Ametys.plugins.core.administration.logs.LogsTool</toolClass>
+                    
+                    <title i18n="true">PLUGINS_CORE_ADMINISTRATOR_TOOL_LOGS_LABEL</title>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_TOOL_LOGS_DESC</description>
+                    
+                    <icon-small file="true">img/administrator/logs/logs_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/logs/logs_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/logs/logs_48.png</icon-large>
+                    
+                    <default-location>c</default-location>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/logs/LogsTool.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.runtime.plugins.core.LogsLevel"  
+                       point="org.ametys.runtime.ribbon.RibbonControlsManager" 
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <!-- 
+                    This button opens the logs' configuration tool
+                 -->
+                <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
+                    <opentool-role>uitool-admin-logslevel</opentool-role>
+                    
+                    <label i18n="true">PLUGINS_CORE_ADMINISTRATOR_TOOL_LOGS_LEVEL_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_TOOL_LOGS_LEVEL_DESC</description>
+                    
+                    <icon-small file="true">img/administrator/logs/loglevel_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/logs/loglevel_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/logs/loglevel_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/logs/LogsLevelTool.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.runtime.plugins.core.logs.LogsLevelFactory"
+                       point="org.ametys.runtime.ui.UIToolsFactoriesManager"
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <class name="Ametys.tool.factory.UniqueToolFactory">
+                    <role>uitool-admin-logslevel</role>
+                    <toolClass>Ametys.plugins.core.administration.logs.LogsLevelTool</toolClass>
+                    
+                    <title i18n="true">PLUGINS_CORE_ADMINISTRATOR_TOOL_LOGS_LEVEL_LABEL</title>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_TOOL_LOGS_LEVEL_DESC</description>
+                    
+                    <icon-small file="true">img/administrator/logs/loglevel_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/logs/loglevel_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/logs/loglevel_48.png</icon-large>
+                    
+                    <default-location>c</default-location>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/logs/LogsLevelTool.js</file>
+                </scripts>
+            </extension> 
+            
+            <extension id="org.ametys.runtime.plugins.core.logs.View"
+                       point="org.ametys.runtime.ribbon.RibbonControlsManager"
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.core.administration.logs.LogsActions.view</action>
+                    <selection-target-type>^logfile$</selection-target-type>
+                    <selection-enable-multiselection>false</selection-enable-multiselection>
 
-    <feature name="runtime.admin">
+                    <label i18n="true">PLUGINS_CORE_ADMINISTRATOR_LOGS_VIEW_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_LOGS_VIEW_DESC</description>
+
+                    <icon-small file="true">img/administrator/logs/view_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/logs/view_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/logs/view_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/logs/LogsActions.js</file>
+                </scripts>
+            </extension>  
+            
+            <extension id="org.ametys.runtime.plugins.core.logs.Download"
+                       point="org.ametys.runtime.ribbon.RibbonControlsManager"
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.core.administration.logs.LogsActions.download</action>
+                    <selection-target-type>^logfile$</selection-target-type>
+
+                    <label i18n="true">PLUGINS_CORE_ADMINISTRATOR_LOGS_DOWNLOAD_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_LOGS_DOWNLOAD_DESC</description>
+
+                    <icon-small file="true">img/administrator/logs/download_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/logs/download_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/logs/download_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/logs/LogsActions.js</file>
+                </scripts>
+            </extension>                        
+            
+            <extension id="org.ametys.runtime.plugins.core.logs.Delete"
+                       point="org.ametys.runtime.ribbon.RibbonControlsManager"
+                       class="org.ametys.runtime.plugins.core.administrator.logs.LogsClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.core.administration.logs.LogsActions.deleteFile</action>
+                    <selection-target-type>^logfile$</selection-target-type>
+                    
+                    <label i18n="true">PLUGINS_CORE_ADMINISTRATOR_LOGS_DELETE_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_LOGS_DELETE_DESC</description>
+
+                    <icon-small file="true">img/administrator/logs/delete_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/logs/delete_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/logs/delete_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/logs/LogsActions.js</file>
+                </scripts>
+            </extension>                        
+                                    
+            <extension id="org.ametys.runtime.plugins.core.logs.Purge"
+                       point="org.ametys.runtime.ribbon.RibbonControlsManager"
+                       class="org.ametys.runtime.plugins.core.administrator.logs.LogsClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.core.administration.logs.LogsActions.purge</action>
+                
+                    <label i18n="true">PLUGINS_CORE_ADMINISTRATOR_LOGS_PURGE_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_LOGS_PURGE_DESC</description>
+
+                    <icon-small file="true">img/administrator/logs/clean_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/logs/clean_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/logs/clean_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/logs/LogsActions.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.runtime.plugins.core.logslevel.Debug"
+                       point="org.ametys.runtime.ribbon.RibbonControlsManager"
+                       class="org.ametys.runtime.plugins.core.administrator.logs.LogsClientSideElement">
+                <class name="Ametys.plugins.core.administration.logs.LogLevelController">
+                    <action>Ametys.plugins.core.administration.logs.LogsActions.changeLogLevel</action>
+                    <selection-target-type>^(log-category)$</selection-target-type>
+                    <selection-enable-multiselection>false</selection-enable-multiselection>
+                    
+                    <level>DEBUG</level>
+                                        
+                    <label i18n="true">PLUGINS_CORE_ADMINISTRATOR_LOGS_LEVEL_DEBUG_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_LOGS_LEVEL_DEBUG_DESC</description>
+
+                    <icon-small file="true">img/administrator/logs/level_debug_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/logs/level_debug_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/logs/level_debug_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/logs/LogsActions.js</file>
+                    <file>js/Ametys/plugins/core/administration/logs/LogLevelController.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.runtime.plugins.core.logslevel.Info"
+                       point="org.ametys.runtime.ribbon.RibbonControlsManager"
+                       class="org.ametys.runtime.plugins.core.administrator.logs.LogsClientSideElement">
+                <class name="Ametys.plugins.core.administration.logs.LogLevelController">
+                    <action>Ametys.plugins.core.administration.logs.LogsActions.changeLogLevel</action>
+                    <selection-target-type>^(log-category)$</selection-target-type>
+                    <selection-enable-multiselection>false</selection-enable-multiselection>
+                    
+                    <level>INFO</level>
+                
+                    <label i18n="true">PLUGINS_CORE_ADMINISTRATOR_LOGS_LEVEL_INFO_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_LOGS_LEVEL_INFO_DESC</description>
+
+                    <icon-small file="true">img/administrator/logs/level_info_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/logs/level_info_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/logs/level_info_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/logs/LogsActions.js</file>
+                    <file>js/Ametys/plugins/core/administration/logs/LogLevelController.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.runtime.plugins.core.logslevel.Warn"
+                       point="org.ametys.runtime.ribbon.RibbonControlsManager"
+                       class="org.ametys.runtime.plugins.core.administrator.logs.LogsClientSideElement">
+                <class name="Ametys.plugins.core.administration.logs.LogLevelController">
+                    <action>Ametys.plugins.core.administration.logs.LogsActions.changeLogLevel</action>
+                    <selection-target-type>^(log-category)$</selection-target-type>
+                    <selection-enable-multiselection>false</selection-enable-multiselection>
+                    
+                    <level>WARN</level>
+                    
+                    <label i18n="true">PLUGINS_CORE_ADMINISTRATOR_LOGS_LEVEL_WARN_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_LOGS_LEVEL_WARN_DESC</description>
+
+                    <icon-small file="true">img/administrator/logs/level_warn_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/logs/level_warn_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/logs/level_warn_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/logs/LogsActions.js</file>
+                    <file>js/Ametys/plugins/core/administration/logs/LogLevelController.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.runtime.plugins.core.logslevel.Error"
+                       point="org.ametys.runtime.ribbon.RibbonControlsManager"
+                       class="org.ametys.runtime.plugins.core.administrator.logs.LogsClientSideElement">
+                <class name="Ametys.plugins.core.administration.logs.LogLevelController">
+                    <action>Ametys.plugins.core.administration.logs.LogsActions.changeLogLevel</action>
+                    <selection-target-type>^(log-category)$</selection-target-type>
+                    <selection-enable-multiselection>false</selection-enable-multiselection>
+                    
+                    <level>ERROR</level>
+                
+                    <label i18n="true">PLUGINS_CORE_ADMINISTRATOR_LOGS_LEVEL_ERROR_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_LOGS_LEVEL_ERROR_DESC</description>
+
+                    <icon-small file="true">img/administrator/logs/level_error_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/logs/level_error_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/logs/level_error_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/logs/LogsActions.js</file>
+                    <file>js/Ametys/plugins/core/administration/logs/LogLevelController.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.runtime.plugins.core.logslevel.Inherit"
+                       point="org.ametys.runtime.ribbon.RibbonControlsManager"
+                       class="org.ametys.runtime.plugins.core.administrator.logs.LogsClientSideElement">
+                <class name="Ametys.plugins.core.administration.logs.LogLevelController">
+                    <action>Ametys.plugins.core.administration.logs.LogsActions.changeLogLevel</action>
+                    <selection-target-type>^(log-category)$</selection-target-type>
+                    <selection-enable-multiselection>false</selection-enable-multiselection>
+                    
+                    <level>INHERIT</level>
+                
+                    <label i18n="true">PLUGINS_CORE_ADMINISTRATOR_LOGS_LEVEL_INHERIT_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_LOGS_LEVEL_INHERIT_DESC</description>
+
+                    <icon-small file="true">img/administrator/logs/inherit_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/logs/inherit_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/logs/inherit_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/logs/LogsActions.js</file>
+                    <file>js/Ametys/plugins/core/administration/logs/LogLevelController.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.runtime.plugins.core.logslevel.Force"
+                       point="org.ametys.runtime.ribbon.RibbonControlsManager"
+                       class="org.ametys.runtime.plugins.core.administrator.logs.LogsClientSideElement">
+                <class name="Ametys.plugins.core.administration.logs.LogLevelController">
+                    <action>Ametys.plugins.core.administration.logs.LogsActions.changeLogLevel</action>
+                    <selection-target-type>^(log-category)$</selection-target-type>
+                    <selection-enable-multiselection>false</selection-enable-multiselection>
+                    
+                    <level>FORCE</level>
+                
+                    <label i18n="true">PLUGINS_CORE_ADMINISTRATOR_LOGS_LEVEL_FORCE_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_LOGS_LEVEL_FORCE_DESC</description>
+
+                    <icon-small file="true">img/administrator/logs/force_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/logs/force_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/logs/force_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/logs/LogsActions.js</file>
+                    <file>js/Ametys/plugins/core/administration/logs/LogLevelController.js</file>
+                </scripts>
+            </extension>
+        </extensions>
+    </feature>
+
+    <feature name="runtime.admin.old">
         <!-- 
             This feature defines screen that may be uses in the administrator area
          -->
@@ -1402,28 +1722,6 @@
                 <Url>administrator/plugins/view\.html</Url>
             </extension> 
             
-            <!-- +
-                 |  ADMIN LOGS
-                 + -->           
-            <extension  point="org.ametys.runtime.workspaces.admin.DesktopManager" 
-                        id="org.ametys.runtime.plugins.core.administrator.Logs"
-                        class="org.ametys.runtime.plugins.core.ui.item.StaticAdminClientSideElement"
-                        logger="org.ametys.runtime.plugins.core.ui.administrator.logs">
-                <!-- 
-                    This interaction allows the administrator to see and manage logs
-                 -->
-                <class name="redirect">
-					<param name="Link">administrator/logs/view.html</param>
-
-					<param name="label" i18n="true">PLUGINS_CORE_ADMINISTRATOR_LOGS_LABEL</param>
-					<param name="default-description" i18n="true">PLUGINS_CORE_ADMINISTRATOR_LOGS_DESCRIPTION</param>
-					<param name="icon-small" file="true">img/administrator/logs/icon_dock.png</param>
-					<param name="icon-medium" file="true">img/administrator/logs/icon_medium.gif</param>
-					<param name="icon-large" file="true">img/administrator/logs/icon_large.png</param>
-				</class>    				   
-                <Url>administrator/logs/view\.html</Url>
-            </extension>             
-
             <!-- +
                  |  ADMIN SYSTEM
                  + -->           
