@@ -132,64 +132,34 @@ Ext.define("Ametys.ui.tool.ToolPanel", {
         this._infoChanging();
     },
     
-    /**
-     * @private
-     * Called during setDescription to update the layout graphically
-     * @param {String} description The new wanted description
-     * @return {String} The new effective description
-     */
-    applyDescription: function(description)
+    setDescription: function(description)
     {
+        this.callParent(arguments);
         this._infoChanging();
-        return description;
     },
     
-    /**
-     * @private
-     * Called during setDirtyState to update the layout graphically
-     * @param {Boolean} dirtyState The new wanted dirtyState
-     * @return {String} The new effective dirtyState
-     */
-    applyDirtyState: function(dirtyState)
+    setyDirtyState: function(dirtyState)
     {
+        this.callParent(arguments);
         this._infoChanging();
-        return dirtyState;
     },
     
-    /**
-     * @private
-     * Called during setSmallIcon to update the layout graphically
-     * @param {String} smallIcon The new wanted smallIcon
-     * @return {String} The new effective smallIcon
-     */
-    applySmallIcon: function(smallIcon)
+    setSmallIcon: function(smallIcon)
     {
+        this.callParent(arguments);
         this._infoChanging();
-        return smallIcon;
     },
     
-    /**
-     * @private
-     * Called during setMediumIcon to update the layout graphically
-     * @param {String} mediumIcon The new wanted mediumIcon
-     * @return {String} The new effective mediumIcon
-     */
-    applyMediumIcon: function(mediumIcon)
+    setMediumIcon: function(mediumIcon)
     {
+        this.callParent(arguments);
         this._infoChanging();
-        return mediumIcon;
     },
     
-    /**
-     * @private
-     * Called during setLargeIcon to update the layout graphically
-     * @param {String} largeIcon The new wanted largeIcon
-     * @return {String} The new effective largeIcon
-     */
-    applyLargeIcon: function(largeIcon)
+    setLargeIcon: function(largeIcon)
     {
+        this.callParent(arguments);
         this._infoChanging();
-        return largeIcon;
     },
     
     /**
