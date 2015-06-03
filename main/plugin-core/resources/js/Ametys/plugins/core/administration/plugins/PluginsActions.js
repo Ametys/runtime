@@ -242,7 +242,7 @@ Ext.define('Ametys.plugins.core.administration.plugins.PluginsActions', {
 	{
 		Ext.getBody().unmask();
 
-	    Ametys.Msg.alert("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES'/>", "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_DONE'/>");
+	    Ametys.Msg.alert("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_SAVE_CHANGES_LABEL'/>", "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_DONE'/>");
 
 	    Ext.getBody().mask("<i18n:text i18n:key='KERNEL_LOADMASK_DEFAULT_MESSAGE' i18n:catalogue='kernel'/>");
 	    
