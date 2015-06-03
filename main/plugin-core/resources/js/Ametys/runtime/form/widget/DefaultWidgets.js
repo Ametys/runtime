@@ -279,7 +279,7 @@ Ext.define('Ametys.runtime.form.widget.DateTime', {
  * Provides a widget for rich text field.<br>
  * This widget is the default widget registered for fields of type Ametys.runtime.form.WidgetManager#TYPE_RICH_TEXT.<br>
  * It does NOT handle multiple values.<br>
- * It can be "remotely" configured by using {@link Ametys.cms.form.widget.RichTextConfiguration}
+ * It can be "remotely" configured by using {@link Ametys.runtime.form.widget.RichText.RichTextConfiguration}
  */
 Ext.define('Ametys.cms.form.widget.RichText', {
 	extend: "Ext.form.field.RichText",
@@ -314,26 +314,26 @@ Ext.define('Ametys.cms.form.widget.RichText', {
 				theme_advanced_buttons2 : "",
 				theme_advanced_buttons3 : "",
 			
-				content_css: Ametys.cms.form.widget.RichTextConfiguration.getCSSFiles(),
-				valid_elements: Ametys.cms.form.widget.RichTextConfiguration.getTags()
+				content_css: Ametys.runtime.form.widget.RichText.RichTextConfiguration.getCSSFiles(),
+				valid_elements: Ametys.runtime.form.widget.RichText.RichTextConfiguration.getTags()
 			},
 			
 			validator: function(value)
 			{
-				return Ametys.cms.form.widget.RichTextConfiguration.validates(value);
+				return Ametys.runtime.form.widget.RichText.RichTextConfiguration.validates(value);
 			}
 		});
 		
 		this.callParent(arguments);
 		
-		this.addListener('editorsetcontent', function(field, editor, object) { Ametys.cms.form.widget.RichTextConfiguration.fireEvent('setcontent', field, editor, object); });
-		this.addListener('editorgetcontent', function(field, editor, object) { Ametys.cms.form.widget.RichTextConfiguration.fireEvent('getcontent', field, editor, object); });
-		this.addListener('editorkeypress', function(field, editor, e) { Ametys.cms.form.widget.RichTextConfiguration.fireEvent('keypress', field, editor, e); });
-		this.addListener('editorkeydown', function(field, editor, e) { Ametys.cms.form.widget.RichTextConfiguration.fireEvent('keydown', field, editor, e); });
-		this.addListener('editorkeyup', function(field, editor, e) { Ametys.cms.form.widget.RichTextConfiguration.fireEvent('keyup', field, editor, e); });
-		this.addListener('editorvisualaid', function(field, editor, object) { Ametys.cms.form.widget.RichTextConfiguration.fireEvent('visualaid', field, editor, object); });
-		this.addListener('editorpreprocess', function(field, editor, object) { Ametys.cms.form.widget.RichTextConfiguration.fireEvent('preprocess', field, editor, object); });
-		this.addListener('editorhtmlnodeselected', function(field, editor, node) { Ametys.cms.form.widget.RichTextConfiguration.fireEvent('htmlnodeselected', field, editor, node); });
+		this.addListener('editorsetcontent', function(field, editor, object) { Ametys.runtime.form.widget.RichText.RichTextConfiguration.fireEvent('setcontent', field, editor, object); });
+		this.addListener('editorgetcontent', function(field, editor, object) { Ametys.runtime.form.widget.RichText.RichTextConfiguration.fireEvent('getcontent', field, editor, object); });
+		this.addListener('editorkeypress', function(field, editor, e) { Ametys.runtime.form.widget.RichText.RichTextConfiguration.fireEvent('keypress', field, editor, e); });
+		this.addListener('editorkeydown', function(field, editor, e) { Ametys.runtime.form.widget.RichText.RichTextConfiguration.fireEvent('keydown', field, editor, e); });
+		this.addListener('editorkeyup', function(field, editor, e) { Ametys.runtime.form.widget.RichText.RichTextConfiguration.fireEvent('keyup', field, editor, e); });
+		this.addListener('editorvisualaid', function(field, editor, object) { Ametys.runtime.form.widget.RichText.RichTextConfiguration.fireEvent('visualaid', field, editor, object); });
+		this.addListener('editorpreprocess', function(field, editor, object) { Ametys.runtime.form.widget.RichText.RichTextConfiguration.fireEvent('preprocess', field, editor, object); });
+		this.addListener('editorhtmlnodeselected', function(field, editor, node) { Ametys.runtime.form.widget.RichText.RichTextConfiguration.fireEvent('htmlnodeselected', field, editor, node); });
 	}
 });
 

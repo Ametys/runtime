@@ -136,6 +136,9 @@
             <script>/kernel/resources/js/Ametys/form/field/Code.js</script>
             <script>/plugins/codemirror/resources/js/codemirror.js</script>
             
+            <script>/kernel/resources/js/Ametys/form/ConfigurableFormPanel.js</script>
+            <script>/kernel/resources/js/Ametys/form/ConfigurableFormPanel/Repeater.js</script>
+            
 	        <script>/kernel/resources/js/Ametys/data/ServerComm.js</script>
             <script>/kernel/resources/js/Ametys/data/ServerCommProxy.js</script>
 	        <script>/kernel/resources/js/Ametys/data/ServerComm/TimeoutDialog.js</script>

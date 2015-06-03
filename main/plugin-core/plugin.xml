@@ -3766,6 +3766,7 @@
                 </class>
                 <scripts>
                     <file>js/Ametys/runtime/form/widget/DefaultWidgets.js</file>
+                    <file>js/Ametys/runtime/form/widget/RichText/RichTextConfiguration.js</file>
                 </scripts>                
             </extension>
         </extensions>

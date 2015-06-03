@@ -153,5 +153,42 @@
          | Relation
           --> 
     <message key="KERNEL_RELATIONS_VIEW_DRAGTEXT_HELLIP_1">and</message>
-    <message key="KERNEL_RELATIONS_VIEW_DRAGTEXT_HELLIP_2">others&amp;hellip;</message>	
+    <message key="KERNEL_RELATIONS_VIEW_DRAGTEXT_HELLIP_2">others&amp;hellip;</message>
+    	
+    	       
+    <!-- +
+         | Repeater.js
+         + -->                               
+    <message key="CONFIGURABLE_FORM_REPEATER_MOVE_UP">Move up</message>
+    <message key="CONFIGURABLE_FORM_REPEATER_MOVE_DOWN">Move down</message>
+    <message key="CONFIGURABLE_FORM_REPEATER_INSERT_ERROR">An error occurred: unable to insert new item.</message>
+    <message key="CONFIGURABLE_FORM_REPEATER_INSERT">Add an entry</message>
+    <message key="CONFIGURABLE_FORM_REPEATER_INSERT_ERROR_MAXSIZE">The maximum number of entries has been reached, new ones can't be added.</message>
+    <message key="CONFIGURABLE_FORM_REPEATER_DELETE">Delete an entry</message>
+    <message key="CONFIGURABLE_FORM_REPEATER_DELETE_ERROR_MINSIZE">The minimum number of entries has been reached, it can't be deleted anymore.</message>
+    <message key="CONFIGURABLE_FORM_REPEATER_DELETE_CONFIRM">Are you sure you want to delete this entry?</message>
+    <message key="CONFIGURABLE_FORM_REPEATER_INSERT_INVALID_MAXSIZE">The number of entries exceeds the number of authorized entries</message>
+    <message key="CONFIGURABLE_FORM_REPEATER_INSERT_INVALID_MINSIZE">The number of entries is less than the required number of entries</message>
+    
+    <!-- +
+         | FormEditionPanel.js
+         + -->
+    <message key="CONFIGURABLE_FORM_TAB_UNTITLED">Untitled</message>
+    <message key="CONFIGURABLE_FORM_TAB_TPL_ERROR_FIELD">1 field has errors :</message>
+    <message key="CONFIGURABLE_FORM_TAB_TPL_ERROR_FIELDS"> fields have errors :</message>    
+    <message key="CONFIGURABLE_FORM_TAB_TPL_WARN_FIELD">1 field has warning :</message>
+    <message key="CONFIGURABLE_FORM_TAB_TPL_WARN_FIELDS"> field have warning :</message> 
+    <message key="CONFIGURABLE_FORM_TAB_TPL_COMMENT_FIELD">1 field has a comment :</message>
+    <message key="CONFIGURABLE_FORM_TAB_TPL_COMMENT_FIELDS"> fields have a comment :</message>
+    <message key="CONFIGURABLE_FORM_INLINETAB_COLLAPSE_ALL">&#171; Collapse all</message>
+    <message key="CONFIGURABLE_FORM_INLINETAB_EXPAND_ALL">Expand all &#187;</message>
+    <message key="CONFIGURABLE_FORM_INLINETAB_WAIT_MSG">Refreshing. Please wait ...</message>
+    <message key="CONFIGURABLE_FORM_INVALID_REGEXP">Wrong content. Expected format :</message>
+
+    <message key="CONFIGURABLE_FORM_COMMENTS_DIALOGBOX_TITLE">Comment</message>
+    <message key="CONFIGURABLE_FORM_COMMENTS_BTN_OK">Ok</message>
+    <message key="CONFIGURABLE_FORM_COMMENTS_BTN_DELETE">Delete</message>
+    <message key="CONFIGURABLE_FORM_COMMENTS_BTN_CANCEL">Cancel</message>
+    <message key="CONFIGURABLE_FORM_COMMENTS_DELETE_CONFIRM_TITLE">Deletion</message>
+    <message key="CONFIGURABLE_FORM_COMMENTS_DELETE_CONFIRM_MSG">Are you sure you want to delete with comment ?</message>
 </catalogue>

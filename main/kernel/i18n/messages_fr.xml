@@ -154,4 +154,41 @@
           --> 
     <message key="KERNEL_RELATIONS_VIEW_DRAGTEXT_HELLIP_1">et</message>
     <message key="KERNEL_RELATIONS_VIEW_DRAGTEXT_HELLIP_2">autres&amp;hellip;</message>
+    
+    
+    <!-- +
+         | Repeater.js
+         + -->
+    <message key="CONFIGURABLE_FORM_REPEATER_MOVE_UP">Monter</message>
+    <message key="CONFIGURABLE_FORM_REPEATER_MOVE_DOWN">Descendre</message>
+    <message key="CONFIGURABLE_FORM_REPEATER_INSERT_ERROR">Une erreur est survenue : elle a empêché l'insertion d'un nouvel élément.</message>
+    <message key="CONFIGURABLE_FORM_REPEATER_INSERT">Ajout d'une entrée</message>
+    <message key="CONFIGURABLE_FORM_REPEATER_INSERT_ERROR_MAXSIZE">Le nombre maximal d'entrées est atteint : il est impossible d'en ajouter.</message>
+    <message key="CONFIGURABLE_FORM_REPEATER_DELETE">Suppression d'une entrée</message>
+    <message key="CONFIGURABLE_FORM_REPEATER_DELETE_ERROR_MINSIZE">Le nombre minimal d'entrées est atteint : il est impossible d'en supprimer.</message>
+    <message key="CONFIGURABLE_FORM_REPEATER_DELETE_CONFIRM">Etes-vous sûr de vouloir supprimer cette entrée ?</message>
+    <message key="CONFIGURABLE_FORM_REPEATER_INSERT_INVALID_MAXSIZE">Le nombre d'entrées est supérieur au nombre d'entrées autorisées</message>
+    <message key="CONFIGURABLE_FORM_REPEATER_INSERT_INVALID_MINSIZE">Le nombre d'entrées est inférieur au nombre d'entrées obligatoires</message>
+    
+    <!-- +
+         | FormEditionPanel.js
+         + -->
+    <message key="CONFIGURABLE_FORM_TAB_UNTITLED">Sans titre</message>
+    <message key="CONFIGURABLE_FORM_TAB_TPL_ERROR_FIELD">1 champ contient des erreurs :</message>
+    <message key="CONFIGURABLE_FORM_TAB_TPL_ERROR_FIELDS"> champs contiennent des erreurs :</message>    
+    <message key="CONFIGURABLE_FORM_TAB_TPL_WARN_FIELD">1 champ contient une alerte :</message>
+    <message key="CONFIGURABLE_FORM_TAB_TPL_WARN_FIELDS"> champs contiennent une alerte :</message>  
+    <message key="CONFIGURABLE_FORM_TAB_TPL_COMMENT_FIELD">1 champ contient un commentaire :</message>
+    <message key="CONFIGURABLE_FORM_TAB_TPL_COMMENT_FIELDS"> champs contiennent un commentaire :</message>   
+    <message key="CONFIGURABLE_FORM_INLINETAB_COLLAPSE_ALL">&#171; Tout replier</message>
+    <message key="CONFIGURABLE_FORM_INLINETAB_EXPAND_ALL">Tout déplier &#187;</message>
+    <message key="CONFIGURABLE_FORM_INLINETAB_WAIT_MSG">Rafraichissement en cours. Veuillez patientez ...</message>
+    <message key="CONFIGURABLE_FORM_INVALID_REGEXP">La saisie ne respecte pas le format attendu :</message>
+
+    <message key="CONFIGURABLE_FORM_COMMENTS_DIALOGBOX_TITLE">Commentaire</message>
+    <message key="CONFIGURABLE_FORM_COMMENTS_BTN_OK">Ok</message>
+    <message key="CONFIGURABLE_FORM_COMMENTS_BTN_DELETE">Supprimer</message>
+    <message key="CONFIGURABLE_FORM_COMMENTS_BTN_CANCEL">Annuler</message>
+    <message key="CONFIGURABLE_FORM_COMMENTS_DELETE_CONFIRM_TITLE">Suppression</message>
+    <message key="CONFIGURABLE_FORM_COMMENTS_DELETE_CONFIRM_MSG">Etes-vous sûrs de vouloir supprimer ce commentaire ?</message>
 </catalogue>
