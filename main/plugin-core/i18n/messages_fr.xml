@@ -194,9 +194,6 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CANCEL_CHANGES_LABEL">Annuler les modifications</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CANCEL_CHANGES_DESC">Annuler les modifications réalisées.</message>
     
-    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_HANDLE">Gestion</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHOOSE">Sélectionner</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES">Changements</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_NO_PLUGINS">Aucun plugin n'est enregistré</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_EXTENSION_POINTS">Points d'extension</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_PLUGINS_NO_EXTENSION">Aucun point d'extension n'est enregistré</message>
