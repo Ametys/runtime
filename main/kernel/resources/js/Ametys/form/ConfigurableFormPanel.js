@@ -1668,7 +1668,79 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     
     /**
      * Fill a configured form with values. #configure must have been call previously with data corresponding to these data.
-     * @param {Object/HTMLElement} data
+     * 
+     * The data can be an XML or a JSON object.
+     * 
+     * The XML format is
+     * 
+     *      &lt;myrootnode&gt;
+     *          &lt;metadata&gt;
+     *              &lt;fieldname json="false" value="3"/&gt;
+     *              &lt;!-- ... --&gt;
+     *          &lt;/metadata&gt;
+     *          
+     *          &lt;comments&gt;
+     *              &lt;metadata path="fieldname"&gt;
+     *                  &lt;comment id="1" date="2020-12-31T14:30"&gt;
+     *                      My comment for the field &amp;lt;fieldname&amp;gt;
+     *                  &lt;/comment&gt;
+     *                  &lt;!-- ... --&gt;
+     *              &lt;/metadata&gt;
+     *              &lt;!-- ... --&gt;
+     *          &lt;/comments&gt;
+     *      &lt;/myrootnode&gt;
+     * 
+     * For the values, the tag *metadata* is the wrapping for tags holdings the values:
+     * - the tag name is the name of the field concerned (without prefix).
+     * - thoses tags are recursive for sub-field (child of composites).
+     * - for repeaters, an attribute *entryCount* is set on the tag, its value is the size of the repeater. Each entry is encapsulated in an *entry* tag with an attribute *name* that worth the position (1 based) of the entry.
+     * - the attribute *json* set to true means the value will be interpreted as JSON before being set on the field
+     * - the value itself can be either the value of the attribute *value*, or the text of the tag
+     * - multiple values are set by repeating the tag.
+     *   
+     * For the *comments*:
+     * - the *metadata* are not recursive
+     * - the *path* attribute contains the fieldname (without prefix) with '/' separator for sub-fields (child of composites). For repeaters, you also have to add the position of the repeater to modify. Exemple: path="mycompositefield/myrepeater/2/myfield"
+     * - the *comment* tag have the following mandatories attributes :
+     *   - *id* The number of the comment
+     *   - *date* The date of the comment using the ISO 8601 format (will use the Ext.Date.patterns.ISO8601DateTime parser).
+     *   - *author* The fullname of the author of the comment.
+     *   
+     *  Here is a full example:
+     *  
+     *      &lt;content id="content://ec7ef7a1-139a-4863-a866-76196ed556cb" uuid="ec7ef7a1-139a-4863-a866-76196ed556cb" name="nouveau-contenu-simple" title="Nouveau contenu simple" language="fr" createdAt="2015-05-18T17:32:16.347+02:00" creator="raf" lastModifiedAt="2015-06-03T14:15:26.300+02:00" lastContributor="raf" commentable="true" smallIcon="/plugins/default-content/resources/img/content_16.png" mediumIcon="/plugins/default-content/resources/img/content_32.png" largeIcon="/plugins/default-content/resources/img/content_48.png"&gt;
+     *          &lt;metadata&gt;
+     *              &lt;title&gt;Nouveau contenu simple&lt;/title&gt;
+     *              &lt;illustration&gt;
+     *                  &lt;alt-text&gt;test&lt;/alt-text&gt;
+     *              &lt;/illustration&gt;
+     *              &lt;content mime-type="application/xml" lastModified="2015-06-03T14:15:25.413+02:00"&gt;&amp;lt;p&amp;gt;test&amp;lt;/p&amp;gt;&lt;/content&gt;
+     *              &lt;attachments entryCount="1"&gt;
+     *                  &lt;entry name="1"&gt;
+     *                      &lt;attachment json="true"&gt;
+     *                          {
+     *                              "type": "metadata",
+     *                              "mimeType": "application/unknown",
+     *                              "path": "attachments/1/attachment",
+     *                              "filename": "ametysv4.ep",
+     *                              "size": "188249",
+     *                              "lastModified": "2015-06-03T14:15:22.232+02:00",
+     *                              "viewUrl": "/cms/plugins/cms/binaryMetadata/attachments/1/attachment?objectId=content://ec7ef7a1-139a-4863-a866-76196ed556cb",
+     *                              "downloadUrl": "/cms/plugins/cms/binaryMetadata/attachments/1/attachment?objectId=content://ec7ef7a1-139a-4863-a866-76196ed556cb&amp;amp;download=true"
+     *                          }
+     *                      &lt;/attachment&gt;
+     *                      &lt;attachment-text&gt;fichier&lt;/attachment-text&gt;
+     *                  &lt;/entry&gt;
+     *              &lt;/attachments&gt;
+     *          &lt;/metadata&gt;
+     *          
+     *          &lt;comments/&gt;
+     *      &lt;/content&gt;
+     *  
+     * 
+     * The JSON TODO
+     * 
+     * @param {Object/HTMLElement} data The object that will fill the form.
      */
     setValues: function(data)
     {
@@ -1691,13 +1763,13 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
 	{
 		this._initializeTabsStatus();
 		
-	    var metadataNodes = Ext.dom.Query.select("content/metadata/*", xml);
+	    var metadataNodes = Ext.dom.Query.select("*/metadata/*", xml);
 	    for (var i=0; i < metadataNodes.length; i++)
 	    {
-	        this._setValues (metadataNodes[i], this.getFieldNamePrefix() + metadataNodes[i].tagName);
+	        this._setValuesXMLMetadata(metadataNodes[i], this.getFieldNamePrefix() + metadataNodes[i].tagName);
 	    }
 	    
-	    this._setMetadataComments(Ext.dom.Query.selectNode("content/comments", xml));
+	    this._setValuesXMLComments(Ext.dom.Query.selectNode("*/comments", xml));
 	    
 	    this._formReady = true;
 	    this.fireEvent('formready', this);
@@ -1761,10 +1833,10 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         }
 	    
 	    // Set the field values.
-	    this._setValuesJSON(data.values);
+	    this._setValuesJSONForField(data.values);
 	    
 	    // Set the invalid field values (raw mode) and validate the fields afterwards.
-	    this._setValuesJSON(data.invalid, true, true);
+	    this._setValuesJSONForField(data.invalid, true, true);
 	    
 	    // Set the field comments.
 	    this._setMetadataCommentsJSON(data.comments)
@@ -1781,7 +1853,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
 	 * @param {Boolean} [rawMode=false] `true` to set the value in raw mode, `false` otherwise.
 	 * @param {Boolean} [validate=false] `true` to validate the value after setting it, `false` otherwise.
 	 */
-	_setValuesJSON: function(values, rawMode, validate)
+	_setValuesJSONForField: function(values, rawMode, validate)
 	{
         for (var name in values)
         {
@@ -1825,7 +1897,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
 	 * @param {HTMLElement} metadataNode The DOM node representing the metadata value
 	 * @param {String} fieldName The name of concerned field
 	 */
-	_setValues: function (metadataNode, fieldName)
+	_setValuesXMLMetadata: function (metadataNode, fieldName)
 	{
         var metaName = metadataNode.tagName;
         var prefix = fieldName.substring(0, fieldName.lastIndexOf('.') + 1);
@@ -1874,7 +1946,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                         repeaterPanel.setItemPreviousPosition(i, i);
                     }
                     
-                    this._setValues(childNodes[i], fieldName + '.' + entryPos);
+                    this._setValuesXMLMetadata(childNodes[i], fieldName + '.' + entryPos);
                 }
             }
         }
@@ -1905,7 +1977,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
 		    // Standard composite metadata.
 			for (var i=0; i < childNodes.length; i++)
 			{
-				this._setValues(childNodes[i], fieldName + '.' + childNodes[i].tagName);
+				this._setValuesXMLMetadata(childNodes[i], fieldName + '.' + childNodes[i].tagName);
 			}
 		}
 	},
@@ -2034,7 +2106,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
 	 * @param {HTMLElement} rootCommentsNode The DOM node representing the root comments element.
 	 * @private
 	 */
-	_setMetadataComments: function(rootCommentsNode)
+	_setValuesXMLComments: function(rootCommentsNode)
 	{
 		var field, name, path, metadataCommentsNode;
 		var fieldNames = this.getFieldNames();
@@ -2048,7 +2120,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
 			path = name.substring(this.getFieldNamePrefix().length).replace(/\./g, '/');
 			metadataCommentsNode = Ext.dom.Query.selectNode("metadata[@path='" + path + "']", rootCommentsNode);
 			
-			this._setMetadataCommentsForField(field, metadataCommentsNode);
+			this._setValuesXMLCommentsForField(field, metadataCommentsNode);
 		}
 	},
 	
@@ -2058,7 +2130,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
 	 * @param {HTMLElement} metadataCommentsNode The DOM node representing the comments of this field.
 	 * @private
 	 */
-	_setMetadataCommentsForField: function(field, metadataCommentsNode)
+	_setValuesXMLCommentsForField: function(field, metadataCommentsNode)
 	{
 		if (field && field.showAmetysComments && metadataCommentsNode)
 		{
