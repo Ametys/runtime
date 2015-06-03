@@ -77,7 +77,7 @@ Ext.define('Ametys.plugins.core.administration.plugins.PluginsDAO', {
 	 * Get the list of modified single extension points
 	 * @return {Object} The modified single extension points
 	 */
-	getModifiedSingleExtensionPoints ()
+	getModifiedSingleExtensionPoints: function ()
 	{
 		return this._SEP;
 	},
@@ -86,11 +86,15 @@ Ext.define('Ametys.plugins.core.administration.plugins.PluginsDAO', {
 	 * Get the list of modified extension points
 	 * @return {Object} The modified extension points
 	 */
-	getModifiedExtensionPoints ()
+	getModifiedExtensionPoints: function ()
 	{
 		return this._EP;
 	},
 	
+    /**
+     * Has the plugins extensions points pending changes?
+     * @return {Boolean} True if they are changes that are not saved yet
+     */
 	hasPendingChanges: function ()
 	{
 		return !Ext.Object.isEmpty(this._EP) || !Ext.Object.isEmpty(this._SEP);
