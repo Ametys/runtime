@@ -968,7 +968,7 @@
         
         <extension-point id="org.ametys.runtime.ui.widgets.WidgetsManager"
                          class="org.ametys.runtime.ui.widgets.WidgetsManager"
-                         config="context://WEB-INF/param/default-widgets.xml">
+                         config="/WEB-INF/param/default-widgets.xml">
             <!-- Handles the widgets that are used on client side to creates forms (e.g. editing content) -->
             <normal>
                 <single>
