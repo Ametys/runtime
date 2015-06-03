@@ -74,32 +74,31 @@ Ext.define('Ametys.plugins.core.administration.jvmstatus.JVMStatusTool', {
 										hideCollapseTool: true,
 										
 										border: false,
-										shadow: false,
+										shadow: false
 									},
 									
 									items: [{
-										xtype: 'panel',
-										itemId: 'system',
-										title : "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_SYS"/>",
-										html: ''
-									},
-									{
-										xtype: 'panel',
-										itemId: 'jvm',
-										title : "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_JVM"/>",
-										html: ''
-									},{
-										xtype: 'panel',
-										itemId: 'memory',
-										title : "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM"/>",
-										html: ''
-									},{
-										xtype: 'panel',
-										itemId: 'server',
-										title : "<i18n:text i18n:key="PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE"/>",
-										html: ''
-									}
-									   
+    										xtype: 'panel',
+    										itemId: 'system',
+    										title : "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_SYS'/>",
+    										html: ''
+    									},
+    									{
+    										xtype: 'panel',
+    										itemId: 'jvm',
+    										title : "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_JVM'/>",
+    										html: ''
+    									},{
+    										xtype: 'panel',
+    										itemId: 'memory',
+    										title : "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_MEM'/>",
+    										html: ''
+    									},{
+    										xtype: 'panel',
+    										itemId: 'server',
+    										title : "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_STATUS_TAB_GENERAL_HANDLE'/>",
+    										html: ''
+    									}
 									]
 								});
 		
@@ -126,7 +125,7 @@ Ext.define('Ametys.plugins.core.administration.jvmstatus.JVMStatusTool', {
 			priority: Ametys.data.ServerComm.PRIORITY_MAJOR,
 			errorMessage: {
 				category: this.self.getName(),
-				msg: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_TOOL_JVMSTATUS_SERVER_ERROR'/>",
+				msg: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_TOOL_JVMSTATUS_SERVER_ERROR'/>"
 			},
 			callback: {
 				handler: this._refreshCb,
