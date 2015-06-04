@@ -15,7 +15,7 @@
    limitations under the License.
    -->
 <ivy-module version="1.0">
-  <info organisation="org.ametys.runtime" module="runtime" branch="4.0.x">
+  <info organisation="org.ametys.runtime" module="runtime" branch="${project.branch}">
     <license url="http://www.apache.org/licenses/LICENSE-2.0" name="ASL2"/>
     <description homepage="http://www.ametys.org/">
 Open source web application framework based on Apache Cocoon.
@@ -40,16 +40,11 @@ Open source web application framework based on Apache Cocoon.
   
   <publications>
     <artifact name="ametys-runtime" type="jar" ext="jar" conf="runtime, test-env"/>
-    <artifact name="ametys-runtime" type="javadoc" ext="jar" conf="runtime"/>
     <artifact name="ametys-runtime" type="source" ext="jar" conf="runtime"/>
     
     <artifact name="ametys-runtime-scripts" type="script" ext="zip" conf="runtime"/>
 
-    <artifact name="ametys-runtime-resources" type="jar" ext="jar" conf="default"/>
-    <artifact name="ametys-runtime-resources" type="resource" ext="zip" conf="default"/>
-    
     <artifact name="ametys-runtime-test-env" type="jar" ext="jar" conf="test-env"/>
-    <artifact name="ametys-runtime-test-env" type="javadoc" ext="jar" conf="test-env"/>
     <artifact name="ametys-runtime-test-env" type="source" ext="jar" conf="test-env"/>
   </publications>
   

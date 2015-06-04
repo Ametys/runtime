@@ -19,7 +19,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -225,29 +224,37 @@ public final class PluginsManager
     }
     
     // Look for plugins embedded in jars
-    // They have a META-INF/runtime-plugin plain text file containing plugin name and path to plugin.xml
+    // They have a META-INF/ametys-plugins plain text file containing plugin name and path to plugin.xml
     private void _initBaseURIs() throws IOException
     {
-        Enumeration<URL> pluginResources = getClass().getClassLoader().getResources("META-INF/runtime-plugin");
+        Enumeration<URL> pluginResources = getClass().getClassLoader().getResources("META-INF/ametys-plugins");
         
         while (pluginResources.hasMoreElements())
         {
             URL pluginResource = pluginResources.nextElement();
             
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(pluginResource.openStream(), "UTF-8")))
+            try (InputStream is = pluginResource.openStream();
+                 BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8")))
             {
-                String pluginName = br.readLine();            
-                String pluginResourceURI = br.readLine();
-                
-                if (getClass().getResource(pluginResourceURI + "/" + __PLUGIN_FILENAME) != null)
+                String plugin;
+                while ((plugin = br.readLine()) != null)
                 {
-                    _baseURIs.put(pluginName, pluginResourceURI);
+                    int i = plugin.indexOf(':');
+                    if (i != -1)
+                    {
+                        String pluginName = plugin.substring(0, i);       
+                        String pluginResourceURI = plugin.substring(i + 1);
+                    
+                        if (getClass().getResource(pluginResourceURI + "/" + __PLUGIN_FILENAME) != null)
+                        {
+                            _baseURIs.put(pluginName, pluginResourceURI);
+                        }
+                        else
+                        {
+                            _logger.error("A plugin '" + pluginName + "' is declared in a library, but no file '" + __PLUGIN_FILENAME + "' can be found at '" + pluginResourceURI + "'. It will be ignored.");
+                        }
+                    }
                 }
-                else
-                {
-                    _logger.error("A plugin '" + pluginName + "' is declared in a library, but no file '" + __PLUGIN_FILENAME + "' can be found at '" + pluginResourceURI + "'. It will be ignored.");
-                }
-
             }
         }
     }
@@ -257,23 +264,31 @@ public final class PluginsManager
     private void _initSchemas(String contextPath, Collection<String> locations, File externalKernel, Map<String, File> externalPlugins) throws IOException
     {
         // Embedded schemas
-        Enumeration<URL> shemasResources = getClass().getClassLoader().getResources("META-INF/runtime-schema");
+        Enumeration<URL> shemasResources = getClass().getClassLoader().getResources("META-INF/ametys-schemas");
         while (shemasResources.hasMoreElements())
         {
             URL shemasResource = shemasResources.nextElement();
             
             try (BufferedReader br = new BufferedReader(new InputStreamReader(shemasResource.openStream(), "UTF-8")))
             {
-                String systemId = br.readLine();            
-                String schemaResourceURI = br.readLine();
+                String schema;
+                while ((schema = br.readLine()) != null)
+                {
+                    int i = schema.indexOf(':');
+                    if (i != -1)
+                    {
+                        String systemId = "http://www.ametys.org/schema/" + schema.substring(0, i);       
+                        String schemaResourceURI = schema.substring(i + 1);
                 
-                if (getClass().getResource(schemaResourceURI) != null)
-                {
-                    _entityResolver.addEmbeddedSchema(systemId, schemaResourceURI);
-                }
-                else if (_logger.isWarnEnabled())
-                {
-                    _logger.warn("A schema is declared in a library, but no file can be found at '" + schemaResourceURI + "'. It will be ignored.");
+                        if (getClass().getResource(schemaResourceURI) != null)
+                        {
+                            _entityResolver.addEmbeddedSchema(systemId, schemaResourceURI);
+                        }
+                        else if (_logger.isWarnEnabled())
+                        {
+                            _logger.warn("A schema '" + systemId + "' is declared in a library, but no file can be found at '" + schemaResourceURI + "'. It will be ignored.");
+                        }
+                    }
                 }
             }
         }
@@ -348,8 +363,9 @@ public final class PluginsManager
      * @param contextPath the Web context path on the server filesystem
      * @return all relevant information about loaded features or null if the application is not correctly configured
      * @throws ComponentException if something wrong occurs during loading of a component
+     * @throws IOException if an I/O error occurs during loading of a plugin
      */
-    public Map<String, FeatureInformation> init(PluginsComponentManager manager, Context context, String contextPath) throws ComponentException
+    public Map<String, FeatureInformation> init(PluginsComponentManager manager, Context context, String contextPath) throws ComponentException, IOException
     {
         _baseURIs = new HashMap<>();
         _inactiveFeatures = new HashMap<>();
@@ -393,14 +409,7 @@ public final class PluginsManager
         }
         
         // Schemas locations
-        try
-        {
-            _initSchemas(contextPath, locations, externalKernel, externalPlugins);
-        }
-        catch (IOException e)
-        {
-            throw new RuntimeException("Unable to locate XML schemas", e);
-        }
+        _initSchemas(contextPath, locations, externalKernel, externalPlugins);
         
         // All plugin.xml Configurations
         Map<String, Configuration> pluginsConfigurations = _getConfigurations(contextPath, locations, externalPlugins);
@@ -508,7 +517,7 @@ public final class PluginsManager
         _loadFeatures(extPoints, info, contextPath);
     }
     
-    private Map<String, Configuration> _getConfigurations(String contextPath, Collection<String> locations, Map<String, File> externalPlugins)
+    private Map<String, Configuration> _getConfigurations(String contextPath, Collection<String> locations, Map<String, File> externalPlugins) throws IOException
     {
         Map<String, Configuration> pluginsConfigurations = new HashMap<>();
         
@@ -516,10 +525,26 @@ public final class PluginsManager
         for (String pluginName : _baseURIs.keySet())
         {
             String resourceURI = _baseURIs.get(pluginName) + "/" + __PLUGIN_FILENAME;
-            InputStream is = getClass().getResourceAsStream(resourceURI);
-            Configuration configuration = _getConfigurationFromStream(is, "resource:/" + resourceURI);
-            
-            pluginsConfigurations.put(pluginName, configuration);
+
+            if (!pluginName.matches("^" + PLUGIN_NAME_REGEXP + "$"))
+            {
+                throw new IllegalArgumentException(pluginName + " is an incorrect plugin name.");
+            }
+            else if (pluginsConfigurations.containsKey(pluginName))
+            {
+                throw new IllegalArgumentException("The plugin " + pluginName + " at " + resourceURI + " is already declared.");
+            }
+
+            if (_logger.isDebugEnabled())
+            {
+                _logger.debug("Reading plugin configuration at " + resourceURI);
+            }
+
+            try (InputStream is = getClass().getResourceAsStream(resourceURI))
+            {
+                Configuration configuration = _getConfigurationFromStream(is, "resource:/" + resourceURI);
+                pluginsConfigurations.put(pluginName, configuration);
+            }
             
             if (_logger.isInfoEnabled())
             {
@@ -563,7 +588,7 @@ public final class PluginsManager
         return pluginsConfigurations;
     }
     
-    private void _addPluginConfiguration(Map<String, Configuration> pluginsConfigurations, String pluginName, File pluginDir)
+    private void _addPluginConfiguration(Map<String, Configuration> pluginsConfigurations, String pluginName, File pluginDir) throws IOException
     {
         File pluginFile = new File(pluginDir, __PLUGIN_FILENAME);
         
@@ -577,20 +602,20 @@ public final class PluginsManager
                     _logger.debug("There is no file named " + __PLUGIN_FILENAME + " in the directory " + pluginDir.getAbsolutePath() + ". It will be ignored.");
                 }
             }
-            else
+            else if (_logger.isWarnEnabled())
             {
-                _logger.error("There is no file named " + __PLUGIN_FILENAME + " in the directory " + pluginDir.getAbsolutePath() + ". It will be ignored.");
+                _logger.warn("There is no file named " + __PLUGIN_FILENAME + " in the directory " + pluginDir.getAbsolutePath() + ". It will be ignored.");
             }
         }
         else
         {
             if (!pluginName.matches("^" + PLUGIN_NAME_REGEXP + "$"))
             {
-                _logger.error(pluginName + " is an incorrect plugin directory name. It will be ignored.");
+                throw new IllegalArgumentException(pluginName + " is an incorrect plugin directory name.");
             }
             else if (pluginsConfigurations.containsKey(pluginName))
             {
-                _logger.error("The plugin " + pluginName + " at " + pluginFile.getAbsolutePath() + " is already declared. It will be ignored.");
+                throw new IllegalArgumentException("The plugin " + pluginName + " at " + pluginFile.getAbsolutePath() + " is already declared.");
             }
             else
             {
@@ -599,23 +624,14 @@ public final class PluginsManager
                     _logger.debug("Reading plugin configuration at " + pluginFile.getAbsolutePath());
                 }
 
-                InputStream is = null;
-                
-                try
+                try (InputStream is = new FileInputStream(pluginFile))
                 {
-                    is = new FileInputStream(pluginFile);
-                }
-                catch (FileNotFoundException e)
-                {
-                    // Should not happen, as existence is checked before
-                    throw new IllegalStateException("File not found", e);
-                }
-                
-                Configuration configuration = _getConfigurationFromStream(is, pluginFile.getAbsolutePath());
+                    Configuration configuration = _getConfigurationFromStream(is, pluginFile.getAbsolutePath());
 
-                pluginsConfigurations.put(pluginName, configuration);
-                
-                _locations.put(pluginName, pluginDir);
+                    pluginsConfigurations.put(pluginName, configuration);
+                    
+                    _locations.put(pluginName, pluginDir);
+                }
                 
                 if (_logger.isInfoEnabled())
                 {

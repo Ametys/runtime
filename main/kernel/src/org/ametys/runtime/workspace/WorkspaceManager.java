@@ -161,7 +161,7 @@ public final class WorkspaceManager
         _workspaceNames.clear();
         
         // Begin with workspace embedded in jars
-        Enumeration<URL> workspaceResources = getClass().getClassLoader().getResources("META-INF/runtime-workspace");
+        Enumeration<URL> workspaceResources = getClass().getClassLoader().getResources("META-INF/ametys-workspaces");
         while (workspaceResources.hasMoreElements())
         {
             URL workspaceResource = workspaceResources.nextElement();
@@ -198,45 +198,54 @@ public final class WorkspaceManager
     
     private void _initResourceWorkspace(Collection<String> excludedWorkspace, URL workspaceResource, Map<String, FeatureInformation> pluginsInformations) throws IOException
     {
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(workspaceResource.openStream(), "UTF-8")))
+        try (InputStream is = workspaceResource.openStream();
+             BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8")))
         {
-            String workspaceName = br.readLine();            
-            String workspaceBaseURI = br.readLine();
-            
-            if (!excludedWorkspace.contains(workspaceName))
+            String workspace;
+            while ((workspace = br.readLine()) != null)
             {
-                if (_workspaceNames.contains(workspaceName))
+                int i = workspace.indexOf(':');
+                if (i != -1)
                 {
-                    String errorMessage = "The workspace named " + workspaceName + " already exists";
-                    _logger.error(errorMessage);
-                    throw new IllegalArgumentException(errorMessage);
-                }
-                
-                if (getClass().getResource(workspaceBaseURI + "/" + __WORKSPACE_FILENAME) == null)
-                {
-                    if (_logger.isWarnEnabled())
-                    {
-                        _logger.warn("A workspace '" + workspaceName + "' is declared in a library, but no file '" + __WORKSPACE_FILENAME + "' can be found at '" + workspaceBaseURI + "'. Workspace will be ignored.");
-                        return;
-                    }
-                }
-                
-                boolean addWorkspace = true;
-                
-                if (pluginsInformations != null)
-                {
-                    // If the configuration is incomplete, plugins are not loaded, it's useless to check dependencies
-                    addWorkspace = _checkDependencies(workspaceName, null, workspaceBaseURI, pluginsInformations);
-                }
-                
-                if (addWorkspace)
-                {
-                    _workspaceNames.add(workspaceName);
-                    _workspaces.put(workspaceName, workspaceBaseURI);
+                    String workspaceName = workspace.substring(0, i);       
+                    String workspaceBaseURI = workspace.substring(i + 1);
                     
-                    if (_logger.isInfoEnabled())
+                    if (!excludedWorkspace.contains(workspaceName))
                     {
-                        _logger.info("Workspace '" + workspaceName + "' registered at '" + workspaceBaseURI + "'");
+                        if (_workspaceNames.contains(workspaceName))
+                        {
+                            String errorMessage = "The workspace named " + workspaceName + " already exists";
+                            _logger.error(errorMessage);
+                            throw new IllegalArgumentException(errorMessage);
+                        }
+                        
+                        if (getClass().getResource(workspaceBaseURI + "/" + __WORKSPACE_FILENAME) == null)
+                        {
+                            if (_logger.isWarnEnabled())
+                            {
+                                _logger.warn("A workspace '" + workspaceName + "' is declared in a library, but no file '" + __WORKSPACE_FILENAME + "' can be found at '" + workspaceBaseURI + "'. Workspace will be ignored.");
+                                return;
+                            }
+                        }
+                        
+                        boolean addWorkspace = true;
+                        
+                        if (pluginsInformations != null)
+                        {
+                            // If the configuration is incomplete, plugins are not loaded, it's useless to check dependencies
+                            addWorkspace = _checkDependencies(workspaceName, null, workspaceBaseURI, pluginsInformations);
+                        }
+                        
+                        if (addWorkspace)
+                        {
+                            _workspaceNames.add(workspaceName);
+                            _workspaces.put(workspaceName, workspaceBaseURI);
+                            
+                            if (_logger.isInfoEnabled())
+                            {
+                                _logger.info("Workspace '" + workspaceName + "' registered at '" + workspaceBaseURI + "'");
+                            }
+                        }
                     }
                 }
             }

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright 2015 Anyware Services
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   -->
+
+<!-- Set 'ivy.settings' property for selecting the ivysettings.xml path to use -->
+<!-- Set 'clover.license.path' property for selecting your clover license, if any -->
+
+<!-- Use 'project.status' property for selecting the kind of Ivy release
+     integration (default), snapshot, milestone, release) -->
+<!-- Use 'do.docs' property in order to export docs -->
+<!-- Use 'do.tests' property in order to do tests -->
+<!-- Use 'check.license' property in order to check licenses -->
+<!-- Use 'check.i18n' property in order to check i18n keys -->
+<project name="runtime" default="build-and-publish"
+         xmlns:ametys="antlib:org.ametys.tools"
+         xmlns:clover="antlib:com.atlassian.clover"
+         xmlns:ivy="antlib:org.apache.ivy.ant">
+         
+    <import file="../../../bootstrap/4/deliver/jars/common-build.xml"/>
+    
+	<property file="build.properties"/>
+	
+    <property name="project.title" value="Ametys Runtime"/>
+    <property name="project.description" value="The Ametys kernel and default implementations"/>
+    <property name="project.jar.name" value="ametys-runtime"/>
+	
+    <property name="application-template-dir" value="templates/application"/>
+
+    <dirset dir="main" id="main.path">
+        <include name="kernel"/>
+        <include name="plugin-*"/>
+        <include name="workspace-*"/>
+    </dirset>
+	
+    <property name="kernel.path" value="/org/ametys/runtime/kernel"/>
+    <property name="plugin-core.path" value="/org/ametys/runtime/plugins/core"/>
+    <property name="workspace-admin.path" value="/org/ametys/runtime/workspaces/admin"/>
+	
+    <target name="check-i18n" if="check.i18n">
+        <ametys:main-i18n-check/>
+        <ametys:i18n-check directory="${application-template-dir}/WEB-INF/i18n" catalogue="application"/>
+    </target>
+	
+	<target name="compile" depends="common-build.compile">
+		<mkdir dir="${tmp.dir}/test-env-classes"/>
+        <ivy:cachepath conf="test-env" type="jar,bundle" pathid="test.env.classpath"/>
+	    <javac debug="true" destdir="${tmp.dir}/test-env-classes" encoding="UTF-8" target="${class-vm-target}" source="${class-vm-target}" includeantruntime="false">
+	        <src path="test-env/src"/>
+	        <classpath>
+	            <path refid="test.env.classpath"/>
+	            <pathelement path="${tmp.dir}/classes" />
+	        </classpath>
+	    </javac>
+	</target>
+	
+	<target name="jar" depends="common-build.jar">
+	    <jar jarfile="${dest.dir}/ivy/jars/ametys-runtime-test-env.jar" basedir="${tmp.dir}/test-env-classes">
+            <manifest>
+                <section name="Runtime informations">
+                    <attribute name="Title" value="Runtime test environment"/>
+                    <attribute name="Vendor" value="Ametys"/>
+                    <attribute name="Version" value="${ivy-version}"/>
+                    <attribute name="Date" value="${full-timestamp}"/>
+                    <attribute name="SVN-Revision" value="${svn-revision}"/>
+                    <attribute name="SVN-Branch" value="${svn-branch}"/>
+                </section>
+            </manifest> 
+        </jar>
+
+		<!-- Override default value to include runtime-test-env for running tests -->
+		<path id="test.additional.classpath">
+	        <pathelement location="${dest.dir}/ivy/jars/ametys-runtime-test-env.jar"/>
+	    </path>
+	</target>
+	
+    <target name="jar-src" depends="common-build.jar-src">
+        <jar jarfile="${dest.dir}/ivy/sources/ametys-runtime-test-env.jar">
+            <fileset dir="test-env/src">
+                <include name="**/*.java"/>
+            </fileset>
+            
+            <manifest>
+                <section name="Runtime informations">
+                    <attribute name="Title" value="Runtime test environment sources"/>
+                    <attribute name="Vendor" value="Ametys"/>
+                    <attribute name="Version" value="${ivy-version}"/>
+                    <attribute name="Date" value="${full-timestamp}"/>
+                    <attribute name="SVN-Revision" value="${svn-revision}"/>
+                    <attribute name="SVN-Branch" value="${svn-branch}"/>
+                </section>
+            </manifest> 
+        </jar>
+    </target>
+</project>

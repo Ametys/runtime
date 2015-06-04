@@ -1,12 +1,10 @@
 /.*
 /bin
-deliver/target
 /doc
 /junit4514.properties
 /junit47495.properties
 /junitvmwatcher4513.properties
 /junitvmwatcher47494.properties
-/target
 /template
 templates/application/WEB-INF/config
 templates/application/WEB-INF/data
