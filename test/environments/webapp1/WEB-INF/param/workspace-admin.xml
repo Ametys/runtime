@@ -22,7 +22,6 @@
     <actions>
         <category name="WORKSPACE_ADMIN_SECTION_SYSTEM_LABEL">
             <item id="org.ametys.runtime.plugins.core.administrator.Password"/>
-            <item id="org.ametys.runtime.plugins.core.administrator.System"/>
             <item id="org.ametys.runtime.plugins.core.administrator.Config"/>
         </category>
 

@@ -20,20 +20,21 @@
     <tabs>
         <tab label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_HOME_LABEL">
             <groups>
+                <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_SYSTEM_LABEL" icon="">
+                    <large/>
+                    <medium>
+                        <control id="org.ametys.runtime.plugins.core.System"/>
+                        <control id="org.ametys.runtime.plugins.core.JVMStatus"/>
+                        <control id="org.ametys.runtime.plugins.core.SystemProperties"/>
+                        <control id="org.ametys.runtime.plugins.core.Monitoring"/>
+                    </medium>
+                    <small/>
+                </group>
                 <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_LOGS_LABEL" icon="">
                     <large/>
                     <medium>
                         <control id="org.ametys.runtime.plugins.core.Logs"/>
                         <control id="org.ametys.runtime.plugins.core.LogsLevel"/>
-                    </medium>
-                    <small/>
-                </group>
-                <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_SYSTEM_LABEL" icon="">
-                    <large/>
-                    <medium>
-                        <control id="org.ametys.runtime.plugins.core.JVMStatus"/>
-                        <control id="org.ametys.runtime.plugins.core.SystemProperties"/>
-                        <control id="org.ametys.runtime.plugins.core.Monitoring"/>
                     </medium>
                     <small/>
                 </group>
@@ -60,6 +61,22 @@
                     <small/>
                 </group>
             </groups>
+        </tab>
+        
+        <!-- Contextual tabs for system announcement -->
+        <tab id="org.ametys.runtime.plugins.core.SystemTab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_SYSTEM_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_SYSTEM_LABEL" contextualColor="3" contextualGroup="SYS">
+            <groups>
+                <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_SYSTEM_GROUPS_GROUP_ACTIONS" icon="">
+                   <large/>
+                   <medium>
+                       <control id="org.ametys.runtime.plugins.core.system.SetAnnouncement"/>
+                       <control id="org.ametys.runtime.plugins.core.system.Add"/>
+                       <control id="org.ametys.runtime.plugins.core.system.Edit"/>
+                       <control id="org.ametys.runtime.plugins.core.system.Delete"/>
+                   </medium>
+                   <small/>
+               </group>
+           </groups>   
         </tab>
         
         <!-- Contextual tabs for logs -->
