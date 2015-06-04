@@ -125,8 +125,8 @@ Ext.define('Ametys.plugins.core.administration.logs.LogsActions', {
 	 * @private 
 	 * Callback for the purge/deletion process
 	 * @param {Object} response the server's response
-	 * @param {String[]} failures the list of file locations for failed deletions
-	 * @param {String[]} successes the list of file locations for successful deletions
+	 * @param {String[]} response.failures the list of file locations for failed deletions
+	 * @param {String[]} response.successes the list of file locations for successful deletions
 	 */
 	_deleteCb: function(response)
 	{

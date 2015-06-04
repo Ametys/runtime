@@ -183,7 +183,7 @@ Ext.define('Ametys.plugins.core.administration.logs.LogsTool', {
 	/**
 	 * @private
 	 * Rendered for file name
-	 * @param {String} the file's name
+	 * @param {String} name the file's name
 	 */
 	_fileNameRendered: function (name)
 	{
@@ -193,7 +193,7 @@ Ext.define('Ametys.plugins.core.administration.logs.LogsTool', {
 	/**
 	 * @private
 	 * Listener called on deletion event
-	 * @param {Ametys.message.Message} the deletion message
+	 * @param {Ametys.message.Message} message the deletion message
 	 */
 	_onLogFileDeleted: function(message)
 	{

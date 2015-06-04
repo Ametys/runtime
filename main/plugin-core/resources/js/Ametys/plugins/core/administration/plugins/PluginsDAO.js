@@ -57,7 +57,7 @@ Ext.define('Ametys.plugins.core.administration.plugins.PluginsDAO', {
 	
 	/**
 	 * Activate an extension point 
-	 * @parama {String} the id of the extension point to activate
+	 * @param {String} the id of the extension point to activate
 	 */
 	activateExtensionPoint: function (id)
 	{
@@ -66,7 +66,7 @@ Ext.define('Ametys.plugins.core.administration.plugins.PluginsDAO', {
 	
 	/**
 	 * Deactivate an extension point 
-	 * @parama {String} the id of the extension point to deactivate
+	 * @param {String} the id of the extension point to deactivate
 	 */
 	deactivateExtensionPoint: function (id)
 	{
