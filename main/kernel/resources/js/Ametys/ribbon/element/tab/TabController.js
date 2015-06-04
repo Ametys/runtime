@@ -36,6 +36,9 @@ Ext.define(
 		/**
 		 * @cfg {String} selection-subsubsubtarget-type Same as #cfg-subtarget-type at a fourth level.
 		 */
+		/**
+		 * @cfg {Boolean/String} only-first-level-target Specify to true to restrict the depth for filtering the selection target to the first level only. Otherwise it will search in all subtargets.
+		 */
 		
 		/**
 		 * @property {Boolean} _selection See #cfg-selection-target-type. True means the tab takes care of the selection
@@ -77,6 +80,10 @@ Ext.define(
 		 * @property {Boolean} _selectionReversedSubsubsubtargetType The leading '!' from #cfg-subsubsubtarget-type converted to true.
 		 * @private
 		 */	
+		/**
+		 * @property {Boolean} _onlyFirstLevelTarget The internal property corresponding to #cfg-only-first-level-target
+		 * @private
+		 */
 		
 		/**
 		 * @cfg {String} tool-role When specified, the tab will only be visible if a tool with this role is focused. This is a regexp. A leading '!' will reverse the regexp condition.
@@ -105,6 +112,8 @@ Ext.define(
 				this._selection = true;
 				Ametys.message.MessageBus.on(Ametys.message.Message.SELECTION_CHANGING, this._onSelectionChanging, this);
 				Ametys.message.MessageBus.on(Ametys.message.Message.SELECTION_CHANGED, this._onSelectionChanged, this);
+				
+				this._onlyFirstLevelTarget = String(this.getInitialConfig("only-first-level-target")) == "true";
 				
 				var i = targetType.indexOf('!');
 				if (i == 0)
@@ -293,7 +302,7 @@ Ext.define(
 			var finalTargets = [];
 			if (this._selection)
 			{
-				var targets = message.getTargets(Ext.bind(this._testTargetLevel0, this));
+				var targets = message.getTargets(Ext.bind(this._testTargetLevel0, this), this._onlyFirstLevelTarget ? 1 : 0);
 				
 				if (!me._selectionSubtargetType)
 				{
