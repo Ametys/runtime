@@ -78,7 +78,7 @@ public abstract class AbstractUserPreferencesTestCase extends AbstractJDBCTestCa
         Map<String, String> contextVars = Collections.emptyMap();
         
         // Declared user prefs.
-        assertEquals(0, _userPrefsEP.getUserPreferences(contextVars).size());
+        assertEquals(4, _userPrefsEP.getUserPreferences(contextVars).size());
         
         // User prefs in database.
         assertEquals(0, _userPrefs.getUnTypedUserPrefs("anonymous", "/", contextVars).size());
