@@ -289,7 +289,6 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_SET_ANNOUNCEMENT_LABEL">Activer</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_SET_ANNOUNCEMENT_DESC">Active ou désactive l'annonce système.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_SET_ANNOUNCEMENT_ON_DESC">L'annonce système d'accueil est actuellement désactivée.&lt;br/&gt;&lt;br/&gt;Cliquez ici pour activer l'annonce système d'accueil.</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_SET_ANNOUNCEMENT_OFF_LABEL">Désactiver</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_SET_ANNOUNCEMENT_OFF_DESC">L'annonce système d'accueil est actuellement activée.&lt;br/&gt;&lt;br/&gt;Cliquez ici pour désactiver l'annonce système d'accueil.</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DELETE_CONFIRM">Etes-vous sûr de vouloir supprimer cette annonce ?</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_CAPTION">Annonce...</message>

@@ -287,9 +287,11 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_EDIT_DESC">Edit the selected announcement</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DELETE_LABEL">Delete</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DELETE_DESC">Delete the selected announcement</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_SET_ANNOUNCEMENT_LABEL">Annonce d'accueil</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_SET_ANNOUNCEMENT_DESC">Active ou désactive l'annonce système d'accueil.</message>
-    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DELETE_CONFIRM">Etes-vous sûr de vouloir supprimer cette annonce ?</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_SET_ANNOUNCEMENT_LABEL">Activate</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_SET_ANNOUNCEMENT_DESC">Enable or disable the system announcement.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_SET_ANNOUNCEMENT_ON_DESC">The system announcement is currently disabled..&lt;br/&gt;&lt;br/&gt;Click here to enable the system announcement.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_SET_ANNOUNCEMENT_OFF_DESC">The system announcement is currently enabled.&lt;br/&gt;&lt;br/&gt;Click here to disable the system announcement.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DELETE_CONFIRM">Are you sure you want to delete this announcement ?</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_CAPTION">Announcement...</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_OK">Ok</message>
     <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_CANCEL">Cancel</message>
