@@ -70,7 +70,7 @@ public class AvalonCurrentUserProvider extends AbstractLogEnabled implements Cur
     {
         if (isSuperUser())
         {
-            throw new IllegalStateException("The current user is the super user");
+            return "admin"; // FIXME throw new IllegalStateException("The current user is the super user");
         }
         
         String user = null;

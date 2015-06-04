@@ -725,13 +725,58 @@
     <message key="PLUGINS_CMS_TOOL_STARTUPTIME_TITLE2">Server update</message>
     <message key="PLUGINS_CMS_TOOL_STARTUPTIME_MESSAGE2">The Ametys server was updated and restarted. This can lead to your application unstability.&lt;br/&gt;&lt;br/&gt;It is STRONGLY recommanded to restart your application by reloading your browser.&lt;br/&gt;If you have work in progress, you can try to save it.</message>
     <message key="PLUGINS_CMS_TOOL_STARTUPTIME_ERROR_TITLE">Server reset</message>
-        
+    
+    <!-- +
+         | Reload
+         + -->
+    <message key="PLUGINS_CORE_RELOAD_WORKSPACE_LABEL">Reload the application</message>
+    <message key="PLUGINS_CORE_RELOAD_WORKSPACE_DESCRIPTION">Reload the browser to reset your application</message>
+    <message key="PLUGINS_CORE_RELOAD_WORKSPACE_PROMPT_LABEL">Are you sure?</message>
+    <message key="PLUGINS_CORE_RELOAD_WORKSPACE_PROMPT_DESC">Do you want to reload the application now?&lt;br/&gt;&lt;br/&gt;Please save your pending changed before clicking on OK.</message>
+
+   
     <!--+
         | NAV HISTORY
         + -->
     <message key="PLUGINS_CMS_NAVHISTORY_DAO_SEARCH_TYPE">Search</message>
     <message key="PLUGINS_CMS_NAVHISTORY_DAO_TOOL_TYPE">Tool</message>
     <message key="PLUGINS_CMS_NAVHISTORY_DAO_CONTENT_TYPE">Content</message>
+    
+    <!-- +
+         | USER PREFERENCES
+         + -->
+    <message key="PLUGINS_CORE_USER_PREFERENCES_LABEL">Preferences</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_DESCRIPTION">Edit preferences</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_BTN_RESTORE_DEFAULTS">Restore defaults</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_BTN_OK">Ok</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_BTN_CANCEL">Cancel</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_SAVE">Save ...</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_SAVE_INVALIDFIELDS">One or many fields are not valid.&lt;br/&gt;Please provide correct inputs : </message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_ERROR">An error occurred: unable to display user preferences.</message>
+    
+    <message key="PLUGINS_CORE_USER_PREFERENCES_GROUP_10_DISPLAY">Display</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_TAB_POLICY">Tab policy</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_TAB_POLICY_DESC">Choose the organization of central tabs:&lt;br/&gt;&lt;b&gt;- one tab per color:&lt;/b&gt; opens one tab per color, for a minimum of opened tabs&lt;br/&gt;&lt;b&gt;- one tab per tool:&lt;/b&gt; opens one tab per tool&lt;br/&gt;&lt;b&gt;- several tabs per tools:&lt;/b&gt; opens many tabs as necessary</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_TAB_POLICY_COLOR">One tab per color</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_TAB_POLICY_TOOL">One tab per tool</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_TAB_POLICY_ALL">Several tabs per tools if necessary</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_WORKSPACE">Workspace</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_WORKSPACE_DESC">The state of your workspace is saved (opened tools, locations and size of tools). You can reset your workspace.</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_OPENEDTOOLS">Remember opened tools on restart</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_OPENEDTOOLS_DESC">Checking this checkbox will keep the tool opened after refreshing your browser</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_GROUP_20_EDITION">Forms</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_FORM_TAB_POLICY">Display mode</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_FORM_TAB_POLICY_DESC">Select the display mode of forms:&lt;br/&gt;- &lt;b&gt;Form with tabs&lt;/b&gt;: grouping of form fields by tabs &lt;br/&gt;- &lt;b&gt;Linearized form:&lt;/b&gt; form fields one after the other on same page</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_FORM_TAB_POLICY_DEFAULT">Form with tabs</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_FORM_TAB_POLICY_INLINE">Linear form</message>
+   
+   
+    <message key="PLUGINS_CORE_USER_PREFERENCES_RESET_WORKSPACE_LABEL">Reset your workspace</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_RESET_WORKSPACE_DESCRIPTION">Reset your workspace with default parameters (opened tools, zones sizes...) and reload the application</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_RESET_WORKSPACE_PROMPT_TITLE">Reset your workspace</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_RESET_WORKSPACE_PROMPT_DESC">Do you want to reset your workspace now?&lt;br/&gt;&lt;br/&gt;All currently opened tools will be close: please save your pending changed before clicking on OK.</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_RESET_WORKSPACE_FAILURE_TITLE">Workspace not reset</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_RESET_WORKSPACE_FAILURE_DESC">An unexpected error prevent the workspace to be reset.</message>
     
     <!-- +
          | WIDGETS

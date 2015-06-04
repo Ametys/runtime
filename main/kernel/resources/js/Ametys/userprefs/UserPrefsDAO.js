@@ -65,6 +65,15 @@ Ext.define('Ametys.userprefs.UserPrefsDAO', {
 	},
 	
 	/**
+	 * Get the default pref context
+	 * @return {String} the default pref context
+	 */
+	getDefaultPrefContext: function ()
+	{
+		return this._defaultPrefContext;
+	},
+	
+	/**
 	 * This method reset the local cache (so future reading of preferences will do a server connection)
 	 * @param {String} [prefContext] The pref context to use. Switch to default context if missing. See #setDefaultPrefContext.
 	 */

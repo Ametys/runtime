@@ -1872,7 +1872,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                 // Ignore, just take the undecoded value.
             }
             
-            var field = this.getField(name);
+            var field = this.getField(this.getFieldNamePrefix() + name);
             if (field != null)
             {
                 if (rawMode && field.setRawValue)

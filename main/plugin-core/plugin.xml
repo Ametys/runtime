@@ -3477,6 +3477,133 @@
         </extensions>
     </feature>
     
+    <feature name="runtime.appmenu.reload">
+        <extensions>
+            <extension id="org.ametys.plugins.core.ReloadWorkspace"
+                     point="org.ametys.runtime.ribbon.RibbonAppMenuControlsManager"
+                     class="org.ametys.runtime.ui.StaticClientSideElement">
+              <class name="Ametys.plugins.cms.system.reload.ReloadActions">
+                 <action>Ametys.plugins.core.system.reload.ReloadActions.reload</action>
+                  
+                 <label i18n="true">PLUGINS_CORE_RELOAD_WORKSPACE_LABEL</label>
+                 <description i18n="true">PLUGINS_CORE_RELOAD_WORKSPACE_DESCRIPTION</description>
+                  
+                 <param name="icon-small" file="true">img/system/reload_16.png</param>
+                 <param name="icon-medium" file="true">img/system/reload_32.png</param>
+                 <param name="icon-large" file="true">img/system/reload_48.png</param>
+              </class>
+              <scripts>
+                <file>js/Ametys/plugins/core/system/reload/ReloadActions.js</file>
+              </scripts>
+         </extension>
+        </extensions>
+    </feature>
+    
+    <feature name="runtime.preferences">
+        <extensions>
+            <extension point="org.ametys.runtime.plugins.core.userpref.UserPreferencesExtensionPoint"
+                       id="runtime.user.prefs"
+                       class="org.ametys.runtime.plugins.core.userpref.StaticUserPreferenceProvider">
+                 <param id="tab-policy" type="string">
+                     <label i18n="true">PLUGINS_CORE_USER_PREFERENCES_TAB_POLICY</label>
+                     <description i18n="true">PLUGINS_CORE_USER_PREFERENCES_TAB_POLICY_DESC</description>
+                     <group i18n="true">PLUGINS_CORE_USER_PREFERENCES_GROUP_10_DISPLAY</group>
+                     <validation>
+                        <mandatory/>
+                     </validation>
+                     <enumeration>
+                        <entry>
+                            <value>color</value>
+                            <label i18n="true">PLUGINS_CORE_USER_PREFERENCES_TAB_POLICY_COLOR</label>
+                        </entry>
+                        <entry>
+                            <value>tool</value>
+                            <label i18n="true">PLUGINS_CORE_USER_PREFERENCES_TAB_POLICY_TOOL</label>
+                        </entry>
+                        <entry>
+                            <value>all</value>
+                            <label i18n="true">PLUGINS_CORE_USER_PREFERENCES_TAB_POLICY_ALL</label>
+                        </entry>
+                     </enumeration>
+                     <default-value>all</default-value>
+                     <order>10</order>
+                 </param>
+                 
+                 <param id="workspace" type="string" private="true">
+                     <label i18n="true">PLUGINS_CORE_USER_PREFERENCES_WORKSPACE</label>
+                     <description i18n="true">PLUGINS_CORE_USER_PREFERENCES_WORKSPACE_DESC</description>
+                     <group i18n="true">PLUGINS_CORE_USER_PREFERENCES_GROUP_10_DISPLAY</group>
+                 </param>
+                 
+                 <param id="remember-opened-tools" type="boolean">
+                     <label i18n="true">PLUGINS_CORE_USER_PREFERENCES_OPENEDTOOLS</label>
+                     <description i18n="true">PLUGINS_CORE_USER_PREFERENCES_OPENEDTOOLS_DESC</description>
+                     <group i18n="true">PLUGINS_CORE_USER_PREFERENCES_GROUP_10_DISPLAY</group>
+                     <default-value>true</default-value>
+                     <order>20</order>
+                 </param>
+                 
+                 <param id="edition-tab-policy" type="string">
+                     <label i18n="true">PLUGINS_CORE_USER_PREFERENCES_FORM_TAB_POLICY</label>
+                     <description i18n="true">PLUGINS_CORE_USER_PREFERENCES_FORM_TAB_POLICY_DESC</description>
+                     <group i18n="true">PLUGINS_CORE_USER_PREFERENCES_GROUP_20_EDITION</group>
+                     <validation>
+                        <mandatory/>
+                     </validation>
+                     <enumeration>
+                        <entry>
+                            <value>default</value>
+                            <label i18n="true">PLUGINS_CORE_USER_PREFERENCES_FORM_TAB_POLICY_DEFAULT</label>
+                        </entry>
+                        <entry>
+                            <value>inline</value>
+                            <label i18n="true">PLUGINS_CORE_USER_PREFERENCES_FORM_TAB_POLICY_INLINE</label>
+                        </entry>
+                     </enumeration>
+                     <default-value>default</default-value>
+                 </param>
+                 
+            </extension>
+            
+            <extension id="org.ametys.plugins.core.userprefs.ResetWorkspace"
+                     point="org.ametys.runtime.ribbon.RibbonAppMenuControlsManager"
+                     class="org.ametys.runtime.ui.StaticClientSideElement">
+              <class name="Ametys.plugins.core.userprefs.UserPrefsActions">
+                 <action>Ametys.plugins.core.userprefs.UserPrefsActions.resetWorkspace</action>
+                  
+                 <label i18n="true">PLUGINS_CORE_USER_PREFERENCES_RESET_WORKSPACE_LABEL</label>
+                 <description i18n="true">PLUGINS_CORE_USER_PREFERENCES_RESET_WORKSPACE_DESCRIPTION</description>
+                  
+                 <param name="icon-small" file="true">img/userprefs/userprefs-reset_16.png</param>
+                 <param name="icon-medium" file="true">img/userprefs/userprefs-reset_32.png</param>
+                 <param name="icon-large" file="true">img/userprefs/userprefs-reset_48.png</param>
+              </class>
+              <scripts>
+                  <file>js/Ametys/plugins/core/userprefs/UserPrefsActions.js</file>
+              </scripts>
+         </extension>
+         
+         <extension id="org.ametys.plugins.core.userprefs.Edit"
+                     point="org.ametys.runtime.ribbon.RibbonAppMenuControlsManager"
+                     class="org.ametys.runtime.ui.StaticClientSideElement">
+              <class name="Ametys.plugins.core.userprefs.UserPrefsActions">
+                <action>Ametys.plugins.core.userprefs.UserPrefsActions.edit</action>
+                  
+                 <label i18n="true">PLUGINS_CORE_USER_PREFERENCES_LABEL</label>
+                 <description i18n="true">PLUGINS_CORE_USER_PREFERENCES_DESCRIPTION</description>
+                  
+                 <param name="icon-small" file="true">img/userprefs/userprefs_16.png</param>
+                 <param name="icon-medium" file="true">img/userprefs/userprefs_32.png</param>
+                 <param name="icon-large" file="true">img/userprefs/userprefs_48.png</param>
+              </class>
+              <scripts>
+                  <file>js/Ametys/plugins/core/userprefs/UserPrefsActions.js</file>
+              </scripts>
+         </extension>
+         
+       </extensions>
+    </feature>
+    
     <feature name="runtime.user.preferences.manager">
         <components>
             <component role="org.ametys.runtime.plugins.core.userpref.UserPreferencesManager"

@@ -730,12 +730,55 @@
     <message key="PLUGINS_CMS_TOOL_STARTUPTIME_MESSAGE2">Le serveur Ametys vient d'être mis à jour et a été redémarré. Cela peut entrainer une instabilité de votre application.&lt;br/&gt;&lt;br/&gt;Il est FORTEMENT recommandé de redémarrer aussi votre application en rechargeant votre navigateur.&lt;br/&gt;Si vous avez du travail en cours, vous pouvez essayer de le sauvegarder avant.</message>
     <message key="PLUGINS_CMS_TOOL_STARTUPTIME_ERROR_TITLE">Redémarrage serveur</message>
 
+    <!-- +
+         | Reload
+         + -->
+    <message key="PLUGINS_CORE_RELOAD_WORKSPACE_LABEL">Recharger l'application</message>
+    <message key="PLUGINS_CORE_RELOAD_WORKSPACE_DESCRIPTION">Recharge le navigateur pour réinitialiser l'application</message>
+    <message key="PLUGINS_CORE_RELOAD_WORKSPACE_PROMPT_LABEL">Etes-vous sûrs ?</message>
+    <message key="PLUGINS_CORE_RELOAD_WORKSPACE_PROMPT_DESC">Voulez-vous recharger l'application maintenant ?&lt;br/&gt;&lt;br/&gt;Pensez à sauvegarder votre travail avant de cliquer sur OK.</message>
+  
     <!--+
         | NAV HISTORY
         + -->
     <message key="PLUGINS_CMS_NAVHISTORY_DAO_SEARCH_TYPE">Recherche</message>
     <message key="PLUGINS_CMS_NAVHISTORY_DAO_TOOL_TYPE">Outil</message>
     <message key="PLUGINS_CMS_NAVHISTORY_DAO_CONTENT_TYPE">Contenu</message>
+    
+    <!-- +
+         | USER PREFERENCES
+         + -->
+    <message key="PLUGINS_CORE_USER_PREFERENCES_LABEL">Mes préférences</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_DESCRIPTION">Modifier mes préférences</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_BTN_RESTORE_DEFAULTS">Restaurer les valeurs par défaut</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_BTN_OK">Ok</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_BTN_CANCEL">Annuler</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_SAVE">Sauvegarde ...</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_SAVE_INVALIDFIELDS">Un ou plusieurs champs du formulaire sont invalides.&lt;br/&gt;Veuillez les corriger pour pouvoir continuer : </message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_ERROR">Une erreur est survenue: impossible de récupérer les préférences utilisateurs</message>
+    
+    <message key="PLUGINS_CORE_USER_PREFERENCES_GROUP_10_DISPLAY">Affichage</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_TAB_POLICY">Organisation des onglets</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_TAB_POLICY_DESC">Choisissez le mode d'organisation des onglets centraux : &lt;br/&gt;&lt;b&gt;- un onglet par couleur:&lt;/b&gt; ouvre un seul onglet par couleur. Permet d'avoir un minimun d'onglets ouverts&lt;br/&gt;&lt;b&gt;- un onglet par outil:&lt;/b&gt; ouvre un onglet par outil&lt;br/&gt;&lt;b&gt;- plusieurs onglets par outil:&lt;/b&gt; ouvre autant d'onglets que nécessaire</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_TAB_POLICY_COLOR">Un onglet par couleur</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_TAB_POLICY_TOOL">Un onglet par outil</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_TAB_POLICY_ALL">Plusieurs onglets par outil si nécessaire</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_WORKSPACE">Espace de travail</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_WORKSPACE_DESC">L'état de votre espace de travail est sauvé ici (outils ouverts, emplacements et tailles de outils). Vous pouvez réinitialiser votre espace de travail.</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_OPENEDTOOLS">Mémoriser les outils ouverts au redémarrage</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_OPENEDTOOLS_DESC">Lorsque cette case est cochée, les outils restent ouverts lorsque vous redémarrez votre navigateur</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_GROUP_20_EDITION">Formulaire</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_FORM_TAB_POLICY">Mode d'affichage</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_FORM_TAB_POLICY_DESC">Choisissez le mode d'affichage des formulaires:&lt;br/&gt;- &lt;b&gt;Formulaire avec onglets&lt;/b&gt;: regroupement des champs du formulaire par onglets &lt;br/&gt;- &lt;b&gt;Formulaire linéarisé:&lt;/b&gt; disposition des champs du formulaire les uns à la suite des autres</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_FORM_TAB_POLICY_DEFAULT">Formulaire avec onglets</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_FORM_TAB_POLICY_INLINE">Formulaire linéarisé</message>
+    
+    <message key="PLUGINS_CORE_USER_PREFERENCES_RESET_WORKSPACE_LABEL">Réinitialiser l'espace de travail</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_RESET_WORKSPACE_DESCRIPTION">Réinitialise votre espace de travail avec les paramètres par défaut (outils ouverts, taille des zones...) et recharge l'application.</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_RESET_WORKSPACE_PROMPT_TITLE">Réinitialiser l'espace de travail</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_RESET_WORKSPACE_PROMPT_DESC">Voulez-vous réinitialiser votre espace de travail maintenant ?&lt;br/&gt;&lt;br/&gt;Tous les outils actuellement ouverts seront refermés : pensez à sauvegarder votre travail avant de cliquer sur OK.</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_RESET_WORKSPACE_FAILURE_TITLE">Impossible de réinitialiser</message>
+    <message key="PLUGINS_CORE_USER_PREFERENCES_RESET_WORKSPACE_FAILURE_DESC">Une erreur inattendue est survenue et a empéché la réinitialisation de l'espace de travail.</message>
     
     <!-- +
          | WIDGETS
