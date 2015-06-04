@@ -32,8 +32,6 @@
     <property name="common-build" location="../../../bootstrap/4/deliver/jars/common-build.xml"/>
     <import file="${common-build}"/>
     
-	<property file="build.properties"/>
-	
     <property name="project.title" value="Ametys Runtime"/>
     <property name="project.description" value="The Ametys kernel and default implementations"/>
     <property name="project.jar.name" value="ametys-runtime"/>
