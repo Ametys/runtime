@@ -1,5 +1,5 @@
 /*
- *  Copyright 2012 Anyware Services
+ *  Copyright 2015 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,24 +15,21 @@
  */
 package org.ametys.runtime.plugins.core.administrator.system;
 
-import java.io.IOException;
-import java.util.Locale;
+import java.util.Map;
 
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.cocoon.ProcessingException;
-import org.apache.cocoon.generation.ServiceableGenerator;
-import org.apache.cocoon.i18n.I18nUtils;
-import org.apache.cocoon.xml.XMLUtils;
-import org.xml.sax.SAXException;
+
+import org.ametys.runtime.ui.StaticClientSideElement;
 
 /**
- * Generates the system announcement
+ * This client side element toggles controller according system announcement's state
+ *
  */
-public class SystemAnnouncementGenerator extends ServiceableGenerator implements Contextualizable
+public class SystemAnnouncementClientSideElement extends StaticClientSideElement implements Contextualizable
 {
     private org.apache.cocoon.environment.Context _environmentContext;
     private SystemHelper _systemHelper;
@@ -51,24 +48,20 @@ public class SystemAnnouncementGenerator extends ServiceableGenerator implements
     }
     
     @Override
-    public void generate() throws IOException, SAXException, ProcessingException
+    public Map<String, Object> getParameters(Map<String, Object> contextualParameters)
     {
-        contentHandler.startDocument();
-        XMLUtils.startElement(contentHandler, "SystemAnnounce");
+        Map<String, Object> parameters = super.getParameters(contextualParameters);
         
         String contextPath = _environmentContext.getRealPath("/");
         boolean isAvailable = _systemHelper.isSystemAnnouncementAvailable(contextPath);
         
-        XMLUtils.createElement(contentHandler, "IsAvailable", String.valueOf(isAvailable));
-        if (isAvailable)
+        if ("true".equals(parameters.get("toggle-enabled")))
         {
-            Locale locale = I18nUtils.findLocale(objectModel, "locale", null, Locale.getDefault(), true);
-            
-            XMLUtils.createElement(contentHandler, "LastModification", String.valueOf(_systemHelper.getSystemAnnoucementLastModificationDate(contextPath))); 
-            XMLUtils.createElement(contentHandler, "Message", _systemHelper.getSystemAnnouncement(locale.getLanguage(), contextPath));
+            parameters.put("toggle-state", isAvailable);
         }
         
-        XMLUtils.endElement(contentHandler, "SystemAnnounce");
-        contentHandler.endDocument();
+        parameters.put("available", isAvailable);
+        
+        return parameters;
     }
 }

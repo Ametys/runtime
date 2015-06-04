@@ -22,6 +22,9 @@
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_SYSTEM_LABEL">System</message>
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_PLUGINS_LABEL">Plugins &amp; Workspaces</message>
     
+    <message key="RIBBON_ADMINISTRATION_TABS_TAB_SYSTEM_LABEL">Access</message>
+    <message key="RIBBON_ADMINISTRATION_TABS_TAB_SYSTEM_GROUPS_GROUP_ACTIONS">Actions</message>
+    
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_DEVELOPPER_LABEL">Developer</message>
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_DEVELOPPER_GROUPS_GROUP_TOOLS">Tools</message>
     

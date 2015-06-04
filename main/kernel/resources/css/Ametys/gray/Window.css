@@ -45,7 +45,7 @@
 .ametys-dialogbox .x-form-cb-label,
 .ametys-dialogbox .x-form-item-label 
 {
-    font-size: 0.9em;
+    /*font-size: 0.9em;*/
     color: #404040;
 }
 

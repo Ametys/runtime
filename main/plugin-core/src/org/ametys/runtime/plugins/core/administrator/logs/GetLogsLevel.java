@@ -130,12 +130,15 @@ public class GetLogsLevel extends ServiceableAction
                 // We did not find any existing node, let's create it
                 parentCategoryNode = new HashMap<> ();
                 parentCategoryNode.put("children", new ArrayList<> ());
+                parentCategoryNode.put("leaf", false);
                 parentCategoryNode.put("level", "inherit");
                 parentCategoryNode.put("name", parentCategoryName);
                 parentCategoryNode.put("fullname", fullName.substring(0, fullName.indexOf(parentCategoryName)) + parentCategoryName);
                 
                 children.add(parentCategoryNode);
             }
+            
+            parentCategoryNode.put("leaf", false);
             
             createCategory((List<Map<String, Object>>) parentCategoryNode.get("children"), childCategoryName, level, fullName);
         }
@@ -148,6 +151,7 @@ public class GetLogsLevel extends ServiceableAction
                 categoryNode = new HashMap<> ();
                 
                 categoryNode.put("children", new ArrayList<> ());
+                categoryNode.put("leaf", true);
                 categoryNode.put("level", level);
                 categoryNode.put("name", categoryName);
                 categoryNode.put("fullname", fullName);

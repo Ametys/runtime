@@ -25,6 +25,9 @@
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_DEVELOPPER_LABEL">Développeur</message>
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_DEVELOPPER_GROUPS_GROUP_TOOLS">Outils</message>
     
+    <message key="RIBBON_ADMINISTRATION_TABS_TAB_SYSTEM_LABEL">Accès</message>
+    <message key="RIBBON_ADMINISTRATION_TABS_TAB_SYSTEM_GROUPS_GROUP_ACTIONS">Actions</message>
+    
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_LOGS_LABEL">Journaux</message>
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_LOGS_LEVEL_LABEL">Niveaux de journalisation</message>
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_LOGS_GROUPS_GROUP_ACTIONS">Actions</message>

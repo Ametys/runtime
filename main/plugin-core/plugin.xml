@@ -1310,6 +1310,175 @@
     <!-- +
          |  PLUGINS AND WORKSPACES
          + --> 
+    <feature name="runtime.admin.system">
+        <components>
+            <component role="org.ametys.runtime.plugins.core.administrator.system.SystemHelper"
+                       class="org.ametys.runtime.plugins.core.administrator.system.SystemHelper"/>
+        </components>
+        
+        <extensions>
+            <extension id="org.ametys.runtime.plugins.core.SystemTab"
+                       point="org.ametys.runtime.ribbon.RibbonTabsManager"
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.tab.TabController">
+                    <tool-role>^(uitool-admin-system)$</tool-role>
+                </class>
+            </extension>
+            
+            <extension id="org.ametys.runtime.plugins.core.System"  
+                       point="org.ametys.runtime.ribbon.RibbonControlsManager" 
+                       class="org.ametys.runtime.plugins.core.administrator.system.SystemAnnouncementClientSideElement">
+                <!-- 
+                    This interaction allows the administrator to handle the system welcoming message
+                 -->
+                 <class name="Ametys.plugins.core.administration.system.SystemAnnouncementController">
+                    <opentool-role>uitool-admin-system</opentool-role>
+                    
+                    <label i18n="true">PLUGINS_CORE_ADMINISTRATOR_SYSTEM_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_SYSTEM_DESCRIPTION</description>
+                    
+                    <announcement-on-description i18n="true">PLUGINS_CORE_ADMINISTRATOR_SYSTEM_DESCRIPTION_ON</announcement-on-description>
+                    <announcement-off-description i18n="true">PLUGINS_CORE_ADMINISTRATOR_SYSTEM_DESCRIPTION_OFF</announcement-off-description>
+                    
+                    <icon-small file="true">img/administrator/system/announcement_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/system/announcement_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/system/announcement_48.png</icon-large>
+
+                    <announcement-on-icon-small file="true">img/administrator/system/announcement_on_16.png</announcement-on-icon-small>
+                    <announcement-on-icon-medium file="true">img/administrator/system/announcement_on_32.png</announcement-on-icon-medium>
+                    <announcement-on-icon-large file="true">img/administrator/system/announcement_on_48.png</announcement-on-icon-large>
+                    
+                    <announcement-off-icon-small file="true">img/administrator/system/announcement_off_16.png</announcement-off-icon-small>
+                    <announcement-off-icon-medium file="true">img/administrator/system/announcement_off_32.png</announcement-off-icon-medium>
+                    <announcement-off-icon-large file="true">img/administrator/system/announcement_off_48.png</announcement-off-icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/system/SystemTool.js</file>
+                    <file>js/Ametys/plugins/core/administration/system/SystemAnnouncementController.js</file>
+                </scripts>
+            </extension> 
+            
+            <extension id="org.ametys.runtime.plugins.core.system.SystemFactory"
+                       point="org.ametys.runtime.ui.UIToolsFactoriesManager"
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <class name="Ametys.tool.factory.UniqueToolFactory">
+                    <role>uitool-admin-system</role>
+                    <toolClass>Ametys.plugins.core.administration.tool.SystemTool</toolClass>
+                    
+                    <title i18n="true">PLUGINS_CORE_ADMINISTRATOR_SYSTEM_LABEL</title>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_SYSTEM_DESCRIPTION</description>
+                    
+                    <icon-small file="true">img/administrator/system/announcement_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/system/announcement_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/system/announcement_48.png</icon-large>
+                    
+                    <default-location>c</default-location>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/system/SystemTool.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.runtime.plugins.core.system.Add"
+                       point="org.ametys.runtime.ribbon.RibbonControlsManager"
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.core.administration.system.SystemActions.addMessage</action>
+                
+                    <label i18n="true">PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_ADD_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_ADD_DESC</description>
+
+                    <icon-small file="true">img/administrator/system/add_announcement_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/system/add_announcement_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/system/add_announcement_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/system/SystemActions.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.runtime.plugins.core.system.Edit"
+                       point="org.ametys.runtime.ribbon.RibbonControlsManager"
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.core.administration.system.SystemActions.editMessage</action>
+                
+                    <selection-target-type>^system-announcement-message</selection-target-type>
+                
+                    <label i18n="true">PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_EDIT_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_EDIT_DESC</description>
+
+                    <icon-small file="true">img/administrator/system/edit_announcement_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/system/edit_announcement_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/system/edit_announcement_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/system/SystemActions.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.runtime.plugins.core.system.Delete"
+                       point="org.ametys.runtime.ribbon.RibbonControlsManager"
+                       class="org.ametys.runtime.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.core.administration.system.SystemActions.deleteMessage</action>
+                
+                    <selection-target-type>^system-announcement-message$</selection-target-type>
+                    <selection-target-parameter>
+                        <name>^language$</name>
+                        <value>!\*</value>
+                    </selection-target-parameter> 
+                
+                    <label i18n="true">PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DELETE_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DELETE_DESC</description>
+
+                    <icon-small file="true">img/administrator/system/delete_announcement_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/system/delete_announcement_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/system/delete_announcement_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/system/SystemActions.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.runtime.plugins.core.system.SetAnnouncement"
+                       point="org.ametys.runtime.ribbon.RibbonControlsManager"
+                       class="org.ametys.runtime.plugins.core.administrator.system.SystemAnnouncementClientSideElement">
+                <class name="Ametys.plugins.core.administration.system.SystemAnnouncementController">
+                    <!--initialize>Ametys.plugins.core.administration.actions.SystemActions.initializeToggleState</initialize-->
+                    <action>Ametys.plugins.core.administration.system.SystemActions.setAnnouncementAvailable</action>
+
+                    <toggle-enabled>true</toggle-enabled>
+                
+                    <label i18n="true">PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_SET_ANNOUNCEMENT_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_SET_ANNOUNCEMENT_DESC</description>
+                    
+                    <announcement-on-description i18n="true">PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_SET_ANNOUNCEMENT_OFF_DESC</announcement-on-description>
+                    <announcement-off-description i18n="true">PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_SET_ANNOUNCEMENT_ON_DESC</announcement-off-description>
+                    
+                    <icon-small file="true">img/administrator/system/activate_16.png</icon-small>
+                    <icon-medium file="true">img/administrator/system/activate_32.png</icon-medium>
+                    <icon-large file="true">img/administrator/system/activate_48.png</icon-large>
+                    
+                    <announcement-on-icon-small file="true">img/administrator/system/deactivate_16.png</announcement-on-icon-small>
+                    <announcement-on-icon-medium file="true">img/administrator/system/deactivate_32.png</announcement-on-icon-medium>
+                    <announcement-on-icon-large file="true">img/administrator/system/deactivate_48.png</announcement-on-icon-large>
+                    
+                    <announcement-off-icon-small file="true">img/administrator/system/activate_16.png</announcement-off-icon-small>
+                    <announcement-off-icon-medium file="true">img/administrator/system/activate_32.png</announcement-off-icon-medium>
+                    <announcement-off-icon-large file="true">img/administrator/system/activate_48.png</announcement-off-icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/administration/system/SystemActions.js</file>
+                    <file>js/Ametys/plugins/core/administration/system/SystemAnnouncementController.js</file>
+                </scripts>
+            </extension>
+        </extensions>
+    </feature>
+    
+    <!-- +
+         |  PLUGINS AND WORKSPACES
+         + --> 
     <feature name="runtime.admin.plugins">
         <extensions>
                       
@@ -2128,28 +2297,6 @@
 				</class>    				   
                 <Url>administrator/config/edit\.html</Url>
             </extension>
-            
-            <!-- +
-                 |  ADMIN SYSTEM
-                 + -->           
-            <extension  point="org.ametys.runtime.workspaces.admin.DesktopManager" 
-                        id="org.ametys.runtime.plugins.core.administrator.System"
-                        class="org.ametys.runtime.plugins.core.ui.item.StaticAdminClientSideElement"
-                        logger="org.ametys.runtime.plugins.core.ui.administrator.system">
-                <!-- 
-                    This interaction allows the administrator to handle the system (maintenance mode, welcome message...)
-                 -->
-				<class name="redirect">
-					<param name="Link">administrator/system/view.html</param>
-
-					<param name="label" i18n="true">PLUGINS_CORE_ADMINISTRATOR_SYSTEM_LABEL</param>
-					<param name="default-description" i18n="true">PLUGINS_CORE_ADMINISTRATOR_SYSTEM_DESCRIPTION</param>
-					<param name="icon-small" file="true">img/administrator/system/icon_dock.png</param>
-					<param name="icon-medium" file="true">img/administrator/system/icon_medium.gif</param>
-					<param name="icon-large" file="true">img/administrator/system/icon_large.png</param>
-				</class>   
-                <Url>administrator/system/view\.html</Url>
-            </extension>   
             
             <!-- +
                  |  ADMIN SUPER USER

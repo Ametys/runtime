@@ -273,36 +273,35 @@
     <message key="PLUGINS_CORE_ADMINISTRATOR_LOGS_HELP2_TEXT">This tool allows you to modify for the runtime the log level category by category.&lt;br/&gt;&lt;br/&gt;To modify permanently the log level you can configure the 'WEB-INF\\log4j.xml' file.</message>
 
 	<!-- ADMINITRATOR SYSTEM -->
-	<message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_LABEL">Access</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_DESCRIPTION">System announcement</message>
-	<!-- message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_DESCRIPTION">System announcement and maintenance mode</message -->
-	<message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_TITLE">Users access</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_HELP">Help</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_HELP_TEXT">This screen enables a system announcement to be set up for users.</message>
-	<!-- message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_HELP_TEXT">This screen enables a system announcement to be set up for users.&lt;br/&gt;&lt;br/&gt;Activate the 'maintenance' mode so that users cannot access anymore to the application (a maintenance screen would be displayed)</message -->
-	<message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_HANDLE">Management</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_HANDLE_SAVE">Save</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_HANDLE_QUIT">Quit without saving</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_MAINTENANCE">Activate the maintenance mode</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_CHECK">Activate the system announcement</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_COL_LANG">Language</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_COL_MESSAGE">Message</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT">Announcement</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_ADD">Add</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_EDIT">Modify</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DELETE">Delete</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DELETE_CONFIRM">Do you really want to delete this announcement ?</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_CAPTION">Announcement...</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_OK">Ok</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_CANCEL">Cancel</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_LANG_HELP">Language code of the announcement message.&lt;br/&gt;The language code consists of two letters (eg: fr, en, de, es, zh, etc.).&lt;br/&gt;The special * character represents all other codes.</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_MESSAGE_HELP">Announcement message in the specified language</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_DEFAULTMESSAGE">Enter the announcement in the default language</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_ERROR_LANG">The language always consist always of two letters.\nFor example: 'en' for english or 'fr' for french.</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_ERROR_MESSAGE">The message box cannot be empty.</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ERROR">Error</message>
-	<message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ERROR_SAVE">An error occurred on the server. Modifications have not been saved.</message>
-
+    <!-- ADMINITRATOR SYSTEM -->
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_LABEL">Access</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_DESCRIPTION">This tool enables a system announcement to be set up for users.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_DESCRIPTION_ON">The system announcement is currently enabled.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_DESCRIPTION_OFF">The system announcement is currently disabled.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_TITLE">Users access</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_COL_LANG">Language</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_COL_MESSAGE">Message</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_ADD_LABEL">New</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_ADD_DESC">Add an announcement</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_EDIT_LABEL">Edit</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_EDIT_DESC">Edit the selected announcement</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DELETE_LABEL">Delete</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DELETE_DESC">Delete the selected announcement</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_SET_ANNOUNCEMENT_LABEL">Annonce d'accueil</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_SET_ANNOUNCEMENT_DESC">Active ou désactive l'annonce système d'accueil.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DELETE_CONFIRM">Etes-vous sûr de vouloir supprimer cette annonce ?</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_CAPTION">Announcement...</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_OK">Ok</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_CANCEL">Cancel</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_LANG_HELP">Language code of the announcement message.&lt;br/&gt;The language code consists of two letters (eg: fr, en, de, es, zh, etc.).&lt;br/&gt;The special * character represents all other languages.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_MESSAGE_HELP">Announcement message in the specified language</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_DEFAULTMESSAGE">Enter the announcement in the default language</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ANNOUNCEMENT_DIALOG_ERROR_LANG">The language always consist always of two letters.&lt;br/&gt;For example: 'en' for english or 'fr' for french.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ERROR">Error</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_ERROR_SAVE">An error occurred on the server. The modifications on the welcome announcement have not been saved.</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_CONFIRM_DIALOG_TITLE">Replace the existing message</message>
+    <message key="PLUGINS_CORE_ADMINISTRATOR_SYSTEM_CONFIRM_DIALOG_TEXT">A message already exists in the selected language, do you want to replace it ?</message>
+    
 	<!-- ADMINISTRATOR SUPER USER -->
 	<message key="PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_LABEL">Super user</message>
 	<message key="PLUGINS_CORE_ADMINISTRATOR_SUPERUSER_DESCRIPTION">Define temporary administrator(s) with all rights</message>
