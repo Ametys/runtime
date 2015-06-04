@@ -101,5 +101,7 @@ Open source web application framework based on Apache Cocoon.
     <dependency org="org.hsqldb" name="hsqldb" rev="2.3.0" conf="test->default"/>
 
     <dependency org="junit" name="junit" rev="4.11" conf="test,test-env->default"/>
+    
+    <dependency org="mysql" name="mysql-connector-java" rev="5.1.6" conf="runtime_dependencies->default"/>
   </dependencies>
 </ivy-module>
