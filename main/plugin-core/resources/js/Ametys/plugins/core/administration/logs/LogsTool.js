@@ -122,7 +122,13 @@ Ext.define('Ametys.plugins.core.administration.logs.LogsTool', {
 		    ]
 		});
 	},
-	
+
+    /**
+     * @private
+     * Opens a log file
+     * @param {Ext.grid.Panel} grid The main tool grid
+     * @param {Ametys.plugins.core.administration.tool.LogsTool.Log} record The record to open
+     */
 	_openLog: function (grid, record)
 	{
 		if (record.get('size') > 1024 * 1024)
@@ -211,16 +217,4 @@ Ext.define('Ametys.plugins.core.administration.logs.LogsTool', {
 			});
 		}
 	}
-});
-
-Ext.define('Ametys.plugins.core.administration.tool.LogsTool.Log', {
-    extend: 'Ext.data.Model',
-    
-    fields: [
-       {name: 'location', mapping: 'location'},
-       {name: 'date', type: 'date', dateFormat: Ext.Date.patterns.ISO8601DateTime, mapping: 'lastModified'},
-       {name: 'size', type: 'int', mapping: 'size'},
-       {name: 'name', mapping: 'name'}
-    ]
-    
 });

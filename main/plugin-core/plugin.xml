@@ -1650,6 +1650,7 @@
                     <icon-large file="true">img/administrator/logs/logs_48.png</icon-large>
                 </class>
                 <scripts>
+                    <file>js/Ametys/plugins/core/administration/logs/LogsTool/Log.js</file>
                     <file>js/Ametys/plugins/core/administration/logs/LogsTool.js</file>
                 </scripts>
             </extension>
