@@ -1671,7 +1671,10 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      * 
      * The data can be an XML or a JSON object.
      * 
-     * The XML format is
+     * The XML format
+     * ==============
+     * See the following strucure:
+     * 
      * 
      *      &lt;myrootnode&gt;
      *          &lt;metadata&gt;
@@ -1681,7 +1684,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      *          
      *          &lt;comments&gt;
      *              &lt;metadata path="fieldname"&gt;
-     *                  &lt;comment id="1" date="2020-12-31T14:30"&gt;
+     *                  &lt;comment id="1" date="2020-12-31T23:59:59.999+02:00"&gt;
      *                      My comment for the field &amp;lt;fieldname&amp;gt;
      *                  &lt;/comment&gt;
      *                  &lt;!-- ... --&gt;
@@ -1689,6 +1692,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      *              &lt;!-- ... --&gt;
      *          &lt;/comments&gt;
      *      &lt;/myrootnode&gt;
+     * 
      * 
      * For the values, the tag *metadata* is the wrapping for tags holdings the values:
      * - the tag name is the name of the field concerned (without prefix).
@@ -1707,6 +1711,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      *   - *author* The fullname of the author of the comment.
      *   
      *  Here is a full example:
+     *  
      *  
      *      &lt;myrootnode&gt;
      *          &lt;metadata&gt;
@@ -1743,7 +1748,59 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      *      &lt;/myrootnode&gt;
      *  
      * 
-     * The JSON TODO
+     * The JSON format
+     * ===============
+     * See the following structure:
+     * 
+     * 
+     *      {
+     *          "values": [
+     *              "fieldname": "a string value"
+     *              ...
+     *          ],
+     *          
+     *          "invalid": {
+     *              "otherfield": "rawvalue"
+     *              ...
+     *          },
+
+     *          "comments": {
+     *              "fieldname": [
+     *                  {
+     *                      "text": "My comment\non two lines",
+     *                      "author": "Author Fullname",
+     *                      "date": "2020-12-31T23:59:59.999+02:00"
+     *                  }
+     *              ]
+     *              ...
+     *          },
+     *          
+     *          "repeaters": [
+     *              {
+     *                  name: "a_repeater",
+     *                  prefix: "",
+     *                  count: 2
+     *              },
+     *              {
+     *                  name: "a_sub_repeater",
+     *                  prefix: "a_repeater",
+     *                  count: 5
+     *              },
+     *              ...
+     *          ]
+     *      }
+     * 
+     * 
+     * Most information here is common with the XML format, so please starts by reading it above.
+     * 
+     * The *values* array will fill the fields. Unlike in XML the information of the size of the repeaters is not set in this field.
+     * The *repeaters* array allow to know the size of every repeaters. Each element is an object with:
+     * - a string *name* The name of the repeater
+     * - a string *prefix* The path to this repeater ('.' separated)
+     * - a number *count* The size of the repeater
+     * 
+     * The JSON format also accept a *invalid* field, to pre-fill fields with raw values. For exemple, you can pre-fill a date field with a non date string.
+     * The *invalid* values should not set the same values already brought by *values*, but they will replace them in such a case.
      * 
      * @param {Object/HTMLElement} data The object that will fill the form.
      */
