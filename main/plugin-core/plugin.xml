@@ -1693,6 +1693,7 @@
                     <icon-large file="true">img/administrator/logs/loglevel_48.png</icon-large>
                 </class>
                 <scripts>
+                    <file>js/Ametys/plugins/core/administration/logs/LogsLevelTool/Category.js</file>
                     <file>js/Ametys/plugins/core/administration/logs/LogsLevelTool.js</file>
                 </scripts>
             </extension>
