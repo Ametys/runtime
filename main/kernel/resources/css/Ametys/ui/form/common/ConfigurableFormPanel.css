@@ -93,7 +93,7 @@
     margin-left: 10px;
 }
 
-.ametys-form-panel .ametys-fieldset > .x-panel-header .x-panel-header-text
+.ametys-form-panel .ametys-fieldset > .x-panel-header .x-panel-header-title
 {
     /*font-family: Arial,sans-serif;*/
     font-size: 1.1em;
@@ -115,7 +115,7 @@
     border: 1px solid #ECECEC !important;
 }
 
-.ametys-form-panel .ametys-repeater > .x-panel-header .x-panel-header-text {
+.ametys-form-panel .ametys-repeater > .x-panel-header .x-panel-header-title {
     font-weight: bold;
     font-style: italic;
 }
@@ -138,13 +138,13 @@
     border-bottom-color: #D0D0D0;
 }
 
-.ametys-form-panel .ametys-repeater-item > .x-panel-header .x-panel-header-text
+.ametys-form-panel .ametys-repeater-item > .x-panel-header .x-panel-header-title
 {
     font-weight: bold;
     color: #404040;
 }
 
-.ametys-form-panel .ametys-repeater-item > .x-panel-header .x-panel-header-text .header-repeater-item-value {
+.ametys-form-panel .ametys-repeater-item > .x-panel-header .x-panel-header-title .header-repeater-item-value {
     font-weight: normal;
 }
 
@@ -162,7 +162,7 @@
 .ametys-form-panel .x-boundlist-item, 
 .ametys-form-panel .x-form-field
 {
-    font-size: 0.9em;
+    font-size: 11px; /*0.9em;*/
     line-height: 16px !important;
 }
 
@@ -198,20 +198,20 @@
 }
 
 .ametys-form-panel .ametys-form-tab .x-tab-default.error.not-startup .x-tab-inner,
-.ametys-form-panel .ametys-form-tab-inline .x-panel-header.error.not-startup .x-panel-header-text {
+.ametys-form-panel .ametys-form-tab-inline .x-panel-header.error.not-startup .x-panel-header-title {
     padding-left: 20px;
     color: #e25f53;
     font-style: normal;
 }
 
 .ametys-form-panel .ametys-form-tab .x-tab-default.warning.not-startup .x-tab-inner,
-.ametys-form-panel .ametys-form-tab-inline .x-panel-header.warning.not-startup .x-panel-header-text {
+.ametys-form-panel .ametys-form-tab-inline .x-panel-header.warning.not-startup .x-panel-header-title {
     padding-left: 20px;
     color: #EEA20B;
     font-style: normal;
 }
 
-.ametys-form-panel .ametys-form-tab-inline .x-panel-header.error.not-startup .x-panel-header-text {
+.ametys-form-panel .ametys-form-tab-inline .x-panel-header.error.not-startup .x-panel-header-title {
     background: url('../../../../../../plugins/extjs6/resources/classic/theme-gray/resources/images/form/exclamation.gif') left no-repeat;
 }
 
@@ -219,7 +219,7 @@
     background: url('../../../../../../plugins/extjs6/resources/classic/theme-gray/resources/images/form/exclamation.gif') left no-repeat;
 }
 
-.ametys-form-panel .ametys-form-tab-inline .x-panel-header.warning.not-startup .x-panel-header-text {
+.ametys-form-panel .ametys-form-tab-inline .x-panel-header.warning.not-startup .x-panel-header-title {
     background: url('../../../../../../kernel/resources/img/Ametys/theme/gray/warning.png') left no-repeat;
 }
 
@@ -302,7 +302,7 @@
     padding-left: 20px;
 }
 
-.ametys-form-panel .ametys-form-tab-inline-item > .x-panel-header .x-panel-header-text
+.ametys-form-panel .ametys-form-tab-inline-item > .x-panel-header .x-panel-header-title
 {
     font-size: 1.1em;
 }
