@@ -1062,6 +1062,7 @@ Ext.define(
 		 * @param {Ametys.message.MessageTarget[]} targets2 The second table of targets
 		 * @param {Number} level The level of targets
 		 * @return true if the targets are the same
+         * @private
 		 */
 		_areSameTargetsArray: function (targets1, targets2, level)
 		{

@@ -497,7 +497,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
 	        }
 	        
 	        
-	        var repeaters = this._getRepeaters(oldCard);
+	        var repeaters = this.getRepeaters(oldCard);
 	        for (var i = 0; i < repeaters.length; i++)
 	        {
 	            // Trigger internal validation without firing validity change.
@@ -609,7 +609,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      * @param {Ext.container.Container} [container] The container of repeaters. The form if not specified
      * @return {Ext.Component[]} An array of components which have the field mixin.
      */
-    _getRepeaters: function (container)
+    getRepeaters: function (container)
     {
         container = container || this;
     	return container.query('panel[isRepeater]');
@@ -710,7 +710,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             }
             
             // Invalidate repeaters
-            var tabRepeaters = this._getRepeaters(panel);
+            var tabRepeaters = this.getRepeaters(panel);
             for (var i = 0; i < tabRepeaters.length; i++)
             {
             	if (tabRepeaters[i].getErrors().length > 0)
@@ -1708,15 +1708,20 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      *   
      *  Here is a full example:
      *  
-     *      &lt;content id="content://ec7ef7a1-139a-4863-a866-76196ed556cb" uuid="ec7ef7a1-139a-4863-a866-76196ed556cb" name="nouveau-contenu-simple" title="Nouveau contenu simple" language="fr" createdAt="2015-05-18T17:32:16.347+02:00" creator="raf" lastModifiedAt="2015-06-03T14:15:26.300+02:00" lastContributor="raf" commentable="true" smallIcon="/plugins/default-content/resources/img/content_16.png" mediumIcon="/plugins/default-content/resources/img/content_32.png" largeIcon="/plugins/default-content/resources/img/content_48.png"&gt;
+     *      &lt;myrootnode&gt;
      *          &lt;metadata&gt;
-     *              &lt;title&gt;Nouveau contenu simple&lt;/title&gt;
+     *              &lt;!-- A simple text value --&gt;
+     *              &lt;title&gt;My title&lt;/title&gt;
+     *              &lt;!-- A composite --&gt;
      *              &lt;illustration&gt;
-     *                  &lt;alt-text&gt;test&lt;/alt-text&gt;
+     *                  &lt;alt-text&gt;My alternative text&lt;/alt-text&gt;
      *              &lt;/illustration&gt;
-     *              &lt;content mime-type="application/xml" lastModified="2015-06-03T14:15:25.413+02:00"&gt;&amp;lt;p&amp;gt;test&amp;lt;/p&amp;gt;&lt;/content&gt;
+     *              &lt;!-- A richtext value --&gt;
+     *              &lt;content&gt;&amp;lt;p&amp;gt;my rich text value&amp;lt;/p&amp;gt;&lt;/content&gt;
+     *              &lt;!-- A repeater --&gt;
      *              &lt;attachments entryCount="1"&gt;
      *                  &lt;entry name="1"&gt;
+     *                      &lt;!-- A file metadata. The widget waits for an object value according to its documentation {@link Ametys.runtime.form.widget.File#setValue} --&gt;
      *                      &lt;attachment json="true"&gt;
      *                          {
      *                              "type": "metadata",
@@ -1735,7 +1740,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      *          &lt;/metadata&gt;
      *          
      *          &lt;comments/&gt;
-     *      &lt;/content&gt;
+     *      &lt;/myrootnode&gt;
      *  
      * 
      * The JSON TODO
@@ -1800,7 +1805,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
 	    for (var i = 0; i < sortedRepeaters.length; i++)
         {
 	        var name = sortedRepeaters[i].name;
-	        var prefix = sortedRepeaters[i].prefix;
+	        var prefix = this.getFieldNamePrefix() + sortedRepeaters[i].prefix;
 	        var count = sortedRepeaters[i].count;
 	        var repeaterPanel = this.down("panel[isRepeater][name='" + name + "'][prefix='" + prefix + "']");
 	        
@@ -1870,6 +1875,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             catch (e)
             {
                 // Ignore, just take the undecoded value.
+                // FIXME this do logs an error now!
             }
             
             var field = this.getField(this.getFieldNamePrefix() + name);
@@ -2040,7 +2046,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
 	{
 		var invalidRepeaters = [];
 		
-		var repeaters = this._getRepeaters();
+		var repeaters = this.getRepeaters();
 		for (var i = 0; i < repeaters.length; i++)
 		{
 			var repeater = repeaters[i];
