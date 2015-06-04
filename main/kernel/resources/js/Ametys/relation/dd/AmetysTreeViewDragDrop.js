@@ -150,9 +150,10 @@ Ext.define('Ametys.relation.dd.AmetysTreeViewDragDrop', {
 	 */
 	_onDropHandled: function(success, data, dropHandlers)
 	{
-		// FIXME Was the node moved ? or copy/referenced ? is it new (from another place) ? how to do that (refresh nodes?)...
-		if (success)
+		// Are source and target from the same tree model ?
+		if (success && Ext.isFunction(data.records[0].getTreeStore) && data.records[0].getTreeStore().getModel().getName() == this.getCmp().getStore().getModel().getName())
 		{
+			// Same tree model, let's extjs do the graphical magic
 			switch (success)
 			{
 				case Ametys.relation.Relation.MOVE:
@@ -170,6 +171,7 @@ Ext.define('Ametys.relation.dd.AmetysTreeViewDragDrop', {
 		}
 		else
 		{
+			// Different models, ExtJS cannot do the graphical magic, let's cancel the drop: the RelationHandler should have sent a message bus that will be interpreted by source and target components 
 			dropHandlers.cancelDrop();
 		}
 	}
