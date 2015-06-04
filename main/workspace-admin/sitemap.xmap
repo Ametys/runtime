@@ -82,9 +82,7 @@
 	        </map:match>
 	        
 	        <map:match pattern="userprefs/values.xml">
-                <map:generate type="user-prefs">
-                    <map:parameter name="username" value="admin"/>
-                </map:generate>
+                <map:generate type="user-prefs"/>
                 <map:serialize type="xml"/>
             </map:match>
         </map:pipeline>
@@ -153,7 +151,7 @@
                 <map:aggregate element="Ametys">
                     <map:part src="cocoon:/homepage-versions.xml"/>
                     <map:part src="cocoon:/workspace.xml"/>
-                    <map:part src="cocoon:/userprefs/values.xml?prefContext=/WORKSPACE_NAME"/>
+                    <map:part src="cocoon:/userprefs/values.xml?prefContext=/admin"/>
                 </map:aggregate>
                 <map:transform type="i18n">
                     <map:parameter name="locale" value="{locale:locale}"/>
