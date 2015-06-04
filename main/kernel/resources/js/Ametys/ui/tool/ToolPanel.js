@@ -122,8 +122,7 @@ Ext.define("Ametys.ui.tool.ToolPanel", {
     },
 
     /**
-     * @private
-     * Called during setTitle to update the layout graphically
+     * Set the title of the panel and updates the tool layout
      * @param {String} title The new wanted title
      */
     setTitle: function(title)
@@ -132,30 +131,50 @@ Ext.define("Ametys.ui.tool.ToolPanel", {
         this._infoChanging();
     },
     
+    /**
+     * Set the description of the panel and updates the tool layout
+     * @param {String} description The new wanted description
+     */
     setDescription: function(description)
     {
         this.callParent(arguments);
         this._infoChanging();
     },
     
+    /**
+     * Set the dirtyState of the panel and updates the tool layout
+     * @param {String} dirtyState The new wanted dirtyState
+     */
     setDirtyState: function(dirtyState)
     {
         this.callParent(arguments);
         this._infoChanging();
     },
     
+    /**
+     * Set the smallIcon of the panel and updates the tool layout
+     * @param {String} smallIcon The new wanted smallIcon
+     */    
     setSmallIcon: function(smallIcon)
     {
         this.callParent(arguments);
         this._infoChanging();
     },
     
+    /**
+     * Set the mediumIcon of the panel and updates the tool layout
+     * @param {String} mediumIcon The new wanted mediumIcon
+     */    
     setMediumIcon: function(mediumIcon)
     {
         this.callParent(arguments);
         this._infoChanging();
     },
     
+    /**
+     * Set the largeIcon of the panel and updates the tool layout
+     * @param {String} largeIcon The new wanted largeIcon
+     */    
     setLargeIcon: function(largeIcon)
     {
         this.callParent(arguments);
