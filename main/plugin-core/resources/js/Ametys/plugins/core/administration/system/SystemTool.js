@@ -102,8 +102,8 @@ Ext.define('Ametys.plugins.core.administration.tool.SystemTool', {
 			store : store,
 			
 		    columns: [
-		        {header: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_COL_LANG'/>", menuDisabled : true, sortable: true, width: 80, dataIndex: 'language' },
-		        {header: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_COL_MESSAGE'/>", menuDisabled : true, sortable: true, flex: 1, dataIndex: 'message' }
+		        {stateId: 'grid-lang', header: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_COL_LANG'/>", menuDisabled : true, sortable: true, width: 80, dataIndex: 'language' },
+		        {stateId: 'grid-message', header: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_SYSTEM_COL_MESSAGE'/>", menuDisabled : true, sortable: true, flex: 1, dataIndex: 'message' }
 		    ],
 		    
 			listeners: {
