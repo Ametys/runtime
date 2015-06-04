@@ -615,7 +615,7 @@ Ext.define(
 		{
 			this._iconSmall = small;
 			this._iconMedium = medium;
-			this._largeSmall = large;
+			this._iconLarge = large;
 			
 			this._updateUI();
 		},
