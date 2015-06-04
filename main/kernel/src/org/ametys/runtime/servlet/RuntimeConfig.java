@@ -188,6 +188,7 @@ public final class RuntimeConfig
             _configAllowedURLs.add("_admin/plugins/core/administrator/config");
             _configAllowedURLs.add("_admin/plugins/core/jsfilelist");
             _configAllowedURLs.add("_admin/plugins/core/cssfilelist");
+            _configAllowedURLs.add("_admin/old/_plugins/core/administrator/config/edit.html"); // FIXME To remove
 
             return;
         }

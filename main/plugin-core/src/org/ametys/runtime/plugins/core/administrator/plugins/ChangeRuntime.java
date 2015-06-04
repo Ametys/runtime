@@ -78,7 +78,7 @@ public class ChangeRuntime extends ServiceableGenerator
             {
                 AttributesImpl attrs = new AttributesImpl();
                 attrs.addCDATAAttribute("name", ep);
-                XMLUtils.createElement(contentHandler, "feature", attrs, extensionPoints.get(ep).toString());
+                XMLUtils.createElement(contentHandler, "feature", attrs, String.valueOf(extensionPoints.get(ep)));
             }
             
             XMLUtils.endElement(contentHandler, "features");
@@ -88,7 +88,7 @@ public class ChangeRuntime extends ServiceableGenerator
             
             for (String ep : singleExtensionPoints.keySet())
             {
-                XMLUtils.createElement(contentHandler, ep, singleExtensionPoints.get(ep));
+                XMLUtils.createElement(contentHandler, ep, String.valueOf(singleExtensionPoints.get(ep)));
             }
             
             XMLUtils.endElement(contentHandler, "extensions");

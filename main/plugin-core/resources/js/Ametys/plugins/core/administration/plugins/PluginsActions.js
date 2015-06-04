@@ -110,7 +110,7 @@ Ext.define('Ametys.plugins.core.administration.plugins.PluginsActions', {
 		{
 			var targetParameters = target.getParameters();
 			
-			Ametys.plugins.core.administration.plugins.PluginsDAO.selectSingleExtensionPoint(targetParameters.parentExtensionPointName, targetParameters.extensionPointName);
+			Ametys.plugins.core.administration.plugins.PluginsDAO.selectSingleExtensionPoint(targetParameters.parentExtensionPointName, targetParameters.extensionId);
 			
 			Ext.MessageBox.alert("<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_ALERT_TITLE'/>", "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_PLUGINS_CHANGES_ALERT_TEXT'/>");
 			this._sendModifyingMessage(targetParameters.pluginName);
@@ -208,8 +208,8 @@ Ext.define('Ametys.plugins.core.administration.plugins.PluginsActions', {
 	_saveChangesNow: function(pluginName)
 	{
 		var params = {};
-		params.EP = Ametys.plugins.core.administration.plugins.PluginsDAO.getModifiedSingleExtensionPoints();
-		params.SEP = Ametys.plugins.core.administration.plugins.PluginsDAO.getModifiedExtensionPoints();
+		params.SEP = Ametys.plugins.core.administration.plugins.PluginsDAO.getModifiedSingleExtensionPoints();
+		params.EP = Ametys.plugins.core.administration.plugins.PluginsDAO.getModifiedExtensionPoints();
 		
 		Ametys.data.ServerComm.send({
 			plugin: pluginName, 
