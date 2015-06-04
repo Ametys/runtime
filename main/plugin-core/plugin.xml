@@ -1635,6 +1635,7 @@
                 </class>
                 <scripts>
                     <file>js/Ametys/plugins/core/administration/plugins/WorkspacesTool.js</file>
+                    <file>js/Ametys/plugins/core/administration/plugins/WorkspacesTool/Workspace.js</file>
                 </scripts>
                 <default-location>c</default-location>
             </extension>

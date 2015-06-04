@@ -25,12 +25,6 @@ Ext.define('Ametys.plugins.core.administration.tool.WorkspacesTool', {
 	 * @property {Ext.tree.Panel} _workspacesTree The plugins by file tree panel
 	 */
 	
-	constructor: function(config)
-	{
-		this.callParent(arguments);
-		Ametys.message.MessageBus.on(Ametys.message.Message.MODIFIED, this._onModified, this);
-	},
-		
 	getMBSelectionInteraction: function() 
 	{
 		return Ametys.tool.Tool.MB_TYPE_ACTIVE;
@@ -44,7 +38,7 @@ Ext.define('Ametys.plugins.core.administration.tool.WorkspacesTool', {
 	
 	sendCurrentSelection: function()
 	{
-		this._onSelect();
+		this._onSelectWorkspace();
 	},
 	
 	/**
@@ -97,7 +91,7 @@ Ext.define('Ametys.plugins.core.administration.tool.WorkspacesTool', {
 			border: false,
 			
 			listeners: {
-				'selectionchange': Ext.bind(this._onSelect, this)
+				'selectionchange': Ext.bind(this._onSelectWorkspace, this)
 			}
 		});
 	},
@@ -108,8 +102,6 @@ Ext.define('Ametys.plugins.core.administration.tool.WorkspacesTool', {
      */
 	_onLoad: function()
     {
-		console.info("on load");
-		
 		var rootNode = this._workspacesTree.getRootNode();
 		
         // Expand first nodes
@@ -130,71 +122,25 @@ Ext.define('Ametys.plugins.core.administration.tool.WorkspacesTool', {
      * @private
      * Send selection message
      */
-	_onSelect: function(panel, selection)
+    _onSelectWorkspace: function(panel, selection)
 	{
-		console.info("On select");
-//		var targets = [];
-//		
-//		var selectedCategories = this._logsTree.getSelectionModel().getSelection();
-//		Ext.Array.forEach(selectedCategories, function(selectedCategory) {
-//			
-//			target = Ext.create('Ametys.message.MessageTarget', {
-//				type: 'log-category',
-//				parameters: {id: selectedCategory.getId(), level: selectedCategory.data.level, category: selectedCategory.data.category}
-//			});
-//			
-//			targets.push(target);
-//		});
-//		
-//		Ext.create('Ametys.message.Message', {
-//			type: Ametys.message.Message.SELECTION_CHANGED,
-//			targets: targets
-//		});
-	},
-    
-	_onModified: function(message)
-	{
-		console.info("On modified");
-//		var targets = message.getTargets("log-category");
-//		if (targets.length > 0)
-//		{
-//			var store = this._logsTree.getStore();
-//			var me = this;
-//			
-//			Ext.Array.forEach(targets, function(target) {
-//				var category = target.getParameters().category;
-//				var index = store.find("category", category); 
-//				if (index != -1)
-//				{
-//					var level = target.getParameters().level,
-//					    modifiedCategory = store.getAt(index); 
-//					
-//					if (level == 'FORCE')
-//					{
-//						var level = me._getLevel(modifiedCategory);
-//						me._updateNode(null, level, true, true, modifiedCategory);
-//					}
-//					else if (level == 'INHERIT')
-//					{
-//						var level = me._getLevel(modifiedCategory.parentNode);
-//						me._updateNode(null, level, true, false, modifiedCategory);
-//					}
-//					else
-//					{
-//						me._updateNode(null, level, false, false, modifiedCategory);
-//					}
-//				}
-//			});
-//			
-//		}
+    	var targets = [];
+		
+		var selections = this._workspacesTree.getSelectionModel().getSelection();
+		Ext.Array.forEach(selections, function(node) {
+			targets.push({
+				type: node.get('isRootWorkspaces') ? 'ametys-workspace-root' : 'ametys-workspace',
+				parameters: {
+					name: node.get('text')
+				}
+			});
+		});
+		
+    	Ext.create('Ametys.message.Message', {
+    		type: Ametys.message.Message.SELECTION_CHANGED,
+    		targets: targets
+    	});
 	}
 });
 
-Ext.define('Ametys.plugins.core.administration.Workspaces.Item', { 
-    extend: 'Ext.data.TreeModel', 
-    fields: [ 
-       { name: 'icon', type: 'string' }, 
-       { name: 'text', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString}, 
-       { name: 'leaf', type: 'boolean'} 
-    ] 
-}); 
+
