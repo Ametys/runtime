@@ -96,7 +96,10 @@ Ext.define('Ametys.plugins.core.administration.logs.LogsLevelTool', {
 	        
 	        listeners: {
 	        	'load': Ext.bind(this._onLoad, this)
-	        }
+	        },
+	        
+	        sorters: [ { property: 'text', direction: "ASC" }]
+	        
 		});
 		
 		return new Ext.tree.Panel({

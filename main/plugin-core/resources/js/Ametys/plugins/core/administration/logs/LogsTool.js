@@ -115,10 +115,10 @@ Ext.define('Ametys.plugins.core.administration.logs.LogsTool', {
 		    }],
 			
 		    columns: [
-		        {header: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_LOGS_COL_NAME'/>", flex: 1, width : 250, renderer: this._fileNameRendered, menuDisabled : true, sortable: true, dataIndex: 'location'},
-		        {header: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_LOGS_COL_DATE'/>", flex: 0, width : 150, renderer: Ext.util.Format.dateRenderer('d F Y'), menuDisabled : true, sortable: true, dataIndex:'date',  align :'center'},
-		        {header: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_LOGS_COL_SIZE'/>", flex: 0, width : 100, renderer: this._sizeRendered, menuDisabled : true, sortable: true, dataIndex: 'size', align :'right'},
-		        {header: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_LOGS_COL_CATEGORY'/>", flex: 0, width : 100, hidden: true, menuDisabled : true, sortable: true, dataIndex: 'name', align :'right'}
+		        {stateId: 'grid-location', header: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_LOGS_COL_NAME'/>", flex: 1, width : 250, renderer: this._fileNameRendered, menuDisabled : true, sortable: true, dataIndex: 'location'},
+		        {stateId: 'grid-date', header: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_LOGS_COL_DATE'/>", flex: 0, width : 150, renderer: Ext.util.Format.dateRenderer('d F Y'), menuDisabled : true, sortable: true, dataIndex:'date',  align :'center'},
+		        {stateId: 'grid-size', header: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_LOGS_COL_SIZE'/>", flex: 0, width : 100, renderer: this._sizeRendered, menuDisabled : true, sortable: true, dataIndex: 'size', align :'right'},
+		        {stateId: 'grid-name', header: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_LOGS_COL_CATEGORY'/>", flex: 0, width : 100, hidden: true, menuDisabled : true, sortable: true, dataIndex: 'name', align :'right'}
 		    ]
 		});
 	},
