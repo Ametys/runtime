@@ -205,6 +205,11 @@ Ext.define('Ametys.plugins.core.administration.jvmstatus.JVMStatusTool', {
 		});
 	},
 
+    /**
+     * @private
+     * The callback of #refreshData
+     * @param {Object} response The http response
+     */
 	_refreshDataCb: function(response)
 	{
 		console.info('refresh data');

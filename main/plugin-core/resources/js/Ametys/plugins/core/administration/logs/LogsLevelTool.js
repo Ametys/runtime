@@ -61,7 +61,11 @@ Ext.define('Ametys.plugins.core.administration.logs.LogsLevelTool', {
 		this.showRefreshing();
 		this._logsTree.getStore().load({node: this._logsTree.getRootNode(), callback: this.showRefreshed, scope: this});
 	},
-	
+
+    /**
+     * Get the tree of the tool
+     * @return {Ext.tree.Panel} The main tree component of the tool
+     */
 	getTree: function()
 	{
 		return this._logsTree;
@@ -74,7 +78,7 @@ Ext.define('Ametys.plugins.core.administration.logs.LogsLevelTool', {
 	_drawLogsLevelPanel: function()
 	{
 		var store = Ext.create('Ext.data.TreeStore', {
-			model: 'Ametys.plugins.core.administration.Logs.Category',
+			model: 'Ametys.plugins.core.administration.LogsLevelTool.Category',
 			
 			root: {
 				expanded: false
@@ -178,6 +182,11 @@ Ext.define('Ametys.plugins.core.administration.logs.LogsLevelTool', {
 		});
 	},
     
+    /**
+     * @private
+     * Listener on the message bus of type modified
+     * @param {Ametys.message.Message} message The message
+     */
 	_onModified: function(message)
 	{
 		var targets = message.getTargets("log-category");
@@ -196,17 +205,17 @@ Ext.define('Ametys.plugins.core.administration.logs.LogsLevelTool', {
 					
 					if (level == 'FORCE')
 					{
-						var level = me._getLevel(modifiedCategory);
-						me._updateNode(null, level, true, true, modifiedCategory);
+						var level = modifiedCategory.getResolvedLevel();
+						me._updateNode(modifiedCategory, level, true, true);
 					}
 					else if (level == 'INHERIT')
 					{
-						var level = me._getLevel(modifiedCategory.parentNode);
-						me._updateNode(null, level, true, false, modifiedCategory);
+						var level = modifiedCategory.parentNode.getResolvedLevel(); // bug ?
+						me._updateNode(modifiedCategory, level, true, false);
 					}
 					else
 					{
-						me._updateNode(null, level, false, false, modifiedCategory);
+						me._updateNode(modifiedCategory, level, false, false);
 					}
 				}
 			});
@@ -214,23 +223,18 @@ Ext.define('Ametys.plugins.core.administration.logs.LogsLevelTool', {
 		}
 	},
 	
-	_getLevel: function(node)
-    {
-    	if (node.get('level') != 'inherit')
-    	{
-    		return node.get('level');
-    	}
-    	else
-    	{
-    		return this._getLevel(node.parentNode);
-    	}
-    },
-
-	_updateNode: function (node, level, inherited, force, modifiedCategory)
+    /**
+     * @private
+     * Update node info
+     * @param {Ametys.plugins.core.administration.LogsLevelTool.Category} node The node to update
+     * @param {String} level The level to set
+     * @param {Boolean} inherited Is the level inherited
+     * @param {Boolean} force True to force recursiverly the level inheritance
+     */
+	_updateNode: function (node, level, inherited, force)
 	{
 		var selection = node == null;
         inherited = inherited == true;
-        node = node != null ? node : modifiedCategory;
 
         if (!selection || !force)
         {
@@ -255,18 +259,3 @@ Ext.define('Ametys.plugins.core.administration.logs.LogsLevelTool', {
 		}
 	}
 });
-
-Ext.define('Ametys.plugins.core.administration.Logs.Category', { 
-    extend: 'Ext.data.TreeModel', 
-    fields: [ 
-        { name: 'id', type: 'string' }, 
-        { name: 'parentLevel', type: 'string'},
-        { name: 'icon', type: 'string', calculate: function(data) {
-        		return Ametys.getPluginResourcesPrefix("core") + "/img/administrator/logs/loglevel_" + (data.level.toLowerCase() == "inherit" ? data.parentLevel.toLowerCase() + "-inherit": data.level.toLowerCase()) + ".png"
-        	} 
-        }, 
-        { name: 'text', type: 'string', mapping: 'name', sortType: Ext.data.SortTypes.asNonAccentedUCString},
-        { name: 'category', type: 'string', mapping: 'fullname'},
-        { name: 'level', type: 'string', mapping: 'level', sortType: Ext.data.SortTypes.asNonAccentedUCString},
-    ] 
-}); 
