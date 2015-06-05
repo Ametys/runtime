@@ -102,7 +102,7 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
      * Configure the initial parameters
      * @param configuration the global configuration
      * @return The initial parameters read
-     * @throws ConfigurationException
+     * @throws ConfigurationException The configuration is incorrect
      */
     protected Map<String, Object> configureInitialParameters(Configuration configuration) throws ConfigurationException
     {
@@ -120,7 +120,7 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
      * Configure parameters recursively 
      * @param configuration the parameters configuration
      * @return parameters in a Map
-     * @throws ConfigurationException
+     * @throws ConfigurationException The configuration is incorrect
      */
     protected Map<String, Object> _configureParameters (Configuration configuration) throws ConfigurationException
     {
@@ -198,7 +198,7 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
      * Configure the script
      * @param configuration the global configuration
      * @return The script created
-     * @throws ConfigurationException
+     * @throws ConfigurationException The configuration is incorrect
      */
     protected Script _configureScript(Configuration configuration) throws ConfigurationException
     {
@@ -299,7 +299,7 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
      * Configure the mode to associate rights AND or OR
      * @param configuration
      * @return AND or OR (default value)
-     * @throws ConfigurationException
+     * @throws ConfigurationException The configuration is incorrect
      */
     protected String _configureRightsMode(Configuration configuration) throws ConfigurationException
     {
