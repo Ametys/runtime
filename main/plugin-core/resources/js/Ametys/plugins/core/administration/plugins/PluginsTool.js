@@ -16,6 +16,7 @@
 
 /**
  * This tool displays the tree of plugins by file, and allows the administrator to perform several operations such as:
+ * 
  * * see the documentation
  * * activate/deactivate plugins
  * * reboot the application with the changes made

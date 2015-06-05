@@ -1155,79 +1155,85 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      * 
      * The JSON configuration format is
      * 
-     *   {
-     *      "&lt;fieldName&gt;": {
-     *          "label":        "My field"
-     *          "description":  "This describes what my field is made for"
-     *          "type":         "STRING",
-     *          "validation":   {
-     *              "mandatory":    true
+     * 
+     *      {
+     *          "&lt;fieldName&gt;": {
+     *              "label":        "My field"
+     *              "description":  "This describes what my field is made for"
+     *              "type":         "STRING",
+     *              "validation":   {
+     *                  "mandatory":    true
+     *              },
+     *              multiple:       false
      *          },
-     *          multiple:       false
-     *      },
-     *      // ...
-     *      "fieldsets": [
-     *          {
-     *              role: "tabs"
-     *              label: "My first tab"
-     *          }
-     *      ]
-     *   }
+     *          // ...
+     *          "fieldsets": [
+     *              {
+     *                 role: "tabs"
+     *                 label: "My first tab"
+     *              }
+     *          ]
+     *      }
      * 
-     * The *&lt;fieldName&gt;* is the form name of the field. (Note that you can prefix all field names using #cfg-fieldNamePrefix). See under for the reserved fieldName "fieldsets"
      * 
-     * The string *label* is the readable name of your field that is visible to the user.
      * 
-     * The string *description* is a sentence to help the user understand the field. It will appear in a tooltip on the right help mark.
+     * The **&lt;fieldName&gt;** is the form name of the field. (Note that you can prefix all field names using #cfg-fieldNamePrefix). See under for the reserved fieldName "fieldsets"
      * 
-     * The string *type* is the kind of value handled by the field. The supported types for metadata depends of the configuration of you Ametys.runtime.form.WidgetManager. Kernel provides widgets for the following types (case is not important):
+     * The string **label** is the readable name of your field that is visible to the user.
+     * 
+     * The string **description** is a sentence to help the user understand the field. It will appear in a tooltip on the right help mark.
+     * 
+     * The string **type** is the kind of value handled by the field. The supported types for metadata depends of the configuration of you Ametys.runtime.form.WidgetManager. Kernel provides widgets for the following types (case is not important):
      * BINARY, BOOLEAN, DATE, DATETIME, DOUBLE, FILE, GEOCODE, LONG, REFERENCE, RICH_TEXT, STRING, USER.
      * 
-     * The *type* can also be *COMPOSITE* to creates a fieldset around a few fields. 
-     * If so, a *composition* field must recursively describe child elements.
-     * A composite field can also be a repeater of fields if it do have a *repeater* field.
+     * The **type** can also be **COMPOSITE** to creates a fieldset around a few fields. 
+     * If so, a **composition** field must recursively describe child elements.
+     * A composite field can also be a repeater of fields if it do have a **repeater** field.
      * A repeatable composite also need the following field
-     * - String *add-label*: The label to display on the add button
-     * - String *del-label*: The label to display on the delete button
-     * - String *headerLabel*: The label to display on the repeater itselft
-     * - Number *minSize*: The optional minimum size of the repeater. For example 2 means it will at least be repeated twice. 0 if not specified.
-     * - Number *maxSize*: The optional maximum size of the repeater. Default value is infinite.
-     * - Number *initial-size*: The optional size when loading the form (must be between minSize and maxSize). minSize is the default value.
      * 
-     * The object *validation* field is a field validator.
+     * - String **add-label**: The label to display on the add button
+     * - String **del-label**: The label to display on the delete button
+     * - String **headerLabel**: The label to display on the repeater itselft
+     * - Number **minSize**: The optional minimum size of the repeater. For example 2 means it will at least be repeated twice. 0 if not specified.
+     * - Number **maxSize**: The optional maximum size of the repeater. Default value is infinite.
+     * - Number **initial-size**: The optional size when loading the form (must be between minSize and maxSize). minSize is the default value.
+     * 
+     * The object **validation** field is a field validator.
      * Can be an object with the optionnal properties 
-     * - boolean *mandatory* to true, to check the field is not empty AND add a '*' at its label.
-     * - string *invalidText* : a general text error if the field is not valid
-     * - string *regexp* : a regular expression that will be checked
-     * - string *regexText* : the text error if the regexp is not checked
      * 
-     * The object *enumeration* is an array to list available values. Note that types and widgets that can be used with enumeration is quite limited.
-     * Each item of the array is an object with *value" and *label*.
+     * - boolean **mandatory** to true, to check the field is not empty AND add a '*' at its label.
+     * - string **invalidText** : a general text error if the field is not valid
+     * - string **regexp** : a regular expression that will be checked
+     * - string **regexText** : the text error if the regexp is not checked
+     * 
+     * The object **enumeration** is an array to list available values. Note that types and widgets that can be used with enumeration is quite limited.
+     * Each item of the array is an object with **value** and **label**.
      * Exemple: enumeration: [{value: 1, label: "One"}, {value: 2, label: "Two"}]
      * 
-     * The object *default-value* field is the default value for the field if not set with #setValues.
+     * The object **default-value** field is the default value for the field if not set with #setValues.
      * 
-     * The boolean *multiple* specify if the user can enter several values in the field. Types and widgets that support multiple data is quite limited.
+     * The boolean **multiple** specify if the user can enter several values in the field. Types and widgets that support multiple data is quite limited.
      * 
-     * The string *widget* specify the widget to use. This is optionnal to use the default widget for the given type, multiple and enumeration values.
+     * The string **widget** specify the widget to use. This is optionnal to use the default widget for the given type, multiple and enumeration values.
      * The widgets are selected using the js class {@link Ametys.runtime.form.WidgetManager} and the extension point org.ametys.runtime.ui.widgets.WidgetsManager.
      * Note that you can transmit additionnal configuration to all widgets using #cfg-additionnalWidgetsConf 
      * 
-     * The optionnal object *widget-params* will be transmitted to the widget configuration : values depends on the widget you did select.
+     * The optionnal object **widget-params** will be transmitted to the widget configuration : values depends on the widget you did select.
      * 
-     * The boolean *hidden* will hide this field.
+     * The boolean **hidden** will hide this field.
      * 
-     * The boolean *can-not-write* makes the field in read only mode.
+     * The boolean **can-not-write** makes the field in read only mode.
      * 
-     * The object *annotations* is an array of object to describe available XML annotations on a richtext.
-     * Each item is an object with properties : *name* (the XML tagname), *label* (the label of the button to set this annotation, defaults to name) and *description* (the help text associated to the button).
+     * The object **annotations** is an array of object to describe available XML annotations on a richtext.
+     * Each item is an object with properties : **name** (the XML tagname), **label** (the label of the button to set this annotation, defaults to name) and **description** (the help text associated to the button).
      * Exemple: annotations: [ { name: "JUSTICE", label: "Justice term", description: "Use this button to annotate the selected text as a justice term" } ] 
      * 
-     * The *fieldname "fieldsets"* is a reseved keyword (if type is not specified) to create a graphical grouping of fields. This only work at root of data. 
+     * The **fieldname "fieldsets"** is a reseved keyword (if type is not specified) to create a graphical grouping of fields. This only work at root of data. 
      * Its value is an array of configuration with attributes:
-     * - String *role* Can be "tabs" or "fieldsets" to create a tab grouping or a fieldset grouping. Note that tab grouping can be replaced by simple panels according to a user preference.
-     * - String  *label* The label of the grouping.
-     * - Object *elements* The child elements of the grouping : this is a recursive data object, except that "fieldset" can not be used again.
+     * 
+     * - String **role** Can be "tabs" or "fieldsets" to create a tab grouping or a fieldset grouping. Note that tab grouping can be replaced by simple panels according to a user preference.
+     * - String  **label** The label of the grouping.
+     * - Object **elements** The child elements of the grouping : this is a recursive data object, except that "fieldset" can not be used again.
      * 
      * @param {Object/HTMLElement} data The data to create the form structure. Can be a JSON object  or an XML HTMLElement.
      */
@@ -1676,58 +1682,60 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      * See the following strucure:
      * 
      * 
-     *      &lt;myrootnode&gt;
-     *          &lt;metadata&gt;
-     *              &lt;fieldname json="false" value="3"/&gt;
-     *              &lt;!-- ... --&gt;
-     *          &lt;/metadata&gt;
+     *      <myrootnode>
+     *          <metadata>
+     *              <fieldname json="false" value="3"/>
+     *              <!-- ... -->
+     *          </metadata>
      *          
-     *          &lt;comments&gt;
-     *              &lt;metadata path="fieldname"&gt;
-     *                  &lt;comment id="1" date="2020-12-31T23:59:59.999+02:00"&gt;
-     *                      My comment for the field &amp;lt;fieldname&amp;gt;
-     *                  &lt;/comment&gt;
-     *                  &lt;!-- ... --&gt;
-     *              &lt;/metadata&gt;
-     *              &lt;!-- ... --&gt;
-     *          &lt;/comments&gt;
-     *      &lt;/myrootnode&gt;
+     *          <comments>
+     *              <metadata path="fieldname">
+     *                  <comment id="1" date="2020-12-31T23:59:59.999+02:00">
+     *                      My comment for the field <fieldname>
+     *                  </comment>
+     *                  <!-- ... -->
+     *              </metadata>
+     *              <!-- ... -->
+     *          </comments>
+     *      </myrootnode>
      * 
      * 
-     * For the values, the tag *metadata* is the wrapping for tags holdings the values:
+     * For the values, the tag **metadata** is the wrapping for tags holdings the values:
+     * 
      * - the tag name is the name of the field concerned (without prefix).
      * - thoses tags are recursive for sub-field (child of composites).
-     * - for repeaters, an attribute *entryCount* is set on the tag, its value is the size of the repeater. Each entry is encapsulated in an *entry* tag with an attribute *name* that worth the position (1 based) of the entry.
-     * - the attribute *json* set to true means the value will be interpreted as JSON before being set on the field
-     * - the value itself can be either the value of the attribute *value*, or the text of the tag
+     * - for repeaters, an attribute **entryCount** is set on the tag, its value is the size of the repeater. Each entry is encapsulated in an **entry** tag with an attribute **name** that worth the position (1 based) of the entry.
+     * - the attribute **json** set to true means the value will be interpreted as JSON before being set on the field
+     * - the value itself can be either the value of the attribute **value**, or the text of the tag
      * - multiple values are set by repeating the tag.
      *   
-     * For the *comments*:
-     * - the *metadata* are not recursive
-     * - the *path* attribute contains the fieldname (without prefix) with '/' separator for sub-fields (child of composites). For repeaters, you also have to add the position of the repeater to modify. Exemple: path="mycompositefield/myrepeater/2/myfield"
-     * - the *comment* tag have the following mandatories attributes :
-     *   - *id* The number of the comment
-     *   - *date* The date of the comment using the ISO 8601 format (will use the Ext.Date.patterns.ISO8601DateTime parser).
-     *   - *author* The fullname of the author of the comment.
+     * For the **comments**:
+     * 
+     * - the **metadata** are not recursive
+     * - the **path** attribute contains the fieldname (without prefix) with '/' separator for sub-fields (child of composites). For repeaters, you also have to add the position of the repeater to modify. Exemple: path="mycompositefield/myrepeater/2/myfield"
+     * - the **comment** tag have the following mandatories attributes :
+     *   - **id** The number of the comment
+     *   - **date** The date of the comment using the ISO 8601 format (will use the Ext.Date.patterns.ISO8601DateTime parser).
+     *   - **author** The fullname of the author of the comment.
      *   
      *  Here is a full example:
      *  
      *  
-     *      &lt;myrootnode&gt;
-     *          &lt;metadata&gt;
-     *              &lt;!-- A simple text value --&gt;
-     *              &lt;title&gt;My title&lt;/title&gt;
-     *              &lt;!-- A composite --&gt;
-     *              &lt;illustration&gt;
-     *                  &lt;alt-text&gt;My alternative text&lt;/alt-text&gt;
-     *              &lt;/illustration&gt;
-     *              &lt;!-- A richtext value --&gt;
-     *              &lt;content&gt;&amp;lt;p&amp;gt;my rich text value&amp;lt;/p&amp;gt;&lt;/content&gt;
-     *              &lt;!-- A repeater --&gt;
-     *              &lt;attachments entryCount="1"&gt;
-     *                  &lt;entry name="1"&gt;
-     *                      &lt;!-- A file metadata. The widget waits for an object value according to its documentation {@link Ametys.runtime.form.widget.File#setValue} --&gt;
-     *                      &lt;attachment json="true"&gt;
+     *      <myrootnode>
+     *          <metadata>
+     *              <!-- A simple text value -->
+     *              <title>My title</title>
+     *              <!-- A composite -->
+     *              <illustration>
+     *                  <alt-text>My alternative text</alt-text>
+     *              </illustration>
+     *              <!-- A richtext value -->
+     *              <content>&lt;p&gt;my rich text value&lt;/p&gt;</content>
+     *              <!-- A repeater -->
+     *              <attachments entryCount="1">
+     *                  <entry name="1">
+     *                      <!-- A file metadata. The widget waits for an object value according to its documentation {@link Ametys.runtime.form.widget.File#setValue} -->
+     *                      <attachment json="true">
      *                          {
      *                              "type": "metadata",
      *                              "mimeType": "application/unknown",
@@ -1736,16 +1744,16 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      *                              "size": "188249",
      *                              "lastModified": "2015-06-03T14:15:22.232+02:00",
      *                              "viewUrl": "/cms/plugins/cms/binaryMetadata/attachments/1/attachment?objectId=content://ec7ef7a1-139a-4863-a866-76196ed556cb",
-     *                              "downloadUrl": "/cms/plugins/cms/binaryMetadata/attachments/1/attachment?objectId=content://ec7ef7a1-139a-4863-a866-76196ed556cb&amp;amp;download=true"
+     *                              "downloadUrl": "/cms/plugins/cms/binaryMetadata/attachments/1/attachment?objectId=content://ec7ef7a1-139a-4863-a866-76196ed556cb&amp;&download=true"
      *                          }
-     *                      &lt;/attachment&gt;
-     *                      &lt;attachment-text&gt;fichier&lt;/attachment-text&gt;
-     *                  &lt;/entry&gt;
-     *              &lt;/attachments&gt;
-     *          &lt;/metadata&gt;
+     *                      </attachment>
+     *                      <attachment-text>fichier</attachment-text>
+     *                  </entry>
+     *              </attachments>
+     *          </metadata>
      *          
-     *          &lt;comments/&gt;
-     *      &lt;/myrootnode&gt;
+     *          <comments/>
+     *      </myrootnode>
      *  
      * 
      * The JSON format
@@ -1793,14 +1801,15 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      * 
      * Most information here is common with the XML format, so please starts by reading it above.
      * 
-     * The *values* array will fill the fields. Unlike in XML the information of the size of the repeaters is not set in this field.
-     * The *repeaters* array allow to know the size of every repeaters. Each element is an object with:
-     * - a string *name* The name of the repeater
-     * - a string *prefix* The path to this repeater ('.' separated)
-     * - a number *count* The size of the repeater
+     * The **values** array will fill the fields. Unlike in XML the information of the size of the repeaters is not set in this field.
+     * The **repeaters** array allow to know the size of every repeaters. Each element is an object with:
      * 
-     * The JSON format also accept a *invalid* field, to pre-fill fields with raw values. For exemple, you can pre-fill a date field with a non date string.
-     * The *invalid* values should not set the same values already brought by *values*, but they will replace them in such a case.
+     * - a string **name** The name of the repeater
+     * - a string **prefix** The path to this repeater ('.' separated)
+     * - a number **count** The size of the repeater
+     * 
+     * The JSON format also accept a **invalid** field, to pre-fill fields with raw values. For exemple, you can pre-fill a date field with a non date string.
+     * The **invalid** values should not set the same values already brought by **values**, but they will replace them in such a case.
      * 
      * @param {Object/HTMLElement} data The object that will fill the form.
      */

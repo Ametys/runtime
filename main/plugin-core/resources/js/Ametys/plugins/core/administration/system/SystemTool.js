@@ -17,9 +17,11 @@
 /**
  * This tool displays the list of system announcement's messages for various languages. It allows the administrator to perform several operations 
  * such as:
+ * 
  * * Add a welcome message in a language of his choice
  * * Modify existing messages
  * * Delete messages
+ * 
  * Note that only one message by language can be recorded at a time.
  * @private 
  */
