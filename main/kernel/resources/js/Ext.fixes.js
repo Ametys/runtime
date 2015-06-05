@@ -483,6 +483,19 @@
             }
         }
     });
+    
+    
+    Ext.define('Ametys.dom.Query', {
+        override: 'Ext.dom.Query',
+        
+        // RUNTIME-1187 https://www.sencha.com/forum/showthread.php?301858-6.0.0.415-beta-Ext.dom.Query.selectValue-defaultValue-is-not-used&p=1103310#post1103310
+        selectValue: function(path, root, defaultValue) 
+        {
+            var value = this.callParent(arguments);
+            
+            return value === undefined ? defaultValue : value;
+        }
+    });
 })();
 
 /**
