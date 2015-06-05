@@ -211,7 +211,7 @@ Ext.define(
 		 * 
 		 * @param {String} [message.responseType=xml] Can be "xml" (default) to have a xml response, "text" to have a single text node response or "xml2text" to have a single text node response where xml prologue as text is removed
 		 *
-         * @param {Boolean/String/Object} [message.waitMessage] Display a Ext.LoadMask while the request is running. Set to true to display a default loading message. Set to a string to display your message. Set to a Ext.LoadMask configuration object to do more accurate stuffs (such as covering only a component - since by default all the ui is grayed), but if no target is specified, this will use the Ametys.mask.GlobalMask and so will ignore most properties. Not available for #PRIORITY_SYNCHRONOUS requests.
+         * @param {Boolean/String/Object} [message.waitMessage=false] Display a Ext.LoadMask while the request is running. Set to true to display a default loading message. Set to a string to display your message. Set to a Ext.LoadMask configuration object to do more accurate stuffs (such as covering only a component - since by default all the ui is grayed), but if no target is specified, this will use the Ametys.mask.GlobalMask and so will ignore most properties. Not available for #PRIORITY_SYNCHRONOUS requests.
 		 * 
 		 * @param {Boolean/String/Object} [message.errorMessage=false] When the request is a failure display a message to the user (using #handleBadResponse). 
 		 * Set to false, the callback is called with a null or empty response (you should protected your code with #handleBadResponse). 
