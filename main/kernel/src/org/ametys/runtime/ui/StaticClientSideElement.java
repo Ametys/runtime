@@ -297,7 +297,7 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
     
     /**
      * Configure the mode to associate rights AND or OR
-     * @param configuration
+     * @param configuration The configuration of rights mode.
      * @return AND or OR (default value)
      * @throws ConfigurationException The configuration is incorrect
      */

@@ -201,7 +201,7 @@ public class SimpleMenu extends StaticClientSideElement implements MenuClientSid
     /**
      * Configure the galleries
      * @param configuration the configuration
-     * @throws ConfigurationException
+     * @throws ConfigurationException If the configuration has an issue
      */
     protected void _configureGalleries(Configuration configuration) throws ConfigurationException
     {
@@ -235,7 +235,7 @@ public class SimpleMenu extends StaticClientSideElement implements MenuClientSid
      * Configure a group gallery
      * @param configuration the configuration
      * @return The configured group gallery
-     * @throws ConfigurationException
+     * @throws ConfigurationException If the configuration has an issue
      */
     protected GalleryGroup _configureGroupGallery(Configuration configuration) throws ConfigurationException
     {
@@ -286,7 +286,7 @@ public class SimpleMenu extends StaticClientSideElement implements MenuClientSid
     /**
      * Configure the items menu
      * @param configuration the configuration
-     * @throws ConfigurationException
+     * @throws ConfigurationException If the configuration has an issue
      */
     protected void _configureItemsMenu(Configuration configuration) throws ConfigurationException
     {
