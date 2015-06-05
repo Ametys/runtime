@@ -16,6 +16,7 @@
 
 /**
  * This tool displays a list of system properties
+ * @private
  */
 Ext.define('Ametys.plugins.core.administration.jvmstatus.SystemPropertiesTool', {
 	extend: 'Ametys.tool.Tool',

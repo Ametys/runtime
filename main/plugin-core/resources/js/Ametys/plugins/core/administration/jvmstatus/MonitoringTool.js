@@ -16,6 +16,7 @@
 
 /**
  * This tool displays monitoring data
+ * @private
  */
 Ext.define('Ametys.plugins.core.administration.jvmstatus.MonitoringTool', {
 	extend: 'Ametys.tool.Tool',

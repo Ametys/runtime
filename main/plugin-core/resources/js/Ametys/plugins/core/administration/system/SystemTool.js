@@ -16,13 +16,12 @@
 
 /**
  * This tool displays the list of system announcement's messages for various languages. It allows the administrator to perform several operations 
- * such as :
- * &lt;ul&gt;
- * 	&lt;li&gt; Add a welcome message in a language of his choice
- *  &lt;li&gt; Modify existing messages
- *  &lt;li&gt; Delete messages
- * &lt;/ul&gt;
- * Note that only one message by language can be recorded at a time. 
+ * such as:
+ * * Add a welcome message in a language of his choice
+ * * Modify existing messages
+ * * Delete messages
+ * Note that only one message by language can be recorded at a time.
+ * @private 
  */
 Ext.define('Ametys.plugins.core.administration.tool.SystemTool', {
 	extend: 'Ametys.tool.Tool',

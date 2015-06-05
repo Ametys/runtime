@@ -16,6 +16,7 @@
 
 /**
  * This tool displays a tree representing the workspaces
+ * @private
  */
 Ext.define('Ametys.plugins.core.administration.tool.WorkspacesTool', {
 	extend: 'Ametys.tool.Tool',

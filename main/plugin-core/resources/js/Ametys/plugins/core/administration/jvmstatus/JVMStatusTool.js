@@ -16,6 +16,7 @@
 
 /**
  * This tool displays the general status of the JVM
+ * @private
  */
 Ext.define('Ametys.plugins.core.administration.jvmstatus.JVMStatusTool', {
 	extend: 'Ametys.tool.Tool',

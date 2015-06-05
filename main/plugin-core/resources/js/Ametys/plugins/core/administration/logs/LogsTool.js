@@ -15,13 +15,11 @@
  */
 
 /**
- * &lt;p&gt;This tool displays the list of logs, and allows the administrator to perform several operations such as :&lt;/p&gt;
- * &lt;ul&gt;
- * 	&lt;li&gt; view logs &lt;/li&gt;
- * 	&lt;li&gt; delete logs &lt;/li&gt;
- * 	&lt;li&gt; download logs &lt;/li&gt;
- * 	&lt;li&gt; clean obsolete logs &lt;/li&gt;
- * &lt;/ul&gt;
+ * This tool displays the list of logs, and allows the administrator to perform several operations such as:
+ * * view logs
+ * * delete logs
+ * * download logs
+ * * clean obsolete logs
  * @private
  */
 Ext.define('Ametys.plugins.core.administration.logs.LogsTool', {

@@ -15,12 +15,11 @@
  */
 
 /**
- * &lt;p&gt;This tool displays the tree of plugins by file, and allows the administrator to perform several operations such as :&lt;/p&gt;
- * &lt;ul&gt;
- * 	&lt;li&gt; see the documentation &lt;/li&gt;
- * 	&lt;li&gt; activate/deactivate plugins &lt;/li&gt;
- * 	&lt;li&gt; reboot the application with the changes made &lt;/li&gt;
- * &lt;/ul&gt;
+ * This tool displays the tree of plugins by file, and allows the administrator to perform several operations such as:
+ * * see the documentation
+ * * activate/deactivate plugins
+ * * reboot the application with the changes made
+ * @private
  */
 Ext.define('Ametys.plugins.core.administration.plugins.PluginsTool', {
 	extend: 'Ametys.tool.Tool',
