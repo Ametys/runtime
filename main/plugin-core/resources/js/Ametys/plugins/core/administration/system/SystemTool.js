@@ -143,7 +143,7 @@ Ext.define('Ametys.plugins.core.administration.tool.SystemTool', {
 	/**
 	 * @private
 	 * Listener when a message is deleted
-	 * @param {Ametys.message.Message} the deletion message
+	 * @param {Ametys.message.Message} message the deletion message
 	 */
 	_onAnnouncementDeleted: function(message)
 	{
