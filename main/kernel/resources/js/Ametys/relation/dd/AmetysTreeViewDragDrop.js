@@ -151,29 +151,32 @@ Ext.define('Ametys.relation.dd.AmetysTreeViewDragDrop', {
 	_onDropHandled: function(success, data, dropHandlers)
 	{
 		// Are source and target from the same tree model ?
-		if (success && Ext.isFunction(data.records[0].getTreeStore) && data.records[0].getTreeStore().getModel().getName() == this.getCmp().getStore().getModel().getName())
+		if (success)
 		{
-			// Same tree model, let's extjs do the graphical magic
-			switch (success)
+			var treeStore = Ext.isFunction(data.records[0].getTreeStore) ? data.records[0].getTreeStore() : null;
+			if (treeStore && treeStore.getModel().getName() == this.getCmp().getStore().getModel().getName())
 			{
-				case Ametys.relation.Relation.MOVE:
-					data.copy = false;
-					break;
-				case Ametys.relation.Relation.COPY:
-					data.copy = true;
-					break;
-				case Ametys.relation.Relation.REFERENCE:
-					data.copy = true;
-					break;
+				// Same tree model, let's extjs do the graphical magic
+				switch (success)
+				{
+					case Ametys.relation.Relation.MOVE:
+						data.copy = false;
+						break;
+					case Ametys.relation.Relation.COPY:
+						data.copy = true;
+						break;
+					case Ametys.relation.Relation.REFERENCE:
+						data.copy = true;
+						break;
+				}
+				
+				dropHandlers.processDrop();
+				return;
 			}
-			
-			dropHandlers.processDrop();
 		}
-		else
-		{
-			// Different models, ExtJS cannot do the graphical magic, let's cancel the drop: the RelationHandler should have sent a message bus that will be interpreted by source and target components 
-			dropHandlers.cancelDrop();
-		}
+		
+		// Different models, ExtJS cannot do the graphical magic, let's cancel the drop: the RelationHandler should have sent a message bus that will be interpreted by source and target components 
+		dropHandlers.cancelDrop();
 	}
 });
 	
