@@ -94,7 +94,7 @@ Ext.define('Ametys.plugins.core.administration.plugins.PluginsTool', {
 	_drawPanel: function()
 	{
 		var store = Ext.create('Ext.data.TreeStore', {
-			model: 'Ametys.plugins.core.administration.Plugins.Item',
+			model: 'Ametys.plugins.core.administration.plugins.PluginsTool.Plugin',
 			
 			proxy: {
 	        	type: 'ametys',
@@ -226,21 +226,3 @@ Ext.define('Ametys.plugins.core.administration.plugins.PluginsTool', {
 		this.setDirty(Ametys.plugins.core.administration.plugins.PluginsDAO.hasPendingChanges());
 	}
 });
-
-Ext.define('Ametys.plugins.core.administration.Plugins.Item', { 
-    extend: 'Ext.data.TreeModel', 
-    fields: [ 
-       { name: 'icon', type: 'string' }, 
-       { name: 'text', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString}, 
-       { name: 'type', type: 'string' }, // can be 'plugin', 'extension', 'feature', 'component', 'extension-point'
-       { name: 'active', type: 'boolean' }, // true if its an active feature
-       { name: 'cause', type: 'string' }, // if inactive, the cause of inactivation
-       { name: 'isMultiple', type: 'string' }, // is it a multiple extension point 
-       { name: 'pluginName', type: 'string' }, // the name of the plugin bringing the element
-       { name: 'featureName', type: 'string' }, // the name of the feature bringing the lement
-       { name: 'componentName', type: 'string' }, // the name of the component
-       { name: 'extensionPointName', type: 'string'}, // the extension point if
-       { name: 'extensionId', type: 'string'}, // the extension if
-       { name: 'leaf', type: 'boolean'} 
-    ] 
-}); 

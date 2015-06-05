@@ -22,7 +22,7 @@ Ext.define('Ametys.plugins.core.administration.tool.WorkspacesTool', {
 	
 	/**
 	 * @private
-	 * @property {Ext.tree.Panel} _workspacesTree The plugins by file tree panel
+	 * @property {Ext.tree.Panel} _workspacesTree The workspaces tree panel
 	 */
 	
 	getMBSelectionInteraction: function() 
@@ -57,12 +57,12 @@ Ext.define('Ametys.plugins.core.administration.tool.WorkspacesTool', {
 	
 	/**
 	 * @private
-	 * Draw the tree panel for the plugins by file tool
+	 * Draw the tree panel for the workspaces tool
 	 */
 	_drawWorkspacesPanel: function()
 	{
 		var store = Ext.create('Ext.data.TreeStore', {
-			model: 'Ametys.plugins.core.administration.Workspaces.Item',
+			model: 'Ametys.plugins.core.administration.Workspaces.Workspace',
 			
 			proxy: {
 	        	type: 'ametys',

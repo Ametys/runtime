@@ -18,7 +18,7 @@
  * @private
  * The model for the {@link Ametys.plugins.core.administration.tool.WorkspacesTool} tree tool. 
  */
-Ext.define('Ametys.plugins.core.administration.Workspaces.Item', { 
+Ext.define('Ametys.plugins.core.administration.Workspaces.Workspace', { 
     extend: 'Ext.data.TreeModel', 
     fields: [ 
        { name: 'icon', type: 'string' }, 
