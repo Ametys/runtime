@@ -88,7 +88,7 @@
     <component-instance class="org.apache.cocoon.components.modules.input.NullInputModule" logger="core.modules.input" name="nullinput"/>
     <component-instance class="org.apache.cocoon.components.modules.input.RealPathModule" logger="core.modules.input" name="realpath"/>
 
-    <component-instance class="org.ametys.runtime.util.cocoon.LocaleInputModule" logger="core.modules.input" name="locale"/>
+    <component-instance class="org.ametys.runtime.cocoon.LocaleInputModule" logger="core.modules.input" name="locale"/>
   </input-modules>
 
   <!--+
