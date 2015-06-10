@@ -54,11 +54,15 @@ public class GetSystemAnnouncements extends ServiceableAction implements Context
     public void service(ServiceManager serviceManager) throws ServiceException
     {
         super.service(serviceManager);
-        _systemHelper = (SystemHelper) serviceManager.lookup(SystemHelper.ROLE);
     }
     
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
+        if (_systemHelper == null)
+        {
+            _systemHelper = (SystemHelper) manager.lookup(SystemHelper.ROLE);
+        }
+        
         Map<String, Object> result = new HashMap<> ();
         Request request = ObjectModelHelper.getRequest(objectModel);
         
