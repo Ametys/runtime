@@ -334,7 +334,7 @@ public class SystemHelper extends AbstractLogEnabled implements Component, Servi
     {
         Map objectModel = ContextHelper.getObjectModel(_context);
         Locale locale = org.apache.cocoon.i18n.I18nUtils.findLocale(objectModel, "locale", null, Locale.getDefault(), true);
-        String defaultMessage = _i18nUtils.translate(new I18nizableText("plugin.core", "PLUGINS_ADMIN_SYSTEM_DEFAULTMESSAGE"), locale.getLanguage());
+        String defaultMessage = _i18nUtils.translate(new I18nizableText("plugin.admin", "PLUGINS_ADMIN_SYSTEM_DEFAULTMESSAGE"), locale.getLanguage());
 
         Map<String, String> messages = new HashMap<> ();
         messages.put("*", defaultMessage);
