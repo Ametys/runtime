@@ -21,12 +21,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Arrays;
 
-import org.ametys.runtime.authentication.Credentials;
-import org.ametys.runtime.datasource.ConnectionHelper;
-import org.ametys.runtime.plugins.core.user.jdbc.CredentialsAwareJdbcUsersManager;
+import org.ametys.core.authentication.Credentials;
+import org.ametys.core.datasource.ConnectionHelper;
+import org.ametys.core.user.CredentialsAwareUsersManager;
+import org.ametys.core.user.ModifiableUsersManager;
+import org.ametys.plugins.core.impl.user.jdbc.CredentialsAwareJdbcUsersManager;
 import org.ametys.runtime.test.users.jdbc.AbstractJDBCUsersManagerTestCase;
-import org.ametys.runtime.user.CredentialsAwareUsersManager;
-import org.ametys.runtime.user.ModifiableUsersManager;
 
 /**
  * Tests the CredentialAwareJdbcUsersTestCase

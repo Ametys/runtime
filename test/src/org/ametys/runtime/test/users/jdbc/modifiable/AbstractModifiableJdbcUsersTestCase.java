@@ -22,13 +22,13 @@ import java.util.Map;
 
 import junit.framework.ComparisonFailure;
 
-import org.ametys.runtime.plugins.core.user.jdbc.ModifiableJdbcUsersManager;
+import org.ametys.core.user.CredentialsAwareUsersManager;
+import org.ametys.core.user.InvalidModificationException;
+import org.ametys.core.user.ModifiableUsersManager;
+import org.ametys.core.user.User;
+import org.ametys.core.user.UserListener;
+import org.ametys.plugins.core.impl.user.jdbc.ModifiableJdbcUsersManager;
 import org.ametys.runtime.test.users.jdbc.AbstractJDBCUsersManagerTestCase;
-import org.ametys.runtime.user.CredentialsAwareUsersManager;
-import org.ametys.runtime.user.InvalidModificationException;
-import org.ametys.runtime.user.ModifiableUsersManager;
-import org.ametys.runtime.user.User;
-import org.ametys.runtime.user.UserListener;
 
 /**
  * Tests the ModifiableJdbcUsersTestCase

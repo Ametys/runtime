@@ -26,8 +26,8 @@ import java.sql.Statement;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.commons.io.IOUtils;
 
-import org.ametys.runtime.datasource.ConnectionHelper;
-import org.ametys.runtime.util.LoggerFactory;
+import org.ametys.core.datasource.ConnectionHelper;
+import org.ametys.core.util.LoggerFactory;
 
 /**
  * Tool to run SQL scripts.<p>

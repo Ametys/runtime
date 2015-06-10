@@ -31,9 +31,9 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.xml.sax.XMLReader;
 
+import org.ametys.core.util.LoggerFactory;
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.servlet.RuntimeConfig;
-import org.ametys.runtime.util.LoggerFactory;
 
 /**
  * Abstract test case for all Runtime test cases.

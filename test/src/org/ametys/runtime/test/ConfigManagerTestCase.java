@@ -25,11 +25,11 @@ import org.apache.cocoon.Constants;
 import org.apache.cocoon.components.CocoonComponentManager;
 import org.apache.cocoon.environment.commandline.CommandLineContext;
 
+import org.ametys.core.util.LoggerFactory;
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.config.ConfigManager;
 import org.ametys.runtime.plugin.PluginsManager;
 import org.ametys.runtime.plugin.component.PluginsComponentManager;
-import org.ametys.runtime.util.LoggerFactory;
 
 /**
  * Tests the ConfigManager

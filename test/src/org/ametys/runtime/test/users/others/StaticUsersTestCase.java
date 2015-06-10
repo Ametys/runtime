@@ -21,14 +21,14 @@ import org.apache.excalibur.xml.dom.DOMHandler;
 import org.apache.excalibur.xml.dom.DOMHandlerFactory;
 import org.apache.excalibur.xml.xpath.XPathProcessor;
 
-import org.ametys.runtime.authentication.Credentials;
-import org.ametys.runtime.plugins.core.user.StaticUsersManager;
-import org.ametys.runtime.plugins.core.user.jdbc.ModifiableJdbcUsersManager;
+import org.ametys.core.authentication.Credentials;
+import org.ametys.core.user.CredentialsAwareUsersManager;
+import org.ametys.core.user.User;
+import org.ametys.core.user.UsersManager;
+import org.ametys.plugins.core.impl.user.StaticUsersManager;
+import org.ametys.plugins.core.impl.user.jdbc.ModifiableJdbcUsersManager;
 import org.ametys.runtime.test.AbstractRuntimeTestCase;
 import org.ametys.runtime.test.Init;
-import org.ametys.runtime.user.CredentialsAwareUsersManager;
-import org.ametys.runtime.user.User;
-import org.ametys.runtime.user.UsersManager;
 
 /**
  * Tests the DefinedUsersTestCase

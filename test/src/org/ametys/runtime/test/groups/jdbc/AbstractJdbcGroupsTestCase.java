@@ -30,13 +30,13 @@ import org.apache.excalibur.xml.dom.DOMHandlerFactory;
 import org.apache.excalibur.xml.xpath.XPathProcessor;
 import org.w3c.dom.Node;
 
-import org.ametys.runtime.datasource.ConnectionHelper;
-import org.ametys.runtime.group.Group;
-import org.ametys.runtime.group.GroupListener;
-import org.ametys.runtime.group.GroupsManager;
-import org.ametys.runtime.group.InvalidModificationException;
-import org.ametys.runtime.group.ModifiableGroupsManager;
-import org.ametys.runtime.plugins.core.group.jdbc.ModifiableJdbcGroupsManager;
+import org.ametys.core.datasource.ConnectionHelper;
+import org.ametys.core.group.Group;
+import org.ametys.core.group.GroupListener;
+import org.ametys.core.group.GroupsManager;
+import org.ametys.core.group.InvalidModificationException;
+import org.ametys.core.group.ModifiableGroupsManager;
+import org.ametys.plugins.core.impl.group.jdbc.ModifiableJdbcGroupsManager;
 import org.ametys.runtime.test.AbstractJDBCTestCase;
 import org.ametys.runtime.test.Init;
 

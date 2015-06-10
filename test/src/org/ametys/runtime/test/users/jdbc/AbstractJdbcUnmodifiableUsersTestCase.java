@@ -26,11 +26,11 @@ import org.apache.excalibur.xml.dom.DOMHandlerFactory;
 import org.apache.excalibur.xml.xpath.XPathProcessor;
 import org.w3c.dom.Node;
 
-import org.ametys.runtime.plugins.core.user.jdbc.JdbcUsersManager;
+import org.ametys.core.user.CredentialsAwareUsersManager;
+import org.ametys.core.user.ModifiableUsersManager;
+import org.ametys.core.user.User;
+import org.ametys.plugins.core.impl.user.jdbc.JdbcUsersManager;
 import org.ametys.runtime.test.Init;
-import org.ametys.runtime.user.CredentialsAwareUsersManager;
-import org.ametys.runtime.user.ModifiableUsersManager;
-import org.ametys.runtime.user.User;
 
 /**
  * Tests the JdbcUsersManager

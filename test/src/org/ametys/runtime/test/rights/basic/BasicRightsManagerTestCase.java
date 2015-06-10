@@ -18,12 +18,12 @@ package org.ametys.runtime.test.rights.basic;
 import java.util.Collection;
 import java.util.Set;
 
-import org.ametys.runtime.plugins.core.right.BasicRightsManager;
-import org.ametys.runtime.right.RightsManager;
+import org.ametys.core.right.RightsManager;
+import org.ametys.core.user.User;
+import org.ametys.core.user.UsersManager;
+import org.ametys.plugins.core.impl.right.BasicRightsManager;
 import org.ametys.runtime.test.AbstractRuntimeTestCase;
 import org.ametys.runtime.test.Init;
-import org.ametys.runtime.user.User;
-import org.ametys.runtime.user.UsersManager;
 
 /**
  * Tests the BasicRightsManagerTestCase

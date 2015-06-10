@@ -15,12 +15,12 @@
  */
 package org.ametys.runtime.test.users.ldap;
 
-import org.ametys.runtime.authentication.Credentials;
-import org.ametys.runtime.plugins.core.user.ldap.CredentialsAwareLdapUsersManager;
+import org.ametys.core.authentication.Credentials;
+import org.ametys.core.user.CredentialsAwareUsersManager;
+import org.ametys.core.user.ModifiableUsersManager;
+import org.ametys.core.user.UsersManager;
+import org.ametys.plugins.core.impl.user.ldap.CredentialsAwareLdapUsersManager;
 import org.ametys.runtime.test.Init;
-import org.ametys.runtime.user.CredentialsAwareUsersManager;
-import org.ametys.runtime.user.ModifiableUsersManager;
-import org.ametys.runtime.user.UsersManager;
 
 /**
  * Tests the LdapUsersManager

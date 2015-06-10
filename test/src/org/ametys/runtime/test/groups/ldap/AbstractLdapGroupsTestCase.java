@@ -18,10 +18,11 @@ package org.ametys.runtime.test.groups.ldap;
 import java.util.HashMap;
 import java.util.Set;
 
-import org.ametys.runtime.group.Group;
-import org.ametys.runtime.group.GroupsManager;
+import org.ametys.core.group.Group;
+import org.ametys.core.group.GroupsManager;
 import org.ametys.runtime.test.AbstractRuntimeTestCase;
 import org.ametys.runtime.test.Init;
+
 import org.apache.excalibur.xml.dom.DOMHandler;
 import org.apache.excalibur.xml.dom.DOMHandlerFactory;
 import org.apache.excalibur.xml.xpath.XPathProcessor;

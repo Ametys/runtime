@@ -20,7 +20,7 @@ import java.io.FileInputStream;
 import java.sql.Connection;
 import java.util.List;
 
-import org.ametys.runtime.datasource.ConnectionHelper;
+import org.ametys.core.datasource.ConnectionHelper;
 
 /**
  * Abstract test case for jdbc Runtime test cases.

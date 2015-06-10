@@ -21,15 +21,15 @@
 <administrator>
     <actions>
         <category name="WORKSPACE_ADMIN_SECTION_SYSTEM_LABEL">
-            <item id="org.ametys.runtime.plugins.core.administrator.Password"/>
-            <item id="org.ametys.runtime.plugins.core.administrator.Config"/>
+            <item id="org.ametys.runtime.plugins.admin.Password"/>
+            <item id="org.ametys.runtime.plugins.admin.Config"/>
         </category>
 
         <category name="WORKSPACE_ADMIN_SECTION_USERSMANAGEMENT_LABEL">
-            <item id="org.ametys.runtime.plugins.core.administrator.Users"/>
-            <item id="org.ametys.runtime.plugins.core.administrator.Groups"/>
-            <item id="org.ametys.runtime.plugins.core.administrator.right.Profiles"/>
-            <item id="org.ametys.runtime.plugins.core.administrator.SuperUser"/>
+            <item id="org.ametys.runtime.plugins.admin.Users"/>
+            <item id="org.ametys.runtime.plugins.admin.Groups"/>
+            <item id="org.ametys.runtime.plugins.admin.right.Profiles"/>
+            <item id="org.ametys.runtime.plugins.admin.SuperUser"/>
         </category>
         
     </actions>

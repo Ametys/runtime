@@ -23,10 +23,10 @@ import org.apache.excalibur.xml.dom.DOMHandlerFactory;
 import org.apache.excalibur.xml.xpath.XPathProcessor;
 import org.w3c.dom.Node;
 
-import org.ametys.runtime.plugins.core.ui.item.DesktopManager;
+import org.ametys.core.util.JSONUtils;
+import org.ametys.plugins.core.ui.item.DesktopManager;
 import org.ametys.runtime.test.AbstractRuntimeTestCase;
 import org.ametys.runtime.test.Init;
-import org.ametys.runtime.util.JSONUtils;
 
 /**
  * Tests the desktop manager

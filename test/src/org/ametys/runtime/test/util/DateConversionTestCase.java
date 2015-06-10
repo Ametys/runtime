@@ -24,9 +24,9 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.ISODateTimeFormat;
 
+import org.ametys.runtime.parameter.ParameterHelper;
+import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
 import org.ametys.runtime.test.AbstractRuntimeTestCase;
-import org.ametys.runtime.util.parameter.ParameterHelper;
-import org.ametys.runtime.util.parameter.ParameterHelper.ParameterType;
 
 
 /**

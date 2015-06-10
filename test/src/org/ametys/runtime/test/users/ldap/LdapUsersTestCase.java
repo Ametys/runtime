@@ -27,13 +27,13 @@ import org.apache.excalibur.xml.xpath.XPathProcessor;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import org.ametys.runtime.plugins.core.user.ldap.LdapUsersManager;
+import org.ametys.core.user.CredentialsAwareUsersManager;
+import org.ametys.core.user.ModifiableUsersManager;
+import org.ametys.core.user.User;
+import org.ametys.core.user.UsersManager;
+import org.ametys.plugins.core.impl.user.ldap.LdapUsersManager;
 import org.ametys.runtime.test.AbstractRuntimeTestCase;
 import org.ametys.runtime.test.Init;
-import org.ametys.runtime.user.CredentialsAwareUsersManager;
-import org.ametys.runtime.user.ModifiableUsersManager;
-import org.ametys.runtime.user.User;
-import org.ametys.runtime.user.UsersManager;
 
 /**
  * Tests the LdapUsersManager

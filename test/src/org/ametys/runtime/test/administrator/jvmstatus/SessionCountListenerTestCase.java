@@ -21,7 +21,7 @@ import java.util.Random;
 
 import junit.framework.TestCase;
 
-import org.ametys.runtime.plugins.core.administrator.jvmstatus.SessionCountListener;
+import org.ametys.runtime.plugins.admin.jvmstatus.SessionCountListener;
 
 /**
  * Test {@link SessionCountListener} in a massive threaded context.

@@ -26,7 +26,8 @@ import javax.xml.parsers.SAXParserFactory;
 
 import junit.framework.TestCase;
 
-import org.ametys.runtime.cocoon.XHTMLSerializer;
+import org.ametys.core.cocoon.XHTMLSerializer;
+
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.cocoon.xml.XMLConsumer;

@@ -24,8 +24,8 @@ import java.util.Map;
 
 import org.joda.time.format.ISODateTimeFormat;
 
-import org.ametys.runtime.plugins.core.userpref.UserPreferencesExtensionPoint;
-import org.ametys.runtime.plugins.core.userpref.UserPreferencesManager;
+import org.ametys.core.userpref.UserPreferencesExtensionPoint;
+import org.ametys.core.userpref.UserPreferencesManager;
 import org.ametys.runtime.test.AbstractJDBCTestCase;
 import org.ametys.runtime.test.Init;
 

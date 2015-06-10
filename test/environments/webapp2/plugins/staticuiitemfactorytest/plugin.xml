@@ -44,7 +44,7 @@
             <!-- Single class item -->
             <extension point="DesktopManagerTest" 
                        id="staticuiitemfactorytest.1"
-                       class="org.ametys.runtime.ui.StaticClientSideElement"
+                       class="org.ametys.runtime.plugins.core.ui.StaticClientSideElement"
                        logger="tests.staticuiitemfactory">
                 
                 <class name="JavascriptClass">
@@ -62,7 +62,7 @@
             <!-- Single link item -->
             <extension point="DesktopManagerTest" 
                        id="staticuiitemfactorytest.3"
-                       class="org.ametys.runtime.ui.StaticClientSideElement"
+                       class="org.ametys.runtime.plugins.core.ui.StaticClientSideElement"
                        logger="tests.staticuiitemfactory">
                 <class name="org.ametys.runtime.Link">
 					<param name="Link">myurl.html</param>
@@ -79,7 +79,7 @@
             <!-- Other plugin items -->
             <extension point="DesktopManagerTest" 
                        id="staticuiitemfactorytest.4"
-                       class="org.ametys.runtime.ui.StaticClientSideElement"
+                       class="org.ametys.runtime.plugins.core.ui.StaticClientSideElement"
                        logger="tests.staticuiitemfactory">
                 <class name="OtherJavascriptClass">
 					<param name="label" i18n="true">othercatalogue:label</param>
@@ -95,7 +95,7 @@
             
             <extension point="DesktopManagerTest" 
                        id="staticuiitemfactorytest.5"
-                       class="org.ametys.runtime.ui.StaticClientSideElement"
+                       class="org.ametys.runtime.plugins.core.ui.StaticClientSideElement"
                        logger="tests.staticuiitemfactory">
                 <class name="OtherJavascriptClass">
 					<label i18n="true">plugin.test:LABEL</label>

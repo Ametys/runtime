@@ -15,9 +15,9 @@
  */
 package org.ametys.runtime.test.groups.ldap;
 
-import org.ametys.runtime.group.GroupsManager;
-import org.ametys.runtime.group.ModifiableGroupsManager;
-import org.ametys.runtime.plugins.core.group.ldap.GroupDrivenLdapGroupsManager;
+import org.ametys.core.group.GroupsManager;
+import org.ametys.core.group.ModifiableGroupsManager;
+import org.ametys.plugins.core.impl.group.ldap.GroupDrivenLdapGroupsManager;
 import org.ametys.runtime.test.Init;
 
 /**

@@ -21,7 +21,7 @@ import java.util.Random;
 
 import junit.framework.TestCase;
 
-import org.ametys.runtime.plugins.core.administrator.jvmstatus.RequestCountListener;
+import org.ametys.runtime.plugins.admin.jvmstatus.RequestCountListener;
 
 /**
  * Test {@link RequestCountListener} in a massive threaded context.

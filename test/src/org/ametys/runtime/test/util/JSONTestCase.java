@@ -23,11 +23,11 @@ import junit.framework.TestCase;
 
 import org.apache.avalon.framework.service.ServiceManager;
 
-import org.ametys.runtime.plugins.core.ui.item.DesktopManager;
+import org.ametys.core.ui.ClientSideElement;
+import org.ametys.core.util.JSONUtils;
+import org.ametys.plugins.core.ui.item.DesktopManager;
 import org.ametys.runtime.test.AbstractRuntimeTestCase;
 import org.ametys.runtime.test.Init;
-import org.ametys.runtime.ui.ClientSideElement;
-import org.ametys.runtime.util.JSONUtils;
 
 /**
  * {@link TestCase} for converting or parsing JSON string

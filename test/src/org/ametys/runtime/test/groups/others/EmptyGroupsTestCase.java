@@ -19,9 +19,9 @@ import org.apache.excalibur.xml.dom.DOMHandler;
 import org.apache.excalibur.xml.dom.DOMHandlerFactory;
 import org.apache.excalibur.xml.xpath.XPathProcessor;
 
-import org.ametys.runtime.group.GroupsManager;
-import org.ametys.runtime.group.ModifiableGroupsManager;
-import org.ametys.runtime.plugins.core.group.EmptyGroupsManager;
+import org.ametys.core.group.GroupsManager;
+import org.ametys.core.group.ModifiableGroupsManager;
+import org.ametys.plugins.core.impl.group.EmptyGroupsManager;
 import org.ametys.runtime.test.AbstractRuntimeTestCase;
 import org.ametys.runtime.test.CocoonWrapper;
 import org.ametys.runtime.test.Init;

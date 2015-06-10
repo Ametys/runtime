@@ -19,14 +19,14 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Set;
 
-import org.ametys.runtime.group.Group;
-import org.ametys.runtime.group.GroupsManager;
-import org.ametys.runtime.plugins.core.right.profile.DefaultProfileBasedRightsManager;
-import org.ametys.runtime.plugins.core.right.profile.HierarchicalProfileBasedRightsManager;
-import org.ametys.runtime.plugins.core.right.profile.Profile;
-import org.ametys.runtime.plugins.core.right.profile.ProfileBasedRightsManager;
-import org.ametys.runtime.right.RightsManager;
-import org.ametys.runtime.right.RightsManager.RightResult;
+import org.ametys.core.group.Group;
+import org.ametys.core.group.GroupsManager;
+import org.ametys.core.right.RightsManager;
+import org.ametys.core.right.RightsManager.RightResult;
+import org.ametys.core.right.profile.Profile;
+import org.ametys.plugins.core.impl.right.profile.DefaultProfileBasedRightsManager;
+import org.ametys.plugins.core.impl.right.profile.HierarchicalProfileBasedRightsManager;
+import org.ametys.plugins.core.impl.right.profile.ProfileBasedRightsManager;
 import org.ametys.runtime.test.AbstractJDBCTestCase;
 import org.ametys.runtime.test.Init;
 

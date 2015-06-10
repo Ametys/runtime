@@ -15,12 +15,12 @@
  */
 package org.ametys.runtime.test.ui;
 
-import org.ametys.runtime.plugins.core.ui.item.DesktopManager;
+import org.ametys.core.ui.ClientSideElement;
+import org.ametys.core.ui.StaticClientSideElement;
+import org.ametys.core.util.I18nizableText;
+import org.ametys.plugins.core.ui.item.DesktopManager;
 import org.ametys.runtime.test.AbstractRuntimeTestCase;
 import org.ametys.runtime.test.Init;
-import org.ametys.runtime.ui.ClientSideElement;
-import org.ametys.runtime.ui.StaticClientSideElement;
-import org.ametys.runtime.util.I18nizableText;
 
 /**
  * Test the static ui item factory

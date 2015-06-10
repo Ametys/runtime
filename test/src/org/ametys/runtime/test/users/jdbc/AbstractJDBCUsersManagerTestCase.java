@@ -18,9 +18,9 @@ package org.ametys.runtime.test.users.jdbc;
 import java.io.File;
 import java.util.Arrays;
 
+import org.ametys.core.user.UsersManager;
 import org.ametys.runtime.test.AbstractJDBCTestCase;
 import org.ametys.runtime.test.Init;
-import org.ametys.runtime.user.UsersManager;
 
 /**
  * Reset the jdbc user db and load the user manager 
