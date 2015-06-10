@@ -18,6 +18,7 @@
  * This class is a configurable form panel that can contains tabs, fieldsets, repeaters and widgets. Configuration is made through XML or JSON requests.
  * The configuration format can be in JSON or XML.
  * The 2 steps to use this components are : 
+ *  
  * 1) create the form (#configure) 
  * 2) fill the values (#setValues)
  */
@@ -174,6 +175,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
 		
 		this.callParent(arguments);
 		
+        this._init();
+
 		/**
          * @event inputblur
          * Fires when a field loses the focus
@@ -203,6 +206,11 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
 		{
 			Ametys.message.MessageBus.on(Ametys.message.Message.MODIFIED, this._onUserPrefsChanged, this);
 		}
+		
+        // Display tab policy. The 'tab-policy-mode' configuration parameter passed
+        // during the form edition panel instantiation has priority over the
+        // userprefs value.
+        this._tabPolicy = config['tab-policy-mode'] || Ametys.userprefs.UserPrefsDAO.getValue('edition-tab-policy') || 'default';
 		
 		this._fieldNamePrefix = config["fieldNamePrefix"] || '';
 		
@@ -348,12 +356,6 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
 		this._fields = [];	
 		this._repeaters = [];
 		this._tabPanels = [];
-		
-		// Display tab policy. The 'tab-policy-mode' configuration parameter passed
-		// during the form edition panel instantiation has priority over the
-		// userprefs value.
-		this._tabPolicy = this['tab-policy-mode'] || Ametys.userprefs.UserPrefsDAO.getValue('edition-tab-policy') || 'default';
-		
 	},
 	
 	/**
