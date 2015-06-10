@@ -87,6 +87,9 @@
     <message key="PLUGINS_ADMIN_CONFIG_WARNING_TEXT_END">' a échoué. Vérifiez la valeur de ce paramètre.</message>
     <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECKER_LABEL_PREFIX">Vérifier</message>
     
+    <message key="PLUGINS_ADMIN_ERROR_DIALOG_TITLE">Erreur</message>
+    <message key="PLUGINS_ADMIN_SAVE_DIALOG_TITLE">Sauvegarde</message>
+    
     <!-- ADMINISTRATOR JVMSTATUS -->
     <message key="PLUGINS_ADMIN_TOOL_JVMSTATUS_LABEL">Général</message>
     <message key="PLUGINS_ADMIN_TOOL_JVMSTATUS_DESC">Cet outil vous permet de consulter l'état général du système et de la JVM</message>

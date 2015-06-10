@@ -248,9 +248,6 @@
 	<message key="PLUGINS_CORE_RIGHTS_CONTEXTS_APPLICATION_HELP_AFFECT">In order to assign profiles, a user/group can be selected from the list.</message>
 	<message key="PLUGINS_CORE_RIGHTS_CONTEXTS_APPLICATION_HELP_PROFIL">Select profiles that you want to assign to users/groups.&lt;br/&gt;Click on the link 'Confirm changes' to save the assignments.</message>
 
-	<message key="PLUGINS_CORE_ERROR_DIALOG_TITLE">Error</message>
-	<message key="PLUGINS_CORE_SAVE_DIALOG_TITLE">Save</message>
-
 	<!-- RegExp -->
 	<message key="PLUGINS_CORE_REGEXP_INVALID_MAIL">The address is not a valid email address</message>
 	<message key="PLUGINS_CORE_REGEXP_INVALID_URL">The url is invalid. It has to start with either http:// or https://</message>

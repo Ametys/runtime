@@ -285,7 +285,7 @@ Ext.define('Ametys.plugins.admin.Groups', {
 				objects += objectId + '/';
 			}
 			
-			Ametys.Msg.confirm ("<i18n:text i18n:key='PLUGINS_CORE_SAVE_DIALOG_TITLE'/>", 
+			Ametys.Msg.confirm ("<i18n:text i18n:key='PLUGINS_ADMIN_SAVE_DIALOG_TITLE'/>", 
 							 "<i18n:text i18n:key='PLUGINS_CORE_UI_GROUPS_MODIFY_CONFIRM'/>", 
 							 Ext.bind(this._saveConfirm, this, [this._currentGroup, objects], true)
 			);
@@ -424,7 +424,7 @@ Ext.define('Ametys.plugins.admin.Groups', {
 			if (state != null && state == "missing")
 			{
 				Ametys.Msg.show ({
-            		title: "<i18n:text i18n:key='PLUGINS_CORE_ERROR_DIALOG_TITLE'/>",
+            		title: "<i18n:text i18n:key='PLUGINS_ADMIN_ERROR_DIALOG_TITLE'/>",
             		msg: "<i18n:text i18n:key='PLUGINS_CORE_UI_GROUPS_RENAME_MISSING_ERROR'/>",
             		buttons: Ext.Msg.OK,
    					icon: Ext.MessageBox.ERROR
@@ -532,7 +532,7 @@ Ext.define('Ametys.plugins.admin.Groups', {
 			if (state != null && state == "missing")
 			{
 				Ametys.Msg.show ({
-	            		title: "<i18n:text i18n:key='PLUGINS_CORE_ERROR_DIALOG_TITLE'/>",
+	            		title: "<i18n:text i18n:key='PLUGINS_ADMIN_ERROR_DIALOG_TITLE'/>",
 	            		msg: "<i18n:text i18n:key='PLUGINS_CORE_UI_GROUPS_MODIFY_MISSING_ERROR'/>",
 	            		buttons: Ext.Msg.OK,
 	   					icon: Ext.MessageBox.ERROR
@@ -729,7 +729,7 @@ Ext.define('Ametys.plugins.admin.Groups', {
 			else
 			{
 				Ametys.Msg.show ({
-	        		title: "<i18n:text i18n:key='PLUGINS_CORE_ERROR_DIALOG_TITLE'/>",
+	        		title: "<i18n:text i18n:key='PLUGINS_ADMIN_ERROR_DIALOG_TITLE'/>",
 	        		msg: "<i18n:text i18n:key='PLUGINS_CORE_UI_GROUPS_DELETE_ERROR'/>",
 	        		buttons: Ext.Msg.OK,
 					icon: Ext.MessageBox.ERROR

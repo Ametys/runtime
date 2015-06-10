@@ -2031,7 +2031,7 @@ Ext.define('Ametys.plugins.admin.Config', {
 		if (result == null)
 	    {
 			Ametys.log.ErrorDialog.display({
-				title: "<i18n:text i18n:key='PLUGINS_CORE_SAVE_DIALOG_TITLE'/>", 
+				title: "<i18n:text i18n:key='PLUGINS_ADMIN_SAVE_DIALOG_TITLE'/>", 
 				text: "<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_SAVE_FATALERROR'/>",
 	    		details: ex,
 	    		category: "Ametys.plugins.admin.Config.save"
@@ -2044,7 +2044,7 @@ Ext.define('Ametys.plugins.admin.Config', {
 	    if (error != null && error != "")
 	    {
 	    	Ametys.Msg.show ({
-	    		title: "<i18n:text i18n:key='PLUGINS_CORE_SAVE_DIALOG_TITLE'/>",
+	    		title: "<i18n:text i18n:key='PLUGINS_ADMIN_SAVE_DIALOG_TITLE'/>",
 	    		msg: "<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_SAVE_ERROR'/>",
 	    		buttons: Ext.Msg.OK,
 				icon: Ext.MessageBox.ERROR
@@ -2053,7 +2053,7 @@ Ext.define('Ametys.plugins.admin.Config', {
 	    }
 	    
 	    Ametys.Msg.show ({
-	    		title: "<i18n:text i18n:key='PLUGINS_CORE_SAVE_DIALOG_TITLE'/>",
+	    		title: "<i18n:text i18n:key='PLUGINS_ADMIN_SAVE_DIALOG_TITLE'/>",
 	    		msg: "<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_SAVE_OK'/>",
 	    		buttons: Ext.Msg.OK,
 				icon: Ext.MessageBox.INFO,

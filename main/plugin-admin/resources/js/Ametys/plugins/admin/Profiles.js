@@ -153,7 +153,7 @@ Ext.define('Ametys.plugins.admin.Profiles', {
 			else
 			{
 				Ametys.Msg.show ({
-            		title: "<i18n:text i18n:key='PLUGINS_CORE_ERROR_DIALOG_TITLE'/>",
+            		title: "<i18n:text i18n:key='PLUGINS_ADMIN_ERROR_DIALOG_TITLE'/>",
             		msg: "<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_PROFILES_ERROR'/>",
             		buttons: Ext.Msg.OK,
    					icon: Ext.MessageBox.ERROR
@@ -267,7 +267,7 @@ Ext.define('Ametys.plugins.admin.Profiles', {
 				if (state != null && state == "missing")
 				{
 					Ametys.Msg.show ({
-                		title: "<i18n:text i18n:key='PLUGINS_CORE_ERROR_DIALOG_TITLE'/>",
+                		title: "<i18n:text i18n:key='PLUGINS_ADMIN_ERROR_DIALOG_TITLE'/>",
                 		msg: "<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_MISSING_ERROR'/>",
                 		buttons: Ext.Msg.OK,
 	   					icon: Ext.MessageBox.ERROR
@@ -353,7 +353,7 @@ Ext.define('Ametys.plugins.admin.Profiles', {
 	{
 		if (this._selectedElmt != null && this._hasChanges)
 		{
-			Ametys.Msg.confirm ("<i18n:text i18n:key='PLUGINS_CORE_SAVE_DIALOG_TITLE'/>", "<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_CONFIRM'/>", Ext.bind(this.saveObjectConfirm, this, [this._selectedElmt, this._getObjects(), this._getRights()], true));
+			Ametys.Msg.confirm ("<i18n:text i18n:key='PLUGINS_ADMIN_SAVE_DIALOG_TITLE'/>", "<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_CONFIRM'/>", Ext.bind(this.saveObjectConfirm, this, [this._selectedElmt, this._getObjects(), this._getRights()], true));
 		}
 		
 		this._Category.showElt(1);
@@ -404,7 +404,7 @@ Ext.define('Ametys.plugins.admin.Profiles', {
 		if (!/^[a-z|A-Z|0-9| |-|_]*$/.test(e.value))
         {
         	Ametys.Msg.show ({
-                		title: "<i18n:text i18n:key='PLUGINS_CORE_ERROR_DIALOG_TITLE'/>",
+                		title: "<i18n:text i18n:key='PLUGINS_ADMIN_ERROR_DIALOG_TITLE'/>",
                 		msg: "<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_PROFILES_NAMING_ERROR'/>",
                 		buttons: Ext.Msg.OK,
 	   					icon: Ext.MessageBox.ERROR
@@ -475,7 +475,7 @@ Ext.define('Ametys.plugins.admin.Profiles', {
 				if (state != null && state == "missing")
 				{
 					Ametys.log.ErrorDialog.display({
-						title: "<i18n:text i18n:key='PLUGINS_CORE_ERROR_DIALOG_TITLE'/>", 
+						title: "<i18n:text i18n:key='PLUGINS_ADMIN_ERROR_DIALOG_TITLE'/>", 
 						text: "<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_PROFILES_RENAME_MISSING_ERROR'/>", 
 						details: "State is missing", 
 						category: "Ametys.plugins.admin.Logs.editLabel"
@@ -498,7 +498,7 @@ Ext.define('Ametys.plugins.admin.Profiles', {
 	{
 		if (this._selectedElmt != null && this._hasChanges && this.item1.pressed)
 		{
-			Ametys.Msg.confirm ("<i18n:text i18n:key='PLUGINS_CORE_SAVE_DIALOG_TITLE'/>", "<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_CONFIRM'/>", Ext.bind(this.saveObjectConfirm, this, [this._selectedElmt, this._getObjects(), this._getRights()], true));
+			Ametys.Msg.confirm ("<i18n:text i18n:key='PLUGINS_ADMIN_SAVE_DIALOG_TITLE'/>", "<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_CONFIRM'/>", Ext.bind(this.saveObjectConfirm, this, [this._selectedElmt, this._getObjects(), this._getRights()], true));
 		}
 		var rights = this._selectedElmt != null ? this._selectedElmt.get('rights') : {};
 		

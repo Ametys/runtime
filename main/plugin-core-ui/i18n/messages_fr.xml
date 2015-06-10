@@ -235,9 +235,6 @@
     <message key="PLUGINS_CORE_UI_PROFILES_TREE_CONTEXT_TOOLTIP">Contexte</message>
     <message key="PLUGINS_CORE_UI_PROFILES_TREE_GET_PROFILES_RIGHTS_ERROR">Une erreur est survenue: impossible de récupérer la liste des profils de droits</message>
     
-    <message key="PLUGINS_CORE_ERROR_DIALOG_TITLE">Erreur</message>
-	<message key="PLUGINS_CORE_SAVE_DIALOG_TITLE">Sauvegarde</message>
-	
     <!-- +
          | Announce
          + -->
@@ -375,16 +372,6 @@
     <message key="PLUGINS_CORE_UI_WIDGET_GEOCODE_NO_COORDINATES">Cliquez sur le bouton ci-après pour définir les coordonnées</message>
     <message key="PLUGINS_CORE_UI_WIDGET_GEOCODE_UNKNOWN_FIELD">Champ adresse inconnue : </message>
     <message key="PLUGINS_CORE_UI_WIDGET_GEOCODE_ADDRESS_CHANGE">Les informations géographiques liée à ce champ ont été modifiées et les coordonnées géographiques peuvent ne plus correspondre aux informations saisies.&lt;br/&gt;Ouvrez la carte Google Map pour mettre à jour les coordonnées.</message>
-    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_DEFAULT_TITLE">Situer sur la carte</message>            
-    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_OK">Ok</message>
-    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_CANCEL">Annuler</message>
-    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_SEARCH_LABEL">Recherche</message>
-    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_SEARCH">Rechercher</message>
-    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_HELP_MSG_1">Saisissez une adresse dans le champ de recherche ci-dessous pour positionner le marqueur, puis déplacez le à la position exacte souhaitée.</message>
-    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_BOTTOM_TEXT">Attention, la position du marqueur peut ne pas correspondre au champ de recherche si vous avez positionné le curseur manuellement.</message>
-    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_SEARCH_NOT_FOUND">Impossible de trouver: </message>
-    <message key="LOAD_GOOGLE_MAPS_ERROR">Erreur de traitement</message>
-    <message key="LOAD_GOOGLE_MAPS_ERROR_DESC">Echec lors du chargement des API Google Maps</message>
     
     <message key="PLUGINS_CORE_UI_WIDGET_FLIPFLAP_MOVE_TO_TOP">Déplacer vers le haut</message>
     <message key="PLUGINS_CORE_UI_WIDGET_FLIPFLAP_MOVE_UP">Monter</message>
@@ -425,16 +412,16 @@
     <!-- +
          | GEOCODE
          + -->    
-    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_DEFAULT_TITLE">Locate on map</message>          
+    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_DEFAULT_TITLE">Situer sur la carte</message>            
     <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_OK">Ok</message>
-    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_CANCEL">Cancel</message>
-    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_SEARCH_LABEL">Search</message>
-    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_SEARCH">Search</message>
-    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_HELP_MSG_1">Enter an address in the search field below to position the marker then move it to the exact desired position.</message>
-    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_BOTTOM_TEXT">Please note that the marker position may not match the search field if you have positioned the marker manually.</message>
-    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_SEARCH_NOT_FOUND">Unable to find: </message>
-    <message key="LOAD_GOOGLE_MAPS_ERROR">Processing error</message>
-    <message key="LOAD_GOOGLE_MAPS_ERROR_DESC">Failed to load Google Maps API</message>
+    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_CANCEL">Annuler</message>
+    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_SEARCH_LABEL">Recherche</message>
+    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_SEARCH">Rechercher</message>
+    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_HELP_MSG_1">Saisissez une adresse dans le champ de recherche ci-dessous pour positionner le marqueur, puis déplacez le à la position exacte souhaitée.</message>
+    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_BOTTOM_TEXT">Attention, la position du marqueur peut ne pas correspondre au champ de recherche si vous avez positionné le curseur manuellement.</message>
+    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_SEARCH_NOT_FOUND">Impossible de trouver: </message>
+    <message key="LOAD_GOOGLE_MAPS_ERROR">Erreur de traitement</message>
+    <message key="LOAD_GOOGLE_MAPS_ERROR_DESC">Echec lors du chargement des API Google Maps</message>
     
     <!-- +
          | SaveAction.js

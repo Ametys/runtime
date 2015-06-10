@@ -246,9 +246,6 @@
     <message key="PLUGINS_CORE_RIGHTS_CONTEXTS_APPLICATION_DESCRIPTION">Affecte les profils au niveau applicatif</message>
     <message key="PLUGINS_CORE_RIGHTS_CONTEXTS_APPLICATION_HELP_AFFECT">Pour assigner des droits, ajoutez un utilisateur ou un groupe en cliquant sur les liens ci-dessus, ou sélectionnez directement un groupe ou un utilisateur dans la liste de droite.</message>
     <message key="PLUGINS_CORE_RIGHTS_CONTEXTS_APPLICATION_HELP_PROFIL">Choisissez le ou les profils à appliquer à l'utilisateur ou au groupe sélectionné.&lt;br/&gt;Cliquer sur le lien 'Valider les modifications' pour sauvegarder la nouvelle affectation.</message>
-
-	<message key="PLUGINS_CORE_ERROR_DIALOG_TITLE">Erreur</message>
-	<message key="PLUGINS_CORE_SAVE_DIALOG_TITLE">Sauvegarde</message>
 	
 	<!--  RegExp -->
 	<message key="PLUGINS_CORE_REGEXP_INVALID_MAIL">L'adresse saisie n'est pas une adresse mail valide</message>

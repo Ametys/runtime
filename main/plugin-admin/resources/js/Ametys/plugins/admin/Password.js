@@ -178,7 +178,7 @@ Ext.define('Ametys.plugins.admin.Password', {
 		if (oldPassword.getValue() == "" || newPassword.getValue() == "" || confirmPassword.getValue() == "")
 		{
 			Ametys.Msg.show ({
-	    		title: "<i18n:text i18n:key='PLUGINS_CORE_ERROR_DIALOG_TITLE'/>",
+	    		title: "<i18n:text i18n:key='PLUGINS_ADMIN_ERROR_DIALOG_TITLE'/>",
 	    		msg: "<i18n:text i18n:key='PLUGINS_ADMIN_PASSWORD_CHANGE_ERROR_WRONG_EMPTY'/>",
 	    		buttons: Ext.Msg.OK,
 				icon: Ext.MessageBox.ERROR
@@ -209,7 +209,7 @@ Ext.define('Ametys.plugins.admin.Password', {
 	    if (Ext.dom.Query.selectValue("*/result", result) != "SUCCESS")
 	    {
 	    	Ametys.Msg.show ({
-	    		title: "<i18n:text i18n:key='PLUGINS_CORE_ERROR_DIALOG_TITLE'/>",
+	    		title: "<i18n:text i18n:key='PLUGINS_ADMIN_ERROR_DIALOG_TITLE'/>",
 	    		msg: "<i18n:text i18n:key='PLUGINS_ADMIN_PASSWORD_CHANGE_ERROR'/>",
 	    		buttons: Ext.Msg.OK,
 				icon: Ext.MessageBox.ERROR

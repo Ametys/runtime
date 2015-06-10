@@ -395,7 +395,7 @@ Ext.define('Ametys.plugins.admin.Users', {
 	        if (200 != Ext.Ajax.request({url: url, params: args, async: false}).status)
 	        {
 	        	Ametys.Msg.show ({
-	            		title: "<i18n:text i18n:key='PLUGINS_CORE_ERROR_DIALOG_TITLE'/>",
+	            		title: "<i18n:text i18n:key='PLUGINS_ADMIN_ERROR_DIALOG_TITLE'/>",
 	            		msg: "<i18n:text i18n:key='PLUGINS_CORE_USERS_DELETE_ERROR'/>",
 	            		buttons: Ext.Msg.OK,
 	   					icon: Ext.MessageBox.ERROR
