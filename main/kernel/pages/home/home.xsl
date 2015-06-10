@@ -70,8 +70,8 @@
 		<xsl:param name="head-title"><i18n:text i18n:catalogue="application" i18n:key="APPLICATION_PRODUCT_LABEL"/></xsl:param>
 		<xsl:param name="IE-compatibility-mode">IE=edge</xsl:param>
 		<xsl:param name="meta-favicon">
-                <link rel="icon" type="image/gif" href="{$contextPath}/kernel/resources/img/runtime_favico.gif" />
-                <link rel="shortcut icon" type="image/x-icon" href="{$contextPath}/kernel/resources/img/runtime_favico.ico" />
+                <link rel="icon" type="image/gif" href="{$contextPath}/plugins/core-ui/resources/img/runtime_favico.gif" />
+                <link rel="shortcut icon" type="image/x-icon" href="{$contextPath}/plugins/core-ui/resources/img/runtime_favico.ico" />
         </xsl:param>
 		<xsl:param name="head-meta"/>
         

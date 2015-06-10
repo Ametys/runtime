@@ -39,8 +39,8 @@
                 
                 <title><xsl:value-of select="$pageTitle" /></title>
 
-                <link rel="icon" type="image/gif" href="{$contextPath}/kernel/resources/img/runtime_favico.gif" />
-                <link rel="shortcut icon" type="image/x-icon" href="{$contextPath}/kernel/resources/img/runtime_favico.ico" />
+                <link rel="icon" type="image/gif" href="{$contextPath}/plugins/core-ui/resources/img/runtime_favico.gif" />
+                <link rel="shortcut icon" type="image/x-icon" href="{$contextPath}/plugins/core-ui/resources/img/runtime_favico.ico" />
                 
                 <link rel="stylesheet" href="{$contextPath}/kernel/resources/css_old/home.css" type="text/css"/>
                 <link rel="stylesheet" href="{$contextPath}/kernel/resources/css_old/home-text.css" type="text/css"/>

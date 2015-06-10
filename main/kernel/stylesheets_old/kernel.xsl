@@ -18,7 +18,7 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
     xmlns:i18n="http://apache.org/cocoon/i18n/2.1"
     xmlns:exslt="http://exslt.org/common"
-    xmlns:ametys="org.ametys.runtime.plugins.core.ui.AmetysXSLTHelper">
+    xmlns:ametys="org.ametys.core.util.AmetysXSLTHelper">
     
     <xsl:import href="kernel-browsers.xsl"/>
     
@@ -85,27 +85,26 @@
             <script>/plugins/extjs4/resources/ux/js/form/ItemSelector.js</script>
             <script>/plugins/extjs4/resources/ux/js/BoxReorderer.js</script>
             <script>/plugins/extjs4/resources/ux/js/ToolbarDroppable.js</script>
-            <script>/kernel/resources/js/Ext.fixes.js</script>
-            <script>/kernel/resources/js/Ext.enhancements.js</script>
-            <script>/kernel/resources/js/Ametys.js</script>
-            <script>/kernel/resources/js/Ametys/log/LoggerFactory.js</script>
-            <script>/kernel/resources/js/Ametys/log/Logger.js</script>
-            <script>/kernel/resources/js/Ametys/log/Logger/Entry.js</script>
-            <script>/kernel/resources/js/Ametys/log/ErrorDialog.js</script>
-            <script>/kernel/resources/js/Ametys/window/DialogBox.js</script>
-            <script>/kernel/resources/js/Ametys/window/MessageBox.js</script>
-            <script>/kernel/resources/js/Ametys/form/AbstractField.js</script>
-            <script>/kernel/resources/js/Ametys/form/AbstractFieldsWrapper.js</script>
-<!--            <script>/kernel/resources/js/Ametys/form/field/BoxSelect.js</script> -->
-            <script>/kernel/resources/js/Ametys/form/field/DateTime.js</script>
-            <script>/kernel/resources/js/Ametys/form/field/ChangePassword.js</script>
-            <script>/kernel/resources/js/Ametys/form/field/RichText.js</script>
-            <script>/kernel/resources/js/Ametys/form/field/Code.js</script>
-            <script>/kernel/resources/js/Ametys/data/ServerComm.js</script>
-            <script>/kernel/resources/js/Ametys/data/ServerCommProxy.js</script>
-            <script>/kernel/resources/js/Ametys/data/ServerComm/TimeoutDialog.js</script>
-            <script>/kernel/resources/js/Ametys/tree/TreeEditor.js</script>
-            <script>/kernel/resources/js/Ametys/grid/plugin/Multisort.js</script>
+            <script>/plugins/core-ui/resources/js/Ext.fixes.js</script>
+            <script>/plugins/core-ui/resources/js/Ext.enhancements.js</script>
+            <script>/plugins/core-ui/resources/js/Ametys.js</script>
+            <script>/plugins/core-ui/resources/js/Ametys/log/LoggerFactory.js</script>
+            <script>/plugins/core-ui/resources/js/Ametys/log/Logger.js</script>
+            <script>/plugins/core-ui/resources/js/Ametys/log/Logger/Entry.js</script>
+            <script>/plugins/core-ui/resources/js/Ametys/log/ErrorDialog.js</script>
+            <script>/plugins/core-ui/resources/js/Ametys/window/DialogBox.js</script>
+            <script>/plugins/core-ui/resources/js/Ametys/window/MessageBox.js</script>
+            <script>/plugins/core-ui/resources/js/Ametys/form/AbstractField.js</script>
+            <script>/plugins/core-ui/resources/js/Ametys/form/AbstractFieldsWrapper.js</script>
+<!--            <script>/plugins/core-ui/resources/js/Ametys/form/field/BoxSelect.js</script> -->
+            <script>/plugins/core-ui/resources/js/Ametys/form/field/DateTime.js</script>
+            <script>/plugins/core-ui/resources/js/Ametys/form/field/ChangePassword.js</script>
+            <script>/plugins/core-ui/resources/js/Ametys/form/field/RichText.js</script>
+            <script>/plugins/core-ui/resources/js/Ametys/form/field/Code.js</script>
+            <script>/plugins/core-ui/resources/js/Ametys/data/ServerComm.js</script>
+            <script>/plugins/core-ui/resources/js/Ametys/data/ServerCommProxy.js</script>
+            <script>/plugins/core-ui/resources/js/Ametys/data/ServerComm/TimeoutDialog.js</script>
+            <script>/plugins/core-ui/resources/js/Ametys/grid/plugin/Multisort.js</script>
         </xsl:variable>
         
         <xsl:variable name="css">
