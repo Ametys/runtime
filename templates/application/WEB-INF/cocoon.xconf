@@ -85,7 +85,7 @@
     <component-instance class="org.apache.cocoon.components.modules.input.NullInputModule" logger="core.modules.input" name="nullinput"/>
     <component-instance class="org.apache.cocoon.components.modules.input.RealPathModule" logger="core.modules.input" name="realpath"/>
 
-    <component-instance class="org.ametys.runtime.util.cocoon.LocaleInputModule" logger="core.modules.input" name="locale"/>
+    <component-instance class="org.ametys.runtime.cocoon.LocaleInputModule" logger="core.modules.input" name="locale"/>
   </input-modules>
 
   <!--+
@@ -121,9 +121,9 @@
       | Each source factory adds a special uri schemes to the system.
       +-->
   <source-factories>
-    <component-instance class="org.ametys.runtime.util.cocoon.source.KernelSourceFactory" name="kernel"/>
-    <component-instance class="org.ametys.runtime.util.cocoon.source.ResourceSourceFactory" name="resource"/>
-    <component-instance class="org.ametys.runtime.util.cocoon.source.ZipSourceFactory" name="zip"/>
+    <component-instance class="org.ametys.runtime.cocoon.source.KernelSourceFactory" name="kernel"/>
+    <component-instance class="org.ametys.runtime.cocoon.source.ResourceSourceFactory" name="resource"/>
+    <component-instance class="org.ametys.runtime.cocoon.source.ZipSourceFactory" name="zip"/>
     <component-instance class="org.ametys.runtime.plugin.PluginSourceFactory" name="plugin"/>
     <component-instance class="org.ametys.runtime.workspace.WorkspaceSourceFactory" name="workspace"/>
     

@@ -30,6 +30,6 @@
     <workspaces default="MY_WORKSPACE" />
 
     <extensions>
-        <org.ametys.runtime.plugins.core.userpref.DefaultUserPreferencesStorage>org.ametys.runtime.plugins.core.userpref.JdbcXmlUserPreferencesStorage</org.ametys.runtime.plugins.core.userpref.DefaultUserPreferencesStorage>
+        <org.ametys.runtime.plugins.core.userpref.DefaultUserPreferencesStorage>org.ametys.runtime.plugins.core.impl.userpref.JdbcXmlUserPreferencesStorage</org.ametys.runtime.plugins.core.userpref.DefaultUserPreferencesStorage>
     </extensions>
 </runtime>

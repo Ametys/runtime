@@ -47,7 +47,7 @@
     </category>
 
     <!-- Administration logs -->
-    <category name="org.ametys.runtime.plugins.core.administrator.sitemap" additivity="false">
+    <category name="org.ametys.runtime.plugins.admin.sitemap" additivity="false">
         <priority value="info"/>
         <appender-ref ref="lf5-servlet"/>
         <appender-ref ref="servlet"/>
@@ -82,7 +82,7 @@
     </category>
     
     <!-- Monitoring -->
-    <category name="org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring" additivity="false">
+    <category name="org.ametys.runtime.plugins.admin.jvmstatus.monitoring" additivity="false">
         <priority value="warn"/>
         <appender-ref ref="lf5-servlet"/>
         <appender-ref ref="servlet"/>

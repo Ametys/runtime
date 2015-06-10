@@ -22,10 +22,10 @@
     <description>RuntimeApplication</description>
 
     <listener>
-        <listener-class>org.ametys.runtime.plugins.core.administrator.jvmstatus.SessionCountListener</listener-class>
+        <listener-class>org.ametys.runtime.plugins.admin.jvmstatus.SessionCountListener</listener-class>
     </listener>
     <listener>
-        <listener-class>org.ametys.runtime.plugins.core.administrator.jvmstatus.RequestCountListener</listener-class>
+        <listener-class>org.ametys.runtime.plugins.admin.jvmstatus.RequestCountListener</listener-class>
     </listener>
 
     <!-- Servlet Configuration ========================================== -->
