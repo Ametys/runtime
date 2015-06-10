@@ -51,7 +51,7 @@ Ext.define('Ametys.data.ServerCommProxy', {
 	/**
 	 * @cfg {String} errorMessage The error message to display if an error occures. There is a default value.
 	 */
-	errorMessage: "<i18n:text i18n:key='KERNEL_SERVERCOMMPROXY_ERROR_MSG'/>",
+	errorMessage: "<i18n:text i18n:key='PLUGINS_CORE_UI_SERVERCOMMPROXY_ERROR_MSG'/>",
 	
 	/**
 	 * @cfg {Object} reader2ResponseTypes Values are the responseType of Ametys.data.ServerComm#send and keys possible reader type.
