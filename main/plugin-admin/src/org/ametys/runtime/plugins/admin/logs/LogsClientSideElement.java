@@ -119,7 +119,7 @@ public class LogsClientSideElement extends StaticClientSideElement
             getLogger().debug("Purge date is " + purgeDate);
         }
 
-        List<String> filesList = new ArrayList<String>();
+        List<String> filesList = new ArrayList<>();
         TraversableSource logsSources = null;
         try
         {

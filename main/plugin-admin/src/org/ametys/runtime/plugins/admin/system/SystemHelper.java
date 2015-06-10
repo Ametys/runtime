@@ -44,7 +44,6 @@ import org.apache.avalon.framework.service.Serviceable;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.components.ContextHelper;
 import org.apache.cocoon.xml.XMLUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.xml.sax.helpers.AttributesImpl;
 
@@ -104,7 +103,7 @@ public class SystemHelper extends AbstractLogEnabled implements Component, Servi
     @Callable
     public Map<String, Object> editAnnouncement(String language, String message, boolean override) throws Exception
     {
-        Map<String, Object> result = new HashMap<String, Object> ();
+        Map<String, Object> result = new HashMap<> ();
         
         SystemAnnouncement sytemAnnouncement = readValues(_environmentContext.getRealPath("/"));
         
@@ -133,7 +132,7 @@ public class SystemHelper extends AbstractLogEnabled implements Component, Servi
     @Callable
     public Map deleteAnnouncement(String language) throws ProcessingException
     {
-        Map<String, Object> result = new HashMap<String, Object> ();
+        Map<String, Object> result = new HashMap<> ();
         
         SystemAnnouncement sytemAnnouncement = readValues(_environmentContext.getRealPath("/"));
         
@@ -160,7 +159,6 @@ public class SystemHelper extends AbstractLogEnabled implements Component, Servi
     {
         File systemFile = new File(contextPath, ADMINISTRATOR_SYSTEM_FILE);
         
-        OutputStream os = null;
         try
         {
             // Create file if not exists
@@ -174,48 +172,45 @@ public class SystemHelper extends AbstractLogEnabled implements Component, Servi
             TransformerHandler th = ((SAXTransformerFactory) TransformerFactory.newInstance()).newTransformerHandler();
 
             // create the result where to write
-            os = new FileOutputStream(systemFile);
-            StreamResult sResult = new StreamResult(os);
-            th.setResult(sResult);
-
-            // create the format of result
-            Properties format = new Properties();
-            format.put(OutputKeys.METHOD, "xml");
-            format.put(OutputKeys.INDENT, "yes");
-            format.put(OutputKeys.ENCODING, "UTF-8");
-            th.getTransformer().setOutputProperties(format);
-
-            // Send SAX events
-            th.startDocument();
-
-            AttributesImpl announcementsAttrs = new AttributesImpl();
-            announcementsAttrs.addAttribute("", "state", "state", "CDATA", state ? "on" : "off");
-            XMLUtils.startElement(th, "announcements", announcementsAttrs);
-            
-            for (String id : messages.keySet())
+            try (OutputStream os = new FileOutputStream(systemFile))
             {
-                AttributesImpl announcementAttrs = new AttributesImpl();
-                if (!"*".equals(id))
+                StreamResult sResult = new StreamResult(os);
+                th.setResult(sResult);
+    
+                // create the format of result
+                Properties format = new Properties();
+                format.put(OutputKeys.METHOD, "xml");
+                format.put(OutputKeys.INDENT, "yes");
+                format.put(OutputKeys.ENCODING, "UTF-8");
+                th.getTransformer().setOutputProperties(format);
+    
+                // Send SAX events
+                th.startDocument();
+    
+                AttributesImpl announcementsAttrs = new AttributesImpl();
+                announcementsAttrs.addAttribute("", "state", "state", "CDATA", state ? "on" : "off");
+                XMLUtils.startElement(th, "announcements", announcementsAttrs);
+                
+                for (String id : messages.keySet())
                 {
-                    announcementAttrs.addAttribute("", "lang", "lang", "CDATA", id);
+                    AttributesImpl announcementAttrs = new AttributesImpl();
+                    if (!"*".equals(id))
+                    {
+                        announcementAttrs.addAttribute("", "lang", "lang", "CDATA", id);
+                    }
+                    
+                    XMLUtils.createElement(th, "announcement", announcementAttrs, messages.get(id));
                 }
                 
-                XMLUtils.createElement(th, "announcement", announcementAttrs, messages.get(id));
+                XMLUtils.endElement(th, "announcements");
+                
+                th.endDocument();
             }
-            
-            XMLUtils.endElement(th, "announcements");
-            
-            th.endDocument();
         }
         catch (Exception e)
         {
             throw new ProcessingException("Unable to save system announcement values", e);
         }
-        finally
-        {
-            IOUtils.closeQuietly(os);
-        }
-        
     }
     
     /**
@@ -361,7 +356,7 @@ public class SystemHelper extends AbstractLogEnabled implements Component, Servi
         public SystemAnnouncement()
         {
             _available = false;
-            _messages = new HashMap<String, String>();
+            _messages = new HashMap<>();
         }
         
         /**

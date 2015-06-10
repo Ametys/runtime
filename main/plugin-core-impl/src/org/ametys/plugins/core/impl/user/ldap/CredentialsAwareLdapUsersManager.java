@@ -37,7 +37,7 @@ import org.ametys.core.user.CredentialsAwareUsersManager;
  * them.<br>
  * This driver depends of the config parameters needed by the LdapUsers
  * extension :<br>
- * @see org.ametys.runtime.plugins.core.impl.user.ldap.LdapUsersManager
+ * @see org.ametys.plugins.core.impl.user.ldap.LdapUsersManager
  */
 public class CredentialsAwareLdapUsersManager extends LdapUsersManager implements CredentialsAwareUsersManager
 {

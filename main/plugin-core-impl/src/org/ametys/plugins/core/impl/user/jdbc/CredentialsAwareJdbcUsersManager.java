@@ -40,7 +40,7 @@ import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
  * This driver depends of the config parameters needed by the JdbcUsers
  * extension plus this parameter :<br>
  * users.jdbc.passwdColumn: Name of the password column; String
- * @see org.ametys.runtime.plugins.core.impl.user.jdbc.JdbcUsersManager
+ * @see org.ametys.plugins.core.impl.user.jdbc.JdbcUsersManager
  */
 public class CredentialsAwareJdbcUsersManager extends JdbcUsersManager implements CredentialsAwareUsersManager
 {

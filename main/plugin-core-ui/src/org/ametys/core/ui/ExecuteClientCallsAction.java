@@ -126,7 +126,6 @@ public class ExecuteClientCallsAction extends ServiceableAction implements Threa
         return EMPTY_MAP;
     }
     
-    @SuppressWarnings("unchecked")
     private Object _executeMethod(Method method, Object object, Object[] paramValues) throws Exception
     {
         Object result = null;

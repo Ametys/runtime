@@ -81,7 +81,7 @@ public class LogsGenerator extends ServiceableGenerator
     
     private Map<String, List<TraversableSource>> _prepareLogs(TraversableSource logsDirectorySource) throws SourceException
     {
-        Map<String, List<TraversableSource>> logs = new HashMap<String, List<TraversableSource>>();
+        Map<String, List<TraversableSource>> logs = new HashMap<>();
         
         Collection<TraversableSource> logFiles = logsDirectorySource.getChildren();
         for (TraversableSource logSource : logFiles)
@@ -96,7 +96,7 @@ public class LogsGenerator extends ServiceableGenerator
                     List<TraversableSource> underLogs = logs.get(canonicalName);
                     if (underLogs == null)
                     {
-                        underLogs = new ArrayList<TraversableSource>();
+                        underLogs = new ArrayList<>();
                         logs.put(canonicalName, underLogs);
                     }
                     

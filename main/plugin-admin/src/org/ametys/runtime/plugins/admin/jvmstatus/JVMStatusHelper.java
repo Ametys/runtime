@@ -81,7 +81,7 @@ public class JVMStatusHelper extends AbstractLogEnabled implements Component, Se
     @Callable
     public Map<String, Object> getGeneralStatus()
     {
-        Map<String, Object> result = new HashMap<String, Object>();
+        Map<String, Object> result = new HashMap<>();
 
         result.put("osTime", ParameterHelper.valueToString(new Date()));
         try

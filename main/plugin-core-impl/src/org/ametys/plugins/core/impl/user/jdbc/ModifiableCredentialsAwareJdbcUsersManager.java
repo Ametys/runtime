@@ -41,7 +41,7 @@ import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
  * Passwords need to be encrypted with MD5 and encoded in base64.<br>
  * This driver depends of the config parameters needed by the ModifyingJdbcUsers
  * extension plus this parameter :<br>
- * @see org.ametys.runtime.plugins.core.impl.user.jdbc.ModifiableJdbcUsersManager
+ * @see org.ametys.plugins.core.impl.user.jdbc.ModifiableJdbcUsersManager
  */
 public class ModifiableCredentialsAwareJdbcUsersManager extends ModifiableJdbcUsersManager implements CredentialsAwareUsersManager
 {

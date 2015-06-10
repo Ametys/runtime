@@ -52,7 +52,7 @@ public class GetLogsLevel extends ServiceableAction
         try
         {
             LoggerRepository loggerRepository = LogManager.getLoggerRepository();
-            List<Logger> loggers = new ArrayList<Logger>();
+            List<Logger> loggers = new ArrayList<>();
             Enumeration<org.apache.log4j.Logger> enumLogger = loggerRepository.getCurrentLoggers();
             
             while (enumLogger.hasMoreElements())
@@ -65,7 +65,7 @@ public class GetLogsLevel extends ServiceableAction
             Collections.sort(loggers, new LoggerComparator());
             
             Map<String, Object> logCategories = new HashMap<>();
-            Set<Map<String, String>> categoryLevels = new HashSet<Map<String, String>> ();
+            Set<Map<String, String>> categoryLevels = new HashSet<> ();
             
             for (Logger logger : loggers)
             {
