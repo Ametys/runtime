@@ -85,7 +85,7 @@
             <script>/plugins/extjs4/resources/ux/js/form/ItemSelector.js</script>
             <script>/plugins/extjs4/resources/ux/js/BoxReorderer.js</script>
             <script>/plugins/extjs4/resources/ux/js/ToolbarDroppable.js</script>
-            <script>/plugins/core-ui/resources/js/Ext.fixes.js</script>
+<!--             <script>/plugins/core-ui/resources/js/Ext.fixes.js</script> -->
             <script>/plugins/core-ui/resources/js/Ext.enhancements.js</script>
             <script>/plugins/core-ui/resources/js/Ametys.js</script>
             <script>/plugins/core-ui/resources/js/Ametys/log/LoggerFactory.js</script>
@@ -96,7 +96,6 @@
             <script>/plugins/core-ui/resources/js/Ametys/window/MessageBox.js</script>
             <script>/plugins/core-ui/resources/js/Ametys/form/AbstractField.js</script>
             <script>/plugins/core-ui/resources/js/Ametys/form/AbstractFieldsWrapper.js</script>
-<!--            <script>/plugins/core-ui/resources/js/Ametys/form/field/BoxSelect.js</script> -->
             <script>/plugins/core-ui/resources/js/Ametys/form/field/DateTime.js</script>
             <script>/plugins/core-ui/resources/js/Ametys/form/field/ChangePassword.js</script>
             <script>/plugins/core-ui/resources/js/Ametys/form/field/RichText.js</script>
