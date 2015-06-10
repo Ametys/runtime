@@ -50,6 +50,7 @@ import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
+import org.ametys.core.util.LoggerFactory;
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.config.ConfigManager;
 import org.ametys.runtime.plugin.Init;
@@ -57,7 +58,6 @@ import org.ametys.runtime.plugin.InitExtensionPoint;
 import org.ametys.runtime.plugin.component.PluginsComponentManager;
 import org.ametys.runtime.request.RequestListener;
 import org.ametys.runtime.request.RequestListenerManager;
-import org.ametys.runtime.util.LoggerFactory;
 
 /**
  * Main entry point for applications.<br>

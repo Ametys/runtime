@@ -24,11 +24,11 @@ import org.apache.avalon.framework.service.WrapperServiceManager;
 import org.apache.cocoon.Constants;
 import org.apache.cocoon.environment.Context;
 
+import org.ametys.core.util.LoggerFactory;
 import org.ametys.runtime.plugin.PluginsManager;
 import org.ametys.runtime.plugin.PluginsManager.FeatureInformation;
 import org.ametys.runtime.plugin.component.PluginsComponentManager;
 import org.ametys.runtime.servlet.RuntimeConfig;
-import org.ametys.runtime.util.LoggerFactory;
 import org.ametys.runtime.workspace.WorkspaceManager;
 
 /**

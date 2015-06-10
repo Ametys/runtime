@@ -34,8 +34,8 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.thread.ThreadSafe;
 
+import org.ametys.core.util.LoggerFactory;
 import org.ametys.runtime.plugin.ExtensionPoint;
-import org.ametys.runtime.util.LoggerFactory;
 
 /**
  * Avalon based implementation of an ExtensionPoint.<br>

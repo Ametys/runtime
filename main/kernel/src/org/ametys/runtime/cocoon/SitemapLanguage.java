@@ -18,6 +18,7 @@ package org.ametys.runtime.cocoon;
 import java.util.Collection;
 
 import org.ametys.runtime.config.ConfigManager;
+
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;

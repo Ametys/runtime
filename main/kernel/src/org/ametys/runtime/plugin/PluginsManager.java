@@ -52,11 +52,11 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
+import org.ametys.core.util.LoggerFactory;
+import org.ametys.core.util.StringUtils;
 import org.ametys.runtime.config.ConfigManager;
 import org.ametys.runtime.plugin.component.PluginsComponentManager;
 import org.ametys.runtime.servlet.RuntimeConfig;
-import org.ametys.runtime.util.LoggerFactory;
-import org.ametys.runtime.util.StringUtils;
 
 /**
  * The PluginManager is in charge to load and initialize plugins. <br>

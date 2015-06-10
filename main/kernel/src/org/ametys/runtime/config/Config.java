@@ -24,10 +24,10 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.avalon.framework.logger.Logger;
 
-import org.ametys.runtime.util.LoggerFactory;
-import org.ametys.runtime.util.MapHandler;
-import org.ametys.runtime.util.parameter.ParameterHelper;
-import org.ametys.runtime.util.parameter.ParameterHelper.ParameterType;
+import org.ametys.core.util.LoggerFactory;
+import org.ametys.core.util.MapHandler;
+import org.ametys.runtime.parameter.ParameterHelper;
+import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
 
 
 /**
@@ -181,7 +181,7 @@ public final class Config
      * @return Map (key, untyped value) representing the config file
      * @throws Exception if a problem occurs reading values
      */
-    static Map<String, String> read() throws Exception
+    public static Map<String, String> read() throws Exception
     {
         Map<String, String> configValues = new HashMap<>();
 

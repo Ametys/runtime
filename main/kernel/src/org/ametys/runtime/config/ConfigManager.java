@@ -53,15 +53,18 @@ import org.apache.xml.serializer.OutputPropertiesFactory;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
+import org.ametys.core.util.I18nizableText;
+import org.ametys.core.util.LoggerFactory;
+import org.ametys.runtime.parameter.Enumerator;
+import org.ametys.runtime.parameter.Errors;
+import org.ametys.runtime.parameter.ParameterChecker;
+import org.ametys.runtime.parameter.ParameterCheckerDescriptor;
+import org.ametys.runtime.parameter.ParameterCheckerParser;
+import org.ametys.runtime.parameter.ParameterHelper;
+import org.ametys.runtime.parameter.Validator;
+import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
 import org.ametys.runtime.plugin.PluginsManager;
 import org.ametys.runtime.plugin.component.ThreadSafeComponentManager;
-import org.ametys.runtime.util.I18nizableText;
-import org.ametys.runtime.util.LoggerFactory;
-import org.ametys.runtime.util.parameter.Enumerator;
-import org.ametys.runtime.util.parameter.Errors;
-import org.ametys.runtime.util.parameter.ParameterHelper;
-import org.ametys.runtime.util.parameter.ParameterHelper.ParameterType;
-import org.ametys.runtime.util.parameter.Validator;
 
 /**
  * This manager handle the parameters of the application that have to be stored by the plugins.
@@ -700,7 +703,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
      * Gets the typed configuration parameters
      * @return the _params map 
      */
-    Map<String, ConfigParameter> getParameters()
+    public Map<String, ConfigParameter> getParameters()
     {
         return this._params;
     }
@@ -710,7 +713,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
      * @param id the id of the parameter checker to get
      * @return the associated parameter checker descriptor
      */
-    ParameterCheckerDescriptor getParameterChecker(String id)
+    public ParameterCheckerDescriptor getParameterChecker(String id)
     {
         return _parameterCheckers.get(id);
     }

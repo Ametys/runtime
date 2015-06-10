@@ -27,9 +27,9 @@ import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import org.ametys.runtime.util.I18nizableText;
-import org.ametys.runtime.util.parameter.Parameter;
-import org.ametys.runtime.util.parameter.ParameterHelper.ParameterType;
+import org.ametys.core.util.I18nizableText;
+import org.ametys.runtime.parameter.Parameter;
+import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
 
 /**
  * This class represents a configuration parameter

@@ -39,7 +39,7 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.thread.SingleThreaded;
 
-import org.ametys.runtime.util.LoggerFactory;
+import org.ametys.core.util.LoggerFactory;
 
 // Le code est initialement inspiré du ExcaliburComponentManager
 /**

@@ -27,7 +27,7 @@ import java.util.Map;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.logger.Logger;
 
-import org.ametys.runtime.util.LoggerFactory;
+import org.ametys.core.util.LoggerFactory;
 
 
 /**

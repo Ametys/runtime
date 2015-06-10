@@ -40,9 +40,9 @@ import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.logger.Logger;
 import org.xml.sax.XMLReader;
 
+import org.ametys.core.util.LoggerFactory;
 import org.ametys.runtime.plugin.PluginsManager.FeatureInformation;
 import org.ametys.runtime.servlet.RuntimeConfig;
-import org.ametys.runtime.util.LoggerFactory;
 
 
 /**
