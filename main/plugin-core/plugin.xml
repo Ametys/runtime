@@ -528,7 +528,6 @@
         <extensions>
             <extension point="org.ametys.core.right.RightsContextPrefixExtensionPoint"
                        id="runtime.use.rights.users">
-                <!-- FIXME does these rights must be defined here, in the runtime? -->
                 <!-- 
                     Define the right for handling users
                  -->

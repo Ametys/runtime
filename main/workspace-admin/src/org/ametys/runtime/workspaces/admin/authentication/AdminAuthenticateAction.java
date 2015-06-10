@@ -49,6 +49,7 @@ import org.ametys.plugins.core.impl.authentication.BasicCredentialsProvider;
  * Authentication is based on the file ADMINISTRATOR_PASSWORD_FILENAME which contains the
  * MD5 encrypted password.
  */
+// FIXME to be removed
 public class AdminAuthenticateAction extends AbstractAction implements ThreadSafe, Contextualizable, Initializable
 {
     /** The request attribute name for telling that super user is logged in. */
@@ -139,6 +140,7 @@ public class AdminAuthenticateAction extends AbstractAction implements ThreadSaf
                 {
                     getLogger().debug("The administrator login must be 'admin' => authentication failed");
                 }
+                
                 return false;
             }
 
@@ -148,11 +150,10 @@ public class AdminAuthenticateAction extends AbstractAction implements ThreadSaf
                 {
                     getLogger().debug("The administrator password cannot be null => authentication failed");
                 }
+                
                 return false;
             }
 
-            
-            
             try (InputStream is  = new FileInputStream(_envContext.getRealPath(ADMINISTRATOR_PASSWORD_FILENAME)))
             {
                 XPath xpath = XPathFactory.newInstance().newXPath();
@@ -186,6 +187,7 @@ public class AdminAuthenticateAction extends AbstractAction implements ThreadSaf
                 {
                     getLogger().warn("The file '" + ADMINISTRATOR_PASSWORD_FILENAME + "' is missing. Default administrator password 'admin' is used.", e);
                 }
+                
                 return "admin".equals(passwd);
             }
         }
