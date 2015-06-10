@@ -33,20 +33,22 @@ Ext.define('Ametys.form.widget.User', {
 	
     getStore: function()
     {
-    	Ext.define("Ametys.form.widget.User.Users", {
-    		extend: 'Ext.data.Model',
-    		
-    	    fields: [
-    	             {name: 'firstname', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString},
-    	             {name: 'lastname', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString},
-    	             {name: 'login', mapping: '@login', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString},
-    	             {name: 'fullname', convert: function (v, record) {
-    	                 return record.get('lastname') + ' ' + record.get('firstname') + ' (' + record.get('login') + ')';
-    	             }, type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString}
-    	    ],
-    	    
-    	    idProperty: 'login'
-    	});
+    	if (!Ext.data.schema.Schema.get('default').hasEntity('Ametys.form.widget.User.Users')) {
+    		Ext.define("Ametys.form.widget.User.Users", {
+    			extend: 'Ext.data.Model',
+
+	    		fields: [
+	    		         {name: 'firstname', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString},
+	    		         {name: 'lastname', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString},
+	    		         {name: 'login', mapping: '@login', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString},
+	    		         {name: 'fullname', convert: function (v, record) {
+	    		        	 return record.get('lastname') + ' ' + record.get('firstname') + ' (' + record.get('login') + ')';
+	    		         }, type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString}
+	    		],
+	
+	    		idProperty: 'login'
+    		});
+    	}
 
         return Ext.create('Ext.data.Store', {
             model: 'Ametys.form.widget.User.Users',
