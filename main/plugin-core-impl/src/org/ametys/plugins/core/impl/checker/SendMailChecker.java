@@ -17,9 +17,6 @@ package org.ametys.plugins.core.impl.checker;
 
 import java.util.Map;
 
-
-
-
 //import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;

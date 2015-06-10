@@ -61,8 +61,8 @@ import org.ametys.runtime.parameter.ParameterChecker;
 import org.ametys.runtime.parameter.ParameterCheckerDescriptor;
 import org.ametys.runtime.parameter.ParameterCheckerParser;
 import org.ametys.runtime.parameter.ParameterHelper;
-import org.ametys.runtime.parameter.Validator;
 import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
+import org.ametys.runtime.parameter.Validator;
 import org.ametys.runtime.plugin.PluginsManager;
 import org.ametys.runtime.plugin.component.ThreadSafeComponentManager;
 

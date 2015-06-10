@@ -18,11 +18,12 @@ package org.ametys.runtime.plugins.admin.jvmstatus.monitoring;
 import java.io.File;
 import java.io.IOException;
 
-import org.ametys.runtime.plugin.ExtensionPoint;
-import org.ametys.runtime.plugin.component.AbstractThreadSafeComponentExtensionPoint;
 import org.apache.cocoon.Constants;
 import org.rrd4j.core.RrdDb;
 import org.rrd4j.core.RrdDef;
+
+import org.ametys.runtime.plugin.ExtensionPoint;
+import org.ametys.runtime.plugin.component.AbstractThreadSafeComponentExtensionPoint;
 
 /**
  * {@link ExtensionPoint} for collecting sample of data in order to be

@@ -39,8 +39,8 @@ import org.ametys.runtime.parameter.Enumerator;
 import org.ametys.runtime.parameter.Errors;
 import org.ametys.runtime.parameter.Parameter;
 import org.ametys.runtime.parameter.ParameterHelper;
-import org.ametys.runtime.parameter.Validator;
 import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
+import org.ametys.runtime.parameter.Validator;
 
 
 /**

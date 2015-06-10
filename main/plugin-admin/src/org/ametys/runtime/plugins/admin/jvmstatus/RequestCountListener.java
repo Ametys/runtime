@@ -20,9 +20,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javax.servlet.ServletRequestEvent;
 import javax.servlet.ServletRequestListener;
 
-import org.ametys.core.util.LoggerFactory;
-
 import org.apache.avalon.framework.logger.Logger;
+
+import org.ametys.core.util.LoggerFactory;
 
 
 /**

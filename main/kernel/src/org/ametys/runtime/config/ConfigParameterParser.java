@@ -22,8 +22,8 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.ametys.core.parameter.AbstractParameterParser;
 import org.ametys.runtime.parameter.Enumerator;
 import org.ametys.runtime.parameter.ParameterHelper;
-import org.ametys.runtime.parameter.Validator;
 import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
+import org.ametys.runtime.parameter.Validator;
 import org.ametys.runtime.plugin.component.ThreadSafeComponentManager;
 
 /**

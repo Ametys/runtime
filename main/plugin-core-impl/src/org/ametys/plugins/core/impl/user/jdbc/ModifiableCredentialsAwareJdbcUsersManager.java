@@ -21,6 +21,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
 
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang.RandomStringUtils;
+
 import org.ametys.core.authentication.Credentials;
 import org.ametys.core.datasource.ConnectionHelper;
 import org.ametys.core.parameter.DefaultValidator;
@@ -28,11 +33,6 @@ import org.ametys.core.user.CredentialsAwareUsersManager;
 import org.ametys.core.util.I18nizableText;
 import org.ametys.core.util.StringUtils;
 import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
-
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang.RandomStringUtils;
 
 
 /**

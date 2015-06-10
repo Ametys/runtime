@@ -21,11 +21,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.ametys.runtime.plugin.ExtensionPoint;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+
+import org.ametys.runtime.plugin.ExtensionPoint;
 
 /**
  * Allows to dynamically declare sitemap components to the main sitemap, subsequently available to all plugins and workspaces

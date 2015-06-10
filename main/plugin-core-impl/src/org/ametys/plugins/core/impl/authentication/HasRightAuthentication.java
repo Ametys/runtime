@@ -17,14 +17,14 @@ package org.ametys.plugins.core.impl.authentication;
 
 import java.util.Set;
 
-import org.ametys.core.authentication.Authentication;
-import org.ametys.core.authentication.Credentials;
-import org.ametys.core.right.RightsManager;
-
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
+
+import org.ametys.core.authentication.Authentication;
+import org.ametys.core.authentication.Credentials;
+import org.ametys.core.right.RightsManager;
 
 
 /**

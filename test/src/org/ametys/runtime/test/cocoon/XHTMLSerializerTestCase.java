@@ -26,8 +26,6 @@ import javax.xml.parsers.SAXParserFactory;
 
 import junit.framework.TestCase;
 
-import org.ametys.core.cocoon.XHTMLSerializer;
-
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.cocoon.xml.XMLConsumer;
@@ -37,6 +35,8 @@ import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.ext.LexicalHandler;
 import org.xml.sax.helpers.DefaultHandler;
+
+import org.ametys.core.cocoon.XHTMLSerializer;
 
 /**
  * Test {@link XHTMLSerializer} with different input.

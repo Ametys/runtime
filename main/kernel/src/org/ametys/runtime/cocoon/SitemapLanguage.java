@@ -17,13 +17,13 @@ package org.ametys.runtime.cocoon;
 
 import java.util.Collection;
 
-import org.ametys.runtime.config.ConfigManager;
-
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.configuration.MutableConfiguration;
+
+import org.ametys.runtime.config.ConfigManager;
 
 /**
  * Entry point in the sitemap build process to dynamically insert the components brought by the SitemapConfigurationExtensionPoint

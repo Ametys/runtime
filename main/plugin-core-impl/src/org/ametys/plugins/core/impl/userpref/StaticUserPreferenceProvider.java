@@ -37,8 +37,8 @@ import org.ametys.core.userpref.UserPreference;
 import org.ametys.core.userpref.UserPreferenceProvider;
 import org.ametys.runtime.parameter.Enumerator;
 import org.ametys.runtime.parameter.ParameterHelper;
-import org.ametys.runtime.parameter.Validator;
 import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
+import org.ametys.runtime.parameter.Validator;
 import org.ametys.runtime.plugin.component.PluginAware;
 import org.ametys.runtime.plugin.component.ThreadSafeComponentManager;
 
