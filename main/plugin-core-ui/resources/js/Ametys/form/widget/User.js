@@ -20,7 +20,6 @@
  * This widget is the default widget registered for fields of type Ametys.form.WidgetManager#TYPE_USER.<br>
  */
 Ext.define('Ametys.form.widget.User', {
-    alias: ['widget.edition.user'], // TODO remove alias
     extend: 'Ametys.form.widget.AbstractQueryableComboBox',
   
     /**

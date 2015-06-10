@@ -20,7 +20,6 @@
  * This widget is registered for fields of type Ametys.form.WidgetManager#TYPE_STRING.<br>
  */
 Ext.define('Ametys.form.widget.Group', {
-    alias: ['widget.edition.group'], // TODO remove alias
     extend: 'Ametys.form.widget.AbstractQueryableComboBox',
   
     /**

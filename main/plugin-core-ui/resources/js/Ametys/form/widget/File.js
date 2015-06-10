@@ -27,7 +27,6 @@
 Ext.define('Ametys.form.widget.File', {
     
     extend: 'Ametys.form.AbstractField',
-    alias: ['widget.edition.file'], //TODO: remove all aliases in this file
   
     statics: {
     	

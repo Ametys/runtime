@@ -319,7 +319,10 @@
                            widgetMultiple = [<xsl:if test="@supports-multiple='true'">true</xsl:if><xsl:if test="@supports-multiple='true' and @supports-non-multiple='true'">, </xsl:if><xsl:if test="@supports-non-multiple='true'">false</xsl:if>]; 
                            widgetFTypes = "<xsl:value-of select="@ftypes"/>".split(",");
                            
-                           <xsl:value-of select="widget/action/@class"/>.xtype = "widget.<xsl:value-of select="widget/@id"/>";
+                           // Dynamically attach the xtype
+                           Ext.ClassManager.aliasToName["widget.<xsl:value-of select="widget/@id"/>"] = "<xsl:value-of select="widget/action/@class"/>";
+                           Ext.ClassManager.nameToAliases["<xsl:value-of select="widget/action/@class"/>"] = Ext.Array.from(Ext.ClassManager.nameToAliases['Ametys.runtime.form.widget.Text']).push("widget.<xsl:value-of select="widget/@id"/>");
+                           
                            for (var i = 0; i &lt; widgetFTypes.length; i++)
                            {
                                 for (var j = 0; j &lt; widgetMultiple.length; j++)
