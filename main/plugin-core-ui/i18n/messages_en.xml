@@ -27,6 +27,8 @@
     <message key="PLUGINS_CORE_UI_DEBUG_UI_VAL_0">Production mode (concatenated, minimized)</message>
     <message key="PLUGINS_CORE_UI_DEBUG_UI_VAL_1">Partial developer mode (concatenated, not minimized)</message>
     <message key="PLUGINS_CORE_UI_DEBUG_UI_VAL_2">Full developer mode (not concatenated, not minimized)</message>
+    <message key="PLUGINS_CORE_UI_SKIPBROWSERCOMPATIBILITYTEST_LABEL">Skip browser compatibility test</message>
+    <message key="PLUGINS_CORE_UI_SKIPBROWSERCOMPATIBILITYTEST_DESCRIPTION">By default (when false) the browser of the user is tested during its connection and the user redirected if its browser is not detected as compatible. Check this to remove this test.</message>
     
     <!-- + 
          | Date patterns
