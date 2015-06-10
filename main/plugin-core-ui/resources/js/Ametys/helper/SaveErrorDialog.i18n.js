@@ -55,7 +55,7 @@ Ext.define('Ametys.helper.SaveErrorDialog', {
 			this._errorDialog = Ext.create('Ametys.window.DialogBox', {
 		    	
 		    	title: "<i18n:text i18n:key='PLUGINS_CORE_UI_SAVE_ACTION_FAILED_TITLE'/>",
-		    	icon: Ametys.CONTEXT_PATH + "/kernel/resources/img/error_16.gif",
+		    	icon: Ametys.getPluginResourcesPrefix('core-ui') + "/img/error_16.gif",
 		    	
 				width: 450,
 				maxHeight: 280,
