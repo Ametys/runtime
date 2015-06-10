@@ -22,7 +22,5 @@
     <message key="KERNEL_LANGUAGE_RTL">false</message>
     
     <!-- UI -->
-    <message key="KERNEL_UI_LISTVIEW_PREVIEW_NOTAVAILABLE">No preview available</message>
-    <message key="KERNEL_DIALOG_ERRORREADINGURL">An error occurred during loading of resource</message>
    	<message key="KERNEL_NOSCRIPT">You must activate javascript to use this application.</message>
 </catalogue>
