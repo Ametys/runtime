@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright 2015 Anyware Services
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   -->
+<catalogue xml:lang="fr">
+
+    <!-- ADMINISTRATOR PASSWORD -->
+    <message key="PLUGINS_ADMIN_PASSWORD_LABEL">Mot de passe</message>
+    <message key="PLUGINS_ADMIN_PASSWORD_DESCRIPTION">Modifier le mot de passe du compte 'admin'</message>
+    <message key="PLUGINS_ADMIN_PASSWORD_DIALOG_CAPTION">Modifier le mot de passe...</message>
+    <message key="PLUGINS_ADMIN_PASSWORD_DIALOG_OK">Ok</message>
+    <message key="PLUGINS_ADMIN_PASSWORD_DIALOG_CANCEL">Annuler</message>
+    <message key="PLUGINS_ADMIN_PASSWORD_TITLE">Mot de passe</message>
+    <message key="PLUGINS_ADMIN_PASSWORD_OLD">Ancien mot de passe</message>
+    <message key="PLUGINS_ADMIN_PASSWORD_NEW">Nouveau mot de passe</message>
+    <message key="PLUGINS_ADMIN_PASSWORD_CONFIRM">Confirmez le nouveau mot de passe</message>
+    <message key="PLUGINS_ADMIN_PASSWORD_CHANGE_ERROR_MANDATORY">Ce champ est obligatoire</message>
+    <message key="PLUGINS_ADMIN_PASSWORD_CHANGE_OK">Le mot de passe a été changé.\nVeillez à communiquer ce nouveau mot de passe à tous les administrateurs systèmes.</message>
+    <message key="PLUGINS_ADMIN_PASSWORD_CHANGE_ERROR_WRONG_EMPTY">Les 3 champs doivent avoir une valeur.</message>
+    <message key="PLUGINS_ADMIN_PASSWORD_CHANGE_ERROR_WRONG_CONFIRM">La confirmation du nouveau mot de passe est incorrecte.</message>
+    <message key="PLUGINS_ADMIN_PASSWORD_CHANGE_ERROR">Une erreur a empêché la modification du mot de passe.\nVérifiez que l'ancien mot de passe est correct.</message>
+    <message key="PLUGINS_ADMIN_PASSWORD_CHANGE_ERROR_FATAL">Une erreur est survenue sur le serveur. Le mot de passe n'a pas été changé.</message>
+    
+    <!-- ADMINISTRATOR CONFIG -->
+    <message key="PLUGINS_ADMIN_CONFIG_LABEL">Configuration</message>
+    <message key="PLUGINS_ADMIN_CONFIG_MENU">Sommaire</message>
+    <message key="PLUGINS_ADMIN_CONFIG_DESCRIPTION">Réglage des paramètres de configuration</message>
+    <message key="PLUGINS_ADMIN_CONFIG_TITLE">Configuration</message>
+    <message key="PLUGINS_ADMIN_CONFIG_HANDLE">Gestion</message>
+    <message key="PLUGINS_ADMIN_CONFIG_HANDLE_SAVE">Sauver et redémarrer</message>
+    <message key="PLUGINS_ADMIN_CONFIG_HANDLE_QUIT">Quitter sans sauver</message>
+    <message key="PLUGINS_ADMIN_CONFIG_HELP">Aide</message>    
+    <message key="PLUGINS_ADMIN_CONFIG_HELP_TEXT">Cet écran vous permet de modifier la configuration système de l'application.&lt;br/&gt;&lt;br/&gt;Naviguez en utilisant les onglets et modifiez les valeurs des paramètres.&lt;br/&gt;&lt;br/&gt;Lorsque vous enregistrez les modifications, l'application sera redémarrée automatiquement pour prendre les modifications en compte.</message>
+    <message key="PLUGINS_ADMIN_CONFIG_SAVE_OK">La configuration a été sauvée correctement</message>
+    <message key="PLUGINS_ADMIN_CONFIG_SAVE_WAIT_MSG">Sauvegarde en cours.&lt;br/&gt;Veuillez patienter ...</message>
+    <message key="PLUGINS_ADMIN_CONFIG_SAVE_FATALERROR">Le serveur ne répond pas ou une erreur grave est survenue lors de la sauvegarde.\nConsultez les journaux de l'application et du moteur de servlet pour plus de détails.</message>
+    <message key="PLUGINS_ADMIN_CONFIG_SAVE_ERROR">Une erreur est survenue sur le serveur et les paramètres n'ont pas été sauvegardés.\n\nLe message d'erreur interne est :\n</message>
+    <message key="PLUGINS_ADMIN_CONFIG_SAVE_INVALID_TITLE">Le formulaire contient des erreurs</message>
+    <message key="PLUGINS_ADMIN_CONFIG_SAVE_INVALID">Un ou plusieurs champs du formulaire sont incorrects. Veuillez les corriger avant de recommencer une sauvegarde.</message>
+    <message key="PLUGINS_ADMIN_CONFIG_INVALID_REGEXP">La saisie ne respecte pas le format attendu :</message>
+    <message key="DATE_FIELD_FORMAT">d/m/Y</message>
+    <message key="TIME_FIELD_FORMAT">H:h</message>
+    
+    <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECK_ERROR">Erreur lors de la vérification des paramètres</message>
+    <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECK_ERROR_TEXT">vérifications(s) a (ont) échoué.&lt;br/&gt;Appuyez sur 'Détails' pour en savoir plus ou consultez les journaux de l'application.</message>
+    <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECK_UI_REF_CATEGORY">Sur la catégorie</message>
+    <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECK_UI_REF_GROUP">Sur le groupe</message>
+    <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECK_UI_REF_PARAMETER">Sur le paramètre</message>
+    <message key="PLUGINS_ADMIN_CONFIG_TESTS_NOK_MBOX_TITLE">Vérifications non-concluantes</message>
+    <message key="PLUGINS_ADMIN_CONFIG_TESTS_NOK_MBOX_MSG">Avant de sauver, il est recommandé que toutes les vérifications passent avec succès (un mauvais paramètre peut entrainer le blocage du démarrage d'Ametys).&lt;br/&gt;Que souhaitez-vous faire ?</message>
+    <message key="PLUGINS_ADMIN_CONFIG_TESTS_NOK_MBOX_SAVE">Sauver sans vérifier les paramètres</message>
+    <message key="PLUGINS_ADMIN_CONFIG_TESTS_NOK_MBOX_RETRY">Lancer les vérifications et sauver</message>
+    <message key="PLUGINS_ADMIN_CONFIG_TESTS_NOK_MBOX_CANCEL">Annuler</message>
+    <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECKER_STATUS">Statut : </message>
+    <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECKER_STATUS_SUCCESS">Succès</message>
+    <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECKER_STATUS_FAILURE">Echec</message>
+    <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECKER_STATUS_NOT_TESTED">Non testé</message>
+    <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECKER_STATUS_DEACTIVATED">Désactivé</message>
+    <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECKER_STATUS_WARNING">Cette vérification dépend d'un ou plusieurs paramètres qui ont été modifiés. Il est conseillé d'effectuer ce test pour vérifier les nouvelles valeurs.</message>
+    <message key="PLUGINS_ADMIN_CONFIG_TEST_RESULTS_TITLE">Résultat des vérifications</message>
+    <message key="PLUGINS_ADMIN_CONFIG_TEST_RESULTS_TEXT">Les vérifications permettent de vérifier les paramètres de configuration. Voici le bilan :</message>
+    <message key="PLUGINS_ADMIN_CONFIG_TEST_RESULTS_SUCCESSES">Succès</message>
+    <message key="PLUGINS_ADMIN_CONFIG_TEST_RESULTS_FAILURES">Echec(s)</message>
+    <message key="PLUGINS_ADMIN_CONFIG_TEST_RESULTS_NOT_TESTED">Non testé(s)</message>
+    <message key="PLUGINS_ADMIN_CONFIG_RUN_ALL_TESTS">Lancer tous les tests</message>
+    <message key="PLUGINS_ADMIN_CONFIG_RUN_MISSED_TESTS">Lancer les tests manqués</message>
+    <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECKER_TOOLTIP_TESTED_PARAMS">Paramètre(s) utilisé(s) : </message>
+    <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECKER_TOOLTIP_MESSAGE">Message :</message>
+    <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECKER_TOOLTIP_MESSAGE2">Dernier message d'erreur:</message>
+    <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECKER_TOOLTIP_DEACTIVATED_MESSAGE">Cette vérification est désactivée car tous les paramètres qu'elle utilise sont désactivés ou au moins un des paramètres utilisés est invalide.</message>
+    <message key="PLUGINS_ADMIN_CONFIG_SERVER_CALL_ERROR_TITLE">Erreur serveur</message>
+    <message key="PLUGINS_ADMIN_CONFIG_SERVER_CALL_ERROR_TEXT">Une erreur est survenue côté serveur. Le résultat des vérifications est réinitialisé.</message>
+    <message key="PLUGINS_ADMIN_CONFIG_INVALID_FIELD_TEXT">Ce champ est obligatoire.</message>
+    <message key="PLUGINS_ADMIN_CONFIG_WARNING_TEXT_BEGINNING">La vérification '</message>
+    <message key="PLUGINS_ADMIN_CONFIG_WARNING_TEXT_END">' a échoué. Vérifiez la valeur de ce paramètre.</message>
+    <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECKER_LABEL_PREFIX">Vérifier</message>
+    
+    <!-- ADMINISTRATOR JVMSTATUS -->
+    <message key="PLUGINS_ADMIN_TOOL_JVMSTATUS_LABEL">Général</message>
+    <message key="PLUGINS_ADMIN_TOOL_JVMSTATUS_DESC">Cet outil vous permet de consulter l'état général du système et de la JVM</message>
+    <message key="PLUGINS_ADMIN_TOOL_JVMSTATUS_SERVER_ERROR">Une erreur est survenue lors de la récupération des propriétés de la JVM.</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL">Général</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_SYS">Système</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_SYS_OS">OS</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_SYS_PROC">Processeur(s)</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_SYS_PROC_UNIT">processeur(s)</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_SYS_TIME">Date</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_JVM">Java</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_JVM_VERSION">Version</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_JVM_VENDOR">Editeur</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_JVM_NAME">JVM</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_JVM_TIME">Démarrage</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM">Utilisation de la mémoire</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_HEAP">Principale</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_NHEAP">Interne</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_USED_SUFFIX">Utilisée</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_FREE_SUFFIX">Libre</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_AVAILABLE_SUFFIX">Disponible</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_USED">Mémoire utilisée</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_FREE">Mémoire libre</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_AVAILABLE">Mémoire disponible</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_UNIT">Mo</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_MEM_FREENOW">Libérer de la mémoire</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE_MEMORY_HINT_HEAP">La mémoire principale est la mémoire du tas (HEAP) qui se paramètre avec les options -Xms et -Xmx. Par exemple -Xms128m -Xmx512m. En passant la souris au-dessus de la barre de mémoire, un message vous affichera les valeurs exactes de la mémoire.</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE_MEMORY_HINT_NHEAP">La mémoire interne de java est la mémoire hors tas (non HEAP) qui se paramètre avec l'option -XX:MaxPermSize. Par exemple -XX:MaxPermSize=128m. En passant la souris au-dessus de la barre de mémoire, un message vous affichera les valeurs exactes de la mémoire.</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE">Traitements du serveur</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE_SESSION">Sessions ouvertes</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE_SESSION_HELP">Le nombre indiqué ici comptabilise les sessions du moteur de servlet ouvertes et qui n'ont pas encore expiré.&lt;br/&gt;Par exemple, les sessions des utilisateurs et celles des administrateurs sont confondues</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE_REQUEST">Requêtes en cours</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE_REQUEST_HELP">Le nombre indiqué ici comptabilise les requêtes HTTP traitées en ce moment par le serveur (y compris celle qui est faite pour récupérer cette valeur)</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE_THREAD">Threads en cours</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_GENERAL_HANDLE_THREAD_HELP">Le nombre indiqué ici comptabilise tous les threads de la JVM (toutes applications web confondues)</message>
+    <message key="PLUGINS_ADMIN_STATUS_ERROR">Erreur</message>
+    <message key="PLUGINS_ADMIN_STATUS_GC_ERROR">Une erreur est survenue. La mémoire n'a peut-être pas été libérée et les données affichées ne sont pas à jour.&lt;br/&gt;&lt;br/&gt;L'outil ne va plus se rafraichir automatiquement.</message>
+    <message key="PLUGINS_ADMIN_STATUS_REFRESH_ERROR">Une erreur est survenue. Les données affichées ne sont pas à jour.&lt;br/&gt;L'outil ne va plus se rafraichir automatiquement.</message>
+    <message key="PLUGINS_ADMIN_STATUS_SESSIONS_ERROR">? [obtenir de l'aide]</message>
+    <message key="PLUGINS_ADMIN_STATUS_SESSIONS_ERROR_HINT">Nombre de sessions inconnu.&lt;br/&gt;&lt;br/&gt;Il est possible que vous ayez ce message si vous venez de redémarrer le serveur. Fermez votre navigateur puis reconnectez-vous.&lt;br/&gt;Si vous obtenez encore ce message, vérifiez que le fichier 'WEB-INF/web.xml' contient, sous l'élément racine, la ligne suivante :&lt;br/&gt;&lt;listener&gt;&lt;listener-class&gt;org.ametys.runtime.plugins.admin.jvmstatus.SessionCountListener&lt;/listener-class&gt;&lt;/listener&gt;</message>
+    <message key="PLUGINS_ADMIN_STATUS_REQUESTS_ERROR">? [obtenir de l'aide]</message>
+    <message key="PLUGINS_ADMIN_STATUS_REQUESTS_ERROR_HINT">Nombre de requêtes inconnu.&lt;br/&gt;&lt;br/&gt;Vérifiez que le fichier 'WEB-INF/web.xml' contient, sous l'élément racine, la ligne suivante :&lt;br/&gt;&lt;listener&gt;&lt;listener-class&gt;org.ametys.runtime.plugins.admin.jvmstatus.RequestCountListener&lt;/listener-class&gt;&lt;/listener&gt;</message>
+    <message key="PLUGINS_ADMIN_STATUS_THREADS_LOCK">thread(s) en état de 'deadlock'</message>
+    <message key="PLUGINS_ADMIN_STATUS_THREADS_ERROR_LOCK_HINT">Certains threads sont en état de \"deadlock\". Cliquez ici pour obtenir un rapport détaillé du problème.</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_MONITORING">Monitoring</message>
+    <message key="PLUGINS_ADMIN_STATUS_TAB_MONITORING_EXPORT">Exporter (format XML RRD)</message>
+    
+    <!-- ADMINISTRATOR SYSTEM PROPERTIES -->
+    <message key="PLUGINS_ADMIN_TOOL_SYSTEMPROPERTIES_LABEL">Propriétés</message>
+    <message key="PLUGINS_ADMIN_TOOL_SYSTEMPROPERTIES_DESC">Cet outil vous permet de visualiser les propriétés système de lancement de la machine virtuelle java.</message>
+    <message key="PLUGINS_ADMIN_TOOL_SYSTEMPROPERTIES_FACTORY_LABEL">Propriétés du système</message>
+    <message key="PLUGINS_ADMIN_TOOL_SYSTEMPROPERTIES_COL_NAME">Nom</message>
+    <message key="PLUGINS_ADMIN_TOOL_SYSTEMPROPERTIES_COL_VALUE">Valeur</message>
+    
+    <!-- ADMINISTRATOR JVMSTATUS MONITORING -->
+    <message key="PLUGINS_ADMIN_TOOL_MONITORING_LABEL">Monitoring</message>
+    <message key="PLUGINS_ADMIN_TOOL_MONITORING_DESC">Cet outil vous permet de visualiser les courbes de suivi de l'état du système.</message>
+    <message key="PLUGINS_ADMIN_TOOL_MONITORING_SERVER_ERROR">Une erreur est survenue lors de la récupération des données de monitoring.</message>
+    <message key="PLUGINS_ADMIN_STATUS_MONITORING_UPTIME_LABEL">Temps écoulé depuis le démarrage</message>
+    <message key="PLUGINS_ADMIN_STATUS_MONITORING_UPTIME_DESCRIPTION">Ce graphique mesure le temps qui s'est écoulé depuis le démarrage. En temps normal, la courbe croit de manière régulière et redémarre à zéro si l'application a été redémarrée.</message>
+    <message key="PLUGINS_ADMIN_STATUS_MONITORING_HTTPREQUEST_LABEL">Nombre de requêtes HTTP executées</message>
+    <message key="PLUGINS_ADMIN_STATUS_MONITORING_HTTPREQUEST_DESCRIPTION">Ce graphique montre le nombre de requêtes HTTP executées pendant un laps de temps donné.</message>
+    <message key="PLUGINS_ADMIN_STATUS_MONITORING_HTTPSESSION_LABEL">Nombre de sessions HTTP en cours</message>
+    <message key="PLUGINS_ADMIN_STATUS_MONITORING_HTTPSESSION_DESCRIPTION">Ce graphique montre le nombre de sessions HTTP en cours. Une session est créée à chaque connexion d'un client (à tout le moteur de servlet et pas uniquement à cette application) et est maintenue pendant X minutes après sa dernière utilisation (où X est une valeur configuration dans le moteur de servlet qui vaut 20 en général)</message>
+    <message key="PLUGINS_ADMIN_STATUS_MONITORING_THREAD_LABEL">Nombre de thread en cours</message>
+    <message key="PLUGINS_ADMIN_STATUS_MONITORING_THREAD_DESCRIPTION">Ce graphique montre le nombre de thread java en cours (partagé par tout le moteur de servlet). Un thread correspondant à un traitement d'une requête cliente ou à une tâche de fond. Par défaut certains moteur de servlet créé X threads par avance en prévision de connexions clientes : la plupart des threads sont donc simplement en attente.</message>
+    <message key="PLUGINS_ADMIN_STATUS_MONITORING_MEMORYHEAP_LABEL">Mémoire principale (HEAP)</message>
+    <message key="PLUGINS_ADMIN_STATUS_MONITORING_MEMORYHEAP_DESCRIPTION">Ce graphique montre l'utilisation de la mémoire principale de l'application. Elle se divise en trois partie : mémoire totale (qui correspondant à la mémoire utilisée au niveau du système d'exploitation, qui augmente jusqu'à la valeur maximale configurée mais qui n'est jamais relachée), mémoire utilisée (qui correspond à la mémoire utilisée réellement par les applications du moteur) et mémoire libre (qui est la différence des deux précédente et qui représente de la mémoire allouée au niveau du système d'exploitation mais non utilisée par l'application)</message>
+    <message key="PLUGINS_ADMIN_STATUS_MONITORING_MEMORYNONHEAP_LABEL">Mémoire interne (NON-HEAD)</message>
+    <message key="PLUGINS_ADMIN_STATUS_MONITORING_MEMORYNONHEAP_DESCRIPTION">Ce graphique montre l'utilisation de la mémoire interne de l'applciation. Cette mémoire est statique et sert au chargement des librairies : elle n'est jamais libérée et ne peut qu'augmenter jusqu'à ce que toutes les librairies soit chargée.</message>
+    <message key="PLUGINS_ADMIN_STATUS_MONITORING_CPU_LABEL">Utilisation processeur</message>
+    <message key="PLUGINS_ADMIN_STATUS_MONITORING_CPU_DESCRIPTION">Ce graphique montre l'utilisation du processeur (ne fonctionne qu'avec la JVM de Sun).</message>
+    <message key="PLUGINS_ADMIN_STATUS_MONITORING_DISKIO_LABEL">Activité des disques</message>
+    <message key="PLUGINS_ADMIN_STATUS_MONITORING_DISKIO_DESCRIPTION">Ce graphique montre l'activé des disques (lectures et écritures).</message>
+
+    <!-- ADMINISTRATOR PLUGINS -->
+    <message key="PLUGINS_ADMIN_TOOL_PLUGINSBYFILE_LABEL">Plugins par fichier</message>
+    <message key="PLUGINS_ADMIN_TOOL_PLUGINSBYFILE_DESC">Ouvre un outil permettant de visualiser les plugins par fichiers sous forme d'un arbre. Permet d'activer/désactiver des plugins.</message>
+    <message key="PLUGINS_ADMIN_TOOL_PLUGINSBYFILE_SERVER_ERROR">Une erreur est survenue lors de la récupération des propriétés de l'arbre.</message>
+    <message key="PLUGINS_ADMIN_TOOL_PLUGINSBYFILE_ROOT_TEXT">Plugins</message>
+    
+    <message key="PLUGINS_ADMIN_TOOL_PLUGINSBYEXTENSIONPOINT_LABEL">Plugins par point d'extension</message>
+    <message key="PLUGINS_ADMIN_TOOL_PLUGINSBYEXTENSIONPOINT_DESC">Ouvre un outil permettant de visualiser les plugins par point d'extension sous forme d'un arbre. Permet d'activer/désactiver des plugins.</message>
+    <message key="PLUGINS_ADMIN_TOOL_PLUGINSBYEXTENSIONPOINT_SERVER_ERROR">Une erreur est survenue lors de la récupération des propriétés de l'arbre.</message>
+    <message key="PLUGINS_ADMIN_TOOL_PLUGINSBYEXTENSIONPOINT_ROOT_TEXT">Plugins</message>
+    
+    <message key="PLUGINS_ADMIN_TOOL_WORKSPACES_LABEL">Workspaces</message>
+    <message key="PLUGINS_ADMIN_TOOL_WORKSPACES_DESC">Ouvre un outil permettant de visualiser les workspaces sous forme d'un arbre.</message>
+    <message key="PLUGINS_ADMIN_TOOL_WORKSPACES_SERVER_ERROR">Une erreur est survenue lors de la récupération des propriétés de l'arbre.</message>
+    <message key="PLUGINS_ADMIN_TOOL_WORKSPACES_ROOT_TEXT">Workspaces</message>
+
+    <message key="PLUGINS_ADMIN_PLUGINS_DOCUMENTATION_LABEL">Documentation</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_DOCUMENTATION_DESC">Voir la documentation rattachée au noeud sélectionné.</message>
+    
+    <message key="PLUGINS_ADMIN_PLUGINS_ACTIVATE_LABEL">Activer</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_ACTIVATE_DESC">Permet d'activer la feature sélectionnée.</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_DEACTIVATE_LABEL">Désactiver</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_DEACTIVATE_DESC">Permet de désactiver la feature sélectionnée.</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_SELECT_LABEL">Sélectionner</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_SELECT_DESC">Sélectionne le point d'extension.</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_SAVE_CHANGES_LABEL">Sauvegarder les modifications</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_SAVE_CHANGES_DESC">Applique les modifications réalisées.</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_SAVE_CHANGES_ERROR">Une erreur s'est produit lors de l'application des changements.</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_PENDING">Attention, l'arbre ne sera à jour que lorsque les changements auront été appliqués.</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_CANCEL_CHANGES_LABEL">Annuler les modifications</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_CANCEL_CHANGES_DESC">Annuler les modifications réalisées.</message>
+    
+    <message key="PLUGINS_ADMIN_PLUGINS_NO_PLUGINS">Aucun plugin n'est enregistré</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_EXTENSION_POINTS">Points d'extension</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_NO_EXTENSION">Aucun point d'extension n'est enregistré</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_PLUGIN_VIEW">Plugins par fichiers</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_EXTENSION_POINT_VIEW">Plugins par point d'extensions</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_WORKSPACE_VIEW">Workspaces</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_NO_WORKSPACE">Aucun workspace n'est enregistré</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_WORKSPACE_DEFAULT">(Workspace par défaut)</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_INACTIVE">(ERREUR il n'y a pas de raison que cette feature soit inactive)</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_INACTIVE_SINGLE">(contient une extension non choisie)</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_INACTIVE_EXCLUDED">(désactivé)</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_INACTIVE_DEPENDENCY">(dépend d'une feature indisponible)</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_INACTIVE_PASSIVE">(feature passive non nécessaire)</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_ALERT_TEXT">Le changement ne sera effectif que lorsque vous aurez confirmé tous vos changements.&lt;br/&gt;Pour cela, cliquez sur l'action 'Changements'.&lt;br/&gt;&lt;br/&gt;Aucun élément graphique des arbres de plugins ne sera modifié tant que vos changements ne seront pas validés.</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_ALERT_TITLE">Changement...</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_CONFIRM_TITLE">Changements...</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_CONFIRM_TEXT_START">Vous avez le(s) changement(s) suivant(s) en attente :&lt;br/&gt;&lt;br/&gt;</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_CONFIRM_TEXT_END">&lt;br/&gt;Souhaitez-vous les appliquer maintenant ?</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_SEP">Points d'extensions simples</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_EP">Points d'extensions multiples</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_BEWARE_TITLE">Dégagement</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_BEWARE_TEXT">Attention! Les changements de configuration peuvent empécher votre serveur de démarrer.&lt;br/&gt;Le fichier suivant va être modifié 'WEB-INF/param/runtime.xml'. En cas de problèmes vous pouvez restaurer la copie de sauvegarde 'WEB-INF/param/runtime.bak'.&lt;br/&gt;&lt;br/&gt;Modifier ce fichier implique de redémarrer le serveur (cela sera fait automatiquement quand vous appliquerez vos modification)</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_DONE">Les changements ont été effectués et le serveur est en train de redémarrer. Fermer cette boite de dialogue pour recharger cette page.</message>
+    <message key="PLUGINS_ADMIN_PLUGINS_CHANGES_ERROR">Les changements n'ont pas été effectués.</message>
+    
+    <!-- ADMINISTRATOR LOGS VIEW -->
+    <message key="PLUGINS_ADMIN_TOOL_LOGS_LABEL">Visualisation</message>
+    <message key="PLUGINS_ADMIN_TOOL_LOGS_DESC">Visualiser les journaux de l'application</message>
+    <message key="PLUGINS_ADMIN_LOGS_TITLE">Journaux</message>
+    <message key="PLUGINS_ADMIN_LOGS_HELP">Aide</message>
+    <message key="PLUGINS_ADMIN_LOGS_HELP_TEXT">Cet écran vous permet de visualiser les fichiers de logs et aussi de supprimer les fichiers obsolètes.&lt;br/&gt;&lt;br/&gt;Si vos fichiers de logs ont une taille élevée et que vous êtes en production, pensez à augmenter le niveau de logs en mode 'ERROR' dans le fichier WEB-INF\\log4j.xml.&lt;br/&gt;&lt;br/&gt;Vous pouvez aussi changer temporairement le niveau de log pour l'execution en utilisant le bouton Configuration.</message>
+    <message key="PLUGINS_ADMIN_LOGS_TAB_VIEW">Visualisation</message>
+    <message key="PLUGINS_ADMIN_LOGS_COL_CATEGORY">Journaux</message>
+    <message key="PLUGINS_ADMIN_LOGS_COL_NAME">Fichier</message>
+    <message key="PLUGINS_ADMIN_LOGS_COL_DATE">Date</message>
+    <message key="PLUGINS_ADMIN_LOGS_COL_SIZE">Taille</message>
+    <message key="PLUGINS_ADMIN_LOGS_VIEW_LABEL">Voir</message>
+    <message key="PLUGINS_ADMIN_LOGS_VIEW_DESC">Voir le fichier sélectionné</message>
+    <message key="PLUGINS_ADMIN_LOGS_VIEW_DIALOG_TITLE">Voir le fichier</message>
+    <message key="PLUGINS_ADMIN_LOGS_VIEW_DIALOG_CONFIRM">Le fichier que vos souhaitez visualiser a une taille élevée et ne peut être envoyé sans compression pour éviter la saturation du serveur. Voulez-vous télécharger ce fichier en version compressée ?</message>
+    <message key="PLUGINS_ADMIN_LOGS_DOWNLOAD_LABEL">Télécharger</message>
+    <message key="PLUGINS_ADMIN_LOGS_DOWNLOAD_DESC">Télécharger le ou les fichier(s) sélectionné(s)</message>
+    <message key="PLUGINS_ADMIN_LOGS_PURGE">Purge</message>
+    <message key="PLUGINS_ADMIN_LOGS_PURGE_LABEL">Purger les journaux</message>
+    <message key="PLUGINS_ADMIN_LOGS_PURGE_DESC">Effacer les journaux datés de plus de 12 jours.</message>
+    <message key="PLUGINS_ADMIN_LOGS_PURGE_DIALOG_TITLE">Purge</message>
+    <message key="PLUGINS_ADMIN_LOGS_PURGE_DIALOG_CONFIRM">Etes-vous sûr de vouloir effacer tous les journaux datés de plus de 12 jours ?</message>
+    <message key="PLUGINS_ADMIN_LOGS_PURGE_SERVER_ERROR">Une erreur est survenue sur le serveur.</message>
+    <message key="PLUGINS_ADMIN_LOGS_PURGE_AMOUNT">fichiers de journal ont été effacés par la purge</message>
+    <message key="PLUGINS_ADMIN_LOGS_PURGE_NONE">Aucun journal n'est daté de plus de 12 jours.</message>
+    <message key="PLUGINS_ADMIN_LOGS_DELETE_LABEL">Supprimer</message>
+    <message key="PLUGINS_ADMIN_LOGS_DELETE_DESC">Supprimer le(s) fichier(s) sélectionnés</message>
+    <message key="PLUGINS_ADMIN_LOGS_DELETE_DIALOG_TITLE">Suppression</message>
+    <message key="PLUGINS_ADMIN_LOGS_DELETE_DIALOG_CONFIRM">Etes-vous sûr de vouloir effacer le(s) journal(aux) sélectionné(s) ?&lt;br/&gt;&lt;br/&gt;Il est possible que l'opération échoue si un fichier à supprimer est le fichier de log actuel.</message>
+    <message key="PLUGINS_ADMIN_LOGS_DELETE_ERROR">Une erreur est survenue sur le serveur. Un ou plusieurs fichiers n'ont pas été supprimés.&lt;br/&gt;&lt;br/&gt;Ces fichiers sont peut-être en cours d'utilisation ou ont déjà été supprimés.</message>
+    
+    <!-- ADMINISTRATOR LOGS LEVEL -->
+    <message key="PLUGINS_ADMIN_TOOL_LOGS_LEVEL_LABEL">Configuration</message>
+    <message key="PLUGINS_ADMIN_TOOL_LOGS_LEVEL_DESC">Cet outil permet de configurer les niveaux de logs catégorie par catégorie.&lt;br/&gt;Pour modifier de manière permanente le niveau de logs, configurez le fichier WEB-INF\\log4j.xml.</message>    
+    <message key="PLUGINS_ADMIN_TOOL_LOGS_LEVEL_SERVER_ERROR">Une erreur est survenue : les modifications n'ont peut-être pas été prises en compte.</message>
+    <message key="PLUGINS_ADMIN_LOGS_LEVEL_DEBUG_LABEL">Passer en DEBUG</message>  
+    <message key="PLUGINS_ADMIN_LOGS_LEVEL_DEBUG_DESC">Changer le niveau de log de la catégorie sélectionnée en "debug".</message>
+    <message key="PLUGINS_ADMIN_LOGS_LEVEL_INFO_LABEL">Passer en INFO</message>  
+    <message key="PLUGINS_ADMIN_LOGS_LEVEL_INFO_DESC">Changer le niveau de log de la catégorie sélectionnée en "info".</message>
+    <message key="PLUGINS_ADMIN_LOGS_LEVEL_WARN_LABEL">Passer en WARNING</message>  
+    <message key="PLUGINS_ADMIN_LOGS_LEVEL_WARN_DESC">Changer le niveau de log de la catégorie sélectionnée en "warning".</message>    
+    <message key="PLUGINS_ADMIN_LOGS_LEVEL_ERROR_LABEL">Passer en ERROR</message>  
+    <message key="PLUGINS_ADMIN_LOGS_LEVEL_ERROR_DESC">Changer le niveau de log de la catégorie sélectionnée en "error".</message>  
+    <message key="PLUGINS_ADMIN_LOGS_LEVEL_FORCE_LABEL">Forcer l'héritage</message>  
+    <message key="PLUGINS_ADMIN_LOGS_LEVEL_FORCE_DESC">Forcer l'héritage de niveau de log de la catégorie sélectionnée.</message>
+    <message key="PLUGINS_ADMIN_LOGS_LEVEL_INHERIT_LABEL">Hériter le mode</message>  
+    <message key="PLUGINS_ADMIN_LOGS_LEVEL_INHERIT_DESC">Changer le niveau de log de la catégorie sélectionnée à "héritage".</message> 
+    <message key="PLUGINS_ADMIN_LOGS_HANDLE">Gestion</message>
+    <message key="PLUGINS_ADMIN_LOGS_HANDLE_LOGLEVEL_INHERIT">Hériter le mode</message>
+    <message key="PLUGINS_ADMIN_LOGS_HANDLE_LOGLEVEL_FORCE">Forcer l'héritage</message>
+    <message key="PLUGINS_ADMIN_LOGS_HANDLE_ERROR">Une erreur est survenue : les modifications n'ont peut-être pas été prises en compte.&lt;br/&gt;Il est conseillé d'actualiser la page avant de continuer.</message>
+    <message key="PLUGINS_ADMIN_LOGS_HELP2_TEXT">Cet outil permet de configurer les niveaux de logs catégorie par catégorie.&lt;br/&gt;&lt;br/&gt;Pour modifier de manière permanente le niveau de logs, configurez le fichier WEB-INF\\log4j.xml.</message>
+    
+    <!-- ADMINITRATOR SYSTEM -->
+    <message key="PLUGINS_ADMIN_SYSTEM_LABEL">Accès</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_DESCRIPTION">Cet outil permet de mettre en place une annonce d'accueil pour les utilisateurs.</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_DESCRIPTION_ON">L'annonce système d'accueil est actuellement activée.</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_DESCRIPTION_OFF">L'annonce système d'accueil est actuellement désactivée.</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_TITLE">Accès des utilisateurs</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_COL_LANG">Langue</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_COL_MESSAGE">Message</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_ADD_LABEL">Nouveau</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_ADD_DESC">Crée une nouvelle annonce.</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_EDIT_LABEL">Modifier</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_EDIT_DESC">Modifie l'annonce sélectionnée.</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_DELETE_LABEL">Supprimer</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_DELETE_DESC">Supprimer l'annonce sélectionnée.</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_SET_ANNOUNCEMENT_LABEL">Activer</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_SET_ANNOUNCEMENT_DESC">Active ou désactive l'annonce système.</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_SET_ANNOUNCEMENT_ON_DESC">L'annonce système d'accueil est actuellement désactivée.&lt;br/&gt;&lt;br/&gt;Cliquez ici pour activer l'annonce système d'accueil.</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_SET_ANNOUNCEMENT_OFF_DESC">L'annonce système d'accueil est actuellement activée.&lt;br/&gt;&lt;br/&gt;Cliquez ici pour désactiver l'annonce système d'accueil.</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_DELETE_CONFIRM">Etes-vous sûr de vouloir supprimer cette annonce ?</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_DIALOG_CAPTION">Annonce...</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_DIALOG_OK">Ok</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_DIALOG_CANCEL">Annuler</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_DIALOG_LANG_HELP">Code de langue du message d'annonce.&lt;br/&gt;Le code de langue est un code de 2 lettres (par exemple fr, en, de, es, zh...).&lt;br/&gt;Le code * signifie tous les autres langues.</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_DIALOG_MESSAGE_HELP">Message de l'annonce écrit dans la langue spécifiée</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_DEFAULTMESSAGE">Entrez ici le message d'annonce dans la langue par défaut</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_DIALOG_ERROR_LANG">Le code de langue se compose toujours de 2 lettres.&lt;br/&gt;Par exemple : 'fr' pour le français ou 'en' pour l'anglais.</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_ERROR">Erreur</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_ERROR_SAVE">Une erreur est survenue sur le serveur. Les modifications n'ont pas été enregistrées.</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_CONFIRM_DIALOG_TITLE">Remplacer le message existant</message>
+    <message key="PLUGINS_ADMIN_SYSTEM_CONFIRM_DIALOG_TEXT">Une annonnce existe déjà dans cette langue, voulez-vous le remplacer ?</message>
+    
+    <!-- ADMINISTRATOR SUPER USER -->
+    <message key="PLUGINS_ADMIN_SUPERUSER_LABEL">Super utilisateur</message>
+    <message key="PLUGINS_ADMIN_SUPERUSER_DESCRIPTION">Définir un ou des gestionnaire(s) : utilisateurs ayant tous les droits</message>
+    <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_ERROR">Une erreur est survenue : l'affectation a échoué.</message>
+    <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_TITLE">Super utilisateur</message>
+    <message key="PLUGINS_ADMIN_SUPERUSER_AFFECT_SUCCESS">L'affectation a été effectuée</message>
+</catalogue>
