@@ -24,24 +24,13 @@
 
     <xsl:import href="kernel.xsl"/>    
     
-    <xsl:param name="contextPath"/>
-    <xsl:param name="workspaceName"/>
-    <xsl:param name="workspaceURI"/>
-    <xsl:param name="max-upload-size"/>
-    <xsl:param name="debug-mode-config">2</xsl:param>
-    <xsl:param name="debug-mode-request"/>
     <xsl:param name="splashscreen"/>
-    <xsl:param name="skip-navigator-compatibility">false</xsl:param>
+    
+    <xsl:variable name="contextPath" select="ametys:uriPrefix(false())"/>
+    <xsl:variable name="workspaceURI" select="ametys:workspacePrefix()"/>
+    <xsl:variable name="debug-mode" select="ametys:config('runtime.debug.ui')"/>
     
     <xsl:variable name="callback"><script type="text/javascript">window.setTimeout(_updateProgressBar, 1);</script></xsl:variable>
-
-	<xsl:variable name="debug-mode">
-		<xsl:choose>
-			<xsl:when test="$debug-mode-request = ''"><xsl:value-of select="$debug-mode-config"/></xsl:when>
-			<xsl:otherwise><xsl:value-of select="$debug-mode-request"/></xsl:otherwise>
-		</xsl:choose>
-	</xsl:variable>    
-    <xsl:variable name="workspace-resources" select="concat($contextPath, $workspaceURI, '/resources')"/>
 
     <xsl:template name="title">
     	<title><i18n:text i18n:catalogue="application" i18n:key="APPLICATION_PRODUCT_LABEL"/></title>
