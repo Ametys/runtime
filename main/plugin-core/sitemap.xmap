@@ -18,120 +18,64 @@
 
 	<map:components>
         <map:generators>
-            <map:generator name="administrator-config" src="org.ametys.runtime.plugins.core.administrator.configuration.ConfigGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.config" label="content"/>
-            <map:generator name="administrator-jvmstatus" src="org.ametys.runtime.plugins.core.administrator.jvmstatus.GeneralStatusGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.jvmstatus" label="content"/>
-            <map:generator name="administrator-system-properties" src="org.ametys.runtime.plugins.core.administrator.jvmstatus.SystemPropertiesGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.jvmstatus" label="content"/>
-            <map:generator name="administrator-logs" src="org.ametys.runtime.plugins.core.administrator.logs.LogsGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.logs" label="content"/>
-            <map:generator name="administrator-logs-downloadzip" src="org.ametys.runtime.plugins.core.administrator.logs.LogsDownloadGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.logsDownload" label="content"/>
-            <map:generator name="administrator-plugins" src="org.ametys.runtime.plugin.PluginsGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.plugin" label="content"/>
-            <map:generator name="administrator-workspaces" src="org.ametys.runtime.plugin.WorkspacesGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.plugins" label="content" />
-            <map:generator name="administrator-plugins-doc" src="org.ametys.runtime.plugins.core.administrator.plugins.doc.PluginDocGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.plugindoc" label="content"/>
-            <map:generator name="administrator-plugins-change-runtime" src="org.ametys.runtime.plugins.core.administrator.plugins.ChangeRuntime" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.ChangeRuntimePlugins" label="content"/>
-            <map:generator name="administrator-system-announcement" src="org.ametys.runtime.plugins.core.administrator.system.SystemAnnouncementGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.systemannouncement" label="content"/>
-            <map:generator name="administrator-startuptime" src="org.ametys.runtime.plugins.core.administrator.system.StartupTimeGenerator" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.startuptime" label="content"/>
-            <map:generator name="administrator-rights-profiles-view" src="org.ametys.runtime.plugins.core.right.profile.generators.ProfilesGenerator" logger="org.ametys.runtime.plugins.core.right.profile.sitemap.generator.view" label="content"/>
-            <map:generator name="administrator-users-info" src="org.ametys.runtime.plugins.core.user.ui.generators.UserInformationGenerator" logger="org.ametys.runtime.plugins.core.user.sitemap.generator.detail" label="content"/>
-            <!-- FIXME duplicate generator -->
-            <map:generator name="users-info" src="org.ametys.runtime.plugins.core.user.ui.generators.UserInformationGenerator" logger="org.ametys.runtime.plugins.core.user.sitemap.generator.detail" label="content"/>
-			<map:generator name="administrator-users-view" src="org.ametys.runtime.plugins.core.user.ui.generators.ViewGenerator" logger="org.ametys.runtime.plugins.core.user.sitemap.generator.view" label="content"/>
-            <map:generator name="administrator-users-model" src="org.ametys.runtime.plugins.core.user.ui.generators.ModelGenerator" logger="org.ametys.runtime.plugins.core.user.sitemap.generator.model" label="content"/>
-            <!-- FIXME duplicate generator -->
-            <map:generator name="users-model" src="org.ametys.runtime.plugins.core.user.ui.generators.ModelGenerator" logger="org.ametys.runtime.plugins.core.user.sitemap.generator.model" label="content"/>
-			<map:generator name="administrator-groups-view" src="org.ametys.runtime.plugins.core.group.ui.generators.GroupsGenerator" logger="org.ametys.runtime.plugins.core.group.sitemap.generator.view" label="content"/>
-            <map:generator name="administrator-group-members" src="org.ametys.runtime.plugins.core.group.ui.generators.GroupMembersGenerator" logger="org.ametys.runtime.plugins.core.group.sitemap.generator.members" label="content"/>
-            <!-- FIXME duplicate generator -->
-            <map:generator name="group-members" src="org.ametys.runtime.plugins.core.group.ui.generators.GroupMembersGenerator" logger="org.ametys.runtime.plugins.core.group.sitemap.generator.members" label="content"/>
-			
-            <map:generator name="users-search" src="org.ametys.runtime.plugins.core.user.ui.generators.SearchGenerator" logger="org.ametys.runtime.plugins.core.user.sitemap.generator.search" label="content"/>
-            <map:generator name="groups-search" src="org.ametys.runtime.plugins.core.group.ui.generators.SearchGenerator" logger="org.ametys.runtime.plugins.core.group.sitemap.generator.search" label="content"/>
-            
-			<map:generator name="rights-profiles-context" src="org.ametys.runtime.plugins.core.right.profile.generators.ProfilesByContextGenerator" logger="org.ametys.runtime.plugins.core.right.profile.sitemap.generator" label="content"/>
-			<map:generator name="rights-profile-rights" src="org.ametys.runtime.plugins.core.right.profile.generators.ProfileRightsGenerator" logger="org.ametys.runtime.plugins.core.right.profile.sitemap.generator" label="content"/>
-            <map:generator name="rights-profiles-list" src="org.ametys.runtime.plugins.core.right.ui.generators.ProfilesListGenerator" logger="org.ametys.runtime.plugins.core.right.sitemap.generator.profiles" label="content"/>
-           	<map:generator name="rights-rights-list" src="org.ametys.runtime.plugins.core.right.ui.generators.RightsListGenerator" logger="org.ametys.runtime.plugins.core.right.sitemap.generator.profiles" label="content"/>
-            <map:generator name="rights-profile-assignment" src="org.ametys.runtime.plugins.core.right.ui.generators.ProfileAssignationGenerator" logger="org.ametys.runtime.plugins.core.right.sitemap.generator.assignment" label="content"/>
-            <map:generator name="rights-context-application" src="org.ametys.runtime.plugins.core.right.ui.generators.ApplicationContextGenerator" logger="org.ametys.runtime.plugins.core.right.sitemap.generator.context.application" label="content"/>
+            <map:generator name="users-info" src="org.ametys.plugins.core.user.UserInformationGenerator" logger="org.ametys.plugins.core.user" label="content"/>
+            <map:generator name="users-model" src="org.ametys.plugins.core.user.ModelGenerator" logger="org.ametys.plugins.core.user" label="content"/>
+            <map:generator name="users-search" src="org.ametys.plugins.core.user.SearchGenerator" logger="org.ametys.plugins.core.user" label="content"/>
 
-            <map:generator name="user-prefs-def" src="org.ametys.runtime.plugins.core.userpref.UserPreferencesGenerator"/>
-            <map:generator name="user-prefs" src="org.ametys.runtime.plugins.core.userpref.UserPreferencesValuesGenerator"/>
-            <map:generator name="user-prefs-errors" src="org.ametys.runtime.plugins.core.userpref.UserPreferencesErrorsGenerator" logger="org.ametys.runtime.plugins.core.userpref.UserPreferencesErrorsGenerator"/>
+            <map:generator name="group-members" src="org.ametys.plugins.core.group.GroupMembersGenerator" logger="org.ametys.plugins.core.group" label="content"/>
+            <map:generator name="groups-search" src="org.ametys.plugins.core.group.SearchGenerator" logger="org.ametys.plugins.core.group" label="content"/>
             
-        	<map:generator name="dispatcher" src="org.ametys.runtime.plugins.core.dispatcher.DispatchGenerator"/>
-        	<map:generator name="i18n" src="org.ametys.runtime.util.I18nGenerator" logger="org.ametys.runtime.util.I18nGenerator"/>
+           	<map:generator name="rights-rights-list" src="org.ametys.plugins.core.right.RightsListGenerator" logger="org.ametys.plugins.core.right" label="content"/>
+            <map:generator name="rights-profile-assignment" src="org.ametys.plugins.core.right.ProfileAssignationGenerator" logger="org.ametys.plugins.core.right" label="content"/>
+            <map:generator name="rights-context-application" src="org.ametys.plugins.core.right.ApplicationContextGenerator" logger="org.ametys.plugins.core.right" label="content"/>
+            <map:generator name="rights-profiles-list" src="org.ametys.plugins.core.right.ProfilesListGenerator" logger="org.ametys.plugins.core.right" label="content"/>
+
+			<map:generator name="rights-profiles-context" src="org.ametys.plugins.core.right.profile.ProfilesByContextGenerator" logger="org.ametys.plugins.core.right.profile" label="content"/>
+			<map:generator name="rights-profile-rights" src="org.ametys.plugins.core.right.profile.ProfileRightsGenerator" logger="org.ametys.plugins.core.right.profile" label="content"/>
+            
+            <map:generator name="user-prefs-def" src="org.ametys.plugins.core.userpref.UserPreferencesGenerator"/>
+            <map:generator name="user-prefs" src="org.ametys.plugins.core.userpref.UserPreferencesValuesGenerator"/>
+            <map:generator name="user-prefs-errors" src="org.ametys.plugins.core.userpref.UserPreferencesErrorsGenerator" logger="org.ametys.plugins.core.userpref.UserPreferencesErrorsGenerator"/>
+            
         </map:generators>
         
-        <map:serializers>
-            <map:serializer name="zip" src="org.ametys.runtime.cocoon.ZipArchiveNGSerializer" logger="org.ametys.runtime.plugins.core.administrator.sitemap.serializer.zip"/>
-        </map:serializers>
-        
 		<map:actions>
-            <map:action name="set-header" src="org.apache.cocoon.acting.HttpHeaderAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.httpHeader"/>
-            <map:action name="administrator-system-announcements" src="org.ametys.runtime.plugins.core.administrator.system.GetSystemAnnouncements" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.system" label="content"/>
+            <map:action name="set-header" src="org.apache.cocoon.acting.HttpHeaderAction" logger="org.ametys.plugins.core.administrator.sitemap.action.httpHeader"/>
 
-            <map:action name="administrator-logs-level" src="org.ametys.runtime.plugins.core.administrator.logs.GetLogsLevel" logger="org.ametys.runtime.plugins.core.administrator.sitemap.generator.logs" label="content"/>	            
+			<map:action name="users-edit" src="org.ametys.plugins.core.user.EditAction" logger="org.ametys.plugins.core.user"/>
+			<map:action name="users-delete" src="org.ametys.plugins.core.user.DeleteAction" logger="org.ametys.plugins.core.user"/>
+            
+			<map:action name="group-create" src="org.ametys.plugins.core.group.CreateGroupAction" logger="org.ametys.plugins.core.group"/>
+			<map:action name="group-rename" src="org.ametys.plugins.core.group.RenameGroupAction" logger="org.ametys.plugins.core.group"/>
+            <map:action name="group-modify" src="org.ametys.plugins.core.group.UpdateGroupAction" logger="org.ametys.plugins.core.group"/>
+			<map:action name="group-modify-users" src="org.ametys.plugins.core.group.UpdateUsersGroupAction" logger="org.ametys.plugins.core.group"/>
+			<map:action name="group-delete" src="org.ametys.plugins.core.group.DeleteGroupAction" logger="org.ametys.plugins.core.group"/>
+            
+            <map:action name="rights-assign" src="org.ametys.plugins.core.right.AssignAction" logger="org.ametys.plugins.core.right"/>
+            <map:action name="rights-remove" src="org.ametys.plugins.core.right.RemoveAction" logger="org.ametys.plugins.core.right"/>
+            
+            <map:action name="captcha" src="org.ametys.plugins.core.captcha.CreateCaptchaAction" logger="org.ametys.plugins.core.captcha"/>
+            <map:action name="upload-store" src="org.ametys.plugins.core.upload.UploadAction" logger="org.ametys.plugins.core.upload"/>
+            
+            <map:action name="get-parent-context-attr" src="org.ametys.core.util.GetParentContextAttributeAction" logger="org.ametys.plugins.core.util"/>
 
-            <map:action name="administrator-is-system-user" src="org.ametys.runtime.plugins.core.right.actions.IsAdminAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.isAdmin"/>
-			<map:action name="administrator-password-set" src="org.ametys.runtime.plugins.core.administrator.password.SetPasswordAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.setPassword"/>
-            <map:action name="administrator-config-save" src="org.ametys.runtime.plugins.core.administrator.configuration.SaveConfigAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.saveConfig"/>
-            <map:action name="administrator-config-test" src="org.ametys.runtime.config.ParameterCheckerAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.dispatchRequest"/>
-            <map:action name="administrator-change-plugins" src="org.ametys.runtime.plugins.core.administrator.plugins.ChangePlugins" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.changePlugins"/>
-			<map:action name="administrator-affect-superuser" src="org.ametys.runtime.plugins.core.administrator.superuser.AffectSuperUserAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.superUser"/>
-			<map:action name="administrator-restart" src="org.ametys.runtime.plugins.core.administrator.RestartAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.restart"/>
-			<map:action name="administrator-users-edit" src="org.ametys.runtime.plugins.core.user.ui.actions.EditAction" logger="org.ametys.runtime.plugins.core.user.sitemap.action.edit"/>
-            <!-- FIXME duplicate action -->
-			<map:action name="users-edit" src="org.ametys.runtime.plugins.core.user.ui.actions.EditAction" logger="org.ametys.runtime.plugins.core.user.sitemap.action.edit"/>
-			<map:action name="administrator-users-delete" src="org.ametys.runtime.plugins.core.user.ui.actions.DeleteAction" logger="org.ametys.runtime.plugins.core.user.sitemap.action.delete"/>
-            <!-- FIXME duplicate action -->
-			<map:action name="users-delete" src="org.ametys.runtime.plugins.core.user.ui.actions.DeleteAction" logger="org.ametys.runtime.plugins.core.user.sitemap.action.delete"/>
-			<map:action name="administrator-users-impersonate" src="org.ametys.runtime.plugins.core.user.ui.actions.ImpersonateAction" logger="org.ametys.runtime.plugins.core.user.sitemap.action.impersonate"/>
-			<map:action name="administrator-group-create" src="org.ametys.runtime.plugins.core.group.ui.actions.CreateGroupAction" logger="org.ametys.runtime.plugins.core.group.sitemap.action.create"/>
-            <!-- FIXME duplicate action -->
-			<map:action name="group-create" src="org.ametys.runtime.plugins.core.group.ui.actions.CreateGroupAction" logger="org.ametys.runtime.plugins.core.group.sitemap.action.create"/>
-			<map:action name="administrator-group-rename" src="org.ametys.runtime.plugins.core.group.ui.actions.RenameGroupAction" logger="org.ametys.runtime.plugins.core.group.sitemap.action.rename"/>
-            <!-- FIXME duplicate action -->
-			<map:action name="group-rename" src="org.ametys.runtime.plugins.core.group.ui.actions.RenameGroupAction" logger="org.ametys.runtime.plugins.core.group.sitemap.action.rename"/>
-			<map:action name="administrator-group-modify" src="org.ametys.runtime.plugins.core.group.ui.actions.UpdateGroupAction" logger="org.ametys.runtime.plugins.core.group.sitemap.action.update"/>
-			<map:action name="administrator-group-modify-users" src="org.ametys.runtime.plugins.core.group.ui.actions.UpdateUsersGroupAction" logger="org.ametys.runtime.plugins.core.group.sitemap.action.update"/>
-            <!-- FIXME duplicate action -->
-			<map:action name="group-modify-users" src="org.ametys.runtime.plugins.core.group.ui.actions.UpdateUsersGroupAction" logger="org.ametys.runtime.plugins.core.group.sitemap.action.update"/>
-			<map:action name="administrator-group-delete" src="org.ametys.runtime.plugins.core.group.ui.actions.DeleteGroupAction" logger="org.ametys.runtime.plugins.core.group.sitemap.action.delete"/>
-            <!-- FIXME duplicate action -->
-			<map:action name="group-delete" src="org.ametys.runtime.plugins.core.group.ui.actions.DeleteGroupAction" logger="org.ametys.runtime.plugins.core.group.sitemap.action.delete"/>
-			<map:action name="administrator-rights-profile-create" src="org.ametys.runtime.plugins.core.right.profile.actions.CreateProfileAction" logger="org.ametys.runtime.plugins.core.right.profile.sitemap.action.view"/>
-			<map:action name="administrator-rights-profile-rename" src="org.ametys.runtime.plugins.core.right.profile.actions.RenameProfileAction" logger="org.ametys.runtime.plugins.core.right.profile.sitemap.action.view"/>
-			<map:action name="administrator-rights-profile-modify" src="org.ametys.runtime.plugins.core.right.profile.actions.ModifyProfileAction" logger="org.ametys.runtime.plugins.core.right.profile.sitemap.action.view"/>
-			<map:action name="administrator-rights-profile-delete" src="org.ametys.runtime.plugins.core.right.profile.actions.DeleteProfileAction" logger="org.ametys.runtime.plugins.core.right.profile.sitemap.action.view"/>
+			<map:action name="user-prefs-def" src="org.ametys.plugins.core.userpref.GetUserPreferencesAction"/>
+            <map:action name="save-userprefs" src="org.ametys.plugins.core.userpref.SetUserPreferencesAction"/>
             
-            <map:action name="rights-assign" src="org.ametys.runtime.plugins.core.right.ui.actions.AssignAction" logger="org.ametys.runtime.plugins.core.right.sitemap.action.assign"/>
-            <map:action name="rights-remove" src="org.ametys.runtime.plugins.core.right.ui.actions.RemoveAction" logger="org.ametys.runtime.plugins.core.right.sitemap.action.remove"/>
-            
-            <map:action name="captcha" src="org.ametys.runtime.captcha.CreateCaptchaAction"/>
-            <map:action name="upload-store" src="org.ametys.runtime.plugins.core.upload.actions.UploadAction" logger="org.ametys.runtime.plugins.core.upload.actions.UploadAction"/>
-            
-            <map:action name="get-parent-context-attr" src="org.ametys.runtime.util.GetParentContextAttributeAction" logger="org.ametys.runtime.util.GetParentContextAttributeAction"/>
-
-			<map:action name="user-prefs-def" src="org.ametys.runtime.plugins.core.userpref.GetUserPreferencesAction"/>
-            <map:action name="save-userprefs" src="org.ametys.runtime.plugins.core.userpref.SetUserPreferencesAction"/>
-            
-            <map:action name="has-right" src="org.ametys.runtime.plugins.core.right.actions.HasRightAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.hasRight">
+            <map:action name="has-right" src="org.ametys.plugins.core.right.HasRightAction" logger="org.ametys.plugins.core.right">
                 <has-right>true</has-right>
             </map:action>
-             <map:action name="has-not-right" src="org.ametys.runtime.plugins.core.right.actions.HasRightAction" logger="org.ametys.runtime.plugins.core.administrator.sitemap.action.hasRight">
+             <map:action name="has-not-right" src="org.ametys.plugins.core.right.HasRightAction" logger="org.ametys.plugins.core.right">
                 <has-right>false</has-right>
             </map:action>
-            
-            <map:action name="client-call" src="org.ametys.runtime.ui.ExecuteClientCallsAction"/>
 		</map:actions>
 		
         <map:readers>
-            <map:reader name="administrator-jvmstatus-threadlog" src="org.ametys.runtime.plugins.core.administrator.jvmstatus.ThreadLogReader" logger="org.ametys.runtime.plugins.core.administrator"/>
-            <map:reader name="administrator-jvmstatus-monitoring-graph" src="org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.RRDGraphReader" logger="org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.RRDGraphReader"/>
-            <map:reader name="administrator-jvmstatus-monitoring-export" src="org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.RRDXmlExportReader" logger="org.ametys.runtime.plugins.core.administrator.jvmstatus.monitoring.RRDXmlExportReader"/>
-            <map:reader name="upload-reader" src="org.ametys.runtime.plugins.core.upload.readers.UploadReader" logger="org.ametys.runtime.plugins.core.upload.readers.UploadReader"/>
-            <map:reader name="buffered-image" src="org.ametys.runtime.captcha.BufferedImageReader"/>
-        	<map:reader name="css" src="org.ametys.runtime.plugins.core.ui.minimize.MinimizeCSSReader"/>
-            <map:reader name="js" src="org.ametys.runtime.plugins.core.ui.minimize.MinimizeJSReader"/>
-            <map:reader name="json" src="org.ametys.runtime.cocoon.JSonReader"/>
+            <map:reader name="upload-reader" src="org.ametys.plugins.core.upload.UploadReader" logger="org.ametys.plugins.core.upload"/>
+            <map:reader name="buffered-image" src="org.ametys.core.captcha.BufferedImageReader" logger="org.ametys.plugins.core.captcha"/>
+        	<map:reader name="css" src="org.ametys.plugins.core.ui.minimize.MinimizeCSSReader"/>
+            <map:reader name="js" src="org.ametys.plugins.core.ui.minimize.MinimizeJSReader"/>
+            <map:reader name="json" src="org.ametys.core.cocoon.JSonReader"/>
         </map:readers>
         
 	</map:components>
@@ -145,19 +89,6 @@
 	
 	<map:pipelines>
 		<map:pipeline>
-            <!-- Dispatcher -->
-            <map:match pattern="servercomm/messages.xml">
-                <map:generate type="dispatcher"/>
-                <map:serialize type="xml"/>
-            </map:match>
-            
-            <!-- Client calls -->
-            <map:match pattern="client-call">
-                <map:act type="client-call">
-                    <map:read type="json"/>
-                </map:act>
-            </map:match>
-            
 			<map:match pattern="cssfilelist/*-*.css">
 				<map:read type="css" src="{1}">
 					<map:parameter name="import" value="{2}"/>
@@ -170,307 +101,8 @@
 				</map:read>
 			</map:match>
 
-
             <!-- +
-                 | Protecting all administrator urls
-                 + -->
-            <map:match pattern="administrator/**">
-                <map:act type="administrator-is-system-user"/>
-            </map:match>
-            
-            <!-- +
-                 | Restarting application
-                 + -->
-            <map:match pattern="administrator/restart">
-            	<map:act type="administrator-restart">
-            		<map:generate type="action-result">
-                        <map:parameter name="result" value="{result}"/>
-                    </map:generate>
-					<map:serialize type="xml"/>
-            	</map:act>
-            </map:match>
-        
-			<!-- +
-                 | Administrator Password
-                 + -->
-			<map:match pattern="administrator/password/dialogs.html">
-				<map:generate src="pages/administrator/password/dialogs.html" type="i18nizabletext"/>
-				<map:transform type="i18n">
-					<map:parameter name="locale" value="{locale:locale}"/>
-					<map:parameter name="plugin" value="{request-attr:pluginName}"/>
-				</map:transform>
-				<map:serialize/>
-			</map:match>
-			
-			<map:match pattern="administrator/password/set">
-				<map:act type="administrator-password-set">
-					<map:parameter name="oldPassword" value="{request-param:oldPassword}"/>
-					<map:parameter name="newPassword" value="{request-param:newPassword}"/>
-					<map:parameter name="confirmPassword" value="{request-param:confirmPassword}"/>
-					
-					<map:generate type="action-result">
-                        <map:parameter name="result" value="{result}"/>
-                    </map:generate>
-					<map:serialize type="xml"/>
-				</map:act>
-			</map:match>			
-
-            <!-- +
-                 | Config
-                 + -->
-            <map:match pattern="administrator/config/edit.html">
-                <map:generate type="administrator-config"/>
-				<map:transform type="i18n">
-					<map:parameter name="locale" value="{locale:locale}"/>
-					<map:parameter name="plugin" value="{request-attr:pluginName}"/>
-				</map:transform>
-                <map:transform type="xslt" src="pages/administrator/config/edit.xsl">
-                    <map:parameter name="contextPath" value="{request:contextPath}"/>
-                    <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
-                    <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
-                    <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/>
-                </map:transform>
-                <map:serialize type="xml"/>
-            </map:match>
-
-            <map:match pattern="administrator/config/set">
-                <map:act type="administrator-config-save">
-                    <map:generate type="action-result">
-                        <map:parameter name="error" value="{error}"/>
-                    </map:generate>
-                    <map:serialize type="xml"/>
-                </map:act>
-            </map:match>
-            
-            <map:match pattern="administrator/config/test">
-                <map:act type="administrator-config-test">
-                    <map:generate type="action-result"/>
-                    <map:serialize type="xml"/>
-                </map:act>
-            </map:match>
-            
-            <map:match pattern="administrator/config/test">
-                <map:act type="administrator-config-test">
-                    <map:generate type="action-result"/>
-                    <map:serialize type="xml"/>
-                </map:act>
-            </map:match>
-            
-            <map:match pattern="administrator/config/test">
-                <map:act type="administrator-config-test">
-                    <map:generate type="action-result"/>
-                    <map:serialize type="xml"/>
-                </map:act>
-            </map:match>
-                 
-            <!-- +
-                 | System status
-                 + -->
-            <map:match pattern="administrator/jvmstatus">
-                <map:generate type="administrator-jvmstatus" label="content"/>
-                <map:transform type="xslt" src="pages/administrator/jvmstatus/jvmstatus.xsl">
-                    <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
-                </map:transform>
-                <map:transform type="i18n">
-                    <map:parameter name="locale" value="{locale:locale}"/>
-                    <map:parameter name="plugin" value="{request-attr:pluginName}"/>
-                </map:transform>
-                <map:serialize type="xml"/>
-            </map:match>
-        
-            <map:match pattern="administrator/system-properties">
-                 <map:generate type="administrator-system-properties"/>
-                 <map:serialize type="xml"/>
-             </map:match>
-            
-            <map:match pattern="administrator/jvmstatus/threads_**.log">
-                <map:read type="administrator-jvmstatus-threadlog"/>
-            </map:match>
-            
-            <map:match pattern="administrator/jvmstatus/monitoring/*/*.png">
-                <map:read type="administrator-jvmstatus-monitoring-graph" src="{1}">
-                	<map:parameter name="period" value="{2}"/>
-                </map:read>
-            </map:match>
-
-            <map:match pattern="administrator/jvmstatus/monitoring/*.xml">
-                <map:read type="administrator-jvmstatus-monitoring-export" src="{1}"/>
-            </map:match>
-            
-		</map:pipeline>
-		
-		<map:pipeline type="noncaching">
-            <map:match pattern="administrator/logs/view/*.log">
-                <map:act type="set-header"> 
-                    <map:parameter name="Content-Disposition" value="attachment"/> 
-                </map:act>
-                <map:read src="context://WEB-INF/logs/{1}.log"/>
-            </map:match>
-            <map:match pattern="administrator/logs/download.zip">
-                <map:act type="set-header"> 
-                    <map:parameter name="Content-Disposition" value="attachment"/> 
-                </map:act>
-                
-                <map:generate type="administrator-logs-downloadzip"/>
-                <map:serialize type="zip"/>
-            </map:match>
-		</map:pipeline>
-		
-		<map:pipeline>
-		
-		    <!-- +
-                 | Logs 
-                 + -->
-            <map:match pattern="administrator/logs">
-                <map:generate type="administrator-logs"/>
-                <map:serialize type="xml"/>
-            </map:match>
-            
-            <map:match pattern="administrator/logs-level">
-                <map:act type="administrator-logs-level">
-                    <map:read type="json"/>
-                </map:act>
-            </map:match>
-
-            <!-- +
-                 | Plugins and workspaces management tool
-                 + -->
-            <map:match pattern="administrator/plugins/plugins-doc.xml">
-                <map:generate type="administrator-plugins-doc"/>
-                <map:serialize type="xml"/>
-            </map:match>
-            
-            <map:match pattern="administrator/plugins/plugins.xml">
-                <map:generate type="administrator-plugins"/>
-                <map:serialize type="xml"/>
-            </map:match>
-            
-           
-           <map:match pattern="administrator/plugins-by-file">
-                <map:aggregate element="root" label="content">
-                    <map:part src="cocoon:/administrator/plugins/plugins.xml" />
-                    <map:part src="cocoon:/administrator/plugins/plugins-doc.xml" />
-                </map:aggregate>
-                <map:transform src="pages/administrator/plugins/plugins-by-file.xsl">
-                    <map:parameter name="contextPath" value="{request:contextPath}" />
-                    <map:parameter name="pluginName" value="{request-attr:pluginName}" />
-                    <map:parameter name="workspaceName" value="{request-attr:workspaceName}" />
-                    <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}" />
-                </map:transform>
-                <map:transform type="i18n">
-                    <map:parameter name="locale" value="{locale:locale}" />
-                    <map:parameter name="plugin" value="{request-attr:pluginName}" />
-                </map:transform>
-                <map:serialize type="text" mime-type="application/json" />
-            </map:match>
-            
-            <map:match pattern="administrator/plugins-by-extension-point">
-                 <map:aggregate element="root" label="content">
-                    <map:part src="cocoon:/administrator/plugins/plugins.xml"/>
-                    <map:part src="cocoon:/administrator/plugins/plugins-doc.xml"/>
-                 </map:aggregate>
-                <map:transform src="pages/administrator/plugins/plugins-by-extension-point.xsl">
-                    <map:parameter name="contextPath" value="{request:contextPath}"/>
-                    <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
-                    <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
-                    <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/>
-                </map:transform>
-                <map:transform type="i18n">
-                    <map:parameter name="locale" value="{locale:locale}"/>
-                    <map:parameter name="plugin" value="{request-attr:pluginName}"/>
-                </map:transform>
-               <map:serialize type="text" mime-type="application/json"/>
-            </map:match>
-            
-            <map:match pattern="administrator/workspaces">
-                <map:generate type="administrator-workspaces"/>
-                <map:transform src="pages/administrator/plugins/workspaces.xsl">
-                    <map:parameter name="contextPath" value="{request:contextPath}"/>
-                    <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
-                    <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
-                    <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/>
-                </map:transform>
-                <map:transform type="i18n">
-                    <map:parameter name="locale" value="{locale:locale}"/>
-                    <map:parameter name="plugin" value="{request-attr:pluginName}"/>
-                </map:transform>
-               <map:serialize type="text" mime-type="application/json"/>
-            </map:match>
-            
-            <map:match pattern="administrator/plugins/change">
-                <map:act type="administrator-change-plugins">
-                    <map:generate type="action-result" />
-                    <map:serialize type="xml" />
-                </map:act>
-            </map:match>
-            
-            <map:match pattern="administrator/plugins/change-runtime">
-                <map:generate type="administrator-plugins-change-runtime" />
-                <map:transform src="pages/administrator/plugins/runtime.xsl" />
-                <map:serialize type="xml" />
-            </map:match>
-
-			<!-- Plugins individual frames -->
-            <map:match pattern="administrator/plugins/doc/*_*.html">
-            	<map:generate type="administrator-plugins-doc"/>
-            	<map:transform src="pages/administrator/plugins/doc/plugin2doc_{2}.xsl">
-                    <map:parameter name="contextPath" value="{request:contextPath}"/>
-                    <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
-                    <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
-                    <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/>
-                    <map:parameter name="currentPluginName" value="{1}"/>
-                </map:transform>
-            	<map:serialize/>
-            </map:match>
-			<!-- Plugins main frames -->
-            <map:match pattern="administrator/plugins/doc/*.html">
-            	<map:generate type="administrator-plugins-doc"/>
-            	<map:transform src="pages/administrator/plugins/doc/plugin2doc_{1}.xsl">
-                    <map:parameter name="contextPath" value="{request:contextPath}"/>
-                    <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
-                    <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
-                    <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/>
-                    <map:parameter name="zoom" value="{request-param:zoom}"/>
-                </map:transform>
-            	<map:serialize/>
-            </map:match>
-
-            <!-- +
-                 | Webservices to know system status
-                 + -->
-            <map:match pattern="system-startuptime.xml">
-                <map:generate type="administrator-startuptime" label="content"/>
-                <map:serialize type="xml"/>
-            </map:match>
-                 
-            <map:match pattern="system-announcement/view.xml">
-                <map:generate type="administrator-system-announcement" label="content"/>
-                <map:serialize type="xml"/>
-            </map:match>
-
-            <!-- +
-                 | System announcements
-                 + -->
-            <map:match pattern="administrator/system-announcements">
-                <map:act type="administrator-system-announcements">
-                    <map:read type="json"/>
-                </map:act>
-            </map:match>
-                 
-            <!-- +
-                 | Super user creation
-                 + -->
-           	<map:match pattern="administrator/superuser/affect">
-           		<map:act type="administrator-affect-superuser">
-           			<map:generate type="action-result"/>
-                    <map:serialize type="xml"/>
-           		</map:act>
-           		<map:generate type="action-result"/>
-                <map:serialize type="xml" status-code="500"/>
-           	</map:match>
-
-             <!-- +
-                 | Users
+                 | USERS
                  + -->
             <map:match pattern="users/search.xml">
                 <map:generate type="users-search" src="{request-param:criteria}">
@@ -481,14 +113,6 @@
                 <map:serialize type="xml"/>
             </map:match>
                 
-            <map:match pattern="administrator/users/info">
-                <map:generate type="administrator-users-info" src="{request-param:login}">
-                	<map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
-                </map:generate>
-                <map:serialize type="xml"/>
-            </map:match>
-            
-            <!-- FIXME : duplicate pipeline -->
             <map:match pattern="users/info">
                 <map:generate type="users-info" src="{request-param:login}">
                 	<map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
@@ -496,20 +120,6 @@
                 <map:serialize type="xml"/>
             </map:match>
             
-            <map:match pattern="administrator/users/edit">
-                <map:act type="administrator-users-edit">
-                	<map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
-                	
-                    <map:generate type="action-result">
-                        <map:parameter name="error" value="{error}"/>
-                    </map:generate>
-                    <map:serialize type="xml"/>
-                </map:act>
-                <map:generate type="action-result"/>
-                <map:serialize type="xml" status-code="500"/>
-            </map:match>
-            
-            <!-- FIXME : duplicate pipeline -->
             <map:match pattern="users/edit">
                 <map:act type="users-edit">
                 	<map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
@@ -523,18 +133,6 @@
                 <map:serialize type="xml" status-code="500"/>
             </map:match>
             
-            <map:match pattern="administrator/users/delete">
-                <map:act type="administrator-users-delete">
-                	<map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
-                	
-                    <map:generate type="action-result"/>
-                    <map:serialize type="xml"/>
-                </map:act>
-                <map:generate type="action-result"/>
-                <map:serialize type="xml" status-code="500"/>
-            </map:match>
-            
-            <!-- FIXME : duplicate pipeline -->
             <map:match pattern="users/delete">
                 <map:act type="users-delete">
                 	<map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
@@ -546,50 +144,6 @@
                 <map:serialize type="xml" status-code="500"/>
             </map:match>
             
-            <map:match pattern="administrator/users/impersonate">
-                <map:act type="administrator-users-impersonate">
-                	<map:parameter name="login" value="{request-param:login}"/>
-                
-                    <map:generate type="action-result">
-                        <map:parameter name="error" value="{error}"/>
-                        <map:parameter name="name" value="{name}"/>
-                        <map:parameter name="login" value="{login}"/>
-                    </map:generate>
-                    <map:serialize type="xml"/>
-                </map:act>
-                <map:generate type="action-result"/>
-                <map:serialize type="xml" status-code="500"/>
-            </map:match>
-            
-            <map:match pattern="administrator/users/view.html">
-				<map:generate type="administrator-users-view" label="content" />
-				<map:transform type="i18n">
-                    <map:parameter name="locale" value="{locale:locale}"/>
-                    <map:parameter name="plugin" value="{request-attr:pluginName}"/>
-                </map:transform>
-				<map:transform type="xslt" src="pages/administrator/users/view.xsl">
-                    <map:parameter name="contextPath" value="{request:contextPath}"/>
-                    <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
-				</map:transform>
-				<map:transform type="i18n">
-                    <map:parameter name="locale" value="{locale:locale}"/>
-                    <map:parameter name="plugin" value="{request-attr:pluginName}"/>
-                </map:transform>
-				<map:serialize type="xml"/>
-			</map:match>
-			
-			<map:match pattern="administrator/users-model">
-                <map:generate type="administrator-users-model">
-                	<map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
-                </map:generate>
-                <map:transform type="i18n">
-					<map:parameter name="locale" value="{locale:locale}"/>
-					<map:parameter name="default-catalogue-id" value="plugin.core"/>
-				</map:transform>
-                <map:serialize type="xml"/>
-            </map:match>
-            
-            <!-- FIXME : duplicate pipeline -->
 			<map:match pattern="users-model">
                 <map:generate type="users-model">
                 	<map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
@@ -602,7 +156,7 @@
             </map:match>
 			
 			<!-- +
-                 | Groups
+                 | GROUPS
                  + -->
             <map:match pattern="groups/search.xml">
                 <map:generate type="groups-search" src="{request-param:criteria}">
@@ -612,17 +166,7 @@
                 </map:generate>
                 <map:serialize type="xml"/>
             </map:match>
-                
-            <map:match pattern="administrator/groups/create">
-                <map:act type="administrator-group-create">
-                    <map:generate type="action-result">
-                        <map:parameter name="id" value="{id}"/>
-                    </map:generate>
-                    <map:serialize type="xml"/>
-                </map:act>
-            </map:match>
             
-            <!-- FIXME : duplicate pipeline -->
             <map:match pattern="groups/create">
                 <map:act type="group-create">
                     <map:parameter name="groupsManagerRole" value="{request-param:groupsManagerRole}"/>
@@ -634,16 +178,6 @@
                 </map:act>
             </map:match>
             
-            <map:match pattern="administrator/groups/rename">
-                <map:act type="administrator-group-rename">
-                    <map:generate type="action-result">
-                        <map:parameter name="message" value="{message}"/>
-                    </map:generate>
-                    <map:serialize type="xml"/>
-                </map:act>
-            </map:match>
-            
-            <!-- FIXME : duplicate pipeline -->
             <map:match pattern="groups/rename">
                 <map:act type="group-rename">
                     <map:parameter name="groupsManagerRole" value="{request-param:groupsManagerRole}"/>
@@ -655,14 +189,6 @@
                 </map:act>
             </map:match>
             
-            <map:match pattern="administrator/groups/delete">
-                <map:act type="administrator-group-delete">
-                    <map:generate type="action-result"/>
-                    <map:serialize type="xml"/>
-                </map:act>
-            </map:match>
-            
-            <!-- FIXME : duplicate pipeline -->
             <map:match pattern="groups/delete">
                 <map:act type="group-delete">
                     <map:parameter name="groupsManagerRole" value="{request-param:groupsManagerRole}"/>
@@ -672,17 +198,8 @@
                 </map:act>
             </map:match>
             
-            <map:match pattern="administrator/groups/modify">
-                <map:act type="administrator-group-modify">
-                    <map:generate type="action-result">
-                        <map:parameter name="message" value="{message}"/>
-                    </map:generate>
-                    <map:serialize type="xml"/>
-                </map:act>
-            </map:match>
-            
             <map:match pattern="groups/modify">
-                <map:act type="administrator-group-modify">
+                <map:act type="group-modify">
                     <map:parameter name="groupsManagerRole" value="{request-param:groupsManagerRole}"/>
 
                     <map:generate type="action-result">
@@ -692,17 +209,6 @@
                 </map:act>
             </map:match>            
             
-            <map:match pattern="administrator/groups/add-users">
-                <map:act type="administrator-group-modify-users">
-                	<map:parameter name="add" value="true"/>
-                    <map:generate type="action-result">
-                        <map:parameter name="message" value="{message}"/>
-                    </map:generate>
-                    <map:serialize type="xml"/>
-                </map:act>
-            </map:match>
-            
-            <!-- FIXME : duplicate pipeline -->
             <map:match pattern="groups/add-users">
                 <map:act type="group-modify-users">
                 	<map:parameter name="add" value="true"/>
@@ -715,17 +221,6 @@
                 </map:act>
             </map:match>
             
-             <map:match pattern="administrator/groups/remove-users">
-                <map:act type="administrator-group-modify-users">
-                	<map:parameter name="add" value="false"/>
-                    <map:generate type="action-result">
-                        <map:parameter name="message" value="{message}"/>
-                    </map:generate>
-                    <map:serialize type="xml"/>
-                </map:act>
-            </map:match>
-            
-            <!-- FIXME : duplicate pipeline -->
             <map:match pattern="groups/remove-users">
                 <map:act type="group-modify-users">
                 	<map:parameter name="add" value="false"/>
@@ -738,15 +233,6 @@
                 </map:act>
             </map:match>
             
-            <map:match pattern="administrator/groups/members">
-				<map:generate type="administrator-group-members" src="{request-param:groupID}">
-                    <map:parameter name="limit" value="{request-param:limit}"/>
-                    <map:parameter name="start" value="{request-param:start}"/>
-                </map:generate>
-                <map:serialize type="xml"/>
-            </map:match>
-            
-            <!-- FIXME : duplicate pipeline -->
             <map:match pattern="groups/members">
 				<map:generate type="group-members" src="{request-param:groupID}">
                     <map:parameter name="limit" value="{request-param:limit}"/>
@@ -757,69 +243,10 @@
                 <map:serialize type="xml"/>
             </map:match>
             
-			<map:match pattern="administrator/groups/view.html">
-				<map:generate type="administrator-groups-view"/>
-				<map:transform src="pages/administrator/groups/view.xsl" type="xslt">
-                    <map:parameter name="contextPath" value="{request:contextPath}"/>
-                    <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
-				</map:transform>
-				<map:serialize type="xml"/>
-			</map:match>
 			
-			<!-- +
-                 | Profiles
-                 + -->
-			<map:match pattern="administrator/rights/profiles/create">
-				<map:act type="administrator-rights-profile-create">
-					<map:generate type="action-result">
-						<map:parameter name="id" value="{id}"/>
-					</map:generate>
-					<map:serialize type="xml"/>
-				</map:act>
-			</map:match>
-			
-			<map:match pattern="administrator/rights/profiles/rename">
-				<map:act type="administrator-rights-profile-rename">
-					<map:generate type="action-result">
-						<map:parameter name="message" value="{message}"/>
-					</map:generate>
-					<map:serialize type="xml"/>
-				</map:act>
-			</map:match>
-			
-			<map:match pattern="administrator/rights/profiles/modify">
-				<map:act type="administrator-rights-profile-modify">
-					<map:generate type="action-result">
-						<map:parameter name="message" value="{message}"/>
-					</map:generate>
-					<map:serialize type="xml"/>
-				</map:act>
-			</map:match>
-			
-			<map:match pattern="administrator/rights/profiles/delete">
-				<map:act type="administrator-rights-profile-delete">
-					<map:generate type="action-result"/>
-					<map:serialize type="xml"/>
-				</map:act>
-			</map:match>
-			
-            <map:match pattern="administrator/profiles/view.html">
-                <map:generate type="administrator-rights-profiles-view"/>
-                <map:transform type="i18n">
-                    <map:parameter name="locale" value="{locale:locale}"/>
-                    <map:parameter name="default-catalogue-id" value="plugin.core"/>
-                </map:transform>
-                <map:transform src="pages/administrator/profiles/view.xsl" type="xslt">
-                    <map:parameter name="contextPath" value="{request:contextPath}"/>
-                    <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
-                    <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/> <!-- LPR -->
-                    <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/> <!-- LPR -->            
-                </map:transform>
-                <map:serialize type="xml"/>
-            </map:match>
             
 			<!-- +
-                 | Rights
+                 | RIGHTS
                  + -->
             <!-- 
                 TODO : Review right protection
@@ -881,7 +308,7 @@
             </map:match>
             
 			<!-- +
-                 | Uploads
+                 | UPLOADS
                  + -->
             <map:match pattern="upload/store">
                 <map:act type="upload-store">
@@ -900,7 +327,7 @@
             </map:match>
             
             <!-- +
-                 | Userprefs
+                 | USERPREFS
                  + -->
             <map:match pattern="userprefs/def.xml">
                 <map:generate type="user-prefs-def">

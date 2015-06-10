@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright 2015 Anyware Services
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   -->
+<map:sitemap xmlns:map="http://apache.org/cocoon/sitemap/1.0">
+
+    <map:components>
+    
+        <map:generators>
+            <map:generator name="dispatcher" src="org.ametys.core.ui.dispatcher.DispatchGenerator"  logger="org.ametys.plugins.core.ui"/>
+            
+            <map:generator name="startuptime" src="org.ametys.plugins.core.ui.system.StartupGenerator" logger="org.ametys.plugins.core.ui"/>
+            <map:generator name="system-announcement" src="org.ametys.plugins.core.ui.system.SystemAnnouncementGenerator" logger="org.ametys.plugins.core.ui"/>
+        </map:generators>
+        
+        <map:actions>
+            <map:action name="client-call" src="org.ametys.core.ui.ExecuteClientCallsAction"/>
+        </map:actions>
+        
+    </map:components>
+    
+    <map:pipelines>
+            <map:pipeline>
+                <!-- Dispatcher -->
+                <map:match pattern="servercomm/messages.xml">
+                    <map:generate type="dispatcher"/>
+                    <map:serialize type="xml"/>
+                </map:match>
+                
+                <!-- Client calls -->
+                <map:match pattern="client-call">
+                    <map:act type="client-call">
+                        <map:read type="json"/>
+                    </map:act>
+                </map:match>
+                
+                <!-- System status -->
+                <map:match pattern="system-startuptime.xml">
+                    <map:generate type="startuptime" label="content"/>
+                    <map:serialize type="xml"/>
+                </map:match>
+                
+                <map:match pattern="system-announcement/view.xml">
+                    <map:generate type="system-announcement" label="content"/>
+                    <map:serialize type="xml"/>
+                </map:match>     
+            </map:pipeline>
+        
+        </map:pipelines>
+</map:sitemap>

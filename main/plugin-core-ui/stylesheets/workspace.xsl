@@ -19,10 +19,10 @@
                 xmlns:exslt="http://exslt.org/common" 
                 xmlns:escaper="org.apache.commons.lang.StringEscapeUtils"
                 xmlns:i18n="http://apache.org/cocoon/i18n/2.1"
-                xmlns:ametys="org.ametys.runtime.plugins.core.ui.AmetysXSLTHelper"
+                xmlns:ametys="org.ametys.core.util.AmetysXSLTHelper"
                 extension-element-prefixes="exslt">
 
-    <xsl:import href="kernel://stylesheets/kernel.xsl"/>    
+    <xsl:import href="kernel.xsl"/>    
     
     <xsl:param name="contextPath"/>
     <xsl:param name="workspaceName"/>
@@ -71,27 +71,27 @@
                 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
 				<xsl:call-template name="title"/>
 				
-				<link rel="icon" type="image/gif" href="{$contextPath}/kernel/resources/img/runtime_favico.gif" />
-        		<link rel="shortcut icon" type="image/x-icon" href="{$contextPath}/kernel/resources/img/runtime_favico.ico" />
+				<link rel="icon" type="image/gif" href="{$contextPath}/plugins/core-ui/resources/img/runtime_favico.gif" />
+        		<link rel="shortcut icon" type="image/x-icon" href="{$contextPath}/plugins/core-ui/resources/img/runtime_favico.ico" />
 				
 				<xsl:if test="$splashscreen != 'no'">
 					<style type="text/css" media="screen">
-				        .splashscreen-center {float:left; width: 430px; height: 28px; background: url("<xsl:value-of select="$contextPath"/>/plugins/core/resources/img/workspace/splashscreen/bar-available.png") repeat-x scroll left top transparent; margin-right: auto; margin-left: auto; -webkit-border-radius: 10px; -moz-border-radius: 10px; padding: 0;}
-				        .splashscreen-progress {height: 28px; background: url("<xsl:value-of select="$contextPath"/>/plugins/core/resources/img/workspace/splashscreen/bar-loaded.png") repeat-x scroll left top transparent; -webkit-border-radius: 10px; -moz-border-radius: 10px;}
+				        .splashscreen-center {float:left; width: 430px; height: 28px; background: url("<xsl:value-of select="$contextPath"/>/plugins/core-ui/resources/img/workspace/splashscreen/bar-available.png") repeat-x scroll left top transparent; margin-right: auto; margin-left: auto; -webkit-border-radius: 10px; -moz-border-radius: 10px; padding: 0;}
+				        .splashscreen-progress {height: 28px; background: url("<xsl:value-of select="$contextPath"/>/plugins/core-ui/resources/img/workspace/splashscreen/bar-loaded.png") repeat-x scroll left top transparent; -webkit-border-radius: 10px; -moz-border-radius: 10px;}
 				        .splashscreen-loading {text-align: right; font-family: arial,sans-serif; font-style: italic; color: #404040; font-size: 11px; margin:0; padding-right: 30px;} 
 			      
-			      		.splashscreen { width: 500px; height: 400px; background-image: url("<xsl:value-of select="$contextPath"/>/plugins/core/resources/img/workspace/splashscreen/splashscreen.png"); color: #fff; margin-right: auto; margin-left: auto; margin-top: 200px;} 
+			      		.splashscreen { width: 500px; height: 400px; background-image: url("<xsl:value-of select="$contextPath"/>/plugins/core-ui/resources/img/workspace/splashscreen/splashscreen.png"); color: #fff; margin-right: auto; margin-left: auto; margin-top: 200px;} 
 				        .splashscreen-version {text-align: right; padding-top: 260px; margin-right: 30px; color: #1C58A0; font-family: arial,sans-serif; letter-spacing: 1px;}
 				        .splashscreen-version .app-version {font-size: 0.7em; color:#7F7F7F;}
 			       		.splashscreen-progressbar {margin-top: 20px !important; margin-left: 20px; margin-right: 20px;}
-			       		.splashscreen-img {padding: 2px; background: url("<xsl:value-of select="$contextPath"/>/plugins/core/resources/img/workspace/splashscreen/loading.gif") no-repeat scroll left top transparent;}
+			       		.splashscreen-img {padding: 2px; background: url("<xsl:value-of select="$contextPath"/>/plugins/core-ui/resources/img/workspace/splashscreen/loading.gif") no-repeat scroll left top transparent;}
 			       	 </style> 
 				</xsl:if>
 
 			</head>
 			
 			<body>
-				<noscript><i18n:text i18n:key="WORKSPACE_AMETYS_MAIN_ERROR_NOJS" i18n:catalogue="plugin.core"/></noscript>
+				<noscript><i18n:text i18n:key="WORKSPACE_AMETYS_MAIN_ERROR_NOJS" i18n:catalogue="plugin.core-ui"/></noscript>
 		        
 				<xsl:if test="$splashscreen != 'no'">
                     <xsl:call-template name="app-splashscreen"/>
@@ -256,7 +256,7 @@
                             var ribbon = Ext.create("Ametys.ui.fluent.ribbon.Ribbon", {<xsl:text/>
                                 <xsl:text/>applicationTitle: '&lt;span class="x-fluent-tab-panel-header-title-extension"&gt;<xsl:call-template name="applicationTitle"/>&lt;/span&gt;',<xsl:text/>
                                 menu: {<xsl:text/>
-                                    icon: '<xsl:value-of select="$contextPath"/>/plugins/core/resources/img/workspace/ametys.gif',
+                                    icon: '<xsl:value-of select="$contextPath"/>/plugins/core-ui/resources/img/workspace/ametys.gif',
                                     items: menuItems.length == 0 ? null : menuItems
                                 },<xsl:text/>
                                 <xsl:text/>items: ribbonItems<xsl:text/>
@@ -310,8 +310,8 @@
                     </xsl:for-each>
 					       
                            /** Widgets */<xsl:text/>
-                           Ametys.runtime.form.WidgetManager._defaultWidgets = <xsl:value-of select="widgets/@default-widgets"/>;
-                           Ametys.runtime.form.WidgetManager._defaultWidgetsForEnumeration = <xsl:value-of select="widgets/@default-widgets-enumerated"/>;
+                           Ametys.form.WidgetManager._defaultWidgets = <xsl:value-of select="widgets/@default-widgets"/>;
+                           Ametys.form.WidgetManager._defaultWidgetsForEnumeration = <xsl:value-of select="widgets/@default-widgets-enumerated"/>;
                            
                            var widgetEnumerated, widgetMultiple;
                     <xsl:for-each select="widgets/widget-wrapper">
@@ -326,7 +326,7 @@
                                 {
 	                                for (var k = 0; k &lt; widgetEnumerated.length; k++)
 	                                {
-                                       Ametys.runtime.form.WidgetManager.register("<xsl:value-of select="widget/@id"/>", widgetFTypes[i], widgetEnumerated[k], widgetMultiple[j]);
+                                       Ametys.form.WidgetManager.register("<xsl:value-of select="widget/@id"/>", widgetFTypes[i], widgetEnumerated[k], widgetMultiple[j]);
 	                                }
                                 }
                            }
@@ -391,18 +391,18 @@
     	<div id="splashscreen" class="splashscreen">
         	<p class="splashscreen-version">
         		<xsl:call-template name="productTitle"/>
-        		<xsl:if test="/Ametys/Versions/Component[Name = 'CMS']/Version"><br/><span class="app-version"><i18n:text i18n:key="WORKSPACE_AMETYS_SPLASHSCREEN_APP_AMETYS_VERSION" i18n:catalogue="plugin.core"/><xsl:value-of select="/Ametys/Versions/Component[Name = 'CMS']/Version"/></span></xsl:if>
+        		<xsl:if test="/Ametys/Versions/Component[Name = 'CMS']/Version"><br/><span class="app-version"><i18n:text i18n:key="WORKSPACE_AMETYS_SPLASHSCREEN_APP_AMETYS_VERSION" i18n:catalogue="plugin.core-ui"/><xsl:value-of select="/Ametys/Versions/Component[Name = 'CMS']/Version"/></span></xsl:if>
         	</p>
         	
         	<div class="splashscreen-progressbar">
-	        	<img id="bar-left" height="28px" width="14px" style="float:left;" src="{$contextPath}/plugins/core/resources/img/workspace/splashscreen/bar-left.png" alt=""/>
+	        	<img id="bar-left" height="28px" width="14px" style="float:left;" src="{$contextPath}/plugins/core-ui/resources/img/workspace/splashscreen/bar-left.png" alt=""/>
 	        	<div class="splashscreen-center"><div class="splashscreen-progress" id="progress" style="width:0px"></div></div>
-	        	<img id="bar-right" height="28px" width="14px" src="{$contextPath}/plugins/core/resources/img/workspace/splashscreen/bar-right.png" alt=""/>
+	        	<img id="bar-right" height="28px" width="14px" src="{$contextPath}/plugins/core-ui/resources/img/workspace/splashscreen/bar-right.png" alt=""/>
         	</div>
         	
 	       	<p class="splashscreen-loading">
 	       		<span class="splashscreen-img">&#160;&#160;&#160;&#160;&#160;&#160;</span>
-	       		<i18n:text i18n:key="WORKSPACE_AMETYS_SPLASHSCREEN_LOADING" i18n:catalogue="plugin.core"/>
+	       		<i18n:text i18n:key="WORKSPACE_AMETYS_SPLASHSCREEN_LOADING" i18n:catalogue="plugin.core-ui"/>
 	       		<span id="loaded" class="splashscreen-loaded">1%</span>
 	       	</p>
         </div>
@@ -458,7 +458,7 @@
 				document.getElementById('loaded').innerHTML = pc + '%';
 				if (pc == 100)
 				{
-					document.getElementById('bar-right').src = "<xsl:value-of select="$contextPath"/>/plugins/core/resources/img/workspace/splashscreen/bar-right-loaded.png";
+					document.getElementById('bar-right').src = "<xsl:value-of select="$contextPath"/>/plugins/core-ui/resources/img/workspace/splashscreen/bar-right-loaded.png";
 				}
 			}
         </script> 

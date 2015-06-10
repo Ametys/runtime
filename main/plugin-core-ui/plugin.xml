@@ -1,0 +1,858 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright 2015 Anyware Services
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   -->
+<plugin xmlns="http://www.ametys.org/schema/plugin"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.ametys.org/schema/plugin http://www.ametys.org/schema/plugin-2.0.xsd"
+        runtimeVersion="2.0" version="2.0">
+    
+    <config>
+        <!-- Debug parameters -->
+        <param id="runtime.debug.ui" type="long">
+            <!-- 
+                This parameter allows to load UI in debug mode (i.e. load CSS/JS not minified)
+             -->
+            <label i18n="true">PLUGINS_CORE_UI_DEBUG_UI_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_UI_DEBUG_UI_DESCRIPTION</description>
+            <enumeration>
+                <entry>
+                    <label i18n="true">PLUGINS_CORE_UI_DEBUG_UI_VAL_0</label>
+                    <value>0</value>
+                </entry>
+                <entry>
+                    <label i18n="true">PLUGINS_CORE_UI_DEBUG_UI_VAL_1</label>
+                    <value>1</value>
+                </entry>
+                <entry>
+                    <label i18n="true">PLUGINS_CORE_UI_DEBUG_UI_VAL_2</label>
+                    <value>2</value>
+                </entry>
+            </enumeration>
+            <validation>
+                <mandatory/>
+            </validation>
+            <default-value>0</default-value>
+            <category i18n="true">plugin.core:PLUGINS_CORE_SYSTEM_CONFIG_CATEGORY</category>
+            <group i18n="true">plugin.core:PLUGINS_CORE_DEBUG_GROUP</group>
+            <order>20</order>
+        </param>
+        <param id="runtime.skip-browser-compatibility-test" type="boolean">
+            <!-- 
+                This parameter allows to skip the compatibility test (except if codely set to true or false)
+             -->
+            <label i18n="true">PLUGINS_CORE_UI_SKIPBROWSERCOMPATIBILITYTEST_LABEL</label>
+            <description i18n="true">PLUGINS_CORE_UI_SKIPBROWSERCOMPATIBILITYTEST_DESCRIPTION</description>
+            <validation>
+                <mandatory/>
+            </validation>
+            <default-value>false</default-value>
+            <category i18n="true">plugin.core:PLUGINS_CORE_SYSTEM_CONFIG_CATEGORY</category>
+            <group i18n="true">plugin.core:PLUGINS_CORE_DEBUG_GROUP</group>
+            <order>50</order>
+        </param>        
+    </config>
+    
+    <extension-points>
+        <extension-point id="org.ametys.core.ui.dispatcher.DispatchProcessExtensionPoint" 
+                         class="org.ametys.core.ui.dispatcher.DispatchProcessExtensionPoint"/>
+                         
+        <extension-point id="org.ametys.core.ui.StaticFileImportsManager"
+                         class="org.ametys.core.ui.StaticFileImportsManager">
+            <!-- Handles the static import files that are used on client side -->
+        </extension-point>
+        
+        <extension-point id="org.ametys.core.ui.RibbonAppMenuControlsManager"
+                         class="org.ametys.core.ui.RibbonAppMenuControlsManager">
+            <!-- Handles the dynamic items that may takes place in the ametys menu -->
+        </extension-point>
+        
+        <extension-point id="org.ametys.core.ui.RibbonControlsManager"
+                         class="org.ametys.core.ui.RibbonControlsManager">
+            <!-- Handles the controls that may takes place in the ribbon -->
+        </extension-point>
+
+        <extension-point id="org.ametys.core.ui.RibbonTabsManager"
+                         class="org.ametys.core.ui.RibbonTabsManager">
+            <!-- Handles the dynamic tabs that may takes place in the ribbon -->
+        </extension-point>
+
+        <extension-point id="org.ametys.core.ui.UIToolsFactoriesManager"
+                         class="org.ametys.core.ui.UIToolsFactoriesManager">
+            <!-- Handles the factories that are used on client side -->
+        </extension-point>
+
+        <extension-point id="org.ametys.core.ui.RelationsManager"
+                         class="org.ametys.core.ui.RelationsManager">
+            <!-- Handles the handlers that are used on client side to create relations between objects (e.g. by drag and droping) -->
+        </extension-point>
+        
+        <extension-point id="org.ametys.core.ui.widgets.WidgetsManager"
+                         class="org.ametys.core.ui.widgets.WidgetsManager"
+                         config="/WEB-INF/param/default-widgets.xml">
+            <!-- Handles the widgets that are used on client side to creates forms (e.g. editing content) -->
+            <normal>
+                <single>
+                    <binary>edition.file</binary>
+                    <boolean>edition.checkbox</boolean>
+                    <content>edition.select-content</content>
+                    <date>edition.date</date>
+                    <datetime>edition.datetime</datetime>
+                    <double>edition.doublefield</double>
+                    <file>edition.file</file>
+                    <geocode>edition.geocode</geocode>
+                    <long>edition.longfield</long>
+                    <reference>edition.url-reference</reference>
+                    <rich_text>edition.richtext</rich_text>
+                    <string>edition.textfield</string>
+                    <sub_content>edition.compose-content</sub_content>
+                    <user>edition.user</user>
+                    <url>edition.textfield</url>
+                </single>
+                <multiple>
+                    <content>edition.select-content</content>
+                    <string>edition.textfield</string>
+                    <reference>edition.url-reference</reference>
+                    <sub_content>edition.compose-content</sub_content>
+                    <user>edition.user</user>
+                    <url>edition.textfield</url>
+                </multiple>
+            </normal>
+            <enumerated>
+                <single>
+                    <string>edition.combobox</string>
+                </single>
+                <multiple>
+                    <string>edition.boxselect</string>
+                </multiple>
+            </enumerated>
+        </extension-point>
+
+        <extension-point id="org.ametys.core.ui.MessageTargetFactoriesManager"
+                         class="org.ametys.core.ui.MessageTargetFactoriesManager">
+            <!-- Handles the factories for message bus targets that are used on client side -->
+        </extension-point>
+    </extension-points>
+    
+    <feature name="saxclienthelper">
+        <components>
+            <component class="org.ametys.core.ui.SAXClientSideElementHelper" 
+                       role="org.ametys.core.ui.SAXClientSideElementHelper"/>
+        </components>
+    </feature>
+    
+    <feature name="runtime.debug">
+        <!-- Mark the UI debug parameter as available. If your application does not handle it you can unativate it. -->
+        <config>
+            <param-ref id="runtime.debug.ui"/>
+            <param-ref id="runtime.skip-browser-compatibility-test"/>
+        </config>
+    </feature>
+    
+    <feature name="runtime.appmenu.reload">
+        <extensions>
+            <extension id="org.ametys.plugins.core.ReloadWorkspace"
+                     point="org.ametys.core.ui.RibbonAppMenuControlsManager"
+                     class="org.ametys.core.ui.StaticClientSideElement">
+              <class name="Ametys.plugins.cms.system.reload.ReloadActions">
+                 <action>Ametys.plugins.coreui.system.reload.ReloadActions.reload</action>
+                  
+                 <label i18n="true">PLUGINS_CORE_UI_RELOAD_WORKSPACE_LABEL</label>
+                 <description i18n="true">PLUGINS_CORE_UI_RELOAD_WORKSPACE_DESCRIPTION</description>
+                  
+                 <param name="icon-small" file="true">img/system/reload_16.png</param>
+                 <param name="icon-medium" file="true">img/system/reload_32.png</param>
+                 <param name="icon-large" file="true">img/system/reload_48.png</param>
+              </class>
+              <scripts>
+                <file>js/Ametys/plugins/coreui/system/reload/ReloadActions.js</file>
+              </scripts>
+         </extension>
+        </extensions>
+    </feature>
+    
+    <feature name="staticimports.widgets">
+        <extensions>
+            <extension id="org.ametys.runtime.Widgets"
+                       point="org.ametys.core.ui.StaticFileImportsManager"
+                       class="org.ametys.core.ui.StaticFileImportsClientSideElement">
+                <scripts>
+                    <file>js/Ametys/helper/SelectUser.js</file>
+                    <file>js/Ametys/helper/SelectGroup.js</file>
+                    
+                    <file>js/Ametys/helper/EnterURL.js</file>
+                    <file>js/Ametys/helper/FileUpload.js</file>
+
+                    <file>js/Ametys/form/widget/File.js</file>
+                    <file>js/Ametys/form/widget/File/FileSource.js</file>
+                    
+                    <file>js/Ametys/form/widget/File/External.js</file>
+
+                    <file>js/Ametys/helper/ChooseLocation.js</file>
+                    <file>js/Ametys/helper/ChooseLocation/LoadGoogleMaps.js</file>
+
+                    <file>js/Ametys/helper/SaveErrorDialog.js</file>
+                    
+                    <file>js/Ametys/clipboard/Clipboard.js</file>
+                </scripts>
+                <css>
+                    <file>css/Widget.css</file>
+                </css>
+            </extension>
+        </extensions>
+    </feature>
+    
+    <feature name="widgets.default.text">
+        <extensions>
+            <extension id="edition.textfield"
+                point="org.ametys.core.ui.widgets.WidgetsManager"
+                class="org.ametys.core.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.form.widget.Text">
+                    <ftypes>string</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>true</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/form/widget/DefaultWidgets.js</file>
+                </scripts>                
+            </extension>
+            <extension id="edition.hidden"
+                point="org.ametys.core.ui.widgets.WidgetsManager"
+                class="org.ametys.core.ui.widgets.StaticClientSideWidget">
+                <class name="Ext.form.field.Hidden">
+                    <ftypes>string</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>false</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+            </extension>
+        </extensions>
+    </feature>
+    <feature name="widgets.default.combo">
+        <extensions>
+            <extension id="edition.combobox"
+                point="org.ametys.core.ui.widgets.WidgetsManager"
+                class="org.ametys.core.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.form.widget.ComboBox">
+                    <ftypes>string,long</ftypes>
+                    <supports-enumerated>true</supports-enumerated>
+                    <supports-non-enumerated>false</supports-non-enumerated>
+                    <supports-multiple>true</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/form/widget/DefaultWidgets.js</file>
+                </scripts>                
+            </extension>
+        </extensions>
+    </feature>
+    <feature name="widgets.others.boxselect">
+        <extensions>
+            <extension id="edition.boxselect"
+                point="org.ametys.core.ui.widgets.WidgetsManager"
+                class="org.ametys.core.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.form.widget.LocalComboBox">
+                    <ftypes>string</ftypes>
+                    <supports-enumerated>true</supports-enumerated>
+                    <supports-non-enumerated>false</supports-non-enumerated>
+                    <supports-multiple>true</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/form/widget/LocalComboBox.js</file>
+                </scripts>                
+            </extension>
+        </extensions>
+    </feature>     
+    <feature name="widgets.default.long">
+        <extensions>
+            <extension id="edition.longfield"
+                point="org.ametys.core.ui.widgets.WidgetsManager"
+                class="org.ametys.core.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.form.widget.Long">
+                    <ftypes>long</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>false</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/form/widget/DefaultWidgets.js</file>
+                </scripts>                
+            </extension>
+        </extensions>
+    </feature>    
+    <feature name="widgets.default.double">
+        <extensions>
+            <extension id="edition.doublefield"
+                point="org.ametys.core.ui.widgets.WidgetsManager"
+                class="org.ametys.core.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.form.widget.Double">
+                    <ftypes>double</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>false</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/form/widget/DefaultWidgets.js</file>
+                </scripts>                
+            </extension>
+        </extensions>
+    </feature>    
+    <feature name="widgets.default.checkbox">
+        <extensions>
+            <extension id="edition.checkbox"
+                point="org.ametys.core.ui.widgets.WidgetsManager"
+                class="org.ametys.core.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.form.widget.Checkbox">
+                    <ftypes>boolean</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>false</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/form/widget/DefaultWidgets.js</file>
+                </scripts>                
+            </extension>
+        </extensions>
+    </feature>    
+    <feature name="widgets.default.date">
+        <extensions>
+            <extension id="edition.date"
+                point="org.ametys.core.ui.widgets.WidgetsManager"
+                class="org.ametys.core.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.form.widget.Date">
+                    <ftypes>date</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>false</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/form/widget/DefaultWidgets.js</file>
+                </scripts>                
+            </extension>
+        </extensions>
+    </feature>    
+    <feature name="widgets.default.datetime">
+        <extensions>
+            <extension id="edition.datetime"
+                point="org.ametys.core.ui.widgets.WidgetsManager"
+                class="org.ametys.core.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.form.widget.DateTime">
+                    <ftypes>datetime</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>false</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/form/widget/DefaultWidgets.js</file>
+                </scripts>                
+            </extension>
+        </extensions>
+    </feature>    
+    <feature name="widgets.default.richtext">
+        <extensions>
+            <extension id="edition.richtext"
+                point="org.ametys.core.ui.widgets.WidgetsManager"
+                class="org.ametys.core.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.cms.form.widget.RichText">
+                    <ftypes>rich_text</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>false</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/form/widget/DefaultWidgets.js</file>
+                    <file>js/Ametys/form/widget/RichText/RichTextConfiguration.js</file>
+                </scripts>                
+            </extension>
+        </extensions>
+    </feature>    
+    <feature name="widgets.default.textarea">
+        <extensions>
+            <extension id="edition.textarea"
+                point="org.ametys.core.ui.widgets.WidgetsManager"
+                class="org.ametys.core.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.form.widget.TextArea">
+                    <ftypes>string</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>false</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/form/widget/DefaultWidgets.js</file>
+                </scripts>                
+            </extension>
+        </extensions>
+    </feature>
+    <feature name="widgets.default.reference.url">
+        <extensions>
+            <extension id="edition.url-reference"
+                point="org.ametys.core.ui.widgets.WidgetsManager"
+                class="org.ametys.core.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.form.widget.UrlReference">
+                    <ftypes>reference</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>true</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/form/widget/DefaultWidgets.js</file>
+                </scripts>
+            </extension>
+        </extensions>
+    </feature>
+    <feature name="widgets.others.file">
+        <extensions>
+            <extension id="edition.file"
+                point="org.ametys.core.ui.widgets.WidgetsManager"
+                class="org.ametys.core.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.form.widget.File">
+                    <ftypes>file,binary</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>false</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <!-- scripts are loaded as static to be extensible -->
+            </extension>
+        </extensions>
+    </feature>
+
+    <feature name="widgets.others.flipflap">
+        <extensions>
+            <extension id="edition.flipflap"
+                point="org.ametys.core.ui.widgets.WidgetsManager"
+                class="org.ametys.core.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.form.widget.FlipFlap">
+                    <ftypes>string</ftypes>
+                    <supports-enumerated>true</supports-enumerated>
+                    <supports-non-enumerated>false</supports-non-enumerated>
+                    <supports-multiple>true</supports-multiple>
+                    <supports-non-multiple>false</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/form/widget/FlipFlap.js</file>
+                </scripts>                
+            </extension>
+        </extensions>
+    </feature>    
+    <feature name="widgets.others.group">
+        <extensions>
+            <extension id="edition.group"
+                point="org.ametys.core.ui.widgets.WidgetsManager"
+                class="org.ametys.core.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.form.widget.Group">
+                    <ftypes>string</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>true</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/form/widget/AbstractQueryableComboBox.js</file>
+                    <file>js/Ametys/form/widget/Group.js</file>
+                </scripts>                
+            </extension>
+        </extensions>
+    </feature>    
+    <feature name="widgets.others.user">
+        <extensions>
+            <extension id="edition.user"
+                point="org.ametys.core.ui.widgets.WidgetsManager"
+                class="org.ametys.core.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.form.widget.User">
+                    <ftypes>user</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>true</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/form/widget/AbstractQueryableComboBox.js</file>
+                    <file>js/Ametys/form/widget/User.js</file>
+                </scripts>                
+            </extension>
+        </extensions>
+    </feature>    
+    <feature name="widgets.others.geocode">
+        <extensions>
+            <extension id="edition.geocode"
+                point="org.ametys.core.ui.widgets.WidgetsManager"
+                class="org.ametys.core.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.form.widget.GeoCode">
+                    <ftypes>geocode</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>false</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/form/widget/GeoCode.js</file>
+                </scripts>                
+            </extension>
+        </extensions>
+    </feature>
+    <feature name="widgets.others.boolean.combobx">
+        <extensions>
+            <extension id="edition.boolean-combobox"
+                point="org.ametys.core.ui.widgets.WidgetsManager"
+                class="org.ametys.core.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.form.widget.BooleanCombobox">
+                    <ftypes>boolean</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>false</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/form/widget/BooleanCombobox.js</file>
+                </scripts>
+            </extension>
+        </extensions>
+    </feature>
+    
+    <!-- +  
+         |  REQUESTS TRACKER    
+         + -->     
+    <feature name="userinterface.requests-tracker">
+        <extensions>
+            <extension point="org.ametys.core.right.RightsExtensionPoint"
+                       id="core.dev.rights.requesttracker">
+                <right id="CORE_Rights_RequestTracker">
+                    <label>PLUGINS_CORE_RIGHT_RIGHTS_DEV_REQUESTTRACKER_LABEL</label>
+                    <description>PLUGINS_CORE_RIGHT_RIGHTS_DEV_REQUESTTRACKER_DESCRIPTION</description>
+                    <category>PLUGINS_CORE_RIGHTS_DEV_CATEGORY</category>
+                </right>
+            </extension>
+            
+            <extension id="org.ametys.runtime.userinterface.RequestTrackerControlMenu"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.SimpleMenu">
+                <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController"/>
+                <menu-items>
+                    <item ref="org.ametys.runtime.userinterface.RequestTrackerControl" primaryItem="true"/>
+                    <item ref="org.ametys.runtime.userinterface.RequestTrackerControl.clear"/>
+                </menu-items>
+                <right context-prefix="/contributor">CORE_Rights_RequestTracker</right>
+            </extension>
+            <extension id="org.ametys.runtime.userinterface.RequestTrackerControl"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
+                    <opentool-role>uitool-requeststracker</opentool-role>
+                    
+                    <label i18n="true">PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_LABEL</label>
+                    <default-description i18n="true">PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_DESCRIPTION</default-description>
+                    <help>org.ametys.runtime.requesttracker</help>
+                    
+                    <icon-small file="true">img/requests/requests_16.png</icon-small>
+                    <icon-medium file="true">img/requests/requests_32.png</icon-medium>
+                    <icon-large file="true">img/requests/requests_48.png</icon-large>
+                </class> 
+                <right context-prefix="/contributor">CORE_Rights_RequestTracker</right>                  
+            </extension>
+            <extension id="org.ametys.runtime.userinterface.RequestTrackerControl.clear"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool.removeAll</action>
+                    
+                    <tool-role>uitool-requeststracker</tool-role>
+                    <tool-enable-on-status>active</tool-enable-on-status>
+                    <tool-description-inactive i18n="true">PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_CLEAR_DESCRIPTION2</tool-description-inactive>
+                    
+                    <label i18n="true">PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_CLEAR_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_CLEAR_DESCRIPTION</description>
+                    <description-footer i18n="true">PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_CLEAR_FOOTER</description-footer>
+                    <icon-small file="true">img/requests/delete_16.gif</icon-small>
+                    <icon-medium file="true">img/requests/delete_16.gif</icon-medium>
+                    <icon-large file="true">img/requests/delete_16.gif</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/coreui/system/requesttracker/RequestTrackerTool.js</file>
+                    <file>js/Ametys/plugins/coreui/system/requesttracker/RequestTrackerTool/RequestEntry.js</file>
+                    <file>js/Ametys/plugins/coreui/system/requesttracker/RequestTrackerTool/MessageEntry.js</file>
+                </scripts>
+                <right context-prefix="/contributor">CORE_Rights_RequestTracker</right>
+            </extension>
+            <extension id="org.ametys.runtime.userinterface.RequestTrackerFactory"
+                       point="org.ametys.core.ui.UIToolsFactoriesManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.tool.factory.UniqueToolFactory">
+                    <role>uitool-requeststracker</role>
+                    <toolClass>Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool</toolClass>
+                    
+                    <title i18n="true">PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_LABEL</title>
+                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_DESCRIPTION</description>
+                    <help>org.ametys.runtime.requesttracker</help>
+                    <icon-small file="true">img/requests/requests_16.png</icon-small>
+                    <icon-medium file="true">img/requests/requests_32.png</icon-medium>
+                    <icon-large file="true">img/requests/requests_48.png</icon-large>
+                    
+                    <default-location>b</default-location>
+                </class>               
+                <scripts>
+                    <file>js/Ametys/plugins/coreui/system/requesttracker/RequestTrackerTool.js</file>
+                    <file>js/Ametys/plugins/coreui/system/requesttracker/RequestTrackerTool/RequestEntry.js</file>
+                    <file>js/Ametys/plugins/coreui/system/requesttracker/RequestTrackerTool/MessageEntry.js</file>
+                </scripts>
+                <css>
+                    <file>css/requesttracker.css</file>
+                </css>
+            </extension>
+        </extensions>
+    </feature>    
+    
+    <!-- +  
+         |  MESSAGES TRACKER    
+         + -->     
+    <feature name="userinterface.messages-tracker">
+        <extensions>
+            <extension point="org.ametys.core.right.RightsExtensionPoint"
+                       id="core.dev.rights.messagetracker">
+                <right id="CORE_Rights_MessageTracker">
+                    <label>PLUGINS_CORE_RIGHT_RIGHTS_DEV_MESSAGETRACKER_LABEL</label>
+                    <description>PLUGINS_CORE_RIGHT_RIGHTS_DEV_MESSAGETRACKER_DESCRIPTION</description>
+                    <category>PLUGINS_CORE_RIGHTS_DEV_CATEGORY</category>
+                </right>
+            </extension>
+            
+            <extension id="org.ametys.runtime.userinterface.MessageTrackerControlMenu"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.SimpleMenu">
+                <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController"/>
+                <menu-items>
+                    <item ref="org.ametys.runtime.userinterface.MessageTrackerControl" primaryItem="true"/>
+                    <item ref="org.ametys.runtime.userinterface.MessageTrackerControl.clear"/>
+                </menu-items>
+                <right context-prefix="/contributor">CORE_Rights_MessageTracker</right>
+            </extension>
+            <extension id="org.ametys.runtime.userinterface.MessageTrackerControl"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
+                    <opentool-role>uitool-messagestracker</opentool-role>
+                    
+                    <label i18n="true">PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_DESCRIPTION</description>
+                    <help>org.ametys.runtime.messagetracker</help>
+                    
+                    <icon-small file="true">img/messages/messages_16.png</icon-small>
+                    <icon-medium file="true">img/messages/messages_32.png</icon-medium>
+                    <icon-large file="true">img/messages/messages_48.png</icon-large>
+                </class>   
+                <right context-prefix="/contributor">CORE_Rights_MessageTracker</right>                 
+            </extension>
+            <extension id="org.ametys.runtime.userinterface.MessageTrackerControl.clear"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.coreui.system.messagetracker.MessageTrackerTool.removeAll</action>
+
+                    <tool-role>uitool-messagestracker</tool-role>
+                    <tool-enable-on-status>active</tool-enable-on-status>
+                    <tool-description-inactive i18n="true">PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_CLEAR_DESCRIPTION2</tool-description-inactive>
+
+                    <label i18n="true">PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_CLEAR_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_CLEAR_DESCRIPTION</description>
+                    <icon-small file="true">img/messages/delete_16.gif</icon-small>
+                    <icon-medium file="true">img/messages/delete_16.gif</icon-medium>
+                    <icon-large file="true">img/messages/delete_16.gif</icon-large>
+                </class>                       
+                <scripts>
+                    <file>js/Ametys/plugins/coreui/system/messagetracker/MessageTrackerTool.js</file>
+                    <file>js/Ametys/plugins/coreui/system/messagetracker/MessageTrackerTool/MessageEntry.js</file>
+                </scripts>
+                <right context-prefix="/contributor">CORE_Rights_MessageTracker</right>
+            </extension>
+            <extension id="org.ametys.runtime.userinterface.MessageTrackerFactory"
+                       point="org.ametys.core.ui.UIToolsFactoriesManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.tool.factory.UniqueToolFactory">
+                    <role>uitool-messagestracker</role>
+                    <toolClass>Ametys.plugins.coreui.system.messagetracker.MessageTrackerTool</toolClass>
+                    
+                    <title i18n="true">PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_LABEL</title>
+                    <description i18n="true">PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_DESCRIPTION</description>
+                    <help>org.ametys.runtime.messagetracker</help>
+                    <icon-small file="true">img/messages/messages_16.png</icon-small>
+                    <icon-medium file="true">img/messages/messages_32.png</icon-medium>
+                    <icon-large file="true">img/messages/messages_48.png</icon-large>
+                    
+                    <default-location>b</default-location>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/coreui/system/messagetracker/MessageTrackerTool.js</file>
+                    <file>js/Ametys/plugins/coreui/system/messagetracker/MessageTrackerTool/MessageEntry.js</file>
+                </scripts>
+                <css>
+                    <file>css/messagetracker.css</file>
+                </css>
+            </extension>
+        </extensions>
+    </feature> 
+    
+    <feature name="staticimports.navhistory">
+        <extensions>
+            <extension id="org.ametys.navhistory.HistoryDAO"
+                       point="org.ametys.core.ui.StaticFileImportsManager"
+                       class="org.ametys.core.ui.StaticFileImportsClientSideElement">
+                <scripts>
+                    <file>js/Ametys/navhistory/HistoryDAO.js</file>
+                </scripts>
+            </extension>
+        </extensions>
+    </feature>
+    
+    <feature name="staticimports.announce">
+        <extensions>
+            <extension id="Ametys.plugins.coreui.system.Announce"
+                       point="org.ametys.core.ui.StaticFileImportsManager"
+                       class="org.ametys.core.ui.StaticFileImportsClientSideElement">
+                <scripts>
+                    <file>js/Ametys/plugins/coreui/system/Announce.js</file>
+                </scripts>
+            </extension>
+        </extensions>
+    </feature>
+    
+    <feature name="staticimports.system.time">
+        <extensions>
+            <extension id="Ametys.plugins.coreui.system.StartTimeChecker"
+                       point="org.ametys.core.ui.StaticFileImportsManager"
+                       class="org.ametys.core.ui.StaticFileImportsClientSideElement">
+                <scripts>
+                    <file>js/Ametys/plugins/coreui/system/StartTimeChecker.js</file>
+                </scripts>
+            </extension>
+        </extensions>
+    </feature>
+    
+    <feature name="core.preferences">
+        <extensions>
+            <extension point="org.ametys.core.userpref.UserPreferencesExtensionPoint"
+                       id="runtime.user.prefs"
+                       class="org.ametys.plugins.core.impl.userpref.StaticUserPreferenceProvider">
+                 <param id="tab-policy" type="string">
+                     <label i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_TAB_POLICY</label>
+                     <description i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_TAB_POLICY_DESC</description>
+                     <group i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_GROUP_10_DISPLAY</group>
+                     <validation>
+                        <mandatory/>
+                     </validation>
+                     <enumeration>
+                        <entry>
+                            <value>color</value>
+                            <label i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_TAB_POLICY_COLOR</label>
+                        </entry>
+                        <entry>
+                            <value>tool</value>
+                            <label i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_TAB_POLICY_TOOL</label>
+                        </entry>
+                        <entry>
+                            <value>all</value>
+                            <label i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_TAB_POLICY_ALL</label>
+                        </entry>
+                     </enumeration>
+                     <default-value>all</default-value>
+                     <order>10</order>
+                 </param>
+                 
+                 <param id="workspace" type="string" private="true">
+                     <label i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_WORKSPACE</label>
+                     <description i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_WORKSPACE_DESC</description>
+                     <group i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_GROUP_10_DISPLAY</group>
+                 </param>
+                 
+                 <param id="remember-opened-tools" type="boolean">
+                     <label i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_OPENEDTOOLS</label>
+                     <description i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_OPENEDTOOLS_DESC</description>
+                     <group i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_GROUP_10_DISPLAY</group>
+                     <default-value>true</default-value>
+                     <order>20</order>
+                 </param>
+                 
+                 <param id="edition-tab-policy" type="string">
+                     <label i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_FORM_TAB_POLICY</label>
+                     <description i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_FORM_TAB_POLICY_DESC</description>
+                     <group i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_GROUP_20_EDITION</group>
+                     <validation>
+                        <mandatory/>
+                     </validation>
+                     <enumeration>
+                        <entry>
+                            <value>default</value>
+                            <label i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_FORM_TAB_POLICY_DEFAULT</label>
+                        </entry>
+                        <entry>
+                            <value>inline</value>
+                            <label i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_FORM_TAB_POLICY_INLINE</label>
+                        </entry>
+                     </enumeration>
+                     <default-value>default</default-value>
+                 </param>
+                 
+            </extension>
+            
+            <extension id="org.ametys.plugins.core.userprefs.ResetWorkspace"
+                     point="org.ametys.core.ui.RibbonAppMenuControlsManager"
+                     class="org.ametys.core.ui.StaticClientSideElement">
+              <class name="Ametys.plugins.coreui.userprefs.UserPrefsActions">
+                 <action>Ametys.plugins.coreui.userprefs.UserPrefsActions.resetWorkspace</action>
+                  
+                 <label i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_LABEL</label>
+                 <description i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_DESCRIPTION</description>
+                  
+                 <param name="icon-small" file="true">img/userprefs/userprefs-reset_16.png</param>
+                 <param name="icon-medium" file="true">img/userprefs/userprefs-reset_32.png</param>
+                 <param name="icon-large" file="true">img/userprefs/userprefs-reset_48.png</param>
+              </class>
+              <scripts>
+                  <file>js/Ametys/plugins/coreui/userprefs/UserPrefsActions.js</file>
+              </scripts>
+         </extension>
+         
+         <extension id="org.ametys.plugins.core.userprefs.Edit"
+                     point="org.ametys.core.ui.RibbonAppMenuControlsManager"
+                     class="org.ametys.core.ui.StaticClientSideElement">
+              <class name="Ametys.plugins.coreui.userprefs.UserPrefsActions">
+                <action>Ametys.plugins.coreui.userprefs.UserPrefsActions.edit</action>
+                  
+                 <label i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_LABEL</label>
+                 <description i18n="true">PLUGINS_CORE_UI_USER_PREFERENCES_DESCRIPTION</description>
+                  
+                 <param name="icon-small" file="true">img/userprefs/userprefs_16.png</param>
+                 <param name="icon-medium" file="true">img/userprefs/userprefs_32.png</param>
+                 <param name="icon-large" file="true">img/userprefs/userprefs_48.png</param>
+              </class>
+              <scripts>
+                  <file>js/Ametys/plugins/coreui/userprefs/UserPrefsActions.js</file>
+              </scripts>
+         </extension>
+         
+       </extensions>
+    </feature>
+</plugin>

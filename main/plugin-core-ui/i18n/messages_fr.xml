@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright 2014 Anyware Services
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   -->
+<catalogue xml:lang="fr">
+	
+    <message key="PLUGINS_CORE_UI_SHUTDOWN_DEFAULTTITLE">L'application est arrêtée</message>
+    <message key="PLUGINS_CORE_UI_SHUTDOWN_DEFAULTTEXT">L'application est maintenant arrêtée. Vous pouvez fermer votre navigateur ou cliquer sur le lien suivant pour la redémarrer maintenant.</message>
+    
+     <!-- +
+         | Config 
+         + -->
+    <message key="PLUGINS_CORE_UI_DEBUG_UI_LABEL">Interfaces graphiques</message>
+    <message key="PLUGINS_CORE_UI_DEBUG_UI_DESCRIPTION">Mettre les interfaces graphiques en mode développeur (CSS/JS non minimisés...)</message>
+    <message key="PLUGINS_CORE_UI_DEBUG_UI_VAL_0">Mode production (concaténé, minimisé)</message>
+    <message key="PLUGINS_CORE_UI_DEBUG_UI_VAL_1">Mode développeur partiel (concaténé, non minimisé)</message>
+    <message key="PLUGINS_CORE_UI_DEBUG_UI_VAL_2">Mode développeur complet (non concaténé, non minimisé)</message>
+    <message key="PLUGINS_CORE_UI_SKIPBROWSERCOMPATIBILITYTEST_LABEL">Ignorer le test du navigateur</message>
+    <message key="PLUGINS_CORE_UI_SKIPBROWSERCOMPATIBILITYTEST_DESCRIPTION">Par défaut (lorsque décoché) le navigateur de l'utilisateur est testé lors de sa connexion et l'utilisateur est redirigé si son navigateur est non compatible. En cochant cette case ce test n'est plus effectué.</message>
+    
+    
+    <!-- + 
+         | Date patterns
+         + -->
+    <message key="PLUGINS_CORE_UI_DATETIME_SHORTDATE">d/m/y</message>
+    <message key="PLUGINS_CORE_UI_DATETIME_LONGDATE">d/m/Y</message>
+    <message key="PLUGINS_CORE_UI_DATETIME_FULLDATE">l j F Y</message>
+    <message key="PLUGINS_CORE_UI_DATETIME_SHORTTIME">H:i:s</message>
+    <message key="PLUGINS_CORE_UI_DATETIME_LONGTIME">H:i:sP</message>
+    <message key="PLUGINS_CORE_UI_DATETIME_SHORTDATETIME">d/m/y H:i:s</message>
+    <message key="PLUGINS_CORE_UI_DATETIME_FRIENDLYDATETIME">d/m/Y \\à H:i</message>
+    <message key="PLUGINS_CORE_UI_DATETIME_LONGDATETIME">d/m/Y H:i:sP</message>
+    <message key="PLUGINS_CORE_UI_DATETIME_FULLDATETIME">l j F Y \\à H:i:s T</message>
+    
+    <!-- +
+         | ServerComm.js
+         + -->
+    <message key="PLUGINS_CORE_UI_SERVERCOMM_ERROR_TITLE">Erreur de traitement</message>
+    <message key="PLUGINS_CORE_UI_SERVERCOMM_ERROR_DESC">Une erreur est survenue dans le traitement de la réponse serveur</message>
+    <message key="PLUGINS_CORE_UI_SERVERCOMM_BADRESPONSE_TITLE">Pas de réponse du serveur</message>
+    <message key="PLUGINS_CORE_UI_SERVERCOMM_BADRESPONSE_DESC">La réponse du serveur est incomplète et ne contient pas les informations permettant de continuer le traitement correctement.</message>
+    <message key="PLUGINS_CORE_UI_SERVERCOMM_NOTXML_DESC">La réponse du serveur est inchoérente et cela peut provenir :\n* soit de l'expiration de votre authentification,\n* soit d'une anomalie imprévue sur le serveur.\nVous pouvez essayer de vous authentifier à nouveau avant de ré-essayer.\n\nSi toutes vos données sont enregistrées, cliquez sur Annuler.\n\nSinon cliquez sur Ok pour essayer de sauver vos modifications en cours à nouveau mais votre application sera dans un état instable (Si ce message apparaît plusieurs fois, contactez votre administrateur système pour connaitre la durée du problème).</message>
+    <message key="PLUGINS_CORE_UI_SERVERCOMM_SERVER_FAILED_DESC">Le serveur a échoué (code </message>
+    <message key="PLUGINS_CORE_UI_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE">La connexion avec le serveur a été perdue mais le serveur est peut-être toujours en train de traiter votre requête.\n\nSi toutes vos données sont enregistrées, cliquez sur Annuler.\n\nSinon cliquez sur Ok pour essayer de sauver vos modifications en cours à nouveau mais votre application sera dans un état instable (Si ce message apparaît plusieurs fois, contactez votre administrateur système pour connaitre la durée du problème).</message>
+    <message key="PLUGINS_CORE_UI_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_1">La connexion avec le serveur a été perdue</message>
+    <message key="PLUGINS_CORE_UI_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_2">L'application s'est retrouvée dans un état instable et a été arretée</message>
+    <message key="PLUGINS_CORE_UI_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_3">Cliquez ici pour vous reconnecter à l'application.</message>
+    <message key="PLUGINS_CORE_UI_SERVERCOMMPROXY_ERROR_MSG">Erreur de communication avec le serveur.</message>
+    <!-- +
+         | TimeoutDialog.js
+         + -->
+    <message key="PLUGINS_CORE_UI_SERVERCOMM_TIMEOUTDIALOG_TITLE">Le serveur ne répond pas</message>     
+    <message key="PLUGINS_CORE_UI_SERVERCOMM_TIMEOUTDIALOG_TEXT1">Une demande est partie en direction du serveur depuis quelques secondes mais aucune réponse n'a été encore obtenue.</message>
+    <message key="PLUGINS_CORE_UI_SERVERCOMM_TIMEOUTDIALOG_TEXT2">Vous pouvez choisir d'annuler cette requête ou d'attendre quelques secondes de plus.</message>
+    <message key="PLUGINS_CORE_UI_SERVERCOMM_TIMEOUTDIALOG_WAIT">Attendre</message> 
+    <message key="PLUGINS_CORE_UI_SERVERCOMM_TIMEOUTDIALOG_CANCEL">Annuler</message>    
+    <message key="PLUGINS_CORE_UI_SERVERCOMM_TIMEOUTDIALOG_DETAILS">Détails</message>
+    
+    <!-- +
+         | ErrorDialog.js
+         + -->
+    <message key="PLUGINS_CORE_UI_MSG_ERRORDIALOG_ERROR_MSG">Erreur : </message>         
+    <message key="PLUGINS_CORE_UI_MSG_ERRORDIALOG_OK">Ok</message>
+    <message key="PLUGINS_CORE_UI_MSG_ERRORDIALOG_SPLITBUTTON_OK">Ok</message>
+    <message key="PLUGINS_CORE_UI_MSG_ERRORDIALOG_IGNOREERRORS">Ignore tous les messages d'erreur en attente</message>
+    <message key="PLUGINS_CORE_UI_MSG_ERRORDIALOG_DETAILS">Détails</message>
+    <message key="PLUGINS_CORE_UI_MSG_ERRORDIALOG_OTHERSERRORS">autre(s) erreur(s)</message>
+    
+    <!-- +
+         | Tools.js
+         + -->
+    <message key="PLUGINS_CORE_UI_MSG_TOOLS_OUTOFDATEPANEL_MAJOR">L'outil n'est plus à jour.&lt;br/&gt;Cliquez sur le bouton ci-dessus pour rafraichir l'outil.</message>
+    <message key="PLUGINS_CORE_UI_MSG_TOOLS_OUTOFDATEPANEL_LABEL">Les données affichées ne sont plus à jour. Cliquez ici pour rafraîchir l'outil.</message>
+    <message key="PLUGINS_CORE_UI_MSG_TOOLS_OUTOFDATEPANEL_TOOLTIP_TITLE">Affichage obsolète</message>
+    <message key="PLUGINS_CORE_UI_MSG_TOOLS_OUTOFDATEPANEL_TOOLTIP_DESCRIPTION">Les données qui sont actuellement affichées dans cet écran ne sont plus à jour.&lt;br/&gt;&lt;br/&gt;En cliquant sur le bandeau jaune vous allez lancer un rafraîchissement de la vue.&lt;br/&gt;&lt;br/&gt;&lt;span style='font-style: italic'&gt;Ce rafraîchissement n'est pas fait automatiquement pour des raisons de performances.&lt;/span&gt;</message>
+    <message key="PLUGINS_CORE_UI_MSG_TOOLS_OUTOFDATEPANEL_TOOLTIP_FOOTER">Voir l'aide pour plus de détails</message>
+    <message key="PLUGINS_CORE_UI_MSG_TOOLS_CLOSE_TAB">Fermer l'onglet</message>
+    <message key="PLUGINS_CORE_UI_MSG_TOOLS_CLOSE_OTHERS">Fermer les autres onglets</message>
+    <message key="PLUGINS_CORE_UI_MSG_TOOLS_CLOSE_ALL">Fermer tous les onglets</message>
+    <message key="PLUGINS_CORE_UI_MSG_TOOLS_UNPIN">Détacher le panneau</message>
+    <message key="PLUGINS_CORE_UI_MSG_TOOLS_PIN">Attacher le panneau</message>
+    <message key="PLUGINS_CORE_UI_MSG_TOOLS_OPEN_ERROR_TITLE">Impossible d'ouvrir l'outil</message>
+    <message key="PLUGINS_CORE_UI_MSG_TOOLS_OPEN_ERROR_TEXT">Une erreur inattendue est survenue et elle a empêché l'ouverture de l'outil demandé.</message>
+    <message key="PLUGINS_CORE_UI_MSG_TOOLS_REFRESHING">Rafraichissement en cours...</message>
+    
+    <!-- +
+         | Tooltip.js
+         + -->
+    <message key="PLUGINS_CORE_UI_MSG_TOOLTIP_FOOTER_TEXT">Appuyer sur la touche F1 pour obtenir de l'aide</message>
+    
+    <!-- +
+         | MessageBus.js
+         + -->
+    <message key="PLUGINS_CORE_UI_MSG_MESSAGEBUS_BUSERROR_TITLE">Erreur du bus de message</message>  
+    <message key="PLUGINS_CORE_UI_MSG_MESSAGEBUS_BUSERROR_DESC">Un composant a rencontré une exception lors du traitement d'un message du bus</message>
+    <message key="PLUGINS_CORE_UI_MSG_MESSAGEBUS_REFRESHERROR_TITLE">Erreur de rafraichissement</message>
+    <message key="PLUGINS_CORE_UI_MSG_MESSAGEBUS_REFRESHERROR_DESC">Un outil a rencontré une exception lors de son rafraichissement automatique</message>
+    
+    <!-- User preferences -->
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_ERROR">Une erreur est survenue: impossible de récupérer vos préférences.</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_ERROR_SAVE">Une erreur est survenue: impossible de sauver vos préférences.</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_STATE_PROVIDER_SAVE_FAILURE_TITLE">Sauvegarde de l'état de l'interface impossible</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_STATE_PROVIDER_SAVE_FAILURE_DESC">L'état de l'interface graphique n'a pas pu être sauvé pour restauration ultérieurs</message>
+    
+    <!-- +
+         | Relation
+         + --> 
+    <message key="PLUGINS_CORE_UI_RELATIONS_VIEW_DRAGTEXT_HELLIP_1">et</message>
+    <message key="PLUGINS_CORE_UI_RELATIONS_VIEW_DRAGTEXT_HELLIP_2">autres&amp;hellip;</message>
+    
+    <!-- +
+         | Validator
+         + --> 
+    <message key="PLUGINS_CORE_UI_DEFAULT_VALIDATOR_MANDATORY">Ce champ est obligatoire</message>
+    <message key="PLUGINS_CORE_UI_DEFAULT_VALIDATOR_PATTERN_FAILED">La valeur de ce champ n'est pas valide</message>
+    <message key="PLUGINS_CORE_UI_VALIDATOR_TEXT_MAXLENGTH">La valeur de ce champ est trop longue</message>
+    
+    <!-- +
+         | Repeater.js
+         + -->
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_MOVE_UP">Monter</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_MOVE_DOWN">Descendre</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_INSERT_ERROR">Une erreur est survenue : elle a empêché l'insertion d'un nouvel élément.</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_INSERT">Ajout d'une entrée</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_INSERT_ERROR_MAXSIZE">Le nombre maximal d'entrées est atteint : il est impossible d'en ajouter.</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_DELETE">Suppression d'une entrée</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_DELETE_ERROR_MINSIZE">Le nombre minimal d'entrées est atteint : il est impossible d'en supprimer.</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_DELETE_CONFIRM">Etes-vous sûr de vouloir supprimer cette entrée ?</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_INSERT_INVALID_MAXSIZE">Le nombre d'entrées est supérieur au nombre d'entrées autorisées</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_INSERT_INVALID_MINSIZE">Le nombre d'entrées est inférieur au nombre d'entrées obligatoires</message>
+    
+    <!-- +
+         | FormEditionPanel.js
+         + -->
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_UNTITLED">Sans titre</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_ERROR_FIELD">1 champ contient des erreurs :</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_ERROR_FIELDS"> champs contiennent des erreurs :</message>    
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_WARN_FIELD">1 champ contient une alerte :</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_WARN_FIELDS"> champs contiennent une alerte :</message>  
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_COMMENT_FIELD">1 champ contient un commentaire :</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_COMMENT_FIELDS"> champs contiennent un commentaire :</message>   
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_INLINETAB_COLLAPSE_ALL">&#171; Tout replier</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_INLINETAB_EXPAND_ALL">Tout déplier &#187;</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_INLINETAB_WAIT_MSG">Rafraichissement en cours. Veuillez patientez ...</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_INVALID_REGEXP">La saisie ne respecte pas le format attendu :</message>
+
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_COMMENTS_DIALOGBOX_TITLE">Commentaire</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_COMMENTS_BTN_OK">Ok</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_COMMENTS_BTN_DELETE">Supprimer</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_COMMENTS_BTN_CANCEL">Annuler</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_COMMENTS_DELETE_CONFIRM_TITLE">Suppression</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_COMMENTS_DELETE_CONFIRM_MSG">Etes-vous sûrs de vouloir supprimer ce commentaire ?</message>
+    
+    <!--  Password -->
+    <message key="PLUGINS_CORE_UI_PASSWORD_VALIDATOR">Le mot de passe et sa confirmation ne sont pas identiques</message>
+    <message key="PLUGINS_CORE_UI_PASSWORD_CLEAR">Remettre le mot de passe à sa valeur initiale</message>
+    <message key="PLUGINS_CORE_UI_PASSWORD_CHANGE">Cliquez ici pour changer le mot de passe</message>
+    
+    <!-- Upload -->
+    <message key="PLUGINS_CORE_UI_UPLOAD_HINT">La taille maximale autorisée est de </message>
+    
+    <!-- Multiple -->
+    <message key="PLUGINS_CORE_UI_MULTIPLE_HINT">séparés par des virgules</message>
+    
+    <!-- Ametys field comments -->
+    <message key="PLUGINS_CORE_UI_AMETYS_COMMENTS_TPL_AUTHOR_DATE">&lt;strong&gt;{0}&lt;/strong&gt;, le {1}</message>
+    <message key="PLUGINS_CORE_UI_AMETYS_COMMENTS_TPL_EMPTY">Cliquez ici pour saisir un commentaire.</message>
+    
+    <!-- Counter (for richtexts and textareas) -->
+    <message key="PLUGINS_CORE_UI_FIELD_CARACTERS_COUNTER_1">Caractères :</message>
+    <message key="PLUGINS_CORE_UI_FIELD_CARACTERS_COUNTER_2">sur</message>
+    <message key="PLUGINS_CORE_UI_FIELD_RICH_TEXT_HIERARCHY_ERROR">La hiérarchie des titres est incorrecte.&lt;br/&gt;Vous ne devez pas saisir de Titre 2 avant un Titre 1 (et ainsi de suite).&lt;br/&gt;Des problèmes graphiques ou d'accessibilité du contenu peuvent subvenir si vous enregistrez en l'état.</message>
+    
+    <message key="PLUGINS_CORE_UI_LOADMASK_DEFAULT_MESSAGE">Traitement en cours. Veuillez patienter ...</message>
+    <message key="PLUGINS_CORE_UI_LOADSCRIPT_SUCCESS">Chargement du fichier </message>
+    <message key="PLUGINS_CORE_UI_LOADSCRIPT_ERROR">Echec lors du chargement du fichier </message>
+    
+    <!-- Iframe -->
+    <message key="PLUGINS_CORE_UI_IFRAME_LOADING">Chargement en cours.&lt;br/&gt;Veuillez patienter ...</message>
+    
+    <!-- Multisort -->
+    <message key="PLUGINS_CORE_UI_MULTISORT_TOOLBAR_TEXT">Tri</message>
+    <message key="PLUGINS_CORE_UI_MULTISORT_SHOW_TOOLBAR_BUTTON_TOOLTIP">Afficher la barre de tri</message>
+    <message key="PLUGINS_CORE_UI_MULTISORT_HIDE_TOOLBAR_BUTTON_TOOLTIP">Cacher la barre de tri</message>
+    
+    <!-- +
+         | Widgets
+         + --> 
+    <message key="PLUGINS_CORE_UI_WIDGET_PASSWORD_KEEPOLD">Conserver l'ancien mot de passe</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_PASSWORD_HINT">Changer le mot de passe</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_PASSWORD_ERROR">Vous devez saisir 2 fois le même mot de passe.\nVeuillez saisir à nouveau le mot de passe en 2 exemplaires</message>
+
+    <!-- SELECT USER -->
+	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_CAPTION">Sélectionner un utilisateur...</message>
+	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_OK">Ok</message>
+	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_CANCEL">Annuler</message>
+	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_ERROR_LISTING">Une erreur est survenue lors de la récupération de la liste des utilisateurs.</message>
+	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_FIND">Chercher</message>
+	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_WARN100">Au maximum 100 utilisateurs sont listés</message>
+	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_ERROR_EMPTY">Vous devez sélectionner au moins un utilisateur dans la liste avant de continuer.</message>
+    <message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_NORESULT">La recherche n'a renvoyé aucun résultat</message>
+    <message key="PLUGINS_CORE_UI_USERS_SELECTUSERS_DIALOG_CAPTION">Sélectionner des utilisateurs ...</message>
+    <message key="PLUGINS_CORE_UI_USERS_SELECTUSERS_BTN_ADDUSER">Ajouter</message>
+    <message key="PLUGINS_CORE_UI_USERS_SELECTUSERS_BTN_DELETEUSERS">Supprimer</message>
+    
+    <!-- SELECT GROUP -->
+    <message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_CAPTION">Sélectionner un groupe...</message>
+    <message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_OK">Ok</message>
+    <message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_CANCEL">Annuler</message>
+    <message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_ERROR_LISTING">Une erreur est survenue lors de la récupération de la liste des groupes.</message>
+    <message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_FIND">Chercher</message>
+    <message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_WARN100">Au maximum 100 groupes sont listés</message>
+    <message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_ERROR_EMPTY">Vous devez sélectionner au moins un groupe dans la liste avant de continuer.</message>
+    <message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_NORESULT">La recherche n'a renvoyé aucun résultat</message>
+    
+    <!-- PROFILES TREE -->
+    <message key="PLUGINS_CORE_UI_PROFILES_TREE_FILTER_BY_NAME">Filtrer par utilisateur(s) ou groupe(s) ...</message>
+    <message key="PLUGINS_CORE_UI_PROFILES_TREE_ROOT_NODE">Profils de droits</message>
+    <message key="PLUGINS_CORE_UI_PROFILES_TREE_BTN_INHERITANCE_TOOLTIP">Voir les utilisateurs et groupes par héritage</message>
+    <message key="PLUGINS_CORE_UI_PROFILES_TREE_BTN_UPTOCONTEXT_TOOLTIP">Remonter au contexte parent</message>
+    <message key="PLUGINS_CORE_UI_PROFILES_TREE_BTN_EXPAND_TOOTIP">Déplier tout</message>
+    <message key="PLUGINS_CORE_UI_PROFILES_TREE_BTN_COLLAPSE_TOOTIP">Replier tout</message>
+    <message key="PLUGINS_CORE_UI_PROFILES_TREE_CONTEXT_TOOLTIP">Contexte</message>
+    <message key="PLUGINS_CORE_UI_PROFILES_TREE_GET_PROFILES_RIGHTS_ERROR">Une erreur est survenue: impossible de récupérer la liste des profils de droits</message>
+    
+    <message key="PLUGINS_CORE_ERROR_DIALOG_TITLE">Erreur</message>
+	<message key="PLUGINS_CORE_SAVE_DIALOG_TITLE">Sauvegarde</message>
+	
+    <!-- +
+         | Announce
+         + -->
+    <message key="PLUGINS_CORE_UI_TOOL_ANNOUNCE_TITLE">Annonce système</message>
+    <message key="PLUGINS_CORE_UI_TOOL_ANNOUNCE_ERROR_TITLE">Annonce système</message>
+
+    <!-- +
+         | Startup time
+         + -->
+    <message key="PLUGINS_CORE_UI_TOOL_STARTUPTIME_TITLE">Redémarrage serveur</message>
+    <message key="PLUGINS_CORE_UI_TOOL_STARTUPTIME_MESSAGE">Le serveur Ametys vient de redémarrer et cela peut entrainer une instabilité de votre application.&lt;br/&gt;&lt;br/&gt;Il est recommandé de redémarrer aussi votre application en rechargeant votre navigateur.&lt;br/&gt;Si vous avez du travail en cours, vous pouvez essayer de le sauvegarder avant.</message>
+    <message key="PLUGINS_CORE_UI_TOOL_STARTUPTIME_TITLE2">Mise à jour serveur</message>
+    <message key="PLUGINS_CORE_UI_TOOL_STARTUPTIME_MESSAGE2">Le serveur Ametys vient d'être mis à jour et a été redémarré. Cela peut entrainer une instabilité de votre application.&lt;br/&gt;&lt;br/&gt;Il est FORTEMENT recommandé de redémarrer aussi votre application en rechargeant votre navigateur.&lt;br/&gt;Si vous avez du travail en cours, vous pouvez essayer de le sauvegarder avant.</message>
+    <message key="PLUGINS_CORE_UI_TOOL_STARTUPTIME_ERROR_TITLE">Redémarrage serveur</message>
+
+    <!-- +
+         | Reload
+         + -->
+    <message key="PLUGINS_CORE_UI_RELOAD_WORKSPACE_LABEL">Recharger l'application</message>
+    <message key="PLUGINS_CORE_UI_RELOAD_WORKSPACE_DESCRIPTION">Recharge le navigateur pour réinitialiser l'application</message>
+    <message key="PLUGINS_CORE_UI_RELOAD_WORKSPACE_PROMPT_LABEL">Etes-vous sûrs ?</message>
+    <message key="PLUGINS_CORE_UI_RELOAD_WORKSPACE_PROMPT_DESC">Voulez-vous recharger l'application maintenant ?&lt;br/&gt;&lt;br/&gt;Pensez à sauvegarder votre travail avant de cliquer sur OK.</message>
+  
+    <!--+
+        | NAV HISTORY
+        + -->
+    <message key="PLUGINS_CORE_UI_NAVHISTORY_DAO_SEARCH_TYPE">Recherche</message>
+    <message key="PLUGINS_CORE_UI_NAVHISTORY_DAO_TOOL_TYPE">Outil</message>
+    <message key="PLUGINS_CORE_UI_NAVHISTORY_DAO_CONTENT_TYPE">Contenu</message>
+    
+    <!-- +
+         | USER PREFERENCES
+         + -->
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_LABEL">Mes préférences</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_DESCRIPTION">Modifier mes préférences</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_BTN_RESTORE_DEFAULTS">Restaurer les valeurs par défaut</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_BTN_OK">Ok</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_BTN_CANCEL">Annuler</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_SAVE">Sauvegarde ...</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_SAVE_INVALIDFIELDS">Un ou plusieurs champs du formulaire sont invalides.&lt;br/&gt;Veuillez les corriger pour pouvoir continuer : </message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_ERROR">Une erreur est survenue: impossible de récupérer les préférences utilisateurs</message>
+    
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_GROUP_10_DISPLAY">Affichage</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_TAB_POLICY">Organisation des onglets</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_TAB_POLICY_DESC">Choisissez le mode d'organisation des onglets centraux : &lt;br/&gt;&lt;b&gt;- un onglet par couleur:&lt;/b&gt; ouvre un seul onglet par couleur. Permet d'avoir un minimun d'onglets ouverts&lt;br/&gt;&lt;b&gt;- un onglet par outil:&lt;/b&gt; ouvre un onglet par outil&lt;br/&gt;&lt;b&gt;- plusieurs onglets par outil:&lt;/b&gt; ouvre autant d'onglets que nécessaire</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_TAB_POLICY_COLOR">Un onglet par couleur</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_TAB_POLICY_TOOL">Un onglet par outil</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_TAB_POLICY_ALL">Plusieurs onglets par outil si nécessaire</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_WORKSPACE">Espace de travail</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_WORKSPACE_DESC">L'état de votre espace de travail est sauvé ici (outils ouverts, emplacements et tailles de outils). Vous pouvez réinitialiser votre espace de travail.</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_OPENEDTOOLS">Mémoriser les outils ouverts au redémarrage</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_OPENEDTOOLS_DESC">Lorsque cette case est cochée, les outils restent ouverts lorsque vous redémarrez votre navigateur</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_GROUP_20_EDITION">Formulaire</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_FORM_TAB_POLICY">Mode d'affichage</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_FORM_TAB_POLICY_DESC">Choisissez le mode d'affichage des formulaires:&lt;br/&gt;- &lt;b&gt;Formulaire avec onglets&lt;/b&gt;: regroupement des champs du formulaire par onglets &lt;br/&gt;- &lt;b&gt;Formulaire linéarisé:&lt;/b&gt; disposition des champs du formulaire les uns à la suite des autres</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_FORM_TAB_POLICY_DEFAULT">Formulaire avec onglets</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_FORM_TAB_POLICY_INLINE">Formulaire linéarisé</message>
+    
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_LABEL">Réinitialiser l'espace de travail</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_DESCRIPTION">Réinitialise votre espace de travail avec les paramètres par défaut (outils ouverts, taille des zones...) et recharge l'application.</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_PROMPT_TITLE">Réinitialiser l'espace de travail</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_PROMPT_DESC">Voulez-vous réinitialiser votre espace de travail maintenant ?&lt;br/&gt;&lt;br/&gt;Tous les outils actuellement ouverts seront refermés : pensez à sauvegarder votre travail avant de cliquer sur OK.</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_FAILURE_TITLE">Impossible de réinitialiser</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_FAILURE_DESC">Une erreur inattendue est survenue et a empéché la réinitialisation de l'espace de travail.</message>
+    
+    <!-- +
+         | WIDGETS
+         + -->
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_FILE_BUTTON">Sélectionnez un fichier</message>  
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_FILE_BUTTON">Supprimer le fichier</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NO_FILE_SELECTED">Aucun fichier</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_EXTERNAL_FILE">Fichier local ...</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_FILE_CONFIRM">Etes-vous sûr de vouloir supprimer ce fichier ?</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_FILE">Insérer une ressource locale ...</message>  
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_FILE_HINT">Sélectionnez une ressource sur votre disque dur, puis cliquez sur 'Ok'.</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_FILE">Télécharger le fichier</message>
+    
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_IMAGE_BUTTON">Sélectionnez une image</message>  
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_IMAGE_BUTTON">Supprimer l'image</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NO_IMAGE_SELECTED">Aucune image</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_EXTERNAL_IMAGE">Image locale ...</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_IMAGE_CONFIRM">Etes-vous sûr de vouloir supprimer cette image ?</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_IMAGE">Insérer une image locale ...</message>     
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_IMAGE_HINT">Sélectionnez une image sur votre disque dur, puis cliquez sur 'Ok'.</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_IMAGE">Télécharger le fichier image</message>
+
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_MULTIMEDIA_BUTTON">Sélectionnez un fichier multimédia</message>     
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_MULTIMEDIA_BUTTON">Supprimer le fichier multimédia</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NO_MULTIMEDIA_SELECTED">Aucun fichier multimédia</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_EXTERNAL_MULTIMEDIA">Fichier multimédia local...</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_MULTIMEDIA_CONFIRM">Etes-vous sûr de vouloir supprimer ce fichier multimédia ?</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_MULTIMEDIA">Insérer un fichier multimédia local ...</message>     
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_MULTIMEDIA_HINT">Sélectionnez un fichier multimédia sur votre disque dur, puis cliquez sur 'Ok'.</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_MULTIMEDIA">Télécharger le fichier multimédia</message>
+    
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_VIDEO_BUTTON">Sélectionnez un fichier vidéo</message>     
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_VIDEO_BUTTON">Supprimer le fichier vidéo</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NO_VIDEO_SELECTED">Aucun fichier vidéo</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_EXTERNAL_VIDEO">Fichier vidéo local...</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_VIDEO_CONFIRM">Etes-vous sûr de vouloir supprimer ce fichier vidéo ?</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_VIDEO">Insérer un fichier vidéo local ...</message>     
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_VIDEO_HINT">Sélectionnez un fichier vidéo sur votre disque dur, puis cliquez sur 'Ok'.</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_VIDEO">Télécharger le fichier vidéo</message>
+    
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_FLASH_BUTTON">Sélectionnez un fichier flash</message>     
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_FLASH_BUTTON">Supprimer le fichier flash</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NO_FLASH_SELECTED">Aucun fichier flash</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_EXTERNAL_FLASH">Fichier flash local...</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_FLASH_CONFIRM">Etes-vous sûr de vouloir supprimer ce fichier flash ?</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_FLASH">Insérer un fichier flash local ...</message>     
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_FLASH_HINT">Sélectionnez un fichier flash sur votre disque dur, puis cliquez sur 'Ok'.</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_FLASH">Télécharger le fichier flash</message>
+    
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_SELECT_SOUND_BUTTON">Sélectionnez un fichier audio</message>   
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_SOUND_BUTTON">Supprimer le fichier audio</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_NO_SOUND_SELECTED">Aucun fichier audio</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_EXTERNAL_SOUND">Fichier audio local ...</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DELETE_SOUND_CONFIRM">Etes-vous sûr de vouloir supprimer ce fichier audio ?</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_SOUND">Insérer un fichier audio local ...</message>   
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_INSERT_LOCAL_SOUND_HINT">Sélectionnez un fichier audio sur votre disque dur, puis cliquez sur 'Ok'.</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_RESOURCES_PICKER_DOWNLOAD_SOUND">Télécharger le fichier audio</message>
+    
+    <message key="PLUGINS_CORE_UI_WIDGET_QUERYABLE_COMBOBOX_NO_RESULT">La recherche n'a renvoyé aucun résultat</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_QUERYABLE_COMBOBOX_LOADING">Recherche en cours...</message>
+    
+    <message key="PLUGINS_CORE_UI_WIDGET_USER_NO_USER">Sélectionnez un utilisateur dans la liste ci-dessous</message>
+    
+    <message key="PLUGINS_CORE_UI_WIDGET_RICH_TEXT_TOC_ERROR">Du texte est présent sur la même ligne qu'une table des matières.</message>
+    
+    
+    <message key="PLUGINS_CORE_UI_WIDGET_GEOCODE_SHOW_MAP_BUTTON_TOOLTIP">Situer sur la carte</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_GEOCODE_DELETE_BUTTON">Supprimer</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_GEOCODE_DELETE_CONFIRM_TITLE">Supprimer les coordonnées</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_GEOCODE_DELETE_CONFIRM_CONTENT">Etes-vous sûrs de vouloir supprimer ces coordonnées ?</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_GEOCODE_NO_COORDINATES">Cliquez sur le bouton ci-après pour définir les coordonnées</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_GEOCODE_UNKNOWN_FIELD">Champ adresse inconnue : </message>
+    <message key="PLUGINS_CORE_UI_WIDGET_GEOCODE_ADDRESS_CHANGE">Les informations géographiques liée à ce champ ont été modifiées et les coordonnées géographiques peuvent ne plus correspondre aux informations saisies.&lt;br/&gt;Ouvrez la carte Google Map pour mettre à jour les coordonnées.</message>
+    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_DEFAULT_TITLE">Situer sur la carte</message>            
+    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_OK">Ok</message>
+    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_CANCEL">Annuler</message>
+    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_SEARCH_LABEL">Recherche</message>
+    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_SEARCH">Rechercher</message>
+    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_HELP_MSG_1">Saisissez une adresse dans le champ de recherche ci-dessous pour positionner le marqueur, puis déplacez le à la position exacte souhaitée.</message>
+    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_BOTTOM_TEXT">Attention, la position du marqueur peut ne pas correspondre au champ de recherche si vous avez positionné le curseur manuellement.</message>
+    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_SEARCH_NOT_FOUND">Impossible de trouver: </message>
+    <message key="LOAD_GOOGLE_MAPS_ERROR">Erreur de traitement</message>
+    <message key="LOAD_GOOGLE_MAPS_ERROR_DESC">Echec lors du chargement des API Google Maps</message>
+    
+    <message key="PLUGINS_CORE_UI_WIDGET_FLIPFLAP_MOVE_TO_TOP">Déplacer vers le haut</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_FLIPFLAP_MOVE_UP">Monter</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_FLIPFLAP_ADD_TO_SELECTED">Ajouter à la sélection</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_FLIPFLAP_REMOVE_FROM_SELECTED">Supprimer de la sélection</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_FLIPFLAP_MOVE_DOWN">Descendre</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_FLIPFLAP_MOVE_TO_BOTTOM">Déplacer vers le bas</message>
+    
+    <message key="PLUGINS_CORE_UI_WIDGET_BOOLEAN_COMBOBOX_DEFAULT_EMPTY_LABEL">-</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_BOOLEAN_COMBOBOX_DEFAULT_TRUE_LABEL">Oui</message>
+    <message key="PLUGINS_CORE_UI_WIDGET_BOOLEAN_COMBOBOX_DEFAULT_FALSE_LABEL">Non</message>
+    
+    <!-- +
+         | FileUpload.js
+         + -->
+    <message key="PLUGINS_CORE_UI_FILEUPLOAD_FIELD_EMPTYTEXT">Sélectionnez un fichier</message>
+    <message key="PLUGINS_CORE_UI_FILEUPLOAD_FIELD_FIELDLABEL">Fichier</message>
+    <message key="PLUGINS_CORE_UI_FILEUPLOAD_FIELD_BUTTONTEXT">Parcourir</message>
+    <message key="PLUGINS_CORE_UI_FILEUPLOAD_BOX_OK">Ok</message>
+    <message key="PLUGINS_CORE_UI_FILEUPLOAD_BOX_CANCEL">Annuler</message>
+    <message key="PLUGINS_CORE_UI_FILEUPLOAD_IMAGEFILTER">fichier image (avec une extension en jpg, gif ou png)</message>
+    <message key="PLUGINS_CORE_UI_FILEUPLOAD_MULTIMEDIAFILTER">fichier vidéo ou audio (avec une extension en swf, flv ou mp3)</message>
+    <message key="PLUGINS_CORE_UI_FILEUPLOAD_VIDEOFILTER">fichier vidéo (avec une extension en swf ou flv)</message>
+    <message key="PLUGINS_CORE_UI_FILEUPLOAD_SOUNDFILTER">fichier audio (mp3)</message>
+    <message key="PLUGINS_CORE_UI_FILEUPLOAD_FLASHFILTER">fichier flash (swf)</message>
+    <message key="PLUGINS_CORE_UI_FILEUPLOAD_ERRORDIALOG_TEXT">Fichier non adapté</message>
+    <message key="PLUGINS_CORE_UI_FILEUPLOAD_ERRORDIALOG_DESC">Le fichier choisi n'est pas du type attendu.&lt;br/&gt;Veuillez sélectionner un</message>
+    <message key="PLUGINS_CORE_UI_FILEUPLOAD_SUBMITFORM_TITLE">Insérer un fichier</message>
+    <message key="PLUGINS_CORE_UI_FILEUPLOAD_SUBMITFORM_MSG">Téléchargement du fichier en cours, veuillez patienter...</message>
+    <message key="PLUGINS_CORE_UI_FILEUPLOAD_ERROR_MSG">Echec du téléchargement</message>
+    <message key="PLUGINS_CORE_UI_FILEUPLOAD_ERROR_FILEREJECTED">Le fichier a été rejeté par le serveur</message>
+    <message key="PLUGINS_CORE_UI_FILEUPLOAD_ERROR_ON_SERVER">Une erreur est survenue sur le serveur</message>
+        
+    <!-- User preferences -->
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_INVALID_TYPE">Vous devez entrer une valeur valide pour cette préférence.</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_PWD_CONFIRMATION_DOESNT_MATCH">Le mot de passe et sa confirmation ne correspondent pas.</message>
+    
+    <!-- +
+         | GEOCODE
+         + -->    
+    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_DEFAULT_TITLE">Locate on map</message>          
+    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_OK">Ok</message>
+    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_CANCEL">Cancel</message>
+    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_SEARCH_LABEL">Search</message>
+    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_SEARCH">Search</message>
+    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_HELP_MSG_1">Enter an address in the search field below to position the marker then move it to the exact desired position.</message>
+    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_BOTTOM_TEXT">Please note that the marker position may not match the search field if you have positioned the marker manually.</message>
+    <message key="PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_SEARCH_NOT_FOUND">Unable to find: </message>
+    <message key="LOAD_GOOGLE_MAPS_ERROR">Processing error</message>
+    <message key="LOAD_GOOGLE_MAPS_ERROR_DESC">Failed to load Google Maps API</message>
+    
+    <!-- +
+         | SaveAction.js
+         + -->
+    <message key="PLUGINS_CORE_UI_SAVE_ACTION_FAILED_TITLE">Save failed</message>
+    <message key="PLUGINS_CORE_UI_SAVE_ACTION_FAILED_OK_BTN">Ok</message>
+    
+    <!-- +
+         | Link Helper
+         + -->
+    <message key="PLUGINS_CORE_UI_HELPER_ENTERURL_LABEL">Adresse</message>
+    <message key="PLUGINS_CORE_UI_HELPER_ENTERURL_OK">Ok</message>
+    <message key="PLUGINS_CORE_UI_HELPER_ENTERURL_CANCEL">Annuler</message>
+    
+   <!--+
+       | DEV RIGHTS
+       + -->
+    <message key="PLUGINS_CORE_RIGHTS_DEV_CATEGORY">Développeur</message>
+    <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_REQUESTTRACKER_LABEL">Requêtes serveurs</message>
+    <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_REQUESTTRACKER_DESCRIPTION">Accès à l'outil du suivi des requêtes serveurs</message>
+    <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_MESSAGETRACKER_LABEL">Message du bus</message>
+    <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_MESSAGETRACKER_DESCRIPTION">Accès à l'outil du suivi des messages du bus</message>
+    
+   <!--+
+       | MESSAGES TRACKER
+       + -->
+    <message key="PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_LABEL">Suivi des messages du bus</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_DESCRIPTION">Voir les messages du bus</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_FOOTER">Voir l'aide pour plus de détails</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_CLEAR_LABEL">Effacer les messages affichés</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_CLEAR_DESCRIPTION">Cliquez sur ce bouton pour effacer les messages du bus actuellement visible dans la vue de suivi.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_CLEAR_DESCRIPTION2">Ce bouton est désactivé car la fenêtre de suivi des messages du bus n'est actuellement pas ouverte</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_CLEAR_FOOTER">Voir l'aide pour plus de détails</message>
+    
+    <message key="PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_ID">N°</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_CREATIONDATE">Date de creation</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_FIREDATE">Date d'envoi</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_TYPE">Type</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_TARGET">Cible</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_CALLSTACK">Pile d'appel de création</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_NOTARGET">&amp;lt;pas de cible&amp;gt;</message>
+    
+    <!--+
+        | REQUESTS TRACKER
+        + -->
+    <message key="PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_LABEL">Suivi des requêtes serveur</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_DESCRIPTION">Voir les messages envoyés au serveur</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_FOOTER">Voir l'aide pour plus de détails</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_CLEAR_LABEL">Effacer les requêtes affichées</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_CLEAR_DESCRIPTION">Cliquez sur ce bouton pour effacer les messages de requêtes serveur actuellement visible dans la vue de suivi.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_CLEAR_DESCRIPTION2">Ce bouton est désactivé car la fenêtre de suivi des requêtes du bus n'est actuellement pas ouverte</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_CLEAR_FOOTER">Voir l'aide pour plus de détails</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_MESSAGE">Selectionnez une requête dans la partie gauche pour afficher son détail.</message>
+    
+    <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_ID">N°</message>
+    <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_TYPE">Type</message>
+    <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_TYPE_ASYNC">Asynchrone</message>
+    <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_TYPE_SYNC">Synchrone</message>
+    <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_DATE">Date</message>
+    <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_DURATION">Durée</message>
+    <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_SIZE">Taille</message>
+    <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_RETURN">Retour</message>
+    <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_RETURN_OK">Ok</message>
+    <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_RETURN_CANCELED">Annulé</message>
+    <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_RETURN_FAILURE">Echec</message>
+    
+    <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_ID">N°</message>
+    <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_READABLE_TYPE">Type</message>
+    <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_READABLE_VALUE">Appel</message>
+    <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_READABLE_VAL1">Méthode</message>
+    <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_READABLE_VAL2">Url</message>
+    <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_WORKSPACE">Workspace</message>
+    <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_PLUGIN">Plugin</message>
+    <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_URL">Adresse</message>
+    <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_CCROLE">Rôle extension</message> 
+    <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_CCID">Id composant</message> 
+    <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_CCMETHOD">Méthode</message> 
+    <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_PRIORITY">Priorité</message>
+    <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_PRIORITY_LONG_REQUEST">Longue</message>
+    <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_PRIORITY_SYNCHRONOUS">Synchone</message>
+    <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_PRIORITY_MAJOR">Majeure</message>
+    <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_PRIORITY_NORMAL">Normale</message>
+    <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_PRIORITY_MINOR">Mineure</message>
+    <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_TYPE">Retour</message>
+
+    <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_URL">Url</message>
+    <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_PARAMETERS">Paramètres</message>
+    <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_RESPONSE">Réponse</message>
+
+    <!-- +
+         | Workspace
+         + -->
+    <message key="WORKSPACE_AMETYS_MAIN_ERROR_NOJS">Cette application ne peut pas fonctionner en l'absence de javascript</message>
+    <message key="WORKSPACE_AMETYS_SPLASHSCREEN_LOADING">Chargement en cours. Veuillez patienter ... </message>
+    <message key="WORKSPACE_AMETYS_SPLASHSCREEN_APP_AMETYS_VERSION">motorisé par Ametys </message>
+         
+</catalogue>
