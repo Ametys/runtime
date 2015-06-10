@@ -109,7 +109,6 @@
     <message key="PLUGINS_CORE_UI_MSG_MESSAGEBUS_REFRESHERROR_DESC">Un outil a rencontré une exception lors de son rafraichissement automatique</message>
     
     <!-- User preferences -->
-    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_ERROR">Une erreur est survenue: impossible de récupérer vos préférences.</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_ERROR_SAVE">Une erreur est survenue: impossible de sauver vos préférences.</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_STATE_PROVIDER_SAVE_FAILURE_TITLE">Sauvegarde de l'état de l'interface impossible</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_STATE_PROVIDER_SAVE_FAILURE_DESC">L'état de l'interface graphique n'a pas pu être sauvé pour restauration ultérieurs</message>
