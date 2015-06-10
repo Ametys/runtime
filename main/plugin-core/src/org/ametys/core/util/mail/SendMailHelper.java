@@ -135,7 +135,8 @@ public final class SendMailHelper
     {
         try
         {
-            sendMail(subject, htmlBody, textBody, null, recipient, sender, null, null, false, false, host, port, securityProtocol, user, password);
+            String sp = StringUtils.defaultIfEmpty(securityProtocol, Config.getInstance().getValueAsString("smtp.mail.security.protocol"));
+            sendMail(subject, htmlBody, textBody, null, recipient, sender, null, null, false, false, host, port, sp, user, password);
         }
         catch (IOException e)
         {
