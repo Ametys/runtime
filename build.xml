@@ -46,6 +46,9 @@
 	
     <property name="kernel.path" value="/org/ametys/runtime/kernel"/>
     <property name="plugin-core.path" value="/org/ametys/runtime/plugins/core"/>
+	<property name="plugin-core-ui.path" value="/org/ametys/runtime/plugins/core-ui"/>
+	<property name="plugin-core-impl.path" value="/org/ametys/runtime/plugins/core-impl"/>
+	<property name="plugin-admin.path" value="/org/ametys/runtime/plugins/admin"/>
     <property name="workspace-admin.path" value="/org/ametys/runtime/workspaces/admin"/>
 	
     <target name="check-i18n" if="check.i18n">
