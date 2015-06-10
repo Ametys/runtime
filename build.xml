@@ -51,10 +51,17 @@
 	<property name="plugin-admin.path" value="/org/ametys/runtime/plugins/admin"/>
     <property name="workspace-admin.path" value="/org/ametys/runtime/workspaces/admin"/>
 	
-    <target name="check-i18n" if="check.i18n">
-        <ametys:main-i18n-check/>
+	<target name="check-i18n" if="check.i18n">
+        <ametys:main-i18n-check errorOnUnusedKeys="false"/>
         <ametys:i18n-check directory="${application-template-dir}/WEB-INF/i18n" catalogue="application"/>
     </target>
+    
+    <property name="check-i18n.usedkeys">
+        PLUGINS_ADMIN_PLUGINS_INACTIVE_SINGLE,
+        PLUGINS_ADMIN_PLUGINS_INACTIVE_EXCLUDED,
+        PLUGINS_ADMIN_PLUGINS_INACTIVE_DEPENDENCY,
+        PLUGINS_ADMIN_PLUGINS_INACTIVE_PASSIVE
+    </property>
 	
 	<target name="compile" depends="common-build.compile">
 		<mkdir dir="${tmp.dir}/test-env-classes"/>
