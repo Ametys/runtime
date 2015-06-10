@@ -118,6 +118,8 @@
          + --> 
     <message key="PLUGINS_CORE_UI_RELATIONS_VIEW_DRAGTEXT_HELLIP_1">et</message>
     <message key="PLUGINS_CORE_UI_RELATIONS_VIEW_DRAGTEXT_HELLIP_2">autres&amp;hellip;</message>
+    <message key="PLUGINS_CORE_UI_RELATIONS_UNSUPPORTED_MOVE_LABEL">Déplacement impossible</message>
+    <message key="PLUGINS_CORE_UI_RELATIONS_UNSUPPORTED_MOVE_DESCRIPTION">Le déplacement n'a pas été effectué: aucune relation possible n'a été trouvée ou vos droits sont insuffisants.</message>
     
     <!-- +
          | Validator

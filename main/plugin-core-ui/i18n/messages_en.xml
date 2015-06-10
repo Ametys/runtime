@@ -117,6 +117,8 @@
          + --> 
     <message key="PLUGINS_CORE_UI_RELATIONS_VIEW_DRAGTEXT_HELLIP_1">and</message>
     <message key="PLUGINS_CORE_UI_RELATIONS_VIEW_DRAGTEXT_HELLIP_2">others&amp;hellip;</message>
+    <message key="PLUGINS_CORE_UI_RELATIONS_UNSUPPORTED_MOVE_LABEL">Unavailable move</message>
+    <message key="PLUGINS_CORE_UI_RELATIONS_UNSUPPORTED_MOVE_DESCRIPTION">Move has not been made: no possible relationship was found or your rights are insufficients.</message>
     
     <!-- +
          | Validator
