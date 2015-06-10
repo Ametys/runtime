@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright 2014 Anyware Services
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   -->
+<catalogue xml:lang="en">
+
+    <!-- SECURITY LEVEL -->
+    <message key="PLUGINS_CORE_SECURITY_CONFIG_CATEGORY_LOGIN_FORM">Connection to back-office</message>
+    <message key="PLUGINS_CORE_SECURITY_CONFIG_CATEGORY_LOGIN_FORM_GROUP">Login form</message>
+    <message key="PLUGINS_CORE_SECURITY_CONFIG_LEVEL_LABEL">Security level</message>
+    <message key="PLUGINS_CORE_SECURITY_CONFIG_LEVEL_DESCRIPTION">Choose security level for the login form&lt;br/&gt;-&lt;b&gt;focus on user comfort&lt;/b&gt;: autocompletion on form fields, storing password in cookies&lt;br/&gt;-&lt;b&gt;focus on security&lt;/b&gt;: no storing of password, protection with a captcha</message>
+    <message key="PLUGINS_CORE_SECURITY_CONFIG_LEVEL_HIGH">Focus on security</message>
+    <message key="PLUGINS_CORE_SECURITY_CONFIG_LEVEL_LOW">Focus on user comfort</message>
+
+    <!-- DATASOURCE CORE -->
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE">Database</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE_GROUP_CORE">Kernel database connection</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_DRIVER_LABEL">Driver</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_DRIVER_DESCRIPTION">JDBC Driver fully qualified class name</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_URL_LABEL">Url</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_URL_DESCRIPTION">JDBC URL for connecting to the database</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_USER_LABEL">User</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_USER_DESCRIPTION">User name for connecting to the database</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_PASSWORD_LABEL">Password</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_PASSWORD_DESCRIPTION">Password associated with the user name for connecting to the database</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP">LDAP directory</message>
+    <message key="PLUGINS_CORE_SQL_CONNECTION_CHECKER_LABEL">Connection to the kernel database</message>
+    <message key="PLUGINS_CORE_SQL_CONNECTION_CHECKER_DESC">This test checks if the given information allow the connection to the SQL kernel database.</message>
+    
+    <!-- DATASOURCE LDAP -->
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_CATEGORY_LDAP_GROUP_CORE">Server</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEURL_LABEL">Url</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEURL_DESCRIPTION">Url for LDAP server</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEURL_INVALID">The url of the LDAP server is invalid. It has to be like 'ldap://server:389' or 'ldaps://server:389'.</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEDN_LABEL">Base DN</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_BASEDN_DESCRIPTION">Base DN for the entire LDAP directory</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ADMINDN_LABEL">Administrator's DN</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ADMINDN_DESCRIPTION">Absolute DN for LDAP directory super-user</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ADMINPASSWORD_LABEL">Administrator password</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ADMINPASSWORD_DESCRIPTION">LDAP directory super-user password</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_FOLLOWREFERRALS_LABEL">Follow references</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_FOLLOWREFERRALS_DESCRIPTION">Check this option to enable following references (mainly for dynamic groups).</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ALIAS_DEREF_LABEL">Alias dereferencing</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ALIAS_DEREF_DESCRIPTION">Defines the alias dereferencing mode.&lt;br/&gt;- &lt;b&gt;always : &lt;/b&gt;always dereference aliases&lt;br/&gt;- &lt;b&gt;never : &lt;/b&gt;never dereferences aliases&lt;br/&gt;- &lt;b&gt;finding : &lt;/b&gt;dereferences aliases only during name resolution&lt;br/&gt;- &lt;b&gt;searching : &lt;/b&gt;dereferences aliases only after name resolution</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ALIAS_DEREF_ENUM_ALWAYS">always</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ALIAS_DEREF_ENUM_NEVER">never</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ALIAS_DEREF_ENUM_FINDING">finding</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_ALIAS_DEREF_ENUM_SEARCHING">searching</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_AUTH_METHOD_LABEL">Authentication method</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_AUTH_METHOD_DESCRIPTION">Define the authentication method for LDAP directory</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_AUTH_METHOD_ENUM_NONE">Anonymous</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_AUTH_METHOD_ENUM_SIMPLE">Simple</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_SSL_LABEL">Secured connection</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_SSL_DESCRIPTION">Select to use the secure LDAP (ldaps)</message>
+    
+    <!-- USER LDAP -->
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_USERS">Users</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_PEOPLEDN_LABEL">DN for people</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_PEOPLEDN_DESCRIPTION">Relative DN to people branch</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_BASEFILTER_LABEL">Search filter</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_BASEFILTER_DESCRIPTION">Filter used for querying users in the LDAP directory</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SEARCH_SCOPE_LABEL">Search scope</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SEARCH_SCOPE_DESCRIPTION">Define the search scope used in the LDAP directory</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SEARCH_SCOPE_ENUM_OBJECT">Object</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SEARCH_SCOPE_ENUM_ONE">One level</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SEARCH_SCOPE_ENUM_SUB">Sub tree</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_LOGIN_LABEL">Login attribute</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_LOGIN_DESCRIPTION">Name of the attribute containing the user's login ID in the LDAP object</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_FIRSTNAME_LABEL">Given name attribute</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_FIRSTNAME_DESCRIPTION">Name of the attribute containing the user's given name in the LDAP object</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_LASTNAME_LABEL">Family name attribute</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_LASTNAME_DESCRIPTION">Name of the attribute containing the user's family name in the LDAP object</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_EMAIL_LABEL">E-mail attribute</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_ATTR_EMAIL_DESCRIPTION">Name of the attribute containing the user's e-mail address in the LDAP object</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SERVER_SIDE_SORTING_LABEL">User results sorting</message>
+    <message key="PLUGINS_CORE_USERS_LDAPUSER_CONFIG_SERVER_SIDE_SORTING_DESCRIPTION">This parameter defines whether user search results are sorted (by lastname then firstname).&lt;br/&gt;Uncheck this option if searching for users is very slow.</message>
+    
+    <!-- GROUP LDAP -->
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP_GROUP_GROUPS">Groups</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_GROUPDN_LABEL">DN for group</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_GROUPDN_DESCRIPTION">Relative DN to groups branch</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_MEMBEROF_LABEL">Groups attribute</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_MEMBEROF_DESCRIPTION">Attribute containing the groups in the LDAP object</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_ID_LABEL">Id attribute</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_ID_DESCRIPTION">Name of the attribute containing the group id</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_DESCRIPTION_LABEL">Name attribute</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_DESCRIPTION_DESCRIPTION">Name of the attribute containing the group label</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_FILTER_LABEL">Search filter</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_FILTER_DESCRIPTION">Filter used for querying groups in the LDAP directory</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_MEMBER_LABEL">Members attribute</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_MEMBER_DESCRIPTION">Attribute containing the group members list</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_SEARCH_SCOPE_LABEL">Search scope</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_SEARCH_SCOPE_DESCRIPTION">Define the search scope used in the LDAP directory</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_SEARCH_SCOPE_ENUM_OBJECT">Object</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_SEARCH_SCOPE_ENUM_ONE">One level</message>
+    <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_SEARCH_SCOPE_ENUM_SUB">Sub tree</message>
+    
+    <!-- PARAMETER CHECKERS -->
+    <message key="PLUGINS_CORE_UPLOAD_DIRECTORY_CHECKER_LABEL">Upload directory</message>
+    <message key="PLUGINS_CORE_UPLOAD_DIRECTORY_CHECKER_DESC">This test checks that the specified folder exists or creates it otherwise and that Ametys can write in it</message>
+    <message key="PLUGINS_CORE_CAS_SERVER_CHECKER_LABEL">CAS server's url</message>
+    <message key="PLUGINS_CORE_CAS_SERVER_CHECKER_DESC">This test checks that the specified url is valid by trying to establish a connection.</message>
+    <message key="PLUGINS_CORE_LDAP_DN_CONNECTION_CHECKER_LABEL">Connection to the LDAP</message>
+    <message key="PLUGINS_CORE_LDAP_DN_CONNECTION_CHECKER_DESC">This test checks that the given data allows to establish a connection with the LDAP, and also verifies the DN.</message>
+    
+    <!-- AUTHENTICATION -->
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION">Authentication</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION_GROUP_BASIC">HTTP Basic</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION_GROUP_REMOTE">Automatic</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION_GROUP_JCIFS">Windows NT domain</message>
+    <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION_GROUP_CAS">CAS server</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_BASIC_CONFIG_REALM_LABEL">Domain</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_BASIC_CONFIG_REALM_DESCRIPTION">Authentication realm</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_REMOTE_CONFIG_REALM_LABEL">Domain</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_REMOTE_CONFIG_REALM_DESCRIPTION">Remote authentication domain name</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_PRODUCTION_LABEL">Production mode</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_PRODUCTION_DESCRIPTION">In production mode, Netbios and client domain name values are used instead of domain controller</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_CLIENTDOMAIN_LABEL">Domain name</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_CLIENTDOMAIN_DESCRIPTION">Default domain name to be added to manually identified users</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_NETBIOS_LABEL">Netbios</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_NETBIOS_DESCRIPTION">WINS server address for different sub networks usages</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_DOMAINCONTROLLER_LABEL">Domain controller</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_JCIFS_CONFIG_DOMAINCONTROLLER_DESCRIPTION">Domain controller address</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_URL_LABEL">Url</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_URL_DESCRIPTION">CAS server Url</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_AUTHORIZEDPROXY_LABEL">Proxy chain</message>
+    <message key="PLUGINS_CORE_AUTHENTICATION_CAS_CONFIG_AUTHORIZEDPROXY_DESCRIPTION">CAS server authorized proxy chain</message>
+    
+</catalogue>
