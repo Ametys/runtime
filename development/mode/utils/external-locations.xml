@@ -18,6 +18,9 @@
     <kernel>../../main/kernel</kernel>
     <plugins>
         <plugin name="core">../../main/plugin-core</plugin>
+        <plugin name="core-ui">../../main/plugin-core-ui</plugin>
+        <plugin name="core-impl">../../main/plugin-core-impl</plugin>
+        <plugin name="admin">../../main/plugin-admin</plugin>
     </plugins>
     <workspaces>
         <workspace name="admin">../../main/workspace-admin</workspace>
