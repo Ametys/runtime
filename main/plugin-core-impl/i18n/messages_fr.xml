@@ -107,14 +107,6 @@
     <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_SEARCH_SCOPE_ENUM_ONE">One level</message>
     <message key="PLUGINS_CORE_GROUPS_LDAPGROUP_CONFIG_SEARCH_SCOPE_ENUM_SUB">Sub tree</message>
     
-    <!--  PARAMETER CHECKERS -->
-    <message key="PLUGINS_CORE_UPLOAD_DIRECTORY_CHECKER_LABEL">Répertoire destination d'upload</message>
-    <message key="PLUGINS_CORE_UPLOAD_DIRECTORY_CHECKER_DESC">Ce test vérifie que le dossier spécifié existe ou créé le dossier dans le cas contraire et que Ametys dispose des droits d'écriture dessus.</message>
-    <message key="PLUGINS_CORE_CAS_SERVER_CHECKER_LABEL">Url du serveur CAS</message>
-    <message key="PLUGINS_CORE_CAS_SERVER_CHECKER_DESC">Ce test vérifie que le l'url spécifiée est valide en essayant d'établir une connexion.</message>
-    <message key="PLUGINS_CORE_LDAP_DN_CONNECTION_CHECKER_LABEL">Connexion au LDAP</message>
-    <message key="PLUGINS_CORE_LDAP_DN_CONNECTION_CHECKER_DESC">Ce test vérifie que les informations entrées permettent bien d'établir une connection au LDAP, et vérifie que le DN est valide.</message>
-    
     <!-- AUTHENTICATION -->
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION">Authentification</message>
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_AUTHENTICATION_GROUP_BASIC">HTTP Basique</message>
