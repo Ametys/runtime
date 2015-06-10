@@ -39,10 +39,10 @@ import org.apache.cocoon.environment.SourceResolver;
 import org.apache.commons.codec.binary.Base64;
 import org.xml.sax.InputSource;
 
-import org.ametys.runtime.authentication.BasicCredentialsProvider;
-import org.ametys.runtime.authentication.Credentials;
-import org.ametys.runtime.authentication.CredentialsProvider;
-import org.ametys.runtime.user.User;
+import org.ametys.core.authentication.Credentials;
+import org.ametys.core.authentication.CredentialsProvider;
+import org.ametys.core.user.User;
+import org.ametys.plugins.core.impl.authentication.BasicCredentialsProvider;
 
 /**
  * Cocoon action for authenticating users in the administration workspace. 

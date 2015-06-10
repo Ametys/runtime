@@ -20,13 +20,13 @@
     
     <map:components>
         <map:generators>
-            <map:generator name="workspace" src="org.ametys.runtime.workspace.WorkspaceGenerator" logger="org.ametys.runtime.workspace.WorkspaceGenerator"/>
-            <map:generator name="version" src="org.ametys.runtime.plugins.core.administrator.version.VersionsGenerator" logger="org.ametys.runtime.workspaces.admin.sitemap.generator.versions"/>
-            <map:generator name="user-prefs" src="org.ametys.runtime.plugins.core.userpref.UserPreferencesValuesGenerator"/>
+            <map:generator name="workspace" src="org.ametys.plugins.core.ui.WorkspaceGenerator" logger="org.ametys.runtime.workspace.WorkspaceGenerator"/>
+            <map:generator name="version" src="org.ametys.runtime.plugins.admin.version.VersionsGenerator" logger="org.ametys.runtime.workspaces.admin.sitemap.generator.versions"/>
+            <map:generator name="user-prefs" src="org.ametys.plugins.core.userpref.UserPreferencesValuesGenerator"/>
             
             
             <!-- TO REMOVE -->
-            <map:generator name="desktop" src="org.ametys.runtime.plugins.core.ui.generator.DesktopGenerator" logger="org.ametys.runtime.workspaces.admin.sitemap.generator.desktop">
+            <map:generator name="desktop" src="org.ametys.plugins.core.ui.DesktopGenerator" logger="org.ametys.runtime.workspaces.admin.sitemap.generator.desktop">
                 <element>Desktop</element>
             </map:generator>
             <!--  /TO REMOVE -->
@@ -39,7 +39,7 @@
         </map:actions>
         
         <map:transformers>
-            <map:transformer name="minimizer" src="org.ametys.runtime.plugins.core.ui.minimize.MinimizeTransformer"/>
+            <map:transformer name="minimizer" src="org.ametys.plugins.core.ui.minimize.MinimizeTransformer"/>
         </map:transformers>
         
          <map:selectors default="exception">
@@ -181,7 +181,7 @@
             <!-- ************************************************* -->
             <map:match pattern="homepage-desktop.xml">
                 <map:generate type="desktop" label="content">
-                    <map:parameter name="DesktopManager.ROLE" value="org.ametys.runtime.workspaces.admin.DesktopManager"/>
+                    <map:parameter name="DesktopManager.ROLE" value="org.ametys.plugins.core.ui.item.DesktopManager"/>
                 </map:generate>
                 <map:serialize type="xml"/>
             </map:match>
