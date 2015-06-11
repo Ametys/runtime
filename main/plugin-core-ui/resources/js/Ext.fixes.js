@@ -112,4 +112,9 @@
             return value === undefined ? defaultValue : value;
         }
     });
+    
+    // RUNTIME-1180 https://www.sencha.com/forum/showthread.php?302045-ExtJS-6.0.0.415-beta-Checkbox-not-visible
+    var style = document.createElement("style");
+    style.innerHTML = ".x-form-checkbox-default { display: inline-block; }";
+    document.head.appendChild(style);
 })();
