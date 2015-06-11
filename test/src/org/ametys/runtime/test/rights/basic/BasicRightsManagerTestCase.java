@@ -57,8 +57,8 @@ public class BasicRightsManagerTestCase extends AbstractRuntimeTestCase
         
         // GET USER RIGHTS
         Set<String> rightsIds = rightsManager.getUserRights("any", "any");
-        // one right from a test feature, and four from the plugin core
-        assertEquals(7, rightsIds.size());
+        // one right from a test feature, and two from the plugin core
+        assertEquals(3, rightsIds.size());
         assertTrue(rightsIds.contains("Test_Right"));
         
         // GET GRANTED USERS
