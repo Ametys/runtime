@@ -27,7 +27,7 @@
 		<layout class="org.apache.log4j.PatternLayout"> 
             <param name="ConversionPattern" value="%d %-5p [%c] (%t;%X{requestURI}) %m%n"/> 
 		</layout>
-        <filter class="org.ametys.runtime.util.AmetysExceptionFilter"/>
+        <filter class="org.ametys.core.util.AmetysExceptionFilter"/>
 	</appender>
 	
     <!-- iBatis logs as debug -->
