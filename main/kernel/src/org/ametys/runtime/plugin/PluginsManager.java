@@ -380,6 +380,8 @@ public final class PluginsManager
         
         // Check if all single extension point have a valid extension
         _checkDefaultSingleExtensionsPoints(singleExtensionsPoints, extensionsConfig);
+        // Check if all referenced single extension point do exit really
+        _checkReferencedSingleExtensionsPoints(singleExtensionsPoints, extensionsConfig);
         
         // List of manually excluded features
         Collection<String> excludedFeatures = RuntimeConfig.getInstance().getExcludedFeatures();
@@ -763,6 +765,18 @@ public final class PluginsManager
                     _logger.error(errorMessage);
                     throw new RuntimeException(errorMessage);
                 }
+            }
+        }
+    }
+     
+    private void _checkReferencedSingleExtensionsPoints(Map<String, SingleExtensionPointInformation> singleExtensionsPoints, Map<String, String> extensionsConfig)
+    {
+        for (String referecendExtension : extensionsConfig.keySet())
+        {
+            if (!singleExtensionsPoints.containsKey(referecendExtension))
+            {
+                String message = "The single extension point '" + referecendExtension + "' : referenced in the WEB-INF/param/runtime.xml does not exists.";
+                _logger.warn(message);
             }
         }
     }
