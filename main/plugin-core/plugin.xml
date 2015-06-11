@@ -590,7 +590,7 @@
         </extensions>
     </feature>
     
-    <feature name="core.sending.mail">
+    <feature name="runtime.sending.mail">
         <!-- 
             This feature provides configuration parameters for sending mail
          -->
