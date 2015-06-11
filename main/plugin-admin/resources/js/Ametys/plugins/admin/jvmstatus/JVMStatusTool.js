@@ -39,9 +39,51 @@ Ext.define('Ametys.plugins.admin.jvmstatus.JVMStatusTool', {
 				},
 				errorMessage: {
 					category: 'Ametys.plugins.admin.jvmstatus.JVMStatusTool.garbageCollect',
-					msg: "<i18n:text i18n:key='PLUGINS_ADMIN_TOOL_JVMSTATUS_SERVER_ERROR'/>"
+					msg: "<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_GC_ERROR'/>"
 				}
 			});
+		},
+		
+		/**
+		 * @private
+		 * Display an error message on session
+		 */
+		helpSessions: function ()
+		{
+			Ametys.Msg.show ({
+				title: "<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_ERROR'/>",
+				msg: "<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_SESSIONS_ERROR_HINT'/>",
+				buttons: Ext.Msg.OK,
+				icon: Ext.MessageBox.WARNING
+		    });
+		},
+
+		/**
+		 * @private
+		 * Display an error message on request
+		 */
+		helpRequests: function ()
+		{
+			Ametys.Msg.show ({
+				title: "<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_ERROR'/>",
+				msg: "<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_REQUESTS_ERROR_HINT'/>",
+				buttons: Ext.Msg.OK,
+				icon: Ext.MessageBox.ERROR
+		    });
+		},
+		
+		/**
+		 * @private
+		 * Download a deadlock log
+		 */
+		deadLock: function ()
+		{
+		    var d = new Date();
+		    var year = d.getFullYear();
+		    var month = d.getMonth() + 1;
+		    var day = d.getDate();
+		    
+		    window.location.href = Ametys.getPluginResourcesPrefix('admin') + "/jvmstatus/threads_" + year + "-" + (day.length == 1 ? '0' : '') + month + "-" + (month.length == 1 ? '0' : '') + day + "-T-" + d.getHours() + "-" + d.getMinutes() + ".log";
 		}
 	},
 		
@@ -200,7 +242,7 @@ Ext.define('Ametys.plugins.admin.jvmstatus.JVMStatusTool', {
 			},
 			errorMessage: {
 				category: this.self.getName(),
-				msg: "<i18n:text i18n:key='PLUGINS_ADMIN_TOOL_JVMSTATUS_SERVER_ERROR'/>"
+				msg: "<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_REFRESH_ERROR'/>"
 			}
 		});
 	},
@@ -267,14 +309,14 @@ Ext.define('Ametys.plugins.admin.jvmstatus.JVMStatusTool', {
 	    // ACTIVE SESSION
 	    var sessions = response.activeSessions;
 	    if (sessions == null) 
-	        document.getElementById("activeSession").innerHTML = "<a href='#' onclick='Ametys.plugins.admin.JVMStatus.helpSessions(); return false;'><i18n:text i18n:key='PLUGINS_ADMIN_STATUS_SESSIONS_ERROR'/></a>";
+	        document.getElementById("activeSession").innerHTML = "<a href='#' onclick='Ametys.plugins.admin.jvmstatus.JVMStatusTool.helpSessions(); return false;'><i18n:text i18n:key='PLUGINS_ADMIN_STATUS_SESSIONS_ERROR'/></a>";
 	    else
 	        document.getElementById("activeSession").innerHTML = sessions;
 
 	    // ACTIVE REQUEST
 	    var requests = response.activeRequests;
 	    if (requests == null) 
-	        document.getElementById("activeRequest").innerHTML = "<a href='#' onclick='Ametys.plugins.admin.JVMStatus.helpRequests(); return false;'><i18n:text i18n:key='PLUGINS_ADMIN_STATUS_REQUESTS_ERROR'/></a>";
+	        document.getElementById("activeRequest").innerHTML = "<a href='#' onclick='Ametys.plugins.admin.jvmstatus.JVMStatusTool.helpRequests(); return false;'><i18n:text i18n:key='PLUGINS_ADMIN_STATUS_REQUESTS_ERROR'/></a>";
 	    else
 	        document.getElementById("activeRequest").innerHTML = requests;
 
@@ -283,7 +325,7 @@ Ext.define('Ametys.plugins.admin.jvmstatus.JVMStatusTool', {
 	    var locked = response.deadlockThreads;
 	    if (locked != "0")
 	    {
-	        document.getElementById("deadlockThread").innerHTML = "(<a href='#' title='<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_THREADS_ERROR_LOCK_HINT'/>' style='color: red; font-weight: bold' onclick='Ametys.plugins.admin.JVMStatus.deadLock()'>" + locked + " <i18n:text i18n:key='PLUGINS_ADMIN_STATUS_THREADS_LOCK'/></a>)";
+	        document.getElementById("deadlockThread").innerHTML = "(<a href='#' title='<i18n:text i18n:key='PLUGINS_ADMIN_STATUS_THREADS_ERROR_LOCK_HINT'/>' style='color: red; font-weight: bold' onclick='Ametys.plugins.admin.jvmstatus.JVMStatusTool.deadLock()'>" + locked + " <i18n:text i18n:key='PLUGINS_ADMIN_STATUS_THREADS_LOCK'/></a>)";
 		}
 	    
 	    // TIME
