@@ -53,10 +53,10 @@
     </workspaces>
     
     <extensions>
-        <org.ametys.runtime.right.RightsManager>org.ametys.runtime.plugins.core.right.DefaultProfileBased</org.ametys.runtime.right.RightsManager>
-        <org.ametys.runtime.exception.ExceptionHandler>org.ametys.runtime.plugins.core.exception.Default</org.ametys.runtime.exception.ExceptionHandler>
-        <org.ametys.runtime.group.GroupsManager>org.ametys.runtime.plugins.core.group.Empty</org.ametys.runtime.group.GroupsManager>
-        <org.ametys.runtime.authentication.CredentialsProvider>org.ametys.runtime.plugins.core.authentication.Basic</org.ametys.runtime.authentication.CredentialsProvider>
-        <org.ametys.runtime.user.UsersManager>org.ametys.runtime.plugins.core.user.CoreJdbc</org.ametys.runtime.user.UsersManager>
+        <org.ametys.core.right.RightsManager>org.ametys.plugins.core.right.DefaultProfileBased</org.ametys.core.right.RightsManager>
+        <org.ametys.runtime.exception.ExceptionHandler>org.ametys.plugins.core.exception.Default</org.ametys.runtime.exception.ExceptionHandler>
+        <org.ametys.core.group.GroupsManager>org.ametys.plugins.core.group.Empty</org.ametys.core.group.GroupsManager>
+        <org.ametys.core.authentication.CredentialsProvider>org.ametys.plugins.core.authentication.Basic</org.ametys.core.authentication.CredentialsProvider>
+        <org.ametys.core.user.UsersManager>org.ametys.plugins.core.user.CoreJdbc</org.ametys.core.user.UsersManager>
     </extensions>
 </runtime>

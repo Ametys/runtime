@@ -23,13 +23,13 @@
     <feature name="test-feature3"/>
     <feature name="test-feature4">
         <extensions>
-            <extension point="org.ametys.runtime.right.RightsManager" id="test"></extension>
+            <extension point="org.ametys.core.right.RightsManager" id="test"></extension>
         </extensions>
     </feature>
     <feature name="test-feature5"/>
     <feature name="rights">
         <extensions>
-            <extension point="org.ametys.runtime.plugins.core.right.RightsExtensionPoint"
+            <extension point="org.ametys.core.right.RightsExtensionPoint"
                        id="test.right">
                 <right id="Test_Right">
                     <label i18n="false">test</label>

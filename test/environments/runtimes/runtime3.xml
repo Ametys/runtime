@@ -30,7 +30,7 @@
     
     <plugins>
         <exclude>
-            <feature>core/runtime.datasource.core</feature>
+            <feature>core-impl/runtime.datasource.core</feature>
             <feature>core/runtime.upload</feature>
         </exclude>
     </plugins>
@@ -41,6 +41,6 @@
     </incompleteConfig>
     
     <extensions>
-    	<org.ametys.runtime.plugins.core.userpref.DefaultUserPreferencesStorage>org.ametys.runtime.plugins.core.userpref.EmptyUserPreferencesStorage</org.ametys.runtime.plugins.core.userpref.DefaultUserPreferencesStorage>
+    	<org.ametys.core.userpref.DefaultUserPreferencesStorage>org.ametys.plugins.core.userpref.EmptyUserPreferencesStorage</org.ametys.core.userpref.DefaultUserPreferencesStorage>
     </extensions>
 </runtime>
