@@ -50,7 +50,7 @@ import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
  * This component does not impose a table structure. This is a configuration example:<br>
  * <pre>
  * &lt;component role="com.mydomain.test.MyDatabaseUserPreferencesStorage"<br>
- *            class="org.ametys.runtime.plugins.core.userpref.JdbcPlainUserPreferencesStorage"&gt;<br>
+ *            class="org.ametys.plugins.core.userpref.JdbcPlainUserPreferencesStorage"&gt;<br>
  *     &lt;pool&gt;com.mydomain.test.MyPool&lt;/pool&gt;<br>
  *     &lt;table&gt;MyUserPreferences&lt;/table&gt;<br>
  *     &lt;loginColumn&gt;user&lt;/loginColumn&gt;<br>

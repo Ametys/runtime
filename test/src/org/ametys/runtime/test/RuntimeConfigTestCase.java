@@ -73,8 +73,8 @@ public class RuntimeConfigTestCase extends AbstractRuntimeTestCase
         assertTrue(config.getPluginsLocations().contains("plugins/"));
         
         assertEquals(config.getExtensionsPoints().size(), 5);
-        assertTrue(config.getExtensionsPoints().containsKey("org.ametys.runtime.right.RightsManager"));
-        assertEquals(config.getExtensionsPoints().get("org.ametys.runtime.right.RightsManager"), "org.ametys.runtime.plugins.core.right.DefaultProfileBased");
+        assertTrue(config.getExtensionsPoints().containsKey("org.ametys.core.right.RightsManager"));
+        assertEquals(config.getExtensionsPoints().get("org.ametys.core.right.RightsManager"), "org.ametys.plugins.core.right.DefaultProfileBased");
         
         assertEquals(config.getApplicationVersion(), null);
         assertNull(config.getApplicationBuildDate());
@@ -110,8 +110,8 @@ public class RuntimeConfigTestCase extends AbstractRuntimeTestCase
         assertTrue(config.getExcludedWorkspaces().contains("test"));
         
         assertEquals(config.getExtensionsPoints().size(), 5);
-        assertTrue(config.getExtensionsPoints().containsKey("org.ametys.runtime.right.RightsManager"));
-        assertEquals(config.getExtensionsPoints().get("org.ametys.runtime.right.RightsManager"), "org.ametys.runtime.plugins.core.right.DefaultProfileBased");
+        assertTrue(config.getExtensionsPoints().containsKey("org.ametys.core.right.RightsManager"));
+        assertEquals(config.getExtensionsPoints().get("org.ametys.core.right.RightsManager"), "org.ametys.plugins.core.right.DefaultProfileBased");
         
         assertEquals(config.getApplicationVersion(), "2.0.1");
         Date date = config.getApplicationBuildDate();
