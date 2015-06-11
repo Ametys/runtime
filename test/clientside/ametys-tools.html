@@ -20,17 +20,17 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta content="IE=edge" http-equiv="X-UA-Compatible" />	
 		<title>Tools test</title>
-            <link rel="stylesheet" type="text/css" href="/plugins/extjs5/resources/packages/ext-theme-gray/build/resources/ext-theme-gray-all-debug.css"/>
-            <link rel="stylesheet" type="text/css" href="/plugins/extjs5/resources/packages/ext-ux/build/classic/resources/ext-ux-all-debug.css"/>
-            <link rel="stylesheet" type="text/css" href="/kernel/resources/css/ametys.css"/>
+            <link rel="stylesheet" type="text/css" href="/plugins/extjs6/resources/classic/theme-gray/resources/theme-gray-all-debug.css"/>
+            <link rel="stylesheet" type="text/css" href="/plugins/extjs6/resources/packages/ux/classic/classic/resources/ux-all-debug.css"/>
+            <link rel="stylesheet" type="text/css" href="/plugins/core-ui/resources/css/ametys.css"/>
 
-			<script src="/plugins/extjs5/resources/ext-all-debug.js" type="text/javascript"></script>
-			<script src="/plugins/extjs5/resources/packages/ext-locale/build/ext-locale-fr-debug.js" type="text/javascript"></script>
-			<script src="/plugins/extjs5/resources/packages/ext-theme-gray/build/ext-theme-gray-debug.js" type="text/javascript"></script>
-			<script src="/plugins/extjs5/resources/packages/ext-ux/build/ext-ux-debug.js" type="text/javascript"></script>
-
-            <script src="/kernel/resources/js/Ext.fixes.js" type="text/javascript"></script>
-            <script src="/kernel/resources/js/Ext.enhancements.js" type="text/javascript"></script>
+            <script src="/plugins/extjs6/resources/ext-all-debug.js" type="text/javascript"></script>
+            <script src="/plugins/extjs6/resources/classic/locale/locale-fr-debug.js" type="text/javascript"></script>
+            <script src="/plugins/extjs6/resources/classic/theme-gray/theme-gray-debug.js" type="text/javascript"></script>
+            <script src="/plugins/extjs6/resources/packages/ux/classic/ux-debug.js" type="text/javascript"></script>
+            
+            <script src="/plugins/core-ui/resources/js/Ext.fixes.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ext.enhancements.js" type="text/javascript"></script>
 			
             <script type="text/javascript">
             a = Ext.BLANK_IMAGE_URL;
@@ -38,90 +38,90 @@
             </script>
             
 			
-			<script src="/kernel/resources/js/Ametys.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/log/Logger.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/log/Logger/Entry.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/log/LoggerFactory.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/log/ErrorDialog.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/window/DialogBox.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/window/MessageBox.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/form/AbstractField.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/form/AbstractFieldsWrapper.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/form/field/DateTime.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/form/field/ChangePassword.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/form/field/ReferencedNumberField.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/form/field/RichText.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/form/field/Code.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/data/ServerComm.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/data/ServerCommProxy.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/data/ServerComm/TimeoutDialog.js" type="text/javascript"></script>
+			<script src="/plugins/core-ui/resources/js/Ametys.js" type="text/javascript"></script>
+			<script src="/plugins/core-ui/resources/js/Ametys/log/Logger.js" type="text/javascript"></script>
+			<script src="/plugins/core-ui/resources/js/Ametys/log/Logger/Entry.js" type="text/javascript"></script>
+			<script src="/plugins/core-ui/resources/js/Ametys/log/LoggerFactory.js" type="text/javascript"></script>
+			<script src="/plugins/core-ui/resources/js/Ametys/log/ErrorDialog.js" type="text/javascript"></script>
+			<script src="/plugins/core-ui/resources/js/Ametys/window/DialogBox.js" type="text/javascript"></script>
+			<script src="/plugins/core-ui/resources/js/Ametys/window/MessageBox.js" type="text/javascript"></script>
+			<script src="/plugins/core-ui/resources/js/Ametys/form/AbstractField.js" type="text/javascript"></script>
+			<script src="/plugins/core-ui/resources/js/Ametys/form/AbstractFieldsWrapper.js" type="text/javascript"></script>
+			<script src="/plugins/core-ui/resources/js/Ametys/form/field/DateTime.js" type="text/javascript"></script>
+			<script src="/plugins/core-ui/resources/js/Ametys/form/field/ChangePassword.js" type="text/javascript"></script>
+			<script src="/plugins/core-ui/resources/js/Ametys/form/field/ReferencedNumberField.js" type="text/javascript"></script>
+			<script src="/plugins/core-ui/resources/js/Ametys/form/field/RichText.js" type="text/javascript"></script>
+			<script src="/plugins/core-ui/resources/js/Ametys/form/field/Code.js" type="text/javascript"></script>
+			<script src="/plugins/core-ui/resources/js/Ametys/data/ServerComm.js" type="text/javascript"></script>
+			<script src="/plugins/core-ui/resources/js/Ametys/data/ServerCommProxy.js" type="text/javascript"></script>
+			<script src="/plugins/core-ui/resources/js/Ametys/data/ServerComm/TimeoutDialog.js" type="text/javascript"></script>
 
 			
-			<script src="/kernel/resources/js/Ametys/ui/fluent/tip/Tooltip.js" type="text/javascript"></script>
+			<script src="/plugins/core-ui/resources/js/Ametys/ui/fluent/tip/Tooltip.js" type="text/javascript"></script>
 			
-			<script src="/kernel/resources/js/Ametys/ui/fluent/ribbon/Ribbon.js" type="text/javascript"></script>
-            <script src="/kernel/resources/js/Ametys/ui/fluent/ribbon/Ribbon/Title.js" type="text/javascript"></script>
-            <script src="/kernel/resources/js/Ametys/ui/fluent/ribbon/Ribbon/Header.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/ui/fluent/ribbon/TabPanel.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/ui/fluent/ribbon/Panel.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/ui/fluent/ribbon/Group.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/ui/fluent/ribbon/GroupPart.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/ui/fluent/ribbon/controls/Button.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/ui/fluent/ribbon/controls/Toolbar.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/ui/fluent/ribbon/controls/gallery/MenuGallery.js" type="text/javascript"></script>
-			<script src="/kernel/resources/js/Ametys/ui/fluent/ribbon/controls/gallery/MenuGalleryButton.js" type="text/javascript"></script>
+			<script src="/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Ribbon.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Ribbon/Title.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Ribbon/Header.js" type="text/javascript"></script>
+			<script src="/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/TabPanel.js" type="text/javascript"></script>
+			<script src="/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Panel.js" type="text/javascript"></script>
+			<script src="/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Group.js" type="text/javascript"></script>
+			<script src="/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/GroupPart.js" type="text/javascript"></script>
+			<script src="/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/controls/Button.js" type="text/javascript"></script>
+			<script src="/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/controls/Toolbar.js" type="text/javascript"></script>
+			<script src="/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/controls/gallery/MenuGallery.js" type="text/javascript"></script>
+			<script src="/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/controls/gallery/MenuGalleryButton.js" type="text/javascript"></script>
 
 
-            <script src="/kernel/resources/js/Ametys/ui/tool/ToolPanel.js" type="text/javascript"></script>
-            <script src="/kernel/resources/js/Ametys/ui/tool/ToolsLayout.js" type="text/javascript"></script>
-            <script src="/kernel/resources/js/Ametys/ui/tool/layout/ZonedTabsToolsLayout.js" type="text/javascript"></script>
-            <script src="/kernel/resources/js/Ametys/ui/tool/layout/ZonedTabsToolsLayout/ZoneTabsToolsPanel.js" type="text/javascript"></script>
-            <script src="/kernel/resources/js/Ametys/ui/tool/layout/ZonedTabsToolsLayout/ZonedTabsDD.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/ui/tool/ToolPanel.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/ui/tool/ToolsLayout.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/ui/tool/layout/ZonedTabsToolsLayout.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/ui/tool/layout/ZonedTabsToolsLayout/ZoneTabsToolsPanel.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/ui/tool/layout/ZonedTabsToolsLayout/ZonedTabsDD.js" type="text/javascript"></script>
             
             
-            <script src="/kernel/resources/js/Ametys/message/Message.js" type="text/javascript"></script>
-            <script src="/kernel/resources/js/Ametys/message/MessageBus.js" type="text/javascript"></script>
-            <script src="/kernel/resources/js/Ametys/message/MessageTarget.js" type="text/javascript"></script>
-            <script src="/kernel/resources/js/Ametys/message/MessageTargetHelper.js" type="text/javascript"></script>
-            <script src="/kernel/resources/js/Ametys/message/MessageTargetFactory.js" type="text/javascript"></script>
-            <script src="/kernel/resources/js/Ametys/message/factory/DefaultMessageTargetFactory.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/message/Message.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/message/MessageBus.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/message/MessageTarget.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/message/MessageTargetHelper.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/message/MessageTargetFactory.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/message/factory/DefaultMessageTargetFactory.js" type="text/javascript"></script>
 
-            <script src="/kernel/resources/js/Ametys/relation/RelationManager.js" type="text/javascript"></script>
-            <script src="/kernel/resources/js/Ametys/relation/RelationHandler.js" type="text/javascript"></script>
-            <script src="/kernel/resources/js/Ametys/relation/RelationPoint.js" type="text/javascript"></script>
-            <script src="/kernel/resources/js/Ametys/relation/Relation.js" type="text/javascript"></script>
-            <script src="/kernel/resources/js/Ametys/relation/dd/AmetysDropZone.js" type="text/javascript"></script>
-            <script src="/kernel/resources/js/Ametys/relation/dd/AmetysViewDragZone.js" type="text/javascript"></script>
-            <script src="/kernel/resources/js/Ametys/relation/dd/AmetysTreeViewDragDrop.js" type="text/javascript"></script>
-            <script src="/kernel/resources/js/Ametys/relation/dd/AmetysTreeViewDragZone.js" type="text/javascript"></script>
-            <script src="/kernel/resources/js/Ametys/relation/dd/AmetysTreeViewDropZone.js" type="text/javascript"></script>
-            <script src="/kernel/resources/js/Ametys/relation/dd/AmetysGridViewDragDrop.js" type="text/javascript"></script>
-            <script src="/kernel/resources/js/Ametys/relation/dd/AmetysGridViewDropZone.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/relation/RelationManager.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/relation/RelationHandler.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/relation/RelationPoint.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/relation/Relation.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/relation/dd/AmetysDropZone.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/relation/dd/AmetysViewDragZone.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/relation/dd/AmetysTreeViewDragDrop.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/relation/dd/AmetysTreeViewDragZone.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/relation/dd/AmetysTreeViewDropZone.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/relation/dd/AmetysGridViewDragDrop.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/relation/dd/AmetysGridViewDropZone.js" type="text/javascript"></script>
 
-            <script src="/kernel/resources/js/Ametys/ribbon/RibbonManager.js" type="text/javascript"></script>
-            <script src="/kernel/resources/js/Ametys/ribbon/RibbonElementController.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/ribbon/RibbonManager.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/ribbon/RibbonElementController.js" type="text/javascript"></script>
 
-            <script src="/kernel/resources/js/Ametys/ribbon/element/RibbonTabController.js" type="text/javascript"></script>
-            <script src="/kernel/resources/js/Ametys/ribbon/element/tab/TabController.js" type="text/javascript"></script>
-            <script src="/kernel/resources/js/Ametys/ribbon/element/tab/ContentTabController.js" type="text/javascript"></script>
-            <script src="/kernel/resources/js/Ametys/ribbon/element/tab/EditionTabController.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/ribbon/element/RibbonTabController.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/ribbon/element/tab/TabController.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/ribbon/element/tab/ContentTabController.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/ribbon/element/tab/EditionTabController.js" type="text/javascript"></script>
 
-            <script src="/kernel/resources/js/Ametys/ribbon/element/RibbonUIController.js" type="text/javascript"></script>
-            <script src="/kernel/resources/js/Ametys/ribbon/element/ui/CommonController.js" type="text/javascript"></script>
-            <script src="/kernel/resources/js/Ametys/ribbon/element/ui/FieldController.js" type="text/javascript"></script>
-            <script src="/kernel/resources/js/Ametys/ribbon/element/ui/ButtonController.js" type="text/javascript"></script>
-            <script src="/kernel/resources/js/Ametys/ribbon/element/ui/button/OpenToolButtonController.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/ribbon/element/RibbonUIController.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/ribbon/element/ui/CommonController.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/ribbon/element/ui/FieldController.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/ribbon/element/ui/ButtonController.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/ribbon/element/ui/button/OpenToolButtonController.js" type="text/javascript"></script>
         
-            <script src="/kernel/resources/js/Ametys/tool/ToolsManager.js" type="text/javascript"></script>
-            <script src="/kernel/resources/js/Ametys/tool/ToolFactory.js" type="text/javascript"></script>
-            <script src="/kernel/resources/js/Ametys/tool/factory/BasicToolFactory.js" type="text/javascript"></script>
-            <script src="/kernel/resources/js/Ametys/tool/factory/UniqueToolFactory.js" type="text/javascript"></script>
-            <script src="/kernel/resources/js/Ametys/tool/ToolMessageTargetFactory.js" type="text/javascript"></script>
-            <script src="/kernel/resources/js/Ametys/tool/Tool.js" type="text/javascript"></script>
-            <script src="/kernel/resources/js/Ametys/tool/SelectionTool.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/tool/ToolsManager.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/tool/ToolFactory.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/tool/factory/BasicToolFactory.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/tool/factory/UniqueToolFactory.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/tool/ToolMessageTargetFactory.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/tool/Tool.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/tool/SelectionTool.js" type="text/javascript"></script>
 
-            <script src="/kernel/resources/js/Ametys/userprefs/UserPrefsDAO.js" type="text/javascript"></script>
-            <script src="/kernel/resources/js/Ametys/userprefs/UserPrefsDAOStateProvider.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/userprefs/UserPrefsDAO.js" type="text/javascript"></script>
+            <script src="/plugins/core-ui/resources/js/Ametys/userprefs/UserPrefsDAOStateProvider.js" type="text/javascript"></script>
                         
 			<!-- JS -->
             <script type="text/javascript">

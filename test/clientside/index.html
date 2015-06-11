@@ -47,7 +47,7 @@
 	                           Allow From All
 	                           Options MultiViews  
 	                        &lt;/Directory> 
-				            &lt;Directory "/pathto/Ametys/kernel/resources">
+				            &lt;Directory "/pathto/Ametys/plugins/core-ui/resources">
 				               AllowOverride none
 				               Allow From All
 				               Options MultiViews  
@@ -67,7 +67,7 @@
 				        
 				        RewriteRule             ^/?$             /index.html [R]
 				        RewriteRule             ^/plugins/extjs6/resources/(.*)$     /pathto/Extjs/ext-6.0.0/build/$1 [L]  
-				        RewriteRule             ^/kernel/resources/(.*)$             /pathto/Ametys/kernel/resources/$1 [L]
+				        RewriteRule             ^/plugins/core-ui/resources/(.*)$    /pathto/Ametys/plugins/core-ui/resources/$1 [L]
 				&lt;/VirtualHost>
 	       </pre>	   
 	   </code>
