@@ -323,7 +323,7 @@
 
         <single-extension-point id="org.ametys.runtime.exception.ExceptionHandler"
                                 class="org.ametys.runtime.exception.ExceptionHandler"
-                                default-extension-id="org.ametys.runtime.plugins.core.exception.Default"/>
+                                default-extension-id="org.ametys.plugins.core.exception.Default"/>
 
         <single-extension-point id="org.ametys.core.authentication.CredentialsProvider"
                                 class="org.ametys.core.authentication.CredentialsProvider"
@@ -378,7 +378,7 @@
          -->
         <extensions>
             <extension point="org.ametys.runtime.exception.ExceptionHandler"
-                       id="org.ametys.runtime.plugins.core.exception.Default"
+                       id="org.ametys.plugins.core.exception.Default"
                        class="org.ametys.runtime.exception.DefaultExceptionHandler"
                        logger="org.ametys.runtime.exception.default"/>
         </extensions>

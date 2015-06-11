@@ -1509,7 +1509,7 @@
          -->
         <extensions>
             <extension point="org.ametys.core.right.RightsManager"
-                       id="org.ametys.runtime.plugins.core.right.HierarchicalProfileBased"
+                       id="org.ametys.plugins.core.right.HierarchicalProfileBased"
                        class="org.ametys.plugins.core.impl.right.profile.HierarchicalProfileBasedRightsManager"
                        logger="org.ametys.plugins.core.impl.right.hierarchicalprofil">
                 <rights config="/WEB-INF/param/rights.xml"/>
