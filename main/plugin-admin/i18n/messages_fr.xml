@@ -22,7 +22,6 @@
     <message key="PLUGINS_ADMIN_PASSWORD_DIALOG_CAPTION">Modifier le mot de passe...</message>
     <message key="PLUGINS_ADMIN_PASSWORD_DIALOG_OK">Ok</message>
     <message key="PLUGINS_ADMIN_PASSWORD_DIALOG_CANCEL">Annuler</message>
-    <message key="PLUGINS_ADMIN_PASSWORD_TITLE">Mot de passe</message>
     <message key="PLUGINS_ADMIN_PASSWORD_OLD">Ancien mot de passe</message>
     <message key="PLUGINS_ADMIN_PASSWORD_NEW">Nouveau mot de passe</message>
     <message key="PLUGINS_ADMIN_PASSWORD_CONFIRM">Confirmez le nouveau mot de passe</message>
@@ -51,7 +50,6 @@
     <message key="PLUGINS_ADMIN_CONFIG_SAVE_INVALID">Un ou plusieurs champs du formulaire sont incorrects. Veuillez les corriger avant de recommencer une sauvegarde.</message>
     <message key="PLUGINS_ADMIN_CONFIG_INVALID_REGEXP">La saisie ne respecte pas le format attendu :</message>
     <message key="DATE_FIELD_FORMAT">d/m/Y</message>
-    <message key="TIME_FIELD_FORMAT">H:h</message>
     
     <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECK_ERROR">Erreur lors de la vérification des paramètres</message>
     <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECK_ERROR_TEXT">vérifications(s) a (ont) échoué.&lt;br/&gt;Appuyez sur 'Détails' pour en savoir plus ou consultez les journaux de l'application.</message>
@@ -168,17 +166,14 @@
     <!-- ADMINISTRATOR PLUGINS -->
     <message key="PLUGINS_ADMIN_TOOL_PLUGINSBYFILE_LABEL">Plugins par fichier</message>
     <message key="PLUGINS_ADMIN_TOOL_PLUGINSBYFILE_DESC">Ouvre un outil permettant de visualiser les plugins par fichiers sous forme d'un arbre. Permet d'activer/désactiver des plugins.</message>
-    <message key="PLUGINS_ADMIN_TOOL_PLUGINSBYFILE_SERVER_ERROR">Une erreur est survenue lors de la récupération des propriétés de l'arbre.</message>
     <message key="PLUGINS_ADMIN_TOOL_PLUGINSBYFILE_ROOT_TEXT">Plugins</message>
     
     <message key="PLUGINS_ADMIN_TOOL_PLUGINSBYEXTENSIONPOINT_LABEL">Plugins par point d'extension</message>
     <message key="PLUGINS_ADMIN_TOOL_PLUGINSBYEXTENSIONPOINT_DESC">Ouvre un outil permettant de visualiser les plugins par point d'extension sous forme d'un arbre. Permet d'activer/désactiver des plugins.</message>
-    <message key="PLUGINS_ADMIN_TOOL_PLUGINSBYEXTENSIONPOINT_SERVER_ERROR">Une erreur est survenue lors de la récupération des propriétés de l'arbre.</message>
     <message key="PLUGINS_ADMIN_TOOL_PLUGINSBYEXTENSIONPOINT_ROOT_TEXT">Plugins</message>
     
     <message key="PLUGINS_ADMIN_TOOL_WORKSPACES_LABEL">Workspaces</message>
     <message key="PLUGINS_ADMIN_TOOL_WORKSPACES_DESC">Ouvre un outil permettant de visualiser les workspaces sous forme d'un arbre.</message>
-    <message key="PLUGINS_ADMIN_TOOL_WORKSPACES_SERVER_ERROR">Une erreur est survenue lors de la récupération des propriétés de l'arbre.</message>
     <message key="PLUGINS_ADMIN_TOOL_WORKSPACES_ROOT_TEXT">Workspaces</message>
 
     <message key="PLUGINS_ADMIN_PLUGINS_DOCUMENTATION_LABEL">Documentation</message>
@@ -226,9 +221,6 @@
     <message key="PLUGINS_ADMIN_TOOL_LOGS_LABEL">Visualisation</message>
     <message key="PLUGINS_ADMIN_TOOL_LOGS_DESC">Visualiser les journaux de l'application</message>
     <message key="PLUGINS_ADMIN_LOGS_TITLE">Journaux</message>
-    <message key="PLUGINS_ADMIN_LOGS_HELP">Aide</message>
-    <message key="PLUGINS_ADMIN_LOGS_HELP_TEXT">Cet écran vous permet de visualiser les fichiers de logs et aussi de supprimer les fichiers obsolètes.&lt;br/&gt;&lt;br/&gt;Si vos fichiers de logs ont une taille élevée et que vous êtes en production, pensez à augmenter le niveau de logs en mode 'ERROR' dans le fichier WEB-INF\\log4j.xml.&lt;br/&gt;&lt;br/&gt;Vous pouvez aussi changer temporairement le niveau de log pour l'execution en utilisant le bouton Configuration.</message>
-    <message key="PLUGINS_ADMIN_LOGS_TAB_VIEW">Visualisation</message>
     <message key="PLUGINS_ADMIN_LOGS_COL_CATEGORY">Journaux</message>
     <message key="PLUGINS_ADMIN_LOGS_COL_NAME">Fichier</message>
     <message key="PLUGINS_ADMIN_LOGS_COL_DATE">Date</message>
@@ -269,18 +261,12 @@
     <message key="PLUGINS_ADMIN_LOGS_LEVEL_FORCE_DESC">Forcer l'héritage de niveau de log de la catégorie sélectionnée.</message>
     <message key="PLUGINS_ADMIN_LOGS_LEVEL_INHERIT_LABEL">Hériter le mode</message>  
     <message key="PLUGINS_ADMIN_LOGS_LEVEL_INHERIT_DESC">Changer le niveau de log de la catégorie sélectionnée à "héritage".</message> 
-    <message key="PLUGINS_ADMIN_LOGS_HANDLE">Gestion</message>
-    <message key="PLUGINS_ADMIN_LOGS_HANDLE_LOGLEVEL_INHERIT">Hériter le mode</message>
-    <message key="PLUGINS_ADMIN_LOGS_HANDLE_LOGLEVEL_FORCE">Forcer l'héritage</message>
-    <message key="PLUGINS_ADMIN_LOGS_HANDLE_ERROR">Une erreur est survenue : les modifications n'ont peut-être pas été prises en compte.&lt;br/&gt;Il est conseillé d'actualiser la page avant de continuer.</message>
-    <message key="PLUGINS_ADMIN_LOGS_HELP2_TEXT">Cet outil permet de configurer les niveaux de logs catégorie par catégorie.&lt;br/&gt;&lt;br/&gt;Pour modifier de manière permanente le niveau de logs, configurez le fichier WEB-INF\\log4j.xml.</message>
     
     <!-- ADMINITRATOR SYSTEM -->
     <message key="PLUGINS_ADMIN_SYSTEM_LABEL">Accès</message>
     <message key="PLUGINS_ADMIN_SYSTEM_DESCRIPTION">Cet outil permet de mettre en place une annonce d'accueil pour les utilisateurs.</message>
     <message key="PLUGINS_ADMIN_SYSTEM_DESCRIPTION_ON">L'annonce système d'accueil est actuellement activée.</message>
     <message key="PLUGINS_ADMIN_SYSTEM_DESCRIPTION_OFF">L'annonce système d'accueil est actuellement désactivée.</message>
-    <message key="PLUGINS_ADMIN_SYSTEM_TITLE">Accès des utilisateurs</message>
     <message key="PLUGINS_ADMIN_SYSTEM_COL_LANG">Langue</message>
     <message key="PLUGINS_ADMIN_SYSTEM_COL_MESSAGE">Message</message>
     <message key="PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_ADD_LABEL">Nouveau</message>

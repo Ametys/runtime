@@ -22,7 +22,6 @@
     <message key="PLUGINS_ADMIN_PASSWORD_DIALOG_CAPTION">Change password...</message>
     <message key="PLUGINS_ADMIN_PASSWORD_DIALOG_OK">Ok</message>
     <message key="PLUGINS_ADMIN_PASSWORD_DIALOG_CANCEL">Cancel</message>
-    <message key="PLUGINS_ADMIN_PASSWORD_TITLE">Password</message>
     <message key="PLUGINS_ADMIN_PASSWORD_OLD">Old password</message>
     <message key="PLUGINS_ADMIN_PASSWORD_NEW">New password</message>
     <message key="PLUGINS_ADMIN_PASSWORD_CONFIRM">Confirm the new password</message>
@@ -51,7 +50,6 @@
     <message key="PLUGINS_ADMIN_CONFIG_SAVE_INVALID">One or more fields in the form are incorrect.Please modify them and then save the form.</message>
     <message key="PLUGINS_ADMIN_CONFIG_INVALID_REGEXP">Wrong value. Expected format:</message> 
     <message key="DATE_FIELD_FORMAT">m/d/Y</message>
-    <message key="TIME_FIELD_FORMAT">g:i A</message>
     
     <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECK_ERROR">Error while performing the parameter verification.</message>
     <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECK_ERROR_TEXT">verification(s) have failed.&lt;br/&gt;Press the 'Details' button for further information or see the application's logs.</message>
@@ -168,17 +166,14 @@
     <!-- ADMINISTRATOR PLUGINS -->
     <message key="PLUGINS_ADMIN_TOOL_PLUGINSBYFILE_LABEL">Plugins by file</message> 
     <message key="PLUGINS_ADMIN_TOOL_PLUGINSBYFILE_DESC">Open a tool showing the plugins by file in form of a tree. Allows to activate/deactivate plugins.</message>
-    <message key="PLUGINS_ADMIN_TOOL_PLUGINSBYFILE_SERVER_ERROR">An error has occurred while retrieving the tree's properties.</message>
     <message key="PLUGINS_ADMIN_TOOL_PLUGINSBYFILE_ROOT_TEXT">Plugins</message>
 
     <message key="PLUGINS_ADMIN_TOOL_PLUGINSBYEXTENSIONPOINT_LABEL">Plugins by extension point</message>
     <message key="PLUGINS_ADMIN_TOOL_PLUGINSBYEXTENSIONPOINT_DESC">Open a tool showing the plugins by extension point in form of a tree. Allows to activate/deactivate plugins.</message>
-    <message key="PLUGINS_ADMIN_TOOL_PLUGINSBYEXTENSIONPOINT_SERVER_ERROR">An error has occurred while retrieving the tree's properties.</message>
     <message key="PLUGINS_ADMIN_TOOL_PLUGINSBYEXTENSIONPOINT_ROOT_TEXT">Plugins</message>
     
     <message key="PLUGINS_ADMIN_TOOL_WORKSPACES_LABEL">Workspaces</message>
     <message key="PLUGINS_ADMIN_TOOL_WORKSPACES_DESC">Open a tool allowing to see the worksapces in form of a tree.</message>
-    <message key="PLUGINS_ADMIN_TOOL_WORKSPACES_SERVER_ERROR">An error has occurred while retrieving the tree's properties.</message>
     <message key="PLUGINS_ADMIN_TOOL_WORKSPACES_ROOT_TEXT">Workspaces</message>
     
     <message key="PLUGINS_ADMIN_PLUGINS_DOCUMENTATION_LABEL">Documentation</message>
@@ -226,9 +221,6 @@
     <message key="PLUGINS_ADMIN_TOOL_LOGS_LABEL">Logs</message>
     <message key="PLUGINS_ADMIN_TOOL_LOGS_DESC">Display the application logs</message>
     <message key="PLUGINS_ADMIN_LOGS_TITLE">Logs</message>
-    <message key="PLUGINS_ADMIN_LOGS_HELP">Help</message>
-    <message key="PLUGINS_ADMIN_LOGS_HELP_TEXT">This screen allows you to display log files and remove obsolete ones.&lt;br/&gt;&lt;br/&gt;If your log files are large and you are in production, remember to switch to 'ERROR' log level in 'WEB-INF\\log4j.xml' files.&lt;br/&gt;&lt;br/&gt;You can also change log level temporally at runtime using the configuration button.</message>
-    <message key="PLUGINS_ADMIN_LOGS_TAB_VIEW">Visualisation</message>
     <message key="PLUGINS_ADMIN_LOGS_COL_CATEGORY">Logs</message>
     <message key="PLUGINS_ADMIN_LOGS_COL_NAME">File</message>
     <message key="PLUGINS_ADMIN_LOGS_COL_DATE">Date</message>
@@ -269,18 +261,12 @@
     <message key="PLUGINS_ADMIN_LOGS_LEVEL_FORCE_DESC">Force inheritance of current level mode to all sub-categories.</message>
     <message key="PLUGINS_ADMIN_LOGS_LEVEL_INHERIT_LABEL">Inherit mode</message>  
     <message key="PLUGINS_ADMIN_LOGS_LEVEL_INHERIT_DESC">Inherit the log level mode from the parent category.</message> 
-    <message key="PLUGINS_ADMIN_LOGS_HANDLE">Handle</message>
-    <message key="PLUGINS_ADMIN_LOGS_HANDLE_LOGLEVEL_INHERIT">Inherit mode</message>
-    <message key="PLUGINS_ADMIN_LOGS_HANDLE_LOGLEVEL_FORCE">Force inheritance</message>
-    <message key="PLUGINS_ADMIN_LOGS_HANDLE_ERROR">An error occurred: modifications may not have been done.</message>
-    <message key="PLUGINS_ADMIN_LOGS_HELP2_TEXT">This tool allows you to modify for the runtime the log level category by category.&lt;br/&gt;&lt;br/&gt;To modify permanently the log level you can configure the 'WEB-INF\\log4j.xml' file.</message>
 
     <!-- ADMINITRATOR SYSTEM -->
     <message key="PLUGINS_ADMIN_SYSTEM_LABEL">Access</message>
     <message key="PLUGINS_ADMIN_SYSTEM_DESCRIPTION">This tool enables a system announcement to be set up for users.</message>
     <message key="PLUGINS_ADMIN_SYSTEM_DESCRIPTION_ON">The system announcement is currently enabled.</message>
     <message key="PLUGINS_ADMIN_SYSTEM_DESCRIPTION_OFF">The system announcement is currently disabled.</message>
-    <message key="PLUGINS_ADMIN_SYSTEM_TITLE">Users access</message>
     <message key="PLUGINS_ADMIN_SYSTEM_COL_LANG">Language</message>
     <message key="PLUGINS_ADMIN_SYSTEM_COL_MESSAGE">Message</message>
     <message key="PLUGINS_ADMIN_SYSTEM_ANNOUNCEMENT_ADD_LABEL">New</message>

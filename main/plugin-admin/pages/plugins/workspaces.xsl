@@ -34,7 +34,7 @@
 		        {
 		            expanded: true,
 		            icon: "<xsl:value-of select="$resourcesPath"/>/img/plugins/root.png",
-		            text: "<i18n:text i18n:key="PLUGINS_ADMIN_PLUGINS_WORKSPACE_VIEW"/>",
+		            text: "<i18n:text i18n:key="PLUGINS_ADMIN_TOOL_WORKSPACES_ROOT_TEXT"/>",
                     isRootWorkspaces: true,
 		            children: [
 		                <xsl:choose>
