@@ -13,21 +13,21 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-var factory = Ext.create("Ametys.tool.factory.UniqueToolFactory", {
-    "role": "uitool-tool1",
-    "toolClass": "Ametys.test.tool.Tool1", 
-    id: "tool1", 
+var factory = Ext.create("Ametys.tool.factory.BasicToolFactory", {
+    "role": "uitool-tool2",
+    "toolClass": "Ametys.test.tool.Tool2", 
+    id: "tool2", 
     pluginName: "test",
     
-    'title': "Tool n°1",
-    'description': "This is the tool number one",
+    'title': "Tool n°2",
+    'description': "This is the tool number two",
     'icon-small': 'resources/img/editpaste_16.gif',
     'icon-medium': 'resources/img/editpaste_32.gif',
     'icon-large': 'resources/img/editpaste_48.gif'
 });
 Ametys.tool.ToolsManager.addFactory(factory);
 
-Ext.define('Ametys.test.tool.Tool1', {
+Ext.define('Ametys.test.tool.Tool2', {
     extend: "Ametys.tool.Tool",
     
     setParams: function (params)
@@ -43,20 +43,7 @@ Ext.define('Ametys.test.tool.Tool1', {
     createPanel: function ()
     {
         return Ext.create("Ext.panel.Panel", {
-            items: [
-                {
-                    xtype: 'component',
-                    html: 'This is tool one'
-                },
-                {
-                    xtype: 'button',
-                    text: 'open a tool n°2',
-                    handler: function()
-                    {
-                        Ametys.tool.ToolsManager.openTool("uitool-tool2", { id: "t" + Math.random() })
-                    }
-                }
-            ]
+            html: 'This is tool one'
         });
     }
 });
