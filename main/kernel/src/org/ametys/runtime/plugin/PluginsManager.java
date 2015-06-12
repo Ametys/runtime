@@ -810,7 +810,7 @@ public final class PluginsManager
         {
             if (!singleExtensionsPoints.containsKey(referecendExtension))
             {
-                String message = "The single extension point '" + referecendExtension + "' : referenced in the WEB-INF/param/runtime.xml does not exists.";
+                String message = "The single extension point '" + referecendExtension + "' : referenced in the WEB-INF/param/runtime.xml does not exist.";
                 _logger.warn(message);
             }
         }
