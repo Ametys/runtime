@@ -68,7 +68,7 @@ Ext.define("Ametys.tool.factory.UniqueToolFactory",
 			var tool = Ametys.tool.ToolsManager.getTool(toolId); 
 			if (tool == null)
 			{
-				// Tool does not exists => Tool creation.
+				// Tool does not exist => Tool creation.
 				var toolConfig = Ext.applyIf({
 						id: toolId,
 						factory: this,

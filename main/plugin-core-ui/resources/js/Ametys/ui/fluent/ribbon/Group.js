@@ -116,7 +116,7 @@ Ext.define(
 		_scale: null,
 		/**
 		 * @private
-		 * @property {Object} _scaleContainer Is an association between ("small", "medium" and "large") with the index of the associated container in the {@link #property-items} property. Will be null if the container does not exists
+		 * @property {Object} _scaleContainer Is an association between ("small", "medium" and "large") with the index of the associated container in the {@link #property-items} property. Will be null if the container does not exist
 		 */
 		
 		/**

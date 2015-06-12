@@ -81,7 +81,7 @@ public class DesktopManager extends AbstractThreadSafeComponentExtensionPoint<Cl
     
     /**
      * Check that the configuration was correct
-     * @throws IllegalStateException if an item does not exists
+     * @throws IllegalStateException if an item does not exist
      */
     @Override
     public void initializeExtensions() throws Exception

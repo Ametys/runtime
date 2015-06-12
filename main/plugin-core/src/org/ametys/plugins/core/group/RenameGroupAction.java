@@ -87,7 +87,7 @@ public class RenameGroupAction extends AbstractCurrentUserProviderServiceableAct
             if (getLogger().isWarnEnabled())
             {
                 String userMessage = null;
-                String endMessage = "is renaming a group '" + groupId + "' but the group does not exists";
+                String endMessage = "is renaming a group '" + groupId + "' but the group does not exist";
                 if (_isSuperUser())
                 {
                     userMessage = "Administrator";

@@ -32,7 +32,7 @@ public interface GroupsManager
     /**
      * Returns a particular group.
      * @param groupID The id of the group.
-     * @return The group or null if the group does not exists.
+     * @return The group or null if the group does not exist.
      */
     public Group getGroup(String groupID);
 

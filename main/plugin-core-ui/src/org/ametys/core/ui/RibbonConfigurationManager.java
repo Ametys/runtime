@@ -228,7 +228,7 @@ public class RibbonConfigurationManager
     
     /**
      * Check that the configuration was correct
-     * @throws IllegalStateException if an item does not exists
+     * @throws IllegalStateException if an item does not exist
      */
     private synchronized void _lazyInitialize() 
     {

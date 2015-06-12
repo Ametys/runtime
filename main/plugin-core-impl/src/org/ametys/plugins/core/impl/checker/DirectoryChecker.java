@@ -50,7 +50,7 @@ public class DirectoryChecker extends AbstractLogEnabled implements Configurable
     /** The source resolver */
     private SourceResolver _sourceResolver;
 
-    /** Creates the directory if it does not exists already */
+    /** Creates the directory if it does not exist already */
     private boolean _createsIfRequired;
 
     private ServiceManager _sManager;
