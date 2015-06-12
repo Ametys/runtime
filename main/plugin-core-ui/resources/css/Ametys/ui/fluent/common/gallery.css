@@ -85,29 +85,29 @@
 }
 
 /* Disabled */
-.x-fluent-menugallery .x-btn-default-large.x-disabled                                         { background-position: 0 0; }
-.x-fluent-menugallery .x-btn-default-large.x-disabled > .x-btn-wrap                           { background-position: right -140px; }
-.x-fluent-menugallery .x-btn-default-large.x-disabled > .x-btn-wrap > .x-btn-button           { background-position: 0 -70px; }
+.x-fluent-menugallery .x-btn-default-large.x-disabled                                             { background-position: 0 0; }
+.x-fluent-menugallery .x-btn-default-large.x-disabled > .x-btn-wrap                               { background-position: right -140px; }
+.x-fluent-menugallery .x-btn-default-large.x-disabled > .x-btn-wrap > .x-btn-button               { background-position: 0 -70px; }
 /* Normal */
-.x-fluent-menugallery .x-btn-default-large                                                    { background-position: 0 -210px; }
-.x-fluent-menugallery .x-btn-default-large > .x-btn-wrap                                      { background-position: right -350px; }
-.x-fluent-menugallery .x-btn-default-large > .x-btn-wrap > .x-btn-button                      { background-position: 0 -280px; }
+.x-fluent-menugallery .x-btn-default-large                                                        { background-position: 0 -210px; }
+.x-fluent-menugallery .x-btn-default-large > .x-btn-wrap                                          { background-position: right -350px; }
+.x-fluent-menugallery .x-btn-default-large > .x-btn-wrap > .x-btn-button                          { background-position: 0 -280px; }
 /* Pressed */
-.x-fluent-menugallery .x-btn-default-large.x-btn-click                                        { background-position: 0 -630px; }
-.x-fluent-menugallery .x-btn-default-large.x-btn-click > .x-btn-wrap                          { background-position: right -770px; }
-.x-fluent-menugallery .x-btn-default-large.x-btn-click > .x-btn-wrap > .x-btn-button          { background-position: 0 -700px; }
+.x-fluent-menugallery .x-btn-default-large.x-btn-click                                            { background-position: 0 -630px; }
+.x-fluent-menugallery .x-btn-default-large.x-btn-click > .x-btn-wrap                              { background-position: right -770px; }
+.x-fluent-menugallery .x-btn-default-large.x-btn-click > .x-btn-wrap > .x-btn-button              { background-position: 0 -700px; }
 /* Selected */
-.x-fluent-menugallery .x-btn-default-large.x-btn-pressed                                      { background-position: 0 -840px; }
-.x-fluent-menugallery .x-btn-default-large.x-btn-pressed > .x-btn-wrap                        { background-position: right -980px; }
-.x-fluent-menugallery .x-btn-default-large.x-btn-pressed > .x-btn-wrap > .x-btn-button        { background-position: 0 -910px; }
+.x-fluent-menugallery .x-btn-default-large.x-btn-pressed                                          { background-position: 0 -840px; }
+.x-fluent-menugallery .x-btn-default-large.x-btn-pressed > .x-btn-wrap                            { background-position: right -980px; }
+.x-fluent-menugallery .x-btn-default-large.x-btn-pressed > .x-btn-wrap > .x-btn-button            { background-position: 0 -910px; }
 /* Selected and Hover */
-.x-fluent-menugallery .x-btn-default-large.x-btn-pressed.x-over                               { background-position: 0 -1050px; }
-.x-fluent-menugallery .x-btn-default-large.x-btn-pressed.x-over > .x-btn-wrap                 { background-position: right -1190px; }
-.x-fluent-menugallery .x-btn-default-large.x-btn-pressed.x-over > .x-btn-wrap > .x-btn-button { background-position: 0 -1120px; }
+.x-fluent-menugallery .x-btn-default-large.x-btn-pressed.x-btn-over                               { background-position: 0 -1050px; }
+.x-fluent-menugallery .x-btn-default-large.x-btn-pressed.x-btn-over > .x-btn-wrap                 { background-position: right -1190px; }
+.x-fluent-menugallery .x-btn-default-large.x-btn-pressed.x-btn-over > .x-btn-wrap > .x-btn-button { background-position: 0 -1120px; }
 /* Hover */
-.x-fluent-menugallery .x-btn-default-large.x-over                                             { background-position: 0 -420px; }
-.x-fluent-menugallery .x-btn-default-large.x-over > .x-btn-wrap                               { background-position: right -560px; }
-.x-fluent-menugallery .x-btn-default-large.x-over > .x-btn-wrap > .x-btn-button               { background-position: 0 -490px; }
+.x-fluent-menugallery .x-btn-default-large.x-btn-over                                             { background-position: 0 -420px; }
+.x-fluent-menugallery .x-btn-default-large.x-btn-over > .x-btn-wrap                               { background-position: right -560px; }
+.x-fluent-menugallery .x-btn-default-large.x-btn-over > .x-btn-wrap > .x-btn-button               { background-position: 0 -490px; }
 
 /* ******************
  * INRIBBON BUTTONS *
@@ -129,10 +129,10 @@
 .x-item-inribbon.x-fluent-menugallery .x-btn-default-large.x-btn-pressed > .x-btn-wrap                        { background-position: right -798px; }
 .x-item-inribbon.x-fluent-menugallery .x-btn-default-large.x-btn-pressed > .x-btn-wrap > .x-btn-button        { background-position: 0 -741px; }
 /* Selected and Hover */
-.x-item-inribbon.x-fluent-menugallery .x-btn-default-large.x-btn-pressed.x-over                               { background-position: 0 -855px; }
-.x-item-inribbon.x-fluent-menugallery .x-btn-default-large.x-btn-pressed.x-over > .x-btn-wrap                 { background-position: right -969px; }
-.x-item-inribbon.x-fluent-menugallery .x-btn-default-large.x-btn-pressed.x-over > .x-btn-wrap > .x-btn-button { background-position: 0 -912px; }
+.x-item-inribbon.x-fluent-menugallery .x-btn-default-large.x-btn-pressed.x-btn-over                               { background-position: 0 -855px; }
+.x-item-inribbon.x-fluent-menugallery .x-btn-default-large.x-btn-pressed.x-btn-over > .x-btn-wrap                 { background-position: right -969px; }
+.x-item-inribbon.x-fluent-menugallery .x-btn-default-large.x-btn-pressed.x-btn-over > .x-btn-wrap > .x-btn-button { background-position: 0 -912px; }
 /* Hover */
-.x-item-inribbon.x-fluent-menugallery .x-btn-default-large.x-over                                             { background-position: 0 -342px; }
-.x-item-inribbon.x-fluent-menugallery .x-btn-default-large.x-over > .x-btn-wrap                               { background-position: right -456px; }
-.x-item-inribbon.x-fluent-menugallery .x-btn-default-large.x-over > .x-btn-wrap > .x-btn-button               { background-position: 0 -399px; }
+.x-item-inribbon.x-fluent-menugallery .x-btn-default-large.x-btn-over                                             { background-position: 0 -342px; }
+.x-item-inribbon.x-fluent-menugallery .x-btn-default-large.x-btn-over > .x-btn-wrap                               { background-position: right -456px; }
+.x-item-inribbon.x-fluent-menugallery .x-btn-default-large.x-btn-over > .x-btn-wrap > .x-btn-button               { background-position: 0 -399px; }
