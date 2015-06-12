@@ -16,7 +16,6 @@
 package org.ametys.core.ui;
 
 import java.lang.reflect.Method;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -130,13 +129,8 @@ public class ExecuteClientCallsAction extends ServiceableAction implements Threa
     {
         Object result = null;
         if (method.isAnnotationPresent(Callable.class))
-        {            
+        {
             result = method.invoke(object, paramValues);
-            
-            if (result == null)
-            {
-                result = Collections.EMPTY_MAP;
-            }
         }
         else
         {
