@@ -683,8 +683,7 @@
         	 */
         	if (this.ametysShowMultipleHint == true)
         	{
-        		result += '<br/>'
-        		    + '<span class="ametys-field-hint">(' + "<i18n:text i18n:key='PLUGINS_CORE_UI_MULTIPLE_HINT'/>" + ')</span>'
+        		result += '<span class="ametys-field-hint">(' + "<i18n:text i18n:key='PLUGINS_CORE_UI_MULTIPLE_HINT'/>" + ')</span>'
         	}
         	
         	return result;
