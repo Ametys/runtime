@@ -89,7 +89,7 @@ public class UpdateUsersGroupAction extends AbstractCurrentUserProviderServiceab
             if (getLogger().isWarnEnabled())
             {
                 String userMessage = null;
-                String endMessage = "is modifying a group '" + groupId + "' but the group does not exists.";
+                String endMessage = "is modifying a group '" + groupId + "' but the group does not exist.";
                 if (_isSuperUser())
                 {
                     userMessage = "Administrator";

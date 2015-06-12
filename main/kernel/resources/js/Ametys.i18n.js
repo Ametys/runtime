@@ -141,7 +141,7 @@ Ext.define(
 		/**
 		 * Get an application parameter.
 		 * @param {String} name The key of the parameter
-		 * @return {Object} The value associated to the parameter name, or undefined if it does not exists.
+		 * @return {Object} The value associated to the parameter name, or undefined if it does not exist.
 		 */
 		getAppParameter: function(name) {
 			return this.appParameters[name];

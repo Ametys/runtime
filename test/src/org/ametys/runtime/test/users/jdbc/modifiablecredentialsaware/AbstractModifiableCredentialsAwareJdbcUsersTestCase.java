@@ -234,7 +234,7 @@ public abstract class AbstractModifiableCredentialsAwareJdbcUsersTestCase extend
         }
         catch (InvalidModificationException e)
         {
-            // normal behavior since login does not exists
+            // normal behavior since login does not exist
             _checkListener(listener1, listener2, 0, 0, 0);
         }
         

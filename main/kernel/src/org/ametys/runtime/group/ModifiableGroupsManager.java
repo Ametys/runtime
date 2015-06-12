@@ -35,14 +35,14 @@ public interface ModifiableGroupsManager extends GroupsManager
     /**
      * Modify an existing group of users.
      * @param userGroup Informations about the new group. Cannot be null:
-     * @throws InvalidModificationException if the group id does not exists yet
+     * @throws InvalidModificationException if the group id does not exist yet
      */
     public void update(Group userGroup) throws InvalidModificationException;
 
     /**
      * Remove a group of users.
      * @param groupID The id of the group. Cannot be null;
-     * @throws InvalidModificationException if the group id does not exists.
+     * @throws InvalidModificationException if the group id does not exist.
      */
     public void remove(String groupID) throws InvalidModificationException;
     

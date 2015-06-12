@@ -38,7 +38,7 @@ public interface UsersManager
     /**
      * Get a particular user by his login.
      * @param login Login of the user to get. Cannot be null.
-     * @return User's information as a <code>User</code> instance or null if the user login does not exists.
+     * @return User's information as a <code>User</code> instance or null if the user login does not exist.
      */
     public User getUser(String login);
     

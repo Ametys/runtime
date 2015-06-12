@@ -147,7 +147,7 @@ Improvements:
   RUNTIME-521 : Validator for parameters : make the default validator a component
   RUNTIME-522 : Add a TextValidator
   RUNTIME-523 : ServerComm should transmit context parameters
-  RUNTIME-532 : Create temp directory when it does not exists
+  RUNTIME-532 : Create temp directory when it does not exist
   RUNTIME-547 : Possibility to have a widget to select time in configuration parameters
   RUNTIME-553 : Add the possibilty to define a context on which to check rights for a ClientSideElement
 
