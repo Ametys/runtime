@@ -287,7 +287,7 @@
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_TAB_POLICY_ALL">Several tabs per tools if necessary</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_WORKSPACE">Workspace</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_WORKSPACE_DESC">The state of your workspace is saved (opened tools, locations and size of tools). You can reset your workspace.</message>
-    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_OPENEDTOOLS">Remember opened tools on restart</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_OPENEDTOOLS">Remember opened tools</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_OPENEDTOOLS_DESC">Checking this checkbox will keep the tool opened after refreshing your browser</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_GROUP_20_EDITION">Forms</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_FORM_TAB_POLICY">Display mode</message>

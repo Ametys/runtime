@@ -286,7 +286,7 @@
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_TAB_POLICY_ALL">Plusieurs onglets par outil si nécessaire</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_WORKSPACE">Espace de travail</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_WORKSPACE_DESC">L'état de votre espace de travail est sauvé ici (outils ouverts, emplacements et tailles de outils). Vous pouvez réinitialiser votre espace de travail.</message>
-    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_OPENEDTOOLS">Mémoriser les outils ouverts au redémarrage</message>
+    <message key="PLUGINS_CORE_UI_USER_PREFERENCES_OPENEDTOOLS">Mémoriser les outils ouverts</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_OPENEDTOOLS_DESC">Lorsque cette case est cochée, les outils restent ouverts lorsque vous redémarrez votre navigateur</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_GROUP_20_EDITION">Formulaire</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_FORM_TAB_POLICY">Mode d'affichage</message>
