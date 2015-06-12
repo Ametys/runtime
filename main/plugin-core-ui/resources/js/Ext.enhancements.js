@@ -156,10 +156,9 @@
 	
 	
     var ametysLabelable =  {
-        
-        afterSubTpl: [  '<tpl if="renderWarning">',
-                            '<div id="{id}-warningWrapEl" data-ref="warningWrapEl" class="{warningWrapCls} {warningWrapCls}-{ui}',
-                                ' {warningWrapExtraCls}" style="{warningWrapStyle}">',
+        afterOutterBodyEl: [  '<tpl if="renderWarning">',
+                            '<div id="{id}-warningWrapEl" data-ref="warningWrapEl" class="ametys-warning"',
+                                'style="display: none">',
                                 '<div role="alert" aria-live="polite" id="{id}-warningEl" data-ref="warningEl" ',
                                     'class="{warningMsgCls} {invalidMsgCls} {invalidMsgCls}-{ui}" ',
                                     'data-anchorTarget="{id}-inputEl">',
@@ -167,12 +166,12 @@
                             '</div>',
                         '</tpl>',
                         '<tpl if="ametysDescription">',
-                            '<div id="{id}-descWrapEl" data-ref="descWrapEl" class="{descWrapCls} {descWrapCls}-{ui}" data-qtip="{ametysDescription}"><div style="width: 20px;"></div></div>',
+                            '<div id="{id}-descWrapEl" data-ref="descWrapEl" class="ametys-description" data-qtip="{ametysDescription}"><div style="width: 20px;"></div></div>',
                         '</tpl>',
                         '<tpl if="showAmetysComments == true">',
-                            '<div id="{id}-commentWrapEl" data-ref="commentWrapEl" class="{commentWrapCls} {commentWrapCls}-{ui}" data-qtip=""><div style="width: 20px;"></div></div>',
+                            '<div id="{id}-commentWrapEl" data-ref="commentWrapEl" class="ametys-comments ametys-comments-empty" data-qtip=""><div style="width: 20px;"></div></div>',
                         '</tpl>'
-        ],
+        ],     
         
         /**
          * @private
@@ -519,6 +518,9 @@
         }
     };
 
+    var index = Ext.form.Labelable.prototype.labelableRenderTpl.indexOf('<tpl if="renderError">');
+    Ext.Array.insert(Ext.form.Labelable.prototype.labelableRenderTpl, index, ametysLabelable.afterOutterBodyEl);
+    
     Ext.override(Ext.form.Labelable, Ext.apply(Ext.clone(ametysLabelable), { 
 		statics: {
 			/**
