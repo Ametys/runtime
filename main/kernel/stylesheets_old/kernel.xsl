@@ -116,6 +116,12 @@
             <xsl:with-param name="context-path" select="$context-path"/>
             <xsl:with-param name="load-cb" select="$load-cb"/>
         </xsl:call-template>
+        
+        <!-- Hack for ExtJS 6 event objects to work in an ExtJS 4 environment. -->
+        <script type="text/javascript">
+            Ext.namespace('Ext.event');
+            Ext.event.Event = Ext.EventObject;
+        </script>
     </xsl:template>
  
     <!-- +
