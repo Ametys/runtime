@@ -296,3 +296,19 @@ Ext.define('Ametys.userprefs.UserPrefsDAO', {
 		this._cachePrepared(Ext.dom.Query.selectNode('xml', response), [cb, prefContext])
 	}
 });
+
+Ext.define("Ametys.message.UserPrefsMessageTarget",
+        {
+            override: "Ametys.message.MessageTarget",
+            
+            statics: 
+            {
+                /**
+                 * @member Ametys.message.MessageTarget
+                 * @readonly
+                 * @property {String} USER_PREFS The target type is user preferences. 
+                 */
+                USER_PREFS: "userPrefs"
+            }
+        }
+);
