@@ -109,33 +109,6 @@
 	
     
 	var renderFn = {
-	    onRender: function ()
-	    {
-	    	this.callParent(arguments); 
-			
-			var td = this.el.query(".ametys-warning")[0];
-			if (td != null)
-			{
-				td.parentNode.appendChild(td); // move it as last
-			}
-			
-			var td = this.el.query(".ametys-description")[0];
-			if (td != null)
-			{
-				td.parentNode.appendChild(td); // move it as last
-			}
-			
-			var td = this.el.query(".ametys-comments")[0];
-			if (td != null)
-			{
-				td.parentNode.appendChild(td); // move it as last
-				if (this.showAmetysComments)
-				{
-					this.renderComments();
-				}
-			}
-	    },
-	    
 	    /**
          * @member Ext.form.Labelable
          * @ametys
@@ -510,8 +483,7 @@
         }
     };
 
-    var index = Ext.form.Labelable.prototype.labelableRenderTpl.indexOf('<tpl if="renderError">');
-    Ext.Array.insert(Ext.form.Labelable.prototype.labelableRenderTpl, index, ametysLabelable.afterOutterBodyEl);
+    Ext.Array.insert(Ext.form.Labelable.prototype.labelableRenderTpl, Ext.form.Labelable.prototype.labelableRenderTpl.length - 1, ametysLabelable.afterOutterBodyEl);
     
     Ext.override(Ext.form.Labelable, Ext.apply(Ext.clone(ametysLabelable), { 
 		statics: {
