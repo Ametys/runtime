@@ -157,13 +157,7 @@
 	
     var ametysLabelable =  {
         afterOutterBodyEl: [  '<tpl if="renderWarning">',
-                            '<div id="{id}-warningWrapEl" data-ref="warningWrapEl" class="ametys-warning"',
-                                'style="display: none">',
-                                '<div role="alert" aria-live="polite" id="{id}-warningEl" data-ref="warningEl" ',
-                                    'class="{warningMsgCls} {invalidMsgCls} {invalidMsgCls}-{ui}" ',
-                                    'data-anchorTarget="{id}-inputEl">',
-                                '</div>',
-                            '</div>',
+                            '<div id="{id}-warningWrapEl" data-ref="warningWrapEl" class="ametys-warning" style="display: none"><div style="width: 20px;"></div></div>',
                         '</tpl>',
                         '<tpl if="ametysDescription">',
                             '<div id="{id}-descWrapEl" data-ref="descWrapEl" class="ametys-description" data-qtip="{ametysDescription}"><div style="width: 20px;"></div></div>',
@@ -467,8 +461,6 @@
          */
         renderActiveWarning: function() 
         {
-        	Ext.form.Labelable.initWarnTip();
-        	
             var me = this,
                 activeWarn = me.getActiveWarning(),
                 hasWarn = !!activeWarn;
@@ -523,24 +515,49 @@
     
     Ext.override(Ext.form.Labelable, Ext.apply(Ext.clone(ametysLabelable), { 
 		statics: {
-			/**
-			 * @member Ext.form.field.Field
-			 * @ametys
-			 * @since Ametys Runtime 3.9
-			 * @static
-			 * 
-	         * Use a custom QuickTip instance separate from the main QuickTips singleton, so that we
-	         * can give it a custom frame style. Responds to warnqtip rather than the qtip property.
-	         */
-			initWarnTip: function() {
-		        var warnTip = this.warnTip;
-		        if (!warnTip) {
-		        	warnTip = this.warnTip = Ext.create('Ext.tip.QuickTip', {
-		                baseCls: Ext.baseCSSPrefix + 'tip-form-warning'
-		            });
-		        	warnTip.tagConfig = Ext.apply({}, {attribute: 'warnqtip'}, warnTip.tagConfig);
-		        }
-		    }
+            initTip: function() 
+            {
+                this.callParent(arguments);
+                
+                var tip = this.warnTip,
+                    cfg, copy;
+    
+                if (tip) {
+                    return;
+                }
+    
+                cfg = {
+                    id: 'ext-form-warn-tip',
+                    //<debug>
+                    // tell the spec runner to ignore this element when checking if the dom is clean
+                    sticky: true,
+                    //</debug>
+                    ui: 'form-warning'
+                };
+    
+                // On Touch devices, tapping the target shows the qtip
+                if (Ext.supports.Touch) {
+                    cfg.dismissDelay = 0;
+                    cfg.anchor = 'top';
+                    cfg.showDelay = 0;
+                    cfg.listeners = {
+                        beforeshow: function() {
+                            this.minWidth = Ext.fly(this.anchorTarget).getWidth();
+                        }
+                    };
+                }
+                tip = this.warnTip = Ext.create('Ext.tip.QuickTip', cfg);
+                copy = Ext.apply({}, tip.tagConfig);
+                copy.attribute = 'warnqtip';
+                tip.setTagConfig(copy);                
+            },
+            
+            destroyTip: function() 
+            {
+                this.callParent(arguments);
+
+                this.tip = Ext.destroy(this.tip);
+            }
 		}
 	}));
     Ext.override(Ext.form.field.Base, Ext.clone(ametysLabelable));
@@ -660,7 +677,11 @@
 	    }
     };
     
-    Ext.define("Ametys.form.field.Base", Ext.apply(Ext.clone(ametysFieldBase), { override: 'Ext.form.field.Base'}));
+    Ext.define("Ametys.form.field.Base", Ext.apply(Ext.clone(ametysFieldBase), { 
+        override: 'Ext.form.field.Base',
+        
+        ignoreChangeRe: /data\-errorqtip|data\-warnqtip|style\.|className/, 
+    }));
     
 })();
 		        
