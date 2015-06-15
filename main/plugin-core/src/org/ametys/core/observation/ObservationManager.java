@@ -16,6 +16,7 @@
 package org.ametys.core.observation;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -42,6 +43,7 @@ public class ObservationManager extends AbstractLogEnabled implements Component,
     private static final Logger __ALL_EVENTS_LOGGER = LoggerFactory.getLoggerFor("org.ametys.runtime.observation.AllEvents");
     
     private ObserverExtensionPoint _observerExtPt;
+    private Collection<Observer> _registeredObservers = new ArrayList<>();
     
     @Override
     public void service(ServiceManager manager) throws ServiceException
@@ -119,5 +121,23 @@ public class ObservationManager extends AbstractLogEnabled implements Component,
             // Observers should never fail, so just log the error
             getLogger().error("Unable to dispatch event: " + event + " to observers", e);
         }
+    }
+    
+    /**
+     * Registers an {@link Observer}.
+     * @param listener the {@link Observer}.
+     */
+    public void registerListener(Observer listener)
+    {
+        _registeredObservers.add(listener);
+    }
+    
+    /**
+     * Unregisters an {@link Observer}.
+     * @param listener the {@link Observer}.
+     */
+    public void unregisterListener(Observer listener)
+    {
+        _registeredObservers.remove(listener);
     }
 }
