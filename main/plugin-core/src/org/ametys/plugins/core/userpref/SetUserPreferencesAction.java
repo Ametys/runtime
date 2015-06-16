@@ -108,7 +108,7 @@ public class SetUserPreferencesAction extends AbstractCurrentUserProviderService
      * @param contextVars the preferences context map.
      * @param username the user name.
      * @return the results.
-     * @throws UserPreferencesException
+     * @throws UserPreferencesException if an error occurred
      */
     protected Map<String, String> setUserPreferences(Request request, String storageContext, Map<String, String> contextVars, String username) throws UserPreferencesException
     {
@@ -123,7 +123,7 @@ public class SetUserPreferencesAction extends AbstractCurrentUserProviderService
      * @param username the user name.
      * @param preferenceIds a collection of the IDs of preferences to set.
      * @return the results.
-     * @throws UserPreferencesException
+     * @throws UserPreferencesException if an error occurred
      */
     protected Map<String, String> setUserPreferences(Request request, String storageContext, Map<String, String> contextVars, String username, Collection<String> preferenceIds) throws UserPreferencesException
     {
@@ -157,7 +157,7 @@ public class SetUserPreferencesAction extends AbstractCurrentUserProviderService
     /**
      * Get the preferences values from the request.
      * @param request the request.
-     * @param contextVars 
+     * @param contextVars The context vars
      * @param preferenceIds a collection of the IDs of preferences to set.
      * @param errors the errors object to fill in.
      * @return the user preferences values as a Map.

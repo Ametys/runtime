@@ -121,9 +121,9 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
     /**
      * Generates the UI factories definitions, with parameters
      * @param contextParameters context parameters.
-     * @throws IOException
-     * @throws SAXException
-     * @throws ProcessingException
+     * @throws IOException if an error occurred
+     * @throws SAXException if an error occurred
+     * @throws ProcessingException if an error occurred
      */
     protected void doGenerate(Map<String, Object> contextParameters) throws IOException, SAXException, ProcessingException
     {

@@ -328,7 +328,7 @@ public class JdbcXmlUserPreferencesStorage extends AbstractLogEnabled implements
      * Write a Map of preferences as XML and return an InputStream on this XML.
      * @param preferences the preferences Map.
      * @return an InputStream on the preferences as XML.
-     * @throws UserPreferencesException
+     * @throws UserPreferencesException if an error occurred
      */
     protected byte[] _getPreferencesXmlBytes(Map<String, String> preferences) throws UserPreferencesException
     {

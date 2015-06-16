@@ -223,7 +223,7 @@ public class ModifiableJdbcUsersManager extends JdbcUsersManager implements Modi
      * @param con The sql connection
      * @param userInformation the user informations
      * @return The statement
-     * @throws SQLException
+     * @throws SQLException if an error occurred
      */
     protected PreparedStatement createAddStatement(Connection con, Map<String, String> userInformation) throws SQLException
     {
@@ -354,7 +354,7 @@ public class ModifiableJdbcUsersManager extends JdbcUsersManager implements Modi
      * @param con The sql connection
      * @param userInformation The user information
      * @return The statement
-     * @throws SQLException
+     * @throws SQLException if an error occurred
      */
     protected PreparedStatement createModifyStatement(Connection con, Map<String, String> userInformation) throws SQLException
     {
@@ -393,7 +393,7 @@ public class ModifiableJdbcUsersManager extends JdbcUsersManager implements Modi
      * Fill the statement with the user informations
      * @param stmt The statement of the sql request
      * @param userInformation the user informations
-     * @throws SQLException
+     * @throws SQLException if an error occurred
      */
     protected void _fillModifyStatement(PreparedStatement stmt, Map<String, String> userInformation) throws SQLException
     {

@@ -139,6 +139,7 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
     /**
      * At this point, if a minimizable list of files is know, generates a script tag here.
      * Starts a new list of files.
+     * @throws SAXException if an error occurred
      */
     @SuppressWarnings("unchecked")
     private void _jsCheckPoint() throws SAXException
@@ -176,6 +177,7 @@ public class MinimizeTransformer extends ServiceableTransformer implements Conte
     /**
      * At this point, if a minimizable list of files is know, generates a css tag here.
      * Starts a new list of files.
+     * @throws SAXException if an error occurred
      */
     @SuppressWarnings("unchecked")
     private void _cssCheckPoint() throws SAXException

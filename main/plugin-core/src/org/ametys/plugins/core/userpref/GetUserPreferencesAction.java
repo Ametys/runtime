@@ -90,7 +90,7 @@ public class GetUserPreferencesAction extends ServiceableAction
     /**
      * Convert user preferences to JSON object
      * @param storageContext the preferences context.
-     * @param contextVars 
+     * @param contextVars The context vars
      * @param username the user name
      * @param excludePrivate true to exclude private preferences
      * @return The JSON object representing the user preferences

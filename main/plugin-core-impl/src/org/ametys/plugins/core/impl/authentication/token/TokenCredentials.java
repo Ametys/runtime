@@ -137,7 +137,7 @@ public class TokenCredentials extends Credentials
      * Deletes the database entry that has this token 
      * @param connection the database's session
      * @param token the token
-     * @throws SQLException 
+     * @throws SQLException if an error occurred
      */
     private void _deleteUserToken(Connection connection, String token) throws SQLException
     {

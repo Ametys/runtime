@@ -121,12 +121,12 @@ public class UserPreferencesGenerator extends AbstractCurrentUserProviderService
     /**
      * Generate the list of user preferences for a given user and context.
      * @param storageContext the preferences context.
-     * @param contextVars 
+     * @param contextVars The context vars
      * @param username the user name.
      * @param excludePrivate true to exclude private user preferences
-     * @throws ProcessingException
-     * @throws SAXException
-     * @throws UserPreferencesException
+     * @throws ProcessingException if an error occurred
+     * @throws SAXException if an error occurred
+     * @throws UserPreferencesException if an error occurred
      */
     protected void _saxPreferences(String storageContext, Map<String, String> contextVars, String username, boolean excludePrivate) throws ProcessingException, SAXException, UserPreferencesException
     {

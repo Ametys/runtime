@@ -83,8 +83,8 @@ public class ProfilesByContextGenerator extends ServiceableGenerator
      * SAX Profile
      * @param profile the profile to SAX
      * @param context the context of right
-     * @param includeRootNode 
-     * @throws SAXException
+     * @param includeRootNode Should include a root node
+     * @throws SAXException if an error occurred
      */
     protected void _saxProfile(Profile profile, String context, boolean includeRootNode) throws SAXException
     {

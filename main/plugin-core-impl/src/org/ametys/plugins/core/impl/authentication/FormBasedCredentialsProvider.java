@@ -395,7 +395,7 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
     }
     /**
      * Delete the login from the table of the failed connection
-     * @param login
+     * @param login The login to remove
      */
     protected void _deleteLoginFailedBDD(String login)
     {
@@ -432,8 +432,8 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
     
     /**
      * Get the number of failed connections with this login
-     * @param login
-     * @return nbConnect
+     * @param login The login to request
+     * @return nthe nb of connection failed
      */
     protected Integer _requestNbConnectBDD(String login)
     {
@@ -477,7 +477,7 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
     
     /**
      * Get the number of failed connections with this login
-     * @param login
+     * @param login The login to set
      * @return the number of failed connection
      */
     protected Integer _setNbConnectBDD(String login)
@@ -498,7 +498,7 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
     
     /**
      * Insert the login with one failed connection in the BDD
-     * @param login
+     * @param login The login to insert
      */
     protected void _insertLoginNbConnectBDD(String login)
     {
@@ -538,8 +538,8 @@ public class FormBasedCredentialsProvider extends AbstractLogEnabled implements 
     
     /**
      * Update the number of failed connections of the login in the BDD
-     * @param login
-     * @param nbConnect
+     * @param login The login to update
+     * @param nbConnect The nb of connection to set
      */
     protected void _updateLoginNbConnectBDD(String login, Integer nbConnect)
     {
