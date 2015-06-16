@@ -756,9 +756,6 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             	header.removeCls(['error', 'warning', 'comment']);
             }
             
-            // The default error class adds a padding: force the tab bar to layout.
-            header.ownerCt.doLayout(); //TODO : what should I do ?
-            
             if (header.rendered)
             {
             	this._createTabTooltip (header, panel, errorFields, warnFields, commentFields);
@@ -1863,7 +1860,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
 		this._initializeTabsStatus();
 		
 	    // Sort repeaters to get parent repeaters first.
-	    var sortedRepeaters = Ext.Array.sort(data.repeaters, function(rep1, rep2) {
+	    var sortedRepeaters = Ext.Array.sort(data.repeaters || [], function(rep1, rep2) {
             var rep1Name = rep1.prefix + rep1.name;
             var rep2Name = rep2.prefix + rep2.name;
             return rep1Name < rep2Name ? -1 : 1;
