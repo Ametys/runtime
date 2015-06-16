@@ -136,7 +136,7 @@ public class ObservationManager extends AbstractLogEnabled implements Component,
      * Unregisters an {@link Observer}.
      * @param observer the {@link Observer}.
      */
-    public void Observer(Observer observer)
+    public void unregisterObserver(Observer observer)
     {
         _registeredObservers.remove(observer);
     }
