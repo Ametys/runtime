@@ -117,6 +117,9 @@ Ext.define('Ametys.relation.dd.AmetysTreeViewDropZone', {
 			this.setAmetysDropZoneInfos(this.overRecord != null ? [this.overRecord] : [], data);
 		}
 		
+		this.el.removeCls(this.overClass);
+		this.el.removeCls(this.overSelectionClass);
+		
 		this.callParent(arguments);
 	}
 });
