@@ -149,30 +149,33 @@ Ext.define('Ametys.relation.dd.AmetysGridViewDragDrop', {
 	 */
 	_onDropHandled: function(success, data, dropHandlers)
 	{
-		// FIXME Was the node moved ? or copy/referenced ? is it new (from another place) ? how to do that (refresh nodes?)...
+		// Are source and target from the same grid model ?
 		if (success)
 		{
-			switch (success)
+			var store = data.records[0].store;
+			if (store && store.getModel().getName() == this.getCmp().getStore().getModel().getName())
 			{
-				case Ametys.relation.Relation.MOVE:
-					data.copy = false;
-					dropHandlers.processDrop();
-					break;
-				case Ametys.relation.Relation.COPY:
-					data.copy = true;
-					dropHandlers.processDrop();
-					break;
-				case Ametys.relation.Relation.REFERENCE:
-					data.copy = true;
-					dropHandlers.cancelDrop();
-					break;
+				// Same tree model, let's extjs do the graphical magic
+				switch (success)
+				{
+					case Ametys.relation.Relation.MOVE:
+						data.copy = false;
+						break;
+					case Ametys.relation.Relation.COPY:
+						data.copy = true;
+						break;
+					case Ametys.relation.Relation.REFERENCE:
+						data.copy = true;
+						break;
+				}
+				
+				dropHandlers.processDrop();
+				return;
 			}
-			
 		}
-		else
-		{
-			dropHandlers.cancelDrop();
-		}
+		
+		// Different models, ExtJS cannot do the graphical magic, let's cancel the drop: the RelationHandler should have sent a message bus that will be interpreted by source and target components 
+		dropHandlers.cancelDrop();
 	}
 });
 	
