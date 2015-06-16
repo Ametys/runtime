@@ -126,7 +126,7 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Thread
      * @param contextVars the context variables.
      * @param name the user pref name
      * @param value the user pref value
-     * @throws UserPreferencesException
+     * @throws UserPreferencesException if an error occurred
      */
     public void addUserPreference(String login, String storageContext, Map<String, String> contextVars, String name, String value) throws UserPreferencesException
     {
@@ -142,7 +142,7 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Thread
      * @param storageContext the preferences context.
      * @param contextVars the context variables.
      * @param values the user prefs to add
-     * @throws UserPreferencesException
+     * @throws UserPreferencesException if an error occurred
      */
     public void addUserPreferences(String login, String storageContext, Map<String, String> contextVars, Map<String, String> values) throws UserPreferencesException
     {
@@ -158,7 +158,7 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Thread
      * @param storageContext the preferences context.
      * @param contextVars the context variables.
      * @param name the user pref name
-     * @throws UserPreferencesException
+     * @throws UserPreferencesException if an error occurred
      */
     public void removeUserPreference(String login, String storageContext, Map<String, String> contextVars, String name) throws UserPreferencesException
     {
@@ -175,7 +175,7 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Thread
      * @param login the user login.
      * @param storageContext the preferences context.
      * @param contextVars the context variables.
-     * @throws UserPreferencesException
+     * @throws UserPreferencesException if an error occurred
      */
     public void removeAllUserPreferences(String login, String storageContext, Map<String, String> contextVars) throws UserPreferencesException
     {
@@ -195,7 +195,7 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Thread
      * @param storageContext the preferences context.
      * @param contextVars the context variables.
      * @param preferenceValues a Map of the preference values indexed by ID.
-     * @throws UserPreferencesException 
+     * @throws UserPreferencesException if an error occurred
      */
     public void setUserPreferences(String login, String storageContext, Map<String, String> contextVars, Map<String, String> preferenceValues) throws UserPreferencesException
     {
@@ -220,7 +220,7 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Thread
      * @param contextVars the context variables.
      * @param id the preference ID.
      * @return the user preference value as a String.
-     * @throws UserPreferencesException 
+     * @throws UserPreferencesException if an error occurred
      */
     public String getUserPreferenceAsString(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
     {
@@ -236,7 +236,7 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Thread
      * @param contextVars the context variables.
      * @param id the preference ID.
      * @return the user preference value as a Long.
-     * @throws UserPreferencesException 
+     * @throws UserPreferencesException if an error occurred
      */
     public Long getUserPreferenceAsLong(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
     {
@@ -252,7 +252,7 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Thread
      * @param contextVars the context variables.
      * @param id the preference ID.
      * @return the user preference value as a Date.
-     * @throws UserPreferencesException 
+     * @throws UserPreferencesException if an error occurred
      */
     public Date getUserPreferenceAsDate(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
     {
@@ -268,7 +268,7 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Thread
      * @param contextVars the context variables.
      * @param id the preference ID.
      * @return the user preference value as a Boolean.
-     * @throws UserPreferencesException 
+     * @throws UserPreferencesException if an error occurred
      */
     public Boolean getUserPreferenceAsBoolean(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
     {
@@ -284,7 +284,7 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Thread
      * @param contextVars the context variables.
      * @param id the preference ID.
      * @return the user preference value as a Double.
-     * @throws UserPreferencesException 
+     * @throws UserPreferencesException if an error occurred
      */
     public Double getUserPreferenceAsDouble(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException
     {
@@ -420,8 +420,8 @@ public class UserPreferencesManager extends AbstractLogEnabled implements Thread
     
     /**
      * Get the storage component for a given role.
-     * @param contextVars 
-     * @param id 
+     * @param contextVars The context vars
+     * @param id The preference id
      * @return the storage component.
      * @throws UserPreferencesException if an error occurs looking up the storage manager.
      */

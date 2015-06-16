@@ -28,7 +28,7 @@ public interface UserPreferencesStorage
      * Get a user's preference values (as String) for a given context.
      * @param login the user login.
      * @param storageContext the preferences storage context.
-     * @param contextVars 
+     * @param contextVars The context variables including environment elements 
      * @return the user preference values as a Map of String indexed by preference ID.
      * @throws UserPreferencesException if an error occurs getting the preferences.
      */
@@ -39,7 +39,7 @@ public interface UserPreferencesStorage
      * @param login the user login.
      * @param storageContext the preferences storage context.
      * @param contextVars the context variables.
-     * @throws UserPreferencesException
+     * @throws UserPreferencesException if an error occurred
      */
     public void removeUserPreferences(String login, String storageContext, Map<String, String> contextVars) throws UserPreferencesException;
     
@@ -47,9 +47,9 @@ public interface UserPreferencesStorage
      * Set a user's preferences for a given context.
      * @param login the user login.
      * @param storageContext the preferences storage context.
-     * @param contextVars 
+     * @param contextVars The context variables including environment elements 
      * @param preferences a Map of the preference values indexed by ID.
-     * @throws UserPreferencesException 
+     * @throws UserPreferencesException if an error occurred
      */
     public void setUserPreferences(String login, String storageContext, Map<String, String> contextVars, Map<String, String> preferences) throws UserPreferencesException;
     
@@ -57,10 +57,10 @@ public interface UserPreferencesStorage
      * Get a single string user preference value for a given context.
      * @param login the user login.
      * @param storageContext the preferences storage context.
-     * @param contextVars 
+     * @param contextVars The context variables including environment elements 
      * @param id the preference ID.
      * @return the user preference value as a String.
-     * @throws UserPreferencesException 
+     * @throws UserPreferencesException if an error occurred
      */
     public String getUserPreferenceAsString(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException;
     
@@ -68,10 +68,10 @@ public interface UserPreferencesStorage
      * Get a single long user preference value for a given context.
      * @param login the user login.
      * @param storageContext the preferences storage context.
-     * @param contextVars 
+     * @param contextVars The context variables including environment elements 
      * @param id the preference ID.
      * @return the user preference value as a Long.
-     * @throws UserPreferencesException 
+     * @throws UserPreferencesException if an error occurred
      */
     public Long getUserPreferenceAsLong(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException;
     
@@ -79,10 +79,10 @@ public interface UserPreferencesStorage
      * Get a single date user preference value for a given context.
      * @param login the user login.
      * @param storageContext the preferences storage context.
-     * @param contextVars 
+     * @param contextVars The context variables including environment elements 
      * @param id the preference ID.
      * @return the user preference value as a Date.
-     * @throws UserPreferencesException 
+     * @throws UserPreferencesException if an error occurred
      */
     public Date getUserPreferenceAsDate(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException;
     
@@ -90,10 +90,10 @@ public interface UserPreferencesStorage
      * Get a single boolean user preference value for a given context.
      * @param login the user login.
      * @param storageContext the preferences storage context.
-     * @param contextVars 
+     * @param contextVars The context variables including environment elements 
      * @param id the preference ID.
      * @return the user preference value as a Boolean.
-     * @throws UserPreferencesException 
+     * @throws UserPreferencesException if an error occurred
      */
     public Boolean getUserPreferenceAsBoolean(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException;
     
@@ -101,10 +101,10 @@ public interface UserPreferencesStorage
      * Get a single double user preference value for a given context.
      * @param login the user login.
      * @param storageContext the preferences storage context.
-     * @param contextVars 
+     * @param contextVars The context variables including environment elements 
      * @param id the preference ID.
      * @return the user preference value as a Double.
-     * @throws UserPreferencesException 
+     * @throws UserPreferencesException if an error occurred
      */
     public Double getUserPreferenceAsDouble(String login, String storageContext, Map<String, String> contextVars, String id) throws UserPreferencesException;
 }

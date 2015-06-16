@@ -44,7 +44,7 @@ public class XMLResourceBundleFactory extends org.apache.cocoon.i18n.XMLResource
      * @param location catalogue base location (URI)
      * @param name bundle name
      * @param localeName  locale name
-     * @throws ComponentException
+     * @throws ComponentException If an error occurred
      */
     public void invalidateCatalogue (String location, String name, String localeName) throws ComponentException
     {

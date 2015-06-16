@@ -54,8 +54,8 @@ public class UserPreferencesExtensionPoint extends AbstractThreadSafeComponentEx
     
     /**
      * Get all the declared user preferences.
-     * @param contextVars 
-     * @param id 
+     * @param contextVars The context variables including environment elements 
+     * @param id The preference id
      * @return the user preferences (read-only collection).
      */
     public UserPreference getUserPreference(Map<String, String> contextVars, String id)
@@ -78,7 +78,7 @@ public class UserPreferencesExtensionPoint extends AbstractThreadSafeComponentEx
     
     /**
      * Get all the declared user preferences.
-     * @param contextVars 
+     * @param contextVars The context variables including environment elements 
      * @return the user preferences (read-only collection).
      */
     public Map<String, UserPreference> getUserPreferences(Map<String, String> contextVars)
@@ -88,7 +88,7 @@ public class UserPreferencesExtensionPoint extends AbstractThreadSafeComponentEx
     
     /**
      * Get all the preferences, classified by group and ordered.
-     * @param contextVars 
+     * @param contextVars The context variables including environment elements 
      * @return the preferences classified by group and ordered.
      */
     public Map<I18nizableText, List<UserPreference>> getCategorizedPreferences(Map<String, String> contextVars)
@@ -98,7 +98,7 @@ public class UserPreferencesExtensionPoint extends AbstractThreadSafeComponentEx
     
     /**
      * Validate preference values.
-     * @param contextVars 
+     * @param contextVars The context variables including environment elements 
      * @param values the values.
      * @param errors the errors object to fill in.
      */
@@ -138,7 +138,7 @@ public class UserPreferencesExtensionPoint extends AbstractThreadSafeComponentEx
     
     /**
      * Compute the preferences map.
-     * @param contextVars 
+     * @param contextVars The context variables including environment elements 
      * @return the preferences map.
      */
     protected Map<String, UserPreference> getPreferencesMap(Map<String, String> contextVars)
@@ -160,7 +160,7 @@ public class UserPreferencesExtensionPoint extends AbstractThreadSafeComponentEx
     
     /**
      * Compute the grouped preferences map.
-     * @param contextVars 
+     * @param contextVars The context variables including environment elements 
      * @return the grouped preferences map.
      */
     protected Map<I18nizableText, List<UserPreference>> getCategorizedPreferencesMap(Map<String, String> contextVars)

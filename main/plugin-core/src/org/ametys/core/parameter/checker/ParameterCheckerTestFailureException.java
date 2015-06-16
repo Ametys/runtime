@@ -30,7 +30,7 @@ public class ParameterCheckerTestFailureException extends Throwable
     
     /**
      * Constructor with a message
-     * @param msg
+     * @param msg The exception message
      */
     public ParameterCheckerTestFailureException(String msg) 
     {

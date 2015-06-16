@@ -229,8 +229,8 @@ public class DispatchGenerator extends ServiceableGenerator
     }
     
     /**
-     * Clean the requests attributes abd add those in the map
-     * @param attributes
+     * Clean the requests attributes and add those in the map
+     * @param attributes The attributes to restore
      */
     @SuppressWarnings("unchecked")
     private void _restoreRequestAttributes(Map<String, Object> attributes)
@@ -436,8 +436,8 @@ public class DispatchGenerator extends ServiceableGenerator
         }
         
         /**
-         * Finish abruptly this handler to obtnain a correct XML
-         * @throws SAXException
+         * Finish abruptly this handler to obtain a correct XML
+         * @throws SAXException if an error occurred
          */
         public void exceptionFinish() throws SAXException
         {

@@ -229,7 +229,7 @@ public class ZipArchiveNGSerializer extends AbstractSerializer implements Dispos
      * Add an entry in the archive.
      * 
      * @param atts the attributes that describe the entry
-     * @throws SAXException 
+     * @throws SAXException if an error occurred
      */
     protected void addEntry(Attributes atts) throws SAXException
     {

@@ -37,9 +37,15 @@ public class SLF4JLoggerManager extends AbstractLoggerManager
     
     /**
      * Constructor.
-     * @param prefix
-     * @param switchTo
-     * @param defaultLoggerOverride
+     * @param prefix the prefix to prepended to the category name
+     *         on each invocation of getLoggerForCategory before
+     *         passing the category name on to the underlying logging
+     *         system (currently LogKit or Log4J).
+     * @param switchTo fuel for the <code>start()</code> method; 
+     *         if null <code>start()</code> will do nothing; 
+     *         if empty <code>start()</code> will switch to
+     *         <code>getLoggerForCategory("")</code>.
+     * @param defaultLoggerOverride the SLF4J {@link ILoggerFactory} to use as default.
      */
     public SLF4JLoggerManager(final String prefix, final String switchTo, Logger defaultLoggerOverride)
     {

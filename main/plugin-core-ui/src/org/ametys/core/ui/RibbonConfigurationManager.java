@@ -473,7 +473,7 @@ public class RibbonConfigurationManager
         /**
          * Configure tabs groups
          * @param tabConfiguration One tab configuration
-         * @throws ConfigurationException
+         * @throws ConfigurationException if an error occurred
          */
         protected void _configureGroups(Configuration tabConfiguration) throws ConfigurationException
         {
@@ -590,7 +590,7 @@ public class RibbonConfigurationManager
         /**
          * Configure the differents size of the group
          * @param groupConfiguration One group configuration
-         * @throws ConfigurationException
+         * @throws ConfigurationException if an error occurred
          */
         protected void _configureSize(Configuration groupConfiguration) throws ConfigurationException
         {
@@ -669,7 +669,7 @@ public class RibbonConfigurationManager
          * Creates a group in a defined size
          * @param groupSizeConfiguration The configuration for the size
          * @param logger The logger
-         * @throws ConfigurationException
+         * @throws ConfigurationException if an error occurred
          */
         public GroupSize(Configuration groupSizeConfiguration, Logger logger) throws ConfigurationException
         {
@@ -782,7 +782,7 @@ public class RibbonConfigurationManager
          * Creates a control reference
          * @param controlConfiguration The configuration for the control
          * @param logger The logger
-         * @throws ConfigurationException
+         * @throws ConfigurationException if an error occurred
          */
         public ControlRef(Configuration controlConfiguration, Logger logger) throws ConfigurationException
         {
@@ -835,7 +835,7 @@ public class RibbonConfigurationManager
          * Creates a layout of controls
          * @param layoutConfiguration The configuration for the layout
          * @param logger The logger
-         * @throws ConfigurationException
+         * @throws ConfigurationException if an error occurred
          */
         public Layout(Configuration layoutConfiguration, Logger logger) throws ConfigurationException
         {
@@ -927,7 +927,7 @@ public class RibbonConfigurationManager
          * Creates a toolbar of controls
          * @param toolbarConfiguration The configuration for the layout
          * @param logger The logger
-         * @throws ConfigurationException
+         * @throws ConfigurationException if an error occurred
          */
         public Toolbar(Configuration toolbarConfiguration, Logger logger) throws ConfigurationException
         {

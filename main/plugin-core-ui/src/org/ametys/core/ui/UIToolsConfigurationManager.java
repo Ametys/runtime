@@ -59,9 +59,9 @@ public class UIToolsConfigurationManager
 
     /**
      * Constructor
-     * @param uitoolsFactoriesManager
-     * @param saxClientSideElementHelper
-     * @param configFile
+     * @param uitoolsFactoriesManager The instance of ui tools manager
+     * @param saxClientSideElementHelper The instance of sax client helper
+     * @param configFile The configuration file
      * @param request The request to open by default additionally to those configured
      */
     public UIToolsConfigurationManager (UIToolsFactoriesManager uitoolsFactoriesManager, SAXClientSideElementHelper saxClientSideElementHelper, File configFile, Request request)
