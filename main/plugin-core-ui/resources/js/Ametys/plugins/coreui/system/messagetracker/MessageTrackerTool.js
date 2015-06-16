@@ -111,8 +111,12 @@ Ext.define("Ametys.plugins.coreui.system.messagetracker.MessageTrackerTool",
 					callstack: "<div class='callstack'>" + this._stackToString(message.getCallStack()) + "</div>"
 				});
 				store.addSorted(record);
+
 				// Scroll to the top of the panel
-				this.grid.getView().getEl().scrollTo('Top', 0, false);
+				if (this.grid.getView().getEl())
+				{
+					this.grid.getView().getEl().scrollTo('Top', 0, false);
+				}
 			}
 			catch (e)
 			{
