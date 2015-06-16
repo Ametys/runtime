@@ -106,8 +106,8 @@ Ext.define('Ametys.form.widget.ComboBox', {
 		}
 		
 		config = Ext.apply(config, {
-			typeAhead: true,
-			editable: true,
+			typeAhead: config.multiple ? false : true,
+			editable: config.multiple ? false : true,
 			forceSelection: true,
 			triggerAction: 'all',
 			
