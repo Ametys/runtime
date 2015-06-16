@@ -78,7 +78,7 @@ public class ChangePlugins extends AbstractAction implements ThreadSafe
         try
         {
             currentFile = resolver.resolveURI("context://WEB-INF/param/runtime.xml");
-            src = resolver.resolveURI("cocoon:/administrator/plugins/change-runtime", null, jsParameters);
+            src = resolver.resolveURI("cocoon:/plugins/change-runtime", null, jsParameters);
             
             SourceUtil.copy(src, currentFile);
         }

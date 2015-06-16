@@ -90,6 +90,15 @@
                 <map:act type="is-admin-user"/>
             </map:match>
             
+             <map:match pattern="restart">
+                <map:act type="restart">
+                    <map:generate type="action-result">
+                        <map:parameter name="result" value="{result}"/>
+                    </map:generate>
+                    <map:serialize type="xml"/>
+                </map:act>
+            </map:match>
+            
             <!-- +
                  | Administrator Password
                  + -->
