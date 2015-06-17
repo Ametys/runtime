@@ -222,7 +222,7 @@ Ext.define('Ametys.form.WidgetManager', {
 		
 		if (!widgetsByType[type])
 		{
-			this.getLogger().error("Unknown type '" + type + "' for widgets, Ametys.form.WidgetManager#TYPE_STRING will be used");
+			this.getLogger().error("Unknown type '" + type + "' for widgets (" + (isEnumeration ? 'enumerated': 'non enumerated') + "/" + (isMultiple ? 'multiple': 'single') + "), Ametys.form.WidgetManager#TYPE_STRING will be used");
 			type = Ametys.form.WidgetManager.TYPE_STRING;
 		}
 		
