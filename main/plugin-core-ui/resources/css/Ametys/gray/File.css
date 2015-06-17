@@ -14,8 +14,12 @@
  *  limitations under the License.
  */
  
-.x-form-file-wrap .ametys-file-hint {
-	font-size: 0.9em;
+.x-form-file-wrap .x-form-trigger-wrap:after {
+/*.x-form-file-wrap .ametys-file-hint {*/
+    content: attr(data-maxsizemsg);
+    display: table-row;
+    
+	font-size: 11px;
 	color: #7f7f7f;
 	padding-left: 5px;
 	padding-top: 2px;

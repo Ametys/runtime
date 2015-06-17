@@ -692,24 +692,20 @@
     Ext.define("Ametys.form.field.File", {
         override: "Ext.form.field.File",
         
-        getTriggerMarkup: function() {
-        	var result = this.callParent(arguments);
-        	
-        	/**
-        	 * @member Ext.form.field.File
-        	 * @ametys
-        	 * @since Ametys Runtime 3.9
-        	 * @cfg {Boolean} ametysShowMaxUploadSizeHint false to hide to max size hint under the field. true by default
-        	 */
-        	if (Ametys.MAX_UPLOAD_SIZE != undefined && Ametys.MAX_UPLOAD_SIZE != '' && this.ametysShowMaxUploadSizeHint !== false)
-        	{
-        		result += '</tr><tr id="' + this.id + '-uploadsize" class="ametys-file-hint"><td colspan="2">'
-        		    + "(<i18n:text i18n:key='PLUGINS_CORE_UI_UPLOAD_HINT'/>"
-        		    + Ext.util.Format.fileSize(Ametys.MAX_UPLOAD_SIZE)
-        			+ ')</td>';
-        	}
-        	
-        	return result;
+        afterRender: function()
+        {
+            this.callParent(arguments);
+            
+            /**
+             * @member Ext.form.field.File
+             * @ametys
+             * @since Ametys Runtime 3.9
+             * @cfg {Boolean} ametysShowMaxUploadSizeHint false to hide to max size hint under the field. true by default
+             */
+            if (Ametys.MAX_UPLOAD_SIZE != undefined && Ametys.MAX_UPLOAD_SIZE != '' && this.ametysShowMaxUploadSizeHint !== false)
+            {
+                this.triggerWrap.dom.setAttribute('data-maxsizemsg', "(<i18n:text i18n:key='PLUGINS_CORE_UI_UPLOAD_HINT'/>" + Ext.util.Format.fileSize(Ametys.MAX_UPLOAD_SIZE) + ")");
+            }
         },
         
         // Override onFileChange method to prevent file path such as 'C:\fakepath\6_b.jpg' (IE, Chrome)
