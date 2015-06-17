@@ -134,10 +134,9 @@ td.x-form-error-msg-wrapper
 	border-color: #FF0000;
 }
 
+.x-field.ametys .x-form-text-wrap-invalid,
 .x-field.ametys textarea.x-form-invalid-field,
-.x-field.ametys input.x-form-invalid-field,
-.x-form-item.ametys textarea.x-form-invalid-field,
-.x-form-item.ametys input.x-form-invalid-field
+.x-form-item.ametys textarea.x-form-invalid-field
 {
 	background-image: none;
 	border-color: #FF0000;
