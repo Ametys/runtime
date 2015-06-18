@@ -80,9 +80,10 @@ public class I18nizableJSFileGenerator extends FileGenerator
 
     /**
      * Get the source content
-     * @throws MalformedURLException
-     * @throws IOException
-     * @throws ProcessingException
+     * @return The content of the file
+     * @throws MalformedURLException if an error occurred
+     * @throws IOException if an error occurred
+     * @throws ProcessingException if an error occurred
      */
     private String _getFileContent() throws MalformedURLException, IOException, ProcessingException
     {

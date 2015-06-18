@@ -33,8 +33,8 @@ public class ConfigParameterParser extends AbstractParameterParser<ConfigParamet
 {
     /**
      * The configuration parameter parser constructor.
-     * @param enumeratorManager
-     * @param validatorManager
+     * @param enumeratorManager The manager for enumarators
+     * @param validatorManager The manager for validators
      */
     public ConfigParameterParser(ThreadSafeComponentManager<Enumerator> enumeratorManager, ThreadSafeComponentManager<Validator> validatorManager)
     {
@@ -88,7 +88,7 @@ public class ConfigParameterParser extends AbstractParameterParser<ConfigParamet
      * Parses the disable condition.
      * @param disableConditionConfiguration the configuration of the disable condition
      * @return result the parsed disable condition to be converted in JSON
-     * @throws ConfigurationException
+     * @throws ConfigurationException if an error occurred
      */
     protected DisableConditions _parseDisableConditions(Configuration disableConditionConfiguration) throws ConfigurationException
     {

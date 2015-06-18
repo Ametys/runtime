@@ -529,6 +529,8 @@ public class ThreadSafeTraxProcessor extends AbstractLogEnabled implements XSLTP
 
     /**
      * Get the TransformerFactory associated with the given classname. If the class can't be found or the given class doesn't implement the required interface, the default factory is returned.
+     * @param factoryName The name of the factory class to create
+     * @return The instance created
      */
     private SAXTransformerFactory _createTransformerFactory(String factoryName)
     {
@@ -714,7 +716,10 @@ public class ThreadSafeTraxProcessor extends AbstractLogEnabled implements XSLTP
 
     /**
      * Return a new <code>InputSource</code> object that uses the <code>InputStream</code> and the system ID of the <code>Source</code> object.
-     * @throws IOException if I/O error occured.
+     * @param source The source concerned
+     * @return The input source
+     * @throws IOException if I/O error occurred.
+     * @throws SourceException if an error occurred.
      */
     private InputSource _getInputSource(final Source source) throws IOException, SourceException
     {

@@ -55,7 +55,7 @@ public class ConfigParameter extends Parameter<ParameterType> implements Compara
     
     /**
      * Sets the display category of the parameter.
-     * @param displayCategory
+     * @param displayCategory The category of the parameter
      */
     public void setDisplayCategory(I18nizableText displayCategory)
     {
@@ -212,6 +212,7 @@ public class ConfigParameter extends Parameter<ParameterType> implements Compara
 
     /**
      * Formats an Object into JSON. 
+     * @param disableCondition The disable condition to convert
      * @return the Object as a JSON string.
      */
     private Map<String, String> _disableConditionAsMap(DisableCondition disableCondition)
