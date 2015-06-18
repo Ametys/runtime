@@ -56,6 +56,7 @@ Ext.define('Ametys.form.AbstractFieldsWrapper', {
     extend:'Ametys.form.AbstractField',
     
     layout: 'hbox',
+    componentLayout: 'abstractfieldswrappercontainer',
 
     /**
      * @inheritdoc

@@ -138,7 +138,18 @@
                         '<tpl if="showAmetysComments == true">',
                             '<div id="{id}-commentWrapEl" data-ref="commentWrapEl" class="ametys-comments ametys-comments-empty" data-qtip=""><div style="width: 20px;"></div></div>',
                         '</tpl>'
-        ],     
+        ],    
+        
+        initConfig : function(config)
+        {
+            config = config || {};
+            config.childEls = config.childEls || [];
+            config.childEls.push("warningWrapEl");
+            config.childEls.push("descWrapEl");
+            config.childEls.push("commentWrapEl");
+            
+            this.callParent(arguments);  
+        },
         
         /**
          * @private
@@ -294,10 +305,10 @@
 
             if (me.showAmetysComments && me.rendered && !me.isDestroyed) 
             {
-                var commentEl = this.el.down(".ametys-comments");
-                if (commentEl) {
-                	commentEl[hasComment ? 'removeCls' : 'addCls']('ametys-comments-empty');
-                	commentEl.child('div', true).setAttribute("data-qtip", Ext.XTemplate.getTpl(this, 'commentsTpl').apply({
+                if (this.commentWrapEl) 
+                {
+                	this.commentWrapEl[hasComment ? 'removeCls' : 'addCls']('ametys-comments-empty');
+                	this.commentWrapEl.child('div', true).setAttribute("data-qtip", Ext.XTemplate.getTpl(this, 'commentsTpl').apply({
                 		comments: comments,
                 		listCls: Ext.plainListCls
                 	}));
@@ -448,11 +459,10 @@
                 // Add/remove invalid class
                 me.el[hasWarn ? 'addCls' : 'removeCls'](me.warningCls);
 
-                var warnEl = Ext.get(this.id + "-warningWrapEl").dom;
-                if (warnEl) 
+                if (this.warningWrapEl) 
                 {
-                	warnEl.style.display = hasWarn ? '' : 'none';
-                	warnEl.setAttribute("data-warnqtip", activeWarn);
+                	this.warningWrapEl.style.display = hasWarn ? '' : 'none';
+                	this.warningWrapEl.setAttribute("data-warnqtip", activeWarn);
                 }
             }
         },
@@ -475,10 +485,9 @@
         	if (hasWarn && me.rendered && !me.isDestroyed && !me.preventMark) 
             {
         		me.el.removeCls (me.warningCls);
-        		var warnEl = this.el.query(".ametys-warning")[0];
-                if (warnEl) 
+                if (this.warningWrapEl) 
                 {
-                	warnEl.style.display = 'none';
+                	this.warningWrapEl.style.display = 'none';
                 }
             }
         }
@@ -1375,6 +1384,8 @@
                  * 
                  * 
                  *          @ callable
+                 *          @ member My.Object
+                 *          @ method MethodName 
                  *          This calls the method 'MMM' of the server DAO 'XXX'.
                  *          @ param {Object[]} parameters The parameters to transmit to the server method
                  *          @ param {} parameters.myparam
