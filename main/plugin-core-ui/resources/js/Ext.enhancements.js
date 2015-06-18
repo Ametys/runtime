@@ -448,8 +448,9 @@
                 // Add/remove invalid class
                 me.el[hasWarn ? 'addCls' : 'removeCls'](me.warningCls);
 
-                var warnEl = this.el.query(".ametys-warning")[0];
-                if (warnEl) {
+                var warnEl = Ext.get(this.id + "-warningWrapEl").dom;
+                if (warnEl) 
+                {
                 	warnEl.style.display = hasWarn ? '' : 'none';
                 	warnEl.setAttribute("data-warnqtip", activeWarn);
                 }
@@ -1365,7 +1366,63 @@
 						this.self._logger = Ametys.log.LoggerFactory.getLoggerFor(this.self.getName()) 
 					}
 					return this.self._logger;
-				}
+				},
+                
+                /**
+                 * Add methods to this object that will call a server method using Ametys.data.ServerComm#callMethod.
+                 * 
+                 * The generated method should be documented using the following template
+                 * 
+                 * 
+                 *          @ callable
+                 *          This calls the method 'MMM' of the server DAO 'XXX'.
+                 *          @ param {Object[]} parameters The parameters to transmit to the server method
+                 *          @ param {} parameters.myparam
+                 *          ...
+                 *          @ param {Function} callback The function to call when the java process is over. 
+                 *          @ param {Object} callback.returnedValue The value return from the server. Null on error (please note that when an error occured, the callback may not be called depending on the value of errorMessage).
+                 *          @ param {Object} callback.arguments Other arguments specified in option.arguments                 
+                 *          @ param {Object} [options] Advanced options for the call.
+                 *          @ param {Boolean/String/Object} [options.errorMessage=true] Display an error message. See Ametys.data.ServerCall#callMethod errorMessage.
+                 *          @ param {Boolean/String/Object} [options.waitMessage] Display a waiting message. See Ametys.data.ServerCall#callMethod waitMessage.
+                 *          @ param {Number} [options.priority] The message priority. See Ametys.data.ServerCall#callMethod for more information on the priority. PRIORITY_SYNCHRONOUS cannot be used here.
+                 *          @ param {String} [options.cancelCode] Cancel similar unachieved read operations. See Ametys.data.ServerCall.callMethod cancelCode.
+                 *          @ param {Object} [options.arguments] Additional arguments set in the callback.arguments parameter.                  
+                 * 
+                 * @param {Object/Object[]} configs The default values for Ametys.data.ServerComm#callMethod config argument.
+                 * @param {String} [config.localName=config.methodName] This additionnal optionnal argument stands for the local method name.
+                 */
+                addCallables: function(configs)
+                {
+                    configs = Ext.Array.from(configs);
+                    
+                    Ext.Array.each(configs, function(config) {
+                        this[config.localName || config.methodName] = function(parameters, callback, options) {
+                            parameters = parameters || [];
+                            options = options || {};
+                            
+                            if (options.errorMessage == null)
+                            {
+                                options.errorMessage = true;
+                            }
+                            
+                            var methodConfig = {
+                                parameters: parameters,
+                                callback: {
+                                    handler: callback,
+                                    scope: this,
+                                    arguments: options.arguments
+                                },
+                                waitMessage: options.waitMessage,
+                                errorMessage: options.errorMessage,
+                                cancelCode: options.cancelCode,
+                                priority: options.priority                                
+                            }
+                            var finalConfig = Ext.applyIf(methodConfig, config);
+                            Ametys.data.ServerComm.callMethod(finalConfig);
+                        }
+                    }, this);
+                }                
 			});
 })();
 
