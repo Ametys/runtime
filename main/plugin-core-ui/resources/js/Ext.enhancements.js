@@ -662,8 +662,33 @@
     Ext.define("Ametys.form.field.Base", Ext.apply(Ext.clone(ametysFieldBase), { 
         override: 'Ext.form.field.Base',
         
-        ignoreChangeRe: /data\-errorqtip|data\-warnqtip|style\.|className/, 
+        ignoreChangeRe: /data\-errorqtip|data\-warnqtip|style\.|className/
     }));
+    
+    Ext.define("Ametys.layout.component.field.FieldContainer", {
+        override: 'Ext.layout.component.field.FieldContainer',
+    
+        publishInnerWidth: function (ownerContext, width) {
+            var owner = this.owner;
+            
+            if (owner.descWrapEl)
+            {
+                width -= owner.descWrapEl.getWidth();
+            }
+            
+            if (owner.commentWrapEl)
+            {
+                width -= owner.commentWrapEl.getWidth();
+            }
+            
+            if (owner.warnWrapEl && owner.hasActiveWarning()) 
+            {
+                width -= owner.warnWrapEl.getWidth();
+            }
+            
+            this.callParent([ownerContext, width]);
+        }
+     });
     
 })();
 		        

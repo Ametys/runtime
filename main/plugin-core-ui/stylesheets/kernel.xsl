@@ -128,7 +128,6 @@
             
 	        <script>/plugins/core-ui/resources/js/Ametys/form/AbstractField.js</script>
 	        <script>/plugins/core-ui/resources/js/Ametys/form/AbstractFieldsWrapper.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/form/AbstractFieldsWrapper/AbstractFieldsWrapperLayout.js</script>
 	        <script>/plugins/core-ui/resources/js/Ametys/form/field/DateTime.js</script>
 	        <script>/plugins/core-ui/resources/js/Ametys/form/field/ChangePassword.js</script>
             <script>/plugins/core-ui/resources/js/Ametys/form/field/ReferencedNumberField.js</script>
