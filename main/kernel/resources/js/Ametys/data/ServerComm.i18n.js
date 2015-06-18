@@ -646,9 +646,9 @@ Ext.define(
          */
         _showWaitMessage: function(waitMessage)
         {
-            if (waitMessage != null)
+            if (waitMessage != null && waitMessage !== false)
             {
-                if (Ext.isBoolean(waitMessage) && waitMessage == true)
+                if (waitMessage === true)
                 {
                     waitMessage = { };
                 }
