@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Anyware Services
+ *  Copyright 2015 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -646,9 +646,9 @@ Ext.define(
          */
         _showWaitMessage: function(waitMessage)
         {
-            if (waitMessage != null)
+            if (waitMessage != null && waitMessage !== false)
             {
-                if (Ext.isBoolean(waitMessage) && waitMessage == true)
+                if (waitMessage === true)
                 {
                     waitMessage = { };
                 }
@@ -893,4 +893,3 @@ Ext.define(
 		}
 	}
 );
-
