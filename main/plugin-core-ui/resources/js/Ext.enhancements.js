@@ -1687,9 +1687,26 @@
 		 */
 		prettyEncode: function (value, offset)
 		{
+            function openArrayOrObject(separator, value)
+            {
+                function closedText(values) 
+                {
+                    return "... " + values + " value" + (values != 1 ? "s" : "") + " ...";
+                }
+                return '<div class="json-array' + (offset <= 1 ? '' : ' json-closed') + '">' 
+                        + '<span class="json-char" onclick="Ext.get(this.parentNode).toggleCls(\'json-closed\')" oncontextmenu="Ext.get(this.parentNode).removeCls(\'json-closed\'); Ext.get(this.parentNode).select(\'div.json-closed\').removeCls(\'json-closed\'); return false;">' 
+                                + separator 
+                        + '</span>' 
+                        + '<span class="json-closed" style="display: none">' + closedText(Ext.isArray(value) ? value.length : Ext.Object.getSize(value)) + '</span>' 
+                        + '<span>';
+            }
+            function closeArrayOrObject(separator)
+            {
+                return "</span>" + separator + "</div>";
+            }
+            
 			offset = offset || 0;
-			
-	
+            
 			var s = "";
 			if (value != null && value.$className)
 			{
@@ -1701,72 +1718,86 @@
 			}
 			else if (Ext.isArray(value))
 			{
-				s += "[";
-				
-				var hasOne = false;
-				for (var id = 0; id < value.length; id++)
-				{
-					if (hasOne)
-					{
-						s += ",";
-					}
-					hasOne = true;
-					s += "<br/>"
-					for (var i = 0; i < offset + 1; i++)
-					{
-						s += "&#160;&#160;&#160;&#160;";
-					}
-					s += this.prettyEncode(value[id], offset + 1);
-				}
-				
-				if (hasOne)
-				{
-					s += "<br/>";
-					for (var i = 0; i < offset; i++)
-					{
-						s += "&#160;&#160;&#160;&#160;";
-					}
-				}
-				else
-				{
-					s += " ";
-				}
-				s += "]";
+                if (value.length == 0)
+                {
+                    s += '<div class="json-array">[ ]</div>';
+                }
+                else
+                {
+    				s += openArrayOrObject("[", value);
+    				
+    				var hasOne = false;
+    				for (var id = 0; id < value.length; id++)
+    				{
+    					if (hasOne)
+    					{
+    						s += ",";
+    					}
+    					hasOne = true;
+    					s += "<br/>"
+    					for (var i = 0; i < offset + 1; i++)
+    					{
+    						s += "&#160;&#160;&#160;&#160;";
+    					}
+    					s += this.prettyEncode(value[id], offset + 1);
+    				}
+    				
+    				if (hasOne)
+    				{
+    					s += "<br/>";
+    					for (var i = 0; i < offset; i++)
+    					{
+    						s += "&#160;&#160;&#160;&#160;";
+    					}
+    				}
+    				else
+    				{
+    					s += " ";
+    				}
+    				s += closeArrayOrObject("]");
+                }
 			}
 			else if (Ext.isObject(value))
 			{
-				s += "{";
-				
-				var hasOne = false;
-				for (var id in value)
-				{
-					if (hasOne)
-					{
-						s += ",";
-					}
-					hasOne = true;
-					s += "<br/>"
-					for (var i = 0; i < offset + 1; i++)
-					{
-						s += "&#160;&#160;&#160;&#160;";
-					}
-					s += "<strong>" + Ext.JSON.encodeValue(id) + "</strong>: ";
-					s += this.prettyEncode(value[id], offset + 2);
-				}
-
-				if (hasOne)
-				{
-					s += "<br/>";
-					for (var i = 0; i < offset; i++)
-					{
-						s += "&#160;&#160;&#160;&#160;";
-					}
-				}
-				else
-				{
-					s += " ";
-				}
-				s += "}";
+                if (Ext.Object.isEmpty(value))
+                {
+                    s += '<div class="json-object">{ }</div>';
+                }
+                else
+                {
+                    s += openArrayOrObject("{", value);
+    				
+    				var hasOne = false;
+    				for (var id in value)
+    				{
+    					if (hasOne)
+    					{
+    						s += ",";
+    					}
+    					hasOne = true;
+    					s += "<br/>"
+    					for (var i = 0; i < offset + 1; i++)
+    					{
+    						s += "&#160;&#160;&#160;&#160;";
+    					}
+    					s += "<strong>" + Ext.JSON.encodeValue(id) + "</strong>: ";
+    					s += this.prettyEncode(value[id], offset + 2);
+    				}
+    
+    				if (hasOne)
+    				{
+    					s += "<br/>";
+    					for (var i = 0; i < offset; i++)
+    					{
+    						s += "&#160;&#160;&#160;&#160;";
+    					}
+    				}
+    				else
+    				{
+    					s += " ";
+    				}
+    				s += closeArrayOrObject("}");
+                }
 			}
 			else
 			{
