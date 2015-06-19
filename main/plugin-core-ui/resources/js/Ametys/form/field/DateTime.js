@@ -48,21 +48,6 @@ Ext.define('Ametys.form.field.DateTime', {
     	    	  flex: 0.3,
     	    	  listConfig: {
     	    			cls: 'ametys-boundlist'
-    	    	  },
-    	    	  listeners: {
-    	    		  'change': function (fd, newValue, oldValue) {
-    	    			  
-    	    			  if (Ext.isDate(oldValue))
-    	    			  {
-    	    				  var oldDate = me.getValue();
-
-    	    				  oldDate.setHours(oldValue.getHours());
-    	    				  oldDate.setMinutes(oldValue.getMinutes());
-    	    				  oldDate.setSeconds(oldValue.getSeconds());
-    	    				  
-        	    			  me.fireEvent('change', me, me.getValue(), oldDate);
-    	    			  }
-    	    		  }
     	    	  }
     	      }))
     	];
