@@ -135,6 +135,12 @@
             <script>/plugins/tiny_mce/resources/js/tiny_mce<xsl:if test="$debug-mode">_src</xsl:if>.js</script>
             <script>/plugins/core-ui/resources/js/Ametys/form/field/Code.js</script>
             <script>/plugins/codemirror/resources/js/codemirror.js</script>
+            <script>/plugins/codemirror/resources/js/addon/edit/matchbrackets.js</script>
+            <script>/plugins/codemirror/resources/js/addon/selection/active-line.js</script>
+            <script>/plugins/codemirror/resources/js/mode/xml/xml.js</script>
+            <script>/plugins/codemirror/resources/js/mode/javascript/javascript.js</script>
+            <script>/plugins/codemirror/resources/js/mode/css/css.js</script>
+            <script>/plugins/codemirror/resources/js/mode/htmlmixed/htmlmixed.js</script>
             
             <script>/plugins/core-ui/resources/js/Ametys/form/ConfigurableFormPanel.js</script>
             <script>/plugins/core-ui/resources/js/Ametys/form/ConfigurableFormPanel/Repeater.js</script>
