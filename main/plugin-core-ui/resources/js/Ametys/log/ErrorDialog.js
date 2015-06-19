@@ -139,7 +139,7 @@ Ext.define(
 				width: 500,
 				height: 130,
 				autoScroll: false,
-				icon: Ametys.CONTEXT_PATH + "/kernel/resources/img/error_16.gif",
+				icon: Ametys.getPluginResourcesPrefix('core-ui') + "/img/error_16.gif",
 				items: [ centralMsg, detailledMsg ],
 				closeAction: 'close',
 				closable: false,
