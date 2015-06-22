@@ -21,6 +21,7 @@
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_LOGS_LABEL">Logs</message>
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_SYSTEM_LABEL">System</message>
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_PLUGINS_LABEL">Plugins &amp; Workspaces</message>
+    <message key="RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_CONFIG_LABEL">Configuration</message>
     
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_SYSTEM_LABEL">Access</message>
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_SYSTEM_GROUPS_GROUP_ACTIONS">Actions</message>
@@ -36,6 +37,9 @@
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_EP_LABEL">Plugins by extension point</message>
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_GROUPS_GROUP_ACTIONS">Actions</message>
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_PLUGINS_GROUPS_GROUP_DOCUMENTATION">Help</message>
+    
+    <message key="RIBBON_ADMINISTRATION_TABS_TAB_CONFIG_LABEL">Configuration</message>
+    <message key="RIBBON_ADMINISTRATION_TABS_TAB_CONFIG_GROUPS_GROUP_ACTIONS">Actions</message>
     
     <!-- No config -->    
     <message key="WORKSPACE_ADMIN_CONFIG_TITLE">Unable to load configuration</message>
