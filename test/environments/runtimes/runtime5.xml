@@ -33,12 +33,12 @@
     
     <incompleteConfig>
         <allowedURLs>
-            <allowedURL>_admin/public</allowedURL>
-        	<allowedURL>_admin/resources</allowedURL>
-        	<allowedURL>_admin/_plugins/core/administrator/config</allowedURL>
-        	<allowedURL>_admin/plugins/core/administrator/config</allowedURL>
+            <allowedURL>_admin-old/public</allowedURL>
+        	<allowedURL>_admin-old/resources</allowedURL>
+        	<allowedURL>_admin-old/_plugins/admin-old/config</allowedURL>
+        	<allowedURL>_admin-old/plugins/admin-old/config</allowedURL>
         </allowedURLs>
-        <redirectURL>cocoon://_admin/public/load-config.html?uri=core/administrator/config/edit.html</redirectURL>
+        <redirectURL>cocoon://_admin-old/public/load-config.html?uri=admin-old/config/edit.html</redirectURL>
     </incompleteConfig>
     
     <plugins>

@@ -60,7 +60,7 @@ public class RuntimeConfigTestCase extends AbstractRuntimeTestCase
         
         RuntimeConfig config = RuntimeConfig.getInstance();
         
-        assertEquals(config.getIncompleteConfigRedirectURL(), "cocoon://_admin/public/load-config.html?uri=core/administrator/config/edit.html");
+        assertEquals(config.getIncompleteConfigRedirectURL(), "cocoon://_admin-old/public/load-config.html?uri=admin-old/config/edit.html");
         
         assertEquals(config.getIncompleteConfigAllowedURLs().size(), 4);
         assertTrue(config.getIncompleteConfigAllowedURLs().contains("_admin/public"));
@@ -90,7 +90,7 @@ public class RuntimeConfigTestCase extends AbstractRuntimeTestCase
         
         RuntimeConfig config = RuntimeConfig.getInstance();
         
-        assertEquals(config.getIncompleteConfigRedirectURL(), "cocoon://_admin/public/load-config.html?uri=core/administrator/config/edit.html");
+        assertEquals(config.getIncompleteConfigRedirectURL(), "cocoon://_admin-old/public/load-config.html?uri=admin-old/config/edit.html");
         
         assertEquals(config.getIncompleteConfigAllowedURLs().size(), 4);
         assertTrue(config.getIncompleteConfigAllowedURLs().contains("_admin/public"));
