@@ -346,7 +346,7 @@ Ext.define('Ametys.plugins.admin.system.SystemActions', {
 	 * @private
 	 * Callback for the addition/edition process
 	 * @param {Object} response the server's response
-	 * @param {String} response['already-exists'] true if the language already exists, undefined otherwise
+	 * @param {String} response.already-exists true if the language already exists, undefined otherwise
 	 * @param {Object} args the callback arguments
 	 * @param {String} args.language the language typed in by the user
 	 * @param {String} args.message the message typed in by the user 

@@ -1426,7 +1426,7 @@
                  *          @ param {Object} [options.arguments] Additional arguments set in the callback.arguments parameter.                  
                  * 
                  * @param {Object/Object[]} configs The default values for Ametys.data.ServerComm#callMethod config argument.
-                 * @param {String} [config.localName=config.methodName] This additionnal optionnal argument stands for the local method name.
+                 * @param {String} [configs.localName=configs.methodName] This additionnal optionnal argument stands for the local method name.
                  */
                 addCallables: function(configs)
                 {
