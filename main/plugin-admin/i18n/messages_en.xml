@@ -39,6 +39,7 @@
     <message key="PLUGINS_ADMIN_CONFIG_TITLE">Configuration</message>
     <message key="PLUGINS_ADMIN_CONFIG_HANDLE">Management</message>
     <message key="PLUGINS_ADMIN_CONFIG_HANDLE_SAVE">Save and restart</message>
+    <message key="PLUGINS_ADMIN_CONFIG_HANDLE_SAVE_DESC">Saves the form values and reboots the application.</message>
     <message key="PLUGINS_ADMIN_CONFIG_HANDLE_QUIT">Quit without saving</message>
     <message key="PLUGINS_ADMIN_CONFIG_HELP">Help</message>
     <message key="PLUGINS_ADMIN_CONFIG_HELP_TEXT">This screen allows you to change the application's configuration.&lt;br/&gt;&lt;br/&gt;Navigate through the top-right hand corner tabs and change the parameters' values.&lt;br/&gt;&lt;br/&gt;The application will be automatically restarted after the changes are saved.</message>

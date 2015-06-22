@@ -39,6 +39,7 @@
     <message key="PLUGINS_ADMIN_CONFIG_TITLE">Configuration</message>
     <message key="PLUGINS_ADMIN_CONFIG_HANDLE">Gestion</message>
     <message key="PLUGINS_ADMIN_CONFIG_HANDLE_SAVE">Sauver et redémarrer</message>
+    <message key="PLUGINS_ADMIN_CONFIG_HANDLE_SAVE_DESC">Enregistre les valeurs du formulaire et rédemarre l'application.</message>
     <message key="PLUGINS_ADMIN_CONFIG_HANDLE_QUIT">Quitter sans sauver</message>
     <message key="PLUGINS_ADMIN_CONFIG_HELP">Aide</message>    
     <message key="PLUGINS_ADMIN_CONFIG_HELP_TEXT">Cet écran vous permet de modifier la configuration système de l'application.&lt;br/&gt;&lt;br/&gt;Naviguez en utilisant les onglets et modifiez les valeurs des paramètres.&lt;br/&gt;&lt;br/&gt;Lorsque vous enregistrez les modifications, l'application sera redémarrée automatiquement pour prendre les modifications en compte.</message>
