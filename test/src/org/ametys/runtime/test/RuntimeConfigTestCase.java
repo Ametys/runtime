@@ -59,11 +59,10 @@ public class RuntimeConfigTestCase extends AbstractRuntimeTestCase
         _configureRuntime("test/environments/runtimes/runtime1.xml", "test/environments/webapp1");
         
         RuntimeConfig config = RuntimeConfig.getInstance();
-        
         assertEquals(config.getIncompleteConfigRedirectURL(), "cocoon://_admin-old/public/load-config.html?uri=admin-old/config/edit.html");
         
         assertEquals(config.getIncompleteConfigAllowedURLs().size(), 4);
-        assertTrue(config.getIncompleteConfigAllowedURLs().contains("_admin/public"));
+        assertTrue(config.getIncompleteConfigAllowedURLs().contains("_admin-old/public"));
         
         assertEquals(config.getDefaultWorkspace(), "myworkspace");
         
@@ -93,7 +92,7 @@ public class RuntimeConfigTestCase extends AbstractRuntimeTestCase
         assertEquals(config.getIncompleteConfigRedirectURL(), "cocoon://_admin-old/public/load-config.html?uri=admin-old/config/edit.html");
         
         assertEquals(config.getIncompleteConfigAllowedURLs().size(), 4);
-        assertTrue(config.getIncompleteConfigAllowedURLs().contains("_admin/public"));
+        assertTrue(config.getIncompleteConfigAllowedURLs().contains("_admin-old/public"));
         
         assertEquals(config.getDefaultWorkspace(), "myworkspace");
         
