@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright 2015 Anyware Services
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   -->
+<map:sitemap xmlns:map="http://apache.org/cocoon/sitemap/1.0">
+
+    <map:components>
+        <map:generators>
+            <map:generator name="config" src="org.ametys.plugins.adminold.configuration.ConfigGenerator" logger="org.ametys.runtime.plugins.admin.generator" label="content"/>
+            
+            <map:generator name="rights-profiles-view" src="org.ametys.plugins.core.right.profile.ProfilesGenerator" logger="org.ametys.runtime.plugins.admin.generator" label="content"/>
+            <map:generator name="users-info" src="org.ametys.plugins.core.user.UserInformationGenerator" logger="org.ametys.runtime.plugins.admin.generator" label="content"/>
+			<map:generator name="users-view" src="org.ametys.plugins.core.user.ViewGenerator" logger="org.ametys.runtime.plugins.admin.generator" label="content"/>
+            <map:generator name="users-model" src="org.ametys.plugins.core.user.ModelGenerator" logger="org.ametys.runtime.plugins.admin.generator" label="content"/>
+			<map:generator name="groups-view" src="org.ametys.plugins.core.group.GroupsGenerator" logger="org.ametys.runtime.plugins.admin.generator" label="content"/>
+            <map:generator name="group-members" src="org.ametys.plugins.core.group.GroupMembersGenerator" logger="org.ametys.runtime.plugins.admin.generator" label="content"/>
+        </map:generators>
+        
+		<map:actions>
+            <map:action name="set-header" src="org.apache.cocoon.acting.HttpHeaderAction" logger="org.ametys.runtime.plugins.admin.action"/>
+            <map:action name="is-admin-user" src="org.ametys.runtime.plugins.admin.IsAdminAction" logger="org.ametys.runtime.plugins.admin.action"/>
+            
+			<map:action name="password-set" src="org.ametys.plugins.adminold.password.SetPasswordAction" logger="org.ametys.runtime.plugins.admin.action"/>
+            <map:action name="config-save" src="org.ametys.plugins.adminold.configuration.SaveConfigAction" logger="org.ametys.runtime.plugins.admin.action"/>
+            <map:action name="config-test" src="org.ametys.plugins.adminold.configuration.ParameterCheckerAction" logger="org.ametys.runtime.plugins.admin.action"/>
+			<map:action name="affect-superuser" src="org.ametys.plugins.adminold.superuser.AffectSuperUserAction" logger="org.ametys.runtime.plugins.admin.action"/>
+			<map:action name="users-edit" src="org.ametys.plugins.core.user.EditAction" logger="org.ametys.runtime.plugins.admin.action"/>
+			<map:action name="users-delete" src="org.ametys.plugins.core.user.DeleteAction" logger="org.ametys.runtime.plugins.admin.action"/>
+			<map:action name="users-impersonate" src="org.ametys.plugins.core.user.ImpersonateAction" logger="org.ametys.runtime.plugins.admin.action"/>
+			<map:action name="group-create" src="org.ametys.plugins.core.group.CreateGroupAction" logger="org.ametys.runtime.plugins.admin.action"/>
+			<map:action name="group-rename" src="org.ametys.plugins.core.group.RenameGroupAction" logger="org.ametys.runtime.plugins.admin.action"/>
+			<map:action name="group-modify" src="org.ametys.plugins.core.group.UpdateGroupAction" logger="org.ametys.runtime.plugins.admin.action"/>
+			<map:action name="group-modify-users" src="org.ametys.plugins.core.group.UpdateUsersGroupAction" logger="org.ametys.runtime.plugins.admin.action"/>
+			<map:action name="group-delete" src="org.ametys.plugins.core.group.DeleteGroupAction" logger="org.ametys.runtime.plugins.admin.action"/>
+			<map:action name="rights-profile-create" src="org.ametys.plugins.core.right.profile.CreateProfileAction" logger="org.ametys.runtime.plugins.admin.action"/>
+			<map:action name="rights-profile-rename" src="org.ametys.plugins.core.right.profile.RenameProfileAction" logger="org.ametys.runtime.plugins.admin.action"/>
+			<map:action name="rights-profile-modify" src="org.ametys.plugins.core.right.profile.ModifyProfileAction" logger="org.ametys.runtime.plugins.admin.action"/>
+			<map:action name="rights-profile-delete" src="org.ametys.plugins.core.right.profile.DeleteProfileAction" logger="org.ametys.runtime.plugins.admin.action"/>
+		</map:actions>
+        
+        <map:serializers>
+            <map:serializer name="zip" src="org.ametys.core.cocoon.ZipArchiveNGSerializer" logger="org.ametys.runtime.plugins.core.administrator.sitemap.serializer.zip"/>
+        </map:serializers>
+    </map:components>
+    
+    <map:views>
+        <map:view from-label="content" name="content">
+            <map:serialize type="xml"/>
+        </map:view>
+    </map:views>
+
+    
+    <map:pipelines>
+        <map:pipeline>
+            <!-- +
+                 | Protecting all administrator urls
+                 + -->
+            <map:match pattern="**">
+                <map:act type="is-admin-user"/>
+            </map:match>
+            
+            <!-- +
+                 | Administrator Password
+                 + -->
+            <map:match pattern="password/dialogs.html">
+                <map:generate src="pages/password/dialogs.html" type="i18nizabletext"/>
+                <map:transform type="i18n">
+                    <map:parameter name="locale" value="{locale:locale}"/>
+                    <map:parameter name="plugin" value="{request-attr:pluginName}"/>
+                </map:transform>
+                <map:serialize/>
+            </map:match>
+            
+            <map:match pattern="password/set">
+                <map:act type="password-set">
+                    <map:parameter name="oldPassword" value="{request-param:oldPassword}"/>
+                    <map:parameter name="newPassword" value="{request-param:newPassword}"/>
+                    <map:parameter name="confirmPassword" value="{request-param:confirmPassword}"/>
+                    
+                    <map:generate type="action-result">
+                        <map:parameter name="result" value="{result}"/>
+                    </map:generate>
+                    <map:serialize type="xml"/>
+                </map:act>
+            </map:match>            
+            
+            <!-- +
+                 | Config
+                 + -->
+            <map:match pattern="config/edit.html">
+                <map:generate type="config"/>
+                <map:transform type="i18n">
+                    <map:parameter name="locale" value="{locale:locale}"/>
+                    <map:parameter name="plugin" value="{request-attr:pluginName}"/>
+                </map:transform>
+                <map:transform type="xslt" src="pages/config/edit.xsl">
+                    <map:parameter name="contextPath" value="{request:contextPath}"/>
+                    <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
+                    <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
+                    <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/>
+                </map:transform>
+                <map:serialize type="xml"/>
+            </map:match>
+
+            <map:match pattern="config/set">
+                <map:act type="config-save">
+                    <map:generate type="action-result">
+                        <map:parameter name="error" value="{error}"/>
+                    </map:generate>
+                    <map:serialize type="xml"/>
+                </map:act>
+            </map:match>
+            
+            <map:match pattern="config/test">
+                <map:act type="config-test">
+                    <map:generate type="action-result"/>
+                    <map:serialize type="xml"/>
+                </map:act>
+            </map:match>
+            
+            <!-- +
+                 | Super user creation
+                 + -->
+            <map:match pattern="superuser/affect">
+                <map:act type="affect-superuser">
+                    <map:generate type="action-result"/>
+                    <map:serialize type="xml"/>
+                </map:act>
+                <map:generate type="action-result"/>
+                <map:serialize type="xml" status-code="500"/>
+            </map:match>
+            
+            <map:match pattern="users/info">
+                <map:generate type="users-info" src="{request-param:login}">
+                    <map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
+                </map:generate>
+                <map:serialize type="xml"/>
+            </map:match>
+            
+            <map:match pattern="users/edit">
+                <map:act type="users-edit">
+                    <map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
+                    
+                    <map:generate type="action-result">
+                        <map:parameter name="error" value="{error}"/>
+                    </map:generate>
+                    <map:serialize type="xml"/>
+                </map:act>
+                <map:generate type="action-result"/>
+                <map:serialize type="xml" status-code="500"/>
+            </map:match>
+            
+            <map:match pattern="users/delete">
+                <map:act type="users-delete">
+                    <map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
+                    
+                    <map:generate type="action-result"/>
+                    <map:serialize type="xml"/>
+                </map:act>
+                <map:generate type="action-result"/>
+                <map:serialize type="xml" status-code="500"/>
+            </map:match>
+            
+            <map:match pattern="users/impersonate">
+                <map:act type="users-impersonate">
+                    <map:parameter name="login" value="{request-param:login}"/>
+                
+                    <map:generate type="action-result">
+                        <map:parameter name="error" value="{error}"/>
+                        <map:parameter name="name" value="{name}"/>
+                        <map:parameter name="login" value="{login}"/>
+                    </map:generate>
+                    <map:serialize type="xml"/>
+                </map:act>
+                <map:generate type="action-result"/>
+                <map:serialize type="xml" status-code="500"/>
+            </map:match>
+            
+            <map:match pattern="users/view.html">
+                <map:generate type="users-view" label="content" />
+                <map:transform type="i18n">
+                    <map:parameter name="locale" value="{locale:locale}"/>
+                    <map:parameter name="plugin" value="{request-attr:pluginName}"/>
+                </map:transform>
+                <map:transform type="xslt" src="pages/users/view.xsl">
+                    <map:parameter name="contextPath" value="{request:contextPath}"/>
+                    <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
+                </map:transform>
+                <map:transform type="i18n">
+                    <map:parameter name="locale" value="{locale:locale}"/>
+                    <map:parameter name="plugin" value="{request-attr:pluginName}"/>
+                </map:transform>
+                <map:serialize type="xml"/>
+            </map:match>
+            
+            <map:match pattern="users-model">
+                <map:generate type="users-model">
+                    <map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
+                </map:generate>
+                <map:transform type="i18n">
+                    <map:parameter name="locale" value="{locale:locale}"/>
+                    <map:parameter name="default-catalogue-id" value="plugin.core"/>
+                </map:transform>
+                <map:serialize type="xml"/>
+            </map:match>
+            
+            <!-- +
+                 | Groups
+                 + -->
+            <map:match pattern="groups/create">
+                <map:act type="group-create">
+                    <map:generate type="action-result">
+                        <map:parameter name="id" value="{id}"/>
+                    </map:generate>
+                    <map:serialize type="xml"/>
+                </map:act>
+            </map:match>
+            
+            <map:match pattern="groups/rename">
+                <map:act type="group-rename">
+                    <map:generate type="action-result">
+                        <map:parameter name="message" value="{message}"/>
+                    </map:generate>
+                    <map:serialize type="xml"/>
+                </map:act>
+            </map:match>
+            
+             <map:match pattern="groups/delete">
+                <map:act type="group-delete">
+                    <map:generate type="action-result"/>
+                    <map:serialize type="xml"/>
+                </map:act>
+            </map:match>
+            
+            <map:match pattern="groups/modify">
+                <map:act type="group-modify">
+                    <map:generate type="action-result">
+                        <map:parameter name="message" value="{message}"/>
+                    </map:generate>
+                    <map:serialize type="xml"/>
+                </map:act>
+            </map:match>
+            
+            <map:match pattern="groups/add-users">
+                <map:act type="group-modify-users">
+                    <map:parameter name="add" value="true"/>
+                    <map:generate type="action-result">
+                        <map:parameter name="message" value="{message}"/>
+                    </map:generate>
+                    <map:serialize type="xml"/>
+                </map:act>
+            </map:match>
+            
+            <map:match pattern="groups/remove-users">
+                <map:act type="group-modify-users">
+                    <map:parameter name="add" value="false"/>
+                    <map:generate type="action-result">
+                        <map:parameter name="message" value="{message}"/>
+                    </map:generate>
+                    <map:serialize type="xml"/>
+                </map:act>
+            </map:match>
+            
+            <map:match pattern="groups/members">
+                <map:generate type="group-members" src="{request-param:groupID}">
+                    <map:parameter name="limit" value="{request-param:limit}"/>
+                    <map:parameter name="start" value="{request-param:start}"/>
+                </map:generate>
+                <map:serialize type="xml"/>
+            </map:match>
+            
+            <map:match pattern="groups/view.html">
+                <map:generate type="groups-view"/>
+                <map:transform src="pages/groups/view.xsl" type="xslt">
+                    <map:parameter name="contextPath" value="{request:contextPath}"/>
+                    <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
+                </map:transform>
+                <map:serialize type="xml"/>
+            </map:match>
+            
+            <!-- +
+                 | Profiles
+                 + -->
+            <map:match pattern="rights/profiles/create">
+                <map:act type="rights-profile-create">
+                    <map:generate type="action-result">
+                        <map:parameter name="id" value="{id}"/>
+                    </map:generate>
+                    <map:serialize type="xml"/>
+                </map:act>
+            </map:match>
+            
+            <map:match pattern="rights/profiles/rename">
+                <map:act type="rights-profile-rename">
+                    <map:generate type="action-result">
+                        <map:parameter name="message" value="{message}"/>
+                    </map:generate>
+                    <map:serialize type="xml"/>
+                </map:act>
+            </map:match>
+            
+            <map:match pattern="rights/profiles/modify">
+                <map:act type="rights-profile-modify">
+                    <map:generate type="action-result">
+                        <map:parameter name="message" value="{message}"/>
+                    </map:generate>
+                    <map:serialize type="xml"/>
+                </map:act>
+            </map:match>
+            
+            <map:match pattern="rights/profiles/delete">
+                <map:act type="rights-profile-delete">
+                    <map:generate type="action-result"/>
+                    <map:serialize type="xml"/>
+                </map:act>
+            </map:match>
+            
+            <map:match pattern="profiles/view.html">
+                <map:generate type="rights-profiles-view"/>
+                <map:transform type="i18n">
+                    <map:parameter name="locale" value="{locale:locale}"/>
+                    <map:parameter name="default-catalogue-id" value="plugin.core"/>
+                </map:transform>
+                <map:transform src="pages/profiles/view.xsl" type="xslt">
+                    <map:parameter name="contextPath" value="{request:contextPath}"/>
+                    <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
+                    <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/> <!-- LPR -->
+                    <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/> <!-- LPR -->            
+                </map:transform>
+                <map:serialize type="xml"/>
+            </map:match>
+        </map:pipeline>
+    </map:pipelines>
+</map:sitemap>

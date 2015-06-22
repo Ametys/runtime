@@ -23,13 +23,6 @@
             <map:generator name="workspace" src="org.ametys.plugins.core.ui.WorkspaceGenerator" logger="org.ametys.runtime.workspace.WorkspaceGenerator"/>
             <map:generator name="version" src="org.ametys.runtime.plugins.admin.version.VersionsGenerator" logger="org.ametys.runtime.workspaces.admin.sitemap.generator.versions"/>
             <map:generator name="user-prefs" src="org.ametys.plugins.core.userpref.UserPreferencesValuesGenerator"/>
-            
-            
-            <!-- TO REMOVE -->
-            <map:generator name="desktop" src="org.ametys.plugins.core.ui.DesktopGenerator" logger="org.ametys.runtime.workspaces.admin.sitemap.generator.desktop">
-                <element>Desktop</element>
-            </map:generator>
-            <!--  /TO REMOVE -->
         </map:generators>
         
         <map:actions>
@@ -173,72 +166,6 @@
                 </map:act>
                 <map:mount check-reload="yes" src="plugin:{1}://" uri-prefix="plugins/{1}"/>
             </map:match>
-            
-            
-            
-            <!-- ************************************************* -->
-            <!--     OLD WORKSPACE ADMIN  (TO REMOVE)              -->
-            <!-- ************************************************* -->
-            <map:match pattern="homepage-desktop.xml">
-                <map:generate type="desktop" label="content">
-                    <map:parameter name="DesktopManager.ROLE" value="org.ametys.plugins.core.ui.item.DesktopManager"/>
-                </map:generate>
-                <map:serialize type="xml"/>
-            </map:match>
-            
-            <!-- Page d'index -->
-            <map:match pattern="old/index.html">
-                <map:aggregate element="Admin" label="content">
-                    <map:part src="cocoon:/homepage-desktop.xml"/>
-                    <map:part src="cocoon:/homepage-versions.xml"/>
-                </map:aggregate>
-               
-                <map:transform type="xslt" src="pages/index.xsl">
-                    <map:parameter name="contextPath" value="{request:contextPath}"/>
-                    <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
-                    <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/>
-                </map:transform>
-                <map:transform type="i18n">
-                    <map:parameter name="locale" value="{locale:locale}"/>
-                    <map:parameter name="workspace" value="{request-attr:workspaceName}"/>
-                </map:transform>
-                <map:transform type="minimizer" src="{request:contextPath}{request-attr:workspaceURI}/plugins/core"/>
-                <map:serialize/>
-            </map:match>
-            
-            <map:match pattern="_internal_plugins/*/**">
-                <map:act type="setter">
-                    <map:parameter name="pluginName" value="{1}"/>
-                </map:act> 
-                <map:mount check-reload="yes" src="plugin:{1}://" uri-prefix="_internal_plugins/{1}"/>
-            </map:match>
-            
-            <map:match pattern="old/_plugins/*/**">
-                <map:act type="setter">
-                    <map:parameter name="pluginName" value="{1}"/>
-                </map:act>
-                
-                <map:aggregate element="Plugins" label="content">
-                    <map:part src="cocoon:/homepage-desktop.xml"/>
-                    <map:part src="cocoon:/homepage-versions.xml"/>
-                    <map:part src="cocoon:/_internal_plugins/{1}/{2}"/>
-                </map:aggregate>
-                <map:transform src="pages/wrapper.xsl">
-                    <map:parameter name="contextPath" value="{request:contextPath}"/>
-                    <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
-                    <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/>
-                </map:transform>
-                <map:transform type="i18n">
-                    <map:parameter name="locale" value="{locale:locale}"/>
-                    <map:parameter name="plugin" value="{1}"/>
-                </map:transform>
-                <map:transform type="minimizer" src="{request:contextPath}{request-attr:workspaceURI}/plugins/core"/>
-                <map:serialize/>
-            </map:match>
-            
-            <!-- ************************************************* -->
-            <!--            FIN OLD WORKSPACE ADMIN                     -->
-            <!-- ************************************************* -->
             
             <!-- ERRORS -->
             <map:handle-errors>

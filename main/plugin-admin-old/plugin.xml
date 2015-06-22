@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright 2015 Anyware Services
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   -->
+<plugin xmlns="http://www.ametys.org/schema/plugin"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.ametys.org/schema/plugin http://www.ametys.org/schema/plugin-2.0.xsd"
+        runtimeVersion="2.0" version="2.0">
+        
+    <extension-points>
+        <extension-point id="org.ametys.plugins.core.ui.item.DesktopManager" 
+                         class="org.ametys.plugins.core.ui.item.DesktopManager" 
+                         config="/WEB-INF/param/workspace-admin.xml"/>
+        
+    </extension-points>
+    
+    <feature name="runtime.admin.old">
+        <!-- 
+            This feature defines screen that may be uses in the administrator area
+         -->
+        <extensions>
+            <!-- +
+                 |  ADMIN PASSWORD
+                 + -->
+            <extension  point="org.ametys.plugins.core.ui.item.DesktopManager" 
+                        id="org.ametys.runtime.plugins.admin.Password"
+                        class="org.ametys.plugins.core.ui.item.StaticAdminClientSideElement"
+                        logger="org.ametys.plugins.admin.ui.administrator.password">
+                <!-- 
+                    This interaction allows the administrator to change its password
+                 -->
+                <class name="Ametys.plugins.admin.Password.act">
+                    <param name="label" i18n="true">PLUGINS_ADMIN_PASSWORD_LABEL</param>
+                    <param name="default-description" i18n="true">PLUGINS_ADMIN_PASSWORD_DESCRIPTION</param>
+                    <param name="icon-small" file="true">img/password/icon_dock.png</param>
+                    <param name="icon-medium" file="true">img/password/icon_medium.gif</param>
+                    <param name="icon-large" file="true">img/password/icon_large.png</param>
+                </class>   
+                <scripts>
+                    <file>js/Ametys/plugins/admin/Password.js</file>
+                </scripts>                 
+            </extension>
+            
+            <!-- +
+                 |  ADMIN CONFIGURATION
+                 + -->
+            <extension  point="org.ametys.plugins.core.ui.item.DesktopManager" 
+                        id="org.ametys.runtime.plugins.admin.Config"
+                        class="org.ametys.plugins.core.ui.item.StaticAdminClientSideElement"
+                        logger="org.ametys.plugins.admin.ui.administrator.config">
+                <!-- 
+                    This interaction allows the administrator to change the main configuration of the application
+                 -->
+                <class name="redirect">
+                    <param name="Link">config/edit.html</param>
+
+                    <param name="label" i18n="true">PLUGINS_ADMIN_CONFIG_LABEL</param>
+                    <param name="default-description" i18n="true">PLUGINS_ADMIN_CONFIG_DESCRIPTION</param>
+                    <param name="icon-small" file="true">img/config/icon_dock.png</param>
+                    <param name="icon-medium" file="true">img/config/icon_medium.gif</param>
+                    <param name="icon-large" file="true">img/config/icon_large.png</param>
+                </class>                       
+                <Url>config/edit\.html</Url>
+            </extension>
+            
+            <!-- +
+                 |  ADMIN SUPER USER
+                 + -->           
+            <extension  point="org.ametys.plugins.core.ui.item.DesktopManager" 
+                        id="org.ametys.runtime.plugins.admin.SuperUser"
+                        class="org.ametys.plugins.core.ui.item.StaticAdminClientSideElement"
+                        logger="org.ametys.plugins.admin.ui.administrator.superuser">
+                <!-- 
+                    This interaction allows the administrator to handle the system (maintenance mode, welcome message...)
+                 -->
+                <class name="Ametys.plugins.admin.SuperUser.act">
+                    <param name="label" i18n="true">PLUGINS_ADMIN_SUPERUSER_LABEL</param>
+                    <param name="default-description" i18n="true">PLUGINS_ADMIN_SUPERUSER_DESCRIPTION</param>
+                    <param name="icon-small" file="true">img/superuser/icon_dock.png</param>
+                    <param name="icon-medium" file="true">img/superuser/icon_medium.gif</param>
+                    <param name="icon-large" file="true">img/superuser/icon_large.png</param>
+                </class>   
+                <scripts>
+                    <file>js/Ametys/plugins/admin/SuperUser.js</file>
+                    <file plugin="core-ui">js/Ametys/helper/SelectUser.js</file>
+                </scripts>  
+                <css>
+                    <file plugin="core-ui">css/selectuser.css</file>
+                </css>      
+            </extension>   
+               
+        </extensions>
+    </feature>
+    
+    <!-- +
+         |  USERS
+         + -->   
+    <feature name="runtime.users">
+        <!-- 
+            This feature contains only the interaction for handling users
+         -->
+        <extensions>
+            <extension  point="org.ametys.plugins.core.ui.item.DesktopManager" 
+                        id="org.ametys.runtime.plugins.admin.Users"
+                        class="org.ametys.plugins.core.ui.item.StaticAdminClientSideElement"
+                        logger="org.ametys.plugins.admin.ui.users">
+                <!-- 
+                    This interaction allow to handle users (read or read/write)
+                 -->
+                <class name="redirect">
+                    <param name="Link">users/view.html</param>
+
+                    <param name="label" i18n="true">plugin.core:PLUGINS_CORE_USERS_LABEL</param>
+                    <param name="default-description" i18n="true">plugin.core:PLUGINS_CORE_USERS_DESCRIPTION</param>
+                    <param name="icon-small" file="true">img/users/icon_dock.png</param>
+                    <param name="icon-medium" file="true">img/users/icon_medium.gif</param>
+                    <param name="icon-large" file="true">img/users/icon_large.png</param>
+                </class>                       
+                <Url>users/view\.html</Url>
+            </extension>      
+        </extensions>
+    </feature>
+    
+    <!-- +
+         |  GROUPS
+         + -->   
+    <feature name="runtime.groups">
+        <!-- 
+            This feature contains only the interaction for handling groups
+         -->
+        <extensions>
+            <extension  point="org.ametys.plugins.core.ui.item.DesktopManager" 
+                        id="org.ametys.runtime.plugins.admin.Groups"
+                        class="org.ametys.plugins.core.ui.item.StaticAdminClientSideElement"
+                        logger="org.ametys.plugins.admin.ui.groups">
+                <!-- 
+                    This interaction allow to handle groups (read or read/write)
+                 -->
+                <class name="redirect">
+                    <param name="Link">groups/view.html</param>
+
+                    <param name="label" i18n="true">plugin.core:PLUGINS_CORE_GROUPS_LABEL</param>
+                    <param name="default-description" i18n="true">plugin.core:PLUGINS_CORE_GROUPS_DESCRIPTION</param>
+                    <param name="icon-small" file="true">img/groups/icon_dock.png</param>
+                    <param name="icon-medium" file="true">img/groups/icon_medium.gif</param>
+                    <param name="icon-large" file="true">img/groups/icon_large.png</param>
+                </class>                       
+                <Url>groups/view\.html</Url>
+            </extension>      
+        </extensions>
+    </feature>
+    
+    <!-- +
+         |  RIGHTS
+         + -->   
+    <feature name="runtime.rights">
+        <!-- 
+            This feature contains interactions to handle rights based on profiles
+         -->
+        <extensions>
+            <extension  point="org.ametys.plugins.core.ui.item.DesktopManager" 
+                        id="org.ametys.runtime.plugins.admin.right.Profiles"
+                        class="org.ametys.plugins.core.ui.item.StaticAdminClientSideElement"
+                        logger="org.ametys.plugins.admin.ui.rights.profiled.profile">
+                <!-- 
+                    This extensions display the profile screen
+                 -->
+                <class name="redirect">
+                    <param name="Link">profiles/view.html</param>
+
+                    <param name="label" i18n="true">plugin.core:PLUGINS_CORE_RIGHTS_PROFILES_LABEL</param>
+                    <param name="default-description" i18n="true">plugin.core:PLUGINS_CORE_RIGHTS_PROFILES_DESCRIPTION</param>
+                    <param name="icon-small" file="true">img/profiles/icon_dock.png</param>
+                    <param name="icon-medium" file="true">img/profiles/icon_medium.gif</param>
+                    <param name="icon-large" file="true">img/profiles/icon_large.png</param>
+                </class>                       
+                <Url>profiles/view\.html</Url>
+            </extension>    
+        </extensions>
+    </feature>
+</plugin>

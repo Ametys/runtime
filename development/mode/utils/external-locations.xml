@@ -21,8 +21,10 @@
         <plugin name="core-ui">../../main/plugin-core-ui</plugin>
         <plugin name="core-impl">../../main/plugin-core-impl</plugin>
         <plugin name="admin">../../main/plugin-admin</plugin>
+        <plugin name="admin-old">../../main/plugin-admin-old</plugin>
     </plugins>
     <workspaces>
         <workspace name="admin">../../main/workspace-admin</workspace>
+        <workspace name="admin-old">../../main/workspace-admin-old</workspace>
     </workspaces>
 </external>

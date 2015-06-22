@@ -51,7 +51,7 @@ Ext.define(
 		extend: 'Ext.window.Window',
 		alias: 'widget.dialog',
 		
-		bodyPadding: '5',
+		bodyPadding: '10',
 		modal: true,
 		resizable :false,
 		cls: 'ametys-dialogbox',

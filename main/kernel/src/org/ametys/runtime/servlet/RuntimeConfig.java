@@ -180,15 +180,15 @@ public final class RuntimeConfig
 
         if (config == null)
         {
-            _configRedirectURL = "cocoon://_admin/public/load-config.html?uri=admin/config/edit.html";
+            _configRedirectURL = "cocoon://_admin-old/public/load-config.html?uri=admin-old/config/edit.html";
 
             _configAllowedURLs.add("_admin/public");
             _configAllowedURLs.add("_admin/resources");
-            _configAllowedURLs.add("_admin/_plugins/admin/config");
-            _configAllowedURLs.add("_admin/plugins/admin/config");
+            _configAllowedURLs.add("_admin-old/_plugins/admin/config");
+            _configAllowedURLs.add("_admin-old/plugins/admin/config");
             _configAllowedURLs.add("_admin/plugins/core/jsfilelist");
             _configAllowedURLs.add("_admin/plugins/core/cssfilelist");
-            _configAllowedURLs.add("_admin/old/_plugins/admin/config/edit.html"); // FIXME To remove
+            _configAllowedURLs.add("_admin-old/_plugins/admin/config/edit.html"); // FIXME To remove
 
             return;
         }

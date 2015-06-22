@@ -185,7 +185,7 @@ Ext.define('Ametys.helper.SelectUser', {
 		var params = { criteria: criteria, count: 100, offset: 0, usersManagerRole: this.usersManagerRole };
 		
 		var result = Ametys.data.ServerComm.send({
-			plugin: this.pluginName, 
+			plugin: "core", 
 			url: "users/search.xml", 
 			parameters: params, 
 			priority: Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, 
