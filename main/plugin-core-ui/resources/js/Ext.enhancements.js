@@ -1685,11 +1685,16 @@
 		 * @member Ext.JSON
 		 * @ametys
 		 * @since Ametys Runtime 3.9
-		 * Converts an object to a readable json string
-		 * @param {Object} value The value to encode
-		 * @param {Number} [offset = 0] The offset to indent the text
+		 * Converts an object to a readable json string as a HTML fragment.
+		 * @param {Object} value The value to encode.
+		 * @param {Number} [offset=0] The offset to indent the text
+		 * @param {Function} [renderer] A renderer function to pass when a custom output is wanted. Can call Ext.JSON#prettyEncode for recursion.
+         * @param {Object} renderer.value The value to encode
+         * @param {Number} renderer.offset The offset to indent the text (to use only when generating new lines).
+         * @param {String/Boolean} renderer.return The rendered value or `false` to get the standard rendering for this value.
+         * @return {String} The rendered value, as a HTML fragment.
 		 */
-		prettyEncode: function (value, offset)
+		prettyEncode: function (value, offset, renderer)
 		{
             function openArrayOrObject(separator, value)
             {
@@ -1712,9 +1717,14 @@
 			offset = offset || 0;
             
 			var s = "";
-			if (value != null && value.$className)
+			var result;
+			if (Ext.isFunction(renderer) && (result = renderer(value, offset)))
+		    {
+			    return result;
+		    }
+			else if (value != null && value.$className)
 			{
-				return this.prettyEncode("Object " + value.$className + (typeof(value.getId) == 'function' ? ('@' + value.getId()) : ''));
+				return this.prettyEncode("Object " + value.$className + (typeof(value.getId) == 'function' ? ('@' + value.getId()) : ''), renderer);
 			}
 			else if (typeof(value) == "function")
 			{
@@ -1743,7 +1753,7 @@
     					{
     						s += "&#160;&#160;&#160;&#160;";
     					}
-    					s += this.prettyEncode(value[id], offset + 1);
+    					s += this.prettyEncode(value[id], offset + 1, renderer);
     				}
     				
     				if (hasOne)
@@ -1785,7 +1795,7 @@
     						s += "&#160;&#160;&#160;&#160;";
     					}
     					s += "<strong>" + Ext.JSON.encodeValue(id) + "</strong>: ";
-    					s += this.prettyEncode(value[id], offset + 2);
+    					s += this.prettyEncode(value[id], offset + 2, renderer);
     				}
     
     				if (hasOne)
