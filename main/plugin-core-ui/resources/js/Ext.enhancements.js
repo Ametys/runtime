@@ -1403,6 +1403,10 @@
 				},
                 
                 /**
+                 * @member Ext.Base
+                 * @method addCallables
+                 * @ametys
+                 * @since Ametys Runtime 4.0 
                  * Add methods to this object that will call a server method using Ametys.data.ServerComm#callMethod.
                  * 
                  * The generated method should be documented using the following template
