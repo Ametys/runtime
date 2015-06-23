@@ -532,7 +532,7 @@ Ext.define(
 			sendOptions.success = this._onRequestComplete;
 			sendOptions.failure = this._onRequestFailure;
 			sendOptions.scope = this;
-			sendOptions.params = "content=" + encodeURIComponent(Ext.JSON.encode(parameters)) 
+			sendOptions.params = "content=" + encodeURIComponent(Ext.JSON.encode(parameters)) + "&context.parameters=" + encodeURIComponent(Ext.JSON.encode(Ametys.getAppParameters()));
 			sendOptions._timeoutIndex = index;
 			sendOptions._timeout = window.setTimeout("Ametys.data.ServerComm._onRequestTimeout ('" + index + "', " + timeout + ");", timeout);
 			
