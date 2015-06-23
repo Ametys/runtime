@@ -135,7 +135,13 @@ Ext.define('Ametys.plugins.admin.system.SystemActions', {
 				    Ext.bind(this._confirmDelete, this, [target.getParameters().language], 1));
 		}
 	},
-	
+
+    /**
+     * @private
+     * The callback after the delete confirmation messagebox
+     * @param {String} answer If "yes" the process will continue.
+     * @param {Strubg} lang The message to delete identified by its language code.
+     */
 	_confirmDelete: function (answer, lang)
 	{
 		if (answer == 'yes')

@@ -49,7 +49,11 @@ Ext.define('Ametys.plugins.admin.tool.WorkspacesTool', {
 		this.showRefreshing();
 		this._workspacesTree.getStore().load({node: this._workspacesTree.getRootNode(), callback: this.showRefreshed, scope: this});
 	},
-	
+
+    /**
+     * Get the tree panel of the tool
+     * @return {Ext.tree.Panel} The tree panel instance. Can be null if called before the #createPanel
+     */
 	getTree: function()
 	{
 		return this._workspacesTree;
