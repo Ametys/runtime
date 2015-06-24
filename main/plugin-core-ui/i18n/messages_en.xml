@@ -145,10 +145,10 @@
          | FormEditionPanel.js
          + -->
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_UNTITLED">Untitled</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_ERROR_FIELD">1 field has errors :</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_ERROR_FIELDS"> fields have errors :</message>    
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_WARN_FIELD">1 field has warning :</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_WARN_FIELDS"> field have warning :</message> 
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_ERROR_FIELD">1 element has errors :</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_ERROR_FIELDS"> elements have errors :</message>    
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_WARN_FIELD">1 element has warnings :</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_WARN_FIELDS"> elements have warnings :</message> 
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_COMMENT_FIELD">1 field has a comment :</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_COMMENT_FIELDS"> fields have a comment :</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_INLINETAB_COLLAPSE_ALL">&#171; Collapse all</message>
@@ -162,6 +162,45 @@
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_COMMENTS_BTN_CANCEL">Cancel</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_COMMENTS_DELETE_CONFIRM_TITLE">Deletion</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_COMMENTS_DELETE_CONFIRM_MSG">Are you sure you want to delete with comment ?</message>
+
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_INVALID_FIELD_TEXT">This field is mandatory.</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD">The field</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER">The parameter checker</message>
+    
+    <!-- +
+         | ParameterCheckersDAO.js
+         + -->
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_TEXT_PREFIX">Verify</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_SERVER_CALL_ERROR_TITLE">Server error</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_SERVER_CALL_ERROR_TEXT">An error has occurred on the server. Parameter verifications are now reset.</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_TOOLTIP_TESTED_PARAMS">Used parameter(s): </message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_WARNING_TEXT_BEGINNING">The verification '</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_WARNING_TEXT_END">' has failed. Check the value of this parameter.</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_UI_REF_CATEGORY">On the category</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_UI_REF_GROUP">On the group</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_UI_REF_PARAMETER">On the parameter</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_ERROR">Error while performing the parameter verification.</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_ERROR_TEXT">verification(s) have failed.&lt;br/&gt;Press the 'Details' button for further information or see the application's logs.</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_STATUS_SUCCESS">Success</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_STATUS_FAILURE">Failure</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_STATUS_NOT_TESTED">Not tested</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_STATUS_DEACTIVATED">Deactivated</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_STATUS_WARNING">This verification depends on one or more modified parameters. Consider passing this verification to check the modifications.</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_TOOLTIP_MESSAGE">Message:</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_TOOLTIP_MESSAGE2">Last error message:</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_TOOLTIP_DEACTIVATED_MESSAGE">This test is disabled because all of its linked parameters are disabled or at least one the linked parameters is invalid.</message>
+    
+    <!-- +
+         | TestsController.js
+         + -->
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_ALL_TESTS">Test all</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_ALL_TESTS_DESC">Run all tests, regardless of their current status.</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_MISSED_TESTS">Test missed</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_MISSED_TESTS_DESC">Run all tests that do not have a "Success" status.</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_TEXT">The verifications are there to check the configuration parameters. Here are the results:</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_SUCCESSES">Success(es)</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_FAILURES">Failure(s)</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_NOT_TESTED">Not verified</message>
     
     <!--  Password -->
     <message key="PLUGINS_CORE_UI_PASSWORD_VALIDATOR">The password and the confirmation are not the same</message>

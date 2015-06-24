@@ -19,7 +19,7 @@
     <message key="PLUGINS_CORE_UI_SHUTDOWN_DEFAULTTITLE">L'application est arrêtée</message>
     <message key="PLUGINS_CORE_UI_SHUTDOWN_DEFAULTTEXT">L'application est maintenant arrêtée. Vous pouvez fermer votre navigateur ou cliquer sur le lien suivant pour la redémarrer maintenant.</message>
     
-     <!-- +
+    <!-- +
          | Config 
          + -->
     <message key="PLUGINS_CORE_UI_DEBUG_UI_LABEL">Interfaces graphiques</message>
@@ -51,7 +51,7 @@
     <message key="PLUGINS_CORE_UI_SERVERCOMM_ERROR_DESC">Une erreur est survenue dans le traitement de la réponse serveur</message>
     <message key="PLUGINS_CORE_UI_SERVERCOMM_BADRESPONSE_TITLE">Pas de réponse du serveur</message>
     <message key="PLUGINS_CORE_UI_SERVERCOMM_BADRESPONSE_DESC">La réponse du serveur est incomplète et ne contient pas les informations permettant de continuer le traitement correctement.</message>
-    <message key="PLUGINS_CORE_UI_SERVERCOMM_NOTXML_DESC">La réponse du serveur est inchoérente et cela peut provenir :\n* soit de l'expiration de votre authentification,\n* soit d'une anomalie imprévue sur le serveur.\nVous pouvez essayer de vous authentifier à nouveau avant de ré-essayer.\n\nSi toutes vos données sont enregistrées, cliquez sur Annuler.\n\nSinon cliquez sur Ok pour essayer de sauver vos modifications en cours à nouveau mais votre application sera dans un état instable (Si ce message apparaît plusieurs fois, contactez votre administrateur système pour connaitre la durée du problème).</message>
+    <message key="PLUGINS_CORE_UI_SERVERCOMM_NOTXML_DESC">La réponse du serveur est incohérente et cela peut provenir :\n* soit de l'expiration de votre authentification,\n* soit d'une anomalie imprévue sur le serveur.\nVous pouvez essayer de vous authentifier à nouveau avant de ré-essayer.\n\nSi toutes vos données sont enregistrées, cliquez sur Annuler.\n\nSinon cliquez sur Ok pour essayer de sauver vos modifications en cours à nouveau mais votre application sera dans un état instable (Si ce message apparaît plusieurs fois, contactez votre administrateur système pour connaitre la durée du problème).</message>
     <message key="PLUGINS_CORE_UI_SERVERCOMM_SERVER_FAILED_DESC">Le serveur a échoué (code </message>
     <message key="PLUGINS_CORE_UI_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE">La connexion avec le serveur a été perdue mais le serveur est peut-être toujours en train de traiter votre requête.\n\nSi toutes vos données sont enregistrées, cliquez sur Annuler.\n\nSinon cliquez sur Ok pour essayer de sauver vos modifications en cours à nouveau mais votre application sera dans un état instable (Si ce message apparaît plusieurs fois, contactez votre administrateur système pour connaitre la durée du problème).</message>
     <message key="PLUGINS_CORE_UI_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_1">La connexion avec le serveur a été perdue</message>
@@ -143,13 +143,13 @@
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_INSERT_INVALID_MINSIZE">Le nombre d'entrées est inférieur au nombre d'entrées obligatoires</message>
     
     <!-- +
-         | FormEditionPanel.js
+         | ConfigurableFormPanel.js
          + -->
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_UNTITLED">Sans titre</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_ERROR_FIELD">1 champ contient des erreurs :</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_ERROR_FIELDS"> champs contiennent des erreurs :</message>    
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_WARN_FIELD">1 champ contient une alerte :</message>
-    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_WARN_FIELDS"> champs contiennent une alerte :</message>  
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_ERROR_FIELD">1 élément contient des erreurs :</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_ERROR_FIELDS"> éléments contiennent des erreurs :</message>    
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_WARN_FIELD">1 élément contient une alerte :</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_WARN_FIELDS"> éléments contiennent une alerte :</message>  
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_COMMENT_FIELD">1 champ contient un commentaire :</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_COMMENT_FIELDS"> champs contiennent un commentaire :</message>   
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_INLINETAB_COLLAPSE_ALL">&#171; Tout replier</message>
@@ -163,6 +163,41 @@
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_COMMENTS_BTN_CANCEL">Annuler</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_COMMENTS_DELETE_CONFIRM_TITLE">Suppression</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_COMMENTS_DELETE_CONFIRM_MSG">Etes-vous sûrs de vouloir supprimer ce commentaire ?</message>
+    
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_INVALID_FIELD_TEXT">Ce champ est obligatoire.</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD">Le champ</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER">La vérification</message>
+    
+   <!-- ParameterCheckersDAO -->
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_TEXT_PREFIX">Vérifier</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_SERVER_CALL_ERROR_TITLE">Erreur serveur</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_SERVER_CALL_ERROR_TEXT">Une erreur est survenue côté serveur. Le résultat des vérifications est réinitialisé.</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_PARAM_CHECKER_TOOLTIP_TESTED_PARAMS">Paramètre(s) utilisé(s) : </message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_WARNING_TEXT_BEGINNING">La vérification '</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_WARNING_TEXT_END">' a échoué. Vérifiez la valeur de ce paramètre.</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_UI_REF_CATEGORY">Sur la catégorie</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_UI_REF_GROUP">Sur le groupe</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_UI_REF_PARAMETER">Sur le paramètre</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_ERROR">Erreur lors de la vérification des paramètres</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_ERROR_TEXT">vérifications(s) a (ont) échoué.&lt;br/&gt;Appuyez sur 'Détails' pour en savoir plus ou consultez les journaux de l'application.</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_STATUS_SUCCESS">Succès</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_STATUS_FAILURE">Echec</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_STATUS_NOT_TESTED">Non testé</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_STATUS_DEACTIVATED">Désactivé</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_STATUS_WARNING">Cette vérification dépend d'un ou plusieurs paramètres qui ont été modifiés. Il est conseillé d'effectuer ce test pour vérifier les nouvelles valeurs.</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_TOOLTIP_MESSAGE">Message :</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_TOOLTIP_MESSAGE2">Dernier message d'erreur:</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_TOOLTIP_DEACTIVATED_MESSAGE">Cette vérification est désactivée car tous les paramètres qu'elle utilise sont désactivés ou au moins un des paramètres utilisés est invalide.</message>
+    
+    <!-- TestsController -->
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_ALL_TESTS">Tester tous</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_ALL_TESTS_DESC">Lancer tous les tests, quel que soit leur statut actuel.</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_MISSED_TESTS">Tests manqués</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_MISSED_TESTS_DESC">Lancer tous les tests qui ne sont pas en statut "Réussi".</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_TEXT">Les vérifications permettent de vérifier les paramètres de configuration. Voici le bilan :</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_SUCCESSES">Succès</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_FAILURES">Echec(s)</message>
+    <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_NOT_TESTED">Non testé(s)</message>
     
     <!--  Password -->
     <message key="PLUGINS_CORE_UI_PASSWORD_VALIDATOR">Le mot de passe et sa confirmation ne sont pas identiques</message>
