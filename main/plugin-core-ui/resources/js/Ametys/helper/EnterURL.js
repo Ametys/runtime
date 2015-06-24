@@ -74,7 +74,6 @@ Ext.define('Ametys.helper.EnterURL', {
 				icon: icon,
 				
 				width: 500,
-				height: 185,
 				autoScroll: true,
 				layout: 'form',
 				
@@ -165,7 +164,7 @@ Ext.define('Ametys.helper.EnterURL', {
 	{
 		if (this._cbFn)
 		{
-			Ext.Function.defer (this._cbFn, 0);
+			Ext.Function.defer (this._cbFn, 0, null, [null]);
 		}
 		
 		this._box.hide();
