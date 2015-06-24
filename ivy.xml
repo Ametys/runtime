@@ -73,7 +73,7 @@ Open source web application framework based on Apache Cocoon.
     </dependency> 
     <dependency org="simplecaptcha" name="simplecaptcha" rev="1.2.1" conf="common_dependencies->default"/>
     
-    <dependency org="org.slf4j" name="slf4j-api" rev="1.7.5" conf="compile_base->default"/>
+    <dependency org="org.slf4j" name="slf4j-api" rev="1.7.5" conf="common_dependencies->default"/>
     <dependency org="org.slf4j" name="slf4j-log4j12" rev="1.7.5" conf="runtime_dependencies->default"/>    
     <dependency org="log4j" name="log4j" rev="1.2.17" conf="common_dependencies->default"/>
     <dependency org="org.apache.avalon.logkit" name="avalon-logkit" rev="2.2.1" conf="common_dependencies->default"/>
