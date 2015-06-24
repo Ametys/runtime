@@ -2201,6 +2201,7 @@ Ext.define('Ametys.plugins.admin.Config.TimeField',	{
 	
 	increment: 60,
 	width: 100,
+	submitFormat: 'H:i',
 	listConfig: {
 		cls: 'ametys-boundlist'
 	}
@@ -2215,6 +2216,7 @@ Ext.define('Ametys.plugins.admin.Config.HourField',	{
 	increment: 60,
 	editable: false,
     width: 100,
+    submitFormat: 'H:i',
     listConfig: {
 		cls: 'ametys-boundlist'
 	}
