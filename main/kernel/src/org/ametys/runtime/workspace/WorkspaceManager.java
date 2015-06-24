@@ -37,10 +37,10 @@ import javax.xml.validation.SchemaFactory;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.apache.avalon.framework.logger.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.XMLReader;
 
-import org.ametys.core.util.LoggerFactory;
 import org.ametys.runtime.plugin.PluginsManager.FeatureInformation;
 import org.ametys.runtime.servlet.RuntimeConfig;
 
@@ -78,7 +78,7 @@ public final class WorkspaceManager
     
     private Map<String, InactiveWorkspace> _inactiveWorkspaces = new HashMap<>();
 
-    private Logger _logger = LoggerFactory.getLoggerFor(WorkspaceManager.class); 
+    private Logger _logger = LoggerFactory.getLogger(WorkspaceManager.class); 
 
     
     private WorkspaceManager()

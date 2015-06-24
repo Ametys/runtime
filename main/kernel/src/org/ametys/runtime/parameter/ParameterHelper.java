@@ -21,18 +21,18 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Map;
 
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.ISODateTimeFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
 import org.ametys.core.util.I18nizableText;
-import org.ametys.core.util.LoggerFactory;
 
 
 /**
@@ -60,7 +60,7 @@ public final class ParameterHelper
     }
 
     // Logger for traces
-    private static Logger _logger = LoggerFactory.getLoggerFor(ParameterHelper.class);
+    private static Logger _logger = LoggerFactory.getLogger(ParameterHelper.class);
 
     private ParameterHelper ()
     {

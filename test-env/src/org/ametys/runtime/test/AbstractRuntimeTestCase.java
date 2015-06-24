@@ -26,12 +26,10 @@ import javax.xml.validation.SchemaFactory;
 
 import junit.framework.TestCase;
 
-import org.apache.avalon.excalibur.logger.Log4JLoggerManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.xml.sax.XMLReader;
 
-import org.ametys.core.util.LoggerFactory;
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.servlet.RuntimeConfig;
 
@@ -40,11 +38,6 @@ import org.ametys.runtime.servlet.RuntimeConfig;
  */
 public abstract class AbstractRuntimeTestCase extends TestCase
 {
-    static
-    {
-        LoggerFactory.setup(new Log4JLoggerManager());
-    }
-    
     /** The cocoon wrapper. */
     protected CocoonWrapper _cocoon;
 

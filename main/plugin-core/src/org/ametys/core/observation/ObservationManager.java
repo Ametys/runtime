@@ -25,12 +25,11 @@ import java.util.Map;
 
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-
-import org.ametys.core.util.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Manager for dispatching {@link Event} instances to {@link Observer}s.
@@ -40,7 +39,7 @@ public class ObservationManager extends AbstractLogEnabled implements Component,
     /** Avalon ROLE. */
     public static final String ROLE = ObservationManager.class.getName();
     
-    private static final Logger __ALL_EVENTS_LOGGER = LoggerFactory.getLoggerFor("org.ametys.runtime.observation.AllEvents");
+    private static final Logger __ALL_EVENTS_LOGGER = LoggerFactory.getLogger("org.ametys.runtime.observation.AllEvents");
     
     private ObserverExtensionPoint _observerExtPt;
     private Collection<Observer> _registeredObservers = new ArrayList<>();

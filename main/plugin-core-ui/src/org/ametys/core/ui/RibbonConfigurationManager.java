@@ -28,25 +28,25 @@ import java.util.Set;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceResolver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
 import org.ametys.core.util.I18nizableText;
-import org.ametys.core.util.LoggerFactory;
 
 /**
  * This class handles the ribbon configuration needed for client side display.
  */
 public class RibbonConfigurationManager
 {
-    private static Logger _logger = LoggerFactory.getLoggerFor(RibbonConfigurationManager.class);
+    private static Logger _logger = LoggerFactory.getLogger(RibbonConfigurationManager.class);
     
     /** Size constants for controls*/
     public enum CONTROLSIZE 

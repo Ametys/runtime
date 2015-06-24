@@ -22,9 +22,9 @@ import java.util.Map;
 
 import javax.xml.parsers.SAXParserFactory;
 
-import org.apache.avalon.framework.logger.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.ametys.core.util.LoggerFactory;
 import org.ametys.core.util.MapHandler;
 import org.ametys.runtime.parameter.ParameterHelper;
 import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
@@ -37,7 +37,7 @@ import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
 public final class Config
 {
     // Logger for traces
-    private static Logger _logger = LoggerFactory.getLoggerFor(Config.class);
+    private static Logger _logger = LoggerFactory.getLogger(Config.class);
     
     // config file
     private static String __filename;

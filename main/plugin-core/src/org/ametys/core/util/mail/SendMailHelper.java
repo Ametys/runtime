@@ -37,15 +37,15 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.jsoup.select.Selector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.ametys.core.util.LoggerFactory;
 import org.ametys.runtime.config.Config;
 
 /**
@@ -54,7 +54,7 @@ import org.ametys.runtime.config.Config;
 public final class SendMailHelper
 {
     /** Logger */
-    protected static final Logger _LOGGER = LoggerFactory.getLoggerFor(SendMailHelper.class);
+    protected static final Logger _LOGGER = LoggerFactory.getLogger(SendMailHelper.class);
 
     /** Attribute selectors pattern for CSS specificity processing */
     protected static final Pattern __CSS_SPECIFICITY_ATTR_PATTERN = Pattern.compile("(\\[[^\\]]+\\])");

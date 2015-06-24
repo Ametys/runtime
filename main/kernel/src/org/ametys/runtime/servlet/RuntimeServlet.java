@@ -45,12 +45,12 @@ import org.apache.cocoon.xml.XMLUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
+import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
-import org.ametys.core.util.LoggerFactory;
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.config.ConfigManager;
 import org.ametys.runtime.plugin.Init;
@@ -268,14 +268,6 @@ public class RuntimeServlet extends CocoonServlet
     }
     
     @Override
-    protected void initLogger()
-    {
-        super.initLogger();
-        
-        LoggerFactory.setup(getLoggerManager());
-    }
-
-    @Override
     protected void updateEnvironment() throws ServletException
     {
         super.updateEnvironment();
@@ -290,7 +282,7 @@ public class RuntimeServlet extends CocoonServlet
             }
             catch (IOException e)
             {
-                LoggerFactory.getLoggerFor(getClass()).warn("Unable to create temp directory", e);
+                LoggerFactory.getLogger(getClass()).warn("Unable to create temp directory", e);
             }
         }
 

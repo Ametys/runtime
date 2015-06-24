@@ -29,7 +29,6 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.cocoon.components.ContextHelper;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
@@ -41,12 +40,13 @@ import org.jasig.cas.client.util.AbstractCasFilter;
 import org.jasig.cas.client.util.HttpServletRequestWrapperFilter;
 import org.jasig.cas.client.validation.Assertion;
 import org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.ametys.core.authentication.AuthenticateAction;
 import org.ametys.core.authentication.Credentials;
 import org.ametys.core.authentication.CredentialsProvider;
 import org.ametys.core.authentication.filter.RuntimeFilter;
-import org.ametys.core.util.LoggerFactory;
 import org.ametys.runtime.config.Config;
 
 /**
@@ -61,7 +61,7 @@ import org.ametys.runtime.config.Config;
 public class CASCredentialsProvider implements CredentialsProvider, Initializable, Configurable, Contextualizable
 {
     /** Logger for traces. */
-    private static Logger _logger = LoggerFactory.getLoggerFor(CASCredentialsProvider.class);
+    private static Logger _logger = LoggerFactory.getLogger(CASCredentialsProvider.class);
     
     /** Using gateway feature. */ 
     protected boolean _gateway;

@@ -38,8 +38,8 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.thread.SingleThreaded;
-
-import org.ametys.core.util.LoggerFactory;
+import org.apache.cocoon.util.log.SLF4JLoggerAdapter;
+import org.slf4j.LoggerFactory;
 
 // Le code est initialement inspiré du ExcaliburComponentManager
 /**
@@ -335,7 +335,7 @@ public class ThreadSafeComponentManager<T> extends AbstractLogEnabled implements
             {
                 if (_configuration == null)
                 {
-                    ContainerUtil.enableLogging(component, LoggerFactory.getLoggerFor(_componentClass.getName()));
+                    ContainerUtil.enableLogging(component, new SLF4JLoggerAdapter(LoggerFactory.getLogger(_componentClass.getName())));
                 }
                 else
                 {
@@ -346,7 +346,7 @@ public class ThreadSafeComponentManager<T> extends AbstractLogEnabled implements
                         {
                             _logger.debug("no logger attribute available, using standard logger");
                         }
-                        ContainerUtil.enableLogging(component, LoggerFactory.getLoggerFor(_componentClass.getName()));
+                        ContainerUtil.enableLogging(component, new SLF4JLoggerAdapter(LoggerFactory.getLogger(_componentClass.getName())));
                     }
                     else
                     {
@@ -354,7 +354,7 @@ public class ThreadSafeComponentManager<T> extends AbstractLogEnabled implements
                         {
                             _logger.debug("logger attribute is " + logger);
                         }
-                        ContainerUtil.enableLogging(component, LoggerFactory.getLoggerFor(logger));
+                        ContainerUtil.enableLogging(component, new SLF4JLoggerAdapter(LoggerFactory.getLogger(logger)));
                     }
                 }
             }

@@ -26,9 +26,10 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.cocoon.util.log.SLF4JLoggerAdapter;
+import org.slf4j.LoggerFactory;
 
 import org.ametys.core.util.I18nizableText;
-import org.ametys.core.util.LoggerFactory;
 import org.ametys.runtime.plugin.component.ThreadSafeComponentManager;
 
 /**
@@ -73,11 +74,11 @@ public class SimpleMenu extends StaticClientSideElement implements MenuClientSid
         try
         {
             _menuItemManager = new ThreadSafeComponentManager<>();
-            _menuItemManager.enableLogging(LoggerFactory.getLoggerFor("cms.plugin.threadsafecomponent"));
+            _menuItemManager.enableLogging(new SLF4JLoggerAdapter(LoggerFactory.getLogger("cms.plugin.threadsafecomponent")));
             _menuItemManager.service(_smanager);
             
             _galleryItemManager = new ThreadSafeComponentManager<>();
-            _galleryItemManager.enableLogging(LoggerFactory.getLoggerFor("cms.plugin.threadsafecomponent"));
+            _galleryItemManager.enableLogging(new SLF4JLoggerAdapter(LoggerFactory.getLogger("cms.plugin.threadsafecomponent")));
             _galleryItemManager.service(_smanager);
         }
         catch (ServiceException e)

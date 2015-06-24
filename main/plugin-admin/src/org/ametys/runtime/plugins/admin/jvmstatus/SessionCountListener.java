@@ -20,10 +20,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
-import org.apache.avalon.framework.logger.Logger;
-
-import org.ametys.core.util.LoggerFactory;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Simple HttpSessionListener counting sessions. 
@@ -69,7 +67,7 @@ public class SessionCountListener implements HttpSessionListener
             String message = "The SessionCountListener is not installed. Please add in the file 'WEB-INF/web.xml' the following line under the root element :\n&lt;listener&gt;&lt;listener-class&gt;" + SessionCountListener.class.getName() + "&lt;/listener-class&gt;&lt;/listener&gt;";
             if (_logger == null)
             {
-                _logger = LoggerFactory.getLoggerFor(SessionCountListener.class);
+                _logger = LoggerFactory.getLogger(SessionCountListener.class);
             }
             if (_logger.isWarnEnabled())
             {

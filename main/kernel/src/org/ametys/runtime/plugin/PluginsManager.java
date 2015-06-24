@@ -43,16 +43,16 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.WrapperServiceManager;
 import org.apache.commons.io.IOUtils;
 import org.apache.xerces.jaxp.JAXPConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
-import org.ametys.core.util.LoggerFactory;
 import org.ametys.core.util.StringUtils;
 import org.ametys.runtime.config.ConfigManager;
 import org.ametys.runtime.plugin.component.PluginsComponentManager;
@@ -106,7 +106,7 @@ public final class PluginsManager
     private LocalEntityResolver _entityResolver;
 
     // Logger for traces
-    private Logger _logger = LoggerFactory.getLoggerFor(PluginsManager.class);
+    private Logger _logger = LoggerFactory.getLogger(PluginsManager.class);
 
 
     private PluginsManager()

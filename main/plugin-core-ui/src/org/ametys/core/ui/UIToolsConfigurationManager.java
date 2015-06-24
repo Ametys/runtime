@@ -26,22 +26,21 @@ import java.util.Map;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
-
-import org.ametys.core.util.LoggerFactory;
 
 /**
  * Handles the configuration of uitools factories 
  */
 public class UIToolsConfigurationManager
 {
-    private static Logger _logger = LoggerFactory.getLoggerFor(UIToolsConfigurationManager.class);
+    private static Logger _logger = LoggerFactory.getLogger(UIToolsConfigurationManager.class);
     
     /** The default opened tools */
     protected Map<String, String> _defaultUITools = new LinkedHashMap<>();

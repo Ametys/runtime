@@ -23,12 +23,10 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.environment.Redirector;
-
-import org.ametys.core.util.LoggerFactory;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class is a filter for the communication between Tomcat and Cocoon. This one concerns the response request.
@@ -43,7 +41,7 @@ public class FilterServletResponse implements HttpServletResponse
     
     private Redirector _redirect;
    
-    private Logger _logger = LoggerFactory.getLoggerFor(FilterServletResponse.class);
+    private Logger _logger = LoggerFactory.getLogger(FilterServletResponse.class);
     
     /**
      * Constructor of this filter.

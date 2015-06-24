@@ -22,9 +22,8 @@ import java.sql.Statement;
 
 import javax.sql.DataSource;
 
-import org.apache.avalon.framework.logger.Logger;
-
-import org.ametys.core.util.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Helper class to retrieve java.sql.Connection from pools
@@ -61,7 +60,7 @@ public final class ConnectionHelper
     }
     
     // Logger for traces
-    private static Logger _logger = LoggerFactory.getLoggerFor(ConnectionHelper.class.getName());
+    private static Logger _logger = LoggerFactory.getLogger(ConnectionHelper.class.getName());
 
     private static DataSourceExtensionPoint _extensionPoint;
     
@@ -189,7 +188,7 @@ public final class ConnectionHelper
         }
         catch (SQLException e)
         {
-            LoggerFactory.getLoggerFor(ConnectionHelper.class).error("Cannot determine database type", e);
+            LoggerFactory.getLogger(ConnectionHelper.class).error("Cannot determine database type", e);
             return DatabaseType.DATABASE_UNKNOWN;
         }
     }

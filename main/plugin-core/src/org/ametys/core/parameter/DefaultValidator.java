@@ -23,12 +23,13 @@ import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.cocoon.util.log.SLF4JLoggerAdapter;
 import org.apache.cocoon.xml.XMLUtils;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
 import org.ametys.core.util.I18nizableText;
-import org.ametys.core.util.LoggerFactory;
 import org.ametys.runtime.parameter.Errors;
 import org.ametys.runtime.parameter.Validator;
 import org.ametys.runtime.plugin.component.PluginAware;
@@ -72,7 +73,7 @@ public class DefaultValidator extends AbstractLogEnabled implements Validator, C
         {
             _regexp = Pattern.compile(regexp);
         }
-        enableLogging(LoggerFactory.getLoggerFor(this.getClass()));
+        enableLogging(new SLF4JLoggerAdapter(LoggerFactory.getLogger(this.getClass())));
     }
     
     /**
@@ -90,7 +91,7 @@ public class DefaultValidator extends AbstractLogEnabled implements Validator, C
         }
         _invalidText = invalidText;
         
-        enableLogging(LoggerFactory.getLoggerFor(this.getClass()));
+        enableLogging(new SLF4JLoggerAdapter(LoggerFactory.getLogger(this.getClass())));
     }
     
     @Override

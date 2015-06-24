@@ -25,10 +25,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.logger.Logger;
-
-import org.ametys.core.util.LoggerFactory;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Java representation of the WEB-INF/param/runtime.xml file.<br>
@@ -46,7 +44,7 @@ public final class RuntimeConfig
     private final Collection<String> _excludedWorkspaces = new ArrayList<>();
     private final Map<String, String> _extensionsPoints = new HashMap<>();
 
-    private Logger _logger = LoggerFactory.getLoggerFor(RuntimeConfig.class);
+    private Logger _logger = LoggerFactory.getLogger(RuntimeConfig.class);
     
     private String _contextPath;
 

@@ -41,20 +41,21 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.cocoon.ProcessingException;
+import org.apache.cocoon.util.log.SLF4JLoggerAdapter;
 import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.xml.serializer.OutputPropertiesFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
 import org.ametys.core.util.I18nizableText;
-import org.ametys.core.util.LoggerFactory;
 import org.ametys.runtime.parameter.Enumerator;
 import org.ametys.runtime.parameter.Errors;
 import org.ametys.runtime.parameter.ParameterChecker;
@@ -78,7 +79,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
     private static final Pattern __ID_PATTERN = Pattern.compile("[a-zA-Z][a-zA-Z0-9.\\-_]*");
     
     // Logger for traces
-    Logger _logger = LoggerFactory.getLoggerFor(ConfigManager.class);
+    Logger _logger = LoggerFactory.getLogger(ConfigManager.class);
     
     // Avalon stuff
     private ServiceManager _manager;
@@ -168,17 +169,17 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         _parameterCheckers = new LinkedHashMap<>();
         
         _validatorManager = new ThreadSafeComponentManager<>();
-        _validatorManager.enableLogging(LoggerFactory.getLoggerFor("runtime.plugin.threadsafecomponent"));
+        _validatorManager.enableLogging(new SLF4JLoggerAdapter(LoggerFactory.getLogger("runtime.plugin.threadsafecomponent")));
         _validatorManager.contextualize(_context);
         _validatorManager.service(_manager);
         
         _enumeratorManager = new ThreadSafeComponentManager<>();
-        _enumeratorManager.enableLogging(LoggerFactory.getLoggerFor("runtime.plugin.threadsafecomponent"));
+        _enumeratorManager.enableLogging(new SLF4JLoggerAdapter(LoggerFactory.getLogger("runtime.plugin.threadsafecomponent")));
         _enumeratorManager.contextualize(_context);
         _enumeratorManager.service(_manager);
         
         _parameterCheckerManager = new ThreadSafeComponentManager<>();
-        _parameterCheckerManager.enableLogging(LoggerFactory.getLoggerFor("runtime.plugin.threadsafecomponent"));
+        _parameterCheckerManager.enableLogging(new SLF4JLoggerAdapter(LoggerFactory.getLogger("runtime.plugin.threadsafecomponent")));
         _parameterCheckerManager.contextualize(_context);
         _parameterCheckerManager.service(_manager);
     }

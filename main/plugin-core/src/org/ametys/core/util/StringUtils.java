@@ -22,15 +22,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.StringTokenizer;
 
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.commons.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A collection of String management utility methods.
  */
 public final class StringUtils
 {
-    private static final Logger __LOGGER = LoggerFactory.getLoggerFor(StringUtils.class);
+    private static final Logger __LOGGER = LoggerFactory.getLogger(StringUtils.class);
     
     private StringUtils()
     {

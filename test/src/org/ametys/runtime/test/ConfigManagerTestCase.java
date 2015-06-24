@@ -24,8 +24,9 @@ import org.apache.avalon.framework.service.WrapperServiceManager;
 import org.apache.cocoon.Constants;
 import org.apache.cocoon.components.CocoonComponentManager;
 import org.apache.cocoon.environment.commandline.CommandLineContext;
+import org.apache.cocoon.util.log.SLF4JLoggerAdapter;
+import org.slf4j.LoggerFactory;
 
-import org.ametys.core.util.LoggerFactory;
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.config.ConfigManager;
 import org.ametys.runtime.plugin.PluginsManager;
@@ -43,7 +44,7 @@ public class ConfigManagerTestCase extends AbstractRuntimeTestCase
     protected void setUp() throws Exception
     {
         CommandLineContext ctx = new CommandLineContext("test/environments/webapp1");
-        ctx.enableLogging(LoggerFactory.getLoggerFor("ctx"));
+        ctx.enableLogging(new SLF4JLoggerAdapter(LoggerFactory.getLogger("ctx")));
         _context = new DefaultContext();
         _context.put(Constants.CONTEXT_ENVIRONMENT_CONTEXT, ctx);
                 
@@ -62,7 +63,7 @@ public class ConfigManagerTestCase extends AbstractRuntimeTestCase
         
         PluginsComponentManager pluginCM = new PluginsComponentManager(_manager);
         ContainerUtil.contextualize(pluginCM, _context);
-        ContainerUtil.enableLogging(pluginCM, LoggerFactory.getLoggerFor("plugins"));
+        ContainerUtil.enableLogging(pluginCM, new SLF4JLoggerAdapter(LoggerFactory.getLogger("plugins")));
         ContainerUtil.service(pluginCM, new WrapperServiceManager(pluginCM));
         
         assertNull(PluginsManager.getInstance().init(pluginCM, _context, "test/environments/webapp1"));
@@ -79,7 +80,7 @@ public class ConfigManagerTestCase extends AbstractRuntimeTestCase
 
         PluginsComponentManager pluginCM = new PluginsComponentManager(_manager);
         ContainerUtil.contextualize(pluginCM, _context);
-        ContainerUtil.enableLogging(pluginCM, LoggerFactory.getLoggerFor("plugins"));
+        ContainerUtil.enableLogging(pluginCM, new SLF4JLoggerAdapter(LoggerFactory.getLogger("plugins")));
         ContainerUtil.service(pluginCM, new WrapperServiceManager(pluginCM));
         
         assertNotNull(PluginsManager.getInstance().init(pluginCM, _context, "test/environments/webapp1"));
@@ -96,7 +97,7 @@ public class ConfigManagerTestCase extends AbstractRuntimeTestCase
         
         PluginsComponentManager pluginCM = new PluginsComponentManager(_manager);
         ContainerUtil.contextualize(pluginCM, _context);
-        ContainerUtil.enableLogging(pluginCM, LoggerFactory.getLoggerFor("plugins"));
+        ContainerUtil.enableLogging(pluginCM, new SLF4JLoggerAdapter(LoggerFactory.getLogger("plugins")));
         ContainerUtil.service(pluginCM, new WrapperServiceManager(pluginCM));
         
         assertNull(PluginsManager.getInstance().init(pluginCM, _context, "test/environments/webapp1"));
@@ -113,7 +114,7 @@ public class ConfigManagerTestCase extends AbstractRuntimeTestCase
         
         PluginsComponentManager pluginCM = new PluginsComponentManager(_manager);
         ContainerUtil.contextualize(pluginCM, _context);
-        ContainerUtil.enableLogging(pluginCM, LoggerFactory.getLoggerFor("plugins"));
+        ContainerUtil.enableLogging(pluginCM, new SLF4JLoggerAdapter(LoggerFactory.getLogger("plugins")));
         ContainerUtil.service(pluginCM, new WrapperServiceManager(pluginCM));
         
         PluginsManager.getInstance().init(pluginCM, _context, "test/environments/webapp1");

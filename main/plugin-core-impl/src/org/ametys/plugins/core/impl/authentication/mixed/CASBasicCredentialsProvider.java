@@ -21,16 +21,16 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.cocoon.components.ContextHelper;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.Session;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.ametys.core.authentication.AuthenticateAction;
 import org.ametys.core.authentication.Credentials;
-import org.ametys.core.util.LoggerFactory;
 import org.ametys.plugins.core.impl.authentication.BasicCredentialsProvider;
 import org.ametys.plugins.core.impl.authentication.CASCredentialsProvider;
 
@@ -46,7 +46,7 @@ import org.ametys.plugins.core.impl.authentication.CASCredentialsProvider;
 public class CASBasicCredentialsProvider extends CASCredentialsProvider
 {
     /** The logger. */
-    protected static Logger _logger = LoggerFactory.getLoggerFor(CASBasicCredentialsProvider.class);
+    protected static Logger _logger = LoggerFactory.getLogger(CASBasicCredentialsProvider.class);
     
     /** The avalon context. */
     protected Context _context;

@@ -23,11 +23,11 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.ametys.core.datasource.ConnectionHelper;
-import org.ametys.core.util.LoggerFactory;
 
 /**
  * Tool to run SQL scripts.<p>
@@ -60,7 +60,7 @@ public final class ScriptRunner
     /** Command to change the separator. */
     public static final String CHANGE_SEPARATOR_COMMAND = "_separator_=";
     /** Logger available to subclasses. */
-    protected static final Logger __LOGGER = LoggerFactory.getLoggerFor(ScriptRunner.class);
+    protected static final Logger __LOGGER = LoggerFactory.getLogger(ScriptRunner.class);
     
     private ScriptRunner()
     {

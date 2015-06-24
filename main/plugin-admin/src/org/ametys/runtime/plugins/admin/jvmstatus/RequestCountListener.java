@@ -20,10 +20,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javax.servlet.ServletRequestEvent;
 import javax.servlet.ServletRequestListener;
 
-import org.apache.avalon.framework.logger.Logger;
-
-import org.ametys.core.util.LoggerFactory;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This component count the current active requests and count all
@@ -67,7 +65,7 @@ public class RequestCountListener implements ServletRequestListener
             String message = "The RequestCountListener is not installed. Please add in the file 'WEB-INF/web.xml' the following line under the root element :\n&lt;listener&gt;&lt;listener-class&gt;" + RequestCountListener.class.getName() + "&lt;/listener-class&gt;&lt;/listener&gt;";
             if (_logger == null)
             {
-                _logger = LoggerFactory.getLoggerFor(RequestCountListener.class);
+                _logger = LoggerFactory.getLogger(RequestCountListener.class);
             }
             if (_logger.isWarnEnabled())
             {
@@ -91,7 +89,7 @@ public class RequestCountListener implements ServletRequestListener
             String message = "The RequestCountListener is not installed. Please add in the file 'WEB-INF/web.xml' the following line under the root element :\n&lt;listener&gt;&lt;listener-class&gt;" + RequestCountListener.class.getName() + "&lt;/listener-class&gt;&lt;/listener&gt;";
             if (_logger == null)
             {
-                _logger = LoggerFactory.getLoggerFor(RequestCountListener.class);
+                _logger = LoggerFactory.getLogger(RequestCountListener.class);
             }
             if (_logger.isWarnEnabled())
             {
