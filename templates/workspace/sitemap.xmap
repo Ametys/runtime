@@ -92,9 +92,9 @@
             
             <map:match pattern="index.html">
                 <map:aggregate element="Ametys">
-                    <map:part src="cocoon://_admin/homepage-versions.xml"/>
+                    <map:part src="cocoon://_plugins/core/versions.xml"/>
                     <map:part src="cocoon:/workspace.xml"/>
-                    <map:part src="cocoon://plugins/core/userprefs/values.xml?prefContext=/WORKSPACE_NAME"/>
+                    <map:part src="cocoon://_plugins/core/userprefs/values.xml?prefContext=/WORKSPACE_NAME"/>
                 </map:aggregate>
                 <map:transform type="i18n">
                     <map:parameter name="locale" value="{locale:locale}"/>

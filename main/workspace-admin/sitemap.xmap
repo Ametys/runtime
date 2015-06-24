@@ -21,7 +21,6 @@
     <map:components>
         <map:generators>
             <map:generator name="workspace" src="org.ametys.plugins.core.ui.WorkspaceGenerator" logger="org.ametys.runtime.workspace.WorkspaceGenerator"/>
-            <map:generator name="version" src="org.ametys.runtime.plugins.admin.version.VersionsGenerator" logger="org.ametys.runtime.workspaces.admin.sitemap.generator.versions"/>
             <map:generator name="user-prefs" src="org.ametys.plugins.core.userpref.UserPreferencesValuesGenerator"/>
         </map:generators>
         
@@ -68,11 +67,6 @@
                 </map:generate>
                 <map:serialize type="xml"/>
             </map:match>
-	        
-	        <map:match pattern="homepage-versions.xml">
-	            <map:generate type="version" label="content"/>
-	            <map:serialize type="xml"/>
-	        </map:match>
 	        
 	        <map:match pattern="userprefs/values.xml">
                 <map:generate type="user-prefs"/>
@@ -142,7 +136,7 @@
             
             <map:match pattern="index.html">
                 <map:aggregate element="Ametys">
-                    <map:part src="cocoon:/homepage-versions.xml"/>
+                    <map:part src="cocoon://_plugins/core/versions.xml"/>
                     <map:part src="cocoon:/workspace.xml"/>
                     <map:part src="cocoon:/userprefs/values.xml?prefContext=/admin"/>
                 </map:aggregate>
