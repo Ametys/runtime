@@ -51,6 +51,9 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
     /** The avalon role */
     public static final String ROLE = I18nUtils.class.getName();
     
+    /** I18n catalogues */
+    protected Map<String, Location> _locations;
+    
     private static I18nUtils _instance;
     
     /** The avalon context */
@@ -61,8 +64,6 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
     // Map<language, Map<text, translatedValue>>
     private Map<String, Map<I18nizableText, String>> _cache;
 
-    //Map<catalogue, location[]>
-    private Map<String, Location> _locations;
     
     @Override
     public void contextualize(Context context) throws ContextException
@@ -306,7 +307,10 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
         }
     }
     
-    private class Location 
+    /**
+     * Class representing an i18n location
+     */
+    protected class Location 
     {
         String[] _loc;
         String _name;

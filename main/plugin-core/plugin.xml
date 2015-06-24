@@ -359,11 +359,15 @@
     	</components>
     </feature>
     
-    <feature name="util.i18nutils">
+    <feature name="util.i18n.bundlefactory">
         <components>
             <component class="org.ametys.core.cocoon.XMLResourceBundleFactory" 
                        role="org.apache.cocoon.i18n.BundleFactory"/>
-                       
+        </components>
+    </feature>
+    
+    <feature name="util.i18nutils">
+        <components>
             <component class="org.ametys.core.util.I18nUtils" 
                        role="org.ametys.core.util.I18nUtils"/>
         </components>
