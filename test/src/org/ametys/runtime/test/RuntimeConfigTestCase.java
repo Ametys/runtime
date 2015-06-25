@@ -135,7 +135,7 @@ public class RuntimeConfigTestCase extends AbstractRuntimeTestCase
         DOMHandlerFactory dom = (DOMHandlerFactory) Init.getPluginServiceManager().lookup(DOMHandlerFactory.ROLE);
         DOMHandler handler = dom.createDOMHandler();
         
-        cocoon.processURI("_admin/homepage-versions.xml", handler, null, null, headers);
+        cocoon.processURI("_admin-old/homepage-versions.xml", handler, null, null, headers);
         
         XPathProcessor xpath = (XPathProcessor) Init.getPluginServiceManager().lookup(XPathProcessor.ROLE);
         assertEquals("2.0.1", xpath.evaluateAsString(handler.getDocument(), "/Versions/Component[Name='Application']/Version"));
