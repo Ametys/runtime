@@ -51,10 +51,10 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
     /** The avalon role */
     public static final String ROLE = I18nUtils.class.getName();
     
+    private static I18nUtils _instance;
+    
     /** I18n catalogues */
     protected Map<String, Location> _locations;
-    
-    private static I18nUtils _instance;
     
     /** The avalon context */
     protected Context _context;
@@ -315,6 +315,11 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
         String[] _loc;
         String _name;
         
+        /**
+         * Constructor.
+         * @param name the catalogue name
+         * @param locations the files locations.
+         */
         public Location (String name, String[] locations)
         {
             _name = name;
