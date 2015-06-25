@@ -232,7 +232,7 @@
             
             <replacefilter token="org.ametys.runtime.plugins.core.administrator.jvmstatus.SessionCountListener" value="org.ametys.runtime.plugins.admin.jvmstatus.SessionCountListener"/>
             <replacefilter token="org.ametys.runtime.plugins.core.administrator.jvmstatus.RequestCountListener" value="org.ametys.runtime.plugins.admin.jvmstatus.RequestCountListener"/>
-            <replacefilter token="org.ametys.runtime.util.SLF4JLoggerManager" value="org.ametys.core.util.SLF4JLoggerManager"/>
+            <replacefilter token="org.ametys.runtime.util.SLF4JLoggerManager" value="org.apache.cocoon.util.log.SLF4JLoggerManager"/>
         </replace>
         
         <echo message="Upgrade log4j.xml"/>
