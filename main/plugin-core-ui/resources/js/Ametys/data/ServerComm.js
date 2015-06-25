@@ -406,7 +406,7 @@ Ext.define(
 			
 			try
 			{
-				conn = Ext.Ajax.request({url: Ametys.data.ServerComm.SERVERCOMM_URL, params: "content=" + encodeURIComponent(Ext.JSON.encode({0: messageRequest})), async: false});
+				conn = Ext.Ajax.request({url: Ametys.data.ServerComm.SERVERCOMM_URL, params: "content=" + encodeURIComponent(Ext.JSON.encode({0: messageRequest})) + "&context.parameters=" + encodeURIComponent(Ext.JSON.encode(Ametys.getAppParameters())), async: false});
 			}
 			catch(e)
 			{
