@@ -174,7 +174,7 @@ Ext.define('Ametys.plugins.admin.Config', {
 
 			listeners: {
 				'boxready': Ext.Function.bind(this._onFormReady, this),
-				'fieldvaliditychange': Ext.Function.bind(this._updateNavigationPanel, this),
+				'fieldvaliditychange': Ext.Function.bind(this._updateNavigationPanel, this)
 			},
 			
 			html: ''
@@ -279,7 +279,7 @@ Ext.define('Ametys.plugins.admin.Config', {
 				shadow: false,
 				
 				layout: {
-					type: 'vbox',
+					type: 'vbox'
 				},
 				
 				collapsible: true,
@@ -344,7 +344,7 @@ Ext.define('Ametys.plugins.admin.Config', {
 			fd.add (new Ext.Container({
 				id: id,
 				layout: {
-					type: 'hbox',
+					type: 'hbox'
 				},
 				cls: 'ametys-subcategory',
 				items: items
@@ -1225,7 +1225,7 @@ Ext.define('Ametys.plugins.admin.Config', {
 	        value: value,
 	        validator: function(value)
 	        {	
-	        	var field = me._form.getForm().findField(name);
+	        	var field = this;
 	        	var enabled = field.isVisible() && !field.isDisabled();
 	    		if(!enabled)
 	    		{
@@ -1281,7 +1281,7 @@ Ext.define('Ametys.plugins.admin.Config', {
 	        value: value,
 	        validator: function(value)
 	        {	
-	        	var field = me._form.getForm().findField(name);
+	        	var field = this;
 	        	var enabled = field.isVisible() && !field.isDisabled();
 	        	if(!enabled)
 	    		{
@@ -1333,7 +1333,7 @@ Ext.define('Ametys.plugins.admin.Config', {
 		    value: value,
 		    validator: function(value)
 	        {	
-	        	var field = me._form.getForm().findField(name);
+	        	var field = this;
 	        	var enabled = field.isVisible() && !field.isDisabled();
 		    	if(!enabled)
 	    		{
@@ -1392,7 +1392,7 @@ Ext.define('Ametys.plugins.admin.Config', {
 	        
 	        validator: function(value)
 	        {	
-	        	var field = me._form.getForm().findField(name);
+	        	var field = this;
 	        	var enabled = field.isVisible() && !field.isDisabled();
 	    		if(!enabled)
 	    		{
@@ -1485,7 +1485,7 @@ Ext.define('Ametys.plugins.admin.Config', {
 		        
 		        validator: function(value)
 		        {	
-		        	var field = me._form.getForm().findField(name);
+		        	var field = this;
 		        	var enabled = field.isVisible() && !field.isDisabled();
 
 		        	if (!enabled)
@@ -1539,7 +1539,7 @@ Ext.define('Ametys.plugins.admin.Config', {
 		        value: value,
 		        validator: function(value)
 		        {	
-		        	var field = me._form.getForm().findField(name);
+		        	var field = this;
 		        	var enabled = field.isVisible() && !field.isDisabled();
 		        	
 		        	if (!enabled)
@@ -1602,7 +1602,7 @@ Ext.define('Ametys.plugins.admin.Config', {
 		        value: value,
 		        validator: function(value)
 		        {	
-		        	var field = me._form.getForm().findField(name);
+		        	var field = this;
 		        	var enabled = field.isVisible() && !field.isDisabled();
 		        	
 		        	if(!enabled)
