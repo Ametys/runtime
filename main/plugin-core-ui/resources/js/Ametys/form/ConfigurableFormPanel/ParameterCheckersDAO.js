@@ -95,7 +95,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 	/**
 	 * Add a parameter checker to a group.
 	 * @param {Ext.form.FieldSet} fieldset The fieldset where to add the group checker
-	 * @param {Object} paramChecker 
+	 * @param {Object} paramChecker The parameter check to add
 	 * @param {String} paramChecker.id the id of the parameter checker
 	 * @param {String} paramChecker.class the class implementing the check 
 	 * @param {Object} paramChecker.group the tested group 
@@ -106,7 +106,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 	 * @param {String} paramChecker.label the label of the group the parameter checker is attached to
 	 * @param {String} paramChecker.description the description of the parameter checker
 	 */
-	addGroupChecker: function(fieldset, paramChecker, label, description)
+	addGroupChecker: function(fieldset, paramChecker)
 	{
 		var fieldsetCt = fieldset.up();
 		
@@ -127,8 +127,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 	
 	/**
 	 * Add a parameter checker to a parameter.
-	 * @param {Ext.form.Field} field the field the parameter checker is attached to
-	 * @param {Object} paramChecker 
+	 * @param {Object} paramChecker The parameter checker to add. 
 	 * @param {String} paramChecker.id the id of the parameter checker
 	 * @param {String} paramChecker.class the class implementing the check 
 	 * @param {String} paramChecker.param-ref the id of the tested parameter

@@ -1054,7 +1054,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      * Show or hide the elements of a fieldset, including the parameter checkers
      * @param {Ext.form.field.Checkbox} checkbox the checkbox 
      * @param {Ext.panel.Panel} fieldset the fieldset the group switchs belongs to
-     * @param {Boolean} updateNeeded true if this is the first call, false otherwise
+     * @param {Boolean} startup true if this is the first call, false otherwise
      */
     _showHideFieldset: function(checkbox, fieldset, startup)
     {

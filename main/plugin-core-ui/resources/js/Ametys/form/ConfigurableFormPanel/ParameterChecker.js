@@ -185,7 +185,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterChecker', {
 	
 	/**
 	 * Set the labels of the linked parameter
-	 * @param {Number} status See the #cfg-linkedParamsLabels
+	 * @param {Number} labelList See the #cfg-linkedParamsLabels
 	 */
 	setLinkedParamsLabels: function(labelList)
 	{
