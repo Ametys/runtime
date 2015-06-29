@@ -111,7 +111,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      */
     
      /**
-      * @cfg {String} fieldNamePrefix='' The prefix to all submited fields (should end with '.' if non empty
+      * @cfg {String} fieldNamePrefix='' The prefix to all submited fields (should end with '.' if non empty)
       */
      
     /**
