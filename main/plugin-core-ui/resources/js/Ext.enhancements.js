@@ -461,8 +461,8 @@
 
                 if (this.warningWrapEl) 
                 {
-                	this.warningWrapEl.style.display = hasWarn ? '' : 'none';
-                	this.warningWrapEl.setAttribute("data-warnqtip", activeWarn);
+                	this.warningWrapEl.dom.style.display = hasWarn ? '' : 'none';
+                	this.warningWrapEl.dom.setAttribute("data-warnqtip", activeWarn);
                 }
             }
         },
@@ -487,7 +487,7 @@
         		me.el.removeCls (me.warningCls);
                 if (this.warningWrapEl) 
                 {
-                	this.warningWrapEl.style.display = 'none';
+                	this.warningWrapEl.dom.style.display = 'none';
                 }
             }
         }

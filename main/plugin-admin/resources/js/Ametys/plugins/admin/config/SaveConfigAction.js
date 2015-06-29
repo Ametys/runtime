@@ -22,11 +22,11 @@ Ext.define('Ametys.plugins.admin.config.SaveConfigAction', {
     singleton: true,
     
     /**
-	 * @property {Number} LAUNCH_TESTS_SAVE_MBOX_HEIGHT The height and of the "launch tests and save" message box
-	 * @private
-	 * @readonly 
-	 */
-	LAUNCH_TESTS_SAVE_MBOX_HEIGHT: 130,
+     * @property {Number} LAUNCH_TESTS_SAVE_MBOX_HEIGHT The height and of the "launch tests and save" message box
+     * @private
+     * @readonly 
+     */
+    LAUNCH_TESTS_SAVE_MBOX_HEIGHT: 130,
     
     /**
      * Save the configuration
@@ -37,25 +37,27 @@ Ext.define('Ametys.plugins.admin.config.SaveConfigAction', {
         var target = controller.getMatchingTargets()[0];
         if (target != null)
         {
-        	var subtarget = target.getSubtargets()[0]; 
-			if (subtarget.getType() != Ametys.message.MessageTarget.FORM)
-			{
-				return;
-			}
-        	
-			var me = this,
-				testsOk = true,
-				form = subtarget.getParameters().form,
-				paramCheckersDAO = form._paramCheckersDAO,
-				paramCheckers = paramCheckersDAO._paramCheckers;
-				
+            var subtargets = target.getSubtargets(function(target) { return target.getType() ==  Ametys.message.MessageTarget.FORM}, 1)
+            if (subtargets.length == 0)
+            {
+                Ext.MessageBox.alert("<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_SAVE_NOFORM_TITLE'/>", "<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_SAVE_NOFORM'/>");
+                return;
+            }
+            var subtarget = subtargets[0]; 
+            
+            var me = this,
+                testsOk = true,
+                form = subtarget.getParameters().form,
+                paramCheckersDAO = form._paramCheckersDAO,
+                paramCheckers = paramCheckersDAO._paramCheckers;
+                
             // We save only when the form is valid
-			if (!form.getForm().isValid())
-			{
-				Ext.MessageBox.alert("<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_SAVE_INVALID_TITLE'/>", "<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_SAVE_INVALID'/>");
-				form.getForm().markInvalid();
-				return;
-		    }
+            if (!form.getForm().isValid())
+            {
+                Ext.MessageBox.alert("<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_SAVE_INVALID_TITLE'/>", "<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_SAVE_INVALID'/>");
+                form.getForm().markInvalid();
+                return;
+            }
             
             function doSave()
             {
@@ -79,33 +81,33 @@ Ext.define('Ametys.plugins.admin.config.SaveConfigAction', {
             });
             
             if (!testsOk)
-			{
-				var msgBox = new Ext.window.MessageBox({closeAction: 'destroy'});
-				
-				msgBox.buttonText.yes = "<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_TESTS_NOK_MBOX_SAVE'/>";
-				msgBox.buttonText.no = "<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_TESTS_NOK_MBOX_RETRY'/>";
-				msgBox.buttonText.cancel = "<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_TESTS_NOK_MBOX_CANCEL'/>";
-				msgBox.show({
-							title: "<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_TESTS_NOK_MBOX_TITLE'/>", 
-							msg: "<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_TESTS_NOK_MBOX_MSG'/>",
-							buttons: Ext.Msg.YESNOCANCEL,
-							icon: Ext.Msg.ERROR,
-							height: me.LAUNCH_TESTS_SAVE_MBOX_HEIGHT,
-							fn: function(btn)
-							{
-								if (btn == 'yes')
-								{
-									doSave();
-								}
-								else if (btn == 'no')
-								{
-									Ext.getBody().mask("<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_SAVE_WAIT_MSG'/>");
-									Ametys.form.ConfigurableFormPanel.ParameterCheckersActions._check(paramCheckers, form, true, Ext.bind(function(success) { Ext.getBody().unmask(); if (success) { this.save(); } } , me), false);
-								}
-							}
-						});
-				return;
-			}
+            {
+                var msgBox = new Ext.window.MessageBox({closeAction: 'destroy'});
+                
+                msgBox.buttonText.yes = "<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_TESTS_NOK_MBOX_SAVE'/>";
+                msgBox.buttonText.no = "<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_TESTS_NOK_MBOX_RETRY'/>";
+                msgBox.buttonText.cancel = "<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_TESTS_NOK_MBOX_CANCEL'/>";
+                msgBox.show({
+                            title: "<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_TESTS_NOK_MBOX_TITLE'/>", 
+                            msg: "<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_TESTS_NOK_MBOX_MSG'/>",
+                            buttons: Ext.Msg.YESNOCANCEL,
+                            icon: Ext.Msg.ERROR,
+                            height: me.LAUNCH_TESTS_SAVE_MBOX_HEIGHT,
+                            fn: function(btn)
+                            {
+                                if (btn == 'yes')
+                                {
+                                    doSave();
+                                }
+                                else if (btn == 'no')
+                                {
+                                    Ext.getBody().mask("<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_SAVE_WAIT_MSG'/>");
+                                    Ametys.form.ConfigurableFormPanel.ParameterCheckersActions._check(paramCheckers, form, true, Ext.bind(function(success) { Ext.getBody().unmask(); if (success) { this.save(); } } , me), false);
+                                }
+                            }
+                        });
+                return;
+            }
 
             doSave();
         }
@@ -117,50 +119,50 @@ Ext.define('Ametys.plugins.admin.config.SaveConfigAction', {
      */
     _save: function(params)
     {
-	    var	result = null,
-	    	ex = "";
-	
-	    try
-	    {
-	    	result =  Ext.Ajax.request({url: Ametys.getPluginDirectPrefix("admin") + "/config/set", params: params, async: false});	
-	    }
-	    catch (e)
-	    {
-	    	ex = e;
-	    }
-	    
-	    Ext.getBody().unmask();
-	    
-		if (result == null)
-	    {
-			Ametys.log.ErrorDialog.display({
-				title: "<i18n:text i18n:key='PLUGINS_ADMIN_SAVE_DIALOG_TITLE'/>", 
-				text: "<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_SAVE_FATALERROR'/>",
-	    		details: ex,
-	    		category: "Ametys.plugins.core.administration.Config.save"
-			});
-	        return;
-	    }
-	    result = result.responseXML;
-	    
-	    var error = Ext.dom.Query.selectValue("*/error", result);
-	    if (error != null && error != "")
-	    {
-	    	Ametys.Msg.show ({
-	    		title: "<i18n:text i18n:key='PLUGINS_ADMIN_SAVE_DIALOG_TITLE'/>",
-	    		msg: "<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_SAVE_ERROR'/>",
-	    		buttons: Ext.Msg.OK,
-				icon: Ext.MessageBox.ERROR
-	    	});
-	        return;
-	    }
-	    
-	    Ametys.Msg.show ({
-	    		title: "<i18n:text i18n:key='PLUGINS_ADMIN_SAVE_DIALOG_TITLE'/>",
-	    		msg: "<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_SAVE_OK'/>",
-	    		buttons: Ext.Msg.OK,
-				icon: Ext.MessageBox.INFO,
-				fn: Ametys.reload
-	    });
+        var result = null,
+            ex = "";
+    
+        try
+        {
+            result =  Ext.Ajax.request({url: Ametys.getPluginDirectPrefix("admin") + "/config/set", params: params, async: false}); 
+        }
+        catch (e)
+        {
+            ex = e;
+        }
+        
+        Ext.getBody().unmask();
+        
+        if (result == null)
+        {
+            Ametys.log.ErrorDialog.display({
+                title: "<i18n:text i18n:key='PLUGINS_ADMIN_SAVE_DIALOG_TITLE'/>", 
+                text: "<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_SAVE_FATALERROR'/>",
+                details: ex,
+                category: "Ametys.plugins.core.administration.Config.save"
+            });
+            return;
+        }
+        result = result.responseXML;
+        
+        var error = Ext.dom.Query.selectValue("*/error", result);
+        if (error != null && error != "")
+        {
+            Ametys.Msg.show ({
+                title: "<i18n:text i18n:key='PLUGINS_ADMIN_SAVE_DIALOG_TITLE'/>",
+                msg: "<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_SAVE_ERROR'/>",
+                buttons: Ext.Msg.OK,
+                icon: Ext.MessageBox.ERROR
+            });
+            return;
+        }
+        
+        Ametys.Msg.show ({
+                title: "<i18n:text i18n:key='PLUGINS_ADMIN_SAVE_DIALOG_TITLE'/>",
+                msg: "<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_SAVE_OK'/>",
+                buttons: Ext.Msg.OK,
+                icon: Ext.MessageBox.INFO,
+                fn: Ametys.reload
+        });
     }
 });

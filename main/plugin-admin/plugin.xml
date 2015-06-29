@@ -26,7 +26,7 @@
     </extension-points>
     
     <!-- +
-         |  PLUGINS AND WORKSPACES
+         |  WELCOME ANNOUNCEMENTS
          + --> 
     <feature name="runtime.admin.system">
         <components>
@@ -90,7 +90,7 @@
                     <icon-medium file="true">img/system/announcement_32.png</icon-medium>
                     <icon-large file="true">img/system/announcement_48.png</icon-large>
                     
-                    <default-location>c</default-location>
+                    <default-location>cl</default-location>
                 </class>
                 <scripts>
                     <file>js/Ametys/plugins/admin/system/SystemTool.js</file>
@@ -262,7 +262,7 @@
                 <css>
                     <file>css/plugins.css</file>
                 </css>
-                <default-location>c</default-location>
+                <default-location>cl</default-location>
             </extension>
             
             <extension id="org.ametys.plugins.admin.PluginsByExtensionPoint"  
@@ -311,7 +311,7 @@
                 <css>
                     <file>css/plugins.css</file>
                 </css>
-                <default-location>c</default-location>
+                <default-location>cl</default-location>
             </extension>
             
             <extension id="org.ametys.plugins.admin.Workspaces"  
@@ -357,7 +357,7 @@
                     <file>js/Ametys/plugins/admin/plugins/WorkspacesTool.js</file>
                     <file>js/Ametys/plugins/admin/plugins/WorkspacesTool/Workspace.js</file>
                 </scripts>
-                <default-location>c</default-location>
+                <default-location>cl</default-location>
             </extension>
             
             <extension id="org.ametys.plugins.admin.plugins.Documentation"
@@ -559,7 +559,7 @@
                     <icon-medium file="true">img/logs/logs_32.png</icon-medium>
                     <icon-large file="true">img/logs/logs_48.png</icon-large>
                     
-                    <default-location>c</default-location>
+                    <default-location>cl</default-location>
                 </class>
                 <scripts>
                     <file>js/Ametys/plugins/admin/logs/LogsTool.js</file>
@@ -602,7 +602,7 @@
                     <icon-medium file="true">img/logs/loglevel_32.png</icon-medium>
                     <icon-large file="true">img/logs/loglevel_48.png</icon-large>
                     
-                    <default-location>c</default-location>
+                    <default-location>cl</default-location>
                 </class>
                 <scripts>
                     <file>js/Ametys/plugins/admin/logs/LogsLevelTool.js</file>
@@ -870,7 +870,7 @@
                     <icon-medium file="true">img/jvmstatus/jvmstatus_32.png</icon-medium>
                     <icon-large file="true">img/jvmstatus/jvmstatus_48.png</icon-large>
                     
-                    <default-location>c</default-location>
+                    <default-location>cl</default-location>
                 </class>
                 <scripts>
                     <file>js/Ametys/plugins/admin/jvmstatus/JVMStatusTool.js</file>
@@ -915,7 +915,7 @@
                     <icon-medium file="true">img/jvmstatus/properties_32.png</icon-medium>
                     <icon-large file="true">img/jvmstatus/properties_48.png</icon-large>
                     
-                    <default-location>c</default-location>
+                    <default-location>cl</default-location>
                 </class>
                 <scripts>
                     <file>js/Ametys/plugins/admin/jvmstatus/SystemPropertiesTool.js</file>
@@ -966,6 +966,81 @@
                 <css>
                     <file>css/jvmstatus.css</file>
                 </css>
+            </extension>
+        </extensions>
+    </feature>
+    
+    <!-- +
+         |  ADMIN CONFIGURATION
+         + -->
+    <feature name="runtime.admin.config">
+        
+        <extensions>
+            <extension id="org.ametys.plugins.admin.config.Tab"
+                       point="org.ametys.core.ui.RibbonTabsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.tab.TabController">
+                    <tool-role>^(uitool-admin-config)$</tool-role>
+                </class>
+            </extension>
+        
+            <extension id="org.ametys.plugins.admin.config.Open"  
+                       point="org.ametys.core.ui.RibbonControlsManager" 
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <!-- 
+                    This button opens the configuration tool 
+                 -->
+                <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
+                    <opentool-role>uitool-admin-config</opentool-role>
+                    
+                    <label i18n="true">PLUGINS_ADMIN_CONFIG_LABEL</label>
+                    <description i18n="true">PLUGINS_ADMIN_CONFIG_DESCRIPTION</description>
+                    
+                    <icon-small file="true">img/config/config_16.png</icon-small>
+                    <icon-medium file="true">img/config/config_32.png</icon-medium>
+                    <icon-large file="true">img/config/config_48.png</icon-large>
+                </class>
+            </extension>
+            
+            <extension id="org.ametys.plugins.admin.config.ConfigToolFactory"
+                       point="org.ametys.core.ui.UIToolsFactoriesManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.tool.factory.UniqueToolFactory">
+                    <role>uitool-admin-config</role>
+                    <toolClass>Ametys.plugins.admin.config.ConfigTool</toolClass>
+                    
+                    <title i18n="true">PLUGINS_ADMIN_CONFIG_LABEL</title>
+                    <description i18n="true">PLUGINS_ADMIN_CONFIG_DESCRIPTION</description>
+                    
+                    <icon-small file="true">img/config/config_16.png</icon-small>
+                    <icon-medium file="true">img/config/config_32.png</icon-medium>
+                    <icon-large file="true">img/config/config_48.png</icon-large>
+                    
+                    <default-location>cl</default-location>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/admin/config/ConfigTool.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.plugins.admin.config.Save"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.admin.config.SaveConfigAction.save</action>
+                    <tool-role>uitool-admin-config</tool-role>
+                    <selection-target-type>^configuration$</selection-target-type>
+
+                    <label i18n="true">PLUGINS_ADMIN_CONFIG_HANDLE_SAVE</label>
+                    <description i18n="true">PLUGINS_ADMIN_CONFIG_HANDLE_SAVE_DESC</description>
+                    
+                    <icon-small file="true">img/config/save_16.png</icon-small>
+                    <icon-medium file="true">img/config/save_32.png</icon-medium>
+                    <icon-large file="true">img/config/save_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/admin/config/SaveConfigAction.js</file>
+                </scripts>
             </extension>
         </extensions>
     </feature>

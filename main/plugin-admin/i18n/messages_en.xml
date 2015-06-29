@@ -37,6 +37,7 @@
     <message key="PLUGINS_ADMIN_CONFIG_MENU">Table of contents</message>
     <message key="PLUGINS_ADMIN_CONFIG_DESCRIPTION">Management of configuration parameters</message>
     <message key="PLUGINS_ADMIN_CONFIG_TITLE">Configuration</message>
+    <message key="PLUGINS_ADMIN_CONFIG_LOADING_ERROR">An error occurred and the configuration parameters were not loaded</message>
     <message key="PLUGINS_ADMIN_CONFIG_HANDLE">Management</message>
     <message key="PLUGINS_ADMIN_CONFIG_HANDLE_SAVE">Save and restart</message>
     <message key="PLUGINS_ADMIN_CONFIG_HANDLE_SAVE_DESC">Saves the form values and reboots the application.</message>
@@ -47,6 +48,8 @@
     <message key="PLUGINS_ADMIN_CONFIG_SAVE_WAIT_MSG">Saving. Please wait ...</message>
     <message key="PLUGINS_ADMIN_CONFIG_SAVE_FATALERROR">Server is not responding or a fatal error occurred during saving.\nConsult applications and servlet engines logfiles for more details.</message>
     <message key="PLUGINS_ADMIN_CONFIG_SAVE_ERROR">An error occurred on the server and parameters have not been updated.\n\nInternal error message is :\n</message>
+    <message key="PLUGINS_ADMIN_CONFIG_SAVE_NOFORM_TITLE">No form</message>
+    <message key="PLUGINS_ADMIN_CONFIG_SAVE_NOFORM">There is no form to save.</message>
     <message key="PLUGINS_ADMIN_CONFIG_SAVE_INVALID_TITLE">The form contains errors</message>
     <message key="PLUGINS_ADMIN_CONFIG_SAVE_INVALID">One or more fields in the form are incorrect.Please modify them and then save the form.</message>
     <message key="PLUGINS_ADMIN_CONFIG_INVALID_REGEXP">Wrong value. Expected format:</message> 

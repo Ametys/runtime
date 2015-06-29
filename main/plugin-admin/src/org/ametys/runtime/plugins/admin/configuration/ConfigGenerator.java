@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.ametys.plugins.adminold.configuration;
+package org.ametys.runtime.plugins.admin.configuration;
 
 import java.io.IOException;
 

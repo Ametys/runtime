@@ -191,6 +191,7 @@
        <param-checker id="mail-connection-checker" class="org.ametys.plugins.core.impl.checker.MailConnectionChecker">
             <label i18n="true">PLUGINS_CORE_MAIL_CONNECTION_CHECKER_LABEL</label>
             <description i18n="true">PLUGINS_CORE_MAIL_CONNECTION_CHECKER_DESC</description>
+            
             <icon-small>img/config/check/test_emailconnect_16.png</icon-small>
             <icon-medium>img/config/check/test_emailconnect_32.png</icon-medium>
             <icon-large>img/config/check/test_emailconnect_48.png</icon-large>

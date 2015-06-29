@@ -192,12 +192,12 @@ Ext.define('Ametys.form.WidgetManager', {
 			
 			if (!widgetsByType[type] || widgetsByType[type].length == 0)
 			{
-				this.getLogger().warn("There is no default widget nor registered widget for type '" + type + "', default widget for type Ametys.form.WidgetManager#TYPE_STRING will be used");
+				this.getLogger().warn("There is no default widget nor registered widget for type '" + type + "' (" + (isEnumeration ? 'enumerated': 'non enumerated') + "/" + (isMultiple ? 'multiple': 'single') + "), default widget for type Ametys.form.WidgetManager#TYPE_STRING will be used");
 				return defaultWidgetsByType[this.self.TYPE_STRING];
 			}
 			else
 			{
-				this.getLogger().warn("There is no default widget for type '" + type + "', first widget of this type will be used.");
+				this.getLogger().warn("There is no default widget for type '" + type + "' (" + (isEnumeration ? 'enumerated': 'non enumerated') + "/" + (isMultiple ? 'multiple': 'single') + "), first widget of this type will be used.");
 				return widgetsByType[type][0];
 			}
 		}

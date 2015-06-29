@@ -74,7 +74,7 @@ Ext.define('Ametys.plugins.admin.config.ConfigTool', {
                 handler: this._getConfigurationParametersCb,
                 scope: this
             },
-            errorMessage: {msg: "<i18n:text i18n:key='PLUGINS_CORE_ADMINISTRATOR_TOOL_CONFIG_SERVER_ERROR'/>", category: this.self.getName()},
+            errorMessage: {msg: "<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_LOADING_ERROR'/>", category: this.self.getName()},
             waitMessage: true
         });
 	},

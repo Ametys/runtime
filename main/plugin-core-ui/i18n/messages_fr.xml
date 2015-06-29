@@ -37,6 +37,7 @@
     <message key="PLUGINS_CORE_UI_DATETIME_SHORTDATE">d/m/y</message>
     <message key="PLUGINS_CORE_UI_DATETIME_LONGDATE">d/m/Y</message>
     <message key="PLUGINS_CORE_UI_DATETIME_FULLDATE">l j F Y</message>
+    <message key="PLUGINS_CORE_UI_DATETIME_VERYSHORTTIME">H:i</message>
     <message key="PLUGINS_CORE_UI_DATETIME_SHORTTIME">H:i:s</message>
     <message key="PLUGINS_CORE_UI_DATETIME_LONGTIME">H:i:sP</message>
     <message key="PLUGINS_CORE_UI_DATETIME_SHORTDATETIME">d/m/y H:i:s</message>

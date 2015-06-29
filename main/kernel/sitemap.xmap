@@ -187,24 +187,12 @@
             </map:match>
             <map:match pattern="plugins/*/resources/**.js">
                 <map:act type="plugin-exists" src="{1}">
-                
-                <!-- FIXME temporary compatible with .i18nfiles -->
-	                <map:act type="resource-exists" src="plugin:{../1}://resources/{../2}.js">
-	                    <map:generate src="plugin:{../../1}://resources/{../../2}.js" type="i18nizabletext"/>
-	                    <map:transform type="i18n">
-	                        <map:parameter name="locale" value="{locale:locale}"/>
-	                        <map:parameter name="plugin" value="{../../1}"/>
-	                    </map:transform>
-	                    <map:serialize type="text" mime-type="text/javascript;charset=utf-8"/>
-	                </map:act>
-	                
-                    <map:generate src="plugin:{../1}://resources/{../2}.i18n.js" type="i18nizabletext"/>
+                    <map:generate src="plugin:{../1}://resources/{../2}.js" type="i18nizabletext"/>
                     <map:transform type="i18n">
                         <map:parameter name="locale" value="{locale:locale}"/>
                         <map:parameter name="plugin" value="{../1}"/>
                     </map:transform>
                     <map:serialize type="text" mime-type="text/javascript;charset=utf-8"/>
-             
                 </map:act>
             </map:match>
             

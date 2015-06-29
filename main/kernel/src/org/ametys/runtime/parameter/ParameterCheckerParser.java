@@ -23,6 +23,7 @@ import java.util.Set;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.commons.lang3.StringUtils;
 
 import org.ametys.core.util.I18nizableText;
 import org.ametys.runtime.plugin.component.ThreadSafeComponentManager;
@@ -65,13 +66,27 @@ public final class ParameterCheckerParser
 
         Configuration smallIconConfig = paramCheckerConfig.getChild("icon-small");
         String smallIconPath = smallIconConfig.getValue("");
+        if (StringUtils.isNotEmpty(smallIconPath))
+        {
+            String plugin = smallIconConfig.getAttribute("plugin", pluginName);
+            smallIconPath = "/plugins/" + plugin + "/resources/" + smallIconPath;
+        }
         
         Configuration mediumIconConfig = paramCheckerConfig.getChild("icon-medium");
         String mediumIconPath = mediumIconConfig.getValue("");
+        if (StringUtils.isNotEmpty(mediumIconPath))
+        {
+            String plugin = mediumIconConfig.getAttribute("plugin", pluginName);
+            mediumIconPath = "/plugins/" + plugin + "/resources/" + mediumIconPath;
+        }
         
         Configuration largeIconConfig = paramCheckerConfig.getChild("icon-large");
         String largeIconPath = largeIconConfig.getValue("");
-        String plugin = largeIconConfig.getAttribute("plugin", pluginName);
+        if (StringUtils.isNotEmpty(largeIconPath))
+        {
+            String plugin = largeIconConfig.getAttribute("plugin", pluginName);
+            largeIconPath = "/plugins/" + plugin + "/resources/" + largeIconPath;
+        }
         
         I18nizableText label = _parseI18nizableText(paramCheckerConfig, pluginName, "label");
         I18nizableText description = _parseI18nizableText(paramCheckerConfig, pluginName, "description");
@@ -110,7 +125,6 @@ public final class ParameterCheckerParser
         parameterChecker.setLabel(label);
         parameterChecker.setDescription(description);
         parameterChecker.setClass(concreteClass);
-        parameterChecker.setPlugin(plugin);
         parameterChecker.setSmallIconPath(smallIconPath);
         parameterChecker.setMediumIconPath(mediumIconPath);
         parameterChecker.setLargeIconPath(largeIconPath);

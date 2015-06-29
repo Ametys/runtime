@@ -114,6 +114,7 @@
                     <file>edition.file</file>
                     <geocode>edition.geocode</geocode>
                     <long>edition.longfield</long>
+                    <password>edition.changepassword</password>
                     <reference>edition.url-reference</reference>
                     <rich_text>edition.richtext</rich_text>
                     <string>edition.textfield</string>
@@ -230,6 +231,10 @@
                     <file>js/Ametys/form/widget/DefaultWidgets.js</file>
                 </scripts>                
             </extension>
+        </extensions>
+    </feature>
+    <feature name="widgets.others.hidden">
+        <extensions>
             <extension id="edition.hidden"
                 point="org.ametys.core.ui.widgets.WidgetsManager"
                 class="org.ametys.core.ui.widgets.StaticClientSideWidget">
@@ -243,13 +248,31 @@
             </extension>
         </extensions>
     </feature>
+    <feature name="widgets.default.changepassword">
+        <extensions>
+            <extension id="edition.changepassword"
+                point="org.ametys.core.ui.widgets.WidgetsManager"
+                class="org.ametys.core.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.form.field.ChangePassword">
+                    <ftypes>password</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>false</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+                <scripts>
+                    <file>js/Ametys/form/widget/DefaultWidgets.js</file>
+                </scripts>                
+            </extension>
+        </extensions>
+    </feature>
     <feature name="widgets.default.combo">
         <extensions>
             <extension id="edition.combobox"
                 point="org.ametys.core.ui.widgets.WidgetsManager"
                 class="org.ametys.core.ui.widgets.StaticClientSideWidget">
                 <class name="Ametys.form.widget.ComboBox">
-                    <ftypes>string,long</ftypes>
+                    <ftypes>string,long,boolean,double</ftypes>
                     <supports-enumerated>true</supports-enumerated>
                     <supports-non-enumerated>false</supports-non-enumerated>
                     <supports-multiple>true</supports-multiple>
@@ -369,6 +392,24 @@
             </extension>
         </extensions>
     </feature>    
+<!--     <feature name="widgets.others.stringhour"> -->
+<!--         <extensions> -->
+<!--             <extension id="edition.string-time" -->
+<!--                 point="org.ametys.core.ui.widgets.WidgetsManager" -->
+<!--                 class="org.ametys.core.ui.widgets.StaticClientSideWidget"> -->
+<!--                 <class name="Ametys.form.widget.StringTime"> -->
+<!--                     <ftypes>string</ftypes> -->
+<!--                     <supports-enumerated>false</supports-enumerated> -->
+<!--                     <supports-non-enumerated>true</supports-non-enumerated> -->
+<!--                     <supports-multiple>false</supports-multiple> -->
+<!--                     <supports-non-multiple>true</supports-non-multiple> -->
+<!--                 </class> -->
+<!--                 <scripts> -->
+<!--                 </scripts>                 -->
+<!--             </extension> -->
+<!--         </extensions> -->
+<!--     </feature>     -->
+    
     <feature name="widgets.default.richtext">
         <extensions>
             <extension id="edition.richtext"
@@ -854,5 +895,53 @@
          </extension>
          
        </extensions>
+    </feature>
+    
+    <feature name="configurableformpanel.checks">
+        <extensions>
+            <extension id="org.ametys.plugins.core.configurableformpanel.CheckAll"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.plugins.coreui.configurableformpanel.TestsController">
+                    <action>Ametys.plugins.coreui.configurableformpanel.TestsController.check</action>
+                    <mode>all</mode>
+                    
+                    <selection-target-type>^form$</selection-target-type>
+                    
+
+                    <label i18n="true">PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_ALL_TESTS</label>
+                    <description i18n="true">PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_ALL_TESTS_DESC</description>
+                    
+                    <icon-small file="true">img/Ametys/common/form/configurable/tests/testall_16.png</icon-small>
+                    <icon-medium file="true">img/Ametys/common/form/configurable/tests/testall_32.png</icon-medium>
+                    <icon-large file="true">img/Ametys/common/form/configurable/tests/testall_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/coreui/configurableformpanel/TestsController.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.plugins.core.configurableformpanel.CheckMissed"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.plugins.coreui.configurableformpanel.TestsController">
+                    <action>Ametys.plugins.coreui.configurableformpanel.TestsController.check</action>
+                    <mode>missed</mode>
+                    
+                    <selection-target-type>^form$</selection-target-type>
+                    
+
+                    <label i18n="true">PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_MISSED_TESTS</label>
+                    <description i18n="true">PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_MISSED_TESTS_DESC</description>
+                    
+                    <icon-small file="true">img/Ametys/common/form/configurable/tests/testmissing_16.png</icon-small>
+                    <icon-medium file="true">img/Ametys/common/form/configurable/tests/testmissing_32.png</icon-medium>
+                    <icon-large file="true">img/Ametys/common/form/configurable/tests/testmissing_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/coreui/configurableformpanel/TestsController.js</file>
+                </scripts>
+            </extension>
+        </extensions>
     </feature>
 </plugin>

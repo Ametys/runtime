@@ -603,10 +603,11 @@ Ext.define(
  * @property {String} patterns.ShortDate A short date depending on language. Can be 02/28/13 in english.
  * @property {String} patterns.LongDate A long date depending on language. Can be 02/28/2013 in english.
  * @property {String} patterns.FullDate A full readable date depending on language. Can be Thursday, February 2, 2013 in english.
+ * @property {String} patterns.VeryShortTime A short time depending on language. Can be 03:15 AM in english. 
  * @property {String} patterns.ShortTime A short time depending on language. Can be 03:15:50 AM in english. 
  * @property {String} patterns.LongTime A long time depending on language. Can be 03:15:35+02:00 AM in english.
  * @property {String} patterns.ShortDateTime A combinaison of #patterns.ShortDate and #patterns.ShortTime. Can be 02/28/13 03:15:50 AM in english.
- * @property {String} patterns.FriendlyDateTime A readable #patterns.LongDate, a keyword (such as 'at') and very short time. Can be 02/28/2013 ar 03:15 AM in english.
+ * @property {String} patterns.FriendlyDateTime A readable #patterns.LongDate, a keyword (such as 'at') and very short time. Can be 02/28/2013 at 03:15 AM in english.
  * @property {String} patterns.LongDateTime A combinaison of #patterns.LongDate and #patterns.LongTime. Can be 02/28/2013 03:15:35+02:00 AM in english.
  * @property {String} patterns.FullDateTime A combinaison of #patterns.FullDate, a keyword (such as 'at') and a long readable time. Can be Thursday, February 28, 2013 at 05:13:50 GMT PM in english.
  * @since Ametys Runtime 3.9
@@ -618,6 +619,7 @@ Ext.Date.patterns = {
 	ShortDate: "<i18n:text i18n:key='PLUGINS_CORE_UI_DATETIME_SHORTDATE'/>",
 	LongDate: "<i18n:text i18n:key='PLUGINS_CORE_UI_DATETIME_LONGDATE'/>",
 	FullDate: "<i18n:text i18n:key='PLUGINS_CORE_UI_DATETIME_FULLDATE'/>",
+    VeryShortTime: "<i18n:text i18n:key='PLUGINS_CORE_UI_DATETIME_VERYSHORTTIME'/>",
 	ShortTime: "<i18n:text i18n:key='PLUGINS_CORE_UI_DATETIME_SHORTTIME'/>",
 	LongTime: "<i18n:text i18n:key='PLUGINS_CORE_UI_DATETIME_LONGTIME'/>",
 	ShortDateTime: "<i18n:text i18n:key='PLUGINS_CORE_UI_DATETIME_SHORTDATETIME'/>",

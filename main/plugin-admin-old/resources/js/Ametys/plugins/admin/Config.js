@@ -129,7 +129,7 @@ Ext.define('Ametys.plugins.admin.Config', {
 	 * @private
 	 */
 	_widgets: {
-		'hour': 'Ametys.plugins.admin.Config.HourField',
+		'edition.string-time': 'Ametys.plugins.admin.Config.HourField',
 		'time': 'Ametys.plugins.admin.Config.TimeField',
 		'textarea': 'Ametys.plugins.admin.Config.TextareaField'
 	},

@@ -37,6 +37,7 @@
     <message key="PLUGINS_ADMIN_CONFIG_MENU">Sommaire</message>
     <message key="PLUGINS_ADMIN_CONFIG_DESCRIPTION">Réglage des paramètres de configuration</message>
     <message key="PLUGINS_ADMIN_CONFIG_TITLE">Configuration</message>
+    <message key="PLUGINS_ADMIN_CONFIG_LOADING_ERROR">Une erreur est survenue et les paramètres de configuration n'ont pas pu être chargés</message>
     <message key="PLUGINS_ADMIN_CONFIG_HANDLE">Gestion</message>
     <message key="PLUGINS_ADMIN_CONFIG_HANDLE_SAVE">Sauver et redémarrer</message>
     <message key="PLUGINS_ADMIN_CONFIG_HANDLE_SAVE_DESC">Enregistre les valeurs du formulaire et rédemarre l'application.</message>
@@ -47,6 +48,8 @@
     <message key="PLUGINS_ADMIN_CONFIG_SAVE_WAIT_MSG">Sauvegarde en cours.&lt;br/&gt;Veuillez patienter ...</message>
     <message key="PLUGINS_ADMIN_CONFIG_SAVE_FATALERROR">Le serveur ne répond pas ou une erreur grave est survenue lors de la sauvegarde.\nConsultez les journaux de l'application et du moteur de servlet pour plus de détails.</message>
     <message key="PLUGINS_ADMIN_CONFIG_SAVE_ERROR">Une erreur est survenue sur le serveur et les paramètres n'ont pas été sauvegardés.\n\nLe message d'erreur interne est :\n</message>
+    <message key="PLUGINS_ADMIN_CONFIG_SAVE_NOFORM_TITLE">Pas de formulaire</message>
+    <message key="PLUGINS_ADMIN_CONFIG_SAVE_NOFORM">Impossible de trouver le formulaire à sauvegarder.</message>
     <message key="PLUGINS_ADMIN_CONFIG_SAVE_INVALID_TITLE">Le formulaire contient des erreurs</message>
     <message key="PLUGINS_ADMIN_CONFIG_SAVE_INVALID">Un ou plusieurs champs du formulaire sont incorrects. Veuillez les corriger avant de recommencer une sauvegarde.</message>
     <message key="PLUGINS_ADMIN_CONFIG_INVALID_REGEXP">La saisie ne respecte pas le format attendu :</message>

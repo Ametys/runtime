@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Anyware Services
+ *  Copyright 2015 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -72,7 +72,7 @@ import org.ametys.runtime.plugin.component.ThreadSafeComponentManager;
  */
 public final class ConfigManager implements Contextualizable, Serviceable, Initializable
 {
-    // shared instance
+ // shared instance
     private static ConfigManager __manager;
 
     // the regular expression for ids
@@ -515,7 +515,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                     if (groupSwitch == null || isGroupSwitchedOn)
                     {
                         boolean disabled = false;
-                        for (ConfigParameter parameter: group.getParams())
+                        for (ConfigParameter parameter: group.getParams(true))
                         {
                             DisableConditions disableConditions = parameter.getDisableConditions();
                             disabled = _evaluateDisableConditions(disableConditions, untypedValues);
@@ -727,9 +727,26 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
      */
     public void toSAX(ContentHandler handler) throws SAXException, ProcessingException
     {
-        _saxParameters(handler);
+        XMLUtils.startElement(handler, "configuration");
+        _saxConfiguration(handler);
+        XMLUtils.endElement(handler, "configuration");
+        
+        XMLUtils.startElement(handler, "values");
+        _saxValues(handler);
+        XMLUtils.endElement(handler, "values");
     }
 
+    /**
+     * SAX the configuration parameters and values into a content handler
+     * @param handler Handler for sax events
+     * @throws SAXException if an error occurred
+     * @throws ProcessingException if an error occurred
+     */
+    public void toSAXOld(ContentHandler handler) throws SAXException, ProcessingException //FIXME TO REMOVE
+    {
+        _saxParametersOLD(handler);
+    }
+    
     private Map<I18nizableText, ParameterCategory> _categorizeParameters(Map<String, ConfigParameter> params, Map<String, ParameterCheckerDescriptor> paramCheckers)
     {
         Map<I18nizableText, ParameterCategory> categories = new HashMap<> ();
@@ -812,7 +829,135 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         return categories;
     }
 
-    private void _saxParameters(ContentHandler handler) throws SAXException, ProcessingException
+    private  void _saxConfiguration(ContentHandler contentHandler) throws SAXException, ProcessingException
+    {
+        for (I18nizableText categoryKey : _categorizedParameters.keySet())
+        {
+            AttributesImpl tabAttrs = new AttributesImpl();
+            tabAttrs.addCDATAAttribute("role", "tabs");
+            XMLUtils.startElement(contentHandler, "fieldsets", tabAttrs);
+            
+            categoryKey.toSAX(contentHandler, "label");
+            
+            ParameterCategory category = _categorizedParameters.get(categoryKey);
+            
+            // Category checkers
+            Set<ParameterCheckerDescriptor> paramCheckersCategories = category.getParamCheckers();
+            if (paramCheckersCategories != null)
+            {
+                for (ParameterCheckerDescriptor paramChecker : paramCheckersCategories)
+                {
+                    paramChecker.toSAX(contentHandler);
+                }
+            }
+            
+            XMLUtils.startElement(contentHandler, "elements");
+
+            for (I18nizableText groupKey : category.getGroups().keySet())
+            {
+                ParameterGroup group = category.getGroups().get(groupKey);
+
+                AttributesImpl fieldsetAttrs = new AttributesImpl();
+                fieldsetAttrs.addCDATAAttribute("role", "fieldset");
+                XMLUtils.startElement(contentHandler, "fieldsets", fieldsetAttrs);
+
+                groupKey.toSAX(contentHandler, "label");
+
+                // Group checkers
+                Set<ParameterCheckerDescriptor> paramCheckersGroups = group.getParamCheckers();
+                if (paramCheckersGroups != null)
+                {
+                    for (ParameterCheckerDescriptor paramChecker : paramCheckersGroups)
+                    {
+                        paramChecker.toSAX(contentHandler);
+                    }
+                }
+                
+                // Group switch
+                String switchId = null;
+                if (group.getSwitch() != null)
+                {
+                    switchId = group.getSwitch();
+                    ConfigParameter switcher = get(switchId);
+                    
+                    
+                    XMLUtils.startElement(contentHandler, "switcher");
+                    // XMLUtils.createElement(contentHandler, "id", switchId);
+                    XMLUtils.createElement(contentHandler, "id", switchId.replace('.', '_')); // FIXME
+                    switcher.getLabel().toSAX(contentHandler, "label");
+                    XMLUtils.createElement(contentHandler, "defaultValue", ParameterHelper.valueToString(switcher.getDefaultValue()));
+                    XMLUtils.endElement(contentHandler, "switcher");
+                }
+                
+                XMLUtils.startElement(contentHandler, "elements");
+                for (ConfigParameter param : group.getParams(false))
+                {
+                    String paramId = param.getId();
+                    
+                    XMLUtils.startElement(contentHandler, paramId.replace('.', '_'));
+//                    XMLUtils.startElement(contentHandler, paramId);  FIXME
+                    
+                    ParameterHelper.toSAXParameterInternal(contentHandler, param, null);
+                    
+                    // Disable condition
+                    if (param.getDisableConditions() != null)
+                    {
+                        XMLUtils.createElement(contentHandler, "disable-conditions", param.disableConditionsToJSON());
+                    }
+                    
+                    // Sax parameter checkers attached to a single parameter
+                    for (String paramCheckerId : _parameterCheckers.keySet())
+                    {
+                        ParameterCheckerDescriptor paramChecker = _parameterCheckers.get(paramCheckerId);
+                        String uiRefParamId = paramChecker.getUiRefParamId();
+                        if (uiRefParamId != null && uiRefParamId.equals(paramId))
+                        {
+                            paramChecker.toSAX(contentHandler);
+                        }
+                    }
+                    
+                    XMLUtils.endElement(contentHandler, paramId.replace('.', '_'));
+//                    XMLUtils.endElement(contentHandler, paramId); FIXME
+                }
+                XMLUtils.endElement(contentHandler, "elements");
+
+                XMLUtils.endElement(contentHandler, "fieldsets");
+            }
+            
+            XMLUtils.endElement(contentHandler, "elements");
+            XMLUtils.endElement(contentHandler, "fieldsets");
+        }
+    }
+    
+    private  void _saxValues(ContentHandler contentHandler) throws SAXException
+    {
+        // Get configuration parameters
+        Map<String, String> untypedValues;
+        try
+        {
+            untypedValues = Config.read();
+        }
+        catch (Exception e)
+        {
+            if (_logger.isWarnEnabled())
+            {
+                _logger.warn("Config values are unreadable. Proposing default values", e);
+            }
+            
+            untypedValues = new HashMap<>();
+        }
+        
+        XMLUtils.startElement(contentHandler, "metadata");
+        for (String parameterId : _params.keySet())
+        {
+            ConfigParameter param = _params.get(parameterId);
+            Object value = _getValue (parameterId, param.getType(), untypedValues);
+            XMLUtils.createElement(contentHandler, parameterId.replace('.', '_'), ParameterHelper.valueToString(value)); //FIXME
+        }
+        XMLUtils.endElement(contentHandler, "metadata");
+    }
+    
+    private void _saxParametersOLD(ContentHandler handler) throws SAXException, ProcessingException // FIXME remove
     {
         // Get configuration parameters
         Map<String, String> untypedValues;
@@ -845,7 +990,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             {
                 for (ParameterCheckerDescriptor paramChecker : paramCheckersCategories)
                 {
-                    _saxParameterChecker(handler, paramChecker);
+                    _saxParameterCheckerOLD(handler, paramChecker);
                 }
             }
             
@@ -868,12 +1013,12 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                 {
                     for (ParameterCheckerDescriptor paramChecker : paramCheckersGroups)
                     {
-                        _saxParameterChecker(handler, paramChecker);
+                        _saxParameterCheckerOLD(handler, paramChecker);
                     }
                 }
                 
                 XMLUtils.startElement(handler, "parameters");
-                for (ConfigParameter param : group.getParams())
+                for (ConfigParameter param : group.getParams(true))
                 {
                     String paramId = param.getId();
                     Object value = _getValue (param.getId(), param.getType(), untypedValues);
@@ -895,7 +1040,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                         String uiRefParamId = paramChecker.getUiRefParamId();
                         if (uiRefParamId != null && uiRefParamId.equals(paramId))
                         {
-                            _saxParameterChecker(handler, paramChecker);
+                            _saxParameterCheckerOLD(handler, paramChecker);
                         }
                     }
                     
@@ -914,14 +1059,14 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         XMLUtils.endElement(handler, "categories");
     }
 
-    private void _saxParameterChecker(ContentHandler handler, ParameterCheckerDescriptor paramChecker) throws SAXException
+    private void _saxParameterCheckerOLD(ContentHandler handler, ParameterCheckerDescriptor paramChecker) throws SAXException // FIXME remove
     {
         I18nizableText uiRefGroup = paramChecker.getUiRefGroup();
         I18nizableText uiRefCategory = paramChecker.getUiRefCategory();
         int order = paramChecker.getUiRefOrder();       
         
         XMLUtils.startElement(handler, "param-checker");
-        XMLUtils.valueOf(handler, paramChecker.toJson());
+        XMLUtils.valueOf(handler, paramChecker.toJsonOLD());
         paramChecker.getLabel().toSAX(handler, "label");
         paramChecker.getDescription().toSAX(handler, "description");
       
@@ -1086,7 +1231,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                 XMLUtils.data(handler, "\n  ");
 
                 ParameterGroup group = category.getGroups().get(groupKey);
-                for (ConfigParameter param: group.getParams())
+                for (ConfigParameter param: group.getParams(true))
                 {
                     Object typedValue = typedValues.get(param.getId());
                     
@@ -1249,9 +1394,22 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             return _groupLabel;
         }
         
-        Set<ConfigParameter> getParams()
+        Set<ConfigParameter> getParams(boolean withSwitch)
         {
-            return _groupParams;
+            if (withSwitch)
+            {
+                return new TreeSet<>(_groupParams);
+            }
+            else
+            {
+                Set<ConfigParameter> groupParams = new TreeSet<>(_groupParams);
+                if (_switcher != null)
+                {
+                    groupParams.remove(get(_switcher));
+                }
+                
+                return groupParams;
+            }
         }
         
         String getSwitch()

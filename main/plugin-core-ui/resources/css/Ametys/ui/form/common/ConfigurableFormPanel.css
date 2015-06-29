@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Anyware Services
+ *  Copyright 2015 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -52,12 +52,12 @@
 }
 
 .ametys-repeater-invalid-tooltip {
-	background: url('../../../../../../plugins/extjs6/resources/classic/theme-gray/resources/images/form/exclamation.gif') left no-repeat;
+    background: url('../../../../../../../../plugins/extjs6/resources/classic/theme-gray/resources/images/form/exclamation.gif') left no-repeat;
 	padding-left: 20px;
 }
 
 .ametys-form-panel .ametys-repeater .x-tool-error {
-	background: url('../../../../../../plugins/extjs6/resources/classic/theme-gray/resources/images/form/exclamation.gif') left no-repeat !important;
+    background: url('../../../../../../../../plugins/extjs6/resources/classic/theme-gray/resources/images/form/exclamation.gif') left no-repeat;
 }
 
 .ametys-form-panel .ametys-repeater-item > .x-panel-body
@@ -199,32 +199,33 @@
 
 .ametys-form-panel .ametys-form-tab .x-tab-default.error.not-startup .x-tab-inner,
 .ametys-form-panel .ametys-form-tab-inline .x-panel-header.error.not-startup .x-panel-header-title {
-    padding-left: 20px;
-    color: #e25f53;
+    padding-left: 20px !important;
+    color: #EEA20B !important;
     font-style: normal;
+    line-height: 16px !important;
 }
 
 .ametys-form-panel .ametys-form-tab .x-tab-default.warning.not-startup .x-tab-inner,
 .ametys-form-panel .ametys-form-tab-inline .x-panel-header.warning.not-startup .x-panel-header-title {
-    padding-left: 20px;
-    color: #EEA20B;
-    font-style: normal;
+    padding-left: 20px !important;
+    color: #EEA20B !important;
+    line-height: 16px !important;
 }
 
 .ametys-form-panel .ametys-form-tab-inline .x-panel-header.error.not-startup .x-panel-header-title {
-    background: url('../../../../../../plugins/extjs6/resources/classic/theme-gray/resources/images/form/exclamation.gif') left no-repeat;
+    background: url('../../../../../../../../plugins/extjs6/resources/classic/theme-gray/resources/images/form/exclamation.gif') left no-repeat;
 }
 
-.ametys-form-panel .ametys-form-tab .x-tab-default.error.not-startup .x-tab-icon-el {
-    background: url('../../../../../../plugins/extjs6/resources/classic/theme-gray/resources/images/form/exclamation.gif') left no-repeat;
+.ametys-form-panel .ametys-form-tab .x-tab-default.error.not-startup .x-tab-inner {
+    background: url('../../../../../../../../plugins/extjs6/resources/classic/theme-gray/resources/images/form/exclamation.gif') left no-repeat;
 }
 
 .ametys-form-panel .ametys-form-tab-inline .x-panel-header.warning.not-startup .x-panel-header-title {
-    background: url('../../../../../../kernel/resources/img/Ametys/theme/gray/warning.png') left no-repeat;
+    background: url('../../../../../img/Ametys/theme/gray/warning.png') left no-repeat;
 }
 
-.ametys-form-panel .ametys-form-tab .x-tab-default.warning.not-startup .x-tab-icon-el {
-    background: url('../../../../../../kernel/resources/img/Ametys/theme/gray/warning.png') left no-repeat;
+.ametys-form-panel .ametys-form-tab .x-tab-default.warning.not-startup .x-tab-inner {
+    background: url('../../../../../img/Ametys/theme/gray/warning.png') left no-repeat;
 }
 
 .ametys-form-panel .ametys-form-tab .x-tab-default.error.not-startup.x-tab-active .x-tab-inner,
@@ -312,3 +313,134 @@
     background-position: 5px 2px;
 }
 /** @end Main fieldset tabs */
+
+/** @begin Parameter checkers */
+.x-tip-form-warning .x-btn-default-small-over:after
+{
+    content: ' ' !important;
+}
+
+.x-tip-form-warning .x-btn-default-small:after
+{
+    content: ' ' !important;
+}
+
+.ametys-form-panel .ametys .x-form-item-label 
+{
+    margin-top: 2px;
+}
+
+.ametys-form-panel .test-results
+{
+   text-decoration: none; 
+   font-weight: normal; 
+   font-family: arial,sans-serif;
+}
+
+.ametys-form-panel .ametys .x-btn-default-small-focus
+{
+   margin-bottom-width: 1px !important;
+}
+
+.ametys-form-panel .param-checker-container
+{
+    
+}
+
+.ametys-form-panel .param-checker-container .x-box-inner
+{
+    width: 262px !important;
+    position: static;
+}
+
+.ametys-form-panel .param-checker-component
+{
+    border: 1px solid #b9b9b9 !important;
+    background-color: #e3e3e3;
+}
+
+.ametys-form-panel .param-checker-component .x-mask-msg 
+{
+    background-color: transparent !important;
+    border: 1px !important;
+}
+
+.ametys-form-panel .param-checker-component .x-mask-msg div 
+{
+    background-color: transparent !important;
+}
+
+.ametys-form-panel .param-checker-component.failure
+{
+    width: 220px;
+}
+ 
+.ametys-form-panel .param-checker-component.success
+{
+    width: 220px;   
+}
+
+.ametys-form-panel .param-checker-component.warning
+{
+    width: 220px;   
+}
+ 
+.ametys-form-panel .param-checker-component.failure:after
+{
+    content: ' ';
+    display: inline-block;
+    background: url('../../../../../../../../plugins/extjs6/resources/classic/theme-gray/resources/images/form/exclamation.gif') left no-repeat;
+    height: 20px; 
+    width: 20px;
+    position: absolute;
+    bottom: -1px;
+    right: -27px; 
+}
+ 
+.ametys-form-panel .param-checker-component.success:after
+{ 
+    content: ' ';
+    display: inline-block;
+    background: url('../../../../../resources/img/Ametys/theme/gray/info.png') no-repeat;
+    height: 20px;
+    width: 20px;
+    position: absolute;
+    bottom: -1px;
+    right: -27px; 
+}
+
+.ametys-form-panel .param-checker-component.warning:after
+{ 
+    content: ' ';
+    display: inline-block;
+    background: url('../../../../../img/Ametys/theme/gray/warning.png') no-repeat;
+    height: 20px;
+    width: 20px;
+    position: absolute;
+    bottom: -1px;
+    right: -27px; 
+}
+ 
+.ametys-form-panel .test-results
+{
+   text-decoration: none; 
+   font-weight: normal; 
+   font-family: arial,sans-serif;
+}
+
+.ametys-form-panel .offset
+{
+    margin-left: 25px !important;
+}
+ 
+.ametys-form-panel .param-checker-component.x-btn-over
+{
+   background-position: -16px 0;
+}
+
+.ametys-form-panel .param-checker-component.x-btn-pressed
+{
+   background-position: -32px 0;
+}*/
+/** @end Parameter checkers */
+

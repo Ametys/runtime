@@ -23,11 +23,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.cocoon.xml.XMLUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.xml.sax.ContentHandler;
+import org.xml.sax.SAXException;
 
 import org.ametys.core.util.I18nizableText;
 
@@ -47,9 +52,6 @@ public class ParameterCheckerDescriptor extends AbstractLogEnabled
     
     /** The path of the small icon*/
     protected String _smallIconPath;
-    
-    /** The name of the plugin */
-    protected String _plugin;
     
     /** The path of the medium icon*/
     protected String _mediumIconPath;
@@ -84,41 +86,40 @@ public class ParameterCheckerDescriptor extends AbstractLogEnabled
     /** The object mapper */
     private ObjectMapper _objectMapper = new ObjectMapper();
     
-    /**
-     * Returns a json representation of the ParameterCheckerDescriptor
-     * @return the json representation
-     */
-    public String toJson()
+   /**
+    * Returns a json representation of the ParameterCheckerDescriptor
+    * @return the json representation
+    */
+    public String toJsonOLD() // FIXME to remove
     {
         StringWriter writer = new StringWriter();
-        
+
         Map<String, Object> result = new HashMap<>();
         List<String> linkedParamsList = new ArrayList<>();
 
-        Iterator<String> it =  _linkedParamsIds.iterator(); 
+        Iterator<String> it = _linkedParamsIds.iterator();
         while (it.hasNext())
         {
             linkedParamsList.add(it.next());
         }
-        
+
         if (_uiRefParamId != null)
         {
             result.put("param-ref", _uiRefParamId);
         }
-        
-        result.put("plugin", _plugin);
+
         result.put("linked-params", linkedParamsList);
         result.put("small-icon-path", _smallIconPath);
         result.put("medium-icon-path", _mediumIconPath);
         result.put("large-icon-path", _largeIconPath);
         result.put("id", _id);
         result.put("class", _concreteClass);
-        
+
         try
         {
             JsonGenerator jsonGenerator = _jsonFactory.createJsonGenerator(writer);
             _objectMapper.writeValue(jsonGenerator, result);
-            
+
             return writer.toString();
         }
         catch (IOException e)
@@ -126,7 +127,46 @@ public class ParameterCheckerDescriptor extends AbstractLogEnabled
             throw new IllegalArgumentException("The object can not be converted to json string", e);
         }
     }
+    
+    /**
+     * SAX the description informations
+     * @param handler The handler where to sax
+     * @throws SAXException if an error occurred
+     */
+    public void toSAX(ContentHandler handler) throws SAXException
+    {
+        XMLUtils.startElement(handler, "param-checker");
 
+        XMLUtils.createElement(handler, "id", getId());
+        XMLUtils.createElement(handler, "small-icon-path", getSmallIconPath());
+        XMLUtils.createElement(handler, "medium-icon-path", getMediumIconPath());
+        XMLUtils.createElement(handler, "large-icon-path", getLargeIconPath());
+        
+        if (getLinkedParamsIds() != null)
+        {
+            String linkedParamsAsJSON = "[" + StringUtils.join(getLinkedParamsIds().parallelStream().map(s -> "\"" + s + "\"").collect(Collectors.toList()), ", ") + "]"; 
+            XMLUtils.createElement(handler, "linked-params", linkedParamsAsJSON);
+        }
+        
+        if (getUiRefParamId() != null)
+        {
+            XMLUtils.createElement(handler, "param-ref", getUiRefParamId());
+        }
+        if (getUiRefCategory() != null)
+        {
+            getUiRefCategory().toSAX(handler, "category");
+        }
+        if (getUiRefGroup() != null)
+        {
+            getUiRefGroup().toSAX(handler, "group");
+        }
+        getLabel().toSAX(handler, "label");
+        getDescription().toSAX(handler, "description");
+        XMLUtils.createElement(handler, "order", Integer.toString(getUiRefOrder()));
+        
+        XMLUtils.endElement(handler, "param-checker");
+    }
+    
     /**
      * Retrieves the parameter checker's id
      * @return _id the id of the parameter checker 
@@ -181,24 +221,6 @@ public class ParameterCheckerDescriptor extends AbstractLogEnabled
         _description = description;
     }
     
-    /** 
-     * Retrieves the plugin of the icons
-     * @return _plugin the plugin of the icons
-     */
-    public String getPlugin()
-    {
-        return _plugin;
-    }
-    
-    /** 
-     * Sets the plugin of the icons
-     * @param plugin the plugin of the icons
-     */
-    public void setPlugin(String plugin)
-    {
-        _plugin = plugin;
-    }
-
     /** 
      * Retrieves the parameter checker's icon 
      * @return _iconPath the path to the icon representing the parameter checker

@@ -20,6 +20,13 @@
     <tabs>
         <tab label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_HOME_LABEL">
             <groups>
+                <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_CONFIG_LABEL" icon="">
+                    <large/>
+                    <medium>
+                        <control id="org.ametys.plugins.admin.config.Open"/>
+                    </medium>
+                    <small/>
+                </group>
                 <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_SYSTEM_LABEL" icon="">
                     <large/>
                     <medium>
@@ -150,6 +157,19 @@
                     <large/>
                     <medium>
                         <control id="org.ametys.plugins.admin.plugins.Documentation"/>
+                    </medium>
+                    <small/>
+                </group>
+            </groups>
+        </tab>
+        <tab id="org.ametys.plugins.admin.config.Tab" label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_CONFIG_LABEL" contextualLabel="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_CONFIG_LABEL" contextualColor="2" contextualGroup="CONFIG">
+            <groups>
+                <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_CONFIG_GROUPS_GROUP_ACTIONS" icon="">
+                    <large/>
+                    <medium>
+                        <control id="org.ametys.plugins.admin.config.Save"/>
+                        <control id="org.ametys.plugins.core.configurableformpanel.CheckAll"/>
+                        <control id="org.ametys.plugins.core.configurableformpanel.CheckMissed"/>
                     </medium>
                     <small/>
                 </group>

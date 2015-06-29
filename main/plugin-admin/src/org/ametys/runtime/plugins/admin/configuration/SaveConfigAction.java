@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.ametys.plugins.adminold.configuration;
+package org.ametys.runtime.plugins.admin.configuration;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -67,7 +67,8 @@ public class SaveConfigAction extends AbstractAction implements Contextualizable
             String[] ids = configManager.getParametersIds();
             for (int i = 0; i < ids.length; i++)
             {
-                String untypedValue = request.getParameter(ids[i]);
+                String untypedValue1 = request.getParameter(ids[i].replace('.', '_')); // FIXME
+                String untypedValue = untypedValue1 == null ? request.getParameter(ids[i]) : untypedValue1; // FIXME
                 untypedValues.put(ids[i], untypedValue);
             }
 
