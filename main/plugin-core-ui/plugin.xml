@@ -105,7 +105,6 @@
             <!-- Handles the widgets that are used on client side to creates forms (e.g. editing content) -->
             <normal>
                 <single>
-                    <binary>edition.file</binary>
                     <boolean>edition.checkbox</boolean>
                     <content>edition.select-content</content>
                     <date>edition.date</date>
