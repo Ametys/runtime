@@ -67,8 +67,7 @@ public class SaveConfigAction extends AbstractAction implements Contextualizable
             String[] ids = configManager.getParametersIds();
             for (int i = 0; i < ids.length; i++)
             {
-                String untypedValue1 = request.getParameter(ids[i].replace('.', '_')); // FIXME
-                String untypedValue = untypedValue1 == null ? request.getParameter(ids[i]) : untypedValue1; // FIXME
+                String untypedValue = request.getParameter(ids[i]);
                 untypedValues.put(ids[i], untypedValue);
             }
 

@@ -882,8 +882,8 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                     
                     
                     XMLUtils.startElement(contentHandler, "switcher");
-                    // XMLUtils.createElement(contentHandler, "id", switchId);
-                    XMLUtils.createElement(contentHandler, "id", switchId.replace('.', '_')); // FIXME
+                    XMLUtils.createElement(contentHandler, "id", switchId); // FIXME
+                    // XMLUtils.createElement(contentHandler, "id", switchId.replace('.', '_')); // FIXME
                     switcher.getLabel().toSAX(contentHandler, "label");
                     XMLUtils.createElement(contentHandler, "defaultValue", ParameterHelper.valueToString(switcher.getDefaultValue()));
                     XMLUtils.endElement(contentHandler, "switcher");
@@ -894,8 +894,8 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                 {
                     String paramId = param.getId();
                     
-                    XMLUtils.startElement(contentHandler, paramId.replace('.', '_'));
-//                    XMLUtils.startElement(contentHandler, paramId);  FIXME
+                    XMLUtils.startElement(contentHandler, paramId);   // FIXME
+                    //XMLUtils.startElement(contentHandler, paramId.replace('.', '_')); // FIXME
                     
                     ParameterHelper.toSAXParameterInternal(contentHandler, param, null);
                     
@@ -916,8 +916,8 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                         }
                     }
                     
-                    XMLUtils.endElement(contentHandler, paramId.replace('.', '_'));
-//                    XMLUtils.endElement(contentHandler, paramId); FIXME
+                    XMLUtils.endElement(contentHandler, paramId); // FIXME
+                    // XMLUtils.endElement(contentHandler, paramId.replace('.', '_')); // FIXME
                 }
                 XMLUtils.endElement(contentHandler, "elements");
 
@@ -952,7 +952,8 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         {
             ConfigParameter param = _params.get(parameterId);
             Object value = _getValue (parameterId, param.getType(), untypedValues);
-            XMLUtils.createElement(contentHandler, parameterId.replace('.', '_'), ParameterHelper.valueToString(value)); //FIXME
+            XMLUtils.createElement(contentHandler, parameterId, ParameterHelper.valueToString(value)); //FIXME
+//            XMLUtils.createElement(contentHandler, parameterId.replace('.', '_'), ParameterHelper.valueToString(value)); //FIXME
         }
         XMLUtils.endElement(contentHandler, "metadata");
     }

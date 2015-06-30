@@ -141,7 +141,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 	 */
 	addParameterChecker: function(paramChecker)
 	{
-		var field = this.form.getField(paramChecker['param-ref'].replace(/\./g, '_')), // FIXME
+		var field = this.form.getField(paramChecker['param-ref']),
 		    uiRefLabel = field.getFieldLabel(),
 	    	fieldCt = field.up(),
 	    	fieldCtParent = fieldCt.up();
@@ -194,7 +194,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 			var linkedParamsLabels = [];
 			Ext.Array.each(paramChecker.linkedParams, function(linkedParam) {
 
-				var	linkedParamField = me.form.getField(linkedParam.replace(/\./g, '_')); // FIXME
+				var	linkedParamField = me.form.getField(linkedParam);
 				var fieldLabel = linkedParamField.getFieldLabel();
 				
 				linkedParamField.on('change', Ext.bind(me._updateTestButton, me, [paramChecker], false));
@@ -287,7 +287,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 		
 		// Set the labels of the linked parameters in the param checker
 		Ext.Array.each(paramChecker.linkedParams, function(linkedParam) {
-			var	linkedParamField = me.form.getField(linkedParam.replace(/\./g, '_')); // FIXME
+			var	linkedParamField = me.form.getField(linkedParam);
 			var fieldLabel = linkedParamField.getFieldLabel();
 			
 			if (Ext.String.startsWith(fieldLabel,"*"))
@@ -408,7 +408,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 	    for (var i = 0; i < linkedParams.length; i++)
 		{
 			var linkedParam = linkedParams[i],
-				linkedParamField = this.form.getField(linkedParam.replace(/\./g, '_')); //FIXME
+				linkedParamField = this.form.getField(linkedParam);
 
 			// check if all linked parameters are disabled
 			if (!linkedParamField.isDisabled())
@@ -527,7 +527,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 				warningMsg = "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_WARNING_TEXT_BEGINNING'/>" + paramChecker.label + "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_WARNING_TEXT_END'/>";	
 			
 			Ext.Array.each(paramChecker.linkedParams, function(linkedParam){
-				var linkedParamField = me.form.getField(linkedParam.replace(/\./g, '_')); // FIXME
+				var linkedParamField = me.form.getField(linkedParam);
 				linkedParamField._warnings = linkedParamField._warnings || {};
 				
 				var activeWarnings = linkedParamField.getActiveWarnings();
@@ -626,10 +626,9 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
         var formValues = form.getValues(),
             params = {};
         
-        // FIXME
         Ext.Object.each(formValues, function(fieldName){
-            params[fieldName.replace(/\_/g, '.')] = this[fieldName];
-        });
+            params[fieldName] = this[fieldName];
+        });            
         
         // Add the ids of the involved parameter checkers 
         var paramCheckersIds = [];

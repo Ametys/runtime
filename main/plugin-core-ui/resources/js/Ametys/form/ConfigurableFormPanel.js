@@ -1107,7 +1107,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      * @param {Ext.Element} ct The container where to add the fieldset
      * @param {String} label The label of the fieldset
      * @param {Number} nestingLevel The nesting level of the fieldset.
-     * @param {Object} switcher If the group can be switched on/off, the configuration object corresponding to the group-switch parameter
+     * @param {Object} switcher If the group can be switched on/off, the configuration object corresponding to the group-switch parameter. A config for #_createInputField.
      * @param {String[]} fieldNames An array containing the names of the fields the switcher will show/hide 
      * @return {Ext.form.FieldSet} The created fieldset
      * @private
@@ -1130,16 +1130,15 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         
         if (switcher != null)
         {
-            var name = switcher.id;
-            var switcherCfg  = Ext.apply ({name: name, type: 'boolean', minWidth: 20, style: ' '}, switcher);
+            var switcherCfg  = Ext.apply ({minWidth: 20, style: ' '}, switcher);
             
             var switcherField = this._createInputField(switcherCfg);
             
             switcherField.on('render', Ext.bind(this._preventClickPropagation, this));
             
             // Register the switcher as a field
-            this._fields.push(switcher.id);
-            this._switchers[switcherCfg.id] = switcherField;
+            this._fields.push(switcherCfg.name);
+            this._switchers[switcherCfg.name] = switcherField;
 
             Ext.apply(fdCfg, {
                 title: switcherCfg.label,
@@ -1580,6 +1579,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                             var switcherCfg = fieldsets[i].switcher;
                             if (switcherCfg != null)
                             {
+                                switcherCfg.name = switcherCfg.id;
+                                delete switcherCfg.id;
                                 switcherCfg.type = 'boolean';
                                 
                                 var fieldNames = [];
@@ -1752,7 +1753,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                     
                     this._addInputField(ct, widgetCfg);
                     
-                    var paramCheckers = nodes[i]['param-checker'];
+                    var paramCheckers = metadata['param-checker'];
                     if (!Ext.isEmpty(paramCheckers))
                     {
                         if (paramCheckers.length > 1)
@@ -1861,7 +1862,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                             var switcherCfg = {};
                             
                             // Create an object representing the switcher
-                            switcherCfg.id = Ext.dom.Query.selectValue('> id', switcher);
+                            switcherCfg.name = Ext.dom.Query.selectValue('> id', switcher);
                             switcherCfg.label = Ext.dom.Query.selectValue('> label', switcher);
                             switcherCfg.defaultValue = Ext.dom.Query.selectValue('> defaultValue', switcher);
                             switcherCfg.type = 'boolean';
@@ -2542,14 +2543,19 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     _getValues: function (metadataNode)
     {
         var values = [];
-        var nodes = Ext.dom.Query.select("> " + metadataNode.tagName, metadataNode.parentNode);
+        
+        // We get children with the same name of the same parent to have all tags with the same name for multiple values.
+        var nodes = Ext.dom.Query.select("> *", metadataNode.parentNode); // We cannot make a better selector because of possible "." in the tagName.
         for (var i=0; i < nodes.length; i++)
         {
-            var value = nodes[i].getAttribute('value') == null ? Ext.dom.Query.selectValue('', nodes[i], '') : nodes[i].getAttribute('value');
-            value = value || '';
-            if (value.length > 0)
+            if (nodes[i].tagName == metadataNode.tagName)
             {
-                values.push(value);
+                var value = nodes[i].getAttribute('value') == null ? Ext.dom.Query.selectValue('', nodes[i], '') : nodes[i].getAttribute('value');
+                value = value || '';
+                if (value.length > 0)
+                {
+                    values.push(value);
+                }
             }
         }
         return values;
@@ -3091,7 +3097,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                 conditionListLength = conditionList.length;
             for (var i = 0; i < conditionListLength; i++)
             {
-                var field = this.getField(conditionList[i]['id'].replace(/\./g, '_')); // FIXME
+                var field = this.getField(conditionList[i]['id']);
                 field.on('change', Ext.bind(this._disableField, this, [disablingField], false));
             }
         }
@@ -3145,7 +3151,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                     op = conditionList[i]['operator'],
                     val = conditionList[i]['value'];
                     
-                var result = this._evaluateCondition(id.replace(/\./g, '_'), op, val);
+                var result = this._evaluateCondition(id, op, val);
                 disable = disableCondition['type'] != "and" ? disable || result : disable && result;
             }
         }
