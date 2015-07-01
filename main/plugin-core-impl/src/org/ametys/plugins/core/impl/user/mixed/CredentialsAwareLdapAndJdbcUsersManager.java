@@ -29,6 +29,8 @@ import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
+import org.apache.cocoon.xml.XMLUtils;
+import org.apache.excalibur.xml.sax.ContentHandlerProxy;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
@@ -169,14 +171,21 @@ public class CredentialsAwareLdapAndJdbcUsersManager extends CredentialsAwareLda
     @Override
     public void toSAX(ContentHandler handler, int count, int offset, Map parameters) throws SAXException
     {
-        TagCountHandler tagCountHandler = new TagCountHandler(handler, "user");
+        XMLUtils.startElement(handler, "users");
+        
+        // Handler ignoring the root tag ("users") to avoid generating it twice.
+        IgnoreRootTagHandler rootTagHandler = new IgnoreRootTagHandler(handler);
+        
+        TagCountHandler tagCountHandler = new TagCountHandler(rootTagHandler, "user");
         
         super.toSAX(tagCountHandler, count, offset, parameters);
         
         int tagCount = tagCountHandler.getSaxedTagCount();
         int newCount = count > 0 ? count - tagCount : count;
         
-        _fallbackUsersManager.toSAX(handler, newCount, offset, parameters);
+        _fallbackUsersManager.toSAX(tagCountHandler, newCount, offset, parameters);
+        
+        XMLUtils.endElement(handler, "users");
     }
     
     // CredentialsAwareUsersManager methods. //
@@ -242,6 +251,59 @@ public class CredentialsAwareLdapAndJdbcUsersManager extends CredentialsAwareLda
     public void removeListener(UserListener listener)
     {
         _fallbackUsersManager.removeListener(listener);
+    }
+    
+    /**
+     * ContentHandler ignoring the root tag.
+     */
+    protected class IgnoreRootTagHandler extends ContentHandlerProxy
+    {
+        
+        private int _depth;
+        
+        /**
+         * Constructor
+         * @param contentHandler the contentHandler to pass SAX events to.
+         */
+        public IgnoreRootTagHandler(ContentHandler contentHandler)
+        {
+            super(contentHandler);
+        }
+        
+        @Override
+        public void startDocument() throws SAXException
+        {
+            _depth = 0;
+        }
+        
+        @Override
+        public void endDocument() throws SAXException
+        {
+            // empty method
+        }
+        
+        @Override
+        public void startElement(String uri, String loc, String raw, Attributes a) throws SAXException
+        {
+            _depth++;
+            
+            if (_depth > 1)
+            {
+                super.startElement(uri, loc, raw, a);
+            }
+        }
+        
+        @Override
+        public void endElement(String uri, String loc, String raw) throws SAXException
+        {
+            if (_depth > 1)
+            {
+                super.endElement(uri, loc, raw);
+            }
+            
+            _depth--;
+        }
+        
     }
     
     /**

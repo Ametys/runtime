@@ -21,6 +21,12 @@ import java.util.regex.Pattern;
 import javax.naming.Context;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
+import javax.naming.directory.Attribute;
+import javax.naming.directory.SearchControls;
+import javax.naming.directory.SearchResult;
+import javax.naming.ldap.InitialLdapContext;
+import javax.naming.ldap.LdapContext;
+import javax.naming.ldap.PagedResultsControl;
 
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -53,6 +59,9 @@ public abstract class AbstractLDAPConnector extends CachingComponent<Object> imp
     protected boolean _ldapFollowReferrals;
     /** Alias dereferencing mode. */
     protected String _ldapAliasDerefMode;
+    
+    /** Indicates if the LDAP server supports paging feature. */
+    protected boolean _pagingSupported;
     
     /**
      * Get the filter from configuration key and check it
@@ -109,6 +118,23 @@ public abstract class AbstractLDAPConnector extends CachingComponent<Object> imp
         }
         
         _ldapAliasDerefMode = _getConfigParameter(configuration, "AliasDereferencing");
+    }
+    
+    @Override
+    public void initialize() throws Exception
+    {
+        super.initialize();
+        
+        _pagingSupported = _testPagingSupported();
+    }
+    
+    /**
+     * Test if paging is supported by the underlying directory server.
+     * @return true if the server supports paging.
+     */
+    public boolean isPagingSupported()
+    {
+        return _pagingSupported;
     }
     
     /**
@@ -174,7 +200,75 @@ public abstract class AbstractLDAPConnector extends CachingComponent<Object> imp
 
         return env;
     }
-
+    
+    /**
+     * Get the parameters for connecting to the ldap server, root DN.
+     * @return Parameters for connecting.
+     */
+    protected Hashtable<String, String> _getRootContextEnv()
+    {
+        Hashtable<String, String> env = _getContextEnv();
+        
+        env.put(Context.PROVIDER_URL, _ldapUrl);
+        
+        return env;
+    }
+    
+    /**
+     * Test if paging is supported by the underlying directory server.
+     * @return true if the server supports paging.
+     */
+    protected boolean _testPagingSupported()
+    {
+        boolean supported = false;
+        
+        LdapContext context = null;
+        NamingEnumeration<SearchResult> results = null;
+        
+        try
+        {
+            // Connection to LDAP server
+            context = new InitialLdapContext(_getRootContextEnv(), null);
+            
+            SearchControls controls = new SearchControls();
+            controls.setReturningAttributes(new String[]{"supportedControl"});
+            controls.setSearchScope(SearchControls.OBJECT_SCOPE);
+            
+            // Search for the rootDSE object.
+            results = context.search("", "(objectClass=*)", controls);
+            
+            while (results.hasMore() && !supported)
+            {
+                SearchResult entry = results.next();
+                NamingEnumeration<?> attrs = entry.getAttributes().getAll();
+                while (attrs.hasMore() && !supported)
+                {
+                    Attribute attr = (Attribute) attrs.next();
+                    NamingEnumeration<?> vals = attr.getAll();
+                    while (vals.hasMore() && !supported)
+                    {
+                        String value = (String) vals.next();
+                        if (PagedResultsControl.OID.equals(value))
+                        {
+                            supported = true;
+                        }
+                    }
+                }
+            }
+        }
+        catch (NamingException e)
+        {
+            getLogger().warn("Error while testing the LDAP server for paging feature, assuming false.", e);
+        }
+        finally
+        {
+            // Close resources of connection
+            _cleanup(context, results);
+        }
+        
+        return supported;
+    }
+    
     /**
      * Clean a connection to an ldap server.
      * 
@@ -208,4 +302,5 @@ public abstract class AbstractLDAPConnector extends CachingComponent<Object> imp
             }
         }
     }
+    
 }

@@ -17,7 +17,6 @@ package org.ametys.plugins.core.impl.group.mixed;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.avalon.framework.configuration.Configuration;
@@ -25,17 +24,12 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-import org.xml.sax.Attributes;
-import org.xml.sax.ContentHandler;
-import org.xml.sax.SAXException;
-import org.xml.sax.ext.LexicalHandler;
 
 import org.ametys.core.group.Group;
 import org.ametys.core.group.GroupListener;
 import org.ametys.core.group.InvalidModificationException;
 import org.ametys.core.group.ModifiableGroupsManager;
 import org.ametys.core.user.UserListener;
-import org.ametys.core.util.IgnoreRootHandler;
 import org.ametys.plugins.core.impl.group.jdbc.ModifiableJdbcGroupsManager;
 import org.ametys.plugins.core.impl.group.ldap.UserDrivenLdapGroupsManager;
 
@@ -134,18 +128,7 @@ public class UserDrivenLdapAndJdbcGroupsManager extends UserDrivenLdapGroupsMana
         return userGroups;
     }
     
-    @Override
-    public void toSAX(ContentHandler handler, int count, int offset, Map parameters) throws SAXException
-    {
-        TagCountHandler tagCountHandler = new TagCountHandler(handler, "group");
-        
-        super.toSAX(tagCountHandler, count, offset, parameters);
-        
-        int tagCount = tagCountHandler.getSaxedTagCount();
-        int newCount = count > 0 ? count - tagCount : count;
-        
-        _fallbackGroupsManager.toSAX(handler, newCount, offset, parameters);
-    }
+    // toSAX is not inherited as it relies on getGroups().
     
     // ModifiableGroupManager methods: delegate all to the JDBC groups manager (fallback). //
     
@@ -201,79 +184,6 @@ public class UserDrivenLdapAndJdbcGroupsManager extends UserDrivenLdapGroupsMana
     public void userUpdated(String login)
     {
         _fallbackGroupsManager.userUpdated(login);
-    }
-    
-    /**
-     * Tag count handler.
-     */
-    protected class TagCountHandler extends IgnoreRootHandler
-    {
-        
-        /** The tag to count. */
-        protected String _tagQName;
-        
-        /** The tag count. */
-        protected int _tagCount;
-        
-        /**
-         * Constructor
-         * @param contentHandler the contentHandler to pass SAX events to. In case the <code>ContentHandler</code> also implements the <code>LexicalHandler</code> interface, it will be honoured.
-         * @param tagQName the tag qualified name.
-         */
-        public TagCountHandler(ContentHandler contentHandler, String tagQName)
-        {
-            super(contentHandler);
-            _tagQName = tagQName;
-            _tagCount = 0;
-        }
-        
-        /**
-         * Constructor
-         * @param contentHandler the contentHandler to pass SAX events to
-         * @param lexicalHandler the lexicalHandler to pass lexical events to. May be null.
-         * @param tagQName the tag qualified name.
-         */
-        public TagCountHandler(ContentHandler contentHandler, LexicalHandler lexicalHandler, String tagQName)
-        {
-            super(contentHandler, lexicalHandler);
-            _tagQName = tagQName;
-            _tagCount = 0;
-        }
-        
-        /**
-         * Get the count of tags saxed through this handler.
-         * @return the saxed tag count.
-         */
-        public int getSaxedTagCount()
-        {
-            return _tagCount;
-        }
-        
-        /**
-         * Reset the tag count.
-         */
-        public void resetTagCount()
-        {
-            _tagCount = 0;
-        }
-        
-        @Override
-        public void startDocument() throws SAXException
-        {
-            super.startDocument();
-            resetTagCount();
-        }
-        
-        @Override
-        public void startElement(String uri, String loc, String raw, Attributes a) throws SAXException
-        {
-            super.startElement(uri, loc, raw, a);
-            if (_tagQName.equals(raw))
-            {
-                _tagCount++;
-            }
-        }
-        
     }
     
 }
