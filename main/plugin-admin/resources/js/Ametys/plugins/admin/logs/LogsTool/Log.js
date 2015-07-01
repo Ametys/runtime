@@ -16,9 +16,9 @@
 
 /**
  * @private
- * The model used in the {@link Ametys.plugins.admin.tool.LogsTool} grid
+ * The model used in the {@link Ametys.plugins.admin.logs.LogsTool} grid
  */
-Ext.define('Ametys.plugins.admin.tool.LogsTool.Log', {
+Ext.define('Ametys.plugins.admin.logs.LogsTool.Log', {
     extend: 'Ext.data.Model',
     
     fields: [

@@ -16,9 +16,9 @@
 
 /**
  * @private
- * The model for the {@link Ametys.plugins.admin.LogsLevelTool} tree tool. 
+ * The model for the {@link Ametys.plugins.admin.logs.LogsLevelTool} tree tool. 
  */
-Ext.define('Ametys.plugins.admin.LogsLevelTool.Category', { 
+Ext.define('Ametys.plugins.admin.logs.LogsLevelTool.Category', { 
     extend: 'Ext.data.TreeModel', 
     fields: [ 
         { name: 'id', type: 'string' }, 

@@ -74,7 +74,7 @@ Ext.define('Ametys.plugins.admin.logs.LogsTool', {
 	_drawLogsPanel: function()
 	{
 		var store = Ext.create('Ext.data.Store', {
-			model: 'Ametys.plugins.admin.tool.LogsTool.Log',
+			model: 'Ametys.plugins.admin.logs.LogsTool.Log',
 	        groupField: 'name',
 	        
 	        sortOnLoad: true,
@@ -127,7 +127,7 @@ Ext.define('Ametys.plugins.admin.logs.LogsTool', {
      * @private
      * Opens a log file
      * @param {Ext.grid.Panel} grid The main tool grid
-     * @param {Ametys.plugins.admin.tool.LogsTool.Log} record The record to open
+     * @param {Ametys.plugins.admin.logs.LogsTool.Log} record The record to open
      */
 	_openLog: function (grid, record)
 	{

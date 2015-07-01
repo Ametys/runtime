@@ -78,7 +78,7 @@ Ext.define('Ametys.plugins.admin.logs.LogsLevelTool', {
 	_drawLogsLevelPanel: function()
 	{
 		var store = Ext.create('Ext.data.TreeStore', {
-			model: 'Ametys.plugins.admin.LogsLevelTool.Category',
+			model: 'Ametys.plugins.admin.logs.LogsLevelTool.Category',
 			
 			root: {
 				expanded: false
