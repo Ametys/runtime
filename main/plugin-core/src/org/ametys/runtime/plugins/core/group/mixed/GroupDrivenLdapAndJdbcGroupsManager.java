@@ -17,7 +17,6 @@ package org.ametys.runtime.plugins.core.group.mixed;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.avalon.framework.configuration.Configuration;
@@ -132,18 +131,7 @@ public class GroupDrivenLdapAndJdbcGroupsManager extends GroupDrivenLdapGroupsMa
         return userGroups;
     }
     
-    @Override
-    public void toSAX(ContentHandler handler, int count, int offset, Map parameters) throws SAXException
-    {
-        TagCountHandler tagCountHandler = new TagCountHandler(handler, "group");
-        
-        super.toSAX(tagCountHandler, count, offset, parameters);
-        
-        int tagCount = tagCountHandler.getSaxedTagCount();
-        int newCount = count > 0 ? count - tagCount : count;
-        
-        _fallbackGroupsManager.toSAX(handler, newCount, offset, parameters);
-    }
+    // toSAX is not inherited as it relies on getGroups().
     
     // ModifiableGroupManager methods: delegate all to the JDBC groups manager (fallback). //
     

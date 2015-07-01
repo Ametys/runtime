@@ -15,6 +15,7 @@
  */
 package org.ametys.runtime.plugins.core.group.ldap;
 
+import java.io.IOException;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -32,6 +33,11 @@ import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
+import javax.naming.ldap.Control;
+import javax.naming.ldap.InitialLdapContext;
+import javax.naming.ldap.LdapContext;
+import javax.naming.ldap.PagedResultsControl;
+import javax.naming.ldap.PagedResultsResponseControl;
 
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -46,6 +52,11 @@ import org.ametys.runtime.group.Group;
  */
 public class UserDrivenLdapGroupsManager extends AbstractLDAPGroupsManager implements Component
 {
+    
+    private static final GroupComparator _GROUP_COMPARATOR = new GroupComparator();
+    
+    private static int _DEFAULT_PAGE_SIZE = 1000;
+    
     /** The attribut which contains the groups of a user */
     protected String _usersMemberOfAttribute;
     /** Relative DN for users. */
@@ -56,6 +67,8 @@ public class UserDrivenLdapGroupsManager extends AbstractLDAPGroupsManager imple
     protected int _usersSearchScope;
     /** Name of the login attribute. */
     protected String _usersLoginAttribute;
+    /** The LDAP search page size. */
+    protected int _pageSize;
     
     private Pattern _groupExtractionPattern;
     
@@ -69,6 +82,8 @@ public class UserDrivenLdapGroupsManager extends AbstractLDAPGroupsManager imple
         _usersSearchScope = _getSearchScope(configuration, "UsersSearchScope");
         _usersLoginAttribute = _getConfigParameter(configuration, "UsersLogin");
         _usersMemberOfAttribute = _getConfigParameter(configuration, "MemberOf");
+        
+        _pageSize = configuration.getChild("PageSize").getValueAsInteger(_DEFAULT_PAGE_SIZE);
         
         _groupExtractionPattern = Pattern.compile("^" + _groupsIdAttribute + "=([^,]+),.*");
     }
@@ -89,34 +104,18 @@ public class UserDrivenLdapGroupsManager extends AbstractLDAPGroupsManager imple
     public Set<Group> getGroups()
     {
         // Créer un ensemble de groupes
-        Set<Group> groups = new TreeSet<Group>(new Comparator<Group>()
-        {
-            public int compare(Group g1, Group g2) 
-            {
-                if (g1.getId().equals(g2.getId()))
-                {
-                    return 0;
-                }
-                
-                int compareTo = g1.getLabel().toLowerCase().compareTo(g2.getLabel().toLowerCase());
-                if (compareTo == 0)
-                {
-                    return g1.getId().compareTo(g1.getId());
-                }
-                return compareTo;
-            }
-        });
+        Set<Group> groups = new TreeSet<Group>(_GROUP_COMPARATOR);
         
         Map<String, Group> groupsAssoc = new HashMap<String, Group>();
 
-        DirContext context = null;
+        LdapContext context = null;
         NamingEnumeration results = null;
         
         Map<String, String> groupsDesc = new HashMap<String, String>();
         try
         {
             // Connexion au serveur ldap
-            context = new InitialDirContext(_getContextEnv());
+            context = new InitialLdapContext(_getContextEnv(), null);
 
             // Effectuer la recherche
             results = context.search(_groupsRelativeDN, _groupsObjectFilter, _getGroupsSearchConstraint());
@@ -130,48 +129,72 @@ public class UserDrivenLdapGroupsManager extends AbstractLDAPGroupsManager imple
             _cleanup(null, results);
             
             // Connexion au serveur ldap
-            context = new InitialDirContext(_getContextEnv());
+            context = new InitialLdapContext(_getContextEnv(), null);
             
-            // Effectuer la recherche
-            results = context.search(_usersRelativeDN, _usersObjectFilter, _getUsersSearchConstraint());
-            while (results.hasMoreElements())
+            byte[] cookie = null;
+            
+            if (isPagingSupported())
             {
-                // Récupérer l'entrée courante
                 try
                 {
-                    UserInfos userInfos = _getUserInfos((SearchResult) results.nextElement());
-                    String login = userInfos.getLogin();
-                    
-                    // Créer ou bien mettre à jour les groupes
-                    for (String groupID : userInfos.getGroups())
-                    {
-                        if (groupsAssoc.containsKey(groupID))
-                        {
-                            // Ajouter l'utilisateur courant au groupe
-                            groupsAssoc.get(groupID).addUser(login);
-                        }
-                        else
-                        {
-                            if (groupsDesc.containsKey(groupID))
-                            {
-                                String description = groupsDesc.get(groupID);
-                                
-                                // Créer un nouveau groupe
-                                Group userGroup = new Group(groupID, description != null ? description : groupID);
-                                userGroup.addUser(login);
-                                // L'ajouter à la map
-                                groupsAssoc.put(groupID, userGroup);
-                            }
-                        }
-                    }
+                    context.setRequestControls(new Control[]{new PagedResultsControl(_pageSize, Control.NONCRITICAL) });
                 }
-                catch (IllegalArgumentException e)
+                catch (IOException ioe)
                 {
-                    getLogger().warn("Error missing at least one attribute or attribute value", e);
+                    getLogger().error("Error setting the PagedResultsControl in the LDAP context.", ioe);
                 }
             }
             
-            // Convertir la map en ensemble
+            do
+            {
+                // Perform the search
+                results = context.search(_usersRelativeDN, _usersObjectFilter, _getUsersSearchConstraint());
+                
+                // Iterate over a batch of search results
+                while (results != null && results.hasMoreElements())
+                {
+                    // Récupérer l'entrée courante
+                    try
+                    {
+                        UserInfos userInfos = _getUserInfos((SearchResult) results.nextElement());
+                        _addUserToGroups(userInfos, groupsAssoc, groupsDesc);
+                    }
+                    catch (IllegalArgumentException e)
+                    {
+                        getLogger().warn("Error missing at least one attribute or attribute value", e);
+                    }
+                }
+                
+                // Examine the paged results control response
+                Control[] controls = context.getResponseControls();
+                if (controls != null)
+                {
+                    for (int i = 0; i < controls.length; i++)
+                    {
+                        if (controls[i] instanceof PagedResultsResponseControl)
+                        {
+                            PagedResultsResponseControl prrc = (PagedResultsResponseControl) controls[i];
+                            cookie = prrc.getCookie();
+                        }
+                    }
+                }
+                
+                // Re-activate paged results
+                if (isPagingSupported())
+                {
+                    try
+                    {
+                        context.setRequestControls(new Control[]{new PagedResultsControl(_pageSize, cookie, Control.NONCRITICAL)});
+                    }
+                    catch (IOException ioe)
+                    {
+                        getLogger().error("Error setting the PagedResultsControl in the LDAP context.", ioe);
+                    }
+                }                
+            }
+            while (cookie != null);
+            
+            // Add all the groups with at least one user to the group Set.
             groups.addAll(groupsAssoc.values());
         }
         catch (NamingException e)
@@ -216,12 +239,46 @@ public class UserDrivenLdapGroupsManager extends AbstractLDAPGroupsManager imple
             
             result.put("id", groupId);
             result.put("desc", groupDesc);
-
+            
             return result;
         }
         catch (NamingException e)
         {
             throw new IllegalArgumentException("Missing at least one value for an attribute in an ldap entry", e);
+        }
+    }
+
+    /**
+     * Add the user to the groups he belongs to.
+     * @param userInfos The user membership informations.
+     * @param groupsAssoc The group Map, indexed by group ID.
+     * @param groupsDesc The group descriptions Map.
+     */
+    protected void _addUserToGroups(UserInfos userInfos, Map<String, Group> groupsAssoc, Map<String, String> groupsDesc)
+    {
+        String login = userInfos.getLogin();
+        
+        // Créer ou bien mettre à jour les groupes
+        for (String groupID : userInfos.getGroups())
+        {
+            if (groupsAssoc.containsKey(groupID))
+            {
+                // Ajouter l'utilisateur courant au groupe
+                groupsAssoc.get(groupID).addUser(login);
+            }
+            else
+            {
+                if (groupsDesc.containsKey(groupID))
+                {
+                    String description = groupsDesc.get(groupID);
+                    
+                    // Créer un nouveau groupe
+                    Group userGroup = new Group(groupID, description != null ? description : groupID);
+                    userGroup.addUser(login);
+                    // L'ajouter à la map
+                    groupsAssoc.put(groupID, userGroup);
+                }
+            }
         }
     }
     
@@ -475,4 +532,35 @@ public class UserDrivenLdapGroupsManager extends AbstractLDAPGroupsManager imple
             _groups.add(group);
         }
     }
+    
+    /**
+     * Group comparator.
+     */
+    private static class GroupComparator implements Comparator<Group>
+    {
+        /**
+         * Constructor.
+         */
+        public GroupComparator()
+        {
+            // Nothing to do.
+        }
+        
+        @Override
+        public int compare(Group g1, Group g2) 
+        {
+            if (g1.getId().equals(g2.getId()))
+            {
+                return 0;
+            }
+            
+            int compareTo = g1.getLabel().toLowerCase().compareTo(g2.getLabel().toLowerCase());
+            if (compareTo == 0)
+            {
+                return g1.getId().compareTo(g1.getId());
+            }
+            return compareTo;
+        }
+    }
+    
 }
