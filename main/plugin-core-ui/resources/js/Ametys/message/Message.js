@@ -77,16 +77,6 @@ Ext.define("Ametys.message.Message",
 			
 			/**
 			 * @readonly
-			 * @property {String} METADATA_CHANGED Event when the content of the param editor has changed. 
-			 * Parameters are:
-			 * @property {String} METADATA_CHANGED.id The file id of the param editor
-			 * @property {String} METADATA_CHANGED.name The file name of the param editor
-			 * @property {String} METADATA_CHANGED.path The file path of the param editor 
-			 */
-			METADATA_CHANGED: "metadataChanged",
-			
-			/**
-			 * @readonly
 			 * @property {String} DELETING Event when an object is to be deleted. 
 			 * The target and subtarget is the element to be deleted and can be of any type.
 			 * This event has to be followed by a #DELETED event after the effective deletion.
