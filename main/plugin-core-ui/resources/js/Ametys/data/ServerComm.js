@@ -42,10 +42,11 @@
  *        		['content://12345678-1234-1234']
  *    		],
  *    		callback: {
- *        		handler: function(a) { alert(a) }
+ *        		handler: function(a) { alert(a) },
+ *              ignoreOnError: false
  *    		},
  *    		waitMessage: true,
- *    		errorMessage: { msg: 'An error occured', ignoreCallback: false }
+ *    		errorMessage: { msg: 'An error occured' }
  * 		});   
  * 
  * The mapping between Javascript types and Java types is the following:
@@ -202,12 +203,13 @@ Ext.define(
 		 * 
 		 * @param {Number} [message.priority=Ametys.data.ServerComm.PRIORITY_MAJOR] The priority of the message. Use ServerComm.PRIORITY_* constants.
 		 * 
-		 * @param {Object} message.callback When using non synchronous messages, a callback configuration is required. Not available for #PRIORITY_SYNCHRONOUS requests. 
+		 * @param {Object/Object[]} message.callback When using non synchronous messages, a callback configuration is required. Not available for #PRIORITY_SYNCHRONOUS requests. 
 		 * @param {Function} message.callback.handler The function to call when the message will come back. 
 		 * @param {Object} message.callback.handler.response Will be the xml parent node of the response. This node can be null or empty on fatal error (see errorMessage). An attribute 'code' is available on this node with the http code. This response has an extra method 'getText' that get the text from a node in parameter of the response.
 		 * @param {Object[]} message.callback.handler.callbackarguments Is the 'callback.arguments' array
 		 * @param {Object} [message.callback.scope] The scope of the function call. Optionnal.
 		 * @param {String[]} [message.callback.arguments] An array of string that will be given as arguments of the callback. Optionnal
+         * @param {String[]} [message.callback.ignoreOnError=true] Is the callback called with a null or empty response?
 		 * 
 		 * @param {String} [message.responseType=xml] Can be "xml" (default) to have a xml response, "text" to have a single text node response or "xml2text" to have a single text node response where xml prologue as text is removed
 		 *
@@ -218,9 +220,8 @@ Ext.define(
 		 * Set to true to display a default error message and your callback will not be called.
 		 * Set to a string to display a custom error message and your callback will not be called.
 		 * Set to an object with the following options: 
-		 * @param {String} [message.errorMessage.msg] The error message. There is a default value 
+		 * @param {String} [message.errorMessage.msg] The error message. There is a default message. 
 		 * @param {String} [message.errorMessage.category] The error message category for log purposes. 
-		 * @param {String} [message.errorMessage.ignoreCallback=true] Is the callback called with a null or empty response?
 		 *  
 		 * @param {String} [message.cancelCode] This parameter allow to cancel a request or ignore its response if it is outdated. Not available for #PRIORITY_SYNCHRONOUS requests.
 		 * A classic case it that the button wants more information on the last selected content: while asking server for information on content A, if the content B is selected by the user: this parameter allow to discard the information on A. 
@@ -281,6 +282,8 @@ Ext.define(
 			{
 				return this._sendSynchronousMessage(message.toRequest());
 			}
+            
+            message.callback = Ext.Array.from(message.callback);
 			
 			// Load mask
 			message.waitMessage = this._showWaitMessage(message.waitMessage);
@@ -321,7 +324,7 @@ Ext.define(
 		 * @param {String} config.methodName The "callable" method to call in the Java component.
 		 * @param {Object[]} config.parameters The methods parameters. They will be converted to Java Objects keeping types as much as possible.
 		 * 
-		 * @param {Object} config.callback The callback configuration.
+		 * @param {Object/Object[]} config.callback The callback configuration.
 		 * @param {Function} config.callback.handler Called after method execution.
 		 * @param {Object} config.callback.handler.response The server response.
 		 * @param {Object[]} config.callback.handler.arguments Is the 'callback.arguments' array
@@ -374,7 +377,10 @@ Ext.define(
 				responseAsObject = Ext.JSON.decode(response.textContent || response.text);
 			}
 			
-			callback.handler.apply(callback.scope || this, [responseAsObject, callback.arguments]);
+            callback = Ext.Array.from(callback);
+            Ext.Array.forEach(callback, function (cb) {
+    			cb.handler.apply(cb.scope || this, [responseAsObject, cb.arguments]);
+            }, this);
 		},
 		
 		/**
@@ -750,7 +756,6 @@ Ext.define(
 					}
 					
 					var badResponse = false;
-					var ignoreCallbackOnBadResponse = true;
 					if (message.errorMessage != null && message.errorMessage !== false)
 					{
 						var msg = "<i18n:text i18n:key='PLUGINS_CORE_UI_SERVERCOMM_ERROR_DESC'/>";
@@ -770,37 +775,36 @@ Ext.define(
 							{
 								category = message.errorMessage.category;
 							}
-							if (message.errorMessage.ignoreCallback != null)
-							{
-								ignoreCallbackOnBadResponse = message.errorMessage.ignoreCallback;
-							}
 						}
 						
 						badResponse = this.handleBadResponse(msg, node, category);
 					}
 					
-					if (!badResponse || !ignoreCallbackOnBadResponse)
-					{
-						try
-						{
-							message.callback.handler.apply(message.callback.scope, [node, message.callback.arguments]);
-						}
-						catch (e)
-						{
-							function throwException(e) 
-							{ 
-								throw e; 
-							}
-							Ext.defer(throwException, 1, this, [e]);
-							
-							Ametys.log.ErrorDialog.display({
-								title: "<i18n:text i18n:key='PLUGINS_CORE_UI_SERVERCOMM_ERROR_TITLE'/>",
-								text: "<i18n:text i18n:key='PLUGINS_CORE_UI_SERVERCOMM_ERROR_DESC'/>",
-								details: e,
-								category: "Ametys.data.ServerComm"
-							});
-						}
-					}
+                    // Call message callbacks
+                    Ext.Array.forEach(message.callback, function(callback) {
+                        if (!badResponse || callback.ignoreOnError === false)  
+                        {
+    						try
+    						{
+    							callback.handler.apply(callback.scope, [node, callback.arguments]);
+    						}
+    						catch (e)
+    						{
+    							function throwException(e) 
+    							{ 
+    								throw e; 
+    							}
+    							Ext.defer(throwException, 1, this, [e]);
+    							
+    							Ametys.log.ErrorDialog.display({
+    								title: "<i18n:text i18n:key='PLUGINS_CORE_UI_SERVERCOMM_ERROR_TITLE'/>",
+    								text: "<i18n:text i18n:key='PLUGINS_CORE_UI_SERVERCOMM_ERROR_DESC'/>",
+    								details: e,
+    								category: "Ametys.data.ServerComm"
+    							});
+    						}
+                        }
+                    }, this);
 			}
 			
 			Ext.resumeLayouts(true);

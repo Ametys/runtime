@@ -228,6 +228,7 @@ Ext.define("Ametys.message.MessageTargetFactory",
 		 * @param {Number} [options.priority] The message priority. See Ametys.data.ServerCall.callMethod for more information on the priority. PRIORITY_SYNCHRONOUS cannot be used here.
 		 * @param {String} [options.cancelCode] Cancel similar unachieved read operations. See Ametys.data.ServerCall.callMethod cancelCode.
 		 * @param {Object} [options.arguments] Additional arguments set in the callback.arguments parameter.
+         * @param {Boolean} [options.ignoreCallbackOnError=true] If the server throws an exception, should the callback beeing called with a null parameter.
 		 */
 		serverCall: function (methodName, parameters, callback, options)
 		{
@@ -243,7 +244,8 @@ Ext.define("Ametys.message.MessageTargetFactory",
 				callback: {
 					handler: callback,
 					scope: this,
-					arguments: options.arguments
+					arguments: options.arguments,
+                    ignoreOnError: options.ignoreCallbackOnError
 				},
 				waitMessage: options.waitMessage,
 				errorMessage: options.errorMessage,

@@ -457,75 +457,45 @@ Ext.define(
 		 * @param {Number} [options.priority] The message priority. See Ametys.data.ServerCall.callMethod for more information on the priority. PRIORITY_SYNCHRONOUS cannot be used here.
 		 * @param {String} [options.cancelCode] Cancel similar unachieved read operations. See Ametys.data.ServerComm#callMethod cancelCode.
 		 * @param {Object} [options.arguments] Additional arguments set in the callback.arguments parameter.
+         * @param {Boolean} [options.ignoreCallbackOnError=true] If the server throws an exception, should the callback beeing called with a null parameter.
 		 * @param {Boolean} [refreshing=false] When 'true', the button will automatically call #refreshing and #stopRefreshing
 		 */
 		serverCall: function (methodName, parameters, callback, options, refreshing)
 		{
 			options = options || {};
 			
-			var errorMessage = options.errorMessage;
-			var ignoreOriginalCallback = false;
-			if (errorMessage != null)
-			{
-				if (Ext.isBoolean(errorMessage) && errorMessage == true)
-				{
-					errorMessage = { };
-					ignoreOriginalCallback = true;
-				}
-				else if (Ext.isString(errorMessage))
-				{
-					errorMessage = { msg: errorMessage };
-					ignoreOriginalCallback = true;
-				}
-				else
-				{
-					ignoreOriginalCallback = errorMessage.ignoreCallback || true;
-				}
-				errorMessage.ignoreCallback = false;
-			}
-			
+            var callbacks = [
+                // user callback
+                { 
+                    handler: callback,
+                    arguments: options.arguments,
+                    scope: this,
+                    ignoreOnError: options.ignoreCallbackOnError
+                }
+            ];
+            
 			if (refreshing == true)
 			{
 				this.refreshing();
+                
+                callbacks.push({
+                    handler: this.stopRefreshing,
+                    scope: this,
+                    ignoreOnError: false
+                });
 			}
-			
-			var opts = {
-				arguments: { 
-					callback: callback,
-					refreshing: refreshing,
-					arguments: options.arguments,
-					ignoreCallback: ignoreOriginalCallback
-				},
-				errorMessage: errorMessage,
-				waitMessage: options.waitMessage,
-				cancelCode: options.cancelCode,
-				priority: options.priority
-			}
-			
-			this.callParent([methodName, parameters, this._serverCallCB, opts]);
-		},
-		
-		/**
-		 * @private
-		 * The intermediary callback of the #serverCall.
-		 * @param {Object} result The java result
-		 * @param {Object} arguments Additionnal args
-		 */
-		_serverCallCB: function(result, arguments)
-		{
-			var initialCallback = arguments.callback;
-			var initialArguments = arguments.arguments;
-			var ignoreCallbackOnError = arguments.ignoreCallback;
-			
-			if (arguments.refreshing == true)
-			{
-				this.stopRefreshing();
-			}
-			
-			if (result != null || !ignoreCallbackOnError)
-			{
-				initialCallback.apply(this, [result, initialArguments]);
-			}
+            
+            Ametys.data.ServerComm.callMethod({
+                role: this._getRole(), 
+                id: this.getId(), 
+                methodName: methodName, 
+                parameters: parameters || [],
+                callback: callbacks,
+                waitMessage: options.waitMessage,
+                errorMessage: options.errorMessage,
+                cancelCode: options.cancelCode,
+                priority: options.priority
+            });
 		}
 	}
 );

@@ -198,7 +198,7 @@ Ext.define("Ametys.relation.RelationHandler",
 		 * 
 		 * 		this.serverCall("getInfo", [contentId], this._gotInfo, {
 		 * 			cancelCode: this.self.getName() + "$getInfo",
-		 * 			errorMessage: { ignoreCallback: false }
+		 * 			ignoreCallbackOnError: false
 		 * 		});
 		 * 
 		 * @param {String} methodName The name of the java method to call. The java method must be annotate as "callable". The component use to call this method, is the java class used when declaring this tool in the plugin.xml of this tool.
@@ -212,6 +212,7 @@ Ext.define("Ametys.relation.RelationHandler",
 		 * @param {Number} [options.priority] The message priority. See Ametys.data.ServerCall.callMethod for more information on the priority. PRIORITY_SYNCHRONOUS cannot be used here.
 		 * @param {String} [options.cancelCode] Cancel similar unachieved read operations. See Ametys.data.ServerCall.callMethod cancelCode.
 		 * @param {Object} [options.arguments] Additional arguments set in the callback.arguments parameter.
+         * @param {Boolean} [options.ignoreCallbackOnError=true] If the server throws an exception, should the callback beeing called with a null parameter.
 		 */
 		serverCall: function(methodName, parameters, callback, options)
 		{
@@ -243,7 +244,8 @@ Ext.define("Ametys.relation.RelationHandler",
 				callback: {
 					handler: callback,
 					scope: this,
-					arguments: options.arguments
+					arguments: options.arguments,
+                    ignoreOnError: options.ignoreCallbackOnError
 				},
 				waitMessage: options.waitMessage,
 				errorMessage: options.errorMessage,
