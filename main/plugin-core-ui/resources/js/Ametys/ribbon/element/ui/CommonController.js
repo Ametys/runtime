@@ -1236,7 +1236,7 @@ Ext.define(
 				Ext.Object.each(target.getParameters(), function(key, value, parameters) {
 					if ((!selectionParameterNameReverseRegexp && selectionParameterNameRegexp.test(key)
 							|| selectionParameterNameReverseRegexp && !selectionParameterNameRegexp.test(key))
-						&& checkValue(value))
+						&& value != null && checkValue(value))
 					{
 						gotOne = true;
 						return false; // stop the iteration
