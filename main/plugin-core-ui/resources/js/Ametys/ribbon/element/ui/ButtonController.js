@@ -441,61 +441,30 @@ Ext.define(
 				this._refreshing.disabled = false;
 			}
 		},
-		
-		/**
-		 * @inheritdoc
-		 * @param {String} methodName The name of the java method to call. The java method must be annotate as "callable". The component use to call this method, is the java class used when declaring this controller in the plugin.xml.
-		 * @param {Object[]} parameters The parameters to transmit to the java method. Types are important.
-		 * 
-		 * @param {Function} callback The function to call when the java process is over. 
-		 * @param {Object} callback.returnedValue The returned value of the java call. Can be null if an error occured (but the callback may not be called on error depending on the errorMessage value).
-		 * @param {Object} callback.arguments Other arguments specified in option.arguments
-		 * 
-		 * @param {Object} [options] Advanced options for the call.
-		 * @param {Boolean/String/Object} [options.errorMessage] Display an error message. See Ametys.data.ServerComm#callMethod errorMessage.
-		 * @param {Boolean/String/Object} [options.waitMessage] Display a waiting message. See Ametys.data.ServerComm#callMethod waitMessage.
-		 * @param {Number} [options.priority] The message priority. See Ametys.data.ServerCall.callMethod for more information on the priority. PRIORITY_SYNCHRONOUS cannot be used here.
-		 * @param {String} [options.cancelCode] Cancel similar unachieved read operations. See Ametys.data.ServerComm#callMethod cancelCode.
-		 * @param {Object} [options.arguments] Additional arguments set in the callback.arguments parameter.
-         * @param {Boolean} [options.ignoreCallbackOnError=true] If the server throws an exception, should the callback beeing called with a null parameter.
-		 * @param {Boolean} [refreshing=false] When 'true', the button will automatically call #refreshing and #stopRefreshing
-		 */
-		serverCall: function (methodName, parameters, callback, options, refreshing)
-		{
-			options = options || {};
-			
-            var callbacks = [
-                // user callback
-                { 
-                    handler: callback,
-                    arguments: options.arguments,
-                    scope: this,
-                    ignoreOnError: options.ignoreCallbackOnError
-                }
-            ];
-            
-			if (refreshing == true)
-			{
-				this.refreshing();
-                
-                callbacks.push({
-                    handler: this.stopRefreshing,
-                    scope: this,
-                    ignoreOnError: false
-                });
-			}
-            
-            Ametys.data.ServerComm.callMethod({
-                role: this._getRole(), 
-                id: this.getId(), 
-                methodName: methodName, 
-                parameters: parameters || [],
-                callback: callbacks,
-                waitMessage: options.waitMessage,
-                errorMessage: options.errorMessage,
-                cancelCode: options.cancelCode,
-                priority: options.priority
-            });
-		}
+        
+        /**
+         * Called to prepare options for a #serverCall 
+         * @param {Object} options See #serverCall for default options. This implementation additionnal have the following properties
+         * @param {Boolean} [options.refreshing=false] When 'true', the button will automatically call #refreshing and #stopRefreshing before and after the server request.
+         */
+        beforeServerCall: function(options)
+        {
+            if (options.refreshing == true)
+            {
+                this.refreshing();
+            }
+        },
+        
+        /**
+         * @inheritDoc
+         * @private 
+         */
+        afterServerCall: function(serverResponse, options)
+        {
+            if (options.refreshing == true)
+            {
+                this.stopRefreshing();
+            }
+        }
 	}
 );

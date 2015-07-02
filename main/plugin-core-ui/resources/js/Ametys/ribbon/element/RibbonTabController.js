@@ -38,6 +38,17 @@ Ext.define(
 			
 			this._tabPanel = config.tabPanel;
 		},
+        
+        /**
+         * @inheritDoc
+         * @private 
+         * The server role for such components 
+         * @return {String} The component role
+         */
+        getServerRole: function()
+        {
+            return 'org.ametys.runtime.ribbon.RibbonTabsManager';
+        },
 
 		/**
 		 * Show the associated tab

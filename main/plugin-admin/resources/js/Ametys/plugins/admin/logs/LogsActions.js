@@ -116,8 +116,11 @@ Ext.define('Ametys.plugins.admin.logs.LogsActions', {
 	        }
 	        
 	        controller.serverCall('deleteLogs', [filesLocations], Ext.bind(this._deleteCb, this),
-				{ errorMessage: { msg: "<i18n:text i18n:key='PLUGINS_ADMIN_LOGS_DELETE_ERROR'/>", category: 'Ametys.plugins.admin.actions.LogsActions'} }, 
-			true);
+				{ 
+                    errorMessage: { msg: "<i18n:text i18n:key='PLUGINS_ADMIN_LOGS_DELETE_ERROR'/>", category: 'Ametys.plugins.admin.actions.LogsActions'},
+                    refreshing: true
+                } 
+			);
 	    }
 	},
 	
@@ -163,8 +166,11 @@ Ext.define('Ametys.plugins.admin.logs.LogsActions', {
 		if (answer == 'yes')
 	    {
 	        controller.serverCall('purgeLogs', null, Ext.bind(this._purgeCb, this),
-				{ errorMessage: { msg: "<i18n:text i18n:key='PLUGINS_ADMIN_LOGS_PURGE_SERVER_ERROR'/>", category: 'Ametys.plugins.admin.actions.LogsActions'} }, 
-			true);
+				{ 
+                    errorMessage: { msg: "<i18n:text i18n:key='PLUGINS_ADMIN_LOGS_PURGE_SERVER_ERROR'/>", category: 'Ametys.plugins.admin.actions.LogsActions'},
+                    refreshing: true
+                } 
+			);
 	    }	
 	},
 	
@@ -238,9 +244,9 @@ Ext.define('Ametys.plugins.admin.logs.LogsActions', {
 						arguments: {
 							level: newLevel,
 							category: category
-						}
-					},
-					true
+						},
+                        refreshing: true
+					}
 			);
 		}
 	},

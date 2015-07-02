@@ -127,6 +127,17 @@ Ext.define(
 		getUIControls: function()
 		{
 			return this._uiControls;
-		}
+		},
+        
+        /**
+         * @inheritDoc
+         * @private
+         * The server role for such components 
+         * @return {String} The component role
+         */
+        getServerRole: function()
+        {
+            return 'org.ametys.core.ui.RibbonControlsManager';
+        }
 	}
 );

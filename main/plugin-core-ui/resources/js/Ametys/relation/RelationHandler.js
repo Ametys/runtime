@@ -26,6 +26,8 @@
  */
 Ext.define("Ametys.relation.RelationHandler", 
 	{
+        mixins: { servercaller: 'Ametys.data.ServerCaller' },
+        
 		/**
 		 * @auto
 		 * @cfg {String} id (required) The unique identifier for the tool. Cannot be null.
@@ -191,67 +193,47 @@ Ext.define("Ametys.relation.RelationHandler",
 		{
 			throw new Error("This method is not implemented in " + this.self.getName());
 		},
+        
+        /**
+         * @inheritDoc
+         * @private 
+         * The server role for such components 
+         * @return {String} The component role
+         */
+        getServerRole: function()
+        {
+            return "org.ametys.runtime.ui.RelationsManager";
+        },
+        
+        /**
+         * @inheritDoc
+         * @private 
+         * The server id for this component
+         * @return {String} #getId
+         */
+        getServerId: function()
+        {
+            return this.getId();
+        },
 		
-		/**
-		 * Ask the server for processing through a java "callable" method of the component used to declare this relation handler.
-		 * By default, it display a waiting message on the tool and does not call the callback function on errors.
-		 * 
-		 * 		this.serverCall("getInfo", [contentId], this._gotInfo, {
-		 * 			cancelCode: this.self.getName() + "$getInfo",
-		 * 			ignoreCallbackOnError: false
-		 * 		});
-		 * 
-		 * @param {String} methodName The name of the java method to call. The java method must be annotate as "callable". The component use to call this method, is the java class used when declaring this tool in the plugin.xml of this tool.
-		 * @param {Object[]} parameters The parameters to transmit to the java method. Types are important.
-		 * @param {Function} callback The function to call when the java process is over. 
-		 * @param {Object} callback.returnedValue The returned value of the java call. Null on error (please note that when an error occured, the callback may not be called depending on the value of errorMessage).
-		 * @param {Object} callback.arguments Other arguments specified in option.arguments
-		 * @param {Object} [options] Advanced options for the call.
-		 * @param {Boolean/String/Object} [options.errorMessage=true] Display an error message. See Ametys.data.ServerCall.callMethod errorMessage.
-		 * @param {Boolean/String/Object} [options.waitMessage={ target: this.getWrapper() }] Display a waiting message. See Ametys.data.ServerCall.callMethod waitMessage.
-		 * @param {Number} [options.priority] The message priority. See Ametys.data.ServerCall.callMethod for more information on the priority. PRIORITY_SYNCHRONOUS cannot be used here.
-		 * @param {String} [options.cancelCode] Cancel similar unachieved read operations. See Ametys.data.ServerCall.callMethod cancelCode.
-		 * @param {Object} [options.arguments] Additional arguments set in the callback.arguments parameter.
-         * @param {Boolean} [options.ignoreCallbackOnError=true] If the server throws an exception, should the callback beeing called with a null parameter.
-		 */
-		serverCall: function(methodName, parameters, callback, options)
+        /**
+         * Some default values of #serverCall are modified
+         * @param {Object} options The options
+         * @param {Boolean/String/Object} [options.errorMessage=true] Default value is set to true. 
+         */
+        beforeServerCall: function(options)
 		{
-			parameters = parameters || [];
-			
-			options = options || {};
-
-			// Default wait message on the tool location
-			if (options.waitMessage == null || options.waitMessage === true)
-			{
-				options.waitMessage = { };
-			}
-			else if (Ext.isString(options.waitMessage))
-			{
-				options.waitMessage = { msg: options.waitMessage };
-			}
-			
 			// Default error message
 			if (options.errorMessage == null)
 			{
 				options.errorMessage = true;
 			}
-			
-			Ametys.data.ServerComm.callMethod({
-				role: "org.ametys.runtime.ui.RelationsManager", 
-				id: this.getId(), 
-				methodName: methodName, 
-				parameters: parameters,
-				callback: {
-					handler: callback,
-					scope: this,
-					arguments: options.arguments,
-                    ignoreOnError: options.ignoreCallbackOnError
-				},
-				waitMessage: options.waitMessage,
-				errorMessage: options.errorMessage,
-				cancelCode: options.cancelCode,
-				priority: options.priority
-			});
 		}
+        
+        /**
+         * @method afterServerCall
+         * @private
+         * Do nothing
+         */
 	}
 );

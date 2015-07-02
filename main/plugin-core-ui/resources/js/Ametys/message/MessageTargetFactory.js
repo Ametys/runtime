@@ -26,6 +26,8 @@
  */
 Ext.define("Ametys.message.MessageTargetFactory",
 	{
+        mixins: { servercaller: 'Ametys.data.ServerCaller' },
+        
 		statics:
 		{
 			/**
@@ -210,48 +212,39 @@ Ext.define("Ametys.message.MessageTargetFactory",
 		{
 			throw new Error("This method is not implemented in " + this.self.getName());
 		},
-		
-		/**
-		 * This method sends a request to the execute remote method on server.
-		 * When the response has arrived, the callback function is invoked.
-		 * 
-		 * @param {String} methodName The name of the java method to call. The java method must be annotate as "callable". The component use to call this method, is the java class used when declaring this controller in the plugin.xml.
-		 * @param {Object[]} parameters The parameters to transmit to the java method. Types are important.
-		 * 
-		 * @param {Function} callback The function to call when the java process is over. 
-		 * @param {Object} callback.returnedValue The returned value of the java call. Can be null if an error occurred (but the callback may not be called on error depending on the errorMessage value).
-		 * @param {Object} callback.arguments Other arguments specified in option.arguments
-		 * 
-		 * @param {Object} [options] Advanced options for the call.
-		 * @param {Boolean/String/Object} [options.errorMessage] Display an error message. See Ametys.data.ServerCall.callMethod errorMessage.
-		 * @param {Boolean/String/Object} [options.waitMessage] Display a waiting message. See Ametys.data.ServerCall.callMethod waitMessage.
-		 * @param {Number} [options.priority] The message priority. See Ametys.data.ServerCall.callMethod for more information on the priority. PRIORITY_SYNCHRONOUS cannot be used here.
-		 * @param {String} [options.cancelCode] Cancel similar unachieved read operations. See Ametys.data.ServerCall.callMethod cancelCode.
-		 * @param {Object} [options.arguments] Additional arguments set in the callback.arguments parameter.
-         * @param {Boolean} [options.ignoreCallbackOnError=true] If the server throws an exception, should the callback beeing called with a null parameter.
-		 */
-		serverCall: function (methodName, parameters, callback, options)
-		{
-			var role = "org.ametys.runtime.ui.MessageTargetFactoriesManager";
+        
+        /**
+         * @inheritDoc
+         * @private 
+         * The server role for such components 
+         * @return {String} The component role
+         */
+        getServerRole: function()
+        {
+            return "org.ametys.runtime.ui.MessageTargetFactoriesManager";
+        },
+        
+        /**
+         * @inheritDoc
+         * @private 
+         * The server id for this component
+         * @return {String} #getId
+         */
+        getServerId: function()
+        {
+            return this.getId();
+        }
+        
+        /**
+         * @method beforeServerCall
+         * @private
+         * Do nothing
+         */
 
-			options = options || {};
-			
-			Ametys.data.ServerComm.callMethod({
-				role: role, 
-				id: this.getId(), 
-				methodName: methodName, 
-				parameters: parameters || [],
-				callback: {
-					handler: callback,
-					scope: this,
-					arguments: options.arguments,
-                    ignoreOnError: options.ignoreCallbackOnError
-				},
-				waitMessage: options.waitMessage,
-				errorMessage: options.errorMessage,
-				cancelCode: options.cancelCode,
-				priority: options.priority
-			});
-		}
+        /**
+         * @method afterServerCall
+         * @private
+         * Do nothing
+         */
 	}
 );

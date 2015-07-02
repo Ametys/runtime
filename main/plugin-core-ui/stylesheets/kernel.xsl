@@ -147,6 +147,7 @@
             <script>/plugins/core-ui/resources/js/Ametys/form/ConfigurableFormPanel/ParameterChecker.js</script>
             <script>/plugins/core-ui/resources/js/Ametys/form/ConfigurableFormPanel/ParameterCheckersDAO.js</script>
             
+            <script>/plugins/core-ui/resources/js/Ametys/data/ServerCaller.js</script>
 	        <script>/plugins/core-ui/resources/js/Ametys/data/ServerComm.js</script>
             <script>/plugins/core-ui/resources/js/Ametys/data/ServerCommProxy.js</script>
 	        <script>/plugins/core-ui/resources/js/Ametys/data/ServerComm/TimeoutDialog.js</script>
