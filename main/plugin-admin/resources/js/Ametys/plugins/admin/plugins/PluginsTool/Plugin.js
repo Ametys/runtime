@@ -16,9 +16,9 @@
 
 /**
  * @private
- * The model for the {@link Ametys.plugins.admin.tool.PluginsTool} tree tool. 
+ * The model for the {@link Ametys.plugins.admin.plugins.PluginsTool} tree tool. 
  */
-Ext.define('Ametys.plugins.admin.tool.PluginsTool.Plugin', { 
+Ext.define('Ametys.plugins.admin.plugins.PluginsTool.Plugin', { 
     extend: 'Ext.data.TreeModel', 
     fields: [ 
        { name: 'icon', type: 'string' }, 

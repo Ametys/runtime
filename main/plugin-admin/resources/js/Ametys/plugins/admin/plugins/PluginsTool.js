@@ -94,7 +94,7 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsTool', {
 	_drawPanel: function()
 	{
 		var store = Ext.create('Ext.data.TreeStore', {
-			model: 'Ametys.plugins.admin.tool.PluginsTool.Plugin',
+			model: 'Ametys.plugins.admin.plugins.PluginsTool.Plugin',
 			
 			proxy: {
 	        	type: 'ametys',
