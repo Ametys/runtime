@@ -229,7 +229,7 @@ Ext.define('Ametys.plugins.admin.logs.LogsLevelTool', {
     /**
      * @private
      * Update node info
-     * @param {Ametys.plugins.admin.LogsLevelTool.Category} node The node to update
+     * @param {Ametys.plugins.admin.logs.LogsLevelTool.Category} node The node to update
      * @param {String} level The level to set
      * @param {Boolean} inherited Is the level inherited
      * @param {Boolean} force True to force recursiverly the level inheritance
