@@ -52,7 +52,7 @@ Ext.define("Ametys.data.ServerCaller", {
          * @protected
          * Called before every #serverCall, this implementation do nothing.
          * Sub-implementation should document the default values modifications and additional options.
-         * @param {Object) options See #serverCall options argument.
+         * @param {Object} options See #serverCall options argument.
          */
         beforeServerCall: function(options)
         {
