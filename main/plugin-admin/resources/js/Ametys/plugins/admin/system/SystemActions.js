@@ -23,15 +23,15 @@ Ext.define('Ametys.plugins.admin.system.SystemActions', {
 	
 	/**
 	 * @private
-	 * @property {String} _mode The current mode when opening the edition dialog box {@link #box}. Can be 'new' or 'edit'.
+	 * @property {String} _mode The current mode when opening the edition dialog box {@link #_box}. Can be 'new' or 'edit'.
 	 */
 	/**
 	 * @private
-	 * @property {Boolean} _initialized Determine if the dialog box {@link #box} for editing announce is initialized
+	 * @property {Boolean} _initialized Determine if the dialog box {@link #_box} for editing announce is initialized
 	 */
 	/**
 	 * @private
-	 * @property {Ext.form.Panel} _form The form panel in the dialog box {@link #box} for editing
+	 * @property {Ext.form.Panel} _form The form panel in the dialog box {@link #_box} for editing
 	 */
 	/**
 	 * @private
@@ -140,7 +140,7 @@ Ext.define('Ametys.plugins.admin.system.SystemActions', {
      * @private
      * The callback after the delete confirmation messagebox
      * @param {String} answer If "yes" the process will continue.
-     * @param {Strubg} lang The message to delete identified by its language code.
+     * @param {String} lang The message to delete identified by its language code.
      */
 	_confirmDelete: function (answer, lang)
 	{

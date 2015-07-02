@@ -1428,8 +1428,10 @@
                  *          @ param {Number} [options.priority] The message priority. See Ametys.data.ServerCall#callMethod for more information on the priority. PRIORITY_SYNCHRONOUS cannot be used here.
                  *          @ param {String} [options.cancelCode] Cancel similar unachieved read operations. See Ametys.data.ServerCall.callMethod cancelCode.
                  *          @ param {Object} [options.arguments] Additional arguments set in the callback.arguments parameter.                  
+                 *          @ param {Boolean} [options.ignoreCallbackOnError=true] If the server throws an exception, should the callback beeing called with a null parameter.
                  * 
-                 * @param {Object/Object[]} configs The default values for Ametys.data.ServerComm#callMethod config argument.
+                 * 
+                 * @param {Object/Object[]} configs The default values for Ametys.data.ServerComm#callMethod config argument. Concerning the callback config, it will be added (not replaced).
                  * @param {String} [configs.localName=configs.methodName] This additionnal optionnal argument stands for the local method name.
                  */
                 addCallables: function(configs)
@@ -1448,17 +1450,21 @@
                             
                             var methodConfig = {
                                 parameters: parameters,
-                                callback: {
-                                    handler: callback,
-                                    scope: this,
-                                    arguments: options.arguments
-                                },
                                 waitMessage: options.waitMessage,
                                 errorMessage: options.errorMessage,
                                 cancelCode: options.cancelCode,
                                 priority: options.priority                                
                             }
                             var finalConfig = Ext.applyIf(methodConfig, config);
+                            
+                            finalConfig.callback = Ext.Array.from(finalConfig.callback);
+                            finalConfig.callback.push({
+                                    handler: callback,
+                                    scope: this,
+                                    arguments: options.arguments,
+                                    ignoreOnError: options.ignoreCallbackOnError
+                            });
+                            
                             Ametys.data.ServerComm.callMethod(finalConfig);
                         }
                     }, this);

@@ -24,7 +24,7 @@ Ext.define('Ametys.plugins.admin.config.ConfigTool', {
 	
 	/**
 	 * @private
-	 * @property {Ametys.Form.ConfigurableFormPanel} _formPanel The configuration form panel 
+	 * @property {Ametys.form.ConfigurableFormPanel} _formPanel The configuration form panel 
 	 */
 	getMBSelectionInteraction: function() 
 	{
