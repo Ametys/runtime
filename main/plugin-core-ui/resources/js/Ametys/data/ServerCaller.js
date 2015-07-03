@@ -22,6 +22,10 @@
  */
 Ext.define("Ametys.data.ServerCaller", {
 
+        /**
+         * @readonly
+         * @porperty {Boolean} isServerCaller True if the instance is a Ametys.data.ServerCaller instance
+         */
         isServerCaller: true,
         
         /**
