@@ -48,10 +48,14 @@
  * ******** */
 .x-fluent-tab-panel .x-form-trigger
 {
-	width: 13px !important;
 	background-color: #FFF;
 }
-.x-fluent-tab-panel .x-form-trigger .x-form-spinner
+
+.x-fluent-tab-panel .x-form-arrow-trigger
+{
+	width: 13px !important;
+}
+.x-fluent-tab-panel .x-form-arrow-trigger .x-form-spinner
 {
     border-bottom-style: none;
     width: 13px;

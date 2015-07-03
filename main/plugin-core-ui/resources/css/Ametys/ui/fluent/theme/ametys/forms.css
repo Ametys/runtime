@@ -23,9 +23,14 @@
     color:#3E6AAA;
 }
 
-.x-fluent-tab-panel .x-form-trigger
+.x-fluent-tab-panel .x-form-arrow-trigger
 {
     background-image: url('../../../../../../img/fluent/ametys/controls/trigger.gif');
+}
+
+.x-fluent-tab-panel .x-form-date-trigger
+{
+    background-image: url('../../../../../../img/fluent/ametys/controls/date-trigger.png');
 }
 
 .x-fluent-tab-panel .x-form-spinner-up,

@@ -546,7 +546,32 @@ var tabComponents = {
 			                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true}
 						}
 				]
-			}
+			},
+            {
+                title: 'Test date',
+                items:
+                [
+                    {
+                        align: "middle",
+                        items: [
+                            new Ext.form.ComboBox
+                            ({
+                                store: [['id1', 'Titre 1'], ['id2', 'Titre 2'], ['id3', 'Titre 3'], ['id4', 'Paragraphe']],
+                                value: 'id4',
+                                mode: 'local',
+                                triggerAction: 'all',
+                                disableKeyFilter: true,
+                                editable: false,
+                                width: 80
+                            }),
+                            new Ext.form.Date
+                            ({
+                                width: 80
+                            })
+                        ]
+                    }
+                ]
+            }            
 	]	
 };
 
