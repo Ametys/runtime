@@ -68,19 +68,33 @@
     background-repeat: repeat-x;
     height: 70px !important;
 }
+.x-item-inribbon.x-fluent-menugallery .x-btn-default-large > .x-btn-wrap > .x-btn-button
+{
+    height: 56px !important;
+}
 .x-fluent-menugallery .x-btn-default-large > .x-btn-wrap > .x-btn-button > .x-btn-inner
 {
-    padding: 3px 0 3px 0 !important;
-    height: 70px;
+    padding: 0px 0 6px 0 !important;
+    height: 66px;
 }
-.x-fluent-menugallery .x-btn-default-large.x-btn-noicon > .x-btn-wrap > .x-btn-button > .x-btn-inner
+.x-fluent-menugallery .x-btn-default-large > .x-btn-wrap > .x-btn-button.x-btn-icon > .x-btn-inner
 {
+    padding: 0px 0 6px 0 !important;
+    height: 32px;
+}
+.x-item-inribbon.x-fluent-menugallery .x-btn-default-large > .x-btn-wrap > .x-btn-button > .x-btn-inner
+{
+    height: 56px;
     padding: 3px 0 3px 0 !important;
+}
+.x-item-inribbon.x-fluent-menugallery .x-btn-default-large > .x-btn-wrap > .x-btn-button.x-btn-icon > .x-btn-inner
+{
+    height: auto;
 }
 .x-fluent-menugallery .x-btn-default-large > .x-btn-wrap > .x-btn-button > .x-btn-icon-el
 {
     background-position: center;
-    margin-top: 3px;
+    margin-top: 1px;
     margin-bottom: 2px;
 }
 

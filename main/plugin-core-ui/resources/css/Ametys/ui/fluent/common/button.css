@@ -1,5 +1,5 @@
-/*
- *  Copyright 2013 Anyware Services
+﻿/*
+ *  Copyright 2015 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -51,7 +51,7 @@
 .x-fluent-tab-panel .x-fluent-group .x-btn-default-large > .x-btn-wrap > .x-btn-button
 {
 	background-repeat: repeat-x;
-	height: 29px !important;
+	padding-bottom: 0;
 }
 .x-fluent-tab-panel .x-fluent-group .x-btn-default-large > .x-btn-wrap > .x-btn-button > .x-btn-inner
 {
@@ -215,9 +215,22 @@
  * ***************** */
 .x-fluent-tab-panel .x-fluent-group .x-btn-very-small > .x-btn-wrap > .x-btn-button > .x-btn-icon-el
 {
-    width: 18px;
-    height: 22px;
     margin-right: 2px;
+}
+.x-fluent-tab-panel .x-fluent-group .x-btn-very-small > .x-btn-arrow.x-btn-wrap > .x-btn-button > .x-btn-icon-el
+{
+    margin-right: 0px;
+}
+.x-fluent-tab-panel .x-fluent-group .x-btn-very-small.x-fluent-control-splitbutton-small > .x-btn-wrap > .x-btn-button > .x-btn-icon-el,
+.x-fluent-tab-panel .x-fluent-group .x-btn-very-small.x-fluent-control-splitbutton-menu-small > .x-btn-wrap > .x-btn-button > .x-btn-icon-el
+{
+    width: 18px;
+    margin-right: 2px;
+}
+.x-fluent-tab-panel .x-fluent-group .x-btn-very-small .x-btn-arrow:after
+{
+    width: 9px;
+    padding-right: 9px;
 }
 
 /* *****************
