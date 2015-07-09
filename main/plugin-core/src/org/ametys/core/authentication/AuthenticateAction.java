@@ -173,7 +173,7 @@ public class AuthenticateAction extends ServiceableAction implements ThreadSafe,
         {
             if (getLogger().isWarnEnabled())
             {
-                getLogger().warn("The user '" + credentials.getLogin() + "' was authentified and authorized by authentications, but it can not be found by the user manager. It is so refused.");
+                getLogger().warn("The user '" + credentials.getLogin() + "' was authentified and authorized by authentications, but it can not be found by the users manager. Access to the application is therefore denied.");
             }
             
             return false;
