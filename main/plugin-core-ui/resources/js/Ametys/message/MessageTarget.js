@@ -39,7 +39,6 @@ Ext.define("Ametys.message.MessageTarget",
 			type: null,
 			/**
 			 * @cfg {Object} parameters The parameter associated to the target, the value to set here depends on the specification of the constant you are using for the type. Cannot be null, but may be empty.
-			 * Be careful, theses parameters are the one to specify the message, not the targets. To specify parameters on the target, consider the target class.
 			 */
 			parameters: {},
 			/**
