@@ -63,9 +63,13 @@ Ext.define('Ametys.clipboard.Clipboard', {
 		{
 			this._data = data;
 		}
-		else
+		else if (data != null)
 		{
 			this._data = [data];
+		}
+		else
+		{
+			this._data = null;
 		}
 		
 		Ext.create("Ametys.message.Message", {
