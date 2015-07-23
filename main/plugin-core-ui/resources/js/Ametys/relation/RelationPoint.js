@@ -34,7 +34,14 @@ Ext.define("Ametys.relation.RelationPoint",
 		 */ 
 		/**
 		 * @property {String[]} relationTypes See #cfg-relationTypes.
-		 */ 
+		 */
+		/**
+		 * @cfg {Number} [positionInTargets=-1] When the relation point is a destination point, set this configuration to specify the index where to insert the sources in the #cfg-targets. For example, 0 means to insert as the first child and -1 means at the end. 
+		 */
+		/**
+		 * @property {Number} positionInTargets See #cfg-positionInTargets.
+		 */
+		
 		/**
 		 * @private
 		 * @property {Function[]} callbacks Callback registered through #waitForTargets during asynchronous process. 
@@ -58,6 +65,9 @@ Ext.define("Ametys.relation.RelationPoint",
 			{
 				this.relationTypes = [this.relationTypes];
 			}
+			
+			// Handle position
+			this.positionInTargets = config.positionInTargets || -1;
 			
 			// Handle message targets
 			this.targets = config.targets || []; 

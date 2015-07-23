@@ -59,6 +59,7 @@ Ext.define('Ametys.relation.dd.AmetysTreeViewDragDrop', {
 	 * @cfg {Ext.data.Model[]} setAmetysDropZoneInfos.targetRecords The target records of the drop operation.
 	 * @cfg {Object} setAmetysDropZoneInfos.item The default drag data that will be transmitted. You have to add a 'target' item in it: 
 	 * @cfg {Object} setAmetysDropZoneInfos.item.target The target (in the relation way) of the drop operation. A Ametys.relation.RelationPoint config.
+	 * @cfg {String} setAmetysDropZoneInfos.dropPosition "before", "after" or "append" depending whether the dragged object (in item.target) should be inserted before, after the targetRecords, or appended to it.  
 	 */		
     onViewRender : function(view) 
     {

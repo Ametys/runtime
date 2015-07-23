@@ -38,7 +38,7 @@ Ext.define('Ametys.relation.dd.AmetysTreeViewDropZone', {
         {
     		if (Ext.isFunction(this.setAmetysDropZoneInfos))
     		{
-	        	this.setAmetysDropZoneInfos(this.overRecord != null ? [this.overRecord] : [], data);
+	        	this.setAmetysDropZoneInfos(this.overRecord != null ? [this.overRecord] : [], data, this.currentPosition);
 	        	if (!data.source || !data.target || !Ametys.relation.RelationManager.testLink(data.source, data.target))
 	        	{
 	        		parent = this.dropNotAllowed;
@@ -80,7 +80,7 @@ Ext.define('Ametys.relation.dd.AmetysTreeViewDropZone', {
 		
 		if (Ext.isFunction(this.setAmetysDropZoneInfos))
 		{
-        	this.setAmetysDropZoneInfos([], data);
+        	this.setAmetysDropZoneInfos([], data, 'append');
         	if (!data.source || !data.target || !Ametys.relation.RelationManager.testLink(data.source, data.target))
         	{
         		data.target = null;
@@ -114,7 +114,7 @@ Ext.define('Ametys.relation.dd.AmetysTreeViewDropZone', {
 	{
 		if (Ext.isFunction(this.setAmetysDropZoneInfos))
 		{
-			this.setAmetysDropZoneInfos(this.overRecord != null ? [this.overRecord] : [], data);
+			this.setAmetysDropZoneInfos(this.overRecord != null ? [this.overRecord] : [], data, this.currentPosition);
 		}
 		
 		this.el.removeCls(this.overClass);
