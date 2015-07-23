@@ -129,8 +129,8 @@ td.x-form-error-msg-wrapper
     border: 1px solid #C8CDD0;
 }
 
-.x-field.ametys.x-form-invalid .x-form-text,
-.x-form-item.ametys.x-form-invalid .x-form-text {
+.x-field.ametys.x-form-invalid .x-form-text-wrap,
+.x-form-item.ametys.x-form-invalid .x-form-text-wrap {
 	border-color: #FF0000;
 }
 

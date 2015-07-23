@@ -391,23 +391,22 @@
             </extension>
         </extensions>
     </feature>    
-<!--     <feature name="widgets.others.stringhour"> -->
-<!--         <extensions> -->
-<!--             <extension id="edition.string-time" -->
-<!--                 point="org.ametys.core.ui.widgets.WidgetsManager" -->
-<!--                 class="org.ametys.core.ui.widgets.StaticClientSideWidget"> -->
-<!--                 <class name="Ametys.form.widget.StringTime"> -->
-<!--                     <ftypes>string</ftypes> -->
-<!--                     <supports-enumerated>false</supports-enumerated> -->
-<!--                     <supports-non-enumerated>true</supports-non-enumerated> -->
-<!--                     <supports-multiple>false</supports-multiple> -->
-<!--                     <supports-non-multiple>true</supports-non-multiple> -->
-<!--                 </class> -->
-<!--                 <scripts> -->
-<!--                 </scripts>                 -->
-<!--             </extension> -->
-<!--         </extensions> -->
-<!--     </feature>     -->
+    <feature name="widgets.others.stringhour"> 
+        <extensions> 
+            <extension id="edition.string-time" 
+                point="org.ametys.core.ui.widgets.WidgetsManager" 
+                class="org.ametys.core.ui.widgets.StaticClientSideWidget"> 
+                <class name="Ametys.form.widget.StringTime"> 
+                    <ftypes>string</ftypes> 
+                    <supports-enumerated>false</supports-enumerated> 
+                    <supports-non-enumerated>true</supports-non-enumerated> 
+                    <supports-multiple>false</supports-multiple> 
+                    <supports-non-multiple>true</supports-non-multiple> 
+                </class> 
+                <!-- scripts are loaded as static to be extensible -->                 
+            </extension>
+        </extensions>
+    </feature>  
     
     <feature name="widgets.default.richtext">
         <extensions>

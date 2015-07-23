@@ -39,7 +39,9 @@
  * 			],
  * 
  * 			getErrors: function(value) {
- * 				// return the validators error here
+ *              var myLocalErrors = [];
+ *              // compute errors
+ * 				return Ext.Array.merge(this.callParent(arguments), myLocalErrors);
  * 			},
  * 
  * 			setValue: function(value) {
