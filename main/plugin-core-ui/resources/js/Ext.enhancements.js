@@ -1463,6 +1463,10 @@
                             var finalConfig = Ext.applyIf(methodConfig, config);
                             
                             // During the addCallable one or more callbacks may have been set
+                            if (finalConfig.callback != null)
+                            {
+                            	finalConfig.callback.scope = finalConfig.callback.scope || this; 
+                            }
                             finalConfig.callback = Ext.Array.from(finalConfig.callback);
                             
                             if (callback != null)
