@@ -603,7 +603,7 @@
             </linked-params>
         </param-checker>
         
-        <param-checker id="sql-connection-checker" class="org.ametys.plugins.core.impl.checker.SqlConnectionChecker">
+        <param-checker id="sql-connection-checker-kernel" class="org.ametys.plugins.core.impl.checker.SqlConnectionChecker">
             <label i18n="true">PLUGINS_CORE_SQL_CONNECTION_CHECKER_LABEL</label>
             <description i18n="true">PLUGINS_CORE_SQL_CONNECTION_CHECKER_DESC</description>
             <icon-large>img/config/check/test_sqlconnect_48.png</icon-large>
@@ -613,7 +613,7 @@
             <ui-ref>
                 <order>1</order>
                 <category i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE</category>
-               <!-- <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE_GROUP_CORE</group> -->
+                <group i18n="true">PLUGINS_CORE_DATASOURCE_CORE_CONFIG_JDBC_CATEGORY_DATASOURCE_GROUP_CORE</group>
             </ui-ref>
             
             <linked-params>

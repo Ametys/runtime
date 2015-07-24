@@ -63,7 +63,7 @@ public class DirectoryChecker extends AbstractLogEnabled implements Configurable
         
         if (configuration.getChild("linked-params").getChildren().length != 1)
         {
-            throw new ConfigurationException("The SqlConnectionChecker should have 1 linked param: directory");
+            throw new ConfigurationException("The Directory Checker should have exactly 1 linked parameter: directory");
         }
 
         _pathParameter = configuration.getChild("linked-params").getChild("param-ref").getAttribute("id");

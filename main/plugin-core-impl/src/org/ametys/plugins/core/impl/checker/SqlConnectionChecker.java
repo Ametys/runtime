@@ -45,7 +45,7 @@ public class SqlConnectionChecker extends AbstractLogEnabled implements Paramete
         Configuration[] config = configuration.getChild("linked-params").getChildren();
         if (config.length != 4)
         {
-            throw new ConfigurationException("The SqlConnectionChecker should have 4 linked params in the right order: driver, url, user, password");
+            throw new ConfigurationException("The SqlConnectionChecker should have exactly 4 linked params in the following order: driver, url, user, password");
         }
         
         int i = 0;
@@ -64,7 +64,7 @@ public class SqlConnectionChecker extends AbstractLogEnabled implements Paramete
         String login = configurationParameters.get(_paramUser);
         
         Connection connection = null;
-        try
+        try 
         {
             Class.forName(driver);
             connection = DriverManager.getConnection(url, login, password);
