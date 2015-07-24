@@ -203,6 +203,22 @@
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_FAILURES">Failure(s)</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_NOT_TESTED">Not verified</message>
     
+    <!-- SAVE -->
+    <message key="PLUGINS_CORE_UI_SAVE_NOFORM_TITLE">No form</message>
+    <message key="PLUGINS_CORE_UI_SAVE_NOFORM">There is no form to save.</message>
+    <message key="PLUGINS_CORE_UI_SAVE_ACTION_INVALID_TITLE">Invalid form</message>
+    <message key="PLUGINS_CORE_UI_SAVE_ACTION_INVALIDFIELDS">One or several fields are invalid.&lt;br/&gt;Please provide correct inputs: </message>
+    <message key="PLUGINS_CORE_UI_SAVE_TESTS_NOK_MBOX_TITLE">Test failure</message>
+    <message key="PLUGINS_CORE_UI_SAVE_TESTS_NOK_MBOX_MSG">Before saving, it is recommended that all verifications pass.&lt;br/&gt;What do you want to do ?</message>
+    <message key="PLUGINS_CORE_UI_SAVE_TESTS_NOK_MBOX_SAVE">Save without verifying</message>
+    <message key="PLUGINS_CORE_UI_SAVE_TESTS_NOK_MBOX_RETRY">Run the verifications and save</message>
+    <message key="PLUGINS_CORE_UI_SAVE_TESTS_NOK_MBOX_CANCEL">Cancel</message>
+    <message key="PLUGINS_CORE_UI_SAVE_WAIT_MSG">Saving. Please wait ...</message>
+    <message key="PLUGINS_CORE_UI_SAVE_ACTION_WARNED_FIELDS_YES">Yes</message>
+    <message key="PLUGINS_CORE_UI_SAVE_ACTION_WARNED_FIELDS_NO">No</message>
+    <message key="PLUGINS_CORE_UI_SAVE_ACTION_WARNED_FIELDS">Warnings</message>
+    <message key="PLUGINS_CORE_UI_SAVE_ACTION_WARNED_FIELDS_START">The following fields contain a warning: </message>
+    
     <!-- Change password -->
     <message key="PLUGINS_CORE_UI_CHANGEPASSWORD_VALIDATOR">The password and the confirmation are not the same</message>
     <message key="PLUGINS_CORE_UI_CHANGEPASSWORD_CLEAR">Reset password to previous value</message>

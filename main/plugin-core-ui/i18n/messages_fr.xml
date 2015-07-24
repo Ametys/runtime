@@ -200,6 +200,23 @@
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_FAILURES">Echec(s)</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_NOT_TESTED">Non testé(s)</message>
     
+    <!-- Save -->
+    <message key="PLUGINS_CORE_UI_SAVE_NOFORM_TITLE">Pas de formulaire</message>
+    <message key="PLUGINS_CORE_UI_CONFIG_SAVE_NOFORM">Impossible de trouver le formulaire à sauvegarder.</message>
+    <message key="PLUGINS_CORE_UI_SAVE_ACTION_INVALID_TITLE">Formulaire invalide</message>
+    <message key="PLUGINS_CORE_UI_SAVE_ACTION_INVALIDFIELDS">Un ou plusieurs champs du formulaire sont invalides.&lt;br/&gt;Veuillez les corriger pour pouvoir continuer : </message>
+    <message key="PLUGINS_CORE_UI_SAVE_TESTS_NOK_MBOX_TITLE">Vérifications non-concluantes</message>
+    <message key="PLUGINS_CORE_UI_SAVE_TESTS_NOK_MBOX_MSG">Avant de sauver, il est recommandé que toutes les vérifications passent avec succès. &lt;br/&gt;Que souhaitez-vous faire ?</message>
+    <message key="PLUGINS_CORE_UI_SAVE_TESTS_NOK_MBOX_SAVE">Sauver sans vérifier les paramètres</message>
+    <message key="PLUGINS_CORE_UI_SAVE_TESTS_NOK_MBOX_RETRY">Lancer les vérifications et sauver</message>
+    <message key="PLUGINS_CORE_UI_SAVE_TESTS_NOK_MBOX_CANCEL">Annuler</message>
+    <message key="PLUGINS_CORE_UI_SAVE_WAIT_MSG">Sauvegarde en cours.&lt;br/&gt;Veuillez patienter ...</message>
+    <message key="PLUGINS_CORE_UI_SAVE_ACTION_WARNED_FIELDS_YES">Oui</message>
+    <message key="PLUGINS_CORE_UI_SAVE_ACTION_WARNED_FIELDS_NO">Non</message>
+    <message key="PLUGINS_CORE_UI_SAVE_ACTION_WARNED_FIELDS_TITLE">Alertes</message>
+    <message key="PLUGINS_CORE_UI_SAVE_ACTION_WARNED_FIELDS_START">Les champs suivants contiennent des alertes : </message>
+    <message key="PLUGINS_CORE_UI_SAVE_ACTION_WARNED_FIELDS_END">Souhaitez-vous quand même enregistrer le formulaire ?</message>
+    
     <!--  Change password -->
     <message key="PLUGINS_CORE_UI_CHANGEPASSWORD_VALIDATOR">Le mot de passe et sa confirmation ne sont pas identiques</message>
     <message key="PLUGINS_CORE_UI_CHANGEPASSWORD_CLEAR">Remettre le mot de passe à sa valeur initiale</message>
