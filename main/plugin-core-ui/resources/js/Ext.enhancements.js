@@ -1442,6 +1442,8 @@
                     configs = Ext.Array.from(configs);
                     
                     Ext.Array.each(configs, function(config) {
+                    	config.callback = Ext.Array.from(config.callback);
+                    	 
                         this[config.localName || config.methodName] = function(parameters, callback, options) {
                             parameters = parameters || [];
                             options = options || {};
@@ -1458,17 +1460,11 @@
                                 waitMessage: options.waitMessage,
                                 errorMessage: options.errorMessage,
                                 cancelCode: options.cancelCode,
-                                priority: options.priority                                
+                                priority: options.priority   
                             }
-                            var finalConfig = Ext.applyIf(methodConfig, config);
+                            var finalConfig = Ext.applyIf(methodConfig, Ext.clone(config)); // we have to clone config so config.callback is not altered by following behavior
                             
                             // During the addCallable one or more callbacks may have been set
-                            if (finalConfig.callback != null)
-                            {
-                            	finalConfig.callback.scope = finalConfig.callback.scope || this; 
-                            }
-                            finalConfig.callback = Ext.Array.from(finalConfig.callback);
-                            
                             if (callback != null)
                             {
                             	// Let's add the current method callback
@@ -1482,14 +1478,7 @@
                             
                             for (var i = 0; i < finalConfig.callback.length; i++)
                             {
-                            	var initCb = finalConfig.callback[i];
-                            	var initHandler = finalConfig.callback[i].handler;
-                            	finalConfig.callback[i].handler = Ext.bind (finalConfig.callback[i].handler, finalConfig.callback[i].scope, [parameters], 2)
-                            	
-                            	/*function ()
-                            	{
-                            		initHandler.apply(this, Ext.Array.merge(initCb.arguments, [parameters]));
-                            	}*/
+                            	finalConfig.callback[i].handler = Ext.bind (finalConfig.callback[i].handler, finalConfig.callback[i].scope || this, [parameters], 2)
                             }
                             
                             // If the scope is a ServerCaller component, let's use #afterServerCall 
