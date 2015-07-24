@@ -1286,7 +1286,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             minWidth: config.minWidth || Ametys.form.ConfigurableFormPanel.LABEL_WIDTH - offset + Ametys.form.ConfigurableFormPanel.FIELD_MINWIDTH,
             anchor: '100%',
             
-            // allowBlank is handled in the validator
+            allowBlank: !config.mandatory,
             regex: config.regexp ? new RegExp (config.regexp) : null,
             regexText: config.regexText || config.invalidText || "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_INVALID_REGEXP'/>" + config.regexp,
             disabled: config.disabled,
@@ -1308,7 +1308,10 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             widgetCfg.listeners['editorhtmlnodeselected'] = { fn: function (field, node) { this.fireEvent ('htmlnodeselected', field, node)}, scope: this};
         }
         
-        return Ametys.form.WidgetManager.getWidget (config.widget, config.type.toLowerCase(), widgetCfg);
+        var field = Ametys.form.WidgetManager.getWidget (config.widget, config.type.toLowerCase(), widgetCfg);
+        // if field is disabled or not visible (group switch off) we return no errors
+        Ext.Function.createInterceptor(field.getErrors, function() { return field.isVisible() && !field.isDisabled(); }, null, []);
+        return field;
     },
     
     /**
@@ -1984,24 +1987,6 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                         disabled: Ext.dom.Query.selectValue("> can-not-write", nodes[i]) == 'true',
                         
                         disableCondition: Ext.dom.Query.selectValue("> disable-conditions", nodes[i], null),
-                        
-                        // custom validator to bypass validation on hidden values (groups switched off)
-                        validator: function(value)
-                        {   
-                            var field = me.getField(name);
-                            if(!field.isVisible() || field.isDisabled())
-                            {
-                                return true;
-                            }
-                            else
-                            {
-                                if (this.mandatory && (!value || (Ext.isArray(value) && value.length == 0))) 
-                                {
-                                   return this.blankText;
-                                }
-                                return true;
-                            }
-                        },
                         
                         form: this,
                         offset: offset,
