@@ -15,7 +15,7 @@
  */
 
 /**
- * Abstract class to creates a field that wraps several fields.<br/>
+ * Abstract class to create a field that wraps several fields.<br/>
  * You have to implement {@link #getValue} and {@link #setValue}.<br/>
  * Default layout is hbox.<br/>
  * To handle global errors override {@link #getErrors}.<br/>
