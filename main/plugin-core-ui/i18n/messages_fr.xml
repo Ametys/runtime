@@ -200,10 +200,10 @@
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_FAILURES">Echec(s)</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_NOT_TESTED">Non testé(s)</message>
     
-    <!--  Password -->
-    <message key="PLUGINS_CORE_UI_PASSWORD_VALIDATOR">Le mot de passe et sa confirmation ne sont pas identiques</message>
-    <message key="PLUGINS_CORE_UI_PASSWORD_CLEAR">Remettre le mot de passe à sa valeur initiale</message>
-    <message key="PLUGINS_CORE_UI_PASSWORD_CHANGE">Cliquez ici pour changer le mot de passe</message>
+    <!-- Change Password -->
+    <message key="PLUGINS_CORE_UI_CHANGEPASSWORD_VALIDATOR">Le mot de passe et sa confirmation ne sont pas identiques</message>
+    <message key="PLUGINS_CORE_UI_CHANGEPASSWORD_CLEAR">Remettre le mot de passe à sa valeur initiale</message>
+    <message key="PLUGINS_CORE_UI_CHANGEPASSWORD_CHANGE">Cliquez ici pour changer le mot de passe</message>
     
     <!-- Upload -->
     <message key="PLUGINS_CORE_UI_UPLOAD_HINT">La taille maximale autorisée est de </message>

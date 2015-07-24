@@ -179,7 +179,7 @@ Ext.define('Ametys.form.field.ChangePassword', {
     	// Change password button
     	var buttonConfig = this.buttonConfig || {};
     	Ext.applyIf(buttonConfig, {
-    		text: "<i18n:text i18n:key='PLUGINS_CORE_UI_PASSWORD_CHANGE'/>",
+    		text: "<i18n:text i18n:key='PLUGINS_CORE_UI_CHANGEPASSWORD_CHANGE'/>",
     		cls: 'ametys-changepassword-change',
     		width: '100%',
     		handler: Ext.bind(this._setToMode, this, [Ametys.form.field.ChangePassword.MODE_CHANGEPASSWORD])
@@ -189,7 +189,7 @@ Ext.define('Ametys.form.field.ChangePassword', {
     	// Reset change button
     	var rstButtonCfg = {
     		handler: Ext.bind(this._setToMode, this, [Ametys.form.field.ChangePassword.MODE_SEEPASSWORD]),
-    		tooltip: "<i18n:text i18n:key='PLUGINS_CORE_UI_PASSWORD_CLEAR'/>",
+    		tooltip: "<i18n:text i18n:key='PLUGINS_CORE_UI_CHANGEPASSWORD_CLEAR'/>",
     		cls: 'ametys-changepassword-reset',
     		height: 0
     	};
@@ -241,7 +241,7 @@ Ext.define('Ametys.form.field.ChangePassword', {
     	
     	if ((arguments.length == 1 && value == undefined) || (arguments.length == 0 && this.items.get(Ametys.form.field.ChangePassword.INDEX_MAIN_FIELD).getValue() != this.items.get(Ametys.form.field.ChangePassword.INDEX_CONFIRMATION_FIELD).getValue()))
     	{
-    		errors.push("<i18n:text key='PLUGINS_CORE_UI_PASSWORD_VALIDATOR'/>");
+    		errors.push("<i18n:text key='PLUGINS_CORE_UI_CHANGEPASSWORD_VALIDATOR'/>");
     	}
 
     	return errors;
