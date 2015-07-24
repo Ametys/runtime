@@ -974,7 +974,7 @@ Ext.define(
 				// nomatch
 				this.setAdditionalDescription(this.getInitialConfig("selection-description-nomatch"));
 			}
-			else if (!this._hasRightOnAny(targets))
+			else if (!this.hasRightOnAny(targets))
 			{
 				// noright
 				this.setAdditionalDescription(this.getInitialConfig("rights-description-no") || this.getInitialConfig("no-right-description"));
@@ -1313,9 +1313,9 @@ Ext.define(
 		/**
 		 * Checks if the rights on at least one target is ok for at least one right required for the button.
 		 * @param {Ametys.message.MessageTarget[]} targets The message targets to check
-		 * @private
+		 * @protected
 		 */
-		_hasRightOnAny: function(targets)
+		hasRightOnAny: function(targets)
 		{
 			var rightToCheck = this.getInitialConfig("rights");
 			
