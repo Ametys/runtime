@@ -63,7 +63,8 @@ Ext.define('Ametys.form.widget.StringTime', {
         return {
             format: this.format == "ShortTime" ? Ext.Date.patterns.ShortTime : Ext.Date.patterns.VeryShortTime, 
             submitFormat: this.format == "ShortTime" ? "H:i:s" : "H:i",
-    		value: this.value
+    		value: this.value,
+            flex: 1
         };
     },
     
@@ -79,6 +80,6 @@ Ext.define('Ametys.form.widget.StringTime', {
 	
     getErrors: function (value) 
     {
-    	return Ext.Array.merge(this.callParent([arguments]), this._timeField.getErrors(value));
+    	return Ext.Array.merge(this.callParent(arguments), this._timeField.getErrors(value));
     }
 });
