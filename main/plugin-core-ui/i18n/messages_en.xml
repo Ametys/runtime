@@ -203,10 +203,14 @@
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_FAILURES">Failure(s)</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_NOT_TESTED">Not verified</message>
     
-    <!-- Change Password -->
+    <!-- Change password -->
     <message key="PLUGINS_CORE_UI_CHANGEPASSWORD_VALIDATOR">The password and the confirmation are not the same</message>
     <message key="PLUGINS_CORE_UI_CHANGEPASSWORD_CLEAR">Reset password to previous value</message>
     <message key="PLUGINS_CORE_UI_CHANGEPASSWORD_CHANGE">Click here to change the password</message>
+    
+    <!-- Password -->
+    <message key="PLUGINS_CORE_UI_PASSWORD_CHANGE">Click here to change the password</message>
+    <message key="PLUGINS_CORE_UI_PASSWORD_VALIDATE">Click here to validate the new password</message>
     
     <!-- Upload -->
     <message key="PLUGINS_CORE_UI_UPLOAD_HINT">Maximal authorized size is </message>
