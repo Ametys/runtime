@@ -37,7 +37,7 @@
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_PASSWORD_DESCRIPTION">Password associated with the user name for connecting to the database</message>
     <message key="PLUGINS_CORE_DATASOURCE_CORE_CONFIG_CATEGORY_LDAP">LDAP directory</message>
     <message key="PLUGINS_CORE_SQL_CONNECTION_CHECKER_LABEL">Connection to the kernel database</message>
-    <message key="PLUGINS_CORE_SQL_CONNECTION_CHECKER_DESC">This test checks if the given information allow the connection to the SQL kernel database.</message>
+    <message key="PLUGINS_CORE_SQL_CONNECTION_CHECKER_DESC">This test checks if the given information allows the connection to the SQL kernel database.</message>
     
     <!-- DATASOURCE LDAP -->
     <message key="PLUGINS_CORE_DATASOURCE_CORE_LDAP_CONFIG_CATEGORY_LDAP_GROUP_CORE">Server</message>
