@@ -681,9 +681,9 @@
                 width -= owner.commentWrapEl.getWidth();
             }
             
-            if (owner.warnWrapEl && owner.hasActiveWarning()) 
+            if (owner.warningWrapEl && owner.hasActiveWarning()) 
             {
-                width -= owner.warnWrapEl.getWidth();
+                width -= owner.warningWrapEl.getWidth();
             }
             
             this.callParent([ownerContext, width]);
