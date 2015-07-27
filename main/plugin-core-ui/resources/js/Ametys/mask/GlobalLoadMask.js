@@ -25,7 +25,7 @@
  *  Ametys.mask.GlobalLoadMask.unmask(id1);                 // Nothing change
  *  Ametys.mask.GlobalLoadMask.mask("my message", "myid");  // The mask default message will have sub message "my message"
  *  Ametys.mask.GlobalLoadMask.unmask("myid");              // The mask come back to its default message
- *  Ametys.mask.GlobalLoadMask.unmask(id2);                 // The mask disapear.
+ *  Ametys.mask.GlobalLoadMask.unmask(id2);                 // The mask disappears.
  * </code></pre>
  * 
  * 
