@@ -20,6 +20,7 @@
                 xmlns:escaper="org.apache.commons.lang.StringEscapeUtils"
                 xmlns:i18n="http://apache.org/cocoon/i18n/2.1"
                 xmlns:ametys="org.ametys.core.util.AmetysXSLTHelper"
+                xmlns:stringutils="org.ametys.core.util.StringUtils"
                 extension-element-prefixes="exslt">
 
     <xsl:import href="kernel.xsl"/>    
@@ -248,20 +249,25 @@
                                     icon: '<xsl:value-of select="$contextPath"/>/plugins/core-ui/resources/img/workspace/ametys.gif',
                                     items: menuItems.length == 0 ? null : menuItems
                                 },<xsl:text/>
-                                <xsl:text/>items: ribbonItems<xsl:text/>
-	                            /*, help: {
+                                <xsl:text/>items: ribbonItems,<xsl:text/>
+	                            /*help: {
 	                                handler: function() { alert('help'); },
 	                                tooltip: "A little bit of help?"
-	                            },
-	                            user: {
-	                                text: "<xsl:value-of select="user/firstname"/>&#160;<xsl:value-of select="user/lastname"/>",
-	                                menu: { 
-	                                   items: [ 
-	                                       {text: "<xsl:value-of select="user/firstname"/>&#160;<xsl:value-of select="user/lastname"/> (<xsl:value-of select="user/@login"/>)" }
-	                                       <xsl:if test="user/email">, {text: "<xsl:value-of select="user/email"/>" }</xsl:if>
-	                                   ]
-	                                }
 	                            },*/
+	                            <xsl:if test="user">
+	                            user: {
+	                                fullName: "<xsl:value-of select="user/firstname"/>&#160;<xsl:value-of select="user/lastname"/>",
+	                                login: "<xsl:value-of select="user/@login"/>",
+	                                email: "<xsl:value-of select="user/email"/>"
+	                                <xsl:if test="string-length(user/email) > 1">,
+	                                    <xsl:variable name="gravatarHash" select="stringutils:md5Hexa(user/email, 32)"/>
+		                                smallPhoto: "http://www.gravatar.com/avatar/<xsl:value-of select="$gravatarHash"/>?s=16&amp;d=blank",
+	                                    mediumPhoto: "http://www.gravatar.com/avatar/<xsl:value-of select="$gravatarHash"/>?s=32&amp;d=mm",
+	                                    largePhoto: "http://www.gravatar.com/avatar/<xsl:value-of select="$gravatarHash"/>?s=48&amp;d=mm",
+                                        extraLargePhoto: "http://www.gravatar.com/avatar/<xsl:value-of select="$gravatarHash"/>?s=64&amp;d=mm"
+	                                </xsl:if>
+	                            }
+	                            </xsl:if>
                             <xsl:text/>}, {region: 'north'});<xsl:text/>
 					
                             /** Contextual tabs creation */<xsl:text/>

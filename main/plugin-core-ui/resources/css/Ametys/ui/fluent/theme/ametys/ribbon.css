@@ -102,10 +102,37 @@
 {
     color: #38acda;
 }
-.x-fluent-tab-panel .x-fluent-user .x-fluent-usericon
+.x-fluent-tab-panel .x-fluent-user .x-btn-icon
 {
 	background-image: url('../../../../../../img/fluent/ametys/user.gif')
 }
+
+.x-fluent-user-card 
+{
+    background-color: #f0f0f0;
+}
+.x-fluent-user-card .photo 
+{
+}
+.x-fluent-user-card .main 
+{
+    
+}
+.x-fluent-user-card .main .name 
+{
+    font-size: 15px;
+}
+.x-fluent-user-card .main .login
+{
+    text-align: right;
+    font-size: 11px;
+    color: #7f7f7f
+}
+.x-fluent-user-card .email 
+{
+    font-size: 11px;
+}
+
 	
 /* HELP */
 .x-fluent-tab-panel .x-fluent-help > img {

@@ -239,15 +239,16 @@
 {
     background-position: right -32px;
 }
-.x-fluent-tab-panel .x-fluent-user .x-fluent-usericon
+.x-fluent-tab-panel .x-fluent-user .x-btn-icon
 {
 	background-position: 0 0;
+    background-repeat: no-repeat;
 }
 .x-fluent-tab-panel .x-fluent-user.x-btn-over .x-btn-inner
 {
 	text-decoration: underline;
 }
-.x-fluent-tab-panel .x-fluent-user.x-btn-over .x-fluent-usericon
+.x-fluent-tab-panel .x-fluent-user.x-btn-over .x-btn-icon
 {
     background-position: 0 -16px;
 }
@@ -255,10 +256,39 @@
 {
     text-decoration: underline;
 }
-.x-fluent-tab-panel .x-fluent-user.x-btn-pressed .x-fluent-usericon
+.x-fluent-tab-panel .x-fluent-user.x-btn-pressed .x-btn-icon
 {
     background-position: 0 -32px;
 }
+.x-fluent-user-card 
+{
+    
+}
+.x-fluent-user-card .photo 
+{
+    width: 64px;
+    height: 64px;
+    overflow: hidden;
+    float: left;
+    margin-right: 10px;
+}
+.x-fluent-user-card .main 
+{
+    
+}
+.x-fluent-user-card .main .name 
+{
+}
+.x-fluent-user-card .main .login
+{
+}
+.x-fluent-user-card .email 
+{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 
 /* HELP */
 .x-fluent-tab-panel .x-fluent-help 
