@@ -203,8 +203,6 @@
                     <file>js/Ametys/helper/ChooseLocation.js</file>
                     <file>js/Ametys/helper/ChooseLocation/LoadGoogleMaps.js</file>
 
-                    <file>js/Ametys/form/SaveErrorDialog.js</file>
-                    
                     <file>js/Ametys/clipboard/Clipboard.js</file>
                 </scripts>
                 <css>
