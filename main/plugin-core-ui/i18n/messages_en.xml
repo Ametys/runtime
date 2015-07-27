@@ -227,7 +227,7 @@
     
     <!-- Password -->
     <message key="PLUGINS_CORE_UI_PASSWORD_CHANGE">Click here to change the password</message>
-    <message key="PLUGINS_CORE_UI_PASSWORD_VALIDATE">Click here to validate the new password</message>
+    <message key="PLUGINS_CORE_UI_PASSWORD_RESET">Click here to reset the password to its previous value</message>
     
     <!-- Upload -->
     <message key="PLUGINS_CORE_UI_UPLOAD_HINT">Maximal authorized size is </message>
