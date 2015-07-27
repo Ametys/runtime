@@ -23,13 +23,34 @@
  *  - a category
  */
 Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
-
+	
+	statics: {
+		/**
+		 * @property {Number} AMETYS_DESCRIPTION_WIDTH The width for Ametys descriptions
+		 * @private
+		 * @readonly 
+		 */
+		AMETYS_DESCRIPTION_WIDTH: 20,
+		
+		/**
+		 * @property {Number} PARAM_CHECKER_STATUS_CMP_WIDTH The width for components reflecting the parameter checkers' status
+		 * @private
+		 * @readonly 
+		 */
+		PARAM_CHECKER_STATUS_CMP_WIDTH: 20,
+		
+		/**
+		 * @property {Number} PARAM_CHECKER_STATUS_CMP_HEIGHT The height for components reflecting the parameter checkers' status
+		 * @private
+		 * @readonly 
+		 */
+		PARAM_CHECKER_STATUS_CMP_HEIGHT: 20
+	},
+	
 	/**
-	 * @property {Number} AMETYS_DESCRIPTION_WIDTH The width for ametys descriptions
+	 * @property {Ametys.form.ConfigurableFormPanel} _form the configurable form panel
 	 * @private
-	 * @readonly 
 	 */
-	AMETYS_DESCRIPTION_WIDTH: 20,
 	
 	/**
 	 * @property {Ametys.form.ConfigurableFormPanel.ParameterChecker[]} _paramCheckers The list of parameter checkers
@@ -60,8 +81,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 	 */
 	constructor: function(config)
 	{
-		this.form = config.form;
-		this.form.on('formready', Ext.bind(this._resumeEvents, this));
+		this._form = config.form;
+		this._form.on('formready', Ext.bind(this._resumeEvents, this));
 		
 		this._paramCheckers = [];
 	},
@@ -80,12 +101,14 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 	 * @param {String[]} paramChecker.linked-params the ids of the parameters used for the checking
 	 * @param {String} paramChecker.label the label of the parameter checker
 	 * @param {String} paramChecker.description the description of the parameter checker
+	 * @param {Number} offset The parameter checker offset
+     * @param {Number} roffset The parameter checker right offset
 	 */
-	addCategoryChecker: function(tab, paramChecker)
+	addCategoryChecker: function(tab, paramChecker, offset, roffset)
 	{
 		var parameterChecker = new Ametys.form.ConfigurableFormPanel.ParameterChecker(paramChecker, tab.title, "category", paramChecker.label, paramChecker.description, Ametys.form.ConfigurableFormPanel.ParameterChecker.STATUS_NOT_TESTED),
-			testButton = this._generateTestButton(parameterChecker),
-			testContainer = this._generateTestContainer(parameterChecker, testButton);
+			testButton = this._generateTestButton(parameterChecker, offset),
+			testContainer = this._generateTestContainer(parameterChecker, testButton, offset, roffset);
 		
 		tab.add(testContainer);
 		
@@ -105,8 +128,10 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 	 * @param {String} paramChecker.large-icon-path the path to the large icon representing the parameter checker
 	 * @param {String} paramChecker.label the label of the group the parameter checker is attached to
 	 * @param {String} paramChecker.description the description of the parameter checker
+	 * @param {Number} offset The parameter checker offset
+     * @param {Number} roffset The parameter checker right offset
 	 */
-	addGroupChecker: function(fieldset, paramChecker)
+	addGroupChecker: function(fieldset, paramChecker, offset, roffset)
 	{
 		var fieldsetCt = fieldset.up();
 		
@@ -117,8 +142,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
     	}
 		
 		var parameterChecker = new Ametys.form.ConfigurableFormPanel.ParameterChecker(paramChecker, uiRefLabel, "group", paramChecker.label, paramChecker.description),
-		    testButton = this._generateTestButton(parameterChecker),
-		    testContainer = this._generateTestContainer(parameterChecker, testButton);
+		    testButton = this._generateTestButton(parameterChecker, offset),
+		    testContainer = this._generateTestContainer(parameterChecker, testButton, offset, roffset);
 		
 		fieldset.add(testContainer);
 		
@@ -138,13 +163,15 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 	 * @param {String[]} paramChecker.linked-params the ids of the parameters used for the checking
 	 * @param {String} paramChecker.label the label of the parameter checker
 	 * @param {String} paramChecker.description the description of the parameter checker
+	 * @param {Number} offset The parameter checker offset
+     * @param {Number} roffset The parameter checker right offset
 	 */
-	addParameterChecker: function(paramChecker)
+	addParameterChecker: function(paramChecker, offset, roffset)
 	{
-		var field = this.form.getField(paramChecker['param-ref']),
+		var field = this._form.getForm().findField(paramChecker['param-ref']),
 		    uiRefLabel = field.getFieldLabel(),
-	    	fieldCt = field.up(),
-	    	fieldCtParent = fieldCt.up();
+		    fieldCt = field.up(),
+		    groupPanel = field.up('panel');
 		
 	    if (Ext.String.startsWith(uiRefLabel, "*"))
     	{
@@ -156,16 +183,16 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 	    	uiRefLabel = fieldCt.title + "/" + uiRefLabel;
     	}
 	    
-	    if (fieldCtParent.hasCls('ametys-form-tab-item'))
+	    if (groupPanel.hasCls('ametys-form-tab-item'))
     	{
-	    	uiRefLabel = fieldCtParent.title + "/" + uiRefLabel;
+	    	uiRefLabel = groupPanel.title + "/" + uiRefLabel;
     	}
 	    
 	    var parameterChecker =  new Ametys.form.ConfigurableFormPanel.ParameterChecker(paramChecker, uiRefLabel, "parameter", paramChecker.label, paramChecker.description),
-	    	testButton = this._generateTestButton(parameterChecker),
-	    	testContainer = this._generateTestContainer(parameterChecker, testButton);
-	    
-	    fieldCt.add(testContainer);
+	    	testButton = this._generateTestButton(parameterChecker, offset),
+	    	testContainer = this._generateTestContainer(parameterChecker, testButton, offset, roffset);
+    	
+	    groupPanel.add(testContainer);
 	    
 		this._paramCheckers.push(parameterChecker);
 	},
@@ -178,7 +205,6 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 	{
 		this._isSuspended = false;
 	},
-	
 	
 	/**
 	 * Initialize the listeners on linked parameters
@@ -194,18 +220,19 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 			var linkedParamsLabels = [];
 			Ext.Array.each(paramChecker.linkedParams, function(linkedParam) {
 
-				var	linkedParamField = me.form.getField(linkedParam);
+				var	linkedParamField = me._form.getForm().findField(linkedParam);
 				var fieldLabel = linkedParamField.getFieldLabel();
 				
 				linkedParamField.on('change', Ext.bind(me._updateTestButton, me, [paramChecker], false));
 				linkedParamField.on('disable', Ext.bind(me._updateTestButton, me, [paramChecker], false));
 				linkedParamField.on('enable', Ext.bind(me._updateTestButton, me, [paramChecker], false));
-				linkedParamField.on('warningchange', Ext.bind(me.form._updateTabsStatus, me.form));
+				
+				linkedParamField.on('warningchange', Ext.bind(me._form._updateTabsStatus, me._form, [false], false));
 			})
 		});
 		
 		// Initialize test results 
-		this.form.on({
+		this._form.on({
 			// Update test results after the parameter checkers are created
 			formready: {fn: this._updateTestResults, scope: this, single: true, order: 'after'} 
 		});
@@ -215,20 +242,29 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 	 * @private
 	 * Generates the button launching the tests on the corresponding parameter/group/category
 	 * @param {Ametys.form.ConfigurableFormPanel.ParameterChecker} paramChecker the parameter checker 
+	 * @param {Number} offset the parameter checker offset
 	 */
-	_generateTestButton: function(paramChecker)
+	_generateTestButton: function(paramChecker, offset)
 	{	
 		var me = this;
 		
 		return Ext.create('Ext.button.Button', {
 			id: Ext.id(),
-			paramChecker: paramChecker,
-			tooltip: '',
-			icon: Ametys.CONTEXT_PATH + paramChecker.smallIconPath,
+			
 			text: "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_TEXT_PREFIX'/>" + " \"" + paramChecker.label + "\"",
-			cls: 'param-checker-component',
-            border: false,
-            handler: function(btn, event)
+			textAlign: 'left',
+			
+			icon: Ametys.CONTEXT_PATH + paramChecker.smallIconPath,
+			cls: 'param-checker-button',
+			
+			flex: 1,
+			minWidth: Ametys.form.ConfigurableFormPanel.LABEL_WIDTH - offset + Ametys.form.ConfigurableFormPanel.FIELD_MINWIDTH,
+
+			border: false,
+            tooltip: '',
+            
+            paramChecker: paramChecker,
+            handler: function()
             {
         		me.check([paramChecker], false);
             }
@@ -240,24 +276,56 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 	 * Generates the container that holds the test button and the ametys description
 	 * @param {Ametys.form.ConfigurableFormPanel.ParameterChecker} paramChecker the parameter checker 
 	 * @param {Ext.button.Button} testButton the test button
+	 * @param {Number} offset the offset of the parameter checker
+	 * @param {Number} roffset the right offset of the parameter checker
 	 * @return {Ext.container.Container} the container with the test button and the help box
 	 */
-	_generateTestContainer: function(paramChecker, testButton)
+	_generateTestContainer: function(paramChecker, testButton, offset, roffset)
 	{
-		var me = this,
-			helpBoxId = Ext.id(),
-			items = [testButton];
-			
+		var me = this;
+		
+		var items = [];
+		
+		// Spacer to take the label space
+		items.push({
+			xtype: 'tbspacer', 
+			width: Ametys.form.ConfigurableFormPanel.LABEL_WIDTH - offset + Ametys.form.ConfigurableFormPanel.LABEL_PADDING
+		});
+		
+		// the button itself
+		items.push(testButton);
 		paramChecker.setButtonId(testButton.getId());
+		
+		var helpBoxId = Ext.id();
 		paramChecker.setHelpBoxId(helpBoxId);
 		
+		var paramCheckerStatusCmpId = Ext.id();
+		paramChecker.setStatusCmpId(paramCheckerStatusCmpId);
+		
+		// component initially hidden that will reflect the status of the check
 		items.push({
-			id: helpBoxId,
+			xtype: 'component',
+			id: paramCheckerStatusCmpId,
+			
+			height: Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO.PARAM_CHECKER_STATUS_CMP_WIDTH,
+			width: Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO.PARAM_CHECKER_STATUS_CMP_WIDTH,
+			
+			hidden: true,
+			cls: 'param-checker-status'
+		});
+		
+		// the description
+		items.push({
 			xtype: 'component', 
+
+			id: helpBoxId,
 			cls: "ametys-description",
-		    baseCls: '', 
-		    padding: "3 0 0 5",
+		    
+			baseCls: '', 
+		    
 			width: Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO.AMETYS_DESCRIPTION_WIDTH,
+			padding: "3 0 0 5",
+
 			listeners: {
 				'render': function() {
 					this.getEl().set({"data-qtip": me._generateHelpBoxTip(paramChecker)});
@@ -268,9 +336,11 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 		return Ext.create('Ext.Container', {
 			layout: {
 				type: 'hbox',
-				pack:'end'
+				align: 'stretch',
+				pack: 'start'
 			},
-			cls : 'param-checker-container',
+			style: 'margin-right:' + Math.max(60 - roffset, 0) + 'px',
+			cls: 'param-checker-container',
 			items: items
 		});
 	},
@@ -278,7 +348,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 	/**
 	 * @private
 	 * Generates the HTML code for the parameter checker's help box tooltip.
-	 * @param {Ametys.plugins.admin.Config.ParameterChecker} paramChecker the parameter checker 
+	 * @param {Ametys.form.ConfigurableFormPanel.ParameterChecker} paramChecker the parameter checker 
 	 */
 	_generateHelpBoxTip: function(paramChecker)
     {
@@ -287,7 +357,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 		
 		// Set the labels of the linked parameters in the param checker
 		Ext.Array.each(paramChecker.linkedParams, function(linkedParam) {
-			var	linkedParamField = me.form.getField(linkedParam);
+			var	linkedParamField = me._form.getForm().findField(linkedParam);
 			var fieldLabel = linkedParamField.getFieldLabel();
 			
 			if (Ext.String.startsWith(fieldLabel,"*"))
@@ -304,7 +374,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 			'<table>' + 
 			  	  '<tr>' +
 		  	  		  '<td style="width: 48px">' +
-						  '<img width="48" height="48" src=/plugins/' + paramChecker.plugin + '/resources/' + paramChecker.largeIconPath + '/>' +
+						  '<img width="48" height="48" src=' + Ametys.CONTEXT_PATH + paramChecker.largeIconPath + '/>' +
 				  	  '</td>' +
 		  	  		  '<td>' +
 						  '<strong> &#008; &#008; ' + paramChecker.label + ' </strong>' +
@@ -382,7 +452,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 			targets: {
 				type: Ametys.message.MessageTarget.CONFIGURATION,
 				parameters: {},
-				subtargets: [ this.form.getMessageTargetConf() ]
+				subtargets: [ this._form.getMessageTargetConf() ]
 			}
 		});
 	},
@@ -390,7 +460,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 	/**
 	 * @private
 	 * Sets the test button to the "warning" status, updates the button's tooltip and the test results panel
-	 * @param {Ametys.plugins.admin.Config.ParameterChecker} paramChecker the parameter checker to be updated
+	 * @param {Ametys.form.ConfigurableFormPanel.ParameterChecker} paramChecker the parameter checker to be updated
 	 */	
 	_updateTestButton: function(paramChecker)
 	{
@@ -400,6 +470,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 		}
 		
 		var btn = Ext.getCmp(paramChecker.buttonId),
+			statusCmp = Ext.getCmp(paramChecker.statusCmpId),
 			helpBox = Ext.getCmp(paramChecker.helpBoxId),
 			linkedParams = paramChecker.linkedParams,
 		    allLinkedParamsDisabled = true,
@@ -408,7 +479,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 	    for (var i = 0; i < linkedParams.length; i++)
 		{
 			var linkedParam = linkedParams[i],
-				linkedParamField = this.form.getField(linkedParam);
+				linkedParamField = this._form.getForm().findField(linkedParam);
 
 			// check if all linked parameters are disabled
 			if (!linkedParamField.isDisabled())
@@ -422,12 +493,11 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 				invalidLinkedParameter = true;
 			}
 		}
-
+	    
 	    // update style
-	    btn.removeCls(['success', 'failure']);
-	    btn.addCls('warning');
-	    helpBox.addCls('offset');
-	    btn.up('container').updateLayout();
+	    statusCmp.setVisible(true);
+	    statusCmp.removeCls(['success', 'failure']);
+	    statusCmp.addCls('warning');
 	    
 	    if (!allLinkedParamsDisabled && !invalidLinkedParameter)
     	{
@@ -441,19 +511,19 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
     	}
 	    
 	    // update the tooltip
-	    this._generateStatusTip(btn.up('container').getEl(), paramChecker);
+	    this._generateStatusTip(statusCmp.getEl(), paramChecker);
 	    helpBox.getEl().set({"data-qtip": this._generateHelpBoxTip(paramChecker)});
 	    
 	    // update the test results 
 	    this._updateTestResults();
-	    this.form._updateTabsStatus();
+	    this._form._updateTabsStatus();
 	},
 	
 	/**
 	 * @private
 	 * Generates the HTML code for the parameter checker's status tooltip.
 	 * @param {Ext.Element} el The element to add tooltips on
-	 * @param {Ametys.plugins.admin.Config.ParameterChecker} paramChecker the parameter checker 
+	 * @param {Ametys.form.ConfigurableFormPanel.ParameterChecker} paramChecker the parameter checker 
 	 */
 	_generateStatusTip: function(el, paramChecker)
     {
@@ -527,7 +597,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 				warningMsg = "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_WARNING_TEXT_BEGINNING'/>" + paramChecker.label + "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_WARNING_TEXT_END'/>";	
 			
 			Ext.Array.each(paramChecker.linkedParams, function(linkedParam){
-				var linkedParamField = me.form.getField(linkedParam);
+				var linkedParamField = me._form.getForm().findField(linkedParam);
 				linkedParamField._warnings = linkedParamField._warnings || {};
 				
 				var activeWarnings = linkedParamField.getActiveWarnings();
@@ -547,10 +617,6 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 					}
 					
 					linkedParamField.markWarning(activeWarnings);
-				}
-				else if (warning)
-				{
-					helpBox.addCls('offset');
 				}
 			});
 		});
@@ -619,7 +685,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
      */
     check: function(paramCheckers, displayErrors, callback, forceTest)
     {
-        var form = this.form;
+        var form = this._form;
         
         forceTest = forceTest !== false ? true : false;
         
@@ -659,13 +725,13 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
      * @param {Object} options.params the call parameters
      * @param {boolean} success true if the request succeeded, false otherwise
      * @param {Object} response the server's response
-     * @param {Ametys.plugins.admin.Config.ParameterChecker[]} paramCheckers the parameter checker
+     * @param {Ametys.form.ConfigurableFormPanel.ParameterChecker[]} paramCheckers the parameter checker
      * @param {Function} callback the optional callback for this function.
      * @param {Boolean} displayErrors true if the errors have to be displayed at then end of the tests
      */
     _checkCb: function(options, success, response, paramCheckers, callback, displayErrors)
     {   
-        var form = this.form;
+        var form = this._form;
         
         var paramCheckersDAO = form._paramCheckersDAO;
         if (!success)
@@ -693,40 +759,36 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
         Ext.Array.each(paramCheckers, function(paramChecker) {
             var btn = Ext.getCmp(paramChecker.buttonId),
                 helpBox = Ext.getCmp(paramChecker.helpBoxId),
+                statusCmp = Ext.getCmp(paramChecker.statusCmpId),
                 errorMsg = Ext.dom.Query.selectValue("*/" + paramChecker.id, result);
                 
             btn.getEl().unmask();
             btn.enable();
-            btn.removeCls('warning');
+            
+            statusCmp.setVisible(true);
+            statusCmp.removeCls(['failure', 'warning', 'success']);
             
             // Update the parameter checker's component
             if (errorMsg == null)
             {
-                btn.removeCls('failure');
-                btn.addCls('success');
-                helpBox.addCls('offset');
+            	statusCmp.addCls('success');
                 paramChecker.setStatus(Ametys.form.ConfigurableFormPanel.ParameterChecker.STATUS_SUCCESS);
-                paramChecker.setErrorMsg(null);
-                
-                paramCheckersDAO._generateStatusTip(btn.up('container').getEl(), paramChecker);
-                helpBox.getEl().set({"data-qtip": paramCheckersDAO._generateHelpBoxTip(paramChecker)});
             }
             else
             {
                 errors++;
-                btn.removeCls('success');
-                btn.addCls('failure');
-                helpBox.addCls('offset');
-                paramChecker.setStatus(Ametys.form.ConfigurableFormPanel.ParameterChecker.STATUS_FAILURE);
-                paramChecker.setErrorMsg(errorMsg);
+                statusCmp.addCls('failure');
                 
-                paramCheckersDAO._generateStatusTip(btn.up('container').getEl(), paramChecker);
-                helpBox.getEl().set({"data-qtip": paramCheckersDAO._generateHelpBoxTip(paramChecker)});
+                paramChecker.setStatus(Ametys.form.ConfigurableFormPanel.ParameterChecker.STATUS_FAILURE);
             }
+            
+            paramChecker.setErrorMsg(errorMsg);
+            paramCheckersDAO._generateStatusTip(statusCmp.getEl(), paramChecker);
+            helpBox.getEl().set({"data-qtip": paramCheckersDAO._generateHelpBoxTip(paramChecker)});
         });
         
         paramCheckersDAO._updateTestResults();
-        paramCheckersDAO.form._updateTabsStatus(); 
+        paramCheckersDAO._form._updateTabsStatus(); 
         paramCheckersDAO._updateWarnings();
         
         if (callback && typeof callback === 'function') 

@@ -37,8 +37,7 @@ Ext.define('Ametys.plugins.admin.config.ConfigTool', {
 			cls: 'config',
 			
 			listeners: {
-				'inputfocus': Ext.bind(this.sendCurrentSelection, this),
-				'toolopen': Ext.bind(this.sendCurrentSelection, this)
+				'inputfocus': Ext.bind(this.sendCurrentSelection, this)
 			}
 		});
 		
@@ -58,6 +57,32 @@ Ext.define('Ametys.plugins.admin.config.ConfigTool', {
                 subtargets: [ this._formPanel.getMessageTargetConf() ]
             }
         });
+	},
+	
+	onOpen: function()
+	{
+		this.sendCurrentSelection();
+	},
+	
+	close: function(manual)
+	{
+		var me = this;
+        if (this.isDirty())
+		{
+			Ametys.Msg.confirm("<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_DIRTY_CLOSE_MBOX_LABEL'/>", 
+				"<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_DIRTY_CLOSE_MBOX_TEXT'/>", 
+				function (answer) {
+	                if (answer == 'yes')
+	                {
+	                	Ametys.plugins.admin.config.ConfigTool.superclass.close.call(me, [manual]);
+	                }
+	            },
+	            this
+			);
+			return;
+		}
+
+        this.callParent(arguments);
 	},
 	
 	/**
@@ -89,7 +114,7 @@ Ext.define('Ametys.plugins.admin.config.ConfigTool', {
 	{
 		// Initialize the form panel
 		this._formPanel.configure(Ext.dom.Query.select("config/configuration", response)[0]);
-		this._formPanel.setValues(Ext.dom.Query.select("config/values", response)[0]);
+		this._formPanel.setValues(Ext.dom.Query.select("config/configuration-values", response)[0], "values", "comments", "invalid");
 	}
 });
 

@@ -130,6 +130,7 @@
 	        <script>/plugins/core-ui/resources/js/Ametys/form/AbstractFieldsWrapper.js</script>
 	        <script>/plugins/core-ui/resources/js/Ametys/form/field/DateTime.js</script>
             <script>/plugins/core-ui/resources/js/Ametys/form/field/StringTime.js</script>
+            <script>/plugins/core-ui/resources/js/Ametys/form/field/Password.js</script>
 	        <script>/plugins/core-ui/resources/js/Ametys/form/field/ChangePassword.js</script>
             <script>/plugins/core-ui/resources/js/Ametys/form/field/ReferencedNumberField.js</script>
             <script>/plugins/core-ui/resources/js/Ametys/form/field/RichText.js</script>
@@ -147,6 +148,8 @@
             <script>/plugins/core-ui/resources/js/Ametys/form/ConfigurableFormPanel/Repeater.js</script>
             <script>/plugins/core-ui/resources/js/Ametys/form/ConfigurableFormPanel/ParameterChecker.js</script>
             <script>/plugins/core-ui/resources/js/Ametys/form/ConfigurableFormPanel/ParameterCheckersDAO.js</script>
+            <script>/plugins/core-ui/resources/js/Ametys/form/SaveHelper.js</script>
+            <script>/plugins/core-ui/resources/js/Ametys/form/SaveHelper/SaveErrorDialog.js</script>
             
             <script>/plugins/core-ui/resources/js/Ametys/data/ServerCaller.js</script>
 	        <script>/plugins/core-ui/resources/js/Ametys/data/ServerComm.js</script>

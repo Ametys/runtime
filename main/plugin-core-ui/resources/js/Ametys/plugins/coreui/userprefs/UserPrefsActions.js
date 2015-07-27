@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Anyware Services
+ *  Copyright 2015 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -202,19 +202,15 @@ Ext.define('Ametys.plugins.coreui.userprefs.UserPrefsActions', {
 	 */
 	_saveUserPrefs: function ()
 	{
-		var invalidFields = this._form.getInvalidFields();
-		if (invalidFields.length > 0)
-		{
-			Ametys.Msg.show({
-				   title: "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_SAVE'/>",
-				   msg: "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_SAVE_INVALIDFIELDS'/>" + invalidFields.join(', '),
-				   buttons: Ext.Msg.OK,
-				   icon: Ext.MessageBox.ERROR
-			});
-			return;
-		}
-		
-		Ametys.userprefs.UserPrefsDAO.saveValues(this._form.getValues(), Ext.bind(this._saveCb, this));
+        var me = this;
+        function canSaveCb(canSave)
+        {
+            if (canSave)
+            {
+                Ametys.userprefs.UserPrefsDAO.saveValues(me._form.getValues(), Ext.bind(me._saveCb, me));
+            }
+        }
+        Ametys.form.SaveHelper.canSave(this._form, canSaveCb);
 	},
 	
 	/**
@@ -227,18 +223,10 @@ Ext.define('Ametys.plugins.coreui.userprefs.UserPrefsActions', {
 	{
 		if (success == false && errors != null)
     	{
-    		var details = "";
-    		for (var error in errors)
-    		{
-    			details += error + ": " + errors[error] + "\n";
-    		}
-    		
-    	    Ametys.log.ErrorDialog.display({
-    	        title: "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_FAILURE_TITLE'/>",
-    	        text: "<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_FAILURE_DESC'/>",
-    	        details: details,
-    	        category: this.self.getName() 
-    	    });
+			Ametys.form.SaveHelper.handleServerErrors(this._form, 
+					"<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_FAILURE_TITLE'/>", 
+					"<i18n:text i18n:key='PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_FAILURE_DESC'/>", 
+					errors);
     	}
     	else
     	{

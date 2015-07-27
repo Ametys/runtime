@@ -102,7 +102,9 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterChecker', {
 		/** @cfg {String} buttonId The id of the button that launch the test */
 		buttonId: null,
 		/** @cfg {String} helpBoxId The id of the help icon associated to the test */
-		helpBoxId: null
+		helpBoxId: null,
+		/** @cfg {String} statusCmpId The id of the status component associated to the test */
+		statusCmpÎd: null
 	},
 	
 	constructor: function(paramChecker, uiRefLabel, uiRefType, label, description)
@@ -181,6 +183,15 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterChecker', {
 	setStatus: function(status)
 	{
 		this.status = status;
+	},
+	
+	/**
+	 * Set the id of the status component
+	 * @param {String} id See the #cfg-status-cmp-id
+	 */
+	setStatusCmpId: function(id)
+	{
+		this.statusCmpId = id;
 	},
 	
 	/**

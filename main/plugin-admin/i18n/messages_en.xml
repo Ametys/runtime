@@ -48,11 +48,10 @@
     <message key="PLUGINS_ADMIN_CONFIG_SAVE_WAIT_MSG">Saving. Please wait ...</message>
     <message key="PLUGINS_ADMIN_CONFIG_SAVE_FATALERROR">Server is not responding or a fatal error occurred during saving.\nConsult applications and servlet engines logfiles for more details.</message>
     <message key="PLUGINS_ADMIN_CONFIG_SAVE_ERROR">An error occurred on the server and parameters have not been updated.\n\nInternal error message is :\n</message>
-    <message key="PLUGINS_ADMIN_CONFIG_SAVE_NOFORM_TITLE">No form</message>
-    <message key="PLUGINS_ADMIN_CONFIG_SAVE_NOFORM">There is no form to save.</message>
-    <message key="PLUGINS_ADMIN_CONFIG_SAVE_INVALID_TITLE">The form contains errors</message>
     <message key="PLUGINS_ADMIN_CONFIG_SAVE_INVALID">One or more fields in the form are incorrect.Please modify them and then save the form.</message>
     <message key="PLUGINS_ADMIN_CONFIG_INVALID_REGEXP">Wrong value. Expected format:</message> 
+    <message key="PLUGINS_ADMIN_CONFIG_DIRTY_CLOSE_MBOX_LABEL">Close without saving</message>
+    <message key="PLUGINS_ADMIN_CONFIG_DIRTY_CLOSE_MBOX_TEXT">Caution!&lt;br/&gt;If you quit now all your modifications will be lost !&lt;br/&gt;Do you wish to discard your modifications ?</message>
     <message key="DATE_FIELD_FORMAT">m/d/Y</message>
     
     <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECK_ERROR">Error while performing the parameter verification.</message>
@@ -60,11 +59,6 @@
     <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECK_UI_REF_CATEGORY">On the category</message>
     <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECK_UI_REF_GROUP">On the group</message>
     <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECK_UI_REF_PARAMETER">On the parameter</message>
-    <message key="PLUGINS_ADMIN_CONFIG_TESTS_NOK_MBOX_TITLE">Test failure</message>
-    <message key="PLUGINS_ADMIN_CONFIG_TESTS_NOK_MBOX_MSG">Before saving, it is recommended that all verifications pass.&lt;br/&gt;What do you want to do ?</message>
-    <message key="PLUGINS_ADMIN_CONFIG_TESTS_NOK_MBOX_SAVE">Save without verifying</message>
-    <message key="PLUGINS_ADMIN_CONFIG_TESTS_NOK_MBOX_RETRY">Run the verifications and save</message>
-    <message key="PLUGINS_ADMIN_CONFIG_TESTS_NOK_MBOX_CANCEL">Cancel</message>
     <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECKER_STATUS">Status: </message>
     <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECKER_STATUS_SUCCESS">Success</message>
     <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECKER_STATUS_FAILURE">Failure</message>

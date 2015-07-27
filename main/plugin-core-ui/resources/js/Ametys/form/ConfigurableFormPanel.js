@@ -57,6 +57,14 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
          * @readonly 
          */
         LABEL_WIDTH: 200,
+        
+        /**
+         * @property {Number} LABEL_PADDING The padding for field labels 
+         * @private
+         * @readonly 
+         */
+        LABEL_PADDING: 5,
+        
         /**
          * @property {Number} FIELD_MINWIDTH The minimum width for fields
          * @private
@@ -134,11 +142,6 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
 
     /**
      * @property {Ext.form.Panel[]} _tabPanels The tab panels.
-     * @private
-     */
-    
-    /**
-     * @property {Object} _switchers The group switchers are a map of fields that switches their group. A mapping between a field name and the Ext.form.Field value.
      * @private
      */
     
@@ -223,7 +226,6 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         this._fields = [];  
         this._repeaters = [];
         this._tabPanels = [];
-        this._switchers = {};
 
         this._paramCheckersDAO = Ext.create('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
             form: this
@@ -341,26 +343,11 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     /**
      * Get a field in this form by id or name
      * @param {String} name The name (or id) of the searched field
-     * @return {Ext.form.field.Field} The first matching field or switcher, or null if none was found.
+     * @return {Ext.form.field.Field} The first matching field, or null if none was found.
      */
-    getField: function (name)
+    getField : function (name)
     {
-        return this._switchers.hasOwnProperty(name) ? this._switchers[name] : this.getForm().findField(name);
-    },
-    
-    /**
-     * Get all the fields of the form, including the switchers
-     * @return {Ext.form.field.Field[]} An array of fields
-     */
-    getFields: function ()
-    {
-        var fields = this.getForm().getFields();
-        
-        Ext.Object.each(this._switchers, function(fieldName) {
-            fields.push(this[fieldName]);
-        });
-    
-        return fields;  
+        return this.getForm().findField(name);
     },
     
     /**
@@ -371,7 +358,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     {
         for (var name in fieldsInError)
         {
-            var fd = this.getField (name);
+            var fd = this.getForm().findField(name);
             if (fd)
             {
                 fd.markInvalid (fieldsInError[name])
@@ -678,11 +665,11 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     {
         var panelContainers = panel.query('container'),
             paramCheckers = [];
-        
+
         Ext.Array.each(panelContainers, function(container){
             if (container.hasCls('param-checker-container'))
             {
-                paramCheckers.push(container.down().paramChecker);
+                paramCheckers.push(container.down('button').paramChecker);
             }
         });
         
@@ -835,37 +822,33 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             header[startup ? 'addCls' : 'removeCls']('startup');
             header[startup ? 'removeCls' : 'addCls']('not-startup');
             
-            var hasError = errorFields.length > 0;
-            var hasWarn = warnFields.length > 0;
+            var errors = Ext.Array.union(errorFields, testsErrorMessages);
+            var warnings = Ext.Array.union(warnFields, testsWarnMessages);
+            
+            var hasError = errors.length > 0;
+            var hasWarn = warnings.length > 0;
             var hasComment = commentFields.length > 0;
             
-            var headerCls = '';
+            header.removeCls(['error', 'warning', 'comment']);
             if (hasError)
             {
-                header.removeCls(['warning']);
-                header.removeCls(['comment']);
-                header.addCls('error')
+                header.addCls('error');
             }
             else if (hasWarn)
             {
-                header.removeCls(['error']);
-                header.removeCls(['comment']);
-                header.addCls('warning')
+                header.addCls('warning');
             }
             else if (hasComment)
             {
-                header.removeCls(['error']);
-                header.removeCls(['warning']);
-                header.addCls('comment')
-            }
-            else
-            {
-                header.removeCls(['error', 'warning', 'comment']);
+                header.addCls('comment');
             }
             
             if (header.rendered)
             {
-                this._createTabTooltip (header, panel, errorFields, warnFields, commentFields);
+            	// As we change width with CSS we have to prevent tabs from overlapping one another
+            	header.updateLayout();
+            	
+                this._createTabTooltip (header, panel, errors, warnings, commentFields);
             }
             else
             {
@@ -1046,6 +1029,12 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             {
                 header.removeCls(['empty']);
             }
+            
+            var focusedTool = Ametys.tool.ToolsManager.getFocusedTool();
+            if (focusedTool != null && this._formReady && !focusedTool.isDirty())
+        	{
+            	focusedTool.setDirty(true);
+        	}	
         }
     },
     
@@ -1053,7 +1042,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      * @private
      * Show or hide the elements of a fieldset, including the parameter checkers
      * @param {Ext.form.field.Checkbox} checkbox the checkbox 
-     * @param {Ext.panel.Panel} fieldset the fieldset the group switchs belongs to
+     * @param {Ext.panel.Panel} fieldset the fieldset the group switch belongs to
      * @param {Boolean} startup true if this is the first call, false otherwise
      */
     _showHideFieldset: function(checkbox, fieldset, startup)
@@ -1061,21 +1050,30 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         Ext.suspendLayouts();
         
         var checked = checkbox.getValue();
+
         fieldset.items.eachKey(function(key){
-            var fieldsetElement = Ext.getCmp(key);
-            fieldsetElement.setVisible(checked);
-            
+        	
+        	var fieldsetElement = Ext.getCmp(key);
+        	if (fieldsetElement.getId() == checkbox.getId())
+    		{
+        		return;
+    		}
+
+        	fieldsetElement.setVisible(checked);
+        	
             if (fieldsetElement.hasCls('param-checker-container'))
             {
                 // parameter checker
-                fieldsetElement.down().paramChecker.setStatus(checked ? Ametys.form.ConfigurableFormPanel.ParameterChecker.STATUS_NOT_TESTED
+                fieldsetElement.down('button').paramChecker.setStatus(checked ? Ametys.form.ConfigurableFormPanel.ParameterChecker.STATUS_NOT_TESTED
                                                                       : Ametys.form.ConfigurableFormPanel.ParameterChecker.STATUS_HIDDEN);
             }
-            else if (!startup)
-            {
-                // validate fields on expanding
+        	else if (!startup)
+    		{
+        		// validate fields on expanding/collapsing
+        		// validation on hidden fields always returns true
                 fieldsetElement.validate();
-            }
+    		}
+            
         });
 
         if (checked)
@@ -1108,11 +1106,10 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      * @param {String} label The label of the fieldset
      * @param {Number} nestingLevel The nesting level of the fieldset.
      * @param {Object} switcher If the group can be switched on/off, the configuration object corresponding to the group-switch parameter. A config for #_createInputField.
-     * @param {String[]} fieldNames An array containing the names of the fields the switcher will show/hide 
      * @return {Ext.form.FieldSet} The created fieldset
      * @private
      */
-    _addFieldSet: function (ct, label, nestingLevel, switcher, fieldNames)
+    _addFieldSet: function (ct, label, nestingLevel, switcher)
     {
         var me = this;
         var fdCfg = {
@@ -1133,13 +1130,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             var switcherCfg  = Ext.apply ({minWidth: 20, style: ' '}, switcher);
             
             var switcherField = this._createInputField(switcherCfg);
-            
             switcherField.on('render', Ext.bind(this._preventClickPropagation, this));
             
-            // Register the switcher as a field
-            this._fields.push(switcherCfg.name);
-            this._switchers[switcherCfg.name] = switcherField;
-
             Ext.apply(fdCfg, {
                 title: switcherCfg.label,
                 
@@ -1147,6 +1139,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                 titleCollapse: true,
                 hideCollapseTool: true,
                 cls: 'ametys-fieldset',             
+                
+                tools: [switcherField],
                 
                 header: {
                     titlePosition: 1,
@@ -1157,7 +1151,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                                 if (!switcherField.checked) 
                                 {
                                     // When the group is switched off, we cannot collapse/expand it
-                                    event.stopEvent();
+                                	event.stopEvent();
                                     return false;
                                 }
                                 else
@@ -1167,22 +1161,17 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                             }
                         } 
                     }
-            
                 },
                 
                 listeners: {
                     add: {
                         fn: function(){
                             // every time something is added to this panel we want to hide it depending on the switch value
-                            // hiding such element will make isValid works as we want
+                            // hiding such element will make isValid work as we want
                             me._showHideFieldset(switcherField, this, true);
                         }
                     }
-                },
-                
-                tools: [
-                    switcherField
-                ]
+                }
             });
         }
         else if (label)
@@ -1198,12 +1187,18 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         }
         
         var fieldset = new Ext.panel.Panel(fdCfg);
-
+        
+        // we need to add the switchfield here as a regular field in order for the form to consider it as a field immediately
+        // otherwise tools of the header are only added during rendering
+        // The field will be moved from the fieldset to the head automatically since a component cannot be used twice
+        fieldset.add(switcherField);
+        
         if (switcherField != null)
         {
             switcherField.on('change', Ext.bind(this._showHideFieldset, this, [fieldset, false], 1));
         }
         ct.add(fieldset);
+        
         return fieldset;
     },
     
@@ -1232,7 +1227,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         var field = this._createInputField(config);
         if (startVisible == 'false')
         {
-            field.hide();
+           field.hide();
         }
         
         if (field != null)
@@ -1280,9 +1275,12 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         Ext.applyIf (fieldCfg, {
             cls: 'ametys',
             style: config.style || 'margin-right:' + Math.max(60 - roffset, 0) + 'px',
+            
             labelAlign: 'right',
             labelWidth: Ametys.form.ConfigurableFormPanel.LABEL_WIDTH - offset,
+            labelPad: Ametys.form.ConfigurableFormPanel.LABEL_PADDING,
             labelSeparator: '',
+            
             minWidth: config.minWidth || Ametys.form.ConfigurableFormPanel.LABEL_WIDTH - offset + Ametys.form.ConfigurableFormPanel.FIELD_MINWIDTH,
             anchor: '100%',
             
@@ -1514,7 +1512,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      * - String **role** Can be "tabs" or "fieldsets" to create a tab grouping or a fieldset grouping. Note that tab grouping can be replaced by simple panels according to a user preference.
      * - String **label** The label of the grouping.
      * - Object **switcher** The configuration of the switcher parameter. The switcher is a boolean field that is used to enable/disable the other fields of its fieldset (available for fieldsets that have a "fieldset" role exclusively).
-     *   It must have a **label** and an **id** (the id of the boolean field) and optionally a **defaultValue**. This configuration will be ignored if there is a **paramChecker** defined for the fieldset.
+     *   It must have a **label** and an **id** (the id of the boolean field) and optionally a **defaultValue**.
      * - Object **param-checker** (see above) Fieldsets can also have a parameter checker for both "tab" and "fieldset" role
      * - Object **elements** The child elements of the grouping : this is a recursive data object, except that **"fieldsets"** can not be used again with the role "tab".
      * 
@@ -1575,7 +1573,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                     var fieldsets = data[name];
                     for (var i=0; i < fieldsets.length; i++)
                     {
-                        if (role == 'fieldset')
+                        if (fieldsets[i].role == 'fieldset')
                         {
                             var elements = fieldsets[i].elements;
                             
@@ -1585,15 +1583,9 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                                 switcherCfg.name = switcherCfg.id;
                                 delete switcherCfg.id;
                                 switcherCfg.type = 'boolean';
-                                
-                                var fieldNames = [];
-                                for (var fieldId in elements)
-                                {
-                                    fieldNames.push(fieldId);
-                                }
                             }
                             
-                            var fieldset = this._addFieldSet(ct, fieldsets[i].label, nestingLevel, switcherCfg, fieldNames);
+                            var fieldset = this._addFieldSet(ct, fieldsets[i].label, nestingLevel, switcherCfg);
                             
                             // Transmit offset + 5 (padding) + 1 (border) + 11 (margin + border) if we are in a nested composite.
                             var finalOffset = offset 
@@ -1615,7 +1607,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                                 }
                                 
                                 Ext.Array.each(paramCheckers, function(paramChecker){
-                                    me._paramCheckersDAO.addGroupChecker(fieldset, paramChecker);
+                                    me._paramCheckersDAO.addGroupChecker(fieldset, paramChecker, finalOffset, finalROffset);
                                 });
                             }
                         }
@@ -1670,11 +1662,11 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                 }
                 else
                 {
-                    var metadata = data[name];
+                    var fieldData = data[name];
                     
-                    var label = metadata.label;
-                    var description = metadata.description;
-                    var isMandatory = metadata.validation ? (metadata.validation.mandatory) || false : false;
+                    var label = fieldData.label;
+                    var description = fieldData.description;
+                    var isMandatory = fieldData.validation ? (fieldData.validation.mandatory) || false : false;
                     
                     var widgetCfg = {
                         name: prefix + name,
@@ -1686,13 +1678,15 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                         showAmetysComments: this.showAmetysComments,
                         
                         mandatory: isMandatory,
-                        value: metadata['default-value'],
+                        value: fieldData['default-value'],
                         
-                        multiple: metadata.multiple,
-                        widget: metadata.widget,
+                        multiple: fieldData.multiple,
+                        widget: fieldData.widget,
                         
-                        hidden: metadata.hidden, 
-                        disabled: metadata['can-not-write'] === true,
+                        hidden: fieldData.hidden, 
+                        disabled: fieldData['can-not-write'] === true,
+                        
+                        disableCondition: fieldData.disableCondition,
                         
                         form: this,
                         offset: offset,
@@ -1701,12 +1695,12 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
 
                     // Add configured configuration
                     Ext.Object.each(this._additionnalWidgetsConf, function(key, value, object) {
-                        widgetCfg[key] = metadata[value];
+                        widgetCfg[key] = fieldData[value];
                     });
                     
-                    if (metadata.validation)
+                    if (fieldData.validation)
                     {
-                        var validation = metadata.validation;
+                        var validation = fieldData.validation;
                         widgetCfg.regexp = validation.regexp || null;
                         
                         if (validation.invalidText)
@@ -1719,11 +1713,11 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                         }
                     }
                     
-                    if (metadata.enumeration)
+                    if (fieldData.enumeration)
                     {
                         var enumeration = [];
                         
-                        var entries = metadata.enumeration;
+                        var entries = fieldData.enumeration;
                         for (var j=0; j < entries.length; j++)
                         {
                             enumeration.push([entries[j].value, entries[j].label]);
@@ -1732,19 +1726,19 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                         widgetCfg.enumeration = enumeration;
                     }
                     
-                    if (metadata['widget-params'])
+                    if (fieldData['widget-params'])
                     {
-                        widgetCfg = Ext.merge (widgetCfg, metadata['widget-params']);
+                        widgetCfg = Ext.merge (widgetCfg, fieldData['widget-params']);
                     }
                     
-                    if (metadata.annotations)
+                    if (fieldData.annotations)
                     {
                         var annotations = [];
                         
-                        var entries = metadata.annotations;
+                        var entries = fieldData.annotations;
                         for (var j=0; j < entries.length; j++)
                         {
-                            annotations.push({
+                        	fieldData.push({
                                 name: entries[j].name,
                                 label: entries[j].label || entries[j].name,
                                 description: entries[j].description || entries[j].label || entries[j].name
@@ -1756,7 +1750,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                     
                     this._addInputField(ct, widgetCfg);
                     
-                    var paramCheckers = metadata['param-checker'];
+                    var paramCheckers = fieldData['param-checker'];
                     if (!Ext.isEmpty(paramCheckers))
                     {
                         if (paramCheckers.length > 1)
@@ -1765,7 +1759,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                         }
                         
                         Ext.Array.each(paramCheckers, function(paramChecker){
-                            me._paramCheckersDAO.addGroupChecker(fieldset, paramChecker);
+                            me._paramCheckersDAO.addParameterChecker(fieldset, paramChecker, offset, roffset);
                         });
                     }
                 }
@@ -1789,7 +1783,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                     this._configureJSON (tabs[i].elements, prefix, tab, finalOffset, finalROffset);
                 
                     // Add the parameter checker at the end of the current tab
-                    var paramCheckers = metadata['param-checker']
+                    var paramCheckers = tabs[i]['param-checker'];
                     if (!Ext.isEmpty(paramCheckers))
                     {
                         if (paramCheckers.length > 1)
@@ -1797,7 +1791,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                             paramCheckers.sort(me._compareByOrder);
                         }
                         Ext.Array.each(paramCheckers, function(paramChecker) {
-                            me._paramCheckersDAO.addCategoryChecker(tab, paramChecker);
+                            me._paramCheckersDAO.addCategoryChecker(tab, paramChecker, finalOffset, finalROffset);
                         });
                     }
                 }
@@ -1813,7 +1807,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      * @param {Number} [offset=0] The field offset.
      * @param {Number} [roffset=0] The field right offset.
      */
-    _configureXML: function (metadataNode, prefix, ct, offset, roffset)
+    _configureXML: function (data, prefix, ct, offset, roffset)
     {
             prefix = prefix || this.getFieldNamePrefix();
             ct = ct || this._getFormContainer();
@@ -1822,7 +1816,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             
             var me = this;
             
-            var nodes = Ext.dom.Query.selectDirectElements(null, metadataNode);
+            var nodes = Ext.dom.Query.selectDirectElements(null, data);
             
             var tabs = [];
             
@@ -1869,20 +1863,9 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                             switcherCfg.label = Ext.dom.Query.selectValue('> label', switcher);
                             switcherCfg.defaultValue = Ext.dom.Query.selectValue('> defaultValue', switcher);
                             switcherCfg.type = 'boolean';
-                            
-                            // Gather the names of the other fields into an array
-                            var fieldNames = [];
-                            for (var j=0; j < elements.childNodes.length; j++)
-                            {
-                                var elementId = elements.childNodes[j].tagName;
-                                if (elementId != switcherCfg.id)
-                                {
-                                    fieldNames.push(elementId);
-                                }
-                            }
                         }
                         
-                        var fieldset = this._addFieldSet(ct, label, nestingLevel, switcher != null ? switcherCfg : null, fieldNames);
+                        var fieldset = this._addFieldSet(ct, label, nestingLevel, switcher != null ? switcherCfg : null);
 
                         // Transmit offset + 5 (padding) + 1 (border) + 11 (margin + border) if we are in a nested composite.
                         var finalOffset = offset 
@@ -1915,7 +1898,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                                     'order':  Ext.dom.Query.selectValue("> order", paramChecker)
                                 };
                                 
-                                me._paramCheckersDAO.addGroupChecker(fieldset, paramCheckerConf);
+                                me._paramCheckersDAO.addGroupChecker(fieldset, paramCheckerConf, finalOffset, finalROffset);
                             });
                         }
                     }
@@ -1972,7 +1955,6 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                     
                     var widgetCfg = {
                         name: prefix + name,
-                        metadataName: name,
                         type: Ext.dom.Query.selectValue("> type", nodes[i]),
                         
                         fieldLabel: (isMandatory ? '* ' : '') + label,
@@ -2069,7 +2051,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                                 'order':  Ext.dom.Query.selectValue("> order", paramChecker)
                             };
                             
-                            me._paramCheckersDAO.addParameterChecker(paramCheckerConf);
+                            me._paramCheckersDAO.addParameterChecker(paramCheckerConf, offset, roffset);
                         })
                     }
                 }
@@ -2118,7 +2100,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                                 'order':  Ext.dom.Query.selectValue("> order", paramChecker)
                             };
                             
-                            me._paramCheckersDAO.addCategoryChecker(tab, paramCheckerConf);
+                            me._paramCheckersDAO.addCategoryChecker(tab, paramCheckerConf, finalOffset, finalROffset);
                         });
                     }
                 }
@@ -2141,7 +2123,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     },
 
     /**
-     * Fill a configured form with values. #configure must have been call previously with data corresponding to these data.
+     * Fill the configured form with values. #configure must have been called previously with data matching the configured data.
      * 
      * The data can be an XML or a JSON object.
      * 
@@ -2151,24 +2133,24 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      * 
      * 
      *      <myrootnode>
-     *          <metadata>
+     *          <values>
      *              <fieldname json="false" value="3"/>
      *              <!-- ... -->
-     *          </metadata>
+     *          </values>
      *          
      *          <comments>
-     *              <metadata path="fieldname">
+     *              <field path="fieldname">
      *                  <comment id="1" date="2020-12-31T23:59:59.999+02:00">
      *                      My comment for the field <fieldname>
      *                  </comment>
      *                  <!-- ... -->
-     *              </metadata>
+     *              </field>
      *              <!-- ... -->
      *          </comments>
      *      </myrootnode>
      * 
      * 
-     * For the values, the tag **metadata** is the wrapping for tags holding the values:
+     * For the values, the tag **metadata** is the wrapping for tags holding the values and its name is configurable (see **valuesTagName** parameter):
      * 
      * - the tag name is the name of the concerned field (without prefix).
      * - thoses tags are recursive for sub-field (child of composites).
@@ -2177,15 +2159,15 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      * - the value itself can be either the value of the attribute **value**, or the text of the tag
      * - multiple values are set by repeating the tag.
      *   
-     * For the **comments**:
+     * For the comments, the tag **comments** is the wrapping tag and its name is configurable (see **commentsTagName** parameter):
      * 
-     * - the **metadata** are not recursive
+     * - the **metadata** are not recursive 
      * - the **path** attribute contains the fieldname (without prefix) with '/' separator for sub-fields (child of composites). For repeaters, you also have to add the position of the repeater to modify. Exemple: path="mycompositefield/myrepeater/2/myfield"
      * - the **comment** tag have the following mandatory attributes :
      *   - **id** The number of the comment
      *   - **date** The date of the comment using the ISO 8601 format (will use the Ext.Date.patterns.ISO8601DateTime parser).
      *   - **author** The fullname of the author of the comment.
-     *   
+     *  
      *  Here is a full example:
      *  
      *  
@@ -2280,16 +2262,23 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      * The **invalid** values should not set the same values already brought by **values**, but they will replace them in such a case.
      * 
      * @param {Object/HTMLElement} data The object that will fill the form.
+     * @param {String} [valuesTagName=values] the tag name for the values 
+     * @param {String} [commentsTagName=comments] the tag name for the comments 
+     * @param {String} [invalidFieldsTagName=invalid] the tag name for the invalid fields
      */
-    setValues: function(data)
+    setValues: function(data, valuesTagName, commentsTagName, invalidFieldsTagName)
     {
-        if (this._isElement(data))
+    	valuesTagName = valuesTagName || "values";
+    	commentsTagName = commentsTagName || "comments";
+    	invalidFieldsTagName = invalidFieldsTagName || "invalid";
+    	
+    	if (this._isElement(data))
         {
-            this._setValuesXML(data);
+            this._setValuesXML(data, valuesTagName, commentsTagName);
         }
         else
         {
-            this._setValuesJSON(data);
+            this._setValuesJSON(data, valuesTagName, commentsTagName, invalidFieldsTagName);
         }
         
         this._formReady = true;
@@ -2301,30 +2290,33 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     /**
      * This function set the values of form fields from a XML dom.
      * @param {HTMLElement} xml The XML dom
+     * @param {String} valuesTagName the tag name for the values 
+     * @param {String} commentsTagName the tag name for the comments 
      * @private
      */
-    _setValuesXML: function (xml)
+    _setValuesXML: function (xml, valuesTagName, commentsTagName)
     {
         this._initializeTabsStatus();
         
-        var metadataNodes = Ext.dom.Query.select("metadata/*", xml);
+        var metadataNodes = Ext.dom.Query.select(valuesTagName + "/*", xml);
         for (var i=0; i < metadataNodes.length; i++)
         {
             this._setValuesXMLMetadata(metadataNodes[i], this.getFieldNamePrefix() + metadataNodes[i].tagName);
         }
         
-        this._setValuesXMLComments(Ext.dom.Query.selectNode("comments", xml));
+        this._setValuesXMLComments(Ext.dom.Query.selectNode(commentsTagName, xml));
     },
     
     /**
      * Set the values of form fields from an automatic backup.
      * @param {Object} data The backup data object.
      * @param {Object[]} data.repeaters The repeater item counts.
-     * @param {Object} data.values The valid field values.
-     * @param {Object} data.invalid The invalid field values.
+     * @param {String} valuesTagName the tag name for the values 
+     * @param {String} commentsTagName the tag name for the comments 
+     * @param {String} invalidFieldsTagName the tag name for the invalid fields
      * @private
      */
-    _setValuesJSON: function(data)
+    _setValuesJSON: function(data, valuesTagName, commentsTagName, invalidFieldsTagName)
     {
         this._initializeTabsStatus();
         
@@ -2372,13 +2364,13 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         }
         
         // Set the field values.
-        this._setValuesJSONForField(data.values);
+        this._setValuesJSONForField(data[valuesTagName]);
         
         // Set the invalid field values (raw mode) and validate the fields afterwards.
-        this._setValuesJSONForField(data.invalid, true, true);
+        this._setValuesJSONForField(data[invalidFieldsTagName], true, true);
         
         // Set the field comments.
-        this._setMetadataCommentsJSON(data.comments)
+        this._setMetadataCommentsJSON(data[commentsTagName])
     },
     
     /**
@@ -2408,7 +2400,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                 // FIXME this do logs an error now!
             }
             
-            var field = this.getField(this.getFieldNamePrefix() + name);
+            var field = this.getForm().findField(this.getFieldNamePrefix() + name);
             if (field != null)
             {
                 if (rawMode && field.setRawValue)
@@ -2495,7 +2487,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             {
                 var values = this._getValues (metadataNode);
                 
-                var field = this.getField(fieldName);
+                var field = this.getForm().findField(fieldName);
                 if (field != null)
                 {
                     if (metadataNode.getAttribute('json') == 'true')
@@ -2554,7 +2546,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     {
         var invalidValues = {};
         
-        var fields = this.getFields().items;
+        var fields = this.getForm().getFields().items;
         for (var i = 0; i < fields.length; i++)
         {
             if (!fields[i].isHidden() && fields[i].getErrors().length > 0)
@@ -2609,7 +2601,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         var invalidFields = [];
         for (var i = 0; i < this._fields.length; i++)
         {
-            var fd = this.getField(this._fields[i]);
+            var fd = this.getForm().findField(this._fields[i]);
             if (!fd.isValid())
             {
                 invalidFields.push(fd.getFieldLabel());
@@ -2626,22 +2618,22 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     
     /**
      * Get the fields with warnings
-     * @return {String[]} The names of the fields with warnings
+     * @return {Object} The mapping of warned field names with their warning message
      */
     getWarnedFields: function()
     {
-        var invalidFields = [];
+        var warnedFields = {};
         for (var i = 0; i < this._fields.length; i++)
         {
-            var fd = this.getField(this._fields[i]);
-            if (fd.getActiveWarning() != null)
+            var fd = this.getForm().findField(this._fields[i]);
+            if (!Ext.isEmpty(fd.getActiveWarning()))
             {
-                invalidFields.push(fd.getFieldLabel());
+            	warnedFields[fd.getFieldLabel()] = fd.getActiveWarnings();
             }
         }
         
         this._updateTabsStatus(false);
-        return invalidFields;
+        return warnedFields;
     },
     
     /**
@@ -2657,7 +2649,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         for (var i = 0; i < fieldNames.length; i++)
         {
             name = fieldNames[i];
-            field = this.getField(name);
+            field = this.getForm().findField(name);
             
             // remove the field name prefix and replace '.' by '/' to compute the path
             path = name.substring(this.getFieldNamePrefix().length).replace(/\./g, '/');
@@ -2712,7 +2704,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         for (var name in commentsMap)
         {
             fieldComments = commentsMap[name];
-            field = this.getField(name);
+            field = this.getForm().findField(name);
             this._setMetadataCommentsForFieldJSON(field, fieldComments);
         }
     },
@@ -2756,11 +2748,12 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      */
     getMessageTargetConf: function()
     {
+    	var form = this.getForm();
         var messageTargets = {
             'type': Ametys.message.MessageTarget.FORM,
             
             'parameters': {
-                'form': this,
+                'object': form,
                 'test-results': this._paramCheckersDAO ? this._paramCheckersDAO._testResults : {}
             }
         };
@@ -2771,7 +2764,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                 'type': Ametys.message.MessageTarget.FORM_FIELD,
                 
                 'parameters': {
-                            name: this.getField(this._focusFieldId).getName()
+                   name: form.findField(this._focusFieldId).getName()
                  }
             }
             
@@ -2830,7 +2823,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         {
             this._commentsBox = Ext.create('Ametys.window.DialogBox', {
                 title: "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_COMMENTS_DIALOGBOX_TITLE'/>",
-                icon: Ametys.CONTEXT_PATH + '/kernel/img/Ametys/common/form/configurable/edit_comment_16.png',
+                icon: Ametys.getPluginResourcesPrefix("core-ui") + '/img/Ametys/theme/gray/edit_comment_16.png',
                 
                 autoScroll: true,
                 cls: 'ametys-dialogbox',
@@ -3039,12 +3032,12 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     _initializeDisableConditions: function()
     {
         var me = this;
-
+        
         // Disable conditions listeners
-        Ext.Array.each(this.getFieldNames(), function(fieldName) {
-            var field = me.getField(fieldName); 
+        Ext.Object.each(this.getForm().getValues(), function(fieldName) {
+        	var field = me.getForm().findField(fieldName); 
             
-            // fields that are initially disabled (cf can-not-write configuration) can never be enabled
+            // fields that are initially disabled can never be enabled See #cfg-helpBoxId
             if (field.disableCondition != null && !field.disabled)
             {
                 me._disableField(field);
@@ -3082,7 +3075,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                 conditionListLength = conditionList.length;
             for (var i = 0; i < conditionListLength; i++)
             {
-                var field = this.getField(conditionList[i]['id']);
+                var field = this.getForm().findField(conditionList[i]['id']);
                 field.on('change', Ext.bind(this._disableField, this, [disablingField], false));
             }
         }
@@ -3154,7 +3147,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      */
     _evaluateCondition: function(id, operator, value)
     {
-        var fieldValue = this.getField(id).getValue();
+        var fieldValue = this.getForm.findField(id).getValue();
         
         switch (operator)
         {

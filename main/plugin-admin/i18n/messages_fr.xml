@@ -48,11 +48,9 @@
     <message key="PLUGINS_ADMIN_CONFIG_SAVE_WAIT_MSG">Sauvegarde en cours.&lt;br/&gt;Veuillez patienter ...</message>
     <message key="PLUGINS_ADMIN_CONFIG_SAVE_FATALERROR">Le serveur ne répond pas ou une erreur grave est survenue lors de la sauvegarde.\nConsultez les journaux de l'application et du moteur de servlet pour plus de détails.</message>
     <message key="PLUGINS_ADMIN_CONFIG_SAVE_ERROR">Une erreur est survenue sur le serveur et les paramètres n'ont pas été sauvegardés.\n\nLe message d'erreur interne est :\n</message>
-    <message key="PLUGINS_ADMIN_CONFIG_SAVE_NOFORM_TITLE">Pas de formulaire</message>
-    <message key="PLUGINS_ADMIN_CONFIG_SAVE_NOFORM">Impossible de trouver le formulaire à sauvegarder.</message>
-    <message key="PLUGINS_ADMIN_CONFIG_SAVE_INVALID_TITLE">Le formulaire contient des erreurs</message>
-    <message key="PLUGINS_ADMIN_CONFIG_SAVE_INVALID">Un ou plusieurs champs du formulaire sont incorrects. Veuillez les corriger avant de recommencer une sauvegarde.</message>
     <message key="PLUGINS_ADMIN_CONFIG_INVALID_REGEXP">La saisie ne respecte pas le format attendu :</message>
+    <message key="PLUGINS_ADMIN_CONFIG_DIRTY_CLOSE_MBOX_LABEL">Fermer sans enregistrer</message>
+    <message key="PLUGINS_ADMIN_CONFIG_DIRTY_CLOSE_MBOX_TEXT">Attention !&lt;br/&gt;Si vous continuez toutes vos modifications seront perdues !&lt;br/&gt;Souhaitez-vous abandonner vos modifications ?</message>
     <message key="DATE_FIELD_FORMAT">d/m/Y</message>
     
     <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECK_ERROR">Erreur lors de la vérification des paramètres</message>
@@ -60,11 +58,6 @@
     <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECK_UI_REF_CATEGORY">Sur la catégorie</message>
     <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECK_UI_REF_GROUP">Sur le groupe</message>
     <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECK_UI_REF_PARAMETER">Sur le paramètre</message>
-    <message key="PLUGINS_ADMIN_CONFIG_TESTS_NOK_MBOX_TITLE">Vérifications non-concluantes</message>
-    <message key="PLUGINS_ADMIN_CONFIG_TESTS_NOK_MBOX_MSG">Avant de sauver, il est recommandé que toutes les vérifications passent avec succès (un mauvais paramètre peut entrainer le blocage du démarrage d'Ametys).&lt;br/&gt;Que souhaitez-vous faire ?</message>
-    <message key="PLUGINS_ADMIN_CONFIG_TESTS_NOK_MBOX_SAVE">Sauver sans vérifier les paramètres</message>
-    <message key="PLUGINS_ADMIN_CONFIG_TESTS_NOK_MBOX_RETRY">Lancer les vérifications et sauver</message>
-    <message key="PLUGINS_ADMIN_CONFIG_TESTS_NOK_MBOX_CANCEL">Annuler</message>
     <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECKER_STATUS">Statut : </message>
     <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECKER_STATUS_SUCCESS">Succès</message>
     <message key="PLUGINS_ADMIN_CONFIG_PARAM_CHECKER_STATUS_FAILURE">Echec</message>
@@ -91,6 +84,7 @@
     
     <message key="PLUGINS_ADMIN_ERROR_DIALOG_TITLE">Erreur</message>
     <message key="PLUGINS_ADMIN_SAVE_DIALOG_TITLE">Sauvegarde</message>
+    
     
     <!-- ADMINISTRATOR JVMSTATUS -->
     <message key="PLUGINS_ADMIN_TOOL_JVMSTATUS_LABEL">Général</message>

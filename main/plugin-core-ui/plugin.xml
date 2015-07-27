@@ -113,7 +113,7 @@
                     <file>edition.file</file>
                     <geocode>edition.geocode</geocode>
                     <long>edition.longfield</long>
-                    <password>edition.changepassword</password>
+                    <password>edition.password</password>
                     <reference>edition.url-reference</reference>
                     <rich_text>edition.richtext</rich_text>
                     <string>edition.textfield</string>
@@ -203,7 +203,7 @@
                     <file>js/Ametys/helper/ChooseLocation.js</file>
                     <file>js/Ametys/helper/ChooseLocation/LoadGoogleMaps.js</file>
 
-                    <file>js/Ametys/helper/SaveErrorDialog.js</file>
+                    <file>js/Ametys/form/SaveErrorDialog.js</file>
                     
                     <file>js/Ametys/clipboard/Clipboard.js</file>
                 </scripts>
@@ -247,6 +247,21 @@
             </extension>
         </extensions>
     </feature>
+    <feature name="widgets.default.password">
+        <extensions>
+            <extension id="edition.password"
+                point="org.ametys.core.ui.widgets.WidgetsManager"
+                class="org.ametys.core.ui.widgets.StaticClientSideWidget">
+                <class name="Ametys.form.field.Password">
+                    <ftypes>password</ftypes>
+                    <supports-enumerated>false</supports-enumerated>
+                    <supports-non-enumerated>true</supports-non-enumerated>
+                    <supports-multiple>false</supports-multiple>
+                    <supports-non-multiple>true</supports-non-multiple>
+                </class>
+            </extension>
+        </extensions>
+    </feature>
     <feature name="widgets.default.changepassword">
         <extensions>
             <extension id="edition.changepassword"
@@ -259,9 +274,6 @@
                     <supports-multiple>false</supports-multiple>
                     <supports-non-multiple>true</supports-non-multiple>
                 </class>
-                <scripts>
-                    <file>js/Ametys/form/widget/DefaultWidgets.js</file>
-                </scripts>                
             </extension>
         </extensions>
     </feature>

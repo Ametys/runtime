@@ -15,7 +15,7 @@
  */
 
 /**
- * The controller to launche tests on a configurable form panel
+ * The controller launching tests on a configurable form panel
  * @private
  */
 Ext.define('Ametys.plugins.coreui.configurableformpanel.TestsController', {
@@ -32,7 +32,7 @@ Ext.define('Ametys.plugins.coreui.configurableformpanel.TestsController', {
             if (target != null)
             {
                 var mode = controller.getInitialConfig().mode;
-                var form = target.getParameters().form;
+                var form = target.getParameters().object.owner;
                 
                 var activeParamCheckers = form._paramCheckersDAO._paramCheckers.filter(function (el) { return el.isActive; });
                 form._paramCheckersDAO.check(activeParamCheckers, true, Ext.emptyFn , mode == 'all');
@@ -44,7 +44,6 @@ Ext.define('Ametys.plugins.coreui.configurableformpanel.TestsController', {
 	 * @property {String} _mode the check mode (can be "all" or "missed")
 	 * @private
 	 */
-	
 	constructor: function(config)
 	{
 		this.callParent(arguments);

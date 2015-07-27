@@ -54,11 +54,9 @@ Ext.define('Ametys.form.widget.File', {
         getFileSource: function (source)
         {
         	return this._fileSources[source];
-        }
-    },
-    
-    inheritableStatics: {
-    	/**
+        },
+
+        /**
 		 * @property {String} IMAGE_FILTER Filter for image files
 		 * @readonly
 		 */

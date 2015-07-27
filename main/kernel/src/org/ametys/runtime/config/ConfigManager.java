@@ -731,9 +731,9 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         _saxConfiguration(handler);
         XMLUtils.endElement(handler, "configuration");
         
-        XMLUtils.startElement(handler, "values");
+        XMLUtils.startElement(handler, "configuration-values");
         _saxValues(handler);
-        XMLUtils.endElement(handler, "values");
+        XMLUtils.endElement(handler, "configuration-values");
     }
 
     /**
@@ -879,11 +879,9 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                 {
                     switchId = group.getSwitch();
                     ConfigParameter switcher = get(switchId);
-                    
-                    
+
                     XMLUtils.startElement(contentHandler, "switcher");
-                    XMLUtils.createElement(contentHandler, "id", switchId); // FIXME
-                    // XMLUtils.createElement(contentHandler, "id", switchId.replace('.', '_')); // FIXME
+                    XMLUtils.createElement(contentHandler, "id", switchId); 
                     switcher.getLabel().toSAX(contentHandler, "label");
                     XMLUtils.createElement(contentHandler, "defaultValue", ParameterHelper.valueToString(switcher.getDefaultValue()));
                     XMLUtils.endElement(contentHandler, "switcher");
@@ -894,8 +892,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                 {
                     String paramId = param.getId();
                     
-                    XMLUtils.startElement(contentHandler, paramId);   // FIXME
-                    //XMLUtils.startElement(contentHandler, paramId.replace('.', '_')); // FIXME
+                    XMLUtils.startElement(contentHandler, paramId);   
                     
                     ParameterHelper.toSAXParameterInternal(contentHandler, param, null);
                     
@@ -916,8 +913,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                         }
                     }
                     
-                    XMLUtils.endElement(contentHandler, paramId); // FIXME
-                    // XMLUtils.endElement(contentHandler, paramId.replace('.', '_')); // FIXME
+                    XMLUtils.endElement(contentHandler, paramId); 
                 }
                 XMLUtils.endElement(contentHandler, "elements");
 
@@ -947,15 +943,14 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             untypedValues = new HashMap<>();
         }
         
-        XMLUtils.startElement(contentHandler, "metadata");
+        XMLUtils.startElement(contentHandler, "values");
         for (String parameterId : _params.keySet())
         {
             ConfigParameter param = _params.get(parameterId);
             Object value = _getValue (parameterId, param.getType(), untypedValues);
-            XMLUtils.createElement(contentHandler, parameterId, ParameterHelper.valueToString(value)); //FIXME
-//            XMLUtils.createElement(contentHandler, parameterId.replace('.', '_'), ParameterHelper.valueToString(value)); //FIXME
+            XMLUtils.createElement(contentHandler, parameterId, ParameterHelper.valueToString(value)); 
         }
-        XMLUtils.endElement(contentHandler, "metadata");
+        XMLUtils.endElement(contentHandler, "values");
     }
     
     private void _saxParametersOLD(ContentHandler handler) throws SAXException, ProcessingException // FIXME remove
@@ -1116,7 +1111,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
      * Values are untyped (all are of type String) and might be null.
      * @param untypedValues A map (key, untyped value).
      * @param fileName the config file absolute path
-     * @throws Exception If an error occured while saving values
+     * @throws Exception If an error occurred while saving values
      */
     public void save(Map<String, String> untypedValues, String fileName) throws Exception
     {

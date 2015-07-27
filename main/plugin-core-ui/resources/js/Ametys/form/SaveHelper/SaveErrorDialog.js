@@ -17,8 +17,9 @@
 /**
  * This UI helper provides a dialog box to display errors while saving
  * See #showErrorDialog method
+ * @private
  */
-Ext.define('Ametys.helper.SaveErrorDialog', {
+Ext.define('Ametys.form.SaveHelper.SaveErrorDialog', {
 	singleton: true,
 	
 	/**

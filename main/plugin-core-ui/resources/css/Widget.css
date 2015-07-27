@@ -225,7 +225,10 @@
 
 /** @end tagfield */
 
-
+.ametys .ametys-password-btn {
+    background-image: none;
+    background-color: transparent;
+}
 
 
 

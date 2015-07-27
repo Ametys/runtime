@@ -344,81 +344,50 @@
 
 .ametys-form-panel .param-checker-container
 {
-    
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
-.ametys-form-panel .param-checker-container .x-box-inner
-{
-    width: 262px !important;
-    position: static;
-}
-
-.ametys-form-panel .param-checker-component
+.ametys-form-panel .param-checker-button
 {
     border: 1px solid #b9b9b9 !important;
     background-color: #e3e3e3;
 }
 
-.ametys-form-panel .param-checker-component .x-mask-msg 
+.ametys-form-panel .param-checker-button .x-mask-msg 
 {
     background-color: transparent !important;
     border: 1px !important;
 }
 
-.ametys-form-panel .param-checker-component .x-mask-msg div 
+.ametys-form-panel .param-checker-button .x-mask-msg div 
 {
     background-color: transparent !important;
 }
 
-.ametys-form-panel .param-checker-component.failure
+.ametys-form-panel .param-checker-container .param-checker-status.failure,
+.ametys-form-panel .param-checker-container .param-checker-status.success,
+.ametys-form-panel .param-checker-container .param-checker-status.warning
 {
-    width: 220px;
-}
- 
-.ametys-form-panel .param-checker-component.success
-{
-    width: 220px;   
+    display: inline-block;
+    margin-top: 2px !important;
+    margin-left: 3px !important;
+    background-repeat: no-repeat;
 }
 
-.ametys-form-panel .param-checker-component.warning
+.ametys-form-panel .param-checker-container .param-checker-status.failure
 {
-    width: 220px;   
+    background-image: url('../../../../../../../../plugins/extjs6/resources/classic/theme-gray/resources/images/form/exclamation.gif');
 }
  
-.ametys-form-panel .param-checker-component.failure:after
+.ametys-form-panel .param-checker-container .param-checker-status.success
 {
-    content: ' ';
-    display: inline-block;
-    background: url('../../../../../../../../plugins/extjs6/resources/classic/theme-gray/resources/images/form/exclamation.gif') left no-repeat;
-    height: 20px; 
-    width: 20px;
-    position: absolute;
-    bottom: -1px;
-    right: -27px; 
-}
- 
-.ametys-form-panel .param-checker-component.success:after
-{ 
-    content: ' ';
-    display: inline-block;
-    background: url('../../../../../resources/img/Ametys/theme/gray/info.png') no-repeat;
-    height: 20px;
-    width: 20px;
-    position: absolute;
-    bottom: -1px;
-    right: -27px; 
+    background-image: url('../../../../../img/Ametys/common/form/configurable/tests/testall_16.png');
 }
 
-.ametys-form-panel .param-checker-component.warning:after
-{ 
-    content: ' ';
-    display: inline-block;
-    background: url('../../../../../img/Ametys/theme/gray/warning.png') no-repeat;
-    height: 20px;
-    width: 20px;
-    position: absolute;
-    bottom: -1px;
-    right: -27px; 
+.ametys-form-panel .param-checker-container .param-checker-status.warning
+{
+    background-image: url('../../../../../img/Ametys/theme/gray/warning.png');
 }
  
 .ametys-form-panel .test-results
@@ -427,20 +396,6 @@
    font-weight: normal; 
    font-family: arial,sans-serif;
 }
-
-.ametys-form-panel .offset
-{
-    margin-left: 25px !important;
-}
  
-.ametys-form-panel .param-checker-component.x-btn-over
-{
-   background-position: -16px 0;
-}
-
-.ametys-form-panel .param-checker-component.x-btn-pressed
-{
-   background-position: -32px 0;
-}*/
 /** @end Parameter checkers */
 
