@@ -27,7 +27,7 @@ Ext.define('Ametys.form.field.DateTime', {
 	 */
     
     /**
-	 * @cfg {Object} timeConfig A configuration to transmit to the time field. See {@link Ext.form.field.Time
+	 * @cfg {Object} timeConfig A configuration to transmit to the time field. See {@link Ext.form.field.Time}
 	 */
     
     /**
