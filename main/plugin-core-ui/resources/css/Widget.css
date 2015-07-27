@@ -127,52 +127,52 @@
 /** @end Widget File */
 
 
-/** @begin BoxSelect **/
-.ametys.x-form-item .x-boxselect {
-    background-color: #FFFFFF;
+/** @begin tagfield **/
+.ametys.x-form-item .x-tagfield {
+    /*background-color: #FFFFFF;
     background-image: none;
     border: 1px solid #C8CDD0;
-    padding: 0 3px 0 5px;
+    padding: 0 3px 0 5px;*/
 }
 
-.ametys.x-form-item .x-boxselect .x-boxselect-input-field {
+.ametys.x-form-item .x-tagfield .x-tagfield-input-field {
 	font-size: 11px;
 	font-family: Tahoma, Arial, Sans-serif;
 }
 
-.ametys.x-form-item .x-boxselect ul.x-boxselect-list {
+.ametys.x-form-item .x-tagfield ul.x-tagfield-list {
     margin: 0px;
     padding: 0px;
 }
 
-.ametys.x-form-item ul.x-boxselect-list.x-boxselect-singleselect {
+.ametys.x-form-item ul.x-tagfield-list.x-tagfield-singleselect {
     white-space: normal;
 }
 
-.ametys.x-form-item .x-boxselect ul.x-boxselect-list .x-boxselect-item {
+.ametys.x-form-item .x-tagfield ul.x-tagfield-list .x-tagfield-item {
 	background-color: #eaeaea;
 	border-color: #aeaeae;
 	margin-right: 3px;
 	float: left;
 }
 
-.ametys.x-form-item .x-boxselect ul.x-boxselect-list .x-boxselect-item span.clickable {
+.ametys.x-form-item .x-tagfield ul.x-tagfield-list .x-tagfield-item span.clickable {
 	color: #023A69;
 	text-decoration: underline;
 }
-.ametys.x-form-item .x-boxselect ul.x-boxselect-list .x-boxselect-item span.clickable:hover {
+.ametys.x-form-item .x-tagfield ul.x-tagfield-list .x-tagfield-item span.clickable:hover {
 	cursor: pointer;
 }
 
-.ametys.x-form-item .x-boxselect ul.x-boxselect-list .x-boxselect-input {
+.ametys.x-form-item .x-tagfield ul.x-tagfield-list .x-tagfield-input {
     float: left;
 }
 
-.ametys.x-form-item .x-boxselect ul.x-boxselect-list.x-boxselect-stacked .x-boxselect-item {
+.ametys.x-form-item .x-tagfield ul.x-tagfield-list.x-tagfield-stacked .x-tagfield-item {
     margin-right: 0;
     float: none;
 }
-.ametys.x-form-item .x-boxselect ul.x-boxselect-list.x-boxselect-stacked .x-boxselect-input {
+.ametys.x-form-item .x-tagfield ul.x-tagfield-list.x-tagfield-stacked .x-tagfield-input {
     float: none;
 }
 
@@ -180,17 +180,17 @@
 	background: none;
 }
 
-.ametys.x-form-item:not(.x-item-disabled) .x-boxselect-list .x-boxselect-item:hover {
+.ametys.x-form-item:not(.x-item-disabled) .x-tagfield-list .x-tagfield-item:hover {
     background-color: #c9c9c9 !important;
     border-color: #8c8c8c !important;
 }
 
-.ametys.x-form-item:not(.x-item-disabled) .x-boxselect-list .x-boxselect-item.selected {
+.ametys.x-form-item:not(.x-item-disabled) .x-tagfield-list .x-tagfield-item.selected {
     background-color: #a6a6a6 !important;
     border-color: #696969 !important;
 }
 
-.ametys.x-form-item .x-tab-close-btn.x-boxselect-item-close {
+.ametys.x-form-item .x-tab-close-btn.x-tagfield-item-close {
 	position: absolute;
 	top: 2px;
 	right: 2px;
@@ -202,16 +202,16 @@
 	opacity: .6;
 }
 
-.ametys.x-form-item .x-tab-close-btn.x-boxselect-item-close:hover {
+.ametys.x-form-item .x-tab-close-btn.x-tagfield-item-close:hover {
     filter: alpha(opacity=100);
     opacity: 1;
 }
 
-.ametys.x-form-item .x-boxselect-list .x-boxselect-item .x-boxselect-item-text {
+.ametys.x-form-item .x-tagfield-list .x-tagfield-item .x-tagfield-item-text {
 	line-height: 16px;
 }
 
-.ametys.x-form-item .x-boxselect-list .x-boxselect-item .x-boxselect-item-text img {
+.ametys.x-form-item .x-tagfield-list .x-tagfield-item .x-tagfield-item-text img {
     margin-right: 3px;
     float: left;
 }
@@ -223,7 +223,7 @@
     padding-left: 5px;
 }
 
-/** @end BoxSelect */
+/** @end tagfield */
 
 
 

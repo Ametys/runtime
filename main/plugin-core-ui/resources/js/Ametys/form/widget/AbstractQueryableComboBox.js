@@ -75,6 +75,10 @@ Ext.define('Ametys.form.widget.AbstractQueryableComboBox', {
 	 */
 	triggerOnClick: true,
 	
+	/**
+	 * @cfg {Boolean} hideTrigger=false Set to `true` to hide the trigger
+	 */
+	
     initComponent: function()
     {
         this.items = this.getItems();
@@ -88,7 +92,7 @@ Ext.define('Ametys.form.widget.AbstractQueryableComboBox', {
     getItems: function ()
     {
     	this.combobox = Ext.create('Ext.form.field.Tag', this.getComboBoxConfig());
-    	return [this.combobox]
+    	return [this.combobox];
     },
     
     /**
@@ -139,7 +143,8 @@ Ext.define('Ametys.form.widget.AbstractQueryableComboBox', {
             },
             
             readOnly: this.readOnly || false,
-            triggerOnClick: this.triggerOnClick
+            triggerOnClick: this.triggerOnClick,
+            hideTrigger: this.hideTrigger
         };
     },
     
