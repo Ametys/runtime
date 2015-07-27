@@ -1267,35 +1267,6 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         }
     }
     
-    class ConfigParameterInfo
-    {
-        private final String _id;
-        private final String _pluginName;
-        private final Configuration _conf;
-        
-        ConfigParameterInfo(String id, String pluginName, Configuration conf)
-        {
-            _id = id;
-            _conf = conf;
-            _pluginName = pluginName;
-        }
-        
-        String getId()
-        {
-            return _id;
-        }
-        
-        String getPluginName()
-        {
-            return _pluginName;
-        }
-        
-        Configuration getConfiguration()
-        {
-            return _conf;
-        }
-    }
-    
     /**
      * 
      * Represents a category of parameters
