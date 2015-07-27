@@ -205,7 +205,7 @@
     
     <!-- SAVE -->
     <message key="PLUGINS_CORE_UI_SAVE_NOFORM_TITLE">No form</message>
-    <message key="PLUGINS_CORE_UI_SAVE_NOFORM">There is no form to save.</message>
+    <message key="PLUGINS_CORE_UI_CONFIG_SAVE_NOFORM">There is no form to save.</message>
     <message key="PLUGINS_CORE_UI_SAVE_ACTION_INVALID_TITLE">Invalid form</message>
     <message key="PLUGINS_CORE_UI_SAVE_ACTION_INVALIDFIELDS">One or several fields are invalid.&lt;br/&gt;Please provide correct inputs: </message>
     <message key="PLUGINS_CORE_UI_SAVE_TESTS_NOK_MBOX_TITLE">Test failure</message>
@@ -216,8 +216,9 @@
     <message key="PLUGINS_CORE_UI_SAVE_WAIT_MSG">Saving. Please wait ...</message>
     <message key="PLUGINS_CORE_UI_SAVE_ACTION_WARNED_FIELDS_YES">Yes</message>
     <message key="PLUGINS_CORE_UI_SAVE_ACTION_WARNED_FIELDS_NO">No</message>
-    <message key="PLUGINS_CORE_UI_SAVE_ACTION_WARNED_FIELDS">Warnings</message>
+    <message key="PLUGINS_CORE_UI_SAVE_ACTION_WARNED_FIELDS_TITLE">Warnings</message>
     <message key="PLUGINS_CORE_UI_SAVE_ACTION_WARNED_FIELDS_START">The following fields contain a warning: </message>
+    <message key="PLUGINS_CORE_UI_SAVE_ACTION_WARNED_FIELDS_END">Do you want to proceed anyway?</message>
     
     <!-- Change password -->
     <message key="PLUGINS_CORE_UI_CHANGEPASSWORD_VALIDATOR">The password and the confirmation are not the same</message>
