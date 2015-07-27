@@ -178,7 +178,8 @@ Ext.define("Ametys.tool.Tool",
 		_dirty: false,
 		
 		/**
-		 * @cfg {Boolean} _destroyed=false The tool state. A destroyed tool should not be used anymore.
+		 * @property {Boolean} _destroyed=false The tool state. A destroyed tool should not be used anymore.
+         * @private
 		 */
 		_destroyed: false,
 		

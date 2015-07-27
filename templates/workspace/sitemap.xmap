@@ -17,7 +17,7 @@
 <map:sitemap xmlns:map="http://apache.org/cocoon/sitemap/1.0">
     <map:components>
         <map:generators>
-            <map:generator name="workspace" src="org.ametys.runtime.workspace.WorkspaceGenerator" logger="org.ametys.runtime.workspace.WorkspaceGenerator"/>
+            <map:generator name="workspace" src="org.ametys.plugins.core.ui.WorkspaceGenerator" logger="org.ametys.runtime.workspace.WorkspaceGenerator"/>
         </map:generators>
         
         <map:actions>

@@ -18,9 +18,7 @@ package org.ametys.core.ui;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.avalon.framework.configuration.Configuration;
@@ -44,8 +42,6 @@ public class UIToolsConfigurationManager
     
     /** The default opened tools */
     protected Map<String, String> _defaultUITools = new LinkedHashMap<>();
-    /** The automatically refreshed tools */
-    protected List<String> _refreshUITools = new ArrayList<>();
     
     /** The ui tools factories manager */
     protected UIToolsFactoriesManager _uitoolsFactoriesManager;
@@ -99,13 +95,6 @@ public class UIToolsConfigurationManager
             _defaultUITools.put(id, parameters);
         }
 
-        Configuration[] refreshUIToolFactoryConfigurations = configuration.getChild("refresh").getChildren("uitool-factory");
-        for (Configuration uitoolFactoryConfiguration : refreshUIToolFactoryConfigurations)
-        {
-            String id = uitoolFactoryConfiguration.getAttribute("id");
-            _refreshUITools.add(id);
-        }
-        
         if (_logger.isDebugEnabled())
         {
             _logger.debug("Ending reading uitools configuration");
@@ -155,15 +144,6 @@ public class UIToolsConfigurationManager
             }
         }
         XMLUtils.endElement(handler, "additionnal");
-
-        XMLUtils.startElement(handler, "refresh");
-        for (String id : _refreshUITools)
-        {
-            AttributesImpl attrs = new AttributesImpl();
-            attrs.addCDATAAttribute("id", id);
-            XMLUtils.createElement(handler, "uitool-factory", attrs);
-        }
-        XMLUtils.endElement(handler, "refresh");
 
         for (String factoryId : _uitoolsFactoriesManager.getExtensionsIds())
         {

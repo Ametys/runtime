@@ -35,12 +35,6 @@ Ext.define("Ametys.tool.ToolsManager",
 		_factories: {},
 
 		/**
-		 * @property {Object} _autoRefreshingFactories The list of auto resreshing factories and the auto refresh associated value
-		 * @private
-		 */
-		_autoRefreshFactory: {},
-
-		/**
 		 * @property {Object} _autoOpenedTools The tools automatically opened during startup. See the parameter config.autoOpenedTools of #init for the stucture.
 		 * This property is used internally by #init, but is not an internal variable because it can be modified by #applyState when restoring a previous state.
 		 * @private
@@ -78,12 +72,10 @@ Ext.define("Ametys.tool.ToolsManager",
 		_ribbon: null,
 		
 		/**
-		 * Initialize the refreshing factories and tools opened at startup.
+		 * Initialize the tools opened at startup.
 		 * The values transmitted here can be ignored and replaced by the ones stored by the user.
-		 * Manually call #setAutoRefresh and #openTool to ensure one of these operations.
 		 * This method is called automatically during startup and should not be called after. 
 		 * @param {Object} config The config object may have the following subobjects
-		 * @param {String[]} config.autoRefreshingFactories The factories roles that will auto-refresh
 		 * @param {Object[]} config.autoOpenedTools The tools to open
 		 * @param {String} config.autoOpenedTools.role The factory role of the tool. See #openTool.
 		 * @param {Object} config.autoOpenedTools.toolParams The parameters to open the tool. See #openTool.
@@ -106,17 +98,6 @@ Ext.define("Ametys.tool.ToolsManager",
             this.stateId = this.self.getName();
             this.hasListeners = {}; // used by saveState
 			this.mixins.state.constructor.call(this);
-
-			// apply given auto refresh conf (it is already loaded by the stateful, but could change to add new values)
-			var autoRefreshingFactories = config ? config.autoRefreshingFactories || [] : [];
-			for (var i = 0; i < autoRefreshingFactories.length; i++)
-			{
-				var factoryRole = autoRefreshingFactories[i];
-				if (this._autoRefreshFactory[factoryRole] == undefined)
-				{
-					this._autoRefreshFactory[factoryRole] = true;
-				}
-			}
 
 			// open tools in #_autoOpenedTools
 			if (replaceAutoOpenedTools)
@@ -153,7 +134,6 @@ Ext.define("Ametys.tool.ToolsManager",
 		getState: function()
 		{
 			var state = {
-				_autoRefreshFactory: this._autoRefreshFactory,
 				_autoOpenedTools: [],
                 _overridenDefaultLocation: this._overridenDefaultLocation
 			};
@@ -411,26 +391,6 @@ Ext.define("Ametys.tool.ToolsManager",
 		},
 		
 		/**
-		 * Change the auto-refresh value for a factory.
-		 * Tools of that kind will automatically refresh
-		 * @param {String} factoryRole The concerned factory
-		 * @param {Boolean} [value=true] True means that tools from this factory will auto refresh
-		 */
-		setAutoRefresh: function(factoryRole, value)
-		{
-			value = value || true;
-			
-			if (this.getLogger().isDebugEnabled())
-			{
-				this.getLogger().debug("Tool from factory '" + factoryRole + "' change the auto-refresh status to " + value);
-			}
-			
-			this._autoRefreshFactory[factoryRole] = value;
-			
-			this.saveState();
-		},
-
-		/**
 		 * Refresh the out dated tools if they are in auto refresh state and if they are visible
 		 * Internal call when necessary
 		 */
@@ -441,13 +401,12 @@ Ext.define("Ametys.tool.ToolsManager",
 			{
 				var tool = tools[i];
 				
-				if (this._autoRefreshFactory[tool.getFactory().getRole()] && tool.isOutOfDate())
+				if (tool.isOutOfDate()
+                    && tool.getFactory().isAutoRefreshEnabled()
+                    && tool.getWrapper().isVisible())
 				{
-					// Test if tool is visible (if not, the tool will send an (activated) message that will makes the messagebux to recall the #refreshTools)
-					if (tool.getWrapper().isVisible())
-					{
-						tool.refresh();
-					}
+					// Test if tool is visible (if not, the tool will send an (activated) message that will makes the messagebus to recall the #refreshTools)
+					tool.refresh();
 				}
 			}
 		},	

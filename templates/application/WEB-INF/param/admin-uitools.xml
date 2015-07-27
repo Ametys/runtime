@@ -18,8 +18,4 @@
 
     <default/>
     
-    <refresh>
-        <uitool-factory id="uitool-admin-system"/>
-    </refresh>
-    
 </uitool-factories>
