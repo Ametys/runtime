@@ -234,6 +234,7 @@ Ext.define(
                     config.user.menu.items = config.user.menu.items || [];
                     config.user.menu.items = Ext.Array.insert(config.user.menu.items, 0, [{
                        xtype: 'component',
+                       isMenuItem: true, // to be responsible to draw the whole line => this allow to be on the left of menu even with vertical separator activated.
                        html: new Ext.XTemplate(
                             "<div class='x-fluent-user-card'>",
                                "<tpl if='extraLargePhoto'><div class='photo'><img src='{extraLargePhoto}'/></div></tpl>",

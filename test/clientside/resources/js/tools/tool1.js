@@ -58,6 +58,11 @@ Ext.define('Ametys.test.tool.Tool1', {
                 }
             ]
         });
+    },
+    
+    getType: function()
+    {
+        return 20;
     }
 });
 

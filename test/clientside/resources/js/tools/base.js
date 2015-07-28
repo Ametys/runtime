@@ -25,8 +25,14 @@ function onreadyfunction() {
                         tooltip: "A little bit of help?"
                     },
                     user: {
-                        text: 'Raphaël Franchet',
-                        menu: { items: [ {text: 'raphael' } ]}
+                        fullName: 'Raphaël Franchet',
+                        login: 'raphael',
+                        email: 'raphael.franchet@anyware-services.com',
+                        smallPhoto: "http://www.gravatar.com/avatar/2f7124c10b1d2775303cd40bc6244419?s=16&d=blank",
+                        mediumPhoto: "http://www.gravatar.com/avatar/2f7124c10b1d2775303cd40bc6244419?s=32&d=mm",
+                        largePhoto: "http://www.gravatar.com/avatar/2f7124c10b1d2775303cd40bc6244419?s=48&d=mm",
+                        extraLargePhoto: "http://www.gravatar.com/avatar/2f7124c10b1d2775303cd40bc6244419?s=64&d=mm",                        
+                        menu: { items: [ "-", {text: 'Disconnect' } ]}
                     },
                     menu:
                     {
