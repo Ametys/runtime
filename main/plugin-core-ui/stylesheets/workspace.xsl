@@ -20,7 +20,7 @@
                 xmlns:escaper="org.apache.commons.lang.StringEscapeUtils"
                 xmlns:i18n="http://apache.org/cocoon/i18n/2.1"
                 xmlns:ametys="org.ametys.core.util.AmetysXSLTHelper"
-                xmlns:stringutils="org.ametys.core.util.StringUtils"
+                xmlns:digest="org.apache.commons.codec.digest.DigestUtils"
                 extension-element-prefixes="exslt">
 
     <xsl:import href="kernel.xsl"/>    
@@ -260,7 +260,7 @@
 	                                login: "<xsl:value-of select="user/@login"/>",
 	                                email: "<xsl:value-of select="user/email"/>"
 	                                <xsl:if test="string-length(user/email) > 1">,
-	                                    <xsl:variable name="gravatarHash" select="stringutils:md5Hexa(user/email, 32)"/>
+	                                    <xsl:variable name="gravatarHash" select="digest:md5Hex(user/email)"/>
 		                                smallPhoto: "http://www.gravatar.com/avatar/<xsl:value-of select="$gravatarHash"/>?s=16&amp;d=blank",
 	                                    mediumPhoto: "http://www.gravatar.com/avatar/<xsl:value-of select="$gravatarHash"/>?s=32&amp;d=mm",
 	                                    largePhoto: "http://www.gravatar.com/avatar/<xsl:value-of select="$gravatarHash"/>?s=48&amp;d=mm",
