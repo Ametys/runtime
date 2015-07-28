@@ -111,7 +111,6 @@ Ext.define("Ametys.message.MessageTargetFactory",
 					if (!factory)
 					{
 						factory = this._targetFactories['*'];
-						targetConfig.parameters.type = targetConfig.type
 					}
 					
 					function createTargetsCallback(targetsCreated)
