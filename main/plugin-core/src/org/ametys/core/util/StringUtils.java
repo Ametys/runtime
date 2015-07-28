@@ -16,7 +16,6 @@
 package org.ametys.core.util;
 
 import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -103,13 +102,13 @@ public final class StringUtils
     }
     
     /**
-     * Compute the md5 of a string
-     * @param string The string to be hashed.
-     * @return The hashed string or null if the MD5 is not supported
+     * Encrypte a password by using first MD5 Hash and base64 encoding.
+     * @param password The password to be encrypted.
+     * @return The password encrypted or null if the MD5 is not supported
      */
-    public static byte[] md5(String string)
+    public static String md5Base64(String password)
     {
-        if (string == null)
+        if (password == null)
         {
             return null;
         }
@@ -122,50 +121,17 @@ public final class StringUtils
         catch (NoSuchAlgorithmException e)
         {
             // This error exception not be raised since MD5 is embedded in the JDK
-            __LOGGER.error("Cannot encode the string to md5", e);
+            __LOGGER.error("Cannot encode the password to md5Base64", e);
             return null;
         }
         
         // MD5-hash the password.
         md5.reset();
-        md5.update(string.getBytes());
+        md5.update(password.getBytes());
         byte [] hash = md5.digest();
         
-        return hash;
-    }
-    
-    /**
-     * Compute the md5 hash for a string and convert it to an hexadecimal number on length caracters.
-     * med5Hexa(string, 32) is an equivalent for php md5 function.
-     * @param string The string to hash
-     * @param length The length of the resulting hexadecimal. Can be 32 or 40 for example.
-     * @return The hashed string in hexadecimal format
-     */
-    public static String md5Hexa(String string, int length)
-    {
-        if (string == null)
-        {
-            return null;
-        }
-        
-        BigInteger hash = new BigInteger(1, md5(string));
-        return org.apache.commons.lang3.StringUtils.substring(org.apache.commons.lang3.StringUtils.leftPad(hash.toString(16), length, "0"), 0, length);
-    }
-    
-    /**
-     * Encrypte a password by using first MD5 Hash and base64 encoding.
-     * @param password The password to be encrypted.
-     * @return The password encrypted or null if the MD5 is not supported
-     */
-    public static String md5Base64(String password)
-    {
-        if (password == null)
-        {
-            return null;
-        }
-        
         // Base64-encode the result.
-        return new String(Base64.encodeBase64(md5(password)));
+        return new String(Base64.encodeBase64(hash));
     }
     
     /**
