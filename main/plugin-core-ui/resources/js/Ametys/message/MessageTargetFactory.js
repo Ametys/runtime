@@ -111,7 +111,7 @@ Ext.define("Ametys.message.MessageTargetFactory",
 					if (!factory)
 					{
 						factory = this._targetFactories['*'];
-						targetConfig.parameters.type = targetConfig.type
+						/*targetConfig.parameters.type = targetConfig.type*/
 					}
 					
 					function createTargetsCallback(targetsCreated)
@@ -131,7 +131,7 @@ Ext.define("Ametys.message.MessageTargetFactory",
 						}
 					}
 					
-					factory.createTargets(targetConfig.parameters, createTargetsCallback)
+					factory.createTargets(targetConfig.parameters, createTargetsCallback, targetConfig.type)
 				}
 			}
 		},
@@ -206,9 +206,10 @@ Ext.define("Ametys.message.MessageTargetFactory",
 		 * @param {Object} parameters The parameters needed by the factory to create the messages. Can not be null. See implementation for details.
 		 * @param {Function} callback The callback function called when the targets are created. Parameters are
 		 * @param {Ametys.message.MessageTarget[]} callback.targets The targets created. Cannot be null.
+         * @param {String} targetType The type of target specified. Useful for gerneric MessageTargetFactories.
 		 * @template
 		 */
-		createTargets: function(parameters, callback)
+		createTargets: function(parameters, callback, targetType)
 		{
 			throw new Error("This method is not implemented in " + this.self.getName());
 		},
