@@ -107,7 +107,7 @@ public final class StringUtils
      * @param string The string to be hashed.
      * @return The hashed string or null if the MD5 is not supported
      */
-    public static String md5(String string)
+    public static byte[] md5(String string)
     {
         if (string == null)
         {
@@ -131,7 +131,7 @@ public final class StringUtils
         md5.update(string.getBytes());
         byte [] hash = md5.digest();
         
-        return new String(hash);
+        return hash;
     }
     
     /**
@@ -148,8 +148,8 @@ public final class StringUtils
             return null;
         }
         
-        BigInteger hash = new BigInteger(1, md5(string).getBytes());
-        return org.apache.commons.lang3.StringUtils.substring(org.apache.commons.lang3.StringUtils.leftPad(hash.toString(16), length, "0"), 0, 32);
+        BigInteger hash = new BigInteger(1, md5(string));
+        return org.apache.commons.lang3.StringUtils.substring(org.apache.commons.lang3.StringUtils.leftPad(hash.toString(16), length, "0"), 0, length);
     }
     
     /**
@@ -165,7 +165,7 @@ public final class StringUtils
         }
         
         // Base64-encode the result.
-        return new String(Base64.encodeBase64(md5(password).getBytes()));
+        return new String(Base64.encodeBase64(md5(password)));
     }
     
     /**
