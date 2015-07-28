@@ -553,7 +553,8 @@ Ext.define("Ametys.tool.Tool",
                 largeIcon: this.getLargeIcon(),
                 helpId: this.getToolHelpId(),
                 dirtyState: this.isDirty(),
-				
+				type: this.getType(),
+                
 				dockedItems: [oodPanel],
 				items : [this._contentPanel],
 				
