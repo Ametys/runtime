@@ -2758,13 +2758,14 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             }
         };
         
-        if (this._focusFieldId != null)
+        var focusField;
+        if (this._focusFieldId != null && (focusField = form.findField(this._focusFieldId)))
         {
             messageTargets['subtargets'] = {
                 'type': Ametys.message.MessageTarget.FORM_FIELD,
                 
                 'parameters': {
-                   name: form.findField(this._focusFieldId).getName()
+                   name: focusField.getName()
                  }
             }
             
