@@ -24,48 +24,42 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterChecker', {
 		/**
 	     * @protected
 	     * @readonly
-	     * @property {Number} 
-	     * 'Not tested' status 
+	     * @property {Number} 'Not tested' status 
 	     */
 	    STATUS_NOT_TESTED: 0,
 	    
 	    /**
 	     * @protected
 	     * @readonly
-	     * @property {Number} 
-	     * 'Success' status 
+	     * @property {Number} 'Success' status 
 	     */
 	    STATUS_SUCCESS: 1,
 	    
 	    /**
 	     * @protected
 	     * @readonly
-	     * @property {Number} 
-	     * 'Failure' status 
+	     * @property {Number} 'Failure' status 
 	     */
 	    STATUS_FAILURE: 2,
 	    
 	    /**
 	     * @protected
 	     * @readonly
-	     * @property {Number} 
-	     * 'Deactivated' status 
+	     * @property {Number} 'Deactivated' status 
 	     */
 	    STATUS_DEACTIVATED: 3,	    
 	    
 	    /**
 	     * @protected
 	     * @readonly
-	     * @property {Number} 
-	     * 'Warning' status 
+	     * @property {Number} 'Warning' status 
 	     */
 	    STATUS_WARNING: 4,
 	    
 	    /**
 	     * @protected
 	     * @readonly
-	     * @property {Number} 
-	     * 'Hidden' status 
+	     * @property {Number} 'Hidden' status 
 	     */
 	    STATUS_HIDDEN: 5
 	},
