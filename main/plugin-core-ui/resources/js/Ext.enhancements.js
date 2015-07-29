@@ -15,6 +15,35 @@
  */
 (function ()
 {
+    Ext.override(Ext, {
+        /**
+         * @member Ext
+         * @method moveTo 
+         * @since Ametys Runtime 4.0
+         * @ametys
+         * The same as #copyTo but properties are also removed from source object.
+         * @param {Object} dest The destination object.
+         * @param {Object} source The source object.
+         * @param {String/String[]} names Either an Array of property names, or a comma-delimited list
+         * of property names to copy.
+         * @param {Boolean} [usePrototypeKeys=false] Pass `true` to copy keys off of the
+         * prototype as well as the instance.
+         * @return {Object} The `dest` object. 
+         */
+        moveTo: function(dest, source, names, usePrototypeKeys) {
+            var result = this.copyTo(dest, source, names, usePrototypeKeys);
+            
+            Ext.Array.forEach(Ext.Array.from(names), function(item, index, allItems) {
+                delete source[item];
+            }, this);
+            
+            return result;
+        }
+    });
+})();
+    
+(function ()
+{
     Ext.override(Ext.String, {
         /**
          * @member Ext.String
