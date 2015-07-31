@@ -64,7 +64,6 @@ Ext.define('Ametys.data.ServerCommProxy', {
 	
 	statics: {
 		/**
-		 * @static
 		 * Add a new mapping between a reader type and a response type. This is
 		 * necessary to define a new reader to be used by this proxy.
 		 * @param {String} readerType The type of the reader
