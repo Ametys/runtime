@@ -98,7 +98,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterChecker', {
 		/** @cfg {String} helpBoxId The id of the help icon associated to the test */
 		helpBoxId: null,
 		/** @cfg {String} statusCmpId The id of the status component associated to the test */
-		statusCmpÎd: null
+		statusCmpId: null
 	},
 	
 	constructor: function(paramChecker, uiRefLabel, uiRefType, label, description)
