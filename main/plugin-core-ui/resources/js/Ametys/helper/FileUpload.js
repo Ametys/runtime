@@ -69,7 +69,6 @@ Ext.define('Ametys.helper.FileUpload', {
 				icon: icon,
 				
 				width: 430,
-				height: 170,
 				autoScroll: true,
 				layout: 'form',
 				
