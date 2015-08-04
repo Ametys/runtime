@@ -116,7 +116,7 @@ Ext.define("Ametys.ui.tool.ToolPanel", {
     constructor: function(config)
     {
         // Let's avoid to call info changing too often
-        this._infoChanging = Ext.Function.createThrottled(this._infoChanging, 10);
+        this._infoChanging = Ext.Function.createBuffered(this._infoChanging, 10);
         
         this.callParent(arguments);
     },
