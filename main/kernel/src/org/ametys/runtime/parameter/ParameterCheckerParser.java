@@ -25,6 +25,7 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.commons.lang3.StringUtils;
 
+import org.ametys.core.util.ConfigurationHelper;
 import org.ametys.core.util.I18nizableText;
 import org.ametys.runtime.plugin.component.ThreadSafeComponentManager;
 
@@ -204,24 +205,6 @@ public final class ParameterCheckerParser
      */
     protected I18nizableText _parseI18nizableText(Configuration config, String pluginName, String name) throws ConfigurationException
     {
-        Configuration textConfig = config.getChild(name);
-        boolean i18nSupported = textConfig.getAttributeAsBoolean("i18n", false);
-        String text = textConfig.getValue();
-        
-        if (i18nSupported)
-        {
-            String catalogue = textConfig.getAttribute("catalogue", null);
-            
-            if (catalogue == null)
-            {
-                catalogue = "plugin." + pluginName;
-            }
-            
-            return new I18nizableText(catalogue, text);
-        }
-        else
-        {
-            return new I18nizableText(text);
-        }
+        return ConfigurationHelper.parseI18nizableText(config.getChild(name), "plugin." + pluginName);
     }
 }

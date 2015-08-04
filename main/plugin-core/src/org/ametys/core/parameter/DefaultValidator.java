@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
+import org.ametys.core.util.ConfigurationHelper;
 import org.ametys.core.util.I18nizableText;
 import org.ametys.runtime.parameter.Errors;
 import org.ametys.runtime.parameter.Validator;
@@ -116,22 +117,7 @@ public class DefaultValidator extends AbstractLogEnabled implements Validator, C
         Configuration textConfig = validatorConfig.getChild("invalidText", false);
         if (textConfig != null)
         {
-            boolean i18nSupported = textConfig.getAttributeAsBoolean("i18n", false);
-            String text = textConfig.getValue();
-            
-            if (i18nSupported)
-            {
-                String catalogue = textConfig.getAttribute("catalogue", null);
-                if (catalogue == null)
-                {
-                    catalogue = "plugin." + _pluginName;
-                }
-                _invalidText = new I18nizableText(catalogue, text);
-            }
-            else
-            {
-                _invalidText = new I18nizableText(text);
-            }
+            _invalidText = ConfigurationHelper.parseI18nizableText(textConfig, "plugin." + _pluginName);
         }
     }
     
