@@ -72,6 +72,7 @@ Open source web application framework based on Apache Cocoon.
         <exclude module="sigar-lib" conf="test"/>
     </dependency> 
     <dependency org="simplecaptcha" name="simplecaptcha" rev="1.2.1" conf="common_dependencies->default"/>
+    <dependency org="org.apache.xmlgraphics" name="fop" rev="1.1" conf="common_dependencies->default"/>
     
     <dependency org="org.slf4j" name="slf4j-api" rev="1.7.5" conf="common_dependencies->default"/>
     <dependency org="org.slf4j" name="slf4j-log4j12" rev="1.7.5" conf="runtime_dependencies->default"/>    
@@ -91,7 +92,6 @@ Open source web application framework based on Apache Cocoon.
 	
     <!-- Compile and test -->
     <dependency org="javax.servlet" name="servlet-api" rev="2.4" conf="compile_base->default"/>
-    <dependency org="org.apache.xmlgraphics" name="fop" rev="1.1" conf="compile_base,test->default"/>
     <dependency org="org.jasig.cas.client" name="cas-client-core" rev="3.2.1" conf="compile_base,test->default"/>
     
     <dependency org="mysql" name="mysql-connector-java" rev="5.1.26" conf="test->default"/>
