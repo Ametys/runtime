@@ -1450,8 +1450,8 @@
                  *          ...
                  *          @ param {Function} callback The function to call when the java process is over. Can be null. Use options.scope for the scope. 
                  *          @ param {Object} callback.returnedValue The value return from the server. Null on error (please note that when an error occured, the callback may not be called depending on the value of errorMessage).
-                 *          @ param {Object} callback.arguments Other arguments specified in option.arguments                 
-                 *          @ param {Object} callback.parameters Parameters of the initial call transmited in parameters argument.                 
+                 *          @ param {Object} callback.args Other arguments specified in option.arguments                 
+                 *          @ param {Object[]} callback.parameters Parameters of the initial call transmited in parameters argument.                 
                  *          @ param {Object} [options] Advanced options for the call.
                  *          @ param {Boolean/String/Object} [options.errorMessage] Display an error message. See Ametys.data.ServerCall#callMethod errorMessage.
                  *          @ param {Boolean/String/Object} [options.waitMessage] Display a waiting message. See Ametys.data.ServerCall#callMethod waitMessage.
@@ -1463,6 +1463,11 @@
                  * 
                  * 
                  * @param {Object/Object[]} configs The default values for Ametys.data.ServerComm#callMethod config argument. Concerning the callback config, it will be added (not replaced).
+                 * @param {Function} [configs.convertor] An optional function to convert the argument "returnValue" of the callback of the created method. 
+                 * @param {Object} configs.convertor.returnedValue The value return from the server. Null on error (please note that when an error occured, the callback may not be called depending on the value of errorMessage).
+                 * @param {Object} configs.convertor.arguments Other arguments specified in option.arguments                 
+                 * @param {Object[]} configs.convertor.parameters Parameters of the initial call transmited in parameters argument.
+                 * @param {Object} configs.convertor.return The converted value
                  * @param {String} [configs.localName=configs.methodName] This additionnal optionnal argument stands for the local method name.
                  * @param {Number} [configs.localParamsIndex] After the index in parameters array, parameters are considered as local only and will not be transmited to server. Use to transmit to all callbacks. Can be null if all parameters are server parameters.  Negative values are offsets from the end of the parameters array.
                  */
@@ -1496,6 +1501,15 @@
                             // During the addCallable one or more callbacks may have been set
                             if (callback != null)
                             {
+                            	if (Ext.isFunction(config.convertor))
+                            	{
+                            		var originalCallback = callback;
+                            		callback = function(returnValue, args, parameters) {
+                            			var convertedValue = config.convertor.apply(this, [returnValue, args, parameters]);
+                            			originalCallback.apply(this, [convertedValue, args, parameters]);
+                            		}
+                            	}
+                            	
                             	// Let's add the current method callback
                                 finalConfig.callback.push({
                                         handler: callback,
