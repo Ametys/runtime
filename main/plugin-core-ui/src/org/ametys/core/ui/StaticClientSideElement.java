@@ -15,9 +15,7 @@
  */
 package org.ametys.core.ui;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -36,8 +34,7 @@ import org.ametys.core.right.RightsContextPrefixExtensionPoint;
 import org.ametys.core.right.RightsManager;
 import org.ametys.core.right.RightsManager.RightResult;
 import org.ametys.core.user.CurrentUserProvider;
-import org.ametys.core.util.I18nizableText;
-import org.ametys.runtime.config.Config;
+import org.ametys.core.util.ConfigurationHelper;
 import org.ametys.runtime.plugin.component.PluginAware;
 
 /**
@@ -124,74 +121,7 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
      */
     protected Map<String, Object> _configureParameters (Configuration configuration) throws ConfigurationException
     {
-        Map<String, Object> parameters = new LinkedHashMap<>();
-     
-        for (Configuration paramConfiguration : configuration.getChildren())
-        {
-            String name;
-            if (paramConfiguration.getName().equals("param"))
-            {
-                name = paramConfiguration.getAttribute("name");
-            }
-            else
-            {
-                name = paramConfiguration.getName();
-            }
-            String value = paramConfiguration.getValue("");
-
-            if (getLogger().isDebugEnabled())
-            {
-                getLogger().debug("Configured with parameter '" + name + "' : '" + value + "'");
-            }
-
-            if (paramConfiguration.getAttributeAsBoolean("i18n", false) || StringUtils.equals(paramConfiguration.getAttribute("type", ""), "i18n"))
-            {
-                _addParameter (parameters, name, new I18nizableText("plugin." + _pluginName, value));
-            }
-            else if (paramConfiguration.getAttributeAsBoolean("file", false) || StringUtils.equals(paramConfiguration.getAttribute("type", ""), "file"))
-            {
-                String pluginName = paramConfiguration.getAttribute("plugin", getPluginName());
-                _addParameter (parameters, name, "/plugins/" + pluginName + "/resources/" + value);
-            }
-            else if (paramConfiguration.getAttributeAsBoolean("config", false) || StringUtils.equals(paramConfiguration.getAttribute("type", ""), "config"))
-            {
-                _addParameter (parameters, name, Config.getInstance().getValueAsString(value));
-            }
-            else if (paramConfiguration.getChildren().length != 0)
-            {
-                _addParameter (parameters, name, _configureParameters(paramConfiguration));
-            }
-            else 
-            {
-                _addParameter (parameters, name, value);
-            }
-        }
-        
-        return parameters;
-    }
-    
-    @SuppressWarnings("unchecked")
-    private void _addParameter (Map<String, Object> parameters, String name, Object newValue)
-    {
-        if (parameters.containsKey(name))
-        {
-            Object values = parameters.get(name);
-            if (values instanceof List)
-            {
-                ((List<Object>) values).add(newValue);
-            }
-            else
-            {
-                List list = new ArrayList<>();
-                list.add(values);
-                list.add(newValue);
-                parameters.put(name, list);
-            }
-        }
-        else
-        {
-            parameters.put(name, newValue);
-        }
+        return ConfigurationHelper.parsePluginParameters(configuration, getPluginName(), getLogger());
     }
     
     /**
@@ -233,22 +163,7 @@ public class StaticClientSideElement extends AbstractLogEnabled implements Clien
      */
     protected List<String> _configureImports(Configuration configuration) throws ConfigurationException
     {
-        List<String> scriptsImports = new ArrayList<>();
-        String scriptsDefaultPlugin = configuration.getAttribute("plugin", _pluginName);
-        for (Configuration scriptsConfiguration : configuration.getChildren("file"))
-        {
-            String pluginName = scriptsConfiguration.getAttribute("plugin", scriptsDefaultPlugin);
-            String url = scriptsConfiguration.getValue();
-            
-            String completeUrl = "/plugins/" + pluginName + "/resources/" + url; 
-            scriptsImports.add(completeUrl);
-
-            if (getLogger().isDebugEnabled())
-            {
-                getLogger().debug("Importing file '" + completeUrl + "'");
-            }
-        }
-        return scriptsImports;
+        return ConfigurationHelper.parsePluginResourceList(configuration, getPluginName(), getLogger());
     }
     
     /**
