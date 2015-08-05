@@ -171,7 +171,7 @@ Ext.define('Ametys.form.widget.File', {
      * @cfg {String} filter=none The filter to use for accepted files among: 'none', 'image', 'audio', 'video', 'multimedia' or 'flash'. Can be null to accept all files (equivalent to 'none').
      */
     /**
-     * @cfg {String} allowSources=external The allowed file sources separated by coma. Default to 'external'.
+     * @cfg {String|String[]} allowSources=external The allowed file sources in a Array or separated by coma. Default to 'external'.
      */
     
     /**
@@ -288,8 +288,15 @@ Ext.define('Ametys.form.widget.File', {
         this.fileFilter = config['filter'] || 'none';
         delete config.filter;
         
-        // File localtion
-        this.fileSources = config['allowSources'] ? config['allowSources'].split(',') : [Ametys.form.widget.File.External.SOURCE];
+        // File location
+        if (Ext.isEmpty(config['allowSources']))
+        {
+        	this.fileSources = [Ametys.form.widget.File.External.SOURCE];
+        }
+        else
+        {
+        	this.fileSources = Ext.isArray(config['allowSources']) ? config['allowSources'] : config['allowSources'].split(',');
+        }
         delete config.allowSources;
         
         this.callParent(arguments);
