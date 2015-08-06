@@ -23,8 +23,7 @@ Ext.define('Ametys.form.widget.StringTime', {
     alias: ['widget.stringtimefield', 'widget.stringtime'],
     
     /**
-     * @cfg {String} format the disply format. Can be "VeryShortTime" to have hours and minutes or "ShortTime" to have hours, minutes and seconds
-     * Defaults to "ShortTime" 
+     * @cfg {String} [format="VeryShortTime"] the display format. Can be "VeryShortTime" to have hours and minutes or "ShortTime" to have hours, minutes and seconds
      */
     format: "VeryShortTime",
     
@@ -61,10 +60,13 @@ Ext.define('Ametys.form.widget.StringTime', {
     _getTimeFieldConfig: function ()
     {
         return {
-            format: this.format == "ShortTime" ? Ext.Date.patterns.ShortTime : Ext.Date.patterns.VeryShortTime, 
+            format: this.format == "ShortTime" ? Ext.Date.patterns.ShortTime : Ext.Date.patterns.VeryShortTime,
+            formatText: '',
+            invalidText: "<i18n:text i18n:key='PLUGINS_CORE_UI_FORM_FIELD_STRINGTIME_INVALID_TEXT'/>",
             submitFormat: this.format == "ShortTime" ? "H:i:s" : "H:i",
+            msgTarget: 'none',
     		value: this.value,
-            flex: 1
+    		flex: 1
         };
     },
     

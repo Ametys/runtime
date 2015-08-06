@@ -264,6 +264,8 @@
 	<message key="PLUGINS_CORE_UI_WIDGET_PASSWORD_HINT">Change password</message>
 	<message key="PLUGINS_CORE_UI_WIDGET_PASSWORD_ERROR">The same password has to be entered twice.\nPlease enter the new password in both boxes.</message>
 
+    <message key="PLUGINS_CORE_UI_FORM_FIELD_STRINGTIME_INVALID_TEXT">The current input is not a valid hour.</message>
+    
 	<!-- SELECT USER -->
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_CAPTION">Select a user...</message>
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_OK">Ok</message>

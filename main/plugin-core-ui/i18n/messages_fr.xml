@@ -260,6 +260,8 @@
     <message key="PLUGINS_CORE_UI_WIDGET_PASSWORD_HINT">Changer le mot de passe</message>
     <message key="PLUGINS_CORE_UI_WIDGET_PASSWORD_ERROR">Vous devez saisir 2 fois le même mot de passe.\nVeuillez saisir à nouveau le mot de passe en 2 exemplaires</message>
 
+    <message key="PLUGINS_CORE_UI_FORM_FIELD_STRINGTIME_INVALID_TEXT">La saisie actuelle n'est pas une heure valide.</message>
+    
     <!-- SELECT USER -->
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_CAPTION">Sélectionner un utilisateur...</message>
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_OK">Ok</message>
