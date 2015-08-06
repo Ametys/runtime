@@ -451,7 +451,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                 }
                 else
                 {
-                    panel.expand()
+                    panel.expand();
                 }
             });
         }
@@ -459,8 +459,6 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         {
             this.resumeLayouts(true);
             tabpanel.unmask();
-            
-            btn.setText(collapse ? "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_INLINETAB_EXPAND_ALL'/>" : "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_INLINETAB_COLLAPSE_ALL'/>");
         }
     },
     
@@ -481,7 +479,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                 cls: 'ametys-form-tab-inline',
                 margin: '5 0 0 0',
                 layout: this.initialConfig.tabsLayout || { type: 'anchor' },
-
+            	
                 border: false,
                 
                 dockedItems: [{
@@ -492,9 +490,15 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                         '->',
                         {
                             text: "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_INLINETAB_COLLAPSE_ALL'/>",
-                            enableToggle: true,
-                            toggleHandler: function (btn, state) { 
-                                me._expandOrCollapseAllInlineTab(tabPanel, btn, state)
+                            handler: function (btn) { 
+                                me._expandOrCollapseAllInlineTab(tabPanel, btn, true)
+                            }
+                        },
+                        '|',
+                        {
+                            text: "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_INLINETAB_EXPAND_ALL'/>",
+                            handler: function (btn) { 
+                                me._expandOrCollapseAllInlineTab(tabPanel, btn, false)
                             }
                         }
                     ]

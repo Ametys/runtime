@@ -287,20 +287,22 @@
 
 .ametys-form-panel .ametys-form-tab-inline-item > .x-panel-header 
 {
+    background-image: url('../../../../../img/Ametys/common/group-expand-sprite.png');
+    background-repeat: no-repeat;   
+    background-position: 5px -45px;
     background-color: #D9DEE6;
-    background-image: none;
-    padding: 3px 5px;
+    
+    padding-left: 20px;
+    
     /*background-color: #D7D2D2;
     background-image: -moz-linear-gradient(center top , #ECECEC, #D7D2D2);*/
     
     /*top: -1px !important;*/
 }
-.ametys-form-panel .ametys-form-tab-inline-item > .x-panel-header > .x-header-body
+
+.ametys-form-panel .ametys-form-tab-inline-item > .x-panel-header.x-panel-header-collapsed-top
 {
-    background-image: url('../../../../../img/Ametys/common/group-expand-sprite.png');
-    background-repeat: no-repeat;   
-    background-position: 5px -48px;
-    padding-left: 20px;
+    background-position: 5px 5px;
 }
 
 .ametys-form-panel .ametys-form-tab-inline-item > .x-panel-header .x-panel-header-title
