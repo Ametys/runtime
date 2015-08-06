@@ -2707,7 +2707,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         for (var name in commentsMap)
         {
             fieldComments = commentsMap[name];
-            field = this.getForm().findField(name);
+            field = this.getForm().findField(this.getFieldNamePrefix() + name);
             this._setMetadataCommentsForFieldJSON(field, fieldComments);
         }
     },
