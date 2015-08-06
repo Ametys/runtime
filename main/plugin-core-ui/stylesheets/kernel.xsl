@@ -134,6 +134,7 @@
 	        <script>/plugins/core-ui/resources/js/Ametys/form/field/ChangePassword.js</script>
             <script>/plugins/core-ui/resources/js/Ametys/form/field/ReferencedNumberField.js</script>
             <script>/plugins/core-ui/resources/js/Ametys/form/field/RichText.js</script>
+            <script>/plugins/core-ui/resources/js/Ametys/form/field/TextArea.js</script>
             <script>/plugins/tiny_mce/resources/js/tiny_mce<xsl:if test="$debug-mode">_src</xsl:if>.js</script>
             <script>/plugins/core-ui/resources/js/Ametys/form/field/Code.js</script>
             <script>/plugins/codemirror/resources/js/codemirror.js</script>

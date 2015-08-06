@@ -341,7 +341,7 @@ Ext.define('Ametys.cms.form.widget.RichText', {
  * It does NOT handle multiple values. 
  */
 Ext.define('Ametys.form.widget.TextArea', {
-	extend: "Ext.form.field.TextArea",
+	extend: "Ametys.form.field.TextArea",
 	
 	statics:
 	{
