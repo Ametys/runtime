@@ -464,7 +464,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 	 */	
 	_updateTestButton: function(paramChecker)
 	{
-		if (this._isSuspended)
+		// Do nothing if the form has not been loaded or if the test wasn't launched at least once
+		if (this._isSuspended || paramChecker.getStatus() == Ametys.form.ConfigurableFormPanel.ParameterChecker.STATUS_NOT_TESTED)
 		{
 			return;
 		}
@@ -494,7 +495,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
 			}
 		}
 	    
-	    // update style
+	    // update the button's appearance 
 	    statusCmp.setVisible(true);
 	    statusCmp.removeCls(['success', 'failure']);
 	    statusCmp.addCls('warning');
