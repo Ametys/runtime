@@ -177,7 +177,9 @@
             config.childEls.push("descWrapEl");
             config.childEls.push("commentWrapEl");
             
-            this.callParent(arguments);  
+            this.callParent(arguments); 
+            
+            this.on("afterrender", this.renderComments, this);
         },
         
         /**
