@@ -124,6 +124,12 @@ Ext.define('Ametys.form.widget.ComboBox', {
 		});
 		
 		this.callParent(arguments);
+		
+		// Trigger drop down when clicking the field even when editable is false
+		if (!config.multiple)
+		{
+			this.on('click', this.onTriggerClick, this, {element: 'inputEl'});
+		}
 	}
 });
 
