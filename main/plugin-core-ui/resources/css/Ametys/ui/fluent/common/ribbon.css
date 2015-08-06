@@ -337,7 +337,12 @@
 .x-fluent-tooltip-text-image 
 {
 	padding-right: 8px;
-	padding-bottom: 8px
+	padding-bottom: 8px;
+}
+.x-fluent-tooltip-text ul,
+.x-fluent-tooltip-text-image ul
+{
+	clear: left;
 }
 .x-fluent-tooltip-img 
 {
