@@ -783,25 +783,22 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             
             for (var i = 0; i < tabFields.length; i++)
             {
-                if (!tabFields[i].isHidden())
+                if (tabFields[i].getErrors().length > 0)
                 {
-                    if (tabFields[i].getErrors().length > 0)
-                    {
-                        errorFields.push("<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD'/>" +  " " + this._getFieldLabel(tabFields[i], panel));
-                    }
-                    
-                    if (Ext.isFunction(tabFields[i].hasActiveWarning) && tabFields[i].hasActiveWarning())
-                    {
-                        warnFields.push("<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD'/>" + " " + this._getFieldLabel(tabFields[i], panel));
-                    }
-                    
-                    if (Ext.isFunction(tabFields[i].getComments) && tabFields[i].getComments().length > 0)
-                    {
-                        var comment = tabFields[i].getComments()[0];
-                        var commentValue = Ext.String.format('<em>{0} ({1}, le {2})</em>', comment.text, comment.author, Ext.Date.format(comment.date, Ext.Date.patterns.FriendlyDateTime));
-                                 
-                        commentFields.push(this._getFieldLabel(tabFields[i], panel) + " : " + commentValue);
-                    }
+                    errorFields.push("<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD'/>" +  " " + this._getFieldLabel(tabFields[i], panel));
+                }
+                
+                if (Ext.isFunction(tabFields[i].hasActiveWarning) && tabFields[i].hasActiveWarning())
+                {
+                    warnFields.push("<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD'/>" + " " + this._getFieldLabel(tabFields[i], panel));
+                }
+                
+                if (Ext.isFunction(tabFields[i].getComments) && tabFields[i].getComments().length > 0)
+                {
+                    var comment = tabFields[i].getComments()[0];
+                    var commentValue = Ext.String.format('<em>{0} ({1}, le {2})</em>', comment.text, comment.author, Ext.Date.format(comment.date, Ext.Date.patterns.FriendlyDateTime));
+                             
+                    commentFields.push(this._getFieldLabel(tabFields[i], panel) + " : " + commentValue);
                 }
             }
             
@@ -1052,8 +1049,9 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         var checked = checkbox.getValue();
 
         fieldset.items.eachKey(function(key){
-        	
         	var fieldsetElement = Ext.getCmp(key);
+        	
+        	// do not show/hide the checkbox itself
         	if (fieldsetElement.getId() == checkbox.getId())
     		{
         		return;
@@ -1307,8 +1305,9 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         }
         
         var field = Ametys.form.WidgetManager.getWidget (config.widget, config.type.toLowerCase(), widgetCfg);
+        
         // if field is disabled or not visible (group switch off) we return no errors
-        Ext.Function.createInterceptor(field.getErrors, function() { return field.isVisible() && !field.isDisabled(); }, null, []);
+        field.getErrors = Ext.Function.createInterceptor(field.getErrors, function() { return this.isVisible() && !this.isDisabled(); }, null, []);
         return field;
     },
     
