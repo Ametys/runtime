@@ -35,7 +35,7 @@ Ext.define('Ametys.form.widget.AbstractQueryableComboBox', {
      */
     pageSize: 0,
     /**
-     * @cfg {Number} [maxResult=50]  The maximun number of records to display in the dropdown list.
+     * @cfg {Number} [maxResult=50]  The maximum number of records to display in the dropdown list.
      */
     maxResult: 50,
     /**
