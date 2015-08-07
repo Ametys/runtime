@@ -1606,7 +1606,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                             {
                                 if (paramCheckers.length > 1)
                                 {
-                                    paramCheckers.sort(me._compareByOrder);
+                                	 paramCheckers.sort(Ext.bind(me._compareByOrder, me));
                                 }
                                 
                                 Ext.Array.each(paramCheckers, function(paramChecker){
@@ -1758,7 +1758,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                     {
                         if (paramCheckers.length > 1)
                         {
-                            paramCheckers.sort(me._compareByOrder);
+                        	paramCheckers.sort(Ext.bind(me._compareByOrder, me));
                         }
                         
                         Ext.Array.each(paramCheckers, function(paramChecker){
@@ -1791,7 +1791,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                     {
                         if (paramCheckers.length > 1)
                         {
-                            paramCheckers.sort(me._compareByOrder);
+                        	paramCheckers.sort(Ext.bind(me._compareByOrder, me));
                         }
                         Ext.Array.each(paramCheckers, function(paramChecker) {
                             me._paramCheckersDAO.addCategoryChecker(tab, paramChecker, finalOffset, finalROffset);
@@ -1887,6 +1887,11 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                         var paramCheckers = Ext.dom.Query.select('> param-checker', nodes[i]);
                         if (!Ext.isEmpty(paramCheckers))
                         {
+                            if (paramCheckers.length > 1)
+                            {
+                            	paramCheckers.sort(Ext.bind(me._compareByOrder, me));
+                            }
+                        	
                             Ext.Array.each(paramCheckers, function(paramChecker){
                                 var paramCheckerConf = {
                                     'id': Ext.dom.Query.selectValue("> id", paramChecker),
@@ -2038,7 +2043,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                     {
                         if (paramCheckers.length > 1)
                         {
-                            paramCheckers.sort(me._compareByOrder);
+                        	paramCheckers.sort(Ext.bind(me._compareByOrder, me));
                         }
                         
                         Ext.Array.each(paramCheckers, function(paramChecker){
@@ -2088,7 +2093,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                     {
                         if (paramCheckers.length > 1)
                         {
-                            paramCheckers.sort(me._compareByOrder);
+                        	paramCheckers.sort(Ext.bind(me._compareByOrder, me));
                         }
                         Ext.Array.each(paramCheckers, function(paramChecker) {
                             var paramCheckerConf = {
@@ -2115,16 +2120,16 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      * @param {Ametys.form.ConfigurableFormPanel.ParameterChecker} a the first parameter checker
      * @param {Ametys.form.ConfigurableFormPanel.ParameterChecker} b the second parameter checker
      */
-    _compareByOrder: function(a, b) {
-        
-        var aOrder = Ext.dom.Query.selectValue('order', a);
-        var bOrder = Ext.dom.Query.selectValue('order', b);
-        
+    _compareByOrder: function(a, b) 
+    {
+        var aOrder = this._isElement(a) ? Ext.dom.Query.selectValue('order', a) : a.order;
+        var bOrder = this._isElement(b) ? Ext.dom.Query.selectValue('order', b) : b.order;
+    	
         var comparison = aOrder - bOrder;
         
         return comparison != 0 ? comparison : 1;
     },
-
+    
     /**
      * Fill the configured form with values. #configure must have been called previously with data matching the configured data.
      * 
