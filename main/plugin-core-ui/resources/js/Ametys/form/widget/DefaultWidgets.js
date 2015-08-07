@@ -133,6 +133,7 @@ Ext.define('Ametys.form.widget.ComboBox', {
 	},
 	
 	/**
+	 * @private
 	 * Function invoked when the combo box is clicked
 	 */
 	_onClick: function()
