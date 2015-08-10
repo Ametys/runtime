@@ -100,6 +100,19 @@
                       <xsl:with-param name="load-cb" select="$callback"/>
                 </xsl:call-template>                
                 
+                <script type="text/javascript">
+                    Ametys.setAppParameter("debug.ui", "<xsl:value-of select="$debug-mode"/>");        
+                    
+                    Ametys.setAppParameter("user", {
+                        login: "<xsl:value-of select="user/@login"/>",
+                        firstname: "<xsl:value-of select="user/firstname"/>",
+                        lastname: "<xsl:value-of select="user/lastname"/>",
+                        fullname: "<xsl:value-of select="user/firstname"/><xsl:text> </xsl:text><xsl:value-of select="user/lastname"/>" ,
+                        email:  "<xsl:value-of select="user/email"/>",
+                        locale: "<i18n:text i18n:key='KERNEL_LANGUAGE_CODE' catalogue='kernel'/>"
+                    });
+                </script>
+                
                 <xsl:call-template name="ui-extension-after-static-load"/>
                 
                 <xsl:call-template name="kernel-load">
@@ -109,17 +122,6 @@
                 </xsl:call-template>                
 
 				<script type="text/javascript">
-                    Ametys.setAppParameter("debug.ui", "<xsl:value-of select="$debug-mode"/>");        
-                    
-                    Ametys.setAppParameter("user", {
-                    	login: "<xsl:value-of select="user/@login"/>",
-                    	firstname: "<xsl:value-of select="user/firstname"/>",
-                    	lastname: "<xsl:value-of select="user/lastname"/>",
-                    	fullname: "<xsl:value-of select="user/firstname"/><xsl:text> </xsl:text><xsl:value-of select="user/lastname"/>" ,
-                    	email:  "<xsl:value-of select="user/email"/>",
-                    	locale: "<i18n:text i18n:key='KERNEL_LANGUAGE_CODE' catalogue='kernel'/>"
-                    });
-                            
 				    (function() {
                                /** Tools factories */<xsl:text/>
                                var factory;
