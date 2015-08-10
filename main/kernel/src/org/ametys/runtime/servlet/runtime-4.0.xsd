@@ -73,11 +73,11 @@
                     </xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="extensions" type="extensions" maxOccurs="1" minOccurs="0">
+            <xsd:element name="components" type="components" maxOccurs="1" minOccurs="0">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">
                         <![CDATA[
-                            Choosen implementations for the single extension points.
+                            Choosen implementations for components.
                         ]]>
                     </xsd:documentation>
                 </xsd:annotation>
@@ -110,7 +110,7 @@
         </xsd:all>
     </xsd:complexType>
 
-    <xsd:complexType name="extensions">
+    <xsd:complexType name="components">
         <xsd:sequence>
             <xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:sequence>
@@ -141,11 +141,11 @@
     
     <xsd:complexType name="plugins">
         <xsd:all>
-            <xsd:element name="exclude" type="excludedFeatures" maxOccurs="1" minOccurs="0">
+            <xsd:element name="exclude" type="exclude" maxOccurs="1" minOccurs="0">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">
                         <![CDATA[
-                            Disabled features.
+                            Disabled plugins and features.
                         ]]>
                     </xsd:documentation>
                 </xsd:annotation>
@@ -176,8 +176,17 @@
         </xsd:sequence>
     </xsd:complexType>
 
-    <xsd:complexType name="excludedFeatures">
+    <xsd:complexType name="exclude">
         <xsd:sequence>
+            <xsd:element name="plugin" type="xsd:string" maxOccurs="unbounded" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">
+                        <![CDATA[
+                            Name of a plugin that will be disabled.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
             <xsd:element name="feature" type="xsd:string" maxOccurs="unbounded" minOccurs="0">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">

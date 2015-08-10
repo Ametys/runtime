@@ -16,8 +16,8 @@
    -->
 <plugin xmlns="http://www.ametys.org/schema/plugin"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.ametys.org/schema/plugin http://www.ametys.org/schema/plugin-2.0.xsd"
-        runtimeVersion="2.0" version="2.0">
+        xsi:schemaLocation="http://www.ametys.org/schema/plugin http://www.ametys.org/schema/plugin-4.0.xsd"
+        runtimeVersion="4.0" version="4.0">
          
     <config>
         <param id="param1" type="string">
@@ -53,7 +53,7 @@
     
     <feature name="test3">
         <config>
-            <param id="param4" type="string">
+            <param id="param4" type="long">
                 <label>label</label>
                 <description>key</description>
                 <default-value>value</default-value>

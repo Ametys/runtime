@@ -41,7 +41,7 @@ public class StaticUsersTestCase extends AbstractRuntimeTestCase
     {
         super.setUp();
 
-        _startApplication("test/environments/runtimes/runtime3.xml", "test/environments/configs/config1.xml", "test/environments/webapp1");
+        _startApplication("test/environments/runtimes/runtime01.xml", "test/environments/configs/config1.xml", "test/environments/webapp1");
     }
     
     @Override

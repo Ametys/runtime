@@ -37,6 +37,7 @@ public class Init implements org.ametys.runtime.plugin.Init, Component, Servicea
     public Init()
     {
         _ok = false;
+        _manager = null;
     }
     
     public void service(ServiceManager manager) throws ServiceException

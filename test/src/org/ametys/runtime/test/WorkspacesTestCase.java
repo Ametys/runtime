@@ -28,7 +28,7 @@ public class WorkspacesTestCase extends AbstractRuntimeTestCase
      */
     public void testValidWorkspace() throws Exception
     {
-        CocoonWrapper cocoon = _startApplication("test/environments/runtimes/runtime10.xml", "test/environments/configs/config1.xml", "test/environments/webapp2");
+        CocoonWrapper cocoon = _startApplication("test/environments/runtimes/runtime01.xml", "test/environments/configs/config1.xml", "test/environments/webapp2");
         
         assertTrue(WorkspaceManager.getInstance().getWorkspaceNames().contains("admin"));
         
@@ -38,13 +38,8 @@ public class WorkspacesTestCase extends AbstractRuntimeTestCase
         assertFalse(WorkspaceManager.getInstance().getWorkspaceNames().contains("workspace-test2"));
         
         // workspace-test3 has a dependency to an unexisting feature
-        assertFalse(WorkspaceManager.getInstance().getWorkspaceNames().contains("workspace-test3"));
+        assertTrue(WorkspaceManager.getInstance().getWorkspaceNames().contains("workspace-test3"));
     
-        // Restart
-        cocoon.dispose();
-        
-        cocoon = _startApplication("test/environments/runtimes/runtime3.xml", "test/environments/configs/config1.xml", "test/environments/webapp2");
-        
         cocoon.dispose();
     }
     
@@ -58,7 +53,7 @@ public class WorkspacesTestCase extends AbstractRuntimeTestCase
         
         try
         {
-            cocoon = _startApplication("test/environments/runtimes/runtime10.xml", "test/environments/configs/config1.xml", "test/environments/webapp3");
+            cocoon = _startApplication("test/environments/runtimes/runtime01.xml", "test/environments/configs/config1.xml", "test/environments/webapp3");
             fail("WorskpaceManager must have failed");
         }
         catch (IllegalArgumentException e)

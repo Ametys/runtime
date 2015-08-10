@@ -23,7 +23,6 @@ import java.util.Set;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
@@ -35,6 +34,7 @@ import org.ametys.core.right.RightsManager;
 import org.ametys.core.right.RightsManager.RightResult;
 import org.ametys.core.user.CurrentUserProvider;
 import org.ametys.core.util.ConfigurationHelper;
+import org.ametys.runtime.plugin.component.AbstractLogEnabled;
 import org.ametys.runtime.plugin.component.PluginAware;
 
 /**

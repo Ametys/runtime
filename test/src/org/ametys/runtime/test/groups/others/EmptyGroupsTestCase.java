@@ -37,7 +37,7 @@ public class EmptyGroupsTestCase extends AbstractRuntimeTestCase
      */
     public void testEmpty() throws Exception
     {
-        CocoonWrapper cocoon = _startApplication("test/environments/runtimes/runtime3.xml", "test/environments/configs/config1.xml", "test/environments/webapp1");
+        CocoonWrapper cocoon = _startApplication("test/environments/runtimes/runtime01.xml", "test/environments/configs/config1.xml", "test/environments/webapp1");
         
         GroupsManager groupsManager = (GroupsManager) Init.getPluginServiceManager().lookup(GroupsManager.ROLE);
         

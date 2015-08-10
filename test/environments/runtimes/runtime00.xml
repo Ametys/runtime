@@ -16,10 +16,10 @@
    -->
 
 <!-- 
-    INVALID SCHEMA 
+    This file is NOT valid against the schema.
 -->
 <runtime xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:noNamespaceSchemaLocation="http://ametys.org/Runtime/1.2/runtime.xsd">
+         xsi:noNamespaceSchemaLocation="http://www.ametys.org/schema/runtime/runtime-4.0.xsd">
     
     <incompleteConfig>
         <allowedURLs>
@@ -33,11 +33,11 @@
     
     <workspaces default="myworkspace"/>
     
-    <extensions>
+    <components>
         <org.ametys.core.right.RightsManager>org.ametys.plugins.core.right.DefaultProfileBased</org.ametys.core.right.RightsManager>
         <org.ametys.runtime.exception.ExceptionHandler>org.ametys.plugins.core.exception.Default</org.ametys.runtime.exception.ExceptionHandler>
         <org.ametys.core.group.GroupsManager>org.ametys.plugins.core.group.Empty</org.ametys.core.group.GroupsManager>
         <org.ametys.core.authentication.CredentialsProvider>org.ametys.plugins.core.authentication.Basic</org.ametys.core.authentication.CredentialsProvider>
         <org.ametys.core.user.UsersManager>org.ametys.plugins.core.user.CoreJdbc</org.ametys.core.user.UsersManager>
-    </extensions>
+    </components>
 </runtime>

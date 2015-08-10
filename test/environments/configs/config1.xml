@@ -38,4 +38,6 @@
 <smtp.mail.password></smtp.mail.password>
 <smtp.mail.from>test@ametys.org</smtp.mail.from>
 <smtp.mail.sysadminto>ametys@ametys.org</smtp.mail.sysadminto>
+<param2>param2</param2>
+<param4>4</param4>
 </config>

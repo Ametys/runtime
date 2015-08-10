@@ -16,12 +16,8 @@
 package org.ametys.runtime.plugin;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.generation.AbstractGenerator;
@@ -29,9 +25,7 @@ import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.SAXException;
 
-import org.ametys.runtime.plugin.PluginsManager.ActiveFeature;
-import org.ametys.runtime.plugin.PluginsManager.InactiveFeature;
-
+import org.ametys.runtime.plugin.PluginsManager.InactivityCause;
 
 /**
  * SAX plugins' informations in order to be able to generate a plugin by file tree
@@ -43,14 +37,11 @@ public class PluginsGenerator extends AbstractGenerator
         contentHandler.startDocument();
         XMLUtils.startElement(contentHandler, "list");
         
-        // Get active features
-        Map<String, Collection<ActiveFeature>> activeFeatures = _getActiveFeatures();
-        
-        // Get inactive features
-        Map<String, Collection<InactiveFeature>> inactiveFeatures = _getInactiveFeatures();
+        Map<String, Plugin> plugins = PluginsManager.getInstance().getPlugins();
+        Map<String, Feature> activeFeatures = PluginsManager.getInstance().getFeatures();
+        Map<String, InactivityCause> inactiveFeatures = PluginsManager.getInstance().getInactiveFeatures();
 
-        // Loop on the list of plugins' groups (by name)
-        _saxPlugins(activeFeatures, inactiveFeatures);
+        _saxPlugins(plugins, activeFeatures, inactiveFeatures);
         
         // Extension points
         _saxExtensionPoints();
@@ -59,32 +50,31 @@ public class PluginsGenerator extends AbstractGenerator
         contentHandler.endDocument();
     }
     
-    private void _saxPlugins(Map<String, Collection<ActiveFeature>> activeFeatures, Map<String, Collection<InactiveFeature>> inactiveFeatures) throws SAXException
+    private void _saxPlugins(Map<String, Plugin> plugins, Map<String, Feature> activeFeatures, Map<String, InactivityCause> inactiveFeatures) throws SAXException
     {
         XMLUtils.startElement(contentHandler, "plugins");
 
-        Set<String> pluginNames = new HashSet<>();
-        pluginNames.addAll(inactiveFeatures.keySet());
-        pluginNames.addAll(activeFeatures.keySet());
-
-        for (String pluginName : pluginNames)
+        for (String pluginName : plugins.keySet())
         {
             AttributesImpl psAttrs = new AttributesImpl();
             psAttrs.addCDATAAttribute("name", pluginName);
             XMLUtils.startElement(contentHandler, "plugin", psAttrs);
             
-            Collection<ActiveFeature> active = activeFeatures.get(pluginName);
-            if (active != null)
+            Plugin plugin = plugins.get(pluginName);
+            Map<String, Feature> features = plugin.getFeatures();
+            
+            for (String featureId : features.keySet())
             {
-                for (ActiveFeature feature : active)
+                Feature feature = features.get(featureId);
+                
+                if (activeFeatures.containsKey(featureId))
                 {
                     AttributesImpl pAttrs = new AttributesImpl();
                     pAttrs.addCDATAAttribute("name", feature.getFeatureName());
                     XMLUtils.startElement(contentHandler, "feature", pAttrs);
                     
-                    Map<String, Collection<String>> exts = feature.getExtensions();
-                    
-                    // Récupérer les extensions du plugin courant (par point d'extension)
+                    // Get extension by extension point
+                    Map<String, Collection<String>> exts = feature.getExtensionsIds();
                     for (String extensionPoint : exts.keySet())
                     {
                         AttributesImpl epAttrs = new AttributesImpl();
@@ -100,25 +90,22 @@ public class PluginsGenerator extends AbstractGenerator
                         XMLUtils.endElement(contentHandler, "extensionPoint");
                     }
     
-                    // Récupérer les composants du plugin courant
-                    for (String component : feature.getComponents())
+                    // Get components
+                    for (String component : feature.getComponentsIds().keySet())
                     {
                         XMLUtils.createElement(contentHandler, "component", component);
                     }
     
                     XMLUtils.endElement(contentHandler, "feature");
                 }
-            }            
-                
-            Collection<InactiveFeature> inactive = inactiveFeatures.get(pluginName);
-            if (inactive != null)
-            {
-                for (InactiveFeature plugin : inactive)
+                else
                 {
+                    InactivityCause cause = inactiveFeatures.get(featureId);
+                    
                     AttributesImpl pAttrs = new AttributesImpl();
-                    pAttrs.addCDATAAttribute("name", plugin.getFeatureName());
+                    pAttrs.addCDATAAttribute("name", feature.getFeatureName());
                     pAttrs.addCDATAAttribute("inactive", "true");
-                    pAttrs.addCDATAAttribute("cause", plugin.getCause().toString());
+                    pAttrs.addCDATAAttribute("cause", cause.toString());
                     XMLUtils.createElement(contentHandler, "feature", pAttrs);
                 }
             }
@@ -133,66 +120,13 @@ public class PluginsGenerator extends AbstractGenerator
     {
         XMLUtils.startElement(contentHandler, "extension-points");
         
-        for (String extPoint : PluginsManager.getInstance().getExtensionPoints())
+        for (String extPoint : PluginsManager.getInstance().getExtensionPoints().keySet())
         {
             AttributesImpl ePAttrs = new AttributesImpl();
             ePAttrs.addCDATAAttribute("id", extPoint);
             XMLUtils.createElement(contentHandler, "extension-point", ePAttrs);
         }
         
-        for (String extPoint : PluginsManager.getInstance().getSingleExtensionPoints())
-        {
-            AttributesImpl ePAttrs = new AttributesImpl();
-            ePAttrs.addCDATAAttribute("id", extPoint);
-            XMLUtils.createElement(contentHandler, "single-extension-point", ePAttrs);
-        }
-        
         XMLUtils.endElement(contentHandler, "extension-points");
-    }
-    
-    private Map<String, Collection<ActiveFeature>> _getActiveFeatures()
-    {
-        Map<String, Collection<ActiveFeature>> activeFeatures = new HashMap<>();
-        
-        for (ActiveFeature feature : PluginsManager.getInstance().getActiveFeatures().values())
-        {
-            String pluginName = feature.getPluginName();
-            
-            Collection<ActiveFeature> features = activeFeatures.get(pluginName);
-            
-            if (features == null)
-            {
-                features = new ArrayList<>();
-                activeFeatures.put(pluginName, features);
-            }
-            
-            features.add(feature);
-        }
-        
-        return activeFeatures;
-    }
-    
-    private Map<String, Collection<InactiveFeature>> _getInactiveFeatures()
-    {
-        Map<String, Collection<InactiveFeature>> inactiveFeatures = new HashMap<>();
-        Map<String, InactiveFeature> inactive = PluginsManager.getInstance().getInactiveFeatures();
-        
-        for (String featureId : inactive.keySet())
-        {
-            InactiveFeature feature = inactive.get(featureId);
-            String pluginName = feature.getPluginName();
-            
-            Collection<InactiveFeature> features = inactiveFeatures.get(pluginName);
-            
-            if (features == null)
-            {
-                features = new ArrayList<>();
-                inactiveFeatures.put(pluginName, features);
-            }
-            
-            features.add(feature);
-        }
-        
-        return inactiveFeatures;
     }
 }

@@ -38,7 +38,7 @@ public class I18nTestCase extends AbstractRuntimeTestCase
     @Override
     protected void setUp() throws Exception
     {
-        _startApplication("test/environments/runtimes/runtime3.xml", "test/environments/configs/config1.xml", "test/environments/webapp2");
+        _startApplication("test/environments/runtimes/runtime01.xml", "test/environments/configs/config1.xml", "test/environments/webapp2");
         
         ServiceManager manager = Init.getPluginServiceManager();
         _i18nUtils = (I18nUtils) manager.lookup(I18nUtils.ROLE);

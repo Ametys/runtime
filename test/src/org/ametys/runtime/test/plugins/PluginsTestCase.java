@@ -19,9 +19,8 @@ import java.util.Map;
 
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.plugin.ExtensionPoint;
+import org.ametys.runtime.plugin.Feature;
 import org.ametys.runtime.plugin.PluginsManager;
-import org.ametys.runtime.plugin.PluginsManager.ActiveFeature;
-import org.ametys.runtime.plugin.PluginsManager.InactiveFeature;
 import org.ametys.runtime.plugin.PluginsManager.InactivityCause;
 import org.ametys.runtime.test.AbstractRuntimeTestCase;
 import org.ametys.runtime.test.CocoonWrapper;
@@ -38,7 +37,7 @@ public class PluginsTestCase extends AbstractRuntimeTestCase
      */
     public void testInit() throws Exception
     {
-        CocoonWrapper cocoon = _startApplication("test/environments/runtimes/runtime2.xml", "test/environments/configs/config1.xml", "test/environments/webapp1");
+        CocoonWrapper cocoon = _startApplication("test/environments/runtimes/runtime01.xml", "test/environments/configs/config1.xml", "test/environments/webapp1");
         
         assertTrue(Init.isOk());
         
@@ -51,7 +50,7 @@ public class PluginsTestCase extends AbstractRuntimeTestCase
      */
     public void testLocation() throws Exception
     {
-        CocoonWrapper cocoon = _startApplication("test/environments/runtimes/runtime10.xml", "test/environments/configs/config1.xml", "test/environments/webapp1");
+        CocoonWrapper cocoon = _startApplication("test/environments/runtimes/runtime02.xml", "test/environments/configs/config1.xml", "test/environments/webapp1");
         
         assertTrue(PluginsManager.getInstance().getPluginNames().contains("test"));
         assertEquals("location1", PluginsManager.getInstance().getPluginLocation("test").getParentFile().getName());
@@ -71,11 +70,11 @@ public class PluginsTestCase extends AbstractRuntimeTestCase
 
         assertNotNull(Config.getInstance());
         
-        assertTrue(PluginsManager.getInstance().getSingleExtensionPoints().contains("sep-test"));
+        assertTrue(PluginsManager.getInstance().getComponents().contains("sep-test"));
                 
         assertTrue(Init.getPluginServiceManager().lookup("sep-test") instanceof TestSingleExtensionPoint);
         
-        assertTrue(PluginsManager.getInstance().getExtensionPoints().contains("ep-test"));
+        assertTrue(PluginsManager.getInstance().getExtensionPoints().containsKey("ep-test"));
         
         ExtensionPoint testEP = (ExtensionPoint) Init.getPluginServiceManager().lookup("ep-test");
         assertEquals(1, testEP.getExtensionsIds().size());
@@ -83,7 +82,7 @@ public class PluginsTestCase extends AbstractRuntimeTestCase
         assertNotNull(ext);
         assertNull(ext.getContext());
         
-        assertTrue(PluginsManager.getInstance().getExtensionPoints().contains("ep-component-test"));
+        assertTrue(PluginsManager.getInstance().getExtensionPoints().containsKey("ep-component-test"));
         
         ExtensionPoint testCEP = (ExtensionPoint) Init.getPluginServiceManager().lookup("ep-component-test");
         assertEquals(1, testCEP.getExtensionsIds().size());
@@ -102,26 +101,26 @@ public class PluginsTestCase extends AbstractRuntimeTestCase
     {
         CocoonWrapper cocoon = _startApplication("test/environments/runtimes/runtime12.xml", "test/environments/configs/config1.xml", "test/environments/webapp1");
         
-        Map<String, ActiveFeature> activeFeatures = PluginsManager.getInstance().getActiveFeatures();
-        Map<String, InactiveFeature> inactiveFeatures = PluginsManager.getInstance().getInactiveFeatures();
+        Map<String, Feature> activeFeatures = PluginsManager.getInstance().getFeatures();
+        Map<String, InactivityCause> inactiveFeatures = PluginsManager.getInstance().getInactiveFeatures();
 
         assertTrue(activeFeatures.containsKey("test/test-feature2"));
         assertTrue(activeFeatures.containsKey("test/test-feature3"));
         
         assertFalse(activeFeatures.containsKey("test/test-feature"));
         assertTrue(inactiveFeatures.containsKey("test/test-feature"));
-        InactiveFeature feature = inactiveFeatures.get("test/test-feature");
-        assertEquals(feature.getCause(), InactivityCause.DEPENDENCY);
+        InactivityCause cause = inactiveFeatures.get("test/test-feature");
+        assertEquals(cause, InactivityCause.DEPENDENCY);
         
         assertFalse(activeFeatures.containsKey("test/test-feature4"));
         assertTrue(inactiveFeatures.containsKey("test/test-feature4"));
-        feature = inactiveFeatures.get("test/test-feature4");
-        assertEquals(feature.getCause(), InactivityCause.SINGLE);
+        cause = inactiveFeatures.get("test/test-feature4");
+        assertEquals(cause, InactivityCause.COMPONENT);
         
         assertFalse(activeFeatures.containsKey("test/test-feature5"));
         assertTrue(inactiveFeatures.containsKey("test/test-feature5"));
-        feature = inactiveFeatures.get("test/test-feature5");
-        assertEquals(feature.getCause(), InactivityCause.EXCLUDED);
+        cause = inactiveFeatures.get("test/test-feature5");
+        assertEquals(cause, InactivityCause.EXCLUDED);
         
         cocoon.dispose();
     }

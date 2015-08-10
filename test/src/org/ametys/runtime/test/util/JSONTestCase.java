@@ -40,7 +40,7 @@ public class JSONTestCase extends AbstractRuntimeTestCase
     @Override
     protected void setUp() throws Exception
     {
-        _startApplication("test/environments/runtimes/runtime3.xml", "test/environments/configs/config1.xml", "test/environments/webapp2");
+        _startApplication("test/environments/runtimes/runtime01.xml", "test/environments/configs/config1.xml", "test/environments/webapp2");
         
         ServiceManager manager = Init.getPluginServiceManager();
         _jsonUtils = (JSONUtils) manager.lookup(JSONUtils.ROLE);
@@ -90,7 +90,7 @@ public class JSONTestCase extends AbstractRuntimeTestCase
         String expectedJson = "{\"label\":\"label\",\"default-description\":\"description\",\"icon-small\":\"/plugins/core/resources/img/icon_small.gif\",\"icon-medium\":\"/plugins/core/resources/img/icon_medium.gif\",\"icon-large\":\"/plugins/core/resources/img/icon_large.gif\",\"child\":{\"id\":\"child-1\",\"label\":\"label\"}}";
         String json = _jsonUtils.convertObjectToJson(parameters);
         assertNotNull(json);
-        assertEquals(json, expectedJson);
+        assertEquals(expectedJson, json);
         
         _cocoon._leaveEnvironment(environmentInformation);
     }

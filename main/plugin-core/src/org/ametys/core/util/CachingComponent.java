@@ -21,7 +21,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
+
+import org.ametys.runtime.plugin.component.AbstractLogEnabled;
 
 /**
  * Simple memory cache with a thread clearing the cache every day.

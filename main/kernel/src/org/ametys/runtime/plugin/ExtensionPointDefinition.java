@@ -25,17 +25,20 @@ public class ExtensionPointDefinition
     Configuration _configuration;
     String _pluginName;
     String _id;
+    boolean _safe;
     
     /**
      * Constructor.
      * @param id the extension point's id
      * @param configuration the {@link Configuration}.
      * @param pluginName the plugin containing the extension point definition.
+     * @param safe if the extension point is to be loaded in safe mode.
      */
-    public ExtensionPointDefinition(String id, Configuration configuration, String pluginName)
+    public ExtensionPointDefinition(String id, Configuration configuration, String pluginName, boolean safe)
     {
         _id = id;
         _configuration = configuration;
         _pluginName = pluginName;
+        _safe = safe;
     }
 }

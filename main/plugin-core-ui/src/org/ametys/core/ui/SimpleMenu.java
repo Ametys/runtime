@@ -26,7 +26,6 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.cocoon.util.log.SLF4JLoggerAdapter;
 import org.slf4j.LoggerFactory;
 
 import org.ametys.core.util.I18nizableText;
@@ -58,8 +57,6 @@ public class SimpleMenu extends StaticClientSideElement implements MenuClientSid
     
     List<ClientSideElement> _referencedClientSideElement;
     
-    
-    
     @Override
     public void service(ServiceManager smanager) throws ServiceException
     {
@@ -71,20 +68,13 @@ public class SimpleMenu extends StaticClientSideElement implements MenuClientSid
     @Override
     public void configure(Configuration configuration) throws ConfigurationException
     {
-        try
-        {
-            _menuItemManager = new ThreadSafeComponentManager<>();
-            _menuItemManager.enableLogging(new SLF4JLoggerAdapter(LoggerFactory.getLogger("cms.plugin.threadsafecomponent")));
-            _menuItemManager.service(_smanager);
-            
-            _galleryItemManager = new ThreadSafeComponentManager<>();
-            _galleryItemManager.enableLogging(new SLF4JLoggerAdapter(LoggerFactory.getLogger("cms.plugin.threadsafecomponent")));
-            _galleryItemManager.service(_smanager);
-        }
-        catch (ServiceException e)
-        {
-            throw new ConfigurationException("Unable to initialize local client side element manager", e);
-        }
+        _menuItemManager = new ThreadSafeComponentManager<>();
+        _menuItemManager.setLogger(LoggerFactory.getLogger("cms.plugin.threadsafecomponent"));
+        _menuItemManager.service(_smanager);
+        
+        _galleryItemManager = new ThreadSafeComponentManager<>();
+        _galleryItemManager.setLogger(LoggerFactory.getLogger("cms.plugin.threadsafecomponent"));
+        _galleryItemManager.service(_smanager);
         
         super.configure(configuration);
         
@@ -262,20 +252,13 @@ public class SimpleMenu extends StaticClientSideElement implements MenuClientSid
             else
             {
                 String id = itemConfig.getAttribute("id");
-                try
-                {
-                    DefaultConfiguration conf = new DefaultConfiguration("extension");
-                    conf.setAttribute("id", id);
-                    conf.addChild(itemConfig.getChild("class"));
-                    
-                    _galleryItemManager.addComponent(_pluginName, null, id, StaticClientSideElement.class, conf);
-                    
-                    galleryGroup.addItem(new UnresolvedItem(id, true));
-                }
-                catch (ComponentException e)
-                {
-                    throw new ConfigurationException("Unable to configure local client side element of id " + id, e);
-                }
+                DefaultConfiguration conf = new DefaultConfiguration("extension");
+                conf.setAttribute("id", id);
+                conf.addChild(itemConfig.getChild("class"));
+                
+                _galleryItemManager.addComponent(_pluginName, null, id, StaticClientSideElement.class, conf);
+                
+                galleryGroup.addItem(new UnresolvedItem(id, true));
             }
         }
         
@@ -303,36 +286,30 @@ public class SimpleMenu extends StaticClientSideElement implements MenuClientSid
                 else
                 {
                     String id = itemConfig.getAttribute("id");
-                    try
+                    DefaultConfiguration conf = new DefaultConfiguration("extension");
+                    conf.setAttribute("id", id);
+                    conf.addChild(itemConfig.getChild("class"));
+                    
+                    if (itemConfig.getChild("menu-items", false) != null || itemConfig.getChild("gallery-item", false) != null)
                     {
-                        DefaultConfiguration conf = new DefaultConfiguration("extension");
-                        conf.setAttribute("id", id);
-                        conf.addChild(itemConfig.getChild("class"));
+                        if (itemConfig.getChild("menu-items", false) != null)
+                        {
+                            conf.addChild(itemConfig.getChild("menu-items"));
+                        }
                         
-                        if (itemConfig.getChild("menu-items", false) != null || itemConfig.getChild("gallery-item", false) != null)
+                        if (itemConfig.getChild("gallery-item", false) != null)
                         {
-                            if (itemConfig.getChild("menu-items", false) != null)
-                            {
-                                conf.addChild(itemConfig.getChild("menu-items"));
-                            }
-                            
-                            if (itemConfig.getChild("gallery-item", false) != null)
-                            {
-                                conf.addChild(itemConfig.getChild("gallery-item"));
-                            }
-                            
-                            _menuItemManager.addComponent(_pluginName, null, id, SimpleMenu.class, conf);
+                            conf.addChild(itemConfig.getChild("gallery-item"));
                         }
-                        else
-                        {
-                            _menuItemManager.addComponent(_pluginName, null, id, StaticClientSideElement.class, conf);
-                        }
-                        _unresolvedMenuItems.add(new UnresolvedItem(id, true, isPrimary));
+                        
+                        _menuItemManager.addComponent(_pluginName, null, id, SimpleMenu.class, conf);
                     }
-                    catch (ComponentException e)
+                    else
                     {
-                        throw new ConfigurationException("Unable to configure local client side element of id " + id, e);
+                        _menuItemManager.addComponent(_pluginName, null, id, StaticClientSideElement.class, conf);
                     }
+                    
+                    _unresolvedMenuItems.add(new UnresolvedItem(id, true, isPrimary));
                 }
             }
         }        

@@ -16,6 +16,7 @@
 package org.ametys.runtime.plugin;
 
 import java.io.IOException;
+import java.util.Map;
 
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.generation.AbstractGenerator;
@@ -25,7 +26,7 @@ import org.xml.sax.SAXException;
 
 import org.ametys.runtime.servlet.RuntimeConfig;
 import org.ametys.runtime.workspace.WorkspaceManager;
-import org.ametys.runtime.workspace.WorkspaceManager.InactiveWorkspace;
+import org.ametys.runtime.workspace.WorkspaceManager.InactivityCause;
 
 /**
  * SAXes the data for the workspace tree
@@ -52,13 +53,16 @@ public class WorkspacesGenerator extends AbstractGenerator
         {
             XMLUtils.createElement(contentHandler, "workspace", workspaceName);
         }
-
-        for (InactiveWorkspace workspace : WorkspaceManager.getInstance().getInactiveWorkspaces().values())
+        
+        Map<String, InactivityCause> inactiveWorkspaces = WorkspaceManager.getInstance().getInactiveWorkspaces();
+        for (String workspace : inactiveWorkspaces.keySet())
         {
+            InactivityCause inactivityCause = inactiveWorkspaces.get(workspace);
+            
             AttributesImpl attrs = new AttributesImpl();
             attrs.addCDATAAttribute("inactive", "true");
-            attrs.addCDATAAttribute("cause", workspace.getCause().toString());
-            XMLUtils.createElement(contentHandler, "workspace", attrs, workspace.getWorkspaceName());
+            attrs.addCDATAAttribute("cause", inactivityCause.toString());
+            XMLUtils.createElement(contentHandler, "workspace", attrs, workspace);
         }
         
         XMLUtils.endElement(contentHandler, "workspaces");

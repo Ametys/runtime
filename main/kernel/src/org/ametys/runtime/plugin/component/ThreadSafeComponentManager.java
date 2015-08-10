@@ -29,16 +29,13 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.logger.LogEnabled;
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.thread.SingleThreaded;
 import org.apache.cocoon.util.log.SLF4JLoggerAdapter;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 // Le code est initialement inspiré du ExcaliburComponentManager
@@ -68,12 +65,15 @@ public class ThreadSafeComponentManager<T> extends AbstractLogEnabled implements
     /** The Cocoon ServiceManager */
     protected ServiceManager _manager;
     
-    // Map<role, component>
-    Map<String, T> _components = new LinkedHashMap<>();
-
     /** The application context for components */
     Context _context;
 
+    // Map<role, component>
+    Map<String, T> _componentsInitializing = new HashMap<>();
+    
+    // Map<role, component>
+    private Map<String, T> _components = new LinkedHashMap<>();
+    
     /** Used to map roles to ComponentFactories */
     private Map<String, ComponentFactory> _componentFactories = Collections.synchronizedMap(new HashMap<String, ComponentFactory>());
     
@@ -83,7 +83,7 @@ public class ThreadSafeComponentManager<T> extends AbstractLogEnabled implements
     /** Is the Manager initialized? */
     private boolean _initialized;
     
-    public void service(ServiceManager manager) throws ServiceException
+    public void service(ServiceManager manager)
     {
         _manager = manager;
     }
@@ -123,15 +123,22 @@ public class ThreadSafeComponentManager<T> extends AbstractLogEnabled implements
         
         T component = _components.get(role);
         
-        if (component == null && _componentFactories.containsKey(role))
+        if (component == null)
         {
-            try
+            if (_componentsInitializing.containsKey(role))
             {
-                component = _componentFactories.get(role).newInstance();
+                return _componentsInitializing.get(role);
             }
-            catch (Exception e)
+            else if (_componentFactories.containsKey(role))
             {
-                throw new ComponentException(role, "Unable to initialize component " + role, e);
+                try
+                {
+                    component = _componentFactories.get(role).newInstance();
+                }
+                catch (Exception e)
+                {
+                    throw new ComponentException(role, "Unable to initialize component " + role, e);
+                }
             }
             
             _components.put(role, component);
@@ -197,7 +204,8 @@ public class ThreadSafeComponentManager<T> extends AbstractLogEnabled implements
                             getLogger().debug("Instanciating component for role " + role);
                         }
                         
-                        _components.put(role, factory.newInstance());
+                        T component = factory.newInstance();
+                        _components.put(role, component);
                     }
                     catch (Exception e)
                     {
@@ -253,41 +261,35 @@ public class ThreadSafeComponentManager<T> extends AbstractLogEnabled implements
      * @param role the role name for the new component.
      * @param component the class of this component.
      * @param configuration the configuration for this component.
-     * @throws ComponentException if an error occured setting up component 
      */
-    public void addComponent(String pluginName, String featureName, String role, Class<? extends T> component, Configuration configuration) throws ComponentException
+    public void addComponent(String pluginName, String featureName, String role, Class<? extends T> component, Configuration configuration)
+    {
+        if (Poolable.class.isAssignableFrom(component) || SingleThreaded.class.isAssignableFrom(component))
+        {
+            throw new IllegalArgumentException("The class " + component.getName() + " implements SingleThreaded, or Poolable, which is not allowed by this ComponentManager");
+        }
+
+        // get the factory to use to create the instance of the Component.
+        ComponentFactory factory = getComponentFactory(pluginName, featureName, role, component, configuration);
+        
+        _addComponent(role, factory);
+    }
+    
+    void _addComponent(String role, ComponentFactory factory)
     {
         if (_initialized)
         {
-            throw new ComponentException(role, "Cannot add components to an initialized ComponentManager");
+            throw new IllegalStateException("Cannot add components to an initialized ComponentManager");
         }
         
         if (_componentFactories.containsKey(role))
         {
-            throw new ComponentException(role, "A component for the role '" + role + "' is already registered on this ComponentManager.");
+            throw new IllegalArgumentException("A component for the role '" + role + "' is already registered on this ComponentManager.");
         }
 
-        try
-        {
-            if (getLogger().isDebugEnabled())
-            {
-                getLogger().debug("Attempting to get Handler for role [" + role + "]");
-            }
+        getLogger().debug("Registering factory for role [{}]", role);
 
-            if (Poolable.class.isAssignableFrom(component) || SingleThreaded.class.isAssignableFrom(component))
-            {
-                throw new ServiceException(role, "The class " + component.getName() + "  implements SingleThreaded, or Poolable, which is not allowed by this ComponentManager");
-            }
-
-            // get the factory to use to create the instance of the Component.
-            ComponentFactory factory = getComponentFactory(pluginName, featureName, role, component, configuration);
-
-            _componentFactories.put(role, factory);
-        }
-        catch (Exception e)
-        {
-            throw new ComponentException(role, "Could not set up component", e);
-        }
+        _componentFactories.put(role, factory);
     }
     
     ComponentFactory getComponentFactory(String pluginName, String featureName, String role, Class<? extends T> componentClass, Configuration configuration)
@@ -298,17 +300,11 @@ public class ThreadSafeComponentManager<T> extends AbstractLogEnabled implements
     class ComponentFactory
     {
         String _pluginName;
-
         String _featureName;
-
         String _role;
-
         Class<? extends T> _componentClass;
-
         Configuration _configuration;
-
         ServiceManager _serviceManager;
-
         Logger _logger;
 
         ComponentFactory(String pluginName, String featureName, String role, Class<? extends T> componentClass, Configuration configuration, ServiceManager serviceManager, Logger logger)
@@ -330,33 +326,18 @@ public class ThreadSafeComponentManager<T> extends AbstractLogEnabled implements
             {
                 _logger.debug("ComponentFactory creating new instance of " + _componentClass.getName() + ".");
             }
-
+            
+            String logger = _configuration == null ? null : _configuration.getAttribute("logger", null);
+            logger = logger != null ? logger : _componentClass.getName();
+            
             if (component instanceof LogEnabled)
             {
-                if (_configuration == null)
-                {
-                    ContainerUtil.enableLogging(component, new SLF4JLoggerAdapter(LoggerFactory.getLogger(_componentClass.getName())));
-                }
-                else
-                {
-                    String logger = _configuration.getAttribute("logger", null);
-                    if (logger == null)
-                    {
-                        if (_logger.isDebugEnabled())
-                        {
-                            _logger.debug("no logger attribute available, using standard logger");
-                        }
-                        ContainerUtil.enableLogging(component, new SLF4JLoggerAdapter(LoggerFactory.getLogger(_componentClass.getName())));
-                    }
-                    else
-                    {
-                        if (_logger.isDebugEnabled())
-                        {
-                            _logger.debug("logger attribute is " + logger);
-                        }
-                        ContainerUtil.enableLogging(component, new SLF4JLoggerAdapter(LoggerFactory.getLogger(logger)));
-                    }
-                }
+                ((LogEnabled) component).setLogger(LoggerFactory.getLogger(logger));
+            }
+
+            if (component instanceof org.apache.avalon.framework.logger.LogEnabled)
+            {
+                ContainerUtil.enableLogging(component, new SLF4JLoggerAdapter(LoggerFactory.getLogger(logger)));
             }
 
             if (component instanceof Contextualizable)
@@ -364,16 +345,9 @@ public class ThreadSafeComponentManager<T> extends AbstractLogEnabled implements
                 ContainerUtil.contextualize(component, _context);
             }
 
-            // Infos spéciales plugins
-            // Tout ça pour ça ...
             if (component instanceof PluginAware)
             {
                 ((PluginAware) component).setPluginInfo(_pluginName, _featureName);
-            }
-
-            if (component instanceof Serviceable)
-            {
-                ContainerUtil.service(component, _serviceManager);
             }
             
             return component;
@@ -381,6 +355,8 @@ public class ThreadSafeComponentManager<T> extends AbstractLogEnabled implements
         
         void configureAndStart(T component) throws Exception
         {
+            ContainerUtil.service(component, _serviceManager);
+            
             ContainerUtil.configure(component, _configuration);
 
             if (component instanceof Parameterizable)
@@ -398,8 +374,12 @@ public class ThreadSafeComponentManager<T> extends AbstractLogEnabled implements
         {
             T component = instanciate();
             
+            _componentsInitializing.put(_role, component);
+            
             configureAndStart(component);
 
+            _componentsInitializing.remove(_role);
+            
             return component;
         }
     }

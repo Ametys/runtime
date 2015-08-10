@@ -24,7 +24,11 @@ public abstract class AbstractLogEnabled implements LogEnabled
 {
     private Logger _logger;
 
-    public Logger getLogger()
+    /**
+     * Returns the {@link Logger}.
+     * @return the {@link Logger}.
+     */
+    protected Logger getLogger()
     {
         return _logger;
     }

@@ -18,6 +18,8 @@ package org.ametys.runtime.config;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -27,7 +29,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.xml.transform.OutputKeys;
@@ -37,14 +38,12 @@ import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.cocoon.ProcessingException;
-import org.apache.cocoon.util.log.SLF4JLoggerAdapter;
 import org.apache.cocoon.xml.AttributesImpl;
 import org.apache.cocoon.xml.XMLUtils;
 import org.apache.commons.lang.BooleanUtils;
@@ -64,7 +63,6 @@ import org.ametys.runtime.parameter.ParameterCheckerParser;
 import org.ametys.runtime.parameter.ParameterHelper;
 import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
 import org.ametys.runtime.parameter.Validator;
-import org.ametys.runtime.plugin.PluginsManager;
 import org.ametys.runtime.plugin.component.ThreadSafeComponentManager;
 
 /**
@@ -72,12 +70,12 @@ import org.ametys.runtime.plugin.component.ThreadSafeComponentManager;
  */
 public final class ConfigManager implements Contextualizable, Serviceable, Initializable
 {
- // shared instance
+    /** the regular expression for ids */
+    public static final Pattern CONFIG_ID_PATTERN = Pattern.compile("[a-zA-Z][a-zA-Z0-9.\\-_]*");
+    
+    // shared instance
     private static ConfigManager __manager;
 
-    // the regular expression for ids
-    private static final Pattern __ID_PATTERN = Pattern.compile("[a-zA-Z][a-zA-Z0-9.\\-_]*");
-    
     // Logger for traces
     Logger _logger = LoggerFactory.getLogger(ConfigManager.class);
     
@@ -85,8 +83,8 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
     private ServiceManager _manager;
     private Context _context;
 
-    // Used parameters (Map<id, featureId>)
-    private Map<String, String> _usedParamsName;
+    // Used parameters
+    private Collection<String> _usedParamsName;
 
     // Declared parameters (Map<id, configuration>)
     private Map<String, ConfigParameterInfo> _declaredParams;
@@ -160,208 +158,159 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
     }
     
     @Override
-    public void initialize() throws Exception
+    public void initialize()
     {
-        _usedParamsName = new LinkedHashMap<>();
+        _usedParamsName = new ArrayList<>();
         _declaredParams = new LinkedHashMap<>();
         _params = new LinkedHashMap<>();
         _declaredParameterCheckers = new LinkedHashMap<>();
         _parameterCheckers = new LinkedHashMap<>();
         
         _validatorManager = new ThreadSafeComponentManager<>();
-        _validatorManager.enableLogging(new SLF4JLoggerAdapter(LoggerFactory.getLogger("runtime.plugin.threadsafecomponent")));
+        _validatorManager.setLogger(LoggerFactory.getLogger("runtime.plugin.threadsafecomponent"));
         _validatorManager.contextualize(_context);
         _validatorManager.service(_manager);
         
         _enumeratorManager = new ThreadSafeComponentManager<>();
-        _enumeratorManager.enableLogging(new SLF4JLoggerAdapter(LoggerFactory.getLogger("runtime.plugin.threadsafecomponent")));
+        _enumeratorManager.setLogger(LoggerFactory.getLogger("runtime.plugin.threadsafecomponent"));
         _enumeratorManager.contextualize(_context);
         _enumeratorManager.service(_manager);
         
         _parameterCheckerManager = new ThreadSafeComponentManager<>();
-        _parameterCheckerManager.enableLogging(new SLF4JLoggerAdapter(LoggerFactory.getLogger("runtime.plugin.threadsafecomponent")));
+        _parameterCheckerManager.setLogger(LoggerFactory.getLogger("runtime.plugin.threadsafecomponent"));
         _parameterCheckerManager.contextualize(_context);
         _parameterCheckerManager.service(_manager);
     }
-
+    
     /**
-     * Registers a new available parameter.<br>
+     * Registers new available parameters.<br>
      * The addConfig() method allows to select which ones are actually useful.
      * @param pluginName the name of the plugin defining the parameters
-     * @param configuration configuration of the plugin file
-     * @throws ConfigurationException if the configuration is not correct
+     * @param parameters the config parameters definition
+     * @param paramCheckers the parameters checkers definition
      */
-    public void addGlobalConfig(String pluginName, Configuration configuration) throws ConfigurationException
+    public void addGlobalConfig(String pluginName, Map<String, ConfigParameterInfo> parameters, Map<String, ConfigParameterInfo> paramCheckers)
     {
         if (_logger.isDebugEnabled())
         {
-            _logger.debug("Adding parameters and parameters checkers");
+            _logger.debug("Adding parameters and parameters checkers for plugin " + pluginName);
         }
 
-        Configuration configConfiguration = configuration.getChild("config");
-        
-        Configuration[] parameterConfigurations = configConfiguration.getChildren("param");
-        for (Configuration parameterConfiguration : parameterConfigurations)
+        for (String id : parameters.keySet())
         {
-            String id = parameterConfiguration.getAttribute("id", null);
-            
-            if (id == null)
-            {
-                throw new ConfigurationException("The mandatory attribute 'id' is missing on the config tag, in plugin '" + pluginName + "'", configuration);
-            }
-
-            Matcher idMatcher = __ID_PATTERN.matcher(id);
-            if (!idMatcher.matches())
-            {
-                throw new ConfigurationException("The id '" + id + "' does not respect the regular expression '" + __ID_PATTERN + "'");
-            }
+            ConfigParameterInfo info = parameters.get(id);
             
             // Check if the parameter is not already declared
             if (_declaredParams.containsKey(id))
             {
-                throw new ConfigurationException("The parameter '" + id + "' is already declared. Parameters ids must be unique", configuration);
+                throw new IllegalArgumentException("The config parameter '" + id + "' is already declared. Parameters ids must be unique");
             }
 
-            // Add the new parameter to the list of unused parameters
-            _declaredParams.put(id, new ConfigParameterInfo(id, pluginName, parameterConfiguration));
+            // Add the new parameter to the list of declared parameters
+            _declaredParams.put(id, info);
 
             if (_logger.isDebugEnabled())
             {
                 _logger.debug("Parameter added: " + id);
             }
-        }            
-        if (_logger.isDebugEnabled())
-        {
-            _logger.debug(parameterConfigurations.length + " parameter(s) added");
         }
         
-        Configuration[] parameterCheckerConfigurations = configConfiguration.getChildren("param-checker");
-        for (Configuration paramCheckerConfiguration : parameterCheckerConfigurations)
+        if (_logger.isDebugEnabled())
         {
-            String id = paramCheckerConfiguration.getAttribute("id", null);
-            if (id == null)
+            _logger.debug(parameters.size() + " parameter(s) added");
+        }
+        
+        for (String id : paramCheckers.keySet())
+        {
+            ConfigParameterInfo info = paramCheckers.get(id);
+            
+            // Check if the parameter is not already declared
+            if (_declaredParams.containsKey(id))
             {
-                throw new ConfigurationException("The mandatory attribute 'id' is missing on the config tag, in plugin '" + pluginName + "'", configuration);
+                throw new IllegalArgumentException("The parameter checker '" + id + "' is already declared. Parameter checkers ids must be unique.");
             }
-            
-            Matcher idMatcher = __ID_PATTERN.matcher(id);
-            if (!idMatcher.matches())
-            {
-                throw new ConfigurationException("The id '" + id + "' does not respect the regular expression '" + __ID_PATTERN + "'");
-            }
-            
-            // Check if the parameter checker is not already declared
-            if (_declaredParameterCheckers.containsKey(id))
-            {
-                throw new ConfigurationException("The parameter checker '" + id + "' is already declared. Parameter checkers ids must be unique", configuration);
-            }
-            
-            // Add the new parameter to the list of the unused parameters
-            _declaredParameterCheckers.put(id, new ConfigParameterInfo(id, pluginName, paramCheckerConfiguration));
-            
+
+            // Add the new parameter to the list of declared parameters checkers
+            _declaredParameterCheckers.put(id, info);
+
             if (_logger.isDebugEnabled())
             {
                 _logger.debug("Parameter checker added: " + id);
             }
         }
+        
         if (_logger.isDebugEnabled())
         {
-            _logger.debug(parameterCheckerConfigurations.length + " parameter(s) added");
+            _logger.debug(paramCheckers.size() + " parameter checker(s) added");
         }
     }
 
     /**
      * Registers a new parameter or references a globalConfig parameter.<br>
-     * @param pluginName the name of the plugin defining the parameters
-     * @param featureName the name of the feature defining the parameters
-     * @param configuration configuration of the plugin file
-     * @throws ConfigurationException if the configuration is not correct
+     * @param featureId the id of the feature defining the parameters
+     * @param parameters the config parameters definition
+     * @param parametersReferences references to already defined parameters
+     * @param paramCheckers the parameters checkers definition
      */
-    public void addConfig(String pluginName, String featureName, Configuration configuration) throws ConfigurationException
+    public void addConfig(String featureId, Map<String, ConfigParameterInfo> parameters, Collection<String> parametersReferences, Map<String, ConfigParameterInfo> paramCheckers)
     {
         if (_logger.isDebugEnabled())
         {
-            _logger.debug("Selecting parameters");
+            _logger.debug("Selecting parameters for feature " + featureId);
         }
 
-        Configuration configConfiguration = configuration.getChild("config");
-        
-        Configuration[] parametersConfiguration = configConfiguration.getChildren("param");
-        for (Configuration parameterConfiguration : parametersConfiguration)
+        for (String id : parameters.keySet())
         {
-            String id = parameterConfiguration.getAttribute("id", null);
-            if (id == null)
-            {
-                throw new ConfigurationException("The mandatory attribute 'id' is missing on the config tag, in feature '" + pluginName + "/" + featureName + "'", configuration);
-            }
+            ConfigParameterInfo info = parameters.get(id);
             
-            Matcher idMatcher = __ID_PATTERN.matcher(id);
-            if (!idMatcher.matches())
-            {
-                throw new ConfigurationException("The id '" + id + "' does not respect the regular expression '" + __ID_PATTERN + "'");
-            }
-            
-            // Check the parameter is not already declared
+            // Check if the parameter is not already declared
             if (_declaredParams.containsKey(id))
             {
-                throw new ConfigurationException("The parameter '" + id + "' is already declared. Parameters ids must be unique", configuration);
+                throw new IllegalArgumentException("The config parameter '" + id + "' is already declared. Parameters ids must be unique");
             }
 
-            _declaredParams.put(id, new ConfigParameterInfo(id, pluginName, parameterConfiguration));
-            _usedParamsName.put(id, pluginName + PluginsManager.FEATURE_ID_SEPARATOR + featureName);
+            // Add the new parameter to the list of unused parameters
+            _declaredParams.put(id, info);
+            _usedParamsName.add(id);
+
+            if (_logger.isDebugEnabled())
+            {
+                _logger.debug("Parameter added: " + id);
+            }
         }
         
-        Configuration[] referenceParametersConfiguration = configConfiguration.getChildren("param-ref");
-        for (Configuration refeternceParameterConfiguration : referenceParametersConfiguration)
-        {
-            String id = refeternceParameterConfiguration.getAttribute("id", null);
-           
-            if (id == null)
-            {
-                throw new ConfigurationException("The mandatory attribute 'id' is missing on the config tag, in feature '" + pluginName + "/" + featureName + "'", configuration);
-            }
-
-            Matcher idMatcher = __ID_PATTERN.matcher(id);
-            if (!idMatcher.matches())
-            {
-                throw new ConfigurationException("The id '" + id + "' does not respect the regular expression '" + __ID_PATTERN + "'");
-            }
-            
-            _usedParamsName.put(id, pluginName + PluginsManager.FEATURE_ID_SEPARATOR + featureName);
-        }
-
         if (_logger.isDebugEnabled())
         {
-            _logger.debug(parametersConfiguration.length + referenceParametersConfiguration.length + " parameter(s) selected.");
+            _logger.debug(parameters.size() + " parameter(s) added");
         }
-
-        Configuration[] parameterCheckersConfiguration = configConfiguration.getChildren("param-checker");
-        for (Configuration parameterCheckerConfig : parameterCheckersConfiguration)
+        
+        for (String id : parametersReferences)
         {
-            String id = parameterCheckerConfig.getAttribute("id", null);
+            _usedParamsName.add(id);
+        }
+        
+        for (String id : paramCheckers.keySet())
+        {
+            ConfigParameterInfo info = paramCheckers.get(id);
             
-            if (id == null)
+            // Check if the parameter is not already declared
+            if (_declaredParams.containsKey(id))
             {
-                throw new ConfigurationException("The mandatory attribute 'id' is missing on the parameter checker, in feature '" + pluginName + "/" + featureName + "'", configuration);
-            }
-            
-            Matcher idMatcher = __ID_PATTERN.matcher(id);
-            if (!idMatcher.matches())
-            {
-                throw new ConfigurationException("The id '" + id + "' does not respect the regular expression '" + __ID_PATTERN + "'");
-            }
-            
-            // Check if the parameter checker is not already declared
-            if (_declaredParameterCheckers.containsKey(id))
-            {
-                throw new ConfigurationException("The parameter checker'" + id + "' is already declared. Parameters ids must be unique", configuration);
+                throw new IllegalArgumentException("The parameter checker '" + id + "' is already declared. Parameter checkers ids must be unique.");
             }
 
-            _declaredParameterCheckers.put(id, new ConfigParameterInfo(id, pluginName, parameterCheckerConfig));
+            // Add the new parameter to the list of unused parameters
+            _declaredParameterCheckers.put(id, info);
+
+            if (_logger.isDebugEnabled())
+            {
+                _logger.debug("Parameter checker added: " + id);
+            }
         }
+        
         if (_logger.isDebugEnabled())
         {
-            _logger.debug(parameterCheckersConfiguration.length + " parameter checker(s) added.");
+            _logger.debug(paramCheckers.size() + " parameter checker(s) added");
         }
     }
 
@@ -391,7 +340,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         }
         
         ConfigParameterParser configParamParser = new ConfigParameterParser(_enumeratorManager, _validatorManager);
-        for (String id : _usedParamsName.keySet())
+        for (String id : _usedParamsName)
         {
             // Check if the parameter is not already used
             if (_params.get(id) == null)

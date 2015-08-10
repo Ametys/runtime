@@ -110,22 +110,15 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
     
     public void configure(Configuration configuration) throws ConfigurationException
     {
-        try
-        {
-            _validatorManager = new ThreadSafeComponentManager<>();
-            _validatorManager.enableLogging(getLogger());
-            _validatorManager.contextualize(_context);
-            _validatorManager.service(_manager);
-            
-            _enumeratorManager = new ThreadSafeComponentManager<>();
-            _enumeratorManager.enableLogging(getLogger());
-            _enumeratorManager.contextualize(_context);
-            _enumeratorManager.service(_manager);
-        }
-        catch (ServiceException e)
-        {
-            throw new ConfigurationException("Unable to create local component managers", configuration, e);
-        }
+        _validatorManager = new ThreadSafeComponentManager<>();
+        _validatorManager.setLogger(getLogger());
+        _validatorManager.contextualize(_context);
+        _validatorManager.service(_manager);
+        
+        _enumeratorManager = new ThreadSafeComponentManager<>();
+        _enumeratorManager.setLogger(getLogger());
+        _enumeratorManager.contextualize(_context);
+        _enumeratorManager.service(_manager);
         
         _poolName = configuration.getChild("pool").getValue();
         _tableName = configuration.getChild("table").getValue("Users");

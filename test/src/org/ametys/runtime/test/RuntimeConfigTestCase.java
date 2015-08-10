@@ -37,80 +37,45 @@ public class RuntimeConfigTestCase extends AbstractRuntimeTestCase
      * RuntimeConfig test
      * @throws Exception if an error occurs
      */
-    public void testRuntimeConfig0() throws Exception
+    public void testRuntimeConfigFail() throws Exception
     {
-        try
-        {
-            _configureRuntime("test/environments/runtimes/runtime0.xml", "test/environments/webapp1");
-            fail("Must not have been validated");
-        }
-        catch (Exception ex)
-        {
-            // it is ok
-        }
+        // The file runtime00_syntax-error.xml is not valid against the schema
+        _configureRuntime("test/environments/runtimes/runtime00.xml", "test/environments/webapp1");
+        assertTrue("Must not have been validated", RuntimeConfig.getInstance().isSafeMode());
     }
     
     /**
      * RuntimeConfig test
      * @throws Exception if an error occurs
      */
-    public void testRuntimeConfig1() throws Exception
+    public void testRuntimeConfigOk() throws Exception
     {
-        _configureRuntime("test/environments/runtimes/runtime1.xml", "test/environments/webapp1");
-        
-        RuntimeConfig config = RuntimeConfig.getInstance();
-        assertEquals(config.getIncompleteConfigRedirectURL(), "cocoon://_admin-old/public/load-config.html?uri=admin-old/config/edit.html");
-        
-        assertEquals(config.getIncompleteConfigAllowedURLs().size(), 4);
-        assertTrue(config.getIncompleteConfigAllowedURLs().contains("_admin-old/public"));
-        
-        assertEquals(config.getDefaultWorkspace(), "myworkspace");
-        
-        assertEquals(config.getInitClassName(), null);
-        
-        assertEquals(config.getPluginsLocations().size(), 1);
-        assertTrue(config.getPluginsLocations().contains("plugins/"));
-        
-        assertEquals(config.getExtensionsPoints().size(), 5);
-        assertTrue(config.getExtensionsPoints().containsKey("org.ametys.core.right.RightsManager"));
-        assertEquals(config.getExtensionsPoints().get("org.ametys.core.right.RightsManager"), "org.ametys.plugins.core.right.DefaultProfileBased");
-        
-        assertEquals(config.getApplicationVersion(), null);
-        assertNull(config.getApplicationBuildDate());
-    }
-    
-    /**
-     * RuntimeConfig test
-     * @throws Exception if an error occurs
-     */
-    public void testRuntimeConfig2() throws Exception
-    {
-        _configureRuntime("test/environments/runtimes/runtime2.xml", "test/environments/webapp1");
+        _configureRuntime("test/environments/runtimes/runtime01.xml", "test/environments/webapp1");
         
         RuntimeConfig config = RuntimeConfig.getInstance();
         
         assertEquals(config.getIncompleteConfigRedirectURL(), "cocoon://_admin-old/public/load-config.html?uri=admin-old/config/edit.html");
         
-        assertEquals(config.getIncompleteConfigAllowedURLs().size(), 4);
+        assertEquals(4, config.getIncompleteConfigAllowedURLs().size(), 4);
         assertTrue(config.getIncompleteConfigAllowedURLs().contains("_admin-old/public"));
         
         assertEquals(config.getDefaultWorkspace(), "myworkspace");
         
         assertEquals(config.getInitClassName(), "org.ametys.runtime.test.Init");
         
-        assertEquals(config.getPluginsLocations().size(), 2);
+        assertEquals(2, config.getPluginsLocations().size());
         assertTrue(config.getPluginsLocations().contains("plugins/"));
         assertTrue(config.getPluginsLocations().contains("test"));
         
-        assertEquals(config.getExcludedFeatures().size(), 1);
+        assertEquals(1, config.getExcludedFeatures().size());
         assertTrue(config.getExcludedFeatures().contains("test"));
         
-        assertEquals(config.getExcludedWorkspaces().size(), 1);
+        assertEquals(1, config.getExcludedWorkspaces().size());
         assertTrue(config.getExcludedWorkspaces().contains("test"));
         
-        assertEquals(config.getExtensionsPoints().size(), 5);
-        assertTrue(config.getExtensionsPoints().containsKey("org.ametys.core.right.RightsManager"));
-        assertEquals(config.getExtensionsPoints().get("org.ametys.core.right.RightsManager"), "org.ametys.plugins.core.right.DefaultProfileBased");
+        assertEquals(6, config.getComponents().size());
+        assertTrue(config.getComponents().containsKey("org.ametys.core.right.RightsManager"));
+        assertEquals(config.getComponents().get("org.ametys.core.right.RightsManager"), "org.ametys.plugins.core.right.Basic");
         
         assertEquals(config.getApplicationVersion(), "2.0.1");
         Date date = config.getApplicationBuildDate();
@@ -127,7 +92,7 @@ public class RuntimeConfigTestCase extends AbstractRuntimeTestCase
      */
     public void testVersion() throws Exception
     {
-        CocoonWrapper cocoon = _startApplication("test/environments/runtimes/runtime2.xml", "test/environments/configs/config1.xml", "test/environments/webapp1");
+        CocoonWrapper cocoon = _startApplication("test/environments/runtimes/runtime01.xml", "test/environments/configs/config1.xml", "test/environments/webapp1");
         
         Map<String, String> headers = new HashMap<>();
         headers.put("authorization", "BASIC " + new String(Base64.encodeBase64("admin:admin".getBytes())));

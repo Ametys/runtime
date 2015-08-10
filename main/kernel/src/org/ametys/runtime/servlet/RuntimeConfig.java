@@ -36,13 +36,16 @@ public final class RuntimeConfig
 {
     // shared instance
     private static RuntimeConfig __config;
+    
+    private boolean _safeMode;
 
     private String _defaultWorkspace;
     private String _initClass;
     private final Collection<String> _pluginsLocations = new ArrayList<>();
+    private final Collection<String> _excludedPlugins = new ArrayList<>();
     private final Collection<String> _excludedFeatures = new ArrayList<>();
     private final Collection<String> _excludedWorkspaces = new ArrayList<>();
-    private final Map<String, String> _extensionsPoints = new HashMap<>();
+    private final Map<String, String> _components = new HashMap<>();
 
     private Logger _logger = LoggerFactory.getLogger(RuntimeConfig.class);
     
@@ -50,7 +53,7 @@ public final class RuntimeConfig
 
     private String _configRedirectURL;
 
-    private Collection<String> _configAllowedURLs;
+    private Collection<String> _configAllowedURLs = new ArrayList<>();
 
     private String _version;
     private Date _buildDate;
@@ -82,14 +85,14 @@ public final class RuntimeConfig
 
         return __config;
     }
-
+    
     /**
      * Configures the Runtime kernel.<br>
      * This method must be called <i>before</i> getting the RuntimConfig instance.<br><br>
      * <b>Warning : the implementation allows this method to be called twice or more. This is only to allow the Runtime to be re-started dynamically.<br>
      * Be aware that this can cause the application to become unstable.</b>
      * @param runtimeConf the Configuration of the Runtime kernel (ie the contents of the WEB-INF/param/runtime.xml file)
-     * @param externalConf the Configuration of external locations (ie the contents of the WEB-INF/param/external.xml file)
+     * @param externalConf the Configuration of external locations (ie the contents of the WEB-INF/param/external-locations.xml file)
      * @param contextPath the application context path
      */
     public static synchronized void configure(Configuration runtimeConf, Configuration externalConf, String contextPath)
@@ -98,20 +101,31 @@ public final class RuntimeConfig
         
         __config._contextPath = contextPath;
 
-        __config._initClass = runtimeConf.getChild("initClass").getValue(null);
-
-        __config._configureWorkspaces(runtimeConf.getChild("workspaces"));
-        __config._configurePlugins(runtimeConf.getChild("plugins"));
-        __config._configureExtensions(runtimeConf.getChild("extensions"));
-        __config._configureConfig(runtimeConf.getChild("incompleteConfig", false));
-        __config._configureApplication(runtimeConf.getChild("application"));
+        // runtimeConfig is null if the runtime.xml could not be read for any reason
+        if (runtimeConf != null)
+        {
+            __config._safeMode = false;
+            __config._initClass = runtimeConf.getChild("initClass").getValue(null);
+    
+            __config._configureWorkspaces(runtimeConf.getChild("workspaces"));
+            __config._configurePlugins(runtimeConf.getChild("plugins"));
+            __config._configureComponents(runtimeConf.getChild("components"));
+            __config._configureIncompleteConfig(runtimeConf.getChild("incompleteConfig", false));
+            __config._configureApplication(runtimeConf.getChild("application"));
+        }
+        else
+        {
+            __config._safeMode = true;
+            __config._pluginsLocations.add("plugins/");
+            __config._configureDefaultIncompleteConfig();
+        }
         
         if (externalConf != null)
         {
             __config._configureExternal(externalConf);
         }
     }
-
+    
     private void _configureWorkspaces(Configuration config)
     {
         _defaultWorkspace = config.getAttribute("default", null);
@@ -129,13 +143,23 @@ public final class RuntimeConfig
 
     private void _configurePlugins(Configuration config)
     {
-        for (Configuration excluded : config.getChild("exclude").getChildren("feature"))
+        for (Configuration excluded : config.getChild("exclude").getChildren("plugin"))
         {
             String plugin = excluded.getValue(null);
 
             if (plugin != null)
             {
-                _excludedFeatures.add(plugin);
+                _excludedPlugins.add(plugin);
+            }
+        }
+
+        for (Configuration excluded : config.getChild("exclude").getChildren("feature"))
+        {
+            String feature = excluded.getValue(null);
+
+            if (feature != null)
+            {
+                _excludedFeatures.add(feature);
             }
         }
 
@@ -157,7 +181,7 @@ public final class RuntimeConfig
 
     }
 
-    private void _configureExtensions(Configuration config)
+    private void _configureComponents(Configuration config)
     {
         for (Configuration extension : config.getChildren())
         {
@@ -166,28 +190,16 @@ public final class RuntimeConfig
 
             if (id != null)
             {
-                __config._extensionsPoints.put(point, id);
+                __config._components.put(point, id);
             }
         }
-
     }
 
-    private void _configureConfig(Configuration config)
+    private void _configureIncompleteConfig(Configuration config)
     {
-        _configAllowedURLs = new ArrayList<>();
-
         if (config == null)
         {
-            _configRedirectURL = "cocoon://_admin-old/public/load-config.html?uri=admin-old/config/edit.html";
-
-            _configAllowedURLs.add("_admin-old/public");
-            _configAllowedURLs.add("_admin-old/resources");
-            _configAllowedURLs.add("_admin-old/_plugins/admin-old/config");
-            _configAllowedURLs.add("_admin-old/plugins/admin-old/config");
-            _configAllowedURLs.add("_admin-old/plugins/core/jsfilelist");
-            _configAllowedURLs.add("_admin-old/plugins/core/cssfilelist");
-            _configAllowedURLs.add("_admin-old/_plugins/admin-old/config/edit.html"); // FIXME To remove
-
+            _configureDefaultIncompleteConfig();
             return;
         }
 
@@ -202,6 +214,19 @@ public final class RuntimeConfig
                 _configAllowedURLs.add(url);
             }
         }
+    }
+    
+    private void _configureDefaultIncompleteConfig()
+    {
+        _configRedirectURL = "cocoon://_admin-old/public/load-config.html?uri=admin-old/config/edit.html";
+
+        _configAllowedURLs.add("_admin-old/public");
+        _configAllowedURLs.add("_admin-old/resources");
+        _configAllowedURLs.add("_admin-old/_plugins/admin-old/config");
+        _configAllowedURLs.add("_admin-old/plugins/admin-old/config");
+        _configAllowedURLs.add("_admin-old/plugins/core/jsfilelist");
+        _configAllowedURLs.add("_admin-old/plugins/core/cssfilelist");
+        _configAllowedURLs.add("_admin-old/_plugins/admin-old/config/edit.html"); // FIXME To remove
     }
 
     private void _configureApplication(Configuration config)
@@ -264,6 +289,15 @@ public final class RuntimeConfig
         File result = file == null ? null : file.isAbsolute() ? file : new File(_contextPath, path);
         return result;
     }
+    
+    /**
+     * Returns true if safe mode is needed (ie. if there's been an error reading runtime.xml). 
+     * @return true if safe mode is needed.
+     */
+    public boolean isSafeMode()
+    {
+        return _safeMode;
+    }
 
     /**
      * Returns the name of the default workspace. Null if none.
@@ -325,6 +359,15 @@ public final class RuntimeConfig
      * Returns a Collection containing the names of the excluded (deactivated) plugins
      * @return a Collection containing the names of the excluded (deactivated) plugins
      */
+    public Collection<String> getExcludedPlugins()
+    {
+        return _excludedPlugins;
+    }
+
+    /**
+     * Returns a Collection containing the names of the excluded (deactivated) features
+     * @return a Collection containing the names of the excluded (deactivated) features
+     */
     public Collection<String> getExcludedFeatures()
     {
         return _excludedFeatures;
@@ -340,12 +383,12 @@ public final class RuntimeConfig
     }
 
     /**
-     * Returns a Map&lt;extension point, extension id&gt; containing the choosen extension for each single extension point
-     * @return a Map&lt;extension point, extension id&gt; containing the choosen extension for each single extension point
+     * Returns a Map&lt;role, component id&gt; containing the choosen implementation for the given component role
+     * @return a Map&lt;role, component id&gt; containing the choosen implementation for the given component role
      */
-    public Map<String, String> getExtensionsPoints()
+    public Map<String, String> getComponents()
     {
-        return _extensionsPoints;
+        return _components;
     }
 
     /**

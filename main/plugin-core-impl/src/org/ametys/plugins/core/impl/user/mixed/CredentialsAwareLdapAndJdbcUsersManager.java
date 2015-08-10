@@ -119,7 +119,7 @@ public class CredentialsAwareLdapAndJdbcUsersManager extends CredentialsAwareLda
         jdbcUM.service(_serviceManager);
         jdbcUM.configure(_fbConfiguration);
         jdbcUM.initialize();
-        jdbcUM.enableLogging(getLogger());
+        jdbcUM.setLogger(getLogger());
         return jdbcUM;
     }
     

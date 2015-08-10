@@ -90,7 +90,7 @@ public class GroupDrivenLdapAndJdbcGroupsManager extends GroupDrivenLdapGroupsMa
         fallbackGM.service(_serviceManager);
         fallbackGM.configure(_fbConfiguration);
         fallbackGM.initialize();
-        fallbackGM.enableLogging(getLogger());
+        fallbackGM.setLogger(getLogger());
         return fallbackGM;
     }
     

@@ -87,7 +87,7 @@ public class UserDrivenLdapAndJdbcGroupsManager extends UserDrivenLdapGroupsMana
         fallbackGM.service(_serviceManager);
         fallbackGM.configure(_fbConfiguration);
         fallbackGM.initialize();
-        fallbackGM.enableLogging(getLogger());
+        fallbackGM.setLogger(getLogger());
         return fallbackGM;
     }
     

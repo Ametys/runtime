@@ -17,7 +17,6 @@ package org.ametys.runtime.workspace;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -30,18 +29,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import javax.xml.parsers.SAXParserFactory;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.xml.sax.XMLReader;
 
-import org.ametys.runtime.plugin.PluginsManager.FeatureInformation;
 import org.ametys.runtime.servlet.RuntimeConfig;
 
 
@@ -56,14 +46,14 @@ public final class WorkspaceManager
     private static final String __WORKSPACE_FILENAME = "workspace.xml";
 
     /**
-     * Cause of the deactivation of a feature
+     * Cause of the deactivation of a workspace
      */
     public enum InactivityCause
     {
         /**
-         * Constant for workspaces disabled due to missing dependencies
+         * Constant for excluded features
          */
-        DEPENDENCY
+        EXCLUDED
     }
     
     // Map<workspaceName, baseURI>
@@ -76,7 +66,7 @@ public final class WorkspaceManager
     // _workspaceNames is NOT the same as _workspaces.keySet(), which only contains embedded workspaces
     private Set<String> _workspaceNames = new HashSet<>();
     
-    private Map<String, InactiveWorkspace> _inactiveWorkspaces = new HashMap<>();
+    private Map<String, InactivityCause> _inactiveWorkspaces = new HashMap<>();
 
     private Logger _logger = LoggerFactory.getLogger(WorkspaceManager.class); 
 
@@ -113,7 +103,7 @@ public final class WorkspaceManager
      * Return the inactive workspaces
      * @return All the inactive workspaces
      */
-    public Map<String, InactiveWorkspace> getInactiveWorkspaces()
+    public Map<String, InactivityCause> getInactiveWorkspaces()
     {
         return Collections.unmodifiableMap(_inactiveWorkspaces);
     }
@@ -152,10 +142,9 @@ public final class WorkspaceManager
      * It first looks for META-INF/runtime-workspace files in the classpath, then in the "workspaces" directory of the application.
      * @param excludedWorkspace the excluded workspaces, as given by the RuntimeConfig
      * @param contextPath the servlet context path
-     * @param pluginsInformations all relevant information about loaded plugins or null if the application is not correctly configured
      * @throws IOException if an error occurs while retrieving resources
      */
-    public void init(Collection<String> excludedWorkspace, String contextPath, Map<String, FeatureInformation> pluginsInformations) throws IOException
+    public void init(Collection<String> excludedWorkspace, String contextPath) throws IOException
     {
         _workspaces.clear();
         _workspaceNames.clear();
@@ -165,7 +154,7 @@ public final class WorkspaceManager
         while (workspaceResources.hasMoreElements())
         {
             URL workspaceResource = workspaceResources.nextElement();
-            _initResourceWorkspace(excludedWorkspace, workspaceResource, pluginsInformations);
+            _initResourceWorkspace(excludedWorkspace, workspaceResource);
         }
 
         // Then workspace from the "<context>/workspaces" directory
@@ -174,7 +163,7 @@ public final class WorkspaceManager
         {
             for (File workspace : new File(contextPath, "workspaces").listFiles())
             {
-                _initFileWorkspaces(workspace, workspace.getName(), excludedWorkspace, pluginsInformations);
+                _initFileWorkspaces(workspace, workspace.getName(), excludedWorkspace);
             }
         }
         
@@ -187,7 +176,7 @@ public final class WorkspaceManager
 
             if (workspaceDir.exists() && workspaceDir.isDirectory())
             {
-                _initFileWorkspaces(workspaceDir, externalWorkspace, excludedWorkspace, pluginsInformations);
+                _initFileWorkspaces(workspaceDir, externalWorkspace, excludedWorkspace);
             }
             else
             {
@@ -196,7 +185,7 @@ public final class WorkspaceManager
         }
     }
     
-    private void _initResourceWorkspace(Collection<String> excludedWorkspace, URL workspaceResource, Map<String, FeatureInformation> pluginsInformations) throws IOException
+    private void _initResourceWorkspace(Collection<String> excludedWorkspace, URL workspaceResource) throws IOException
     {
         try (InputStream is = workspaceResource.openStream();
              BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8")))
@@ -228,23 +217,12 @@ public final class WorkspaceManager
                             }
                         }
                         
-                        boolean addWorkspace = true;
+                        _workspaceNames.add(workspaceName);
+                        _workspaces.put(workspaceName, workspaceBaseURI);
                         
-                        if (pluginsInformations != null)
+                        if (_logger.isInfoEnabled())
                         {
-                            // If the configuration is incomplete, plugins are not loaded, it's useless to check dependencies
-                            addWorkspace = _checkDependencies(workspaceName, null, workspaceBaseURI, pluginsInformations);
-                        }
-                        
-                        if (addWorkspace)
-                        {
-                            _workspaceNames.add(workspaceName);
-                            _workspaces.put(workspaceName, workspaceBaseURI);
-                            
-                            if (_logger.isInfoEnabled())
-                            {
-                                _logger.info("Workspace '" + workspaceName + "' registered at '" + workspaceBaseURI + "'");
-                            }
+                            _logger.info("Workspace '" + workspaceName + "' registered at '" + workspaceBaseURI + "'");
                         }
                     }
                 }
@@ -252,7 +230,7 @@ public final class WorkspaceManager
         }
     }
     
-    private void _initFileWorkspaces(File workspace, String workspaceName, Collection<String> excludedWorkspace, Map<String, FeatureInformation> pluginsInformations)
+    private void _initFileWorkspaces(File workspace, String workspaceName, Collection<String> excludedWorkspace)
     {
         if (workspace.exists() && workspace.isDirectory() && new File(workspace, __WORKSPACE_FILENAME).exists() && new File(workspace, "sitemap.xmap").exists() && !excludedWorkspace.contains(workspaceName))
         {
@@ -263,143 +241,13 @@ public final class WorkspaceManager
                 throw new IllegalArgumentException(errorMessage);
             }
             
-            boolean addWorkspace = true;
+            _workspaceNames.add(workspaceName);
+            _locations.put(workspaceName, workspace);
             
-            try
+            if (_logger.isInfoEnabled())
             {
-                // If the configuration is incomplete, plugins are not loaded, it's useless to check dependencies
-                if (pluginsInformations != null)
-                {
-                    addWorkspace = _checkDependencies(workspaceName, workspace, null, pluginsInformations);
-                }
-                
-                if (addWorkspace)
-                {
-                    _workspaceNames.add(workspaceName);
-                    _locations.put(workspaceName, workspace);
-                    
-                    if (_logger.isInfoEnabled())
-                    {
-                        _logger.info("Workspace '" + workspaceName + "' registered at 'context://workspaces/" + workspaceName + "'");
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                String errorMessage = "Exception while loading workspace " + workspaceName;
-                _logger.error(errorMessage, e);
-                throw new RuntimeException(errorMessage, e);
+                _logger.info("Workspace '" + workspaceName + "' registered at 'context://workspaces/" + workspaceName + "'");
             }
         }   
-    }
-    
-    private boolean _checkDependencies(String workspaceName, File workspaceDir, String workspaceBaseURI, Map<String, FeatureInformation> pluginsInformations)
-    {
-        Configuration conf;
-        
-        try
-        {
-            // XML schema validation
-            Schema schema;
-            try (InputStream xsd = getClass().getResourceAsStream("/org/ametys/runtime/workspace/workspace.xsd"))
-            {
-                schema = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema").newSchema(new StreamSource(xsd));
-            }
-            
-            SAXParserFactory factory = SAXParserFactory.newInstance();
-            factory.setSchema(schema);
-            factory.setNamespaceAware(true);
-            XMLReader reader = factory.newSAXParser().getXMLReader();
-            
-            DefaultConfigurationBuilder confBuilder = new DefaultConfigurationBuilder(reader);
-
-            if (workspaceBaseURI == null)
-            {
-                // workspace in filesystem
-                File configFile = new File(workspaceDir, __WORKSPACE_FILENAME);
-                String configPath = configFile.getAbsolutePath();
-                
-                try (InputStream is = new FileInputStream(configFile))
-                {
-                    conf = confBuilder.build(is, configPath);
-                }
-            }
-            else
-            {
-                // workspace in classpath
-                String configPath = "resource:/" + workspaceBaseURI + "/" + __WORKSPACE_FILENAME;
-                
-                try (InputStream is = getClass().getResourceAsStream(workspaceBaseURI + "/" + __WORKSPACE_FILENAME))
-                {
-                    conf = confBuilder.build(is, configPath);
-                }
-            }
-        }
-        catch (Exception e)
-        {
-            String errorMessage = "Unable to access configuration for workspace " + workspaceName;
-            _logger.error(errorMessage, e);
-            throw new RuntimeException(errorMessage, e);
-        }
-        
-        for (Configuration dependencyConf : conf.getChild("dependencies").getChildren("dependency"))
-        {
-            String dependency = dependencyConf.getValue(null);
-            
-            if (dependency != null)
-            {
-                if (!pluginsInformations.containsKey(dependency))
-                {
-                    if (_logger.isWarnEnabled())
-                    {
-                        _logger.warn("The workspace '" + workspaceName + "' depends on feature " + dependency + " which is not loaded. It will be ignored.");
-                    }
-                    
-                    _inactiveWorkspaces.put(workspaceName, new InactiveWorkspace(workspaceName, InactivityCause.DEPENDENCY));
-                    return false;
-                }
-            }
-        }
-        
-        return true;
-    }
-    
-    /**
-     * Represents an inactive workspace for the current runtime.
-     */
-    public class InactiveWorkspace
-    {
-        private InactivityCause _cause;
-        private String _workspaceName;
-        
-        InactiveWorkspace(String workspaceName, InactivityCause cause)
-        {
-            _workspaceName = workspaceName;
-            _cause = cause;
-        }
-        
-        /**
-         * Returns the declaring workspace name
-         * @return the declaring workspace name
-         */
-        public String getWorkspaceName()
-        {
-            return _workspaceName;
-        }
-        
-        /**
-         * Returns the cause of the deactivation of this feature
-         * @return the cause of the deactivation of this feature
-         */
-        public InactivityCause getCause()
-        {
-            return _cause;
-        }
-        
-        @Override
-        public String toString()
-        {
-            return _workspaceName;
-        }
     }
 }

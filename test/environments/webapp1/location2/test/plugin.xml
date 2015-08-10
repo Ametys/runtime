@@ -16,19 +16,19 @@
    -->
 <plugin xmlns="http://www.ametys.org/schema/plugin"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.ametys.org/schema/plugin http://www.ametys.org/schema/plugin-2.0.xsd"
-        runtimeVersion="2.0" version="2.0">
+        xsi:schemaLocation="http://www.ametys.org/schema/plugin http://www.ametys.org/schema/plugin-4.0.xsd"
+        runtimeVersion="4.0" version="4.0">
 	<extension-points>
         <extension-point class="org.ametys.runtime.test.plugins.TestExtensionPoint" id="ep-test"/>
         <extension-point class="org.ametys.runtime.test.plugins.TestComponentBasedExtensionPoint" id="ep-component-test"/>
-        <single-extension-point class="org.ametys.runtime.test.plugins.TestSingleExtensionPoint" id="sep-test" default-extension-id="org.ametys.runtime.test.Default"/>
-        <single-extension-point class="org.ametys.runtime.test.plugins.TestSingleExtensionPoint" id="sep-test2" default-extension-id="org.ametys.runtime.test.Default"/>
 	</extension-points>
     
     <feature name="test-feature">
+        <components>
+            <component role="sep-test" id="org.ametys.runtime.test.Default" class="org.ametys.runtime.test.plugins.TestSingleExtensionPoint"/>
+            <component role="sep-test2" id="org.ametys.runtime.test.Default2" class="org.ametys.runtime.test.plugins.TestSingleExtensionPoint"/>
+        </components>
         <extensions>
-            <extension point="sep-test" id="org.ametys.runtime.test.Default" class="org.ametys.runtime.test.plugins.TestSingleExtensionPoint"/>
-            <extension point="sep-test2" id="org.ametys.runtime.test.Default2" class="org.ametys.runtime.test.plugins.TestSingleExtensionPoint"/>
             <extension point="ep-test" id="org.ametys.runtime.test.EP" class="org.ametys.runtime.test.plugins.TestExtension"/>
             <extension point="ep-component-test" id="org.ametys.runtime.test.EP" class="org.ametys.runtime.test.plugins.TestExtension"/>
         </extensions>

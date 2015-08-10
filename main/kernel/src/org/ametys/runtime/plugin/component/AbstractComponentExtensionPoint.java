@@ -34,6 +34,7 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.cocoon.components.LifecycleHelper;
+import org.slf4j.LoggerFactory;
 
 import org.ametys.runtime.plugin.ExtensionPoint;
 
@@ -136,6 +137,15 @@ public abstract class AbstractComponentExtensionPoint<T> extends AbstractLogEnab
             if (t instanceof PluginAware)
             {
                 ((PluginAware) t).setPluginInfo(ec.getPluginName(), ec.getFeatureName());
+            }
+            
+            if (t instanceof LogEnabled)
+            {
+                Configuration config = ec.getConfiguration();
+                String logger = config == null ? null : config.getAttribute("logger", null);
+                logger = logger != null ? logger : extensionClass.getName();
+
+                ((LogEnabled) t).setLogger(LoggerFactory.getLogger(logger));
             }
             
             LifecycleHelper.setupComponent(t, getLogger(), _context, _manager, ec.getConfiguration(), true);

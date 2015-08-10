@@ -16,15 +16,15 @@
    -->
 <plugin xmlns="http://www.ametys.org/schema/plugin"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.ametys.org/schema/plugin http://www.ametys.org/schema/plugin-2.0.xsd"
-        runtimeVersion="2.0" version="2.0">
+        xsi:schemaLocation="http://www.ametys.org/schema/plugin http://www.ametys.org/schema/plugin-4.0.xsd"
+        runtimeVersion="4.0" version="4.0">
     <feature name="test-feature" depends="core/unexisting.feature"/>
     <feature name="test-feature2" depends="core/runtime.core"/>
     <feature name="test-feature3"/>
     <feature name="test-feature4">
-        <extensions>
-            <extension point="org.ametys.core.right.RightsManager" id="test"></extension>
-        </extensions>
+        <components>
+            <component role="org.ametys.core.right.RightsManager" id="test" class="org.ametys.class.not.found"></component>
+        </components>
     </feature>
     <feature name="test-feature5"/>
     <feature name="rights">

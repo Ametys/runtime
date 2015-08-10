@@ -16,8 +16,8 @@
    -->
 <plugin xmlns="http://www.ametys.org/schema/plugin"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.ametys.org/schema/plugin http://www.ametys.org/schema/plugin-2.0.xsd"
-        runtimeVersion="2.0" version="2.0">
+        xsi:schemaLocation="http://www.ametys.org/schema/plugin http://www.ametys.org/schema/plugin-4.0.xsd"
+        runtimeVersion="4.0" version="4.0">
          
     <extension-points>
         <extension-point id="DesktopManagerTest" 

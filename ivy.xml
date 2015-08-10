@@ -30,10 +30,10 @@ Open source web application framework based on Apache Cocoon.
     <conf name="compile_dependencies" extends="compile_base" description="Dependencies for compiling this module when embedded into other Ametys projects"/>
     
     <conf name="runtime_dependencies" extends="common_dependencies" description="Dependencies for running this module (except any Ametys artefacts)"/>
-    <conf name="runtime" extends="common_dependencies" description="Artificat for runtime only, with runtime dependencies"/>
-    <conf name="default" extends="runtime" description="Artificat for runtime, with resources and runtime dependencies"/>
+    <conf name="runtime" extends="common_dependencies" description="Artifact for runtime only, with runtime dependencies"/>
+    <conf name="default" extends="runtime" description="Artifact for runtime, with resources and runtime dependencies"/>
 
-    <conf name="test-env" extends="runtime" description="Artificat for testing a runtime dependent application"/>
+    <conf name="test-env" extends="runtime" description="Artifact for testing a runtime dependent application"/>
 
     <conf name="test" extends="compile,runtime" description="Configuration used during unit test of artifacts" visibility="private"/>
   </configurations>
@@ -75,7 +75,7 @@ Open source web application framework based on Apache Cocoon.
     <dependency org="org.apache.xmlgraphics" name="fop" rev="1.1" conf="common_dependencies->default"/>
     
     <dependency org="org.slf4j" name="slf4j-api" rev="1.7.5" conf="common_dependencies->default"/>
-    <dependency org="org.slf4j" name="slf4j-log4j12" rev="1.7.5" conf="runtime_dependencies->default"/>    
+    <dependency org="org.slf4j" name="slf4j-log4j12" rev="1.7.5" conf="runtime->default"/>    
     <dependency org="log4j" name="log4j" rev="1.2.17" conf="common_dependencies->default"/>
     <dependency org="org.apache.avalon.logkit" name="avalon-logkit" rev="2.2.1" conf="common_dependencies->default"/>
     
@@ -85,10 +85,10 @@ Open source web application framework based on Apache Cocoon.
     
     <!-- Runtime -->
     <dependency org="minaret" name="datedFileAppender" rev="1.0.2" conf="runtime_dependencies->default"/>
-    <dependency org="tiny_mce" name="tiny_mce" rev="3.5.11-ametys" conf="runtime_dependencies->default"/>
-    <dependency org="codemirror" name="codemirror" rev="3.24-ametys" conf="runtime_dependencies->default"/> 
-    <dependency org="org.sencha" name="extjs4" rev="4.2.3-patch-2" conf="runtime_dependencies->default"/> <!-- temp for non converted workspaces -->
-    <dependency org="org.sencha" name="extjs6" rev="6.0.0" conf="runtime_dependencies->default"/>
+    <dependency org="tiny_mce" name="tiny_mce" rev="3.5.11-ametys-2" conf="runtime_dependencies->default"/>
+    <dependency org="codemirror" name="codemirror" rev="3.24-ametys-2" conf="runtime_dependencies->default"/> 
+    <dependency org="org.sencha" name="extjs4" rev="4.2.3-patch-3" conf="runtime_dependencies->default"/> <!-- temp for non converted workspaces -->
+    <dependency org="org.sencha" name="extjs6" rev="6.0.0-ametys" conf="runtime_dependencies->default"/>
 	
     <!-- Compile and test -->
     <dependency org="javax.servlet" name="servlet-api" rev="2.4" conf="compile_base->default"/>

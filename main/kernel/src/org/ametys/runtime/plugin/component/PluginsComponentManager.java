@@ -19,15 +19,20 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Collection;
+import java.util.List;
 
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.WrapperServiceManager;
+import org.apache.commons.lang3.ClassUtils;
+import org.slf4j.Logger;
+
+import org.ametys.runtime.plugin.ExtensionDefinition;
+import org.ametys.runtime.plugin.ExtensionPoint;
 
 /**
  * Implementation of an Avalon ComponentManager handling the PluginAware and ParentAware interfaces.<br>
@@ -38,7 +43,7 @@ public class PluginsComponentManager extends ThreadSafeComponentManager<Object> 
     ComponentManager _parentManager;
     
     /**
-     * Contructor
+     * Constructor.
      * @param parentManager the parent manager
      */
     public PluginsComponentManager(ComponentManager parentManager)
@@ -52,10 +57,12 @@ public class PluginsComponentManager extends ThreadSafeComponentManager<Object> 
         {
             return true;
         }
-        else
+        else if (_parentManager != null)
         {
             return _parentManager.hasComponent(role);
         }
+        
+        return false;
     }
     
     @Override
@@ -67,10 +74,12 @@ public class PluginsComponentManager extends ThreadSafeComponentManager<Object> 
         {
             return component;
         }
-        else
+        else if (_parentManager != null)
         {
             return _parentManager.lookup(role);
         }
+        
+        return null;
     }
 
     public void release(Component object)
@@ -79,16 +88,30 @@ public class PluginsComponentManager extends ThreadSafeComponentManager<Object> 
         {
             // does nothing, all components are ThreadSafe
         }
-        else
+        else if (_parentManager != null)
         {
             _parentManager.release(object);
         }
     }
     
+    /**
+     * Add a new extension point, and its extensions, to the manager.
+     * @param pluginName the plugin containing the extension point
+     * @param point the extension point name.
+     * @param extensionPoint the class of the extension point.
+     * @param configuration the configuration for the extension point.
+     * @param extensions definitions of extensions.
+     */
+    public void addExtensionPoint(String pluginName, String point, Class<? extends ExtensionPoint> extensionPoint, Configuration configuration, Collection<ExtensionDefinition> extensions)
+    {
+        ExtensionPointFactory factory = new ExtensionPointFactory(pluginName, null, point, extensionPoint, configuration, new WrapperServiceManager(this), getLogger(), extensions);
+        _addComponent(point, factory);
+    }
+    
     @Override
     ComponentFactory getComponentFactory(String pluginName, String featureName, String role, Class<? extends Object> componentClass, Configuration configuration)
     {
-        return new ProxyComponentFactory(pluginName, featureName, role, componentClass, configuration, _manager, getLogger());
+        return new ProxyComponentFactory(pluginName, featureName, role, componentClass, configuration, new WrapperServiceManager(this), getLogger());
     }
     
     private class ProxyComponentFactory extends ComponentFactory
@@ -98,27 +121,14 @@ public class PluginsComponentManager extends ThreadSafeComponentManager<Object> 
             super(pluginName, featureName, role, componentClass, configuration, serviceManager, logger);
         }
         
-        @Override
-        Component newInstance() throws Exception
+        Component proxify(Object component)
         {
-            Object component = instanciate();
-            
-            if (component instanceof ParentAware)
-            {
-                Object parent = _parentManager.lookup(_role);
-                ((ParentAware) component).setParent(parent);
-            }
-            
-            configureAndStart(component);
-            
             if (component instanceof Component)
             {
                 return (Component) component;
             }
             
-            Set<Class> interfaces = new HashSet<>();
-            getAllInterfaces(component.getClass(), interfaces);
-
+            List<Class<?>> interfaces = ClassUtils.getAllInterfaces(component.getClass());
             interfaces.add(Component.class);
 
             Class[] proxyInterfaces = interfaces.toArray(new Class[0]);
@@ -126,20 +136,24 @@ public class PluginsComponentManager extends ThreadSafeComponentManager<Object> 
             return (Component) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), proxyInterfaces, new ComponentInvocationHandler(component));
         }
         
-        private void getAllInterfaces(Class clazz, Set<Class> interfaces) throws Exception
+        @Override
+        Component newInstance() throws Exception
         {
-            if (clazz == null)
+            Object component = instanciate();
+            
+            _componentsInitializing.put(_role, component);
+            
+            if (component instanceof ParentAware && _parentManager != null)
             {
-                return;
+                Object parent = _parentManager.lookup(_role);
+                ((ParentAware) component).setParent(parent);
             }
-
-            Class[] objectInterfaces = clazz.getInterfaces();
-            for (int i = 0; i < objectInterfaces.length; i++)
-            {
-                interfaces.add(objectInterfaces[i]);
-            }
-
-            getAllInterfaces(clazz.getSuperclass(), interfaces);
+            
+            configureAndStart(component);
+            
+            _componentsInitializing.remove(_role);
+            
+            return proxify(component);
         }
     }
 
@@ -162,6 +176,46 @@ public class PluginsComponentManager extends ThreadSafeComponentManager<Object> 
             {
                 throw ite.getTargetException();
             }
+        }
+    }
+    
+    private class ExtensionPointFactory extends ProxyComponentFactory
+    {
+        private Collection<ExtensionDefinition> _extensions;
+        
+        public ExtensionPointFactory(String pluginName, String featureName, String role, Class<? extends ExtensionPoint> extensionPointClass, Configuration configuration, ServiceManager serviceManager, Logger logger, Collection<ExtensionDefinition> extensions)
+        {
+            super(pluginName, featureName, role, extensionPointClass, configuration, serviceManager, logger);
+            _extensions = extensions;
+        }
+        
+        @Override
+        Component newInstance() throws Exception
+        {
+            Object component = instanciate();
+            
+            _componentsInitializing.put(_role, component);
+            
+            if (component instanceof ParentAware && _parentManager != null)
+            {
+                Object parent = _parentManager.lookup(_role);
+                ((ParentAware) component).setParent(parent);
+            }
+            
+            configureAndStart(component);
+            
+            ExtensionPoint extPoint = (ExtensionPoint) component;
+            
+            for (ExtensionDefinition extension : _extensions)
+            {
+                extPoint.addExtension(extension.getPluginName(), extension.getFeatureName(), extension.getConfiguration());
+            }
+            
+            extPoint.initializeExtensions();
+            
+            _componentsInitializing.remove(_role);
+            
+            return proxify(component);
         }
     }
 }

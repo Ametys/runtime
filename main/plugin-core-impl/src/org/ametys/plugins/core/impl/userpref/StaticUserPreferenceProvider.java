@@ -27,7 +27,6 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
@@ -39,6 +38,7 @@ import org.ametys.runtime.parameter.Enumerator;
 import org.ametys.runtime.parameter.ParameterHelper;
 import org.ametys.runtime.parameter.ParameterHelper.ParameterType;
 import org.ametys.runtime.parameter.Validator;
+import org.ametys.runtime.plugin.component.AbstractLogEnabled;
 import org.ametys.runtime.plugin.component.PluginAware;
 import org.ametys.runtime.plugin.component.ThreadSafeComponentManager;
 
@@ -96,22 +96,15 @@ public class StaticUserPreferenceProvider extends AbstractLogEnabled implements 
     @Override
     public void configure(Configuration configuration) throws ConfigurationException
     {
-        try
-        {
-            _validatorManager = new ThreadSafeComponentManager<>();
-            _validatorManager.enableLogging(getLogger());
-            _validatorManager.contextualize(_context);
-            _validatorManager.service(_serviceManager);
-            
-            _enumeratorManager = new ThreadSafeComponentManager<>();
-            _enumeratorManager.enableLogging(getLogger());
-            _enumeratorManager.contextualize(_context);
-            _enumeratorManager.service(_serviceManager);
-        }
-        catch (ServiceException e)
-        {
-            throw new ConfigurationException("Unable to create local component managers", configuration, e);
-        }
+        _validatorManager = new ThreadSafeComponentManager<>();
+        _validatorManager.setLogger(getLogger());
+        _validatorManager.contextualize(_context);
+        _validatorManager.service(_serviceManager);
+        
+        _enumeratorManager = new ThreadSafeComponentManager<>();
+        _enumeratorManager.setLogger(getLogger());
+        _enumeratorManager.contextualize(_context);
+        _enumeratorManager.service(_serviceManager);
         
         UserPreferenceParser prefParser = new UserPreferenceParser(_enumeratorManager, _validatorManager);
         

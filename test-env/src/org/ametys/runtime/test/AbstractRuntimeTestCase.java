@@ -18,20 +18,23 @@ package org.ametys.runtime.test;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.net.URL;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.SAXParserFactory;
-import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
-import junit.framework.TestCase;
-
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.XMLReader;
 
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.servlet.RuntimeConfig;
+
+import junit.framework.TestCase;
 
 /**
  * Abstract test case for all Runtime test cases.
@@ -40,6 +43,9 @@ public abstract class AbstractRuntimeTestCase extends TestCase
 {
     /** The cocoon wrapper. */
     protected CocoonWrapper _cocoon;
+    
+    /** Logger for traces */
+    protected Logger _logger = LoggerFactory.getLogger(getClass());
 
     /**
      * Creates a test case.
@@ -66,38 +72,41 @@ public abstract class AbstractRuntimeTestCase extends TestCase
      */
     protected void _configureRuntime(String fileName, String contextPath) throws Exception
     {
-        // Validation du runtime.xml sur le schéma runtime.xsd
-        DefaultConfigurationBuilder runtimeConfBuilder;
-        try (InputStream xsd = getClass().getResourceAsStream("/org/ametys/runtime/servlet/runtime.xsd"))
-        {
-            Schema schema = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema").newSchema(new StreamSource(xsd));
+        File runtimeConfigFile = new File(fileName);
         
+        Configuration runtimeConf = null;
+        try
+        {
+            // XML Schema validation
             SAXParserFactory factory = SAXParserFactory.newInstance();
-            factory.setSchema(schema);
             factory.setNamespaceAware(true);
-            XMLReader reader = factory.newSAXParser().getXMLReader();
             
-            runtimeConfBuilder = new DefaultConfigurationBuilder(reader);
+            URL schemaURL = getClass().getResource("/org/ametys/runtime/servlet/runtime-4.0.xsd");
+            Schema schema = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI).newSchema(schemaURL);
+            factory.setSchema(schema);
+            
+            XMLReader reader = factory.newSAXParser().getXMLReader();
+            DefaultConfigurationBuilder runtimeConfBuilder = new DefaultConfigurationBuilder(reader);
+            
+            try (InputStream runtime = new FileInputStream(runtimeConfigFile))
+            {
+                runtimeConf = runtimeConfBuilder.build(runtime, runtimeConfigFile.getAbsolutePath());
+            }
         }
-        
-        File runtimeFile = new File(fileName);
-        Configuration runtimeConf;
-        try (InputStream runtime = new FileInputStream(runtimeFile))
+        catch (Exception e)
         {
-            runtimeConf = runtimeConfBuilder.build(runtime, fileName);
+            _logger.error("Unable to load runtime file at '" + fileName + "'. PluginsManager will enter in safe mode.", e);
         }
-        
-        // look for external.xml next to the runtime.xml file
-        File externalFile = new File(runtimeFile.getParentFile(), "external-locations.xml");
         
         Configuration externalConf = null;
-        if (externalFile.exists())
+        DefaultConfigurationBuilder externalConfBuilder = new DefaultConfigurationBuilder();
+
+        File externalConfigFile = new File(runtimeConfigFile.getParentFile(), "external-locations.xml");
+        if (externalConfigFile.exists())
         {
-            DefaultConfigurationBuilder externalConfBuilder = new DefaultConfigurationBuilder();
-            
-            try (InputStream external = new FileInputStream(externalFile))
+            try (InputStream external = new FileInputStream(externalConfigFile))
             {
-                externalConf = externalConfBuilder.build(external, fileName);
+                externalConf = externalConfBuilder.build(external, externalConfigFile.getAbsolutePath());
             }
         }
         

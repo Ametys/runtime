@@ -18,11 +18,8 @@ package org.ametys.runtime.test;
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.DefaultContext;
-import org.apache.avalon.framework.service.WrapperServiceManager;
 import org.apache.cocoon.Constants;
-import org.apache.cocoon.components.CocoonComponentManager;
 import org.apache.cocoon.environment.commandline.CommandLineContext;
 import org.apache.cocoon.util.log.SLF4JLoggerAdapter;
 import org.slf4j.LoggerFactory;
@@ -30,7 +27,6 @@ import org.slf4j.LoggerFactory;
 import org.ametys.runtime.config.Config;
 import org.ametys.runtime.config.ConfigManager;
 import org.ametys.runtime.plugin.PluginsManager;
-import org.ametys.runtime.plugin.component.PluginsComponentManager;
 
 /**
  * Tests the ConfigManager
@@ -38,7 +34,6 @@ import org.ametys.runtime.plugin.component.PluginsComponentManager;
 public class ConfigManagerTestCase extends AbstractRuntimeTestCase
 {
     private DefaultContext _context;
-    private CocoonComponentManager _manager;
     
     @Override
     protected void setUp() throws Exception
@@ -47,8 +42,6 @@ public class ConfigManagerTestCase extends AbstractRuntimeTestCase
         ctx.enableLogging(new SLF4JLoggerAdapter(LoggerFactory.getLogger("ctx")));
         _context = new DefaultContext();
         _context.put(Constants.CONTEXT_ENVIRONMENT_CONTEXT, ctx);
-                
-        _manager = new CocoonComponentManager();
     }
     
     /**
@@ -57,50 +50,43 @@ public class ConfigManagerTestCase extends AbstractRuntimeTestCase
      */
     public void testConfigNotPresent() throws Exception
     {
-        _configureRuntime("test/environments/runtimes/runtime1.xml", "test/environments/webapp1");
+        _configureRuntime("test/environments/runtimes/runtime01.xml", "test/environments/webapp1");
         
         Config.setFilename("test/environments/configs/config0.xml"); // does not exist
         
-        PluginsComponentManager pluginCM = new PluginsComponentManager(_manager);
-        ContainerUtil.contextualize(pluginCM, _context);
-        ContainerUtil.enableLogging(pluginCM, new SLF4JLoggerAdapter(LoggerFactory.getLogger("plugins")));
-        ContainerUtil.service(pluginCM, new WrapperServiceManager(pluginCM));
+        PluginsManager.getInstance().init(null, _context, "test/environments/webapp1");
         
-        assertNull(PluginsManager.getInstance().init(pluginCM, _context, "test/environments/webapp1"));
+        assertTrue(PluginsManager.getInstance().isSafeMode());
+        assertFalse(ConfigManager.getInstance().isComplete());
     }
     
+    /**
+     * Test that if the datasource is activated, the config parameters are necessary.
+     * @throws Exception if an error occurs
+     */
+    public void testMissingParameters() throws Exception
+    {
+        _configureRuntime("test/environments/runtimes/runtime01.xml", "test/environments/webapp1");
+        Config.setFilename("test/environments/configs/config2.xml"); // missing necessary parameters
+        
+        PluginsManager.getInstance().init(null, _context, "test/environments/webapp1");
+        
+        assertTrue(PluginsManager.getInstance().isSafeMode());
+        assertFalse(ConfigManager.getInstance().isComplete());
+    }
+
     /**
      * Test that if the datasource is unactivated, the config parameters are not necessary.
      * @throws Exception if an error occurs
      */
     public void testUnactivation() throws Exception
     {
-        _configureRuntime("test/environments/runtimes/runtime3.xml", "test/environments/webapp1");
+        _configureRuntime("test/environments/runtimes/runtime03.xml", "test/environments/webapp1");
         Config.setFilename("test/environments/configs/config2.xml");
 
-        PluginsComponentManager pluginCM = new PluginsComponentManager(_manager);
-        ContainerUtil.contextualize(pluginCM, _context);
-        ContainerUtil.enableLogging(pluginCM, new SLF4JLoggerAdapter(LoggerFactory.getLogger("plugins")));
-        ContainerUtil.service(pluginCM, new WrapperServiceManager(pluginCM));
+        PluginsManager.getInstance().init(null, _context, "test/environments/webapp1");
         
-        assertNotNull(PluginsManager.getInstance().init(pluginCM, _context, "test/environments/webapp1"));
-    }
-
-    /**
-     * Test that if the datasource is activated, the config parameters are necessary.
-     * @throws Exception if an error occurs
-     */
-    public void testParameters() throws Exception
-    {
-        _configureRuntime("test/environments/runtimes/runtime1.xml", "test/environments/webapp1");
-        Config.setFilename("test/environments/configs/config2.xml"); // missing necessary parameters
-        
-        PluginsComponentManager pluginCM = new PluginsComponentManager(_manager);
-        ContainerUtil.contextualize(pluginCM, _context);
-        ContainerUtil.enableLogging(pluginCM, new SLF4JLoggerAdapter(LoggerFactory.getLogger("plugins")));
-        ContainerUtil.service(pluginCM, new WrapperServiceManager(pluginCM));
-        
-        assertNull(PluginsManager.getInstance().init(pluginCM, _context, "test/environments/webapp1"));
+        assertTrue(ConfigManager.getInstance().isComplete());
     }
 
     /**
@@ -109,15 +95,12 @@ public class ConfigManagerTestCase extends AbstractRuntimeTestCase
      */
     public void testConfiguration() throws Exception
     {
-        _configureRuntime("test/environments/runtimes/runtime10.xml", "test/environments/webapp1");
-        Config.setFilename("test/environments/configs/config2.xml");
+        _configureRuntime("test/environments/runtimes/runtime02.xml", "test/environments/webapp1");
+        Config.setFilename("test/environments/configs/config1.xml");
         
-        PluginsComponentManager pluginCM = new PluginsComponentManager(_manager);
-        ContainerUtil.contextualize(pluginCM, _context);
-        ContainerUtil.enableLogging(pluginCM, new SLF4JLoggerAdapter(LoggerFactory.getLogger("plugins")));
-        ContainerUtil.service(pluginCM, new WrapperServiceManager(pluginCM));
+        PluginsManager.getInstance().init(null, _context, "test/environments/webapp1");
         
-        PluginsManager.getInstance().init(pluginCM, _context, "test/environments/webapp1");
+        assertTrue(ConfigManager.getInstance().isComplete());
         
         String[] parameters = ConfigManager.getInstance().getParametersIds();
         Collection<String> ids = Arrays.asList(parameters);
@@ -126,5 +109,8 @@ public class ConfigManagerTestCase extends AbstractRuntimeTestCase
         assertTrue(ids.contains("param2"));
         assertFalse(ids.contains("param3"));
         assertTrue(ids.contains("param4"));
+        
+        assertEquals("param2", Config.getInstance().getValueAsString("param2"));
+        assertEquals(4, Config.getInstance().getValueAsLong("param4").longValue());
     }
 }

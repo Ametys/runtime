@@ -16,33 +16,30 @@
    -->
 
 <!-- 
- Must NOT have any init class
+    Init class needed for test
+    Minimal runtime excluding a feature for a Config related test.
 -->
 <runtime xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
          xsi:noNamespaceSchemaLocation="http://ametys.org/Runtime/1.2/runtime.xsd">
     
     <application>
-        <version>VERSION</version>
-        <date>DATE</date>
+        <version>2.0.1</version>
     </application>
     
-    <incompleteConfig>
-        <allowedURLs>
-            <allowedURL>_admin-old/public</allowedURL>
-        	<allowedURL>_admin-old/resources</allowedURL>
-        	<allowedURL>_admin-old/_plugins/admin-old/config</allowedURL>
-        	<allowedURL>_admin-old/plugins/admin-old/config</allowedURL>
-        </allowedURLs>
-        <redirectURL>cocoon://_admin-old/public/load-config.html?uri=admin-old/config/edit.html</redirectURL>
-    </incompleteConfig>
+    <initClass>org.ametys.runtime.test.Init</initClass>
     
-    <workspaces default="myworkspace"/>
+    <plugins>
+        <exclude>
+            <feature>core/runtime.upload</feature>
+        </exclude>
+    </plugins>
     
-    <extensions>
-        <org.ametys.core.right.RightsManager>org.ametys.plugins.core.right.DefaultProfileBased</org.ametys.core.right.RightsManager>
+    <components>
+        <org.ametys.core.right.RightsManager>org.ametys.plugins.core.right.Basic</org.ametys.core.right.RightsManager>
         <org.ametys.runtime.exception.ExceptionHandler>org.ametys.plugins.core.exception.Default</org.ametys.runtime.exception.ExceptionHandler>
         <org.ametys.core.group.GroupsManager>org.ametys.plugins.core.group.Empty</org.ametys.core.group.GroupsManager>
-        <org.ametys.core.authentication.CredentialsProvider>org.ametys.plugins.core.authentication.Basic</org.ametys.core.authentication.CredentialsProvider>
-        <org.ametys.core.user.UsersManager>org.ametys.plugins.core.user.CoreJdbc</org.ametys.core.user.UsersManager>
-    </extensions>
+        <org.ametys.core.authentication.CredentialsProvider>org.ametys.plugins.core.authentication.Defined</org.ametys.core.authentication.CredentialsProvider>
+        <org.ametys.core.user.UsersManager>org.ametys.plugins.core.user.Static</org.ametys.core.user.UsersManager>
+        <org.ametys.core.userpref.DefaultUserPreferencesStorage>org.ametys.plugins.core.userpref.EmptyUserPreferencesStorage</org.ametys.core.userpref.DefaultUserPreferencesStorage>
+    </components>
 </runtime>

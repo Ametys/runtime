@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright 2009 Anyware Services
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   -->
+
+<!-- 
+ Location with plugins. Used for various Config related tests.
+-->
+<runtime xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:noNamespaceSchemaLocation="http://www.ametys.org/schema/runtime/runtime-4.0.xsd">
+    
+    <application>
+        <version>2.0.1</version>
+        <date>20070115T2215 GMT</date>
+    </application>
+    
+    <initClass>org.ametys.runtime.test.Init</initClass>
+    
+    <plugins>
+        <locations>
+            <location>location1</location>
+        </locations>
+    </plugins>
+    
+    <components>
+        <org.ametys.core.right.RightsManager>org.ametys.plugins.core.right.Basic</org.ametys.core.right.RightsManager>
+        <org.ametys.runtime.exception.ExceptionHandler>org.ametys.plugins.core.exception.Default</org.ametys.runtime.exception.ExceptionHandler>
+        <org.ametys.core.group.GroupsManager>org.ametys.plugins.core.group.Empty</org.ametys.core.group.GroupsManager>
+        <org.ametys.core.authentication.CredentialsProvider>org.ametys.plugins.core.authentication.Defined</org.ametys.core.authentication.CredentialsProvider>
+        <org.ametys.core.user.UsersManager>org.ametys.plugins.core.user.Static</org.ametys.core.user.UsersManager>
+        <org.ametys.core.userpref.DefaultUserPreferencesStorage>org.ametys.plugins.core.userpref.EmptyUserPreferencesStorage</org.ametys.core.userpref.DefaultUserPreferencesStorage>
+    </components>
+</runtime>

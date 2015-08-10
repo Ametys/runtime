@@ -42,6 +42,7 @@ import org.xml.sax.ContentHandler;
 
 import org.ametys.runtime.plugin.Init;
 import org.ametys.runtime.plugin.InitExtensionPoint;
+import org.ametys.runtime.plugin.PluginsManager;
 import org.ametys.runtime.plugin.component.PluginsComponentManager;
 
 /**
@@ -117,7 +118,7 @@ public class CocoonWrapper
             
             PluginsComponentManager pluginCM = (PluginsComponentManager) _cliContext.getAttribute("PluginsComponentManager");
             
-            if (pluginCM != null)
+            if (!PluginsManager.getInstance().isSafeMode())
             {
                 // Plugins Init class execution
                 InitExtensionPoint initExtensionPoint = (InitExtensionPoint) pluginCM.lookup(InitExtensionPoint.ROLE);

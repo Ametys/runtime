@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.Collection;
 import java.util.Properties;
 
@@ -27,6 +28,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.XMLConstants;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.TransformerFactory;
@@ -55,6 +57,7 @@ import org.ametys.runtime.config.Config;
 import org.ametys.runtime.config.ConfigManager;
 import org.ametys.runtime.plugin.Init;
 import org.ametys.runtime.plugin.InitExtensionPoint;
+import org.ametys.runtime.plugin.PluginsManager;
 import org.ametys.runtime.plugin.component.PluginsComponentManager;
 import org.ametys.runtime.request.RequestListener;
 import org.ametys.runtime.request.RequestListenerManager;
@@ -198,8 +201,8 @@ public class RuntimeServlet extends CocoonServlet
     {
         PluginsComponentManager pluginCM = (PluginsComponentManager) servletContext.getAttribute("PluginsComponentManager");
         
-        // There's no PluginsComponentManager if the config is not ok
-        if (pluginCM != null)
+        // If we're in safe mode 
+        if (!PluginsManager.getInstance().isSafeMode())
         {
             // Plugins Init class execution
             InitExtensionPoint initExtensionPoint = (InitExtensionPoint) pluginCM.lookup(InitExtensionPoint.ROLE);
@@ -327,31 +330,36 @@ public class RuntimeServlet extends CocoonServlet
 
     private void _loadRuntimeConfig() throws ServletException
     {
+        Configuration runtimeConf = null;
         try
         {
-            // Validation du runtime.xml sur le schéma runtime.xsd
-            DefaultConfigurationBuilder runtimeConfBuilder;
-            try (InputStream xsd = getClass().getResourceAsStream("/org/ametys/runtime/servlet/runtime.xsd"))
-            {
-                Schema schema = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema").newSchema(new StreamSource(xsd));
-    
-                SAXParserFactory factory = SAXParserFactory.newInstance();
-                factory.setSchema(schema);
-                factory.setNamespaceAware(true);
-                XMLReader reader = factory.newSAXParser().getXMLReader();
-                runtimeConfBuilder = new DefaultConfigurationBuilder(reader);
-            }
-
-            Configuration runtimeConf;
+            // XML Schema validation
+            SAXParserFactory factory = SAXParserFactory.newInstance();
+            factory.setNamespaceAware(true);
+            
+            URL schemaURL = getClass().getResource("runtime-4.0.xsd");
+            Schema schema = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI).newSchema(schemaURL);
+            factory.setSchema(schema);
+            
+            XMLReader reader = factory.newSAXParser().getXMLReader();
+            DefaultConfigurationBuilder runtimeConfBuilder = new DefaultConfigurationBuilder(reader);
+            
             File runtimeConfigFile = new File(servletContextPath, "WEB-INF/param/runtime.xml");
             try (InputStream runtime = new FileInputStream(runtimeConfigFile))
             {
                 runtimeConf = runtimeConfBuilder.build(runtime, runtimeConfigFile.getAbsolutePath());
             }
-
+        }
+        catch (Exception e)
+        {
+            getLogger().error("Unable to load runtime file at 'WEB-INF/param/runtime.xml'. PluginsManager will enter in safe mode.", e);
+        }
+        
+        Configuration externalConf = null;
+        try
+        {
             DefaultConfigurationBuilder externalConfBuilder = new DefaultConfigurationBuilder();
 
-            Configuration externalConf = null;
             File externalConfigFile = new File(servletContextPath, "WEB-INF/param/external-locations.xml");
             if (externalConfigFile.exists())
             {
@@ -360,20 +368,18 @@ public class RuntimeServlet extends CocoonServlet
                     externalConf = externalConfBuilder.build(external, externalConfigFile.getAbsolutePath());
                 }
             }
-            
-            RuntimeConfig.configure(runtimeConf, externalConf, servletContextPath);
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            String errorMessage = "Unable to load config values at WEB-INF/param/runtime.xml";
-            getLogger().error(errorMessage, ex);
-            throw new ServletException(errorMessage, ex);
+            getLogger().error("Unable to load external locations values at WEB-INF/param/external-locations.xml", e);
+            throw new ServletException("Unable to load external locations values at WEB-INF/param/external-locations.xml", e);
         }
+        
+        RuntimeConfig.configure(runtimeConf, externalConf, servletContextPath);
     }
 
     /**
      * Set the run mode
-     * 
      * @param mode the running mode
      */
     public static void setRunMode(RunMode mode)

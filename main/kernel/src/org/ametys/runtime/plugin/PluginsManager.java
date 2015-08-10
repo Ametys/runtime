@@ -28,33 +28,31 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.SAXParserFactory;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
 
-import org.apache.avalon.framework.component.ComponentException;
+import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.service.WrapperServiceManager;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.xerces.jaxp.JAXPConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.xml.sax.EntityResolver;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
-import org.ametys.core.util.StringUtils;
 import org.ametys.runtime.config.ConfigManager;
+import org.ametys.runtime.plugin.PluginIssue.PluginIssueCode;
 import org.ametys.runtime.plugin.component.PluginsComponentManager;
 import org.ametys.runtime.servlet.RuntimeConfig;
 
@@ -64,50 +62,59 @@ import org.ametys.runtime.servlet.RuntimeConfig;
  */
 public final class PluginsManager
 {
-    /** Separator between pluginName and featureName */
-    public static final String FEATURE_ID_SEPARATOR = "/";
+    /** The regexp to determine if a plugin name is ignored (CVS or .* or *.bak or *.old)*/
+    public static final String PLUGIN_NAMES_IGNORED = "^CVS|\\..+|.*\\.bak|.*\\.old$";
     
     /** The regexp to determine if a plugin name is correct (add ^ and $ as delimiters if this is your only test) */
-    public static final String PLUGIN_NAME_REGEXP = "\\w[\\w-_\\.]*\\w?";
+    public static final String PLUGIN_NAME_REGEXP = "[a-zA-Z0-9](?:[a-zA-Z0-9-_\\.]*[a-zA-Z0-9])?";
     
-    private static final Pattern __FEATURE_ID_PATTERN = Pattern.compile("([^/]*/)?[^/]*");
+    /** Separator between pluginName and featureName */
+    public static final String FEATURE_ID_SEPARATOR = "/";
+
+    /** Plugin filename */
+    public static final String PLUGIN_FILENAME = "plugin.xml";
 
     // shared instance
-    private static PluginsManager __manager;
-
-    // Plugin filename
-    private static final String __PLUGIN_FILENAME = "plugin.xml";
-
-    // plugins
-    private Set<String> _pluginNames;
+    private static PluginsManager __instance;
     
+    // safe mode flag
+    private boolean _safeMode;
+
     // associations plugins/resourcesURI
-    private Map<String, String> _baseURIs;
+    private Map<String, String> _resourceURIs;
     
     // plugins/locations association
     private Map<String, File> _locations;
     
-    // Active plugins list
-    private Map<String, ActiveFeature> _activeFeatures;
+    // All readable plugins
+    private Map<String, Plugin> _allPlugins;
 
-    // Inactive plugins list
-    private Map<String, InactiveFeature> _inactiveFeatures;
-    
-    // Feature that are marked as passive during startup, and that will be inactivated if finally not used
-    private Set<String> _passiveFeatures;
-    
-    // Single extension points' roles
-    private Collection<String> _singleExtensionPointsRoles;
+    // Active plugins
+    private Map<String, Plugin> _plugins;
 
-    // Extension points' roles
-    private Collection<String> _extensionPointsRoles;
-    
-    // Entity resolver for resolving XML schemas
-    private LocalEntityResolver _entityResolver;
+    // Loaded features
+    private Map<String, Feature> _features;
 
+    // All declared features
+    private Map<String, InactivityCause> _inactiveFeatures;
+
+    // All declared extension points
+    private Map<String, ExtensionPointDefinition> _extensionPoints;
+    
+    // Declared components, stored by role
+    private Map<String, ComponentDefinition> _components;
+    
+    // Declared extension, grouped by extension point
+    private Map<String, Map<String, ExtensionDefinition>> _extensions;
+    
+    // status after initialization
+    private Status _status;
+    
     // Logger for traces
     private Logger _logger = LoggerFactory.getLogger(PluginsManager.class);
 
+    // Errors collected during system initialization
+    private Collection<PluginIssue> _errors = new ArrayList<>();
 
     private PluginsManager()
     {
@@ -115,97 +122,125 @@ public final class PluginsManager
     }
     
     /**
-     * Returns the names of the plugins
-     * @return the names of the plugins
-     */
-    public Set<String> getPluginNames()
-    {
-        return Collections.unmodifiableSet(_pluginNames);
-    }
-    
-    /**
-     * Returns a String array containing the ids of the plugins embedded in jars
-     * @return a String array containing the ids of the plugins embedded in jars
-     */
-    public Set<String> getEmbeddedPluginsIds()
-    {
-        return Collections.unmodifiableSet(_baseURIs.keySet());
-    }
-
-    /**
      * Returns the shared instance of the <code>PluginManager</code>
      * @return the shared instance of the PluginManager
      */
     public static PluginsManager getInstance()
     {
-        if (__manager == null)
+        if (__instance == null)
         {
-            __manager = new PluginsManager();
+            __instance = new PluginsManager();
         }
 
-        return __manager;
-    }
-
-    /**
-     * Returns all active features.
-     * @return a never null map containing all active features
-     */
-    public Map<String, ActiveFeature> getActiveFeatures()
-    {
-        return Collections.unmodifiableMap(_activeFeatures);
+        return __instance;
     }
     
-    private ActiveFeature _getActiveFeature(String pluginName, String featureName)
+    /**
+     * Returns true if the safe mode is activated. 
+     * @return true if the safe mode is activated.
+     */
+    public boolean isSafeMode()
     {
-        String featureId = pluginName + FEATURE_ID_SEPARATOR + featureName;
-        if (_activeFeatures.containsKey(featureId))
-        {
-            return _activeFeatures.get(featureId);
-        }
-        else
-        {
-            ActiveFeature feature = new ActiveFeature(pluginName, featureName);
-            _activeFeatures.put(featureId, feature);
-            return feature;
-        }
+        return _safeMode;
+    }
+    
+    /**
+     * Returns errors gathered during plugins loading.
+     * @return errors gathered during plugins loading.
+     */
+    public Collection<PluginIssue> getErrors()
+    {
+        return _errors;
     }
 
     /**
-     * Returns all inactive features.
-     * @return a never null Collection containing all inactive features
+     * Returns the names of the plugins
+     * @return the names of the plugins
      */
-    public Map<String, InactiveFeature> getInactiveFeatures()
+    public Set<String> getPluginNames()
+    {
+        return Collections.unmodifiableSet(_plugins.keySet());
+    }
+    
+    /**
+     * Returns a String array containing the names of the plugins bundled in jars
+     * @return a String array containing the names of the plugins bundled in jars
+     */
+    public Set<String> getBundledPluginsNames()
+    {
+        return Collections.unmodifiableSet(_resourceURIs.keySet());
+    }
+
+    /**
+     * Returns active plugins declarations.
+     * @return active plugins declarations.
+     */
+    public Map<String, Plugin> getPlugins()
+    {
+        return Collections.unmodifiableMap(_plugins);
+    }
+
+    /**
+     * Returns all existing plugins definitions.
+     * @return all existing plugins definitions.
+     */
+    public Map<String, Plugin> getAllPlugins()
+    {
+        return Collections.unmodifiableMap(_allPlugins);
+    }
+    
+    /**
+     * Returns loaded features declarations. <br>They may be different than active feature in case of safe mode.
+     * @return loaded features declarations.
+     */
+    public Map<String, Feature> getFeatures()
+    {
+        return Collections.unmodifiableMap(_features);
+    }
+    
+    /**
+     * Returns inactive features id and cause of deactivation.
+     * @return inactive features id and cause of deactivation.
+     */
+    public Map<String, InactivityCause> getInactiveFeatures()
     {
         return Collections.unmodifiableMap(_inactiveFeatures);
     }
-    
+
     /**
-     * Returns the roles of the loaded single extensions points
-     * @return the roles of the loaded single extensions points
+     * Returns the extensions points and their extensions
+     * @return the extensions points and their extensions
      */
-    public Collection<String> getSingleExtensionPoints()
+    public Map<String, Collection<String>> getExtensionPoints()
     {
-        return Collections.unmodifiableCollection(_singleExtensionPointsRoles);
+        Map<String, Collection<String>> result = new HashMap<>();
+        
+        for (String point : _extensions.keySet())
+        {
+            result.put(point, _extensions.get(point).keySet());
+        }
+        
+        return Collections.unmodifiableMap(result);
     }
     
     /**
-     * Returns the roles of the loaded extensions points
-     * @return the roles of the loaded extensions points
+     * Returns the components roles.
+     * @return the components roles.
      */
-    public Collection<String> getExtensionPoints()
+    public Collection<String> getComponents()
     {
-        return Collections.unmodifiableCollection(_extensionPointsRoles);
+        return Collections.unmodifiableCollection(_components.keySet());
     }
     
     /**
-     * Returns the base URI for the given plugin resources, or null if default one (ie in the file system)
+     * Returns the base URI for the given plugin resources, or null if the plugin does not exist or is located in the file system.
      * @param pluginName the name of the plugin
-     * @return the base URI for the given plugin resources, or null if default one (ie in the file system)
+     * @return the base URI for the given plugin resources, or null if the plugin does not exist or is located in the file system.
      */
-    public String getBaseURI(String pluginName)
+    public String getResourceURI(String pluginName)
     {
-        String pluginUri = _baseURIs.get(pluginName);
-        if (pluginUri == null)
+        String pluginUri = _resourceURIs.get(pluginName);
+        if (pluginUri == null || !_plugins.containsKey(pluginName))
         {
             return null;
         }
@@ -223,9 +258,323 @@ public final class PluginsManager
         return _locations.get(pluginName);
     }
     
-    // Look for plugins embedded in jars
+    /**
+     * Returns the status after initialization.
+     * @return the status after initialization.
+     */
+    public Status getStatus()
+    {
+        return _status;
+    }
+    
+    /**
+     * Initialization of the plugin manager
+     * @param parentCM the parent {@link ComponentManager}.
+     * @param context the Avalon context
+     * @param contextPath the Web context path on the server filesystem
+     * @return the {@link PluginsComponentManager} containing loaded components.
+     * @throws Exception if something wrong occurs during plugins loading
+     */
+    public PluginsComponentManager init(ComponentManager parentCM, Context context, String contextPath) throws Exception
+    {
+        _resourceURIs = new HashMap<>();
+        _locations = new HashMap<>();
+        _errors = new ArrayList<>();
+        
+        _safeMode = false;
+
+        // Bundled plugins locations
+        _initResourceURIs();
+        
+        // Additional plugins 
+        Map<String, File> externalPlugins = RuntimeConfig.getInstance().getExternalPlugins();
+        
+        // Check external plugins
+        for (File plugin : externalPlugins.values())
+        {
+            if (!plugin.exists() || !plugin.isDirectory())
+            {
+                throw new RuntimeException("The configured external plugin is not an existing directory: " + plugin.getAbsolutePath());
+            }
+        }
+        
+        // Plugins root directories (directories containing plugins directories)
+        Collection<String> locations = RuntimeConfig.getInstance().getPluginsLocations();
+        
+        // List of chosen components
+        Map<String, String> componentsConfig = RuntimeConfig.getInstance().getComponents();
+        
+        // List of manually excluded plugins
+        Collection<String> excludedPlugins = RuntimeConfig.getInstance().getExcludedPlugins();
+        
+        // List of manually excluded features
+        Collection<String> excludedFeatures = RuntimeConfig.getInstance().getExcludedFeatures();
+        
+        // Parse all plugin.xml
+        _allPlugins = _parsePlugins(contextPath, locations, externalPlugins, excludedPlugins);
+
+        if (RuntimeConfig.getInstance().isSafeMode())
+        {
+            _status = Status.RUNTIME_NOT_LOADED;
+            PluginsComponentManager safeManager = _enterSafeMode(parentCM, context, contextPath);
+            return safeManager;
+        }
+
+        // Get active feature list
+        PluginsInformation info = computeActiveFeatures(contextPath, excludedPlugins, excludedFeatures, componentsConfig);
+        
+        Map<String, Plugin> plugins = info.getPlugins();
+        Map<String, Feature> features = info.getFeatures();
+        _errors.addAll(info.getErrors());
+        
+        // At this point, extension points, active and inactive features are known
+        if (_logger.isDebugEnabled())
+        {
+            _logger.debug("All declared plugins : \n\n" + dump(info.getInactiveFeatures()));
+        }
+        
+        if (!_errors.isEmpty())
+        {
+            _status = Status.WRONG_DEFINITIONS;
+            PluginsComponentManager manager = _enterSafeMode(parentCM, context, contextPath);
+            return manager;
+        }
+
+        // Create the ComponentManager
+        PluginsComponentManager manager = new PluginsComponentManager(parentCM);
+        manager.setLogger(LoggerFactory.getLogger("org.ametys.runtime.plugin.manager"));
+        manager.contextualize(context);
+        
+        // Config loading
+        ConfigManager configManager = ConfigManager.getInstance();
+        
+        configManager.contextualize(context);
+        configManager.service(new WrapperServiceManager(manager));
+        configManager.initialize();
+        
+        // Global config parameter loading
+        for (String pluginName : plugins.keySet())
+        {
+            Plugin plugin = plugins.get(pluginName);
+            configManager.addGlobalConfig(pluginName, plugin.getConfigParameters(), plugin.getParameterCheckers());
+        }
+        
+        // "local" config parameter loading
+        for (String featureId : features.keySet())
+        {
+            Feature feature = features.get(featureId);
+            configManager.addConfig(feature.getFeatureId(), feature.getConfigParameters(), feature.getConfigParametersReferences(), feature.getParameterCheckers());
+        }
+        
+        // check if the config is complete and valid
+        configManager.validate();
+        
+        if (!configManager.isComplete())
+        {
+            _status = Status.CONFIG_INCOMPLETE;
+            PluginsComponentManager safeManager = _enterSafeMode(parentCM, context, contextPath);
+            return safeManager;
+        }
+        
+        // Components and single extension point loading
+        Collection<PluginIssue> errors = new ArrayList<>();
+        _loadExtensionsPoints(manager, info.getExtensionPoints(), info.getExtensions(), contextPath, errors);
+        _loadComponents(manager, info.getComponents(), contextPath, errors);
+        _loadRuntimeInit(manager, errors);
+        
+        _errors.addAll(errors);
+        
+        if (!errors.isEmpty())
+        {
+            _status = Status.NOT_INITIALIZED;
+            PluginsComponentManager safeManager = _enterSafeMode(parentCM, context, contextPath);
+            return safeManager;
+        }
+
+        _plugins = plugins;
+        _features = features;
+        _inactiveFeatures = info.getInactiveFeatures();
+        _extensionPoints = info.getExtensionPoints();
+        _extensions = info.getExtensions();
+        _components = info.getComponents();
+        
+        try
+        {
+            manager.initialize();
+        }
+        catch (Exception e)
+        {
+            _logger.error("Caught an exception loading components.", e);
+            
+            _status = Status.NOT_INITIALIZED;
+
+            // Dispose the first ComponentManager
+            manager.dispose();
+            manager = null;
+            
+            // Then enter safe mode with another ComponentManager
+            PluginsComponentManager safeManager = _enterSafeMode(parentCM, context, contextPath);
+            return safeManager;
+        }
+        
+        _status = Status.OK;
+        
+        return manager;
+    }
+    
+    /**
+     * Outputs the structure of the plugins.
+     * @param inactiveFeatures id and cause of inactive features
+     * @return a String representation of all existing plugins and features.
+     */
+    public String dump(Map<String, InactivityCause> inactiveFeatures)
+    {
+        Collection<String> excludedPlugins = RuntimeConfig.getInstance().getExcludedPlugins();
+        StringBuilder sb = new StringBuilder();
+        
+        for (String pluginName : _allPlugins.keySet())
+        {
+            Plugin plugin = _allPlugins.get(pluginName);
+            sb.append(_dumpPlugin(plugin, excludedPlugins, inactiveFeatures));
+        }
+        
+        if (!_errors.isEmpty())
+        {
+            sb.append("\nErrors :\n");
+            _errors.forEach(issue -> sb.append(issue.toString()).append('\n'));
+        }
+        
+        return sb.toString();
+    }
+    
+    private String _dumpPlugin(Plugin plugin, Collection<String> excludedPlugins, Map<String, InactivityCause> inactiveFeatures)
+    {
+        StringBuilder sb = new StringBuilder();
+        
+        String pluginName = plugin.getName();
+        sb.append("Plugin ").append(pluginName);
+        
+        if (excludedPlugins.contains(pluginName))
+        {
+            sb.append("   *** excluded ***");
+        }
+        
+        sb.append('\n');
+        
+        Collection<String> configParameters = plugin.getConfigParameters().keySet();
+        if (!CollectionUtils.isEmpty(configParameters))
+        {
+            sb.append("  Config parameters : \n");
+            configParameters.forEach(param -> sb.append("    ").append(param).append('\n'));
+        }
+        
+        Collection<String> paramCheckers = plugin.getParameterCheckers().keySet();
+        if (!CollectionUtils.isEmpty(paramCheckers))
+        {
+            sb.append("  Parameters checkers : \n");
+            paramCheckers.forEach(param -> sb.append("    ").append(param).append('\n'));
+        }
+        
+        Collection<String> extensionPoints = plugin.getExtensionPoints();
+        if (!CollectionUtils.isEmpty(extensionPoints))
+        {
+            sb.append("  Extension points : \n");
+            extensionPoints.forEach(point -> sb.append("    ").append(point).append('\n'));
+        }
+        
+        Map<String, Feature> features = plugin.getFeatures();
+        for (String featureId : features.keySet())
+        {
+            Feature feature = features.get(featureId);
+            sb.append(_dumpFeature(feature, inactiveFeatures));
+        }
+        
+        sb.append('\n');
+        
+        return sb.toString();
+    }
+    
+    private String _dumpFeature(Feature feature, Map<String, InactivityCause> inactiveFeatures)
+    {
+        StringBuilder sb = new StringBuilder();
+        String featureId = feature.getFeatureId();
+        
+        sb.append("  Feature ").append(featureId);
+        if (feature.isPassive())
+        {
+            sb.append(" (passive)");
+        }
+
+        if (feature.isSafe())
+        {
+            sb.append(" (safe)");
+        }
+        
+        if (inactiveFeatures != null && inactiveFeatures.containsKey(featureId))
+        {
+            sb.append("   *** inactive (").append(inactiveFeatures.get(featureId)).append(") ***");
+        }
+        
+        sb.append('\n');
+        
+        Collection<String> featureConfigParameters = feature.getConfigParameters().keySet();
+        if (!CollectionUtils.isEmpty(featureConfigParameters))
+        {
+            sb.append("    Config parameters : \n");
+            featureConfigParameters.forEach(param -> sb.append("      ").append(param).append('\n'));
+        }
+        
+        Collection<String> configParametersReferences = feature.getConfigParametersReferences();
+        if (!CollectionUtils.isEmpty(configParametersReferences))
+        {
+            sb.append("    Config parameters references : \n");
+            configParametersReferences.forEach(param -> sb.append("      ").append(param).append('\n'));
+        }
+        
+        Collection<String> featureParamCheckers = feature.getParameterCheckers().keySet();
+        if (!CollectionUtils.isEmpty(featureParamCheckers))
+        {
+            sb.append("    Parameters checkers : \n");
+            featureParamCheckers.forEach(param -> sb.append("    ").append(param).append('\n'));
+        }
+        
+        Map<String, String> componentsIds = feature.getComponentsIds();
+        if (!componentsIds.isEmpty())
+        {
+            sb.append("    Components : \n");
+            
+            for (String role : componentsIds.keySet())
+            {
+                String id = componentsIds.get(role);
+                sb.append("      ").append(role).append(" : ").append(id).append('\n');
+            }
+            
+            sb.append('\n');
+        }
+
+        Map<String, Collection<String>> extensionsIds = feature.getExtensionsIds();
+        if (!extensionsIds.isEmpty())
+        {
+            sb.append("    Extensions : \n");
+            
+            for (Entry<String, Collection<String>> extensionEntry : extensionsIds.entrySet())
+            {
+                String point = extensionEntry.getKey();
+                Collection<String> ids = extensionEntry.getValue();
+                
+                sb.append("      ").append(point).append(" :\n");
+                ids.forEach(id -> sb.append("        ").append(id).append('\n'));
+            }
+            
+            sb.append('\n');
+        }
+        
+        return sb.toString();
+    }
+    
+    // Look for plugins bundled in jars
     // They have a META-INF/ametys-plugins plain text file containing plugin name and path to plugin.xml
-    private void _initBaseURIs() throws IOException
+    private void _initResourceURIs() throws IOException
     {
         Enumeration<URL> pluginResources = getClass().getClassLoader().getResources("META-INF/ametys-plugins");
         
@@ -245,312 +594,50 @@ public final class PluginsManager
                         String pluginName = plugin.substring(0, i);       
                         String pluginResourceURI = plugin.substring(i + 1);
                     
-                        if (getClass().getResource(pluginResourceURI + "/" + __PLUGIN_FILENAME) != null)
-                        {
-                            _baseURIs.put(pluginName, pluginResourceURI);
-                        }
-                        else
-                        {
-                            _logger.error("A plugin '" + pluginName + "' is declared in a library, but no file '" + __PLUGIN_FILENAME + "' can be found at '" + pluginResourceURI + "'. It will be ignored.");
-                        }
+                        _resourceURIs.put(pluginName, pluginResourceURI);
                     }
                 }
             }
         }
     }
     
-    // Look for XML schemas embedded in jars
-    // They have a META-INF/runtime-plugin plain text file containing schema identifier and path to the actual XSD file
-    private void _initSchemas(String contextPath, Collection<String> locations, File externalKernel, Map<String, File> externalPlugins) throws IOException
+    private Map<String, Plugin> _parsePlugins(String contextPath, Collection<String> locations, Map<String, File> externalPlugins, Collection<String> excludedPlugins) throws IOException
     {
-        // Embedded schemas
-        Enumeration<URL> shemasResources = getClass().getClassLoader().getResources("META-INF/ametys-schemas");
-        while (shemasResources.hasMoreElements())
+        Map<String, Plugin> plugins = new HashMap<>();
+        
+        // Bundled plugins configurations loading
+        for (String pluginName : _resourceURIs.keySet())
         {
-            URL shemasResource = shemasResources.nextElement();
+            String resourceURI = _resourceURIs.get(pluginName) + "/" + PLUGIN_FILENAME;
             
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(shemasResource.openStream(), "UTF-8")))
+            if (getClass().getResource(resourceURI) == null)
             {
-                String schema;
-                while ((schema = br.readLine()) != null)
-                {
-                    int i = schema.indexOf(':');
-                    if (i != -1)
-                    {
-                        String systemId = "http://www.ametys.org/schema/" + schema.substring(0, i);       
-                        String schemaResourceURI = schema.substring(i + 1);
-                
-                        if (getClass().getResource(schemaResourceURI) != null)
-                        {
-                            _entityResolver.addEmbeddedSchema(systemId, schemaResourceURI);
-                        }
-                        else if (_logger.isWarnEnabled())
-                        {
-                            _logger.warn("A schema '" + systemId + "' is declared in a library, but no file can be found at '" + schemaResourceURI + "'. It will be ignored.");
-                        }
-                    }
-                }
+                _pluginError(pluginName, "A plugin '" + pluginName + "' is declared in a jar, but no file '" + PLUGIN_FILENAME + "' can be found at '" + resourceURI + "'.", PluginIssueCode.BUNDLED_PLUGIN_NOT_PRESENT, excludedPlugins, null);
             }
-        }
-
-        // Local schemas
-        if (externalKernel != null)
-        {
-            _findAndAddSchema(externalKernel);
-        }
-        
-        for (String location : locations)
-        {
-            File locationBase = new File(contextPath, location);
-
-            if (locationBase.exists() && locationBase.isDirectory())
+            else if (!pluginName.matches("^" + PLUGIN_NAME_REGEXP + "$"))
             {
-                File[] pluginDirs = locationBase.listFiles(new FileFilter() 
-                {
-                    public boolean accept(File pathname)
-                    {
-                        return pathname.isDirectory();
-                    }
-                });
-                
-                for (File pluginDir : pluginDirs)
-                {
-                    _findAndAddSchema(pluginDir);
-                }
+                _pluginError(pluginName, pluginName + " is an incorrect plugin name.", PluginIssueCode.PLUGIN_NAME_INVALID, excludedPlugins, null);
             }
-        }
-        
-        for (File externalPlugin : externalPlugins.values())
-        {
-            if (externalPlugin.exists() && externalPlugin.isDirectory())
+            else if (plugins.containsKey(pluginName))
             {
-                _findAndAddSchema(externalPlugin);
-            }
-        }
-    }
-
-    /**
-     * Search in root files of the given directory. If a .xsd file is found it will be added to known schemas using the namespace http://www.ametys.org/schema/FILENAME.xsd
-     * @param dir The directory to inspect.
-     */
-    private void _findAndAddSchema(File dir)
-    {
-        File[] schemaFiles = dir.listFiles(new FileFilter() 
-        {
-            public boolean accept(File pathname)
-            {
-                return pathname.isFile() && pathname.getName().endsWith(".xsd");
-            }
-        });
-        
-        if (schemaFiles != null && schemaFiles.length > 0)
-        {
-            for (File schemaFile : schemaFiles)
-            {
-                // Local schema convention is to put a myschema-1.0.xsd file into
-                // the plugin directory in order to declare the schema of namespace
-                // http://www.ametys.org/schema/myschema with the schema location
-                // http://www.ametys.org/schema/myschema-1.0.xsd
-                _entityResolver.addLocalSchema("http://www.ametys.org/schema/" + schemaFile.getName(), schemaFile);
-            }
-        }
-    }
-    
-    /**
-     * Initialization of the plugin manager
-     * @param manager the PluginsServiceManager dedicated to manage plugins-defined components
-     * @param context the Avalon context
-     * @param contextPath the Web context path on the server filesystem
-     * @return all relevant information about loaded features or null if the application is not correctly configured
-     * @throws ComponentException if something wrong occurs during loading of a component
-     * @throws IOException if an I/O error occurs during loading of a plugin
-     */
-    public Map<String, FeatureInformation> init(PluginsComponentManager manager, Context context, String contextPath) throws ComponentException, IOException
-    {
-        _baseURIs = new HashMap<>();
-        _inactiveFeatures = new HashMap<>();
-        _activeFeatures = new HashMap<>();
-        _passiveFeatures = new HashSet<>();
-        _locations = new HashMap<>();
-        _entityResolver = new LocalEntityResolver();
-        
-        // Embedded plugins locations
-        try
-        {
-            _initBaseURIs();
-        }
-        catch (IOException e)
-        {
-            throw new RuntimeException("Unable to locate embedded plugins", e);
-        }
-        
-        // Plugins root directories (directories containing plugins directories)
-        Collection<String> locations = RuntimeConfig.getInstance().getPluginsLocations();
-        
-        // The kernel location, if external (mainly for debugging)
-        File externalKernel = RuntimeConfig.getInstance().getExternalKernel();
-        
-        // Check external kernel
-        if (externalKernel != null && (!externalKernel.exists() || !externalKernel.isDirectory()))
-        {
-            throw new RuntimeException("The configured external kernel is not an existing directory: " + externalKernel.getAbsolutePath());
-        }
-        
-        // Additional plugins 
-        Map<String, File> externalPlugins = RuntimeConfig.getInstance().getExternalPlugins();
-        
-        // Check external plugins
-        for (File plugin : externalPlugins.values())
-        {
-            if (!plugin.exists() || !plugin.isDirectory())
-            {
-                throw new RuntimeException("The configured external plugin is not an existing directory: " + plugin.getAbsolutePath());
-            }
-        }
-        
-        // Schemas locations
-        _initSchemas(contextPath, locations, externalKernel, externalPlugins);
-        
-        // All plugin.xml Configurations
-        Map<String, Configuration> pluginsConfigurations = _getConfigurations(contextPath, locations, externalPlugins);
-        
-        _pluginNames = pluginsConfigurations.keySet();
-        
-        // Single extension points declared by plugins
-        Map<String, SingleExtensionPointInformation> singleExtensionsPoints = _getSingleExtensionsPoints(pluginsConfigurations);
-        _singleExtensionPointsRoles = singleExtensionsPoints.keySet();
-        
-        // List of chosen extension points among single extension points
-        Map<String, String> extensionsConfig = RuntimeConfig.getInstance().getExtensionsPoints();
-        
-        // Check if all single extension point have a valid extension
-        _checkDefaultSingleExtensionsPoints(singleExtensionsPoints, extensionsConfig);
-        // Check if all referenced single extension point do exit really
-        _checkReferencedSingleExtensionsPoints(singleExtensionsPoints, extensionsConfig);
-        
-        // List of manually excluded features
-        Collection<String> excludedFeatures = RuntimeConfig.getInstance().getExcludedFeatures();
-
-        // Active features configurations
-        Map<String, FeatureInformation> featuresInformations = _getActiveFeaturesInformations(pluginsConfigurations, singleExtensionsPoints, extensionsConfig, excludedFeatures);
-        
-        // Handling of features dependencies
-        _checkFeaturesDependencies(featuresInformations);
-        featuresInformations = _computeFeaturesDependencies(featuresInformations);
-        
-        // Config loading
-        ConfigManager configManager = ConfigManager.getInstance();
-        
-        try
-        {
-            configManager.service(new WrapperServiceManager(manager));
-            configManager.initialize();
-        }
-        catch (Exception e)
-        {
-            throw new RuntimeException("Exception while setting up ConfigManager", e);
-        }
-        
-        try
-        {
-            // Global config parameter loading
-            for (String pluginName : pluginsConfigurations.keySet())
-            {
-                Configuration conf = pluginsConfigurations.get(pluginName);
-                configManager.addGlobalConfig(pluginName, conf);
-            }
-            
-            // "local" config parameter loading
-            for (String featureId : featuresInformations.keySet())
-            {
-                FeatureInformation info = featuresInformations.get(featureId);
-                configManager.addConfig(info.getPluginName(), info.getFeatureName(), info.getConfiguration());
-            }
-        }
-        catch (ConfigurationException e)
-        {
-            throw new RuntimeException("Exception while reading Config configuration", e);
-        }
-        
-        // check if the config is complete and valid
-        configManager.validate();
-        
-        if (!configManager.isComplete())
-        {
-            return null;
-        }
-        
-        // Avalon components and single extension point loading
-        try
-        {
-            _loadComponents(manager, featuresInformations, contextPath);
-            Collection<String> loadedSingleExtensionsPoints = _loadSingleExtensionsPoints(manager, featuresInformations, singleExtensionsPoints, extensionsConfig, contextPath);
-            _checkSingleExtensionsPoints(loadedSingleExtensionsPoints, singleExtensionsPoints, extensionsConfig);
-            _loadRuntimeInit(manager);
-        }
-        catch (ConfigurationException e)
-        {
-            throw new RuntimeException("Exception while loading components", e);
-        }
-        
-        // List of declared extension points
-        _extensionPointsRoles = _getExtensionsPoints(pluginsConfigurations, manager, contextPath);
-        
-        return featuresInformations;
-    }
-    
-    /**
-     * Second and last part of initialization : loading of extensions.<br>
-     * @param manager the PluginsServiceManager used to register new components
-     * @param info all relevant information about features, provided by init()
-     * @param contextPath the Web context path on the server filesystem
-     * @throws Exception if something wrong occurs 
-     */
-    public void initExtensions(PluginsComponentManager manager, Map<String, FeatureInformation> info, String contextPath) throws Exception
-    {
-        Map<String, ExtensionPoint> extPoints = new HashMap<>();
-        for (String role : _extensionPointsRoles)
-        {
-            ExtensionPoint extPoint = (ExtensionPoint) manager.lookup(role);
-            extPoints.put(role, extPoint);
-        }
-        
-        // Active features loading
-        _loadFeatures(extPoints, info, contextPath);
-    }
-    
-    private Map<String, Configuration> _getConfigurations(String contextPath, Collection<String> locations, Map<String, File> externalPlugins) throws IOException
-    {
-        Map<String, Configuration> pluginsConfigurations = new HashMap<>();
-        
-        // Embedded plugins configurations loading
-        for (String pluginName : _baseURIs.keySet())
-        {
-            String resourceURI = _baseURIs.get(pluginName) + "/" + __PLUGIN_FILENAME;
-
-            if (!pluginName.matches("^" + PLUGIN_NAME_REGEXP + "$"))
-            {
-                throw new IllegalArgumentException(pluginName + " is an incorrect plugin name.");
-            }
-            else if (pluginsConfigurations.containsKey(pluginName))
-            {
-                throw new IllegalArgumentException("The plugin " + pluginName + " at " + resourceURI + " is already declared.");
+                _pluginError(pluginName, "The plugin " + pluginName + " at " + resourceURI + " is already declared.", PluginIssueCode.PLUGIN_NAME_EXIST, excludedPlugins, null);
             }
 
-            if (_logger.isDebugEnabled())
-            {
-                _logger.debug("Reading plugin configuration at " + resourceURI);
-            }
+            _logger.debug("Reading plugin configuration at {}", resourceURI);
 
+            Configuration configuration = null;
             try (InputStream is = getClass().getResourceAsStream(resourceURI))
             {
-                Configuration configuration = _getConfigurationFromStream(is, "resource:/" + resourceURI);
-                pluginsConfigurations.put(pluginName, configuration);
+                configuration = _getConfigurationFromStream(pluginName, is, "resource:/" + resourceURI, excludedPlugins);
             }
-            
-            if (_logger.isInfoEnabled())
+
+            if (configuration != null)
             {
-                _logger.info("Plugin '" + pluginName + "' added at path 'resource:/" + resourceURI + "'");
+                Plugin plugin = new Plugin(pluginName);
+                plugin.configure(configuration);
+                plugins.put(pluginName, plugin);
+
+                _logger.info("Plugin '{}' found at path 'resource:/{}'", pluginName, resourceURI);
             }
         }
         
@@ -571,7 +658,7 @@ public final class PluginsManager
                 
                 for (File pluginDir : pluginDirs)
                 {
-                    _addPluginConfiguration(pluginsConfigurations, pluginDir.getName(), pluginDir);
+                    _addPlugin(plugins, pluginDir.getName(), pluginDir, excludedPlugins);
                 }
             }
         }
@@ -583,716 +670,579 @@ public final class PluginsManager
 
             if (pluginDir.exists() && pluginDir.isDirectory())
             {
-                _addPluginConfiguration(pluginsConfigurations, externalPlugin, pluginDir);
+                _addPlugin(plugins, externalPlugin, pluginDir, excludedPlugins);
             }
         }
         
-        return pluginsConfigurations;
+        return plugins;
     }
     
-    private void _addPluginConfiguration(Map<String, Configuration> pluginsConfigurations, String pluginName, File pluginDir) throws IOException
+    private void _addPlugin(Map<String, Plugin> plugins, String pluginName, File pluginDir, Collection<String> excludedPlugins) throws IOException
     {
-        File pluginFile = new File(pluginDir, __PLUGIN_FILENAME);
+        if (pluginName.matches(PLUGIN_NAMES_IGNORED))
+        {
+            _logger.debug("Skipping directory {} ...", pluginDir.getAbsolutePath());
+            return;
+        }
         
+        if (!pluginName.matches("^" + PLUGIN_NAME_REGEXP + "$"))
+        {
+            _logger.warn("{} is an incorrect plugin directory name. It will be ignored.", pluginName);
+            return;
+        }
+        
+        File pluginFile = new File(pluginDir, PLUGIN_FILENAME);
         if (!pluginFile.exists())
         {
-            // Ignore CVS and .svn
-            if (pluginDir.getName().equals("CVS") || pluginDir.getName().equals(".svn"))
-            {
-                if (_logger.isDebugEnabled())
-                {
-                    _logger.debug("There is no file named " + __PLUGIN_FILENAME + " in the directory " + pluginDir.getAbsolutePath() + ". It will be ignored.");
-                }
-            }
-            else if (_logger.isWarnEnabled())
-            {
-                _logger.warn("There is no file named " + __PLUGIN_FILENAME + " in the directory " + pluginDir.getAbsolutePath() + ". It will be ignored.");
-            }
+            _logger.warn(pluginName, "There is no file named {} in the directory {}. It will be ignored.", PLUGIN_FILENAME, pluginDir.getAbsolutePath());
+            return;
         }
-        else
+
+        if (plugins.containsKey(pluginName))
         {
-            if (!pluginName.matches("^" + PLUGIN_NAME_REGEXP + "$"))
-            {
-                throw new IllegalArgumentException(pluginName + " is an incorrect plugin directory name.");
-            }
-            else if (pluginsConfigurations.containsKey(pluginName))
-            {
-                throw new IllegalArgumentException("The plugin " + pluginName + " at " + pluginFile.getAbsolutePath() + " is already declared.");
-            }
-            else
-            {
-                if (_logger.isDebugEnabled())
-                {
-                    _logger.debug("Reading plugin configuration at " + pluginFile.getAbsolutePath());
-                }
+            _pluginError(pluginName, "The plugin " + pluginName + " at " + pluginFile.getAbsolutePath() + " is already declared.", PluginIssueCode.PLUGIN_NAME_EXIST, excludedPlugins, null);
+            return;
+        }
+        
+        _logger.debug("Reading plugin configuration at {}", pluginFile.getAbsolutePath());
 
-                try (InputStream is = new FileInputStream(pluginFile))
-                {
-                    Configuration configuration = _getConfigurationFromStream(is, pluginFile.getAbsolutePath());
+        Configuration configuration = null;
+        try (InputStream is = new FileInputStream(pluginFile))
+        {
+            configuration = _getConfigurationFromStream(pluginName, is, pluginFile.getAbsolutePath(), excludedPlugins);
+        }
 
-                    pluginsConfigurations.put(pluginName, configuration);
-                    
-                    _locations.put(pluginName, pluginDir);
-                }
-                
-                if (_logger.isInfoEnabled())
-                {
-                    _logger.info("Plugin '" + pluginName + "' added at path '" + pluginFile.getAbsolutePath() + "'");
-                }
-            }
+        if (configuration != null)
+        {
+            Plugin plugin = new Plugin(pluginName);
+            plugin.configure(configuration);
+            plugins.put(pluginName, plugin);
+            
+            _locations.put(pluginName, pluginDir);
+            _logger.info("Plugin '{}' found at path '{}'", pluginName, pluginFile.getAbsolutePath());
         }
     }
 
-    private Configuration _getConfigurationFromStream(InputStream is, String path)
+    private Configuration _getConfigurationFromStream(String pluginName, InputStream is, String path, Collection<String> excludedPlugins)
     {
         try
         {
+            SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            URL schemaURL = getClass().getResource("plugin-4.0.xsd");
+            Schema schema = schemaFactory.newSchema(schemaURL);
             SAXParserFactory factory = SAXParserFactory.newInstance();
-            factory.setValidating(true);
             factory.setNamespaceAware(true);
+            factory.setSchema(schema);
             XMLReader reader = factory.newSAXParser().getXMLReader();
-            reader.setProperty(JAXPConstants.JAXP_SCHEMA_LANGUAGE, JAXPConstants.W3C_XML_SCHEMA);
-            reader.setEntityResolver(_entityResolver);
             DefaultConfigurationBuilder confBuilder = new DefaultConfigurationBuilder(reader);
             
             return confBuilder.build(is, path);
         }
         catch (Exception e)
         {
-            throw new RuntimeException("Unable to access to plugin at " + path, e);
-        }
-        finally
-        {
-            if (is != null)
-            {
-                try
-                {
-                    is.close();
-                }
-                catch (IOException e)
-                {
-                    throw new RuntimeException("Exception closing stream : " + path, e);
-                }
-            }
+            _pluginError(pluginName, "Unable to access to plugin '" + pluginName + "' at " + path, PluginIssueCode.CONFIGURATION_UNREADABLE, excludedPlugins, e);
+            return null;
         }
     }
     
-    @SuppressWarnings("unchecked")
-    private Collection<String> _getExtensionsPoints(Map<String, Configuration> pluginsConfigurations, PluginsComponentManager manager, String contextPath) throws ComponentException
+    private void _pluginError(String pluginName, String message, PluginIssueCode code, Collection<String> excludedPlugins, Exception e)
     {
-        Collection<String> extPoints = new ArrayList<>();
-        
-        for (String pluginName : pluginsConfigurations.keySet())
+        // ignore errors for manually excluded plugins
+        if (!excludedPlugins.contains(pluginName))
         {
-            Configuration configuration = pluginsConfigurations.get(pluginName);
-            Configuration extPointsConf = configuration.getChild("extension-points");
-            
-            Configuration[] extPointConf = extPointsConf.getChildren("extension-point");
-            
-            for (Configuration conf : extPointConf)
-            {
-                String id = conf.getAttribute("id", null);
-                String clazz = conf.getAttribute("class", null);
-                
-                if (id == null)
-                {
-                    _logger.error("In plugin '" + pluginName + "', an extension point has no \"id\" attribute. It will be ignored.");
-                }
-                else if (clazz == null)
-                {
-                    _logger.error("In plugin '" + pluginName + "', the extension point '" + id + "' miss the \"class\" attribute. It will be ignored.");
-                }
-                else if (_singleExtensionPointsRoles.contains(id) || extPoints.contains(id))
-                {
-                    _logger.error("The extension point '" + id + "' (in the plugin '" + pluginName + "') is already defined. It will be ignored.");
-                }
-                else
-                {
-                    try
-                    {
-                        Configuration realComponentConf = _getComponentConfiguration(conf, contextPath, pluginName);
-                        
-                        Class c = Class.forName(clazz);
-                        manager.addComponent(pluginName, null, id, c, realComponentConf);
-                    }
-                    catch (ClassNotFoundException e)
-                    {
-                        throw new IllegalArgumentException("Unable to load class '" + clazz + "' for extension point '" + id + "' in plugin " + pluginName, e);
-                    }
-                    catch (ConfigurationException e)
-                    {
-                        throw new IllegalArgumentException("Unable to load configuration for extension point '" + id + "' in plugin " + pluginName, e);
-                    }
-                    
-                    extPoints.add(id);
-                }
-            }
-        }
-        
-        return extPoints;
-    }
-    
-    private Map<String, SingleExtensionPointInformation> _getSingleExtensionsPoints(Map<String, Configuration> pluginsConfigurations)
-    {
-        try
-        {
-            Map<String, SingleExtensionPointInformation> extPoints = new HashMap<>();
-            
-            for (String pluginName : pluginsConfigurations.keySet())
-            {
-                Configuration configuration = pluginsConfigurations.get(pluginName);
-                Configuration extPointsConf = configuration.getChild("extension-points");
-                
-                Configuration[] extPointConf = extPointsConf.getChildren("single-extension-point");
-                
-                for (Configuration conf : extPointConf)
-                {
-                    String id = conf.getAttribute("id", null);
-                    String clazz = conf.getAttribute("class", null);
-                    String defaultExtensionId = conf.getAttribute("default-extension-id", null);
-                    
-                    if (id == null)
-                    {
-                        _logger.error("In plugin '" + pluginName + "', a single extension point miss the \"id\" attribute. It will be ignored.");
-                    }
-                    else if (clazz == null)
-                    {
-                        _logger.error("In plugin '" + pluginName + "', the single extension point '" + id + "' miss the \"class\" attribute. It will be ignored.");
-                    }
-                    else if (extPoints.containsKey(id))
-                    {
-                        _logger.error("The single extension point '" + id + "' (in the plugin '" + pluginName + "') is already defined. It will be ignored.");
-                    }
-                    else 
-                    {
-                        Class c = Class.forName(clazz);
-                        
-                        extPoints.put(id, new SingleExtensionPointInformation(c, defaultExtensionId));
-                    }
-                }
-            }
-            
-            return extPoints;
-        }
-        catch (ClassNotFoundException e)
-        {
-            _logger.error("Unable to load a single extension point class", e);
-            throw new IllegalArgumentException("Unable to load a single extension point class", e);
+            PluginIssue issue = new PluginIssue(null, null, code, null, message, e);
+            _errors.add(issue);
+            _logger.error(message, e);
         }
     }
     
-    private void _checkDefaultSingleExtensionsPoints(Map<String, SingleExtensionPointInformation> singleExtensionsPoints, Map<String, String> extensionsConfig)
+    /**
+     * Computes the actual plugins and features to load, based on values selected by the administrator.<br>
+     * This method don't actually load nor execute any Java code. It reads plugins definitions, selects active features and get components and extensions definitions.
+     * @param contextPath the application context path.
+     * @param excludedPlugins manually excluded plugins.
+     * @param excludedFeatures manually excluded features.
+     * @param componentsConfig chosen components, among those with the same role.
+     * @return all informations gathered during plugins reading.
+     */
+    private PluginsInformation computeActiveFeatures(String contextPath, Collection<String> excludedPlugins, Collection<String> excludedFeatures, Map<String, String> componentsConfig)
     {
-        for (String extensionPointRole : singleExtensionsPoints.keySet())
+        Map<String, Feature> initialFeatures = new HashMap<>();
+        Map<String, ExtensionPointDefinition> extensionPoints = new HashMap<>();
+        Map<String, InactivityCause> inactiveFeatures = new HashMap<>();
+        
+        Collection<PluginIssue> errors = new ArrayList<>();
+
+        // Get actual plugin list, corresponding extension points and initial feature list
+        Map<String, Plugin> plugins = _computeActivePlugins(excludedPlugins, initialFeatures, inactiveFeatures, extensionPoints, errors);
+
+        // Compute incoming deactivations
+        Map<String, Collection<String>> incomingDeactivations = _computeIncomingDeactivations(initialFeatures);
+        
+        // First remove user-excluded features
+        Set<String> ids = initialFeatures.keySet();
+        Iterator<String> it = ids.iterator();
+        while (it.hasNext())
         {
-            if (!extensionsConfig.containsKey(extensionPointRole))
+            String id = it.next();
+            
+            if (excludedFeatures.contains(id))
             {
-                SingleExtensionPointInformation info = singleExtensionsPoints.get(extensionPointRole);
-                String defaultExtensionid = info.getDefaultExtensionId();
-                
-                if (defaultExtensionid != null)
+                _logger.debug("Remove excluded feature '{}'", id);
+                it.remove();
+                inactiveFeatures.put(id, InactivityCause.EXCLUDED);
+            }
+        }
+        
+        // Then remove deactivated features
+        // Also remove feature containing inactive components
+        _removeInactiveFeatures(initialFeatures, inactiveFeatures, incomingDeactivations, componentsConfig);
+        
+        ids = initialFeatures.keySet();
+        it = ids.iterator();
+        while (it.hasNext())
+        {
+            String id = it.next();
+            Feature feature = initialFeatures.get(id);
+            Map<String, Collection<String>> extensionsIds = feature.getExtensionsIds();
+            boolean hasBeenRemoved = false;
+            for (String point : extensionsIds.keySet())
+            {
+                if (!extensionPoints.containsKey(point))
                 {
-                    extensionsConfig.put(extensionPointRole, defaultExtensionid);
-                }
-                else
-                {
-                    String errorMessage = "No extension available for the single extension point '" + extensionPointRole + "' : none has been selected in the WEB-INF/param/runtime.xml, and the extension point does not have a default extension id.";
-                    _logger.error(errorMessage);
-                    throw new RuntimeException(errorMessage);
+                    String message = "In feature '" + id + "' an extension references the non-existing point '" + point + "'.";
+                    _logger.error(message);
+                    PluginIssue issue = new PluginIssue(feature.getPluginName(), feature.getFeatureName(), PluginIssueCode.INVALID_POINT, null, message);
+                    errors.add(issue);
+                    if (!hasBeenRemoved)
+                    {
+                        it.remove();
+                        inactiveFeatures.put(id, InactivityCause.INVALID_POINT);
+                        hasBeenRemoved = true;
+                    }
                 }
             }
         }
-    }
-     
-    private void _checkReferencedSingleExtensionsPoints(Map<String, SingleExtensionPointInformation> singleExtensionsPoints, Map<String, String> extensionsConfig)
-    {
-        for (String referecendExtension : extensionsConfig.keySet())
+        
+        // Process outgoing dependencies
+        Map<String, Feature> features = _processOutgoingDependencies(initialFeatures, inactiveFeatures, errors);
+
+        // Compute incoming dependencies
+        Map<String, Collection<String>> incomingDependencies = _computeIncompingDependencies(features);
+        
+        // Finally remove unused passive features
+        ids = features.keySet();
+        it = ids.iterator();
+        while (it.hasNext())
         {
-            if (!singleExtensionsPoints.containsKey(referecendExtension))
+            String id = it.next();
+            Feature feature = features.get(id);
+            
+            if (feature.isPassive() && !incomingDependencies.containsKey(id))
             {
-                String message = "The single extension point '" + referecendExtension + "' : referenced in the WEB-INF/param/runtime.xml does not exist.";
-                _logger.warn(message);
+                _logger.debug("Remove passive feature '{}'", id);
+                it.remove();
+                inactiveFeatures.put(id, InactivityCause.PASSIVE);
             }
         }
+        
+        // Check uniqueness of extensions and components
+        Map<String, Map<String, ExtensionDefinition>> extensions = _computeExtensions(features, errors);
+        Map<String, ComponentDefinition> components = _computeComponents(features, componentsConfig, errors);
+        
+        return new PluginsInformation(plugins, features, inactiveFeatures, extensionPoints, extensions, components, errors);
     }
     
-    private Map<String, FeatureInformation> _getActiveFeaturesInformations(Map<String, Configuration> pluginsConfigurations, Map<String, SingleExtensionPointInformation> extensionsPoints, Map<String, String> extensionsConfig, Collection<String> excludedFeatures)
+    private Map<String, Plugin> _computeActivePlugins(Collection<String> excludedPlugins, Map<String, Feature> initialFeatures, Map<String, InactivityCause> inactiveFeatures, Map<String, ExtensionPointDefinition> extensionPoints, Collection<PluginIssue> errors)
     {
-        Map<String, FeatureInformation> featuresInformations = new HashMap<>();
-        
-        // internal Map to check unicity of extensions ids
-        Map<String, Collection<String>> extensionsIds = new HashMap<>();
-        
-        for (String pluginName : pluginsConfigurations.keySet())
+        Map<String, Plugin> plugins = new HashMap<>();
+        for (String pluginName : _allPlugins.keySet())
         {
-            Configuration[] pluginsConf = pluginsConfigurations.get(pluginName).getChildren("feature");
-            
-            // Loop on each plugin Configuration
-            for (Configuration conf : pluginsConf)
+            if (!excludedPlugins.contains(pluginName))
             {
-                String name = conf.getAttribute("name", null);
-                
-                if (name == null)
+                Plugin plugin = _allPlugins.get(pluginName);
+                plugins.put(pluginName, plugin);
+                _logger.info("Plugin '{}' loaded", pluginName);
+
+                // Check uniqueness of extension points
+                Map<String, ExtensionPointDefinition> extPoints = plugin.getExtensionPointDefinitions();
+                for (String point : extPoints.keySet())
                 {
-                    _logger.error("The plugin '" + pluginName + "' defines a feature without the mandatory \"name\" attribute. It will be ignored.");
-                }
-                else if (!name.matches("[a-zA-Z0-9]|([a-zA-Z0-9][a-zA-Z0-9-_.]*[a-zA-Z0-9])"))
-                {
-                    _logger.error(name + " is an incorrect feature name. It will be ignored.");
-                }
-                else if (featuresInformations.containsKey(pluginName + FEATURE_ID_SEPARATOR + name))
-                {
-                    _logger.error("The feature " + name + " in the plugin " + pluginName + " is already declared. It will be ignored.");
-                }
-                else
-                {
-                    _checkExtensionsIds(extensionsIds, conf, pluginName);
+                    ExtensionPointDefinition definition = extPoints.get(point);
                     
-                    String featureId = pluginName + FEATURE_ID_SEPARATOR + name;
-                    
-                    if (excludedFeatures.contains(featureId))
+                    if (!_safeMode || definition._safe)
                     {
-                        _inactiveFeatures.put(featureId, new InactiveFeature(pluginName, name, InactivityCause.EXCLUDED));
-                    }
-                    else if (!_includePlugin(conf, extensionsPoints, extensionsConfig))
-                    {
-                        _inactiveFeatures.put(featureId, new InactiveFeature(pluginName, name, InactivityCause.SINGLE));
-                    }
-                    else
-                    {
-                        if (conf.getAttributeAsBoolean("passive", false))
+                        if (extensionPoints.containsKey(point))
                         {
-                            _passiveFeatures.add(featureId);
-                        }
-                        
-                        FeatureInformation info = new FeatureInformation(pluginName, name, conf);
-                        featuresInformations.put(info.getFeatureId(), info);
-                    }
-                }
-            }
-        }
-        
-        return featuresInformations;
-    }
+                            // It is an error to have two extension points with the same id, but we should not interrupt when in safe mode, so just ignore it
+                            String message = "The extension point '" + point + "', defined in the plugin '" + pluginName + "' is already defined in aother plugin. ";
+                            PluginIssue issue = new PluginIssue(pluginName, null, PluginIssue.PluginIssueCode.EXTENSIONPOINT_ALREADY_EXIST, definition._configuration.getLocation(), message);
     
-    private void _checkFeaturesDependencies(Map<String, FeatureInformation> featuresInformations)
-    {
-        boolean process = true;
-        Set<String> featuresToRemove = new HashSet<>();
-        
-        while (process)
-        {
-            process = false;
-            
-            for (String featureId : featuresInformations.keySet())
-            {
-                // Only handle non-passive features
-                if (!_passiveFeatures.contains(featureId))
-                {
-                    FeatureInformation info = featuresInformations.get(featureId);
-                    Configuration conf = info.getConfiguration();
-                    String depends = conf.getAttribute("depends", "");
-                    Collection<String> features = StringUtils.stringToCollection(depends);
-                    
-                    for (String feature : features)
-                    {
-                        Matcher featureIdMatcher = __FEATURE_ID_PATTERN.matcher(feature);
-                        if (featureIdMatcher.matches())
-                        {
-                            String dependingFeatureId = feature;
-                            
-                            String prefix = featureIdMatcher.group(1);
-                            if (prefix == null || prefix.length() == 0)
+                            if (!_safeMode)
                             {
-                                dependingFeatureId = info.getPluginName() + FEATURE_ID_SEPARATOR + feature;
+                                _logger.error(message);
+                                errors.add(issue);
                             }
-                            
-                            if (!featuresInformations.containsKey(dependingFeatureId) && !featuresToRemove.contains(featureId))
+                            else
                             {
-                                _logger.error("The feature '" + featureId + "' depends on '" + dependingFeatureId + "' which is not present. It will be ignored.");
-                                
-                                featuresToRemove.add(featureId);
-                                
-                                process = true;
-                            }
-                            else if (_passiveFeatures.contains(dependingFeatureId))
-                            {
-                                // This feature is no more passive
-                                _passiveFeatures.remove(dependingFeatureId);
-                                
-                                // We have to reprocess all since it may have been ignored during the first loop 
-                                process = true;
+                                _logger.debug("[Safe mode] {}", message);
                             }
                         }
                         else
                         {
-                            _logger.error("The feature '" + featureId + "' depends on '" + feature + "' which is not a valid feature id. This dependency will be ignored.");
+                            extensionPoints.put(point, definition);
                         }
                     }
                 }
-            }
-        }
-
-        // Finally remove ignored features
-        for (String featureToRemove : featuresToRemove)
-        {
-            FeatureInformation info = featuresInformations.remove(featureToRemove);
-            _inactiveFeatures.put(info.getFeatureId(), new InactiveFeature(info.getPluginName(), info.getFeatureName(), InactivityCause.DEPENDENCY));
-        }
-        
-        // Finally remove passive features
-        for (String featureToRemove : _passiveFeatures)
-        {
-            FeatureInformation info = featuresInformations.remove(featureToRemove);
-            _inactiveFeatures.put(info.getFeatureId(), new InactiveFeature(info.getPluginName(), info.getFeatureName(), InactivityCause.PASSIVE));
-        }
-    }
-    
-    private Map<String, FeatureInformation> _computeFeaturesDependencies(Map<String, FeatureInformation> featuresInformations)
-    {
-        LinkedHashMap<String, FeatureInformation> result = new LinkedHashMap<>();
-        
-        for (String featureId : featuresInformations.keySet())
-        {
-            _computeFeaturesDependencies(featureId, featuresInformations, result, featureId);
-        }
-        
-        return result;
-    }
-    
-    private void _computeFeaturesDependencies(String featureId, Map<String, FeatureInformation> featuresInformations, Map<String, FeatureInformation> result, String initialFeatureId)
-    {
-        FeatureInformation info = featuresInformations.get(featureId);
-        Configuration conf = info.getConfiguration();
-        String depends = conf.getAttribute("depends", "");
-        Collection<String> features = StringUtils.stringToCollection(depends);
-        
-        for (String feature : features)
-        {
-            Matcher featureIdMatcher = __FEATURE_ID_PATTERN.matcher(feature);
-            if (featureIdMatcher.matches())
-            {
-                String dependingFeatureId = feature;
                 
-                String prefix = featureIdMatcher.group(1);
-                if (prefix == null || prefix.length() == 0)
+                Map<String, Feature> features = plugin.getFeatures();
+                for (String id : features.keySet())
                 {
-                    dependingFeatureId = info.getPluginName() + FEATURE_ID_SEPARATOR + feature;
-                }
-
-                if (initialFeatureId.equals(dependingFeatureId))
-                {
-                    throw new RuntimeException("Circular dependency detected for feature: " + feature);
-                }
-                
-                // do not process the feature if it has already been processed
-                if (!result.containsKey(dependingFeatureId))
-                {
-                    _computeFeaturesDependencies(dependingFeatureId, featuresInformations, result, initialFeatureId);
+                    Feature feature = features.get(id);
+                    
+                    if (!_safeMode || feature.isSafe())
+                    {
+                        initialFeatures.put(id, feature);
+                    }
+                    else
+                    {
+                        inactiveFeatures.put(id, InactivityCause.NOT_SAFE);
+                    }
                 }
             }
             else
             {
-                _logger.error("The feature '" + featureId + "' depends on '" + feature + "' which is not a valid feature id. This dependency will be ignored.");
+                _logger.debug("Plugin '{}' is excluded", pluginName);
+            }
+        }
+
+        return plugins;
+    }
+    
+    private void _removeInactiveFeatures(Map<String, Feature> initialFeatures, Map<String, InactivityCause> inactiveFeatures, Map<String, Collection<String>> incomingDeactivations, Map<String, String> componentsConfig)
+    {
+        Iterator<String> it = initialFeatures.keySet().iterator();
+        while (it.hasNext())
+        {
+            String id = it.next();
+            Feature feature = initialFeatures.get(id);
+            
+            if (incomingDeactivations.containsKey(id) && !incomingDeactivations.get(id).isEmpty())
+            {
+                String deactivatingFeature = incomingDeactivations.get(id).iterator().next();
+                _logger.debug("Removing feature {} deactivated by feature {}.", id, deactivatingFeature);
+                it.remove();
+                inactiveFeatures.put(id, InactivityCause.DEACTIVATED);
+                continue;
+            }
+            
+            Map<String, String> components = feature.getComponentsIds();
+            for (String role : components.keySet())
+            {
+                String componentId = components.get(role);
+                String selectedId = componentsConfig.get(role);
+                
+                // remove the feature if the user asked for a specific id and the declared component has not that id 
+                if (selectedId != null && !selectedId.equals(componentId))
+                {
+                    _logger.debug("Removing feature '{}' as it contains the component id '{}' for role '{}' but the user selected the id '{}' for that role.", id, componentId, role, selectedId);
+                    it.remove();
+                    inactiveFeatures.put(id, InactivityCause.COMPONENT);
+                    continue;
+                }
+            }
+        }
+    }
+    
+    private Map<String, Collection<String>> _computeIncomingDeactivations(Map<String, Feature> features)
+    {
+        Map<String, Collection<String>> incomingDeactivations = new HashMap<>();
+        
+        for (String id : features.keySet())
+        {
+            Feature feature = features.get(id);
+            Collection<String> deactivations = feature.getDeactivations();
+            
+            for (String deactivation : deactivations)
+            {
+                Collection<String> deps = incomingDeactivations.get(deactivation);
+                if (deps == null)
+                {
+                    deps = new ArrayList<>();
+                    incomingDeactivations.put(deactivation, deps);
+                }
+                
+                deps.add(id);
             }
         }
         
-        result.put(featureId, info);
+        return incomingDeactivations;
     }
     
-    private void _checkExtensionsIds(Map<String, Collection<String>> extensionsIds, Configuration conf, String pluginName)
+    private Map<String, Feature> _processOutgoingDependencies(Map<String, Feature> initialFeatures, Map<String, InactivityCause> inactiveFeatures, Collection<PluginIssue> errors)
     {
-        String featureName = conf.getAttribute("name", null);
-        
-        Configuration[] extsConf = conf.getChild("extensions").getChildren("extension");
-        
-        // Boucle sur chaque extension
-        for (Configuration extConf : extsConf)
+        // Check outgoing dependencies
+        boolean processDependencies = true;
+        while (processDependencies)
         {
-            String id = extConf.getAttribute("id", null);
-            String point = extConf.getAttribute("point", null);
+            processDependencies = false;
             
-            if (id != null && point != null)
+            Collection<String> ids = initialFeatures.keySet();
+            Iterator<String> it = ids.iterator();
+            while (it.hasNext())
             {
-                // No warnings are generated here, it's already done during extensions loading phase
-                Collection<String> ids = extensionsIds.get(point);
-                
-                if (ids == null)
+                String id = it.next();
+                Feature feature = initialFeatures.get(id);
+                Collection<String> dependencies = feature.getDependencies();
+                for (String dependency : dependencies)
                 {
-                    ids = new ArrayList<>();
-                    ids.add(id);
-                    extensionsIds.put(point, ids);
+                    if (!initialFeatures.containsKey(dependency))
+                    {
+                        _logger.debug("The feature '{}' depends on '{}' which is not present. It will be ignored.", id, dependency);
+                        it.remove();
+                        inactiveFeatures.put(id, InactivityCause.DEPENDENCY);
+                        processDependencies = true;
+                    }
                 }
-                else if (!ids.contains(id))
+            }
+        }
+        
+        // Reorder remaining features, respecting dependencies
+        LinkedHashMap<String, Feature> features = new LinkedHashMap<>();
+        
+        for (String featureId : initialFeatures.keySet())
+        {
+            _computeFeaturesDependencies(featureId, initialFeatures, features, featureId, errors);
+        }
+        
+        return features;
+    }
+    
+    private Map<String, Collection<String>> _computeIncompingDependencies(Map<String, Feature> features)
+    {
+        Map<String, Collection<String>> incomingDependencies = new HashMap<>();
+        for (String id : features.keySet())
+        {
+            Feature feature = features.get(id);
+            Collection<String> dependencies = feature.getDependencies();
+            
+            for (String dependency : dependencies)
+            {
+                Collection<String> deps = incomingDependencies.get(dependency);
+                if (deps == null)
                 {
-                    ids.add(id);
+                    deps = new ArrayList<>();
+                    incomingDependencies.put(dependency, deps);
+                }
+                
+                deps.add(id);
+            }
+        }
+        
+        return incomingDependencies;
+    }
+
+    private void _computeFeaturesDependencies(String featureId, Map<String, Feature> features, Map<String, Feature> result, String initialFeatureId, Collection<PluginIssue> errors)
+    {
+        Feature feature = features.get(featureId);
+        Collection<String> dependencies = feature.getDependencies();
+        
+        for (String dependency : dependencies)
+        {
+            if (initialFeatureId.equals(dependency))
+            {
+                String message = "Circular dependency detected for feature: " + feature;
+                _logger.error(message);
+                PluginIssue issue = new PluginIssue(feature.getPluginName(), feature.getFeatureName(), PluginIssueCode.CIRCULAR_DEPENDENCY, null, message);
+                errors.add(issue);
+            }
+            else if (!result.containsKey(dependency))
+            {
+                // do not process the feature if it has already been processed
+                _computeFeaturesDependencies(dependency, features, result, initialFeatureId, errors);
+            }
+        }
+        
+        result.put(featureId, feature);
+    }
+    
+    private Map<String, Map<String, ExtensionDefinition>> _computeExtensions(Map<String, Feature> features, Collection<PluginIssue> errors)
+    {
+        Map<String, Map<String, ExtensionDefinition>> extensionsDefinitions = new HashMap<>();
+        for (Feature feature : features.values())
+        {
+            // extensions
+            Map<String, Map<String, ExtensionDefinition>> extensionsConfs = feature.getExtensions();
+            for (String point : extensionsConfs.keySet())
+            {
+                Map<String, ExtensionDefinition> featureExtensions = extensionsConfs.get(point);
+                Map<String, ExtensionDefinition> globalExtensions = extensionsDefinitions.get(point);
+                if (globalExtensions == null)
+                {
+                    globalExtensions = new HashMap<>(featureExtensions);
+                    extensionsDefinitions.put(point, globalExtensions);
                 }
                 else
                 {
-                    throw new IllegalArgumentException("In feature " + pluginName + FEATURE_ID_SEPARATOR + featureName + ", the extension " + id + " to point " + point + " is already declared.");
-                }
-            }
-        }
-    }
-    
-    private boolean _includePlugin(Configuration conf, Map<String, SingleExtensionPointInformation> singleExtensionsPoints, Map<String, String> extensionsConfig)
-    {
-        Configuration[] extsConf = conf.getChild("extensions").getChildren("extension");
-        
-        // Boucle sur chaque extension
-        for (Configuration extConf : extsConf)
-        {
-            String id = extConf.getAttribute("id", null);
-            String point = extConf.getAttribute("point", null);
-            
-            if (id != null && point != null)
-            {
-                // No warnings are generated here, it's already done during extensions loading phase
-                if (singleExtensionsPoints.containsKey(point))
-                {
-                    // It's a single extension point, compare it with the parameterized value
-                    if (!id.equals(extensionsConfig.get(point)))
+                    for (String id : featureExtensions.keySet())
                     {
-                        // This extension is not selected, the feature is invalidated
-                        return false;
-                    }
-                    else if (extConf.getAttribute("class", null) == null)
-                    {
-                        throw new IllegalArgumentException("The extension '" + id + "' to the single extension point '" + point + "' defined at " + extConf.getLocation() + " does not contains the mandatory attribute \"class\".");
+                        if (globalExtensions.containsKey(id))
+                        {
+                            PluginIssue issue = new PluginIssue(feature.getPluginName(), feature.getFeatureName(), PluginIssueCode.EXTENSION_ALREADY_EXIST, null, "The extension '" + id + "' to point '" + point + "' is already defined in another feature.");
+                            errors.add(issue);
+                        }
+                        else
+                        {
+                            ExtensionDefinition definition = featureExtensions.get(id);
+                            globalExtensions.put(id, definition);
+                        }
                     }
                 }
             }
         }
         
-        return true;
+        return extensionsDefinitions;
     }
     
-    private void _loadFeatures(Map<String, ExtensionPoint> extPoints, Map<String, FeatureInformation> featuresInformations, String contextPath) throws Exception
+    private Map<String, ComponentDefinition> _computeComponents(Map<String, Feature> features, Map<String, String> componentsConfig, Collection<PluginIssue> errors)
     {
-        for (String featureId : featuresInformations.keySet())
-        {
-            FeatureInformation info = featuresInformations.get(featureId);
-            
-            Configuration conf = info.getConfiguration();
-            
-            Configuration[] extsConf = conf.getChild("extensions").getChildren("extension");
-            
-            ActiveFeature feature = _getActiveFeature(info.getPluginName(), info.getFeatureName());
-
-            // Loop on each extension
-            for (Configuration extConf : extsConf)
-            {
-                _loadExtensions(feature, extConf, extPoints, contextPath);
-            }
-        }
+        Map<String, ComponentDefinition> components = new HashMap<>();
         
-        // final initialization of extension points
-        for (ExtensionPoint extPoint : extPoints.values())
+        for (Feature feature : features.values())
         {
-            extPoint.initializeExtensions();
-        }
-    }
-    
-    private void _loadExtensions(ActiveFeature feature, Configuration extConf, Map<String, ExtensionPoint> extPoints, String contextPath) throws ConfigurationException
-    {
-        String id = extConf.getAttribute("id", null);
-        String point = extConf.getAttribute("point", null);
-        
-        String featureId = feature.getPluginName() + FEATURE_ID_SEPARATOR + feature.getFeatureName();
-        
-        if (id == null)
-        {
-            _logger.error("The feature '" + featureId + "' defines an extension without the mandatory \"id\" attribute. It will be ignored.");
-        }
-        else if (point == null)
-        {
-            _logger.error("The extension '" + id + "' in the feature '" + featureId + "' defines an extension without the mandatory \"point\" attribute. It will be ignored.");
-        }
-        else if (!_extensionPointsRoles.contains(point) && !_singleExtensionPointsRoles.contains(point))
-        {
-            _logger.error("The extension '" + id + "' in the feature '" + featureId + "' defines an extension to the non-existing extension point '" + point + "'. It will be ignored.");
-        }
-        else
-        {
-            ExtensionPoint extPoint = extPoints.get(point);
-            
-            if (extPoint != null)
+            // components
+            Map<String, ComponentDefinition> featureComponents = feature.getComponents();
+            for (String role : featureComponents.keySet())
             {
-                Configuration realComponentConf = _getComponentConfiguration(extConf, contextPath, feature.getPluginName());
-
-                extPoint.addExtension(feature.getPluginName(), feature.getFeatureName(), realComponentConf);
-                feature.addExtension(point, id);
-            }
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    private void _loadComponents(PluginsComponentManager manager, Map<String, FeatureInformation> featuresInformations, String contextPath) throws ConfigurationException, ComponentException
-    {
-        for (String featureId : featuresInformations.keySet())
-        {
-            FeatureInformation info = featuresInformations.get(featureId);
-            Configuration conf = info.getConfiguration();
-            
-            // Avalon components loading
-            Configuration[] componentsConf = conf.getChild("components").getChildren("component");
-            
-            for (Configuration componentConf : componentsConf)
-            {
-                String role = componentConf.getAttribute("role", null);
-                String clazz = componentConf.getAttribute("class", null);
-                
-                if (clazz == null)
+                ComponentDefinition definition = featureComponents.get(role);
+                ComponentDefinition globalDefinition = components.get(role);
+                if (globalDefinition == null)
                 {
-                    _logger.error("The feature " + featureId + " defines a component without a class. It will be ignored.");
+                    components.put(role, definition);
                 }
                 else
                 {
-                    if (role == null)
+                    String id = definition.getId();
+                    if (id.equals(globalDefinition.getId()))
                     {
-                        if (_logger.isWarnEnabled())
-                        {
-                            _logger.warn("The feature " + featureId + " defines a component without a role. The class name " + clazz + " will be used.");
-                        }
-                        role = clazz;
+                        String message = "The component for role '" + role + "' and id '" + id + "' is defined both in feature '" + definition.getPluginName() + FEATURE_ID_SEPARATOR + definition.getFeatureName() + "' and in feature '" + globalDefinition.getPluginName() + FEATURE_ID_SEPARATOR + globalDefinition.getFeatureName() + "'.";
+                        _logger.error(message);
+                        PluginIssue issue = new PluginIssue(feature.getPluginName(), feature.getFeatureName(), PluginIssueCode.COMPONENT_ALREADY_EXIST, null, message);
+                        errors.add(issue);
                     }
-                    
-                    Configuration realComponentConf = _getComponentConfiguration(componentConf, contextPath, info.getPluginName());
-                    
-                    try
+                    else
                     {
-                        Class c = Class.forName(clazz);
-                        
-                        manager.addComponent(info.getPluginName(), info.getFeatureName(), role, c, realComponentConf);
-                    }
-                    catch (ClassNotFoundException ex)
-                    {
-                        throw new ConfigurationException("Unable to load class " + clazz, componentConf, ex);
-                    }
-                    
-                    ActiveFeature feature = _getActiveFeature(info.getPluginName(), info.getFeatureName());
-                    feature.addComponent(role);
-                }
-            }
-        }
-    }
-    
-    @SuppressWarnings("unchecked")
-    private Collection<String> _loadSingleExtensionsPoints(PluginsComponentManager manager, Map<String, FeatureInformation> featuresInformations, Map<String, SingleExtensionPointInformation> singleExtensionsPoints, Map<String, String> extensionsConfig, String contextPath) throws ConfigurationException, ComponentException
-    {
-        Collection<String> loadedSingleExtensionsPoints = new ArrayList<>();
-        for (String featureId : featuresInformations.keySet())
-        {
-            FeatureInformation info = featuresInformations.get(featureId);
-            Configuration conf = info.getConfiguration();
-            
-            // extension points loading
-            Configuration[] extsConf = conf.getChild("extensions").getChildren("extension");
-            
-            // loop on each extension
-            for (Configuration extConf : extsConf)
-            {
-                String id = extConf.getAttribute("id", null);
-                String point = extConf.getAttribute("point", null);
-                
-                // Verify that it is a single extension point (else it'll  be handled later) and that the current extension is the selected one
-                // Note that this last check should be useless, as the feature would have not been loaded if ids doesn't match
-                if (id != null && point != null && singleExtensionsPoints.containsKey(point) && id.equals(extensionsConfig.get(point)))
-                {
-                    // No warnings are generated here, it's already done during extensions loading phase
-                    SingleExtensionPointInformation extInfo = singleExtensionsPoints.get(point);
-                    Class<?> extInterface = extInfo.getExtensionPointClass();
-                    
-                    String clazz = extConf.getAttribute("class", null);
-                    
-                    // clazz is not null, else an IllegalArgumentException would have been raised in _includePlugin()
-                    try
-                    {
-                        Class c = Class.forName(clazz);
-                        
-                        if (!extInterface.isAssignableFrom(c))
-                        {
-                            throw new ConfigurationException("The class " + clazz + " for extension '" + id + "' does not extends or implements the class " + extInterface.getName() + " declared for the single extension point '" + point + "'", extConf);
-                        }
-                        
-                        Configuration realComponentConf = _getComponentConfiguration(extConf, contextPath, info.getPluginName());
-                        
-                        manager.addComponent(info.getPluginName(), info.getFeatureName(), point, c, realComponentConf);
-                        loadedSingleExtensionsPoints.add(point);
-                        
-                        ActiveFeature feature = _getActiveFeature(info.getPluginName(), info.getFeatureName());
-                        feature.addExtension(point, id);
-                    }
-                    catch (ClassNotFoundException ex)
-                    {
-                        throw new ConfigurationException("Unable to load class " + clazz, extConf, ex);
+                        String message = "The component for role '" + role + "' is defined with id '" + id + "' in the feature '" + definition.getPluginName() + FEATURE_ID_SEPARATOR + definition.getFeatureName() + "' and with id '" + globalDefinition.getId() + "' in the feature '" + globalDefinition.getPluginName() + FEATURE_ID_SEPARATOR + globalDefinition.getFeatureName() + "'. One of them should be chosen in the runtime.xml.";
+                        _logger.error(message);
+                        PluginIssue issue = new PluginIssue(feature.getPluginName(), feature.getFeatureName(), PluginIssueCode.COMPONENT_ALREADY_EXIST, null, message);
+                        errors.add(issue);
                     }
                 }
             }
         }
         
-        return loadedSingleExtensionsPoints;
-    }
-    
-    private void _checkSingleExtensionsPoints(Collection<String> loadedSingleExtensionsPoints, Map<String, SingleExtensionPointInformation> singleExtensionsPoints, Map<String, String> extensionsConfig)
-    {
-        for (String point : singleExtensionsPoints.keySet())
+        // check that each component choosen in the runtime.xml is actually defined
+        for (String role : componentsConfig.keySet())
         {
-            if (!loadedSingleExtensionsPoints.contains(point))
+            String requiredId = componentsConfig.get(role);
+            ComponentDefinition definition = components.get(role);
+            
+            if (definition == null || !definition.getId().equals(requiredId))
             {
-                String id = extensionsConfig.get(point);
-                
-                String errorMessage = "The extension '" + id +  "' for the extension point '" + point + "' is not loaded. It may be misspelled, or declared in an inactivated feature.";
-                _logger.error(errorMessage);
-                throw new RuntimeException(errorMessage);
+                // Due to preceding checks, the definition id should not be different than requiredId, but two checks are always better than one ...
+                String message = "The component for role '" + role + "' should point to id '" + requiredId + "' but no component match.";
+                _logger.error(message);
+                PluginIssue issue = new PluginIssue(null, null, PluginIssueCode.COMPONENT_NOT_DECLARED, null, message);
+                errors.add(issue);
             }
         }
+        
+        return components;
     }
-
-    private void _loadRuntimeInit(PluginsComponentManager manager)
+    
+    private void _loadExtensionsPoints(PluginsComponentManager manager, Map<String, ExtensionPointDefinition> extensionPoints, Map<String, Map<String, ExtensionDefinition>> extensionsDefinitions, String contextPath, Collection<PluginIssue> errors)
     {
-        String className = RuntimeConfig.getInstance().getInitClassName();
-
-        if (className != null)
+        for (String point : extensionPoints.keySet())
         {
+            ExtensionPointDefinition definition = extensionPoints.get(point);
+            Configuration conf = definition._configuration;
+            String clazz = conf.getAttribute("class", null);
+            String pluginName = definition._pluginName;
+            
             try
             {
-                if (_logger.isInfoEnabled())
+                Class<? extends Object> c = Class.forName(clazz);
+
+                // check that the class is actually an ExtensionPoint
+                if (ExtensionPoint.class.isAssignableFrom(c))
                 {
-                    _logger.info("Loading init class '" + className + "' for application");
+                    Class<? extends ExtensionPoint> extensionClass = c.asSubclass(ExtensionPoint.class);
+                    
+                    // Load extensions
+                    Collection<ExtensionDefinition> extensionDefinitions = new ArrayList<>();
+                    Map<String, ExtensionDefinition> initialDefinitions = extensionsDefinitions.get(point);
+                    
+                    if (initialDefinitions != null)
+                    {
+                        for (String id : initialDefinitions.keySet())
+                        {
+                            ExtensionDefinition extensionDefinition = initialDefinitions.get(id);
+                            Configuration initialConf = extensionDefinition.getConfiguration();
+                            Configuration realExtensionConf = _getComponentConfiguration(initialConf, contextPath, extensionDefinition.getPluginName(), errors);
+                            extensionDefinitions.add(new ExtensionDefinition(id, point, extensionDefinition.getPluginName(), extensionDefinition.getFeatureName(), realExtensionConf));
+                        }
+                    }
+                    
+                    Configuration realComponentConf = _getComponentConfiguration(conf, contextPath, pluginName, errors);
+                    manager.addExtensionPoint(pluginName, point, extensionClass, realComponentConf, extensionDefinitions);
                 }
-                
-                Class<?> initClass = Class.forName(className);
-                
-                if (!Init.class.isAssignableFrom(initClass))
+                else
                 {
-                    throw new IllegalArgumentException("Provided init class " + initClass + " does not implement org.ametys.runtime.plugin.Init");
-                }
-                
-                manager.addComponent(null, null, Init.ROLE, initClass, new DefaultConfiguration("component"));
-                if (_logger.isInfoEnabled())
-                {
-                    _logger.info("Init class " + className + " loaded");
+                    String message = "In plugin '" + pluginName + "', the extension point '" + point + "' references class '" + clazz + "' which don't implement " + ExtensionPoint.class.getName();
+                    _logger.error(message);
+                    PluginIssue issue = new PluginIssue(pluginName, null, PluginIssue.PluginIssueCode.EXTENSIONPOINT_CLASS_INVALID, conf.getLocation(), message);
+                    errors.add(issue);
                 }
             }
             catch (ClassNotFoundException e)
             {
-                _logger.error("Exception loading init class", e);
-                throw new IllegalArgumentException("Exception loading init class", e);
+                String message = "In plugin '" + pluginName + "', the extension point '" + point + "' references the unexisting class '" + clazz + "'.";
+                _logger.error(message, e);
+                PluginIssue issue = new PluginIssue(pluginName, null, PluginIssue.PluginIssueCode.CLASSNOTFOUND, conf.getLocation(), message);
+                errors.add(issue);
             }
-            catch (ComponentException e)
-            {
-                _logger.error("Exception loading component", e);
-                throw new IllegalArgumentException("Exception loading component", e);
-            }
-        }
-        else if (_logger.isInfoEnabled())
-        {
-            _logger.info("No init class configured");
         }
     }
     
-    private Configuration _getComponentConfiguration(Configuration initialConfiguration, String contextPath, String pluginName) throws ConfigurationException
+    @SuppressWarnings("unchecked")
+    private void _loadComponents(PluginsComponentManager manager, Map<String, ComponentDefinition> components, String contextPath, Collection<PluginIssue> errors)
+    {
+        for (String role : components.keySet())
+        {
+            ComponentDefinition componentDefinition = components.get(role);
+            Configuration componentConf = componentDefinition.getConfiguration();
+            Configuration realComponentConf = _getComponentConfiguration(componentConf, contextPath, componentDefinition.getPluginName(), errors);
+
+            // XML schema ensures class is not null
+            String clazz = componentConf.getAttribute("class", null);
+            assert clazz != null;
+            
+            try
+            {
+                Class c = Class.forName(clazz);
+                manager.addComponent(componentDefinition.getPluginName(), componentDefinition.getFeatureName(), role, c, realComponentConf);
+            }
+            catch (ClassNotFoundException ex)
+            {
+                String message = "In feature '" + componentDefinition.getPluginName() + FEATURE_ID_SEPARATOR + componentDefinition.getFeatureName() + "', the component '" + role + "' references the unexisting class '" + clazz + "'.";
+                _logger.error(message, ex);
+                PluginIssue issue = new PluginIssue(componentDefinition.getPluginName(), componentDefinition.getFeatureName(), PluginIssueCode.CLASSNOTFOUND, componentConf.getLocation(), message);
+                errors.add(issue);
+            }
+        }
+    }
+    
+    private Configuration _getComponentConfiguration(Configuration initialConfiguration, String contextPath, String pluginName, Collection<PluginIssue> errors)
     {
         String config = initialConfiguration.getAttribute("config", null);
         
@@ -1325,7 +1275,7 @@ public final class PluginsManager
                 else
                 {
                     // relative path
-                    String baseUri = _baseURIs.get(pluginName);
+                    String baseUri = _resourceURIs.get(pluginName);
                     if (baseUri == null)
                     {
                         File pluginLocation = getPluginLocation(pluginName);
@@ -1367,8 +1317,10 @@ public final class PluginsManager
             }
             catch (Exception ex)
             {
-                String errorMessage = "Unable to load external configuration defined in the plugin " + pluginName;
-                throw new ConfigurationException(errorMessage, initialConfiguration, ex);
+                String message = "Unable to load external configuration defined in the plugin " + pluginName;
+                _logger.error(message, ex);
+                PluginIssue issue = new PluginIssue(pluginName, null, PluginIssueCode.EXTERNAL_CONFIGURATION, initialConfiguration.getLocation(), message);
+                errors.add(issue);
             }
             finally
             {
@@ -1379,83 +1331,95 @@ public final class PluginsManager
         return initialConfiguration;
     }
 
-    /**
-     * Active feature
-     */
-    public class ActiveFeature
+    private void _loadRuntimeInit(PluginsComponentManager manager, Collection<PluginIssue> errors)
     {
-        private String _pluginName;
-        private String _featureName;
-        private Map<String, Collection<String>> _extensions;
-        private Collection<String> _components;
-        
-        ActiveFeature(String pluginName, String featureName)
+        String className = RuntimeConfig.getInstance().getInitClassName();
+
+        if (className != null)
         {
-            _pluginName = pluginName;
-            _featureName = featureName;
-            _extensions = new HashMap<>();
-            _components = new ArrayList<>();
-        }
-        
-        /**
-         * Returns the declaring plugin name
-         * @return the declaring plugin name
-         */
-        public String getPluginName()
-        {
-            return _pluginName;
-        }
-        
-        /**
-         * Returns this feature name
-         * @return this feature name
-         */
-        public String getFeatureName()
-        {
-            return _featureName;
-        }
-        
-        /**
-         * Returns the extensions declared within this feature, stored by extension point
-         * @return the extensions declared within this feature, stored by extension point
-         */
-        public Map<String, Collection<String>> getExtensions()
-        {
-            return _extensions;
-        }
-        
-        /**
-         * Returns the roles of the components declared within this feature
-         * @return the roles of the components declared within this feature
-         */
-        public Collection<String> getComponents()
-        {
-            return _components;
-        }
-        
-        void addExtension(String point, String id)
-        {
-            Collection<String> extensions = _extensions.get(point);
+            _logger.info("Loading init class '{}' for application", className);
             
-            if (extensions == null)
+            try
             {
-                extensions = new ArrayList<>();
-                _extensions.put(point, extensions);
+                Class<?> initClass = Class.forName(className);
+                if (!Init.class.isAssignableFrom(initClass))
+                {
+                    String message = "Provided init class " + initClass + " does not implement " + Init.class.getName();
+                    _logger.error(message);
+                    PluginIssue issue = new PluginIssue(null, null, PluginIssue.PluginIssueCode.INIT_CLASS_INVALID, null, message);
+                    errors.add(issue);
+                    return;
+                }
+                
+                manager.addComponent(null, null, Init.ROLE, initClass, new DefaultConfiguration("component"));
+                _logger.info("Init class {} loaded", className);
+            }
+            catch (ClassNotFoundException e)
+            {
+                String message = "The application init class '" + className + "' does not exist.";
+                _logger.error(message, e);
+                PluginIssue issue = new PluginIssue(null, null, PluginIssueCode.CLASSNOTFOUND, null, message);
+                errors.add(issue);
             }
             
-            extensions.add(id);
+        }
+        else if (_logger.isInfoEnabled())
+        {
+            _logger.info("No init class configured");
+        }
+    }
+    
+    private PluginsComponentManager _enterSafeMode(ComponentManager parentCM, Context context, String contextPath)
+    {
+        _logger.info("Entering safe mode due to previous errors ...");
+        _safeMode = true;
+        
+        PluginsInformation info = computeActiveFeatures(contextPath, Collections.EMPTY_LIST, Collections.EMPTY_LIST, Collections.EMPTY_MAP);
+        
+        _plugins = info.getPlugins();
+        _extensionPoints = info.getExtensionPoints();
+        _components = info.getComponents();
+        _extensions = info.getExtensions();
+        _features = info.getFeatures();
+        _inactiveFeatures = info.getInactiveFeatures();
+        
+        if (_logger.isDebugEnabled())
+        {
+            _logger.debug("Safe mode : \n\n" + dump(_inactiveFeatures));
         }
         
-        void addComponent(String role)
+        Collection<PluginIssue> errors = info.getErrors();
+        if (!errors.isEmpty())
         {
-            _components.add(role);
+            // errors while in safe mode ... 
+            throw new PluginException("Errors while loading components in safe mode.", _errors, errors);
+        }
+
+        // Create the ComponentManager
+        PluginsComponentManager manager = new PluginsComponentManager(parentCM);
+        manager.setLogger(LoggerFactory.getLogger("org.ametys.runtime.plugin.manager"));
+        manager.contextualize(context);
+
+        errors = new ArrayList<>();
+        _loadExtensionsPoints(manager, _extensionPoints, _extensions, contextPath, errors);
+        _loadComponents(manager, _components, contextPath, errors);
+        
+        if (!errors.isEmpty())
+        {
+            // errors while in safe mode ... 
+            throw new PluginException("Errors while loading components in safe mode.", _errors, errors);
         }
         
-        @Override
-        public String toString()
+        try
         {
-            return _pluginName + FEATURE_ID_SEPARATOR + _featureName;
+            manager.initialize();
         }
+        catch (Exception e)
+        {
+            throw new PluginException("Caught exception while starting ComponentManager in safe mode.", e, _errors, null);
+        }
+        
+        return manager;
     }
     
     /**
@@ -1464,195 +1428,133 @@ public final class PluginsManager
     public enum InactivityCause
     {
         /**
-         * Constant for manually deactivated plugins
+         * Constant for excluded features
          */
         EXCLUDED,
         
         /**
-         * Constant for plugins disabled due to not choosen single extension
+         * Constant for features deactivated by other features
          */
-        SINGLE,
+        DEACTIVATED,
         
         /**
-         * Constant for plugins disabled due to missing dependencies
+         * Constant for features disabled due to not choosen component
+         */
+        COMPONENT,
+        
+        /**
+         * Constant for features disabled due to missing dependencies
          */
         DEPENDENCY,
         
         /**
          * Constant for passive features that are not necessary (nobody depends on it)
          */
-        PASSIVE
-    }
-    
-    private static class LocalEntityResolver implements EntityResolver
-    {
-        private Map<String, String> _embeddedSchemas = new HashMap<>();
-        private Map<String, File> _localSchemas = new HashMap<>();
+        PASSIVE, 
         
-        LocalEntityResolver()
-        {
-            // Nothing to do
-        }
+        /**
+         * Constant for features disabled to wrong referenced extension point
+         */
+        INVALID_POINT, 
         
-        public void addEmbeddedSchema(String systemId, String resourceUri)
-        {
-            _embeddedSchemas.put(systemId, resourceUri);
-        }
-        
-        public void addLocalSchema(String systemId, File schemaFile)
-        {
-            _localSchemas.put(systemId, schemaFile);
-        }
-        
-        public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException
-        {
-            if (systemId.endsWith(".xsd"))
-            {
-                // Check first into local schemas
-                File localSchema = _localSchemas.get(systemId);
-                
-                if (localSchema != null)
-                {
-                    return new InputSource(new FileInputStream(localSchema));
-                }
-
-                // Then into embedded schemas
-                String resourceUri = _embeddedSchemas.get(systemId);
-
-                if (resourceUri != null)
-                {
-                    InputStream is = getClass().getResourceAsStream(resourceUri);
-                    
-                    if (is != null)
-                    {
-                        return new InputSource(is);
-                    }
-                }
-            }
-            
-            return null;
-        }
+        /**
+         * Feature is not safe while in safe mode
+         */
+        NOT_SAFE
     }
     
     /**
-     * Represents an inactive feature for the current runtime.
+     * PluginsManager status after initialization.
      */
-    public class InactiveFeature
+    public enum Status
     {
-        private InactivityCause _cause;
-        private String _pluginName;
-        private String _featureName;
-        
-        InactiveFeature(String pluginName, String featureName, InactivityCause cause)
-        {
-            _pluginName = pluginName;
-            _featureName = featureName;
-            _cause = cause;
-        }
+        /**
+         * Everything is ok. All features were correctly loaded.
+         */
+        OK,
         
         /**
-         * Returns the declaring plugin name
-         * @return the declaring plugin name
+         * There was no errors, but the configuration is missing or incomplete.
          */
-        public String getPluginName()
-        {
-            return _pluginName;
-        }
+        CONFIG_INCOMPLETE,
         
         /**
-         * Returns this feature name
-         * @return this feature name
+         * Something was wrong when reading plugins definitions.
          */
-        public String getFeatureName()
-        {
-            return _featureName;
-        }
+        WRONG_DEFINITIONS,
         
         /**
-         * Returns the cause of the deactivation of this feature
-         * @return the cause of the deactivation of this feature
+         * There were issues during components loading.
          */
-        public InactivityCause getCause()
-        {
-            return _cause;
-        }
+        NOT_INITIALIZED, 
         
-        @Override
-        public String toString()
-        {
-            return _pluginName + FEATURE_ID_SEPARATOR + _featureName;
-        }
-    }
-    
-    private class SingleExtensionPointInformation
-    {
-        private Class _clazz;
-        private String _defaultExtensionId;
-        
-        SingleExtensionPointInformation(Class clazz, String defaultExtensionId)
-        {
-            _clazz = clazz;
-            _defaultExtensionId = defaultExtensionId;
-        }
-
-        Class getExtensionPointClass()
-        {
-            return _clazz;
-        }
-
-        String getDefaultExtensionId()
-        {
-            return _defaultExtensionId;
-        }
+        /**
+         * The runtime.xml could not be loaded.
+         */
+        RUNTIME_NOT_LOADED
     }
     
     /**
-     * Helper class containing all relevant feature informations needed at startup
+     * Helper class containing all relevant informations after features list computation.
      */
-    public class FeatureInformation
+    public static class PluginsInformation
     {
-        private String _pluginName;
-        private String _featureName;
-        private Configuration _configuration;
+        private Map<String, Plugin> _plugins;
+        private Map<String, Feature> _features;
+        private Map<String, InactivityCause> _inactiveFeatures;
+        private Map<String, ExtensionPointDefinition> _extensionPoints;
+        private Map<String, Map<String, ExtensionDefinition>> _extensions;
+        private Map<String, ComponentDefinition> _components;
+        private Collection<PluginIssue> _errors;
         
-        FeatureInformation(String pluginName, String featureName, Configuration configuration)
+        PluginsInformation(Map<String, Plugin> plugins, Map<String, Feature> features, Map<String, InactivityCause> inactiveFeatures, Map<String, ExtensionPointDefinition> extensionPoints, Map<String, Map<String, ExtensionDefinition>> extensions, Map<String, ComponentDefinition> components, Collection<PluginIssue> errors)
         {
-            _pluginName = pluginName;
-            _featureName = featureName;
-            _configuration = configuration;
+            _plugins = plugins;
+            _features = features;
+            _inactiveFeatures = inactiveFeatures;
+            _extensionPoints = extensionPoints;
+            _extensions = extensions;
+            _components = components;
+            _errors = errors;
         }
         
-        String getPluginName()
+        Map<String, Plugin> getPlugins()
         {
-            return _pluginName;
+            return _plugins;
         }
         
-        String getFeatureName()
+        Map<String, Feature> getFeatures()
         {
-            return _featureName;
+            return _features;
         }
         
-        String getFeatureId()
+        Map<String, InactivityCause> getInactiveFeatures()
         {
-            return _pluginName + FEATURE_ID_SEPARATOR + _featureName;
+            return _inactiveFeatures;
         }
         
-        Configuration getConfiguration()
+        Map<String, ExtensionPointDefinition> getExtensionPoints()
         {
-            return _configuration;
+            return _extensionPoints;
         }
         
-        @Override
-        public boolean equals(Object obj)
+        Map<String, Map<String, ExtensionDefinition>> getExtensions()
         {
-            ActiveFeature feature = (ActiveFeature) obj;
-            return _pluginName.equals(feature.getPluginName()) && _featureName.equals(feature.getFeatureName());
+            return _extensions;
         }
         
-        @Override
-        public int hashCode()
+        Map<String, ComponentDefinition> getComponents()
         {
-            return (_pluginName + FEATURE_ID_SEPARATOR + _featureName).hashCode();
+            return _components;
+        }
+        
+        /**
+         * Returns all errors collected during initialization phase.
+         * @return all errors collected during initialization phase.
+         */
+        public Collection<PluginIssue> getErrors()
+        {
+            return _errors;
         }
     }
 }

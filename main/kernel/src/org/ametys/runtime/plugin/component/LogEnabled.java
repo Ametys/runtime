@@ -23,12 +23,6 @@ import org.slf4j.Logger;
 public interface LogEnabled
 {
     /**
-     * Returns a {@link Logger}.
-     * @return a {@link Logger}.
-     */
-    public Logger getLogger();
-    
-    /**
      * Called at creation time to provide a {@link Logger}.
      * @param logger a {@link Logger} for messages.
      */

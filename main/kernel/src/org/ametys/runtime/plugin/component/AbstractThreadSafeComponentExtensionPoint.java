@@ -28,12 +28,10 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.thread.ThreadSafe;
-import org.apache.cocoon.util.log.SLF4JLoggerAdapter;
 import org.slf4j.LoggerFactory;
 
 import org.ametys.runtime.plugin.ExtensionPoint;
@@ -67,7 +65,7 @@ public abstract class AbstractThreadSafeComponentExtensionPoint<T> extends Abstr
     public void initialize() throws Exception
     {
         _manager = new ThreadSafeComponentManager<>();
-        _manager.enableLogging(new SLF4JLoggerAdapter(LoggerFactory.getLogger("runtime.plugin.threadsafecomponent")));
+        _manager.setLogger(LoggerFactory.getLogger("runtime.plugin.threadsafecomponent"));
         _manager.contextualize(_context);
         _manager.service(_cocoonManager);
     }

@@ -22,7 +22,7 @@ import java.util.Map;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.logger.Logger;
+import org.slf4j.Logger;
 
 import org.ametys.runtime.config.Config;
 

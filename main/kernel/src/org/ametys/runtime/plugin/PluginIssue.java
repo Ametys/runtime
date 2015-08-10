@@ -49,11 +49,6 @@ public class PluginIssue
          * A plugin.xml is not valid against the schema.
          */
         CONFIGURATION_UNREADABLE, 
-        
-        /**
-         * A feature declared safe is either passive, either has dependencies or deactivations, or has config parameters.
-         */
-        SAFE_NOT_SAFE,
 
         /**
          * An extension point is already declared in another plugin.
@@ -78,7 +73,32 @@ public class PluginIssue
         /**
          * An extension point's class does not implement {@link ExtensionPoint}.
          */
-        EXTENSIONPOINT_CLASS_INVALID
+        EXTENSIONPOINT_CLASS_INVALID, 
+        
+        /**
+         * A component role is required to point to a specific component id which doesn't actually exist.
+         */
+        COMPONENT_NOT_DECLARED, 
+        
+        /**
+         * Circular dependency detected on a feature.
+         */
+        CIRCULAR_DEPENDENCY, 
+        
+        /**
+         * Unable to load an external configuration file.
+         */
+        EXTERNAL_CONFIGURATION, 
+        
+        /**
+         * The application Init class does not implement {@link Init}.
+         */
+        INIT_CLASS_INVALID, 
+        
+        /**
+         * An extension refers to a non-existing point.
+         */
+        INVALID_POINT
     }
 
     private PluginIssueCode _code;

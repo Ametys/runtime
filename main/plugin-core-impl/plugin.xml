@@ -16,8 +16,8 @@
    -->
 <plugin xmlns="http://www.ametys.org/schema/plugin"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.ametys.org/schema/plugin http://www.ametys.org/schema/plugin-2.0.xsd"
-        runtimeVersion="2.0" version="2.0">
+        xsi:schemaLocation="http://www.ametys.org/schema/plugin http://www.ametys.org/schema/plugin-4.0.xsd"
+        runtimeVersion="4.0" version="2.0">
     
     <config>
         <!-- +
@@ -661,24 +661,24 @@
         <!-- 
             This features defines the static implementation of users
         -->
-        <extensions>
-            <extension point="org.ametys.core.user.UsersManager"
+        <components>
+            <component role="org.ametys.core.user.UsersManager"
                        id="org.ametys.plugins.core.user.Static"
                        class="org.ametys.plugins.core.impl.user.StaticUsersManager"
                        logger="org.ametys.plugins.core.impl.users.static">
                 <user id="anonymous">
                     <fullname>Anonymous user</fullname>
                 </user>
-            </extension>
-        </extensions>
+            </component>
+        </components>
     </feature>
     
     <feature name="runtime.user.impl.jdbc.core" depends="runtime.datasource.core">
         <!-- 
             This features defines the base jdbc implementation of users (based on core database pool) 
          -->
-        <extensions>
-            <extension point="org.ametys.core.user.UsersManager"
+        <components>
+            <component role="org.ametys.core.user.UsersManager"
                        id="org.ametys.plugins.core.user.CoreJdbc"
                        class="org.ametys.plugins.core.impl.user.jdbc.JdbcUsersManager"
                        logger="org.ametys.plugins.core.impl.users.jdbc.simple">
@@ -688,8 +688,8 @@
                 <param id="firstname"/>
                 <param id="lastname"/>
                 <param id="email"/>
-            </extension>
-        </extensions>
+            </component>
+        </components>
     </feature>
     
     <feature name="runtime.user.impl.jdbc.modifiable.core" depends="runtime.datasource.core">
@@ -697,8 +697,8 @@
             The same as runtime.user.impl.jdbc.core but where users can be modified through the API
             @see:plugin{feature/runtime.user.impl.jdbc.core}
          -->
-        <extensions>
-            <extension point="org.ametys.core.user.UsersManager"
+        <components>
+            <component role="org.ametys.core.user.UsersManager"
                        id="org.ametys.plugins.core.user.CoreModifiableJdbc"
                        class="org.ametys.plugins.core.impl.user.jdbc.ModifiableJdbcUsersManager"
                        logger="org.ametys.plugins.core.impl.users.jdbc.modifiable">
@@ -708,8 +708,8 @@
                 <param id="firstname"/>
                 <param id="lastname"/>
                 <param id="email"/>
-            </extension>
-        </extensions>
+            </component>
+        </components>
     </feature>
     
     <feature name="runtime.user.impl.jdbc.credentialsaware.core" depends="runtime.datasource.core">
@@ -717,8 +717,8 @@
             The same as runtime.user.impl.jdbc.core but where users can be authentified through the API
             @see:plugin{feature/runtime.user.impl.jdbc.core}
          -->
-        <extensions>
-            <extension point="org.ametys.core.user.UsersManager"
+        <components>
+            <component role="org.ametys.core.user.UsersManager"
                        id="org.ametys.plugins.core.user.CoreCredentialsAwareJdbc"
                        class="org.ametys.plugins.core.impl.user.jdbc.CredentialsAwareJdbcUsersManager"
                        logger="org.ametys.plugins.core.impl.users.jdbc.credential">
@@ -730,8 +730,8 @@
                 <param id="lastname"/>
                 <param id="email"/>
                 <salt column="salt"/>
-            </extension>
-        </extensions>
+            </component>
+        </components>
     </feature>
     
     <feature name="runtime.user.impl.jdbc.modifiablecredentialsaware.core" depends="runtime.datasource.core">
@@ -741,8 +741,8 @@
             @see:plugin{feature/runtime.user.impl.jdbc.modifiable.core}
             @see:plugin{feature/runtime.user.impl.jdbc.credentialsaware.core}
          -->
-        <extensions>
-            <extension point="org.ametys.core.user.UsersManager"
+        <components>
+            <component role="org.ametys.core.user.UsersManager"
                        id="org.ametys.plugins.core.user.CoreModifiableCredentialsAwareJdbc"
                        class="org.ametys.plugins.core.impl.user.jdbc.ModifiableCredentialsAwareJdbcUsersManager"
                        logger="org.ametys.plugins.core.impl.users.jdbc.credentialmodifiable">
@@ -754,8 +754,8 @@
                 <param id="lastname"/>
                 <param id="email"/>
                 <salt column="salt"/>
-            </extension>
-        </extensions>
+            </component>
+        </components>
     </feature>
     
     <feature name="runtime.user.impl.ldap">
@@ -781,8 +781,8 @@
             <param-ref id="runtime.users.ldap.emailAttr"/>
             <param-ref id="runtime.users.ldap.serverSideSorting"/>
         </config>
-        <extensions>
-            <extension point="org.ametys.core.user.UsersManager"
+        <components>
+            <component role="org.ametys.core.user.UsersManager"
                        id="org.ametys.plugins.core.Ldap"
                        class="org.ametys.plugins.core.impl.user.ldap.LdapUsersManager"
                        logger="org.ametys.plugins.core.impl.user.ldap.simple">
@@ -803,8 +803,8 @@
                 <Lastname>runtime.users.ldap.lastnameAttr</Lastname>
                 <Email mandatory="false">runtime.users.ldap.emailAttr</Email>
                 <ServerSideSorting>runtime.users.ldap.serverSideSorting</ServerSideSorting>
-            </extension>
-        </extensions>
+            </component>
+        </components>
     </feature>
         
     <feature name="runtime.user.impl.ldap.credentialsaware">
@@ -831,8 +831,8 @@
             <param-ref id="runtime.users.ldap.emailAttr"/>
             <param-ref id="runtime.users.ldap.serverSideSorting"/>
         </config>
-        <extensions>
-            <extension point="org.ametys.core.user.UsersManager"
+        <components>
+            <component role="org.ametys.core.user.UsersManager"
                        id="org.ametys.plugins.core.CredentialsAwareLdap"
                        class="org.ametys.plugins.core.impl.user.ldap.CredentialsAwareLdapUsersManager"
                        logger="org.ametys.plugins.core.impl.user.ldap.credential">
@@ -853,8 +853,8 @@
                 <Lastname>runtime.users.ldap.lastnameAttr</Lastname>
                 <Email mandatory="false">runtime.users.ldap.emailAttr</Email>
                 <ServerSideSorting>runtime.users.ldap.serverSideSorting</ServerSideSorting>
-            </extension>
-        </extensions>
+            </component>
+        </components>
     </feature>
     
     <feature name="runtime.user.impl.ldap.and.jdbc.credentialsaware">
@@ -882,8 +882,8 @@
             <param-ref id="runtime.users.ldap.emailAttr"/>
             <param-ref id="runtime.users.ldap.serverSideSorting"/>
         </config>
-        <extensions>
-            <extension point="org.ametys.core.user.UsersManager"
+        <components>
+            <component role="org.ametys.core.user.UsersManager"
                        id="org.ametys.plugins.core.CredentialsAwareLdapAndJdbc"
                        class="org.ametys.plugins.core.impl.user.mixed.CredentialsAwareLdapAndJdbcUsersManager"
                        logger="org.ametys.plugins.core.impl.user.mixed.ldap.and.jdbc.credential">
@@ -916,28 +916,28 @@
                     <param id="email"/>
                 </FallbackUsersManagerConfiguration>
                 
-            </extension>
-        </extensions>
+            </component>
+        </components>
     </feature>
     
     <feature name="runtime.groups.impl.empty">
         <!-- 
             This features defines an 'empty' groups to avoid group handling.
          -->
-        <extensions>
-            <extension point="org.ametys.core.group.GroupsManager"
+        <components>
+            <component role="org.ametys.core.group.GroupsManager"
                        id="org.ametys.plugins.core.group.Empty"
                        class="org.ametys.plugins.core.impl.group.EmptyGroupsManager"
                        logger="org.ametys.plugins.core.impl.group.empty"/>
-        </extensions>
+        </components>
     </feature>
     
     <feature name="runtime.groups.impl.jdbc" depends="runtime.datasource.core">
         <!-- 
             This features defines the base jdbc implementation of groups (based on core database pool)
          -->
-        <extensions>
-            <extension point="org.ametys.core.group.GroupsManager"
+        <components>
+            <component role="org.ametys.core.group.GroupsManager"
                        id="org.ametys.plugins.core.group.ModifiableJdbcCore"
                        class="org.ametys.plugins.core.impl.group.jdbc.ModifiableJdbcGroupsManager"
                        logger="org.ametys.plugins.core.impl.group.jdbc">
@@ -952,8 +952,8 @@
                     <group>Group_Id</group>
                     <user>Login</user>
                 </composition>
-            </extension>                   
-        </extensions>
+            </component>                   
+        </components>
     </feature>
 
     <feature name="runtime.groups.impl.ldap.groupDriven">
@@ -980,8 +980,8 @@
             <param-ref id="runtime.users.ldap.peopleDN"/>
             <param-ref id="runtime.users.ldap.loginAttr"/>
         </config>
-        <extensions>
-            <extension point="org.ametys.core.group.GroupsManager"
+        <components>
+            <component role="org.ametys.core.group.GroupsManager"
                        id="org.ametys.plugins.core.group.GroupDrivenLdap"
                        class="org.ametys.plugins.core.impl.group.ldap.GroupDrivenLdapGroupsManager"
                        logger="org.ametys.plugins.core.impl.group.groupdriven">
@@ -1003,8 +1003,8 @@
                 
                 <UsersRelativeDN>runtime.users.ldap.peopleDN</UsersRelativeDN>
                 <Login>runtime.users.ldap.loginAttr</Login>
-            </extension>
-        </extensions>
+            </component>
+        </components>
     </feature>
                  
     <feature name="runtime.groups.impl.ldap.usersDriven">
@@ -1033,8 +1033,8 @@
             <param-ref id="runtime.users.ldap.scope"/>
             <param-ref id="runtime.users.ldap.loginAttr"/>
         </config>
-        <extensions>
-            <extension point="org.ametys.core.group.GroupsManager"
+        <components>
+            <component role="org.ametys.core.group.GroupsManager"
                        id="org.ametys.plugins.core.group.UsersDrivenLdap"
                        class="org.ametys.plugins.core.impl.group.ldap.UserDrivenLdapGroupsManager"
                        logger="org.ametys.plugins.core.impl.group.usersdriven">
@@ -1058,8 +1058,8 @@
                 <UsersFilter>runtime.users.ldap.baseFilter</UsersFilter>
                 <UsersSearchScope>runtime.users.ldap.scope</UsersSearchScope>
                 <UsersLogin>runtime.users.ldap.loginAttr</UsersLogin>
-            </extension>
-        </extensions>
+            </component>
+        </components>
     </feature>
     
     <feature name="runtime.groups.impl.ldap.and.jdbc.userDriven" depends="runtime.datasource.core">
@@ -1095,8 +1095,8 @@
             <param-ref id="runtime.users.ldap.scope"/>
             <param-ref id="runtime.users.ldap.loginAttr"/>
         </config>
-        <extensions>
-            <extension point="org.ametys.core.group.GroupsManager"
+        <components>
+            <component role="org.ametys.core.group.GroupsManager"
                        id="org.ametys.plugins.core.group.UserDrivenLdapAndJdbc"
                        class="org.ametys.plugins.core.impl.group.mixed.UserDrivenLdapAndJdbcGroupsManager"
                        logger="org.ametys.plugins.core.impl.group.userdriven.ldap.and.jdbc">
@@ -1134,8 +1134,8 @@
                         <user>Login</user>
                     </composition>
                 </FallbackGroupsManagerConfiguration>
-            </extension>
-        </extensions>
+            </component>
+        </components>
     </feature>
     
     <feature name="runtime.groups.impl.ldap.and.jdbc.groupDriven" depends="runtime.datasource.core">
@@ -1169,8 +1169,8 @@
             <param-ref id="runtime.users.ldap.peopleDN"/>
             <param-ref id="runtime.users.ldap.loginAttr"/>
         </config>
-        <extensions>
-            <extension point="org.ametys.core.group.GroupsManager"
+        <components>
+            <component role="org.ametys.core.group.GroupsManager"
                        id="org.ametys.plugins.core.group.GroupDrivenLdapAndJdbc"
                        class="org.ametys.plugins.core.impl.group.mixed.GroupDrivenLdapAndJdbcGroupsManager"
                        logger="org.ametys.plugins.core.impl.group.userdriven.ldap.and.jdbc">
@@ -1206,8 +1206,8 @@
                         <user>Login</user>
                     </composition>
                 </FallbackGroupsManagerConfiguration>
-            </extension>
-        </extensions>
+            </component>
+        </components>
     </feature>
     
     <!-- +
@@ -1217,8 +1217,8 @@
         <!-- 
             This feature defines a simple credential provider as it always answer that 'anonymous' is connected
          -->
-        <extensions>
-            <extension point="org.ametys.core.authentication.CredentialsProvider"
+        <components>
+            <component role="org.ametys.core.authentication.CredentialsProvider"
                        id="org.ametys.plugins.core.authentication.Defined"
                        class="org.ametys.plugins.core.impl.authentication.DefinedCredentialsProvider"
                        logger="org.ametys.plugins.core..authentication.defined">
@@ -1227,8 +1227,8 @@
                     Configured so user is always 'anonymous'
                  -->
                 <user>anonymous</user>
-            </extension>
-        </extensions>
+            </component>
+        </components>
     </feature>
          
     <feature name="runtime.authentication.impl.basic">
@@ -1239,12 +1239,12 @@
         <config>
             <param-ref id="runtime.authentication.basic.realm"/>
         </config>
-        <extensions>
-            <extension point="org.ametys.core.authentication.CredentialsProvider"
+        <components>
+            <component role="org.ametys.core.authentication.CredentialsProvider"
                        id="org.ametys.plugins.core.authentication.Basic"
                        class="org.ametys.plugins.core.impl.authentication.BasicCredentialsProvider"
                        logger="org.ametys.plugins.core..authentication.basic"/>
-        </extensions>
+        </components>
     </feature>
 
     <feature name="runtime.authentication.impl.formbased">
@@ -1255,8 +1255,8 @@
         <config>
             <param-ref id="runtime.authentication.form.security.level"/>
         </config>
-        <extensions>
-            <extension point="org.ametys.core.authentication.CredentialsProvider"
+        <components>
+            <component role="org.ametys.core.authentication.CredentialsProvider"
                        id="org.ametys.plugins.core.authentication.FormBased"
                        class="org.ametys.plugins.core.impl.authentication.FormBasedCredentialsProvider"
                        logger="org.ametys.plugins.core..authentication.formbased">
@@ -1272,8 +1272,8 @@
                 </cookie>
                 <loginUrl internal="true">login.html</loginUrl>
                 <loginFailedUrl provideLoginParameter="true" internal="true">login_failed.html</loginFailedUrl>
-            </extension>
-        </extensions>
+            </component>
+        </components>
     </feature>
 
     <feature name="runtime.authentication.impl.remote">
@@ -1284,12 +1284,12 @@
         <config>
             <param-ref id="runtime.authentication.remote.realm"/>
         </config>
-        <extensions>
-            <extension point="org.ametys.core.authentication.CredentialsProvider"
+        <components>
+            <component role="org.ametys.core.authentication.CredentialsProvider"
                        id="org.ametys.plugins.core.authentication.Remote"
                        class="org.ametys.plugins.core.impl.authentication.RemoteUserCredentialsProvider"
                        logger="org.ametys.plugins.core.impl.authentication.remote"/>
-        </extensions>
+        </components>
     </feature>
         
     <feature name="runtime.authentication.impl.jcifs">
@@ -1305,12 +1305,12 @@
             <param-ref id="runtime.authentication.jcifs.netBios"/>
             <param-ref id="runtime.authentication.jcifs.domainController"/>
         </config>
-        <extensions>
-            <extension point="org.ametys.core.authentication.CredentialsProvider"
+        <components>
+            <component role="org.ametys.core.authentication.CredentialsProvider"
                        id="org.ametys.plugins.core.authentication.Jcifs"
                        class="org.ametys.plugins.core.impl.authentication.JcifsCredentialsProvider"
                        logger="org.ametys.plugins.core.impl.authentication.jcifs"/>
-        </extensions>
+        </components>
     </feature>
         
     <feature name="runtime.authentication.impl.cas">
@@ -1322,12 +1322,12 @@
             <param-ref id="runtime.authentication.cas.serverUrl"/>
             <param-ref id="runtime.authentication.cas.authorizedProxyChain"/>
         </config>
-        <extensions>
-            <extension point="org.ametys.core.authentication.CredentialsProvider"
+        <components>
+            <component role="org.ametys.core.authentication.CredentialsProvider"
                        id="org.ametys.plugins.core.authentication.CAS"
                        class="org.ametys.plugins.core.impl.authentication.CASCredentialsProvider"
                        logger="org.ametys.plugins.core.impl.authentication.cas"/>
-        </extensions>
+        </components>
     </feature>
         
     <feature name="runtime.authentication.impl.cas.gateway">
@@ -1342,14 +1342,14 @@
             <param-ref id="runtime.authentication.cas.serverUrl"/>
             <param-ref id="runtime.authentication.cas.authorizedProxyChain"/>
         </config>
-        <extensions>
-            <extension point="org.ametys.core.authentication.CredentialsProvider"
+        <components>
+            <component role="org.ametys.core.authentication.CredentialsProvider"
                        id="org.ametys.plugins.core.authentication.GatewayCAS"
                        class="org.ametys.plugins.core.impl.authentication.CASCredentialsProvider"
                        logger="org.ametys.plugins.core.impl.authentication.casgateway">
                 <gateway>true</gateway>
-            </extension>
-        </extensions>
+            </component>
+        </components>
     </feature>
     
     <feature name="runtime.authentication.impl.cas.gateway.and.basic">
@@ -1365,15 +1365,15 @@
             <!-- Basic parameters. -->
             <param-ref id="runtime.authentication.basic.realm"/>
         </config>
-        <extensions>
+        <components>
             <!-- Mixed CAS-gateway/Basic credentials provider. -->
-            <extension point="org.ametys.core.authentication.CredentialsProvider"
+            <component role="org.ametys.core.authentication.CredentialsProvider"
                        id="org.ametys.plugins.core.authentication.GatewayCASBasic"
                        class="org.ametys.plugins.core.impl.authentication.mixed.CASBasicCredentialsProvider"
                        logger="org.ametys.plugins.core.impl.authentication.casgateway.and.basic">
                 <gateway>true</gateway>
-            </extension>
-        </extensions>
+            </component>
+        </components>
     </feature>
     
     <feature name="runtime.datasource.core" passive="true">
@@ -1403,51 +1403,51 @@
         <!-- 
             A users'preferences manager that do not store anything. Usefull, if you do not user users prefs. 
         -->
-        <extensions>
-            <extension point="org.ametys.core.userpref.DefaultUserPreferencesStorage"
+        <components>
+            <component role="org.ametys.core.userpref.DefaultUserPreferencesStorage"
                        id="org.ametys.plugins.core.userpref.EmptyUserPreferencesStorage"
                        class="org.ametys.plugins.core.impl.userpref.EmptyUserPreferencesStorage">
-            </extension>
-        </extensions>
+            </component>
+        </components>
     </feature>
     
     <feature name="runtime.user.preferences.default" depends="runtime.datasource.core">
         <!-- 
             The main users'preferences manager implementation, that do store users'prefs into a sql db. 
         -->
-            <extensions>
-            <extension point="org.ametys.core.userpref.DefaultUserPreferencesStorage"
+        <components>
+            <component role="org.ametys.core.userpref.DefaultUserPreferencesStorage"
                        id="org.ametys.plugins.core.userpref.JdbcXmlUserPreferencesStorage"
                        class="org.ametys.plugins.core.impl.userpref.JdbcXmlUserPreferencesStorage">
                 <pool>runtime.datasource.core.jdbc.pool</pool>
                 <table>UserPreferences</table>
-            </extension>
-        </extensions>
+            </component>
+        </components>
     </feature>
     
     <feature name="runtime.upload.manager.fs">
         <!--
             This feature defines components needed by the file system upload manager
          -->
-        <extensions>
-            <extension point="org.ametys.core.upload.UploadManager"
+        <components>
+            <component role="org.ametys.core.upload.UploadManager"
                        id="org.ametys.plugins.core.upload.FSUploadManager"
                        class="org.ametys.plugins.core.impl.upload.FSUploadManager">
                 <!-- UploadManager for storing uploaded files into /WEB-INF/data/uploads-user -->
-            </extension>
-        </extensions>
+            </component>
+        </components>
     </feature>
     
     <!-- +
          |  VERSIONS
          + -->    
     <feature name="runtime.version">       
-        <extensions>
-            <extension  point="org.ametys.core.version.VersionsHandler" 
+        <components>
+            <component  role="org.ametys.core.version.VersionsHandler" 
                         id="org.ametys.plugins.core.version.Default"
                         class="org.ametys.plugins.core.impl.version.DefaultVersionsHandler"
                         logger="org.ametys.plugins.core..plugins.core.versions"/>
-        </extensions>
+        </components>
     </feature>
     
     <!-- +
@@ -1457,26 +1457,26 @@
         <!-- 
             This feature provides a non-null current user
          -->
-        <extensions>
+        <components>
             <!-- Default extension for providing the current user -->
-            <extension point="org.ametys.core.user.CurrentUserProvider"
+            <component role="org.ametys.core.user.CurrentUserProvider"
                        id="org.ametys.plugins.core.user.AvalonCurrentUserProvider"
                        class="org.ametys.plugins.core.impl.user.AvalonCurrentUserProvider">
                 <user default="admin"/>
-            </extension>
-        </extensions>
+            </component>
+        </components>
     </feature>
     
     <feature name="runtime.rights.impl.basic">
         <!-- 
             This feature declares the basic rights manager that always anwers OK
          -->
-        <extensions>
-            <extension point="org.ametys.core.right.RightsManager"
+        <components>
+            <component role="org.ametys.core.right.RightsManager"
                        id="org.ametys.plugins.core.right.Basic"
                        class="org.ametys.plugins.core.impl.right.BasicRightsManager"
                        logger="org.ametys.plugins.core.impl.right.basic"/>
-        </extensions>
+        </components>
     </feature>
 
     <feature name="runtime.rights.impl.profil" depends="runtime.datasource.core">
@@ -1485,8 +1485,8 @@
             This manager use the core database pool.
             A profile is a set of atomic rights.
          -->
-        <extensions>
-            <extension point="org.ametys.core.right.RightsManager"
+        <components>
+            <component role="org.ametys.core.right.RightsManager"
                        id="org.ametys.plugins.core.right.DefaultProfileBased"
                        class="org.ametys.plugins.core.impl.right.profile.DefaultProfileBasedRightsManager"
                        logger="org.ametys.plugins.core.impl.right.profil">
@@ -1497,8 +1497,8 @@
                  -->
                 <rights config="/WEB-INF/param/rights.xml"/>
                 <pool>runtime.datasource.core.jdbc.pool</pool>
-            </extension>
-        </extensions>
+            </component>
+        </components>
     </feature>
 
     <feature name="runtime.rights.impl.hierarchicalProfil" depends="runtime.datasource.core">
@@ -1507,15 +1507,15 @@
             having the right on '/foo' gives the right on '/foo/subfoo'
             @see:plugin{feature/runtime.rights.impl.profil}
          -->
-        <extensions>
-            <extension point="org.ametys.core.right.RightsManager"
+        <components>
+            <component role="org.ametys.core.right.RightsManager"
                        id="org.ametys.plugins.core.right.HierarchicalProfileBased"
                        class="org.ametys.plugins.core.impl.right.profile.HierarchicalProfileBasedRightsManager"
                        logger="org.ametys.plugins.core.impl.right.hierarchicalprofil">
                 <rights config="/WEB-INF/param/rights.xml"/>
                 <pool>runtime.datasource.core.jdbc.pool</pool>
-            </extension>                       
-        </extensions>
+            </component>                       
+        </components>
     </feature>
     
     <!-- +
@@ -1525,23 +1525,23 @@
         <!-- 
             The default request handler... doing nothing
          -->
-        <extensions>
-            <extension point="org.ametys.runtime.request.InitRequestHandler"
+        <components>
+            <component role="org.ametys.runtime.request.InitRequestHandler"
                        id="org.ametys.plugins.core.request.Default"
                        class="org.ametys.plugins.core.impl.request.DefaultInitRequestHandler"
                        logger="org.ametys.plugins.core.impl.request.default"/>
-        </extensions>
+        </components>
     </feature>
 
     <feature name="runtime.rights.context.impl.default">
         <!-- 
             This feature declares the default rights context manager
          -->
-        <extensions>
-            <extension point="org.ametys.core.right.RightsContextPrefixExtensionPoint"
+        <components>
+            <component role="org.ametys.core.right.RightsContextPrefixExtensionPoint"
                        id="org.ametys.plugins.core.right.context.Default"
                        class="org.ametys.plugins.core.impl.right.DefaultRightsContextPrefix"
                        logger="org.ametys.plugins.core.impl.right.context.default"/>
-        </extensions>
+        </components>
     </feature>
 </plugin>

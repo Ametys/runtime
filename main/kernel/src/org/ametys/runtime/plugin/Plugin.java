@@ -150,7 +150,8 @@ public class Plugin
         {
             // XML schema requires attributes id and class and enforces id uniqueness
             String id = conf.getAttribute("id", null);
-            _extensionPoints.put(id, new ExtensionPointDefinition(id, conf, _pluginName));
+            boolean safe = conf.getAttributeAsBoolean("safe", false);
+            _extensionPoints.put(id, new ExtensionPointDefinition(id, conf, _pluginName, safe));
         }
     }
 }

@@ -54,7 +54,7 @@ public class PluginSourceFactory extends AbstractLogEnabled implements SourceFac
         String pluginName = m.group(1);
         String path = m.group(2); 
         
-        String resourceURI = PluginsManager.getInstance().getBaseURI(pluginName);
+        String resourceURI = PluginsManager.getInstance().getResourceURI(pluginName);
         
         if (resourceURI == null)
         {
