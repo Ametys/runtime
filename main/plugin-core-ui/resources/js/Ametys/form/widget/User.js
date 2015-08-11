@@ -83,14 +83,12 @@ Ext.define('Ametys.form.widget.User', {
      */
     _onStoreBeforeLoad: function(store, operation)
     {
-        operation.setParams( operation.getParams() || {} );
-        
-        operation.setParams( Ext.apply(operation.getParams(), {
-        	criteria: operation.getParams().query,
-        	login: operation.getParams().login ? operation.getParams().login.split(',') : null,
-        	count: this.maxResult, 
-        	offset: 0, 
-        	usersManagerRole: this.usersManagerRole
+        operation.setParams(Ext.apply(operation.getParams() || {}, {
+            criteria: operation.getParams().query,
+            login: operation.getParams().login ? operation.getParams().login.split(',') : null,
+            count: this.maxResult, 
+            offset: 0, 
+            usersManagerRole: this.usersManagerRole
         }));
     },
     

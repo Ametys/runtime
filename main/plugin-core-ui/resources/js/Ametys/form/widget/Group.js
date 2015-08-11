@@ -33,16 +33,18 @@ Ext.define('Ametys.form.widget.Group', {
 	
     getStore: function()
     {
-    	Ext.define("Ametys.form.widget.Group.Groups", {
-    		extend: 'Ext.data.Model',
-    		
-    	    fields: [
-    	             {name: 'label', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString},
-    	             {name: 'id', mapping: '@id'}
-    	    ],
-    	    
-    	    idProperty: 'id'
-    	});
+        if (!Ext.data.schema.Schema.get('default').hasEntity('Ametys.form.widget.Group.Groups')) {
+            Ext.define("Ametys.form.widget.Group.Groups", {
+                extend: 'Ext.data.Model',
+                
+                fields: [
+                     {name: 'label', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString},
+                     {name: 'id', mapping: '@id'}
+                ],
+                
+                idProperty: 'id'
+            });
+        }
 
         return Ext.create('Ext.data.Store', {
             model: 'Ametys.form.widget.Group.Groups',
@@ -70,19 +72,17 @@ Ext.define('Ametys.form.widget.Group', {
     /**
      * Set the request parameters before loading the store.
      * @param {Ext.data.Store} store The store.
-     * @param {Ext.data.Operation} operation The Ext.data.Operation object that will be passed to the Proxy to load the Store.
+     * @param {Ext.data.operation.Operation} operation The Ext.data.Operation object that will be passed to the Proxy to load the Store.
      * @private
      */
     _onStoreBeforeLoad: function(store, operation)
     {
-        operation.setParams( operation.getParams() || {} );
-        
-        operation.setParams( Ext.apply(operation.getParams(), {
-        	criteria: operation.getParams().query,
-        	id: operation.getParams().id ? operation.getParams().id.split(',') : null,
-        	count: this.maxResult, 
-        	offset: 0, 
-        	groupsManagerRole: this.groupsManagerRole
+        operation.setParams(Ext.apply(operation.getParams() || {}, {
+            criteria: operation.getParams().query,
+            id: operation.getParams().id ? operation.getParams().id.split(',') : null,
+            count: this.maxResult, 
+            offset: 0, 
+            groupsManagerRole: this.groupsManagerRole
         }));
     },
     
