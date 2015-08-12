@@ -20,7 +20,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
@@ -41,6 +43,7 @@ import org.ametys.runtime.plugin.ExtensionPoint;
 public class PluginsComponentManager extends ThreadSafeComponentManager<Object> implements ComponentManager
 {
     ComponentManager _parentManager;
+    private Map<String, Collection<ExtensionDefinition>> _extensionPoints = new HashMap<>();
     
     /**
      * Constructor.
@@ -49,6 +52,26 @@ public class PluginsComponentManager extends ThreadSafeComponentManager<Object> 
     public PluginsComponentManager(ComponentManager parentManager)
     {
         _parentManager = parentManager;
+    }
+    
+    @Override
+    public void initialize() throws Exception
+    {
+        super.initialize();
+        
+        for (String point : _extensionPoints.keySet())
+        {
+            Collection<ExtensionDefinition> extensions = _extensionPoints.get(point);
+            ExtensionPoint extPoint = (ExtensionPoint) super.lookup(point);
+            
+            for (ExtensionDefinition extension : extensions)
+            {
+                extPoint.addExtension(extension.getPluginName(), extension.getFeatureName(), extension.getConfiguration());
+            }
+            
+            getLogger().info("Initializing extensions for point {}", point);
+            extPoint.initializeExtensions();
+        }
     }
     
     public boolean hasComponent(String role)
@@ -106,6 +129,7 @@ public class PluginsComponentManager extends ThreadSafeComponentManager<Object> 
     {
         ExtensionPointFactory factory = new ExtensionPointFactory(pluginName, null, point, extensionPoint, configuration, new WrapperServiceManager(this), getLogger(), extensions);
         _addComponent(point, factory);
+        _extensionPoints.put(point, extensions);
     }
     
     @Override
@@ -204,14 +228,15 @@ public class PluginsComponentManager extends ThreadSafeComponentManager<Object> 
             
             configureAndStart(component);
             
-            ExtensionPoint extPoint = (ExtensionPoint) component;
+            /*ExtensionPoint extPoint = (ExtensionPoint) component;
             
             for (ExtensionDefinition extension : _extensions)
             {
                 extPoint.addExtension(extension.getPluginName(), extension.getFeatureName(), extension.getConfiguration());
             }
             
-            extPoint.initializeExtensions();
+            getLogger().info("Initializing extensions");
+            extPoint.initializeExtensions();*/
             
             _componentsInitializing.remove(_role);
             

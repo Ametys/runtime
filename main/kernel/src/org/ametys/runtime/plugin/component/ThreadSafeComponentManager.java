@@ -127,12 +127,14 @@ public class ThreadSafeComponentManager<T> extends AbstractLogEnabled implements
         {
             if (_componentsInitializing.containsKey(role))
             {
+                getLogger().debug("Trying to lookup the component '{}' during its own initialization", role);
                 return _componentsInitializing.get(role);
             }
             else if (_componentFactories.containsKey(role))
             {
                 try
                 {
+                    getLogger().debug("Trying to lookup an uninitializing component '{}'. It will be initialized right now.", role);
                     component = _componentFactories.get(role).newInstance();
                 }
                 catch (Exception e)
@@ -199,10 +201,7 @@ public class ThreadSafeComponentManager<T> extends AbstractLogEnabled implements
 
                     try
                     {
-                        if (getLogger().isDebugEnabled())
-                        {
-                            getLogger().debug("Instanciating component for role " + role);
-                        }
+                        getLogger().debug("Initializing component for role {}", role);
                         
                         T component = factory.newInstance();
                         _components.put(role, component);
