@@ -69,7 +69,7 @@ public class PluginsComponentManager extends ThreadSafeComponentManager<Object> 
                 extPoint.addExtension(extension.getPluginName(), extension.getFeatureName(), extension.getConfiguration());
             }
             
-            getLogger().info("Initializing extensions for point {}", point);
+            getLogger().debug("Initializing extensions for point {}", point);
             extPoint.initializeExtensions();
         }
     }
