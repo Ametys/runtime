@@ -1079,7 +1079,7 @@ public final class PluginsManager
                 Map<String, ExtensionDefinition> globalExtensions = extensionsDefinitions.get(point);
                 if (globalExtensions == null)
                 {
-                    globalExtensions = new HashMap<>(featureExtensions);
+                    globalExtensions = new LinkedHashMap<>(featureExtensions);
                     extensionsDefinitions.put(point, globalExtensions);
                 }
                 else
