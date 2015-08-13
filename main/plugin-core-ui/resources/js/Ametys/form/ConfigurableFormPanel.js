@@ -3156,7 +3156,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      */
     _evaluateCondition: function(id, operator, value)
     {
-        var fieldValue = this.getForm.findField(id).getValue();
+        var fieldValue = this.getForm().findField(id).getValue();
         
         switch (operator)
         {
