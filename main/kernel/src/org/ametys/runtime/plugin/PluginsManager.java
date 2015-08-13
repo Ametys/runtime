@@ -694,7 +694,7 @@ public final class PluginsManager
         File pluginFile = new File(pluginDir, PLUGIN_FILENAME);
         if (!pluginFile.exists())
         {
-            _logger.warn(pluginName, "There is no file named {} in the directory {}. It will be ignored.", PLUGIN_FILENAME, pluginDir.getAbsolutePath());
+            _logger.warn("There is no file named {} in the directory {}. It will be ignored.", PLUGIN_FILENAME, pluginDir.getAbsolutePath());
             return;
         }
 
