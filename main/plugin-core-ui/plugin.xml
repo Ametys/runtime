@@ -534,7 +534,7 @@
                 point="org.ametys.core.ui.widgets.WidgetsManager"
                 class="org.ametys.core.ui.widgets.StaticClientSideWidget">
                 <class name="Ametys.form.widget.User">
-                    <ftypes>user</ftypes>
+                    <ftypes>user,string</ftypes>
                     <supports-enumerated>false</supports-enumerated>
                     <supports-non-enumerated>true</supports-non-enumerated>
                     <supports-multiple>true</supports-multiple>
