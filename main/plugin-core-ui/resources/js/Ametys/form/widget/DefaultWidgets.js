@@ -93,17 +93,7 @@ Ext.define('Ametys.form.widget.ComboBox', {
 	
 	constructor: function (config)
 	{
-		var storeCfg = {
-            id: 0,
-            fields: [ 'value', {name: 'text', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString}],
-            data: config.enumeration
-        };
-		
-		config.naturalOrder = Ext.isBoolean(config.naturalOrder) ? config.naturalOrder : config.naturalOrder == 'true';
-		if (!config.naturalOrder)
-		{
-			storeCfg.sorters = [{property: 'text', direction:'ASC'}]; // default order
-		}
+	    var storeCfg = this.getStoreCfg(config);
 		
 		config = Ext.apply(config, {
 			typeAhead: config.multiple ? false : true,
@@ -112,9 +102,9 @@ Ext.define('Ametys.form.widget.ComboBox', {
 			triggerAction: 'all',
 			
 			queryMode: 'local',
-			store: new Ext.data.SimpleStore(storeCfg),
-	        valueField: 'value',
-	        displayField: 'text',
+			store: storeCfg,
+	        valueField: config.valueField || 'value',
+	        displayField: config.displayField || 'text',
 	        
 	        multiSelect: config.multiple,
 	        
@@ -131,6 +121,29 @@ Ext.define('Ametys.form.widget.ComboBox', {
 			this.on('click', Ext.bind(this._onClick, this), this, {element: 'inputEl'});
 		}
 	},
+	
+    /**
+     * Get the store configuration
+     * @param {Object} The current configuration object
+     * @return {Object} The store configuration
+     */
+    getStoreCfg: function(config)
+    {
+        var storeCfg = {
+            type: 'array', // Ext.data.ArrayStore
+            id: 0,
+            fields: [ 'value', {name: 'text', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString}],
+            data: config.enumeration
+        };
+        
+        config.naturalOrder = Ext.isBoolean(config.naturalOrder) ? config.naturalOrder : config.naturalOrder == 'true';
+        if (!config.naturalOrder)
+        {
+            storeCfg.sorters = [{property: 'text', direction:'ASC'}]; // default order
+        }
+        
+        return storeCfg;
+    },
 	
 	/**
 	 * @private
