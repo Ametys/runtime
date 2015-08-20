@@ -67,7 +67,11 @@ Ext.define("Ametys.relation.RelationPoint",
 			}
 			
 			// Handle position
-			this.positionInTargets = config.positionInTargets || -1;
+			this.positionInTargets = config.positionInTargets;
+			if (this.positionInTargets == null)
+			{
+				this.positionInTargets = -1;
+			}
 			
 			// Handle message targets
 			this.targets = config.targets || []; 
