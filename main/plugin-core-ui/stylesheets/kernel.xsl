@@ -70,6 +70,7 @@
 	       <xsl:choose>
 	           <xsl:when test="$theme = 'neptune'">neptune</xsl:when>
                <xsl:when test="$theme = 'neptune-touch'">neptune</xsl:when>
+               <xsl:when test="$theme = 'triton'">triton</xsl:when>
                <xsl:when test="$theme = 'crisp'">crisp</xsl:when>
                <xsl:when test="$theme = 'crisp-touch'">crisp</xsl:when>
                <xsl:when test="$theme = 'classic'">classic</xsl:when>
@@ -79,8 +80,7 @@
                <xsl:otherwise>classic</xsl:otherwise>
 	       </xsl:choose>
 	    </xsl:variable>
-		
-	
+        
 		<xsl:call-template name="kernel-browsers">
 			<xsl:with-param name="authorized-browsers" select="$authorized-browsers"/>
 		</xsl:call-template>
@@ -232,6 +232,7 @@
             </xsl:if>
             <css>/plugins/extjs6/resources/classic/theme-<xsl:value-of select="$theme"/>/resources/theme-<xsl:value-of select="$theme"/>-all<xsl:if test="$rtl">-rtl</xsl:if><xsl:if test="$debug-mode">-debug</xsl:if>.css</css>
             <css>/plugins/extjs6/resources/packages/ux/classic/<xsl:value-of select="$uxtheme"/>/resources/ux-all<xsl:if test="$rtl">-rtl</xsl:if><xsl:if test="$debug-mode">-debug</xsl:if>.css</css>
+            <css>/plugins/extjs6/resources/packages/charts/classic/<xsl:value-of select="$uxtheme"/>/resources/charts-all<xsl:if test="$rtl">-rtl</xsl:if><xsl:if test="$debug-mode">-debug</xsl:if>.css</css>
             <css>/plugins/core-ui/resources/css/Ametys/gray/all.css</css>
             <css>/plugins/core-ui/resources/css/ametys.css</css>
             <css>/plugins/codemirror/resources/css/codemirror.css</css>
