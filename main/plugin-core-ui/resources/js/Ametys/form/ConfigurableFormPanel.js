@@ -3043,9 +3043,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         var me = this;
         
         // Disable conditions listeners
-        Ext.Object.each(this.getForm().getValues(), function(fieldName) {
-        	var field = me.getForm().findField(fieldName); 
-            
+        this.getForm().getFields().each(function(field) {
             // fields that are initially disabled can never be enabled See #cfg-helpBoxId
             if (field.disableCondition != null && !field.disabled)
             {
