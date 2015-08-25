@@ -3176,6 +3176,135 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                 throw "Unknown operator " + operator;
                 break;
         }
+    },
+    
+    /* --------------------------------------------------------------------- */
+    /*               Helper methods to work on relative fields               */
+    /* --------------------------------------------------------------------- */
+    
+    /**
+     * Helper method to get a relative field
+     * @param {String} fieldPath The path of the relative field, which is a relative path (e.g. a/b/c or ../../e/f)
+     * @param {Ext.form.field.Field} field The field of reference
+     * @return {Ext.form.field.Field} The relative field or null if the field has not been found or if the form is not ready yet.
+     */
+    getRelativeField: function(fieldPath, field)
+    {
+        var relativeField = null;
+        
+        if (this._formReady && fieldPath)
+        {
+            // try to get the relative field from the field cache
+            var cache = field['__relativeFields'];
+            if (cache && fieldPath in cache)
+            {
+                var relativeFieldId = cache[fieldPath];
+                relativeField = relativeFieldId ? Ext.getCmp(relativeFieldId) : null;
+            }
+            else
+            {
+                if (!cache)
+                {
+                    cache = field['__relativeFields'] = {};
+                }
+            
+                if (!relativeField)
+                {
+                    var prefix = field.name.substring(0, field.name.lastIndexOf('.'));
+                    
+                    // Handling '..' in field name.
+                    Ext.Array.forEach(fieldPath.split('/'), function(pathPart) {
+                        if (pathPart == '..')
+                        {
+                            prefix = prefix.substring(0, prefix.lastIndexOf('.'));
+                            fieldPath = fieldPath.substring(3);
+                        }
+                    });
+                    
+                    // Separator in composites path is '/' whereas javascript path separator must be '.'
+                    fieldPath = fieldPath.replace('/', '.');
+                    
+                    relativeField = this.getField(prefix + '.' + fieldPath);
+                    if (!relativeField)
+                    {
+                        var message = "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_UNKNOWN_FIELD'/>" + prefix + '.' + fieldPath;
+                        this.getLogger().error(message);
+                    }
+                }
+                
+                // Populate cache
+                cache[fieldPath] = relativeField ? relativeField.getId() : null;
+            }
+        }
+        
+        return relativeField;
+    },
+    
+    /**
+     * Helper method to get relative fields
+     * @param {String[]} fieldPaths An array of path to relative fields. Each path is relative (e.g. a/b/c or ../../e/f).
+     * @param {Ext.form.field.Field} field The field of reference
+     * @return {Ext.form.field.Field[]} The array of the relative fields in the same order than the fieldPaths array, if a field is not found, its corresponding entry in the array will be null. If the form is not ready, the empty array will be returned.
+     */
+    getRelativeFields: function(fieldPaths, field)
+    {
+        var relativeFields = [];
+        
+        if (this._formReady && fieldPaths)
+        {
+            Ext.Array.forEach(fieldPaths, function(fieldPath) {
+                relativeFields.push(this.getRelativeField(fieldPath, field));
+            }, this);
+        }
+        
+        return relativeFields;
+    },
+    
+    /**
+     * Helper method to listen to the change event of a relative field.
+     * @param {String/String[]} fieldPaths The path of the relative field, which is a relative path (e.g. a/b/c or ../../e/f). An array of path can also be provided.
+     * @param {Ext.form.field.Field} field The field who is searching for a relative field
+     * @param {Function} handler The on change handler
+     * @param {Ext.form.field.Field} handler.field The relative field that has triggered the on change event.
+     * @param {Object} handler.newValue The new value
+     * @param {Object} handler.oldValue The old value
+     * @param {Object} scope The scope handler. Default to the field.
+     */
+    onRelativeFieldsChange: function(fieldPaths, field, handler, scope)
+    {
+        if(this._formReady)
+        {
+            this._onRelativeFieldChangeFormReady(fieldPaths, field, handler);
+        }
+        else
+        {
+            this.on('formready', Ext.bind(this._onRelativeFieldsChangeFormReady, this, [fieldPaths, field, handler, scope]));
+        }
+    },
+    
+    /**
+     * @private
+     * Internal callback used for onRelativeFieldsChange.
+     * Called when the form is ready.
+     * @param {String/String[]} fieldPaths The path of the relative field, which is a relative path (e.g. a/b/c or ../../e/f). An array of path can also be provided.
+     * @param {Ext.form.field.Field} field The field who is searching for a relative field
+     * @param {Function} handler The on change handler
+     * @param {Ext.form.field.Field} handler.field The relative field that has triggered the on change event.
+     * @param {Object} handler.newValue The new value
+     * @param {Object} handler.oldValue The old value
+     * @param {Object} scope The scope handler. Default to the field.
+     */
+    _onRelativeFieldsChangeFormReady: function(fieldPaths, field, handler, scope)
+    {
+        fieldPaths = Ext.Array.from(fieldPaths);
+        var relativeFields = this.getRelativeFields(fieldPaths, field);
+        
+        Ext.Array.forEach(relativeFields, function(relativeField) {
+            if (relativeField)
+            {
+                relativeField.on('change', handler, scope || field);
+            }
+        });
     }
 });
 

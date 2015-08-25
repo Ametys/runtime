@@ -444,6 +444,8 @@
     <message key="PLUGINS_CORE_UI_WIDGET_BOOLEAN_COMBOBOX_DEFAULT_TRUE_LABEL">Oui</message>
     <message key="PLUGINS_CORE_UI_WIDGET_BOOLEAN_COMBOBOX_DEFAULT_FALSE_LABEL">Non</message>
     
+    <message key="PLUGINS_CORE_UI_WIDGET_UNKNOWN_FIELD">Champ inconnu: </message>
+    
     <!-- +
          | FileUpload.js
          + -->
