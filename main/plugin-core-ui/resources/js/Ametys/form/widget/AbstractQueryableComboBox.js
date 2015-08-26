@@ -129,6 +129,7 @@ Ext.define('Ametys.form.widget.AbstractQueryableComboBox', {
             displayField: this.displayField,
             
             labelTpl: this.getLabelTpl(),
+            tipTpl: this.getTipTpl(),
             labelHTML: true,
             flex: 1,
             allowBlank: this.allowBlank,
@@ -167,6 +168,16 @@ Ext.define('Ametys.form.widget.AbstractQueryableComboBox', {
     getLabelTpl: function ()
     {
     	return null;
+    },
+    
+    /**
+     * Get the tooltip template for selected field
+     * @protected
+     * @template
+     */
+    getTipTpl: function()
+    {
+        return undefined; // no tip
     },
        
     markInvalid: function (msg)
