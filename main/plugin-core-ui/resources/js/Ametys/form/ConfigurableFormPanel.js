@@ -2284,7 +2284,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         {
             this._setValuesXML(data, valuesTagName, commentsTagName);
         }
-        else
+        else if (Ext.isObject(data))
         {
             this._setValuesJSON(data, valuesTagName, commentsTagName, invalidFieldsTagName);
         }
