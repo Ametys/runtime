@@ -82,6 +82,15 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
     {
         _instance = this;
         _cache = new HashMap<>();
+        
+        _configure();
+    }
+    
+    /**
+     * Configure the i18n catalogue
+     */
+    protected void _configure ()
+    {
         _locations = new HashMap<>();
         
         // initializes locations
@@ -121,6 +130,16 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
            
             _locations.put(id, new Location("messages", new String[]{"context://WEB-INF/i18n/workspaces/" + workspace, location2}));
         }
+    }
+    
+    /**
+     * Reload the i18n catalogues and clear cache.
+     * This method should be called as soon as the list of i18n catalogue was changed, when adding a new catalogue for example.
+     */
+    public void reloadCatalogues ()
+    {
+        clearCache();
+        _configure();
     }
     
     /**
