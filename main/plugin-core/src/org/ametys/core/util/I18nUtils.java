@@ -232,8 +232,16 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
             return text.getLabel();
         }
         
-        String catalogue = text.getCatalogue();
-        Location location = _locations.get(catalogue);
+        Location location = null;
+        if (text.getLocation() != null)
+        {
+            location = new Location(text.getBundleName(), new String[]{text.getLocation()});
+        }
+        else
+        {
+            String catalogue = text.getCatalogue();
+            location = _locations.get(catalogue);
+        }
         
         if (location == null)
         {

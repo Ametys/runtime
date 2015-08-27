@@ -37,6 +37,8 @@ public final class I18nizableText
     private String _catalogue;
     private List<String> _parameters;
     private Map<String, I18nizableText> _parameterMap;
+    private String _catalogueLocation;
+    private String _catalogueBundleName;
 
     /**
      * Create a simple international text
@@ -95,6 +97,57 @@ public final class I18nizableText
         _parameterMap = parameters;
         _parameters = null;
     }
+    
+    /**
+     * Create an i18nized text. 
+     * Use this constructor only when the catalogue is an external catalogue, not managed by Ametys application
+     * @param catalogueLocation the file location URI of the catalogue where the key is defined. 
+     * @param catalogueFilename the catalogue bundle name such as 'messages'
+     * @param key the key of the text. Cannot be null.
+     */
+    public I18nizableText(String catalogueLocation, String catalogueFilename, String key)
+    {
+        this(catalogueLocation, catalogueFilename, key, (List<String>) null);
+    }
+
+    /**
+     * Create an i18nized text with ordered parameters.
+     * Use this constructor only when the catalogue is an external catalogue, not managed by Ametys application
+     * @param catalogueLocation the file location URI of the catalogue where the key is defined. 
+     * @param catalogueFilename the catalogue bundle name such as 'messages'
+     * @param key the key of the text. Cannot be null.
+     * @param parameters the parameters of the key if any. Can be null.
+     */
+    public I18nizableText(String catalogueLocation, String catalogueFilename, String key, List<String> parameters)
+    {
+        _i18n = true;
+
+        _catalogueLocation = catalogueLocation;
+        _catalogueBundleName = catalogueFilename;
+        _catalogue = null;
+        _key = key;
+        _parameters = parameters;
+        _parameterMap = null;
+    }
+
+    /**
+     * Create an i18nized text with named parameters.
+     * @param catalogueLocation the file location URI of the catalogue where the key is defined. 
+     * @param catalogueFilename the catalogue bundle name such as 'messages'
+     * @param key the key of the text. Cannot be null.
+     * @param parameters the named parameters of the message, as a Map of name -&gt; value. Value can itself be an i18n key but must not have parameters.
+     */
+    public I18nizableText(String catalogueLocation, String catalogueFilename, String key, Map<String, I18nizableText> parameters)
+    {
+        _i18n = true;
+
+        _catalogueLocation = catalogueLocation;
+        _catalogueBundleName = catalogueFilename;
+        _catalogue = null;
+        _key = key;
+        _parameterMap = parameters;
+        _parameters = null;
+    }
 
     /**
      * Determine whether the text is i18nized or a simple cross languages text.
@@ -118,6 +171,38 @@ public final class I18nizableText
         else
         {
             throw new IllegalArgumentException("This text is not i18nized and so do not have catalogue. Use the 'isI18n' method to know whether a text is i18nized");
+        }
+    }
+    
+    /**
+     * Get the file location URI of the i18nized text.
+     * @return The catalog location where the key is defined
+     */
+    public String getLocation()
+    {
+        if (_i18n)
+        {
+            return _catalogueLocation;
+        }
+        else
+        {
+            throw new IllegalArgumentException("This text is not i18nized and so do not have location. Use the 'isI18n' method to know whether a text is i18nized");
+        }
+    }
+    
+    /**
+     * Get the files name of catalog
+     * @return bundle name
+     */
+    public String getBundleName()
+    {
+        if (_i18n)
+        {
+            return _catalogueBundleName;
+        }
+        else
+        {
+            throw new IllegalArgumentException("This text is not i18nized and so do not have location. Use the 'isI18n' method to know whether a text is i18nized");
         }
     }
 
@@ -328,6 +413,8 @@ public final class I18nizableText
         HashCodeBuilder hashCodeBuilder = new HashCodeBuilder();
         hashCodeBuilder.append(_i18n);
         hashCodeBuilder.append(_key);
+        hashCodeBuilder.append(_catalogueLocation);
+        hashCodeBuilder.append(_catalogueBundleName);
         hashCodeBuilder.append(_catalogue);
         hashCodeBuilder.append(_directLabel);
 
@@ -370,7 +457,16 @@ public final class I18nizableText
         if (_i18n)
         {
             equalsBuilder.append(_key, i18nObj._key);
-            equalsBuilder.append(_catalogue, i18nObj._catalogue);
+            
+            if (_catalogue == null)
+            {
+                equalsBuilder.append(_catalogueLocation, i18nObj._catalogueLocation);
+                equalsBuilder.append(_catalogueBundleName, i18nObj._catalogueBundleName);
+            }
+            else
+            {
+                equalsBuilder.append(_catalogue, i18nObj._catalogue);
+            }
 
             if (_parameters == null)
             {

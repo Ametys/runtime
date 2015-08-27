@@ -64,6 +64,20 @@ public final class ConfigurationHelper
     }
     
     /**
+     * Parse a i18n text configuration.
+     * @param config the configuration to use.
+     * @param catalogueLocation The i18n catalogue location URI
+     * @param catalogueName The i18n catalogue bundle name
+     * @return the i18n text.
+     * @throws ConfigurationException if the configuration is not valid.
+     */
+    public static I18nizableText parseI18nizableText(Configuration config, String catalogueLocation, String catalogueFilename, String defaultValue) throws ConfigurationException
+    {
+        String text = config.getValue(defaultValue);
+        return _getI18nizableTextValue(config, catalogueLocation, catalogueFilename, text);
+    }
+    
+    /**
      * Get an i18n text configuration (can be a key or a "direct" string).
      * @param config The configuration to parse.
      * @param defaultCatalogue The i18n catalogue to use when not specified.  
@@ -72,8 +86,6 @@ public final class ConfigurationHelper
      */
     private static I18nizableText _getI18nizableTextValue(Configuration config, String defaultCatalogue, String value)
     {
-//        boolean isI18n = config.getAttributeAsBoolean("i18n", false);
-//        if (isI18n)
         if (isI18n(config))
         {
             String catalogue = config.getAttribute("catalogue", defaultCatalogue);
@@ -84,6 +96,19 @@ public final class ConfigurationHelper
         {
             return new I18nizableText(value);
         }
+    }
+    
+    /**
+     * Get an i18n text configuration (can be a key or a "direct" string).
+     * @param config The configuration to parse.
+     * @param catalogueLocation The i18n catalogue location URI
+     * @param catalogueName The i18n catalogue bundle name
+     * @param value The i18n text, can be a key or a "direct" string.
+     * @return
+     */
+    private static I18nizableText _getI18nizableTextValue(Configuration config, String catalogueLocation, String catalogueFilename, String value)
+    {
+        return new I18nizableText(catalogueLocation, catalogueFilename, value);
     }
     
     /**
