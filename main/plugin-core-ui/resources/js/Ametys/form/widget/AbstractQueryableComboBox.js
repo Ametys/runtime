@@ -225,7 +225,8 @@ Ext.define('Ametys.form.widget.AbstractQueryableComboBox', {
     
     getValue: function ()
     {
-    	return this.combobox.getValue();
+    	var value = Ext.Array.from(this.combobox.getValue());
+    	return this.combobox.multiSelect ? value : value[0];
     },
     
     /**
@@ -233,8 +234,8 @@ Ext.define('Ametys.form.widget.AbstractQueryableComboBox', {
      */
     getSubmitData: function ()
     {
-    	var data = {};
-    	data[this.name] = this.combobox.getValue();
+    	var data = {};    	
+    	data[this.name] = this.getValue();
     	return data;
     },
     
