@@ -168,18 +168,18 @@ Ext.define('Ametys.form.widget.File', {
     },
     
     /**
-     * @cfg {String} filter=none The filter to use for accepted files among: 'none', 'image', 'audio', 'video', 'multimedia' or 'flash'. Can be null to accept all files (equivalent to 'none').
+     * @cfg {String} filter=none The filter to use for accepted files amongst: 'none', 'image', 'audio', 'video', 'multimedia' or 'flash'. Can be null to accept all files (equivalent to 'none').
      */
     /**
      * @cfg {String|String[]} allowSources=external The allowed file sources in a Array or separated by coma. Default to 'external'.
      */
     
     /**
-     * @cfg {Number} imagePreviewMaxHeight=100 The maximun height for image preview. This is only used with filter 'image' (see #cfg-fileFilter).
+     * @cfg {Number} imagePreviewMaxHeight=100 The maximum height for image preview. This is only used with filter 'image' (see #cfg-fileFilter).
      */
     imagePreviewMaxHeight: 100,
     /**
-     * @cfg {Number} imagePreviewMaxWidth=100 The maximun width for image preview. This is only used with filter 'image' (see #cfg-fileFilter).
+     * @cfg {Number} imagePreviewMaxWidth=100 The maximum width for image preview. This is only used with filter 'image' (see #cfg-fileFilter).
      */
     imagePreviewMaxWidth: 100,
     
@@ -564,6 +564,6 @@ Ext.define('Ametys.form.widget.File', {
                 extension = fileName.substring(index + 1).toLowerCase();
             }
         }
-        return Ametys.getPluginResourcesPrefix('explorer') + '/img/resources/icon-medium/' + extension + '.png';
+        return Ametys.getPluginDirectPrefix('explorer') + '/icon-medium/' + extension + '.png';
     }
 });
