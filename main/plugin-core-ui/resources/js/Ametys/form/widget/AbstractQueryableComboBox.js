@@ -79,6 +79,11 @@ Ext.define('Ametys.form.widget.AbstractQueryableComboBox', {
 	 * @cfg {Boolean} hideTrigger=false Set to `true` to hide the trigger
 	 */
 	
+    /**
+     * @property {Ext.form.field.Tag} combobox The queryable combobox
+     * @private
+     */
+	
     initComponent: function()
     {
         this.items = this.getItems();
