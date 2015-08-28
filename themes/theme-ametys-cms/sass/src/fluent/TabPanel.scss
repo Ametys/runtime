@@ -1,0 +1,163 @@
+/*
+ *  Copyright 2015 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+/**
+ * Tab panel header
+ */
+@include extjs-tab-panel-ui(
+    $ui: 'ribbon-tabpanel',
+    
+    $ui-bar-background-color: $ametys-ribbon-tabpanel-background-color,
+    $ui-tab-font-size: $ametys-ribbon-tabpanel-font-size,
+    $ui-tab-font-weight: normal,
+    
+    $ui-tab-outline-width-focus: transparent,
+    $ui-tab-inner-border-color-focus: transparent,
+    $ui-tab-inner-border-color-focus-over: transparent,
+    $ui-tab-inner-border-color-active: transparent,
+    $ui-tab-inner-border-color-focus-active: transparent,
+    
+    $ui-tab-border-radius: 0,
+    $ui-tab-border-width: 1px,
+    $ui-tab-padding: 4px 12px 3px 12px,
+    
+    $ui-tab-color: $ametys-ribbon-tabpanel-color,
+    $ui-tab-border-color: transparent,
+    $ui-tab-background-color: $ametys-ribbon-tabpanel-background-color,
+    
+    $ui-tab-color-active: $ametys-ribbon-tabpanel-active-color,
+    $ui-tab-border-color-active: $ametys-ribbon-tabpanel-active-border-color $ametys-ribbon-tabpanel-active-border-color transparent $ametys-ribbon-tabpanel-active-border-color,
+    $ui-tab-background-color-active: $ametys-ribbon-tabpanel-active-background-color,
+    
+    $ui-tab-color-over: $ametys-ribbon-tabpanel-over-color,
+    $ui-tab-border-color-over: $ametys-ribbon-tabpanel-over-border-color,
+    $ui-tab-background-color-over: $ametys-ribbon-tabpanel-over-background-color,
+    
+    $ui-strip-height: 1px,
+    $ui-strip-border-width: 1px 0 0 0,
+    $ui-strip-border-color: $ametys-ribbon-tabpanel-active-border-color,
+    $ui-strip-background-color: #FF0000
+);
+@include extjs-panel-ui(
+    $ui: 'ribbon-tabpanel', 
+    
+    $ui-header-background-color: $ametys-ribbon-tabpanel-background-color,
+    $ui-header-line-height: $ametys-ribbon-tabpanel-height,
+    $ui-header-padding: 0 right($panel-header-padding) 0 0,
+    $ui-header-border-width: 0,
+    
+    $ui-header-inner-border-color: $ametys-ribbon-tabpanel-active-border-color,
+    $ui-header-inner-border-width: 0 0 1px 0,
+    
+    $ui-body-border-width: 0 0 1px 0 !important,
+    $ui-body-border-color: $ametys-ribbon-tabpanel-active-border-color
+);
+
+/**
+ * Link Button
+ */
+@include extjs-button-small-ui(
+    $ui: 'ribbon-tabpanel-linkbutton',
+    
+    $border-width: 0,
+    
+    $body-outline-color-focus: $ametys-ribbon-tabpanel-linkbutton-outline-color,
+    $inner-border-color-focus: $ametys-ribbon-tabpanel-linkbutton-outline-color,
+    
+    $font-size: $ametys-ribbon-header-button-font-size,
+    $font-size-over: $ametys-ribbon-header-button-font-size,
+    $font-size-focus: $ametys-ribbon-header-button-font-size,
+    $font-size-pressed: $ametys-ribbon-header-button-font-size,
+    
+    $line-height: $ametys-ribbon-header-button-font-size*1.1,
+    
+    $font-weight: $ametys-ribbon-header-button-font-weight,
+    $font-weight-over: $ametys-ribbon-header-button-font-weight,
+    $font-weight-focus: $ametys-ribbon-header-button-font-weight,
+    $font-weight-pressed: $ametys-ribbon-header-button-font-weight,
+    $font-weight-focus-over: $ametys-ribbon-header-button-font-weight,
+    $font-weight-focus-pressed: $ametys-ribbon-header-button-font-weight,
+    $font-weight-disabled: $ametys-ribbon-header-button-font-weight,
+            
+    $color: $ametys-ribbon-tabpanel-linkbutton-color,
+    $background-color: $ametys-ribbon-tabpanel-linkbutton-background-color,
+    
+    $color-over: $ametys-ribbon-tabpanel-linkbutton-color,
+    $background-color-over: $ametys-ribbon-tabpanel-linkbutton-background-color,
+    
+    $color-pressed: $ametys-ribbon-tabpanel-linkbutton-color,
+    $background-color-pressed: $ametys-ribbon-tabpanel-linkbutton-background-color,
+    
+    $color-focus: $ametys-ribbon-tabpanel-linkbutton-color,
+    $background-color-focus: $ametys-ribbon-tabpanel-linkbutton-background-color
+);
+.#{$prefix}btn-over .#{$prefix}btn-inner-ribbon-tabpanel-linkbutton-small
+{
+    text-decoration: underline;
+}
+
+.#{$prefix}btn-over.#{$prefix}btn-menu-active .#{$prefix}btn-inner-ribbon-tabpanel-linkbutton-small
+{
+    text-decoration: none;
+}
+
+.#{$prefix}btn-icon-el-ribbon-tabpanel-linkbutton-small
+{
+    border-radius: 8px;
+}
+
+/**
+ * Profile card
+ */
+.a-fluent-user-card 
+{
+    padding: 5px;
+    color: $ametys-ribbon-tabpanel-usercard-color;
+    font-size: $ametys-ribbon-tabpanel-usercard-font-size;
+    white-space: nowrap;
+}
+.a-fluent-user-card .photo
+{
+    display: inline-block;
+    width: 64px;
+    height: 64px;
+}
+.a-fluent-user-card .main
+{
+    display: inline-block;
+    vertical-align: top;
+    padding: 5px;
+}
+
+.a-fluent-user-card .main .name-wrapper
+{
+    display: inline-block;
+}
+
+.a-fluent-user-card .main .name-wrapper .name
+{
+    font-size: $ametys-ribbon-tabpanel-usercard-font-size * 2;
+}
+.a-fluent-user-card .main .name-wrapper .login
+{
+    color: lighten($ametys-ribbon-tabpanel-usercard-color, 20%);
+    font-size: $ametys-ribbon-tabpanel-usercard-font-size * 0.9;
+    text-align: right;
+}
+.a-fluent-user-card .email
+{
+    font-size: $ametys-ribbon-tabpanel-usercard-font-size;    
+}

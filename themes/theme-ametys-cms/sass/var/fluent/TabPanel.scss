@@ -1,0 +1,38 @@
+/*
+ *  Copyright 2015 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+ 
+$ametys-ribbon-tabpanel-font-size: dynamic($ametys-ribbon-font-size);
+$ametys-ribbon-tabpanel-font-weight: normal;
+$ametys-ribbon-tabpanel-height: $ametys-ribbon-tabpanel-font-size*2.09;
+
+$ametys-ribbon-tabpanel-highlight-color: $ametys-ribbon-highlight-color;
+$ametys-ribbon-tabpanel-color: $ametys-ribbon-main-color;
+$ametys-ribbon-tabpanel-background-color: $ametys-ribbon-base-color;
+
+$ametys-ribbon-tabpanel-active-color: darken($ametys-ribbon-highlight-color, 20%);
+$ametys-ribbon-tabpanel-active-background-color: $ametys-ribbon-tab-color;
+$ametys-ribbon-tabpanel-active-border-color: darken($ametys-ribbon-tabpanel-active-background-color, 6%);
+
+$ametys-ribbon-tabpanel-over-color: mix($ametys-ribbon-tabpanel-color, $ametys-ribbon-tabpanel-active-color, 50%);
+$ametys-ribbon-tabpanel-over-background-color: mix($ametys-ribbon-tabpanel-background-color, $ametys-ribbon-tabpanel-active-background-color, 50%);
+$ametys-ribbon-tabpanel-over-border-color:  mix($ametys-ribbon-tabpanel-background-color, $ametys-ribbon-tabpanel-active-border-color, 50%);
+
+$ametys-ribbon-tabpanel-linkbutton-color: $ametys-ribbon-tabpanel-color;
+$ametys-ribbon-tabpanel-linkbutton-background-color: $ametys-ribbon-tabpanel-background-color;
+$ametys-ribbon-tabpanel-linkbutton-outline-color: $ametys-ribbon-tabpanel-highlight-color;
+
+$ametys-ribbon-tabpanel-usercard-color: $ametys-ribbon-tabpanel-color;
+$ametys-ribbon-tabpanel-usercard-font-size: $ametys-ribbon-tabpanel-font-size;
