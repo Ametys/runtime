@@ -20,4 +20,5 @@ test/environments/webapp2/workspaces/admin
 test/environments/webapp3/WEB-INF/data
 test/environments/webapp3/kernel
 test/environments/webapp3/plugins
+themes/work
 /tmp
