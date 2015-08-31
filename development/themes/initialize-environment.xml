@@ -27,7 +27,7 @@
         <!-- create work dir -->
         <echo>Creating or updating symbolic links</echo>
         <mkdir dir="${ametys-work-dir}"/>
-        <echo file="${ametys-work-dir}/DO NOT REMOVE WORK MANUALLY but use the 'development/themes/leave-environment.xml' script"></echo>
+        <echo file="${ametys-work-dir}/DO NOT REMOVE WORK MANUALLY but use the 'leave-environment.xml' script"></echo>
         <!-- link ext dir -->
         <antcall target="create-link">
             <param name="new-link" location="${ametys-work-dir}/ext"/>
