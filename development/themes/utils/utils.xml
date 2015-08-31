@@ -62,6 +62,25 @@
 
         <symlink link="${new-link}" resource="${original-dir}"/>
     </target>
+
+    <target name="create-filelink">
+        <delete file="${new-link}"/>
+    
+        <antcall target="create-filelink-windows"/>        
+        <antcall target="create-filelink-unix"/>        
+    </target>    
+    <target name="create-filelink-windows" if="isWindows">
+        <exec executable="cmd">
+            <arg value="/c"/>
+            <arg value="mklink"/>
+            <arg value="/H"/>
+            <arg value="${new-link}"/>
+            <arg value="${original-dir}"/>
+        </exec>
+    </target>
+    <target name="create-filelink-unix" if="isUnix">
+        <symlink link="${new-link}" resource="${original-dir}"/>
+    </target>
     
     <target name="destroy-link">
         <antcall target="destroy-link-windows"/>
@@ -78,7 +97,6 @@
         <symlink action="delete" link="${new-link}" failonerror="false"/>
     </target>  
         
-    
 	<scriptdef name="for-each" language="javascript">
 	    <attribute name="target"/>
         <attribute name="absolutepathProperty"/>

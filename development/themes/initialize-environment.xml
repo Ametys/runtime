@@ -104,6 +104,10 @@
                 <include name="*"/>
             </dirset>
         </for-each>        
+        <antcall target="create-filelink">
+            <param name="new-link" location="${ametys-work-dir}/packages/local/${name}/package.json"/>
+            <param name="original-dir" location="${location}/package.json"/>
+        </antcall>
     </target>
     <target name="create-sencha-theme-effectively-link">
         <antcall target="create-link">
