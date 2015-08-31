@@ -105,35 +105,6 @@
     </feature>
     
     <!-- +
-         |  USERS
-         + -->   
-    <feature name="runtime.users">
-        <!-- 
-            This feature contains only the interaction for handling users
-         -->
-        <extensions>
-            <extension  point="org.ametys.plugins.core.ui.item.DesktopManager" 
-                        id="org.ametys.runtime.plugins.admin.Users"
-                        class="org.ametys.plugins.core.ui.item.StaticAdminClientSideElement"
-                        logger="org.ametys.plugins.admin.ui.users">
-                <!-- 
-                    This interaction allow to handle users (read or read/write)
-                 -->
-                <class name="redirect">
-                    <param name="Link">users/view.html</param>
-
-                    <param name="label" i18n="true">plugin.core:PLUGINS_CORE_USERS_LABEL</param>
-                    <param name="default-description" i18n="true">plugin.core:PLUGINS_CORE_USERS_DESCRIPTION</param>
-                    <param name="icon-small" file="true">img/users/icon_dock.png</param>
-                    <param name="icon-medium" file="true">img/users/icon_medium.gif</param>
-                    <param name="icon-large" file="true">img/users/icon_large.png</param>
-                </class>                       
-                <Url>users/view\.html</Url>
-            </extension>      
-        </extensions>
-    </feature>
-    
-    <!-- +
          |  GROUPS
          + -->   
     <feature name="runtime.groups">
