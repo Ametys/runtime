@@ -54,8 +54,8 @@ public class SimpleMenu extends StaticClientSideElement implements MenuClientSid
     protected ClientSideElement _primaryMenuItem;
     /** The unresolved menu items */
     protected List<UnresolvedItem> _unresolvedMenuItems;
-    
-    List<ClientSideElement> _referencedClientSideElement;
+    /** The referenced client side elements */
+    protected List<ClientSideElement> _referencedClientSideElement;
     
     @Override
     public void service(ServiceManager smanager) throws ServiceException
