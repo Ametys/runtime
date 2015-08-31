@@ -582,7 +582,7 @@ Ext.define("Ametys.tool.Tool",
          */
         _onBeforeManualClose: function(panel)
         {
-            this.close();
+            this.close(true);
             return false;
         },
 		

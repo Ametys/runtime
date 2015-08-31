@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -403,7 +404,122 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
             ConnectionHelper.cleanup(con);
         }
     }
+    
+    public List<Map<String, Object>> users2JSON(int count, int offset, Map parameters)
+    {
+        String pattern = (String) parameters.get("pattern");
 
+        if (pattern != null && pattern.length() == 0)
+        {
+            pattern = null;
+        }
+
+        return internalUsers2JSON(pattern, count >= 0 ? count : Integer.MAX_VALUE, offset >= 0 ? offset : 0);
+    }
+    
+    protected List<Map<String, Object>> internalUsers2JSON (String pattern, int length, int offset)
+    {
+        List<Map<String, Object>> users = new ArrayList<>();
+        
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try
+        {
+            con = ConnectionHelper.getConnection(_poolName);
+
+            // Build SQL request
+            StringBuilder selectClause = new StringBuilder();
+            for (String id : _parameters.keySet())
+            {
+                JdbcParameter parameter = _parameters.get(id);
+                if (selectClause.length() > 0)
+                {
+                    selectClause.append(", ");
+                }
+                selectClause.append(parameter.getColumn());
+            }
+
+            StringBuilder sql = new StringBuilder("SELECT ");
+            sql.append(selectClause).append(" FROM ").append(_tableName);
+            
+            // Ajoute le pattern
+            JdbcPredicate mandatoryPredicate = _getMandatoryPredicate(pattern);
+            if (mandatoryPredicate != null)
+            {
+                sql.append(" WHERE ").append(mandatoryPredicate.getPredicate());
+            }
+            
+            String patternToMatch = _getPatternToMatch (pattern);
+            if (patternToMatch != null)
+            {
+                sql.append(mandatoryPredicate != null ? " AND (" : " WHERE ")
+                    .append(_parameters.get("login").getColumn()).append(" LIKE ? OR ")
+                    .append(_parameters.get("lastname").getColumn()).append(" LIKE ?");
+                if (_parameters.containsKey("firstname"))
+                {
+                    sql.append(" OR ").append(_parameters.get("firstname").getColumn()).append(" LIKE ?");
+                }
+                if (mandatoryPredicate != null)
+                {
+                    sql.append(')');
+                }
+            }
+            
+            // Ajoute les filtres de taille
+            sql = _addQuerySize(length, offset, con, selectClause, sql);
+
+            // Crée la requête elle-meme
+            String sqlRequest = sql.toString();
+            if (getLogger().isDebugEnabled())
+            {
+                getLogger().debug("Executing user SQL query: " + sqlRequest);
+            }
+            stmt = con.prepareStatement(sqlRequest);
+            
+            int i = 1;
+            // Value les parametres s'il y a un pattern
+            if (mandatoryPredicate != null)
+            {
+                for (String value : mandatoryPredicate.getValues())
+                {
+                    stmt.setString(i++, value);
+                }
+            }
+            if (patternToMatch != null)
+            {
+                // One for the login, one for the lastname.
+                stmt.setString(i++, patternToMatch);
+                stmt.setString(i++, patternToMatch);
+                if (_parameters.containsKey("firstname"))
+                {
+                    stmt.setString(i++, patternToMatch);
+                }
+            }
+
+            // Effectuer la requête
+            rs = stmt.executeQuery();
+            while (rs.next())
+            {
+                users.add(resultSetToJson(rs));
+            }
+        }
+        catch (SQLException e)
+        {
+            getLogger().error("Error during the communication with the database", e);
+        }
+        finally
+        {
+            // Fermer les ressources de connexion
+            ConnectionHelper.cleanup(rs);
+            ConnectionHelper.cleanup(stmt);
+            ConnectionHelper.cleanup(con);
+        }
+        
+        return users;
+    }
+    
     /**
      * Sax the user list.
      * 
@@ -416,6 +532,7 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
      *            </ul>
      * @throws SAXException If an error occurs while saxing.
      */
+    @Deprecated
     public void toSAX(ContentHandler handler, int count, int offset, Map parameters) throws SAXException
     {
         String pattern = (String) parameters.get("pattern");
@@ -469,6 +586,7 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
      * @param offset The offset to start with, first is 0.
      * @throws SAXException If an error occurs while saxing.
      */
+    @Deprecated
     public void toSAXInternal(ContentHandler handler, String pattern, int length, int offset) throws SAXException
     {
         Connection con = null;
@@ -618,6 +736,7 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
      * @throws SAXException If an error occurs while saxing.
      * @throws SQLException If an error occurs while getting result information.
      */
+    @Deprecated
     protected void resultSetToSAX(ContentHandler handler, ResultSet rs) throws SAXException, SQLException
     {
         AttributesImpl attr = new AttributesImpl();
@@ -664,6 +783,56 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
         }
 
         XMLUtils.endElement(handler, "user");
+    }
+    
+    /**
+     * Sax a result set from a database.
+     * 
+     * @param handler The content handler to sax in.
+     * @param rs The result set to sax.
+     * @throws SAXException If an error occurs while saxing.
+     * @throws SQLException If an error occurs while getting result information.
+     */
+    protected Map<String, Object> resultSetToJson(ResultSet rs) throws SQLException
+    {
+        Map<String, Object> user = new HashMap<String, Object>();
+        
+        for (String id : _parameters.keySet())
+        {
+            JdbcParameter parameter = _parameters.get(id);
+            
+            if (parameter.getType() == ParameterType.BOOLEAN)
+            {
+                user.put(parameter.getColumn(), rs.getBoolean(parameter.getColumn()));
+            }
+            else if (parameter.getType() == ParameterType.DATE)
+            {
+                java.sql.Date date = rs.getDate(parameter.getColumn());
+                if (date != null)
+                {
+                    user.put(parameter.getColumn(), ParameterHelper.valueToString(new Date(date.getTime())));
+                }
+            }
+            else if (parameter.getType() == ParameterType.DOUBLE)
+            {
+                user.put(parameter.getColumn(), rs.getDouble(parameter.getColumn()));
+            }
+            else if (parameter.getType() == ParameterType.LONG)
+            {
+                user.put(parameter.getColumn(), rs.getLong(parameter.getColumn()));
+            }
+            else if (parameter.getType() == ParameterType.PASSWORD)
+            {
+                user.put(parameter.getColumn(), "PASSWORD");
+            }
+            else
+            {
+                user.put(parameter.getColumn(), rs.getString(parameter.getColumn()));
+            }
+        }
+        
+        return user;
+
     }
 
     /**
@@ -741,6 +910,51 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
         return nbLignes;
     }
     
+    @Override
+    public Map<String, Object> user2JSON(String login)
+    {
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try
+        {
+            // Effectuer la connexion à la base de données via un pool de connexion
+            con = ConnectionHelper.getConnection(_poolName);
+
+            // Contruire la requête pour récupérer l'éventuel utilisateur
+            String sqlRequest = "SELECT " + _createGetUserSelectClause() + " FROM " + _tableName + " WHERE " + _parameters.get("login").getColumn() + " = ? ";
+            if (getLogger().isDebugEnabled())
+            {
+                getLogger().debug(sqlRequest + " [login:" + login + "]");
+            }
+
+            stmt = con.prepareStatement(sqlRequest);
+
+            stmt.setString(1, login);
+
+            // Effectuer la requête
+            rs = stmt.executeQuery();
+            if (rs.next())
+            {
+                return resultSetToJson(rs);
+            }
+            return null;
+        }
+        catch (SQLException e)
+        {
+            getLogger().error("Error communication with database", e);
+            throw new RuntimeException("Error communication with database", e);
+        }
+        finally
+        {
+            // Fermer les ressources de connexion
+            ConnectionHelper.cleanup(rs);
+            ConnectionHelper.cleanup(stmt);
+            ConnectionHelper.cleanup(con);
+        }        
+    }
+    
+    @Override
     public void saxUser(String login, ContentHandler handler) throws SAXException
     {
         Connection con = null;

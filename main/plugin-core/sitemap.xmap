@@ -18,10 +18,6 @@
 
 	<map:components>
         <map:generators>
-            <map:generator name="users-info" src="org.ametys.plugins.core.user.UserInformationGenerator" logger="org.ametys.plugins.core.user" label="content"/>
-            <map:generator name="users-model" src="org.ametys.plugins.core.user.ModelGenerator" logger="org.ametys.plugins.core.user" label="content"/>
-            <map:generator name="users-search" src="org.ametys.plugins.core.user.SearchGenerator" logger="org.ametys.plugins.core.user" label="content"/>
-
             <map:generator name="group-members" src="org.ametys.plugins.core.group.GroupMembersGenerator" logger="org.ametys.plugins.core.group" label="content"/>
             <map:generator name="groups-search" src="org.ametys.plugins.core.group.SearchGenerator" logger="org.ametys.plugins.core.group" label="content"/>
             
@@ -44,8 +40,7 @@
 		<map:actions>
             <map:action name="set-header" src="org.apache.cocoon.acting.HttpHeaderAction" logger="org.ametys.plugins.core.administrator.sitemap.action.httpHeader"/>
 
-			<map:action name="users-edit" src="org.ametys.plugins.core.user.EditAction" logger="org.ametys.plugins.core.user"/>
-			<map:action name="users-delete" src="org.ametys.plugins.core.user.DeleteAction" logger="org.ametys.plugins.core.user"/>
+            <map:action name="users-search" src="org.ametys.plugins.core.user.UserSearchAction" logger="org.ametys.plugins.core.user" label="content"/>
             
 			<map:action name="group-create" src="org.ametys.plugins.core.group.CreateGroupAction" logger="org.ametys.plugins.core.group"/>
 			<map:action name="group-rename" src="org.ametys.plugins.core.group.RenameGroupAction" logger="org.ametys.plugins.core.group"/>
@@ -106,57 +101,16 @@
             <!-- +
                  | USERS
                  + -->
-            <map:match pattern="users/search.xml">
-                <map:generate type="users-search" src="{request-param:criteria}">
+            <map:match pattern="users/search.json">
+                <map:act type="users-search" src="{request-param:criteria}">
                     <map:parameter name="limit" value="{request-param:limit}"/>
                     <map:parameter name="start" value="{request-param:start}"/>
                     <map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
-                </map:generate>
-                <map:serialize type="xml"/>
+                    
+                    <map:read type="json"/>
+                </map:act>
             </map:match>
                 
-            <map:match pattern="users/info">
-                <map:generate type="users-info" src="{request-param:login}">
-                	<map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
-                </map:generate>
-                <map:serialize type="xml"/>
-            </map:match>
-            
-            <map:match pattern="users/edit">
-                <map:act type="users-edit">
-                	<map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
-                	
-                    <map:generate type="action-result">
-                        <map:parameter name="error" value="{error}"/>
-                    </map:generate>
-                    <map:serialize type="xml"/>
-                </map:act>
-                <map:generate type="action-result"/>
-                <map:serialize type="xml" status-code="500"/>
-            </map:match>
-            
-            <map:match pattern="users/delete">
-                <map:act type="users-delete">
-                	<map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
-                	
-                    <map:generate type="action-result"/>
-                    <map:serialize type="xml"/>
-                </map:act>
-                <map:generate type="action-result"/>
-                <map:serialize type="xml" status-code="500"/>
-            </map:match>
-            
-			<map:match pattern="users-model">
-                <map:generate type="users-model">
-                	<map:parameter name="usersManagerRole" value="{request-param:usersManagerRole}"/>
-                </map:generate>
-                <map:transform type="i18n">
-					<map:parameter name="locale" value="{locale:locale}"/>
-					<map:parameter name="default-catalogue-id" value="plugin.core"/>
-				</map:transform>
-                <map:serialize type="xml"/>
-            </map:match>
-			
 			<!-- +
                  | GROUPS
                  + -->

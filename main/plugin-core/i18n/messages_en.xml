@@ -61,53 +61,53 @@
 	<!-- USER AND RIGHTS -->
 	<message key="PLUGINS_CORE_USERANDRIGHTS_CATEGORY">Users and rights</message>
 
-	<!-- USER -->
-	<message key="PLUGINS_CORE_USERS_LABEL">Users</message>
-	<message key="PLUGINS_CORE_USERS_DESCRIPTION">Applications users management</message>
-	<message key="PLUGINS_CORE_USERS_TITLE">Users management</message>
-	<message key="PLUGINS_CORE_USERS_HANDLE_QUIT">Quit</message>
-	<message key="PLUGINS_CORE_USERS_HELP">Help</message>
-	<message key="PLUGINS_CORE_USERS_HELP_TEXT_MODIFY">This window allows to create or update users.&lt;br/&gt;&lt;br/&gt;You may search for existing users.&lt;br/&gt;Be careful : searches only return the 100 first results.</message>
-	<message key="PLUGINS_CORE_USERS_HELP_TEXT_READ">This window allows to display users.&lt;br/&gt;&lt;br/&gt;You may search for existing users.&lt;br/&gt;Be careful : searches will only return the 100 first results.</message>
-	<message key="PLUGINS_CORE_USERS_CANCEL">Quit</message>
-	<message key="PLUGINS_CORE_USERS_SEARCH">Search</message>
-	<message key="PLUGINS_CORE_USERS_SEARCH_CRITERIA">Name or login ID</message>
-	<message key="PLUGINS_CORE_USERS_SEARCH_BUTTON">Search</message>
-	<message key="PLUGINS_CORE_USERS_COL_NAME">Name</message>
-	<message key="PLUGINS_CORE_USERS_COL_ID">Login ID</message>
-	<message key="PLUGINS_CORE_USERS_COL_EMAIL">E-mail</message>
-	<message key="PLUGINS_CORE_USERS_SEARCHING">Searching</message>
-	<message key="PLUGINS_CORE_USERS_SEARCHING_ERROR">An error occurred on server while searching.</message>
-	<message key="PLUGINS_CORE_USERS_SEARCHING_NORESULT">Sorry, your search produced no results</message>
-	<message key="PLUGINS_CORE_USERS_IMPERSONATE">Impersonate</message>
-	<message key="PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS_TITLE">Impersonation successful</message>
-	<message key="PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS">You are now connected with the following ids:</message>
-	<message key="PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS_2">You are going to be redirected to the application.</message>
-	<message key="PLUGINS_CORE_USERS_IMPERSONATE_ERROR_TITLE">An error occured</message>
-	<message key="PLUGINS_CORE_USERS_IMPERSONATE_ERROR">An error occured. Impersonation failed.</message>
-	<message key="PLUGINS_CORE_USERS_HANDLE">Management</message>
-	<message key="PLUGINS_CORE_USERS_HANDLE_NEW">Create a user</message>
-	<message key="PLUGINS_CORE_USERS_HANDLE_EDIT">Modify a user</message>
-	<message key="PLUGINS_CORE_USERS_HANDLE_DEL">Delete a user</message>
-	<message key="PLUGINS_CORE_USERS_HANDLE_DEL_TITLE">Remove several users</message>
-	<message key="PLUGINS_CORE_USERS_HANDLE_DEL_MULTI_PROMPT">Are you sure you want to delete these(s) user(s)?</message>
-	<message key="PLUGINS_CORE_USERS_HANDLE_DEL_PROMPT">Are you sure you want to delete this user ?</message>
-	<message key="PLUGINS_CORE_USERS_DELETE_ERROR">An error occurred. Unable to remove the user.</message>
-	<message key="PLUGINS_CORE_USERS_DELETE_MULTI_ERROR">An error occurred. Unable to remove the user(s).</message>
-	<message key="PLUGINS_CORE_USERS_DIALOG_OK">Ok</message>
-	<message key="PLUGINS_CORE_USERS_DIALOG_CANCEL">Cancel</message>
-	<message key="PLUGINS_CORE_USERS_DIALOG_LABEL">Editing user...</message>
-	<message key="PLUGINS_CORE_USERS_NEW_TITLE">Add user</message>
-	<message key="PLUGINS_CORE_USERS_NEW_SUCCESS">The user was correctly created</message>
-	<message key="PLUGINS_CORE_USERS_DIALOG_SUCCESS">The user was correctly edited</message>
-	<message key="PLUGINS_CORE_USERS_DIALOG_ERROR">An error occurred. The user could not be added/edited.\nThe chosen login ID is possibly already assigned.</message>
-	<message key="PLUGINS_CORE_USERS_DIALOG_LOGIN_ERROR">The login ID must contains at least 3 characters and at most 16</message>
-	<message key="PLUGINS_CORE_USERS_DIALOG_EMAIL_ERROR">The e-mail is incorrect.</message>
-	<message key="PLUGINS_CORE_USERS_DIALOG_LASTNAME_ERROR">The family name box cannot be empty.</message>
-	<message key="PLUGINS_CORE_USERS_DIALOG_PASSWORD_ERROR">The password box cannot be empty.</message>
-	<message key="PLUGINS_CORE_USERS_DIALOG_INVALID_FIELD">This field is invalid. Read help for more information.</message>
-	<message key="PLUGINS_CORE_USERS_RIGHTS_HANDLE_LABEL">Users</message>
-	<message key="PLUGINS_CORE_USERS_RIGHTS_HANDLE_DESCRIPTION">User administration</message>
+	<!-- +
+         | USERS 
+         + -->
+    <message key="PLUGINS_CORE_RIGHTS_USERS_LABEL">Users management</message>
+    <message key="PLUGINS_CORE_RIGHTS_USERS_DESCRIPTION">Users management</message>
+    <!-- Ribbon -->
+    <message key="RIBBON_TABS_TAB_RIGHTS_HANDLE_LABEL">Users, groups and rights</message>
+    <message key="RIBBON_TABS_TAB_USERS_GROUPS_GROUP_USERS_LABEL">CMS users</message>
+    <message key="RIBBON_TABS_TAB_USERS_LABEL">Users</message>
+    <message key="RIBBON_TABS_TAB_USERS_GROUP_LABEL">Users</message>
+    <message key="RIBBON_TABS_TAB_USERS_GROUPS_GROUP_ACTION_LABEL">Actions</message>
+    <!-- Tool -->
+	<message key="PLUGINS_CORE_UITOOL_USERS_LABEL">Users</message>
+	<message key="PLUGINS_CORE_UITOOL_USERS_DESCRIPTION">Users management&lt;br/&gt;This tool allows you to create, modify or search users.&lt;br/&gt;Be careful : searches only return the 100 first results.</message>
+	<message key="PLUGINS_CORE_UITOOL_USERS_SEARCH_EMPTY_TEXT">Name or login</message>
+    <message key="PLUGINS_CORE_UITOOL_USERS_SEARCH_LIMIT_HELPTEXT">Be careful : searches only return the 100 first results.</message>
+	<message key="PLUGINS_CORE_UITOOL_USERS_COL_NAME">Name</message>
+	<message key="PLUGINS_CORE_UITOOL_USERS_COL_ID">Login</message>
+	<message key="PLUGINS_CORE_UITOOL_USERS_COL_EMAIL">Email</message>
+    <!-- Action -->
+    <message key="PLUGINS_CORE_USERS_ADD_LABEL">New user</message>
+    <message key="PLUGINS_CORE_USERS_ADD_DESCRIPTION">Add a new user</message>
+    <message key="PLUGINS_CORE_USERS_ADD_ERROR">An error occurred: unable to create user.&lt;br/&gt;The login may already exist.</message>
+    <message key="PLUGINS_CORE_USERS_EDIT_LABEL">Edit</message>
+    <message key="PLUGINS_CORE_USERS_EDIT_DESCRIPTION">Edit selected user</message>
+    <message key="PLUGINS_CORE_USERS_EDIT_ERROR">An error occurred: unable to edit user.</message>
+    <message key="PLUGINS_CORE_USERS_DELETE_LABEL">Delete</message>
+    <message key="PLUGINS_CORE_USERS_DELETE_DESCRIPTION">Delete the selected user(s)</message>
+    <message key="PLUGINS_CORE_USERS_DELETE_CONFIRM">Are you sure you want to delete these(s) user(s)?</message>
+    <message key="PLUGINS_CORE_USERS_DELETE_ERROR">An error occurred: unable to delete user(s)</message>
+    <message key="PLUGINS_CORE_USERS_INFOS_ERROR">An error occurred while retrieving user's information</message>
+    <!-- Helper -->
+    <message key="PLUGINS_CORE_USERS_DIALOG_ADD_TITLE">New user ...</message>
+    <message key="PLUGINS_CORE_USERS_DIALOG_EDIT_TITLE">Edit ...</message>
+    <message key="PLUGINS_CORE_USERS_DIALOG_OK">Ok</message>
+    <message key="PLUGINS_CORE_USERS_DIALOG_CANCEL">Cancel</message>
+    <message key="PLUGINS_CORE_USERS_DIALOG_INVALID_FIELD">This field is invalid.&lt;br/&gt;See help for details.</message>
+    <message key="PLUGINS_CORE_USERS_DIALOG_LOGIN_ERROR">The login ID must contains at least 3 characters and at most 16.</message>
+    <message key="PLUGINS_CORE_USERS_DIALOG_EMAIL_ERROR">Invalid email</message>
+    <message key="PLUGINS_CORE_USERS_DIALOG_LASTNAME_ERROR">The last name cannot be empty.</message>
+    <message key="PLUGINS_CORE_USERS_DIALOG_PASSWORD_ERROR">The password can not be empty.</message>
+    
+    <message key="PLUGINS_CORE_USERS_SEARCH_BUTTON">Search</message>
+    <message key="PLUGINS_CORE_USERS_SEARCHING">Search</message>
+    <message key="PLUGINS_CORE_USERS_SEARCHING_ERROR">Search has failed.</message>
+    <message key="PLUGINS_CORE_USERS_SEARCHING_NORESULT">The search returns no results</message>
+    <message key="PLUGINS_CORE_USERS_SEARCH_NO_RESULT">The search returns no results</message>
 
 	<!-- USER JDBC -->
 	<message key="PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_LABEL">Login ID</message>

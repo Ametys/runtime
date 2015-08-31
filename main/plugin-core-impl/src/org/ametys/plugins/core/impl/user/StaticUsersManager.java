@@ -15,9 +15,11 @@
  */
 package org.ametys.plugins.core.impl.user;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.avalon.framework.component.Component;
@@ -70,16 +72,32 @@ public class StaticUsersManager implements Configurable, Component, CredentialsA
         }
     }
     
+    @Override
     public User getUser(String login)
     {
         return _users.get(login);
     }
 
+    @Override
     public Collection<User> getUsers()
     {
         return Collections.unmodifiableCollection(_users.values());
     }
+    
+    @Override
+    public List<Map<String, Object>> users2JSON(int count, int offset, Map parameters)
+    {
+        List<Map<String, Object>> users = new ArrayList<Map<String,Object>>();
+        
+        for (User user : _users.values())
+        {
+            users.add(user2JSON(user.getName()));
+        }
+        
+        return users;
+    }
 
+    @Override
     public void toSAX(ContentHandler handler, int count, int offset, Map parameters) throws SAXException
     {
         XMLUtils.startElement(handler, "users");
@@ -104,6 +122,26 @@ public class StaticUsersManager implements Configurable, Component, CredentialsA
         XMLUtils.endElement(handler, "users");
     }
     
+    @Override
+    public Map<String, Object> user2JSON(String login)
+    {
+        User user = _users.get(login);
+        
+        if (user == null)
+        {
+            return null;
+        }
+        
+        Map<String, Object> userInfos = new HashMap<>();
+        
+        userInfos.put("login", user.getName());
+        userInfos.put("lastname", user.getFullName());
+        userInfos.put("email", user.getEmail());
+
+        return userInfos;
+    }
+    
+    @Override
     public void saxUser(String login, ContentHandler handler) throws SAXException
     {
         User user = _users.get(login);

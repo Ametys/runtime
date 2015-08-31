@@ -214,10 +214,10 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
 
     constructor: function (config)
     {
+    	this.defaultFieldConfig = config.defaultFieldConfig || {};
+    	
         config.bodyPadding = config.bodyPadding != null ?  config.bodyPadding : Ametys.form.ConfigurableFormPanel.PADDING_GENERAL;
         config.items = this._getFormContainerCfg(config);
-        
-        this.defaultFieldConfig = config.defaultFieldConfig || {};
         
         this._additionnalWidgetsConf = config.additionnalWidgetsConf || {};
         
@@ -304,7 +304,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             items: config.items,
             
             // minWidth is a minWidth of a field + a number of repeaters margins
-            minWidth: Ametys.form.ConfigurableFormPanel.LABEL_WIDTH
+            minWidth: (this.defaultFieldConfig.labelWidth || Ametys.form.ConfigurableFormPanel.LABEL_WIDTH)
                 + Ametys.form.ConfigurableFormPanel.FIELD_MINWIDTH
                 + 20 // ametysDescription
                 + (config.showAmetysComments ? 20 : 0)

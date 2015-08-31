@@ -17,6 +17,7 @@ package org.ametys.plugins.core.impl.user.mixed;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -157,6 +158,7 @@ public class CredentialsAwareLdapAndJdbcUsersManager extends CredentialsAwareLda
     }
     
     @Override
+    @Deprecated
     public void saxUser(String login, ContentHandler handler) throws SAXException
     {
         TagCountHandler tagCountHandler = new TagCountHandler(handler, "user");
@@ -166,6 +168,17 @@ public class CredentialsAwareLdapAndJdbcUsersManager extends CredentialsAwareLda
         {
             _fallbackUsersManager.saxUser(login, handler);
         }
+    }
+    
+    @Override
+    public Map<String, Object> user2JSON(String login)
+    {
+        Map<String, Object> user = super.user2JSON(login);
+        if (user == null || user.isEmpty())
+        {
+            return _fallbackUsersManager.user2JSON(login);
+        }
+        return user;
     }
     
     @Override
@@ -186,6 +199,14 @@ public class CredentialsAwareLdapAndJdbcUsersManager extends CredentialsAwareLda
         _fallbackUsersManager.toSAX(tagCountHandler, newCount, offset, parameters);
         
         XMLUtils.endElement(handler, "users");
+    }
+    
+    @Override
+    public List<Map<String, Object>> users2JSON(int count, int offset, Map parameters)
+    {
+        List<Map<String, Object>> users = super.users2JSON(count, offset, parameters);
+        users.addAll(_fallbackUsersManager.users2JSON(count, offset, parameters));
+        return users;
     }
     
     // CredentialsAwareUsersManager methods. //

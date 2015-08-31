@@ -16,6 +16,7 @@
 package org.ametys.core.user;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import org.xml.sax.ContentHandler;
@@ -43,11 +44,19 @@ public interface UsersManager
     public User getUser(String login);
     
     /**
+     * Get the JSON representation of a User.
+     * @param login the login of the user. Cannot be null.
+     * @preturn User's information as a JSON object or null if the user login does not exist.
+     */
+    public Map<String, Object> user2JSON(String login);
+    
+    /**
      * Sax a particular user
      * @param login the login of the user. Cannot be null.
      * @param handler The content handler to sax in.
      * @throws SAXException If an error occurs while saxing.
      */
+    @Deprecated
     public void saxUser(String login, ContentHandler handler) throws SAXException;
     
     /**
@@ -58,5 +67,17 @@ public interface UsersManager
      * @param parameters Parameters for saxing user list differently, see implementation.
      * @throws SAXException If an error occurs while saxing.
      */
+    @Deprecated
     public void toSAX(ContentHandler handler, int count, int offset, Map parameters) throws SAXException;
+    
+    /**
+     * Get the user list.
+     * @param handler The content handler to sax in.
+     * @param count The maximum number of users to sax. (-1 to sax all)
+     * @param offset The offset to start with, first is 0.
+     * @param parameters Parameters for saxing user list differently, see implementation.
+     * @return The users' information
+     * @throws SAXException If an error occurs while saxing.
+     */
+    public List<Map<String, Object>> users2JSON (int count, int offset, Map parameters);
 }

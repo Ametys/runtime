@@ -266,6 +266,56 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
     }
     
     @Override
+    public Map<String, Object> user2JSON(String login)
+    {
+        DirContext context = null;
+        NamingEnumeration<SearchResult> results = null;
+
+        try
+        {
+            // Connexion au serveur ldap
+            context = new InitialDirContext(_getContextEnv());
+
+            // Créer le filtre de recherche en échappant le login
+            String filter = "(&" + _usersObjectFilter + "(" + _usersLoginAttribute + "={0}))";
+            Object[] params = new Object[] {login};
+
+            // Effectuer la recherche
+            results = context.search(_usersRelativeDN, filter, params, _getSearchConstraint(0));
+
+            // Chercher l'utilisateur voulu
+            if (results.hasMoreElements())
+            {
+                SearchResult  result = results.nextElement();
+                Map<String, Object> user = _entry2Json(_getAttributes(result));
+                
+                if (results.hasMoreElements())
+                {
+                    // Annuler le résultat car plusieurs correspondances pour un login
+                    String errorMessage = "Multiple matches for attribute '" + _usersLoginAttribute + "' and value = '" + login + "'";
+                    getLogger().error(errorMessage);
+                    throw new IllegalArgumentException(errorMessage);
+                }
+                
+                return user;
+            }
+            
+            return null;
+        }
+        catch (NamingException e)
+        {
+            getLogger().error("Error communication with ldap server", e);
+            throw new RuntimeException("Error communication with ldap server", e);
+        }
+        finally
+        {
+            // Fermer les ressources de connexion
+            _cleanup(context, results);
+        }
+    }
+    
+    @Override
+    @Deprecated
     public void saxUser(String login, ContentHandler handler) throws SAXException
     {
         DirContext context = null;
@@ -328,6 +378,7 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
      * @throws SAXException If an error occurs while saxing.
      */
     @Override
+    @Deprecated
     public void toSAX(ContentHandler handler, int count, int offset, Map parameters) throws SAXException
     {
         String pattern = (String) parameters.get("pattern");
@@ -350,7 +401,24 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
         }
         XMLUtils.endElement(handler, "users");
     }
-
+    
+    public List<Map<String, Object>> users2JSON(int count, int offset, Map parameters)
+    {
+        String pattern = (String) parameters.get("pattern");
+        if (pattern != null && pattern.length() == 0)
+        {
+            pattern = null;
+        }
+        
+        if (count != 0)
+        {
+            Map<String, Map<String, Object>> entries = new LinkedHashMap<>();
+            
+            return _internalUsers2JSON(entries, count, offset >= 0 ? offset : 0, pattern, 0);
+        }
+        return new ArrayList<>();
+    }
+    
     /**
      * Sax LDAP results
      * @param handler The content handler to sax in
@@ -364,6 +432,7 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
      * @throws SAXException if an error occured
      * @throws IllegalArgumentException if an error occured
      */
+    @Deprecated
     private int _sax(ContentHandler handler, Map<String, Map<String, Object>> entries, int count, int offset, String pattern, NamingEnumeration<SearchResult> results, int possibleErrors) throws SAXException
     {
         int nbResults = 0;
@@ -417,6 +486,61 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
             return entries.size();
         }
     }
+    
+    private List<Map<String, Object>> _json(Map<String, Map<String, Object>> entries, int count, int offset, String pattern, NamingEnumeration<SearchResult> results, int possibleErrors)
+    {
+        int nbResults = 0;
+        
+        boolean hasMoreElement = results.hasMoreElements();
+        
+        // First loop on the items to ignore (before the offset)
+        while (nbResults < offset && hasMoreElement)
+        {
+            nbResults++;
+            
+            // FIXME we should check that this element has really attributes to count it as an real offset
+            results.nextElement();
+
+            hasMoreElement = results.hasMoreElements();
+        }
+        
+        // Second loop to work
+        while ((count == -1 || entries.size() < count) && hasMoreElement)
+        {
+            nbResults++;
+            
+            // Passer à l'entrée suivante
+            SearchResult result = results.nextElement();
+            Map<String, Object> attrs = _getAttributes(result);
+            if (attrs != null)
+            {
+                entries.put((String) attrs.get(_usersLoginAttribute), attrs);
+            }
+
+            hasMoreElement = results.hasMoreElements();
+        }
+
+
+        // If we have less results than expected
+        // can be due to errors (null attributes)
+        // can be due to max results is less than wanted results
+        if (entries.size() < count && nbResults == count + offset + possibleErrors)
+        {
+            double nbErrors = count + possibleErrors - entries.size();
+            double askedResultsSize = possibleErrors + count;
+            int newPossibleErrors = Math.max(possibleErrors + count - entries.size(), (int) Math.ceil((nbErrors / askedResultsSize + 1) * nbErrors));
+            return _internalUsers2JSON(entries, count, offset, pattern, newPossibleErrors);
+        }
+        else
+        {
+            List<Map<String, Object>> users = new ArrayList<>();
+            for (Map<String, Object> attributes : entries.values())
+            {
+                users.add(_entry2Json(attributes));
+            }
+            return users;
+        }
+    }
 
     /**
      * Sax the user list.
@@ -430,6 +554,7 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
      * @return the final offset
      * @throws SAXException If an error occurs while saxing.
      */
+    @Deprecated
     protected int _toSAXInternal(ContentHandler handler, Map<String, Map<String, Object>> entries, int count, int offset, String pattern, int possibleErrors) throws SAXException
     {        
         LdapContext context = null;
@@ -473,11 +598,63 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
     }
     
     /**
+     * Get the user list.
+     * @param entries Where to store entries
+     * @param count The maximum number of users to sax. Cannot be 0. Can be -1 to all.
+     * @param offset The results to ignore
+     * @param pattern The pattern to match.
+     * @param possibleErrors This number will be added to count to set the max of the request, but count results will still be returned. The difference stands for errors.
+     * @return the final offset
+     * @throws SAXException If an error occurs while saxing.
+     */
+    protected List<Map<String, Object>> _internalUsers2JSON (Map<String, Map<String, Object>> entries, int count, int offset, String pattern, int possibleErrors)
+    {
+        LdapContext context = null;
+        NamingEnumeration<SearchResult> results = null;
+
+        try
+        {
+            // Connexion au serveur ldap
+            context = new InitialLdapContext(_getContextEnv(), null);
+            if (_serverSideSorting)
+            {
+                context.setRequestControls(_getSortControls());
+            }
+
+            Map filter = _getPatternFilter(pattern);
+
+            // Effectuer la recherche
+            results = context.search(_usersRelativeDN, 
+                                    (String) filter.get("filter"), 
+                                    (Object[]) filter.get("params"), 
+                                    _getSearchConstraint(count == -1 ? 0 : (count + offset + possibleErrors)));
+
+            // Sax results
+            return _json(entries, count, offset, pattern, results, possibleErrors);
+        }
+        catch (IllegalArgumentException e)
+        {
+            getLogger().error("Error missing at least one attribute or value", e);
+            return new ArrayList<>();
+        }
+        catch (NamingException e)
+        {
+            getLogger().error("Error during the communication with ldap server", e);
+            return new ArrayList<>();
+        }
+        finally
+        {
+            // Fermer les ressources de connexion
+            _cleanup(context, results);
+        }
+    }
+    
+    /**
      * Get the sort control.
      * @return the sort controls. May be empty if a small error occurs
      * @throws SAXException if a fatal error occurs
      */
-    protected Control[] _getSortControls() throws SAXException
+    protected Control[] _getSortControls()
     {
         try
         {
@@ -584,6 +761,37 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
 
         return constraints;
     }
+    
+    /**
+     * Get the JSON representation of a user ldap entry
+     * @param attributes The ldap attributes of the entry to sax.
+     * @return the JSON representation
+     */
+    protected Map<String, Object> _entry2Json(Map<String, Object> attributes)
+    {
+        Map<String, Object> user = new HashMap<>();
+        
+        if (attributes == null)
+        {
+            return user;
+        }
+
+        user.put("login", attributes.get(_usersLoginAttribute));
+        
+        if (_usersFirstnameAttribute != null)
+        {
+            String firstName = (String) attributes.get(_usersFirstnameAttribute);
+            user.put("firstName", firstName);
+        }
+
+        String lastName = (String) attributes.get(_usersLastnameAttribute);
+        user.put("lastName", lastName);
+
+        String email = (String) attributes.get(_usersEmailAttribute);
+        user.put("email", email);
+
+        return user;
+    }
 
     /**
      * Sax an ldap entry.
@@ -594,6 +802,7 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
      * @throws IllegalArgumentException If a needed attribute is missing in the entry.
      * @throws SAXException If a problem occurs while saxing.
      */
+    @Deprecated
     protected boolean _entryToSAX(ContentHandler handler, Map<String, Object> attributes) throws SAXException
     {
         if (attributes == null)

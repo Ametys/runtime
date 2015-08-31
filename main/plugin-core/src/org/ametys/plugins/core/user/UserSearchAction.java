@@ -1,5 +1,5 @@
 /*
- *  Copyright 2012 Anyware Services
+ *  Copyright 2015 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,30 +15,33 @@
  */
 package org.ametys.plugins.core.user;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.cocoon.ProcessingException;
+import org.apache.cocoon.acting.ServiceableAction;
 import org.apache.cocoon.environment.ObjectModelHelper;
-import org.apache.cocoon.generation.ServiceableGenerator;
-import org.apache.cocoon.xml.XMLUtils;
-import org.xml.sax.SAXException;
+import org.apache.cocoon.environment.Redirector;
+import org.apache.cocoon.environment.Request;
+import org.apache.cocoon.environment.SourceResolver;
 
+import org.ametys.core.cocoon.JSonReader;
 import org.ametys.core.user.UsersManager;
 
 /**
- * Generates the result of a search in the users. 
+ * Get users 
+ *
  */
-public class SearchGenerator extends ServiceableGenerator
+public class UserSearchAction extends ServiceableAction
 {
     private static final int _DEFAULT_COUNT_VALUE = 100;
     private static final int _DEFAULT_OFFSET_VALUE = 0;
-
-    @SuppressWarnings("unchecked")
-    public void generate() throws IOException, SAXException, ProcessingException
+    
+    public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
         Map<String, Object> jsParameters = (Map<String, Object>) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
         
@@ -49,24 +52,20 @@ public class SearchGenerator extends ServiceableGenerator
             role = UsersManager.ROLE;
         }
         
+        List<Map<String, Object>> users = new ArrayList<>();
         UsersManager usersManager = null;
         
         try
         {
             usersManager = (UsersManager) manager.lookup(role);
             
-            contentHandler.startDocument();
-            XMLUtils.startElement(contentHandler, "Search");
-            
             if (jsParameters.get("login") != null)
             {
-                XMLUtils.startElement(contentHandler, "users");
                 List<String> logins = (List<String>) jsParameters.get("login");
                 for (String login : logins)
                 {
-                    usersManager.saxUser(login, contentHandler);
+                    users.add(usersManager.user2JSON(login));
                 }
-                XMLUtils.endElement(contentHandler, "users");
             }
             else
             {
@@ -78,11 +77,8 @@ public class SearchGenerator extends ServiceableGenerator
 
                 int offset = parameters.getParameterAsInteger("start", _DEFAULT_OFFSET_VALUE);
                 
-                usersManager.toSAX(contentHandler, count, offset, _getSearchParameters());
+                users.addAll(usersManager.users2JSON(count, offset, _getSearchParameters(source)));
             }
-            
-            XMLUtils.endElement(contentHandler, "Search");
-            contentHandler.endDocument();
         }
         catch (ServiceException e)
         {
@@ -93,13 +89,21 @@ public class SearchGenerator extends ServiceableGenerator
         {
             manager.release(usersManager);
         }
+        
+        Map<String, Object> result = new HashMap<>();
+        result.put("users", users);
+
+        Request request = ObjectModelHelper.getRequest(objectModel);
+        request.setAttribute(JSonReader.OBJECT_TO_READ, result);
+
+        return EMPTY_MAP;
     }
     
     /**
      * Get the search parameters
      * @return the search parameters
      */
-    protected Map<String, String> _getSearchParameters ()
+    protected Map<String, String> _getSearchParameters (String source)
     {
         Map<String, String> params = new HashMap<>();
         params.put("pattern", source);

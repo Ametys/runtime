@@ -25,7 +25,6 @@
         </category>
 
         <category name="WORKSPACE_ADMIN_SECTION_USERSMANAGEMENT_LABEL">
-            <item id="org.ametys.runtime.plugins.admin.Users"/>
             <item id="org.ametys.runtime.plugins.admin.Groups"/>
             <item id="org.ametys.runtime.plugins.admin.right.Profiles"/>
             <item id="org.ametys.runtime.plugins.admin.SuperUser"/>
