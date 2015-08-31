@@ -27,49 +27,15 @@
 	   <h2>List of tests</h2>
 	   <ul>
 	       <li><a href="ametys-ui.html">User interface</a>: Test of the purely drawn client side (no logic). Allow to test the rendering of the ribbon and of the tools.</li>
+           <li><a href="ametys-ui2.html">User interface 2</a>: Test of the purely drawn client side (no logic). Allow to test the rendering of the ribbon and of the tools.</li>
 	       <li><a href="ametys-tools.html">Tools</a>: Test of the logic of the tools. Allow to test the abstraction of the tools.</li>
 	   </ul>
-       <h2>How to make tests working</h2>
-	   <p>To make the test working, you have to play thoses throught Apache HTTPD and to add some url redirection: </p>
-	   <ul>
-	       <li><strong>/plugins/extjs6/resources/</strong>: Redirection to the subdirectory "build" of your local copy of ExtJS version</li>
-           <li><strong>/kernel/resources/</strong>: Redirection to the kernel resources directory</li>
-	   </ul>
-	   <p>Here is a Apache Httpd 2.2 conf sample:</p>
-	   <code>
-	       <pre>
-				&lt;VirtualHost *:80>
-				        # Racine des documents statiques du site web
-				        DocumentRoot "/pathto/Ametys/kernel/01_RUNTIME/trunk/test/clientside"
-				        
-	                        &lt;Directory "/pathto/Ametys/kernel/01_RUNTIME/trunk/test/clientside">
-	                           AllowOverride none
-	                           Allow From All
-	                           Options MultiViews  
-	                        &lt;/Directory> 
-				            &lt;Directory "/pathto/Ametys/plugins/core-ui/resources">
-				               AllowOverride none
-				               Allow From All
-				               Options MultiViews  
-				            &lt;/Directory> 
-				            &lt;Directory "/pathto/Extjs/ext-6.0.0/build">
-				               AllowOverride none
-				               Allow From All
-				               Options MultiViews  
-				            &lt;/Directory> 
-				            
-				        # Nom du virtual host
-				        ServerName ribbon.localhost
-				        UseCanonicalName On
-				        RewriteEngine On
-				
-				        AddDefaultCharset     UTF-8
-				        
-				        RewriteRule             ^/?$             /index.html [R]
-				        RewriteRule             ^/plugins/extjs6/resources/(.*)$     /pathto/Extjs/ext-6.0.0/build/$1 [L]  
-				        RewriteRule             ^/plugins/core-ui/resources/(.*)$    /pathto/Ametys/plugins/core-ui/resources/$1 [L]
-				&lt;/VirtualHost>
-	       </pre>	   
-	   </code>
+       <h2>To make tests working</h2>
+       <ul>
+            <li>Install sencha cmd</li>
+            <li>Run once create-links.xml with ant</li>
+            <li>Before each test, run launch.xml with ant</li>
+            <li>To build theme, run build-theme.xml with ant</li>
+       </ul>
 	</body>
 </html>
