@@ -1675,6 +1675,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                         name: prefix + name,
                         shortName: name,
                         type: type,
+                        contentType: fieldData.contentType, // Only for a field of type "content"
                         
                         fieldLabel: this.withTitleOnLabels ? '<span title="' + label + '">' + (isMandatory ? '* ' : '') + label + '</span>' : (isMandatory ? '* ' : '') + label,
                         ametysDescription: description || '',
