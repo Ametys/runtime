@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright 2015 Anyware Services
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   -->
+<project name="utils">
+
+    <property environment="env"/>
+    <dirname property="this.dir" file="${ant.file.utils}"/>
+    <property name="ametys-runtime-dir" location="${this.dir}/../../.."/>
+    <property name="ametys-root-dir" location="${ametys-runtime-dir}/../../.."/>
+    <property name="ametys-themes-dir" location="${ametys-runtime-dir}/themes"/>
+    <property name="ametys-work-dir" location="${ametys-themes-dir}/work"/>
+    
+    <condition property="isWindows">
+        <os family="windows" />
+    </condition>
+
+    <condition property="isUnix">
+        <os family="unix" />
+    </condition>
+    
+    <!-- +
+         | TASKS
+         + -->  
+    <target name="create-link">
+        <antcall target="create-link-windows"/>        
+        <antcall target="create-link-unix"/>        
+    </target>    
+    <target name="create-link-windows" if="isWindows">
+        <antcall target="destroy-link-windows"/>
+
+        <!-- ensure that intermediary directories exists -->
+        <mkdir dir="${new-link}"/>
+        <delete dir="${new-link}" failonerror="false"/>
+
+        <exec executable="cmd">
+            <arg value="/c"/>
+            <arg value="mklink"/>
+            <arg value="/j"/>
+            <arg value="${new-link}"/>
+            <arg value="${original-dir}"/>
+        </exec>
+    </target>
+    <target name="create-link-unix" if="isUnix">
+        <antcall target="destroy-link-unix"/>
+
+        <!-- ensure that intermediary directories exists -->
+        <mkdir dir="${new-link}"/>
+        <delete dir="${new-link}" failonerror="false"/>
+
+        <symlink link="${new-link}" resource="${original-dir}"/>
+    </target>
+    
+    <target name="destroy-link">
+        <antcall target="destroy-link-windows"/>
+        <antcall target="destroy-link-unix"/>
+    </target>
+    <target name="destroy-link-windows" if="isWindows">
+        <exec executable="cmd">
+            <arg value="/c"/>
+            <arg value="rd"/>
+            <arg value="${new-link}"/>
+        </exec>
+    </target>
+    <target name="destroy-link-unix" if="isUnix">
+        <symlink action="delete" link="${new-link}" failonerror="false"/>
+    </target>  
+        
+    
+	<scriptdef name="for-each" language="javascript">
+	    <attribute name="target"/>
+        <attribute name="absolutepathProperty"/>
+        <attribute name="localnameProperty"/>
+		<element name="dirset" type="dirset"/>
+		
+		<![CDATA[
+		  load("nashorn:mozilla_compat.js");
+		  importClass(java.io.File);
+		
+		  var dirsets = elements.get("dirset");
+          var target = attributes.get("target");
+          var pathPropertyName = attributes.get("absolutepathproperty");
+          var namePropertyName = attributes.get("localnameproperty");
+		
+		  for (i = 0; i < dirsets.size(); i++) 
+		  {
+		    var dirset = dirsets.get(i);
+		    var scanner = dirset.getDirectoryScanner(project);
+		    scanner.scan();
+		    var files = scanner.getIncludedDirectories();
+		    
+            var basedir  = dirset.getDir(project);
+            
+		    for( j=0; j < files.length; j++) 
+		    {
+		        var value = new File(basedir, files[j]);
+		        
+		        self.project.setProperty(pathPropertyName, value.getAbsolutePath());
+                self.project.setProperty(namePropertyName, value.getName());
+		        
+		        self.project.executeTarget(target);        
+		    }
+		  }
+		]]>
+	</scriptdef>    
+</project>

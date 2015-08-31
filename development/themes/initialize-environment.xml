@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright 2015 Anyware Services
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   -->
+<project name="initialize-environment" default="initialize">
+    <import file="utils/utils.xml"/>
+    
+    <target name="initialize">
+        <!-- check if sencha cmd is correctly installed -->
+        <antcall target="check-sencha-cmd-version"/>
+        
+        <!-- ensure that extjs is extracted in bootstrap -->
+        <ant antfile="${ametys-root-dir}/bootstrap/4/deliver/doc/jsdoc/build.xml" target="extract-ext"/>
+
+        <!-- create work dir -->
+        <echo>Creating or updating symbolic links</echo>
+        <mkdir dir="${ametys-work-dir}"/>
+        <echo file="${ametys-work-dir}/DO NOT REMOVE WORK MANUALLY but use the 'development/themes/leave-environment.xml' script"></echo>
+        <!-- link ext dir -->
+        <antcall target="create-link">
+            <param name="new-link" location="${ametys-work-dir}/ext"/>
+            <param name="original-dir" location="${ametys-root-dir}/bootstrap/4/deliver/doc/jsdoc/exts/ext-6.0.0-gpl"/>
+        </antcall>
+        <!-- link core-ui dir -->
+        <antcall target="create-link">
+            <param name="new-link" location="${ametys-work-dir}/ametys/plugins/core-ui/resources/"/>
+            <param name="original-dir" location="${ametys-runtime-dir}/main/plugin-core-ui/resources"/>
+        </antcall>
+        <!-- link test data dir -->
+        <antcall target="create-link">
+            <param name="new-link" location="${ametys-work-dir}/ametys/test/"/>
+            <param name="original-dir" location="${ametys-runtime-dir}/test/clientside"/>
+        </antcall>
+
+        <!-- create sencha workspace if necessary -->
+        <antcall target="create-sencha-workspace"/>
+        <!-- create sencha application if necessary -->
+        <antcall target="create-sencha-application"/>
+        <!-- create sencha themes if necessary -->
+        <antcall target="create-sencha-themes"/>
+
+        <echo>Adding special files</echo>        
+        <!-- get favico to avoid 404 -->
+        <copy file="${ametys-runtime-dir}/main/plugin-core-ui/resources/img/runtime_favico.ico" tofile="${ametys-work-dir}/favicon.ico"/>
+        <!-- generating index.html page -->
+        <echo file="${ametys-work-dir}/index.html">&lt;html&gt;&lt;head&gt;&lt;meta http-equiv="refresh" content="0; url=/ametys/test/index.html"&gt;&lt;/head&gt;&lt;/html&gt;</echo>
+    </target>
+    
+    <!-- +
+         | CREATE SENCHA THEMES
+         + -->
+    <target name="create-sencha-themes">
+        <for-each target="create-sencha-theme" absolutepathproperty="location" localnameproperty="name">
+            <dirset dir="${ametys-themes-dir}">
+                <include name="theme-*"/>
+            </dirset>
+        </for-each>
+    </target>
+    <target name="create-sencha-theme">
+        <condition property="sencha-already-theme">
+            <resourceexists>
+                 <file file="${ametys-work-dir}/packages/local/${name}/package.json"/>
+            </resourceexists>
+        </condition>
+        <antcall target="create-sencha-theme-effectively"/>
+        
+        <condition property="sencha-already-theme-launcher">
+            <resourceexists>
+                 <file file="${ametys-themes-dir}/launch-${name}.xml"/>
+            </resourceexists>
+        </condition>
+        <antcall target="create-sencha-theme-launcher"/>
+
+        <condition property="sencha-already-theme-builder">
+            <resourceexists>
+                 <file file="${ametys-themes-dir}/build-${name}.xml"/>
+            </resourceexists>
+        </condition>
+        <antcall target="create-sencha-theme-builder"/>
+    </target>
+    <target name="create-sencha-theme-effectively" unless="sencha-already-theme">
+        <echo>Creating sencha theme "${name}"</echo>
+        <exec executable="sencha" dir="${ametys-work-dir}/testapp">
+            <arg value="generate"/>
+            <arg value="theme"/>
+            <arg value="${name}"/>
+        </exec>
+        
+        <echo>Linking theme directories</echo>
+        <for-each target="create-sencha-theme-effectively-link" absolutepathproperty="original-dir" localnameproperty="original-dirname">
+            <dirset dir="${location}">
+                <include name="*"/>
+            </dirset>
+        </for-each>        
+    </target>
+    <target name="create-sencha-theme-effectively-link">
+        <antcall target="create-link">
+            <param name="new-link" location="${ametys-work-dir}/packages/local/${name}/${original-dirname}"/>
+            <param name="original-dir" location="${original-dir}"/>
+        </antcall>
+    </target>
+    
+    <target name="create-sencha-theme-launcher" unless="sencha-already-theme-launcher">
+        <echo file="${ametys-themes-dir}/launch-${name}.xml">
+            &lt;project name="launch-${name}" default="launch-${name}"&gt;
+                &lt;target name="launch-${name}"&gt;
+                    &lt;ant antfile="../development/themes/utils/launch.xml"&gt;
+                        &lt;property name="name" value="${name}"/&gt;
+                    &lt;/ant&gt;
+                &lt;/target&gt;
+            &lt;/project&gt;
+         </echo>
+    </target>
+            
+    <target name="create-sencha-theme-builder" unless="sencha-already-theme-builder">
+        <echo file="${ametys-themes-dir}/build-${name}.xml">
+            &lt;project name="build-${name}" default="build-${name}"&gt;
+                &lt;target name="build-${name}"&gt;
+                    &lt;ant antfile="../development/themes/utils/build.xml"&gt;
+                        &lt;property name="name" value="${name}"/&gt;
+                    &lt;/ant&gt;
+                &lt;/target&gt;
+            &lt;/project&gt;
+         </echo>
+    </target>
+            
+    <!-- +
+         | CREATE SENCHA WORKSPACE
+         + -->
+    <target name="create-sencha-workspace">
+        <condition property="sencha-already-workspace">
+	        <resourceexists>
+			     <file file="${ametys-work-dir}/workspace.json"/>
+			</resourceexists>
+        </condition>
+        <antcall target="create-sencha-workspace-effectively"/>
+    </target>
+    <target name="create-sencha-workspace-effectively" unless="sencha-already-workspace">
+        <echo>Creating sencha workspace</echo>
+        <exec executable="sencha" dir="${ametys-work-dir}/ext">
+            <arg value="generate"/>
+            <arg value="workspace"/>
+            <arg value="${ametys-work-dir}"/>
+        </exec>
+    </target>
+    
+    <!-- +
+         | CREATE SENCHA APPLICATION
+         + -->
+    <target name="create-sencha-application">
+        <condition property="sencha-already-application">
+            <resourceexists>
+                 <file file="${ametys-work-dir}/testapp/app.json"/>
+            </resourceexists>
+        </condition>
+        <antcall target="create-sencha-application-effectively"/>
+    </target>
+    <target name="create-sencha-application-effectively" unless="sencha-already-application">
+        <echo>Creating sencha application</echo>
+        <exec executable="sencha" dir="${ametys-work-dir}/ext">
+            <arg value="generate"/>
+            <arg value="app"/>
+            <arg value="testapp"/>
+            <arg value="${ametys-work-dir}/testapp"/>
+        </exec>
+        <copy file="${ametys-work-dir}/testapp/app.json" tofile="${ametys-work-dir}/testapp/app.json.template"/>
+        <replaceregexp file="${ametys-work-dir}/testapp/app.json.template"
+            match="&quot;theme&quot;: &quot;theme-triton&quot;,"
+            replace="&quot;theme&quot;: &quot;MARKER&quot;,"
+            byline="true"/>
+        <replaceregexp file="${ametys-work-dir}/testapp/app.json.template"
+            match="// &quot;fashion&quot;"
+            replace="&quot;fashion&quot;"
+            byline="true"/>
+    </target>
+    
+    <!-- +
+         | CHECK SENCHA CMS VERSION
+         + -->
+    <target name="check-sencha-cmd-version">
+        <echo>Test if "Sencha Cmd 6" is correctly installed and set in path</echo>
+        <exec executable="sencha" outputproperty="senchaworking" failifexecutionfails="false">
+            <arg value="which"/>
+        </exec>
+        
+        <condition property="sencha-ok">
+            <matches string="${senchaworking}" pattern="Sencha Cmd v6\..*" multiline="true" singleline="true"/>
+        </condition>
+        <antcall target="check-sencha-cmd-version-test"/>
+        <echo>Ok</echo>
+    </target>
+    
+    <target name="check-sencha-cmd-version-test" unless="sencha-ok">
+        <echo>You have to install "Sencha Cmd 6" at https://www.sencha.com/products/extjs/cmd-download/</echo>
+        <fail/>
+    </target>
+</project>

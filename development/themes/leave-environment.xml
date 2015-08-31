@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright 2015 Anyware Services
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   -->
+<project name="leave-environment" default="leave">
+    <import file="utils/utils.xml"/>
+    
+    <target name="leave">
+        <echo>Destroy static links</echo>
+        <antcall target="destroy-link"><param name="new-link" location="${ametys-work-dir}/ext"/></antcall>
+        <antcall target="destroy-link"><param name="new-link" location="${ametys-work-dir}/ametys/plugins/core-ui/resources/"/></antcall>
+        <antcall target="destroy-link"><param name="new-link" location="${ametys-work-dir}/ametys/test/"/></antcall>
+        
+        <echo>Destroy sencha theme links</echo>
+        <for-each target="destroy-sencha-theme" absolutepathproperty="location" localnameproperty="name">
+            <dirset dir="${ametys-themes-dir}">
+                <include name="theme-*"/>
+            </dirset>
+        </for-each>
+        
+        <echo>Deleting work directory</echo>
+        <delete dir="${ametys-work-dir}"/>
+        
+        <echo>Deleting scripts</echo>
+        <delete>
+            <fileset dir="${ametys-themes-dir}" includes="build-*.xml"/>
+            <fileset dir="${ametys-themes-dir}" includes="launch-*.xml"/>
+        </delete>
+    </target>
+    
+    <target name="destroy-sencha-theme">
+        <echo>Theme "${name}"</echo>
+        <for-each target="destroy-sencha-theme-link" absolutepathproperty="original-dir" localnameproperty="original-dirname">
+            <dirset dir="${location}">
+                <include name="*"/>
+            </dirset>
+        </for-each>
+    </target>
+    
+    <target name="destroy-sencha-theme-link">
+        <antcall target="destroy-link">
+	        <param name="new-link" location="${ametys-work-dir}/packages/local/${name}/${original-dirname}"/>
+        </antcall>
+    </target>
+    
+    
+</project>
