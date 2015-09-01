@@ -75,7 +75,7 @@ public class ThreadSafeComponentManager<T> extends AbstractLogEnabled implements
     private Map<String, T> _components = new LinkedHashMap<>();
     
     /** Used to map roles to ComponentFactories */
-    private Map<String, ComponentFactory> _componentFactories = Collections.synchronizedMap(new HashMap<String, ComponentFactory>());
+    private Map<String, ComponentFactory> _componentFactories = Collections.synchronizedMap(new LinkedHashMap<String, ComponentFactory>());
     
     /** Is the Manager disposed or not? */
     private boolean _disposed;

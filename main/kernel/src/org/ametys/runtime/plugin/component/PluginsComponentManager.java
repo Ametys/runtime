@@ -54,26 +54,6 @@ public class PluginsComponentManager extends ThreadSafeComponentManager<Object> 
         _parentManager = parentManager;
     }
     
-    @Override
-    public void initialize() throws Exception
-    {
-        super.initialize();
-        
-        for (String point : _extensionPoints.keySet())
-        {
-            Collection<ExtensionDefinition> extensions = _extensionPoints.get(point);
-            ExtensionPoint extPoint = (ExtensionPoint) super.lookup(point);
-            
-            for (ExtensionDefinition extension : extensions)
-            {
-                extPoint.addExtension(extension.getPluginName(), extension.getFeatureName(), extension.getConfiguration());
-            }
-            
-            getLogger().debug("Initializing extensions for point {}", point);
-            extPoint.initializeExtensions();
-        }
-    }
-    
     public boolean hasComponent(String role)
     {
         if (super.hasRole(role))
@@ -228,15 +208,15 @@ public class PluginsComponentManager extends ThreadSafeComponentManager<Object> 
             
             configureAndStart(component);
             
-            /*ExtensionPoint extPoint = (ExtensionPoint) component;
+            ExtensionPoint extPoint = (ExtensionPoint) component;
             
             for (ExtensionDefinition extension : _extensions)
             {
                 extPoint.addExtension(extension.getPluginName(), extension.getFeatureName(), extension.getConfiguration());
             }
             
-            getLogger().info("Initializing extensions");
-            extPoint.initializeExtensions();*/
+            getLogger().debug("Initializing extensions for point {}", _role);
+            extPoint.initializeExtensions();
             
             _componentsInitializing.remove(_role);
             
