@@ -1,0 +1,78 @@
+/*
+ *  Copyright 2010 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+.user-rights-tool > .x-panel-body {
+}
+
+.user-rights-tool .user-rights-empty-panel {
+	padding: 8px;
+	background-color: #FFF;
+	border: none;
+	color:#404040;
+}
+
+.user-rights-tool .fieldset > .x-panel-body 
+{
+	border: none;
+}
+
+.user-rights-tool .fieldset > .x-panel-header
+{
+	background-image: url('../../../../plugins/core-ui/resources/img/Ametys/common/group-expand-sprite.png');
+    background-repeat: no-repeat;   
+    background-position: 0px -45px;
+    background-color: transparent;
+    
+    border: none;
+    box-shadow: none;
+    
+    padding-left: 15px;
+    margin-left: 10px;
+}
+
+.user-rights-tool .fieldset > .x-panel-header .x-panel-header-text
+{
+	color: #404040;
+}
+
+.user-rights-tool .fieldset > .x-panel-header.x-panel-header-collapsed-top
+{
+	background-position: 0px 5px;
+}
+
+.user-rights-tool .x-component.context 
+{
+	margin-left: 35px;
+	color: #444;
+	line-height: 16px;
+	letter-spacing: 1px;
+}
+
+.user-rights-tool .x-component.right 
+{
+	margin-left: 35px;
+	color: #444;
+	line-height: 16px;
+}
+
+.user-rights-tool .x-docked.info {
+	padding: 5px;
+	background-color: #E9F2FF;
+	border: none;
+	color:#404040;
+	text-align:center;
+	border-bottom: 1px solid #CCC;
+}

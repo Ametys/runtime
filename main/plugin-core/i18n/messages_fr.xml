@@ -108,6 +108,21 @@
     <message key="PLUGINS_CORE_USERS_SEARCHING_NORESULT">La recherche n'a renvoyé aucun résultat</message>
     <message key="PLUGINS_CORE_USERS_SEARCH_NO_RESULT">La recherche n'a renvoyé aucun résultat.</message>
     
+    <!-- +
+         | USER RIGHTS
+         + -->
+    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_LABEL">Voir les droits</message>
+    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_DESCRIPTION">Droits de l'utilisateur sélectionné</message>
+    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_EMPTY">Aucun utilisateur n'est actuellement sélectionné.&lt;br/&gt;Sélectionnez un utilisateur pour visualiser ses droits.</message>
+    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_MULTI_FORBIDDEN">Plusieurs utilisateurs sont actuellement sélectionnés.&lt;br/&gt;Sélectionnez un utilisateur pour visualiser ses droits.</message>
+    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_TITLE">Droits de </message>
+    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_TOOLTIPTEXT">Liste des droits de l'utilisateur</message>
+    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_CONTEXT_BY_PROFILE_HINT_1">Vous visualisez la liste des profils de droits de l'utilisateur &lt;b&gt;</message>
+    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_CONTEXT_BY_PROFILE_HINT_2">&lt;/b&gt;.&lt;br/&gt;Chaque profil est affecté sur un ou plusieurs contextes.&lt;br/&gt;Survolez le profil pour voir les droits associés à ce profil.</message>
+    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_RIGHTS_BY_CONTEXT_HINT_1">Vous visualisez la liste des droits de l'utilisateur &lt;b&gt;</message>
+    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_RIGHTS_BY_CONTEXT_HINT_2">&lt;/b&gt;.&lt;br/&gt;Chaque droit peut-être affecté sur un ou plusieurs contextes.</message>
+    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_ERROR">Une erreur est survenue : elle a empêchée l'affichage des droits de l'utilisateur</message>
+    
     <!-- USER JDBC -->
     <message key="PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_LABEL">Identifiant</message>
     <message key="PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_DESCRIPTION">Identifiant unique de l'utilisateur (ou login)&lt;br/&gt;Entre 3 et 64 caractères (lettres, chiffres ou '_')</message>

@@ -109,6 +109,22 @@
     <message key="PLUGINS_CORE_USERS_SEARCHING_NORESULT">The search returns no results</message>
     <message key="PLUGINS_CORE_USERS_SEARCH_NO_RESULT">The search returns no results</message>
 
+    <!-- +
+         | USER RIGHTS
+         + -->
+    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_LABEL">See user rights</message>
+    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_DESCRIPTION">See the rights of the selected user</message>
+    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_FOOTER"></message>
+    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_TITLE">Rights for user </message>
+    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_TOOLTIPTEXT">List of the rights for user </message>
+    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_EMPTY">No user is currently selected.&lt;br/&gt;Select a user to see his rights.</message>
+    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_MULTI_FORBIDDEN">Several users are currently selected.&lt;br/&gt;Select a user to see his rights.</message>
+    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_CONTEXT_BY_PROFILE_HINT_1">Here are listed the profiles assigned to user &lt;b&gt;</message>
+    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_CONTEXT_BY_PROFILE_HINT_2">&lt;/b&gt;.&lt;br/&gt;Each profile is assigned on one or more contexts.&lt;br/&gt;Mouseover the profile's name to see the associated rights.</message>
+    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_RIGHTS_BY_CONTEXT_HINT_1">Here are listed the rights to user &lt;b&gt;</message>
+    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_RIGHTS_BY_CONTEXT_HINT_2">&lt;/b&gt;.&lt;br/&gt;Each right is assigned on one or more contexts.</message>
+    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_ERROR">An error occurred : the user rights can not be displayed</message>
+    
 	<!-- USER JDBC -->
 	<message key="PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_LABEL">Login ID</message>
 	<message key="PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_DESCRIPTION">Unique login ID for user&lt;br/&gt;3-64 characters (letters, digits or '_')</message>

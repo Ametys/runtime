@@ -176,14 +176,7 @@ Ext.define('Ametys.plugins.core.users.EditUserHelper', {
 	 */
 	_getEditionModelCb: function (model, args)
 	{
-		if (this._mode == 'edit')
-		{
-			model['password'].widget = 'edition.changepassword';
-		}
-		else
-		{
-			model['password'].widget = 'edition.password';
-		}
+		model['password'].widget = 'edition.changepassword';
 		this._form.configure(model);
 		this._initialized = true;
 		

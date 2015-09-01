@@ -414,8 +414,8 @@ Ext.define(
 				return message.getTargets(
 						function (target)
 						{
-							return !me._reversedSelectionTargetType && me._toolRole.test(target.getParameters()['id'])
-							|| me._reversedSelectionTargetType && !me._toolRole.test(target.getParameters()['id']);
+							return !me._toolReveredRole && me._toolRole.test(target.getParameters()['id'])
+							|| me._toolReveredRole && !me._toolRole.test(target.getParameters()['id']);
 						}
 				);
 			}

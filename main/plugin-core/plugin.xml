@@ -605,6 +605,18 @@
         </components>
     </feature>
     
+    <feature name="core.rights.client-interaction">
+        <components>
+            <component role="org.ametys.plugins.core.right.UsersClientInteraction"
+                       id="org.ametys.plugins.core.right.UsersClientInteraction"
+                       class="org.ametys.plugins.core.right.UsersClientInteraction"/>
+                       
+            <component role="org.ametys.plugins.core.right.ProfilesClientInteraction"
+                       id="org.ametys.plugins.core.right.ProfilesClientInteraction"
+                       class="org.ametys.plugins.core.right.ProfilesClientInteraction"/>
+        </components>
+    </feature>
+    
     <feature name="core.users">
         <components>
             <component class="org.ametys.plugins.core.user.UserDAO" 
@@ -725,6 +737,52 @@
                     <file>js/Ametys/plugins/core/users/UsersActions.js</file>
                 </scripts>
                 <right>Runtime_Rights_User_Handle</right>
+            </extension>
+            
+            <extension id="org.ametys.core.users.Rights"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
+                    <opentool-role>uitool-user-rights</opentool-role>
+                    <label i18n="true">PLUGINS_CORE_UITOOL_USER_RIGHTS_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_UITOOL_USER_RIGHTS_DESCRIPTION</description>
+                    <selection-target-type>^user$</selection-target-type>
+                    <selection-description-empty i18n="true">PLUGINS_CORE_UITOOL_USER_RIGHTS_EMPTY</selection-description-empty>
+                    <selection-description-nomatch i18n="true">PLUGINS_CORE_UITOOL_USER_RIGHTS_EMPTY</selection-description-nomatch>
+                    <selection-description-multiselectionforbidden i18n="true">PLUGINS_CORE_UITOOL_USER_RIGHTS_MULTI_FORBIDDEN</selection-description-multiselectionforbidden>
+                    <help>org.ametys.core.users.rights</help>
+                    <icon-small file="true">img/users/rights_16.png</icon-small>
+                    <icon-medium file="true">img/users/rights_32.png</icon-medium>
+                    <icon-large file="true">img/users/rights_48.png</icon-large>
+                </class>
+                <right>Runtime_Rights_User_Handle</right>
+            </extension>
+            
+            <extension id="org.ametys.core.UserRightsFactory"
+                       point="org.ametys.core.ui.UIToolsFactoriesManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.tool.factory.UniqueToolFactory">
+                    <role>uitool-user-rights</role>
+                    <toolClass>Ametys.plugins.core.users.UserRightsTool</toolClass>
+                    
+                    <title i18n="true">PLUGINS_CORE_UITOOL_USER_RIGHTS_LABEL</title>
+                    <description i18n="true">PLUGINS_CORE_UITOOL_USER_RIGHTS_DESCRIPTION</description>
+                    <selection-target-type>^user$</selection-target-type>
+                    <selection-description-empty i18n="true">PLUGINS_CORE_UITOOL_USER_RIGHTS_EMPTY</selection-description-empty>
+                    <selection-description-nomatch i18n="true">PLUGINS_CORE_UITOOL_USER_RIGHTS_EMPTY</selection-description-nomatch>
+                    <selection-description-multiselectionforbidden i18n="true">PLUGINS_CORE_UITOOL_USER_RIGHTS_MULTI_FORBIDDEN</selection-description-multiselectionforbidden>
+                    <help>org.ametys.core.users.rights</help>
+                    <icon-small file="true">img/users/rights_16.png</icon-small>
+                    <icon-medium file="true">img/users/rights_32.png</icon-medium>
+                    <icon-large file="true">img/users/rights_48.png</icon-large>
+                    <default-location>r</default-location>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/users/UserRightsTool.js</file>
+                </scripts>
+                <css>
+                    <file>css/userrights.css</file>
+                </css>
             </extension>
         </extensions>
     </feature>
