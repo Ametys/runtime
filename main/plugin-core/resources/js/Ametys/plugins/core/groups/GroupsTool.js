@@ -179,7 +179,6 @@ Ext.define('Ametys.plugins.core.groups.GroupsTool', {
 		return Ext.create('Ext.data.Store', storeConfig);
 	},
 	
-	
 	/**
 	 * Returns the elements of configuration of group store to be overridden.
 	 * Override this function if you want to override the group store configuration.

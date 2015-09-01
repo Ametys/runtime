@@ -163,10 +163,10 @@
     <!-- Actions -->
     <message key="PLUGINS_CORE_GROUPS_ADD_LABEL">Create group</message>
     <message key="PLUGINS_CORE_GROUPS_ADD_DESCRIPTION">Create new group</message>
-    <message key="PLUGINS_CORE_GROUPS_ADD_ERROR">An error occurred: the groups was not created.</message>
+    <message key="PLUGINS_CORE_GROUPS_ADD_ERROR">An error occurred: the group was not created.</message>
     <message key="PLUGINS_CORE_GROUPS_RENAME_LABEL">Rename</message>
     <message key="PLUGINS_CORE_GROUPS_RENAME_DESCRIPTION">Rename selected group</message>
-    <message key="PLUGINS_CORE_GROUPS_RENAME_ERROR">An error occurred: the groups was not renamed.</message>
+    <message key="PLUGINS_CORE_GROUPS_RENAME_ERROR">An error occurred: the group was not renamed.</message>
     <message key="PLUGINS_CORE_GROUPS_DELETE_LABEL">Delete</message>
     <message key="PLUGINS_CORE_GROUPS_DELETE_DESCRIPTION">Delete selected group</message>
     <message key="PLUGINS_CORE_GROUPS_DELETE_CONFIRM">Do you really want to delete these groups ?</message>
@@ -187,6 +187,57 @@
     <message key="PLUGINS_CORE_GROUPS_DIALOG_OK">Ok</message>
     <message key="PLUGINS_CORE_GROUPS_DIALOG_CANCEL">Cancel</message>
 	
+    <!-- +
+         | PROFILES
+         + -->
+    <message key="PLUGINS_CORE_RIGHTS_PROFILES_LABEL">Profiles administration</message>
+    <message key="PLUGINS_CORE_RIGHTS_PROFILES_DESCRIPTION">Rights profiles administration</message>
+    <!-- Ribbon -->
+    <message key="RIBBON_TABS_TAB_PROFILES_LABEL">Profile</message>
+    <message key="RIBBON_TABS_TAB_PROFILES_GROUP_LABEL">Profiles</message>
+    <message key="RIBBON_TABS_TAB_PROFILES_GROUPS_GROUP_ACTION_LABEL">Actions</message>
+    <message key="RIBBON_TABS_TAB_PROFILES_GROUPS_GROUP_PROFILE_LABEL">Profile</message>
+    <message key="RIBBON_TABS_TAB_PROFILES_GROUPS_GROUP_RIGHTS_LABEL">Rights</message>
+    <!-- Tool -->
+    <message key="PLUGINS_CORE_UITOOL_PROFILES_LABEL">Rights profiles</message>
+    <message key="PLUGINS_CORE_UITOOL_PROFILES_DESCRIPTION">Rights profiles administration.&lt;br/&gt;A profile consists of a set of rights. Each user is assigned a profile which grants particular rights.</message>
+    <message key="PLUGINS_CORE_UITOOL_PROFILES_SELECT_ALL">Select all</message>
+    <message key="PLUGINS_CORE_UITOOL_PROFILES_UNSELECT_ALL">Unselect all</message>
+    <message key="PLUGINS_CORE_UITOOL_PROFILES_CATEGORY_SELECT_ALL">Select all the rights of the category</message>
+    <message key="PLUGINS_CORE_UITOOL_PROFILES_CATEGORY_UNSELECT_ALL">Unselect all the rights of the category</message>
+    <!-- Actions -->
+    <message key="PLUGINS_CORE_PROFILES_ADD_LABEL">New profile</message>
+    <message key="PLUGINS_CORE_PROFILES_ADD_DESCRIPTION">Create a new profile</message>
+    <message key="PLUGINS_CORE_PROFILES_ADD_ERROR">An error occurred: the profile was not created.</message>
+    <message key="PLUGINS_CORE_PROFILES_RENAME_LABEL">Rename</message>
+    <message key="PLUGINS_CORE_PROFILES_RENAME_DESCRIPTION">Rename the selected profile</message>
+    <message key="PLUGINS_CORE_PROFILES_RENAME_ERROR">An error occurred: the profile was not renamed.</message>
+    <message key="PLUGINS_CORE_PROFILES_DELETE_LABEL">Delete</message>
+    <message key="PLUGINS_CORE_PROFILES_DELETE_DESCRIPTION">Supprime le profil sélectionné</message>
+    <message key="PLUGINS_CORE_PROFILES_DELETE_CONFIRM">Do you really want to delete these profiles ?</message>
+    <message key="PLUGINS_CORE_PROFILES_DELETE_ERROR">An error occurred: the profile was not deleted.</message>
+    <message key="PLUGINS_CORE_PROFILES_INFOS_ERROR">An error occurred: unable to get information on profile</message>
+    <message key="PLUGINS_CORE_PROFILES_UNKNOWN_PROFILE_TITLE">Unknown profile</message>
+    <message key="PLUGINS_CORE_PROFILES_UNKNOWN_PROFILE_ERROR">The profile is no longer available. It is advise to close then re-open the groups tool.</message>
+    <message key="PLUGINS_CORE_PROFILES_SWITCH_TO_EDITION">Edition view</message>
+    <message key="PLUGINS_CORE_PROFILES_SWITCH_TO_EDITION_DESCRIPTION">Switches to editing mode to edit rights (addition or deletion) of the selected profile</message>
+    <message key="PLUGINS_CORE_PROFILES_SWITCH_TO_VIEW">Overview</message>
+    <message key="PLUGINS_CORE_PROFILES_SWITCH_TO_VIEW_DESCRIPTION">Switches to view mode of the profile's rights</message>
+    <message key="PLUGINS_CORE_PROFILES_HANDLE_SAVE_MODIFICATIONS">Save</message>
+    <message key="PLUGINS_CORE_PROFILES_HANDLE_SAVE_MODIFICATIONS_HINT">Save changes on profile</message>
+    <message key="PLUGINS_CORE_PROFILES_SELECT_ALL">Select all</message>
+    <message key="PLUGINS_CORE_PROFILES_SELECT_ALL_DESCRIPTION">Select all rights</message>
+    <message key="PLUGINS_CORE_PROFILES_UNSELECT_ALL">Unselect all</message>
+    <message key="PLUGINS_CORE_PROFILES_UNSELECT_ALL_DESCRIPTION">Unselect all rights</message>
+    <message key="PLUGINS_CORE_PROFILES_DESCRIPTION_NO_SELECTION">This button is disabled because no profile is selected or the selected profile can not be changed through this interface.</message>
+    <message key="PLUGINS_CORE_PROFILES_DESCRIPTION_NO_RIGHT">This button is disabled because your rights are insufficient.</message>
+    <!-- Helper -->
+    <message key="PLUGINS_CORE_PROFILES_DIALOG_ADD_TITLE">New profile ...</message>
+    <message key="PLUGINS_CORE_PROFILES_DIALOG_EDIT_TITLE">Rename ...</message>
+    <message key="PLUGINS_CORE_PROFILES_DIALOG_NAME">Name</message>
+    <message key="PLUGINS_CORE_PROFILES_DIALOG_OK">Ok</message>
+    <message key="PLUGINS_CORE_PROFILES_DIALOG_CANCEL">Cancel</message>
+    
 	<!-- PARAMETER CHECKERS -->
 	<message key="PLUGINS_CORE_MAIL_CONNECTION_CHECKER_LABEL">Connection to the mail server</message>
 	<message key="PLUGINS_CORE_MAIL_CONNECTION_CHECKER_DESC">This test checks if the given information allows the connection to the mail server.</message>
@@ -197,49 +248,6 @@
     <message key="PLUGINS_CORE_LDAP_DN_CONNECTION_CHECKER_LABEL">Connection to the LDAP</message>
     <message key="PLUGINS_CORE_LDAP_DN_CONNECTION_CHECKER_DESC">This test checks that the given data allows to establish a connection with the LDAP, and also verifies the DN.</message>
     
-	<!-- PROFILE -->
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_LABEL">Profiles</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILE">Profile</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILE_READ">Viewing</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILE_EDIT">Editing</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_LIST">Profiles list</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_RIGHTS">Associated rights</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_DESCRIPTION">Rights profiles administration</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_LABELLONG">Rights profiles administration</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_CATEGORY">Profiles administration</message>
-	<message key="PLUGINS_CORE_RIGHTS_SELECT_HANDLE_CATEGORY">Rights</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_CREATE">Create a profile</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_VALIDATE">Confirm changes</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_NAMING_ERROR">A profile name can only be composed of letters.</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_NEW_ERROR">An error occured during the setting.</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_NEW_SUCCESS">Profile was successfully created</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_RENAME">Rename the profile</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_QUIT">Quit</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_RENAME_SUCCESS">Profile was successfully renamed</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_RENAME_ERROR">An error occurred during the renaming process.</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_RENAME_MISSING_ERROR">The profile you are trying to rename does not exist anymore. Refresh the page and try again.</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_CONFIRM">You have made changes. Do you want to save them?</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_ERROR">An error occurred during the saving process.</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_MISSING_ERROR">The profile you are trying to modify is no longer available. Refresh the page and try again.</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_DELETE">Remove the profile</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_DELETE_CONFIRM">Do you really want to remove this profile?</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_DELETE_ERROR">An error occurred during the delete process.</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HELP_CATEGORY">Help</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_HELP_HINT">A profile consists of a set of rights. Each user is assigned a profile which grants particular rights.&lt;br/&gt;&lt;br/&gt;Profiles can be added or edited, and rights assign in the bottom part of the screen.</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_NEWPROFILE">New profile</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_PROFILE_NAME">Profile name</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_LEFTCOLUMN">Unassigned rights</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_RIGHTCOLUMN">Profile rights</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_SELECT_ALL">Select all</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_UNSELECT_ALL">Unselect all</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_CATEGORY_SELECT_ALL">Select all the rights of the category</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_CATEGORY_UNSELECT_ALL">Unselect all the rights of the category</message>
-	<message key="PLUGINS_CORE_PROFILE_RIGHTS_SEE_LABEL">See profiles</message>
-	<message key="PLUGINS_CORE_PROFILE_RIGHTS_SEE_DESCRIPTION">Allow to see the rights of profiles</message>
-	<message key="PLUGINS_CORE_PROFILE_RIGHTS_HANDLE_LABEL">Handle profiles</message>
-	<message key="PLUGINS_CORE_PROFILE_RIGHTS_HANDLE_DESCRIPTION">Allow to manage profiles</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_ERROR">An error occured</message>
-	
 	<!-- PROFILES ACTIONS -->
 	<message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDUSER_LABEL">Add profile to user</message>
 	<message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDUSER_DESCRIPTION">Grant selected profile privileges to user on current context</message>

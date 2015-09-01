@@ -18,10 +18,8 @@
 
 	<map:components>
         <map:generators>
-           	<map:generator name="rights-rights-list" src="org.ametys.plugins.core.right.RightsListGenerator" logger="org.ametys.plugins.core.right" label="content"/>
             <map:generator name="rights-profile-assignment" src="org.ametys.plugins.core.right.ProfileAssignationGenerator" logger="org.ametys.plugins.core.right" label="content"/>
             <map:generator name="rights-context-application" src="org.ametys.plugins.core.right.ApplicationContextGenerator" logger="org.ametys.plugins.core.right" label="content"/>
-            <map:generator name="rights-profiles-list" src="org.ametys.plugins.core.right.ProfilesListGenerator" logger="org.ametys.plugins.core.right" label="content"/>
 
 			<map:generator name="rights-profiles-context" src="org.ametys.plugins.core.right.profile.ProfilesByContextGenerator" logger="org.ametys.plugins.core.right.profile" label="content"/>
 			<map:generator name="rights-profile-rights" src="org.ametys.plugins.core.right.profile.ProfileRightsGenerator" logger="org.ametys.plugins.core.right.profile" label="content"/>
@@ -37,10 +35,12 @@
 		<map:actions>
             <map:action name="set-header" src="org.apache.cocoon.acting.HttpHeaderAction" logger="org.ametys.plugins.core.administrator.sitemap.action.httpHeader"/>
 
-            <map:action name="users-search" src="org.ametys.plugins.core.user.UserSearchAction" logger="org.ametys.plugins.core.user" label="content"/>
-            <map:action name="groups-search" src="org.ametys.plugins.core.group.GroupSearchAction" logger="org.ametys.plugins.core.group" label="content"/>
-            <map:action name="group-users" src="org.ametys.plugins.core.group.UsersGroupAction" logger="org.ametys.plugins.core.group" label="content"/>
+            <map:action name="users-search" src="org.ametys.plugins.core.user.UserSearchAction" logger="org.ametys.plugins.core.user"/>
+            <map:action name="groups-search" src="org.ametys.plugins.core.group.GroupSearchAction" logger="org.ametys.plugins.core.group"/>
+            <map:action name="group-users" src="org.ametys.plugins.core.group.UsersGroupAction" logger="org.ametys.plugins.core.group"/>
+            <map:action name="profiles-search" src="org.ametys.plugins.core.right.profile.ProfileSearchAction" logger="org.ametys.plugins.core.group"/>
             
+            <map:action name="get-rights" src="org.ametys.plugins.core.right.GetRightsAction" logger="org.ametys.plugins.core.right"/>
             <map:action name="rights-assign" src="org.ametys.plugins.core.right.AssignAction" logger="org.ametys.plugins.core.right"/>
             <map:action name="rights-remove" src="org.ametys.plugins.core.right.RemoveAction" logger="org.ametys.plugins.core.right"/>
             
@@ -141,9 +141,16 @@
                 </map:act>
             </map:match> -->
             
-            <map:match pattern="rights/profiles.xml">
-                <map:generate type="rights-profiles-list"/>
-                <map:serialize type="xml"/>
+            <map:match pattern="rights/profiles.json">
+                <map:act type="profiles-search">
+                    <map:read type="json"/>
+                </map:act>
+            </map:match>
+            
+            <map:match pattern="rights/rights.json">
+                <map:act type="get-rights">
+                    <map:read type="json"/>
+                </map:act>
             </map:match>
             
             <map:match pattern="rights/profiles-context.xml">
@@ -161,16 +168,6 @@
 				<map:serialize type="xml"/>
 			</map:match>
             
-            <map:match pattern="rights/rights.xml">
-                <map:generate type="rights-rights-list"/>
-                <map:transform src="pages/rights/rights.xsl"/>
-                <map:transform type="i18n">
-					<map:parameter name="locale" value="{locale:locale}"/>
-					<map:parameter name="default-catalogue-id" value="plugin.core"/>
-				</map:transform>
-                <map:serialize type="xml"/>
-            </map:match>
-
             <map:match pattern="rights/profile-assignment.xml">
                 <map:generate type="rights-profile-assignment"/>
                 <map:serialize type="xml"/>

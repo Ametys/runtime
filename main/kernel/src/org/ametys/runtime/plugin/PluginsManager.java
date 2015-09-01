@@ -1088,7 +1088,9 @@ public final class PluginsManager
                     {
                         if (globalExtensions.containsKey(id))
                         {
-                            PluginIssue issue = new PluginIssue(feature.getPluginName(), feature.getFeatureName(), PluginIssueCode.EXTENSION_ALREADY_EXIST, null, "The extension '" + id + "' to point '" + point + "' is already defined in another feature.");
+                            String message = "The extension '" + id + "' to point '" + point + "' is already defined in another feature.";
+                            _logger.error(message);
+                            PluginIssue issue = new PluginIssue(feature.getPluginName(), feature.getFeatureName(), PluginIssueCode.EXTENSION_ALREADY_EXIST, null, message);
                             errors.add(issue);
                         }
                         else

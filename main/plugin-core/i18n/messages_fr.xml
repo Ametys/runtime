@@ -80,7 +80,7 @@
 	<message key="PLUGINS_CORE_UITOOL_USERS_COL_ID">Identifiant</message>
 	<message key="PLUGINS_CORE_UITOOL_USERS_COL_EMAIL">Email</message>
     <!-- Action -->
-    <message key="PLUGINS_CORE_USERS_ADD_LABEL">Nouvel utilisateur ...</message>
+    <message key="PLUGINS_CORE_USERS_ADD_LABEL">Nouvel utilisateur</message>
     <message key="PLUGINS_CORE_USERS_ADD_DESCRIPTION">Ajoute un nouvel utilisateur dans la base des utilisateurs</message>
     <message key="PLUGINS_CORE_USERS_ADD_ERROR">Une erreur est survenue : impossible de créer l'utilisateur.&lt;br/&gt;Une des causes de l'erreur peut-être que l'identifiant existe déjà</message>
     <message key="PLUGINS_CORE_USERS_EDIT_LABEL">Modifier</message>
@@ -92,7 +92,7 @@
     <message key="PLUGINS_CORE_USERS_DELETE_ERROR">Une erreur est survenue sur le serveur. Impossible de supprimer le ou les utilisateur(s).</message>
     <message key="PLUGINS_CORE_USERS_INFOS_ERROR">Une erreur est survenue: impossible de récupérer les informations sur cet utilisateur</message>
     <!-- Helper -->
-    <message key="PLUGINS_CORE_USERS_DIALOG_ADD_TITLE">Nouvel utilisateur</message>
+    <message key="PLUGINS_CORE_USERS_DIALOG_ADD_TITLE">Nouvel utilisateur ...</message>
     <message key="PLUGINS_CORE_USERS_DIALOG_EDIT_TITLE">Modifier ...</message>
     <message key="PLUGINS_CORE_USERS_DIALOG_OK">Ok</message>
     <message key="PLUGINS_CORE_USERS_DIALOG_CANCEL">Annuler</message>
@@ -185,6 +185,57 @@
     <message key="PLUGINS_CORE_GROUPS_DIALOG_OK">Ok</message>
     <message key="PLUGINS_CORE_GROUPS_DIALOG_CANCEL">Annuler</message>
     
+    <!-- +
+         | PROFILES
+         + -->
+    <message key="PLUGINS_CORE_RIGHTS_PROFILES_LABEL">Gestion des profils</message>
+    <message key="PLUGINS_CORE_RIGHTS_PROFILES_DESCRIPTION">Gestion des profils de droits</message>
+    <!-- Ribbon -->
+    <message key="RIBBON_TABS_TAB_PROFILES_LABEL">Profil</message>
+    <message key="RIBBON_TABS_TAB_PROFILES_GROUP_LABEL">Profils</message>
+    <message key="RIBBON_TABS_TAB_PROFILES_GROUPS_GROUP_ACTION_LABEL">Actions</message>
+    <message key="RIBBON_TABS_TAB_PROFILES_GROUPS_GROUP_PROFILE_LABEL">Profil</message>
+    <message key="RIBBON_TABS_TAB_PROFILES_GROUPS_GROUP_RIGHTS_LABEL">Droits</message>
+    <!-- Tool -->
+    <message key="PLUGINS_CORE_UITOOL_PROFILES_LABEL">Profils de droits</message>
+    <message key="PLUGINS_CORE_UITOOL_PROFILES_DESCRIPTION">Gestion des profils de droits.&lt;br/&gt;Un profil est un ensemble de droits. Chaque utilisateur possède un profil qui permet de connaître la liste de ses droits.</message>
+    <message key="PLUGINS_CORE_UITOOL_PROFILES_SELECT_ALL">Sélectionner tout</message>
+    <message key="PLUGINS_CORE_UITOOL_PROFILES_UNSELECT_ALL">Désélectionner tout</message>
+    <message key="PLUGINS_CORE_UITOOL_PROFILES_CATEGORY_SELECT_ALL">Sélectionner tous les droits de la catégorie</message>
+    <message key="PLUGINS_CORE_UITOOL_PROFILES_CATEGORY_UNSELECT_ALL">Désélectionner tous les droits de la catégorie</message>
+    <!-- Actions -->
+    <message key="PLUGINS_CORE_PROFILES_ADD_LABEL">Nouveau profil</message>
+    <message key="PLUGINS_CORE_PROFILES_ADD_DESCRIPTION">Crée un nouveau profil</message>
+    <message key="PLUGINS_CORE_PROFILES_ADD_ERROR">Une erreur est survenue: le profil n'a pas été créé</message>
+    <message key="PLUGINS_CORE_PROFILES_RENAME_LABEL">Renommer</message>
+    <message key="PLUGINS_CORE_PROFILES_RENAME_DESCRIPTION">Renomme le profil sélectionné</message>
+    <message key="PLUGINS_CORE_PROFILES_RENAME_ERROR">Une erreur est survenue: le profil n'a pas été supprimé</message>
+    <message key="PLUGINS_CORE_PROFILES_DELETE_LABEL">Supprimer</message>
+    <message key="PLUGINS_CORE_PROFILES_DELETE_DESCRIPTION">Supprime le profil sélectionné</message>
+    <message key="PLUGINS_CORE_PROFILES_DELETE_CONFIRM">Etes vous sûr de vouloir supprimer ce ou ces profils ?</message>
+    <message key="PLUGINS_CORE_PROFILES_DELETE_ERROR">Une erreur est survenue lors de la suppression</message>
+    <message key="PLUGINS_CORE_PROFILES_INFOS_ERROR">Une erreur est survenue: impossible de récupérer les informations sur le profil</message>
+    <message key="PLUGINS_CORE_PROFILES_UNKNOWN_PROFILE_TITLE">Groupe inconnu</message>
+    <message key="PLUGINS_CORE_PROFILES_UNKNOWN_PROFILE_ERROR">Le profil n'existe plus. Il est conseillé de fermer puis de réouvrir l'outil.</message>
+    <message key="PLUGINS_CORE_PROFILES_SWITCH_TO_EDITION">Mode édition</message>
+    <message key="PLUGINS_CORE_PROFILES_SWITCH_TO_EDITION_DESCRIPTION">Passe en mode d'édition des droits (ajout ou suppression) du profil sélectionné</message>
+    <message key="PLUGINS_CORE_PROFILES_SWITCH_TO_VIEW">Mode visualisation</message>
+    <message key="PLUGINS_CORE_PROFILES_SWITCH_TO_VIEW_DESCRIPTION">Passe en mode visualisation des droits du profil</message>
+    <message key="PLUGINS_CORE_PROFILES_SAVE_MODIFICATIONS">Sauvegarder</message>
+    <message key="PLUGINS_CORE_PROFILES_SAVE_MODIFICATIONS_DESCRIPTION">Sauvegarder les modifications effectué sur ce profil.</message>
+    <message key="PLUGINS_CORE_PROFILES_SELECT_ALL">Sélectionner tout</message>
+    <message key="PLUGINS_CORE_PROFILES_SELECT_ALL_DESCRIPTION">Sélectionne tous les droits</message>
+    <message key="PLUGINS_CORE_PROFILES_UNSELECT_ALL">Désélectionner tout</message>
+    <message key="PLUGINS_CORE_PROFILES_UNSELECT_ALL_DESCRIPTION">Désélectionne tous les droits</message>
+    <message key="PLUGINS_CORE_PROFILES_DESCRIPTION_NO_SELECTION">Ce bouton est désactivé car aucun profil n'est sélectionné ou le profil sélectionné n'est pas modifiable via cette interface.</message>
+    <message key="PLUGINS_CORE_PROFILES_DESCRIPTION_NO_RIGHT">Ce bouton est désactivé car vos droits sont insuffisants.</message>
+    <!-- Helper -->
+    <message key="PLUGINS_CORE_PROFILES_DIALOG_ADD_TITLE">Nouveau profil ...</message>
+    <message key="PLUGINS_CORE_PROFILES_DIALOG_EDIT_TITLE">Renommer ...</message>
+    <message key="PLUGINS_CORE_PROFILES_DIALOG_NAME">Nom du profil</message>
+    <message key="PLUGINS_CORE_PROFILES_DIALOG_OK">Ok</message>
+    <message key="PLUGINS_CORE_PROFILES_DIALOG_CANCEL">Annuler</message>
+    
     <!--  PARAMETER CHECKERS -->
     <message key="PLUGINS_CORE_MAIL_CONNECTION_CHECKER_LABEL">Connexion au serveur mail</message>
     <message key="PLUGINS_CORE_MAIL_CONNECTION_CHECKER_DESC">Ce test vérifie que les informations rentrées permettent bien d'établir une connexion avec le serveur d'envoi d'emails</message>
@@ -194,49 +245,6 @@
     <message key="PLUGINS_CORE_CAS_SERVER_CHECKER_DESC">Ce test vérifie que le l'url spécifiée est valide en essayant d'établir une connexion.</message>
     <message key="PLUGINS_CORE_LDAP_DN_CONNECTION_CHECKER_LABEL">Connexion au LDAP</message>
     <message key="PLUGINS_CORE_LDAP_DN_CONNECTION_CHECKER_DESC">Ce test vérifie que les informations entrées permettent bien d'établir une connection au LDAP, et vérifie que le DN est valide.</message>
-    
-	<!-- PROFILE -->
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_LABEL">Profils</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILE">Profil</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILE_READ">Visualisation</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILE_EDIT">Edition</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_LIST">Liste des profils</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_RIGHTS">Droits associés</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_DESCRIPTION">Gestion des groupements de droits</message>
-    <message key="PLUGINS_CORE_RIGHTS_PROFILES_LABELLONG">Gestion des profils de droits</message>
-    <message key="PLUGINS_CORE_RIGHTS_SELECT_HANDLE_CATEGORY">Droits</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_CATEGORY">Gestion des profils</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_CREATE">Créer un nouveau profil</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_VALIDATE">Valider les modifications</message>
-    <message key="PLUGINS_CORE_RIGHTS_PROFILES_NAMING_ERROR">Le nom d'un profil ne doit être constitué que de caractères alphabétiques.</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_NEW_ERROR">Une erreur est survenue lors de la création.</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_NEW_SUCCESS">Le profil a bien été créé</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_RENAME">Renommer le profil</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_QUIT">Quitter</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_RENAME_SUCCESS">Le profil a bien été renommé</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_RENAME_ERROR">Une erreur est survenue lors du changement de nom du profil.</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_RENAME_MISSING_ERROR">Le profil que vous essayez de renommer n'existe plus.</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_CONFIRM">Vous avez fait des modifications dans les droits attribués. Souhaitez-vous les sauvegarder ?</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_ERROR">Une erreur est survenue lors de la sauvegarde.</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_MODIFY_MISSING_ERROR">Le profil que vous essayez de modifier n'existe plus.</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_DELETE">Supprimer le profil</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_DELETE_CONFIRM">Etes-vous sûr de vouloir supprimer ce profil ?</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_DELETE_ERROR">Une erreur est survenue lors de la suppression.</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HELP_CATEGORY">Aide</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_HANDLE_HELP_HINT">Un profil est un ensemble de droits. Chaque utilisateur possède un profil qui permet de connaître la liste de ses droits.&lt;br/&gt;&lt;br/&gt;Vous pouvez créer et éditer les profils à votre convenance en leur attribuant les droits dans la partie basse de l'écran.</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_NEWPROFILE">Nouveau profil</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_PROFILE_NAME">Nom du profil</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_LEFTCOLUMN">Droits non affectés</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_RIGHTCOLUMN">Droits du profils</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_SELECT_ALL">Sélectionner tout</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_UNSELECT_ALL">Désélectionner tout</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_CATEGORY_SELECT_ALL">Sélectionner tous les droits de la catégorie</message>
-	<message key="PLUGINS_CORE_RIGHTS_PROFILES_CATEGORY_UNSELECT_ALL">Désélectionner tous les droits de la catégorie</message>
-    <message key="PLUGINS_CORE_PROFILE_RIGHTS_SEE_LABEL">Voir les profils</message>
-    <message key="PLUGINS_CORE_PROFILE_RIGHTS_SEE_DESCRIPTION">Permet de voir les droits des profils</message>
-    <message key="PLUGINS_CORE_PROFILE_RIGHTS_HANDLE_LABEL">Gestion des profils</message>
-    <message key="PLUGINS_CORE_PROFILE_RIGHTS_HANDLE_DESCRIPTION">Accès à l'écran de gestion des profils</message>
-    <message key="PLUGINS_CORE_RIGHTS_PROFILES_ERROR">Une erreur est survenue</message>
     
     <!-- PROFILES ACTIONS -->
 	<message key="PLUGINS_CORE_RIGHTS_ASSIGNMENT_ADDUSER_LABEL">Affecter à un utilisateur</message>

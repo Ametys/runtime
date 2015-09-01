@@ -953,4 +953,221 @@
             </extension>
         </extensions>
     </feature>
+    
+    <!-- +
+         | PROFILES
+         + -->
+    <feature name="core.profiles">
+        <components>
+            <component class="org.ametys.plugins.core.right.profile.ProfileDAO" role="org.ametys.plugins.core.right.profile.ProfileDAO" id="org.ametys.plugins.core.right.profile.ProfileDAO"></component>
+        </components>
+        
+        <extensions>
+            <extension point="org.ametys.core.right.RightsExtensionPoint"
+                       id="org.ametys.core.profiles.right">
+                <right id="Runtime_Rights_Profile_Handle">
+                    <label>PLUGINS_CORE_RIGHTS_PROFILES_LABEL</label>
+                    <description>PLUGINS_CORE_RIGHTS_PROFILES_DESCRIPTION</description>
+                    <category>PLUGINS_CORE_USERANDRIGHTS_CATEGORY</category>
+                </right>
+                <right id="Runtime_Rights_Rights_Profile_See">
+                    <label>PLUGINS_CORE_RIGHTS_PROFILES_SEE_LABEL</label>
+                    <description>PLUGINS_CORE_RIGHTS_PROFILES_SEE_DESCRIPTION</description>
+                    <category>PLUGINS_CORE_USERANDRIGHTS_CATEGORY</category>
+                </right>
+            </extension>
+            
+            <extension id="org.ametys.core.Profiles"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
+                    <opentool-role>uitool-profiles</opentool-role>
+                    <label i18n="true">PLUGINS_CORE_UITOOL_PROFILES_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_UITOOL_PROFILES_DESCRIPTION</description>
+                    <help>org.ametys.core.rights.profiles</help>
+                    <icon-small file="true">img/profiles/profile_16.gif</icon-small>
+                    <icon-medium file="true">img/profiles/profile_32.gif</icon-medium>
+                    <icon-large file="true">img/profiles/profile_50.gif</icon-large>
+                </class>
+                <right context-prefix="/contributor">Runtime_Rights_Rights_Profile_See</right>
+            </extension>
+            
+            <extension id="org.ametys.core.ProfilesFactory"
+                       point="org.ametys.core.ui.UIToolsFactoriesManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.tool.factory.UniqueToolFactory">
+                    <role>uitool-profiles</role>
+                    <toolClass>Ametys.plugins.core.profiles.ProfilesTool</toolClass>
+                    
+                    <title i18n="true">PLUGINS_CORE_UITOOL_PROFILES_LABEL</title>
+                    <description i18n="true">PLUGINS_CORE_UITOOL_PROFILES_DESCRIPTION</description>
+                    <help>org.ametys.core.rights.profiles</help>
+                    <icon-small file="true">img/profiles/profile_16.gif</icon-small>
+                    <icon-medium file="true">img/profiles/profile_32.gif</icon-medium>
+                    <icon-large file="true">img/profiles/profile_50.gif</icon-large>
+                    <default-location></default-location>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/profiles/ProfilesDAO.js</file>
+                    <file>js/Ametys/plugins/core/profiles/ProfilesTool.js</file>
+                    <file>js/Ametys/plugins/core/profiles/ProfilesTool/Profile.js</file>
+                </scripts>
+            </extension>
+            
+            <extension id="org.ametys.core.rights.ProfileTab"
+                       point="org.ametys.core.ui.RibbonTabsManager"
+                       class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.tab.TabController">
+                    <tool-role>uitool-profiles</tool-role>
+                </class> 
+            </extension>
+            
+            <extension id="org.ametys.core.profiles.Add"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.plugins.core.group.ModifiableGroupsClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.core.profiles.ProfilesActions.add</action>
+                    <label i18n="true">PLUGINS_CORE_PROFILES_ADD_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_PROFILES_ADD_DESCRIPTION</description>
+                    <icon-small file="true">img/profiles/add_16.gif</icon-small>
+                    <icon-medium file="true">img/profiles/add_32.gif</icon-medium>
+                    <icon-large file="true">img/profiles/add_50.gif</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/profiles/ProfilesDAO.js</file>
+                    <file>js/Ametys/plugins/core/profiles/ProfilesActions.js</file>
+                    <file>js/Ametys/plugins/core/profiles/EditProfileHelper.js</file>
+                </scripts>
+                <right>Runtime_Rights_Rights_Profile_Handle</right>
+            </extension>
+            
+            <extension id="org.ametys.core.profiles.Edit"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.plugins.core.group.ModifiableGroupsClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.core.profiles.ProfilesActions.edit</action>
+                    <selection-target-type>^profile$</selection-target-type>
+                    
+                    <label i18n="true">PLUGINS_CORE_PROFILES_RENAME_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_PROFILES_RENAME_DESCRIPTION</description>
+                    <icon-small file="true">img/profiles/rename_16.gif</icon-small>
+                    <icon-medium file="true">img/profiles/rename_32.gif</icon-medium>
+                    <icon-large file="true">img/profiles/rename_50.gif</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/profiles/ProfilesDAO.js</file>
+                    <file>js/Ametys/plugins/core/profiles/ProfilesActions.js</file>
+                    <file>js/Ametys/plugins/core/profiles/EditProfileHelper.js</file>
+                </scripts>
+                <right>Runtime_Rights_Rights_Profile_Handle</right>
+            </extension>
+            
+            <extension id="org.ametys.core.profiles.Delete"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.plugins.core.group.ModifiableGroupsClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.core.profiles.ProfilesActions.delete</action>
+                    <selection-target-type>^profile$</selection-target-type>
+                    
+                    <label i18n="true">PLUGINS_CORE_PROFILES_DELETE_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_PROFILES_DELETE_DESCRIPTION</description>
+                    <icon-small file="true">img/profiles/delete_16.gif</icon-small>
+                    <icon-medium file="true">img/profiles/delete_32.gif</icon-medium>
+                    <icon-large file="true">img/profiles/delete_50.gif</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/profiles/ProfilesDAO.js</file>
+                    <file>js/Ametys/plugins/core/profiles/ProfilesActions.js</file>
+                </scripts>
+                <right>Runtime_Rights_Rights_Profile_Handle</right>
+            </extension>
+            
+            <extension id="org.ametys.core.profiles.SaveRights"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.plugins.core.group.ModifiableGroupsClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.core.profiles.ProfilesActions.save</action>
+                    <tool-role>uitool-profile</tool-role>
+                    <tool-enable-on-status>focus</tool-enable-on-status>
+                    
+                    <label i18n="true">PLUGINS_CORE_PROFILES_SAVE_MODIFICATIONS</label>
+                    <description i18n="true">PLUGINS_CORE_PROFILES_SAVE_MODIFICATIONS_DESCRIPTION</description>
+                    <icon-small file="true">img/profiles/save_16.png</icon-small>
+                    <icon-medium file="true">img/profiles/save_32.png</icon-medium>
+                    <icon-large file="true">img/profiles/save_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/profiles/ProfilesDAO.js</file>
+                    <file>js/Ametys/plugins/core/profiles/ProfilesActions.js</file>
+                </scripts>
+                <right>Runtime_Rights_Rights_Profile_Handle</right>
+            </extension>
+            
+            <extension id="org.ametys.core.profiles.SwitchMode"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.plugins.core.group.ModifiableGroupsClientSideElement">
+                <class name="Ametys.plugins.core.profiles.controller.ViewModeController">
+                    <action>Ametys.plugins.core.profiles.ProfilesTool.switchMode</action>
+                    <enable-toggle>true</enable-toggle>
+                    <tool-role>uitool-profile</tool-role>
+                    <tool-enable-on-status>focus</tool-enable-on-status>
+                    
+                    <label i18n="true">PLUGINS_CORE_PROFILES_SWITCH_TO_EDITION</label>
+                    <description i18n="true">PLUGINS_CORE_PROFILES_SWITCH_TO_EDITION_DESCRIPTION</description>
+                    <icon-small file="true">img/profiles/edit_16.png</icon-small>
+                    <icon-medium file="true">img/profiles/edit_32.png</icon-medium>
+                    <icon-large file="true">img/profiles/edit_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/profiles/ProfilesDAO.js</file>
+                    <file>js/Ametys/plugins/core/profiles/ProfilesTool.js</file>
+                    <file>js/Ametys/plugins/core/profiles/controller/ViewModeController.js</file>
+                </scripts>
+                <right>Runtime_Rights_Rights_Profile_Handle</right>
+           </extension>
+           
+           <extension id="org.ametys.core.profiles.SelectAll"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.plugins.core.group.ModifiableGroupsClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.core.profiles.ProfilesTool.selectAll</action>
+                    <tool-role>uitool-profile</tool-role>
+                    <tool-enable-on-status>focus</tool-enable-on-status>
+                    
+                    <label i18n="true">PLUGINS_CORE_PROFILES_SELECT_ALL</label>
+                    <description i18n="true">PLUGINS_CORE_PROFILES_SELECT_ALL_DESCRIPTION</description>
+                    <icon-small file="true">img/profiles/select_16.png</icon-small>
+                    <icon-medium file="true">img/profiles/select_32.png</icon-medium>
+                    <icon-large file="true">img/profiles/select_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/profiles/ProfilesDAO.js</file>
+                    <file>js/Ametys/plugins/core/profiles/ProfilesActions.js</file>
+                    <file>js/Ametys/plugins/core/profiles/ProfilesTool.js</file>
+                </scripts>
+                <right>Runtime_Rights_Rights_Profile_Handle</right>
+            </extension>
+            
+            <extension id="org.ametys.core.profiles.UnselectAll"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.plugins.core.group.ModifiableGroupsClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.core.profiles.ProfilesTool.unselectAll</action>
+                    
+                    <label i18n="true">PLUGINS_CORE_PROFILES_UNSELECT_ALL</label>
+                    <description i18n="true">PLUGINS_CORE_PROFILES_UNSELECT_ALL_DESCRIPTION</description>
+                    <icon-small file="true">img/profiles/unselect_16.png</icon-small>
+                    <icon-medium file="true">img/profiles/unselect_32.png</icon-medium>
+                    <icon-large file="true">img/profiles/unselect_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/profiles/ProfilesDAO.js</file>
+                    <file>js/Ametys/plugins/core/profiles/ProfilesActions.js</file>
+                    <file>js/Ametys/plugins/core/profiles/ProfilesTool.js</file>
+                </scripts>
+                <right>Runtime_Rights_Rights_Profile_Handle</right>
+            </extension>
+        </extensions>
+    </feature>
+    
 </plugin>

@@ -132,7 +132,7 @@ public class Right
 
         XMLUtils.endElement(ch, "right");
     }
-
+    
     /**
      * Represents this Right as JSON
      * @return the right in JSON format

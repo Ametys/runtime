@@ -15,6 +15,7 @@
  */
 package org.ametys.core.right.profile;
 
+import java.util.Map;
 import java.util.Set;
 
 import org.xml.sax.ContentHandler;
@@ -88,5 +89,12 @@ public interface Profile
      * @param handler the ContentHandler receiving SAX events
      * @throws SAXException if a probleme occurs while SAXing events
      */
+    @Deprecated
     public void toSAX(ContentHandler handler) throws SAXException;
+    
+    /**
+     * Get the JSON representation of this Profile
+     * @return The profile's properties
+     */
+    public Map<String, Object> toJSON();
 }

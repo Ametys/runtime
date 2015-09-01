@@ -3237,6 +3237,7 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
         }
 
         @Override
+        @Deprecated
         public void toSAX(ContentHandler handler) throws SAXException
         {
             AttributesImpl atts = new AttributesImpl();
@@ -3262,6 +3263,19 @@ public class DefaultProfileBasedRightsManager extends AbstractLogEnabled impleme
 
             XMLUtils.endElement(handler, "rights");
             XMLUtils.endElement(handler, "profile");
+        }
+        
+        @Override
+        public Map<String, Object> toJSON()
+        {
+            Map<String, Object> profile = new HashMap<>();
+            
+            profile.put("id", _id);
+            profile.put("label", _name);
+            profile.put("context", getContext());
+            profile.put("rights", getRights());
+            
+            return profile;
         }
 
         @Override

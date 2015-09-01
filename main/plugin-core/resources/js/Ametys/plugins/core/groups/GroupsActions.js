@@ -69,7 +69,7 @@ Ext.define('Ametys.plugins.core.groups.GroupsActions', {
 	/**
 	 * Callback function invoked after the 'delete' confirm box is closed
 	 * @param {String} buttonId Id of the button that was clicked
-	 * @param {Ametys.message.MessageTarget[]} targets The users message targets
+	 * @param {Ametys.message.MessageTarget[]} targets The groups message targets
 	 * @param {Ametys.ribbon.element.ui.ButtonController} controller The controller calling this function 
 	 * @private
 	 */
@@ -170,5 +170,5 @@ Ext.define('Ametys.plugins.core.groups.GroupsActions', {
 				Ametys.plugins.core.groups.GroupsDAO.removeUsersGroup([groupTarget.getParameters().id, logins, groupsManagerRole, groupMessageTargetType], null, {});
 			}
 		}
-	},
+	}
 });
