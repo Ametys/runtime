@@ -26,6 +26,14 @@ Ext.define('Ametys.helper.SelectUser', {
 	singleton: true,
 	
 	/**
+	 * @property {Number} RESULT_LIMIT
+	 * @readonly
+	 * @static
+	 * The maximum number of records to search for
+	 */
+	RESULT_LIMIT: 100,
+	
+	/**
 	 * @private
 	 * @property {Boolean} initialized Determine if the plugin have been already initialized or not
 	 */
@@ -62,7 +70,7 @@ Ext.define('Ametys.helper.SelectUser', {
 	 * @private
 	 * This method is called to initialize the dialog box. Only the first call will be taken in account.
 	 */
-	delayed_initialize: function ()
+	delayedInitialize: function ()
 	{
 		if (this.initialized)
 		{
@@ -73,7 +81,7 @@ Ext.define('Ametys.helper.SelectUser', {
 		var plugin = this.pluginName;
 
 		this.criteria = new Ext.form.TextField ({
-			 listeners: {'keyup': Ext.bind(this.reload, this)},
+			 listeners: {'keyup': Ext.bind(this._reload, this)},
 			 fieldLabel: "<i18n:text i18n:key='PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_FIND'/>",
 			 name: "criteria",
 			 
@@ -89,8 +97,19 @@ Ext.define('Ametys.helper.SelectUser', {
 		var model = Ext.define('Ametys.helper.SelectUser.Users', {
 		    extend: 'Ext.data.Model',
 		    fields: [
-		        {name: 'login',  type: 'string'},
-		        {name: 'name',  type: 'string'}
+		        {name: 'id', mapping: 'login'},
+				{name: 'login'},
+				{name: 'lastname', sortType: Ext.data.SortTypes.asNonAccentedUCString},
+				{name: 'firstname', sortType: Ext.data.SortTypes.asNonAccentedUCString},
+				{
+					name: 'fullname',
+					sortType: Ext.data.SortTypes.asNonAccentedUCString,
+					depends: ['id', 'login', 'lastname', 'firstname'],
+					calculate: function (data)
+					{
+						return [data.lastname, data.firstname || '', '(' + data.id + ')'].join(' ');
+					}
+				}
 		    ]
 		});
 
@@ -98,19 +117,26 @@ Ext.define('Ametys.helper.SelectUser', {
 			model: 'Ametys.helper.SelectUser.Users',
 	        data: { users: []},
 	        proxy: {
-	        	type: 'memory',
+	        	type: 'ametys',
+	        	plugin: 'core',
+				url: 'users/search.json',
 	        	reader: {
 	        		type: 'json',
 	        		rootProperty: 'users'
 	        	}
+	        },
+	        
+	        listeners: {
+	        	'beforeload': Ext.bind(this._onBeforeLoad, this),
+	        	'load': Ext.bind(this._onLoad, this)
 	        }
 		});
 		
-		this.listview = new Ext.grid.Panel({
+		this.userList = new Ext.grid.Panel({
 			region: 'center',
 			store : store,
 			hideHeaders : true,
-			columns: [{header: "Label", width : 240, menuDisabled : true, sortable: true, dataIndex: 'name'}]
+			columns: [{header: "Label", width : 240, menuDisabled : true, sortable: true, dataIndex: 'fullname'}]
 		});	
 		
 		var warning = new Ext.Component({
@@ -126,8 +152,8 @@ Ext.define('Ametys.helper.SelectUser', {
 			layout :'border',
 			width: 280,
 			height: 340,
-			icon: Ametys.getPluginResourcesPrefix('core') + '/img/users/icon_small.png',
-			items : [this.criteria, this.listview, warning],
+			icon: Ametys.getPluginResourcesPrefix('core') + '/img/users/user_16.png',
+			items : [this.criteria, this.userList, warning],
 			
 			defaultButton: this.criteria,
 			closeAction: 'hide',
@@ -156,7 +182,7 @@ Ext.define('Ametys.helper.SelectUser', {
 	{
 		config = config || {};
 		
-		this.delayed_initialize();
+		this.delayedInitialize();
 		this.callback = config.callback || function () {};
 		this.cancelCallback = config.cancelCallback || function () {};
 	    this.usersManagerRole = config.usersManagerRole || '';
@@ -164,7 +190,7 @@ Ext.define('Ametys.helper.SelectUser', {
 	    this.pluginName = config.plugin || 'core';
 		
 		this.criteria.setValue("");
-		this.listview.getSelectionModel().setSelectionMode(this.allowMultiselection ? 'SIMPLE' : 'SINGLE');
+		this.userList.getSelectionModel().setSelectionMode(this.allowMultiselection ? 'SIMPLE' : 'SINGLE');
 
 		this.box.show();
 		
@@ -177,69 +203,60 @@ Ext.define('Ametys.helper.SelectUser', {
 	 */
 	load: function ()
 	{
-		this.reloadTimer = null;
+		this._reloadTimer = null;
 
 		var criteria = this.criteria.getValue();
-
-		// Get the user list from the UsersManager.
-		var params = { criteria: criteria, count: 100, offset: 0, usersManagerRole: this.usersManagerRole };
-		
-		var result = Ametys.data.ServerComm.send({
-			plugin: "core", 
-			url: "users/search.xml", 
-			parameters: params, 
-			priority: Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS, 
-			callback: null, 
-			responseType: null
-		});
-	    if (Ametys.data.ServerComm.handleBadResponse("<i18n:text i18n:key='PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_ERROR_LISTING'/>", result, "Ametys.helper.SelectUser.load"))
-	    {
-	       return;
-	    }
-
-		this.listview.getStore().removeAll();
-		
-		var users = Ext.dom.Query.select("Search/users/user", result);
-
-		if (users.length == 0)
-	    {
-			Ametys.Msg.show({
-				   title: "<i18n:text i18n:key='PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_CAPTION'/>",
-				   msg: "<i18n:text i18n:key='PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_NORESULT'/>",
-				   buttons: Ext.Msg.OK,
-				   icon: Ext.MessageBox.INFO
-				});
-			return;
-	    }
-
-		for (var i=0; i < users.length; i++)
+		this.userList.getStore().load();
+	},
+	
+	/**
+	 * Function called before loading the store
+	 * @param {Ext.data.Store} store The store
+	 * @param {Ext.data.operation.Operation} operation The object that will be passed to the Proxy to load the store
+	 * @param {Object} eOpts Event options
+	 * @private
+	 */
+	_onBeforeLoad: function(store, operation, eOpts)
+	{
+		operation.setParams( operation.getParams() || {} );
+		operation.setParams( Ext.apply(operation.getParams(), {
+			usersManagerRole: this.usersManagerRole,
+			criteria: this.criteria.getValue(),
+			limit: this.RESULT_LIMIT
+		}));
+	},
+	
+	/**
+	 * Function called after loading the store
+	 * @param {Ext.data.Store} store The store
+	 * @param {Ext.data.Model[]} records The loaded records
+	 */
+	_onLoad: function (store, records)
+	{
+		if (records.length == 0)
 		{
-			var fs = Ext.dom.Query.selectValue('firstname', users[i]);
-			var ls = Ext.dom.Query.selectValue('lastname', users[i]);
-			
-			var fullname = (fs != null ? fs + " " + ls : ls) + " (" + users[i].getAttribute('login') + ")";
-			
-			var user = Ext.create('Ametys.helper.SelectUser.Users', {
-				login: users[i].getAttribute('login'),
-				name: fullname
+			Ametys.Msg.show({
+			   title: "<i18n:text i18n:key='PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_CAPTION'/>",
+			   msg: "<i18n:text i18n:key='PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_NORESULT'/>",
+			   buttons: Ext.Msg.OK,
+			   icon: Ext.MessageBox.INFO
 			});
-			this.listview.getStore().addSorted(user);
 		}
 	},
 	
 	/**
 	 * This method is called to apply the current filter but in a delayed time.
-	 * This is a listener method on filter modificaiton.
+	 * This is a listener method on filter modification.
 	 * Every modification will not be directly applyed. Consecutive modifications (separated by less than 500 ms) will be applyed at once.
 	 * @private
 	 */
-	reload: function (field, newValue, oldValue)
+	_reload: function (field, newValue, oldValue)
 	{
-		if (this.reloadTimer != null)
+		if (this._reloadTimer != null)
 		{
-			window.clearTimeout(this.reloadTimer);
+			window.clearTimeout(this._reloadTimer);
 		}
-		this.reloadTimer = window.setTimeout(Ext.bind(this.load, this), 500);
+		this._reloadTimer = window.setTimeout(Ext.bind(this.load, this), 500);
 	},
 	
 	/**
@@ -250,7 +267,7 @@ Ext.define('Ametys.helper.SelectUser', {
 	{
 		var addedusers = {}
 		
-		var selection = this.listview.getSelectionModel().getSelection();
+		var selection = this.userList.getSelectionModel().getSelection();
 		if (selection.length == 0)
 		{
 			Ametys.Msg.show({

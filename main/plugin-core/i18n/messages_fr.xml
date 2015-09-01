@@ -122,38 +122,53 @@
     <message key="PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_INVALID">Le login doit comporter entre 3 et 16 caractères (lettres, chiffres ou '_')</message>
     <message key="PLUGINS_CORE_USERS_JDBC_FIELD_EMAIL_INVALID">L'e-mail doit être valide.</message>
 
-    <!-- GROUP -->
-	<message key="PLUGINS_CORE_GROUPS_LABEL">Groupes d'utilisateurs</message>
-	<message key="PLUGINS_CORE_GROUPS_DESCRIPTION">Gestion des groupes d'utilisateurs</message>
-	<message key="PLUGINS_CORE_GROUPS_HANDLE_CATEGORY">Gestion des groupes</message>
-	<message key="PLUGINS_CORE_GROUPS_HANDLE_CREATE">Créer un nouveau groupe</message>
-	<message key="PLUGINS_CORE_GROUPS_HANDLE_NAME">Nom du groupe</message>
-	<message key="PLUGINS_CORE_GROUPS_HANDLE_CREATE_SUCCESS">Le groupe a bien été créé</message>
-	<message key="PLUGINS_CORE_GROUPS_HANDLE_VALIDATE">Valider les modifications</message>
-	<message key="PLUGINS_CORE_GROUPS_HANDLE_QUIT">Quitter</message>
-	<message key="PLUGINS_CORE_GROUPS_USERS_HANDLE_CATEGORY">Utilisateurs</message>
-	<message key="PLUGINS_CORE_GROUPS_HANDLE_ADDUSER">Ajouter des utilisateurs</message>
-	<message key="PLUGINS_CORE_GROUPS_HANDLE_DELETEUSER">Supprimer l'(les) utilisateur(s)</message>
-    <message key="PLUGINS_CORE_GROUPS_LIST_ERROR">Une erreur est survenue : impossible de lister les utilisateurs du groupe.</message>
-	<message key="PLUGINS_CORE_GROUPS_NEW_ERROR">Une erreur est survenue lors de la création.</message>
-	<message key="PLUGINS_CORE_GROUPS_HANDLE_RENAME">Renommer le groupe</message>
-	<message key="PLUGINS_CORE_GROUPS_HANDLE_RENAME_SUCCESS">Le groupe a bien été renommé</message>
-	<message key="PLUGINS_CORE_GROUPS_RENAME_ERROR">Une erreur est survenue lors du changement de nom du groupe.</message>
-	<message key="PLUGINS_CORE_GROUPS_RENAME_MISSING_ERROR">Le groupe que vous essayez de renommer n'existe plus.</message>
-	<message key="PLUGINS_CORE_GROUPS_MODIFY_MISSING_SUCCESS">Le groupe a bien été modifié</message>
-	<message key="PLUGINS_CORE_GROUPS_MODIFY_CONFIRM">Vous avez fait des modifications dans les utilisateurs attribués. Souhaitez-vous les sauvegarder ?</message>
-	<message key="PLUGINS_CORE_GROUPS_UPDATE_ERROR">Une erreur est survenue lors de la mise à jour du groupe.</message>
-	<message key="PLUGINS_CORE_GROUPS_MODIFY_ERROR">Une erreur est survenue lors de la sauvegarde.</message>
-	<message key="PLUGINS_CORE_GROUPS_MODIFY_MISSING_ERROR">Le groupe que vous essayez de modifier n'existe plus.</message>
-	<message key="PLUGINS_CORE_GROUPS_HANDLE_DELETE">Supprimer le groupe</message>
-	<message key="PLUGINS_CORE_GROUPS_DELETE_CONFIRM">Etes-vous sûr de vouloir supprimer ce groupe ?</message>
-	<message key="PLUGINS_CORE_GROUPS_DELETE_ERROR">Une erreur est survenue lors de la suppression.</message>
-	<message key="PLUGINS_CORE_GROUPS_HELP_CATEGORY">Aide</message>
-	<message key="PLUGINS_CORE_GROUPS_HANDLE_HELP_HINT">Un groupe est un ensemble d'utilisateurs, qui permet d'associer en une seule fois les mêmes droits à tous ses membres.</message>
-	<message key="PLUGINS_CORE_GROUPS_NEWGROUP">Nouveau groupe</message>
-	<message key="PLUGINS_CORE_GROUPS_COLUMN">Utilisateurs du groupe</message>
-    <message key="PLUGINS_CORE_GROUPS_RIGHTS_HANDLE_LABEL">Groupes</message>
-    <message key="PLUGINS_CORE_GROUPS_RIGHTS_HANDLE_DESCRIPTION">Accès à l'écran de gestion des groupes</message>
+    <!-- +
+         | GROUPS 
+         + -->
+    <message key="PLUGINS_CORE_RIGHTS_GROUPS_LABEL">Gestion des groupes</message>
+    <message key="PLUGINS_CORE_RIGHTS_GROUPS_DESCRIPTION">Gestion des groupes d'utilisateurs</message>
+    <!-- Ribbon -->
+    <message key="RIBBON_TABS_TAB_GROUPS_LABEL">Groupe</message>
+    <message key="RIBBON_TABS_TAB_GROUPS_GROUP_LABEL">Groupes</message>
+    <message key="RIBBON_TABS_TAB_GROUPS_GROUPS_GROUP_ACTION_LABEL">Actions</message>
+    <message key="RIBBON_TABS_TAB_GROUPS_GROUPS_GROUP_USER_LABEL">Utilisateurs</message>
+    <!-- Tool -->
+    <message key="PLUGINS_CORE_UITOOL_GROUPS_LABEL">Groupes d'utilisateurs</message>
+    <message key="PLUGINS_CORE_UITOOL_GROUPS_DESCRIPTION">Liste des groupes et de leurs utilisateurs</message>
+    <message key="PLUGINS_CORE_UITOOL_GROUPS_USERSGROUP">Utilisateurs du groupe</message>
+    <message key="PLUGINS_CORE_UITOOL_GROUPS_NO_RESULT">Aucun résultat</message>
+    <message key="PLUGINS_CORE_UITOOL_GROUPS_USERS_RESULT_1">Utilisateur(s) </message>
+    <message key="PLUGINS_CORE_UITOOL_GROUPS_USERS_RESULT_2"> - </message>
+    <message key="PLUGINS_CORE_UITOOL_GROUPS_USERS_RESULT_3"> sur </message>
+    <message key="PLUGINS_CORE_UITOOL_GROUPS_GROUPS_RESULT_1">Groupe(s) </message>
+    <message key="PLUGINS_CORE_UITOOL_GROUPS_GROUPS_RESULT_2"> - </message>
+    <message key="PLUGINS_CORE_UITOOL_GROUPS_GROUPS_RESULT_3"> sur </message>
+    <!-- Actions -->
+    <message key="PLUGINS_CORE_GROUPS_ADD_LABEL">Nouveau groupe</message>
+    <message key="PLUGINS_CORE_GROUPS_ADD_DESCRIPTION">Crée un nouveau groupe</message>
+    <message key="PLUGINS_CORE_GROUPS_ADD_ERROR">Une erreur est survenue: le groupe n'a pas été créé</message>
+    <message key="PLUGINS_CORE_GROUPS_RENAME_LABEL">Renommer</message>
+    <message key="PLUGINS_CORE_GROUPS_RENAME_DESCRIPTION">Renomme le groupe sélectionné</message>
+    <message key="PLUGINS_CORE_GROUPS_RENAME_ERROR">Une erreur est survenue: le groupe n'a pas été supprimé</message>
+    <message key="PLUGINS_CORE_GROUPS_DELETE_LABEL">Supprimer</message>
+    <message key="PLUGINS_CORE_GROUPS_DELETE_DESCRIPTION">Supprime le groupe sélectionné</message>
+    <message key="PLUGINS_CORE_GROUPS_DELETE_CONFIRM">Etes vous sûr de vouloir supprimer ce ou ces groupes ?</message>
+    <message key="PLUGINS_CORE_GROUPS_DELETE_ERROR">Une erreur est survenue lors de la suppression</message>
+    <message key="PLUGINS_CORE_GROUPS_ADDUSERS_LABEL">Ajouter des utilisateurs</message>
+    <message key="PLUGINS_CORE_GROUPS_ADDUSERS_DESCRIPTION">Ajouter des utilisateurs au groupe sélectionné</message>
+    <message key="PLUGINS_CORE_GROUPS_REMOVEUSERS_LABEL">Enlever des utilisateurs</message>
+    <message key="PLUGINS_CORE_GROUPS_REMOVEUSERS_DESCRIPTION">Enleve du groupe le ou les utilisateurs sélectionnés</message>
+    <message key="PLUGINS_CORE_GROUPS_REMOVEUSERS_CONFIRM">Etes-vous surs de vouloir supprimer ce ou ces utilisateurs du groupe ?</message>
+    <message key="PLUGINS_CORE_GROUPS_UPDATEUSERS_ERROR">Une erreur est survenue lors de la modification du groupe</message>
+    <message key="PLUGINS_CORE_GROUPS_INFOS_ERROR">Une erreur est survenue: impossible de récupérer les informations sur le groupe</message>
+    <message key="PLUGINS_CORE_GROUPS_UNKNOWN_GROUP_TITLE">Groupe inconnu</message>
+    <message key="PLUGINS_CORE_GROUPS_UNKNOWN_GROUP_ERROR">Le groupe n'existe plus. Il est conseillé de fermer puis de réouvrir l'outil.</message>
+    <!-- Helper -->
+    <message key="PLUGINS_CORE_GROUPS_DIALOG_ADD_TITLE">Nouveau groupe ...</message>
+    <message key="PLUGINS_CORE_GROUPS_DIALOG_EDIT_TITLE">Renommer ...</message>
+    <message key="PLUGINS_CORE_GROUPS_DIALOG_NAME">Nom du group</message>
+    <message key="PLUGINS_CORE_GROUPS_DIALOG_OK">Ok</message>
+    <message key="PLUGINS_CORE_GROUPS_DIALOG_CANCEL">Annuler</message>
     
     <!--  PARAMETER CHECKERS -->
     <message key="PLUGINS_CORE_MAIL_CONNECTION_CHECKER_LABEL">Connexion au serveur mail</message>

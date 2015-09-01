@@ -22,8 +22,6 @@
             <map:generator name="config-old" src="org.ametys.plugins.adminold.configuration.OldConfigGenerator" logger="org.ametys.runtime.plugins.admin.generator" label="content"/>            
             
             <map:generator name="rights-profiles-view" src="org.ametys.plugins.core.right.profile.ProfilesGenerator" logger="org.ametys.runtime.plugins.admin.generator" label="content"/>
-			<map:generator name="groups-view" src="org.ametys.plugins.core.group.GroupsGenerator" logger="org.ametys.runtime.plugins.admin.generator" label="content"/>
-            <map:generator name="group-members" src="org.ametys.plugins.core.group.GroupMembersGenerator" logger="org.ametys.runtime.plugins.admin.generator" label="content"/>
         </map:generators>
         
 		<map:actions>
@@ -34,11 +32,6 @@
             <map:action name="config-save" src="org.ametys.runtime.plugins.admin.configuration.SaveConfigAction" logger="org.ametys.runtime.plugins.admin.action"/>
             <map:action name="config-test" src="org.ametys.runtime.plugins.admin.configuration.ParameterCheckerAction" logger="org.ametys.runtime.plugins.admin.action"/>
 			<map:action name="affect-superuser" src="org.ametys.plugins.adminold.superuser.AffectSuperUserAction" logger="org.ametys.runtime.plugins.admin.action"/>
-			<map:action name="group-create" src="org.ametys.plugins.core.group.CreateGroupAction" logger="org.ametys.runtime.plugins.admin.action"/>
-			<map:action name="group-rename" src="org.ametys.plugins.core.group.RenameGroupAction" logger="org.ametys.runtime.plugins.admin.action"/>
-			<map:action name="group-modify" src="org.ametys.plugins.core.group.UpdateGroupAction" logger="org.ametys.runtime.plugins.admin.action"/>
-			<map:action name="group-modify-users" src="org.ametys.plugins.core.group.UpdateUsersGroupAction" logger="org.ametys.runtime.plugins.admin.action"/>
-			<map:action name="group-delete" src="org.ametys.plugins.core.group.DeleteGroupAction" logger="org.ametys.runtime.plugins.admin.action"/>
 			<map:action name="rights-profile-create" src="org.ametys.plugins.core.right.profile.CreateProfileAction" logger="org.ametys.runtime.plugins.admin.action"/>
 			<map:action name="rights-profile-rename" src="org.ametys.plugins.core.right.profile.RenameProfileAction" logger="org.ametys.runtime.plugins.admin.action"/>
 			<map:action name="rights-profile-modify" src="org.ametys.plugins.core.right.profile.ModifyProfileAction" logger="org.ametys.runtime.plugins.admin.action"/>
@@ -135,80 +128,6 @@
                 </map:act>
                 <map:generate type="action-result"/>
                 <map:serialize type="xml" status-code="500"/>
-            </map:match>
-            
-            <!-- +
-                 | Groups
-                 + -->
-            <map:match pattern="groups/create">
-                <map:act type="group-create">
-                    <map:generate type="action-result">
-                        <map:parameter name="id" value="{id}"/>
-                    </map:generate>
-                    <map:serialize type="xml"/>
-                </map:act>
-            </map:match>
-            
-            <map:match pattern="groups/rename">
-                <map:act type="group-rename">
-                    <map:generate type="action-result">
-                        <map:parameter name="message" value="{message}"/>
-                    </map:generate>
-                    <map:serialize type="xml"/>
-                </map:act>
-            </map:match>
-            
-             <map:match pattern="groups/delete">
-                <map:act type="group-delete">
-                    <map:generate type="action-result"/>
-                    <map:serialize type="xml"/>
-                </map:act>
-            </map:match>
-            
-            <map:match pattern="groups/modify">
-                <map:act type="group-modify">
-                    <map:generate type="action-result">
-                        <map:parameter name="message" value="{message}"/>
-                    </map:generate>
-                    <map:serialize type="xml"/>
-                </map:act>
-            </map:match>
-            
-            <map:match pattern="groups/add-users">
-                <map:act type="group-modify-users">
-                    <map:parameter name="add" value="true"/>
-                    <map:generate type="action-result">
-                        <map:parameter name="message" value="{message}"/>
-                    </map:generate>
-                    <map:serialize type="xml"/>
-                </map:act>
-            </map:match>
-            
-            <map:match pattern="groups/remove-users">
-                <map:act type="group-modify-users">
-                    <map:parameter name="add" value="false"/>
-                    <map:generate type="action-result">
-                        <map:parameter name="message" value="{message}"/>
-                    </map:generate>
-                    <map:serialize type="xml"/>
-                </map:act>
-            </map:match>
-            
-            <map:match pattern="groups/members">
-                <map:generate type="group-members" src="{request-param:groupID}">
-                    <map:parameter name="limit" value="{request-param:limit}"/>
-                    <map:parameter name="start" value="{request-param:start}"/>
-                </map:generate>
-                <map:serialize type="xml"/>
-            </map:match>
-            
-            <map:match pattern="groups/view.html">
-                <map:generate type="groups-view"/>
-                <map:transform src="pages/groups/view.xsl" type="xslt">
-                    <map:parameter name="contextPath" value="{request:contextPath}"/>
-                    <map:parameter name="pluginName" value="{request-attr:pluginName}"/>
-                </map:transform>
-                <map:serialize type="xml"/>
             </map:match>
             
             <!-- +

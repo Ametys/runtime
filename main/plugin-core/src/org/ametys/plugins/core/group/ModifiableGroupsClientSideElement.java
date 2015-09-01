@@ -13,37 +13,37 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.ametys.plugins.core.user;
+package org.ametys.plugins.core.group;
 
 import java.util.Map;
 
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 
+import org.ametys.core.group.GroupsManager;
+import org.ametys.core.group.ModifiableGroupsManager;
 import org.ametys.core.ui.StaticClientSideElement;
-import org.ametys.core.user.ModifiableUsersManager;
-import org.ametys.core.user.UsersManager;
 
 /**
- * This implementation creates a control only available if the users manager is a {@link ModifiableUsersManager}
+ * This implementation creates a control only available if the groups manager is a {@link ModifiableGroupsManager}
  *
  */
-public class ModifiableUsersClientSideElement extends StaticClientSideElement
+public class ModifiableGroupsClientSideElement extends StaticClientSideElement
 {
-    /** The users manager */
-    protected UsersManager _usersManager;
+    /** The groups manager */
+    protected GroupsManager _groupsManager;
     
     @Override
     public void service(ServiceManager smanager) throws ServiceException
     {
         super.service(smanager);
-        _usersManager = (UsersManager) smanager.lookup(UsersManager.ROLE);
+        _groupsManager = (GroupsManager) smanager.lookup(GroupsManager.ROLE);
     }
     
     @Override
     public Script getScript(Map<String, Object> contextParameters)
     {
-        if (_usersManager instanceof ModifiableUsersManager)
+        if (_groupsManager instanceof ModifiableGroupsManager)
         {
             return super.getScript(contextParameters);
         }

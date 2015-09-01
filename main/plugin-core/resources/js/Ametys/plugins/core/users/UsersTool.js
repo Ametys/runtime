@@ -91,7 +91,7 @@ Ext.define('Ametys.plugins.cms.user.UsersTool', {
 			autoScroll: true,
 			
 			columns: [
-				{header: "<i18n:text i18n:key='PLUGINS_CORE_UITOOL_USERS_COL_NAME' i18n:catalogue='plugin.core'/>", width: 250, sortable: true, dataIndex: 'fullname', hideable: false},
+				{header: "<i18n:text i18n:key='PLUGINS_CORE_UITOOL_USERS_COL_NAME' i18n:catalogue='plugin.core'/>", width: 250, sortable: true, dataIndex: 'fullname', renderer: this._renderFullName, hideable: false},
 				{header: "<i18n:text i18n:key='PLUGINS_CORE_UITOOL_USERS_COL_EMAIL' i18n:catalogue='plugin.core'/>", width: 350, sortable: true, dataIndex: 'email'}
 			],
 			
@@ -131,6 +131,19 @@ Ext.define('Ametys.plugins.cms.user.UsersTool', {
 		});
 		
 		return this._grid;
+	},
+	
+	/**
+	 * @private
+	 * Renderer for user's full name
+	 * @param {Object} value The data value
+	 * @param {Object} metaData A collection of data about the current cell
+	 * @param {Ext.data.Model} record The record
+	 * @return {String} The html value to render.
+	 */
+	_renderFullName: function(value, metaData, record)
+	{
+		return '<img src="' + Ametys.getPluginResourcesPrefix('core') + '/img/users/user_16.png' + '" style="float: left; margin-right: 3px"/>' + value;
 	},
 	
 	/**

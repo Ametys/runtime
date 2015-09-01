@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Anyware Services
+ *  Copyright 2015 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,49 +15,47 @@
  */
 package org.ametys.plugins.core.group;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceException;
-import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.ProcessingException;
-import org.apache.cocoon.generation.ServiceableGenerator;
-import org.apache.cocoon.xml.AttributesImpl;
-import org.apache.cocoon.xml.XMLUtils;
-import org.xml.sax.SAXException;
+import org.apache.cocoon.acting.ServiceableAction;
+import org.apache.cocoon.environment.ObjectModelHelper;
+import org.apache.cocoon.environment.Redirector;
+import org.apache.cocoon.environment.Request;
+import org.apache.cocoon.environment.SourceResolver;
 
+import org.ametys.core.cocoon.JSonReader;
 import org.ametys.core.group.Group;
 import org.ametys.core.group.GroupsManager;
 import org.ametys.core.user.User;
 import org.ametys.core.user.UsersManager;
 
 /**
- * Generate group members
- * 
+ * Get the users of a group
+ *
  */
-public class GroupMembersGenerator extends ServiceableGenerator
+public class UsersGroupAction extends ServiceableAction
 {
     private static final int _DEFAULT_COUNT_VALUE = Integer.MAX_VALUE;
     private static final int _DEFAULT_OFFSET_VALUE = 0;
     
-    @Override
-    public void service(ServiceManager m) throws ServiceException
-    {
-        super.service(m);
-    }
-
-    public void generate() throws IOException, SAXException, ProcessingException
+    public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
         String role = parameters.getParameter("groupsManagerRole", GroupsManager.ROLE);
         if (role.length() == 0)
         {
             role = GroupsManager.ROLE;
         }
+        
         String usersrole = parameters.getParameter("usersManagerRole", UsersManager.ROLE);
         if (usersrole.length() == 0)
         {
@@ -66,6 +64,8 @@ public class GroupMembersGenerator extends ServiceableGenerator
         
         GroupsManager groupsManager = null;
         UsersManager usersManager = null;
+        
+        List<Map<String, Object>> users = new ArrayList<>();
         
         try
         {
@@ -80,40 +80,38 @@ public class GroupMembersGenerator extends ServiceableGenerator
     
             int begin = parameters.getParameterAsInteger("start", _DEFAULT_OFFSET_VALUE);
             
-            contentHandler.startDocument();
-    
-            AttributesImpl attr = new AttributesImpl();
-            attr.addAttribute("", "id", "id", "CDATA", source);
-            XMLUtils.startElement(contentHandler, "GroupMembers", attr);
-    
             Group group = groupsManager.getGroup(source);
             if (group != null)
             {
-                List<User> users = _getSortedUsers(group, usersManager);
+                List<User> sortedUsers = _getSortedUsers(group, usersManager);
+                Iterator<User> it = sortedUsers.iterator();
                 
-                int total = users.size();
-                Iterator<User> it = users.iterator();
                 int index = 0;
                 while (it.hasNext() && index < begin + offset)
                 {
                     User user = it.next();
+                    
                     if (index >= begin)
                     {
-                        attr = new AttributesImpl();
-                        attr.addAttribute("", "login", "login", "CDATA", user.getName());
-                        XMLUtils.startElement(contentHandler, "User", attr);
-                        XMLUtils.createElement(contentHandler, "FullName", user.getFullName());
-                        XMLUtils.endElement(contentHandler, "User");
+                        Map<String, Object> userInfos = new HashMap<>();
+                        userInfos.put("login", user.getName());
+                        userInfos.put("fullname", user.getFullName());
+                        users.add(userInfos);
+                        
                     }
                     index++;
                 }
-                
-                XMLUtils.createElement(contentHandler, "total", String.valueOf(total));
             }
             
-            XMLUtils.endElement(contentHandler, "GroupMembers");
-    
-            contentHandler.endDocument();
+            Map<String, Object> result = new HashMap<>();
+            result.put("users", users);
+            result.put("group", source);
+
+            Request request = ObjectModelHelper.getRequest(objectModel);
+            request.setAttribute(JSonReader.OBJECT_TO_READ, result);
+
+            return EMPTY_MAP;
+            
         }
         catch (ServiceException e)
         {
@@ -151,4 +149,5 @@ public class GroupMembersGenerator extends ServiceableGenerator
         
         return users;
     }
+
 }

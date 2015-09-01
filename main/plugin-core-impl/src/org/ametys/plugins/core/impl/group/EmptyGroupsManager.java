@@ -15,7 +15,9 @@
  */
 package org.ametys.plugins.core.impl.group;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -52,5 +54,15 @@ public class EmptyGroupsManager implements GroupsManager, Component
     public void toSAX(ContentHandler ch, int count, int offset, Map parameters) throws SAXException
     {
         XMLUtils.createElement(ch, "groups");
+    }
+    
+    public Map<String, Object> group2JSON(String id)
+    {
+        return null;
+    }
+    
+    public List<Map<String, Object>> groups2JSON(int count, int offset, Map parameters)
+    {
+        return new ArrayList<Map<String,Object>>();
     }
 }

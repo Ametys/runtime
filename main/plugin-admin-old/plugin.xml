@@ -105,35 +105,6 @@
     </feature>
     
     <!-- +
-         |  GROUPS
-         + -->   
-    <feature name="runtime.groups">
-        <!-- 
-            This feature contains only the interaction for handling groups
-         -->
-        <extensions>
-            <extension  point="org.ametys.plugins.core.ui.item.DesktopManager" 
-                        id="org.ametys.runtime.plugins.admin.Groups"
-                        class="org.ametys.plugins.core.ui.item.StaticAdminClientSideElement"
-                        logger="org.ametys.plugins.admin.ui.groups">
-                <!-- 
-                    This interaction allow to handle groups (read or read/write)
-                 -->
-                <class name="redirect">
-                    <param name="Link">groups/view.html</param>
-
-                    <param name="label" i18n="true">plugin.core:PLUGINS_CORE_GROUPS_LABEL</param>
-                    <param name="default-description" i18n="true">plugin.core:PLUGINS_CORE_GROUPS_DESCRIPTION</param>
-                    <param name="icon-small" file="true">img/groups/icon_dock.png</param>
-                    <param name="icon-medium" file="true">img/groups/icon_medium.gif</param>
-                    <param name="icon-large" file="true">img/groups/icon_large.png</param>
-                </class>                       
-                <Url>groups/view\.html</Url>
-            </extension>      
-        </extensions>
-    </feature>
-    
-    <!-- +
          |  RIGHTS
          + -->   
     <feature name="runtime.rights">

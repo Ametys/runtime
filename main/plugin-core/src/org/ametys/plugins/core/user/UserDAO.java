@@ -50,6 +50,9 @@ import org.ametys.runtime.parameter.Validator;
  */
 public class UserDAO extends AbstractLogEnabled implements Serviceable, Component
 {
+    /** The avalon role */
+    public static final String ROLE = UserDAO.class.getName();
+    
     /** The service manager */
     protected ServiceManager _smanager;
     /** The current user provider. */

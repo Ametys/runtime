@@ -15,7 +15,7 @@
  */
 
 /**
- * This class handles the access to page properties. See {@link Ametys.web.page.Page}
+ * This class handles the access and edition for users
  */
 Ext.define(
 	"Ametys.plugins.core.users.UsersDAO", 

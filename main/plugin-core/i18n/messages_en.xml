@@ -123,38 +123,53 @@
 	<message key="PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_INVALID">The login must be between 3 and 64 characters long (letters, digits or '_')</message>
 	<message key="PLUGINS_CORE_USERS_JDBC_FIELD_EMAIL_INVALID">The e-mail must be valid</message>
 	
-	<!-- GROUP -->
-	<message key="PLUGINS_CORE_GROUPS_LABEL">Users groups</message>
-	<message key="PLUGINS_CORE_GROUPS_DESCRIPTION">Users groups administration</message>
-	<message key="PLUGINS_CORE_GROUPS_HANDLE_CATEGORY">Groups administration</message>
-	<message key="PLUGINS_CORE_GROUPS_HANDLE_CREATE">Add group</message>
-	<message key="PLUGINS_CORE_GROUPS_HANDLE_NAME">Group name</message>
-	<message key="PLUGINS_CORE_GROUPS_HANDLE_CREATE_SUCCESS">The group was sucessfully created</message>
-	<message key="PLUGINS_CORE_GROUPS_HANDLE_VALIDATE">Confirm changes</message>
-	<message key="PLUGINS_CORE_GROUPS_HANDLE_QUIT">Quit</message>
-	<message key="PLUGINS_CORE_GROUPS_USERS_HANDLE_CATEGORY">Utilisateurs</message>
-	<message key="PLUGINS_CORE_GROUPS_HANDLE_ADDUSER">Add user</message>
-	<message key="PLUGINS_CORE_GROUPS_HANDLE_DELETEUSER">Remove user</message>
-	<message key="PLUGINS_CORE_GROUPS_NEW_ERROR">An error occurred during the adding process</message>
-	<message key="PLUGINS_CORE_GROUPS_LIST_ERROR">An error occurred: cannot list the users in this group.</message>
-	<message key="PLUGINS_CORE_GROUPS_HANDLE_RENAME">Rename the group</message>
-	<message key="PLUGINS_CORE_GROUPS_HANDLE_RENAME_SUCCESS">The group was successfully renamed</message>
-	<message key="PLUGINS_CORE_GROUPS_RENAME_ERROR">An error occurred during the renaming process</message>
-	<message key="PLUGINS_CORE_GROUPS_RENAME_MISSING_ERROR">The group you wish to rename is no longer available. Refresh the page and try again.</message>
-	<message key="PLUGINS_CORE_GROUPS_MODIFY_MISSING_SUCCESS">The group was successfully modified</message>
-	<message key="PLUGINS_CORE_GROUPS_MODIFY_CONFIRM">The changes were not saved. Do you want to do it now ?</message>
-	<message key="PLUGINS_CORE_GROUPS_UPDATE_ERROR">An error occurred while updating group information.</message>
-	<message key="PLUGINS_CORE_GROUPS_MODIFY_ERROR">An error occurred during the saving process.</message>
-	<message key="PLUGINS_CORE_GROUPS_MODIFY_MISSING_ERROR">The group you are trying to edit is no longer available. Refresh the page and try again.</message>
-	<message key="PLUGINS_CORE_GROUPS_HANDLE_DELETE">Delete group</message>
-	<message key="PLUGINS_CORE_GROUPS_DELETE_CONFIRM">Do you really want to delete this group ?</message>
-	<message key="PLUGINS_CORE_GROUPS_DELETE_ERROR">An error occurred during the delete process.</message>
-	<message key="PLUGINS_CORE_GROUPS_HELP_CATEGORY">Help</message>
-	<message key="PLUGINS_CORE_GROUPS_HANDLE_HELP_HINT">A group is a set of users. This allowed you to simultaneously assign the same tights to several users.</message>
-	<message key="PLUGINS_CORE_GROUPS_NEWGROUP">New group</message>
-	<message key="PLUGINS_CORE_GROUPS_COLUMN">Users from group</message>
-	<message key="PLUGINS_CORE_GROUPS_RIGHTS_HANDLE_LABEL">Groups</message>
-	<message key="PLUGINS_CORE_GROUPS_RIGHTS_HANDLE_DESCRIPTION">Groups administration</message>
+	<!-- +
+         | GROUPS 
+         + -->
+    <message key="PLUGINS_CORE_RIGHTS_GROUPS_LABEL">Groups management</message>
+    <message key="PLUGINS_CORE_RIGHTS_GROUPS_DESCRIPTION">Groups management</message>
+    <!-- Ribbon -->
+    <message key="RIBBON_TABS_TAB_GROUPS_LABEL">Group</message>
+    <message key="RIBBON_TABS_TAB_GROUPS_GROUP_LABEL">Groups</message>
+    <message key="RIBBON_TABS_TAB_GROUPS_GROUPS_GROUP_ACTION_LABEL">Actions</message>
+    <message key="RIBBON_TABS_TAB_GROUPS_GROUPS_GROUP_USER_LABEL">Users</message>
+    <!-- Tool -->
+    <message key="PLUGINS_CORE_UITOOL_GROUPS_LABEL">User groups</message>
+    <message key="PLUGINS_CORE_UITOOL_GROUPS_DESCRIPTION">User groups</message>
+    <message key="PLUGINS_CORE_UITOOL_GROUPS_USERSGROUP">Group users</message>
+    <message key="PLUGINS_CORE_UITOOL_GROUPS_NO_RESULT">No result</message>
+    <message key="PLUGINS_CORE_UITOOL_GROUPS_USERS_RESULT_1">User(s) </message>
+    <message key="PLUGINS_CORE_UITOOL_GROUPS_USERS_RESULT_2"> - </message>
+    <message key="PLUGINS_CORE_UITOOL_GROUPS_USERS_RESULT_3"> on </message>
+    <message key="PLUGINS_CORE_UITOOL_GROUPS_GROUPS_RESULT_1">Group(s) </message>
+    <message key="PLUGINS_CORE_UITOOL_GROUPS_GROUPS_RESULT_2"> - </message>
+    <message key="PLUGINS_CORE_UITOOL_GROUPS_GROUPS_RESULT_3"> on </message>
+    <!-- Actions -->
+    <message key="PLUGINS_CORE_GROUPS_ADD_LABEL">Create group</message>
+    <message key="PLUGINS_CORE_GROUPS_ADD_DESCRIPTION">Create new group</message>
+    <message key="PLUGINS_CORE_GROUPS_ADD_ERROR">An error occurred: the groups was not created.</message>
+    <message key="PLUGINS_CORE_GROUPS_RENAME_LABEL">Rename</message>
+    <message key="PLUGINS_CORE_GROUPS_RENAME_DESCRIPTION">Rename selected group</message>
+    <message key="PLUGINS_CORE_GROUPS_RENAME_ERROR">An error occurred: the groups was not renamed.</message>
+    <message key="PLUGINS_CORE_GROUPS_DELETE_LABEL">Delete</message>
+    <message key="PLUGINS_CORE_GROUPS_DELETE_DESCRIPTION">Delete selected group</message>
+    <message key="PLUGINS_CORE_GROUPS_DELETE_CONFIRM">Do you really want to delete these groups ?</message>
+    <message key="PLUGINS_CORE_GROUPS_DELETE_ERROR">An error occurred: the groups were not deleted.</message>
+    <message key="PLUGINS_CORE_GROUPS_ADDUSERS_LABEL">Add user(s)</message>
+    <message key="PLUGINS_CORE_GROUPS_ADDUSERS_DESCRIPTION">Add users to selected group</message>
+    <message key="PLUGINS_CORE_GROUPS_REMOVEUSERS_LABEL">Remove user(s)</message>
+    <message key="PLUGINS_CORE_GROUPS_REMOVEUSERS_DESCRIPTION">Remove user(s) from group</message>
+    <message key="PLUGINS_CORE_GROUPS_REMOVEUSERS_CONFIRM">Do you really want to delete this or these user(s) from group</message>
+    <message key="PLUGINS_CORE_GROUPS_UPDATEUSERS_ERROR">An error occurred during groups' edition</message>
+    <message key="PLUGINS_CORE_GROUPS_INFOS_ERROR">An error occurred: unable to get information on group</message>
+    <message key="PLUGINS_CORE_GROUPS_UNKNOWN_GROUP_TITLE">Unknown group</message>
+    <message key="PLUGINS_CORE_GROUPS_UNKNOWN_GROUP_ERROR">The group is no longer available. It is advise to close then re-open the groups tool.</message>
+    <!-- Helper -->
+    <message key="PLUGINS_CORE_GROUPS_DIALOG_ADD_TITLE">New group ...</message>
+    <message key="PLUGINS_CORE_GROUPS_DIALOG_EDIT_TITLE">Rename ...</message>
+    <message key="PLUGINS_CORE_GROUPS_DIALOG_NAME">Name</message>
+    <message key="PLUGINS_CORE_GROUPS_DIALOG_OK">Ok</message>
+    <message key="PLUGINS_CORE_GROUPS_DIALOG_CANCEL">Cancel</message>
 	
 	<!-- PARAMETER CHECKERS -->
 	<message key="PLUGINS_CORE_MAIL_CONNECTION_CHECKER_LABEL">Connection to the mail server</message>

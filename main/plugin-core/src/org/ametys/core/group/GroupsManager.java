@@ -15,6 +15,7 @@
  */
 package org.ametys.core.group;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -57,5 +58,20 @@ public interface GroupsManager
      * @param parameters Parameters for saxing user list differently, see implementation.
      * @throws SAXException If an error occurs while saxing.
      */
+    @Deprecated
     public void toSAX(ContentHandler ch, int count, int offset, Map parameters) throws SAXException;
+    
+    /**
+     * Get groups
+     * @param count The maximum number of groups to sax. (-1 to sax all)
+     * @param offset The offset to start with, first is 0.
+     * @param parameters Parameters for saxing user list differently, see implementation.
+     */
+    public List<Map<String, Object>> groups2JSON(int count, int offset, Map parameters);
+    
+    /**
+     * Get group
+     * @param id The group's id
+     */
+    public Map<String, Object> group2JSON(String id);
 }

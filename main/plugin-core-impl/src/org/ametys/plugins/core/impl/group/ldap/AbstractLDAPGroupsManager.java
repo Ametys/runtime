@@ -15,7 +15,10 @@
  */
 package org.ametys.plugins.core.impl.group.ldap;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.avalon.framework.configuration.Configuration;
@@ -57,7 +60,87 @@ public abstract class AbstractLDAPGroupsManager extends AbstractLDAPConnector im
         _groupsIdAttribute = _getConfigParameter(configuration, "Id");
         _groupsDescriptionAttribute = _getConfigParameter(configuration, "Description");
     }
+    
+    @Override
+    public Map<String, Object> group2JSON(String id)
+    {
+        Group group = getGroup(id);
+        return _group2JSON(group, false);
+    }
 
+    @Override
+    public List<Map<String, Object>> groups2JSON(int count, int offset, Map parameters)
+    {
+        List<Map<String, Object>> groups = new ArrayList<Map<String,Object>>();
+        
+        String pattern = (String) parameters.get("pattern");
+        
+        Iterator iterator = getGroups().iterator();
+        
+        int totalCount = 0;
+        int currentOffset = offset;
+
+        while (currentOffset > 0 && iterator.hasNext())
+        {
+            Group group = (Group) iterator.next();
+            if (StringUtils.isEmpty(pattern) || group.getLabel().toLowerCase().indexOf(pattern.toLowerCase()) != -1)
+            {
+                currentOffset--;
+                totalCount++;
+            }
+        }
+        
+        int currentCount = count;
+        while ((count == -1 || currentCount > 0) && iterator.hasNext())
+        {
+            Group group = (Group) iterator.next();
+            
+            if (StringUtils.isEmpty(pattern) || group.getLabel().toLowerCase().indexOf(pattern.toLowerCase()) != -1)
+            {
+                groups.add(_group2JSON (group, true));
+                
+                currentCount--;
+                totalCount++;
+            }
+        }
+        
+        while (iterator.hasNext())
+        {
+            Group group = (Group) iterator.next();
+            
+            if (StringUtils.isEmpty(pattern) || group.getLabel().toLowerCase().indexOf(pattern.toLowerCase()) != -1)
+            {
+                totalCount++;
+            }
+        }
+        
+        // TODO Total count matching the pattern
+        // XMLUtils.createElement(ch, "total", String.valueOf(totalCount));
+        
+        return groups;
+    }
+    
+    
+    /**
+     * Get group as JSON object
+     * @param group the group
+     * @param users true to get users' group
+     * @return the group as JSON object
+     */
+    protected Map<String, Object> _group2JSON (Group group, boolean users)
+    {
+        Map<String, Object> group2json = new HashMap<>();
+        group2json.put("id", group.getId());
+        group2json.put("label", group.getLabel());
+        if (users)
+        {
+            group2json.put("users", group.getUsers());
+        }
+        return group2json;
+    }
+    
+    @Override
+    @Deprecated
     public void toSAX(ContentHandler ch, int count, int offset, Map parameters) throws SAXException
     {
         XMLUtils.startElement(ch, "groups");
