@@ -67,6 +67,48 @@
 );
 
 /**
+ * Main button
+ */
+@include extjs-button-small-ui(
+    $ui: 'ribbon-tabpanel-mainbutton',
+    
+    $border-width: 0,
+    
+    $body-outline-color-focus: $ametys-ribbon-tabpanel-mainbutton-outline-color,
+    $inner-border-color-focus: $ametys-ribbon-tabpanel-mainbutton-outline-color,
+    
+    $font-size: $ametys-ribbon-tabpanel-mainbutton-font-size,
+    $font-size-over: $ametys-ribbon-tabpanel-mainbutton-font-size,
+    $font-size-focus: $ametys-ribbon-tabpanel-mainbutton-font-size,
+    $font-size-pressed: $ametys-ribbon-tabpanel-mainbutton-font-size,
+    
+    $line-height: $ametys-ribbon-tabpanel-mainbutton-font-size*1.1,
+    
+    $font-weight: $ametys-ribbon-tabpanel-mainbutton-font-weight,
+    $font-weight-over: $ametys-ribbon-tabpanel-mainbutton-font-weight,
+    $font-weight-focus: $ametys-ribbon-tabpanel-mainbutton-font-weight,
+    $font-weight-pressed: $ametys-ribbon-tabpanel-mainbutton-font-weight,
+    $font-weight-focus-over: $ametys-ribbon-tabpanel-mainbutton-font-weight,
+    $font-weight-focus-pressed: $ametys-ribbon-tabpanel-mainbutton-font-weight,
+    $font-weight-disabled: $ametys-ribbon-tabpanel-mainbutton-font-weight,    
+    
+    $padding: $ametys-ribbon-tabpanel-mainbutton-font-size*5/12 $ametys-ribbon-tabpanel-mainbutton-font-size*8/12 $ametys-ribbon-tabpanel-mainbutton-font-size*4/12 $ametys-ribbon-tabpanel-mainbutton-font-size*7/12,
+
+            
+    $color: $ametys-ribbon-tabpanel-mainbutton-color,
+    $background-color: $ametys-ribbon-tabpanel-mainbutton-background-color,
+    
+    $color-over: $ametys-ribbon-tabpanel-mainbutton-color-over,
+    $background-color-over: $ametys-ribbon-tabpanel-mainbutton-background-color-over,
+    
+    $color-pressed: $ametys-ribbon-tabpanel-mainbutton-color-pressed,
+    $background-color-pressed: $ametys-ribbon-tabpanel-mainbutton-background-color-pressed,
+    
+    $color-focus: $ametys-ribbon-tabpanel-mainbutton-color-focus,
+    $background-color-focus: $ametys-ribbon-tabpanel-mainbutton-background-color-focus    
+);
+
+/**
  * Link Button
  */
 @include extjs-button-small-ui(
