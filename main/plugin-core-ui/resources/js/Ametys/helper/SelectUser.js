@@ -35,15 +35,24 @@ Ext.define('Ametys.helper.SelectUser', {
 	
 	/**
 	 * @private
-	 * @property {Boolean} initialized Determine if the plugin have been already initialized or not
+	 * @property {Boolean} _initialized Determines if the dialog box have been already initialized or not
 	 */
-	initialized: false,
+	_initialized: false,
 	
 	/**
-	 * @private
+	 * @property {Boolean} allowMultiselection Property to enable or disable multiselection
+	 */
+	
+	/**
 	 * @property {String} usersManagerRole The currently selected UsersManager to use to list the user. The string is the role name on the server-side. Null/Empty means the default users manager. The current user manager role registered by the {@link #act} call.
 	 */
 	usersManagerRole: null,
+	/**
+	 * @property {String} pluginName=core The name of the currently selected plugin to use for requests. Selected by the {@link #act} call.
+	 */
+	/**
+	 * @property {String} url=users/search.json The url of the currently selected plugin to use for requests. Selected by the {@link #act} call.
+	 */
 	
 	/**
 	 * @private
@@ -59,39 +68,87 @@ Ext.define('Ametys.helper.SelectUser', {
 	 */
 	/**
 	 * @private
-	 * @property {Ext.form.field.Text} criteria The field of the dialog box that displays the filter field
+	 * @property {Ext.form.field.Text} _searchField The field of the dialog box that displays the filter field
 	 */
 	/**
 	 * @private
-	 * @property {Ametys.window.DialogBox} box The re-usable dialog box
+	 * @property {Ametys.window.DialogBox} _box The re-usable dialog box
 	 */
+	/**
+	 * @private
+	 * @property {Ext.grid.Panel} _userList The grid of result users
+	 */
+	
+	/**
+	 * Open the dialog box to select a user
+	 * @param {Object} config The configuration options:
+	 * @param {Function} config.callback The callback function to call when user(s) has(have) been selected
+	 * @param {Object} config.callback.users A Map String-String of the selected users. The key is the user identifier and the value is the associated user name.
+	 * @param {Function} config.cancelCallback The callback function if the user cancel the dialog box. Can be null.
+	 * @param {String} [config.usersManagerRole] the avalon role of the users manager which will be called to get the user list, or null to call the default users manager.
+	 * @param {Boolean} [config.allowMultiselection=true] Set to false to disable multiple selection of users.
+	 * @param {String} [config.plugin=core] The plugin to use for search request.
+	 * @param {String} [config.url=users/search.json] The url to use for search request.
+	 */
+	act: function (config)
+	{
+		config = config || {};
+		
+		this.callback = config.callback || function () {};
+		this.cancelCallback = config.cancelCallback || function () {};
+	    this.usersManagerRole = config.usersManagerRole || '';
+	    this.allowMultiselection = config.allowMultiselection || true;
+	    this.pluginName = config.plugin || 'core';
+	    this.url = config.url || 'users/search.json';
+		
+	    this._delayedInitialize();
+	    
+		this._searchField.setValue("");
+		this._userList.getSelectionModel().setSelectionMode(this.allowMultiselection ? 'SIMPLE' : 'SINGLE');
+		this._userList.getSelectionModel().deselectAll();
+		this._userList.getStore().setProxy ({
+        	type: 'ametys',
+        	plugin: this.pluginName,
+			url: this.url,
+        	reader: {
+        		type: 'json',
+        		rootProperty: 'users'
+        	},
+        	extraParams: {
+				usersManagerRole: this.usersManagerRole,
+				limit: this.RESULT_LIMIT
+			}
+        });
+		
+		this._box.show();
+		this.loadUsers();
+	},
 	
 	/**
 	 * @private
 	 * This method is called to initialize the dialog box. Only the first call will be taken in account.
 	 */
-	delayedInitialize: function ()
+	_delayedInitialize: function ()
 	{
-		if (this.initialized)
+		if (this._initialized)
 		{
 			return true;
 		}
-		this.initialized = true;
+		this._initialized = true;
 
-		var plugin = this.pluginName;
-
-		this.criteria = new Ext.form.TextField ({
-			 listeners: {'keyup': Ext.bind(this._reload, this)},
+		this._searchField = Ext.create('Ext.form.TextField', {
 			 fieldLabel: "<i18n:text i18n:key='PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_FIND'/>",
 			 name: "criteria",
-			 
+			 cls: 'ametys',
 			 region: 'north',
 			 
 			 labelWidth :70,
 			 width: 210,
 			 
+			 value: "",
+			 
 			 enableKeyEvents: true,
-			 value: ""
+			 listeners: {'keyup': Ext.bind(this._reload, this)},
 		});
 		
 		var model = Ext.define('Ametys.helper.SelectUser.Users', {
@@ -116,46 +173,40 @@ Ext.define('Ametys.helper.SelectUser', {
 		var store = Ext.create('Ext.data.Store', {
 			model: 'Ametys.helper.SelectUser.Users',
 	        data: { users: []},
-	        proxy: {
-	        	type: 'ametys',
-	        	plugin: 'core',
-				url: 'users/search.json',
-	        	reader: {
-	        		type: 'json',
-	        		rootProperty: 'users'
-	        	}
-	        },
-	        
 	        listeners: {
 	        	'beforeload': Ext.bind(this._onBeforeLoad, this),
 	        	'load': Ext.bind(this._onLoad, this)
 	        }
 		});
 		
-		this.userList = new Ext.grid.Panel({
+		this._userList = Ext.create('Ext.grid.Panel', {
 			region: 'center',
 			store : store,
 			hideHeaders : true,
 			columns: [{header: "Label", width : 240, menuDisabled : true, sortable: true, dataIndex: 'fullname'}]
 		});	
 		
-		var warning = new Ext.Component({
-			region: 'south',
-			height: 26,
-			cls: 'select-user-warning',
-			
-			html: "<i18n:text i18n:key='PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_WARN100'/>"
-		});
-		
-		this.box = new Ametys.window.DialogBox({
+		this._box = Ext.create('Ametys.window.DialogBox', {
 			title :"<i18n:text i18n:key='PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_CAPTION'/>",
-			layout :'border',
+			icon: Ametys.getPluginResourcesPrefix('core') + '/img/users/user_16.png',
+			
+			layout: 'border',
 			width: 280,
 			height: 340,
-			icon: Ametys.getPluginResourcesPrefix('core') + '/img/users/user_16.png',
-			items : [this.criteria, this.userList, warning],
 			
-			defaultButton: this.criteria,
+			items : [
+			         this._searchField, 
+			         this._userList, 
+			         {
+			        	 xtype: 'container',
+			        	 region: 'south',
+			        	 cls: 'select-user-warning',
+			        	 html: "<i18n:text i18n:key='PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_WARN100'/>",
+			        	 height: 26,
+			         }
+			],
+			
+			defaultButton: this._searchField,
 			closeAction: 'hide',
 			
 			buttons : [ {
@@ -169,44 +220,13 @@ Ext.define('Ametys.helper.SelectUser', {
 	},
 	
 	/**
-	 * Display the dialog box to select a user
-	 * @param {Object} config The configuration for the box
-	 * @param {Function} config.callback The callback function that is called when the user has been selected
-	 * @param {Object} config.callback.users A Map String-String of the selected users. The key is the user identifier and the value is the associated user name.
-	 * @param {Function} config.cancelCallback The callback function if the user cancel the dialog box. Can be null.
-	 * @param {String} config.usersManagerRole the avalon role of the users manager which will be called to get the user list, or null to call the default users manager.
-	 * @param {Boolean} config.allowMultiselection True to authorize multiple selection of users. Default value is true.
-	 * @param {String} config.plugin The plugin to use for the request. Default value is 'core'.
-	 */
-	act: function (config)
-	{
-		config = config || {};
-		
-		this.delayedInitialize();
-		this.callback = config.callback || function () {};
-		this.cancelCallback = config.cancelCallback || function () {};
-	    this.usersManagerRole = config.usersManagerRole || '';
-	    this.allowMultiselection = config.allowMultiselection || true;
-	    this.pluginName = config.plugin || 'core';
-		
-		this.criteria.setValue("");
-		this.userList.getSelectionModel().setSelectionMode(this.allowMultiselection ? 'SIMPLE' : 'SINGLE');
-
-		this.box.show();
-		
-		this.load();
-	},
-	
-	/**
 	 * This method is called to apply the current filter immediately
 	 * @private
 	 */
-	load: function ()
+	loadUsers: function ()
 	{
 		this._reloadTimer = null;
-
-		var criteria = this.criteria.getValue();
-		this.userList.getStore().load();
+		this._userList.getStore().load();
 	},
 	
 	/**
@@ -220,9 +240,7 @@ Ext.define('Ametys.helper.SelectUser', {
 	{
 		operation.setParams( operation.getParams() || {} );
 		operation.setParams( Ext.apply(operation.getParams(), {
-			usersManagerRole: this.usersManagerRole,
-			criteria: this.criteria.getValue(),
-			limit: this.RESULT_LIMIT
+			criteria: this._searchField.getValue(),
 		}));
 	},
 	
@@ -267,7 +285,7 @@ Ext.define('Ametys.helper.SelectUser', {
 	{
 		var addedusers = {}
 		
-		var selection = this.userList.getSelectionModel().getSelection();
+		var selection = this._userList.getSelectionModel().getSelection();
 		if (selection.length == 0)
 		{
 			Ametys.Msg.show({
@@ -279,7 +297,7 @@ Ext.define('Ametys.helper.SelectUser', {
 			return;
 		}
 
-		this.box.hide();
+		this._box.hide();
 		
 		for (var i=0; i < selection.length; i++)
 		{
@@ -296,8 +314,7 @@ Ext.define('Ametys.helper.SelectUser', {
 	 */
 	cancel: function ()
 	{
-		this.box.hide();
-
+		this._box.hide();
 		this.cancelCallback();
 	}
 });
