@@ -18,7 +18,7 @@
  * This tool displays the list of users
  * @private
  */
-Ext.define('Ametys.plugins.cms.user.UsersTool', {
+Ext.define('Ametys.plugins.core.users.UsersTool', {
 	extend: 'Ametys.tool.Tool',
 	
 	statics: {

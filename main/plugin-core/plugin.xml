@@ -642,7 +642,7 @@
                        class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.tool.factory.UniqueToolFactory">
                     <role>uitool-users</role>
-                    <toolClass>Ametys.plugins.cms.user.UsersTool</toolClass>
+                    <toolClass>Ametys.plugins.core.users.UsersTool</toolClass>
                     
                     <title i18n="true">PLUGINS_CORE_UITOOL_USERS_LABEL</title>
                     <description i18n="true">PLUGINS_CORE_UITOOL_USERS_DESCRIPTION</description>
@@ -847,6 +847,7 @@
                     <icon-large file="true">img/groups/delete_50.png</icon-large>
                 </class>
                 <scripts>
+                    <file>js/Ametys/plugins/core/groups/GroupsDAO.js</file>
                     <file>js/Ametys/plugins/core/groups/GroupsActions.js</file>
                 </scripts>
                 <right>Runtime_Rights_Group_Handle</right>
@@ -866,11 +867,9 @@
                     <icon-large file="true">img/users/add_48.png</icon-large>
                 </class>
                 <scripts>
+                    <file>js/Ametys/plugins/core/groups/GroupsDAO.js</file>
                     <file>js/Ametys/plugins/core/groups/GroupsActions.js</file>
                 </scripts>
-                <css>
-                    <file plugin="core-ui">css/selectuser.css</file>
-                </css>
                 <right>Runtime_Rights_Group_Handle</right>
             </extension>
             
