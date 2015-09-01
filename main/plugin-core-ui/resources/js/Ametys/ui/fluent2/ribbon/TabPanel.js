@@ -109,13 +109,13 @@ Ext.define(
             config.tools = [];
             
             // We want that tabs goes into header line : with an invisible title
-            var titlePosition = 0
+            var titlePosition = 1;
             config.title = {
                 text: '',
                 flex: 0
-            }
+            };
             
-            config.tabBarHeaderPosition = 0;
+            config.tabBarHeaderPosition = 1;
             config.tabBar = config.tabBar || {};
             config.tabBar.flex = 1;
             config.tabBar.layout = {
@@ -126,10 +126,16 @@ Ext.define(
             // Handle main button
             if (config.mainButton)
             {
-                titlePosition = 1
-                config.tabBarHeaderPosition = 1;
+                titlePosition = 2;
+                config.tabBarHeaderPosition = 2;
+                config.mainButton.ui = 'ribbon-tabpanel-mainbutton';
                 config.tools.push(config.mainButton);
             }
+            
+            config.tools.push({
+                xtype: 'tbspacer',
+                width: 3
+            })
             
             // Handle user
             if (config.user)
