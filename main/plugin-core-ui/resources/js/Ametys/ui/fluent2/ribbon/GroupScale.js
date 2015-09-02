@@ -24,6 +24,11 @@ Ext.define(
         alias: 'widget.ametys.ribbon-groupscale',
         
         /**
+         * @cfg {String} ui=ribbon-tabpanel-groupscale @inheritdoc
+         */
+        ui: 'ribbon-tabpanel-groupscale',
+        
+        /**
          * @cfg {Object} layout Doesn't apply to ribbon element. The value HAS TO be the default value.
          * @private
          */

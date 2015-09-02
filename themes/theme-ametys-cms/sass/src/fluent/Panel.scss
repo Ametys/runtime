@@ -14,9 +14,14 @@
  *  limitations under the License.
  */
 
-@import 'fluent/Ribbon';
-@import 'fluent/TabPanel';
-@import 'fluent/Panel';
-@import 'fluent/Toast';
+@include extjs-panel-ui(
+    $ui: 'ribbon-panel',
+    
+    $ui-body-background-color: $ametys-ribbon-panel-background-color
+);
 
-@import 'misc/Badge';
+@include extjs-panel-ui(
+    $ui: 'ribbon-tabpanel-groupscale',
+    
+    $ui-body-background-color: $ametys-ribbon-group-background-color
+);

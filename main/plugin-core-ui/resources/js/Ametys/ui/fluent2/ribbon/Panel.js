@@ -31,6 +31,11 @@ Ext.define(
 		 * @private
 		 */
 		border: false,
+        
+        /**
+         * @cfg {String} ui=ribbon-panel @inheritdoc
+         */
+        ui: 'ribbon-panel',
 		
 		/**
 		 * @cfg {Boolean} shadow Doesn't apply to ribbon element. The value HAS TO be the default value.

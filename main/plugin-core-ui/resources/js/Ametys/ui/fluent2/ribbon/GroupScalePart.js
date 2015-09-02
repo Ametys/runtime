@@ -20,15 +20,8 @@
 Ext.define(
 	"Ametys.ui.fluent.ribbon.GroupScalePart",
 	{
-		extend: "Ext.panel.Panel",
+		extend: "Ext.container.Container",
 		alias: 'widget.ametys.ribbon-group-scale-part',
-        
-        /**
-         * @property {String} groupPartCls The CSS classname to set on the group part
-         * @readonly
-         * @private
-         */
-        groupPartCls: 'a-fluent-group-part',
 
         /**
          * @property {String} topAlignedCls The CSS classname to set on the group part with a top-aligned layout (one, two or three buttons vertically align to the top)
@@ -74,7 +67,6 @@ Ext.define(
             config = config || {};
             config.cls = Ext.Array.from(config.cls);
             
-            config.cls.push(this.groupPartCls);
 	        config.cls.push(config.align == 'middle' ? this.middleAlignedCls : this.topAlignedCls);
             
 			config.layout = {
