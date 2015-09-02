@@ -173,25 +173,29 @@
 }
 .a-fluent-user-card .photo
 {
-    display: inline-block;
+    display: block;
+    border-radius: 32px;
+    overflow: hidden;
+    margin: $ametys-ribbon-tabpanel-usercard-font-size/2 auto;
     width: 64px;
     height: 64px;
+    text-align: center;
 }
 .a-fluent-user-card .main
 {
-    display: inline-block;
-    vertical-align: top;
+    display: block;
+    text-align: center;
     padding: 5px;
 }
 
 .a-fluent-user-card .main .name-wrapper
 {
-    display: inline-block;
+    display: block;
 }
 
 .a-fluent-user-card .main .name-wrapper .name
 {
-    font-size: $ametys-ribbon-tabpanel-usercard-font-size * 2;
+    font-size: $ametys-ribbon-tabpanel-usercard-font-size * 2.2;
 }
 .a-fluent-user-card .main .name-wrapper .login
 {
@@ -201,5 +205,5 @@
 }
 .a-fluent-user-card .main .email
 {
-    font-size: $ametys-ribbon-tabpanel-usercard-font-size;    
+    font-size: $ametys-ribbon-tabpanel-usercard-font-size * 0.9;    
 }
