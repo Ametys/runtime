@@ -22,6 +22,6 @@ test/environments/webapp3/kernel
 test/environments/webapp3/plugins
 themes/build-theme-*.xml
 themes/launch-theme-*.xml
-themes/theme-ametys-cms/sass/example
+themes/theme-ametys-base/sass/example
 themes/work
 /tmp
