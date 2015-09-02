@@ -156,7 +156,7 @@ Ext.define(
                            "<div class='main'>", 
                                "<div class='name-wrapper'>", 
                                    "<div class='name'>{fullName}</div>",
-                                   "<div class='login'>({login})</div>",
+                                   "<div class='login'>{login}</div>",
                                "</div>",
                                "<tpl if='email'><div class='email' title=\"{email}\">{email}</div></tpl>", 
                            "</div>",
