@@ -30,14 +30,14 @@
             </dirset>
         </for-each>
         
-        <echo>Deleting work directory</echo>
-        <delete dir="${ametys-work-dir}"/>
-        
         <echo>Deleting scripts</echo>
         <delete>
             <fileset dir="${ametys-themes-dir}" includes="build-*.xml"/>
             <fileset dir="${ametys-themes-dir}" includes="launch-*.xml"/>
         </delete>
+
+        <echo>Deleting work directory</echo>
+        <delete dir="${ametys-work-dir}"/>
     </target>
     
     <target name="destroy-sencha-theme">
