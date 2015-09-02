@@ -21,13 +21,6 @@ Ext.define("Ametys.ui.fluent.ribbon.Ribbon.Notificator.Toast", {
     extend: "Ext.window.Toast",
     
     /**
-     * @private
-     * @readonly
-     * @property {String} toastCls The CSS classname for toast windows
-     */
-    toastCls: "a-fluent-ribbon-toast",
-    
-    /**
      * @cfg {Ametys.ui.fluent.ribbon.Ribbon.Notificator.Notification} notification (required) The notification to display
      */
     /**
@@ -41,11 +34,16 @@ Ext.define("Ametys.ui.fluent.ribbon.Ribbon.Notificator.Toast", {
     autoClosed: false,
     
     /**
+     * @cfg {String} ui=ribbon-toast @inheritdoc
+     */
+    ui: 'ribbon-toast',
+    
+    /**
      * @private
      * @readonly
      * @property {Number} toastWidth The width of the toast
      */
-    toastWidth: 200,
+    toastWidth: 300,
     
     config: {
         /**
@@ -61,15 +59,15 @@ Ext.define("Ametys.ui.fluent.ribbon.Ribbon.Notificator.Toast", {
         this.notification.set('displayed', true);
         this.notification.set('read', false);
         this.notification.commit();
-        
         config.title = config.title || this.notification.get('title');
         config.html = config.html || this.notification.get('description');
         
         config.width = config.width || this.toastWidth;
         
-        config.cls = Ext.Array.from(config.cls);
-        config.cls.push(this.toastCls);
-        config.cls.push(this.toastCls + "-" + this.notification.get('type'))
+        if (this.notification.get('type') == 'error' || this.notification.get('type') == 'warn')
+        {
+            config.ui = this.ui + "-" + this.notification.get('type');
+        }
         
         this.callParent(arguments);
         

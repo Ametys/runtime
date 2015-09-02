@@ -16,6 +16,7 @@
 
 @import 'fluent/Ribbon';
 @import 'fluent/TabPanel';
+@import 'fluent/Toast';
 
 @import 'misc/Badge';
 
@@ -24,10 +25,14 @@ $ametys-ribbon-main-color: dynamic(#7F7F7F);
 $ametys-ribbon-tab-color: dynamic(#F1F1F1);
 $ametys-ribbon-highlight-color: dynamic(#9DC7EF);
 
-$ametys-color-debug: dynamic(#101010);
-$ametys-color-info: dynamic(#0000CC);
-$ametys-color-warn: dynamic(#FFAE01);
-$ametys-color-error: dynamic(#CC0000);
+$ametys-color-debug: dynamic(#FFFFFF);
+$ametys-background-color-debug: dynamic(#101010);
+$ametys-color-info: dynamic(#FFFFFF);
+$ametys-background-color-info: dynamic(#3892d4);
+$ametys-color-warn: dynamic(#FFFFFF);
+$ametys-background-color-warn: dynamic(#FFAE01);
+$ametys-color-error: dynamic(#FFFFFF);
+$ametys-background-color-error: dynamic(#CC0000);
 
 $ametys-ribbon-font-size: dynamic(12px);
 

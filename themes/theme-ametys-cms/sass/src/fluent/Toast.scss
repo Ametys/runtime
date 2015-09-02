@@ -1,0 +1,102 @@
+/*
+ *  Copyright 2015 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+/**
+ * Toasts
+ */
+@include extjs-window-ui(
+    $ui: 'ribbon-toast',
+    
+    $ui-border-radius: 1px,
+    $ui-header-border-width: 0,
+
+    $ui-border-width: 1px,
+    $ui-inner-border-width: 1px,
+    $ui-padding: 0 1px 1px 1px,
+    $ui-header-inner-border-width: 2px 2px 0 2px,
+    
+    $ui-header-padding: 0 5px 0 0,
+    $ui-header-text-padding: 10px 5px 0 10px,
+    $ui-header-font-size: $ametys-ribbon-toast-header-font-size,
+    $ui-header-font-weight: $ametys-ribbon-toast-header-font-weight,
+    
+    $ui-body-font-size: $ametys-ribbon-toast-font-size,
+    $ui-body-font-weight: $ametys-ribbon-toast-font-weight,
+    
+    $ui-border-color: lighten($ametys-ribbon-toast-background-color, 20%),
+    $ui-header-inner-border-color: $ametys-ribbon-toast-background-color,
+    $ui-inner-border-color: $ametys-ribbon-toast-background-color,
+    $ui-header-color: $ametys-ribbon-toast-color,
+    $ui-header-background-color: $ametys-ribbon-toast-background-color,
+    $ui-body-color: $ametys-ribbon-toast-color,
+    $ui-body-background-color: $ametys-ribbon-toast-background-color
+);
+
+@include extjs-window-ui(
+    $ui: 'ribbon-toast-warn',
+    
+    $ui-border-radius: 1px,
+    $ui-header-border-width: 0,
+
+    $ui-border-width: 1px,
+    $ui-inner-border-width: 1px,
+    $ui-padding: 0 1px 1px 1px,
+    $ui-header-inner-border-width: 2px 2px 0 2px,
+    
+    $ui-header-padding: 0 5px 0 0,
+    $ui-header-text-padding: 10px 5px 0 10px,
+    $ui-header-font-size: $ametys-ribbon-toast-header-font-size,
+    $ui-header-font-weight: $ametys-ribbon-toast-header-font-weight,
+    
+    $ui-body-font-size: $ametys-ribbon-toast-font-size,
+    $ui-body-font-weight: $ametys-ribbon-toast-font-weight,
+    
+    $ui-border-color: lighten($ametys-ribbon-toast-background-color-warn, 20%),
+    $ui-header-inner-border-color: $ametys-ribbon-toast-background-color-warn,
+    $ui-inner-border-color: $ametys-ribbon-toast-background-color-warn,
+    $ui-header-color: $ametys-ribbon-toast-color-warn,
+    $ui-header-background-color: $ametys-ribbon-toast-background-color-warn,
+    $ui-body-color: $ametys-ribbon-toast-color-warn,
+    $ui-body-background-color: $ametys-ribbon-toast-background-color-warn
+);
+
+@include extjs-window-ui(
+    $ui: 'ribbon-toast-error',
+    
+    $ui-border-radius: 1px,
+    $ui-header-border-width: 0,
+
+    $ui-border-width: 1px,
+    $ui-inner-border-width: 1px,
+    $ui-padding: 0 1px 1px 1px,
+    $ui-header-inner-border-width: 2px 2px 0 2px,
+    
+    $ui-header-padding: 0 5px 0 0,
+    $ui-header-text-padding: 10px 5px 0 10px,
+    $ui-header-font-size: $ametys-ribbon-toast-header-font-size,
+    $ui-header-font-weight: $ametys-ribbon-toast-header-font-weight,
+    
+    $ui-body-font-size: $ametys-ribbon-toast-font-size,
+    $ui-body-font-weight: $ametys-ribbon-toast-font-weight,
+    
+    $ui-border-color: lighten($ametys-ribbon-toast-background-color-error, 20%),
+    $ui-header-inner-border-color: $ametys-ribbon-toast-background-color-error,
+    $ui-inner-border-color: $ametys-ribbon-toast-background-color-error,
+    $ui-header-color: $ametys-ribbon-toast-color-error,
+    $ui-header-background-color: $ametys-ribbon-toast-background-color-error,
+    $ui-body-color: $ametys-ribbon-toast-color-error,
+    $ui-body-background-color: $ametys-ribbon-toast-background-color-error
+);

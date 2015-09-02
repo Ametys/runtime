@@ -15,6 +15,12 @@
  */
  
 $ametys-badge-size: dynamic(round($ametys-ribbon-font-size*0.83));
+
 $ametys-badge-color: dynamic($ametys-color-info);
+$ametys-badge-background-color: dynamic($ametys-background-color-info);
+
 $ametys-badge-color-warn: dynamic($ametys-color-warn);
+$ametys-badge-background-color-warn: dynamic($ametys-background-color-warn);
+
 $ametys-badge-color-error: dynamic($ametys-color-error);
+$ametys-badge-background-color-error: dynamic($ametys-background-color-error);
