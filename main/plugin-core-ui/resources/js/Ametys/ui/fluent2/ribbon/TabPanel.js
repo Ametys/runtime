@@ -240,6 +240,8 @@ Ext.define(
                     this.floatParent.addCls(this.contextualTabCls + "-" + card.contextualTab);
                 }
                 
+                Ext.resumeLayouts(true);
+                
                 // We want to show the ribbon if it is collapsed
                 if (previous !== card)
                 {
@@ -250,8 +252,6 @@ Ext.define(
                     
                     this._checkSize();
                 }
-                
-                Ext.resumeLayouts(true);
             }
                 
             return card;

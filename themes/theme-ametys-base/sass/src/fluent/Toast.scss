@@ -100,3 +100,9 @@
     $ui-body-color: $ametys-ribbon-toast-color-error,
     $ui-body-background-color: $ametys-ribbon-toast-background-color-error
 );
+
+.#{$prefix}window-body-ribbon-toast > .#{$prefix}autocontainer-outerCt > .#{$prefix}autocontainer-innerCt,
+.#{$prefix}window-body-ribbon-toast-warn > .#{$prefix}autocontainer-outerCt > .#{$prefix}autocontainer-innerCt,
+.#{$prefix}window-body-ribbon-toast-error > .#{$prefix}autocontainer-outerCt > .#{$prefix}autocontainer-innerCt {
+    padding: 0 10px 10px 10px !important;
+}

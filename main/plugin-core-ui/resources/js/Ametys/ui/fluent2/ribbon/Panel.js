@@ -47,7 +47,10 @@ Ext.define(
 		 * @cfg {String} layout Doesn't apply to ribbon element. The value HAS TO be the default value.
 		 * @private
 		 */
-		layout: 'hbox',
+		layout: {
+            type: 'hbox',
+            align: 'stretch'
+        },
         
         scrollable: true,
 		

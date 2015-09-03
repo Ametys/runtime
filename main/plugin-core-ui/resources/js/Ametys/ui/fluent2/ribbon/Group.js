@@ -293,8 +293,8 @@ Ext.define(
 		 */
 		canBeVisible: function()
 		{
-			return this.el ? this.el.getTop() == this.ownerCt.items.get(0).el.getTop() 
-                            && this.el.getRight() < this.el.parent().getRight() 
+			return this.el ? this.el.getTop() == this.ownerCt.el.getTop() 
+                            && this.el.getRight() < this.ownerCt.el.getRight() 
                       : true;
 		}
 	}

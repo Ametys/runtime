@@ -17,5 +17,7 @@
 Ext.define('Ametys.theme.ametyscms.ui.fluent.ribbon.GroupScale', {
     override: 'Ametys.ui.fluent.ribbon.GroupScale',
     
-    headerPosition: 'bottom'
+    headerPosition: 'bottom',
+    titleAlign: 'center',
+    border: true
 });

@@ -23,5 +23,30 @@
 @include extjs-panel-ui(
     $ui: 'ribbon-tabpanel-groupscale',
     
-    $ui-body-background-color: $ametys-ribbon-group-background-color
+    $ui-border-width: 0,
+    
+    $ui-padding: 0 5px 0 4px,
+    
+    $ui-body-background-color: $ametys-ribbon-group-background-color,
+    
+    $ui-header-background-color: $ametys-ribbon-group-background-color,
+    $ui-header-color: $ametys-ribbon-group-header-color,
+    $ui-header-font-weight: $ametys-ribbon-group-header-font-weight,
+    $ui-header-font-size: $ametys-ribbon-group-header-font-size,
+    $ui-header-padding: 0
 );
+
+.#{$prefix}panel-ribbon-tabpanel-groupscale:after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    content: " ";
+    margin: 4px 0;
+    height: calc(100% - 8px);
+    width: 0;
+    border-right: 1px solid $ametys-ribbon-group-separator-color;
+}
+
+.#{$prefix}panel-body-ribbon-tabpanel-groupscale {
+    padding: 3px 0;
+}

@@ -38,16 +38,12 @@ Ext.define(
          * @private
          */
         defaultType: 'ametys.ribbon-group-scale-part',
-        
-        constructor: function(config)
-        {
-            config = config || {};
-            config.layout = {
-                type: 'hbox',
-                align: 'stretch'
-            };
-            this.callParent([config]);
-        }
+
+        /**
+         * @private
+         * @cfg {String} layout Must keep its default value
+         */
+        layout: 'hbox'
     }
 );
     
