@@ -612,5 +612,5 @@
     <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TEXT1">This application does not support your Web browser or the version you are using{0}.</message>
     <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TEXT2">Here is the list of supported browsers:</message>
     <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_DOC">Consult the user manual of your application to know the recommanded browsers.</message>
-	
+	<message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_DOC_BTN">Documentation</message>
 </catalogue>

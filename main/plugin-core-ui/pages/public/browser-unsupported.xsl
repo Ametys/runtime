@@ -68,7 +68,7 @@
                                         text: "<i18n:text i18n:key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TITLE" i18n:catalogue='plugin.core-ui'/>",
                                         description: "<xsl:call-template name="description"/>",
                                         redirectText: "<i18n:text i18n:key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_DOC" i18n:catalogue='plugin.core-ui'/>",
-                                        btnText: 'Documentation',
+                                        btnText: "<i18n:text i18n:key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_DOC_BTN" i18n:catalogue='plugin.core-ui'/>",
                                         redirectUrl: "<xsl:value-of select="$doc"/>",
                                         supported: <xsl:value-of select="$supported"/>,
                                         contextPath: "<xsl:value-of select="$contextPath"/>"
@@ -90,19 +90,6 @@
         <xsl:text>&lt;br/&gt;</xsl:text>
         <i18n:text i18n:key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TEXT2" i18n:catalogue='plugin.core-ui'/>
     </xsl:template>
-    
-    <xsl:template name="browserName">
-        <strong>
-            <xsl:choose>
-                <xsl:when test="$browser = 'ie'"><xsl:text> </xsl:text>(Microsoft Internet Explorer<xsl:text> </xsl:text><xsl:value-of select="$browserversion"/>)</xsl:when>
-                <xsl:when test="$browser = 'ff'"><xsl:text> </xsl:text>(Mozilla Firefox<xsl:text> </xsl:text><xsl:value-of select="$browserversion"/>)</xsl:when>
-                <xsl:when test="$browser = 'ch'"><xsl:text> </xsl:text>(Google Chrome<xsl:text> </xsl:text><xsl:value-of select="$browserversion"/>)</xsl:when>
-                <xsl:when test="$browser = 'sa'"><xsl:text> </xsl:text>(Apple Safari<xsl:text> </xsl:text><xsl:value-of select="$browserversion"/>)</xsl:when>
-                <xsl:when test="$browser = 'op'"><xsl:text> </xsl:text>(Opera<xsl:text> </xsl:text><xsl:value-of select="$browserversion"/>)</xsl:when>
-            </xsl:choose>
-        </strong>
-    </xsl:template>
-    
     
     <xsl:template name="ametys-scripts"/>
 </xsl:stylesheet>

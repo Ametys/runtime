@@ -607,5 +607,5 @@
     <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TEXT1">L'application n'est pas compatible avec votre navigateur internet ou la version que vous utilisez{0}.</message>
     <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TEXT2">Voici la liste des navigateurs compatibles :</message>
     <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_DOC">Consultez le manuel utilisateur pour connaître les navigateurs recommandés.</message>
-    
+    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_DOC_BTN">Documentation</message>
 </catalogue>
