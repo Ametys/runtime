@@ -32,122 +32,45 @@
 
     <xsl:template match="/ex:exception-report">
         <html>
-            <!-- ****** HEAD ****** -->
             <head> 
-                <!-- This tag has to one of the first of the head section -->
-                <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+                <meta http-equiv="X-UA-Compatible" content="IE=10" />
+                <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
                 
-                <title><xsl:value-of select="$pageTitle" /></title>
-
-                <link rel="icon" type="image/gif" href="{$contextPath}/plugins/core-ui/resources/img/runtime_favico.gif" />
-                <link rel="shortcut icon" type="image/x-icon" href="{$contextPath}/plugins/core-ui/resources/img/runtime_favico.ico" />
+                <link rel="stylesheet" type="text/css" href="{$contextPath}/kernel/resources/css/fatal.css"/>
+           </head>
+           <body>
+                <div class="ametys-fatal-page">
                 
-                <link rel="stylesheet" href="{$contextPath}/kernel/resources/css_old/home.css" type="text/css"/>
-                <link rel="stylesheet" href="{$contextPath}/kernel/resources/css_old/home-text.css" type="text/css"/>
-                <link rel="stylesheet" href="{$contextPath}/kernel/resources/css_old/error.css" type="text/css"/>
-                
-                <script type="text/javascript">
-                    <xsl:comment>
-                        function toggleDetails(start)
-                        {
-                            var button = document.getElementById('details-button');
-                            var text = document.getElementById('details-place');
-                            
-                            if (text.style.display == 'none' &amp;&amp; start !== true)
-                            {
-                                button.innerHTML = 'Hide details ';
-                                text.style.display = '';
-                                document.body.childNodes[0].style.height = "";
-                            }
-                            else
-                            {
-                                button.href = "javascript: toggleDetails();";
-                                button.innerHTML = 'Show details';
-                                text.style.display = 'none';
-                                document.body.childNodes[0].style.height = "auto";
-                            }
-                        }
-                    </xsl:comment>
-                </script>
-            </head>
-            
-            <!-- ****** BODY ****** -->
-            <body>
-                <table class="home-wrapper">
-                    <tr class="home-header">
-                        <td/>
-                        <td>
-                            <div class="home-col-main">
-                                <div class="ametys-logo-wrapper">
-                                    <img src="{$contextPath}/kernel/resources/img/home/ametys.gif" alt="ametys"/>
-                                </div>
-                                <div class="title-wrapper">
-                                    <!-- empty -->
-                                </div>
-                            </div>
-                        </td>
-                        <td/>
-                    </tr>
-                    <tr class="home-main">
-                        <td class="home-col-left" id="left"><!-- empty --></td>
-                        <td class="home-col-main" id="main">
-                            <table class="error">
-                                <tr>
-                                    <td>
-                                        <h1>
-                                            <xsl:value-of select="$pageTitle" />
-                                        </h1>
-                        
-                                        <p class="message">
-                                            <xsl:if test="@class">
-                                                <xsl:value-of select="@class" />
-                                            </xsl:if>
-                                            <xsl:if test="string-length (ex:message) != 0">
-                                                <xsl:if test="@class">
-                                                    :
-                                                </xsl:if>
-                                                <xsl:value-of select="ex:message" />
-                                                <xsl:if test="ex:location">
-                                                    <br />
-                                                    <span style="font-weight: normal">
-                                                        <xsl:apply-templates select="ex:location" />
-                                                    </span>
-                                                </xsl:if>
-                                            </xsl:if>
-                                        </p>
-                                            
-                                        <p class="details">
-                                            <a id="details-button"></a>
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr class="details">
-                                    <td>
-                                        <div class="details-place" id="details-place">
-                                            <script type="text/javascript">
-                                                <xsl:comment>
-                                                    toggleDetails(true);
-                                                </xsl:comment>
-                                            </script>
-                                            <p>
-                                                <xsl:value-of select="/" />
-                                            </p>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td class="home-col-right" id="right"><!-- empty --></td>
-                    </tr>
-                    <tr class="home-footer">
-                        <td/>
-                        <td id="footer"><!-- empty --></td>
-                        <td/>
-                    </tr>
-                </table>
-            </body>
-        </html>  
+                    <div class="ametys-fatal-page-text">Too bad <span>:(</span></div>
+                    
+                    <div class="ametys-fatal-page-desc"><xsl:call-template name="message"/></div>
+                    
+                    <div class="ametys-fatal-page-details">
+                        <pre>
+                            <code>
+                                <xsl:call-template name="details"/>
+                            </code>
+                        </pre>
+                    </div>
+                </div>
+           </body>
+        </html>
     </xsl:template>
+    
+    <xsl:template name="message">
+        <xsl:if test="@class"><xsl:value-of select="@class" /></xsl:if>
+        <xsl:if test="string-length (ex:message) != 0">
+            <xsl:if test="@class">:</xsl:if><xsl:value-of select="ex:message" />
+            <xsl:if test="ex:location">
+                <br />
+                <span style="font-weight: normal">
+                    <xsl:apply-templates select="ex:location" />
+                </span>
+            </xsl:if>
+        </xsl:if>
+    </xsl:template>
+    
+    <xsl:template name="details"><xsl:value-of select="ex:stacktrace"/></xsl:template>
     
     <xsl:template match="ex:location">
         <xsl:if test="string-length(.) > 0">
@@ -171,4 +94,5 @@
         </xsl:choose>
         <xsl:text> - </xsl:text><xsl:value-of select="@line" /> : <xsl:value-of select="@column" />
     </xsl:template>
+    
 </xsl:stylesheet>

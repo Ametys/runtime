@@ -72,6 +72,6 @@ public class DefaultExceptionHandler extends AbstractLogEnabled implements Excep
             getLogger().warn("Unable to find XSL error '" + uri + "'", e);
         }
         
-        return "kernel://pages/error/error.xsl";
+        return "plugin:core-ui://pages/error/" + code + ".xsl";
     }
 }

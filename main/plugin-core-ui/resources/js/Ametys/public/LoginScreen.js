@@ -168,11 +168,7 @@ Ext.define('Ametys.public.LoginScreen', {
     extend: 'Ext.panel.Panel',
     
     title: "<i18n:text i18n:key='PLUGINS_CORE_UI_LOGIN_SCREEN_TITLE'/>",
-    
     cls : "ametys-auth-screen",
-    closable : false,
-    resizable : false,
-    autoShow : true,
     
     /**
      * @cfg {Boolean} [authFailure=false] Set to `true' to display form in authentication failed mode

@@ -1,0 +1,97 @@
+/*
+ *  Copyright 2010 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+body {
+    background-color: #812281;
+    background-size: cover;
+    font-family: 'Open Sans', 'Helvetica Neue', helvetica, arial, verdana, sans-serif;
+    color: #efefef;
+}
+
+/* The animation code **/
+@keyframes smiley {
+    0% {
+    	margin: 0 0; 
+	 	transform: rotate(0deg);   
+	 	-ms-transform: rotate(0deg); 
+    	-webkit-transform: rotate(0deg); 
+    	-moz-transform: rotate(0deg);     
+    	-o-transform: rotate(0deg); 
+    }
+	25% {
+    	margin: 0 0; 
+	 	transform: rotate(0deg); 
+	 	-ms-transform: rotate(0deg); 
+    	-webkit-transform: rotate(0deg); 
+    	-moz-transform: rotate(0deg);     
+    	-o-transform: rotate(0deg);
+    }
+    100% {
+    	margin: 0 20px; 
+	 	transform: rotate(90deg); 
+	 	-ms-transform: rotate(90deg); 
+    	-webkit-transform: rotate(90deg); 
+    	-moz-transform: rotate(90deg);     
+    	-o-transform: rotate(90deg);  
+    }
+}
+
+.ametys-fatal-page {
+	padding: 30px 20px 20px 10%;
+}
+
+.ametys-fatal-page .ametys-fatal-page-text {
+    font-size: 130px;
+    line-height: 180px;
+}
+
+.ametys-fatal-page .ametys-fatal-page-text span {
+	 -ms-transform: rotate(90deg); 
+     -webkit-transform: rotate(90deg); 
+     -moz-transform: rotate(90deg);     
+     -o-transform: rotate(90deg);  
+	 margin: 0 20px;  
+	 display: inline-block; 
+	 animation-name: smiley;
+	 animation-duration: 4s;
+	 animation-timing-function: ease;
+}
+
+.ametys-fatal-page .ametys-fatal-page-desc {
+    line-height: 32px;
+    font-size: 26px;
+}
+
+.ametys-fatal-page .ametys-fatal-page-message {
+	overflow-x: hidden;
+}
+
+.ametys-fatal-page .ametys-fatal-page-details {
+	padding: 4px;
+	background: none;
+	border: none;
+}
+
+.ametys-fatal-page .ametys-fatal-page-details > .x-panel-header .x-title {
+	font-size: 14px;
+	color: #097adb;
+	line-height: 32px;
+}
+
+.ametys-fatal-page .ametys-fatal-page-details {
+	margin-top: 30px;
+}
+
