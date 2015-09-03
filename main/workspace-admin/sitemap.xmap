@@ -106,7 +106,7 @@
             <!-- unauthenticated pages -->
 			<map:match pattern="public/*.html">
 				<map:generate type="action-result"/>
-				<map:transform src="pages/public/{1}.xsl">
+				<map:transform src="plugin:core-ui://pages/public/{1}.xsl">
 					<map:parameter name="contextPath" value="{request:contextPath}"/>
                     <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
                     <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/>
