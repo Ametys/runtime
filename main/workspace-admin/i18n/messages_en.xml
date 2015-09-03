@@ -41,17 +41,6 @@
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_CONFIG_LABEL">Configuration</message>
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_CONFIG_GROUPS_GROUP_ACTIONS">Actions</message>
     
-    <!-- No config -->    
-    <message key="WORKSPACE_ADMIN_CONFIG_TITLE">Unable to load configuration</message>
-    <message key="WORKSPACE_ADMIN_CONFIG_TEXT">The application configuration is incomplete or incorrect<br/>You must configure the application before using it.</message>
-    <message key="WORKSPACE_ADMIN_CONFIG_ACT">Configure the application</message>
-    <message key="WORKSPACE_ADMIN_CONFIG_DESCRIPTION">Go to the application parameters management screen</message>
-    
-    <!-- Navigator -->
-    <message key="WORKSPACE_ADMIN_NAVIGATOR_UNSUPPORTED_TITLE">Web browser not supported</message>
-    <message key="WORKSPACE_ADMIN_NAVIGATOR_UNSUPPORTED_TEXT">This application does not support your Web browser or the version you are using{0}.<br/>Here is the list of supported browsers:</message>
-    <message key="WORKSPACE_ADMIN_NAVIGATOR_UNSUPPORTED_TEXT2">Consult the user manual of your application to know the recommanded browsers.</message>
-    
     <message key="WORKSPACE_ADMIN_NAVIGATOR_UNKNOWN_TITLE">Unknown web browser</message>
     <message key="WORKSPACE_ADMIN_NAVIGATOR_UNKNOWN_TEXT">This application does not support your Web browser or the version you are using{0}.<br/>Here is the list of supported browsers:</message>
     <message key="WORKSPACE_ADMIN_NAVIGATOR_UNKNOWN_TEXT2">Consult the user manual of your application to know the recommanded browsers.</message>

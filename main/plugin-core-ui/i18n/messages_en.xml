@@ -596,5 +596,21 @@
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FORGOT_PASSWORD">Forgot password?</message>
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_PERSIST">Remember me</message>
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_AUTH_FAILURE">Invalid user id or password</message>
+    
+    <!-- +
+         | Incomplete configuration
+         + -->
+    <message key="PLUGINS_CORE_UI_INCOMPLETE_CONFIG_PAGE_TITLE">Configuration incomplete</message>
+    <message key="PLUGINS_CORE_UI_INCOMPLETE_CONFIG_TITLE">Unable to load configuration</message>
+    <message key="PLUGINS_CORE_UI_INCOMPLETE_CONFIG_TEXT">The application configuration is incomplete or incorrect.&lt;br/&gt;You must configure the application before using it.</message>
+    <message key="PLUGINS_CORE_UI_INCOMPLETE_CONFIG_BTN">Configure the application</message>
+    
+    <!-- +
+         | Unsupported browser
+         + -->
+    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TITLE">Browser not supported</message>
+    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TEXT1">This application does not support your Web browser or the version you are using{0}.</message>
+    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TEXT2">Here is the list of supported browsers:</message>
+    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_DOC">Consult the user manual of your application to know the recommanded browsers.</message>
 	
 </catalogue>
