@@ -579,5 +579,16 @@
     <message key="WORKSPACE_AMETYS_MAIN_ERROR_NOJS">Cette application ne peut pas fonctionner en l'absence de javascript</message>
     <message key="WORKSPACE_AMETYS_SPLASHSCREEN_LOADING">Chargement en cours. Veuillez patienter ... </message>
     <message key="WORKSPACE_AMETYS_SPLASHSCREEN_APP_AMETYS_VERSION">motorisé par Ametys </message>
-         
+    
+    <!-- +
+         | Login screen
+         + -->
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_TITLE">Connexion</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_LABEL">Entrez vos identifiants</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_LOGIN">Identifiant</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_PASSWORD">Mot de passe</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_SUBMIT">Se connecter</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FORGOT_PASSWORD">Mot de passe oublié ?</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_PERSIST">Se souvenir de moi</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_AUTH_FAILURE">Identifiant ou mot de passe incorrect</message>
 </catalogue>

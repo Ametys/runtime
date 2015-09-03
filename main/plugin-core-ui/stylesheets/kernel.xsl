@@ -114,116 +114,7 @@
 			<script>/plugins/core-ui/resources/js/Ext.fixes.js</script>
             <script>/plugins/core-ui/resources/js/Ext.enhancements.js</script>
 
-			<script>/plugins/core-ui/resources/js/Ametys.js</script>
-
-            <script>/plugins/core-ui/resources/js/Ametys/mask/GlobalLoadMask.js</script>
-			
-			<script>/plugins/core-ui/resources/js/Ametys/log/Logger.js</script>
-	        <script>/plugins/core-ui/resources/js/Ametys/log/Logger/Entry.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/log/LoggerFactory.js</script>
-	        <script>/plugins/core-ui/resources/js/Ametys/log/ErrorDialog.js</script>
-	        
-	        <script>/plugins/core-ui/resources/js/Ametys/window/DialogBox.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/window/MessageBox.js</script>
-            
-	        <script>/plugins/core-ui/resources/js/Ametys/form/AbstractField.js</script>
-	        <script>/plugins/core-ui/resources/js/Ametys/form/AbstractFieldsWrapper.js</script>
-	        <script>/plugins/core-ui/resources/js/Ametys/form/field/DateTime.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/form/field/StringTime.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/form/field/Password.js</script>
-	        <script>/plugins/core-ui/resources/js/Ametys/form/field/ChangePassword.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/form/field/ReferencedNumberField.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/form/field/RichText.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/form/field/TextArea.js</script>
-            <script>/plugins/tiny_mce/resources/js/tiny_mce<xsl:if test="$debug-mode">_src</xsl:if>.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/form/field/Code.js</script>
-            <script>/plugins/codemirror/resources/js/codemirror.js</script>
-            <script>/plugins/codemirror/resources/js/addon/edit/matchbrackets.js</script>
-            <script>/plugins/codemirror/resources/js/addon/selection/active-line.js</script>
-            <script>/plugins/codemirror/resources/js/mode/xml/xml.js</script>
-            <script>/plugins/codemirror/resources/js/mode/javascript/javascript.js</script>
-            <script>/plugins/codemirror/resources/js/mode/css/css.js</script>
-            <script>/plugins/codemirror/resources/js/mode/htmlmixed/htmlmixed.js</script>
-            
-            <script>/plugins/core-ui/resources/js/Ametys/form/ConfigurableFormPanel.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/form/ConfigurableFormPanel/Repeater.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/form/ConfigurableFormPanel/ParameterChecker.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/form/ConfigurableFormPanel/ParameterCheckersDAO.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/form/SaveHelper.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/form/SaveHelper/SaveErrorDialog.js</script>
-            
-            <script>/plugins/core-ui/resources/js/Ametys/data/ServerCaller.js</script>
-	        <script>/plugins/core-ui/resources/js/Ametys/data/ServerComm.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/data/ServerCommProxy.js</script>
-	        <script>/plugins/core-ui/resources/js/Ametys/data/ServerComm/TimeoutDialog.js</script>
-	        
-            <script>/plugins/core-ui/resources/js/Ametys/grid/plugin/Multisort.js</script>
-
-            <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/tip/Tooltip.js</script>
-
-            <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Ribbon.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Ribbon/Title.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Ribbon/Header.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/TabPanel.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Panel.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Group.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/GroupPart.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/controls/Button.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/controls/Toolbar.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/controls/gallery/MenuGallery.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/controls/gallery/MenuGalleryButton.js</script>   
-            
-            <script>/plugins/core-ui/resources/js/Ametys/ui/tool/ToolPanel.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/ui/tool/ToolsLayout.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/ui/tool/layout/ZonedTabsToolsLayout.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/ui/tool/layout/ZonedTabsToolsLayout/ZoneTabsToolsPanel.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/ui/tool/layout/ZonedTabsToolsLayout/ZonedTabsDD.js</script>
-            
-            <script>/plugins/core-ui/resources/js/Ametys/message/Message.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/message/MessageBus.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/message/MessageTarget.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/message/MessageTargetHelper.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/message/MessageTargetFactory.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/message/factory/DefaultMessageTargetFactory.js</script>
-
-            <script>/plugins/core-ui/resources/js/Ametys/relation/RelationManager.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/relation/RelationHandler.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/relation/RelationPoint.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/relation/Relation.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/relation/dd/AmetysDropZone.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/relation/dd/AmetysViewDragZone.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/relation/dd/AmetysTreeViewDragDrop.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/relation/dd/AmetysTreeViewDragZone.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/relation/dd/AmetysTreeViewDropZone.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/relation/dd/AmetysGridViewDragDrop.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/relation/dd/AmetysGridViewDropZone.js</script>
-            
-            <script>/plugins/core-ui/resources/js/Ametys/ribbon/RibbonManager.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/ribbon/RibbonElementController.js</script>
-
-            <script>/plugins/core-ui/resources/js/Ametys/ribbon/element/RibbonTabController.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/ribbon/element/tab/TabController.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/ribbon/element/tab/ContentTabController.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/ribbon/element/tab/EditionTabController.js</script>
-
-            <script>/plugins/core-ui/resources/js/Ametys/ribbon/element/RibbonUIController.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/ribbon/element/ui/CommonController.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/ribbon/element/ui/FieldController.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/ribbon/element/ui/ButtonController.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/ribbon/element/ui/button/OpenToolButtonController.js</script>
-        
-            <script>/plugins/core-ui/resources/js/Ametys/userprefs/UserPrefsDAO.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/userprefs/UserPrefsDAOStateProvider.js</script>
-
-            <script>/plugins/core-ui/resources/js/Ametys/tool/ToolsManager.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/tool/ToolFactory.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/tool/factory/BasicToolFactory.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/tool/factory/UniqueToolFactory.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/tool/ToolMessageTargetFactory.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/tool/Tool.js</script>
-            <script>/plugins/core-ui/resources/js/Ametys/tool/SelectionTool.js</script>
-            
-            <script>/plugins/core-ui/resources/js/Ametys/form/WidgetManager.js</script>
+			<xsl:call-template name="ametys-scripts"/>
 	    </xsl:variable>
 	    
 		<xsl:variable name="css">
@@ -244,6 +135,118 @@
 			<xsl:with-param name="css" select="exslt:node-set($css)/*"/>
 			<xsl:with-param name="load-cb" select="$load-cb"/>
 		</xsl:call-template>
+    </xsl:template>
+    
+    <xsl:template name="ametys-scripts">
+        <script>/plugins/core-ui/resources/js/Ametys.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/mask/GlobalLoadMask.js</script>
+        
+        <script>/plugins/core-ui/resources/js/Ametys/log/Logger.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/log/Logger/Entry.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/log/LoggerFactory.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/log/ErrorDialog.js</script>
+        
+        <script>/plugins/core-ui/resources/js/Ametys/window/DialogBox.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/window/MessageBox.js</script>
+        
+        <script>/plugins/core-ui/resources/js/Ametys/form/AbstractField.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/form/AbstractFieldsWrapper.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/form/field/DateTime.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/form/field/StringTime.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/form/field/Password.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/form/field/ChangePassword.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/form/field/ReferencedNumberField.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/form/field/RichText.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/form/field/TextArea.js</script>
+        <script>/plugins/tiny_mce/resources/js/tiny_mce<xsl:if test="$debug-mode">_src</xsl:if>.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/form/field/Code.js</script>
+        <script>/plugins/codemirror/resources/js/codemirror.js</script>
+        <script>/plugins/codemirror/resources/js/addon/edit/matchbrackets.js</script>
+        <script>/plugins/codemirror/resources/js/addon/selection/active-line.js</script>
+        <script>/plugins/codemirror/resources/js/mode/xml/xml.js</script>
+        <script>/plugins/codemirror/resources/js/mode/javascript/javascript.js</script>
+        <script>/plugins/codemirror/resources/js/mode/css/css.js</script>
+        <script>/plugins/codemirror/resources/js/mode/htmlmixed/htmlmixed.js</script>
+        
+        <script>/plugins/core-ui/resources/js/Ametys/form/ConfigurableFormPanel.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/form/ConfigurableFormPanel/Repeater.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/form/ConfigurableFormPanel/ParameterChecker.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/form/ConfigurableFormPanel/ParameterCheckersDAO.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/form/SaveHelper.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/form/SaveHelper/SaveErrorDialog.js</script>
+        
+        <script>/plugins/core-ui/resources/js/Ametys/data/ServerCaller.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/data/ServerComm.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/data/ServerCommProxy.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/data/ServerComm/TimeoutDialog.js</script>
+        
+        <script>/plugins/core-ui/resources/js/Ametys/grid/plugin/Multisort.js</script>
+
+        <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/tip/Tooltip.js</script>
+
+        <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Ribbon.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Ribbon/Title.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Ribbon/Header.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/TabPanel.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Panel.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Group.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/GroupPart.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/controls/Button.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/controls/Toolbar.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/controls/gallery/MenuGallery.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/controls/gallery/MenuGalleryButton.js</script>   
+        
+        <script>/plugins/core-ui/resources/js/Ametys/ui/tool/ToolPanel.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/ui/tool/ToolsLayout.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/ui/tool/layout/ZonedTabsToolsLayout.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/ui/tool/layout/ZonedTabsToolsLayout/ZoneTabsToolsPanel.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/ui/tool/layout/ZonedTabsToolsLayout/ZonedTabsDD.js</script>
+        
+        <script>/plugins/core-ui/resources/js/Ametys/message/Message.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/message/MessageBus.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/message/MessageTarget.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/message/MessageTargetHelper.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/message/MessageTargetFactory.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/message/factory/DefaultMessageTargetFactory.js</script>
+
+        <script>/plugins/core-ui/resources/js/Ametys/relation/RelationManager.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/relation/RelationHandler.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/relation/RelationPoint.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/relation/Relation.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/relation/dd/AmetysDropZone.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/relation/dd/AmetysViewDragZone.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/relation/dd/AmetysTreeViewDragDrop.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/relation/dd/AmetysTreeViewDragZone.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/relation/dd/AmetysTreeViewDropZone.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/relation/dd/AmetysGridViewDragDrop.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/relation/dd/AmetysGridViewDropZone.js</script>
+        
+        <script>/plugins/core-ui/resources/js/Ametys/ribbon/RibbonManager.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/ribbon/RibbonElementController.js</script>
+
+        <script>/plugins/core-ui/resources/js/Ametys/ribbon/element/RibbonTabController.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/ribbon/element/tab/TabController.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/ribbon/element/tab/ContentTabController.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/ribbon/element/tab/EditionTabController.js</script>
+
+        <script>/plugins/core-ui/resources/js/Ametys/ribbon/element/RibbonUIController.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/ribbon/element/ui/CommonController.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/ribbon/element/ui/FieldController.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/ribbon/element/ui/ButtonController.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/ribbon/element/ui/button/OpenToolButtonController.js</script>
+    
+        <script>/plugins/core-ui/resources/js/Ametys/userprefs/UserPrefsDAO.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/userprefs/UserPrefsDAOStateProvider.js</script>
+
+        <script>/plugins/core-ui/resources/js/Ametys/tool/ToolsManager.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/tool/ToolFactory.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/tool/factory/BasicToolFactory.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/tool/factory/UniqueToolFactory.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/tool/ToolMessageTargetFactory.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/tool/Tool.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/tool/SelectionTool.js</script>
+        
+        <script>/plugins/core-ui/resources/js/Ametys/form/WidgetManager.js</script>
     </xsl:template>
  
     <!-- +
