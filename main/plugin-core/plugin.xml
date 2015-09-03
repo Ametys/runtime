@@ -328,11 +328,11 @@
         </components>
     </feature>
     
-    <feature name="util.i18nutils">
+    <feature name="util.i18nutils" safe="true">
         <components>
             <component role="org.ametys.core.util.I18nUtils"
                        id="org.ametys.core.util.I18nUtils"
-                       class="org.ametys.core.util.I18nUtils" />
+                       class="org.ametys.core.util.I18nUtils"/>
         </components>
     </feature>
     
@@ -597,7 +597,7 @@
         </components>
     </feature>
     
-    <feature name="xslt.helpers">
+    <feature name="xslt.helpers" safe="true">
         <components>
             <component id="org.ametys.core.util.AmetysXSLTHelper"
                        role="org.ametys.core.util.AmetysXSLTHelper"
