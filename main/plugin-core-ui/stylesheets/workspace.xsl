@@ -116,8 +116,8 @@
                 <xsl:call-template name="ui-extension-after-static-load"/>
                 
                 <xsl:call-template name="kernel-load">
-                      <xsl:with-param name="scripts" select="ribbon/controls/control/scripts/file | ribbon/tabsControls/tab/scripts/file | uitools-factories/uitool-factory/scripts/file | messagetarget-factories/messagetarget-factory/scripts/file | relations-handlers/relation-handler/scripts/file | widgets/widget-wrapper/widget/scripts/file | app-menu/item/scripts/file"/>
-                      <xsl:with-param name="css" select="ribbon/controls/control/css/file | ribbon/tabsControls/tab/css/file | uitools-factories/uitool-factory/css/file | messagetarget-factories/messagetarget-factory/css/file | relations-handlers/relation-handler/css/file | widgets/widget-wrapper/widget/css/file | app-menu/item/css/file"/>
+                      <xsl:with-param name="scripts" select="(ribbon/controls/control/scripts/file | ribbon/tabsControls/tab/scripts/file | uitools-factories/uitool-factory/scripts/file | messagetarget-factories/messagetarget-factory/scripts/file | relations-handlers/relation-handler/scripts/file | widgets/widget-wrapper/widget/scripts/file | app-menu/item/scripts/file)[not(. = current()/static-imports/import/scripts/file)]"/>
+                      <xsl:with-param name="css" select="(ribbon/controls/control/css/file | ribbon/tabsControls/tab/css/file | uitools-factories/uitool-factory/css/file | messagetarget-factories/messagetarget-factory/css/file | relations-handlers/relation-handler/css/file | widgets/widget-wrapper/widget/css/file | app-menu/item/css/file)[not(. = current()/static-imports/import/css/file)]"/>
                       <xsl:with-param name="load-cb" select="$callback"/>
                 </xsl:call-template>                
 
