@@ -591,4 +591,21 @@
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FORGOT_PASSWORD">Mot de passe oublié ?</message>
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_PERSIST">Se souvenir de moi</message>
     <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_AUTH_FAILURE">Identifiant ou mot de passe incorrect</message>
+    
+    <!-- +
+         | Incomplete configuration
+         + -->
+    <message key="PLUGINS_CORE_UI_INCOMPLETE_CONFIG_PAGE_TITLE">Configuration incomplète</message>
+    <message key="PLUGINS_CORE_UI_INCOMPLETE_CONFIG_TITLE">Impossible de charger la configuration</message>
+    <message key="PLUGINS_CORE_UI_INCOMPLETE_CONFIG_TEXT">La configuration de l'application est incomplète ou incorrecte.&lt;br/&gt;Vous devez configurer l'application avant de pouvoir l'utiliser.</message>
+    <message key="PLUGINS_CORE_UI_INCOMPLETE_CONFIG_BTN">Configurer l'application</message>
+    
+    <!-- +
+         | Unsupported browser
+         + -->
+    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TITLE">Navigateur internet non supporté</message>
+    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TEXT1">L'application n'est pas compatible avec votre navigateur internet ou la version que vous utilisez{0}.</message>
+    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TEXT2">Voici la liste des navigateurs compatibles :</message>
+    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_DOC">Consultez le manuel utilisateur pour connaître les navigateurs recommandés.</message>
+    
 </catalogue>

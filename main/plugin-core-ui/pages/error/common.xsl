@@ -65,7 +65,7 @@
                                     items: Ext.create('Ametys.error.ErrorPage', {
                                         text: "<xsl:call-template name="text"/>",
                                         description: "<xsl:call-template name="description"/>",
-                                        message: "<xsl:call-template name="message"/>"
+                                        message: "<xsl:call-template name="message"/>",
                                         details: "<xsl:call-template name="details"/>"
                                     })
                                 });
@@ -87,10 +87,7 @@
         <xsl:if test="string-length (/ex:exception-report/ex:message) != 0">
             <xsl:if test="@class">:</xsl:if><xsl:value-of select="/ex:exception-report/ex:message" />
             <xsl:if test="/ex:exception-report/ex:location">
-                <br />
-                <span style="font-weight: normal">
-                    <xsl:apply-templates select="/ex:exception-report/ex:location" />
-                </span>
+                <xsl:text>&lt;br/&gt;</xsl:text><xsl:apply-templates select="/ex:exception-report/ex:location" />
             </xsl:if>
         </xsl:if>
     </xsl:template>

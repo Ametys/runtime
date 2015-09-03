@@ -21,20 +21,22 @@
     
     <xsl:import href="plugin:core-ui://stylesheets/kernel.xsl"/>    
     
+    <xsl:param name="redirect"/>
+    
     <xsl:variable name="contextPath" select="ametys:uriPrefix(false())"/>
     <xsl:variable name="workspaceURI" select="ametys:workspacePrefix()"/>
     <xsl:variable name="debug-mode" select="ametys:config('runtime.debug.ui')"/>
     
     <xsl:param name="authFailure">false</xsl:param>
     
-    <xsl:template match="/LoginForm">
+    <xsl:template match="/">
         <html>
             <head>
-                <title>Ametys - <i18n:text i18n:key='PLUGINS_CORE_UI_LOGIN_SCREEN_TITLE' i18n:catalogue='plugin.core-ui'/></title>
+                <title>Ametys - <i18n:text i18n:key='PLUGINS_CORE_UI_INCOMPLETE_CONFIG_PAGE_TITLE' i18n:catalogue='plugin.core-ui'/></title>
                 <meta http-equiv="X-UA-Compatible" content="IE=10" />
                 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
                 
-                <link rel="stylesheet" type="text/css" href="{$contextPath}/plugins/core-ui/resources/css/login.css"/>
+                <link rel="stylesheet" type="text/css" href="{$contextPath}/plugins/core-ui/resources/css/public.css"/>
             </head>
             <body>
                 <noscript><i18n:text i18n:key="WORKSPACE_AMETYS_MAIN_ERROR_NOJS" i18n:catalogue="plugin.core-ui"/></noscript>
@@ -43,9 +45,7 @@
                     <xsl:with-param name="theme">triton</xsl:with-param>
                 </xsl:call-template>
                 
-                <script type="text/javascript" src="{$contextPath}/plugins/core-ui/resources/js/Ametys/public/LoginScreen.js"/>
-                
-                <xsl:call-template name="twitter-scripts"/>
+               <script type="text/javascript" src="{$contextPath}/plugins/core-ui/resources/js/Ametys/public/RedirectActionScreen.js"></script>
                 
                 <script>
                     Ext.onReady(function ()
@@ -59,13 +59,15 @@
                             launch: function() {
                                 Ext.create('Ext.container.Viewport', {
                                     layout: 'fit',
-                                    items: Ext.create('Ametys.public.LoginScreen', {
-                                        loginFieldName: 'Username',
-                                        pwdFieldName: 'Password',
+                                    items: Ext.create('Ametys.public.RedirectActionScreen', {
+                                        text: "<i18n:text i18n:key='PLUGINS_CORE_UI_INCOMPLETE_CONFIG_TITLE' i18n:catalogue='plugin.core-ui'/>",
+                                        description: "<i18n:text i18n:key='PLUGINS_CORE_UI_INCOMPLETE_CONFIG_TEXT' i18n:catalogue='plugin.core-ui'/>",
+    
+                                        image: "<xsl:value-of select="$contextPath"/>/plugins/core-ui/resources/img/public/load_config.png",
                                         
-                                        authFailure: <xsl:value-of select="$authFailure"/>,
-                                        rememberMe: <xsl:value-of select="rememberMe"/>,
-                                        forgotPassword: false
+                                        // FIXME redirectUrl: "<xsl:value-of select="concat($contextPath, $workspaceURI, '/_plugins/', $redirect)"/>",
+                                        redirectUrl: "<xsl:value-of select="concat($contextPath, '/_admin-old', '/_plugins/', $redirect)"/>",
+                                        btnText: "<i18n:text i18n:key='PLUGINS_CORE_UI_INCOMPLETE_CONFIG_BTN' i18n:catalogue='plugin.core-ui'/>"
                                     })
                                 });
                             }
@@ -74,12 +76,6 @@
                 </script>
             </body>
         </html>
-    </xsl:template>
-    
-    <xsl:template name="twitter-scripts">
-        <script>
-        !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
-        </script>
     </xsl:template>
     
     <xsl:template name="ametys-scripts"/>

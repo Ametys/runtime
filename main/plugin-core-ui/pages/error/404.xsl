@@ -22,7 +22,7 @@
     
     <xsl:import href="common.xsl"/>    
     
-    <xsl:template name="text">Hmm…</xsl:template><
+    <xsl:template name="text">Hmm…</xsl:template>
     
     <xsl:template name="description"><i18n:text i18n:key="KERNEL_ERROR_404" i18n:catalogue="kernel"/></xsl:template>
     
