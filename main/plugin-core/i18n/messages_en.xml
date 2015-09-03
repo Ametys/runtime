@@ -114,7 +114,6 @@
          + -->
     <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_LABEL">See user rights</message>
     <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_DESCRIPTION">See the rights of the selected user</message>
-    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_FOOTER"></message>
     <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_TITLE">Rights for user </message>
     <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_TOOLTIPTEXT">List of the rights for user </message>
     <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_EMPTY">No user is currently selected.&lt;br/&gt;Select a user to see his rights.</message>
@@ -223,8 +222,8 @@
     <message key="PLUGINS_CORE_PROFILES_SWITCH_TO_EDITION_DESCRIPTION">Switches to editing mode to edit rights (addition or deletion) of the selected profile</message>
     <message key="PLUGINS_CORE_PROFILES_SWITCH_TO_VIEW">Overview</message>
     <message key="PLUGINS_CORE_PROFILES_SWITCH_TO_VIEW_DESCRIPTION">Switches to view mode of the profile's rights</message>
-    <message key="PLUGINS_CORE_PROFILES_HANDLE_SAVE_MODIFICATIONS">Save</message>
-    <message key="PLUGINS_CORE_PROFILES_HANDLE_SAVE_MODIFICATIONS_HINT">Save changes on profile</message>
+    <message key="PLUGINS_CORE_PROFILES_SAVE_MODIFICATIONS">Save</message>
+    <message key="PLUGINS_CORE_PROFILES_SAVE_MODIFICATIONS_HINT">Save changes on profile</message>
     <message key="PLUGINS_CORE_PROFILES_SELECT_ALL">Select all</message>
     <message key="PLUGINS_CORE_PROFILES_SELECT_ALL_DESCRIPTION">Select all rights</message>
     <message key="PLUGINS_CORE_PROFILES_UNSELECT_ALL">Unselect all</message>
