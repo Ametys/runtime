@@ -27,9 +27,6 @@
     <message key="PLUGINS_CORE_UI_DEBUG_UI_VAL_0">Mode production (concaténé, minimisé)</message>
     <message key="PLUGINS_CORE_UI_DEBUG_UI_VAL_1">Mode développeur partiel (concaténé, non minimisé)</message>
     <message key="PLUGINS_CORE_UI_DEBUG_UI_VAL_2">Mode développeur complet (non concaténé, non minimisé)</message>
-    <message key="PLUGINS_CORE_UI_SKIPBROWSERCOMPATIBILITYTEST_LABEL">Ignorer le test du navigateur</message>
-    <message key="PLUGINS_CORE_UI_SKIPBROWSERCOMPATIBILITYTEST_DESCRIPTION">Par défaut (lorsque décoché) le navigateur de l'utilisateur est testé lors de sa connexion et l'utilisateur est redirigé si son navigateur est non compatible. En cochant cette case ce test n'est plus effectué.</message>
-    
     
     <!-- + 
          | Date patterns
@@ -610,8 +607,7 @@
     <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_DOC_BTN">Documentation</message>
     <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_UNKNOWN">Inconnu</message>
     <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_ALL">Toutes versions</message>
-    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS">Versions </message>
-    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_LOWER"> et inférieures</message>
-    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_ABOVE"> et supérieures</message>
-    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_TO"> à </message>
+    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_LOWER">Versions {0}  et inférieures</message>
+    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_ABOVE">Versions {0} et supérieures</message>
+    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_BETWEEN">Versions {0} à {1}</message>
 </catalogue>

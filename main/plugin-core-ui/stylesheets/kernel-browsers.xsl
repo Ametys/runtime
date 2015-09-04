@@ -26,10 +26,9 @@
 	 	 + -->
 	<xsl:template name="kernel-browsers">
 		<xsl:param name="authorized-browsers"/>
-		
+        
         <xsl:variable name="context-path" select="ametys:uriPrefix(false)"/>
 
-	    <xsl:if test="not(ametys:config('runtime.skip-browser-compatibility-test') = 'true')">
 			<script type="text/javascript">
 				<xsl:if test="$authorized-browsers != ''">
 				// Test for authorized browsers
@@ -86,60 +85,52 @@
 						}
 					}
 	
-					// Start by checking the cookie
-				    var matcher = document.cookie.match("(^|;) ?ametys\.accept\.non\.supported\.navigators=([^;]*)");
-				    if (!matcher || matcher[2] !== "on")
-				    {
-					    // get the user agent
-						var useragent = navigator.userAgent.toLowerCase();
-						
-						// determine browser familly and version
-						var browser, browserVersion;
-						if (/compatible; msie ([0-9.]+);/.test(useragent))
-						{
-							browser = 'ie';
-							browserVersion = RegExp.$1;
-						}
-						else if (/ firefox\/([0-9.]+)( |$)/.test(useragent))
-						{
-							browser = 'ff';
-							browserVersion = RegExp.$1;
-						}
-						else if (/ chrome\/([0-9]+\.[0-9]+)\./.test(useragent))
-						{
-							browser = 'ch';
-							browserVersion = RegExp.$1;
-						}
-						else if (/ version\/([0-9.]+) safari\//.test(useragent))
-						{
-							browser = 'sa';
-							browserVersion = RegExp.$1;
-						}
-						else if (/opera\/9\.80 .* version\/([0-9.]+)/.test(useragent) || /opera\/([0-9.]+) /.test(useragent))
-						{
-							browser = 'op';
-							browserVersion = RegExp.$1;
-						}
-	
-						var supported = _getSupportValue(window.ametys_authorized_browsers['supported'][browser], window.ametys_authorized_browsers['not-supported'][browser], parseFloat(browserVersion));
-						switch (supported)
-						{
-							case true: // supported
-								break;
-							case undefined: // unknown
-						    	document.location.href = window.ametys_authorized_browsers['warning-redirection'] + "?mode=warning&amp;uri=" + encodeURIComponent(window.location.href) + "&amp;supported=" + encodeURIComponent(_serializeSupportedBrowsers()) + "&amp;browser=" + browser + "&amp;browserversion=" + browserVersion;
-						    	throw "Unknown browser"
-							case false: // not supported
-						    	document.location.href = window.ametys_authorized_browsers['failure-redirection'] + "?mode=failure&amp;uri=" + encodeURIComponent(window.location.href) + "&amp;supported=" + encodeURIComponent(_serializeSupportedBrowsers()) + "&amp;browser=" + browser + "&amp;browserversion=" + browserVersion;
-						    	throw "Unsupported browser"
-					    }
-	
-					    window.ametys_authorized_browsers = undefined;
+				    // get the user agent
+					var useragent = navigator.userAgent.toLowerCase();
+					
+					// determine browser family and version
+					var browser, browserVersion;
+					if (/compatible; msie ([0-9.]+);/.test(useragent))
+					{
+						browser = 'ie';
+						browserVersion = RegExp.$1;
 					}
+					else if (/ firefox\/([0-9.]+)( |$)/.test(useragent))
+					{
+						browser = 'ff';
+						browserVersion = RegExp.$1;
+					}
+					else if (/ chrome\/([0-9]+\.[0-9]+)\./.test(useragent))
+					{
+						browser = 'ch';
+						browserVersion = RegExp.$1;
+					}
+					else if (/ version\/([0-9.]+) safari\//.test(useragent))
+					{
+						browser = 'sa';
+						browserVersion = RegExp.$1;
+					}
+					else if (/opera\/9\.80 .* version\/([0-9.]+)/.test(useragent) || /opera\/([0-9.]+) /.test(useragent))
+					{
+						browser = 'op';
+						browserVersion = RegExp.$1;
+					}
+
+					var supported = _getSupportValue(window.ametys_authorized_browsers['supported'][browser], window.ametys_authorized_browsers['not-supported'][browser], parseFloat(browserVersion));
+					switch (supported)
+					{
+						case true: // supported
+						case undefined: // unknown
+					    	break;
+						case false: // not supported
+					    	document.location.href = "<xsl:value-of select="$context-path"/>" + window.ametys_authorized_browsers['failure-redirection'] + "?uri=" + encodeURIComponent(window.location.href) + "&amp;supported=" + encodeURIComponent(_serializeSupportedBrowsers()) + "&amp;browser=" + browser + "&amp;browserversion=" + browserVersion;
+					    	throw "Unsupported browser"
+				    }
+
+				    window.ametys_authorized_browsers = undefined;
 				}			
 				</xsl:if>
 	        </script>
-	    </xsl:if>
 	</xsl:template>
     
 </xsl:stylesheet>

@@ -77,20 +77,23 @@
         </html>
     </xsl:template>
     
-    <xsl:template name="ametys-scripts"/>
-    
     <xsl:template name="text"/>
     <xsl:template name="description"/>
     
     <xsl:template name="message">
-        <xsl:if test="@class"><xsl:value-of select="/ex:exception-report/@class" /></xsl:if>
-        <xsl:if test="string-length (/ex:exception-report/ex:message) != 0">
-            <xsl:if test="@class">:</xsl:if><xsl:value-of select="/ex:exception-report/ex:message" />
-            <xsl:if test="/ex:exception-report/ex:location">
-                <xsl:text>&lt;br/&gt;</xsl:text><xsl:apply-templates select="/ex:exception-report/ex:location" />
+        <xsl:variable name="message">
+            <xsl:if test="@class"><xsl:value-of select="/ex:exception-report/@class" /></xsl:if>
+            <xsl:if test="string-length (/ex:exception-report/ex:message) != 0">
+                <xsl:if test="@class">:</xsl:if><xsl:value-of select="/ex:exception-report/ex:message" />
+                <xsl:if test="/ex:exception-report/ex:location">
+                    <xsl:text>&lt;br/&gt;</xsl:text><xsl:apply-templates select="/ex:exception-report/ex:location" />
+                </xsl:if>
             </xsl:if>
-        </xsl:if>
+        </xsl:variable>
+        <xsl:value-of select="escape:escapeJavaScript(escape:escapeHtml($message))"/>
     </xsl:template>
+    
+    
     <xsl:template name="details"><xsl:value-of select="escape:escapeJavaScript(escape:escapeHtml(/ex:exception-report/ex:stacktrace))"/></xsl:template>
     
     <xsl:template match="ex:location">
@@ -115,4 +118,11 @@
         </xsl:choose>
         <xsl:text> - </xsl:text><xsl:value-of select="@line" /> : <xsl:value-of select="@column" />
     </xsl:template>
+    
+    <!-- Do not load Ametys scripts -->
+    <xsl:template name="ametys-scripts"/>
+    
+    <!-- Ignore browser compatibility -->
+    <xsl:template name="kernel-browsers"/>
+    
 </xsl:stylesheet>
