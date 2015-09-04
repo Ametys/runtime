@@ -137,7 +137,7 @@ Ext.define('Ametys.public.RedirectActionScreen', {
     
     /**
      * Get the description's component
-     * @retun {Object} The component configuration
+     * @return {Object} The component configuration
      */
     getDescription: function ()
     {

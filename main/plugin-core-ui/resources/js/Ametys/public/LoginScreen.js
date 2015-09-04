@@ -71,11 +71,20 @@ Ext.define('Ametys.public.AuthDialog', {
         		hideLabel : true,
         		allowBlank : false,
         		emptyText : "<i18n:text i18n:key='PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_LOGIN'/>",
+        		enableKeyEvents: true,
         		triggers : {
         			glyphed : {
         				cls : "trigger-glyph-noop auth-login-trigger"
         			}
-        		}
+        		},
+        		listeners: {
+                    specialkey: function(field, e){
+                        if (e.getKey() == e.ENTER) {
+                        	var form = this.ownerCt;
+                        	form.submit();
+                        }
+                    }
+                }
             },
         	// Password
         	{
@@ -88,10 +97,19 @@ Ext.define('Ametys.public.AuthDialog', {
                 name : this.pwdFieldName,
                 // bind : "{password}",
                 allowBlank : false,
+                enableKeyEvents: true,
                 triggers : {
                   glyphed : {
                     cls : "trigger-glyph-noop auth-password-trigger"
                   }
+                },
+                listeners: {
+                    specialkey: function(field, e){
+                        if (e.getKey() == e.ENTER) {
+                        	var form = this.ownerCt;
+                        	form.submit();
+                        }
+                    }
                 }
             },
             {
