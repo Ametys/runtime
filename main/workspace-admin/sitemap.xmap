@@ -104,10 +104,10 @@
             </map:match>
             
             <!-- unauthenticated pages -->
-			<map:match pattern="public/*.html">
-				<map:generate type="action-result"/>
-				<map:transform src="plugin:core-ui://pages/public/{1}.xsl">
-					<map:parameter name="contextPath" value="{request:contextPath}"/>
+            <map:match pattern="public/unsupported-browser.html">
+                <map:generate type="action-result"/>
+                <map:transform src="plugin:core-ui://pages/public/{1}.xsl">
+                    <map:parameter name="contextPath" value="{request:contextPath}"/>
                     <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
                     <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/>
                     
@@ -117,14 +117,29 @@
                     <map:parameter name="browser" value="{request-param:browser}"/>
                     <map:parameter name="browserversion" value="{request-param:browserversion}"/>
                     <map:parameter name="supported" value="{request-param:supported}"/>
-                    <map:parameter name="mode" value="{request-param:mode}"/>
+                </map:transform>
+                <map:transform type="i18n">
+                    <map:parameter name="locale" value="{locale:locale}"/>
+                    <map:parameter name="workspace" value="{request-attr:workspaceName}"/>
+                </map:transform>
+                <!-- Do not minimize here. See RUNTIME-877 -->
+                <!-- No HTML5 here -->
+                <map:serialize/>
+            </map:match>
+            
+			<map:match pattern="public/*.html">
+				<map:generate type="action-result"/>
+				<map:transform src="plugin:core-ui://pages/public/{1}.xsl">
+					<map:parameter name="contextPath" value="{request:contextPath}"/>
+                    <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
+                    <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/>
 				</map:transform>
 				<map:transform type="i18n">
 					<map:parameter name="locale" value="{locale:locale}"/>
                     <map:parameter name="workspace" value="{request-attr:workspaceName}"/>
 				</map:transform>
                 <!-- Do not minimize here. See RUNTIME-877 -->
-				<map:serialize/>
+				<map:serialize type="xhtml5"/>
 			</map:match>
             
             <!-- ************** -->

@@ -41,18 +41,4 @@
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_CONFIG_LABEL">Configuration</message>
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_CONFIG_GROUPS_GROUP_ACTIONS">Actions</message>
     
-    <message key="WORKSPACE_ADMIN_NAVIGATOR_UNKNOWN_TITLE">Unknown web browser</message>
-    <message key="WORKSPACE_ADMIN_NAVIGATOR_UNKNOWN_TEXT">This application does not support your Web browser or the version you are using{0}.<br/>Here is the list of supported browsers:</message>
-    <message key="WORKSPACE_ADMIN_NAVIGATOR_UNKNOWN_TEXT2">Consult the user manual of your application to know the recommanded browsers.</message>
-    <message key="WORKSPACE_ADMIN_NAVIGATOR_UNKNOWN_TEXT3">You may try to proceed with your current browser by using the following link:</message>
-    
-    <message key="WORKSPACE_ADMIN_NAVIGATOR_UNKNOWN">Unknown</message>
-    <message key="WORKSPACE_ADMIN_NAVIGATOR_VERSION_ALL">All versions</message>
-    <message key="WORKSPACE_ADMIN_NAVIGATOR_VERSION_UPTO">Up to version {0} included</message>
-    <message key="WORKSPACE_ADMIN_NAVIGATOR_VERSION_AFTER">{0} version and newer</message>
-    <message key="WORKSPACE_ADMIN_NAVIGATOR_VERSION_BETWEEN">From {0} to {1} versions</message>    
-    
-    <message key="WORKSPACE_ADMIN_NAVIGATOR_FORCE_TEXT">If you still want to access this application with your current browser you can force the access by clicking on the link below.<br/>By doing this problems may occured (in display or operational): bugs encountered in this configuration will not be supported.</message>
-    <message key="WORKSPACE_ADMIN_NAVIGATOR_FORCE_LINK">Force access to the application using current browser &gt;&gt;</message>
-    
 </catalogue>
