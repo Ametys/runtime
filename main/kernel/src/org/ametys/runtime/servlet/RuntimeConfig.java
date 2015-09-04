@@ -224,11 +224,13 @@ public final class RuntimeConfig
         _configAllowedURLs.add("_admin/plugins/core-ui/resources/js/Ametys/public/IncompleteConfigScreen.js");
         _configAllowedURLs.add("_admin/plugins/core-ui/resources/css/public.css");
         
+        
+        // FIXME To remove
         _configAllowedURLs.add("_admin-old/public");
         _configAllowedURLs.add("_admin-old/resources");
         _configAllowedURLs.add("_admin-old/plugins/core/jsfilelist");
         _configAllowedURLs.add("_admin-old/plugins/core/cssfilelist");
-        _configAllowedURLs.add("_admin-old/_plugins/admin-old/config/edit.html"); // FIXME To remove
+        _configAllowedURLs.add("_admin-old/_plugins/admin-old/config/edit.html"); 
     }
 
     private void _configureApplication(Configuration config)
