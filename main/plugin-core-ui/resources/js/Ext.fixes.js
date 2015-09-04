@@ -112,4 +112,29 @@
             return value === undefined ? defaultValue : value;
         }
     });
+    
+    Ext.define("Ametys.ux.IFrame", {
+        override: 'Ext.ux.IFrame',
+        
+        // Fix for CLS-6366 https://www.sencha.com/forum/showthread.php?304867-D-n-D-over-an-IFrame-issue
+        onLoad: function()
+        {
+            var me = this,
+                doc = me.getDoc(),
+                fn = me.onRelayedEvent;
+
+            if (doc) 
+            {
+                var extdoc = Ext.get(doc); 
+                
+                extdoc._getPublisher('mousemove').directEvents.mousemove = 1;
+                extdoc._getPublisher('mousedown').directEvents.mousedown = 1;
+                extdoc._getPublisher('mouseup').directEvents.mouseup = 1;
+                extdoc._getPublisher('click').directEvents.click = 1;
+                extdoc._getPublisher('dblclick').directEvents.dblclick = 1;
+            }   
+            
+            this.callParent(arguments);
+        }
+    });
 })();
