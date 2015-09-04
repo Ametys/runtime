@@ -15,34 +15,32 @@
  */
 
 /**
- * This panel display a full screen for an action of redirection.
- * This is an example of use:
- * 
- * 
- * 		Ext.create('Ametys.public.RedirectActionScreen', {
- *             text: "My action title",
- *             description: "My action description",
- *             
- *             image: "/my/action/image.png",
- *             
- *             btnText: "Action",
- *             redirectUrl: "/my/action/url"
- *       });
+ * This panel displays a full screen with the list of supported browsers.
  * 	
  */
 Ext.define('Ametys.public.UnsupportedBrowserScreen', {
     extend: 'Ametys.public.RedirectActionScreen',
     
     /**
-     * @cfg {Object} supported The supported browser
+     * @cfg {Object} supported The supported browsers with their supported versions
      */
     supported: '',
     
-    
+    /**
+     * @cfg {String} contextPath The context path
+     */
     contextPath: '',
     
+    /**
+     * @property {Ext.Template} _browsersTpl Global template to display supported browsers 
+     * @private
+     */
     _browsersTpl: Ext.create('Ext.Template', '<div class="browsers">{browsers}</div>'),
     
+    /**
+     * @property {Ext.Template} _browserTpl Template to display a supported browser
+     * @private
+     */
     _browserTpl: Ext.create('Ext.Template', 
     		'<div class="browser">',
     		 	'<div class="browser-name">',
@@ -56,22 +54,25 @@ Ext.define('Ametys.public.UnsupportedBrowserScreen', {
     getDescription: function ()
     {
     	var html = '<div>' + this.description + '</div>';
-    	html += this._browsersTpl.apply({browsers: this.getSupportedBrowser()});
+    	html += this._browsersTpl.apply({browsers: this._getSupportedBrowsers()});
     	
     	return {
-	    	hidden: Ext.isEmpty(this.description),
 	    	xtype : "label",
 	    	cls : "ametys-public-page-desc",
 	    	html : html
 	    };
     },
     
-    getSupportedBrowser: function ()
+    /**
+     * @private
+     * Get the HTML string for supported browsers
+     * @return {String} formatted supported browsers
+     */
+    _getSupportedBrowsers: function ()
     {
     	var html = '';
     	
     	var me = this;
-    	
     	Ext.Object.each(this.supported, function (browser, version) {
     		
     		var data = {
@@ -85,6 +86,12 @@ Ext.define('Ametys.public.UnsupportedBrowserScreen', {
 		return html;
     },
     
+    /**
+     * @private
+     * Get the browser full name from its code
+     * @param {String} code The browser's code
+     * @return the browser name
+     */
     _getBrowserName: function (code)
     {
     	switch (code) {
@@ -99,11 +106,17 @@ Ext.define('Ametys.public.UnsupportedBrowserScreen', {
 			case 'sa':
 				return 'Apple Safari';
 			default:
-				return 'Unknown';
+				return "<i18n:text i18n:key='PLUGINS_CORE_UI_SUPPORTED_BROWSER_UNKNOWN'/>";
 				break;
 		}
     },
     
+    /**
+     * @private
+     * Get the icon from its code
+     * @param {String} code The browser's code
+     * @return the browser icon name
+     */
     _getBrowserIcon: function (code)
     {
     	switch (code) {
@@ -118,32 +131,38 @@ Ext.define('Ametys.public.UnsupportedBrowserScreen', {
 			case 'sa':
 				return 'safari_48.png';
 			default:
-				return 'Unknown';
+				return '';
 				break;
 		}
     },
     
-    _getBrowserVersions: function (version)
+    /**
+     * @private
+     * Get supported versions as a user friendly text
+     * @param {String} versions The supported browser's versions
+     * @return supported versions as a user friendly text
+     */
+    _getBrowserVersions: function (versions)
     {
     	if (version == '0-0')
     	{
-    		return "<i18n:key i18n:text='WORKSPACE_ADMIN_NAVIGATOR_VERSION_ALL'/>";
+    		return "<i18n:key i18n:text='PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_ALL' i18n:catalogue='plugin.core-ui'/>";
     	}
     	else if (Ext.String.startsWith(version, '0-'))
     	{
-    		return "Version " + version.substring('0-'.length) + " et inférieures";
+    		return "<i18n:key i18n:text='PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS' i18n:catalogue='plugin.core-ui'/>" + version.substring('0-'.length) + "<i18n:key i18n:text='PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_LOWER' i18n:catalogue='plugin.core-ui'/>";
     	}
     	else if (Ext.String.endsWith(version, '-0'))
     	{
     		var i = version.indexOf('-0');
-    		return "Version " + version.substring(0, i) + " et supérieures";
+    		return "<i18n:key i18n:text='PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS' i18n:catalogue='plugin.core-ui'/>" + version.substring(0, i) + "<i18n:key i18n:text='PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_ABOVE' i18n:catalogue='plugin.core-ui'/>";
     	}
     	else 
     	{
     		var i = version.indexOf('-');
     		var after = version.substring(0, i);
     		var upTo = version.substring(i + 1);
-    		return "Versions " + after + " à " + upTo; 
+    		return "<i18n:key i18n:text='PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS' i18n:catalogue='plugin.core-ui'/>" + after + "<i18n:key i18n:text='PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_TO' i18n:catalogue='plugin.core-ui'/>" + upTo; 
     	}
     	
     }

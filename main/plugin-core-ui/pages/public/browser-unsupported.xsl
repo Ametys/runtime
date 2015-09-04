@@ -36,7 +36,7 @@
     <xsl:template match="/">
         <html>
             <head>
-                <title>Ametys - <i18n:text i18n:key='PLUGINS_CORE_UI_INCOMPLETE_CONFIG_PAGE_TITLE' i18n:catalogue='plugin.core-ui'/></title>
+                <title>Ametys - <i18n:text i18n:key='PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TITLE' i18n:catalogue='plugin.core-ui'/></title>
                 <meta http-equiv="X-UA-Compatible" content="IE=10" />
                 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
                 

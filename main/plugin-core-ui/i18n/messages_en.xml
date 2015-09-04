@@ -613,4 +613,10 @@
     <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TEXT2">Here is the list of supported browsers:</message>
     <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_DOC">Consult the user manual of your application to know the recommanded browsers.</message>
 	<message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_DOC_BTN">Documentation</message>
+    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_UNKNOWN">Unknown</message>
+    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_ALL">All versions</message>
+    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS">Versions </message>
+    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_LOWER"> and lower</message>
+    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_ABOVE"> and above</message>
+    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_TO"> to </message>
 </catalogue>

@@ -13,7 +13,9 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-
+/**
+ * Authentication form panel
+ */
 Ext.define('Ametys.public.AuthDialog', {
 	extend: 'Ext.form.FormPanel',
 	
@@ -152,6 +154,9 @@ Ext.define('Ametys.public.AuthDialog', {
   }
 });
 
+/**
+ * Panel to display news
+ */
 Ext.define('Ametys.public.NewsDialog', {
 	extend: 'Ext.panel.Panel',
 	
@@ -164,6 +169,9 @@ Ext.define('Ametys.public.NewsDialog', {
     html: '<a class="twitter-timeline" href="https://twitter.com/AmetysCMS" data-widget-id="639097471352860672" data-chrome="transparent nofooter">Tweets de @AmetysCMS</a>'
 });
 
+/**
+ * Panel for a full login screen
+ */
 Ext.define('Ametys.public.LoginScreen', {
     extend: 'Ext.panel.Panel',
     
@@ -236,7 +244,6 @@ Ext.define('Ametys.public.LoginScreen', {
     	
     	this.callParent(arguments);
     }
-    
 });
 
 

@@ -26,7 +26,8 @@
  *             image: "/my/action/image.png",
  *             
  *             btnText: "Action",
- *             redirectUrl: "/my/action/url"
+ *             redirectUrl: "/my/action/url",
+ *             redirectText: 'Go to ...'
  *       });
  * 	
  */
@@ -49,7 +50,12 @@ Ext.define('Ametys.public.RedirectActionScreen', {
     redirectUrl: '#',
     
     /**
-     * @cfg {String} [description] A HTML description
+     * @cfg {String} [redirectText] The text to display above redirect button
+     */
+    redirectText: '',
+    
+    /**
+     * @cfg {String} [description] The description
      */
     description: '',
     
@@ -84,12 +90,15 @@ Ext.define('Ametys.public.RedirectActionScreen', {
     	      pack : "center"
     	    },
     	    items : [
+    	        // Title
     	        {
     	        	xtype : "label",
     	        	cls : "ametys-public-page-text",
     	        	text : this.text
-	    	    }, 
+	    	    },
+	    	    // Description
 	    	    this.getDescription(),
+	    	    // Image
 	    	    {
 	    	    	hidden: Ext.isEmpty(this.image),
 	    	    	xtype: 'image',
@@ -99,12 +108,14 @@ Ext.define('Ametys.public.RedirectActionScreen', {
 	    	        height: 128,
 	    	        margin: '20 0 0 0'
 	    	    },
+	    	    // Redirect text
 	    	    {
 	    	    	hidden: Ext.isEmpty(this.redirectText),
     	        	xtype : "label",
     	        	cls : "ametys-public-page-redirect-text",
     	        	text : this.redirectText
 	    	    }, 
+	    	    // Redirection button
 	    	    {
 	      	      xtype : "button",
 	      	      scale : "large",
@@ -124,6 +135,10 @@ Ext.define('Ametys.public.RedirectActionScreen', {
     	this.callParent(arguments);
     },
     
+    /**
+     * Get the description's component
+     * @retun {Object} The component configuration
+     */
     getDescription: function ()
     {
     	return {

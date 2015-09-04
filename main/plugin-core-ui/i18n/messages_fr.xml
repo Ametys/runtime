@@ -608,4 +608,10 @@
     <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TEXT2">Voici la liste des navigateurs compatibles :</message>
     <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_DOC">Consultez le manuel utilisateur pour connaître les navigateurs recommandés.</message>
     <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_DOC_BTN">Documentation</message>
+    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_UNKNOWN">Inconnu</message>
+    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_ALL">Toutes versions</message>
+    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS">Versions </message>
+    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_LOWER"> et inférieures</message>
+    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_ABOVE"> et supérieures</message>
+    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_TO"> à </message>
 </catalogue>
