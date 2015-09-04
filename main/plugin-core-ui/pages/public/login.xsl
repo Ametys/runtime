@@ -82,5 +82,9 @@
         </script>
     </xsl:template>
     
+    <!-- Do not load Ametys scripts -->
     <xsl:template name="ametys-scripts"/>
+    
+    <!-- Ignore browser compatibility -->
+    <xsl:template name="kernel-browsers"/>
 </xsl:stylesheet>

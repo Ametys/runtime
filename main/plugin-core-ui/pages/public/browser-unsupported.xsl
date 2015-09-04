@@ -20,8 +20,6 @@
                 xmlns:escape="org.apache.commons.lang.StringEscapeUtils"
                 xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
     
-    <xsl:import href="plugin:core-ui://stylesheets/kernel.xsl"/>    
-    
     <xsl:param name="doc"/>
     <xsl:param name="browser"/><!-- current browser -->
     <xsl:param name="browserversion"/><!-- current version -->
@@ -31,8 +29,6 @@
     <xsl:variable name="workspaceURI" select="ametys:workspacePrefix()"/>
     <xsl:variable name="debug-mode" select="ametys:config('runtime.debug.ui')"/>
     
-    <xsl:param name="authFailure">false</xsl:param>
-    
     <xsl:template match="/">
         <html>
             <head>
@@ -40,44 +36,38 @@
                 <meta http-equiv="X-UA-Compatible" content="IE=10" />
                 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
                 
-                <link rel="stylesheet" type="text/css" href="{$contextPath}/plugins/core-ui/resources/css/public.css"/>
+                <link rel="stylesheet" type="text/css" href="{$contextPath}/plugins/core-ui/resources/css/unsupported-browser.css"/>
             </head>
             <body>
-                <noscript><i18n:text i18n:key="WORKSPACE_AMETYS_MAIN_ERROR_NOJS" i18n:catalogue="plugin.core-ui"/></noscript>
-                
-                <xsl:call-template name="kernel-base">
-                    <xsl:with-param name="theme">triton</xsl:with-param>
-                </xsl:call-template>
-                
-               <script type="text/javascript" src="{$contextPath}/plugins/core-ui/resources/js/Ametys/public/RedirectActionScreen.js"></script>
-               <script type="text/javascript" src="{$contextPath}/plugins/core-ui/resources/js/Ametys/public/UnsupportedBrowserScreen.js"></script>
-                
-                <script>
-                    Ext.onReady(function ()
-                    {
-                        Ext.application({
-                            requires: ['Ext.container.Viewport'],
-                            name: 'AmetysLogin',
+                    <div class="unsupported-browser-header"><i18n:text i18n:catalogue='application' i18n:key='APPLICATION_PRODUCT_LABEL'/></div>
+                    <table class="unsupported-browser-inner-container" width="900px" height="100%" align="center">
+                        <tr>
+                            <td valign="middle">
+                                <div class="text-container">
+                                    <div class="unsupported-browser-text"><i18n:text i18n:key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TITLE" i18n:catalogue='plugin.core-ui'/></div>
                             
-                            appFolder: 'ametys',
-                            enableQuickTips: false,
-                            launch: function() {
-                                Ext.create('Ext.container.Viewport', {
-                                    layout: 'fit',
-                                    items: Ext.create('Ametys.public.UnsupportedBrowserScreen', {
-                                        text: "<i18n:text i18n:key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TITLE" i18n:catalogue='plugin.core-ui'/>",
-                                        description: "<xsl:call-template name="description"/>",
-                                        redirectText: "<i18n:text i18n:key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_DOC" i18n:catalogue='plugin.core-ui'/>",
-                                        btnText: "<i18n:text i18n:key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_DOC_BTN" i18n:catalogue='plugin.core-ui'/>",
-                                        redirectUrl: "<xsl:value-of select="$doc"/>",
-                                        supported: <xsl:value-of select="$supported"/>,
-                                        contextPath: "<xsl:value-of select="$contextPath"/>"
-                                    })
-                                });
-                            }
-                        })
-                    });
-                </script>
+                                    <div class="unsupported-browser-desc">
+                                        <xsl:call-template name="description"/>
+                                    </div>                    
+                                    
+                                    <xsl:call-template name="showBrowsers"/>
+                                    
+                                    <div class="unsupported-browser-redirect-text">
+                                        <xsl:choose>
+                                            <xsl:when test="$doc != ''">
+                                                <a href="{$doc}" target="_blank">
+                                                    <i18n:text i18n:key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_DOC" i18n:catalogue='plugin.core-ui'/>
+                                                </a>
+                                            </xsl:when>
+                                            <xsl:otherwise>
+                                                <i18n:text i18n:key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_DOC" i18n:catalogue='plugin.core-ui'/>
+                                            </xsl:otherwise>
+                                        </xsl:choose>
+                                     </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
             </body>
         </html>
     </xsl:template>
@@ -87,9 +77,102 @@
                 <i18n:text i18n:key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TEXT1" i18n:catalogue='plugin.core-ui'/>
                 <i18n:param><xsl:call-template name="browserName"/></i18n:param>
         </i18n:translate>
-        <xsl:text>&lt;br/&gt;</xsl:text>
+        <br/>
         <i18n:text i18n:key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TEXT2" i18n:catalogue='plugin.core-ui'/>
     </xsl:template>
     
-    <xsl:template name="ametys-scripts"/>
+    <xsl:template name="browserName">
+        <xsl:choose>
+            <xsl:when test="$browser = 'ie'"><xsl:text> </xsl:text>(Microsoft Internet Explorer<xsl:text> </xsl:text><xsl:value-of select="$browserversion"/>)</xsl:when>
+            <xsl:when test="$browser = 'ff'"><xsl:text> </xsl:text>(Mozilla Firefox<xsl:text> </xsl:text><xsl:value-of select="$browserversion"/>)</xsl:when>
+            <xsl:when test="$browser = 'ch'"><xsl:text> </xsl:text>(Google Chrome<xsl:text> </xsl:text><xsl:value-of select="$browserversion"/>)</xsl:when>
+            <xsl:when test="$browser = 'sa'"><xsl:text> </xsl:text>(Apple Safari<xsl:text> </xsl:text><xsl:value-of select="$browserversion"/>)</xsl:when>
+            <xsl:when test="$browser = 'op'"><xsl:text> </xsl:text>(Opera<xsl:text> </xsl:text><xsl:value-of select="$browserversion"/>)</xsl:when>
+        </xsl:choose>
+    </xsl:template>
+    
+    <xsl:template name="showBrowsers">
+        <div class="browsers">
+            <xsl:call-template name="parseBrowser">
+                <xsl:with-param name="browserCode" select="'ie'"/>
+                <xsl:with-param name="browserName" select="'Internet Explorer'"/>
+                <xsl:with-param name="browserIcon" select="'ie_48.png'"/>
+                <xsl:with-param name="supported" select="$supported"/>
+            </xsl:call-template>
+            <xsl:call-template name="parseBrowser">
+                <xsl:with-param name="browserCode" select="'ff'"/>
+                <xsl:with-param name="browserName" select="'Mozilla Firefox'"/>
+                <xsl:with-param name="browserIcon" select="'firefox_48.png'"/>
+                <xsl:with-param name="supported" select="$supported"/>
+            </xsl:call-template>
+            <xsl:call-template name="parseBrowser">
+                <xsl:with-param name="browserCode" select="'ch'"/>
+                <xsl:with-param name="browserName" select="'Google Chrome'"/>
+                <xsl:with-param name="browserIcon" select="'chrome_48.png'"/>
+                <xsl:with-param name="supported" select="$supported"/>
+            </xsl:call-template>
+            <xsl:call-template name="parseBrowser">
+                <xsl:with-param name="browserCode" select="'sa'"/>
+                <xsl:with-param name="browserName" select="'Apple Safari'"/>
+                <xsl:with-param name="browserIcon" select="'safari_48.png'"/>
+                <xsl:with-param name="supported" select="$supported"/>
+            </xsl:call-template>
+            <xsl:call-template name="parseBrowser">
+                <xsl:with-param name="browserCode" select="'op'"/>
+                <xsl:with-param name="browserName" select="'Opera'"/>
+                <xsl:with-param name="browserIcon" select="'opera_48.png'"/>
+                <xsl:with-param name="supported" select="$supported"/>
+            </xsl:call-template>
+            <div class="browsers-end"/>
+        </div>    
+    </xsl:template>
+    
+    <xsl:template name="parseBrowser">
+        <xsl:param name="browserCode"/>
+        <xsl:param name="browserName"/>
+        <xsl:param name="browserIcon"/>
+        <xsl:param name="supported"/>
+    
+        <xsl:variable name="browserCodeWithQuots" select="substring-after($supported, $browserCode)"/>
+        <xsl:if test="$browserCodeWithQuots != ''">
+            <xsl:variable name="c">'</xsl:variable>
+
+
+            <xsl:variable name="v" select="substring-before(substring-after(substring-after($browserCodeWithQuots, ':'), $c), $c)"/>
+            <div class="browser">
+                <div class="browser-name">
+                    <img src="{$contextPath}/plugins/core-ui/resources/img/browsers/{$browserIcon}" alt=""/>
+                    <br/><xsl:value-of select="$browserName"/>
+                </div>
+                <div class="browser-version">
+                    <xsl:choose>
+                        <xsl:when test="$v = '0-0'">
+                            <i18n:key i18n:text="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_ALL" i18n:catalogue='plugin.core-ui'/>
+                        </xsl:when>
+                        <xsl:when test="substring-after($v, '0-') != ''">
+                            <i18n:translate>
+                                <i18n:text i18n:key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_LOWER" i18n:catalogue='plugin.core-ui'/>
+                                <i18n:param><xsl:value-of select="substring-after($v, '0-')"/></i18n:param>
+                            </i18n:translate>               
+                        </xsl:when>
+                        <xsl:when test="substring-before($v, '-0') != ''">
+                            <i18n:translate>
+                                <i18n:text i18n:key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_ABOVE" i18n:catalogue='plugin.core-ui'/>
+                                <i18n:param><xsl:value-of select="substring-before($v, '-0')"/></i18n:param>
+                            </i18n:translate>               
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <i18n:translate >
+                                <i18n:text i18n:key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_BETWEEN" i18n:catalogue='plugin.core-ui'/>
+                                <i18n:param><xsl:value-of select="substring-before($v, '-')"/></i18n:param>
+                                <i18n:param><xsl:value-of select="substring-after($v, '-')"/></i18n:param>
+                            </i18n:translate>               
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </div>
+                <div class="browser-end"></div>
+            </div>
+        </xsl:if>
+    </xsl:template>
+    
 </xsl:stylesheet>
