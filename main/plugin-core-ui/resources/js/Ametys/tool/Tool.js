@@ -542,7 +542,7 @@ Ext.define("Ametys.tool.Tool",
 				layout: 'fit',
 				border: false,
 				
-				autoScroll: false,
+				scrollable: false,
                 
 				uiTool: this.getId(),
                 

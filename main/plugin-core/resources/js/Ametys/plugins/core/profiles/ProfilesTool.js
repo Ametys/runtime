@@ -79,7 +79,7 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 		this._profileGrid = Ext.create('Ext.grid.Panel', {
 			region: 'west',
 			border: false,
-			autoScroll: true,
+			scrollable: true,
 			width: 500,
 			
 			store: profileStore,
@@ -97,12 +97,12 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 			
 			items: [{
 				itemId: 'card-view',
-				autoScroll:true,
+				scrollable:true,
 				border: false,
 				html: 'TODO Mode visualisation'
 			}, {
 				itemId: 'card-edit',
-				autoScroll:true,
+				scrollable:true,
 				border: false,
 				html: 'TODO Mode edition'
 			}]

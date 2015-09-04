@@ -72,7 +72,7 @@ Ext.define('Ametys.error.ErrorPage', {
     		  collapsed: true,
       	      
       	      bodyPadding: '10 20',
-      	      autoScroll: true,
+      	      scrollable: true,
       	      maxHeight: 400,
       	      border: false,
       	      html : '<div><pre><code>' + (Ext.isEmpty(this.message) ? '' : this.message + '<br/><br/>') + this.details + '</code></pre><div>'

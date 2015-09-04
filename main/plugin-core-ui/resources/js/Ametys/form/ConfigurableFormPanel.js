@@ -161,7 +161,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      * @property {Object} _additionnalWidgetsConf See #cfg-additionnalWidgetsConf.
      */
     
-    autoScroll: true,
+    scrollable: true,
     layout: {
         type: 'anchor',
         reserveScrollbar: true
@@ -296,7 +296,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     {
         return {
             xtype: 'container',
-            autoScroll: false,
+            scrollable: false,
             border: false,
             
             layout: config.itemsLayout || { type: 'anchor' },
@@ -616,7 +616,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                 padding: Ametys.form.ConfigurableFormPanel.PADDING_TAB + ' ' + Ametys.form.ConfigurableFormPanel.PADDING_TAB + ' 0 ' + Ametys.form.ConfigurableFormPanel.PADDING_TAB,
                 
                 border: false,
-                autoScroll: false,
+                scrollable: false,
                 
                 listeners: {
                     'afterrender': function () {
@@ -2835,7 +2835,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                 title: "<i18n:text i18n:key='PLUGINS_CORE_UI_CONFIGURABLE_FORM_COMMENTS_DIALOGBOX_TITLE'/>",
                 icon: Ametys.getPluginResourcesPrefix("core-ui") + '/img/Ametys/theme/gray/edit_comment_16.png',
                 
-                autoScroll: true,
+                scrollable: true,
                 cls: 'ametys-dialogbox',
                 width: 350,
                 

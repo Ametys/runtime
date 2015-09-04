@@ -158,7 +158,7 @@ Ext.define('Ametys.plugins.admin.Config', {
 			bodyStyle: 'position:relative;',
 				
 			border: false,
-			autoScroll : true,
+			scrollable : true,
 			
 			id : 'config-inner',
 			formId : 'save-config',
@@ -184,7 +184,7 @@ Ext.define('Ametys.plugins.admin.Config', {
 			region:'east',
 			cls : 'admin-right-panel',
 			border: false,
-			autoScroll: true,
+			scrollable: true,
 			width: Ametys.plugins.admin.Config.ADMIN_RIGHT_PANEL_WIDTH,
 			
 			items: [this._drawNavigationPanel(),
@@ -194,7 +194,7 @@ Ext.define('Ametys.plugins.admin.Config', {
 		});
 		
 		return new Ext.Panel({
-			autoScroll: false,
+			scrollable: false,
 			
 			cls: 'transparent-panel',
 			border: false,

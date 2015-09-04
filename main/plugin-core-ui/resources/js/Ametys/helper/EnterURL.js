@@ -74,7 +74,7 @@ Ext.define('Ametys.helper.EnterURL', {
 				icon: icon,
 				
 				width: 500,
-				autoScroll: true,
+				scrollable: true,
 				layout: 'form',
 				
 				items: [{

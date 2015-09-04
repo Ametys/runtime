@@ -120,7 +120,7 @@ Ext.define('Ametys.plugins.admin.plugins.PluginsTool', {
 			store: store,
 			rootVisible: false,
 			
-			autoScroll: true,
+			scrollable: true,
 			border: false,
 			
 			dockedItems: [

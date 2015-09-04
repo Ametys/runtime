@@ -73,7 +73,7 @@ Ext.define('Ametys.plugins.core.users.UserRightsTool', {
 	createPanel: function ()
 	{
 		return Ext.create('Ext.panel.Panel', {
-			autoScroll: false, 
+			scrollable: false, 
 			border: false,
 			layout: 'card',
 			activeItem: 0,
@@ -86,7 +86,7 @@ Ext.define('Ametys.plugins.core.users.UserRightsTool', {
 				html: ''
 			}, {
 				xtype: 'panel',
-				autoScroll: true,
+				scrollable: true,
 				border: false,
 				dockedItems: {
 					dock: 'top',

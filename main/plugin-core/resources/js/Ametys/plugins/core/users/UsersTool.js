@@ -88,7 +88,7 @@ Ext.define('Ametys.plugins.core.users.UsersTool', {
 			cls: 'mask-below-menu',
 			
 			store: this._store,
-			autoScroll: true,
+			scrollable: true,
 			
 			columns: [
 				{header: "<i18n:text i18n:key='PLUGINS_CORE_UITOOL_USERS_COL_NAME' i18n:catalogue='plugin.core'/>", width: 250, sortable: true, dataIndex: 'fullname', renderer: this._renderFullName, hideable: false},

@@ -107,7 +107,7 @@ Ext.define('Ametys.plugins.admin.logs.LogsLevelTool', {
 			rootVisible: false,
 			
 			border: false,
-			autoScroll: true,
+			scrollable: true,
 			
 			listeners: {
 				'selectionchange': Ext.bind(this._onSelectCategory, this)

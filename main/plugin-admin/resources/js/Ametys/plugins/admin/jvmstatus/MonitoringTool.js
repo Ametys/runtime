@@ -39,7 +39,7 @@ Ext.define('Ametys.plugins.admin.jvmstatus.MonitoringTool', {
 	{
 		this._monitoringPanel = Ext.create('Ext.Container', {
 									border: false,
-									autoScroll: true,
+									scrollable: true,
 									cls: 'monitoring-tool'
 								});
 		

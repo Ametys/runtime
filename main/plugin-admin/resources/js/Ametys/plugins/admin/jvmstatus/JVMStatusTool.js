@@ -106,7 +106,7 @@ Ext.define('Ametys.plugins.admin.jvmstatus.JVMStatusTool', {
 	{
 		this._jvmStatusPanel = Ext.create('Ext.Container', {
 									border: false,
-									autoScroll: true,
+									scrollable: true,
 									cls: 'jvmstatus-tool',
 									
 									defaults: {

@@ -72,7 +72,7 @@ Ext.define('Ametys.runtime.profiles.ProfilesTreePanel', {
 	animate:true,
 	
 	border: true,
-	autoScroll:false,
+	scrollable:false,
 
 	rootVisible: false,
 	

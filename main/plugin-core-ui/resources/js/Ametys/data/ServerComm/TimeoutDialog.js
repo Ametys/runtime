@@ -77,14 +77,14 @@ Ext.define(
 	    	var centralMsg = new Ext.Panel({
 	        	html: text,
 	        	cls: 'timeout-dialog-text',
-	        	autoScroll: true,
+	        	scrollable: true,
 	        	border: false,
 	        	height: 55
 	        });
 	    	var detailledMsg = new Ext.Panel({
 	        	html: "<div style='white-space: nowrap'>" + details.replace(/\n?\n/g, '<br/>').replace(/\t/g, '&#160;&#160;&#160;&#160;') + "</div>",
 	        	cls: 'timeout-dialog-details',
-	        	autoScroll: true, 
+	        	scrollable: true, 
 	        	border: false,
 	        	hidden: true
 	        });
@@ -97,7 +97,7 @@ Ext.define(
 	    		bodyPadding: '0',
 	    		width: 530,
 	    		height: 120,
-	    		autoScroll: true,
+	    		scrollable: true,
 	    		icon: Ametys.CONTEXT_PATH + "/kernel/resources/img/Ametys/theme/gray/timeout_16.png",
 	    		items: [ centralMsg, detailledMsg ],
 	    		closeAction: 'close',

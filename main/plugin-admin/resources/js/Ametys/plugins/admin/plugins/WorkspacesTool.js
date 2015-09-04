@@ -91,7 +91,7 @@ Ext.define('Ametys.plugins.admin.tool.WorkspacesTool', {
 			store: store,
 			rootVisible: false,
 			
-			autoScroll: true,
+			scrollable: true,
 			border: false,
 			
 			listeners: {

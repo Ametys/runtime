@@ -71,7 +71,7 @@ Ext.define("Ametys.plugins.coreui.system.messagetracker.MessageTrackerTool",
 				stateful: true,
 				stateId: this.self.getName() + "$grid",
 				store: this.store,
-				autoScroll: true,
+				scrollable: true,
 			    columns: [
 			    	{stateId: 'grid-id', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_ID'/>", width: 40, sortable: true, dataIndex: 'id', hideable: false},
 			        {stateId: 'grid-creationdate', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_MESSAGES_TRACKER_TOOL_COL_CREATIONDATE'/>", width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer(Ext.Date.patterns.ShortDateTime), dataIndex: 'creationDate'},

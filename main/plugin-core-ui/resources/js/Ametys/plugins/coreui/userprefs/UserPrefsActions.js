@@ -152,7 +152,7 @@ Ext.define('Ametys.plugins.coreui.userprefs.UserPrefsActions', {
 			
 			width : 600,
 			maxHeight: 500,
-			autoScroll: true,
+			scrollable: true,
 			
 			layout: {
 				type: 'vbox',

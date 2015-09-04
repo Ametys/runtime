@@ -73,7 +73,7 @@ Ext.define('Ametys.form.SaveHelper.SaveErrorDialog', {
 						cls: 'save-error-dialog-details',
 						flex: 1,
 						width: '100%',
-						autoScroll: true,
+						scrollable: true,
 						html: ''
 					}
 				],

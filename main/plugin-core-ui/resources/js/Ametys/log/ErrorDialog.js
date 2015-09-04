@@ -108,14 +108,14 @@ Ext.define(
 			var centralMsg = new Ext.Panel({
 		    	html: text,
 		    	cls: 'error-dialog-text',
-		    	autoScroll: true,
+		    	scrollable: true,
 		    	border: false,
 		    	height: 67
 		    });
 			var detailledText = this._prepareDetails(details);
 			var detailledMsg = new Ext.Panel({
 		    	cls: 'error-dialog-details',
-		    	autoScroll: true, 
+		    	scrollable: true, 
 		    	border: false,
 		    	hidden: true,
 		    	height: 151
@@ -138,7 +138,7 @@ Ext.define(
 				bodyPadding: '0',
 				width: 500,
 				height: 130,
-				autoScroll: false,
+				scrollable: false,
 				icon: Ametys.getPluginResourcesPrefix('core-ui') + "/img/error_16.gif",
 				items: [ centralMsg, detailledMsg ],
 				closeAction: 'close',

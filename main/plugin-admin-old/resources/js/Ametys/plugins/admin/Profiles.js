@@ -618,7 +618,7 @@ Ext.define('Ametys.plugins.admin.Profiles', {
 			title : "<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_PROFILES_LIST' i18n:catalogue='plugin.core'/>",
 			hideHeaders: true,
 			border: false,
-			autoScroll: true,
+			scrollable: true,
 			
 		    store: Ext.create('Ext.data.Store', {
 				model: 'Ametys.plugins.admin.Profiles.Profile',
@@ -656,7 +656,7 @@ Ext.define('Ametys.plugins.admin.Profiles', {
 		//Panel for edit rights profils
 		var editRights = new Ext.Panel({
 			title: '<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_RIGHTS" i18n:catalogue="plugin.core"/>',
-			autoScroll:true,
+			scrollable:true,
 			border: false,
 			border: false,
 			id: 'profile-edit-panel',
@@ -666,7 +666,7 @@ Ext.define('Ametys.plugins.admin.Profiles', {
 		var readRights = new Ext.Panel({ 
 			title: '<i18n:text i18n:key="PLUGINS_CORE_RIGHTS_PROFILES_RIGHTS" i18n:catalogue="plugin.core"/>',
 			border: false,
-			autoScroll:true,
+			scrollable:true,
 			id: 'profile-read-panel',
 			items: readItems
 		});
@@ -675,7 +675,7 @@ Ext.define('Ametys.plugins.admin.Profiles', {
 			cls: 'transparent-panel',
 			region:'center',
 			border: false,
-			autoScroll: true,
+			scrollable: true,
 			layout:'card',
 			activeItem:0,
 			minSize: 75,
@@ -699,7 +699,7 @@ Ext.define('Ametys.plugins.admin.Profiles', {
 			cls: 'transparent-panel',
 			border: false,
 			layout: 'border',
-			autoScroll : false,
+			scrollable : false,
 			height: 'auto',
 			items: [this.listview, this.cardPanel]
 		});

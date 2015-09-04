@@ -96,7 +96,7 @@ Ext.define('Ametys.plugins.core.groups.EditGroupHelper', {
 		{
 			this._form = Ext.create('Ext.form.FormPanel', {
 				border: false,
-				autoScroll: true,
+				scrollable: true,
 				defaults: {
 					cls: 'ametys',
 					msgTarget: 'side',
