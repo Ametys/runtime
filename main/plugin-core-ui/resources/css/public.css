@@ -25,7 +25,6 @@
 	background: rgba(255,255,255,0.85);
 }
 
-
 .ametys-public-page .ametys-public-page-text {
     font-size: 40px;
     line-height: 50px;
@@ -37,31 +36,4 @@
     text-align: center;
     font-size: 18px;
 }
-
-.ametys-public-page .browsers {
-	margin-top: 20px;
-	margin-left: auto;
-	margin-right: auto;
-	display: inline-block;
-}
-
-.ametys-public-page .browser {
-	margin: 5px;
-	float: left;
-	width: 130px;
-	font-size: 14px;
-	line-height: 22px;
-}
-
-.ametys-public-page .browser div.browser-end {
-	clear: both;
-}
-
-
-.ametys-public-page .browser .browser-name * {
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-}
-
 
