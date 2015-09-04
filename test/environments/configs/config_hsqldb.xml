@@ -24,7 +24,6 @@
     <runtime.upload.max-size>10000000</runtime.upload.max-size>
     <runtime.upload.dir>WEB-INF/data/uploads</runtime.upload.dir>
     <runtime.debug.ui>0</runtime.debug.ui>
-    <runtime.skip-browser-compatibility-test>true</runtime.skip-browser-compatibility-test>
     <runtime.cache.xslt>false</runtime.cache.xslt>
     <runtime.log.abnormal.time>false</runtime.log.abnormal.time>
     <smtp.mail.host>smtp.anyware.corp</smtp.mail.host>
