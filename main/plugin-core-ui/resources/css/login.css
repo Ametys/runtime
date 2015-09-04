@@ -25,14 +25,17 @@
 	background: rgba(255,255,255,0.85)
 }
 
+.ametys-auth-screen .ametys-auth-dialog label {
+	font-size: 14px;
+	line-height: 18px;
+}
+
 .ametys-auth-screen .ametys-auth-dialog .link-forgot-password {
     line-height: 32px;
     color: #35baf6;
     text-decoration: none;
     margin-left: 5px;
 }
-
-
 
 .ametys-auth-screen .ametys-auth-dialog .link-forgot-password:hover {
     text-decoration: underline;

@@ -144,7 +144,6 @@
         <!-- Mark the UI debug parameter as available. If your application does not handle it you can unativate it. -->
         <config>
             <param-ref id="runtime.debug.ui"/>
-            <param-ref id="runtime.skip-browser-compatibility-test"/>
         </config>
     </feature>
     

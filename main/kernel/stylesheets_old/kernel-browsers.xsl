@@ -28,7 +28,6 @@
         <xsl:param name="authorized-browsers"/>
         <xsl:param name="context-path"/>
 
-        <xsl:if test="not(ametys:config('runtime.skip-browser-compatibility-test') = 'true')">
             <script type="text/javascript">
                 <xsl:if test="$authorized-browsers != ''">
                 // Test for authorized browsers
@@ -138,7 +137,6 @@
                 }           
                 </xsl:if>
             </script>
-        </xsl:if>
     </xsl:template>
     
 </xsl:stylesheet>
