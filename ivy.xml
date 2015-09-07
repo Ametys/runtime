@@ -94,7 +94,7 @@ Open source web application framework based on Apache Cocoon.
     <dependency org="org.sencha" name="extjs6" rev="6.0.0-ametys" conf="runtime_dependencies->default"/>
 	
     <!-- Compile and test -->
-    <dependency org="javax.servlet" name="servlet-api" rev="2.4" conf="compile_base->default"/>
+    <dependency org="javax.servlet" name="javax.servlet-api" rev="3.1.0" conf="compile_base->default"/>
     <dependency org="org.jasig.cas.client" name="cas-client-core" rev="3.4.0" conf="compile_base,test->default"/>
     
     <dependency org="mysql" name="mysql-connector-java" rev="5.1.36" conf="test->default"/>

@@ -64,7 +64,7 @@ public class RuntimeFilterConfig implements FilterConfig
         return (String) _parameters.get(name);
     }
 
-    public Enumeration getInitParameterNames()
+    public Enumeration<String> getInitParameterNames()
     {
         return new IteratorEnumeration(_parameters.keySet().iterator());
     }
@@ -72,15 +72,15 @@ public class RuntimeFilterConfig implements FilterConfig
     /**
      * An enumeration based on an iterator
      */
-    public class IteratorEnumeration implements Enumeration
+    public class IteratorEnumeration implements Enumeration<String>
     {
-        private Iterator _it;
+        private Iterator<String> _it;
         
         /**
          * Create an enumeration from an iterator
          * @param it The iterator to enumerate
          */
-        public IteratorEnumeration (Iterator it)
+        public IteratorEnumeration (Iterator<String> it)
         {
             _it = it;
         }
@@ -90,7 +90,7 @@ public class RuntimeFilterConfig implements FilterConfig
             return _it.hasNext();
         }
 
-        public Object nextElement()
+        public String nextElement()
         {
             return _it.next();
         }

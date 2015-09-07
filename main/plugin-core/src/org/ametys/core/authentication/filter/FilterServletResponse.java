@@ -17,6 +17,7 @@ package org.ametys.core.authentication.filter;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Collection;
 import java.util.Locale;
 
 import javax.servlet.ServletOutputStream;
@@ -79,12 +80,27 @@ public class FilterServletResponse implements HttpServletResponse
     {
         _response.setDateHeader(name, date);
     }
+    
+    public String getHeader(String name)
+    {
+        return _response.getHeader(name);
+    }
+    
+    public Collection<String> getHeaders(String name)
+    {
+        return _response.getHeaders(name);
+    }
+    
+    public Collection<String> getHeaderNames()
+    {
+        return _response.getHeaderNames();
+    }
 
     public void setContentType(String type)
     {
         _response.setContentType(type);
     }
-
+    
     public String encodeURL(String url)
     {
         return _response.encodeURL(url);
@@ -117,6 +133,11 @@ public class FilterServletResponse implements HttpServletResponse
         _response.setContentLength(length);
     }
     
+    public void setContentLengthLong(long len)
+    {
+        _response.setContentLengthLong(len);
+    }
+
     public boolean isCommitted()
     {
         return false;
@@ -136,6 +157,11 @@ public class FilterServletResponse implements HttpServletResponse
     public void setStatus(int sc, String sm)
     {
         _response.setStatus(sc, sm);
+    }
+    
+    public int getStatus()
+    {
+        return _response.getStatus();
     }
     
     public void reset()
