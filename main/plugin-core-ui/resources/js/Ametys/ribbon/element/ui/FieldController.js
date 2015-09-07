@@ -228,7 +228,7 @@ Ext.define(
 			}
 			
 			return Ext.apply({
-				store: this.createDataStore(),
+				store: this.getStore() ? this.getStore() : this.createDataStore(),
 		    	queryMode: 'local',
 
 				forceSelection : true,
