@@ -24,8 +24,10 @@ import java.util.Collection;
 import java.util.Properties;
 
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.XMLConstants;
@@ -39,14 +41,31 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
+import org.apache.avalon.excalibur.logger.LoggerManager;
+import org.apache.avalon.excalibur.logger.log4j.Log4JConfigurator;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
+import org.apache.avalon.framework.container.ContainerUtil;
+import org.apache.avalon.framework.context.DefaultContext;
+import org.apache.cocoon.Cocoon;
+import org.apache.cocoon.ConnectionResetException;
 import org.apache.cocoon.Constants;
-import org.apache.cocoon.servlet.CocoonServlet;
+import org.apache.cocoon.ResourceNotFoundException;
+import org.apache.cocoon.environment.http.HttpContext;
+import org.apache.cocoon.environment.http.HttpEnvironment;
+import org.apache.cocoon.servlet.multipart.MultipartException;
+import org.apache.cocoon.servlet.multipart.MultipartHttpServletRequest;
+import org.apache.cocoon.servlet.multipart.RequestFactory;
+import org.apache.cocoon.util.ClassUtils;
+import org.apache.cocoon.util.log.SLF4JLoggerAdapter;
+import org.apache.cocoon.util.log.SLF4JLoggerManager;
 import org.apache.cocoon.xml.XMLUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
+import org.apache.commons.lang.time.StopWatch;
+import org.apache.log4j.LogManager;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.xml.sax.ContentHandler;
@@ -66,8 +85,20 @@ import org.ametys.runtime.request.RequestListenerManager;
  * Main entry point for applications.<br>
  * Overrides the CocoonServlet to add some initialization.<br>
  */
-public class RuntimeServlet extends CocoonServlet
+public class RuntimeServlet extends HttpServlet
 {
+    /** Constant for storing the {@link ServletConfig} in the Avalon context  */
+    public static final String CONTEXT_SERVLET_CONFIG = "servlet-config";
+    
+    /** Constant for storing the servlet context URL in the Avalon context  */
+    public static final String CONTEXT_CONTEXT_ROOT = "context-root";
+    
+    /** The cocoon.xconf URL */
+    public static final String COCOON_CONF_URL = "/org/ametys/runtime/cocoon/cocoon.xconf";
+    
+    /** Default max upload size (10 Mb) */
+    public static final int DEFAULT_MAX_UPLOAD_SIZE = 10 * 1024 * 1024;
+
     /** The config file relative path */
     public static final String CONFIG_RELATIVE_PATH = "/WEB-INF/config/config.xml";
 
@@ -82,124 +113,179 @@ public class RuntimeServlet extends CocoonServlet
 
     private static RunMode _mode = RunMode.NORMAL;
     
+    private ServletContext _servletContext;
+    private String _servletContextPath;
+    private URL _servletContextURL;
+    private DefaultContext _avalonContext;
+    private HttpContext _context;
+    private File _workDir;
+    
+    private int _maxUploadSize = DEFAULT_MAX_UPLOAD_SIZE;
+    private File _uploadDir;
+    
+    private File _cacheDir;
+    
+    private RequestFactory _requestFactory;
+    
+    private Logger _logger;
+    private LoggerManager _loggerManager;
+    
+    private Exception _exception;
+    
+    private Cocoon _cocoon;
     
     @Override
-    /**
-     * Force the encoding to UTF-8 and delegates the actual processing to _doService
-     */
-    public final void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException
+    public void init() throws ServletException 
     {
-        req.setCharacterEncoding("UTF-8");
-        
-        _doService(req, res);
-    }
-
-    /**
-     * Process the HTTP request.
-     * @param req the request
-     * @param res the response
-     * @throws ServletException if the HTTP request cannot be handled
-     * @throws IOException if an I/O error occurs
-     */
-    protected void _doService(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException
-    {
-        // Error mode
-        if (exception != null)
-        {
-            try
-            {
-                _runErrorMode(req, res);
-            }
-            catch (ServletException e)
-            {
-                // Nothing to do anymore
-                throw e;
-            }
-            catch (Exception e)
-            {
-                // Nothing to do as well
-                throw new ServletException(e);
-            }
-
-            return;
-        }
-        
-        MDC.put("requestURI", req.getRequestURI());
-
-        // if (getRunMode() == RunMode.MAINTENANCE && !_accept(req))
-        // {
-        // _runMaintenanceMode(req, res);
-        // }
-        // else
-        // {
-        _fireRequestStarted(req);
-
-        super.service(req, res);
-
-        _fireRequestEnded(req);
-
-        if (req.getAttribute("org.ametys.runtime.reload") != null)
-        {
-            ConfigManager.getInstance().dispose();
-            disposeCocoon();
-            servletContext.removeAttribute("PluginsComponentManager");
-            initLogger();
-            createCocoon();
-            
-            try
-            {
-                _initPlugins();
-            }
-            catch (Exception e)
-            {
-                getLogger().error("Error while reloading plugins. Entering in error mode.", e);
-                this.exception = e;
-            }
-        }
-        // }
-    }
-
-    @Override
-    public final void init(ServletConfig conf) throws ServletException
-    {
-        // Set this property in order to avoid a System.err.println (CatalogManager.java)
-        if (System.getProperty("xml.catalog.ignoreMissing") == null)
-        {
-            System.setProperty("xml.catalog.ignoreMissing", "true");
-        }
-        
         try
         {
-            super.init(conf);
+            // Set this property in order to avoid a System.err.println (CatalogManager.java)
+            if (System.getProperty("xml.catalog.ignoreMissing") == null)
+            {
+                System.setProperty("xml.catalog.ignoreMissing", "true");
+            }
+            
+            _servletContext = getServletContext();
+            _servletContextPath = _servletContext.getRealPath("/");
+            
+            _avalonContext = new DefaultContext();
+            _context = new HttpContext(_servletContext);
+            _avalonContext.put(Constants.CONTEXT_ENVIRONMENT_CONTEXT, _context);
+            _avalonContext.put(Constants.CONTEXT_DEFAULT_ENCODING, "UTF-8");
+            _avalonContext.put(CONTEXT_SERVLET_CONFIG, getServletConfig());
+            
+            _servletContextURL = new File(_servletContextPath).toURI().toURL();
+            _avalonContext.put(CONTEXT_CONTEXT_ROOT, _servletContextURL);
+        
+            URL configFile = getClass().getResource(COCOON_CONF_URL);
+            _avalonContext.put(Constants.CONTEXT_CONFIG_URL, configFile);
+            
+            _workDir = new File((File) _servletContext.getAttribute("javax.servlet.context.tempdir"), "cocoon-files");
+            _workDir.mkdirs();
+            _avalonContext.put(Constants.CONTEXT_WORK_DIR, _workDir);
+            
+            // Init logger
+            _initLogger();
+    
+            _maxUploadSize = DEFAULT_MAX_UPLOAD_SIZE;
+            _uploadDir = new File(_servletContext.getRealPath("/WEB-INF/data/uploads"));
+            
+            if (ConfigManager.getInstance().isComplete())
+            {
+                Long maxUploadSizeParam = Config.getInstance().getValueAsLong("runtime.upload.max-size");
+                if (maxUploadSizeParam != null)
+                {
+                    // if the feature core/runtime.upload is deactivated, use the default value (10 Mb)
+                    _maxUploadSize = maxUploadSizeParam.intValue();
+                }
+                
+                String uploadDirParam = Config.getInstance().getValueAsString("runtime.upload.dir");
+                if (uploadDirParam != null)
+                {
+                    File uploadDir = new File(uploadDirParam);
+                    
+                    if (uploadDir.isAbsolute())
+                    {
+                        // Yes : keep it as is
+                        _uploadDir = uploadDir;
+                    }
+                    else
+                    {
+                        // No : consider it relative to context path
+                        _uploadDir = new File(_servletContextPath, uploadDirParam);
+                    }
+                }
+            }
+    
+            _uploadDir.mkdirs();
+            _avalonContext.put(Constants.CONTEXT_UPLOAD_DIR, _uploadDir);
+            
+            _cacheDir = new File(_workDir, "cache-dir");
+            _cacheDir.mkdirs();
+            _avalonContext.put(Constants.CONTEXT_CACHE_DIR, _cacheDir);
+    
+            _requestFactory = new RequestFactory(true, _uploadDir, false, true, _maxUploadSize, "UTF-8");
+    
+            // Create temp dir if it does not exist
+            File tmpDir = new File(System.getProperty("java.io.tmpdir"));
+            if (!tmpDir.exists())
+            {
+                FileUtils.forceMkdir(tmpDir);
+            }
+    
+            // WEB-INF/param/runtime.xml loading
+            _loadRuntimeConfig();
+    
+            // Configuration file
+            Config.setFilename(_servletContext.getRealPath(CONFIG_RELATIVE_PATH));
+        
+            _createCocoon();
             
             _initPlugins();
         }
         catch (Throwable t)
         {
-            if (getLogger() != null)
+            if (_logger != null)
             {
-                getLogger().error("Error while loading servlet. Entering in error mode.", t);
+                _logger.error("Error while loading Ametys. Entering in error mode.", t);
             }
             else
             {
-                System.out.println("Error while loading servlet. Entering in error mode.");
+                System.out.println("Error while loading Ametys. Entering in error mode.");
                 t.printStackTrace();
             }
 
             if (t instanceof Exception)
             {
-                this.exception = (Exception) t;
+                _exception = (Exception) t;
             }
             else
             {
-                this.exception = new Exception(t);
+                _exception = new Exception(t);
             }
+            
+            _disposeCocoon();
         }
+    }
+    
+    private void _initLogger() 
+    {
+        // Configure Log4j
+        String logj4fFile = _servletContext.getRealPath("/WEB-INF/log4j.xml");
+
+        DefaultContext context = new DefaultContext();
+        context.put("context-root", _servletContextPath);
+        
+        Log4JConfigurator configurator = new Log4JConfigurator(context);
+        configurator.doConfigure(logj4fFile, LogManager.getLoggerRepository());
+        
+        _loggerManager = new SLF4JLoggerManager();
+        _logger = LoggerFactory.getLogger(getClass());
+    }
+    
+    private void _createCocoon() throws Exception
+    {
+        _exception = null;
+        
+        _avalonContext.put(Constants.CONTEXT_CLASS_LOADER, getClass().getClassLoader());
+        _avalonContext.put(Constants.CONTEXT_CLASSPATH, "");
+        
+        URL configFile = (URL) _avalonContext.get(Constants.CONTEXT_CONFIG_URL);
+        
+        _logger.info("Reloading from: {}", configFile.toExternalForm());
+        
+        Cocoon c = (Cocoon) ClassUtils.newInstance("org.apache.cocoon.Cocoon");
+        ContainerUtil.enableLogging(c, new SLF4JLoggerAdapter(_logger));
+        c.setLoggerManager(_loggerManager);
+        ContainerUtil.contextualize(c, _avalonContext);
+        ContainerUtil.initialize(c);
+
+        _cocoon = c;
     }
     
     private void _initPlugins() throws Exception
     {
-        PluginsComponentManager pluginCM = (PluginsComponentManager) servletContext.getAttribute("PluginsComponentManager");
+        PluginsComponentManager pluginCM = (PluginsComponentManager) _servletContext.getAttribute("PluginsComponentManager");
         
         // If we're in safe mode 
         if (!PluginsManager.getInstance().isSafeMode())
@@ -221,113 +307,6 @@ public class RuntimeServlet extends CocoonServlet
         }
     }
     
-    @Override
-    protected synchronized void createCocoon() throws ServletException
-    {
-        super.createCocoon();
-        
-        if (ConfigManager.getInstance().isComplete())
-        {
-            if (enableUploads)
-            {
-                Long maxUploadSizeParam = Config.getInstance().getValueAsLong("runtime.upload.max-size");
-                if (maxUploadSizeParam == null)
-                {
-                    // feature core/runtime.upload is deactivated, back to the web.xml value or 10 Mb by default
-                    maxUploadSize = getInitParameterAsInteger("upload-max-size", 1073741824);
-                }
-                else
-                {
-                    maxUploadSize = (int) maxUploadSizeParam.longValue();
-                }
-                
-                String uploadDirParam = Config.getInstance().getValueAsString("runtime.upload.dir");
-                if (uploadDirParam == null)
-                {
-                    
-                    // feature core/runtime.upload is deactivated, back to the web.xml value or "WEB-INF/data/uploads" by default
-                    uploadDirParam = getInitParameter("upload-directory", "WEB-INF/data/uploads");
-                }
-                
-                // Context path exists : is upload-directory absolute ?
-                File uploadDirParamFile = new File(uploadDirParam);
-                if (uploadDirParamFile.isAbsolute())
-                {
-                    // Yes : keep it as is
-                    uploadDir = uploadDirParamFile;
-                }
-                else
-                {
-                    // No : consider it relative to context path
-                    uploadDir = new File(servletContextPath, uploadDirParam);
-                }
-
-                uploadDir.mkdirs();
-                appContext.put(Constants.CONTEXT_UPLOAD_DIR, uploadDir);
-
-                createRequestFactory();
-            }
-        }
-    }
-    
-    @Override
-    protected void updateEnvironment() throws ServletException
-    {
-        super.updateEnvironment();
-        
-        // Create temp dir if it does not exist
-        File tmpDir = new File(System.getProperty("java.io.tmpdir"));
-        if (!tmpDir.exists())
-        {
-            try
-            {
-                FileUtils.forceMkdir(tmpDir);
-            }
-            catch (IOException e)
-            {
-                LoggerFactory.getLogger(getClass()).warn("Unable to create temp directory", e);
-            }
-        }
-
-        // WEB-INF/param/runtime.xml loading
-        _loadRuntimeConfig();
-
-        // Configuration file
-        Config.setFilename(servletContext.getRealPath(CONFIG_RELATIVE_PATH));
-    }
-
-    @SuppressWarnings("unchecked")
-    private void _fireRequestStarted(HttpServletRequest req)
-    {
-        Collection< ? extends RequestListener> listeners = (Collection< ? extends RequestListener>) servletContext.getAttribute(RequestListenerManager.CONTEXT_ATTRIBUTE_REQUEST_LISTENERS);
-
-        if (listeners == null)
-        {
-            return;
-        }
-
-        for (RequestListener listener : listeners)
-        {
-            listener.requestStarted(req);
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    private void _fireRequestEnded(HttpServletRequest req)
-    {
-        Collection<? extends RequestListener> listeners = (Collection< ? extends RequestListener>) servletContext.getAttribute(RequestListenerManager.CONTEXT_ATTRIBUTE_REQUEST_LISTENERS);
-
-        if (listeners == null)
-        {
-            return;
-        }
-
-        for (RequestListener listener : listeners)
-        {
-            listener.requestEnded(req);
-        }
-    }
-
     private void _loadRuntimeConfig() throws ServletException
     {
         Configuration runtimeConf = null;
@@ -344,7 +323,7 @@ public class RuntimeServlet extends CocoonServlet
             XMLReader reader = factory.newSAXParser().getXMLReader();
             DefaultConfigurationBuilder runtimeConfBuilder = new DefaultConfigurationBuilder(reader);
             
-            File runtimeConfigFile = new File(servletContextPath, "WEB-INF/param/runtime.xml");
+            File runtimeConfigFile = new File(_servletContextPath, "WEB-INF/param/runtime.xml");
             try (InputStream runtime = new FileInputStream(runtimeConfigFile))
             {
                 runtimeConf = runtimeConfBuilder.build(runtime, runtimeConfigFile.getAbsolutePath());
@@ -352,7 +331,7 @@ public class RuntimeServlet extends CocoonServlet
         }
         catch (Exception e)
         {
-            getLogger().error("Unable to load runtime file at 'WEB-INF/param/runtime.xml'. PluginsManager will enter in safe mode.", e);
+            _logger.error("Unable to load runtime file at 'WEB-INF/param/runtime.xml'. PluginsManager will enter in safe mode.", e);
         }
         
         Configuration externalConf = null;
@@ -360,7 +339,7 @@ public class RuntimeServlet extends CocoonServlet
         {
             DefaultConfigurationBuilder externalConfBuilder = new DefaultConfigurationBuilder();
 
-            File externalConfigFile = new File(servletContextPath, "WEB-INF/param/external-locations.xml");
+            File externalConfigFile = new File(_servletContextPath, "WEB-INF/param/external-locations.xml");
             if (externalConfigFile.exists())
             {
                 try (InputStream external = new FileInputStream(externalConfigFile))
@@ -371,11 +350,187 @@ public class RuntimeServlet extends CocoonServlet
         }
         catch (Exception e)
         {
-            getLogger().error("Unable to load external locations values at WEB-INF/param/external-locations.xml", e);
+            _logger.error("Unable to load external locations values at WEB-INF/param/external-locations.xml", e);
             throw new ServletException("Unable to load external locations values at WEB-INF/param/external-locations.xml", e);
         }
         
-        RuntimeConfig.configure(runtimeConf, externalConf, servletContextPath);
+        RuntimeConfig.configure(runtimeConf, externalConf, _servletContextPath);
+    }
+
+    @Override
+    public void destroy() 
+    {
+        if (_cocoon != null) 
+        {
+            _logger.debug("Servlet destroyed - disposing Cocoon");
+            _disposeCocoon();
+        }
+
+        _avalonContext = null;
+        _logger = null;
+        _loggerManager = null;
+    }
+
+    
+    private final void _disposeCocoon() 
+    {
+        if (_cocoon != null) 
+        {
+            ContainerUtil.dispose(_cocoon);
+            _cocoon = null;
+        }
+    }
+
+    @Override
+    public final void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException
+    {
+        req.setCharacterEncoding("UTF-8");
+        
+        // Error mode
+        if (_exception != null)
+        {
+            _renderError(req, res, _exception, null);
+            return;
+        }
+        
+        MDC.put("requestURI", req.getRequestURI());
+
+        // if (getRunMode() == RunMode.MAINTENANCE && !_accept(req))
+        // {
+        // _runMaintenanceMode(req, res);
+        // }
+        // else
+        // {
+        _fireRequestStarted(req);
+
+        // used for timing the processing
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+
+        // add the cocoon header timestamp
+        res.addHeader("X-Cocoon-Version", Constants.VERSION);
+
+        // get the request (wrapped if contains multipart-form data)
+        HttpServletRequest request;
+        try
+        {
+            request = _requestFactory.getServletRequest(req);
+        }
+        catch (MultipartException e)
+        {
+            _renderError(req, res, e, null);
+            return;
+        }
+        
+        // Process the request
+        String uri = request.getServletPath();
+        
+        String pathInfo = request.getPathInfo();
+        if (pathInfo != null) 
+        {
+            uri += pathInfo;
+        }
+
+        if (uri.length() > 0 && uri.charAt(0) == '/') 
+        {
+            uri = uri.substring(1);
+        }
+        
+        try 
+        {
+            HttpEnvironment env = new HttpEnvironment(uri, _servletContextURL.toExternalForm(), req, res, _servletContext, _context, "UTF-8", "UTF-8");
+            env.enableLogging(new SLF4JLoggerAdapter(_logger));
+            
+            if (!_cocoon.process(env)) 
+            {
+                // We reach this when there is nothing in the processing change that matches
+                // the request. For example, no matcher matches.
+                _logger.error("The Cocoon engine failed to process the request.");
+                _renderError(request, res, null, "Cocoon engine failed in process the request");
+            }
+        } 
+        catch (ResourceNotFoundException | ConnectionResetException | IOException e) 
+        {
+            _logger.warn(e.toString());
+            _renderError(request, res, e, e.getMessage());
+        } 
+        catch (Exception e) 
+        {
+            _logger.error("Internal Cocoon Problem", e);
+            _renderError(request, res, e, null);
+        }
+        finally 
+        {
+            stopWatch.stop();
+            _logger.info("'{}' processed in {} ms.", uri, stopWatch.getTime());
+            
+            try
+            {
+                if (request instanceof MultipartHttpServletRequest) 
+                {
+                    _logger.debug("Deleting uploaded file(s).");
+                    ((MultipartHttpServletRequest) request).cleanup();
+                }
+            } 
+            catch (IOException e)
+            {
+                _logger.error("Cocoon got an Exception while trying to cleanup the uploaded files.", e);
+            }
+        }
+
+        _fireRequestEnded(req);
+
+        if (req.getAttribute("org.ametys.runtime.reload") != null)
+        {
+            ConfigManager.getInstance().dispose();
+            _disposeCocoon();
+            _servletContext.removeAttribute("PluginsComponentManager");
+            _initLogger();
+            
+            try
+            {
+                _createCocoon();
+                _initPlugins();
+            }
+            catch (Exception e)
+            {
+                _logger.error("Error while reloading plugins. Entering in error mode.", e);
+                _exception = e;
+            }
+        }
+        // }
+    }
+    
+    @SuppressWarnings("unchecked")
+    private void _fireRequestStarted(HttpServletRequest req)
+    {
+        Collection< ? extends RequestListener> listeners = (Collection< ? extends RequestListener>) _servletContext.getAttribute(RequestListenerManager.CONTEXT_ATTRIBUTE_REQUEST_LISTENERS);
+
+        if (listeners == null)
+        {
+            return;
+        }
+
+        for (RequestListener listener : listeners)
+        {
+            listener.requestStarted(req);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void _fireRequestEnded(HttpServletRequest req)
+    {
+        Collection<? extends RequestListener> listeners = (Collection< ? extends RequestListener>) _servletContext.getAttribute(RequestListenerManager.CONTEXT_ATTRIBUTE_REQUEST_LISTENERS);
+
+        if (listeners == null)
+        {
+            return;
+        }
+
+        for (RequestListener listener : listeners)
+        {
+            listener.requestEnded(req);
+        }
     }
 
     /**
@@ -397,7 +552,7 @@ public class RuntimeServlet extends CocoonServlet
         return _mode;
     }
 
-    private void _runErrorMode(HttpServletRequest req, HttpServletResponse res) throws Exception
+    private void _renderError(HttpServletRequest req, HttpServletResponse res, Exception exception, String message) throws ServletException
     {
         ServletConfig config = getServletConfig();
 
@@ -406,128 +561,136 @@ public class RuntimeServlet extends CocoonServlet
             throw new ServletException("Cannot access to ServletConfig");
         }
 
-        String contextPath = req.getContextPath();
-
-        ServletOutputStream os = res.getOutputStream();
-
-        // Static resources associated with the error page.
-        String requestURI = req.getRequestURI();
-        if (requestURI.startsWith(contextPath + "/kernel/resources/"))
+        try
         {
-            String resourcePath = requestURI.substring(contextPath.length() + 8); // Removing contextPath + "/kernel/"
+            String contextPath = req.getContextPath();
+    
+            ServletOutputStream os = res.getOutputStream();
+    
+            // Static resources associated with the error page.
+            String requestURI = req.getRequestURI();
+            if (requestURI.startsWith(contextPath + "/kernel/resources/"))
+            {
+                String resourcePath = requestURI.substring(contextPath.length() + 8); // Removing contextPath + "/kernel/"
+                
+                @SuppressWarnings("resource") InputStream is = null;
+                try
+                {
+                    File externalKernel = RuntimeConfig.getInstance().getExternalKernel();
+                    File resourceFile = externalKernel != null ? new File(externalKernel, resourcePath) : new File(config.getServletContext().getRealPath("/kernel/" + resourcePath));
+                    
+                    if (resourceFile.exists())
+                    {
+                        is = new FileInputStream(resourceFile);
+                    }
+                    else
+                    {
+                        is = getClass().getResourceAsStream("/org/ametys/runtime/" + resourcePath);
+                    }
+                    
+                    if (is == null)
+                    {
+                        res.setStatus(404);
+                    }
+                    else
+                    {
+                        res.setStatus(200);
+                        res.setContentType(config.getServletContext().getMimeType(req.getRequestURI()));
+        
+                        byte[] buffer = new byte[8192];
+                        int length = -1;
+        
+                        while ((length = is.read(buffer)) > -1)
+                        {
+                            os.write(buffer, 0, length);
+                        }
+                    }
+        
+                    return;
+                }
+                finally
+                {
+                    IOUtils.closeQuietly(is);
+                }
+            }
+    
+            res.setStatus(500);
+            res.setContentType("text/html; charset=UTF-8");
+    
+            SAXTransformerFactory saxFactory = (SAXTransformerFactory) TransformerFactory.newInstance();
+            TransformerHandler th;
             
             @SuppressWarnings("resource") InputStream is = null;
             try
             {
+                StreamSource errorSource;
+                
                 File externalKernel = RuntimeConfig.getInstance().getExternalKernel();
-                File resourceFile = externalKernel != null ? new File(externalKernel, resourcePath) : new File(config.getServletContext().getRealPath("/kernel/" + resourcePath));
+                File errorXSL = externalKernel != null ? new File(externalKernel, "pages/error/fatal.xsl") : new File(config.getServletContext().getRealPath("/kernel/pages/error/fatal.xsl"));
                 
-                if (resourceFile.exists())
+                if (errorXSL.exists())
                 {
-                    is = new FileInputStream(resourceFile);
+                    is = new FileInputStream(errorXSL);
                 }
                 else
                 {
-                    is = getClass().getResourceAsStream("/org/ametys/runtime/" + resourcePath);
+                    is = getClass().getResourceAsStream("/org/ametys/runtime/kernel/pages/error/fatal.xsl");
                 }
                 
-                if (is == null)
-                {
-                    res.setStatus(404);
-                }
-                else
-                {
-                    res.setStatus(200);
-                    res.setContentType(config.getServletContext().getMimeType(req.getRequestURI()));
-    
-                    byte[] buffer = new byte[8192];
-                    int length = -1;
-    
-                    while ((length = is.read(buffer)) > -1)
-                    {
-                        os.write(buffer, 0, length);
-                    }
-                }
-    
-                return;
+                errorSource = new StreamSource(is);
+                
+                th = saxFactory.newTransformerHandler(errorSource);
             }
             finally
             {
                 IOUtils.closeQuietly(is);
             }
+            
+            Properties format = new Properties();
+            format.put(OutputKeys.METHOD, "xml");
+            format.put(OutputKeys.ENCODING, "UTF-8");
+            format.put(OutputKeys.DOCTYPE_PUBLIC, "-//W3C//DTD XHTML 1.0 Strict//EN");
+            format.put(OutputKeys.DOCTYPE_SYSTEM, "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd");
+    
+            th.getTransformer().setOutputProperties(format);
+    
+            th.getTransformer().setParameter("code", 500);
+            th.getTransformer().setParameter("realpath", config.getServletContext().getRealPath("/"));
+            th.getTransformer().setParameter("contextPath", req.getContextPath());
+            
+            StreamResult result = new StreamResult(os);
+            th.setResult(result);
+    
+            th.startDocument();
+    
+            XMLUtils.startElement(th, "http://apache.org/cocoon/exception/1.0", "exception-report");
+            XMLUtils.startElement(th, "http://apache.org/cocoon/exception/1.0", "message");
+            saxErrorMessage(th, message);
+            XMLUtils.endElement(th, "http://apache.org/cocoon/exception/1.0", "message");
+            
+            XMLUtils.startElement(th, "http://apache.org/cocoon/exception/1.0", "stacktrace");
+            XMLUtils.data(th, ExceptionUtils.getStackTrace(exception));
+            XMLUtils.endElement(th, "http://apache.org/cocoon/exception/1.0", "stacktrace");
+            XMLUtils.endElement(th, "http://apache.org/cocoon/exception/1.0", "ex:exception-report");
+    
+            th.endDocument();
         }
-
-        res.setStatus(500);
-        res.setContentType("text/html; charset=UTF-8");
-
-        SAXTransformerFactory saxFactory = (SAXTransformerFactory) TransformerFactory.newInstance();
-        TransformerHandler th;
-        
-        @SuppressWarnings("resource") InputStream is = null;
-        try
+        catch (Exception e)
         {
-            StreamSource errorSource;
-            
-            File externalKernel = RuntimeConfig.getInstance().getExternalKernel();
-            File errorXSL = externalKernel != null ? new File(externalKernel, "pages/error/fatal.xsl") : new File(config.getServletContext().getRealPath("/kernel/pages/error/fatal.xsl"));
-            
-            if (errorXSL.exists())
-            {
-                is = new FileInputStream(errorXSL);
-            }
-            else
-            {
-                is = getClass().getResourceAsStream("/org/ametys/runtime/kernel/pages/error/fatal.xsl");
-            }
-            
-            errorSource = new StreamSource(is);
-            
-            th = saxFactory.newTransformerHandler(errorSource);
+            // Nothing to anymore ...
+            throw new ServletException(e);
         }
-        finally
-        {
-            IOUtils.closeQuietly(is);
-        }
-        
-        Properties format = new Properties();
-        format.put(OutputKeys.METHOD, "xml");
-        format.put(OutputKeys.ENCODING, "UTF-8");
-        format.put(OutputKeys.DOCTYPE_PUBLIC, "-//W3C//DTD XHTML 1.0 Strict//EN");
-        format.put(OutputKeys.DOCTYPE_SYSTEM, "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd");
-
-        th.getTransformer().setOutputProperties(format);
-
-        th.getTransformer().setParameter("code", 500);
-        th.getTransformer().setParameter("realpath", config.getServletContext().getRealPath("/"));
-        th.getTransformer().setParameter("contextPath", req.getContextPath());
-        
-        StreamResult result = new StreamResult(os);
-        th.setResult(result);
-
-        th.startDocument();
-
-        XMLUtils.startElement(th, "http://apache.org/cocoon/exception/1.0", "exception-report");
-        XMLUtils.startElement(th, "http://apache.org/cocoon/exception/1.0", "message");
-        saxErrorMessage(th);
-        XMLUtils.endElement(th, "http://apache.org/cocoon/exception/1.0", "message");
-        
-        XMLUtils.startElement(th, "http://apache.org/cocoon/exception/1.0", "stacktrace");
-        XMLUtils.data(th, ExceptionUtils.getStackTrace(exception));
-        XMLUtils.endElement(th, "http://apache.org/cocoon/exception/1.0", "stacktrace");
-        XMLUtils.endElement(th, "http://apache.org/cocoon/exception/1.0", "ex:exception-report");
-
-        th.endDocument();
     }
 
     /**
      * In error mode, send error information as SAX events.<br>
-     * 
-     * @param ch the contentHandler receiving the message
+     * @param ch the contentHandler receiving the message.
+     * @param message the message or null to send a default error message.
      * @throws SAXException if an error occurred while send SAX events
      */
-    protected void saxErrorMessage(ContentHandler ch) throws SAXException
+    protected void saxErrorMessage(ContentHandler ch, String message) throws SAXException
     {
-        String errorMessage = "An error occurred. Please contact the administrator of the application.";
+        String errorMessage = message != null ? message : "An error occurred. Please contact the administrator of the application.";
         XMLUtils.data(ch, errorMessage);
     }
 
