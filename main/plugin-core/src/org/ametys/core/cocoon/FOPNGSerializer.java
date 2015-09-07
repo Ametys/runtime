@@ -16,30 +16,31 @@
 package org.ametys.core.cocoon;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.URIResolver;
-import javax.xml.transform.stream.StreamSource;
 
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.SAXConfigurationHandler;
+import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
+import org.apache.cocoon.Constants;
 import org.apache.cocoon.caching.CacheableProcessingComponent;
 import org.apache.cocoon.components.source.SourceUtil;
+import org.apache.cocoon.environment.Context;
 import org.apache.cocoon.serialization.AbstractSerializer;
 import org.apache.excalibur.source.Source;
-import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceResolver;
 import org.apache.excalibur.source.SourceValidity;
 import org.apache.excalibur.source.impl.validity.NOPValidity;
@@ -47,11 +48,14 @@ import org.apache.fop.apps.FOPException;
 import org.apache.fop.apps.FOUserAgent;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
+import org.apache.fop.apps.FopFactoryBuilder;
+import org.apache.xmlgraphics.io.Resource;
+import org.apache.xmlgraphics.io.ResourceResolver;
 
 /**
  * FOP 0.95 (and newer) based serializer.
  */
-public class FOPNGSerializer extends AbstractSerializer implements Configurable, CacheableProcessingComponent, Serviceable, URIResolver, Disposable
+public class FOPNGSerializer extends AbstractSerializer implements Configurable, CacheableProcessingComponent, Serviceable, ResourceResolver, Disposable, Contextualizable
 {
     /** The source resolver */
     protected SourceResolver _resolver;
@@ -59,7 +63,7 @@ public class FOPNGSerializer extends AbstractSerializer implements Configurable,
     /**
      * Factory to create fop objects
      */
-    protected FopFactory _fopfactory = FopFactory.newInstance();
+    protected FopFactory _fopfactory;
 
     /**
      * The FOP instance.
@@ -82,6 +86,13 @@ public class FOPNGSerializer extends AbstractSerializer implements Configurable,
     protected ServiceManager _manager;
 
     private Map _rendererOptions;
+    
+    private Context _context;
+    
+    public void contextualize(org.apache.avalon.framework.context.Context context) throws ContextException
+    {
+        _context = (Context) context.get(Constants.CONTEXT_ENVIRONMENT_CONTEXT);
+    }
 
     /**
      * Set the component manager for this serializer.
@@ -100,8 +111,8 @@ public class FOPNGSerializer extends AbstractSerializer implements Configurable,
         // should the content length be set
         this._setContentLength = conf.getChild("set-content-length").getValueAsBoolean(true);
 
+        Configuration config = null;
         String configUrl = conf.getChild("user-config").getValue(null);
-
         if (configUrl != null)
         {
             Source configSource = null;
@@ -116,7 +127,8 @@ public class FOPNGSerializer extends AbstractSerializer implements Configurable,
                 }
                 SAXConfigurationHandler configHandler = new SAXConfigurationHandler();
                 SourceUtil.toSAX(configSource, configHandler);
-                _fopfactory.setUserConfig(configHandler.getConfiguration());
+                
+                config = configHandler.getConfiguration();
             }
             catch (Exception e)
             {
@@ -133,7 +145,15 @@ public class FOPNGSerializer extends AbstractSerializer implements Configurable,
             }
         }
 
-        _fopfactory.setURIResolver(this);
+        File base = new File(_context.getRealPath("/"));
+        FopFactoryBuilder fopFactoryBuilder = new FopFactoryBuilder(base.toURI(), this);
+        
+        if (config != null)
+        {
+            fopFactoryBuilder.setConfiguration(config);
+        }
+        
+        _fopfactory = fopFactoryBuilder.build();
 
         // Get the mime type.
         this._mimetype = conf.getAttribute("mime-type");
@@ -247,101 +267,33 @@ public class FOPNGSerializer extends AbstractSerializer implements Configurable,
     {
         return this._setContentLength;
     }
-
-    // From URIResolver, copied from TraxProcessor
-    public javax.xml.transform.Source resolve(String href, String base) throws TransformerException
+    
+    public Resource getResource(URI uri) throws IOException
     {
-        if (getLogger().isDebugEnabled())
+        String href = uri.toString();
+        
+        if (href.indexOf(':') != -1)
         {
-            getLogger().debug("resolve(href = " + href + ", base = " + base + "); resolver = " + _resolver);
+            Source source = _resolver.resolveURI(href);
+            return new Resource(source.getMimeType(), source.getInputStream());
         }
-
-        StreamSource streamSource = null;
-        Source source = null;
-        try
+        else
         {
-            if (base == null || href.indexOf(":") > 1)
+            String base = _context.getRealPath("/");
+            
+            if (href.startsWith("/"))
             {
-                // Null base - href must be an absolute URL
-                source = _resolver.resolveURI(href);
+                href = href.substring(1);
             }
-            else if (href.length() == 0)
-            {
-                // Empty href resolves to base
-                source = _resolver.resolveURI(base);
-            }
-            else
-            {
-                // is the base a file or a real m_url
-                if (!base.startsWith("file:"))
-                {
-                    int lastPathElementPos = base.lastIndexOf('/');
-                    if (lastPathElementPos == -1)
-                    {
-                        // this should never occur as the base should
-                        // always be protocol:/....
-                        return null; // we can't resolve this
-                    }
-                    else
-                    {
-                        source = _resolver.resolveURI(base.substring(0, lastPathElementPos) + "/" + href);
-                    }
-                }
-                else
-                {
-                    File parent = new File(base.substring(5));
-                    File parent2 = new File(parent.getParentFile(), href);
-                    source = _resolver.resolveURI(parent2.toURI().toURL().toExternalForm());
-                }
-            }
-
-            if (getLogger().isDebugEnabled())
-            {
-                getLogger().debug("source = " + source + ", system id = " + source.getURI());
-            }
-
-            streamSource = new StreamSource(new ReleaseSourceInputStream(source.getInputStream(), source, _resolver), source.getURI());
+            
+            File source = new File(base, href);
+            return new Resource(new FileInputStream(source));
         }
-        catch (SourceException e)
-        {
-            if (getLogger().isDebugEnabled())
-            {
-                getLogger().debug("Failed to resolve " + href + "(base = " + base + "), return null", e);
-            }
-
-            // CZ: To obtain the same behaviour as when the resource is
-            // transformed by the XSLT Transformer we should return null here.
-            return null;
-        }
-        catch (java.net.MalformedURLException mue)
-        {
-            if (getLogger().isDebugEnabled())
-            {
-                getLogger().debug("Failed to resolve " + href + "(base = " + base + "), return null", mue);
-            }
-
-            return null;
-        }
-        catch (IOException ioe)
-        {
-            if (getLogger().isDebugEnabled())
-            {
-                getLogger().debug("Failed to resolve " + href + "(base = " + base + "), return null", ioe);
-            }
-
-            return null;
-        }
-        finally
-        {
-            // If streamSource is not null, the source should only be released
-            // when the input stream
-            // is not needed anymore.
-            if (streamSource == null)
-            {
-                _resolver.release(source);
-            }
-        }
-        return streamSource;
+    }
+    
+    public OutputStream getOutputStream(URI uri) throws IOException
+    {
+        throw new UnsupportedOperationException("getOutputStream");
     }
 
     /**
