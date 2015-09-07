@@ -28,6 +28,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
 
@@ -54,6 +55,7 @@ import org.slf4j.LoggerFactory;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
+import org.ametys.core.util.I18nUtils;
 import org.ametys.core.util.I18nizableText;
 import org.ametys.runtime.parameter.Enumerator;
 import org.ametys.runtime.parameter.Errors;
@@ -83,6 +85,8 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
     private ServiceManager _manager;
     private Context _context;
 
+    private I18nUtils _i18nUtils;
+    
     // Used parameters
     private Collection<String> _usedParamsName;
 
@@ -100,6 +104,9 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
     
     // The parameters classified by categories and groups
     private Map<I18nizableText, ParameterCategory> _categorizedParameters;
+    
+    // The parameters classified by categories sorted alphabetically and groups
+    private Map<I18nizableText, ParameterCategory> _sortedCategories;
     
     // Determines if the extension point is initialized
     private boolean _isInitialized;
@@ -165,6 +172,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         _params = new LinkedHashMap<>();
         _declaredParameterCheckers = new LinkedHashMap<>();
         _parameterCheckers = new LinkedHashMap<>();
+        _sortedCategories = new TreeMap<> ();
         
         _validatorManager = new ThreadSafeComponentManager<>();
         _validatorManager.setLogger(LoggerFactory.getLogger("runtime.plugin.threadsafecomponent"));
@@ -780,7 +788,12 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
 
     private  void _saxConfiguration(ContentHandler contentHandler) throws SAXException, ProcessingException
     {
-        for (I18nizableText categoryKey : _categorizedParameters.keySet())
+        /* Sort categories alphabetically.
+         * We sort each time we sax the configuration in case the language changes 
+         */
+        _sortCategories();
+        
+        for (I18nizableText categoryKey : _sortedCategories.keySet())
         {
             AttributesImpl tabAttrs = new AttributesImpl();
             tabAttrs.addCDATAAttribute("role", "tabs");
@@ -873,7 +886,32 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             XMLUtils.endElement(contentHandler, "fieldsets");
         }
     }
-    
+
+    private void _sortCategories()
+    {
+        TreeMap<I18nizableText, ParameterCategory> sortedCategories = new TreeMap<>(new I18nizableTextComparator(_getI8nUtils()));
+        sortedCategories.putAll(_categorizedParameters);
+
+        _sortedCategories = sortedCategories;
+    }
+
+    private I18nUtils _getI8nUtils()
+    {
+        if (_i18nUtils == null)
+        {
+            try
+            {
+                _i18nUtils = (I18nUtils) _manager.lookup(I18nUtils.ROLE);
+            }
+            catch (Exception e)
+            {
+                throw new RuntimeException("Unable to lookup the i18n utils component", e);
+            }
+        }
+        
+        return _i18nUtils;
+    }
+
     private  void _saxValues(ContentHandler contentHandler) throws SAXException
     {
         // Get configuration parameters
@@ -1202,15 +1240,25 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         handler.endDocument();
     }
     
+    /**
+     * Sort I18nizableText with their translation
+     */
     class I18nizableTextComparator implements Comparator<I18nizableText>
     {
+        private I18nUtils _i18nUtil; // i18Util instead of i18nUtils to avoid "hiding" warning
+
+        public I18nizableTextComparator(I18nUtils i18nUtils)
+        {
+            _i18nUtil = i18nUtils;
+        }
+
         @Override
         public int compare(I18nizableText t1, I18nizableText t2)
         {
-            return t1.toString().compareTo(t2.toString());
+            return _i18nUtil.translate(t1).compareTo(_i18nUtil.translate(t2));
         }
     }
-    
+
     /**
      * 
      * Represents a category of parameters
