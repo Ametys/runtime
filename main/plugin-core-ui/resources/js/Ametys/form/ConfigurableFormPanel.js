@@ -1742,7 +1742,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                         var entries = fieldData.annotations;
                         for (var j=0; j < entries.length; j++)
                         {
-                        	fieldData.push({
+                        	annotations.push({
                                 name: entries[j].name,
                                 label: entries[j].label || entries[j].name,
                                 description: entries[j].description || entries[j].label || entries[j].name
