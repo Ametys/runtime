@@ -103,7 +103,7 @@ public final class ConfigurationHelper
      * Get an i18n text configuration (can be a key or a "direct" string).
      * @param config The configuration to parse.
      * @param catalogueLocation The i18n catalogue location URI
-     * @param catalogueName The i18n catalogue bundle name
+     * @param catalogueFilename The i18n catalogue bundle name
      * @param value The i18n text, can be a key or a "direct" string.
      * @return The i18nizable text
      */
@@ -208,7 +208,6 @@ public final class ConfigurationHelper
      * @param configuration The {@link Configuration} to parse.
      * @param value The key to get in configuration
      * @return the configuration parameter value.
-     * @throws ConfigurationException if an error occurs.
      */
     private static String _getConfigParameterValue(Configuration configuration, String value)
     {

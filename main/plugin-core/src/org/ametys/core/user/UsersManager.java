@@ -46,7 +46,7 @@ public interface UsersManager
     /**
      * Get the JSON representation of a User.
      * @param login the login of the user. Cannot be null.
-     * @preturn User's information as a JSON object or null if the user login does not exist.
+     * @return User's information as a JSON object or null if the user login does not exist.
      */
     public Map<String, Object> user2JSON(String login);
     
