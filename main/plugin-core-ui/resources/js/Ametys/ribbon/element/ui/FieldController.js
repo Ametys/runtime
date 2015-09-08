@@ -123,6 +123,10 @@ Ext.define(
 		constructor: function(config)
 		{
 			this.callParent(arguments);
+
+            // Have to be done before initialize, so "initialize" function have access to it
+            this.createDataStore()
+            
 			// Initialize input properties
 			this._initialize();
 		},
@@ -228,7 +232,7 @@ Ext.define(
 			}
 			
 			return Ext.apply({
-				store: this.getStore() ? this.getStore() : this.createDataStore(),
+				store: this.getStore(),
 		    	queryMode: 'local',
 
 				forceSelection : true,
