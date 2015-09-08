@@ -812,7 +812,7 @@ Ext.define("Ametys.tool.Tool",
          */
 		getServerRole: function()
         {
-            return "org.ametys.runtime.ui.UIToolsFactoriesManager";
+            return "org.ametys.core.ui.UIToolsFactoriesManager";
         },
         
         /**
