@@ -51,10 +51,10 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
     
     /**
      * Get profile's properties
-     * @param name The profile's id
+     * @param id The profile's id
      * @return The profile's information
-     * @throws InvalidModificationException
-     * @throws ServiceException
+     * @throws InvalidModificationException If modification are not possible
+     * @throws ServiceException If there is an issue with the service manager
      */
     @Callable
     public Map<String, Object> getProfile (String id) throws ServiceException, InvalidModificationException
@@ -83,8 +83,8 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
      * @param name The profile's name
      * @param context The profile's context
      * @return The profile's information
-     * @throws InvalidModificationException
-     * @throws ServiceException
+     * @throws InvalidModificationException If modification are not possible
+     * @throws ServiceException If there is an issue with the service manager
      */
     @Callable
     public Map<String, Object> addProfile (String name, String context) throws ServiceException, InvalidModificationException
@@ -128,8 +128,8 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
      * @param id The profile's id
      * @param name The profile's new name
      * @return The profile's information
-     * @throws InvalidModificationException
-     * @throws ServiceException
+     * @throws InvalidModificationException If modification are not possible
+     * @throws ServiceException If there is an issue with the service manager
      */
     @Callable
     public Map<String, Object> renameProfile (String id, String name) throws ServiceException, InvalidModificationException
@@ -183,8 +183,8 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
      * @param id The profile's id
      * @param rights The profile's rights
      * @return The profile's information
-     * @throws InvalidModificationException
-     * @throws ServiceException
+     * @throws InvalidModificationException If modification are not possible
+     * @throws ServiceException If there is an issue with the service manager
      */
     @Callable
     public Map<String, Object> editProfileRights (String id, List<String> rights) throws ServiceException, InvalidModificationException
@@ -246,8 +246,8 @@ public class ProfileDAO extends AbstractLogEnabled implements Serviceable, Compo
     /**
      * Deletes profiles
      * @param ids The ids of profiles to delete
-     * @throws ServiceException
-     * @throws InvalidModificationException
+     * @throws InvalidModificationException If modification are not possible
+     * @throws ServiceException If there is an issue with the service manager
      */
     @Callable
     public void deleteProfiles (List<String> ids) throws InvalidModificationException, ServiceException

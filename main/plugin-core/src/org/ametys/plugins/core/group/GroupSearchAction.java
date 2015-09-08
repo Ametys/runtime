@@ -43,6 +43,7 @@ public class GroupSearchAction extends ServiceableAction
 
     public Map act(Redirector redirector, SourceResolver resolver, Map objectModel, String source, Parameters parameters) throws Exception
     {
+        @SuppressWarnings("unchecked")
         Map<String, Object> jsParameters = (Map<String, Object>) objectModel.get(ObjectModelHelper.PARENT_CONTEXT);
         
         // Get the wanted UsersManager avalon role, defaults to runtime-declared UsersManager.
@@ -61,6 +62,7 @@ public class GroupSearchAction extends ServiceableAction
             
             if (jsParameters.get("id") != null)
             {
+                @SuppressWarnings("unchecked")
                 List<String> ids = (List<String>) jsParameters.get("id");
                 for (String id : ids)
                 {
@@ -101,6 +103,7 @@ public class GroupSearchAction extends ServiceableAction
     
     /**
      * Get the search parameters
+     * @param source The search pattern
      * @return the search parameters
      */
     protected Map<String, String> _getSearchParameters (String source)

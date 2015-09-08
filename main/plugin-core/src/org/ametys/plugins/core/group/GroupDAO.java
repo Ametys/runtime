@@ -53,8 +53,8 @@ public class GroupDAO extends AbstractLogEnabled implements Serviceable, Compone
      * Creates a new group
      * @param name The group's name
      * @return The group's information
-     * @throws InvalidModificationException
-     * @throws ServiceException
+     * @throws InvalidModificationException If modification are not possible
+     * @throws ServiceException If a service error occurred
      */
     @Callable
     public Map<String, Object> addGroup(String name) throws InvalidModificationException, ServiceException
@@ -67,8 +67,8 @@ public class GroupDAO extends AbstractLogEnabled implements Serviceable, Compone
      * @param name The group's name
      * @param groupManagerRole The groups manager's role. Can be null or empty to use the default one.
      * @return The group's information
-     * @throws InvalidModificationException
-     * @throws ServiceException
+     * @throws InvalidModificationException If modification are not possible
+     * @throws ServiceException If a service error occurred
      */
     @Callable
     public Map<String, Object> addGroup(String name, String groupManagerRole) throws InvalidModificationException, ServiceException
@@ -112,10 +112,9 @@ public class GroupDAO extends AbstractLogEnabled implements Serviceable, Compone
      * Set the users' group
      * @param groupId The group's id
      * @param users The group's users
-     * @param groupManagerRole groupManagerRole The groups manager's role. Can be null or empty to use the default one.
      * @return The group's information
-     * @throws InvalidModificationException
-     * @throws ServiceException
+     * @throws InvalidModificationException If modification are not possible
+     * @throws ServiceException If a service error occurred
      */
     @Callable
     public Map<String, Object> setUsersGroup (String groupId, List<String> users) throws InvalidModificationException, ServiceException
@@ -129,8 +128,8 @@ public class GroupDAO extends AbstractLogEnabled implements Serviceable, Compone
      * @param users The group's users
      * @param groupManagerRole groupManagerRole The groups manager's role. Can be null or empty to use the default one.
      * @return The group's information
-     * @throws InvalidModificationException
-     * @throws ServiceException
+     * @throws InvalidModificationException If modification are not possible
+     * @throws ServiceException If a service error occurred
      */
     @Callable
     public Map<String, Object> setUsersGroup (String groupId, List<String> users, String groupManagerRole) throws InvalidModificationException, ServiceException
@@ -191,8 +190,8 @@ public class GroupDAO extends AbstractLogEnabled implements Serviceable, Compone
      * @param groupId The group's id
      * @param users The users to add
      * @return The group's information
-     * @throws InvalidModificationException
-     * @throws ServiceException
+     * @throws InvalidModificationException If modification are not possible
+     * @throws ServiceException If a service error occurred
      */
     @Callable
     public Map<String, Object> addUsersGroup (String groupId, List<String> users) throws InvalidModificationException, ServiceException
@@ -206,8 +205,8 @@ public class GroupDAO extends AbstractLogEnabled implements Serviceable, Compone
      * @param users The users to add
      * @param groupManagerRole groupManagerRole groupManagerRole The groups manager's role. Can be null or empty to use the default one.
      * @return The group's information
-     * @throws InvalidModificationException
-     * @throws ServiceException
+     * @throws InvalidModificationException If modification are not possible
+     * @throws ServiceException If a service error occurred
      */
     @Callable
     public Map<String, Object> addUsersGroup (String groupId, List<String> users, String groupManagerRole) throws InvalidModificationException, ServiceException
@@ -220,8 +219,8 @@ public class GroupDAO extends AbstractLogEnabled implements Serviceable, Compone
      * @param groupId The group's id
      * @param users The users to add
      * @return The group's information
-     * @throws InvalidModificationException
-     * @throws ServiceException
+     * @throws InvalidModificationException If modification are not possible
+     * @throws ServiceException If a service error occurred
      */
     @Callable
     public Map<String, Object> removeUsersGroup (String groupId, List<String> users) throws InvalidModificationException, ServiceException
@@ -235,8 +234,8 @@ public class GroupDAO extends AbstractLogEnabled implements Serviceable, Compone
      * @param users The users to add
      * @param groupManagerRole groupManagerRole groupManagerRole The groups manager's role. Can be null or empty to use the default one.
      * @return The group's information
-     * @throws InvalidModificationException
-     * @throws ServiceException
+     * @throws InvalidModificationException If modification are not possible
+     * @throws ServiceException If a service error occurred
      */
     @Callable
     public Map<String, Object> removeUsersGroup (String groupId, List<String> users, String groupManagerRole) throws InvalidModificationException, ServiceException
@@ -303,10 +302,11 @@ public class GroupDAO extends AbstractLogEnabled implements Serviceable, Compone
     
     /**
      * Renames a group
+     * @param id The group's id
      * @param name The group's new name
      * @return The group's information
-     * @throws InvalidModificationException
-     * @throws ServiceException
+     * @throws InvalidModificationException If modification are not possible
+     * @throws ServiceException If a service error occurred
      */
     @Callable
     public Map<String, Object> renameGroup(String id, String name) throws InvalidModificationException, ServiceException
@@ -320,8 +320,8 @@ public class GroupDAO extends AbstractLogEnabled implements Serviceable, Compone
      * @param name The new name
      * @param groupManagerRole groupManagerRole The groups manager's role. Can be null or empty to use the default one.
      * @return The group's information
-     * @throws ServiceException
-     * @throws InvalidModificationException
+     * @throws InvalidModificationException If modification are not possible
+     * @throws ServiceException If a service error occurred
      */
     @Callable
     public Map<String, Object> renameGroup (String groupId, String name, String groupManagerRole) throws ServiceException, InvalidModificationException
@@ -377,8 +377,8 @@ public class GroupDAO extends AbstractLogEnabled implements Serviceable, Compone
      * Deletes groups
      * @param groupIds The ids of groups to delete
      * @param groupManagerRole The group manager's role. Can be null or empty to use the default one.
-     * @throws ServiceException
-     * @throws InvalidModificationException
+     * @throws InvalidModificationException If modification are not possible
+     * @throws ServiceException If a service error occurred
      */
     @Callable
     public void deleteGroups (List<String> groupIds, String groupManagerRole) throws InvalidModificationException, ServiceException
@@ -417,7 +417,7 @@ public class GroupDAO extends AbstractLogEnabled implements Serviceable, Compone
      * Get group's information
      * @param id the group id
      * @return group's information
-     * @throws ServiceException 
+     * @throws ServiceException If a service error occurred
      */
     @Callable
     public Map<String, Object> getGroup (String id) throws ServiceException
@@ -430,7 +430,7 @@ public class GroupDAO extends AbstractLogEnabled implements Serviceable, Compone
      * @param id the group id
      * @param groupManagerRole The group manager's role. Can be null or empty to use the default one.
      * @return group's information
-     * @throws ServiceException 
+     * @throws ServiceException If a service error occurred
      */
     @Callable
     public Map<String, Object> getGroup (String id, String groupManagerRole) throws ServiceException

@@ -605,7 +605,6 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
      * @param pattern The pattern to match.
      * @param possibleErrors This number will be added to count to set the max of the request, but count results will still be returned. The difference stands for errors.
      * @return the final offset
-     * @throws SAXException If an error occurs while saxing.
      */
     protected List<Map<String, Object>> _internalUsers2JSON (Map<String, Map<String, Object>> entries, int count, int offset, String pattern, int possibleErrors)
     {
@@ -652,7 +651,6 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
     /**
      * Get the sort control.
      * @return the sort controls. May be empty if a small error occurs
-     * @throws SAXException if a fatal error occurs
      */
     protected Control[] _getSortControls()
     {

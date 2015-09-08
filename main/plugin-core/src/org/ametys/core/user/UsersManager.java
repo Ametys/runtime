@@ -72,12 +72,10 @@ public interface UsersManager
     
     /**
      * Get the user list.
-     * @param handler The content handler to sax in.
      * @param count The maximum number of users to sax. (-1 to sax all)
      * @param offset The offset to start with, first is 0.
      * @param parameters Parameters for saxing user list differently, see implementation.
      * @return The users' information
-     * @throws SAXException If an error occurs while saxing.
      */
     public List<Map<String, Object>> users2JSON (int count, int offset, Map parameters);
 }

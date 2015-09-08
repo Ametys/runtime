@@ -67,7 +67,7 @@ public class UserDAO extends AbstractLogEnabled implements Serviceable, Componen
      * Get user's information
      * @param login The user's login
      * @return The user's information
-     * @throws ServiceException 
+     * @throws ServiceException If there is an issue with the service manager
      */
     @Callable
     public Map<String, Object> getUser (String login) throws ServiceException
@@ -80,7 +80,7 @@ public class UserDAO extends AbstractLogEnabled implements Serviceable, Componen
      * @param login The user's login
      * @param userManagerRole The users manager's role. Can be null or empty to use the default one.
      * @return The user's information
-     * @throws ServiceException 
+     * @throws ServiceException If there is an issue with the service manager
      */
     @Callable
     public Map<String, Object> getUser (String login, String userManagerRole) throws ServiceException
@@ -93,8 +93,8 @@ public class UserDAO extends AbstractLogEnabled implements Serviceable, Componen
      * Creates a User
      * @param untypedValues The untyped user's parameters
      * @return The created user as JSON object
-     * @throws ServiceException
-     * @throws InvalidModificationException 
+     * @throws ServiceException If there is an issue with the service manager
+     * @throws InvalidModificationException If modification is not possible 
      */
     @Callable
     public Map<String, Object> addUser (Map<String, String> untypedValues) throws ServiceException, InvalidModificationException
@@ -107,8 +107,8 @@ public class UserDAO extends AbstractLogEnabled implements Serviceable, Componen
      * @param untypedValues The untyped user's parameters
      * @param userManagerRole The users manager's role. Can be null or empty to use the default one.
      * @return The created user as JSON object
-     * @throws ServiceException
-     * @throws InvalidModificationException 
+     * @throws ServiceException If there is an issue with the service manager
+     * @throws InvalidModificationException If modification is not possible 
      */
     @Callable
     public Map<String, Object> addUser (Map<String, String> untypedValues, String userManagerRole) throws ServiceException, InvalidModificationException
@@ -162,8 +162,8 @@ public class UserDAO extends AbstractLogEnabled implements Serviceable, Componen
      * Edits a User
      * @param untypedValues The untyped user's parameters
      * @return The update user as JSON object
-     * @throws ServiceException
-     * @throws InvalidModificationException 
+     * @throws ServiceException If there is an issue with the service manager
+     * @throws InvalidModificationException If modification is not possible 
      */
     @Callable
     public Map<String, Object> editUser (Map<String, String> untypedValues) throws ServiceException, InvalidModificationException
@@ -176,8 +176,8 @@ public class UserDAO extends AbstractLogEnabled implements Serviceable, Componen
      * @param untypedValues The untyped user's parameters
      * @param userManagerRole The users manager's role. Can be null or empty to use the default one.
      * @return The update user as JSON object
-     * @throws ServiceException
-     * @throws InvalidModificationException 
+     * @throws ServiceException If there is an issue with the service manager
+     * @throws InvalidModificationException If modification is not possible 
      */
     @Callable
     public Map<String, Object> editUser (Map<String, String> untypedValues, String userManagerRole) throws ServiceException, InvalidModificationException
@@ -230,8 +230,8 @@ public class UserDAO extends AbstractLogEnabled implements Serviceable, Componen
     /**
      * Deletes users
      * @param logins The logins of users to delete
-     * @throws ServiceException
-     * @throws InvalidModificationException
+     * @throws ServiceException If there is an issue with the service manager
+     * @throws InvalidModificationException If modification is not possible 
      */
     @Callable
     public void deleteUsers (List<String> logins) throws ServiceException, InvalidModificationException
@@ -243,8 +243,8 @@ public class UserDAO extends AbstractLogEnabled implements Serviceable, Componen
      * Deletes users
      * @param logins The logins of users to delete
      * @param userManagerRole The users manager's role. Can be null or empty to use the default one.
-     * @throws ServiceException
-     * @throws InvalidModificationException
+     * @throws ServiceException If there is an issue with the service manager
+     * @throws InvalidModificationException If modification is not possible 
      */
     @Callable
     public void deleteUsers (List<String> logins, String userManagerRole) throws ServiceException, InvalidModificationException
@@ -276,9 +276,10 @@ public class UserDAO extends AbstractLogEnabled implements Serviceable, Componen
     
     /**
      * Get the users edition model 
-     * @throws ServiceException
-     * @throws InvalidModificationException
-     * @throws ProcessingException 
+     * @return The edition model as an object
+     * @throws ServiceException If there is an issue with the service manager
+     * @throws InvalidModificationException If modification is not possible 
+     * @throws ProcessingException If there is another exception
      */
     @Callable
     public Map<String, Object> getEditionModel () throws ServiceException, InvalidModificationException, ProcessingException
@@ -289,9 +290,10 @@ public class UserDAO extends AbstractLogEnabled implements Serviceable, Componen
     /**
      * Get the users edition model 
      * @param userManagerRole The users manager's role. Can be null or empty to use the default one.
-     * @throws ServiceException
-     * @throws InvalidModificationException
-     * @throws ProcessingException 
+     * @return The edition model as an object
+     * @throws ServiceException If there is an issue with the service manager
+     * @throws InvalidModificationException If modification is not possible 
+     * @throws ProcessingException If there is another exception
      */
     @Callable
     public Map<String, Object> getEditionModel (String userManagerRole) throws ServiceException, InvalidModificationException, ProcessingException

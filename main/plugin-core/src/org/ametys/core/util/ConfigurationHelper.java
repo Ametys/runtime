@@ -54,7 +54,7 @@ public final class ConfigurationHelper
      * Parse an optional i18n text configuration, with a default value.
      * @param config the configuration to use.
      * @param defaultCatalogue the i18n catalogue to use when not specified. 
-     * @param defaultValue the default value.
+     * @param defaultValue the default value key in configuration.
      * @return the i18n text.
      */
     public static I18nizableText parseI18nizableText(Configuration config, String defaultCatalogue, String defaultValue)
@@ -67,7 +67,8 @@ public final class ConfigurationHelper
      * Parse a i18n text configuration.
      * @param config the configuration to use.
      * @param catalogueLocation The i18n catalogue location URI
-     * @param catalogueName The i18n catalogue bundle name
+     * @param catalogueFilename The i18n catalogue bundle name
+     * @param defaultValue The default value key in configuration
      * @return the i18n text.
      * @throws ConfigurationException if the configuration is not valid.
      */
@@ -82,7 +83,7 @@ public final class ConfigurationHelper
      * @param config The configuration to parse.
      * @param defaultCatalogue The i18n catalogue to use when not specified.  
      * @param value The i18n text, can be a key or a "direct" string.
-     * @return
+     * @return The i18nizable text
      */
     private static I18nizableText _getI18nizableTextValue(Configuration config, String defaultCatalogue, String value)
     {
@@ -104,7 +105,7 @@ public final class ConfigurationHelper
      * @param catalogueLocation The i18n catalogue location URI
      * @param catalogueName The i18n catalogue bundle name
      * @param value The i18n text, can be a key or a "direct" string.
-     * @return
+     * @return The i18nizable text
      */
     private static I18nizableText _getI18nizableTextValue(Configuration config, String catalogueLocation, String catalogueFilename, String value)
     {
@@ -205,6 +206,7 @@ public final class ConfigurationHelper
     /**
      * Get a configuration parameter value.
      * @param configuration The {@link Configuration} to parse.
+     * @param value The key to get in configuration
      * @return the configuration parameter value.
      * @throws ConfigurationException if an error occurs.
      */

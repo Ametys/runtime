@@ -417,6 +417,13 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
         return internalUsers2JSON(pattern, count >= 0 ? count : Integer.MAX_VALUE, offset >= 0 ? offset : 0);
     }
     
+    /**
+     * Get all users as an object
+     * @param pattern The search pattern
+     * @param length The max results
+     * @param offset The offset in results
+     * @return The list of corresponding users objects
+     */
     protected List<Map<String, Object>> internalUsers2JSON (String pattern, int length, int offset)
     {
         List<Map<String, Object>> users = new ArrayList<>();
@@ -786,16 +793,14 @@ public class JdbcUsersManager extends CachingComponent<User> implements UsersMan
     }
     
     /**
-     * Sax a result set from a database.
-     * 
-     * @param handler The content handler to sax in.
+     * Get the result set from a database.
      * @param rs The result set to sax.
-     * @throws SAXException If an error occurs while saxing.
+     * @return The map of values 
      * @throws SQLException If an error occurs while getting result information.
      */
     protected Map<String, Object> resultSetToJson(ResultSet rs) throws SQLException
     {
-        Map<String, Object> user = new HashMap<String, Object>();
+        Map<String, Object> user = new HashMap<>();
         
         for (String id : _parameters.keySet())
         {
