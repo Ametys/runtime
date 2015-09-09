@@ -133,6 +133,15 @@
             }   
             
             this.callParent(arguments);
+            
+            if (doc)
+            {
+                extdoc._getPublisher('mousemove').directEvents.mousemove = 0;
+                extdoc._getPublisher('mousedown').directEvents.mousedown = 0;
+                extdoc._getPublisher('mouseup').directEvents.mouseup = 0;
+                extdoc._getPublisher('click').directEvents.click = 0;
+                extdoc._getPublisher('dblclick').directEvents.dblclick = 0;
+            }
         }
     });
 })();
