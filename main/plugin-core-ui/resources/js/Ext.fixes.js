@@ -119,9 +119,7 @@
         // Fix for CLS-6366 https://www.sencha.com/forum/showthread.php?304867-D-n-D-over-an-IFrame-issue
         onLoad: function()
         {
-            var me = this,
-                doc = me.getDoc(),
-                fn = me.onRelayedEvent;
+            var doc = me.getDoc();
 
             if (doc) 
             {
