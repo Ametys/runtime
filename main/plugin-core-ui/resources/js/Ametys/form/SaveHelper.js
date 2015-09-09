@@ -51,6 +51,22 @@ Ext.define('Ametys.form.SaveHelper', {
     },
     
     /**
+     * Dialog asking to save current modifications. The user can either:
+     * - 'Save' in which case the modifications will be saved and the tool closed
+     * - 'Not save' in which case the modifications won't be saved and the tool closed  
+     * - 'Cancel' in which case the modifications won't be saved and the tool will remain open
+     * @param {String} title the title of the dialog box. Set to null in order to use a generic title
+     * @param {String} message the explanatory text of the dialog box. Set to null in order to use a generic description
+     * @param {String} icon the path of the icon to display within the dialog box. Set to null in order to use a generic icon
+     * @param {Function} callback the function invoked after the user selected one of the three above choices.
+     * @param {Boolean} callback.save true means the user want to save. false the user does not want to save. null the user does not want to save nor quit.
+     */
+    promptBeforeQuit: function(title, message, icon, callback)
+    {	
+    	Ametys.form.SaveHelper.SaveBeforeQuitDialog.showDialog(title, message, icon, callback);
+    },
+    
+    /**
      * Determine if a form is ready to be saved. This function is asynchronous since some user interaction maybe required.
      * @param {Ametys.form.ConfigurableFormPanel} form the configurable form panel
      * @param {Function} callback function invoked after the saving process was authorized or not
