@@ -696,7 +696,8 @@ Ext.define('Ametys.form.field.RichText', {
 		this._setBrowserCSSClassName(iframe.dom.contentWindow.document.body);
 		
 		// Re-layout purposes
-		Ext.get(editor.contentAreaContainer).first().on('load', this._onEditorLoaded, this);
+        this._onEditorLoaded();
+		iframe.on('load', this._onEditorLoaded, this);
     },
     
     /**
@@ -733,17 +734,17 @@ Ext.define('Ametys.form.field.RichText', {
      */
     _onRelayedEvent: function (event) {
         // relay event from the iframe's document to the document that owns the iframe...
-
-    	var iframeEl = Ext.get(this.getEditor().contentAreaContainer).first();
+        var editor = this.getEditor();
+        var iframeEl = Ext.get(editor.contentAreaContainer).first();
 
             // Get the left-based iframe position
-            iframeXY = Ext.Element.getTrueXY(iframeEl),
+            iframeXY = iframeEl.getTrueXY(),
             originalEventXY = event.getXY(),
 
             // Get the left-based XY position.
-            // This is because the consumer of the injected event (Ext.EventManager) will
+            // This is because the consumer of the injected event will
             // perform its own RTL normalization.
-            eventXY = Ext.EventManager.getPageXY(event.browserEvent);
+            eventXY = event.getTrueXY();
 
         // the event from the inner document has XY relative to that document's origin,
         // so adjust it to use the origin of the iframe in the outer document:
@@ -752,6 +753,31 @@ Ext.define('Ametys.form.field.RichText', {
         event.injectEvent(iframeEl); // blame the iframe for the event...
 
         event.xy = originalEventXY; // restore the original XY (just for safety)
+    },
+    
+    /**
+     * @private
+     * Clean up iframe listeners
+     * @param {Boolean} destroying During a destruction
+     */
+    _cleanupListeners: function(destroying)
+    {
+        if (this.rendered) {
+            try {
+                var iframe = Ext.get(editor.contentAreaContainer).first();
+                var doc = iframe.dom.contentWindow.document;
+                if (doc) {
+                    Ext.get(doc).un(this._docListeners);
+                    if (destroying) {
+                        for (var prop in doc) {
+                            if (doc.hasOwnProperty && doc.hasOwnProperty(prop)) {
+                                delete doc[prop];
+                            }
+                        }
+                    }
+                }
+            } catch(e) { }
+        }
     },
     
     /**
@@ -767,22 +793,40 @@ Ext.define('Ametys.form.field.RichText', {
         try {
         	var doc = iframe.dom.contentWindow.document;
 
-        	Ext.get(doc).clearListeners();
+            var me = this,
+                fn = me._onRelayedEvent;
 
-            // These events need to be relayed from the inner document (where they stop
-            // bubbling) up to the outer document. This has to be done at the DOM level so
-            // the event reaches listeners on elements like the document body. The effected
-            // mechanisms that depend on this bubbling behavior are listed to the right
-            // of the event.
-            Ext.get(doc).on({
-            	mousedown: this._onRelayedEvent, // menu dismisal (MenuManager) and Window onMouseDown (toFront)
-                mousemove: this._onRelayedEvent, // window resize drag detection
-                mouseup: this._onRelayedEvent,   // window resize termination
-                click: this._onRelayedEvent,     // not sure, but just to be safe
-                dblclick: this._onRelayedEvent,  // not sure again
+            if (doc) 
+            {
+                var extdoc = Ext.get(doc); 
                 
-                scope: this
-            });
+                extdoc._getPublisher('mousemove').directEvents.mousemove = 1;
+                extdoc._getPublisher('mousedown').directEvents.mousedown = 1;
+                extdoc._getPublisher('mouseup').directEvents.mouseup = 1;
+                extdoc._getPublisher('click').directEvents.click = 1;
+                extdoc._getPublisher('dblclick').directEvents.dblclick = 1;
+            
+                extdoc.on(
+                    me._docListeners = {
+                        mousedown: fn, // menu dismisal (MenuManager) and Window onMouseDown (toFront)
+                        mousemove: fn, // window resize drag detection
+                        mouseup: fn,   // window resize termination
+                        click: fn,     // not sure, but just to be safe
+                        dblclick: fn,  // not sure again
+                        scope: me
+                    }
+                );
+                
+                extdoc._getPublisher('mousemove').directEvents.mousemove = 0;
+                extdoc._getPublisher('mousedown').directEvents.mousedown = 0;
+                extdoc._getPublisher('mouseup').directEvents.mouseup = 0;
+                extdoc._getPublisher('click').directEvents.click = 0;
+                extdoc._getPublisher('dblclick').directEvents.dblclick = 0;
+            
+                
+                // We need to be sure we remove all our events from the iframe on unload or we're going to LEAK!
+                Ext.get(iframe.dom.contentWindow).on('beforeunload', me._cleanupListeners, me);
+            }
         } catch(e) {
             // cannot do this xss
         	console.info(e)
