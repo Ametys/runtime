@@ -116,7 +116,6 @@ Ext.define("Ametys.message.Message",
 			 * @readonly
 			 * @property {String} MODIFYING Event when an object is beeing modified and has on-going changes. 
 			 * The target and subtarget is the element being modified and can be of any type.
-			 * This event has one mandatory parameter:
 			 */
 			MODIFYING: "modifying",	
 			
