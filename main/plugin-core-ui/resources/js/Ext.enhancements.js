@@ -1894,7 +1894,7 @@
             }
             else
             {
-                s += Ext.JSON.encodeValue(value);
+                s += Ext.String.htmlEncode(Ext.JSON.encodeValue(value));
             }
             
             return s;
