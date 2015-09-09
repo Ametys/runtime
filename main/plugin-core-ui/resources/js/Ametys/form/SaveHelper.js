@@ -51,15 +51,12 @@ Ext.define('Ametys.form.SaveHelper', {
     },
     
     /**
-     * Dialog asking to save current modifications. The user can either:
-     * - 'Save' in which case the modifications will be saved and the tool closed
-     * - 'Not save' in which case the modifications won't be saved and the tool closed  
-     * - 'Cancel' in which case the modifications won't be saved and the tool will remain open
+     * Dialog asking to save current modifications.
      * @param {String} title the title of the dialog box. Set to null in order to use a generic title
      * @param {String} message the explanatory text of the dialog box. Set to null in order to use a generic description
      * @param {String} icon the path of the icon to display within the dialog box. Set to null in order to use a generic icon
      * @param {Function} callback the function invoked after the user selected one of the three above choices.
-     * @param {Boolean} callback.save true means the user want to save. false the user does not want to save. null the user does not want to save nor quit.
+     * @param {Boolean} callback.save true means the user want to save. false means the user does not want to save. null means the user does not want to save nor quit.
      */
     promptBeforeQuit: function(title, message, icon, callback)
     {	
