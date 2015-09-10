@@ -173,6 +173,7 @@
         <script>/plugins/core-ui/resources/js/Ametys/form/ConfigurableFormPanel/ParameterCheckersDAO.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/form/SaveHelper.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/form/SaveHelper/SaveErrorDialog.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/form/SaveHelper/SaveBeforeQuitDialog.js</script>
         
         <script>/plugins/core-ui/resources/js/Ametys/data/ServerCaller.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/data/ServerComm.js</script>
