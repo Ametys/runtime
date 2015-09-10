@@ -142,8 +142,7 @@ Ext.define(
         contextualTabGroupContainerCls: 'a-fluent-header-tabgroups',
 
         /**
-         * @private
-         * @cfg {String} ui Not overridable
+         * @cfg {String} ui=ribbon @inheritdoc
          */
         ui: 'ribbon',
 		

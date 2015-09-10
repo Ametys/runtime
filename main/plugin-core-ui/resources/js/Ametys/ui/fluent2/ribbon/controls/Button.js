@@ -25,28 +25,15 @@ Ext.define(
         mixins: { button: 'Ametys.ui.fluent.ribbon.controls.RibbonButtonMixin' },
     
         /**
-         * @readonly
-         * @private
-         * @property {String} buttonCls The CSS classname to set on buttons
+         * @cfg {String} ui=ribbon-button @inheritdoc
          */
-        buttonCls: 'a-fluent-control-button',
+        ui: 'ribbon-button',
         
-        /**
-         * @readonly
-         * @private
-         * @property {String} toggleCls The CSS classname for buttons with #enableToggle
-         */
-        toggleCls: 'a-fluent-control-toggle',
-
         constructor: function(config)
         {
             config = config || {};
             
             this.mixins.button.constructor.call(this, config);
-            
-            config.cls = Ext.Array.from(config.cls);
-            config.cls.push(this.buttonCls);
-
             
             this.callParent(arguments);
         },

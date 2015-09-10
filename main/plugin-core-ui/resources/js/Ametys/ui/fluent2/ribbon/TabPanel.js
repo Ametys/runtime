@@ -27,8 +27,7 @@ Ext.define(
         alias: 'widget.ametys.ribbon-tabpanel',
 
         /**
-         * @private
-         * @cfg {String} ui Not overridable
+         * @cfg {String} ui=ribbon-tabpanel @inheritdoc
          */
         ui: 'ribbon-tabpanel',
         
