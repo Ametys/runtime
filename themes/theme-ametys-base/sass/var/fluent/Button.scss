@@ -1,0 +1,35 @@
+/*
+ *  Copyright 2015 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+$ametys-ribbon-button-color: $ametys-ribbon-main-color;
+$ametys-ribbon-button-color-over: darken($ametys-ribbon-header-button-color, 60%);
+$ametys-ribbon-button-color-pressed: darken($ametys-ribbon-header-button-color, 80%);
+$ametys-ribbon-button-color-focus: mix($ametys-ribbon-header-button-color, $ametys-ribbon-header-button-color, 90%);
+$ametys-ribbon-button-outline-color: $ametys-ribbon-highlight-color;
+$ametys-ribbon-button-font-size: $ametys-ribbon-font-size;
+$ametys-ribbon-button-font-weight: normal;
+$ametys-ribbon-button-background-color: transparent;
+$ametys-ribbon-button-background-color-over: $ametys-ribbon-header-button-outline-color;
+$ametys-ribbon-button-background-color-pressed: darken($ametys-ribbon-header-button-outline-color, 25%);
+$ametys-ribbon-button-background-color-focus: transparent; 
+
+$ametys-ribbon-button-padding-small: 3px;
+$ametys-ribbon-button-iconspacing-small: 3px;
+$ametys-ribbon-button-textpadding-small: 3px;
+
+$ametys-ribbon-button-padding-large: 3px 3px 0 3px;
+$ametys-ribbon-button-iconspacing-large: 2px;
+$ametys-ribbon-button-textpadding-large: 0px;

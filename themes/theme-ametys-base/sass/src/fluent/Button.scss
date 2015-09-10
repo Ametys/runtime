@@ -1,0 +1,103 @@
+/*
+ *  Copyright 2015 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+@include extjs-button-small-ui(
+    $ui: 'ribbon-button',
+
+    $border-width: 0,
+    
+    $padding: $ametys-ribbon-button-padding-small,
+    $icon-spacing: $ametys-ribbon-button-iconspacing-small,
+    $text-padding: $ametys-ribbon-button-textpadding-small,
+    
+    $body-outline-color-focus: $ametys-ribbon-button-outline-color,
+    $inner-border-color-focus: $ametys-ribbon-button-outline-color,
+    
+    $font-size: $ametys-ribbon-button-font-size,
+    $font-size-over: $ametys-ribbon-button-font-size,
+    $font-size-focus: $ametys-ribbon-button-font-size,
+    $font-size-pressed: $ametys-ribbon-button-font-size,
+    
+    $line-height: $ametys-ribbon-button-font-size*4/3,
+    
+    $font-weight: $ametys-ribbon-button-font-weight,
+    $font-weight-over: $ametys-ribbon-button-font-weight,
+    $font-weight-focus: $ametys-ribbon-button-font-weight,
+    $font-weight-pressed: $ametys-ribbon-button-font-weight,
+    $font-weight-focus-over: $ametys-ribbon-button-font-weight,
+    $font-weight-focus-pressed: $ametys-ribbon-button-font-weight,
+    $font-weight-disabled: $ametys-ribbon-button-font-weight,
+            
+    $color: $ametys-ribbon-button-color,
+    $background-color: $ametys-ribbon-button-background-color,
+    
+    $color-over: $ametys-ribbon-button-color-over,
+    $background-color-over: $ametys-ribbon-button-background-color-over,
+    
+    $color-pressed: $ametys-ribbon-button-color-pressed,
+    $background-color-pressed: $ametys-ribbon-button-background-color-pressed,
+    
+    $color-focus: $ametys-ribbon-button-color-focus,
+    $background-color-focus: $ametys-ribbon-button-background-color-focus    
+);  
+.#{$prefix}btn-inner-ribbon-button-small {
+    margin-top: 1px;
+}
+.#{$prefix}btn-icon-el-ribbon-button-small {
+    margin-bottom: 1px;
+}
+  
+ 
+@include extjs-button-large-ui(
+    $ui: 'ribbon-button',
+    
+    $border-width: 0,
+    
+    $padding: $ametys-ribbon-button-padding-large,
+    $icon-spacing: $ametys-ribbon-button-iconspacing-large,
+    $text-padding: $ametys-ribbon-button-textpadding-large,
+    
+    $body-outline-color-focus: $ametys-ribbon-button-outline-color,
+    $inner-border-color-focus: $ametys-ribbon-button-outline-color,
+    
+    $font-size: $ametys-ribbon-button-font-size,
+    $font-size-over: $ametys-ribbon-button-font-size,
+    $font-size-focus: $ametys-ribbon-button-font-size,
+    $font-size-pressed: $ametys-ribbon-button-font-size,
+    
+    $line-height: $ametys-ribbon-button-font-size*4/3,
+    
+    $font-weight: $ametys-ribbon-button-font-weight,
+    $font-weight-over: $ametys-ribbon-button-font-weight,
+    $font-weight-focus: $ametys-ribbon-button-font-weight,
+    $font-weight-pressed: $ametys-ribbon-button-font-weight,
+    $font-weight-focus-over: $ametys-ribbon-button-font-weight,
+    $font-weight-focus-pressed: $ametys-ribbon-button-font-weight,
+    $font-weight-disabled: $ametys-ribbon-button-font-weight,
+            
+    $color: $ametys-ribbon-button-color,
+    $background-color: $ametys-ribbon-button-background-color,
+    
+    $color-over: $ametys-ribbon-button-color-over,
+    $background-color-over: $ametys-ribbon-button-background-color-over,
+    
+    $color-pressed: $ametys-ribbon-button-color-pressed,
+    $background-color-pressed: $ametys-ribbon-button-background-color-pressed,
+    
+    $color-focus: $ametys-ribbon-button-color-focus,
+    $background-color-focus: $ametys-ribbon-button-background-color-focus        
+);    
+ 

@@ -32,7 +32,7 @@
     
     $ui-tab-border-radius: 0,
     $ui-tab-border-width: 1px,
-    $ui-tab-padding: 4px 12px 3px 12px,
+    $ui-tab-padding: 3px 12px 3px 12px,
     
     $ui-tab-color: $ametys-ribbon-tabpanel-color,
     $ui-tab-border-color: transparent,
@@ -48,8 +48,7 @@
     
     $ui-strip-height: 1px,
     $ui-strip-border-width: 1px 0 0 0,
-    $ui-strip-border-color: $ametys-ribbon-tabpanel-active-border-color,
-    $ui-strip-background-color: #FF0000
+    $ui-strip-border-color: $ametys-ribbon-tabpanel-active-border-color
 );
 @include extjs-panel-ui(
     $ui: 'ribbon-tabpanel', 
@@ -82,7 +81,7 @@
     $font-size-focus: $ametys-ribbon-tabpanel-mainbutton-font-size,
     $font-size-pressed: $ametys-ribbon-tabpanel-mainbutton-font-size,
     
-    $line-height: $ametys-ribbon-tabpanel-mainbutton-font-size*1.1,
+    $line-height: $ametys-ribbon-tabpanel-mainbutton-font-size*4/3,
     
     $font-weight: $ametys-ribbon-tabpanel-mainbutton-font-weight,
     $font-weight-over: $ametys-ribbon-tabpanel-mainbutton-font-weight,
@@ -92,7 +91,7 @@
     $font-weight-focus-pressed: $ametys-ribbon-tabpanel-mainbutton-font-weight,
     $font-weight-disabled: $ametys-ribbon-tabpanel-mainbutton-font-weight,    
     
-    $padding: $ametys-ribbon-tabpanel-mainbutton-font-size*5/12 $ametys-ribbon-tabpanel-mainbutton-font-size*8/12 $ametys-ribbon-tabpanel-mainbutton-font-size*4/12 $ametys-ribbon-tabpanel-mainbutton-font-size*7/12,
+    $padding: $ametys-ribbon-tabpanel-mainbutton-font-size*5/12 $ametys-ribbon-tabpanel-mainbutton-font-size*8/12 $ametys-ribbon-tabpanel-mainbutton-font-size*3/12 $ametys-ribbon-tabpanel-mainbutton-font-size*7/12,
 
             
     $color: $ametys-ribbon-tabpanel-mainbutton-color,
