@@ -49,7 +49,7 @@ var tabHome = {
 									scale: 'small',
 					                
 									icon: 'resources/img/editpaste_16.gif',
-					                text: 'Saut de page',
+					                text: 'Raut de page',
 					                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true}
 								}
 							]
