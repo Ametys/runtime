@@ -45,17 +45,6 @@ Ext.define(
             this.on("mousemove", this._onMouseMove, this, { element: 'el' });
         },
         
-        initComponent: function()
-        {
-            // Avoid the error message about WAI that seems to be wrong
-            // will be fixed in 6.0.1 https://www.sencha.com/forum/showthread.php?303438-Error-menu-button-behavior-will-conflict-with-toggling
-            // so when in 6.0.1 this method can be removed: test it by creating a split button and check that there is no WAI error message in logs 
-            var currentVal = Ext.enableAriaButtons; 
-            Ext.enableAriaButtons = false;  
-            this.callParent(arguments);
-            Ext.enableAriaButtons = currentVal;  
-        },
-        
         afterRender: function()
         {
             this.callParent(arguments);
