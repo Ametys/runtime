@@ -118,6 +118,7 @@ Ext.define('Ametys.form.widget.AbstractQueryableComboBox', {
             minChars: minChars,
             delimiter: ',',
             
+            autoLoadOnValue: true,
             encodeSubmitValue: true,
             editable: true,
             autoSelect: false,
