@@ -15,7 +15,7 @@
  */
 
 /**
- * This tool does display the message running on the message bus.
+ * This tool does display the messages sent to the server.
  * @private
  */
 Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
@@ -24,7 +24,7 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
 		
 		statics: {
 			/**
-			 * This action find the unique instance of the message tracker tool, and removes all the entries
+			 * This action find the unique instance of the request tracker tool, and removes all the entries
 			 */
 			removeAll: function()
 			{
