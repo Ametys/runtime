@@ -202,7 +202,7 @@ Ext.define("Ametys.relation.RelationHandler",
          */
         getServerRole: function()
         {
-            return "org.ametys.runtime.ui.RelationsManager";
+            return "org.ametys.core.ui.RelationsManager";
         },
         
         /**
