@@ -1,24 +1,7 @@
-/*
- *  Copyright 2012 Anyware Services
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
-
 package org.ametys.core.util.dom;
 
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Element;
@@ -28,47 +11,59 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.TypeInfo;
 
 /**
- * DOM layer on top if an object hierarchy.
- * @param <T> the actual type of the wrapped object.
+ * Basic implementation of {@link Element}.
  */
-public abstract class AbstractAmetysElement<T> extends AbstractAmetysNode implements Element
+public abstract class AbstractAmetysElement extends AbstractAmetysNode implements Element
 {
-    /** The wrapper object. */
-    protected T _object;
     /** The parent Element or null if none. */
-    protected AbstractAmetysElement _parent;
+    protected Element _parent;
     
     private Map<String, AmetysAttribute> _attsMap;
+    private String _tagName;
     
     /**
      * Constructor.
-     * @param object the underlying object.
      */
-    public AbstractAmetysElement(T object)
+    public AbstractAmetysElement()
     {
-        this(object, null);
+        // empty contructor
     }
-
+    
     /**
      * Constructor.
-     * @param object the underlying object.
-     * @param parent the parent {@link Element}.
+     * @param tagName the tag name.
      */
-    public AbstractAmetysElement(T object, AbstractAmetysElement parent)
+    public AbstractAmetysElement(String tagName)
     {
-        _object = object;
+        _tagName = tagName;
+    }
+    
+    /**
+     * Constructor.
+     * @param parent the parent {@link Element}, if any.
+     */
+    public AbstractAmetysElement(Element parent)
+    {
         _parent = parent;
     }
     
     /**
-     * Returns the wrapped object.
-     * @return the wrapped object.
+     * Constructor.
+     * @param tagName the tag name.
+     * @param parent the parent {@link Element}, if any.
      */
-    public T getWrappedObject()
+    public AbstractAmetysElement(String tagName, Element parent)
     {
-        return _object;
+        _tagName = tagName;
+        _parent = parent;
     }
     
+    @Override
+    public String getTagName()
+    {
+        return _tagName;
+    }
+
     @Override
     public String getNodeName()
     {
@@ -114,7 +109,7 @@ public abstract class AbstractAmetysElement<T> extends AbstractAmetysNode implem
         
         Attr attr = _attsMap.get(name);
         
-        if (attr == null || StringUtils.isEmpty(attr.getValue()))
+        if (attr == null || attr.getValue() == null || attr.getValue().isEmpty())
         {
             return "";
         }

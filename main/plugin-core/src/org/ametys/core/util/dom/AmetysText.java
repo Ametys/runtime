@@ -27,14 +27,14 @@ import org.w3c.dom.Text;
 public class AmetysText extends AbstractAmetysNode implements Text
 {
     private String _data;
-    private AbstractAmetysElement _parent;
+    private Element _parent;
     
     /**
      * Constructor
      * @param data The data value
      * @param parent the parent {@link Element}.
      */
-    public AmetysText (String data, AbstractAmetysElement parent)
+    public AmetysText (String data, Element parent)
     {
         super();
         _data = data;

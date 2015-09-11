@@ -32,6 +32,8 @@ import org.w3c.dom.UserDataHandler;
  */
 public abstract class AbstractAmetysNode implements Node
 {
+    private NodeList _childNodes;
+    
     @Override
     public String getNodeValue() throws DOMException
     {
@@ -52,6 +54,21 @@ public abstract class AbstractAmetysNode implements Node
     
     @Override
     public NodeList getChildNodes()
+    {
+        if (_childNodes == null)
+        {
+            _childNodes = _getChildNodes();
+        }
+        
+        return _childNodes;
+    }
+    
+    /**
+     * Actual processing of child nodes.
+     * Sublclasses should override this method and not getChildNodes().
+     * @return a NodeList containing all children.
+     */
+    protected NodeList _getChildNodes()
     {
         return new AmetysNodeList(Collections.<Node>emptyList());
     }
@@ -95,8 +112,42 @@ public abstract class AbstractAmetysNode implements Node
     @Override
     public Node getFirstChild()
     {
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "getFirstChild");
+        return null;
     }
+    
+    @Override
+    public Node getNextSibling()
+    {
+        Node parent = getParentNode();
+        if (parent == null)
+        {
+            return null;
+        }
+        
+        NodeList siblings = parent.getChildNodes();
+        
+        boolean isNext = false;
+        Node nextSibling = null;
+        int i = 0;
+        
+        while (nextSibling == null && i < siblings.getLength())
+        {
+            Node child = siblings.item(i++);
+            
+            if (isNext)
+            {
+                nextSibling = child;
+            }
+            else if (child == this)
+            {
+                isNext = true;
+            }
+        }
+        
+        return nextSibling == null ? null : nextSibling;
+    }
+    
+    // Unsupported methods
 
     @Override
     public Node getLastChild()
@@ -108,12 +159,6 @@ public abstract class AbstractAmetysNode implements Node
     public Node getPreviousSibling()
     {
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "getPreviousSibling");
-    }
-
-    @Override
-    public Node getNextSibling()
-    {
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "getNextSibling");
     }
 
     @Override

@@ -19,14 +19,15 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
  * DOM Layer over a tag name, attributes and String value.
  */
-public class StringElement extends AbstractAmetysElement<String>
+public class StringElement extends AbstractAmetysElement
 {
-    private String _tagName;
+    private String _data;
     private Map<String, String> _attributes;
     
     /**
@@ -36,7 +37,7 @@ public class StringElement extends AbstractAmetysElement<String>
      */
     public StringElement(String tagName, String data)
     {
-        this(tagName, (Map<String, String>) null, data);
+        this(tagName, (Map<String, String>) null, data, null);
     }
 
     /**
@@ -47,7 +48,7 @@ public class StringElement extends AbstractAmetysElement<String>
      */
     public StringElement(String tagName, String attributeName, String attributeValue)
     {
-        this(tagName, Collections.singletonMap(attributeName, attributeValue), null);
+        this(tagName, Collections.singletonMap(attributeName, attributeValue), null, null);
     }
 
     /**
@@ -59,7 +60,7 @@ public class StringElement extends AbstractAmetysElement<String>
      */
     public StringElement(String tagName, String attributeName, String attributeValue, String data)
     {
-        this(tagName, Collections.singletonMap(attributeName, attributeValue), data);
+        this(tagName, Collections.singletonMap(attributeName, attributeValue), data, null);
     }
 
     /**
@@ -69,7 +70,7 @@ public class StringElement extends AbstractAmetysElement<String>
      */
     public StringElement(String tagName, Map<String, String> attributes)
     {
-        this(tagName, attributes, null);
+        this(tagName, attributes, null, null);
     }
 
     /**
@@ -80,15 +81,69 @@ public class StringElement extends AbstractAmetysElement<String>
      */
     public StringElement(String tagName, Map<String, String> attributes, String data)
     {
-        super(data);
-        _tagName = tagName;
-        _attributes = attributes;
+        this(tagName, attributes, data, null);
     }
 
-    @Override
-    public String getTagName()
+    
+    /**
+     * Create a string element
+     * @param tagName The tag name
+     * @param data The data value.
+     * @param parent the parent {@link Element}.
+     */
+    public StringElement(String tagName, String data, Element parent)
     {
-        return _tagName;
+        this(tagName, (Map<String, String>) null, data, parent);
+    }
+
+    /**
+     * Create a string element
+     * @param tagName The tag name
+     * @param attributeName The attribute name.
+     * @param attributeValue The attribute value.
+     * @param parent the parent {@link Element}.
+     */
+    public StringElement(String tagName, String attributeName, String attributeValue, Element parent)
+    {
+        this(tagName, Collections.singletonMap(attributeName, attributeValue), null, parent);
+    }
+
+    /**
+     * Create a string element
+     * @param tagName The tag name
+     * @param attributeName The attribute with the value.
+     * @param attributeValue The attribute value.
+     * @param data The data value.
+     * @param parent the parent {@link Element}.
+     */
+    public StringElement(String tagName, String attributeName, String attributeValue, String data, Element parent)
+    {
+        this(tagName, Collections.singletonMap(attributeName, attributeValue), data, parent);
+    }
+
+    /**
+     * Create a string element
+     * @param attributes The attributes names and values.
+     * @param tagName The tag name.
+     * @param parent the parent {@link Element}.
+     */
+    public StringElement(String tagName, Map<String, String> attributes, Element parent)
+    {
+        this(tagName, attributes, null, parent);
+    }
+
+    /**
+     * Create a string element
+     * @param tagName The tag name
+     * @param attributes The attributes names and values.
+     * @param data The data value.
+     * @param parent the parent {@link Element}.
+     */
+    public StringElement(String tagName, Map<String, String> attributes, String data, Element parent)
+    {
+        super(tagName, parent);
+        _data = data;
+        _attributes = attributes;
     }
 
     @Override
@@ -110,6 +165,6 @@ public class StringElement extends AbstractAmetysElement<String>
     @Override
     public Node getFirstChild()
     {
-        return _object != null ? new AmetysText(_object, this) : null;
+        return _data != null ? new AmetysText(_data, this) : null;
     }
 }
