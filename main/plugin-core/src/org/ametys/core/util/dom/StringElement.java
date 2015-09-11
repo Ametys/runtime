@@ -15,33 +15,74 @@
  */
 package org.ametys.core.util.dom;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.w3c.dom.Node;
 
 /**
- * DOM Layer over a string
+ * DOM Layer over a tag name, attributes and String value.
  */
 public class StringElement extends AbstractAmetysElement<String>
 {
     private String _tagName;
-    private String _attributName;
-    private String _data;
+    private Map<String, String> _attributes;
     
     /**
      * Create a string element
      * @param tagName The tag name
-     * @param attributeName The attribute with the value. Can be null.
-     * @param attributeValue The attribute value. Can be null.
-     * @param data The data value. Can be null.
+     * @param data The data value.
+     */
+    public StringElement(String tagName, String data)
+    {
+        this(tagName, (Map<String, String>) null, data);
+    }
+
+    /**
+     * Create a string element
+     * @param tagName The tag name
+     * @param attributeName The attribute name.
+     * @param attributeValue The attribute value.
+     */
+    public StringElement(String tagName, String attributeName, String attributeValue)
+    {
+        this(tagName, Collections.singletonMap(attributeName, attributeValue), null);
+    }
+
+    /**
+     * Create a string element
+     * @param tagName The tag name
+     * @param attributeName The attribute with the value.
+     * @param attributeValue The attribute value.
+     * @param data The data value.
      */
     public StringElement(String tagName, String attributeName, String attributeValue, String data)
     {
-        super(attributeValue);
-        this._tagName = tagName;
-        this._attributName = attributeName;
-        this._data = data;
+        this(tagName, Collections.singletonMap(attributeName, attributeValue), data);
+    }
+
+    /**
+     * Create a string element
+     * @param attributes The attributes names and values.
+     * @param tagName The tag name.
+     */
+    public StringElement(String tagName, Map<String, String> attributes)
+    {
+        this(tagName, attributes, null);
+    }
+
+    /**
+     * Create a string element
+     * @param tagName The tag name
+     * @param attributes The attributes names and values.
+     * @param data The data value.
+     */
+    public StringElement(String tagName, Map<String, String> attributes, String data)
+    {
+        super(data);
+        _tagName = tagName;
+        _attributes = attributes;
     }
 
     @Override
@@ -54,16 +95,21 @@ public class StringElement extends AbstractAmetysElement<String>
     protected Map<String, AmetysAttribute> _lookupAttributes()
     {
         Map<String, AmetysAttribute> attrs = new HashMap<>();
-        if (_attributName != null)
+        
+        if (_attributes != null)
         {
-            attrs.put(_attributName, new AmetysAttribute(_attributName, _attributName, null, _object, this));
+            for (String name : _attributes.keySet())
+            {
+                attrs.put(name, new AmetysAttribute(name, name, null, _attributes.get(name), this));
+            }
         }
+        
         return attrs;
     }
     
     @Override
     public Node getFirstChild()
     {
-        return this._data != null ? new AmetysText(this._data, this) : null;
+        return _object != null ? new AmetysText(_object, this) : null;
     }
 }
