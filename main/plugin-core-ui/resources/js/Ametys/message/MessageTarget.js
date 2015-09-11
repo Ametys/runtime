@@ -63,7 +63,7 @@ Ext.define("Ametys.message.MessageTarget",
 		
 		/**
 		 * Get the first target matching the filter. If no filter is provided, get the first target (if available)
-		 * @param {String/RegExp/Function} [filter] The filter uppon the target type. If the filter is a function, it must returns a boolean true to match, and it has the following parameter:
+		 * @param {String/RegExp/Function} [filter] The filter on the target type. If the filter is a function, it must return a boolean true to match, and it has the following parameter:
 		 * @param {Ametys.message.MessageTarget} filter.target The target to test. 
 		 * @param {Number} [depth=0] The depth for filtering. 0 means it will dig all subtargets what ever the level is. 1 means it will only seek in the first level targets. And so on.
 		 * @returns {Ametys.message.MessageTarget} The matching target, or the array of type hierarchy. Can be null.
@@ -81,7 +81,7 @@ Ext.define("Ametys.message.MessageTarget",
 		/**
 		 * Same as #getTarget, but will return all the matching targets. When a target also have subtargets that would match the filter, only the parent target is returned.
 		 * Get the targets matching the filter. If no filter is provided, get all the targets availables
-		 * @param {String/RegExp/Function} [filter] The filter uppon the target type. If the filter is a function, it must returns a boolean true to match, and it has the following parameter:
+		 * @param {String/RegExp/Function} [filter] The filter on the target type. If the filter is a function, it must return a boolean true to match, and it has the following parameter:
 		 * @param {Ametys.message.MessageTarget} filter.target The target to test. 
 		 * @param {Number} [depth=0] The depth for filtering. 0 means it will dig all subtargets what ever the level is. 1 means it will only seek in the first level targets. And so on.
 		 * @returns {Ametys.message.MessageTarget[]} The non-null array of matching targets.

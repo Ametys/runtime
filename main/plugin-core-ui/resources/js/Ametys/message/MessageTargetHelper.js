@@ -25,7 +25,7 @@ Ext.define("Ametys.message.MessageTargetHelper",
 		/**
 		 * Filter an array of target and returns the first matching one
 		 * @param {Object/Object[]/Ametys.message.MessageTarget/Ametys.message.MessageTarget[]} targets The targets to test (or the target config) 
-		 * @param {String/RegExp/Function} [filter] The filter uppon the target type. If the filter is a function, it must returns a boolean true to match, and it has the target as single parameter.
+		 * @param {String/RegExp/Function} [filter] The filter uppon the target type. If the filter is a function, it must return a boolean true to match, and it has the target as single parameter.
 		 * @param {Number} [depth=0] The depth for filtering. 0 means it will dig all subtargets what ever the level is. 1 means it will only seek in the first level targets. And so on.
 		 * @returns {Ametys.message.MessageTarget} The matching target, or the array of type hierarchy (or the target config if config was provided). Can be null.
 		 */
@@ -105,7 +105,7 @@ Ext.define("Ametys.message.MessageTargetHelper",
 		/**
 		 * Filter an array of target and returns the matching ones. When a target also have subtargets that would match the filter, only the parent target is returned.
 		 * @param {Object/Object[]/Ametys.message.MessageTarget/Ametys.message.MessageTarget[]} targets The target to test. 
-		 * @param {String/RegExp/Function} [filter] The filter upon the target type. If the filter is a function, it must returns a boolean true to match, and it has the following parameter:
+		 * @param {String/RegExp/Function} [filter] The filter upon the target type. If the filter is a function, it must return a boolean true to match, and it has the following parameter:
 		 * @param {Number} [depth=0] The depth for filtering. 0 means it will dig all subtargets what ever the level is. 1 means it will only seek in the first level targets. And so on.
 		 * @returns {Object/Ametys.message.MessageTarget[]} The matching targets in a non-null array (or the targets config if config was provided).
 		 */
