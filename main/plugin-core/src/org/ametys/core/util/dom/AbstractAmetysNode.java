@@ -76,7 +76,7 @@ public abstract class AbstractAmetysNode implements Node
     @Override
     public boolean hasChildNodes()
     {
-        return false;
+        return getFirstChild() != null;
     }
 
     @Override
