@@ -26,7 +26,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * DOM Layer over a Map. Only String and Object values are allowed.
+ * DOM Layer over a Map. Only String, List&lt;Object&gt; and Map&lt;String, Object&gt; values are allowed (recursively).
  */
 public class MapElement extends AbstractAmetysElement
 {
@@ -84,19 +84,35 @@ public class MapElement extends AbstractAmetysElement
         {
             for (Entry<String, ? extends Object> entry : _values.entrySet())
             {
-                Object value = entry.getValue();
-                
-                if (value instanceof String)
+                Object rawValue = entry.getValue();
+                List<Object> values = new ArrayList<>();
+                if (rawValue instanceof List)
                 {
-                    list.add(new StringElement(entry.getKey(), (String) value, this));
-                }
-                else if (value instanceof Map)
-                {
-                    list.add(new MapElement(entry.getKey(), (Map<String, ? extends Object>) value, this));
+                    values.addAll((List) rawValue);
                 }
                 else
                 {
-                    throw new IllegalArgumentException("MapElement only handles String or Map");
+                    values.add(rawValue);
+                }
+                
+                for (Object value : values)
+                {
+                    if (value == null)
+                    {
+                        list.add(new StringElement(entry.getKey(), "", this));
+                    }
+                    else if (value instanceof String)
+                    {
+                        list.add(new StringElement(entry.getKey(), (String) value, this));
+                    }
+                    else if (value instanceof Map)
+                    {
+                        list.add(new MapElement(entry.getKey(), (Map<String, ? extends Object>) value, this));
+                    }
+                    else
+                    {
+                        throw new IllegalArgumentException("MapElement only handles String, List<Object> or Map<String, Object> recursively");
+                    }
                 }
             }
         }
