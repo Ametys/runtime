@@ -31,6 +31,7 @@ import org.apache.avalon.framework.service.Serviceable;
 import org.apache.cocoon.components.ContextHelper;
 import org.apache.cocoon.environment.Request;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Node;
 
 import org.ametys.core.util.dom.MapElement;
@@ -244,7 +245,7 @@ public class AmetysXSLTHelper implements Contextualizable, Serviceable
     /**
      * Get the versions of the application.
      * Default VersionsHandler impl will return Ametys and Application versions
-     * @return The versions &lt;Version&gt;&lt;Version&gt;&lt;Name&gt;X&lt;/Name&gt;&lt;Version&gt;X&lt;/Version&gt;&lt;Date&gt;X&lt;/Date&gt;&lt;/Version&gt;&lt;/Versions&gt;
+     * @return The versions &lt;Version&gt;&lt;Version&gt;&lt;Name&gt;X&lt;/Name&gt;&lt;Version&gt;X&lt;/Version&gt;&lt;Date&gt;X&lt;/Date&gt;&lt;/Version&gt;&lt;/Versions&gt; (empty tags are removed)
      */
     public static Node versions()
     {
@@ -257,9 +258,22 @@ public class AmetysXSLTHelper implements Contextualizable, Serviceable
         {
             Map<String, Object> versionMap = new HashMap<>();
 
-            versionMap.put("Name", version.getName());
-            versionMap.put("Version", version.getVersion());
-            versionMap.put("Date", ParameterHelper.valueToString(version.getDate()));
+            String componentName = version.getName();
+            String componentVersion = version.getVersion();
+            String componentDate = ParameterHelper.valueToString(version.getDate());
+            
+            if (StringUtils.isNotEmpty(componentName))
+            {
+                versionMap.put("Name", componentName);
+            }
+            if (StringUtils.isNotEmpty(componentVersion))
+            {
+                versionMap.put("Version", componentVersion);
+            }
+            if (StringUtils.isNotEmpty(componentDate))
+            {
+                versionMap.put("Date", componentDate);
+            }
             
             versionList.add(versionMap);
         }
