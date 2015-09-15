@@ -63,6 +63,6 @@ public class EmptyGroupsManager implements GroupsManager, Component
     
     public List<Map<String, Object>> groups2JSON(int count, int offset, Map parameters)
     {
-        return new ArrayList<Map<String,Object>>();
+        return new ArrayList<>();
     }
 }

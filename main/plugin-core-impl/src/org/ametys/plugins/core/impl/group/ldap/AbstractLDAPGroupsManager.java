@@ -71,13 +71,13 @@ public abstract class AbstractLDAPGroupsManager extends AbstractLDAPConnector im
     @Override
     public List<Map<String, Object>> groups2JSON(int count, int offset, Map parameters)
     {
-        List<Map<String, Object>> groups = new ArrayList<Map<String,Object>>();
+        List<Map<String, Object>> groups = new ArrayList<>();
         
         String pattern = (String) parameters.get("pattern");
         
         Iterator iterator = getGroups().iterator();
         
-        int totalCount = 0;
+        //int totalCount = 0;
         int currentOffset = offset;
 
         while (currentOffset > 0 && iterator.hasNext())
@@ -86,7 +86,7 @@ public abstract class AbstractLDAPGroupsManager extends AbstractLDAPConnector im
             if (StringUtils.isEmpty(pattern) || group.getLabel().toLowerCase().indexOf(pattern.toLowerCase()) != -1)
             {
                 currentOffset--;
-                totalCount++;
+                //totalCount++;
             }
         }
         
@@ -100,7 +100,7 @@ public abstract class AbstractLDAPGroupsManager extends AbstractLDAPConnector im
                 groups.add(_group2JSON (group, true));
                 
                 currentCount--;
-                totalCount++;
+                //totalCount++;
             }
         }
         
@@ -110,7 +110,7 @@ public abstract class AbstractLDAPGroupsManager extends AbstractLDAPConnector im
             
             if (StringUtils.isEmpty(pattern) || group.getLabel().toLowerCase().indexOf(pattern.toLowerCase()) != -1)
             {
-                totalCount++;
+                //totalCount++;
             }
         }
         

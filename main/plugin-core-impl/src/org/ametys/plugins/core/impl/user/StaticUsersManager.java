@@ -87,7 +87,7 @@ public class StaticUsersManager implements Configurable, Component, CredentialsA
     @Override
     public List<Map<String, Object>> users2JSON(int count, int offset, Map parameters)
     {
-        List<Map<String, Object>> users = new ArrayList<Map<String,Object>>();
+        List<Map<String, Object>> users = new ArrayList<>();
         
         for (User user : _users.values())
         {

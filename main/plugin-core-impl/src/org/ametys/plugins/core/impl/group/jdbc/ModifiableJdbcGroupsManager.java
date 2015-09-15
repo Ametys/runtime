@@ -653,7 +653,7 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
 
         Iterator iterator = getGroups().iterator();
 
-        int totalCount = 0;
+        //int totalCount = 0;
         int currentOffset = offset;
 
         while (currentOffset > 0 && iterator.hasNext())
@@ -662,7 +662,7 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
             if (StringUtils.isEmpty(pattern) || group.getLabel().toLowerCase().indexOf(pattern.toLowerCase()) != -1)
             {
                 currentOffset--;
-                totalCount++;
+                //totalCount++;
             }
         }
 
@@ -675,11 +675,11 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
             {
                 groups.add(_group2JSON(group, true));
                 currentCount--;
-                totalCount++;
+                //totalCount++;
             }
         }
 
-        while (iterator.hasNext())
+        /*while (iterator.hasNext())
         {
             Group group = (Group) iterator.next();
             
@@ -687,7 +687,7 @@ public class ModifiableJdbcGroupsManager extends AbstractLogEnabled implements M
             {
                 totalCount++;
             }
-        }
+        }*/
         
         // TODO return toltalCount
         return groups;
