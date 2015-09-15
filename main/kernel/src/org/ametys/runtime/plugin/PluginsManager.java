@@ -1315,7 +1315,7 @@ public final class PluginsManager
                     }
                 }
                 
-                return new DefaultConfigurationBuilder().build(is, configPath);
+                return new DefaultConfigurationBuilder(true).build(is, configPath);
             }
             catch (Exception ex)
             {
