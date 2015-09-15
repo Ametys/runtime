@@ -278,7 +278,7 @@ public class AmetysXSLTHelper implements Contextualizable, Serviceable
             versionList.add(versionMap);
         }
         
-        versionsMap.put("Version", versionList);
+        versionsMap.put("Component", versionList);
 
         return new MapElement("Versions", versionsMap);
     }
