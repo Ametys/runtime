@@ -1446,7 +1446,7 @@
             <component  role="org.ametys.core.version.VersionsHandler" 
                         id="org.ametys.plugins.core.version.Default"
                         class="org.ametys.plugins.core.impl.version.DefaultVersionsHandler"
-                        logger="org.ametys.plugins.core..plugins.core.versions"/>
+                        logger="org.ametys.plugins.core.plugins.core.versions"/>
         </components>
     </feature>
     
