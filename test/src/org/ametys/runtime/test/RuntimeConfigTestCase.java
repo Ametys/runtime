@@ -18,14 +18,10 @@ package org.ametys.runtime.test;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Map;
 
-import org.apache.commons.codec.binary.Base64;
-import org.apache.excalibur.xml.dom.DOMHandler;
-import org.apache.excalibur.xml.dom.DOMHandlerFactory;
 import org.apache.excalibur.xml.xpath.XPathProcessor;
 
+import org.ametys.core.util.AmetysXSLTHelper;
 import org.ametys.runtime.servlet.RuntimeConfig;
 
 /**
@@ -94,16 +90,8 @@ public class RuntimeConfigTestCase extends AbstractRuntimeTestCase
     {
         CocoonWrapper cocoon = _startApplication("test/environments/runtimes/runtime01.xml", "test/environments/configs/config1.xml", "test/environments/webapp1");
         
-        Map<String, String> headers = new HashMap<>();
-        headers.put("authorization", "BASIC " + new String(Base64.encodeBase64("admin:admin".getBytes())));
-        
-        DOMHandlerFactory dom = (DOMHandlerFactory) Init.getPluginServiceManager().lookup(DOMHandlerFactory.ROLE);
-        DOMHandler handler = dom.createDOMHandler();
-        
-        cocoon.processURI("_admin-old/homepage-versions.xml", handler, null, null, headers);
-        
         XPathProcessor xpath = (XPathProcessor) Init.getPluginServiceManager().lookup(XPathProcessor.ROLE);
-        assertEquals("2.0.1", xpath.evaluateAsString(handler.getDocument(), "/Versions/Component[Name='Application']/Version"));
+        assertEquals("2.0.1", xpath.evaluateAsString(AmetysXSLTHelper.versions(), "Component[Name='Application']/Version"));
         
         cocoon.dispose();
     }
