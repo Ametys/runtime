@@ -16,8 +16,11 @@
 
 package org.ametys.core.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
@@ -28,8 +31,13 @@ import org.apache.avalon.framework.service.Serviceable;
 import org.apache.cocoon.components.ContextHelper;
 import org.apache.cocoon.environment.Request;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.w3c.dom.Node;
 
+import org.ametys.core.util.dom.MapElement;
+import org.ametys.core.version.Version;
+import org.ametys.core.version.VersionsHandler;
 import org.ametys.runtime.config.Config;
+import org.ametys.runtime.parameter.ParameterHelper;
 import org.ametys.runtime.workspace.WorkspaceMatcher;
 
 /**
@@ -39,6 +47,9 @@ public class AmetysXSLTHelper implements Contextualizable, Serviceable
 {
     /** The i18n utils instance */
     protected static I18nUtils _i18nUtils;
+    
+    /** The versions handler */
+    protected static VersionsHandler _versionHandler;
 
     private static Context _context;
     
@@ -51,6 +62,7 @@ public class AmetysXSLTHelper implements Contextualizable, Serviceable
     public void service(ServiceManager manager) throws ServiceException
     {
         _i18nUtils = (I18nUtils) manager.lookup(I18nUtils.ROLE);
+        _versionHandler = (VersionsHandler) manager.lookup(VersionsHandler.ROLE);
     }
     
     /**
@@ -227,5 +239,33 @@ public class AmetysXSLTHelper implements Contextualizable, Serviceable
     public static String escapeJS(String str)
     {
         return StringEscapeUtils.escapeJavaScript(str);
+    }
+    
+    /**
+     * Get the versions of the application.
+     * Default VersionsHandler impl will return Ametys and Application versions
+     * @return The versions &lt;Version&gt;&lt;Version&gt;&lt;Name&gt;X&lt;/Name&gt;&lt;Version&gt;X&lt;/Version&gt;&lt;Date&gt;X&lt;/Date&gt;&lt;/Version&gt;&lt;/Versions&gt;
+     */
+    public static Node versions()
+    {
+        
+        Map<String, Object> versionsMap = new HashMap<>();
+
+        List<Object> versionList = new ArrayList<>();
+
+        for (Version version : _versionHandler.getVersions())
+        {
+            Map<String, Object> versionMap = new HashMap<>();
+
+            versionMap.put("Name", version.getName());
+            versionMap.put("Version", version.getVersion());
+            versionMap.put("Date", ParameterHelper.valueToString(version.getDate()));
+            
+            versionList.add(versionMap);
+        }
+        
+        versionsMap.put("Version", versionList);
+
+        return new MapElement("Versions", versionsMap);
     }
 }
