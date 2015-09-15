@@ -249,7 +249,6 @@ public class AmetysXSLTHelper implements Contextualizable, Serviceable
      */
     public static Node versions()
     {
-        
         Map<String, Object> versionsMap = new HashMap<>();
 
         List<Object> versionList = new ArrayList<>();
