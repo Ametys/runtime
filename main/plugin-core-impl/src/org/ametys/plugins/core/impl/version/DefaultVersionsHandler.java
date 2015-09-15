@@ -40,7 +40,7 @@ import org.ametys.runtime.servlet.RuntimeConfig;
  */
 public class DefaultVersionsHandler extends AbstractLogEnabled implements VersionsHandler, ThreadSafe
 {
-    private Version _runtimeVersion;
+    private Version _ametysVersion;
     private Version _applicationVersion;
     
     @Override
@@ -53,9 +53,9 @@ public class DefaultVersionsHandler extends AbstractLogEnabled implements Versio
             _applicationVersion = _getApplicationVersion();
         }
         
-        if (_runtimeVersion == null)
+        if (_ametysVersion == null)
         {
-            _runtimeVersion = _getVersionFromClasspath("/org/ametys/runtime/version.xml", "Runtime");
+            _ametysVersion = _getVersionFromClasspath("/org/ametys/runtime/version.xml", "Ametys");
         }
         
         versions.add(_applicationVersion);
@@ -67,7 +67,7 @@ public class DefaultVersionsHandler extends AbstractLogEnabled implements Versio
             versions.addAll(additionalVersions);
         }
         
-        versions.add(_runtimeVersion);
+        versions.add(_ametysVersion);
 
         return versions;
     }
