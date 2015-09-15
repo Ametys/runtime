@@ -151,7 +151,6 @@
             
             <map:match pattern="index.html">
                 <map:aggregate element="Ametys">
-                    <map:part src="cocoon://_plugins/core/versions.xml"/>
                     <map:part src="cocoon:/workspace.xml"/>
                     <map:part src="cocoon:/userprefs/values.xml?prefContext=/admin"/>
                 </map:aggregate>

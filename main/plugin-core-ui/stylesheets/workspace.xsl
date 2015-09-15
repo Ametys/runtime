@@ -391,7 +391,9 @@
     	<div id="splashscreen" class="splashscreen">
         	<p class="splashscreen-version">
         		<xsl:call-template name="productTitle"/>
-        		<xsl:if test="/Ametys/Versions/Component[Name = 'CMS']/Version"><br/><span class="app-version"><i18n:text i18n:key="WORKSPACE_AMETYS_SPLASHSCREEN_APP_AMETYS_VERSION" i18n:catalogue="plugin.core-ui"/><xsl:value-of select="/Ametys/Versions/Component[Name = 'CMS']/Version"/></span></xsl:if>
+        		
+        		<xsl:variable name="version" select="ametys:versions()/Versions/Component[Name='Ametys']/Version"/>
+        		<xsl:if test="$version"><br/><span class="app-version"><i18n:text i18n:key="WORKSPACE_AMETYS_SPLASHSCREEN_APP_AMETYS_VERSION" i18n:catalogue="plugin.core-ui"/><xsl:value-of select="$version"/></span></xsl:if>
         	</p>
         	
         	<div class="splashscreen-progressbar">

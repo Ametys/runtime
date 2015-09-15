@@ -15,7 +15,8 @@
    limitations under the License.
    -->
 <xsl:stylesheet version="1.0" 
-                xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                xmlns:ametys="org.ametys.core.util.AmetysXSLTHelper" 
                 xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
 	
 	<!-- +
@@ -90,13 +91,14 @@
     	
     		function createBottom()
     		{
-	        	<xsl:if test="/*/Versions/Component|/Plugins/Versions/Component">
+    		    <xsl:variable name="versions" select="ametys:versions()"/>
+	        	<xsl:if test="$versions/Component">
 	              	var data = {versions : []};
-	              	<xsl:for-each select="/*/Versions/Component|/Plugins/Versions/Component">
+	              	<xsl:for-each select="$versions/Component">
 	              		data.versions.push({
 	              			name : "<xsl:value-of select="Name"/>",
 	              			version: "<xsl:choose><xsl:when test="Version"><xsl:value-of select="Version"/></xsl:when><xsl:otherwise><i18n:text i18n:key="WORKSPACE_ADMIN_VERSION_UNKNOWN" i18n:catalogue="workspace.{$workspaceName}"/></xsl:otherwise></xsl:choose>",
-	              			date : "<xsl:if test="Date">&#160;<i18n:text i18n:key="WORKSPACE_ADMIN_VERSION_DATED" i18n:catalogue="workspace.{$workspaceName}"/>&#160;<xsl:value-of select="Date"/>&#160;<i18n:text i18n:key="WORKSPACE_ADMIN_VERSION_DATEDTIME" i18n:catalogue="workspace.{$workspaceName}"/>&#160;<xsl:value-of select="Time"/></xsl:if><xsl:if test="position() != last()">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</xsl:if>"
+	              			date : "<xsl:if test="Date">&#160;<i18n:text i18n:key="WORKSPACE_ADMIN_VERSION_DATED" i18n:catalogue="workspace.{$workspaceName}"/>&#160;<i18n:date-time pattern="long" src-pattern="yyyy-MM-dd'T'HH:mm" value="{Date}"/></xsl:if><xsl:if test="position() != last()">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</xsl:if>"
 	              		});
 	              	</xsl:for-each>
 	              	

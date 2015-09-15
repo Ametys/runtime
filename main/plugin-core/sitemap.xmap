@@ -24,8 +24,6 @@
 			<map:generator name="rights-profiles-context" src="org.ametys.plugins.core.right.profile.ProfilesByContextGenerator" logger="org.ametys.plugins.core.right.profile" label="content"/>
 			<map:generator name="rights-profile-rights" src="org.ametys.plugins.core.right.profile.ProfileRightsGenerator" logger="org.ametys.plugins.core.right.profile" label="content"/>
             
-            <map:generator name="versions" src="org.ametys.runtime.plugins.admin.version.VersionsGenerator" logger="org.ametys.runtime.plugins.admin.version.VersionsGenerator"/>
-            
             <map:generator name="user-prefs-def" src="org.ametys.plugins.core.userpref.UserPreferencesGenerator" logger="org.ametys.plugins.core.userpref.UserPreferencesGenerator"/>
             <map:generator name="user-prefs" src="org.ametys.plugins.core.userpref.UserPreferencesValuesGenerator" logger="org.ametys.plugins.core.userpref.UserPreferencesValuesGenerator"/>
             <map:generator name="user-prefs-errors" src="org.ametys.plugins.core.userpref.UserPreferencesErrorsGenerator" logger="org.ametys.plugins.core.userpref.UserPreferencesErrorsGenerator"/>
@@ -204,14 +202,6 @@
 					<map:parameter name="maxHeight" value="{request-param:maxHeight}"/>
 					<map:parameter name="maxWidth" value="{request-param:maxWidth}"/>
                 </map:read>
-            </map:match>
-            
-            <!-- +
-                 | VERSIONS
-                 + -->
-            <map:match pattern="versions.xml">
-                <map:generate type="versions"/>
-                <map:serialize type="xml"/>
             </map:match>
             
             <!-- +
