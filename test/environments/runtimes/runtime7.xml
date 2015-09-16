@@ -20,7 +20,7 @@
     Use the JDBC CredentialAware User manager
 -->
 <runtime xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:noNamespaceSchemaLocation="http://ametys.org/Runtime/1.2/runtime.xsd">
+         xsi:noNamespaceSchemaLocation="http://www.ametys.org/schema/runtime/runtime-4.0.xsd">
     
     <application>
         <version>2.0.1</version>
@@ -28,16 +28,6 @@
     </application>
     
     <initClass>org.ametys.runtime.test.Init</initClass>
-    
-    <incompleteConfig>
-        <allowedURLs>
-            <allowedURL>_admin-old/public</allowedURL>
-        	<allowedURL>_admin-old/resources</allowedURL>
-        	<allowedURL>_admin-old/_plugins/admin-old/config</allowedURL>
-        	<allowedURL>_admin-old/plugins/admin-old/config</allowedURL>
-        </allowedURLs>
-        <redirectURL>cocoon://_admin-old/public/load-config.html?uri=admin-old/config/edit.html</redirectURL>
-    </incompleteConfig>
     
     <plugins>
         <exclude>

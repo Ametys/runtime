@@ -21,16 +21,6 @@
 <runtime xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
          xsi:noNamespaceSchemaLocation="http://www.ametys.org/schema/runtime/runtime-4.0.xsd">
     
-    <incompleteConfig>
-        <allowedURLs>
-            <allowedURL>_admin-old/public</allowedURL>
-        	<allowedURL>_admin-old/resources</allowedURL>
-        	<allowedURL>_admin-old/_plugins/admin-old/config</allowedURL>
-        	<allowedURL>_admin-old/plugins/admin-old/config</allowedURL>
-        </allowedURLs>
-        <redirectURL>cocoon://_admin-old/public/load-config.html?uri=admin-old/config/edit.html</redirectURL>
-    </incompleteConfig>
-    
     <workspaces default="myworkspace"/>
     
     <components>
