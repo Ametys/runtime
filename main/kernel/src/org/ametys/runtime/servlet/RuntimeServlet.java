@@ -69,8 +69,6 @@ import org.apache.log4j.LogManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
-import org.xml.sax.ContentHandler;
-import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 import org.ametys.runtime.config.Config;
@@ -394,7 +392,7 @@ public class RuntimeServlet extends HttpServlet
         // Error mode
         if (_exception != null)
         {
-            _renderError(req, res, _exception, null);
+            _renderError(req, res, _exception, "An error occured during Ametys initialization.");
             return;
         }
         
@@ -465,7 +463,7 @@ public class RuntimeServlet extends HttpServlet
                 // We reach this when there is nothing in the processing change that matches
                 // the request. For example, no matcher matches.
                 _logger.error("The Cocoon engine failed to process the request.");
-                _renderError(request, res, null, "Cocoon engine failed in process the request");
+                _renderError(request, res, null, "Cocoon engine failed to process the request");
             }
         } 
         catch (ResourceNotFoundException | ConnectionResetException | IOException e) 
@@ -476,7 +474,7 @@ public class RuntimeServlet extends HttpServlet
         catch (Exception e) 
         {
             _logger.error("Internal Cocoon Problem", e);
-            _renderError(request, res, e, null);
+            _renderError(request, res, e, "Internal Cocoon Problem");
         }
         finally 
         {
@@ -674,7 +672,7 @@ public class RuntimeServlet extends HttpServlet
             th.getTransformer().setOutputProperties(format);
     
             th.getTransformer().setParameter("code", 500);
-            th.getTransformer().setParameter("realpath", config.getServletContext().getRealPath("/"));
+            th.getTransformer().setParameter("realPath", config.getServletContext().getRealPath("/"));
             th.getTransformer().setParameter("contextPath", req.getContextPath());
             
             StreamResult result = new StreamResult(os);
@@ -684,7 +682,7 @@ public class RuntimeServlet extends HttpServlet
     
             XMLUtils.startElement(th, "http://apache.org/cocoon/exception/1.0", "exception-report");
             XMLUtils.startElement(th, "http://apache.org/cocoon/exception/1.0", "message");
-            saxErrorMessage(th, message);
+            XMLUtils.data(th, message);
             XMLUtils.endElement(th, "http://apache.org/cocoon/exception/1.0", "message");
             
             XMLUtils.startElement(th, "http://apache.org/cocoon/exception/1.0", "stacktrace");
@@ -699,18 +697,6 @@ public class RuntimeServlet extends HttpServlet
             // Nothing to anymore ...
             throw new ServletException(e);
         }
-    }
-
-    /**
-     * In error mode, send error information as SAX events.<br>
-     * @param ch the contentHandler receiving the message.
-     * @param message the message or null to send a default error message.
-     * @throws SAXException if an error occurred while send SAX events
-     */
-    protected void saxErrorMessage(ContentHandler ch, String message) throws SAXException
-    {
-        String errorMessage = message != null ? message : "An error occurred. Please contact the administrator of the application.";
-        XMLUtils.data(ch, errorMessage);
     }
 
     /*
