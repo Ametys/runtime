@@ -141,7 +141,7 @@
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_REPEATER_INSERT_INVALID_MINSIZE">The number of entries is less than the required number of entries</message>
     
     <!-- +
-         | FormEditionPanel.js
+         | ConfigurableFormPanel.js
          + -->
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_UNTITLED">Untitled</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TAB_TPL_ERROR_FIELD">1 element has errors :</message>
@@ -201,7 +201,7 @@
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_FAILURES">Failure(s)</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RESULTS_NOT_TESTED">Not verified</message>
     
-    <!-- SAVE -->
+    <!-- Save -->
     <message key="PLUGINS_CORE_UI_SAVE_NOFORM_TITLE">No form</message>
     <message key="PLUGINS_CORE_UI_CONFIG_SAVE_NOFORM">There is no form to save.</message>
     <message key="PLUGINS_CORE_UI_SAVE_ACTION_INVALID_TITLE">Invalid form</message>
@@ -243,7 +243,6 @@
     <message key="PLUGINS_CORE_UI_FIELD_RICH_TEXT_HIERARCHY_ERROR">The title hierarchy is invalid.&lt;br/&gt;You can't enter a Title 2 before a Title 1 (and so on).&lt;br/&gt;Important graphical and accessibility issues can appear if you save now.</message>
     
     <message key="PLUGINS_CORE_UI_LOADMASK_DEFAULT_MESSAGE">Loading. Please wait...</message>
-
     <message key="PLUGINS_CORE_UI_LOADSCRIPT_SUCCESS">File loaded </message>
     <message key="PLUGINS_CORE_UI_LOADSCRIPT_ERROR">Failed loading file </message>
     
@@ -319,7 +318,6 @@
     <message key="PLUGINS_CORE_UI_RELOAD_WORKSPACE_DESCRIPTION">Reload the browser to reset your application</message>
     <message key="PLUGINS_CORE_UI_RELOAD_WORKSPACE_PROMPT_LABEL">Are you sure?</message>
     <message key="PLUGINS_CORE_UI_RELOAD_WORKSPACE_PROMPT_DESC">Do you want to reload the application now?&lt;br/&gt;&lt;br/&gt;Please save your pending changed before clicking on OK.</message>
-
    
     <!--+
         | NAV HISTORY
@@ -355,7 +353,6 @@
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_FORM_TAB_POLICY_DESC">Select the display mode of forms:&lt;br/&gt;- &lt;b&gt;Form with tabs&lt;/b&gt;: grouping of form fields by tabs &lt;br/&gt;- &lt;b&gt;Linearized form:&lt;/b&gt; form fields one after the other on same page</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_FORM_TAB_POLICY_DEFAULT">Form with tabs</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_FORM_TAB_POLICY_INLINE">Linear form</message>
-   
    
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_LABEL">Reset your workspace</message>
     <message key="PLUGINS_CORE_UI_USER_PREFERENCES_RESET_WORKSPACE_DESCRIPTION">Reset your workspace with default parameters (opened tools, zones sizes...) and reload the application</message>
@@ -611,6 +608,14 @@
     <message key="PLUGINS_CORE_UI_INCOMPLETE_CONFIG_TITLE">Unable to load configuration</message>
     <message key="PLUGINS_CORE_UI_INCOMPLETE_CONFIG_TEXT">The application configuration is incomplete or incorrect.&lt;br/&gt;You must configure the application before using it.</message>
     <message key="PLUGINS_CORE_UI_INCOMPLETE_CONFIG_BTN">Configure the application</message>
+    
+    <!-- +
+         | Safe mode
+         + -->
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_PAGE_TITLE">Safe mode</message>
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_TITLE">Unable to initialize the application</message>
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_TEXT">The application could not initialize correctly and started in safe mode.&lt;br/&gt;You should check application's logs and settings.</message>
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_BTN">Manage the application</message>
     
     <!-- +
          | Unsupported browser

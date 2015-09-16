@@ -46,15 +46,6 @@
                     </xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="incompleteConfig" type="config" minOccurs="0" maxOccurs="1">
-                <xsd:annotation>
-                    <xsd:documentation xml:lang="en">
-                        <![CDATA[
-                            Configuration of the behavior of a starting application that is not configured.
-                        ]]>
-                    </xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
             <xsd:element name="plugins" type="plugins" maxOccurs="1" minOccurs="0">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">
@@ -213,30 +204,6 @@
                 </xsd:annotation>
             </xsd:element>
         </xsd:sequence>
-    </xsd:complexType>
-
-    <xsd:complexType name="config">
-        <xsd:all>
-            <xsd:element name="redirectURL" type="xsd:string">
-                <xsd:annotation>
-                    <xsd:documentation xml:lang="en">
-                        <![CDATA[
-                            Internal URL used to redirect the client when the application is started incompletly.
-                        ]]>
-                    </xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="allowedURLs" type="allowedURLs">
-                <xsd:annotation>
-                    <xsd:documentation xml:lang="en">
-                        <![CDATA[
-                            Contains the list of authorized URLs when the application is started incompletly.<br/>
-                            Resources url and configuration view url must be part of it.
-                        ]]>
-                    </xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-        </xsd:all>
     </xsd:complexType>
 
     <xsd:complexType name="allowedURLs">

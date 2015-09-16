@@ -50,11 +50,6 @@ public class RuntimeConfigTestCase extends AbstractRuntimeTestCase
         
         RuntimeConfig config = RuntimeConfig.getInstance();
         
-        assertEquals(config.getIncompleteConfigRedirectURL(), "cocoon://_admin-old/public/load-config.html?uri=admin-old/config/edit.html");
-        
-        assertEquals(4, config.getIncompleteConfigAllowedURLs().size(), 4);
-        assertTrue(config.getIncompleteConfigAllowedURLs().contains("_admin-old/public"));
-        
         assertEquals(config.getDefaultWorkspace(), "myworkspace");
         
         assertEquals(config.getInitClassName(), "org.ametys.runtime.test.Init");

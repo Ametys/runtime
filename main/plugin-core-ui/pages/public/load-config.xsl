@@ -65,9 +65,8 @@
     
                                         image: "<xsl:value-of select="$contextPath"/>/plugins/core-ui/resources/img/public/load_config.png",
                                         
-                                        // FIXME redirectUrl: "<xsl:value-of select="concat($contextPath, $workspaceURI, '/_plugins/', $redirect)"/>",
-                                        redirectUrl: "<xsl:value-of select="concat($contextPath, '/_admin-old', '/_plugins/', $redirect)"/>",
-                                        btnText: "<i18n:text i18n:key='PLUGINS_CORE_UI_INCOMPLETE_CONFIG_BTN' i18n:catalogue='plugin.core-ui'/>"
+                                       redirectUrl: "<xsl:value-of select="concat($contextPath, $workspaceURI, '/index.html')"/>",
+                                         btnText: "<i18n:text i18n:key='PLUGINS_CORE_UI_INCOMPLETE_CONFIG_BTN' i18n:catalogue='plugin.core-ui'/>"
                                     })
                                 });
                             }

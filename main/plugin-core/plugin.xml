@@ -261,31 +261,35 @@
                          class="org.ametys.runtime.plugin.InitExtensionPoint"/>
                          
         <extension-point id="org.ametys.core.authentication.AuthenticationManager"
-                         class="org.ametys.core.authentication.AuthenticationManager"/>
+                         class="org.ametys.core.authentication.AuthenticationManager"
+                         safe="true"/>
                          
         <extension-point id="org.ametys.core.right.RightsExtensionPoint"
-                         class="org.ametys.core.right.RightsExtensionPoint"/>
+                         class="org.ametys.core.right.RightsExtensionPoint"
+                         safe="true"/>
                          
         <extension-point id="org.ametys.core.right.RightContextConvertorExtentionPoint"
-        				 class="org.ametys.core.right.RightContextConvertorExtentionPoint">
-        </extension-point>
+        				 class="org.ametys.core.right.RightContextConvertorExtentionPoint"/>
         
         <extension-point id="org.ametys.core.userpref.UserPreferencesExtensionPoint"
                          class="org.ametys.core.userpref.UserPreferencesExtensionPoint"
-                         logger="org.ametys.core.userpref.UserPreferencesExtensionPoint">
-        </extension-point>
+                         logger="org.ametys.core.userpref.UserPreferencesExtensionPoint"
+                         safe="true"/>
         
         <extension-point id="org.apache.cocoon.components.modules.input.InputModuleSelector"
-                         class="org.ametys.core.cocoon.InputModulesExtensionPoint"/>
+                         class="org.ametys.core.cocoon.InputModulesExtensionPoint"
+                         safe="true"/>
 
         <extension-point id="org.apache.excalibur.source.SourceFactorySelector"
-                         class="org.ametys.core.cocoon.SourceFactoriesExtensionPoint"/>
+                         class="org.ametys.core.cocoon.SourceFactoriesExtensionPoint"
+                         safe="true"/>
 
         <extension-point id="org.ametys.core.datasource.DataSourceExtensionPoint"
                          class="org.ametys.core.datasource.DataSourceExtensionPoint"/>
 
         <extension-point id="org.ametys.runtime.cocoon.SitemapConfigurationExtensionPoint"
-                         class="org.ametys.runtime.cocoon.SitemapConfigurationExtensionPoint"/>
+                         class="org.ametys.runtime.cocoon.SitemapConfigurationExtensionPoint"
+                         safe="true"/>
 
         <extension-point id="org.ametys.core.sqlmap.SqlMapExtensionPoint"
                          class="org.ametys.core.sqlmap.SqlMapExtensionPoint"/>
@@ -308,7 +312,7 @@
     	</components>
     </feature>
     
-    <feature name="util.jsonutils">
+    <feature name="util.jsonutils" safe="true">
     	<components>
     		<component role="org.ametys.core.util.JSONUtils"
     				   id="org.ametys.core.util.JSONUtils"
@@ -393,7 +397,7 @@
     	</extensions>
     </feature>
     
-    <feature name="runtime.core">
+    <feature name="runtime.core" safe="true">
         <!-- 
             This feature is a mandatory feature of the runtime defining basic tools
          -->
@@ -576,7 +580,7 @@
         </config>
     </feature>
         
-    <feature name="core.user.preferences.manager">
+    <feature name="core.user.preferences.manager" safe="true">
         <components>
             <component role="org.ametys.core.userpref.UserPreferencesManager"
                        id="org.ametys.core.userpref.UserPreferencesManager"

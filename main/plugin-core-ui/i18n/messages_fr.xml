@@ -166,7 +166,9 @@
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_FIELD">Le champ</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER">La vérification</message>
     
-   <!-- ParameterCheckersDAO -->
+    <!-- +
+         | ParameterCheckersDAO.js
+         + -->
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_TEXT_PREFIX">Vérifier</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_SERVER_CALL_ERROR_TITLE">Erreur serveur</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_SERVER_CALL_ERROR_TEXT">Une erreur est survenue côté serveur. Le résultat des vérifications est réinitialisé.</message>
@@ -187,7 +189,9 @@
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_TOOLTIP_MESSAGE2">Dernier message d'erreur:</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_PARAM_CHECKER_TOOLTIP_DEACTIVATED_MESSAGE">Cette vérification est désactivée car tous les paramètres qu'elle utilise sont désactivés ou au moins un des paramètres utilisés est invalide.</message>
     
-    <!-- TestsController -->
+    <!-- +
+         | TestsController.js
+         + -->
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_ALL_TESTS">Tester tous</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_ALL_TESTS_DESC">Lancer tous les tests, quel que soit leur statut actuel.</message>
     <message key="PLUGINS_CORE_UI_CONFIGURABLE_FORM_TEST_CONTROLLER_RUN_MISSED_TESTS">Tests manqués</message>
@@ -421,7 +425,6 @@
     
     <message key="PLUGINS_CORE_UI_WIDGET_RICH_TEXT_TOC_ERROR">Du texte est présent sur la même ligne qu'une table des matières.</message>
     
-    
     <message key="PLUGINS_CORE_UI_WIDGET_GEOCODE_SHOW_MAP_BUTTON_TOOLTIP">Situer sur la carte</message>
     <message key="PLUGINS_CORE_UI_WIDGET_GEOCODE_DELETE_BUTTON">Supprimer</message>
     <message key="PLUGINS_CORE_UI_WIDGET_GEOCODE_DELETE_CONFIRM_TITLE">Supprimer les coordonnées</message>
@@ -605,6 +608,14 @@
     <message key="PLUGINS_CORE_UI_INCOMPLETE_CONFIG_TITLE">Impossible de charger la configuration</message>
     <message key="PLUGINS_CORE_UI_INCOMPLETE_CONFIG_TEXT">La configuration de l'application est incomplète ou incorrecte.&lt;br/&gt;Vous devez configurer l'application avant de pouvoir l'utiliser.</message>
     <message key="PLUGINS_CORE_UI_INCOMPLETE_CONFIG_BTN">Configurer l'application</message>
+    
+    <!-- +
+         | Safe mode
+         + -->
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_PAGE_TITLE">Mode sans échec</message>
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_TITLE">Impossible d'initialiser l'application</message>
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_TEXT">L'application n'a pu s'initialiser correctement et a démarré en mode sans échec.&lt;br/&gt;Vous devriez vérifier les logs et le paramétrage de l'application.</message>
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_BTN">Administrer l'application</message>
     
     <!-- +
          | Unsupported browser

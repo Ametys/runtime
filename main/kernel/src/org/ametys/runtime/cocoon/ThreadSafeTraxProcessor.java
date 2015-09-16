@@ -123,7 +123,13 @@ public class ThreadSafeTraxProcessor extends AbstractLogEnabled implements XSLTP
     public void initialize() throws Exception
     {
         _factory = _createTransformerFactory(_transformerFactory);
-        _dontUseCache = Config.getInstance().getValueAsBoolean("runtime.cache.xslt");
+        
+        Config config = Config.getInstance();
+        if (config != null)
+        {
+            // not in safe mode
+            _dontUseCache = Config.getInstance().getValueAsBoolean("runtime.cache.xslt");
+        }
     }
 
     /**

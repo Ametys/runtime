@@ -20,7 +20,7 @@
     
     <map:components>
         <map:generators>
-            <map:generator name="workspace" src="org.ametys.plugins.core.ui.WorkspaceGenerator" logger="org.ametys.runtime.workspace.WorkspaceGenerator"/>
+            <map:generator name="workspace" src="org.ametys.runtime.workspaces.admin.WorkspaceGenerator" logger="org.ametys.runtime.workspace.WorkspaceGenerator"/>
             <map:generator name="user-prefs" src="org.ametys.plugins.core.userpref.UserPreferencesValuesGenerator"/>
         </map:generators>
         

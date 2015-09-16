@@ -15,8 +15,6 @@
  */
 package org.ametys.core.ui;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -153,19 +151,19 @@ public class RibbonConfigurationManager
      * @param ribbonTabManager the ribbon tab manager
      * @param saxClientSideElementHelper the helper to SAX client side element
      * @param resolver the excalibur source resolver
-     * @param configFile the ribbon configuration file
+     * @param config the ribbon configuration
      * @throws RuntimeException if an error occurred
      */
-    public RibbonConfigurationManager (RibbonControlsManager ribbonControlManager, RibbonTabsManager ribbonTabManager, SAXClientSideElementHelper saxClientSideElementHelper, SourceResolver resolver, File configFile)
+    public RibbonConfigurationManager (RibbonControlsManager ribbonControlManager, RibbonTabsManager ribbonTabManager, SAXClientSideElementHelper saxClientSideElementHelper, SourceResolver resolver, InputStream config)
     {
         _ribbonControlManager = ribbonControlManager;
         _ribbonTabManager = ribbonTabManager;
         _saxClientSideElementHelper = saxClientSideElementHelper;
         _resolver = resolver;
         
-        try (InputStream is = new FileInputStream(configFile))
+        try
         {
-            Configuration configuration = new DefaultConfigurationBuilder().build(is);
+            Configuration configuration = new DefaultConfigurationBuilder().build(config);
             _configure(configuration);
         }
         catch (Exception e)

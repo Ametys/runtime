@@ -21,14 +21,14 @@
         
     <extension-points>
         <extension-point id="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.MonitoringExtensionPoint"
-                         class="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.MonitoringExtensionPoint"/>
-        
+                         class="org.ametys.runtime.plugins.admin.jvmstatus.monitoring.MonitoringExtensionPoint"
+                         safe="true"/>
     </extension-points>
     
     <!-- +
          |  WELCOME ANNOUNCEMENTS
          + --> 
-    <feature name="runtime.admin.system">
+    <feature name="runtime.admin.system" safe="true">
         <components>
             <component role="org.ametys.runtime.plugins.admin.system.SystemHelper"
                        id="org.ametys.runtime.plugins.admin.system.SystemHelper"
@@ -198,7 +198,7 @@
     <!-- +
          |  PLUGINS AND WORKSPACES
          + --> 
-    <feature name="runtime.admin.plugins">
+    <feature name="runtime.admin.plugins" safe="true">
         <extensions>
                       
             <extension id="org.ametys.plugins.admin.PluginsByFileTab"
@@ -505,7 +505,7 @@
     <!-- +
          |  LOGS
          + -->   
-    <feature name="runtime.admin.logs">
+    <feature name="runtime.admin.logs" safe="true">
         <extensions>
                 
             <extension id="org.ametys.plugins.admin.LogsTab"
@@ -829,7 +829,7 @@
     <!-- +
          |  JVM STATUS
          + -->   
-    <feature name="runtime.admin.jvmstatus">
+    <feature name="runtime.admin.jvmstatus" safe="true">
         <components>
             <component role="org.ametys.runtime.plugins.admin.jvmstatus.JVMStatusHelper"
                        id="org.ametys.runtime.plugins.admin.jvmstatus.JVMStatusHelper"
@@ -975,7 +975,7 @@
     <!-- +
          |  ADMIN CONFIGURATION
          + -->
-    <feature name="runtime.admin.config">
+    <feature name="runtime.admin.config" safe="true">
         
         <extensions>
             <extension id="org.ametys.plugins.admin.config.Tab"

@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
@@ -46,7 +47,7 @@ import org.ametys.runtime.workspace.WorkspaceManager;
 /**
  * Utils for i18n
  */
-public class I18nUtils extends AbstractLogEnabled implements Component, Serviceable, Contextualizable, Initializable
+public class I18nUtils extends AbstractLogEnabled implements Component, Serviceable, Contextualizable, Initializable, Disposable
 {
     /** The avalon role */
     public static final String ROLE = I18nUtils.class.getName();
@@ -332,6 +333,11 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
         {
             _builder.append(ch, start, length);
         }
+    }
+    
+    public void dispose()
+    {
+        _instance = null;
     }
     
     /**

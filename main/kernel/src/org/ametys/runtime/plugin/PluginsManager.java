@@ -1401,6 +1401,8 @@ public final class PluginsManager
         PluginsComponentManager manager = new PluginsComponentManager(parentCM);
         manager.setLogger(LoggerFactory.getLogger("org.ametys.runtime.plugin.manager"));
         manager.contextualize(context);
+        
+        ConfigManager.getInstance().service(new WrapperServiceManager(manager));
 
         errors = new ArrayList<>();
         _loadExtensionsPoints(manager, _extensionPoints, _extensions, contextPath, errors);

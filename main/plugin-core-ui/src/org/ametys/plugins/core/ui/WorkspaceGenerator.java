@@ -16,7 +16,9 @@
 package org.ametys.plugins.core.ui;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -139,12 +141,17 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
             }
         }
         
-        // TODO cache ?
-        RibbonConfigurationManager ribbonManager = new RibbonConfigurationManager (_ribbonControlManager, _ribbonTabManager, _saxClientSideElementHelper, _resolver, getRibbonConfigurationFile());
-        ribbonManager.saxRibbonDefinition(contentHandler, contextParameters);
+        try (InputStream config = getRibbonConfiguration())
+        {
+            RibbonConfigurationManager ribbonManager = new RibbonConfigurationManager (_ribbonControlManager, _ribbonTabManager, _saxClientSideElementHelper, _resolver, config);
+            ribbonManager.saxRibbonDefinition(contentHandler, contextParameters);
+        }
         
-        UIToolsConfigurationManager uitoolsManager = new UIToolsConfigurationManager(_uitoolsFactoriesManager, _saxClientSideElementHelper, getUIToolsConfigurationFile(), ObjectModelHelper.getRequest(objectModel));
-        uitoolsManager.saxDefaultState(contentHandler, contextParameters);
+        try (InputStream config = getUIToolsConfiguration())
+        {
+            UIToolsConfigurationManager uitoolsManager = new UIToolsConfigurationManager(_uitoolsFactoriesManager, _saxClientSideElementHelper, getUIToolsConfiguration(), ObjectModelHelper.getRequest(objectModel));
+            uitoolsManager.saxDefaultState(contentHandler, contextParameters);
+        }
         
         saxAppItems ();
         saxMessageTargetFactories(contextParameters);
@@ -157,25 +164,29 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
     }
     
     /**
-     * Get the ribbon configuration file
-     * @return the ribbon configuration file
+     * Get the ribbon configuration
+     * @return the ribbon configuration
+     * @throws IOException if an errors occurs getting the ribbon configuration
      */
-    protected File getRibbonConfigurationFile ()
+    protected InputStream getRibbonConfiguration() throws IOException
     {
         String ribbonFileName = parameters.getParameter("ribbonFileName", "ribbon");
         String mode = parameters.getParameter("mode", null);
-        return new File (_cocoonContext.getRealPath("/WEB-INF/param/" + ribbonFileName + (mode != null ? "-" + mode : "") + ".xml"));
+        File configFile = new File (_cocoonContext.getRealPath("/WEB-INF/param/" + ribbonFileName + (mode != null ? "-" + mode : "") + ".xml"));
+        return new FileInputStream(configFile);
     }
     
     /**
-     * Get the UI tools configuration file
-     * @return the UI tools configuration file
+     * Get the UI tools configuration
+     * @return the UI tools configuration
+     * @throws IOException if an errors occurs getting the UI tools configuration
      */
-    protected File getUIToolsConfigurationFile ()
+    protected InputStream getUIToolsConfiguration() throws IOException
     {
         String toolsFileName = parameters.getParameter("toolsFileName", "uitools");
         String mode = parameters.getParameter("mode", null);
-        return new File (_cocoonContext.getRealPath("/WEB-INF/param/" + toolsFileName + (mode != null ? "-" + mode : "") + ".xml"));
+        File configFile = new File (_cocoonContext.getRealPath("/WEB-INF/param/" + toolsFileName + (mode != null ? "-" + mode : "") + ".xml"));
+        return new FileInputStream(configFile);
     }
     
     /** 

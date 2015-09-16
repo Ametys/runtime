@@ -51,10 +51,6 @@ public final class RuntimeConfig
     
     private String _contextPath;
 
-    private String _configRedirectURL;
-
-    private Collection<String> _configAllowedURLs = new ArrayList<>();
-
     private String _version;
     private Date _buildDate;
     
@@ -110,14 +106,12 @@ public final class RuntimeConfig
             __config._configureWorkspaces(runtimeConf.getChild("workspaces"));
             __config._configurePlugins(runtimeConf.getChild("plugins"));
             __config._configureComponents(runtimeConf.getChild("components"));
-            __config._configureIncompleteConfig(runtimeConf.getChild("incompleteConfig", false));
             __config._configureApplication(runtimeConf.getChild("application"));
         }
         else
         {
             __config._safeMode = true;
             __config._pluginsLocations.add("plugins/");
-            __config._configureDefaultIncompleteConfig();
         }
         
         if (externalConf != null)
@@ -193,44 +187,6 @@ public final class RuntimeConfig
                 __config._components.put(point, id);
             }
         }
-    }
-
-    private void _configureIncompleteConfig(Configuration config)
-    {
-        if (config == null)
-        {
-            _configureDefaultIncompleteConfig();
-            return;
-        }
-
-        _configRedirectURL = config.getChild("redirectURL").getValue("");
-
-        for (Configuration allowedURLConf : config.getChild("allowedURLs").getChildren("allowedURL"))
-        {
-            String url = allowedURLConf.getValue(null);
-
-            if (url != null)
-            {
-                _configAllowedURLs.add(url);
-            }
-        }
-    }
-    
-    private void _configureDefaultIncompleteConfig()
-    {
-        _configRedirectURL = "cocoon://_admin/public/load-config.html?uri=admin-old/config/edit.html";
-        _configAllowedURLs.add("_admin/public");
-        _configAllowedURLs.add("_admin/resources");
-        _configAllowedURLs.add("_admin/plugins/core-ui/resources/js/Ametys/public/IncompleteConfigScreen.js");
-        _configAllowedURLs.add("_admin/plugins/core-ui/resources/css/public.css");
-        
-        
-        // FIXME To remove
-        _configAllowedURLs.add("_admin-old/public");
-        _configAllowedURLs.add("_admin-old/resources");
-        _configAllowedURLs.add("_admin-old/plugins/core/jsfilelist");
-        _configAllowedURLs.add("_admin-old/plugins/core/cssfilelist");
-        _configAllowedURLs.add("_admin-old/_plugins/admin-old/config/edit.html"); 
     }
 
     private void _configureApplication(Configuration config)
@@ -393,24 +349,6 @@ public final class RuntimeConfig
     public Map<String, String> getComponents()
     {
         return _components;
-    }
-
-    /**
-     * Returns the redirection URL used when the configuration is missing or incomplete
-     * @return the redirection URL used when the configuration is missing or incomplete
-     */
-    public String getIncompleteConfigRedirectURL()
-    {
-        return _configRedirectURL;
-    }
-
-    /**
-     * Returns the allowed URLs, even when the configuration is missing or incomplete
-     * @return the allowed URLs, even when the configuration is missing or incomplete
-     */
-    public Collection<String> getIncompleteConfigAllowedURLs()
-    {
-        return _configAllowedURLs;
     }
 
     /**

@@ -657,7 +657,7 @@
         </param-checker>
     </config>
     
-    <feature name="runtime.user.impl.static">
+    <feature name="runtime.user.impl.static" safe="true">
         <!-- 
             This features defines the static implementation of users
         -->
@@ -920,7 +920,7 @@
         </components>
     </feature>
     
-    <feature name="runtime.groups.impl.empty">
+    <feature name="runtime.groups.impl.empty" safe="true">
         <!-- 
             This features defines an 'empty' groups to avoid group handling.
          -->
@@ -1213,7 +1213,7 @@
     <!-- +
          |  AUTHENTICATION
          + -->
-    <feature name="runtime.authentication.impl.defined">
+    <feature name="runtime.authentication.impl.defined" safe="true">
         <!-- 
             This feature defines a simple credential provider as it always answer that 'anonymous' is connected
          -->
@@ -1399,7 +1399,7 @@
         </extensions>
     </feature>
     
-    <feature name="runtime.user.preferences.empty">
+    <feature name="runtime.user.preferences.empty" safe="true">
         <!-- 
             A users'preferences manager that do not store anything. Usefull, if you do not user users prefs. 
         -->
@@ -1441,7 +1441,7 @@
     <!-- +
          |  VERSIONS
          + -->    
-    <feature name="runtime.version">       
+    <feature name="runtime.version" safe="true">       
         <components>
             <component  role="org.ametys.core.version.VersionsHandler" 
                         id="org.ametys.plugins.core.version.Default"
@@ -1453,7 +1453,7 @@
     <!-- +
          |  CURRENT USER PROVIDER
          + -->   
-    <feature name="runtime.current-user">
+    <feature name="runtime.current-user" safe="true">
         <!-- 
             This feature provides a non-null current user
          -->
@@ -1467,7 +1467,7 @@
         </components>
     </feature>
     
-    <feature name="runtime.rights.impl.basic">
+    <feature name="runtime.rights.impl.basic" safe="true">
         <!-- 
             This feature declares the basic rights manager that always anwers OK
          -->
@@ -1518,22 +1518,7 @@
         </components>
     </feature>
     
-    <!-- +
-         |  InitRequestHandler
-         + -->
-    <feature name="runtime.request.impl.default">
-        <!-- 
-            The default request handler... doing nothing
-         -->
-        <components>
-            <component role="org.ametys.runtime.request.InitRequestHandler"
-                       id="org.ametys.plugins.core.request.Default"
-                       class="org.ametys.plugins.core.impl.request.DefaultInitRequestHandler"
-                       logger="org.ametys.plugins.core.impl.request.default"/>
-        </components>
-    </feature>
-
-    <feature name="runtime.rights.context.impl.default">
+    <feature name="runtime.rights.context.impl.default" safe="true">
         <!-- 
             This feature declares the default rights context manager
          -->

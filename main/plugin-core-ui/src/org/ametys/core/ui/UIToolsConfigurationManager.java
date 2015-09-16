@@ -15,8 +15,6 @@
  */
 package org.ametys.core.ui;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -56,17 +54,17 @@ public class UIToolsConfigurationManager
      * Constructor
      * @param uitoolsFactoriesManager The instance of ui tools manager
      * @param saxClientSideElementHelper The instance of sax client helper
-     * @param configFile The configuration file
+     * @param config The configuration
      * @param request The request to open by default additionally to those configured
      */
-    public UIToolsConfigurationManager (UIToolsFactoriesManager uitoolsFactoriesManager, SAXClientSideElementHelper saxClientSideElementHelper, File configFile, Request request)
+    public UIToolsConfigurationManager (UIToolsFactoriesManager uitoolsFactoriesManager, SAXClientSideElementHelper saxClientSideElementHelper, InputStream config, Request request)
     {
         _uitoolsFactoriesManager = uitoolsFactoriesManager;
         _saxClientSideElementHelper = saxClientSideElementHelper;
         
-        try (InputStream is = new FileInputStream(configFile))
+        try
         {
-            Configuration configuration = new DefaultConfigurationBuilder().build(is);
+            Configuration configuration = new DefaultConfigurationBuilder().build(config);
             _configure(configuration);
         }
         catch (Exception e)

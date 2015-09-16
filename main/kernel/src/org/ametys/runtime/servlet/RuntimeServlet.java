@@ -20,8 +20,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Properties;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -53,7 +55,6 @@ import org.apache.cocoon.Constants;
 import org.apache.cocoon.ResourceNotFoundException;
 import org.apache.cocoon.environment.http.HttpContext;
 import org.apache.cocoon.environment.http.HttpEnvironment;
-import org.apache.cocoon.servlet.multipart.MultipartException;
 import org.apache.cocoon.servlet.multipart.MultipartHttpServletRequest;
 import org.apache.cocoon.servlet.multipart.RequestFactory;
 import org.apache.cocoon.util.ClassUtils;
@@ -77,6 +78,7 @@ import org.ametys.runtime.config.ConfigManager;
 import org.ametys.runtime.plugin.Init;
 import org.ametys.runtime.plugin.InitExtensionPoint;
 import org.ametys.runtime.plugin.PluginsManager;
+import org.ametys.runtime.plugin.PluginsManager.Status;
 import org.ametys.runtime.plugin.component.PluginsComponentManager;
 import org.ametys.runtime.request.RequestListener;
 import org.ametys.runtime.request.RequestListenerManager;
@@ -116,23 +118,23 @@ public class RuntimeServlet extends HttpServlet
     private ServletContext _servletContext;
     private String _servletContextPath;
     private URL _servletContextURL;
+    
     private DefaultContext _avalonContext;
     private HttpContext _context;
+    private Cocoon _cocoon;
+    private RequestFactory _requestFactory;
     private File _workDir;
     
     private int _maxUploadSize = DEFAULT_MAX_UPLOAD_SIZE;
     private File _uploadDir;
-    
     private File _cacheDir;
-    
-    private RequestFactory _requestFactory;
     
     private Logger _logger;
     private LoggerManager _loggerManager;
     
     private Exception _exception;
     
-    private Cocoon _cocoon;
+    private Collection<Pattern> _allowedURLPattern = Arrays.asList(Pattern.compile("_admin/.*"), Pattern.compile("plugins/[^/]+/resources/.*"));
     
     @Override
     public void init() throws ServletException 
@@ -385,12 +387,52 @@ public class RuntimeServlet extends HttpServlet
     public final void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException
     {
         req.setCharacterEncoding("UTF-8");
+
+        // add the cocoon header timestamp
+        res.addHeader("X-Cocoon-Version", Constants.VERSION);
         
         // Error mode
         if (_exception != null)
         {
             _renderError(req, res, _exception, null);
             return;
+        }
+        
+        String uri = req.getServletPath();
+        
+        String pathInfo = req.getPathInfo();
+        if (pathInfo != null) 
+        {
+            uri += pathInfo;
+        }
+        
+        if (uri.length() > 0 && uri.charAt(0) == '/') 
+        {
+            uri = uri.substring(1);
+        }
+
+        if (PluginsManager.getInstance().isSafeMode())
+        {
+            // safe mode
+            String finalUri = uri;
+            boolean allowed = _allowedURLPattern.stream().anyMatch(p -> p.matcher(finalUri).matches());
+            if (!allowed) 
+            {
+                res.addHeader("X-Ametys-SafeMode", "true");
+
+                Status status = PluginsManager.getInstance().getStatus();
+                
+                if (status == Status.CONFIG_INCOMPLETE)
+                {
+                    res.sendRedirect(req.getContextPath() + "/_admin/public/load-config.html");
+                    return;
+                }
+                else
+                {
+                    res.sendRedirect(req.getContextPath() + "/_admin/public/safe-mode.html");
+                    return;
+                }
+            }
         }
         
         MDC.put("requestURI", req.getRequestURI());
@@ -401,44 +443,21 @@ public class RuntimeServlet extends HttpServlet
         // }
         // else
         // {
-        _fireRequestStarted(req);
-
-        // used for timing the processing
+        
         StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
-
-        // add the cocoon header timestamp
-        res.addHeader("X-Cocoon-Version", Constants.VERSION);
-
-        // get the request (wrapped if contains multipart-form data)
-        HttpServletRequest request;
-        try
-        {
-            request = _requestFactory.getServletRequest(req);
-        }
-        catch (MultipartException e)
-        {
-            _renderError(req, res, e, null);
-            return;
-        }
-        
-        // Process the request
-        String uri = request.getServletPath();
-        
-        String pathInfo = request.getPathInfo();
-        if (pathInfo != null) 
-        {
-            uri += pathInfo;
-        }
-
-        if (uri.length() > 0 && uri.charAt(0) == '/') 
-        {
-            uri = uri.substring(1);
-        }
-        
+        HttpServletRequest request = null;
         try 
         {
-            HttpEnvironment env = new HttpEnvironment(uri, _servletContextURL.toExternalForm(), req, res, _servletContext, _context, "UTF-8", "UTF-8");
+            // used for timing the processing
+            stopWatch.start();
+
+            _fireRequestStarted(req);
+            
+            // get the request (wrapped if contains multipart-form data)
+            request = _requestFactory.getServletRequest(req);
+            
+            // Process the request
+            HttpEnvironment env = new HttpEnvironment(uri, _servletContextURL.toExternalForm(), request, res, _servletContext, _context, "UTF-8", "UTF-8");
             env.enableLogging(new SLF4JLoggerAdapter(_logger));
             
             if (!_cocoon.process(env)) 

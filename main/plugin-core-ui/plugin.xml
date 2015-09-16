@@ -53,41 +53,49 @@
     
     <extension-points>
         <extension-point id="org.ametys.core.ui.dispatcher.DispatchProcessExtensionPoint" 
-                         class="org.ametys.core.ui.dispatcher.DispatchProcessExtensionPoint"/>
+                         class="org.ametys.core.ui.dispatcher.DispatchProcessExtensionPoint"
+                         safe="true"/>
                          
         <extension-point id="org.ametys.core.ui.StaticFileImportsManager"
-                         class="org.ametys.core.ui.StaticFileImportsManager">
+                         class="org.ametys.core.ui.StaticFileImportsManager"
+                         safe="true">
             <!-- Handles the static import files that are used on client side -->
         </extension-point>
         
         <extension-point id="org.ametys.core.ui.RibbonAppMenuControlsManager"
-                         class="org.ametys.core.ui.RibbonAppMenuControlsManager">
+                         class="org.ametys.core.ui.RibbonAppMenuControlsManager"
+                         safe="true">
             <!-- Handles the dynamic items that may takes place in the ametys menu -->
         </extension-point>
         
         <extension-point id="org.ametys.core.ui.RibbonControlsManager"
-                         class="org.ametys.core.ui.RibbonControlsManager">
+                         class="org.ametys.core.ui.RibbonControlsManager"
+                         safe="true">
             <!-- Handles the controls that may takes place in the ribbon -->
         </extension-point>
 
         <extension-point id="org.ametys.core.ui.RibbonTabsManager"
-                         class="org.ametys.core.ui.RibbonTabsManager">
+                         class="org.ametys.core.ui.RibbonTabsManager"
+                         safe="true">
             <!-- Handles the dynamic tabs that may takes place in the ribbon -->
         </extension-point>
 
         <extension-point id="org.ametys.core.ui.UIToolsFactoriesManager"
-                         class="org.ametys.core.ui.UIToolsFactoriesManager">
+                         class="org.ametys.core.ui.UIToolsFactoriesManager"
+                         safe="true">
             <!-- Handles the factories that are used on client side -->
         </extension-point>
 
         <extension-point id="org.ametys.core.ui.RelationsManager"
-                         class="org.ametys.core.ui.RelationsManager">
+                         class="org.ametys.core.ui.RelationsManager"
+                         safe="true">
             <!-- Handles the handlers that are used on client side to create relations between objects (e.g. by drag and droping) -->
         </extension-point>
         
         <extension-point id="org.ametys.core.ui.widgets.WidgetsManager"
                          class="org.ametys.core.ui.widgets.WidgetsManager"
-                         config="/WEB-INF/param/default-widgets.xml">
+                         config="/WEB-INF/param/default-widgets.xml"
+                         safe="true">
             <!-- Handles the widgets that are used on client side to creates forms (e.g. editing content) -->
             <normal>
                 <single>
@@ -127,12 +135,13 @@
         </extension-point>
 
         <extension-point id="org.ametys.core.ui.MessageTargetFactoriesManager"
-                         class="org.ametys.core.ui.MessageTargetFactoriesManager">
+                         class="org.ametys.core.ui.MessageTargetFactoriesManager"
+                         safe="true">
             <!-- Handles the factories for message bus targets that are used on client side -->
         </extension-point>
     </extension-points>
     
-    <feature name="saxclienthelper">
+    <feature name="saxclienthelper" safe="true">
         <components>
             <component class="org.ametys.core.ui.SAXClientSideElementHelper"
                        id="org.ametys.core.ui.SAXClientSideElementHelper" 
@@ -141,7 +150,7 @@
     </feature>
     
     <feature name="runtime.debug">
-        <!-- Mark the UI debug parameter as available. If your application does not handle it you can unativate it. -->
+        <!-- Mark the UI debug parameter as available. If your application does not handle it you can unactivate it. -->
         <config>
             <param-ref id="runtime.debug.ui"/>
         </config>
@@ -169,7 +178,7 @@
         </extensions>
     </feature>
     
-    <feature name="staticimports.widgets">
+    <feature name="staticimports.widgets" safe="true">
         <extensions>
             <extension id="org.ametys.runtime.Widgets"
                        point="org.ametys.core.ui.StaticFileImportsManager"
@@ -200,7 +209,7 @@
         </extensions>
     </feature>
     
-    <feature name="widgets.default.text">
+    <feature name="widgets.default.text" safe="true">
         <extensions>
             <extension id="edition.textfield"
                 point="org.ametys.core.ui.widgets.WidgetsManager"
@@ -218,7 +227,7 @@
             </extension>
         </extensions>
     </feature>
-    <feature name="widgets.others.hidden">
+    <feature name="widgets.others.hidden" safe="true">
         <extensions>
             <extension id="edition.hidden"
                 point="org.ametys.core.ui.widgets.WidgetsManager"
@@ -233,7 +242,7 @@
             </extension>
         </extensions>
     </feature>
-    <feature name="widgets.default.password">
+    <feature name="widgets.default.password" safe="true">
         <extensions>
             <extension id="edition.password"
                 point="org.ametys.core.ui.widgets.WidgetsManager"
@@ -248,7 +257,7 @@
             </extension>
         </extensions>
     </feature>
-    <feature name="widgets.default.changepassword">
+    <feature name="widgets.default.changepassword" safe="true">
         <extensions>
             <extension id="edition.changepassword"
                 point="org.ametys.core.ui.widgets.WidgetsManager"
@@ -263,7 +272,7 @@
             </extension>
         </extensions>
     </feature>
-    <feature name="widgets.default.combo">
+    <feature name="widgets.default.combo" safe="true">
         <extensions>
             <extension id="edition.combobox"
                 point="org.ametys.core.ui.widgets.WidgetsManager"
@@ -281,7 +290,7 @@
             </extension>
         </extensions>
     </feature>
-    <feature name="widgets.others.boxselect">
+    <feature name="widgets.others.boxselect" safe="true">
         <extensions>
             <extension id="edition.boxselect"
                 point="org.ametys.core.ui.widgets.WidgetsManager"
@@ -299,7 +308,7 @@
             </extension>
         </extensions>
     </feature>     
-    <feature name="widgets.default.long">
+    <feature name="widgets.default.long" safe="true">
         <extensions>
             <extension id="edition.longfield"
                 point="org.ametys.core.ui.widgets.WidgetsManager"
@@ -317,7 +326,7 @@
             </extension>
         </extensions>
     </feature>    
-    <feature name="widgets.default.double">
+    <feature name="widgets.default.double" safe="true">
         <extensions>
             <extension id="edition.doublefield"
                 point="org.ametys.core.ui.widgets.WidgetsManager"
@@ -335,7 +344,7 @@
             </extension>
         </extensions>
     </feature>    
-    <feature name="widgets.default.checkbox">
+    <feature name="widgets.default.checkbox" safe="true">
         <extensions>
             <extension id="edition.checkbox"
                 point="org.ametys.core.ui.widgets.WidgetsManager"
@@ -353,7 +362,7 @@
             </extension>
         </extensions>
     </feature>    
-    <feature name="widgets.default.date">
+    <feature name="widgets.default.date" safe="true">
         <extensions>
             <extension id="edition.date"
                 point="org.ametys.core.ui.widgets.WidgetsManager"
@@ -371,7 +380,7 @@
             </extension>
         </extensions>
     </feature>    
-    <feature name="widgets.default.datetime">
+    <feature name="widgets.default.datetime" safe="true">
         <extensions>
             <extension id="edition.datetime"
                 point="org.ametys.core.ui.widgets.WidgetsManager"
@@ -389,7 +398,7 @@
             </extension>
         </extensions>
     </feature>    
-    <feature name="widgets.others.stringhour"> 
+    <feature name="widgets.others.stringhour" safe="true"> 
         <extensions> 
             <extension id="edition.string-time" 
                 point="org.ametys.core.ui.widgets.WidgetsManager" 
@@ -406,7 +415,7 @@
         </extensions>
     </feature>  
     
-    <feature name="widgets.default.richtext">
+    <feature name="widgets.default.richtext" safe="true">
         <extensions>
             <extension id="edition.richtext"
                 point="org.ametys.core.ui.widgets.WidgetsManager"
@@ -425,7 +434,7 @@
             </extension>
         </extensions>
     </feature>    
-    <feature name="widgets.default.textarea">
+    <feature name="widgets.default.textarea" safe="true">
         <extensions>
             <extension id="edition.textarea"
                 point="org.ametys.core.ui.widgets.WidgetsManager"
@@ -443,7 +452,7 @@
             </extension>
         </extensions>
     </feature>
-    <feature name="widgets.default.reference.url">
+    <feature name="widgets.default.reference.url" safe="true">
         <extensions>
             <extension id="edition.url-reference"
                 point="org.ametys.core.ui.widgets.WidgetsManager"
@@ -461,7 +470,7 @@
             </extension>
         </extensions>
     </feature>
-    <feature name="widgets.others.file">
+    <feature name="widgets.others.file" safe="true">
         <extensions>
             <extension id="edition.file"
                 point="org.ametys.core.ui.widgets.WidgetsManager"
@@ -478,7 +487,7 @@
         </extensions>
     </feature>
 
-    <feature name="widgets.others.flipflap">
+    <feature name="widgets.others.flipflap" safe="true">
         <extensions>
             <extension id="edition.flipflap"
                 point="org.ametys.core.ui.widgets.WidgetsManager"
@@ -496,7 +505,7 @@
             </extension>
         </extensions>
     </feature>    
-    <feature name="widgets.others.group">
+    <feature name="widgets.others.group" safe="true">
         <extensions>
             <extension id="edition.group"
                 point="org.ametys.core.ui.widgets.WidgetsManager"
@@ -515,7 +524,7 @@
             </extension>
         </extensions>
     </feature>    
-    <feature name="widgets.others.user">
+    <feature name="widgets.others.user" safe="true">
         <extensions>
             <extension id="edition.user"
                 point="org.ametys.core.ui.widgets.WidgetsManager"
@@ -534,7 +543,7 @@
             </extension>
         </extensions>
     </feature>    
-    <feature name="widgets.others.geocode">
+    <feature name="widgets.others.geocode" safe="true">
         <extensions>
             <extension id="edition.geocode"
                 point="org.ametys.core.ui.widgets.WidgetsManager"
@@ -552,7 +561,7 @@
             </extension>
         </extensions>
     </feature>
-    <feature name="widgets.others.boolean.combobx">
+    <feature name="widgets.others.boolean.combobx" safe="true">
         <extensions>
             <extension id="edition.boolean-combobox"
                 point="org.ametys.core.ui.widgets.WidgetsManager"
@@ -574,7 +583,7 @@
     <!-- +  
          |  REQUESTS TRACKER    
          + -->     
-    <feature name="userinterface.requests-tracker">
+    <feature name="userinterface.requests-tracker" safe="true">
         <extensions>
             <extension point="org.ametys.core.right.RightsExtensionPoint"
                        id="core.dev.rights.requesttracker">
@@ -666,7 +675,7 @@
     <!-- +  
          |  MESSAGES TRACKER    
          + -->     
-    <feature name="userinterface.messages-tracker">
+    <feature name="userinterface.messages-tracker" safe="true">
         <extensions>
             <extension point="org.ametys.core.right.RightsExtensionPoint"
                        id="core.dev.rights.messagetracker">
@@ -893,7 +902,7 @@
        </extensions>
     </feature>
     
-    <feature name="configurableformpanel.checks">
+    <feature name="configurableformpanel.checks" safe="true">
         <extensions>
             <extension id="org.ametys.plugins.core.configurableformpanel.CheckAll"
                        point="org.ametys.core.ui.RibbonControlsManager"
