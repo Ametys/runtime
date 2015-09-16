@@ -613,14 +613,8 @@ public class RuntimeServlet extends HttpServlet
                     {
                         res.setStatus(200);
                         res.setContentType(config.getServletContext().getMimeType(req.getRequestURI()));
-        
-                        byte[] buffer = new byte[8192];
-                        int length = -1;
-        
-                        while ((length = is.read(buffer)) > -1)
-                        {
-                            os.write(buffer, 0, length);
-                        }
+                        
+                        IOUtils.copy(is, os);
                     }
         
                     return;
