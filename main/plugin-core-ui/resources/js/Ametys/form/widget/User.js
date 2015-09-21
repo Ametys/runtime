@@ -40,7 +40,7 @@ Ext.define('Ametys.form.widget.User', {
 	    		fields: [
 	    		         {name: 'firstname', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString},
 	    		         {name: 'lastname', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString},
-	    		         {name: 'login', mapping: '@login', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString},
+	    		         {name: 'login', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString},
 	    		         {name: 'fullname', convert: function (v, record) {
 	    		        	 return record.get('lastname') + ' ' + record.get('firstname') + ' (' + record.get('login') + ')';
 	    		         }, type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString}
@@ -55,13 +55,10 @@ Ext.define('Ametys.form.widget.User', {
             proxy: {
                 type: 'ametys',
                 plugin: 'core',
-    			url: "users/search.xml", 
+    			url: 'users/search.json', 
                 reader: {
-                    type: 'xml',
-                    record: 'user' //,
-					// Disabling root node
-					// Workaround for mixed users manager (ldap and jdbc etc...)
-                    // rootProperty: 'users'
+                    type: 'json',
+                    rootProperty: 'users'
                 }
             },
             
@@ -95,7 +92,7 @@ Ext.define('Ametys.form.widget.User', {
     getLabelTpl: function ()
     {
     	var tpl = [];
-    	tpl.push('<img  width="16" height="16" src="' + Ametys.getPluginResourcesPrefix('cms') + '/img/widgets/user/user_16.png"/>');
+    	tpl.push('<img  width="16" height="16" src="' + Ametys.getPluginResourcesPrefix('core') + '/img/users/user_16.png"/>');
     	tpl.push('{' + this.displayField + '}');
     	return tpl;
     }

@@ -39,7 +39,7 @@ Ext.define('Ametys.form.widget.Group', {
                 
                 fields: [
                      {name: 'label', type: 'string', sortType: Ext.data.SortTypes.asNonAccentedUCString},
-                     {name: 'id', mapping: '@id'}
+                     {name: 'id', mapping: 'id'}
                 ],
                 
                 idProperty: 'id'
@@ -51,10 +51,9 @@ Ext.define('Ametys.form.widget.Group', {
             proxy: {
                 type: 'ametys',
                 plugin: 'core',
-    			url: "groups/search.xml", 
+    			url: "groups/search.json", 
                 reader: {
-                    type: 'xml',
-                    record: 'group',
+                    type: 'json',
                     rootProperty: 'groups'
                 }
             },
@@ -89,7 +88,7 @@ Ext.define('Ametys.form.widget.Group', {
     getLabelTpl: function ()
     {
     	var tpl = [];
-    	tpl.push('<img width="16" height="16" src="' + Ametys.getPluginResourcesPrefix('cms') + '/img/groups/group_16.png"/>');
+    	tpl.push('<img width="16" height="16" src="' + Ametys.getPluginResourcesPrefix('core') + '/img/groups/group_16.png"/>');
     	tpl.push('{' + this.displayField + '}');
     	return tpl;
     }
