@@ -56,9 +56,9 @@ public class SessionCountListener implements HttpSessionListener
     }
     
     /**
-     * Returns the numer of active Sessions
-     * @return the numer of active Sessions
-     * @throws IllegalStateException if the listener is not registred
+     * Returns the number of active Sessions
+     * @return the number of active Sessions
+     * @throws IllegalStateException if the listener is not registered
      */
     public static int getSessionCount()
     {
