@@ -26,6 +26,7 @@ Ext.define('Ametys.plugins.admin.config.ConfigTool', {
 	 * @private
 	 * @property {Ametys.form.ConfigurableFormPanel} _formPanel The configuration form panel 
 	 */
+	
 	getMBSelectionInteraction: function() 
 	{
 		return Ametys.tool.Tool.MB_TYPE_ACTIVE;
@@ -69,20 +70,34 @@ Ext.define('Ametys.plugins.admin.config.ConfigTool', {
 		var me = this;
         if (this.isDirty())
 		{
-			Ametys.Msg.confirm("<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_DIRTY_CLOSE_MBOX_LABEL'/>", 
-				"<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_DIRTY_CLOSE_MBOX_TEXT'/>", 
-				function (answer) {
-	                if (answer == 'yes')
-	                {
-	                	Ametys.plugins.admin.config.ConfigTool.superclass.close.call(me, [manual]);
-	                }
-	            },
-	            this
-			);
+			Ametys.form.SaveHelper.promptBeforeQuit("<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_DIRTY_CLOSE_MBOX_LABEL'/>", 
+												    "<i18n:text i18n:key='PLUGINS_ADMIN_CONFIG_DIRTY_CLOSE_MBOX_TEXT'/>",
+												    null,
+												    Ext.bind(this._closeCb, this));
 			return;
 		}
 
         this.callParent(arguments);
+	},
+	
+    /**
+     * Callback for the tool's closing process
+     * @param {Boolean} doSave true to save the form before closing the tool, false not to save the form before closing, null to do nothing
+     */
+	_closeCb: function(doSave)
+	{
+		if (doSave != null)
+		{
+			if (doSave)
+			{
+				var form = this._formPanel;
+				Ametys.form.SaveHelper.canSave(form, Ext.bind(Ametys.plugins.admin.config.SaveConfigAction._doSave, Ametys.plugins.admin.config.SaveConfigAction, [form], 1));
+			}
+			else
+			{
+				Ametys.plugins.admin.config.ConfigTool.superclass.close.call(this);
+			}
+		}
 	},
 	
 	/**
