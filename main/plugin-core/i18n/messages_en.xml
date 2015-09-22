@@ -67,9 +67,6 @@
     <message key="PLUGINS_CORE_RIGHTS_USERS_LABEL">Users management</message>
     <message key="PLUGINS_CORE_RIGHTS_USERS_DESCRIPTION">Users management</message>
     
-    <message key="PLUGINS_CORE_RIGHTS_USERS_IMPERSONATE_LABEL">Impersonate</message>
-    <message key="PLUGINS_CORE_RIGHTS_USERS_IMPERSONATE_DESCRIPTION">Connect with the login of the selected user.</message>
-    
     <!-- Ribbon -->
     <message key="RIBBON_TABS_TAB_RIGHTS_HANDLE_LABEL">Users, groups and rights</message>
     <message key="RIBBON_TABS_TAB_USERS_GROUPS_GROUP_USERS_LABEL">CMS users</message>
@@ -132,9 +129,9 @@
     <!-- +
          | IMPERSONATE USER
          + -->
-    <message key="PLUGINS_CORE_UITOOL_USER_IMPERSONATE_LABEL">Impersonate</message>
-    <message key="PLUGINS_CORE_UITOOL_USER_IMPERSONATE_DESCRIPTION">Connect to the CMS with the login of the selected user.</message> 
-    <message key="PLUGINS_CORE_UITOOL_USER_IMPERSONATE_MULTI_FORBIDDEN">Several users are currently selected.&lt;br/&gt;Select a single user in order to be able to connect with his login</message>
+    <message key="PLUGINS_CORE_USERS_IMPERSONATE_LABEL">Impersonate</message>
+    <message key="PLUGINS_CORE_USERS_IMPERSONATE_DESCRIPTION">Connect to the CMS with the login of the selected user.</message> 
+    <message key="PLUGINS_CORE_USERS_IMPERSONATE_MULTI_FORBIDDEN">Several users are currently selected.&lt;br/&gt;Select a single user in order to be able to connect with his login</message>
     <message key="PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS_TITLE">Impersonation success</message>
     <message key="PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS">You are now connected with the following credentials: </message>
     <message key="PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS_2">You are going to be redirected to the application.</message>
@@ -244,6 +241,7 @@
     <message key="PLUGINS_CORE_PROFILES_SAVE_MODIFICATIONS_DESCRIPTION">Save changes on profile</message>
     <message key="PLUGINS_CORE_PROFILES_DONT_SAVE_MODIFICATIONS">Discard changes</message>
     <message key="PLUGINS_CORE_PROFILES_DONT_SAVE_MODIFICATIONS_DESCRIPTION">Discard the current changes of the profile.</message>
+    <message key="PLUGINS_CORE_PROFILES_SAVE_MODIFICATIONS_ERROR">An error occurred while saving the profile's rights.</message>
     
     <message key="PLUGINS_CORE_PROFILES_RIGHTS_CONFIRM_TITLE">Save</message>
     <message key="PLUGINS_CORE_PROFILES_RIGHTS_CONFIRM_DESCRIPTION">The attributed rights have been modified. Do you wish to save those changes ?</message>
@@ -317,7 +315,7 @@
 	<message key="PLUGINS_CORE_RIGHTS_CONTEXTS_APPLICATION_HELP_AFFECT">In order to assign profiles, a user/group can be selected from the list.</message>
 	<message key="PLUGINS_CORE_RIGHTS_CONTEXTS_APPLICATION_HELP_PROFIL">Select profiles that you want to assign to users/groups.&lt;br/&gt;Click on the link 'Confirm changes' to save the assignments.</message>
 
-   	<!-- RegExp -->
+	<!-- RegExp -->
 	<message key="PLUGINS_CORE_REGEXP_INVALID_MAIL">The address is not a valid email address</message>
 	<message key="PLUGINS_CORE_REGEXP_INVALID_URL">The url is invalid. It has to start with either http:// or https://</message>
 	

@@ -66,9 +66,6 @@
     <message key="PLUGINS_CORE_RIGHTS_USERS_LABEL">Gestion des utilisateurs</message>
     <message key="PLUGINS_CORE_RIGHTS_USERS_DESCRIPTION">Gestion des utilisateurs</message>
     
-    <message key="PLUGINS_CORE_RIGHTS_USERS_IMPERSONATE_LABEL">Prendre le contrôle</message>
-    <message key="PLUGINS_CORE_RIGHTS_USERS_IMPERSONATE_DESCRIPTION">Se connecter avec les identifiants de l'utilisateur choisi.</message>
-    
     <!-- Ribbon -->
     <message key="RIBBON_TABS_TAB_RIGHTS_HANDLE_LABEL">Utilisateurs, groupes et droits</message>
     <message key="RIBBON_TABS_TAB_USERS_GROUPS_GROUP_USERS_LABEL">Utilisateurs du CMS</message>
