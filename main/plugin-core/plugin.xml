@@ -784,7 +784,6 @@
                 <script>
                     <file>js/Ametys/plugins/core/users/UsersActions.js</file>
                 </script>
-                <right>Runtime_Rights_User_Impersonate</right>
             </extension>
             
             <extension id="org.ametys.core.UserRightsFactory"
