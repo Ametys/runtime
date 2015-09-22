@@ -64,7 +64,11 @@
          | USERS 
          + -->
     <message key="PLUGINS_CORE_RIGHTS_USERS_LABEL">Gestion des utilisateurs</message>
-    <message key="PLUGINS_CORE_RIGHTS_USERS_DESCRIPTION">Gestion des utilisateurs</message>   
+    <message key="PLUGINS_CORE_RIGHTS_USERS_DESCRIPTION">Gestion des utilisateurs</message>
+    
+    <message key="PLUGINS_CORE_RIGHTS_USERS_IMPERSONATE_LABEL">Prendre le contrôle</message>
+    <message key="PLUGINS_CORE_RIGHTS_USERS_IMPERSONATE_DESCRIPTION">Se connecter avec les identifiants de l'utilisateur choisi.</message>
+    
     <!-- Ribbon -->
     <message key="RIBBON_TABS_TAB_RIGHTS_HANDLE_LABEL">Utilisateurs, groupes et droits</message>
     <message key="RIBBON_TABS_TAB_USERS_GROUPS_GROUP_USERS_LABEL">Utilisateurs du CMS</message>
@@ -91,6 +95,7 @@
     <message key="PLUGINS_CORE_USERS_DELETE_CONFIRM">Etes-vous sûr de vouloir supprimer ce ou ces utilisateur(s) ?</message>
     <message key="PLUGINS_CORE_USERS_DELETE_ERROR">Une erreur est survenue sur le serveur. Impossible de supprimer le ou les utilisateur(s).</message>
     <message key="PLUGINS_CORE_USERS_INFOS_ERROR">Une erreur est survenue: impossible de récupérer les informations sur cet utilisateur</message>
+    <message key="PLUGINS_CORE_USERS_IMPERSONATE_ERROR">Une erreur est survenue: impossible de se connecter avec les identifiants de l'utilisateur sélectionné.</message>
     <!-- Helper -->
     <message key="PLUGINS_CORE_USERS_DIALOG_ADD_TITLE">Nouvel utilisateur ...</message>
     <message key="PLUGINS_CORE_USERS_DIALOG_EDIT_TITLE">Modifier ...</message>
@@ -122,6 +127,18 @@
     <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_RIGHTS_BY_CONTEXT_HINT_1">Vous visualisez la liste des droits de l'utilisateur &lt;b&gt;</message>
     <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_RIGHTS_BY_CONTEXT_HINT_2">&lt;/b&gt;.&lt;br/&gt;Chaque droit peut-être affecté sur un ou plusieurs contextes.</message>
     <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_ERROR">Une erreur est survenue : elle a empêchée l'affichage des droits de l'utilisateur</message>
+    
+    <!-- +
+         | IMPERSONATE USER
+         + -->
+    <message key="PLUGINS_CORE_USERS_IMPERSONATE_LABEL">Prendre le contrôle</message>
+    <message key="PLUGINS_CORE_USERS_IMPERSONATE_DESCRIPTION">Se connecter au CMS avec les identifiants de l'utilisateur sélectionné.</message> 
+    <message key="PLUGINS_CORE_USERS_IMPERSONATE_MULTI_FORBIDDEN">Plusieurs utilisateurs sont actuellement sélectionnés.&lt;br/&gt;Sélectionnez un seul utilisateur afin de pouvoir se connecter avec ses identifiants.</message>
+    <message key="PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS_TITLE">Prise de contrôle réussie</message>
+    <message key="PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS">Vous êtes maintenant connecté avec les identifiants suivants : </message>
+    <message key="PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS_2">Vous allez être redirigé vers l'application.</message>
+    <message key="PLUGINS_CORE_USERS_IMPERSONATE_FAILURE_TITLE">Echec de la prise de contrôle</message>
+    <message key="PLUGINS_CORE_USERS_IMPERSONATE_FAILURE">La prise de contrôle a échoué car l'utilisateur sélectionné n'a pas été retrouvé.</message>
     
     <!-- USER JDBC -->
     <message key="PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_LABEL">Identifiant</message>

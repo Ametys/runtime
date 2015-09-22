@@ -637,6 +637,12 @@
                     <description>PLUGINS_CORE_RIGHTS_USERS_DESCRIPTION</description>
                     <category>PLUGINS_CORE_USERANDRIGHTS_CATEGORY</category>
                 </right>
+                
+                <right id="Runtime_Rights_User_Impersonate">
+                    <label>PLUGINS_CORE_RIGHTS_USERS_IMPERSONATE_LABEL</label>
+                    <description>PLUGINS_CORE_RIGHTS_USERS_IMPERSONATE_DESCRIPTION</description>
+                    <category>PLUGINS_CORE_USERANDRIGHTS_CATEGORY</category>
+                </right>
             </extension>
             
             <extension id="org.ametys.core.Users"
@@ -761,6 +767,30 @@
                     <icon-large file="true">img/users/rights_48.png</icon-large>
                 </class>
                 <right>Runtime_Rights_User_Handle</right>
+            </extension>
+            
+            <extension id="org.ametys.core.users.Impersonate"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.plugins.core.user.ImpersonateUserClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.core.users.UsersActions.impersonate</action>
+
+                    <label i18n="true">PLUGINS_CORE_USERS_IMPERSONATE_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_USERS_IMPERSONATE_DESCRIPTION</description>
+                    
+                    <selection-target-type>^user$</selection-target-type>
+                    <selection-enable-multiselection>false</selection-enable-multiselection>
+                    <selection-description-multiselectionforbidden i18n="true">PLUGINS_CORE_USERS_IMPERSONATE_MULTI_FORBIDDEN</selection-description-multiselectionforbidden>
+
+                    <help>org.ametys.core.users.rights</help>
+                    <icon-small file="true">img/users/user_16.png</icon-small>
+                    <icon-medium file="true">img/users/user_32.png</icon-medium>
+                    <icon-large file="true">img/users/user_48.png</icon-large>
+                </class>
+                <script>
+                    <file>js/Ametys/plugins/core/users/UsersActions.js</file>
+                </script>
+                <right>Runtime_Rights_User_Impersonate</right>
             </extension>
             
             <extension id="org.ametys.core.UserRightsFactory"

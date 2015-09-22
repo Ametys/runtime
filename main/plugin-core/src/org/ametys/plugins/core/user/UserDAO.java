@@ -23,13 +23,19 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.avalon.framework.component.Component;
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.cocoon.ProcessingException;
+import org.apache.cocoon.components.ContextHelper;
+import org.apache.cocoon.environment.Request;
 import org.apache.commons.lang3.StringUtils;
 
+import org.ametys.core.authentication.AuthenticateAction;
 import org.ametys.core.ui.Callable;
 import org.ametys.core.user.CurrentUserProvider;
 import org.ametys.core.user.InvalidModificationException;
@@ -48,7 +54,7 @@ import org.ametys.runtime.parameter.Validator;
  * DAO for manipulating {@link User}
  *
  */
-public class UserDAO extends AbstractLogEnabled implements Serviceable, Component
+public class UserDAO extends AbstractLogEnabled implements Component, Contextualizable, Serviceable 
 {
     /** The avalon role */
     public static final String ROLE = UserDAO.class.getName();
@@ -57,7 +63,14 @@ public class UserDAO extends AbstractLogEnabled implements Serviceable, Componen
     protected ServiceManager _smanager;
     /** The current user provider. */
     protected CurrentUserProvider _currentUserProvider;
-
+    /** The Avalon context */
+    protected Context _context;
+    
+    public void contextualize(Context context) throws ContextException
+    {
+        _context = context;
+    }
+    
     public void service(ServiceManager smanager) throws ServiceException
     {
         _smanager = smanager;
@@ -276,10 +289,10 @@ public class UserDAO extends AbstractLogEnabled implements Serviceable, Componen
     
     /**
      * Get the users edition model 
-     * @return The edition model as an object
      * @throws ServiceException If there is an issue with the service manager
      * @throws InvalidModificationException If modification is not possible 
      * @throws ProcessingException If there is another exception
+     * @return the users edition model as an object
      */
     @Callable
     public Map<String, Object> getEditionModel () throws ServiceException, InvalidModificationException, ProcessingException
@@ -290,10 +303,10 @@ public class UserDAO extends AbstractLogEnabled implements Serviceable, Componen
     /**
      * Get the users edition model 
      * @param userManagerRole The users manager's role. Can be null or empty to use the default one.
-     * @return The edition model as an object
      * @throws ServiceException If there is an issue with the service manager
      * @throws InvalidModificationException If modification is not possible 
      * @throws ProcessingException If there is another exception
+     * @return The edition model as an object
      */
     @Callable
     public Map<String, Object> getEditionModel (String userManagerRole) throws ServiceException, InvalidModificationException, ProcessingException
@@ -376,6 +389,62 @@ public class UserDAO extends AbstractLogEnabled implements Serviceable, Componen
         }
         
         return model;
+    }
+    
+    /**
+     * Impersonate the selected user
+     * @param login the login of the user to impersonate
+     * @throws ServiceException If there is an issue with the service manager
+     * @return a map of information on the user
+     */
+    @Callable
+    public Map<String, String> impersonate(String login) throws ServiceException
+    {
+        Map<String, String> result = new HashMap<>();
+        if (_currentUserProvider == null)
+        {
+            try
+            {
+                _currentUserProvider = (CurrentUserProvider) _smanager.lookup(CurrentUserProvider.ROLE);
+            }
+            catch (ServiceException e)
+            {
+                throw new IllegalStateException(e);
+            }
+        }
+        
+        if (!_currentUserProvider.isSuperUser())
+        {
+            throw new IllegalStateException("Current user is not logged as administrator");
+        }
+
+        if (StringUtils.isEmpty(login))
+        {
+            throw new IllegalArgumentException("'login' parameter is null or empty");
+        }
+        
+        UsersManager usersManager = (UsersManager) _smanager.lookup(UsersManager.ROLE);
+        User user = usersManager.getUser(login);
+        if (user == null)
+        {
+            result.put("error", "unknown-user");   
+        }
+        else
+        {
+            Request request = ContextHelper.getRequest(_context);
+            
+            request.getSession(true).setAttribute(AuthenticateAction.SESSION_USERLOGIN, login);
+            
+            result.put("login", login);
+            result.put("name", user.getFullName());
+            
+            if (getLogger().isInfoEnabled())
+            {
+                getLogger().info("Impersonation of the user '" + login + "' from IP " + request.getRemoteAddr());
+            }
+        }
+        
+        return result;
     }
     
     /**

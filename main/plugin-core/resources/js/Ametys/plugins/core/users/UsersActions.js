@@ -65,6 +65,19 @@ Ext.define('Ametys.plugins.core.users.UsersActions', {
 			);
 		}
 	},
+	
+	/**
+	 * Impersonate the selected user
+	 * @param {Ametys.ribbon.element.ui.ButtonController} controller The controller calling this function  
+	 */
+	impersonate: function(controller)
+	{
+		var userTarget = controller.getMatchingTargets()[0];
+		if (userTarget != null)
+		{
+			Ametys.plugins.core.users.UsersDAO.impersonate([userTarget.getParameters().id], null, {});
+		}
+	},
 
 	/**
 	 * Callback function invoked after the 'delete' confirm box is closed

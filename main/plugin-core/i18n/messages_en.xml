@@ -67,6 +67,9 @@
     <message key="PLUGINS_CORE_RIGHTS_USERS_LABEL">Users management</message>
     <message key="PLUGINS_CORE_RIGHTS_USERS_DESCRIPTION">Users management</message>
     
+    <message key="PLUGINS_CORE_RIGHTS_USERS_IMPERSONATE_LABEL">Impersonate</message>
+    <message key="PLUGINS_CORE_RIGHTS_USERS_IMPERSONATE_DESCRIPTION">Connect with the login of the selected user.</message>
+    
     <!-- Ribbon -->
     <message key="RIBBON_TABS_TAB_RIGHTS_HANDLE_LABEL">Users, groups and rights</message>
     <message key="RIBBON_TABS_TAB_USERS_GROUPS_GROUP_USERS_LABEL">CMS users</message>
@@ -93,7 +96,7 @@
     <message key="PLUGINS_CORE_USERS_DELETE_CONFIRM">Are you sure you want to delete these(s) user(s)?</message>
     <message key="PLUGINS_CORE_USERS_DELETE_ERROR">An error occurred: unable to delete user(s)</message>
     <message key="PLUGINS_CORE_USERS_INFOS_ERROR">An error occurred while retrieving user's information</message>
-
+    <message key="PLUGINS_CORE_USERS_IMPERSONATE_ERROR">An error occurred: unable to connect with the login of the selected user.</message>
     <!-- Helper -->
     <message key="PLUGINS_CORE_USERS_DIALOG_ADD_TITLE">New user ...</message>
     <message key="PLUGINS_CORE_USERS_DIALOG_EDIT_TITLE">Edit ...</message>
@@ -124,7 +127,20 @@
     <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_CONTEXT_BY_PROFILE_HINT_2">&lt;/b&gt;.&lt;br/&gt;Each profile is assigned on one or more contexts.&lt;br/&gt;Mouseover the profile's name to see the associated rights.</message>
     <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_RIGHTS_BY_CONTEXT_HINT_1">Here are listed the rights to user &lt;b&gt;</message>
     <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_RIGHTS_BY_CONTEXT_HINT_2">&lt;/b&gt;.&lt;br/&gt;Each right is assigned on one or more contexts.</message>
-    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_ERROR">An error occurred : the user rights can not be displayed</message>    
+    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_ERROR">An error occurred : the user rights can not be displayed</message>
+    
+    <!-- +
+         | IMPERSONATE USER
+         + -->
+    <message key="PLUGINS_CORE_UITOOL_USER_IMPERSONATE_LABEL">Impersonate</message>
+    <message key="PLUGINS_CORE_UITOOL_USER_IMPERSONATE_DESCRIPTION">Connect to the CMS with the login of the selected user.</message> 
+    <message key="PLUGINS_CORE_UITOOL_USER_IMPERSONATE_MULTI_FORBIDDEN">Several users are currently selected.&lt;br/&gt;Select a single user in order to be able to connect with his login</message>
+    <message key="PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS_TITLE">Impersonation success</message>
+    <message key="PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS">You are now connected with the following credentials: </message>
+    <message key="PLUGINS_CORE_USERS_IMPERSONATE_SUCCESS_2">You are going to be redirected to the application.</message>
+    <message key="PLUGINS_CORE_USERS_IMPERSONATE_FAILURE_TITLE">Impersonation failure</message>
+    <message key="PLUGINS_CORE_USERS_IMPERSONATE_FAILURE">The impersonation failed because the selected user was not found.</message>
+    
     
 	<!-- USER JDBC -->
 	<message key="PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_LABEL">Login ID</message>
@@ -301,7 +317,7 @@
 	<message key="PLUGINS_CORE_RIGHTS_CONTEXTS_APPLICATION_HELP_AFFECT">In order to assign profiles, a user/group can be selected from the list.</message>
 	<message key="PLUGINS_CORE_RIGHTS_CONTEXTS_APPLICATION_HELP_PROFIL">Select profiles that you want to assign to users/groups.&lt;br/&gt;Click on the link 'Confirm changes' to save the assignments.</message>
 
-	<!-- RegExp -->
+   	<!-- RegExp -->
 	<message key="PLUGINS_CORE_REGEXP_INVALID_MAIL">The address is not a valid email address</message>
 	<message key="PLUGINS_CORE_REGEXP_INVALID_URL">The url is invalid. It has to start with either http:// or https://</message>
 	
