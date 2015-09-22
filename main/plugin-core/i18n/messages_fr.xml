@@ -59,12 +59,12 @@
 
     <!-- USER AND RIGHTS -->
     <message key="PLUGINS_CORE_USERANDRIGHTS_CATEGORY">Utilisateurs et droits</message>
-
+    
 	<!-- +
          | USERS 
          + -->
     <message key="PLUGINS_CORE_RIGHTS_USERS_LABEL">Gestion des utilisateurs</message>
-    <message key="PLUGINS_CORE_RIGHTS_USERS_DESCRIPTION">Gestion des utilisateurs</message>
+    <message key="PLUGINS_CORE_RIGHTS_USERS_DESCRIPTION">Gestion des utilisateurs</message>   
     <!-- Ribbon -->
     <message key="RIBBON_TABS_TAB_RIGHTS_HANDLE_LABEL">Utilisateurs, groupes et droits</message>
     <message key="RIBBON_TABS_TAB_USERS_GROUPS_GROUP_USERS_LABEL">Utilisateurs du CMS</message>
@@ -222,13 +222,21 @@
     <message key="PLUGINS_CORE_PROFILES_SWITCH_TO_VIEW">Mode visualisation</message>
     <message key="PLUGINS_CORE_PROFILES_SWITCH_TO_VIEW_DESCRIPTION">Passe en mode visualisation des droits du profil</message>
     <message key="PLUGINS_CORE_PROFILES_SAVE_MODIFICATIONS">Sauvegarder</message>
-    <message key="PLUGINS_CORE_PROFILES_SAVE_MODIFICATIONS_DESCRIPTION">Sauvegarder les modifications effectué sur ce profil.</message>
+    <message key="PLUGINS_CORE_PROFILES_SAVE_MODIFICATIONS_DESCRIPTION">Sauvegarder les modifications effectuées sur ce profil.</message>
+    <message key="PLUGINS_CORE_PROFILES_DONT_SAVE_MODIFICATIONS">Annuler</message>
+    <message key="PLUGINS_CORE_PROFILES_DONT_SAVE_MODIFICATIONS_DESCRIPTION">Annuler les modifications en cours du profil.</message>
+    <message key="PLUGINS_CORE_PROFILES_SAVE_MODIFICATIONS_ERROR">Une erreur est survenue lors de la sauvegarde des droits du profil.</message>
+    
+    <message key="PLUGINS_CORE_PROFILES_RIGHTS_CONFIRM_TITLE">Sauvegarde</message>
+    <message key="PLUGINS_CORE_PROFILES_RIGHTS_CONFIRM_DESCRIPTION">Vous avez fait des modifications dans les droits attribués. Souhaitez-vous les sauvegarder ?</message>
+    
     <message key="PLUGINS_CORE_PROFILES_SELECT_ALL">Sélectionner tout</message>
     <message key="PLUGINS_CORE_PROFILES_SELECT_ALL_DESCRIPTION">Sélectionne tous les droits</message>
     <message key="PLUGINS_CORE_PROFILES_UNSELECT_ALL">Désélectionner tout</message>
     <message key="PLUGINS_CORE_PROFILES_UNSELECT_ALL_DESCRIPTION">Désélectionne tous les droits</message>
     <message key="PLUGINS_CORE_PROFILES_DESCRIPTION_NO_SELECTION">Ce bouton est désactivé car aucun profil n'est sélectionné ou le profil sélectionné n'est pas modifiable via cette interface.</message>
     <message key="PLUGINS_CORE_PROFILES_DESCRIPTION_NO_RIGHT">Ce bouton est désactivé car vos droits sont insuffisants.</message>
+
     <!-- Helper -->
     <message key="PLUGINS_CORE_PROFILES_DIALOG_ADD_TITLE">Nouveau profil ...</message>
     <message key="PLUGINS_CORE_PROFILES_DIALOG_EDIT_TITLE">Renommer ...</message>

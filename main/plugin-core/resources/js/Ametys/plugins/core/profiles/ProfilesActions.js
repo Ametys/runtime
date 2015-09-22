@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Anyware Services
+ *  Copyright 2015 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,8 +15,8 @@
  */
 
 /**
- * Singleton class defining the actions related to groups.
  * @private
+ * Singleton class defining the actions related to groups.
  */
 Ext.define('Ametys.plugins.core.profiles.ProfilesActions', {
 	singleton: true,
@@ -62,11 +62,11 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesActions', {
 	},
 
 	/**
+	 * @private
 	 * Callback function invoked after the 'delete' confirm box is closed
 	 * @param {String} buttonId Id of the button that was clicked
 	 * @param {Ametys.message.MessageTarget[]} targets The profiles message targets
 	 * @param {Ametys.ribbon.element.ui.ButtonController} controller The controller calling this function 
-	 * @private
 	 */
 	_doDelete: function(buttonId, targets, controller)
 	{

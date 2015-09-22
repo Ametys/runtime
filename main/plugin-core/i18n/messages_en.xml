@@ -66,6 +66,7 @@
          + -->
     <message key="PLUGINS_CORE_RIGHTS_USERS_LABEL">Users management</message>
     <message key="PLUGINS_CORE_RIGHTS_USERS_DESCRIPTION">Users management</message>
+    
     <!-- Ribbon -->
     <message key="RIBBON_TABS_TAB_RIGHTS_HANDLE_LABEL">Users, groups and rights</message>
     <message key="RIBBON_TABS_TAB_USERS_GROUPS_GROUP_USERS_LABEL">CMS users</message>
@@ -92,6 +93,7 @@
     <message key="PLUGINS_CORE_USERS_DELETE_CONFIRM">Are you sure you want to delete these(s) user(s)?</message>
     <message key="PLUGINS_CORE_USERS_DELETE_ERROR">An error occurred: unable to delete user(s)</message>
     <message key="PLUGINS_CORE_USERS_INFOS_ERROR">An error occurred while retrieving user's information</message>
+
     <!-- Helper -->
     <message key="PLUGINS_CORE_USERS_DIALOG_ADD_TITLE">New user ...</message>
     <message key="PLUGINS_CORE_USERS_DIALOG_EDIT_TITLE">Edit ...</message>
@@ -122,7 +124,7 @@
     <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_CONTEXT_BY_PROFILE_HINT_2">&lt;/b&gt;.&lt;br/&gt;Each profile is assigned on one or more contexts.&lt;br/&gt;Mouseover the profile's name to see the associated rights.</message>
     <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_RIGHTS_BY_CONTEXT_HINT_1">Here are listed the rights to user &lt;b&gt;</message>
     <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_RIGHTS_BY_CONTEXT_HINT_2">&lt;/b&gt;.&lt;br/&gt;Each right is assigned on one or more contexts.</message>
-    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_ERROR">An error occurred : the user rights can not be displayed</message>
+    <message key="PLUGINS_CORE_UITOOL_USER_RIGHTS_ERROR">An error occurred : the user rights can not be displayed</message>    
     
 	<!-- USER JDBC -->
 	<message key="PLUGINS_CORE_USERS_JDBC_FIELD_LOGIN_LABEL">Login ID</message>
@@ -224,12 +226,19 @@
     <message key="PLUGINS_CORE_PROFILES_SWITCH_TO_VIEW_DESCRIPTION">Switches to view mode of the profile's rights</message>
     <message key="PLUGINS_CORE_PROFILES_SAVE_MODIFICATIONS">Save</message>
     <message key="PLUGINS_CORE_PROFILES_SAVE_MODIFICATIONS_DESCRIPTION">Save changes on profile</message>
+    <message key="PLUGINS_CORE_PROFILES_DONT_SAVE_MODIFICATIONS">Discard changes</message>
+    <message key="PLUGINS_CORE_PROFILES_DONT_SAVE_MODIFICATIONS_DESCRIPTION">Discard the current changes of the profile.</message>
+    
+    <message key="PLUGINS_CORE_PROFILES_RIGHTS_CONFIRM_TITLE">Save</message>
+    <message key="PLUGINS_CORE_PROFILES_RIGHTS_CONFIRM_DESCRIPTION">The attributed rights have been modified. Do you wish to save those changes ?</message>
+    
     <message key="PLUGINS_CORE_PROFILES_SELECT_ALL">Select all</message>
     <message key="PLUGINS_CORE_PROFILES_SELECT_ALL_DESCRIPTION">Select all rights</message>
     <message key="PLUGINS_CORE_PROFILES_UNSELECT_ALL">Unselect all</message>
     <message key="PLUGINS_CORE_PROFILES_UNSELECT_ALL_DESCRIPTION">Unselect all rights</message>
     <message key="PLUGINS_CORE_PROFILES_DESCRIPTION_NO_SELECTION">This button is disabled because no profile is selected or the selected profile can not be changed through this interface.</message>
     <message key="PLUGINS_CORE_PROFILES_DESCRIPTION_NO_RIGHT">This button is disabled because your rights are insufficient.</message>
+    
     <!-- Helper -->
     <message key="PLUGINS_CORE_PROFILES_DIALOG_ADD_TITLE">New profile ...</message>
     <message key="PLUGINS_CORE_PROFILES_DIALOG_EDIT_TITLE">Rename ...</message>

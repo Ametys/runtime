@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Anyware Services
+ *  Copyright 2015 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,8 +15,8 @@
  */
 
 /**
- * Helper for editing a profile
  * @private
+ * Helper for editing a profile
  */
 Ext.define('Ametys.plugins.core.profiles.EditProfileHelper', {
 	singleton: true,
@@ -32,9 +32,9 @@ Ext.define('Ametys.plugins.core.profiles.EditProfileHelper', {
 	
 	/**
 	 * Open dialog box to create a new profile
-	 *  @param {String} context The context. Can be null.
+	 * @param {String} context The context. Can be null.
 	 * @param {Function} [callback] the callback function. Parameters are:
-	 * @param {Object} login callback.profile The profile's properties
+	 * @param {Object}  callback.profile The profile's properties
 	 */
 	add: function (context, callback)
 	{

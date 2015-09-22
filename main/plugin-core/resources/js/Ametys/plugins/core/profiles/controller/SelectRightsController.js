@@ -16,28 +16,18 @@
 
 /**
  * @private
- * This class controls a ribbon button representing the lock state of a content
+ * This class controls a ribbon button allowing to select/deselect a group of rights
  */
-Ext.define('Ametys.plugins.core.profiles.controller.ViewModeController', {
+Ext.define('Ametys.plugins.core.profiles.controller.SelectRightsController', {
 	extend: 'Ametys.ribbon.element.ui.ButtonController',
 
-	areSameTargets: function(target1, target2)
-	{
-		var areSameTargets = this.callParent(arguments);
-		return areSameTargets && target1.getSubtarget(Ametys.message.MessageTarget.FORM) == target2.getSubtarget(Ametys.message.MessageTarget.FORM);
-	},
-	
 	updateState: function()
 	{
-		this.enable();
-		
 		var targets = this.getMatchingTargets();
 		if (targets.length > 0)
 		{
 			var profileTarget = targets[0];
-			var formTarget = profileTarget.getSubtarget(Ametys.message.MessageTarget.FORM);
-			
-			this.toggle(formTarget != null);
+			this.setDisabled(profileTarget.getParameters().id == null);
 		}
 	}
 });

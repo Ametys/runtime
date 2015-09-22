@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Anyware Services
+ *  Copyright 2015 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -118,7 +118,7 @@ Ext.define(
 	     		},
 	     		errorMessage: {
 					category: this.self.getName(),
-					msg: "<i18n:text i18n:key='PLUGINS_CORE_PROFILES_EDIT_ERROR'/>"
+					msg: "<i18n:text i18n:key='PLUGINS_CORE_PROFILES_SAVE_MODIFICATIONS_ERROR'/>"
 				}
 			});
 			
@@ -230,7 +230,7 @@ Ext.define(
 		
 		/**
 		 * @private
-		 * Callback function called after a profile was edited
+		 * Callback function called after the rights associated to a profile were edited
 		 * @param {Object} profile The profile's information
 		 * @param {Object} args The callback arguments
 		 * @param {Object[]} params The callback parameters (server-side and client-side)
