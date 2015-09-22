@@ -38,7 +38,7 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 	
 	/**
 	 * @private
-	 * @property {Ext.data.Record} _selection the selected profile record
+	 * @property {String} _currentProfileId the id of current selected profile
 	 */
 	
 	/**
@@ -55,10 +55,7 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 		save: function(controller)
 		{
 			var profileTool = Ametys.tool.ToolsManager.getFocusedTool();
-			var rights = profileTool._getRights();
-			
-			profileTool.saveRights(profileTool._selection.id, rights, profileTool._updateCardPanels(rights));
-			profileTool.sendCurrentSelection();
+			profileTool.saveCurrentChanges();
 		},
 		
 		/**
@@ -155,7 +152,7 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 			stateId: this.self.getName() + "$grid",
 			
 			minWidth: 100,
-			maxWidth: 250,
+			maxWidth: 400,
 			flex: 0.3,
 			
 			store: profileStore,
@@ -202,32 +199,30 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 	sendCurrentSelection: function()
 	{
 		var targets = [];
-		var subtargets = [];
-		var profileId = null;
 		
-		if (this._selection != null)
+		var selection = this._profilesGrid.getSelectionModel().getSelection();
+		if (selection && selection.length > 0)
 		{
-			profileId = this._selection.id;
+			var record = selection[0];
+			var subtargets = [];
+			
+			if (this.getMode() == 'edit')
+			{
+				subtargets.push({
+		            type: Ametys.message.MessageTarget.FORM,
+		            parameters: {
+		                isDirty: this.isDirty()
+		            }
+		        });
+			}
+			
+			targets.push ({
+				type: Ametys.message.MessageTarget.PROFILE,
+				parameters: {id: record.getId()},
+				subtargets: subtargets
+			});
+			
 		}
-		
-		var mode = this.getMode();
-		if (mode == 'edit')
-		{
-			var isDirty = this.isDirty();
-			subtargets.push({
-	            'type': Ametys.message.MessageTarget.FORM,
-	            
-	            'parameters': {
-	                'isDirty': isDirty
-	            }
-	        });
-		}
-		
-		targets.push ({
-			type: Ametys.message.MessageTarget.PROFILE,
-			parameters: {id: profileId},
-			subtargets: subtargets
-		});
 		
 		Ext.create('Ametys.message.Message', {
 			type: Ametys.message.Message.SELECTION_CHANGED,
@@ -240,8 +235,6 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
         if (this.isDirty())
 		{
         	var me = this;
-        	var rights = this._getRights();
-        	
         	var callback = function (doSave)
         	{
         		if (doSave == null)
@@ -252,7 +245,7 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
     			{
         			if (doSave)
     				{
-        				me.saveRights(me._selectedProfile, rights, function() {Ametys.plugins.core.profiles.ProfilesTool.superclass.close.call(me, [manual])});
+        				me.saveCurrentChanges(function() {Ametys.plugins.core.profiles.ProfilesTool.superclass.close.call(me, [manual])});
     				}
         			else
     				{
@@ -371,7 +364,7 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 	 */
 	_onBeforeSelectProfile: function(model, selection)
 	{
-		if (this._selection != null && this.isDirty())
+		if (this._currentProfileId != null && this.isDirty())
 		{
 			var me = this; 
 			var rights = this._getRights();
@@ -379,8 +372,17 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 			{
 				if (doSave != null)
 				{
-	    			doSave ? me.saveRights(me._selection.id, rights) : me.setDirty(false);  
-	    			me._profilesGrid.setSelection(selection);
+					if (doSave)
+					{
+						me.saveCurrentChanges(function () {
+							me._profilesGrid.setSelection(selection);
+						})
+					}
+					else
+					{
+						me.setDirty(false);
+						me._profilesGrid.setSelection(selection);
+					}
 				}
 			}
 			
@@ -390,7 +392,7 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 			return false;
     	}
 		
-		this._selection = selection;
+		this._currentProfileId = selection.getId();
 
 		this.sendCurrentSelection();
 		this._updateCardPanels(selection.get('rights') || []);
@@ -705,13 +707,10 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 					{
 						if (doSave)
 						{
-							me.saveRights(me._selection.id, rights, function()
-								{
-									me._updateCardPanels(rights); 
-									me._rightsPanel.getLayout().setActiveItem(0);
-									me.sendCurrentSelection();
-								}
-							);
+							me.saveCurrentChanges(function() {
+								me._rightsPanel.getLayout().setActiveItem(0);
+								me.sendCurrentSelection();
+							});
 						}
 						else
 						{
@@ -766,18 +765,26 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 	},
 	
 	/**
-	 * Actual saving process with a server call
-	 * @param {String} selectedProfile the id of the selected profile
-	 * @param {String[]} rights the selected rights for the selected profile
+	 * Save the current changes done on selected profile
 	 * @param {Function} callback the callback function
 	 */
-	saveRights: function(selectedProfile, newRights, callback)
+	saveCurrentChanges: function(callback)
 	{
-		Ametys.plugins.core.profiles.ProfilesDAO.editProfileRights([selectedProfile, newRights], callback, {});
-
+		var rights = this._getRights();
+		Ametys.plugins.core.profiles.ProfilesDAO.editProfileRights([this._currentProfileId, rights], this._saveCb, {scope: this, arguments: {callback: callback}});
+	},	
+	
+	_saveCb: function (profile, args, params)
+	{
 		// Reset the dirty state of the tool
 		this.setDirty(false);
-	},	
+		this._updateCardPanels(params[1]);
+		
+		if (Ext.isFunction(args.callback))
+		{
+			args.callback ();
+		}
+	},
 
 	/**
 	 * Select all rights
