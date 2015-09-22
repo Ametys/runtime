@@ -294,7 +294,7 @@ Ext.define(
 					icon: Ext.MessageBox.INFO,
 					fn: function() 
 					{ 
-						Ametys.reload();
+						Ametys.openWindow(Ametys.CONTEXT_PATH);
 					}
 				});
 			}
