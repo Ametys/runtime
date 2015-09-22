@@ -1189,9 +1189,9 @@
                     
                     <label i18n="true">PLUGINS_CORE_PROFILES_DONT_SAVE_MODIFICATIONS</label>
                     <description i18n="true">PLUGINS_CORE_PROFILES_DONT_SAVE_MODIFICATIONS_DESCRIPTION</description>
-                    <icon-small file="true">img/profiles/save_16.png</icon-small>
-                    <icon-medium file="true">img/profiles/save_32.png</icon-medium>
-                    <icon-large file="true">img/profiles/save_48.png</icon-large>
+                    <icon-small file="true">img/profiles/unsave_16.png</icon-small>
+                    <icon-medium file="true">img/profiles/unsave_32.png</icon-medium>
+                    <icon-large file="true">img/profiles/unsave_48.png</icon-large>
                 </class>
                 <scripts>
                     <file>js/Ametys/plugins/core/profiles/ProfilesDAO.js</file>
