@@ -1197,7 +1197,7 @@
             
            <extension id="org.ametys.core.profiles.UnselectAll"
                        point="org.ametys.core.ui.RibbonControlsManager"
-                       class="org.ametys.plugins.core.group.ModifiableGroupsClientSideElement">
+                       class="org.ametys.core.ui.StaticClientSideElement">
                 <class name="Ametys.plugins.core.profiles.controller.SelectRightsController">
                     <action>Ametys.plugins.core.profiles.ProfilesTool.unselectAll</action>
                     
@@ -1221,5 +1221,4 @@
             </extension>
         </extensions>
     </feature>
-
 </plugin>
