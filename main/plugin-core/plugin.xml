@@ -1063,7 +1063,7 @@
             
             <extension id="org.ametys.core.profiles.Add"
                        point="org.ametys.core.ui.RibbonControlsManager"
-                       class="org.ametys.core.ui.StaticClientSideElement">
+                       class="org.ametys.plugins.core.right.profile.ProfileBasedClientSideElement">
                 <class name="Ametys.ribbon.element.ui.ButtonController">
                     <action>Ametys.plugins.core.profiles.ProfilesActions.add</action>
                     <label i18n="true">PLUGINS_CORE_PROFILES_ADD_LABEL</label>
@@ -1082,7 +1082,7 @@
             
             <extension id="org.ametys.core.profiles.Edit"
                        point="org.ametys.core.ui.RibbonControlsManager"
-                       class="org.ametys.core.ui.StaticClientSideElement">
+                       class="org.ametys.plugins.core.right.profile.ProfileBasedClientSideElement">
                 <class name="Ametys.ribbon.element.ui.ButtonController">
                     <action>Ametys.plugins.core.profiles.ProfilesActions.edit</action>
                     <selection-target-type>^profile$</selection-target-type>
@@ -1103,7 +1103,7 @@
             
             <extension id="org.ametys.core.profiles.Delete"
                        point="org.ametys.core.ui.RibbonControlsManager"
-                       class="org.ametys.core.ui.StaticClientSideElement">
+                       class="org.ametys.plugins.core.right.profile.ProfileBasedClientSideElement">
                 <class name="Ametys.ribbon.element.ui.ButtonController">
                     <action>Ametys.plugins.core.profiles.ProfilesActions.delete</action>
                     <selection-target-type>^profile$</selection-target-type>
