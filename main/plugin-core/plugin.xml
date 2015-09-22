@@ -777,9 +777,9 @@
                     <selection-description-multiselectionforbidden i18n="true">PLUGINS_CORE_USERS_IMPERSONATE_MULTI_FORBIDDEN</selection-description-multiselectionforbidden>
 
                     <help>org.ametys.core.users.rights</help>
-                    <icon-small file="true">img/users/user_16.png</icon-small>
-                    <icon-medium file="true">img/users/user_32.png</icon-medium>
-                    <icon-large file="true">img/users/user_48.png</icon-large>
+                    <icon-small file="true">img/users/impersonate_16.png</icon-small>
+                    <icon-medium file="true">img/users/impersonate_32.png</icon-medium>
+                    <icon-large file="true">img/users/impersonate_48.png</icon-large>
                 </class>
                 <script>
                     <file>js/Ametys/plugins/core/users/UsersActions.js</file>
