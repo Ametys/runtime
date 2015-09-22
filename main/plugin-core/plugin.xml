@@ -637,12 +637,6 @@
                     <description>PLUGINS_CORE_RIGHTS_USERS_DESCRIPTION</description>
                     <category>PLUGINS_CORE_USERANDRIGHTS_CATEGORY</category>
                 </right>
-                
-                <right id="Runtime_Rights_User_Impersonate">
-                    <label>PLUGINS_CORE_RIGHTS_USERS_IMPERSONATE_LABEL</label>
-                    <description>PLUGINS_CORE_RIGHTS_USERS_IMPERSONATE_DESCRIPTION</description>
-                    <category>PLUGINS_CORE_USERANDRIGHTS_CATEGORY</category>
-                </right>
             </extension>
             
             <extension id="org.ametys.core.Users"
