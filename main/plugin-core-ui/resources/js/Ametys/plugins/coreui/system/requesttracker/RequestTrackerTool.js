@@ -63,6 +63,26 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
 			Ametys.data.ServerComm._observer = this;
 		},
 		
+		setParams: function (params)
+		{
+			this.callParent(arguments);
+			
+	    	// Register the tool on the history tool
+			var role = this.getFactory().getRole();
+		    var toolParams = this.getParams();
+
+	        Ametys.navhistory.HistoryDAO.addEntry({
+				id: this.getId(),
+				label: this.getTitle(),
+				description: this.getDescription(),
+				iconSmall: this.getSmallIcon(),
+				iconMedium: this.getMediumIcon(),
+				iconLarge: this.getLargeIcon(),
+				type: Ametys.navhistory.HistoryDAO.TOOL_TYPE,
+				action: Ext.bind(Ametys.tool.ToolsManager.openTool, Ametys.tool.ToolsManager, [role, toolParams], false)
+	        });
+		},
+		
 		createPanel: function()
 		{
 			this.store = Ext.create("Ext.data.ArrayStore",{

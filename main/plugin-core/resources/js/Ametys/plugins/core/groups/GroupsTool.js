@@ -76,6 +76,26 @@ Ext.define('Ametys.plugins.core.groups.GroupsTool', {
 		Ametys.message.MessageBus.on(Ametys.message.Message.DELETED, this._onMessageDeleted, this);
 	},
 	
+	setParams: function(params)
+	{
+    	// Register the tool on the history tool
+		var role = this.getFactory().getRole();
+	    var toolParams = this.getParams();
+
+        Ametys.navhistory.HistoryDAO.addEntry({
+			id: this.getId(),
+			label: this.getTitle(),
+			description: this.getDescription(),
+			iconSmall: this.getSmallIcon(),
+			iconMedium: this.getMediumIcon(),
+			iconLarge: this.getLargeIcon(),
+			type: Ametys.navhistory.HistoryDAO.TOOL_TYPE,
+			action: Ext.bind(Ametys.tool.ToolsManager.openTool, Ametys.tool.ToolsManager, [role, toolParams], false)
+        });
+        
+        this.callParent(arguments); 
+	},
+	
 	createPanel: function()
 	{
 		/* WEST PANEL (GROUPS) */
