@@ -254,11 +254,13 @@ Ext.define('Ametys.plugins.core.users.UsersTool', {
 
 	setParams: function(params)
 	{
-    	// Register the tool on the history tool
+		this.callParent(arguments);
+		this.search();
+		
+		// Register the tool on the history tool
 		var role = this.getFactory().getRole();
 	    var toolParams = this.getParams();
-
-        Ametys.navhistory.HistoryDAO.addEntry({
+		Ametys.navhistory.HistoryDAO.addEntry({
 			id: this.getId(),
 			label: this.getTitle(),
 			description: this.getDescription(),
@@ -268,9 +270,6 @@ Ext.define('Ametys.plugins.core.users.UsersTool', {
 			type: Ametys.navhistory.HistoryDAO.TOOL_TYPE,
 			action: Ext.bind(Ametys.tool.ToolsManager.openTool, Ametys.tool.ToolsManager, [role, toolParams], false)
         });
-        
-		this.callParent(arguments);
-		this.search();
 	},
 	
 	/**
