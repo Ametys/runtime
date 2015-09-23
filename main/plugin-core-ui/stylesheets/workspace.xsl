@@ -247,6 +247,7 @@
                             
                             var ribbon = Ext.create("Ametys.ui.fluent.ribbon.Ribbon", {<xsl:text/>
                                 <xsl:text/>applicationTitle: '&lt;span class="x-fluent-tab-panel-header-title-extension"&gt;<xsl:call-template name="applicationTitle"/>&lt;/span&gt;',<xsl:text/>
+                                id: 'ribbon',
                                 menu: {<xsl:text/>
                                     icon: '<xsl:value-of select="$contextPath"/>/plugins/core-ui/resources/img/workspace/ametys.gif',
                                     items: menuItems.length == 0 ? null : menuItems
