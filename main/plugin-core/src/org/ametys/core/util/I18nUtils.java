@@ -114,20 +114,8 @@ public class I18nUtils extends AbstractLogEnabled implements Component, Servicea
         
         for (String workspace : wm.getWorkspaceNames())
         {
-            String workspaceURI = wm.getBaseURI(workspace);
             String id = "workspace." + workspace;
-            String location2;
-
-            if (workspaceURI == null)
-            {
-                // workspace is in filesystem
-                location2 = "context://workspaces/" + workspace + "/i18n";
-            }
-            else
-            {
-                // workspace is in classpath
-                location2 = "workspace:" + workspace + "://i18n";
-            }
+            String location2 = "workspace:" + workspace + "://i18n";
            
             _locations.put(id, new Location("messages", new String[]{"context://WEB-INF/i18n/workspaces/" + workspace, location2}));
         }

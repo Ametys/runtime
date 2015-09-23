@@ -41,6 +41,9 @@ public class TreeProcessor extends org.apache.cocoon.components.treeprocessor.Tr
             Context ctx = (Context) context.get(Constants.CONTEXT_ENVIRONMENT_CONTEXT);
             String contextPath = ctx.getRealPath("/");
             
+            // WorkspaceManager loading
+            WorkspaceManager.getInstance().init(RuntimeConfig.getInstance().getExcludedWorkspaces(), contextPath);
+            
             PluginsComponentManager pluginCM = PluginsManager.getInstance().init(componentManager, context, contextPath);
 
             // Effective substitution of the Cocoon CM
@@ -49,9 +52,6 @@ public class TreeProcessor extends org.apache.cocoon.components.treeprocessor.Tr
             
             // Set the new ComponentManager in the servlet context so that it can be retrieved bt the Servlet 
             ctx.setAttribute("PluginsComponentManager", pluginCM);
-
-            // WorkspaceManager loading
-            WorkspaceManager.getInstance().init(RuntimeConfig.getInstance().getExcludedWorkspaces(), contextPath);
         }
         catch (ComponentException | RuntimeException e)
         {
