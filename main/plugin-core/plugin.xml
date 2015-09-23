@@ -934,6 +934,11 @@
                     <description>PLUGINS_CORE_RIGHTS_PROFILES_DESCRIPTION</description>
                     <category>PLUGINS_CORE_USERANDRIGHTS_CATEGORY</category>
                 </right>
+                <right id="Runtime_Rights_Rights_Handle">
+                    <label>PLUGINS_CORE_RIGHTS_HANDLE_LABEL</label>
+                    <description>PLUGINS_CORE_RIGHTS_HANDLE_DESCRIPTION</description>
+                    <category>PLUGINS_CORE_USERANDRIGHTS_CATEGORY</category>
+                </right>
             </extension>
             
             <extension id="org.ametys.core.Profiles"
