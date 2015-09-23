@@ -496,75 +496,6 @@
     	</components>
     </feature>
     
-    <feature name="core.users.rights">
-        <!-- 
-            This feature brings the rights needed to manage users
-         -->
-        <extensions>
-            <extension point="org.ametys.core.right.RightsExtensionPoint"
-                       id="runtime.use.rights.users">
-                <!-- 
-                    Define the right for handling users
-                 -->
-                <right id="CORE_Rights_User_Handle">
-                    <label>PLUGINS_CORE_USERS_RIGHTS_HANDLE_LABEL</label>
-                    <description>PLUGINS_CORE_USERS_RIGHTS_HANDLE_DESCRIPTION</description>
-                    <category>PLUGINS_CORE_USERANDRIGHTS_CATEGORY</category>
-                </right>
-            </extension>
-        </extensions>
-    </feature>
-    
-    <feature name="core.groups.rights">
-        <!-- 
-            This feature brings the rights needed to manage groups
-         -->
-        <extensions>
-            <extension point="org.ametys.core.right.RightsExtensionPoint"
-                       id="runtime.use.rights.groups">
-                <!-- 
-                    Define the right for handling groups
-                 -->
-                <right id="CORE_Rights_Group_Handle">
-                    <label>PLUGINS_CORE_GROUPS_RIGHTS_HANDLE_LABEL</label>
-                    <description>PLUGINS_CORE_GROUPS_RIGHTS_HANDLE_DESCRIPTION</description>
-                    <category>PLUGINS_CORE_USERANDRIGHTS_CATEGORY</category>
-                </right>
-            </extension>
-        </extensions>
-    </feature>
-    
-    <feature name="core.rights.rights">
-        <!-- 
-            This feature declares rights for handling rights screens
-         -->
-        <extensions>
-            <extension point="org.ametys.core.right.RightsExtensionPoint"
-                       id="runtime.use.rights.profile">
-                <!-- 
-                    Defines rights for handling profile and handling rights
-                 -->
-                <!--
-                <right id="CORE_Rights_Rights_Profile_See">
-                    <label>PLUGINS_CORE_PROFILE_RIGHTS_SEE_LABEL</label>
-                    <description>PLUGINS_CORE_PROFILE_RIGHTS_SEE_DESCRIPTION</description>
-                    <category>PLUGINS_CORE_USERANDRIGHTS_CATEGORY</category>
-                </right>
-                -->
-                <right id="CORE_Rights_Rights_Profile_Handle">
-                    <label>PLUGINS_CORE_PROFILE_RIGHTS_HANDLE_LABEL</label>
-                    <description>PLUGINS_CORE_PROFILE_RIGHTS_HANDLE_DESCRIPTION</description>
-                    <category>PLUGINS_CORE_USERANDRIGHTS_CATEGORY</category>
-                </right>
-                <right id="CORE_Rights_Rights_Handle">
-                    <label>PLUGINS_CORE_RIGHTS_HANDLE_LABEL</label>
-                    <description>PLUGINS_CORE_RIGHTS_HANDLE_DESCRIPTION</description>
-                    <category>PLUGINS_CORE_USERANDRIGHTS_CATEGORY</category>
-                </right>
-            </extension>
-        </extensions>
-    </feature>
-    
     <feature name="runtime.sending.mail">
         <!-- 
             This feature provides configuration parameters for sending mail
@@ -993,14 +924,14 @@
         <extensions>
             <extension point="org.ametys.core.right.RightsExtensionPoint"
                        id="org.ametys.core.profiles.right">
-                <right id="Runtime_Rights_Rights_Profile_Handle">
-                    <label>PLUGINS_CORE_RIGHTS_PROFILES_LABEL</label>
-                    <description>PLUGINS_CORE_RIGHTS_PROFILES_DESCRIPTION</description>
-                    <category>PLUGINS_CORE_USERANDRIGHTS_CATEGORY</category>
-                </right>
                 <right id="Runtime_Rights_Rights_Profile_See">
                     <label>PLUGINS_CORE_RIGHTS_PROFILES_SEE_LABEL</label>
                     <description>PLUGINS_CORE_RIGHTS_PROFILES_SEE_DESCRIPTION</description>
+                    <category>PLUGINS_CORE_USERANDRIGHTS_CATEGORY</category>
+                </right>
+                <right id="Runtime_Rights_Rights_Profile_Handle">
+                    <label>PLUGINS_CORE_RIGHTS_PROFILES_LABEL</label>
+                    <description>PLUGINS_CORE_RIGHTS_PROFILES_DESCRIPTION</description>
                     <category>PLUGINS_CORE_USERANDRIGHTS_CATEGORY</category>
                 </right>
             </extension>

@@ -204,6 +204,9 @@
          + -->
     <message key="PLUGINS_CORE_RIGHTS_PROFILES_LABEL">Gestion des profils</message>
     <message key="PLUGINS_CORE_RIGHTS_PROFILES_DESCRIPTION">Gestion des profils de droits</message>
+    <message key="PLUGINS_CORE_RIGHTS_PROFILES_SEE_LABEL">Visualisation des profils</message>
+    <message key="PLUGINS_CORE_RIGHTS_PROFILES_SEE_DESCRIPTION">Accès à l'écran de visualisation des profils</message>
+    
     <!-- Ribbon -->
     <message key="RIBBON_TABS_TAB_PROFILES_LABEL">Profil</message>
     <message key="RIBBON_TABS_TAB_PROFILES_GROUP_LABEL">Profils</message>
