@@ -15,7 +15,7 @@
    limitations under the License.
    -->
 <ribbon xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="http://ametys.org/cms/3.0/ribbon.xsd">
+        xsi:noNamespaceSchemaLocation="http://ametys.org/cms/3.0/ribbon.xsd">
     
     <tabs>
         <tab label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_HOME_LABEL">
@@ -24,6 +24,13 @@
                     <large/>
                     <medium>
                         <control id="org.ametys.plugins.admin.config.Open"/>
+                    </medium>
+                    <small/>
+                </group>
+                <group label="workspace.admin:RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_SUPERUSER_LABEL" icon="">
+                    <large/>
+                    <medium>
+                        <control id="org.ametys.core.superuser.Affect"/>
                     </medium>
                     <small/>
                 </group>

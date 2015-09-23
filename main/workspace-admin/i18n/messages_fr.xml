@@ -22,6 +22,7 @@
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_SYSTEM_LABEL">Système</message>
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_PLUGINS_LABEL">Plugins &amp; Workspaces</message>
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_CONFIG_LABEL">Configuration</message>
+    <message key="RIBBON_ADMINISTRATION_TABS_TAB_HOME_GROUP_GROUP_SUPERUSER_LABEL">Super utilisateur</message>
     
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_DEVELOPPER_LABEL">Développeur</message>
     <message key="RIBBON_ADMINISTRATION_TABS_TAB_DEVELOPPER_GROUPS_GROUP_TOOLS">Outils</message>

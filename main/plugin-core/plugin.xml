@@ -1244,4 +1244,29 @@
             </extension>
         </extensions>
     </feature>
+    
+    <!-- +
+         | SUPER USER
+         + -->
+     <feature name="core.superuser">
+        <extensions>
+            <extension id="org.ametys.core.superuser.Affect"
+                       point="org.ametys.core.ui.RibbonControlsManager"
+                       class="org.ametys.plugins.core.superuser.SuperUserClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <action>Ametys.plugins.core.superuser.SuperUserActions.affectSuperUser</action>
+                    
+                    <label i18n="true">PLUGINS_CORE_SUPERUSER_LABEL</label>
+                    <description i18n="true">PLUGINS_CORE_SUPERUSER_DESCRIPTION</description>
+                    
+                    <icon-small file="true">img/superuser/super_user_16.png</icon-small>
+                    <icon-medium file="true">img/superuser/super_user_32.png</icon-medium>
+                    <icon-large file="true">img/superuser/super_user_48.png</icon-large>
+                </class>
+                <scripts>
+                    <file>js/Ametys/plugins/core/superuser/SuperUserActions.js</file>
+                </scripts>
+            </extension>
+        </extensions>
+     </feature>
 </plugin>
