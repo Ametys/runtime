@@ -125,8 +125,8 @@ Ext.define('Ametys.runtime.profiles.ProfileActions', {
 	 */
 	remove: function(profileId, context, users, groups, callback, additionalParams) 
 	{
-		Ametys.Msg.confirm("<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_LABEL'/>", 
-			"<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_CONFIRM'/>", 
+		Ametys.Msg.confirm("<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_LABEL' i18n:catalogue='plugin.core'/>", 
+			"<i18n:text i18n:key='PLUGINS_CORE_RIGHTS_ASSIGNMENT_REMOVE_CONFIRM' i18n:catalogue='plugin.core'/>", 
 			Ext.bind(this._doRemove, this, [profileId, context, users, groups, callback, additionalParams], 1),
 			this);
 	},
