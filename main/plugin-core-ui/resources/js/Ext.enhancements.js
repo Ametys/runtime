@@ -1817,6 +1817,10 @@
                 }
                 else
                 {
+                    for (var i = 0; i < offset; i++)
+                    {
+                        s += "&#160;&#160;&#160;&#160;";
+                    }
                     s += openArrayOrObject("[", value);
                     
                     var hasOne = false;
@@ -1858,6 +1862,10 @@
                 }
                 else
                 {
+                    for (var i = 0; i < offset; i++)
+                    {
+                        s += "&#160;&#160;&#160;&#160;";
+                    }
                     s += openArrayOrObject("{", value);
                     
                     var hasOne = false;
