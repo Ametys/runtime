@@ -935,7 +935,11 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
         {
             ConfigParameter param = _params.get(parameterId);
             Object value = _getValue (parameterId, param.getType(), untypedValues);
-            XMLUtils.createElement(contentHandler, parameterId, ParameterHelper.valueToString(value)); 
+            
+            if (value != null)
+            {
+                XMLUtils.createElement(contentHandler, parameterId, ParameterHelper.valueToString(value)); 
+            }
         }
         XMLUtils.endElement(contentHandler, "values");
     }
