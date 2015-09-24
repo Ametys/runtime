@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright 2012 Anyware Services
+   Copyright 2015 Anyware Services
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -22,8 +22,8 @@
     
     <xsl:import href="common.xsl"/>    
     
-    <xsl:template name="text">403</xsl:template>
-    
-    <xsl:template name="description"><i18n:text i18n:key="KERNEL_ERROR_403" i18n:catalogue="kernel"/></xsl:template>
+    <xsl:template name="head"><i18n:text i18n:key="PLUGINS_CORE_UI_ERROR_403_HEAD" i18n:catalogue="plugin.core-ui"/></xsl:template>
+    <xsl:template name="title"><i18n:text i18n:key="PLUGINS_CORE_UI_ERROR_403_TITLE" i18n:catalogue="plugin.core-ui"/></xsl:template>
+    <xsl:template name="text"><i18n:text i18n:key="PLUGINS_CORE_UI_ERROR_403_TEXT" i18n:catalogue="plugin.core-ui"/></xsl:template>
     
 </xsl:stylesheet>

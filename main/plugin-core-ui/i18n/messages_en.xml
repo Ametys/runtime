@@ -18,7 +18,94 @@
 
     <message key="PLUGINS_CORE_UI_SHUTDOWN_DEFAULTTITLE">The application is stopped</message>
     <message key="PLUGINS_CORE_UI_SHUTDOWN_DEFAULTTEXT">The application is now stop. You can close your browser or click on the following link to restart it now.</message>
+
+    <!-- +
+         | Workspace
+         + -->
+    <message key="WORKSPACE_AMETYS_MAIN_ERROR_NOJS">This application can't work without javascript</message>
+    <message key="WORKSPACE_AMETYS_SPLASHSCREEN_LOADING">Loading. Please wait...</message>
+    <message key="WORKSPACE_AMETYS_SPLASHSCREEN_LOADING_SAFEMODE">Loading safe mode. Please wait...</message>
+    <message key="WORKSPACE_AMETYS_SPLASHSCREEN_LOAD_FAIL">Not loading. Contact the administrator if the problem persists.</message>
+    <message key="WORKSPACE_AMETYS_SPLASHSCREEN_APP_AMETYS_VERSION">powered by Ametys</message>
     
+    <!-- +
+         | Login screen
+         + -->
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_TITLE">Log in</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_LABEL">Sign into your account</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_LOGIN">User id</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_PASSWORD">Password</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_SUBMIT">Login</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FORGOT_PASSWORD">Forgot password?</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_PERSIST">Remember me</message>
+    
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_AUTH_FAILURE">Invalid user id or password</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FAILED_WITH_CAPTCHA">Username, login or image text incorrect</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FAILED_MANY_TIME">Fill the image text because there were too many failed attempts with this username</message>
+    
+    <!-- +
+         | Incomplete configuration
+         + -->
+    <message key="PLUGINS_CORE_UI_INCOMPLETE_CONFIG_HEAD">Incomplete configuration</message>
+    <message key="PLUGINS_CORE_UI_INCOMPLETE_CONFIG_TITLE">Configuration required</message>
+    <message key="PLUGINS_CORE_UI_INCOMPLETE_CONFIG_TEXT">At first launch or after an update,<br/>it is necessary to configure the application.<br/>This message may also appear if<br/>your current configuration is incorrect.</message>
+    <message key="PLUGINS_CORE_UI_INCOMPLETE_CONFIG_LINK">Configure the application</message>
+    
+    <!-- +
+         | Safe mode
+         + -->
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_PAGE_TITLE">Safe mode</message>
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_TITLE">Safe mode</message>
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_TEXT">The application could not initialize correctly and started in safe mode.<br/>You should check application's logs and settings.</message>
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_LINK">Manage the application</message>
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_CONFIG_INCOMPLETE">The application configuration is incomplete or incorrect. Use the configuration tool to complete it.</message>
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_WRONG_DEFINITIONS">L'application est en mode sans-échec car un ou plusieurs plugins ont une configuration incorrecte. You can watch logs to know more.</message>
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_NOT_INITIALIZED">L'application est en mode sans-échec car elle n'a pas pu s'initialiser correctement suite à une erreur. You can watch logs to know more.</message>
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_RUNTIME_NOT_LOADED">L'application est en mode sans-échec car le fichier de configuration 'WEB-INF/param/runtime.xml' n'a pas pu être chargé correctement. You can watch logs to know more.</message>
+    
+    <!-- +
+         | Unsupported browser
+         + -->
+    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_HEAD">Browser not compatible</message>
+    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TITLE">Sorry…</message>
+    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TEXT1">This application does not support your browser<br/>or the version you are using{0}.</message>
+    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TEXT2">Here is the list of supported browsers:</message>
+    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_NAME_ie">Microsoft Internet Explorer</message>
+    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_NAME_ff">Mozilla Firefox</message>
+    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_NAME_ch">Google Chrome</message>
+    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_NAME_sa">Apple Safari</message>
+    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_NAME_op">Opera</message>
+    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_DOC">Consult the user manual of your application to know the recommended browsers.</message>
+    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_LINK">Documentation</message>
+    
+    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_UNKNOWN">Unknown</message>
+    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_ALL">All versions</message>
+    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_LOWER">Versions {0} and lower</message>
+    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_ABOVE">Versions {0} and above</message>
+    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_BETWEEN">Versions {0} to {1}</message>
+    
+    <!-- +
+         | Errors
+         + -->
+    <message key="PLUGINS_CORE_UI_ERROR_401_HEAD">Login required</message>
+    <message key="PLUGINS_CORE_UI_ERROR_401_TITLE">Who are you?</message>
+    <message key="PLUGINS_CORE_UI_ERROR_401_TEXT">The application failed to identify you.<br/>You can try again by refreshing this page<br/>or contact the application administrator if the problem persits.</message>
+    <message key="PLUGINS_CORE_UI_ERROR_401_LINK">Try again</message>
+    
+    <message key="PLUGINS_CORE_UI_ERROR_403_HEAD">Access denied</message>
+    <message key="PLUGINS_CORE_UI_ERROR_403_TITLE">Stop!</message>
+    <message key="PLUGINS_CORE_UI_ERROR_403_TEXT">Your rights are insufficient to access this page.<br/>You can contact the application administrator to know more.</message>
+    
+    <message key="PLUGINS_CORE_UI_ERROR_404_HEAD">Page not found</message>
+    <message key="PLUGINS_CORE_UI_ERROR_404_TITLE">Lost?!</message>
+    <message key="PLUGINS_CORE_UI_ERROR_404_TEXT">The requested page does not exist.</message>
+    <message key="PLUGINS_CORE_UI_ERROR_404_LINK">Return to the application</message>
+    
+    <message key="PLUGINS_CORE_UI_ERROR_500_HEAD">Server error</message>
+    <message key="PLUGINS_CORE_UI_ERROR_500_TITLE">Oops...</message>
+    <message key="PLUGINS_CORE_UI_ERROR_500_TEXT">An error occurred. The page can not be displayed.<br/>You can try again later<br/>or contact the application administrator if the problem persits.</message>
+    <message key="PLUGINS_CORE_UI_ERROR_500_LINK">Technical details</message>
+            
     <!-- +
          | Config 
          + -->
@@ -582,52 +669,4 @@
     <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_PARAMETERS">Parameters</message>
     <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_RESPONSE">Response</message>
     
-    <!-- +
-         | Workspace
-         + -->
-    <message key="WORKSPACE_AMETYS_MAIN_ERROR_NOJS">This application can't work without javascript</message>
-    <message key="WORKSPACE_AMETYS_SPLASHSCREEN_LOADING">Loading. Please wait ... </message>
-    <message key="WORKSPACE_AMETYS_SPLASHSCREEN_APP_AMETYS_VERSION">powered by Ametys </message>
-    
-    <!-- +
-         | Login screen
-         + -->
-    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_TITLE">Log in</message>
-    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_LABEL">Sign into your account</message>
-    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_LOGIN">User id</message>
-    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_PASSWORD">Password</message>
-    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_SUBMIT">Login</message>
-    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FORGOT_PASSWORD">Forgot password?</message>
-    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_PERSIST">Remember me</message>
-    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_AUTH_FAILURE">Invalid user id or password</message>
-    
-    <!-- +
-         | Incomplete configuration
-         + -->
-    <message key="PLUGINS_CORE_UI_INCOMPLETE_CONFIG_PAGE_TITLE">Configuration incomplete</message>
-    <message key="PLUGINS_CORE_UI_INCOMPLETE_CONFIG_TITLE">Unable to load configuration</message>
-    <message key="PLUGINS_CORE_UI_INCOMPLETE_CONFIG_TEXT">The application configuration is incomplete or incorrect.&lt;br/&gt;You must configure the application before using it.</message>
-    <message key="PLUGINS_CORE_UI_INCOMPLETE_CONFIG_BTN">Configure the application</message>
-    
-    <!-- +
-         | Safe mode
-         + -->
-    <message key="PLUGINS_CORE_UI_SAFE_MODE_PAGE_TITLE">Safe mode</message>
-    <message key="PLUGINS_CORE_UI_SAFE_MODE_TITLE">Unable to initialize the application</message>
-    <message key="PLUGINS_CORE_UI_SAFE_MODE_TEXT">The application could not initialize correctly and started in safe mode.&lt;br/&gt;You should check application's logs and settings.</message>
-    <message key="PLUGINS_CORE_UI_SAFE_MODE_BTN">Manage the application</message>
-    
-    <!-- +
-         | Unsupported browser
-         + -->
-    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TITLE">Browser not supported</message>
-    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TEXT1">This application does not support your Web browser or the version you are using{0}.</message>
-    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TEXT2">Here is the list of supported browsers:</message>
-    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_DOC">Consult the user manual of your application to know the recommanded browsers.</message>
-	<message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_DOC_BTN">Documentation</message>
-    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_UNKNOWN">Unknown</message>
-    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_ALL">All versions</message>
-    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_LOWER">Versions {0} and lower</message>
-    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_ABOVE">Versions {0} and above</message>
-    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_BETWEEN">Versions {0} to {1}</message>
 </catalogue>

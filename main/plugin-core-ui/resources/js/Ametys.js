@@ -457,7 +457,7 @@ Ext.define(
 			title = title || "<i18n:text i18n:key='PLUGINS_CORE_UI_SHUTDOWN_DEFAULTTITLE'/>";
 			message = message || "<i18n:text i18n:key='PLUGINS_CORE_UI_SHUTDOWN_DEFAULTTEXT'/>";
 			
-			if (console)
+			if (window.console)
 			{
 				console.info("Shutting down Ametys '" + title + "' - " + message);
 			}
@@ -472,16 +472,17 @@ Ext.define(
 			// Display error message
 			
 			// remove all css
-			var links = document.getElementsByTagName("link");
-			for (var i = 0; i < links.length; i++)
+			var links = document.body.getElementsByTagName("link");
+			for (var i = links.length - 1; i >= 0; i--)
 			{
-				if (links[i].type == "text/css")
+				if (links[i].type == "text/css" && links[i].media != 'hide')
 				{
 					links[i].parentNode.removeChild(links[i]);
 				}
 			}
-			var styles = document.getElementsByTagName("style");
-			for (var i = 0; i < styles.length; i++)
+            
+			var styles = document.body.getElementsByTagName("style");
+            for (var i = styles.length - 1; i >= 0; i--)
 			{
 				if (styles[i].type == "text/css")
 				{
@@ -499,7 +500,7 @@ Ext.define(
 					}
 					catch (e)
 					{
-						console.warn(e);
+						window.console.warn(e);
 					}
 				}
 			});
@@ -513,18 +514,40 @@ Ext.define(
 					}
 					catch (e)
 					{
-						console.warn(e);
+						window.console.warn(e);
 					}
 				}
 			});
 			// Some components are still there, but does not seems to have effets
 			Ext.app.Application.instance.suspendEvents(false);
-			
-			document.body.parentNode.setAttribute('style', "height: 100%;");
-			document.body.setAttribute('style', "background: -webkit-linear-gradient( #351e3b, #033059); background: -moz-linear-gradient( #351e3b, #033059); background: -ms-linear-gradient( #351e3b, #033059); background: -o-linear-gradient( #351e3b, #033059); background: linear-gradient( #351e3b, #033059); background-image: none !important; background-color: #351e3b !important; color: #000000 !important; padding: 20px !important; margin: 0 !important; height: 100%; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box");
-			document.body.innerHTML = "<div style='width: 500px; margin: 200px auto 0 auto; background-color: #EFEFEF; border: 1px solid #CFCFCF; border-radius: 15px; padding: 0 15px;'><h1 style='font-size: 1.5em'>" + title + "</h1> <p>" + message + "</p><p style='text-align: center'><a href='javascript:Ametys.reload();'><i18n:text i18n:key='PLUGINS_CORE_UI_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_3'/></a></p></div>"
-			
-			if (console)
+            
+            // Display slashscreen back if any
+            if (Ext.getBody().child("div.head"))
+            {
+                Ext.get(document.body.parentNode).addCls("ametys-common");
+                Ext.getBody().child("div.head").dom.style.display = '';
+                Ext.getBody().child("div.foot").dom.style.display = '';
+                Ext.getBody().child("div.main").dom.style.display = '';
+                
+                var splashScreen = document.getElementById('splashscreen');
+                splashScreen.className = "text";
+                splashScreen.innerHTML = "<h1>" + title + "</h1>" 
+                                        + "<p class='text'>" + message + "</p>"
+                                        + "<p class='additionnal'><a href='javascript:Ametys.reload();' onclick=\"this.parentNode.remove(this); document.body.className = 'done'; document.getElementById('pulse').style.display = '';\"><i18n:text i18n:key='PLUGINS_CORE_UI_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_3'/></a></p>"
+                                        + "<div class=\"la-ball-pulse la-dark la-2x\" id=\"pulse\" style=\"display: none\">"
+                                        + "<div></div>"
+                                        + "<div></div>"
+                                        + "<div></div>"
+                                        + "</div>";
+            }
+			else
+            {
+    			document.body.innerHTML = "<h1>" + title + "</h1>" 
+                                        + "<p>" + message + "</p>"
+                                        + "<p><a href='javascript:Ametys.reload();'><i18n:text i18n:key='PLUGINS_CORE_UI_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_3'/></a></p>";
+            }
+
+            if (window.console)
 			{
 				console.info("Ametys shutdown");
 			}

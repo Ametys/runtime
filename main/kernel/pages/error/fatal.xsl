@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright 2012 Anyware Services
+   Copyright 2015 Anyware Services
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -22,77 +22,88 @@
 <xsl:stylesheet version="1.0" 
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
                 xmlns:ex="http://apache.org/cocoon/exception/1.0" 
+                xmlns:stringutils="org.apache.commons.lang.StringUtils"
                 exclude-result-prefixes="ex">
 
-    <xsl:param name="pageTitle">An error has occurred</xsl:param>
-    <xsl:param name="contextPath" />
-    <xsl:param name="realpath" />
+    <xsl:param name="contextPath"/>
+    <xsl:param name="realPath" />
+    <xsl:param name="code" />
 
-    <xsl:variable name="backslashedRealpath" select="translate($realpath, '\', '/')" />
-
-    <xsl:template match="/ex:exception-report">
+    <xsl:template match="/">
         <html>
             <head> 
-                <meta http-equiv="X-UA-Compatible" content="IE=10" />
+                <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
                 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+                <title>Ametys - Fatal error</title>
+
+                <link rel="icon" type="image/x-icon" href="{$contextPath}/kernel/resources/img/favicon.ico" />
+                <link rel="shortcut icon" type="image/x-icon" href="{$contextPath}/kernel/resources/img/favicon.ico" />
                 
                 <link rel="stylesheet" type="text/css" href="{$contextPath}/kernel/resources/css/fatal.css"/>
            </head>
            <body>
-                <div class="ametys-fatal-page">
-                
-                    <div class="ametys-fatal-page-text">Too bad <span>:(</span></div>
-                    
-                    <div class="ametys-fatal-page-desc"><xsl:call-template name="message"/></div>
-                    
-                    <div class="ametys-fatal-page-details">
-                        <pre>
-                            <code>
-                                <xsl:call-template name="details"/>
-                            </code>
-                        </pre>
-                    </div>
-                </div>
+                <table>
+                    <tr class="main">
+                        <td>
+				               <div class="ametys-fatal-page-text">Too bad <span>:(</span></div>
+				               <div class="ametys-fatal-page-subtext">An error occurred.<br/>Please contact the administrator of the application.</div>
+                        </td>
+                    </tr>
+                    <tr class="secondary">
+                        <td>
+                            <div class="wrap">
+				               <xsl:call-template name="stacktrace">
+				                    <xsl:with-param name="exception" select="/ex:exception-report"/>
+                                    <xsl:with-param name="realPath" select="$realPath"/>
+				               </xsl:call-template>
+				            </div>
+                        </td>
+                    </tr>
+                </table>
            </body>
         </html>
     </xsl:template>
     
-    <xsl:template name="message">
-        <xsl:if test="@class"><xsl:value-of select="@class" /></xsl:if>
-        <xsl:if test="string-length (ex:message) != 0">
-            <xsl:if test="@class">:</xsl:if><xsl:value-of select="ex:message" />
-            <xsl:if test="ex:location">
-                <br />
-                <span style="font-weight: normal">
-                    <xsl:apply-templates select="ex:location" />
-                </span>
-            </xsl:if>
-        </xsl:if>
+    <xsl:template name="stacktrace">
+        <xsl:param name="exception"/>
+        <xsl:param name="realPath"/>
+
+        <xsl:variable name="backslashedRealpath" select="translate($realPath, '\', '/')" />
+        
+        <div class="stacktrace">
+            <h1>
+               <xsl:if test="@class"><xsl:value-of select="$exception/@class" /></xsl:if>
+               <xsl:if test="string-length ($exception/ex:message) != 0">
+                   <xsl:if test="@class">:</xsl:if><xsl:value-of select="$exception/ex:message" />
+                   <xsl:if test="$exception/ex:location">
+                       <br/>
+                       <xsl:apply-templates select="$exception/ex:location">
+                            <xsl:with-param name="backslashedRealpath" select="$backslashedRealpath"/>
+                       </xsl:apply-templates>
+                   </xsl:if>
+               </xsl:if>
+            </h1>
+            <pre><code><xsl:call-template name="escape-location"><xsl:with-param name="location" select="$exception/ex:stacktrace"/></xsl:call-template></code></pre>
+        </div>
     </xsl:template>
     
-    <xsl:template name="details"><xsl:value-of select="ex:stacktrace"/></xsl:template>
-    
     <xsl:template match="ex:location">
+        <xsl:param name="backslashedRealpath"/>
+        
         <xsl:if test="string-length(.) > 0">
             <em>
                 <xsl:value-of select="." />
             </em>
             <xsl:text> - </xsl:text>
         </xsl:if>
-        <xsl:call-template name="print-location" />
+        <xsl:call-template name="escape-location"><xsl:with-param name="location" select="@uri"/><xsl:with-param name="backslashedRealpath" select="$backslashedRealpath"/></xsl:call-template>
     </xsl:template>
+    
+    <xsl:template name="escape-location">
+        <xsl:param name="location"/>
+        <xsl:param name="backslashedRealpath"/>
 
-    <xsl:template name="print-location">
-        <xsl:choose>
-            <xsl:when test="contains(@uri, $backslashedRealpath)">
-                <xsl:text>context:/</xsl:text>
-                <xsl:value-of select="substring-after(@uri, $backslashedRealpath)" />
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:value-of select="@uri" />
-            </xsl:otherwise>
-        </xsl:choose>
-        <xsl:text> - </xsl:text><xsl:value-of select="@line" /> : <xsl:value-of select="@column" />
+        <xsl:value-of select="stringutils:replace($location, concat('file:/', $backslashedRealpath), 'context:/')"/>
     </xsl:template>
     
 </xsl:stylesheet>

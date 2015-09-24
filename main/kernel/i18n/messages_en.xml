@@ -23,11 +23,5 @@
     
     <!-- UI -->
    	<message key="KERNEL_NOSCRIPT">You must activate javascript to use this application.</message>
-    
-    <!-- Error -->
-    <message key="KERNEL_ERROR_DETAILS">Error details</message>
-    <message key="KERNEL_ERROR_401">Authorisation required</message>
-    <message key="KERNEL_ERROR_403">Access denied</message>
-    <message key="KERNEL_ERROR_404">Resource not found</message>
-    <message key="KERNEL_ERROR_500">Server error</message>
+   	
 </catalogue>

@@ -16,9 +16,96 @@
    -->
 <catalogue xml:lang="fr">
 	
-    <message key="PLUGINS_CORE_UI_SHUTDOWN_DEFAULTTITLE">L'application est arrêtée</message>
+    <message key="PLUGINS_CORE_UI_SHUTDOWN_DEFAULTTITLE">L'application est arrêtée</message> 
     <message key="PLUGINS_CORE_UI_SHUTDOWN_DEFAULTTEXT">L'application est maintenant arrêtée. Vous pouvez fermer votre navigateur ou cliquer sur le lien suivant pour la redémarrer maintenant.</message>
+
+    <!-- +
+         | Workspace
+         + -->
+    <message key="WORKSPACE_AMETYS_MAIN_ERROR_NOJS">Cette application ne peut pas fonctionner en l'absence de javascript</message>
+    <message key="WORKSPACE_AMETYS_SPLASHSCREEN_LOADING">Chargement en cours. Veuillez patienter...</message>
+    <message key="WORKSPACE_AMETYS_SPLASHSCREEN_LOADING_SAFEMODE">Chargement du mode sans échec en cours. Veuillez patienter...</message>
+    <message key="WORKSPACE_AMETYS_SPLASHSCREEN_LOAD_FAIL">Chargement impossible. Contactez l'administrateur si le problème persiste.</message>
+    <message key="WORKSPACE_AMETYS_SPLASHSCREEN_APP_AMETYS_VERSION">motorisé par Ametys</message>
     
+    <!-- +
+         | Login screen
+         + -->
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_TITLE">Connexion</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_LABEL">Entrez vos identifiants</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_LOGIN">Identifiant</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_PASSWORD">Mot de passe</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_SUBMIT">Se connecter</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FORGOT_PASSWORD">Mot de passe oublié ?</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_PERSIST">Se souvenir de moi</message>
+    
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_AUTH_FAILURE">Identifiant ou mot de passe incorrect</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FAILED_WITH_CAPTCHA">Nom d'utilisateur, mot de passe ou texte de l'image incorrect</message>
+    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FAILED_MANY_TIME">Remplissez le texte de l'image car il y a eu trop d'erreurs de connexion avec ce nom d'utilisateur</message>
+    
+    <!-- +
+         | Incomplete configuration
+         + -->
+    <message key="PLUGINS_CORE_UI_INCOMPLETE_CONFIG_HEAD">Configuration incomplète</message>
+    <message key="PLUGINS_CORE_UI_INCOMPLETE_CONFIG_TITLE">Configuration nécessaire</message>
+    <message key="PLUGINS_CORE_UI_INCOMPLETE_CONFIG_TEXT">Lors du premier lancement ou suite à une mise à jour, il est nécessaire de configurer l'application.<br/><br/>Ce message peut aussi apparaître si votre configuration actuelle est incorrecte.</message>
+    <message key="PLUGINS_CORE_UI_INCOMPLETE_CONFIG_LINK">Configurer l'application</message>
+    
+    <!-- +
+         | Safe mode
+         + -->
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_HEAD">Mode sans échec</message>
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_TITLE">Mode sans échec</message>
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_TEXT">L'application a été démarrée en mode sans échec suite à un problème d'initialisation.<br/><br/>Dans ce mode, vous avez uniquement accès à certains outils d'aministration afin de réparer le problème.<br/><br/>Vous pouvez commencer par consulter les journaux applicatifs et vérifier la configuration.</message>
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_LINK">Administrer l'application</message>
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_CONFIG_INCOMPLETE">La configuration de l'application est incomplète ou incorrecte. Utilisez l'outil de configuration pour la compléter.</message>
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_WRONG_DEFINITIONS">L'application est en mode sans-échec car un ou plusieurs plugins ont une configuration incorrecte. Vous pouvez visualiser les journaux pour en savoir plus.</message>
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_NOT_INITIALIZED">L'application est en mode sans-échec car elle n'a pas pu s'initialiser correctement suite à une erreur. Vous pouvez visualiser les journaux pour en savoir plus.</message>
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_RUNTIME_NOT_LOADED">L'application est en mode sans-échec car le fichier de configuration 'WEB-INF/param/runtime.xml' n'a pas pu être chargé correctement. Vous pouvez visualiser les journaux pour en savoir plus.</message>
+    
+    <!-- +
+         | Unsupported browser
+         + -->
+    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_HEAD">Navigateur incompatible</message>
+    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TITLE">Désolé…</message>
+    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TEXT1">L'application n'est pas compatible avec votre navigateur<br/>ou la version que vous utilisez{0}.</message>
+    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TEXT2">Voici la liste des navigateurs compatibles :</message>
+    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_NAME_ie">Microsoft Internet Explorer</message>
+    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_NAME_ff">Mozilla Firefox</message>
+    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_NAME_ch">Google Chrome</message>
+    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_NAME_sa">Apple Safari</message>
+    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_NAME_op">Opera</message>
+    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_DOC">Consultez le manuel utilisateur pour connaître les navigateurs recommandés.</message>
+    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_LINK">Documentation</message>
+    
+    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_UNKNOWN">Inconnu</message>
+    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_ALL">Toutes versions</message>
+    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_LOWER">Versions {0} et inférieures</message>
+    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_ABOVE">Versions {0} et supérieures</message>
+    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_BETWEEN">Versions {0} à {1}</message>
+    
+    <!-- +
+         | Errors
+         + -->
+    <message key="PLUGINS_CORE_UI_ERROR_401_HEAD">Identification requise</message>
+    <message key="PLUGINS_CORE_UI_ERROR_401_TITLE">Qui êtes-vous ?</message>
+    <message key="PLUGINS_CORE_UI_ERROR_401_TEXT">L'application n'a pas réussi à vous identifier.<br/><br/>Vous pouvez essayer à nouveau en rafraichissant cette page ou contacter l'administrateur de l'application si le problème persiste.</message>
+    <message key="PLUGINS_CORE_UI_ERROR_401_LINK">Réessayer</message>
+    
+    <message key="PLUGINS_CORE_UI_ERROR_403_HEAD">Accès refusé</message>
+    <message key="PLUGINS_CORE_UI_ERROR_403_TITLE">Stop !</message>
+    <message key="PLUGINS_CORE_UI_ERROR_403_TEXT">Vos droits sont insuffisants pour accéder à cette page.<br/><br/>Vous pouvez contacter l'admistrateur de l'application pour en savoir plus.</message>
+    
+    <message key="PLUGINS_CORE_UI_ERROR_404_HEAD">Page introuvable</message>
+    <message key="PLUGINS_CORE_UI_ERROR_404_TITLE">Perdu ?!</message>
+    <message key="PLUGINS_CORE_UI_ERROR_404_TEXT">La page que vous avez demandé n'existe pas.</message>
+    <message key="PLUGINS_CORE_UI_ERROR_404_LINK">Revenir à l'application</message>
+    
+    <message key="PLUGINS_CORE_UI_ERROR_500_HEAD">Erreur serveur</message>
+    <message key="PLUGINS_CORE_UI_ERROR_500_TITLE">Oups...</message>
+    <message key="PLUGINS_CORE_UI_ERROR_500_TEXT">Une erreur est survenue. Il est impossible d'afficher la page.<br/><br/>Vous pouvez réessayer ultérieurement ou contacter l'administrateur de l'application si le problème persiste.</message>
+    <message key="PLUGINS_CORE_UI_ERROR_500_LINK">Détails techniques</message>
+        
     <!-- +
          | Config 
          + -->
@@ -582,52 +669,4 @@
     <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_PARAMETERS">Paramètres</message>
     <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_RESPONSE">Réponse</message>
 
-    <!-- +
-         | Workspace
-         + -->
-    <message key="WORKSPACE_AMETYS_MAIN_ERROR_NOJS">Cette application ne peut pas fonctionner en l'absence de javascript</message>
-    <message key="WORKSPACE_AMETYS_SPLASHSCREEN_LOADING">Chargement en cours. Veuillez patienter ... </message>
-    <message key="WORKSPACE_AMETYS_SPLASHSCREEN_APP_AMETYS_VERSION">motorisé par Ametys </message>
-    
-    <!-- +
-         | Login screen
-         + -->
-    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_TITLE">Connexion</message>
-    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_LABEL">Entrez vos identifiants</message>
-    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_LOGIN">Identifiant</message>
-    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_PASSWORD">Mot de passe</message>
-    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_SUBMIT">Se connecter</message>
-    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_FORGOT_PASSWORD">Mot de passe oublié ?</message>
-    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_PERSIST">Se souvenir de moi</message>
-    <message key="PLUGINS_CORE_UI_LOGIN_SCREEN_FORM_AUTH_FAILURE">Identifiant ou mot de passe incorrect</message>
-    
-    <!-- +
-         | Incomplete configuration
-         + -->
-    <message key="PLUGINS_CORE_UI_INCOMPLETE_CONFIG_PAGE_TITLE">Configuration incomplète</message>
-    <message key="PLUGINS_CORE_UI_INCOMPLETE_CONFIG_TITLE">Impossible de charger la configuration</message>
-    <message key="PLUGINS_CORE_UI_INCOMPLETE_CONFIG_TEXT">La configuration de l'application est incomplète ou incorrecte.&lt;br/&gt;Vous devez configurer l'application avant de pouvoir l'utiliser.</message>
-    <message key="PLUGINS_CORE_UI_INCOMPLETE_CONFIG_BTN">Configurer l'application</message>
-    
-    <!-- +
-         | Safe mode
-         + -->
-    <message key="PLUGINS_CORE_UI_SAFE_MODE_PAGE_TITLE">Mode sans échec</message>
-    <message key="PLUGINS_CORE_UI_SAFE_MODE_TITLE">Impossible d'initialiser l'application</message>
-    <message key="PLUGINS_CORE_UI_SAFE_MODE_TEXT">L'application n'a pu s'initialiser correctement et a démarré en mode sans échec.&lt;br/&gt;Vous devriez vérifier les logs et le paramétrage de l'application.</message>
-    <message key="PLUGINS_CORE_UI_SAFE_MODE_BTN">Administrer l'application</message>
-    
-    <!-- +
-         | Unsupported browser
-         + -->
-    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TITLE">Navigateur internet non supporté</message>
-    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TEXT1">L'application n'est pas compatible avec votre navigateur internet ou la version que vous utilisez{0}.</message>
-    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TEXT2">Voici la liste des navigateurs compatibles :</message>
-    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_DOC">Consultez le manuel utilisateur pour connaître les navigateurs recommandés.</message>
-    <message key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_DOC_BTN">Documentation</message>
-    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_UNKNOWN">Inconnu</message>
-    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_ALL">Toutes versions</message>
-    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_LOWER">Versions {0}  et inférieures</message>
-    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_ABOVE">Versions {0} et supérieures</message>
-    <message key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_BETWEEN">Versions {0} à {1}</message>
 </catalogue>

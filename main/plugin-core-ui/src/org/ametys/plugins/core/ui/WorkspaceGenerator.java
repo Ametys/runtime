@@ -158,6 +158,7 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
         saxRelationsHandlers(contextParameters);
         saxWidgets(contextParameters);
         saxStaticFileImports (contextParameters);
+        saxAdditionnalInfo(contextParameters);
         
         XMLUtils.endElement(contentHandler, "workspace");
         contentHandler.endDocument();
@@ -300,5 +301,15 @@ public class WorkspaceGenerator extends ServiceableGenerator implements Contextu
             _saxClientSideElementHelper.saxDefinition(extensionId, "import", element, contentHandler, contextParameters);
         }
         XMLUtils.endElement(contentHandler, "static-imports");
+    }
+
+    /**
+     * Use this method when inheritng the WorkspaceGenerator to sax additionnal data 
+     * @param contextParameters the context parameters
+     * @throws SAXException if an error occurred
+     */
+    protected void saxAdditionnalInfo(Map<String, Object> contextParameters) throws SAXException
+    {
+        // Nothing
     }
 }

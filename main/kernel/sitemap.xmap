@@ -48,14 +48,14 @@
 		</map:readers>
     
 		<map:serializers default="xhtml">
-            <map:serializer name="xhtml" src="org.ametys.core.cocoon.XHTMLSerializer" mime-type="text/html; charset=UTF-8" logger="sitemap.serializer.html" pool-max="32">
+            <map:serializer name="xhtml4" src="org.ametys.core.cocoon.XHTMLSerializer" mime-type="text/html; charset=UTF-8" logger="sitemap.serializer.html" pool-max="32">
                 <encoding>UTF-8</encoding>
                 <doctype-default>strict</doctype-default>
                 <omit-xml-declaration>yes</omit-xml-declaration>
                 <indent>false</indent>
             </map:serializer>
             
-            <map:serializer name="xhtml5" src="org.ametys.core.cocoon.XHTMLSerializer" mime-type="text/html; charset=UTF-8" logger="sitemap.serializer.html" pool-max="32">
+            <map:serializer name="xhtml" src="org.ametys.core.cocoon.XHTMLSerializer" mime-type="text/html; charset=UTF-8" logger="sitemap.serializer.html" pool-max="32">
                 <encoding>UTF-8</encoding>
                 <doctype-default>xhtml5</doctype-default>
                 <omit-xml-declaration>yes</omit-xml-declaration>
@@ -67,12 +67,12 @@
                 <indent>false</indent>
             </map:serializer>
             
-			<map:serializer logger="org.ametys.runtime.kernel.sitemap.serializer.xml" mime-type="text/xml" name="xml" pool-grow="4" pool-max="32" pool-min="16" src="org.apache.cocoon.serialization.XMLSerializer">
+			<map:serializer name="xml" logger="org.ametys.runtime.kernel.sitemap.serializer.xml" mime-type="text/xml" pool-grow="4" pool-max="32" pool-min="16" src="org.apache.cocoon.serialization.XMLSerializer">
 				<encoding>UTF-8</encoding>
 				<indent>no</indent>
 			</map:serializer>
 
-			<map:serializer logger="org.ametys.runtime.kernel.sitemap.serializer.text" mime-type="text/plain; charset=UTF-8" name="text" src="org.apache.cocoon.serialization.TextSerializer">   
+			<map:serializer name="text" logger="org.ametys.runtime.kernel.sitemap.serializer.text" mime-type="text/plain; charset=UTF-8" src="org.apache.cocoon.serialization.TextSerializer">   
                 <encoding>UTF-8</encoding>
             </map:serializer>
 		</map:serializers>
@@ -228,9 +228,7 @@
 			        		<map:generate type="exception" label="content"/>
 			          		<map:transform src="{xsl}">
 			            		<map:parameter name="realPath" value="{realpath:}"/>
-		    	        		<map:parameter name="contextPath" value="{request:contextPath}"/>
 			            		<map:parameter name="code" value="404"/>
-			            		<map:parameter name="pageTitle" value="Ametys - Resource not found"/>
 			          		</map:transform>
 			          		<map:transform type="i18n">
 			          			<map:parameter name="locale" value="{locale:locale}"/>
@@ -243,9 +241,7 @@
 			        		<map:generate type="exception" label="content"/>
 			          		<map:transform src="{xsl}">
 			            		<map:parameter name="realPath" value="{realpath:}"/>
-		    	        		<map:parameter name="contextPath" value="{request:contextPath}"/>
 			            		<map:parameter name="code" value="403"/>
-			            		<map:parameter name="pageTitle" value="Ametys - Access denied"/>
 			          		</map:transform>
 			          		<map:transform type="i18n">
 			          			<map:parameter name="locale" value="{locale:locale}"/>
@@ -259,9 +255,7 @@
 			        		<map:generate type="exception" label="content"/>
 			          		<map:transform src="{xsl}">
 			            		<map:parameter name="realPath" value="{realpath:}"/>
-		    	        		<map:parameter name="contextPath" value="{request:contextPath}"/>
 			            		<map:parameter name="code" value="401"/>
-			            		<map:parameter name="pageTitle" value="Ametys - Authorization required"/>
 			          		</map:transform>
 			          		<map:transform type="i18n">
 			          			<map:parameter name="locale" value="{locale:locale}"/>
@@ -274,9 +268,7 @@
 			        		<map:generate type="exception" label="content"/>
 			          		<map:transform src="{xsl}">
 			            		<map:parameter name="realPath" value="{realpath:}"/>
-		    	        		<map:parameter name="contextPath" value="{request:contextPath}"/>
 			            		<map:parameter name="code" value="500"/>
-			            		<map:parameter name="pageTitle" value="Ametys - An error occured"/>
 			          		</map:transform>
 			          		<map:transform type="i18n">
 			          			<map:parameter name="locale" value="{locale:locale}"/>

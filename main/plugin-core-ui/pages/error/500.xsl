@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright 2012 Anyware Services
+   Copyright 2015 Anyware Services
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -15,14 +15,35 @@
    limitations under the License.
    -->
 <xsl:stylesheet version="1.0" 
-                xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:ametys="org.ametys.core.util.AmetysXSLTHelper"
                 xmlns:ex="http://apache.org/cocoon/exception/1.0" 
                 xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
+
+    <xsl:import href="common.xsl"/>
+    <xsl:import href="stacktrace.xsl"/>
+
+    <xsl:param name="realPath" />
     
-    <xsl:import href="common.xsl"/>    
+    <xsl:template name="head"><i18n:text i18n:key="PLUGINS_CORE_UI_ERROR_500_HEAD" i18n:catalogue="plugin.core-ui"/></xsl:template>
+    <xsl:template name="title"><i18n:text i18n:key="PLUGINS_CORE_UI_ERROR_500_TITLE" i18n:catalogue="plugin.core-ui"/></xsl:template>
+    <xsl:template name="text"><i18n:text i18n:key="PLUGINS_CORE_UI_ERROR_500_TEXT" i18n:catalogue="plugin.core-ui"/></xsl:template>
     
-    <xsl:template name="text">Oops :(</xsl:template>
-    <xsl:template name="description"><i18n:text i18n:key="KERNEL_ERROR_500" i18n:catalogue="kernel"/></xsl:template>
-    
+    <xsl:template name="text-additionnal">
+	    <xsl:if test="not(ametys:config('runtime.debug.ui') = 0)">
+	        <xsl:call-template name="button">
+	            <xsl:with-param name="text"><i18n:text i18n:key='PLUGINS_CORE_UI_ERROR_500_LINK' i18n:catalogue='plugin.core-ui'/></xsl:with-param>
+	            <xsl:with-param name="action">document.body.className = (document.body.className == '') ? 'stacktrace' : '';</xsl:with-param>
+	            <xsl:with-param name="type">toggle</xsl:with-param>
+	        </xsl:call-template>
+	    </xsl:if>
+	</xsl:template>
+	
+    <xsl:template name="div-additionnal">
+        <xsl:call-template name="stacktrace">
+	        <xsl:with-param name="exception" select="/ex:exception-report"/>
+	        <xsl:with-param name="realPath" select="$realPath"/>
+        </xsl:call-template>
+    </xsl:template>
+        
 </xsl:stylesheet>

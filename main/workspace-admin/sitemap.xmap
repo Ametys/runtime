@@ -33,16 +33,6 @@
         <map:transformers>
             <map:transformer name="minimizer" src="org.ametys.plugins.core.ui.minimize.MinimizeTransformer"/>
         </map:transformers>
-        
-         <map:selectors default="exception">
-            <map:selector logger="sitemap.selector.exception" name="exception" src="org.apache.cocoon.selection.ExceptionSelector">
-                <exception class="org.apache.cocoon.ResourceNotFoundException" name="not-found"/>
-                <exception class="org.ametys.runtime.authentication.AccessDeniedException" name="access-denied"/>
-                <exception class="org.ametys.runtime.authentication.AuthorizationRequiredException" name="authorization-required"/>
-                <!-- The statement below tells the selector to unroll as much exceptions as possible -->
-                <exception class="java.lang.Throwable" unroll="true"/>
-            </map:selector>
-        </map:selectors>   
     </map:components>
     
     <!-- =========================== Views =================================== -->
@@ -106,40 +96,25 @@
             <!-- unauthenticated pages -->
             <map:match pattern="public/unsupported-browser.html">
                 <map:generate type="action-result"/>
-                <map:transform src="plugin:core-ui://pages/public/{1}.xsl">
-                    <map:parameter name="contextPath" value="{request:contextPath}"/>
-                    <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
-                    <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/>
-                    
-                    <map:parameter name="redirect" value="{request-param:uri}"/>
-                    <map:parameter name="doc" value="{request-param:doc}"/>
-                    
-                    <map:parameter name="browser" value="{request-param:browser}"/>
-                    <map:parameter name="browserversion" value="{request-param:browserversion}"/>
-                    <map:parameter name="supported" value="{request-param:supported}"/>
-                </map:transform>
+                <map:transform src="plugin:core-ui://pages/public/{1}.xsl"/>
                 <map:transform type="i18n">
                     <map:parameter name="locale" value="{locale:locale}"/>
                     <map:parameter name="workspace" value="{request-attr:workspaceName}"/>
                 </map:transform>
                 <!-- Do not minimize here. See RUNTIME-877 -->
                 <!-- No HTML5 here -->
-                <map:serialize/>
+                <map:serialize type="xhtml4"/>
             </map:match>
             
 			<map:match pattern="public/*.html">
 				<map:generate type="action-result"/>
-				<map:transform src="plugin:core-ui://pages/public/{1}.xsl">
-					<map:parameter name="contextPath" value="{request:contextPath}"/>
-                    <map:parameter name="workspaceName" value="{request-attr:workspaceName}"/>
-                    <map:parameter name="workspaceURI" value="{request-attr:workspaceURI}"/>
-				</map:transform>
+				<map:transform src="plugin:core-ui://pages/public/{1}.xsl"/>
 				<map:transform type="i18n">
 					<map:parameter name="locale" value="{locale:locale}"/>
                     <map:parameter name="workspace" value="{request-attr:workspaceName}"/>
 				</map:transform>
                 <!-- Do not minimize here. See RUNTIME-877 -->
-				<map:serialize type="xhtml5"/>
+				<map:serialize/>
 			</map:match>
             
             <!-- ************** -->
@@ -175,73 +150,6 @@
                 <map:mount check-reload="yes" src="plugin:{1}://" uri-prefix="plugins/{1}"/>
             </map:match>
             
-            <!-- ERRORS -->
-            <map:handle-errors>
-                <map:select type="exception">
-                    <map:when test="not-found">
-                        <map:act type="exception" src="404">
-                            <map:generate type="exception" label="content"/>
-                            <map:transform src="{xsl}">
-                                <map:parameter name="realPath" value="{realpath:}"/>
-                                <map:parameter name="contextPath" value="{request:contextPath}"/>
-                                <map:parameter name="code" value="404"/>
-                                <map:parameter name="pageTitle" value="Page not found"/>
-                            </map:transform>
-                            <map:transform type="i18n">
-                                <map:parameter name="locale" value="{locale:locale}"/>
-                            </map:transform>
-                            <map:serialize status-code="404"/>
-                        </map:act>
-                    </map:when>
-                    <map:when test="authorization-required">
-                        <!-- Basic authentication needs to set a special header when this exception is thrown -->
-                        <map:act type="set-authorization-header"/>
-                        <map:act type="exception" src="401">
-                            <map:generate type="exception" label="content"/>
-                            <map:transform src="{xsl}">
-                                <map:parameter name="realPath" value="{realpath:}"/>
-                                <map:parameter name="contextPath" value="{request:contextPath}"/>
-                                <map:parameter name="code" value="401"/>
-                                <map:parameter name="pageTitle" value="Authorization required"/>
-                            </map:transform>
-                            <map:transform type="i18n">
-                                <map:parameter name="locale" value="{locale:locale}"/>
-                            </map:transform>
-                            <map:serialize status-code="401"/>                      
-                        </map:act>
-                    </map:when>
-                    <map:when test="access-denied">
-                        <map:act type="exception" src="403">
-                            <map:generate type="exception" label="content"/>
-                            <map:transform src="{xsl}">
-                                <map:parameter name="realPath" value="{realpath:}"/>
-                                <map:parameter name="contextPath" value="{request:contextPath}"/>
-                                <map:parameter name="code" value="403"/>
-                                <map:parameter name="pageTitle" value="Access denied"/>
-                            </map:transform>
-                            <map:transform type="i18n">
-                                <map:parameter name="locale" value="{locale:locale}"/>
-                            </map:transform>
-                            <map:serialize status-code="403"/>                      
-                        </map:act>
-                    </map:when>
-                    <map:otherwise>
-                        <map:act type="exception" src="500">
-                            <map:generate type="exception" label="content"/>
-                            <map:transform src="{xsl}">
-                                <map:parameter name="realPath" value="{realpath:}"/>
-                                <map:parameter name="contextPath" value="{request:contextPath}"/>
-                                <map:parameter name="code" value="500"/>
-                                <map:parameter name="pageTitle" value="An error occured"/>
-                            </map:transform>
-                            <map:transform type="i18n">
-                                <map:parameter name="locale" value="{locale:locale}"/>
-                            </map:transform>
-                            <map:serialize status-code="500"/>
-                        </map:act>
-                    </map:otherwise>
-                </map:select>
-            </map:handle-errors>
 		</map:pipeline>
 	</map:pipelines>
 </map:sitemap>

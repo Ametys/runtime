@@ -16,6 +16,8 @@
    -->
 <uitool-factories  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-    <default/>
+    <default>
+        <uitool-factory id="uitool-admin-logs"/>
+    </default>
     
 </uitool-factories>

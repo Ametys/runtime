@@ -224,7 +224,7 @@ Ext.define('Ametys.form.widget.AbstractQueryableComboBox', {
     {
     	value = Ext.Array.from(value);
     	
-    	this.combobox.value = this.combobox.multiSelect ? value : value[0];
+    	//this.combobox.value = this.combobox.multiSelect ? value : value[0];
     	this.callParent([value]);
     	this.combobox.setValue(value);
     },

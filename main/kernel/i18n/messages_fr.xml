@@ -23,10 +23,5 @@
     
     <!-- UI -->
    	<message key="KERNEL_NOSCRIPT">Vous devez activer le javascript pour utiliser cette application.</message>
-    
-    <message key="KERNEL_ERROR_DETAILS">Détails de l'erreur</message>
-    <message key="KERNEL_ERROR_401">Autorisation requise</message>
-    <message key="KERNEL_ERROR_403">Accès refusé</message>
-    <message key="KERNEL_ERROR_404">Page introuvable</message>
-    <message key="KERNEL_ERROR_500">Erreur serveur</message>
+   	
 </catalogue>

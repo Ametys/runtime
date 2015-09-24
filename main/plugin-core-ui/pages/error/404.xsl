@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright 2012 Anyware Services
+   Copyright 2015 Anyware Services
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -22,8 +22,16 @@
     
     <xsl:import href="common.xsl"/>    
     
-    <xsl:template name="text">Hmm…</xsl:template>
+    <xsl:template name="head"><i18n:text i18n:key="PLUGINS_CORE_UI_ERROR_404_HEAD" i18n:catalogue="plugin.core-ui"/></xsl:template>
+    <xsl:template name="title"><i18n:text i18n:key="PLUGINS_CORE_UI_ERROR_404_TITLE" i18n:catalogue="plugin.core-ui"/></xsl:template>
+    <xsl:template name="text"><i18n:text i18n:key="PLUGINS_CORE_UI_ERROR_404_TEXT" i18n:catalogue="plugin.core-ui"/></xsl:template>
     
-    <xsl:template name="description"><i18n:text i18n:key="KERNEL_ERROR_404" i18n:catalogue="kernel"/></xsl:template>
+    <xsl:template name="text-additionnal">
+        <xsl:call-template name="button">
+            <xsl:with-param name="text"><i18n:text i18n:key='PLUGINS_CORE_UI_ERROR_404_LINK' i18n:catalogue='plugin.core-ui'/></xsl:with-param>
+            <xsl:with-param name="href" select="ametys:uriPrefix()"/>
+            <xsl:with-param name="condition">window.parent == window</xsl:with-param>
+        </xsl:call-template>
+    </xsl:template>
     
 </xsl:stylesheet>

@@ -20,159 +20,159 @@
                 xmlns:escape="org.apache.commons.lang.StringEscapeUtils"
                 xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
     
-    <xsl:param name="doc"/>
-    <xsl:param name="browser"/><!-- current browser -->
-    <xsl:param name="browserversion"/><!-- current version -->
-    <xsl:param name="supported"/><!-- the json list of supported browsers -->
+    <xsl:param name="doc" select="ametys:requestParameter('doc')"/><!-- absolute link to online doc -->
+    <xsl:param name="browser" select="ametys:requestParameter('browser')"/><!-- current browser -->
+    <xsl:param name="browserversion" select="ametys:requestParameter('browserversion')"/><!-- current version -->
+    <xsl:param name="supported" select="ametys:requestParameter('supported')"/><!-- the json list of supported browsers -->
     
     <xsl:variable name="contextPath" select="ametys:uriPrefix(false())"/>
-    <xsl:variable name="workspaceURI" select="ametys:workspacePrefix()"/>
-    <xsl:variable name="debug-mode" select="ametys:config('runtime.debug.ui')"/>
     
     <xsl:template match="/">
         <html>
             <head>
-                <title>Ametys - <i18n:text i18n:key='PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TITLE' i18n:catalogue='plugin.core-ui'/></title>
-                <meta http-equiv="X-UA-Compatible" content="IE=10" />
-                <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+                <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+                <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+                <title>Ametys - <i18n:text i18n:key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_HEAD" i18n:catalogue="plugin.core-ui"/></title>
+
+                <link rel="icon" type="image/x-icon" href="{$contextPath}/kernel/resources/img/favicon.ico" />
+                <link rel="shortcut icon" type="image/x-icon" href="{$contextPath}/kernel/resources/img/favicon.ico" />
                 
-                <link rel="stylesheet" type="text/css" href="{$contextPath}/plugins/core-ui/resources/css/unsupported-browser.css"/>
+                <link rel="stylesheet" type="text/css" href="{$contextPath}/plugins/core-ui/resources/css/special/browsers.css"/>
             </head>
             <body>
-                    <div class="unsupported-browser-header"><i18n:text i18n:catalogue='application' i18n:key='APPLICATION_PRODUCT_LABEL'/></div>
-                    <table class="unsupported-browser-inner-container" width="900px" height="100%" align="center">
-                        <tr>
-                            <td valign="middle">
-                                <div class="text-container">
-                                    <div class="unsupported-browser-text"><i18n:text i18n:key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TITLE" i18n:catalogue='plugin.core-ui'/></div>
-                            
-                                    <div class="unsupported-browser-desc">
-                                        <xsl:call-template name="description"/>
-                                    </div>                    
-                                    
-                                    <xsl:call-template name="showBrowsers"/>
-                                    
-                                    <div class="unsupported-browser-redirect-text">
-                                        <xsl:choose>
-                                            <xsl:when test="$doc != ''">
-                                                <a href="{$doc}" target="_blank">
-                                                    <i18n:text i18n:key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_DOC" i18n:catalogue='plugin.core-ui'/>
-                                                </a>
-                                            </xsl:when>
-                                            <xsl:otherwise>
-                                                <i18n:text i18n:key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_DOC" i18n:catalogue='plugin.core-ui'/>
-                                            </xsl:otherwise>
-                                        </xsl:choose>
-                                     </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
+                    <table class="main">
+                        <thead>
+                           <tr><td><i18n:text i18n:catalogue='application' i18n:key='APPLICATION_PRODUCT_LABEL'/></td></tr>
+                        </thead>
+                        <tbody>
+                            <tr class="main">
+                                <td class="main">
+                                    <div class="wrap">
+                                        <h1 class="long">
+                                            <i18n:text i18n:key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TITLE" i18n:catalogue="plugin.core-ui"/>
+                                        </h1>
+                                        <p class="text">
+									        <i18n:translate>
+									                <i18n:text i18n:key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TEXT1" i18n:catalogue='plugin.core-ui'/>
+									                <i18n:param><xsl:call-template name="browserName"/></i18n:param>
+									        </i18n:translate>
+									        <br/>
+									        
+									        <xsl:if test="$supported">
+									           <i18n:text i18n:key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TEXT2" i18n:catalogue='plugin.core-ui'/>
+									        </xsl:if>
+                                        </p>
+                                        <xsl:if test="$supported">
+									        <div class="browsers">
+									            <xsl:call-template name="showBrowsers"/>
+									            <div class="browsers-end"></div>
+									        </div>
+									    </xsl:if>
+								        
+								        <p class="bottomtext">
+								           <i18n:text i18n:key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_DOC" i18n:catalogue='plugin.core-ui'/>
+								        </p>
+								        <xsl:if test="$doc != ''">
+								            <xsl:call-template name="button">
+								                <xsl:with-param name="text"><i18n:text i18n:key='PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_DOC_BTN' i18n:catalogue='plugin.core-ui'/></xsl:with-param>
+								                <xsl:with-param name="href" select="$doc"/>
+								            </xsl:call-template>
+								        </xsl:if>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                           <tr>
+                                <td>
+				                        <p>
+				                            <i18n:text i18n:key="WORKSPACE_AMETYS_SPLASHSCREEN_APP_AMETYS_VERSION" i18n:catalogue="plugin.core-ui"/>
+				                            <xsl:variable name="Versions" select="ametys:versions()"/>
+				                            <xsl:if test="$Versions/Component[Name='Ametys' and Version]">
+				                                &#160;<xsl:value-of select="Component[Name='Ametys']/Version"/>
+				                            </xsl:if>
+				                        </p>
+                                </td>
+                           </tr>
+                        </tfoot>
+                    </table>            
             </body>
         </html>
     </xsl:template>
     
-    <xsl:template name="description">
-        <i18n:translate>
-                <i18n:text i18n:key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TEXT1" i18n:catalogue='plugin.core-ui'/>
-                <i18n:param><xsl:call-template name="browserName"/></i18n:param>
-        </i18n:translate>
-        <br/>
-        <i18n:text i18n:key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_TEXT2" i18n:catalogue='plugin.core-ui'/>
+    <xsl:template name="button">
+        <xsl:param name="text"/>
+        <xsl:param name="href">javascript:void(0)</xsl:param>
+        
+        <p class="additionnal">
+            <a href="{$href}"><xsl:copy-of select="$text"/> ></a>
+        </p>    
     </xsl:template>
     
     <xsl:template name="browserName">
-        <xsl:choose>
-            <xsl:when test="$browser = 'ie'"><xsl:text> </xsl:text>(Microsoft Internet Explorer<xsl:text> </xsl:text><xsl:value-of select="$browserversion"/>)</xsl:when>
-            <xsl:when test="$browser = 'ff'"><xsl:text> </xsl:text>(Mozilla Firefox<xsl:text> </xsl:text><xsl:value-of select="$browserversion"/>)</xsl:when>
-            <xsl:when test="$browser = 'ch'"><xsl:text> </xsl:text>(Google Chrome<xsl:text> </xsl:text><xsl:value-of select="$browserversion"/>)</xsl:when>
-            <xsl:when test="$browser = 'sa'"><xsl:text> </xsl:text>(Apple Safari<xsl:text> </xsl:text><xsl:value-of select="$browserversion"/>)</xsl:when>
-            <xsl:when test="$browser = 'op'"><xsl:text> </xsl:text>(Opera<xsl:text> </xsl:text><xsl:value-of select="$browserversion"/>)</xsl:when>
-        </xsl:choose>
+        <xsl:if test="string-length($browser) > 0">
+	        <xsl:text> (</xsl:text>
+	        <i18n:text i18n:catalogue='plugin.core-ui'>PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_NAME_<xsl:value-of select="$browser"/></i18n:text>
+	        <xsl:text> </xsl:text>
+	        <xsl:value-of select="$browserversion"/>
+	        <xsl:text>)</xsl:text>
+	    </xsl:if>
     </xsl:template>
     
     <xsl:template name="showBrowsers">
-        <div class="browsers">
-            <xsl:call-template name="parseBrowser">
-                <xsl:with-param name="browserCode" select="'ie'"/>
-                <xsl:with-param name="browserName" select="'Internet Explorer'"/>
-                <xsl:with-param name="browserIcon" select="'ie_48.png'"/>
-                <xsl:with-param name="supported" select="$supported"/>
-            </xsl:call-template>
-            <xsl:call-template name="parseBrowser">
-                <xsl:with-param name="browserCode" select="'ff'"/>
-                <xsl:with-param name="browserName" select="'Mozilla Firefox'"/>
-                <xsl:with-param name="browserIcon" select="'firefox_48.png'"/>
-                <xsl:with-param name="supported" select="$supported"/>
-            </xsl:call-template>
-            <xsl:call-template name="parseBrowser">
-                <xsl:with-param name="browserCode" select="'ch'"/>
-                <xsl:with-param name="browserName" select="'Google Chrome'"/>
-                <xsl:with-param name="browserIcon" select="'chrome_48.png'"/>
-                <xsl:with-param name="supported" select="$supported"/>
-            </xsl:call-template>
-            <xsl:call-template name="parseBrowser">
-                <xsl:with-param name="browserCode" select="'sa'"/>
-                <xsl:with-param name="browserName" select="'Apple Safari'"/>
-                <xsl:with-param name="browserIcon" select="'safari_48.png'"/>
-                <xsl:with-param name="supported" select="$supported"/>
-            </xsl:call-template>
-            <xsl:call-template name="parseBrowser">
-                <xsl:with-param name="browserCode" select="'op'"/>
-                <xsl:with-param name="browserName" select="'Opera'"/>
-                <xsl:with-param name="browserIcon" select="'opera_48.png'"/>
-                <xsl:with-param name="supported" select="$supported"/>
-            </xsl:call-template>
-            <div class="browsers-end"/>
-        </div>    
-    </xsl:template>
-    
-    <xsl:template name="parseBrowser">
-        <xsl:param name="browserCode"/>
-        <xsl:param name="browserName"/>
-        <xsl:param name="browserIcon"/>
-        <xsl:param name="supported"/>
-    
-        <xsl:variable name="browserCodeWithQuots" select="substring-after($supported, $browserCode)"/>
-        <xsl:if test="$browserCodeWithQuots != ''">
-            <xsl:variable name="c">'</xsl:variable>
-
-
-            <xsl:variable name="v" select="substring-before(substring-after(substring-after($browserCodeWithQuots, ':'), $c), $c)"/>
-            <div class="browser">
-                <div class="browser-name">
-                    <img src="{$contextPath}/plugins/core-ui/resources/img/browsers/{$browserIcon}" alt=""/>
-                    <br/><xsl:value-of select="$browserName"/>
-                </div>
-                <div class="browser-version">
-                    <xsl:choose>
-                        <xsl:when test="$v = '0-0'">
-                            <i18n:key i18n:text="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_ALL" i18n:catalogue='plugin.core-ui'/>
-                        </xsl:when>
-                        <xsl:when test="substring-after($v, '0-') != ''">
-                            <i18n:translate>
-                                <i18n:text i18n:key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_LOWER" i18n:catalogue='plugin.core-ui'/>
-                                <i18n:param><xsl:value-of select="substring-after($v, '0-')"/></i18n:param>
-                            </i18n:translate>               
-                        </xsl:when>
-                        <xsl:when test="substring-before($v, '-0') != ''">
-                            <i18n:translate>
-                                <i18n:text i18n:key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_ABOVE" i18n:catalogue='plugin.core-ui'/>
-                                <i18n:param><xsl:value-of select="substring-before($v, '-0')"/></i18n:param>
-                            </i18n:translate>               
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <i18n:translate >
-                                <i18n:text i18n:key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_BETWEEN" i18n:catalogue='plugin.core-ui'/>
-                                <i18n:param><xsl:value-of select="substring-before($v, '-')"/></i18n:param>
-                                <i18n:param><xsl:value-of select="substring-after($v, '-')"/></i18n:param>
-                            </i18n:translate>               
-                        </xsl:otherwise>
-                    </xsl:choose>
-                </div>
-                <div class="browser-end"></div>
+        <xsl:param name="supported" select="$supported"/>
+        
+        <xsl:variable name="browserRaw">
+	        <xsl:choose>
+	            <xsl:when test="contains($supported, ',')"><xsl:value-of select="substring-before($supported, ',')"/></xsl:when>
+	            <xsl:otherwise><xsl:value-of select="$supported"/></xsl:otherwise>
+	        </xsl:choose>
+	    </xsl:variable>
+	    
+	    <xsl:variable name="separator">'</xsl:variable>
+	    <xsl:variable name="browserCode" select="substring-before(substring-after($browserRaw, $separator), $separator)"/>
+        <xsl:variable name="browserMin" select="substring-before(substring-after(substring-after(substring-after($browserRaw, $separator), $separator), $separator), '-')"/>
+        <xsl:variable name="browserMax" select="substring-before(substring-after(substring-after(substring-after(substring-after($browserRaw, $separator), $separator), $separator), '-'), $separator)"/>
+	    
+        <div class="browser">
+            <div class="browser-name">
+                <img src="{$contextPath}/plugins/core-ui/resources/img/special/browsers/{$browserCode}_48.png" alt=""/>
+                <br/>
+                <i18n:text i18n:key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_NAME_{$browserCode}" i18n:catalogue='plugin.core-ui'/>
             </div>
-        </xsl:if>
+            <div class="browser-version">
+                <xsl:choose>
+                    <xsl:when test="$browserMin = '0' and $browserMax = '0'">
+                        <i18n:key i18n:text="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_ALL" i18n:catalogue='plugin.core-ui'/>
+                    </xsl:when>
+                    <xsl:when test="$browserMin = '0'">
+                        <i18n:translate>
+                            <i18n:text i18n:key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_LOWER" i18n:catalogue='plugin.core-ui'/>
+                            <i18n:param><xsl:value-of select="$browserMax"/></i18n:param>
+                        </i18n:translate>               
+                    </xsl:when>
+                    <xsl:when test="$browserMax = '0'">
+                        <i18n:translate>
+                            <i18n:text i18n:key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_ABOVE" i18n:catalogue='plugin.core-ui'/>
+                            <i18n:param><xsl:value-of select="$browserMin"/></i18n:param>
+                        </i18n:translate>               
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <i18n:translate >
+                            <i18n:text i18n:key="PLUGINS_CORE_UI_SUPPORTED_BROWSER_VERSIONS_BETWEEN" i18n:catalogue='plugin.core-ui'/>
+                            <i18n:param><xsl:value-of select="$browserMin"/></i18n:param>
+                            <i18n:param><xsl:value-of select="$browserMax"/></i18n:param>
+                        </i18n:translate>               
+                    </xsl:otherwise>
+                </xsl:choose>
+            </div>
+        </div>
+	    
+	    <xsl:if test="contains($supported, ',')">
+	       <xsl:call-template name="showBrowsers">
+	           <xsl:with-param name="supported" select="substring-after($supported, ',')"/>
+	       </xsl:call-template>
+	    </xsl:if>
     </xsl:template>
-    
+        
 </xsl:stylesheet>

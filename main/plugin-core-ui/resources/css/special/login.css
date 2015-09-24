@@ -1,0 +1,474 @@
+/*
+ *  Copyright 2015 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+ 
+@import 'common.css';
+
+body {
+    background-image: url('../../img/special/public/bg.jpg');
+}
+
+div.wrapin {
+    width: 50%; 
+    box-sizing: border-box;
+    min-width: 21em;
+    display: inline-block;
+    vertical-align: middle;
+    
+    margin: 0.25em 0;
+    
+    text-align: left;
+}
+
+div.connection, div.intro {
+    background-color: #CCCCCC;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid #7d3d92;
+    
+    margin: 0 auto;
+    
+    padding: 0.7em;
+    width: 20em;
+}
+
+/**
+ * INTRO
+ */
+div.intro {
+   width: 28em;
+}
+div.intro .textin {
+    font-size: 0.8em;
+    
+    max-height: 29em;
+    
+    display: inline-block;
+    width: 50%;
+    box-sizing: border-box;
+    vertical-align: top;
+}
+div.intro .textin:first-child {
+    padding-right: 0.8em;
+}
+div.intro .textin:last-child {
+    padding-left: 0.8em;
+}
+div.intro .twitter-timeline-wrapper {
+    overflow: auto;
+    height: 21em;
+}
+div.intro .textin h1 {
+    margin: 0.5em 0;
+    padding-bottom: 0.2em;
+    border-bottom: 1px solid #acacac;
+    line-height: 1em;
+    color: #9266CC;
+    font-size: 1.4em;
+    font-weight: normal;
+}
+div.intro .textin p {
+    margin: 0 0 0.2em 0;
+}
+div.intro .textin ul {
+    margin: 0 0 0 0;
+}
+
+
+
+div.intro .links a {
+    display: inline-block;
+    margin-left: 0.25em;
+    width: 1.6em;
+    height: 1.6em;
+    line-height: 1.6em;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 2em;
+    text-decoration: none;
+    background-color: #7d3d92;
+    border: 1px solid #7d3d92;
+}
+div.intro .links :first-child {
+    margin-left: 0;
+}
+div.intro .links a span {
+    position: absolute;
+    top: -200em;
+    left: -200em;
+}
+div.intro .links a:after {
+    color: #FFFFFF;
+    text-indent: 0;
+    font-family: "FontAwesome";
+}
+div.intro .links a:hover {
+    background-color: #9d57b3;
+    border-color: #9d57b3;
+}
+div.intro .links a:active {
+    background-color: #613171;
+    border-color: #613171;
+}
+div.intro .links a:focus {
+    -webkit-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
+    -moz-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
+    box-shadow: inset 0px 0px 0px 1px #F0F0F0;
+}
+
+
+/** website */
+div.intro a.website:after {
+    content: "\f0ac";
+}
+div.intro a.doc:after {
+    content: "\f02d";
+}
+div.intro a.forum:after {
+    content: "\f086";
+}
+div.intro a.issues:after {
+    content: "\f071";
+}
+
+/** Facebook */
+div.intro a.facebook {
+    background-color: #4c8ffe;
+    border: 1px solid #4c8ffe;
+}
+div.intro a.facebook:after {
+    content: "\f09a";
+    }
+div.intro a.facebook:hover {
+    background-color: #2d4876;
+    border-color: #2d4876;
+}
+div.intro a.facebook:active {
+    background-color: #23395b;
+    border-color: #23395b;
+}
+div.intro a.facebook:focus {
+    -webkit-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
+    -moz-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
+    box-shadow: inset 0px 0px 0px 1px #F0F0F0;
+}
+
+/* Twitter */
+div.intro a.twitter {
+    background-color: #55acee;
+    border: 1px solid #55acee;
+}
+div.intro a.twitter:after {
+    content: "\f099";
+}
+div.intro a.twitter:hover {
+    background-color: #25a0e9;
+    border-color: #25a0e9;
+}
+div.intro a.twitter:active {
+    background-color: #148dd4;
+    border-color: #148dd4;
+}
+div.intro a.twitter:focus {
+    -webkit-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
+    -moz-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
+    box-shadow: inset 0px 0px 0px 1px #F0F0F0;
+}
+
+/** Google+ */
+div.intro a.googleplus {
+    background-color: #dc4e42;
+    border: 1px solid #dc4e42;
+}
+div.intro a.googleplus:after {
+    content: "\f0d5";
+}
+div.intro a.googleplus:hover {
+    background-color: #ca2f24;
+    border-color: #ca2f24;
+}
+div.intro a.googleplus:active {
+    background-color: #9f221d;
+    border-color: #9f221d;
+}
+div.intro a.googleplus:focus {
+    -webkit-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
+    -moz-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
+    box-shadow: inset 0px 0px 0px 1px #F0F0F0;
+}
+
+
+/**
+ * FORM
+ */
+div.connection div.main-separator {
+    width: 8em;
+    display: inline-block;
+}
+
+div.connection div.separator {
+    margin: 0.5em 0;
+    
+    color: #acacac;
+    position: relative;
+    text-align: center;
+}
+div.connection div.separator .textin {
+    display: inline-block;
+    margin: 0 auto;
+    text-align: center;
+    padding: 0 0.5em; 
+}
+div.connection div.separator:before,
+div.connection div.separator:after {
+    content: " ";
+    width: 30%;
+    height: 1px;
+    background-color: #acacac;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+div.connection button {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0.8em;
+    position: relative;
+    color: #fff;
+    font-size: 1em;
+    outline-style: none;
+}
+
+div.connection button:after {
+    font-family: "FontAwesome";
+    font-size: 2em;
+    line-height: 1.39em;
+    position: absolute;
+    right: 0.5em;
+    top: 0;
+}
+
+/**
+ * FORM BASED
+ */
+div.connection div.error {
+    margin-bottom: 0.5em;
+    color: #9f0000;
+    font-size: 0.8em;
+}
+
+div.connection table.input {
+    width: 100%;
+    border: 1px solid #7f7f7f;
+    border: 1px solid #7f7f7f;
+    background-color: #FFF;
+    border-collapse: collapse;
+    table-layout: fixed;
+    margin-bottom: 0.5em;
+}
+
+div.connection table.input td.input {
+    padding: 0.7em 0 0.7em 0.7em;
+}
+div.connection table.input td.input input {
+    border-style: none;
+    outline-style: none;
+    background-color: transparent;
+    width: 100%;
+}
+
+div.connection table.input td.image {
+   width: 3.1em;
+   padding: 0 0.7em;
+}
+div.connection table.input td.image:after {
+    font-family: "FontAwesome";
+    font-size: 1.7em;
+    color: #E4E4E4;
+    vertical-align: middle;
+}
+div.connection table.input.login td.image:after {
+    content: "\f007";
+}
+div.connection table.input.password td.image:after {
+    content: "\f023";
+}
+
+
+
+div.connection div.checkbox {
+    margin-bottom: 1em;
+}
+div.connection div.checkbox input {
+    width: 0.9em;
+    height: 0.9em;
+    vertical-align: middle;
+}
+div.connection div.checkbox label {
+    font-size: 0.8em;
+}
+
+div.connection div.forgotten {
+    float: right;
+}
+div.connection div.forgotten a {
+    font-size: 0.8em;
+    cursor: pointer;
+}
+
+div.connection .formbased button {
+    clear: both;
+    
+    background-color: #7d3d92;
+    border: 1px solid #7d3d92;
+}
+
+div.connection .formbased button:after {
+    content: "\f105";
+}
+
+div.connection .formbased button:hover {
+    background-color: #9d57b3;
+    border-color: #9d57b3;
+}
+div.connection .formbased button:active {
+    background-color: #613171;
+    border-color: #613171;
+}
+div.connection .formbased button:focus {
+    -webkit-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
+    -moz-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
+    box-shadow: inset 0px 0px 0px 1px #F0F0F0;
+}
+
+
+
+/**
+ * FACEBOOK
+ */
+div.connection button.facebook {
+    background-color: #395795;
+    border: 1px solid #395795;
+}
+div.connection button.facebook:after {
+    content: "\f09a";
+}
+div.connection button.facebook:hover {
+    background-color: #2d4876;
+    border-color: #2d4876;
+}
+div.connection button.facebook:active {
+    background-color: #23395b;
+    border-color: #23395b;
+}
+div.connection button.facebook:focus {
+    -webkit-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
+    -moz-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
+    box-shadow: inset 0px 0px 0px 1px #F0F0F0;
+}
+
+
+/**
+ * TWITTER
+ */
+div.connection button.twitter {
+    background-color: #55acee;
+    border: 1px solid #55acee;
+}
+div.connection button.twitter:after {
+    content: "\f099";
+}
+div.connection button.twitter:hover {
+    background-color: #25a0e9;
+    border-color: #25a0e9;
+}
+div.connection button.twitter:active {
+    background-color: #148dd4;
+    border-color: #148dd4;
+}
+div.connection button.twitter:focus {
+    -webkit-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
+    -moz-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
+    box-shadow: inset 0px 0px 0px 1px #F0F0F0;
+}
+
+
+/**
+ * GOOGLE
+ */
+div.connection button.google {
+    background-color: #4c8ffe;
+    border: 1px solid #4c8ffe;
+}
+div.connection button.google:after {
+    content: "\f1a0";
+}
+div.connection button.google:hover {
+    background-color: #1e77fe;
+    border-color: #1e77fe;
+}
+div.connection button.google:active {
+    background-color: #005ce8;
+    border-color: #005ce8;
+}
+button.google:focus {
+    -webkit-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
+    -moz-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
+    box-shadow: inset 0px 0px 0px 1px #F0F0F0;
+}
+
+
+/**
+ * CAS
+ */
+div.connection button.cas {
+    background-color: #2d7149;
+    border: 1px solid #2d7149;
+}
+div.connection button.cas:after {
+    content: "CAS";
+    font-size: 1em;
+    padding: 0.5em 0;
+}
+div.connection button.cas:hover {
+    background-color: #27633f;
+    border-color: #27633f;
+}
+div.connection button.cas:active {
+    background-color: #205134;
+    border-color: #205134;
+}
+div.connection button.cas:focus {
+    -webkit-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
+    -moz-box-shadow: inset 0px 0px 0px 1px #F0F0F0;
+    box-shadow: inset 0px 0px 0px 1px #F0F0F0;
+}
+
+
+/**
+ * MOBILE
+ */
+ 
+@media screen and (max-width: 960px), screen and (max-height: 360px)) {
+    div.intro {
+        width: 15em;
+    }
+    div.intro .textin {
+        display: block;
+        width: 100%;
+    }
+    .twitter-timeline-wrapper {
+        display: none;
+    }
+}
