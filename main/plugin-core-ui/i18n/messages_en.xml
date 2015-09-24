@@ -54,7 +54,7 @@
     <!-- +
          | Safe mode
          + -->
-    <message key="PLUGINS_CORE_UI_SAFE_MODE_PAGE_TITLE">Safe mode</message>
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_HEAD">Safe mode</message>
     <message key="PLUGINS_CORE_UI_SAFE_MODE_TITLE">Safe mode</message>
     <message key="PLUGINS_CORE_UI_SAFE_MODE_TEXT">The application could not initialize correctly and started in safe mode.<br/>You should check application's logs and settings.</message>
     <message key="PLUGINS_CORE_UI_SAFE_MODE_LINK">Manage the application</message>
