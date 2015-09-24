@@ -237,7 +237,7 @@ public final class ParameterHelper
         
         if (defaultValue != null)
         {
-            XMLUtils.createElement(handler, "defaultValue", ParameterHelper.valueToString(defaultValue));
+            XMLUtils.createElement(handler, "default-value", ParameterHelper.valueToString(defaultValue));
         }
         
         if (value != null)

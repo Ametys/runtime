@@ -845,7 +845,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
                     XMLUtils.startElement(contentHandler, "switcher");
                     XMLUtils.createElement(contentHandler, "id", switchId); 
                     switcher.getLabel().toSAX(contentHandler, "label");
-                    XMLUtils.createElement(contentHandler, "defaultValue", ParameterHelper.valueToString(switcher.getDefaultValue()));
+                    XMLUtils.createElement(contentHandler, "default-value", ParameterHelper.valueToString(switcher.getDefaultValue()));
                     XMLUtils.endElement(contentHandler, "switcher");
                 }
                 
@@ -929,7 +929,7 @@ public final class ConfigManager implements Contextualizable, Serviceable, Initi
             
             untypedValues = new HashMap<>();
         }
-        
+
         XMLUtils.startElement(contentHandler, "values");
         for (String parameterId : _params.keySet())
         {

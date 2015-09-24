@@ -1515,7 +1515,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      * - String **role** Can be "tabs" or "fieldsets" to create a tab grouping or a fieldset grouping. Note that tab grouping can be replaced by simple panels according to a user preference.
      * - String **label** The label of the grouping.
      * - Object **switcher** The configuration of the switcher parameter. The switcher is a boolean field that is used to enable/disable the other fields of its fieldset (available for fieldsets that have a "fieldset" role exclusively).
-     *   It must have a **label** and an **id** (the id of the boolean field) and optionally a **defaultValue**.
+     *   It must have a **label** and an **id** (the id of the boolean field) and optionally a **default-value**.
      * - Object **param-checker** (see above) Fieldsets can also have a parameter checker for both "tab" and "fieldset" role
      * - Object **elements** The child elements of the grouping : this is a recursive data object, except that **"fieldsets"** can not be used again with the role "tab".
      * 
@@ -1865,7 +1865,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                             // Create an object representing the switcher
                             switcherCfg.name = Ext.dom.Query.selectValue('> id', switcher);
                             switcherCfg.label = Ext.dom.Query.selectValue('> label', switcher);
-                            switcherCfg.defaultValue = Ext.dom.Query.selectValue('> defaultValue', switcher);
+                            switcherCfg.defaultValue = Ext.dom.Query.selectValue('> default-value', switcher);
                             switcherCfg.type = 'boolean';
                         }
                         
@@ -1969,6 +1969,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                         fieldLabel: (isMandatory ? '* ' : '') + label,
                         ametysDescription: Ext.dom.Query.selectValue("> description", nodes[i], ''),
                         showAmetysComments: this.showAmetysComments,
+                        
+                        value: Ext.dom.Query.selectValue("> default-value", nodes[i], ''),
                         
                         mandatory: isMandatory,
                         regexp: Ext.dom.Query.selectValue("> validation > regexp", nodes[i], null),
