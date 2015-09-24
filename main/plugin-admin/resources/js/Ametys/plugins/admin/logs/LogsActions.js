@@ -39,7 +39,7 @@ Ext.define('Ametys.plugins.admin.logs.LogsActions', {
 		    					    {
 		    							if (answer == 'yes')
 		    							{
-		    								this.downloadFiles ([targetParameters.location]);
+		    								Ametys.plugins.admin.logs.LogsActions.downloadFiles ([targetParameters.location]);
 		    							}
 		    					    });
 		    }
