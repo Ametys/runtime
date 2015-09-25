@@ -14,11 +14,16 @@
  *  limitations under the License.
  */
 
-@import 'fluent/Ribbon';
-@import 'fluent/TabPanel';
-@import 'fluent/Panel';
-@import 'fluent/Toast';
-@import 'fluent/Button';
-@import 'fluent/Toolbar';
-
-@import 'misc/Badge';
+@include extjs-toolbar-ui( 
+    $ui: 'ribbon-toolbar',
+    
+    $vertical-spacing: 0,
+    $horizontal-spacing: 0,
+    
+    $background-color: transparent,
+    $border-style: none,
+    
+    $separator-color: $ametys-ribbon-toolbar-separator-color,
+    $separator-horizontal-height: $ametys-ribbon-button-height-small - 2px,
+    $separator-horizontal-margin: 0 $ametys-ribbon-toolbar-separator-size
+);

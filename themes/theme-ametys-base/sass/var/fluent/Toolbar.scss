@@ -14,11 +14,6 @@
  *  limitations under the License.
  */
 
-@import 'fluent/Ribbon';
-@import 'fluent/TabPanel';
-@import 'fluent/Panel';
-@import 'fluent/Toast';
-@import 'fluent/Button';
-@import 'fluent/Toolbar';
-
-@import 'misc/Badge';
+$ametys-ribbon-toolbar-separator-color: darken($ametys-ribbon-base-color, 12%);
+$ametys-ribbon-toolbar-separator-size: $ametys-ribbon-group-font-size / 3;
+ 

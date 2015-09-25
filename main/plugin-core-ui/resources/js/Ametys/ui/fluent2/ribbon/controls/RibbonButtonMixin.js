@@ -52,13 +52,6 @@ Ext.define(
         loadingCls: 'a-fluent-loading',
         
         /**
-         * @property {String} The CSS classname prefix for buttons indicating scale 
-         * @private
-         * @readonly
-         */
-        sizeCls: 'a-fluent-buttonsize-',
-        
-        /**
          * @property {Number} The minimum width of the button in pixels
          * @private
          * @readonly
@@ -97,9 +90,6 @@ Ext.define(
                 config.iconAlign = 'top';
                 config.arrowAlign = 'bottom';
             }
-            
-            config.cls = Ext.Array.from(config.cls); 
-            config.cls.push(this.sizeCls + config.scale);
         },
          
         getText: function()

@@ -24,18 +24,8 @@ Ext.define(
         alias: 'widget.ametys.ribbon-toolbar',
         
         /**
-         * @property {String} toolbarCls The CSS classname added to all toolbars
-         * @private
+         * @cfg {String} ui=ribbon-toolbar @inheritdoc
          */
-        toolbarCls: 'a-fluent-toolbar',
-        
-        constructor: function(config)
-        {
-            config = config || {};
-            config.cls = Ext.Array.from(config.cls);
-            config.cls.push(this.toolbarCls);
-            
-            this.callParent(arguments);
-        }
+        ui: 'ribbon-toolbar'        
     }
 );
