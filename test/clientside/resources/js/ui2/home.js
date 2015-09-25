@@ -403,6 +403,7 @@ var tabHome = {
 											icon: 'resources/img/editpaste_16.gif',
 							                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true}
 										},
+                                        "-",
 										{
 											xtype: 'ametys.ribbon-button',
 											scale: 'small',
