@@ -199,11 +199,10 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 	sendCurrentSelection: function()
 	{
 		var targets = [];
+		var currentProfileId = this._currentProfileId; 
 		
-		var selection = this._profilesGrid.getSelectionModel().getSelection();
-		if (selection && selection.length > 0)
+		if (currentProfileId != null)
 		{
-			var record = selection[0];
 			var subtargets = [];
 			
 			if (this.getMode() == 'edit')
@@ -218,10 +217,9 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 			
 			targets.push ({
 				type: Ametys.message.MessageTarget.PROFILE,
-				parameters: {id: record.getId()},
+				parameters: {id: currentProfileId},
 				subtargets: subtargets
 			});
-			
 		}
 		
 		Ext.create('Ametys.message.Message', {
