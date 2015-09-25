@@ -21,6 +21,7 @@ $ametys-ribbon-button-color-focus: mix($ametys-ribbon-header-button-color, $amet
 $ametys-ribbon-button-outline-color: $ametys-ribbon-highlight-color;
 $ametys-ribbon-button-font-size: $ametys-ribbon-font-size;
 $ametys-ribbon-button-font-weight: normal;
+$ametys-ribbon-button-line-height: $ametys-ribbon-button-font-size*4/3;
 $ametys-ribbon-button-background-color: transparent;
 $ametys-ribbon-button-background-color-over: $ametys-ribbon-header-button-outline-color;
 $ametys-ribbon-button-background-color-pressed: darken($ametys-ribbon-header-button-outline-color, 25%);
@@ -29,6 +30,8 @@ $ametys-ribbon-button-background-color-focus: transparent;
 $ametys-ribbon-button-padding-small: 3px;
 $ametys-ribbon-button-iconspacing-small: 3px;
 $ametys-ribbon-button-textpadding-small: 3px;
+$ametys-ribbon-button-texticonalignadjust-small: 1px;
+$ametys-ribbon-button-height-small: $ametys-ribbon-button-texticonalignadjust-small + top($ametys-ribbon-button-padding-small) + bottom($ametys-ribbon-button-padding-small) + $ametys-ribbon-button-line-height;
 
 $ametys-ribbon-button-padding-large: 3px 3px 0 3px;
 $ametys-ribbon-button-iconspacing-large: 2px;

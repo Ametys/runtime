@@ -31,7 +31,7 @@
     $font-size-focus: $ametys-ribbon-button-font-size,
     $font-size-pressed: $ametys-ribbon-button-font-size,
     
-    $line-height: $ametys-ribbon-button-font-size*4/3,
+    $line-height: $ametys-ribbon-button-line-height,
     
     $font-weight: $ametys-ribbon-button-font-weight,
     $font-weight-over: $ametys-ribbon-button-font-weight,
@@ -54,13 +54,12 @@
     $background-color-focus: $ametys-ribbon-button-background-color-focus    
 );  
 .#{$prefix}btn-inner-ribbon-button-small {
-    margin-top: 1px;
+    margin-top: $ametys-ribbon-button-texticonalignadjust-small;
 }
 .#{$prefix}btn-icon-el-ribbon-button-small {
-    margin-bottom: 1px;
+    margin-bottom: $ametys-ribbon-button-texticonalignadjust-small;
 }
   
- 
 @include extjs-button-large-ui(
     $ui: 'ribbon-button',
     
@@ -78,7 +77,7 @@
     $font-size-focus: $ametys-ribbon-button-font-size,
     $font-size-pressed: $ametys-ribbon-button-font-size,
     
-    $line-height: $ametys-ribbon-button-font-size*4/3,
+    $line-height: $ametys-ribbon-button-line-height,
     
     $font-weight: $ametys-ribbon-button-font-weight,
     $font-weight-over: $ametys-ribbon-button-font-weight,
@@ -100,4 +99,8 @@
     $color-focus: $ametys-ribbon-button-color-focus,
     $background-color-focus: $ametys-ribbon-button-background-color-focus        
 );    
+
+.#{$prefix}btn-inner-ribbon-button-large {
+    height: 2*$ametys-ribbon-button-line-height;
+}
  

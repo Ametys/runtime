@@ -25,7 +25,7 @@
     
     $ui-border-width: 0,
     
-    $ui-padding: 0 5px 0 4px,
+    $ui-padding: 0 ($ametys-ribbon-group-separator-size + 1px) 0 $ametys-ribbon-group-separator-size,
     
     $ui-body-background-color: $ametys-ribbon-group-background-color,
     
@@ -41,12 +41,22 @@
     top: 0;
     right: 0;
     content: " ";
-    margin: 4px 0;
-    height: calc(100% - 8px);
+    margin: $ametys-ribbon-group-separator-size 0;
+    height: calc(100% - #{2 * $ametys-ribbon-group-separator-size});
     width: 0;
     border-right: 1px solid $ametys-ribbon-group-separator-color;
 }
 
 .#{$prefix}panel-body-ribbon-tabpanel-groupscale {
-    padding: 3px 0;
+    padding: ($ametys-ribbon-group-separator-size - 1px) 0;
+}
+
+$ametys-ribbon-group-middle-padding-top-middle: round($ametys-ribbon-button-height-small / 3);
+$ametys-ribbon-group-middle-padding-bottom: $ametys-ribbon-button-height-small - 2 * $ametys-ribbon-group-middle-padding-top-middle;
+.#{$prefix}container.a-fluent-group-part-middle {
+    padding-top: $ametys-ribbon-group-middle-padding-top-middle;
+    padding-bottom: $ametys-ribbon-group-middle-padding-bottom; 
+}
+.#{$prefix}container.a-fluent-group-part-middle tr:FIRST-CHILD .#{$prefix}table-layout-cell {
+    padding-bottom: $ametys-ribbon-group-middle-padding-top-middle;
 }
