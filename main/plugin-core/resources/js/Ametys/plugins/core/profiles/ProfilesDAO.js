@@ -288,6 +288,8 @@ Ext.define("Ametys.message.ProfileMessageTarget", {
           * @readonly
           * @property {String} PROFILE The target type is a profile. The expected parameters are:
           * @property {String} PROFILE.id The id of profile
+          * @property {String} [PROFILE.name] The name of the profile
+		  * @property {String} [PROFILE.context] the context of the profile
           */
          PROFILE: "profile"
      }

@@ -311,6 +311,8 @@ Ext.define("Ametys.message.UserMessageTarget", {
           * @readonly
           * @property {String} USER The target type is a user. The expected parameters are:
           * @property {String} USER.id The login of user
+          * @property {String} [USER.inherited] true if the user inherits rights
+          * 
           */
          USER: "user"
      }
