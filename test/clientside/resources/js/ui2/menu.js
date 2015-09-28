@@ -51,7 +51,7 @@ var tabMenu = {
 			                menu: { items: [{ text: 'hey !', handler: function() { tinyMCE.focus(); /*tinyMCE.activeEditor.execCommand('Bold');*/ } }]},
 			                
 			                icon: 'resources/img/editpaste_32.gif',
-			                text: 'Graphique',
+			                text: 'Graphique sur deux lignes',
 							tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true}		
 						},
 						{

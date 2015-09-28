@@ -112,12 +112,13 @@ Ext.define(
                     var minText = this.text;
                     var secondLineText = "";
                     
-                    var menuOffset = this.menu ? "&#160;<div class='arrow'></div>" : "";
+                    var menuOffset1stline = this.menu ? "<br/><div class='arrow'></div>" : "";
+                    var menuOffset2ndline = this.menu ? "<div class='arrow arrow-with-text'></div>" : "";
     
                     var nextIndex = this.text.indexOf(' ', 0);
                     while (nextIndex != -1 && nextIndex < this.text.length)
                     {
-                        var tmpSecondLineText = this.text.substring(nextIndex + 1) + menuOffset;
+                        var tmpSecondLineText = this.text.substring(nextIndex + 1) + menuOffset2ndline;
                         var testText = this.text.substring(0, nextIndex) + '<br/>' + tmpSecondLineText;
                         var testWidth = textMesurer.getWidth(testText);
                         
@@ -143,6 +144,12 @@ Ext.define(
                             minText = "&#160;" + minText.substring(0, brpos) + "&#160;" + "<br/>" + "&#160;" + minText.substring(brpos + 5) + "&#160;";
                         }
                         minWidth = textMesurer.getWidth(minText);
+                    }
+                    
+                    if (minText.indexOf('<br/>') == -1)
+                    {
+                        // Text on one line, insert the menu code
+                        minText += menuOffset1stline;
                     }
                     
                     this.text = minText;

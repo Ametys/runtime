@@ -52,13 +52,6 @@ Ext.define(
         },
         
         /**
-         * @property {String} dialogBoxLauncherCls The CSS classname to set on the "dialog box launcher" buttons
-         * @readonly
-         * @private
-         */
-        dialogBoxLauncherCls: 'a-fluent-dialogboxlauncher',
-        
-        /**
          * @property {String} groupCls The CSS classname to set on the group
          * @readonly
          * @private
@@ -144,7 +137,6 @@ Ext.define(
             if (config.dialogBoxLauncher)
             {
                 defaultConfig.tools.push({
-                    cls: this.dialogBoxLauncherCls,
                     type: 'gear',
                     handler: Ext.bind(this._onDialogBoxLauncherClickSendEvent, this)
                 });

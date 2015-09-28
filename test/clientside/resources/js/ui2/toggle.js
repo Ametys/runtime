@@ -19,6 +19,7 @@ var tabToggle = {
 	[
 			{
 				title: 'Boutons',
+                icon: 'resources/img/editpaste_32.gif',
 				items:
 				[
 						{
@@ -179,6 +180,7 @@ var tabToggle = {
 			},
 			{
 				title: 'Test layout',
+                icon: 'resources/img/editpaste_32.gif',
 				items:
 				[
 					{
@@ -395,6 +397,7 @@ var tabToggle = {
 			},
 			{
 				title: 'Boutons grisés',
+                icon: 'resources/img/editpaste_32.gif',
 				dialogBoxLauncher: true,
 				items:
 				[

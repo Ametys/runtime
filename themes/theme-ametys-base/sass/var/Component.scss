@@ -23,6 +23,17 @@
 
 @import 'misc/Badge';
 
+/*
+$color: dynamic(#000000);
+$font-size: dynamic(13px);
+$line-height: dynamic(17px);
+$base-color: dynamic(#707070);
+$base-highlight-color: dynamic(#FF0000);
+$css-shadow-border-radius: 0;
+*/
+
+
+
 $ametys-ribbon-base-color: dynamic(#F6F6F6);
 $ametys-ribbon-main-color: dynamic(#7F7F7F);
 $ametys-ribbon-tab-color: dynamic(#F1F1F1);
@@ -40,3 +51,4 @@ $ametys-background-color-error: dynamic(#CC0000);
 $ametys-ribbon-font-size: dynamic(12px);
 
 $ametys-ribbon-tool-background-image: 'tools/ribbon-tool-sprites-dark';
+$ametys-ribbon-panel-tool-background-image: 'tools/ribbon-small-tool-sprites-dark';

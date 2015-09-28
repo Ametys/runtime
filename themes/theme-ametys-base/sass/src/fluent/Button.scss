@@ -103,4 +103,16 @@
 .#{$prefix}btn-inner-ribbon-button-large {
     height: 2*$ametys-ribbon-button-line-height;
 }
- 
+
+.#{$prefix}btn-inner-ribbon-button-large .arrow {
+    background-image: theme-background-image('button/ribbon-button-large-arrow');
+    width: 7px;
+    padding-right: 7px;
+    display: inline;
+}
+.#{$prefix}btn-inner-ribbon-button-large .arrow.arrow-with-text {
+    margin-left: $ametys-ribbon-button-font-size / 6;
+}
+.#{$prefix}btn-wrap-ribbon-button-large.x-btn-arrow-bottom:after {
+    display: none;
+}
