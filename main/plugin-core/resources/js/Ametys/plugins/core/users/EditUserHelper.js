@@ -192,7 +192,7 @@ Ext.define('Ametys.plugins.core.users.EditUserHelper', {
 	{
 		if (this._mode == 'new')
 		{
-			this._form.setValues({values: {}, comments: {}, repeaters: []});
+			this._form.reset();
 			this._form.getForm().findField('login').enable();
 			this._form.getForm().findField('login').focus(true);
 		}
