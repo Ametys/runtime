@@ -211,6 +211,11 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      * This event should be also fired each time new fields are inserted (from a new repeater instance for example).
      * @param {Ext.form.Panel} form The form containing the fields
      */
+    /**
+     * @event fieldchange
+     * Fired when one of the fields changes after the form is ready
+     * @param {Ext.form.Field} field The field that changed
+     */
 
     constructor: function (config)
     {
@@ -1020,7 +1025,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         {
         	if (this._formReady)
         	{
-        		this.fireEvent('fieldchange', this);
+        		this.fireEvent('fieldchange', field);
         	}
 
         	// Find the tab card (panel) to which belongs the field.
