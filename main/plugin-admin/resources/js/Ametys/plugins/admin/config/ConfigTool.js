@@ -38,6 +38,7 @@ Ext.define('Ametys.plugins.admin.config.ConfigTool', {
 			cls: 'config',
 			
 			listeners: {
+				'fieldchange': Ext.bind(this.setDirty, this, [true], false),
 				'inputfocus': Ext.bind(this.sendCurrentSelection, this)
 			}
 		});

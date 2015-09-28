@@ -1018,24 +1018,23 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     {
         if (!Ext.isEmpty(newValue))
         {
-             // Find the tab card (panel) to which belongs the field.
+        	if (this._formReady)
+        	{
+        		this.fireEvent('fieldchange', this);
+        	}
+
+        	// Find the tab card (panel) to which belongs the field.
             var card = field.up('panel[cls~=ametys-form-tab-item], panel[cls~=ametys-form-tab-inline-item]');
             if (card == null)
             {
                 return;
             }
-            
+
             var header = card.tab ? card.tab : card.getHeader();
             if (header != null)
             {
                 header.removeCls(['empty']);
             }
-            
-            var focusedTool = Ametys.tool.ToolsManager.getFocusedTool();
-            if (focusedTool != null && this._formReady && !focusedTool.isDirty())
-        	{
-            	focusedTool.setDirty(true);
-        	}	
         }
     },
     
