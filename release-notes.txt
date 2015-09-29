@@ -1,3 +1,12 @@
+RUNTIME - Version 2.7.2 (September 28, 2015)
+
+Bug:
+  RUNTIME-1193 : When runtime.xml reference an unexisting extension poing it should be warned
+  RUNTIME-1218 : UserDrivenLDAPGroupsManager should handle pagination
+  RUNTIME-1243 : Groups list popup not displayed when doing affectation
+  RUNTIME-1254 : Add utility JS method to deemphasize a string value
+
+-------------------------------------------------------------
 Runtime - Version 2.7.1 (April 27, 2015)
 
 Task:
