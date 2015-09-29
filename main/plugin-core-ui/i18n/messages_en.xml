@@ -314,6 +314,14 @@
     <message key="PLUGINS_CORE_UI_PASSWORD_CHANGE">Click here to change the password</message>
     <message key="PLUGINS_CORE_UI_PASSWORD_RESET">Click here to reset the password to its previous value</message>
     
+    <!-- Choose color -->
+    <message key="PLUGINS_CORE_UI_COLORSELECTOR_DEFAULT_COLORS">Default colors</message>
+    <message key="PLUGINS_CORE_UI_CHOOSECOLOR_CUSTOM_COLORS">Custom colors</message>
+    <message key="PLUGINS_CORE_UI_CHOOSECOLOR_NO_COLOR">None</message>
+    <message key="PLUGINS_CORE_UI_CHOOSECOLOR_OTHERS_COLORS">Other colors ...</message>
+    <message key="PLUGINS_CORE_UI_HELPER_CHOOSECOLOR_OK">Ok</message>
+    <message key="PLUGINS_CORE_UI_HELPER_CHOOSECOLOR_CANCEL">Cancel</message>
+    
     <!-- Upload -->
     <message key="PLUGINS_CORE_UI_UPLOAD_HINT">Maximal authorized size is </message>
     

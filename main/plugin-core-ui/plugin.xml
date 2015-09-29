@@ -199,6 +199,8 @@
                     <file>js/Ametys/helper/ChooseLocation/LoadGoogleMaps.js</file>
 
                     <file>js/Ametys/clipboard/Clipboard.js</file>
+
+                    <file>js/Ametys/helper/ChooseColor.js</file>
                 </scripts>
                 <css>
                     <file>css/Widget.css</file>
