@@ -24,6 +24,5 @@
     </plugins>
     <workspaces>
         <workspace name="admin">../../../main/workspace-admin</workspace>
-        <workspace name="admin-old">../../../main/workspace-admin-old</workspace>
     </workspaces>
 </external>

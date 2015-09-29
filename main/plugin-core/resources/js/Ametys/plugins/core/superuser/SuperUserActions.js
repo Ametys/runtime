@@ -87,9 +87,10 @@ Ext.define('Ametys.plugins.core.superuser.SuperUserActions', {
 	/**
 	 * @protected
 	 * Get the context the user will be granted all rights to
+	 * @param {Ametys.ribbon.element.ui.ButtonController} controller the button's controller
 	 * @return the context
 	 */
-	_getContext: function()
+	_getContext: function(controller)
 	{
 		return "";
 	}
