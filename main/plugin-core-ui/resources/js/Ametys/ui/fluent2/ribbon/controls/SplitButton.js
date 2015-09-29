@@ -25,24 +25,37 @@ Ext.define(
         mixins: { button: 'Ametys.ui.fluent.ribbon.controls.RibbonButtonMixin' },
     
         /**
+         * @cfg {String} ui=ribbon-button @inheritdoc
+         */
+        ui: 'ribbon-button',
+        
+        /**
+         * @private
+         * @readonly
+         * @property {String} buttonWithMenuCls The CSS classname for split buttons
+         */
+        buttonSplitCls: 'a-fluent-control-button-split',
+        
+        /**
          * @readonly
          * @private
-         * @property {String} splitCls The CSS classname to set on split buttons
+         * @property {String} splitCls The CSS classname to set on split buttons when the mouse is over the trigger part
          */
-        splitCls: 'a-fluent-control-splitbutton',
+        splitOverTriggerCls: 'a-fluent-control-button-split-overtrigger',
         
         constructor: function(config)
         {
             config = config || {};
+                    
+            config.cls = Ext.Array.from(config.cls);
+            config.cls.push(this.buttonSplitCls);
             
             this.mixins.button.constructor.call(this, config);
             
-            config.cls = Ext.Array.from(config.cls);
-            config.cls.push(this.splitCls);
-            
             this.callParent(arguments);
             
-            this.on("mousemove", this._onMouseMove, this, { element: 'el' });
+            this.on("menutriggerover", this._onMenuTriggerOver, this);
+            this.on("menutriggerout", this._onMenuTriggerOut, this);
         },
         
         afterRender: function()
@@ -53,20 +66,23 @@ Ext.define(
         },
         
         /**
-         * Listener on mouse move over the button, to determine if the mouse if over the button or the arrow 
+         * Listener when mouse is over the trigger 
          * @param {Ext.event.Event} e The {@link Ext.event.Event} encapsulating the DOM event.
          * @private
          */
-        _onMouseMove: function(e)
+        _onMenuTriggerOver: function(e)
         {
-            if (this.isWithinTrigger(e))
-            {
-                this.el.addCls(this.splitCls + "-menu");
-            }
-            else
-            {
-                this.el.removeCls(this.splitCls + "-menu");
-            }
+            this.el.addCls(this.splitOverTriggerCls);
+        },
+
+        /**
+         * Listener when mouse is no more over the trigger 
+         * @param {Ext.event.Event} e The {@link Ext.event.Event} encapsulating the DOM event.
+         * @private
+         */
+        _onMenuTriggerOut: function(e)
+        {
+            this.el.removeCls(this.splitOverTriggerCls);
         },
         
         getTriggerRegion: function() 

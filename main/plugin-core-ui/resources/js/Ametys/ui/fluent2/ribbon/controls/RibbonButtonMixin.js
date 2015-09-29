@@ -45,11 +45,18 @@ Ext.define(
          */
          
         /**
-         * @property {String} The CSS classname for buttons that are in "loading" state 
+         * @property {String} loadingCls The CSS classname for buttons that are in "loading" state 
          * @private
          * @readonly
          */
         loadingCls: 'a-fluent-loading',
+        
+        /**
+         * @private
+         * @readonly
+         * @property {String} buttonWithMenuCls The CSS classname for buttons with a menu
+         */
+        buttonWithMenuCls: 'a-fluent-control-button-menu',
         
         /**
          * @property {Number} The minimum width of the button in pixels
@@ -89,6 +96,12 @@ Ext.define(
                 config.scale = 'large';
                 config.iconAlign = 'top';
                 config.arrowAlign = 'bottom';
+            }
+            
+            if (config.menu)
+            {
+                config.cls = Ext.Array.from(config.cls);
+                config.cls.push(this.buttonWithMenuCls);
             }
         },
          

@@ -19,9 +19,12 @@
 
     $border-width: 0,
     
-    $padding: $ametys-ribbon-button-padding-small,
+    $padding: 1px,
     $icon-spacing: $ametys-ribbon-button-iconspacing-small,
     $text-padding: $ametys-ribbon-button-textpadding-small,
+    
+    $arrow-width: 10px + ($ametys-ribbon-button-padding-small - 1px),
+    $split-width: 10px + ($ametys-ribbon-button-padding-small - 1px),
     
     $body-outline-color-focus: $ametys-ribbon-button-outline-color,
     $inner-border-color-focus: $ametys-ribbon-button-outline-color,
@@ -53,6 +56,17 @@
     $color-focus: $ametys-ribbon-button-color-focus,
     $background-color-focus: $ametys-ribbon-button-background-color-focus    
 );  
+.#{$prefix}btn-button-ribbon-button-small {
+    padding: ($ametys-ribbon-button-padding-small - 1px); 
+}
+.a-fluent-control-button-menu .#{$prefix}btn-button-ribbon-button-small {
+    padding-right: 0;
+}
+.#{$prefix}btn-wrap-ribbon-button-small.#{$prefix}btn-arrow-right:after,
+.#{$prefix}btn-wrap-ribbon-button-small.#{$prefix}btn-split-right:after {
+    background-position: ($ametys-ribbon-button-padding-small - 1px) center;
+}
+
 .#{$prefix}btn-inner-ribbon-button-small {
     margin-top: $ametys-ribbon-button-texticonalignadjust-small;
 }
@@ -65,7 +79,7 @@
     
     $border-width: 0,
     
-    $padding: $ametys-ribbon-button-padding-large,
+    $padding: 1px,
     $icon-spacing: $ametys-ribbon-button-iconspacing-large,
     $text-padding: $ametys-ribbon-button-textpadding-large,
     
@@ -98,12 +112,23 @@
     
     $color-focus: $ametys-ribbon-button-color-focus,
     $background-color-focus: $ametys-ribbon-button-background-color-focus        
-);    
-
-.#{$prefix}btn-inner-ribbon-button-large {
-    height: 2*$ametys-ribbon-button-line-height;
+);   
+.#{$prefix}btn-arrow-bottom,
+.#{$prefix}btn-split-bottom {
+    > .#{$prefix}btn-button-ribbon-button-large {
+        padding-bottom: 0;
+    }
 }
 
+.#{$prefix}btn-icon-el-ribbon-button-large {
+    margin-top: ($ametys-ribbon-button-padding-large - 1px); 
+    margin-right: ($ametys-ribbon-button-padding-large - 1px);
+    margin-left: ($ametys-ribbon-button-padding-large - 1px); 
+}
+.#{$prefix}btn-inner-ribbon-button-large {
+    padding: $ametys-ribbon-button-texticonalignadjust-large ($ametys-ribbon-button-padding-large - 1px) 0 ($ametys-ribbon-button-padding-large - 1px); 
+    height: 2*$ametys-ribbon-button-line-height;
+}
 .#{$prefix}btn-inner-ribbon-button-large .arrow {
     background-image: theme-background-image('button/ribbon-button-large-arrow');
     width: 7px;
@@ -113,6 +138,45 @@
 .#{$prefix}btn-inner-ribbon-button-large .arrow.arrow-with-text {
     margin-left: $ametys-ribbon-button-font-size / 6;
 }
-.#{$prefix}btn-wrap-ribbon-button-large.x-btn-arrow-bottom:after {
+.#{$prefix}btn-wrap-ribbon-button-large.#{$prefix}btn-arrow-bottom:after,
+.#{$prefix}btn-wrap-ribbon-button-large.#{$prefix}btn-split-bottom:after {
     display: none;
+}
+
+
+
+/* over menu */
+.#{$prefix}btn-over.a-fluent-control-button-split {
+    /* button */
+    .#{$prefix}btn-button-ribbon-button-small,
+    .#{$prefix}btn-button-ribbon-button-large {
+        background-color: $ametys-ribbon-button-background-color-over;
+    }
+    .#{$prefix}btn-wrap-ribbon-button-small.#{$prefix}btn-split-right:after,
+    .#{$prefix}btn-inner-ribbon-button-large {
+        background-color: $ametys-ribbon-button-background-color;
+    }
+    &.#{$prefix}btn-pressed {
+        .#{$prefix}btn-wrap-ribbon-button-small.#{$prefix}btn-split-right:after,
+        .#{$prefix}btn-inner-ribbon-button-large {
+            background-color: $ametys-ribbon-button-background-color-pressed;
+        }
+    }
+    /* trigger */
+    &.a-fluent-control-button-split-overtrigger {
+        .#{$prefix}btn-button-ribbon-button-small,
+        .#{$prefix}btn-button-ribbon-button-large {
+            background-color: $ametys-ribbon-button-background-color;
+        }    
+        &.#{$prefix}btn-pressed {
+            .#{$prefix}btn-button-ribbon-button-small,
+            .#{$prefix}btn-button-ribbon-button-large {
+                background-color: $ametys-ribbon-button-background-color-pressed;
+            }
+        }
+        .#{$prefix}btn-wrap-ribbon-button-small.#{$prefix}btn-split-right:after,
+        .#{$prefix}btn-inner-ribbon-button-large {
+            background-color: $ametys-ribbon-button-background-color-over;
+        }
+    }
 }
