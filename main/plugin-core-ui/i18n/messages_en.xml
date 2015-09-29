@@ -316,9 +316,9 @@
     
     <!-- Choose color -->
     <message key="PLUGINS_CORE_UI_COLORSELECTOR_DEFAULT_COLORS">Default colors</message>
-    <message key="PLUGINS_CORE_UI_CHOOSECOLOR_CUSTOM_COLORS">Custom colors</message>
-    <message key="PLUGINS_CORE_UI_CHOOSECOLOR_NO_COLOR">None</message>
-    <message key="PLUGINS_CORE_UI_CHOOSECOLOR_OTHERS_COLORS">Other colors ...</message>
+    <message key="PLUGINS_CORE_UI_COLORSELECTOR_CUSTOM_COLORS">Custom colors</message>
+    <message key="PLUGINS_CORE_UI_COLORSELECTOR_NO_COLOR">None</message>
+    <message key="PLUGINS_CORE_UI_COLORSELECTOR_OTHERS_COLORS">Other colors ...</message>
     <message key="PLUGINS_CORE_UI_HELPER_CHOOSECOLOR_OK">Ok</message>
     <message key="PLUGINS_CORE_UI_HELPER_CHOOSECOLOR_CANCEL">Cancel</message>
     
