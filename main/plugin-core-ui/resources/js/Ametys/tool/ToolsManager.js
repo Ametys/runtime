@@ -247,7 +247,7 @@ Ext.define("Ametys.tool.ToolsManager",
 				var factory = this._factories[role];
 				if (factory == null)
 				{
-					throw new Error("The factory '" + role + "' is not registred");
+					throw new Error("The factory '" + role + "' is not registered");
 				}
 				
 				var tool = factory.openTool(toolParams);
