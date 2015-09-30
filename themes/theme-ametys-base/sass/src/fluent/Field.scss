@@ -1,0 +1,119 @@
+/*
+ *  Copyright 2015 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+ 
+@include extjs-text-field-ui(
+    $ui: 'ribbon-component',
+    
+    $ui-height: $ametys-ribbon-button-height-small,
+    $ui-textarea-body-height: 3*$ametys-ribbon-button-height-small - 2px,
+    $ui-background-color: $ametys-ribbon-field-background-color,
+    $ui-border-color: $ametys-ribbon-field-border-color,
+    $ui-focus-border-color: $ametys-ribbon-field-outline-color,
+    
+    $ui-trigger-width: $ametys-ribbon-field-trigger-width,
+    $ui-trigger-background-image: $ametys-ribbon-field-trigger-background-image,
+    $ui-trigger-border-color: $ametys-ribbon-field-border-color,
+    $ui-trigger-border-width: 0 0 0 1px,
+    
+    $ui-color: $ametys-ribbon-field-color,
+    $ui-font-size: $ametys-ribbon-field-font-size
+);
+@include extjs-spinner-trigger-ui(
+    $ui: 'ribbon-component',
+    
+    $ui-field-height: $ametys-ribbon-button-height-small,
+    $ui-trigger-width: $ametys-ribbon-field-trigger-width,
+    $ui-trigger-background-color: $ametys-ribbon-field-background-color,
+    $ui-trigger-vertical-background-image: $ametys-ribbon-field-spinner-background-image
+);
+
+.#{$prefix}field-focus {
+    .#{$prefix}form-spinner-ribbon-component,
+    .#{$prefix}form-trigger-ribbon-component {
+        border-color: $ametys-ribbon-field-outline-color;
+        background-color: $ametys-ribbon-field-outline-color;
+    }
+}
+.#{$prefix}form-spinner-over.#{$prefix}form-spinner-ribbon-component,
+.#{$prefix}form-trigger-over.#{$prefix}form-trigger-ribbon-component {
+    border-color: mix($ametys-ribbon-field-background-color, $ametys-ribbon-field-outline-color, 50%);
+    background-color: mix($ametys-ribbon-field-background-color, $ametys-ribbon-field-outline-color, 50%);
+}
+
+.#{$prefix}field-ribbon-component {
+    margin: 0 ($ametys-ribbon-label-font-size / 6);
+}
+
+@include extjs-label-ui(
+    $ui: 'ribbon-component',
+    
+    $ui-height: $ametys-ribbon-button-height-small,
+
+    $ui-font-color: $ametys-ribbon-label-color,
+    $ui-font-size: $ametys-ribbon-label-font-size,
+    $ui-line-height: $ametys-ribbon-field-line-height
+);
+.#{$prefix}form-cb-label-ribbon-component {
+    color: $ametys-ribbon-label-color;
+};
+
+/* Forms in ribbon have no margin */
+.#{$prefix}field-ribbon-component {
+    &.#{$prefix}autocontainer-form-item,
+    &.#{$prefix}anchor-form-item,
+    &.#{$prefix}vbox-form-item,
+    &.#{$prefix}table-form-item {
+        margin-bottom: 0;
+    }
+}
+    
+/**
+ * Checkbox
+ */
+@include extjs-checkbox-ui(
+    $ui: 'ribbon-component',
+
+    $ui-checkbox-size: $ametys-ribbon-field-checkbox-size,
+    $ui-field-height: $ametys-ribbon-button-height-small,
+    
+    $ui-checkbox-background-image: $ametys-ribbon-field-checkbox-background-image,
+    
+    $ui-label-color: $ametys-ribbon-label-color,
+    $ui-label-font-size: $ametys-ribbon-label-font-size,
+    $ui-label-line-height: $ametys-ribbon-field-line-height
+);
+.#{$prefix}form-cb-ribbon-component {
+    // vertically center the checkbox
+    margin-top: round(($ametys-ribbon-button-height-small - $ametys-ribbon-field-checkbox-size) / 2) - $ametys-ribbon-field-checkbox-label-offset;
+}
+
+/**
+ * Date
+ */
+.#{$prefix}field-ribbon-component .#{$prefix}form-date-trigger {
+    @if $enable-font-icons and ($form-date-trigger-glyph != null) {
+        @include font-icon($form-date-trigger-glyph, $line-height: null);
+    } @else {
+        background-image: theme-background-image($ametys-ribbon-field-date-background-image);
+
+        @if $include-rtl {
+            &.#{$prefix}rtl {
+                background-image: theme-background-image($ametys-ribbon-field-date-background-image + '-rtl');
+            }
+        }
+    }
+}
+ 

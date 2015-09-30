@@ -24,8 +24,12 @@ Ext.define(
         alias: 'widget.ametys.ribbon-toolbar',
         
         /**
-         * @cfg {String} ui=ribbon-toolbar @inheritdoc
+         * @cfg {String} ui=ribbon-component @inheritdoc
          */
-        ui: 'ribbon-toolbar'        
+        ui: 'ribbon-component',
+        
+        defaults: {
+            ui: 'ribbon-component'
+        }
     }
 );

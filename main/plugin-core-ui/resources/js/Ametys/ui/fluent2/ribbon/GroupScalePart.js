@@ -58,7 +58,8 @@ Ext.define(
 		align: 'top',
 		
 		defaults: {
-			xtype: 'ametys.ribbon-toolbar'
+			xtype: 'ametys.ribbon-toolbar',
+            ui: 'ribbon-component'
 		},
 
 		

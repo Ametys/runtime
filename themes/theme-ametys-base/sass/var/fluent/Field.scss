@@ -1,0 +1,28 @@
+/*
+ *  Copyright 2015 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+$ametys-ribbon-label-color: $ametys-ribbon-main-color;
+$ametys-ribbon-label-font-size: dynamic($ametys-ribbon-font-size);
+ 
+$ametys-ribbon-field-color: $ametys-ribbon-main-color;
+$ametys-ribbon-field-background-color: lighten($ametys-ribbon-base-color, 50%);
+$ametys-ribbon-field-border-color: darken($ametys-ribbon-base-color, 12%);
+$ametys-ribbon-field-outline-color: $ametys-ribbon-highlight-color;
+$ametys-ribbon-field-font-size: dynamic($ametys-ribbon-font-size);
+$ametys-ribbon-field-line-height: $ametys-ribbon-field-font-size/12*16; 
+
+$ametys-ribbon-field-checkbox-size: $ametys-ribbon-font-size/12*13;
+$ametys-ribbon-field-checkbox-label-offset: $ametys-ribbon-font-size/12;

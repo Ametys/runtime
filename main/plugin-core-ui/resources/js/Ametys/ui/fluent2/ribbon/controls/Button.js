@@ -25,9 +25,9 @@ Ext.define(
         mixins: { button: 'Ametys.ui.fluent.ribbon.controls.RibbonButtonMixin' },
     
         /**
-         * @cfg {String} ui=ribbon-button @inheritdoc
+         * @cfg {String} ui=ribbon-component @inheritdoc
          */
-        ui: 'ribbon-button',
+        ui: 'ribbon-component',
         
         constructor: function(config)
         {

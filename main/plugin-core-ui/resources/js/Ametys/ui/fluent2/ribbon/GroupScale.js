@@ -34,10 +34,13 @@ Ext.define(
          */
         
         /**
-         * @cfg {String} defaultType Doesn't apply to ribbon element. The value HAS TO be the default value.
+         * @cfg {String} defaults Doesn't apply to ribbon element. The value HAS TO be the default value.
          * @private
          */
-        defaultType: 'ametys.ribbon-group-scale-part',
+        defaults: {
+            xtype: 'ametys.ribbon-group-scale-part',
+            ui: 'ribbon-component'
+        },
 
         /**
          * @private

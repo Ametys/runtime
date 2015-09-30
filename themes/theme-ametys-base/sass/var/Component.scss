@@ -20,6 +20,7 @@
 @import 'fluent/Button';
 @import 'fluent/Toast';
 @import 'fluent/Toolbar';
+@import 'fluent/Field';
 
 @import 'misc/Badge';
 
@@ -52,3 +53,8 @@ $ametys-ribbon-font-size: dynamic(12px);
 
 $ametys-ribbon-tool-background-image: 'tools/ribbon-tool-sprites-dark';
 $ametys-ribbon-panel-tool-background-image: 'tools/ribbon-small-tool-sprites-dark';
+$ametys-ribbon-field-trigger-width: 18px;
+$ametys-ribbon-field-trigger-background-image: 'form/ribbon-trigger';
+$ametys-ribbon-field-date-background-image: 'form/ribbon-date';
+$ametys-ribbon-field-spinner-background-image: 'form/ribbon-spinner';
+$ametys-ribbon-field-checkbox-background-image: 'form/ribbon-checkbox';
