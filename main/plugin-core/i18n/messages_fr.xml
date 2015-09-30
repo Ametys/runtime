@@ -195,7 +195,7 @@
     <!-- Helper -->
     <message key="PLUGINS_CORE_GROUPS_DIALOG_ADD_TITLE">Nouveau groupe ...</message>
     <message key="PLUGINS_CORE_GROUPS_DIALOG_EDIT_TITLE">Renommer ...</message>
-    <message key="PLUGINS_CORE_GROUPS_DIALOG_NAME">Nom du group</message>
+    <message key="PLUGINS_CORE_GROUPS_DIALOG_NAME">Nom du groupe</message>
     <message key="PLUGINS_CORE_GROUPS_DIALOG_OK">Ok</message>
     <message key="PLUGINS_CORE_GROUPS_DIALOG_CANCEL">Annuler</message>
     
