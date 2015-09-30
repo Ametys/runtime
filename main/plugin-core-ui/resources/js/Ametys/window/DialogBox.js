@@ -56,10 +56,37 @@ Ext.define(
 		resizable :false,
 		cls: 'ametys-dialogbox',
 		
-		constructor: function()
+		/**
+		 * @cfg {Boolean} staticHeight=false Set to 'true' to freeze the dialog height after first rendering. This option is useful for wizard to avoid that the dialog box changes its size during navigation. When using this option, do not set #cfg-height, but consider using #cfg-minHeight and #cfg-maxHeight.
+		 */
+		freezeHeight: false,
+		
+		constructor: function(config)
 		{
 			this.callParent(arguments);
+			this.on('beforeshow', this._onBeforeShow, this);
 			this.on('afterrender', this._onRenderListener, this);
+			this.on('resize', this._onResize, this);
+		},
+		
+		_onBeforeShow: function ()
+		{
+			if (this.freezeHeight)
+			{
+				// Let the content decides of the dialog box's height
+				this.setHeight(null);
+			}
+		},
+		
+		_onResize: function ()
+		{
+			if (this.freezeHeight)
+			{
+				// Freeze the dialog's height
+				var height = this.getHeight();
+				this.setHeight(height);
+			}
+			this.center(); // auto center on resize
 		},
 	
 		/**
