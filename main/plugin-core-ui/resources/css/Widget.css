@@ -158,7 +158,8 @@
 	color: #023A69;
 	text-decoration: underline;
 }
-.ametys.x-form-item .x-tagfield ul.x-tagfield-list .x-tagfield-item span.clickable:hover {
+.ametys.x-form-item .x-tagfield ul.x-tagfield-list .x-tagfield-item span.clickable:hover,
+.ametys.x-form-item .x-tagfield ul.x-tagfield-list .x-tagfield-item img.clickable:hover {
 	cursor: pointer;
 }
 
