@@ -334,9 +334,6 @@ Ext.define('Ametys.plugins.core.groups.GroupsTool', {
 		this.sendCurrentSelection();
 	},
 	
-	/**
-	 * @inheritdoc
-	 */
 	sendCurrentSelection: function()
 	{
 		var targets = [];
@@ -348,7 +345,7 @@ Ext.define('Ametys.plugins.core.groups.GroupsTool', {
 		Ext.Array.forEach(users, function(user) {
 			userTarget = Ext.create('Ametys.message.MessageTarget', {
 				type: me._userTargetType,
-				parameters: {login: user.getId()}
+				parameters: {id: user.getId()}
 			});
 			
 			userTargets.push(userTarget);
