@@ -18,7 +18,7 @@ $ametys-ribbon-panel-background-color: $ametys-ribbon-tab-color;
 
 $ametys-ribbon-group-font-size: dynamic($ametys-ribbon-font-size);
 $ametys-ribbon-group-background-color: $ametys-ribbon-panel-background-color;
-$ametys-ribbon-group-separator-color: darken($ametys-ribbon-base-color, 12%);
+$ametys-ribbon-group-separator-color: $ametys-ribbon-base-dark-color;
 $ametys-ribbon-group-separator-size: $ametys-ribbon-group-font-size / 3;
 $ametys-ribbon-group-height: $ametys-ribbon-group-font-size*5.75;
 

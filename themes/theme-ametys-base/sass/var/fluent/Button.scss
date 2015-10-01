@@ -24,7 +24,7 @@ $ametys-ribbon-button-font-weight: normal;
 $ametys-ribbon-button-line-height: $ametys-ribbon-button-font-size*4/3;
 $ametys-ribbon-button-background-color: $ametys-ribbon-tab-color;
 $ametys-ribbon-button-background-color-over: $ametys-ribbon-header-button-outline-color;
-$ametys-ribbon-button-background-color-pressed: darken($ametys-ribbon-header-button-outline-color, 10%);
+$ametys-ribbon-button-background-color-pressed: darken($ametys-ribbon-button-background-color-over, 10%);
 $ametys-ribbon-button-background-color-focus: $ametys-ribbon-tab-color;
 
 $ametys-ribbon-button-padding-small: 3px;

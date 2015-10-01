@@ -14,169 +14,175 @@
  *  limitations under the License.
  */
 
-@include extjs-button-small-ui(
-    $ui: 'ribbon-component',
-
-    $border-width: 0,
+@mixin ametys-ribbon-button($ui, $ui-background-color)
+{
+    @include extjs-button-small-ui(
+        $ui: $ui,
     
-    $padding: 1px,
-    $icon-spacing: $ametys-ribbon-button-iconspacing-small,
-    $text-padding: $ametys-ribbon-button-textpadding-small,
-    
-    $arrow-width: 10px + ($ametys-ribbon-button-padding-small - 1px),
-    $split-width: 10px + ($ametys-ribbon-button-padding-small - 1px),
-    
-    $body-outline-color-focus: $ametys-ribbon-button-outline-color,
-    $inner-border-color-focus: $ametys-ribbon-button-outline-color,
-    
-    $font-size: $ametys-ribbon-button-font-size,
-    $font-size-over: $ametys-ribbon-button-font-size,
-    $font-size-focus: $ametys-ribbon-button-font-size,
-    $font-size-pressed: $ametys-ribbon-button-font-size,
-    
-    $line-height: $ametys-ribbon-button-line-height,
-    
-    $font-weight: $ametys-ribbon-button-font-weight,
-    $font-weight-over: $ametys-ribbon-button-font-weight,
-    $font-weight-focus: $ametys-ribbon-button-font-weight,
-    $font-weight-pressed: $ametys-ribbon-button-font-weight,
-    $font-weight-focus-over: $ametys-ribbon-button-font-weight,
-    $font-weight-focus-pressed: $ametys-ribbon-button-font-weight,
-    $font-weight-disabled: $ametys-ribbon-button-font-weight,
-            
-    $color: $ametys-ribbon-button-color,
-    $background-color: $ametys-ribbon-button-background-color,
-    
-    $color-over: $ametys-ribbon-button-color-over,
-    $background-color-over: $ametys-ribbon-button-background-color-over,
-    
-    $color-pressed: $ametys-ribbon-button-color-pressed,
-    $background-color-pressed: $ametys-ribbon-button-background-color-pressed,
-    
-    $color-focus: $ametys-ribbon-button-color-focus,
-    $background-color-focus: $ametys-ribbon-button-background-color-focus    
-);  
-.#{$prefix}btn-button-ribbon-component-small {
-    padding: ($ametys-ribbon-button-padding-small - 1px); 
-}
-.a-fluent-control-button-menu .#{$prefix}btn-button-ribbon-component-small {
-    padding-right: 0;
-}
-.#{$prefix}btn-wrap-ribbon-component-small.#{$prefix}btn-arrow-right:after,
-.#{$prefix}btn-wrap-ribbon-component-small.#{$prefix}btn-split-right:after {
-    background-position: ($ametys-ribbon-button-padding-small - 1px) center;
-}
-
-.#{$prefix}btn-inner-ribbon-component-small {
-    margin-top: $ametys-ribbon-button-texticonalignadjust-small;
-}
-.#{$prefix}btn-icon-el-ribbon-component-small {
-    margin-bottom: $ametys-ribbon-button-texticonalignadjust-small;
-}
-  
-@include extjs-button-large-ui(
-    $ui: 'ribbon-component',
-    
-    $border-width: 0,
-    
-    $padding: 1px,
-    $icon-spacing: $ametys-ribbon-button-iconspacing-large,
-    $text-padding: $ametys-ribbon-button-textpadding-large,
-    
-    $body-outline-color-focus: $ametys-ribbon-button-outline-color,
-    $inner-border-color-focus: $ametys-ribbon-button-outline-color,
-    
-    $font-size: $ametys-ribbon-button-font-size,
-    $font-size-over: $ametys-ribbon-button-font-size,
-    $font-size-focus: $ametys-ribbon-button-font-size,
-    $font-size-pressed: $ametys-ribbon-button-font-size,
-    
-    $line-height: $ametys-ribbon-button-line-height,
-    
-    $font-weight: $ametys-ribbon-button-font-weight,
-    $font-weight-over: $ametys-ribbon-button-font-weight,
-    $font-weight-focus: $ametys-ribbon-button-font-weight,
-    $font-weight-pressed: $ametys-ribbon-button-font-weight,
-    $font-weight-focus-over: $ametys-ribbon-button-font-weight,
-    $font-weight-focus-pressed: $ametys-ribbon-button-font-weight,
-    $font-weight-disabled: $ametys-ribbon-button-font-weight,
-            
-    $color: $ametys-ribbon-button-color,
-    $background-color: $ametys-ribbon-button-background-color,
-    
-    $color-over: $ametys-ribbon-button-color-over,
-    $background-color-over: $ametys-ribbon-button-background-color-over,
-    
-    $color-pressed: $ametys-ribbon-button-color-pressed,
-    $background-color-pressed: $ametys-ribbon-button-background-color-pressed,
-    
-    $color-focus: $ametys-ribbon-button-color-focus,
-    $background-color-focus: $ametys-ribbon-button-background-color-focus        
-);   
-.#{$prefix}btn-arrow-bottom,
-.#{$prefix}btn-split-bottom {
-    > .#{$prefix}btn-button-ribbon-component-large {
-        padding-bottom: 0;
+        $border-width: 0,
+        
+        $padding: 1px,
+        $icon-spacing: $ametys-ribbon-button-iconspacing-small,
+        $text-padding: $ametys-ribbon-button-textpadding-small,
+        
+        $arrow-width: 10px + ($ametys-ribbon-button-padding-small - 1px),
+        $split-width: 10px + ($ametys-ribbon-button-padding-small - 1px),
+        
+        $body-outline-color-focus: $ametys-ribbon-button-outline-color,
+        $inner-border-color-focus: $ametys-ribbon-button-outline-color,
+        
+        $font-size: $ametys-ribbon-button-font-size,
+        $font-size-over: $ametys-ribbon-button-font-size,
+        $font-size-focus: $ametys-ribbon-button-font-size,
+        $font-size-pressed: $ametys-ribbon-button-font-size,
+        
+        $line-height: $ametys-ribbon-button-line-height,
+        
+        $font-weight: $ametys-ribbon-button-font-weight,
+        $font-weight-over: $ametys-ribbon-button-font-weight,
+        $font-weight-focus: $ametys-ribbon-button-font-weight,
+        $font-weight-pressed: $ametys-ribbon-button-font-weight,
+        $font-weight-focus-over: $ametys-ribbon-button-font-weight,
+        $font-weight-focus-pressed: $ametys-ribbon-button-font-weight,
+        $font-weight-disabled: $ametys-ribbon-button-font-weight,
+                
+        $color: $ametys-ribbon-button-color,
+        $background-color: $ui-background-color,
+        
+        $color-over: $ametys-ribbon-button-color-over,
+        $background-color-over: $ametys-ribbon-button-background-color-over,
+        
+        $color-pressed: $ametys-ribbon-button-color-pressed,
+        $background-color-pressed: $ametys-ribbon-button-background-color-pressed,
+        
+        $color-focus: $ametys-ribbon-button-color-focus,
+        $background-color-focus: $ametys-ribbon-button-background-color-focus    
+    );  
+    .#{$prefix}btn-button-#{$ui}-small {
+        padding: ($ametys-ribbon-button-padding-small - 1px); 
     }
-}
-
-.#{$prefix}btn-icon-el-ribbon-component-large {
-    margin-top: ($ametys-ribbon-button-padding-large - 1px); 
-    margin-right: ($ametys-ribbon-button-padding-large - 1px);
-    margin-left: ($ametys-ribbon-button-padding-large - 1px); 
-}
-.#{$prefix}btn-inner-ribbon-component-large {
-    padding: $ametys-ribbon-button-texticonalignadjust-large ($ametys-ribbon-button-padding-large - 1px) 0 ($ametys-ribbon-button-padding-large - 1px); 
-    height: 2*$ametys-ribbon-button-line-height;
-}
-.#{$prefix}btn-inner-ribbon-component-large .arrow {
-    background-image: theme-background-image('button/ribbon-button-large-arrow');
-    width: 7px;
-    padding-right: 7px;
-    display: inline;
-}
-.#{$prefix}btn-inner-ribbon-component-large .arrow.arrow-with-text {
-    margin-left: $ametys-ribbon-button-font-size / 6;
-}
-.#{$prefix}btn-wrap-ribbon-component-large.#{$prefix}btn-arrow-bottom:after,
-.#{$prefix}btn-wrap-ribbon-component-large.#{$prefix}btn-split-bottom:after {
-    display: none;
-}
-
-
-
-/* over menu */
-.#{$prefix}btn-over.a-fluent-control-button-split {
-    /* button */
-    .#{$prefix}btn-button-ribbon-component-small,
-    .#{$prefix}btn-button-ribbon-component-large {
-        background-color: $ametys-ribbon-button-background-color-over;
+    .a-fluent-control-button-menu .#{$prefix}btn-button-#{$ui}-small {
+        padding-right: 0;
     }
-    .#{$prefix}btn-wrap-ribbon-component-small.#{$prefix}btn-split-right:after,
-    .#{$prefix}btn-inner-ribbon-component-large {
-        background-color: $ametys-ribbon-button-background-color;
+    .#{$prefix}btn-wrap-#{$ui}-small.#{$prefix}btn-arrow-right:after,
+    .#{$prefix}btn-wrap-#{$ui}-small.#{$prefix}btn-split-right:after {
+        background-position: ($ametys-ribbon-button-padding-small - 1px) center;
     }
-    &.#{$prefix}btn-pressed {
-        .#{$prefix}btn-wrap-ribbon-component-small.#{$prefix}btn-split-right:after,
-        .#{$prefix}btn-inner-ribbon-component-large {
-            background-color: $ametys-ribbon-button-background-color-pressed;
+    
+    .#{$prefix}btn-inner-#{$ui}-small {
+        margin-top: $ametys-ribbon-button-texticonalignadjust-small;
+    }
+    .#{$prefix}btn-icon-el-#{$ui}-small {
+        margin-bottom: $ametys-ribbon-button-texticonalignadjust-small;
+    }
+      
+    @include extjs-button-large-ui(
+        $ui: $ui,
+        
+        $border-width: 0,
+        
+        $padding: 1px,
+        $icon-spacing: $ametys-ribbon-button-iconspacing-large,
+        $text-padding: $ametys-ribbon-button-textpadding-large,
+        
+        $body-outline-color-focus: $ametys-ribbon-button-outline-color,
+        $inner-border-color-focus: $ametys-ribbon-button-outline-color,
+        
+        $font-size: $ametys-ribbon-button-font-size,
+        $font-size-over: $ametys-ribbon-button-font-size,
+        $font-size-focus: $ametys-ribbon-button-font-size,
+        $font-size-pressed: $ametys-ribbon-button-font-size,
+        
+        $line-height: $ametys-ribbon-button-line-height,
+        
+        $font-weight: $ametys-ribbon-button-font-weight,
+        $font-weight-over: $ametys-ribbon-button-font-weight,
+        $font-weight-focus: $ametys-ribbon-button-font-weight,
+        $font-weight-pressed: $ametys-ribbon-button-font-weight,
+        $font-weight-focus-over: $ametys-ribbon-button-font-weight,
+        $font-weight-focus-pressed: $ametys-ribbon-button-font-weight,
+        $font-weight-disabled: $ametys-ribbon-button-font-weight,
+                
+        $color: $ametys-ribbon-button-color,
+        $background-color: $ui-background-color,
+        
+        $color-over: $ametys-ribbon-button-color-over,
+        $background-color-over: $ametys-ribbon-button-background-color-over,
+        
+        $color-pressed: $ametys-ribbon-button-color-pressed,
+        $background-color-pressed: $ametys-ribbon-button-background-color-pressed,
+        
+        $color-focus: $ametys-ribbon-button-color-focus,
+        $background-color-focus: $ametys-ribbon-button-background-color-focus        
+    );   
+    .#{$prefix}btn-arrow-bottom,
+    .#{$prefix}btn-split-bottom {
+        > .#{$prefix}btn-button-#{$ui}-large {
+            padding-bottom: 0;
         }
     }
-    /* trigger */
-    &.a-fluent-control-button-split-overtrigger {
-        .#{$prefix}btn-button-ribbon-component-small,
-        .#{$prefix}btn-button-ribbon-component-large {
-            background-color: $ametys-ribbon-button-background-color;
-        }    
+    
+    .#{$prefix}btn-icon-el-#{$ui}-large {
+        margin-top: ($ametys-ribbon-button-padding-large - 1px); 
+        margin-right: ($ametys-ribbon-button-padding-large - 1px);
+        margin-left: ($ametys-ribbon-button-padding-large - 1px); 
+    }
+    .#{$prefix}btn-inner-#{$ui}-large {
+        padding: $ametys-ribbon-button-texticonalignadjust-large ($ametys-ribbon-button-padding-large - 1px) 0 ($ametys-ribbon-button-padding-large - 1px); 
+        height: 2*$ametys-ribbon-button-line-height;
+    }
+    .#{$prefix}btn-inner-#{$ui}-large .arrow {
+        background-image: theme-background-image('button/#{$ui}-large-arrow');
+        width: 7px;
+        padding-right: 7px;
+        display: inline;
+    }
+    .#{$prefix}btn-inner-#{$ui}-large .arrow.arrow-with-text {
+        margin-left: $ametys-ribbon-button-font-size / 6;
+    }
+    .#{$prefix}btn-wrap-#{$ui}-large.#{$prefix}btn-arrow-bottom:after,
+    .#{$prefix}btn-wrap-#{$ui}-large.#{$prefix}btn-split-bottom:after {
+        display: none;
+    }
+    
+    
+    
+    /* over menu */
+    .#{$prefix}btn-over.a-fluent-control-button-split {
+        /* button */
+        .#{$prefix}btn-button-#{$ui}-small,
+        .#{$prefix}btn-button-#{$ui}-large {
+            background-color: $ametys-ribbon-button-background-color-over;
+        }
+        .#{$prefix}btn-wrap-#{$ui}-small.#{$prefix}btn-split-right:after,
+        .#{$prefix}btn-inner-#{$ui}-large {
+            background-color: $ui-background-color;
+        }
         &.#{$prefix}btn-pressed {
-            .#{$prefix}btn-button-ribbon-component-small,
-            .#{$prefix}btn-button-ribbon-component-large {
+            .#{$prefix}btn-wrap-#{$ui}-small.#{$prefix}btn-split-right:after,
+            .#{$prefix}btn-inner-#{$ui}-large {
                 background-color: $ametys-ribbon-button-background-color-pressed;
             }
         }
-        .#{$prefix}btn-wrap-ribbon-component-small.#{$prefix}btn-split-right:after,
-        .#{$prefix}btn-inner-ribbon-component-large {
-            background-color: $ametys-ribbon-button-background-color-over;
+        /* trigger */
+        &.a-fluent-control-button-split-overtrigger {
+            .#{$prefix}btn-button-#{$ui}-small,
+            .#{$prefix}btn-button-#{$ui}-large {
+                background-color: $ui-background-color;
+            }    
+            &.#{$prefix}btn-pressed {
+                .#{$prefix}btn-button-#{$ui}-small,
+                .#{$prefix}btn-button-#{$ui}-large {
+                    background-color: $ametys-ribbon-button-background-color-pressed;
+                }
+            }
+            .#{$prefix}btn-wrap-#{$ui}-small.#{$prefix}btn-split-right:after,
+            .#{$prefix}btn-inner-#{$ui}-large {
+                background-color: $ametys-ribbon-button-background-color-over;
+            }
         }
     }
-}
+};
+    
+@include ametys-ribbon-button('ribbon-component', $ametys-ribbon-button-background-color);
+@include ametys-ribbon-button('ribbon-menu', $ametys-ribbon-menu-background-color);

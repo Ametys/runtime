@@ -72,6 +72,7 @@ function onreadyfunction() {
                         tabSplit,
                         tagSplitToggle,
                         tabComponents,
+                        tabGalleries,
                         tabContextual1,
                         tabContextual2,
                         tabContextual2bis,

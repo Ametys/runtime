@@ -13,7 +13,13 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-
-$ametys-ribbon-toolbar-separator-color: $ametys-ribbon-base-dark-color;
-$ametys-ribbon-toolbar-separator-size: $ametys-ribbon-group-font-size / 3;
+ 
+$ametys-ribbon-menu-color: $ametys-ribbon-main-color;
+$ametys-ribbon-menu-background-color: $ametys-ribbon-base-light-color;
+ 
+$ametys-ribbon-menupanel-header-background-color: $ametys-ribbon-tab-color;
+$ametys-ribbon-menupanel-header-color: $ametys-ribbon-main-color;
+$ametys-ribbon-menupanel-header-font-size: $ametys-ribbon-font-size;
+$ametys-ribbon-menupanel-header-font-weight: bold;
+$ametys-ribbon-menupanel-header-padding: 5px;
  

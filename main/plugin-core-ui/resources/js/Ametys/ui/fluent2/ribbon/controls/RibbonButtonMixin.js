@@ -102,6 +102,8 @@ Ext.define(
             {
                 config.cls = Ext.Array.from(config.cls);
                 config.cls.push(this.buttonWithMenuCls);
+                
+                config.menu.ui = "ribbon-menu";
             }
         },
          

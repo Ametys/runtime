@@ -18,8 +18,8 @@ $ametys-ribbon-label-color: $ametys-ribbon-main-color;
 $ametys-ribbon-label-font-size: dynamic($ametys-ribbon-font-size);
  
 $ametys-ribbon-field-color: $ametys-ribbon-main-color;
-$ametys-ribbon-field-background-color: lighten($ametys-ribbon-base-color, 50%);
-$ametys-ribbon-field-border-color: darken($ametys-ribbon-base-color, 12%);
+$ametys-ribbon-field-background-color: $ametys-ribbon-base-light-color;
+$ametys-ribbon-field-border-color: #FFF;
 $ametys-ribbon-field-outline-color: $ametys-ribbon-highlight-color;
 $ametys-ribbon-field-font-size: dynamic($ametys-ribbon-font-size);
 $ametys-ribbon-field-line-height: $ametys-ribbon-field-font-size/12*16; 

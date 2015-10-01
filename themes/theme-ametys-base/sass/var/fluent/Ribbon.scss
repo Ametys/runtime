@@ -39,7 +39,7 @@ $ametys-ribbon-header-textfield-placeholder-color: lighten($ametys-ribbon-header
 $ametys-ribbon-header-textfield-font-size: dynamic($ametys-ribbon-font-size * 0.9);
 $ametys-ribbon-header-textfield-width: dynamic(21*$ametys-ribbon-header-textfield-font-size);
 
-$ametys-ribbon-header-textfield-border-color: darken($ametys-ribbon-base-color, 12%);
+$ametys-ribbon-header-textfield-border-color: $ametys-ribbon-base-dark-color;
 $ametys-ribbon-header-textfield-outline-color: $ametys-ribbon-highlight-color;
 
 $ametys-ribbon-header-textfield-background-color: $ametys-ribbon-header-background-color;
