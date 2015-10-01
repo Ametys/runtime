@@ -119,7 +119,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      */
     
      /**
-      * @cfg {String} fieldNamePrefix='' The prefix to all submited fields (should end with '.' if non empty)
+      * @cfg {String} fieldNamePrefix='' The prefix to all submitted fields (should end with '.' if non empty)
       */
      
     /**
@@ -146,7 +146,12 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      */
     
     /**
-     * @property {Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO} _paramCheckersDAO The istance of the parameters checkers DAO of this form
+     * @property {String[]} _notInFirstEditionPanels the ids list of the root panels (tabs or panel) that have been at least edited once. We consider a tab edited once when the focus has switched from one field of one of the tabs fieldsets to a different fieldset, of this tab or of another tab.
+     * @private
+     */
+    
+    /**
+     * @property {Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO} _paramCheckersDAO The instance of the parameters checkers DAO of this form
      * @private
      */
     
@@ -171,9 +176,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     componentCls: 'ametys-form-panel',
     
     /**
-    * @property {Boolean} _formReady indicates if the form is ready.
-    * The form is ready when all fields are rendered and set value
-    * @private
+     * @private
+     * @property {Boolean} _formReady indicates if the form is ready. The form is ready when all fields are rendered and have a value set.
      */
     _formReady: false,
     
@@ -183,6 +187,12 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      */
     _focusFieldId: null,
     
+    /**
+     * @private
+     * @property {String} _lastSelectedFieldId The identifier of the lastly selected field, regardless if it is focused or not
+     */
+    _lastSelectedFieldId: null,
+
     /**
      * @private
      * @property {HTMLNode} _focusRichTextFieldNode When the #_focusFieldId is a rich text, this member is the htmlnode selected inside. null otherwise.
@@ -231,6 +241,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         this._fields = [];  
         this._repeaters = [];
         this._tabPanels = [];
+        this._notInFirstEditionPanels = [];
 
         this._paramCheckersDAO = Ext.create('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
             form: this
@@ -251,34 +262,70 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         this._fieldNamePrefix = config["fieldNamePrefix"] || '';
         
         this.showAmetysComments = config.showAmetysComments === true;
-        
-        this.on({
-            'inputfocus':  Ext.bind(this._onFieldSelected, this),
-            'inputblur': Ext.bind(this._onFieldSelected, this, []),
-            'htmlnodeselected': Ext.bind(this._onRichTextFieldHTMLNodeSelected, this)
-        });
     },
     
     /**
      * @private
-     * When a field is selected (or no field selected if empty)
-     * @param {Ext.form.Field} field The field that has been focused or blured
+     * When a field is selected
+     * @param {Ext.form.Field} field The field that has been selected (focused) or null if the last selected field blurred
      */
-    _onFieldSelected: function(field)
+    _onFieldSelectedOrBlurred: function(field)
     {
-        this._onRichTextFieldHTMLNodeSelected(field, null);
+        this._focusFieldId = field != null ? field.getId() : null;
+        this._focusRichTextFieldNode = null;
+        
+    	if (field)
+		{
+    		this._handlePanelsEdition(field);
+    		this._lastSelectedFieldId = field.getId();
+		}        
     },
     
     /**
      * @private
-     * When a richtext field is selected and a different html node is selected in it
+     * When a richtext field is selected (a different html node is selected in it), focused or blured
      * @param {Ext.form.Field} field The field that contains the HTML node
-     * @param {HTMLElement} node The selected HTML node.
+     * @param {HTMLElement} node The selected HTML node or null on focus/blur
      */
     _onRichTextFieldHTMLNodeSelected: function(field, node)
     {
-        this._focusFieldId = field != null ? field.getId() : null;
+    	this._onFieldSelectedOrBlurred(field);
         this._focusRichTextFieldNode = node;
+    },
+    
+    /**
+     * @private
+     * Compare the selected field to the previously selected field in order to determine whether the previous tab (thumbnails mode) or previous
+     * panel (linearized mode) is in first edition or not, and validate the fields/update the tabs status accordingly
+     * @param {Ext.form.Field} field the newly focused field
+     */
+    _handlePanelsEdition: function(field)
+    {
+    	if (field.getId() != this._lastSelectedFieldId)
+		{
+    		// The focus has switched
+    		var previouslyFocusedField = this.getField(this._lastSelectedFieldId);
+    		var previousPanel = previouslyFocusedField.up('panel[cls~=ametys-form-tab-item], panel[cls~=ametys-form-tab-inline-item]');
+			var currentPanel = field.up('panel[cls~=ametys-form-tab-item], panel[cls~=ametys-form-tab-inline-item]');
+            
+			// The previous panel and/or the current panel can be null if it is outside of the thumbnails
+			if (!previousPanel && currentPanel)
+			{
+				// The previous panel is outside of the thumbnails 
+				this._validateTabOrPanelFields(null);
+			}
+			else if (previousPanel && (!currentPanel || (previousPanel.id != currentPanel.id)))
+			{
+				// The focus has switched from one panel or from outside of the thumbnails to another panel 
+				// => the previously selected panel is not in first edition mode anymore
+				if (!Ext.Array.contains(this._notInFirstEditionPanels, previousPanel.id))
+				{
+					this._notInFirstEditionPanels.push(previousPanel.id);
+				}
+				
+				this._validateTabOrPanelFields(previousPanel);
+			}
+		}
     },
     
     /**
@@ -506,8 +553,11 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                                 me._expandOrCollapseAllInlineTab(tabPanel, btn, false)
                             }
                         }
-                    ]
-                }]
+                    ],
+                }],
+                listeners: {
+                	'afterrender': {fn: this._setFocusIfReady, scope: this}
+                }
             });
         }
         else
@@ -525,7 +575,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                             tabpanel.setActiveTab(panel);
                         }
                     },
-                    beforetabchange: {fn: this._onTabChange, scope: this}
+                    'afterrender': {fn: this._setFocusIfReady, scope: this},
+                    'tabchange': {fn: this._onTabChange, scope: this}
                 }
             });
         }
@@ -538,33 +589,36 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     
     /**
      * @private
-     * Validate tab on leaving.
-     * @param {Ext.tab.Panel} tabPanel The tab panel.
-     * @param {Ext.panel.Panel} newCard The panel just switched to.
-     * @param {Ext.panel.Panel} oldCard The panel just left.
+     * Focus the first field when the form is ready and rendered
+     */
+    _setFocusIfReady: function()
+    {
+    	if (this.rendered && this._formReady)
+		{
+	    	this.getField(this._fields[0]).focus();
+	    	this.on({
+	    		'inputfocus':  Ext.bind(this._onFieldSelectedOrBlurred, this),
+	    		'inputblur': Ext.bind(this._onFieldSelectedOrBlurred, this, []),
+	    		'htmlnodeselected': Ext.bind(this._onRichTextFieldHTMLNodeSelected, this)
+	    	});
+		}
+    },
+    
+    /**
+     * @private
+     * Function invoked when a new tab is selected
+     * @param {Ext.tab.Panel} the tab panel
+     * @param {Ext.Component} the newly activated item
+     * @param {Ext.Component} the previously active item
      */
     _onTabChange: function(tabPanel, newCard, oldCard)
     {
-        if (oldCard != null)
-        {
-            var fields = this._getFields(oldCard);
-            
-            for (var i = 0; i < fields.length; i++)
-            {
-                // Trigger internal validation without firing validity change.
-                fields[i].isValid();
-            }
-            
-            
-            var repeaters = this.getRepeaters(oldCard);
-            for (var i = 0; i < repeaters.length; i++)
-            {
-                // Trigger internal validation without firing validity change.
-                repeaters[i].isValid();
-            }
-            
-            this._updateTabStatus(oldCard);
-        }
+    	if (oldCard != null)
+		{
+	    	// Focus the first field of the newly selected tab
+	    	var fields = this._getFields(newCard);
+	    	fields[0].focus();
+		}
     },
     
     /**
@@ -639,13 +693,48 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     
     /**
      * @private
-     * Get the list of fields in a container (any level).
-     * @param {Ext.container.Container} container The container.
+     * Validate tab when changing the focus to a different fieldset
+     * @param {Ext.panel.Panel} previousPanel The panel just left, can be null if the panel if outside of the thumbnails
+     */
+    _validateTabOrPanelFields: function(previousPanel)
+    {
+        var fields = this._getFields(previousPanel);
+        Ext.Array.each(fields, function(field)
+        {
+        	if (previousPanel != null ||  field.up('panel[cls~=ametys-form-tab-item], panel[cls~=ametys-form-tab-inline-item]') == null)
+    		{
+        		// Trigger internal validation without firing validity change.
+        		field.isValid();
+    		}
+        });
+        
+        var repeaters = this.getRepeaters(previousPanel);
+        Ext.Array.each(repeaters, function(repeater)
+        {
+        	if (previousPanel != null ||  repeater.up('panel[cls~=ametys-form-tab-item], panel[cls~=ametys-form-tab-inline-item]') == null)
+    		{
+        		// Trigger internal validation without firing validity change.
+        		repeater.isValid();
+    		}
+        });
+        
+        if (previousPanel != null)
+        {
+        	// No tab status when outside of the thumbnails
+        	this._updateTabStatus(previousPanel);
+    	}
+    },
+    
+    /**
+     * @private
+     * Get the list of fields in a container (any level) or all the fields
+     * @param {Ext.container.Container} container The container, can be null
      * @return {Ext.Component[]} An array of components which have the field mixin.
      */
     _getFields: function(container)
     {
-        var fields = [];
+    	var fields = [];
+    	container = container || this;
         
         // Function walking the component tree and adding fields to the array.
         var fieldWalker = function(component)
@@ -686,7 +775,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     },
     
     /**
-     * Get the list of repeaters in a container (any level).
+     * Get the list of repeaters in a container (any level) or all repeaters.
      * @param {Ext.container.Container} [container] The container of repeaters. The form if not specified
      * @return {Ext.Component[]} An array of components which have the field mixin.
      */
@@ -727,9 +816,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     /**
      * @private
      * Update the status of all tabs
-     * @param {Boolean} [startup=false] `true` when laying out the form for the first time: the panel header class will be `startup` instead of `not-startup`.
      */
-    _updateTabsStatus: function(startup)
+    _updateTabsStatus: function()
     {
         if (this._tabPanels.length > 0)
         {
@@ -739,7 +827,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             for (var i=0; i < this._tabPanels.length; i++)
             {
                 this._tabPanels[i].items.each (function (item) {
-                    me._updateTabStatus (item, startup);
+                    me._updateTabStatus (item);
                 })
             }
             
@@ -751,9 +839,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      * @private
      * Update the tab status.
      * @param {Ext.panel.Panel} panel The panel (tab card or fieldset panel).
-     * @param {Boolean} [startup=false] `true` when laying out the form for the first time: the panel header class will be `startup` instead of `not-startup`.
      */
-    _updateTabStatus: function(panel, startup)
+    _updateTabStatus: function(panel)
     {
         // The header is the tab when in tab mode or the header in linear mode. 
         var header = panel.tab ? panel.tab : panel.getHeader();
@@ -824,9 +911,11 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             // var isActive = panel.tab ? panel.ownerCt.getActiveItem() == panel : true;
             // header[isActive ? 'addCls' : 'removeCls']('active');
             
-            // When not in startup mode, remove the startup class.
-            header[startup ? 'addCls' : 'removeCls']('startup');
-            header[startup ? 'removeCls' : 'addCls']('not-startup');
+            var firstEdition = !Ext.Array.contains(this._notInFirstEditionPanels, panel.id);
+            
+            // When not in first edition mode, remove the startup class.
+            header[firstEdition ? 'addCls' : 'removeCls']('startup');
+            header[firstEdition ? 'removeCls' : 'addCls']('not-startup');
             
             var errors = Ext.Array.union(errorFields, testsErrorMessages);
             var warnings = Ext.Array.union(warnFields, testsWarnMessages);
@@ -1003,7 +1092,9 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         {
              // Find the tab card (panel) to which belongs the field.
             var card = field.up('panel[cls~=ametys-form-tab-item], panel[cls~=ametys-form-tab-inline-item]');
-            if (card == null)
+
+            // Do not update the card status if the tab is still in first edition mode
+            if (card == null || !Ext.Array.contains(this._notInFirstEditionPanels, card.id))
             {
                 return;
             }
@@ -1231,6 +1322,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     _addInputField: function (ct, config, startVisible)
     {
         var field = this._createInputField(config);
+
         if (startVisible == 'false')
         {
            field.hide();
@@ -2298,8 +2390,9 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         
         this._formReady = true;
         this.fireEvent('formready', this);
+        this._updateTabsStatus();
         
-        this._updateTabsStatus(true);
+        this._setFocusIfReady();
     },
     
     /**
@@ -2627,7 +2720,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             }
         }
         
-        this._updateTabsStatus(false);
+        this._updateTabsStatus();
         return invalidFields;
     },
     
@@ -2647,7 +2740,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
             }
         }
         
-        this._updateTabsStatus(false);
+        this._updateTabsStatus();
         return warnedFields;
     },
     
@@ -2992,17 +3085,17 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     /**
      * Replace a panel with a new one.
      * This is used when the display tab policy has changed.
-     * @param {Ext.panel.Panel/Ext.tab.Panel} panel the tab container to replace
+     * @param {Ext.panel.Panel/Ext.tab.Panel} oldPanel the tab container to replace
      * @return {Ext.panel.Panel/Ext.tab.Panel} the new tab container
      * @private
      */
-    _replacePanel: function(panel)
+    _replacePanel: function(oldPanel)
     {
-        // New panel creation
-        var newPanel = this._addTab();
-        
+    	// New panel creation
+    	var newPanel = this._addTab();
+
         // Replace and add items to the new panel
-        var items = panel.items.getRange();
+        var items = oldPanel.items.getRange();
         
         var newItem;
         Ext.Array.forEach(items, function(item) {
@@ -3013,7 +3106,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         }, this);
         
         // Add new panel / Remove the old one.
-        this._getFormContainer().remove(panel);
+        this._getFormContainer().remove(oldPanel);
         
         return newPanel;
     },
@@ -3030,6 +3123,13 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     {
         // New panel creation
         var newItem = this._addTabItem(ct, tabItem.title, headerCls);
+        
+    	// Stay coherent between the two display modes
+    	if (Ext.Array.contains(this._notInFirstEditionPanels, tabItem.id))
+    	{
+    		Ext.Array.remove(this._notInFirstEditionPanels, tabItem.id);
+    		this._notInFirstEditionPanels.push(newItem.id);
+		}
         
         // Add each child of the item to the new item.
         var children = tabItem.items.getRange();
