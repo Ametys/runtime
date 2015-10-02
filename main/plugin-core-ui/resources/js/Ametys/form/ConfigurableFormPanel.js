@@ -276,8 +276,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         
     	if (field)
 		{
-    		this._handlePanelsEdition(field);
     		this._lastSelectedFieldId = field.getId();
+    		this._handlePanelsEdition(field);
 		}        
     },
     
