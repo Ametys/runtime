@@ -377,7 +377,15 @@ Ext.define(
         _panelAddedAfterRender: function(panel, index)
         {
             var tabElBtn = this.getTabBar().items.get(index);
-
+            
+            // FIXME RUNTIME-1379 temporary fix
+            if (!tabElBtn.rendered)
+            {
+                tabElBtn.on("render", Ext.bind(this._panelAddedAfterRender, this, [panel, index], false))
+                
+                return;
+            }
+            
             // Add some wrapping div
             tabElBtn.getEl().first().wrap({}).wrap({});
 
