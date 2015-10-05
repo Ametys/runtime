@@ -23,14 +23,14 @@ Ext.define('Ametys.form.field.ColorSelector', {
 	layout: 'vbox',
 	
 	/**
-	 * ·@cfg {Object/Object[]} listColors An array of color objects, with properties :
+	 * @cfg {Object/Object[]} listColors An array of color objects, with properties :
 	 * {String} listColors.label The name of the picker
 	 * {String[]} [listColors.colors] The list of colors code, such as "FF0000".
 	 * If listColors is undefined, it will assume the default color configuration.
 	 */
 	
 	/**
-	 * @cfg {boolean} allowTransparent True to allow selection of a fully transparent color
+	 * @cfg {Boolean} allowTransparent True to allow selection of a fully transparent color
 	 */
 	
 	/**
@@ -54,6 +54,7 @@ Ext.define('Ametys.form.field.ColorSelector', {
 		}
 		else
 		{
+			// Default colors
 			this._initColorPicker({
 				label: "<i18n:text i18n:key='PLUGINS_CORE_UI_COLORSELECTOR_DEFAULT_COLORS'/>"
 			});
@@ -61,9 +62,10 @@ Ext.define('Ametys.form.field.ColorSelector', {
 		
 		if (this.allowTransparent)
 		{
+			// Button for choosing transparent color
 			this.items.push({
 				xtype: 'button',
-				itemId: 'buttonTransparent',
+				itemId: 'transparent-btn',
 				icon: Ametys.getPluginResourcesPrefix('skinfactory') + '/img/transparent_22.png',
 				text: "<i18n:text i18n:key='PLUGINS_CORE_UI_COLORSELECTOR_NO_COLOR'/>",
 				width: 145,
@@ -72,17 +74,19 @@ Ext.define('Ametys.form.field.ColorSelector', {
 			});
 		}
 		
+		// Custom colors
 		this.items.push({
 			xtype: "panel",
-			itemId: "customColorsPanel",
+			itemId: "custom-color-panel",
 			title: "<i18n:text i18n:key='PLUGINS_CORE_UI_COLORSELECTOR_CUSTOM_COLORS'/>",
 			hidden: true,
 			items: []
 		});
 		
+		// Other colors
 		this.items.push({
 			xtype: 'button',
-			itemId: 'buttonOthers',
+			itemId: 'other-colors-btn',
 			text: "<i18n:text i18n:key='PLUGINS_CORE_UI_COLORSELECTOR_OTHERS_COLORS'/>",
 			width: 145,
 			handler: this._openOtherColors,
@@ -164,7 +168,7 @@ Ext.define('Ametys.form.field.ColorSelector', {
 			if (Ext.Array.contains(picker.colors, color))
 			{
 				// select the color
-				if (picker.itemId != "customColors")
+				if (picker.itemId != "custom-colors")
 				{
 					picker.select(color);
 					valueExists = true;
@@ -182,25 +186,25 @@ Ext.define('Ametys.form.field.ColorSelector', {
 		});
 		
 		// update the transparency button
-		var buttonTransparent = this.down("#buttonTransparent");
-		buttonTransparent.toggle(color == "transparent", true);
+		var transparentBtn = this.down("#transparent-btn");
+		transparentBtn.toggle(color == "transparent", true);
 		if (color == "transparent")
 		{
 			valueExists = true;
-			buttonTransparent.setIcon(Ametys.getPluginResourcesPrefix('skinfactory') + '/img/transparent_selected_22.png');
+			transparentBtn.setIcon(Ametys.getPluginResourcesPrefix('skinfactory') + '/img/transparent_selected_22.png');
 		}
 		else
 		{
-			buttonTransparent.setIcon(Ametys.getPluginResourcesPrefix('skinfactory') + '/img/transparent_22.png');
+			transparentBtn.setIcon(Ametys.getPluginResourcesPrefix('skinfactory') + '/img/transparent_22.png');
 		}
 		
 		if (!valueExists)
 		{
 			// update the custom colors
-			var pickerPanel = this.getComponent("customColorsPanel");
+			var pickerPanel = this.getComponent("custom-color-panel");
 			pickerPanel.setHidden(false);
 			
-			var picker = pickerPanel.getComponent("customColors");
+			var picker = pickerPanel.getComponent("custom-colors");
 			var colors;
 			if (picker)
 			{
@@ -221,7 +225,7 @@ Ext.define('Ametys.form.field.ColorSelector', {
 			picker = Ext.create('Ext.picker.Color', {
 				colors: colors,
 				height: "auto",
-				itemId: "customColors",
+				itemId: "custom-colors",
 				value: color,
 				handler: this._onColorPickerSelect,
 				scope: this
