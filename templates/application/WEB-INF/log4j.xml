@@ -19,16 +19,15 @@
 
     <appender name="lf5-servlet" class="org.apache.log4j.lf5.LF5Appender"/>
     
-    <appender name="servlet" class="biz.minaret.log4j.DatedFileAppender">
-        <param name="Directory" value="${context-root}/WEB-INF/logs"/>
-        <param name="Prefix" value="servlet-engine-"/>
-        <param name="Suffix" value=".log"/>
-        <param name="Append" value="true"/>
-		<layout class="org.apache.log4j.PatternLayout"> 
+    <appender name="servlet" class="org.apache.log4j.rolling.RollingFileAppender">
+	    <rollingPolicy class="org.apache.log4j.rolling.TimeBasedRollingPolicy">
+	      <param name="FileNamePattern" value="${context-root}/WEB-INF/logs/servlet-engine-%d.log"/>
+	    </rollingPolicy>
+        <layout class="org.apache.log4j.PatternLayout"> 
             <param name="ConversionPattern" value="%d %-5p [%c] (%t;%X{requestURI}) %m%n"/> 
-		</layout>
+        </layout>
         <filter class="org.ametys.core.util.AmetysExceptionFilter"/>
-	</appender>
+    </appender>
 	
     <!-- iBatis logs as debug -->
     <!-- 

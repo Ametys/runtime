@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
-   Copyright 2010 Anyware Services
+   Copyright 2015 Anyware Services
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -22,27 +22,27 @@
 elements,appender elements, categories and an optional root
 element. -->
 
-<!ELEMENT log4j:configuration (renderer*, appender*,(category|logger)*,root?,
-                               categoryFactory?)>
+<!ELEMENT log4j:configuration (renderer*, appender*,plugin*, (category|logger)*,root?,
+                               (categoryFactory|loggerFactory)?)>
 
-<!-- The "threshold" attribute takes a level value such that all -->
-<!-- logging statements with a level equal or below this value are -->
-<!-- disabled. -->
+<!-- The "threshold" attribute takes a level value below which -->
+<!-- all logging statements are disabled. -->
 
 <!-- Setting the "debug" enable the printing of internal log4j logging   -->
 <!-- statements.                                                         -->
 
 <!-- By default, debug attribute is "null", meaning that we not do touch -->
 <!-- internal log4j logging settings. The "null" value for the threshold -->
-<!-- attribute can be misleading. The threshold field of a repository	 -->
+<!-- attribute can be misleading. The threshold field of a repository    -->
 <!-- cannot be set to null. The "null" value for the threshold attribute -->
 <!-- simply means don't touch the threshold field, the threshold field   --> 
 <!-- keeps its old value.                                                -->
      
 <!ATTLIST log4j:configuration
   xmlns:log4j              CDATA #FIXED "http://jakarta.apache.org/log4j/" 
-  threshold                (all|debug|info|warn|error|fatal|off|null) "null"
+  threshold                (all|trace|debug|info|warn|error|fatal|off|null) "null"
   debug                    (true|false|null)  "null"
+  reset                    (true|false) "false"
 >
 
 <!-- renderer elements allow the user to customize the conversion of  -->
@@ -57,20 +57,22 @@ element. -->
 <!-- Appenders must have a name and a class. -->
 <!-- Appenders may contain an error handler, a layout, optional parameters -->
 <!-- and filters. They may also reference (or include) other appenders. -->
-<!ELEMENT appender (errorHandler?, param*, layout?, filter*, appender-ref*)>
+<!ELEMENT appender (errorHandler?, param*,
+      rollingPolicy?, triggeringPolicy?, connectionSource?,
+      layout?, filter*, appender-ref*)>
 <!ATTLIST appender
-  name 		ID 	#REQUIRED
-  class 	CDATA	#REQUIRED
+  name      CDATA   #REQUIRED
+  class     CDATA   #REQUIRED
 >
 
 <!ELEMENT layout (param*)>
 <!ATTLIST layout
-  class		CDATA	#REQUIRED
+  class     CDATA   #REQUIRED
 >
 
 <!ELEMENT filter (param*)>
 <!ATTLIST filter
-  class		CDATA	#REQUIRED
+  class     CDATA   #REQUIRED
 >
 
 <!-- ErrorHandlers can be of any class. They can admit any number of -->
@@ -85,28 +87,28 @@ element. -->
 
 <!ELEMENT logger-ref EMPTY>
 <!ATTLIST logger-ref
-  ref IDREF #REQUIRED
+  ref CDATA #REQUIRED
 >
 
 <!ELEMENT param EMPTY>
 <!ATTLIST param
-  name		CDATA   #REQUIRED
-  value		CDATA	#REQUIRED
+  name      CDATA   #REQUIRED
+  value     CDATA   #REQUIRED
 >
 
 
 <!-- The priority class is org.apache.log4j.Level by default -->
 <!ELEMENT priority (param*)>
 <!ATTLIST priority
-  class   CDATA	#IMPLIED
-  value	  CDATA #REQUIRED
+  class   CDATA #IMPLIED
+  value   CDATA #REQUIRED
 >
 
 <!-- The level class is org.apache.log4j.Level by default -->
 <!ELEMENT level (param*)>
 <!ATTLIST level
-  class   CDATA	#IMPLIED
-  value	  CDATA #REQUIRED
+  class   CDATA #IMPLIED
+  value   CDATA #REQUIRED
 >
 
 
@@ -115,16 +117,16 @@ element. -->
 <!ELEMENT category (param*,(priority|level)?,appender-ref*)>
 <!ATTLIST category
   class         CDATA   #IMPLIED
-  name		CDATA	#REQUIRED
-  additivity	(true|false) "true"  
+  name      CDATA   #REQUIRED
+  additivity    (true|false) "true"  
 >
 
 <!-- If no level element is specified, then the configurator MUST not -->
 <!-- touch the level of the named logger. -->
 <!ELEMENT logger (level?,appender-ref*)>
 <!ATTLIST logger
-  name		ID	#REQUIRED
-  additivity	(true|false) "true"  
+  name      CDATA   #REQUIRED
+  additivity    (true|false) "true"  
 >
 
 
@@ -132,10 +134,44 @@ element. -->
 <!ATTLIST categoryFactory 
    class        CDATA #REQUIRED>
 
+<!ELEMENT loggerFactory (param*)>
+<!ATTLIST loggerFactory
+   class        CDATA #REQUIRED>
+
 <!ELEMENT appender-ref EMPTY>
 <!ATTLIST appender-ref
-  ref IDREF #REQUIRED
+  ref CDATA #REQUIRED
 >
+
+<!-- plugins must have a name and class and can have optional parameters -->
+<!ELEMENT plugin (param*, connectionSource?)>
+<!ATTLIST plugin
+  name      CDATA      #REQUIRED
+  class     CDATA  #REQUIRED
+>
+
+<!ELEMENT connectionSource (dataSource?, param*)>
+<!ATTLIST connectionSource
+  class        CDATA  #REQUIRED
+>
+
+<!ELEMENT dataSource (param*)>
+<!ATTLIST dataSource
+  class        CDATA  #REQUIRED
+>
+
+<!ELEMENT triggeringPolicy ((param|filter)*)>
+<!ATTLIST triggeringPolicy
+  name      CDATA  #IMPLIED
+  class     CDATA  #REQUIRED
+>
+
+<!ELEMENT rollingPolicy (param*)>
+<!ATTLIST rollingPolicy
+  name      CDATA  #IMPLIED
+  class     CDATA  #REQUIRED
+>
+
 
 <!-- If no priority element is specified, then the configurator MUST not -->
 <!-- touch the priority of root. -->
@@ -156,7 +192,7 @@ element. -->
 
 
 <!ELEMENT log4j:event (log4j:message, log4j:NDC?, log4j:throwable?, 
-                       log4j:locationInfo?) >
+                       log4j:locationInfo?, log4j:properties?) >
 
 <!-- The timestamp format is application dependent. -->
 <!ATTLIST log4j:event
@@ -164,6 +200,7 @@ element. -->
     level      CDATA #REQUIRED
     thread     CDATA #REQUIRED
     timestamp  CDATA #REQUIRED
+    time       CDATA #IMPLIED
 >
 
 <!ELEMENT log4j:message (#PCDATA)>
@@ -173,8 +210,16 @@ element. -->
 
 <!ELEMENT log4j:locationInfo EMPTY>
 <!ATTLIST log4j:locationInfo
-  class  CDATA	#REQUIRED
-  method CDATA	#REQUIRED
-  file   CDATA	#REQUIRED
-  line   CDATA	#REQUIRED
+  class  CDATA  #REQUIRED
+  method CDATA  #REQUIRED
+  file   CDATA  #REQUIRED
+  line   CDATA  #REQUIRED
+>
+
+<!ELEMENT log4j:properties (log4j:data*)>
+
+<!ELEMENT log4j:data EMPTY>
+<!ATTLIST log4j:data
+  name   CDATA  #REQUIRED
+  value  CDATA  #REQUIRED
 >
