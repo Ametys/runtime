@@ -25,6 +25,11 @@ Ext.define(
         alias: 'widget.ametys.ribbon-contextualtabgroup',
 
         /**
+         * @cfg ui=ribbon-header-contextualgroup @inheritdoc
+         */
+        ui: 'ribbon-header-contextualgroup',
+        
+        /**
          * @property {Ametys.ui.fluent.ribbon.Panel[]} _tabs The contextual panel associated to this group
          */
         

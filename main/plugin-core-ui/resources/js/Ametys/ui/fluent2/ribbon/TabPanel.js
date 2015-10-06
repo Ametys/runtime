@@ -263,7 +263,7 @@ Ext.define(
             
             if (height != oldHeight)
             {
-                this.floatParent.setHeight(this.floatParent.getHeader().getHeight() + (this.floatParent._ribbonCollapsed ? this.getHeader().getHeight() : height));
+                this.floatParent._setRibbonHeight();
             }
             
             if (width != oldWidth)

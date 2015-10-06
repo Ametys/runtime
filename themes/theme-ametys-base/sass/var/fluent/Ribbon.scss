@@ -16,10 +16,11 @@
 
 $ametys-ribbon-header-background-color: $ametys-ribbon-base-color;
 $ametys-ribbon-header-font-size: dynamic($ametys-ribbon-font-size);
-$ametys-ribbon-header-height: $ametys-ribbon-header-font-size*1.84;
+$ametys-ribbon-header-height: $ametys-ribbon-header-font-size*2.34;
 $ametys-ribbon-header-color: $ametys-ribbon-main-color;
 $ametys-ribbon-header-highlight-color: $ametys-ribbon-highlight-color;
 $ametys-ribbon-header-font-weight: normal;
+$ametys-ribbon-header-border-height: $ametys-ribbon-header-font-size/4;
 
 $ametys-ribbon-header-button-color: $ametys-ribbon-main-color;
 $ametys-ribbon-header-button-color-over: darken($ametys-ribbon-header-button-color, 60%);
@@ -32,6 +33,8 @@ $ametys-ribbon-header-button-background-color: transparent;
 $ametys-ribbon-header-button-background-color-over: $ametys-ribbon-header-button-outline-color;
 $ametys-ribbon-header-button-background-color-pressed: darken($ametys-ribbon-header-button-outline-color, 25%);
 $ametys-ribbon-header-button-background-color-focus: transparent;
+$ametys-ribbon-header-button-height: $ametys-ribbon-header-height;
+$ametys-ribbon-header-button-padding: $ametys-ribbon-header-font-size/4 $ametys-ribbon-header-font-size/2;
 
 $ametys-ribbon-header-textfield-color: $ametys-ribbon-main-color;
 $ametys-ribbon-header-textfield-placeholder-color: lighten($ametys-ribbon-header-textfield-color, 20%);
@@ -43,3 +46,18 @@ $ametys-ribbon-header-textfield-border-color: $ametys-ribbon-base-dark-color;
 $ametys-ribbon-header-textfield-outline-color: $ametys-ribbon-highlight-color;
 
 $ametys-ribbon-header-textfield-background-color: $ametys-ribbon-header-background-color;
+
+$ametys-ribbon-infomessage-color: $ametys-color-hint;
+$ametys-ribbon-infomessage-background-color: $ametys-background-color-hint;
+$ametys-ribbon-infomessage-border-color: darken($ametys-ribbon-tab-color, 6%);
+$ametys-ribbon-infomessage-font-size: $font-size;
+$ametys-ribbon-infomessage-font-weight: normal;
+$ametys-ribbon-infomessage-title-font-size: $font-size;
+$ametys-ribbon-infomessage-title-font-weight: normal;
+$ametys-ribbon-infomessage-title-text-transform: uppercase;
+
+$ametys-ribbon-contextualgroup-font-size: $ametys-ribbon-header-font-size;
+$ametys-ribbon-contextualgroup-font-weight: $ametys-ribbon-header-font-weight;
+$ametys-ribbon-contextualgroup-text-transform: none;
+$ametys-ribbon-contextualgroup-colors-text-darken: 10%;
+$ametys-ribbon-contextualgroup-colors-background-lighten: 45%; 

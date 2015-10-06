@@ -14,16 +14,8 @@
  *  limitations under the License.
  */
 
-@import 'fluent/Ribbon';
-@import 'fluent/TabPanel';
-@import 'fluent/Panel';
-@import 'fluent/Toast';
-@import 'fluent/Button';
-@import 'fluent/Toolbar';
-@import 'fluent/Field';
-@import 'fluent/MenuPanel';
-
-@import 'misc/Badge';
-
-@import 'tool/Layout';
-@import 'tool/Misc';
+$ametys-tool-outofdate-color: $ametys-color-hint;
+$ametys-tool-outofdate-border-color: darken($ametys-ribbon-tab-color, 6%);
+$ametys-tool-outofdate-background-color: $ametys-background-color-hint;
+$ametys-tool-outofdate-font-size: $font-size;
+$ametys-tool-outofdate-font-weight: normal;

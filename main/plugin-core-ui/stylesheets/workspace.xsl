@@ -404,7 +404,7 @@
                                                 region: 'north',
                                                 border: false,
                                                 dockedItems: [ {
-                                                    cls: 'safemode',
+                                                    cls: 'a-safemode',
                                                     xtype: 'component',
                                                     html: "<i18n:text i18n:key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_{safe-mode}" i18n:catalogue="plugin.core-ui"/>",
                                                     dock: 'bottom',

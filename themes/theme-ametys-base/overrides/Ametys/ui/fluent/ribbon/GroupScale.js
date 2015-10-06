@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
  
-Ext.define('Ametys.theme.ametyscms.ui.fluent.ribbon.GroupScale', {
+Ext.define('Ametys.theme.ametysbase.ui.fluent.ribbon.GroupScale', {
     override: 'Ametys.ui.fluent.ribbon.GroupScale',
     
     headerPosition: 'bottom',

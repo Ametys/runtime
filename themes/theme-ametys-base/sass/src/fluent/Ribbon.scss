@@ -24,9 +24,9 @@
     $ui-header-color: $ametys-ribbon-header-color,
     $ui-header-font-size: $ametys-ribbon-header-font-size,
     $ui-header-font-weight: $ametys-ribbon-header-font-weight,
-    $ui-header-line-height: $ametys-ribbon-header-height,
-    $ui-header-padding: 0 right($panel-header-padding) round($ametys-ribbon-header-height/7.333) left($panel-header-padding),
-    $ui-header-border-width: 0,
+    $ui-header-line-height: $ametys-ribbon-header-height - 2*$ametys-ribbon-header-border-height,
+    $ui-header-padding: 0 right($panel-header-padding) 0 left($panel-header-padding),
+    $ui-header-border-width: 0
 );
 .a-fluent-header-title-extension
 {
@@ -61,7 +61,8 @@
     $font-size-focus: $ametys-ribbon-header-button-font-size,
     $font-size-pressed: $ametys-ribbon-header-button-font-size,
     
-    $line-height: $ametys-ribbon-header-button-font-size*1.1,
+    $line-height: $ametys-ribbon-header-button-height - top($ametys-ribbon-header-button-padding) - bottom($ametys-ribbon-header-button-padding),
+    $padding: $ametys-ribbon-header-button-padding,
     
     $font-weight: $ametys-ribbon-header-button-font-weight,
     $font-weight-over: $ametys-ribbon-header-button-font-weight,
@@ -90,7 +91,7 @@
 @include extjs-text-field-ui(
     $ui: 'ribbon-header-text',
     
-    $ui-height: $ametys-ribbon-header-height,
+    $ui-height: $ametys-ribbon-header-height - 2*$ametys-ribbon-header-border-height,
     $ui-font-size: $ametys-ribbon-header-textfield-font-size,
     $ui-body-width: $ametys-ribbon-header-textfield-width,
     $ui-color: $ametys-ribbon-header-textfield-color,
@@ -118,3 +119,64 @@
 .#{$prefix}panel-header-ribbon .#{$prefix}tool-focus {
     outline-color: $ametys-ribbon-header-button-outline-color;
 }
+
+/**
+ * Info message
+ */
+.#{$prefix}container-ribbon-infomessage {
+    color: $ametys-ribbon-infomessage-color;
+    background-color: $ametys-ribbon-infomessage-background-color;
+    font-size: $ametys-ribbon-infomessage-font-size;
+    line-height: $ametys-ribbon-infomessage-font-size * 2;
+    font-weight: $ametys-ribbon-infomessage-font-weight;
+    
+    border-bottom: 1px solid $ametys-ribbon-infomessage-border-color !important; 
+    padding: 0 right($panel-header-padding) 0 left($panel-header-padding);
+    
+    .#{$prefix}tool-img {
+        background-image: theme-background-image($ametys-ribbon-tool-background-image);
+    }
+    
+    @mixin message-type($type, $image) {
+        &.a-message-type-#{$type} {
+            padding-left: left($panel-header-padding) * 2 + $ametys-ribbon-infomessage-image-small-size;
+            background-repeat: no-repeat;
+            background-position: $ametys-ribbon-infomessage-font-size center;
+            background-image: theme-background-image($image);
+        }
+    }
+    @include message-type('info', $ametys-ribbon-infomessage-image-small-info) {};
+    @include message-type('question', $ametys-ribbon-infomessage-image-small-question) {};
+    @include message-type('warning', $ametys-ribbon-infomessage-image-small-warning) {};
+    @include message-type('error', $ametys-ribbon-infomessage-image-small-error) {};
+};
+.#{$prefix}component-ribbon-infomessage-title {
+    font-size: $ametys-ribbon-infomessage-title-font-size;
+    font-weight: $ametys-ribbon-infomessage-title-font-weight;
+    text-transform: $ametys-ribbon-infomessage-title-text-transform;
+    padding-right: $ametys-ribbon-infomessage-title-font-size * 4;
+}
+ 
+/**
+ * Contextual tab groups
+ */
+.#{$prefix}component-ribbon-header-contextualgroup {
+    font-size: $ametys-ribbon-contextualgroup-font-size;
+    line-height: $ametys-ribbon-header-height - $ametys-ribbon-header-border-height; 
+    font-weight: $ametys-ribbon-contextualgroup-font-weight;
+    text-transform: $ametys-ribbon-contextualgroup-text-transform;
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    
+    @for $i from 1 through length($ametys-ribbon-contextualgroup-colors) {
+        $current-color: nth($ametys-ribbon-contextualgroup-colors, $i);
+        
+        &.a-fluent-header-tabsgroup-#{$i} {
+            border-top: $ametys-ribbon-header-border-height solid $current-color;
+            color: darken($current-color, $ametys-ribbon-contextualgroup-colors-text-darken);
+            background-color: lighten($current-color, $ametys-ribbon-contextualgroup-colors-background-lighten);
+        }
+    }    
+}
+ 

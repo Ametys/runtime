@@ -13,9 +13,21 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
- 
-Ext.define('Ametys.theme.ametysbase.ui.fluent.ribbon.TabPanel', {
-    override: 'Ametys.ui.fluent.ribbon.TabPanel',
+
+Ext.define('Ametys.theme.ametysbase.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel', {
+    override: 'Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel',
     
-    userCfg: { arrowVisible: false }
+    // Automatic resize tabs
+    minTabWidth: 36, // Size to display an icon with correct margins
+    maxTabWidth: 250,
+    
+    plain: true,
+    
+    tabBar: {
+        defaults:{
+            // Will try to fill all available space.
+            flex:1,
+            textAlign: 'left'
+        }
+    }
 });

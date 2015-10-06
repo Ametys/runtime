@@ -31,11 +31,11 @@ Ext.define(
         layout: 'hbox',
         
         /**
-         * @property {String} contextualTabGroupCls The CSS classname to set on the button of group of contextual tabs
+         * @property {String} contextualTabGroupPrefixCls The CSS classname to set on the button of group of contextual tabs as prefix for colors
          * @readonly
          * @private
          */
-        contextualTabGroupCls: 'a-fluent-header-tabsgroup',
+        contextualTabGroupPrefixCls: 'a-fluent-header-tabsgroup-',
         
         /**
          * Add a new (hidden) group in the header
@@ -47,7 +47,9 @@ Ext.define(
         {
             return this.add({
                 xtype: 'ametys.ribbon-contextualtabgroup',
-                cls: [this.contextualTabGroupCls, this.contextualTabGroupCls + "-" + color],
+                
+                cls: this.contextualTabGroupPrefixCls + color,
+
                 html: label,
                 hidden: true,
                 listeners: {

@@ -20,9 +20,9 @@ function openTool1()
     var tool = Ext.create("Ametys.ui.tool.ToolPanel", {
         title: 'My Tool n°1 - ' + monindex++,
         description: 'This is my tool numero uno',
-        smallIcon: 'resources/img/editpaste_16.gif',
-        mediumIcon: 'resources/img/editpaste_32.gif',
-        largeIcon: 'resources/img/editpaste_48.gif',
+        smallIcon: '/resources/img/editpaste_16.gif',
+        mediumIcon: '/resources/img/editpaste_32.gif',
+        largeIcon: '/resources/img/editpaste_48.gif',
         type: Ametys.ui.tool.ToolPanel.TOOLTYPE_0,
         html: 'This is tool one<br/>'
             + '<ul>'
@@ -46,9 +46,9 @@ function openTool2()
     var tool = Ext.create("Ametys.ui.tool.ToolPanel", {
         title: 'My Tool n°2 - ' + monindex++,
         description: 'This is my tool numero duo',
-        smallIcon: 'resources/img/editpaste_16.gif',
-        mediumIcon: 'resources/img/editpaste_32.gif',
-        largeIcon: 'resources/img/editpaste_48.gif',
+        smallIcon: '/resources/img/editpaste_16.gif',
+        mediumIcon: '/resources/img/editpaste_32.gif',
+        largeIcon: '/resources/img/editpaste_48.gif',
         type: Ametys.ui.tool.ToolPanel.TOOLTYPE_0,
         dockedItems: [ createOodPanel() ],
         html: "<b>je suis le contenu du Tool 2</b>"
@@ -61,13 +61,14 @@ function openTool2()
 function openTool3()
 {
     var tool = Ext.create("Ametys.ui.tool.ToolPanel", {
-        title: 'My Tool n°3 - ' + monindex++,
+        title: 'My Tool n°3 with a qui long name that is very long in fact - ' + monindex++,
         description: 'This is my tool numero trouo',
-        smallIcon: 'resources/img/editpaste_16.gif',
-        mediumIcon: 'resources/img/editpaste_32.gif',
-        largeIcon: 'resources/img/editpaste_48.gif',
+        smallIcon: '/resources/img/editpaste_16.gif',
+        mediumIcon: '/resources/img/editpaste_32.gif',
+        largeIcon: '/resources/img/editpaste_48.gif',
         type: Ametys.ui.tool.ToolPanel.TOOLTYPE_0,
         scrollable: true,
+        closable: true,
         layout: 'absolute',
         items: tools3Items
     });
@@ -82,9 +83,9 @@ function openTool4()
     var tool = Ext.create("Ametys.ui.tool.ToolPanel", {
         title: 'My Tool n°4 - ' + monindex++,
         description: 'This is my tool numero quatro',
-        smallIcon: 'resources/img/editpaste_16.gif',
-        mediumIcon: 'resources/img/editpaste_32.gif',
-        largeIcon: 'resources/img/editpaste_48.gif',
+        smallIcon: '/resources/img/editpaste_16.gif',
+        mediumIcon: '/resources/img/editpaste_32.gif',
+        largeIcon: '/resources/img/editpaste_48.gif',
         type: Ametys.ui.tool.ToolPanel.TOOLTYPE_0,
         html: "<b>je suis le contenu du Tool 4</b><br/>Pensez à me collapser pour tester"
     });
@@ -100,9 +101,9 @@ function openTool5()
     var tool = Ext.create("Ametys.ui.tool.ToolPanel", {
         title: 'My Tool n°5 - ' + monindex++,
         description: 'This is my tool numero cinquo',
-        smallIcon: 'resources/img/editpaste_16.gif',
-        mediumIcon: 'resources/img/editpaste_32.gif',
-        largeIcon: 'resources/img/editpaste_48.gif',
+        smallIcon: '/resources/img/editpaste_16.gif',
+        mediumIcon: '/resources/img/editpaste_32.gif',
+        largeIcon: '/resources/img/editpaste_48.gif',
         type: Ametys.ui.tool.ToolPanel.TOOLTYPE_0,
         html: "<b>je suis le contenu du Tool 5</b><br/>Pensez à me drag'n'droper dans une autre zone et à me ramener ici ensuite pour tester"
     });
@@ -118,9 +119,9 @@ function openTool6()
     var tool = Ext.create("Ametys.ui.tool.ToolPanel", {
         title: 'My Tool n°6 - ' + monindex++,
         description: 'This is my tool numero sexto',
-        smallIcon: 'resources/img/editpaste_16.gif',
-        mediumIcon: 'resources/img/editpaste_32.gif',
-        largeIcon: 'resources/img/editpaste_48.gif',
+        smallIcon: '/resources/img/editpaste_16.gif',
+        mediumIcon: '/resources/img/editpaste_32.gif',
+        largeIcon: '/resources/img/editpaste_48.gif',
         type: Ametys.ui.tool.ToolPanel.TOOLTYPE_0,
         html: "<b>je suis le contenu du Tool 6</b>"
     });
@@ -133,7 +134,9 @@ function openTool6()
 function createOodPanel()
 {
     var button = Ext.create("Ext.Button", {
-        flex: 1,
+        dock: 'top',
+
+        ui: 'tool-outofdate',
         textAlign: 'left',
         text:"Data are not up to date. Click here to refresh this tool.",
         tooltip: {
@@ -147,17 +150,5 @@ function createOodPanel()
         handler: Ext.bind(this.refresh, this, [true], false)
     });
     
-    this._oodPanel = Ext.create("Ext.container.Container", {
-        cls: 'a-tool-outofdate',
-        //hidden: true,
-        dock: 'top',
-        layout: {
-            type: 'hbox',
-            pack: 'start',
-            align: 'stretch'
-        },
-        items : button
-    });
-    
-    return this._oodPanel;
+    return button;
 }

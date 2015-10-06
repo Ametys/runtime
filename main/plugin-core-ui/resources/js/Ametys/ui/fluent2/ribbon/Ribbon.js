@@ -145,6 +145,20 @@ Ext.define(
          * @cfg {String} ui=ribbon @inheritdoc
          */
         ui: 'ribbon',
+        
+        /**
+         * @cfg {Object} infoMessage Display an information message under the ribbon
+         * @cfg {String} infoMessage.title The message title
+         * @cfg {String} infoMessage.type=info The type of message 'info', 'question', 'warning' or 'error'.
+         * @cfg {String} infoMessage.text The message text
+         * @cfg {boolean} infoMessage.closeable=true Can the message be dimissed
+         */
+        
+        /**
+         * @private
+         * @property {String} infoMessageCloseText The message on the close button of the information message #cfg-infoMessage
+         */
+        infoMessageCloseText: "Close this message",
 		
         /**
          * @cfg {Object/Ext.toolbar.Toolbar} quickToolbar The quicktoolbar (configuration or object) on the top left of the ribbon. 
@@ -185,6 +199,50 @@ Ext.define(
              * @private
              */
             config.tools = [];
+            
+            if (config.infoMessage)
+            {
+                config.dockedItems = Ext.Array.from(config.dockedItems);
+                
+                var items = [
+                    {
+                        xtype: 'component',
+                        ui: 'ribbon-infomessage-title',
+                        html: config.infoMessage.title
+                    },
+                    {
+                        xtype: 'component',
+                        flex: 1,
+                        ui: 'ribbon-infomessage-text',
+                        html: config.infoMessage.text
+                    }
+                ];
+                if (config.infoMessage.closeable !== false)
+                {
+                    items.push({
+                        xtype: 'tool',
+                        type: 'close',
+                        tooltip: this.infoMessageCloseText,
+                        callback: Ext.bind(this._closeInfoMessage, this)
+                    });
+                }
+                
+                config.dockedItems.push({
+                    dock: 'bottom',
+
+                    itemId: 'infomessage',
+                    xtype: 'container',
+                    ui: 'ribbon-infomessage',
+                    
+                    cls: 'a-message-type-' + (config.infoMessage.type || 'info'),
+                    
+                    layout: { 
+                        type: 'hbox',
+                        align: 'center'
+                    },
+                    items: items
+                });
+            }
             
             // The position of "title" between tools in the top header line
             var titlePosition = 0;
@@ -302,6 +360,30 @@ Ext.define(
 		},
         
         /**
+         * @protected
+         * Get the info message zone
+         * @return {Ext.container.Container} The info message zone or null if not
+         */
+        getInfoMessage: function()
+        {
+            return this.child("#infomessage");
+        },
+        
+        /**
+         * @private
+         * Close the info message
+         */
+        _closeInfoMessage: function()
+        {
+            var infoMessage = this.getInfoMessage();
+            if (infoMessage)
+            {
+                infoMessage.ownerCt.remove(infoMessage);
+                this._setRibbonHeight();
+            }
+        },
+        
+        /**
          * Get the container for contextual tabs groups
          * @return {Ametys.ui.fluent.ribbon.Ribbon.ContextualTabGroupContainer} The container
          */
@@ -395,7 +477,18 @@ Ext.define(
             }
         },
         
-                /**
+        /**
+         * @protected
+         * Change the ribbon height to reflect its current state
+         */
+        _setRibbonHeight: function()
+        {
+            this.setHeight(this.getHeader().getHeight() 
+                        + (this._ribbonCollapsed ? this.getPanel().getHeader().getHeight() : this.getPanel().getHeight()) 
+                        + (this.getInfoMessage() ? this.getInfoMessage().getHeight() : 0));
+        },
+                        
+        /**
          * Toggle the ribbon state
          * @chainable
          */
@@ -475,6 +568,7 @@ Ext.define(
                 
                 this.getPanel().body.setDisplayed(true);
                 this.getPanel().setHeight(null);
+                this._setRibbonHeight(); // the panel onResize may not have do the job if the panel was floating
 
                 if (this.getPanel().getTabBar().activeTab.el.isVisible())
                 {

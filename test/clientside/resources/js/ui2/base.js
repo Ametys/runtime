@@ -24,6 +24,12 @@ function onreadyfunction() {
                     title: 'Accueil (fr/index.html)',
                     applicationTitle: 'Ametys Demo (www)',
                     
+                    infoMessage: {
+                        title: "Warning",
+                        text: "You are in safe mode... not everything will be working !",
+                        type: 'warning'
+                    },
+                    
                     searchMenu: {  // to activate a Tell me what you want to do feature
                         // emptyText: "Specify to replace the default value"
                         searchURL: "http://www.google.com?q={query}", // to search in doc
@@ -98,6 +104,7 @@ function onreadyfunction() {
                     region : 'north'
                 });
                 
+    
     layout = Ext.create("Ametys.ui.tool.layout.ZonedTabsToolsLayout");
     
 	Ext.application({
@@ -108,8 +115,8 @@ function onreadyfunction() {
 		enableQuickTips : false,
 		launch : function() {
 			Ext.create('Ext.container.Viewport', {
-				layout : 'border',
-				items : [ ribbon, layout.createLayout() ]
+				layout : { type: 'vbox', align: 'stretch' },
+				items : [ ribbon, Ext.apply(layout.createLayout(), {flex: 1}) ]
 			});
 		}
 	});

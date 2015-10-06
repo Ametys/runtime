@@ -13,9 +13,10 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+
  
-Ext.define('Ametys.theme.ametysbase.ui.fluent.ribbon.TabPanel', {
-    override: 'Ametys.ui.fluent.ribbon.TabPanel',
+Ext.define('Ametys.theme.ametysbase.ui.fluent.ribbon.Ribbon.ContextualTabGroup', {
+    override: 'Ametys.ui.fluent.ribbon.Ribbon.ContextualTabGroup',
     
-    userCfg: { arrowVisible: false }
+    margin: "0 0 0 1"
 });
