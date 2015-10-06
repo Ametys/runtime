@@ -274,7 +274,7 @@ Ext.define('Ametys.helper.SelectUser', {
 		{
 			window.clearTimeout(this._reloadTimer);
 		}
-		this._reloadTimer = window.setTimeout(Ext.bind(this.load, this), 500);
+		this._reloadTimer = window.setTimeout(Ext.bind(this.loadUsers, this), 500);
 	},
 	
 	/**
