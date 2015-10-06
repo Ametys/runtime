@@ -779,11 +779,11 @@ public class LdapUsersManager extends AbstractLDAPConnector implements UsersMana
         if (_usersFirstnameAttribute != null)
         {
             String firstName = (String) attributes.get(_usersFirstnameAttribute);
-            user.put("firstName", firstName);
+            user.put("firstname", firstName);
         }
 
         String lastName = (String) attributes.get(_usersLastnameAttribute);
-        user.put("lastName", lastName);
+        user.put("lastname", lastName);
 
         String email = (String) attributes.get(_usersEmailAttribute);
         user.put("email", email);
