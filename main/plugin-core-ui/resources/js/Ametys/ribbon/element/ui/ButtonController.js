@@ -79,32 +79,51 @@ Ext.define(
 				this.getLogger().debug("Creating new UI button for controller " + this.getId() + " in size " + size + " (with colspan " + colspan + ")");
 			}
 
-			var menu = this._getMenu();
+			var hasGalleryItems = this.getInitialConfig("gallery-item") && this.getInitialConfig("gallery-item")["gallery-groups"].length > 0;
+			var menuItemsCount = this._getMenuItemsCount();
 			
-			var hasActionFn = this.getInitialConfig("action") != null;
-			
-			// Is this a split button, where the action is the one from a 'primary-menu-item-id' ?
-			var primaryMenuItemId = this.getInitialConfig("primary-menu-item-id");
-			var menuItemHandler = primaryMenuItemId && Ametys.ribbon.RibbonManager.hasElement(primaryMenuItemId) ? Ametys.ribbon.RibbonManager.getElement(primaryMenuItemId) : this;
-			
-			var element = Ext.create("Ametys.ui.fluent.ribbon.controls.Button", Ext.apply({
-				text: this.getInitialConfig("label"),
-				scale: size,
-				colspan: colspan,
-				icon: Ametys.CONTEXT_PATH + (size == 'large' ? this._iconMedium : this._iconSmall),
-				tooltip: this._getTooltip(),
+		    if (!hasGalleryItems && menuItemsCount == 1)
+		    {
+		    	// There is only one menu items => transform menu to one button
+		    	var menuItemCfg = this.getInitialConfig("menu-items");
+				for (var i=0; i < menuItemCfg.length; i++)
+				{
+					var elmt = Ametys.ribbon.RibbonManager.getElement(menuItemCfg[i]);
+					if (elmt != null)
+					{
+				    	return elmt.createUI (size, colspan);
+					}
+				}
+		    }
+		    else
+		    {
+		    	var menu = this._getMenu();
 				
-				handler: hasActionFn && !this._toggleEnabled ? Ext.bind(menuItemHandler.onPress, menuItemHandler) : null,
-				toggleHandler: hasActionFn && this._toggleEnabled ? Ext.bind(menuItemHandler.onPress, menuItemHandler) : null,
+				var hasActionFn = this.getInitialConfig("action") != null;
 				
-				disabled: this._disabled,
-				controlId: this.getId(),
+				// Is this a split button, where the action is the one from a 'primary-menu-item-id' ?
+				var primaryMenuItemId = this.getInitialConfig("primary-menu-item-id");
+				var menuItemHandler = primaryMenuItemId && Ametys.ribbon.RibbonManager.hasElement(primaryMenuItemId) ? Ametys.ribbon.RibbonManager.getElement(primaryMenuItemId) : this;
 				
-				enableToggle: this._toggleEnabled,
-				pressed: this._pressed,
-				
-				menu: menu
-			}, this.getInitialConfig('ui-config') || {}));
+				var element = Ext.create("Ametys.ui.fluent.ribbon.controls.Button", Ext.apply({
+					text: this.getInitialConfig("label"),
+					scale: size,
+					colspan: colspan,
+					icon: Ametys.CONTEXT_PATH + (size == 'large' ? this._iconMedium : this._iconSmall),
+					tooltip: this._getTooltip(),
+					
+					handler: hasActionFn && !this._toggleEnabled ? Ext.bind(menuItemHandler.onPress, menuItemHandler) : null,
+					toggleHandler: hasActionFn && this._toggleEnabled ? Ext.bind(menuItemHandler.onPress, menuItemHandler) : null,
+					
+					disabled: this._disabled,
+					controlId: this.getId(),
+					
+					enableToggle: this._toggleEnabled,
+					pressed: this._pressed,
+					
+					menu: menu
+				}, this.getInitialConfig('ui-config') || {}));
+		    }
 			
 			return element;
 		},
@@ -258,6 +277,27 @@ Ext.define(
 			}
 			
 			return config;
+		},
+		
+		_getMenuItemsCount: function ()
+		{
+			var count = 0;
+			
+			if (this.getInitialConfig("menu-items"))
+			{
+				var menuItemCfg = this.getInitialConfig("menu-items");
+				
+				for (var i=0; i < menuItemCfg.length; i++)
+				{
+					var elmt = Ametys.ribbon.RibbonManager.getElement(menuItemCfg[i]);
+					if (elmt != null)
+					{
+						count++;
+					}
+				}
+			}
+			
+			return count;
 		},
 		
 		/**
