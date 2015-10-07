@@ -672,6 +672,7 @@ Ext.define(
 		 * Get the matching targets in the message
 		 * Test if the message if matching upon the #_selectionTargetType, #_selectionSubtargetType, #_selectionSubsubtargetType and #_selectionSubsubsubtargetType.
 		 * It also checks for #_selectionTargetParameter, #_selectionSubtargetParameter, #_selectionSubsubTargetParameter and #_selectionSubsubsubTargetParameter
+		 * @return {Ametys.message.MessageTarget[]} the matching targets 
 		 * @private
 		 */		
 		_getMatchingSelectionTargets: function(message)
@@ -884,6 +885,7 @@ Ext.define(
 		 * @protected
 		 * Update the current selection targets with the matching targets from message.
 		 * If the new selection does not match, the controller will be disabled with a configured additional description.
+		 * Use with caution: this method can modified the subtargets of the current selection matching targets. 
 		 * @param {Ametys.message.Message} message the message
 		 * @return {Boolean} true if at least one target has been updated
 		 */

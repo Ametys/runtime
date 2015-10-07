@@ -2299,7 +2299,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      *  
      *  
      *      <myrootnode>
-     *          <metadata>
+     *          <values>
      *              <!-- A simple text value -->
      *              <title>My title</title>
      *              <!-- A composite -->
@@ -2327,7 +2327,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      *                      <attachment-text>fichier</attachment-text>
      *                  </entry>
      *              </attachments>
-     *          </metadata>
+     *          </values>
      *          
      *          <comments/>
      *      </myrootnode>
