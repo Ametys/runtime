@@ -66,7 +66,7 @@ Ext.define('Ametys.form.field.ColorSelector', {
 			this.items.push({
 				xtype: 'button',
 				itemId: 'transparent-btn',
-				icon: Ametys.getPluginResourcesPrefix('skinfactory') + '/img/transparent_22.png',
+				icon: Ametys.getPluginResourcesPrefix('core-ui') + '/img/field/transparent_22.png',
 				text: "<i18n:text i18n:key='PLUGINS_CORE_UI_COLORSELECTOR_NO_COLOR'/>",
 				width: 145,
 				handler: this._setTransparent,
@@ -191,11 +191,11 @@ Ext.define('Ametys.form.field.ColorSelector', {
 		if (color == "transparent")
 		{
 			valueExists = true;
-			transparentBtn.setIcon(Ametys.getPluginResourcesPrefix('skinfactory') + '/img/transparent_selected_22.png');
+			transparentBtn.setIcon(Ametys.getPluginResourcesPrefix('core-ui') + '/img/field/transparent_selected_22.png');
 		}
 		else
 		{
-			transparentBtn.setIcon(Ametys.getPluginResourcesPrefix('skinfactory') + '/img/transparent_22.png');
+			transparentBtn.setIcon(Ametys.getPluginResourcesPrefix('core-ui') + '/img/field/transparent_22.png');
 		}
 		
 		if (!valueExists)
