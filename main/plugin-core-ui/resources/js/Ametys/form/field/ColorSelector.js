@@ -15,7 +15,7 @@
  */
 
 /**
- * Field for selecting a color value from a list of available colors, or from a  
+ * Field for picking a color value from a list of available colors, or choosing a custom color value from a {Ext.ux.colorpick.Selector}.
  */
 Ext.define('Ametys.form.field.ColorSelector', {
 	extend: 'Ametys.form.AbstractFieldsWrapper',
