@@ -155,6 +155,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
         if (this.form)
         {
             this.form.on('formready', this._onFormReady, this);
+            this.form.on('repeaterEntryReady', this._onRepeaterEntryReady, this);
         }
         
         /**
@@ -301,7 +302,12 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
 		// Suspend layout update.
     	this.form.suspendLayouts();
     	
-        var opt = options || {};
+        var options = options || {};
+        
+        if (options.fireRepeaterEntryReadyEvent)
+        {
+            this.form.notifyAddRepeaterEntry(true);
+        }
         
         // Create the item panel.
         var itemPanel = this.createRepeaterItemPanel(options);
@@ -332,9 +338,10 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
         // Resume layout update and force to recalculate the layout.
         this.form.resumeLayouts(true);
         
-        if (options.fireFormReadyEvent)
+        if (options.fireRepeaterEntryReadyEvent)
         {
-        	this.form.fireEvent('formready', this);
+            this.form.notifyAddRepeaterEntry(false);
+        	this.form.fireEvent('repeaterEntryReady', this);
         }
         
         return itemPanel;
@@ -898,6 +905,20 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
     },
     
     /**
+     * Called when the an repeater entry has been added and is ready (all its fields initialized)
+     * @param {Ametys.form.ConfigurableFormPanel.Repeater} repeater The repeater containing the entry.
+     * @private
+     */
+    _onRepeaterEntryReady: function(repeater)
+    {
+        // updates only 
+        if (form === this)
+        {
+            this._updateAllItemHeaders();
+        }
+    },
+    
+    /**
      * Called when a component is added to an item panel.
      * @param {Ext.panel.Panel} panel The container panel.
      * @param {Ext.Component} component The added component.
@@ -1083,7 +1104,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
             return;
         }
         
-        this.addRepeaterItem({collapsed: false, fireFormReadyEvent: true});
+        this.addRepeaterItem({collapsed: false, fireRepeaterEntryReadyEvent: true});
         this.validate();
     },
     
@@ -1108,7 +1129,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
         }
         
         var panel = header.ownerCt;
-        this.addRepeaterItem({position: panel.index + 1, collapsed: false, fireFormReadyEvent: true}, true);
+        this.addRepeaterItem({position: panel.index + 1, collapsed: false, fireRepeaterEntryReadyEvent: true}, true);
         this.validate();
     },
     

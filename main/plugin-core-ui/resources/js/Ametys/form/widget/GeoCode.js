@@ -138,7 +138,7 @@ Ext.define('Ametys.form.widget.GeoCode', {
 		
 		this._addressFieldNames = config.initialAddressFormFields ? config.initialAddressFormFields.split(',') : [];
 		
-		this.form.on('formready', Ext.bind(this._getAddressFormFields, this));
+		this.form.executeFormReady(this._getAddressFormFields, this);
 	},
 	
 	/**

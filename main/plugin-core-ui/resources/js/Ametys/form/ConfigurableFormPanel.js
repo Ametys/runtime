@@ -183,6 +183,12 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     
     /**
      * @private
+     * @property {Boolean} _addingRepeaterEntry indicates if a new repeater entry is currently being added.
+     */
+    _addingRepeaterEntry: false,
+    
+    /**
+     * @private
      * @property {String} _focusFieldId The identifier of the lastly selected field that is still focused 
      */
     _focusFieldId: null,
@@ -220,6 +226,11 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      * Fired after all fields have been drawn and values have been set.
      * This event should be also fired each time new fields are inserted (from a new repeater instance for example).
      * @param {Ext.form.Panel} form The form containing the fields
+     */
+    /**
+     * @event repeaterEntryReady
+     * Fired after all fields a new repeater entry has been inserted, which means that all its fields have been drawn and the repeater entry is initialized.
+     * @param {Ametys.form.ConfigurableFormPanel.Repeater} repeater The repeater containing the entry.
      */
     /**
      * @event fieldchange
@@ -1472,6 +1483,15 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         });
         
         return Ext.create('Ametys.form.ConfigurableFormPanel.Repeater', repeaterCfg);
+    },
+    
+    /**
+     * Notify the form the a new repeater entry is being added
+     * @param {Boolean} start True indicates that the process started , false indicates the it ended.  
+     */
+    notifyAddRepeaterEntry: function(start)
+    {
+        this._addingRepeaterEntry = start;
     },
     
     /**
@@ -3284,6 +3304,47 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     },
     
     /* --------------------------------------------------------------------- */
+    /*                         Misc helper methods                           */
+    /* --------------------------------------------------------------------- */
+    
+    /**
+     * Helper method to be used to execute a function while being sure that the form and all the repeater entry are ready.
+     * @param {Function} initiliazeFn The initialize function to execute. Will be executed immediately if the form is ready.
+     * @param {Object} scope The scope handler. Default to the form.
+     * @param {Object} args Optional function arguments.
+     */
+    executeFormReady: function(initiliazeFn, scope, args)
+    {
+        if (this._addingRepeaterEntry)
+        {
+            this.on('repeaterEntryReady', Ext.bind(this._executeFormReadyCb, this, [initiliazeFn, scope, args]), undefined, {single: true});
+        }
+        else if(this._formReady)
+        {
+            this._executeFormReadyCb(initiliazeFn, scope, args);
+        }
+        else
+        {
+            this.on('formready', Ext.bind(this._executeFormReadyCb, this, [initiliazeFn, scope, args]), undefined, {single: true});
+        }
+    },
+    
+    /**
+     * @private
+     * Internal callback used for executeFormReady.
+     * @param {Function} initiliazeFn The initialize function to execute
+     * @param {Object} scope The scope handler. Default to the form.
+     * @param {Object} args Optional function arguments.
+     */
+    _executeFormReadyCb: function(initiliazeFn, scope, args)
+    {
+        if (Ext.isFunction(initiliazeFn))
+        {
+            initiliazeFn.apply(scope || this, args);
+        }
+    },
+    
+    /* --------------------------------------------------------------------- */
     /*               Helper methods to work on relative fields               */
     /* --------------------------------------------------------------------- */
     
@@ -3297,7 +3358,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     {
         var relativeField = null;
         
-        if (this._formReady && fieldPath)
+        if (fieldPath)
         {
             // try to get the relative field from the field cache
             var cache = field['__relativeFields'];
@@ -3355,7 +3416,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     {
         var relativeFields = [];
         
-        if (this._formReady && fieldPaths)
+        if (fieldPaths)
         {
             Ext.Array.forEach(fieldPaths, function(fieldPath) {
                 relativeFields.push(this.getRelativeField(fieldPath, field));
@@ -3377,20 +3438,23 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      */
     onRelativeFieldsChange: function(fieldPaths, field, handler, scope)
     {
-        if(this._formReady)
+        if (this._addingRepeaterEntry)
         {
-            this._onRelativeFieldChangeFormReady(fieldPaths, field, handler);
+            this.on('repeaterEntryReady', Ext.bind(this._onRelativeFieldsChangeReady, this, [fieldPaths, field, handler, scope]), undefined, {single: true});
+        }
+        else if (this._formReady)
+        {
+            this._onRelativeFieldsChangeFormReady(fieldPaths, field, handler, scope);
         }
         else
         {
-            this.on('formready', Ext.bind(this._onRelativeFieldsChangeFormReady, this, [fieldPaths, field, handler, scope]));
+            this.on('formready', Ext.bind(this._onRelativeFieldsChangeReady, this, [fieldPaths, field, handler, scope]), undefined, {single: true});
         }
     },
     
     /**
      * @private
      * Internal callback used for onRelativeFieldsChange.
-     * Called when the form is ready.
      * @param {String/String[]} fieldPaths The path of the relative field, which is a relative path (e.g. a/b/c or ../../e/f). An array of path can also be provided.
      * @param {Ext.form.field.Field} field The field who is searching for a relative field
      * @param {Function} handler The on change handler
@@ -3399,7 +3463,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      * @param {Object} handler.oldValue The old value
      * @param {Object} scope The scope handler. Default to the field.
      */
-    _onRelativeFieldsChangeFormReady: function(fieldPaths, field, handler, scope)
+    _onRelativeFieldsChangeReady: function(fieldPaths, field, handler, scope)
     {
         fieldPaths = Ext.Array.from(fieldPaths);
         var relativeFields = this.getRelativeFields(fieldPaths, field);
@@ -3407,7 +3471,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         Ext.Array.forEach(relativeFields, function(relativeField) {
             if (relativeField)
             {
-                relativeField.on('change', handler, scope || field);
+                field.mon(relativeField, 'change', handler, scope || field);
             }
         });
     }
