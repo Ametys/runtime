@@ -122,7 +122,7 @@ Ext.define(
                     sum += tabEl.getWidth();
                 }
             
-                this.setWidth(sum + 2*(tabs.length - 1));
+                this.setWidth(sum + (tabs.length - 1));
                 this.ownerCt.show(); // this is required for the first call, because as ownerCt has never been rendered: its listeners are not active
                 this.show();
             }
