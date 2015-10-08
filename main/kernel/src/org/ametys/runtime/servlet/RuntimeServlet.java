@@ -252,11 +252,12 @@ public class RuntimeServlet extends HttpServlet
         // Configure Log4j
         String logj4fFile = _servletContext.getRealPath("/WEB-INF/log4j.xml");
         
-        // Hack to have context-relative log files. 
-        // If there are more than one Ametys in the same JVM, the property will be successively set for each instance, so never rely on this property.
+        // Hack to have context-relative log files, because of lack in configuration capabilities in log4j.
+        // If there are more than one Ametys in the same JVM, the property will be successively set for each instance, 
+        // so we heavily rely on DOMConfigurator beeing synchronous.
         System.setProperty("ametys.log4j.contextPath", _servletContextPath);
-
         DOMConfigurator.configure(logj4fFile);
+        System.setProperty("ametys.log4j.contextPath", null);
         
         _loggerManager = new SLF4JLoggerManager();
         _logger = LoggerFactory.getLogger(getClass());
