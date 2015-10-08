@@ -65,10 +65,11 @@ Ext.define('Ametys.form.field.ColorSelector', {
 			// Button for choosing transparent color
 			this.items.push({
 				xtype: 'button',
+				padding: 5,
 				itemId: 'transparent-btn',
 				icon: Ametys.getPluginResourcesPrefix('core-ui') + '/img/field/transparent_22.png',
 				text: "<i18n:text i18n:key='PLUGINS_CORE_UI_COLORSELECTOR_NO_COLOR'/>",
-				width: 145,
+				width: 155,
 				handler: this._setTransparent,
 				scope: this
 			});
@@ -77,6 +78,7 @@ Ext.define('Ametys.form.field.ColorSelector', {
 		// Custom colors
 		this.items.push({
 			xtype: "panel",
+			bodyPadding: 5,
 			itemId: "custom-color-panel",
 			title: "<i18n:text i18n:key='PLUGINS_CORE_UI_COLORSELECTOR_CUSTOM_COLORS'/>",
 			hidden: true,
@@ -86,9 +88,10 @@ Ext.define('Ametys.form.field.ColorSelector', {
 		// Other colors
 		this.items.push({
 			xtype: 'button',
+			padding: 5,
 			itemId: 'other-colors-btn',
 			text: "<i18n:text i18n:key='PLUGINS_CORE_UI_COLORSELECTOR_OTHERS_COLORS'/>",
-			width: 145,
+			width: 155,
 			handler: this._openOtherColors,
 			scope: this
 		});
@@ -117,6 +120,7 @@ Ext.define('Ametys.form.field.ColorSelector', {
 	{
 		this.items.push({
 			xtype: "panel",
+			bodyPadding: 5,
 			title: colorInfos.label,
 			items: [
 				Ext.applyIf({
