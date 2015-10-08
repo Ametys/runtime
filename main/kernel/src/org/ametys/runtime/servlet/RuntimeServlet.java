@@ -257,7 +257,7 @@ public class RuntimeServlet extends HttpServlet
         // so we heavily rely on DOMConfigurator beeing synchronous.
         System.setProperty("ametys.log4j.contextPath", _servletContextPath);
         DOMConfigurator.configure(logj4fFile);
-        System.setProperty("ametys.log4j.contextPath", null);
+        System.clearProperty("ametys.log4j.contextPath");
         
         _loggerManager = new SLF4JLoggerManager();
         _logger = LoggerFactory.getLogger(getClass());
