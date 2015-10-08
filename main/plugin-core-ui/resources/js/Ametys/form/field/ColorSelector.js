@@ -189,18 +189,21 @@ Ext.define('Ametys.form.field.ColorSelector', {
 			}
 		});
 		
-		// update the transparency button
-		var transparentBtn = this.down("#transparent-btn");
-		transparentBtn.toggle(color == "transparent", true);
-		if (color == "transparent")
-		{
-			valueExists = true;
-			transparentBtn.setIcon(Ametys.getPluginResourcesPrefix('core-ui') + '/img/field/transparent_selected_22.png');
-		}
-		else
-		{
-			transparentBtn.setIcon(Ametys.getPluginResourcesPrefix('core-ui') + '/img/field/transparent_22.png');
-		}
+		if (this.allowTransparent)
+	    {
+    		// update the transparency button
+    		var transparentBtn = this.down("#transparent-btn");
+    		transparentBtn.toggle(color == "transparent", true);
+    		if (color == "transparent")
+    		{
+    			valueExists = true;
+    			transparentBtn.setIcon(Ametys.getPluginResourcesPrefix('core-ui') + '/img/field/transparent_selected_22.png');
+    		}
+    		else
+    		{
+    			transparentBtn.setIcon(Ametys.getPluginResourcesPrefix('core-ui') + '/img/field/transparent_22.png');
+    		}
+	    }
 		
 		if (!valueExists)
 		{
