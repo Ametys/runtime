@@ -44,7 +44,6 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
 import org.apache.avalon.excalibur.logger.LoggerManager;
-import org.apache.avalon.excalibur.logger.log4j.Log4JConfigurator;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.container.ContainerUtil;
@@ -65,7 +64,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang.time.StopWatch;
-import org.apache.log4j.LogManager;
+import org.apache.log4j.xml.DOMConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -252,12 +251,12 @@ public class RuntimeServlet extends HttpServlet
     {
         // Configure Log4j
         String logj4fFile = _servletContext.getRealPath("/WEB-INF/log4j.xml");
-
-        DefaultContext context = new DefaultContext();
-        context.put("context-root", _servletContextPath);
         
-        Log4JConfigurator configurator = new Log4JConfigurator(context);
-        configurator.doConfigure(logj4fFile, LogManager.getLoggerRepository());
+        // Hack to have context-relative log files. 
+        // If there are more than one Ametys in the same JVM, the property will be successively set for each instance, so never rely on this property.
+        System.setProperty("ametys.log4j.contextPath", _servletContextPath);
+
+        DOMConfigurator.configure(logj4fFile);
         
         _loggerManager = new SLF4JLoggerManager();
         _logger = LoggerFactory.getLogger(getClass());
