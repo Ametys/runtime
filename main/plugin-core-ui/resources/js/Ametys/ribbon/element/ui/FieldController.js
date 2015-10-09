@@ -97,10 +97,6 @@ Ext.define(
 		 * @cfg {String} empty-text The default text to place if the field is empty
 		 */
 		/**
-		 * @cfg {Boolean} check-change-onblur=true false to check changes with additional events : 'propertychange' and 'keyup' in IE, 
-		 *  		      'input', 'textinput', 'keyup', 'dragdrop' in other browsers 
-		 */
-		/**
 		 * @cfg {Object[]/Object} data 
 		 * Valid only when used with a ComboxBox field. See #cfg-input-xtype.
 		 * The data of local store used in conjunction with the #cfg-model or #cfg-value-field and #cfg-value-field.
@@ -158,13 +154,6 @@ Ext.define(
 			var labelWidth = this.getInitialConfig('label') == null || this.getInitialConfig('hideLabel') == 'true' ? 0 : (this.getInitialConfig('label-width') ? Number(this.getInitialConfig('label-width')) : Ametys.ribbon.element.ui.FieldController.DEFAULT_LABEL_WIDTH);
 			var width = labelWidth + this._getInputWidth (size) ;
 			
-			// Events triggering the check change method
-			var checkChangeEvents = ['change'];
-			if (this.getInitialConfig('check-change-onblur') === false)
-			{
-				checkChangeEvents = Ext.isIE && (!document.documentMode || document.documentMode <= 9) ? ['change', 'propertychange', 'keyup'] : ['change', 'input', 'textInput', 'keyup', 'dragdrop']; 
-			}
-			
 			// Is the label going to be on top ?
 			var labelOnTop = size == 'large' && this.getInitialConfig('label') != null;
 			
@@ -194,8 +183,7 @@ Ext.define(
 		    	
 		    	enableKeyEvents:  true,
 		    	disabled: this.getInitialConfig('disabled') == "true",
-		    	
-		    	checkChangeEvents: checkChangeEvents,
+
 		    	listeners: this._getListeners()
 			}, 
 			this._getTypeConfig(this.getInitialConfig('input-xtype') || 'textfield'))
