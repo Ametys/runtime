@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Anyware Services
+ *  Copyright 2015 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -36,6 +36,12 @@ Ext.define(
 			 * @property {Number} DEFAULT_LABEL_WIDTH The default width for input label.
 			 */
 			DEFAULT_LABEL_WIDTH: 80,
+			
+			/**
+			 * @readonly
+			 * @property {Number} DEFAULT_LABEL_HEIGHT The default height for input label.
+			 */
+			DEFAULT_LABEL_HEIGHT: 23,
 			
 			/**
 			 * @readonly
@@ -76,6 +82,9 @@ Ext.define(
 		 * @cfg {Number} width=190 The width of input field in pixels
 		 */
 		/**
+		 * @cfg {Number} height The height of input field in pixels
+		 */
+		/**
 		 * @cfg {Number} [width-small] The width of input field in pixels in "small" layout size
 		 */
 		/**
@@ -92,9 +101,14 @@ Ext.define(
 		 *  		      'input', 'textinput', 'keyup', 'dragdrop' in other browsers 
 		 */
 		/**
-		 * @cfg {Ext.util.MixedCollection} data 
-		 * 		Valid only when used with a ComboxBox field. See #cfg-input-xtype.
+		 * @cfg {Object[]/Object} data 
+		 * Valid only when used with a ComboxBox field. See #cfg-input-xtype.
 		 * The data of local store used in conjunction with the #cfg-model or #cfg-value-field and #cfg-value-field.
+		 * If the format is not an array of model configuration, you will have to use #cfg-data-convert to convert it to such a format.
+		 */
+		/**
+		 * @cfg {String} data-convert A function name that will be called when initializing #cfg-data.
+		 * Parameters are the current controller instance and the #cfg-data object, and return value is the transformed array.
 		 */
 		/**
 		 * @cfg {String} value-field=value
@@ -134,7 +148,6 @@ Ext.define(
 			this._initialize();
 		},
 		
-
 		createUI: function(size, colspan)
 		{
 			if (this.getLogger().isDebugEnabled())
@@ -152,7 +165,11 @@ Ext.define(
 				checkChangeEvents = Ext.isIE && (!document.documentMode || document.documentMode <= 9) ? ['change', 'propertychange', 'keyup'] : ['change', 'input', 'textInput', 'keyup', 'dragdrop']; 
 			}
 			
-			var element = Ext.ComponentManager.create(Ext.apply({
+			// Is the label going to be on top ?
+			var labelOnTop = size == 'large' && this.getInitialConfig('label') != null;
+			
+			var element = Ext.ComponentManager.create(Ext.apply(
+			{
 				cls: this.getInitialConfig()['cls'],
 				readOnly: this.getInitialConfig()['readOnly'] == "true",
 				
@@ -162,27 +179,27 @@ Ext.define(
 		    	xtype: this.getInitialConfig('input-xtype') || 'textfield', 
 
 		    	labelWidth: labelWidth,
-		    	labelAlign: size == 'large' && this.getInitialConfig('label') ? 'top' : 'left',
+		    	labelAlign: labelOnTop ? 'top' : 'left',
 		    	hideLabel: this.getInitialConfig('label') == null || this.getInitialConfig('hideLabel') == 'true',
 		    	
 		    	fieldLabel: this.getInitialConfig('label'),
 		    	name: this.getInitialConfig('name'),
 		    	value: this.getInitialConfig('value') || '',
 		    	
-		    	height: this._getInputHeight (size),
+		    	height: this._getInputHeight (size, labelOnTop), 
 		    	width: width,
 		    	
-		    	emptyText : this.getInitialConfig('empty-text'),
+		    	emptyText: this.getInitialConfig('empty-text'),
 		    	controlId: this.getId(),
 		    	
-		    	enableKeyEvents : true,
+		    	enableKeyEvents:  true,
 		    	disabled: this.getInitialConfig('disabled') == "true",
 		    	
 		    	checkChangeEvents: checkChangeEvents,
 		    	listeners: this._getListeners()
 			}, 
 			this._getTypeConfig(this.getInitialConfig('input-xtype') || 'textfield'))
-			);
+		);
 			
 			this._value = this.getInitialConfig('value') || '';
 			
@@ -324,11 +341,15 @@ Ext.define(
 		 */
 		createDataStore: function ()
 		{
+			var initialData = this.getInitialConfig('data') || [];
+			var transformFunction = this.getInitialConfig('data-convert');
+			var transformedData = (transformFunction && Ametys.executeFunctionByName(transformFunction, null, null, this, initialData)) || initialData;
+			
 			if (this.getInitialConfig('model'))
 			{
 				this._store = Ext.create('Ext.data.Store', {
 					model: this.getInitialConfig('model'),
-					data: this.getInitialConfig('data') || [],
+					data: transformedData,
 					
 					listeners: this._getStoreListeners()
 				});
@@ -340,7 +361,7 @@ Ext.define(
 					         this.getInitialConfig('value-field') || 'value',
 					         this.getInitialConfig('display-field') || 'label'
 					],
-					data: this.getInitialConfig('data') || [],
+					data: transformedData,
 					
 					listeners: this._getStoreListeners()
 				});
@@ -407,14 +428,15 @@ Ext.define(
 		/**
 		 * Get the input height from initial configuration and control's size
 		 * @param {String} size The size required for the control. Can be 'small', 'very-small' or 'large'.
+		 * @param {Boolean} labelOnTop is the label going to be on top ?
 		 * @return {Number/String} the input height
 		 * @private
 		 */
-		_getInputHeight: function (size)
+		_getInputHeight: function (size, labelOnTop)
 		{
 			var height = this.getInitialConfig('height') ? Number(this.getInitialConfig('height')) : (this.getInitialConfig('input-xtype') == 'textarea' ? Ametys.ribbon.element.ui.FieldController.DEFAULT_TEXTAREA_HEIGHT : null);
 			height = this.getInitialConfig('height-' + size) != null ? Number(this.getInitialConfig('height-' + size)) : height;
-			return height;
+			return labelOnTop ? height - Ametys.ribbon.element.ui.FieldController.DEFAULT_LABEL_HEIGHT : height;
 		},
 		
 		/**
