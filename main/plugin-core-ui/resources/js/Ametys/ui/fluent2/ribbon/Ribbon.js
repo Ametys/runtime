@@ -147,18 +147,18 @@ Ext.define(
         ui: 'ribbon',
         
         /**
-         * @cfg {Object} infoMessage Display an information message under the ribbon
-         * @cfg {String} infoMessage.title The message title
-         * @cfg {String} infoMessage.type=info The type of message 'info', 'question', 'warning' or 'error'.
-         * @cfg {String} infoMessage.text The message text
-         * @cfg {boolean} infoMessage.closeable=true Can the message be dimissed
+         * @cfg {Object/Object[]} message Display one or more information messages under the ribbon
+         * @cfg {String} message.title The message title
+         * @cfg {String} message.type=info The type of message 'info', 'question', 'warning' or 'error'.
+         * @cfg {String} message.text The message text
+         * @cfg {boolean} message.closeable=true Can the message be dimissed
          */
         
         /**
          * @private
-         * @property {String} infoMessageCloseText The message on the close button of the information message #cfg-infoMessage
+         * @property {String} messageCloseText The message on the close button of the information message #cfg-message
          */
-        infoMessageCloseText: "Close this message",
+        messageCloseText: "Close this message",
 		
         /**
          * @cfg {Object/Ext.toolbar.Toolbar} quickToolbar The quicktoolbar (configuration or object) on the top left of the ribbon. 
@@ -168,6 +168,11 @@ Ext.define(
          */
         /**
          * @cfg {Object/Ext.panel.Tool} help A help button on the top right.
+         */
+        
+        /**
+         * @property {Ametys.ui.fluent.ribbon.Ribbon.MessageContainer} _messageContainer The container for information messages (under the ribbon)
+         * @private
          */
         
         /**
@@ -200,49 +205,22 @@ Ext.define(
              */
             config.tools = [];
             
-            if (config.infoMessage)
+            this._messageContainer = Ext.create("Ametys.ui.fluent.ribbon.Ribbon.MessageContainer", {});
+            config.dockedItems = Ext.Array.from(config.dockedItems);
+            config.dockedItems.push(this._messageContainer);
+            
+            if (config.message)
             {
-                config.dockedItems = Ext.Array.from(config.dockedItems);
+                config.message = Ext.Array.from(config.message);
                 
-                var items = [
-                    {
-                        xtype: 'component',
-                        ui: 'ribbon-infomessage-title',
-                        html: config.infoMessage.title
-                    },
-                    {
-                        xtype: 'component',
-                        flex: 1,
-                        ui: 'ribbon-infomessage-text',
-                        html: config.infoMessage.text
-                    }
-                ];
-                if (config.infoMessage.closeable !== false)
+                for (var i = 0; i < config.message.length; i++)
                 {
-                    items.push({
-                        xtype: 'tool',
-                        type: 'close',
-                        tooltip: this.infoMessageCloseText,
-                        callback: Ext.bind(this._closeInfoMessage, this)
-                    });
-                }
-                
-                config.dockedItems.push({
-                    dock: 'bottom',
+                    var message = config.message[i];
 
-                    itemId: 'infomessage',
-                    xtype: 'container',
-                    ui: 'ribbon-infomessage',
-                    
-                    cls: 'a-message-type-' + (config.infoMessage.type || 'info'),
-                    
-                    layout: { 
-                        type: 'hbox',
-                        align: 'center'
-                    },
-                    items: items
-                });
+                    this.addMessage(message);
+                }
             }
+            
             
             // The position of "title" between tools in the top header line
             var titlePosition = 0;
@@ -360,27 +338,55 @@ Ext.define(
 		},
         
         /**
-         * @protected
-         * Get the info message zone
-         * @return {Ext.container.Container} The info message zone or null if not
+         * Add an information message
+         * @param {Object} message See #cfg-message.
          */
-        getInfoMessage: function()
+        addMessage: function(message)
         {
-            return this.child("#infomessage");
+            var items = [
+                {
+                    xtype: 'component',
+                    ui: 'ribbon-message-title',
+                    html: message.title
+                },
+                {
+                    xtype: 'component',
+                    flex: 1,
+                    ui: 'ribbon-message-text',
+                    html: message.text
+                }
+            ];
+            if (message.closeable !== false)
+            {
+                items.push({
+                    xtype: 'tool',
+                    type: 'close',
+                    tooltip: this.messageCloseText,
+                    callback: Ext.bind(this._closeMessage, this)
+                });
+            }
+            
+            this._messageContainer.add({
+                cls: 'a-message-type-' + (message.type || 'info'),
+                items: items
+            });
+            
+            this._setRibbonHeight();
         },
         
         /**
          * @private
          * Close the info message
+         * @param {Ext.Component} owner The logical owner of the tool. In a typical
+         * `Ext.panel.Panel`, this is set to the owning panel. This value comes from the
+         * `toolOwner` config.
+         * @param {Ext.panel.Tool} tool The tool that is calling.
+         * @param {Ext.event.Event} event The click event. 
          */
-        _closeInfoMessage: function()
+        _closeMessage: function(owner, tool, event)
         {
-            var infoMessage = this.getInfoMessage();
-            if (infoMessage)
-            {
-                infoMessage.ownerCt.remove(infoMessage);
-                this._setRibbonHeight();
-            }
+            owner.ownerCt.remove(owner);
+            this._setRibbonHeight();
         },
         
         /**
@@ -483,9 +489,12 @@ Ext.define(
          */
         _setRibbonHeight: function()
         {
-            this.setHeight(this.getHeader().getHeight() 
-                        + (this._ribbonCollapsed ? this.getPanel().getHeader().getHeight() : this.getPanel().getHeight()) 
-                        + (this.getInfoMessage() ? this.getInfoMessage().getHeight() : 0));
+            if (this.rendered)
+            {
+                this.setHeight(this.getHeader().getHeight() 
+                            + (this._ribbonCollapsed ? this.getPanel().getHeader().getHeight() : this.getPanel().getHeight()) 
+                            + (this._messageContainer ? this._messageContainer.getHeight() : 0));
+            }
         },
                         
         /**

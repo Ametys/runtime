@@ -24,11 +24,15 @@ function onreadyfunction() {
                     title: 'Accueil (fr/index.html)',
                     applicationTitle: 'Ametys Demo (www)',
                     
-                    infoMessage: {
+                    message: [{
                         title: "Warning",
                         text: "You are in safe mode... not everything will be working !",
                         type: 'warning'
-                    },
+                    }, {
+                        title: "Hi Buddy",
+                        text: "You are seeing something wonderful",
+                        type: 'info'
+                    }],
                     
                     searchMenu: {  // to activate a Tell me what you want to do feature
                         // emptyText: "Specify to replace the default value"

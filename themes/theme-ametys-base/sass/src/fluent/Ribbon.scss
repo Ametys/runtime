@@ -123,38 +123,38 @@
 /**
  * Info message
  */
-.#{$prefix}container-ribbon-infomessage {
-    color: $ametys-ribbon-infomessage-color;
-    background-color: $ametys-ribbon-infomessage-background-color;
-    font-size: $ametys-ribbon-infomessage-font-size;
-    line-height: $ametys-ribbon-infomessage-font-size * 2;
-    font-weight: $ametys-ribbon-infomessage-font-weight;
+.#{$prefix}container-ribbon-message {
+    color: $ametys-ribbon-message-color;
+    background-color: $ametys-ribbon-message-background-color;
+    font-size: $ametys-ribbon-message-font-size;
+    line-height: $ametys-ribbon-message-font-size * 2;
+    font-weight: $ametys-ribbon-message-font-weight;
     
-    border-bottom: 1px solid $ametys-ribbon-infomessage-border-color !important; 
+    border-bottom: 1px solid $ametys-ribbon-message-border-color !important; 
     padding: 0 right($panel-header-padding) 0 left($panel-header-padding);
     
     .#{$prefix}tool-img {
-        background-image: theme-background-image($ametys-ribbon-infomessage-tool-background-image);
+        background-image: theme-background-image($ametys-ribbon-message-tool-background-image);
     }
     
     @mixin message-type($type, $image) {
         &.a-message-type-#{$type} {
-            padding-left: left($panel-header-padding) * 2 + $ametys-ribbon-infomessage-image-small-size;
+            padding-left: left($panel-header-padding) * 2 + $ametys-ribbon-message-image-small-size;
             background-repeat: no-repeat;
-            background-position: $ametys-ribbon-infomessage-font-size center;
+            background-position: $ametys-ribbon-message-font-size center;
             background-image: theme-background-image($image);
         }
     }
-    @include message-type('info', $ametys-ribbon-infomessage-image-small-info) {};
-    @include message-type('question', $ametys-ribbon-infomessage-image-small-question) {};
-    @include message-type('warning', $ametys-ribbon-infomessage-image-small-warning) {};
-    @include message-type('error', $ametys-ribbon-infomessage-image-small-error) {};
+    @include message-type('info', $ametys-ribbon-message-image-small-info) {};
+    @include message-type('question', $ametys-ribbon-message-image-small-question) {};
+    @include message-type('warning', $ametys-ribbon-message-image-small-warning) {};
+    @include message-type('error', $ametys-ribbon-message-image-small-error) {};
 };
-.#{$prefix}component-ribbon-infomessage-title {
-    font-size: $ametys-ribbon-infomessage-title-font-size;
-    font-weight: $ametys-ribbon-infomessage-title-font-weight;
-    text-transform: $ametys-ribbon-infomessage-title-text-transform;
-    padding-right: $ametys-ribbon-infomessage-title-font-size * 4;
+.#{$prefix}component-ribbon-message-title {
+    font-size: $ametys-ribbon-message-title-font-size;
+    font-weight: $ametys-ribbon-message-title-font-weight;
+    text-transform: $ametys-ribbon-message-title-text-transform;
+    padding-right: $ametys-ribbon-message-title-font-size * 4;
 }
  
 /**

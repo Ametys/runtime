@@ -57,19 +57,19 @@ $ametys-ribbon-highlight-color: dynamic($base-color);
 $ametys-ribbon-font-size: $font-size;
 
 $ametys-ribbon-tool-background-image: dynamic('tools/ribbon-tool-sprites-dark');
-$ametys-ribbon-infomessage-tool-background-image: dynamic('tools/ribbon-tool-sprites-dark');
 $ametys-ribbon-panel-tool-background-image: dynamic('tools/ribbon-small-tool-sprites-dark');
 
-$ametys-ribbon-infomessage-image-small-info: dynamic('shared/icon-small-info');
-$ametys-ribbon-infomessage-image-small-question: dynamic('shared/icon-small-question');
-$ametys-ribbon-infomessage-image-small-warning: dynamic('shared/icon-small-warning');
-$ametys-ribbon-infomessage-image-small-error: dynamic('shared/icon-small-error');
-$ametys-ribbon-infomessage-image-small-size: 16px;
-$ametys-ribbon-infomessage-image-info: dynamic('shared/icon-info');
-$ametys-ribbon-infomessage-image-question: dynamic('shared/icon-question');
-$ametys-ribbon-infomessage-image-warning: dynamic('shared/icon-warning');
-$ametys-ribbon-infomessage-image-error: dynamic('shared/icon-error');
-$ametys-ribbon-infomessage-image-size: 32px;
+$ametys-ribbon-message-tool-background-image: dynamic('tools/ribbon-tool-sprites-dark');
+$ametys-ribbon-message-image-small-info: dynamic('shared/icon-small-info');
+$ametys-ribbon-message-image-small-question: dynamic('shared/icon-small-question');
+$ametys-ribbon-message-image-small-warning: dynamic('shared/icon-small-warning');
+$ametys-ribbon-message-image-small-error: dynamic('shared/icon-small-error');
+$ametys-ribbon-message-image-small-size: 16px;
+$ametys-ribbon-message-image-info: dynamic('shared/icon-info');
+$ametys-ribbon-message-image-question: dynamic('shared/icon-question');
+$ametys-ribbon-message-image-warning: dynamic('shared/icon-warning');
+$ametys-ribbon-message-image-error: dynamic('shared/icon-error');
+$ametys-ribbon-message-image-size: 32px;
 
 $ametys-ribbon-field-trigger-width: dynamic(18px);
 $ametys-ribbon-field-trigger-background-image: dynamic('form/ribbon-trigger');

@@ -47,14 +47,14 @@ $ametys-ribbon-header-textfield-outline-color: lighten($ametys-ribbon-highlight-
 
 $ametys-ribbon-header-textfield-background-color: $ametys-ribbon-header-background-color;
 
-$ametys-ribbon-infomessage-color: $ametys-color-hint;
-$ametys-ribbon-infomessage-background-color: $ametys-background-color-hint;
-$ametys-ribbon-infomessage-border-color: darken($ametys-ribbon-tab-color, 6%);
-$ametys-ribbon-infomessage-font-size: $font-size;
-$ametys-ribbon-infomessage-font-weight: normal;
-$ametys-ribbon-infomessage-title-font-size: $font-size;
-$ametys-ribbon-infomessage-title-font-weight: normal;
-$ametys-ribbon-infomessage-title-text-transform: uppercase;
+$ametys-ribbon-message-color: $ametys-color-hint;
+$ametys-ribbon-message-background-color: $ametys-background-color-hint;
+$ametys-ribbon-message-border-color: darken($ametys-ribbon-tab-color, 6%);
+$ametys-ribbon-message-font-size: $font-size;
+$ametys-ribbon-message-font-weight: normal;
+$ametys-ribbon-message-title-font-size: $font-size;
+$ametys-ribbon-message-title-font-weight: normal;
+$ametys-ribbon-message-title-text-transform: uppercase;
 
 $ametys-ribbon-contextualgroup-font-size: $ametys-ribbon-header-font-size;
 $ametys-ribbon-contextualgroup-font-weight: $ametys-ribbon-header-font-weight;
