@@ -288,7 +288,7 @@
                 </class>
                 <scripts>
                     <file>js/Ametys/form/widget/DefaultWidgets.js</file>
-                </scripts>                
+                </scripts>
             </extension>
         </extensions>
     </feature>
@@ -306,7 +306,7 @@
                 </class>
                 <scripts>
                     <file>js/Ametys/form/widget/LocalComboBox.js</file>
-                </scripts>                
+                </scripts>
             </extension>
         </extensions>
     </feature>     
@@ -370,7 +370,7 @@
                 point="org.ametys.core.ui.widgets.WidgetsManager"
                 class="org.ametys.core.ui.widgets.StaticClientSideWidget">
                 <class name="Ametys.form.widget.Date">
-                    <ftypes>date</ftypes>
+                    <ftypes>date,datetime</ftypes>
                     <supports-enumerated>false</supports-enumerated>
                     <supports-non-enumerated>true</supports-non-enumerated>
                     <supports-multiple>false</supports-multiple>
@@ -378,7 +378,7 @@
                 </class>
                 <scripts>
                     <file>js/Ametys/form/widget/DefaultWidgets.js</file>
-                </scripts>                
+                </scripts>
             </extension>
         </extensions>
     </feature>    
