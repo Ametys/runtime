@@ -91,17 +91,36 @@ Ext.define('Ametys.form.widget.ComboBox', {
 	 * @cfg {Boolean} naturalOrder=false True to sort drop down list by natural order. By default alphabetical order is applied to the store.
 	 */
 	
-	constructor: function (config)
-	{
-	    var storeCfg = this.getStoreCfg(config);
-		
+    constructor: function (config)
+    {
+        var storeCfg = this.getStoreCfg(config),
+            typeAhead, editable;
+        
+        if (Ext.isBoolean(config.typeAhead))
+        {
+            typeAhead = config.typeAhead; 
+        }
+        else if (config.typeAhead == "true" || config.typeAhead == "false")
+        {
+            typeAhead = config.typeAhead == "true";
+        }
+        
+        if (Ext.isBoolean(config.editable))
+        {
+            editable = config.editable; 
+        }
+        else if (config.editable == "true" || config.editable == "false")
+        {
+            editable = config.editable == "true";
+        }
+        
 		config = Ext.apply(config, {
-			typeAhead: config.multiple ? false : true,
-			editable: config.multiple ? false : true,
+			typeAhead: typeAhead !== undefined ? typeAhead : (config.multiple ? false : true),
+			editable: editable !== undefined ? editable : (config.multiple ? false : true),
 			forceSelection: true,
 			triggerAction: 'all',
 			
-			queryMode: 'local',
+			queryMode: config.queryMode || 'local',
 			store: storeCfg,
 	        valueField: config.valueField || 'value',
 	        displayField: config.displayField || 'text',
