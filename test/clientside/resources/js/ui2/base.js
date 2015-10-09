@@ -122,6 +122,7 @@ function onreadyfunction() {
 	});
     
     ribbon.getPanel().add(tabContextual6);
+    ribbon.getPanel().add(tabContextual7);
 }
 Ext.onReady(onreadyfunction);
 

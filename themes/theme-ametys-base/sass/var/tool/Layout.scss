@@ -13,3 +13,15 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+
+$ametys-tool-background-color: $ametys-tool-base-color;
+$ametys-tool-tab-color: $ametys-tool-color;
+$ametys-tool-tab-font-size: $ametys-tool-font-size;
+
+$ametys-tool-border-width: dynamic(1px);
+$ametys-tool-border-top-width: dynamic($font-size/3 - $ametys-tool-border-width);
+$ametys-tool-inner-border-width: dynamic($font-size/3 - $ametys-tool-border-width);
+
+$ametys-tool-tab-focus: 50%;
+
+$ametys-tool-tab-normal-font-weight: normal;

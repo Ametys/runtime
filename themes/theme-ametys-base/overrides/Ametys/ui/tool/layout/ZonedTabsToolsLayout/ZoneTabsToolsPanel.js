@@ -17,16 +17,14 @@
 Ext.define('Ametys.theme.ametysbase.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel', {
     override: 'Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel',
     
-    // Automatic resize tabs
-    minTabWidth: 36, // Size to display an icon with correct margins
-    maxTabWidth: 250,
-    
-    plain: true,
+    border: true,
     
     tabBar: {
         defaults:{
             // Will try to fill all available space.
             flex:1,
+            minWidth: 36,
+            maxWidth: 250,
             textAlign: 'left'
         }
     }

@@ -14,11 +14,11 @@
  *  limitations under the License.
  */
 
-$ametys-ribbon-button-color: $ametys-ribbon-main-color;
+$ametys-ribbon-button-color: $ametys-ribbon-main-text-color;
 $ametys-ribbon-button-color-over: darken($ametys-ribbon-header-button-color, 60%);
 $ametys-ribbon-button-color-pressed: darken($ametys-ribbon-header-button-color, 80%);
 $ametys-ribbon-button-color-focus: mix($ametys-ribbon-header-button-color, $ametys-ribbon-header-button-color, 90%);
-$ametys-ribbon-button-outline-color: $ametys-ribbon-highlight-color;
+$ametys-ribbon-button-outline-color: lighten($ametys-ribbon-highlight-color, 40%);
 $ametys-ribbon-button-font-size: $ametys-ribbon-font-size;
 $ametys-ribbon-button-font-weight: normal;
 $ametys-ribbon-button-line-height: $ametys-ribbon-button-font-size*4/3;

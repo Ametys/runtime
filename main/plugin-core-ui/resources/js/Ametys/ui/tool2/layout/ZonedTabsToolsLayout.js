@@ -24,8 +24,30 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 	{
 		extend: "Ametys.ui.tool.ToolsLayout",
         
+        statics:
+        {
+            /**
+             * @property {Object} __REGION_MINSIZE The minimum size of regions of this layout 
+             * @property {Object} __REGION_MINSIZE.width The minimum width in pixels for a region 
+             * @property {Object} __REGION_MINSIZE.height The minimum height in pixels for a region 
+             * @private
+             * @readonly
+             */         
+            __REGION_MINSIZE: {width: 100, height: 100},
+            
+            /**
+             * @property {Number} __ASIDE_FLEX The flex value for non central zones
+             * @private
+             * @readonly
+             */
+            __ASIDE_FLEX: 0.3
+        },
+        
         /** @cfg {String} focusCls A css classname added to the zone, when one of its tools has the focus */
         focusCls: "a-tool-layout-zoned-focused",
+        /** @cfg {String} nofocusCls A css classname added to the zone, when none of its tools has the focus */
+        nofocusCls: "a-tool-layout-zoned-notfocused",
+        
         /** @cfg {String} toolPrefixCls A css classname prefix. Added with the type value, it leads to a classname added to the zone corresponding to the type of the active tool. */
         toolPrefixCls: "a-tool-layout-zoned-panel-",
         
@@ -152,23 +174,34 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 			var panelClass = "Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel";
 			
 			var panels = [
-				this._panelHierarchy['t'] = Ext.create(panelClass, { location: 't', toolsLayout: this }),
+				this._panelHierarchy['t'] = Ext.create(panelClass, { location: 't', toolsLayout: this, minHeight: this.self.__REGION_MINSIZE.height }),
                 {
                     xtype: 'container',
-                    flex: 1,
+                    flex: 3,
                     split: true,
                     layout: {
                         type: 'hbox',
                         align: 'stretch'
                     },
                     items: [
-        				this._panelHierarchy['l'] = Ext.create(panelClass, { location: 'l', toolsLayout: this }),
-				        this._panelHierarchy['cl'] = Ext.create(panelClass, { location: 'cl', toolsLayout: this }),
-				        this._panelHierarchy['cr'] = Ext.create(panelClass, { location: 'cr', toolsLayout: this }),
-        				this._panelHierarchy['r'] = Ext.create(panelClass, { location: 'r', toolsLayout: this })
+        				this._panelHierarchy['l'] = Ext.create(panelClass, { location: 'l', toolsLayout: this, minWidth: this.self.__REGION_MINSIZE.width }),
+                        {
+                            xtype: 'container',
+                            flex: 3,
+                            split: true,
+                            layout: {
+                                type: 'hbox',
+                                align: 'stretch'
+                            },
+                            items: [
+        				        this._panelHierarchy['cl'] = Ext.create(panelClass, { location: 'cl', toolsLayout: this }),
+        				        this._panelHierarchy['cr'] = Ext.create(panelClass, { location: 'cr', toolsLayout: this })
+                            ]
+                        },
+        				this._panelHierarchy['r'] = Ext.create(panelClass, { location: 'r', toolsLayout: this, minWidth: this.self.__REGION_MINSIZE.width })
                     ]
                 },
-                this._panelHierarchy['b'] = Ext.create(panelClass, { location: 'b', toolsLayout: this })
+                this._panelHierarchy['b'] = Ext.create(panelClass, { location: 'b', toolsLayout: this, minHeight: this.self.__REGION_MINSIZE.height })
 			];
 			
 			return panels;
@@ -276,6 +309,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 			// Graphically set the focus
 			var zoneTabsToolsPanel = tool.ownerCt;
 			zoneTabsToolsPanel.addCls(this.focusCls);
+            zoneTabsToolsPanel.removeCls(this.nofocusCls);
 
 			if (this.initialized)
 			{
@@ -327,6 +361,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 			if (zoneTabsToolsPanel)
 			{
 				zoneTabsToolsPanel.removeCls(this.focusCls);
+                zoneTabsToolsPanel.addCls(this.nofocusCls);
 			}
 			
 			if (this._focusedTool == tool)

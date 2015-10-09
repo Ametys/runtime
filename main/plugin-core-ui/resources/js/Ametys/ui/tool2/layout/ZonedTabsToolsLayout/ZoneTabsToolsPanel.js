@@ -22,18 +22,6 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
 	{
 		extend: "Ext.tab.Panel",
 		
-		statics:
-		{
-			/**
-			 * @property {Object} __REGION_MINSIZE The minimum size of regions of this layout 
-			 * @property {Object} __REGION_MINSIZE.width The minimum width in pixels for a region 
-			 * @property {Object} __REGION_MINSIZE.height The minimum height in pixels for a region 
-			 * @private
-			 * @readonly
-			 */			
-			__REGION_MINSIZE: {width: 100, height: 100}
-		},
-		
         /**
          * @cfg {String} ui=tool-layoutzone @inheritdoc
          */
@@ -105,23 +93,8 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
 			
 			this._location = config.location;
 			this._toolsLayout = config.toolsLayout;
-			
-			if (!this._isMainArea())
-			{
-				if (this._location == 'l' || this._location == 'r')
-				{
-					config.minWidth = this.self.__REGION_MINSIZE.width;
-				}
-				else
-				{
-					config.minHeight = this.self.__REGION_MINSIZE.height;
-				}
-				this.flex = 0.3;
-			}
-			else
-			{
-				this.flex = 1;
-			}
+            
+            config.flex = 1;
 			
 			
 			config.stateful = true;

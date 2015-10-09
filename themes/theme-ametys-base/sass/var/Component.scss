@@ -17,13 +17,9 @@
 /**
  * General
  */
-/*
-$color: dynamic(#000000);
 
-$line-height: dynamic(17px);
-$base-color: dynamic(#707070);
-$base-highlight-color: dynamic(#FF0000);
-*/
+$color: dynamic(#000000);
+$base-color: dynamic(#2a579a);
 $font-size: dynamic(12px);
 
 $css-shadow-border-radius: 0;
@@ -43,19 +39,25 @@ $ametys-background-color-error: dynamic(#CC0000);
 $ametys-color-hint: dynamic(#404040);
 $ametys-background-color-hint: dynamic(#fcf0c0);
 
+$ametys-rainbow: dynamic(#d21216 #ff9d00 #f2cb1d #49a349 #0043cc #c9599c #935ed3); 
+$ametys-rainbow-light: dynamic(#ffe5e6 #fff8ed #fffbe6 #e6f3e6 #e5eeff #fcf0f7 #f6f1fc); 
+$ametys-rainbow-dark: dynamic(#8a1111 #d97c38 #987715 #118a11 #00308c #a1407a #884ecf); 
+
 /**
  * Ribbon
  */
-$ametys-ribbon-base-color: dynamic(#F6F6F6);
+$ametys-ribbon-base-color: dynamic(#FFFFFF);
 $ametys-ribbon-base-light-color: lighten($ametys-ribbon-base-color, 50%);
 $ametys-ribbon-base-dark-color: darken($ametys-ribbon-base-color, 12%); 
 $ametys-ribbon-main-color: dynamic(#7F7F7F);
+$ametys-ribbon-main-text-color: dynamic(#7F7F7F);
 $ametys-ribbon-tab-color: dynamic(#F1F1F1);
-$ametys-ribbon-highlight-color: dynamic(#9DC7EF);
+$ametys-ribbon-highlight-color: dynamic($base-color);
 
 $ametys-ribbon-font-size: $font-size;
 
 $ametys-ribbon-tool-background-image: dynamic('tools/ribbon-tool-sprites-dark');
+$ametys-ribbon-infomessage-tool-background-image: dynamic('tools/ribbon-tool-sprites-dark');
 $ametys-ribbon-panel-tool-background-image: dynamic('tools/ribbon-small-tool-sprites-dark');
 
 $ametys-ribbon-infomessage-image-small-info: dynamic('shared/icon-small-info');
@@ -75,7 +77,24 @@ $ametys-ribbon-field-date-background-image: dynamic('form/ribbon-date');
 $ametys-ribbon-field-spinner-background-image: dynamic('form/ribbon-spinner');
 $ametys-ribbon-field-checkbox-background-image: dynamic('form/ribbon-checkbox');
 
-$ametys-ribbon-contextualgroup-colors: dynamic(#ff010c #ff9d00 #f2cb1d #49a349 #1215d8 #c9599c #935ed3);
+$ametys-ribbon-contextualgroup-colors: $ametys-rainbow;
+$ametys-ribbon-contextualgroup-colors-light: $ametys-rainbow-light;
+$ametys-ribbon-contextualgroup-colors-dark: $ametys-rainbow-dark;
+
+/**
+ * Tools layout
+ */
+$ametys-tool-base-color: dynamic($ametys-ribbon-base-color);
+$ametys-tool-font-size: dynamic($font-size); 
+$ametys-tool-color: dynamic(#7F7F7F);
+
+$ametys-tool-tab-gray: #E1E1E1;
+$ametys-tool-tab-gray-light: #F3F3F3;
+$ametys-tool-tab-gray-dark: #C1C1C1;
+
+$ametys-tool-tab-colors: $ametys-rainbow;
+$ametys-tool-tab-colors-light: $ametys-rainbow-light;
+$ametys-tool-tab-colors-dark: $ametys-rainbow-dark;
 
 /**
  * Imports

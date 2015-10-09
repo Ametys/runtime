@@ -23,7 +23,7 @@ function openTool1()
         smallIcon: '/test/resources/img/editpaste_16.gif',
         mediumIcon: '/test/resources/img/editpaste_32.gif',
         largeIcon: '/test/resources/img/editpaste_48.gif',
-        type: Ametys.ui.tool.ToolPanel.TOOLTYPE_0,
+        type: Math.round(Math.random() * 6) * 10,
         html: 'This is tool one<br/>'
             + '<ul>'
             +       '<li>Contextual tab 1 <a href="javascript:tabContextual1.showContextualTab()">show</a> <a href="javascript:tabContextual1.hideContextualTab()">hide</a></li>'
@@ -33,6 +33,7 @@ function openTool1()
             +       '<li>Contextual tab 4 <a href="javascript:tabContextual4.showContextualTab()">show</a> <a href="javascript:tabContextual4.hideContextualTab()">hide</a></li>'
             +       '<li>Contextual tab 5 <a href="javascript:tabContextual5.showContextualTab()">show</a> <a href="javascript:tabContextual5.hideContextualTab()">hide</a></li>'
             +       '<li>Contextual tab 6 <a href="javascript:tabContextual6.showContextualTab()">show</a> <a href="javascript:tabContextual6.hideContextualTab()">hide</a></li>'
+            +       '<li>Contextual tab 7 <a href="javascript:tabContextual7.showContextualTab()">show</a> <a href="javascript:tabContextual7.hideContextualTab()">hide</a></li>'
             + '</ul>',
         closable: true
     });
@@ -43,15 +44,56 @@ function openTool1()
 
 function openTool2()
 {
+    store = Ext.create('Ext.data.Store', {
+                        fields: ['name', 'gender', { name: 'age', type: 'int' }],
+                        data: [
+                            { name: 'Joe', gender: 'male', age: 36 },
+                            { name: 'Anna', gender: 'female', age: 29 },
+                            { name: 'Frederick', gender: 'male', age: 74 }
+                        ]
+                    });
+                    
     var tool = Ext.create("Ametys.ui.tool.ToolPanel", {
         title: 'My Tool n°2 - ' + monindex++,
         description: 'This is my tool numero duo',
         smallIcon: '/test/resources/img/editpaste_16.gif',
         mediumIcon: '/test/resources/img/editpaste_32.gif',
         largeIcon: '/test/resources/img/editpaste_48.gif',
-        type: Ametys.ui.tool.ToolPanel.TOOLTYPE_0,
+        type: Math.round(Math.random() * 6) * 10,
         dockedItems: [ createOodPanel() ],
-        html: "<b>je suis le contenu du Tool 2</b>"
+        layout: 'fit',
+        items: [
+
+            {
+                xtype: 'gridpanel',
+                bbar: [{
+                    xtype: 'pagingtoolbar',
+                    store: store,
+                    displayInfo: true,
+                    displayMsg : 'Displaying topics {0} - {1} of {2}'
+                }],
+                store: store,
+                columns: [
+                    {
+                        xtype: 'gridcolumn',
+                        dataIndex: 'name',
+                        text: 'Name',
+                        flex: 1
+                    },
+                    {
+                        xtype: 'gridcolumn',
+                        dataIndex: 'gender',
+                        text: 'Gender'
+                    },
+                    {
+                        xtype: 'numbercolumn',
+                        dataIndex: 'age',
+                        text: 'Age'
+                    }
+                ]
+            }
+        
+        ]
     });
     
     layout.addTool(tool, "l");
@@ -66,7 +108,7 @@ function openTool3()
         smallIcon: '/test/resources/img/editpaste_16.gif',
         mediumIcon: '/test/resources/img/editpaste_32.gif',
         largeIcon: '/test/resources/img/editpaste_48.gif',
-        type: Ametys.ui.tool.ToolPanel.TOOLTYPE_0,
+        type: Math.round(Math.random() * 6) * 10,
         scrollable: true,
         closable: true,
         layout: 'absolute',
@@ -86,8 +128,64 @@ function openTool4()
         smallIcon: '/test/resources/img/editpaste_16.gif',
         mediumIcon: '/test/resources/img/editpaste_32.gif',
         largeIcon: '/test/resources/img/editpaste_48.gif',
-        type: Ametys.ui.tool.ToolPanel.TOOLTYPE_0,
-        html: "<b>je suis le contenu du Tool 4</b><br/>Pensez à me collapser pour tester"
+        type: Math.round(Math.random() * 6) * 10,
+        items: [ 
+            {
+                xtype: 'button',
+                text: 'Dialog',
+                handler: function() {
+                                Ext.create('Ametys.window.DialogBox', {
+                                    title: "Boite de dialogue...",
+                                    icon: Ametys.CONTEXT_PATH + '/test/resources/img/editpaste_48.gif',
+                                    
+                                    width: 500,
+                                    scrollable: true,
+                                    layout: 'form',
+                                    
+                                    items: [{
+                                                xtype: 'form',
+                                                border: false,
+                                                defaults: {
+                                                    cls: 'ametys',
+                                                    labelAlign: 'top',
+                                                    labelSeparator: '',
+                                                    labelWidth: 130
+                                                },
+                                                items: [{
+                                                            xtype: 'component',
+                                                            cls: 'text',
+                                                            html: "Ceci est une boite de dialogue avec un texte d'introduction un petit peu long, qui peut même nécessiter plusieurs lignes."
+                                                        }, 
+                                                        {
+                                                            xtype: 'textfield',
+                                                            fieldLabel : "Saisissez quelque chose de vert",
+                                                            name: 'url',
+                                                            itemId: 'url',
+                                                            width: 450,
+                                                            allowBlank: false,
+                                                            msgTarget: 'side'
+                                                        },
+                                                        {
+                                                            xtype: 'component',
+                                                            cls: 'text',
+                                                            html: "Ceci est un petit message de fin de page"
+                                                        }
+                                                ]
+                                            }
+                                    ],
+                                    
+                                    defaultFocus: 'url',
+                                    closeAction: 'hide',
+                                    buttons : [{
+                                        text :"Ok"
+                                    }, {
+                                        text :"Annuler"
+                                    }]
+                                }).show();
+                            
+                }
+            }
+        ]
     });
     
     layout.addTool(tool, "r");
@@ -104,7 +202,7 @@ function openTool5()
         smallIcon: '/test/resources/img/editpaste_16.gif',
         mediumIcon: '/test/resources/img/editpaste_32.gif',
         largeIcon: '/test/resources/img/editpaste_48.gif',
-        type: Ametys.ui.tool.ToolPanel.TOOLTYPE_0,
+        type: Math.round(Math.random() * 6) * 10,
         html: "<b>je suis le contenu du Tool 5</b><br/>Pensez à me drag'n'droper dans une autre zone et à me ramener ici ensuite pour tester"
     });
     
@@ -122,7 +220,7 @@ function openTool6()
         smallIcon: '/test/resources/img/editpaste_16.gif',
         mediumIcon: '/test/resources/img/editpaste_32.gif',
         largeIcon: '/test/resources/img/editpaste_48.gif',
-        type: Ametys.ui.tool.ToolPanel.TOOLTYPE_0,
+        type: Math.round(Math.random() * 6) * 10,
         html: "<b>je suis le contenu du Tool 6</b>"
     });
     

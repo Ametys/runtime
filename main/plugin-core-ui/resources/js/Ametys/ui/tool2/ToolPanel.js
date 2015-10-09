@@ -21,13 +21,11 @@ Ext.define("Ametys.ui.tool.ToolPanel", {
     extend: "Ext.panel.Panel",
     
     alias: 'widget.ametys.toolpanel',
-    
+
     /**
-     * @property {String} toolPanelCls The CSS classname for tools panel
-     * @readonly
-     * @private
+     * @cfg {String} ui=ametys-tool-panel @inheritdoc
      */
-    toolPanelCls: 'a-tool-panel',
+    ui: 'ametys-tool-panel',
     
     statics:
     {
@@ -75,15 +73,6 @@ Ext.define("Ametys.ui.tool.ToolPanel", {
      * @cfg {Number} type=TOOLTYPE_0 The type of tool. Have to be one of the TOOLTUPE_ constants. A tool type may have a different rendering look and also an adapted policy (tools of same kind can be grouped together automatically) 
      */
     type: 0,
-    
-    constructor: function(config)
-    {
-        config = config || {};
-        config.cls = Ext.Array.from(config.cls);
-        config.cls.push(this.toolPanelCls);
-        
-        this.callParent(arguments);
-    },
     
     /**
      * Get the type of the tool
