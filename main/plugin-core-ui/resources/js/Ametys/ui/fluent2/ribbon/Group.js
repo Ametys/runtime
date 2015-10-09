@@ -143,24 +143,31 @@ Ext.define(
             }                
             
             // Creates the icon sized container
-            config.items.push({
-                xtype: 'ametys.ribbon-button',
-                text: config.title,
-                icon: config.icon,
+            config.items.push(Ext.applyIf({
                 cls: this.groupCls + "-icon",
-                iconAlign: 'top',
-                scale: 'large',
-                arrowAlign: 'bottom',
-                menu: {
-                    plain: true,
-                    items: [ {xtype: 'container'} ]
-                },
-                listeners: {
-                    'menushow': this._onIconizedMenuShow,
-                    'menuhide': this._onIconizedMenuHide,
-                    scope: this
-                }
-            });
+                title: "&#160;",
+                tools: [],
+                
+                items: [ {
+                    xtype: 'ametys.ribbon-button',
+                    text: config.title,
+                    icon: config.icon,
+                    iconCls: "a-ribbon-button-default-icon", // this ensure that button will be structured with an icon, even if icon is undefined
+                    iconAlign: 'top',
+                    scale: 'large',
+                    arrowAlign: 'bottom',
+                    menu: {
+                        plain: true,
+                        minWidth: 1, 
+                        items: [ {xtype: 'container'} ]
+                    },
+                    listeners: {
+                        'menushow': this._onIconizedMenuShow,
+                        'menuhide': this._onIconizedMenuHide,
+                        scope: this
+                    }
+                }]
+            }, defaultConfig));
             this._scaleContainer[Ametys.ui.fluent.ribbon.Group.SIZE_ICON] = config.items.length - 1;
             
 			// Creates a smallContainer if smallItems are set
