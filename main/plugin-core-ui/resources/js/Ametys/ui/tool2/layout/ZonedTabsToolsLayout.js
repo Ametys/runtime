@@ -475,6 +475,9 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 			// blur the tool (and its old tools panel)
 			if (isToolActive)
 			{
+                var zoneTabsToolsPanel = tool.ownerCt;
+                zoneTabsToolsPanel.removeCls(this.toolPrefixCls + tool.getType());
+                            
 				this._onToolBlurred(tool, true);
 			}
 			

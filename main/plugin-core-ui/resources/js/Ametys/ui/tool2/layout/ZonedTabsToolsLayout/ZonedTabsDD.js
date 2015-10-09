@@ -141,11 +141,41 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZonedTabsDD",
 		    	
 	    		position[loc] =  p.getPosition();
 	    		size[loc] = p.getSize();
+                
+                if (visible[loc])
+                {
+                    // Add spliter to zone
+                    var associatedSplitter = null;
+                    if (loc == 'l' || loc == 't' || loc == 'cl')
+                    {
+                        associatedSplitter = tabPanel.nextSibling();
+                    }
+                    else if (loc == 'r' || loc == 'b')
+                    {
+                        associatedSplitter = tabPanel.previousSibling();
+                    }
+                    
+                    if (associatedSplitter && associatedSplitter.isVisible()) // spliter can be invisible for a visible zone with "cl" if "cr" is not visible
+                    {
+                        spliterPosition = associatedSplitter.getPosition();
+                        spliterSize = associatedSplitter.getSize();
+                        
+                        size[loc] = { 
+                            width: Math.max(position[loc][0] + size[loc].width, spliterPosition[0] + spliterSize.width) - Math.min(position[loc][0], spliterPosition[0]),
+                            height: Math.max(position[loc][1] + size[loc].height, spliterPosition[1] + spliterSize.height) - Math.min(position[loc][1], spliterPosition[1])
+                        };
+                        
+                        position[loc] = [ 
+                            Math.min(position[loc][0], spliterPosition[0]), 
+                            Math.min(position[loc][1], spliterPosition[1]) 
+                        ];
+                    }
+                }
 
                 dropOffset[loc] = [0, 0];
 		    	dropSize[loc] = {width: size[loc].width, height: size[loc].height};
 		    }
-		    
+            
 		    // Handle top zone
 		    // When top zone is visible, nothing to do
 		    // But when top zone is invisible
@@ -381,27 +411,23 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZonedTabsDD",
 		{
 		    // Invoke the animation if the invalidDrop flag is set to true
 		    if (this.invalidDrop === true) {
+                // Remove the drop invitation
+                this.el.removeCls('dropOK');
+                
 		        // Create the animation configuration object
-		        var animCfgObj = {
-		            easing   : 'easeIn',
-		            //duration : 1,
-		            scope    : this,
-		            callback : function() {
-		                // Remove the position attribute
-		                Ext.fly(this.getDragEl()).hide();
-		            }
-		        };
+                var animCfgObj = {
+                    easing   : 'easeIn',
+                    //duration : 1,
+                    scope    : this,
+                    callback : function() {
+                        // Remove the position attribute
+                        Ext.fly(this.getDragEl()).hide();
+                    }
+                };
 		 
-		        // Apply the repair animation
-                try 
-                {
-		              Ext.fly(this.getDragEl()).moveTo(this.originalXY[0], this.originalXY[1], animCfgObj);
-                }
-                catch (e)
-                {
-                      this.getLogger().error("Cannot repair animation for drag and drop", e)
-                }
-		        delete this.invalidDrop;
+                // Apply the repair animation
+                Ext.fly(this.getDragEl()).setXY(this.originalXY, animCfgObj);
+                delete this.invalidDrop;
 		    }
 		},
 		
