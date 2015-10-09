@@ -186,3 +186,35 @@
     
 @include ametys-ribbon-button('ribbon-component', $ametys-ribbon-button-background-color);
 @include ametys-ribbon-button('ribbon-menu', $ametys-ribbon-menu-background-color);
+
+/**
+ * Loading
+ */
+.a-fluent-loading .#{$prefix}btn-wrap
+{
+    position: relative;
+    text-align: left;
+    
+    .#{$prefix}btn-button
+    {
+        &:before {
+            position: absolute;
+            content: " ";
+            width: 100%;
+            height: 100%;
+            background-image: theme-background-image('loadmask/loading', 'gif');
+            background-repeat: no-repeat;
+        }
+        
+        .#{$prefix}btn-icon-el {
+            @include opacity(0.1);
+        }
+    }
+}
+.#{$prefix}btn-ribbon-component-large.a-fluent-loading .#{$prefix}btn-wrap .#{$prefix}btn-button:before {
+    background-position: center 11px;
+}
+.#{$prefix}btn-ribbon-component-small.a-fluent-loading .#{$prefix}btn-wrap .#{$prefix}btn-button:before {
+    background-position: left center;
+}
+
