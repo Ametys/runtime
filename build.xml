@@ -62,6 +62,10 @@
         PLUGINS_ADMIN_PLUGINS_INACTIVE_DEPENDENCY,
         PLUGINS_ADMIN_PLUGINS_INACTIVE_PASSIVE
     </property>
+
+    <patternset id="check.additional.licenses">
+        <exclude name="main/plugin-core-ui/resources/themes/**"/>
+    </patternset>
 	
 	<target name="compile" depends="common-build.compile">
 		<mkdir dir="${tmp.dir}/test-env-classes"/>
