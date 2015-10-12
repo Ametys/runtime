@@ -42,7 +42,7 @@
 }
 
 .ametys-common .splashscreen.noscript:after,
-.ametys-common .error .splashscreen:after {
+.ametys-common.error .splashscreen:after {
     content: "\f071";
     
     color: #7d3d92;
@@ -52,11 +52,11 @@
     line-height: 1em;
 }
 
-.ametys-common .error .splashscreen:after {
+.ametys-common.error .splashscreen:after {
     color: #7f0000;
 }
 
-.ametys-common .error .la-ball-spin-clockwise {
+.ametys-common.error .la-ball-spin-clockwise {
     display: none;
 }
 
