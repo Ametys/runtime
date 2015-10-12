@@ -412,7 +412,7 @@ Ext.define(
         /**
          * Open a popup window with http POST or GET data
          * @param {String} url the window url
-         * @param {Object} data the request parameters
+         * @param {Object} [data] the request parameters
          * @param {String} [method="POST"] the request method for data, 'GET' or 'POST', defaults to "POST"
          * @param {String} [target="_blank"] an optional opening target (a name, or "_self"), defaults to "_blank"
          */
