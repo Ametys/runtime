@@ -16,6 +16,11 @@
    -->
 <catalogue xml:lang="en">
 
+    <!-- ISO LANGUAGE CODE -->
+    <message key="PLUGINS_CORE_UI_LANGUAGE_CODE">en</message>
+    <!-- Is language Right-To-Left read? -->
+    <message key="PLUGINS_CORE_UI_LANGUAGE_RTL">false</message>
+    
     <message key="PLUGINS_CORE_UI_SHUTDOWN_DEFAULTTITLE">The application is stopped</message>
     <message key="PLUGINS_CORE_UI_SHUTDOWN_DEFAULTTEXT">The application is now stop. You can close your browser or click on the following link to restart it now.</message>
     <message key="PLUGINS_CORE_UI_SHUTDOWN_DEFAULTACTION">Click here to reconnect to the application.</message>

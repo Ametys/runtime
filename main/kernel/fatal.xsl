@@ -39,7 +39,125 @@
                 <link rel="icon" type="image/x-icon" href="{$contextPath}/kernel/resources/img/favicon.ico" />
                 <link rel="shortcut icon" type="image/x-icon" href="{$contextPath}/kernel/resources/img/favicon.ico" />
                 
-                <link rel="stylesheet" type="text/css" href="{$contextPath}/kernel/resources/css/fatal.css"/>
+                <style type="text/css">
+					html {
+					    background-color: #812281;
+					    background-size: cover;
+					    font-family: 'Helvetica Neue', helvetica, arial, verdana, sans-serif;
+					    font-size: 12px;
+					    color: #efefef;
+					    height: 100%;
+					}
+					
+					body {
+					    height: 100%;
+					    margin: 0;
+					}
+					
+					/* The animation code **/
+					@keyframes smiley {
+					    0% {
+					        margin: 0 0; 
+					        transform: rotate(0deg);   
+					        -ms-transform: rotate(0deg); 
+					        -webkit-transform: rotate(0deg); 
+					        -moz-transform: rotate(0deg);     
+					        -o-transform: rotate(0deg); 
+					    }
+					    25% {
+					        margin: 0 0; 
+					        transform: rotate(0deg); 
+					        -ms-transform: rotate(0deg); 
+					        -webkit-transform: rotate(0deg); 
+					        -moz-transform: rotate(0deg);     
+					        -o-transform: rotate(0deg);
+					    }
+					    100% {
+					        transform: rotate(90deg); 
+					        -ms-transform: rotate(90deg); 
+					        -webkit-transform: rotate(90deg); 
+					        -moz-transform: rotate(90deg);     
+					        -o-transform: rotate(90deg);  
+					    }
+					}
+					
+					table {
+					    table-layout: fixed;
+					    width: 100%;
+					    height: 100%;
+					    border-collapse: collapse;
+					}
+					table tr.main td {
+					    padding: 3em 2em 2em 10%;
+					}
+					
+					.ametys-fatal-page-text {
+					    font-size: 11em;
+					    line-height: 1.3em;
+					}
+					.ametys-fatal-page-text span {
+					     -ms-transform: rotate(90deg); 
+					     -webkit-transform: rotate(90deg); 
+					     -moz-transform: rotate(90deg);     
+					     -o-transform: rotate(90deg);  
+					     margin: 0 0.25em;  
+					     display: inline-block; 
+					     animation-name: smiley;
+					     animation-duration: 4s;
+					     animation-timing-function: ease;
+					}
+					
+					.ametys-fatal-page-subtext
+					{
+					    font-size: 2em;
+					    line-height: 1.5em;
+					}
+					
+					table tr.secondary {
+					    height: 100%;
+					}
+					table tr.secondary td {
+					    padding: 0 1em 1em 10%;
+					}
+					
+					.wrap {
+					    height: 100%;
+					    overflow: auto;
+					}
+					
+					h1 {
+					    font-size: 1em;
+					}
+					
+					.ametys-fatal-page-details {
+					    padding: 0.3em;
+					    background: none;
+					    border: none;
+					    margin-top: 0.5em;
+					}
+					
+					/**
+					 * MOBILE
+					 */
+					
+					@media screen and (max-width: 960px), screen and (max-height: 360px)) {
+					    html {
+					        font-size: 9px;
+					    }
+					    table tr.main td {
+					        padding: 3em 2em 2em 2em;
+					    }
+					    table tr.secondary td {
+					        padding: 0 1em 1em 2em;
+					    }
+					    .wrap {
+					        height: auto;
+					    }
+					    .ametys-fatal-page-text {
+					        font-size: 7em;
+					    }
+					}
+                </style>
            </head>
            <body>
                 <table>
@@ -56,7 +174,7 @@
 				                    <xsl:with-param name="exception" select="/ex:exception-report"/>
                                     <xsl:with-param name="realPath" select="$realPath"/>
 				               </xsl:call-template>
-				            </div>
+                            </div>
                         </td>
                     </tr>
                 </table>

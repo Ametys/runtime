@@ -163,7 +163,7 @@
                         lastname: "<xsl:value-of select="user/lastname"/>",
                         fullname: "<xsl:value-of select="user/firstname"/><xsl:text> </xsl:text><xsl:value-of select="user/lastname"/>" ,
                         email:  "<xsl:value-of select="user/email"/>",
-                        locale: "<i18n:text i18n:key='KERNEL_LANGUAGE_CODE' catalogue='kernel'/>"
+                        locale: Ametys.LANGUAGE_CODE
                     });
                 </script>
                 

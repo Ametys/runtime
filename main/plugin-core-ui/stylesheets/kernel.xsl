@@ -60,8 +60,8 @@
 		<xsl:variable name="context-path" select="ametys:uriPrefix(false())"/>
 		<xsl:variable name="workspace-name" select="ametys:workspaceName()"/>
 		<xsl:variable name="workspace-prefix" select="ametys:workspacePrefix()"/>
-		<xsl:variable name="language-code" select="ametys:translate('kernel:KERNEL_LANGUAGE_CODE')"/>
-        <xsl:variable name="rtl" select="ametys:translate('kernel:KERNEL_LANGUAGE_RTL') = 'true'"/>
+		<xsl:variable name="language-code" select="ametys:translate('plugin.core-ui:PLUGINS_CORE_UI_LANGUAGE_CODE')"/>
+        <xsl:variable name="rtl" select="ametys:translate('plugin.core-ui:PLUGINS_CORE_UI_LANGUAGE_RTL') = 'true'"/>
 		<xsl:variable name="max-upload-size" select="ametys:config('runtime.upload.max-size')"/>
         <xsl:variable name="debug-mode" select="not(ametys:config('runtime.debug.ui') = 0)"/>
 

@@ -29,8 +29,8 @@
                 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
                 <title><xsl:call-template name="head-title"/></title>
 
-                <link rel="icon" type="image/x-icon" href="{$contextPath}/kernel/resources/img/favicon.ico" />
-                <link rel="shortcut icon" type="image/x-icon" href="{$contextPath}/kernel/resources/img/favicon.ico" />
+                <link rel="icon" type="image/x-icon" href="{$contextPath}/kernel/resources/favicon.ico" />
+                <link rel="shortcut icon" type="image/x-icon" href="{$contextPath}/kernel/resources/favicon.ico" />
                 
                 <xsl:call-template name="head-css"/>
                 
