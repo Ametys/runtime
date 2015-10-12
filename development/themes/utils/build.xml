@@ -21,6 +21,10 @@
         <exec executable="sencha" dir="${ametys-themes-dir}/work/packages/local/${name}">
             <arg value="package"/>
             <arg value="build"/>
-        </exec>    
+        </exec>   
+        
+        <copy todir="${ametys-runtime-dir}/main/plugin-core-ui/resources/themes/${name}">
+            <fileset dir="${ametys-themes-dir}/work/packages/local/${name}/build/resources"/>
+        </copy>
     </target>
 </project>
