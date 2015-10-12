@@ -276,6 +276,15 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     },
     
     /**
+     * Test if the form is ready, i.e. when all fields are rendered and have a value set.
+     * @return {Boolean} `true` when the form is ready. 
+     */
+    isFormReady: function()
+    {
+        return this._formReady;
+    },
+    
+    /**
      * @private
      * When a field is selected
      * @param {Ext.form.Field} field The field that has been selected (focused) or null if the last selected field blurred
