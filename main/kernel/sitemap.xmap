@@ -83,6 +83,7 @@
                 <exception class="org.apache.excalibur.source.SourceNotFoundException" name="not-found"/>
 				<exception class="org.ametys.runtime.authentication.AccessDeniedException" name="access-denied"/>
                 <exception class="org.ametys.runtime.authentication.AuthorizationRequiredException" name="authorization-required"/>
+                <exception class="org.ametys.runtime.exception.ServiceUnavailableException" name="service-unavailable"/>
 				<!-- The statement below tells the selector to unroll as much exceptions as possible -->
 				<exception class="java.lang.Throwable" unroll="true"/>
 			</map:selector>
@@ -263,6 +264,20 @@
 			          		<map:serialize status-code="401"/>
 		          		</map:act>
 					</map:when>
+                    <map:when test="service-unavailable">
+                        <map:act type="exception" src="503">
+                            <map:act type="set-authorization-header"/>
+                            <map:generate type="exception" label="content"/>
+                            <map:transform src="{xsl}">
+                                <map:parameter name="realPath" value="{realpath:}"/>
+                                <map:parameter name="code" value="503"/>
+                            </map:transform>
+                            <map:transform type="i18n">
+                                <map:parameter name="locale" value="{locale:locale}"/>
+                            </map:transform>
+                            <map:serialize status-code="503"/>
+                        </map:act>
+                    </map:when>
 					<map:otherwise>
 						<map:act type="exception" src="500">
 			        		<map:generate type="exception" label="content"/>

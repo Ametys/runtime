@@ -116,6 +116,10 @@
     <message key="PLUGINS_CORE_UI_ERROR_500_TEXT">An error occurred. The page can not be displayed.<br/>You can try again later<br/>or contact the application administrator if the problem persits.</message>
     <message key="PLUGINS_CORE_UI_ERROR_500_LINK">Technical details</message>
             
+    <message key="PLUGINS_CORE_UI_ERROR_503_HEAD">Service unavailable</message>
+    <message key="PLUGINS_CORE_UI_ERROR_503_TITLE">Oops...</message>
+    <message key="PLUGINS_CORE_UI_ERROR_503_TEXT">The server is currently unavailable.<br/>Please try again later.</message>
+    
     <!-- +
          | Config 
          + -->

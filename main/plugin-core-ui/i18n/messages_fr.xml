@@ -115,6 +115,10 @@
     <message key="PLUGINS_CORE_UI_ERROR_500_TITLE">Oups...</message>
     <message key="PLUGINS_CORE_UI_ERROR_500_TEXT">Une erreur est survenue. Il est impossible d'afficher la page.<br/><br/>Vous pouvez réessayer ultérieurement ou contacter l'administrateur de l'application si le problème persiste.</message>
     <message key="PLUGINS_CORE_UI_ERROR_500_LINK">Détails techniques</message>
+    
+    <message key="PLUGINS_CORE_UI_ERROR_503_HEAD">Service indisponible</message>
+    <message key="PLUGINS_CORE_UI_ERROR_503_TITLE">Oups...</message>
+    <message key="PLUGINS_CORE_UI_ERROR_503_TEXT">Le serveur est actuellement indisponible.<br/>Veuillez ressayer plus tard.</message>
         
     <!-- +
          | Config 
