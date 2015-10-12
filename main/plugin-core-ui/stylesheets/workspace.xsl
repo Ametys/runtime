@@ -64,17 +64,17 @@
     </xsl:template>
 
     <xsl:template name="main">
-        <noscript><div class="splashscreen noscript"><div class="msg"><i18n:text i18n:key="WORKSPACE_AMETYS_MAIN_ERROR_NOJS" i18n:catalogue="plugin.core-ui"/></div></div></noscript>
+        <noscript><div class="splashscreen noscript"><div class="msg"><i18n:text i18n:key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_MAIN_ERROR_NOJS" i18n:catalogue="plugin.core-ui"/></div></div></noscript>
     
         <div id="splashscreen" class="splashscreen" style="display: none">
             <div class="msg">
                 <span id="load-msg">
                     <xsl:choose>
                         <xsl:when test="/Ametys/workspace/safe-mode">
-		                    <i18n:text i18n:key="WORKSPACE_AMETYS_SPLASHSCREEN_LOADING_SAFEMODE" i18n:catalogue="plugin.core-ui"/>
+		                    <i18n:text i18n:key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_SPLASHSCREEN_LOADING_SAFEMODE" i18n:catalogue="plugin.core-ui"/>
                         </xsl:when>
                         <xsl:otherwise>
-                            <i18n:text i18n:key="WORKSPACE_AMETYS_SPLASHSCREEN_LOADING" i18n:catalogue="plugin.core-ui"/>
+                            <i18n:text i18n:key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_SPLASHSCREEN_LOADING" i18n:catalogue="plugin.core-ui"/>
                         </xsl:otherwise>
                     </xsl:choose>
                 </span>
@@ -118,10 +118,10 @@
 	            document.body.className = "error";
 	            <xsl:choose>
                     <xsl:when test="$splashscreen != 'no'">
-	                   document.getElementById('load-msg').innerHTML = "<i18n:text i18n:key="WORKSPACE_AMETYS_SPLASHSCREEN_LOAD_FAIL" i18n:catalogue="plugin.core-ui"/>";
+	                   document.getElementById('load-msg').innerHTML = "<i18n:text i18n:key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_SPLASHSCREEN_LOAD_FAIL" i18n:catalogue="plugin.core-ui"/>";
 	                </xsl:when>
 	                <xsl:otherwise>
-	                   document.body.innerHTML = "<i18n:text i18n:key="WORKSPACE_AMETYS_SPLASHSCREEN_LOAD_FAIL" i18n:catalogue="plugin.core-ui"/>";
+	                   document.body.innerHTML = "<i18n:text i18n:key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_SPLASHSCREEN_LOAD_FAIL" i18n:catalogue="plugin.core-ui"/>";
 	                </xsl:otherwise>
 	            </xsl:choose>
 	            
@@ -140,7 +140,7 @@
     </xsl:template>
     
     <xsl:template match="workspace">
-                <noscript><i18n:text i18n:key="WORKSPACE_AMETYS_MAIN_ERROR_NOJS" i18n:catalogue="plugin.core-ui"/></noscript>
+                <noscript><i18n:text i18n:key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_MAIN_ERROR_NOJS" i18n:catalogue="plugin.core-ui"/></noscript>
                 
                 <xsl:call-template name="uicall"/>                
 
@@ -440,24 +440,28 @@
                                             {
                                                 if (window.errorMode) { return; }
                                                 
-                                                Ext.suspendLayouts();  
-                                            
-                                                Ametys.tool.ToolsManager.init({
-                                                    autoRefreshingFactories: [ <xsl:for-each select="uitools-factories/refresh/uitool-factory">
-                                                         <xsl:text/>"<xsl:value-of select="@id"/>"<xsl:if test="position() != last()">,</xsl:if>
-                                                    </xsl:for-each> ],
-                                                    autoOpenedTools: [ <xsl:for-each select="uitools-factories/default/uitool-factory">
-                                                         <xsl:text/>{ role: "<xsl:value-of select="@id"/>", toolParams: {<xsl:value-of select="."/>} }<xsl:if test="position() != last()">,</xsl:if>
-                                                    </xsl:for-each> ]
-                                                });
-                                                
-                                                <xsl:for-each select="uitools-factories/additionnal/uitool-factory">
-                                                Ametys.tool.ToolsManager.openTool("<xsl:value-of select="@id"/>", {<xsl:value-of select="."/>});
-                                                </xsl:for-each>
-                                                            
-                                                Ametys.tool.ToolsManager.getToolsLayout().setAsInitialized();
-                                                
-                                                Ext.resumeLayouts(true);
+                                                try
+                                                {
+	                                                Ametys.tool.ToolsManager.init({
+	                                                    autoRefreshingFactories: [ <xsl:for-each select="uitools-factories/refresh/uitool-factory">
+	                                                         <xsl:text/>"<xsl:value-of select="@id"/>"<xsl:if test="position() != last()">,</xsl:if>
+	                                                    </xsl:for-each> ],
+	                                                    autoOpenedTools: [ <xsl:for-each select="uitools-factories/default/uitool-factory">
+	                                                         <xsl:text/>{ role: "<xsl:value-of select="@id"/>", toolParams: {<xsl:value-of select="."/>} }<xsl:if test="position() != last()">,</xsl:if>
+	                                                    </xsl:for-each> ]
+	                                                });
+	                                                
+	                                                <xsl:for-each select="uitools-factories/additionnal/uitool-factory">
+	                                                Ametys.tool.ToolsManager.openTool("<xsl:value-of select="@id"/>", {<xsl:value-of select="."/>});
+	                                                </xsl:for-each>
+	                                                            
+	                                                Ametys.tool.ToolsManager.getToolsLayout().setAsInitialized();
+	                                            }
+	                                            catch (e)
+	                                            {
+	                                                Ametys.userprefs.UserPrefsDAO.saveValues( { "workspace": {} }, function() { }, undefined, Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS);
+	                                                Ametys.shutdown("<i18n:text i18n:key='PLUGINS_CORE_UI_WORKSPACE_AMETYS_FAIL_AFTERLOAD_TITLE' i18n:catalogue="plugin.core-ui"/>", "<i18n:text i18n:key='PLUGINS_CORE_UI_WORKSPACE_AMETYS_FAIL_AFTERLOAD_TEXT' i18n:catalogue="plugin.core-ui"/>", "<i18n:text i18n:key='PLUGINS_CORE_UI_WORKSPACE_AMETYS_FAIL_AFTERLOAD_ACTION' i18n:catalogue="plugin.core-ui"/>");
+	                                            }
                                             }
                                         });
                                     }

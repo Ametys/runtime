@@ -353,11 +353,16 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
             
 			Ext.suspendLayouts();
 
-			this._addToolToUI(tool, location);
-			
-			tool.fireEvent("toolopen", tool);
-			
-			Ext.resumeLayouts(true);
+            try
+            {
+			     this._addToolToUI(tool, location);
+                 
+    			 tool.fireEvent("toolopen", tool);
+            }
+            finally
+            {
+    			Ext.resumeLayouts(true);
+            }
 		},
         
         /**

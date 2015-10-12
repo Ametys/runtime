@@ -18,15 +18,20 @@
 	
     <message key="PLUGINS_CORE_UI_SHUTDOWN_DEFAULTTITLE">L'application est arrêtée</message> 
     <message key="PLUGINS_CORE_UI_SHUTDOWN_DEFAULTTEXT">L'application est maintenant arrêtée. Vous pouvez fermer votre navigateur ou cliquer sur le lien suivant pour la redémarrer maintenant.</message>
+    <message key="PLUGINS_CORE_UI_SHUTDOWN_DEFAULTACTION">Cliquez ici pour vous reconnecter à l'application.</message>
 
     <!-- +
          | Workspace
          + -->
-    <message key="WORKSPACE_AMETYS_MAIN_ERROR_NOJS">Cette application ne peut pas fonctionner en l'absence de javascript</message>
-    <message key="WORKSPACE_AMETYS_SPLASHSCREEN_LOADING">Chargement en cours. Veuillez patienter...</message>
-    <message key="WORKSPACE_AMETYS_SPLASHSCREEN_LOADING_SAFEMODE">Chargement du mode sans échec en cours. Veuillez patienter...</message>
-    <message key="WORKSPACE_AMETYS_SPLASHSCREEN_LOAD_FAIL">Chargement impossible. Contactez l'administrateur si le problème persiste.</message>
-    <message key="WORKSPACE_AMETYS_SPLASHSCREEN_APP_AMETYS_VERSION">motorisé par Ametys</message>
+    <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_MAIN_ERROR_NOJS">Cette application ne peut pas fonctionner en l'absence de javascript</message>
+    <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_SPLASHSCREEN_LOADING">Chargement en cours. Veuillez patienter...</message>
+    <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_SPLASHSCREEN_LOADING_SAFEMODE">Chargement du mode sans échec en cours. Veuillez patienter...</message>
+    <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_SPLASHSCREEN_LOAD_FAIL">Chargement impossible. Contactez l'administrateur si le problème persiste.</message>
+    <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_SPLASHSCREEN_APP_AMETYS_VERSION">motorisé par Ametys</message>
+    
+    <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_FAIL_AFTERLOAD_TITLE">Echec du chargement</message>
+    <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_FAIL_AFTERLOAD_TEXT">Le chargement a échoué.\n\nCela peut être dû à un problème dans vos préférences d'utilisateur qui ont donc été effacées.\n\nVous pouvez réessayer ou contacter l'administrateur si le problème persiste.</message>
+    <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_FAIL_AFTERLOAD_ACTION">Cliquez ici pour essayer à nouveau de vous connecter à l'application.</message>
     
     <!-- +
          | Login screen
@@ -141,7 +146,6 @@
     <message key="PLUGINS_CORE_UI_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE">La connexion avec le serveur a été perdue mais le serveur est peut-être toujours en train de traiter votre requête.\n\nSi toutes vos données sont enregistrées, cliquez sur Annuler.\n\nSinon cliquez sur Ok pour essayer de sauver vos modifications en cours à nouveau mais votre application sera dans un état instable (Si ce message apparaît plusieurs fois, contactez votre administrateur système pour connaitre la durée du problème).</message>
     <message key="PLUGINS_CORE_UI_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_1">La connexion avec le serveur a été perdue</message>
     <message key="PLUGINS_CORE_UI_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_2">L'application s'est retrouvée dans un état instable et a été arretée</message>
-    <message key="PLUGINS_CORE_UI_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_3">Cliquez ici pour vous reconnecter à l'application.</message>
     <message key="PLUGINS_CORE_UI_SERVERCOMMPROXY_ERROR_MSG">Erreur de communication avec le serveur.</message>
     <!-- +
          | TimeoutDialog.js

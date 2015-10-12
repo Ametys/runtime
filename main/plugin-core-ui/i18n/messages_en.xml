@@ -18,15 +18,20 @@
 
     <message key="PLUGINS_CORE_UI_SHUTDOWN_DEFAULTTITLE">The application is stopped</message>
     <message key="PLUGINS_CORE_UI_SHUTDOWN_DEFAULTTEXT">The application is now stop. You can close your browser or click on the following link to restart it now.</message>
+    <message key="PLUGINS_CORE_UI_SHUTDOWN_DEFAULTACTION">Click here to reconnect to the application.</message>
 
     <!-- +
          | Workspace
          + -->
-    <message key="WORKSPACE_AMETYS_MAIN_ERROR_NOJS">This application can't work without javascript</message>
-    <message key="WORKSPACE_AMETYS_SPLASHSCREEN_LOADING">Loading. Please wait...</message>
-    <message key="WORKSPACE_AMETYS_SPLASHSCREEN_LOADING_SAFEMODE">Loading safe mode. Please wait...</message>
-    <message key="WORKSPACE_AMETYS_SPLASHSCREEN_LOAD_FAIL">Not loading. Contact the administrator if the problem persists.</message>
-    <message key="WORKSPACE_AMETYS_SPLASHSCREEN_APP_AMETYS_VERSION">powered by Ametys</message>
+    <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_MAIN_ERROR_NOJS">This application can't work without javascript</message>
+    <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_SPLASHSCREEN_LOADING">Loading. Please wait...</message>
+    <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_SPLASHSCREEN_LOADING_SAFEMODE">Loading safe mode. Please wait...</message>
+    <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_SPLASHSCREEN_LOAD_FAIL">Not loading. Contact the administrator if the problem persists.</message>
+    <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_SPLASHSCREEN_APP_AMETYS_VERSION">powered by Ametys</message>
+    
+    <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_FAIL_AFTERLOAD_TITLE">Loading failed</message>
+    <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_FAIL_AFTERLOAD_TEXT">The loading process failed.\n\nThis may be due to an issue in your workspace preferences that have been reset.\n\nYou can try again or contact the administrator if the problem persists.</message>
+    <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_FAIL_AFTERLOAD_ACTION">Click here to try again to connect to the application.</message>
     
     <!-- +
          | Login screen
@@ -141,7 +146,6 @@
     <message key="PLUGINS_CORE_UI_SERVERCOMM_LISTENERREQUEST_FAILED_UNAVAILABLE">The connection to the server is down but the server may still be running your request.\n\nIf all your data are saved, click on Cancel.\n\nElse you can click on Ok to try to save again your running modifications but your application will be unstable (if you met this message several times, contact your administrator to have details on the problem duration).</message>
     <message key="PLUGINS_CORE_UI_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_1">The connection with the server was lost</message>
     <message key="PLUGINS_CORE_UI_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_2">The application became unstable and has stopped</message>
-    <message key="PLUGINS_CORE_UI_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_3">Click here to reconnect to the application.</message>
     <message key="PLUGINS_CORE_UI_SERVERCOMMPROXY_ERROR_MSG">Communication error with the server.</message>
     <!-- +
          | TimeoutDialog.js

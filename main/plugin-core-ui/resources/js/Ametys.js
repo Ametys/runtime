@@ -449,13 +449,15 @@ Ext.define(
 		 * Shutdown all the application and display a message. A restart link is automatically added.<br/>
 		 * Will cut all known crons, requests...<br/>
 		 * Do not do anything after this call.
-		 * @param {String} title A title
-		 * @param {String} message A html message to display.
+		 * @param {String} [title] A title
+		 * @param {String} [message] A html message to display.
+         * @param {String} [action] A text message to set on the action button.
 		 */
-		shutdown: function(title, message) 
+		shutdown: function(title, message, action) 
 		{
 			title = title || "<i18n:text i18n:key='PLUGINS_CORE_UI_SHUTDOWN_DEFAULTTITLE'/>";
 			message = message || "<i18n:text i18n:key='PLUGINS_CORE_UI_SHUTDOWN_DEFAULTTEXT'/>";
+            action = action || "<i18n:text i18n:key='PLUGINS_CORE_UI_SHUTDOWN_DEFAULTACTION'/>";
 			
 			if (window.console)
 			{
@@ -533,7 +535,7 @@ Ext.define(
                 splashScreen.className = "text";
                 splashScreen.innerHTML = "<h1>" + title + "</h1>" 
                                         + "<p class='text'>" + message + "</p>"
-                                        + "<p class='additionnal'><a href='javascript:Ametys.reload();' onclick=\"this.parentNode.remove(this); document.body.className = 'done'; document.getElementById('pulse').style.display = '';\"><i18n:text i18n:key='PLUGINS_CORE_UI_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_3'/></a></p>"
+                                        + "<p class='additionnal'><a href='javascript:Ametys.reload();' onclick=\"this.parentNode.remove(this); document.body.className = 'done'; document.getElementById('pulse').style.display = '';\">" + action + "</a></p>"
                                         + "<div class=\"la-ball-pulse la-dark la-2x\" id=\"pulse\" style=\"display: none\">"
                                         + "<div></div>"
                                         + "<div></div>"
@@ -544,7 +546,7 @@ Ext.define(
             {
     			document.body.innerHTML = "<h1>" + title + "</h1>" 
                                         + "<p>" + message + "</p>"
-                                        + "<p><a href='javascript:Ametys.reload();'><i18n:text i18n:key='PLUGINS_CORE_UI_SERVERCOMM_LISTENERREQUEST_LOST_CONNECTION_3'/></a></p>";
+                                        + "<p><a href='javascript:Ametys.reload();'>" + action + "</a></p>";
             }
 
             if (window.console)

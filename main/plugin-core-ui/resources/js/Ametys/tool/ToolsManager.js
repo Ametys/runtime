@@ -104,9 +104,14 @@ Ext.define("Ametys.tool.ToolsManager",
 			{
 				this._autoOpenedTools = replaceAutoOpenedTools;
 			}
+            
 			for (var i = 0; i < this._autoOpenedTools.length; i++)
 			{
-				this.openTool(this._autoOpenedTools[i].role, this._autoOpenedTools[i].toolParams, this._autoOpenedTools[i].forceToolLocation);
+				var tool = this.openTool(this._autoOpenedTools[i].role, this._autoOpenedTools[i].toolParams, this._autoOpenedTools[i].forceToolLocation);
+                if (tool == null)
+                {
+                    throw new Error("Cannot load tool '" + this._autoOpenedTools[i].role + "' at location '" + this._autoOpenedTools[i].forceToolLocation + "'")
+                }
 			}
 			
 			this._initialized = true;
@@ -238,7 +243,7 @@ Ext.define("Ametys.tool.ToolsManager",
 		 * @param {String} role The role of the factory which will create the tool to open
 		 * @param {Object} toolParams The parameters needed to open the tool. See the factory documentation for further details.
 		 * @param {String} [forceToolLocation] A tool location (see Ametys.tool.ToolsLayout) to replace the Ametys.tool.Tool#getDefaultLocation.
-		 * @returns {Ametys.tool.Tool} The new tool.
+		 * @returns {Ametys.tool.Tool} The new tool or undefined if an error occured while opening the tool
 		 */
 		openTool: function (role, toolParams, forceToolLocation)
 		{

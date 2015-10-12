@@ -86,7 +86,7 @@
                            <tr>
                                 <td>
 				                        <p>
-				                            <i18n:text i18n:key="WORKSPACE_AMETYS_SPLASHSCREEN_APP_AMETYS_VERSION" i18n:catalogue="plugin.core-ui"/>
+				                            <i18n:text i18n:key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_SPLASHSCREEN_APP_AMETYS_VERSION" i18n:catalogue="plugin.core-ui"/>
 				                            <xsl:variable name="Versions" select="ametys:versions()"/>
 				                            <xsl:if test="$Versions/Component[Name='Ametys' and Version]">
 				                                &#160;<xsl:value-of select="Component[Name='Ametys']/Version"/>

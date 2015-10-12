@@ -51,7 +51,7 @@
             <div class="head"><header><i18n:text i18n:catalogue='application' i18n:key='APPLICATION_PRODUCT_LABEL'/></header></div>
             <div class="foot">
                 <footer>
-                    <i18n:text i18n:key="WORKSPACE_AMETYS_SPLASHSCREEN_APP_AMETYS_VERSION" i18n:catalogue="plugin.core-ui"/>
+                    <i18n:text i18n:key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_SPLASHSCREEN_APP_AMETYS_VERSION" i18n:catalogue="plugin.core-ui"/>
                     <xsl:variable name="Versions" select="ametys:versions()"/>
                     <xsl:if test="$Versions/Component[Name='Ametys' and Version]">
                         &#160;<xsl:value-of select="Component[Name='Ametys']/Version"/>
