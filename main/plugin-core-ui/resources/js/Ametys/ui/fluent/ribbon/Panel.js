@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Anyware Services
+ *  Copyright 2015 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -31,6 +31,11 @@ Ext.define(
 		 * @private
 		 */
 		border: false,
+        
+        /**
+         * @cfg {String} ui=ribbon-panel @inheritdoc
+         */
+        ui: 'ribbon-panel',
 		
 		/**
 		 * @cfg {Boolean} shadow Doesn't apply to ribbon element. The value HAS TO be the default value.
@@ -42,7 +47,12 @@ Ext.define(
 		 * @cfg {String} layout Doesn't apply to ribbon element. The value HAS TO be the default value.
 		 * @private
 		 */
-		layout: 'column',
+		layout: {
+            type: 'hbox',
+            align: 'stretch'
+        },
+        
+        scrollable: true,
 		
 		/**
 		 * @cfg {String} defaultType Doesn't apply to ribbon element. The value HAS TO be the default value.
@@ -61,7 +71,7 @@ Ext.define(
 		 */
 
 		/**
-		 * @property {Ext.dom.Element} _ribbonLabel FOR CONTEXTUAL TAB ONLY. The element pointing to the header of the group in the ribbon top part. Will be shared between tabs of the same group.
+		 * @property {Ametys.ui.fluent.ribbon.Ribbon.ContextualTabGroup} _contextualTabGroup FOR CONTEXTUAL TAB ONLY. The element pointing to the header of the group in the ribbon top part. Will be shared between tabs of the same group.
 		 * @private
 		 */
 		/**

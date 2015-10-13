@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Anyware Services
+ *  Copyright 2015 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 /**
- * This class is the main logic class. But creates it through the wrapper Ametys.ui.fluent.ribbon.Ribbon.
+ * This class is the inside of the ribbon. You have to create it through the wrapper Ametys.ui.fluent.ribbon.Ribbon.
  * 
  * Items are {@link Ametys.ui.fluent.ribbon.Panel} and can be classic tabs or contextual tabs.
  * 
@@ -25,129 +25,69 @@ Ext.define(
     {
         extend: "Ext.tab.Panel",
         alias: 'widget.ametys.ribbon-tabpanel',
-        
-        statics: {
-            /**
-             * The height of the top part of the ribbon (the part holding the menu button and the tabs headers).
-             * @type Number
-             * @private
-             * @readonly
-             */
-            HEADER_HEIGHT: 50,
-            /**
-             * The height of the main part of the ribbon (the part holding the tabs contents).
-             * @type String
-             * @private
-             * @readonly
-             */
-            BODY_HEIGHT: 93 
-        },
-        
-        /**
-         * @cfg {String} applicationTitle The application title that will always be visible in the top part, in addition to the title (separated by a '-'). Can be null. Cannot be changed after configuration. Can contains HTML tags.
-         */
-        applicationTitle: "Ametys",
-        
-        /**
-         * @cfg {Boolean} border Doesn't apply to ribbon element. Always false.
-         * @private
-         */
-        border: false,
-        
-        /**
-         * @cfg {Boolean} floating Doesn't apply to ribbon element. Always true.
-         * @private
-         */
-        floating: true,
-        /**
-         * @cfg {Boolean} autoShow Doesn't apply to ribbon element. Always true.
-         * @private
-         */
-        autoShow: true,
-        /**
-         * @cfg {Boolean} shadow Doesn't apply to ribbon element. Always true.
-         * @private
-         */
-        shadow: false,
 
         /**
-         * @cfg {Ametys.ui.fluent.ribbon.Panel/Ametys.ui.fluent.ribbon.Panel[]} items The tabs to add at creation time. Use {@link Ametys.ui.fluent.ribbon.Panel} here only. See class doc for more information.
+         * @cfg {String} ui=ribbon-tabpanel @inheritdoc
          */
-
+        ui: 'ribbon-tabpanel',
+        
         /**
-         * @cfg {String/Number/Ext.Component} activeTab Doesn't apply to ribbon element. The default tab HAS TO be the first one according to Microsoft UI Fluent Licence. 
+         * @property {String} contextualTabCls The CSS classname to set on the button of contextual tabs
+         * @readonly
          * @private
          */
-        activeTab: 0,
+        contextualTabCls: 'a-fluent-tab-contextual',
+        
         /**
-         * @cfg {String} cls Doesn't apply to ribbon element. The value HAS TO be the default value 'x-fluent-tab-panel'.
-         * @private
-         */
-        cls: 'x-fluent-tab-panel',
-
-        /**
-         * @cfg {String} defaultType Doesn't apply to ribbon element. The value HAS TO be the default value.
+         * @cfg {String} defaultType Doesn't apply to ribbon element.
          * @private
          */
         defaultType: 'ametys.ribbon-panel',
         
         /**
          * @private
-         * @property {Object} defaults Doesn't apply to ribbon element. The value HAS TO be the default value.
+         * @property {Object} userCfg A configuration for user menu button
          */
-        tabBar: {
-            defaults: {
-                frame: false
-            }
-        },
-
+        userCfg: {},
+        
         /**
-         * @property {Boolean} _ribbonCollapsed The ribbon state: collapsed or expanded? Used with #_ribbonFloating.
-         * @private
+         * @cfg {Object} user Specify this to display the name of the connected user. This will create a button with user photo and name, and clicking on it will open a menu with a profile card. This object is also a configuration for a {@link Ext.button.Button} (you can for example add a menu configuration to add items under the profile card):
+         * @cfg {String} user.fullName The full name of the connected user
+         * @cfg {String} user.login The identifier of the user
+         * @cfg {String} [user.email] The user email address
+         * @cfg {String} [user.smallPhoto] The absolute path to the user photo in 16x16.
+         * @cfg {String} [user.mediumPhoto] The absolute path to the user photo in 32x32.
+         * @cfg {String} [user.largePhoto] The absolute path to the user photo in 48x48.
+         * @cfg {String} [user.extraLargePhoto] The absolute path to the user photo in 64x64.
          */
-        _ribbonCollapsed: false,
+        
         /**
-         * @property {Boolean} _ribbonFloating The ribbon state: floating over the ui or fixed? Used with #_ribbonCollapsed.
-         * @private
+         * @cfg {Object} mainButton The configuration or object that will be added to #cfg-tools of the header at the left of the tabs.
          */
-        _ribbonFloating: false,
+            
+        /**
+         * @cfg {Object/Ametys.ui.fluent.ribbon.Ribbon.Notificator} notification Display the notification indicator by providing a notification configuration
+         */
+        
         /**
          * @private
          * @property {Ametys.ui.fluent.ribbon.Panel} _lastContextualTabHidden Last contextual panel selected. Null when hidden for too long.
          */
         _lastContextualTabHidden: null,
-        /**
-         * @private
-         * @property {Boolean} _actionPerfomed Has an action been performed since the last contextual tab was hidden.
-         */
-        _actionPerfomed: false,
-                
-        /**
-         * @cfg {Object} menu The application button configuration. 
-         * The object properties are: 
-         * {String} icon Path to the icon for the application button, 
-         * {Object} tooltip Optionnaly the associated tooltip. Must be a config for {@link Ametys.ui.fluent.tip.Tooltip#create}, 
-         * {Ext.menu.Item/Object[]} items One or array of {@link Ext.menu.Item}. Will be provided as it is to {@link Ext.menu.Menu#cfg-items}
-         */
 
-        /**
-         * Creates new ribbon panel.
-         * Do not call this method by yourself: creates a Ametys.ui.fluent.ribbon.Ribbon instead.
-         * @param {Object} config The config object
-         */
-        constructor: function(config)
+        constructor: function (config)
         {
             /**
              * @private
-             * @property {Object} _contextualGroups Map&lt;String, Ametys.ui.fluent.ribbon.Panel&gt; The map of contextual group id and the associated group label (in the top part of the ribbon)
-             * The panels will have a _tabs property : {Ametys.ui.fluent.ribbon.Panel[]} _tabs that is a list of the panels associated with this group. 
+             * @property {Object} _contextualGroups Map<String, Ametys.ui.fluent.ribbon.Ribbon.ContextualTabGroup> 
+             * The map of contextual group id and the associated group label (in the top part of the ribbon)
              */
             this._contextualGroups = {};
 
             /**
              * @private
              * @property {Object} _scaleGrid The map of the groups organized by size.
-             *  The map is a Map&lt;Number index, Object o&gt; 
+             *  The map is a Map<Number index, Object o> 
              *      index is the index of the tab. 
              *          o is an object with 2 properties: 
              *              current a Number representing the index of the currently selected matrix
@@ -157,130 +97,111 @@ Ext.define(
              *                  fitIn is a Numer representing a size in pixel known for beeing able to display the tab in this configuration of groups. 
              */
             this._scaleGrid = {};
+
+            
+            config = config || {};
             
             /**
-             * @property {Ext.button.Button} _appButton The application button in the top left corner. This button supports the application menu 
-             * @private 
-             */
-            this._appButton = new Ext.button.Button({
-                arrowCls: 'noarrow',
-                cls: 'x-fluent-appbutton' + (config.menu && config.menu.items ? '' : ' x-fluent-appbutton-empty-menu'),
-                frame: false,
-                
-                icon: (config.menu && config.menu.icon) || null,
-                tooltip: config.menu && config.menu.tooltip ? config.menu.tooltip : null,
-                scale: 'large',
-                        
-                menu: config.menu && config.menu.items ? new Ext.menu.Menu({ items: config.menu.items }) : null,
-                handler: config.menu && config.menu.handler
-            });
-
-            /**
-             * @cfg {Boolean/Object} header Doesn't apply to ribbon element. The value HAS TO be the default value of type {@link Ametys.ui.fluent.ribbon.Ribbon.Header}.
+             * @cfg {Object[]/Ext.panel.Tool[]} tools tools Doesn't apply to ribbon element.
              * @private
              */
+            config.tools = [];
+            
+            // We want that tabs goes into header line : with an invisible title
+            var titlePosition = 1;
             config.title = {
-                text: config.title,
-                applicationTitle: config.applicationTitle || this.applicationTitle,
-                xtype: 'ametys.ribbon-header-title'
+                text: '',
+                flex: 0
             };
-            config.header = {
-                xtype: 'ametys.ribbon-header',
-                titleAlign: 'center',
-                titlePosition: 1,
-                items: [this._appButton]
+            
+            config.tabBarHeaderPosition = 1;
+            config.tabBar = config.tabBar || {};
+            config.tabBar.flex = 1;
+            config.tabBar.layout = {
+                type: 'hbox',
+                overflowHandler: 'menu'
             };
-            config.tabBar = {
-                height: 25
-            }
-
-            /**
-             * @cfg {Number} height Doesn't apply to ribbon element. The value HAS TO be the default value HEADER_HEIGHT+BODY_HEIGHT.
-             * @private
-             */
-            config.height = Ametys.ui.fluent.ribbon.TabPanel.HEADER_HEIGHT + Ametys.ui.fluent.ribbon.TabPanel.BODY_HEIGHT;
-            /**
-             * @cfg {Number} width Doesn't apply to ribbon element. The value HAS TO be the default value HEADER_HEIGHT+BODY_HEIGHT.
-             * @private
-             */
-
-            /**
-             * @cfg {Object} help Specify this to display a help icon in the top right corner. The object is a configuration for a tool: see {@link Ext.panel.Tool} where somme properties cannot be overiden.
-             */
-            /**
-             * @cfg {Object} user Specify this to display the name of the connected user. This will create a button with user photo and name, and clicking on it will open a menu with a profile card. This object is also a configuration for a {@link Ext.button.Button} (you can for example add a menu configuration to add items under the profile card):
-             * @cfg {String} user.fullName The full name of the connected user
-             * @cfg {String} user.login The identifier of the user
-             * @cfg {String} [user.email] The user email address
-             * @cfg {String} [user.smallPhoto] The absolute path to the user photo in 16x16.
-             * @cfg {String} [user.mediumPhoto] The absolute path to the user photo in 32x32.
-             * @cfg {String} [user.largePhoto] The absolute path to the user photo in 48x48.
-             * @cfg {String} [user.extraLargePhoto] The absolute path to the user photo in 64x64.
-             */
             
-            if (!config.tools)
+            // Handle main button
+            if (config.mainButton)
             {
-                config.tools = [];
+                titlePosition = 2;
+                config.tabBarHeaderPosition = 2;
+                config.mainButton.ui = 'ribbon-tabpanel-mainbutton';
+                config.tools.push(config.mainButton);
             }
-            config.tools.push({ xtype: 'tbspacer', flex: 0.000000000000001 }); // This spacer will be here to take space when a contextual panel appears
             
-            if (config.help || config.user)
+            config.tools.push({
+                xtype: 'tbspacer',
+                width: 3
+            })
+            
+            // Handle user
+            if (config.user)
             {
-                if (config.user)
-                {
-                    config.user.text = config.user.fullName;
-
-                    config.user.menu = config.user.menu || {};
-                    config.user.menu.items = config.user.menu.items || [];
-                    config.user.menu.items = Ext.Array.insert(config.user.menu.items, 0, [{
-                       xtype: 'component',
-                       isMenuItem: true, // to be responsible to draw the whole line => this allow to be on the left of menu even with vertical separator activated.
-                       html: new Ext.XTemplate(
-                            "<div class='x-fluent-user-card'>",
-                               "<tpl if='extraLargePhoto'><div class='photo'><img src='{extraLargePhoto}'/></div></tpl>",
-                               "<div class='main'>", 
+                config.user = Ext.applyIf(config.user, this.userCfg);
+                
+                config.user.text = config.user.fullName;
+                config.user.ui = 'ribbon-tabpanel-linkbutton';
+                config.user.menuAlign = 'tr-br?';
+                config.user.menu = config.user.menu || {};
+                //config.user.menu.ui = config.user.menu.ui || 'ribbon-menu';
+                config.user.menu.items = config.user.menu.items || [];
+                config.user.menu.items = Ext.Array.insert(config.user.menu.items, 0, [{
+                   xtype: 'component',
+                   isMenuItem: true, // to be responsible to draw the whole line => this allow to be on the left of menu even with vertical separator activated.
+                   html: new Ext.XTemplate(
+                        "<div class='a-fluent-user-card'>",
+                           "<tpl if='extraLargePhoto'><div class='photo'><img src='{extraLargePhoto}'/></div></tpl>",
+                           "<div class='main'>", 
+                               "<div class='name-wrapper'>", 
                                    "<div class='name'>{fullName}</div>",
-                                   "<div class='login'>({login})</div>",
+                                   "<div class='login'>{login}</div>",
                                "</div>",
                                "<tpl if='email'><div class='email' title=\"{email}\">{email}</div></tpl>", 
-                           "</div>").apply(config.user)
-                    }]);
-                    
-                    config.tools.push(new Ext.Button(Ext.apply({
-                            cls: 'x-fluent-user',
-                            icon: config.user.smallPhoto,
-                            iconCls: 'foo', // ensure icon is set
-                            margin: config.help ? '0 5 0 0' : 0
-                        },
-                        config.user
-                    )));
-                }
+                           "</div>",
+                       "</div>").apply(config.user)
+                }]);
                 
-                if (config.help)
-                {
-                    config.tools.push(Ext.apply({
-                            cls: 'x-fluent-help',
-                            type: 'help'
-                        }, 
-                        config.help
-                    ));
-                }
+                config.tools.push(new Ext.Button(Ext.apply({
+                        cls: 'a-fluent-user',
+                        icon: config.user.smallPhoto,
+                        iconCls: 'foo' // ensure icon is set (even if there is no smallPhoto as theme will put a background image
+                    },
+                    config.user
+                )));
             }
             
+            // Handle notifications
+            if (config.notification)
+            {
+                config.tools.push(Ext.applyIf({
+                    xtype: 'ametys.ribbon-notificator'
+                }, config.notification));
+            }
 
-            config.stateful = true;
-            config.stateId = this.self.getName();
+            // let's move title to somewhere it won't be annoying
+            config.header = {
+                titlePosition: titlePosition
+            };
             
-            this.callParent(arguments);
+            this.callParent([config]);
+            
+            this.on('mousewheel', this._onTabWheel, this, { element: 'el' });
+            
+            // Fix because default position is quite strange
+            this.setPosition(0, 0);
         },
         
-        onRender: function()
+        /**
+         * Get the notificator if created
+         * @return {Ametys.ui.fluent.ribbon.Ribbon.Notificator} The notification button or null
+         */
+        getNotificator: function()
         {
-            this.setWidth(this.floatParent.getWidth());
-
-            this.callParent(arguments);
+            return this.getHeader().items.last();
         },
-
+        
         /**
          * @private
          * Do initialization after rendering
@@ -289,83 +210,66 @@ Ext.define(
         {
             this.callParent(arguments);
 
-            /**
-             * @private
-             * @property {Ext.Element} _rightEl The right part of the ribbon
-             */
-            this._rightEl = this.getEl().createChild({ cls: 'x-fluent-tab-right', style: 'height: ' + (Ametys.ui.fluent.ribbon.TabPanel.HEADER_HEIGHT + Ametys.ui.fluent.ribbon.TabPanel.BODY_HEIGHT) + 'px;'}, this.getEl().first());
-            
-            Ext.getDoc().on("click", this._onAnyMouseDown, this);
-            Ext.getDoc().on("contextmenu", this._onAnyMouseDown, this);
-
-            this.tabBar.getEl().on('dblclick', this.toggleRibbonCollapse, this);
-            
-            this.floatParent.setHeight(Ametys.ui.fluent.ribbon.TabPanel.HEADER_HEIGHT + Ametys.ui.fluent.ribbon.TabPanel.BODY_HEIGHT);
-            this.floatParent.on('resize', this._onPlaceHolderResize, this);
-            this.getEl().on('mousewheel', this._onTabWheel, this);
-            
             this.items.each(this._panelAddedAfterRender, this);
-            
-            if (this._ribbonCollapsed)
-            {
-                this.collapseRibbon();
-            }
-        },
-        
-        getState: function()
-        {
-            return {
-                _ribbonCollapsed: this._ribbonCollapsed
-            };
         },
         
         setActiveTab: function(card)
         {
-            var me = this,
-                previous;
-            
-            card = me.getComponent(card)
-            if (card)
-            {
-                previous = me.getActiveTab();
-
-                if (previous !== card) 
-                {
-                    me.lastActiveTab = card;
+            var previous;
         
-                    // Effect deactivated on IE7- for performance purposes
-                    if (!Ext.isIE7m && previous && previous.contextualTab != null)
-                    {
-                        me.getEl().removeCls("x-fluent-tab-panel-contextual-" + previous.contextualTab);
-                    }
-                    
-                    // Effect deactivated on IE7- for performance purposes
-                    if (!Ext.isIE7m && card.contextualTab != null)
-                    {
-                        me.getEl().addCls("x-fluent-tab-panel-contextual-" + card.contextualTab);
-                    }
+            // Check for a config object
+            if (!Ext.isObject(card) || card.isComponent) 
+            {
+                card = this.getComponent(card);
+            }
+            previous = this.getActiveTab();
+            if (card) 
+            {
+                Ext.suspendLayouts();
+                card = this.callParent(arguments);
+                
+                // We want to add contextual CSS classes to roots element
+                if (previous && previous.contextualTab)
+                {
+                    this.removeCls(this.contextualTabCls + "-" + previous.contextualTab);
+                    this.floatParent.removeCls(this.contextualTabCls + "-" + previous.contextualTab);
+                }
+                if (card.contextualTab)
+                {
+                    this.addCls(this.contextualTabCls + "-" + card.contextualTab);
+                    this.floatParent.addCls(this.contextualTabCls + "-" + card.contextualTab);
                 }
                 
-                var result = me.callParent(arguments);
-    
+                Ext.resumeLayouts(true);
+                
+                // We want to show the ribbon if it is collapsed
                 if (previous !== card)
                 {
-                    if (me._ribbonCollapsed) 
+                    if (this.floatParent._ribbonCollapsed) 
                     {
-                        me._showCollapsed();
+                        this.floatParent._showCollapsed();
                     }
                     
-                    me._checkSize();
+                    this._checkSize();
                 }
-                
-                return result;
             }
+                
+            return card;
         },
         
-        onResize: function() 
+        onResize: function(width, height, oldWidth, oldHeight) 
         {
             this.callParent(arguments);
-            this._checkSize();
+            
+            if (height != oldHeight)
+            {
+                this.floatParent._setRibbonHeight();
+            }
+            
+            if (width != oldWidth)
+            {
+                this._checkSize();
+            }
         },
         
         /**
@@ -376,21 +280,10 @@ Ext.define(
          */
         _panelAddedAfterRender: function(panel, index)
         {
-            var tabElBtn = this.getTabBar().items.get(index);
-            
-            // FIXME RUNTIME-1379 temporary fix
-            if (!tabElBtn.rendered)
-            {
-                tabElBtn.on("render", Ext.bind(this._panelAddedAfterRender, this, [panel, index], false))
-                
-                return;
-            }
-            
-            // Add some wrapping div
-            tabElBtn.getEl().first().wrap({}).wrap({});
-
             if (panel.contextualTab != null)
             {
+                var tabElBtn = this.getTabBar().items.get(index);
+                
                 // Generates a group if no group is specified (the tab will be alone in this group)
                 if (panel.contextualGroup == null)
                 {
@@ -400,25 +293,23 @@ Ext.define(
                 // Hide the tab button
                 tabElBtn.hide();
                 // Color the tab button
-                tabElBtn.addCls(["x-fluent-tab-contextual", "x-fluent-tab-contextual-" + panel.contextualTab]);
+                tabElBtn.addCls([this.contextualTabCls, this.contextualTabCls + "-" + panel.contextualTab]);
                 
                 // Creates the group if the tab is the first one of the group
                 if (this._contextualGroups[panel.contextualGroup] == null)
                 {
-                    panel._ribbonLabel = this.header.addGroupLabel(panel.contextualLabel, panel.contextualTab);
-                    panel._ribbonLabel.on('click', this._onRibbonLabelClick, this, panel._ribbonLabel);
-                    panel._ribbonLabel._tabs = [];
+                    panel._contextualTabGroup = this.floatParent.getContextualTabGroupsContainer().addGroup(panel.contextualLabel, panel.contextualTab);
                     
-                    this._contextualGroups[panel.contextualGroup] = panel._ribbonLabel;
+                    this._contextualGroups[panel.contextualGroup] = panel._contextualTabGroup;
                 }
                 // Add the tab to the existing group
                 else
                 {
-                    panel._ribbonLabel = this._contextualGroups[panel.contextualGroup];
+                    panel._contextualTabGroup = this._contextualGroups[panel.contextualGroup];
                 }
                 
                 // Add the reference to the tab in the group label object
-                panel._ribbonLabel._tabs.push(panel);
+                panel._contextualTabGroup.associateContextualPanel(panel);
                 
                 // Add shortcuts method for showing/hiding the contextual tab
                 panel.showContextualTab = function(forceSelection)
@@ -436,7 +327,7 @@ Ext.define(
                 for (var i = index - 1; i >= 0; i--)
                 {
                     var tabEl = this.items.get(i);
-                    if (!tabEl.hasCls("x-fluent-tab-contextual"))
+                    if (!tabEl.hasCls(this.contextualTabCls))
                     {
                         if (i + 1 != index)
                         {
@@ -457,130 +348,7 @@ Ext.define(
                 this._panelAddedAfterRender(panel, index);
             }
         },
-
-        /**
-         * @private
-         * Get the visible contextual tabs in the contextual group of the ribbon panel
-         * @param {Ext.dom.Element} ribbonPanel The ribbon label
-         * @return {Ametys.ui.fluent.ribbon.Panel[]} The tab selection (not the strip panel) that are visible in the contextual group
-         */
-        _getVisibleContextualTabs: function(ribbonPanel)
-        {
-            var visibles = [];
-            for (var i = 0; i < ribbonPanel._tabs.length; i++)
-            {
-                var tab = ribbonPanel._tabs[i];
-                var index = this.items.indexOf(tab);
-                var tabEl = this.getTabBar().items.get(index);
-                if (tabEl.isVisible())
-                {
-                    visibles.push(tab);
-                }
-            }
-            return visibles;
-        },
         
-
-        /**
-         * @private
-         * Listener when clicking on a contextual tab group header
-         * @param {Event} e The event
-         * @param {Object} target The html object 
-         * @param {Ext.dom.Element} ribbonPanel The ribbon label panel
-         */
-        _onRibbonLabelClick: function(e, target, ribbonPanel)
-        {
-            this.setActiveTab(this._getVisibleContextualTabs(ribbonPanel)[0]);
-        },
-        
-        /**
-         * @private
-         * Set the width and the position of the ribbonPanel to the sum of the width of the button of the tabs of the given ribbon panel (contextual group label)
-         * Others ribbonPanels positions are modified
-         * @param {Ext.dom.Element} ribbonPanel The ribbon element (contextual tab label)
-         */
-        _setTotalWidthOrHide: function(ribbonPanel)
-        {
-            var tabs = this._getVisibleContextualTabs(ribbonPanel)
-            
-            // Any tab visible ? show the group label and size it
-            if (tabs.length > 0)
-            {
-                var sum = 0;
-                for (var i = 0; i < tabs.length; i++)
-                {
-                    var panel = tabs[i];
-                    var index = this.items.indexOf(panel);
-                    var tabEl = this.getTabBar().items.get(index);
-
-                    sum += tabEl.getWidth();
-                    
-                    var firstVisibleOfTheGroup = (i == 0);
-                    tabEl[firstVisibleOfTheGroup ? 'addCls' : 'removeCls'](["x-fluent-tab-contextual-left", "x-fluent-tab-contextual-" + panel.contextualTab + "-left"]);
-                    
-                    var lastVisibleOfTheGroup = (i == tabs.length - 1);
-                    tabEl.getEl().first()[lastVisibleOfTheGroup ? 'addCls' : 'removeCls']("x-fluent-tab-contextual-right");
-                }
-            
-                ribbonPanel.setWidth(sum + 2*(tabs.length - 1));
-                ribbonPanel.show();
-            }
-            // No contextual tab is visible: hide it
-            else
-            {
-                ribbonPanel.hide();
-            }
-            
-            for (var ribbonPanelIndex in this._contextualGroups)
-            {
-                var otherRibbonPanel = this._contextualGroups[ribbonPanelIndex];
-                
-                var tabs = this._getVisibleContextualTabs(otherRibbonPanel);
-                if (tabs.length > 0)
-                {
-                    var panel = tabs[0];
-                    var index = this.items.indexOf(panel);
-                    var tabEl = this.getTabBar().items.get(index);
-                    
-                    otherRibbonPanel.dom.style.left = (tabEl.getPosition()[0] - 4) + "px";
-                }               
-            }
-        },
-        
-        /**
-         * @private
-         * Compute the header: size of the text, size for contextual tabs labels...
-         */
-        _computeContextualTabsLabels: function()
-        {
-            // look for first contextual tab
-            var contextualTabStripAtLeft = null;
-            for (var i = 0; i < this.items.length; i++)
-            {
-                var panel = this.items.get(i); 
-                if (panel.contextualTab != null)
-                {
-                    var tabEl = this.getTabBar().items.get(i);
-                    if (tabEl.isVisible())
-                    {
-                        contextualTabStripAtLeft = tabEl;
-                        break;
-                    }
-                }
-            }
-            
-            // No contextual tab means the title takes it all
-            if (contextualTabStripAtLeft == null)
-            {
-                this.header.setTitleWidth("auto");
-            }
-            // Any contextual tab means the title only takes what's available
-            else
-            {
-                this.header.setTitleWidth((contextualTabStripAtLeft.getPosition()[0] - 42 - 4));
-            }
-        },
-
         /**
          * Make the contextual tab visible
          * @param {Ametys.ui.fluent.ribbon.Panel} panel The tab panel to show
@@ -595,12 +363,7 @@ Ext.define(
                 if (!tabEl.isVisible())
                 {
                     tabEl.show();
-                    
-                    this._setTotalWidthOrHide(panel._ribbonLabel)
-                    
-                    this._computeContextualTabsLabels();
                 }
-                    
             }
             
             if (forceSelection !== false && (panel._activatedOnce == null || panel._wasActiveOnHide == true || forceSelection === true || this._lastContextualTabHidden == panel))
@@ -609,7 +372,7 @@ Ext.define(
                 panel._wasActiveOnHide = false;
                 
                 this.setActiveTab(panel);
-                if (this._ribbonCollapsed)
+                if (this.floatParent._ribbonCollapsed)
                 {
                     this._hideCollapsed();
                 }
@@ -634,32 +397,30 @@ Ext.define(
                 {
                     tabEl.hide();
     
-                    this._setTotalWidthOrHide(panel._ribbonLabel);
-    
                     panel._wasActiveOnHide = this.activeTab == panel; 
                     if (panel._wasActiveOnHide)
                     {
-                        var index = panel._ribbonLabel._tabs.indexOf(panel)
+                        var index = panel._contextualTabGroup._tabs.indexOf(panel)
     
                         var panelToTests = [];
                         for (var i = index - 1; i >= 0; i--)
                         {
-                            var tab = panel._ribbonLabel._tabs[i];
+                            var tab = panel._contextualTabGroup._tabs[i];
                             panelToTests.push(tab);
                         }
-                        for (var i = index + 1; i < panel._ribbonLabel._tabs.length; i++)
+                        for (var i = index + 1; i < panel._contextualTabGroup._tabs.length; i++)
                         {
-                            var tab = panel._ribbonLabel._tabs[i];
+                            var tab = panel._contextualTabGroup._tabs[i];
                             panelToTests.push(tab);
                         }
                         for (var i = this.items.length - 1; i >= 0; i--)
                         {
                             var tab = this.items.get(i);
-                            if (tab._ribbonLabel != null)
+                            if (tab._contextualTabGroup != null)
                             {
-                                for (var j = 0; j < tab._ribbonLabel._tabs.length; j++)
+                                for (var j = 0; j < tab._contextualTabGroup._tabs.length; j++)
                                 {
-                                    var tab = tab._ribbonLabel._tabs[j];
+                                    var tab = tab._contextualTabGroup._tabs[j];
                                     panelToTests.push(tab);
                                 }
                             }
@@ -688,7 +449,6 @@ Ext.define(
                     }
     
                     this.changeWasActiveOnHideStatus(panel);
-                    this._computeContextualTabsLabels();
                 }
             }   
         },
@@ -720,7 +480,7 @@ Ext.define(
          */
         _onTabWheel: function(e) 
         {
-            if (this._ribbonCollapsed) 
+            if (this.floatParent._ribbonCollapsed) 
             {
                 return;
             }
@@ -740,25 +500,7 @@ Ext.define(
                     return;
                 }
             }
-        },      
-        
-        /**
-         * Listener when the placeholder get resized
-         * @param {Ext.Component} placeHolder The place holder
-         * @param {Number} width The new width that was set.
-         * @param {Number} height The new height that was set.
-         * @param {Number} oldWidth The previous width.
-         * @param {Number} oldHeight The previous height. 
-         * @param {Object} eOpts The event options
-         * @private
-         */
-        _onPlaceHolderResize: function(placeHolder, width, height, oldWidth, oldHeight, eOpts)
-        {
-            if (width != oldWidth)
-            {
-                this.setWidth(width);
-            }
-        },
+        },   
         
         /**
          * Enlarge or reduce groups of the active tab to best fit in the ribbon (depending on the screen width)
@@ -766,6 +508,9 @@ Ext.define(
          */
         _checkSize: function()
         {
+            // we need to first close menu to ensure that any iconized group will go back in the ribbon prior to any scale computing
+            Ext.menu.MenuMgr.hideAll();
+            
             if (this.getActiveTab())
             {
                 var currentActiveTabWidth = this.getActiveTab().getWidth();
@@ -777,16 +522,7 @@ Ext.define(
                 }
                 var grid = this._scaleGrid[index];
                 
-                var doesNotFit = false;
-                this.getActiveTab().items.each(function (e)
-                {
-                    if (e.canBeVisible && !e.canBeVisible())
-                    {
-                        doesNotFit = true;
-                    }
-                });
-                
-                if (doesNotFit)
+                if (this.getActiveTab().items.getCount() > 0 && !this.getActiveTab().items.last().canBeVisible())
                 {
                     if (!grid.matrix[grid.current].doesNotFitIn || grid.matrix[grid.current].doesNotFitIn < currentActiveTabWidth)
                     {
@@ -917,9 +653,9 @@ Ext.define(
             priority.sort(compare);
             
             // fill the matrix
-            function fill(first, second, fullspeed)
+            function fill(first, second, avoidFullFirst)
             {
-                for (var cursor = fullspeed ? 1 : 0; cursor <= priority.length; cursor++)
+                for (var cursor = avoidFullFirst ? 1 : 0; cursor <= priority.length; cursor++)
                 {
                     var line = [];
                     for (var i = 0; i < priority.length; i++) { line.push("X"); }
@@ -940,8 +676,9 @@ Ext.define(
             scaleGrid[index].matrix = [];
             scaleGrid[index].current = 0;
 
-            fill("large", "medium", false);
-            fill("medium", "small", true);
+            fill(Ametys.ui.fluent.ribbon.Group.SIZE_LARGE, Ametys.ui.fluent.ribbon.Group.SIZE_MEDIUM, false);
+            fill(Ametys.ui.fluent.ribbon.Group.SIZE_MEDIUM, Ametys.ui.fluent.ribbon.Group.SIZE_SMALL, true);
+            fill(Ametys.ui.fluent.ribbon.Group.SIZE_SMALL, Ametys.ui.fluent.ribbon.Group.SIZE_ICON, true);
             
             // change unexisting combo & remove duplicates
             for (var i = scaleGrid[index].matrix.length - 1; i >= 0 ; i--)
@@ -951,7 +688,7 @@ Ext.define(
                 {
                     if (!tab.items.get(j).supportScale(grid.resize[j]))
                     {
-                        grid.resize[j] = "medium";
+                        grid.resize[j] = Ametys.ui.fluent.ribbon.Group.SIZE_MEDIUM;
                     }
                 }
                 
@@ -975,145 +712,8 @@ Ext.define(
                         Ext.Array.remove(scaleGrid[index].matrix, grid2);
                     }
                 }
-            }
-        },
-        
-        /**
-         * Listener for preventing right click on the ribbon
-         * @param {Ext.event.Event} e The {@link Ext.event.Event} encapsulating the DOM event.
-         * @param {HTMLElement} t The target of the event.
-         * @param {Object} eOpts The options object passed to Ext.util.Observable.addListener
-         */
-        _onAnyMouseDown: function(e, t, eOpts) 
-        {
-            if (Ext.fly(t).findParent(".x-fluent-tab-panel"))
-            {
-                if (e.button != 0)
-                {
-                    e.preventDefault();
-                }
-            }
-            else
-            {
-                // We want to recollapse the ribbon when in collapse mode (but not if the click was in the tab panel
-                if (this._ribbonCollapsed && this._ribbonFloating) 
-                {
-                    this._hideCollapsed();
-                }
-                
-                if (this._actionPerfomed)
-                {
-                    this._lastContextualTabHidden = null;
-                }
-                
-                this._actionPerfomed = true;
-            }
-        },
-        
-        /**
-         * Toggle the ribbon state
-         * @chainable
-         */
-        toggleRibbonCollapse: function() 
-        {
-            this[this._ribbonCollapsed ? 'expandRibbon' : 'collapseRibbon']();
-            return this;
-        },
-
-        /**
-         * Enter in collapsed mode
-         * @chainable
-         */
-        collapseRibbon: function() 
-        {
-            Ext.suspendLayouts();
-            
-            this.floatParent.setHeight(Ametys.ui.fluent.ribbon.TabPanel.HEADER_HEIGHT);
-            
-            this._ribbonCollapsed = true;
-            this.saveState();
-
-            this._ribbonFloating = true;
-
-            this._hideCollapsed();
-
-            Ext.resumeLayouts(true);
-
-            return this;
-        },
-        
-        /**
-         * @private 
-         * When in collapsed mode but visible: hide it
-         */
-        _hideCollapsed: function() 
-        {
-            if (this._ribbonCollapsed && this._ribbonFloating) 
-            {
-                Ext.suspendLayouts();
-
-                this._ribbonFloating = false;
-
-                this.body.setDisplayed(false);
-                this.setHeight(Ametys.ui.fluent.ribbon.TabPanel.HEADER_HEIGHT);
-                
-                // Deactivate the active tab
-                this.getTabBar().activeTab.el.removeCls('x-tab-active');
-                if (this.activeTab) 
-                {
-                    this.activeTab.fireEvent('deactivate', this.activeTab);
-                    this.activeTab = null;
-                }
-                
-                Ext.resumeLayouts(true);
-            }
-        },
-
-        /**
-         * Expand the ribbon
-         * @chainable
-         */
-        expandRibbon: function() 
-        {
-            Ext.suspendLayouts();
-
-            this.floatParent.setHeight(Ametys.ui.fluent.ribbon.TabPanel.HEADER_HEIGHT + Ametys.ui.fluent.ribbon.TabPanel.BODY_HEIGHT);
-
-            this._showCollapsed();
-            this._ribbonCollapsed = false;
-            this.saveState();
-
-            Ext.resumeLayouts(true);
-
-            return this;
-        },
-
-        /**
-         * @private When in collapsed mode, show it
-         */
-        _showCollapsed: function() 
-        {
-            if (this._ribbonCollapsed && !this._ribbonFloating) 
-            {
-                Ext.suspendLayouts();
-
-                this._ribbonFloating = true;
-                
-                this.body.setDisplayed(true);
-                this.setHeight(Ametys.ui.fluent.ribbon.TabPanel.HEADER_HEIGHT + Ametys.ui.fluent.ribbon.TabPanel.BODY_HEIGHT);
-
-                if (this.getTabBar().activeTab.el.isVisible())
-                {
-                    this.setActiveTab(this.lastActiveTab);
-                    this.getTabBar().activeTab.el.addCls('x-tab-active');
-                }
-                else
-                {
-                    this.setActiveTab(0);
-                }
-                
-                Ext.resumeLayouts(true);
-            }
-        }       
+            }            
+        }
     }
 );
+   

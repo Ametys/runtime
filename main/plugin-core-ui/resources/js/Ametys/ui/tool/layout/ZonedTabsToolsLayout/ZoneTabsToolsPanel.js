@@ -22,18 +22,11 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
 	{
 		extend: "Ext.tab.Panel",
 		
-		statics:
-		{
-			/**
-			 * @property {Object} __REGION_MINSIZE The minimum size of regions of this layout 
-			 * @property {Object} __REGION_MINSIZE.width The minimum width in pixels for a region 
-			 * @property {Object} __REGION_MINSIZE.height The minimum height in pixels for a region 
-			 * @private
-			 * @readonly
-			 */			
-			__REGION_MINSIZE: {width: 100, height: 100}
-		},
-		
+        /**
+         * @cfg {String} ui=tool-layoutzone @inheritdoc
+         */
+        ui: 'tool-layoutzone',
+        
 		/**
 		 * @cfg {String} location The location of the zone. See locations in Ametys.ui.tool.layout.ZonedTabsToolsLayout.
 		 */
@@ -48,11 +41,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
 		 * @property {Ametys.ui.tool.layout.ZonedTabsToolsLayout} _toolsLayout See #cfg-toolsLayout
 		 * @private
 		 */	
-		border: false,
-		bodyBorder: '0 1 1 1',
-		bodyPadding: '0 2 2 2',
 		
-		cls: 'ametys-toolpanel',
         /** @cfg {String} typePrefixCls A css classname prefix. Concatenated with the type will give a CSS classname for the tool */
         typePrefixCls: "ametys-tab-color-",
 		
@@ -60,19 +49,8 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
 		
 		deferredRender: false,
 		
-		// for borders panel
 		split: true,
-
-		// Automatic resize tabs
-		minTabWidth: 36, // Size to display an icon with correct margins
-		maxTabWidth: 250,
-		tabBar: {
-		    defaults:{
-		        // Will try to fill all available space.
-		        flex:1
-		    }
-		},
-		
+        
 		/**
 		 * @property {Ext.menu.Menu} _contextMenu The menu to show on right click on the tabs
 		 * @private
@@ -88,6 +66,8 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
 		 */
 		constructor: function(config)
 		{
+            config = config || {};
+            
 			this._contextMenu = new Ext.menu.Menu({
 		        items: [{
 		            text: "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_TOOLS_CLOSE_TAB'>Close</i18n:text>", // Default translation for js test purposes
@@ -113,23 +93,8 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
 			
 			this._location = config.location;
 			this._toolsLayout = config.toolsLayout;
-			
-			if (!this._isMainArea())
-			{
-				if (this._location == 'l' || this._location == 'r')
-				{
-					config.minWidth = this.self.__REGION_MINSIZE.width;
-				}
-				else
-				{
-					config.minHeight = this.self.__REGION_MINSIZE.height;
-				}
-				this.flex = 0.3;
-			}
-			else
-			{
-				this.flex = 1;
-			}
+            
+            config.flex = 1;
 			
 			
 			config.stateful = true;
@@ -137,10 +102,10 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
             
 			this.callParent(arguments);
 
-			if (!this._isMainArea())
+			/*if (!this._isMainArea())
 			{
 				this.on('resize', this._onResize, this);
-			}
+			}*/
 			
 			this.on('unfloat', this._onUnfloat, this);
             this.on('afterrender', this._onAfterRender, this);
@@ -150,7 +115,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
 		 * Listener on resize to keep flex value correct
 		 * @private
 		 */
-		_onResize: function()
+		/*_onResize: function()
 		{
 			var centerRegion = this._toolsLayout._panelHierarchy['cl'].ownerCt
 			if (this._location == 'l' || this._location == 'r')
@@ -161,7 +126,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
 			{
 				this.flex = this.getHeight() / Math.max(centerRegion.getHeight(), this.self.__REGION_MINSIZE.height); 
 			}
-		},
+		},*/
 		
 		getState: function()
 		{
@@ -281,7 +246,8 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
 	        });
 	    	this.getTabBar().mon(this.getTabBar().getEl(), 'click', this._onClickOnTabBar, this);
 	    	
-			if (!this._isMainArea())
+			/* TODO reimplement pin/unpin without border layout 
+            if (!this._isMainArea())
 			{
 				// Insert a spacer that will take only available space
 				this.getTabBar().add({
@@ -312,7 +278,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
 				
 				this.on('collapse', this._onCollapse, this);
 				this.on('expand', this._onExpand, this);
-			}
+			}*/
 	    },
 	    
 	    /**

@@ -21,6 +21,11 @@ Ext.define("Ametys.ui.tool.ToolPanel", {
     extend: "Ext.panel.Panel",
     
     alias: 'widget.ametys.toolpanel',
+
+    /**
+     * @cfg {String} ui=ametys-tool-panel @inheritdoc
+     */
+    ui: 'ametys-tool-panel',
     
     statics:
     {

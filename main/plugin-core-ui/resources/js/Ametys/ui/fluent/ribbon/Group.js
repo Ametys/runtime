@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Anyware Services
+ *  Copyright 2015 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,24 +15,56 @@
  */
 
 /**
- * This class is the "group" container, that you can see in each tab to host buttons and other components
+ * This class is the "group" container, that you can see in each tab to host buttons and other components.
+ * For real, it is just a host for the three underlying icon, small, medium and large sized groups.
  */
 Ext.define(
 	"Ametys.ui.fluent.ribbon.Group",
 	{
-		extend: "Ext.panel.Panel",
+		extend: "Ext.container.Container",
 		alias: 'widget.ametys.ribbon-group',
 
+        statics: {
+            /**
+             * @readonly
+             * @private
+             * @property {String} SIZE_ICON The name of the iconized group in items, to find the index
+             */
+            SIZE_ICON: "icon",
+            /**
+             * @readonly
+             * @private
+             * @property {String} SIZE_SMALL The name of the small group in items, to find the index
+             */
+            SIZE_SMALL: "small",
+            /**
+             * @readonly
+             * @private
+             * @property {String} SIZE_MEDIUM The name of the medium group in items, to find the index
+             */
+            SIZE_MEDIUM: "medium",
+            /**
+             * @readonly
+             * @private
+             * @property {String} SIZE_LARGE The name of the large group in items, to find the index
+             */
+            SIZE_LARGE: "large"
+        },
+        
+        /**
+         * @property {String} groupCls The CSS classname to set on the group
+         * @readonly
+         * @private
+         */
+        groupCls: 'a-fluent-group',
+        
 		/**
 		 * @cfg {String} layout Doesn't apply to ribbon element. The value HAS TO be the default value.
 		 * @private
 		 */
-		layout: 'fit',
-		/**
-		 * @cfg {String} cls Doesn't apply to ribbon element. The value HAS TO be the default value.
-		 * @private
-		 */
-		cls: 'x-fluent-group',
+		layout: 'card',
+
+        
 		/**
 		 * @cfg {Boolean} frame Doesn't apply to ribbon element. The value HAS TO be the default value.
 		 * @private
@@ -46,51 +78,15 @@ Ext.define(
 		 * @cfg {Object} defaults Doesn't apply to ribbon element. The value HAS TO be the default value.
 		 * @private
 		 */
-		defaults:
-		{
-			xtype: 'container',
-			layout: 'table',	
-			defaults: {
-				xtype: 'ametys.ribbon-group-part'
-			}
-		},
-
-		/**
-		 * @cfg {String} headerPosition Doesn't apply to ribbon element. The value HAS TO be the default value.
-		 * @private
-		 */
-		headerPosition: 'bottom',
 
 		/**
 		 * @cfg {Number} width Doesn't apply to ribbon element. The value HAS TO be the default value.
 		 * @private
 		 */
-		/**
-		 * @cfg {Number} minWidth Doesn't apply to ribbon element. The value HAS TO be the default value.
-		 * @private
-		 */
-		minWidth: 30,
-		
-		/**
-		 * @cfg {Number} height Doesn't apply to ribbon element. The value HAS TO be the default value.
-		 * @private
-		 */
-		height: 87,
-		
-		/**
-		 * @cfg {Object} header Doesn't apply to ribbon element. The value HAS TO be the default value.
-		 * @private
-		 */
-		header: {
-			height: 17
-		},
-		
-		/**
-		 * @cfg {String} margin Doesn't apply to ribbon element. The value HAS TO be the default value.
-		 * @private
-		 */
-		margin: '0 1px 4px 0',
 
+        /**
+         * @cfg {Object[]} iconItems Items in the group when it is in icon size 
+         */
 		/**
 		 * @cfg {Object[]} smallItems Items in the group when it is in small size 
 		 */
@@ -111,12 +107,7 @@ Ext.define(
 		
 		/**
 		 * @private
-		 * @property {String} _scale The current scale of the group "small", "medium" or "large".
-		 */
-		_scale: null,
-		/**
-		 * @private
-		 * @property {Object} _scaleContainer Is an association between ("small", "medium" and "large") with the index of the associated container in the {@link #property-items} property. Will be null if the container does not exist
+		 * @property {Object} _scaleContainer Is an association between ("icon", "small", "medium" and "large") with the index of the associated container in the {@link #property-items} property. Will be null if the container does not exist
 		 */
 		
 		/**
@@ -125,72 +116,118 @@ Ext.define(
 		 */
 		constructor: function(config)
 		{
-			var smallContainer, mediumContainer, largeContainer;
-			
-			this._scale = "medium";
-			
+            config = config || {};
+            
+            config.cls = Ext.Array.from(config.cls);
+            config.cls.push(this.groupCls);
+            
+            var mediumItems = config.items;
+            config.items = [];
+            
+            var defaultConfig = {
+                xtype: 'ametys.ribbon-groupscale',
+                title: config.title,
+                tools: []
+            };
+            
+            // Initialize the pointers
+            this._scaleContainer = {};
+            
+            // Add the dialogbox launcher
+            if (config.dialogBoxLauncher)
+            {
+                defaultConfig.tools.push({
+                    type: 'gear',
+                    handler: Ext.bind(this._onDialogBoxLauncherClickSendEvent, this)
+                });
+            }                
+            
+            // Creates the icon sized container
+            config.items.push(Ext.applyIf({
+                cls: this.groupCls + "-icon",
+                title: "&#160;",
+                tools: [],
+                
+                items: [ {
+                    xtype: 'ametys.ribbon-button',
+                    text: config.title,
+                    icon: config.icon,
+                    iconCls: "a-ribbon-button-default-icon", // this ensure that button will be structured with an icon, even if icon is undefined
+                    iconAlign: 'top',
+                    scale: 'large',
+                    arrowAlign: 'bottom',
+                    menu: {
+                        plain: true,
+                        minWidth: 1, 
+                        items: [ {xtype: 'container'} ]
+                    },
+                    listeners: {
+                        'menushow': this._onIconizedMenuShow,
+                        'menuhide': this._onIconizedMenuHide,
+                        scope: this
+                    }
+                }]
+            }, defaultConfig));
+            this._scaleContainer[Ametys.ui.fluent.ribbon.Group.SIZE_ICON] = config.items.length - 1;
+            
 			// Creates a smallContainer if smallItems are set
 			if (config.smallItems && config.smallItems.length > 0)
 			{
-				smallContainer = {
-					items: config.smallItems, 
-					hidden: true
-				};
+				config.items.push(Ext.apply({
+                    cls: this.groupCls + "-small",
+					items: config.smallItems
+				}, defaultConfig));
+                this._scaleContainer[Ametys.ui.fluent.ribbon.Group.SIZE_SMALL] = config.items.length - 1; 
 			}
 			
+			// Creates a mediumContainer (items are mandatory)
+            config.items.push(Ext.apply({
+                cls: this.groupCls + "-medium",
+                items: mediumItems
+            }, defaultConfig));            
+            config.activeItem = this._scaleContainer[Ametys.ui.fluent.ribbon.Group.SIZE_MEDIUM] = config.items.length - 1;
+            
 			// Creates a largeContainer if largeItems are set
 			if (config.largeItems && config.largeItems.length > 0)
 			{
-				this._scale = "large";
-				largeContainer = {
-					items: config.largeItems,
-					hidden: false
-				};
+                config.items.push(Ext.apply({
+                    cls: this.groupCls + "-large",
+                    items: config.largeItems
+                }, defaultConfig));
+                config.activeItem = this._scaleContainer[Ametys.ui.fluent.ribbon.Group.SIZE_LARGE] = config.items.length - 1;
 			}
 
-			// Creates a mediumContainer (items are mandatory)
-			mediumContainer = {
-				items: config.items, 
-				hidden: largeContainer != null
-			};
-			
-			// Initialize the pointers
-			this._scaleContainer = {};
-			this._scaleContainer["small"] = smallContainer ? 0 : null;
-			this._scaleContainer["medium"] = smallContainer ? 1 : 0;
-			this._scaleContainer["large"] = largeContainer ? (smallContainer ? 2 : 1) : null;
-
-			// Original items where transmitter to the mediumContainer
-			// New items will be the containers
-			config.items = [];
-			if (smallContainer)
-			{
-				config.items.push(smallContainer);
-			}
-			config.items.push(mediumContainer);
-			if (largeContainer)
-			{
-				config.items.push(largeContainer);
-			}
-			
-			// Add the dialogbox launcher
-			if (config.dialogBoxLauncher)
-			{
-				if (!config.tools)
-				{
-					config.tools = [];
-				}
-
-				config.tools.push({
-					cls: 'x-fluent-dialogboxlauncher',
-					type: 'gear',
-					handler: Ext.bind(this._onDialogBoxLauncherClickSendEvent, this)
-				});
-			}
-			
-			this.callParent(arguments);
+			this.callParent([config]);
 		},
-		
+        
+        /**
+         * @private
+         * The icon button menu is shown: let's insert the buttons in the menu
+         * @param {Ext.button.Button} button The icon button
+         * @param {Ext.menu.Menu}} menu The menu displayed
+         */
+        _onIconizedMenuShow: function(button, menu)
+        {
+            var groupContainer = menu.items.get(0);
+            var smallerGroupScale = this.items.get(1); 
+            groupContainer.add(smallerGroupScale);
+            smallerGroupScale.show();
+        },
+		        
+        /**
+         * @private
+         * The icon button menu is hiden: let's put the buttons back in the ribbon
+         * @param {Ext.button.Button} button The icon button
+         * @param {Ext.menu.Menu}} menu The menu displayed
+         */
+        _onIconizedMenuHide: function(button, menu)
+        {
+            var groupContainer = menu.items.get(0);
+            var smallerGroupScale = groupContainer.items.get(0); 
+            smallerGroupScale.hide();
+            this.items.insert(1, smallerGroupScale);
+        },
+        
 		/**
 		 * @private
 		 * Listener on dialog box launcher tool to fire the event
@@ -207,11 +244,22 @@ Ext.define(
 		
 		/**
 		 * Get the currently set scale
-		 * @return {String} The scale. Can be "small", "medium" or "large".
+		 * @return {String} The scale as a constant (such as Ametys.ui.fluent.ribbon.Group#SIZE_MEDIUM)
 		 */
 		getScale: function()
 		{
-			return this._scale;
+            var scale = null;
+            
+            var currentIndex = this.items.indexOf(this.getLayout().getActiveItem());
+            Ext.Object.each(this._scaleContainer, function (key, value) {
+                if (value == currentIndex)
+                {
+                    scale = key;
+                    return false;
+                }
+            });
+            
+			return scale;
 		},
 
 		/**
@@ -235,9 +283,7 @@ Ext.define(
 				return;
 			}
 
-			this.items.get(this._scaleContainer[this._scale]).hide();
-			this._scale = newScale;
-			this.items.get(this._scaleContainer[this._scale]).show();
+            this.getLayout().setActiveItem(this._scaleContainer[newScale]);
 		},
 		
 		/**
@@ -246,62 +292,9 @@ Ext.define(
 		 */
 		canBeVisible: function()
 		{
-			return this.el ? this.el.getTop() < 60 && this.el.getRight() < this.el.parent().getRight() : true;
-		},
-		
-
-		onRender: function(parentNode, containerIdx)
-		{
-			this.callParent(arguments);
-			
-			this.el.hover(this._onOverDoFadeIn, this._onOutDoFadeOut, this);
-		},
-		
-		/**
-		 * Listener when mouse goes over the group, we fade-in the background
-		 */
-		_onOverDoFadeIn: function()
-		{
-			var nbFrames = 8;
-			var frameSize = 264;
-
-			this.el.stopAnimation().animate({ to: { 'background-position': [0, - frameSize * (nbFrames-1)], 'background-position-step': [1, frameSize] }, duration: 500, easing: 'linear' });
-			this.el.child(".x-panel-header").stopAnimation().animate({ to: { 'background-position': ['100%', -158 - frameSize * (nbFrames-1)], 'background-position-step': [1, frameSize] }, duration: 500, easing: 'linear' });
-			this.el.child(".x-panel-header").child("div").stopAnimation().animate({ to: { 'background-position': [0, -246 - frameSize * (nbFrames-1)], 'background-position-step': [1, frameSize] }, duration: 500, easing: 'linear' });
-			this.el.down(".x-panel-body").stopAnimation().animate({ to: { 'background-position': ['100%', -88 - frameSize * (nbFrames-1)], 'background-position-step': [1, frameSize] }, duration: 500, easing: 'linear' });
-            // loop on small, medium and large container
-            for (var i = 1; i <= 3; i++)
-            {
-			     var elt = this.el.down(".x-panel-body").child(".x-container:nth-child(" + i + ")");
-                 if (elt != null)
-                 {
-                    elt.stopAnimation().animate({ to: { 'background-position': [0, -176 - frameSize * (nbFrames-1)], 'background-position-step': [1, frameSize] }, duration: 500, easing: 'linear' });
-                 }
-            }
-		},			
-
-		/**
-		 * Listener when mouse leaves the group, we fade-out the background
-		 */
-		_onOutDoFadeOut: function()
-		{
-			var nbFrames = 8;
-			var frameSize = 264;
-
-			this.el.stopAnimation()
-			this.el.animate({ to: { 'background-position': [0, 0], 'background-position-step': [1, frameSize] }, duration: 500, easing: 'linear' });
-			this.el.child(".x-panel-header").stopAnimation().animate({ to: { 'background-position': ['100%', -158], 'background-position-step': [1, frameSize] }, duration: 500, easing: 'linear' });
-			this.el.child(".x-panel-header").child("div").stopAnimation().animate({ to: { 'background-position': [0, -246], 'background-position-step': [1, frameSize] }, duration: 500, easing: 'linear' });
-			this.el.child(".x-panel-body").stopAnimation().animate({ to: { 'background-position': ['100%', -88], 'background-position-step': [1, frameSize] }, duration: 500, easing: 'linear' });
-            // loop on small, medium and large container
-            for (var i = 1; i <= 3; i++)
-            {
-                 var elt = this.el.down(".x-panel-body").child(".x-container:nth-child(" + i + ")");
-                 if (elt != null)
-                 {
-                    elt.stopAnimation().animate({ to: { 'background-position': [0, -176], 'background-position-step': [1, frameSize] }, duration: 500, easing: 'linear' });
-                 }
-            }
+			return this.el ? this.el.getTop() == this.ownerCt.el.getTop() 
+                            && this.el.getRight() < this.ownerCt.el.getRight() 
+                      : true;
 		}
 	}
 );

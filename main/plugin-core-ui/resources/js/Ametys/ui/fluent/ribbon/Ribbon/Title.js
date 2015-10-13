@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Anyware Services
+ *  Copyright 2015 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -16,14 +16,15 @@
 
 /**
  * The title's header for the ribbon panel.
- * Always add the application title to the given title
+ * This implementation always add the application title to the given title
+ * @inheritdoc
  * @private
  */
 Ext.define(
-	"Ametys.ui.fluent.ribbon.TabPanel.Title",
+	"Ametys.ui.fluent.ribbon.Ribbon.Title",
 	{
 		extend: "Ext.panel.Title",
-		alias: 'widget.ametys.ribbon-header-title',
+		alias: 'widget.ametys.ribbon-title',
 		
 		statics: {
 			/**
@@ -41,6 +42,19 @@ Ext.define(
 				return title;
 			}
 		},
+        
+        /**
+         * @property {String} titleTextCls The CSS classname of the text part of the title
+         * @readonly
+         * @private
+         */
+        titleTextCls: 'a-fluent-header-title',        
+        /**
+         * @property {String} titleTextCls The CSS classname of the application part of the title
+         * @readonly
+         * @private
+         */
+        titleExtensionTextCls: 'a-fluent-header-title-extension',        
 		
 		/**
 		 * @cfg {String} applicationTitle The application title. Cannot be changed after configuration. Can contains HTML tags.
@@ -54,8 +68,8 @@ Ext.define(
         initRenderData: function()
         {
             var renderData = this.callParent(arguments);
-            renderData.text = '<span class="x-fluent-tab-panel-header-title">' + this.self.enhanceTitle(renderData.text) + '</span>' 
-                                + '<span class="x-fluent-tab-panel-header-title-extension">' + this.applicationTitle + '</span>';
+            renderData.text = '<span class="' + this.titleTextCls + '">' + this.self.enhanceTitle(renderData.text) + '</span>' 
+                                + '<span class="' + this.titleExtensionTextCls + '">' + this.applicationTitle + '</span>';
             return renderData;
         },
         
@@ -68,7 +82,7 @@ Ext.define(
         {
             if (this.rendered)
             {
-                this.textEl.child(".x-fluent-tab-panel-header-title").setHtml(this.self.enhanceTitle(text));
+                this.textEl.child("." + this.titleTextCls).setHtml(this.self.enhanceTitle(text));
             }
         }
 	}

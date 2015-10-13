@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Anyware Services
+ *  Copyright 2015 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -18,15 +18,18 @@
  * This class is a container for very small buttons that goes together visually
  */
 Ext.define(
-	"Ametys.ui.fluent.ribbon.controls.Toolbar",
-	{
-		extend: "Ext.container.Container",
-		alias: 'widget.ametys.ribbon-toolbar',
-		
-		/**
-		 * @cfg {String} cls Doesn't apply to ribbon element. The value HAS TO be the default value.
-		 * @private
-		 */
-		cls: 'x-fluent-toolbar'
-	}
+    "Ametys.ui.fluent.ribbon.controls.Toolbar",
+    {
+        extend: "Ext.toolbar.Toolbar",
+        alias: 'widget.ametys.ribbon-toolbar',
+        
+        /**
+         * @cfg {String} ui=ribbon-component @inheritdoc
+         */
+        ui: 'ribbon-component',
+        
+        defaults: {
+            ui: 'ribbon-component'
+        }
+    }
 );

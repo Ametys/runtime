@@ -21,6 +21,20 @@
 Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZonedTabsDD", 
 	{
 		extend: "Ext.dd.DDProxy",
+        
+        /**
+         * @property {String} visibleZoneCls The CSS classname for the rendering of a drop zone
+         * @readonly
+         * @private
+         */
+        visibleZoneCls : 'a-tool-layer-zoned-dragndrop-marker',
+        
+        /**
+         * @property {String} effectiveZoneCls The CSS classname for the effective location of a drop zone
+         * @readonly
+         * @private
+         */
+        effectiveZoneCls: 'a-tool-layer-zoned-dragndrop-effective',
 		
 		statics: 
 		{
@@ -113,7 +127,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZonedTabsDD",
 		    {
 		    	var tabPanel = this.toolsLayout._panelHierarchy[loc];
 		    
-		    	visible[loc] = tabPanel.ownerCt.isVisible() && tabPanel.isVisible();
+		    	visible[loc] = tabPanel.isVisible();
 		    	
 		    	var p = tabPanel;
 		    	if (!visible[loc])
@@ -125,20 +139,43 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZonedTabsDD",
 			    	}
 		    	}
 		    	
-		    	if (tabPanel.getPlaceholder().isVisible())
-		    	{
-		    		position[loc] =  tabPanel.getPlaceholder().getPosition();
-		    		size[loc] = tabPanel.getPlaceholder().getSize();
-		    	}
-		    	else
-		    	{
-		    		position[loc] =  p.getPosition();
-		    		size[loc] = p.getSize();
-		    	}
-		    	dropOffset[loc] = [0, 0];
+	    		position[loc] =  p.getPosition();
+	    		size[loc] = p.getSize();
+                
+                if (visible[loc])
+                {
+                    // Add spliter to zone
+                    var associatedSplitter = null;
+                    if (loc == 'l' || loc == 't' || loc == 'cl')
+                    {
+                        associatedSplitter = tabPanel.nextSibling();
+                    }
+                    else if (loc == 'r' || loc == 'b')
+                    {
+                        associatedSplitter = tabPanel.previousSibling();
+                    }
+                    
+                    if (associatedSplitter && associatedSplitter.isVisible()) // spliter can be invisible for a visible zone with "cl" if "cr" is not visible
+                    {
+                        spliterPosition = associatedSplitter.getPosition();
+                        spliterSize = associatedSplitter.getSize();
+                        
+                        size[loc] = { 
+                            width: Math.max(position[loc][0] + size[loc].width, spliterPosition[0] + spliterSize.width) - Math.min(position[loc][0], spliterPosition[0]),
+                            height: Math.max(position[loc][1] + size[loc].height, spliterPosition[1] + spliterSize.height) - Math.min(position[loc][1], spliterPosition[1])
+                        };
+                        
+                        position[loc] = [ 
+                            Math.min(position[loc][0], spliterPosition[0]), 
+                            Math.min(position[loc][1], spliterPosition[1]) 
+                        ];
+                    }
+                }
+
+                dropOffset[loc] = [0, 0];
 		    	dropSize[loc] = {width: size[loc].width, height: size[loc].height};
 		    }
-		    
+            
 		    // Handle top zone
 		    // When top zone is visible, nothing to do
 		    // But when top zone is invisible
@@ -191,19 +228,6 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZonedTabsDD",
 			    	// look and drop width are set
 			    	size[loc].width = this.self._FLOATINGZONES_SIZE;
 			    	dropSize[loc].width = this.self._FLOATINGZONES_DROPSIZE;
-			    	
-			    	// handle overlap with top/bottom when visible
-			    	if (visible['b'])
-			    	{
-				    	size[loc].height -= size['b'].height;
-				    	dropSize[loc].height -= dropSize['b'].height;
-			    	}
-			    	if (visible['t'])
-			    	{
-			    		position[loc][1] += size['t'].height;
-				    	size[loc].height -= size['t'].height;
-				    	dropSize[loc].height -= dropSize['t'].height;
-			    	}
 			    }
 		    }	    
 		    
@@ -217,18 +241,24 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZonedTabsDD",
 		    {
 		    	if (!visible['l'])
 		    	{
+                    // space for left zone
 		    		dropSize['cl'].width -= this.self._FLOATINGZONES_DROPSIZE;
 		    		dropOffset['cl'][0] += this.self._FLOATINGZONES_DROPSIZE;
 		    	}
-		    	dropSize['cl'].width -= this.self._FLOATINGZONES_DROPSIZE;
+                
 		    	if (!visible['r'])
 		    	{
+                    // space for right zone
 		    		dropSize['cl'].width -= this.self._FLOATINGZONES_DROPSIZE;
 		    	}
+                
+                // space for cr zone
+                var centralWidth = dropSize['cl'].width; 
+		    	dropSize['cl'].width = 0.66 * centralWidth;
 		    	
 		    	size['cr'].width = size['cl'].width * fc / (f + fc);
 		    	position['cr'][0] += size['cl'].width - size['cr'].width;
-		    	dropSize['cr'].width = this.self._FLOATINGZONES_DROPSIZE;
+		    	dropSize['cr'].width = centralWidth - dropSize['cl'].width;
 		    	dropOffset['cr'][0] = size['cr'].width - dropSize['cr'].width;
 		    	if (!visible['r'])
 		    	{
@@ -239,18 +269,24 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZonedTabsDD",
 			{
 		    	if (!visible['r'])
 		    	{
+                    // space for right zone
 		    		dropSize['cr'].width -= this.self._FLOATINGZONES_DROPSIZE;
 		    	}
-		    	dropOffset['cr'][0] += this.self._FLOATINGZONES_DROPSIZE;
-	    		dropSize['cr'].width -= this.self._FLOATINGZONES_DROPSIZE;
+                
 		    	if (!visible['l'])
 		    	{
+                    // space for left zone
 		    		dropSize['cr'].width -= this.self._FLOATINGZONES_DROPSIZE;
 		    		dropOffset['cr'][0] += this.self._FLOATINGZONES_DROPSIZE;
 		    	}
+                
+                // space for cl zone
+                var centralWidth = dropSize['cr'].width; 
+	    		dropSize['cr'].width = 0.66 * centralWidth;
+		    	dropOffset['cr'][0] += centralWidth - dropSize['cr'].width;
 	    		
 		    	size['cl'].width = size['cr'].width * f / (f + fc);
-	    		dropSize['cl'].width = this.self._FLOATINGZONES_DROPSIZE;
+	    		dropSize['cl'].width = centralWidth - dropSize['cr'].width;
 		    	if (!visible['l'])
 		    	{
 		    		dropOffset['cl'][0] += this.self._FLOATINGZONES_DROPSIZE;
@@ -280,27 +316,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZonedTabsDD",
 		    	{
 			    	dropSize['cl'].width -= this.self._FLOATINGZONES_DROPSIZE;
 		    	}
-		    	delete zones.c;
-		    	
-		    	/* UI SIMPLIFICATION
-		    	 * the code above, makes the central zone unique when empty
-		    	 * while the code under show it as two zones
-		    	size['cl'].width = size['cl'].width * f / (f + fc);
-		    	dropSize['cl'].width = size['cl'].width;
-		    	if (!visible['l'])
-		    	{
-		    		dropOffset['cl'][0] += this.self._FLOATINGZONES_DROPSIZE;
-			    	dropSize['cl'].width -= this.self._FLOATINGZONES_DROPSIZE;
-		    	}
-		    	
-		    	position['cr'][0] += size['cl'].width;
-		    	size['cr'].width = size['cr'].width * fc / (f + fc);
-		    	dropSize['cr'].width = size['cr'].width;
-		    	if (!visible['r'])
-		    	{
-			    	dropSize['cr'].width -= this.self._FLOATINGZONES_DROPSIZE;
-		    	}
-		    	*/
+		    	delete zones.cr;
 		    }
 		    
 		    // Draw now
@@ -308,7 +324,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZonedTabsDD",
 		    {
 	    	    var div = document.createElement("div");
 	    	    div.id = Ext.id();
-	    	    div.className = "ametys-toolpanel-dragndrop-visiblezone";
+	    	    div.className = this.visibleZoneCls;
 	    		div.style.top = position[loc][1] + "px";
 	    		div.style.left = position[loc][0] + "px";
 	    		div.style.width = size[loc].width + "px";
@@ -319,7 +335,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZonedTabsDD",
 	    		var idiv = document.createElement("div");
 	    		idiv.location = loc;
 	    		idiv.displaydiv = div.id;
-	    		idiv.className = "ametys-toolpanel-dragndrop-dropzone";
+	    		idiv.className = this.effectiveZoneCls;
 	    		idiv.style.top = (position[loc][1] + dropOffset[loc][1]) + "px";
 	    		idiv.style.left = (position[loc][0] + dropOffset[loc][0]) + "px";
 	    		idiv.style.width = dropSize[loc].width + "px";
@@ -395,20 +411,23 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZonedTabsDD",
 		{
 		    // Invoke the animation if the invalidDrop flag is set to true
 		    if (this.invalidDrop === true) {
+                // Remove the drop invitation
+                this.el.removeCls('dropOK');
+                
 		        // Create the animation configuration object
-		        var animCfgObj = {
-		            easing   : 'easeIn',
-		            //duration : 1,
-		            scope    : this,
-		            callback : function() {
-		                // Remove the position attribute
-		                Ext.fly(this.getDragEl()).hide();
-		            }
-		        };
+                var animCfgObj = {
+                    easing   : 'easeIn',
+                    //duration : 1,
+                    scope    : this,
+                    callback : function() {
+                        // Remove the position attribute
+                        Ext.fly(this.getDragEl()).hide();
+                    }
+                };
 		 
-		        // Apply the repair animation
-		        Ext.fly(this.getDragEl()).moveTo(this.originalXY[0], this.originalXY[1], animCfgObj);
-		        delete this.invalidDrop;
+                // Apply the repair animation
+                Ext.fly(this.getDragEl()).setXY(this.originalXY, animCfgObj);
+                delete this.invalidDrop;
 		    }
 		},
 		
