@@ -116,6 +116,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
             border: false,
             shadow: false,
             isRepeater: true,
+            
             cls: 'ametys-repeater ametys-repeater-level-' + this.nestingLevel + (this.nestingLevel % 2 == 0 ? ' even' : ' odd'),
             
             margin: this.nestingLevel > 1 ? ('0 0 5 ' + Ametys.form.ConfigurableFormPanel.Repeater.NESTED_OFFSET) : '0 0 5 0',
@@ -206,6 +207,8 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
     		
     		titleCollapse: true,
     		hideCollapseTool: true,
+    		collapsible: true,
+    		
             collapsed: opt.collapsed !== false,  // Render the items collapsed by default
     		
     	    cls: 'ametys-repeater-item ametys-repeater-item-level-' + this.nestingLevel + (this.nestingLevel % 2 == 0 ? ' even' : ' odd'),
@@ -912,7 +915,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.Repeater',
     _onRepeaterEntryReady: function(repeater)
     {
         // updates only 
-        if (form === this)
+        if (repeater === this)
         {
             this._updateAllItemHeaders();
         }
