@@ -54,7 +54,8 @@
 		  		  'failure-redirection': "/_admin/public/browser-unsupported.html"
 		     }
 		</xsl:param>
-		<xsl:param name="theme">neptune</xsl:param>
+		<xsl:param name="theme">ametys-base</xsl:param>
+        <xsl:param name="uxtheme">neptune</xsl:param>
         <xsl:param name="load-cb"/>
         
 		<xsl:variable name="context-path" select="ametys:uriPrefix(false())"/>
@@ -65,21 +66,6 @@
 		<xsl:variable name="max-upload-size" select="ametys:config('runtime.upload.max-size')"/>
         <xsl:variable name="debug-mode" select="not(ametys:config('runtime.debug.ui') = 0)"/>
 
-	    <xsl:variable name="uxtheme">
-	       <xsl:choose>
-	           <xsl:when test="$theme = 'neptune'">neptune</xsl:when>
-               <xsl:when test="$theme = 'neptune-touch'">neptune</xsl:when>
-               <xsl:when test="$theme = 'triton'">triton</xsl:when>
-               <xsl:when test="$theme = 'crisp'">crisp</xsl:when>
-               <xsl:when test="$theme = 'crisp-touch'">crisp</xsl:when>
-               <xsl:when test="$theme = 'classic'">classic</xsl:when>
-               <xsl:when test="$theme = 'classic-touch'">classic</xsl:when>
-               <xsl:when test="$theme = 'gray'">classic</xsl:when>
-               <xsl:when test="$theme = 'aria'">classic</xsl:when>
-               <xsl:otherwise>classic</xsl:otherwise>
-	       </xsl:choose>
-	    </xsl:variable>
-        
 		<xsl:call-template name="kernel-browsers">
 			<xsl:with-param name="authorized-browsers" select="$authorized-browsers"/>
 		</xsl:call-template>
@@ -103,10 +89,7 @@
        		<script>/plugins/extjs6/resources/ext-all<xsl:if test="$rtl">-rtl</xsl:if><xsl:if test="$debug-mode">-debug</xsl:if>.js</script>
             <script>/plugins/extjs6/resources/classic/locale/locale-<xsl:value-of select="$language-code"/><xsl:if test="$debug-mode">-debug</xsl:if>.js</script>
             
-            <xsl:if test="$theme = 'aria'">
-                <script>/plugins/extjs6/resources/classic/aria/aria<xsl:if test="$debug-mode">-debug</xsl:if>.js</script>
-            </xsl:if>
-            <script>/plugins/extjs6/resources/classic/theme-<xsl:value-of select="$theme"/>/theme-<xsl:value-of select="$theme"/><xsl:if test="$debug-mode">-debug</xsl:if>.js</script>
+            <script>/plugins/core-ui/resources/themes/theme-<xsl:value-of select="$theme"/>/theme-<xsl:value-of select="$theme"/><xsl:if test="$debug-mode">-debug</xsl:if>.js</script>
 
             <script>/plugins/extjs6/resources/packages/ux/classic/ux<xsl:if test="$debug-mode">-debug</xsl:if>.js</script>
             
@@ -117,16 +100,12 @@
 	    </xsl:variable>
 	    
 		<xsl:variable name="css">
-            <xsl:if test="$theme = 'aria'">
-                <css>/plugins/extjs6/resources/classic/aria/resources/aria-all<xsl:if test="$rtl">-rtl</xsl:if><xsl:if test="$debug-mode">-debug</xsl:if>.css</css>
-            </xsl:if>
-            <css>/plugins/extjs6/resources/classic/theme-<xsl:value-of select="$theme"/>/resources/theme-<xsl:value-of select="$theme"/>-all<xsl:if test="$rtl">-rtl</xsl:if><xsl:if test="$debug-mode">-debug</xsl:if>.css</css>
+            <css>/plugins/core-ui/resources/themes/theme-<xsl:value-of select="$theme"/>/theme-<xsl:value-of select="$theme"/>-all<xsl:if test="$rtl">-rtl</xsl:if><xsl:if test="$debug-mode">-debug</xsl:if>.css</css>
             <css>/plugins/extjs6/resources/packages/ux/classic/<xsl:value-of select="$uxtheme"/>/resources/ux-all<xsl:if test="$rtl">-rtl</xsl:if><xsl:if test="$debug-mode">-debug</xsl:if>.css</css>
             <css>/plugins/extjs6/resources/packages/charts/classic/<xsl:value-of select="$uxtheme"/>/resources/charts-all<xsl:if test="$rtl">-rtl</xsl:if><xsl:if test="$debug-mode">-debug</xsl:if>.css</css>
-            <css>/plugins/core-ui/resources/css/Ametys/gray/all.css</css>
-            <css>/plugins/core-ui/resources/css/ametys.css</css>
+<!--             <css>/plugins/core-ui/resources/css/Ametys/gray/all.css</css> -->
+<!--             <css>/plugins/core-ui/resources/css/ametys.css</css> -->
             <css>/plugins/codemirror/resources/css/codemirror.css</css>
-            <css>/plugins/core-ui/resources/css/json.css</css>
 		</xsl:variable>
 
 		<xsl:call-template name="kernel-load">
@@ -187,15 +166,23 @@
 
         <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Ribbon.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Ribbon/Title.js</script>
-        <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Ribbon/Header.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Ribbon/ContextualTabGroupContainer.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Ribbon/ContextualTabGroup.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Ribbon/MessageContainer.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Ribbon/SearchMenu.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Ribbon/Notificator.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Ribbon/Notificator/Notification.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Ribbon/Notificator/Toast.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/TabPanel.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Panel.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Group.js</script>
-        <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/GroupPart.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/GroupScale.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/GroupScalePart.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/controls/RibbonButtonMixin.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/controls/Button.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/controls/SplitButton.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/controls/Toolbar.js</script>
-        <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/controls/gallery/MenuGallery.js</script>
-        <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/controls/gallery/MenuGalleryButton.js</script>   
+        <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/controls/gallery/MenuPanel.js</script>
         
         <script>/plugins/core-ui/resources/js/Ametys/ui/tool/ToolPanel.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/ui/tool/ToolsLayout.js</script>

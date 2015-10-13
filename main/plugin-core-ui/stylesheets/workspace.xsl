@@ -37,29 +37,27 @@
     <xsl:template name="css-file">/plugins/core-ui/resources/css/special/splashscreen.css</xsl:template>
     
     <xsl:template name="uicall">
-	    <xsl:call-template name="kernel-base">
-            <xsl:with-param name="theme">gray</xsl:with-param>
-        </xsl:call-template>
+        <xsl:call-template name="kernel-base"/>
     </xsl:template>
     
     <xsl:template name="head-css">
         <xsl:if test="$splashscreen != 'no'">
-	        <xsl:call-template name="head-css-impl"/>
+            <xsl:call-template name="head-css-impl"/>
         </xsl:if>
     </xsl:template>
     <xsl:template name="body">
         <xsl:if test="$splashscreen != 'no'">
-	        <xsl:call-template name="body-impl"/>
-	        <script type="text/javascript" id="script-loader">
-	            function destroyLoader()
-	            { 
-	                Ext.getBody().child("div.head").dom.style.display = 'none';
-	                Ext.getBody().child("div.foot").dom.style.display = 'none';
-	                Ext.getBody().child("div.main").dom.style.display = 'none';
+            <xsl:call-template name="body-impl"/>
+            <script type="text/javascript" id="script-loader">
+                function destroyLoader()
+                { 
+                    Ext.getBody().child("div.head").dom.style.display = 'none';
+                    Ext.getBody().child("div.foot").dom.style.display = 'none';
+                    Ext.getBody().child("div.main").dom.style.display = 'none';
                     Ext.get("script-loader").remove();
                     Ext.get(document.body.parentNode).removeCls("ametys-common");
-	            }
-	        </script>
+                }
+            </script>
         </xsl:if>
     </xsl:template>
 
@@ -70,8 +68,8 @@
             <div class="msg">
                 <span id="load-msg">
                     <xsl:choose>
-                        <xsl:when test="/Ametys/workspace/safe-mode">
-		                    <i18n:text i18n:key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_SPLASHSCREEN_LOADING_SAFEMODE" i18n:catalogue="plugin.core-ui"/>
+                        <xsl:when test="/Ametys/workspace/safe-mode != 'CONFIG_INCOMPLETE'">
+                            <i18n:text i18n:key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_SPLASHSCREEN_LOADING_SAFEMODE" i18n:catalogue="plugin.core-ui"/>
                         </xsl:when>
                         <xsl:otherwise>
                             <i18n:text i18n:key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_SPLASHSCREEN_LOADING" i18n:catalogue="plugin.core-ui"/>
@@ -82,15 +80,15 @@
             
             <xsl:comment>[if lte IE 9]>
             &lt;style type="text/css">
-				.la-ball-spin-clockwise {
-				    background-image: url(<xsl:value-of select="$contextPath"/>/plugins/extjs6/resources/classic/theme-neptune/resources/images/loadmask/loading.gif);
-				    background-position: center;
-				    background-repeat: no-repeat;
-				    background-size: 30%;
-				}
-				.la-ball-spin-clockwise div {
-				    display: none;
-				}
+                .la-ball-spin-clockwise {
+                    background-image: url(<xsl:value-of select="$contextPath"/>/plugins/extjs6/resources/classic/theme-neptune/resources/images/loadmask/loading.gif);
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-size: 30%;
+                }
+                .la-ball-spin-clockwise div {
+                    display: none;
+                }
             &lt;/style>
             &lt;![endif]</xsl:comment>
                   
@@ -114,18 +112,19 @@
     <xsl:template name="body-start">
         <script type="text/javascript">
             window.onerror = function(e) {
-	            window.errorMode = true;
-	            document.body.parentNode.className += " error";
-	            <xsl:choose>
+                window.errorMode = true;
+                
+                document.body.parentNode.className += " error";
+                <xsl:choose>
                     <xsl:when test="$splashscreen != 'no'">
-	                   document.getElementById('load-msg').innerHTML = "<i18n:text i18n:key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_SPLASHSCREEN_LOAD_FAIL" i18n:catalogue="plugin.core-ui"/>";
-	                </xsl:when>
-	                <xsl:otherwise>
-	                   document.body.innerHTML = "<i18n:text i18n:key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_SPLASHSCREEN_LOAD_FAIL" i18n:catalogue="plugin.core-ui"/>";
-	                </xsl:otherwise>
-	            </xsl:choose>
-	            
-	            // Remove conflicting CSS
+                       document.getElementById('load-msg').innerHTML = "<i18n:text i18n:key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_SPLASHSCREEN_LOAD_FAIL" i18n:catalogue="plugin.core-ui"/>";
+                    </xsl:when>
+                    <xsl:otherwise>
+                       document.body.innerHTML = "<i18n:text i18n:key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_SPLASHSCREEN_LOAD_FAIL" i18n:catalogue="plugin.core-ui"/>";
+                    </xsl:otherwise>
+                </xsl:choose>
+
+                // Remove conflicting CSS
                 var links = document.body.getElementsByTagName("link");
                 for (var i = 0; i &lt; links.length; i++)
                 {
@@ -301,15 +300,52 @@
                             var ribbon = Ext.create("Ametys.ui.fluent.ribbon.Ribbon", {<xsl:text/>
                                 <xsl:text/>applicationTitle: '&lt;span class="x-fluent-tab-panel-header-title-extension"&gt;<xsl:call-template name="applicationTitle"/>&lt;/span&gt;',<xsl:text/>
                                 id: 'ribbon',
-                                menu: {<xsl:text/>
-                                    icon: '<xsl:value-of select="$contextPath"/>/plugins/core-ui/resources/img/workspace/ametys.gif',
-                                    items: menuItems.length == 0 ? null : menuItems
-                                },<xsl:text/>
+                                
+                                mainButton: {
+			                        xtype: 'button',
+			                        text: 'Ametys',
+			                        /*tooltip: {
+			                             title: "", 
+			                             image: "", 
+			                             text: "", 
+			                             inribbon: true
+			                        },*/
+			                        menu: {
+			                             items: menuItems.length == 0 ? null : menuItems
+			                        }
+			                    },
+                                
                                 <xsl:text/>items: ribbonItems,<xsl:text/>
-                                /*help: {
+                                
+                                message: [
+                                <xsl:if test="safe-mode">
+                                    {
+                                        title: "<i18n:text i18n:key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TITLE_{safe-mode}" i18n:catalogue="plugin.core-ui"/>",
+                                        text: "<i18n:text i18n:key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TEXT_{safe-mode}" i18n:catalogue="plugin.core-ui"/>",
+                                        <xsl:choose>
+                                            <xsl:when test="safe-mode = 'CONFIG_INCOMPLETE'">
+		                                        closable: true,
+		                                        type: "info"
+                                            </xsl:when>
+                                            <xsl:otherwise>
+                                                closable: false,
+                                                type: "warning"
+                                            </xsl:otherwise>
+                                        </xsl:choose>
+                                    }
+                                </xsl:if>
+                                ],
+                                
+                                /*
+                                help: {
                                     handler: function() { alert('help'); },
-                                    tooltip: "A little bit of help?"
-                                },*/
+                                    tooltip:{ inribbon: true, text: "A little bit of help?" }
+                                },
+                                notification: {
+			                          tooltip:{ inribbon: true, text: "A describtive text" }
+			                          handler: function() {  }
+			                    },
+                                */
                                 <xsl:if test="user">
                                 user: {
                                     fullName: "<xsl:value-of select="user/firstname"/>&#160;<xsl:value-of select="user/lastname"/>",
@@ -324,7 +360,7 @@
                                     </xsl:if>
                                 }
                                 </xsl:if>
-                            <xsl:text/>}, {region: 'north'});<xsl:text/>
+                            <xsl:text/>}, {});<xsl:text/>
                     
                             /** Contextual tabs creation */<xsl:text/>
                             var tab;
@@ -397,30 +433,13 @@
                                     launch: function() {
                                         if (window.errorMode) { return; }
                                         
-                                        <xsl:if test="safe-mode">
-                                            ribbon = {
-                                                xtype: 'panel',
-                                                layout: 'fit',
-                                                region: 'north',
-                                                border: false,
-                                                dockedItems: [ {
-                                                    cls: 'a-safemode',
-                                                    xtype: 'component',
-                                                    html: "<i18n:text i18n:key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_{safe-mode}" i18n:catalogue="plugin.core-ui"/>",
-                                                    dock: 'bottom',
-                                                    height: 20 
-                                                } ],
-                                                items: [ ribbon ]
-                                            }; 
-                                        </xsl:if>
-                                        
                                         Ext.create('Ext.container.Viewport', {
                                             hidden: true,
                                             hideMode: 'offsets',
-                                            layout: 'border',
+                                            layout:  { type: 'vbox', align: 'stretch' },
                                             items: [
                                                 ribbon,
-                                                Ametys.tool.ToolsManager.getToolsLayout().createLayout()
+                                                Ext.apply(Ametys.tool.ToolsManager.getToolsLayout().createLayout(), {flex: 1})
                                             ],
                                             listeners: {
                                                 'afterrender': function() { 
@@ -442,26 +461,26 @@
                                                 
                                                 try
                                                 {
-	                                                Ametys.tool.ToolsManager.init({
-	                                                    autoRefreshingFactories: [ <xsl:for-each select="uitools-factories/refresh/uitool-factory">
-	                                                         <xsl:text/>"<xsl:value-of select="@id"/>"<xsl:if test="position() != last()">,</xsl:if>
-	                                                    </xsl:for-each> ],
-	                                                    autoOpenedTools: [ <xsl:for-each select="uitools-factories/default/uitool-factory">
-	                                                         <xsl:text/>{ role: "<xsl:value-of select="@id"/>", toolParams: {<xsl:value-of select="."/>} }<xsl:if test="position() != last()">,</xsl:if>
-	                                                    </xsl:for-each> ]
-	                                                });
-	                                                
-	                                                <xsl:for-each select="uitools-factories/additionnal/uitool-factory">
-	                                                Ametys.tool.ToolsManager.openTool("<xsl:value-of select="@id"/>", {<xsl:value-of select="."/>});
-	                                                </xsl:for-each>
-	                                                            
-	                                                Ametys.tool.ToolsManager.getToolsLayout().setAsInitialized();
-	                                            }
-	                                            catch (e)
-	                                            {
-	                                                Ametys.userprefs.UserPrefsDAO.saveValues( { "workspace": {} }, function() { }, undefined, Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS);
-	                                                Ametys.shutdown("<i18n:text i18n:key='PLUGINS_CORE_UI_WORKSPACE_AMETYS_FAIL_AFTERLOAD_TITLE' i18n:catalogue="plugin.core-ui"/>", "<i18n:text i18n:key='PLUGINS_CORE_UI_WORKSPACE_AMETYS_FAIL_AFTERLOAD_TEXT' i18n:catalogue="plugin.core-ui"/>", "<i18n:text i18n:key='PLUGINS_CORE_UI_WORKSPACE_AMETYS_FAIL_AFTERLOAD_ACTION' i18n:catalogue="plugin.core-ui"/>");
-	                                            }
+                                                    Ametys.tool.ToolsManager.init({
+                                                        autoRefreshingFactories: [ <xsl:for-each select="uitools-factories/refresh/uitool-factory">
+                                                             <xsl:text/>"<xsl:value-of select="@id"/>"<xsl:if test="position() != last()">,</xsl:if>
+                                                        </xsl:for-each> ],
+                                                        autoOpenedTools: [ <xsl:for-each select="uitools-factories/default/uitool-factory">
+                                                             <xsl:text/>{ role: "<xsl:value-of select="@id"/>", toolParams: {<xsl:value-of select="."/>} }<xsl:if test="position() != last()">,</xsl:if>
+                                                        </xsl:for-each> ]
+                                                    });
+                                                    
+                                                    <xsl:for-each select="uitools-factories/additionnal/uitool-factory">
+                                                    Ametys.tool.ToolsManager.openTool("<xsl:value-of select="@id"/>", {<xsl:value-of select="."/>});
+                                                    </xsl:for-each>
+                                                                
+                                                    Ametys.tool.ToolsManager.getToolsLayout().setAsInitialized();
+                                                }
+                                                catch (e)
+                                                {
+                                                    Ametys.userprefs.UserPrefsDAO.saveValues( { "workspace": {} }, function() { }, undefined, Ametys.data.ServerComm.PRIORITY_SYNCHRONOUS);
+                                                    Ametys.shutdown("<i18n:text i18n:key='PLUGINS_CORE_UI_WORKSPACE_AMETYS_FAIL_AFTERLOAD_TITLE' i18n:catalogue="plugin.core-ui"/>", "<i18n:text i18n:key='PLUGINS_CORE_UI_WORKSPACE_AMETYS_FAIL_AFTERLOAD_TEXT' i18n:catalogue="plugin.core-ui"/>", "<i18n:text i18n:key='PLUGINS_CORE_UI_WORKSPACE_AMETYS_FAIL_AFTERLOAD_ACTION' i18n:catalogue="plugin.core-ui"/>");
+                                                }
                                             }
                                         });
                                     }
@@ -472,8 +491,8 @@
     </xsl:template>
 
     <xsl:template name="ui-apptools-load">
-		<!-- Ametys interface -->
-			<!-- UserPrefs -->
+        <!-- Ametys interface -->
+            <!-- UserPrefs -->
             <script type="text/javascript">
                   <xsl:call-template name="ui-apptools-load-PrefContext"/>
             
@@ -493,8 +512,8 @@
                   var upp = Ext.create('Ametys.userprefs.UserPrefsDAOStateProvider', { preference: 'workspace' })
                   Ext.state.Manager.setProvider(upp);
             </script>
-			
-			<xsl:call-template name="ui-apptools-load-toolsmanager"/>
+            
+            <xsl:call-template name="ui-apptools-load-toolsmanager"/>
     </xsl:template>
 
     <xsl:template name="ui-apptools-load-PrefContext">
@@ -508,10 +527,10 @@
     </xsl:template>
 
     <xsl:template name="ui-extension-load">
-    	<!-- Keep empty. Here for inheritance purpose. -->
-	</xsl:template>
+        <!-- Keep empty. Here for inheritance purpose. -->
+    </xsl:template>
 
-	<xsl:template name="ui-extension-after-static-load">
-    	<!-- Keep empty. Here for inheritance purpose. -->
-	</xsl:template>
+    <xsl:template name="ui-extension-after-static-load">
+        <!-- Keep empty. Here for inheritance purpose. -->
+    </xsl:template>
 </xsl:stylesheet>
