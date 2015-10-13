@@ -73,13 +73,13 @@
     <message key="PLUGINS_CORE_UI_SAFE_MODE_TEXT">The application could not initialize correctly and started in safe mode.<br/>You should check application's logs and settings.</message>
     <message key="PLUGINS_CORE_UI_SAFE_MODE_LINK">Manage the application</message>
     <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TITLE_CONFIG_INCOMPLETE">Information</message>
-    <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_CONFIG_INCOMPLETE">The application configuration is incomplete or incorrect. Use the configuration tool to complete it.</message>
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TEXT_CONFIG_INCOMPLETE">The application configuration is incomplete or incorrect. Use the configuration tool to complete it.</message>
     <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TITLE_WRONG_DEFINITIONS">Attention</message>
-    <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_WRONG_DEFINITIONS">L'application est en mode sans-échec car un ou plusieurs plugins ont une configuration incorrecte. You can watch logs to know more.</message>
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TEXT_WRONG_DEFINITIONS">L'application est en mode sans-échec car un ou plusieurs plugins ont une configuration incorrecte. You can watch logs to know more.</message>
     <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TITLE_NOT_INITIALIZED">Attention</message>
-    <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_NOT_INITIALIZED">L'application est en mode sans-échec car elle n'a pas pu s'initialiser correctement suite à une erreur. You can watch logs to know more.</message>
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TEXT_NOT_INITIALIZED">L'application est en mode sans-échec car elle n'a pas pu s'initialiser correctement suite à une erreur. You can watch logs to know more.</message>
     <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TITLE_RUNTIME_NOT_LOADED">Attention</message>
-    <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_RUNTIME_NOT_LOADED">L'application est en mode sans-échec car le fichier de configuration 'WEB-INF/param/runtime.xml' n'a pas pu être chargé correctement. You can watch logs to know more.</message>
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TEXT_RUNTIME_NOT_LOADED">L'application est en mode sans-échec car le fichier de configuration 'WEB-INF/param/runtime.xml' n'a pas pu être chargé correctement. You can watch logs to know more.</message>
     
     <!-- +
          | Unsupported browser
