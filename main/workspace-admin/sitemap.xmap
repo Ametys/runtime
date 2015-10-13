@@ -94,9 +94,9 @@
             </map:match>
             
             <!-- unauthenticated pages -->
-            <map:match pattern="public/unsupported-browser.html">
+            <map:match pattern="public/browser-unsupported.html">
                 <map:generate type="action-result"/>
-                <map:transform src="plugin:core-ui://pages/public/{1}.xsl"/>
+                <map:transform src="plugin:core-ui://pages/public/browser-unsupported.xsl"/>
                 <map:transform type="i18n">
                     <map:parameter name="locale" value="{locale:locale}"/>
                     <map:parameter name="workspace" value="{request-attr:workspaceName}"/>
