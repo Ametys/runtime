@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Anyware Services
+ *  Copyright 2015 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -114,7 +114,7 @@ Ext.define('Ametys.form.widget.RichText.RichTextConfiguration', {
 	 * Add a CSS file to load in the inline editor
 	 * @param {String} file The path of CSS file 
 	 */
-	addCSSFile : function (file)
+	addCSSFile: function (file)
 	{
 		this._useCSSFile.push(file);
 	},
@@ -148,7 +148,7 @@ Ext.define('Ametys.form.widget.RichText.RichTextConfiguration', {
 	
 	/**
 	 * This method retrieve a tag to handle.
-	 * Just by calling this method, the tag will be handle by the editor.
+	 * Just by calling this method, the tag will be handled by the editor.
 	 * Once you have a tag it a map
 	 * - emptyTag Can be empty, +, - or #. see tinymce valid_elements documentation
 	 * - getAttributes Call this method to handle an attribute. This will return a map where key is the attribute name and value are
