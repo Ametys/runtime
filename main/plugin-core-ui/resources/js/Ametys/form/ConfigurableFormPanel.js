@@ -3399,11 +3399,12 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                     
                     // Separator in composites path is '/' whereas javascript path separator must be '.'
                     fieldPath = fieldPath.replace('/', '.');
+                    var relativeFieldPath = prefix == '' ? fieldPath : (prefix + '.' + fieldPath);
                     
-                    relativeField = this.getField(prefix + '.' + fieldPath);
+                    relativeField = this.getField(relativeFieldPath);
                     if (!relativeField)
                     {
-                        var message = "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_UNKNOWN_FIELD'/>" + prefix + '.' + fieldPath;
+                        var message = "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_UNKNOWN_FIELD'/>" + relativeFieldPath;
                         this.getLogger().error(message);
                     }
                 }
