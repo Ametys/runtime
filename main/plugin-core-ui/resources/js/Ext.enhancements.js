@@ -1792,120 +1792,113 @@
             {
                 return "</span>" + separator + "</div>";
             }
+            function insertOffset(offset)
+            {
+                var s = "";
+                for (var i = 0; i < offset; i++)
+                {
+                    s += "&#160;&#160;&#160;&#160;";
+                }
+                return s;
+            }
             
+            function pretty(value, offset)
+            {
+                var s = "";
+                var result;
+                if (Ext.isFunction(renderer) && (result = renderer(value, offset)))
+                {
+                    return result;
+                }
+                else if (value != null && value.$className)
+                {
+                    return pretty("Object " + value.$className + (typeof(value.getId) == 'function' ? ('@' + value.getId()) : ''));
+                }
+                else if (typeof(value) == "function")
+                {
+                    return "null";
+                }
+                else if (Ext.isArray(value))
+                {
+                    if (value.length == 0)
+                    {
+                        s += '<div class="json-array">[ ]</div>';
+                    }
+                    else
+                    {
+                        s += openArrayOrObject("[", value);
+                        
+                        var hasOne = false;
+                        for (var id = 0; id < value.length; id++)
+                        {
+                            if (hasOne)
+                            {
+                                s += ",";
+                            }
+                            hasOne = true;
+                            s += "<br/>"
+                            s += insertOffset(offset+1);
+                            s += pretty(value[id], offset + 1);
+                        }
+                        
+                        if (hasOne)
+                        {
+                            s += "<br/>";
+                            s += insertOffset(offset);
+                        }
+                        else
+                        {
+                            s += " ";
+                        }
+                        s += closeArrayOrObject("]");
+                    }
+                }
+                else if (Ext.isObject(value))
+                {
+                    if (Ext.Object.isEmpty(value))
+                    {
+                        s += '<div class="json-object">{ }</div>';
+                    }
+                    else
+                    {
+                        s += openArrayOrObject("{", value);
+                        
+                        var hasOne = false;
+                        for (var id in value)
+                        {
+                            if (hasOne)
+                            {
+                                s += ",";
+                            }
+                            hasOne = true;
+                            s += "<br/>"
+                            s += insertOffset(offset+1);
+                            s += "<strong>" + Ext.JSON.encodeValue(id) + "</strong>: ";
+                            s += pretty(value[id], offset + 2);
+                        }
+        
+                        if (hasOne)
+                        {
+                            s += "<br/>";
+                            s += insertOffset(offset);
+                        }
+                        else
+                        {
+                            s += " ";
+                        }
+                        s += closeArrayOrObject("}");
+                    }
+                }
+                else
+                {
+                    s += Ext.String.htmlEncode(Ext.JSON.encodeValue(value));
+                }
+                
+                return s;            
+            }
+
             offset = offset || 0;
-            
-            var s = "";
-            var result;
-            if (Ext.isFunction(renderer) && (result = renderer(value, offset)))
-            {
-                return result;
-            }
-            else if (value != null && value.$className)
-            {
-                return this.prettyEncode("Object " + value.$className + (typeof(value.getId) == 'function' ? ('@' + value.getId()) : ''), renderer);
-            }
-            else if (typeof(value) == "function")
-            {
-                return "null";
-            }
-            else if (Ext.isArray(value))
-            {
-                if (value.length == 0)
-                {
-                    s += '<div class="json-array">[ ]</div>';
-                }
-                else
-                {
-                    for (var i = 0; i < offset; i++)
-                    {
-                        s += "&#160;&#160;&#160;&#160;";
-                    }
-                    s += openArrayOrObject("[", value);
-                    
-                    var hasOne = false;
-                    for (var id = 0; id < value.length; id++)
-                    {
-                        if (hasOne)
-                        {
-                            s += ",";
-                        }
-                        hasOne = true;
-                        s += "<br/>"
-                        for (var i = 0; i < offset + 1; i++)
-                        {
-                            s += "&#160;&#160;&#160;&#160;";
-                        }
-                        s += this.prettyEncode(value[id], offset + 1, renderer);
-                    }
-                    
-                    if (hasOne)
-                    {
-                        s += "<br/>";
-                        for (var i = 0; i < offset; i++)
-                        {
-                            s += "&#160;&#160;&#160;&#160;";
-                        }
-                    }
-                    else
-                    {
-                        s += " ";
-                    }
-                    s += closeArrayOrObject("]");
-                }
-            }
-            else if (Ext.isObject(value))
-            {
-                if (Ext.Object.isEmpty(value))
-                {
-                    s += '<div class="json-object">{ }</div>';
-                }
-                else
-                {
-                    for (var i = 0; i < offset; i++)
-                    {
-                        s += "&#160;&#160;&#160;&#160;";
-                    }
-                    s += openArrayOrObject("{", value);
-                    
-                    var hasOne = false;
-                    for (var id in value)
-                    {
-                        if (hasOne)
-                        {
-                            s += ",";
-                        }
-                        hasOne = true;
-                        s += "<br/>"
-                        for (var i = 0; i < offset + 1; i++)
-                        {
-                            s += "&#160;&#160;&#160;&#160;";
-                        }
-                        s += "<strong>" + Ext.JSON.encodeValue(id) + "</strong>: ";
-                        s += this.prettyEncode(value[id], offset + 2, renderer);
-                    }
-    
-                    if (hasOne)
-                    {
-                        s += "<br/>";
-                        for (var i = 0; i < offset; i++)
-                        {
-                            s += "&#160;&#160;&#160;&#160;";
-                        }
-                    }
-                    else
-                    {
-                        s += " ";
-                    }
-                    s += closeArrayOrObject("}");
-                }
-            }
-            else
-            {
-                s += Ext.String.htmlEncode(Ext.JSON.encodeValue(value));
-            }
-            
-            return s;
+            return insertOffset(offset) + pretty(value, offset);
         }
     });
 })();
