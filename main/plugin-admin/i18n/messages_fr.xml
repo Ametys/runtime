@@ -258,7 +258,7 @@
     <message key="PLUGINS_ADMIN_LOGS_LEVEL_FORCE_LABEL">Forcer l'héritage</message>  
     <message key="PLUGINS_ADMIN_LOGS_LEVEL_FORCE_DESC">Forcer l'héritage de niveau de log de la catégorie sélectionnée.</message>
     <message key="PLUGINS_ADMIN_LOGS_LEVEL_INHERIT_LABEL">Hériter le mode</message>  
-    <message key="PLUGINS_ADMIN_LOGS_LEVEL_INHERIT_DESC">Changer le niveau de log de la catégorie sélectionnée à "héritage".</message> 
+    <message key="PLUGINS_ADMIN_LOGS_LEVEL_INHERIT_DESC">Hériter le mode de la catégorie de log parente.</message> 
     
     <!-- ADMINITRATOR SYSTEM -->
     <message key="PLUGINS_ADMIN_SYSTEM_LABEL">Accès</message>
