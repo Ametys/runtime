@@ -61,7 +61,7 @@ Ext.define('Ametys.form.AbstractFieldsWrapper', {
 
     /**
      * @inheritdoc
-     * Listener on new fields, to set the property {@link Ext.form.field.Field#isFormField} to false
+     * Listener on new fields, to set the property {@link Ext.form.field.Field#isFormField} and relay some events
      */
     onAdd: function (newComponent)
     {
@@ -72,7 +72,15 @@ Ext.define('Ametys.form.AbstractFieldsWrapper', {
     		newComponent.isFormField = false;
     		newComponent.on('change', this.checkChange, this);
     		newComponent.on('specialkey', this._checkSpecialKey, this);
+    		
+    		newComponent.on('focus', function (fd, e) { this.fireEvent ('focus', this, e)}, this);
+    		newComponent.on('blur', function (fd, e) { this.fireEvent ('blur', this, e)}, this);
     	}
+    	else if (newComponent.isButton)
+		{
+    		newComponent.on('focus', function (fd, e) { this.fireEvent ('focus', this, e)}, this);
+    		newComponent.on('blur', function (fd, e) { this.fireEvent ('blur', this, e)}, this);
+		}
     },
     
     onRender: function()
@@ -84,7 +92,7 @@ Ext.define('Ametys.form.AbstractFieldsWrapper', {
 	
 	/**
 	 * @private
-	 * Handle specialkey event on all items and will intercep TAB and SHIFT-TAB or transmit it
+	 * Handle specialkey event on all items and will intercept TAB and SHIFT-TAB or transmit it
 	 * @param {Ext.Component} item The item throwing the event
 	 * @param {Ext.event.Event} e The event
 	 */
