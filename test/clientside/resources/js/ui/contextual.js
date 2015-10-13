@@ -174,3 +174,26 @@ var tabContextual6 = new Ametys.ui.fluent.ribbon.Panel({
 			}
 	]	
 });
+
+var tabContextual7 = new Ametys.ui.fluent.ribbon.Panel({
+    title: 'Contextual tab 7',
+    contextualTab: 7,
+    contextualLabel: 'Outil de 7',
+    items: 
+    [
+            {
+                title: 'Test components',
+                items:
+                [
+                        {
+                            xtype: 'ametys.ribbon-button',
+                            scale: 'large',
+                            
+                            icon: 'resources/img/editpaste_32.gif',
+                            text: 'Gallerie d\'icones',
+                            tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true}
+                        }
+                ]
+            }
+    ]   
+});

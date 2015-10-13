@@ -42,14 +42,20 @@ var tabHome = {
 					                
 									icon: 'resources/img/editpaste_16.gif',
 					                text: 'G',
-					                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true}
+					                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true},
+                                    
+                                    listeners: {
+                                        'render': function() {
+                                            this.refreshing();
+                                        }
+                                    }
 								},
 								{
 									xtype: 'ametys.ribbon-button',
 									scale: 'small',
 					                
 									icon: 'resources/img/editpaste_16.gif',
-					                text: 'Saut de page',
+					                text: 'Raut de page',
 					                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true}
 								}
 							]
@@ -64,7 +70,13 @@ var tabHome = {
 									scale: 'small',
 					               
 									icon: 'resources/img/editpaste_16.gif',
-					                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true}
+					                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true},
+                                                                        
+                                    listeners: {
+                                        'render': function() {
+                                            this.refreshing();
+                                        }
+                                    }
 								},
 								{
 									xtype: 'ametys.ribbon-button',
@@ -185,7 +197,13 @@ var tabHome = {
 		                
 						icon: 'resources/img/editpaste_32.gif',
 		                text: 'G',
-		                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true}
+		                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true},
+                        
+                        listeners: {
+                            'render': function() {
+                                this.refreshing();
+                            }
+                        }
 					},
 					{
 						xtype: 'ametys.ribbon-button',
@@ -206,7 +224,13 @@ var tabHome = {
 				               
 								icon: 'resources/img/editpaste_16.gif',
 				                text: 'Test',
-				                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true}
+				                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true},
+
+                                listeners: {
+                                    'render': function() {
+                                        this.refreshing();
+                                    }
+                                }
 							},
 							{
 								xtype: 'ametys.ribbon-button',
@@ -297,7 +321,13 @@ var tabHome = {
 								scale: 'small',
 				                
 								icon: 'resources/img/editpaste_16.gif',
-				                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true}
+				                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true},
+                                
+                                listeners: {
+                                    'render': function() {
+                                        this.refreshing();
+                                    }
+                                }                                
 							},
 							{
 								xtype: 'ametys.ribbon-button',
@@ -403,6 +433,7 @@ var tabHome = {
 											icon: 'resources/img/editpaste_16.gif',
 							                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true}
 										},
+                                        "-",
 										{
 											xtype: 'ametys.ribbon-button',
 											scale: 'small',

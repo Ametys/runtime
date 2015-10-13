@@ -22,7 +22,7 @@ var tabSplit = {
 				items:
 				[
 						{
-							xtype: 'ametys.ribbon-button',
+							xtype: 'ametys.ribbon-splitbutton',
 							scale: 'large',
 			                
 			                menu: { items: [{ text: 'hey !' }]},
@@ -33,7 +33,7 @@ var tabSplit = {
 			                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true}
 						},
 						{
-							xtype: 'ametys.ribbon-button',
+							xtype: 'ametys.ribbon-splitbutton',
 							scale: 'large',
 			                
 			                menu: { items: [{ text: 'hey !' }]},
@@ -44,7 +44,7 @@ var tabSplit = {
 			                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true}
 						},
 					{
-							xtype: 'ametys.ribbon-button',
+							xtype: 'ametys.ribbon-splitbutton',
 							scale: 'large',
 			                
 			                menu: { items: [{ text: 'hey !' }]},
@@ -60,7 +60,7 @@ var tabSplit = {
 						items:
 						[
 							{
-									xtype: 'ametys.ribbon-button',
+									xtype: 'ametys.ribbon-splitbutton',
 									scale: 'small',
 					                
 					                menu: { items: [{ text: 'hey !' }]},
@@ -71,7 +71,7 @@ var tabSplit = {
 					                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true}
 							},
 							{
-									xtype: 'ametys.ribbon-button',
+									xtype: 'ametys.ribbon-splitbutton',
 									scale: 'small',
 					                
 					                menu: { items: [{ text: 'hey !' }]},
@@ -89,7 +89,7 @@ var tabSplit = {
 						items:
 						[
 							{
-									xtype: 'ametys.ribbon-button',
+									xtype: 'ametys.ribbon-splitbutton',
 									scale: 'small',
 					                
 					                menu: { items: [{ text: 'hey !' }]},
@@ -106,7 +106,7 @@ var tabSplit = {
 						items:
 						[
 							{
-									xtype: 'ametys.ribbon-button',
+									xtype: 'ametys.ribbon-splitbutton',
 									scale: 'small',
 					                
 					                menu: { items: [{ text: 'hey !' }]},
@@ -117,46 +117,7 @@ var tabSplit = {
 					                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true}
 							},
 							{
-									xtype: 'ametys.ribbon-button',
-									scale: 'small',
-					                
-					                menu: { items: [{ text: 'hey !' }]},
-					                handler: function() {},
-					                
-									icon: 'resources/img/editpaste_16.gif',
-					                text: 'Saut',
-					                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true}
-							}
-						]
-					},
-					{
-						align: 'top',
-						items:
-						[
-							{
-									xtype: 'ametys.ribbon-button',
-									scale: 'small',
-					                
-					                menu: { items: [{ text: 'hey !' }]},
-					                handler: function() {},
-					                
-									icon: 'resources/img/editpaste_16.gif',
-					                text: 'Saut',
-					                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true}
-							},
-							{
-									xtype: 'ametys.ribbon-button',
-									scale: 'small',
-					                
-					                menu: { items: [{ text: 'hey !' }]},
-					                handler: function() {},
-					                
-									icon: 'resources/img/editpaste_16.gif',
-					                text: 'Saut',
-					                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true}
-							},
-							{
-									xtype: 'ametys.ribbon-button',
+									xtype: 'ametys.ribbon-splitbutton',
 									scale: 'small',
 					                
 					                menu: { items: [{ text: 'hey !' }]},
@@ -173,7 +134,46 @@ var tabSplit = {
 						items:
 						[
 							{
-									xtype: 'ametys.ribbon-button',
+									xtype: 'ametys.ribbon-splitbutton',
+									scale: 'small',
+					                
+					                menu: { items: [{ text: 'hey !' }]},
+					                handler: function() {},
+					                
+									icon: 'resources/img/editpaste_16.gif',
+					                text: 'Saut',
+					                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true}
+							},
+							{
+									xtype: 'ametys.ribbon-splitbutton',
+									scale: 'small',
+					                
+					                menu: { items: [{ text: 'hey !' }]},
+					                handler: function() {},
+					                
+									icon: 'resources/img/editpaste_16.gif',
+					                text: 'Saut',
+					                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true}
+							},
+							{
+									xtype: 'ametys.ribbon-splitbutton',
+									scale: 'small',
+					                
+					                menu: { items: [{ text: 'hey !' }]},
+					                handler: function() {},
+					                
+									icon: 'resources/img/editpaste_16.gif',
+					                text: 'Saut',
+					                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true}
+							}
+						]
+					},
+					{
+						align: 'top',
+						items:
+						[
+							{
+									xtype: 'ametys.ribbon-splitbutton',
 									scale: 'small',
 					                
 					                menu: { items: [{ text: 'hey !' }]},
@@ -183,7 +183,7 @@ var tabSplit = {
 					                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true}
 							},
 							{
-									xtype: 'ametys.ribbon-button',
+									xtype: 'ametys.ribbon-splitbutton',
 									scale: 'small',
 					                
 					                menu: { items: [{ text: 'hey !' }]},
@@ -193,7 +193,7 @@ var tabSplit = {
 					                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true}
 							},
 							{
-									xtype: 'ametys.ribbon-button',
+									xtype: 'ametys.ribbon-splitbutton',
 									scale: 'small',
 					                
 					                menu: { items: [{ text: 'hey !' }]},
@@ -216,7 +216,7 @@ var tabSplit = {
 						items:
 						[
 							{
-									xtype: 'ametys.ribbon-button',
+									xtype: 'ametys.ribbon-splitbutton',
 									scale: 'small',
 									colspan: 2,
 					                
@@ -228,7 +228,7 @@ var tabSplit = {
 					                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true}
 							},
 							{
-									xtype: 'ametys.ribbon-button',
+									xtype: 'ametys.ribbon-splitbutton',
 									scale: 'small',
 					                
 					                menu: { items: [{ text: 'hey !' }]},
@@ -239,7 +239,7 @@ var tabSplit = {
 					                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true}
 							},
 							{
-									xtype: 'ametys.ribbon-button',
+									xtype: 'ametys.ribbon-splitbutton',
 									scale: 'small',
 					                
 					                menu: { items: [{ text: 'hey !' }]},
@@ -249,7 +249,7 @@ var tabSplit = {
 					                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true}
 							},
 							{
-									xtype: 'ametys.ribbon-button',
+									xtype: 'ametys.ribbon-splitbutton',
 									scale: 'small',
 					                
 					                menu: { items: [{ text: 'hey !' }]},
@@ -260,7 +260,7 @@ var tabSplit = {
 					                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true}
 							},
 							{
-									xtype: 'ametys.ribbon-button',
+									xtype: 'ametys.ribbon-splitbutton',
 									scale: 'small',
 					                
 					                menu: { items: [{ text: 'hey !' }]},
@@ -281,7 +281,7 @@ var tabSplit = {
 									items:
 									[
 										{
-												xtype: 'ametys.ribbon-button',
+												xtype: 'ametys.ribbon-splitbutton',
 												scale: 'small',
 								                
 								                menu: { items: [{ text: 'hey !' }]},
@@ -291,7 +291,7 @@ var tabSplit = {
 								                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true}
 										},
 										{
-												xtype: 'ametys.ribbon-button',
+												xtype: 'ametys.ribbon-splitbutton',
 												scale: 'small',
 								                
 								                menu: { items: [{ text: 'hey !' }]},
@@ -301,7 +301,7 @@ var tabSplit = {
 								                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true}
 										},
 										{
-												xtype: 'ametys.ribbon-button',
+												xtype: 'ametys.ribbon-splitbutton',
 												scale: 'small',
 								                
 								                menu: { items: [{ text: 'hey !' }]},
@@ -311,7 +311,7 @@ var tabSplit = {
 								                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true}
 										},
 										{
-												xtype: 'ametys.ribbon-button',
+												xtype: 'ametys.ribbon-splitbutton',
 												scale: 'small',
 								                
 								                menu: { items: [{ text: 'hey !' }]},
@@ -321,7 +321,7 @@ var tabSplit = {
 								                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true}
 										},
 										{
-												xtype: 'ametys.ribbon-button',
+												xtype: 'ametys.ribbon-splitbutton',
 												scale: 'small',
 								                
 								                menu: { items: [{ text: 'hey !' }]},
@@ -336,7 +336,7 @@ var tabSplit = {
 									items:
 									[
 										{
-												xtype: 'ametys.ribbon-button',
+												xtype: 'ametys.ribbon-splitbutton',
 												scale: 'small',
 								                
 								                menu: { items: [{ text: 'hey !' }]},
@@ -346,7 +346,7 @@ var tabSplit = {
 								                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true}
 										},
 										{
-												xtype: 'ametys.ribbon-button',
+												xtype: 'ametys.ribbon-splitbutton',
 												scale: 'small',
 								                
 								                menu: { items: [{ text: 'hey !' }]},
@@ -356,7 +356,7 @@ var tabSplit = {
 								                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true}
 										},
 										{
-												xtype: 'ametys.ribbon-button',
+												xtype: 'ametys.ribbon-splitbutton',
 												scale: 'small',
 								                
 								                menu: { items: [{ text: 'hey !' }]},
@@ -371,7 +371,7 @@ var tabSplit = {
 									items:
 									[
 										{
-												xtype: 'ametys.ribbon-button',
+												xtype: 'ametys.ribbon-splitbutton',
 												scale: 'small',
 								                
 								                menu: { items: [{ text: 'hey !' }]},
@@ -381,7 +381,7 @@ var tabSplit = {
 								                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true}
 										},
 										{
-												xtype: 'ametys.ribbon-button',
+												xtype: 'ametys.ribbon-splitbutton',
 												scale: 'small',
 								                
 								                menu: { items: [{ text: 'hey !' }]},
@@ -402,7 +402,7 @@ var tabSplit = {
 									items:
 									[
 										{
-												xtype: 'ametys.ribbon-button',
+												xtype: 'ametys.ribbon-splitbutton',
 												scale: 'small',
 								                
 								                menu: { items: [{ text: 'hey !' }]},
@@ -417,7 +417,7 @@ var tabSplit = {
 									items:
 									[
 										{
-												xtype: 'ametys.ribbon-button',
+												xtype: 'ametys.ribbon-splitbutton',
 												scale: 'small',
 								                
 								                menu: { items: [{ text: 'hey !' }]},
@@ -432,7 +432,7 @@ var tabSplit = {
 									items:
 									[
 										{
-												xtype: 'ametys.ribbon-button',
+												xtype: 'ametys.ribbon-splitbutton',
 												scale: 'small',
 								                
 								                menu: { items: [{ text: 'hey !' }]},
@@ -453,7 +453,7 @@ var tabSplit = {
 				items:
 				[
 						{
-							xtype: 'ametys.ribbon-button',
+							xtype: 'ametys.ribbon-splitbutton',
 							scale: 'large',
 							iconAlign: 'top',
 			                arrowAlign:'bottom',
@@ -467,7 +467,7 @@ var tabSplit = {
 			                tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true}
 						},
 						{
-							xtype: 'ametys.ribbon-button',
+							xtype: 'ametys.ribbon-splitbutton',
 							scale: 'large',
 							iconAlign: 'top',
 			                arrowAlign:'bottom',

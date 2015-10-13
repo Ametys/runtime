@@ -16,8 +16,65 @@
 var ribbon, layout;
 function onreadyfunction() {
     ribbon = Ext.create("Ametys.ui.fluent.ribbon.Ribbon", {
+                    quickToolbar: { 
+                        items: [ 
+                            { icon:'resources/img/editpaste_16.gif' } 
+                        ] 
+                    },
                     title: 'Accueil (fr/index.html)',
                     applicationTitle: 'Ametys Demo (www)',
+                    
+                    message: [{
+                        title: "Warning",
+                        text: "You are in safe mode... not everything will be working !",
+                        type: 'warning'
+                    }, {
+                        title: "Hi Buddy",
+                        text: "You are seeing something wonderful",
+                        type: 'info'
+                    }],
+                    
+                    searchMenu: {  // to activate a Tell me what you want to do feature
+                        // emptyText: "Specify to replace the default value"
+                        searchURL: "http://www.google.com?q={query}", // to search in doc
+                        items: [
+                            {
+                                text: 'A button for print preview',
+                                keywords: []
+                            },
+                            {
+                                text: 'A button for print',
+                                keywords: []
+                            },
+                            {
+                                text: 'A color button',
+                                keywords: []
+                            },
+                            {
+                                text: 'A another color button',
+                                keywords: []
+                            }
+                        ]
+                    },
+                    
+                    help: {
+                        handler: function() { alert('help'); },
+                        tooltip: { inribbon: true, text: "A little bit of help?" }
+                    },
+
+                    
+                    mainButton:
+                    {
+                        xtype: 'button',
+                        text: 'Ametys',
+                        tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true},
+                        items:
+                        [
+                            {
+                                text: 'TEST'
+                            }
+                        ]
+                    },
                     items: [
                         tabHome,
                         tabToggle,
@@ -25,17 +82,14 @@ function onreadyfunction() {
                         tabSplit,
                         tagSplitToggle,
                         tabComponents,
+                        tabGalleries,
                         tabContextual1,
                         tabContextual2,
                         tabContextual2bis,
                         tabContextual3,
                         tabContextual4,
-                        tabContextual5                        
+                        tabContextual5 
                     ],
-                    help: {
-                        handler: function() { alert('help'); },
-                        tooltip: "A little bit of help?"
-                    },
                     user: {
                         fullName: 'Raphaël Franchet',
                         login: 'raphael',
@@ -46,21 +100,15 @@ function onreadyfunction() {
                         extraLargePhoto: "http://www.gravatar.com/avatar/2f7124c10b1d2775303cd40bc6244419?s=64&d=mm",                        
                         menu: { items: [ "-", {text: 'Disconnect' } ]}
                     },
-                    menu:
-                    {
-                        icon: 'resources/img/ametys.gif',
-                        tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true},
-                        items:
-                        [
-                            {
-                                text: 'TEST'
-                            }
-                        ]
-                    }
-                }, {
+                    notification: {
+                          tooltip: 'A descriptive text',
+                          handler: function() {  }
+                    },
+                    
                     region : 'north'
                 });
                 
+    
     layout = Ext.create("Ametys.ui.tool.layout.ZonedTabsToolsLayout");
     
 	Ext.application({
@@ -71,72 +119,14 @@ function onreadyfunction() {
 		enableQuickTips : false,
 		launch : function() {
 			Ext.create('Ext.container.Viewport', {
-				layout : 'border',
-				items : [ ribbon, layout.createLayout() ]
+				layout : { type: 'vbox', align: 'stretch' },
+				items : [ ribbon, Ext.apply(layout.createLayout(), {flex: 1}) ]
 			});
 		}
 	});
     
     ribbon.getPanel().add(tabContextual6);
-
-
-	// org.ametys.fluent.Tooltip.init();
-
-	// tinyMCE.init
-	// ({
-	// // General options
-	// mode : "none",
-	// theme : "advanced",
-	// plugins : "table,paste,tabfocus",
-	// doctype: "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"
-	// \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">",
-	//
-	// entity_encoding : 'raw',
-	// fix_list_elements : true,
-	// fix_table_elements : true,
-	// fix_nesting : true,
-	// verify_css_classes : false,
-	// gecko_spellcheck : true,
-	// paste_strip_class_attributes: "mso",
-	// paste_remove_styles: true,
-	// strict_loading_mode : true,
-	//
-	// // Theme options
-	// theme_advanced_buttons1 : "",
-	// theme_advanced_buttons2 : "",
-	// theme_advanced_buttons3 : "",
-	//				
-	// // Theme options
-	// theme_advanced_toolbar_location : "none",
-	// theme_advanced_statusbar_location : "none",
-	//					
-	// setup: function(ed)
-	// {
-	// ed.onNodeChange.add (onRichTextNodeSelected);
-	// }
-	// });
-	// tinyMCE.execCommand("mceAddControl", true, "toto");
-
+    ribbon.getPanel().add(tabContextual7);
 }
 Ext.onReady(onreadyfunction);
 
-// tinyMCE.focus = function()
-// {
-// tinyMCE.activeEditor.focus();
-// tinyMCE.activeEditor.selection.moveToBookmark(tinyMCE.activeEditor._bookmark);
-// }
-// onRichTextNodeSelected = function(editor, controlManager, node, isCollapsed)
-// {
-// editor.lastNode = node;
-// if (editor.notFirstCallToOnRichTextNodeSelected)
-// {
-// // Action
-// tinyMCE.activeEditor._bookmark =
-// tinyMCE.activeEditor.selection.getBookmark(1);
-// }
-// else
-// {
-// editor.onClick.remove(editor.nodeChanged);
-// }
-// editor.notFirstCallToOnRichTextNodeSelected = true;
-// }
