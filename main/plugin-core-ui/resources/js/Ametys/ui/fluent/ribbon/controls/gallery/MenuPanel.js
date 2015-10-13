@@ -24,8 +24,7 @@ Ext.define(
 		alias: 'widget.ametys.ribbon-menupanel',
 		
         layout: {
-            type: 'vbox',
-            align: 'stretchmax'
+            type: 'auto'
         },
         
 		/**

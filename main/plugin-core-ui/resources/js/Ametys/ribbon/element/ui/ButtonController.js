@@ -282,7 +282,7 @@ Ext.define(
 			}
 			else
 			{
-				config.width = 400;
+				config.width = 402;
 			}
 			
 			return config;
