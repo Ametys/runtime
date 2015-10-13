@@ -309,7 +309,7 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 			
 			remoteSort: false,
 			sortOnLoad: true,
-			sorters: [{property: 'category', direction:'ASC'}]
+			sorters: [{property: 'category', direction:'ASC'}, {property: 'label', direction: 'ASC'}]
 			
 		}, this.getRightsStoreConfig());
 		
