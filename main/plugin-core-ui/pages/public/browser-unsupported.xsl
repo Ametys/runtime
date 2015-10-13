@@ -34,8 +34,8 @@
                 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
                 <title>Ametys - <i18n:text i18n:key="PLUGINS_CORE_UI_UNSUPPORTED_BROWSER_HEAD" i18n:catalogue="plugin.core-ui"/></title>
 
-                <link rel="icon" type="image/x-icon" href="{$contextPath}/kernel/resources/favicon.ico" />
-                <link rel="shortcut icon" type="image/x-icon" href="{$contextPath}/kernel/resources/favicon.ico" />
+                <link rel="icon" type="image/x-icon" href="{$contextPath}/favicon.ico" />
+                <link rel="shortcut icon" type="image/x-icon" href="{$contextPath}/favicon.ico" />
                 
                 <link rel="stylesheet" type="text/css" href="{$contextPath}/plugins/core-ui/resources/css/special/browsers.css"/>
             </head>

@@ -154,18 +154,8 @@
 		</map:pipeline>
 				
 		<map:pipeline>
-            <!-- Builtins -->
-             <map:match pattern="kernel/resources/**.js">
-                <map:generate src="resources/{1}.js" type="i18nizabletext"/>
-                <map:transform type="i18n">
-                    <map:parameter name="locale" value="{locale:locale}"/>
-                    <map:parameter name="default-catalogue-id" value="kernel"/>
-                </map:transform>
-                <map:serialize type="text" mime-type="text/javascript;charset=utf-8"/>
-            </map:match>
-            
-            <map:match pattern="kernel/resources/**">
-                <map:read src="resources/{1}"/>
+            <map:match pattern="favicon.ico">
+                <map:read src="resource:///org/ametys/runtime/servlet/favicon.ico"/>
             </map:match>
             					
             <!-- Plugins -->
@@ -180,7 +170,7 @@
                     <map:read src="plugin:tiny_mce{../1}://resources/{../2}"/>
                 </map:act>
             </map:match>
-            <map:match pattern="plugins/codemirror*/resources/**"><!-- FIXME Hack for tinymce to remove when modifying i18n way of js -->
+            <map:match pattern="plugins/codemirror*/resources/**"><!-- FIXME Hack for codemirror to remove when modifying i18n way of js -->
                 <map:act type="plugin-exists" src="codemirror{1}">
                     <map:read src="plugin:codemirror{../1}://resources/{../2}"/>
                 </map:act>

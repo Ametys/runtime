@@ -163,9 +163,29 @@ public class RuntimeServlet extends HttpServlet
             _workDir.mkdirs();
             _avalonContext.put(Constants.CONTEXT_WORK_DIR, _workDir);
             
+            _cacheDir = new File(_workDir, "cache-dir");
+            _cacheDir.mkdirs();
+            _avalonContext.put(Constants.CONTEXT_CACHE_DIR, _cacheDir);
+    
+            // Create temp dir if it does not exist
+            File tmpDir = new File(System.getProperty("java.io.tmpdir"));
+            if (!tmpDir.exists())
+            {
+                FileUtils.forceMkdir(tmpDir);
+            }
+
             // Init logger
             _initLogger();
     
+            // WEB-INF/param/runtime.xml loading
+            _loadRuntimeConfig();
+    
+            // Configuration file
+            Config.setFilename(_servletContext.getRealPath(CONFIG_RELATIVE_PATH));
+        
+            _createCocoon();
+            
+            // Upload initialization
             _maxUploadSize = DEFAULT_MAX_UPLOAD_SIZE;
             _uploadDir = new File(_servletContext.getRealPath("/WEB-INF/data/uploads"));
             
@@ -199,27 +219,9 @@ public class RuntimeServlet extends HttpServlet
             _uploadDir.mkdirs();
             _avalonContext.put(Constants.CONTEXT_UPLOAD_DIR, _uploadDir);
             
-            _cacheDir = new File(_workDir, "cache-dir");
-            _cacheDir.mkdirs();
-            _avalonContext.put(Constants.CONTEXT_CACHE_DIR, _cacheDir);
-    
             _requestFactory = new RequestFactory(true, _uploadDir, false, true, _maxUploadSize, "UTF-8");
     
-            // Create temp dir if it does not exist
-            File tmpDir = new File(System.getProperty("java.io.tmpdir"));
-            if (!tmpDir.exists())
-            {
-                FileUtils.forceMkdir(tmpDir);
-            }
-    
-            // WEB-INF/param/runtime.xml loading
-            _loadRuntimeConfig();
-    
-            // Configuration file
-            Config.setFilename(_servletContext.getRealPath(CONFIG_RELATIVE_PATH));
-        
-            _createCocoon();
-            
+            // Init classes
             _initPlugins();
         }
         catch (Throwable t)
@@ -561,7 +563,6 @@ public class RuntimeServlet extends HttpServlet
 
     /**
      * Get the run mode
-     * 
      * @return the current run mode
      */
     public static RunMode getRunMode()
@@ -580,48 +581,20 @@ public class RuntimeServlet extends HttpServlet
 
         try
         {
-            String contextPath = req.getContextPath();
-    
             ServletOutputStream os = res.getOutputStream();
+            String path = req.getRequestURI().substring(req.getContextPath().length());
     
-            // Static resources associated with the error page.
-            String requestURI = req.getRequestURI();
-            if (requestURI.startsWith(contextPath + "/kernel/resources/"))
+            // Favicon associated with the error page.
+            if (path.equals("/favicon.ico"))
             {
-                String resourcePath = requestURI.substring(contextPath.length() + 8); // Removing contextPath + "/kernel/"
-                
-                @SuppressWarnings("resource") InputStream is = null;
-                try
+                try (InputStream is = getClass().getResourceAsStream("favicon.ico"))
                 {
-                    File externalKernel = RuntimeConfig.getInstance().getExternalKernel();
-                    File resourceFile = externalKernel != null ? new File(externalKernel, resourcePath) : new File(config.getServletContext().getRealPath("/kernel/" + resourcePath));
+                    res.setStatus(200);
+                    res.setContentType(config.getServletContext().getMimeType("favicon.ico"));
                     
-                    if (resourceFile.exists())
-                    {
-                        is = new FileInputStream(resourceFile);
-                    }
-                    else
-                    {
-                        is = getClass().getResourceAsStream("/org/ametys/runtime/" + resourcePath);
-                    }
+                    IOUtils.copy(is, os);
                     
-                    if (is == null)
-                    {
-                        res.setStatus(404);
-                    }
-                    else
-                    {
-                        res.setStatus(200);
-                        res.setContentType(config.getServletContext().getMimeType(req.getRequestURI()));
-                        
-                        IOUtils.copy(is, os);
-                    }
-        
                     return;
-                }
-                finally
-                {
-                    IOUtils.closeQuietly(is);
                 }
             }
     
@@ -631,37 +604,16 @@ public class RuntimeServlet extends HttpServlet
             SAXTransformerFactory saxFactory = (SAXTransformerFactory) TransformerFactory.newInstance();
             TransformerHandler th;
             
-            @SuppressWarnings("resource") InputStream is = null;
-            try
+            try (InputStream is = getClass().getResourceAsStream("fatal.xsl"))
             {
-                StreamSource errorSource;
-                
-                File externalKernel = RuntimeConfig.getInstance().getExternalKernel();
-                File errorXSL = externalKernel != null ? new File(externalKernel, "pages/error/fatal.xsl") : new File(config.getServletContext().getRealPath("/kernel/pages/error/fatal.xsl"));
-                
-                if (errorXSL.exists())
-                {
-                    is = new FileInputStream(errorXSL);
-                }
-                else
-                {
-                    is = getClass().getResourceAsStream("/org/ametys/runtime/kernel/pages/error/fatal.xsl");
-                }
-                
-                errorSource = new StreamSource(is);
-                
+                StreamSource errorSource = new StreamSource(is);
                 th = saxFactory.newTransformerHandler(errorSource);
-            }
-            finally
-            {
-                IOUtils.closeQuietly(is);
             }
             
             Properties format = new Properties();
             format.put(OutputKeys.METHOD, "xml");
             format.put(OutputKeys.ENCODING, "UTF-8");
-            format.put(OutputKeys.DOCTYPE_PUBLIC, "-//W3C//DTD XHTML 1.0 Strict//EN");
-            format.put(OutputKeys.DOCTYPE_SYSTEM, "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd");
+            format.put(OutputKeys.DOCTYPE_SYSTEM, "about:legacy-compat");
     
             th.getTransformer().setOutputProperties(format);
     
@@ -688,7 +640,7 @@ public class RuntimeServlet extends HttpServlet
         }
         catch (Exception e)
         {
-            // Nothing to anymore ...
+            // Nothing we can do anymore ...
             throw new ServletException(e);
         }
     }

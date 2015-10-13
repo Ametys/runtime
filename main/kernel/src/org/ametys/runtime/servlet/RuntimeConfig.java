@@ -83,6 +83,15 @@ public final class RuntimeConfig
     }
     
     /**
+     * Returns true if the Runtime has been configured (ie. if the {@link #configure(Configuration, Configuration, String)} method has been called.
+     * @return true if the Runtime has been configured.
+     */
+    public static boolean isConfigured()
+    {
+        return __config != null;
+    }
+    
+    /**
      * Configures the Runtime kernel.<br>
      * This method must be called <i>before</i> getting the RuntimConfig instance.<br><br>
      * <b>Warning : the implementation allows this method to be called twice or more. This is only to allow the Runtime to be re-started dynamically.<br>
