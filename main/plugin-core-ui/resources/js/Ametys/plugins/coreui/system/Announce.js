@@ -73,11 +73,12 @@ Ext.define('Ametys.plugins.coreui.system.Announce', {
             if (lastModification > this._lastModification)
             {
                 this._lastModification = lastModification;
-                Ametys.Msg.show({
+                
+                Ext.getCmp("ribbon").addMessage({
                     title: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOL_ANNOUNCE_TITLE'/>",
-                    msg: message,
-                    buttons: Ext.Msg.OK,
-                    icon: Ext.MessageBox.INFO
+                    text: message,
+                    closeable: true,
+                    type: "info"
                 });
             }
         }
@@ -86,4 +87,6 @@ Ext.define('Ametys.plugins.coreui.system.Announce', {
 });
 
 // Start the announce checker.
-Ametys.plugins.coreui.system.Announce._sendCheckMessage();
+(function () {
+    Ext.onReady(Ametys.plugins.coreui.system.Announce._sendCheckMessage, Ametys.plugins.coreui.system.Announce);
+})();
