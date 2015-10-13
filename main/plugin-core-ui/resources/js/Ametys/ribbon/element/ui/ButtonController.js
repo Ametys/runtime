@@ -104,7 +104,7 @@ Ext.define(
 				// Is this a split button, where the action is the one from a 'primary-menu-item-id' ?
 				var primaryMenuItemId = this.getInitialConfig("primary-menu-item-id");
 				var menuItemHandler = primaryMenuItemId && Ametys.ribbon.RibbonManager.hasElement(primaryMenuItemId) ? Ametys.ribbon.RibbonManager.getElement(primaryMenuItemId) : this;
-				var isSplitButton = primaryMenuItemId && Ametys.ribbon.RibbonManager.hasElement(primaryMenuItemId);
+				var isSplitButton = hasActionFn && menu;
 
 				var element = Ext.create(isSplitButton ? "Ametys.ui.fluent.ribbon.controls.SplitButton" : "Ametys.ui.fluent.ribbon.controls.Button", Ext.apply({
 					text: this.getInitialConfig("label"),
