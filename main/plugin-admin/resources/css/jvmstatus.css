@@ -25,7 +25,7 @@
 .monitoring-tool .x-panel-header, 
 .jvmstatus-fd .x-panel-header
 {
-	background-image: url('../../../../../_admin/resources/img/icon/group-expand-sprite.png');
+	background-image: url('../../resources/img/jvmstatus/group-expand-sprite.png');
 	background-repeat: no-repeat;	
 	background-position: 0 -45px;
 	background-color: transparent;
