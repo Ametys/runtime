@@ -38,6 +38,10 @@
     <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_FAIL_AFTERLOAD_TEXT">The loading process failed.\n\nThis may be due to an issue in your workspace preferences that have been reset.\n\nYou can try again or contact the administrator if the problem persists.</message>
     <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_FAIL_AFTERLOAD_ACTION">Click here to try again to connect to the application.</message>
     
+    <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_MESSAGE_CLOSE_DESCRIPTION">Close this message</message>
+    <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_SEARCHMENU_PLACEHOLDER">Tell me what you want to do...</message>
+    <message key="PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_SEARCHMENU_SEARCHITEM_LABEL">See help for \"{text}\"</message>
+    
     <!-- +
          | Login screen
          + -->
@@ -68,9 +72,13 @@
     <message key="PLUGINS_CORE_UI_SAFE_MODE_TITLE">Safe mode</message>
     <message key="PLUGINS_CORE_UI_SAFE_MODE_TEXT">The application could not initialize correctly and started in safe mode.<br/>You should check application's logs and settings.</message>
     <message key="PLUGINS_CORE_UI_SAFE_MODE_LINK">Manage the application</message>
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TITLE_CONFIG_INCOMPLETE">Information</message>
     <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_CONFIG_INCOMPLETE">The application configuration is incomplete or incorrect. Use the configuration tool to complete it.</message>
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TITLE_WRONG_DEFINITIONS">Attention</message>
     <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_WRONG_DEFINITIONS">L'application est en mode sans-échec car un ou plusieurs plugins ont une configuration incorrecte. You can watch logs to know more.</message>
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TITLE_NOT_INITIALIZED">Attention</message>
     <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_NOT_INITIALIZED">L'application est en mode sans-échec car elle n'a pas pu s'initialiser correctement suite à une erreur. You can watch logs to know more.</message>
+    <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_TITLE_RUNTIME_NOT_LOADED">Attention</message>
     <message key="PLUGINS_CORE_UI_SAFE_MODE_BANNER_RUNTIME_NOT_LOADED">L'application est en mode sans-échec car le fichier de configuration 'WEB-INF/param/runtime.xml' n'a pas pu être chargé correctement. You can watch logs to know more.</message>
     
     <!-- +
