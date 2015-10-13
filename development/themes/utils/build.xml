@@ -23,6 +23,7 @@
             <arg value="build"/>
         </exec>   
         
+        <delete dir="${ametys-runtime-dir}/main/plugin-core-ui/resources/themes/${name}"/>
         <copy todir="${ametys-runtime-dir}/main/plugin-core-ui/resources/themes/${name}">
             <fileset dir="${ametys-themes-dir}/work/packages/local/${name}/build">
                 <include name="*.js"/>
