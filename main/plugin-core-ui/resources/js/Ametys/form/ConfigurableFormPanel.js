@@ -616,8 +616,13 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     _setFocusIfReady: function()
     {
     	if (this.rendered && this._formReady)
-		{
-	    	this.getField(this._fields[0]).focus();
+		{	
+    		// Focus first field of the form
+    		if (this._fields[0] != null)
+    		{
+    			this.getField(this._fields[0]).focus();
+    		}
+    		
 	    	this.on({
 	    		'inputfocus':  Ext.bind(this._onFieldSelectedOrBlurred, this),
 	    		'inputblur': Ext.bind(this._onFieldSelectedOrBlurred, this, []),
