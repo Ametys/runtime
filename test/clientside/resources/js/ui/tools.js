@@ -147,18 +147,18 @@ function openTool4()
                                                 border: false,
                                                 defaults: {
                                                     cls: 'ametys',
-                                                    labelAlign: 'top',
+                                                    labelAlign: 'right',
                                                     labelSeparator: '',
                                                     labelWidth: 130
                                                 },
                                                 items: [{
                                                             xtype: 'component',
-                                                            cls: 'text',
+                                                            cls: 'a-text',
                                                             html: "Ceci est une boite de dialogue avec un texte d'introduction un petit peu long, qui peut même nécessiter plusieurs lignes."
                                                         }, 
                                                         {
                                                             xtype: 'textfield',
-                                                            fieldLabel : "Saisissez quelque chose de vert",
+                                                            fieldLabel : "Champ texte",
                                                             name: 'url',
                                                             itemId: 'url',
                                                             width: 450,
@@ -166,9 +166,23 @@ function openTool4()
                                                             msgTarget: 'side'
                                                         },
                                                         {
+                                                            xtype: 'datefield',
+                                                            fieldLabel : "Champ date",
+                                                            name: 'date',
+                                                            itemId: 'date',
+                                                            width: 450,
+                                                            allowBlank: false,
+                                                            msgTarget: 'side'
+                                                        },
+                                                        {
                                                             xtype: 'component',
-                                                            cls: 'text',
+                                                            cls: 'a-text',
                                                             html: "Ceci est un petit message de fin de page"
+                                                        },
+                                                        {
+                                                            xtype: 'component',
+                                                            cls: 'a-text-warning',
+                                                            html: "Ceci est un message d'avertissement !"
                                                         }
                                                 ]
                                             }
