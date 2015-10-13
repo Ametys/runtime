@@ -164,7 +164,7 @@ Ext.define(
 				this.getLogger().debug("Creating new UI gallery item for controller " + this.getId());
 			}
 
-			var element = Ext.create("Ametys.ui.fluent.ribbon.controls.gallery.MenuGalleryButton", Ext.apply({
+			var element = Ext.create("Ametys.ui.fluent.ribbon.controls.Button", Ext.apply({
 		        text: this.getInitialConfig("label"),
 		        tooltip: this._getTooltip(false),
 		        icon: Ametys.CONTEXT_PATH + this._iconMedium,
@@ -192,11 +192,7 @@ Ext.define(
 		{
 			var items = [];
 			
-			var menuGallery = this._getMenuGallery ();
-			if (menuGallery != null)
-			{
-				items.push(menuGallery);
-			}
+			items = this._getMenuPanels ();
 			
 			var menuItems = this._getMenuItems();
 			for (var i=0; i < menuItems.length; i++)
@@ -215,16 +211,16 @@ Ext.define(
 		},
 		
 		/**
-		 * Get the menu gallery from configuration if exists
-		 * @returns {Ametys.ui.fluent.ribbon.controls.gallery.MenuGallery} The menu gallery
+		 * Get the menu panels from configuration if exists
+		 * @returns {Ametys.ui.fluent.ribbon.controls.gallery.MenuPanel[]} The menu panels
 		 * @private
 		 */
-		_getMenuGallery: function ()
+		_getMenuPanels: function ()
 		{
+			var menuPanels = [];
+			
 			if (this.getInitialConfig("gallery-item"))
 			{
-				var menuGallery = Ext.create("Ametys.ui.fluent.ribbon.controls.gallery.MenuGallery", this._getMenuGalleryConfig());
-				
 				var galleryGroupsCfg = this.getInitialConfig("gallery-item")["gallery-groups"];
 				
 				for (var i=0; i < galleryGroupsCfg.length; i++)
@@ -252,28 +248,40 @@ Ext.define(
 					
 					if (gpItems.length > 0)
 					{
-						menuGallery.add({title: galleryGroupsCfg[i].label, items: gpItems});
+						var menuPanelCfg = Ext.applyIf({
+							title: galleryGroupsCfg[i].label,
+							items: gpItems
+						}, this._getMenuPanelConfig());
+						
+						var menuPanel = Ext.create("Ametys.ui.fluent.ribbon.controls.gallery.MenuPanel", menuPanelCfg);
+						menuPanels.push(menuPanel);
 					}
 				}
-				
-				return menuGallery;
 			}
-			return null;
+			return menuPanels;
 		},
 		
 		/**
-		 * Get the configuration of menu gallery from initial configuration if exists
-		 * @return {Object} The menu configuration object
+		 * Get the configuration of menu panel from initial configuration if exists
+		 * @return {Object} The menu panel configuration object
 		 * @protected
 		 */
-		_getMenuGalleryConfig: function()
+		_getMenuPanelConfig: function()
 		{
-			var config = {};
+			var config = {
+				defaults: {
+					width: 80
+				}	
+			};
 			var width = this.getInitialConfig("gallery-width");
 			
 			if (width)
 			{
-				config.width = parseInt(width, 10);
+				config.width = parseInt(width);
+			}
+			else
+			{
+				config.width = 400;
 			}
 			
 			return config;

@@ -95,10 +95,10 @@ Ext.define(
 		},
 		
 		/**
-		 * This methods creates a ui for a menu gallery and can be called several times.
+		 * This methods creates a UI for a menu panel and can be called several times.
 		 * It is returned and registered. See #getUIControls.
 		 * The parameter creation is delegated to the protected method #createGalleryItemUI
-		 * @returns {Ametys.ui.fluent.ribbon.controls.gallery.MenuGalleryButton} A ui that can takes place in a menu gallery. See {Ametys.ui.fluent.ribbon.controls.gallery.MenuGallery}.
+		 * @returns {Ametys.ui.fluent.ribbon.controls.Button} A UI that can takes place in a menu panel. See {Ametys.ui.fluent.ribbon.controls.gallery.MenuPanel}.
 		 */
 		addGalleryItemUI: function()
 		{
@@ -110,8 +110,8 @@ Ext.define(
 		},
 	
 		/**
-		 * This methods creates a ui for a menu gallery and can be called several times.
-		 * @returns {Ametys.ui.fluent.ribbon.controls.gallery.MenuGalleryButton} A ui that can takes place in a menu gallery
+		 * This methods creates a ui for a menu panel and can be called several times.
+		 * @returns {Ametys.ui.fluent.ribbon.controls.Button} A ui that can takes place in a menu panel
 		 * @template
 		 * @protected
 		 */
