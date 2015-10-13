@@ -50,7 +50,23 @@ Ext.define('Ametys.plugins.admin.logs.LogsLevelTool', {
 	
 	sendCurrentSelection: function()
 	{
-		this._onSelectCategory();
+		var targets = [];
+		
+		var selectedCategories = this._logsTree.getSelectionModel().getSelection();
+		Ext.Array.forEach(selectedCategories, function(selectedCategory) {
+			
+			target = Ext.create('Ametys.message.MessageTarget', {
+				type: Ametys.message.MessageTarget.LOG_CATEGORY,
+				parameters: {id: selectedCategory.getId(), level: selectedCategory.data.level, name: selectedCategory.data.category}
+			});
+			
+			targets.push(target);
+		});
+		
+		Ext.create('Ametys.message.Message', {
+			type: Ametys.message.Message.SELECTION_CHANGED,
+			targets: targets
+		});
 	},
 	
 	/**
@@ -110,7 +126,7 @@ Ext.define('Ametys.plugins.admin.logs.LogsLevelTool', {
 			scrollable: true,
 			
 			listeners: {
-				'selectionchange': Ext.bind(this._onSelectCategory, this)
+				'selectionchange': Ext.bind(this.sendCurrentSelection, this)
 			}
 		});
 	},
@@ -162,31 +178,6 @@ Ext.define('Ametys.plugins.admin.logs.LogsLevelTool', {
 	
     /**
      * @private
-     * Send selection message
-     */
-	_onSelectCategory: function()
-	{
-		var targets = [];
-		
-		var selectedCategories = this._logsTree.getSelectionModel().getSelection();
-		Ext.Array.forEach(selectedCategories, function(selectedCategory) {
-			
-			target = Ext.create('Ametys.message.MessageTarget', {
-				type: 'log-category',
-				parameters: {id: selectedCategory.getId(), level: selectedCategory.data.level, category: selectedCategory.data.category}
-			});
-			
-			targets.push(target);
-		});
-		
-		Ext.create('Ametys.message.Message', {
-			type: Ametys.message.Message.SELECTION_CHANGED,
-			targets: targets
-		});
-	},
-    
-    /**
-     * @private
      * Listener on the message bus of type modified
      * @param {Ametys.message.Message} message The message
      */
@@ -199,8 +190,8 @@ Ext.define('Ametys.plugins.admin.logs.LogsLevelTool', {
 			var me = this;
 			
 			Ext.Array.forEach(targets, function(target) {
-				var category = target.getParameters().category;
-				var index = store.find("category", category); 
+				var name = target.getParameters().name;
+				var index = store.find("category", name); 
 				if (index != -1)
 				{
 					var level = target.getParameters().level,
@@ -213,7 +204,7 @@ Ext.define('Ametys.plugins.admin.logs.LogsLevelTool', {
 					}
 					else if (level == 'INHERIT')
 					{
-						var level = modifiedCategory.parentNode.getResolvedLevel(); // bug ?
+						var level = modifiedCategory.parentNode.getResolvedLevel(); 
 						me._updateNode(modifiedCategory, level, true, false);
 					}
 					else
@@ -260,5 +251,22 @@ Ext.define('Ametys.plugins.admin.logs.LogsLevelTool', {
 				this._updateNode(childNode, level, true, force);
 			}
 		}
-	}
+	},
+});
+
+Ext.define("Ametys.message.LogCategoryMessageTarget", {
+	override: "Ametys.message.MessageTarget",
+
+     statics: 
+     {
+         /**
+          * @member Ametys.message.MessageTarget
+          * @readonly
+          * @property {String} LOG_CATEGORY The target type is a log category. The expected parameters are:
+          * @property {String} LOG_CATEGORY.id The id of the log category
+          * @property {String} [LOG_CATEGORY.level] The level of the log category
+		  * @property {String} [LOG_CATEGORY.name] the name of the log category
+          */
+         LOG_CATEGORY: "log-category"
+     }
 });

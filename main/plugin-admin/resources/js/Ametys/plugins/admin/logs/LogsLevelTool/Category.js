@@ -34,17 +34,19 @@ Ext.define('Ametys.plugins.admin.logs.LogsLevelTool.Category', {
     
     /**
      * Get the current log level of a tree node.
+     * @param {Ametys.plugins.admin.logs.LogsLevelTool.Category} node the node from which resolve the level
      * @return {String} The log level (info, warn...) of the node. Inherit will be resolved by getting the parents node value.
      */
-    getResolvedLevel: function()
+    getResolvedLevel: function(node)
     {
-        if (this.get('level') != 'inherit')
+    	var node = node != null ? node : this;
+    	if (node.get('level') != 'inherit')
         {
-            return this.get('level');
+            return node.get('level');
         }
         else
         {
-            return this.getResolvedLevel(this.parentNode);
+            return this.getResolvedLevel(node.parentNode);
         }
     },
 }); 

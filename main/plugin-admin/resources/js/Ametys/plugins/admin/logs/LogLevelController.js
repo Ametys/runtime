@@ -41,7 +41,10 @@ Ext.define('Ametys.plugins.admin.logs.LogLevelController', {
 	 */
 	_onModified: function (message)
 	{
-		this.refresh();
+		if (this.updateTargetsInCurrentSelectionTargets (message))
+		{
+			this.refresh();
+		}
 	},
 	
 	updateState: function()
@@ -66,7 +69,7 @@ Ext.define('Ametys.plugins.admin.logs.LogLevelController', {
 				enable = true;
 			}
 			
-			if (targets[i].getParameters().category == "root")
+			if (targets[i].getParameters().name == "root")
 			{
 				isRoot = true;
 			}

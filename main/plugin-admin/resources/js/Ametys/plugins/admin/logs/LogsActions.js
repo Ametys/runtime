@@ -231,10 +231,11 @@ Ext.define('Ametys.plugins.admin.logs.LogsActions', {
 		if (targets.length > 0)
 		{
 			var newLevel = controller._level,
-				category = targets[0].getParameters().category;
+			id = targets[0].getParameters().id;
+			name = targets[0].getParameters().name;
 			
 			controller.serverCall('changeLogLevel',
-					[newLevel, category], 
+					[newLevel, name], 
 					Ext.bind(this._changeLogLevelCB, this),
 					{ 
 						errorMessage: { 
@@ -242,8 +243,9 @@ Ext.define('Ametys.plugins.admin.logs.LogsActions', {
 							category: 'Ametys.plugins.admin.actions.LogsActions' 
 						},
 						arguments: {
+							id: id,
 							level: newLevel,
-							category: category
+							name: name
 						},
                         refreshing: true
 					}
@@ -261,8 +263,8 @@ Ext.define('Ametys.plugins.admin.logs.LogsActions', {
 	{
 		var targets = [];
 		var target = Ext.create('Ametys.message.MessageTarget', {
-				type: 'log-category',
-				parameters: {level: args.level, category: args.category}
+				type: Ametys.message.MessageTarget.LOG_CATEGORY,
+				parameters: {id: args.id, level: args.level, name: args.name}
 			});
 		
 		targets.push(target);
