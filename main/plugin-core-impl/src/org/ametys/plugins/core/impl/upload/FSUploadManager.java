@@ -328,7 +328,7 @@ public class FSUploadManager extends TimerTask implements UploadManager, ThreadS
         @Override
         public String getMimeType()
         {
-            String mimeType = _context.getMimeType(getFilename());
+            String mimeType = _context.getMimeType(getFilename().toLowerCase());
             
             if (mimeType == null)
             {
