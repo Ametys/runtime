@@ -13,22 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
- 
-.a-tool-layout-zoned-notfocused {
-            // Panel header
-            .#{$prefix}panel-header-default {
-                background-color: $ametys-tool-tab-gray;
-            }
-            
-            // Table selected
-            .#{$prefix}grid-item-selected {
-                background-color: mix($ametys-tool-tab-gray-light, $ametys-tool-tab-gray, 50%);
-            }
-            .#{$prefix}grid-item-over {
-                background-color: $ametys-tool-tab-gray-light;
-            }
-}
- 
+
 .a-tool-layout-zoned-focused {
     @for $i from 1 through length($ametys-tool-tab-colors) {
         $index: $i - 1;
@@ -37,15 +22,17 @@
         $active-color: nth($ametys-tool-tab-colors, $i);
         $active-color-light: nth($ametys-tool-tab-colors-light, $i);
         
-        
         &.a-tool-layout-zoned-panel-#{$index*10} {
-            // Table selected
-            .#{$prefix}grid-item-selected {
-                background-color: mix($active-color-light, $active-color, 50%);
-            }
-            .#{$prefix}grid-item-over {
-                background-color: $active-color-light;
-            }
+            @include extjs-panel-ui(
+                $ui: 'default',
+                
+                $ui-border-color: $active-color,
+                $ui-header-color: $active-color-dark,
+                $ui-header-border-color: $active-color,
+                $ui-header-background-color: $active-color-light,
+                $ui-body-border-color: $active-color,
+                $ui-body-background-color: mix($active-color-light, #FFFFFF, 30%)
+            )
         }
-    }
+    }        
 }

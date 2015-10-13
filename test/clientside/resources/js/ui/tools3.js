@@ -61,6 +61,7 @@ var tools3Items = [
         height: 150,
         width: 200,
         activeTab: 0,
+        border: true,
         items: [
             {
                 xtype: 'panel',

@@ -491,7 +491,7 @@ Ext.define(
             {
                 this.setHeight(this.getHeader().getHeight() 
                             + (this._ribbonCollapsed ? this.getPanel().getHeader().getHeight() : this.getPanel().getHeight()) 
-                            + (this._messageContainer ? this._messageContainer.getHeight() : 0));
+                            + this._messageContainer.getHeight());
             }
         },
                         

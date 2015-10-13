@@ -23,6 +23,7 @@ Ext.define(
         extend: "Ext.container.Container",
         
         dock: 'bottom',
+        ui: 'ribbon-messagecontainer',
 
         defaults: {
             xtype: 'container',

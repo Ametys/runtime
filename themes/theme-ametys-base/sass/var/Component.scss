@@ -19,7 +19,7 @@
  */
 
 $color: dynamic(#000000);
-$base-color: dynamic(#2a579a);
+$base-color: dynamic(#656565);
 $font-size: dynamic(12px);
 
 $css-shadow-border-radius: 0;
@@ -51,7 +51,7 @@ $ametys-ribbon-base-dark-color: darken($ametys-ribbon-base-color, 12%);
 $ametys-ribbon-main-color: dynamic(#7F7F7F);
 $ametys-ribbon-main-text-color: dynamic(#7F7F7F);
 $ametys-ribbon-tab-color: dynamic(#F1F1F1);
-$ametys-ribbon-highlight-color: dynamic($base-color);
+$ametys-ribbon-highlight-color: dynamic(#2a579a);
 
 $ametys-ribbon-font-size: $font-size;
 

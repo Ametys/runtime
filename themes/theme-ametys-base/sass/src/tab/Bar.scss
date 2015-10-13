@@ -37,9 +37,9 @@
                 $ui-tab-border-color: $active-color-light,
                 $ui-tab-border-color-focus: $active-color-light,
                 $ui-tab-border-color-over: mix($active-color-light, $active-color, 80%),
-                $ui-tab-border-color-active: $active-color-dark,
+                $ui-tab-border-color-active: $active-color,
                 $ui-tab-border-color-focus-over:  $active-color-light,
-                $ui-tab-border-color-focus-active: $active-color-dark,
+                $ui-tab-border-color-focus-active: $active-color,
                 $ui-tab-border-color-disabled: $active-color-light,
                 
                 $ui-tab-color: $active-color,
@@ -51,8 +51,15 @@
                 $ui-tab-color-disabled: mix($active-color-light, #7f7f7f, 50%),
                 
                 $ui-tab-outline-color-focus: transparent,
+                $ui-tab-inner-border-color-focus: transparent,
+                $ui-tab-inner-border-color-focus-over: transparent,
+                $ui-tab-inner-border-color-active: transparent,
+                $ui-tab-inner-border-color-focus-active: transparent,
                 
-                $ui-strip-background-color: $active-color, 
+                $ui-strip-border-color: $active-color,
+                $ui-strip-background-color: $active-color,
+                 
+                $ui-bar-border-color: $active-color-dark,
                 $ui-bar-background-color: $active-color-dark
             );
         }
