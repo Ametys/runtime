@@ -284,6 +284,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         return this._formReady;
     },
     
+    
     /**
      * @private
      * When a field is selected
@@ -296,14 +297,14 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         
     	if (field)
 		{
-    		this._lastSelectedFieldId = field.getId();
     		this._handlePanelsEdition(field);
+    		this._lastSelectedFieldId = field.getId(); 
 		}        
     },
     
     /**
      * @private
-     * When a richtext field is selected (a different html node is selected in it), focused or blured
+     * When a richtext field is selected (a different html node is selected in it), focused or blurred
      * @param {Ext.form.Field} field The field that contains the HTML node
      * @param {HTMLElement} node The selected HTML node or null on focus/blur
      */
@@ -321,7 +322,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
      */
     _handlePanelsEdition: function(field)
     {
-    	if (field.getId() != this._lastSelectedFieldId)
+    	if (this._lastSelectedFieldId && field.getId() != this._lastSelectedFieldId)
 		{
     		// The focus has switched
     		var previouslyFocusedField = this.getField(this._lastSelectedFieldId);
