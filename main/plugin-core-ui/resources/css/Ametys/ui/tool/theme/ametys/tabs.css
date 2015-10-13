@@ -1,0 +1,236 @@
+/*
+ *  Copyright 2013 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+.ametys-toolpanel > .x-tab-bar,
+.ametys-tools-panel-wrapper > .x-panel-body
+{
+    background-color: #E0E0E0;
+    background-image: none;
+}
+
+/**
+ * DEFAULT COLOR
+ */
+.ametys-toolpanel > .x-tab-bar .x-tab,
+.ametys-toolpanel > .x-tab-bar .x-tab > div,
+.ametys-toolpanel > .x-tab-bar .x-tab > div > .x-tab-wrap
+{
+    background-image: url('../../../../../../img/tools/tabs/ametys/tabs-color-0.gif');
+}
+.ametys-toolpanel > .x-tab-bar .x-tab,
+.ametys-toolpanel > .x-tab-bar > .x-tab-bar-strip,
+.ametys-toolpanel > .x-panel-body
+{
+    border-color: #aeaeae;
+}
+.ametys-toolpanel > .x-tab-bar .x-tab-active.x-tab
+{
+	border-color: #eaeaea;
+}
+.ametys-toolpanel > .x-tab-bar > .x-tab-bar-strip,
+.ametys-toolpanel > .x-panel-body
+{
+    background-color: #eaeaea;
+}
+.ametys-toolpanel-focused.ametys-toolpanel > .x-tab-bar .x-tab-active.x-tab,
+.ametys-toolpanel-focused.ametys-toolpanel > .x-tab-bar .x-tab-active.x-tab > div,
+.ametys-toolpanel-focused.ametys-toolpanel > .x-tab-bar .x-tab-active.x-tab > div > .x-tab-wrap
+{
+    background-image: url('../../../../../../img/tools/tabs/ametys/tabs-focused-color-0.gif');
+}
+.ametys-toolpanel-focused.ametys-toolpanel > .x-tab-bar .x-tab,
+.ametys-toolpanel-focused.ametys-toolpanel > .x-tab-bar > .x-tab-bar-strip,
+.ametys-toolpanel-focused.ametys-toolpanel > .x-panel-body
+{
+	border-color: #78d9f1;
+}
+.ametys-toolpanel-focused.ametys-toolpanel > .x-tab-bar .x-tab-active.x-tab
+{
+    border-color: #bce8f3;
+}
+.ametys-toolpanel-focused.ametys-toolpanel > .x-tab-bar > .x-tab-bar-strip,
+.ametys-toolpanel-focused.ametys-toolpanel > .x-panel-body
+{
+    background-color: #bce8f3;
+}
+ 
+/**
+ * COLOR 10 : YELLOW
+ */
+.ametys-toolpanel > .x-tab-bar .ametys-tab-color-10.x-tab,
+.ametys-toolpanel > .x-tab-bar .ametys-tab-color-10.x-tab > div,
+.ametys-toolpanel > .x-tab-bar .ametys-tab-color-10.x-tab > div > .x-tab-wrap
+{
+    background-image: url('../../../../../../img/tools/tabs/ametys/tabs-color-10.gif');
+}
+.ametys-toolpanel-10.ametys-toolpanel > .x-tab-bar .x-tab,
+.ametys-toolpanel-10.ametys-toolpanel > .x-tab-bar > .x-tab-bar-strip,
+.ametys-toolpanel-10.ametys-toolpanel > .x-panel-body
+{
+    border-color: #acaeab;
+}
+.ametys-toolpanel-10.ametys-toolpanel > .x-tab-bar .x-tab-active.x-tab
+{
+    border-color: #f5f3d7;
+}
+.ametys-toolpanel-10.ametys-toolpanel > .x-tab-bar > .x-tab-bar-strip,
+.ametys-toolpanel-10.ametys-toolpanel > .x-panel-body
+{
+    background-color: #f5f3d7;
+}
+.ametys-toolpanel-focused.ametys-toolpanel > .x-tab-bar .ametys-tab-color-10.x-tab-active.x-tab,
+.ametys-toolpanel-focused.ametys-toolpanel > .x-tab-bar .ametys-tab-color-10.x-tab-active.x-tab > div,
+.ametys-toolpanel-focused.ametys-toolpanel > .x-tab-bar .ametys-tab-color-10.x-tab-active.x-tab > div > .x-tab-wrap
+{
+    background-image: url('../../../../../../img/tools/tabs/ametys/tabs-focused-color-10.gif');
+}
+.ametys-toolpanel-10.ametys-toolpanel-focused.ametys-toolpanel > .x-tab-bar .x-tab,
+.ametys-toolpanel-10.ametys-toolpanel-focused.ametys-toolpanel > .x-tab-bar > .x-tab-bar-strip,
+.ametys-toolpanel-10.ametys-toolpanel-focused.ametys-toolpanel > .x-panel-body
+{
+    border-color: #78d9f1;
+}
+.ametys-toolpanel-10.ametys-toolpanel-focused.ametys-toolpanel > .x-tab-bar .x-tab-active.x-tab
+{
+    border-color: #ceebe2;
+}
+.ametys-toolpanel-10.ametys-toolpanel-focused.ametys-toolpanel > .x-tab-bar > .x-tab-bar-strip,
+.ametys-toolpanel-10.ametys-toolpanel-focused.ametys-toolpanel > .x-panel-body
+{
+    background-color: #ceebe2;
+}
+ 
+/**
+ * COLOR 20 : RED
+ */
+.ametys-toolpanel > .x-tab-bar .ametys-tab-color-20.x-tab,
+.ametys-toolpanel > .x-tab-bar .ametys-tab-color-20.x-tab > div,
+.ametys-toolpanel > .x-tab-bar .ametys-tab-color-20.x-tab > div > .x-tab-wrap
+{
+    background-image: url('../../../../../../img/tools/tabs/ametys/tabs-color-20.gif');
+}
+.ametys-toolpanel-20.ametys-toolpanel > .x-tab-bar .x-tab,
+.ametys-toolpanel-20.ametys-toolpanel > .x-tab-bar > .x-tab-bar-strip,
+.ametys-toolpanel-20.ametys-toolpanel > .x-panel-body
+{
+    border-color: #acaeab;
+}
+.ametys-toolpanel-20.ametys-toolpanel > .x-tab-bar .x-tab-active.x-tab
+{
+    border-color: #efdfd5;
+}
+.ametys-toolpanel-20.ametys-toolpanel > .x-tab-bar > .x-tab-bar-strip,
+.ametys-toolpanel-20.ametys-toolpanel > .x-panel-body
+{
+    background-color: #efdfd5;
+}
+.ametys-toolpanel-focused.ametys-toolpanel > .x-tab-bar .ametys-tab-color-20.x-tab-active.x-tab,
+.ametys-toolpanel-focused.ametys-toolpanel > .x-tab-bar .ametys-tab-color-20.x-tab-active.x-tab > div,
+.ametys-toolpanel-focused.ametys-toolpanel > .x-tab-bar .ametys-tab-color-20.x-tab-active.x-tab > div > .x-tab-wrap
+{
+    background-image: url('../../../../../../img/tools/tabs/ametys/tabs-focused-color-20.gif');
+}
+.ametys-toolpanel-20.ametys-toolpanel-focused.ametys-toolpanel > .x-tab-bar .x-tab,
+.ametys-toolpanel-20.ametys-toolpanel-focused.ametys-toolpanel > .x-tab-bar > .x-tab-bar-strip,
+.ametys-toolpanel-20.ametys-toolpanel-focused.ametys-toolpanel > .x-panel-body
+{
+    border-color: #78d9f1;
+}
+.ametys-toolpanel-20.ametys-toolpanel-focused.ametys-toolpanel > .x-tab-bar .x-tab-active.x-tab
+{
+    border-color: #cadee0;
+}
+.ametys-toolpanel-20.ametys-toolpanel-focused.ametys-toolpanel > .x-tab-bar > .x-tab-bar-strip,
+.ametys-toolpanel-20.ametys-toolpanel-focused.ametys-toolpanel > .x-panel-body
+{
+    background-color: #cadee0;
+}
+ 
+/**
+ * COLOR 30 : GREEN
+ */
+.ametys-toolpanel > .x-tab-bar .ametys-tab-color-30.x-tab,
+.ametys-toolpanel > .x-tab-bar .ametys-tab-color-30.x-tab > div,
+.ametys-toolpanel > .x-tab-bar .ametys-tab-color-30.x-tab > div > .x-tab-wrap
+{
+    background-image: url('../../../../../../img/tools/tabs/ametys/tabs-color-30.gif');
+}
+.ametys-toolpanel-30.ametys-toolpanel > .x-tab-bar .x-tab,
+.ametys-toolpanel-30.ametys-toolpanel > .x-tab-bar > .x-tab-bar-strip,
+.ametys-toolpanel-30.ametys-toolpanel > .x-panel-body
+{
+    border-color: #acaeab;
+}
+.ametys-toolpanel-30.ametys-toolpanel > .x-tab-bar .x-tab-active.x-tab
+{
+    border-color: #dbe7e0;
+}
+.ametys-toolpanel-30.ametys-toolpanel > .x-tab-bar > .x-tab-bar-strip,
+.ametys-toolpanel-30.ametys-toolpanel > .x-panel-body
+{
+    background-color: #dbe7e0;
+}
+.ametys-toolpanel-focused.ametys-toolpanel > .x-tab-bar .ametys-tab-color-30.x-tab-active.x-tab,
+.ametys-toolpanel-focused.ametys-toolpanel > .x-tab-bar .ametys-tab-color-30.x-tab-active.x-tab > div,
+.ametys-toolpanel-focused.ametys-toolpanel > .x-tab-bar .ametys-tab-color-30.x-tab-active.x-tab > div > .x-tab-wrap
+{
+    background-image: url('../../../../../../img/tools/tabs/ametys/tabs-focused-color-30.gif');
+}
+.ametys-toolpanel-30.ametys-toolpanel-focused.ametys-toolpanel > .x-tab-bar .x-tab,
+.ametys-toolpanel-30.ametys-toolpanel-focused.ametys-toolpanel > .x-tab-bar > .x-tab-bar-strip,
+.ametys-toolpanel-30.ametys-toolpanel-focused.ametys-toolpanel > .x-panel-body
+{
+    border-color: #78d9f1;
+}
+.ametys-toolpanel-30.ametys-toolpanel-focused.ametys-toolpanel > .x-tab-bar .x-tab-active.x-tab
+{
+    border-color: #bee3e7;
+}
+.ametys-toolpanel-30.ametys-toolpanel-focused.ametys-toolpanel > .x-tab-bar > .x-tab-bar-strip,
+.ametys-toolpanel-30.ametys-toolpanel-focused.ametys-toolpanel > .x-panel-body
+{
+    background-color: #bee3e7;
+}
+ 
+/* ****************
+ * DRAG N DROP      *
+ * **************** */
+.ametys-toolpanel-dragndrop-visiblezone.dragover
+{
+    opacity: 0.5;
+    border: 2px dashed #aaa;
+    background-color: #CDCDCD;
+}
+
+/* ********** *
+ * SELECTION  *
+ * ********** */
+.ametys-toolpanel-focused .x-grid-item-selected .x-grid-cell
+{
+    background-color: #BCE8F3 !important;
+}
+
+.drag-n-drop-over .x-grid-item-over .x-grid-cell,
+.drag-n-drop-over-selection .x-grid-item-selected .x-grid-cell
+{
+    background-color: #dd6bc4 !important;
+}
+
+
+.drag-n-drop-plugin > .x-grid-table
+{
+    margin-bottom: 20px;
+}

@@ -1,0 +1,139 @@
+/*
+ *  Copyright 2013 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+.ametys-toolpanel > .x-tab-bar > .x-tab-bar-strip
+{
+	border-left-width: 1px;
+    border-right-width: 1px;
+}
+.ametys-toolpanel > .x-panel-body
+{
+	border-top-style: none;
+}
+
+.ametys-toolpanel > .x-tab-bar
+{
+    height: 25px;
+}
+
+.ametys-toolpanel > .x-tab-bar .x-tab
+{
+	background-image: none;
+    background-position: 0 -50px;
+    background-repeat: no-repeat;
+	background-color: transparent;
+	border-radius: 0;
+	border-style: none;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+	box-shadow: none;
+	cursor: default;
+	padding: 0;
+	padding-left: 6px; 
+	height: 22px;
+}
+.ametys-toolpanel > .x-tab-bar .x-tab > .x-tab-close-btn 
+{
+	top: 3px;
+	right: 3px;
+}
+ 
+.ametys-toolpanel > .x-tab-bar .x-tab > div
+{
+    padding-right: 6px; 
+	background-position: 100% -350px;
+    background-repeat: no-repeat;
+    height: 21px;
+    overflow: hidden;
+}
+
+.ametys-toolpanel > .x-tab-bar .x-tab > div > .x-tab-wrap
+{
+    background-position: 0 -200px;
+    background-repeat: repeat-x;
+}
+
+.ametys-toolpanel > .x-tab-bar .x-tab .x-tab-text
+{
+	text-align: left;
+}
+
+.ametys-toolpanel > .x-tab-bar .x-tab > div > .x-tab-wrap span.x-tab-inner
+{
+	padding-top: 4px;
+	padding-bottom: 4px;
+	font-weight: normal;
+}
+.ametys-toolpanel > .x-tab-bar .x-tab-active.x-tab > div > .x-tab-wrap span.x-tab-inner
+{
+	font-weight: bold;
+}
+.ametys-toolpanel > .x-tab-bar .x-tab > div > .x-tab-wrap .x-tab-icon-el 
+{
+	top: 3px;
+	height: 16px;
+}
+ 
+.ametys-toolpanel > .x-tab-bar .x-tab-over.x-tab
+{
+	background-position: 0 -100px;
+}
+.ametys-toolpanel > .x-tab-bar .x-tab-over.x-tab > div
+{
+    background-position: 100% -400px;
+}
+.ametys-toolpanel > .x-tab-bar .x-tab-over.x-tab > div > .x-tab-wrap
+{
+    background-position: 0 -250px;
+}
+
+.ametys-toolpanel > .x-tab-bar .x-tab-active.x-tab
+{
+    background-position: 0 0;
+}
+.ametys-toolpanel > .x-tab-bar .x-tab-active.x-tab > div
+{
+    background-position: 100% -300px;
+}
+.ametys-toolpanel > .x-tab-bar .x-tab-active.x-tab > div > .x-tab-wrap
+{
+    background-position: 0 -150px;
+}
+
+/* **************** *
+ * DRAG N DROP      *
+ * **************** */
+.ametys-toolpanel-dragndrop-visiblezone 
+{
+    position: absolute;
+    z-index: 900; /* under the 999 of default dragndrop proxy zIndex */
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    opacity: 0.5;
+}
+.ametys-toolpanel-dragndrop-dropzone {
+    position: absolute;
+    z-index: 910; /* under the 999 of default dragndrop proxy zIndex, but above the visible zone */
+}
+ 
+/* *************** *
+ * TOOLS           *
+ * *************** */
+.ametys-toolpanel .x-tab-bar .x-tool {
+	cursor: default !important;
+}

@@ -1,0 +1,198 @@
+/*
+ *  Copyright 2010 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+ 
+body.mceContentBody
+{
+	font-family:Arial,Helvetica,sans-serif;
+	font-size:12px;
+}
+
+/* -------------
+   ACCESSIBILITY
+   ------------- */
+.mceContentBody span.language, .mceContentBody cite, .mceContentBody acronym, .mceContentBody abbr, .mceContentBody html\:abbr
+{
+	background-position: left middle;
+	background-repeat: no-repeat;
+	
+	padding-left: 10px;
+	
+	border-bottom: 1px dotted blue; 
+}
+
+.mceContentBody span.language
+{
+	background-image: url('../../../../../img/Ametys/common/form/configurable/richtext-inline/accessibility/language_8.png');
+}
+
+.mceContentBody cite { background-image: url('../../../../../img/Ametys/common/form/configurable/richtext-inline/accessibility/quote_8.png'); }
+.mceContentBody acronym { background-image: url('../../../../../img/Ametys/common/form/configurable/richtext-inline/accessibility/acronym_8.png'); }
+.mceContentBody abbr, .mceContentBody html\:abbr { background-image: url('../../../../../img/Ametys/common/form/configurable/richtext-inline/accessibility/abbr_8.png'); }
+
+/* -------------
+       TABLES
+   ------------- */
+
+.mceContentBody table
+{
+	border-collapse: collapse;
+}
+
+.mceContentBody table caption {
+	color : #808080;
+	font-size : 0.9em;
+	padding-bottom: 5px;
+}
+
+.mceContentBody .mceContentBody table tr th {
+	padding:5px;
+}
+.mceContentBody table tr td {
+	padding:5px;
+}
+
+.mceContentBody table tr th p,
+.mceContentBody table tr td p {
+	margin: 0px;
+}
+
+
+.mceContentBody table.simple,
+.mceContentBody table.simple tr th,
+.mceContentBody table.simple tr td
+{
+	border: 1px solid black;
+}
+
+.mceContentBody table.invisible 
+{
+	/* default is fine */
+}
+
+/* -------------
+       LISTS
+   ------------- */
+.mceContentBody ul,
+.mceContentBody ul.disc
+{
+	list-style-type: disc;
+	list-style-image: none;
+}
+
+.mceContentBody ul.square
+{
+	list-style-type: square;
+	list-style-image: none;
+}
+
+.mceContentBody ol,
+.mceContentBody ol.arabic
+{
+	list-style-type: decimal;
+	list-style-image: none;
+}
+
+.mceContentBody ol.lowerroman
+{
+	list-style-type: lower-roman;
+	list-style-image: none;
+}
+
+.mceContentBody ol.upperroman
+{
+	list-style-type: upper-roman;
+	list-style-image: none;
+}
+
+.mceContentBody ol.loweralpha
+{
+	list-style-type: lower-alpha;
+	list-style-image: none;
+}
+
+.mceContentBody ol.upperalpha
+{
+	list-style-type: upper-alpha;
+	list-style-image: none;
+}
+
+/* -------------
+      IMAGES
+   ------------- */
+.mceContentBody img.simple
+{
+	border: 1px solid #365f91;
+	margin: 10px;
+	padding: 0px;
+}
+
+.mceContentBody img.invisible
+{
+	border-style: none;
+	margin: 10px;
+	padding: 0px;
+}
+
+/* -------------
+       LINK
+   ------------- */
+.mceContentBody a.simple,
+.mceContentBody a.simple:hover,
+.mceContentBody a.simple:link,
+.mceContentBody a.simple:visited,
+.mceContentBody a.simple:active
+{
+	text-decoration: none;
+}
+
+.mceContentBody a.invisible,
+.mceContentBody a.invisible:hover,
+.mceContentBody a.invisible:link,
+.mceContentBody a.invisible:visited,
+.mceContentBody a.invisible:active
+{
+}
+
+/* ---------------------
+       SEM ANNOTATIONS
+   --------------------- */
+.mceContentBody.x-gecko span.semantic, 
+.mceContentBody.x-safari span.semantic, 
+.mceContentBody.x-chrome span.semantic,
+.mceContentBody.x-ie8 span.semantic,
+.mceContentBody.x-ie9 span.semantic,
+.mceContentBody.x-ie10 span.semantic,
+.mceContentBody.x-ie11 span.semantic
+{
+	border: 1px dashed #808080;
+	padding-left: 2px;
+    padding-top: 2px;	 
+    background-color: #E0E0E0;	
+}
+.mceContentBody.x-gecko span.semantic:before,
+.mceContentBody.x-safari span.semantic:before,
+.mceContentBody.x-chrome span.semantic:before,
+.mceContentBody.x-ie8 span.semantic:before,
+.mceContentBody.x-ie9 span.semantic:before,
+.mceContentBody.x-ie10 span.semantic:before,
+.mceContentBody.x-ie11 span.semantic:before
+{
+	content: attr(title);
+	color: #2A6FF6;
+	vertical-align: super;
+	font-size: 0.83em; 
+	margin-right: 3px;	 	
+}
