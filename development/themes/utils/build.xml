@@ -24,6 +24,9 @@
         </exec>   
         
         <copy todir="${ametys-runtime-dir}/main/plugin-core-ui/resources/themes/${name}">
+            <fileset dir="${ametys-themes-dir}/work/packages/local/${name}/build">
+                <include name="*.js"/>
+            </fileset>
             <fileset dir="${ametys-themes-dir}/work/packages/local/${name}/build/resources"/>
         </copy>
     </target>
