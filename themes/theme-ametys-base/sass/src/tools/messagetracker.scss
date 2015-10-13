@@ -13,24 +13,20 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-
-@import 'fluent/Ribbon';
-@import 'fluent/TabPanel';
-@import 'fluent/Panel';
-@import 'fluent/Toast';
-@import 'fluent/Button';
-@import 'fluent/Toolbar';
-@import 'fluent/Field';
-@import 'fluent/MenuPanel';
-
-@import 'misc/Badge';
-@import 'misc/JSON';
-
-@import 'tool/Layout';
-@import 'tool/Misc';
-@import 'tool/ZonedTabsDD';
-
-@import 'Colors';
-
-@import 'tools/messagetracker';
-@import 'tools/requesttracker';
+ 
+.uitool-messagestracker {
+    .callstack .filename {
+        color: $ametys-tools-messagetracker-filename-color;
+        text-decoration: none;
+    }
+    .callstack .filename:hover {
+        text-decoration: underline;
+    }
+    .callstack .line {
+        color: $ametys-tools-messagetracker-line-color;
+        font-style: italic;
+    }
+    .callstack .method {
+        color: $ametys-tools-messagetracker-method-color;
+    }
+}

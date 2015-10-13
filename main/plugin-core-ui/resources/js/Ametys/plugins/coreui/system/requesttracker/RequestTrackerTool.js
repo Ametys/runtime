@@ -74,18 +74,20 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
 		    });
 			
 			this.grid = Ext.create("Ext.grid.Panel", { 
-				region: 'center',
+                minHeight: 50,
+                flex: 0.3,
 				stateful: true,
 				stateId: this.self.getName() + "$grid",
 				store: this.store,
 				scrollable: true,
+                border: true,
 			    columns: [
-			        {stateId: 'grid-id', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_ID'/>", width: 40, sortable: true, dataIndex: 'id', hideable: false},
-			        {stateId: 'grid-type', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_TYPE'/>", width: 70, sortable: true, dataIndex: 'type'},
+			        {stateId: 'grid-id', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_ID'/>", width: 55, sortable: true, dataIndex: 'id', hideable: false},
+			        {stateId: 'grid-type', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_TYPE'/>", width: 85, sortable: true, dataIndex: 'type'},
 			        {stateId: 'grid-date', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_DATE'/>", width: 130, sortable: true, renderer: Ext.util.Format.dateRenderer(Ext.Date.patterns.ShortDateTime), dataIndex: 'date'},
-			        {stateId: 'grid-duration', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_DURATION'/>", width: 50, sortable: true, dataIndex: 'duration'},
+			        {stateId: 'grid-duration', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_DURATION'/>", width: 65, sortable: true, dataIndex: 'duration'},
 			        {stateId: 'grid-size', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_SIZE'/>", width: 60, sortable: true, dataIndex: 'size'},
-			        {stateId: 'grid-return', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_RETURN'/>", width: 50, sortable: true, dataIndex: 'return'}
+			        {stateId: 'grid-return', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_COL_RETURN'/>", width: 70, sortable: true, dataIndex: 'return'}
 			    ],
 			    
 			    listeners: {'selectionchange': Ext.bind(this._onSelectRequest, this)}
@@ -101,44 +103,51 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
 		    });
 			
 			this.msgGrid = Ext.create("Ext.grid.Panel", { 
-				region: 'south',
-				height: 120,
+				minHeight: 50,
+                flex: 0.7,
 				stateful: true,
 				stateId: this.self.getName() + "$msggrid",
+                border: true,
 				split: true,
 				store: this.msgStore,
 				scrollable: true,
 			    columns: [
-			        {stateId: 'msgrid-id', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_ID'/>", width: 40, sortable: true, dataIndex: 'id', hideable: false},
+			        {stateId: 'msgrid-id', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_ID'/>", width: 55, sortable: true, dataIndex: 'id', hideable: false},
 			        {stateId: 'msgrid-readabletype', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_READABLE_TYPE'/>", width: 70, sortable: true, dataIndex: 'readableCallType', renderer: Ext.bind(this._renderCallType, this)},
 			        {stateId: 'msgrid-readablevalue', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_READABLE_VALUE'/>", width: 250, sortable: true, dataIndex: 'readableCallValue'},
 			        {stateId: 'msgrid-plugin', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_PLUGIN'/>", width: 70, sortable: true, hidden: true, dataIndex: 'plugin'},
-			        {stateId: 'msgrid-workspace', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_WORKSPACE'/>", width: 70, sortable: true, hidden: true, dataIndex: 'workspace'},
+			        {stateId: 'msgrid-workspace', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_WORKSPACE'/>", width: 95, sortable: true, hidden: true, dataIndex: 'workspace'},
 			        {stateId: 'msgrid-url', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_URL'/>", width: 180, sortable: true, hidden: true, dataIndex: 'url'},
 			        {stateId: 'msgrid-ccrole', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_CCROLE'/>", width: 180, sortable: true, hidden: true, dataIndex: 'clientCallRole'},
 			        {stateId: 'msgrid-ccid', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_CCID'/>", width: 180, sortable: true, hidden: true, dataIndex: 'clientCallId'},
 			        {stateId: 'msgrid-ccmethod', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_CCMETHOD'/>", width: 180, sortable: true, hidden: true, dataIndex: 'clientCallMethod'},
-			        {stateId: 'msgrid-priority', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_PRIORITY'/>", width: 60, sortable: true, dataIndex: 'priority'},
-			        {stateId: 'msgrid-type', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_TYPE'/>", width: 50, sortable: true, dataIndex: 'type'}
+			        {stateId: 'msgrid-priority', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_PRIORITY'/>", width: 70, sortable: true, dataIndex: 'priority'},
+			        {stateId: 'msgrid-type', header: "<i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_MESSAGE_COL_TYPE'/>", width: 75, sortable: true, dataIndex: 'type'}
 			    ],
 			    
 			    listeners: {'selectionchange': Ext.bind(this._onSelectMessage, this) }
 			});
 			
 			this.leftPanel = Ext.create("Ext.Panel", {
-				region: 'west',
-				layout: 'border',
 				stateful: true,
 				stateId: this.self.getName() + "$leftPanel",
 				split: true,
-				width: 500,
+                layout: { 
+                    type: 'vbox',
+                    align: 'stretch'
+                },
+				minWidth: 100,
+                flex: 0.4,
 				items: [ this.grid, this.msgGrid ]
 			});
 			
 			this.rightPanel = Ext.create("Ext.Panel", {
-				region: 'center',
 				layout: 'fit',
 				scrollable: true,
+                minWidth: 100,
+                split: true,
+                border: true,
+                flex: 0.6,
 				cls: 'message-details',
 				defaultHtml: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_MESSAGE'/>",
 				html: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_REQUESTS_TRACKER_MESSAGE'/>"
@@ -146,14 +155,18 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
 			
 			this._messageTpl = new Ext.Template(
 					"<b><i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_URL'/></b> : ",
-					"{url}<br/><br/>",
+					"{url}<br/>",
 					"<b><i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_PARAMETERS'/></b> : ",
-					"<code class='resquest-tracker'>{parameters}</code><br/>",
+					"<code class='request-tracker'>{parameters}</code><br/><br/>",
 					"<b><i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_RESPONSE'/></b> : ",
-					"<code class='resquest-tracker'>{response}</code>"
+					"<code class='request-tracker'>{response}</code>"
 			);
 			return Ext.create("Ext.Panel", {
-				layout: 'border',
+				layout: { 
+                    type: 'hbox',
+                    align: 'stretch'
+                },
+                cls: 'uitool-requesttracker',
 				stateful: true,
 				stateId: this.self.getName() + "$mainPanel",
 				items: [ this.leftPanel, this.rightPanel ]

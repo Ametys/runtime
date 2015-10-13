@@ -1,0 +1,46 @@
+/*
+ *  Copyright 2010 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+.uitool-requesttracker {
+    .message-details .x-panel-body {
+    	font-family: $ametys-tools-requesttracker-details-font-family;
+    	font-size: $ametys-tools-requesttracker-details-font-size;
+    	padding: $ametys-tools-requesttracker-details-padding;
+    	background-color: $ametys-tools-requesttracker-details-background-color !important;
+    }
+    
+    code.request-tracker {
+    	color: $ametys-tools-requesttracker-details-code-color;
+    	white-space: nowrap;
+    	display: block;
+    }
+    code.request-tracker .tag {
+        color: $ametys-tools-requesttracker-details-code-tag-color;
+    }
+    code.request-tracker .text {
+        color: $ametys-tools-requesttracker-details-code-text-color;
+    }
+    code.request-tracker .attr-name {
+    	color: $ametys-tools-requesttracker-details-code-attr-name-color;
+    }
+    code.request-tracker .attr-eq {
+        color: $ametys-tools-requesttracker-details-code-attr-eq-color;
+    }
+    code.request-tracker .attr-value {
+        color: $ametys-tools-requesttracker-details-code-attr-value-color;
+        font-style: $ametys-tools-requesttracker-details-code-attr-value-font-style;
+    }
+}

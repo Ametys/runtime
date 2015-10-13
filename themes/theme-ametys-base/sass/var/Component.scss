@@ -24,7 +24,6 @@ $font-size: dynamic(12px);
 
 $css-shadow-border-radius: 0;
 
-
 /**
  * General
  */
@@ -39,9 +38,9 @@ $ametys-background-color-error: dynamic(#CC0000);
 $ametys-color-hint: dynamic(#404040);
 $ametys-background-color-hint: dynamic(#fcf0c0);
 
-$ametys-rainbow: dynamic(#d21216 #ff9d00 #f2cb1d #49a349 #0043cc #c9599c #935ed3); 
-$ametys-rainbow-light: dynamic(#ffe5e6 #fff8ed #fffbe6 #e6f3e6 #e5eeff #fcf0f7 #f6f1fc); 
-$ametys-rainbow-dark: dynamic(#8a1111 #d97c38 #987715 #118a11 #00308c #a1407a #884ecf); 
+$ametys-rainbow:        dynamic(#d21216 #ff9d00 #f2cb1d #49a349 #0043cc #c9599c #935ed3); 
+$ametys-rainbow-light:  dynamic(#fa9c9c #fff8ed #fffbe6 #e6f3e6 #e5eeff #fcf0f7 #f6f1fc); 
+$ametys-rainbow-dark:   dynamic(#8a1111 #d97c38 #987715 #118a11 #00308c #a1407a #884ecf); 
 
 /**
  * Ribbon
@@ -112,3 +111,6 @@ $ametys-tool-tab-colors-dark: $ametys-rainbow-dark;
 
 @import 'tool/Layout';
 @import 'tool/Misc';
+
+@import 'tools/messagetracker';
+@import 'tools/requesttracker';

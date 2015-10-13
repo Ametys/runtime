@@ -310,8 +310,8 @@
 			                             text: "", 
 			                             inribbon: true
 			                        },*/
-			                        menu: {
-			                             items: menuItems.length == 0 ? null : menuItems
+			                        menu: menuItems.length == 0 ? null : {
+			                             items: menuItems
 			                        }
 			                    },
                                 

@@ -39,7 +39,11 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool.Messa
         	{
 	        	if (data.url == "client-call" && data.plugin == "core-ui")
 				{
-					return data.message.parameters.id + " # " + data.message.parameters.methodName;
+                    function short(s)
+                    {
+                        return s.substring(s.lastIndexOf(".") + 1);
+                    }
+					return short(data.message.parameters.id ? data.message.parameters.id : data.message.parameters.role) + "#" + data.message.parameters.methodName;
 				}
 				else
 				{

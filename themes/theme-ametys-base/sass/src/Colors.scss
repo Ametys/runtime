@@ -41,7 +41,15 @@
         &.a-tool-layout-zoned-panel-#{$index*10} {
             // Panel header
             .#{$prefix}panel-header-default {
-                background-color: $active-color;
+                .#{$prefix}title-text {
+                    color: $active-color-dark;
+                }
+                background-color: $active-color-light;
+                border-color: $active-color;
+            }
+            
+            .#{$prefix}panel-default-outer-border-trl
+            {
             }
             
             // Table selected

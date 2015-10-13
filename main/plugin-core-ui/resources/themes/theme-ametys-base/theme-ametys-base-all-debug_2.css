@@ -3677,7 +3677,7 @@
 .x-component-ribbon-header-contextualgroup.a-fluent-header-tabsgroup-1 {
     border-top: 3px solid #d21216;
     color: #8a1111;
-    background-color: #ffe5e6;
+    background-color: #fa9c9c;
 }
 /* http://localhost:1842/packages/local/theme-ametys-base/sass/src/fluent/Ribbon.scss:175 */
 .x-component-ribbon-header-contextualgroup.a-fluent-header-tabsgroup-2 {
@@ -5312,7 +5312,7 @@
 }
 /* http://localhost:1842/packages/local/theme-ametys-base/sass/src/fluent/TabPanel.scss:62 */
 .a-fluent-tab-contextual.a-fluent-tab-contextual-1 {
-    background-color: #ffe5e6;
+    background-color: #fa9c9c;
 }
 /* http://localhost:1842/packages/local/theme-ametys-base/sass/src/fluent/TabPanel.scss:63 */
 .a-fluent-tab-contextual.a-fluent-tab-contextual-1.x-tab-over .x-tab-inner-ribbon-tabpanel,

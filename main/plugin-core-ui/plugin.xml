@@ -667,9 +667,6 @@
                     <file>js/Ametys/plugins/coreui/system/requesttracker/RequestTrackerTool/RequestEntry.js</file>
                     <file>js/Ametys/plugins/coreui/system/requesttracker/RequestTrackerTool/MessageEntry.js</file>
                 </scripts>
-                <css>
-                    <file>css/requesttracker.css</file>
-                </css>
             </extension>
         </extensions>
     </feature>    
@@ -756,9 +753,6 @@
                     <file>js/Ametys/plugins/coreui/system/messagetracker/MessageTrackerTool.js</file>
                     <file>js/Ametys/plugins/coreui/system/messagetracker/MessageTrackerTool/MessageEntry.js</file>
                 </scripts>
-                <css>
-                    <file>css/messagetracker.css</file>
-                </css>
             </extension>
         </extensions>
     </feature> 

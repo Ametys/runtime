@@ -585,6 +585,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         {
             tabPanel = Ext.create('Ext.tab.Panel', {
                 cls: 'ametys-form-tab',
+                plain: true,
                 margin: '15 0 0 0',
                 layout: this.initialConfig.tabsLayout || { type: 'anchor' },
 

@@ -14,23 +14,6 @@
  *  limitations under the License.
  */
 
-@import 'fluent/Ribbon';
-@import 'fluent/TabPanel';
-@import 'fluent/Panel';
-@import 'fluent/Toast';
-@import 'fluent/Button';
-@import 'fluent/Toolbar';
-@import 'fluent/Field';
-@import 'fluent/MenuPanel';
-
-@import 'misc/Badge';
-@import 'misc/JSON';
-
-@import 'tool/Layout';
-@import 'tool/Misc';
-@import 'tool/ZonedTabsDD';
-
-@import 'Colors';
-
-@import 'tools/messagetracker';
-@import 'tools/requesttracker';
+$ametys-tools-messagetracker-filename-color: #2a00ff;
+$ametys-tools-messagetracker-line-color: #9500ab;
+$ametys-tools-messagetracker-method-color: #3f7f7f;

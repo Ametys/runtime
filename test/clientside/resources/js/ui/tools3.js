@@ -64,7 +64,8 @@ var tools3Items = [
         items: [
             {
                 xtype: 'panel',
-                title: 'Tab 1'
+                title: 'Tab 1',
+                html: 'text'
             },
             {
                 xtype: 'panel',
@@ -284,6 +285,7 @@ var tools3Items = [
         xtype: 'gridpanel',
         x: 780,
         y: 170,
+        border: true, 
         height: 250,
         width: 450,
         title: 'Grid Panel',
