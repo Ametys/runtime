@@ -611,34 +611,25 @@ Ext.define("Ametys.tool.Tool",
 		 */
 		_createOutOfPanel: function()
 		{
-		    var button = Ext.create("Ext.Button", {
-		    	flex: 1,
-		    	textAlign: 'left',
-		    	text:"<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_TOOLS_OUTOFDATEPANEL_LABEL'/>",
-		    	tooltip: {
-		    		title: "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_TOOLS_OUTOFDATEPANEL_TOOLTIP_TITLE'/>",
-		    		image: Ametys.CONTEXT_PATH + "/kernel/resources/img/Ametys/theme/gray/uitool/reload_32.png",
-		    		imageWidth: 32,
-		    		imageHeight: 32,
-		    		text: "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_TOOLS_OUTOFDATEPANEL_TOOLTIP_DESCRIPTION'/>",
-		    		inribbon: false
-		    	},
-		    	handler: Ext.bind(this.refresh, this, [true], false)
-		    });
-		    
-		    this._oodPanel = Ext.create("Ext.container.Container", {
-		    	cls: 'ametys-tool-outofdate',
-		    	hidden: true,
-		    	dock: 'top',
-				layout: {
-					type: 'hbox',
-					pack: 'start',
-					align: 'stretch'
-				},
-		    	items : button
-		    });
-		    
-		    return this._oodPanel;
+            this._oodPanel = Ext.create("Ext.Button", {
+                dock: 'top',
+        
+                ui: 'tool-outofdate',
+                textAlign: 'left',
+                hidden: true,
+                text:"<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_TOOLS_OUTOFDATEPANEL_LABEL'/>",
+                tooltip: {
+                    title: "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_TOOLS_OUTOFDATEPANEL_TOOLTIP_TITLE'/>",
+                    image: Ametys.getPluginResourcesPrefix('core-ui') + "/img/tools/reload_32.png",
+                    imageWidth: 32,
+                    imageHeight: 32,
+                    text: "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_TOOLS_OUTOFDATEPANEL_TOOLTIP_DESCRIPTION'/>",
+                    inribbon: false
+                },
+                handler: Ext.bind(this.refresh, this, [true], false)
+            });
+            
+            return this._oodPanel;
 		},		
 		
 		/**

@@ -346,7 +346,7 @@ Ext.define(
 					}
 				}
 				
-				var isNotInRibbon = element instanceof Ametys.ui.fluent.ribbon.controls.gallery.MenuGalleryButton 
+				var isNotInRibbon = element.ownerCt instanceof Ametys.ui.fluent.ribbon.controls.gallery.MenuPanel 
 								 || element instanceof Ext.menu.Item; 
 				element.setTooltip(me._getTooltip(!isNotInRibbon));
 			});			
