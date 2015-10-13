@@ -761,7 +761,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel.ParameterCheckersDAO', {
             var btn = Ext.getCmp(paramChecker.buttonId),
                 helpBox = Ext.getCmp(paramChecker.helpBoxId),
                 statusCmp = Ext.getCmp(paramChecker.statusCmpId),
-                errorMsg = Ext.dom.Query.selectValue("*/" + paramChecker.id, result);
+                errorMsg = Ext.dom.Query.selectValue("* > *", result); // We cannot make a better selector because of possible "." in the tagName.
                 
             btn.getEl().unmask();
             btn.enable();
