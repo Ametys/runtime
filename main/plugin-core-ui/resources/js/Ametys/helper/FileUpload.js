@@ -82,7 +82,7 @@ Ext.define('Ametys.helper.FileUpload', {
 							},
 							items: [{
 										xtype: 'component',
-										cls: 'text',
+										cls: 'a-text',
 										html: helpmessage
 									}, 
 									{

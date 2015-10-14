@@ -89,7 +89,7 @@ Ext.define('Ametys.helper.EnterURL', {
 							items: [{
 										xtype: 'component',
 										id: 'enterurl-helpmessage',
-										cls: 'text',
+										cls: 'a-text',
 										html: helpmessage || ''
 									}, 
 									{
@@ -105,7 +105,7 @@ Ext.define('Ametys.helper.EnterURL', {
 									},
 									{
 										xtype: 'component',
-										cls: 'text',
+										cls: 'a-text',
 										id: 'enterurl-footermessage',
 										html: footermessage || ''
 									}

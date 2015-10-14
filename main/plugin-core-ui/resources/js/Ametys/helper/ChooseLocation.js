@@ -127,7 +127,7 @@ Ext.define('Ametys.helper.ChooseLocation', {
 				border: false,
 				items : [{
 							xtype: 'component',
-							cls: 'text',
+							cls: 'a-text',
 							html: config.helpMessage || "<i18n:text i18n:key='PLUGINS_CORE_UI_GEOCODE_GMAP_DIALOG_HELP_MSG_1'/>"
 						},
 						{
@@ -161,14 +161,14 @@ Ext.define('Ametys.helper.ChooseLocation', {
 						},
 						{
 							xtype: 'component',
-							cls: 'text',
+							cls: 'a-text',
 							id: 'geo-search-textfield-error',
 							html: me._searchErrorMsg || ''
 						},
 						this._gmapPanel,
 						{
 							xtype: 'component',
-							cls: 'text',
+							cls: 'a-text',
 							html: config.bottomText || ""
 						}
 				]

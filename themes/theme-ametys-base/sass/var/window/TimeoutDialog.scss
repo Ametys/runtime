@@ -13,27 +13,10 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+ 
+$ametys-timeout-dialog-text-color: dynamic($color);
+$ametys-timeout-dialog-text-padding: dynamic($font-size/2);
 
-@import 'fluent/Ribbon';
-@import 'fluent/TabPanel';
-@import 'fluent/Panel';
-@import 'fluent/Toast';
-@import 'fluent/Button';
-@import 'fluent/Toolbar';
-@import 'fluent/Field';
-@import 'fluent/MenuPanel';
+$ametys-timeout-dialog-details-color: lighten($color, 30%);
+$ametys-timeout-dialog-details-padding: dynamic($font-size/2);
 
-@import 'misc/Badge';
-@import 'misc/JSON';
-
-@import 'tool/Layout';
-@import 'tool/Misc';
-@import 'tool/ZonedTabsDD';
-
-@import 'Colors';
-
-@import 'tools/messagetracker';
-@import 'tools/requesttracker';
-
-@import 'window/ErrorDialog';
-@import 'window/TimeoutDialog';
