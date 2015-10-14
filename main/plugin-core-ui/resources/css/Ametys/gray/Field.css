@@ -14,38 +14,10 @@
  *  limitations under the License.
  */
  
-.ametys-description
-{
-	width: 20px; 
-	min-height: 20px;
-	background-image: url('../../../img/Ametys/theme/gray/description.gif'); 
-	background-repeat: no-repeat; 
-	background-position: center 6px;
-	display: table-cell;
-}
-
-.ametys-comments
-{
-	width: 20px; 
-	min-height: 20px;
-	background-image: url('../../../img/Ametys/theme/gray/comment.gif'); 
-	background-repeat: no-repeat; 
-	background-position: center 6px;
-	vertical-align: top;
-    display: table-cell;
-}
-
 .ametys-comments div
 {
 	height: 20px;
 	width: 20px;
-}
-
-.ametys-comments.ametys-comments-empty
-{
-	background-image: url('../../../img/Ametys/theme/gray/nocomment.gif'); 
-	background-repeat: no-repeat; 
-	background-position: center 6px;
 }
 
 #ext-quicktips-tip ul.ametys-tooltip-comment > li div.comment-text
@@ -58,16 +30,6 @@ td.x-form-error-msg-wrapper
 	vertical-align: top;
 	padding-top: 4px;
 	
-}
-
-.ametys-warning
-{
-	width: 20px; 
-	min-height: 20px;
-	background-image: url('../../../img/Ametys/theme/gray/warning.png'); 
-	background-repeat: no-repeat; 
-	background-position: center 4px;
-    display: table-cell;
 }
 
 .x-tip-form-warning:after {
@@ -105,41 +67,6 @@ td.x-form-error-msg-wrapper
 	padding-left: 5px;
 	padding-top: 2px;
 	font-style:italic;
-}
-
-.x-field.ametys, .x-form-item.ametys {
-	margin-bottom: 7px;
-}
-.x-editor .x-field.ametys, .x-editor .x-form-item.ametys {
-    margin-bottom: 0px;
-}
-
-
-.x-field.ametys .x-form-text,
-.x-form-item.ametys .x-form-text
-{
-	background-color: #FFFFFF;
-    background-image: none;
-    padding: 1px 3px 2px 5px;
-}
-
-.x-field.ametys .x-form-text-wrap,
-.x-form-item.ametys .x-form-text-wrap
-{
-    border: 1px solid #C8CDD0;
-}
-
-.x-field.ametys.x-form-invalid .x-form-text-wrap,
-.x-form-item.ametys.x-form-invalid .x-form-text-wrap {
-	border-color: #FF0000;
-}
-
-.x-field.ametys .x-form-text-wrap-invalid,
-.x-field.ametys textarea.x-form-invalid-field,
-.x-form-item.ametys textarea.x-form-invalid-field
-{
-	background-image: none;
-	border-color: #FF0000;
 }
 
 .x-field.ametys.x-form-warning .x-form-text,
