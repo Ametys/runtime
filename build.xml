@@ -65,6 +65,7 @@
 
     <patternset id="check.additional.licenses">
         <exclude name="main/plugin-core-ui/resources/themes/**"/>
+        <exclude name="themes/theme-*/sass/example/*"/>
     </patternset>
 	
 	<target name="compile" depends="common-build.compile">
