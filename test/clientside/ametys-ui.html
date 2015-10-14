@@ -30,7 +30,16 @@
             <script src="/ext/build/classic/locale/locale-fr-debug.js" type="text/javascript"></script>
             
 <!--        Need to load theme js : sass compiler will NOT do the job -->        
-            <script src="/packages/local/theme-ametys-base/build/theme-ametys-base-debug.js" type="text/javascript"></script>
+<!--             <script src="/packages/local/theme-ametys-base/build/theme-ametys-base-debug.js" type="text/javascript"></script>
+            temporarily we do load directly js supposing we are inheriting neptune  
+            -->
+            <script src="/ext/build/classic/theme-neptune/theme-neptune-debug.js" type="text/javascript"></script>
+            <script src="/packages/local/theme-ametys-base/overrides/Ametys/ui/fluent/ribbon/Ribbon/ContextualTabGroup.js" type="text/javascript"></script>
+            <script src="/packages/local/theme-ametys-base/overrides/Ametys/ui/fluent/ribbon/GroupScale.js" type="text/javascript"></script>
+            <script src="/packages/local/theme-ametys-base/overrides/Ametys/ui/fluent/ribbon/TabPanel.js" type="text/javascript"></script>
+            <script src="/packages/local/theme-ametys-base/overrides/Ametys/ui/tool/layout/ZonedTabsToolsLayout/ZoneTabsToolsPanel.js" type="text/javascript"></script>
+            
+            
             <script src="/ext/build/packages/ux/classic/ux-debug.js" type="text/javascript"></script>
 
 <!--             <script src="http://localhost:3000/inspector.js"></script> -->
