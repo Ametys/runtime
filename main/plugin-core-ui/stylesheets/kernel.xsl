@@ -103,7 +103,7 @@
             <css>/plugins/core-ui/resources/themes/theme-<xsl:value-of select="$theme"/>/theme-<xsl:value-of select="$theme"/>-all<xsl:if test="$rtl">-rtl</xsl:if><xsl:if test="$debug-mode">-debug</xsl:if>.css</css>
             <css>/plugins/extjs6/resources/packages/ux/classic/<xsl:value-of select="$uxtheme"/>/resources/ux-all<xsl:if test="$rtl">-rtl</xsl:if><xsl:if test="$debug-mode">-debug</xsl:if>.css</css>
             <css>/plugins/extjs6/resources/packages/charts/classic/<xsl:value-of select="$uxtheme"/>/resources/charts-all<xsl:if test="$rtl">-rtl</xsl:if><xsl:if test="$debug-mode">-debug</xsl:if>.css</css>
-<!--             <css>/plugins/core-ui/resources/css/Ametys/gray/all.css</css> -->
+            <css>/plugins/core-ui/resources/css/Ametys/gray/all.css</css>
 <!--             <css>/plugins/core-ui/resources/css/ametys.css</css> -->
             <css>/plugins/codemirror/resources/css/codemirror.css</css>
 		</xsl:variable>
