@@ -174,55 +174,13 @@ public class RuntimeServlet extends HttpServlet
                 FileUtils.forceMkdir(tmpDir);
             }
 
+            // Configuration file
+            Config.setFilename(_servletContext.getRealPath(CONFIG_RELATIVE_PATH));
+            
             // Init logger
             _initLogger();
     
-            // WEB-INF/param/runtime.xml loading
-            _loadRuntimeConfig();
-    
-            // Configuration file
-            Config.setFilename(_servletContext.getRealPath(CONFIG_RELATIVE_PATH));
-        
-            _createCocoon();
-            
-            // Upload initialization
-            _maxUploadSize = DEFAULT_MAX_UPLOAD_SIZE;
-            _uploadDir = new File(_servletContext.getRealPath("/WEB-INF/data/uploads"));
-            
-            if (ConfigManager.getInstance().isComplete())
-            {
-                Long maxUploadSizeParam = Config.getInstance().getValueAsLong("runtime.upload.max-size");
-                if (maxUploadSizeParam != null)
-                {
-                    // if the feature core/runtime.upload is deactivated, use the default value (10 Mb)
-                    _maxUploadSize = maxUploadSizeParam.intValue();
-                }
-                
-                String uploadDirParam = Config.getInstance().getValueAsString("runtime.upload.dir");
-                if (uploadDirParam != null)
-                {
-                    File uploadDir = new File(uploadDirParam);
-                    
-                    if (uploadDir.isAbsolute())
-                    {
-                        // Yes : keep it as is
-                        _uploadDir = uploadDir;
-                    }
-                    else
-                    {
-                        // No : consider it relative to context path
-                        _uploadDir = new File(_servletContextPath, uploadDirParam);
-                    }
-                }
-            }
-    
-            _uploadDir.mkdirs();
-            _avalonContext.put(Constants.CONTEXT_UPLOAD_DIR, _uploadDir);
-            
-            _requestFactory = new RequestFactory(true, _uploadDir, false, true, _maxUploadSize, "UTF-8");
-    
-            // Init classes
-            _initPlugins();
+            _initAmetys();
         }
         catch (Throwable t)
         {
@@ -247,6 +205,53 @@ public class RuntimeServlet extends HttpServlet
             
             _disposeCocoon();
         }
+    }
+    
+    private void _initAmetys() throws Exception
+    {
+        // WEB-INF/param/runtime.xml loading
+        _loadRuntimeConfig();
+
+        _createCocoon();
+        
+        // Upload initialization
+        _maxUploadSize = DEFAULT_MAX_UPLOAD_SIZE;
+        _uploadDir = new File(_servletContext.getRealPath("/WEB-INF/data/uploads"));
+        
+        if (ConfigManager.getInstance().isComplete())
+        {
+            Long maxUploadSizeParam = Config.getInstance().getValueAsLong("runtime.upload.max-size");
+            if (maxUploadSizeParam != null)
+            {
+                // if the feature core/runtime.upload is deactivated, use the default value (10 Mb)
+                _maxUploadSize = maxUploadSizeParam.intValue();
+            }
+            
+            String uploadDirParam = Config.getInstance().getValueAsString("runtime.upload.dir");
+            if (uploadDirParam != null)
+            {
+                File uploadDir = new File(uploadDirParam);
+                
+                if (uploadDir.isAbsolute())
+                {
+                    // Yes : keep it as is
+                    _uploadDir = uploadDir;
+                }
+                else
+                {
+                    // No : consider it relative to context path
+                    _uploadDir = new File(_servletContextPath, uploadDirParam);
+                }
+            }
+        }
+
+        _uploadDir.mkdirs();
+        _avalonContext.put(Constants.CONTEXT_UPLOAD_DIR, _uploadDir);
+        
+        _requestFactory = new RequestFactory(true, _uploadDir, false, true, _maxUploadSize, "UTF-8");
+
+        // Init classes
+        _initPlugins();
     }
     
     private void _initLogger() 
@@ -501,19 +506,17 @@ public class RuntimeServlet extends HttpServlet
 
         if (req.getAttribute("org.ametys.runtime.reload") != null)
         {
-            ConfigManager.getInstance().dispose();
-            _disposeCocoon();
-            _servletContext.removeAttribute("PluginsComponentManager");
-            _initLogger();
-            
             try
             {
-                _createCocoon();
-                _initPlugins();
+                ConfigManager.getInstance().dispose();
+                _disposeCocoon();
+                _servletContext.removeAttribute("PluginsComponentManager");
+
+                _initAmetys();
             }
             catch (Exception e)
             {
-                _logger.error("Error while reloading plugins. Entering in error mode.", e);
+                _logger.error("Error while reloading Ametys. Entering in error mode.", e);
                 _exception = e;
             }
         }
