@@ -14,9 +14,10 @@
  *  limitations under the License.
  */
  
-$button-small-border-radius: 0;
-$button-medium-border-radius: 0;
-$button-large-border-radius: 0;
+$button-small-border-radius: dynamic(0);
+$button-medium-border-radius: dynamic(0);
+$button-large-border-radius: dynamic(0);
+$button-grid-cell-border-radius: dynamic(0);
 
 $button-default-background-gradient: dynamic(null);
 $button-default-background-gradient-over: dynamic(null);
@@ -26,3 +27,6 @@ $button-toolbar-background-gradient: dynamic(null);
 $button-toolbar-background-gradient-over: dynamic(null);
 $button-toolbar-background-gradient-pressed: dynamic(null);
 $button-toolbar-background-gradient-disabled: dynamic(null);
+
+$button-default-base-color: dynamic($ametys-ribbon-highlight-color);
+$button-default-border-color: dynamic(darken($ametys-ribbon-highlight-color, 14%));

@@ -13,6 +13,5 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-
-$tip-border-radius: 0;
-$tip-background-color: dynamic(lighten($ametys-ribbon-highlight-color, 50%));
+ 
+$tag-field-item-border-radius: dynamic(0);

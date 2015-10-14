@@ -13,6 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-
-$tip-border-radius: 0;
-$tip-background-color: dynamic(lighten($ametys-ribbon-highlight-color, 50%));
+ 
+$toolbar-footer-background-color: dynamic(lighten($ametys-ribbon-highlight-color, 50%));
+$toolbar-tool-glyph-color: dynamic(darken($ametys-ribbon-highlight-color, 10%));
+$toolbar-border-color: dynamic($ametys-ribbon-highlight-color);
