@@ -31,3 +31,19 @@
 .a-tool-layout-zoned-focused .#{$prefix}btn-tool-outofdate-small {
     background-color: $ametys-tool-outofdate-background-color;
 }
+
+
+.#{$prefix}panel-body-ametys-tool-panel .a-text a, 
+.#{$prefix}panel-body-ametys-tool-panel .a-text a:link, 
+.#{$prefix}panel-body-ametys-tool-panel .a-text a:active {
+	color: $ametys-tool-link-color;
+	text-decoration: $ametys-tool-link-text-decoration;
+}
+.#{$prefix}panel-body-ametys-tool-panel .a-text a:hover {
+	color: $ametys-tool-link-color-over;
+	text-decoration: $ametys-tool-link-text-decoration-over;
+}
+.#{$prefix}panel-body-ametys-tool-panel .a-text a:visited {
+	color: $ametys-tool-link-color-visited;
+	text-decoration: $ametys-tool-link-text-decoration-visited;
+}

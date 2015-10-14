@@ -13,26 +13,19 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+ 
+.#{$prefix}panel.error-dialog-text {
+	color: $ametys-error-dialog-text-color;
+	padding: $ametys-error-dialog-text-padding;
+}
 
-@import 'fluent/Ribbon';
-@import 'fluent/TabPanel';
-@import 'fluent/Panel';
-@import 'fluent/Toast';
-@import 'fluent/Button';
-@import 'fluent/Toolbar';
-@import 'fluent/Field';
-@import 'fluent/MenuPanel';
+.#{$prefix}panel.error-dialog-details {
+	color: $ametys-error-dialog-details-color;
+	padding: $ametys-error-dialog-details-padding;
+	border-top-style: solid;
+	border-top-width: 1px;
+}
 
-@import 'misc/Badge';
-@import 'misc/JSON';
-
-@import 'tool/Layout';
-@import 'tool/Misc';
-@import 'tool/ZonedTabsDD';
-
-@import 'Colors';
-
-@import 'tools/messagetracker';
-@import 'tools/requesttracker';
-
-@import 'window/ErrorDialog';
+.#{$prefix}panel.error-dialog-details * {
+	white-space: nowrap;
+}

@@ -211,6 +211,18 @@ function openTool4()
                                 }).show();
                             
                 }
+            },
+            {
+            	xtype: 'button',
+            	text: 'Error dialog',
+                handler: function() {
+                	 Ametys.log.ErrorDialog.display({
+                	    title: "Titre de l'erreur",
+                	    text: "Ceci est le texte de l'erreur",
+            	        details: "Ceci est la stacktrace de l'erreur...\n\ligne 1 longue longue longue longue longue longue longue longue longue longue\nligne 2 un moins longue longue longue\nligne 3\nligne 3\nligne 3\nligne 3\nligne 3\nligne 3\nligne 3\nligne 3\nligne 3\nligne 3",
+            	        category: 'Ametys.my.Component' 
+                	 });
+                }
             }
         ]
     });

@@ -112,7 +112,7 @@ $ametys-form-field-nocomment-background-image-height: 11px;
 
 $ametys-form-field-warning-background-image: dynamic('form/field/warning');
 $ametys-form-field-warning-background-image-width: 16px;
-$ametys-form-field-warning-background-image-height: 16px;
+$ametys-form-field-warning-background-image-height: 16px; 
 
 /**
  * Imports
@@ -133,3 +133,5 @@ $ametys-form-field-warning-background-image-height: 16px;
 
 @import 'tools/messagetracker';
 @import 'tools/requesttracker';
+
+@import 'window/ErrorDialog';

@@ -15,13 +15,26 @@
  */
 
 .#{$prefix}window .a-text {
-	color: $ametys-window-text;
-	background-color: $ametys-window-background-text;
+	color: $ametys-window-text-color;
+	background-color: $ametys-window-text-background-color;
 	padding-bottom: $font-size/2;
 }
 
 .#{$prefix}window .a-text-warning {
-	color: $ametys-window-text-warning;
-	background-color: $ametys-window-background-text-warning;
+	color: $ametys-window-text-warning-color;
+	background-color: $ametys-window-text-warning-background-color;
 	padding-bottom: $font-size/2;
+}
+
+.#{$prefix}window .a-text a, .#{$prefix}window .a-text a:link, .#{$prefix}window .a-text a:active {
+	color: $ametys-window-link-color;
+	text-decoration: $ametys-window-link-text-decoration;
+}
+.#{$prefix}window .a-text a:hover {
+	color: $ametys-window-link-color-over;
+	text-decoration: $ametys-window-link-text-decoration-over;
+}
+.#{$prefix}window .a-text a:visited {
+	color: $ametys-window-link-color-visited;
+	text-decoration: $ametys-window-link-text-decoration-visited;
 }

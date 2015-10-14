@@ -19,3 +19,10 @@ $ametys-tool-outofdate-border-color: darken($ametys-ribbon-tab-color, 6%);
 $ametys-tool-outofdate-background-color: $ametys-background-color-hint;
 $ametys-tool-outofdate-font-size: $font-size;
 $ametys-tool-outofdate-font-weight: normal;
+
+$ametys-tool-link-color: dynamic($ametys-ribbon-highlight-color);
+$ametys-tool-link-color-over: dynamic($ametys-ribbon-tabpanel-mainbutton-background-color-over);
+$ametys-tool-link-color-visited: dynamic($ametys-ribbon-highlight-color);
+$ametys-tool-link-text-decoration: dynamic(underline);
+$ametys-tool-link-text-decoration-visited: dynamic(underline);
+$ametys-tool-link-text-decoration-over: dynamic(underline);

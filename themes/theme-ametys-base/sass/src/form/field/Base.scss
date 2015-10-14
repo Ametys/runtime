@@ -37,8 +37,7 @@
 	background-position: center ($form-field-height/2 - $ametys-form-field-nocomment-background-image-height/2);
 }
 
-.ametys-warning
-{
+.ametys-warning {
 	width: 20px; 
 	min-height: $form-field-height; 
 	background-image: theme-background-image($ametys-form-field-warning-background-image); 
