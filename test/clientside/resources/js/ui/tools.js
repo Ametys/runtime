@@ -163,6 +163,7 @@ function openTool4()
                                                             itemId: 'url',
                                                             width: 450,
                                                             allowBlank: false,
+                                                            ametysDescription: 'Description de mon champ texte<br/>sur 2 lignes',
                                                             msgTarget: 'side'
                                                         },
                                                         {
@@ -170,7 +171,19 @@ function openTool4()
                                                             fieldLabel : "Champ date",
                                                             name: 'date',
                                                             itemId: 'date',
+                                                            ametysDescription: 'Description de mon champ date<br/>sur 2 lignes',
                                                             width: 450,
+                                                            allowBlank: false,
+                                                            msgTarget: 'side'
+                                                        },
+                                                        {
+                                                            xtype: 'textarea',
+                                                            fieldLabel : "Champ textarea",
+                                                            name: 'textarea',
+                                                            itemId: 'textarea',
+                                                            ametysDescription: 'Description de mon textarea<br/>sur 2 lignes',
+                                                            width: 450,
+                                                            height: 50,
                                                             allowBlank: false,
                                                             msgTarget: 'side'
                                                         },
