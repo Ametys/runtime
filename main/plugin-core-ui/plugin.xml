@@ -204,8 +204,6 @@
                 </scripts>
                 <css>
                     <file>css/Widget.css</file>
-                    <file>css/selectuser.css</file>
-                    <file>css/selectgroup.css</file>
                 </css>
             </extension>
         </extensions>

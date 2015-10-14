@@ -136,7 +136,6 @@ Ext.define('Ametys.helper.SelectGroup', {
 		this._initialized = true;
 
 		this._searchField = Ext.create('Ext.form.TextField', {
-			region: 'north',
 			cls: 'ametys',
 			labelWidth :70,
 			width: 210,
@@ -169,7 +168,7 @@ Ext.define('Ametys.helper.SelectGroup', {
 		});
 		
 		this._groupList = Ext.create('Ext.grid.Panel', {
-			region: 'center',
+			flex: 1,
 			store : store,
 			hideHeaders : true,
 			columns: [{header: "Label", width : 240, menuDisabled : true, sortable: true, dataIndex: 'label'}]
@@ -177,7 +176,11 @@ Ext.define('Ametys.helper.SelectGroup', {
 		
 		this._box = Ext.create('Ametys.window.DialogBox', {
 			title :"<i18n:text i18n:key='PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_CAPTION'/>",
-			layout :'border',
+			layout: {
+			    type: 'vbox',
+			    align : 'stretch',
+			    pack  : 'start'
+			},
 			width: 280,
 			height: 340,
 			icon: Ametys.getPluginResourcesPrefix('core') + '/img/groups/group_16.png',
@@ -187,10 +190,11 @@ Ext.define('Ametys.helper.SelectGroup', {
 			         this._groupList, 
 			         {
 			        	 xtype: 'container',
-			        	 region: 'south',
-			        	 cls: 'select-group-warning',
-			        	 html: "<i18n:text i18n:key='PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_WARN100'/>",
-			        	 height: 26,
+			        	 style: {
+			        		 textAlign: 'center'
+			        	 },
+			        	 cls: 'a-text-warning',
+			        	 html: "<i18n:text i18n:key='PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_WARN100'/>"
 			         }
 			],
 			
