@@ -1,3 +1,162 @@
+/* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/slicer.scss:83 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-cmd-slicer.x-tab-default-right:before {
+    display: none;
+    content: "x-slicer:, frame:1px 1px 1px 1px, corners:url(images/tab/tab-default-right-corners.gif), sides:url(images/tab/tab-default-right-sides.gif), stretch:left, frame:1px 1px 1px 1px, corners:url(images/tab/tab-default-right-corners.gif), sides:url(images/tab/tab-default-right-sides.gif), stretch:left, frame:1px 1px 1px 1px, corners:url(images/tab/tab-default-right-corners.gif), sides:url(images/tab/tab-default-right-sides.gif), stretch:left, frame:1px 1px 1px 1px, corners:url(images/tab/tab-default-right-corners.gif), sides:url(images/tab/tab-default-right-sides.gif), stretch:left, frame:1px 1px 1px 1px, corners:url(images/tab/tab-default-right-corners.gif), sides:url(images/tab/tab-default-right-sides.gif), stretch:left, frame:1px 1px 1px 1px, corners:url(images/tab/tab-default-right-corners.gif), sides:url(images/tab/tab-default-right-sides.gif), stretch:left, frame:1px 1px 1px 1px, corners:url(images/tab/tab-default-right-corners.gif), sides:url(images/tab/tab-default-right-sides.gif), stretch:left, frame:1px 1px 1px 1px, corners:url(images/tab/tab-default-right-corners.gif), sides:url(images/tab/tab-default-right-sides.gif), stretch:left, frame:1px 1px 1px 1px, corners:url(images/tab/tab-default-right-corners.gif), sides:url(images/tab/tab-default-right-sides.gif), stretch:left, frame:1px 1px 1px 1px, corners:url(images/tab/tab-default-right-corners.gif), sides:url(images/tab/tab-default-right-sides.gif)" !important;
+}
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:1587 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default {
+    border-color: #e1e1e1;
+    cursor: pointer;
+}
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:1648 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-top {
+    margin: 0 1px 0 0;
+}
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:1657 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-top.x-tab-rotate-left {
+    margin: 0 0 0 1px;
+}
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:1679 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-top.x-tab-focus {
+    -webkit-box-shadow: transparent 0 1px 0px 0 inset, transparent 0 -1px 0px 0 inset, transparent -1px 0 0px 0 inset, transparent 1px 0 0px 0 inset;
+    -moz-box-shadow: transparent 0 1px 0px 0 inset, transparent 0 -1px 0px 0 inset, transparent -1px 0 0px 0 inset, transparent 1px 0 0px 0 inset;
+    box-shadow: transparent 0 1px 0px 0 inset, transparent 0 -1px 0px 0 inset, transparent -1px 0 0px 0 inset, transparent 1px 0 0px 0 inset;
+}
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:1708 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-top.x-tab-focus.x-tab-over {
+    -webkit-box-shadow: transparent 0 1px 0px 0 inset, transparent 0 -1px 0px 0 inset, transparent -1px 0 0px 0 inset, transparent 1px 0 0px 0 inset;
+    -moz-box-shadow: transparent 0 1px 0px 0 inset, transparent 0 -1px 0px 0 inset, transparent -1px 0 0px 0 inset, transparent 1px 0 0px 0 inset;
+    box-shadow: transparent 0 1px 0px 0 inset, transparent 0 -1px 0px 0 inset, transparent -1px 0 0px 0 inset, transparent 1px 0 0px 0 inset;
+}
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:1737 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-top.x-tab-focus.x-tab-active {
+    -webkit-box-shadow: transparent 0 1px 0px 0 inset, transparent 0 -1px 0px 0 inset, transparent -1px 0 0px 0 inset, transparent 1px 0 0px 0 inset;
+    -moz-box-shadow: transparent 0 1px 0px 0 inset, transparent 0 -1px 0px 0 inset, transparent -1px 0 0px 0 inset, transparent 1px 0 0px 0 inset;
+    box-shadow: transparent 0 1px 0px 0 inset, transparent 0 -1px 0px 0 inset, transparent -1px 0 0px 0 inset, transparent 1px 0 0px 0 inset;
+}
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:1763 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right {
+    margin: 0 0 1px 0;
+}
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:1772 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right.x-tab-rotate-right {
+    margin: 1px 0 0 0;
+}
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:1794 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right.x-tab-focus {
+    -webkit-box-shadow: transparent 0 1px 0px 0 inset, transparent 0 -1px 0px 0 inset, transparent -1px 0 0px 0 inset, transparent 1px 0 0px 0 inset;
+    -moz-box-shadow: transparent 0 1px 0px 0 inset, transparent 0 -1px 0px 0 inset, transparent -1px 0 0px 0 inset, transparent 1px 0 0px 0 inset;
+    box-shadow: transparent 0 1px 0px 0 inset, transparent 0 -1px 0px 0 inset, transparent -1px 0 0px 0 inset, transparent 1px 0 0px 0 inset;
+}
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:1823 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right.x-tab-focus.x-tab-over {
+    -webkit-box-shadow: transparent 0 1px 0px 0 inset, transparent 0 -1px 0px 0 inset, transparent -1px 0 0px 0 inset, transparent 1px 0 0px 0 inset;
+    -moz-box-shadow: transparent 0 1px 0px 0 inset, transparent 0 -1px 0px 0 inset, transparent -1px 0 0px 0 inset, transparent 1px 0 0px 0 inset;
+    box-shadow: transparent 0 1px 0px 0 inset, transparent 0 -1px 0px 0 inset, transparent -1px 0 0px 0 inset, transparent 1px 0 0px 0 inset;
+}
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:1852 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right.x-tab-focus.x-tab-active {
+    -webkit-box-shadow: transparent 0 1px 0px 0 inset, transparent 0 -1px 0px 0 inset, transparent -1px 0 0px 0 inset, transparent 1px 0 0px 0 inset;
+    -moz-box-shadow: transparent 0 1px 0px 0 inset, transparent 0 -1px 0px 0 inset, transparent -1px 0 0px 0 inset, transparent 1px 0 0px 0 inset;
+    box-shadow: transparent 0 1px 0px 0 inset, transparent 0 -1px 0px 0 inset, transparent -1px 0 0px 0 inset, transparent 1px 0 0px 0 inset;
+}
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:1878 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-bottom {
+    margin: 0 1px 0 0;
+}
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:1887 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-bottom.x-tab-rotate-left {
+    margin: 0 0 0 1px;
+}
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:1909 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-bottom.x-tab-focus {
+    -webkit-box-shadow: transparent 0 1px 0px 0 inset, transparent 0 -1px 0px 0 inset, transparent -1px 0 0px 0 inset, transparent 1px 0 0px 0 inset;
+    -moz-box-shadow: transparent 0 1px 0px 0 inset, transparent 0 -1px 0px 0 inset, transparent -1px 0 0px 0 inset, transparent 1px 0 0px 0 inset;
+    box-shadow: transparent 0 1px 0px 0 inset, transparent 0 -1px 0px 0 inset, transparent -1px 0 0px 0 inset, transparent 1px 0 0px 0 inset;
+}
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:1938 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-bottom.x-tab-focus.x-tab-over {
+    -webkit-box-shadow: transparent 0 1px 0px 0 inset, transparent 0 -1px 0px 0 inset, transparent -1px 0 0px 0 inset, transparent 1px 0 0px 0 inset;
+    -moz-box-shadow: transparent 0 1px 0px 0 inset, transparent 0 -1px 0px 0 inset, transparent -1px 0 0px 0 inset, transparent 1px 0 0px 0 inset;
+    box-shadow: transparent 0 1px 0px 0 inset, transparent 0 -1px 0px 0 inset, transparent -1px 0 0px 0 inset, transparent 1px 0 0px 0 inset;
+}
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:1967 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-bottom.x-tab-focus.x-tab-active {
+    -webkit-box-shadow: transparent 0 1px 0px 0 inset, transparent 0 -1px 0px 0 inset, transparent -1px 0 0px 0 inset, transparent 1px 0 0px 0 inset;
+    -moz-box-shadow: transparent 0 1px 0px 0 inset, transparent 0 -1px 0px 0 inset, transparent -1px 0 0px 0 inset, transparent 1px 0 0px 0 inset;
+    box-shadow: transparent 0 1px 0px 0 inset, transparent 0 -1px 0px 0 inset, transparent -1px 0 0px 0 inset, transparent 1px 0 0px 0 inset;
+}
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:1993 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-left {
+    margin: 0 0 1px 0;
+}
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2002 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-left.x-tab-rotate-right {
+    margin: 1px 0 0 0;
+}
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2024 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-left.x-tab-focus {
+    -webkit-box-shadow: transparent 0 1px 0px 0 inset, transparent 0 -1px 0px 0 inset, transparent -1px 0 0px 0 inset, transparent 1px 0 0px 0 inset;
+    -moz-box-shadow: transparent 0 1px 0px 0 inset, transparent 0 -1px 0px 0 inset, transparent -1px 0 0px 0 inset, transparent 1px 0 0px 0 inset;
+    box-shadow: transparent 0 1px 0px 0 inset, transparent 0 -1px 0px 0 inset, transparent -1px 0 0px 0 inset, transparent 1px 0 0px 0 inset;
+}
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2053 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-left.x-tab-focus.x-tab-over {
+    -webkit-box-shadow: transparent 0 1px 0px 0 inset, transparent 0 -1px 0px 0 inset, transparent -1px 0 0px 0 inset, transparent 1px 0 0px 0 inset;
+    -moz-box-shadow: transparent 0 1px 0px 0 inset, transparent 0 -1px 0px 0 inset, transparent -1px 0 0px 0 inset, transparent 1px 0 0px 0 inset;
+    box-shadow: transparent 0 1px 0px 0 inset, transparent 0 -1px 0px 0 inset, transparent -1px 0 0px 0 inset, transparent 1px 0 0px 0 inset;
+}
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2082 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-left.x-tab-focus.x-tab-active {
+    -webkit-box-shadow: transparent 0 1px 0px 0 inset, transparent 0 -1px 0px 0 inset, transparent -1px 0 0px 0 inset, transparent 1px 0 0px 0 inset;
+    -moz-box-shadow: transparent 0 1px 0px 0 inset, transparent 0 -1px 0px 0 inset, transparent -1px 0 0px 0 inset, transparent 1px 0 0px 0 inset;
+    box-shadow: transparent 0 1px 0px 0 inset, transparent 0 -1px 0px 0 inset, transparent -1px 0 0px 0 inset, transparent 1px 0 0px 0 inset;
+}
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2108 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-button-default {
+    height: 16px;
+}
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2113 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-inner-default {
+    font: bold 12px/16px helvetica, arial, verdana, sans-serif;
+    color: #c1c1c1;
+    max-width: 100%;
+}
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2129 */
+.x-tab-icon-right > .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-inner-default,
+.x-tab-icon-left > .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-inner-default {
+    max-width: calc(100% - 16px);
+}
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2137 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-icon-el-default {
+    min-height: 16px;
+    background-position: center center;
+    font-size: 16px;
+    line-height: 16px;
+    color: #fff;
+}
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2138 */
+.x-tab-icon-left > .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-icon-el-default,
+.x-tab-icon-right > .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-icon-el-default {
+    width: 16px;
+}
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2143 */
+.x-tab-icon-top > .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-icon-el-default,
+.x-tab-icon-bottom > .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-icon-el-default {
+    min-width: 16px;
+}
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2159 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-icon-el-default.x-tab-glyph {
+    opacity: 0.5;
+}
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2172 */
+.x-ie8 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-icon-el-default.x-tab-glyph {
+    color: #f0f0f0;
+}
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2179 */
+.x-tab-text.x-tab-icon-left > .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-icon-el-default {
+    margin-right: 6px;
+}
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2190 */
 .x-tab-text.x-tab-icon-right > .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-icon-el-default {
     margin-left: 6px;

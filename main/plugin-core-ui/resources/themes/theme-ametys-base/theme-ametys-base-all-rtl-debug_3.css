@@ -5656,6 +5656,23 @@
 .a-tool-layout-zoned-focused .x-btn-tool-outofdate-small {
     background-color: #fcf0c0;
 }
+/* http://localhost:1842/packages/local/theme-ametys-base/sass/src/tool/Misc.scss:36 */
+.x-panel-body-ametys-tool-panel .a-text a,
+.x-panel-body-ametys-tool-panel .a-text a:link,
+.x-panel-body-ametys-tool-panel .a-text a:active {
+    color: #2a579a;
+    text-decoration: underline;
+}
+/* http://localhost:1842/packages/local/theme-ametys-base/sass/src/tool/Misc.scss:42 */
+.x-panel-body-ametys-tool-panel .a-text a:hover {
+    color: #356ec2;
+    text-decoration: underline;
+}
+/* http://localhost:1842/packages/local/theme-ametys-base/sass/src/tool/Misc.scss:46 */
+.x-panel-body-ametys-tool-panel .a-text a:visited {
+    color: #2a579a;
+    text-decoration: underline;
+}
 /* http://localhost:1842/packages/local/theme-ametys-base/sass/src/tool/ZonedTabsDD.scss:20 */
 .a-tool-layer-zoned-dragndrop-marker {
     /*
@@ -5859,6 +5876,37 @@
 .uitool-requesttracker code.request-tracker .attr-value {
     color: #2a00ff;
     font-style: italic;
+}
+/* http://localhost:1842/packages/local/theme-ametys-base/sass/src/window/ErrorDialog.scss:17 */
+.x-panel.error-dialog-text {
+    /*
+ *  Copyright 2015 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+    color: #000;
+    padding: 6px;
+}
+/* http://localhost:1842/packages/local/theme-ametys-base/sass/src/window/ErrorDialog.scss:22 */
+.x-panel.error-dialog-details {
+    color: #4d4d4d;
+    padding: 6px;
+    border-top-style: solid;
+    border-top-width: 1px;
+}
+/* http://localhost:1842/packages/local/theme-ametys-base/sass/src/window/ErrorDialog.scss:29 */
+.x-panel.error-dialog-details * {
+    white-space: nowrap;
 }
 /* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/frame.scss:187 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-btn-default-small {
@@ -12321,8 +12369,8 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-    color: #404040;
-    background-color: #fff;
+    color: #333;
+    background-color: transparent;
     padding-bottom: 6px;
 }
 /* http://localhost:1842/packages/local/theme-ametys-base/sass/src/window/Window.scss:23 */
@@ -12330,6 +12378,70 @@
     color: #ffae01;
     background-color: #fff;
     padding-bottom: 6px;
+}
+/* http://localhost:1842/packages/local/theme-ametys-base/sass/src/window/Window.scss:29 */
+.x-window .a-text a,
+.x-window .a-text a:link,
+.x-window .a-text a:active {
+    color: #2a579a;
+    text-decoration: underline;
+}
+/* http://localhost:1842/packages/local/theme-ametys-base/sass/src/window/Window.scss:33 */
+.x-window .a-text a:hover {
+    color: #356ec2;
+    text-decoration: underline;
+}
+/* http://localhost:1842/packages/local/theme-ametys-base/sass/src/window/Window.scss:37 */
+.x-window .a-text a:visited {
+    color: #2a579a;
+    text-decoration: underline;
+}
+/* http://localhost:1842/packages/local/theme-ametys-base/sass/src/form/field/Base.scss:17 */
+.ametys-description {
+    /*
+ *  Copyright 2015 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+    width: 20px;
+    min-height: 24px;
+    background-image: url(images/form/field/description.png);
+    background-repeat: no-repeat;
+    background-position: center 6.5px;
+    display: table-cell;
+}
+/* http://localhost:1842/packages/local/theme-ametys-base/sass/src/form/field/Base.scss:26 */
+.ametys-comment {
+    width: 20px;
+    min-height: 24px;
+    background-image: url(images/form/field/comment.png);
+    background-repeat: no-repeat;
+    background-position: center 6.5px;
+    display: table-cell;
+}
+/* http://localhost:1842/packages/local/theme-ametys-base/sass/src/form/field/Base.scss:35 */
+.ametys-comment.ametys-comment-empty {
+    background-image: url(images/form/field/nocomment.png);
+    background-position: center 6.5px;
+}
+/* http://localhost:1842/packages/local/theme-ametys-base/sass/src/form/field/Base.scss:40 */
+.ametys-warning {
+    width: 20px;
+    min-height: 24px;
+    background-image: url(images/form/field/warning.png);
+    background-repeat: no-repeat;
+    background-position: center 4px;
+    display: table-cell;
 }
 /* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/frame.scss:187 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-tab-default-top {
@@ -15142,37 +15254,4 @@
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab.x-tab-active .x-tab-default-left-mc {
     background-repeat: repeat-x;
     background-image: url(images/tab/tab-default-left-active-fbg.gif);
-}
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2961 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-focus.x-tab-active .x-tab-default-left-tl,
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-focus.x-tab-active .x-tab-default-left-bl,
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-focus.x-tab-active .x-tab-default-left-tr,
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-focus.x-tab-active .x-tab-default-left-br,
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-focus.x-tab-active .x-tab-default-left-tc,
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-focus.x-tab-active .x-tab-default-left-bc {
-    background-image: url(images/tab/tab-default-left-focus-active-corners.gif);
-}
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2970 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-focus.x-tab-active .x-tab-default-left-ml,
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-focus.x-tab-active .x-tab-default-left-mr {
-    background-image: url(images/tab/tab-default-left-focus-active-sides.gif);
-}
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2975 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-focus.x-tab-active .x-tab-default-left-mc {
-    background-repeat: repeat-x;
-    background-image: url(images/tab/tab-default-left-focus-active-fbg.gif);
-}
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2961 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab.x-tab-disabled .x-tab-default-left-tl,
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab.x-tab-disabled .x-tab-default-left-bl,
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab.x-tab-disabled .x-tab-default-left-tr,
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab.x-tab-disabled .x-tab-default-left-br,
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab.x-tab-disabled .x-tab-default-left-tc,
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab.x-tab-disabled .x-tab-default-left-bc {
-    background-image: url(images/tab/tab-default-left-disabled-corners.gif);
-}
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2970 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab.x-tab-disabled .x-tab-default-left-ml,
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab.x-tab-disabled .x-tab-default-left-mr {
-    background-image: url(images/tab/tab-default-left-disabled-sides.gif);
 }
