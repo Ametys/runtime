@@ -33,10 +33,20 @@
             <param name="new-link" location="${ametys-work-dir}/ext"/>
             <param name="original-dir" location="${ametys-root-dir}/bootstrap/4/deliver/doc/jsdoc/exts/ext-6.0.1"/>
         </antcall>
+        <!-- link core dir -->
+        <antcall target="create-link">
+            <param name="new-link" location="${ametys-work-dir}/ametys/plugins/core/resources/"/>
+            <param name="original-dir" location="${ametys-runtime-dir}/main/plugin-core/resources"/>
+        </antcall>
         <!-- link core-ui dir -->
         <antcall target="create-link">
             <param name="new-link" location="${ametys-work-dir}/ametys/plugins/core-ui/resources/"/>
             <param name="original-dir" location="${ametys-runtime-dir}/main/plugin-core-ui/resources"/>
+        </antcall>
+        <!-- link admin dir -->
+        <antcall target="create-link">
+            <param name="new-link" location="${ametys-work-dir}/ametys/plugins/admin/resources/"/>
+            <param name="original-dir" location="${ametys-runtime-dir}/main/plugin-admin/resources"/>
         </antcall>
         <!-- link test data dir -->
         <antcall target="create-link">
