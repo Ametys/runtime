@@ -27,12 +27,33 @@
                 $ui: 'default',
                 
                 $ui-border-color: $active-color,
-                $ui-header-color: $active-color-dark,
+                $ui-header-color: lighten($active-color-light, 30%),
                 $ui-header-border-color: $active-color,
-                $ui-header-background-color: $active-color-light,
+                $ui-header-background-color: $active-color,
                 $ui-body-border-color: $active-color,
-                $ui-body-background-color: mix($active-color-light, #FFFFFF, 30%)
-            )
+                $ui-body-background-color: lighten($active-color-light, 30%)
+            );
+            
+            @include extjs-panel-ui(
+                $ui: 'default-framed',
+        
+                $ui-border-color: $active-color,
+                $ui-header-color: lighten($active-color-light, 30%),
+                $ui-header-border-color: $active-color,
+                $ui-header-background-color: $active-color,
+                $ui-body-border-color: $active-color,
+                $ui-body-background-color: lighten($active-color-light, 30%),
+
+                $ui-border-width: $panel-frame-border-width,
+                $ui-border-radius: $panel-frame-border-radius,
+                $ui-padding: $panel-frame-padding,
+        
+                $ui-header-border-width: $panel-frame-header-border-width,
+                $ui-header-inner-border-width: $panel-frame-header-inner-border-width,
+                $ui-header-padding: $panel-frame-header-padding,
+        
+                $ui-body-border-width: $panel-frame-body-border-width
+            );            
         }
     }        
 }

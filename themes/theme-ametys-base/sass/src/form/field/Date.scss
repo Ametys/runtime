@@ -1,0 +1,26 @@
+.a-tool-layout-zoned-focused
+{   
+    @for $i from 1 through length($ametys-tool-tab-colors) {
+        $index: $i - 1;
+    
+        $active-color-dark: nth($ametys-tool-tab-colors-dark, $i);
+        $active-color: nth($ametys-tool-tab-colors, $i);
+        $active-color-light: nth($ametys-tool-tab-colors-light, $i);
+        
+        &.a-tool-layout-zoned-panel-#{$index*10} {
+            .#{$prefix}form-date-trigger {
+                @if $enable-font-icons and ($form-date-trigger-glyph != null) {
+                    @include font-icon($form-date-trigger-glyph, $line-height: null);
+                } @else {
+                    background-image: theme-background-image('form/date-trigger');
+            
+                    @if $include-rtl {
+                        &.#{$prefix}rtl {
+                            background-image: theme-background-image('form/date-trigger-rtl');
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,3 +1,4 @@
+
 /*
  *  Copyright 2015 Anyware Services
  *
@@ -22,32 +23,14 @@
         $active-color: nth($ametys-tool-tab-colors, $i);
         $active-color-light: nth($ametys-tool-tab-colors-light, $i);
         
-        
         &.a-tool-layout-zoned-panel-#{$index*10} {
-            // Table selected
-            .#{$prefix}grid-item-selected {
-                background-color: mix($active-color-light, $active-color, 50%);
-            }
-            
-            .#{$prefix}grid-with-row-lines {
-                .#{$prefix}grid-item.#{$prefix}grid-item-selected {
-                    border-color: $active-color;
-                }
-            
-                .#{$prefix}grid-item-selected + .#{$prefix}grid-item {
-                    border-top-color: $active-color;
-                }            
-            }
-            
-            .#{$prefix}grid-item-focused {
-                .#{$prefix}grid-cell-inner:before {
-                    border-color: $active-color-dark;
-                }   
-            }         
-                        
-            .#{$prefix}grid-item-over {
-                background-color: $active-color-light;
-            }
+            @include extjs-tag-field-ui(
+                $ui: 'default',
+                
+                $ui-item-selected-color: lighten($active-color-light, 30%),
+                $ui-item-selected-background-color: $active-color,
+                $ui-item-selected-border-color: $active-color-dark
+            );
         }
     }
 }

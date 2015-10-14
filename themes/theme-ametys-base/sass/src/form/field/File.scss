@@ -15,38 +15,24 @@
  */
  
 .a-tool-layout-zoned-focused {
-    @for $i from 1 through length($ametys-tool-tab-colors) {
+    @for $i from 2 through length($ametys-tool-tab-colors) {
         $index: $i - 1;
     
         $active-color-dark: nth($ametys-tool-tab-colors-dark, $i);
         $active-color: nth($ametys-tool-tab-colors, $i);
         $active-color-light: nth($ametys-tool-tab-colors-light, $i);
         
-        
         &.a-tool-layout-zoned-panel-#{$index*10} {
-            // Table selected
-            .#{$prefix}grid-item-selected {
-                background-color: mix($active-color-light, $active-color, 50%);
+            // in neptune we move the border for trigger fields from the input element to the trigger wrap
+            // File fields need to have the border moved back to the input element
+            .#{$prefix}form-file-wrap .#{$prefix}form-trigger-wrap {
+                border: 0;
             }
             
-            .#{$prefix}grid-with-row-lines {
-                .#{$prefix}grid-item.#{$prefix}grid-item-selected {
-                    border-color: $active-color;
-                }
-            
-                .#{$prefix}grid-item-selected + .#{$prefix}grid-item {
-                    border-top-color: $active-color;
-                }            
-            }
-            
-            .#{$prefix}grid-item-focused {
-                .#{$prefix}grid-cell-inner:before {
-                    border-color: $active-color-dark;
-                }   
-            }         
-                        
-            .#{$prefix}grid-item-over {
-                background-color: $active-color-light;
+            .#{$prefix}form-file-wrap .#{$prefix}form-trigger-wrap .#{$prefix}form-text {
+                border: $form-field-border-width solid;
+                border-color: $form-field-border-color;
+                height: $form-field-height;
             }
         }
     }

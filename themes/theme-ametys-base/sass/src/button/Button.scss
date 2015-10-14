@@ -22,33 +22,66 @@
         $active-color: nth($ametys-tool-tab-colors, $i);
         $active-color-light: nth($ametys-tool-tab-colors-light, $i);
         
+        $color: lighten($active-color-light, 30%);
+        $color-over: lighten($active-color-light, 30%);
+        $color-focus: lighten($active-color-light, 30%);
+        $color-pressed: lighten($active-color-light, 30%);
+        $color-focus-over: lighten($active-color-light, 30%);
+        $color-focus-pressed: lighten($active-color-light, 30%);
+        $color-disabled: lighten($active-color-light, 30%);
+ 
+        $border-color: $active-color-dark;
+        $border-color-over: $active-color-dark;
+        $border-color-focus: $active-color-dark;
+        $border-color-pressed: $active-color-dark;
+        $border-color-focus-over: $active-color-dark;
+        $border-color-focus-pressed: $active-color-dark;
+        $border-color-disabled: lighten($active-color-dark, 30%);
+        
+        $background-color: $active-color;
+        $background-color-over: mix($active-color, $active-color-dark, 50%);
+        $background-color-focus: $active-color;
+        $background-color-pressed: $active-color-dark;
+        $background-color-focus-over: mix($active-color, $active-color-dark, 50%);
+        $background-color-focus-pressed: $active-color-dark;
+        $background-color-disabled: lighten($active-color-dark, 30%);
+    
         &.a-tool-layout-zoned-panel-#{$index*10} {
             @include extjs-button-small-ui(
+                $ui: 'default', $color: $color, $color-over: $color-over, $color-focus: $color-focus, 
+                $color-pressed: $color-pressed, $color-focus-over: $color-focus-over, $color-focus-pressed: $color-focus-pressed, $color-disabled: $color-disabled, 
+                $border-color: $border-color, $border-color-over: $border-color-over, $border-color-focus: $border-color-focus, $border-color-pressed: $border-color-pressed, $border-color-focus-over: $border-color-focus-over, $border-color-focus-pressed: $border-color-focus-pressed, $border-color-disabled: $border-color-disabled,
+                $background-color: $background-color, $background-color-over: $background-color-over, $background-color-focus: $background-color-focus, $background-color-pressed: $background-color-pressed, $background-color-focus-over: $background-color-focus-over, $background-color-focus-pressed: $background-color-focus-pressed, $background-color-disabled: $background-color-disabled
+            );
+            @include extjs-button-medium-ui(
                 $ui: 'default',
-                
-                $color: #FFFFFF,
-                $color-over: #FFFFFF,
-                $color-focus: #FFFFFF,
-                $color-pressed: #FFFFFF,
-                $color-focus-over: #FFFFFF,
-                $color-focus-pressed: #FFFFFF,
-                $color-disabled: #FFFFFF,
-                
-                $border-color: $active-color-dark,
-                $border-color-over: $active-color-dark,
-                $border-color-focus: $active-color-dark,
-                $border-color-pressed: $active-color-dark,
-                $border-color-focus-over: $active-color-dark,
-                $border-color-focus-pressed: $active-color-dark,
-                $border-color-disabled: lighten($active-color-dark, 30%),
-                
-                $background-color: $active-color,
-                $background-color-over: mix($active-color, $active-color-dark, 50%),
-                $background-color-focus: $active-color,
-                $background-color-pressed: $active-color-dark,
-                $background-color-focus-over: mix($active-color, $active-color-dark, 50%),
-                $background-color-focus-pressed: $active-color-dark,
-                $background-color-disabled: lighten($active-color-dark, 30%)
+                $color: $color, $color-over: $color-over, $color-focus: $color-focus, $color-pressed: $color-pressed, $color-focus-over: $color-focus-over, $color-focus-pressed: $color-focus-pressed, $color-disabled: $color-disabled,
+                $border-color: $border-color, $border-color-over: $border-color-over, $border-color-focus: $border-color-focus, $border-color-pressed: $border-color-pressed, $border-color-focus-over: $border-color-focus-over, $border-color-focus-pressed: $border-color-focus-pressed, $border-color-disabled: $border-color-disabled,
+                $background-color: $background-color, $background-color-over: $background-color-over, $background-color-focus: $background-color-focus, $background-color-pressed: $background-color-pressed, $background-color-focus-over: $background-color-focus-over, $background-color-focus-pressed: $background-color-focus-pressed, $background-color-disabled: $background-color-disabled
+            );
+            @include extjs-button-large-ui(
+                $ui: 'default',
+                $color: $color, $color-over: $color-over, $color-focus: $color-focus, $color-pressed: $color-pressed, $color-focus-over: $color-focus-over, $color-focus-pressed: $color-focus-pressed, $color-disabled: $color-disabled,
+                $border-color: $border-color, $border-color-over: $border-color-over, $border-color-focus: $border-color-focus, $border-color-pressed: $border-color-pressed, $border-color-focus-over: $border-color-focus-over, $border-color-focus-pressed: $border-color-focus-pressed, $border-color-disabled: $border-color-disabled,
+                $background-color: $background-color, $background-color-over: $background-color-over, $background-color-focus: $background-color-focus, $background-color-pressed: $background-color-pressed, $background-color-focus-over: $background-color-focus-over, $background-color-focus-pressed: $background-color-focus-pressed, $background-color-disabled: $background-color-disabled
+            );
+            @include extjs-button-toolbar-small-ui(
+                $ui: 'default', $color: $color, $color-over: $color-over, $color-focus: $color-focus, 
+                $color-pressed: $color-pressed, $color-focus-over: $color-focus-over, $color-focus-pressed: $color-focus-pressed, $color-disabled: $color-disabled, 
+                $border-color: $border-color, $border-color-over: $border-color-over, $border-color-focus: $border-color-focus, $border-color-pressed: $border-color-pressed, $border-color-focus-over: $border-color-focus-over, $border-color-focus-pressed: $border-color-focus-pressed, $border-color-disabled: $border-color-disabled,
+                $background-color: $background-color, $background-color-over: $background-color-over, $background-color-focus: $background-color-focus, $background-color-pressed: $background-color-pressed, $background-color-focus-over: $background-color-focus-over, $background-color-focus-pressed: $background-color-focus-pressed, $background-color-disabled: $background-color-disabled
+            );
+            @include extjs-button-toolbar-medium-ui(
+                $ui: 'default',
+                $color: $color, $color-over: $color-over, $color-focus: $color-focus, $color-pressed: $color-pressed, $color-focus-over: $color-focus-over, $color-focus-pressed: $color-focus-pressed, $color-disabled: $color-disabled,
+                $border-color: $border-color, $border-color-over: $border-color-over, $border-color-focus: $border-color-focus, $border-color-pressed: $border-color-pressed, $border-color-focus-over: $border-color-focus-over, $border-color-focus-pressed: $border-color-focus-pressed, $border-color-disabled: $border-color-disabled,
+                $background-color: $background-color, $background-color-over: $background-color-over, $background-color-focus: $background-color-focus, $background-color-pressed: $background-color-pressed, $background-color-focus-over: $background-color-focus-over, $background-color-focus-pressed: $background-color-focus-pressed, $background-color-disabled: $background-color-disabled
+            );
+            @include extjs-button-toolbar-large-ui(
+                $ui: 'default',
+                $color: $color, $color-over: $color-over, $color-focus: $color-focus, $color-pressed: $color-pressed, $color-focus-over: $color-focus-over, $color-focus-pressed: $color-focus-pressed, $color-disabled: $color-disabled,
+                $border-color: $border-color, $border-color-over: $border-color-over, $border-color-focus: $border-color-focus, $border-color-pressed: $border-color-pressed, $border-color-focus-over: $border-color-focus-over, $border-color-focus-pressed: $border-color-focus-pressed, $border-color-disabled: $border-color-disabled,
+                $background-color: $background-color, $background-color-over: $background-color-over, $background-color-focus: $background-color-focus, $background-color-pressed: $background-color-pressed, $background-color-focus-over: $background-color-focus-over, $background-color-focus-pressed: $background-color-focus-pressed, $background-color-disabled: $background-color-disabled
             );
         }
     }
