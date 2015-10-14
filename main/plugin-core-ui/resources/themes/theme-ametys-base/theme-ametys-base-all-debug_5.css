@@ -1,3 +1,31 @@
+/* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/frame.scss:453 */
+.x-btn-ribbon-component-small-ml,
+.x-btn-ribbon-component-small-mr {
+    background-image: url(images/btn/btn-ribbon-component-small-sides.gif);
+    background-repeat: repeat-y;
+}
+/* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/frame.scss:464 */
+.x-btn-ribbon-component-small-mc {
+    padding: 1px 1px 1px 1px;
+}
+/* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/slicer.scss:83 */
+.x-cmd-slicer.x-btn-ribbon-component-small:before {
+    display: none;
+    content: "x-slicer:, frame:0 0 0 0, corners:url(images/btn/btn-ribbon-component-small-corners.gif), sides:url(images/btn/btn-ribbon-component-small-sides.gif), frame:0 0 0 0, corners:url(images/btn/btn-ribbon-component-small-corners.gif), sides:url(images/btn/btn-ribbon-component-small-sides.gif)" !important;
+}
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/button/Button.scss:445 */
+.x-btn-ribbon-component-small {
+    border-color: #a9a9a9;
+}
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/button/Button.scss:452 */
+.x-btn-button-ribbon-component-small {
+    min-height: 16px;
+}
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/button/Button.scss:457 */
+.x-ie9m .x-btn-button-ribbon-component-small {
+    min-height: auto;
+    height: 16px;
+}
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/button/Button.scss:464 */
 .x-btn-inner-ribbon-component-small {
     font: normal 12px/16px helvetica, arial, verdana, sans-serif;
@@ -7023,6 +7051,34 @@
 /* http://localhost:1842/packages/local/theme-ametys-base/sass/src/window/ErrorDialog.scss:29 */
 .x-panel.error-dialog-details * {
     white-space: nowrap;
+    font-family: Courier;
+}
+/* http://localhost:1842/packages/local/theme-ametys-base/sass/src/window/TimeoutDialog.scss:17 */
+.x-panel.timeout-dialog-text {
+    /*
+ *  Copyright 2015 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+    color: #000;
+    padding: 6px;
+}
+/* http://localhost:1842/packages/local/theme-ametys-base/sass/src/window/TimeoutDialog.scss:22 */
+.x-panel.timeout-dialog-details {
+    color: #4d4d4d;
+    padding: 6px;
+    border-top-style: solid;
+    border-top-width: 1px;
 }
 /* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/frame.scss:187 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-btn-default-small {
@@ -15004,25 +15060,4 @@
 /* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/frame.scss:403 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-bc {
     height: 1px;
-}
-/* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/frame.scss:407 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-tl,
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-bl,
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-tr,
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-br,
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-tc,
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-bc,
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-ml,
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-mr {
-    background-image: url(images/tab/tab-default-right-corners.gif);
-}
-/* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/frame.scss:453 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-ml,
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-mr {
-    background-image: url(images/tab/tab-default-right-sides.gif);
-    background-repeat: repeat-y;
-}
-/* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/frame.scss:464 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-mc {
-    padding: 7px 12px 6px 12px;
 }

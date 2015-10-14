@@ -1,3 +1,24 @@
+/* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/frame.scss:407 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-tl,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-bl,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-tr,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-br,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-tc,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-bc,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-ml,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-mr {
+    background-image: url(images/tab/tab-default-right-corners.gif);
+}
+/* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/frame.scss:453 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-ml,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-mr {
+    background-image: url(images/tab/tab-default-right-sides.gif);
+    background-repeat: repeat-y;
+}
+/* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/frame.scss:464 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-mc {
+    padding: 7px 12px 6px 12px;
+}
 /* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/slicer.scss:83 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-cmd-slicer.x-tab-default-right:before {
     display: none;

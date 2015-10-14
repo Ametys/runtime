@@ -5907,6 +5907,34 @@
 /* http://localhost:1842/packages/local/theme-ametys-base/sass/src/window/ErrorDialog.scss:29 */
 .x-panel.error-dialog-details * {
     white-space: nowrap;
+    font-family: Courier;
+}
+/* http://localhost:1842/packages/local/theme-ametys-base/sass/src/window/TimeoutDialog.scss:17 */
+.x-panel.timeout-dialog-text {
+    /*
+ *  Copyright 2015 Anyware Services
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+    color: #000;
+    padding: 6px;
+}
+/* http://localhost:1842/packages/local/theme-ametys-base/sass/src/window/TimeoutDialog.scss:22 */
+.x-panel.timeout-dialog-details {
+    color: #4d4d4d;
+    padding: 6px;
+    border-top-style: solid;
+    border-top-width: 1px;
 }
 /* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/frame.scss:187 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-btn-default-small {
@@ -15244,14 +15272,4 @@
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab.x-tab-active .x-tab-default-left-tc,
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab.x-tab-active .x-tab-default-left-bc {
     background-image: url(images/tab/tab-default-left-active-corners.gif);
-}
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2970 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab.x-tab-active .x-tab-default-left-ml,
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab.x-tab-active .x-tab-default-left-mr {
-    background-image: url(images/tab/tab-default-left-active-sides.gif);
-}
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2975 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab.x-tab-active .x-tab-default-left-mc {
-    background-repeat: repeat-x;
-    background-image: url(images/tab/tab-default-left-active-fbg.gif);
 }

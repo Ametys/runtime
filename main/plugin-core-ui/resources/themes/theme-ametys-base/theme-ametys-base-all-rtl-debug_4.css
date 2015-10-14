@@ -1,3 +1,13 @@
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2970 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab.x-tab-active .x-tab-default-left-ml,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab.x-tab-active .x-tab-default-left-mr {
+    background-image: url(images/tab/tab-default-left-active-sides.gif);
+}
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2975 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab.x-tab-active .x-tab-default-left-mc {
+    background-repeat: repeat-x;
+    background-image: url(images/tab/tab-default-left-active-fbg.gif);
+}
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2961 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-focus.x-tab-active .x-tab-default-left-tl,
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-focus.x-tab-active .x-tab-default-left-bl,
@@ -14253,15 +14263,4 @@
 /* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/frame.scss:403 */
 .x-window-ribbon-toast-bc {
     height: 1px;
-}
-/* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/frame.scss:407 */
-.x-window-ribbon-toast-tl,
-.x-window-ribbon-toast-bl,
-.x-window-ribbon-toast-tr,
-.x-window-ribbon-toast-br,
-.x-window-ribbon-toast-tc,
-.x-window-ribbon-toast-bc,
-.x-window-ribbon-toast-ml,
-.x-window-ribbon-toast-mr {
-    background-image: url(images/window/window-ribbon-toast-corners.gif);
 }
