@@ -180,28 +180,49 @@ var tools3Items = [
         y: 330,
         width: 280,
         items: [
-        {
-            xtype: 'checkboxfield',
-            fieldLabel: 'Checkbox',
-            checked: true
-        },
-        {
-            xtype: 'datefield',
-            fieldLabel: 'Date Field'
-        },
-        {
-            xtype: 'filefield',
-            fieldLabel: 'File Upload'
-        },
-        {
-            xtype: 'combobox',
-            fieldLabel: 'ComboBox',
-            store: [
-                'icecream',
-                'chocolate',
-                'popcorn'
-            ]
-        }]
+            {
+                xtype: 'checkboxfield',
+                fieldLabel: 'Checkbox',
+                checked: true
+            },
+            {
+                xtype: 'datefield',
+                fieldLabel: 'Date Field'
+            },
+            {
+                xtype: 'filefield',
+                fieldLabel: 'File Upload'
+            },
+            {
+                xtype: 'combobox',
+                fieldLabel: 'ComboBox',
+                store: [
+                    'icecream',
+                    'chocolate',
+                    'popcorn'
+                ]
+            },
+            {
+                xtype: 'tagfield',
+                fieldLabel: 'Select a Show',
+                store: Ext.create('Ext.data.Store', {
+                      fields: ['id','show'],
+                      data: [
+                          {id: 0, show: 'Battlestar Galactica'},
+                          {id: 1, show: 'Doctor Who'},
+                          {id: 2, show: 'Farscape'},
+                          {id: 3, show: 'Firefly'},
+                          {id: 4, show: 'Star Trek'},
+                          {id: 5, show: 'Star Wars: Christmas Special'}
+                      ]
+                   }),
+                displayField: 'show',
+                valueField: 'id',
+                queryMode: 'local',
+                value: [0, 1],
+                filterPickList: true
+            }
+        ]
     },
 
     {
@@ -395,6 +416,13 @@ var tools3Items = [
         y: 390,
         width: 200,
         value: 0.4
+    },
+    {
+        xtype: 'progressbar',
+        x: 570,
+        y: 415,
+        width: 200,
+        value: 0.6
     },
     {
         xtype: 'toolbar',
