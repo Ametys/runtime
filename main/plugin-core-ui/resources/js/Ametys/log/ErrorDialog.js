@@ -146,13 +146,13 @@ Ext.define(
 				defaultButton: okId,
 				buttons : [
 				    {
-				    	text :"<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_ERRORDIALOG_OK'/>",
+				    	text :"<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_ERRORDIALOG_OK'>Ok</i18n:text>",
 				    	id: okId,
 				    	handler : Ametys.log.ErrorDialog._okMessage
 				    },
 				    new Ext.SplitButton({
 				    	// A bug of extjs imply to set space character. If not the menu zone is too big.
-				    	text :"&#160;&#160;&#160;&#160;&#160;" + "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_ERRORDIALOG_SPLITBUTTON_OK'/>" + "&#160;&#160;&#160;&#160;&#160;",
+				    	text :"&#160;&#160;&#160;&#160;&#160;" + "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_ERRORDIALOG_SPLITBUTTON_OK'>Ok</i18n:text>" + "&#160;&#160;&#160;&#160;&#160;",
 				    	menu: 
 				    	{
 				    		items: 
