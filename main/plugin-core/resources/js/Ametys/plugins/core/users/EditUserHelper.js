@@ -123,7 +123,8 @@ Ext.define('Ametys.plugins.core.users.EditUserHelper', {
 				title: this._mode == 'new' ? "<i18n:text i18n:key='PLUGINS_CORE_USERS_DIALOG_ADD_TITLE' i18n:catalogue='plugin.core'/>" : "<i18n:text i18n:key='PLUGINS_CORE_USERS_DIALOG_EDIT_TITLE' i18n:catalogue='plugin.core'/>",
 				icon: Ametys.getPluginResourcesPrefix('core') + '/img/users/' + (this._mode == 'new' ? 'add_16.png' : 'modify_16.png'),
 				
-				width: 450,
+				layout: 'fit',
+				width: 500,
 				maxHeight: 500,
 				
 				items: [ this._form ],
