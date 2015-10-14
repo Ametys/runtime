@@ -154,7 +154,7 @@ function openTool4()
                                                 items: [{
                                                             xtype: 'component',
                                                             cls: 'a-text',
-                                                            html: "Ceci est une boite de dialogue avec un texte d'introduction un petit peu long, qui peut même nécessiter plusieurs lignes."
+                                                            html: "Ceci est une boite de dialogue avec un texte d'introduction un petit peu long, qui peut même nécessiter plusieurs lignes et qui <a href='#'>contient un lien</a>"
                                                         }, 
                                                         {
                                                             xtype: 'textfield',
