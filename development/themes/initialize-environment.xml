@@ -53,7 +53,7 @@
 
         <echo>Adding special files</echo>        
         <!-- get favico to avoid 404 -->
-        <copy file="${ametys-runtime-dir}/main/kernel/resources/favicon.ico" tofile="${ametys-work-dir}/favicon.ico"/>
+        <copy file="${ametys-runtime-dir}/main/kernel/src/org/ametys/runtime/servlet/favicon.ico" tofile="${ametys-work-dir}/favicon.ico"/>
         <!-- generating index.html page -->
         <echo file="${ametys-work-dir}/index.html">&lt;html&gt;&lt;head&gt;&lt;meta http-equiv="refresh" content="0; url=/ametys/test/index.html"&gt;&lt;/head&gt;&lt;/html&gt;</echo>
     </target>
