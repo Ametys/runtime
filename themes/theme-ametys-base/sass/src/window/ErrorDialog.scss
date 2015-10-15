@@ -14,19 +14,26 @@
  *  limitations under the License.
  */
  
-.#{$prefix}panel.error-dialog-text {
+.error-dialog-text .#{$prefix}panel-body {
 	color: $ametys-error-dialog-text-color;
 	padding: $ametys-error-dialog-text-padding;
 }
 
-.#{$prefix}panel.error-dialog-details {
-	color: $ametys-error-dialog-details-color;
-	padding: $ametys-error-dialog-details-padding;
+.error-dialog-details {
 	border-top-style: solid;
 	border-top-width: 1px;
 }
 
-.#{$prefix}panel.error-dialog-details * {
+.error-dialog-details .#{$prefix}panel-body {
+	color: $ametys-error-dialog-details-color;
+	padding: $ametys-error-dialog-details-padding;
+}
+
+.error-dialog-details .#{$prefix}panel-body * {
 	white-space: nowrap;
 	font-family: Courier;
+}
+
+.#{$prefix}title-icon.error-dialog-icon {
+	background-image: theme-background-image($ametys-error-dialog-icon);
 }

@@ -13,12 +13,5 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
- 
-$ametys-error-dialog-text-color: dynamic($color);
-$ametys-error-dialog-text-padding: dynamic($font-size/2);
 
-$ametys-error-dialog-details-color: lighten($color, 30%);
-$ametys-error-dialog-details-padding: dynamic($font-size/2);
-
-$ametys-error-dialog-icon: dynamic('shared/icon-small-error');;
 
