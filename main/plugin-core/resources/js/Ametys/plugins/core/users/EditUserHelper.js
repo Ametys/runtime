@@ -244,14 +244,13 @@ Ext.define('Ametys.plugins.core.users.EditUserHelper', {
 	/**
 	 * @private
 	 * Callback function invoked after group creation/edition process is over.
-	 * @param {Object} group the added/edited group or the errors
+	 * @param {Object} user the added/edited user or the errors
 	 * @param {Object} args the callback arguments
 	 */
-	_editUserCb: function (group, args)
+	_editUserCb: function (user, args)
 	{
-		if (group.error == 'unknown-group')
+		if (user.errors)
 		{
-			Ametys.message
 			var errors = user.errors;
 			Ext.Array.forEach(errors, function(error) {
 				var fd = this._form.findField(error);
