@@ -2137,10 +2137,14 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                     }
                     
                     var enumeration = [];
-                    var entries = Ext.dom.Query.select("> enumeration > *", nodes[i]);
-                    for (var j=0; j < entries.length; j++)
+                    var enumerationValues = Ext.dom.Query.selectNode("enumeration", nodes[i]);
+                    if (enumerationValues != undefined)
                     {
-                        enumeration.push([entries[j].getAttribute("value"), Ext.dom.Query.selectValue("", entries[j])]);
+                        var entries = Ext.dom.Query.selectDirectElements("*", enumerationValues);
+                        for (var j=0; j < entries.length; j++)
+                        {
+                            enumeration.push([entries[j].getAttribute("value"), Ext.dom.Query.selectValue("", entries[j])]);
+                        }
                     }
                     
                     if (enumeration.length > 0)
@@ -2442,10 +2446,14 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
     {
         this._initializeTabsStatus();
         
-        var metadataNodes = Ext.dom.Query.select(valuesTagName + "/*", xml);
-        for (var i=0; i < metadataNodes.length; i++)
+        var valuesNode = Ext.dom.Query.select(valuesTagName, xml);
+        if (valuesNode != undefined)
         {
-            this._setValuesXMLMetadata(metadataNodes[i], this.getFieldNamePrefix() + metadataNodes[i].tagName);
+            var metadataNodes = Ext.dom.Query.selectDirectElements("*", valuesNode);
+            for (var i=0; i < metadataNodes.length; i++)
+            {
+                this._setValuesXMLMetadata(metadataNodes[i], this.getFieldNamePrefix() + metadataNodes[i].tagName);
+            }
         }
         
         this._setValuesXMLComments(Ext.dom.Query.selectNode(commentsTagName, xml));
@@ -2666,7 +2674,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
         var values = [];
         
         // We get children with the same name of the same parent to have all tags with the same name for multiple values.
-        var nodes = Ext.dom.Query.select("> *", metadataNode.parentNode); // We cannot make a better selector because of possible "." in the tagName.
+        var nodes = Ext.dom.Query.selectDirectElements("*", metadataNode.parentNode); // We cannot make a better selector because of possible "." in the tagName.
         for (var i=0; i < nodes.length; i++)
         {
             if (nodes[i].tagName == metadataNode.tagName)
