@@ -31,7 +31,21 @@ var tools3Items = [
     },
     {
         xtype: 'panel',
-        x: 170,
+        x: 175,
+        y: 10,
+        height: 150,
+        maxWidth: 150,
+        ui: 'light',
+        title: 'Regular Light Panel',
+        tools: [
+            {
+                xtype: 'tool'
+            }
+        ]
+    },
+    {
+        xtype: 'panel',
+        x: 330,
         maxWidth: 150,
         y: 10,
         frame: true,
@@ -45,7 +59,24 @@ var tools3Items = [
     },
     {
         xtype: 'panel',
-        x: 330,
+        x: 490,
+        y: 10,
+        frame: true,
+        height: 150,
+        width: 150,
+        collapsible: true,
+        titleCollapse: true,
+        ui: 'light',
+        title: 'Framed Light Panel',
+        tools: [
+            {
+                xtype: 'tool'
+            }
+        ]
+    },
+    {
+        xtype: 'panel',
+        x: 700,
         y: 10,
         height: 150,
         width: 150,
@@ -56,7 +87,7 @@ var tools3Items = [
 
     {
         xtype: 'tabpanel',
-        x: 490,
+        x: 910,
         y: 10,
         height: 150,
         width: 200,
@@ -85,7 +116,7 @@ var tools3Items = [
     {
         xtype: 'tabpanel',
         ui: 'alternative',
-        x: 700,
+        x: 1120,
         y: 10,
         frame: true,
         height: 150,
@@ -112,7 +143,7 @@ var tools3Items = [
     },
     {
         xtype: 'tabpanel',
-        x: 910,
+        x: 1330,
         y: 10,
         height: 150,
         width: 200,
@@ -137,7 +168,6 @@ var tools3Items = [
             }
         ]
     },
-
     {
         xtype: 'menu',
         x: 10,

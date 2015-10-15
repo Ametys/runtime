@@ -24,17 +24,33 @@ function openTool1()
         mediumIcon: '/test/resources/img/editpaste_32.gif',
         largeIcon: '/test/resources/img/editpaste_48.gif',
         type: Math.round(Math.random() * 6) * 10,
-        html: 'This is tool one<br/>'
-            + '<ul>'
-            +       '<li>Contextual tab 1 <a href="javascript:tabContextual1.showContextualTab()">show</a> <a href="javascript:tabContextual1.hideContextualTab()">hide</a></li>'
-            +       '<li>Contextual tab 2 <a href="javascript:tabContextual2.showContextualTab()">show</a> <a href="javascript:tabContextual2.hideContextualTab()">hide</a></li>'
-            +       '<li>Contextual tab 2bis <a href="javascript:tabContextual2bis.showContextualTab()">show</a> <a href="javascript:tabContextual2bis.hideContextualTab()">hide</a></li>'
-            +       '<li>Contextual tab 3 <a href="javascript:tabContextual3.showContextualTab()">show</a> <a href="javascript:tabContextual3.hideContextualTab()">hide</a></li>'
-            +       '<li>Contextual tab 4 <a href="javascript:tabContextual4.showContextualTab()">show</a> <a href="javascript:tabContextual4.hideContextualTab()">hide</a></li>'
-            +       '<li>Contextual tab 5 <a href="javascript:tabContextual5.showContextualTab()">show</a> <a href="javascript:tabContextual5.hideContextualTab()">hide</a></li>'
-            +       '<li>Contextual tab 6 <a href="javascript:tabContextual6.showContextualTab()">show</a> <a href="javascript:tabContextual6.hideContextualTab()">hide</a></li>'
-            +       '<li>Contextual tab 7 <a href="javascript:tabContextual7.showContextualTab()">show</a> <a href="javascript:tabContextual7.hideContextualTab()">hide</a></li>'
-            + '</ul>',
+        
+        items: {
+        	xtype: 'panel',
+        	title: 'Collapsible light panel',
+        	collapsible: true,
+            titleCollapse: true,
+        	ui: 'light',
+        	header: {
+        		titlePosition: 1
+        	},
+        	tools: [{type: 'refresh'}, {type: 'close'}],
+        	items: {
+        		xtype: 'component',
+        		cls: 'a-text',
+        		html: 'This is tool one<br/>'
+                    + '<ul>'
+                    +       '<li>Contextual tab 1 <a href="javascript:tabContextual1.showContextualTab()">show</a> <a href="javascript:tabContextual1.hideContextualTab()">hide</a></li>'
+                    +       '<li>Contextual tab 2 <a href="javascript:tabContextual2.showContextualTab()">show</a> <a href="javascript:tabContextual2.hideContextualTab()">hide</a></li>'
+                    +       '<li>Contextual tab 2bis <a href="javascript:tabContextual2bis.showContextualTab()">show</a> <a href="javascript:tabContextual2bis.hideContextualTab()">hide</a></li>'
+                    +       '<li>Contextual tab 3 <a href="javascript:tabContextual3.showContextualTab()">show</a> <a href="javascript:tabContextual3.hideContextualTab()">hide</a></li>'
+                    +       '<li>Contextual tab 4 <a href="javascript:tabContextual4.showContextualTab()">show</a> <a href="javascript:tabContextual4.hideContextualTab()">hide</a></li>'
+                    +       '<li>Contextual tab 5 <a href="javascript:tabContextual5.showContextualTab()">show</a> <a href="javascript:tabContextual5.hideContextualTab()">hide</a></li>'
+                    +       '<li>Contextual tab 6 <a href="javascript:tabContextual6.showContextualTab()">show</a> <a href="javascript:tabContextual6.hideContextualTab()">hide</a></li>'
+                    +       '<li>Contextual tab 7 <a href="javascript:tabContextual7.showContextualTab()">show</a> <a href="javascript:tabContextual7.hideContextualTab()">hide</a></li>'
+                    + '</ul>',
+        	}
+        },
         closable: true
     });
 
