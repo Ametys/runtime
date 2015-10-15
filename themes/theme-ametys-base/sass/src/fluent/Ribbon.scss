@@ -26,6 +26,7 @@
     $ui-header-font-weight: $ametys-ribbon-header-font-weight,
     $ui-header-line-height: $ametys-ribbon-header-height - 2*$ametys-ribbon-header-border-height,
     $ui-header-padding: 0 right($panel-header-padding) 0 left($panel-header-padding),
+    $ui-header-text-padding: $ametys-ribbon-header-border-height 0, 
     $ui-header-border-width: 0
 );
 .a-fluent-header-title-extension
