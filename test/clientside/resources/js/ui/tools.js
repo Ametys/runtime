@@ -218,7 +218,7 @@ function openTool4()
                 handler: function() {
                 	 Ametys.log.ErrorDialog.display({
                 	    title: "Titre de l'erreur",
-                	    text: "Ceci est le texte de l'erreur",
+                	    text: "Ceci est le texte de l'erreur<br/>Il peut très très long long long long long long long long long long long long long long long long long<br/>et sur plusieurs lignes ?",
             	        details: "Ceci est la stacktrace de l'erreur...\n\ligne 1 longue longue longue longue longue longue longue longue longue longue\nligne 2 un moins longue longue longue\nligne 3\nligne 3\nligne 3\nligne 3\nligne 3\nligne 3\nligne 3\nligne 3\nligne 3\nligne 3",
             	        category: 'Ametys.my.Component' 
                 	 });
