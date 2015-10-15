@@ -1,0 +1,894 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<response id="2" code="200">
+  <config>
+    <configuration>
+      <fieldsets role="tabs">
+        <label>Base de données</label>
+        <elements>
+          <fieldsets role="fieldset">
+            <label>Connexion à la base de données noyau</label>
+            <param-checker>
+              <id>sql-connection-checker-kernel</id>
+              <small-icon-path>/plugins/core-impl/resources/img/config/check/test_sqlconnect_16.png</small-icon-path>
+              <medium-icon-path>/plugins/core-impl/resources/img/config/check/test_sqlconnect_32.png</medium-icon-path>
+              <large-icon-path>/plugins/core-impl/resources/img/config/check/test_sqlconnect_48.png</large-icon-path>
+              <linked-params>
+                                [
+                    "runtime.datasource.core.jdbc.user",
+                    "runtime.datasource.core.jdbc.passwd",
+                    "runtime.datasource.core.jdbc.url",
+                    "runtime.datasource.core.jdbc.driver"
+                ]
+
+</linked-params>
+              <category>Base de données</category>
+              <group>Connexion à la base de données noyau</group>
+              <label>Connexion à la base noyau</label>
+              <description>Ce test vérifie que les informations rentrées permettent bien d'établir une connexion avec la base de données noyau</description>
+              <order>                1</order>
+            </param-checker>
+            <elements>
+              <runtime.datasource.core.jdbc.driver>
+                <label>Pilote</label>
+                <description>Nom complet de la classe driver JDBC à charger</description>
+                <type>string</type>
+                <default-value>com.mysql.jdbc.Driver</default-value>
+                <validation>
+                  <mandatory>                    true</mandatory>
+                </validation>
+              </runtime.datasource.core.jdbc.driver>
+              <runtime.datasource.core.jdbc.url>
+                <label>Url</label>
+                <description>Url JDBC de connexion au serveur de base de données</description>
+                <type>string</type>
+                <default-value>jdbc:mysql://servername/basename</default-value>
+                <validation>
+                  <mandatory>                    true</mandatory>
+                </validation>
+              </runtime.datasource.core.jdbc.url>
+              <runtime.datasource.core.jdbc.user>
+                <label>Utilisateur</label>
+                <description>Nom d'utilisateur à utiliser lors de la connexion au serveur de base de données</description>
+                <type>string</type>
+                <default-value>username</default-value>
+              </runtime.datasource.core.jdbc.user>
+              <runtime.datasource.core.jdbc.passwd>
+                <label>Mot de passe</label>
+                <description>Mot de passe associé au nom d'utilisateur à utiliser lors de la connexion au serveur de base de données</description>
+                <type>password</type>
+              </runtime.datasource.core.jdbc.passwd>
+            </elements>
+          </fieldsets>
+          <fieldsets role="fieldset">
+            <label>Connexion à la base de données de monitoring</label>
+            <param-checker>
+              <id>cache.monitoring.datasource.jdbc.checker</id>
+              <small-icon-path>/plugins/core-impl/resources/img/config/check/test_sqlconnect_16.png</small-icon-path>
+              <medium-icon-path>/plugins/core-impl/resources/img/config/check/test_sqlconnect_32.png</medium-icon-path>
+              <large-icon-path>/plugins/core-impl/resources/img/config/check/test_sqlconnect_48.png</large-icon-path>
+              <linked-params>
+                                [
+                    "cache.monitoring.datasource.jdbc.passwd",
+                    "cache.monitoring.datasource.jdbc.user",
+                    "cache.monitoring.datasource.jdbc.driver",
+                    "cache.monitoring.datasource.jdbc.url"
+                ]
+
+</linked-params>
+              <category>Base de données</category>
+              <group>Connexion à la base de données de monitoring</group>
+              <label>Connexion à la base de données de monitoring</label>
+              <description>Ce test vérifie que les informations saisies permettent bien d'établir une connexion avec la base de données de monitoring</description>
+              <order>                1</order>
+            </param-checker>
+            <elements>
+              <cache.monitoring.datasource.jdbc.driver>
+                <label>Pilote</label>
+                <description>Nom complet de la classe driver JDBC à charger</description>
+                <type>string</type>
+                <default-value>com.mysql.jdbc.Driver</default-value>
+                <validation>
+                  <mandatory>                    true</mandatory>
+                </validation>
+              </cache.monitoring.datasource.jdbc.driver>
+              <cache.monitoring.datasource.jdbc.url>
+                <label>Url</label>
+                <description>Url JDBC de connexion au serveur de base de données</description>
+                <type>string</type>
+                <default-value>jdbc:mysql://servername/basename</default-value>
+                <validation>
+                  <mandatory>                    true</mandatory>
+                </validation>
+              </cache.monitoring.datasource.jdbc.url>
+              <cache.monitoring.datasource.jdbc.user>
+                <label>Utilisateur</label>
+                <description>Nom d'utilisateur à utiliser lors de la connexion au serveur de base de données</description>
+                <type>string</type>
+                <default-value>username</default-value>
+              </cache.monitoring.datasource.jdbc.user>
+              <cache.monitoring.datasource.jdbc.passwd>
+                <label>Mot de passe</label>
+                <description>Mot de passe associé au nom d'utilisateur à utiliser lors de la connexion au serveur de base de données</description>
+                <type>password</type>
+              </cache.monitoring.datasource.jdbc.passwd>
+            </elements>
+          </fieldsets>
+          <fieldsets role="fieldset">
+            <label>Connexion à la base de données du front-office</label>
+            <param-checker>
+              <id>front-office.jdbc.checker</id>
+              <small-icon-path>/plugins/core-impl/resources/img/config/check/test_sqlconnect_16.png</small-icon-path>
+              <medium-icon-path>/plugins/core-impl/resources/img/config/check/test_sqlconnect_32.png</medium-icon-path>
+              <large-icon-path>/plugins/core-impl/resources/img/config/check/test_sqlconnect_48.png</large-icon-path>
+              <linked-params>
+                                [
+                    "front-office.usersManager.jdbc.user",
+                    "front-office.usersManager.jdbc.url",
+                    "front-office.usersManager.jdbc.passwd",
+                    "front-office.usersManager.jdbc.driver"
+                ]
+
+</linked-params>
+              <category>Base de données</category>
+              <group>Connexion à la base de données du front-office</group>
+              <label>Connexion à la base de données du front-office</label>
+              <description>Ce test vérifie que les informations saisies permettent bien d'établir une connexion avec la base de données du front office.</description>
+              <order>                1</order>
+            </param-checker>
+            <elements>
+              <front-office.usersManager.jdbc.driver>
+                <label>Pilote</label>
+                <description>Nom complet de la classe driver JDBC à charger</description>
+                <type>string</type>
+                <default-value>com.mysql.jdbc.Driver</default-value>
+                <validation>
+                  <mandatory>                    true</mandatory>
+                </validation>
+              </front-office.usersManager.jdbc.driver>
+              <front-office.usersManager.jdbc.url>
+                <label>Url</label>
+                <description>Url JDBC de connexion au serveur de base de données</description>
+                <type>string</type>
+                <default-value>jdbc:mysql://servername/basename</default-value>
+                <validation>
+                  <mandatory>                    true</mandatory>
+                </validation>
+              </front-office.usersManager.jdbc.url>
+              <front-office.usersManager.jdbc.user>
+                <label>Utilisateur</label>
+                <description>Nom d'utilisateur à utiliser lors de la connexion au serveur de base de données</description>
+                <type>string</type>
+                <default-value>username</default-value>
+              </front-office.usersManager.jdbc.user>
+              <front-office.usersManager.jdbc.passwd>
+                <label>Mot de passe</label>
+                <description>Mot de passe associé au nom d'utilisateur à utiliser lors de la connexion au serveur de base de données</description>
+                <type>password</type>
+              </front-office.usersManager.jdbc.passwd>
+            </elements>
+          </fieldsets>
+        </elements>
+      </fieldsets>
+      <fieldsets role="tabs">
+        <label>CMS</label>
+        <elements>
+          <fieldsets role="fieldset">
+            <label>Paramètres de l'application CMS</label>
+            <elements>
+              <cms.url>
+                <label>Adresse du back-office</label>
+                <description>Adresse internet de l'application back-office, par exemple http://cms.server.com:8080/cms</description>
+                <type>string</type>
+                <validation>
+                  <mandatory>                    true</mandatory>
+                  <regexp>^https?://.*$</regexp>
+                  <invalidText>L'url est invalide. Elle doit commencée par http:// ou https://</invalidText>
+                </validation>
+              </cms.url>
+            </elements>
+          </fieldsets>
+        </elements>
+      </fieldsets>
+      <fieldsets role="tabs">
+        <label>Envoi de mail</label>
+        <elements>
+          <fieldsets role="fieldset">
+            <label>Paramètres serveur</label>
+            <param-checker>
+              <id>mail-connection-checker</id>
+              <small-icon-path>/plugins/core/resources/img/config/check/test_emailconnect_16.png</small-icon-path>
+              <medium-icon-path>/plugins/core/resources/img/config/check/test_emailconnect_32.png</medium-icon-path>
+              <large-icon-path>/plugins/core/resources/img/config/check/test_emailconnect_48.png</large-icon-path>
+              <linked-params>
+                                [
+                    "smtp.mail.user",
+                    "smtp.mail.host",
+                    "smtp.mail.security.protocol",
+                    "smtp.mail.port",
+                    "smtp.mail.password"
+                ]
+
+</linked-params>
+              <category>Envoi de mail</category>
+              <group>Paramètres serveur</group>
+              <label>Connexion au serveur mail</label>
+              <description>Ce test vérifie que les informations rentrées permettent bien d'établir une connexion avec le serveur d'envoi d'emails</description>
+              <order>                5</order>
+            </param-checker>
+            <elements>
+              <smtp.mail.host>
+                <label>Nom du serveur</label>
+                <description>Nom du serveur SMTP</description>
+                <type>string</type>
+                <validation>
+                  <mandatory>                    true</mandatory>
+                </validation>
+              </smtp.mail.host>
+              <smtp.mail.port>
+                <label>Port</label>
+                <description>Port</description>
+                <type>long</type>
+                <default-value>                    25</default-value>
+              </smtp.mail.port>
+              <smtp.mail.security.protocol>
+                <label>Protocole de sécurité</label>
+                <description>Sélectionnez le protocole de sécurité à utiliser pour l'envoi d'e-mails. &lt;br/&gt;Attention, les ports renseignés ici sont des ports par défaut et il se peut que certains serveurs d'envoi n'utilisent pas les mêmes.</description>
+                <type>string</type>
+                <default-value>none</default-value>
+                <enumeration>
+                  <option value="none">Aucun (Port par défaut : 25)</option>
+                  <option value="starttls">STARTTLS (Port par défaut : 587)</option>
+                  <option value="tlsssl">TLS/SSL (Port par défaut : 465)</option>
+                </enumeration>
+              </smtp.mail.security.protocol>
+              <smtp.mail.user>
+                <label>Nom d'utilisateur</label>
+                <description>Nom d'utilisateur. Laissez vide si aucune authentification n'est requise.</description>
+                <type>string</type>
+              </smtp.mail.user>
+              <smtp.mail.password>
+                <label>Mot de passe</label>
+                <description>Mot de passe. Laissez vide si aucune authentification n'est requise.</description>
+                <type>password</type>
+              </smtp.mail.password>
+            </elements>
+          </fieldsets>
+          <fieldsets role="fieldset">
+            <label>Adresses</label>
+            <elements>
+              <smtp.mail.from>
+                <label>Email de l'expéditeur</label>
+                <description>Adresse e-mail utilisée par défaut comme expéditeur des mails.&lt;br/&gt;La forme &lt;b&gt;Ametys.org &amp;lt;admin@ametys.org&amp;gt;&lt;/b&gt; peut être utilisée.</description>
+                <type>string</type>
+                <default-value>sender@ametys.org</default-value>
+                <validation>
+                  <mandatory>                    true</mandatory>
+                  <regexp>^((\w+)([\-+.][\w]+)*@(\w[\-\w]*\.){1,5}([A-Za-z0-9][A-Za-z0-9]+))|([^&lt;]+&lt;(\w+)([\-+.][\w]+)*@(\w[\-\w]*\.){1,5}([A-Za-z0-9][A-Za-z0-9]+)&gt;)$</regexp>
+                  <invalidText>L'adresse saisie n'est pas une adresse mail valide</invalidText>
+                </validation>
+              </smtp.mail.from>
+              <smtp.mail.sysadminto>
+                <label>Email de l'administrateur système</label>
+                <description>Adresse email de l'adminitrateur système afin de recevoir des alertes par mail.</description>
+                <type>string</type>
+                <validation>
+                  <mandatory>                    false</mandatory>
+                  <regexp>^(\w+)([\-+.][\w]+)*@(\w[\-\w]*\.){1,5}([A-Za-z0-9][A-Za-z0-9]+)$</regexp>
+                  <invalidText>L'adresse saisie n'est pas une adresse mail valide</invalidText>
+                </validation>
+              </smtp.mail.sysadminto>
+            </elements>
+          </fieldsets>
+        </elements>
+      </fieldsets>
+      <fieldsets role="tabs">
+        <label>Gestion des contenus</label>
+        <elements>
+          <fieldsets role="fieldset">
+            <label>Workspace live</label>
+            <elements>
+              <rebuild.live.timer.hour>
+                <label>Heure de reconstruction du live</label>
+                <description>Heure à laquelle le workspace live sera reconstruit. Ce processus étant gourmand en ressources, il est conseillé de le lancer la nuit. Pendant la reconstruction, certaines pages ou ressources peuvent être inaccessibles ou incohérentes durant un court instant.</description>
+                <type>string</type>
+                <default-value>1:00</default-value>
+                <widget>edition.string-time</widget>
+                <validation>
+                  <mandatory>                    true</mandatory>
+                </validation>
+              </rebuild.live.timer.hour>
+            </elements>
+          </fieldsets>
+          <fieldsets role="fieldset">
+            <label>Purge des contenus</label>
+            <switcher>
+              <id>purge.scheduler.enabled</id>
+              <label>Purge automatique</label>
+              <default-value>                false</default-value>
+            </switcher>
+            <elements>
+              <purge.scheduler.period>
+                <label>Période de la purge automatique</label>
+                <description>Si vous avez activé la purge automatique, indiquez ici le nombre de jours entre deux lancements de l'opération.</description>
+                <type>long</type>
+                <default-value>                    7</default-value>
+                <validation>
+                  <mandatory>                    true</mandatory>
+                </validation>
+              </purge.scheduler.period>
+              <purge.scheduler.hour>
+                <label>Heure de la purge automatique</label>
+                <description>Si vous avez activé la purge automatique, indiquez ici l'heure à laquelle l'opération sera lancée.</description>
+                <type>string</type>
+                <default-value>2:00</default-value>
+                <widget>edition.string-time</widget>
+                <validation>
+                  <mandatory>                    true</mandatory>
+                </validation>
+              </purge.scheduler.hour>
+              <purge.before.days>
+                <label>Versions purgées après</label>
+                <description>Spécifiez ici le nombre de jours après lesquels une version de contenu est jugée trop vieille et supprimée lors de la purge des contenus.</description>
+                <type>long</type>
+                <default-value>                    60</default-value>
+                <validation>
+                  <mandatory>                    true</mandatory>
+                </validation>
+              </purge.before.days>
+              <purge.keep.validated.versions>
+                <label>Garder les dernières versions validées</label>
+                <description>Spécifiez ici le nombre de versions validées les plus récentes à garder lors de la purge des contenus. Par exemple, si vous indiquez 3, la purge ne supprimera pas les trois dernières versions validées.</description>
+                <type>long</type>
+                <default-value>                    3</default-value>
+                <validation>
+                  <mandatory>                    true</mandatory>
+                </validation>
+              </purge.keep.validated.versions>
+            </elements>
+          </fieldsets>
+          <fieldsets role="fieldset">
+            <label>Déverrouillage automatique</label>
+            <switcher>
+              <id>content.unlocktimer.activate</id>
+              <label>Activer le déverrouillage automatique.</label>
+              <default-value>                true</default-value>
+            </switcher>
+            <elements>
+              <content.unlocktimer.period>
+                <label>Heure(s) avant déverrouillage</label>
+                <description>Nombre d'heures devant s'écouler avant le déverrouillage automatique.</description>
+                <type>long</type>
+                <default-value>                    2</default-value>
+                <validation>
+                  <mandatory>                    true</mandatory>
+                </validation>
+              </content.unlocktimer.period>
+            </elements>
+          </fieldsets>
+          <fieldsets role="fieldset">
+            <label>Commentaires sur les contenus</label>
+            <elements>
+              <cms.contents.comments.postvalidation>
+                <label>Modération</label>
+                <description>Indique si la validation doit se faire à priori (les commentaires ne sont mis en ligne qu'après validation d'un contributeur avec droit) ou à posteriori (les commentaires sont directement en ligne mais modifiable en cas de besoin)</description>
+                <type>boolean</type>
+                <default-value>                    true</default-value>
+                <enumeration>
+                  <option value="false">A priori</option>
+                  <option value="true">A posteriori</option>
+                </enumeration>
+              </cms.contents.comments.postvalidation>
+            </elements>
+          </fieldsets>
+          <fieldsets role="fieldset">
+            <label>Sauvegarde automatique</label>
+            <switcher>
+              <id>automatic.save.enabled</id>
+              <label>Automatiser la sauvegarde</label>
+              <default-value>                true</default-value>
+            </switcher>
+            <elements>
+              <automatic.save.frequency>
+                <label>Fréquence de sauvegarde</label>
+                <description>Les informations de récupération automatique seront enregistrées toutes les X minutes.</description>
+                <type>long</type>
+                <default-value>                    15</default-value>
+                <validation>
+                  <mandatory>                    true</mandatory>
+                </validation>
+              </automatic.save.frequency>
+            </elements>
+          </fieldsets>
+          <fieldsets role="fieldset">
+            <label>Rappels sur les contenus</label>
+            <switcher>
+              <id>remind.content.enabled</id>
+              <label>Autoriser les rappels sur les contenus</label>
+              <default-value>                false</default-value>
+            </switcher>
+            <elements>
+              <alerts.scheduler.hour>
+                <label>Heure des e-mails de rappel</label>
+                <description>Heure à laquelle les e-mails de rappel seront envoyés. Ce processus étant gourmand en ressources, il est conseillé de le lancer la nuit.</description>
+                <type>string</type>
+                <default-value>2:00</default-value>
+                <widget>edition.string-time</widget>
+                <validation>
+                  <mandatory>                    true</mandatory>
+                </validation>
+              </alerts.scheduler.hour>
+              <remind.content.validation.delay>
+                <label>Délai du rappel sur les contenus à valider</label>
+                <description>Délai du rappel sur les contenu en attente de validation, en jours. L'alerte est désactivée si la valeur est 0.</description>
+                <type>long</type>
+                <default-value>                    10</default-value>
+                <validation>
+                  <mandatory>                    true</mandatory>
+                </validation>
+              </remind.content.validation.delay>
+              <remind.before.publication.end>
+                <label>Délai de rappel de fin de validation</label>
+                <description>Un e-mail de rappel sera envoyé pour chaque page approchant de sa fin de validation, la valeur entrée spécifie le nombre de jours. Entrez '0' pour désactiver cette alerte.</description>
+                <type>long</type>
+                <default-value>                    7</default-value>
+              </remind.before.publication.end>
+              <remind.unmodified.content.delay>
+                <label>Délai du rappel sur contenus non modifiés</label>
+                <description>Délai du rappel sur les contenus non modifiés. L'alerte est désactivée si la valeur est 0.</description>
+                <type>long</type>
+                <default-value>                    30</default-value>
+                <validation>
+                  <mandatory>                    true</mandatory>
+                </validation>
+              </remind.unmodified.content.delay>
+            </elements>
+          </fieldsets>
+          <fieldsets role="fieldset">
+            <label>Liens cassés</label>
+            <switcher>
+              <id>consistency.scheduler.enabled</id>
+              <label>Vérification automatique</label>
+              <default-value>                true</default-value>
+            </switcher>
+            <elements>
+              <consistency.scheduler.hour>
+                <label>Heure de la vérification automatique</label>
+                <description>Si vous avez activé la vérification automatique, indiquez ici l'heure à laquelle l'opération sera lancée chaque jour.</description>
+                <type>string</type>
+                <default-value>2:00</default-value>
+                <widget>edition.string-time</widget>
+                <validation>
+                  <mandatory>                    true</mandatory>
+                </validation>
+              </consistency.scheduler.hour>
+            </elements>
+          </fieldsets>
+          <fieldsets role="fieldset">
+            <label>Copier-coller de contenu externe</label>
+            <elements>
+              <store.external.files>
+                <label>Stocker les fichiers liés</label>
+                <description>Si cette option est cochée, les liens sur des fichiers externes collés dans l'éditeur riche seront stockés dans le contenu.</description>
+                <type>boolean</type>
+                <default-value>                    false</default-value>
+              </store.external.files>
+              <store.files.extensions>
+                <label>Extensions des fichiers à stocker</label>
+                <description>Si l'option précédente est activée, entrez ici la liste des extensions des fichiers à stocker, séparées par des virgules (exemple : 'pdf,zip,7z,odt')</description>
+                <type>string</type>
+                <default-value>pdf,zip,gz,bz2,7z,rar,doc,docx,xls,xlsx,ppt,pptx,odt</default-value>
+                <validation>
+                  <mandatory>                    false</mandatory>
+                  <regexp>^[a-zA-Z0-9]+(,[ ]*[a-zA-Z0-9]+)*$</regexp>
+                  <invalidText>Vous devez entrer une liste d'extensions de fichier, sans le point (exemple : 'pdf,zip,7z,odt')</invalidText>
+                </validation>
+              </store.files.extensions>
+            </elements>
+          </fieldsets>
+          <fieldsets role="fieldset">
+            <label>Archivage programmé</label>
+            <switcher>
+              <id>archive.scheduler.enabled</id>
+              <label>Autoriser l'archivage programmé</label>
+              <default-value>                false</default-value>
+            </switcher>
+            <elements>
+              <archive.scheduler.hour>
+                <label>Heure de l'archivage programmé</label>
+                <description>Renseignez l'heure à laquelle le processus automatique de l'archivage programmé se lancera. Il est conseillé de lancer ce processus la nuit.</description>
+                <type>string</type>
+                <default-value>1:00</default-value>
+                <widget>edition.string-time</widget>
+                <validation>
+                  <mandatory>                    true</mandatory>
+                </validation>
+              </archive.scheduler.hour>
+              <archive.scheduler.reminder.delay>
+                <label>Délais de rappel avant archivage</label>
+                <description>Un rappel sera généré pour les contenus pour lesquels un archivage est programmé dans X jours (X étant la valeur renseignée). Le rappel est désactivé si la valeur est 0.</description>
+                <type>long</type>
+                <default-value>                    7</default-value>
+                <validation>
+                  <mandatory>                    true</mandatory>
+                </validation>
+              </archive.scheduler.reminder.delay>
+            </elements>
+          </fieldsets>
+          <fieldsets role="fieldset">
+            <label>Explorateur de resources</label>
+            <elements>
+              <resources.shared.folder>
+                <label>Ressources communes à tous les sites</label>
+                <description>Cocher cette case donne l'accès à un répertoire de ressources communes partagées par tous les sites. La désactivation de cette option ne supprime pas le contenu du répertoire mais le rend invisible aux utilisateurs.</description>
+                <type>boolean</type>
+                <default-value>                    false</default-value>
+              </resources.shared.folder>
+            </elements>
+          </fieldsets>
+        </elements>
+      </fieldsets>
+      <fieldsets role="tabs">
+        <label>Lettre d'information</label>
+        <elements>
+          <fieldsets role="fieldset">
+            <label>Programmation des lettres d'information automatiques</label>
+            <elements>
+              <newsletter.automatic.scheduler.hour>
+                <label>Heure de création et d'envoi</label>
+                <description>Heure à laquelle les lettres d'information automatiques seront créées et envoyées aux utilisateurs inscrits. Il est conseillé de lancer ce processus la nuit.</description>
+                <type>string</type>
+                <default-value>2:00</default-value>
+                <widget>edition.string-time</widget>
+              </newsletter.automatic.scheduler.hour>
+            </elements>
+          </fieldsets>
+        </elements>
+      </fieldsets>
+      <fieldsets role="tabs">
+        <label>Recherche et indexation</label>
+        <elements>
+          <fieldsets role="fieldset">
+            <label>Serveur Solr</label>
+            <elements>
+              <cms.solr.core.url>
+                <label>URL du serveur Solr</label>
+                <description>URL du serveur Solr (sans la partie 'collection'), par exemple http://localhost:8983/solr</description>
+                <type>string</type>
+                <default-value>http://localhost:8983/solr</default-value>
+                <validation>
+                  <mandatory>                    true</mandatory>
+                  <regexp>^https?://.*$</regexp>
+                  <invalidText>plugin.cms:PLUGINS_CMS_SOLR_CONFIG_CORE_URL_INVALID</invalidText>
+                </validation>
+                <param-checker>
+                  <id>solr-server-checker</id>
+                  <small-icon-path>/plugins/cms/resources/img/solr_16.png</small-icon-path>
+                  <medium-icon-path>/plugins/cms/resources/img/solr_32.png</medium-icon-path>
+                  <large-icon-path>/plugins/cms/resources/img/solr_48.png</large-icon-path>
+                  <linked-params>
+                                        [
+                        "cms.solr.core.url"
+                    ]
+
+</linked-params>
+                  <param-ref>cms.solr.core.url</param-ref>
+                  <label>Connexion au serveur Solr</label>
+                  <description>Ce test effectue une requête pour vérifier que l'URL du serveur Solr est valide.</description>
+                  <order>                    1</order>
+                </param-checker>
+              </cms.solr.core.url>
+              <cms.solr.core.prefix>
+                <label>Préfixe des cores</label>
+                <description>Préfixe utilisé pour les cores Solr</description>
+                <type>string</type>
+                <default-value>ametys-</default-value>
+              </cms.solr.core.prefix>
+              <cms.solr.disable>
+                <label>Désactiver l'indexation</label>
+                <description>Cochez cette case pour désactiver l'indexation Solr</description>
+                <type>boolean</type>
+                <default-value>                    false</default-value>
+              </cms.solr.disable>
+            </elements>
+          </fieldsets>
+        </elements>
+      </fieldsets>
+      <fieldsets role="tabs">
+        <label>Repository</label>
+        <elements>
+          <fieldsets role="fieldset">
+            <label>Affichage</label>
+            <elements>
+              <repository.default.sort>
+                <label>Tri des noeuds par défaut</label>
+                <description>Ce critère de tri sera utilisé par défaut</description>
+                <type>string</type>
+                <default-value>                    undefined</default-value>
+                <enumeration>
+                  <option value="document">Ordre de document</option>
+                  <option value="alpha">Ordre alphabétique</option>
+                  <option value="reverseAlpha">Ordre alphabétique inverse</option>
+                </enumeration>
+                <validation>
+                  <mandatory>                    true</mandatory>
+                </validation>
+              </repository.default.sort>
+            </elements>
+          </fieldsets>
+          <fieldsets role="fieldset">
+            <label>Repository JCR</label>
+            <elements>
+              <org.ametys.plugins.repository.home>
+                <label>Chemin d'accès</label>
+                <description>Chemin d'accès jusqu'au répertoire contenant le repository de données.&lt;br/&gt;Le répertoire peut-être vide mais doit exister.&lt;br/&gt;Vous pouvez utiliser un chemin relatif à l'application web. Le chemin ne doit pas finir par '/'.&lt;br/&gt;Exemple : '/home/cms/data/repository' ou 'WEB-INF/data/repository'.</description>
+                <type>string</type>
+                <default-value>WEB-INF/data/repository</default-value>
+                <validation>
+                  <mandatory>                    true</mandatory>
+                </validation>
+                <param-checker>
+                  <id>repository-checker</id>
+                  <small-icon-path>/plugins/core/resources/img/config/check/test_directorywrite_16.png</small-icon-path>
+                  <medium-icon-path>/plugins/core/resources/img/config/check/test_directorywrite_32.png</medium-icon-path>
+                  <large-icon-path>/plugins/core/resources/img/config/check/test_directorywrite_48.png</large-icon-path>
+                  <linked-params>
+                                        [
+                        "org.ametys.plugins.repository.home"
+                    ]
+
+</linked-params>
+                  <param-ref>org.ametys.plugins.repository.home</param-ref>
+                  <label>Chemin d'accès JCR</label>
+                  <description>Ce test vérifie l'existence du dossier spécifié ou créer un nouveau dossier sinon, et qu'Ametys a bien les droits d'écriture.</description>
+                  <order>                    1</order>
+                </param-checker>
+              </org.ametys.plugins.repository.home>
+              <org.ametys.plugins.repository.cache>
+                <label>Taille du cache</label>
+                <description>Taille du cache JCR en octets (par défaut 16777216, soit 16 Mo).</description>
+                <type>long</type>
+                <default-value>                    16777216</default-value>
+                <validation>
+                  <mandatory>                    true</mandatory>
+                </validation>
+              </org.ametys.plugins.repository.cache>
+            </elements>
+          </fieldsets>
+        </elements>
+      </fieldsets>
+      <fieldsets role="tabs">
+        <label>Référencement</label>
+        <elements>
+          <fieldsets role="fieldset">
+            <label>Sitemap</label>
+            <elements>
+              <robots.sitemap.ping.cron.expression>
+                <label>Heure du ping</label>
+                <description>Heure à laquelle on va effectuer le ping de la sitemap vers les moteurs de recherche.</description>
+                <type>string</type>
+                <default-value>01:00</default-value>
+                <widget>edition.string-time</widget>
+                <validation>
+                  <mandatory>                    true</mandatory>
+                </validation>
+              </robots.sitemap.ping.cron.expression>
+            </elements>
+          </fieldsets>
+        </elements>
+      </fieldsets>
+      <fieldsets role="tabs">
+        <label>Répertoires du serveur</label>
+        <elements>
+          <fieldsets role="fieldset">
+            <label>Accès aux répertoires du serveur</label>
+            <elements>
+              <org.ametys.plugins.server.directory.authorized>
+                <label>Liste des répertoires autorisés</label>
+                <description>Chemin absolu des répertoires serveurs autorisés. Entrez un chemin par ligne.</description>
+                <type>string</type>
+                <widget>edition.textarea</widget>
+              </org.ametys.plugins.server.directory.authorized>
+            </elements>
+          </fieldsets>
+        </elements>
+      </fieldsets>
+      <fieldsets role="tabs">
+        <label>Sites web</label>
+        <elements>
+          <fieldsets role="fieldset">
+            <label>Front-offices</label>
+            <elements>
+              <org.ametys.web.front.ip>
+                <label>Adresses IP des front-offices</label>
+                <description>Adresses IP des front-offices, séparées par des virgules</description>
+                <type>string</type>
+              </org.ametys.web.front.ip>
+              <org.ametys.web.front.url>
+                <label>Applications front-office</label>
+                <description>Liste des URLs des applications front-office, séparées par des virgules</description>
+                <type>string</type>
+              </org.ametys.web.front.url>
+            </elements>
+          </fieldsets>
+        </elements>
+      </fieldsets>
+      <fieldsets role="tabs">
+        <label>Statistiques du cache</label>
+        <elements>
+          <fieldsets role="fieldset">
+            <label>Traitement des statistiques</label>
+            <elements>
+              <cache.monitoring.schedulers.enable>
+                <label>Activation</label>
+                <description>Active les traitements en tâche de fond des statistiques (toutes les heures à 15 : 1h15, 2h15...). Pour consulter les statistiques des sites correctement, voir la documentation d'installation.</description>
+                <type>boolean</type>
+                <default-value>                    false</default-value>
+                <validation>
+                  <mandatory>                    true</mandatory>
+                </validation>
+              </cache.monitoring.schedulers.enable>
+            </elements>
+          </fieldsets>
+        </elements>
+      </fieldsets>
+      <fieldsets role="tabs">
+        <label>Système</label>
+        <elements>
+          <fieldsets role="fieldset">
+            <label>Mode développement</label>
+            <elements>
+              <runtime.cache.xslt>
+                <label>Transformations XSLT</label>
+                <description>Cochez cette case pour désactiver le cache des transformations XSLT.&lt;br/&gt;Il est généralement inutile de désactiver ce cache puisqu'il tient compte de la date de dernière modification des fichiers XSLT.</description>
+                <type>boolean</type>
+                <default-value>                    false</default-value>
+                <validation>
+                  <mandatory>                    true</mandatory>
+                </validation>
+              </runtime.cache.xslt>
+              <runtime.debug.ui>
+                <label>Interfaces graphiques</label>
+                <description>Mettre les interfaces graphiques en mode développeur (CSS/JS non minimisés...)</description>
+                <type>long</type>
+                <default-value>                    0</default-value>
+                <enumeration>
+                  <option value="0">Mode production (concaténé, minimisé)</option>
+                  <option value="1">Mode développeur partiel (concaténé, non minimisé)</option>
+                  <option value="2">Mode développeur complet (non concaténé, non minimisé)</option>
+                </enumeration>
+                <validation>
+                  <mandatory>                    true</mandatory>
+                </validation>
+              </runtime.debug.ui>
+              <page.element.cache.disabled>
+                <label>Eléments des pages</label>
+                <description>Cochez cette option pour désactiver la mise en cache du rendu de certains éléments de pages (service, contenus, plan du site, ...). Ceci est nécessaire en phase de développement pour visualiser les modifications des XSL de rendu de contenus ou de services par exemple.</description>
+                <type>boolean</type>
+                <default-value>                    false</default-value>
+              </page.element.cache.disabled>
+            </elements>
+          </fieldsets>
+          <fieldsets role="fieldset">
+            <label>Gestion des uploads</label>
+            <elements>
+              <runtime.upload.max-size>
+                <label>Taille maximale</label>
+                <description>La taille maximale (en octets) des fichiers uploadés</description>
+                <type>long</type>
+                <default-value>                    10485760</default-value>
+                <validation>
+                  <mandatory>                    true</mandatory>
+                </validation>
+              </runtime.upload.max-size>
+              <runtime.upload.dir>
+                <label>Répertoire de destination</label>
+                <description>Répertoire de destination des fichiers uploadés. Vous pouvez utiliser un chemin relatif à l'application web. Le chemin ne doit pas finir par '/'.&lt;br/&gt;Exemple : '/home/cms/data/uploads' ou 'WEB-INF/data/uploads'.</description>
+                <type>string</type>
+                <default-value>WEB-INF/data/uploads</default-value>
+                <validation>
+                  <mandatory>                    true</mandatory>
+                </validation>
+                <param-checker>
+                  <id>upload-directory-checker</id>
+                  <small-icon-path>/plugins/core/resources/img/config/check/test_directorywrite_16.png</small-icon-path>
+                  <medium-icon-path>/plugins/core/resources/img/config/check/test_directorywrite_32.png</medium-icon-path>
+                  <large-icon-path>/plugins/core/resources/img/config/check/test_directorywrite_48.png</large-icon-path>
+                  <linked-params>
+                                        [
+                        "runtime.upload.dir"
+                    ]
+
+</linked-params>
+                  <param-ref>runtime.upload.dir</param-ref>
+                  <label>Répertoire destination d'upload</label>
+                  <description>Ce test vérifie que le dossier spécifié existe ou créé le dossier dans le cas contraire et que Ametys dispose des droits d'écriture dessus.</description>
+                  <order>                    1</order>
+                </param-checker>
+              </runtime.upload.dir>
+            </elements>
+          </fieldsets>
+          <fieldsets role="fieldset">
+            <label>Journalisation</label>
+            <elements>
+              <runtime.log.abnormal.time>
+                <label>Tracer les processus longs</label>
+                <description>Cochez cette case pour activer le tracage en sévérité 'warning' (avertissement) dans les journaux de l'application des processus prenant un temps anormalement long</description>
+                <type>boolean</type>
+                <default-value>                    false</default-value>
+                <validation>
+                  <mandatory>                    true</mandatory>
+                </validation>
+              </runtime.log.abnormal.time>
+            </elements>
+          </fieldsets>
+        </elements>
+      </fieldsets>
+    </configuration>
+    <configuration-values>
+      <values>
+        <repository.default.sort>            undefined</repository.default.sort>
+        <archive.scheduler.hour>01:00</archive.scheduler.hour>
+        <archive.scheduler.reminder.delay>            7</archive.scheduler.reminder.delay>
+        <rebuild.live.timer.hour>01:00</rebuild.live.timer.hour>
+        <org.ametys.plugins.repository.home>WEB-INF/data/repository</org.ametys.plugins.repository.home>
+        <org.ametys.plugins.repository.cache>            16777216</org.ametys.plugins.repository.cache>
+        <cms.solr.core.url>http://localhost:8983/solr</cms.solr.core.url>
+        <cms.solr.core.prefix>ametys-</cms.solr.core.prefix>
+        <runtime.datasource.core.jdbc.driver>org.apache.derby.jdbc.EmbeddedDriver</runtime.datasource.core.jdbc.driver>
+        <runtime.datasource.core.jdbc.url>jdbc:derby:D:/Dev/Ametys/templates/CMSWEB/trunk/webapp/cms/WEB-INF/data/db;create=true</runtime.datasource.core.jdbc.url>
+        <runtime.datasource.core.jdbc.user/>
+        <runtime.datasource.core.jdbc.passwd/>
+        <cache.monitoring.datasource.jdbc.driver>org.apache.derby.jdbc.EmbeddedDriver</cache.monitoring.datasource.jdbc.driver>
+        <cache.monitoring.datasource.jdbc.url>dbc:derby:D:/Dev/Ametys/templates/CMSWEB/trunk/webapp/cms/WEB-INF/data/db;create=true</cache.monitoring.datasource.jdbc.url>
+        <cache.monitoring.datasource.jdbc.user/>
+        <cache.monitoring.datasource.jdbc.passwd/>
+        <remind.content.enabled>            false</remind.content.enabled>
+        <alerts.scheduler.hour>02:00</alerts.scheduler.hour>
+        <remind.content.validation.delay>            10</remind.content.validation.delay>
+        <remind.unmodified.content.delay>            30</remind.unmodified.content.delay>
+        <cms.url>http://localhost:8080/test</cms.url>
+        <robots.sitemap.ping.cron.expression>01:00</robots.sitemap.ping.cron.expression>
+        <newsletter.automatic.scheduler.hour>02:00</newsletter.automatic.scheduler.hour>
+        <remind.before.publication.end>            7</remind.before.publication.end>
+        <smtp.mail.host>mail.anyware.corp</smtp.mail.host>
+        <smtp.mail.port>            25</smtp.mail.port>
+        <smtp.mail.security.protocol>none</smtp.mail.security.protocol>
+        <smtp.mail.user/>
+        <smtp.mail.password/>
+        <smtp.mail.from>cms@yourdomain.com</smtp.mail.from>
+        <smtp.mail.sysadminto>cedric@anyware-services.com</smtp.mail.sysadminto>
+        <cms.contents.comments.postvalidation>            true</cms.contents.comments.postvalidation>
+        <org.ametys.web.front.url>http://localhost:8080/test_fo</org.ametys.web.front.url>
+        <org.ametys.web.front.ip>127.0.0.1</org.ametys.web.front.ip>
+        <consistency.scheduler.enabled>            true</consistency.scheduler.enabled>
+        <consistency.scheduler.hour>02:00</consistency.scheduler.hour>
+        <purge.scheduler.enabled>            false</purge.scheduler.enabled>
+        <purge.scheduler.period>            7</purge.scheduler.period>
+        <purge.scheduler.hour>02:00</purge.scheduler.hour>
+        <front-office.usersManager.jdbc.driver>org.apache.derby.jdbc.EmbeddedDriver</front-office.usersManager.jdbc.driver>
+        <front-office.usersManager.jdbc.url>jdbc:derby:D:/Dev/Ametys/templates/CMSWEB/trunk/webapp/cms/WEB-INF/data/db;create=true</front-office.usersManager.jdbc.url>
+        <front-office.usersManager.jdbc.user/>
+        <front-office.usersManager.jdbc.passwd/>
+        <runtime.upload.max-size>            10485760</runtime.upload.max-size>
+        <runtime.upload.dir>WEB-INF/data/uploads</runtime.upload.dir>
+        <runtime.cache.xslt>            true</runtime.cache.xslt>
+        <runtime.log.abnormal.time>            true</runtime.log.abnormal.time>
+        <cms.solr.disable>            false</cms.solr.disable>
+        <store.external.files>            false</store.external.files>
+        <store.files.extensions>pdf,zip,gz,bz2,7z,rar,doc,docx,xls,xlsx,ppt,pptx,odt</store.files.extensions>
+        <purge.before.days>            60</purge.before.days>
+        <purge.keep.validated.versions>            3</purge.keep.validated.versions>
+        <content.unlocktimer.activate>            true</content.unlocktimer.activate>
+        <content.unlocktimer.period>            2</content.unlocktimer.period>
+        <page.element.cache.disabled>            true</page.element.cache.disabled>
+        <automatic.save.enabled>            false</automatic.save.enabled>
+        <automatic.save.frequency>            2</automatic.save.frequency>
+        <runtime.debug.ui>            2</runtime.debug.ui>
+        <resources.shared.folder>            true</resources.shared.folder>
+        <archive.scheduler.enabled>            false</archive.scheduler.enabled>
+        <org.ametys.plugins.server.directory.authorized>            true</org.ametys.plugins.server.directory.authorized>
+        <cache.monitoring.schedulers.enable>            false</cache.monitoring.schedulers.enable>
+      </values>
+    </configuration-values>
+  </config>
+</response>

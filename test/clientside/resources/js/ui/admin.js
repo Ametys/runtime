@@ -24,6 +24,7 @@ var tabAdmin = {
                 {
                     xtype: 'ametys.ribbon-button',
                     icon: '/ametys/plugins/admin/resources/img/config/config_32.png',
+                    handler: function(){configPanel();},
                     text: 'Configuration'
                 }
             ]
@@ -369,5 +370,101 @@ function xmlstringToHTML(xmlstring)
     );
  
     return formatted;
+}
+
+configPanel = function()
+{
+    Ext.ClassManager.aliasToName["widget.edition.textfield"] = "Ametys.form.widget.Text";
+    Ametys.form.WidgetManager.register("edition.textfield", "string", false, false);
+    Ametys.form.WidgetManager.register("edition.textfield", "string", false, true);
+    
+    Ext.ClassManager.aliasToName["widget.edition.password"] = "Ametys.form.field.Password";
+    Ametys.form.WidgetManager.register("edition.password", "password", false, false);
+
+    Ext.ClassManager.aliasToName["widget.edition.longfield"] = "Ametys.form.widget.Long";
+    Ametys.form.WidgetManager.register("edition.longfield", "long", false, false);
+                           
+    Ext.ClassManager.aliasToName["widget.edition.boolean-combobox"] = "Ametys.form.widget.BooleanCombobox";
+    Ametys.form.WidgetManager.register("edition.boolean-combobox", "boolean", false, false);
+    
+    Ext.ClassManager.aliasToName["widget.edition.doublefield"] = "Ametys.form.widget.Double";
+    Ametys.form.WidgetManager.register("edition.doublefield", "double", false, false);
+    
+    Ext.ClassManager.aliasToName["widget.edition.checkbox"] = "Ametys.form.widget.Checkbox";
+    Ametys.form.WidgetManager.register("edition.checkbox", "boolean", false, false);
+    
+    Ext.ClassManager.aliasToName["widget.edition.textarea"] = "Ametys.form.widget.TextArea";
+    Ametys.form.WidgetManager.register("edition.textarea", "string", false, false);
+    
+    Ext.ClassManager.aliasToName["widget.edition.combobox"] = "Ametys.form.widget.ComboBox";
+    Ametys.form.WidgetManager.register("edition.combobox", "string", true, false);
+    Ametys.form.WidgetManager.register("edition.combobox", "long", true, false);
+    Ametys.form.WidgetManager.register("edition.combobox", "boolean", true, false);
+    Ametys.form.WidgetManager.register("edition.combobox", "double", true, false);
+    Ametys.form.WidgetManager.register("edition.combobox", "string", true, true);
+    Ametys.form.WidgetManager.register("edition.combobox", "long", true, true);
+    Ametys.form.WidgetManager.register("edition.combobox", "boolean", true, true);
+    Ametys.form.WidgetManager.register("edition.combobox", "double", true, true);
+    
+    
+    Ametys.form.WidgetManager._defaultWidgets = {
+        "single":{
+            "date":"edition.date",
+            "string":"edition.textfield",
+            "double":"edition.doublefield",
+            "content":"edition.select-content",
+            "long":"edition.longfield",
+            "url":"edition.textfield",
+            "reference":"edition.url-reference",
+            "datetime":"edition.datetime",
+            "password":"edition.password",
+            "boolean":"edition.checkbox",
+            "file":"edition.file",
+            "rich_text":"edition.richtext",
+            "geocode":"edition.geocode",
+            "sub_content":"edition.compose-content",
+            "user":"edition.user"},
+        "multiple":{
+            "reference":"edition.url-reference",
+            "string":"edition.textfield",
+            "sub_content":"edition.compose-content",
+            "user":"edition.user",
+            "content":"edition.select-content",
+            "url":"edition.textfield"
+        }
+    };
+
+    Ametys.form.WidgetManager._defaultWidgetsForEnumeration = {
+        "single":{"string":"edition.combobox"},
+        "multiple":{"string":"edition.boxselect"}
+    };
+    
+    var formPanel = Ext.create('Ametys.form.ConfigurableFormPanel', {
+                        cls: 'config',
+                        'tab-policy-mode': 'inline'
+                    });
+    
+    var tool = Ext.create("Ametys.ui.tool.ToolPanel", {
+        title: 'Configuration',
+        smallIcon: '/plugins/admin/resources/img/config/config_32.png',
+        mediumIcon: '/plugins/admin/resources/img/config/config_32.png',
+        largeIcon: '/plugins/admin/resources/img/config/config_32.png',
+        type: Math.round(Math.random() * 6) * 10,
+        layout: 'fit',
+        items:[formPanel]
+    });
+        
+    Ext.Ajax.request({
+        url:"/ametys/test/config.xml",
+        success:function(response, opts)
+        {
+            var xml = response.responseXML;
+            formPanel.configure(Ext.dom.Query.select("config/configuration", xml)[0]);
+            formPanel.setValues(Ext.dom.Query.select("config/configuration-values", xml)[0], "values", "comments", "invalid");
+        }
+    });
+
+    layout.addTool(tool, "c");
+    layout.focusTool(tool);
 }
         
