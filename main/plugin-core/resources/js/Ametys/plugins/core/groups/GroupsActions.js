@@ -162,7 +162,7 @@ Ext.define('Ametys.plugins.core.groups.GroupsActions', {
 			
 			var userTargets = groupTarget.getSubtargets(userMessageTargetType);
 			var logins = Ext.Array.map(userTargets, function(target) {
-				return target.getParameters().login;
+				return target.getParameters().id;
 			});
 			
 			if (logins.length > 0)
