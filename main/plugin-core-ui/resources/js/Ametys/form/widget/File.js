@@ -202,7 +202,10 @@ Ext.define('Ametys.form.widget.File', {
     /**
      * @cfg {String} deleteTextConfirm The text to display when deleting a file.
      */
-    
+    /**
+	 * @cfg {String} deleteButtonIcon The full path to the delete button icon (in 16x16 pixels)
+	 */
+	deleteButtonIcon: Ametys.getPluginResourcesPrefix('cms') + '/img/widgets/resources-picker/file_delete_16.png', 
     /**
      * @cfg {Boolean} buttonOnly True to display the file upload field as a button with no visible
      * text field (defaults to true).  If true, all inherited TextField members will still be available.
@@ -214,6 +217,16 @@ Ext.define('Ametys.form.widget.File', {
      */
     buttonOffset: 5,
     
+    /**
+     * @cfg {String} imgCls The CSS to use for image preview. Only used if the file filter is #IMAGE_FILTER
+     */
+    imgCls: 'a-form-file-widget-img',
+    
+    /**
+     * @cfg {String} imgCls The CSS to use for image preview. Only used if the file filter is #IMAGE_FILTER
+     */
+    imgWithBorderCls: 'a-form-file-widget-img-border',
+    
     initComponent: function()
     {
     	// File icon or image
@@ -222,7 +235,7 @@ Ext.define('Ametys.form.widget.File', {
         {
             imgCfg.width = this.imagePreviewMaxWidth + 6; // image width + padding
             imgCfg.height = this.imagePreviewMaxHeight + 6;
-            imgCfg.cls = 'x-form-file-widget-img';
+            imgCfg.cls = this.imgWithBorderCls;
             imgCfg.listeners = { 
                 'afterrender': {
                     fn: function() { 
@@ -235,6 +248,7 @@ Ext.define('Ametys.form.widget.File', {
         }
         else
         {
+        	imgCfg.cls = this.imgCls;
             imgCfg.width = 32; // image width + padding
             imgCfg.height = 32;
         }
@@ -244,11 +258,11 @@ Ext.define('Ametys.form.widget.File', {
         var textConfig = Ext.applyIf(this.textConfig || {}, {
             html: '',
             flex: 1,
-            cls: 'x-form-file-widget-text x-form-file-widget-text-empty'
+            cls: Ametys.form.AbstractField.READABLE_TEXT_CLS
         });
         this.displayField = Ext.create('Ext.Component', textConfig);
         
-        this.cls = 'x-form-file-widget';
+        this.cls = [Ametys.form.AbstractField.BASE_FIELD_CLS, this.emptyCls];
         this.layout = 'hbox';
         this.items = [
             this.img,
@@ -262,9 +276,7 @@ Ext.define('Ametys.form.widget.File', {
             
             // Button which deletes the selected file.
             var deleteButtonConfig = Ext.applyIf(this.deleteButtonConfig || {}, {
-                icon: Ametys.getPluginResourcesPrefix('cms') + '/img/widgets/resources-picker/file_delete_16.png',
-                cls: 'x-form-file-widget-delete-btn x-btn-icon',
-                
+                icon: this.deleteButtonIcon,
                 disabled: this.disabled,
                 
                 tooltip: this.deleteText || this.self.filters[this.fileFilter].deleteText,
@@ -480,7 +492,6 @@ Ext.define('Ametys.form.widget.File', {
     	{
     		this.img.hide();
     		// Update the file description.
-            this.displayField.addCls('x-form-file-widget-text-empty');
             this.displayField.setHeight(21); // Let's freeze height to avoid useless layout afterward
             
             if (!this.readOnly)
@@ -489,12 +500,10 @@ Ext.define('Ametys.form.widget.File', {
                 this.button.show();
             }
             
-            this.displayField.update('<span class="empty">' + (this.getInitialConfig('emptyText') || this.self.filters[this.fileFilter].emptyText) + '</span>');
+            this.displayField.update(this.getInitialConfig('emptyText') || this.self.filters[this.fileFilter].emptyText);
     	}
     	else
     	{
-        	this.displayField.removeCls('x-form-file-widget-text-empty');
-            
             if (!this.readOnly)
             {
                 this.deleteButton.show();
@@ -536,7 +545,7 @@ Ext.define('Ametys.form.widget.File', {
         
         if (fileSize)
         {
-            text += '<br/><span class="filesize">' + Ext.util.Format.fileSize(fileSize) + '</span>';
+            text += '<br/><span class="ametys-field-hint">' + Ext.util.Format.fileSize(fileSize) + '</span>';
             this.displayField.setHeight(34); // Let's freeze height to avoid useless layout afterward
         }
         else
