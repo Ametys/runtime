@@ -141,7 +141,7 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
 				items: [ this.grid, this.msgGrid ]
 			});
 			
-			this.rightPanel = Ext.create("Ext.panel.Panel", {
+			this.rightPanel = Ext.create("Ext.Component", {
 				layout: 'fit',
 				scrollable: true,
                 minWidth: 100,
@@ -162,7 +162,7 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
 					"<code class='request-tracker'>{response}</code>"
 			);
             
-			return Ext.create("Ext.Component", {
+			return Ext.create("Ext.container.Container", {
 				layout: { 
                     type: 'hbox',
                     align: 'stretch'
@@ -305,11 +305,11 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
 				
 				var parametersAsString = Ext.JSON.prettyEncode(message.parameters);
 				var responseAsString = this._responseToString(response, id); 
-				this.rightPanel.body.update(this._messageTpl.applyTemplate({url: message.url, parameters: parametersAsString, response: responseAsString}));
+				this.rightPanel.update(this._messageTpl.applyTemplate({url: message.url, parameters: parametersAsString, response: responseAsString}));
 			}
 			else
 			{
-				this.rightPanel.body.update(this.rightPanel.defaultHtml);
+				this.rightPanel.update(this.rightPanel.defaultHtml);
 			}
 		},
 		
