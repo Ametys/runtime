@@ -574,7 +574,7 @@ Ext.define('Ametys.form.ConfigurableFormPanel', {
                                 me._expandOrCollapseAllInlineTab(tabPanel, btn, false)
                             }
                         }
-                    ],
+                    ]
                 }],
                 listeners: {
                 	'afterrender': {fn: this._setFocusIfReady, scope: this}
