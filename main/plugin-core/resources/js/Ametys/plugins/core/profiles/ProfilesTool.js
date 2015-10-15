@@ -146,7 +146,7 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 		
 		this._profilesGrid = Ext.create('Ext.grid.Panel', {
 			border: true,
-			scrollable: 'vertical',
+			scrollable: true,
 			
 			stateful: true,
 			stateId: this.self.getName() + "$grid",
@@ -154,6 +154,7 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 			minWidth: 100,
 			maxWidth: 400,
 			flex: 0.3,
+			split: true,
 			
 			store: profileStore,
 			columns: [{flex: 1, header: "<i18n:text i18n:key='PLUGINS_CORE_UITOOL_PROFILES_LABEL' i18n:catalogue='plugin.core'/>", dataIndex: 'label', renderer: this._renderProfilName, hideable: false}],
@@ -163,8 +164,9 @@ Ext.define('Ametys.plugins.core.profiles.ProfilesTool', {
 			}
 		});
 		
-		this._rightsPanel = Ext.create('Ext.container.Container', {
+		this._rightsPanel = Ext.create('Ext.Panel', {
 			flex: 1,
+			border: true,
 			minWidth: 350,
 			split: true,
 			layout: 'card',
