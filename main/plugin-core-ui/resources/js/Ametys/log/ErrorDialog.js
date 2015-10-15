@@ -152,19 +152,19 @@ Ext.define(
 				    },
 				    new Ext.SplitButton({
 				    	// A bug of extjs imply to set space character. If not the menu zone is too big.
-				    	text :"&#160;&#160;&#160;&#160;&#160;" + "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_ERRORDIALOG_SPLITBUTTON_OK'>Ok</i18n:text>" + "&#160;&#160;&#160;&#160;&#160;",
+				    	text :"&#160;&#160;&#160;&#160;&#160;" + "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_ERRORDIALOG_SPLITBUTTON_OK'/>" + "&#160;&#160;&#160;&#160;&#160;",
 				    	menu: 
 				    	{
 				    		items: 
 				    		[{
-			    		 		text: "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_ERRORDIALOG_IGNOREERRORS'>Ignore</i18n:text>",
+			    		 		text: "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_ERRORDIALOG_IGNOREERRORS'/>",
 			    		 		handler: function() { window.setTimeout(Ametys.log.ErrorDialog._okMessages, 10); } 
 				    		 }]
 				    	},
 				    	handler : Ametys.log.ErrorDialog._okMessage
 				    }),
 				    {
-						text : "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_ERRORDIALOG_DETAILS'> >>",
+						text : "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_ERRORDIALOG_DETAILS'/> >>",
 						handler : function() 
 						{
 			    			var currentErrorDialog = Ametys.log.ErrorDialog._stack[0];

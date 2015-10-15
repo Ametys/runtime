@@ -123,8 +123,8 @@ Ext.define('Ametys.form.AbstractField', {
     
     setValue: function (value) 
 	{	
-		this.callParent(arguments);
-		
+    	this.mixins.field.setValue.apply(this, arguments);
+    	
 		if (Ext.isEmpty(value) || (Ext.isObject(value) && Ext.Object.isEmpty(value)))
 		{
 			this.addCls(this.emptyCls);
