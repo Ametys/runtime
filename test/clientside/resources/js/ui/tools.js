@@ -62,6 +62,7 @@ function openTool2()
         type: Math.round(Math.random() * 6) * 10,
         dockedItems: [ createOodPanel() ],
         layout: 'fit',
+        closable: true,
         items: [
 
             {
@@ -128,6 +129,7 @@ function openTool4()
         smallIcon: '/test/resources/img/editpaste_16.gif',
         mediumIcon: '/test/resources/img/editpaste_32.gif',
         largeIcon: '/test/resources/img/editpaste_48.gif',
+        closable: true,
         type: Math.round(Math.random() * 6) * 10,
         items: [ 
             {
@@ -241,6 +243,7 @@ function openTool5()
         smallIcon: '/test/resources/img/editpaste_16.gif',
         mediumIcon: '/test/resources/img/editpaste_32.gif',
         largeIcon: '/test/resources/img/editpaste_48.gif',
+        closable: true,
         type: Math.round(Math.random() * 6) * 10,
         html: "<b>je suis le contenu du Tool 5</b><br/>Pensez à me drag'n'droper dans une autre zone et à me ramener ici ensuite pour tester"
     });
@@ -259,6 +262,7 @@ function openTool6()
         smallIcon: '/test/resources/img/editpaste_16.gif',
         mediumIcon: '/test/resources/img/editpaste_32.gif',
         largeIcon: '/test/resources/img/editpaste_48.gif',
+        closable: true,
         type: Math.round(Math.random() * 6) * 10,
         html: "<b>je suis le contenu du Tool 6</b>"
     });
