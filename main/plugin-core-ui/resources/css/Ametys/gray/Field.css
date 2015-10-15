@@ -61,14 +61,6 @@ td.x-form-error-msg-wrapper
     margin-bottom: 4px;
 }
 
-.ametys-field-hint {
-	font-size: 0.9em;
-	color: #7f7f7f;
-	padding-left: 5px;
-	padding-top: 2px;
-	font-style:italic;
-}
-
 .x-field.ametys.x-form-warning .x-form-text,
 .x-form-item.ametys.x-form-warning .x-form-text
 {

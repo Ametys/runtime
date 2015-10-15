@@ -21,57 +21,6 @@
 }
 
  
-/** @begin Widget File (File.js) */
-
-.x-form-file-widget.x-form-invalid .x-form-item-body {
-	border: 1px solid #FF0000;
-}
-
-.x-form-file-widget .x-img {
-	margin-right: 5px;
-}
-
-.x-form-file-widget .x-form-file-widget-img {
-	/*display: table-cell;*/
-	/*vertical-align: middle;*/
-	text-align: center;
-	border: 1px solid #C8CDD0;
-	padding: 2px;
-}
-
-.x-form-file-widget .x-form-file-widget-img img {
-    vertical-align: middle;
-}
-
-.x-form-file-widget .x-form-file-widget-text {
-	padding-top: 4px;
-    padding-bottom: 4px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.x-form-file-widget .x-form-file-widget-text span.filesize {
-	color: #404040;
-	font-style:italic;
-	padding-top: 2px;
-}
-
-.x-form-file-widget .x-form-file-widget-text.x-form-file-widget-text-empty {
-    font-style: italic;
-    color: #404040 !important;
-}
-
- .x-form-file-widget .x-form-file-widget-btn {
-	height: 26px;
-}
-
-.x-form-file-widget .x-form-file-widget-delete-btn {
-	height: 26px;
-	margin-top: 5px;
-	margin-left: 3px;
-    padding-top: 4px;
-}
 /** @end Widget File */
 
 
