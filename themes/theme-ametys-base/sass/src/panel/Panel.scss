@@ -19,6 +19,22 @@
     background-color: $panel-body-background-color;  
 }
 
+.a-tool-layout-zoned-notfocused { 
+	@include extjs-panel-ui(
+        $ui: 'light',
+
+		$ui-header-color: $panel-light-header-color,
+    	$ui-header-background-color: transparent
+    );  
+    
+    @include extjs-panel-ui(
+        $ui: 'light-framed',
+
+		$ui-header-color: $panel-light-header-color,
+    	$ui-header-background-color: transparent
+    );           
+}
+
 @for $i from 1 through length($ametys-tool-tab-colors) {
     $index: $i - 1;
 
@@ -63,6 +79,20 @@
             $ui-header-padding: $panel-frame-header-padding,
     
             $ui-body-border-width: $panel-frame-body-border-width
-        );            
+        );   
+        
+        @include extjs-panel-ui(
+            $ui: 'light',
+    
+            $ui-header-color: $active-color,
+        	$ui-header-background-color: transparent
+        );  
+        
+        @include extjs-panel-ui(
+            $ui: 'light-framed',
+    
+            $ui-header-color: $active-color,
+        	$ui-header-background-color: transparent
+        );               
     }
 }        
