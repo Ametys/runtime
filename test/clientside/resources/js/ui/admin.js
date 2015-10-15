@@ -137,6 +137,7 @@ messageTracker = function()
         mediumIcon: '/plugins/core-ui/resources/img/messages/messages_32.png',
         largeIcon: '/plugins/core-ui/resources/img/messages/messages_48.png',
         type: Math.round(Math.random() * 6) * 10,
+        layout: 'fit',
         items:[
             Ext.create("Ext.grid.Panel", {
                 cls: "uitool-messagestracker",
@@ -243,7 +244,7 @@ requestTracker = function()
             "<code class='request-tracker'>{response}</code>"
     );
 
-    var rightPanel = Ext.create("Ext.Panel", {
+    var rightPanel = Ext.create("Ext.Component", {
         layout: 'fit',
         scrollable: true,
         minWidth: 100,
@@ -261,8 +262,9 @@ requestTracker = function()
         mediumIcon: '/plugins/core-ui/resources/img/requests/requests_32.png',
         largeIcon: '/plugins/core-ui/resources/img/requests/requests_48.png',
         type: Math.round(Math.random() * 6) * 10,
+        layout: 'fit',
         items:[
-            Ext.create("Ext.Panel", {
+            Ext.create("Ext.container.Container", {
                 layout: { 
                     type: 'hbox',
                     align: 'stretch'

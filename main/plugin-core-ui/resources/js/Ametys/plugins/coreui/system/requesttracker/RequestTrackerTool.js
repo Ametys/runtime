@@ -141,7 +141,7 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
 				items: [ this.grid, this.msgGrid ]
 			});
 			
-			this.rightPanel = Ext.create("Ext.Panel", {
+			this.rightPanel = Ext.create("Ext.panel.Panel", {
 				layout: 'fit',
 				scrollable: true,
                 minWidth: 100,
@@ -161,7 +161,8 @@ Ext.define("Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool",
 					"<b><i18n:text i18n:key='PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_RESPONSE'/></b> : ",
 					"<code class='request-tracker'>{response}</code>"
 			);
-			return Ext.create("Ext.Panel", {
+            
+			return Ext.create("Ext.Component", {
 				layout: { 
                     type: 'hbox',
                     align: 'stretch'

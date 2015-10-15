@@ -15,11 +15,13 @@
  */
 
 .uitool-requesttracker {
-    .message-details .x-panel-body {
+    .message-details {
+        @extend %colored-as-panel-body;
+    
     	font-family: $ametys-tools-requesttracker-details-font-family;
     	font-size: $ametys-tools-requesttracker-details-font-size;
     	padding: $ametys-tools-requesttracker-details-padding;
-    	background-color: $ametys-tools-requesttracker-details-background-color !important;
+    	border-style: solid;
     }
     
     code.request-tracker {

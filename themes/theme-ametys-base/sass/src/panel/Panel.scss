@@ -14,6 +14,11 @@
  *  limitations under the License.
  */
 
+%colored-as-panel-body {
+    border-color: $panel-border-color;
+    background-color: $panel-body-background-color;  
+}
+
 .a-tool-layout-zoned-focused {
     @for $i from 1 through length($ametys-tool-tab-colors) {
         $index: $i - 1;
@@ -23,6 +28,11 @@
         $active-color-light: nth($ametys-tool-tab-colors-light, $i);
         
         &.a-tool-layout-zoned-panel-#{$index*10} {
+            %colored-as-panel-body {
+                border-color: $active-color;
+                background-color: lighten($active-color-light, 30%);  
+            }
+        
             @include extjs-panel-ui(
                 $ui: 'default',
                 
