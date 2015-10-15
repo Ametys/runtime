@@ -98,14 +98,14 @@ Ext.define('Ametys.plugins.core.groups.GroupsTool', {
 	
 	createPanel: function()
 	{
-		/* WEST PANEL (GROUPS) */
 		var groupStore = this._createGroupStore();
-		
 		this._groupGrid = Ext.create('Ext.grid.Panel', {
-			region: 'west',
-			border: false,
-			width: 350,
-			cls: 'mask-below-menu',
+			border: true,
+			scrollable: true,
+			border: true,
+			minWidth: 250,
+			split: true,
+			flex: 0.4,
 			
 			store: groupStore,
 			columns: [{header: "<i18n:text i18n:key='PLUGINS_CORE_UITOOL_GROUPS_LABEL' i18n:catalogue='plugin.core'/>", width: 330, dataIndex: 'label', renderer: this._renderGroupName, hideable: false}],
@@ -115,13 +115,14 @@ Ext.define('Ametys.plugins.core.groups.GroupsTool', {
 			}
 		});
 		
-		/* CENTER PANEL (USERS) */
 		var userStore = this._createUserStore();
-		
 		this._userGrid = Ext.create('Ext.grid.Panel', {
-			region: 'center',
-			border: false,
-			cls: 'mask-below-menu',
+			border: true,
+			scrollable: true,
+			border: true,
+			split: true,
+			flex: 0.6,
+			minWidth: 250,
 			
 			store: userStore,
 			selModel: {
@@ -136,10 +137,10 @@ Ext.define('Ametys.plugins.core.groups.GroupsTool', {
 		});
 		
 		return Ext.create('Ext.panel.Panel', {
-			defaults: {
-				split: true
-			},
-			layout: 'border',
+			layout: { 
+                type: 'hbox',
+                align: 'stretch'
+            },
 			items: [this._groupGrid, this._userGrid]
 		});
 	},
