@@ -75,7 +75,7 @@ Ext.define('Ametys.form.widget.GeoCode', {
 	/**
 	 * @cfg {String} emptyText The text for empty field
 	 */
-	emptyText: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_GEOCODE_NO_COORDINATES'/>",
+	emptyText: "<i18n:text i18n:key='PLUGINS_CORE_UI_WIDGET_GEOCODE_NO_COORDINATES'>No coordinates</i18n:text>",
 	
 	/**
 	 * @property {Object[]} _formFieldsBuildingTheAddress Form fields building the initialAddress  
@@ -99,7 +99,7 @@ Ext.define('Ametys.form.widget.GeoCode', {
 				
 	    // Latitude/longitude field.
 		var latitudeLongitudeConfig = Ext.applyIf(this.latitudeLongitudeConfig || {}, {
-			cls: 'x-form-geocode-widget-text x-form-geocode-widget-text-empty',
+			cls: Ametys.form.AbstractField.READABLE_TEXT_CLS,
 			html: '',
 			flex: 1
 		});
@@ -127,7 +127,7 @@ Ext.define('Ametys.form.widget.GeoCode', {
 		this.items = [ this.latitudeLongitudeField, this._mapPopupButton, this._deleteButton ];			
 
 		this.layout = 'hbox';
-		this.cls = 'x-form-geocode-widget';
+		this.cls = [Ametys.form.AbstractField.BASE_FIELD_CLS, this.emptyCls];
 		
 		this.callParent(arguments);
 	},	
@@ -138,7 +138,10 @@ Ext.define('Ametys.form.widget.GeoCode', {
 		
 		this._addressFieldNames = config.initialAddressFormFields ? config.initialAddressFormFields.split(',') : [];
 		
-		this.form.executeFormReady(this._getAddressFormFields, this);
+		if (this._addressFieldNames.length > 0)
+		{
+			this.form.executeFormReady(this._getAddressFormFields, this);
+		}
 	},
 	
 	/**
@@ -444,12 +447,10 @@ Ext.define('Ametys.form.widget.GeoCode', {
 		
 		if (!value || !value.latitude)
 		{
-            this.latitudeLongitudeField.addCls('x-form-geocode-widget-text-empty');
             this._deleteButton.hide();
 		}
 		else
 		{
-			this.latitudeLongitudeField.removeCls('x-form-geocode-widget-text-empty');
             this._deleteButton.show();
 		}
 		

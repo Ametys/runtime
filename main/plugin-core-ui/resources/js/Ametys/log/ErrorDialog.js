@@ -139,7 +139,7 @@ Ext.define(
 				width: 500,
 				height: 130,
 				scrollable: false,
-				icon: Ametys.getPluginResourcesPrefix('core-ui') + "/img/error_16.gif",
+				iconCls: 'error-dialog-icon',
 				items: [ centralMsg, detailledMsg ],
 				closeAction: 'close',
 				closable: false,
@@ -157,14 +157,14 @@ Ext.define(
 				    	{
 				    		items: 
 				    		[{
-			    		 		text: "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_ERRORDIALOG_IGNOREERRORS'/>",
+			    		 		text: "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_ERRORDIALOG_IGNOREERRORS'>Ignore</i18n:text>",
 			    		 		handler: function() { window.setTimeout(Ametys.log.ErrorDialog._okMessages, 10); } 
 				    		 }]
 				    	},
 				    	handler : Ametys.log.ErrorDialog._okMessage
 				    }),
 				    {
-						text : "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_ERRORDIALOG_DETAILS'/> >>",
+						text : "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_ERRORDIALOG_DETAILS'> >>",
 						handler : function() 
 						{
 			    			var currentErrorDialog = Ametys.log.ErrorDialog._stack[0];

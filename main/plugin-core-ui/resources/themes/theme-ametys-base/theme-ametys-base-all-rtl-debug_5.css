@@ -1,3 +1,11 @@
+/* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/frame.scss:400 */
+.x-window-ribbon-toast-tc {
+    height: 1px;
+}
+/* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/frame.scss:403 */
+.x-window-ribbon-toast-bc {
+    height: 1px;
+}
 /* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/frame.scss:407 */
 .x-window-ribbon-toast-tl,
 .x-window-ribbon-toast-bl,
@@ -11600,7 +11608,7 @@
     font-style: italic;
 }
 /* http://localhost:1842/packages/local/theme-ametys-base/sass/src/window/ErrorDialog.scss:17 */
-.x-panel.error-dialog-text {
+.error-dialog-text .x-panel-body {
     /*
  *  Copyright 2015 Anyware Services
  *
@@ -11620,16 +11628,23 @@
     padding: 6px;
 }
 /* http://localhost:1842/packages/local/theme-ametys-base/sass/src/window/ErrorDialog.scss:22 */
-.x-panel.error-dialog-details {
-    color: #4d4d4d;
-    padding: 6px;
+.error-dialog-details {
     border-top-style: solid;
     border-top-width: 1px;
 }
-/* http://localhost:1842/packages/local/theme-ametys-base/sass/src/window/ErrorDialog.scss:29 */
-.x-panel.error-dialog-details * {
+/* http://localhost:1842/packages/local/theme-ametys-base/sass/src/window/ErrorDialog.scss:27 */
+.error-dialog-details .x-panel-body {
+    color: #4d4d4d;
+    padding: 6px;
+}
+/* http://localhost:1842/packages/local/theme-ametys-base/sass/src/window/ErrorDialog.scss:32 */
+.error-dialog-details .x-panel-body * {
     white-space: nowrap;
     font-family: Courier;
+}
+/* http://localhost:1842/packages/local/theme-ametys-base/sass/src/window/ErrorDialog.scss:37 */
+.x-title-icon.error-dialog-icon {
+    background-image: url(images/shared/icon-small-error.png);
 }
 /* http://localhost:1842/packages/local/theme-ametys-base/sass/src/window/TimeoutDialog.scss:17 */
 .x-panel.timeout-dialog-text {
@@ -14816,8 +14831,4 @@
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-btn-over .x-btn-default-small-ml,
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-btn-over .x-btn-default-small-mr {
     background-image: url(images/btn/btn-default-small-over-sides.gif);
-}
-/* http://localhost:1842/ext/classic/theme-neutral/sass/src/button/Button.scss:965 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-btn-over .x-btn-default-small-mc {
-    background-color: #b1b1b1;
 }

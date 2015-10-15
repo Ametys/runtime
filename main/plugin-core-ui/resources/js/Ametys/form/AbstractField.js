@@ -24,6 +24,19 @@ Ext.define('Ametys.form.AbstractField', {
     
     mixins: {field: 'Ext.form.field.Field'},
     
+    statics: {
+    	/**
+         * @cfg {String} READABLE_TEXT_CLS
+         * The CSS class to use for a component/container/panel used to display a readable value.
+         */
+    	READABLE_TEXT_CLS: 'a-form-readable-text',
+        /**
+         * @cfg {String} BASE_FIELD_CLS
+         * The CSS class to use when the field contains no visible input field but a readable text.
+         */
+        BASE_FIELD_CLS: 'a-form-abstract-field'
+    },
+    
     /**
      * @cfg {String} invalidCls
      * The CSS class to use when marking the component invalid.
@@ -41,6 +54,12 @@ Ext.define('Ametys.form.AbstractField', {
      * The CSS class to use when the field value {@link #isDirty is dirty}.
      */
     dirtyCls : Ext.baseCSSPrefix + 'form-dirty',
+    
+    /**
+     * @cfg {String} emptyCls
+     * The CSS class to use when the value if the field is empty.
+     */
+    emptyCls: Ext.baseCSSPrefix + 'form-empty',
     
     /**
      * @cfg {String} blankText
@@ -101,6 +120,20 @@ Ext.define('Ametys.form.AbstractField', {
         
     	return validate ? me.validateValue(me.getValue()) : disabled;
     },
+    
+    setValue: function (value) 
+	{	
+		this.callParent(arguments);
+		
+		if (Ext.isEmpty(value) || (Ext.isObject(value) && Ext.Object.isEmpty(value)))
+		{
+			this.addCls(this.emptyCls);
+		}
+		else
+		{
+			this.removeCls(this.emptyCls)
+		}
+	},
     
     /**
      * <strong>Override this method to add specific validation.</strong><br/>

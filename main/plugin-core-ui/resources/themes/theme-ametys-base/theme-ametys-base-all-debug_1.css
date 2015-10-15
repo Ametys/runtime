@@ -10929,11 +10929,11 @@ a.x-color-picker-item:hover {
 }
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/form/field/Tag.scss:151 */
 .x-form-text-default .x-tagfield-item {
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    -ms-border-radius: 3px;
-    -o-border-radius: 3px;
-    border-radius: 3px;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    -ms-border-radius: 0;
+    -o-border-radius: 0;
+    border-radius: 0;
     background-color: #e6e6e6;
     border: 1px solid #e6e6e6;
     padding: 0 19px 0 5px;

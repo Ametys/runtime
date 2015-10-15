@@ -14,61 +14,11 @@
  *  limitations under the License.
  */
  
- /** @begin Widget GeoCode (GeoCode.js) */
- .x-form-geocode-widget.x-form-invalid .x-form-item-body {
-	border: 1px solid #FF0000;	
-}
-
- .x-form-geocode-widget.x-form-warning .x-form-item-body {
-	border: 1px solid #F6B51A;	
-}
-
-.x-form-geocode-widget .x-form-geocode-widget-text {
-	font-size: 0.9em;
-	padding-top: 4px;
-}
-
-.x-form-geocode-widget .x-btn {
-	margin-left: 3px;
-}
-
-.x-form-geocode-widget .x-form-geocode-widget-text.x-form-geocode-widget-text-empty {
-    font-style: italic;
-    color: #404040 !important;
-}
-
 #geo-search-textfield-error {
     font-style: italic;
     color: #993333 !important;
     padding-left: 2px;
 }
-
-/** @end Widget GeoCode */
-
- /** @begin Widget Tag (Tag.js) */
- .x-form-tag-widget.x-form-invalid .x-form-item-body {
-	border: 1px solid #FF0000;	
-}
-
- .x-form-tag-widget.x-form-warning .x-form-item-body {
-	border: 1px solid #F6B51A;	
-}
-
-.x-form-tag-widget .x-form-tag-widget-text {
-	font-size: 0.9em;
-	padding-top: 4px;
-}
-
-.x-form-tag-widget .x-btn {
-	margin-left: 3px;
-}
-
-.x-form-tag-widget .x-form-tag-widget-text.x-form-tag-widget-text-empty {
-    font-style: italic;
-    color: #404040 !important;
-}
-
-/** @end Widget Tag */
 
  
 /** @begin Widget File (File.js) */

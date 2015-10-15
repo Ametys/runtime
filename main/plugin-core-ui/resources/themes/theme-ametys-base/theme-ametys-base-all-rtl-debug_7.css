@@ -1,3 +1,13 @@
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2970 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-tab-focus.x-tab-over .x-tab-default-bottom-ml,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-tab-focus.x-tab-over .x-tab-default-bottom-mr {
+    background-image: url(images/tab/tab-default-bottom-focus-over-sides.gif);
+}
+/* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2975 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-tab-focus.x-tab-over .x-tab-default-bottom-mc {
+    background-repeat: repeat-x;
+    background-image: url(images/tab/tab-default-bottom-focus-over-fbg.gif);
+}
 /* http://localhost:1842/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2961 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-tab.x-tab-active .x-tab-default-bottom-tl,
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-tab.x-tab-active .x-tab-default-bottom-bl,

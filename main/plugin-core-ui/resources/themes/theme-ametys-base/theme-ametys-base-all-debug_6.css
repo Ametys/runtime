@@ -1,3 +1,47 @@
+/* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/frame.scss:355 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-bl {
+    background-position: 0 -4px;
+}
+/* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/frame.scss:359 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-br {
+    background-position: right -5px;
+}
+/* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/frame.scss:363 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-ml {
+    background-position: 0 top;
+}
+/* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/frame.scss:371 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-mr {
+    background-position: right top;
+}
+/* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/frame.scss:379 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-tc {
+    background-position: 0 0;
+}
+/* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/frame.scss:383 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-bc {
+    background-position: 0 -1px;
+}
+/* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/frame.scss:388 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-tr,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-br,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-mr {
+    padding-right: 1px;
+}
+/* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/frame.scss:394 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-tl,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-bl,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-ml {
+    padding-left: 1px;
+}
+/* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/frame.scss:400 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-tc {
+    height: 1px;
+}
+/* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/frame.scss:403 */
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-bc {
+    height: 1px;
+}
 /* http://localhost:1842/ext/classic/theme-base/sass/etc/mixins/frame.scss:407 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-tl,
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-tab-default-right-bl,
