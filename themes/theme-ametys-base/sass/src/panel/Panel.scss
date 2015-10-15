@@ -19,51 +19,50 @@
     background-color: $panel-body-background-color;  
 }
 
-.a-tool-layout-zoned-focused {
-    @for $i from 1 through length($ametys-tool-tab-colors) {
-        $index: $i - 1;
-    
-        $active-color-dark: nth($ametys-tool-tab-colors-dark, $i);
-        $active-color: nth($ametys-tool-tab-colors, $i);
-        $active-color-light: nth($ametys-tool-tab-colors-light, $i);
-        
-        &.a-tool-layout-zoned-panel-#{$index*10} {
-            %colored-as-panel-body {
-                border-color: $active-color;
-                background-color: lighten($active-color-light, 30%);  
-            }
-        
-            @include extjs-panel-ui(
-                $ui: 'default',
-                
-                $ui-border-color: $active-color,
-                $ui-header-color: lighten($active-color-light, 30%),
-                $ui-header-border-color: $active-color,
-                $ui-header-background-color: $active-color,
-                $ui-body-border-color: $active-color,
-                $ui-body-background-color: lighten($active-color-light, 30%)
-            );
-            
-            @include extjs-panel-ui(
-                $ui: 'default-framed',
-        
-                $ui-border-color: $active-color,
-                $ui-header-color: lighten($active-color-light, 30%),
-                $ui-header-border-color: $active-color,
-                $ui-header-background-color: $active-color,
-                $ui-body-border-color: $active-color,
-                $ui-body-background-color: lighten($active-color-light, 30%),
+@for $i from 1 through length($ametys-tool-tab-colors) {
+    $index: $i - 1;
 
-                $ui-border-width: $panel-frame-border-width,
-                $ui-border-radius: $panel-frame-border-radius,
-                $ui-padding: $panel-frame-padding,
-        
-                $ui-header-border-width: $panel-frame-header-border-width,
-                $ui-header-inner-border-width: $panel-frame-header-inner-border-width,
-                $ui-header-padding: $panel-frame-header-padding,
-        
-                $ui-body-border-width: $panel-frame-body-border-width
-            );            
+    $active-color-dark: nth($ametys-tool-tab-colors-dark, $i);
+    $active-color: nth($ametys-tool-tab-colors, $i);
+    $active-color-light: nth($ametys-tool-tab-colors-light, $i);
+    
+    .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-#{$index*10} {
+        // Other component stuff
+        %colored-as-panel-body {
+            border-color: $active-color;
+            background-color: lighten($active-color-light, 30%);  
         }
-    }        
-}
+        
+        @include extjs-panel-ui(
+            $ui: 'default',
+            
+            $ui-border-color: $active-color,
+            $ui-header-color: lighten($active-color-light, 30%),
+            $ui-header-border-color: $active-color,
+            $ui-header-background-color: $active-color,
+            $ui-body-border-color: $active-color,
+            $ui-body-background-color: lighten($active-color-light, 30%)
+        );
+        
+        @include extjs-panel-ui(
+            $ui: 'default-framed',
+    
+            $ui-border-color: $active-color,
+            $ui-header-color: lighten($active-color-light, 30%),
+            $ui-header-border-color: $active-color,
+            $ui-header-background-color: $active-color,
+            $ui-body-border-color: $active-color,
+            $ui-body-background-color: lighten($active-color-light, 30%),
+
+            $ui-border-width: $panel-frame-border-width,
+            $ui-border-radius: $panel-frame-border-radius,
+            $ui-padding: $panel-frame-padding,
+    
+            $ui-header-border-width: $panel-frame-header-border-width,
+            $ui-header-inner-border-width: $panel-frame-header-inner-border-width,
+            $ui-header-padding: $panel-frame-header-padding,
+    
+            $ui-body-border-width: $panel-frame-body-border-width
+        );            
+    }
+}        

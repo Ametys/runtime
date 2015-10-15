@@ -27,7 +27,10 @@
             @include extjs-progress-ui(
                 $ui: 'default',
                 
-                $ui-bar-background-color: $active-color
+                $ui-bar-background-color: $active-color,
+                $ui-background-color: $active-color-light,
+                $ui-color-front: #FFFFFF,
+                $ui-color-back: $active-color-dark
             );
         }
     }
