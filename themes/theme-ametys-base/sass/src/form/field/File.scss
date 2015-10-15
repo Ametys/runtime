@@ -37,3 +37,31 @@
         }
     }
 }
+
+.a-form-file-widget-img {
+	text-align: center;
+	padding: 2px;
+	margin-right: 5px;
+}
+
+.a-form-file-widget-img-border {
+	text-align: center;
+	border: 1px solid;
+	border-color: $form-field-border-color;
+	padding: 2px;
+	margin-right: 5px;
+}
+
+.a-form-file-widget-img-border img {
+    vertical-align: middle;
+}
+
+.#{$prefix}form-file-wrap .#{$prefix}form-trigger-wrap:after {
+    content: attr(data-maxsizemsg);
+    display: table-row;
+	color: lighten($color, 40%); 
+	font-size: $font-size*0.9;
+	font-style: italic;
+	padding-left: 5px;
+	padding-top: 2px;
+}

@@ -48,6 +48,9 @@
 
 .a-form-readable-text {
 	padding-top: round(($form-field-height - $font-size)/3);
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .#{$prefix}form-empty .a-form-readable-text {
@@ -61,15 +64,13 @@
 } 
 
 .a-form-abstract-field.x-form-invalid .x-form-item-body {
-	border-width:1px;
-	border-style: solid;
-	border-color: dynamic($ametys-background-color-error);
+	border: $form-field-border-width solid;
+	border-color: $form-field-border-color-error;
 }
 
 .a-form-abstract-field.x-form-warning .x-form-item-body {
-	border-width:1px;
-	border-style: solid;
-	border-color: dynamic($ametys-background-color-warn);
+	border: $form-field-border-width solid;
+	border-color: $form-field-border-color-warn;
 }
 
 .a-form-abstract-field .x-btn {
