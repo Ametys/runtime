@@ -26,19 +26,19 @@ function openTool1()
         type: Math.round(Math.random() * 6) * 10,
         
         items: {
-        	xtype: 'panel',
-        	title: 'Collapsible light panel',
-        	collapsible: true,
+            xtype: 'panel',
+            title: 'Collapsible light panel',
+            collapsible: true,
             titleCollapse: true,
-        	ui: 'light',
-        	header: {
-        		titlePosition: 1
-        	},
-        	tools: [{type: 'refresh'}, {type: 'close'}],
-        	items: {
-        		xtype: 'component',
-        		cls: 'a-text',
-        		html: 'This is tool one<br/>'
+            ui: 'light',
+            header: {
+                titlePosition: 1
+            },
+            tools: [{type: 'refresh'}, {type: 'close'}],
+            items: {
+                xtype: 'component',
+                cls: 'a-text',
+                html: 'This is tool one<br/>'
                     + '<ul>'
                     +       '<li>Contextual tab 1 <a href="javascript:tabContextual1.showContextualTab()">show</a> <a href="javascript:tabContextual1.hideContextualTab()">hide</a></li>'
                     +       '<li>Contextual tab 2 <a href="javascript:tabContextual2.showContextualTab()">show</a> <a href="javascript:tabContextual2.hideContextualTab()">hide</a></li>'
@@ -49,7 +49,7 @@ function openTool1()
                     +       '<li>Contextual tab 6 <a href="javascript:tabContextual6.showContextualTab()">show</a> <a href="javascript:tabContextual6.hideContextualTab()">hide</a></li>'
                     +       '<li>Contextual tab 7 <a href="javascript:tabContextual7.showContextualTab()">show</a> <a href="javascript:tabContextual7.hideContextualTab()">hide</a></li>'
                     + '</ul>',
-        	}
+            }
         },
         closable: true
     });
@@ -68,7 +68,8 @@ function openTool2()
                             { name: 'Frederick', gender: 'male', age: 74 }
                         ]
                     });
-                    
+               
+    var id = Ext.id();                    
     var tool = Ext.create("Ametys.ui.tool.ToolPanel", {
         title: 'My Tool n°2 - ' + monindex++,
         description: 'This is my tool numero duo',
@@ -76,7 +77,8 @@ function openTool2()
         mediumIcon: '/test/resources/img/editpaste_32.gif',
         largeIcon: '/test/resources/img/editpaste_48.gif',
         type: Math.round(Math.random() * 6) * 10,
-        dockedItems: [ createOodPanel() ],
+        id: id,
+        dockedItems: [ createOodPanel(id) ],
         layout: 'fit',
         closable: true,
         items: [
@@ -231,15 +233,15 @@ function openTool4()
                 }
             },
             {
-            	xtype: 'button',
-            	text: 'Error dialog',
+                xtype: 'button',
+                text: 'Error dialog',
                 handler: function() {
-                	 Ametys.log.ErrorDialog.display({
-                	    title: "Titre de l'erreur",
-                	    text: "Ceci est le texte de l'erreur<br/>Il peut très très long long long long long long long long long long long long long long long long long<br/>et sur plusieurs lignes ?",
-            	        details: "Ceci est la stacktrace de l'erreur...\n\ligne 1 longue longue longue longue longue longue longue longue longue longue\nligne 2 un moins longue longue longue\nligne 3\nligne 3\nligne 3\nligne 3\nligne 3\nligne 3\nligne 3\nligne 3\nligne 3\nligne 3",
-            	        category: 'Ametys.my.Component' 
-                	 });
+                     Ametys.log.ErrorDialog.display({
+                        title: "Titre de l'erreur",
+                        text: "Ceci est le texte de l'erreur<br/>Il peut très très long long long long long long long long long long long long long long long long long<br/>et sur plusieurs lignes ?",
+                        details: "Ceci est la stacktrace de l'erreur...\n\ligne 1 longue longue longue longue longue longue longue longue longue longue\nligne 2 un moins longue longue longue\nligne 3\nligne 3\nligne 3\nligne 3\nligne 3\nligne 3\nligne 3\nligne 3\nligne 3\nligne 3",
+                        category: 'Ametys.my.Component' 
+                     });
                 }
             }
         ]
@@ -288,7 +290,7 @@ function openTool6()
 }
 
 
-function createOodPanel()
+function createOodPanel(id)
 {
     var button = Ext.create("Ext.Button", {
         dock: 'top',
@@ -304,7 +306,7 @@ function createOodPanel()
             text: "Data currently displayed are not up to date.<br/><br/>By clicking on the yellow bar you will refresh the view.<br/><br/><span style='font-style: italic'>The refresh is not automatic for performances purpose.</span>",
             inribbon: false
         },
-        handler: Ext.bind(this.refresh, this, [true], false)
+        handler: Ext.bind(function() { Ext.getCmp(id).items.getAt(0).mask("Les données affichées par cet outil ne sont à jour et peuvent être incohérentes.<br/><a href='#'>Cliquez ici pour rafraichir l'affichage</a>.", "a-mask-outofdate"); }, this, [true], false)
     });
     
     return button;

@@ -670,16 +670,17 @@ Ext.define("Ametys.tool.Tool",
 			this._oodPanel.show();
 			if (major)
 			{
+                var msg = "<i18n:translate><i18n:text i18n:key='PLUGINS_CORE_UI_MSG_TOOLS_OUTOFDATEPANEL_MAJOR'/><i18n:param><a href=\"#\" onclick=\"Ametys.tool.ToolsManager.getTool('" + this.getId() + "').refresh(); return false;\"></i18n:param><i18n:param></a></i18n:param></i18n:translate>"; 
 				if (this._contentPanel.rendered)
 				{
-					this._contentPanel.mask("<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_TOOLS_OUTOFDATEPANEL_MAJOR'/>", "ametys-mask-unloading");
+					this._contentPanel.mask(msg, "ametys-mask-unloading");
 				}
 				else
 				{
 					this._contentPanel.on('afterrender', function() {
 						if (this._outOfDate == Ametys.tool.Tool.OOD_MAJOROUTOFDATE)
 						{
-							this._contentPanel.mask("<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_TOOLS_OUTOFDATEPANEL_MAJOR'/>", "ametys-mask-unloading");
+							this._contentPanel.mask(msg, "a-mask-outofdate");
 						}
 					}, this, { single: true });
 				}
