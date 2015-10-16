@@ -299,7 +299,7 @@ Ext.define('Ametys.plugins.core.users.UserRightsTool', {
 		this.setTitle(title);
 		this.setDescription(description);
 		
-		this.showUpToDate();
+		this.showRefreshed();
 	},
 	
 	/**

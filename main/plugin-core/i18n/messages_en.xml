@@ -176,10 +176,10 @@
     <message key="PLUGINS_CORE_UITOOL_GROUPS_GROUPS_RESULT_3"> on </message>
     <!-- Actions -->
     <message key="PLUGINS_CORE_GROUPS_ADD_LABEL">Create group</message>
-    <message key="PLUGINS_CORE_GROUPS_ADD_DESCRIPTION">Create new group</message>
+    <message key="PLUGINS_CORE_GROUPS_ADD_DESCRIPTION">Create a new group</message>
     <message key="PLUGINS_CORE_GROUPS_ADD_ERROR">An error occurred: the group was not created.</message>
     <message key="PLUGINS_CORE_GROUPS_RENAME_LABEL">Rename</message>
-    <message key="PLUGINS_CORE_GROUPS_RENAME_DESCRIPTION">Rename selected group</message>
+    <message key="PLUGINS_CORE_GROUPS_RENAME_DESCRIPTION">Rename the selected group.</message>
     <message key="PLUGINS_CORE_GROUPS_RENAME_ERROR">An error occurred: the group was not renamed.</message>
     <message key="PLUGINS_CORE_GROUPS_DELETE_LABEL">Delete</message>
     <message key="PLUGINS_CORE_GROUPS_DELETE_DESCRIPTION">Delete selected group</message>

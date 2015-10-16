@@ -268,7 +268,7 @@ Ext.define(
 					type: Ametys.message.Message.MODIFIED,
 					parameters: {major: true},
 					targets: {
-						type: params[2] || Ametys.message.MessageTarget.GROUP,
+						type: params[3] || Ametys.message.MessageTarget.GROUP,
 						parameters: {id: group.id}
 					}
 				});
