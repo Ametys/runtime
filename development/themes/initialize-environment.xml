@@ -28,6 +28,25 @@
         <echo>Creating or updating symbolic links</echo>
         <mkdir dir="${ametys-work-dir}"/>
         <echo file="${ametys-work-dir}/DO NOT REMOVE WORK MANUALLY but use the 'leave-environment.xml' script"></echo>
+        
+        <!-- Create symbolic links -->
+        <antcall target="update-links"/>
+
+        <!-- create sencha workspace if necessary -->
+        <antcall target="create-sencha-workspace"/>
+        <!-- create sencha application if necessary -->
+        <antcall target="create-sencha-application"/>
+        <!-- create sencha themes if necessary -->
+        <antcall target="create-sencha-themes"/>
+
+        <echo>Adding special files</echo>        
+        <!-- get favico to avoid 404 -->
+        <copy file="${ametys-runtime-dir}/main/kernel/src/org/ametys/runtime/servlet/favicon.ico" tofile="${ametys-work-dir}/favicon.ico"/>
+        <!-- generating index.html page -->
+        <echo file="${ametys-work-dir}/index.html">&lt;html&gt;&lt;head&gt;&lt;meta http-equiv="refresh" content="0; url=/ametys/test/index.html"&gt;&lt;/head&gt;&lt;/html&gt;</echo>
+    </target>
+    
+    <target name="update-links">
         <!-- link ext dir -->
         <antcall target="create-link">
             <param name="new-link" location="${ametys-work-dir}/ext"/>
@@ -53,19 +72,6 @@
             <param name="new-link" location="${ametys-work-dir}/ametys/test/"/>
             <param name="original-dir" location="${ametys-runtime-dir}/test/clientside"/>
         </antcall>
-
-        <!-- create sencha workspace if necessary -->
-        <antcall target="create-sencha-workspace"/>
-        <!-- create sencha application if necessary -->
-        <antcall target="create-sencha-application"/>
-        <!-- create sencha themes if necessary -->
-        <antcall target="create-sencha-themes"/>
-
-        <echo>Adding special files</echo>        
-        <!-- get favico to avoid 404 -->
-        <copy file="${ametys-runtime-dir}/main/kernel/src/org/ametys/runtime/servlet/favicon.ico" tofile="${ametys-work-dir}/favicon.ico"/>
-        <!-- generating index.html page -->
-        <echo file="${ametys-work-dir}/index.html">&lt;html&gt;&lt;head&gt;&lt;meta http-equiv="refresh" content="0; url=/ametys/test/index.html"&gt;&lt;/head&gt;&lt;/html&gt;</echo>
     </target>
     
     <!-- +
