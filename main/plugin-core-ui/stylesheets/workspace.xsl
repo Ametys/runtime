@@ -408,7 +408,8 @@
                            
                            // Dynamically attach the xtype
                            Ext.ClassManager.aliasToName["widget.<xsl:value-of select="widget/@id"/>"] = "<xsl:value-of select="widget/action/@class"/>";
-                           Ext.ClassManager.nameToAliases["<xsl:value-of select="widget/action/@class"/>"] = Ext.Array.from(Ext.ClassManager.nameToAliases['Ametys.runtime.form.widget.Text']).push("widget.<xsl:value-of select="widget/@id"/>");
+                           Ext.ClassManager.nameToAliases["<xsl:value-of select="widget/action/@class"/>"] = Ext.Array.from(Ext.ClassManager.nameToAliases["<xsl:value-of select="widget/action/@class"/>"]);
+                           Ext.ClassManager.nameToAliases["<xsl:value-of select="widget/action/@class"/>"].push("widget.<xsl:value-of select="widget/@id"/>");
                            
                            for (var i = 0; i &lt; widgetFTypes.length; i++)
                            {
