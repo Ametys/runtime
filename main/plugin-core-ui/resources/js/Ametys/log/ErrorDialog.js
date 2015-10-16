@@ -105,20 +105,21 @@ Ext.define(
 			var details = config.details;
 			var category = config.category;
 			
-			var centralMsg = new Ext.Panel({
+			var centralMsg = Ext.create('Ext.container.Container', {
+				cls: 'error-dialog-text',
+				scrollable: true,
+				border: false,
 		    	html: text,
-		    	cls: 'error-dialog-text',
-		    	scrollable: true,
-		    	border: false,
-		    	height: 67
+		    	height: 70
 		    });
+			
 			var detailledText = this._prepareDetails(details);
-			var detailledMsg = new Ext.Panel({
+			var detailledMsg = Ext.create('Ext.container.Container', {
 		    	cls: 'error-dialog-details',
 		    	scrollable: true, 
-		    	border: false,
+		    	border: true,
 		    	hidden: true,
-		    	height: 151
+		    	height: 160
 		    });
 			detailledMsg.update(detailledText)
 			
@@ -136,8 +137,11 @@ Ext.define(
 				title: "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_ERRORDIALOG_ERROR_MSG'/>" + title,
 				originalTitle: "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_ERRORDIALOG_ERROR_MSG'/>" + title,
 				bodyPadding: '0',
+				layout: {
+                    type: 'vbox',
+                    align: 'stretch'
+                },
 				width: 500,
-				height: 130,
 				scrollable: false,
 				iconCls: 'error-dialog-icon',
 				items: [ centralMsg, detailledMsg ],
@@ -173,13 +177,11 @@ Ext.define(
 				    		{
 				    			detailledMsg.show();
 				    			this.setText("<< <i18n:text i18n:key='PLUGINS_CORE_UI_MSG_ERRORDIALOG_DETAILS'/>");
-				    			currentErrorDialog.setHeight(currentErrorDialog.initialConfig.height + 151)
 				    		}
 				    		else
 				    		{
 				    			this.setText("<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_ERRORDIALOG_DETAILS'/> >>");
 				    			detailledMsg.hide();
-				    			currentErrorDialog.setHeight(currentErrorDialog.initialConfig.height)
 				    		}
 						}
 					}
