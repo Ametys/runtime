@@ -289,7 +289,7 @@ Ext.define(
 				Ext.create('Ametys.message.Message', {
 					type: Ametys.message.Message.MODIFIED,
 					targets: {
-						type: params[2] || Ametys.message.MessageTarget.GROUP,
+						type: params[3] || Ametys.message.MessageTarget.GROUP,
 						parameters: {id: group.id}
 					}
 				});
