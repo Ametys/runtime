@@ -13,6 +13,8 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+ 
+ 
 var ribbon, layout;
 function onreadyfunction() {
     ribbon = Ext.create("Ametys.ui.fluent.ribbon.Ribbon", {

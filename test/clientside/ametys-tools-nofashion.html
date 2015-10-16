@@ -1,0 +1,496 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+   Copyright 2015 Anyware Services
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta content="IE=edge" http-equiv="X-UA-Compatible" />	
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>Tools test</title>
+
+        <link rel="stylesheet" type="text/css" href="/packages/local/theme-ametys-base/build/resources/theme-ametys-base-all-debug.css"/>
+        <link rel="stylesheet" type="text/css" href="/ext/build/packages/ux/classic/neptune/resources/ux-all-debug.css"/>
+
+        <script src="/ext/build/ext-all-debug.js" type="text/javascript"></script>
+        <script src="/ext/build/classic/locale/locale-fr-debug.js" type="text/javascript"></script>
+            
+        <script src="/packages/local/theme-ametys-base/build/theme-ametys-base-debug.js" type="text/javascript"></script>
+        <script src="/ext/build/packages/ux/classic/ux-debug.js" type="text/javascript"></script>
+            
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ext.fixes.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ext.enhancements.js" type="text/javascript"></script>
+        
+        <script type="text/javascript">
+        a = Ext.BLANK_IMAGE_URL;
+        ametys_opts = { 'context-path': '/ametys', 'language-code': 'fr'};
+        </script>
+			
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/log/Logger.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/log/Logger/Entry.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/log/LoggerFactory.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/log/ErrorDialog.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/window/DialogBox.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/window/MessageBox.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/data/ServerCaller.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/data/ServerComm.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/data/ServerCommProxy.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/data/ServerComm/TimeoutDialog.js" type="text/javascript"></script>
+        
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/form/AbstractField.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/form/AbstractFieldsWrapper.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/form/field/DateTime.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/form/field/ChangePassword.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/form/field/ReferencedNumberField.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/form/field/RichText.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/form/field/Code.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/form/field/TextArea.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/form/field/Password.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/form/field/StringTime.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/form/ConfigurableFormPanel.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/form/ConfigurableFormPanel/Repeater.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/form/ConfigurableFormPanel/ParameterChecker.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/form/ConfigurableFormPanel/ParameterCheckersDAO.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/form/WidgetManager.js" type="text/javascript"></script>
+
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/ui/fluent/tip/Tooltip.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/ui/misc/Badge.js" type="text/javascript"></script>
+        
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Ribbon.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Ribbon/Title.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Ribbon/ContextualTabGroupContainer.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Ribbon/ContextualTabGroup.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Ribbon/MessageContainer.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Ribbon/SearchMenu.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Ribbon/Notificator.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Ribbon/Notificator/Notification.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Ribbon/Notificator/Toast.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/TabPanel.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Panel.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Group.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/GroupScale.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/GroupScalePart.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/controls/RibbonButtonMixin.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/controls/Button.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/controls/SplitButton.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/controls/Toolbar.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/controls/gallery/MenuPanel.js" type="text/javascript"></script>
+
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/ui/tool/ToolPanel.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/ui/tool/ToolsLayout.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/ui/tool/layout/ZonedTabsToolsLayout.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/ui/tool/layout/ZonedTabsToolsLayout/ZoneTabsToolsPanel.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/ui/tool/layout/ZonedTabsToolsLayout/ZonedTabsDD.js" type="text/javascript"></script>
+        
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/message/Message.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/message/MessageBus.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/message/MessageTarget.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/message/MessageTargetHelper.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/message/MessageTargetFactory.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/message/factory/DefaultMessageTargetFactory.js" type="text/javascript"></script>
+
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/relation/RelationManager.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/relation/RelationHandler.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/relation/RelationPoint.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/relation/Relation.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/relation/dd/AmetysDropZone.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/relation/dd/AmetysViewDragZone.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/relation/dd/AmetysTreeViewDragDrop.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/relation/dd/AmetysTreeViewDragZone.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/relation/dd/AmetysTreeViewDropZone.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/relation/dd/AmetysGridViewDragDrop.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/relation/dd/AmetysGridViewDropZone.js" type="text/javascript"></script>
+
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/ribbon/RibbonManager.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/ribbon/RibbonElementController.js" type="text/javascript"></script>
+
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/ribbon/element/RibbonTabController.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/ribbon/element/tab/TabController.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/ribbon/element/tab/ContentTabController.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/ribbon/element/tab/EditionTabController.js" type="text/javascript"></script>
+
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/ribbon/element/RibbonUIController.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/ribbon/element/ui/CommonController.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/ribbon/element/ui/FieldController.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/ribbon/element/ui/ButtonController.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/ribbon/element/ui/button/OpenToolButtonController.js" type="text/javascript"></script>
+    
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/tool/ToolsManager.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/tool/ToolFactory.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/tool/factory/BasicToolFactory.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/tool/factory/UniqueToolFactory.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/tool/ToolMessageTargetFactory.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/tool/Tool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/tool/SelectionTool.js" type="text/javascript"></script>
+
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/userprefs/UserPrefsDAO.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/userprefs/UserPrefsDAOStateProvider.js" type="text/javascript"></script>
+        
+        <script src="http://localhost:8080/test/plugins/explorer/resources/js/Ametys/explorer/applications/ExplorerApplicationProvider.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/explorer/resources/js/Ametys/explorer/applications/ExplorerApplication.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/explorer/resources/js/Ametys/explorer/ExplorerNodeDAO.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/explorer/resources/js/Ametys/explorer/tree/ExplorerTree.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/explorer/resources/js/Ametys/explorer/tree/ExplorerTree/NodeEntry.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/explorer/resources/js/Ametys/explorer/resources/actions/FolderActions.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/explorer/resources/js/Ametys/explorer/resources/actions/FileActions.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/skinfactory/resources/js/Ametys/plugins/skinfactory/skin/SkinActions.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/skinfactory/resources/js/Ametys/plugins/skinfactory/helper/UploadImageUI.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/skinfactory/resources/js/Ametys/plugins/skinfactory/widgets/controller/WidgetButtonController.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/skinfactory/resources/js/Ametys/plugins/skinfactory/widgets/controller/InputText.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/skinfactory/resources/js/Ametys/plugins/skinfactory/widgets/controller/I18nInputText.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/skinfactory/resources/js/Ametys/plugins/skinfactory/widgets/menu/CssStyleWidgetMenu.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/skinfactory/resources/js/Ametys/plugins/skinfactory/widgets/menu/ParametersMenu.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/skinfactory/resources/js/Ametys/plugins/skinfactory/widgets/menu/TextAlignMenu.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/skinfactory/resources/js/Ametys/plugins/skinfactory/widgets/menu/ColorSelectorMenu.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/skinfactory/resources/js/Ametys/plugins/skinfactory/widgets/item/CssStyleWidgetItem.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/skinfactory/resources/js/Ametys/plugins/skinfactory/widgets/item/FontStyleBoldItem.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/skinfactory/resources/js/Ametys/plugins/skinfactory/widgets/item/FontStyleItalicItem.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/skinfactory/resources/js/Ametys/plugins/skinfactory/widgets/item/FontStyleUnderlineItem.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/skinfactory/resources/js/Ametys/plugins/skinfactory/widgets/gallery/VariantsGallery.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/skinfactory/resources/js/Ametys/plugins/skinfactory/widgets/gallery/AlignGallery.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/skinfactory/resources/js/Ametys/plugins/skinfactory/widgets/gallery/ImagesGallery.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/skinfactory/resources/js/Ametys/plugins/skinfactory/widgets/field/I18nInputTextField.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/cms/content/Content.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/cms/content/ContentDAO.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/cms/content/ContentType.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/cms/content/ContentTypeDAO.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/cms/content/EditContentsGrid.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/cms/navigation/NavigationElementTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/page/tool/UIZone.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/page/tool/UIZoneItem.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/page/tool/UIZoneItemDD.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/plugins/coreui/system/Announce.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/web/page/Page.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/web/page/PageDAO.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/web/sitemap/Sitemap.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/web/sitemap/SitemapDAO.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/repository/resources/js/Ametys/plugins/repository/AmetysObject.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/repository/resources/js/Ametys/plugins/repository/AmetysObjectDao.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/web/content/Content.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/web/content/ContentDAO.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/web/helper/SelectContentBySearch.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/link-directory/resources/js/Ametys/plugins/linkdirectory/link/Link.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/link-directory/resources/js/Ametys/plugins/linkdirectory/link/LinkDAO.js" type="text/javascript"></script>
+        <!--script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/plugins/coreui/system/StartTimeChecker.js" type="text/javascript"></script-->
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/search/SearchToolExtensions.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/search/ScriptToolExtensions.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/skinfactory/resources/js/Ametys/plugins/skinfactory/skin/SkinDAO.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/blog/resources/js/Ametys/plugins/blog/listener/BlogPostListener.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/repositoryapp/resources/js/Ametys/repository/RepositoryApp.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/repositoryapp/resources/js/Ametys/repository/RepositoryNode.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/repositoryapp/resources/js/Ametys/repository/RepositoryDao.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/skin/SkinDAO.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/skin/Skin.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/helper/SelectUser.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/helper/SelectGroup.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/helper/EnterURL.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/helper/FileUpload.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/form/widget/File.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/form/widget/File/FileSource.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/form/widget/File/External.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/helper/ChooseLocation.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/helper/ChooseLocation/LoadGoogleMaps.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/clipboard/Clipboard.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/helper/ChooseColor.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/cms/editor/EditorController.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/cms/editor/EditorField.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/cms/editor/InsertElementHelper.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/cms/editor/LinkHandler.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/cms/uihelper/SelectContentBySearch.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/cms/uihelper/CreateContent.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/cms/uihelper/ChooseResource.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/cms/attach/AttachmentsExplorerTree.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/cms/uihelper/ChooseAttachmentFile.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/cms/uihelper/ChooseTag.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/cms/form/widget/File/Resource.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/navhistory/HistoryDAO.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/Constants.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/skinfactory/resources/js/Ametys/plugins/skinfactory/skin/SkinModel.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/skinfactory/resources/js/Ametys/plugins/skinfactory/model/SkinModelDAO.js" type="text/javascript"></script>
+        
+        <script src="http://localhost:8080/test/plugins/admin/resources/js/Ametys/plugins/admin/system/SystemActions.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/site/SiteActions.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/admin/resources/js/Ametys/plugins/admin/logs/LogsActions.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/admin/resources/js/Ametys/plugins/admin/logs/LogLevelController.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/skin/SkinActions.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/skin/helper/CopySkinUI.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/admin/resources/js/Ametys/plugins/admin/plugins/PluginsDAO.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/admin/resources/js/Ametys/plugins/admin/plugins/PluginsActions.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/admin/resources/js/Ametys/plugins/admin/plugins/SaveChangesController.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core/resources/js/Ametys/plugins/core/profiles/controller/SelectRightsController.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core/resources/js/Ametys/plugins/core/profiles/ProfilesDAO.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core/resources/js/Ametys/plugins/core/profiles/ProfilesActions.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core/resources/js/Ametys/plugins/core/profiles/ProfilesTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/admin/resources/js/Ametys/plugins/admin/logs/LogsTool/Log.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/admin/resources/js/Ametys/plugins/admin/logs/LogsTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core/resources/js/Ametys/plugins/core/profiles/controller/ViewModeController.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/site/SuperUserActions.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core/resources/js/Ametys/plugins/core/superuser/SuperUserActions.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/skinfactory/resources/js/Ametys/plugins/skinfactory/model/SkinModelActions.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/admin/resources/js/Ametys/plugins/admin/plugins/PluginsTool/Plugin.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/admin/resources/js/Ametys/plugins/admin/plugins/PluginsTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/plugins/coreui/system/messagetracker/MessageTrackerTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/plugins/coreui/system/messagetracker/MessageTrackerTool/MessageEntry.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/plugins/coreui/configurableformpanel/TestsController.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/site/CreateSite.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/web/site/SitesTree.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/web/site/SitesTree/Site.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/site/SiteTypesView.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/site/SiteTypesView/SiteType.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/admin/resources/js/Ametys/plugins/admin/jvmstatus/SystemPropertiesTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/indexing/ReindexContents.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/skinfactory/resources/js/Ametys/plugins/skinfactory/helper/GenerateSkinUI.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/admin/resources/js/Ametys/plugins/admin/system/SystemAnnouncementController.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/repository/resources/js/Ametys/plugins/repository/admin/JCRRepositoryLink.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/admin/resources/js/Ametys/plugins/admin/system/SystemTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/artisteer/resources/js/Ametys/plugins/artisteer/ImportActions.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/skin/helper/ImportSkinUI.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/admin/resources/js/Ametys/plugins/admin/config/SaveConfigAction.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/admin/resources/js/Ametys/plugins/admin/plugins/WorkspacesTool/Workspace.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/admin/resources/js/Ametys/plugins/admin/plugins/WorkspacesTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/admin/resources/js/Ametys/plugins/admin/jvmstatus/JVMStatusTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/admin/resources/js/Ametys/plugins/admin/logs/LogsLevelTool/Category.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/admin/resources/js/Ametys/plugins/admin/logs/LogsLevelTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/admin/resources/js/Ametys/plugins/admin/jvmstatus/MonitoringTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/plugins/coreui/system/requesttracker/RequestTrackerTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/plugins/coreui/system/requesttracker/RequestTrackerTool/RequestEntry.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/plugins/coreui/system/requesttracker/RequestTrackerTool/MessageEntry.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/web/site/SiteDAO.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/runtime/profiles/ProfilesTreePanel.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/runtime/profiles/ProfilesTreePanel/NodeEntry.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/right/RightsAssignmentTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/content/tool/OldContentTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/explorer/resources/js/Ametys/plugins/explorer/tool/ExplorerTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/explorer/ExplorerNodeDAO.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/explorer/ExplorerNode.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/explorer/Resource.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/content/tool/UnlockTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/iframe/IframeTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/sitemap/SitemapTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/web/sitemap/SitemapTree.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/web/sitemap/SitemapIcons.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/web/sitemap/SitemapTree/Page.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/web/sitemap/SitemapTree/Sitemap.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/repositoryapp/resources/js/Ametys/repository/ConsoleResultTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/repositoryapp/resources/js/Ametys/repository/ConsoleTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/content/tool/PropertiesTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core/resources/js/Ametys/plugins/core/groups/GroupsDAO.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core/resources/js/Ametys/plugins/core/groups/GroupsTool/Group.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core/resources/js/Ametys/plugins/core/groups/GroupsTool/UserGroup.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core/resources/js/Ametys/plugins/core/groups/GroupsTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/dashboard/resources/js/Ametys/plugins/dashboard/DashboardTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/dashboard/resources/js/Ametys/plugins/dashboard/DashboardTool/ContentEntry.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/dashboard/resources/js/Ametys/cms/dashboard/DashboardDAO.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/pageaccess/PageAccessTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/pageaccess/PageAccessTreePanel.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/pageaccess/PageAccessTreePanel/PageAccessEntry.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core/resources/js/Ametys/plugins/core/profiles/ProfilesTool/Profile.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core/resources/js/Ametys/plugins/core/profiles/ProfilesTool/Right.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/alias/AliasTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/alias/AliasTool/Alias.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/datainclusion/resources/js/Ametys/plugins/datainclusion/DataSourcesTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/datainclusion/resources/js/Ametys/plugins/datainclusion/DataSourcesTree.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/datainclusion/resources/js/Ametys/plugins/datainclusion/DataSourcesTree/DataSourceEntry.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/cms/file/FileExplorerTree.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/cms/file/FileExplorerTree/FileNode.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/cms/file/FileExplorerTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/skineditor/resources/js/Ametys/plugins/skineditor/SkinResourcesTree.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/skineditor/resources/js/Ametys/plugins/skineditor/SkinResourcesTree/SkinResourcesNode.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/skineditor/resources/js/Ametys/plugins/skineditor/SkinEditorTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/cms/attach/AttachmentsTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/content/tool/ContentAttachmentsTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/skin/SkinConfigurationTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/newsletter/resources/js/Ametys/plugins/newsletter/NewslettersTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/newsletter/resources/js/Ametys/plugins/newsletter/NewslettersTree.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/newsletter/resources/js/Ametys/plugins/newsletter/NewslettersTree/NewsletterNodeEntry.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/newsletter/resources/js/Ametys/cms/newsletter/CategoryDAO.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/content/tool/CommentsTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/system/log/LogTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/params/ParametersActions.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/params/ParameterFilesTree.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/params/tool/ParameterFilesTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/cms/file/FileEditorTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/params/tool/ParameterFileEditorTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/content/tool/ContentGridHelper.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/search/SearchTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/content/tool/SimpleContentsEditionTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/tag/TagsTreePanel/TagNode.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/tag/tool/TagsTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/tag/TagsTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/site/SiteStatisticsTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/site/SiteStatisticsTool/Statistic.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/site/SiteConfigurationTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/site/GlobalStatisticsTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/site/SitesTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/navhistory/NavHistoryTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/link-directory/resources/js/Ametys/plugins/linkdirectory/link/LinkDirectoryTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/link-directory/resources/js/Ametys/plugins/linkdirectory/link/LinkDirectoryTool/Link.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/content/tool/SearchArchivesTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/page/tool/PageTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/page/tool/PageToolFactory.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/search/advanced/AdvancedSearchParser.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/search/advanced/AdvancedSearchFormPanel.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/search/ScriptTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core/resources/js/Ametys/plugins/core/users/UsersDAO.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core/resources/js/Ametys/plugins/core/users/UsersTool/User.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core/resources/js/Ametys/plugins/core/users/UsersTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/help/HelpTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/admin/resources/js/Ametys/plugins/admin/config/ConfigTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/repository/resources/js/Ametys/plugins/repository/AmetysObjectMetadataTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/repository/resources/js/Ametys/plugins/repository/tree/AmetysTreePanel.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/repository/resources/js/Ametys/plugins/repository/AmetysViewTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/page/tool/PagePropertiesTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/skinfactory/resources/js/Ametys/plugins/skinfactory/tool/SkinFactoryTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/skinfactory/resources/js/Ametys/plugins/skinfactory/SkinParametersManager.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/newsletter/resources/js/Ametys/plugins/newsletter/subscribers/SubscribersTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/skineditor/resources/js/Ametys/plugins/skineditor/EditorTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/page/tool/PageAttachmentsTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/skin/SkinTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/skinfactory/resources/js/Ametys/plugins/skinfactory/skin/SkinTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/explorer/resources/js/Ametys/plugins/explorer/applications/resources/ResourceCollectionTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/explorer/resources/js/Ametys/plugins/explorer/applications/resources/ExplorerSearchTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/explorer/resources/js/Ametys/plugins/explorer/view/ImageThumbnailViewer.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/explorer/resources/js/Ametys/plugins/explorer/view/DetailsViewer.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/explorer/resources/js/Ametys/plugins/explorer/view/SearchDetailsViewer.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/survey/resources/js/Ametys/plugins/survey/LimitAccessTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/survey/resources/js/Ametys/plugins/survey/LimitAccessTree.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/survey/resources/js/Ametys/plugins/survey/LimitAccessTree/LimitAccessNodeEntry.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/glossary/resources/js/Ametys/plugins/glossary/GlossaryTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/glossary/resources/js/Ametys/plugins/glossary/GlossaryTool/DefinitionEntry.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/glossary/resources/js/Ametys/cms/glossary/GlossaryDAO.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/content/tool/GlobalConsistencyTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/content/tool/GlobalConsistencyTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/content/tool/ConsistencyTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/explorer/resources/js/Ametys/plugins/explorer/applications/threads/ThreadTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/explorer/resources/js/Ametys/plugins/explorer/applications/calendars/CalendarTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/survey/resources/js/Ametys/plugins/survey/SurveyStatisticsTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/extjs6/resources/packages/charts/classic/charts.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/survey/resources/js/Ametys/plugins/survey/SurveyTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/survey/resources/js/Ametys/plugins/survey/SurveyTree.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/survey/resources/js/Ametys/plugins/survey/SurveyTree/SurveyNodeEntry.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/survey/resources/js/Ametys/cms/survey/SurveyDAO.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/survey/resources/js/Ametys/cms/survey/PageDAO.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/survey/resources/js/Ametys/cms/survey/QuestionDAO.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/survey/resources/js/Ametys/plugins/survey/SurveyPreviewTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core/resources/js/Ametys/plugins/core/users/UserRightsTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/repositoryapp/resources/js/Ametys/repository/utils/Utils.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/repositoryapp/resources/js/Ametys/repository/tree/JcrTreePanel.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/repositoryapp/resources/js/Ametys/repository/tree/SearchTreePanel.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/repositoryapp/resources/js/Ametys/repository/JcrViewTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/repositoryapp/resources/js/Ametys/repository/NodePropertiesTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/repositoryapp/resources/js/Ametys/repository/RepositoryDescriptorsTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/contenttype/ContentTypeHierarchyTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/content/tool/ContentTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/content/tool/ContentTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/content/tool/HistoryTool.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/plugins/coreui/system/reload/ReloadActions.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/plugins/coreui/userprefs/UserPrefsActions.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/repositoryapp/resources/js/Ametys/repository/message/RepositoryNodeMessageTargetFactory.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/content/ContentMessageTargetFactory.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/content/ArchivedContentMessageTargetFactory.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/newsletter/resources/js/Ametys/plugins/newsletter/NewsletterCategoryMessageTargetFactory.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/newsletter/resources/js/Ametys/cms/newsletter/NewsletterCategory.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/link-directory/resources/js/Ametys/plugins/linkdirectory/link/LinkDirectoryMessageTargetFactory.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/explorer/resources/js/Ametys/plugins/explorer/message/ExplorerNodeMessageTargetFactory.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/explorer/resources/js/Ametys/plugins/explorer/message/ExplorerCalendarEventMessageTargetFactory.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/explorer/resources/js/Ametys/plugins/explorer/message/ExplorerPostMessageTargetFactory.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/skin/SkinMessageTargetFactory.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/repository/resources/js/Ametys/plugins/repository/AmetysObjectMessageTargetFactory.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/page/PageMessageTargetFactory.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/sitemap/SitemapMessageTargetFactory.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/skinfactory/resources/js/Ametys/plugins/skinfactory/model/SkinModelMessageTargetFactory.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/explorer/resources/js/Ametys/plugins/explorer/relations/ExplorerResourcesRelationHandler.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/explorer/resources/js/Ametys/plugins/explorer/relations/ExplorerThreadsRelationHandler.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/relations/DefaultContentAttachmentsRelationHandler.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/sitemap/SitemapActions.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/page/relations/PagesRelationHandler.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/relations/DefaultTagsRelationHandler.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/tag/TagActions.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/site/DefaultSitesRelationHandler.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/plugins/web/tag/relations/SetTagsRelationHandler.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/explorer/resources/js/Ametys/plugins/explorer/relations/ExplorerCalendarsRelationHandler.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/relations/SetContentMetadataRelationHandler.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/relations/SetContentMetadataRelationHandler/ChooseMetadata.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/survey/resources/js/Ametys/plugins/survey/relations/SurveysRelationHandler.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/skineditor/resources/js/Ametys/plugins/skineditor/relations/MoveResourceRelationHandler.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/web/form/widget/SelectSkin.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/form/widget/LocalComboBox.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/form/widget/DefaultWidgets.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/form/widget/RichText/RichTextConfiguration.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/cms/form/widget/ExplorerFolder.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/form/widget/AbstractQueryableComboBox.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/web/form/widget/SelectSite.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/web/helper/ChooseSite.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/form/widget/BooleanCombobox.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/form/widget/GeoCode.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/form/widget/Group.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/web/form/widget/FOGroup.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/cms/form/widget/SelectContent/ContentEntry.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/cms/form/widget/SelectContent.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/cms/form/widget/ComposeContent.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/cms/form/widget/Tag.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/plugins/cms/tag/TagsTreePanel.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/web/form/widget/Tag.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/cms/form/widget/SelectMetadataToSortBy.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/form/widget/User.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/web/form/widget/FOUser.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/link-directory/resources/js/Ametys/plugins/linkdirectory/widget/SelectLinkTheme.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/link-directory/resources/js/Ametys/plugins/linkdirectory/theme/LinkThemesDialog.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/newsletter/resources/js/Ametys/cms/newsletter/widget/SelectCategory.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/newsletter/resources/js/Ametys/cms/newsletter/helper/ChooseCategory.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/cms/form/widget/SelectSimpleContent.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/cms/form/widget/SelectTypedMetadata.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/cms/form/widget/SelectMetadataToFilterBy.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/core-ui/resources/js/Ametys/form/widget/FlipFlap.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/server-directory/resources/js/Ametys/plugins/serverdirectory/widgets/ServerDirectory.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/server-directory/resources/js/Ametys/plugins/serverdirectory/widgets/ServerDirectory/Directory.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/cms/resources/js/Ametys/cms/form/widget/MetadataSet.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/web/form/widget/SelectPage.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/web/form/widget/SelectPage/PageEntry.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/web/helper/ChoosePage.js" type="text/javascript"></script>
+        <script src="http://localhost:8080/test/plugins/web/resources/js/Ametys/web/form/widget/SearchContext.js" type="text/javascript"></script>
+                  
+		<!-- JS -->
+        <script type="text/javascript">
+            Ext.BLANK_IMAGE_URL = a;
+            ametys_opts = { 'context-path': '', 'language-code': 'fr'};
+            
+            Ametys.userprefs.UserPrefsDAO.setDefaultPrefContext("/test");
+            Ametys.userprefs.UserPrefsDAO.preload({});
+            Ametys.userprefs.UserPrefsDAO.saveValues = function(params, callback, prefContext, priority, cancelCode) { callback(true, null); ;}
+            var upp = Ext.create('Ametys.userprefs.UserPrefsDAOStateProvider', { preference: 'workspace' })
+            Ext.state.Manager.setProvider(upp);
+        </script>
+
+        <script type="text/javascript">
+            ribbonItems = []; 
+        </script>
+
+        <script type="text/javascript" src="resources/js/tools/factories.js"></script>
+        
+        <script type="text/javascript" src="resources/js/tools/test.js"></script>
+        <script type="text/javascript" src="resources/js/tools/admin.js"></script>
+        <script type="text/javascript" src="resources/js/tools/developer.js"></script>
+
+        <script type="text/javascript" src="resources/js/tools/messagetargetfactories.js"></script>
+
+		<script type="text/javascript" src="resources/js/tools/base.js"></script>
+	</head>
+
+	<body>
+	</body>
+</html>

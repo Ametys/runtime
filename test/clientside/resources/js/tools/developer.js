@@ -38,6 +38,15 @@ Ametys.ribbon.RibbonManager.registerElement(control);
 control = Ext.create("Ametys.ribbon.element.ui.ButtonController", Ext.apply({"action":"Ametys.plugins.coreui.system.messagetracker.MessageTrackerTool.removeAll","tool-role":"uitool-messagestracker","tool-enable-on-status":"active","tool-description-inactive":"Ce bouton est désactivé car la fenêtre de suivi des messages du bus n'est actuellement pas ouverte","label":"Effacer les messages affichés","description":"Cliquez sur ce bouton pour effacer les messages du bus actuellement visible dans la vue de suivi.","icon-small":"/plugins/core-ui/resources/img/messages/delete_16.gif","icon-medium":"/plugins/core-ui/resources/img/messages/delete_16.gif","icon-large":"/plugins/core-ui/resources/img/messages/delete_16.gif"}, {id: "org.ametys.runtime.userinterface.MessageTrackerControl.clear", pluginName: "core-ui"}));
 Ametys.ribbon.RibbonManager.registerElement(control);
 
+   control = Ext.create("Ametys.ribbon.element.ui.button.OpenToolButtonController", Ext.apply({"primary-menu-item-id":"org.ametys.runtime.userinterface.RequestTrackerControl","opentool-role":"uitool-requeststracker","label":"Suivi des requêtes serveur","default-description":"Voir les messages envoyés au serveur","help":"org.ametys.runtime.requesttracker","icon-small":"/plugins/core-ui/resources/img/requests/requests_16.png","icon-medium":"/plugins/core-ui/resources/img/requests/requests_32.png","icon-large":"/plugins/core-ui/resources/img/requests/requests_48.png","menu-items":["org.ametys.runtime.userinterface.RequestTrackerControl","org.ametys.runtime.userinterface.RequestTrackerControl.clear"]}, {id: "org.ametys.runtime.userinterface.RequestTrackerControlMenu", pluginName: "core-ui"}));
+   Ametys.ribbon.RibbonManager.registerElement(control);
+
+   control = Ext.create("Ametys.ribbon.element.ui.button.OpenToolButtonController", Ext.apply({"opentool-role":"uitool-requeststracker","label":"Suivi des requêtes serveur","default-description":"Voir les messages envoyés au serveur","help":"org.ametys.runtime.requesttracker","icon-small":"/plugins/core-ui/resources/img/requests/requests_16.png","icon-medium":"/plugins/core-ui/resources/img/requests/requests_32.png","icon-large":"/plugins/core-ui/resources/img/requests/requests_48.png"}, {id: "org.ametys.runtime.userinterface.RequestTrackerControl", pluginName: "core-ui"}));
+   Ametys.ribbon.RibbonManager.registerElement(control);
+
+   control = Ext.create("Ametys.ribbon.element.ui.ButtonController", Ext.apply({"action":"Ametys.plugins.coreui.system.requesttracker.RequestTrackerTool.removeAll","tool-role":"uitool-requeststracker","tool-enable-on-status":"active","tool-description-inactive":"Ce bouton est désactivé car la fenêtre de suivi des requêtes du bus n'est actuellement pas ouverte","label":"Effacer les requêtes affichées","description":"Cliquez sur ce bouton pour effacer les messages de requêtes serveur actuellement visible dans la vue de suivi.","description-footer":"Voir l'aide pour plus de détails","icon-small":"/plugins/core-ui/resources/img/requests/delete_16.gif","icon-medium":"/plugins/core-ui/resources/img/requests/delete_16.gif","icon-large":"/plugins/core-ui/resources/img/requests/delete_16.gif"}, {id: "org.ametys.runtime.userinterface.RequestTrackerControl.clear", pluginName: "core-ui"}));
+   Ametys.ribbon.RibbonManager.registerElement(control);
+
 /*
  * RIBBON
  */
@@ -48,7 +57,7 @@ var fgp_3_1_small = [];
 var fgp_3_1_medium = [];
 var fgp_3_1_large = [];
 fgp_3_1_medium.push(Ametys.ribbon.RibbonManager.getElement("org.ametys.runtime.userinterface.MessageTrackerControlMenu").addUI("large"));
-//fgp_3_1_medium.push(Ametys.ribbon.RibbonManager.getElement("org.ametys.runtime.userinterface.RequestTrackerControlMenu").addUI("large"));
+fgp_3_1_medium.push(Ametys.ribbon.RibbonManager.getElement("org.ametys.runtime.userinterface.RequestTrackerControlMenu").addUI("large"));
 
     var fgp_3_1 = {title: 'Outils',
         priority: 0,
