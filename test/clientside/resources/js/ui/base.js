@@ -104,9 +104,7 @@ function onreadyfunction() {
                     notification: {
                           tooltip: 'A descriptive text',
                           handler: function() {  }
-                    },
-                    
-                    region : 'north'
+                    }
                 });
                 
     

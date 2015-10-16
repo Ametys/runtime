@@ -16,13 +16,60 @@
 var ribbon, layout;
 function onreadyfunction() {
     ribbon = Ext.create("Ametys.ui.fluent.ribbon.Ribbon", {
-                    applicationTitle: 'Ametys Test Tools',
-                    items: [
-                        tab1
-                    ],
+                    quickToolbar: { 
+                        items: [ 
+                            { icon:'resources/img/editpaste_16.gif' } 
+                        ] 
+                    },
+                    title: 'Accueil (fr/index.html)',
+                    applicationTitle: 'Ametys Demo (www)',
+                    
+                    message: [{
+                        title: "Warning",
+                        text: "You are in safe mode... not everything will be working !",
+                        type: 'warning'
+                    }],
+                    
+                    searchMenu: {  // to activate a Tell me what you want to do feature
+                        // emptyText: "Specify to replace the default value"
+                        searchURL: "http://www.google.com?q={query}", // to search in doc
+                        items: [
+                            {
+                                text: 'A button for print preview',
+                                keywords: []
+                            },
+                            {
+                                text: 'A button for print',
+                                keywords: []
+                            },
+                            {
+                                text: 'A color button',
+                                keywords: []
+                            },
+                            {
+                                text: 'A another color button',
+                                keywords: []
+                            }
+                        ]
+                    },
+                    
                     help: {
                         handler: function() { alert('help'); },
-                        tooltip: "A little bit of help?"
+                        tooltip: { inribbon: true, text: "A little bit of help?" }
+                    },
+
+                    
+                    mainButton:
+                    {
+                        xtype: 'button',
+                        text: 'Ametys',
+                        tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true},
+                        items:
+                        [
+                            {
+                                text: 'TEST'
+                            }
+                        ]
                     },
                     user: {
                         fullName: 'Raphaël Franchet',
@@ -34,19 +81,10 @@ function onreadyfunction() {
                         extraLargePhoto: "http://www.gravatar.com/avatar/2f7124c10b1d2775303cd40bc6244419?s=64&d=mm",                        
                         menu: { items: [ "-", {text: 'Disconnect' } ]}
                     },
-                    menu:
-                    {
-                        icon: 'resources/img/ametys.gif',
-                        tooltip: {title: 'Bouton Ametys', image: 'resources/img/ametys.gif', text: 'Cliquez ici pour avoir accès aux fonctions générales de l\'application ou pour vous déconnecter.', footertext: 'Voir l\'aide pour plus de détails', inribbon: true},
-                        items:
-                        [
-                            {
-                                text: 'TEST'
-                            }
-                        ]
+                    notification: {
+                          tooltip: 'A descriptive text',
+                          handler: function() {  }
                     }
-                }, {
-                    region : 'north'
                 });
                 
     Ametys.tool.ToolsManager.setToolsLayout("Ametys.ui.tool.layout.ZonedTabsToolsLayout", { initialized: false });
@@ -59,8 +97,11 @@ function onreadyfunction() {
 		enableQuickTips : false,
 		launch : function() {
 			Ext.create('Ext.container.Viewport', {
-				layout : 'border',
-				items : [ ribbon, Ametys.tool.ToolsManager.getToolsLayout().createLayout() ]
+                    layout:  { type: 'vbox', align: 'stretch' },
+                    items: [
+                        ribbon,
+                        Ext.apply(Ametys.tool.ToolsManager.getToolsLayout().createLayout(), {flex: 1})
+                    ]
 			});
             
             Ext.create("Ametys.message.Message", {
