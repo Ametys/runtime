@@ -86,9 +86,7 @@ function onreadyfunction() {
                           handler: function() {  }
                     },
                     
-                    items: [
-                        tab1
-                    ]
+                    items: ribbonItems
                 });
                 
     Ametys.tool.ToolsManager.setToolsLayout("Ametys.ui.tool.layout.ZonedTabsToolsLayout", { initialized: false });
