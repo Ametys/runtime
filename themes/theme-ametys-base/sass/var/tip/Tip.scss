@@ -15,4 +15,6 @@
  */
 
 $tip-border-radius: 0;
-$tip-background-color: dynamic(lighten($ametys-ribbon-highlight-color, 50%));
+$tip-background-color: dynamic(mix(#FFFFFF, $ametys-ribbon-highlight-color, 90%));
+$ametys-tooltip-border-color: dynamic(mix(#FFFFFF, $ametys-ribbon-highlight-color, 60%));
+$ametys-tooltip-help-color: $ametys-ribbon-highlight-color;

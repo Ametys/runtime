@@ -84,7 +84,11 @@ function onreadyfunction() {
                     notification: {
                           tooltip: 'A descriptive text',
                           handler: function() {  }
-                    }
+                    },
+                    
+                    items: [
+                        tab1
+                    ]
                 });
                 
     Ametys.tool.ToolsManager.setToolsLayout("Ametys.ui.tool.layout.ZonedTabsToolsLayout", { initialized: false });

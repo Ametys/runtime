@@ -48,7 +48,7 @@ Ext.define(
              * @readonly
              * @private
              */
-            helpText: "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_TOOLTIP_FOOTER_TEXT'/>",
+            helpText: "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_TOOLTIP_FOOTER_TEXT'>See help</i18n:text>",
             
             /**
              * @property {Number} tooltipWidth The width of the tooltip if the tooltip doest not have an image
@@ -70,9 +70,9 @@ Ext.define(
              */
             tipTemplate: Ext.create('Ext.XTemplate',
                 '<tpl if="image">',
-                '<div class="{tipCls} {tipCls}-withimage">',
+                '<div class="{tipCls}-wrapper {tipCls}-withimage">',
                 '<tpl else>',
-                '<div class="{tipCls}">',
+                '<div class="{tipCls}-wrapper">',
                 '</tpl>',
                     '<div class="{tipCls}-text">',
                         '<tpl if="image">',
@@ -99,6 +99,7 @@ Ext.define(
              * @param {String} config.text The main text of the tooltip. Can contains html tags
              * @param {String} [config.helpId] The optionnal help identifier that is linked to an url to be displayed in the help too.
              * @param {Boolean} config.inribbon Is the tooltip applying for a component of the ribbon? Default to true. It does matter to vertically align the tooltip to the ribbon.
+             * @return {Object} A configuration for tooltip
              */
             create: function(config)
             {
