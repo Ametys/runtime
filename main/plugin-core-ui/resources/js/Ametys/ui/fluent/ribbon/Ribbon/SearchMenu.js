@@ -61,7 +61,7 @@ Ext.define(
          * @readonly
          * @private
          */
-        searchMenuDefaultText: "<i18n:text i18n:key='PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_SEARCHMENU_PLACEHOLDER' i18n:catalogue='plugin.core-ui'>Tell me what you want to do...</i18n:text>",
+        searchMenuDefaultText: "<i18n:text i18n:key='PLUGINS_CORE_UI_WORKSPACE_AMETYS_RIBBON_SEARCHMENU_PLACEHOLDER' i18n:catalogue='plugin.core-ui'/>",
         /**
          * @property {String} searchMenuHelpItem A template string for the final item menu to open help with that search. An object with a string property "text" is provided to the template.
          * @readonly

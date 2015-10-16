@@ -15,6 +15,8 @@
  */
 
 $tip-border-radius: 0;
-$tip-background-color: dynamic(mix(#FFFFFF, $ametys-ribbon-highlight-color, 90%));
-$ametys-tooltip-border-color: dynamic(mix(#FFFFFF, $ametys-ribbon-highlight-color, 60%));
-$ametys-tooltip-help-color: $ametys-ribbon-highlight-color;
+$tip-background-color: dynamic(mix(#FFFFFF, $ametys-ribbon-highlight-color, 95%));
+$ametys-tooltip-border-color: dynamic(mix(#FFFFFF, $ametys-ribbon-highlight-color, 70%));
+$ametys-tooltip-imageborder-color: dynamic(mix(#FFFFFF, $ametys-ribbon-highlight-color, 85%));
+$ametys-tooltip-help-color: dynamic(mix(#FFFFFF, $ametys-ribbon-highlight-color, 30%));
+$ametys-tooltip-margin-size: $tip-body-font-size / 12 * 8;

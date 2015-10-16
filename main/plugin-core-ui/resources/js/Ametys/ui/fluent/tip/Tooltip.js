@@ -22,7 +22,7 @@
  *          title: 'My Ametys Tooltip', 
  *          image: 'resources/img/ametys.gif', 
  *          text: 'Click on this button to get access to some features', 
- *          footertext: 'Press F1 to have help', 
+ *          helpId: '12', 
  *          inribbon: true
  *      }
  * 
@@ -81,7 +81,7 @@ Ext.define(
                         '{text}',
                     '</div>',
                     '<tpl if="helpId">',
-                        '<div class="{tipCls}-footer">{helpText}</div>',
+                        '<div class="{tipCls}-footer"><a href="#{helpId}" onclick="Ametys.tool.ToolsManager.openTool(\'uitool-help\', {helpId: \'{helpId}\'}); return false;">{helpText}</a></div>',
                     '</tpl>',
                 '</div>',
                 { compiled: true }
@@ -93,12 +93,13 @@ Ext.define(
              * @param {Object} config A config object
              * @param {String} config.title The title in the tooltip
              * @param {Number} [config.width] An optional width in pixel to override the defaults.
-             * @param {String} config.image An optional image path to display a main image in the tooltip.
+             * @param {String} [config.image] An optional image path to display a main image in the tooltip.
              * @param {String} [config.imageHeight=48] Height, in pixels, of the image above.
              * @param {String} [config.imageWidth=48] Width, in pixels, of the image above.
              * @param {String} config.text The main text of the tooltip. Can contains html tags
              * @param {String} [config.helpId] The optionnal help identifier that is linked to an url to be displayed in the help too.
-             * @param {Boolean} config.inribbon Is the tooltip applying for a component of the ribbon? Default to true. It does matter to vertically align the tooltip to the ribbon.
+             * @param {Number} [config.dismissDelay=20000] The time before the tooltip automatically disapear is the mouse stay over the element
+             * @param {Boolean} [config.inribbon=true] Is the tooltip applying for a component of the ribbon? Default to true. It does matter to vertically align the tooltip to the ribbon.
              * @return {Object} A configuration for tooltip
              */
             create: function(config)
@@ -135,6 +136,63 @@ Ext.define(
                     return null;
                 }
             }
+        },
+        
+        constructor: function()
+        {
+            this.callParent(arguments);
+            
+            this.on('mouseover', this._onMouseOver, this, { element: 'el'});
+            this.on('mouseout', this._onMouseOut, this, { element: 'el'});
+        },
+        
+        /**
+         * @private
+         * The mouseover listener to stop autohide process for inribbon tips
+         * @param {Ext.event.Event} e The {@link Ext.event.Event} encapsulating the DOM event.
+         * @param {HTMLElement} t The target of the event.
+         */
+        _onMouseOver: function(e, t)
+        {
+            if (this.lastActiveTarget && this.lastActiveTarget.ribbon)
+            {
+                this.clearTimer('hide');
+                this.clearTimer('dismiss');    
+            }
+        },
+        
+        /**
+         * @private
+         * The mouseout listener to restart autohide process for inribbon tips
+         * @param {Ext.event.Event} e The {@link Ext.event.Event} encapsulating the DOM event.
+         * @param {HTMLElement} t The target of the event.
+         */
+        _onMouseOut: function(e, t)
+        {
+            if (this.lastActiveTarget && this.lastActiveTarget.ribbon)
+            {
+                this.clearTimer('show');
+                if (this.autoHide !== false) 
+                {
+                    this.delayHide();
+                }
+            }
+        },       
+        
+        onTargetOut: function(e)
+        {
+            if (this.activeTarget)
+            {
+                this.lastActiveTarget = this.activeTarget;
+            }
+            this.callParent(arguments);
+        },
+        
+        hide: function()
+        {
+            console.info("hide")
+            delete this.lastActiveTarget;
+            this.callParent(arguments);
         },
         
         register: function(config)
