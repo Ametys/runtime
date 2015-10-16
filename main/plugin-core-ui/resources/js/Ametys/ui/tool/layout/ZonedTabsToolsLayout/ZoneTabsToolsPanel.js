@@ -72,20 +72,20 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZoneTabsToolsPanel",
 		        items: [{
 		            text: "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_TOOLS_CLOSE_TAB'>Close</i18n:text>", // Default translation for js test purposes
 		            handler: this._closeCurrentTab,
-		            icon: Ametys.getPluginResourcesPrefix('core-ui') + '/img/tools/close_16.png',
+		            iconCls: "a-tools-menu-close",
 		            scope: this
 		        },
 		        '-',
 		        {
 		            text: "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_TOOLS_CLOSE_OTHERS'>Close others</i18n:text>", // Default translation for js test purposes
 		            handler: this._closeOthersTabs,
-		            icon: Ametys.getPluginResourcesPrefix('core-ui') + '/img/tools/close_others_16.png',
+                    iconCls: "a-tools-menu-close-others",
 		            scope: this
 		        },
 		        {
 		            text: "<i18n:text i18n:key='PLUGINS_CORE_UI_MSG_TOOLS_CLOSE_ALL'>Close all</i18n:text>", // Default translation for js test purposes
 		            handler: this._closeAllTabs,
-		            icon: Ametys.getPluginResourcesPrefix('core-ui') + '/img/tools/close_all_16.png',
+                    iconCls: "a-tools-menu-close-all",
 		            scope: this
 		        }]
 		    });

@@ -35,8 +35,30 @@
     $ui-tab-inner-border-color-focus: transparent,
     $ui-tab-inner-border-color-focus-over: transparent,
     $ui-tab-inner-border-color-active: transparent,
-    $ui-tab-inner-border-color-focus-active: transparent        
+    $ui-tab-inner-border-color-focus-active: transparent,
+    
+    $ui-tab-closable-icon-width: $ametys-tool-tab-close-icon-size,
+    $ui-tab-closable-icon-height: $ametys-tool-tab-close-icon-size           
 );
+
+// As there is a bug in extjs https://www.sencha.com/forum/showthread.php?305990-6.0.1-Issue-in-theme-neutral-Scss-mixin-extjs-tab-ui&p=1118297#post1118297
+// We have to define size our selves
+.#{$prefix}tab-tool-layoutzone,
+.#{$prefix}tab-tool-layoutzone.#{$prefix}tab-active {
+    .#{$prefix}tab-close-btn {
+        background-position: 0 -$ametys-tool-tab-close-icon-size;
+    }
+    .#{$prefix}tab-close-btn-over {
+        background-position: -$ametys-tool-tab-close-icon-size -$ametys-tool-tab-close-icon-size;
+    }
+    .#{$prefix}tab-close-btn-pressed {
+        background-position: -2*$ametys-tool-tab-close-icon-size -$ametys-tool-tab-close-icon-size;
+    }
+}
+
+.#{$prefix}tab-tool-layoutzone > div {
+    overflow: hidden;
+}
 
 @include extjs-panel-ui(
     $ui: 'tool-layoutzone',
@@ -137,4 +159,17 @@
             $over-background-color: mix($ametys-tool-background-color, nth($ametys-tool-tab-colors-light, $i), 70%),
         );
     } 
+}
+
+/**
+ * Contextual menu
+ */
+.a-tools-menu-close {
+    background-image: theme-background-image('ui-tools/close_16');
+}
+.a-tools-menu-close-others {
+    background-image: theme-background-image('ui-tools/close_others_16');
+}
+.a-tools-menu-close-all {
+    background-image: theme-background-image('ui-tools/close_all_16');
 }
