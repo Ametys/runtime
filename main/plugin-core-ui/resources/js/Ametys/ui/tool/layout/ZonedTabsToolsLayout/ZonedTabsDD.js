@@ -254,9 +254,9 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZonedTabsDD",
                 
                 // space for cr zone
                 var centralWidth = dropSize['cl'].width; 
-		    	dropSize['cl'].width = 0.66 * centralWidth;
+		    	dropSize['cl'].width = Math.round(0.66 * centralWidth);
 		    	
-		    	size['cr'].width = size['cl'].width * fc / (f + fc);
+		    	size['cr'].width = Math.round(size['cl'].width * fc / (f + fc));
 		    	position['cr'][0] += size['cl'].width - size['cr'].width;
 		    	dropSize['cr'].width = centralWidth - dropSize['cl'].width;
 		    	dropOffset['cr'][0] = size['cr'].width - dropSize['cr'].width;
@@ -282,10 +282,10 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout.ZonedTabsDD",
                 
                 // space for cl zone
                 var centralWidth = dropSize['cr'].width; 
-	    		dropSize['cr'].width = 0.66 * centralWidth;
+	    		dropSize['cr'].width = Math.round(0.66 * centralWidth);
 		    	dropOffset['cr'][0] += centralWidth - dropSize['cr'].width;
 	    		
-		    	size['cl'].width = size['cr'].width * f / (f + fc);
+		    	size['cl'].width = Math.round(size['cr'].width * f / (f + fc));
 	    		dropSize['cl'].width = centralWidth - dropSize['cr'].width;
 		    	if (!visible['l'])
 		    	{
