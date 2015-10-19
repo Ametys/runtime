@@ -90,6 +90,8 @@ Ext.define('Ametys.form.field.ReferencedNumberField', {
      */
 	afterRender: function ()
 	{
+		this.callParent(arguments);
+		
 		this._refEl = this.el.insertSibling({
 			id: Ext.id(),
 			cls: this.el.dom.className + " " + this._refCls,
