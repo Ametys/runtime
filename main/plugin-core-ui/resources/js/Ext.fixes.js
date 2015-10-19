@@ -60,9 +60,7 @@
         }
     });
     
-    Ext.define('Ametys.view.DropZone', {
-        override: 'Ext.view.DropZone',
-        
+    Ext.override(Ext.view.DropZone, {
         // FIXME CMS-6262 https://www.sencha.com/forum/showthread.php?301552-ExtJS-4.2.3-Drag-n-drop-in-a-grid-and-invalid-zone.&p=1101961#post1101961
         containsRecordAtOffset: function(records, record, offset) 
         {
@@ -100,9 +98,7 @@
         }
     });
     
-    Ext.define("Ametys.ux.IFrame", {
-        override: 'Ext.ux.IFrame',
-        
+    Ext.override(Ext.ux.IFrame, {
         // Fix for CLS-6366 https://www.sencha.com/forum/showthread.php?304867-D-n-D-over-an-IFrame-issue
         onLoad: function()
         {
@@ -213,5 +209,5 @@
     
             return me.callSuper([value, add]);
         }
-    })
+    });
 })();
