@@ -475,14 +475,13 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 				this.getLogger().debug("Moving tool '" + tool.getId() + "' to location '" + location + "' (from location '" + oldZoneTabsToolsPanel.location + "')");
 			}
 			
-			var isToolActive = this.getFocusedTool() == tool;
 			
+            this._onToolDeactivated(tool);
+            
 			// blur the tool (and its old tools panel)
-			if (isToolActive)
+			var isToolFocus = this.getFocusedTool() == tool;
+			if (isToolFocus)
 			{
-                var zoneTabsToolsPanel = tool.ownerCt;
-                zoneTabsToolsPanel.removeCls(this.toolPrefixCls + tool.getType());
-                            
 				this._onToolBlurred(tool, true);
 			}
 			
@@ -499,13 +498,11 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 			tool.hidden = true
 			tool.show();
             tool.tab.show();
-			
+
+            // activate the tool ?
+            
 			// focus the tool
-			if (isToolActive)
-			{
-				this._onToolFocused(tool, true);
-			}
-			else
+			if (!isToolFocus)
 			{
 				this.focusTool(tool);
 			}
@@ -521,6 +518,8 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 
 			var zoneTabsToolsPanel = tool.ownerCt;
 			
+            this._onToolDeactivated(tool);
+            
 			var wasFocused = this.getFocusedTool() == tool; 
 			if (wasFocused)
 			{
