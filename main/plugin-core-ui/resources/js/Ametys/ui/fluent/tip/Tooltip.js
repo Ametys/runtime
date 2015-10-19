@@ -190,7 +190,6 @@ Ext.define(
         
         hide: function()
         {
-            console.info("hide")
             delete this.lastActiveTarget;
             this.callParent(arguments);
         },
