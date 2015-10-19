@@ -580,6 +580,53 @@
         </extensions>
     </feature>
     
+    <!-- HELP TOOL -->
+	<feature name="userinterface.help">
+		<extensions>
+			
+			<extension 	id="org.ametys.coreui.Help"
+						point="org.ametys.core.ui.RibbonControlsManager"
+						class="org.ametys.core.ui.StaticClientSideElement">
+				<class name="Ametys.ribbon.element.ui.button.OpenToolButtonController">
+					<opentool-role>uitool-help</opentool-role>
+					<label i18n="true">PLUGINS_CORE_UI_TOOLS_HELP_LABEL</label>
+					<description i18n="true">PLUGINS_CORE_UI_TOOLS_HELP_DESCRIPTION</description>
+					<icon-small file="true">img/help/help_16.png</icon-small>
+					<icon-medium file="true">img/help/help_32.png</icon-medium>
+					<icon-large file="true">img/help/help_48.png</icon-large>
+				</class>
+			</extension>
+
+			<extension 	id="org.ametys.coreui.HelpFactory"
+						point="org.ametys.core.ui.UIToolsFactoriesManager"
+						class="org.ametys.core.ui.StaticClientSideElement">
+				<class name="Ametys.tool.factory.UniqueToolFactory">
+					<role>uitool-help</role>
+					<toolClass>Ametys.plugins.coreui.help.HelpTool</toolClass>
+					
+					<title i18n="true">PLUGINS_CORE_UI_TOOLS_HELP_LABEL</title>
+					<description i18n="true">PLUGINS_CORE_UI_TOOLS_HELP_DESCRIPTION</description>
+					<icon-small file="true">img/help/help_16.png</icon-small>
+					<icon-medium file="true">img/help/help_32.png</icon-medium>
+					<icon-large file="true">img/help/help_48.png</icon-large>
+					<default-location>r</default-location>
+				</class>
+				<scripts>
+					<file>js/Ametys/plugins/coreui/help/HelpTool.js</file>
+				</scripts>
+				<css>
+					<file>css/helptool.css</file>
+				</css>
+			</extension>
+		</extensions>
+		
+		<components>
+			<component role="org.ametys.plugins.core.ui.help.HelpUrlProvider"   
+                       id="org.ametys.plugins.core.ui.help.HelpUrlProvider"   
+                       class="org.ametys.plugins.core.ui.help.HelpUrlProvider" />
+        </components>
+    </feature>
+    
     <!-- +  
          |  REQUESTS TRACKER    
          + -->     

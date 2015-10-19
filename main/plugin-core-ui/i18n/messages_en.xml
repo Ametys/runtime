@@ -698,4 +698,14 @@
     <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_PARAMETERS">Parameters</message>
     <message key="PLUGINS_CORE_UI_REQUESTSTRACKER_TOOL_DISPLAYMESSAGE_RESPONSE">Response</message>
     
+    <!-- +
+		 | HELP
+		 + -->
+	<message key="PLUGINS_CORE_UI_TOOLS_HELP_LABEL">Help</message>
+	<message key="PLUGINS_CORE_UI_TOOLS_HELP_DESCRIPTION">Tool that displays the online help</message>
+	<message key="PLUGINS_CORE_UI_TOOLS_HELP_INFO_NOT_FOUND">Nothing was found... Please click here button to open the home page of the online help.</message>
+	<message key="PLUGINS_CORE_UI_TOOLS_HELP_INFO_OPEN_ROOT_HELP">Click here to visualize the root page of the help</message>
+	<message key="PLUGINS_CORE_UI_TOOLS_HELP_OPEN_NEW_WINDOW">Click here to open the page in a new window</message>
+	<message key="PLUGINS_CORE_UI_TOOLS_HELP_ERROR_URL_PROVIDER">Error while trying to display an help page.</message>
+    
 </catalogue>
