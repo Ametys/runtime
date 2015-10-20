@@ -14,6 +14,9 @@
  *  limitations under the License.
  */
 
+/**
+ * Out of date tool
+ */
 @include extjs-button-small-ui(
     $ui: 'tool-outofdate',
     
@@ -32,7 +35,9 @@
     background-color: $ametys-tool-outofdate-background-color;
 }
 
-
+/**
+ * Textual link
+ */
 .#{$prefix}panel-body-ametys-tool-panel .a-text a, 
 .#{$prefix}panel-body-ametys-tool-panel .a-text a:link, 
 .#{$prefix}panel-body-ametys-tool-panel .a-text a:active {
@@ -47,3 +52,15 @@
 	color: $ametys-tool-link-color-visited;
 	text-decoration: $ametys-tool-link-text-decoration-visited;
 }
+
+/**
+ * Drag and drop
+ */
+.a-dndview-dragtext
+{
+    max-width: 200px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+ 

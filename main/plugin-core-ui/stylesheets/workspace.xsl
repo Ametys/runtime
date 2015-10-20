@@ -184,12 +184,15 @@
                     
                                /** Controls creation */<xsl:text/>
                                var control;
+                                var searchMenuItems = [];          
                     <xsl:for-each select="ribbon/controls/control">
                                control = Ext.create("<xsl:value-of select="action/@class"/>", Ext.apply(<xsl:value-of select="action"/>, {id: "<xsl:value-of select="@id"/>", pluginName: "<xsl:value-of select="@plugin"/>"}));
                                Ametys.ribbon.RibbonManager.registerElement(control);
+                               
+                               // try { searchMenuItems.push(control.addMenuItemUI()); } catch (e) { }       
                     </xsl:for-each>
 
-                            var ribbonItems = [];                   
+                            var ribbonItems = [];         
 
                     <xsl:for-each select="ribbon/tabs/tab[groups/group/medium//control/@id = /Ametys/workspace/ribbon/controls/control/@id]">
                         <xsl:sort select="not(not(@contextualColor))"/>
@@ -345,7 +348,12 @@
 			                          tooltip:{ inribbon: true, text: "A describtive text" }
 			                          handler: function() {  }
 			                    },
+			                    searchMenu: {
+			                        // searchURL: "http://www.google.com?q={query}", // to search in doc
+			                        items: searchMenuItems
+			                    },
                                 */
+			                    			                    
                                 <xsl:if test="user">
                                 user: {
                                     fullName: "<xsl:value-of select="user/firstname"/>&#160;<xsl:value-of select="user/lastname"/>",
@@ -360,7 +368,7 @@
                                     </xsl:if>
                                 }
                                 </xsl:if>
-                            <xsl:text/>}, {});<xsl:text/>
+                            <xsl:text/>});<xsl:text/>
                     
                             /** Contextual tabs creation */<xsl:text/>
                             var tab;

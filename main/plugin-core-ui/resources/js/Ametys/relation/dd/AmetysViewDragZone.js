@@ -35,7 +35,7 @@ Ext.define('Ametys.relation.dd.AmetysViewDragZone', {
 		if (this.dragTextField != null && this.dragData.records.length > 0)
 		{
 			var maxElements = 5;
-			var s = "<div class='ametys-view-dragtext'>";
+			var s = "<div class='a-dndview-dragtext'>";
 			for (var i = 0 ; i < Math.min(this.dragData.records.length, maxElements); i++)
 			{
 				if (i > 0)
