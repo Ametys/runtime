@@ -243,6 +243,16 @@ function openTool4()
                         category: 'Ametys.my.Component' 
                      });
                 }
+            },
+            {
+                xtype: 'button',
+                text: 'Global load mask',
+                handler: function() {
+                    var id = Ametys.mask.GlobalLoadMask.mask("my long message for 5 seconds")
+                    var id2 = Ametys.mask.GlobalLoadMask.mask("my long message for 10 seconds")
+                    window.setTimeout("Ametys.mask.GlobalLoadMask.unmask('" + id + "')", 5000);
+                    window.setTimeout("Ametys.mask.GlobalLoadMask.unmask('" + id2 + "')", 10000);
+                }
             }
         ]
     });
