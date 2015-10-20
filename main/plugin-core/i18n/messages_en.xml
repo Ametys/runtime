@@ -95,8 +95,8 @@
     <message key="PLUGINS_CORE_USERS_INFOS_ERROR">An error occurred while retrieving user's information</message>
     <message key="PLUGINS_CORE_USERS_IMPERSONATE_ERROR">An error occurred: unable to connect with the login of the selected user.</message>
     <!-- Helper -->
-    <message key="PLUGINS_CORE_USERS_DIALOG_ADD_TITLE">New user ...</message>
-    <message key="PLUGINS_CORE_USERS_DIALOG_EDIT_TITLE">Edit ...</message>
+    <message key="PLUGINS_CORE_USERS_DIALOG_ADD_TITLE">New user</message>
+    <message key="PLUGINS_CORE_USERS_DIALOG_EDIT_TITLE">Edit</message>
     <message key="PLUGINS_CORE_USERS_DIALOG_OK">Ok</message>
     <message key="PLUGINS_CORE_USERS_DIALOG_CANCEL">Cancel</message>
     <message key="PLUGINS_CORE_USERS_DIALOG_INVALID_FIELD">This field is invalid.&lt;br/&gt;See help for details.</message>
@@ -195,8 +195,8 @@
     <message key="PLUGINS_CORE_GROUPS_UNKNOWN_GROUP_TITLE">Unknown group</message>
     <message key="PLUGINS_CORE_GROUPS_UNKNOWN_GROUP_ERROR">The group is no longer available. It is advise to close then re-open the groups tool.</message>
     <!-- Helper -->
-    <message key="PLUGINS_CORE_GROUPS_DIALOG_ADD_TITLE">New group ...</message>
-    <message key="PLUGINS_CORE_GROUPS_DIALOG_EDIT_TITLE">Rename ...</message>
+    <message key="PLUGINS_CORE_GROUPS_DIALOG_ADD_TITLE">New group</message>
+    <message key="PLUGINS_CORE_GROUPS_DIALOG_EDIT_TITLE">Rename</message>
     <message key="PLUGINS_CORE_GROUPS_DIALOG_NAME">Name</message>
     <message key="PLUGINS_CORE_GROUPS_DIALOG_OK">Ok</message>
     <message key="PLUGINS_CORE_GROUPS_DIALOG_CANCEL">Cancel</message>
@@ -257,8 +257,8 @@
     <message key="PLUGINS_CORE_PROFILES_DESCRIPTION_NO_RIGHT">This button is disabled because your rights are insufficient.</message>
     
     <!-- Helper -->
-    <message key="PLUGINS_CORE_PROFILES_DIALOG_ADD_TITLE">New profile ...</message>
-    <message key="PLUGINS_CORE_PROFILES_DIALOG_EDIT_TITLE">Rename ...</message>
+    <message key="PLUGINS_CORE_PROFILES_DIALOG_ADD_TITLE">New profile</message>
+    <message key="PLUGINS_CORE_PROFILES_DIALOG_EDIT_TITLE">Rename</message>
     <message key="PLUGINS_CORE_PROFILES_DIALOG_NAME">Name</message>
     <message key="PLUGINS_CORE_PROFILES_DIALOG_OK">Ok</message>
     <message key="PLUGINS_CORE_PROFILES_DIALOG_CANCEL">Cancel</message>

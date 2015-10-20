@@ -94,8 +94,8 @@
     <message key="PLUGINS_CORE_USERS_INFOS_ERROR">Une erreur est survenue: impossible de récupérer les informations sur cet utilisateur</message>
     <message key="PLUGINS_CORE_USERS_IMPERSONATE_ERROR">Une erreur est survenue: impossible de se connecter avec les identifiants de l'utilisateur sélectionné.</message>
     <!-- Helper -->
-    <message key="PLUGINS_CORE_USERS_DIALOG_ADD_TITLE">Nouvel utilisateur ...</message>
-    <message key="PLUGINS_CORE_USERS_DIALOG_EDIT_TITLE">Modifier ...</message>
+    <message key="PLUGINS_CORE_USERS_DIALOG_ADD_TITLE">Nouvel utilisateur</message>
+    <message key="PLUGINS_CORE_USERS_DIALOG_EDIT_TITLE">Modifier</message>
     <message key="PLUGINS_CORE_USERS_DIALOG_OK">Ok</message>
     <message key="PLUGINS_CORE_USERS_DIALOG_CANCEL">Annuler</message>
     <message key="PLUGINS_CORE_USERS_DIALOG_INVALID_FIELD">Ce champ est invalide</message>
@@ -193,8 +193,8 @@
     <message key="PLUGINS_CORE_GROUPS_UNKNOWN_GROUP_TITLE">Groupe inconnu</message>
     <message key="PLUGINS_CORE_GROUPS_UNKNOWN_GROUP_ERROR">Le groupe n'existe plus. Il est conseillé de fermer puis de réouvrir l'outil.</message>
     <!-- Helper -->
-    <message key="PLUGINS_CORE_GROUPS_DIALOG_ADD_TITLE">Nouveau groupe ...</message>
-    <message key="PLUGINS_CORE_GROUPS_DIALOG_EDIT_TITLE">Renommer ...</message>
+    <message key="PLUGINS_CORE_GROUPS_DIALOG_ADD_TITLE">Nouveau groupe</message>
+    <message key="PLUGINS_CORE_GROUPS_DIALOG_EDIT_TITLE">Renommer</message>
     <message key="PLUGINS_CORE_GROUPS_DIALOG_NAME">Nom du groupe</message>
     <message key="PLUGINS_CORE_GROUPS_DIALOG_OK">Ok</message>
     <message key="PLUGINS_CORE_GROUPS_DIALOG_CANCEL">Annuler</message>
@@ -255,8 +255,8 @@
     <message key="PLUGINS_CORE_PROFILES_DESCRIPTION_NO_RIGHT">Ce bouton est désactivé car vos droits sont insuffisants.</message>
 
     <!-- Helper -->
-    <message key="PLUGINS_CORE_PROFILES_DIALOG_ADD_TITLE">Nouveau profil ...</message>
-    <message key="PLUGINS_CORE_PROFILES_DIALOG_EDIT_TITLE">Renommer ...</message>
+    <message key="PLUGINS_CORE_PROFILES_DIALOG_ADD_TITLE">Nouveau profil</message>
+    <message key="PLUGINS_CORE_PROFILES_DIALOG_EDIT_TITLE">Renommer</message>
     <message key="PLUGINS_CORE_PROFILES_DIALOG_NAME">Nom du profil</message>
     <message key="PLUGINS_CORE_PROFILES_DIALOG_OK">Ok</message>
     <message key="PLUGINS_CORE_PROFILES_DIALOG_CANCEL">Annuler</message>
