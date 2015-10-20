@@ -89,8 +89,11 @@
        		<script>/plugins/extjs6/resources/ext-all<xsl:if test="$rtl">-rtl</xsl:if><xsl:if test="$debug-mode">-debug</xsl:if>.js</script>
             <script>/plugins/extjs6/resources/classic/locale/locale-<xsl:value-of select="$language-code"/><xsl:if test="$debug-mode">-debug</xsl:if>.js</script>
             
-            <script>/plugins/core-ui/resources/themes/theme-<xsl:value-of select="$theme"/>/theme-<xsl:value-of select="$theme"/><xsl:if test="$debug-mode">-debug</xsl:if>.js</script>
-
+            <xsl:call-template name="theme-scripts">
+                <xsl:with-param name="theme"><xsl:value-of select="$theme"/></xsl:with-param>
+                <xsl:with-param name="debug-mode"><xsl:value-of select="$debug-mode"/></xsl:with-param>
+            </xsl:call-template>
+            
             <script>/plugins/extjs6/resources/packages/ux/classic/ux<xsl:if test="$debug-mode">-debug</xsl:if>.js</script>
             
 			<script>/plugins/core-ui/resources/js/Ext.fixes.js</script>
@@ -100,12 +103,13 @@
 	    </xsl:variable>
 	    
 		<xsl:variable name="css">
-            <css>/plugins/core-ui/resources/themes/theme-<xsl:value-of select="$theme"/>/theme-<xsl:value-of select="$theme"/>-all<xsl:if test="$rtl">-rtl</xsl:if><xsl:if test="$debug-mode">-debug</xsl:if>.css</css>
-            <css>/plugins/extjs6/resources/packages/ux/classic/<xsl:value-of select="$uxtheme"/>/resources/ux-all<xsl:if test="$rtl">-rtl</xsl:if><xsl:if test="$debug-mode">-debug</xsl:if>.css</css>
-            <css>/plugins/extjs6/resources/packages/charts/classic/<xsl:value-of select="$uxtheme"/>/resources/charts-all<xsl:if test="$rtl">-rtl</xsl:if><xsl:if test="$debug-mode">-debug</xsl:if>.css</css>
-            <css>/plugins/core-ui/resources/css/Ametys/gray/all.css</css>
-            <css>/plugins/core-ui/resources/css/Ametys/ui/form/ametys.css</css>
-            <css>/plugins/core-ui/resources/css/Ametys/ui/tool/ametys.css</css>
+            <xsl:call-template name="theme-styles">
+                <xsl:with-param name="theme"><xsl:value-of select="$theme"/></xsl:with-param>
+                <xsl:with-param name="uxtheme"><xsl:value-of select="$uxtheme"/></xsl:with-param>
+                <xsl:with-param name="rtl"><xsl:value-of select="$rtl"/></xsl:with-param>
+                <xsl:with-param name="debug-mode"><xsl:value-of select="$debug-mode"/></xsl:with-param>
+            </xsl:call-template>
+            
             <css>/plugins/codemirror/resources/css/codemirror.css</css>
 		</xsl:variable>
 
@@ -114,6 +118,13 @@
 			<xsl:with-param name="css" select="exslt:node-set($css)/*"/>
 			<xsl:with-param name="load-cb" select="$load-cb"/>
 		</xsl:call-template>
+    </xsl:template>
+    
+    <xsl:template name="theme-scripts">
+        <xsl:param name="theme"/>
+        <xsl:param name="debug-mode"/>
+        
+        <script>/plugins/core-ui/resources/themes/theme-<xsl:value-of select="$theme"/>/theme-<xsl:value-of select="$theme"/><xsl:if test="$debug-mode">-debug</xsl:if>.js</script>
     </xsl:template>
     
     <xsl:template name="ametys-scripts">
@@ -237,6 +248,20 @@
         
         <script>/plugins/core-ui/resources/js/Ametys/form/WidgetManager.js</script>
     </xsl:template>
+    
+    <xsl:template name="theme-styles">
+        <xsl:param name="theme"/>
+        <xsl:param name="uxtheme"/>
+        <xsl:param name="rtl"/>
+        <xsl:param name="debug-mode"/>
+        
+        <css>/plugins/core-ui/resources/themes/theme-<xsl:value-of select="$theme"/>/theme-<xsl:value-of select="$theme"/>-all<xsl:if test="$rtl">-rtl</xsl:if><xsl:if test="$debug-mode">-debug</xsl:if>.css</css>
+        <css>/plugins/extjs6/resources/packages/ux/classic/<xsl:value-of select="$uxtheme"/>/resources/ux-all<xsl:if test="$rtl">-rtl</xsl:if><xsl:if test="$debug-mode">-debug</xsl:if>.css</css>
+        <css>/plugins/extjs6/resources/packages/charts/classic/<xsl:value-of select="$uxtheme"/>/resources/charts-all<xsl:if test="$rtl">-rtl</xsl:if><xsl:if test="$debug-mode">-debug</xsl:if>.css</css>
+        <css>/plugins/core-ui/resources/css/Ametys/gray/all.css</css>
+        <css>/plugins/core-ui/resources/css/Ametys/ui/form/ametys.css</css>
+        <css>/plugins/core-ui/resources/css/Ametys/ui/tool/ametys.css</css>
+    </xsl:template>
  
     <!-- +
          | Load CSS and JS files. This template will ensure that each file is called once only.
@@ -260,7 +285,14 @@
 	            
 	            <!-- check that the src was not already loaded (by another plugin for example) -->
 	            <xsl:if test="not($scripts[position() &lt; $position and . = $value])">
-	            	<script type="text/javascript" src="{$contextPath}{.}"/>
+                    <script type="text/javascript">
+                        <xsl:attribute name="src">
+                            <xsl:choose>
+                                <xsl:when test="contains(., '://')"><xsl:value-of select="."/></xsl:when>
+                                <xsl:otherwise><xsl:value-of select="concat($contextPath, .)"/></xsl:otherwise>
+                            </xsl:choose>
+                        </xsl:attribute>
+                    </script>
 	        	    <xsl:copy-of select="$load-cb"/>
 	            </xsl:if>
 	        </xsl:for-each>
@@ -274,7 +306,14 @@
 	            
 	            <!-- check that the src was not already loaded (by another plugin for example) -->
 	            <xsl:if test="not($css[position() &lt; $position and . = $value])">
-	                <link rel="stylesheet" type="text/css" href="{$contextPath}{.}"/>
+	                <link rel="stylesheet" type="text/css">
+                        <xsl:attribute name="href">
+                            <xsl:choose>
+                                <xsl:when test="contains(., '://')"><xsl:value-of select="."/></xsl:when>
+                                <xsl:otherwise><xsl:value-of select="concat($contextPath, .)"/></xsl:otherwise>
+                            </xsl:choose>
+                        </xsl:attribute>
+                    </link>
 	        	    <xsl:copy-of select="$load-cb"/>
 	            </xsl:if>
 	        </xsl:for-each>
