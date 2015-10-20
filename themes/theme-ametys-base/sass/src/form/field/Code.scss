@@ -14,25 +14,8 @@
  *  limitations under the License.
  */
 
-@import 'fluent/Ribbon';
-@import 'fluent/TabPanel';
-@import 'fluent/Panel';
-@import 'fluent/Toast';
-@import 'fluent/Button';
-@import 'fluent/Toolbar';
-@import 'fluent/Field';
-@import 'fluent/MenuPanel';
-
-@import 'misc/Badge';
-@import 'misc/JSON';
-
-@import 'tool/Layout';
-@import 'tool/Misc';
-@import 'tool/ZonedTabsDD';
-
-@import 'tools/messagetracker';
-@import 'tools/requesttracker';
-
-@import 'form/field/Code';
-
-@import 'window/ErrorDialog';
+// Fix a conflict between extjs and code mirror
+.CodeMirror * {
+    @include box-sizing(content-box);
+} 
+ 

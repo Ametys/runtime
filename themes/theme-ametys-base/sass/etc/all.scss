@@ -21,6 +21,14 @@
   :-ms-input-placeholder      {@content}  
 }
 
+@mixin box-sizing($value) {
+    box-sizing: $value;
+    -moz-box-sizing: $value;
+    -ms-box-sizing: $value;
+    -webkit-box-sizing: $value;    
+}
+
+
 @mixin buttons-color(
     $active-color-dark, $active-color, $active-color-light, 
     $color, $color-over, $color-focus, $color-pressed, $color-focus-over, $color-focus-pressed, $color-disabled,
