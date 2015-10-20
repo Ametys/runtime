@@ -1,5 +1,5 @@
 /*
- *  Copyright 2010 Anyware Services
+ *  Copyright 2015 Anyware Services
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -35,12 +35,12 @@ body.mceContentBody
 
 .mceContentBody span.language
 {
-	background-image: url('../../../../../img/Ametys/common/form/configurable/richtext-inline/accessibility/language_8.png');
+	background-image: url('../../../img/Ametys/common/form/configurable/richtext-inline/accessibility/language_8.png');
 }
 
-.mceContentBody cite { background-image: url('../../../../../img/Ametys/common/form/configurable/richtext-inline/accessibility/quote_8.png'); }
-.mceContentBody acronym { background-image: url('../../../../../img/Ametys/common/form/configurable/richtext-inline/accessibility/acronym_8.png'); }
-.mceContentBody abbr, .mceContentBody html\:abbr { background-image: url('../../../../../img/Ametys/common/form/configurable/richtext-inline/accessibility/abbr_8.png'); }
+.mceContentBody cite { background-image: url('../../../img/Ametys/common/form/configurable/richtext-inline/accessibility/quote_8.png'); }
+.mceContentBody acronym { background-image: url('../../../img/Ametys/common/form/configurable/richtext-inline/accessibility/acronym_8.png'); }
+.mceContentBody abbr, .mceContentBody html\:abbr { background-image: url('../../../img/Ametys/common/form/configurable/richtext-inline/accessibility/abbr_8.png'); }
 
 /* -------------
        TABLES

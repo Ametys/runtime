@@ -260,5 +260,5 @@ Ext.define('Ametys.form.widget.RichText.RichTextConfiguration', {
 	Ametys.form.widget.RichText.RichTextConfiguration.handleTag("p").emptyTag = "#";
 	Ametys.form.widget.RichText.RichTextConfiguration.handleTag("br");
 	
-	Ametys.form.widget.RichText.RichTextConfiguration.addCSSFile(Ametys.getPluginResourcesPrefix('core-ui') + "/css/Ametys/ui/form/common/RichTextConfiguration-Inline.css");
+	Ametys.form.widget.RichText.RichTextConfiguration.addCSSFile(Ametys.getPluginResourcesPrefix('core-ui') + "/css/Ametys/form/RichTextConfiguration-Inline.css");
 })();
