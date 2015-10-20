@@ -54,7 +54,7 @@ td.x-form-error-msg-wrapper
     font-size: 11px;
     font-weight: normal;
     padding: 3px 3px 3px 22px;
-    background: url('../../../img/Ametys/theme/gray/warning.png') no-repeat scroll 1px 1px rgba(0, 0, 0, 0);
+    background: url('../../../themes/theme-ametys-base/images/form/field/warning.png') no-repeat scroll 1px 1px rgba(0, 0, 0, 0);
 }
 
 .x-tip-body-form-warning li {
