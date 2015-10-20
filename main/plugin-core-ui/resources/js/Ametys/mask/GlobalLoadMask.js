@@ -167,7 +167,7 @@ Ext.define(
             }
             else
             {
-                this._maskInstance = Ext.create("Ext.LoadMask", { target: vps[0] });
+                this._maskInstance = Ext.create("Ext.LoadMask", { target: vps[0], style: { zIndex: 200000000 /* Over any window */ } });
             }
         }
     }
