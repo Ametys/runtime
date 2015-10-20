@@ -198,7 +198,7 @@ Ext.define('Ametys.helper.SelectGroup', {
 			         }
 			],
 			
-			defaultButton: this._searchField,
+			defaultFocus: this._searchField,
 			closeAction: 'hide',
 			
 			buttons : [ {

@@ -234,7 +234,7 @@ Ext.define('Ametys.plugins.admin.system.SystemActions', {
 			
 			items : [ this._form ],
 			
-			defaultButton: this._form.getForm().findField('message'),
+			defaultFocus: this._form.getForm().findField('message'),
 			closeAction: 'hide',
 			
 			buttons : [{

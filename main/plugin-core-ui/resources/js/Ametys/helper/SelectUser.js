@@ -211,7 +211,7 @@ Ext.define('Ametys.helper.SelectUser', {
 			         }
 			],
 			
-			defaultButton: this._searchField,
+			defaultFocus: this._searchField,
 			closeAction: 'hide',
 			
 			buttons : [ {
