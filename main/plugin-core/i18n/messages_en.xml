@@ -267,7 +267,7 @@
 	<message key="PLUGINS_CORE_MAIL_CONNECTION_CHECKER_LABEL">Connection to the mail server</message>
 	<message key="PLUGINS_CORE_MAIL_CONNECTION_CHECKER_DESC">This test checks if the given information allows the connection to the mail server.</message>
     <message key="PLUGINS_CORE_UPLOAD_DIRECTORY_CHECKER_LABEL">Upload directory</message>
-    <message key="PLUGINS_CORE_UPLOAD_DIRECTORY_CHECKER_DESC">This test checks that the specified folder exists or creates it otherwise and that Ametys can write in it</message>
+    <message key="PLUGINS_CORE_UPLOAD_DIRECTORY_CHECKER_DESC">This test checks the existence of the specified folder or the possibility to create it otherwise, and then if Ametys can write in it. The created folder is temporary and is deleted at the end  of the test.</message>
     <message key="PLUGINS_CORE_CAS_SERVER_CHECKER_LABEL">CAS server's url</message>
     <message key="PLUGINS_CORE_CAS_SERVER_CHECKER_DESC">This test checks that the specified url is valid by trying to establish a connection.</message>
     <message key="PLUGINS_CORE_LDAP_DN_CONNECTION_CHECKER_LABEL">Connection to the LDAP</message>
