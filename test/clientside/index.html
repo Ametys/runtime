@@ -38,5 +38,42 @@
             <li>Before each test, run launch.xml with ant</li>
             <li>To build theme, run build-theme.xml with ant</li>
        </ul>
+       <h2>To make tests working in Ametys server directory</h2>
+       <ul>
+            <li>Make the previous things works, and launch the server</li>
+            <li>Have the following conf in an Apache server
+                <code><pre>
+					<VirtualHost *:80>
+					        # Nom du virtual host
+					        ServerName MYSERVERNAME
+					        UseCanonicalName On
+					        RewriteEngine On
+					        ProxyRequests Off
+					        ProxyErrorOverride Off
+					
+					        AddDefaultCharset     UTF-8
+					        
+					        ProxyPreserveHost On
+					
+					        RewriteRule        ^(/(~cmd|~sass|build|ext|packages|testapp).*)$  http://localhost:1841$1 [P,L]
+					        ProxyPassReverse   /        http://localhost:1841/
+					
+					        RewriteRule        ^(/.*)$  http://localhost:8080$1 [P,L]
+					        ProxyPassReverse   /        http://localhost:8080/
+					
+					       
+					        <Proxy http://localhost:1841/*>
+					            Order deny,allow
+					            Allow from all
+					        </Proxy>                
+					        <Proxy http://localhost:8080/*>
+					            Order deny,allow
+					            Allow from all
+					        </Proxy>                
+					</VirtualHost>
+                </pre></code>
+            </li>
+            <li>Modify workspace</li>
+       </ul>
 	</body>
 </html>
