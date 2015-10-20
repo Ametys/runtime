@@ -14,22 +14,15 @@
  *  limitations under the License.
  */
  
-.error-dialog-text .#{$prefix}panel-body {
+.error-dialog-text {
 	color: $ametys-error-dialog-text-color;
 	padding: $ametys-error-dialog-text-padding;
 }
 
 .error-dialog-details {
-	border-top-style: solid;
-	border-top-width: 1px;
-}
-
-.error-dialog-details .#{$prefix}panel-body {
+	border-top: 1px solid $ametys-error-dialog-details-border;
 	color: $ametys-error-dialog-details-color;
 	padding: $ametys-error-dialog-details-padding;
-}
-
-.error-dialog-details .#{$prefix}panel-body * {
 	white-space: nowrap;
 	font-family: Courier;
 }
