@@ -75,7 +75,7 @@ Ext.define('Ametys.plugins.admin.logs.LogLevelController', {
 			}
 		}
 		
-		if (this._level != "INHERIT")
+		if (this._level != "INHERIT" && this._level != "FORCE")
 		{
 			// INFO, DEBUG, WARN or ERROR
 			
@@ -83,7 +83,7 @@ Ext.define('Ametys.plugins.admin.logs.LogLevelController', {
 		}
 		else
 		{
-			// INHERIT
+			// INHERIT || FORCE
 			this.setDisabled(isRoot);
 		}
 	}
