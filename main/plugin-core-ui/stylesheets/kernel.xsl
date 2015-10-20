@@ -288,7 +288,7 @@
                     <script type="text/javascript">
                         <xsl:attribute name="src">
                             <xsl:choose>
-                                <xsl:when test="contains(., '://')"><xsl:value-of select="."/></xsl:when>
+                                <xsl:when test="@absolute='true' or contains(., '://')"><xsl:value-of select="."/></xsl:when>
                                 <xsl:otherwise><xsl:value-of select="concat($contextPath, .)"/></xsl:otherwise>
                             </xsl:choose>
                         </xsl:attribute>
@@ -309,7 +309,7 @@
 	                <link rel="stylesheet" type="text/css">
                         <xsl:attribute name="href">
                             <xsl:choose>
-                                <xsl:when test="contains(., '://')"><xsl:value-of select="."/></xsl:when>
+                                <xsl:when test="@absolute='true' or contains(., '://')"><xsl:value-of select="."/></xsl:when>
                                 <xsl:otherwise><xsl:value-of select="concat($contextPath, .)"/></xsl:otherwise>
                             </xsl:choose>
                         </xsl:attribute>
