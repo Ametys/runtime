@@ -27,9 +27,3 @@
 	background-color: #FFFFFF;
 	height: 1px;
 }
-
-
-.ametys-dialogbox .x-mask-msg {
-	z-index: 20001 !important; /* over the 19000 of a dialog box */
-}
-
