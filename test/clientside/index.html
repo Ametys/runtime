@@ -43,37 +43,51 @@
             <li>Make the previous things works, and launch the server</li>
             <li>Have the following conf in an Apache server
                 <code><pre>
-					<VirtualHost *:80>
-					        # Nom du virtual host
-					        ServerName MYSERVERNAME
-					        UseCanonicalName On
-					        RewriteEngine On
-					        ProxyRequests Off
-					        ProxyErrorOverride Off
-					
-					        AddDefaultCharset     UTF-8
-					        
-					        ProxyPreserveHost On
-					
-					        RewriteRule        ^(/(~cmd|~sass|build|ext|packages|testapp).*)$  http://localhost:1841$1 [P,L]
-					        ProxyPassReverse   /        http://localhost:1841/
-					
-					        RewriteRule        ^(/.*)$  http://localhost:8080$1 [P,L]
-					        ProxyPassReverse   /        http://localhost:8080/
-					
-					       
-					        <Proxy http://localhost:1841/*>
-					            Order deny,allow
-					            Allow from all
-					        </Proxy>                
-					        <Proxy http://localhost:8080/*>
-					            Order deny,allow
-					            Allow from all
-					        </Proxy>                
-					</VirtualHost>
+		&lt;VirtualHost *:80&gt;
+		        # Nom du virtual host
+		        ServerName MYSERVERNAME
+		        UseCanonicalName On
+		        RewriteEngine On
+		        ProxyRequests Off
+		        ProxyErrorOverride Off
+		
+		        AddDefaultCharset     UTF-8
+		        
+		        ProxyPreserveHost On
+		
+		        RewriteRule        ^(/(~cmd|~sass|build|ext|packages|testapp).*)$  http://localhost:1841$1 [P,L]
+		        ProxyPassReverse   /        http://localhost:1841/
+		
+		        RewriteRule        ^(/.*)$  http://localhost:8080$1 [P,L]
+		        ProxyPassReverse   /        http://localhost:8080/
+		
+		       
+		        &lt;Proxy http://localhost:1841/*&gt;
+		            Order deny,allow
+		            Allow from all
+		        &lt;/Proxy>                
+		        &lt;Proxy http://localhost:8080/*&gt;
+		            Order deny,allow
+		            Allow from all
+		        &lt;/Proxy&gt;                
+		&lt;/VirtualHost&gt;
                 </pre></code>
             </li>
-            <li>Modify workspace</li>
+            <li>Modify workspace.xsl to add
+                <pre><code>
+    &lt;xsl:template name="theme-scripts"&gt;
+        &lt;script absolute="true"&gt;/~cmd/extensions/sencha-fashion/fashion/fashion.js&lt;/script&gt;
+        &lt;script absolute="true"&gt;/~cmd/extensions/sencha-fashion/sass-compiler.js&lt;/script&gt;
+        
+        &lt;script absolute="true"&gt;/ext/build/classic/theme-neptune/theme-neptune-debug.js&lt;/script&gt;
+        &lt;script absolute="true"&gt;/packages/local/theme-ametys-base/overrides/Ametys/ui/fluent/ribbon/Ribbon/ContextualTabGroup.js&lt;/script&gt;
+        &lt;script absolute="true"&gt;/packages/local/theme-ametys-base/overrides/Ametys/ui/fluent/ribbon/GroupScale.js&lt;/script&gt;
+        &lt;script absolute="true"&gt;/packages/local/theme-ametys-base/overrides/Ametys/ui/fluent/ribbon/TabPanel.js&lt;/script&gt;
+        &lt;script absolute="true"&gt;/packages/local/theme-ametys-base/overrides/Ametys/ui/tool/layout/ZonedTabsToolsLayout/ZoneTabsToolsPanel.js&lt;/script&gt;
+    &lt;/xsl:template&gt;
+    &lt;xsl:template name="theme-styles"/&gt;                
+                </code></pre>
+            </li>
        </ul>
 	</body>
 </html>
