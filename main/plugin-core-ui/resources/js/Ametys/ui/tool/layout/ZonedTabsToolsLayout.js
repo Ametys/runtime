@@ -117,7 +117,7 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
             }
             
             // Matching location
-            if (this.getSupportedLocations().indexOf(desiredLocation) != -1)
+            if (Ext.Array.indexOf(this.getSupportedLocations(), desiredLocation) != -1)
             {
                 return desiredLocation;
             }
@@ -403,13 +403,10 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 		{
             location = this.getNearestSupportedLocation(location);
             tool._toolsLayout = this;
-            
 			Ext.suspendLayouts();
-
             try
             {
-    			this._addToolToUI(tool, location);
-    			
+            	this._addToolToUI(tool, location);
     			tool.fireEvent("toolopen", tool);
             }
             finally
