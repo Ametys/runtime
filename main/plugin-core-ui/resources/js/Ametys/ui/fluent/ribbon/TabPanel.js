@@ -400,7 +400,7 @@ Ext.define(
                     panel._wasActiveOnHide = this.activeTab == panel; 
                     if (panel._wasActiveOnHide)
                     {
-                        var index = panel._contextualTabGroup._tabs.indexOf(panel)
+                        var index = Ext.Array.indexOf(panel._contextualTabGroup._tabs, panel);
     
                         var panelToTests = [];
                         for (var i = index - 1; i >= 0; i--)

@@ -212,10 +212,10 @@ Ext.define(
 				var matchingTargets = false;
 				var me = this;
 				var targets = message.getParameters()['targets'];
-				targets.forEach(function (element, index, array)
-				{
-					if (!me._reversedSelectionTargetType && me._selectionTargetType.test(element)
-							|| me._reversedSelectionTargetType && !me._selectionTargetType.test(element))
+				
+				Ext.Array.each(targets, function(target) {
+					if (!me._reversedSelectionTargetType && me._selectionTargetType.test(target)
+							|| me._reversedSelectionTargetType && !me._selectionTargetType.test(target))
 					{
 						matchingTargets = true;
 					}
