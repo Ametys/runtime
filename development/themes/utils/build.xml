@@ -18,6 +18,8 @@
     <import file="utils.xml"/>
 
     <target name="build">
+        <delete dir="${ametys-themes-dir}/work/packages/local/${name}/build"/>
+    
         <exec executable="sencha" dir="${ametys-themes-dir}/work/packages/local/${name}" failonerror="true">
             <arg value="package"/>
             <arg value="build"/>
