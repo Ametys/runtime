@@ -100,9 +100,9 @@ Ext.define('Ametys.plugins.admin.jvmstatus.MonitoringTool', {
 				hideCollapseTool: true,
 				
 		    	html: '<div class="monitoring">'
-		    		+ '    <button style="border-left-style: none;" id="btn-' + id + '-left" onclick="Ametys.plugins.admin.MonitoringTool.prototype._nextImg(\'' + id + '\', -1); return false;">&lt;&lt;</button>'
+		    		+ '    <button style="border-left-style: none;" id="btn-' + id + '-left" onclick="Ametys.plugins.admin.jvmstatus.MonitoringTool.prototype._nextImg(\'' + id + '\', -1,\'' + response.samples.periods + '\'); return false;">&lt;&lt;</button>'
 		    		+ '    <img id="img-' + id + '" src="' + Ametys.getPluginDirectPrefix("admin") + '/jvmstatus/monitoring/' + id + '/' + response.samples.periods[1] + '.png" title="' + description + '"/>'
-		    		+ '    <button style="border-right-style: none;" id="btn-' + id + '-right"  onclick="Ametys.plugins.admin.MonitoringTool.prototype._nextImg(\'' + id + '\', +1); return false;">&gt;&gt;</button>'
+		    		+ '    <button style="border-right-style: none;" id="btn-' + id + '-right"  onclick="Ametys.plugins.admin.jvmstatus.MonitoringTool.prototype._nextImg(\'' + id + '\', +1,\'' + response.samples.periods + '\'); return false;">&gt;&gt;</button>'
 		    		+ '<br/><a target="_blank" href="' + Ametys.getPluginDirectPrefix("admin") + '/jvmstatus/monitoring/' + id + '.xml"><i18n:text i18n:key="PLUGINS_ADMIN_STATUS_TAB_MONITORING_EXPORT"/></a>'
 		    	    + '</div>'
 		    }));
@@ -116,26 +116,31 @@ Ext.define('Ametys.plugins.admin.jvmstatus.MonitoringTool', {
 	/**
 	 * @private
 	 * This method is called to go to the next image in the monitoring panel 
+	 * @param {String} id the id of the image
+	 * @param {Number} dir the direction, -1 for left, 1 for right
+	 * @param {String} periods the coma separated string of available periods of time for the graph
 	 */
-	_nextImg: function(id, dir)
+	_nextImg: function(id, dir, periods)
 	{
+		periods = periods.split(",");
+		
 		var img = Ext.get('img-' + id);
 		var src = img.dom.src;
 		
 		var currentPeriod = src.substring(src.lastIndexOf("/") + 1, src.length - 4);
 		
 		src = src.substring(0, src.lastIndexOf("/") + 1);
-		for (var i = 0; i < this.periods.length; i++)
+		for (var i = 0; i < periods.length; i++)
 		{
-			if (this.periods[i] == currentPeriod)
+			if (periods[i] == currentPeriod)
 			{
-				src += this.periods[i + dir]
+				src += periods[i + dir]
 	            if (i + dir == 0)
 	            {
 	            	Ext.get("btn-" + id + "-left").hide();
 	            	Ext.get("btn-" + id + "-right").show();
 	            }
-	            else if (i + dir == this.periods.length - 1)
+	            else if (i + dir == periods.length - 1)
 	            {
 	            	Ext.get("btn-" + id + "-left").show();
 	            	Ext.get("btn-" + id + "-right").hide();
