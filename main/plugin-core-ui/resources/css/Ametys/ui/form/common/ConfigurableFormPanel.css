@@ -226,11 +226,11 @@
 }
 
 .ametys-form-panel .ametys-form-tab-inline .x-panel-header.warning.not-startup .x-panel-header-title {
-    background: url('../../../../../img/Ametys/theme/gray/warning.png') left no-repeat;
+    background: url('../../../../../themes/theme-ametys-base/images/form/field/warning.png') left no-repeat;
 }
 
 .ametys-form-panel .ametys-form-tab .x-tab-default.warning.not-startup .x-tab-inner {
-    background: url('../../../../../img/Ametys/theme/gray/warning.png') left no-repeat;
+    background: url('../../../../../themes/theme-ametys-base/images/form/field/warning.png') left no-repeat;
 }
 
 .ametys-form-panel .ametys-form-tab .x-tab-default.error.not-startup.x-tab-active .x-tab-inner,
@@ -394,7 +394,7 @@
 
 .ametys-form-panel .param-checker-container .param-checker-status.warning
 {
-    background-image: url('../../../../../img/Ametys/theme/gray/warning.png');
+    background: url('../../../../../themes/theme-ametys-base/images/form/field/warning.png') no-repeat;
 }
  
 .ametys-form-panel .test-results
