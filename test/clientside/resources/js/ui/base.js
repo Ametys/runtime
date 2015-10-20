@@ -77,7 +77,6 @@ function onreadyfunction() {
                     },
                     items: [
                         tabHome,
-                        tabAdmin,
                         tabToggle,
                         tabMenu,
                         tabSplit,
