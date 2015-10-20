@@ -88,8 +88,8 @@
             <description i18n="true">PLUGINS_CORE_UPLOAD_CONFIG_DIR_DESCRIPTION</description>
             <validation>
                 <mandatory/>
-                <!-- regexp>[^\/]$</regexp>
-                <invalidText i18n="true">PLUGINS_CORE_REGEXP_INVALID_PATH</invalidText -->
+                <regexp>^.*[^\/]$</regexp>
+                <invalidText i18n="true">PLUGINS_CORE_REGEXP_INVALID_PATH</invalidText>
             </validation>        
             <default-value>WEB-INF/data/uploads</default-value>
             <category i18n="true">PLUGINS_CORE_SYSTEM_CONFIG_CATEGORY</category>
