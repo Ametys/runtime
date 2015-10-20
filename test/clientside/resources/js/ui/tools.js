@@ -154,7 +154,7 @@ function openTool4()
                 xtype: 'button',
                 text: 'Dialog',
                 handler: function() {
-                                Ext.create('Ametys.window.DialogBox', {
+                                var dd = Ext.create('Ametys.window.DialogBox', {
                                     title: "Boite de dialogue...",
                                     icon: Ametys.CONTEXT_PATH + '/test/resources/img/editpaste_48.gif',
                                     
@@ -226,12 +226,61 @@ function openTool4()
                                     buttons : [{
                                         text :"Ok"
                                     }, {
-                                        text :"Annuler"
+                                        text :"Cancel"
+                                    }, {
+                                        text: "Wait",
+                                        handler: function() {
+                                            Ext.create("Ext.LoadMask", { msg: 'please wait', target: dd.el });
+                                        }
                                     }]
                                 }).show();
                             
                 }
             },
+            {
+                xtype: 'button',
+                text: 'Dialog 2',
+                handler: function() {
+                                var dd = Ext.create('Ametys.window.DialogBox', {
+                                    title: "Boite de dialogue...",
+                                    icon: Ametys.CONTEXT_PATH + '/test/resources/img/editpaste_48.gif',
+                                    
+                                    width: 500,
+                                    height: 350,
+                                    scrollable: true,
+                                    layout: 'fit',
+                                    
+                                    items: [{
+                                        xtype: 'tabpanel',
+                                        
+                                        items: [
+                                            {
+                                                title: 'Test',
+                                                xtype: 'panel'
+                                            },
+                                            {
+                                                title: 'Test 2',
+                                                xtype: 'panel'
+                                            }
+                                        ]
+                                    }],
+                                    
+                                    defaultFocus: 'url',
+                                    closeAction: 'hide',
+                                    buttons : [{
+                                        text :"Ok"
+                                    }, {
+                                        text :"Cancel"
+                                    }, {
+                                        text: "Wait",
+                                        handler: function() {
+                                            Ext.create("Ext.LoadMask", { msg: 'please wait', target: dd.el });
+                                        }
+                                    }]
+                                }).show();
+                            
+                }
+            },            
             {
                 xtype: 'button',
                 text: 'Error dialog',
