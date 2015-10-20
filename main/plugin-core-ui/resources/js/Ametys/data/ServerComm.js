@@ -117,7 +117,7 @@ Ext.define(
 		
 		/**
 		 * @private
-		 * @property {Object} _messages The waiting messages. See {@link #send} method to see the message object
+		 * @property {Object[]} _messages The waiting messages. See {@link #send} method to see the message object
 		 */
 		_messages: [],
 
@@ -492,7 +492,7 @@ Ext.define(
 		
 		/**
 		 * Send the waiting messages to the server
-		 * @param m A optional message. If null the method will empty the queue, else it will send only this message.
+		 * @param {Object} m An optional message. If null the method will empty the queue, else it will send only this message.
 		 * @private
 		 */
 		_sendMessages: function(m)
