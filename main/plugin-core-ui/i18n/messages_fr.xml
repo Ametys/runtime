@@ -380,7 +380,7 @@
     <message key="PLUGINS_CORE_UI_FORM_FIELD_STRINGTIME_INVALID_TEXT">La saisie actuelle n'est pas une heure valide.</message>
     
     <!-- SELECT USER -->
-	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_CAPTION">Sélectionner un utilisateur...</message>
+	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_CAPTION">Sélectionner un utilisateur</message>
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_OK">Ok</message>
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_CANCEL">Annuler</message>
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_ERROR_LISTING">Une erreur est survenue lors de la récupération de la liste des utilisateurs.</message>
@@ -388,12 +388,12 @@
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_WARN100">Au maximum 100 utilisateurs sont listés</message>
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_ERROR_EMPTY">Vous devez sélectionner au moins un utilisateur dans la liste avant de continuer.</message>
     <message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_NORESULT">La recherche n'a renvoyé aucun résultat</message>
-    <message key="PLUGINS_CORE_UI_USERS_SELECTUSERS_DIALOG_CAPTION">Sélectionner des utilisateurs ...</message>
+    <message key="PLUGINS_CORE_UI_USERS_SELECTUSERS_DIALOG_CAPTION">Sélectionner des utilisateurs</message>
     <message key="PLUGINS_CORE_UI_USERS_SELECTUSERS_BTN_ADDUSER">Ajouter</message>
     <message key="PLUGINS_CORE_UI_USERS_SELECTUSERS_BTN_DELETEUSERS">Supprimer</message>
     
     <!-- SELECT GROUP -->
-    <message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_CAPTION">Sélectionner un groupe...</message>
+    <message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_CAPTION">Sélectionner un groupe</message>
     <message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_OK">Ok</message>
     <message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_CANCEL">Annuler</message>
     <message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_ERROR_LISTING">Une erreur est survenue lors de la récupération de la liste des groupes.</message>

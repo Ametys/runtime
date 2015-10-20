@@ -380,7 +380,7 @@
     <message key="PLUGINS_CORE_UI_FORM_FIELD_STRINGTIME_INVALID_TEXT">The current input is not a valid hour.</message>
     
 	<!-- SELECT USER -->
-	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_CAPTION">Select a user...</message>
+	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_CAPTION">Select a user</message>
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_OK">Ok</message>
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_CANCEL">Cancel</message>
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_ERROR_LISTING">An error occurred while listing users.</message>
@@ -388,12 +388,12 @@
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_WARN100">Only the first 100 users are displayed</message>
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_ERROR_EMPTY">Please select a user, in order to proceed.</message>
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSER_DIALOG_NORESULT">Sorry, your search produced no results</message>
-	<message key="PLUGINS_CORE_UI_USERS_SELECTUSERS_DIALOG_CAPTION">Select users...</message>
+	<message key="PLUGINS_CORE_UI_USERS_SELECTUSERS_DIALOG_CAPTION">Select users</message>
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSERS_BTN_ADDUSER">Add</message>
 	<message key="PLUGINS_CORE_UI_USERS_SELECTUSERS_BTN_DELETEUSERS">Delete</message>
 	
 	<!-- SELECT GROUP -->
-	<message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_CAPTION">Select a group...</message>
+	<message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_CAPTION">Select a group</message>
 	<message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_OK">Ok</message>
 	<message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_CANCEL">Cancel</message>
 	<message key="PLUGINS_CORE_UI_GROUPS_SELECTGROUP_DIALOG_ERROR_LISTING">An error occurred during the listing of the groups.</message>
