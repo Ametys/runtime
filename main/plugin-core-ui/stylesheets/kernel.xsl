@@ -104,10 +104,10 @@
 	    
 		<xsl:variable name="css">
             <xsl:call-template name="theme-styles">
-                <xsl:with-param name="theme"><xsl:value-of select="$theme"/></xsl:with-param>
-                <xsl:with-param name="uxtheme"><xsl:value-of select="$uxtheme"/></xsl:with-param>
-                <xsl:with-param name="rtl"><xsl:value-of select="$rtl"/></xsl:with-param>
-                <xsl:with-param name="debug-mode"><xsl:value-of select="$debug-mode"/></xsl:with-param>
+                <xsl:with-param name="theme" select="$theme"/>
+                <xsl:with-param name="uxtheme" select="$uxtheme"/>
+                <xsl:with-param name="rtl" select="$rtl"/>
+                <xsl:with-param name="debug-mode" select="$debug-mode"/>
             </xsl:call-template>
             
             <css>/plugins/codemirror/resources/css/codemirror.css</css>
