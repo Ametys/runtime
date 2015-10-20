@@ -43,7 +43,7 @@ public class SessionCountListenerTestCase extends TestCase
      */
     public void testCount() throws Exception
     {
-        final int threadCount = 10000;
+        final int threadCount = 1000; // 10000
         final SessionCountListener sessionCountListener = new SessionCountListener();
 
         // Compteur initial

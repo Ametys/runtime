@@ -43,7 +43,7 @@ public class RequestCountListenerTestCase extends TestCase
      */
     public void testCount() throws Exception
     {
-        final int threadCount = 10000;
+        final int threadCount = 1000; // 10000
         final RequestCountListener requestCountListener = new RequestCountListener();
 
         // Compteurs initiaux
