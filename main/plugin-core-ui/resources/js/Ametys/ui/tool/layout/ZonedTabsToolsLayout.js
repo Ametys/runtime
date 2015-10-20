@@ -527,7 +527,8 @@ Ext.define("Ametys.ui.tool.layout.ZonedTabsToolsLayout",
 			}
 			
 			tool.fireEvent('toolclose', tool, wasFocused);
-            
+			
+			tool._toolsLayout = null; // remove tool panel reference to the layout
 			zoneTabsToolsPanel.remove(tool);
 			
 			if (this.getFocusedTool() == null)
