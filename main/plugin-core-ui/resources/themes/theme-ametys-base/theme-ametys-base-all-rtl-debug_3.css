@@ -2030,21 +2030,7 @@
 }
 /* http://localhost:1841/packages/local/theme-ametys-base/sass/src/misc/Badge.scss:21 */
 .abp-badge {
-    /*
- *  Copyright 2015 Anyware Services
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
+    
     /*
  * Freely inspired from Brian Wendt https://github.com/whiskeredwonder/Ext.ux.mixin.Badge (under MIT Licence)
  */
@@ -2115,21 +2101,7 @@
 /* http://localhost:1841/packages/local/theme-ametys-base/sass/src/misc/JSON.scss:17 */
 .json-array,
 .json-object {
-    /*
- *  Copyright 2015 Anyware Services
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
+    
     display: inline;
     padding: 0 !important;
     margin: 0 !important;
@@ -2161,21 +2133,7 @@
 }
 /* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/Layout.scss:17 */
 .x-container-tool-layout {
-    /*
- *  Copyright 2015 Anyware Services
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
+    
     background-color: #fff;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:187 */
@@ -5837,21 +5795,7 @@
 }
 /* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tool/ZonedTabsDD.scss:20 */
 .a-tool-layer-zoned-dragndrop-marker {
-    /*
- *  Copyright 2015 Anyware Services
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
+    
     /* **************** *
  * DRAG N DROP      *
  * **************** */
@@ -5876,21 +5820,7 @@
 }
 /* http://localhost:1841/packages/local/theme-ametys-base/sass/src/tools/messagetracker.scss:18 */
 .uitool-messagestracker .callstack .filename {
-    /*
- *  Copyright 2015 Anyware Services
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
+    
     color: #2a00ff;
     text-decoration: none;
 }
@@ -5950,21 +5880,7 @@
 }
 /* http://localhost:1841/packages/local/theme-ametys-base/sass/src/window/ErrorDialog.scss:17 */
 .error-dialog-text .x-panel-body {
-    /*
- *  Copyright 2015 Anyware Services
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
+    
     color: #000;
     padding: 6px;
 }
@@ -5989,21 +5905,7 @@
 }
 /* http://localhost:1841/packages/local/theme-ametys-base/sass/src/LoadMask.scss:17 */
 .a-mask-outofdate {
-    /*
- *  Copyright 2015 Anyware Services
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
+    
     border: 1px solid #c5c5c5;
 }
 /* http://localhost:1841/packages/local/theme-ametys-base/sass/src/LoadMask.scss:20 */
