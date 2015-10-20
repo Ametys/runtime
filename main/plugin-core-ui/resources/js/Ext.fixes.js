@@ -210,4 +210,24 @@
             return me.callSuper([value, add]);
         }
     });
+    
+	Ext.override(Ext.data.Model, {
+		// Fix for https://issues.ametys.org/browse/CMS-6363
+		// Actually, this enables to specify a convert or calculate function for an id field in a Ext.data.Model (which does not work, is it a bug ?)
+		// See https://www.sencha.com/forum/showthread.php?292044-Ext.data.Field.convert%28%29-not-called-for-idField-if-only-calculated
+		
+	    privates: {
+	        statics: {
+	            initFields: function (data, cls, proto) {
+	                var me = this,
+	                    idField;
+	
+	                me.callParent(arguments);
+	
+	                idField = proto.idField;
+	                idField.defaultValue = (idField.convert) ? undefined : null; // defaultValue must be undefined instead of null if a convert function is specified
+	            }
+	        }
+	    }
+	});
 })();
