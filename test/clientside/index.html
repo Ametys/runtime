@@ -43,34 +43,34 @@
             <li>Make the previous things works, and launch the server</li>
             <li>Have the following conf in an Apache server
                 <code><pre>
-		&lt;VirtualHost *:80&gt;
-		        # Nom du virtual host
-		        ServerName MYSERVERNAME
-		        UseCanonicalName On
-		        RewriteEngine On
-		        ProxyRequests Off
-		        ProxyErrorOverride Off
+    &lt;VirtualHost *:80&gt;
+		# Nom du virtual host
+		ServerName MYSERVERNAME
+		UseCanonicalName On
+		RewriteEngine On
+		ProxyRequests Off
+		ProxyErrorOverride Off
 		
-		        AddDefaultCharset     UTF-8
-		        
-		        ProxyPreserveHost On
+		AddDefaultCharset     UTF-8
 		
-		        RewriteRule        ^(/(~cmd|~sass|build|ext|packages|testapp).*)$  http://localhost:1841$1 [P,L]
-		        ProxyPassReverse   /        http://localhost:1841/
+		ProxyPreserveHost On
 		
-		        RewriteRule        ^(/.*)$  http://localhost:8080$1 [P,L]
-		        ProxyPassReverse   /        http://localhost:8080/
+		RewriteRule        ^(/(~cmd|~sass|build|ext|packages|testapp).*)$  http://localhost:1841$1 [P,L]
+		ProxyPassReverse   /        http://localhost:1841/
 		
-		       
-		        &lt;Proxy http://localhost:1841/*&gt;
-		            Order deny,allow
-		            Allow from all
-		        &lt;/Proxy>                
-		        &lt;Proxy http://localhost:8080/*&gt;
-		            Order deny,allow
-		            Allow from all
-		        &lt;/Proxy&gt;                
-		&lt;/VirtualHost&gt;
+		RewriteRule        ^(/.*)$  http://localhost:8080$1 [P,L]
+		ProxyPassReverse   /        http://localhost:8080/
+		
+		
+		&lt;Proxy http://localhost:1841/*&gt;
+		    Order deny,allow
+		    Allow from all
+		&lt;/Proxy>                
+		&lt;Proxy http://localhost:8080/*&gt;
+		    Order deny,allow
+		    Allow from all
+		&lt;/Proxy&gt;                
+    &lt;/VirtualHost&gt;
                 </pre></code>
             </li>
             <li>Modify workspace.xsl to add
