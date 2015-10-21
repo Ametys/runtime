@@ -34,12 +34,12 @@ Ext.define(
          * @cfg {Object/Object[]} items The menu items to search into
          * @cfg {String/String[]} items.<element>.keywords Terms that will be part of the search (additionnaly to 'text' configuration)
          */
-
+        
         /**
-         * @cfg {String} searchURL When provided, a menu item is added at the end to be able to search an url with the query. The value is a template string. An object with a string property "query" is provided to the template.
+         * @cfg {Boolean} allowSearch When true, a menu item is added at the end to be able to search in the HelpTool.
          */
         /**
-         * @property {Ext.Template} searchURL The template creating using #cfg-searchURL
+         * @property {Boolean} allowSearch True if search is allowed. See #cfg-allowSearch
          * @private
          */
         
@@ -107,15 +107,15 @@ Ext.define(
             
             this.searchMenuHelpItem = Ext.create("Ext.Template", this.searchMenuHelpItem);
 
-            if (config.searchURL)
+            if (config.allowSearch)
             {
-                this.searchURL = Ext.create("Ext.Template", config.searchURL);
+                this.allowSearch = true;
                 config.items.push("-");
                 config.items.push({
                     handler: this._openHelp,
                     scope: this
                 });
-                delete config.searchURL;
+                delete config.allowSearch;
             }
             
             this._menu = Ext.create("Ext.menu.Menu", {
@@ -137,8 +137,7 @@ Ext.define(
          */
         _openHelp: function()
         {
-            var url = this.searchURL.apply({ query: Ext.Object.toQueryString({q : this.getValue()}).substring(2) });
-            window.open(url, "_blank");
+            Ametys.tool.ToolsManager.openTool("uitool-help", {searchQuery: this.getValue()});
         },
         
         /**
@@ -176,7 +175,7 @@ Ext.define(
                 this._loadCompanions();
             }
             
-            if (this.searchURL)
+            if (this.allowSearch)
             {
                 // Update the search metnu item
                 var value = this.getValue();
@@ -233,7 +232,7 @@ Ext.define(
                 item.item.show();
             });
             
-            if (this.searchURL)
+            if (this.allowSearch)
             {
                 this._menu.items.get(this._menu.items.getCount() - menuItemsToAvoid).setVisible(visibleItems.length > 0);
             }
