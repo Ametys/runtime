@@ -23,7 +23,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1040 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-btn-focus.x-btn-menu-active .x-btn-default-toolbar-large-mc,
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-btn-focus.x-btn-pressed .x-btn-default-toolbar-large-mc {
-    background-color: #a1407a;
+    background-color: #a1a1a1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1053 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-btn.x-btn-disabled .x-btn-default-toolbar-large-tl,
@@ -41,7 +41,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1065 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-btn.x-btn-disabled .x-btn-default-toolbar-large-mc {
-    background-color: #d9a1c3;
+    background-color: #ededed;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1075 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-nbr .x-btn-default-toolbar-large {
@@ -196,11 +196,11 @@
     padding: 3px 3px 3px 3px;
     border-width: 1px;
     border-style: solid;
-    background-color: #935ed3;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-default-small-mc {
-    background-color: #935ed3;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-nbr .x-btn-default-small {
@@ -298,7 +298,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:445 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-default-small {
-    border-color: #884ecf;
+    border-color: #a1a1a1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:452 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-button-default-small {
@@ -348,7 +348,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:525 */
 .x-ie8 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-icon-el-default-small.x-btn-glyph {
-    color: #c9afe9;
+    color: #e0e0e0;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:532 */
 .x-btn-text.x-btn-icon-left > .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-icon-el-default-small {
@@ -412,7 +412,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:727 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-default-small {
     background-image: none;
-    background-color: #935ed3;
+    background-color: #c1c1c1;
     -webkit-box-shadow: #d4ddeb 0 1px 0px 0 inset, #d4ddeb 0 -1px 0px 0 inset, #d4ddeb -1px 0 0px 0 inset, #d4ddeb 1px 0 0px 0 inset;
     -moz-box-shadow: #d4ddeb 0 1px 0px 0 inset, #d4ddeb 0 -1px 0px 0 inset, #d4ddeb -1px 0 0px 0 inset, #d4ddeb 1px 0 0px 0 inset;
     box-shadow: #d4ddeb 0 1px 0px 0 inset, #d4ddeb 0 -1px 0px 0 inset, #d4ddeb -1px 0 0px 0 inset, #d4ddeb 1px 0 0px 0 inset;
@@ -433,7 +433,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:785 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-over.x-btn-default-small {
     background-image: none;
-    background-color: #8e56d1;
+    background-color: #b1b1b1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:812 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-over.x-btn-default-small {
@@ -445,7 +445,7 @@
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-menu-active.x-btn-default-small,
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-pressed.x-btn-default-small {
     background-image: none;
-    background-color: #884ecf;
+    background-color: #a1a1a1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:868 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-menu-active.x-btn-default-small,
@@ -456,9 +456,9 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:897 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-disabled.x-btn-default-small {
-    border-color: #d9c6f0;
+    border-color: #ededed;
     background-image: none;
-    background-color: #d9c6f0;
+    background-color: #ededed;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:929 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus .x-btn-default-small-tl,
@@ -476,7 +476,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:941 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus .x-btn-default-small-mc {
-    background-color: #935ed3;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:953 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-over .x-btn-default-small-tl,
@@ -494,7 +494,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:965 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-over .x-btn-default-small-mc {
-    background-color: #8e56d1;
+    background-color: #b1b1b1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:977 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-over .x-btn-default-small-tl,
@@ -512,7 +512,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:989 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-over .x-btn-default-small-mc {
-    background-color: #8e56d1;
+    background-color: #b1b1b1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1003 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-menu-active .x-btn-default-small-tl,
@@ -539,7 +539,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1015 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-menu-active .x-btn-default-small-mc,
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-pressed .x-btn-default-small-mc {
-    background-color: #884ecf;
+    background-color: #a1a1a1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1028 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-menu-active .x-btn-default-small-tl,
@@ -566,7 +566,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1040 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-menu-active .x-btn-default-small-mc,
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-pressed .x-btn-default-small-mc {
-    background-color: #884ecf;
+    background-color: #a1a1a1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1053 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-disabled .x-btn-default-small-tl,
@@ -584,7 +584,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1065 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-disabled .x-btn-default-small-mc {
-    background-color: #d9c6f0;
+    background-color: #ededed;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1075 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-nbr .x-btn-default-small {
@@ -739,11 +739,11 @@
     padding: 3px 3px 3px 3px;
     border-width: 1px;
     border-style: solid;
-    background-color: #935ed3;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-default-medium-mc {
-    background-color: #935ed3;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-nbr .x-btn-default-medium {
@@ -841,7 +841,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:445 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-default-medium {
-    border-color: #884ecf;
+    border-color: #a1a1a1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:452 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-button-default-medium {
@@ -891,7 +891,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:525 */
 .x-ie8 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-icon-el-default-medium.x-btn-glyph {
-    color: #c9afe9;
+    color: #e0e0e0;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:532 */
 .x-btn-text.x-btn-icon-left > .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-icon-el-default-medium {
@@ -955,7 +955,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:727 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-default-medium {
     background-image: none;
-    background-color: #935ed3;
+    background-color: #c1c1c1;
     -webkit-box-shadow: #d4ddeb 0 1px 0px 0 inset, #d4ddeb 0 -1px 0px 0 inset, #d4ddeb -1px 0 0px 0 inset, #d4ddeb 1px 0 0px 0 inset;
     -moz-box-shadow: #d4ddeb 0 1px 0px 0 inset, #d4ddeb 0 -1px 0px 0 inset, #d4ddeb -1px 0 0px 0 inset, #d4ddeb 1px 0 0px 0 inset;
     box-shadow: #d4ddeb 0 1px 0px 0 inset, #d4ddeb 0 -1px 0px 0 inset, #d4ddeb -1px 0 0px 0 inset, #d4ddeb 1px 0 0px 0 inset;
@@ -976,7 +976,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:785 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-over.x-btn-default-medium {
     background-image: none;
-    background-color: #8e56d1;
+    background-color: #b1b1b1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:812 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-over.x-btn-default-medium {
@@ -988,7 +988,7 @@
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-menu-active.x-btn-default-medium,
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-pressed.x-btn-default-medium {
     background-image: none;
-    background-color: #884ecf;
+    background-color: #a1a1a1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:868 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-menu-active.x-btn-default-medium,
@@ -999,9 +999,9 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:897 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-disabled.x-btn-default-medium {
-    border-color: #d9c6f0;
+    border-color: #ededed;
     background-image: none;
-    background-color: #d9c6f0;
+    background-color: #ededed;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:929 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus .x-btn-default-medium-tl,
@@ -1019,7 +1019,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:941 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus .x-btn-default-medium-mc {
-    background-color: #935ed3;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:953 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-over .x-btn-default-medium-tl,
@@ -1037,7 +1037,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:965 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-over .x-btn-default-medium-mc {
-    background-color: #8e56d1;
+    background-color: #b1b1b1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:977 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-over .x-btn-default-medium-tl,
@@ -1055,7 +1055,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:989 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-over .x-btn-default-medium-mc {
-    background-color: #8e56d1;
+    background-color: #b1b1b1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1003 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-menu-active .x-btn-default-medium-tl,
@@ -1082,7 +1082,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1015 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-menu-active .x-btn-default-medium-mc,
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-pressed .x-btn-default-medium-mc {
-    background-color: #884ecf;
+    background-color: #a1a1a1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1028 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-menu-active .x-btn-default-medium-tl,
@@ -1109,7 +1109,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1040 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-menu-active .x-btn-default-medium-mc,
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-pressed .x-btn-default-medium-mc {
-    background-color: #884ecf;
+    background-color: #a1a1a1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1053 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-disabled .x-btn-default-medium-tl,
@@ -1127,7 +1127,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1065 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-disabled .x-btn-default-medium-mc {
-    background-color: #d9c6f0;
+    background-color: #ededed;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1075 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-nbr .x-btn-default-medium {
@@ -1282,11 +1282,11 @@
     padding: 3px 3px 3px 3px;
     border-width: 1px;
     border-style: solid;
-    background-color: #935ed3;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-default-large-mc {
-    background-color: #935ed3;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-nbr .x-btn-default-large {
@@ -1384,7 +1384,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:445 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-default-large {
-    border-color: #884ecf;
+    border-color: #a1a1a1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:452 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-button-default-large {
@@ -1434,7 +1434,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:525 */
 .x-ie8 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-icon-el-default-large.x-btn-glyph {
-    color: #c9afe9;
+    color: #e0e0e0;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:532 */
 .x-btn-text.x-btn-icon-left > .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-icon-el-default-large {
@@ -1498,7 +1498,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:727 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-default-large {
     background-image: none;
-    background-color: #935ed3;
+    background-color: #c1c1c1;
     -webkit-box-shadow: #d4ddeb 0 1px 0px 0 inset, #d4ddeb 0 -1px 0px 0 inset, #d4ddeb -1px 0 0px 0 inset, #d4ddeb 1px 0 0px 0 inset;
     -moz-box-shadow: #d4ddeb 0 1px 0px 0 inset, #d4ddeb 0 -1px 0px 0 inset, #d4ddeb -1px 0 0px 0 inset, #d4ddeb 1px 0 0px 0 inset;
     box-shadow: #d4ddeb 0 1px 0px 0 inset, #d4ddeb 0 -1px 0px 0 inset, #d4ddeb -1px 0 0px 0 inset, #d4ddeb 1px 0 0px 0 inset;
@@ -1519,7 +1519,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:785 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-over.x-btn-default-large {
     background-image: none;
-    background-color: #8e56d1;
+    background-color: #b1b1b1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:812 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-over.x-btn-default-large {
@@ -1531,7 +1531,7 @@
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-menu-active.x-btn-default-large,
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-pressed.x-btn-default-large {
     background-image: none;
-    background-color: #884ecf;
+    background-color: #a1a1a1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:868 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-menu-active.x-btn-default-large,
@@ -1542,9 +1542,9 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:897 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-disabled.x-btn-default-large {
-    border-color: #d9c6f0;
+    border-color: #ededed;
     background-image: none;
-    background-color: #d9c6f0;
+    background-color: #ededed;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:929 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus .x-btn-default-large-tl,
@@ -1562,7 +1562,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:941 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus .x-btn-default-large-mc {
-    background-color: #935ed3;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:953 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-over .x-btn-default-large-tl,
@@ -1580,7 +1580,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:965 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-over .x-btn-default-large-mc {
-    background-color: #8e56d1;
+    background-color: #b1b1b1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:977 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-over .x-btn-default-large-tl,
@@ -1598,7 +1598,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:989 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-over .x-btn-default-large-mc {
-    background-color: #8e56d1;
+    background-color: #b1b1b1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1003 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-menu-active .x-btn-default-large-tl,
@@ -1625,7 +1625,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1015 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-menu-active .x-btn-default-large-mc,
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-pressed .x-btn-default-large-mc {
-    background-color: #884ecf;
+    background-color: #a1a1a1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1028 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-menu-active .x-btn-default-large-tl,
@@ -1652,7 +1652,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1040 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-menu-active .x-btn-default-large-mc,
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-pressed .x-btn-default-large-mc {
-    background-color: #884ecf;
+    background-color: #a1a1a1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1053 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-disabled .x-btn-default-large-tl,
@@ -1670,7 +1670,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1065 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-disabled .x-btn-default-large-mc {
-    background-color: #d9c6f0;
+    background-color: #ededed;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1075 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-nbr .x-btn-default-large {
@@ -1825,11 +1825,11 @@
     padding: 3px 3px 3px 3px;
     border-width: 1px;
     border-style: solid;
-    background-color: #935ed3;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-default-toolbar-small-mc {
-    background-color: #935ed3;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-nbr .x-btn-default-toolbar-small {
@@ -1927,7 +1927,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:445 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-default-toolbar-small {
-    border-color: #884ecf;
+    border-color: #a1a1a1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:452 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-button-default-toolbar-small {
@@ -1977,7 +1977,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:525 */
 .x-ie8 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-icon-el-default-toolbar-small.x-btn-glyph {
-    color: #7d629d;
+    color: #949494;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:532 */
 .x-btn-text.x-btn-icon-left > .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-icon-el-default-toolbar-small {
@@ -2041,7 +2041,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:727 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-default-toolbar-small {
     background-image: none;
-    background-color: #935ed3;
+    background-color: #c1c1c1;
     -webkit-box-shadow: #cfcfcf 0 1px 0px 0 inset, #cfcfcf 0 -1px 0px 0 inset, #cfcfcf -1px 0 0px 0 inset, #cfcfcf 1px 0 0px 0 inset;
     -moz-box-shadow: #cfcfcf 0 1px 0px 0 inset, #cfcfcf 0 -1px 0px 0 inset, #cfcfcf -1px 0 0px 0 inset, #cfcfcf 1px 0 0px 0 inset;
     box-shadow: #cfcfcf 0 1px 0px 0 inset, #cfcfcf 0 -1px 0px 0 inset, #cfcfcf -1px 0 0px 0 inset, #cfcfcf 1px 0 0px 0 inset;
@@ -2062,7 +2062,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:785 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-over.x-btn-default-toolbar-small {
     background-image: none;
-    background-color: #8e56d1;
+    background-color: #b1b1b1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:812 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-over.x-btn-default-toolbar-small {
@@ -2074,7 +2074,7 @@
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-menu-active.x-btn-default-toolbar-small,
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-pressed.x-btn-default-toolbar-small {
     background-image: none;
-    background-color: #884ecf;
+    background-color: #a1a1a1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:868 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-menu-active.x-btn-default-toolbar-small,
@@ -2085,9 +2085,9 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:897 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-disabled.x-btn-default-toolbar-small {
-    border-color: #d9c6f0;
+    border-color: #ededed;
     background-image: none;
-    background-color: #d9c6f0;
+    background-color: #ededed;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:929 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus .x-btn-default-toolbar-small-tl,
@@ -2105,7 +2105,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:941 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus .x-btn-default-toolbar-small-mc {
-    background-color: #935ed3;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:953 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-over .x-btn-default-toolbar-small-tl,
@@ -2123,7 +2123,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:965 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-over .x-btn-default-toolbar-small-mc {
-    background-color: #8e56d1;
+    background-color: #b1b1b1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:977 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-over .x-btn-default-toolbar-small-tl,
@@ -2141,7 +2141,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:989 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-over .x-btn-default-toolbar-small-mc {
-    background-color: #8e56d1;
+    background-color: #b1b1b1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1003 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-menu-active .x-btn-default-toolbar-small-tl,
@@ -2168,7 +2168,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1015 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-menu-active .x-btn-default-toolbar-small-mc,
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-pressed .x-btn-default-toolbar-small-mc {
-    background-color: #884ecf;
+    background-color: #a1a1a1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1028 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-menu-active .x-btn-default-toolbar-small-tl,
@@ -2195,7 +2195,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1040 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-menu-active .x-btn-default-toolbar-small-mc,
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-pressed .x-btn-default-toolbar-small-mc {
-    background-color: #884ecf;
+    background-color: #a1a1a1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1053 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-disabled .x-btn-default-toolbar-small-tl,
@@ -2213,7 +2213,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1065 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-disabled .x-btn-default-toolbar-small-mc {
-    background-color: #d9c6f0;
+    background-color: #ededed;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1075 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-nbr .x-btn-default-toolbar-small {
@@ -2368,11 +2368,11 @@
     padding: 3px 3px 3px 3px;
     border-width: 1px;
     border-style: solid;
-    background-color: #935ed3;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-default-toolbar-medium-mc {
-    background-color: #935ed3;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-nbr .x-btn-default-toolbar-medium {
@@ -2470,7 +2470,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:445 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-default-toolbar-medium {
-    border-color: #884ecf;
+    border-color: #a1a1a1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:452 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-button-default-toolbar-medium {
@@ -2520,7 +2520,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:525 */
 .x-ie8 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-icon-el-default-toolbar-medium.x-btn-glyph {
-    color: #7d629d;
+    color: #949494;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:532 */
 .x-btn-text.x-btn-icon-left > .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-icon-el-default-toolbar-medium {
@@ -2584,7 +2584,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:727 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-default-toolbar-medium {
     background-image: none;
-    background-color: #935ed3;
+    background-color: #c1c1c1;
     -webkit-box-shadow: #cfcfcf 0 1px 0px 0 inset, #cfcfcf 0 -1px 0px 0 inset, #cfcfcf -1px 0 0px 0 inset, #cfcfcf 1px 0 0px 0 inset;
     -moz-box-shadow: #cfcfcf 0 1px 0px 0 inset, #cfcfcf 0 -1px 0px 0 inset, #cfcfcf -1px 0 0px 0 inset, #cfcfcf 1px 0 0px 0 inset;
     box-shadow: #cfcfcf 0 1px 0px 0 inset, #cfcfcf 0 -1px 0px 0 inset, #cfcfcf -1px 0 0px 0 inset, #cfcfcf 1px 0 0px 0 inset;
@@ -2605,7 +2605,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:785 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-over.x-btn-default-toolbar-medium {
     background-image: none;
-    background-color: #8e56d1;
+    background-color: #b1b1b1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:812 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-over.x-btn-default-toolbar-medium {
@@ -2617,7 +2617,7 @@
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-menu-active.x-btn-default-toolbar-medium,
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-pressed.x-btn-default-toolbar-medium {
     background-image: none;
-    background-color: #884ecf;
+    background-color: #a1a1a1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:868 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-menu-active.x-btn-default-toolbar-medium,
@@ -2628,9 +2628,9 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:897 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-disabled.x-btn-default-toolbar-medium {
-    border-color: #d9c6f0;
+    border-color: #ededed;
     background-image: none;
-    background-color: #d9c6f0;
+    background-color: #ededed;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:929 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus .x-btn-default-toolbar-medium-tl,
@@ -2648,7 +2648,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:941 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus .x-btn-default-toolbar-medium-mc {
-    background-color: #935ed3;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:953 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-over .x-btn-default-toolbar-medium-tl,
@@ -2666,7 +2666,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:965 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-over .x-btn-default-toolbar-medium-mc {
-    background-color: #8e56d1;
+    background-color: #b1b1b1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:977 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-over .x-btn-default-toolbar-medium-tl,
@@ -2684,7 +2684,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:989 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-over .x-btn-default-toolbar-medium-mc {
-    background-color: #8e56d1;
+    background-color: #b1b1b1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1003 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-menu-active .x-btn-default-toolbar-medium-tl,
@@ -2711,7 +2711,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1015 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-menu-active .x-btn-default-toolbar-medium-mc,
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-pressed .x-btn-default-toolbar-medium-mc {
-    background-color: #884ecf;
+    background-color: #a1a1a1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1028 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-menu-active .x-btn-default-toolbar-medium-tl,
@@ -2738,7 +2738,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1040 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-menu-active .x-btn-default-toolbar-medium-mc,
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-pressed .x-btn-default-toolbar-medium-mc {
-    background-color: #884ecf;
+    background-color: #a1a1a1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1053 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-disabled .x-btn-default-toolbar-medium-tl,
@@ -2756,7 +2756,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1065 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-disabled .x-btn-default-toolbar-medium-mc {
-    background-color: #d9c6f0;
+    background-color: #ededed;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1075 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-nbr .x-btn-default-toolbar-medium {
@@ -2911,11 +2911,11 @@
     padding: 3px 3px 3px 3px;
     border-width: 1px;
     border-style: solid;
-    background-color: #935ed3;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-default-toolbar-large-mc {
-    background-color: #935ed3;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-nbr .x-btn-default-toolbar-large {
@@ -3013,7 +3013,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:445 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-default-toolbar-large {
-    border-color: #884ecf;
+    border-color: #a1a1a1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:452 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-button-default-toolbar-large {
@@ -3063,7 +3063,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:525 */
 .x-ie8 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-icon-el-default-toolbar-large.x-btn-glyph {
-    color: #7d629d;
+    color: #949494;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:532 */
 .x-btn-text.x-btn-icon-left > .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-icon-el-default-toolbar-large {
@@ -3127,7 +3127,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:727 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-default-toolbar-large {
     background-image: none;
-    background-color: #935ed3;
+    background-color: #c1c1c1;
     -webkit-box-shadow: #cfcfcf 0 1px 0px 0 inset, #cfcfcf 0 -1px 0px 0 inset, #cfcfcf -1px 0 0px 0 inset, #cfcfcf 1px 0 0px 0 inset;
     -moz-box-shadow: #cfcfcf 0 1px 0px 0 inset, #cfcfcf 0 -1px 0px 0 inset, #cfcfcf -1px 0 0px 0 inset, #cfcfcf 1px 0 0px 0 inset;
     box-shadow: #cfcfcf 0 1px 0px 0 inset, #cfcfcf 0 -1px 0px 0 inset, #cfcfcf -1px 0 0px 0 inset, #cfcfcf 1px 0 0px 0 inset;
@@ -3148,7 +3148,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:785 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-over.x-btn-default-toolbar-large {
     background-image: none;
-    background-color: #8e56d1;
+    background-color: #b1b1b1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:812 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-over.x-btn-default-toolbar-large {
@@ -3160,7 +3160,7 @@
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-menu-active.x-btn-default-toolbar-large,
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-pressed.x-btn-default-toolbar-large {
     background-image: none;
-    background-color: #884ecf;
+    background-color: #a1a1a1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:868 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-menu-active.x-btn-default-toolbar-large,
@@ -3171,9 +3171,9 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:897 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-disabled.x-btn-default-toolbar-large {
-    border-color: #d9c6f0;
+    border-color: #ededed;
     background-image: none;
-    background-color: #d9c6f0;
+    background-color: #ededed;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:929 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus .x-btn-default-toolbar-large-tl,
@@ -3191,7 +3191,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:941 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus .x-btn-default-toolbar-large-mc {
-    background-color: #935ed3;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:953 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-over .x-btn-default-toolbar-large-tl,
@@ -3209,7 +3209,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:965 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-over .x-btn-default-toolbar-large-mc {
-    background-color: #8e56d1;
+    background-color: #b1b1b1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:977 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-over .x-btn-default-toolbar-large-tl,
@@ -3227,7 +3227,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:989 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-over .x-btn-default-toolbar-large-mc {
-    background-color: #8e56d1;
+    background-color: #b1b1b1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1003 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-menu-active .x-btn-default-toolbar-large-tl,
@@ -3254,7 +3254,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1015 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-menu-active .x-btn-default-toolbar-large-mc,
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-pressed .x-btn-default-toolbar-large-mc {
-    background-color: #884ecf;
+    background-color: #a1a1a1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1028 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-menu-active .x-btn-default-toolbar-large-tl,
@@ -3281,7 +3281,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1040 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-menu-active .x-btn-default-toolbar-large-mc,
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn-focus.x-btn-pressed .x-btn-default-toolbar-large-mc {
-    background-color: #884ecf;
+    background-color: #a1a1a1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1053 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-disabled .x-btn-default-toolbar-large-tl,
@@ -3299,7 +3299,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1065 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-btn.x-btn-disabled .x-btn-default-toolbar-large-mc {
-    background-color: #d9c6f0;
+    background-color: #ededed;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/button/Button.scss:1075 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-nbr .x-btn-default-toolbar-large {
@@ -3601,15 +3601,15 @@
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-toolbar-default {
     padding: 6px 0 6px 8px;
     border-style: solid;
-    border-color: #ed2a2e;
+    border-color: #dbdbdb;
     border-width: 1px;
     background-image: none;
-    background-color: #f37173;
+    background-color: #fff;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/toolbar/Toolbar.scss:248 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-toolbar-default .x-tool-img {
     background-image: url(images/tools/tool-sprites-dark.png);
-    background-color: #f37173;
+    background-color: #fff;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/toolbar/Toolbar.scss:263 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-toolbar-default .x-toolbar-item {
@@ -3735,7 +3735,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/toolbar/Toolbar.scss:376 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-ie8 .x-box-scroller-toolbar-default {
-    background-color: #f37173;
+    background-color: #fff;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/toolbar/Toolbar.scss:382 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-toolbar-more-icon {
@@ -3750,15 +3750,15 @@
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-toolbar-default {
     padding: 6px 0 6px 8px;
     border-style: solid;
-    border-color: #ffb133;
+    border-color: #dbdbdb;
     border-width: 1px;
     background-image: none;
-    background-color: #ffce80;
+    background-color: #fff;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/toolbar/Toolbar.scss:248 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-toolbar-default .x-tool-img {
     background-image: url(images/tools/tool-sprites-dark.png);
-    background-color: #ffce80;
+    background-color: #fff;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/toolbar/Toolbar.scss:263 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-toolbar-default .x-toolbar-item {
@@ -3884,7 +3884,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/toolbar/Toolbar.scss:376 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-ie8 .x-box-scroller-toolbar-default {
-    background-color: #ffce80;
+    background-color: #fff;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/toolbar/Toolbar.scss:382 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-toolbar-more-icon {
@@ -3899,15 +3899,15 @@
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-toolbar-default {
     padding: 6px 0 6px 8px;
     border-style: solid;
-    border-color: #f5d64d;
+    border-color: #dbdbdb;
     border-width: 1px;
     background-image: none;
-    background-color: #f9e796;
+    background-color: #fff;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/toolbar/Toolbar.scss:248 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-toolbar-default .x-tool-img {
     background-image: url(images/tools/tool-sprites-dark.png);
-    background-color: #f9e796;
+    background-color: #fff;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/toolbar/Toolbar.scss:263 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-toolbar-default .x-toolbar-item {
@@ -4033,7 +4033,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/toolbar/Toolbar.scss:376 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-ie8 .x-box-scroller-toolbar-default {
-    background-color: #f9e796;
+    background-color: #fff;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/toolbar/Toolbar.scss:382 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-toolbar-more-icon {
@@ -4048,15 +4048,15 @@
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-toolbar-default {
     padding: 6px 0 6px 8px;
     border-style: solid;
-    border-color: #65ba65;
+    border-color: #dbdbdb;
     border-width: 1px;
     background-image: none;
-    background-color: #9ad29a;
+    background-color: #fff;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/toolbar/Toolbar.scss:248 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-toolbar-default .x-tool-img {
     background-image: url(images/tools/tool-sprites-dark.png);
-    background-color: #9ad29a;
+    background-color: #fff;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/toolbar/Toolbar.scss:263 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-toolbar-default .x-toolbar-item {
@@ -4182,7 +4182,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/toolbar/Toolbar.scss:376 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-ie8 .x-box-scroller-toolbar-default {
-    background-color: #9ad29a;
+    background-color: #fff;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/toolbar/Toolbar.scss:382 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-toolbar-more-icon {
@@ -4197,15 +4197,15 @@
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-toolbar-default {
     padding: 6px 0 6px 8px;
     border-style: solid;
-    border-color: #0054ff;
+    border-color: #dbdbdb;
     border-width: 1px;
     background-image: none;
-    background-color: #4d87ff;
+    background-color: #fff;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/toolbar/Toolbar.scss:248 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-toolbar-default .x-tool-img {
     background-image: url(images/tools/tool-sprites-dark.png);
-    background-color: #4d87ff;
+    background-color: #fff;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/toolbar/Toolbar.scss:263 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-toolbar-default .x-toolbar-item {
@@ -4331,7 +4331,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/toolbar/Toolbar.scss:376 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-ie8 .x-box-scroller-toolbar-default {
-    background-color: #4d87ff;
+    background-color: #fff;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/toolbar/Toolbar.scss:382 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-toolbar-more-icon {
@@ -4346,15 +4346,15 @@
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-toolbar-default {
     padding: 6px 0 6px 8px;
     border-style: solid;
-    border-color: #d67fb3;
+    border-color: #dbdbdb;
     border-width: 1px;
     background-image: none;
-    background-color: #e8b9d5;
+    background-color: #fff;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/toolbar/Toolbar.scss:248 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-toolbar-default .x-tool-img {
     background-image: url(images/tools/tool-sprites-dark.png);
-    background-color: #e8b9d5;
+    background-color: #fff;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/toolbar/Toolbar.scss:263 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-toolbar-default .x-toolbar-item {
@@ -4480,7 +4480,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/toolbar/Toolbar.scss:376 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-ie8 .x-box-scroller-toolbar-default {
-    background-color: #e8b9d5;
+    background-color: #fff;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/toolbar/Toolbar.scss:382 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-toolbar-more-icon {
@@ -4495,15 +4495,15 @@
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-toolbar-default {
     padding: 6px 0 6px 8px;
     border-style: solid;
-    border-color: #ae86de;
+    border-color: #dbdbdb;
     border-width: 1px;
     background-image: none;
-    background-color: #d6c2ee;
+    background-color: #fff;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/toolbar/Toolbar.scss:248 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-toolbar-default .x-tool-img {
     background-image: url(images/tools/tool-sprites-dark.png);
-    background-color: #d6c2ee;
+    background-color: #fff;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/toolbar/Toolbar.scss:263 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-toolbar-default .x-toolbar-item {
@@ -4629,7 +4629,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/toolbar/Toolbar.scss:376 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-ie8 .x-box-scroller-toolbar-default {
-    background-color: #d6c2ee;
+    background-color: #fff;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/toolbar/Toolbar.scss:382 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-toolbar-more-icon {
@@ -5239,22 +5239,22 @@
 }
 /* http://localhost:1841/packages/local/theme-ametys-base/sass/src/panel/Panel.scss:47 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .message-details {
-    border-color: #d21216;
+    border-color: #c1c1c1;
     background-color: #fff;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:276 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-default {
-    border-color: #d21216;
+    border-color: #c1c1c1;
     padding: 0;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:282 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-header-default {
     font-size: 12px;
-    border: 1px solid #d21216;
+    border: 1px solid #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:289 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-header-default .x-tool-img {
-    background-color: #d21216;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:306 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-header-default-horizontal {
@@ -5340,7 +5340,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:503 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-body-default {
     background: #fff;
-    border-color: #d21216;
+    border-color: #c1c1c1;
     color: #000;
     font-size: 12px;
     font-weight: normal;
@@ -5351,12 +5351,12 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:667 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-header-default {
     background-image: none;
-    background-color: #d21216;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:671 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-header-default-vertical {
     background-image: none;
-    background-color: #d21216;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:729 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel .x-panel-header-default-collapsed-border-top {
@@ -5437,120 +5437,120 @@
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:2 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-default-outer-border-l {
-    border-left-color: #d21216 !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:6 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-default-outer-border-b {
-    border-bottom-color: #d21216 !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:10 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-default-outer-border-bl {
-    border-bottom-color: #d21216 !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
-    border-left-color: #d21216 !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:16 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-default-outer-border-r {
-    border-right-color: #d21216 !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:20 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-default-outer-border-rl {
-    border-right-color: #d21216 !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
-    border-left-color: #d21216 !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:26 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-default-outer-border-rb {
-    border-right-color: #d21216 !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
-    border-bottom-color: #d21216 !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:32 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-default-outer-border-rbl {
-    border-right-color: #d21216 !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
-    border-bottom-color: #d21216 !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
-    border-left-color: #d21216 !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:40 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-default-outer-border-t {
-    border-top-color: #d21216 !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:44 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-default-outer-border-tl {
-    border-top-color: #d21216 !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
-    border-left-color: #d21216 !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:50 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-default-outer-border-tb {
-    border-top-color: #d21216 !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
-    border-bottom-color: #d21216 !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:56 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-default-outer-border-tbl {
-    border-top-color: #d21216 !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
-    border-bottom-color: #d21216 !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
-    border-left-color: #d21216 !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:64 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-default-outer-border-tr {
-    border-top-color: #d21216 !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
-    border-right-color: #d21216 !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:70 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-default-outer-border-trl {
-    border-top-color: #d21216 !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
-    border-right-color: #d21216 !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
-    border-left-color: #d21216 !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:78 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-default-outer-border-trb {
-    border-top-color: #d21216 !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
-    border-right-color: #d21216 !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
-    border-bottom-color: #d21216 !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:86 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-default-outer-border-trbl {
-    border-color: #d21216 !important;
+    border-color: #c1c1c1 !important;
     border-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:276 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-default-framed {
-    border-color: #d21216;
+    border-color: #c1c1c1;
     padding: 0;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:282 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-header-default-framed {
     font-size: 12px;
-    border: 5px solid #d21216;
+    border: 5px solid #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:289 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-header-default-framed .x-tool-img {
-    background-color: #d21216;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:306 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-header-default-framed-horizontal {
@@ -5636,7 +5636,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:503 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-body-default-framed {
     background: #fff;
-    border-color: #d21216;
+    border-color: #c1c1c1;
     color: #000;
     font-size: 12px;
     font-weight: normal;
@@ -5778,11 +5778,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 5px 5px 0 5px;
     border-style: solid;
-    background-color: #d21216;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-header-default-framed-top-mc {
-    background-color: #d21216;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-nbr .x-panel-header-default-framed-top {
@@ -5895,11 +5895,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 5px 5px 5px 0;
     border-style: solid;
-    background-color: #d21216;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-header-default-framed-right-mc {
-    background-color: #d21216;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-nbr .x-panel-header-default-framed-right {
@@ -6012,11 +6012,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 0 5px 5px 5px;
     border-style: solid;
-    background-color: #d21216;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-header-default-framed-bottom-mc {
-    background-color: #d21216;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-nbr .x-panel-header-default-framed-bottom {
@@ -6129,11 +6129,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 5px 0 5px 5px;
     border-style: solid;
-    background-color: #d21216;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-header-default-framed-left-mc {
-    background-color: #d21216;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-nbr .x-panel-header-default-framed-left {
@@ -6246,11 +6246,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 5px;
     border-style: solid;
-    background-color: #d21216;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-header-default-framed-collapsed-top-mc {
-    background-color: #d21216;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-nbr .x-panel-header-default-framed-collapsed-top {
@@ -6363,11 +6363,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 5px;
     border-style: solid;
-    background-color: #d21216;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-header-default-framed-collapsed-right-mc {
-    background-color: #d21216;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-nbr .x-panel-header-default-framed-collapsed-right {
@@ -6480,11 +6480,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 5px;
     border-style: solid;
-    background-color: #d21216;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-header-default-framed-collapsed-bottom-mc {
-    background-color: #d21216;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-nbr .x-panel-header-default-framed-collapsed-bottom {
@@ -6597,11 +6597,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 5px;
     border-style: solid;
-    background-color: #d21216;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-header-default-framed-collapsed-left-mc {
-    background-color: #d21216;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-nbr .x-panel-header-default-framed-collapsed-left {
@@ -6965,7 +6965,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:380 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-header-title-light {
-    color: #d21216;
+    color: #c1c1c1;
     font-size: 12px;
     font-weight: bold;
     font-family: helvetica, arial, verdana, sans-serif;
@@ -7261,7 +7261,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:380 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .x-panel-header-title-light-framed {
-    color: #d21216;
+    color: #c1c1c1;
     font-size: 12px;
     font-weight: bold;
     font-family: helvetica, arial, verdana, sans-serif;
@@ -7507,22 +7507,22 @@
 }
 /* http://localhost:1841/packages/local/theme-ametys-base/sass/src/panel/Panel.scss:47 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .message-details {
-    border-color: #ff9d00;
+    border-color: #c1c1c1;
     background-color: #fff;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:276 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-default {
-    border-color: #ff9d00;
+    border-color: #c1c1c1;
     padding: 0;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:282 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-header-default {
     font-size: 12px;
-    border: 1px solid #ff9d00;
+    border: 1px solid #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:289 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-header-default .x-tool-img {
-    background-color: #ff9d00;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:306 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-header-default-horizontal {
@@ -7608,7 +7608,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:503 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-body-default {
     background: #fff;
-    border-color: #ff9d00;
+    border-color: #c1c1c1;
     color: #000;
     font-size: 12px;
     font-weight: normal;
@@ -7619,12 +7619,12 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:667 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-header-default {
     background-image: none;
-    background-color: #ff9d00;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:671 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-header-default-vertical {
     background-image: none;
-    background-color: #ff9d00;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:729 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel .x-panel-header-default-collapsed-border-top {
@@ -7705,120 +7705,120 @@
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:2 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-default-outer-border-l {
-    border-left-color: #ff9d00 !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:6 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-default-outer-border-b {
-    border-bottom-color: #ff9d00 !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:10 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-default-outer-border-bl {
-    border-bottom-color: #ff9d00 !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
-    border-left-color: #ff9d00 !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:16 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-default-outer-border-r {
-    border-right-color: #ff9d00 !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:20 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-default-outer-border-rl {
-    border-right-color: #ff9d00 !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
-    border-left-color: #ff9d00 !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:26 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-default-outer-border-rb {
-    border-right-color: #ff9d00 !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
-    border-bottom-color: #ff9d00 !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:32 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-default-outer-border-rbl {
-    border-right-color: #ff9d00 !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
-    border-bottom-color: #ff9d00 !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
-    border-left-color: #ff9d00 !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:40 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-default-outer-border-t {
-    border-top-color: #ff9d00 !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:44 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-default-outer-border-tl {
-    border-top-color: #ff9d00 !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
-    border-left-color: #ff9d00 !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:50 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-default-outer-border-tb {
-    border-top-color: #ff9d00 !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
-    border-bottom-color: #ff9d00 !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:56 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-default-outer-border-tbl {
-    border-top-color: #ff9d00 !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
-    border-bottom-color: #ff9d00 !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
-    border-left-color: #ff9d00 !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:64 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-default-outer-border-tr {
-    border-top-color: #ff9d00 !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
-    border-right-color: #ff9d00 !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:70 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-default-outer-border-trl {
-    border-top-color: #ff9d00 !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
-    border-right-color: #ff9d00 !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
-    border-left-color: #ff9d00 !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:78 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-default-outer-border-trb {
-    border-top-color: #ff9d00 !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
-    border-right-color: #ff9d00 !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
-    border-bottom-color: #ff9d00 !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:86 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-default-outer-border-trbl {
-    border-color: #ff9d00 !important;
+    border-color: #c1c1c1 !important;
     border-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:276 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-default-framed {
-    border-color: #ff9d00;
+    border-color: #c1c1c1;
     padding: 0;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:282 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-header-default-framed {
     font-size: 12px;
-    border: 5px solid #ff9d00;
+    border: 5px solid #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:289 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-header-default-framed .x-tool-img {
-    background-color: #ff9d00;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:306 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-header-default-framed-horizontal {
@@ -7904,7 +7904,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:503 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-body-default-framed {
     background: #fff;
-    border-color: #ff9d00;
+    border-color: #c1c1c1;
     color: #000;
     font-size: 12px;
     font-weight: normal;
@@ -8046,11 +8046,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 5px 5px 0 5px;
     border-style: solid;
-    background-color: #ff9d00;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-header-default-framed-top-mc {
-    background-color: #ff9d00;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-nbr .x-panel-header-default-framed-top {
@@ -8163,11 +8163,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 5px 5px 5px 0;
     border-style: solid;
-    background-color: #ff9d00;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-header-default-framed-right-mc {
-    background-color: #ff9d00;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-nbr .x-panel-header-default-framed-right {
@@ -8280,11 +8280,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 0 5px 5px 5px;
     border-style: solid;
-    background-color: #ff9d00;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-header-default-framed-bottom-mc {
-    background-color: #ff9d00;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-nbr .x-panel-header-default-framed-bottom {
@@ -8397,11 +8397,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 5px 0 5px 5px;
     border-style: solid;
-    background-color: #ff9d00;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-header-default-framed-left-mc {
-    background-color: #ff9d00;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-nbr .x-panel-header-default-framed-left {
@@ -8514,11 +8514,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 5px;
     border-style: solid;
-    background-color: #ff9d00;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-header-default-framed-collapsed-top-mc {
-    background-color: #ff9d00;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-nbr .x-panel-header-default-framed-collapsed-top {
@@ -8631,11 +8631,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 5px;
     border-style: solid;
-    background-color: #ff9d00;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-header-default-framed-collapsed-right-mc {
-    background-color: #ff9d00;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-nbr .x-panel-header-default-framed-collapsed-right {
@@ -8748,11 +8748,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 5px;
     border-style: solid;
-    background-color: #ff9d00;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-header-default-framed-collapsed-bottom-mc {
-    background-color: #ff9d00;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-nbr .x-panel-header-default-framed-collapsed-bottom {
@@ -8865,11 +8865,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 5px;
     border-style: solid;
-    background-color: #ff9d00;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-header-default-framed-collapsed-left-mc {
-    background-color: #ff9d00;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-nbr .x-panel-header-default-framed-collapsed-left {
@@ -9233,7 +9233,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:380 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-header-title-light {
-    color: #ff9d00;
+    color: #c1c1c1;
     font-size: 12px;
     font-weight: bold;
     font-family: helvetica, arial, verdana, sans-serif;
@@ -9529,7 +9529,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:380 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .x-panel-header-title-light-framed {
-    color: #ff9d00;
+    color: #c1c1c1;
     font-size: 12px;
     font-weight: bold;
     font-family: helvetica, arial, verdana, sans-serif;
@@ -9775,22 +9775,22 @@
 }
 /* http://localhost:1841/packages/local/theme-ametys-base/sass/src/panel/Panel.scss:47 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .message-details {
-    border-color: #f2cb1d;
+    border-color: #c1c1c1;
     background-color: #fff;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:276 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-default {
-    border-color: #f2cb1d;
+    border-color: #c1c1c1;
     padding: 0;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:282 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-header-default {
     font-size: 12px;
-    border: 1px solid #f2cb1d;
+    border: 1px solid #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:289 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-header-default .x-tool-img {
-    background-color: #f2cb1d;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:306 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-header-default-horizontal {
@@ -9876,7 +9876,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:503 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-body-default {
     background: #fff;
-    border-color: #f2cb1d;
+    border-color: #c1c1c1;
     color: #000;
     font-size: 12px;
     font-weight: normal;
@@ -9887,12 +9887,12 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:667 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-header-default {
     background-image: none;
-    background-color: #f2cb1d;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:671 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-header-default-vertical {
     background-image: none;
-    background-color: #f2cb1d;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:729 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel .x-panel-header-default-collapsed-border-top {
@@ -9973,120 +9973,120 @@
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:2 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-default-outer-border-l {
-    border-left-color: #f2cb1d !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:6 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-default-outer-border-b {
-    border-bottom-color: #f2cb1d !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:10 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-default-outer-border-bl {
-    border-bottom-color: #f2cb1d !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
-    border-left-color: #f2cb1d !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:16 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-default-outer-border-r {
-    border-right-color: #f2cb1d !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:20 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-default-outer-border-rl {
-    border-right-color: #f2cb1d !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
-    border-left-color: #f2cb1d !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:26 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-default-outer-border-rb {
-    border-right-color: #f2cb1d !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
-    border-bottom-color: #f2cb1d !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:32 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-default-outer-border-rbl {
-    border-right-color: #f2cb1d !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
-    border-bottom-color: #f2cb1d !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
-    border-left-color: #f2cb1d !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:40 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-default-outer-border-t {
-    border-top-color: #f2cb1d !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:44 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-default-outer-border-tl {
-    border-top-color: #f2cb1d !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
-    border-left-color: #f2cb1d !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:50 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-default-outer-border-tb {
-    border-top-color: #f2cb1d !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
-    border-bottom-color: #f2cb1d !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:56 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-default-outer-border-tbl {
-    border-top-color: #f2cb1d !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
-    border-bottom-color: #f2cb1d !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
-    border-left-color: #f2cb1d !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:64 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-default-outer-border-tr {
-    border-top-color: #f2cb1d !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
-    border-right-color: #f2cb1d !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:70 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-default-outer-border-trl {
-    border-top-color: #f2cb1d !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
-    border-right-color: #f2cb1d !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
-    border-left-color: #f2cb1d !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:78 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-default-outer-border-trb {
-    border-top-color: #f2cb1d !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
-    border-right-color: #f2cb1d !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
-    border-bottom-color: #f2cb1d !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:86 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-default-outer-border-trbl {
-    border-color: #f2cb1d !important;
+    border-color: #c1c1c1 !important;
     border-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:276 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-default-framed {
-    border-color: #f2cb1d;
+    border-color: #c1c1c1;
     padding: 0;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:282 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-header-default-framed {
     font-size: 12px;
-    border: 5px solid #f2cb1d;
+    border: 5px solid #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:289 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-header-default-framed .x-tool-img {
-    background-color: #f2cb1d;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:306 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-header-default-framed-horizontal {
@@ -10172,7 +10172,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:503 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-body-default-framed {
     background: #fff;
-    border-color: #f2cb1d;
+    border-color: #c1c1c1;
     color: #000;
     font-size: 12px;
     font-weight: normal;
@@ -10314,11 +10314,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 5px 5px 0 5px;
     border-style: solid;
-    background-color: #f2cb1d;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-header-default-framed-top-mc {
-    background-color: #f2cb1d;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-nbr .x-panel-header-default-framed-top {
@@ -10431,11 +10431,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 5px 5px 5px 0;
     border-style: solid;
-    background-color: #f2cb1d;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-header-default-framed-right-mc {
-    background-color: #f2cb1d;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-nbr .x-panel-header-default-framed-right {
@@ -10548,11 +10548,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 0 5px 5px 5px;
     border-style: solid;
-    background-color: #f2cb1d;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-header-default-framed-bottom-mc {
-    background-color: #f2cb1d;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-nbr .x-panel-header-default-framed-bottom {
@@ -10665,11 +10665,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 5px 0 5px 5px;
     border-style: solid;
-    background-color: #f2cb1d;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-header-default-framed-left-mc {
-    background-color: #f2cb1d;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-nbr .x-panel-header-default-framed-left {
@@ -10782,11 +10782,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 5px;
     border-style: solid;
-    background-color: #f2cb1d;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-header-default-framed-collapsed-top-mc {
-    background-color: #f2cb1d;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-nbr .x-panel-header-default-framed-collapsed-top {
@@ -10899,11 +10899,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 5px;
     border-style: solid;
-    background-color: #f2cb1d;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-header-default-framed-collapsed-right-mc {
-    background-color: #f2cb1d;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-nbr .x-panel-header-default-framed-collapsed-right {
@@ -11016,11 +11016,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 5px;
     border-style: solid;
-    background-color: #f2cb1d;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-header-default-framed-collapsed-bottom-mc {
-    background-color: #f2cb1d;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-nbr .x-panel-header-default-framed-collapsed-bottom {
@@ -11133,11 +11133,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 5px;
     border-style: solid;
-    background-color: #f2cb1d;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-header-default-framed-collapsed-left-mc {
-    background-color: #f2cb1d;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-nbr .x-panel-header-default-framed-collapsed-left {
@@ -11501,7 +11501,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:380 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-header-title-light {
-    color: #f2cb1d;
+    color: #c1c1c1;
     font-size: 12px;
     font-weight: bold;
     font-family: helvetica, arial, verdana, sans-serif;
@@ -11797,7 +11797,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:380 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .x-panel-header-title-light-framed {
-    color: #f2cb1d;
+    color: #c1c1c1;
     font-size: 12px;
     font-weight: bold;
     font-family: helvetica, arial, verdana, sans-serif;
@@ -12043,22 +12043,22 @@
 }
 /* http://localhost:1841/packages/local/theme-ametys-base/sass/src/panel/Panel.scss:47 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .message-details {
-    border-color: #49a349;
+    border-color: #c1c1c1;
     background-color: #fff;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:276 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-default {
-    border-color: #49a349;
+    border-color: #c1c1c1;
     padding: 0;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:282 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-header-default {
     font-size: 12px;
-    border: 1px solid #49a349;
+    border: 1px solid #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:289 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-header-default .x-tool-img {
-    background-color: #49a349;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:306 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-header-default-horizontal {
@@ -12144,7 +12144,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:503 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-body-default {
     background: #fff;
-    border-color: #49a349;
+    border-color: #c1c1c1;
     color: #000;
     font-size: 12px;
     font-weight: normal;
@@ -12155,12 +12155,12 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:667 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-header-default {
     background-image: none;
-    background-color: #49a349;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:671 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-header-default-vertical {
     background-image: none;
-    background-color: #49a349;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:729 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel .x-panel-header-default-collapsed-border-top {
@@ -12241,120 +12241,120 @@
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:2 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-default-outer-border-l {
-    border-left-color: #49a349 !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:6 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-default-outer-border-b {
-    border-bottom-color: #49a349 !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:10 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-default-outer-border-bl {
-    border-bottom-color: #49a349 !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
-    border-left-color: #49a349 !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:16 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-default-outer-border-r {
-    border-right-color: #49a349 !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:20 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-default-outer-border-rl {
-    border-right-color: #49a349 !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
-    border-left-color: #49a349 !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:26 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-default-outer-border-rb {
-    border-right-color: #49a349 !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
-    border-bottom-color: #49a349 !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:32 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-default-outer-border-rbl {
-    border-right-color: #49a349 !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
-    border-bottom-color: #49a349 !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
-    border-left-color: #49a349 !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:40 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-default-outer-border-t {
-    border-top-color: #49a349 !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:44 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-default-outer-border-tl {
-    border-top-color: #49a349 !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
-    border-left-color: #49a349 !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:50 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-default-outer-border-tb {
-    border-top-color: #49a349 !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
-    border-bottom-color: #49a349 !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:56 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-default-outer-border-tbl {
-    border-top-color: #49a349 !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
-    border-bottom-color: #49a349 !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
-    border-left-color: #49a349 !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:64 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-default-outer-border-tr {
-    border-top-color: #49a349 !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
-    border-right-color: #49a349 !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:70 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-default-outer-border-trl {
-    border-top-color: #49a349 !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
-    border-right-color: #49a349 !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
-    border-left-color: #49a349 !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:78 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-default-outer-border-trb {
-    border-top-color: #49a349 !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
-    border-right-color: #49a349 !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
-    border-bottom-color: #49a349 !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:86 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-default-outer-border-trbl {
-    border-color: #49a349 !important;
+    border-color: #c1c1c1 !important;
     border-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:276 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-default-framed {
-    border-color: #49a349;
+    border-color: #c1c1c1;
     padding: 0;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:282 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-header-default-framed {
     font-size: 12px;
-    border: 5px solid #49a349;
+    border: 5px solid #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:289 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-header-default-framed .x-tool-img {
-    background-color: #49a349;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:306 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-header-default-framed-horizontal {
@@ -12440,7 +12440,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:503 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-body-default-framed {
     background: #fff;
-    border-color: #49a349;
+    border-color: #c1c1c1;
     color: #000;
     font-size: 12px;
     font-weight: normal;
@@ -12582,11 +12582,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 5px 5px 0 5px;
     border-style: solid;
-    background-color: #49a349;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-header-default-framed-top-mc {
-    background-color: #49a349;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-nbr .x-panel-header-default-framed-top {
@@ -12699,11 +12699,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 5px 5px 5px 0;
     border-style: solid;
-    background-color: #49a349;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-header-default-framed-right-mc {
-    background-color: #49a349;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-nbr .x-panel-header-default-framed-right {
@@ -12816,11 +12816,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 0 5px 5px 5px;
     border-style: solid;
-    background-color: #49a349;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-header-default-framed-bottom-mc {
-    background-color: #49a349;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-nbr .x-panel-header-default-framed-bottom {
@@ -12933,11 +12933,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 5px 0 5px 5px;
     border-style: solid;
-    background-color: #49a349;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-header-default-framed-left-mc {
-    background-color: #49a349;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-nbr .x-panel-header-default-framed-left {
@@ -13050,11 +13050,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 5px;
     border-style: solid;
-    background-color: #49a349;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-header-default-framed-collapsed-top-mc {
-    background-color: #49a349;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-nbr .x-panel-header-default-framed-collapsed-top {
@@ -13167,11 +13167,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 5px;
     border-style: solid;
-    background-color: #49a349;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-header-default-framed-collapsed-right-mc {
-    background-color: #49a349;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-nbr .x-panel-header-default-framed-collapsed-right {
@@ -13284,11 +13284,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 5px;
     border-style: solid;
-    background-color: #49a349;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-header-default-framed-collapsed-bottom-mc {
-    background-color: #49a349;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-nbr .x-panel-header-default-framed-collapsed-bottom {
@@ -13401,11 +13401,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 5px;
     border-style: solid;
-    background-color: #49a349;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-header-default-framed-collapsed-left-mc {
-    background-color: #49a349;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-nbr .x-panel-header-default-framed-collapsed-left {
@@ -13769,7 +13769,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:380 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-header-title-light {
-    color: #49a349;
+    color: #c1c1c1;
     font-size: 12px;
     font-weight: bold;
     font-family: helvetica, arial, verdana, sans-serif;
@@ -14065,7 +14065,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:380 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .x-panel-header-title-light-framed {
-    color: #49a349;
+    color: #c1c1c1;
     font-size: 12px;
     font-weight: bold;
     font-family: helvetica, arial, verdana, sans-serif;
@@ -14311,22 +14311,22 @@
 }
 /* http://localhost:1841/packages/local/theme-ametys-base/sass/src/panel/Panel.scss:47 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .message-details {
-    border-color: #0043cc;
+    border-color: #c1c1c1;
     background-color: #fff;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:276 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default {
-    border-color: #0043cc;
+    border-color: #c1c1c1;
     padding: 0;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:282 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-header-default {
     font-size: 12px;
-    border: 1px solid #0043cc;
+    border: 1px solid #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:289 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-header-default .x-tool-img {
-    background-color: #0043cc;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:306 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-header-default-horizontal {
@@ -14412,7 +14412,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:503 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-body-default {
     background: #fff;
-    border-color: #0043cc;
+    border-color: #c1c1c1;
     color: #000;
     font-size: 12px;
     font-weight: normal;
@@ -14423,12 +14423,12 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:667 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-header-default {
     background-image: none;
-    background-color: #0043cc;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:671 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-header-default-vertical {
     background-image: none;
-    background-color: #0043cc;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:729 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel .x-panel-header-default-collapsed-border-top {
@@ -14509,120 +14509,120 @@
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:2 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-outer-border-l {
-    border-left-color: #0043cc !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:6 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-outer-border-b {
-    border-bottom-color: #0043cc !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:10 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-outer-border-bl {
-    border-bottom-color: #0043cc !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
-    border-left-color: #0043cc !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:16 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-outer-border-r {
-    border-right-color: #0043cc !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:20 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-outer-border-rl {
-    border-right-color: #0043cc !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
-    border-left-color: #0043cc !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:26 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-outer-border-rb {
-    border-right-color: #0043cc !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
-    border-bottom-color: #0043cc !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:32 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-outer-border-rbl {
-    border-right-color: #0043cc !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
-    border-bottom-color: #0043cc !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
-    border-left-color: #0043cc !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:40 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-outer-border-t {
-    border-top-color: #0043cc !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:44 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-outer-border-tl {
-    border-top-color: #0043cc !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
-    border-left-color: #0043cc !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:50 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-outer-border-tb {
-    border-top-color: #0043cc !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
-    border-bottom-color: #0043cc !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:56 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-outer-border-tbl {
-    border-top-color: #0043cc !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
-    border-bottom-color: #0043cc !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
-    border-left-color: #0043cc !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:64 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-outer-border-tr {
-    border-top-color: #0043cc !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
-    border-right-color: #0043cc !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:70 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-outer-border-trl {
-    border-top-color: #0043cc !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
-    border-right-color: #0043cc !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
-    border-left-color: #0043cc !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:78 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-outer-border-trb {
-    border-top-color: #0043cc !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
-    border-right-color: #0043cc !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
-    border-bottom-color: #0043cc !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:86 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-outer-border-trbl {
-    border-color: #0043cc !important;
+    border-color: #c1c1c1 !important;
     border-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:276 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-default-framed {
-    border-color: #0043cc;
+    border-color: #c1c1c1;
     padding: 0;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:282 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-header-default-framed {
     font-size: 12px;
-    border: 5px solid #0043cc;
+    border: 5px solid #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:289 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-header-default-framed .x-tool-img {
-    background-color: #0043cc;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:306 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-header-default-framed-horizontal {
@@ -14708,7 +14708,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:503 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-body-default-framed {
     background: #fff;
-    border-color: #0043cc;
+    border-color: #c1c1c1;
     color: #000;
     font-size: 12px;
     font-weight: normal;
@@ -14850,11 +14850,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 5px 5px 0 5px;
     border-style: solid;
-    background-color: #0043cc;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-header-default-framed-top-mc {
-    background-color: #0043cc;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-nbr .x-panel-header-default-framed-top {
@@ -14967,11 +14967,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 5px 5px 5px 0;
     border-style: solid;
-    background-color: #0043cc;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-header-default-framed-right-mc {
-    background-color: #0043cc;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-nbr .x-panel-header-default-framed-right {
@@ -15084,11 +15084,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 0 5px 5px 5px;
     border-style: solid;
-    background-color: #0043cc;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-header-default-framed-bottom-mc {
-    background-color: #0043cc;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-nbr .x-panel-header-default-framed-bottom {
@@ -15201,11 +15201,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 5px 0 5px 5px;
     border-style: solid;
-    background-color: #0043cc;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-header-default-framed-left-mc {
-    background-color: #0043cc;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-nbr .x-panel-header-default-framed-left {
@@ -15318,11 +15318,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 5px;
     border-style: solid;
-    background-color: #0043cc;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-header-default-framed-collapsed-top-mc {
-    background-color: #0043cc;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-nbr .x-panel-header-default-framed-collapsed-top {
@@ -15435,11 +15435,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 5px;
     border-style: solid;
-    background-color: #0043cc;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-header-default-framed-collapsed-right-mc {
-    background-color: #0043cc;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-nbr .x-panel-header-default-framed-collapsed-right {
@@ -15552,11 +15552,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 5px;
     border-style: solid;
-    background-color: #0043cc;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-header-default-framed-collapsed-bottom-mc {
-    background-color: #0043cc;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-nbr .x-panel-header-default-framed-collapsed-bottom {
@@ -15669,11 +15669,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 5px;
     border-style: solid;
-    background-color: #0043cc;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-header-default-framed-collapsed-left-mc {
-    background-color: #0043cc;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-nbr .x-panel-header-default-framed-collapsed-left {
@@ -16037,7 +16037,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:380 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-header-title-light {
-    color: #0043cc;
+    color: #c1c1c1;
     font-size: 12px;
     font-weight: bold;
     font-family: helvetica, arial, verdana, sans-serif;
@@ -16333,7 +16333,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:380 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .x-panel-header-title-light-framed {
-    color: #0043cc;
+    color: #c1c1c1;
     font-size: 12px;
     font-weight: bold;
     font-family: helvetica, arial, verdana, sans-serif;
@@ -16579,22 +16579,22 @@
 }
 /* http://localhost:1841/packages/local/theme-ametys-base/sass/src/panel/Panel.scss:47 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .message-details {
-    border-color: #c9599c;
+    border-color: #c1c1c1;
     background-color: #fff;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:276 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-default {
-    border-color: #c9599c;
+    border-color: #c1c1c1;
     padding: 0;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:282 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-header-default {
     font-size: 12px;
-    border: 1px solid #c9599c;
+    border: 1px solid #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:289 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-header-default .x-tool-img {
-    background-color: #c9599c;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:306 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-header-default-horizontal {
@@ -16680,7 +16680,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:503 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-body-default {
     background: #fff;
-    border-color: #c9599c;
+    border-color: #c1c1c1;
     color: #000;
     font-size: 12px;
     font-weight: normal;
@@ -16691,12 +16691,12 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:667 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-header-default {
     background-image: none;
-    background-color: #c9599c;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:671 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-header-default-vertical {
     background-image: none;
-    background-color: #c9599c;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:729 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel .x-panel-header-default-collapsed-border-top {
@@ -16777,120 +16777,120 @@
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:2 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-default-outer-border-l {
-    border-left-color: #c9599c !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:6 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-default-outer-border-b {
-    border-bottom-color: #c9599c !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:10 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-default-outer-border-bl {
-    border-bottom-color: #c9599c !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
-    border-left-color: #c9599c !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:16 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-default-outer-border-r {
-    border-right-color: #c9599c !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:20 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-default-outer-border-rl {
-    border-right-color: #c9599c !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
-    border-left-color: #c9599c !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:26 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-default-outer-border-rb {
-    border-right-color: #c9599c !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
-    border-bottom-color: #c9599c !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:32 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-default-outer-border-rbl {
-    border-right-color: #c9599c !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
-    border-bottom-color: #c9599c !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
-    border-left-color: #c9599c !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:40 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-default-outer-border-t {
-    border-top-color: #c9599c !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:44 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-default-outer-border-tl {
-    border-top-color: #c9599c !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
-    border-left-color: #c9599c !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:50 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-default-outer-border-tb {
-    border-top-color: #c9599c !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
-    border-bottom-color: #c9599c !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:56 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-default-outer-border-tbl {
-    border-top-color: #c9599c !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
-    border-bottom-color: #c9599c !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
-    border-left-color: #c9599c !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:64 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-default-outer-border-tr {
-    border-top-color: #c9599c !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
-    border-right-color: #c9599c !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:70 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-default-outer-border-trl {
-    border-top-color: #c9599c !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
-    border-right-color: #c9599c !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
-    border-left-color: #c9599c !important;
+    border-left-color: #c1c1c1 !important;
     border-left-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:78 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-default-outer-border-trb {
-    border-top-color: #c9599c !important;
+    border-top-color: #c1c1c1 !important;
     border-top-width: 1px !important;
-    border-right-color: #c9599c !important;
+    border-right-color: #c1c1c1 !important;
     border-right-width: 1px !important;
-    border-bottom-color: #c9599c !important;
+    border-bottom-color: #c1c1c1 !important;
     border-bottom-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/border-management.scss:86 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-default-outer-border-trbl {
-    border-color: #c9599c !important;
+    border-color: #c1c1c1 !important;
     border-width: 1px !important;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:276 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-default-framed {
-    border-color: #c9599c;
+    border-color: #c1c1c1;
     padding: 0;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:282 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-header-default-framed {
     font-size: 12px;
-    border: 5px solid #c9599c;
+    border: 5px solid #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:289 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-header-default-framed .x-tool-img {
-    background-color: #c9599c;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:306 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-header-default-framed-horizontal {
@@ -16976,7 +16976,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/panel/Panel.scss:503 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-body-default-framed {
     background: #fff;
-    border-color: #c9599c;
+    border-color: #c1c1c1;
     color: #000;
     font-size: 12px;
     font-weight: normal;
@@ -17118,11 +17118,11 @@
     padding: 5px 5px 5px 5px;
     border-width: 5px 5px 0 5px;
     border-style: solid;
-    background-color: #c9599c;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-panel-header-default-framed-top-mc {
-    background-color: #c9599c;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-nbr .x-panel-header-default-framed-top {

@@ -1,8 +1,8 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/tab/Bar.scss:309 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-tab-bar-strip-default {
     border-style: solid;
-    border-color: #c9599c;
-    background-color: #c9599c;
+    border-color: #c1c1c1;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/tab/Bar.scss:316 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-tab-bar-top > .x-tab-bar-strip-default {
@@ -161,7 +161,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/tab/Bar.scss:554 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-box-scroller-tab-bar-default {
-    background-color: #a1407a;
+    background-color: #a1a1a1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/tab/Bar.scss:560 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .x-box-scroller-tab-bar-default .x-ie8 .x-box-scroller-plain {
@@ -213,11 +213,11 @@
     padding: 7px 12px 6px 12px;
     border-width: 1px;
     border-style: solid;
-    background-color: #f6f1fc;
+    background-color: #e1e1e1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-tab-default-top-mc {
-    background-color: #f6f1fc;
+    background-color: #e1e1e1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-nbr .x-tab-default-top {
@@ -330,11 +330,11 @@
     padding: 6px 12px 7px 12px;
     border-width: 1px 1px 1px 1px;
     border-style: solid;
-    background-color: #f6f1fc;
+    background-color: #e1e1e1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-tab-default-bottom-mc {
-    background-color: #f6f1fc;
+    background-color: #e1e1e1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-nbr .x-tab-default-bottom {
@@ -447,11 +447,11 @@
     padding: 7px 12px 6px 12px;
     border-width: 1px 1px 1px 1px;
     border-style: solid;
-    background-color: #f6f1fc;
+    background-color: #e1e1e1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-tab-default-left-mc {
-    background-color: #f6f1fc;
+    background-color: #e1e1e1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-nbr .x-tab-default-left {
@@ -564,11 +564,11 @@
     padding: 7px 12px 6px 12px;
     border-width: 1px 1px 1px 1px;
     border-style: solid;
-    background-color: #f6f1fc;
+    background-color: #e1e1e1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:237 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-tab-default-right-mc {
-    background-color: #f6f1fc;
+    background-color: #e1e1e1;
 }
 /* http://localhost:1841/ext/classic/theme-base/sass/etc/mixins/frame.scss:264 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-nbr .x-tab-default-right {
@@ -666,7 +666,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/tab/Tab.scss:1587 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-tab-default {
-    border-color: #f6f1fc;
+    border-color: #e1e1e1;
     cursor: pointer;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/tab/Tab.scss:1648 */
@@ -780,7 +780,7 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2113 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-tab-inner-default {
     font: bold 12px/16px helvetica, arial, verdana, sans-serif;
-    color: #935ed3;
+    color: #c1c1c1;
     max-width: 100%;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2129 */
@@ -812,7 +812,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2172 */
 .x-ie8 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-tab-icon-el-default.x-tab-glyph {
-    color: #fbf8fe;
+    color: #f0f0f0;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2179 */
 .x-tab-text.x-tab-icon-left > .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-tab-icon-el-default {
@@ -832,23 +832,23 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2210 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-tab-focus.x-tab-default {
-    border-color: #f6f1fc;
-    background-color: #f6f1fc;
+    border-color: #e1e1e1;
+    background-color: #e1e1e1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2348 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-tab-over.x-tab-default {
-    border-color: #e2d4f4;
-    background-color: #e2d4f4;
+    border-color: #dbdbdb;
+    background-color: #dbdbdb;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2462 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-tab-focus.x-tab-over.x-tab-default {
-    border-color: #f6f1fc;
-    background-color: #f6f1fc;
+    border-color: #e1e1e1;
+    background-color: #e1e1e1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2579 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-tab.x-tab-active.x-tab-default {
-    border-color: #935ed3;
-    background-color: #935ed3;
+    border-color: #c1c1c1;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2637 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-tab.x-tab-active.x-tab-default .x-tab-inner-default {
@@ -860,22 +860,22 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2665 */
 .x-ie8 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-tab.x-tab-active.x-tab-default .x-tab-icon-el {
-    color: #ac92cc;
+    color: #c3c3c3;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2692 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-tab-focus.x-tab-active.x-tab-default {
-    border-color: #935ed3;
-    background-color: #935ed3;
+    border-color: #c1c1c1;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2810 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-tab.x-tab-disabled.x-tab-default {
-    border-color: #f6f1fc;
-    background-color: #f6f1fc;
+    border-color: #e1e1e1;
+    background-color: #e1e1e1;
     cursor: default;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2872 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-tab.x-tab-disabled.x-tab-default .x-tab-inner-default {
-    color: #bbb8be;
+    color: #b0b0b0;
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
     opacity: 0.3;
 }
@@ -892,7 +892,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2916 */
 .x-ie8 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-tab.x-tab-disabled.x-tab-default .x-tab-icon-el {
-    color: #f9f5fd;
+    color: #eaeaea;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2942 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-nbr .x-tab-default {
@@ -1521,7 +1521,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/tab/Bar.scss:158 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-tab-bar-default {
-    background-color: #884ecf;
+    background-color: #a1a1a1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/tab/Bar.scss:197 */
 .x-tab-bar-default-top > .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-tab-bar-body-default {
@@ -1572,8 +1572,8 @@
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/tab/Bar.scss:309 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-tab-bar-strip-default {
     border-style: solid;
-    border-color: #935ed3;
-    background-color: #935ed3;
+    border-color: #c1c1c1;
+    background-color: #c1c1c1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/tab/Bar.scss:316 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-tab-bar-top > .x-tab-bar-strip-default {
@@ -1732,7 +1732,7 @@
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/tab/Bar.scss:554 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-box-scroller-tab-bar-default {
-    background-color: #884ecf;
+    background-color: #a1a1a1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/tab/Bar.scss:560 */
 .a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .x-box-scroller-tab-bar-default .x-ie8 .x-box-scroller-plain {
