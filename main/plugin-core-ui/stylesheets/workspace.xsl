@@ -345,11 +345,11 @@
                                     tooltip:{ inribbon: true, text: "A little bit of help?" }
                                 },
                                 notification: {
-			                          tooltip:{ inribbon: true, text: "A describtive text" }
+			                          tooltip:{ inribbon: true, text: "A descriptive text" },
 			                          handler: function() {  }
 			                    },
 			                    searchMenu: {
-			                        // searchURL: "http://www.google.com?q={query}", // to search in doc
+			                        allowSearch: true,
 			                        items: searchMenuItems
 			                    },
                                 */
