@@ -680,7 +680,7 @@ Ext.define("Ametys.tool.Tool",
 					this._contentPanel.on('afterrender', function() {
 						if (this._outOfDate == Ametys.tool.Tool.OOD_MAJOROUTOFDATE)
 						{
-							this._contentPanel.mask(msg, "a-mask-outofdate");
+							this._contentPanel.mask(msg, "ametys-mask-unloading");
 						}
 					}, this, { single: true });
 				}
