@@ -284,6 +284,8 @@ Ext.define("Ametys.tool.ToolsManager",
                         effectiveLocation = tool.getDefaultLocation();
                     }
                     
+                    effectiveLocation = this.getToolsLayout().getNearestSupportedLocation(effectiveLocation);
+                    
                     // change the default location for tools of that kind
                     this._overridenDefaultLocation[tool.getFactory().getRole()] = effectiveLocation;
                     if (this.isInitialized())
