@@ -3321,93 +3321,93 @@
     background-image: url(images/shared/icon-small-error.png);
 }
 /* http://localhost:1841/packages/local/theme-ametys-base/sass/src/LoadMask.scss:17 */
-.a-mask-outofdate {
+.ametys-mask-unloading {
     
     border: 1px solid #c5c5c5;
 }
 /* http://localhost:1841/packages/local/theme-ametys-base/sass/src/LoadMask.scss:20 */
-.a-mask-outofdate .x-mask-msg-text {
+.ametys-mask-unloading .x-mask-msg-text {
     background-image: none;
     padding-top: 0;
 }
 /* http://localhost:1841/packages/local/theme-ametys-base/sass/src/LoadMask.scss:24 */
-.a-mask-outofdate .x-mask-msg-text a {
+.ametys-mask-unloading .x-mask-msg-text a {
     font-weight: bold;
     text-decoration: none;
     color: #666;
 }
 /* http://localhost:1841/packages/local/theme-ametys-base/sass/src/LoadMask.scss:29 */
-.a-mask-outofdate .x-mask-msg-text a:hover {
+.ametys-mask-unloading .x-mask-msg-text a:hover {
     text-decoration: underline;
 }
 /* http://localhost:1841/packages/local/theme-ametys-base/sass/src/LoadMask.scss:44 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .a-mask-outofdate {
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .ametys-mask-unloading {
     background-color: #e1e1e1;
     border-color: #c1c1c1;
 }
 /* http://localhost:1841/packages/local/theme-ametys-base/sass/src/LoadMask.scss:49 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .a-mask-outofdate .x-mask-msg-text,
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .a-mask-outofdate .x-mask-msg-text a {
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .ametys-mask-unloading .x-mask-msg-text,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-0 .ametys-mask-unloading .x-mask-msg-text a {
     color: #a1a1a1;
 }
 /* http://localhost:1841/packages/local/theme-ametys-base/sass/src/LoadMask.scss:44 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .a-mask-outofdate {
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .ametys-mask-unloading {
     background-color: #e1e1e1;
     border-color: #c1c1c1;
 }
 /* http://localhost:1841/packages/local/theme-ametys-base/sass/src/LoadMask.scss:49 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .a-mask-outofdate .x-mask-msg-text,
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .a-mask-outofdate .x-mask-msg-text a {
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .ametys-mask-unloading .x-mask-msg-text,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-10 .ametys-mask-unloading .x-mask-msg-text a {
     color: #a1a1a1;
 }
 /* http://localhost:1841/packages/local/theme-ametys-base/sass/src/LoadMask.scss:44 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .a-mask-outofdate {
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .ametys-mask-unloading {
     background-color: #e1e1e1;
     border-color: #c1c1c1;
 }
 /* http://localhost:1841/packages/local/theme-ametys-base/sass/src/LoadMask.scss:49 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .a-mask-outofdate .x-mask-msg-text,
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .a-mask-outofdate .x-mask-msg-text a {
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .ametys-mask-unloading .x-mask-msg-text,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-20 .ametys-mask-unloading .x-mask-msg-text a {
     color: #a1a1a1;
 }
 /* http://localhost:1841/packages/local/theme-ametys-base/sass/src/LoadMask.scss:44 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .a-mask-outofdate {
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .ametys-mask-unloading {
     background-color: #e1e1e1;
     border-color: #c1c1c1;
 }
 /* http://localhost:1841/packages/local/theme-ametys-base/sass/src/LoadMask.scss:49 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .a-mask-outofdate .x-mask-msg-text,
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .a-mask-outofdate .x-mask-msg-text a {
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .ametys-mask-unloading .x-mask-msg-text,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-30 .ametys-mask-unloading .x-mask-msg-text a {
     color: #a1a1a1;
 }
 /* http://localhost:1841/packages/local/theme-ametys-base/sass/src/LoadMask.scss:44 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .a-mask-outofdate {
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .ametys-mask-unloading {
     background-color: #e1e1e1;
     border-color: #c1c1c1;
 }
 /* http://localhost:1841/packages/local/theme-ametys-base/sass/src/LoadMask.scss:49 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .a-mask-outofdate .x-mask-msg-text,
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .a-mask-outofdate .x-mask-msg-text a {
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .ametys-mask-unloading .x-mask-msg-text,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-40 .ametys-mask-unloading .x-mask-msg-text a {
     color: #a1a1a1;
 }
 /* http://localhost:1841/packages/local/theme-ametys-base/sass/src/LoadMask.scss:44 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .a-mask-outofdate {
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .ametys-mask-unloading {
     background-color: #e1e1e1;
     border-color: #c1c1c1;
 }
 /* http://localhost:1841/packages/local/theme-ametys-base/sass/src/LoadMask.scss:49 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .a-mask-outofdate .x-mask-msg-text,
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .a-mask-outofdate .x-mask-msg-text a {
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .ametys-mask-unloading .x-mask-msg-text,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-50 .ametys-mask-unloading .x-mask-msg-text a {
     color: #a1a1a1;
 }
 /* http://localhost:1841/packages/local/theme-ametys-base/sass/src/LoadMask.scss:44 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .a-mask-outofdate {
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .ametys-mask-unloading {
     background-color: #e1e1e1;
     border-color: #c1c1c1;
 }
 /* http://localhost:1841/packages/local/theme-ametys-base/sass/src/LoadMask.scss:49 */
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .a-mask-outofdate .x-mask-msg-text,
-.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .a-mask-outofdate .x-mask-msg-text a {
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .ametys-mask-unloading .x-mask-msg-text,
+.a-tool-layout-zoned-focused.a-tool-layout-zoned-panel-60 .ametys-mask-unloading .x-mask-msg-text a {
     color: #a1a1a1;
 }
 /* http://localhost:1841/ext/classic/theme-neutral/sass/src/ProgressBar.scss:82 */
