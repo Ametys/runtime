@@ -42,6 +42,9 @@ public class HelpUrlProvider implements Contextualizable, Configurable, Componen
 {
     /** Key of the default url */
     protected static final String __DEFAULT_HELP_ID = "default";
+
+    /** Key of the search url */
+    protected static final String __SEARCH_HELP_ID = "search";
     
     /** The map that links help identifiers and urls */
     protected static Map<String, String> _helpMapping;
@@ -110,6 +113,43 @@ public class HelpUrlProvider implements Contextualizable, Configurable, Componen
         }
     }
     
+    /**
+     * Get the search url
+     * @param searchQuery The query string for this search
+     * @return The result (map with an url key, or possible error)
+     */
+    @Callable
+    public Map<String, Object> getSearchUrl (String searchQuery)
+    {
+        Map<String, Object> resultMap = new HashMap<>();
+        
+        resultMap.put("searchQuery", searchQuery);
+        
+        String url = _getSearchUrl(searchQuery);
+        resultMap.put("url", url);
+        
+        if (StringUtils.isEmpty(url))
+        {
+            resultMap.put("error", "true");
+            resultMap.put("error-cause", "not-found");
+        }
+        
+        return resultMap;
+    }
+    
+    private String _getSearchUrl (String searchQuery)
+    {
+        try
+        {
+            _updateHelpUrls();
+            return _helpMapping.get(__SEARCH_HELP_ID) + searchQuery;
+        }
+        catch (ConfigurationException e)
+        {
+            return null;
+        }
+    }
+    
     private void _updateHelpUrls () throws ConfigurationException
     {
         try
@@ -124,6 +164,7 @@ public class HelpUrlProvider implements Contextualizable, Configurable, Componen
                 Configuration helpMappingCfg = new DefaultConfigurationBuilder().buildFromFile(helpMappingFile);
                 
                 _helpMapping.put(__DEFAULT_HELP_ID, helpMappingCfg.getAttribute("defaultUrl"));
+                _helpMapping.put(__SEARCH_HELP_ID, helpMappingCfg.getAttribute("searchUrl"));
                 
                 for (Configuration linkCfg : helpMappingCfg.getChildren("link"))
                 {

@@ -23,6 +23,11 @@ Ext.define('Ametys.plugins.coreui.help.HelpTool', {
 	extend: "Ametys.tool.Tool",
 	
 	/**
+	 * @cfg {Boolean} searchQuery=null If provided, the tool will open on the search page with this query string.
+	 * The search URL is defined in WEB-INF/param/help.xml
+	 */
+	
+	/**
 	 * @cfg {String} helpId=null  The help identifier used to open the tool on a certain url.
 	 * The id / url mapping is defined in WEB-INF/param/help.xml 
 	 */
@@ -184,8 +189,14 @@ Ext.define('Ametys.plugins.coreui.help.HelpTool', {
 	 */
 	_initializeDisplay: function()
 	{
+		var searchQuery = this.getParams().searchQuery;
 		var helpId = this.getParams().helpId;
-		if (helpId !== undefined)
+		
+		if (searchQuery !== undefined)
+		{
+			this._getSearchUrl(searchQuery, this._showUrl);
+		}
+		else if (helpId !== undefined)
 		{
 			if (helpId)
 			{
@@ -367,6 +378,53 @@ Ext.define('Ametys.plugins.coreui.help.HelpTool', {
 	 * @param {Object} args The callback arguments
 	 */
 	_getHelpUrlCb: function(result, args)
+	{
+		var url = result.url;
+		
+		this._helpUrl = url || null;
+		
+		var cb = args[0];
+		if (Ext.isFunction(cb))
+		{
+			cb.call(this, this._helpUrl);
+		}
+	},
+	
+	/**
+	 * @private
+	 * Get the search url to open
+	 * @param {String} searchQuery The query for the search
+	 * @param {Function} cb The callback function
+	 * @param {String} cb.url The retrieved url
+	 */
+	_getSearchUrl: function(searchQuery, cb)
+	{
+		this._helpUrl = null;
+		
+		Ametys.data.ServerComm.callMethod({
+			role: "org.ametys.plugins.core.ui.help.HelpUrlProvider",
+			methodName: "getSearchUrl",
+			parameters: [searchQuery || ""],
+			callback: {
+ 				scope: this,
+				handler: this._getSearchUrlCb,
+				arguments: [cb]
+			},
+			waitMessage: true,
+			errorMessage: {
+				msg: "<i18n:text i18n:key='PLUGINS_CORE_UI_TOOLS_HELP_ERROR_URL_PROVIDER'/>",
+				category: Ext.getClassName(this)
+			}
+		});
+	},
+	
+	/**
+	 * @private
+	 * Callback function after retrieving the search url
+	 * @param {Object} result The JSON result
+	 * @param {Object} args The callback arguments
+	 */
+	_getSearchUrlCb: function(result, args)
 	{
 		var url = result.url;
 		
