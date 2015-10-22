@@ -175,6 +175,7 @@
         <script>/plugins/core-ui/resources/js/Ametys/grid/plugin/Multisort.js</script>
 
         <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/tip/Tooltip.js</script>
+        <script>/plugins/core-ui/resources/js/Ametys/ui/misc/Badge.js</script>
 
         <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Ribbon.js</script>
         <script>/plugins/core-ui/resources/js/Ametys/ui/fluent/ribbon/Ribbon/Title.js</script>
