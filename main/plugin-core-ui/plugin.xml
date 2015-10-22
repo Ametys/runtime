@@ -1004,7 +1004,7 @@
     <feature name="userinterface.source-edit">
     	<extensions>
     		<extension point="org.ametys.core.right.RightsExtensionPoint"
-                       id="cms.content.rights.sourceedit">
+                       id="core.content.rights.sourceedit">
                 <right id="CORE_Rights_SourceEdit">
                     <label>PLUGINS_CORE_RIGHT_RIGHTS_DEV_SOURCEEDIT_LABEL</label>
                     <description>PLUGINS_CORE_RIGHT_RIGHTS_DEV_SOURCEEDIT_DESCRIPTION</description>
@@ -1029,6 +1029,40 @@
 				</scripts>
 				<right>CORE_Rights_SourceEdit</right>
     		</extension> 
+    	</extensions>
+    </feature>
+    
+    <feature name="userinterface.debug">
+    	<extensions>
+    		<extension point="org.ametys.core.right.RightsExtensionPoint"
+                       id="core.dev.rights.debugmode">
+                <right id="CORE_Rights_DebugMode">
+                    <label>PLUGINS_CORE_RIGHT_RIGHTS_DEV_DEBUGMODE_LABEL</label>
+                    <description>PLUGINS_CORE_RIGHT_RIGHTS_DEV_DEBUGMODE_DESCRIPTION</description>
+                    <category>PLUGINS_CORE_RIGHTS_DEV_CATEGORY</category>
+                </right>
+            </extension>
+    		<extension id="org.ametys.runtime.userinterface.debug.UI"
+    				   point="org.ametys.core.ui.RibbonControlsManager"
+    				   class="org.ametys.core.ui.StaticClientSideElement">
+                <class name="Ametys.ribbon.element.ui.ButtonController">
+                    <initialize>Ametys.plugins.coreui.system.debug.UIDebugActions.initialize</initialize>
+					<action>Ametys.plugins.coreui.system.debug.UIDebugActions.act</action>
+                    <toggle-enabled>true</toggle-enabled>
+
+					<label i18n="true">PLUGINS_CORE_UI_TOOLS_DEBUG_UI_LABEL</label>
+					<description i18n="true">PLUGINS_CORE_UI_TOOLS_DEBUG_UI_DESCRIPTION</description>
+					<help>org.ametys.runtime.debug.ui</help>
+                    
+					<icon-small file="true">img/debug/ui-debug-16.png</icon-small>
+					<icon-medium file="true">img/debug/ui-debug-32.png</icon-medium>
+					<icon-large file="true">img/debug/ui-debug-48.png</icon-large>
+				</class>
+				<scripts>
+					<file>js/Ametys/plugins/coreui/system/debug/UIDebugActions.js</file>
+				</scripts>
+				<right context-prefix="/contributor">CORE_Rights_DebugMode</right>
+    		</extension>
     	</extensions>
     </feature>
     

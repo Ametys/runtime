@@ -635,6 +635,8 @@
     <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_LOGGER_DESCRIPTION">Accès à l'outil d'affichage des journaux de l'application</message>
     <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_SOURCEEDIT_LABEL">Modifier le code source</message>
     <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_SOURCEEDIT_DESCRIPTION">Modifier le code source HTML du contenu</message>
+    <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_DEBUGMODE_LABEL">Mode debug</message>
+    <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_DEBUGMODE_DESCRIPTION">Passer l'application en mode debug</message>
     
    <!--+
        | MESSAGES TRACKER
@@ -745,6 +747,15 @@
          + -->
     <message key="PLUGINS_CORE_UI_EDITION_SOURCEEDIT_LABEL">Modifier le code source</message>
     <message key="PLUGINS_CORE_UI_EDITION_SOURCEEDIT_DESCRIPTION">Ce bouton permet de modifier le code source d'un éditeur en ligne riche</message>
+    
+    <!--+
+       | DEBUG MODE
+       + -->
+    <message key="PLUGINS_CORE_UI_TOOLS_DEBUG_UI_LABEL">IHM en mode debug</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_DEBUG_UI_DESCRIPTION">Passer l'ihm en mode debug : cette action recharge l'application en/sans minifier les CSS et les JS.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_DEBUG_UI_FOOTER">Voir l'aide pour plus de détails</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_DEBUG_UI_CONFIRM_TITLE">Rechargement nécessaire</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_DEBUG_UI_CONFIRM_TEXT">Attention ! La modification de ce paramètre nécessite de recharger l'application. Voulez-vous continuer quand même ?</message>
     
     <!-- +
 		 | HELP

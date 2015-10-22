@@ -635,6 +635,8 @@
     <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_LOGGER_DESCRIPTION">Tool able to monitor application logs</message>
     <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_SOURCEEDIT_LABEL">Edit source code</message>
     <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_SOURCEEDIT_DESCRIPTION">Edit HTML source code in Ametys inline editor</message>
+    <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_DEBUGMODE_LABEL">Debug mode</message>
+    <message key="PLUGINS_CORE_RIGHT_RIGHTS_DEV_DEBUGMODE_DESCRIPTION">Set the application in debug mode</message>
            
     <!--+
         | MESSAGES TRACKER
@@ -745,6 +747,15 @@
          + -->
     <message key="PLUGINS_CORE_UI_EDITION_SOURCEEDIT_LABEL">Edit source code</message>
     <message key="PLUGINS_CORE_UI_EDITION_SOURCEEDIT_DESCRIPTION">Edit HTML source code of rich editble areas</message>
+    
+    <!--+
+        | DEBUG MODE
+        + -->
+    <message key="PLUGINS_CORE_UI_TOOLS_DEBUG_UI_LABEL">UI Debug mode</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_DEBUG_UI_DESCRIPTION">Toggle debug mode for UI: this will reload the application with/without minified CSS and JS.</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_DEBUG_UI_FOOTER">See help for more details</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_DEBUG_UI_CONFIRM_TITLE">Reload needed</message>
+    <message key="PLUGINS_CORE_UI_TOOLS_DEBUG_UI_CONFIRM_TEXT">Be careful! Modifying this parameter implies to reload the application. Do you want to do it?</message>
     
     <!-- +
 		 | HELP
